@@ -2,9 +2,16 @@
   "name": "valaxy",
   "version": "0.0.1",
   "description": "📄 Vite & Vue powered static blog generator.",
+  "keywords": [
+    "vite",
+    "vue",
+    "blog"
+  ],
   "author": {
     "email": "me@yunyoujun.cn",
     "name": "YunYouJun",
     "url": "https://www.yunyoujun.cn"
-  }
+  },
+  "license": "MIT",
+  "repository": "https://github.com/YunYouJun/valaxy"
 }

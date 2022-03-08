@@ -17,7 +17,7 @@
 - V + galaxy = Valaxy
   - V: it based on vue + vite
   - galaxy: 我希望它可以像一个平台工具，承载大家的博客，如同银河系一般美丽
-  - xy: 有点像小云（Xiao Yun）的缩写
+  - xy: 有点像小云（Xiao Yun）的缩写（乌拉小云）
 
 我的博客此前构建于 Hexo 之上，但随着现代前端框架的不断进步，Hexo 的工作流与开发体验已开始落后。
 因此我决定基于 Vue 与 Vite 构建新的 [hexo-theme-yun](https://github.com/YunYouJun/hexo-theme-yun/)。

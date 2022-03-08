@@ -1,0 +1,10 @@
+.DS_Store
+*.log
+
+pnpm-lock.yaml
+package-lock.json
+yarn.lock
+
+dist
+node_modules
+temp
