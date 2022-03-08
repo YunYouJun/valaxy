@@ -1,0 +1,10 @@
+{
+  "name": "valaxy",
+  "version": "0.0.1",
+  "description": "📄 Vite & Vue powered static blog generator.",
+  "author": {
+    "email": "me@yunyoujun.cn",
+    "name": "YunYouJun",
+    "url": "https://www.yunyoujun.cn"
+  }
+}
