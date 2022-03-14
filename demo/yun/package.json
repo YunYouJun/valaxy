@@ -1,0 +1,10 @@
+{
+  "name": "yun-demo",
+  "scripts": {
+    "dev": ""
+  },
+  "dependencies": {
+    "valaxy": "workspace:*",
+    "valaxy-theme-yun": "workspace:*"
+  }
+}

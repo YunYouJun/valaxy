@@ -1,0 +1,8 @@
+@use "sass:map";
+
+$colors: () !default;
+$colors: map.merge((
+  'primary': #0078E7,
+), $colors);
+
+$c-primary: map.get($colors, 'primary');

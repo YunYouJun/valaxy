@@ -1,3 +1,16 @@
 {
-  "cSpell.words": ["Valaxy"]
+  "cSpell.words": ["Valaxy"],
+  "i18n-ally.sourceLanguage": "en",
+  "i18n-ally.keystyle": "nested",
+  "i18n-ally.localesPaths": "packages/client/locales",
+  "i18n-ally.sortKeys": true,
+  "prettier.enable": false,
+  "editor.codeActionsOnSave": {
+    "source.fixAll.eslint": true
+  },
+  "files.associations": {
+    "*.css": "postcss"
+  },
+  "editor.formatOnSave": false,
+  "svg.preview.background": "editor"
 }

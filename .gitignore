@@ -1,10 +1,14 @@
-.DS_Store
-*.log
-
+# custom
 pnpm-lock.yaml
 package-lock.json
 yarn.lock
 
+.DS_Store
+.vite-ssg-dist
+.vite-ssg-temp
+*.local
 dist
+dist-ssr
 node_modules
-temp
+.idea/
+*.log

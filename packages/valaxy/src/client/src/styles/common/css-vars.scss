@@ -1,0 +1,13 @@
+@use "./palette.scss" as *;
+
+:root {
+  --yun-c-primary: $c-primary;
+
+  --yun-c-primary-rgb: #{red($c-primary)}, #{green($c-primary)},
+    #{blue($c-primary)};
+
+  --yun-bg-image: url('https://cdn.jsdelivr.net/gh/YunYouJun/cdn/img/bg/stars-timing-0-blur-30px.jpg');
+
+  --yun-cloud-z-index: 8;
+  --yun-go-down-z-index: 9;
+}
