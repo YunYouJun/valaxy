@@ -1,17 +1,55 @@
-import type { ServerOptions } from 'vite'
-import { createServer as createViteServer } from 'vite'
+import path from 'path'
+import type { InlineConfig, ServerOptions } from 'vite'
+import { createServer as createViteServer, mergeConfig } from 'vite'
+
+import generateSitemap from 'vite-ssg-sitemap'
+
+import type { ResolvedValaxyOptions } from './options'
+import { ViteValaxyPlugin } from './plugins/preset'
 // import { resolveConfig } from './config'
 
 export async function createServer(
-  root: string = process.cwd(),
+  options: ResolvedValaxyOptions,
+  viteConfig: InlineConfig = {},
   serverOptions: ServerOptions = {},
 ) {
-  // const config = await resolveConfig()
+  return createViteServer(mergeConfig(
+    viteConfig,
+    <InlineConfig>({
+      resolve: {
+        alias: {
+          '~/': `${path.resolve(__dirname, 'src')}/`,
+        },
+      },
 
-  return createViteServer({
-    root,
-    // todo
-    // base: config.site.base,
-    server: serverOptions,
-  })
+      root: options.clientRoot,
+      // todo
+      // base: config.site.base,
+      server: serverOptions,
+      plugins: [
+        await ViteValaxyPlugin(options),
+      ],
+
+      // https://github.com/antfu/vite-ssg
+      ssgOptions: {
+        script: 'async',
+        formatting: 'minify',
+        onFinished() { generateSitemap() },
+      },
+
+      optimizeDeps: {
+        entries: [path.resolve(options.clientRoot, 'src/main.ts')],
+
+        include: [
+          'vue',
+          'vue-router',
+          '@vueuse/core',
+          '@vueuse/head',
+        ],
+        exclude: [
+          'vue-demi',
+        ],
+      },
+    }),
+  ))
 }

@@ -8,6 +8,7 @@
 
 <script lang="ts" setup>
 // import { useConfig } from '~/composables/config'
+import { onMounted } from 'vue'
 import { initBanner } from '~/utils'
 // const { themeConfig } = useConfig()
 

@@ -1,4 +1,7 @@
 <script setup lang="ts">
+import { watchEffect } from 'vue'
+import { useI18n } from 'vue-i18n'
+import { useRouter } from 'vue-router'
 import { useUserStore } from '~/stores/user'
 
 const props = defineProps<{ name: string }>()

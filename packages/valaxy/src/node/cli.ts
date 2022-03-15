@@ -1,8 +1,13 @@
+import fs from 'fs'
 import path from 'path'
-import consola from 'consola'
+import { exec } from 'child_process'
+import type { Argv } from 'yargs'
 import yargs from 'yargs'
+import type { LogLevel } from 'vite'
+import openBrowser from 'open'
 import { version } from '../../package.json'
-import { createServer } from '.'
+import { resolveOptions } from './options'
+import { bindShortcut, initServer } from './utils/cli'
 
 const cli = yargs.scriptName('valaxy')
   .usage('$0 [args]')
@@ -12,29 +17,90 @@ const cli = yargs.scriptName('valaxy')
   .alias('v', 'version')
 
 cli.command(
-  '* [entry]',
+  '* [root]',
   'Start a local server for Valaxy',
-  (args) => {
-    args.option('open', {
-      alias: 'o',
-      default: false,
-      type: 'boolean',
-      describe: 'open in browser',
-    })
-  },
-  async() => {
-    const clientFolder = path.resolve(__dirname, '../client')
-    try {
-      const server = await createServer(clientFolder)
-      await server.listen()
-      console.log()
-      server.printUrls()
+  args =>
+    commonOptions(args)
+      .option('port', {
+        alias: 'p',
+        type: 'number',
+        describe: 'port',
+      })
+      .option('open', {
+        alias: 'o',
+        default: false,
+        type: 'boolean',
+        describe: 'open in browser',
+      })
+      .option('remote', {
+        default: false,
+        type: 'boolean',
+        describe: 'listen public host and enable remote control',
+      })
+      .option('log', {
+        default: 'warn',
+        type: 'string',
+        choices: ['error', 'warn', 'info', 'silent'],
+        describe: 'log level',
+      })
+      .strict()
+      .help()
+  ,
+  async({ root, port: userPort, open, remote, log }) => {
+    if (!fs.existsSync(path.resolve(root, 'pages')))
+      process.exit(0)
+
+    const port = userPort || 4859
+    const options = resolveOptions({ userRoot: root })
+
+    const viteConfig = {
+      server: {
+        port,
+        strictPort: true,
+        open,
+        host: remote ? '0.0.0.0' : 'localhost',
+      },
+      logLevel: log as LogLevel,
     }
-    catch (e) {
-      consola.error('failed to start server. error:\n')
-      console.error(e)
-      process.exit(1)
-    }
+    initServer(options, viteConfig)
+
+    const SHORTCUTS = [
+      {
+        name: 'r',
+        fullName: 'restart',
+        action() {
+          initServer(options, viteConfig)
+        },
+      },
+      {
+        name: 'o',
+        fullName: 'open',
+        action() {
+          openBrowser(`http://localhost:${port}`)
+        },
+      },
+      {
+        name: 'e',
+        fullName: 'edit',
+        action() {
+          exec(`code "${root}"`)
+        },
+      },
+    ]
+    bindShortcut(SHORTCUTS)
   })
 
 cli.help().parse()
+
+/**
+ * set common options for cli
+ * @param args
+ * @returns
+ */
+function commonOptions(args: Argv<{}>) {
+  return args.positional('root', {
+    default: '.',
+    type: 'string',
+    describe: 'root folder of your source files',
+  })
+}

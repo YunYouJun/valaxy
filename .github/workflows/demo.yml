@@ -1,4 +1,4 @@
-name: Test
+name: Demo
 
 on:
   push:
@@ -36,8 +36,8 @@ jobs:
 
       - run: pnpm install
 
-      - name: Lint
-        run: pnpm run lint
+      - name: ☁️ Build Yun Demo
+        run: pnpm run build -C demo/yun
 
       # - name: Type Check
       #   run: pnpm run typecheck

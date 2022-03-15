@@ -14,9 +14,13 @@
   },
   "license": "MIT",
   "repository": "https://github.com/YunYouJun/valaxy",
+  "bin": {
+    "vala": "./bin/valaxy.js",
+    "valaxy": "./bin/valaxy.js"
+  },
   "scripts": {
-    "build": "vite-ssg build",
-    "dev": "vite --port 3333 --open",
+    "build": "tsup-node",
+    "dev": "tsup-node --watch",
     "lint": "eslint \"**/*.{vue,ts,js}\"",
     "preview": "vite preview",
     "preview-https": "serve dist",
@@ -37,9 +41,9 @@
     "https-localhost": "^4.7.1",
     "markdown-it-link-attributes": "^4.0.0",
     "markdown-it-prism": "^2.2.3",
+    "open": "^8.4.0",
     "sass": "^1.49.9",
     "unocss": "^0.28.0",
-    "unplugin-auto-import": "^0.6.4",
     "unplugin-vue-components": "^0.18.0",
     "vite": "^2.8.6",
     "vite-plugin-inspect": "^0.4.3",
@@ -49,7 +53,7 @@
     "vite-plugin-vue-layouts": "^0.6.0",
     "vite-ssg": "^0.17.11",
     "vite-ssg-sitemap": "^0.1.7",
-    "vue-tsc": "^0.33.1"
+    "vue-tsc": "^0.33.2-patch.1"
   },
   "dependencies": {
     "@vueuse/core": "^8.0.0",
@@ -59,7 +63,7 @@
     "pinia": "^2.0.11",
     "prism-theme-vars": "^0.2.2",
     "vue": "^3.2.31",
-    "vue-demi": "^0.12.1",
+    "vue-demi": "^0.12.2",
     "vue-i18n": "^9.1.9",
     "vue-router": "^4.0.14",
     "yargs": "^17.3.1"

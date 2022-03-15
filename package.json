@@ -16,12 +16,19 @@
   "license": "MIT",
   "repository": "https://github.com/YunYouJun/valaxy",
   "scripts": {
-    "dev": "pnpm run dev -C packages/demo/yun"
+    "demo": "pnpm run dev -C demo/yun",
+    "dev": "pnpm run dev -C packages/valaxy",
+    "lint": "eslint \"**/*.{vue,ts,js}\"",
+    "start": "node packages/valaxy/bin/valaxy.js dev"
   },
   "devDependencies": {
     "@antfu/eslint-config": "^0.18.8",
     "eslint": "^8.11.0",
     "pnpm": "^6.32.3",
+    "tsup": "^5.12.1",
     "typescript": "^4.6.2"
+  },
+  "engines": {
+    "node": ">=14.0.0"
   }
 }
