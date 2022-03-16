@@ -1,0 +1,19 @@
+::-webkit-input-placeholder {
+  color: white;
+}
+
+html.dark {
+  color-scheme: dark;
+}
+
+.dark {
+  --yun-c-bg: #1a1a1a;
+  --yun-c-text: #f2f2f2;
+  --yun-text-color-secondary: #eeeeee;
+
+  // star-markdown-css
+  --smc-link-color: lighten($colors.primary, 30%);
+
+  // yun
+  --yun-bg-image: none;
+}

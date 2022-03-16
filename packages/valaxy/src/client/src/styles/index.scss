@@ -1,8 +1,16 @@
-// css vars
-@use './common/css-vars.scss';
+// import common and light/dark css vars in main.ts
+
 // global css
-@use './global/index.scss';
-@use './global/nprogress.scss';
-@use './markdown.scss';
+@use './global/reset.scss' as *;
+@use './global/index.scss' as *;
+@use './global/nprogress.scss' as *;
+
+// common
+@use './common/button.scss' as *;
+@use './common/hamburger.scss' as *;
+@use './common/markdown.scss' as *;
+@use './common/overlay.scss' as *;
+@use "./common/sidebar.scss" as *;
+
 // banner
-@use './widget/banner.scss';
+@use './widgets/banner.scss' as *;

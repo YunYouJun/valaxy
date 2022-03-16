@@ -1,4 +1,4 @@
-import { valaxyConfigRef, valaxyConfigSymbol } from '~/composables/config'
+import { valaxyConfigRef, valaxyConfigSymbol } from '@valaxyjs/core'
 import type { UserModule } from '~/types'
 
 // https://github.com/antfu/vite-plugin-pwa#automatic-reload-when-new-content-available

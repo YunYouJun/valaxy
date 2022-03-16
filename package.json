@@ -17,7 +17,7 @@
   "repository": "https://github.com/YunYouJun/valaxy",
   "scripts": {
     "demo": "pnpm run dev -C demo/yun",
-    "dev": "pnpm run dev -C packages/valaxy",
+    "dev": "pnpm -r --filter ./packages --parallel run dev",
     "lint": "eslint \"**/*.{vue,ts,js}\"",
     "start": "node packages/valaxy/bin/valaxy.js dev"
   },

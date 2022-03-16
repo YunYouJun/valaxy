@@ -21,8 +21,10 @@ export async function createServer(
     <InlineConfig>({
       resolve: {
         alias: {
+          'valaxy': `${path.resolve(options.clientRoot, '..')}`,
           '~/': `${path.resolve(options.clientRoot, 'src')}/`,
           [VALAXY_CONFIG_ID]: `/${VALAXY_CONFIG_ID}`,
+          '@valaxyjs/core': `${path.resolve(options.clientRoot, '../core')}`,
         },
       },
 

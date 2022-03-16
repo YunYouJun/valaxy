@@ -1,0 +1,94 @@
+@use "sass:map";
+
+@use "../vars.scss" as *;
+@use "../mixins/" as *;
+
+.sidebar {
+  position: fixed;
+  overflow-y: auto;
+  top: 0;
+  bottom: 0;
+  left: 0;
+
+  width: calc(100vw - 64px);
+  max-width: var(--yun-sidebar-width-mobile);
+
+  background-image: var(--sidebar-bg-image, none);
+  background-color: var(--sidebar-bg-color, white);
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: bottom 1rem center;
+  text-align: center;
+  z-index: map.get($z-index, 'sidebar');
+
+  transform: translateX(-100%);
+  transition: background-color var(--yun-transition-duration), opacity var(--yun-transition-duration), transform var(--yun-transition-duration);
+
+  &.open {
+    transform: translateX(0);
+  }
+
+  &-translate {
+    padding-left: 20rem;
+
+    @include mobile {
+      padding-left: 0;
+    }
+  }
+
+  .sidebar-panel {
+    padding: 0.5rem;
+    display: none;
+  }
+
+  .sidebar-panel-active {
+    display: block;
+  }
+
+  .links {
+    display: block;
+
+    &-item {
+      display: inline-flex;
+
+      .icon {
+        width: 2rem;
+        height: 2rem;
+      }
+    }
+  }
+
+  .links-of-author {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+
+    .icon {
+      width: 1.5rem;
+      height: 1.5rem;
+    }
+
+    &-item {
+      line-height: 1;
+      font-size: 0.9rem;
+    }
+  }
+}
+
+.sidebar-open {
+  @include mobile {
+    .sidebar {
+      transform: translateX(20rem);
+      visibility: visible;
+
+      &-overlay {
+        background-color: rgba(0, 0, 0, 0.6);
+        position: fixed;
+        width: 100%;
+        height: 100vh;
+        z-index: map.get($z-index, 'sidebar') - 1;
+        transition: 0.4s;
+      }
+    }
+  }
+}

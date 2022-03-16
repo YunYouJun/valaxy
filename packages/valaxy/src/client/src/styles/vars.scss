@@ -1,0 +1,42 @@
+@use "sass:map";
+
+$common: () !default;
+$common: map.merge((
+  'c-text': #333,
+  'c-text-light': #555,
+
+  'sidebar-width-mobile': 320px,
+), $common);
+
+$border: () !default;
+$border: map.merge((
+  'width': 1px
+), $border);
+
+$font-family: () !default;
+$font-family: map.merge((
+  '': 'Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif',
+  'mono': 'Menlo, Monaco, Consolas, "Courier New", monospace',
+  'serif': "'Songti SC', 'Noto Serif SC', STZhongsong, STKaiti, KaiTi, Roboto, serif",
+  'serif-weight': 900,
+), $font-family);
+
+$z-index: () !default;
+$z-index: map.merge((
+  'cloud': 8,
+  'go-down': 9,
+  'sidebar': 10,
+  'fireworks': 11,
+  'menu-btn': 20,
+  'go-up-btn': 20,
+  'search-btn': 20,
+  'search-popup': 30,
+), $z-index);
+
+$transition: () !default;
+$transition: map.merge((
+  'duration-fast': 0.2s,
+  'duration': 0.4s,
+  'duration-slow': 0.6s,
+  '': all var(--yun-transition-duration-fast) ease-in-out
+), $transition);

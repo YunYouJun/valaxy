@@ -4,7 +4,12 @@ import { setupLayouts } from 'virtual:generated-layouts'
 import App from './App.vue'
 
 import '@unocss/reset/tailwind.css'
+
+import './styles/css-vars/index.scss'
+import './styles/css-vars/light.scss'
+import './styles/css-vars/dark.scss'
 import './styles/index.scss'
+
 import 'uno.css'
 
 const routes = setupLayouts(generatedRoutes)

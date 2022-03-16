@@ -6,7 +6,14 @@ declare module 'vue' {
   export interface GlobalComponents {
     Footer: typeof import('./src/components/Footer.vue')['default']
     README: typeof import('./src/components/README.md')['default']
+    ValaxyAside: typeof import('./src/components/common/ValaxyAside.vue')['default']
+    ValaxyHamburger: typeof import('./src/components/common/ValaxyHamburger.vue')['default']
+    ValaxyOverlay: typeof import('./src/components/common/ValaxyOverlay.vue')['default']
+    ValaxySidebar: typeof import('./src/components/common/ValaxySidebar.vue')['default']
     YunBanner: typeof import('./src/components/YunBanner.vue')['default']
+    YunCloud: typeof import('./../../../theme-yun/src/components/YunCloud.vue')['default']
+    YunGoDown: typeof import('./../../../theme-yun/src/components/YunGoDown.vue')['default']
+    YunSay: typeof import('./../../../theme-yun/src/components/YunSay.vue')['default']
   }
 }
 

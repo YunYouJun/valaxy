@@ -2,8 +2,14 @@
  * Theme Config
  */
 export interface ThemeConfig {
+  /**
+   * 首页标语
+   */
   banner: {
     enable: boolean
+    /**
+     * 标题
+     */
     title: string
   }
 
@@ -12,6 +18,19 @@ export interface ThemeConfig {
     url: string
     dark?: string
     opacity: number
+  }
+
+  /**
+   * say something
+   * https://say.elpsy.cn
+   */
+  say: {
+    enable: boolean
+    api: string
+    hitokoto: {
+      enable: boolean
+      api: string
+    }
   }
 }
 
@@ -32,4 +51,15 @@ export const defaultThemeConfig: ThemeConfig = {
     dark: 'https://cdn.jsdelivr.net/gh/YunYouJun/cdn/img/bg/galaxy.jpg',
     opacity: 1,
   },
+
+  say: {
+    enable: true,
+    api: 'https://el-bot-api.vercel.app/api/words/young',
+    hitokoto: {
+      enable: false,
+      api: 'https://v1.hitokoto.cn',
+    },
+  },
 }
+
+export default defaultThemeConfig

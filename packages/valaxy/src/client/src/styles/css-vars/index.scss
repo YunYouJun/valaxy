@@ -1,0 +1,18 @@
+@use "sass:map";
+@use "../mixins" as *;
+@use "../vars" as *;
+@use "../palette" as *;
+
+:root {
+  // palette different with colors
+  @include set-css-var-from-map($palette, 'c');
+}
+
+:root {
+  @include set-css-var-from-map($common);
+  @include set-css-var-from-map($border, 'border');
+  @include set-css-var-from-map($font-family, 'font-family');
+  @include set-css-var-from-map($z-index, 'z');
+  @include set-css-var-from-map($transition, 'transition'); 
+}
+

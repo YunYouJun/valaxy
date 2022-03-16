@@ -1,5 +1,11 @@
 @use "sass:map";
 
+$palette: () !default;
+$palette: map.merge((
+  'white': #ffffff,
+  'black': #1a1a1a,
+), $palette);
+
 $colors: () !default;
 $colors: map.merge((
   'primary': #0078E7,

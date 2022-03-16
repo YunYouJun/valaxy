@@ -9,14 +9,13 @@ import { VitePWA } from 'vite-plugin-pwa'
 import VueI18n from '@intlify/vite-plugin-vue-i18n'
 import Inspect from 'vite-plugin-inspect'
 
-import Unocss from 'unocss/vite'
-
 import type { ResolvedValaxyOptions } from '../options'
 import { createMarkdownPlugin } from './markdown'
+import { createUnocssPlugin } from './unocss'
 import { createValaxyPlugin } from '.'
 
 export function ViteValaxyPlugins(options: ResolvedValaxyOptions): (PluginOption | PluginOption[])[] | undefined {
-  const { clientRoot, userRoot } = options
+  const { clientRoot, themeRoot, userRoot } = options
 
   const MarkdownPlugin = createMarkdownPlugin(options)
 
@@ -43,15 +42,14 @@ export function ViteValaxyPlugins(options: ResolvedValaxyOptions): (PluginOption
     Components({
       // allow auto load markdown components under `./src/components/`
       extensions: ['vue', 'md'],
-      dirs: [`${clientRoot}/src/components`, `${userRoot}/components`],
+      dirs: [`${clientRoot}/src/components`, `${userRoot}/components`, `${themeRoot}/src/components`],
 
       // allow auto import and register components used in markdown
       include: [/\.vue$/, /\.vue\?vue/, /\.md$/],
     }),
 
     // https://github.com/antfu/unocss
-    // see unocss.config.ts for config
-    Unocss(),
+    createUnocssPlugin(),
 
     // https://github.com/antfu/vite-plugin-pwa
     VitePWA({

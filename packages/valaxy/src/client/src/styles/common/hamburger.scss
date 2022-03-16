@@ -1,0 +1,56 @@
+@use "sass:math";
+
+$hamburger-size: 22px;
+
+.vt-hamburger {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.vt-hamburger:hover .vt-hamburger-top    { transform: translateX(math.div(-$hamburger-size, 4)); }
+.vt-hamburger:hover .vt-hamburger-middle { transform: translateX(0); }
+.vt-hamburger:hover .vt-hamburger-bottom { transform: translateX(math.div(-$hamburger-size, 2)); }
+
+.vt-hamburger.is-active .vt-hamburger-top    { top: math.div($hamburger-size - 3px, 2); transform: translateX(0) rotate(225deg); }
+.vt-hamburger.is-active .vt-hamburger-middle { top: math.div($hamburger-size - 3px, 2); transform: translateX(-$hamburger-size); }
+.vt-hamburger.is-active .vt-hamburger-bottom { top: math.div($hamburger-size - 3px, 2); transform: translateX(0) rotate(135deg); }
+
+.vt-hamburger.is-active:hover .vt-hamburger-top,
+.vt-hamburger.is-active:hover .vt-hamburger-middle,
+.vt-hamburger.is-active:hover .vt-hamburger-bottom {
+  background-color: var(--yun-c-primary);
+  transition: top .25s, background-color .25s, transform .25s;
+}
+
+.vt-hamburger-container {
+  position: relative;
+  width: $hamburger-size;
+  height: $hamburger-size - 2px;
+  overflow: hidden;
+}
+
+.vt-hamburger-top,
+.vt-hamburger-middle,
+.vt-hamburger-bottom {
+  left: 0; 
+
+  position: absolute;
+  width: $hamburger-size;
+  height: 2px;
+  background-color: var(--yun-c-primary);
+  transition: top .25s, background-color .5s, transform .25s;
+}
+
+.vt-hamburger-top    { 
+  top: 0; 
+  transform: translateX(0);
+}
+.vt-hamburger-middle { 
+  top: math.div($hamburger-size - 4px, 2); 
+  transform: translateX(math.div(-$hamburger-size, 2)); 
+}
+.vt-hamburger-bottom { 
+  top: $hamburger-size - 4px; 
+  transform: translateX(math.div(-$hamburger-size, 4));
+}

@@ -1,0 +1,115 @@
+@use "../mixins" as *;
+
+$banner-animation-duration: 1s;
+$line-animation-duration: 0.4s;
+$char-animation-duration: 0.4s;
+
+#banner {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  height: 100vh;
+}
+
+.banner-char-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.vertical-line {
+  &-top, &-bottom {
+    display: flex;
+    background-color: var(--banner-line-color);
+    width: 1px;
+    height: 0;
+    animation-name: extend-line;
+    animation-duration: $line-animation-duration;
+    animation-fill-mode: forwards;
+    animation-timing-function: ease-in;
+  }
+
+  &-bottom {
+    position: absolute;
+    bottom: 0;
+  }
+}
+
+@keyframes extend-line {
+  from {
+    height: 0;
+  }
+
+  to {
+    height: var(--banner-line-height);
+  }
+}
+
+.char {
+  font-family: get-css-var('font-family', 'serif');
+  font-size: var(--banner-char-size, 1rem);
+  font-weight: get-css-var('font-family', 'serif-weight');
+  background-color: var(--banner-char-bg-color);
+  line-height: 1;
+
+  transition: all 0.3s ease-in-out;
+  transition-delay: 0s;
+
+  &:hover {
+    color: var(--banner-char-hover-color);
+    background-color: var(--banner-char-color);
+  }
+
+  &-left, &-right {
+    display: flex;
+    color: var(--banner-char-color);
+    opacity: 0;
+  }
+
+  &-left {
+    border-left: 1px solid var(--banner-line-color);
+    border-right: 0px solid rgba(var(--yun-c-primary-rgb), 0.1);
+    border-right-width: 0px;
+    animation-name: char-move-left;
+    animation-duration: $char-animation-duration;
+    animation-delay: $line-animation-duration;
+    animation-fill-mode: forwards;
+    animation-timing-function: ease-out;
+  }
+
+  &-right {
+    border-left: 0px solid rgba(var(--yun-c-primary-rgb), 0.1);
+    border-right: 1px solid var(--banner-line-color);
+    border-left-width: 0px;
+    animation-name: char-move-right;
+    animation-duration: $char-animation-duration;
+    animation-delay: $line-animation-duration;
+    animation-fill-mode: forwards;
+    animation-timing-function: ease-out;
+  }
+}
+
+@keyframes char-move-left {
+  from {
+    opacity: 0;
+    border-right-width: 0;
+  }
+
+  to {
+    opacity: 1;
+    border-right-width: var(--banner-empty-border-size, var(--banner-char-size));
+  }
+}
+
+@keyframes char-move-right {
+  from {
+    opacity: 0;
+    border-left-width: 0;
+  }
+
+  to {
+    opacity: 1;
+    border-left-width: var(--banner-empty-border-size, var(--banner-char-size));
+  }
+}
