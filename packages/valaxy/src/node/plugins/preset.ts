@@ -13,9 +13,10 @@ import Unocss from 'unocss/vite'
 
 import type { ResolvedValaxyOptions } from '../options'
 import { createMarkdownPlugin } from './markdown'
+import { createValaxyPlugin } from '.'
 
-export function ViteValaxyPlugin(options: ResolvedValaxyOptions): (PluginOption | PluginOption[])[] | undefined {
-  const { clientRoot } = options
+export function ViteValaxyPlugins(options: ResolvedValaxyOptions): (PluginOption | PluginOption[])[] | undefined {
+  const { clientRoot, userRoot } = options
 
   const MarkdownPlugin = createMarkdownPlugin(options)
 
@@ -24,21 +25,25 @@ export function ViteValaxyPlugin(options: ResolvedValaxyOptions): (PluginOption 
       include: [/\.vue$/, /\.md$/],
     }),
 
+    createValaxyPlugin(options.config),
     MarkdownPlugin,
 
     // https://github.com/hannoeru/vite-plugin-pages
     Pages({
       extensions: ['vue', 'md'],
+      dirs: [`${clientRoot}/src/pages`, `${userRoot}/pages`],
     }),
 
     // https://github.com/JohnCampionJr/vite-plugin-vue-layouts
-    Layouts(),
+    Layouts({
+      layoutsDirs: [`${clientRoot}/src/layouts`, `${userRoot}/layouts`],
+    }),
 
     // https://github.com/antfu/unplugin-vue-components
     Components({
       // allow auto load markdown components under `./src/components/`
       extensions: ['vue', 'md'],
-      dirs: [`${clientRoot}/src/components`, 'components'],
+      dirs: [`${clientRoot}/src/components`, `${userRoot}/components`],
 
       // allow auto import and register components used in markdown
       include: [/\.vue$/, /\.vue\?vue/, /\.md$/],
@@ -81,7 +86,7 @@ export function ViteValaxyPlugin(options: ResolvedValaxyOptions): (PluginOption 
     VueI18n({
       runtimeOnly: true,
       compositionOnly: true,
-      include: [path.resolve(__dirname, 'locales/**')],
+      include: [path.resolve(clientRoot, 'locales/**')],
     }),
 
     // https://github.com/antfu/vite-plugin-inspect

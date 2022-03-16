@@ -3,8 +3,11 @@ import type { ThemeUserConfig } from 'valaxy-theme-yun'
 
 /**
  * User Config
+ * do not use export const
  */
-export const config: UserConfig<ThemeUserConfig> = {
+const config: UserConfig<ThemeUserConfig> = {
+  theme: 'yun',
+
   themeConfig: {
     banner: {
       enable: true,

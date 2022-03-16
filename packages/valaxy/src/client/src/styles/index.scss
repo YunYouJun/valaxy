@@ -1,5 +1,8 @@
+// css vars
 @use './common/css-vars.scss';
-
+// global css
 @use './global/index.scss';
-
+@use './global/nprogress.scss';
+@use './markdown.scss';
+// banner
 @use './widget/banner.scss';

@@ -4,24 +4,46 @@
 // import type { ThemeConfig } from 'valaxy-theme-yun'
 // import type { UserConfig } from 'valaxy'
 
-// import userConfig from '../../config'
+import valaxyConfig from '@valaxyjs/config'
+import type { InjectionKey } from 'vue'
+import { inject, readonly, shallowRef } from 'vue'
+import { defaultValaxyConfig } from '../../..'
+import type { ValaxyConfig } from '../../..'
 
-// /*
-//  * get Config
-//  * @returns
-//  */
-// export function useConfig() {
-//   const config = mergeConfig({
-//     themeConfig: defaultThemeConfig,
-//   }, userConfig) as UserConfig<ThemeConfig>
-//   return config
-// }
+/**
+ * parse valaxy config
+ * @param data
+ * @returns
+ */
+function parse(data: string): ValaxyConfig {
+  const parsed = JSON.parse(data)
+  return (import.meta.env.DEV ? readonly(parsed) : parsed) as ValaxyConfig
+}
 
-// /**
-//  * get theme config
-//  * @returns
-//  */
-// export function useThemeConfig() {
-//   const config = mergeConfig(defaultThemeConfig, userConfig.themeConfig) as ThemeConfig
-//   return config
-// }
+export const valaxyConfigSymbol: InjectionKey<ValaxyConfig> = Symbol('valaxy:config')
+export const valaxyConfigRef = shallowRef<ValaxyConfig>(parse(valaxyConfig))
+
+// hmr
+if (import.meta.hot) {
+  import.meta.hot.accept('/@valaxyjs/config', (m) => {
+    valaxyConfigRef.value = parse(m.default)
+  })
+}
+
+/*
+ * get Config
+ * @returns
+ */
+export function useConfig() {
+  const config = inject(valaxyConfigSymbol)
+  return config || defaultValaxyConfig
+}
+
+/**
+ * get theme config
+ * @returns
+ */
+export function useThemeConfig() {
+  const { themeConfig } = useConfig()
+  return themeConfig
+}

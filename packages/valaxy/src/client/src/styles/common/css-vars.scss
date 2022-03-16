@@ -1,7 +1,7 @@
 @use "./palette.scss" as *;
 
 :root {
-  --yun-c-primary: $c-primary;
+  --yun-c-primary: #{$c-primary};
 
   --yun-c-primary-rgb: #{red($c-primary)}, #{green($c-primary)},
     #{blue($c-primary)};

@@ -7,7 +7,7 @@ import type { LogLevel } from 'vite'
 import openBrowser from 'open'
 import { version } from '../../package.json'
 import { resolveOptions } from './options'
-import { bindShortcut, initServer } from './utils/cli'
+import { bindShortcut, initServer, printInfo } from './utils/cli'
 
 const cli = yargs.scriptName('valaxy')
   .usage('$0 [args]')
@@ -33,7 +33,7 @@ cli.command(
         describe: 'open in browser',
       })
       .option('remote', {
-        default: false,
+        default: true,
         type: 'boolean',
         describe: 'listen public host and enable remote control',
       })
@@ -51,7 +51,7 @@ cli.command(
       process.exit(0)
 
     const port = userPort || 4859
-    const options = resolveOptions({ userRoot: root })
+    const options = await resolveOptions({ userRoot: root })
 
     const viteConfig = {
       server: {
@@ -62,7 +62,8 @@ cli.command(
       },
       logLevel: log as LogLevel,
     }
-    initServer(options, viteConfig)
+    await initServer(options, viteConfig)
+    printInfo(options, port, remote)
 
     const SHORTCUTS = [
       {
@@ -90,8 +91,6 @@ cli.command(
     bindShortcut(SHORTCUTS)
   })
 
-cli.help().parse()
-
 /**
  * set common options for cli
  * @param args
@@ -103,4 +102,8 @@ function commonOptions(args: Argv<{}>) {
     type: 'string',
     describe: 'root folder of your source files',
   })
+}
+
+export function run() {
+  cli.help().parse()
 }

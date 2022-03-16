@@ -1,5 +1,10 @@
 import { dirname, resolve } from 'path'
+import _debug from 'debug'
+import type { ValaxyConfig } from '../types'
+import { resolveConfig } from './config'
 import { resolveImportPath } from './utils'
+
+const debug = _debug('valaxy:options')
 
 // for cli entry
 export interface ValaxyEntryOptions {
@@ -25,6 +30,14 @@ export interface ResolvedValaxyOptions {
    * Theme root path
    */
   themeRoot: string
+  /**
+   * Theme name
+   */
+  theme: string
+  /**
+   * Valaxy Config
+   */
+  config: ValaxyConfig
 }
 
 export function isPath(name: string) {
@@ -48,14 +61,22 @@ export function getThemeRoot(name: string, entry: string) {
 }
 
 // for cli options
-export function resolveOptions(options: ValaxyEntryOptions): ResolvedValaxyOptions {
-  const clientRoot = resolve(__dirname, '../client')
-  const userRoot = dirname(options.userRoot || process.cwd())
+export async function resolveOptions(options: ValaxyEntryOptions) {
+  const clientRoot = resolve(dirname(resolveImportPath('valaxy/package.json')), 'src/client')
+  const userRoot = resolve(options.userRoot || process.cwd())
   const themeRoot = getThemeRoot('', userRoot)
 
-  return {
+  const valaxyConfig = await resolveConfig()
+  const theme = options.theme || valaxyConfig.theme || 'yun'
+
+  const valaxyOptions: ResolvedValaxyOptions = {
     clientRoot,
     userRoot,
     themeRoot,
+    theme,
+    config: valaxyConfig,
   }
+  debug(valaxyOptions)
+
+  return valaxyOptions
 }

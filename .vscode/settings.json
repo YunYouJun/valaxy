@@ -1,5 +1,5 @@
 {
-  "cSpell.words": ["Valaxy"],
+  "cSpell.words": ["valaxy", "valaxyjs"],
   "i18n-ally.sourceLanguage": "en",
   "i18n-ally.keystyle": "nested",
   "i18n-ally.localesPaths": "packages/client/locales",

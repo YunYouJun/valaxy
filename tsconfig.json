@@ -20,6 +20,7 @@
     ],
     "paths": {
       "~/*": ["packages/valaxy/src/client/src/*"],
+      "valaxy/*": ["packages/valaxy/*"],
       "valaxy": ["packages/valaxy/src/index.ts"],
       "valaxy-theme-yun": ["packages/theme-yun/src/index.ts"],
     }

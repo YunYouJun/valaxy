@@ -3,5 +3,5 @@
 /* eslint-disable @typescript-eslint/no-var-requires */
 // const path = require('path')
 
-const modulePath = '../dist/cli'
-require(modulePath)
+const { run } = require('../dist/cli')
+run()

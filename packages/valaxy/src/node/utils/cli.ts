@@ -1,16 +1,49 @@
 import * as readline from 'readline'
+import path from 'path'
+import os from 'os'
+
 import consola from 'consola'
-import type { InlineConfig } from 'vite'
+import type { InlineConfig, ViteDevServer } from 'vite'
+import chalk from 'chalk'
 import { createServer } from '../server'
 import type { ResolvedValaxyOptions } from '../options'
+import { version } from '../../../package.json'
+
+let server: ViteDevServer | undefined
+
+export function printInfo(options: ResolvedValaxyOptions, port?: number, remote?: string | boolean) {
+  console.log()
+  console.log(`  ${chalk.bold('🌌 Valaxy')}  ${chalk.blue(`v${version}`)}`)
+  console.log()
+  console.log(`${chalk.dim('  🪐 theme  ')} > ${(options.theme ? chalk.green(options.theme) : chalk.gray('none'))}`)
+  console.log(`  ${chalk.dim('📁')} ${chalk.dim(path.resolve(options.userRoot))}`)
+  if (port) {
+    console.log()
+    console.log(`${chalk.dim('  Preview   ')} > ${chalk.cyan(`http://localhost:${chalk.bold(port)}/`)}`)
+
+    if (remote) {
+      Object.values(os.networkInterfaces())
+        .forEach(v => (v || [])
+          .filter(details => details.family === 'IPv4' && !details.address.includes('127.0.0.1'))
+          .forEach(({ address }) => {
+            console.log(`${chalk.dim('  Network   ')} > ${chalk.blue(`http://${address}:${chalk.bold(port)}/`)}`)
+          }),
+        )
+    }
+
+    console.log()
+    console.log(`${chalk.dim('  shortcuts ')} > ${chalk.underline('r')}${chalk.dim('estart | ')}${chalk.underline('o')}${chalk.dim('pen | ')}${chalk.underline('e')}${chalk.dim('dit')}`)
+  }
+  console.log()
+}
 
 export async function initServer(options: ResolvedValaxyOptions, viteConfig: InlineConfig) {
+  if (server)
+    await server.close()
+
   try {
     const server = await createServer(options, viteConfig)
-
     await server.listen()
-    console.log()
-    server.printUrls()
   }
   catch (e) {
     consola.error('failed to start server. error:\n')
@@ -20,8 +53,8 @@ export async function initServer(options: ResolvedValaxyOptions, viteConfig: Inl
 }
 
 /**
-     * bind shortcut for terminal
-     */
+ * bind shortcut for terminal
+ */
 export function bindShortcut(SHORTCUTS: { name: string; fullName: string; action: () => void }[]) {
   process.stdin.resume()
   process.stdin.setEncoding('utf8')
