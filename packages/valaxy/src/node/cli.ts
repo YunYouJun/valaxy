@@ -5,6 +5,9 @@ import type { Argv } from 'yargs'
 import yargs from 'yargs'
 import type { LogLevel } from 'vite'
 import openBrowser from 'open'
+
+import consola from 'consola'
+
 import { version } from '../../package.json'
 import { resolveOptions } from './options'
 import { bindShortcut, initServer, printInfo } from './utils/cli'
@@ -90,6 +93,53 @@ cli.command(
     ]
     bindShortcut(SHORTCUTS)
   })
+
+cli.command(
+  'build [root]',
+  'build your blog to static content',
+  args => commonOptions(args)
+    .option('ssg', {
+      alias: 's',
+      type: 'boolean',
+      // https://github.com/antfu/vite-ssg/pull/219
+      // to be true, when vite-ssg export build
+      default: false,
+      describe: 'static site generate',
+    })
+    .option('output', {
+      alias: 'o',
+      type: 'string',
+      default: 'dist',
+      describe: 'output dir',
+    }).option('base', {
+      type: 'string',
+      describe: 'output base',
+    })
+    .strict()
+    .help(),
+  async({ ssg, root, base, output }) => {
+    const { build } = await import('./build')
+
+    const options = await resolveOptions({ userRoot: root })
+    printInfo(options)
+
+    if (ssg) {
+      // todo ssg build
+      consola.warn('wait vite-ssg export build function')
+      consola.info('https://github.com/antfu/vite-ssg/pull/219')
+    }
+    else {
+      await build(options, {
+        base,
+        build: {
+          // make out dir empty, https://vitejs.dev/config/#build-emptyoutdir
+          emptyOutDir: true,
+          outDir: path.resolve(options.userRoot, output),
+        },
+      })
+    }
+  },
+)
 
 /**
  * set common options for cli

@@ -16,6 +16,8 @@
   "license": "MIT",
   "repository": "https://github.com/YunYouJun/valaxy",
   "scripts": {
+    "build": "pnpm run build -C packages/theme-yun && pnpm run build -C packages/valaxy",
+    "build:demo": "pnpm run build -C demo/yun",
     "demo": "pnpm run dev -C demo/yun",
     "dev": "pnpm -r --filter ./packages --parallel run dev",
     "lint": "eslint \"**/*.{vue,ts,js}\"",

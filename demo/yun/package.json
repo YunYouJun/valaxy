@@ -1,7 +1,9 @@
 {
   "name": "yun-demo",
   "scripts": {
-    "dev": "nodemon -w '../../packages/valaxy/dist/*.js' --exec 'valaxy .'"
+    "build": "valaxy build",
+    "dev": "nodemon -w '../../packages/valaxy/dist/*.js' --exec 'valaxy .'",
+    "serve": "vite preview"
   },
   "dependencies": {
     "valaxy": "workspace:*",
