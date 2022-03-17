@@ -1,6 +1,6 @@
 # Valaxy
 
-📄 Vite & Vue powered static blog generator.
+🌌 新一代静态博客框架
 
 <pre align="center">
 🧪 仍在开发中
@@ -56,6 +56,7 @@ GitHub 为其提供了原声支持是一大优势，但我打算类似使用 Git
 💗 Valaxy 的实现基于或参考了以下项目：
 
 - [Vue](https://github.com/vuejs/core)
+- [VueUse](https://github.com/vueuse/vueuse)
 - [Vite](https://github.com/vitejs/vite)
 - [VitePress](https://github.com/vuejs/vitepress)
 - [Vitesse](https://github.com/antfu/vitesse)

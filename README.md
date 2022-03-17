@@ -1,12 +1,33 @@
 # Valaxy
 
-📄 Vite & Vue powered static blog generator.
+🌌 Next Generation Static Blog Framework (Alpha).
 
 <pre align="center">
 🧪 Working in Progress
 </pre>
 
 English (Todo) | [简体中文](./README.zh-CN.md)
+
+## Usage
+
+> Can not use
+
+TODO
+
+For a example, you can see [demo/yun](./demo/yun/) folder.
+
+## Dev
+
+```bash
+git clone https://github.com/YunYouJun/valaxy
+cd valaxy
+
+pnpm i
+# esbuild watch valaxy cli & theme-yun
+pnpm dev
+# run demo
+pnpm demo
+```
 
 ## Features
 
@@ -25,12 +46,14 @@ English (Todo) | [简体中文](./README.zh-CN.md)
 - [ ] github actions auto generate site from theme repo/npm
 - [ ] only posts in user repo (can custom)
 - [ ] dynamic valaxy.config.ts reload
+- [ ] debug component
 
 ## Thanks
 
 💗 The implementation of Valaxy is based on or refer the following projects:
 
 - [Vue](https://github.com/vuejs/core)
+- [VueUse](https://github.com/vueuse/vueuse)
 - [Vite](https://github.com/vitejs/vite)
 - [VitePress](https://github.com/vuejs/vitepress)
 - [Vitesse](https://github.com/antfu/vitesse)

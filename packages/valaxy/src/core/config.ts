@@ -4,7 +4,6 @@ import type { ComputedRef, InjectionKey } from 'vue'
 import { computed, inject, readonly, shallowRef } from 'vue'
 import type { ThemeConfig } from 'valaxy-theme-yun'
 import type { ValaxyConfig } from '../types'
-import { VALAXY_CONFIG_ID } from '../node/plugins/valaxy'
 
 /**
  * parse valaxy config
@@ -19,10 +18,10 @@ function parse(data: string): ValaxyConfig {
 export const valaxyConfigSymbol: InjectionKey<ComputedRef<ValaxyConfig<ThemeConfig>>> = Symbol('valaxy:config')
 export const valaxyConfigRef = shallowRef<ValaxyConfig>(parse(valaxyConfig))
 
-const dep = `/${VALAXY_CONFIG_ID}`
 // hmr
 if (import.meta.hot) {
-  import.meta.hot.accept(dep, (m) => {
+  // /@valaxyjs/config must be static string
+  import.meta.hot.accept('/@valaxyjs/config', (m) => {
     valaxyConfigRef.value = parse(m.default)
   })
 }
