@@ -24,3 +24,24 @@ English (Todo) | [简体中文](./README.zh-CN.md)
 - [ ] A script to generate theme template.
 - [ ] github actions auto generate site from theme repo/npm
 - [ ] only posts in user repo (can custom)
+- [ ] dynamic valaxy.config.ts reload
+
+## Thanks
+
+💗 The implementation of Valaxy is based on or refer the following projects:
+
+- [Vue](https://github.com/vuejs/core)
+- [Vite](https://github.com/vitejs/vite)
+- [VitePress](https://github.com/vuejs/vitepress)
+- [Vitesse](https://github.com/antfu/vitesse)
+- [Slidev](https://github.com/slidevjs/slidev)
+
+## [Sponsors](https://sponsors.yunyoujun.cn)
+
+❤️ Thanks also to the following sponsors for their support.
+
+<p align="center">
+  <a href="https://cdn.jsdelivr.net/gh/YunYouJun/sponsors/public/sponsors.svg">
+    <img src='https://cdn.jsdelivr.net/gh/YunYouJun/sponsors/public/sponsors.svg'/>
+  </a>
+</p>

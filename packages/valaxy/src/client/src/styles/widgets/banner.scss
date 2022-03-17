@@ -61,7 +61,8 @@ $char-animation-duration: 0.4s;
     background-color: var(--banner-char-color);
   }
 
-  &-left, &-right {
+  &-left,
+  &-right {
     display: flex;
     color: var(--banner-char-color);
     opacity: 0;

@@ -4,11 +4,9 @@
     <YunBanner />
     <YunSay />
 
-    <router-view class="px-4 py-10" />
-    <!-- <Footer /> -->
-    <div class="mt-5 mx-auto text-center opacity-25 text-sm">
-      [Home Layout]
-    </div>
+    <router-view />
+
+    <ValaxyFooter />
   </main>
 </template>
 

@@ -1,14 +1,9 @@
 @use "../palette" as *;
-
 @use "../mixins" as *;
 
 :root {
   color-scheme: light;
 
   @include set-css-var-from-map($colors, 'c');
-
-  --yun-c-primary-rgb: #{red($c-primary)}, #{green($c-primary)},
-    #{blue($c-primary)};
-
-  --yun-bg-image: url('https://cdn.jsdelivr.net/gh/YunYouJun/cdn/img/bg/stars-timing-0-blur-30px.jpg');
+  @include set-css-var-from-map($light);
 }

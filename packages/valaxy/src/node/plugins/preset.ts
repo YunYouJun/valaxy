@@ -10,11 +10,12 @@ import VueI18n from '@intlify/vite-plugin-vue-i18n'
 import Inspect from 'vite-plugin-inspect'
 
 import type { ResolvedValaxyOptions } from '../options'
+import type { Mode } from '../vite'
 import { createMarkdownPlugin } from './markdown'
 import { createUnocssPlugin } from './unocss'
 import { createValaxyPlugin } from '.'
 
-export function ViteValaxyPlugins(options: ResolvedValaxyOptions): (PluginOption | PluginOption[])[] | undefined {
+export function ViteValaxyPlugins(options: ResolvedValaxyOptions, mode: Mode = 'dev'): (PluginOption | PluginOption[])[] | undefined {
   const { clientRoot, themeRoot, userRoot } = options
 
   const MarkdownPlugin = createMarkdownPlugin(options)
@@ -24,7 +25,7 @@ export function ViteValaxyPlugins(options: ResolvedValaxyOptions): (PluginOption
       include: [/\.vue$/, /\.md$/],
     }),
 
-    createValaxyPlugin(options.config),
+    createValaxyPlugin(options),
     MarkdownPlugin,
 
     // https://github.com/hannoeru/vite-plugin-pages
@@ -35,7 +36,7 @@ export function ViteValaxyPlugins(options: ResolvedValaxyOptions): (PluginOption
 
     // https://github.com/JohnCampionJr/vite-plugin-vue-layouts
     Layouts({
-      layoutsDirs: [`${clientRoot}/src/layouts`, `${userRoot}/layouts`],
+      layoutsDirs: [`${clientRoot}/src/layouts`, `${themeRoot}/src/layouts`, `${userRoot}/layouts`],
     }),
 
     // https://github.com/antfu/unplugin-vue-components
@@ -84,11 +85,11 @@ export function ViteValaxyPlugins(options: ResolvedValaxyOptions): (PluginOption
     VueI18n({
       runtimeOnly: true,
       compositionOnly: true,
-      include: [path.resolve(clientRoot, 'locales/**')],
+      include: [path.resolve(clientRoot, 'locales/**'), `${options.userRoot}/locales/**`],
     }),
 
     // https://github.com/antfu/vite-plugin-inspect
     // Visit http://localhost:3333/__inspect/ to see the inspector
-    Inspect(),
+    mode === 'dev' && Inspect(),
   ]
 }

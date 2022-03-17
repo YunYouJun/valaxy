@@ -2,9 +2,6 @@
 
 $common: () !default;
 $common: map.merge((
-  'c-text': #333,
-  'c-text-light': #555,
-
   'sidebar-width-mobile': 320px,
 ), $common);
 

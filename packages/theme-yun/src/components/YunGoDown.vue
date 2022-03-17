@@ -21,6 +21,12 @@
 
   font-size: 2.5rem;
   color: var(--yun-c-primary);
+
+  transition: color var(--yun-transition-duration);
+
+  &:hover {
+    color: rgba(var(--yun-c-primary-rgb), 0.6);
+  }
 }
 
 @keyframes float {

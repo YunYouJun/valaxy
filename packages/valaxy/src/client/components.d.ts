@@ -5,13 +5,16 @@
 declare module 'vue' {
   export interface GlobalComponents {
     README: typeof import('./src/components/README.md')['default']
+    ValaxyFooter: typeof import('./src/components/common/ValaxyFooter.vue')['default']
     ValaxyHamburger: typeof import('./src/components/common/ValaxyHamburger.vue')['default']
     ValaxyOverlay: typeof import('./src/components/common/ValaxyOverlay.vue')['default']
     ValaxySidebar: typeof import('./src/components/common/ValaxySidebar.vue')['default']
     YunBanner: typeof import('./src/components/YunBanner.vue')['default']
+    YunCard: typeof import('./../../../theme-yun/src/components/YunCard.vue')['default']
     YunCloud: typeof import('./../../../theme-yun/src/components/YunCloud.vue')['default']
     YunGoDown: typeof import('./../../../theme-yun/src/components/YunGoDown.vue')['default']
     YunSay: typeof import('./../../../theme-yun/src/components/YunSay.vue')['default']
+    YunSidebar: typeof import('./../../../theme-yun/src/components/YunSidebar.vue')['default']
   }
 }
 

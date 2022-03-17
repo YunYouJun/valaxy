@@ -3,7 +3,7 @@ import path from 'path'
 import { exec } from 'child_process'
 import type { Argv } from 'yargs'
 import yargs from 'yargs'
-import type { LogLevel } from 'vite'
+import type { InlineConfig, LogLevel } from 'vite'
 import openBrowser from 'open'
 
 import consola from 'consola'
@@ -56,8 +56,13 @@ cli.command(
     const port = userPort || 4859
     const options = await resolveOptions({ userRoot: root })
 
-    const viteConfig = {
+    const viteConfig: InlineConfig = {
       server: {
+        watch: {
+          // watch theme updated
+          ignored: [`!${options.themeRoot}/src/**`, `${options.userRoot}/**.md`],
+        },
+
         port,
         strictPort: true,
         open,

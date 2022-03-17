@@ -6,6 +6,6 @@ button:
   toggle_dark: Toggle dark mode
   toggle_langs: Change languages
 intro:
-  desc: Theme Yun
+  desc: Theme Yun | Valaxy
   hi: Hi, {name}!
-not-found: Not found
+not-found: Oops! Space collapse!

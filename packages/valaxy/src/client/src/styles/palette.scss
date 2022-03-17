@@ -1,9 +1,12 @@
 @use "sass:map";
 
+@use "./mixins" as *;
+
 $palette: () !default;
 $palette: map.merge((
   'white': #ffffff,
   'black': #1a1a1a,
+  'gray': #8e8e8e
 ), $palette);
 
 $colors: () !default;
@@ -12,3 +15,30 @@ $colors: map.merge((
 ), $colors);
 
 $c-primary: map.get($colors, 'primary');
+
+$light: () !default;
+$light: map.merge((
+  'bg-image': url('https://cdn.jsdelivr.net/gh/YunYouJun/cdn/img/bg/stars-timing-0-blur-30px.jpg'),
+  'border-color': #e6e6e6,
+
+  'c-bg': white,
+  'c-bg-light': white,
+  'c-text': #333,
+  'c-text-light': #555,
+
+  'c-primary-rgb': #{red($c-primary), green($c-primary), blue($c-primary)},
+
+  'sidebar-bg-color': #{get-css-var('c-bg-light')}
+), $light);
+
+$dark: () !default;
+$dark: map.merge((
+  'bg-image': none,
+  'border-color': #222,
+
+  'c-bg': #1a1a1a,
+  'c-bg-light': #333,
+  'c-text': #f2f2f2,
+  'c-text-light': #555,
+  'c-text-lighter': #eee,
+), $dark);

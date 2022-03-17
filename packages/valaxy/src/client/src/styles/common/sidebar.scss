@@ -13,8 +13,8 @@
   width: calc(100vw - 64px);
   max-width: var(--yun-sidebar-width-mobile);
 
-  background-image: var(--sidebar-bg-image, none);
-  background-color: var(--sidebar-bg-color, white);
+  background-image: var(--yun-sidebar-bg-image);
+  background-color: var(--yun-sidebar-bg-color);
   background-size: contain;
   background-repeat: no-repeat;
   background-position: bottom 1rem center;

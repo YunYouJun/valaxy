@@ -37,14 +37,36 @@
 
 > Wordpress/Typecho 等是动态博客，因此不在考虑范围内。
 
-我需要现代前端框架提供的开发热重载与 PJAX 体验，以及 TypeScript 的类型提示，但 Hexo 似乎已经有些积重难返，基于此来做一些工作将会束手束脚。
+我非常需要现代前端框架提供的开发热重载与 PJAX 体验，以及 TypeScript 的类型提示，但 Hexo 似乎已经有些积重难返，基于此来做一些工作将会束手束脚。
 
 Hugo 也是很棒的静态站点生成器，但是我并没有使用 Go 的需求。当然在打包时所使用的 ESBuild 正是基于 Go 实现。但这并不需要我操心。
 
-Jekyll 算是原来，但同样我并不使用 Ruby，且它似乎并不便捷，也同样存在一些开发体验的问题。
+Jekyll 算是元老，但同样我并不使用 Ruby，且它似乎并不便捷，也同样存在一些开发体验的问题。
 GitHub 为其提供了原声支持是一大优势，但我打算类似使用 GitHub Actions 来达成该方面近乎一致的体验。
 
-最后，我有一些尝试想要实现。
+最后，我有一些尝试想要实现。见[重新构想博客框架(Todo)]。
 譬如，可以提供一种主题商店，用户仅需在 GitHub Repo 中存放自己的文章。
 在主题商店，填写自己的 Repo 地址，选中主题切换即可在线预览内容效果。（这完全可以做到，只需要动态纯前端获取 Markdown 内容并渲染即可）
 而用户想要应对 SEO 时，则可再将其渲染为静态页面。我也将会为此提供一个一键可用的 GitHub Actions 脚本。
+
+...
+
+## Thanks
+
+💗 Valaxy 的实现基于或参考了以下项目：
+
+- [Vue](https://github.com/vuejs/core)
+- [Vite](https://github.com/vitejs/vite)
+- [VitePress](https://github.com/vuejs/vitepress)
+- [Vitesse](https://github.com/antfu/vitesse)
+- [Slidev](https://github.com/slidevjs/slidev)
+
+## [Sponsors](https://sponsors.yunyoujun.cn)
+
+❤️ 也感谢以下赞助者们的支持！
+
+<p align="center">
+  <a href="https://cdn.jsdelivr.net/gh/YunYouJun/sponsors/public/sponsors.svg">
+    <img src='https://cdn.jsdelivr.net/gh/YunYouJun/sponsors/public/sponsors.svg'/>
+  </a>
+</p>

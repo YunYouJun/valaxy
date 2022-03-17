@@ -1,6 +1,6 @@
 <template>
   <div class="say">
-    <span v-if="sayContent" class="say-content">{{ sayContent }}</span>
+    <span v-if="sayContent" class="say-content" :class="['animate-fade-in', 'animate-iteration-1']">{{ sayContent }}</span>
     <span v-if="sayAuthor" class="say-author"> {{ sayAuthor }}</span>
     <span v-if="sayFrom" class="say-from">{{ sayFrom }}</span>
   </div>
@@ -8,9 +8,9 @@
 
 <script lang="ts" setup>
 import { onMounted, ref } from 'vue'
-import { useConfig } from 'valaxy'
+import { useThemeConfig } from 'valaxy'
 
-const { themeConfig } = useConfig()
+const themeConfig = useThemeConfig()
 
 const sayContent = ref('')
 const sayAuthor = ref('')
@@ -20,14 +20,14 @@ const sayFrom = ref('')
  * 获取在线 API 语录
  */
 function fetchApiToSay() {
-  const api = themeConfig.say.hitokoto.enable ? themeConfig.say.hitokoto.api : themeConfig.say.api
+  const api = themeConfig.value.say.hitokoto.enable ? themeConfig.value.say.hitokoto.api : themeConfig.value.say.api
   if (!api) return
 
   fetch(api)
     .then((res) => {
       if (res.ok) {
         res.json().then((data) => {
-          if (themeConfig.say.hitokoto.enable) {
+          if (themeConfig.value.say.hitokoto.enable) {
             sayContent.value = data.hitokoto
             sayAuthor.value = data.from_who
             sayFrom.value = data.from
@@ -47,7 +47,7 @@ function fetchApiToSay() {
       }
       else {
         throw new Error(
-          `${themeConfig.say.api}, HTTP error, status = ${res.status}`,
+          `${themeConfig.value.say.api}, HTTP error, status = ${res.status}`,
         )
       }
     })

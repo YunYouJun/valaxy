@@ -1,5 +1,5 @@
 ---
-title: About
+title: About Valaxy
 ---
 
-Check out the [GitHub repo](https://github.com/YunYouJun/theme-yun) for more details.
+Check out the [GitHub repo](https://github.com/YunYouJun/valaxy) for more details.

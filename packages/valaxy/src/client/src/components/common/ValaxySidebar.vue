@@ -3,23 +3,20 @@
 
   <ValaxyHamburger id="menu-btn" :active="active" class="sidebar-toggle yun-icon-btn" @click="active = !active" />
 
-  <aside :class="['sidebar', active && 'open']">
+  <aside class="transition shadow hover:shadow-lg" :class="['sidebar', active && 'open']">
+    <YunSidebar />
+
     <ul class="sidebar-nav">
       <li class="sidebar-nav-item" />
     </ul>
 
-    <button class="icon-btn mx-2 !outline-none" :title="t('button.toggle_dark')" @click="toggleDark()">
-      <div i="carbon-sun dark:carbon-moon" />
-      todo dark
-    </button>
-
     <nav text-xl mt-6>
       <router-link class="icon-btn mx-2" to="/" :title="t('button.home')">
-        <div i-carbon-campsite />
+        <div i-ri-home-4-line />
       </router-link>
 
       <button class="icon-btn mx-2 !outline-none" :title="t('button.toggle_dark')" @click="toggleDark()">
-        <div i="carbon-sun dark:carbon-moon" />
+        <div i="ri-sun-line dark:ri-moon-line" />
       </button>
 
       <a class="icon-btn mx-2" :title="t('button.toggle_langs')" @click="toggleLocales">

@@ -38,6 +38,10 @@ export interface ResolvedValaxyOptions {
    * Valaxy Config
    */
   config: ValaxyConfig
+  /**
+   * config file path
+   */
+  configFile: string
 }
 
 export function isPath(name: string) {
@@ -65,16 +69,8 @@ export async function resolveOptions(options: ValaxyEntryOptions) {
   const clientRoot = resolve(dirname(resolveImportPath('valaxy/package.json')), 'src/client')
   const userRoot = resolve(options.userRoot || process.cwd())
 
-  const valaxyConfig = await resolveConfig()
-  const theme = options.theme || valaxyConfig.theme || 'yun'
+  const { config: valaxyConfig, configFile, theme } = await resolveConfig(options)
   const themeRoot = getThemeRoot(theme, userRoot)
-  try {
-    const { defaultThemeConfig } = await import(`valaxy-theme-${theme}`)
-    valaxyConfig.themeConfig = defaultThemeConfig
-  }
-  catch (e) {
-    console.error(`valaxy-theme-${theme} doesn't have default config`)
-  }
 
   const valaxyOptions: ResolvedValaxyOptions = {
     clientRoot,
@@ -82,6 +78,7 @@ export async function resolveOptions(options: ValaxyEntryOptions) {
     themeRoot,
     theme,
     config: valaxyConfig,
+    configFile: configFile || '',
   }
   debug(valaxyOptions)
 

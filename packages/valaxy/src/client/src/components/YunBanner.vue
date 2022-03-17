@@ -4,11 +4,13 @@
     <div class="banner-char-container">
       <div v-for="c, i in themeConfig.banner.title" :key="i" class="char-box">
         <span
-          class="char" :class="[i%2 !== 0 ? 'char-right' : 'char-left']" :style="{
+          :class="[i%2 !== 0 ? 'char-right' : 'char-left']" :style="{
             '--banner-char-size': `${chars[i]}rem`,
           } as CSSProperties"
         >
-          {{ c }}
+          <span class="char">
+            {{ c }}
+          </span>
         </span>
       </div>
     </div>
@@ -26,28 +28,27 @@
  */
 
 import type { CSSProperties } from 'vue'
-import { computed, onMounted, ref } from 'vue'
-import { useConfig } from 'valaxy'
+import { computed } from 'vue'
+import { useThemeConfig } from 'valaxy'
 import { random } from '~/utils'
-const { themeConfig } = useConfig()
+const themeConfig = useThemeConfig()
 
-// sum of char height
-const sumH = ref(0)
-const chars = ref<number[]>([])
+const chars = computed(() => {
+  const arr = []
+  for (let i = 0; i < themeConfig.value.banner.title.length; i++) {
+    const rn = random(1.5, 3.5)
+    arr.push(rn)
+  }
+  return arr
+})
+// height of top/bottom line
+const lineH = computed(() => chars.value.reduce((a, b) => a + b, 0) / 2)
 
 const lintStyle = computed(() => (
   {
-    '--banner-line-height': `calc(50vh - ${sumH.value / 2}rem)`,
+    '--banner-line-height': `calc(50vh - ${lineH.value}rem)`,
   } as CSSProperties
 ))
-
-onMounted(() => {
-  for (let i = 0; i < themeConfig.banner.title.length; i++) {
-    const rn = random(1.5, 3.5)
-    chars.value.push(rn)
-    sumH.value += rn
-  }
-})
 </script>
 
 <style lang="scss">
