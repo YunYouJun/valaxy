@@ -1,5 +1,4 @@
 
-import debug from 'debug'
 import type { Plugin } from 'vite'
 // import consola from 'consola'
 import { resolveConfig } from '../config'

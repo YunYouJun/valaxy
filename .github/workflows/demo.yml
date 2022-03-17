@@ -35,6 +35,8 @@ jobs:
           cache: "pnpm"
 
       - run: pnpm install
+      - name: 🌌 Build Valaxy Cli
+        run: pnpm build
 
       - name: ☁️ Build Yun Demo
         run: pnpm run build -C demo/yun
