@@ -22,9 +22,9 @@
       "~/*": ["packages/valaxy/src/client/src/*"],
       "valaxy/*": ["packages/valaxy/*"],
       "valaxy": ["packages/valaxy/src/index.ts"],
-      "valaxy-theme-yun/config": ["packages/theme-yun/src/config.ts"],
-      "valaxy-theme-yun/*": ["packages/theme-yun/*"],
-      "valaxy-theme-yun": ["packages/theme-yun/src/index.ts"],
+      "valaxy-theme-yun/config": ["packages/valaxy-theme-yun/src/config.ts"],
+      "valaxy-theme-yun/*": ["packages/valaxy-theme-yun/*"],
+      "valaxy-theme-yun": ["packages/valaxy-theme-yun/src/index.ts"],
       "@valaxyjs/core": ["packages/valaxy/src/core/index.ts"]
     }
   },

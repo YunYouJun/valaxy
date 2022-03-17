@@ -15,8 +15,7 @@ const config: UserConfig<ThemeUserConfig> = {
   themeConfig: {
     banner: {
       enable: true,
-      // title: '云游君的小站',
-      title: '测试',
+      title: '云游君的小站',
     },
   },
 }

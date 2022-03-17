@@ -10,11 +10,11 @@ declare module 'vue' {
     ValaxyOverlay: typeof import('./src/components/common/ValaxyOverlay.vue')['default']
     ValaxySidebar: typeof import('./src/components/common/ValaxySidebar.vue')['default']
     YunBanner: typeof import('./src/components/YunBanner.vue')['default']
-    YunCard: typeof import('./../../../theme-yun/src/components/YunCard.vue')['default']
-    YunCloud: typeof import('./../../../theme-yun/src/components/YunCloud.vue')['default']
-    YunGoDown: typeof import('./../../../theme-yun/src/components/YunGoDown.vue')['default']
-    YunSay: typeof import('./../../../theme-yun/src/components/YunSay.vue')['default']
-    YunSidebar: typeof import('./../../../theme-yun/src/components/YunSidebar.vue')['default']
+    YunCard: typeof import('./../../../valaxy-theme-yun/src/components/YunCard.vue')['default']
+    YunCloud: typeof import('./../../../valaxy-theme-yun/src/components/YunCloud.vue')['default']
+    YunGoDown: typeof import('./../../../valaxy-theme-yun/src/components/YunGoDown.vue')['default']
+    YunSay: typeof import('./../../../valaxy-theme-yun/src/components/YunSay.vue')['default']
+    YunSidebar: typeof import('./../../../valaxy-theme-yun/src/components/YunSidebar.vue')['default']
   }
 }
 

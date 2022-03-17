@@ -1,6 +1,10 @@
-# Valaxy
+<p align="center">
+<h1><a href="https://valaxy.netlify.app">Valaxy</a></h1>
+</a>
 
+<p align="center">
 🌌 Next Generation Static Blog Framework (Alpha).
+</p>
 
 <pre align="center">
 🧪 Working in Progress
@@ -23,7 +27,7 @@ git clone https://github.com/YunYouJun/valaxy
 cd valaxy
 
 pnpm i
-# esbuild watch valaxy cli & theme-yun
+# esbuild watch valaxy cli & valaxy-theme-yun
 pnpm dev
 # run demo
 pnpm demo

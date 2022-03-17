@@ -26,15 +26,12 @@ importers:
       valaxy-theme-yun: workspace:*
     dependencies:
       valaxy: link:../../packages/valaxy
-      valaxy-theme-yun: link:../../packages/theme-yun
+      valaxy-theme-yun: link:../../packages/valaxy-theme-yun
 
   packages/create-theme:
     specifiers: {}
 
   packages/create-valaxy:
-    specifiers: {}
-
-  packages/theme-yun:
     specifiers: {}
 
   packages/valaxy:
@@ -85,9 +82,9 @@ importers:
       '@vueuse/head': 0.7.5_vue@3.2.31
       c12: 0.2.2
       nprogress: 0.2.0
-      pinia: 2.0.12_vue@3.2.31
+      pinia: 2.0.12_typescript@4.6.2+vue@3.2.31
       prism-theme-vars: 0.2.2
-      valaxy-theme-yun: link:../theme-yun
+      valaxy-theme-yun: link:../valaxy-theme-yun
       vue: 3.2.31
       vue-demi: 0.12.4_vue@3.2.31
       vue-i18n: 9.1.9_vue@3.2.31
@@ -122,7 +119,10 @@ importers:
       vite-plugin-vue-layouts: 0.6.0_da2b5bfcc9ee38bfd25c98b31b35c29d
       vite-ssg: 0.17.11_06991454d28c6a3de3c4aa992a4c8636
       vite-ssg-sitemap: 0.2.0
-      vue-tsc: 0.33.2-patch.1
+      vue-tsc: 0.33.2-patch.1_typescript@4.6.2
+
+  packages/valaxy-theme-yun:
+    specifiers: {}
 
 packages:
 
@@ -5431,7 +5431,7 @@ packages:
     engines: {node: '>=8.6'}
     dev: true
 
-  /pinia/2.0.12_vue@3.2.31:
+  /pinia/2.0.12_typescript@4.6.2+vue@3.2.31:
     resolution: {integrity: sha512-tUeuYGFrLU5irmGyRAIxp35q1OTcZ8sKpGT4XkPeVcG35W4R6cfXDbCGexzmVqH5lTQJJTXXbNGutIu9yS5yew==}
     peerDependencies:
       '@vue/composition-api': ^1.4.0
@@ -5444,6 +5444,7 @@ packages:
         optional: true
     dependencies:
       '@vue/devtools-api': 6.1.3
+      typescript: 4.6.2
       vue: 3.2.31
       vue-demi: 0.12.4_vue@3.2.31
     dev: false
@@ -6904,7 +6905,7 @@ packages:
       vue: 3.2.31
     dev: false
 
-  /vue-tsc/0.33.2-patch.1:
+  /vue-tsc/0.33.2-patch.1_typescript@4.6.2:
     resolution: {integrity: sha512-Wr1b5Dt/fqJejBk9rHHCDhSbt/sU0pekUhmyupeKbAWw9eT2DTPn1od6N3dV9jdjGitqDESVRFsw6R1hSLdAQA==}
     hasBin: true
     peerDependencies:
@@ -6912,6 +6913,7 @@ packages:
     dependencies:
       '@volar/shared': 0.33.2
       '@volar/vue-typescript': 0.33.2
+      typescript: 4.6.2
     dev: true
 
   /vue/3.2.31:
