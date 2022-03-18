@@ -31,7 +31,7 @@ export function ViteValaxyPlugins(options: ResolvedValaxyOptions, mode: Mode = '
     // https://github.com/hannoeru/vite-plugin-pages
     Pages({
       extensions: ['vue', 'md'],
-      dirs: [`${clientRoot}/src/pages`, `${userRoot}/pages`],
+      dirs: [`${clientRoot}/src/pages`, `${themeRoot}/src/pages`, `${userRoot}/pages`],
     }),
 
     // https://github.com/JohnCampionJr/vite-plugin-vue-layouts
@@ -43,7 +43,7 @@ export function ViteValaxyPlugins(options: ResolvedValaxyOptions, mode: Mode = '
     Components({
       // allow auto load markdown components under `./src/components/`
       extensions: ['vue', 'md'],
-      dirs: [`${clientRoot}/src/components`, `${userRoot}/components`, `${themeRoot}/src/components`],
+      dirs: [`${clientRoot}/src/components`, `${themeRoot}/src/components`, `${userRoot}/components`],
 
       // allow auto import and register components used in markdown
       include: [/\.vue$/, /\.vue\?vue/, /\.md$/],

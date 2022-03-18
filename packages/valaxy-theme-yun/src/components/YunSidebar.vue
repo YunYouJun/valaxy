@@ -1,14 +1,21 @@
 <template>
   <div class="sidebar-panel">
-    <div class="site-info">
+    <div class="site-info" m="t-6">
       <a class="site-author-avatar">
-        <img>
-        <span class="site-author-status">🌛</span>
+        <img class="rounded-full" :src="config.author.avatar" alt="avatar">
+        <span class="site-author-status">{{ config.author.status.emoji }}</span>
       </a>
       <div class="site-author-name">
         <a href="/about">
-          {{ config.author }}
+          {{ config.author.name }}
         </a>
+      </div>
+      <a href="/about/site" class="site-name">{{ config.title }}</a>
+      <h4 v-if="config.subtitle" class="site-subtitle block" text="xs">
+        {{ config.subtitle }}
+      </h4>
+      <div v-if="config.description" class="site-description my-1">
+        {{ config.description }}
       </div>
     </div>
   </div>
@@ -23,8 +30,37 @@ const config = useConfig()
 <style lang="scss">
 @use "~/styles/mixins" as *;
 
-#site-overview-wrap {
-  padding-top: 2rem;
+.sidebar-panel {
+  padding: 0.5rem;
+
+  .links {
+    display: block;
+
+    &-item {
+      display: inline-flex;
+
+      .icon {
+        width: 2rem;
+        height: 2rem;
+      }
+    }
+  }
+
+  .links-of-author {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+
+    .icon {
+      width: 1.5rem;
+      height: 1.5rem;
+    }
+
+    &-item {
+      line-height: 1;
+      font-size: 0.9rem;
+    }
+  }
 }
 
 .site-info {
@@ -54,33 +90,23 @@ const config = useConfig()
   }
 }
 
-// if (hexo-config('avatar.rounded')) {
-  .site-author-avatar {
-    img {
-      border-radius: 50%;
-    }
-  }
-// }
-
 .site-author-name {
   margin-top: 0;
   margin-bottom: 1rem;
   line-height: 1.5;
 }
 
-// if (hexo-config('avatar.status.enable')) {
-  .site-author-status {
-    position: absolute;
-    height: 1.8rem;
-    width: 1.8rem;
-    bottom: 0;
-    right: 0;
-    line-height: 1.8rem;
-    border-radius: 50%;
-    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
-    background-color: white;
-  }
-// }
+.site-author-status {
+  position: absolute;
+  height: 1.8rem;
+  width: 1.8rem;
+  bottom: 0;
+  right: 0;
+  line-height: 1.8rem;
+  border-radius: 50%;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+  background-color: var(--yun-c-bg-light);
+}
 
 .site-name {
   color: var(--yun-c-text);
@@ -96,57 +122,5 @@ const config = useConfig()
 .site-description {
   color: var(--yun-c-text);
   font-size: 0.8rem;
-}
-
-.site-state {
-  display: flex;
-  justify-content: center;
-  overflow: hidden;
-  line-height: 1.5;
-  white-space: nowrap;
-  text-align: center;
-  margin-top: 1rem;
-}
-
-.site-state-item {
-  display: flex;
-  padding: 0 15px;
-  align-items: center;
-  border-left: 1px solid get-css-var('c-gray');
-
-  &:first-child, &:last-child {
-    line-height: 1;
-    padding: 0;
-  }
-
-  &:first-child {
-    border-left: none;
-    border-right: 1px solid get-css-var('c-gray');
-  }
-
-  &:last-child {
-    border-left: 1px solid get-css-var('c-gray');
-  }
-
-  &:nth-child(2) {
-    border: none;
-  }
-}
-
-.site-state-item-icon {
-  color: var(--yun-c-text);
-  line-height: 1;
-
-  .icon {
-    width: 1.5rem;
-    height: 1.5rem;
-  }
-}
-
-.site-state-item-count {
-  color: var(--yun-c-text);
-  display: block;
-  text-align: center;
-  font-size: 1rem;
 }
 </style>

@@ -18,7 +18,11 @@ export function createValaxyPlugin(options: ResolvedValaxyOptions): Plugin {
     name: 'Valaxy',
 
     configureServer(server) {
-      server.watcher.add(options.configFile)
+      server.watcher.add([
+        options.configFile,
+        options.userRoot,
+        options.themeRoot,
+      ])
     },
 
     resolveId(id) {

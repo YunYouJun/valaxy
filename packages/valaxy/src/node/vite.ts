@@ -2,6 +2,7 @@ import path from 'path'
 
 import generateSitemap from 'vite-ssg-sitemap'
 import type { InlineConfig } from 'vite'
+import { searchForWorkspaceRoot } from 'vite'
 import type { ResolvedValaxyOptions } from './options'
 
 import { ViteValaxyPlugins } from './plugins/preset'
@@ -39,6 +40,16 @@ export function createViteConfig(options: ResolvedValaxyOptions, mode: Mode = 'd
     // base: '/',
 
     plugins: ViteValaxyPlugins(options, mode),
+
+    server: {
+      fs: {
+        allow: [
+          searchForWorkspaceRoot(options.clientRoot),
+          searchForWorkspaceRoot(options.userRoot),
+          searchForWorkspaceRoot(options.themeRoot),
+        ],
+      },
+    },
 
     optimizeDeps: {
       entries: [path.resolve(options.clientRoot, 'src/main.ts'), configFile],

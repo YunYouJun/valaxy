@@ -1,3 +1,5 @@
+import type { PartialDeep } from 'type-fest'
+
 export type ValaxyThemeConfig = Record<string, any>
 export interface ValaxyConfig<T = ValaxyThemeConfig> {
   /**
@@ -5,16 +7,30 @@ export interface ValaxyConfig<T = ValaxyThemeConfig> {
    */
   title: string
   /**
+   * 副标题
+   */
+  subtitle: string
+  /**
    * 站点描述
    */
   description: string
   /**
    * 博客作者
    */
-  author: string
+  author: {
+    name: string
+    avatar: string
+    /**
+     * 状态
+     */
+    status: {
+      emoji: string
+      message: string
+    }
+  }
 
   theme: string
   themeConfig: T
 }
 
-export type UserConfig<T=ValaxyThemeConfig> = Partial<ValaxyConfig<T>>
+export type UserConfig<T=ValaxyThemeConfig> = PartialDeep<ValaxyConfig<T>>

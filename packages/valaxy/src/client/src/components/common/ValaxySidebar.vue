@@ -10,31 +10,14 @@
       <li class="sidebar-nav-item" />
     </ul>
 
-    <nav text-xl mt-6>
-      <router-link class="icon-btn mx-2" to="/" :title="t('button.home')">
-        <div i-ri-home-4-line />
-      </router-link>
+    <YunSidebarNav />
 
-      <button class="icon-btn mx-2 !outline-none" :title="t('button.toggle_dark')" @click="toggleDark()">
-        <div i="ri-sun-line dark:ri-moon-line" />
-      </button>
-
-      <a class="icon-btn mx-2" :title="t('button.toggle_langs')" @click="toggleLocales">
-        <div i-carbon-language />
-      </a>
-
-      <router-link class="icon-btn mx-2" to="/about" :title="t('button.about')">
-        <div i-carbon-dicom-overlay />
-      </router-link>
-    </nav>
+    <YunConfig />
   </aside>
 </template>
 
 <script lang="ts" setup>
 import { ref } from 'vue'
-
-import { useI18n } from 'vue-i18n'
-import { toggleDark } from '~/composables'
 
 const props = withDefaults(defineProps<{
   open: boolean
@@ -43,14 +26,6 @@ const props = withDefaults(defineProps<{
 })
 
 const active = ref(props.open)
-
-const { t, availableLocales, locale } = useI18n()
-
-const toggleLocales = () => {
-  // change to some real logic
-  const locales = availableLocales
-  locale.value = locales[(locales.indexOf(locale.value) + 1) % locales.length]
-}
 </script>
 
 <style lang="scss">

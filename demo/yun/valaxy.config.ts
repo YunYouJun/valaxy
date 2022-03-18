@@ -7,7 +7,9 @@ import type { ThemeUserConfig } from 'valaxy-theme-yun'
  */
 const config: UserConfig<ThemeUserConfig> = {
   title: 'Valaxy Theme Yun',
-  author: '云游君',
+  author: {
+    name: '云游君',
+  },
   description: 'Valaxy Theme Yun Preview.',
 
   theme: 'yun',
