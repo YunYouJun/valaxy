@@ -11,6 +11,7 @@ export default defineConfig((options) => {
     external: [
       'vite',
       'sass',
+      'chalk',
     ],
   }
 })

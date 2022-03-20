@@ -33,7 +33,7 @@
     "@types/markdown-it-link-attributes": "^3.0.1",
     "@types/nprogress": "^0.2.0",
     "@types/yargs": "^17.0.10",
-    "@unocss/reset": "^0.29.3",
+    "@unocss/reset": "^0.29.4",
     "@vitejs/plugin-vue": "^2.2.4",
     "chalk": "4",
     "consola": "^2.15.3",
@@ -45,9 +45,9 @@
     "markdown-it-prism": "^2.2.3",
     "open": "^8.4.0",
     "sass": "^1.49.9",
-    "type-fest": "^2.12.0",
-    "unocss": "^0.29.3",
-    "unplugin-vue-components": "^0.18.1",
+    "type-fest": "^2.12.1",
+    "unocss": "^0.29.4",
+    "unplugin-vue-components": "^0.18.3",
     "vite": "^2.8.6",
     "vite-plugin-inspect": "^0.4.3",
     "vite-plugin-md": "^0.11.9",
@@ -59,17 +59,18 @@
     "vue-tsc": "^0.33.2-patch.1"
   },
   "dependencies": {
-    "@vueuse/core": "^8.1.1",
+    "@vueuse/core": "^8.1.2",
     "@vueuse/head": "^0.7.5",
-    "c12": "^0.2.2",
+    "fast-deep-equal": "^3.1.3",
     "nprogress": "^0.2.0",
     "pinia": "^2.0.11",
     "prism-theme-vars": "^0.2.2",
+    "unconfig": "^0.3.2",
     "valaxy-theme-yun": "workspace:*",
     "vue": "^3.2.31",
     "vue-demi": "^0.12.4",
     "vue-i18n": "^9.1.9",
     "vue-router": "^4.0.14",
-    "yargs": "^17.3.1"
+    "yargs": "^17.4.0"
   }
 }

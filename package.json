@@ -24,7 +24,7 @@
     "start": "node packages/valaxy/bin/valaxy.js dev"
   },
   "devDependencies": {
-    "@antfu/eslint-config": "^0.18.8",
+    "@antfu/eslint-config": "^0.18.9",
     "@types/debug": "^4.1.7",
     "eslint": "^8.11.0",
     "pnpm": "^6.32.3",

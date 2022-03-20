@@ -5,7 +5,7 @@
     </button>
 
     <a class="icon-btn mx-2" :title="t('button.toggle_langs')" @click="toggleLocales">
-      <div i-carbon-language />
+      <div i-ri-translate />
     </a>
   </div>
 </template>

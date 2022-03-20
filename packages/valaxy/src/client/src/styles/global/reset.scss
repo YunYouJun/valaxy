@@ -10,6 +10,11 @@ a {
   color: var(--smc-link-color);
 }
 
+hr {
+  opacity: 0.2;
+  margin: 1rem;
+}
+
 // scrollbar
 ::-webkit-scrollbar {
   width: 8px;

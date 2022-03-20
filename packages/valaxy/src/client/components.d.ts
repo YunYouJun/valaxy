@@ -4,10 +4,9 @@
 
 declare module 'vue' {
   export interface GlobalComponents {
-    Aasdasdasd: typeof import('./../../../valaxy-theme-yun/src/components/aasdasdasd.vue')['default']
+    Counter: typeof import('./../../../../demo/yun/components/Counter.vue')['default']
     CustomComponent: typeof import('./../../../../demo/yun/components/CustomComponent.vue')['default']
     README: typeof import('./src/components/README.md')['default']
-    TEST: typeof import('./src/components/TEST.vue')['default']
     ValaxyFooter: typeof import('./src/components/common/ValaxyFooter.vue')['default']
     ValaxyHamburger: typeof import('./src/components/common/ValaxyHamburger.vue')['default']
     ValaxyOverlay: typeof import('./src/components/common/ValaxyOverlay.vue')['default']
@@ -20,6 +19,7 @@ declare module 'vue' {
     YunSay: typeof import('./../../../valaxy-theme-yun/src/components/YunSay.vue')['default']
     YunSidebar: typeof import('./../../../valaxy-theme-yun/src/components/YunSidebar.vue')['default']
     YunSidebarNav: typeof import('./../../../valaxy-theme-yun/src/components/YunSidebarNav.vue')['default']
+    YunSocialLinks: typeof import('./../../../valaxy-theme-yun/src/components/YunSocialLinks.vue')['default']
   }
 }
 

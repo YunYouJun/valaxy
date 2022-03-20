@@ -9,23 +9,26 @@ import { VitePWA } from 'vite-plugin-pwa'
 import VueI18n from '@intlify/vite-plugin-vue-i18n'
 import Inspect from 'vite-plugin-inspect'
 
-import type { ResolvedValaxyOptions } from '../options'
+import type { ResolvedValaxyOptions, ValaxyServerOptions } from '../options'
 import type { Mode } from '../vite'
 import { createMarkdownPlugin } from './markdown'
 import { createUnocssPlugin } from './unocss'
 import { createValaxyPlugin } from '.'
 
-export function ViteValaxyPlugins(options: ResolvedValaxyOptions, mode: Mode = 'dev'): (PluginOption | PluginOption[])[] | undefined {
+export function ViteValaxyPlugins(options: ResolvedValaxyOptions, serverOptions: ValaxyServerOptions = {}, mode: Mode = 'dev'): (PluginOption | PluginOption[])[] | undefined {
   const { clientRoot, themeRoot, userRoot } = options
 
   const MarkdownPlugin = createMarkdownPlugin(options)
+  const UnocssPlugin = createUnocssPlugin(options)
+
+  const ValaxyPlugin = createValaxyPlugin(options, serverOptions)
 
   return [
     Vue({
       include: [/\.vue$/, /\.md$/],
     }),
 
-    createValaxyPlugin(options),
+    ValaxyPlugin,
     MarkdownPlugin,
 
     // https://github.com/hannoeru/vite-plugin-pages
@@ -50,7 +53,8 @@ export function ViteValaxyPlugins(options: ResolvedValaxyOptions, mode: Mode = '
     }),
 
     // https://github.com/antfu/unocss
-    createUnocssPlugin(),
+    // UnocssPlugin,
+    UnocssPlugin,
 
     // https://github.com/antfu/vite-plugin-pwa
     VitePWA({

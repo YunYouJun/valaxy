@@ -1,5 +1,6 @@
 import { dirname, resolve } from 'path'
 import _debug from 'debug'
+import type { VitePluginConfig } from 'unocss/vite'
 import type { ValaxyConfig } from '../types'
 import { resolveConfig } from './config'
 import { resolveImportPath } from './utils'
@@ -44,6 +45,10 @@ export interface ResolvedValaxyOptions {
   configFile: string
 }
 
+export interface ValaxyServerOptions {
+  onConfigReload?: (newConfig: ValaxyConfig, config: ValaxyConfig) => void
+}
+
 export function isPath(name: string) {
   return name.startsWith('/') || /^\.\.?[\/\\]/.test(name)
 }
@@ -79,6 +84,8 @@ export async function resolveOptions(options: ValaxyEntryOptions) {
     theme,
     config: valaxyConfig,
     configFile: configFile || '',
+
+    unocss: {},
   }
   debug(valaxyOptions)
 

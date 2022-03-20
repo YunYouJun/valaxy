@@ -9,7 +9,7 @@ const { t } = useI18n()
 <template>
   <main p="x4 y10" text="center sky-700 dark:gray-200">
     <div text-4xl>
-      <div i-carbon-warning inline-block />
+      <div i-ri-alarm-warning-line inline-block />
     </div>
     <router-view />
     <div>

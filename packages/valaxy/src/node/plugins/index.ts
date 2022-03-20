@@ -2,17 +2,13 @@
 import type { Plugin } from 'vite'
 // import consola from 'consola'
 import { resolveConfig } from '../config'
-import type { ResolvedValaxyOptions } from '../options'
+import type { ResolvedValaxyOptions, ValaxyServerOptions } from '../options'
 import { VALAXY_CONFIG_ID } from './valaxy'
 
-export function createValaxyPlugin(options: ResolvedValaxyOptions): Plugin {
+export function createValaxyPlugin(options: ResolvedValaxyOptions, serverOptions: ValaxyServerOptions = {}): Plugin {
   const valaxyPrefix = '/@valaxy'
 
   let valaxyConfig = options.config
-
-  // function updateServerWatcher(server: ViteDevServer) {
-  // server.watcher.add()
-  // }
 
   return {
     name: 'Valaxy',
@@ -36,6 +32,10 @@ export function createValaxyPlugin(options: ResolvedValaxyOptions): Plugin {
         // stringify twice for \"
         return `export default ${JSON.stringify(JSON.stringify(valaxyConfig))}`
 
+      // regenerate unocss config
+      if (id === '/unocss:config')
+        return
+
       if (id.startsWith(valaxyPrefix))
         return ''
     },
@@ -47,10 +47,19 @@ export function createValaxyPlugin(options: ResolvedValaxyOptions): Plugin {
 
       const { config } = await resolveConfig()
 
+      serverOptions.onConfigReload?.(config, options.config)
+      Object.assign(options.config, config)
+
       // if (config.base !== options.config.base)
       //   consola.warn('[valaxy]: config.base has changed. Please restart the dev server.')
       valaxyConfig = config
-      return [server.moduleGraph.getModuleById(`/${VALAXY_CONFIG_ID}`)!]
+
+      const moduleIds = [`/${VALAXY_CONFIG_ID}`]
+      const moduleEntries = [
+        ...Array.from(moduleIds).map(id => server.moduleGraph.getModuleById(id)),
+      ].filter(<T>(item: T): item is NonNullable<T> => !!item)
+
+      return moduleEntries
     },
   }
 }

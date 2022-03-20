@@ -18,6 +18,10 @@
         {{ config.description }}
       </div>
     </div>
+
+    <hr m="t-4 b-2">
+
+    <YunSocialLinks />
   </div>
 </template>
 
@@ -43,22 +47,6 @@ const config = useConfig()
         width: 2rem;
         height: 2rem;
       }
-    }
-  }
-
-  .links-of-author {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-
-    .icon {
-      width: 1.5rem;
-      height: 1.5rem;
-    }
-
-    &-item {
-      line-height: 1;
-      font-size: 0.9rem;
     }
   }
 }
@@ -106,6 +94,8 @@ const config = useConfig()
   border-radius: 50%;
   box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
   background-color: var(--yun-c-bg-light);
+
+  border: 1px solid rgba(255, 255, 255, 0.1);
 }
 
 .site-name {

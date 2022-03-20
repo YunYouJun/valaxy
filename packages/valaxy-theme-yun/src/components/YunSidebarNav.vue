@@ -15,7 +15,7 @@
     </router-link>
 
     <router-link class="icon-btn mx-2" to="/about" :title="t('button.about')">
-      <div i-carbon-dicom-overlay />
+      <div i-ri-clipboard-line />
     </router-link>
   </nav>
 </template>

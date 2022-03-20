@@ -1,17 +1,20 @@
+
 import * as readline from 'readline'
 import path from 'path'
 import os from 'os'
+// import equal from 'fast-deep-equal'
 
+import chalk from 'chalk'
 import consola from 'consola'
 import type { InlineConfig, ViteDevServer } from 'vite'
-import chalk from 'chalk'
 import { createServer } from '../server'
 import type { ResolvedValaxyOptions } from '../options'
 import { version } from '../../../package.json'
+import { createSafelist, createUnocssConfig } from '../plugins/unocss'
 
 let server: ViteDevServer | undefined
 
-export function printInfo(options: ResolvedValaxyOptions, port?: number, remote?: string | boolean) {
+export async function printInfo(options: ResolvedValaxyOptions, port?: number, remote?: string | boolean) {
   console.log()
   console.log(`  ${chalk.bold('🌌 Valaxy')}  ${chalk.blue(`v${version}`)}`)
   console.log()
@@ -42,7 +45,28 @@ export async function initServer(options: ResolvedValaxyOptions, viteConfig: Inl
     await server.close()
 
   try {
-    const server = await createServer(options, viteConfig)
+    const safelist = createSafelist(options.config).concat(options.config.unocss.safelist || [])
+
+    server = await createServer(options, viteConfig, {
+      onConfigReload(newConfig, config) {
+        let reload = false
+
+        const iconChanged = newConfig.social.some((item, i) => {
+          return !safelist.includes(item.icon) && item.icon !== config.social[i].icon
+        })
+
+        if (iconChanged) {
+          consola.info('Find new icon, reload server...')
+          consola.info(`If you do not want to reload it, write icon name in ${chalk.green('config.unocss.safelist')}.`)
+          consola.info('For example: ["i-ri-cloud-line"]')
+          console.log()
+          reload = true
+        }
+
+        if (reload)
+          initServer(options, viteConfig)
+      },
+    })
     await server.listen()
   }
   catch (e) {

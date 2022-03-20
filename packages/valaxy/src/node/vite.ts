@@ -3,14 +3,14 @@ import path from 'path'
 import generateSitemap from 'vite-ssg-sitemap'
 import type { InlineConfig } from 'vite'
 import { searchForWorkspaceRoot } from 'vite'
-import type { ResolvedValaxyOptions } from './options'
+import type { ResolvedValaxyOptions, ValaxyServerOptions } from './options'
 
 import { ViteValaxyPlugins } from './plugins/preset'
 import { VALAXY_CONFIG_ID } from './plugins/valaxy'
 
 export type Mode = 'dev' | 'build'
 
-export function createViteConfig(options: ResolvedValaxyOptions, mode: Mode = 'dev'): InlineConfig {
+export function createViteConfig(options: ResolvedValaxyOptions, serverOptions: ValaxyServerOptions = {}, mode: Mode = 'dev'): InlineConfig {
   const { configFile } = options
 
   const viteConfig: InlineConfig = {
@@ -39,7 +39,7 @@ export function createViteConfig(options: ResolvedValaxyOptions, mode: Mode = 'd
     // todo user base
     // base: '/',
 
-    plugins: ViteValaxyPlugins(options, mode),
+    plugins: ViteValaxyPlugins(options, serverOptions, mode),
 
     server: {
       fs: {
