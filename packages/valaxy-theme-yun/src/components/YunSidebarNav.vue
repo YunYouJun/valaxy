@@ -1,20 +1,20 @@
 <template>
-  <nav class="site-state" text-xl mt-6>
-    <router-link class="site-link-item icon-btn mx-2" to="/" :title="t('menu.home')">
+  <nav class="site-nav" text-xl mt-6>
+    <router-link class="site-link-item yun-icon-btn" to="/" :title="t('menu.home')">
       <div i-ri-home-4-line />
     </router-link>
 
-    <router-link class="site-link-item icon-btn mx-2" to="/" :title="t('menu.archives')">
+    <router-link class="site-link-item icon-btn" to="/archive/" :title="t('menu.archives')">
       <div i-ri-archive-line />
     </router-link>
-    <router-link class="site-link-item icon-btn mx-2" to="/" :title="t('menu.categories')">
+    <router-link class="site-link-item icon-btn" to="/categories/" :title="t('menu.categories')">
       <div i-ri-folder-2-line />
     </router-link>
-    <router-link class="site-link-item icon-btn mx-2" to="/" :title="t('menu.tags')">
+    <router-link class="site-link-item icon-btn" to="/tags/" :title="t('menu.tags')">
       <div i-ri-price-tag-3-line />
     </router-link>
 
-    <router-link class="icon-btn mx-2" to="/about" :title="t('button.about')">
+    <router-link class="site-link-item yun-icon-btn" to="/about" :title="t('button.about')">
       <div i-ri-clipboard-line />
     </router-link>
   </nav>
@@ -27,7 +27,9 @@ const { t } = useI18n()
 </script>
 
 <style lang="scss">
-.site-state {
+@use "~/styles/mixins" as *;
+
+.site-nav {
   display: flex;
   justify-content: center;
   overflow: hidden;
@@ -37,11 +39,13 @@ const { t } = useI18n()
   margin-top: 1rem;
 }
 
-.site-state-item {
+.site-link-item {
   display: flex;
   padding: 0 15px;
   align-items: center;
   border-left: 1px solid get-css-var('c-gray');
+
+  color: var(--yun-c-text);
 
   &:first-child, &:last-child {
     line-height: 1;
@@ -62,7 +66,7 @@ const { t } = useI18n()
   }
 }
 
-.site-state-item-icon {
+.site-nav-item-icon {
   color: var(--yun-c-text);
   line-height: 1;
 
@@ -72,7 +76,7 @@ const { t } = useI18n()
   }
 }
 
-.site-state-item-count {
+.site-nav-item-count {
   color: var(--yun-c-text);
   display: block;
   text-align: center;

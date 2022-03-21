@@ -6,12 +6,6 @@
   <aside class="transition shadow hover:shadow-lg" :class="['sidebar', active && 'open']">
     <YunSidebar />
 
-    <ul class="sidebar-nav">
-      <li class="sidebar-nav-item" />
-    </ul>
-
-    <YunSidebarNav />
-
     <YunConfig />
   </aside>
 </template>

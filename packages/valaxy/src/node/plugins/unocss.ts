@@ -15,7 +15,15 @@ import type { ValaxyConfig } from 'valaxy/src/types'
 import type { ResolvedValaxyOptions } from '../options'
 
 export const createSafelist = (config: ValaxyConfig) => {
-  const safelist = 'prose prose-sm m-auto text-left'.split(' ')
+  const safeIcons: string[] = [
+    'i-ri-archive-line',
+    'i-ri-folder-2-line',
+    'i-ri-price-tag-3-line',
+  ]
+
+  const safelist = 'prose prose-sm m-auto text-left'.split(' ').concat([
+    'rotate-y-180',
+  ]).concat(safeIcons)
   // generate icon safelist
   if (config.social.length)
     config.social.forEach(item => safelist.push(item.icon))

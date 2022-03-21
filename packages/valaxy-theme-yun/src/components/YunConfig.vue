@@ -1,18 +1,18 @@
 <template>
   <div>
-    <button class="icon-btn mx-2 !outline-none" :title="t('button.toggle_dark')" @click="toggleDark()">
+    <button class="yun-icon-btn" :title="t('button.toggle_dark')" :style="{color: isDark ? '' : '#f1cb64'}" @click="toggleDark()">
       <div i="ri-sun-line dark:ri-moon-line" />
     </button>
 
-    <a class="icon-btn mx-2" :title="t('button.toggle_langs')" @click="toggleLocales">
-      <div i-ri-translate />
+    <a class="yun-icon-btn" :title="t('button.toggle_langs')" style="color:var(--yun-c-text)" @click="toggleLocales">
+      <div i-ri-translate class="transition transform" :class="locale === 'en' ? 'rotate-y-180' : ''" />
     </a>
   </div>
 </template>
 
 <script lang="ts" setup>
 import { useI18n } from 'vue-i18n'
-import { toggleDark } from '~/composables'
+import { isDark, toggleDark } from '~/composables'
 
 const { t, availableLocales, locale } = useI18n()
 

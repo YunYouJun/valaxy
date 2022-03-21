@@ -32,6 +32,13 @@ export interface ThemeConfig {
       api: string
     }
   }
+
+  pages: {
+    name: string
+    url: string
+    icon: string
+    color: string
+  }[]
 }
 
 export type ThemeUserConfig = Partial<ThemeConfig>
@@ -60,6 +67,8 @@ export const defaultThemeConfig: ThemeConfig = {
       api: 'https://v1.hitokoto.cn',
     },
   },
+
+  pages: [],
 }
 
 export default defaultThemeConfig

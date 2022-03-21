@@ -29,3 +29,22 @@ title: 指南
 <div class="bg-white text-blue shadow" p="4">
 这是一份 Markdown 内容。
 </div>
+
+### Icones
+
+海量的图标
+
+你可以任意使用 [Icones](https://icones.js.org/) 中可搜索到的任意图标。
+
+命名规范为 `i-${collection}-${name}`，例如 `i-ri-home-line`。
+
+主题默认安装了 [RemixIcon](https://github.com/Remix-Design/RemixIcon)。
+
+如果你需要其他集合下的图标，可以自行安装。如：
+
+```bash
+# collection 为对应的图标集名称，如 @iconify-json/ri
+npm i @iconify-json/collection
+```
+
+被添加至 `config.unocss.safelist` 的图标名称将全部是热加载的！

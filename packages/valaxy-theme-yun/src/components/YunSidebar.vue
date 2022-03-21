@@ -19,9 +19,12 @@
       </div>
     </div>
 
+    <YunSidebarNav />
     <hr m="t-4 b-2">
-
     <YunSocialLinks />
+    <hr m="y-2">
+    <YunSidebarLinks />
+    <br>
   </div>
 </template>
 
@@ -36,19 +39,6 @@ const config = useConfig()
 
 .sidebar-panel {
   padding: 0.5rem;
-
-  .links {
-    display: block;
-
-    &-item {
-      display: inline-flex;
-
-      .icon {
-        width: 2rem;
-        height: 2rem;
-      }
-    }
-  }
 }
 
 .site-info {

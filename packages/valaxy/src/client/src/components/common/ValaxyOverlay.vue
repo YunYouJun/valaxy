@@ -8,7 +8,7 @@ withDefaults(defineProps<{
 
 <template>
   <transition name="fade">
-    <div v-if="show" class="val-overlay" />
+    <div v-if="show" class="val-overlay backdrop-filter backdrop-blur" />
   </transition>
 </template>
 

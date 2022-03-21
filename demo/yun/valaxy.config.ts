@@ -99,6 +99,21 @@ const config: UserConfig<ThemeUserConfig> = {
       enable: true,
       title: '云游君的小站',
     },
+
+    pages: [
+      {
+        name: '我的小伙伴们',
+        url: '/links/',
+        icon: 'i-ri-genderless-line',
+        color: 'dodgerblue',
+      },
+      {
+        name: '喜欢的女孩子',
+        url: '/girls/',
+        icon: 'i-ri-women-line',
+        color: 'hotpink',
+      },
+    ],
   },
 
   unocss: {
@@ -107,5 +122,13 @@ const config: UserConfig<ThemeUserConfig> = {
     ],
   },
 }
+
+/**
+ * add your icon to safelist
+ * if your theme is not yun, so you can add it by yourself
+ */
+config.themeConfig?.pages?.forEach((item) => {
+  config.unocss?.safelist?.push(item?.icon)
+})
 
 export default config

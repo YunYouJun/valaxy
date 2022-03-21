@@ -1,6 +1,5 @@
 import { dirname, resolve } from 'path'
 import _debug from 'debug'
-import type { VitePluginConfig } from 'unocss/vite'
 import type { ValaxyConfig } from '../types'
 import { resolveConfig } from './config'
 import { resolveImportPath } from './utils'
@@ -84,8 +83,6 @@ export async function resolveOptions(options: ValaxyEntryOptions) {
     theme,
     config: valaxyConfig,
     configFile: configFile || '',
-
-    unocss: {},
   }
   debug(valaxyOptions)
 

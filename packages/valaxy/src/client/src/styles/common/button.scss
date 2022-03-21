@@ -1,6 +1,8 @@
 @use "../palette.scss" as * ;
 
 .yun-icon-btn {
+  cursor: pointer;
+
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -12,6 +14,10 @@
   border-radius: 50%;
 
   transition: var(--yun-transition);
+
+  div {
+    font-size: 1.2rem;
+  }
 
   &:hover {
     background-color: rgba(var(--yun-c-primary-rgb), 0.08);

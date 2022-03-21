@@ -18,6 +18,7 @@ declare module 'vue' {
     YunGoDown: typeof import('./../../../valaxy-theme-yun/src/components/YunGoDown.vue')['default']
     YunSay: typeof import('./../../../valaxy-theme-yun/src/components/YunSay.vue')['default']
     YunSidebar: typeof import('./../../../valaxy-theme-yun/src/components/YunSidebar.vue')['default']
+    YunSidebarLinks: typeof import('./../../../valaxy-theme-yun/src/components/YunSidebarLinks.vue')['default']
     YunSidebarNav: typeof import('./../../../valaxy-theme-yun/src/components/YunSidebarNav.vue')['default']
     YunSocialLinks: typeof import('./../../../valaxy-theme-yun/src/components/YunSocialLinks.vue')['default']
   }
