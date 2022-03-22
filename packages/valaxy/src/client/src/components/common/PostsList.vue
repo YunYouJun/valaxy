@@ -28,7 +28,7 @@ const posts = computed(() => (props.posts || routes))
       </div>
     </template>
 
-    <YunCard v-for="route in posts" :key="route.path" m="y-4">
+    <YunCard v-for="route in posts" :key="route.path" m="y-4" class="max-w-900px">
       <AppLink
         class="item block font-normal mb-6 mt-2 no-underline"
         :to="route.path"

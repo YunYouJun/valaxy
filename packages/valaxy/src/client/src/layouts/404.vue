@@ -7,15 +7,19 @@ const { t } = useI18n()
 </script>
 
 <template>
-  <main p="x4 y10" text="center sky-700 dark:gray-200">
-    <div text-4xl>
-      <div i-ri-alarm-warning-line inline-block />
-    </div>
-    <router-view />
-    <div>
-      <button btn text-sm m="3 t8" @click="router.back()">
-        {{ t('button.back') }}
-      </button>
-    </div>
+  <ValaxySidebar :open="true" />
+
+  <main class="yun-main" text="center yellow-600 dark:gray-200">
+    <YunCard p="10">
+      <div text-4xl>
+        <div i-ri-alarm-warning-line inline-block />
+      </div>
+      <router-view />
+      <div>
+        <button btn text-sm m="3 t8" @click="router.back()">
+          {{ t('button.back') }}
+        </button>
+      </div>
+    </YunCard>
   </main>
 </template>

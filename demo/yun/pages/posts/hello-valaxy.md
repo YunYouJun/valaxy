@@ -3,6 +3,10 @@ title: Hello, Valaxy!
 date: 2022-03-22
 ---
 
+[[toc]]
+
+## Why Valaxy?
+
 {{frontmatter.date}}
 
 构想新一代静态博客框架/生成器。
@@ -32,3 +36,5 @@ export default config
 配置、文章热更新
 
 而不是像 hexo 一样重新加载页面
+
+## Why not Vuepress/Vitepress/Hexo/Hugo?

@@ -38,6 +38,9 @@ export function ViteValaxyPlugins(options: ResolvedValaxyOptions, serverOptions:
     Pages({
       extensions: ['vue', 'md'],
       dirs: [`${clientRoot}/src/pages`, `${themeRoot}/src/pages`, `${userRoot}/pages`],
+      /**
+       * we need get frontmatter before route, so write it in Pages.extendRoute
+       */
       extendRoute(route) {
         let path = ''
 
@@ -55,8 +58,10 @@ export function ViteValaxyPlugins(options: ResolvedValaxyOptions, serverOptions:
         }
 
         // set layout for post
-        if (route.path.startsWith('/posts/'))
+        if (route.path.startsWith('/posts/')) {
+          if (!route.meta) route.meta = {}
           route.meta.layout = 'post'
+        }
 
         return route
       },

@@ -1,3 +1,2 @@
-.markdown-body {
-  --smc-code-bg-color: var(--yun-c-bg-dark);
-}
+@use './layout' as *;
+@use './markdown' as *;

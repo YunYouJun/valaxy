@@ -9,7 +9,7 @@ useHead({
     { name: 'description', content: 'Theme Yun' },
   ],
   link: [
-    { rel: 'stylesheet', href: 'https://cdn.jsdelivr.net/npm/star-markdown-css@0.2.4/dist/yun/yun-markdown.min.css' },
+    { rel: 'stylesheet', href: 'https://cdn.jsdelivr.net/npm/star-markdown-css@0.3.0/dist/yun/yun-markdown.min.css' },
   ],
 })
 </script>

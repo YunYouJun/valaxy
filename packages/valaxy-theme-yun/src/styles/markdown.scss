@@ -1,0 +1,62 @@
+.markdown-body {
+  --smc-font-family: var(--yun-font-family);
+
+  --c-toc-link: var(--yun-c-text-light);
+}
+
+.dark {
+  .markdown-body {
+    --smc-header-bottom-color: #333;
+
+    --c-toc-link: var(--yun-c-text-dark);
+  }
+}
+
+.markdown-body {
+  max-width: 100%;
+
+  pre {
+    border-radius: 4px;
+  }
+}
+
+.markdown-body {
+  .table-of-contents {
+    position: fixed;
+    width: calc(var(--yun-sidebar-width-mobile) - 4rem);
+    top: 1.5rem;
+    right: 1rem;
+    padding: 0 2rem;
+
+    font-size: 1rem;
+    font-family: var(--yun-font-family-serif);
+
+    ul {
+      padding-left: 1rem;
+    }
+
+    > ol {
+      padding-left: 2.5rem;
+
+      ol {
+        padding-left: 1rem;
+      }
+
+      list-style: decimal;
+    }
+
+    a {
+      display: block;
+      color: var(--c-toc-link);
+      transition: color var(--yun-transition-duration);
+
+      overflow: hidden;
+      white-space: nowrap;
+      text-overflow: ellipsis;
+
+      &:hover {
+        color: var(--yun-c-text);
+      }
+    }
+  }
+}

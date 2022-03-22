@@ -1,0 +1,13 @@
+@use "~/styles/mixins" as *;
+
+.yun-main {
+  margin-left: var(--yun-sidebar-width-mobile);
+  padding-left: 1rem;
+}
+
+@include mobile {
+  .yun-main {
+    margin-left: 0;
+    padding: 0;
+  }
+}
