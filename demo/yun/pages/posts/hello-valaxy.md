@@ -38,3 +38,5 @@ export default config
 而不是像 hexo 一样重新加载页面
 
 ## Why not Vuepress/Vitepress/Hexo/Hugo?
+
+...

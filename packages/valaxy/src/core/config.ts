@@ -1,4 +1,4 @@
-
+// @ts-expect-error virtual module @valaxyjs/config
 import valaxyConfig from '@valaxyjs/config'
 import type { ComputedRef, InjectionKey } from 'vue'
 import { computed, inject, readonly, shallowRef } from 'vue'

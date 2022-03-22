@@ -4,14 +4,17 @@
       <div i-ri-home-4-line />
     </router-link>
 
-    <router-link class="site-link-item icon-btn" to="/archive/" :title="t('menu.archives')">
-      <div i-ri-archive-line />
+    <router-link class="site-link-item" to="/archive/" :title="t('menu.archives')">
+      <div class="icon" i-ri-archive-line />
+      <span class="count">{{ 0 }}</span>
     </router-link>
-    <router-link class="site-link-item icon-btn" to="/categories/" :title="t('menu.categories')">
-      <div i-ri-folder-2-line />
+    <router-link class="site-link-item" to="/categories/" :title="t('menu.categories')">
+      <div class="icon" i-ri-folder-2-line />
+      <span class="count">{{ 0 }}</span>
     </router-link>
-    <router-link class="site-link-item icon-btn" to="/tags/" :title="t('menu.tags')">
-      <div i-ri-price-tag-3-line />
+    <router-link class="site-link-item" to="/tags/" :title="t('menu.tags')">
+      <div class="icon" i-ri-price-tag-3-line />
+      <span class="count">{{ 10 }}</span>
     </router-link>
 
     <router-link class="site-link-item yun-icon-btn" to="/about" :title="t('button.about')">
@@ -45,6 +48,8 @@ const { t } = useI18n()
   align-items: center;
   border-left: 1px solid get-css-var('c-gray');
 
+  flex-direction: column;
+
   color: var(--yun-c-text);
 
   &:first-child, &:last-child {
@@ -64,22 +69,22 @@ const { t } = useI18n()
   &:nth-child(2) {
     border: none;
   }
-}
 
-.site-nav-item-icon {
-  color: var(--yun-c-text);
-  line-height: 1;
+  .count {
+    color: var(--yun-c-text);
+    font-family: var(--yun-font-family);
+    display: block;
+    text-align: center;
+    font-size: 1rem;
+  }
 
   .icon {
     width: 1.5rem;
     height: 1.5rem;
-  }
-}
 
-.site-nav-item-count {
-  color: var(--yun-c-text);
-  display: block;
-  text-align: center;
-  font-size: 1rem;
+    &:hover {
+      color: var(--yun-c-primary-light);
+    }
+  }
 }
 </style>

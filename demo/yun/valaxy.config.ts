@@ -114,6 +114,10 @@ const config: UserConfig<ThemeUserConfig> = {
         color: 'hotpink',
       },
     ],
+
+    footer: {
+      since: 2016,
+    },
   },
 
   unocss: {

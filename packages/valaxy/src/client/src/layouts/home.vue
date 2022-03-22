@@ -6,7 +6,9 @@
 
     <router-view />
 
-    <ValaxyFooter />
+    <ValaxyFooter>
+      <slot name="footer" />
+    </ValaxyFooter>
   </main>
 </template>
 

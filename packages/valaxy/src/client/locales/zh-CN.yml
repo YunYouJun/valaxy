@@ -53,7 +53,7 @@ post:
 #   totally: 共有
 #   tags: 标签
 footer:
-  powered: "由 %s 驱动"
+  powered: "由 {0} 驱动"
   theme: 主题
   total_views: 总访问量
   total_visitors: 总访客量

@@ -5,8 +5,9 @@
         <slot name="header" />
       </header>
     </div>
-    <div class="yun-card-content">
-      <slot />
+    <slot />
+    <div v-if="$slots.content" class="yun-card-content">
+      <slot name="content" />
     </div>
   </div>
 </template>

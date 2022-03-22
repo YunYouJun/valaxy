@@ -16,6 +16,12 @@ $colors: map.merge((
 
 $c-primary: map.get($colors, 'primary');
 
+$colors: map.merge((
+  'primary-light': lighten($c-primary, 20%),
+  'primary-lighter': lighten($c-primary, 30%),
+), $colors);
+
+
 $light: () !default;
 $light: map.merge((
   'bg-image': url('https://cdn.jsdelivr.net/gh/YunYouJun/cdn/img/bg/stars-timing-0-blur-30px.jpg'),

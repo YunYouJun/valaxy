@@ -1,9 +1,7 @@
 <script lang="ts" setup>
-const props = defineProps<{
+defineProps<{
   frontmatter: any
 }>()
-
-console.log(props)
 </script>
 
 <template>

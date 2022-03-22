@@ -54,7 +54,7 @@ post:
 #   tags: tags
 
 footer:
-  powered: "Powered by %s"
+  powered: "Powered by {0}"
   theme: Theme
   total_views: Total Views
   total_visitors: Total Visitors

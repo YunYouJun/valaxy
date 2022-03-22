@@ -28,10 +28,13 @@ export function createViteConfig(options: ResolvedValaxyOptions, serverOptions: 
 
     resolve: {
       alias: {
+        '@valaxyjs/client': `${path.resolve(options.clientRoot, 'src')}/`,
+        'valaxy/package.json': `${path.resolve(options.clientRoot, '../../package.json')}`,
         'valaxy': `${path.resolve(options.clientRoot, '..')}`,
         '~/': `${path.resolve(options.clientRoot, 'src')}/`,
         [VALAXY_CONFIG_ID]: `/${VALAXY_CONFIG_ID}`,
         '@valaxyjs/core': `${path.resolve(options.clientRoot, '../core')}`,
+        [`valaxy-theme-${options.theme}`]: `${path.resolve(options.themeRoot)}/`,
       },
     },
 

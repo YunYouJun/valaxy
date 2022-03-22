@@ -39,6 +39,49 @@ export interface ThemeConfig {
     icon: string
     color: string
   }[]
+
+  /**
+   * footer
+   */
+  footer: {
+    /**
+     * 建站于
+     */
+    since: number
+
+    /**
+     * Icon between year and copyright info.
+     */
+    icon: {
+      /**
+       * icon name, i-xxx
+       */
+      name: string
+      animated: boolean
+      color: string
+      url: string
+      title: string
+    }
+
+    /**
+     * Powered by valaxy & valaxy-theme-${name}, default is yun
+     */
+    powered: boolean
+
+    /**
+     * Chinese Users | 中国用户
+     * 备案 ICP
+     * 国内用户需要在网站页脚展示备案 ICP 号
+     * https://beian.miit.gov.cn/
+     */
+    beian: {
+      enable: boolean
+      /**
+       * 苏ICP备xxxxxxxx号
+       */
+      icp: string
+    }
+  }
 }
 
 export type ThemeUserConfig = Partial<ThemeConfig>
@@ -69,6 +112,24 @@ export const defaultThemeConfig: ThemeConfig = {
   },
 
   pages: [],
+
+  footer: {
+    since: 2022,
+    icon: {
+      name: 'i-ri-cloud-line',
+      animated: true,
+      color: 'var(--yun-c-primary)',
+      url: '',
+      title: '',
+    },
+
+    powered: true,
+
+    beian: {
+      enable: false,
+      icp: '',
+    },
+  },
 }
 
 export default defaultThemeConfig

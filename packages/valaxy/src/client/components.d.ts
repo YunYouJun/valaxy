@@ -10,6 +10,7 @@ declare module 'vue' {
     PostsList: typeof import('./src/components/common/PostsList.vue')['default']
     README: typeof import('./src/components/README.md')['default']
     TOC: typeof import('./src/components/common/TOC.md')['default']
+    UpyunSupport: typeof import('./../../../../demo/yun/components/UpyunSupport.vue')['default']
     ValaxyFooter: typeof import('./src/components/common/ValaxyFooter.vue')['default']
     ValaxyHamburger: typeof import('./src/components/common/ValaxyHamburger.vue')['default']
     ValaxyMd: typeof import('./src/components/common/ValaxyMd.vue')['default']
@@ -27,6 +28,7 @@ declare module 'vue' {
     YunSidebarLinks: typeof import('./../../../valaxy-theme-yun/src/components/YunSidebarLinks.vue')['default']
     YunSidebarNav: typeof import('./../../../valaxy-theme-yun/src/components/YunSidebarNav.vue')['default']
     YunSocialLinks: typeof import('./../../../valaxy-theme-yun/src/components/YunSocialLinks.vue')['default']
+    YunWaline: typeof import('./../../../valaxy-theme-yun/src/components/YunWaline.vue')['default']
   }
 }
 

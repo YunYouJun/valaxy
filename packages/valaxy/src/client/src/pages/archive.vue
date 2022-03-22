@@ -1,5 +1,5 @@
 <template>
   <div>
-    asd
+    archive
   </div>
 </template>

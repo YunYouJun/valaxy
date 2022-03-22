@@ -1,0 +1,1 @@
+export { useWaline } from '~/composables'

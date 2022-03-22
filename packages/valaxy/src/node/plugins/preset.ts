@@ -43,6 +43,7 @@ export function ViteValaxyPlugins(options: ResolvedValaxyOptions, serverOptions:
        */
       extendRoute(route) {
         let path = ''
+        if (!route.meta) route.meta = {}
 
         if (fs.existsSync(route.component))
           path = route.component
@@ -54,14 +55,15 @@ export function ViteValaxyPlugins(options: ResolvedValaxyOptions, serverOptions:
         if (path) {
           const md = fs.readFileSync(path, 'utf-8')
           const { data } = matter(md)
-          route.meta = Object.assign(route.meta || {}, { frontmatter: data })
+          route.meta = Object.assign(route.meta, { frontmatter: data })
         }
 
+        if (route.path === '/')
+          route.meta.layout = 'home'
+
         // set layout for post
-        if (route.path.startsWith('/posts/')) {
-          if (!route.meta) route.meta = {}
+        if (route.path.startsWith('/posts/'))
           route.meta.layout = 'post'
-        }
 
         return route
       },

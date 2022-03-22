@@ -19,6 +19,8 @@ export const createSafelist = (config: ValaxyConfig) => {
     'i-ri-archive-line',
     'i-ri-folder-2-line',
     'i-ri-price-tag-3-line',
+
+    'i-ri-cloud-line',
   ]
 
   const safelist = 'prose prose-sm m-auto text-left'.split(' ').concat([
@@ -27,6 +29,9 @@ export const createSafelist = (config: ValaxyConfig) => {
   // generate icon safelist
   if (config.social.length)
     config.social.forEach(item => safelist.push(item.icon))
+
+  if (config.themeConfig.footer?.icon?.name)
+    safelist.push(config.themeConfig.footer?.icon?.name)
 
   return safelist
 }
