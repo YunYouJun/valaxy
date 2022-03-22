@@ -1,14 +1,39 @@
+import fs from 'fs'
 
+import { join } from 'path'
 import type { Plugin } from 'vite'
 // import consola from 'consola'
 import { resolveConfig } from '../config'
 import type { ResolvedValaxyOptions, ValaxyServerOptions } from '../options'
+import { toAtFS } from '../utils'
 import { VALAXY_CONFIG_ID } from './valaxy'
 
 export function createValaxyPlugin(options: ResolvedValaxyOptions, serverOptions: ValaxyServerOptions = {}): Plugin {
   const valaxyPrefix = '/@valaxy'
 
   let valaxyConfig = options.config
+
+  const roots = [options.userRoot, options.themeRoot]
+
+  function generateUserStyles() {
+    const imports: string[] = []
+
+    for (const root of roots) {
+      const styles = [
+        join(root, 'src/styles', 'index.css'),
+        join(root, 'src/styles', 'index.scss'),
+      ]
+
+      for (const style of styles) {
+        if (fs.existsSync(style)) {
+          imports.push(`import "${toAtFS(style)}"`)
+          continue
+        }
+      }
+    }
+
+    return imports.join('\n')
+  }
 
   return {
     name: 'Valaxy',
@@ -32,9 +57,9 @@ export function createValaxyPlugin(options: ResolvedValaxyOptions, serverOptions
         // stringify twice for \"
         return `export default ${JSON.stringify(JSON.stringify(valaxyConfig))}`
 
-      // regenerate unocss config
-      if (id === '/unocss:config')
-        return
+      // generate styles
+      if (id === '/@valaxyjs/styles')
+        return generateUserStyles()
 
       if (id.startsWith(valaxyPrefix))
         return ''

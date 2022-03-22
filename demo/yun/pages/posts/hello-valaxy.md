@@ -1,6 +1,9 @@
 ---
 title: Hello, Valaxy!
+date: 2022-03-22
 ---
+
+{{frontmatter.date}}
 
 构想新一代静态博客框架/生成器。
 

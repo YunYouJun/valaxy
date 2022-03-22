@@ -1,5 +1,8 @@
-import path from 'path'
+import fs from 'fs'
+import { resolve } from 'path'
 import type { PluginOption } from 'vite'
+
+import matter from 'gray-matter'
 
 import Vue from '@vitejs/plugin-vue'
 import Pages from 'vite-plugin-pages'
@@ -35,6 +38,28 @@ export function ViteValaxyPlugins(options: ResolvedValaxyOptions, serverOptions:
     Pages({
       extensions: ['vue', 'md'],
       dirs: [`${clientRoot}/src/pages`, `${themeRoot}/src/pages`, `${userRoot}/pages`],
+      extendRoute(route) {
+        let path = ''
+
+        if (fs.existsSync(route.component))
+          path = route.component
+
+        // /src/pages
+        if (fs.existsSync(clientRoot + route.component))
+          path = clientRoot + route.component
+
+        if (path) {
+          const md = fs.readFileSync(path, 'utf-8')
+          const { data } = matter(md)
+          route.meta = Object.assign(route.meta || {}, { frontmatter: data })
+        }
+
+        // set layout for post
+        if (route.path.startsWith('/posts/'))
+          route.meta.layout = 'post'
+
+        return route
+      },
     }),
 
     // https://github.com/JohnCampionJr/vite-plugin-vue-layouts
@@ -89,7 +114,7 @@ export function ViteValaxyPlugins(options: ResolvedValaxyOptions, serverOptions:
     VueI18n({
       runtimeOnly: true,
       compositionOnly: true,
-      include: [path.resolve(clientRoot, 'locales/**'), `${options.userRoot}/locales/**`],
+      include: [resolve(clientRoot, 'locales/**'), `${options.userRoot}/locales/**`],
     }),
 
     // https://github.com/antfu/vite-plugin-inspect

@@ -10,6 +10,8 @@ import './styles/css-vars/light.scss'
 import './styles/css-vars/dark.scss'
 import './styles/index.scss'
 
+import '/@valaxyjs/styles'
+
 import 'uno.css'
 
 const routes = setupLayouts(generatedRoutes)

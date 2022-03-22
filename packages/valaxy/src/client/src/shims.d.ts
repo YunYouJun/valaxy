@@ -1,3 +1,7 @@
+import 'vue-router'
+
+import type { Post } from 'valaxy'
+
 declare interface Window {
   // extend the window
 }
@@ -20,4 +24,10 @@ declare module '@valaxyjs/config' {
   // import type { ValaxyConfig } from 'valaxy'
   const config: string
   export default config
+}
+
+declare module 'vue-router' {
+  interface RouteMeta {
+    frontmatter: Post
+  }
 }

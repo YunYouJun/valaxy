@@ -23,6 +23,7 @@ $light: map.merge((
 
   'c-bg': white,
   'c-bg-light': white,
+  'c-bg-dark': #fafafa,
   'c-text': #333,
   'c-text-light': #555,
 
@@ -38,6 +39,8 @@ $dark: map.merge((
 
   'c-bg': #1a1a1a,
   'c-bg-light': #1b1f2e,
+  'c-bg-dark': #1a1a1a,
+
   'c-text': #f2f2f2,
   'c-text-light': #555,
   'c-text-lighter': #eee,

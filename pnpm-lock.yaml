@@ -50,6 +50,7 @@ importers:
       consola: ^2.15.3
       critters: ^0.0.16
       cross-env: ^7.0.3
+      dayjs: ^1.11.0
       debug: ^4.3.4
       fast-deep-equal: ^3.1.3
       https-localhost: ^4.7.1
@@ -82,6 +83,7 @@ importers:
     dependencies:
       '@vueuse/core': 8.1.2_vue@3.2.31
       '@vueuse/head': 0.7.5_vue@3.2.31
+      dayjs: 1.11.0
       fast-deep-equal: 3.1.3
       nprogress: 0.2.0
       pinia: 2.0.12_typescript@4.6.2+vue@3.2.31
@@ -2861,6 +2863,10 @@ packages:
       whatwg-mimetype: 3.0.0
       whatwg-url: 10.0.0
     dev: true
+
+  /dayjs/1.11.0:
+    resolution: {integrity: sha512-JLC809s6Y948/FuCZPm5IX8rRhQwOiyMb2TfVVQEixG7P8Lm/gt5S7yoQZmC8x1UehI9Pb7sksEt4xx14m+7Ug==}
+    dev: false
 
   /debug/2.6.9:
     resolution: {integrity: sha512-bC7ElrdJaJnPbAP+1EotYvqZsb3ecl5wi6Bfi6BJTUcNowp6cvspg0jXznRTKDjm/E7AdgFBVeAPVMNcKGsHMA==}

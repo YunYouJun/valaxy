@@ -1,5 +1,5 @@
 <template>
-  <div class="yun-card hover:shadow">
+  <div class="yun-card shadow hover:shadow-lg">
     <div class="yun-card-header">
       <header>
         <slot name="header" />
@@ -22,7 +22,7 @@
   max-width: 900px;
   min-height: 100px;
 
-  margin: 1rem auto;
+  margin: auto;
 
   // todo
   background-color: var(--yun-c-bg);
