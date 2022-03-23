@@ -28,8 +28,18 @@ cd valaxy
 
 pnpm i
 # esbuild watch valaxy cli & valaxy-theme-yun
+# and run demo
 pnpm dev
-# run demo
+```
+
+If you want to display info better in two terminal:
+
+You can:
+
+```bash
+# watch valaxy & valaxy-theme-yun
+pnpm dev:lib
+# open a new terminal to run demo
 pnpm demo
 ```
 

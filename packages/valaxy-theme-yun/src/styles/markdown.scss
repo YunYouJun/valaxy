@@ -1,7 +1,7 @@
 @use "~/styles/mixins" as *;
 
 .markdown-body {
-  --smc-font-family: var(--yun-font-family);
+  --smc-font-family: var(--yun-font);
 
   --c-toc-link: var(--yun-c-text-light);
 }
@@ -31,7 +31,7 @@
     padding: 0;
 
     font-size: 1rem;
-    font-family: var(--yun-font-family-serif);
+    font-family: var(--yun-font-serif);
 
     ul {
       padding-left: 1rem;

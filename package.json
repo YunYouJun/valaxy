@@ -19,7 +19,8 @@
     "build": "pnpm run build -C packages/valaxy-theme-yun && pnpm run build -C packages/valaxy",
     "build:demo": "pnpm run build -C demo/yun",
     "demo": "pnpm run dev -C demo/yun",
-    "dev": "pnpm -r --filter ./packages --parallel run dev",
+    "dev:lib": "pnpm -r --filter ./packages --parallel run dev",
+    "dev": "pnpm -r --filter . --parallel run dev", 
     "lint": "eslint \"**/*.{vue,ts,js}\"",
     "start": "node packages/valaxy/bin/valaxy.js dev"
   },

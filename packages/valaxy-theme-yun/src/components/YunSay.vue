@@ -66,7 +66,7 @@ onMounted(() => {
   color: var(--yun-c-text);
   display: block;
   text-align: center;
-  font-family: var(--yun-font-family-serif);
+  font-family: var(--yun-font-serif);
   font-weight: bold;
   padding: 0.5rem;
   border-top: var(--yun-border-width) solid var(--yun-c-text-light);

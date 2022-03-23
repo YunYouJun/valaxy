@@ -7,7 +7,7 @@ import {
   presetIcons,
   presetTypography,
   presetUno,
-  presetWebFonts,
+  // presetWebFonts,
   transformerDirectives,
   transformerVariantGroup,
 } from 'unocss'
@@ -51,13 +51,23 @@ export const createUnocssConfig = (options: ResolvedValaxyOptions) => {
         warn: true,
       }),
       presetTypography(),
-      presetWebFonts({
-        fonts: {
-          sans: 'DM Sans',
-          serif: 'DM Serif Display',
-          mono: 'DM Mono',
-        },
-      }),
+      // presetWebFonts({
+      //   fonts: {
+      //     sans: 'DM Sans',
+      //     mono: 'DM Mono',
+      //   },
+      // }),
+    ],
+    rules: [
+      ['font-serif', {
+        'font-family': 'var(--yun-font-serif)',
+      }],
+      ['font-sans', {
+        'font-family': 'var(--yun-font-sans)',
+      }],
+      ['font-mono', {
+        'font-family': 'var(--yun-font-mono)',
+      }],
     ],
     transformers: [
       transformerDirectives(),

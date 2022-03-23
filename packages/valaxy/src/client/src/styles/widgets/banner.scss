@@ -47,9 +47,9 @@ $char-animation-duration: 0.4s;
 }
 
 .char {
-  font-family: get-css-var('font-family', 'serif');
+  font-family: get-css-var('font', 'serif');
   font-size: var(--banner-char-size, 1rem);
-  font-weight: get-css-var('font-family', 'serif-weight');
+  font-weight: get-css-var('font', 'serif-weight');
   background-color: var(--banner-char-bg-color);
   line-height: 1;
 

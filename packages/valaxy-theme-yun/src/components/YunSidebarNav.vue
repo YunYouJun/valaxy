@@ -72,7 +72,7 @@ const { t } = useI18n()
 
   .count {
     color: var(--yun-c-text);
-    font-family: var(--yun-font-family);
+    font-family: var(--yun-font);
     display: block;
     text-align: center;
     font-size: 1rem;

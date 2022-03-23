@@ -23,7 +23,7 @@
     </div>
 
     <div v-if="themeConfig.footer.powered" class="powered" m="2">
-      <span v-html="poweredHtml" /> | <span>{{ t('footer.theme') }} - {{ capitalize(config.theme) }} v{{ yunPkg.version }}</span>
+      <span v-html="poweredHtml" /> | <span>{{ t('footer.theme') }} - <a :href="themePkg.homepage" :title="'valaxy-theme-' + config.theme" target="_blank">{{ capitalize(config.theme) }}</a> v{{ themePkg.version }}</span>
     </div>
 
     <slot />
@@ -36,7 +36,7 @@ import { useConfig, useThemeConfig } from 'valaxy'
 import { useI18n } from 'vue-i18n'
 
 import pkg from 'valaxy/package.json'
-import yunPkg from 'valaxy-theme-yun/package.json'
+import themePkg from 'valaxy-theme-yun/package.json'
 
 const { t } = useI18n()
 

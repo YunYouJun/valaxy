@@ -47,7 +47,7 @@ post:
     author: Post author
     link: Post link
     license_title: Copyright Notice
-    license_content: "All articles in this blog are licensed under %s unless otherwise stated."
+    license_content: "All articles in this blog are licensed under {0} unless otherwise stated."
 
 # page:
 #   totally: Totally

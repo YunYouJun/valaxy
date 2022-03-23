@@ -90,8 +90,8 @@ const config = useConfig()
 
 .site-name {
   color: var(--yun-c-text);
-  font-family: get-css-var('font-family-serif');
-  font-weight: get-css-var('font-family-serif-weight');
+  font-family: get-css-var('font-serif');
+  font-weight: get-css-var('font-serif-weight');
 }
 
 .site-subtitle {
