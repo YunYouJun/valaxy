@@ -1,4 +1,5 @@
 @use "~/styles/mixins" as *;
+@use "./post" as *;
 
 .yun-main {
   margin-left: var(--yun-sidebar-width-mobile);

@@ -114,6 +114,21 @@ export interface ValaxyConfig<T = ValaxyThemeConfig> {
      */
     type: 'zero' | 'by-sa' | 'by-nd' | 'by-nc' | 'by-nc-sa' | 'by-nc-nd'
   }
+
+  /**
+   * donate for author
+   * @description 打赏/赞助
+   */
+  sponsor: {
+    enable: boolean
+    title: string
+    methods: {
+      name: string
+      url: string
+      color: string
+      icon: string
+    }[]
+  }
 }
 
 /**
@@ -142,6 +157,32 @@ export const defaultValaxyConfig: ValaxyConfig = {
     enabled: true,
     language: '',
     type: 'by-nc-sa',
+  },
+
+  sponsor: {
+    enable: true,
+    title: '我很可爱，请给我钱',
+    methods: [
+      {
+        name: '支付宝',
+        url: 'https://cdn.jsdelivr.net/gh/YunYouJun/cdn/img/donate/alipay-qrcode.jpg',
+        color: '#00A3EE',
+        icon: 'i-ri-alipay-line',
+      },
+      {
+        name: 'QQ 支付',
+        url: 'https://cdn.jsdelivr.net/gh/YunYouJun/cdn/img/donate/qqpay-qrcode.png',
+        color: '#12B7F5',
+        icon: 'i-ri-qq-line',
+      },
+      {
+        name: '微信支付',
+        url: 'https://cdn.jsdelivr.net/gh/YunYouJun/cdn/img/donate/wechatpay-qrcode.jpg',
+        color: '#2DC100',
+        icon: 'i-ri-wechat-pay-line',
+      },
+
+    ],
   },
 
   theme: 'yun',

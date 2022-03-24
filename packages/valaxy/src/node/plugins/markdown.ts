@@ -28,6 +28,8 @@ export function createMarkdownPlugin(options: ResolvedValaxyOptions, mdOptions: 
     headEnabled: true,
     // frontmatter: true,
 
+    excerpt: '<!-- more -->',
+
     builders: [
       link(),
       meta(),

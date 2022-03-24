@@ -23,7 +23,7 @@ export const createSafelist = (config: ValaxyConfig) => {
     'i-ri-cloud-line',
   ]
 
-  const safelist = 'prose prose-sm m-auto text-left'.split(' ').concat([
+  const safelist = 'animate-fade-in prose prose-sm m-auto text-left'.split(' ').concat([
     'rotate-y-180',
   ]).concat(safeIcons)
   // generate icon safelist
@@ -32,6 +32,10 @@ export const createSafelist = (config: ValaxyConfig) => {
 
   if (config.themeConfig.footer?.icon?.name)
     safelist.push(config.themeConfig.footer?.icon?.name)
+
+  // sponsor icon
+  if (config.sponsor.methods.length)
+    config.sponsor.methods.forEach(item => safelist.push(item.icon))
 
   return safelist
 }
@@ -48,7 +52,7 @@ export const createUnocssConfig = (options: ResolvedValaxyOptions) => {
       presetAttributify(),
       presetIcons({
         scale: 1.2,
-        warn: true,
+        // warn: true,
       }),
       presetTypography(),
       // presetWebFonts({

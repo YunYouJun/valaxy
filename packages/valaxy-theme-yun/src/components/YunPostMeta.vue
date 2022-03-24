@@ -1,15 +1,13 @@
 <template>
-  <div v-if="frontmatter" class="post-meta justify-center" flex="~">
+  <div v-if="frontmatter" class="post-meta justify-center" flex="~" text="sm">
     <div v-if="frontmatter.date" class="post-time flex items-center">
       <div class="inline-block" i-ri-calendar-line />
-      <span m="1">{{ t('post.posted') }}</span>
-      <time>{{ formatDate(frontmatter.date) }}</time>
+      <time m="l-1" :title="t('post.posted')">{{ formatDate(frontmatter.date) }}</time>
 
       <template v-if="frontmatter.updated && frontmatter.updated !== frontmatter.date">
         <span m="x-2">-</span>
         <div i-ri-calendar-2-line />
-        <span m="1">{{ t('post.edited') }}</span>
-        <time>{{ formatDate(frontmatter.updated) }}</time>
+        <time m="l-1" :title="t('post.edited')">{{ formatDate(frontmatter.updated) }}</time>
       </template>
     </div>
   </div>

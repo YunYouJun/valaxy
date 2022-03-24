@@ -16,6 +16,8 @@ tags:
 
 构想新一代静态博客框架/生成器。
 
+<!-- more -->
+
 ```ts
 import type { UserConfig } from 'valaxy'
 import type { ThemeUserConfig } from 'valaxy-theme-yun'

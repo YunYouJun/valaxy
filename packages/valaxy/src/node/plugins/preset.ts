@@ -54,8 +54,8 @@ export function ViteValaxyPlugins(options: ResolvedValaxyOptions, serverOptions:
 
         if (path) {
           const md = fs.readFileSync(path, 'utf-8')
-          const { data } = matter(md)
-          route.meta = Object.assign(route.meta, { frontmatter: data })
+          const { data, excerpt } = matter(md, { excerpt_separator: '<!-- more -->' })
+          route.meta = Object.assign(route.meta, { frontmatter: data, excerpt })
         }
 
         if (route.path === '/')

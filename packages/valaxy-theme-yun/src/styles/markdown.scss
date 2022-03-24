@@ -1,7 +1,7 @@
 @use "~/styles/mixins" as *;
 
 .markdown-body {
-  --smc-font-family: var(--yun-font);
+  --smc-font-family: var(--yun-font-sans);
 
   --c-toc-link: var(--yun-c-text-light);
 }

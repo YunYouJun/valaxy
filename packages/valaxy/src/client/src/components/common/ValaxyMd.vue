@@ -1,11 +1,12 @@
 <script lang="ts" setup>
 import type { Post } from 'valaxy'
-import { useConfig } from 'valaxy'
+import { isDev, useConfig } from 'valaxy'
 import { computed } from 'vue'
 import { useRoute } from 'vue-router'
 
-defineProps<{
+const props = defineProps<{
   frontmatter: Post
+  excerpt: string
 }>()
 
 const config = useConfig()
@@ -15,19 +16,23 @@ const url = computed(() => {
   const origin = config.value.url || window?.location.origin
   return origin + route.path
 })
+
+// eslint-disable-next-line no-console
+if (isDev) console.log(props.frontmatter)
 </script>
 
 <template>
   <h1 class="post-title" p="2" m="t-4" text="2xl center" font="serif">
     {{ frontmatter.title }}
   </h1>
-  <main class="markdown-body" text="left" m="auto" p="t-0 b-2" w="900px">
+  <main text="left" m="auto" p="t-0 b-2" w="900px" max="w-full">
     <slot name="header">
       <YunPostMeta :frontmatter="frontmatter" />
     </slot>
-    <article w="full">
+    <article class="markdown-body" w="full" min="h-8">
       <slot />
     </article>
-    <ValaxyCopyright v-if="config.license.enabled" :url="url" m="y-4" />
+    <YunSponsor v-if="frontmatter.sponsor || config.sponsor.enable" />
+    <ValaxyCopyright v-if="frontmatter.copyright || config.license.enabled" :url="url" m="y-4" />
   </main>
 </template>

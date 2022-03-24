@@ -23,15 +23,30 @@ export interface Post {
    */
   duration?: string
   type?: string
+  /**
+   * @description 摘要
+   */
+  excerpt?: string
 
   /**
-   * Disply reward info
-   * @description 是否显示打赏信息
+   * Display sponsor info
+   * @description 是否开启赞助
    */
-  reward?: boolean
+  sponsor?: boolean
   /**
    * Copyright
    * @description 是否显示文章底部版权信息
    */
   copyright?: boolean
+
+  /**
+   * Category
+   * @description 分类，只属于一个
+   */
+  category?: string
+  /**
+   * Tags
+   * @description 标签，可以有多个
+   */
+  tags?: string[]
 }
