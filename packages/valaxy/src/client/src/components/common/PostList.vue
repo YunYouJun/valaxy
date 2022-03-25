@@ -13,14 +13,14 @@ const posts = computed(() => (props.posts || routes.value))
 </script>
 
 <template>
-  <ul>
+  <ul w="full" p="x-4 lt-sm:0">
     <template v-if="!posts.length">
       <div py2 op50>
         博主还什么都没写哦～
       </div>
     </template>
 
-    <YunCard v-for="route in posts" :key="route.path" m="4" class="max-w-900px">
+    <YunCard v-for="route in posts" :key="route.path" m="y-4 auto" class="max-w-900px">
       <AppLink
         class="post-title-link"
         :to="route.path || ''"

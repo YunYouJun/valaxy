@@ -1,8 +1,8 @@
 <template>
-  <main class="yun-main text-center text-gray-700 dark:text-gray-200">
-    <ValaxySidebar :open="open" />
+  <main class="yun-main justify-center items-center" :class="(isHome && !app.isSidebarOpen) && 'pl-0'" flex="~ col" w="full">
+    <ValaxySidebar />
     <YunBanner />
-    <YunSay />
+    <YunSay w="full" />
 
     <router-view />
 
@@ -13,6 +13,10 @@
 </template>
 
 <script lang="ts" setup>
-import { ref } from 'vue'
-const open = ref(false)
+import { useLayout } from '~/composables'
+
+import { useAppStore } from '~/stores/app'
+const app = useAppStore()
+
+const isHome = useLayout('home')
 </script>

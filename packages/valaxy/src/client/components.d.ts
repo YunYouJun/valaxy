@@ -18,6 +18,7 @@ declare module 'vue' {
     ValaxyOverlay: typeof import('./src/components/common/ValaxyOverlay.vue')['default']
     ValaxySidebar: typeof import('./src/components/common/ValaxySidebar.vue')['default']
     ValaxyToc: typeof import('./src/components/common/ValaxyToc.vue')['default']
+    YunBackToTop: typeof import('./../../../valaxy-theme-yun/src/components/YunBackToTop.vue')['default']
     YunBanner: typeof import('./src/components/YunBanner.vue')['default']
     YunCard: typeof import('./../../../valaxy-theme-yun/src/components/YunCard.vue')['default']
     YunCloud: typeof import('./../../../valaxy-theme-yun/src/components/YunCloud.vue')['default']

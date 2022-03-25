@@ -1,9 +1,9 @@
 <template>
-  <ValaxyOverlay :show="active" @click="active = !active" />
+  <ValaxyOverlay :show="app.isSidebarOpen" @click="app.toggleSidebar()" />
 
-  <ValaxyHamburger :active="active" class="menu-btn sidebar-toggle yun-icon-btn md:hidden" @click="active = !active" />
+  <ValaxyHamburger :active="app.isSidebarOpen" class="menu-btn sidebar-toggle yun-icon-btn" :class="isHome ? '' : 'md:hidden'" @click="app.toggleSidebar()" />
 
-  <aside class="transition shadow hover:shadow-lg" :class="['sidebar', active && 'open']">
+  <aside class="transition  shadow hover:shadow-lg" :class="['sidebar', app.isSidebarOpen && 'open', !isHome && 'md:translate-x-0']">
     <YunSidebar />
 
     <YunConfig />
@@ -11,15 +11,11 @@
 </template>
 
 <script lang="ts" setup>
-import { ref } from 'vue'
+import { useLayout } from '~/composables'
+import { useAppStore } from '~/stores/app'
 
-const props = withDefaults(defineProps<{
-  open: boolean
-}>(), {
-  open: false,
-})
-
-const active = ref(props.open)
+const app = useAppStore()
+const isHome = useLayout('home')
 </script>
 
 <style lang="scss">

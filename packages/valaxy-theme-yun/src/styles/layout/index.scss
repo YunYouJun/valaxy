@@ -3,16 +3,6 @@
 
 .yun-main {
   padding-left: var(--yun-sidebar-width-mobile);
-}
 
-@include mobile {
-  .yun-main {
-    padding-left: 0;
-  }
-}
-
-@include sm-md {
-  .yun-main {
-    padding-left: 0;
-  }
+  transition: padding-left var(--yun-transition-duration);
 }

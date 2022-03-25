@@ -1,5 +1,5 @@
 <template>
-  <ValaxySidebar :open="true" />
+  <ValaxySidebar />
 
   <main class="yun-main flex flex-col lt-md:ml-0">
     <div class="flex" p="l-4 lt-md:0">
@@ -23,4 +23,6 @@
       <slot name="footer" />
     </ValaxyFooter>
   </main>
+
+  <YunBackToTop />
 </template>

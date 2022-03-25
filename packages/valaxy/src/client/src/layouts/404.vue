@@ -7,7 +7,7 @@ const { t } = useI18n()
 </script>
 
 <template>
-  <ValaxySidebar :open="true" />
+  <ValaxySidebar />
 
   <main class="yun-main" text="center yellow-600 dark:gray-200">
     <YunCard p="10">

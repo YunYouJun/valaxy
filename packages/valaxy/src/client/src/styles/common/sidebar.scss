@@ -28,15 +28,3 @@
     transform: translateX(0);
   }
 }
-
-@include desktop() {
-  .sidebar {
-    transform: translateX(0);
-  }
-}
-
-@include md-lg() {
-  .sidebar {
-    transform: translateX(0);
-  }
-}

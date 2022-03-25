@@ -14,32 +14,23 @@
   }
 }
 
-// @include md-lg {
-//   .markdown-body {
-//     width: calc(100vw - var(--yun-sidebar-width-mobile) - 6rem);
-//   }
-// }
-
 .markdown-body {
-  // max-width: 80%;
+  ul {
+    > li {
+      list-style-type: disc;
 
-  pre {
-    margin: 0;
-    overflow: auto;
+      li {
+        list-style-type: circle;
+
+        li {
+          list-style-type: square;
+        }
+      }
+    }
   }
-
-  // pre.language-ts {
-  //   overflow: scroll;
-  //   border-radius: 4px;
-
-  //   code {
-  //     overflow: scroll;
-  //     width: 20px !important;
-
-  //   }
-  // }
 }
 
+// 目录
 .markdown-body {
   .table-of-contents {
     position: fixed;

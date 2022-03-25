@@ -1,11 +1,11 @@
 <template>
-  <a id="go-down" aria-label="go-down" href="javascript:window.scrollTo(0, banner.clientHeight);">
+  <a class="go-down" aria-label="go-down" href="javascript:window.scrollTo(0, banner.clientHeight);">
     <div i-ri-arrow-down-s-line inline-flex />
   </a>
 </template>
 
 <style lang="scss">
-#go-down {
+.go-down {
   cursor: pointer;
 
   display: inline-flex;
@@ -13,8 +13,6 @@
   align-items: center;
 
   position: absolute;
-  left: 0;
-  right: 0;
   bottom: 1rem;
   z-index: var(--yun-z-go-down);
   animation: float 2s ease-in-out infinite;

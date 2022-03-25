@@ -31,7 +31,6 @@ export function usePostList(params: {
 export function usePrevNext(path?: string) {
   const route = useRoute()
   const p = computed(() => path || route.path)
-
   const routes = usePostList()
 
   const index = computed(() => {
