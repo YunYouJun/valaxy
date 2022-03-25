@@ -14,7 +14,8 @@ import Inspect from 'vite-plugin-inspect'
 
 import type { ResolvedValaxyOptions, ValaxyServerOptions } from '../options'
 import type { Mode } from '../vite'
-import { createMarkdownPlugin } from './markdown'
+import { render as mdRender } from '../markdown'
+import { createMarkdownPlugin, excerpt_separator } from './markdown'
 import { createUnocssPlugin } from './unocss'
 import { createValaxyPlugin } from '.'
 
@@ -54,8 +55,8 @@ export function ViteValaxyPlugins(options: ResolvedValaxyOptions, serverOptions:
 
         if (path) {
           const md = fs.readFileSync(path, 'utf-8')
-          const { data, excerpt } = matter(md, { excerpt_separator: '<!-- more -->' })
-          route.meta = Object.assign(route.meta, { frontmatter: data, excerpt })
+          const { data, excerpt } = matter(md, { excerpt_separator })
+          route.meta = Object.assign(route.meta, { frontmatter: data, excerpt: excerpt ? mdRender(excerpt) : '' })
         }
 
         if (route.path === '/')

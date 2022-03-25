@@ -10,6 +10,8 @@ import TOC from 'markdown-it-table-of-contents'
 
 import type { ResolvedValaxyOptions } from '../options'
 
+export type ViteMdOptions = Parameters<typeof Markdown>[0]
+
 export interface MarkdownOptions extends MarkdownIt.Options {
   config?: (md: MarkdownIt) => void
   anchor?: {
@@ -19,16 +21,18 @@ export interface MarkdownOptions extends MarkdownIt.Options {
   toc?: any
 }
 
+export const excerpt_separator = '<!-- more -->'
+
 // https://github.com/antfu/vite-plugin-md
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 export function createMarkdownPlugin(options: ResolvedValaxyOptions, mdOptions: MarkdownOptions = {}) {
-  return Markdown({
+  const defaultOptions: ViteMdOptions = {
     wrapperComponent: 'ValaxyMd',
 
     headEnabled: true,
     // frontmatter: true,
 
-    excerpt: '<!-- more -->',
+    excerpt: excerpt_separator,
 
     builders: [
       link(),
@@ -60,5 +64,6 @@ export function createMarkdownPlugin(options: ResolvedValaxyOptions, mdOptions: 
       // todo
       // katex
     },
-  })
+  }
+  return Markdown(Object.assign(defaultOptions, options.config.markdown))
 }

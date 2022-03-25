@@ -1,24 +1,26 @@
 <template>
   <ValaxySidebar :open="true" />
 
-  <main class="yun-main flex flex-col">
-    <div class="flex">
-      <div class="container" flex="~ 1 col">
-        <YunCard w="full" m="0" p="2">
+  <main class="yun-main flex flex-col lt-md:ml-0">
+    <div class="flex" p="l-4 lt-md:0">
+      <div flex="~ 1 col" w="full">
+        <YunCard m="0" p="2" class="sm:p-8 lg:px-12 xl:px-16">
           <template #content>
             <router-view />
           </template>
         </YunCard>
 
-        <YunCard m="t-4" p="2">
+        <YunPostNav />
+
+        <YunCard w="full" p="2" class="sm:p-8 lg:px-12 xl:px-16">
           <YunWaline />
         </YunCard>
       </div>
-      <ValaxyToc class="lt-sm:hidden" />
+      <ValaxyToc class="lt-lg:hidden" />
     </div>
-  </main>
 
-  <ValaxyFooter>
-    <slot name="footer" />
-  </ValaxyFooter>
+    <ValaxyFooter>
+      <slot name="footer" />
+    </ValaxyFooter>
+  </main>
 </template>

@@ -6,6 +6,9 @@ import yargs from 'yargs'
 import type { InlineConfig, LogLevel } from 'vite'
 import openBrowser from 'open'
 
+// @ts-expect-error https://github.com/antfu/vite-ssg/pull/225
+import { build as ssgBuild } from 'vite-ssg/node'
+
 import consola from 'consola'
 
 import { version } from '../../package.json'
@@ -123,17 +126,27 @@ cli.command(
     .strict()
     .help(),
   async({ ssg, root, base, output }) => {
-    const { build } = await import('./build')
-
     const options = await resolveOptions({ userRoot: root })
     printInfo(options)
 
     if (ssg) {
-      // todo ssg build
-      consola.warn('wait vite-ssg export build function')
-      consola.info('https://github.com/antfu/vite-ssg/pull/219')
+      consola.info('use vite-ssg to do ssg build...')
+      try {
+        // wait vite-ssg can pass custom options
+        // https://github.com/antfu/vite-ssg/issues/226
+        await ssgBuild({
+          mode: 'production',
+        })
+      }
+      catch (e) {
+        consola.error('[vite-ssg] An internal error occurred.')
+        console.log(e)
+      }
     }
     else {
+      const { build } = await import('./build')
+
+      consola.info('use vite do spa build...')
       await build(options, {
         base,
         build: {

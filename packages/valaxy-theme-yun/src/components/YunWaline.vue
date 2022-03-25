@@ -19,6 +19,9 @@ useWaline({
   --waline-active-color: var(--yun-c-primary-light);
 
   .v[data-class=v] {
+    .vpanel {
+      margin: 0;
+    }
     .veditor {
       width: calc(100% - 2em);
       padding: 0.5rem;

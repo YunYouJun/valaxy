@@ -2,6 +2,7 @@
   "name": "yun-demo",
   "scripts": {
     "build": "valaxy build",
+    "generate": "valaxy build --ssg",
     "dev": "nodemon -w '../../packages/valaxy/dist/*.js' --exec 'valaxy .'",
     "serve": "vite preview"
   },

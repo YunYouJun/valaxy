@@ -6,7 +6,7 @@ import { useRoute } from 'vue-router'
 
 const props = defineProps<{
   frontmatter: Post
-  excerpt: string
+  excerpt?: string
 }>()
 
 const config = useConfig()
@@ -22,14 +22,14 @@ if (isDev) console.log(props.frontmatter)
 </script>
 
 <template>
-  <h1 class="post-title" p="2" m="t-4" text="2xl center" font="serif">
+  <h1 class="post-title" p="2" m="t-4" text="2xl center" font="serif black">
     {{ frontmatter.title }}
   </h1>
-  <main text="left" m="auto" p="t-0 b-2" w="900px" max="w-full">
+  <main text="left" m="auto" p="t-0 b-2">
     <slot name="header">
       <YunPostMeta :frontmatter="frontmatter" />
     </slot>
-    <article class="markdown-body" w="full" min="h-8">
+    <article class="markdown-body" min="h-8">
       <slot />
     </article>
     <YunSponsor v-if="frontmatter.sponsor || config.sponsor.enable" />

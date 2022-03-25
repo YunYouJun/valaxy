@@ -2,13 +2,17 @@
 @use "./post" as *;
 
 .yun-main {
-  margin-left: var(--yun-sidebar-width-mobile);
-  padding-left: 1rem;
+  padding-left: var(--yun-sidebar-width-mobile);
 }
 
 @include mobile {
   .yun-main {
-    margin-left: 0;
-    padding: 0;
+    padding-left: 0;
+  }
+}
+
+@include sm-md {
+  .yun-main {
+    padding-left: 0;
   }
 }

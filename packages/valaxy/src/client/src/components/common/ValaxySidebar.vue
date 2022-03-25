@@ -1,7 +1,7 @@
 <template>
   <ValaxyOverlay :show="active" @click="active = !active" />
 
-  <ValaxyHamburger id="menu-btn" :active="active" class="sidebar-toggle yun-icon-btn" @click="active = !active" />
+  <ValaxyHamburger :active="active" class="menu-btn sidebar-toggle yun-icon-btn md:hidden" @click="active = !active" />
 
   <aside class="transition shadow hover:shadow-lg" :class="['sidebar', active && 'open']">
     <YunSidebar />
@@ -27,7 +27,7 @@ const active = ref(props.open)
 
 @use "~/styles/vars" as *;
 
-#menu-btn {
+.menu-btn {
   display: inline-flex;
   position: fixed;
   left: 0.8rem;

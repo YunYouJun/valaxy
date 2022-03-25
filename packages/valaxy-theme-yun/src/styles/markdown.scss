@@ -14,12 +14,30 @@
   }
 }
 
+// @include md-lg {
+//   .markdown-body {
+//     width: calc(100vw - var(--yun-sidebar-width-mobile) - 6rem);
+//   }
+// }
+
 .markdown-body {
-  max-width: 100%;
+  // max-width: 80%;
 
   pre {
-    border-radius: 4px;
+    margin: 0;
+    overflow: auto;
   }
+
+  // pre.language-ts {
+  //   overflow: scroll;
+  //   border-radius: 4px;
+
+  //   code {
+  //     overflow: scroll;
+  //     width: 20px !important;
+
+  //   }
+  // }
 }
 
 .markdown-body {

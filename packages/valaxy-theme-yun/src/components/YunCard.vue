@@ -6,7 +6,7 @@
       </header>
     </div>
     <slot />
-    <div v-if="$slots.content" class="yun-card-content">
+    <div v-if="$slots.content" class="yun-card-content" w="full">
       <slot name="content" />
     </div>
   </div>
@@ -19,8 +19,6 @@
   align-items: center;
   flex-direction: column;
 
-  width: 100%;
-
   min-height: 100px;
 
   margin: auto;
@@ -31,7 +29,7 @@
   transition: box-shadow var(--yun-transition-duration);
 
   &-content {
-    max-width: 92%;
+    // max-width: 92%;
   }
 }
 </style>

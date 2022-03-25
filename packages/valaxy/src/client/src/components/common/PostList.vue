@@ -1,24 +1,15 @@
 <script setup lang="ts">
 import { computed } from 'vue'
-import { useRouter } from 'vue-router'
 import type { Post } from 'valaxy'
+import { usePostList } from '~/composables'
 
 const props = defineProps<{
   type?: string
   posts?: Post[]
 }>()
 
-const router = useRouter()
-const routes: Post[] = router.getRoutes()
-  .filter(i => i.path.startsWith('/posts') && i.meta.frontmatter && i.meta.frontmatter.date)
-  .sort((a, b) => +new Date(b.meta.frontmatter.date || '') - +new Date(a.meta.frontmatter.date || ''))
-  .filter(i => !i.path.endsWith('.html'))
-  .filter(i => !props.type || i.meta.frontmatter.type === props.type)
-  .map((i) => {
-    return Object.assign({ path: i.path, excerpt: i.meta.excerpt }, i.meta.frontmatter)
-  })
-
-const posts = computed(() => (props.posts || routes))
+const routes = usePostList({ type: props.type || '' })
+const posts = computed(() => (props.posts || routes.value))
 </script>
 
 <template>
@@ -29,7 +20,7 @@ const posts = computed(() => (props.posts || routes))
       </div>
     </template>
 
-    <YunCard v-for="route in posts" :key="route.path" m="y-4" class="max-w-900px">
+    <YunCard v-for="route in posts" :key="route.path" m="4" class="max-w-900px">
       <AppLink
         class="post-title-link"
         :to="route.path || ''"
@@ -40,9 +31,9 @@ const posts = computed(() => (props.posts || routes))
         </div>
       </AppLink>
       <YunPostMeta :frontmatter="route" />
-      <div v-if="route.excerpt" class="markdown-body" m="y-4">
-        {{ route.excerpt }}
-      </div>
+
+      <div v-if="route.excerpt" class="markdown-body" text="left" w="full" p="x-6 y-2 lt-sm:4" v-html="route.excerpt" />
+
       <div w="full" class="yun-card-action flex justify-between" border="t" text="sm">
         <div class="post-category inline-flex justify-center items-center" m="l-2">
           <template v-if="route.category">

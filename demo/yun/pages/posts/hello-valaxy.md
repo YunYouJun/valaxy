@@ -8,11 +8,7 @@ tags:
   - 笔记
 ---
 
-[[toc]]
-
 ## Why Valaxy?
-
-{{frontmatter.date}}
 
 构想新一代静态博客框架/生成器。
 
