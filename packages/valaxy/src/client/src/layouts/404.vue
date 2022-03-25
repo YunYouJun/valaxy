@@ -9,8 +9,8 @@ const { t } = useI18n()
 <template>
   <ValaxySidebar />
 
-  <main class="yun-main" text="center yellow-600 dark:gray-200">
-    <YunCard p="10">
+  <main class="yun-main" text="center">
+    <YunCard m="4" p="10" text="yellow-600">
       <div text-4xl>
         <div i-ri-alarm-warning-line inline-block />
       </div>
