@@ -1,8 +1,31 @@
-import { initConfig, valaxyConfigSymbol } from '../../../core/config'
+import { createI18n } from 'vue-i18n'
+import { initConfig, valaxyConfigSymbol } from 'valaxy'
 import type { UserModule } from '~/types'
+
+// Import i18n resources
+// https://vitejs.dev/guide/features.html#glob-import
+//
+// Don't need this? Try vitesse-lite: https://github.com/antfu/vitesse-lite
+const messages = Object.fromEntries(
+  Object.entries(
+    import.meta.globEager('../../locales/*.y(a)?ml'))
+    .map(([key, value]) => {
+      const yaml = key.endsWith('.yaml')
+      return [key.slice(14, yaml ? -5 : -4), value.default]
+    }),
+)
 
 // https://github.com/antfu/vite-plugin-pwa#automatic-reload-when-new-content-available
 export const install: UserModule = ({ app }) => {
+  // inject valaxy config before modules
   const valaxyConfigRef = initConfig()
   app.provide(valaxyConfigSymbol, valaxyConfigRef)
+
+  // init i18n, by valaxy config
+  const i18n = createI18n({
+    legacy: false,
+    locale: valaxyConfigRef.value.lang || 'en',
+    messages,
+  })
+  app.use(i18n)
 }

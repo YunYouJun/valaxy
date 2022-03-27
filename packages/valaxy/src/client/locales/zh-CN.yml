@@ -63,10 +63,7 @@ counter:
     zero: 暂无标签
     one: 共计 1 个标签
     other: "共计 %d 个标签"
-  categories:
-    zero: 暂无分类
-    one: 共计 1 个分类
-    other: "共计 %d 个分类"
+  categories: 暂无分类 | 共计 {count} 个分类
   archive_posts:
     zero: 暂无日志
     one: 共计 1 篇日志

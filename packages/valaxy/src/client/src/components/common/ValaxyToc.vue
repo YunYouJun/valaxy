@@ -1,5 +1,5 @@
 <template>
-  <aside class="val-toc card" m="l-4">
+  <aside class="val-toc val-card" m="l-4">
     <!-- [[toc]] -->
   </aside>
 </template>

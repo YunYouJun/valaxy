@@ -4,6 +4,7 @@ export * from './post'
 export * from './tag'
 
 // common
+export * from './common'
 export * from './dark'
 export * from './layout'
 export * from './time'

@@ -1,28 +1,24 @@
+<script lang="ts" setup>
+import { useConfig, useFrontmatter, useFullUrl } from 'valaxy'
+import Base from './base.vue'
+
+const config = useConfig()
+const frontmatter = useFrontmatter()
+const url = useFullUrl()
+</script>
+
 <template>
-  <ValaxySidebar />
-
-  <main class="yun-main flex flex-col lt-md:ml-0">
-    <div class="flex" p="l-4 lt-md:0">
-      <div flex="~ 1 col" w="full">
-        <YunCard m="0" p="2" class="sm:p-8 lg:px-12 xl:px-16">
-          <template #content>
-            <router-view />
-          </template>
-        </YunCard>
-
-        <YunPostNav />
-
-        <YunCard w="full" p="2" class="sm:p-8 lg:px-12 xl:px-16">
-          <YunWaline />
-        </YunCard>
-      </div>
-      <ValaxyToc class="lt-lg:hidden" />
-    </div>
-
-    <ValaxyFooter>
-      <slot name="footer" />
-    </ValaxyFooter>
-  </main>
-
-  <YunBackToTop />
+  <Base>
+    <template #content>
+      <YunPageHeader :title="frontmatter.title" />
+      <main text="left" m="auto" p="t-0 b-2">
+        <slot name="header">
+          <YunPostMeta :frontmatter="frontmatter" />
+        </slot>
+        <router-view />
+        <YunSponsor v-if="frontmatter.sponsor || config.sponsor.enable" />
+        <ValaxyCopyright v-if="frontmatter.copyright || config.license.enabled" :url="url" m="y-4" />
+      </main>
+    </template>
+  </Base>
 </template>

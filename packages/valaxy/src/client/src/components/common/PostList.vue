@@ -36,9 +36,9 @@ const posts = computed(() => (props.posts || routes.value))
 
       <div w="full" class="yun-card-action flex justify-between" border="t" text="sm">
         <div class="post-category inline-flex justify-center items-center" m="l-2">
-          <template v-if="route.category">
+          <template v-if="route.categories">
             <div m="x-1" i-ri-folder-2-line />
-            {{ route.category }}
+            {{ Array.isArray(route.categories) ? route.categories.join(' > ') : route.categories }}
           </template>
         </div>
         <div class="post-tags inline-flex" m="r-2">

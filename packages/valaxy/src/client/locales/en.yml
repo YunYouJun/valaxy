@@ -64,10 +64,7 @@ counter:
     zero: No tag
     one: 1 tag in total
     other: "%d tags in total"
-  categories:
-    zero: No category
-    one: 1 category in total
-    other: "%d categories in total"
+  categories: No category | 1 category in total | {count} categories in total
   archive_posts:
     zero: No post
     one: 1 post in total

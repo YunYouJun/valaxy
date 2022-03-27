@@ -1,6 +1,13 @@
 ---
 title: 目录测试
 date: 2022-03-23
+categories:
+  - AAA
+  - BBB
+  - CCC
+tags:
+  - valaxy
+  - 测试
 ---
 
 [[toc]]

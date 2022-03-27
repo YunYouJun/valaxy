@@ -1,5 +1,5 @@
 <template>
-  <div class="yun-card shadow hover:shadow-lg">
+  <div class="yun-card">
     <div v-if="$slots.header" class="yun-card-header">
       <header>
         <slot name="header" />
@@ -25,11 +25,5 @@
 
   // todo
   background-color: var(--yun-c-bg-light);
-
-  transition: box-shadow var(--yun-transition-duration);
-
-  &-content {
-    // max-width: 92%;
-  }
 }
 </style>

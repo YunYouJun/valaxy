@@ -18,7 +18,7 @@ const showQr = ref(false)
       <div i-ri-heart-line />
     </button>
 
-    <div v-if="showQr" class="qrcode flex justify-around" m="y-4">
+    <div class="qrcode-container qrcode flex justify-around" m="y-4" :class="showQr && 'show'">
       <a
         v-for="method, i in config.sponsor.methods" :key="i"
         class="flex flex-col justify-center items-center animate-iteration-1"
@@ -53,6 +53,17 @@ const showQr = ref(false)
     &:hover {
       border: none;
     }
+  }
+}
+
+.qrcode-container {
+  overflow: hidden;
+  height: 0;
+
+  transition: height var(--yun-transition-duration) ease-in-out;
+
+  &.show {
+    height: 220px;
   }
 }
 

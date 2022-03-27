@@ -53,12 +53,6 @@ export function ViteValaxyPlugins(options: ResolvedValaxyOptions, serverOptions:
         if (fs.existsSync(clientRoot + route.component))
           path = clientRoot + route.component
 
-        if (path) {
-          const md = fs.readFileSync(path, 'utf-8')
-          const { data, excerpt } = matter(md, { excerpt_separator })
-          route.meta = Object.assign(route.meta, { frontmatter: data, excerpt: excerpt ? mdRender(excerpt) : '' })
-        }
-
         if (route.path === '/')
           route.meta.layout = 'home'
 
@@ -66,13 +60,23 @@ export function ViteValaxyPlugins(options: ResolvedValaxyOptions, serverOptions:
         if (route.path.startsWith('/posts/'))
           route.meta.layout = 'post'
 
+        if (path) {
+          const md = fs.readFileSync(path, 'utf-8')
+          const { data, excerpt } = matter(md, { excerpt_separator })
+          route.meta = Object.assign(route.meta, { frontmatter: data, excerpt: excerpt ? mdRender(excerpt) : '' })
+
+          // set layout
+          if (data.layout)
+            route.meta.layout = data.layout
+        }
+
         return route
       },
     }),
 
     // https://github.com/JohnCampionJr/vite-plugin-vue-layouts
     Layouts({
-      layoutsDirs: [`${clientRoot}/src/layouts`, `${themeRoot}/src/layouts`, `${userRoot}/layouts`],
+      layoutsDirs: [`${themeRoot}/src/layouts`, `${clientRoot}/src/layouts`, `${userRoot}/layouts`],
     }),
 
     // https://github.com/antfu/unplugin-vue-components

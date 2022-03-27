@@ -41,12 +41,31 @@ export interface Post {
 
   /**
    * Category
-   * @description 分类，只属于一个
+   * @description 分类，若为数组，则按顺序代表多层文件夹
    */
-  category?: string
+  categories?: string | string[]
   /**
    * Tags
    * @description 标签，可以有多个
    */
   tags?: string[]
+
+  /**
+   * display prev next
+   * @description 是否显示前一篇、后一篇导航
+   */
+  nav?: boolean
+
+  /**
+   * icon before title
+   */
+  icon?: string
+  /**
+   * title color
+   */
+  color?: string
+  /**
+   * display comment
+   */
+  comment?: boolean
 }

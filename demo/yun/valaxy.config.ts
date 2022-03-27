@@ -6,6 +6,7 @@ import type { ThemeUserConfig } from 'valaxy-theme-yun'
  * do not use export const
  */
 const config: UserConfig<ThemeUserConfig> = {
+  lang: 'zh-CN',
   title: 'Valaxy Theme Yun',
   author: {
     name: '云游君',

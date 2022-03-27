@@ -40,18 +40,21 @@ export function useWaline(options: {} = {}) {
   })
 
   watch(() => route.path, (path) => {
+    if (!waline) return
     waline.update({
       path,
     })
   })
 
   watch(locale, (lang) => {
+    if (!waline) return
     waline.update({
       lang,
     })
   })
 
   onUnmounted(() => {
+    if (!waline) return
     waline.destroy()
   })
 }

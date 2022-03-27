@@ -3,7 +3,7 @@
 
   <ValaxyHamburger :active="app.isSidebarOpen" class="menu-btn sidebar-toggle yun-icon-btn" :class="isHome ? '' : 'md:hidden'" @click="app.toggleSidebar()" />
 
-  <aside class="transition  shadow hover:shadow-lg" :class="['sidebar', app.isSidebarOpen && 'open', !isHome && 'md:translate-x-0']">
+  <aside class="val-card" :class="['sidebar', app.isSidebarOpen && 'open', !isHome && 'md:translate-x-0']">
     <YunSidebar />
 
     <YunConfig />

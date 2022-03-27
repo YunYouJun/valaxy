@@ -3,6 +3,7 @@ import { useRoute, useRouter } from 'vue-router'
 
 /**
  * get post list
+ * todo: use vue provide/inject to global
  * @param params
  * @returns
  */

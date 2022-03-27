@@ -2,7 +2,7 @@
 title: Hello, Valaxy!
 date: 2022-03-22
 updated: 2022-03-23
-category: Valaxy 笔记
+categories: Valaxy 笔记
 tags:
   - valaxy
   - 笔记
