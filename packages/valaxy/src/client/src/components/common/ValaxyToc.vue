@@ -1,6 +1,7 @@
 <template>
-  <aside class="val-toc val-card" m="l-4">
+  <aside class="val-toc val-card" m="l-4" text="center">
     <!-- [[toc]] -->
+    <del>广告位招租</del>
   </aside>
 </template>
 

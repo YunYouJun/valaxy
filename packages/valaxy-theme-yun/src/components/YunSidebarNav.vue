@@ -4,7 +4,7 @@
       <div i-ri-home-4-line />
     </router-link>
 
-    <router-link class="site-link-item" to="/archive/" :title="t('menu.archives')">
+    <router-link class="site-link-item" to="/archives/" :title="t('menu.archives')">
       <div class="icon" i-ri-archive-line />
       <span class="count">{{ 0 }}</span>
     </router-link>

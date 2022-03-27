@@ -21,7 +21,7 @@
     "paths": {
       "~/*": ["packages/valaxy/src/client/src/*"],
       "@valaxyjs/client/*": ["packages/valaxy/src/client/src/*"],
-      "valaxy/*": ["packages/valaxy/*"],
+      "valaxy/package.json": ["packages/valaxy/package.json"],
       "valaxy": ["packages/valaxy/src/index.ts"],
       "valaxy-theme-yun/config": ["packages/valaxy-theme-yun/src/config.ts"],
       "valaxy-theme-yun/*": ["packages/valaxy-theme-yun/*"],

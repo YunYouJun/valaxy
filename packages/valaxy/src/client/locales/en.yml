@@ -60,15 +60,9 @@ footer:
   total_visitors: Total Visitors
 
 counter:
-  tag_cloud:
-    zero: No tag
-    one: 1 tag in total
-    other: "%d tags in total"
+  archives: No post | 1 post in total | {count} posts in total
   categories: No category | 1 category in total | {count} categories in total
-  archive_posts:
-    zero: No post
-    one: 1 post in total
-    other: "%d posts in total"
+  tags: No tag | 1 tag in total | {count} tags in total
   albums:
     zero: No album
     one: 1 album in total

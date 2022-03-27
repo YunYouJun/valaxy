@@ -7,7 +7,7 @@ defineProps<{
 </script>
 
 <template>
-  <article class="markdown-body" min="h-8">
+  <article v-if="$slots.default" class="markdown-body">
     <slot />
   </article>
 </template>

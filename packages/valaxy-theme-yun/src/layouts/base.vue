@@ -18,18 +18,18 @@ const frontmatter = useFrontmatter()
         </YunCard>
 
         <slot name="nav">
-          <YunPostNav v-if="typeof frontmatter.nav === 'undefined' || frontmatter.nav" />
+          <YunPostNav v-if="frontmatter.nav !== false" />
         </slot>
 
-        <slot v-if="typeof frontmatter.comment === 'undefined' || frontmatter.comment" name="comment">
-          <YunCard w="full" p="2" class="sm:p-8 lg:px-12 xl:px-16">
+        <slot v-if="frontmatter.comment !== false" name="comment">
+          <YunCard w="full" p="2" class="sm:p-8 lg:px-12 xl:px-16" :class="frontmatter.nav === false ? 'mt-4' : 0">
             <YunWaline />
           </YunCard>
         </slot>
       </div>
 
       <slot name="right-sidebar">
-        <ValaxyToc class="lt-lg:hidden" />
+        <ValaxyToc class="lt-xl:hidden" />
       </slot>
     </div>
 

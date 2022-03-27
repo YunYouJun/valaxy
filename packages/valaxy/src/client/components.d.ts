@@ -28,6 +28,7 @@ declare module 'vue' {
     YunConfig: typeof import('./../../../valaxy-theme-yun/src/components/YunConfig.vue')['default']
     YunGoDown: typeof import('./../../../valaxy-theme-yun/src/components/YunGoDown.vue')['default']
     YunPageHeader: typeof import('./../../../valaxy-theme-yun/src/components/YunPageHeader.vue')['default']
+    YunPostCollapse: typeof import('./../../../valaxy-theme-yun/src/components/YunPostCollapse.vue')['default']
     YunPostMeta: typeof import('./../../../valaxy-theme-yun/src/components/YunPostMeta.vue')['default']
     YunPostNav: typeof import('./../../../valaxy-theme-yun/src/components/YunPostNav.vue')['default']
     YunSay: typeof import('./../../../valaxy-theme-yun/src/components/YunSay.vue')['default']

@@ -68,6 +68,9 @@ export const createUnocssConfig = (options: ResolvedValaxyOptions) => {
       ['yun-transition', {
         'transition-duration': 'var(--yun-transition-duration)',
       }],
+      ['yun-text-light', {
+        color: 'var(--yun-c-text-light)',
+      }],
       ['font-serif', {
         'font-family': 'var(--yun-font-serif)',
       }],

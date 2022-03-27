@@ -12,8 +12,12 @@ const categories = useCategory()
 <template>
   <Base>
     <template #content>
-      <YunPageHeader :title="frontmatter.title || t('menu.categories')" :icon="frontmatter.icon" :color="frontmatter.color" />
-      <div m="4" text="center" color="gray">
+      <YunPageHeader
+        :title="frontmatter.title || t('menu.categories')"
+        :icon="frontmatter.icon || 'i-ri-folder-2-line'"
+        :color="frontmatter.color"
+      />
+      <div text="center" class="yun-text-light" p="2">
         {{ t('counter.categories', Array.from(categories).length) }}
       </div>
       <YunCategories :categories="categories" />
