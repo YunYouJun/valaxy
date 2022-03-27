@@ -1,6 +1,9 @@
 <script lang="ts" setup>
 import { ref } from 'vue'
 import type { Categories, Post } from 'valaxy'
+import { useRouter } from 'vue-router'
+
+const router = useRouter()
 
 defineProps<{
   name: string
@@ -10,13 +13,21 @@ defineProps<{
 }>()
 
 const showChild = ref(false)
+const goToCategory = (category: string) => {
+  router.push({
+    query: {
+      category,
+    },
+  })
+}
 </script>
 
 <template>
-  <li class="category-list-item inline-flex items-center cursor-pointer" @click="showChild = !showChild">
-    <div v-if="!showChild" class="inline-flex" i-ri-folder-add-line />
-    <div v-else class="inline-flex" style="color:var(--yun-c-primary)" i-ri-folder-reduce-line />
-    <span m="l-1">
+  <li class="category-list-item inline-flex items-center cursor-pointer">
+    <span class="folder-action inline-flex" @click="showChild = !showChild">
+      <div v-if="!showChild" i-ri-folder-add-line />
+      <div v-else style="color:var(--yun-c-primary)" i-ri-folder-reduce-line /></span>
+    <span class="category-name" m="l-1" @click="goToCategory(name)">
       {{ name }} [ ]
     </span>
   </li>

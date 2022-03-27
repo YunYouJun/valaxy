@@ -1,37 +1,20 @@
 <script lang="ts" setup>
-import { useFrontmatter, usePostList, useTag } from 'valaxy'
-import { TinyColor } from '@ctrl/tinycolor'
+import { useFrontmatter, usePostList, useTags } from 'valaxy'
 import { useI18n } from 'vue-i18n'
 import { computed, ref } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
+import { useElementBounding, useIntersectionObserver } from '@vueuse/core'
 import Base from './base.vue'
-
-const frontmatter = useFrontmatter()
-
-const tags = useTag()
-
-const gray = new TinyColor('#999999')
-const primaryColor = new TinyColor(getComputedStyle(document.documentElement).getPropertyValue('--yun-c-primary'))
-
-const getTagStyle = (count: number) => {
-  const counts = Array.from(tags).map(([_, value]) => value.count)
-  const max = Math.max(...counts)
-  const min = Math.min(...counts)
-  const range = max - min
-  const percent = (count - min) / range
-  return {
-    '--yun-tag-color': gray.mix(primaryColor, percent * 100).toString(),
-    'fontSize': `${percent * 36 + 12}px`,
-  }
-}
-
-const { t } = useI18n()
 
 const route = useRoute()
 const router = useRouter()
 
+const { t } = useI18n()
+const frontmatter = useFrontmatter()
+const { tags, getTagStyle } = useTags()
+
 const postList = usePostList()
-const curTag = ref(route.query.tag as string || '')
+const curTag = computed(() => route.query.tag as string || '')
 
 const posts = computed(() => {
   const list = postList.value.filter((post) => {
@@ -46,14 +29,25 @@ const posts = computed(() => {
   return list
 })
 
+const collapse = ref()
+const collapseIsVisible = ref(false)
+const { top } = useElementBounding(collapse)
+useIntersectionObserver(collapse, ([{ isIntersecting }]) => {
+  collapseIsVisible.value = isIntersecting
+})
+
 const displayTag = (tag: string) => {
   router.push({
     query: {
       tag,
     },
   })
-  curTag.value = tag
+
+  // scroll when collapse is not visible
+  if (!collapseIsVisible.value)
+    window.scrollTo(0, top.value)
 }
+
 </script>
 
 <template>
@@ -76,9 +70,11 @@ const displayTag = (tag: string) => {
       </div>
 
       <router-view />
-
-      <YunPostCollapse v-if="curTag" m="t-4" :posts="posts" />
     </template>
+
+    <YunCard v-if="curTag" ref="collapse" m="t-4" w="full">
+      <YunPostCollapse w="full" m="t-4" p="x-20 lt-sm:x-5" :posts="posts" />
+    </YunCard>
   </Base>
 </template>
 

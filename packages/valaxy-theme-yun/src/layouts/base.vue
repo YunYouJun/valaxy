@@ -17,6 +17,7 @@ const frontmatter = useFrontmatter()
           </template>
         </YunCard>
 
+        <slot />
         <slot name="nav">
           <YunPostNav v-if="frontmatter.nav !== false" />
         </slot>

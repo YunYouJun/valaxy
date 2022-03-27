@@ -30,8 +30,15 @@ withDefaults(defineProps<{
 }
 
 .category-list-item {
-  &:hover {
-    color: var(--yun-c-primary);
+  .folder-action {
+    &:hover {
+      color: var(--yun-c-primary);
+    }
+  }
+  .category-name {
+    &:hover {
+      color: var(--yun-c-primary);
+    }
   }
 }
 </style>

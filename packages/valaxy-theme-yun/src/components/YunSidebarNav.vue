@@ -1,3 +1,14 @@
+<script lang="ts" setup>
+import { useCategory, usePostList, useTag } from 'valaxy'
+import { useI18n } from 'vue-i18n'
+
+const { t } = useI18n()
+
+const posts = usePostList()
+const categories = useCategory()
+const tags = useTag()
+</script>
+
 <template>
   <nav class="site-nav" text-xl mt-6>
     <router-link class="site-link-item yun-icon-btn" to="/" :title="t('menu.home')">
@@ -6,15 +17,15 @@
 
     <router-link class="site-link-item" to="/archives/" :title="t('menu.archives')">
       <div class="icon" i-ri-archive-line />
-      <span class="count">{{ 0 }}</span>
+      <span class="count">{{ posts.length }}</span>
     </router-link>
     <router-link class="site-link-item" to="/categories/" :title="t('menu.categories')">
       <div class="icon" i-ri-folder-2-line />
-      <span class="count">{{ 0 }}</span>
+      <span class="count">{{ Array.from(categories).length }}</span>
     </router-link>
     <router-link class="site-link-item" to="/tags/" :title="t('menu.tags')">
       <div class="icon" i-ri-price-tag-3-line />
-      <span class="count">{{ 10 }}</span>
+      <span class="count">{{ Array.from(tags).length }}</span>
     </router-link>
 
     <router-link class="site-link-item yun-icon-btn" to="/about" :title="t('button.about')">
@@ -22,12 +33,6 @@
     </router-link>
   </nav>
 </template>
-
-<script lang="ts" setup>
-import { useI18n } from 'vue-i18n'
-
-const { t } = useI18n()
-</script>
 
 <style lang="scss">
 @use "~/styles/mixins" as *;
