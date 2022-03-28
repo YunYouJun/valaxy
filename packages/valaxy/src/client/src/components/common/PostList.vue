@@ -36,17 +36,24 @@ const posts = computed(() => (props.posts || routes.value))
 
       <div w="full" class="yun-card-action flex justify-between" border="t" text="sm">
         <div class="post-category inline-flex justify-center items-center" m="l-2">
-          <template v-if="route.categories">
+          <router-link
+            v-if="route.categories"
+            :to="{
+              path: '/categories/',
+              query: {category: Array.isArray(route.categories) ? route.categories[route.categories.length - 1] : route.categories}
+            }"
+            class="inline-flex justify-center items-center"
+          >
             <div m="x-1" i-ri-folder-2-line />
             {{ Array.isArray(route.categories) ? route.categories.join(' > ') : route.categories }}
-          </template>
+          </router-link>
         </div>
         <div class="post-tags inline-flex" m="r-2">
           <template v-if="route.tags">
-            <div v-for="tag,i in route.tags" :key="i" m="x-1" class="post-tag inline-flex justify-center items-center">
+            <router-link v-for="tag,i in route.tags" :key="i" :to="{path: '/tags/', query: {tag: tag}}" m="x-1" class="post-tag inline-flex justify-center items-center">
               <div m="r-1" i-ri-price-tag-3-line />
               {{ tag }}
-            </div>
+            </router-link>
           </template>
         </div>
       </div>

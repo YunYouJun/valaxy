@@ -2,6 +2,7 @@
 
 // global css
 @use './global/reset.scss' as *;
+@use './global/helper.scss' as *;
 @use './global/index.scss' as *;
 @use './global/nprogress.scss' as *;
 

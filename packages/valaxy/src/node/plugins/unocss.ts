@@ -65,6 +65,7 @@ export const createUnocssConfig = (options: ResolvedValaxyOptions) => {
       // }),
     ],
     rules: [
+      // more see '~/styles/global/helper.scss'
       ['yun-transition', {
         'transition-duration': 'var(--yun-transition-duration)',
       }],

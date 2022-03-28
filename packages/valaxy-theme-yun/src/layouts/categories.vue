@@ -3,7 +3,6 @@ import { computed } from '@vue/reactivity'
 import { useCategory, useFrontmatter, usePostList } from 'valaxy'
 import { useI18n } from 'vue-i18n'
 import { useRoute } from 'vue-router'
-import Base from './base.vue'
 
 const { t } = useI18n()
 
@@ -29,7 +28,7 @@ const posts = computed(() => {
 </script>
 
 <template>
-  <Base>
+  <YunBase>
     <template #content>
       <YunPageHeader
         :title="frontmatter.title || t('menu.categories')"
@@ -44,7 +43,8 @@ const posts = computed(() => {
     </template>
 
     <YunCard v-if="curCategory" m="t-4" w="full">
-      <YunPostCollapse w="full" m="t-4" p="x-20 lt-sm:x-5" :posts="posts" />
+      <YunPageHeader m="t-4" :title="curCategory" icon="i-ri-folder-open-line" />
+      <YunPostCollapse w="full" p="x-20 lt-sm:x-5" :posts="posts" />
     </YunCard>
-  </Base>
+  </YunBase>
 </template>

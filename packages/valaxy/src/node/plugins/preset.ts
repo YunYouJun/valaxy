@@ -38,7 +38,7 @@ export function ViteValaxyPlugins(options: ResolvedValaxyOptions, serverOptions:
     // https://github.com/hannoeru/vite-plugin-pages
     Pages({
       extensions: ['vue', 'md'],
-      dirs: [`${clientRoot}/src/pages`, `${themeRoot}/src/pages`, `${userRoot}/pages`],
+      dirs: [`${userRoot}/pages`, `${themeRoot}/src/pages`, `${clientRoot}/src/pages`],
       /**
        * we need get frontmatter before route, so write it in Pages.extendRoute
        */
@@ -76,17 +76,21 @@ export function ViteValaxyPlugins(options: ResolvedValaxyOptions, serverOptions:
 
     // https://github.com/JohnCampionJr/vite-plugin-vue-layouts
     Layouts({
-      layoutsDirs: [`${themeRoot}/src/layouts`, `${clientRoot}/src/layouts`, `${userRoot}/layouts`],
+      layoutsDirs: [`${userRoot}/layouts`, `${themeRoot}/src/layouts`, `${clientRoot}/src/layouts`],
     }),
 
     // https://github.com/antfu/unplugin-vue-components
     Components({
       // allow auto load markdown components under `./src/components/`
       extensions: ['vue', 'md'],
-      dirs: [`${clientRoot}/src/components`, `${themeRoot}/src/components`, `${userRoot}/components`],
+      // override: user -> theme -> client
+      dirs: [`${userRoot}/components`, `${themeRoot}/src/components`, `${clientRoot}/src/components`],
 
       // allow auto import and register components used in markdown
       include: [/\.vue$/, /\.vue\?vue/, /\.md$/],
+
+      // allow override
+      allowOverrides: true,
     }),
 
     // https://github.com/antfu/unocss

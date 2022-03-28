@@ -22,7 +22,7 @@
   z-index: map.get($z-index, 'sidebar');
 
   transform: translateX(-100%);
-  transition: background-color var(--yun-transition-duration), opacity var(--yun-transition-duration), transform var(--yun-transition-duration);
+  transition: transform var(--yun-transition-duration);
 
   &.open {
     transform: translateX(0);

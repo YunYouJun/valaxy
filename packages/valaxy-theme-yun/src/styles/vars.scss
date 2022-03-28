@@ -1,0 +1,7 @@
+:root {
+  --yun-sidebar-bg-image: url("https://cdn.jsdelivr.net/gh/YunYouJun/cdn@master/img/bg/alpha-stars-timing-1.webp")
+}
+
+html.dark {
+  --yun-sidebar-bg-image: none;
+}

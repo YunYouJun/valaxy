@@ -1,12 +1,12 @@
 <template>
   <footer class="val-footer p-4 opacity-80" text="center sm">
-    <div v-if="themeConfig.footer.beian.enable && themeConfig.footer.beian.icp" class="beian">
+    <div v-if="themeConfig.footer.beian.enable && themeConfig.footer.beian.icp" class="beian" m="y-2">
       <a href="https://beian.miit.gov.cn/" target="_blank" rel="noopener">
         {{ themeConfig.footer.beian.icp }}
       </a>
     </div>
 
-    <div class="copyright flex justify-center items-center">
+    <div class="copyright flex justify-center items-center" p="1">
       <span>
         &copy;
         <template v-if="!isThisYear">
@@ -19,7 +19,7 @@
         <div :class="themeConfig.footer.icon.name" />
       </a>
 
-      <span>{{ config.author.name || config.author }}</span>
+      <span>{{ config.author.name }}</span>
     </div>
 
     <div v-if="themeConfig.footer.powered" class="powered" m="2">
@@ -27,6 +27,8 @@
     </div>
 
     <slot />
+
+    <component :is="UpyunSupport" />
   </footer>
 </template>
 

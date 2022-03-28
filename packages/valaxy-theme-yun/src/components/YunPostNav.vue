@@ -7,20 +7,22 @@ const [prev, next] = usePrevNext()
   <div class="post-nav">
     <div class="post-nav-item">
       <router-link v-if="prev" class="post-nav-prev" :to="prev.path" :title="prev.title">
-        <div i-ri-arrow-left-s-line />
-        <span text="sm">{{ prev.title }}</span>
+        <div class="icon" i-ri-arrow-left-s-line />
+        <span class="title truncate" text="sm">{{ prev.title }}</span>
       </router-link>
     </div>
     <div class="post-nav-item">
       <router-link v-if="next" :to="next.path" :title="next.title" class="post-nav-next">
-        <span text="sm">{{ next.title }}</span>
-        <div i-ri-arrow-right-s-line />
+        <span class="title truncate" text="sm">{{ next.title }}</span>
+        <div class="icon" i-ri-arrow-right-s-line />
       </router-link>
     </div>
   </div>
 </template>
 
 <style lang="scss">
+@use '~/styles/mixins' as *;
+
 .post-nav {
   display: flex;
   justify-content: space-between;
@@ -56,20 +58,32 @@ const [prev, next] = usePrevNext()
   }
 
   &-prev, &-next {
-    display: flex;
-    height: 3rem;
+    display: inline-flex;
     align-items: center;
-    justify-content: center;
-    overflow: hidden;
-    white-space: nowrap;
-    text-overflow: ellipsis;
-  }
 
-  &-text {
-    display: inline-block;
-    overflow: hidden;
-    white-space: nowrap;
-    text-overflow: ellipsis;
+    height: 3rem;
+
+    font-size: 1rem;
+
+    .title {
+      overflow: hidden;
+      max-width: 10rem;
+    }
+
+    .icon {
+      width: 1.2rem;
+      height: 1.2rem;
+    }
+  }
+}
+
+@include desktop {
+  .post-nav {
+    &-prev, &-next {
+      .title {
+        max-width: 18rem;
+      }
+    }
   }
 }
 </style>

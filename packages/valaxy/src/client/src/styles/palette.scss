@@ -17,7 +17,7 @@ $colors: map.merge((
 $c-primary: map.get($colors, 'primary');
 
 $colors: map.merge((
-  'primary-light': lighten($c-primary, 20%),
+  'primary-light': lighten($c-primary, 15%),
   'primary-lighter': lighten($c-primary, 30%),
 ), $colors);
 
@@ -36,6 +36,8 @@ $light: map.merge((
 
   'c-primary-rgb': #{red($c-primary), green($c-primary), blue($c-primary)},
 
+  'c-link': $c-primary,
+
   'sidebar-bg-color': #{get-css-var('c-bg-light')}
 ), $light);
 
@@ -52,4 +54,6 @@ $dark: map.merge((
   'c-text-light': #eee,
   'c-text-lighter': #ddd,
   'c-text-dark': rgba(#ebebeb, 0.8),
+
+  'c-link': map.get($colors, 'primary-light'),
 ), $dark);

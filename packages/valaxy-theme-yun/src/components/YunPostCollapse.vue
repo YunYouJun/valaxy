@@ -2,6 +2,9 @@
 import { computed, ref, watch } from 'vue'
 import type { Post } from 'valaxy'
 import { formatDate } from 'valaxy'
+import { useI18n } from 'vue-i18n'
+
+const { t } = useI18n()
 
 const props = defineProps<{
   posts: Post[]
@@ -35,6 +38,10 @@ const sortedYears = computed(() => {
 
 <template>
   <div class="post-collapse px-10 lt-sm:px-5">
+    <div w="full" text="center" class="yun-text-light" p="2">
+      {{ t('counter.archives', posts.length) }}
+    </div>
+
     <div class="post-collapse-action" text="center">
       <button class="yun-icon-btn shadow hover:shadow-md" @click="isDesc = !isDesc">
         <div v-if="isDesc" i-ri-sort-desc />
@@ -54,7 +61,7 @@ const sortedYears = computed(() => {
           <div class="post-meta">
             <time v-if="post.date" class="post-time" font="mono" opacity="80">{{ formatDate(post.date, 'MM-DD') }}</time>
           </div>
-          <h2 class="post-title">
+          <h2 class="post-title" font="serif black">
             <a :href="post.path" class="post-title-link">
               {{ post.title }}
             </a>

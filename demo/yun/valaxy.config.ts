@@ -118,6 +118,10 @@ const config: UserConfig<ThemeUserConfig> = {
 
     footer: {
       since: 2016,
+      beian: {
+        enable: true,
+        icp: '苏ICP备17038157号',
+      },
     },
   },
 

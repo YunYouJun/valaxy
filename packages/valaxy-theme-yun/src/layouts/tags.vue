@@ -4,7 +4,6 @@ import { useI18n } from 'vue-i18n'
 import { computed, ref } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { useElementBounding, useIntersectionObserver } from '@vueuse/core'
-import Base from './base.vue'
 
 const route = useRoute()
 const router = useRouter()
@@ -51,7 +50,7 @@ const displayTag = (tag: string) => {
 </script>
 
 <template>
-  <Base>
+  <YunBase>
     <template #content>
       <YunPageHeader
         :title="frontmatter.title || t('menu.tags')"
@@ -64,7 +63,7 @@ const displayTag = (tag: string) => {
       </div>
 
       <div text="center">
-        <span v-for="[key, tag] in Array.from(tags).sort()" :key="key" class="post-tag cursor-pointer" :style="getTagStyle(tag.count)" m="1" @click="displayTag(key.toString())">
+        <span v-for="[key, tag] in Array.from(tags).sort()" :key="key" class="post-tag cursor-pointer" :style="getTagStyle(tag.count)" p="1" @click="displayTag(key.toString())">
           #{{ key }}<span text="xs">[{{ tag.count }}]</span>
         </span>
       </div>
@@ -73,9 +72,10 @@ const displayTag = (tag: string) => {
     </template>
 
     <YunCard v-if="curTag" ref="collapse" m="t-4" w="full">
-      <YunPostCollapse w="full" m="t-4" p="x-20 lt-sm:x-5" :posts="posts" />
+      <YunPageHeader m="t-4" :title="curTag" icon="i-ri-hashtag" />
+      <YunPostCollapse w="full" p="x-20 lt-sm:x-5" :posts="posts" />
     </YunCard>
-  </Base>
+  </YunBase>
 </template>
 
 <style lang="scss">
