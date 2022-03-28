@@ -27,8 +27,6 @@
     </div>
 
     <slot />
-
-    <component :is="UpyunSupport" />
   </footer>
 </template>
 

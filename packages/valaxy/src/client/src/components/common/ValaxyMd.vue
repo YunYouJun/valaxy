@@ -1,14 +1,25 @@
 <script lang="ts" setup>
 import type { Post } from 'valaxy'
+import { onMounted, ref } from 'vue'
+import { wrapTable } from '~/utils'
 defineProps<{
   frontmatter: Post
   excerpt?: string
 }>()
+
+const content = ref()
+function updateDom() {
+  wrapTable(content.value)
+}
+
+onMounted(() => {
+  updateDom()
+})
 </script>
 
 <template>
   <article v-if="$slots.default" class="markdown-body">
-    <slot />
+    <slot ref="content" @vnode-updated="updateDom" />
 
     <template v-if="frontmatter.end">
       <slot name="end">

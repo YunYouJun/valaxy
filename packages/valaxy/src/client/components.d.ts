@@ -19,7 +19,7 @@ declare module 'vue' {
     ValaxySidebar: typeof import('./src/components/common/ValaxySidebar.vue')['default']
     YunBackToTop: typeof import('./../../../valaxy-theme-yun/src/components/YunBackToTop.vue')['default']
     YunBanner: typeof import('./src/components/YunBanner.vue')['default']
-    YunBase: typeof import('./../../../valaxy-theme-yun/src/components/YunBase.vue')['default']
+    YunBase: typeof import('./../../../../demo/yun/components/YunBase.vue')['default']
     YunCard: typeof import('./../../../valaxy-theme-yun/src/components/YunCard.vue')['default']
     YunCategories: typeof import('./../../../valaxy-theme-yun/src/components/YunCategories.vue')['default']
     YunCategory: typeof import('./../../../valaxy-theme-yun/src/components/YunCategory.vue')['default']

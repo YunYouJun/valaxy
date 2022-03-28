@@ -83,14 +83,15 @@ export function ViteValaxyPlugins(options: ResolvedValaxyOptions, serverOptions:
     Components({
       // allow auto load markdown components under `./src/components/`
       extensions: ['vue', 'md'],
-      // override: user -> theme -> client
-      dirs: [`${userRoot}/components`, `${themeRoot}/src/components`, `${clientRoot}/src/components`],
 
       // allow auto import and register components used in markdown
       include: [/\.vue$/, /\.vue\?vue/, /\.md$/],
 
       // allow override
       allowOverrides: true,
+      // override: user -> theme -> client
+      // latter override former
+      dirs: [`${clientRoot}/src/components`, `${themeRoot}/src/components`, `${userRoot}/components`],
     }),
 
     // https://github.com/antfu/unocss
