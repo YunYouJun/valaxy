@@ -21,7 +21,7 @@ const tags = useTag()
     </router-link>
     <router-link class="site-link-item" to="/categories/" :title="t('menu.categories')">
       <div class="icon" i-ri-folder-2-line />
-      <span class="count">{{ Array.from(categories).length }}</span>
+      <span class="count">{{ Array.from(categories.children).length }}</span>
     </router-link>
     <router-link class="site-link-item" to="/tags/" :title="t('menu.tags')">
       <div class="icon" i-ri-price-tag-3-line />

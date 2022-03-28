@@ -14,7 +14,7 @@ import { createSafelist } from '../plugins/unocss'
 
 let server: ViteDevServer | undefined
 
-export async function printInfo(options: ResolvedValaxyOptions, port?: number, remote?: string | boolean) {
+export function printInfo(options: ResolvedValaxyOptions, port?: number, remote?: string | boolean) {
   console.log()
   console.log(`  ${chalk.bold('🌌 Valaxy')}  ${chalk.blue(`v${version}`)}`)
   console.log()

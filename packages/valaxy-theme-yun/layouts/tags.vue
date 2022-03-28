@@ -1,9 +1,8 @@
 <script lang="ts" setup>
-import { useFrontmatter, usePostList, useTags } from 'valaxy'
+import { useFrontmatter, useInvisibleElement, usePostList, useTags } from 'valaxy'
 import { useI18n } from 'vue-i18n'
 import { computed, ref } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
-import { useElementBounding, useIntersectionObserver } from '@vueuse/core'
 
 const route = useRoute()
 const router = useRouter()
@@ -29,11 +28,7 @@ const posts = computed(() => {
 })
 
 const collapse = ref()
-const collapseIsVisible = ref(false)
-const { top } = useElementBounding(collapse)
-useIntersectionObserver(collapse, ([{ isIntersecting }]) => {
-  collapseIsVisible.value = isIntersecting
-})
+const { show } = useInvisibleElement(collapse)
 
 const displayTag = (tag: string) => {
   router.push({
@@ -42,9 +37,7 @@ const displayTag = (tag: string) => {
     },
   })
 
-  // scroll when collapse is not visible
-  if (!collapseIsVisible.value)
-    window.scrollTo(0, top.value)
+  show()
 }
 
 </script>
@@ -73,7 +66,7 @@ const displayTag = (tag: string) => {
 
     <YunCard v-if="curTag" ref="collapse" m="t-4" w="full">
       <YunPageHeader m="t-4" :title="curTag" icon="i-ri-hashtag" />
-      <YunPostCollapse w="full" p="x-20 lt-sm:x-5" :posts="posts" />
+      <YunPostCollapse w="full" m="b-4" p="x-20 lt-sm:x-5" :posts="posts" />
     </YunCard>
   </YunBase>
 </template>

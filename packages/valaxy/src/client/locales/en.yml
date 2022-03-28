@@ -72,6 +72,9 @@ counter:
     one: 1 photo in total
     other: "%d photos in total"
 
+category:
+  uncategorized: Uncategorized
+
 search:
   placeholder: Searching...
   empty: "We didn't find any results for the search: ${query}."

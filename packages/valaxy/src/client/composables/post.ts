@@ -1,3 +1,4 @@
+import { sortByDate } from 'valaxy'
 import { computed } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 
@@ -14,12 +15,14 @@ export function usePostList(params: {
   return computed(() => {
     const routes = router.getRoutes()
       .filter(i => i.path.startsWith('/posts') && i.meta.frontmatter && i.meta.frontmatter.date)
-      .sort((a, b) => +new Date(b.meta.frontmatter.date || '') - +new Date(a.meta.frontmatter.date || ''))
       .filter(i => !i.path.endsWith('.html'))
       .filter(i => !params.type || i.meta.frontmatter.type === params.type)
       .map((i) => {
         return Object.assign({ path: i.path, excerpt: i.meta.excerpt }, i.meta.frontmatter)
       })
+
+    sortByDate(routes)
+
     return routes
   })
 }

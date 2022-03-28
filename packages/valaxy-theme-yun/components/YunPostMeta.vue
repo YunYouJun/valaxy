@@ -16,7 +16,7 @@
 <script lang="ts" setup>
 import type { Post } from 'valaxy'
 import { useI18n } from 'vue-i18n'
-import { formatDate } from '~/composables'
+import { formatDate } from 'valaxy'
 
 const { t } = useI18n()
 

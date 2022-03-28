@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import { computed, ref, watch } from 'vue'
 import type { Post } from 'valaxy'
-import { formatDate } from 'valaxy'
+import { formatDate, sortByDate } from 'valaxy'
 import { useI18n } from 'vue-i18n'
 
 const { t } = useI18n()
@@ -34,6 +34,7 @@ const sortedYears = computed(() => {
   const arr = y.sort((a, b) => b - a)
   return isDesc.value ? arr : arr.reverse()
 })
+
 </script>
 
 <template>
@@ -56,7 +57,7 @@ const sortedYears = computed(() => {
         </h2>
       </div>
 
-      <article v-for="post,j in postList[year]" :key="j" class="post-item">
+      <article v-for="post,j in sortByDate(postList[year], isDesc)" :key="j" class="post-item">
         <header class="post-header">
           <div class="post-meta">
             <time v-if="post.date" class="post-time" font="mono" opacity="80">{{ formatDate(post.date, 'MM-DD') }}</time>

@@ -71,6 +71,9 @@ counter:
     one: 共计 1 张照片
     other: "共计 %d 张照片"
 
+category:
+  uncategorized: 未分类
+
 search:
   placeholder: 搜索...
   empty: "找不到您查询的内容: ${query}"

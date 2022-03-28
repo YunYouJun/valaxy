@@ -1,8 +1,8 @@
 <script lang="ts" setup>
-import { computed } from '@vue/reactivity'
-import { useCategory, useFrontmatter, usePostList } from 'valaxy'
+import { computed, ref } from 'vue'
+import { useCategory, useFrontmatter, useInvisibleElement, usePostList } from 'valaxy'
 import { useI18n } from 'vue-i18n'
-import { useRoute } from 'vue-router'
+import { useRoute, useRouter } from 'vue-router'
 
 const { t } = useI18n()
 
@@ -25,6 +25,20 @@ const posts = computed(() => {
   })
   return list
 })
+
+const collapse = ref()
+const { show } = useInvisibleElement(collapse)
+
+const router = useRouter()
+const displayCategory = (category: string) => {
+  router.push({
+    query: {
+      category,
+    },
+  })
+
+  show()
+}
 </script>
 
 <template>
@@ -36,15 +50,15 @@ const posts = computed(() => {
         :color="frontmatter.color"
       />
       <div text="center" class="yun-text-light" p="2">
-        {{ t('counter.categories', Array.from(categories).length) }}
+        {{ t('counter.categories', categories.children!.size ) }}
       </div>
-      <YunCategories :categories="categories" />
+      <YunCategories :categories="categories.children!" :display-category="displayCategory" />
       <router-view />
     </template>
 
-    <YunCard v-if="curCategory" m="t-4" w="full">
+    <YunCard v-if="curCategory" ref="collapse" m="t-4" w="full">
       <YunPageHeader m="t-4" :title="curCategory" icon="i-ri-folder-open-line" />
-      <YunPostCollapse w="full" p="x-20 lt-sm:x-5" :posts="posts" />
+      <YunPostCollapse w="full" m="b-4" p="x-20 lt-sm:x-5" :posts="posts" />
     </YunCard>
   </YunBase>
 </template>

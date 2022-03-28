@@ -1,6 +1,7 @@
 import fs from 'fs'
-import { resolve } from 'path'
 import type { PluginOption } from 'vite'
+
+import consola from 'consola'
 
 import matter from 'gray-matter'
 
@@ -12,6 +13,7 @@ import { VitePWA } from 'vite-plugin-pwa'
 import VueI18n from '@intlify/vite-plugin-vue-i18n'
 import Inspect from 'vite-plugin-inspect'
 
+import chalk from 'chalk'
 import type { ResolvedValaxyOptions, ValaxyServerOptions } from '../options'
 import type { Mode } from '../vite'
 import { render as mdRender } from '../markdown'
@@ -27,6 +29,7 @@ export function ViteValaxyPlugins(options: ResolvedValaxyOptions, serverOptions:
 
   const ValaxyPlugin = createValaxyPlugin(options, serverOptions)
 
+  const roots = [clientRoot, themeRoot, userRoot]
   return [
     Vue({
       include: [/\.vue$/, /\.md$/],
@@ -38,37 +41,40 @@ export function ViteValaxyPlugins(options: ResolvedValaxyOptions, serverOptions:
     // https://github.com/hannoeru/vite-plugin-pages
     Pages({
       extensions: ['vue', 'md'],
-      dirs: [`${userRoot}/pages`, `${themeRoot}/pages`, `${clientRoot}/pages`],
+      dirs: roots.map(root => `${root}/pages`),
       /**
        * we need get frontmatter before route, so write it in Pages.extendRoute
        */
       extendRoute(route) {
-        let path = ''
+        let path = route.component
         if (!route.meta) route.meta = {}
-
-        if (fs.existsSync(route.component))
-          path = route.component
-
-        // client/pages
-        if (fs.existsSync(clientRoot + route.component))
-          path = clientRoot + route.component
 
         if (route.path === '/')
           route.meta.layout = 'home'
 
-        // set layout for post
-        if (route.path.startsWith('/posts/'))
+        roots.forEach((root) => {
+          const pagePath = root + route.component
+          if (fs.existsSync(pagePath))
+            path = pagePath
+        })
+        const md = fs.readFileSync(path, 'utf-8')
+        const { data, excerpt } = matter(md, { excerpt_separator })
+
+        // warn for post frontmatter
+        if (route.path.startsWith('/posts/')) {
           route.meta.layout = 'post'
-
-        if (path) {
-          const md = fs.readFileSync(path, 'utf-8')
-          const { data, excerpt } = matter(md, { excerpt_separator })
-          route.meta = Object.assign(route.meta, { frontmatter: data, excerpt: excerpt ? mdRender(excerpt) : '' })
-
-          // set layout
-          if (data.layout)
-            route.meta.layout = data.layout
+          if (!data.date)
+            consola.warn(`You forgot to write ${chalk.yellow('date')} for post: ${chalk.dim(`${route.component}`)}`)
         }
+
+        route.meta = Object.assign(route.meta, {
+          frontmatter: Object.assign({ date: new Date() }, data),
+          excerpt: excerpt ? mdRender(excerpt) : '',
+        })
+
+        // set layout
+        if (data.layout)
+          route.meta.layout = data.layout
 
         return route
       },
@@ -76,7 +82,7 @@ export function ViteValaxyPlugins(options: ResolvedValaxyOptions, serverOptions:
 
     // https://github.com/JohnCampionJr/vite-plugin-vue-layouts
     Layouts({
-      layoutsDirs: [`${userRoot}/layouts`, `${themeRoot}/layouts`, `${clientRoot}/layouts`],
+      layoutsDirs: roots.map(root => `${root}/layouts`),
     }),
 
     // https://github.com/antfu/unplugin-vue-components
@@ -90,7 +96,7 @@ export function ViteValaxyPlugins(options: ResolvedValaxyOptions, serverOptions:
       allowOverrides: true,
       // override: user -> theme -> client
       // latter override former
-      dirs: [`${clientRoot}/components`, `${themeRoot}/components`, `${userRoot}/components`],
+      dirs: roots.map(root => `${root}/components`),
     }),
 
     // https://github.com/antfu/unocss
@@ -130,7 +136,7 @@ export function ViteValaxyPlugins(options: ResolvedValaxyOptions, serverOptions:
     VueI18n({
       runtimeOnly: true,
       compositionOnly: true,
-      include: [resolve(clientRoot, 'locales/**'), `${userRoot}/locales/**`, `${themeRoot}/locales/**`],
+      include: roots.map(root => `${root}/locales/**`),
     }),
 
     // https://github.com/antfu/vite-plugin-inspect

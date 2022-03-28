@@ -9,6 +9,9 @@ import Base from 'valaxy-theme-yun/layouts/base.vue'
     <template #content>
       <slot name="content" />
     </template>
+
+    <slot />
+
     <template #nav>
       <slot name="nav" />
     </template>
