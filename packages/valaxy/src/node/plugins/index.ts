@@ -20,9 +20,9 @@ export function createValaxyPlugin(options: ResolvedValaxyOptions, serverOptions
 
     for (const root of roots) {
       const styles = [
-        join(root, 'src/styles', 'vars.scss'),
-        join(root, 'src/styles', 'index.css'),
-        join(root, 'src/styles', 'index.scss'),
+        join(root, 'styles', 'vars.scss'),
+        join(root, 'styles', 'index.css'),
+        join(root, 'styles', 'index.scss'),
       ]
 
       for (const style of styles) {

@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import Base from 'valaxy-theme-yun/src/layouts/base.vue'
+import Base from 'valaxy-theme-yun/layouts/base.vue'
 
 // override theme base(global) layout
 </script>

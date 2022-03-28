@@ -11,7 +11,7 @@ import {
   transformerDirectives,
   transformerVariantGroup,
 } from 'unocss'
-import type { ValaxyConfig } from 'valaxy/src/types'
+import type { ValaxyConfig } from 'valaxy'
 import type { ResolvedValaxyOptions } from '../options'
 
 export const createSafelist = (config: ValaxyConfig) => {

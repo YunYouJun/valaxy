@@ -38,7 +38,7 @@ export function ViteValaxyPlugins(options: ResolvedValaxyOptions, serverOptions:
     // https://github.com/hannoeru/vite-plugin-pages
     Pages({
       extensions: ['vue', 'md'],
-      dirs: [`${userRoot}/pages`, `${themeRoot}/src/pages`, `${clientRoot}/src/pages`],
+      dirs: [`${userRoot}/pages`, `${themeRoot}/pages`, `${clientRoot}/pages`],
       /**
        * we need get frontmatter before route, so write it in Pages.extendRoute
        */
@@ -49,7 +49,7 @@ export function ViteValaxyPlugins(options: ResolvedValaxyOptions, serverOptions:
         if (fs.existsSync(route.component))
           path = route.component
 
-        // /src/pages
+        // client/pages
         if (fs.existsSync(clientRoot + route.component))
           path = clientRoot + route.component
 
@@ -76,12 +76,11 @@ export function ViteValaxyPlugins(options: ResolvedValaxyOptions, serverOptions:
 
     // https://github.com/JohnCampionJr/vite-plugin-vue-layouts
     Layouts({
-      layoutsDirs: [`${userRoot}/layouts`, `${themeRoot}/src/layouts`, `${clientRoot}/src/layouts`],
+      layoutsDirs: [`${userRoot}/layouts`, `${themeRoot}/layouts`, `${clientRoot}/layouts`],
     }),
 
     // https://github.com/antfu/unplugin-vue-components
     Components({
-      // allow auto load markdown components under `./src/components/`
       extensions: ['vue', 'md'],
 
       // allow auto import and register components used in markdown
@@ -91,7 +90,7 @@ export function ViteValaxyPlugins(options: ResolvedValaxyOptions, serverOptions:
       allowOverrides: true,
       // override: user -> theme -> client
       // latter override former
-      dirs: [`${clientRoot}/src/components`, `${themeRoot}/src/components`, `${userRoot}/components`],
+      dirs: [`${clientRoot}/components`, `${themeRoot}/components`, `${userRoot}/components`],
     }),
 
     // https://github.com/antfu/unocss
@@ -131,7 +130,7 @@ export function ViteValaxyPlugins(options: ResolvedValaxyOptions, serverOptions:
     VueI18n({
       runtimeOnly: true,
       compositionOnly: true,
-      include: [resolve(clientRoot, 'locales/**'), `${options.userRoot}/locales/**`],
+      include: [resolve(clientRoot, 'locales/**'), `${userRoot}/locales/**`, `${themeRoot}/locales/**`],
     }),
 
     // https://github.com/antfu/vite-plugin-inspect

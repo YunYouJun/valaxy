@@ -63,7 +63,7 @@ cli.command(
       server: {
         watch: {
           // watch theme updated
-          ignored: [`!${options.themeRoot}/src/**`, `${options.userRoot}/**.md`],
+          ignored: [`!${options.themeRoot}/**`, `${options.userRoot}/**.md`],
         },
 
         port,

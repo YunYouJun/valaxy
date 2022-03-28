@@ -1,7 +1,7 @@
 {
   "name": "valaxy-theme-yun",
   "version": "0.0.1",
-  "main": "src/index.ts",
+  "main": "index.ts",
   "types": "dist/index.d.ts",
   "exports": {
     ".": "./dist/index.js"

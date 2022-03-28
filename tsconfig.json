@@ -19,13 +19,12 @@
       "vite-plugin-vue-layouts/client"
     ],
     "paths": {
-      "~/*": ["packages/valaxy/src/client/src/*"],
-      "@valaxyjs/client/*": ["packages/valaxy/src/client/src/*"],
+      "~/*": ["packages/valaxy/src/client/*"],
+      "@valaxyjs/client/*": ["packages/valaxy/src/client/*"],
       "valaxy/package.json": ["packages/valaxy/package.json"],
       "valaxy": ["packages/valaxy/src/index.ts"],
-      "valaxy-theme-yun/config": ["packages/valaxy-theme-yun/src/config.ts"],
       "valaxy-theme-yun/*": ["packages/valaxy-theme-yun/*"],
-      "valaxy-theme-yun": ["packages/valaxy-theme-yun/src/index.ts"],
+      "valaxy-theme-yun": ["packages/valaxy-theme-yun/index.ts"],
       "@valaxyjs/core": ["packages/valaxy/src/core/index.ts"]
     }
   },
