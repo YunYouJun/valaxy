@@ -38,6 +38,12 @@ jobs:
       - name: 🌌 Build Valaxy Cli
         run: pnpm build
 
+      - name: 📖 pull yunyoujun.cn posts
+        run: |
+          git clone https://github.com/YunYouJun/yunyoujun.github.io \
+          cp -rf yunyoujun.github.io/source/_posts/* demo/yun/pages
+
+
       - name: ☁️ Build Yun Demo
         run: pnpm run build -C demo/yun
 
