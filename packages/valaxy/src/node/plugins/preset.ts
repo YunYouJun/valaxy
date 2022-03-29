@@ -33,6 +33,13 @@ export function ViteValaxyPlugins(options: ResolvedValaxyOptions, serverOptions:
   return [
     Vue({
       include: [/\.vue$/, /\.md$/],
+      template: {
+        compilerOptions: {
+          isCustomElement: (tag) => {
+            return ['meting-js'].includes(tag)
+          },
+        },
+      },
     }),
 
     ValaxyPlugin,

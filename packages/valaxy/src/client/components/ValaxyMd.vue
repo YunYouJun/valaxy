@@ -1,8 +1,10 @@
 <script lang="ts" setup>
 import type { Post } from 'valaxy'
 import { onMounted, ref } from 'vue'
+import { useAplayer } from '~/composables/widgets/aplayer'
 import { wrapTable } from '~/utils'
-defineProps<{
+
+const props = defineProps<{
   frontmatter: Post
   excerpt?: string
 }>()
@@ -15,6 +17,10 @@ function updateDom() {
 onMounted(() => {
   updateDom()
 })
+
+if (props.frontmatter.aplayer)
+  useAplayer()
+
 </script>
 
 <template>

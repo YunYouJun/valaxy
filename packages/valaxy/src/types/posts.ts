@@ -73,4 +73,9 @@ export interface Post {
    * @description 是否完结，将在末尾添加衬线字体 Q.E.D.
    */
   end?: boolean
+
+  /**
+   * use aplayer
+   */
+  aplayer?: boolean
 }

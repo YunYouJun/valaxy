@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { computed, ref } from 'vue'
+import { computed } from 'vue'
 const props = defineProps<{
   /**
    * Cur Page Number
@@ -32,16 +32,21 @@ const showPage = (i: number) => {
   else if (i === totalPages.value) return true
   return i > props.curPage - surLen.value && i < props.curPage + surLen.value
 }
+
+const jumpTo = (page: number) => {
+  if (page === 1) return '/'
+  else return `/page/${page}`
+}
 </script>
 
 <template>
   <nav class="pagination">
-    <router-link v-if="curPage !== 1" class="page-number" :to="`/page/${curPage - 1}`">
+    <router-link v-if="curPage !== 1" class="page-number" :to="jumpTo(curPage - 1)">
       <div i-ri-arrow-left-s-line />
     </router-link>
 
     <template v-for="i in totalPages">
-      <router-link v-if="showPage(i)" :key="i" class="page-number" :class="curPage === i && 'active'" :to="`/page/${i}`">
+      <router-link v-if="showPage(i)" :key="i" class="page-number" :class="curPage === i && 'active'" :to="jumpTo(i)">
         {{ i }}
       </router-link>
       <span v-else-if="i === curPage - surLen" :key="`prev-space-${i}`" class="space" disabled>
@@ -52,7 +57,7 @@ const showPage = (i: number) => {
       </span>
     </template>
 
-    <router-link v-if="curPage !== totalPages" class="page-number" :to="`/page/${curPage + 1}`">
+    <router-link v-if="curPage !== totalPages" class="page-number" :to="jumpTo(curPage + 1)">
       <div i-ri-arrow-right-s-line />
     </router-link>
   </nav>

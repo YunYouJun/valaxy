@@ -8,7 +8,7 @@ export * from './common'
 export * from './helper'
 export * from './dark'
 export * from './layout'
-export * from './widget'
+export * from './widgets'
 
 // comment
 export * from './comments'
