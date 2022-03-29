@@ -70,6 +70,10 @@ const jumpTo = (page: number) => {
   --page-btn-active-bg-color: var(--yun-c-primary-light);
 }
 
+.dark {
+  --page-btn-bg-color: var(--yun-c-bg-light);
+}
+
 .pagination {
   display: flex;
   justify-content: center;

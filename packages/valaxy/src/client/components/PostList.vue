@@ -36,11 +36,12 @@ const displayedPosts = computed(() => posts.value.slice((props.curPage - 1) * pa
           {{ route.title }}
         </div>
       </AppLink>
-      <YunPostMeta :frontmatter="route" />
+
+      <YunPostMeta m="b-4" :frontmatter="route" />
 
       <div v-if="route.excerpt" class="markdown-body" text="left" w="full" p="x-6 y-2 lt-sm:4" v-html="route.excerpt" />
 
-      <div w="full" class="yun-card-action flex justify-between" border="t" text="sm">
+      <div v-if="route.categories || route.tags" w="full" class="yun-card-actions flex justify-between" border="t" text="sm">
         <router-link
           v-if="route.categories"
           :to="{
@@ -69,7 +70,7 @@ const displayedPosts = computed(() => posts.value.slice((props.curPage - 1) * pa
 </template>
 
 <style lang="scss">
-.yun-card-action {
+.yun-card-actions {
   border-top: 1px solid rgba(238, 238, 238, 0.1);
   min-height: 2.5rem;
 }
