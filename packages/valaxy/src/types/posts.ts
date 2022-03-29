@@ -78,4 +78,8 @@ export interface Post {
    * use aplayer
    */
   aplayer?: boolean
+  /**
+   * use katex
+   */
+  katex?: boolean
 }

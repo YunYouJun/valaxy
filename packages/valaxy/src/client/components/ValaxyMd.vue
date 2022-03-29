@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import type { Post } from 'valaxy'
 import { onMounted, ref } from 'vue'
-import { useAplayer } from '~/composables/widgets/aplayer'
+import { useAplayer, useKatex } from '~/composables'
 import { wrapTable } from '~/utils'
 
 const props = defineProps<{
@@ -21,6 +21,8 @@ onMounted(() => {
 if (props.frontmatter.aplayer)
   useAplayer()
 
+if (props.frontmatter.katex)
+  useKatex()
 </script>
 
 <template>

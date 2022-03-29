@@ -7,8 +7,9 @@ import Emoji from 'markdown-it-emoji'
 import Prism from 'markdown-it-prism'
 import LinkAttributes from 'markdown-it-link-attributes'
 import TOC from 'markdown-it-table-of-contents'
-
+import type { KatexOptions } from 'katex'
 import type { ResolvedValaxyOptions } from '../options'
+import Katex from '../markdown/markdown-it-katex'
 
 export type ViteMdOptions = Parameters<typeof Markdown>[0]
 
@@ -19,6 +20,7 @@ export interface MarkdownOptions extends MarkdownIt.Options {
   }
   // https://github.com/Oktavilla/markdown-it-table-of-contents
   toc?: any
+  katex?: KatexOptions
 }
 
 export const excerpt_separator = '<!-- more -->'
@@ -55,6 +57,8 @@ export function createMarkdownPlugin(options: ResolvedValaxyOptions, mdOptions: 
         listType: 'ol',
         ...mdOptions.toc,
       })
+
+      md.use(Katex, mdOptions.katex)
 
       md.use(Emoji)
 
