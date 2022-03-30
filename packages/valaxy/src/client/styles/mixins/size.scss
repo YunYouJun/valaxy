@@ -41,3 +41,9 @@ $breakpoints: (
     @content;
   }
 }
+
+@mixin xl {
+  @media screen and (min-width: map.get($breakpoints, 'xl')) {
+    @content;
+  }
+}

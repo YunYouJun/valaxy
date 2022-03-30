@@ -26,8 +26,8 @@ $z-index: map.merge((
   'fireworks': 11,
   'menu-btn': 20,
   'go-up-btn': 20,
-  'search-btn': 20,
   'search-popup': 30,
+  'search-btn': 31,
 ), $z-index);
 
 $transition: () !default;

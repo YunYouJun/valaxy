@@ -18,31 +18,3 @@ hr {
   opacity: 0.2;
   margin: 1rem;
 }
-
-// scrollbar
-::-webkit-scrollbar {
-  width: 8px;
-  height: 8px;
-}
-
-::-webkit-scrollbar-track {
-  border-radius: 2px;
-  background-color: rgba(255, 255, 255, 0.1);
-}
-
-::-webkit-scrollbar-thumb {
-  border-radius: 2px;
-  background-color: rgba(get-css-var('c', 'primary', 'rgb'), 0.3);
-
-  &:window-inactive {
-    background-color: rgba(get-css-var('c', 'primary', 'rgb'), 0.3);
-  }
-
-  &:hover {
-    background-color: rgba(get-css-var('c', 'primary', 'rgb'), 0.7);
-  }
-
-  &:active {
-    background-color: rgba(get-css-var('c', 'primary', 'rgb'), 0.9);
-  }
-}

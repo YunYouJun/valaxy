@@ -19,7 +19,7 @@ export function useWaline(options: {} = {}) {
     if (!isClient) return
 
     const defaultOptions = {
-      el: '#waline',
+      el: '.comment #waline',
       lang: locale.value,
       dark: 'html.dark',
       emoji: [

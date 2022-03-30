@@ -10,13 +10,18 @@
       <slot name="footer" />
     </ValaxyFooter>
   </main>
+
+  <YunAlgoliaSearch v-if="config.search.algolia.enable" />
 </template>
 
 <script lang="ts" setup>
+import { useConfig } from 'valaxy'
 import { useLayout } from '~/composables'
 
 import { useAppStore } from '~/stores/app'
 const app = useAppStore()
+
+const config = useConfig()
 
 const isHome = useLayout('home')
 </script>

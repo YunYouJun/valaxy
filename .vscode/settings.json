@@ -1,5 +1,10 @@
 {
-  "cSpell.words": ["valaxy", "valaxyjs"],
+  "cSpell.words": [
+    "algoliasearch",
+    "instantsearch",
+    "valaxy",
+    "valaxyjs"
+  ],
   "i18n-ally.sourceLanguage": "en",
   "i18n-ally.keystyle": "nested",
   "i18n-ally.localesPaths": ["packages/valaxy/src/client/locales"],

@@ -74,6 +74,19 @@ export interface ValaxyConfig<T = ValaxyThemeConfig> {
   social: SocialLink[]
 
   /**
+   * search
+   */
+  search: {
+    algolia: {
+      enable: boolean
+      appId: string
+      apiKey: string
+      indexName: string
+      chunkSize: number
+    }
+  }
+
+  /**
    * The name of theme
    * @description 主题名称
    */
@@ -189,6 +202,16 @@ export const defaultValaxyConfig: ValaxyConfig = {
       },
 
     ],
+  },
+
+  search: {
+    algolia: {
+      enable: false,
+      appId: '',
+      apiKey: '',
+      indexName: '',
+      chunkSize: 5000,
+    },
   },
 
   theme: 'yun',

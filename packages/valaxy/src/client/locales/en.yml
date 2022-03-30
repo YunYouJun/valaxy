@@ -77,9 +77,9 @@ category:
 
 search:
   placeholder: Searching...
-  empty: "We didn't find any results for the search: ${query}."
+  empty: "We didn't find any results for the search: {query}."
   hits: "${hits} results found"
-  hits_time: "${hits} results found in ${time} ms"
+  hits_time: "{hits} results found in {time} ms"
 
 symbol:
   comma: ", "
