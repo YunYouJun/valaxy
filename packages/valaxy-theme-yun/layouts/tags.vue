@@ -44,13 +44,14 @@ const displayTag = (tag: string) => {
 
 <template>
   <YunBase>
-    <template #content>
+    <template #header>
       <YunPageHeader
         :title="frontmatter.title || t('menu.tags')"
         :icon="frontmatter.icon || 'i-ri-tag-line'"
         :color="frontmatter.color"
       />
-
+    </template>
+    <template #content>
       <div class="yun-text-light" text="center" p="2">
         {{ t('counter.tags', Array.from(tags).length) }}
       </div>

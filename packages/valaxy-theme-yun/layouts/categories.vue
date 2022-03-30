@@ -43,12 +43,14 @@ const displayCategory = (category: string) => {
 
 <template>
   <YunBase>
-    <template #content>
+    <template #header>
       <YunPageHeader
         :title="frontmatter.title || t('menu.categories')"
         :icon="frontmatter.icon || 'i-ri-folder-2-line'"
         :color="frontmatter.color"
       />
+    </template>
+    <template #content>
       <div text="center" class="yun-text-light" p="2">
         {{ t('counter.categories', categories.children!.size ) }}
       </div>

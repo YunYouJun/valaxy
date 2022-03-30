@@ -6,6 +6,9 @@ import Base from 'valaxy-theme-yun/layouts/base.vue'
 
 <template>
   <Base>
+    <template #header>
+      <slot name="header" />
+    </template>
     <template #content>
       <slot name="content" />
     </template>

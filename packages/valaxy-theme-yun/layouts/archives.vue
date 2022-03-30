@@ -10,11 +10,11 @@ const postList = usePostList()
 
 <template>
   <YunBase>
-    <template #content>
+    <template #header>
       <YunPageHeader :title="frontmatter.title || t('menu.archives')" :icon="frontmatter.icon || 'i-ri-archive-line'" :color="frontmatter.color" />
-
+    </template>
+    <template #content>
       <router-view />
-
       <YunPostCollapse :posts="postList" />
     </template>
   </YunBase>

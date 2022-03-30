@@ -9,7 +9,6 @@ const url = useFullUrl()
 <template>
   <YunBase>
     <template #content>
-      <YunPageHeader :title="frontmatter.title" />
       <main text="left" m="auto" p="t-0 b-2">
         <slot name="header">
           <YunPostMeta :frontmatter="frontmatter" />

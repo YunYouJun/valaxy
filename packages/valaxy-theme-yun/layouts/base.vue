@@ -9,6 +9,9 @@ const frontmatter = useFrontmatter()
   <main class="yun-main flex lt-md:ml-0">
     <div flex="~ 1 col" w="full" p="l-4 lt-md:0">
       <YunCard m="0" p="2" class="sm:p-8 lg:px-12 xl:px-16">
+        <slot name="header">
+          <YunPageHeader :title="frontmatter.title" :icon="frontmatter.icon" :color="frontmatter.color" />
+        </slot>
         <template #content>
           <slot name="content">
             <router-view />
