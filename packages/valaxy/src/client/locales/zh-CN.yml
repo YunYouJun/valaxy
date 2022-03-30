@@ -77,7 +77,6 @@ category:
 search:
   placeholder: 搜索...
   empty: "找不到您查询的内容: {query}"
-  hits: "找到 ${hits} 条结果"
   hits_time: "找到 {hits} 条结果（用时 {time} 毫秒）"
 
 symbol:
