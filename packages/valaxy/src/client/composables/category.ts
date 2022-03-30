@@ -1,12 +1,12 @@
 import type { Post } from 'valaxy'
 import { usePostList } from './post'
 
-interface ParentCategory {
+export interface ParentCategory {
   total: number
   children: Categories
 }
 
-interface PostCategory {
+export interface PostCategory {
   total: number
   posts: Post[]
 }

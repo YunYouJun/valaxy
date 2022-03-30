@@ -21,9 +21,13 @@ export function usePostList(params: {
         return Object.assign({ path: i.path, excerpt: i.meta.excerpt }, i.meta.frontmatter)
       })
 
-    sortByDate(routes)
+    /**
+     * 置顶
+     */
+    const topPosts = sortByDate(routes.filter(i => i.top)).sort((a, b) => b.top! - a.top!)
+    const otherPosts = sortByDate(routes.filter(i => !i.top))
 
-    return routes
+    return topPosts.concat(otherPosts)
   })
 }
 

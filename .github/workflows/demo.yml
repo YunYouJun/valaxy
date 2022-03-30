@@ -40,8 +40,8 @@ jobs:
 
       - name: 📖 pull yunyoujun.cn posts
         run: |
-          git clone https://github.com/YunYouJun/yunyoujun.github.io \
-          cp -rf yunyoujun.github.io/source/_posts/posts/* demo/yun/pages/posts \
+          git clone https://github.com/YunYouJun/yunyoujun.github.io
+          cp -rf yunyoujun.github.io/source/_posts/posts/* demo/yun/pages/posts
 
       - name: ☁️ Build Yun Demo
         run: pnpm run build -C demo/yun

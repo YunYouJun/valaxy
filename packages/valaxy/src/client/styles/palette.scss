@@ -6,7 +6,8 @@ $palette: () !default;
 $palette: map.merge((
   'white': #ffffff,
   'black': #1a1a1a,
-  'gray': #8e8e8e
+  'gray': #8e8e8e,
+  'warning': #f2711c
 ), $palette);
 
 $colors: () !default;

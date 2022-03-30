@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import { ref } from 'vue'
-import type { Category } from 'valaxy'
+import type { Category, ParentCategory, PostCategory } from 'valaxy'
 import { useI18n } from 'vue-i18n'
 
 defineProps<{
@@ -26,14 +26,14 @@ const { t } = useI18n()
   </li>
 
   <template v-if="showChild">
-    <ul v-if="category.posts">
-      <li v-for="post, i in category.posts" :key="i" class="post-list-item" m="l-4">
+    <ul v-if="(category as PostCategory).posts">
+      <li v-for="post, i in (category as PostCategory).posts" :key="i" class="post-list-item" m="l-4">
         <router-link v-if="post.title" :to="post.path" class="inline-flex items-center">
           <div i-ri-file-text-line />
           <span m="l-1" font="serif black">{{ post.title }}</span>
         </router-link>
       </li>
     </ul>
-    <YunCategories v-else :categories="category.children!" :display-category="displayCategory" />
+    <YunCategories v-else :categories="(category as ParentCategory).children" :display-category="displayCategory" />
   </template>
 </template>

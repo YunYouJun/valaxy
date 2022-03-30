@@ -26,7 +26,11 @@ const displayedPosts = computed(() => posts.value.slice((props.curPage - 1) * pa
       </div>
     </template>
 
-    <YunCard v-for="route in displayedPosts" :key="route.path" m="y-4 auto" class="max-w-900px">
+    <YunCard v-for="route in displayedPosts" :key="route.path" m="y-4 auto" class="post-card">
+      <div v-if="route.top" class="post-top-icon">
+        <div i-ri-pushpin-line />
+      </div>
+
       <AppLink
         class="post-title-link"
         :to="route.path || ''"

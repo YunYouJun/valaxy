@@ -10,7 +10,10 @@
           {{ config.author.name }}
         </a>
       </div>
-      <a href="/about/site" class="site-name">{{ config.title }}</a>
+      <router-link v-if="router.hasRoute('about-site')" to="/about/site" class="site-name">
+        {{ config.title }}
+      </router-link>
+      <span v-else class="site-name">{{ config.title }}</span>
       <h4 v-if="config.subtitle" class="site-subtitle block" text="xs">
         {{ config.subtitle }}
       </h4>
@@ -30,8 +33,11 @@
 
 <script lang="ts" setup>
 import { useConfig } from 'valaxy'
+import { useRouter } from 'vue-router'
 
 const config = useConfig()
+
+const router = useRouter()
 </script>
 
 <style lang="scss">

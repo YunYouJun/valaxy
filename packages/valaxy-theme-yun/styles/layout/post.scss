@@ -1,3 +1,11 @@
+@use 'sass:map';
+@use '~/styles/palette.scss' as *;
+
+.post-card {
+  position: relative;
+  max-width: 900px;
+}
+
 .post-title {
   display: flex;
   justify-content: center;
@@ -47,4 +55,12 @@
     opacity: 1;
     transform: translate3d(0, 0, 0);
   }
+}
+
+.post-top-icon {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  color: var(--yun-c-warning);
+  font-size: 1.2rem;
 }

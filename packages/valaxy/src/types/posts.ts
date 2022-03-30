@@ -82,4 +82,9 @@ export interface Post {
    * use katex
    */
   katex?: boolean
+
+  /**
+   * 置顶
+   */
+  top?: number
 }
