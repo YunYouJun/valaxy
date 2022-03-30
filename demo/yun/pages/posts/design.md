@@ -1,6 +1,7 @@
 ---
 title: Valaxy 设计原则
 date: 2022-03-29
+end: false
 ---
 
 ## 特点
@@ -15,7 +16,7 @@ Valaxy 认为这完全没有必要，您只需在 `frontmatter` 中添加 `draft
 
 譬如：
 
-```md
+```markdown
 ---
 draft: true
 ---

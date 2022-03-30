@@ -1,6 +1,6 @@
 import type MarkdownIt from 'markdown-it'
 
-import Markdown, { link, meta } from 'vite-plugin-md'
+import Markdown, { link } from 'vite-plugin-md'
 
 import Anchor from 'markdown-it-anchor'
 import Emoji from 'markdown-it-emoji'
@@ -32,13 +32,14 @@ export function createMarkdownPlugin(options: ResolvedValaxyOptions, mdOptions: 
     wrapperComponent: 'ValaxyMd',
 
     headEnabled: true,
-    // frontmatter: true,
+    frontmatter: true,
 
     excerpt: excerpt_separator,
 
     builders: [
       link(),
-      meta(),
+      // seems bug, override frontmatter
+      // meta(),
     ],
 
     markdownItSetup(md) {

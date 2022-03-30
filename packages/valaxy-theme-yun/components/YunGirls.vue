@@ -1,7 +1,7 @@
 
 <script lang="ts" setup>
-import { ref, watch } from 'vue'
-import { anonymousImage } from '../config'
+import { useRandomData } from 'valaxy-theme-yun/composables'
+import { onImgError } from '../utils'
 
 export interface GirlType {
   name: string
@@ -16,27 +16,13 @@ const props = defineProps<{
   random?: boolean
 }>()
 
-const onImgError = (e: Event) => {
-  (e.target as HTMLImageElement).src = anonymousImage
-}
-
-const randomGirls = ref<GirlType[]>([])
-
-watch(() => randomGirls, async() => {
-  let girls: GirlType[]
-  if (typeof props.girls === 'string')
-    girls = await fetch(props.girls).then(res => res.json()) as GirlType[]
-  else
-    girls = props.girls
-
-  randomGirls.value = props.random ? Array.from(girls).sort(() => Math.random() - 0.5) : girls
-}, { immediate: true })
+const { data } = useRandomData(props.girls, props.random)
 </script>
 
 <template>
   <div class="girls">
     <ul class="girl-items">
-      <li v-for="girl, i in randomGirls" :key="girl.name" class="girl-item">
+      <li v-for="girl, i in data" :key="girl.name" class="girl-item">
         <a :href="girl.url || 'https://zh.moegirl.org/' + girl.name" :title="girl.reason" alt="portrait" target="_blank" rel="noopener">
           <figure class="girl-info">
             <img class="girl-avatar" loading="lazy" :src="girl.avatar" :alt="girl.name" :onError="onImgError">

@@ -29,14 +29,24 @@ if (props.frontmatter.katex)
   <article v-if="$slots.default" class="markdown-body">
     <slot ref="content" @vnode-updated="updateDom" />
 
-    <template v-if="frontmatter.end">
+    <template v-if="typeof frontmatter.end !== 'undefined'">
       <slot name="end">
-        <div m="y-4" class="flex justify-center items-center">
-          <hr class="inline-flex" w="full" m="!y-2">
-          <span p="x-4" font="serif">Q.E.D.</span>
-          <hr class="inline-flex" w="full" m="!y-2">
+        <div m="y-4" class="end flex justify-center items-center">
+          <hr class="line inline-flex" w="full" m="!y-2">
+          <span p="x-4" font="serif" class="whitespace-nowrap">
+            {{ frontmatter.end ? 'Q.E.D.' : 'To Be Continued.' }}
+          </span>
+          <hr class="line inline-flex" w="full" m="!y-2">
         </div>
       </slot>
     </template>
   </article>
 </template>
+
+<style lang="scss">
+.end {
+  .line {
+    height: 1px;
+  }
+}
+</style>
