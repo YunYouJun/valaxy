@@ -1,8 +1,10 @@
+
 import fs from 'fs'
 import type { PluginOption } from 'vite'
 
 import consola from 'consola'
 
+import MarkdownIt from 'markdown-it'
 import matter from 'gray-matter'
 
 import Vue from '@vitejs/plugin-vue'
@@ -16,18 +18,25 @@ import Inspect from 'vite-plugin-inspect'
 import chalk from 'chalk'
 import type { ResolvedValaxyOptions, ValaxyServerOptions } from '../options'
 import type { Mode } from '../vite'
-import { render as mdRender } from '../markdown'
+import { setupMarkdownPlugins } from '../markdown'
 import { createMarkdownPlugin, excerpt_separator } from './markdown'
 import { createUnocssPlugin } from './unocss'
 import { createValaxyPlugin } from '.'
 
-export function ViteValaxyPlugins(options: ResolvedValaxyOptions, serverOptions: ValaxyServerOptions = {}, mode: Mode = 'dev'): (PluginOption | PluginOption[])[] | undefined {
+export function ViteValaxyPlugins(
+  options: ResolvedValaxyOptions,
+  serverOptions: ValaxyServerOptions = {},
+  mode: Mode = 'dev',
+): (PluginOption | PluginOption[])[] | undefined {
   const { clientRoot, themeRoot, userRoot } = options
 
   const MarkdownPlugin = createMarkdownPlugin(options)
   const UnocssPlugin = createUnocssPlugin(options)
 
   const ValaxyPlugin = createValaxyPlugin(options, serverOptions)
+
+  const mdIt = new MarkdownIt({ html: true })
+  const _md = setupMarkdownPlugins(mdIt, options.config.markdownIt)
 
   const roots = [clientRoot, themeRoot, userRoot]
   return [
@@ -40,7 +49,7 @@ export function ViteValaxyPlugins(options: ResolvedValaxyOptions, serverOptions:
           },
         },
       },
-    }),
+    }) as PluginOption,
 
     ValaxyPlugin,
     MarkdownPlugin,
@@ -76,8 +85,17 @@ export function ViteValaxyPlugins(options: ResolvedValaxyOptions, serverOptions:
 
         route.meta = Object.assign(route.meta, {
           frontmatter: Object.assign({ date: new Date() }, data),
-          excerpt: excerpt ? mdRender(excerpt) : '',
+          excerpt: excerpt ? mdIt.render(excerpt) : '',
         })
+
+        // to refactor
+        // get active header by runtime query head, not render
+        mdIt.render(md)
+        route.meta.headers = _md.__data?.headers
+
+        // set default updated
+        if (route.meta.frontmatter.updated)
+          route.meta.frontmatter.updated = route.meta.frontmatter.date
 
         // set layout
         if (data.layout)
@@ -144,7 +162,7 @@ export function ViteValaxyPlugins(options: ResolvedValaxyOptions, serverOptions:
       runtimeOnly: true,
       compositionOnly: true,
       include: roots.map(root => `${root}/locales/**`),
-    }),
+    }) as PluginOption,
 
     // https://github.com/antfu/vite-plugin-inspect
     // Visit http://localhost:3333/__inspect/ to see the inspector

@@ -8,7 +8,8 @@ const props = defineProps<{
 }>()
 
 const { t } = useI18n()
-const { color, icon, styles } = usePostProperty(props.post.type)
+
+const { icon, styles } = usePostProperty(props.post.type)
 </script>
 
 <template>
@@ -21,7 +22,6 @@ const { color, icon, styles } = usePostProperty(props.post.type)
       class="post-title-link"
       :to="post.path || ''"
       m="t-3"
-      :style="{ color: post.type && color }"
     >
       <div class="flex justify-center items-center title text-2xl" font="serif black">
         <div v-if="post.type" class="inline-flex" m="r-1" :class="icon" />{{ post.title }}

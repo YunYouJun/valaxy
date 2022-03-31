@@ -7,13 +7,6 @@
   max-width: 900px;
 }
 
-@include xl {
-  .post-card {
-    // 8px scrollbar width
-    max-width: calc(100vw - 2 * var(--yun-sidebar-width-mobile) - 2rem - 8px);
-  }
-}
-
 
 .post-title {
   display: flex;
@@ -28,6 +21,7 @@
 .post-title-link {
   position: relative;
   padding: 0.7rem 1.2rem;
+  color: var(--card-c-primary, var(--yun-c-link));
 
   .icon {
     width: 1.6rem;

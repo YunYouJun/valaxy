@@ -1,6 +1,7 @@
 import 'vue-router'
 
 import type { Post } from 'valaxy'
+import type { Header } from '../node/markdown'
 
 declare interface Window {
   // extend the window
@@ -29,6 +30,7 @@ declare module '@valaxyjs/config' {
 
 declare module 'vue-router' {
   interface RouteMeta {
+    headers: Header[]
     frontmatter: Post
   }
 }

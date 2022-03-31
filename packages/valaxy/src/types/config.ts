@@ -1,5 +1,6 @@
 import type { PartialDeep } from 'type-fest'
 import type { VitePluginConfig } from 'unocss/vite'
+import type { MarkdownOptions } from '../node/markdown'
 import type { ViteMdOptions } from '../node/plugins/markdown'
 
 export type ValaxyThemeConfig = Record<string, any>
@@ -148,6 +149,7 @@ export interface ValaxyConfig<T = ValaxyThemeConfig> {
    * for markdown
    */
   markdown: ViteMdOptions
+  markdownIt: MarkdownOptions
 }
 
 /**
@@ -221,5 +223,11 @@ export const defaultValaxyConfig: ValaxyConfig = {
 
   markdown: {
     excerpt: '<!-- more -->',
+  },
+  markdownIt: {
+    toc: {
+      listType: 'ol',
+    },
+    katex: {},
   },
 }

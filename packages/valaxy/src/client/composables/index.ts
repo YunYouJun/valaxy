@@ -11,5 +11,7 @@ export * from './dark'
 export * from './layout'
 export * from './widgets'
 
+export * from './sidebar'
+
 // comment
 export * from './comments'

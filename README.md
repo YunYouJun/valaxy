@@ -20,6 +20,14 @@ TODO
 
 For a example, you can see [demo/yun](./demo/yun/) folder.
 
+```bash
+npm init valaxy
+# yarn
+# yarn create valaxy
+# pnpm
+# pnpm create valaxy
+```
+
 ## Dev
 
 ```bash
@@ -58,9 +66,8 @@ pnpm demo
 
 - [ ] A script to generate theme template.
 - [ ] github actions auto generate site from theme repo/npm
-- [ ] only posts in user repo (can custom)
-- [ ] dynamic valaxy.config.ts reload
 - [ ] debug component
+- [ ] git timestamp for post without `date`
 
 ## Thanks
 

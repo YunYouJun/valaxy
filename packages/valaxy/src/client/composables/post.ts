@@ -65,7 +65,15 @@ export function usePrevNext(path?: string) {
  * get type card property
  * todo: test reactive
  */
-export function usePostProperty(type = 'link') {
+export function usePostProperty(type?: string) {
+  if (!type) {
+    return {
+      color: '',
+      icon: '',
+      styles: {},
+    }
+  }
+
   const themeConfig = useThemeConfig()
 
   if (!(type in themeConfig.value.types))

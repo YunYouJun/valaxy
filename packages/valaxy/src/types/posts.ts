@@ -89,9 +89,19 @@ export interface Post {
    * use katex
    */
   katex?: boolean
+  /**
+   * use codepen
+   */
+  codepen?: boolean
 
   /**
    * 置顶
    */
   top?: number
+
+  /**
+   * display toc
+   * @description 是否显示目录
+   */
+  toc?: boolean
 }

@@ -2,7 +2,7 @@
 import type { Post } from 'valaxy'
 import { onMounted, ref } from 'vue'
 import { useI18n } from 'vue-i18n'
-import { useAplayer, useKatex, usePostProperty } from '~/composables'
+import { useAplayer, useCodePen, useKatex } from '~/composables'
 import { wrapTable } from '~/utils'
 
 const props = defineProps<{
@@ -21,13 +21,16 @@ onMounted(() => {
   updateDom()
 })
 
-if (props.frontmatter.aplayer)
-  useAplayer()
-
+// features
 if (props.frontmatter.katex)
   useKatex()
 
-const { styles } = usePostProperty(props.frontmatter.type)
+// widgets
+if (props.frontmatter.aplayer)
+  useAplayer()
+
+if (props.frontmatter.codepen)
+  useCodePen()
 </script>
 
 <template>
@@ -42,7 +45,6 @@ const { styles } = usePostProperty(props.frontmatter.type)
         rounded
         target="_blank"
         m="b-4"
-        :style="styles"
       >
         {{ t('post.view_link') }}
       </a>

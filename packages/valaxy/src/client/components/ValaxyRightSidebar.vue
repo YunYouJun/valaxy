@@ -1,22 +1,32 @@
+<script lang="ts" setup>
+import { useI18n } from 'vue-i18n'
+import type { Post } from '../../types'
+const { t } = useI18n()
+
+defineProps<{ frontmatter: Post }>()
+</script>
+
 <template>
-  <aside class="relative val-card" m="l-4" text="center">
-    <div class="val-toc" />
-    <div class="sticky right-sidebar">
-      <!-- [[toc]] -->
-      <del>广告位招租</del>
+  <aside class="right-sidebar val-card relative" m="l-4" text="center">
+    <h2 v-if="frontmatter.toc" m="t-6 b-2" font="serif black">
+      {{ t('sidebar.toc') }}
+    </h2>
+
+    <div class="right-sidebar-container sticky">
+      <ValaxyToc v-if="frontmatter.toc" />
+
+      <div v-if="$slots.custom" class="custom-container">
+        <slot name="custom" />
+      </div>
     </div>
   </aside>
 </template>
 
 <style lang="scss">
-.val-toc {
-  width: var(--yun-sidebar-width-mobile);
-
-  background-color: var(--yun-c-bg-light);
-}
-
 .right-sidebar {
-  top: 24px;
-  bottom: 0;
+  width: var(--yun-sidebar-width-mobile);
+}
+.right-sidebar-container {
+  top: 1rem;
 }
 </style>

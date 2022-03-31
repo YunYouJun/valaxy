@@ -15,8 +15,14 @@ const messages = Object.fromEntries(
     }),
 )
 
+function shouldHotReload(payload: any): boolean {
+  const payloadPath = payload.path.replace(/(\bindex)?\.md$/, '')
+  const locationPath = location.pathname.replace(/(\bindex)?\.html$/, '')
+  return payloadPath === locationPath
+}
+
 // https://github.com/antfu/vite-plugin-pwa#automatic-reload-when-new-content-available
-export const install: UserModule = ({ app }) => {
+export const install: UserModule = ({ app, router }) => {
   // inject valaxy config before modules
   const valaxyConfigRef = initConfig()
   app.provide(valaxyConfigSymbol, valaxyConfigRef)
@@ -28,4 +34,9 @@ export const install: UserModule = ({ app }) => {
     messages,
   })
   app.use(i18n)
+
+  import.meta.hot!.on('valaxy:pageHeaders', (payload) => {
+    if (shouldHotReload(payload))
+      router.currentRoute.value.meta.headers = payload.pageHeaders
+  })
 }
