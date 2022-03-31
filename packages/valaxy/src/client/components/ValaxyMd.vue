@@ -1,13 +1,16 @@
 <script lang="ts" setup>
 import type { Post } from 'valaxy'
 import { onMounted, ref } from 'vue'
-import { useAplayer, useKatex } from '~/composables'
+import { useI18n } from 'vue-i18n'
+import { useAplayer, useKatex, usePostProperty } from '~/composables'
 import { wrapTable } from '~/utils'
 
 const props = defineProps<{
   frontmatter: Post
   excerpt?: string
 }>()
+
+const { t } = useI18n()
 
 const content = ref()
 function updateDom() {
@@ -23,23 +26,37 @@ if (props.frontmatter.aplayer)
 
 if (props.frontmatter.katex)
   useKatex()
+
+const { styles } = usePostProperty(props.frontmatter.type)
 </script>
 
 <template>
   <article v-if="$slots.default" class="markdown-body">
     <slot ref="content" @vnode-updated="updateDom" />
 
-    <template v-if="typeof frontmatter.end !== 'undefined'">
-      <slot name="end">
-        <div m="y-4" class="end flex justify-center items-center">
-          <hr class="line inline-flex" w="full" m="!y-2">
-          <span p="x-4" font="serif" class="whitespace-nowrap">
-            {{ frontmatter.end ? 'Q.E.D.' : 'To Be Continued.' }}
-          </span>
-          <hr class="line inline-flex" w="full" m="!y-2">
-        </div>
-      </slot>
-    </template>
+    <div text="center">
+      <a
+        v-if="frontmatter.url"
+        :href="frontmatter.url"
+        class="post-link-btn shadow hover:shadow-md"
+        rounded
+        target="_blank"
+        m="b-4"
+        :style="styles"
+      >
+        {{ t('post.view_link') }}
+      </a>
+    </div>
+
+    <slot v-if="typeof frontmatter.end !== 'undefined'" name="end">
+      <div m="y-4" class="end flex justify-center items-center">
+        <hr class="line inline-flex" w="full" m="!y-2">
+        <span p="x-4" font="serif" class="whitespace-nowrap">
+          {{ frontmatter.end ? 'Q.E.D.' : 'To Be Continued.' }}
+        </span>
+        <hr class="line inline-flex" w="full" m="!y-2">
+      </div>
+    </slot>
   </article>
 </template>
 

@@ -12,9 +12,10 @@ import {
   transformerVariantGroup,
 } from 'unocss'
 import type { ValaxyConfig } from 'valaxy'
+import type { ThemeUserConfig } from 'valaxy-theme-yun/config'
 import type { ResolvedValaxyOptions } from '../options'
 
-export const createSafelist = (config: ValaxyConfig) => {
+export const createSafelist = (config: ValaxyConfig<ThemeUserConfig>) => {
   const safeIcons: string[] = [
     'i-ri-archive-line',
     'i-ri-folder-2-line',
@@ -36,6 +37,12 @@ export const createSafelist = (config: ValaxyConfig) => {
   // sponsor icon
   if (config.sponsor.methods.length)
     config.sponsor.methods.forEach(item => safelist.push(item.icon))
+
+  const types = config.themeConfig.types
+  if (types) {
+    for (const type in types)
+      safelist.push(types[type].icon)
+  }
 
   return safelist
 }

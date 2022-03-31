@@ -142,7 +142,12 @@ importers:
       vue-tsc: 0.33.9_typescript@4.6.3
 
   packages/valaxy-theme-yun:
-    specifiers: {}
+    specifiers:
+      '@iconify-json/ant-design': ^1.1.1
+      '@iconify-json/simple-icons': ^1.1.6
+    dependencies:
+      '@iconify-json/ant-design': 1.1.1
+      '@iconify-json/simple-icons': 1.1.6
 
 packages:
 
@@ -1431,6 +1436,12 @@ packages:
     resolution: {integrity: sha512-ZnQMnLV4e7hDlUvw8H+U8ASL02SS2Gn6+9Ac3wGGLIe7+je2AeAOxPY+izIPJDfFDb7eDjev0Us8MO1iFRN8hA==}
     dev: true
 
+  /@iconify-json/ant-design/1.1.1:
+    resolution: {integrity: sha512-aziSNNmMGe/BpDVn+LCi7BP1hBJq39kn0j9yk4ZHqKGytiF9JRF/0ziKjxvo0BvYFuPAjwMVJpFzhG0KMZ/DGw==}
+    dependencies:
+      '@iconify/types': 1.1.0
+    dev: false
+
   /@iconify-json/carbon/1.1.2:
     resolution: {integrity: sha512-kopcVYOmKM1e6u7B8XugmiNV+7lDcK5hJR2XLVpYPfwJSw5M6jGTFe4ZD+SbWfxavOt67ufQtczWKwd9o7gN9Q==}
     dependencies:
@@ -1443,13 +1454,18 @@ packages:
       '@iconify/types': 1.0.12
     dev: true
 
+  /@iconify-json/simple-icons/1.1.6:
+    resolution: {integrity: sha512-oUqQyBf8huEP65qjVC9WKMhBirsJPaFaS/wDsL2VEy6vCiOIymY6uQEjThzsTt7bNMnzxt3DD02kX2YuA1gDHQ==}
+    dependencies:
+      '@iconify/types': 1.1.0
+    dev: false
+
   /@iconify/types/1.0.12:
     resolution: {integrity: sha512-6er6wSGF3hgc1JEZqiGpg21CTCjHBYOUwqLmb2Idzkjiw6ogalGP0ZMLVutCzah+0WB4yP+Zd2oVPN8jvJ+Ftg==}
     dev: true
 
   /@iconify/types/1.1.0:
     resolution: {integrity: sha512-Jh0llaK2LRXQoYsorIH8maClebsnzTcve+7U3rQUSnC11X4jtPnFuyatqFLvMxZ8MLG8dB4zfHsbPfuvxluONw==}
-    dev: true
 
   /@iconify/utils/1.0.31:
     resolution: {integrity: sha512-sBksCt6kI4WaMHwXo1c/MQVuQfWwwd87qHiAPASN8neoQvMCdYTLn+2khc3/OmYPbmg6kYisCxVLkAv0pcy9Ig==}

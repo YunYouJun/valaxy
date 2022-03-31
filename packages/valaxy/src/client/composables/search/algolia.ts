@@ -72,8 +72,12 @@ export function useAlgoliaSearch(config: {
           container: '#algolia-hits',
           templates: {
             item: (data: any) => {
+              console.log(data)
               const link = data.permalink ? data.permalink : route.path
-              return `<a href="${link}" class="algolia-hit-item-link">${data._highlightResult.title.value}</a>`
+              return `<a href="${link}" class="algolia-hit-item-link">
+              ${data._highlightResult.title.value}
+              <small>${data._highlightResult.slug.value}</small>
+              </a>`
             },
             empty: (data: any) => {
               return `<div id="algolia-hits-empty">${t('search.empty', data.query)}</div>`

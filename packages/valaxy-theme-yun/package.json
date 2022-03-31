@@ -14,5 +14,9 @@
     "type": "git",
     "url": "https://github.com/YunYouJun/valaxy/tree/main/packages/valaxy-theme-yun"
   },
-  "homepage": "https://valaxy.yyj.moe/"
+  "homepage": "https://valaxy.yyj.moe/",
+  "dependencies": {
+    "@iconify-json/ant-design": "^1.1.1",
+    "@iconify-json/simple-icons": "^1.1.6"
+  }
 }

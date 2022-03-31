@@ -75,7 +75,7 @@ watch(showPopup, () => {
   -webkit-backdrop-filter: blur(30px);
 
   text-align: center;
-  padding-top: 4.5rem;
+  padding-top: 3.5rem;
   margin: 0;
   z-index: map.get($z-index, 'search-popup');
   transition: 0.6s;
@@ -151,8 +151,7 @@ watch(showPopup, () => {
 .algolia-results {
   position: relative;
   overflow: auto;
-  padding: 10px 30px;
-  height: calc(100% - 150px);
+  padding: 10px 30px 0 30px;
 
   hr {
     margin-top: 10px;
@@ -180,6 +179,16 @@ watch(showPopup, () => {
     font-family: 900;
     background-color: transparent;
     text-decoration: underline;
+  }
+
+  small {
+    display: flex;
+    font-size: 12px;
+    justify-content: center;
+    font-family: var(--yun-font-sans);
+    font-weight: normal;
+    line-height: 1;
+    margin-top: -0.2rem;
   }
 }
 

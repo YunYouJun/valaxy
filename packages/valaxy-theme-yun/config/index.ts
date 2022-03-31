@@ -84,6 +84,14 @@ export interface ThemeConfig {
       icp: string
     }
   }
+
+  /**
+   * post card types
+   */
+  types: Record<string, {
+    color: string
+    icon: string
+  }>
 }
 
 export type ThemeUserConfig = Partial<ThemeConfig>
@@ -130,6 +138,53 @@ export const defaultThemeConfig: ThemeConfig = {
     beian: {
       enable: false,
       icp: '',
+    },
+  },
+
+  types: {
+    'link': {
+      color: 'var(--yun-c-primary)',
+      icon: 'i-ri-external-link-line',
+    },
+    'bilibili': {
+      color: '#FF8EB3',
+      icon: 'i-ri-bilibili-line',
+    },
+    'douban': {
+      color: '#007722',
+      icon: 'i-ri-douban-line',
+    },
+    'github': {
+      color: 'var(--yun-c-text)',
+      icon: 'i-ri-github-line',
+    },
+    'netease-cloud-music': {
+      color: '#C10D0C',
+      icon: 'i-ri-netease-cloud-music-line',
+    },
+    'notion': {
+      color: 'var(--yun-c-text)',
+      icon: 'i-simple-icons-notion',
+    },
+    'twitter': {
+      color: '#1da1f2',
+      icon: 'i-ri-twitter-line',
+    },
+    'wechat': {
+      color: '#1AAD19',
+      icon: 'i-ri-wechat-2-line',
+    },
+    'weibo': {
+      color: '#E6162D',
+      icon: 'i-ri-weibo-line',
+    },
+    'yuque': {
+      color: '#25b864',
+      icon: 'i-ant-design-yuque-outlined',
+    },
+    'zhihu': {
+      color: '#0084FF',
+      icon: 'i-ri-zhihu-line',
     },
   },
 }

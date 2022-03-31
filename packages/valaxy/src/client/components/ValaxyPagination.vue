@@ -15,6 +15,8 @@ const props = defineProps<{
   pageSize: number
 }>()
 
+const emit = defineEmits(['page-change'])
+
 const totalPages = computed(() => Math.ceil(props.total / props.pageSize))
 
 /**
@@ -34,6 +36,7 @@ const showPage = (i: number) => {
 }
 
 const jumpTo = (page: number) => {
+  emit('page-change', page)
   if (page === 1) return '/'
   else return `/page/${page}`
 }

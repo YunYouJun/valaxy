@@ -22,7 +22,14 @@ export interface Post {
    * @description 阅读时长
    */
   duration?: string
+  /**
+   * post card type, can be bilibili/yuque/...
+   */
   type?: string
+  /**
+   * override url, and jump directly
+   */
+  url?: string
   /**
    * @description 摘要
    */

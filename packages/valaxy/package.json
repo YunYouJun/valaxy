@@ -15,6 +15,7 @@
     "url": "https://www.yunyoujun.cn"
   },
   "license": "MIT",
+  "homepage": "https://valaxy.yyj.moe",
   "repository": "https://github.com/YunYouJun/valaxy",
   "bin": {
     "vala": "./bin/valaxy.js",

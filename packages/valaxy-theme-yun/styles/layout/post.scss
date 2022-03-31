@@ -73,3 +73,20 @@
   color: var(--yun-c-warning);
   font-size: 1.2rem;
 }
+
+.post-link-btn,
+.markdown-body .post-link-btn {
+  background-color: var(--card-c-primary);
+  line-height: 1.2;
+  padding: 0.5rem 1rem;
+  color: white;
+  font-size: 14px;
+
+  margin-top: -0.2rem;
+
+  transition: box-shadow var(--yun-transition-duration);
+
+  &:before {
+    content: none;
+  }
+}
