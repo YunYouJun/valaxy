@@ -21,6 +21,7 @@ import type { Mode } from '../vite'
 import { setupMarkdownPlugins } from '../markdown'
 import { createMarkdownPlugin, excerpt_separator } from './markdown'
 import { createUnocssPlugin } from './unocss'
+import { createConfigPlugin } from './extendConfig'
 import { createValaxyPlugin } from '.'
 
 export function ViteValaxyPlugins(
@@ -53,6 +54,7 @@ export function ViteValaxyPlugins(
 
     ValaxyPlugin,
     MarkdownPlugin,
+    createConfigPlugin(options),
 
     // https://github.com/hannoeru/vite-plugin-pages
     Pages({
@@ -122,6 +124,7 @@ export function ViteValaxyPlugins(
       // override: user -> theme -> client
       // latter override former
       dirs: roots.map(root => `${root}/components`),
+      dts: `${options.userRoot}/components.d.ts`,
     }),
 
     // https://github.com/antfu/unocss

@@ -1,0 +1,28 @@
+import { resolve } from 'path'
+import type { InlineConfig, Plugin } from 'vite'
+import { mergeConfig } from 'vite'
+import type { ResolvedValaxyOptions } from '../options'
+import { toAtFS } from '../utils'
+
+export function createConfigPlugin(options: ResolvedValaxyOptions): Plugin {
+  return {
+    name: 'valaxy:config',
+    config(config) {
+      const injection: InlineConfig = {
+        resolve: {
+          alias: {
+            '@/': `${toAtFS(options.userRoot)}/`,
+            '~/': `${toAtFS(options.clientRoot)}/`,
+            '@valaxyjs/client': `${toAtFS(options.clientRoot)}/`,
+            '@valaxyjs/config': '/@valaxyjs/config',
+            'valaxy/package.json': toAtFS(resolve(options.clientRoot, '../../package.json')),
+            'valaxy': toAtFS(resolve(options.clientRoot, '..')),
+            '@valaxyjs/core': toAtFS(resolve(options.clientRoot, '../core')),
+            [`valaxy-theme-${options.theme}`]: `${toAtFS(resolve(options.themeRoot))}/`,
+          },
+        },
+      }
+      return mergeConfig(config, injection)
+    },
+  }
+}

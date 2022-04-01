@@ -2,13 +2,17 @@
   "name": "valaxy",
   "version": "0.0.6",
   "description": "📄 Vite & Vue powered static blog generator.",
-  "main": "dist/index.js",
-  "types": "dist/index.d.ts",
+  "main": "src/index.ts",
+  "types": "dist/types/index.d.ts",
   "keywords": [
     "vite",
     "vue",
     "blog"
   ],
+  "bin": {
+    "vala": "./bin/valaxy.js",
+    "valaxy": "./bin/valaxy.js"
+  },
   "author": {
     "email": "me@yunyoujun.cn",
     "name": "YunYouJun",
@@ -17,10 +21,6 @@
   "license": "MIT",
   "homepage": "https://valaxy.yyj.moe",
   "repository": "https://github.com/YunYouJun/valaxy",
-  "bin": {
-    "vala": "./bin/valaxy.js",
-    "valaxy": "./bin/valaxy.js"
-  },
   "scripts": {
     "build": "tsup",
     "dev": "tsup --watch",

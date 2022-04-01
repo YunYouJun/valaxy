@@ -61,6 +61,8 @@ async function init() {
       }
     }
 
+    console.log(`  ${chalk.dim('📁')} ${chalk.dim(root)}`)
+    console.log()
     console.log(chalk.dim('  Scaffolding project in ') + targetDir + chalk.dim(' ...'))
 
     const templateDir = path.join(__dirname, 'template')
@@ -114,7 +116,6 @@ async function init() {
       if (!agent)
         return
 
-      console.log('root', root)
       await execa(agent, ['install'], { stdio: 'inherit', cwd: root })
       await execa(agent, ['run', 'dev'], { stdio: 'inherit', cwd: root })
     }
