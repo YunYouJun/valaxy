@@ -3,20 +3,20 @@
 </a>
 
 <p align="center">
-🌌 Next Generation Static Blog Framework (Alpha).
+🌌 Next Generation Static Blog Framework (Beta).
 </p>
 
 <pre align="center">
 🧪 Working in Progress
 </pre>
 
+[![NPM version](https://img.shields.io/npm/v/valaxy?color=0078E7)](https://www.npmjs.com/package/valaxy)
+
 English (Todo) | [简体中文](./README.zh-CN.md)
 
+Demo: [valaxy.yyj.moe](https://valaxy.yyj.moe) (Default theme is valaxy-theme-yun)
+
 ## Usage
-
-> Can not use
-
-TODO
 
 For a example, you can see [demo/yun](./demo/yun/) folder.
 
@@ -27,6 +27,10 @@ npm init valaxy
 # pnpm
 # pnpm create valaxy
 ```
+
+English & Chinese Docs is coming!
+
+> Wait a moment...
 
 ## Dev
 
