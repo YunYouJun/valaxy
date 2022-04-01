@@ -25,8 +25,7 @@
       "valaxy/package.json": ["packages/valaxy/package.json"],
       "valaxy": ["packages/valaxy/src/index.ts"],
       "valaxy-theme-yun/*": ["packages/valaxy-theme-yun/*"],
-      "valaxy-theme-yun": ["packages/valaxy-theme-yun/index.ts"],
-      "@valaxyjs/core": ["packages/valaxy/src/core/index.ts"]
+      "valaxy-theme-yun": ["packages/valaxy-theme-yun/index.ts"]
     }
   },
   "exclude": ["dist", "node_modules", "cypress"]

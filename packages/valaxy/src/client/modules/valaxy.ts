@@ -1,5 +1,5 @@
 import { createI18n } from 'vue-i18n'
-import { initConfig, valaxyConfigSymbol } from 'valaxy'
+import { initConfig, valaxyConfigSymbol } from '../config'
 import type { UserModule } from '~/types'
 
 // Import i18n resources

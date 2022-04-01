@@ -20,5 +20,8 @@
     "email": "me@yunyoujun.cn",
     "name": "YunYouJun",
     "url": "https://www.yunyoujun.cn"
+  },
+  "devDependencies": {
+    "valaxy": "workspace:*"
   }
 }

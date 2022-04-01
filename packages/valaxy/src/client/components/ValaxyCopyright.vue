@@ -1,7 +1,7 @@
 <script lang="ts" setup>
-import { useConfig } from 'valaxy'
 import { computed } from 'vue'
 import { useI18n } from 'vue-i18n'
+import { useConfig } from '../config'
 
 const { t, locale } = useI18n()
 

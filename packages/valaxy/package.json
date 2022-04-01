@@ -9,6 +9,10 @@
     "vue",
     "blog"
   ],
+  "exports": {
+    ".": "./src/index.ts",
+    "./*": "./*"
+  },
   "bin": {
     "vala": "./bin/valaxy.js",
     "valaxy": "./bin/valaxy.js"
