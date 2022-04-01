@@ -11,6 +11,7 @@
 </pre>
 
 [![NPM version](https://img.shields.io/npm/v/valaxy?color=0078E7)](https://www.npmjs.com/package/valaxy)
+[![Release](https://github.com/YunYouJun/valaxy/actions/workflows/release.yml/badge.svg)](https://github.com/YunYouJun/valaxy/actions/workflows/release.yml)
 
 English (Todo) | [简体中文](./README.zh-CN.md)
 
