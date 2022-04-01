@@ -1,18 +1,13 @@
-import path from 'path'
-
 import generateSitemap from 'vite-ssg-sitemap'
 import type { InlineConfig } from 'vite'
 import { searchForWorkspaceRoot } from 'vite'
 import type { ResolvedValaxyOptions, ValaxyServerOptions } from './options'
 
 import { ViteValaxyPlugins } from './plugins/preset'
-import { VALAXY_CONFIG_ID } from './plugins/valaxy'
 
 export type Mode = 'dev' | 'build'
 
 export function createViteConfig(options: ResolvedValaxyOptions, serverOptions: ValaxyServerOptions = {}, mode: Mode = 'dev'): InlineConfig {
-  const { configFile } = options
-
   const viteConfig: InlineConfig = {
     // remove vue-i18n warnings
     // https://vue-i18n.intlify.dev/guide/advanced/optimization.html#reduce-bundle-size-with-feature-build-flags
@@ -26,24 +21,11 @@ export function createViteConfig(options: ResolvedValaxyOptions, serverOptions: 
     //   __VUE_I18N_LEGACY_API__: 'false',
     // },
 
-    resolve: {
-      alias: {
-        '@/': `${options.userRoot}/`,
-        '~/': `${options.clientRoot}/`,
-        '@valaxyjs/client': `${options.clientRoot}/`,
-        'valaxy/package.json': `${path.resolve(options.clientRoot, '../../package.json')}`,
-        'valaxy': `${path.resolve(options.clientRoot, '..')}`,
-        [VALAXY_CONFIG_ID]: `/${VALAXY_CONFIG_ID}`,
-        '@valaxyjs/core': `${path.resolve(options.clientRoot, '../core')}`,
-        [`valaxy-theme-${options.theme}`]: `${path.resolve(options.themeRoot)}/`,
-      },
-    },
-
     root: options.clientRoot,
     // todo user base
     // base: '/',
 
-    plugins: ViteValaxyPlugins(options, serverOptions, mode),
+    plugins: ViteValaxyPlugins(options, serverOptions, {}, mode),
 
     server: {
       fs: {
@@ -55,19 +37,6 @@ export function createViteConfig(options: ResolvedValaxyOptions, serverOptions: 
       },
     },
 
-    optimizeDeps: {
-      entries: [path.resolve(options.clientRoot, 'main.ts'), configFile],
-
-      include: [
-        'vue',
-        'vue-router',
-        '@vueuse/core',
-        '@vueuse/head',
-      ],
-      exclude: [
-        'vue-demi',
-      ],
-    },
   }
 
   if (mode === 'build') {

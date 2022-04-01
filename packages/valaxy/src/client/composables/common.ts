@@ -1,8 +1,9 @@
 import { useRoute } from 'vue-router'
-import type { Post } from 'valaxy'
 import { computed } from 'vue'
 
-import { isDev, useConfig } from 'valaxy'
+import { isDev } from '../..'
+import type { Post } from '../../types'
+import { useConfig } from '../config'
 
 export function useFrontmatter() {
   const route = useRoute()

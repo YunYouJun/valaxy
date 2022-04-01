@@ -1,4 +1,4 @@
-import type { Post } from 'valaxy'
+import type { Post } from '../../types'
 import { usePostList } from './post'
 
 export interface ParentCategory {
@@ -32,7 +32,7 @@ export function useCategory() {
 
   const uncategorized = categoryMap.children.get('Uncategorized') as PostCategory
 
-  posts.value.forEach((post) => {
+  posts.value.forEach((post: Post) => {
     if (post.categories) {
       if (Array.isArray(post.categories)) {
         const len = post.categories.length

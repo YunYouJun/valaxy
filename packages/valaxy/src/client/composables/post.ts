@@ -1,8 +1,8 @@
-import { sortByDate } from 'valaxy'
 import type { StyleValue } from 'vue'
 import { computed } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
-import { useThemeConfig } from '../../core/config'
+import { useThemeConfig } from '../config'
+import { sortByDate } from '../utils'
 
 /**
  * get post list

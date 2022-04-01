@@ -1,5 +1,5 @@
 import dayjs from 'dayjs'
-import type { Post } from 'valaxy'
+import type { Post } from '../../types'
 
 export function formatDate(date: string | number | Date, template = 'YYYY-MM-DD') {
   const today = dayjs(date)

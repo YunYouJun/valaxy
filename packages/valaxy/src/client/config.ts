@@ -2,7 +2,7 @@
 import valaxyConfig from '@valaxyjs/config'
 import type { ComputedRef, InjectionKey } from 'vue'
 import { computed, inject, readonly, shallowRef } from 'vue'
-import type { ThemeConfig } from 'valaxy-theme-yun'
+import type { ThemeConfig } from '../../../valaxy-theme-yun'
 import type { ValaxyConfig } from '../types'
 
 /**

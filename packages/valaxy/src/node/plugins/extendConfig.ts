@@ -16,10 +16,26 @@ export function createConfigPlugin(options: ResolvedValaxyOptions): Plugin {
             '@valaxyjs/client': `${toAtFS(options.clientRoot)}/`,
             '@valaxyjs/config': '/@valaxyjs/config',
             'valaxy/package.json': toAtFS(resolve(options.clientRoot, '../../package.json')),
-            'valaxy': toAtFS(resolve(options.clientRoot, '..')),
+            'valaxy': toAtFS(resolve(options.clientRoot, '../index.ts')),
             '@valaxyjs/core': toAtFS(resolve(options.clientRoot, '../core')),
             [`valaxy-theme-${options.theme}`]: `${toAtFS(resolve(options.themeRoot))}/`,
           },
+        },
+
+        optimizeDeps: {
+          entries: [resolve(options.clientRoot, 'main.ts'), options.configFile],
+
+          include: [
+            'vue',
+            'vue-router',
+            '@vueuse/core',
+            '@vueuse/head',
+            'dayjs',
+            'nprogress',
+          ],
+          exclude: [
+            'vue-demi',
+          ],
         },
       }
       return mergeConfig(config, injection)

@@ -1,4 +1,5 @@
 import { TinyColor } from '@ctrl/tinycolor'
+import type { Post } from '../../types'
 import { usePostList } from './post'
 
 export type Tags = Map<string, {
@@ -41,7 +42,7 @@ export function useTag() {
 
   const tagMap: Tags = new Map()
 
-  posts.value.forEach((post) => {
+  posts.value.forEach((post: Post) => {
     if (post.tags) {
       let tags: string[]
       if (typeof post.tags === 'string')

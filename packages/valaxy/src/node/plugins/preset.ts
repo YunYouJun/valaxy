@@ -24,9 +24,14 @@ import { createUnocssPlugin } from './unocss'
 import { createConfigPlugin } from './extendConfig'
 import { createValaxyPlugin } from '.'
 
+export interface ValaxyPluginOptions {
+  components?: Parameters<typeof Components>[0]
+}
+
 export function ViteValaxyPlugins(
   options: ResolvedValaxyOptions,
   serverOptions: ValaxyServerOptions = {},
+  pluginOptions: ValaxyPluginOptions = {},
   mode: Mode = 'dev',
 ): (PluginOption | PluginOption[])[] | undefined {
   const { clientRoot, themeRoot, userRoot } = options
@@ -40,6 +45,7 @@ export function ViteValaxyPlugins(
   const _md = setupMarkdownPlugins(mdIt, options.config.markdownIt)
 
   const roots = [clientRoot, themeRoot, userRoot]
+
   return [
     Vue({
       include: [/\.vue$/, /\.md$/],
@@ -123,8 +129,10 @@ export function ViteValaxyPlugins(
       allowOverrides: true,
       // override: user -> theme -> client
       // latter override former
-      dirs: roots.map(root => `${root}/components`),
+      dirs: roots.map(root => `${root}/components`).concat(['src/components', 'components']),
       dts: `${options.userRoot}/components.d.ts`,
+
+      ...pluginOptions,
     }),
 
     // https://github.com/antfu/unocss
