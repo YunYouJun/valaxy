@@ -8,7 +8,7 @@
     "serve": "vite preview"
   },
   "dependencies": {
-    "valaxy": "0.0.5",
-    "valaxy-theme-yun": "0.0.5"
+    "valaxy": "0.0.6",
+    "valaxy-theme-yun": "0.0.6"
   }
 }
