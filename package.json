@@ -1,7 +1,7 @@
 {
   "name": "valaxy-monorepo",
   "private": true,
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "📄 Vite & Vue powered static blog generator.",
   "keywords": [
     "vite",
@@ -23,6 +23,8 @@
     "dev:lib": "pnpm -r --filter ./packages --parallel run dev",
     "dev": "pnpm -r --filter . --parallel run dev",
     "lint": "eslint \"**/*.{vue,ts,js}\"",
+    "prepublishOnly": "npm run build",
+    "release": "esmo scripts/release.ts",
     "start": "node packages/valaxy/bin/valaxy.js dev"
   },
   "devDependencies": {

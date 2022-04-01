@@ -2,6 +2,8 @@ import { readFileSync, writeFileSync } from 'fs'
 import { join } from 'path'
 import type { ReleaseType } from 'semver'
 import semver from 'semver'
+import consola from 'consola'
+import chalk from 'chalk'
 
 export const packages = [
   'valaxy',
@@ -35,6 +37,7 @@ export function updateTemplateVersions(version: string) {
 
 export function updateVersion(pkgPath: string, version: string): void {
   const pkg = JSON.parse(readFileSync(pkgPath, 'utf-8'))
+  consola.info(`${chalk.cyan(pkg.name)} ${chalk.gray(`v${pkg.version}`)} -> ${chalk.yellow(`v${version}`)}`)
   pkg.version = version
   writeFileSync(pkgPath, `${JSON.stringify(pkg, null, 2)}\n`)
 }
