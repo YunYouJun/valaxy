@@ -68,6 +68,7 @@ pnpm demo
 - [ ] github actions auto generate site from theme repo/npm
 - [ ] debug component
 - [ ] git timestamp for post without `date`
+- [ ] check port is existed & use new port
 
 ## Thanks
 

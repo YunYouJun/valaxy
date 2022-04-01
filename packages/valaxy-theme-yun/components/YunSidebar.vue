@@ -1,3 +1,11 @@
+<script lang="ts" setup>
+import { useConfig } from 'valaxy'
+import { useRouter } from 'vue-router'
+
+const config = useConfig()
+const router = useRouter()
+</script>
+
 <template>
   <div class="sidebar-panel">
     <div class="site-info" m="t-6">
@@ -30,15 +38,6 @@
     <br>
   </div>
 </template>
-
-<script lang="ts" setup>
-import { useConfig } from 'valaxy'
-import { useRouter } from 'vue-router'
-
-const config = useConfig()
-
-const router = useRouter()
-</script>
 
 <style lang="scss">
 @use "~/styles/mixins" as *;

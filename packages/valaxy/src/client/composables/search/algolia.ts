@@ -72,7 +72,6 @@ export function useAlgoliaSearch(config: {
           container: '#algolia-hits',
           templates: {
             item: (data: any) => {
-              console.log(data)
               const link = data.permalink ? data.permalink : route.path
               return `<a href="${link}" class="algolia-hit-item-link">
               ${data._highlightResult.title.value}

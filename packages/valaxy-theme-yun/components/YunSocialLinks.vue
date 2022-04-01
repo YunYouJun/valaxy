@@ -1,3 +1,9 @@
+<script lang="ts" setup>
+import { useConfig } from 'valaxy'
+
+const config = useConfig()
+</script>
+
 <template>
   <div class="links-of-author">
     <a v-for="item, i in config.social" :key="i" class="links-of-author-item yun-icon-btn" rel="noopener" :href="item.link" :title="item.name" target="_blank" :style="`color:${item.color}`">
@@ -5,12 +11,6 @@
     </a>
   </div>
 </template>
-
-<script lang="ts" setup>
-import { useConfig } from 'valaxy'
-
-const config = useConfig()
-</script>
 
 <style lang="scss">
 .links-of-author {

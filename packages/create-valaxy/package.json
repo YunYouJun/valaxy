@@ -1,3 +1,33 @@
 {
-  "name": "create-valaxy"
+  "name": "create-valaxy",
+  "version": "0.0.1",
+  "main": "index.js",
+  "description": "Create Starter Template for Valaxy",
+  "homepage": "https://valaxy.yyj.moe",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/YunYouJun/valaxy"
+  },
+  "author": {
+    "email": "me@yunyoujun.cn",
+    "name": "YunYouJun",
+    "url": "https://www.yunyoujun.cn"
+  },
+  "funding": "https://github.com/sponsors/YunYouJun",
+  "bin": {
+    "create-valaxy": "index.js"
+  },
+  "engines": {
+    "node": ">=14.0.0"
+  },
+  "scripts": {
+    "build": "cp ../../demo/yun/valaxy.config.ts template/valaxy.config.ts",
+    "prepublishOnly": "npm run build"
+  },
+  "dependencies": {
+    "chalk": "4",
+    "execa": "^6.1.0",
+    "minimist": "^1.2.6",
+    "prompts": "^2.4.2"
+  }
 }

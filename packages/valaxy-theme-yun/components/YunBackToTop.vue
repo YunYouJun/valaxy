@@ -1,12 +1,3 @@
-<template>
-  <a href="#" class="back-to-top yun-icon-btn" :class="show && 'show'">
-    <div w="8" h="8" i-ri-arrow-up-s-line />
-    <svg class="progress-circle-container" viewBox="0 0 100 100">
-      <circle :stroke-dasharray="`${circumference} ${circumference}`" :stroke-dashoffset="strokeOffset" class="progress-circle" cx="50" cy="50" :r="radius" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
-    </svg>
-  </a>
-</template>
-
 <script lang="ts" setup>
 import { computed } from 'vue'
 import { useBackToTop } from '~/composables'
@@ -22,6 +13,15 @@ const strokeOffset = computed(() => {
   return val < 0 ? 0 : val
 })
 </script>
+
+<template>
+  <a href="#" class="back-to-top yun-icon-btn" :class="show && 'show'">
+    <div w="8" h="8" i-ri-arrow-up-s-line />
+    <svg class="progress-circle-container" viewBox="0 0 100 100">
+      <circle :stroke-dasharray="`${circumference} ${circumference}`" :stroke-dashoffset="strokeOffset" class="progress-circle" cx="50" cy="50" :r="radius" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
+    </svg>
+  </a>
+</template>
 
 <style lang="scss">
 @use "sass:map";

@@ -1,3 +1,11 @@
+<script lang="ts" setup>
+import { useLayout } from '~/composables'
+import { useAppStore } from '~/stores/app'
+
+const app = useAppStore()
+const isHome = useLayout('home')
+</script>
+
 <template>
   <ValaxyOverlay :show="app.isSidebarOpen" @click="app.toggleSidebar()" />
 
@@ -9,14 +17,6 @@
     <YunConfig />
   </aside>
 </template>
-
-<script lang="ts" setup>
-import { useLayout } from '~/composables'
-import { useAppStore } from '~/stores/app'
-
-const app = useAppStore()
-const isHome = useLayout('home')
-</script>
 
 <style lang="scss">
 @use "sass:map";

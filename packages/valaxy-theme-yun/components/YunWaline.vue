@@ -1,14 +1,15 @@
+<script lang="ts" setup>
+import { useConfig, useWaline } from 'valaxy'
+
+const config = useConfig()
+useWaline({
+  serverURL: config.value.comment.waline.serverURL,
+})
+</script>
+
 <template>
   <div id="waline" w="full" />
 </template>
-
-<script lang="ts" setup>
-import { useWaline } from 'valaxy'
-
-useWaline({
-  serverURL: 'https://waline.yunyoujun.cn',
-})
-</script>
 
 <style lang="scss">
 #waline {

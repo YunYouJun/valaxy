@@ -1,11 +1,3 @@
-<template>
-  <div class="say">
-    <span v-if="sayContent" class="say-content" :class="['animate-fade-in', 'animate-iteration-1']">{{ sayContent }}</span>
-    <span v-if="sayAuthor" class="say-author"> {{ sayAuthor }}</span>
-    <span v-if="sayFrom" class="say-from">{{ sayFrom }}</span>
-  </div>
-</template>
-
 <script lang="ts" setup>
 import { onMounted, ref } from 'vue'
 import { useThemeConfig } from 'valaxy'
@@ -60,6 +52,14 @@ onMounted(() => {
   fetchApiToSay()
 })
 </script>
+
+<template>
+  <div class="say">
+    <span v-if="sayContent" class="say-content" :class="['animate-fade-in', 'animate-iteration-1']">{{ sayContent }}</span>
+    <span v-if="sayAuthor" class="say-author"> {{ sayAuthor }}</span>
+    <span v-if="sayFrom" class="say-from">{{ sayFrom }}</span>
+  </div>
+</template>
 
 <style lang="scss">
 .say {

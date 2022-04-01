@@ -28,6 +28,7 @@ export function createViteConfig(options: ResolvedValaxyOptions, serverOptions: 
 
     resolve: {
       alias: {
+        '@/': `${options.userRoot}/`,
         '~/': `${options.clientRoot}/`,
         '@valaxyjs/client': `${options.clientRoot}/`,
         'valaxy/package.json': `${path.resolve(options.clientRoot, '../../package.json')}`,

@@ -1,28 +1,3 @@
-<template>
-  <ul class="post-copyright">
-    <li class="post-copyright-author">
-      <strong>
-        {{ t('post.copyright.author') + t('symbol.colon') }}
-      </strong>
-      <span>{{ config.author.name }}</span>
-    </li>
-    <li v-if="url" class="post-copyright-link">
-      <strong>
-        {{ t('post.copyright.link') + t('symbol.colon') }}
-      </strong>
-      <a :href="url">
-        {{ url }}
-      </a>
-    </li>
-    <li class="post-copyright-license">
-      <strong>
-        {{ t('post.copyright.license_title') + t('symbol.colon') }}
-      </strong>
-      <span v-html="licenseHtml" />
-    </li>
-  </ul>
-</template>
-
 <script lang="ts" setup>
 import { useConfig } from 'valaxy'
 import { computed } from 'vue'
@@ -49,6 +24,31 @@ const licenseHtml = computed(() => {
   return t('post.copyright.license_content', [`<a href="${ccURL.value}" target="_blank" rel="noopener" title="CC ${`${config.value.license.type.toUpperCase()} ${ccVersion}`} ">CC ${config.value.license.type.toUpperCase()}</a>`])
 })
 </script>
+
+<template>
+  <ul class="post-copyright">
+    <li class="post-copyright-author">
+      <strong>
+        {{ t('post.copyright.author') + t('symbol.colon') }}
+      </strong>
+      <span>{{ config.author.name }}</span>
+    </li>
+    <li v-if="url" class="post-copyright-link">
+      <strong>
+        {{ t('post.copyright.link') + t('symbol.colon') }}
+      </strong>
+      <a :href="url">
+        {{ url }}
+      </a>
+    </li>
+    <li class="post-copyright-license">
+      <strong>
+        {{ t('post.copyright.license_title') + t('symbol.colon') }}
+      </strong>
+      <span v-html="licenseHtml" />
+    </li>
+  </ul>
+</template>
 
 <style lang="scss">
 @use "~/styles/mixins" as *;

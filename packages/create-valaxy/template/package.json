@@ -1,0 +1,12 @@
+{
+  "private": true,
+  "scripts": {
+    "build": "valaxy build",
+    "dev": "valaxy",
+    "serve": "vite preview"
+  },
+  "dependencies": {
+    "valaxy": "latest",
+    "valaxy-theme-yun": "latest"
+  }
+}

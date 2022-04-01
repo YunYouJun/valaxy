@@ -1,3 +1,25 @@
+<script lang="ts" setup>
+import { capitalize, computed } from 'vue'
+import { useConfig, useThemeConfig } from 'valaxy'
+import { useI18n } from 'vue-i18n'
+
+import pkg from 'valaxy/package.json'
+import themePkg from 'valaxy-theme-yun/package.json'
+
+const { t } = useI18n()
+
+const config = useConfig()
+const themeConfig = useThemeConfig()
+
+const year = new Date().getFullYear()
+
+const isThisYear = computed(() => {
+  return year === themeConfig.value.footer.since
+})
+
+const poweredHtml = computed(() => t('footer.powered', [`<a href="${pkg.repository}" target="_blank" rel="noopener">Valaxy</a> v${pkg.version}`]))
+</script>
+
 <template>
   <footer class="val-footer p-4 opacity-80" text="center sm">
     <div v-if="themeConfig.footer.beian.enable && themeConfig.footer.beian.icp" class="beian" m="y-2">
@@ -29,25 +51,3 @@
     <slot />
   </footer>
 </template>
-
-<script lang="ts" setup>
-import { capitalize, computed } from 'vue'
-import { useConfig, useThemeConfig } from 'valaxy'
-import { useI18n } from 'vue-i18n'
-
-import pkg from 'valaxy/package.json'
-import themePkg from 'valaxy-theme-yun/package.json'
-
-const { t } = useI18n()
-
-const config = useConfig()
-const themeConfig = useThemeConfig()
-
-const year = new Date().getFullYear()
-
-const isThisYear = computed(() => {
-  return year === themeConfig.value.footer.since
-})
-
-const poweredHtml = computed(() => t('footer.powered', [`<a href="${pkg.repository}" target="_blank" rel="noopener">Valaxy</a> v${pkg.version}`]))
-</script>

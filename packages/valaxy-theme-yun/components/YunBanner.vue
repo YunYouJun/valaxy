@@ -1,25 +1,3 @@
-<template>
-  <div id="banner">
-    <div class="banner-line vertical-line-top" :style="lintStyle" />
-    <div class="banner-char-container">
-      <div v-for="c, i in themeConfig.banner.title" :key="i" class="char-box">
-        <span
-          :class="[i%2 !== 0 ? 'char-right' : 'char-left']" :style="{
-            '--banner-char-size': `${chars[i]}rem`,
-          } as CSSProperties"
-        >
-          <span class="char">
-            {{ c }}
-          </span>
-        </span>
-      </div>
-    </div>
-    <div class="banner-line vertical-line-bottom" :style="lintStyle" />
-  </div>
-
-  <YunGoDown />
-</template>
-
 <script lang="ts" setup>
 /**
  * @file 生成首页标语动画
@@ -50,6 +28,28 @@ const lintStyle = computed(() => (
   } as CSSProperties
 ))
 </script>
+
+<template>
+  <div id="banner">
+    <div class="banner-line vertical-line-top" :style="lintStyle" />
+    <div class="banner-char-container">
+      <div v-for="c, i in themeConfig.banner.title" :key="i" class="char-box">
+        <span
+          :class="[i%2 !== 0 ? 'char-right' : 'char-left']" :style="{
+            '--banner-char-size': `${chars[i]}rem`,
+          } as CSSProperties"
+        >
+          <span class="char">
+            {{ c }}
+          </span>
+        </span>
+      </div>
+    </div>
+    <div class="banner-line vertical-line-bottom" :style="lintStyle" />
+  </div>
+
+  <YunGoDown />
+</template>
 
 <style lang="scss">
 :root {

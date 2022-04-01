@@ -1,3 +1,15 @@
+<script lang="ts" setup>
+import type { Post } from 'valaxy'
+import { useI18n } from 'vue-i18n'
+import { formatDate } from 'valaxy'
+
+const { t } = useI18n()
+
+defineProps<{
+  frontmatter: Post
+}>()
+</script>
+
 <template>
   <div v-if="frontmatter" class="post-meta justify-center" flex="~" text="sm">
     <div v-if="frontmatter.date" class="post-time flex items-center">
@@ -12,18 +24,6 @@
     </div>
   </div>
 </template>
-
-<script lang="ts" setup>
-import type { Post } from 'valaxy'
-import { useI18n } from 'vue-i18n'
-import { formatDate } from 'valaxy'
-
-const { t } = useI18n()
-
-defineProps<{
-  frontmatter: Post
-}>()
-</script>
 
 <style lang="scss">
 </style>

@@ -88,6 +88,16 @@ export interface ValaxyConfig<T = ValaxyThemeConfig> {
   }
 
   /**
+   * comment: waline/...
+   */
+  comment: {
+    waline: {
+      enable: boolean
+      serverURL: string
+    }
+  }
+
+  /**
    * The name of theme
    * @description 主题名称
    */
@@ -213,6 +223,13 @@ export const defaultValaxyConfig: ValaxyConfig = {
       apiKey: '',
       indexName: '',
       chunkSize: 5000,
+    },
+  },
+
+  comment: {
+    waline: {
+      enable: false,
+      serverURL: '',
     },
   },
 
