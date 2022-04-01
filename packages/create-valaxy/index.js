@@ -39,7 +39,7 @@ async function init() {
     const packageName = await getValidPackageName(targetDir)
     const root = path.join(cwd, targetDir)
 
-    if (fs.existsSync(root)) { fs.mkdirSync(root, { recursive: true }) }
+    if (!fs.existsSync(root)) { fs.mkdirSync(root, { recursive: true }) }
     else {
       const existing = fs.readdirSync(root)
       if (existing.length) {
@@ -114,6 +114,7 @@ async function init() {
       if (!agent)
         return
 
+      console.log('root', root)
       await execa(agent, ['install'], { stdio: 'inherit', cwd: root })
       await execa(agent, ['run', 'dev'], { stdio: 'inherit', cwd: root })
     }
@@ -178,21 +179,15 @@ async function getValidPackageName(projectName) {
   }
 }
 
+/**
+ * @param {string} dir
+ * @returns
+ */
 function emptyDir(dir) {
   if (!fs.existsSync(dir))
     return
-
-  for (const file of fs.readdirSync(dir)) {
-    const abs = path.resolve(dir, file)
-    // baseline is Node 12 so can't use rmSync :(
-    if (fs.lstatSync(abs).isDirectory()) {
-      emptyDir(abs)
-      fs.rmdirSync(abs)
-    }
-    else {
-      fs.unlinkSync(abs)
-    }
-  }
+  console.log(chalk.red('  Remove ') + chalk.gray(dir))
+  fs.rmSync(dir, { recursive: true, force: true })
 }
 
 init().catch((e) => {

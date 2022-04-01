@@ -61,12 +61,14 @@ async function main() {
   if (!isDryRun) {
     console.log()
     consola.info('Committing changes...')
+    console.log()
     await $`git add -A`
     await $`git commit -m "release: v${targetVersion}"`
     await $`git tag v${targetVersion}`
 
     console.log()
     consola.info('Pushing to GitHub...')
+    console.log()
     await $`git push`
     await $`git push origin --tags`
   }

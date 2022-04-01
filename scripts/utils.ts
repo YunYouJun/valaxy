@@ -28,7 +28,6 @@ export function updateTemplateVersions(version: string) {
 
       for (const key in pkg[name]) {
         if (packages.includes(key)) {
-          console.log()
           consola.info(`${chalk.cyan(key)} ${chalk.gray(`v${pkg[name][key]}`)} -> ${chalk.yellow(`v${version}`)}`)
           pkg[name][key] = version
         }
@@ -40,7 +39,6 @@ export function updateTemplateVersions(version: string) {
 
 export function updateVersion(pkgPath: string, version: string): void {
   const pkg = JSON.parse(readFileSync(pkgPath, 'utf-8'))
-  console.log()
   consola.info(`${chalk.cyan(pkg.name)} ${chalk.gray(`v${pkg.version}`)} -> ${chalk.yellow(`v${version}`)}`)
   pkg.version = version
   writeFileSync(pkgPath, `${JSON.stringify(pkg, null, 2)}\n`)

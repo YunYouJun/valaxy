@@ -1,4 +1,6 @@
 {
+  "name": "valaxy-blog",
+  "version": "0.0.0",
   "private": true,
   "scripts": {
     "build": "valaxy build",
