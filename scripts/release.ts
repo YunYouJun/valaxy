@@ -7,7 +7,7 @@ import { $ } from 'zx'
 
 import minimist from 'minimist'
 import { version } from '../package.json'
-import { getVersionChoices, packages, updateVersion } from './utils'
+import { getVersionChoices, packages, updateTemplateVersions, updateVersion } from './utils'
 
 const args = minimist(process.argv.slice(2))
 export const isDryRun = !!args.dry
@@ -52,6 +52,9 @@ async function main() {
   packages.forEach((name) => {
     updateVersion(`packages/${name}/package.json`, targetVersion)
   })
+
+  consola.info('\n Updating template version...')
+  updateTemplateVersions(targetVersion)
 
   if (!isDryRun) {
     consola.info('\nCommitting changes...')

@@ -27,8 +27,10 @@ export function updateTemplateVersions(version: string) {
         continue
 
       for (const key in pkg[name]) {
-        if (packages.includes(key))
+        if (packages.includes(key)) {
+          consola.info(`${chalk.cyan(key)} ${chalk.gray(`v${pkg[name][key]}`)} -> ${chalk.yellow(`v${version}`)}`)
           pkg[name][key] = version
+        }
       }
     }
     writeFileSync(pkgPath, `${JSON.stringify(pkg, null, 2)}\n`)
