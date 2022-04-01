@@ -47,18 +47,19 @@ async function main() {
   if (!yes)
     return
 
-  consola.info('Updating packages version...')
+  consola.info('\nUpdating packages version...')
   updateVersion('package.json', targetVersion)
   packages.forEach((name) => {
     updateVersion(`packages/${name}/package.json`, targetVersion)
   })
 
   if (!isDryRun) {
-    consola.info('Committing changes...')
+    consola.info('\nCommitting changes...')
     await $`git add -A`
     await $`git commit -m "release: v${targetVersion}"`
     await $`git tag v${targetVersion}`
-    consola.info('Pushing to GitHub...')
+
+    consola.info('\nPushing to GitHub...')
     await $`git push`
     await $`git push origin --tags`
   }

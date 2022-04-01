@@ -1,6 +1,5 @@
+import { dirname } from 'path'
 import consola from 'consola'
-
-import { sync as resolve } from 'resolve'
 
 export function slash(str: string) {
   return str.replace(/\\/g, '/')
@@ -18,9 +17,7 @@ export function toAtFS(path: string) {
 
 export function resolveImportPath(importName: string) {
   try {
-    return resolve(importName, {
-      preserveSymlinks: false,
-    })
+    return dirname(require.resolve(importName))
   }
   catch { }
 

@@ -102,6 +102,13 @@ const config: UserConfig<ThemeUserConfig> = {
     },
   },
 
+  comment: {
+    waline: {
+      enable: true,
+      serverURL: 'https://waline.yunyoujun.cn',
+    },
+  },
+
   theme: 'yun',
 
   themeConfig: {

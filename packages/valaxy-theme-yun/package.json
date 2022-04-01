@@ -1,11 +1,8 @@
 {
   "name": "valaxy-theme-yun",
   "version": "0.0.3",
-  "main": "index.ts",
+  "main": "dist/index.js",
   "types": "dist/index.d.ts",
-  "exports": {
-    ".": "./dist/index.js"
-  },
   "scripts": {
     "build": "tsup",
     "dev": "tsup --watch"

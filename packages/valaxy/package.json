@@ -79,7 +79,6 @@
     "pinia": "^2.0.13",
     "prism-theme-vars": "^0.2.2",
     "unconfig": "^0.3.2",
-    "valaxy-theme-yun": "workspace:*",
     "vue": "^3.2.31",
     "vue-demi": "^0.12.5",
     "vue-i18n": "^9.1.9",

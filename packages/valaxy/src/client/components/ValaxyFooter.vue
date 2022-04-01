@@ -3,8 +3,8 @@ import { capitalize, computed } from 'vue'
 import { useConfig, useThemeConfig } from 'valaxy'
 import { useI18n } from 'vue-i18n'
 
-import pkg from 'valaxy/package.json'
 import themePkg from 'valaxy-theme-yun/package.json'
+import pkg from '~/../../package.json'
 
 const { t } = useI18n()
 
