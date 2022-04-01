@@ -79,9 +79,10 @@ async function init() {
     for (const file of files.filter(f => f !== 'package.json'))
       write(file)
 
-    // write pkg name
+    // write pkg name & version
     const pkg = require(path.join(templateDir, 'package.json'))
     pkg.name = packageName
+    pkg.version = version
 
     write('package.json', JSON.stringify(pkg, null, 2))
 
