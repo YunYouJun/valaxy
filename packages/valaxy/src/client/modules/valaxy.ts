@@ -1,5 +1,6 @@
 import { createI18n } from 'vue-i18n'
 import { initConfig, valaxyConfigSymbol } from '../config'
+import { isDev } from '..'
 import type { UserModule } from '~/types'
 
 // Import i18n resources
@@ -35,8 +36,11 @@ export const install: UserModule = ({ app, router }) => {
   })
   app.use(i18n)
 
-  import.meta.hot!.on('valaxy:pageHeaders', (payload) => {
-    if (shouldHotReload(payload))
-      router.currentRoute.value.meta.headers = payload.pageHeaders
-  })
+  // for dev
+  if (isDev) {
+    import.meta.hot!.on('valaxy:pageHeaders', (payload) => {
+      if (shouldHotReload(payload))
+        router.currentRoute.value.meta.headers = payload.pageHeaders
+    })
+  }
 }

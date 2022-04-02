@@ -6,7 +6,7 @@
 
 [build]
   publish = "demo/yun/dist"
-  command = "npx pnpm i --store=node_modules/.pnpm-store && npx pnpm build && git clone https://github.com/YunYouJun/yunyoujun.github.io && cp -rf yunyoujun.github.io/source/_posts/posts/* demo/yun/pages/posts && npx pnpm run build:demo"
+  command = "npx pnpm i --store=node_modules/.pnpm-store && npx pnpm build && git clone https://github.com/YunYouJun/yunyoujun.github.io || cp -rf yunyoujun.github.io/source/_posts/posts/* demo/yun/pages/posts && npx pnpm run build:demo"
 
 [[redirects]]
   from = "/*"
