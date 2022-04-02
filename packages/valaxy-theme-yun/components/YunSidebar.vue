@@ -9,7 +9,7 @@ const router = useRouter()
 <template>
   <div class="sidebar-panel">
     <div class="site-info" m="t-6">
-      <a class="site-author-avatar">
+      <a class="site-author-avatar" href="/about">
         <img class="rounded-full" :src="config.author.avatar" alt="avatar">
         <span class="site-author-status">{{ config.author.status.emoji }}</span>
       </a>

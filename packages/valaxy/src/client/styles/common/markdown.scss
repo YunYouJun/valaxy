@@ -21,6 +21,7 @@ h5:hover .header-anchor,
 h5:focus .header-anchor,
 h6:hover .header-anchor,
 h6:focus .header-anchor {
+  visibility: visible;
   opacity: 1;
 }
 
@@ -30,7 +31,9 @@ a.header-anchor {
   margin-left: -0.87em;
   padding-right: 0.23em;
   font-size: 0.85em;
+  visibility: hidden;
   opacity: 0;
+  transition: opacity var(--yun-transition-duration);
 
   &::before {
     content: none;

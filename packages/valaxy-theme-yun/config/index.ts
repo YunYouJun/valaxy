@@ -130,7 +130,7 @@ export const defaultThemeConfig: ThemeConfig = {
       animated: true,
       color: 'var(--yun-c-primary)',
       url: 'https://sponsors.yunyoujun.cn',
-      title: '',
+      title: 'Sponsor YunYouJun',
     },
 
     powered: true,

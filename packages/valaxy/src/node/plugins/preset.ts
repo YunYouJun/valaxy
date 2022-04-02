@@ -82,7 +82,7 @@ export function ViteValaxyPlugins(
             path = pagePath
         })
         const md = fs.readFileSync(path, 'utf-8')
-        const { data, excerpt } = matter(md, { excerpt_separator })
+        const { data, excerpt, content } = matter(md, { excerpt_separator })
 
         // warn for post frontmatter
         if (route.path.startsWith('/posts/')) {
@@ -98,7 +98,7 @@ export function ViteValaxyPlugins(
 
         // to refactor
         // get active header by runtime query head, not render
-        mdIt.render(md)
+        mdIt.render(content)
         route.meta.headers = _md.__data?.headers
 
         // set default updated

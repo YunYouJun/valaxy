@@ -17,8 +17,8 @@ const toggleLocales = () => {
       <div i="ri-sun-line dark:ri-moon-line" />
     </button>
 
-    <a class="yun-icon-btn" :title="t('button.toggle_langs')" style="color:var(--yun-c-text)" @click="toggleLocales">
+    <button class="yun-icon-btn" :title="t('button.toggle_langs')" style="color:var(--yun-c-text)" @click="toggleLocales">
       <div i-ri-translate class="transition transform" :class="locale === 'en' ? 'rotate-y-180' : ''" />
-    </a>
+    </button>
   </div>
 </template>

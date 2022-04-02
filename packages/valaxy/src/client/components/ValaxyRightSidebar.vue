@@ -8,12 +8,12 @@ defineProps<{ frontmatter: Post }>()
 
 <template>
   <aside class="right-sidebar val-card relative" m="l-4" text="center">
-    <h2 v-if="frontmatter.toc" m="t-6 b-2" font="serif black">
+    <h2 v-if="frontmatter.toc !== false" m="t-6 b-2" font="serif black">
       {{ t('sidebar.toc') }}
     </h2>
 
     <div class="right-sidebar-container sticky">
-      <ValaxyToc v-if="frontmatter.toc" />
+      <ValaxyToc v-if="frontmatter.toc !== false" />
 
       <div v-if="$slots.custom" class="custom-container">
         <slot name="custom" />

@@ -19,7 +19,7 @@ const displayedPosts = computed(() => posts.value.slice((props.curPage - 1) * pa
 </script>
 
 <template>
-  <ul w="full" p="x-4 lt-sm:0">
+  <div w="full" p="x-4 lt-sm:0">
     <template v-if="!displayedPosts.length">
       <div py2 op50>
         博主还什么都没写哦～
@@ -29,7 +29,7 @@ const displayedPosts = computed(() => posts.value.slice((props.curPage - 1) * pa
     <Transition v-for="route, i in displayedPosts" :key="i" name="fade">
       <PostCard :post="route" />
     </Transition>
-  </ul>
+  </div>
 
   <ValaxyPagination :cur-page="curPage" :page-size="pageSize" :total="posts.length" />
 </template>
