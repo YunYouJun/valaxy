@@ -26,8 +26,8 @@
   "homepage": "https://valaxy.yyj.moe",
   "repository": "https://github.com/YunYouJun/valaxy",
   "scripts": {
-    "build": "tsup",
-    "dev": "tsup --watch",
+    "build": "tsup --splitting",
+    "dev": "tsup --watch --splitting",
     "lint": "eslint \"**/*.{vue,ts,js}\"",
     "preview": "vite preview",
     "preview-https": "serve dist",

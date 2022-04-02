@@ -124,6 +124,7 @@ export function ViteValaxyPlugins(
 
       // allow auto import and register components used in markdown
       include: [/\.vue$/, /\.vue\?vue/, /\.md$/],
+      exclude: [],
 
       // allow override
       allowOverrides: true,

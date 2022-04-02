@@ -4,7 +4,7 @@
 // const path = require('path')
 
 function main() {
-  const { run } = require('../dist/node/cli')
+  const { run } = require('../dist/cli')
   run()
 }
 

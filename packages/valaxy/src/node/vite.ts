@@ -30,9 +30,10 @@ export function createViteConfig(options: ResolvedValaxyOptions, serverOptions: 
     server: {
       fs: {
         allow: [
-          searchForWorkspaceRoot(options.clientRoot),
+          // not need to search workspace root
+          options.clientRoot,
+          options.themeRoot,
           searchForWorkspaceRoot(options.userRoot),
-          searchForWorkspaceRoot(options.themeRoot),
         ],
       },
     },
