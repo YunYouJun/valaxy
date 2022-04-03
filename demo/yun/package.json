@@ -9,5 +9,8 @@
   "dependencies": {
     "valaxy": "workspace:*",
     "valaxy-theme-yun": "workspace:*"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.15"
   }
 }
