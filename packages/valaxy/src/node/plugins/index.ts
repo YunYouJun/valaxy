@@ -69,7 +69,8 @@ export function createValaxyPlugin(options: ResolvedValaxyOptions, serverOptions
     async handleHotUpdate(ctx) {
       // handle valaxy.config.ts hmr
       const { file, server } = ctx
-      if (file !== options.configFile) return
+      if (file !== options.configFile)
+        return
 
       const { config } = await resolveConfig()
 

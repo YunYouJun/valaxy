@@ -16,7 +16,8 @@ export function useWaline(options: {} = {}) {
    * @returns
    */
   function initWaline(options: {} = {}) {
-    if (!isClient) return
+    if (!isClient)
+      return
 
     const defaultOptions = {
       el: '.comment #waline',
@@ -40,21 +41,24 @@ export function useWaline(options: {} = {}) {
   })
 
   watch(() => route.path, (path) => {
-    if (!waline) return
+    if (!waline)
+      return
     waline.update({
       path,
     })
   })
 
   watch(locale, (lang) => {
-    if (!waline) return
+    if (!waline)
+      return
     waline.update({
       lang,
     })
   })
 
   onUnmounted(() => {
-    if (!waline) return
+    if (!waline)
+      return
     waline.destroy()
   })
 }

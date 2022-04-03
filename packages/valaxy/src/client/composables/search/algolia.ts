@@ -13,7 +13,8 @@ export function useAlgoliaSearch(config: {
     per_page: number
   }
 }) {
-  if (!isClient) return
+  if (!isClient)
+    return
 
   const route = useRoute()
   const { t } = useI18n()

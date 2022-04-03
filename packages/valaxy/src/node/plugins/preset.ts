@@ -1,4 +1,3 @@
-
 import fs from 'fs'
 import type { PluginOption } from 'vite'
 
@@ -71,7 +70,8 @@ export function ViteValaxyPlugins(
        */
       extendRoute(route) {
         let path = route.component
-        if (!route.meta) route.meta = {}
+        if (!route.meta)
+          route.meta = {}
 
         if (route.path === '/')
           route.meta.layout = 'home'

@@ -13,7 +13,8 @@ const sayFrom = ref('')
  */
 function fetchApiToSay() {
   const api = themeConfig.value.say.hitokoto.enable ? themeConfig.value.say.hitokoto.api : themeConfig.value.say.api
-  if (!api) return
+  if (!api)
+    return
 
   fetch(api)
     .then((res) => {

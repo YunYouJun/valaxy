@@ -23,6 +23,7 @@
     "dev:lib": "pnpm -r --filter ./packages --parallel run dev",
     "dev": "pnpm -r --filter . --parallel run dev",
     "lint": "eslint \"**/*.{vue,ts,js}\"",
+    "lint:fix": "eslint \"**/*.{vue,ts,js}\" --fix",
     "prepublishOnly": "npm run build",
     "release": "esmo scripts/release.ts",
     "start": "node packages/valaxy/bin/valaxy.js dev"

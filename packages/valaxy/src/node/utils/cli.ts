@@ -1,4 +1,3 @@
-
 import * as readline from 'readline'
 import path from 'path'
 import os from 'os'

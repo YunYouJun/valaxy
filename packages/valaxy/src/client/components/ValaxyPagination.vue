@@ -30,14 +30,17 @@ const surLen = computed(() => {
 })
 
 const showPage = (i: number) => {
-  if (i === 1) return true
-  else if (i === totalPages.value) return true
+  if (i === 1)
+    return true
+  else if (i === totalPages.value)
+    return true
   return i > props.curPage - surLen.value && i < props.curPage + surLen.value
 }
 
 const jumpTo = (page: number) => {
   emit('page-change', page)
-  if (page === 1) return '/'
+  if (page === 1)
+    return '/'
   else return `/page/${page}`
 }
 </script>

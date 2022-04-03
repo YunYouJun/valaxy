@@ -1,7 +1,6 @@
 import { useRoute } from 'vue-router'
 import { computed } from 'vue'
 
-import { isDev } from '../..'
 import type { Post } from '../../types'
 import { useConfig } from '../config'
 
@@ -9,8 +8,6 @@ export function useFrontmatter() {
   const route = useRoute()
   const frontmatter = computed<Post>(() => route.meta.frontmatter)
 
-  // eslint-disable-next-line no-console
-  if (isDev) console.log(frontmatter.value)
   return frontmatter
 }
 

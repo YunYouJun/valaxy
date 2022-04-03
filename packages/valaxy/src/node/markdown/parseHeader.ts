@@ -48,8 +48,10 @@ export const removeNonCodeWrappedHTML = (str: string) => {
 }
 
 const compose = (...processors: ((str: string) => string)[]) => {
-  if (processors.length === 0) return (input: string) => input
-  if (processors.length === 1) return processors[0]
+  if (processors.length === 0)
+    return (input: string) => input
+  if (processors.length === 1)
+    return processors[0]
   return processors.reduce((prev, next) => {
     return str => next(prev(str))
   })
