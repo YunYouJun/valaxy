@@ -35,6 +35,8 @@ English & Chinese Docs are coming!
 
 ## Dev
 
+You must use [pnpm](https://pnpm.io/). Because we use its workspace.
+
 ```bash
 git clone https://github.com/YunYouJun/valaxy
 cd valaxy
@@ -69,7 +71,7 @@ pnpm demo
 
 ## Todo
 
-- [ ] Script to generate theme template.
+- [ ] create-valaxy-theme: Script to generate theme template.
 - [ ] Github actions auto generate site from theme repo/npm.
 - [ ] Debug component.
 - [ ] Git timestamp for post without `date`.
