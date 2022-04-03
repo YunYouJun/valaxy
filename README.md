@@ -29,7 +29,7 @@ npm init valaxy
 # pnpm create valaxy
 ```
 
-English & Chinese Docs is coming!
+English & Chinese Docs are coming!
 
 > Wait a moment...
 
@@ -47,7 +47,7 @@ pnpm dev
 
 If you want to display info better in two terminal:
 
-You can:
+You could do:
 
 ```bash
 # watch valaxy & valaxy-theme-yun
@@ -69,11 +69,11 @@ pnpm demo
 
 ## Todo
 
-- [ ] A script to generate theme template.
-- [ ] github actions auto generate site from theme repo/npm
-- [ ] debug component
-- [ ] git timestamp for post without `date`
-- [ ] check port is existed & use new port
+- [ ] Script to generate theme template.
+- [ ] Github actions auto generate site from theme repo/npm.
+- [ ] Debug component.
+- [ ] Git timestamp for post without `date`.
+- [ ] Check port is existed & use new port.
 
 ## Thanks
 
@@ -88,7 +88,7 @@ pnpm demo
 
 ## [Sponsors](https://sponsors.yunyoujun.cn)
 
-❤️ Thanks also to the following sponsors for their support.
+❤️ Special thanks to the following sponsors for their support.
 
 <p align="center">
   <a href="https://cdn.jsdelivr.net/gh/YunYouJun/sponsors/public/sponsors.svg">
