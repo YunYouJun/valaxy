@@ -47,7 +47,7 @@ export function createMarkdownPlugin(options: ResolvedValaxyOptions): Plugin[] {
     handleHotUpdate(ctx) {
       const { file, server } = ctx
       // send headers
-      if (file.endsWith('.md')) {
+      if (file.endsWith('.md') && _md && _md.__data) {
         server.ws.send({
           type: 'custom',
           event: 'valaxy:pageHeaders',

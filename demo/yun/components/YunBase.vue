@@ -8,6 +8,9 @@ const email = 'me@yunyoujun.cn'
 
 <template>
   <Base>
+    <template #sidebar>
+      <slot name="sidebar" />
+    </template>
     <template #header>
       <slot name="header" />
     </template>
@@ -33,6 +36,8 @@ const email = 'me@yunyoujun.cn'
     <template #right-custom>
       <p p="t-4">
         🌟 广告位招租 🌟
+        <br>
+        <del>云游君在线征婚</del>
       </p>
       <a m="t-4" class="flex justify-center items-center" :href="`mailto:${email}`" :title="email" target="_blank">
         <div class="inline-flex" m="r-2" i-ri-mail-line />

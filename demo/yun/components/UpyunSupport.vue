@@ -15,11 +15,12 @@
   mask-size: 100% 100%;
   -webkit-mask: var(--icon) no-repeat;
   -webkit-mask-size: 100% 100%;
-  background-color: currentColor;
+
+  background-color: #00a0ff;
 
   display: inline-flex;
 
-  width: 70px;
-  height: 24px;
+  width: 50px;
+  height: 18px;
 }
 </style>

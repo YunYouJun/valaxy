@@ -13,8 +13,8 @@ const isHome = useLayout('home')
 
   <aside class="val-card" :class="['sidebar', app.isSidebarOpen && 'open', !isHome && 'md:translate-x-0']">
     <YunSidebar />
-
     <YunConfig />
+    <slot />
   </aside>
 </template>
 

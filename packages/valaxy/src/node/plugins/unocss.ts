@@ -66,7 +66,12 @@ export const createUnocssConfig = (options: ResolvedValaxyOptions) => {
       presetTypography(),
       presetWebFonts({
         fonts: {
-          serif: 'Noto Serif SC',
+          serif: [
+            {
+              name: 'Noto Serif SC',
+              weights: [900],
+            },
+          ],
           // sans: 'DM Sans',
           // mono: 'DM Mono',
         },

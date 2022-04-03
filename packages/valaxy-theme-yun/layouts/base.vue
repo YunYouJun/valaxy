@@ -8,7 +8,9 @@ const { styles, icon, color } = usePostProperty(frontmatter.value.type)
 </script>
 
 <template>
-  <ValaxySidebar />
+  <ValaxySidebar>
+    <slot name="sidebar" />
+  </ValaxySidebar>
 
   <main class="yun-main flex lt-md:ml-0">
     <div flex="~ 1 col" w="full" p="l-4 lt-md:0">
