@@ -40,7 +40,6 @@ function generateLocales(roots: string[]) {
   roots.forEach((root, i) => {
     languages.forEach((lang) => {
       const langYml = `${root}/locales/${lang}.yml`
-      console.log(langYml)
       if (fs.existsSync(langYml)) {
         const varName = lang.replace('-', '') + i
         imports.push(`import ${varName} from "${langYml}"`)

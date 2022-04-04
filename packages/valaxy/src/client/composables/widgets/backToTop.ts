@@ -16,7 +16,7 @@ export function useBackToTop(options: {
   const { y } = useWindowScroll()
 
   const percentage = computed(() => {
-    return y.value / document.body.clientHeight
+    return y.value / (document.body.scrollHeight - window.innerHeight)
   })
 
   const show = computed(() => y.value > options.offset)
