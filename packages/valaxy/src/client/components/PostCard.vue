@@ -13,7 +13,7 @@ const { icon, styles } = usePostProperty(props.post.type)
 </script>
 
 <template>
-  <YunCard m="y-4 auto" class="post-card" :style="styles">
+  <YunCard m="b-4 auto" class="post-card" :style="styles">
     <div v-if="post.top" class="post-top-icon">
       <div i-ri-pushpin-line />
     </div>

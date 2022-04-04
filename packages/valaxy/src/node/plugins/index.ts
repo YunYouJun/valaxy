@@ -8,33 +8,57 @@ import type { ResolvedValaxyOptions, ValaxyServerOptions } from '../options'
 import { toAtFS } from '../utils'
 import { VALAXY_CONFIG_ID } from './valaxy'
 
+/**
+ * for /@valaxyjs/styles
+ * @param roots
+ * @returns
+ */
+function generateStyles(roots: string[]) {
+  const imports: string[] = []
+
+  for (const root of roots) {
+    const styles = [
+      join(root, 'styles', 'vars.scss'),
+      join(root, 'styles', 'index.css'),
+      join(root, 'styles', 'index.scss'),
+    ]
+
+    for (const style of styles) {
+      if (fs.existsSync(style))
+        imports.push(`import "${toAtFS(style)}"`)
+    }
+  }
+  return imports.join('\n')
+}
+
+function generateLocales(roots: string[]) {
+  const imports: string[] = [
+    'const messages = { "zh-CN": {}, en: {} }',
+  ]
+  const languages = ['zh-CN', 'en']
+
+  roots.forEach((root, i) => {
+    languages.forEach((lang) => {
+      const langYml = `${root}/locales/${lang}.yml`
+      console.log(langYml)
+      if (fs.existsSync(langYml)) {
+        const varName = lang.replace('-', '') + i
+        imports.push(`import ${varName} from "${langYml}"`)
+        imports.push(`Object.assign(messages['${lang}'], ${varName})`)
+      }
+    })
+  })
+
+  imports.push('export default messages')
+  return imports.join('\n')
+}
+
 export function createValaxyPlugin(options: ResolvedValaxyOptions, serverOptions: ValaxyServerOptions = {}): Plugin {
   const valaxyPrefix = '/@valaxy'
 
   let valaxyConfig = options.config
 
-  const roots = [options.userRoot, options.themeRoot]
-
-  function generateUserStyles() {
-    const imports: string[] = []
-
-    for (const root of roots) {
-      const styles = [
-        join(root, 'styles', 'vars.scss'),
-        join(root, 'styles', 'index.css'),
-        join(root, 'styles', 'index.scss'),
-      ]
-
-      for (const style of styles) {
-        if (fs.existsSync(style)) {
-          imports.push(`import "${toAtFS(style)}"`)
-          continue
-        }
-      }
-    }
-
-    return imports.join('\n')
-  }
+  const roots = [options.clientRoot, options.themeRoot, options.userRoot]
 
   return {
     name: 'Valaxy',
@@ -60,7 +84,10 @@ export function createValaxyPlugin(options: ResolvedValaxyOptions, serverOptions
 
       // generate styles
       if (id === '/@valaxyjs/styles')
-        return generateUserStyles()
+        return generateStyles(roots)
+
+      if (id === '/@valaxyjs/locales')
+        return generateLocales(roots)
 
       if (id.startsWith(valaxyPrefix))
         return ''

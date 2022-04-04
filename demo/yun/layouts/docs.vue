@@ -1,7 +1,7 @@
 <template>
   <YunBase>
     <template #sidebar>
-      asd
+      Sidebar slot
     </template>
   </YunBase>
 </template>

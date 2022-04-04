@@ -28,7 +28,7 @@ $colors: map.merge((
 $light: () !default;
 $light: map.merge((
   'bg-image': url('https://cdn.jsdelivr.net/gh/YunYouJun/cdn/img/bg/stars-timing-0-blur-30px.jpg'),
-  'border-color': #e6e6e6,
+  'border-color': #222,
 
   'c-bg': white,
   'c-bg-light': white,
@@ -47,7 +47,7 @@ $light: map.merge((
 $dark: () !default;
 $dark: map.merge((
   'bg-image': none,
-  'border-color': #222,
+  'border-color': #e6e6e6,
 
   'c-bg': #1a1a1a,
   'c-bg-light': #22252e,

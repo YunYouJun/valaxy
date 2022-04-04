@@ -16,7 +16,11 @@ const isHome = useLayout('home')
     <YunBanner />
     <YunSay w="full" />
 
-    <router-view />
+    <slot name="board" />
+
+    <slot>
+      <router-view />
+    </slot>
 
     <ValaxyFooter>
       <slot name="footer" />

@@ -28,6 +28,11 @@ declare module '@valaxyjs/config' {
   export default config
 }
 
+declare module '/@valaxyjs/locales' {
+  const messages: {}
+  export default messages
+}
+
 declare module 'vue-router' {
   interface RouteMeta {
     headers: Header[]

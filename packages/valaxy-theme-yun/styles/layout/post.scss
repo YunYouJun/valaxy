@@ -4,7 +4,7 @@
 
 .post-card {
   position: relative;
-  max-width: 900px;
+  max-width: var(--yun-post-card-max-width);
 }
 
 

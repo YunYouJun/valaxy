@@ -11,7 +11,6 @@ import 'star-markdown-css/src/scss/theme/yun.scss'
 import './styles/css-vars/index.scss'
 import './styles/css-vars/light.scss'
 import './styles/css-vars/dark.scss'
-import './styles/index.scss'
 
 import '/@valaxyjs/styles'
 
