@@ -12,6 +12,9 @@ import { version } from '../../package.json'
 import { resolveOptions } from './options'
 import { bindShortcut, initServer, printInfo } from './utils/cli'
 
+// build
+import { build, ssgBuild } from './build'
+
 const cli = yargs.scriptName('valaxy')
   .usage('$0 [args]')
   .version(version)
@@ -137,7 +140,6 @@ cli.command(
     }
 
     if (ssg) {
-      const { ssgBuild } = await import('./build')
       consola.info('use vite-ssg to do ssg build...')
 
       try {
@@ -149,8 +151,6 @@ cli.command(
       }
     }
     else {
-      const { build } = await import('./build')
-
       consola.info('use vite do spa build...')
       await build(options, viteConfig)
     }
