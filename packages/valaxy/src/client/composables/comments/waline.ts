@@ -31,7 +31,6 @@ export function useWaline(options: {} = {}) {
       path: route.path,
     }
     const walineOptions = Object.assign(defaultOptions, options)
-    // @ts-expect-error waline type
     return window.Waline(walineOptions)
   }
 

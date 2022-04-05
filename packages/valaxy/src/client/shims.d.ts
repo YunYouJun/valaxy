@@ -3,11 +3,6 @@ import 'vue-router'
 import type { Post } from 'valaxy'
 import type { Header } from '../node/markdown'
 
-declare interface Window {
-  // extend the window
-  Waline: any
-}
-
 // with vite-plugin-md, markdowns can be treat as Vue components
 declare module '*.md' {
   import type { DefineComponent } from 'vue'

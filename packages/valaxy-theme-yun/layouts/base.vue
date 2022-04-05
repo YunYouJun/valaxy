@@ -32,8 +32,9 @@ const { styles, icon, color } = usePostProperty(frontmatter.value.type)
       </slot>
 
       <slot v-if="frontmatter.comment !== false" name="comment">
-        <YunCard v-if="config.comment.waline.enable" w="full" p="4" class="comment sm:p-8 lg:px-12 xl:px-16" :class="frontmatter.nav === false ? 'mt-4' : 0">
-          <YunWaline />
+        <YunCard w="full" p="4" class="comment sm:p-8 lg:px-12 xl:px-16" :class="frontmatter.nav === false ? 'mt-4' : 0">
+          <YunWaline v-if="config.comment.waline.enable" />
+          <YunTwikoo v-if="config.comment.twikoo.enable" />
         </YunCard>
       </slot>
 

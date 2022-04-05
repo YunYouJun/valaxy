@@ -95,6 +95,10 @@ export interface ValaxyConfig<T = ValaxyThemeConfig> {
       enable: boolean
       serverURL: string
     }
+    twikoo: {
+      enable: boolean
+      envId: string
+    }
   }
 
   /**
@@ -230,6 +234,10 @@ export const defaultValaxyConfig: ValaxyConfig = {
     waline: {
       enable: false,
       serverURL: '',
+    },
+    twikoo: {
+      enable: false,
+      envId: 'https://twikoo.vercel.app',
     },
   },
 

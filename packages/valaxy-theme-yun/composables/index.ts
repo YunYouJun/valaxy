@@ -13,7 +13,8 @@ export function useRandomData<T>(source: string | T[], random = false) {
   watch(() => source, async() => {
     let rawData: T[]
     if (typeof source === 'string') {
-      if (!isClient) return
+      if (!isClient)
+        return
       rawData = await fetch(source).then(res => res.json()) as T[]
     }
     else { rawData = source }
