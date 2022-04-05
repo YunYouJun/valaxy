@@ -66,6 +66,7 @@
     "markdown-it-link-attributes": "^4.0.0",
     "markdown-it-prism": "^2.2.3",
     "markdown-it-table-of-contents": "^0.6.0",
+    "markdown-it-task-lists": "^2.1.1",
     "nprogress": "^0.2.0",
     "open": "^8.4.0",
     "pinia": "^2.0.13",

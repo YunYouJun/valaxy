@@ -5,6 +5,7 @@ import Emoji from 'markdown-it-emoji'
 import Prism from 'markdown-it-prism'
 import LinkAttributes from 'markdown-it-link-attributes'
 import TOC from 'markdown-it-table-of-contents'
+import TaskLists from 'markdown-it-task-lists'
 
 import type { KatexOptions } from 'katex'
 import Katex from '../markdown/markdown-it-katex'
@@ -63,6 +64,7 @@ export function setupMarkdownPlugins(md: MarkdownIt, mdOptions: MarkdownOptions 
       ...mdOptions.toc,
     })
     .use(Emoji)
+    .use(TaskLists)
 
   const originalRender = md.render
   md.render = (...args) => {

@@ -18,6 +18,11 @@ declare module 'markdown-it-container' {
   export default def
 }
 
+declare module 'markdown-it-task-lists' {
+  const def: any
+  export default def
+}
+
 declare module 'diacritics' {
   export const remove: (str: string) => string
 }

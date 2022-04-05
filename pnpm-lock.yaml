@@ -84,6 +84,7 @@ importers:
       markdown-it-link-attributes: ^4.0.0
       markdown-it-prism: ^2.2.3
       markdown-it-table-of-contents: ^0.6.0
+      markdown-it-task-lists: ^2.1.1
       nprogress: ^0.2.0
       open: ^8.4.0
       pinia: ^2.0.13
@@ -128,9 +129,10 @@ importers:
       markdown-it-link-attributes: 4.0.0
       markdown-it-prism: 2.2.3
       markdown-it-table-of-contents: 0.6.0
+      markdown-it-task-lists: 2.1.1
       nprogress: 0.2.0
       open: 8.4.0
-      pinia: 2.0.13_vue@3.2.31
+      pinia: 2.0.13_typescript@4.6.3+vue@3.2.31
       prism-theme-vars: 0.2.2
       sass: 1.49.11
       star-markdown-css: 0.3.1
@@ -161,7 +163,7 @@ importers:
       diacritics: 1.3.0
       https-localhost: 4.7.1
       type-fest: 2.12.2
-      vue-tsc: 0.33.9
+      vue-tsc: 0.33.9_typescript@4.6.3
 
   packages/valaxy-theme-yun:
     specifiers:
@@ -5384,6 +5386,10 @@ packages:
     engines: {node: '>6.4.0'}
     dev: false
 
+  /markdown-it-task-lists/2.1.1:
+    resolution: {integrity: sha512-TxFAc76Jnhb2OUu+n3yz9RMu4CwGfaT788br6HhEDlvWfdeJcLUsxk1Hgw2yJio0OXsxv7pyIPmvECY7bMbluA==}
+    dev: false
+
   /markdown-it/12.3.2:
     resolution: {integrity: sha512-TchMembfxfNVpHkbtriWltGWc+m3xszaRD0CZup7GFFhzIgQqxIfn3eGj1yZpfuflzPvfkt611B2Q/Bsk1YnGg==}
     hasBin: true
@@ -5919,7 +5925,7 @@ packages:
     resolution: {integrity: sha512-JU3teHTNjmE2VCGFzuY8EXzCDVwEqB2a8fsIvwaStHhAWJEeVd1o1QD80CU6+ZdEXXSLbSsuLwJjkCBWqRQUVA==}
     engines: {node: '>=8.6'}
 
-  /pinia/2.0.13_vue@3.2.31:
+  /pinia/2.0.13_typescript@4.6.3+vue@3.2.31:
     resolution: {integrity: sha512-B7rSqm1xNpwcPMnqns8/gVBfbbi7lWTByzS6aPZ4JOXSJD4Y531rZHDCoYWBwLyHY/8hWnXljgiXp6rRyrofcw==}
     peerDependencies:
       '@vue/composition-api': ^1.4.0
@@ -5932,6 +5938,7 @@ packages:
         optional: true
     dependencies:
       '@vue/devtools-api': 6.1.4
+      typescript: 4.6.3
       vue: 3.2.31
       vue-demi: 0.12.5_vue@3.2.31
     dev: false
@@ -7427,13 +7434,14 @@ packages:
       vue: 3.2.31
     dev: false
 
-  /vue-tsc/0.33.9:
+  /vue-tsc/0.33.9_typescript@4.6.3:
     resolution: {integrity: sha512-s/+r4JNsCh4e3MUdsYrjEA8IgPPDzHL5kEah/OznxIHd1XMlYiIkXGdiyU6JE5J+lzXNOKdOlNliqwwpeETQWw==}
     hasBin: true
     peerDependencies:
       typescript: '*'
     dependencies:
       '@volar/vue-typescript': 0.33.9
+      typescript: 4.6.3
     dev: true
 
   /vue/3.2.31:

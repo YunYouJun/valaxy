@@ -1,5 +1,5 @@
 ---
-title: 目录测试
+title: Valaxy Test 文章内容测试
 date: 2022-03-23
 categories:
   - AAA
@@ -8,6 +8,7 @@ categories:
 tags:
   - valaxy
   - 测试
+  - test
 ---
 
 [[toc]]
@@ -33,3 +34,8 @@ tags:
 - CCC
   - DDD
     - EEE
+
+### Checkbox
+
+- [ ] FLAG
+- [x] FLAG
