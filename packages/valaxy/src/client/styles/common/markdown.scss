@@ -1,7 +1,3 @@
-/* https://github.com/antfu/prism-theme-vars */
-@use 'prism-theme-vars/base.css' as *;
-@use './code.scss' as *;
-
 .markdown-body {
   --prism-font-family: var(--va-font-mono);
 

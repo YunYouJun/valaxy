@@ -1,3 +1,58 @@
+@use '~/styles/mixins' as *;
+
+/* https://github.com/antfu/prism-theme-vars */
+@use 'prism-theme-vars/base.css' as *;
+
+@include mobile {
+  .markdown-body {
+    div[class*='language-'] {
+      margin: 0 -1rem;
+    }
+  }
+}
+
+.markdown-body {
+  div[class*='language-'] {
+    position: relative;
+    padding: 0;
+    background-color: var(--smc-code-bg-color);
+
+    pre {
+      position: relative;
+      padding: 1rem;
+      z-index: 1;
+      background: none;
+    }
+  }
+}
+
+/* Line highlighting */
+
+.highlight-lines {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  padding: 1.15rem 0;
+  width: 100%;
+  line-height: var(--prism-line-height);
+  // font-family: var(--code-font-family);
+  // font-size: var(--code-font-size);
+  user-select: none;
+  overflow: hidden;
+}
+
+.highlight-lines .highlighted {
+  background-color: rgba(0, 0, 0, 0.08);
+}
+
+.dark {
+  .highlight-lines .highlighted {
+    background-color: rgba(0, 0, 0, 0.4);
+  }
+}
+
+// prism
 html:not(.dark) {
   --prism-foreground: #393a34;
   --prism-background: #f8f8f8;
@@ -32,4 +87,106 @@ html.dark {
   --prism-property: #C792EA;
   --prism-regex: #ad502b;
   --prism-selector: #C3E88D;
+}
+
+/* Language marker */
+// @use 'prism-theme-vars/marker.css' as *; * not div
+div[class*='language-']:before {
+  position: absolute;
+  top: 0.6em;
+  right: 1em;
+  z-index: 2;
+  font-size: 0.8rem;
+  color: #888;
+}
+
+div[class~='language-html']:before,
+div[class~='language-markup']:before {
+  content: 'html';
+}
+
+div[class~='language-md']:before,
+div[class~='language-markdown']:before {
+  content: 'md';
+}
+
+div[class~='language-css']:before {
+  content: 'css';
+}
+
+div[class~='language-sass']:before {
+  content: 'sass';
+}
+
+div[class~='language-scss']:before {
+  content: 'scss';
+}
+
+div[class~='language-less']:before {
+  content: 'less';
+}
+
+div[class~='language-stylus']:before {
+  content: 'styl';
+}
+
+div[class~='language-js']:before,
+div[class~='language-javascript']:before {
+  content: 'js';
+}
+
+div[class~='language-ts']:before,
+div[class~='language-typescript']:before {
+  content: 'ts';
+}
+
+div[class~='language-json']:before {
+  content: 'json';
+}
+
+div[class~='language-rb']:before,
+div[class~='language-ruby']:before {
+  content: 'rb';
+}
+
+div[class~='language-py']:before,
+div[class~='language-python']:before {
+  content: 'py';
+}
+
+div[class~='language-sh']:before,
+div[class~='language-bash']:before {
+  content: 'sh';
+}
+
+div[class~='language-php']:before {
+  content: 'php';
+}
+
+div[class~='language-go']:before {
+  content: 'go';
+}
+
+div[class~='language-rust']:before {
+  content: 'rust';
+}
+
+div[class~='language-java']:before {
+  content: 'java';
+}
+
+div[class~='language-c']:before {
+  content: 'c';
+}
+
+div[class~='language-yaml']:before {
+  content: 'yaml';
+}
+
+div[class~='language-dockerfile']:before {
+  content: 'dockerfile';
+}
+
+div[class~='language-vue']:before {
+  content: 'vue';
 }

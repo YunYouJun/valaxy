@@ -108,7 +108,7 @@ const config: UserConfig<ThemeUserConfig> = {
       serverURL: 'https://waline.yunyoujun.cn',
     },
     twikoo: {
-      enable: true,
+      // enable: true,
       envId: 'https://twikoo.vercel.app',
     },
   },

@@ -46,3 +46,15 @@ npm i @iconify-json/collection
 ```
 
 被添加至 `config.unocss.safelist` 的图标名称将全部是热加载的！
+
+## 代码高亮
+
+基于 Prism 实现。
+值得一提的是 Valaxy 也扩展了 `vue`（使用 markup）的高亮，并支持高亮其中某一行。
+
+譬如：
+
+```js {2}
+const a = 1
+const b = a
+```

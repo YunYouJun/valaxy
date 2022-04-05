@@ -2,9 +2,7 @@
 import { useConfig, useWaline } from 'valaxy'
 
 const config = useConfig()
-useWaline({
-  serverURL: config.value.comment.waline.serverURL,
-})
+useWaline(config.value.comment.waline)
 </script>
 
 <template>
