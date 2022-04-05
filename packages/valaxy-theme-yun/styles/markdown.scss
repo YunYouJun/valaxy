@@ -8,24 +8,6 @@
 
 html.dark {
   .markdown-body {
-    --smc-header-bottom-color: #333;
-
     --c-toc-link: var(--yun-c-text-dark);
-  }
-}
-
-.markdown-body {
-  ul {
-    > li {
-      list-style-type: disc;
-
-      li {
-        list-style-type: circle;
-
-        li {
-          list-style-type: square;
-        }
-      }
-    }
   }
 }

@@ -50,6 +50,8 @@ function getStylesByLevel(level: number) {
     white-space: nowrap;
     text-overflow: ellipsis;
 
+    font-weight: 900;
+
     &:hover {
       color: var(--yun-c-text);
     }

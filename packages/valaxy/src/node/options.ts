@@ -16,6 +16,7 @@ export interface ValaxyEntryOptions {
 }
 
 export interface ResolvedValaxyOptions {
+  mode: 'dev' | 'build'
   /**
    * Client root path
    * @default 'valaxy/src/client'
@@ -69,7 +70,7 @@ export function getThemeRoot(name: string, entry: string) {
 }
 
 // for cli options
-export async function resolveOptions(options: ValaxyEntryOptions) {
+export async function resolveOptions(options: ValaxyEntryOptions, mode: ResolvedValaxyOptions['mode'] = 'dev') {
   const clientRoot = resolve(resolveImportPath('valaxy/package.json'), 'src/client')
   const userRoot = resolve(options.userRoot || process.cwd())
 
@@ -77,6 +78,7 @@ export async function resolveOptions(options: ValaxyEntryOptions) {
   const themeRoot = getThemeRoot(theme, userRoot)
 
   const valaxyOptions: ResolvedValaxyOptions = {
+    mode,
     clientRoot,
     userRoot,
     themeRoot,

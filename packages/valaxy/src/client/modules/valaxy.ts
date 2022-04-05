@@ -9,7 +9,6 @@ import { createI18n } from 'vue-i18n'
 // import messages from '@intlify/vite-plugin-vue-i18n/messages'
 
 import { initConfig, valaxyConfigSymbol } from '../config'
-import { isDev } from '..'
 
 import type { UserModule } from '~/types'
 
@@ -55,7 +54,7 @@ export const install: UserModule = ({ app, router }) => {
   app.use(i18n)
 
   // for dev
-  if (isDev) {
+  if (__DEV__) {
     import.meta.hot!.on('valaxy:pageHeaders', (payload) => {
       if (shouldHotReload(payload))
         router.currentRoute.value.meta.headers = payload.pageHeaders

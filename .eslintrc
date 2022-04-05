@@ -1,3 +1,6 @@
 {
-  "extends": "@antfu"
+  "extends": "@antfu",
+  "globals": {
+    "__DEV__": true
+  }
 }

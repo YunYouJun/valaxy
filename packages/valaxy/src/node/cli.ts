@@ -6,9 +6,6 @@ import yargs from 'yargs'
 import type { InlineConfig, LogLevel } from 'vite'
 import openBrowser from 'open'
 
-// @ts-expect-error https://github.com/antfu/vite-ssg/pull/225
-import { build as ssgBuild } from 'vite-ssg/node'
-
 import consola from 'consola'
 
 import { version } from '../../package.json'
@@ -121,22 +118,30 @@ cli.command(
       describe: 'output dir',
     }).option('base', {
       type: 'string',
+      default: '/',
       describe: 'output base',
     })
     .strict()
     .help(),
   async({ ssg, root, base, output }) => {
-    const options = await resolveOptions({ userRoot: root })
+    const options = await resolveOptions({ userRoot: root }, 'build')
     printInfo(options)
 
+    const viteConfig = {
+      base,
+      build: {
+        // make out dir empty, https://vitejs.dev/config/#build-emptyoutdir
+        emptyOutDir: true,
+        outDir: path.resolve(options.userRoot, output),
+      },
+    }
+
     if (ssg) {
+      const { ssgBuild } = await import('./build')
       consola.info('use vite-ssg to do ssg build...')
+
       try {
-        // wait vite-ssg can pass custom options
-        // https://github.com/antfu/vite-ssg/issues/226
-        await ssgBuild({
-          mode: 'production',
-        })
+        await ssgBuild(options, viteConfig)
       }
       catch (e) {
         consola.error('[vite-ssg] An internal error occurred.')
@@ -147,14 +152,7 @@ cli.command(
       const { build } = await import('./build')
 
       consola.info('use vite do spa build...')
-      await build(options, {
-        base,
-        build: {
-          // make out dir empty, https://vitejs.dev/config/#build-emptyoutdir
-          emptyOutDir: true,
-          outDir: path.resolve(options.userRoot, output),
-        },
-      })
+      await build(options, viteConfig)
     }
   },
 )

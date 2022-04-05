@@ -1,4 +1,3 @@
-import generateSitemap from 'vite-ssg-sitemap'
 import type { InlineConfig } from 'vite'
 import { searchForWorkspaceRoot } from 'vite'
 import type { ResolvedValaxyOptions, ValaxyServerOptions } from './options'
@@ -7,7 +6,7 @@ import { ViteValaxyPlugins } from './plugins/preset'
 
 export type Mode = 'dev' | 'build'
 
-export function createViteConfig(options: ResolvedValaxyOptions, serverOptions: ValaxyServerOptions = {}, mode: Mode = 'dev'): InlineConfig {
+export function createViteConfig(options: ResolvedValaxyOptions, serverOptions: ValaxyServerOptions = {}): InlineConfig {
   const viteConfig: InlineConfig = {
     // remove vue-i18n warnings
     // https://vue-i18n.intlify.dev/guide/advanced/optimization.html#reduce-bundle-size-with-feature-build-flags
@@ -21,11 +20,14 @@ export function createViteConfig(options: ResolvedValaxyOptions, serverOptions: 
     //   __VUE_I18N_LEGACY_API__: 'false',
     // },
 
-    root: options.clientRoot,
-    // todo user base
-    // base: '/',
+    // always string
+    define: {
+      __DEV__: options.mode === 'dev' ? 'true' : 'false',
+    },
 
-    plugins: ViteValaxyPlugins(options, serverOptions, {}, mode),
+    root: options.clientRoot,
+
+    plugins: ViteValaxyPlugins(options, serverOptions, {}),
 
     server: {
       fs: {
@@ -38,15 +40,6 @@ export function createViteConfig(options: ResolvedValaxyOptions, serverOptions: 
       },
     },
 
-  }
-
-  if (mode === 'build') {
-    // https://github.com/antfu/vite-ssg
-    viteConfig.ssgOptions = {
-      script: 'async',
-      formatting: 'minify',
-      onFinished() { generateSitemap() },
-    }
   }
 
   return viteConfig

@@ -58,7 +58,7 @@ export function setupMarkdownPlugins(md: MarkdownIt, mdOptions: MarkdownOptions 
     })
     .use(TOC, {
       slugify,
-      includeLevel: [2, 3],
+      includeLevel: [2, 3, 4],
       format: parseHeader,
       ...mdOptions.toc,
     })

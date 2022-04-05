@@ -16,7 +16,6 @@ import Inspect from 'vite-plugin-inspect'
 
 import chalk from 'chalk'
 import type { ResolvedValaxyOptions, ValaxyServerOptions } from '../options'
-import type { Mode } from '../vite'
 import { setupMarkdownPlugins } from '../markdown'
 import { createMarkdownPlugin, excerpt_separator } from './markdown'
 import { createUnocssPlugin } from './unocss'
@@ -31,7 +30,6 @@ export function ViteValaxyPlugins(
   options: ResolvedValaxyOptions,
   serverOptions: ValaxyServerOptions = {},
   pluginOptions: ValaxyPluginOptions = {},
-  mode: Mode = 'dev',
 ): (PluginOption | PluginOption[])[] | undefined {
   const { clientRoot, themeRoot, userRoot } = options
 
@@ -178,6 +176,6 @@ export function ViteValaxyPlugins(
 
     // https://github.com/antfu/vite-plugin-inspect
     // Visit http://localhost:3333/__inspect/ to see the inspector
-    mode === 'dev' && Inspect(),
+    options.mode === 'dev' && Inspect(),
   ]
 }
