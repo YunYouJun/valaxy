@@ -3,9 +3,10 @@
 @use './code.scss' as *;
 
 .markdown-body {
-  --prism-font-family: var(--yun-font-mono);
+  --prism-font-family: var(--va-font-mono);
 
-  --smc-link-color: var(--yun-c-link);
+  --smc-link-color: var(--va-c-link);
+  --smc-font-family: var(--va-font-sans);
 }
 
 // for anchor
@@ -33,7 +34,7 @@ a.header-anchor {
   font-size: 0.85em;
   visibility: hidden;
   opacity: 0;
-  transition: opacity var(--yun-transition-duration);
+  transition: opacity var(--va-transition-duration);
 
   &::before {
     content: none;

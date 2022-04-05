@@ -20,7 +20,7 @@ function getStylesByLevel(level: number) {
 </script>
 
 <template>
-  <ul class="val-toc" p="l-4">
+  <ul class="va-toc" p="l-4">
     <li v-for="header, i in headers" :key="i" :style="getStylesByLevel(header.level)">
       <a class="toc-link-item" :href="`#${header.slug}`">{{ header.title }}</a>
     </li>
@@ -28,14 +28,14 @@ function getStylesByLevel(level: number) {
 </template>
 
 <style lang="scss">
-.val-toc {
+.va-toc {
   top: 10px;
   width: var(--yun-sidebar-width-mobile);
 
-  background-color: var(--yun-c-bg-light);
+  background-color: var(--va-c-bg-light);
 
   font-size: 1rem;
-  font-family: var(--yun-font-serif);
+  font-family: var(--va-font-serif);
   font-weight: 900;
   line-height: 1.6;
 
@@ -44,7 +44,7 @@ function getStylesByLevel(level: number) {
   a {
     display: block;
     color: var(--c-toc-link);
-    transition: color var(--yun-transition-duration);
+    transition: color var(--va-transition-duration);
 
     overflow: hidden;
     white-space: nowrap;
@@ -53,19 +53,19 @@ function getStylesByLevel(level: number) {
     font-weight: 900;
 
     &:hover {
-      color: var(--yun-c-text);
+      color: var(--va-c-text);
     }
   }
 
   .toc-link-item {
-    color: var(--yun-c-text-light);
+    color: var(--va-c-text-light);
 
     &:hover {
-      color: var(--yun-c-text);
+      color: var(--va-c-text);
     }
 
     &.active {
-      color: var(--yun-c-primary);
+      color: var(--va-c-primary);
     }
   }
 }

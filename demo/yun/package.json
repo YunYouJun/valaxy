@@ -3,7 +3,7 @@
   "scripts": {
     "build": "valaxy build",
     "generate": "valaxy build --ssg",
-    "dev": "nodemon -w \"../../packages/valaxy/dist/index.js\" --exec \"valaxy .\"",
+    "dev": "nodemon -w \"../../packages/valaxy/dist/*.js\" --exec \"valaxy .\"",
     "serve": "vite preview"
   },
   "dependencies": {

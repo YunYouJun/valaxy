@@ -60,7 +60,7 @@ const { styles, icon, color } = usePostProperty(frontmatter.value.type)
 @include xl {
   .page-card {
     // 8px scrollbar width
-    max-width: calc(100vw - 2 * var(--yun-sidebar-width-mobile) - 2rem - 8px);
+    max-width: calc(100vw - 2 * var(--va-sidebar-width-mobile) - 2rem - 8px);
   }
 }
 </style>

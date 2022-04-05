@@ -21,7 +21,7 @@ const poweredHtml = computed(() => t('footer.powered', [`<a href="${pkg.reposito
 </script>
 
 <template>
-  <footer class="val-footer p-4" text="center sm" style="color:var(--yun-c-text-light)">
+  <footer class="va-footer p-4" text="center sm" style="color:var(--va-c-text-light)">
     <div v-if="themeConfig.footer.beian.enable && themeConfig.footer.beian.icp" class="beian" m="y-2">
       <a href="https://beian.miit.gov.cn/" target="_blank" rel="noopener">
         {{ themeConfig.footer.beian.icp }}

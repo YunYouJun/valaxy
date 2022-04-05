@@ -2,6 +2,6 @@
 @use "./post" as *;
 
 .yun-main {
-  padding-left: var(--yun-sidebar-width-mobile);
-  transition: padding-left var(--yun-transition-duration);
+  padding-left: var(--va-sidebar-width-mobile);
+  transition: padding-left var(--va-transition-duration);
 }

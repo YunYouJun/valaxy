@@ -70,7 +70,7 @@ $char-animation-duration: 0.4s;
 
   &-left {
     border-left: 1px solid var(--banner-line-color);
-    border-right: 0px solid rgba(var(--yun-c-primary-rgb), 0.1);
+    border-right: 0px solid rgba(var(--va-c-primary-rgb), 0.1);
     border-right-width: 0px;
     animation-name: char-move-left;
     animation-duration: $char-animation-duration;
@@ -80,7 +80,7 @@ $char-animation-duration: 0.4s;
   }
 
   &-right {
-    border-left: 0px solid rgba(var(--yun-c-primary-rgb), 0.1);
+    border-left: 0px solid rgba(var(--va-c-primary-rgb), 0.1);
     border-right: 1px solid var(--banner-line-color);
     border-left-width: 0px;
     animation-name: char-move-right;

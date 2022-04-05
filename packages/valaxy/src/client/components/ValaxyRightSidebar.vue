@@ -7,7 +7,7 @@ defineProps<{ frontmatter: Post }>()
 </script>
 
 <template>
-  <aside class="right-sidebar val-card relative" m="l-4" text="center">
+  <aside class="right-sidebar va-card relative" m="l-4" text="center">
     <h2 v-if="frontmatter.toc !== false" m="t-6 b-2" font="serif black">
       {{ t('sidebar.toc') }}
     </h2>
@@ -24,7 +24,7 @@ defineProps<{ frontmatter: Post }>()
 
 <style lang="scss">
 .right-sidebar {
-  width: var(--yun-sidebar-width-mobile);
+  width: var(--va-sidebar-width-mobile);
 }
 .right-sidebar-container {
   top: 1rem;

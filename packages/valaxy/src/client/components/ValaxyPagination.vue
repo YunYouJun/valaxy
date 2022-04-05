@@ -72,12 +72,12 @@ const jumpTo = (page: number) => {
 <style lang="scss">
 :root {
   --page-btn-bg-color: rgba(255, 255, 255, 0.5);
-  --page-btn-hover-bg-color: var(--yun-c-primary-lighter);
-  --page-btn-active-bg-color: var(--yun-c-primary-light);
+  --page-btn-hover-bg-color: var(--va-c-primary-lighter);
+  --page-btn-active-bg-color: var(--va-c-primary-light);
 }
 
 .dark {
-  --page-btn-bg-color: var(--yun-c-bg-light);
+  --page-btn-bg-color: var(--va-c-bg-light);
 }
 
 .pagination {
@@ -93,30 +93,30 @@ const jumpTo = (page: number) => {
     width: 2rem;
     height: 2rem;
     margin: 0;
-    transition: background-color var(--yun-transition-duration) ease;
+    transition: background-color var(--va-transition-duration) ease;
   }
 
   .prev, .next, .page-number {
     cursor: pointer;
 
-    color: var(--yun-c-text);
+    color: var(--va-c-text);
     text-decoration: none;
     background-color: var(--page-btn-bg-color);
 
     &:hover {
-      color: var(--yun-c-bg);
+      color: var(--va-c-bg);
       background: var(--page-btn-hover-bg-color);
     }
 
     &:active {
-      color: var(--yun-c-bg);
+      color: var(--va-c-bg);
       background: var(--page-btn-active-bg-color);
     }
 
     &.active {
       font-weight: normal;
       background: var(--page-btn-active-bg-color);
-      color: var(--yun-c-bg);
+      color: var(--va-c-bg);
       cursor: default;
     }
   }

@@ -55,7 +55,7 @@ const tags = useTag()
 
   flex-direction: column;
 
-  color: var(--yun-c-text);
+  color: var(--va-c-text);
 
   &:first-child, &:last-child {
     line-height: 1;
@@ -76,8 +76,8 @@ const tags = useTag()
   }
 
   .count {
-    color: var(--yun-c-text);
-    font-family: var(--yun-font-sans);
+    color: var(--va-c-text);
+    font-family: var(--va-font-sans);
     display: block;
     text-align: center;
     font-size: 1rem;
@@ -88,7 +88,7 @@ const tags = useTag()
     height: 1.5rem;
 
     &:hover {
-      color: var(--yun-c-primary-light);
+      color: var(--va-c-primary-light);
     }
   }
 }

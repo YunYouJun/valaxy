@@ -13,8 +13,8 @@ useWaline({
 
 <style lang="scss">
 #waline {
-  --waline-theme-color: var(--yun-c-primary);
-  --waline-active-color: var(--yun-c-primary-light);
+  --waline-theme-color: var(--va-c-primary);
+  --waline-active-color: var(--va-c-primary-light);
 
   .v[data-class=v] {
     .veditor {

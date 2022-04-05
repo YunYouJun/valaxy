@@ -17,11 +17,13 @@ function generateStyles(roots: string[]) {
   const imports: string[] = []
 
   for (const root of roots) {
-    const styles = [
-      join(root, 'styles', 'vars.scss'),
-      join(root, 'styles', 'index.css'),
-      join(root, 'styles', 'index.scss'),
-    ]
+    const styles: string[] = []
+
+    const autoloadNames = ['index', 'css-vars']
+    autoloadNames.forEach((name) => {
+      styles.push(join(root, 'styles', `${name}.css`))
+      styles.push(join(root, 'styles', `${name}.scss`))
+    })
 
     for (const style of styles) {
       if (fs.existsSync(style))

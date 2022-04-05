@@ -1,6 +1,4 @@
-@use 'sass:map';
 @use '~/styles/mixins' as *;
-@use '~/styles/palette.scss' as *;
 
 .post-card {
   position: relative;
@@ -21,7 +19,7 @@
 .post-title-link {
   position: relative;
   padding: 0.7rem 1.2rem;
-  color: var(--card-c-primary, var(--yun-c-link));
+  color: var(--card-c-primary, var(--va-c-link));
   font-weight: 900;
 
   .icon {
@@ -65,7 +63,7 @@
   position: absolute;
   top: 1rem;
   right: 1rem;
-  color: var(--yun-c-warning);
+  color: var(--va-c-warning);
   font-size: 1.2rem;
 }
 
@@ -79,7 +77,7 @@
 
   margin-top: -0.2rem;
 
-  transition: box-shadow var(--yun-transition-duration);
+  transition: box-shadow var(--va-transition-duration);
 
   &:before {
     content: none;

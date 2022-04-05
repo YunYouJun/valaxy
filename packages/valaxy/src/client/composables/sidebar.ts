@@ -30,7 +30,7 @@ export function useActiveSidebarLinks() {
     deactiveLink(activeLink)
     deactiveLink(rootActiveLink)
 
-    activeLink = document.querySelector(`.val-toc a[href="${hash}"]`)
+    activeLink = document.querySelector(`.va-toc a[href="${hash}"]`)
 
     if (!activeLink)
       return
@@ -70,7 +70,7 @@ export function useActiveSidebarLinks() {
 
 function getSidebarLinks(): HTMLAnchorElement[] {
   return [].slice.call(
-    document.querySelectorAll('.val-toc a.toc-link-item'),
+    document.querySelectorAll('.va-toc a.toc-link-item'),
   )
 }
 

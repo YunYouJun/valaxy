@@ -1,0 +1,17 @@
+@use './vars' as *;
+@use '~/styles/mixins' as * with(
+  $namespace: 'yun'
+);
+
+:root {
+  @include set-css-var-from-map($common);
+  @include set-css-var-from-map($z-index, 'z');
+}
+
+:root {
+  @include set-css-var-from-map($light);
+}
+
+html.dark {
+  @include set-css-var-from-map($dark);
+}

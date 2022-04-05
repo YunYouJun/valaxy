@@ -33,7 +33,7 @@ const [prev, next] = usePrevNext()
     justify-content: center;
     align-items: center;
 
-    color: var(--yun-c-primary);
+    color: var(--va-c-primary);
 
     outline: none;
     font-size: 1.5rem;
@@ -44,7 +44,7 @@ const [prev, next] = usePrevNext()
     transition: 0.4s;
 
     &:hover {
-      background-color: rgba(var(--yun-c-primary-rgb), 0.1);
+      background-color: rgba(var(--va-c-primary-rgb), 0.1);
       box-shadow: 0 0 15px rgba(black, 0.1);
     }
   }

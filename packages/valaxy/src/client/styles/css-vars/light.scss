@@ -1,9 +1,0 @@
-@use "../palette" as *;
-@use "../mixins" as *;
-
-:root {
-  color-scheme: light;
-
-  @include set-css-var-from-map($colors, 'c');
-  @include set-css-var-from-map($light);
-}

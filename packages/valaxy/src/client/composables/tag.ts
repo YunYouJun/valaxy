@@ -13,7 +13,7 @@ export function useTags() {
   const tags = useTag()
 
   const gray = new TinyColor('#999999')
-  const primaryColor = new TinyColor(getComputedStyle(document.documentElement).getPropertyValue('--yun-c-primary'))
+  const primaryColor = new TinyColor(getComputedStyle(document.documentElement).getPropertyValue('--va-c-primary'))
 
   const getTagStyle = (count: number) => {
     const counts = Array.from(tags).map(([_, value]) => value.count)

@@ -6,7 +6,7 @@ import { ViteValaxyPlugins } from './plugins/preset'
 
 export type Mode = 'dev' | 'build'
 
-export function createViteConfig(options: ResolvedValaxyOptions, serverOptions: ValaxyServerOptions = {}): InlineConfig {
+export async function createViteConfig(options: ResolvedValaxyOptions, serverOptions: ValaxyServerOptions = {}): Promise<InlineConfig> {
   const viteConfig: InlineConfig = {
     // remove vue-i18n warnings
     // https://vue-i18n.intlify.dev/guide/advanced/optimization.html#reduce-bundle-size-with-feature-build-flags
@@ -27,7 +27,7 @@ export function createViteConfig(options: ResolvedValaxyOptions, serverOptions: 
 
     root: options.clientRoot,
 
-    plugins: ViteValaxyPlugins(options, serverOptions, {}),
+    plugins: await ViteValaxyPlugins(options, serverOptions, {}),
 
     server: {
       fs: {
@@ -39,7 +39,6 @@ export function createViteConfig(options: ResolvedValaxyOptions, serverOptions: 
         ],
       },
     },
-
   }
 
   return viteConfig

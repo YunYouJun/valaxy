@@ -86,9 +86,9 @@ const { data } = useRandomData(props.girls, props.random)
 
     &-from {
       font-size: 12px;
-      font-family: var(--yun-font-serif);
+      font-family: var(--va-font-serif);
       font-weight: bold;
-      color: var(--yun-c-text-light);
+      color: var(--va-c-text-light);
 
       &::before {
         content: '「';

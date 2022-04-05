@@ -1,5 +1,6 @@
 import { useRoute } from 'vue-router'
 import { computed } from 'vue'
+import { isClient } from '@vueuse/core'
 
 import type { Post } from '../../types'
 import { useConfig } from '../config'
@@ -18,7 +19,7 @@ export function useFullUrl() {
   const config = useConfig()
   const route = useRoute()
   const url = computed(() => {
-    const origin = config.value.url || window?.location.origin
+    const origin = config.value.url || (isClient && window.location.origin)
     return origin + route.path
   })
   return url

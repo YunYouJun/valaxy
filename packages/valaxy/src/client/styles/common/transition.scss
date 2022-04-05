@@ -1,7 +1,7 @@
 .v {
   &-enter-active,
   &-leave-active {
-    transition: opacity var(--yun-transition-duration, 0.4s) ease;
+    transition: opacity var(--va-transition-duration, 0.4s) ease;
   }
 
   &-enter-from,
@@ -13,7 +13,7 @@
 .fade {
   &-enter-active,
   &-leave-active {
-    transition: opacity var(--yun-transition-duration, 0.4s) ease;
+    transition: opacity var(--va-transition-duration, 0.4s) ease;
   }
 
   &-enter-from,

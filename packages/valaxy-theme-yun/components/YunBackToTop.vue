@@ -25,16 +25,15 @@ const strokeOffset = computed(() => {
 
 <style lang="scss">
 @use "sass:map";
-@use "~/styles/vars" as *;
 
 .back-to-top {
   position: relative;
   position: fixed;
   right: -0.9rem;
   bottom: 1.1rem;
-  z-index: map.get($z-index, 'go-up-btn');
+  z-index: var(--yun-z-go-up-btn);
   opacity: 0;
-  color: var(--yun-c-primary);
+  color: var(--va-c-primary);
 
   &.show {
     transform: translateX(-30px) rotate(360deg);

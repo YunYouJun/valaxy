@@ -18,12 +18,12 @@
   animation: float 2s ease-in-out infinite;
 
   font-size: 2.5rem;
-  color: var(--yun-c-primary);
+  color: var(--va-c-primary);
 
-  transition: color var(--yun-transition-duration);
+  transition: color var(--va-transition-duration);
 
   &:hover {
-    color: rgba(var(--yun-c-primary-rgb), 0.6);
+    color: rgba(var(--va-c-primary-rgb), 0.6);
   }
 }
 

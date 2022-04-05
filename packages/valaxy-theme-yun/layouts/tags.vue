@@ -77,7 +77,7 @@ const displayTag = (tag: string) => {
   color: var(--yun-tag-color);
 
   &:hover {
-    color: var(--yun-c-primary);
+    color: var(--va-c-primary);
   }
 }
 </style>

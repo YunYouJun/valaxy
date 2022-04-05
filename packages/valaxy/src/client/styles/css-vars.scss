@@ -1,0 +1,32 @@
+@use "sass:map";
+@use "./mixins" as *;
+@use "./vars" as *;
+@use "./palette" as *;
+
+// common
+:root {
+  @include set-css-var-from-map($common);
+  @include set-css-var-from-map($border, 'border');
+  @include set-css-var-from-map($font, 'font');
+  @include set-css-var-from-map($transition, 'transition'); 
+}
+
+// colors
+:root {
+  // palette different with colors
+  @include set-css-var-from-map($palette, 'c');
+  // primary
+  @include set-css-var-from-map($colors, 'c');
+}
+
+// light
+:root {
+  color-scheme: light;
+  @include set-css-var-from-map($light);
+}
+
+// dark
+html.dark {
+  color-scheme: dark;
+  @include set-css-var-from-map($dark);
+}

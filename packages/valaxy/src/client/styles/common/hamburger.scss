@@ -19,7 +19,7 @@ $hamburger-size: 22px;
 .vt-hamburger.is-active:hover .vt-hamburger-top,
 .vt-hamburger.is-active:hover .vt-hamburger-middle,
 .vt-hamburger.is-active:hover .vt-hamburger-bottom {
-  background-color: var(--yun-c-primary);
+  background-color: var(--va-c-primary);
   transition: top .25s, background-color .25s, transform .25s;
 }
 
@@ -38,7 +38,7 @@ $hamburger-size: 22px;
   position: absolute;
   width: $hamburger-size;
   height: 2px;
-  background-color: var(--yun-c-primary);
+  background-color: var(--va-c-primary);
   transition: top .25s, background-color .5s, transform .25s;
 }
 

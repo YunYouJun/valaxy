@@ -1,13 +1,11 @@
 @use "~/styles/mixins" as *;
 
 .markdown-body {
-  --smc-font-family: var(--yun-font-sans);
-
-  --c-toc-link: var(--yun-c-text-light);
+  --c-toc-link: var(--va-c-text-light);
 }
 
 html.dark {
   .markdown-body {
-    --c-toc-link: var(--yun-c-text-dark);
+    --c-toc-link: var(--va-c-text-dark);
   }
 }

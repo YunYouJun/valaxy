@@ -11,7 +11,7 @@
   left: 0;
 
   width: calc(100vw - 64px);
-  max-width: var(--yun-sidebar-width-mobile);
+  max-width: var(--va-sidebar-width-mobile);
 
   background-image: var(--yun-sidebar-bg-image);
   background-color: var(--yun-sidebar-bg-color);
@@ -19,10 +19,10 @@
   background-repeat: no-repeat;
   background-position: bottom 1rem center;
   text-align: center;
-  z-index: map.get($z-index, 'sidebar');
+  z-index: var(--yun-z-sidebar);
 
   transform: translateX(-100%);
-  transition: transform var(--yun-transition-duration);
+  transition: transform var(--va-transition-duration);
 
   &.open {
     transform: translateX(0);

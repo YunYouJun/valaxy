@@ -14,7 +14,7 @@ export async function createServer(
 
   const server = await createViteServer(mergeConfig(
     viteConfig,
-    createViteConfig(options, serverOptions),
+    await createViteConfig(options, serverOptions),
   ))
 
   return server

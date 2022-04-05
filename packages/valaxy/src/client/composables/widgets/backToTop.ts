@@ -1,5 +1,5 @@
-import { useWindowScroll } from '@vueuse/core'
-import { computed } from 'vue'
+import { isClient, useWindowScroll } from '@vueuse/core'
+import { computed, ref } from 'vue'
 
 /**
  * You can use href="#" to back to top
@@ -13,8 +13,14 @@ export function useBackToTop(options: {
 } = {
   offset: 100,
 }) {
-  const { y } = useWindowScroll()
+  if (!isClient) {
+    return {
+      percentage: ref(0),
+      show: ref(false),
+    }
+  }
 
+  const { y } = useWindowScroll()
   const percentage = computed(() => {
     return y.value / (document.body.scrollHeight - window.innerHeight)
   })

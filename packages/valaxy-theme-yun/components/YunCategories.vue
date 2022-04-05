@@ -22,10 +22,10 @@ withDefaults(defineProps<{
 <style lang="scss">
 .post-list-item {
   a {
-    color: var(--yun-c-text);
+    color: var(--va-c-text);
 
     &:hover {
-      color: var(--yun-c-primary);
+      color: var(--va-c-primary);
     }
   }
 }
@@ -33,12 +33,12 @@ withDefaults(defineProps<{
 .category-list-item {
   .folder-action {
     &:hover {
-      color: var(--yun-c-primary);
+      color: var(--va-c-primary);
     }
   }
   .category-name {
     &:hover {
-      color: var(--yun-c-primary);
+      color: var(--va-c-primary);
     }
   }
 }

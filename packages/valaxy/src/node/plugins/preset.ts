@@ -26,11 +26,11 @@ export interface ValaxyPluginOptions {
   components?: Parameters<typeof Components>[0]
 }
 
-export function ViteValaxyPlugins(
+export async function ViteValaxyPlugins(
   options: ResolvedValaxyOptions,
   serverOptions: ValaxyServerOptions = {},
   pluginOptions: ValaxyPluginOptions = {},
-): (PluginOption | PluginOption[])[] | undefined {
+): Promise<(PluginOption | PluginOption[])[] | undefined> {
   const { clientRoot, themeRoot, userRoot } = options
 
   const MarkdownPlugin = createMarkdownPlugin(options)
@@ -43,13 +43,49 @@ export function ViteValaxyPlugins(
 
   const roots = [clientRoot, themeRoot, userRoot]
 
+  const { default: ThemePlugin } = await import(`valaxy-theme-${options.theme}`)
+
+  const customElements = new Set([
+  // katex
+    'annotation',
+    'math',
+    'menclose',
+    'mfrac',
+    'mglyph',
+    'mi',
+    'mlabeledtr',
+    'mn',
+    'mo',
+    'mover',
+    'mpadded',
+    'mphantom',
+    'mroot',
+    'mrow',
+    'mspace',
+    'msqrt',
+    'mstyle',
+    'msub',
+    'msubsup',
+    'msup',
+    'mtable',
+    'mtd',
+    'mtext',
+    'mtr',
+    'munder',
+    'munderover',
+    'semantics',
+
+    // meting
+    'meting-js',
+  ])
+
   return [
     Vue({
       include: [/\.vue$/, /\.md$/],
       template: {
         compilerOptions: {
           isCustomElement: (tag) => {
-            return ['meting-js'].includes(tag)
+            return customElements.has(tag)
           },
         },
       },
@@ -58,6 +94,8 @@ export function ViteValaxyPlugins(
     ValaxyPlugin,
     MarkdownPlugin,
     createConfigPlugin(options),
+
+    ThemePlugin(options.config.themeConfig),
 
     // https://github.com/hannoeru/vite-plugin-pages
     Pages({

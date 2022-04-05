@@ -1,4 +1,5 @@
 @use "sass:map";
+@use "sass:meta";
 
 @use "./mixins" as *;
 
@@ -16,7 +17,15 @@ $colors: map.merge((
   'primary': #0078E7,
 ), $colors);
 
-$c-primary: map.get($colors, 'primary');
+// @debug $yun-c-primary;
+// $yun-c-primary: #0078E7 !default;
+// @if meta.variable-exists('yun-c-primary') {
+//   $colors: map.merge((
+//     'primary': $yun-c-primary,
+//   ), $colors);
+// }
+
+$c-primary: map.get($colors, 'primary') !default;
 
 $colors: map.merge((
   'primary-light': lighten($c-primary, 15%),
@@ -27,7 +36,6 @@ $colors: map.merge((
 
 $light: () !default;
 $light: map.merge((
-  'bg-image': url('https://cdn.jsdelivr.net/gh/YunYouJun/cdn/img/bg/stars-timing-0-blur-30px.jpg'),
   'border-color': #222,
 
   'c-bg': white,
@@ -40,13 +48,10 @@ $light: map.merge((
   'c-primary-rgb': #{red($c-primary), green($c-primary), blue($c-primary)},
 
   'c-link': get-css-var('c-primary-dark'),
-
-  'sidebar-bg-color': get-css-var('c-bg-light')
 ), $light);
 
 $dark: () !default;
 $dark: map.merge((
-  'bg-image': none,
   'border-color': #e6e6e6,
 
   'c-bg': #1a1a1a,

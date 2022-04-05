@@ -4,6 +4,13 @@ export const anonymousImage = 'https://cdn.jsdelivr.net/gh/YunYouJun/cdn/img/ava
  * Theme Config
  */
 export interface ThemeConfig {
+  colors: {
+    /**
+     * primary color
+     */
+    primary: string
+  }
+
   /**
    * 首页标语
    */
@@ -100,6 +107,9 @@ export type ThemeUserConfig = Partial<ThemeConfig>
  * Default Config
  */
 export const defaultThemeConfig: ThemeConfig = {
+  colors: {
+    primary: '#0078E7',
+  },
   banner: {
     enable: true,
     title: '云游君的小站',
@@ -128,7 +138,7 @@ export const defaultThemeConfig: ThemeConfig = {
     icon: {
       name: 'i-ri-cloud-line',
       animated: true,
-      color: 'var(--yun-c-primary)',
+      color: 'var(--va-c-primary)',
       url: 'https://sponsors.yunyoujun.cn',
       title: 'Sponsor YunYouJun',
     },
@@ -143,7 +153,7 @@ export const defaultThemeConfig: ThemeConfig = {
 
   types: {
     'link': {
-      color: 'var(--yun-c-primary)',
+      color: 'var(--va-c-primary)',
       icon: 'i-ri-external-link-line',
     },
     'bilibili': {
@@ -155,7 +165,7 @@ export const defaultThemeConfig: ThemeConfig = {
       icon: 'i-ri-douban-line',
     },
     'github': {
-      color: 'var(--yun-c-text)',
+      color: 'var(--va-c-text)',
       icon: 'i-ri-github-line',
     },
     'netease-cloud-music': {
@@ -163,7 +173,7 @@ export const defaultThemeConfig: ThemeConfig = {
       icon: 'i-ri-netease-cloud-music-line',
     },
     'notion': {
-      color: 'var(--yun-c-text)',
+      color: 'var(--va-c-text)',
       icon: 'i-simple-icons-notion',
     },
     'twitter': {

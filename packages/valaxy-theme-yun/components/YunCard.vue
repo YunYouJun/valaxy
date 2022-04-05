@@ -24,6 +24,6 @@
   margin: auto;
 
   // todo
-  background-color: var(--yun-c-bg-light);
+  background-color: var(--va-c-bg-light);
 }
 </style>

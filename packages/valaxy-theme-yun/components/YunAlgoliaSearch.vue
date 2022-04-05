@@ -60,8 +60,8 @@ watch(showPopup, () => {
   top: 0.6rem;
   right: 0.8rem;
 
-  color: var(--yun-c-primary);
-  z-index: map.get($z-index, 'search-btn');
+  color: var(--va-c-primary);
+  z-index: var(--yun-z-search-btn);
 }
 
 .search-popup {
@@ -77,7 +77,7 @@ watch(showPopup, () => {
   text-align: center;
   padding-top: 3.5rem;
   margin: 0;
-  z-index: map.get($z-index, 'search-popup');
+  z-index: var(--yun-z-search-popup);
   transition: 0.6s;
 }
 
@@ -91,15 +91,15 @@ watch(showPopup, () => {
 
 .search-input {
   background: transparent;
-  color: var(--yun-c-text);
+  color: var(--va-c-text);
   font-size: 1.5rem;
   border-radius: 3rem;
   padding: 1rem 1.5rem;
-  border: 1px solid var(--yun-c-gray);
+  border: 1px solid var(--va-c-gray);
   box-sizing: border-box;
   width: 90%;
   max-width: 800px;
-  font-family: var(--yun-font-serif);
+  font-family: var(--va-font-serif);
   font-weight: 900;
   text-align: center;
 }
@@ -169,13 +169,13 @@ watch(showPopup, () => {
   width: 100%;
   padding: 0.5rem;
   border-bottom: 1px dashed #ccc;
-  font-family: var(--yun-font-serif);
+  font-family: var(--va-font-serif);
   font-weight: 900;
   font-size: 1.2rem;
   max-width: 800px;
 
   mark {
-    color: var(--yun-c-danger);
+    color: var(--va-c-danger);
     font-family: 900;
     background-color: transparent;
     text-decoration: underline;
@@ -185,7 +185,7 @@ watch(showPopup, () => {
     display: flex;
     font-size: 12px;
     justify-content: center;
-    font-family: var(--yun-font-sans);
+    font-family: var(--va-font-sans);
     font-weight: normal;
     line-height: 1;
     margin-top: -0.2rem;
@@ -215,7 +215,7 @@ watch(showPopup, () => {
   .active {
     .page-number {
       background: var(--page-btn-active-bg-color);
-      color: var(--yun-c-bg);
+      color: var(--va-c-bg);
     }
   }
 }

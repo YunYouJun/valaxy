@@ -54,7 +54,7 @@ export const createUnocssConfig = (options: ResolvedValaxyOptions) => {
       ['yun-card', 'transition yun-transition shadow hover:shadow-lg'],
       ['btn', 'px-4 py-1 rounded inline-block bg-sky-600 text-white cursor-pointer hover:bg-sky-700 disabled:cursor-default disabled:bg-gray-600 disabled:opacity-50'],
       ['icon-btn', 'inline-block cursor-pointer select-none opacity-75 transition duration-200 ease-in-out hover:opacity-100 hover:text-sky-600'],
-      ['val-card', 'transition shadow hover:shadow-lg'],
+      ['va-card', 'transition shadow hover:shadow-lg'],
     ],
     presets: [
       presetUno(),
@@ -80,19 +80,19 @@ export const createUnocssConfig = (options: ResolvedValaxyOptions) => {
     rules: [
       // more see '~/styles/global/helper.scss'
       ['yun-transition', {
-        'transition-duration': 'var(--yun-transition-duration)',
+        'transition-duration': 'var(--va-transition-duration)',
       }],
       ['yun-text-light', {
-        color: 'var(--yun-c-text-light)',
+        color: 'var(--va-c-text-light)',
       }],
       ['font-serif', {
-        'font-family': 'var(--yun-font-serif)',
+        'font-family': 'var(--va-font-serif)',
       }],
       ['font-sans', {
-        'font-family': 'var(--yun-font-sans)',
+        'font-family': 'var(--va-font-sans)',
       }],
       ['font-mono', {
-        'font-family': 'var(--yun-font-mono)',
+        'font-family': 'var(--va-font-mono)',
       }],
     ],
     transformers: [

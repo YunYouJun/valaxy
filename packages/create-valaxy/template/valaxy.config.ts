@@ -89,7 +89,7 @@ const config: UserConfig<ThemeUserConfig> = {
       name: 'Travelling',
       link: 'https://travellings.link',
       icon: 'i-ri-train-line',
-      color: 'var(--yun-c-text)',
+      color: 'var(--va-c-text)',
     },
   ],
 

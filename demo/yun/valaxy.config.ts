@@ -89,7 +89,7 @@ const config: UserConfig<ThemeUserConfig> = {
       name: 'Travelling',
       link: 'https://travellings.link',
       icon: 'i-ri-train-line',
-      color: 'var(--yun-c-text)',
+      color: 'var(--va-c-text)',
     },
   ],
 
@@ -112,6 +112,10 @@ const config: UserConfig<ThemeUserConfig> = {
   theme: 'yun',
 
   themeConfig: {
+    colors: {
+      primary: 'red',
+    },
+
     banner: {
       enable: true,
       title: '云游君的小站',

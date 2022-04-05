@@ -19,7 +19,7 @@ const { t } = useI18n()
   <li v-if="category.total" class="category-list-item inline-flex items-center cursor-pointer">
     <span class="folder-action inline-flex" @click="showChild = !showChild">
       <div v-if="!showChild" i-ri-folder-add-line />
-      <div v-else style="color:var(--yun-c-primary)" i-ri-folder-reduce-line /></span>
+      <div v-else style="color:var(--va-c-primary)" i-ri-folder-reduce-line /></span>
     <span class="category-name" m="l-1" @click="displayCategory(name)">
       {{ name === 'Uncategorized' ? t('category.uncategorized') : name }} [{{ category.total }}]
     </span>

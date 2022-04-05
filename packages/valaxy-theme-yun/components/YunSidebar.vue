@@ -68,7 +68,7 @@ const router = useRouter()
     transition: 0.4s;
 
     &:hover {
-      box-shadow: 0 0 30px rgba(var(--yun-c-primary-rgb), 0.2);
+      box-shadow: 0 0 30px rgba(var(--va-c-primary-rgb), 0.2);
     }
   }
 }
@@ -88,13 +88,13 @@ const router = useRouter()
   line-height: 1.8rem;
   border-radius: 50%;
   box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
-  background-color: var(--yun-c-bg-light);
+  background-color: var(--va-c-bg-light);
 
   border: 1px solid rgba(255, 255, 255, 0.1);
 }
 
 .site-name {
-  color: var(--yun-c-text);
+  color: var(--va-c-text);
   font-family: get-css-var('font-serif');
   font-weight: get-css-var('font-serif-weight');
 }
@@ -105,7 +105,7 @@ const router = useRouter()
 }
 
 .site-description {
-  color: var(--yun-c-text);
+  color: var(--va-c-text);
   font-size: 0.8rem;
 }
 </style>

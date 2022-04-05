@@ -7,11 +7,7 @@ import '@unocss/reset/tailwind.css'
 
 // markdown css
 import 'star-markdown-css/src/scss/theme/yun.scss'
-
-import './styles/css-vars/index.scss'
-import './styles/css-vars/light.scss'
-import './styles/css-vars/dark.scss'
-
+// generate user styles
 import '/@valaxyjs/styles'
 
 import 'uno.css'

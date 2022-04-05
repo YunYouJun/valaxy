@@ -85,7 +85,7 @@ const sortedYears = computed(() => {
   .collection-title {
     position: relative;
     margin: 0;
-    border-bottom: 2px solid rgba(var(--yun-c-primary-rgb), 0.6);
+    border-bottom: 2px solid rgba(var(--va-c-primary-rgb), 0.6);
 
     &::before {
       content: '';
@@ -93,11 +93,11 @@ const sortedYears = computed(() => {
       top: 50%;
       width: 2px;
       height: 50%;
-      background: rgba(var(--yun-c-primary-rgb), 0.3);
+      background: rgba(var(--va-c-primary-rgb), 0.3);
     }
 
     .archive-year {
-      color: var(--yun-c-primary);
+      color: var(--va-c-primary);
       margin: 0 1.5rem;
 
       &::before {
@@ -109,7 +109,7 @@ const sortedYears = computed(() => {
         margin-top: -4px;
         width: 1.5rem;
         height: 1.5rem;
-        background: var(--yun-c-primary);
+        background: var(--va-c-primary);
         border-radius: 50%;
       }
     }
@@ -123,7 +123,7 @@ const sortedYears = computed(() => {
       position: absolute;
       width: 2px;
       height: 100%;
-      background: rgba(var(--yun-c-primary-rgb), 0.3);
+      background: rgba(var(--va-c-primary-rgb), 0.3);
     }
   }
 
@@ -132,7 +132,7 @@ const sortedYears = computed(() => {
     align-items: center;
 
     position: relative;
-    border-bottom: 1px solid rgba(var(--yun-c-primary-rgb), 0.3);
+    border-bottom: 1px solid rgba(var(--va-c-primary-rgb), 0.3);
     display: flex;
 
     &::before {
@@ -143,15 +143,15 @@ const sortedYears = computed(() => {
       height: 10px;
       margin-left: -4px;
       border-radius: 50%;
-      border: 1px solid var(--yun-c-primary);
-      background-color: var(--yun-c-bg-light);
+      border: 1px solid var(--va-c-primary);
+      background-color: var(--va-c-bg-light);
       z-index: 1;
-      transition: background var(--yun-transition-duration);
+      transition: background var(--va-transition-duration);
     }
 
     &:hover {
       &::before {
-        background: var(--yun-c-primary);
+        background: var(--va-c-primary);
       }
     }
 
