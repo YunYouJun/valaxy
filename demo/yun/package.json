@@ -1,9 +1,11 @@
 {
   "name": "yun-demo",
   "scripts": {
-    "build": "valaxy build",
-    "generate": "valaxy build --ssg",
+    "build": "npm run build:ssg && npm run rss",
+    "build:spa": "valaxy build",
+    "build:ssg": "valaxy build --ssg",
     "dev": "nodemon -w \"../../packages/valaxy/dist/*.js\" --exec \"valaxy .\"",
+    "rss": "valaxy rss",
     "serve": "vite preview"
   },
   "dependencies": {

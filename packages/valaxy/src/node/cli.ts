@@ -14,6 +14,8 @@ import { bindShortcut, initServer, printInfo } from './utils/cli'
 
 // build
 import { build, ssgBuild } from './build'
+// rss
+import { build as rssBuild } from './rss'
 
 const cli = yargs.scriptName('valaxy')
   .usage('$0 [args]')
@@ -154,6 +156,19 @@ cli.command(
       consola.info('use vite do spa build...')
       await build(options, viteConfig)
     }
+  },
+)
+
+cli.command(
+  'rss [root]',
+  'generate rss feed',
+  args => commonOptions(args)
+    .strict()
+    .help(),
+  async({ root }) => {
+    consola.info('Generate RSS ...')
+    const options = await resolveOptions({ userRoot: root }, 'build')
+    await rssBuild(options)
   },
 )
 

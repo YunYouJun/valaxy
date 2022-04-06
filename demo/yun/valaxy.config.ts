@@ -8,6 +8,7 @@ import type { ThemeUserConfig } from 'valaxy-theme-yun'
 const config: UserConfig<ThemeUserConfig> = {
   lang: 'zh-CN',
   title: 'Valaxy Theme Yun',
+  url: 'https://valaxy.yyj.moe/',
   author: {
     name: '云游君',
   },

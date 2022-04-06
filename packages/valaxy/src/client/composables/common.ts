@@ -19,7 +19,8 @@ export function useFullUrl() {
   const config = useConfig()
   const route = useRoute()
   const url = computed(() => {
-    const origin = config.value.url || (isClient && window.location.origin)
+    const siteUrl = config.value.url.endsWith('/') ? config.value.url.slice(0, -1) : config.value.url
+    const origin = siteUrl || (isClient && window.location.origin)
     return origin + route.path
   })
   return url
