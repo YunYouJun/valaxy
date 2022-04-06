@@ -116,9 +116,9 @@ const config: UserConfig<ThemeUserConfig> = {
   theme: 'yun',
 
   themeConfig: {
-    colors: {
-      primary: 'red',
-    },
+    // colors: {
+    //   primary: 'red',
+    // },
 
     banner: {
       enable: true,

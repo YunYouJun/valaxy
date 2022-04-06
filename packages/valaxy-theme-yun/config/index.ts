@@ -7,6 +7,7 @@ export interface ThemeConfig {
   colors: {
     /**
      * primary color
+     * @default '#0078E7'
      */
     primary: string
   }

@@ -17,14 +17,6 @@ $colors: map.merge((
   'primary': #0078E7,
 ), $colors);
 
-// @debug $yun-c-primary;
-// $yun-c-primary: #0078E7 !default;
-// @if meta.variable-exists('yun-c-primary') {
-//   $colors: map.merge((
-//     'primary': $yun-c-primary,
-//   ), $colors);
-// }
-
 $c-primary: map.get($colors, 'primary') !default;
 
 $colors: map.merge((

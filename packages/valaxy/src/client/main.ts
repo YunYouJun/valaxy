@@ -5,8 +5,6 @@ import App from './App.vue'
 
 import '@unocss/reset/tailwind.css'
 
-// markdown css
-import 'star-markdown-css/src/scss/theme/yun.scss'
 // generate user styles
 import '/@valaxyjs/styles'
 

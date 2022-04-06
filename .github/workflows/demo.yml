@@ -44,8 +44,8 @@ jobs:
           git clone https://github.com/YunYouJun/yunyoujun.github.io
           cp -rf yunyoujun.github.io/source/_posts/posts/* demo/yun/pages/posts
 
-      - name: ☁️ Build Yun Demo
-        run: pnpm run build -C demo/yun
+      - name: ☁️ Build Yun Demo (SSG)
+        run: pnpm run generate -C demo/yun
 
       # - name: Type Check
       #   run: pnpm run typecheck

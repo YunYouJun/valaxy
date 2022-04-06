@@ -1,5 +1,7 @@
 // import common and light/dark css vars in main.ts
 
+$c-primary: #0078E7 !default;
+
 // global css
 @use './global/reset.scss' as *;
 @use './global/helper.scss' as *;
@@ -10,10 +12,18 @@
 @use './common/button.scss' as *;
 @use './common/code.scss' as *;
 @use './common/hamburger.scss' as *;
-@use './common/markdown.scss' as *;
+
 @use "./common/scrollbar.scss" as *;
 @use "./common/sidebar.scss" as *;
 @use "./common/transition.scss" as *;
 
 // banner
 @use './widgets/banner.scss' as *;
+
+// markdown
+@use './common/markdown.scss';
+@forward 'star-markdown-css/src/scss/theme/yun.scss' with (
+  $colors: (
+    'primary': $c-primary,
+  )
+);

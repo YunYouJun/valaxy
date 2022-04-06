@@ -58,3 +58,26 @@ npm i @iconify-json/collection
 const a = 1
 const b = a
 ```
+
+## 自定义主题色
+
+你只需传入一个主题色，全局各处的色彩会动态进行计算得出最终的效果。
+
+譬如我希望主题色是红色：
+
+> `valaxy-theme-yun` 支持
+
+```ts
+// valaxy.config.ts
+export default {
+  themeConfig: {
+    colors: {
+      primary: 'red',
+    },
+  },
+}
+```
+
+但不仅如此，其他主题同样可复用 Valaxy 默认提供的色彩及变量函数来快速构建自身。
+
+> 更多请参见 [valaxy-theme-yun](https://github.com/YunYouJun/valaxy/tree/main/packages/valaxy-theme-yun) 代码。

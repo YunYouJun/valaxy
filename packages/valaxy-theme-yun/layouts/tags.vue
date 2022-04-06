@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { useFrontmatter, useInvisibleElement, usePostList, useTags } from 'valaxy'
+import { useFrontmatter, useInvisibleElement, usePostList, useTags, useThemeConfig } from 'valaxy'
 import { useI18n } from 'vue-i18n'
 import { computed, ref } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
@@ -7,9 +7,13 @@ import { useRoute, useRouter } from 'vue-router'
 const route = useRoute()
 const router = useRouter()
 
+const themeConfig = useThemeConfig()
+
 const { t } = useI18n()
 const frontmatter = useFrontmatter()
-const { tags, getTagStyle } = useTags()
+const { tags, getTagStyle } = useTags({
+  primary: themeConfig.value.colors.primary,
+})
 
 const postList = usePostList()
 const curTag = computed(() => route.query.tag as string || '')

@@ -20,7 +20,7 @@ export function yunPlugin(userOptions: Partial<ThemeConfig> = defaultThemeConfig
         css: {
           preprocessorOptions: {
             scss: {
-              additionalData: `$yun-c-primary: ${userOptions.colors?.primary || '#0078E7'} !default;`,
+              additionalData: `$c-primary: ${userOptions.colors?.primary || '#0078E7'} !default;`,
             },
           },
         },

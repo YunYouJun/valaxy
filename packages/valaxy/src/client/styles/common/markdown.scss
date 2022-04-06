@@ -1,7 +1,8 @@
+@use 'sass:map';
+
 .markdown-body {
   --prism-font-family: var(--va-font-mono);
 
-  --smc-link-color: var(--va-c-link);
   --smc-font-family: var(--va-font-sans);
 }
 

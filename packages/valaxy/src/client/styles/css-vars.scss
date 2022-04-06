@@ -1,7 +1,14 @@
 @use "sass:map";
 @use "./mixins" as *;
 @use "./vars" as *;
-@use "./palette" as *;
+
+$c-primary: #0078E7 !default;
+
+@use "./palette" with (
+  $colors: (
+    'primary': $c-primary,
+  )
+);
 
 // common
 :root {
@@ -14,19 +21,19 @@
 // colors
 :root {
   // palette different with colors
-  @include set-css-var-from-map($palette, 'c');
+  @include set-css-var-from-map(palette.$palette, 'c');
   // primary
-  @include set-css-var-from-map($colors, 'c');
+  @include set-css-var-from-map(palette.$colors, 'c');
 }
 
 // light
 :root {
   color-scheme: light;
-  @include set-css-var-from-map($light);
+  @include set-css-var-from-map(palette.$light);
 }
 
 // dark
 html.dark {
   color-scheme: dark;
-  @include set-css-var-from-map($dark);
+  @include set-css-var-from-map(palette.$dark);
 }
