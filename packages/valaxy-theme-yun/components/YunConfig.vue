@@ -1,26 +1,8 @@
 <script lang="ts" setup>
-import { isClient, useStorage } from '@vueuse/core'
 import { useI18n } from 'vue-i18n'
 import { isDark, toggleDark } from '~/composables'
 
-const { t, availableLocales, locale } = useI18n()
-
-const lang = useStorage('valaxy-locale', locale.value)
-
-const toggleLocales = () => {
-  // change to some real logic
-  const locales = availableLocales
-
-  if (isClient)
-    document.documentElement.classList.remove(locale.value)
-
-  locale.value = locales[(locales.indexOf(locale.value) + 1) % locales.length]
-
-  if (isClient)
-    document.documentElement.classList.add(locale.value)
-
-  lang.value = locale.value
-}
+const { t } = useI18n()
 </script>
 
 <template>
@@ -29,8 +11,6 @@ const toggleLocales = () => {
       <div i="ri-sun-line dark:ri-moon-line" />
     </button>
 
-    <button class="yun-icon-btn" :title="t('button.toggle_langs')" style="color:var(--va-c-text)" @click="toggleLocales">
-      <div i-ri-translate class="transition transform" :class="locale === 'en' ? 'rotate-y-180' : ''" />
-    </button>
+    <YunToggleLocale />
   </div>
 </template>

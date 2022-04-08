@@ -10,16 +10,13 @@
   <meta name="msapplication-TileColor" content="#00aba9">
   <meta name="theme-color" content="#ffffff">
   <script>
-    (function () {
+    (function() {
       const prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches
       const setting = localStorage.getItem('vueuse-color-scheme') || 'auto'
       if (setting === 'dark' || (prefersDark && setting !== 'light'))
         document.documentElement.classList.toggle('dark', true)
-
-      // document.documentElement.classList.add('dark')
       const locale = localStorage.getItem('valaxy-locale') || 'en'
-      console.log(locale)
-      document.documentElement.classList.toggle(locale, true)
+      document.documentElement.setAttribute('lang', locale)
     })()
   </script>
 </head>

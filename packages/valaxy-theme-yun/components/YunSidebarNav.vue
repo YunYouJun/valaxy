@@ -1,9 +1,10 @@
 <script lang="ts" setup>
-import { useCategory, usePostList, useTag } from 'valaxy'
+import { useCategory, usePostList, useTag, useThemeConfig } from 'valaxy'
 import { useI18n } from 'vue-i18n'
 
 const { t } = useI18n()
 
+const themeConfig = useThemeConfig()
 const posts = usePostList()
 const categories = useCategory()
 const tags = useTag()
@@ -28,8 +29,8 @@ const tags = useTag()
       <span class="count">{{ Array.from(tags).length }}</span>
     </router-link>
 
-    <router-link class="site-link-item yun-icon-btn" to="/about" :title="t('button.about')">
-      <div i-ri-clipboard-line />
+    <router-link class="site-link-item yun-icon-btn" :to="themeConfig.menu.custom.url" :title="t(themeConfig.menu.custom.title)">
+      <div :class="themeConfig.menu.custom.icon" />
     </router-link>
   </nav>
 </template>

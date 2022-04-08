@@ -4,6 +4,8 @@ export const anonymousImage = 'https://cdn.jsdelivr.net/gh/YunYouJun/cdn/img/ava
  * Theme Config
  */
 export interface ThemeConfig {
+  // for unocss
+  safelist: string[]
   colors: {
     /**
      * primary color
@@ -100,6 +102,17 @@ export interface ThemeConfig {
     color: string
     icon: string
   }>
+
+  /**
+   * 菜单栏
+   */
+  menu: {
+    custom: {
+      title: string
+      url: string
+      icon: string
+    }
+  }
 }
 
 export type ThemeUserConfig = Partial<ThemeConfig>
@@ -108,6 +121,7 @@ export type ThemeUserConfig = Partial<ThemeConfig>
  * Default Config
  */
 export const defaultThemeConfig: ThemeConfig = {
+  safelist: ['i-ri-clipboard-line'],
   colors: {
     primary: '#0078E7',
   },
@@ -198,6 +212,39 @@ export const defaultThemeConfig: ThemeConfig = {
       icon: 'i-ri-zhihu-line',
     },
   },
+
+  menu: {
+    custom: {
+      title: 'button.about',
+      icon: 'i-ri-clipboard-line',
+      url: '/about',
+    },
+  },
 }
 
+defaultThemeConfig.safelist = defaultThemeConfig.safelist.concat(generateSafelist(defaultThemeConfig))
+
 export default defaultThemeConfig
+
+/**
+ * generateSafelist by config
+ * @param themeConfig
+ * @returns
+ */
+export function generateSafelist(themeConfig: ThemeUserConfig) {
+  const safelist = []
+
+  const types = themeConfig.types
+  if (types) {
+    for (const type in types)
+      safelist.push(types[type].icon)
+  }
+
+  if (themeConfig.footer?.icon?.name)
+    safelist.push(themeConfig.footer?.icon?.name)
+
+  if (themeConfig.menu?.custom?.icon)
+    safelist.push(themeConfig.menu?.custom?.icon)
+
+  return safelist
+}

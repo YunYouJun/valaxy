@@ -12,7 +12,8 @@ import {
   transformerVariantGroup,
 } from 'unocss'
 import type { ValaxyConfig } from 'valaxy'
-import type { ThemeUserConfig } from 'valaxy-theme-yun/config'
+import type { ThemeUserConfig } from 'valaxy-theme-yun'
+import { generateSafelist } from 'valaxy-theme-yun'
 import type { ResolvedValaxyOptions } from '../options'
 
 export const createSafelist = (config: ValaxyConfig<ThemeUserConfig>) => {
@@ -24,25 +25,21 @@ export const createSafelist = (config: ValaxyConfig<ThemeUserConfig>) => {
     'i-ri-cloud-line',
   ]
 
-  const safelist = 'animate-fade-in prose prose-sm m-auto text-left'.split(' ').concat([
+  let themeSafelist: string[] = []
+  if (typeof generateSafelist === 'function')
+    themeSafelist = generateSafelist(config.themeConfig)
+
+  const safelist = 'animate-fade-in m-auto text-left'.split(' ').concat([
     'rotate-y-180',
-  ]).concat(safeIcons)
+  ]).concat(safeIcons).concat(themeSafelist)
+
   // generate icon safelist
   if (config.social.length)
     config.social.forEach(item => safelist.push(item.icon))
 
-  if (config.themeConfig.footer?.icon?.name)
-    safelist.push(config.themeConfig.footer?.icon?.name)
-
   // sponsor icon
   if (config.sponsor.methods.length)
     config.sponsor.methods.forEach(item => safelist.push(item.icon))
-
-  const types = config.themeConfig.types
-  if (types) {
-    for (const type in types)
-      safelist.push(types[type].icon)
-  }
 
   return safelist
 }

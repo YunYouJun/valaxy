@@ -2,7 +2,9 @@
 title: 关于
 ---
 
-Hello，我是[云游君](https://github.com/YunYouJun)，我正在开发 [Valaxy](https://github.com/YunYouJun/valaxy)。
+Hello，我是[云游君](https://github.com/YunYouJun)，我正在开发 Valaxy 以重构我的[博客](https://www.yunyoujun.cn)。
+
+同时它也会是一个功能强大、启动迅速、使用便捷的静态博客框架。
 
 More info see [Valaxy](https://github.com/YunYouJun/valaxy).
 

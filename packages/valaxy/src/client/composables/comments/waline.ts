@@ -19,7 +19,6 @@ export function useWaline(options: {} = {}) {
     if (!isClient)
       return
 
-    console.log(locale.value)
     const defaultOptions = {
       el: '.comment #waline',
       lang: locale.value,

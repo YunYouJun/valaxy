@@ -1,10 +1,5 @@
 {
-  "cSpell.words": [
-    "algoliasearch",
-    "instantsearch",
-    "valaxy",
-    "valaxyjs"
-  ],
+  "cSpell.words": ["algoliasearch", "instantsearch", "valaxy", "valaxyjs"],
   "i18n-ally.sourceLanguage": "en",
   "i18n-ally.keystyle": "nested",
   "i18n-ally.localesPaths": ["packages/valaxy/src/client/locales"],
@@ -16,6 +11,9 @@
   "files.associations": {
     "*.css": "postcss"
   },
-  "editor.formatOnSave": true,
+  "editor.formatOnSave": false,
+  "[scss]": {
+    "editor.formatOnSave": true
+  },
   "svg.preview.background": "editor"
 }

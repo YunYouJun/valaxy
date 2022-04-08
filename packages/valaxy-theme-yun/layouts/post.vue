@@ -13,9 +13,11 @@ const url = useFullUrl()
         <slot name="header">
           <YunPostMeta :frontmatter="frontmatter" />
         </slot>
-        <Transition appear>
-          <router-view />
-        </Transition>
+        <router-view v-slot="{Component}">
+          <Transition appear>
+            <component :is="Component" />
+          </Transition>
+        </router-view>
         <YunSponsor v-if="frontmatter.sponsor || config.sponsor.enable" />
         <ValaxyCopyright v-if="frontmatter.copyright || config.license.enabled" :url="url" m="y-4" />
       </main>

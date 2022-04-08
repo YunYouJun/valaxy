@@ -4,10 +4,11 @@ import type { MarkdownRenderer } from '../markdown'
 import { deeplyParseHeader } from './parseHeader'
 import { slugify } from './slugify'
 
-export const headingPlugin = (md: MarkdownIt, include = ['h2', 'h3']) => {
+export const headingPlugin = (md: MarkdownIt, include = [1, 2, 3, 4]) => {
   md.renderer.rules.heading_open = (tokens, i, options, env, self) => {
     const token = tokens[i]
-    if (include.includes(token.tag)) {
+    const tags = include.map(item => `h${item}`)
+    if (tags.includes(token.tag)) {
       const title = tokens[i + 1].content
       const idAttr = token.attrs!.find(([name]) => name === 'id')
       const slug = idAttr && idAttr[1]

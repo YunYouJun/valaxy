@@ -268,6 +268,7 @@ export const defaultValaxyConfig: ValaxyConfig = {
   },
   markdownIt: {
     toc: {
+      includeLevel: [1, 2, 3, 4],
       listType: 'ol',
     },
     katex: {},

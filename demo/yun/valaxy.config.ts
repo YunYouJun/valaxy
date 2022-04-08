@@ -148,6 +148,14 @@ const config: UserConfig<ThemeUserConfig> = {
         icp: '苏ICP备17038157号',
       },
     },
+
+    menu: {
+      custom: {
+        title: 'docs.view_docs',
+        icon: 'i-ri-file-list-2-line',
+        url: '/docs',
+      },
+    },
   },
 
   unocss: {

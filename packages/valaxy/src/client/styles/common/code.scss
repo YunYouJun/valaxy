@@ -1,18 +1,18 @@
-@use '~/styles/mixins' as *;
+@use "~/styles/mixins" as *;
 
 /* https://github.com/antfu/prism-theme-vars */
-@use 'prism-theme-vars/base.css' as *;
+@use "prism-theme-vars/base.css" as *;
 
 @include mobile {
   .markdown-body {
-    div[class*='language-'] {
+    div[class*="language-"] {
       margin: 0 -1rem;
     }
   }
 }
 
 .markdown-body {
-  div[class*='language-'] {
+  div[class*="language-"] {
     position: relative;
     padding: 0;
     background-color: var(--smc-code-bg-color);
@@ -36,25 +36,33 @@
   padding: 1.15rem 0;
   width: 100%;
   line-height: var(--prism-line-height);
-  // font-family: var(--code-font-family);
-  // font-size: var(--code-font-size);
   user-select: none;
   overflow: hidden;
-}
 
-.highlight-lines .highlighted {
-  background-color: rgba(0, 0, 0, 0.08);
+  .highlighted {
+    background-color: rgba(0, 0, 0, 0.08);
+  }
 }
 
 .dark {
-  .highlight-lines .highlighted {
-    background-color: rgba(0, 0, 0, 0.4);
+  .highlight-lines {
+    .highlighted {
+      background-color: rgba(0, 0, 0, 0.4);
+    }
+  }
+}
+
+.markdown-body {
+  code {
+    color: var(--prism-foreground) !important;
   }
 }
 
 // prism
 html:not(.dark) {
-  --prism-foreground: #393a34;
+  // text
+  --prism-foreground: #224466;
+
   --prism-background: #f8f8f8;
   --prism-comment: #758575;
   --prism-namespace: #444444;
@@ -62,7 +70,7 @@ html:not(.dark) {
   --prism-punctuation: #80817d;
   --prism-literal: #36acaa;
   --prism-keyword: #248459;
-  --prism-function: #4D9375;
+  --prism-function: #0088bb;
   --prism-deleted: #9a050f;
   --prism-class: #2b91af;
   --prism-builtin: #800000;
@@ -71,27 +79,28 @@ html:not(.dark) {
 }
 
 html.dark {
-  --prism-foreground: #A6ACCD;
+  --prism-foreground: #a6accd;
+
   --prism-background: #242424;
   --prism-namespace: #aaaaaa;
   --prism-comment: #758575;
   --prism-namespace: #444444;
-  --prism-string: #C3E88D;
-  --prism-punctuation: #A6ACCD;
+  --prism-string: #c3e88d;
+  --prism-punctuation: #a6accd;
   --prism-literal: #36acaa;
-  --prism-keyword: #89DDFF;
-  --prism-function: #82AAFF;
+  --prism-keyword: #89ddff;
+  --prism-function: #82aaff;
   --prism-deleted: #9a050f;
   --prism-class: #4ec9b0;
   --prism-builtin: #d16969;
-  --prism-property: #C792EA;
+  --prism-property: #c792ea;
   --prism-regex: #ad502b;
-  --prism-selector: #C3E88D;
+  --prism-selector: #c3e88d;
 }
 
 /* Language marker */
 // @use 'prism-theme-vars/marker.css' as *; * not div
-div[class*='language-']:before {
+div[class*="language-"]:before {
   position: absolute;
   top: 0.6em;
   right: 1em;
@@ -100,93 +109,94 @@ div[class*='language-']:before {
   color: #888;
 }
 
-div[class~='language-html']:before,
-div[class~='language-markup']:before {
-  content: 'html';
+div[class~="language-html"]:before,
+div[class~="language-markup"]:before {
+  content: "html";
 }
 
-div[class~='language-md']:before,
-div[class~='language-markdown']:before {
-  content: 'md';
+div[class~="language-md"]:before,
+div[class~="language-markdown"]:before {
+  content: "md";
 }
 
-div[class~='language-css']:before {
-  content: 'css';
+div[class~="language-css"]:before {
+  content: "css";
 }
 
-div[class~='language-sass']:before {
-  content: 'sass';
+div[class~="language-sass"]:before {
+  content: "sass";
 }
 
-div[class~='language-scss']:before {
-  content: 'scss';
+div[class~="language-scss"]:before {
+  content: "scss";
 }
 
-div[class~='language-less']:before {
-  content: 'less';
+div[class~="language-less"]:before {
+  content: "less";
 }
 
-div[class~='language-stylus']:before {
-  content: 'styl';
+div[class~="language-stylus"]:before {
+  content: "styl";
 }
 
-div[class~='language-js']:before,
-div[class~='language-javascript']:before {
-  content: 'js';
+div[class~="language-js"]:before,
+div[class~="language-javascript"]:before {
+  content: "js";
 }
 
-div[class~='language-ts']:before,
-div[class~='language-typescript']:before {
-  content: 'ts';
+div[class~="language-ts"]:before,
+div[class~="language-typescript"]:before {
+  content: "ts";
 }
 
-div[class~='language-json']:before {
-  content: 'json';
+div[class~="language-json"]:before {
+  content: "json";
 }
 
-div[class~='language-rb']:before,
-div[class~='language-ruby']:before {
-  content: 'rb';
+div[class~="language-rb"]:before,
+div[class~="language-ruby"]:before {
+  content: "rb";
 }
 
-div[class~='language-py']:before,
-div[class~='language-python']:before {
-  content: 'py';
+div[class~="language-py"]:before,
+div[class~="language-python"]:before {
+  content: "py";
 }
 
-div[class~='language-sh']:before,
-div[class~='language-bash']:before {
-  content: 'sh';
+div[class~="language-sh"]:before,
+div[class~="language-bash"]:before {
+  content: "sh";
 }
 
-div[class~='language-php']:before {
-  content: 'php';
+div[class~="language-php"]:before {
+  content: "php";
 }
 
-div[class~='language-go']:before {
-  content: 'go';
+div[class~="language-go"]:before {
+  content: "go";
 }
 
-div[class~='language-rust']:before {
-  content: 'rust';
+div[class~="language-rust"]:before {
+  content: "rust";
 }
 
-div[class~='language-java']:before {
-  content: 'java';
+div[class~="language-java"]:before {
+  content: "java";
 }
 
-div[class~='language-c']:before {
-  content: 'c';
+div[class~="language-c"]:before {
+  content: "c";
 }
 
-div[class~='language-yaml']:before {
-  content: 'yaml';
+div[class~="language-yml"]:before,
+div[class~="language-yaml"]:before {
+  content: "yaml";
 }
 
-div[class~='language-dockerfile']:before {
-  content: 'dockerfile';
+div[class~="language-dockerfile"]:before {
+  content: "dockerfile";
 }
 
-div[class~='language-vue']:before {
-  content: 'vue';
+div[class~="language-vue"]:before {
+  content: "vue";
 }

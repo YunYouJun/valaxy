@@ -89,7 +89,7 @@ export async function ViteValaxyPlugins(
           },
         },
       },
-    }) as PluginOption,
+    }),
 
     ValaxyPlugin,
     MarkdownPlugin,
@@ -210,7 +210,7 @@ export async function ViteValaxyPlugins(
       runtimeOnly: true,
       compositionOnly: true,
       include: roots.map(root => `${root}/locales/**`),
-    }) as PluginOption,
+    }),
 
     // https://github.com/antfu/vite-plugin-inspect
     // Visit http://localhost:3333/__inspect/ to see the inspector

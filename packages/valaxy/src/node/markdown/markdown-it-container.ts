@@ -55,7 +55,7 @@ export const containerPlugin = (md: MarkdownIt) => {
   languages.forEach((lang) => {
     md.use(container, lang, {
       render: (tokens: Token[], idx: number) =>
-        tokens[idx].nesting === 1 ? `<div class="i18n-${lang}">\n` : '</div>\n',
+        tokens[idx].nesting === 1 ? `<div lang="${lang}">\n` : '</div>\n',
     })
   })
 }

@@ -34,7 +34,7 @@ const email = 'me@yunyoujun.cn'
       <slot name="right-sidebar" />
     </template>
     <template #right-custom>
-      <p p="t-4">
+      <p p="t-4" font="serif black">
         🌟 广告位招租 🌟
         <br>
         <del>云游君在线征婚</del>

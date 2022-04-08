@@ -49,7 +49,7 @@ export function setupMarkdownPlugins(md: MarkdownIt, mdOptions: MarkdownOptions 
     .use(highlightLinePlugin)
     .use(preWrapperPlugin)
     .use(containerPlugin)
-    .use(headingPlugin)
+    .use(headingPlugin, mdOptions?.toc?.includeLevel)
     // .use(lineNumberPlugin)
   // https://github.com/arve0/markdown-it-attrs
   // add classes

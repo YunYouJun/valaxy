@@ -9,3 +9,15 @@ html.dark {
     --c-toc-link: var(--va-c-text-dark);
   }
 }
+
+.markdown-body {
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    font-family: var(--va-font-serif);
+    font-weight: 900;
+  }
+}

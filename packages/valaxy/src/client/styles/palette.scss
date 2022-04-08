@@ -4,56 +4,73 @@
 @use "./mixins" as *;
 
 $palette: () !default;
-$palette: map.merge((
-  'white': #ffffff,
-  'black': #1a1a1a,
-  'gray': #8e8e8e,
-  'danger': #db2828,
-  'warning': #f2711c
-), $palette);
+$palette: map.merge(
+  (
+    "white": #ffffff,
+    "black": #1a1a1a,
+    "gray": #8e8e8e,
+    "danger": #db2828,
+    "warning": #f2711c,
+  ),
+  $palette
+);
 
 $colors: () !default;
-$colors: map.merge((
-  'primary': #0078E7,
-), $colors);
+$colors: map.merge(
+  (
+    "primary": #0078e7,
+  ),
+  $colors
+);
 
-$c-primary: map.get($colors, 'primary') !default;
+$c-primary: map.get($colors, "primary") !default;
 
-$colors: map.merge((
-  'primary-light': lighten($c-primary, 15%),
-  'primary-lighter': lighten($c-primary, 30%),
-  'primary-dark': darken($c-primary, 5%),
-), $colors);
-
+$colors: map.merge(
+  (
+    "primary-light": lighten($c-primary, 15%),
+    "primary-lighter": lighten($c-primary, 30%),
+    "primary-dark": darken($c-primary, 5%),
+  ),
+  $colors
+);
 
 $light: () !default;
-$light: map.merge((
-  'border-color': #222,
+$light: map.merge(
+  (
+    "border-color": #222,
 
-  'c-bg': white,
-  'c-bg-light': white,
-  'c-bg-dark': #fafafa,
-  'c-text': #333,
-  'c-text-light': #555,
-  'c-text-dark': #111,
+    "c-bg": white,
+    "c-bg-light": white,
+    "c-bg-dark": #fafafa,
+    "c-text": #333,
+    "c-text-light": #555,
+    "c-text-dark": #111,
 
-  'c-primary-rgb': #{red($c-primary), green($c-primary), blue($c-primary)},
+    "c-primary-rgb": #{red($c-primary),
+    green(
+      $c-primary,
+    ),
+    blue($c-primary)},
 
-  'c-link': get-css-var('c-primary-dark'),
-), $light);
+    "c-link": get-css-var("c-primary-dark"),
+  ),
+  $light
+);
 
 $dark: () !default;
-$dark: map.merge((
-  'border-color': #e6e6e6,
+$dark: map.merge(
+  (
+    "border-color": #e6e6e6,
 
-  'c-bg': #1a1a1a,
-  'c-bg-light': #22252e,
-  'c-bg-dark': #1a1a1a,
+    "c-bg": #1a1a1a,
+    "c-bg-light": #22252e,
+    "c-bg-dark": #1a1a1a,
 
-  'c-text': #f2f2f2,
-  'c-text-light': #eee,
-  'c-text-lighter': #ddd,
-  'c-text-dark': rgba(#ebebeb, 0.8),
-
-  'c-link': map.get($colors, 'primary-light'),
-), $dark);
+    "c-text": #f2f2f2,
+    "c-text-light": #eee,
+    "c-text-lighter": #ddd,
+    "c-text-dark": rgba(#ebebeb, 0.8),
+    "c-link": map.get($colors, "primary-light"),
+  ),
+  $dark
+);
