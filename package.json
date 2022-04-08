@@ -29,7 +29,7 @@
     "start": "node packages/valaxy/bin/valaxy.js dev"
   },
   "devDependencies": {
-    "@antfu/eslint-config": "^0.19.4",
+    "@antfu/eslint-config": "^0.20.2",
     "@types/debug": "^4.1.7",
     "@types/prompts": "^2.0.14",
     "@types/semver": "^7.3.9",

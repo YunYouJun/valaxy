@@ -1,29 +1,31 @@
 // import common and light/dark css vars in main.ts
 
-$c-primary: #0078E7 !default;
+$c-primary: #0078e7 !default;
 
 // global css
-@use './global/reset.scss' as *;
-@use './global/helper.scss' as *;
-@use './global/index.scss' as *;
-@use './global/nprogress.scss' as *;
+@use "./global/reset.scss" as *;
+@use "./global/helper.scss" as *;
+@use "./global/index.scss" as *;
+@use "./global/i18n.scss" as *;
+@use "./global/nprogress.scss" as *;
 
 // common
-@use './common/button.scss' as *;
-@use './common/code.scss' as *;
-@use './common/hamburger.scss' as *;
+@use "./common/button.scss" as *;
+@use "./common/code.scss" as *;
+@use "./common/custom-blocks.scss" as *;
+@use "./common/hamburger.scss" as *;
 
 @use "./common/scrollbar.scss" as *;
 @use "./common/sidebar.scss" as *;
 @use "./common/transition.scss" as *;
 
 // banner
-@use './widgets/banner.scss' as *;
+@use "./widgets/banner.scss" as *;
 
 // markdown
-@use './common/markdown.scss';
-@forward 'star-markdown-css/src/scss/theme/yun.scss' with (
+@use "./common/markdown.scss";
+@forward "star-markdown-css/src/scss/theme/yun.scss" with (
   $colors: (
-    'primary': $c-primary,
+    "primary": $c-primary,
   )
 );

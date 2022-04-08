@@ -8,6 +8,7 @@ import { createI18n } from 'vue-i18n'
  */
 // import messages from '@intlify/vite-plugin-vue-i18n/messages'
 
+import { isClient, useStorage } from '@vueuse/core'
 import { initConfig, valaxyConfigSymbol } from '../config'
 
 import type { UserModule } from '~/types'
@@ -43,12 +44,12 @@ export const install: UserModule = ({ app, router }) => {
   const config = initConfig()
   app.provide(valaxyConfigSymbol, config)
 
-  // const {} = await import()
+  const locale = useStorage('valaxy-locale', config.value.lang || 'en')
 
   // init i18n, by valaxy config
   const i18n = createI18n({
     legacy: false,
-    locale: config.value.lang || 'en',
+    locale: locale.value,
     messages,
   })
   app.use(i18n)

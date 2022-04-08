@@ -16,6 +16,6 @@
   "files.associations": {
     "*.css": "postcss"
   },
-  "editor.formatOnSave": false,
+  "editor.formatOnSave": true,
   "svg.preview.background": "editor"
 }

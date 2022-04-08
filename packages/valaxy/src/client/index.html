@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="i18n">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -9,16 +10,23 @@
   <meta name="msapplication-TileColor" content="#00aba9">
   <meta name="theme-color" content="#ffffff">
   <script>
-    (function() {
+    (function () {
       const prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches
       const setting = localStorage.getItem('vueuse-color-scheme') || 'auto'
       if (setting === 'dark' || (prefersDark && setting !== 'light'))
         document.documentElement.classList.toggle('dark', true)
+
+      // document.documentElement.classList.add('dark')
+      const locale = localStorage.getItem('valaxy-locale') || 'en'
+      console.log(locale)
+      document.documentElement.classList.toggle(locale, true)
     })()
   </script>
 </head>
+
 <body class="font-sans">
   <div id="app"></div>
   <script type="module" src="/main.ts"></script>
 </body>
+
 </html>

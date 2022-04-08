@@ -1,0 +1,20 @@
+$languages: zh-CN, en;
+
+.i18n {
+  .markdown-body {
+    div[class*="i18n-"] {
+      display: none;
+    }
+  }
+}
+
+@each $lang in $languages {
+  .i18n.#{$lang} {
+    // only for markdown
+    .markdown-body {
+      .i18n-#{$lang} {
+        display: block;
+      }
+    }
+  }
+}

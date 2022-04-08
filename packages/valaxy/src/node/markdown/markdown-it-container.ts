@@ -24,7 +24,7 @@ function createContainer(classes: string, defaultTitle: string): ContainerArgs {
         if (token.nesting === 1) {
           if (classes === 'details') {
             return `<details class="${classes} custom-block">${
-              info ? `<summary>${info}</summary>` : ''
+              `<summary>${info}</summary>`
             }\n`
           }
           return `<div class="${classes} custom-block"><p class="custom-block-title">${
@@ -50,4 +50,12 @@ export const containerPlugin = (md: MarkdownIt) => {
       render: (tokens: Token[], idx: number) =>
         tokens[idx].nesting === 1 ? '<div v-pre>\n' : '</div>\n',
     })
+
+  const languages = ['zh-CN', 'en']
+  languages.forEach((lang) => {
+    md.use(container, lang, {
+      render: (tokens: Token[], idx: number) =>
+        tokens[idx].nesting === 1 ? `<div class="i18n-${lang}">\n` : '</div>\n',
+    })
+  })
 }

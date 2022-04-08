@@ -81,3 +81,33 @@ export default {
 但不仅如此，其他主题同样可复用 Valaxy 默认提供的色彩及变量函数来快速构建自身。
 
 > 更多请参见 [valaxy-theme-yun](https://github.com/YunYouJun/valaxy/tree/main/packages/valaxy-theme-yun) 代码。
+
+## 构建
+
+同时支持 SPA 与 SSG 两种方案。
+
+### SSG
+
+基于 [vite-ssg](https://github.com/antfu/vite-ssg) 实现
+
+```bash
+# SSG
+npm run build:ssg
+# valaxy build --ssg
+```
+
+### SPA
+
+```bash
+npm run build:spa
+# valaxy build
+```
+
+## RSS
+
+独立地 RSS 构建
+
+```bash
+npm run rss
+# valaxy rss
+```

@@ -1,13 +1,25 @@
 <script lang="ts" setup>
+import { isClient, useStorage } from '@vueuse/core'
 import { useI18n } from 'vue-i18n'
 import { isDark, toggleDark } from '~/composables'
 
 const { t, availableLocales, locale } = useI18n()
 
+const lang = useStorage('valaxy-locale', locale.value)
+
 const toggleLocales = () => {
   // change to some real logic
   const locales = availableLocales
+
+  if (isClient)
+    document.documentElement.classList.remove(locale.value)
+
   locale.value = locales[(locales.indexOf(locale.value) + 1) % locales.length]
+
+  if (isClient)
+    document.documentElement.classList.add(locale.value)
+
+  lang.value = locale.value
 }
 </script>
 

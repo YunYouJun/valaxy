@@ -80,7 +80,6 @@ If you only want to develop client.
 - [ ] Debug component.
 - [ ] Git timestamp for post without `date`.
 - [ ] Check port is existed & use new port.
-- [ ] SSG by [vite-ssg](https://github.com/antfu/vite-ssg)
 
 ## Thanks
 
