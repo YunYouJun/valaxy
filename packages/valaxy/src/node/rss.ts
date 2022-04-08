@@ -43,7 +43,7 @@ export async function build(options: ResolvedValaxyOptions) {
   const feedOptions: FeedOptions = {
     title: config.title,
     description: config.description,
-    id: siteUrl,
+    id: siteUrl || 'valaxy',
     link: siteUrl,
     copyright: `CC ${config.license.type.toUpperCase()} ${ccVersion} ${new Date().getFullYear()} © ${config.author.name}`,
     feedLinks: {
@@ -54,7 +54,7 @@ export async function build(options: ResolvedValaxyOptions) {
   }
 
   // generate
-  const files = await fg(`${options.userRoot}/pages/posts/*.md`)
+  const files = await fg(`${options.userRoot}/pages/posts/**/*.md`)
 
   const posts: Item[] = []
   files
@@ -80,6 +80,7 @@ export async function build(options: ResolvedValaxyOptions) {
       posts.push({
         title: '',
         ...data,
+        id: (data.id || '').toString(),
         date: new Date(data.date),
         published: new Date(data.updated || data.date),
         content: html,
