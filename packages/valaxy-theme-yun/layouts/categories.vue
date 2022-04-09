@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import { computed, ref } from 'vue'
-import { useCategory, useFrontmatter, useInvisibleElement, usePostList } from 'valaxy'
+import { useCategory, useFrontmatter, useInvisibleElement, usePostList, usePostTitle } from 'valaxy'
 import { useI18n } from 'vue-i18n'
 import { useRoute, useRouter } from 'vue-router'
 
@@ -39,13 +39,15 @@ const displayCategory = (category: string) => {
 
   show()
 }
+
+const title = usePostTitle(frontmatter)
 </script>
 
 <template>
   <YunBase>
     <template #header>
       <YunPageHeader
-        :title="frontmatter.title || t('menu.categories')"
+        :title="title || t('menu.categories')"
         :icon="frontmatter.icon || 'i-ri-folder-2-line'"
         :color="frontmatter.color"
       />

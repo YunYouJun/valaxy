@@ -1,7 +1,7 @@
 <template>
   <YunBase>
-    <template #sidebar>
-      Sidebar slot
+    <template #sidebar-child>
+      <DocsNav />
     </template>
   </YunBase>
 </template>

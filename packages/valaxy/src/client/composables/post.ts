@@ -1,8 +1,18 @@
-import type { StyleValue } from 'vue'
+import type { Ref, StyleValue } from 'vue'
 import { computed } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
+import { useI18n } from 'vue-i18n'
 import { useThemeConfig } from '../config'
 import { sortByDate } from '../utils'
+import type { Post } from '../../types'
+
+export const usePostTitle = (post: Ref<Post>) => {
+  const { locale } = useI18n()
+  return computed(() => {
+    const lang = locale.value === 'zh-CN' ? 'zh' : locale.value
+    return post.value[`title_${lang}`] || post.value.title
+  })
+}
 
 /**
  * get post list
@@ -30,6 +40,21 @@ export function usePostList(params: {
     const otherPosts = sortByDate(routes.filter(i => !i.top))
 
     return topPosts.concat(otherPosts)
+  })
+}
+
+/**
+ * get all page
+ * @returns
+ */
+export function usePageList() {
+  const router = useRouter()
+  return computed(() => {
+    const routes = router.getRoutes()
+      .map((i) => {
+        return Object.assign({ path: i.path, excerpt: i.meta.excerpt }, i.meta.frontmatter)
+      })
+    return routes
   })
 }
 

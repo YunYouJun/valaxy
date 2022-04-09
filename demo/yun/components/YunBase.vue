@@ -9,6 +9,9 @@ import Base from 'valaxy-theme-yun/layouts/base.vue'
     <template #sidebar>
       <slot name="sidebar" />
     </template>
+    <template v-if="$slots['sidebar-child']" #sidebar-child>
+      <slot name="sidebar-child" />
+    </template>
     <template #header>
       <slot name="header" />
     </template>

@@ -12,8 +12,6 @@ const isHome = useLayout('home')
   <ValaxyHamburger :active="app.isSidebarOpen" class="menu-btn sidebar-toggle yun-icon-btn" :class="isHome ? '' : 'md:hidden'" @click="app.toggleSidebar()" />
 
   <aside class="va-card" :class="['sidebar', app.isSidebarOpen && 'open', !isHome && 'md:translate-x-0']">
-    <YunSidebar />
-    <YunConfig />
     <slot />
   </aside>
 </template>

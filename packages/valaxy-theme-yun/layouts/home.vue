@@ -12,7 +12,12 @@ const isHome = useLayout('home')
 
 <template>
   <main class="yun-main justify-center items-center" :class="(isHome && !app.isSidebarOpen) && 'pl-0'" flex="~ col" w="full">
-    <ValaxySidebar />
+    <ValaxySidebar>
+      <slot name="sidebar">
+        <YunSidebar />
+      </slot>
+    </ValaxySidebar>
+
     <YunBanner />
     <YunSay w="full" />
 

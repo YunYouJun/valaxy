@@ -21,7 +21,7 @@ function getStylesByLevel(level: number) {
 
 <template>
   <ul class="va-toc" p="l-4">
-    <li v-for="header, i in headers" :key="i" :style="getStylesByLevel(header.level)">
+    <li v-for="header, i in headers" :key="i" class="va-toc-item" :style="getStylesByLevel(header.level)">
       <a class="toc-link-item" :href="`#${header.slug}`">{{ header.title }}</a>
     </li>
   </ul>

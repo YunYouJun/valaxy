@@ -1,3 +1,4 @@
+import { unref } from 'vue'
 import type { Post } from '../../types'
 import { usePostList } from './post'
 
@@ -20,11 +21,12 @@ export type Categories = Map<string, Category>
  * get categories from posts
  * @returns
  */
-export function useCategory() {
-  const posts = usePostList()
+export function useCategory(category?: string, posts: Post[] = []): ParentCategory {
+  if (!posts.length)
+    posts = unref(usePostList())
 
   const categoryMap: Category = {
-    total: posts.value.length,
+    total: posts.length,
     children: new Map([
       ['Uncategorized', { total: 0, posts: [] }],
     ]),
@@ -32,7 +34,7 @@ export function useCategory() {
 
   const uncategorized = categoryMap.children.get('Uncategorized') as PostCategory
 
-  posts.value.forEach((post: Post) => {
+  posts.forEach((post: Post) => {
     if (post.categories) {
       if (Array.isArray(post.categories)) {
         const len = post.categories.length
@@ -97,5 +99,22 @@ export function useCategory() {
   if (uncategorized!.total === 0)
     categoryMap.children?.delete('Uncategorized')
 
-  return categoryMap
+  if (!category) {
+    return categoryMap
+  }
+  else {
+    const categoryItem = categoryMap.children.get(category)
+    if (categoryItem) {
+      return {
+        total: categoryItem?.total,
+        children: new Map([
+          [category, categoryItem],
+        ]),
+      }
+    }
+    else {
+      console.warn(`Do not have category: ${category}`)
+      return categoryMap
+    }
+  }
 }

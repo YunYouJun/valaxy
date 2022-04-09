@@ -1,22 +1,28 @@
 <script lang="ts" setup>
-import { useConfig, useFrontmatter, usePostProperty } from 'valaxy'
+import { useConfig, useFrontmatter, usePostProperty, usePostTitle } from 'valaxy'
 const frontmatter = useFrontmatter()
 
 const config = useConfig()
 
 const { styles, icon, color } = usePostProperty(frontmatter.value.type)
+const title = usePostTitle(frontmatter)
 </script>
 
 <template>
   <ValaxySidebar>
-    <slot name="sidebar" />
+    <slot name="sidebar">
+      <YunSidebar v-if="$slots['sidebar-child']">
+        <slot name="sidebar-child" />
+      </YunSidebar>
+      <YunSidebar v-else />
+    </slot>
   </ValaxySidebar>
 
   <main class="yun-main flex lt-md:ml-0">
     <div flex="~ 1 col" w="full" p="l-4 lt-md:0">
       <YunCard m="0" p="4" class="page-card sm:p-6 lg:px-12 xl:px-16" :style="styles">
         <slot name="header">
-          <YunPageHeader :title="frontmatter.title" :icon="frontmatter.icon || icon" :color="frontmatter.color || color" />
+          <YunPageHeader :title="title" :icon="frontmatter.icon || icon" :color="frontmatter.color || color" />
         </slot>
         <template #content>
           <slot name="content">

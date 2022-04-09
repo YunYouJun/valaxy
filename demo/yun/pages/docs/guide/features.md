@@ -1,5 +1,11 @@
 ---
 title: Features
+title_zh: 亮点
+categories:
+  - Docs
+  - Guide
+layout: docs
+end: false
 ---
 
 首先，我们来介绍一下 Valaxy 有哪些便捷的特性。
@@ -30,7 +36,7 @@ title: Features
 
 ## Icones
 
-海量的图标
+> 海量的图标
 
 你可以任意使用 [Icones](https://icones.js.org/) 中可搜索到的任意图标。
 
@@ -47,7 +53,9 @@ npm i @iconify-json/collection
 
 被添加至 `config.unocss.safelist` 的图标名称将全部是热加载的！
 
-## 代码高亮
+## UI
+
+### 代码高亮
 
 基于 Prism 实现。
 值得一提的是 Valaxy 也扩展了 `vue`（使用 markup）的高亮，并支持高亮其中某一行。
@@ -59,7 +67,7 @@ const a = 1
 const b = a
 ```
 
-## 自定义主题色
+### 自定义主题色
 
 你只需传入一个主题色，全局各处的色彩会动态进行计算得出最终的效果。
 
@@ -111,3 +119,7 @@ npm run build:spa
 npm run rss
 # valaxy rss
 ```
+
+## i18n in One Page
+
+More info see [i18n](/docs/guide/i18n).

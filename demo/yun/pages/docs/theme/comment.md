@@ -1,6 +1,11 @@
 ---
-title: 关于评论
+title: Implement Comments
+title_zh: 实现评论
 end: false
+categories:
+  - Docs
+  - Theme
+layout: docs
 ---
 
 作为博客，用户通常会有评论的需求。

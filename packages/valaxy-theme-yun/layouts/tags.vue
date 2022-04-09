@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { useFrontmatter, useInvisibleElement, usePostList, useTags, useThemeConfig } from 'valaxy'
+import { useFrontmatter, useInvisibleElement, usePostList, usePostTitle, useTags, useThemeConfig } from 'valaxy'
 import { useI18n } from 'vue-i18n'
 import { computed, ref } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
@@ -44,13 +44,14 @@ const displayTag = (tag: string) => {
   show()
 }
 
+const title = usePostTitle(frontmatter)
 </script>
 
 <template>
   <YunBase>
     <template #header>
       <YunPageHeader
-        :title="frontmatter.title || t('menu.tags')"
+        :title="title || t('menu.tags')"
         :icon="frontmatter.icon || 'i-ri-tag-line'"
         :color="frontmatter.color"
       />

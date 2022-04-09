@@ -1,4 +1,4 @@
-export interface Post {
+export interface Post extends Record<string, any> {
   /**
    * Path of post
    * route.path

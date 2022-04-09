@@ -20,4 +20,10 @@ html.dark {
     font-family: var(--va-font-serif);
     font-weight: 900;
   }
+
+  ul {
+    li > p {
+      margin-bottom: 0;
+    }
+  }
 }
