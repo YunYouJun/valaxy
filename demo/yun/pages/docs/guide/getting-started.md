@@ -10,11 +10,25 @@ end: false
 
 > Example: [valaxy.yyj.moe](https://valaxy.yyj.moe)
 
+<div lang="zh-CN">
+
 ::: danger
 
 如果您是 Windows 用户，我强烈建议您使用类 Unix 的 Shell（如 [Git Bash](https://git-scm.com/downloads) 或 [WSL](https://docs.microsoft.com/en-us/windows/wsl/install)），而非 CMD / PowerShell.
 
 :::
+
+</div>
+
+<div lang="en">
+
+::: danger
+
+If you are a Windows user, I strongly recommend using a Unix-like shell (such as [Git Bash](https://git-scm.com/downloads) or [WSL](https://docs.microsoft.com/en-us/windows/wsl/install) rather than CMD / PowerShell.
+
+:::
+
+</div>
 
 ## Create
 

@@ -20,9 +20,9 @@ const props = withDefaults(defineProps<{
 
 const collapsable = ref(props.collapsable)
 const { t, locale } = useI18n()
-const lang = locale.value === 'zh-CN' ? 'zh' : locale.value
 
 const getTitle = (post: Post | any) => {
+  const lang = locale.value === 'zh-CN' ? 'zh' : locale.value
   return post[`title_${lang}`] ? post[`title_${lang}`] : post.title
 }
 </script>
@@ -40,7 +40,7 @@ const getTitle = (post: Post | any) => {
   <template v-if="!collapsable">
     <ul v-if="(category as PostCategory).posts">
       <li v-for="post, i in (category as PostCategory).posts" :key="i" class="post-list-item" m="l-4">
-        <router-link v-if="post.title" :to="post.path" class="inline-flex items-center">
+        <router-link v-if="post.title" :to="post.path || ''" class="inline-flex items-center">
           <div i-ri-file-text-line />
           <span m="l-1" font="serif black">{{ getTitle(post) }}</span>
         </router-link>

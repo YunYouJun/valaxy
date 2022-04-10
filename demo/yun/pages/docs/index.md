@@ -6,10 +6,7 @@ end: false
 categories:
   - Docs
   - Guide
+markdown: false
 ---
 
-还没写完 :P
-
-TODO:
-
-- [ ] 文档布局
+<DocsHome />

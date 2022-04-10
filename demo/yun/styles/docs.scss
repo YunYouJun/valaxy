@@ -1,0 +1,32 @@
+.gradient-text {
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.sese-btn {
+  position: relative;
+  z-index: 0;
+
+  @apply from-blue-500 to-blue-700;
+
+  &::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    opacity: 0;
+    transition: all 0.4s;
+    z-index: -1;
+
+    @apply rounded bg-gradient-to-r from-red-500 to-red-700;
+  }
+
+  &:hover {
+    &::before {
+      opacity: 1;
+    }
+  }
+}

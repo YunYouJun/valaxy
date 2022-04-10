@@ -22,6 +22,7 @@ export function createMarkdownPlugin(options: ResolvedValaxyOptions): Plugin[] {
 
   const defaultOptions: ViteMdOptions = {
     wrapperComponent: 'ValaxyMd',
+    wrapperClasses: '',
 
     headEnabled: true,
     frontmatter: true,

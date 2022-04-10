@@ -1,6 +1,6 @@
-<p align="center">
-<h1><a href="https://valaxy.netlify.app">Valaxy</a></h1>
-</a>
+<h1 align="center">
+<a href="https://valaxy.yyj.moe">Valaxy</a>
+</h1>
 
 <p align="center">
 🌌 Next Generation Static Blog Framework (Beta).
@@ -13,73 +13,39 @@
 [![NPM version](https://img.shields.io/npm/v/valaxy?color=0078E7)](https://www.npmjs.com/package/valaxy)
 [![Release](https://github.com/YunYouJun/valaxy/actions/workflows/release.yml/badge.svg)](https://github.com/YunYouJun/valaxy/actions/workflows/release.yml)
 
-English (Todo) | [简体中文](./README.zh-CN.md)
+<p align="center">
 
-Demo: [valaxy.yyj.moe](https://valaxy.yyj.moe) (Default theme is valaxy-theme-yun)
+[Docs](https://valaxy.yyj.moe/docs) (Toggle 中文 & English in Sidebar) | [Demo](https://valaxy.yyj.moe) (with [valaxy-theme-yun](./packages/valaxy-theme-yun/))
+
+</p>
 
 ## Usage
 
 For a example, you can see [demo/yun](./demo/yun/) folder.
 
 ```bash
-npm init valaxy
+# pnpm (recommended)
+pnpm create valaxy
+# npm
+# npm init valaxy
 # yarn
 # yarn create valaxy
-# pnpm
-# pnpm create valaxy
 ```
-
-English & Chinese Docs are coming!
-
-> Wait a moment...
 
 ## Dev
 
-You must use [pnpm](https://pnpm.io/). Because we use its workspace.
-
-```bash
-git clone https://github.com/YunYouJun/valaxy
-cd valaxy
-
-pnpm i
-# esbuild watch valaxy cli & valaxy-theme-yun
-# and run demo
-pnpm dev
-```
-
-If you want to display info better in two terminal:
-
-You could do:
-
-```bash
-# watch valaxy & valaxy-theme-yun
-pnpm dev:lib
-# open a new terminal to run demo
-pnpm demo
-```
-
-### Client
-
-If you only want to develop client.
+Want to get involved in the development? Look [here](https://valaxy.yyj.moe/docs/dev).
 
 ## Features
 
-- ⚡️ [vitesse](https://github.com/antfu/vitesse): Best Practices of Vue3
+- ⚡️ Hot Reload with config & markdown
 - ☁️ Deploy on [Netlify](https://www.netlify.com/), zero-config
-- Todo
+- ...
 
 ### Icons
 
 - [Iconify](https://iconify.design) - use icons from any icon sets [🔍Icônes](https://icones.netlify.app/)
 - [Pure CSS Icons via UnoCSS](https://github.com/antfu/unocss/tree/main/packages/preset-icons)
-
-## Todo
-
-- [ ] create-valaxy-theme: Script to generate theme template.
-- [ ] Github actions auto generate site from theme repo/npm.
-- [ ] Debug component.
-- [ ] Git timestamp for post without `date`.
-- [ ] Check port is existed & use new port.
 
 ## Thanks
 

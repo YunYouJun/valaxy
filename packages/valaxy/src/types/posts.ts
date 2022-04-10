@@ -109,4 +109,9 @@ export interface Post extends Record<string, any> {
    * @description 是否为草稿
    */
   draft?: boolean
+  /**
+   * enable markdown-body class
+   * @description 是否启用默认的 markdown 样式
+   */
+  markdown: boolean
 }

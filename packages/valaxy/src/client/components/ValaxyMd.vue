@@ -34,7 +34,7 @@ if (props.frontmatter.codepen)
 </script>
 
 <template>
-  <article v-if="$slots.default" class="markdown-body">
+  <article v-if="$slots.default" :class="frontmatter.markdown !== false && 'markdown-body'">
     <slot ref="content" @vnode-updated="updateDom" />
 
     <div text="center">
