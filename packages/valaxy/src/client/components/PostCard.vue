@@ -13,7 +13,7 @@ const { icon, styles } = usePostProperty(props.post.type)
 </script>
 
 <template>
-  <YunCard m="b-4 auto" class="post-card" :style="styles">
+  <YunCard m="y-4 auto" class="post-card" :style="styles">
     <AppLink
       class="post-title-link"
       :to="post.path || ''"

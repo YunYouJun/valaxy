@@ -16,7 +16,6 @@
   font-family: var(--va-font-serif);
   font-weight: bold;
   padding: 1rem;
-  margin: 1rem auto;
   max-width: var(--yun-post-card-max-width);
   background-color: rgba(200, 200, 200, 0.1);
 }
