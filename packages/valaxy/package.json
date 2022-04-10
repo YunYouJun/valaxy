@@ -1,6 +1,6 @@
 {
   "name": "valaxy",
-  "version": "0.2.3",
+  "version": "0.2.4",
   "description": "📄 Vite & Vue powered static blog generator.",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
