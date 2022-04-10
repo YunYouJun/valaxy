@@ -5,7 +5,7 @@ import type { Plugin } from 'vite'
 // import consola from 'consola'
 import { resolveConfig } from '../config'
 import type { ResolvedValaxyOptions, ValaxyServerOptions } from '../options'
-import { toAtFS } from '../utils'
+import { toAtFS, slash } from '../utils'
 import { VALAXY_CONFIG_ID } from './valaxy'
 
 /**
@@ -40,6 +40,10 @@ function generateLocales(roots: string[]) {
   const languages = ['zh-CN', 'en']
 
   roots.forEach((root, i) => {
+    // fix reverse slash on windows
+    if (process.platform === 'win32') {
+      root = slash(root)
+    }
     languages.forEach((lang) => {
       const langYml = `${root}/locales/${lang}.yml`
       if (fs.existsSync(langYml) && fs.readFileSync(langYml, 'utf-8')) {
