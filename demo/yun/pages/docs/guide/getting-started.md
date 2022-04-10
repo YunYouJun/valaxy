@@ -26,6 +26,13 @@ npm i valaxy@latest
 npm i valaxy-theme-yun@latest
 ```
 
+### pnpm
+
+```bash
+# interactive upgrade
+pnpm up --latest -i
+```
+
 ## Usage
 
 ```bash

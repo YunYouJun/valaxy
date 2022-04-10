@@ -42,7 +42,7 @@ function generateLocales(roots: string[]) {
   roots.forEach((root, i) => {
     languages.forEach((lang) => {
       const langYml = `${root}/locales/${lang}.yml`
-      if (fs.existsSync(langYml)) {
+      if (fs.existsSync(langYml) && fs.readFileSync(langYml, 'utf-8')) {
         const varName = lang.replace('-', '') + i
         imports.push(`import ${varName} from "${langYml}"`)
         imports.push(`Object.assign(messages['${lang}'], ${varName})`)
