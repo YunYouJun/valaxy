@@ -11,9 +11,6 @@ const showQr = ref(false)
 
 <template>
   <div class="yun-sponsor-container flex justify-center items-center flex-col">
-    <!-- <a href="" :title="t('reward.donate')">
-
-    </a> -->
     <button class="sponsor-button yun-icon-btn shadow hover:shadow-md" :title="t('reward.donate')" text="red-400" @click="showQr = !showQr">
       <div i-ri-heart-line />
     </button>
@@ -26,7 +23,7 @@ const showQr = ref(false)
         :href="method.url" target="_blank"
         :style="`color:${method.color}`"
       >
-        <img w="full" class="sponsor-method-img" border="~ rounded" p="1" loading="lazy" :src="method.url" :title="method.name">
+        <img class="sponsor-method-img" border="~ rounded" p="1" loading="lazy" :src="method.url" :title="method.name">
         <div text="xl" m="2" :class="method.icon" />
       </a>
     </div>

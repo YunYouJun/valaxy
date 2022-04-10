@@ -10,7 +10,7 @@ import '/@valaxyjs/styles'
 
 import 'uno.css'
 
-const routes = setupLayouts(generatedRoutes)
+const routes = setupLayouts(__DEV__ ? generatedRoutes : generatedRoutes.filter(i => !i.meta?.frontmatter.draft))
 
 // https://github.com/antfu/vite-ssg
 export const createApp = ViteSSG(

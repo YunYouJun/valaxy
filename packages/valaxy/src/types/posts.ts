@@ -104,4 +104,9 @@ export interface Post extends Record<string, any> {
    * @description 是否显示目录
    */
   toc?: boolean
+  /**
+   * is draft
+   * @description 是否为草稿
+   */
+  draft?: boolean
 }

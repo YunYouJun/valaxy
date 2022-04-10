@@ -14,10 +14,6 @@ const { icon, styles } = usePostProperty(props.post.type)
 
 <template>
   <YunCard m="b-4 auto" class="post-card" :style="styles">
-    <div v-if="post.top" class="post-top-icon">
-      <div i-ri-pushpin-line />
-    </div>
-
     <AppLink
       class="post-title-link"
       :to="post.path || ''"
@@ -28,9 +24,10 @@ const { icon, styles } = usePostProperty(props.post.type)
       </div>
     </AppLink>
 
-    <YunPostMeta m="b-4" :frontmatter="post" />
+    <YunPostMeta :frontmatter="post" />
 
     <div v-if="post.excerpt" class="markdown-body" text="left" w="full" p="x-6 lt-sm:4" v-html="post.excerpt" />
+    <div m="b-5" />
 
     <a
       v-if="post.url"
@@ -44,17 +41,19 @@ const { icon, styles } = usePostProperty(props.post.type)
     </a>
 
     <div v-if="post.categories || post.tags" w="full" class="yun-card-actions flex justify-between" border="t" text="sm">
-      <router-link
-        v-if="post.categories"
-        :to="{
-          path: '/categories/',
-          query: {category: Array.isArray(post.categories) ? post.categories[post.categories.length - 1] : post.categories}
-        }"
-        class="post-categories inline-flex justify-center items-center" m="l-2"
-      >
-        <div m="x-1" i-ri-folder-2-line />
-        {{ Array.isArray(post.categories) ? post.categories.join(' > ') : post.categories }}
-      </router-link>
+      <div class="inline-flex">
+        <router-link
+          v-if="post.categories"
+          :to="{
+            path: '/categories/',
+            query: {category: Array.isArray(post.categories) ? post.categories[post.categories.length - 1] : post.categories}
+          }"
+          class="post-categories inline-flex justify-center items-center" m="l-2"
+        >
+          <div m="x-1" i-ri-folder-2-line />
+          {{ Array.isArray(post.categories) ? post.categories.join(' > ') : post.categories }}
+        </router-link>
+      </div>
 
       <div class="post-tags inline-flex" m="r-2">
         <template v-if="post.tags">

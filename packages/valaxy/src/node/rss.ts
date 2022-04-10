@@ -68,6 +68,11 @@ export async function build(options: ResolvedValaxyOptions) {
         return false
       }
 
+      if (data.draft) {
+        consola.warn(`Ignore draft post: ${chalk.dim(i)}`)
+        return false
+      }
+
       // todo i18n
 
       // render excerpt

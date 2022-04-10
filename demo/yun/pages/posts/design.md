@@ -1,17 +1,17 @@
 ---
 title: Valaxy 设计原则
 date: 2022-03-29
-draft: true
 end: false
 ---
 
 ## 特点
 
-与 Hexo 相比，没有 `_drafts` 文件夹。
+与 Hexo 相比，没有 `_drafts` 文件夹。（当然自己新建也完全没问题……）
 
 当在 drafts 文件夹下编写博文时，我不得不在它和 posts 文件夹下来回移动，以预览最终效果。
 
 Valaxy 认为这完全没有必要，您只需在 `frontmatter` 中添加 `draft: true` 属性，即可将其设置为草稿。
+草稿状态的文章在构建以及生成 RSS 时会被过滤，但你仍然可以在开发时预览它。
 
 当需要发布时，注释掉它即可。
 

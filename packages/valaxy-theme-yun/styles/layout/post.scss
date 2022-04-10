@@ -1,10 +1,9 @@
-@use '~/styles/mixins' as *;
+@use "~/styles/mixins" as *;
 
 .post-card {
   position: relative;
   max-width: var(--yun-post-card-max-width);
 }
-
 
 .post-title {
   display: flex;
@@ -28,8 +27,9 @@
     margin-right: 0.4rem;
   }
 
-  &::before, &::after {
-    content: '';
+  &::before,
+  &::after {
+    content: "";
     position: absolute;
     width: 10px;
     height: 10px;
@@ -53,18 +53,11 @@
     transform: translate3d(-10px, -10px, 0);
   }
 
-  &:hover::before, &:hover::after {
+  &:hover::before,
+  &:hover::after {
     opacity: 1;
     transform: translate3d(0, 0, 0);
   }
-}
-
-.post-top-icon {
-  position: absolute;
-  top: 1rem;
-  right: 1rem;
-  color: var(--va-c-warning);
-  font-size: 1.2rem;
 }
 
 .post-link-btn,
