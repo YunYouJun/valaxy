@@ -3,10 +3,13 @@
 // you can use this to manipulate the document head in any components,
 // they will be rendered correctly in the html results with vite-ssg
 import { useHead } from '@vueuse/head'
+import { useConfig } from './config'
+
+const config = useConfig()
 useHead({
-  title: 'Theme Yun',
+  title: config.value.title,
   meta: [
-    { name: 'description', content: 'Theme Yun' },
+    { name: 'description', content: config.value.description },
   ],
 })
 </script>

@@ -44,7 +44,7 @@ function generateLocales(roots: string[]) {
       const langYml = `${root}/locales/${lang}.yml`
       if (fs.existsSync(langYml) && fs.readFileSync(langYml, 'utf-8')) {
         const varName = lang.replace('-', '') + i
-        imports.push(`import ${varName} from "${langYml}"`)
+        imports.push(`import ${varName} from "${toAtFS(langYml)}"`)
         imports.push(`Object.assign(messages['${lang}'], ${varName})`)
       }
     })

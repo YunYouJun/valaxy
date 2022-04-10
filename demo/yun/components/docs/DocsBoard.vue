@@ -12,7 +12,7 @@ const { t } = useI18n()
       <a href="/docs" :title="t('docs.view_docs')">
         {{ t('docs.view_docs') }}
       </a>
-      <router-link class="flex" to="/examples">
+      <router-link class="flex justify-center" to="/examples">
         Examples
       </router-link>
     </ul>

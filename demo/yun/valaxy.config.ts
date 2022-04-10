@@ -10,6 +10,7 @@ const config: UserConfig<ThemeUserConfig> = {
   title: 'Valaxy Theme Yun',
   url: 'https://valaxy.yyj.moe/',
   author: {
+    avatar: 'https://cdn.jsdelivr.net/gh/YunYouJun/yun/images/meme/yun-good-with-bg.jpg',
     name: '云游君',
   },
   description: 'Valaxy Theme Yun Preview.',

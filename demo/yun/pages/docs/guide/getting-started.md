@@ -8,12 +8,26 @@ layout: docs
 end: false
 ---
 
-Example: [valaxy.yyj.moe](https://valaxy.yyj.moe)
+> Example: [valaxy.yyj.moe](https://valaxy.yyj.moe)
+
+::: danger
+
+如果您是 Windows 用户，我强烈建议您使用类 Unix 的 Shell（如 [Git Bash](https://git-scm.com/downloads) 或 [WSL](https://docs.microsoft.com/en-us/windows/wsl/install)），而非 CMD / PowerShell.
+
+:::
 
 ## Create
 
 ```bash
 npm init valaxy
+```
+
+::: zh-CN
+由于 `npm init` 缓存您此前下载的版本，我更推荐您使用 `pnpm` 来创建模版。
+:::
+
+```bash
+pnpm create valaxy
 ```
 
 ## Upgrade
