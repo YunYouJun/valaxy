@@ -10,8 +10,8 @@ export function useTwikoo(options: {} = {}) {
   let twikoo: any
 
   /**
-   * init waline
-   * @param options waline options
+   * init twikoo
+   * @param options twikoo options
    * @returns
    */
   function initTwikoo(options: {} = {}) {
