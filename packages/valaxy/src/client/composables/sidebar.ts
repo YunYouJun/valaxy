@@ -1,16 +1,21 @@
-import { onMounted, onUnmounted, onUpdated } from 'vue'
+import type { Ref } from 'vue'
+import { onMounted, onUnmounted } from 'vue'
 
 // todo: refactor
 
-export function useActiveSidebarLinks() {
-  let rootActiveLink: HTMLAnchorElement | null = null
-  let activeLink: HTMLAnchorElement | null = null
-
+export function useActiveSidebarLinks(container: Ref<HTMLElement>, marker: Ref<HTMLElement>) {
   const onScroll = throttleAndDebounce(setActiveLink, 200)
 
   function setActiveLink(): void {
-    const sidebarLinks = getSidebarLinks()
-    const anchors = getAnchors(sidebarLinks)
+    const sidebarLinks = [].slice.call(
+      document.querySelectorAll('.va-toc a.toc-link-item'),
+    ) as HTMLAnchorElement[]
+
+    const anchors = [].slice
+      .call(document.querySelectorAll('main .header-anchor'))
+      .filter((anchor: HTMLAnchorElement) =>
+        sidebarLinks.some(sidebarLink => sidebarLink.hash === anchor.hash),
+      ) as HTMLAnchorElement[]
 
     for (let i = 0; i < anchors.length; i++) {
       const anchor = anchors[i]
@@ -26,26 +31,25 @@ export function useActiveSidebarLinks() {
     }
   }
 
+  let prevActiveLink: HTMLAnchorElement | null = null
+
   function activateLink(hash: string | null): void {
-    deactiveLink(activeLink)
-    deactiveLink(rootActiveLink)
+    deactiveLink(prevActiveLink)
 
-    activeLink = document.querySelector(`.va-toc a[href="${hash}"]`)
+    const activeLink = (prevActiveLink
+      = hash == null
+        ? null
+        : container.value.querySelector(`.va-toc a[href="${hash}"]`) as HTMLAnchorElement)
 
-    if (!activeLink)
-      return
-
-    activeLink.classList.add('active')
-
-    // also add active class to parent h2 anchors
-    const rootLi = activeLink.closest('.right-sidebar-container > ul > li')
-
-    if (rootLi && rootLi !== activeLink.parentElement) {
-      rootActiveLink = rootLi.querySelector('a')
-      rootActiveLink && rootActiveLink.classList.add('active')
+    // marker animation
+    if (activeLink) {
+      activeLink.classList.add('active')
+      marker.value.style.opacity = '1'
+      marker.value.style.top = `${activeLink.offsetTop + 2}px`
     }
     else {
-      rootActiveLink = null
+      marker.value.style.opacity = '0'
+      marker.value.style.top = '2px'
     }
   }
 
@@ -54,32 +58,13 @@ export function useActiveSidebarLinks() {
   }
 
   onMounted(() => {
-    setActiveLink()
+    requestAnimationFrame(setActiveLink)
     window.addEventListener('scroll', onScroll)
-  })
-
-  onUpdated(() => {
-    // sidebar update means a route change
-    activateLink(decodeURIComponent(location.hash))
   })
 
   onUnmounted(() => {
     window.removeEventListener('scroll', onScroll)
   })
-}
-
-function getSidebarLinks(): HTMLAnchorElement[] {
-  return [].slice.call(
-    document.querySelectorAll('.va-toc a.toc-link-item'),
-  )
-}
-
-function getAnchors(sidebarLinks: HTMLAnchorElement[]): HTMLAnchorElement[] {
-  return [].slice
-    .call(document.querySelectorAll('.header-anchor'))
-    .filter((anchor: HTMLAnchorElement) =>
-      sidebarLinks.some(sidebarLink => sidebarLink.hash === anchor.hash),
-    ) as HTMLAnchorElement[]
 }
 
 function getAnchorTop(anchor: HTMLAnchorElement): number {

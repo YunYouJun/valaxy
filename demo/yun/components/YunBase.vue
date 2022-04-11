@@ -35,7 +35,7 @@ import Base from 'valaxy-theme-yun/layouts/base.vue'
       <slot name="right-sidebar" />
     </template>
     <template #right-custom>
-      <hr m="10">
+      <hr opacity="10" m="10">
       <p font="serif black">
         🌟 广告位招租 🌟
         <br>

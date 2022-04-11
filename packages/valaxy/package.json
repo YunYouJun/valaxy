@@ -45,10 +45,10 @@
     "https-localhost": "^4.7.1",
     "markdown-it-attrs": "^4.1.3",
     "type-fest": "^2.12.2",
-    "vue-tsc": "^0.34.2"
+    "vue-tsc": "^0.34.5"
   },
   "dependencies": {
-    "@ctrl/tinycolor": "^3.4.0",
+    "@ctrl/tinycolor": "^3.4.1",
     "@iconify-json/carbon": "^1.1.3",
     "@iconify-json/ri": "^1.1.1",
     "@intlify/vite-plugin-vue-i18n": "^3.4.0",
@@ -77,7 +77,7 @@
     "star-markdown-css": "^0.3.3",
     "unconfig": "^0.3.2",
     "unocss": "^0.31.0",
-    "unplugin-vue-components": "^0.19.1",
+    "unplugin-vue-components": "^0.19.2",
     "vite": "^2.9.1",
     "vite-plugin-inspect": "^0.4.3",
     "vite-plugin-md": "^0.12.4",
