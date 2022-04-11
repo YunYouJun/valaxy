@@ -39,7 +39,7 @@ jobs:
         run: pnpm run lint
 
       - name: Type Check
-        run: pnpm run typecheck -C packages/valaxy
+        run: pnpm run typecheck
 
       # - name: Unit Test
       #   run: pnpm run test:unit

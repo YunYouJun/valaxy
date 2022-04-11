@@ -26,7 +26,8 @@
     "lint:fix": "eslint \"**/*.{vue,ts,js}\" --fix",
     "prepublishOnly": "npm run build",
     "release": "esmo scripts/release.ts",
-    "start": "node packages/valaxy/bin/valaxy.js dev"
+    "start": "node packages/valaxy/bin/valaxy.js dev",
+    "typecheck": "pnpm -r --filter ./packages --parallel run typecheck"
   },
   "devDependencies": {
     "@antfu/eslint-config": "^0.20.2",

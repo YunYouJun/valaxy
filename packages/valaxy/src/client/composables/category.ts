@@ -2,13 +2,15 @@ import { unref } from 'vue'
 import type { Post } from '../../types'
 import { usePostList } from './post'
 
-export interface ParentCategory {
+export interface BaseCategory {
   total: number
+}
+
+export interface ParentCategory extends BaseCategory {
   children: Categories
 }
 
-export interface PostCategory {
-  total: number
+export interface PostCategory extends BaseCategory {
   posts: Post[]
 }
 
@@ -16,6 +18,8 @@ export type Category = ParentCategory | PostCategory
 
 // export type Categories = Map<string, Post[] | Category>
 export type Categories = Map<string, Category>
+
+export const isParentCategory = (category: any): category is ParentCategory => category.children
 
 /**
  * get categories from posts

@@ -6,13 +6,13 @@ const [prev, next] = usePrevNext()
 <template>
   <div class="post-nav">
     <div class="post-nav-item">
-      <router-link v-if="prev" class="post-nav-prev" :to="prev.path" :title="prev.title">
+      <router-link v-if="prev" class="post-nav-prev" :to="prev.path || ''" :title="prev.title">
         <div class="icon" i-ri-arrow-left-s-line />
         <span class="title truncate" text="sm">{{ prev.title }}</span>
       </router-link>
     </div>
     <div class="post-nav-item">
-      <router-link v-if="next" :to="next.path" :title="next.title" class="post-nav-next">
+      <router-link v-if="next" :to="next.path || ''" :title="next.title" class="post-nav-next">
         <span class="title truncate" text="sm">{{ next.title }}</span>
         <div class="icon" i-ri-arrow-right-s-line />
       </router-link>

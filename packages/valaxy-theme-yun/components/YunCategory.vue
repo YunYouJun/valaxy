@@ -1,6 +1,7 @@
 <script lang="ts" setup>
 import { ref } from 'vue'
-import type { Category, ParentCategory, Post, PostCategory } from 'valaxy'
+import type { Category, Post } from 'valaxy'
+import { isParentCategory } from 'valaxy'
 import { useI18n } from 'vue-i18n'
 
 const props = withDefaults(defineProps<{
@@ -38,14 +39,14 @@ const getTitle = (post: Post | any) => {
   </li>
 
   <template v-if="!collapsable">
-    <ul v-if="(category as PostCategory).posts">
-      <li v-for="post, i in (category as PostCategory).posts" :key="i" class="post-list-item" m="l-4">
+    <ul v-if="!isParentCategory(category)">
+      <li v-for="post, i in category.posts" :key="i" class="post-list-item" m="l-4">
         <router-link v-if="post.title" :to="post.path || ''" class="inline-flex items-center">
           <div i-ri-file-text-line />
           <span m="l-1" font="serif black">{{ getTitle(post) }}</span>
         </router-link>
       </li>
     </ul>
-    <YunCategories v-else :categories="(category as ParentCategory).children" :display-category="displayCategory" :collapsable="collapsable" />
+    <YunCategories v-else :categories="category.children" :display-category="displayCategory" :collapsable="collapsable" />
   </template>
 </template>
