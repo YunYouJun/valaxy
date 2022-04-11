@@ -49,7 +49,7 @@ export function useActiveSidebarLinks(container: Ref<HTMLElement>, marker: Ref<H
     }
     else {
       marker.value.style.opacity = '0'
-      marker.value.style.top = '2px'
+      marker.value.style.top = '54px'
     }
   }
 

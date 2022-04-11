@@ -37,7 +37,11 @@ npm init valaxy
 ```
 
 ::: zh-CN
-由于 `npm init` 缓存您此前下载的版本，我更推荐您使用 `pnpm` 来创建模版。
+> 由于 `npm init` 缓存您此前下载的版本，我更推荐您使用 `pnpm` 来创建模版。
+:::
+
+::: en
+> Since `npm init` caches your previously downloaded version, I would recommend using `pnpm` to create templates.
 :::
 
 ```bash

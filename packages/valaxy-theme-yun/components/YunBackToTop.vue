@@ -27,17 +27,22 @@ const strokeOffset = computed(() => {
 @use "sass:map";
 
 .back-to-top {
-  position: relative;
   position: fixed;
-  right: -0.9rem;
-  bottom: 1.1rem;
+  right: -1.5rem;
+  bottom: 1rem;
   z-index: var(--yun-z-go-up-btn);
   opacity: 0;
+  pointer-events: none;
+
   color: var(--va-c-primary);
+  transform: translateX(0) rotate(270deg);
+  // override yun-icon-btn transition
+  transition: transform var(--va-transition-duration), opacity var(--va-transition-duration-fast) !important;
 
   &.show {
-    transform: translateX(-30px) rotate(360deg);
+    transform: translateX(-32px) rotate(360deg);
     opacity: 1;
+    pointer-events: fill;
   }
 
   .icon {

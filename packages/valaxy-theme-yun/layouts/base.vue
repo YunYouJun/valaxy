@@ -19,8 +19,8 @@ const title = usePostTitle(frontmatter)
   </ValaxySidebar>
 
   <main class="yun-main flex lt-md:ml-0">
-    <div flex="~ 1 col" w="full" p="l-4 lt-md:0">
-      <YunCard m="0" p="4" class="relative page-card sm:p-6 lg:px-12 xl:px-16" :style="styles">
+    <div flex="~ 1 col" w="full" p="l-4 lt-md:0" class="content">
+      <YunCard m="0" p="4" class="relative sm:p-6 lg:px-12 xl:px-16" :style="styles">
         <slot name="header">
           <YunPageHeader :title="title" :icon="frontmatter.icon || icon" :color="frontmatter.color || color" />
         </slot>
@@ -38,7 +38,7 @@ const title = usePostTitle(frontmatter)
       </slot>
 
       <slot v-if="frontmatter.comment !== false" name="comment">
-        <YunCard w="full" p="4" class="comment sm:p-8 lg:px-12 xl:px-16" :class="frontmatter.nav === false ? 'mt-4' : 0">
+        <YunCard w="full" p="4" class="comment sm:p-6 lg:px-12 xl:px-16" :class="frontmatter.nav === false ? 'mt-4' : 0">
           <YunWaline v-if="config.comment.waline.enable" />
           <YunTwikoo v-if="config.comment.twikoo.enable" />
         </YunCard>
@@ -50,7 +50,7 @@ const title = usePostTitle(frontmatter)
     </div>
 
     <slot name="right-sidebar">
-      <ValaxyRightSidebar :frontmatter="frontmatter" class="lt-xl:hidden">
+      <ValaxyRightSidebar :frontmatter="frontmatter">
         <template #custom>
           <slot name="right-custom" />
         </template>
@@ -65,9 +65,9 @@ const title = usePostTitle(frontmatter)
 <style lang="scss">
 @use '~/styles/mixins' as *;
 @include xl {
-  .page-card {
+  .content{
     // 8px scrollbar width
-    max-width: calc(100vw - 2 * var(--va-sidebar-width-mobile) - 2rem - 8px);
+    max-width: calc(100vw - 2 * var(--va-sidebar-width-mobile) - 1rem - 8px);
   }
 }
 </style>
