@@ -6,6 +6,12 @@ tags:
   - valaxy
 ---
 
+:::zh-CN
 还什么都没写呢……
+:::
+
+:::en
+Nothing has been written……
+:::
 
 <!-- more -->

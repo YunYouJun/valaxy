@@ -11,6 +11,7 @@ tags:
   - test
 ---
 
+:::zh-CN
 [[toc]]
 
 标题是一级标题
@@ -39,3 +40,35 @@ tags:
 
 - [ ] FLAG
 - [x] FLAG
+:::
+
+:::en
+[[toc]]
+
+The title is a primary title
+
+## Secondary title
+
+### Tertiary title
+
+#### Level four title
+
+##### Level five title
+
+###### Level six title
+
+## Title
+
+## List title
+
+- AAA
+- BBB
+- CCC
+  - DDD
+    - EEE
+
+### Checkbox
+
+- [ ] FLAG
+- [x] FLAG
+:::
