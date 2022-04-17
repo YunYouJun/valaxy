@@ -40,5 +40,12 @@ draft: true
 ---
 ```
 
+:::zh-CN
+也许你可能认为放在对应文件夹下适合快速查找拥有哪些草稿，但是你通过编辑器的全局搜索 `draft: true` 同样可以快速做到。
+并且你还能知道你之前打算把它发布在哪个文件夹（路径）下。
+:::
+
+:::en
 You may think that putting it in the corresponding folder is suitable for quickly finding which drafts you have, but you can also do it quickly through the editor's global search 'draft: true'.
 And you can also know which folder (path) you planned to publish it in.
+:::
