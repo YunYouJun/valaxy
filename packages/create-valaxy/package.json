@@ -22,7 +22,7 @@
   },
   "dependencies": {
     "chalk": "4",
-    "execa": "5",
+    "execa": "^6.1.0",
     "minimist": "^1.2.6",
     "prompts": "^2.4.2"
   }

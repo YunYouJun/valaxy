@@ -30,17 +30,17 @@
     "typecheck": "pnpm -r --filter ./packages --parallel run typecheck"
   },
   "devDependencies": {
-    "@antfu/eslint-config": "^0.20.2",
+    "@antfu/eslint-config": "^0.20.7",
     "@types/debug": "^4.1.7",
     "@types/prompts": "^2.0.14",
     "@types/semver": "^7.3.9",
-    "eslint": "^8.13.0",
+    "eslint": "^8.14.0",
     "esno": "^0.14.1",
-    "pnpm": "^6.32.6",
+    "pnpm": "^6.32.9",
     "prompts": "^2.4.2",
-    "tsup": "^5.12.4",
+    "tsup": "^5.12.6",
     "typescript": "^4.6.3",
-    "zx": "^6.0.7"
+    "zx": "^6.1.0"
   },
   "engines": {
     "node": ">=14.0.0"
