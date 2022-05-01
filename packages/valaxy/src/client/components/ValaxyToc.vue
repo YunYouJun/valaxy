@@ -1,5 +1,6 @@
 <script lang="ts" setup>
 import { computed, ref } from 'vue'
+import { useI18n } from 'vue-i18n'
 import { useRoute } from 'vue-router'
 
 import { useActiveSidebarLinks } from '~/composables'
@@ -18,6 +19,8 @@ function getStylesByLevel(level: number) {
   }
 }
 
+const { locale } = useI18n()
+
 // todo mobile toc widget
 </script>
 
@@ -25,7 +28,7 @@ function getStylesByLevel(level: number) {
   <div v-if="headers" ref="container">
     <div ref="marker" class="outline-marker" />
     <ul class="va-toc" p="l-4">
-      <li v-for="header, i in headers" :key="i" class="va-toc-item" :style="getStylesByLevel(header.level)">
+      <li v-for="header, i in headers" :key="i" :lang="header.lang || locale" class="va-toc-item" :style="getStylesByLevel(header.level)">
         <a class="toc-link-item" :href="`#${header.slug}`">{{ header.title }}</a>
       </li>
     </ul>

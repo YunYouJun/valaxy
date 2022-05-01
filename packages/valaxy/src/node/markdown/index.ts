@@ -20,6 +20,10 @@ export interface Header {
   level: number
   title: string
   slug: string
+  /**
+   * i18n
+   */
+  lang?: string
 }
 
 export interface MarkdownParsedData {
@@ -49,11 +53,12 @@ export function setupMarkdownPlugins(md: MarkdownIt, mdOptions: MarkdownOptions 
     .use(highlightLinePlugin)
     .use(preWrapperPlugin)
     .use(containerPlugin)
+    .use(attrs)
     .use(headingPlugin, mdOptions?.toc?.includeLevel)
     // .use(lineNumberPlugin)
   // https://github.com/arve0/markdown-it-attrs
   // add classes
-  md.use(attrs)
+  md
     .use(LinkAttributes, {
       matcher: (link: string) => /^https?:\/\//.test(link),
       attrs: {

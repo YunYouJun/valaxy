@@ -2,18 +2,46 @@ $languages: zh-CN, en;
 
 html[lang] {
   .markdown-body {
+    h1[lang],
+    h2[lang],
+    h3[lang],
+    h4[lang],
+    h5[lang],
+    h6[lang],
     div[lang] {
       display: none;
+    }
+  }
+
+  .va-toc {
+    li[lang] {
+      a {
+        display: none;
+      }
     }
   }
 }
 
 @each $lang in $languages {
   html[lang="#{$lang}"] {
-    // only for markdown
+    // for markdown
     .markdown-body {
+      h1[lang="#{$lang}"],
+      h2[lang="#{$lang}"],
+      h3[lang="#{$lang}"],
+      h4[lang="#{$lang}"],
+      h5[lang="#{$lang}"],
+      h6[lang="#{$lang}"],
       div[lang="#{$lang}"] {
         display: block;
+      }
+    }
+
+    .va-toc {
+      li[lang="#{$lang}"] {
+        a {
+          display: block;
+        }
       }
     }
   }

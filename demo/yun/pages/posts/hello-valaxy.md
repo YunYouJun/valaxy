@@ -9,12 +9,19 @@ tags:
 top: 1
 ---
 
-:::zh-CN
-## What is Valaxy?
+## What is Valaxy? {lang="en"}
 
+::: en
+Valaxy aims to be a next generation of static blogging frameworks/generators.
+:::
+
+## 什么是 Valaxy? {lang="zh-CN"}
+
+::: zh-CN
 Valaxy 的目标是成为新一代的静态博客框架/生成器。
+:::
 
-## Why Valaxy?
+## 为什么是 Valaxy?
 
 构想新一代静态博客框架/生成器。
 
@@ -28,9 +35,6 @@ Valaxy 的目标是成为新一代的静态博客框架/生成器。
 :::
 
 :::en
-## What is Valaxy?
-
-Valaxy aims to be a next generation static blog framework/generator.
 
 ## Why Valaxy?
 
@@ -74,7 +78,7 @@ export default config
 :::
 
 :::en
-Hot update for configuration, article 
+Hot update for configuration, article.
 
 Instead of reloading pages like hexo
 :::
