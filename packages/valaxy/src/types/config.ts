@@ -121,7 +121,14 @@ export interface ValaxyConfig<T = ValaxyThemeConfig> {
    * The config of theme
    * @description 主题配置
    */
-  themeConfig: T
+  themeConfig: T & {
+    pkg: {
+      name: string
+      version: string
+      homepage?: string
+      [key: string]: any
+    }
+  }
 
   /**
    * Unocss Config
@@ -259,7 +266,12 @@ export const defaultValaxyConfig: ValaxyConfig = {
   },
 
   theme: 'yun',
-  themeConfig: {},
+  themeConfig: {
+    pkg: {
+      name: '',
+      version: '',
+    },
+  },
 
   unocss: {},
 

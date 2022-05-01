@@ -45,7 +45,7 @@ export const createSafelist = async (config: ValaxyConfig<ThemeUserConfig>) => {
   return safelist
 }
 
-export const createUnocssConfig = (options: ResolvedValaxyOptions) => {
+export const createUnocssConfig = async (options: ResolvedValaxyOptions) => {
   const unocssConfig: VitePluginConfig = {
     shortcuts: [
       ['yun-main', 'lt-md:pl-0'],
@@ -97,13 +97,13 @@ export const createUnocssConfig = (options: ResolvedValaxyOptions) => {
       transformerDirectives(),
       transformerVariantGroup(),
     ],
-    safelist: createSafelist(options.config),
+    safelist: await createSafelist(options.config),
   }
 
   return defu(options.config.unocss, unocssConfig)
 }
 
-export const createUnocssPlugin = (options: ResolvedValaxyOptions) => {
-  const config = createUnocssConfig(options)
+export const createUnocssPlugin = async (options: ResolvedValaxyOptions) => {
+  const config = await createUnocssConfig(options)
   return Unocss(config)
 }

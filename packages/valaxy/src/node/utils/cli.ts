@@ -44,7 +44,7 @@ export async function initServer(options: ResolvedValaxyOptions, viteConfig: Inl
     await server.close()
 
   try {
-    const safelist = createSafelist(options.config).concat(options.config.unocss.safelist || [])
+    const safelist = (await createSafelist(options.config)).concat(options.config.unocss.safelist || [])
 
     server = await createServer(options, viteConfig, {
       onConfigReload(newConfig, config) {

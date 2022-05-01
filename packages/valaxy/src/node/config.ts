@@ -30,6 +30,8 @@ export async function resolveConfig(options: ValaxyEntryOptions = {}) {
   try {
     const { defaultThemeConfig } = await import(`valaxy-theme-${theme}`)
     config.themeConfig = defu(config.themeConfig, defaultThemeConfig)
+    const pkg = await import(`valaxy-theme-${theme}/package.json`)
+    config.themeConfig.pkg = pkg
   }
   catch (e) {
     console.error(`valaxy-theme-${theme} doesn't have default config`)
