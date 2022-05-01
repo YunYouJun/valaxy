@@ -1,9 +1,16 @@
 import { isClient, useScriptTag } from '@vueuse/core'
+import { useHead } from '@vueuse/head'
 import { onUnmounted, watch } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { useRoute } from 'vue-router'
 
 export function useWaline(options: {} = {}) {
+  useHead({
+    link: [
+      { rel: 'stylesheet', href: 'https://cdn.jsdelivr.net/npm/@waline/client/dist/waline.css' },
+    ],
+  })
+
   const route = useRoute()
 
   const { locale } = useI18n()
@@ -31,11 +38,11 @@ export function useWaline(options: {} = {}) {
       path: route.path,
     }
     const walineOptions = Object.assign(defaultOptions, options)
-    return window.Waline(walineOptions)
+    return window.Waline.init(walineOptions)
   }
 
   // 直接使用 CDN
-  useScriptTag('//cdn.jsdelivr.net/npm/@waline/client', () => {
+  useScriptTag('//cdn.jsdelivr.net/npm/@waline/client/dist/waline.js', () => {
     waline = initWaline(options)
   })
 
@@ -60,4 +67,6 @@ export function useWaline(options: {} = {}) {
       return
     waline.destroy()
   })
+
+  return waline
 }
