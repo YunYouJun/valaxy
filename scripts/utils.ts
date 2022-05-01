@@ -57,29 +57,29 @@ export function getVersionChoices(currentVersion: string) {
     },
     ...(currentBeta
       ? [
-        {
-          title: 'stable',
-          value: inc('patch'),
-        },
-      ]
+          {
+            title: 'stable',
+            value: inc('patch'),
+          },
+        ]
       : [
-        {
-          title: 'beta-minor',
-          value: inc('preminor'),
-        },
-        {
-          title: 'beta-major',
-          value: inc('premajor'),
-        },
-        {
-          title: 'minor',
-          value: inc('minor'),
-        },
-        {
-          title: 'major',
-          value: inc('major'),
-        },
-      ]),
+          {
+            title: 'beta-minor',
+            value: inc('preminor'),
+          },
+          {
+            title: 'beta-major',
+            value: inc('premajor'),
+          },
+          {
+            title: 'minor',
+            value: inc('minor'),
+          },
+          {
+            title: 'major',
+            value: inc('major'),
+          },
+        ]),
     { value: 'custom', title: 'custom' },
   ].map((i) => {
     i.title = `${i.title} (${i.value})`

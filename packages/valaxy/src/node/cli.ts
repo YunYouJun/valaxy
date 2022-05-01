@@ -54,7 +54,7 @@ cli.command(
       .strict()
       .help()
   ,
-  async({ root, port: userPort, open, remote, log }) => {
+  async ({ root, port: userPort, open, remote, log }) => {
     if (!fs.existsSync(path.resolve(root, 'pages')))
       process.exit(0)
 
@@ -128,7 +128,7 @@ cli.command(
     })
     .strict()
     .help(),
-  async({ ssg, root, base, output }) => {
+  async ({ ssg, root, base, output }) => {
     const options = await resolveOptions({ userRoot: root }, 'build')
     printInfo(options)
 
@@ -165,7 +165,7 @@ cli.command(
   args => commonOptions(args)
     .strict()
     .help(),
-  async({ root }) => {
+  async ({ root }) => {
     consola.info('Generate RSS ...')
     const options = await resolveOptions({ userRoot: root }, 'build')
     await rssBuild(options)

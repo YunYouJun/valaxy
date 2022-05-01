@@ -181,7 +181,7 @@ export interface ValaxyConfig<T = ValaxyThemeConfig> {
  * Valaxy User Config
  * @description Valaxy 用户配置
  */
-export type UserConfig<T=ValaxyThemeConfig> = PartialDeep<ValaxyConfig<T>>
+export type UserConfig<T = ValaxyThemeConfig> = PartialDeep<ValaxyConfig<T>>
 
 export const defaultValaxyConfig: ValaxyConfig = {
   url: '',

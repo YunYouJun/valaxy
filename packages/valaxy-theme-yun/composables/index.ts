@@ -10,7 +10,7 @@ import { isClient } from '@vueuse/core'
 export function useRandomData<T>(source: string | T[], random = false) {
   const data = ref<T[]>()
 
-  watch(() => source, async() => {
+  watch(() => source, async () => {
     let rawData: T[]
     if (typeof source === 'string') {
       if (!isClient)
