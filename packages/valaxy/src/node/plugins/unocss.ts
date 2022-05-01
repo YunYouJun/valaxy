@@ -13,10 +13,11 @@ import {
 } from 'unocss'
 import type { ValaxyConfig } from 'valaxy'
 import type { ThemeUserConfig } from 'valaxy-theme-yun'
-import { generateSafelist } from 'valaxy-theme-yun'
 import type { ResolvedValaxyOptions } from '../options'
 
-export const createSafelist = (config: ValaxyConfig<ThemeUserConfig>) => {
+export const createSafelist = async (config: ValaxyConfig<ThemeUserConfig>) => {
+  const { generateSafelist } = await import(`valaxy-theme-${config.theme}`)
+
   const safeIcons: string[] = [
     'i-ri-archive-line',
     'i-ri-folder-2-line',
