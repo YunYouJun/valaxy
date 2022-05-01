@@ -1,4 +1,5 @@
 // import { loadConfig } from 'c12'
+import fs from 'fs'
 import { loadConfig } from 'unconfig'
 import defu from 'defu'
 import type { ValaxyConfig } from '../types'
@@ -30,11 +31,17 @@ export async function resolveConfig(options: ValaxyEntryOptions = {}) {
   try {
     const { defaultThemeConfig } = await import(`valaxy-theme-${theme}`)
     config.themeConfig = defu(config.themeConfig, defaultThemeConfig)
-    const pkg = await import(`valaxy-theme-${theme}/package.json`)
-    config.themeConfig.pkg = pkg
   }
   catch (e) {
     console.error(`valaxy-theme-${theme} doesn't have default config`)
+  }
+
+  try {
+    const pkg = fs.readFileSync(require.resolve(`valaxy-theme-${theme}/package.json`), 'utf-8')
+    config.themeConfig.pkg = JSON.parse(pkg)
+  }
+  catch (e) {
+    console.error(`valaxy-theme-${theme} doesn't have package.json`)
   }
 
   return {
