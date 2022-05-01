@@ -1,3 +1,4 @@
+import { join } from 'path'
 import type { InlineConfig } from 'vite'
 import { searchForWorkspaceRoot } from 'vite'
 import type { ResolvedValaxyOptions, ValaxyServerOptions } from './options'
@@ -26,6 +27,7 @@ export async function createViteConfig(options: ResolvedValaxyOptions, serverOpt
     },
 
     root: options.clientRoot,
+    publicDir: join(options.userRoot, 'public'),
 
     plugins: await ViteValaxyPlugins(options, serverOptions, {}),
 
