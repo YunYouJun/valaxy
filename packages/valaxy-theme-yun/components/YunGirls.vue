@@ -2,11 +2,6 @@
 import { useRandomData } from 'valaxy-theme-yun/composables'
 import { onImgError } from '../utils'
 
-const props = defineProps<{
-  girls: GirlType[] | string
-  random?: boolean
-}>()
-
 interface GirlType {
   name: string
   url: string
@@ -14,6 +9,11 @@ interface GirlType {
   from?: string
   reason?: string
 }
+
+const props = defineProps<{
+  girls: GirlType[] | string
+  random?: boolean
+}>()
 
 const { data } = useRandomData(props.girls, props.random)
 </script>
