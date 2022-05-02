@@ -54,7 +54,7 @@ const title = usePostTitle(frontmatter)
     </template>
     <template #content>
       <div text="center" class="yun-text-light" p="2">
-        {{ t('counter.categories', categories.children!.size ) }}
+        {{ t('counter.categories', categories.children!.size) }}
       </div>
       <YunCategories :categories="categories.children!" :display-category="displayCategory" />
       <router-view />

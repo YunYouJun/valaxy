@@ -56,7 +56,7 @@ onMounted(() => {
 
 <template>
   <div class="say">
-    <span v-if="sayContent" class="say-content" :class="['animate-fade-in', 'animate-iteration-1']">{{ sayContent }}</span>
+    <span v-if="sayContent" class="say-content animate-fade-in animate-iteration-1">{{ sayContent }}</span>
     <span v-if="sayAuthor" class="say-author"> {{ sayAuthor }}</span>
     <span v-if="sayFrom" class="say-from">{{ sayFrom }}</span>
   </div>

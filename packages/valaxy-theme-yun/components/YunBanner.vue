@@ -35,7 +35,7 @@ const lintStyle = computed(() => (
     <div class="banner-char-container">
       <div v-for="c, i in themeConfig.banner.title" :key="i" class="char-box">
         <span
-          :class="[i%2 !== 0 ? 'char-right' : 'char-left']" :style="{
+          :class="[i % 2 !== 0 ? 'char-right' : 'char-left']" :style="{
             '--banner-char-size': `${chars[i]}rem`,
           } as CSSProperties"
         >

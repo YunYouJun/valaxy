@@ -47,8 +47,5 @@ jobs:
       - name: ☁️ Build Yun Demo (SSG)
         run: pnpm run build:demo
 
-      # - name: Type Check
-      #   run: pnpm run typecheck
-
       # - name: Unit Test
       #   run: pnpm run test:unit

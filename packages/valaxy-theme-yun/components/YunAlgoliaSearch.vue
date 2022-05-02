@@ -29,7 +29,6 @@ watch(showPopup, () => {
   else
     document.documentElement.classList.remove('no-scroll')
 })
-
 </script>
 
 <template>

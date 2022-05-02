@@ -13,7 +13,7 @@ const url = useFullUrl()
         <slot name="header">
           <YunPostMeta :frontmatter="frontmatter" />
         </slot>
-        <router-view v-slot="{Component}">
+        <router-view v-slot="{ Component }">
           <Transition appear>
             <component :is="Component" />
           </Transition>

@@ -46,7 +46,7 @@ const { icon, styles } = usePostProperty(props.post.type)
           v-if="post.categories"
           :to="{
             path: '/categories/',
-            query: {category: Array.isArray(post.categories) ? post.categories[post.categories.length - 1] : post.categories}
+            query: { category: Array.isArray(post.categories) ? post.categories[post.categories.length - 1] : post.categories },
           }"
           class="post-categories inline-flex justify-center items-center" m="l-2"
         >
@@ -57,7 +57,7 @@ const { icon, styles } = usePostProperty(props.post.type)
 
       <div class="post-tags inline-flex" m="r-2">
         <template v-if="post.tags">
-          <router-link v-for="tag,i in post.tags" :key="i" :to="{path: '/tags/', query: {tag: tag}}" m="x-1" class="post-tag inline-flex justify-center items-center">
+          <router-link v-for="tag, i in post.tags" :key="i" :to="{ path: '/tags/', query: { tag } }" m="x-1" class="post-tag inline-flex justify-center items-center">
             <div m="r-1" i-ri-price-tag-3-line />
             {{ tag }}
           </router-link>

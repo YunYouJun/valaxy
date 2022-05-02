@@ -3,11 +3,11 @@ import type { Post } from 'valaxy'
 import { useI18n } from 'vue-i18n'
 import { formatDate } from 'valaxy'
 
-const { t } = useI18n()
-
 defineProps<{
   frontmatter: Post
 }>()
+
+const { t } = useI18n()
 </script>
 
 <template>

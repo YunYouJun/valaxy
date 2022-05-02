@@ -3,13 +3,13 @@ import { computed } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { useConfig } from '../config'
 
-const { t, locale } = useI18n()
-
 withDefaults(defineProps<{
   url?: string
 }>(), {
   url: '',
 })
+
+const { t, locale } = useI18n()
 
 const config = useConfig()
 

@@ -14,7 +14,7 @@ const isExternalLink = computed(() => {
   <a v-if="isExternalLink" v-bind="$attrs" :href="to" target="_blank">
     <slot />
   </a>
-  <router-link v-else v-bind="($props as any)">
+  <router-link v-else v-bind="$props as any">
     <slot />
   </router-link>
 </template>

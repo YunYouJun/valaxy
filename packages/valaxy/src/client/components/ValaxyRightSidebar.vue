@@ -2,9 +2,8 @@
 import { useI18n } from 'vue-i18n'
 import type { Post } from '../../types'
 import { useAppStore } from '~/stores/app'
-const { t } = useI18n()
-
 defineProps<{ frontmatter: Post }>()
+const { t } = useI18n()
 
 const app = useAppStore()
 </script>
