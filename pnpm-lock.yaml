@@ -108,7 +108,7 @@ importers:
       vite-plugin-pwa: ^0.12.0
       vite-plugin-vue-layouts: ^0.6.0
       vite-ssg: ^0.19.2
-      vite-ssg-sitemap: 0.2.5
+      vite-ssg-sitemap: 0.2.6
       vue: ^3.2.33
       vue-demi: ^0.12.5
       vue-i18n: ^9.1.10
@@ -153,7 +153,7 @@ importers:
       vite-plugin-pwa: 0.12.0_vite@2.9.7
       vite-plugin-vue-layouts: 0.6.0_cy27blvoe2cwdzwso5wue736a4
       vite-ssg: 0.19.2_csn2dxpwjxhcufqcjewtaqepne
-      vite-ssg-sitemap: 0.2.5
+      vite-ssg-sitemap: 0.2.6
       vue: 3.2.33
       vue-demi: 0.12.5_vue@3.2.33
       vue-i18n: 9.1.10_vue@3.2.33
@@ -7285,8 +7285,8 @@ packages:
       - supports-color
     dev: false
 
-  /vite-ssg-sitemap/0.2.5:
-    resolution: {integrity: sha512-yJ8S+op7SBemqQ6YCxkjPvcD7scNFbpEQHBEixZ66nyZ/c486zvMgnXepLKhOKdlYvzJ0B79SMwGeN43hQedaw==}
+  /vite-ssg-sitemap/0.2.6:
+    resolution: {integrity: sha512-rjb+aXzaw9gb9mqoWaU1mVhwGg3SZKMR8ULraGFSLK9vaeQv52/qHFNmBAZvUiBUmgMQ4RGP2fGomTC+SwknFg==}
     dev: false
 
   /vite-ssg/0.19.2_csn2dxpwjxhcufqcjewtaqepne:
