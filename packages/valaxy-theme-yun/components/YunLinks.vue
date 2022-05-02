@@ -2,7 +2,12 @@
 import { useRandomData } from '../composables'
 import { onImgError } from '../utils'
 
-export interface LinkType {
+const props = defineProps<{
+  links: LinkType[]
+  random: boolean
+}>()
+
+interface LinkType {
   avatar: string
   name: string
   url: string
@@ -10,11 +15,6 @@ export interface LinkType {
   blog: string
   desc: string
 }
-
-const props = defineProps<{
-  links: LinkType[]
-  random: boolean
-}>()
 
 const { data } = useRandomData(props.links, props.random)
 </script>
