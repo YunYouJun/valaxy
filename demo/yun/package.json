@@ -9,8 +9,8 @@
     "serve": "vite preview"
   },
   "dependencies": {
-    "valaxy": "workspace:*",
-    "valaxy-theme-yun": "workspace:*"
+    "valaxy": "link:../../packages/valaxy",
+    "valaxy-theme-yun": "link:../../packages/valaxy-theme-yun"
   },
   "devDependencies": {
     "nodemon": "^2.0.16"
