@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { computed } from '@vue/reactivity';
+import { computed } from 'vue'
 import { useConfig, useFrontmatter, useFullUrl } from 'valaxy'
 
 const config = useConfig()
@@ -7,9 +7,9 @@ const frontmatter = useFrontmatter()
 const url = useFullUrl()
 
 const showSponsor = computed(() => {
-  if (typeof frontmatter.value.sponsor === 'boolean') {
+  if (typeof frontmatter.value.sponsor === 'boolean')
     return frontmatter.value.sponsor
-  }
+
   return config.value.sponsor.enable
 })
 </script>
