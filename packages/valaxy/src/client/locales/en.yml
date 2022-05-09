@@ -47,14 +47,14 @@ post:
     author: Post author
     link: Post link
     license_title: Copyright Notice
-    license_content: "All articles in this blog are licensed under {0} unless otherwise stated."
+    license_content: 'All articles in this blog are licensed under {0} unless otherwise stated.'
 
 # page:
 #   totally: Totally
 #   tags: tags
 
 footer:
-  powered: "Powered by {0}"
+  powered: 'Powered by {0}'
   theme: Theme
   total_views: Total Views
   total_visitors: Total Visitors
@@ -66,24 +66,24 @@ counter:
   albums:
     zero: No album
     one: 1 album in total
-    other: "%d albums in total"
+    other: '%d albums in total'
   photos:
     zero: No photo
     one: 1 photo in total
-    other: "%d photos in total"
+    other: '%d photos in total'
 
 category:
   uncategorized: Uncategorized
 
 search:
   placeholder: Searching...
-  empty: "We didn't find any results for the search: {query}."
-  hits_time: "{hits} results found in {time} ms"
+  empty: 'We didn''t find any results for the search: {query}.'
+  hits_time: '{hits} results found in {time} ms'
 
 symbol:
-  comma: ", "
-  period: ". "
-  colon: ": "
+  comma: ', '
+  period: '. '
+  colon: ': '
 
 reward:
   donate: Donate

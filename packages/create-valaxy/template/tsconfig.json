@@ -2,7 +2,7 @@
   "compilerOptions": {
     "baseUrl": ".",
     "paths": {
-      "@/*": ["demo/yun/*"],
+      "@/*": ["demo/yun/*"]
     }
   },
   "exclude": ["dist", "node_modules"]

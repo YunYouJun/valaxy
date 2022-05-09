@@ -1,20 +1,20 @@
 {
   "name": "@valaxyjs/monorepo",
-  "private": true,
   "version": "0.3.2",
-  "description": "📄 Vite & Vue powered static blog generator.",
+  "private": true,
   "packageManager": "pnpm@7",
+  "description": "📄 Vite & Vue powered static blog generator.",
   "keywords": [
     "vite",
     "vue",
     "blog"
   ],
+  "license": "MIT",
   "author": {
     "email": "me@yunyoujun.cn",
     "name": "YunYouJun",
     "url": "https://www.yunyoujun.cn"
   },
-  "license": "MIT",
   "repository": "https://github.com/YunYouJun/valaxy",
   "scripts": {
     "build": "pnpm -C packages/valaxy-theme-yun run build && pnpm -C packages/valaxy run build",
@@ -53,7 +53,7 @@
     "pre-commit": "npx lint-staged"
   },
   "lint-staged": {
-    "{packages,demo,scripts}/**/*.{js,ts,vue,json}": [
+    "{packages,demo,scripts}/**/*.{js,ts,vue,json,yml}": [
       "eslint --fix"
     ]
   }

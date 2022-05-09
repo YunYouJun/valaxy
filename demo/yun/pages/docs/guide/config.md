@@ -15,7 +15,7 @@ end: false
 你可以通过 `sponsor` 属性控制全局是否开启。
 
 ```ts
-sponsor: {
+interface SponsorOption {
   enable: boolean
   title: string
   methods: {
