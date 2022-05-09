@@ -118,6 +118,9 @@ export async function ViteValaxyPlugins(
             path = pagePath
         })
         const md = fs.readFileSync(path, 'utf-8')
+        if (md.includes('{%') && md.includes('%}'))
+          consola.error(`${`${path}\n`}        Please ${chalk.red('remove')} ${chalk.cyan('{% %}')}, because it conflicts with ${chalk.yellow('markdown-it-attrs')}.`)
+
         const { data, excerpt, content } = matter(md, { excerpt_separator })
 
         // warn for post frontmatter

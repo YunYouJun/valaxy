@@ -53,6 +53,7 @@ export function setupMarkdownPlugins(md: MarkdownIt, mdOptions: MarkdownOptions 
     .use(highlightLinePlugin)
     .use(preWrapperPlugin)
     .use(containerPlugin)
+    // conflict with {% %}
     .use(attrs)
     .use(headingPlugin, mdOptions?.toc?.includeLevel)
     // .use(lineNumberPlugin)
