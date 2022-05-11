@@ -1,8 +1,8 @@
 // ref vitepress
 import type MarkdownIt from 'markdown-it'
-import type { MarkdownRenderer } from '../markdown'
+import type { MarkdownRenderer } from '..'
+import { slugify } from '../slugify'
 import { deeplyParseHeader } from './parseHeader'
-import { slugify } from './slugify'
 
 export const headingPlugin = (md: MarkdownIt, include = [1, 2, 3, 4]) => {
   md.renderer.rules.heading_open = (tokens, i, options, env, self) => {

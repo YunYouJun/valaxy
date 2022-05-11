@@ -17,6 +17,7 @@ import Inspect from 'vite-plugin-inspect'
 import chalk from 'chalk'
 import type { ResolvedValaxyOptions, ValaxyServerOptions } from '../options'
 import { setupMarkdownPlugins } from '../markdown'
+import { checkMd } from '../markdown/check'
 import { createMarkdownPlugin, excerpt_separator } from './markdown'
 import { createUnocssPlugin } from './unocss'
 import { createConfigPlugin } from './extendConfig'
@@ -117,9 +118,9 @@ export async function ViteValaxyPlugins(
           if (fs.existsSync(pagePath))
             path = pagePath
         })
+
         const md = fs.readFileSync(path, 'utf-8')
-        if (md.includes('{%') && md.includes('%}'))
-          consola.error(`${`${path}\n`}        Please ${chalk.red('remove')} ${chalk.cyan('{% %}')}, because it conflicts with ${chalk.yellow('markdown-it-attrs')}.`)
+        checkMd(md, path)
 
         const { data, excerpt, content } = matter(md, { excerpt_separator })
 

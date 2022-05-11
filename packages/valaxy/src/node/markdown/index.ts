@@ -8,13 +8,13 @@ import TaskLists from 'markdown-it-task-lists'
 import attrs from 'markdown-it-attrs'
 
 import type { KatexOptions } from 'katex'
-import Katex from '../markdown/markdown-it-katex'
-import { containerPlugin } from '../markdown/markdown-it-container'
-import { headingPlugin } from '../markdown/headings'
+import Katex from './markdown-it/katex'
+import { containerPlugin } from './markdown-it/container'
+import { headingPlugin } from './markdown-it/headings'
 import { slugify } from './slugify'
-import { parseHeader } from './parseHeader'
+import { parseHeader } from './markdown-it/parseHeader'
 import { highlight } from './highlight'
-import { highlightLinePlugin, preWrapperPlugin } from './highlightLines'
+import { highlightLinePlugin, preWrapperPlugin } from './markdown-it/highlightLines'
 
 export interface Header {
   level: number
