@@ -16,7 +16,8 @@ export const headingPlugin = (md: MarkdownIt, include = [1, 2, 3, 4]) => {
       const headers = data.headers || (data.headers = [])
       // remove {} after head
       const leftDeli = content.indexOf('{')
-      const title = content.slice(0, leftDeli).trim()
+      const title = leftDeli === -1 ? content : content.slice(0, leftDeli).trim()
+
       const matched = content.match(/\{lang=\"(.*)\"\}/)
       const lang = matched ? matched[1] : ''
       headers.push({
