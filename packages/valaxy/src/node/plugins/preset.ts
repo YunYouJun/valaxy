@@ -17,7 +17,6 @@ import Inspect from 'vite-plugin-inspect'
 import { dim, yellow } from 'kolorist'
 import type { ResolvedValaxyOptions, ValaxyServerOptions } from '../options'
 import { setupMarkdownPlugins } from '../markdown'
-import { checkMd } from '../markdown/check'
 import { createMarkdownPlugin, excerpt_separator } from './markdown'
 import { createUnocssPlugin } from './unocss'
 import { createConfigPlugin } from './extendConfig'
@@ -40,7 +39,7 @@ export async function ViteValaxyPlugins(
   const ValaxyPlugin = createValaxyPlugin(options, serverOptions)
 
   const mdIt = new MarkdownIt({ html: true })
-  const _md = setupMarkdownPlugins(mdIt, options.config.markdownIt)
+  setupMarkdownPlugins(mdIt, options.config.markdownIt)
 
   const roots = [clientRoot, themeRoot, userRoot]
 
@@ -93,7 +92,6 @@ export async function ViteValaxyPlugins(
     }),
 
     ValaxyPlugin,
-    MarkdownPlugin,
     createConfigPlugin(options),
 
     ThemePlugin(options.config.themeConfig),
@@ -110,9 +108,6 @@ export async function ViteValaxyPlugins(
         if (!route.meta)
           route.meta = {}
 
-        if (route.path === '/')
-          route.meta.layout = 'home'
-
         roots.forEach((root) => {
           const pagePath = root + route.component
           if (fs.existsSync(pagePath))
@@ -120,9 +115,7 @@ export async function ViteValaxyPlugins(
         })
 
         const md = fs.readFileSync(path, 'utf-8')
-        checkMd(md, path)
-
-        const { data, excerpt, content } = matter(md, { excerpt_separator })
+        const { data, excerpt } = matter(md, { excerpt_separator })
 
         // warn for post frontmatter
         if (route.path.startsWith('/posts/')) {
@@ -136,11 +129,6 @@ export async function ViteValaxyPlugins(
           excerpt: excerpt ? mdIt.render(excerpt) : '',
         })
 
-        // to refactor
-        // get active header by runtime query head, not render
-        mdIt.render(content)
-        route.meta.headers = _md.__data?.headers
-
         // set default updated
         if (route.meta.frontmatter.updated)
           route.meta.frontmatter.updated = route.meta.frontmatter.date
@@ -152,7 +140,6 @@ export async function ViteValaxyPlugins(
         return route
       },
     }),
-
     // https://github.com/JohnCampionJr/vite-plugin-vue-layouts
     Layouts({
       layoutsDirs: roots.map(root => `${root}/layouts`),
@@ -179,6 +166,8 @@ export async function ViteValaxyPlugins(
     // https://github.com/antfu/unocss
     // UnocssPlugin,
     UnocssPlugin,
+
+    ...MarkdownPlugin,
 
     // https://github.com/antfu/vite-plugin-pwa
     VitePWA({

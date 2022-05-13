@@ -10,7 +10,7 @@ import attrs from 'markdown-it-attrs'
 import type { KatexOptions } from 'katex'
 import Katex from './markdown-it/katex'
 import { containerPlugin } from './markdown-it/container'
-import { headingPlugin } from './markdown-it/headings'
+// import { headingPlugin } from './markdown-it/headings'
 import { slugify } from './slugify'
 import { parseHeader } from './markdown-it/parseHeader'
 import { highlight } from './highlight'
@@ -41,7 +41,10 @@ export interface MarkdownOptions extends MarkdownIt.Options {
     permalink?: Anchor.AnchorOptions['permalink']
   }
   // https://github.com/Oktavilla/markdown-it-table-of-contents
-  toc?: any
+  toc?: {
+    includeLevel?: number[]
+    [key: string]: any
+  }
   katex?: KatexOptions
 }
 
@@ -55,7 +58,8 @@ export function setupMarkdownPlugins(md: MarkdownIt, mdOptions: MarkdownOptions 
     .use(containerPlugin)
     // conflict with {% %}
     .use(attrs)
-    .use(headingPlugin, mdOptions?.toc?.includeLevel)
+    // generate toc in client
+    // .use(headingPlugin, mdOptions?.toc?.includeLevel)
     // .use(lineNumberPlugin)
   // https://github.com/arve0/markdown-it-attrs
   // add classes

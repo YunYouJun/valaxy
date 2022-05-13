@@ -1,12 +1,10 @@
-import path from 'path'
-import Markdown from 'vite-plugin-md'
+import Markdown, { meta } from 'vite-plugin-md'
 
 import type { Plugin } from 'vite'
 import type { ResolvedValaxyOptions } from '../options'
 
-import type { MarkdownRenderer } from '../markdown'
 import { setupMarkdownPlugins } from '../markdown'
-import { slash } from '../utils'
+import { checkMd } from '../markdown/check'
 
 export type ViteMdOptions = Parameters<typeof Markdown>[0]
 
@@ -15,8 +13,6 @@ export const excerpt_separator = '<!-- more -->'
 // https://github.com/antfu/vite-plugin-md
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 export function createMarkdownPlugin(options: ResolvedValaxyOptions): Plugin[] {
-  let _md: MarkdownRenderer
-
   const mdOptions = options.config.markdownIt
 
   const defaultOptions: ViteMdOptions = {
@@ -28,33 +24,35 @@ export function createMarkdownPlugin(options: ResolvedValaxyOptions): Plugin[] {
 
     excerpt: excerpt_separator,
 
-    // builders: [
-    //   // avoid conflict with markdown-it-anchor link
-    //   // link(),
-    //   // seems bug, override frontmatter
-    //   // meta(),
-    // ],
+    frontmatterPreprocess: meta() as any,
 
     markdownItSetup(md) {
       if (mdOptions.config)
         mdOptions.config(md)
 
-      _md = setupMarkdownPlugins(md, mdOptions)
+      setupMarkdownPlugins(md, mdOptions)
+    },
+
+    transforms: {
+      before: (code, id) => {
+        checkMd(code, id)
+
+        code.replace('{%', '\{\%')
+        code.replace('%}', '\%\}')
+        return code
+      },
     },
   }
+
   return [Markdown(Object.assign(defaultOptions, options.config.markdown)), {
     name: 'valaxy:md',
     handleHotUpdate(ctx) {
       const { file, server } = ctx
       // send headers
-      if (file.endsWith('.md') && _md && _md.__data) {
+      if (file.endsWith('.md')) {
         server.ws.send({
           type: 'custom',
-          event: 'valaxy:pageHeaders',
-          data: {
-            path: `/${slash(path.relative(`${options.userRoot}/pages`, file))}`,
-            pageHeaders: _md.__data.headers,
-          },
+          event: 'valaxy:md-update',
         })
       }
     },

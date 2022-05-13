@@ -1,12 +1,11 @@
 <script lang="ts" setup>
-import { computed, ref } from 'vue'
+import { onMounted, ref, watch } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { useRoute } from 'vue-router'
 
+import type { Header } from '../../node/markdown'
 import { useActiveSidebarLinks } from '~/composables'
-
-const route = useRoute()
-const headers = computed(() => route.meta.headers)
+import { useConfig } from '~/config'
 
 const container = ref()
 const marker = ref()
@@ -20,6 +19,53 @@ function getStylesByLevel(level: number) {
 }
 
 const { locale } = useI18n()
+
+const config = useConfig()
+
+function useHeaders() {
+  const headers = ref<Header[]>([])
+  const route = useRoute()
+
+  function generateHeaders() {
+    headers.value = []
+
+    const content = document.querySelector('.markdown-body')
+    const levels = config.value.markdownIt.toc!.includeLevel!.map(level => `h${level}`)
+
+    content?.querySelectorAll(levels as any).forEach((header) => {
+      headers.value.push({
+        level: header.tagName.toLowerCase().replace('h', ''),
+        title: header.textContent.replace('#', ''),
+        slug: header.id,
+        lang: header.lang || locale.value,
+      })
+    })
+  }
+
+  watch(() => route.path, () => {
+    generateHeaders()
+  })
+
+  onMounted(() => {
+    generateHeaders()
+  })
+
+  return {
+    headers,
+    generateHeaders,
+  }
+}
+
+const { headers, generateHeaders } = useHeaders()
+
+if (import.meta.hot) {
+  import.meta.hot.on('valaxy:md-update', () => {
+    setTimeout(() => {
+      generateHeaders()
+      // 400ms transition
+    }, 600)
+  })
+}
 
 // todo mobile toc widget
 </script>
