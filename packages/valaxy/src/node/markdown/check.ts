@@ -1,4 +1,4 @@
-import chalk from 'chalk'
+import { cyan, red, yellow } from 'kolorist'
 import consola from 'consola'
 
 /**
@@ -8,7 +8,7 @@ import consola from 'consola'
 export function checkMd(content: string, path: string) {
   if (content.includes('{%') && content.includes('%}')) {
     consola.error(
-      `${`${path}\n`}        Please ${chalk.red('remove')} ${chalk.cyan('{% %}')}, because it conflicts with ${chalk.yellow('markdown-it-attrs')}.`,
+      `${`${path}\n`}        Please ${red('remove')} ${cyan('{% %}')}, because it conflicts with ${yellow('markdown-it-attrs')}.`,
     )
   }
 }

@@ -1,5 +1,5 @@
 import { dirname } from 'path'
-import chalk from 'chalk'
+import { cyan, dim } from 'kolorist'
 
 import fg from 'fast-glob'
 import fs from 'fs-extra'
@@ -37,7 +37,7 @@ export async function build(options: ResolvedValaxyOptions) {
     link: options.config.author.link,
   }
 
-  consola.info(`RSS Site Url: ${chalk.cyan(siteUrl)}`)
+  consola.info(`RSS Site Url: ${cyan(siteUrl)}`)
 
   const ccVersion = (config.license.type === 'zero') ? '1.0' : '4.0'
   const feedOptions: FeedOptions = {
@@ -64,12 +64,12 @@ export async function build(options: ResolvedValaxyOptions) {
 
       // not add to posts
       if (!data.date) {
-        consola.warn(`Do you forget to write date for ${chalk.dim(i)}`)
+        consola.warn(`Do you forget to write date for ${dim(i)}`)
         return false
       }
 
       if (data.draft) {
-        consola.warn(`Ignore draft post: ${chalk.dim(i)}`)
+        consola.warn(`Ignore draft post: ${dim(i)}`)
         return false
       }
 

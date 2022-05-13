@@ -8,7 +8,7 @@ const path = require('path')
 const argv = require('minimist')(process.argv.slice(2))
 const prompts = require('prompts')
 const execa = require('execa')
-const chalk = require('chalk')
+const { bold, dim, blue, yellow, green, cyan, red, gray } = require('kolorist')
 const { version } = require('./package.json')
 
 const cwd = process.cwd()
@@ -20,7 +20,7 @@ const renameFiles = {
 
 async function init() {
   console.log()
-  console.log(`  ${chalk.bold('🌌 Valaxy')}  ${chalk.blue(`v${version}`)}`)
+  console.log(`  ${bold('🌌 Valaxy')}  ${blue(`v${version}`)}`)
   console.log()
 
   let targetDir = argv._[0]
@@ -43,7 +43,7 @@ async function init() {
     else {
       const existing = fs.readdirSync(root)
       if (existing.length) {
-        console.log(chalk.yellow(`  Target directory "${targetDir}" is not empty.`))
+        console.log(yellow(`  Target directory "${targetDir}" is not empty.`))
         /**
        * @type {{ yes: boolean }}
        */
@@ -61,9 +61,9 @@ async function init() {
       }
     }
 
-    console.log(`  ${chalk.dim('📁')} ${chalk.dim(root)}`)
+    console.log(`  ${dim('📁')} ${dim(root)}`)
     console.log()
-    console.log(chalk.dim('  Scaffolding project in ') + targetDir + chalk.dim(' ...'))
+    console.log(dim('  Scaffolding project in ') + targetDir + dim(' ...'))
 
     const templateDir = path.join(__dirname, 'template')
     const write = (file, content) => {
@@ -93,7 +93,7 @@ async function init() {
       : /yarn/.test(process.env.npm_execpath) ? 'yarn' : 'npm'
 
     const related = path.relative(cwd, root)
-    console.log(chalk.green('  Done.\n'))
+    console.log(green('  Done.\n'))
 
     /**
      * @type {{ yes: boolean }}
@@ -120,14 +120,14 @@ async function init() {
       await execa(agent, ['run', 'dev'], { stdio: 'inherit', cwd: root })
     }
     else {
-      console.log(chalk.dim('\n  start it later by:\n'))
+      console.log(dim('\n  start it later by:\n'))
       if (root !== cwd)
-        console.log(chalk.blue(`  cd ${chalk.bold(related)}`))
+        console.log(blue(`  cd ${bold(related)}`))
 
-      console.log(chalk.blue(`  ${pkgManager === 'yarn' ? 'yarn' : `${pkgManager} install`}`))
-      console.log(chalk.blue(`  ${pkgManager === 'yarn' ? 'yarn dev' : `${pkgManager} run dev`}`))
+      console.log(blue(`  ${pkgManager === 'yarn' ? 'yarn' : `${pkgManager} install`}`))
+      console.log(blue(`  ${pkgManager === 'yarn' ? 'yarn dev' : `${pkgManager} run dev`}`))
       console.log()
-      console.log(`  ${chalk.cyan('✨')}`)
+      console.log(`  ${cyan('✨')}`)
       console.log()
     }
   }
@@ -187,7 +187,7 @@ async function getValidPackageName(projectName) {
 function emptyDir(dir) {
   if (!fs.existsSync(dir))
     return
-  console.log(chalk.red('  Remove ') + chalk.gray(dir))
+  console.log(red('  Remove ') + gray(dir))
   fs.rmSync(dir, { recursive: true, force: true })
 }
 

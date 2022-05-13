@@ -1,6 +1,6 @@
 import prompts from 'prompts'
 import semver from 'semver'
-import chalk from 'chalk'
+import { yellow } from 'kolorist'
 import consola from 'consola'
 
 import { $ } from 'zx'
@@ -41,7 +41,7 @@ async function main() {
   const { yes }: { yes: boolean } = await prompts({
     type: 'confirm',
     name: 'yes',
-    message: `Releasing ${chalk.yellow(targetVersion)} Confirm?`,
+    message: `Releasing ${yellow(targetVersion)} Confirm?`,
   })
 
   if (!yes)

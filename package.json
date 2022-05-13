@@ -29,13 +29,15 @@
     "prepublishOnly": "npm run build",
     "release": "esmo scripts/release.ts",
     "start": "node packages/valaxy/bin/valaxy.js dev",
-    "typecheck": "pnpm -r --filter=./packages/** --parallel run typecheck"
+    "typecheck": "pnpm -r --filter=./packages/** --parallel run typecheck",
+    "test:space": "export NODE_OPTIONS='--inspect --max-old-space-size=2048' && pnpm -C demo/yun run build:ssg"
   },
   "devDependencies": {
     "@antfu/eslint-config": "^0.23.0",
     "@types/debug": "^4.1.7",
     "@types/prompts": "^2.0.14",
     "@types/semver": "^7.3.9",
+    "cross-env": "^7.0.3",
     "eslint": "^8.15.0",
     "esno": "^0.15.0",
     "lint-staged": "^12.4.1",

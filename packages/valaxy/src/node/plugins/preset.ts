@@ -14,7 +14,7 @@ import { VitePWA } from 'vite-plugin-pwa'
 import VueI18n from '@intlify/vite-plugin-vue-i18n'
 import Inspect from 'vite-plugin-inspect'
 
-import chalk from 'chalk'
+import { dim, yellow } from 'kolorist'
 import type { ResolvedValaxyOptions, ValaxyServerOptions } from '../options'
 import { setupMarkdownPlugins } from '../markdown'
 import { checkMd } from '../markdown/check'
@@ -128,7 +128,7 @@ export async function ViteValaxyPlugins(
         if (route.path.startsWith('/posts/')) {
           route.meta.layout = 'post'
           if (!data.date)
-            consola.warn(`You forgot to write ${chalk.yellow('date')} for post: ${chalk.dim(`${route.component}`)}`)
+            consola.warn(`You forgot to write ${yellow('date')} for post: ${dim(`${route.component}`)}`)
         }
 
         route.meta = Object.assign(route.meta, {

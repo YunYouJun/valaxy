@@ -24,4 +24,4 @@ pnpm create valaxy
 
 ## FAQ
 
-Use `chalk@4` `execa@5` for cjs.
+Use `execa@5` for cjs.

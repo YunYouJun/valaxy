@@ -3,7 +3,7 @@ import path from 'path'
 import os from 'os'
 // import equal from 'fast-deep-equal'
 
-import chalk from 'chalk'
+import { blue, bold, cyan, dim, gray, green, underline } from 'kolorist'
 import consola from 'consola'
 import type { InlineConfig, ViteDevServer } from 'vite'
 import { createServer } from '../server'
@@ -15,26 +15,26 @@ let server: ViteDevServer | undefined
 
 export function printInfo(options: ResolvedValaxyOptions, port?: number, remote?: string | boolean) {
   console.log()
-  console.log(`  ${chalk.bold('🌌 Valaxy')}  ${chalk.blue(`v${version}`)}`)
+  console.log(`  ${bold('🌌 Valaxy')}  ${blue(`v${version}`)}`)
   console.log()
-  console.log(`${chalk.dim('  🪐 theme  ')} > ${(options.theme ? chalk.green(options.theme) : chalk.gray('none'))}`)
-  console.log(`  ${chalk.dim('📁')} ${chalk.dim(path.resolve(options.userRoot))}`)
+  console.log(`${dim('  🪐 theme  ')} > ${(options.theme ? green(options.theme) : gray('none'))}`)
+  console.log(`  ${dim('📁')} ${dim(path.resolve(options.userRoot))}`)
   if (port) {
     console.log()
-    console.log(`${chalk.dim('  Preview   ')} > ${chalk.cyan(`http://localhost:${chalk.bold(port)}/`)}`)
+    console.log(`${dim('  Preview   ')} > ${cyan(`http://localhost:${bold(port)}/`)}`)
 
     if (remote) {
       Object.values(os.networkInterfaces())
         .forEach(v => (v || [])
           .filter(details => details.family === 'IPv4' && !details.address.includes('127.0.0.1'))
           .forEach(({ address }) => {
-            console.log(`${chalk.dim('  Network   ')} > ${chalk.blue(`http://${address}:${chalk.bold(port)}/`)}`)
+            console.log(`${dim('  Network   ')} > ${blue(`http://${address}:${bold(port)}/`)}`)
           }),
         )
     }
 
     console.log()
-    console.log(`${chalk.dim('  shortcuts ')} > ${chalk.underline('r')}${chalk.dim('estart | ')}${chalk.underline('o')}${chalk.dim('pen | ')}${chalk.underline('e')}${chalk.dim('dit')}`)
+    console.log(`${dim('  shortcuts ')} > ${underline('r')}${dim('estart | ')}${underline('o')}${dim('pen | ')}${underline('e')}${dim('dit')}`)
   }
   console.log()
 }
@@ -56,7 +56,7 @@ export async function initServer(options: ResolvedValaxyOptions, viteConfig: Inl
 
         if (iconChanged) {
           consola.info('Find new icon, reload server...')
-          consola.info(`If you do not want to reload it, write icon name in ${chalk.green('config.unocss.safelist')}.`)
+          consola.info(`If you do not want to reload it, write icon name in ${green('config.unocss.safelist')}.`)
           consola.info('For example: ["i-ri-cloud-line"]')
           console.log()
           reload = true

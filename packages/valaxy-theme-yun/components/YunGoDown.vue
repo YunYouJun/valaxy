@@ -1,5 +1,5 @@
 <template>
-  <a class="go-down" aria-label="go-down" href="javascript:window.scrollTo(0, banner.clientHeight);">
+  <a class="go-down" aria-label="go-down" href="javascript:window.scrollTo(0, window.banner.clientHeight);">
     <div i-ri-arrow-down-s-line inline-flex />
   </a>
 </template>

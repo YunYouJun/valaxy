@@ -3,7 +3,7 @@ import { join } from 'path'
 import type { ReleaseType } from 'semver'
 import semver from 'semver'
 import consola from 'consola'
-import chalk from 'chalk'
+import { cyan, gray, yellow } from 'kolorist'
 
 export const packages = [
   'valaxy',
@@ -28,7 +28,7 @@ export function updateTemplateVersions(version: string) {
 
       for (const key in pkg[name]) {
         if (packages.includes(key)) {
-          consola.info(`${chalk.cyan(key)} ${chalk.gray(`v${pkg[name][key]}`)} -> ${chalk.yellow(`v${version}`)}`)
+          consola.info(`${cyan(key)} ${gray(`v${pkg[name][key]}`)} -> ${yellow(`v${version}`)}`)
           pkg[name][key] = version
         }
       }
@@ -39,7 +39,7 @@ export function updateTemplateVersions(version: string) {
 
 export function updateVersion(pkgPath: string, version: string): void {
   const pkg = JSON.parse(readFileSync(pkgPath, 'utf-8'))
-  consola.info(`${chalk.cyan(pkg.name)} ${chalk.gray(`v${pkg.version}`)} -> ${chalk.yellow(`v${version}`)}`)
+  consola.info(`${cyan(pkg.name)} ${gray(`v${pkg.version}`)} -> ${yellow(`v${version}`)}`)
   pkg.version = version
   writeFileSync(pkgPath, `${JSON.stringify(pkg, null, 2)}\n`)
 }
