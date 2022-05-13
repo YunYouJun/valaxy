@@ -27,15 +27,7 @@ export function createConfigPlugin(options: ResolvedValaxyOptions): Plugin {
           entries: [resolve(options.clientRoot, 'main.ts'), options.configFile],
 
           include: [
-            'vue',
-            'vue-router',
-            '@vueuse/core',
-            '@vueuse/head',
             'dayjs',
-            'nprogress',
-          ],
-          exclude: [
-            'vue-demi',
           ],
         },
       }

@@ -62,6 +62,7 @@ export const createUnocssConfig = async (options: ResolvedValaxyOptions) => {
         // warn: true,
       }),
       presetTypography(),
+      // todo, add unocss config it
       presetWebFonts({
         fonts: {
           serif: [

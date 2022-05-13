@@ -117,7 +117,6 @@ importers:
       vite-ssg: ^0.20.0
       vite-ssg-sitemap: 0.2.6
       vue: ^3.2.33
-      vue-demi: ^0.12.5
       vue-i18n: ^9.1.10
       vue-router: ^4.0.15
       vue-tsc: ^0.34.13
@@ -164,7 +163,6 @@ importers:
       vite-ssg: 0.20.0_r4zcbidcwrm73q735wfxdb2daa
       vite-ssg-sitemap: 0.2.6
       vue: 3.2.33
-      vue-demi: 0.12.5_vue@3.2.33
       vue-i18n: 9.1.10_vue@3.2.33
       vue-router: 4.0.15_vue@3.2.33
       yargs: 17.5.0

@@ -1,6 +1,5 @@
 import { join } from 'path'
 import type { InlineConfig } from 'vite'
-import { searchForWorkspaceRoot } from 'vite'
 import type { ResolvedValaxyOptions, ValaxyServerOptions } from './options'
 
 import { ViteValaxyPlugins } from './plugins/preset'
@@ -37,7 +36,7 @@ export async function createViteConfig(options: ResolvedValaxyOptions, serverOpt
           // not need to search workspace root
           options.clientRoot,
           options.themeRoot,
-          searchForWorkspaceRoot(options.userRoot),
+          options.userRoot,
         ],
       },
     },

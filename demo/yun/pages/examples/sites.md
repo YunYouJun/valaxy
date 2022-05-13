@@ -11,7 +11,7 @@ categories:
 
 ### Theme Yun
 
-- Valaxy 文档：<https://valaxy.yyj.moe>
+- [Valaxy 文档](https://valaxy.yyj.moe)
 
 ::: zh-CN
 欢迎提交示例站点。

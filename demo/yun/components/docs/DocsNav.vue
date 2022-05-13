@@ -7,7 +7,6 @@ const categories = useCategory('Docs', pages.value)
 
 <template>
   <div text="left" m="2">
-    <!-- <li v-for="item" /> -->
     <YunCategories :categories="categories.children" :collapsable="false" />
   </div>
 </template>

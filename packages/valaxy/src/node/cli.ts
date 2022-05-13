@@ -8,6 +8,7 @@ import openBrowser from 'open'
 
 import consola from 'consola'
 
+import { yellow } from 'kolorist'
 import { version } from '../../package.json'
 import { resolveOptions } from './options'
 import { bindShortcut, initServer, printInfo } from './utils/cli'
@@ -142,7 +143,7 @@ cli.command(
     }
 
     if (ssg) {
-      consola.info('use vite-ssg to do ssg build...')
+      consola.info(`use ${yellow('vite-ssg')} to do ssg build...`)
 
       try {
         await ssgBuild(options, viteConfig)

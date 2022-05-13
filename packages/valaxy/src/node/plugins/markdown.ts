@@ -7,7 +7,6 @@ import type { ResolvedValaxyOptions } from '../options'
 import type { MarkdownRenderer } from '../markdown'
 import { setupMarkdownPlugins } from '../markdown'
 import { slash } from '../utils'
-// import { useRoute } from 'vue-router'
 
 export type ViteMdOptions = Parameters<typeof Markdown>[0]
 
@@ -29,12 +28,12 @@ export function createMarkdownPlugin(options: ResolvedValaxyOptions): Plugin[] {
 
     excerpt: excerpt_separator,
 
-    builders: [
-      // avoid conflict with markdown-it-anchor link
-      // link(),
-      // seems bug, override frontmatter
-      // meta(),
-    ],
+    // builders: [
+    //   // avoid conflict with markdown-it-anchor link
+    //   // link(),
+    //   // seems bug, override frontmatter
+    //   // meta(),
+    // ],
 
     markdownItSetup(md) {
       if (mdOptions.config)
