@@ -6,7 +6,7 @@ import consola from 'consola'
 import { $ } from 'zx'
 
 import minimist from 'minimist'
-import { version } from '../package.json'
+import pkg from '../package.json'
 import { getVersionChoices, packages, updateTemplateVersions, updateVersion } from './utils'
 
 const args = minimist(process.argv.slice(2))
@@ -19,7 +19,7 @@ async function main() {
     type: 'select',
     name: 'release',
     message: 'Select release type',
-    choices: getVersionChoices(version),
+    choices: getVersionChoices(pkg.version),
   })
 
   if (release === 'custom') {
@@ -27,7 +27,7 @@ async function main() {
       type: 'text',
       name: 'version',
       message: 'Input custom version',
-      initial: version,
+      initial: pkg.version,
     })
     targetVersion = res.version
   }

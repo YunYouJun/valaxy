@@ -1,6 +1,6 @@
 {
   "name": "@valaxyjs/monorepo",
-  "version": "0.3.3",
+  "version": "0.3.4",
   "private": true,
   "packageManager": "pnpm@7.1.0",
   "description": "📄 Vite & Vue powered static blog generator.",
@@ -27,7 +27,7 @@
     "dev": "pnpm -r --parallel run dev",
     "lint": "eslint .",
     "prepublishOnly": "npm run build",
-    "release": "esmo scripts/release.ts",
+    "release": "esno scripts/release.ts",
     "start": "node packages/valaxy/bin/valaxy.js dev",
     "typecheck": "pnpm -r --filter=./packages/** --parallel run typecheck",
     "test:space": "export NODE_OPTIONS='--inspect --max-old-space-size=2048' && pnpm -C demo/yun run build:ssg"
