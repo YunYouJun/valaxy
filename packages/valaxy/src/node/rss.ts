@@ -101,7 +101,7 @@ export async function build(options: ResolvedValaxyOptions) {
   // write
   feedOptions.author = author
   feedOptions.image = config.author.avatar.startsWith('http') ? config.author.avatar : `${DOMAIN}${config.author.avatar}`
-  feedOptions.favicon = `${DOMAIN}/${config.feed.favicon}`
+  feedOptions.favicon = `${DOMAIN}/${config.feed.favicon || config.favicon}`
 
   const feed = new Feed(feedOptions)
   posts.forEach(item => feed.addItem(item))

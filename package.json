@@ -41,7 +41,6 @@
     "eslint": "^8.15.0",
     "esno": "^0.15.0",
     "lint-staged": "^12.4.1",
-    "pnpm": "^7.1.0",
     "prompts": "^2.4.2",
     "rimraf": "^3.0.2",
     "simple-git-hooks": "^2.7.0",

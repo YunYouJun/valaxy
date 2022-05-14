@@ -71,6 +71,11 @@ export interface ValaxyConfig<T = ValaxyThemeConfig> {
     }
   }
 
+  /**
+   * icon for your website
+   */
+  favicon: string
+
   feed: {
     /**
      * name: feed -> feed.xml / feed.atom / feed.json
@@ -206,9 +211,10 @@ export const defaultValaxyConfig: ValaxyConfig = {
       message: 'All at sea.',
     },
   },
+  favicon: 'favicon.svg',
   feed: {
     name: '',
-    favicon: 'favicon.png',
+    favicon: 'favicon.svg',
   },
   social: [],
 
