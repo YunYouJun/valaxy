@@ -26,8 +26,14 @@ export function createConfigPlugin(options: ResolvedValaxyOptions): Plugin {
         optimizeDeps: {
           entries: [resolve(options.clientRoot, 'main.ts'), options.configFile],
 
+          // must need it
           include: [
+            'vue',
+            'vue-router',
+            '@vueuse/core',
+            '@vueuse/head',
             'dayjs',
+            'nprogress',
           ],
         },
       }
