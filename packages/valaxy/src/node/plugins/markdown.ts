@@ -1,4 +1,4 @@
-import Markdown, { meta } from 'vite-plugin-md'
+import Markdown from 'vite-plugin-md'
 
 import type { Plugin } from 'vite'
 import type { ResolvedValaxyOptions } from '../options'
@@ -21,10 +21,7 @@ export function createMarkdownPlugin(options: ResolvedValaxyOptions): Plugin[] {
 
     headEnabled: true,
     frontmatter: true,
-
     excerpt: excerpt_separator,
-
-    frontmatterPreprocess: meta() as any,
 
     markdownItSetup(md) {
       if (mdOptions.config)
