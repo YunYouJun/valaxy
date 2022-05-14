@@ -108,6 +108,10 @@ export async function ViteValaxyPlugins(
         if (!route.meta)
           route.meta = {}
 
+        // add default layout for home, can be overrode
+        if (route.path === '/')
+          route.meta.layout = 'home'
+
         roots.forEach((root) => {
           const pagePath = root + route.component
           if (fs.existsSync(pagePath))
