@@ -1,5 +1,6 @@
 import { join } from 'path'
 import type { InlineConfig } from 'vite'
+import { splitVendorChunkPlugin } from 'vite'
 import type { ResolvedValaxyOptions, ValaxyServerOptions } from './options'
 
 import { ViteValaxyPlugins } from './plugins/preset'
@@ -28,7 +29,8 @@ export async function createViteConfig(options: ResolvedValaxyOptions, serverOpt
     root: options.clientRoot,
     publicDir: join(options.userRoot, 'public'),
 
-    plugins: await ViteValaxyPlugins(options, serverOptions, {}),
+    // https://vitejs.dev/guide/build.html#chunking-strategy
+    plugins: [await ViteValaxyPlugins(options, serverOptions, {}), splitVendorChunkPlugin()],
 
     server: {
       fs: {

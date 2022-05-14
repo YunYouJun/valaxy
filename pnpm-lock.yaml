@@ -85,7 +85,6 @@ importers:
       debug: ^4.3.4
       diacritics: ^1.3.0
       escape-html: ^1.0.3
-      fast-deep-equal: ^3.1.3
       feed: ^4.2.2
       https-localhost: ^4.7.1
       katex: ^0.15.3
@@ -115,7 +114,7 @@ importers:
       vite-plugin-pwa: ^0.12.0
       vite-plugin-vue-layouts: ^0.6.0
       vite-ssg: 0.19.2
-      vite-ssg-sitemap: 0.2.6
+      vite-ssg-sitemap: 0.2.7
       vue: ^3.2.33
       vue-i18n: ^9.1.10
       vue-router: ^4.0.15
@@ -133,7 +132,6 @@ importers:
       critters: 0.0.16
       dayjs: 1.11.2
       escape-html: 1.0.3
-      fast-deep-equal: 3.1.3
       feed: 4.2.2
       katex: 0.15.3
       kolorist: 1.5.1
@@ -161,7 +159,7 @@ importers:
       vite-plugin-pwa: 0.12.0_vite@2.9.9
       vite-plugin-vue-layouts: 0.6.0_das5d57oxgh3tienmqsf622skm
       vite-ssg: 0.19.2_r4zcbidcwrm73q735wfxdb2daa
-      vite-ssg-sitemap: 0.2.6
+      vite-ssg-sitemap: 0.2.7
       vue: 3.2.33
       vue-i18n: 9.1.10_vue@3.2.33
       vue-router: 4.0.15_vue@3.2.33
@@ -7430,8 +7428,8 @@ packages:
       - supports-color
     dev: false
 
-  /vite-ssg-sitemap/0.2.6:
-    resolution: {integrity: sha512-rjb+aXzaw9gb9mqoWaU1mVhwGg3SZKMR8ULraGFSLK9vaeQv52/qHFNmBAZvUiBUmgMQ4RGP2fGomTC+SwknFg==}
+  /vite-ssg-sitemap/0.2.7:
+    resolution: {integrity: sha512-vzB2qey/PZGv8gd3nCkLiXxEemByZrTHjhkO7aFcjbxAKlW36RraBMZkizzRUo6uB06Uo7yM4UmzjE5h6dfvsg==}
     dev: false
 
   /vite-ssg/0.19.2_r4zcbidcwrm73q735wfxdb2daa:

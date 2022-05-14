@@ -1,7 +1,6 @@
 import * as readline from 'readline'
 import path from 'path'
 import os from 'os'
-// import equal from 'fast-deep-equal'
 
 import { blue, bold, cyan, dim, gray, green, underline } from 'kolorist'
 import consola from 'consola'
