@@ -2,29 +2,32 @@
   "name": "valaxy",
   "version": "0.3.9",
   "description": "📄 Vite & Vue powered static blog generator.",
-  "keywords": [
-    "vite",
-    "vue",
-    "blog"
-  ],
-  "license": "MIT",
   "author": {
     "email": "me@yunyoujun.cn",
     "name": "YunYouJun",
     "url": "https://www.yunyoujun.cn"
   },
+  "license": "MIT",
+  "homepage": "https://valaxy.yyj.moe",
   "repository": "https://github.com/YunYouJun/valaxy",
-  "main": "dist/index.js",
-  "types": "dist/index.d.ts",
+  "keywords": [
+    "vite",
+    "vue",
+    "blog"
+  ],
   "exports": {
     ".": "./src/index.ts",
     "./*": "./*"
   },
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
   "bin": {
     "vala": "./bin/valaxy.js",
     "valaxy": "./bin/valaxy.js"
   },
-  "homepage": "https://valaxy.yyj.moe",
+  "engines": {
+    "node": ">=14.0.0"
+  },
   "scripts": {
     "build": "rimraf dist && tsup --splitting",
     "dev": "tsup --watch --splitting",
@@ -35,18 +38,18 @@
   },
   "dependencies": {
     "@ctrl/tinycolor": "^3.4.1",
-    "@iconify-json/carbon": "^1.1.4",
-    "@iconify-json/ri": "^1.1.1",
+    "@iconify-json/carbon": "^1.1.5",
+    "@iconify-json/ri": "^1.1.2",
     "@intlify/vite-plugin-vue-i18n": "^3.4.0",
     "@vitejs/plugin-vue": "^2.3.3",
-    "@vueuse/core": "^8.4.2",
+    "@vueuse/core": "^8.6.0",
     "@vueuse/head": "^0.7.6",
     "consola": "^2.15.3",
     "critters": "^0.0.16",
-    "dayjs": "^1.11.2",
+    "dayjs": "^1.11.3",
     "escape-html": "^1.0.3",
     "feed": "^4.2.2",
-    "katex": "^0.15.3",
+    "katex": "^0.16.0",
     "kolorist": "^1.5.1",
     "markdown-it-anchor": "^8.6.4",
     "markdown-it-attrs": "^4.1.4",
@@ -58,25 +61,25 @@
     "nprogress": "^0.2.0",
     "open": "^8.4.0",
     "pinia": "^2.0.14",
-    "prism-theme-vars": "^0.2.2",
+    "prism-theme-vars": "^0.2.3",
     "prismjs": "^1.28.0",
-    "sass": "^1.51.0",
+    "sass": "^1.52.2",
     "star-markdown-css": "^0.3.3",
     "unconfig": "^0.3.4",
-    "unocss": "^0.33.4",
-    "unplugin-vue-components": "^0.19.5",
-    "vite": "^2.9.9",
+    "unocss": "^0.37.4",
+    "unplugin-vue-components": "^0.19.6",
+    "vite": "^2.9.10",
     "vite-plugin-inspect": "^0.5.0",
-    "vite-plugin-md": "^0.13.1",
+    "vite-plugin-md": "^0.14.0",
     "vite-plugin-pages": "^0.23.0",
     "vite-plugin-pwa": "^0.12.0",
     "vite-plugin-vue-layouts": "^0.6.0",
-    "vite-ssg": "0.19.2",
+    "vite-ssg": "0.20.1",
     "vite-ssg-sitemap": "0.2.7",
-    "vue": "^3.2.33",
+    "vue": "^3.2.37",
     "vue-i18n": "^9.1.10",
     "vue-router": "^4.0.15",
-    "yargs": "^17.5.0"
+    "yargs": "^17.5.1"
   },
   "devDependencies": {
     "@types/katex": "^0.14.0",
@@ -86,10 +89,7 @@
     "debug": "^4.3.4",
     "diacritics": "^1.3.0",
     "https-localhost": "^4.7.1",
-    "type-fest": "^2.12.2",
-    "vue-tsc": "^0.34.13"
-  },
-  "engines": {
-    "node": ">=14.0.0"
+    "type-fest": "^2.13.0",
+    "vue-tsc": "^0.37.0"
   }
 }

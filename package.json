@@ -4,18 +4,21 @@
   "private": true,
   "packageManager": "pnpm@7.1.0",
   "description": "📄 Vite & Vue powered static blog generator.",
-  "keywords": [
-    "vite",
-    "vue",
-    "blog"
-  ],
-  "license": "MIT",
   "author": {
     "email": "me@yunyoujun.cn",
     "name": "YunYouJun",
     "url": "https://www.yunyoujun.cn"
   },
+  "license": "MIT",
   "repository": "https://github.com/YunYouJun/valaxy",
+  "keywords": [
+    "vite",
+    "vue",
+    "blog"
+  ],
+  "engines": {
+    "node": ">=14.0.0"
+  },
   "scripts": {
     "build": "pnpm -r --filter=./packages/** --parallel run build",
     "build:valaxy": "pnpm -C packages/valaxy run build",
@@ -33,25 +36,22 @@
     "test:space": "export NODE_OPTIONS='--inspect --max-old-space-size=2048' && pnpm -C demo/yun run build:ssg"
   },
   "devDependencies": {
-    "@antfu/eslint-config": "^0.23.1",
+    "@antfu/eslint-config": "^0.25.1",
     "@types/debug": "^4.1.7",
     "@types/prompts": "^2.0.14",
     "@types/semver": "^7.3.9",
     "cross-env": "^7.0.3",
-    "eslint": "^8.15.0",
-    "esno": "^0.15.0",
-    "lint-staged": "^12.4.1",
+    "eslint": "^8.17.0",
+    "esno": "^0.16.3",
+    "lint-staged": "^12.4.2",
     "prompts": "^2.4.2",
     "rimraf": "^3.0.2",
-    "simple-git-hooks": "^2.7.0",
-    "tsup": "^5.12.7",
-    "typescript": "^4.6.4",
+    "simple-git-hooks": "^2.8.0",
+    "tsup": "^6.1.0",
+    "typescript": "^4.7.3",
     "valaxy": "workspace:*",
     "valaxy-theme-yun": "workspace:*",
-    "zx": "^6.1.0"
-  },
-  "engines": {
-    "node": ">=14.0.0"
+    "zx": "^6.2.3"
   },
   "simple-git-hooks": {
     "pre-commit": "npx lint-staged"

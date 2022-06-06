@@ -6,6 +6,7 @@
     "name": "YunYouJun",
     "url": "https://www.yunyoujun.cn"
   },
+  "homepage": "https://valaxy.yyj.moe/",
   "repository": {
     "type": "git",
     "url": "https://github.com/YunYouJun/valaxy/tree/main/packages/valaxy-theme-yun"
@@ -16,10 +17,9 @@
     "build": "tsup",
     "dev": "tsup --watch"
   },
-  "homepage": "https://valaxy.yyj.moe/",
   "dependencies": {
-    "@iconify-json/ant-design": "^1.1.1",
-    "@iconify-json/simple-icons": "^1.1.11"
+    "@iconify-json/ant-design": "^1.1.2",
+    "@iconify-json/simple-icons": "^1.1.14"
   },
   "devDependencies": {
     "valaxy": "workspace:*"

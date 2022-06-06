@@ -7,13 +7,13 @@
     "name": "YunYouJun",
     "url": "https://www.yunyoujun.cn"
   },
+  "funding": "https://github.com/sponsors/YunYouJun",
+  "homepage": "https://valaxy.yyj.moe",
   "repository": {
     "type": "git",
     "url": "https://github.com/YunYouJun/valaxy"
   },
-  "funding": "https://github.com/sponsors/YunYouJun",
   "main": "index.js",
-  "homepage": "https://valaxy.yyj.moe",
   "bin": {
     "create-valaxy": "index.js"
   },

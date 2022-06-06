@@ -5,8 +5,7 @@
  * @description https://github.com/YunYouJun/hexo-theme-yun
  */
 
-import type { CSSProperties } from 'vue'
-import { computed } from 'vue'
+import { CSSProperties, computed } from 'vue'
 import { useThemeConfig } from 'valaxy'
 import { random } from '~/utils'
 const themeConfig = useThemeConfig()

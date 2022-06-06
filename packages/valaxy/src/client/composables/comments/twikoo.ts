@@ -26,7 +26,6 @@ export function useTwikoo(options: {} = {}) {
 
   // 直接使用 CDN
   useScriptTag('//cdn.jsdelivr.net/npm/twikoo@1.5.1/dist/twikoo.all.min.js', () => {
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     initTwikoo(options)
   })
 }

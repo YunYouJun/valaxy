@@ -174,7 +174,7 @@ export default function math_plugin(md: any, options: KatexOptions) {
     }
     catch (error) {
       if (options.throwOnError)
-        // eslint-disable-next-line no-console
+
         console.warn(error)
       return latex
     }
@@ -191,7 +191,7 @@ export default function math_plugin(md: any, options: KatexOptions) {
     }
     catch (error) {
       if (options.throwOnError)
-        // eslint-disable-next-line no-console
+
         console.warn(error)
       return latex
     }

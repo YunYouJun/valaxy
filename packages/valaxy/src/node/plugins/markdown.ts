@@ -11,7 +11,7 @@ export type ViteMdOptions = Parameters<typeof Markdown>[0]
 export const excerpt_separator = '<!-- more -->'
 
 // https://github.com/antfu/vite-plugin-md
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
+
 export function createMarkdownPlugin(options: ResolvedValaxyOptions): Plugin[] {
   const mdOptions = options.config.markdownIt
 
