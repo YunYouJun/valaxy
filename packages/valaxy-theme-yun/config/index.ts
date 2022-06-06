@@ -29,7 +29,7 @@ export interface ThemeConfig {
     enable: boolean
     url: string
     dark?: string
-    opacity: number
+    opacity?: number
   }
 
   /**
@@ -134,7 +134,6 @@ export const defaultThemeConfig: ThemeConfig = {
     enable: true,
     url: 'https://cdn.jsdelivr.net/gh/YunYouJun/cdn/img/bg/stars-timing-0-blur-30px.jpg',
     dark: 'https://cdn.jsdelivr.net/gh/YunYouJun/cdn/img/bg/galaxy.jpg',
-    opacity: 1,
   },
 
   say: {

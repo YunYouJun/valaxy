@@ -1,9 +1,14 @@
 <script setup lang="ts">
 // export layouts/base.vue as components
+import { useThemeConfig } from 'valaxy'
 import Base from '../layouts/base.vue'
+
+const themeConfig = useThemeConfig()
 </script>
 
 <template>
+  <ValaxyBg v-if="themeConfig.bg_image.enable" />
+
   <Base>
     <template #sidebar>
       <slot name="sidebar" />
