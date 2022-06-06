@@ -10,6 +10,39 @@ on:
       - main
 
 jobs:
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: pnpm/action-setup@v2
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 16.x
+          cache: pnpm
+
+      - name: Install
+        run: pnpm install
+
+      - name: Lint
+        run: pnpm run lint
+
+  # vue-tsc@0.37.0 parse Markdown error
+  # typecheck:
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #     - uses: actions/checkout@v3
+  #     - uses: pnpm/action-setup@v2
+  #     - uses: actions/setup-node@v3
+  #       with:
+  #         node-version: 16.x
+  #         cache: pnpm
+
+  #     - name: Install
+  #       run: pnpm install
+
+  #     - name: Typecheck
+  #       run: pnpm run typecheck
+
   build:
     runs-on: ${{ matrix.os }}
 
@@ -24,8 +57,6 @@ jobs:
 
       - name: Install pnpm
         uses: pnpm/action-setup@v2
-        with:
-          run_install: true
 
       - name: Use Node.js ${{ matrix.node-version }}
         uses: actions/setup-node@v2
@@ -36,12 +67,6 @@ jobs:
 
       - name: Build
         run: pnpm run build
-
-      - name: Lint
-        run: pnpm run lint
-
-      - name: Type Check
-        run: pnpm run typecheck
 
       # - name: Unit Test
       #   run: pnpm run test:unit

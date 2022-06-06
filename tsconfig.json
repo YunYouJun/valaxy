@@ -2,11 +2,11 @@
   "compilerOptions": {
     "baseUrl": ".",
     "module": "ESNext",
-    "target": "es2016",
+    "target": "ESNext",
     "lib": ["DOM", "ESNext"],
     "strict": true,
     "esModuleInterop": true,
-    "incremental": false,
+    "jsx": "preserve",
     "skipLibCheck": true,
     "moduleResolution": "node",
     "resolveJsonModule": true,
@@ -15,6 +15,7 @@
     "forceConsistentCasingInFileNames": true,
     "types": [
       "vite/client",
+      "vue/ref-macros",
       "vite-plugin-pages/client",
       "vite-plugin-vue-layouts/client"
     ],
@@ -26,8 +27,7 @@
       "valaxy": ["packages/valaxy/src/index.ts"],
       "valaxy-theme-yun/*": ["packages/valaxy-theme-yun/*"],
       "valaxy-theme-yun": ["packages/valaxy-theme-yun/index.ts"]
-    },
-    "jsx": "preserve"
+    }
   },
   "exclude": ["dist", "node_modules", "cypress"]
 }

@@ -16,12 +16,10 @@
 <a href="https://discord.gg/nd3mPkU5j8" target="_blank">
 <img alt="Discord" src="https://img.shields.io/discord/752821465891733574?color=%234960ea&logo=discord">
 </a>
-<p align="center">
+</p>
 
 - [Docs](https://valaxy.yyj.moe/docs): <small>Toggle 中文｜English in Sidebar</small>
 - [Demo](https://valaxy.yyj.moe): <small>with [valaxy-theme-yun](./packages/valaxy-theme-yun/)</small>
-
-</p>
 
 ## Usage
 
@@ -82,7 +80,7 @@ Want to get involved in the development? Look [here](https://valaxy.yyj.moe/docs
 ❤️ Special thanks to the following sponsors for their support.
 
 <p align="center">
-  <a href="https://cdn.jsdelivr.net/gh/YunYouJun/sponsors/public/sponsors.svg">
-    <img src='https://cdn.jsdelivr.net/gh/YunYouJun/sponsors/public/sponsors.svg'/>
+  <a href="https://sponsors.yunyoujun.cn">
+    <img src='https://fastly.jsdelivr.net/gh/YunYouJun/sponsors/public/sponsors.svg'/>
   </a>
 </p>

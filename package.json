@@ -3,7 +3,7 @@
   "type": "module",
   "version": "0.3.10",
   "private": true,
-  "packageManager": "pnpm@7.1.0",
+  "packageManager": "pnpm@7.1.7",
   "description": "📄 Vite & Vue powered static blog generator.",
   "author": {
     "email": "me@yunyoujun.cn",
@@ -33,7 +33,7 @@
     "prepublishOnly": "npm run build",
     "release": "esno scripts/release.ts",
     "start": "node packages/valaxy/bin/valaxy.js dev",
-    "typecheck": "pnpm -r --filter=./packages/** --parallel run typecheck",
+    "typecheck": "vue-tsc --noEmit",
     "test:space": "export NODE_OPTIONS='--inspect --max-old-space-size=2048' && pnpm -C demo/yun run build:ssg"
   },
   "devDependencies": {
@@ -44,7 +44,7 @@
     "cross-env": "^7.0.3",
     "eslint": "^8.17.0",
     "esno": "^0.16.3",
-    "lint-staged": "^12.4.2",
+    "lint-staged": "^13.0.0",
     "prompts": "^2.4.2",
     "rimraf": "^3.0.2",
     "simple-git-hooks": "^2.8.0",
@@ -52,6 +52,7 @@
     "typescript": "^4.7.3",
     "valaxy": "workspace:*",
     "valaxy-theme-yun": "workspace:*",
+    "vue-tsc": "0.37.0",
     "zx": "^6.2.3"
   },
   "simple-git-hooks": {

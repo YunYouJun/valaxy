@@ -33,8 +33,7 @@
     "dev": "tsup --watch --splitting",
     "lint": "eslint \"**/*.{vue,ts,js}\"",
     "preview": "vite preview",
-    "preview-https": "serve dist",
-    "typecheck": "vue-tsc --noEmit"
+    "preview-https": "serve dist"
   },
   "dependencies": {
     "@ctrl/tinycolor": "^3.4.1",
@@ -89,7 +88,6 @@
     "debug": "^4.3.4",
     "diacritics": "^1.3.0",
     "https-localhost": "^4.7.1",
-    "type-fest": "^2.13.0",
-    "vue-tsc": "^0.37.0"
+    "type-fest": "^2.13.0"
   }
 }
