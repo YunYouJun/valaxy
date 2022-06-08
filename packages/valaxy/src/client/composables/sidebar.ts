@@ -42,14 +42,16 @@ export function useActiveSidebarLinks(container: Ref<HTMLElement>, marker: Ref<H
         : container.value.querySelector(`.va-toc a[href="${hash}"]`) as HTMLAnchorElement)
 
     // marker animation
-    if (activeLink) {
-      activeLink.classList.add('active')
-      marker.value.style.opacity = '1'
-      marker.value.style.top = `${activeLink.offsetTop + 2}px`
-    }
-    else {
-      marker.value.style.opacity = '0'
-      marker.value.style.top = '54px'
+    if (marker.value) {
+      if (activeLink) {
+        activeLink.classList.add('active')
+        marker.value.style.opacity = '1'
+        marker.value.style.top = `${activeLink.offsetTop + 2}px`
+      }
+      else {
+        marker.value.style.opacity = '0'
+        marker.value.style.top = '54px'
+      }
     }
   }
 

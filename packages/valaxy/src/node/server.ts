@@ -12,10 +12,12 @@ export async function createServer(
   // default editor vscode
   process.env.EDITOR = process.env.EDITOR || 'code'
 
-  const server = await createViteServer(mergeConfig(
-    viteConfig,
-    await createViteConfig(options, serverOptions),
-  ))
+  const server = await createViteServer(
+    mergeConfig(
+      viteConfig,
+      await createViteConfig(options, serverOptions),
+    ),
+  )
 
   return server
 }

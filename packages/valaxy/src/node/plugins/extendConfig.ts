@@ -35,6 +35,7 @@ export function createConfigPlugin(options: ResolvedValaxyOptions): Plugin {
             'dayjs',
             'nprogress',
           ],
+
         },
       }
       return mergeConfig(config, injection)

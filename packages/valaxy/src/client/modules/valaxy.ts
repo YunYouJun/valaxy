@@ -9,6 +9,7 @@ import { createI18n } from 'vue-i18n'
 // import messages from '@intlify/vite-plugin-vue-i18n/messages'
 
 import { useStorage } from '@vueuse/core'
+
 import { initConfig, valaxyConfigSymbol } from '../config'
 
 import type { UserModule } from '~/types'
@@ -38,7 +39,6 @@ function shouldHotReload(payload: any): boolean {
   return payloadPath === locationPath
 }
 
-// https://github.com/antfu/vite-plugin-pwa#automatic-reload-when-new-content-available
 export const install: UserModule = ({ app, router }) => {
   // inject valaxy config before modules
   const config = initConfig()

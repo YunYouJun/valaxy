@@ -46,7 +46,6 @@ For a example, you can see [demo/yun](./demo/yun/) folder.
 - 🗒 Extended Markdown Frontmatter via [vite-plugin-md](https://github.com/antfu/vite-plugin-md)
 - 🗂 File based routing via [vite-plugin-pages](https://github.com/hannoeru/vite-plugin-pages)
 - 📦 Components auto importing via [unplugin-vue-components](https://github.com/antfu/unplugin-vue-components)
-- 📲 [PWA](https://github.com/antfu/vite-plugin-pwa)
 - 🖨 Static-site generation (SSG) via [vite-ssg](https://github.com/antfu/vite-ssg) (SPA is OK!)
 - 🕸 RSS & Sitemap
 - 🎨 Free to use Tailwind CSS via [UnoCSS](https://github.com/antfu/unocss)
@@ -57,7 +56,8 @@ For a example, you can see [demo/yun](./demo/yun/) folder.
 - ☁️ Deploy zero-config
   - [Netlify](https://www.netlify.com/) with `netlify.toml`
   - [GitHub Pages](https://pages.github.com/) with `.github/workflows/gh-pages.yml` [GitHub Actions](https://github.com/features/actions)
-
+- ♻️ Use any vite plugins
+  - 📲 You can implement PWA by [vite-plugin-pwa](https://github.com/antfu/vite-plugin-pwa>)
 - ...
 
 ## Dev
