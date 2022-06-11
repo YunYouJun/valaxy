@@ -1,7 +1,8 @@
 @use '~/styles/mixins' as *;
 
 .no-scroll {
-  overflow: hidden;
+  position: fixed; 
+  overflow-y: scroll;
   width: 100%;
 }
 
