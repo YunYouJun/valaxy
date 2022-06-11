@@ -10,6 +10,7 @@ import consola from 'consola'
 
 import { yellow } from 'kolorist'
 import { version } from '../../package.json'
+import { getPort } from './utils/net'
 import { resolveOptions } from './options'
 import { bindShortcut, initServer, printInfo } from './utils/cli'
 
@@ -59,7 +60,7 @@ cli.command(
     if (!fs.existsSync(path.resolve(root, 'pages')))
       process.exit(0)
 
-    const port = userPort || 4859
+    const port = await getPort(userPort || 4859)
     const options = await resolveOptions({ userRoot: root })
 
     const viteConfig: InlineConfig = {
@@ -69,7 +70,7 @@ cli.command(
           ignored: [`!${options.themeRoot}/**`, `${options.userRoot}/**.md`],
         },
 
-        port,
+        port: port.port,
         strictPort: true,
         open,
         host: remote ? '0.0.0.0' : 'localhost',
@@ -77,7 +78,7 @@ cli.command(
       logLevel: log as LogLevel,
     }
     await initServer(options, viteConfig)
-    printInfo(options, port, remote)
+    printInfo(options, port.port, remote, port.isPortChanged)
 
     const SHORTCUTS = [
       {
