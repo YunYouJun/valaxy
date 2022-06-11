@@ -15,7 +15,7 @@ const { icon, styles } = usePostProperty(props.post.type)
 </script>
 
 <template>
-  <YunCard m="y-4 auto" :class="config.cover.enable ? 'image-post-card' : 'post-card'" :style="styles">
+  <YunCard m="y-4 auto" :class="config.cover.enable ? 'post-card-image' : 'post-card'" :style="styles">
     <div class="flex flex-1 of-hidden justify-start items-start" w="full">
       <img
         v-if="config.cover.enable"

@@ -5,7 +5,7 @@
   max-width: var(--yun-post-card-max-width);
 }
 
-.image-post-card {
+.post-card-image {
   @extend .post-card;
   height: var(--yun-post-card-height);
 }
