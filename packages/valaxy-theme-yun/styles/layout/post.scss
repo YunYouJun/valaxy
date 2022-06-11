@@ -5,6 +5,11 @@
   max-width: var(--yun-post-card-max-width);
 }
 
+.image-post-card {
+  @extend .post-card;
+  height: var(--yun-post-card-height);
+}
+
 .post-title {
   display: flex;
   justify-content: center;

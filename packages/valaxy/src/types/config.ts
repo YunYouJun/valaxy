@@ -192,6 +192,8 @@ export interface ValaxyConfig<T = ValaxyThemeConfig> {
    */
   cover: {
     enable: boolean
+    alt: string
+    defaultUrl: string
   }
 
   /**
@@ -306,5 +308,7 @@ export const defaultValaxyConfig: ValaxyConfig = {
   },
   cover: {
     enable: true,
+    alt: '瞅我干啥！',
+    defaultUrl: 'https://cdn.jsdelivr.net/gh/YunYouJun/cdn/img/bg/galaxy.jpg',
   },
 }
