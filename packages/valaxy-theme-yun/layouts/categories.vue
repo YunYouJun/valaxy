@@ -10,17 +10,25 @@ const frontmatter = useFrontmatter()
 const categories = useCategory()
 
 const route = useRoute()
-const curCategory = computed(() => (route.query.category as string || ''))
+const curCategory = computed(() => {
+  const queryCategory = route.query.category as string || ''
+  return {
+    origin: queryCategory,
+    display: queryCategory === 'Uncategorized' ? t('category.uncategorized') : queryCategory,
+  }
+})
 
 const postList = usePostList()
 const posts = computed(() => {
   const list = postList.value.filter((post) => {
-    if (post.categories) {
+    if (post.categories && curCategory.value.origin !== 'Uncategorized') {
       if (typeof post.categories === 'string')
-        return post.categories === curCategory.value
+        return post.categories === curCategory.value.origin
       else
-        return post.categories.includes(curCategory.value)
+        return post.categories.includes(curCategory.value.origin)
     }
+    if (!post.categories && curCategory.value.origin === 'Uncategorized')
+      return post.categories === undefined
     return false
   })
   return list
@@ -61,7 +69,7 @@ const title = usePostTitle(frontmatter)
     </template>
 
     <YunCard v-if="curCategory" ref="collapse" m="t-4" w="full">
-      <YunPageHeader m="t-4" :title="curCategory" icon="i-ri-folder-open-line" />
+      <YunPageHeader m="t-4" :title="curCategory.display" icon="i-ri-folder-open-line" />
       <YunPostCollapse w="full" m="b-4" p="x-20 lt-sm:x-5" :posts="posts" />
     </YunCard>
   </YunBase>
