@@ -4,13 +4,8 @@ import { useConfig, useFrontmatter, useFullUrl } from 'valaxy'
 
 const config = useConfig()
 const frontmatter = useFrontmatter()
+const url = useFullUrl()
 
-const url = computed(() => {
-  if (config.value.autoPostUrl)
-    return window.location.origin + window.location.pathname
-  else
-    return useFullUrl().value
-})
 const showSponsor = computed(() => {
   if (typeof frontmatter.value.sponsor === 'boolean')
     return frontmatter.value.sponsor

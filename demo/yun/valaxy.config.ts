@@ -9,7 +9,6 @@ const config: UserConfig<ThemeUserConfig> = {
   lang: 'zh-CN',
   title: 'Valaxy Theme Yun',
   url: 'https://valaxy.yyj.moe/',
-  autoPostUrl: true,
   author: {
     avatar: 'https://cdn.jsdelivr.net/gh/YunYouJun/yun/images/meme/yun-good-with-bg.jpg',
     name: '云游君',
