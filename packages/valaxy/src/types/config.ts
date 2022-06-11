@@ -187,6 +187,14 @@ export interface ValaxyConfig<T = ValaxyThemeConfig> {
   }
 
   /**
+   * cover
+   * @description 封面
+   */
+  cover: {
+    enable: boolean
+  }
+
+  /**
    * for markdown
    */
   markdown: ViteMdOptions
@@ -295,5 +303,8 @@ export const defaultValaxyConfig: ValaxyConfig = {
       listType: 'ol',
     },
     katex: {},
+  },
+  cover: {
+    enable: true,
   },
 }

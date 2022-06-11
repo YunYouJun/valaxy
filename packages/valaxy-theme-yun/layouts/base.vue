@@ -22,7 +22,7 @@ const title = usePostTitle(frontmatter)
     <div flex="~ 1 col" w="full" p="l-4 lt-md:0" class="content">
       <YunCard m="0" p="4" class="relative sm:p-6 lg:px-12 xl:px-16" :style="styles">
         <slot name="header">
-          <YunPageHeader :title="title" :icon="frontmatter.icon || icon" :color="frontmatter.color || color" />
+          <YunPageHeader :title="title" :icon="frontmatter.icon || icon" :color="frontmatter.color || color" :cover="frontmatter.cover" />
         </slot>
         <template #content>
           <slot name="content">

@@ -15,6 +15,9 @@ const config: UserConfig<ThemeUserConfig> = {
     name: '云游君',
   },
   description: 'Valaxy Theme Yun Preview.',
+  cover: {
+    enable: true,
+  },
   social: [
     {
       name: 'RSS',
