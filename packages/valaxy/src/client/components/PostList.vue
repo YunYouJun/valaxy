@@ -1,7 +1,6 @@
 <script setup lang="ts">
 import { computed, ref } from 'vue'
 import type { Post } from 'valaxy'
-import { useConfig } from 'valaxy'
 import { usePostList } from '~/composables'
 
 const props = withDefaults(defineProps<{
@@ -14,7 +13,6 @@ const props = withDefaults(defineProps<{
 
 const pageSize = ref(7)
 
-const config = useConfig()
 const routes = usePostList({ type: props.type || '' })
 const posts = computed(() => props.posts || routes.value)
 const displayedPosts = computed(() => posts.value.slice((props.curPage - 1) * pageSize.value, props.curPage * pageSize.value))
@@ -29,8 +27,7 @@ const displayedPosts = computed(() => posts.value.slice((props.curPage - 1) * pa
     </template>
 
     <Transition v-for="route, i in displayedPosts" :key="i" name="fade">
-      <ImagePostCard v-if="config.cover.enable" :post="route" />
-      <PostCard v-else :post="route" />
+      <PostCard :post="route" />
     </Transition>
   </div>
 
