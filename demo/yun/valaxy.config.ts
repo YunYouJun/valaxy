@@ -14,11 +14,6 @@ const config: UserConfig<ThemeUserConfig> = {
     name: '云游君',
   },
   description: 'Valaxy Theme Yun Preview.',
-  cover: {
-    enable: true,
-    alt: '瞅我干啥！',
-    defaultUrl: 'https://cdn.jsdelivr.net/gh/YunYouJun/cdn/img/bg/galaxy.jpg',
-  },
   social: [
     {
       name: 'RSS',

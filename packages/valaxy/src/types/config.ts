@@ -183,16 +183,6 @@ export interface ValaxyConfig<T = ValaxyThemeConfig> {
   }
 
   /**
-   * cover
-   * @description 封面
-   */
-  cover: {
-    enable: boolean
-    alt: string
-    defaultUrl: string
-  }
-
-  /**
    * for markdown
    */
   markdown: ViteMdOptions
@@ -300,10 +290,5 @@ export const defaultValaxyConfig: ValaxyConfig = {
       listType: 'ol',
     },
     katex: {},
-  },
-  cover: {
-    enable: true,
-    alt: '瞅我干啥！',
-    defaultUrl: 'https://cdn.jsdelivr.net/gh/YunYouJun/cdn/img/bg/galaxy.jpg',
   },
 }

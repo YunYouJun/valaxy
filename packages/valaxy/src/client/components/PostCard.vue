@@ -2,25 +2,23 @@
 import { useI18n } from 'vue-i18n'
 import type { Post } from '../../types'
 import { usePostProperty } from '~/composables'
-import { useConfig } from '~/config'
 
 const props = defineProps<{
   post: Post
 }>()
 
-const config = useConfig()
 const { t } = useI18n()
 
 const { icon, styles } = usePostProperty(props.post.type)
 </script>
 
 <template>
-  <YunCard m="y-4 auto" :class="config.cover.enable ? 'post-card-image' : 'post-card'" :style="styles">
+  <YunCard m="y-4 auto" :class="post.cover ? 'post-card-image' : 'post-card'" :style="styles">
     <div class="flex flex-1 of-hidden justify-start items-start" w="full">
       <img
-        v-if="config.cover.enable"
-        :src="post.cover || config.cover.defaultUrl"
-        :alt="config.cover.alt"
+        v-if="post.cover"
+        :src="post.cover"
+        :alt="t('post.cover')"
         w="40%"
         class="object-contain self-center"
       >

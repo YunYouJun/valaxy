@@ -1,7 +1,7 @@
 ---
 title: Valaxy 开发笔记
 date: 2022-03-23
-cover: https://cdn.jsdelivr.net/gh/YunYouJun/cdn/img/bg/stars-timing-0-blur-30px.jpg
+cover: https://cdn.jsdelivr.net/gh/YunYouJun/cdn/img/bg/galaxy.jpg
 tags:
   - 笔记
   - valaxy
