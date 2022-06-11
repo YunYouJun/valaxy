@@ -59,9 +59,9 @@ footer:
   total_visitors: 总访客量
 
 counter:
-  archives: 暂无日志 | 共计 {count} 篇日志
-  categories: 暂无分类 | 共计 {count} 个分类
-  tags: 暂无标签 | 共计 {count} 个标签
+  archives: 暂无日志 | 共计 1 篇日志 | 共计 {count} 篇日志
+  categories: 暂无分类 | 共计 1 个分类 | 共计 {count} 个分类
+  tags: 暂无标签 | 共计 1 个标签 | 共计 {count} 个标签
   albums:
     zero: 暂无相册
     one: 共计 1 个相册
