@@ -14,7 +14,7 @@ const { icon, styles } = usePostProperty(props.post.type)
 
 <template>
   <YunCard m="y-4 auto" :class="post.cover ? 'post-card-image' : 'post-card'" :style="styles">
-    <div class="flex flex-1 of-hidden justify-start items-start" w="full">
+    <div class="flex flex-1 of-hidden justify-start items-start post-card-info" w="full">
       <img
         v-if="post.cover"
         :src="post.cover"
@@ -23,7 +23,7 @@ const { icon, styles } = usePostProperty(props.post.type)
         class="object-contain self-center"
       >
 
-      <div class="flex flex-col flex-1 justify-center items-center">
+      <div class="flex flex-col flex-1 justify-center items-center" w="full">
         <AppLink
           class="post-title-link"
           :to="post.path || ''"

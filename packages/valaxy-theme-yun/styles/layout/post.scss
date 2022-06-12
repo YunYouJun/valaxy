@@ -8,6 +8,18 @@
 .post-card-image {
   @extend .post-card;
   height: var(--yun-post-card-height);
+
+  @media screen and (max-width: 768px) {
+    height: auto;
+
+    .post-card-info {
+      flex-direction: column;
+    }
+
+    img {
+      width: 100%;
+    }
+  }
 }
 
 .post-title {
