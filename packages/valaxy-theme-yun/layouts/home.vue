@@ -34,5 +34,5 @@ const isHome = useLayout('home')
     </ValaxyFooter>
   </main>
 
-  <YunAlgoliaSearch v-if="config.search.algolia.enable" />
+  <YunSearch v-if="config.search.enable" />
 </template>

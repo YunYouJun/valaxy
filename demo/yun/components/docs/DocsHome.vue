@@ -26,8 +26,8 @@ const router = useRouter()
   <br>
 
   <p align="center">
-    <a href="https://cdn.jsdelivr.net/gh/YunYouJun/sponsors/public/sponsors.svg">
-      <img src="https://cdn.jsdelivr.net/gh/YunYouJun/sponsors/public/sponsors.svg">
+    <a href="https://sponsors.yunyoujun.cn">
+      <img src="https://sponsors.yunyoujun.cn/sponsors.svg">
     </a>
   </p>
 </template>

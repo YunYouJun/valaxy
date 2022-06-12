@@ -34,3 +34,4 @@ declare module 'vue-router' {
     frontmatter: Post
   }
 }
+

@@ -58,7 +58,7 @@ const title = usePostTitle(frontmatter)
     </slot>
   </main>
 
-  <YunAlgoliaSearch v-if="config.search.algolia.enable" />
+  <YunSearch v-if="config.search.enable" />
   <YunBackToTop />
 </template>
 

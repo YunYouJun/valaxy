@@ -19,6 +19,17 @@ export interface SocialLink {
   color: string
 }
 
+export interface AlgoliaSearchOptions {
+  enable: boolean
+  appId: string
+  apiKey: string
+  indexName: string
+  placeholder?: string
+  searchParameters?: any
+  disableUserPersonalization?: boolean
+  initialQuery?: string
+}
+
 export interface ValaxyConfig<T = ValaxyThemeConfig> {
   /**
    * Default language
@@ -94,13 +105,8 @@ export interface ValaxyConfig<T = ValaxyThemeConfig> {
    * search
    */
   search: {
-    algolia: {
-      enable: boolean
-      appId: string
-      apiKey: string
-      indexName: string
-      chunkSize: number
-    }
+    enable: boolean
+    algolia: AlgoliaSearchOptions
   }
 
   /**
@@ -251,12 +257,12 @@ export const defaultValaxyConfig: ValaxyConfig = {
   },
 
   search: {
+    enable: true,
     algolia: {
       enable: false,
       appId: '',
       apiKey: '',
       indexName: '',
-      chunkSize: 5000,
     },
   },
 

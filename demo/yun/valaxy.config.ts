@@ -96,11 +96,17 @@ const config: UserConfig<ThemeUserConfig> = {
   ],
 
   search: {
+    enable: true,
     algolia: {
       enable: true,
       appId: 'CJXXAGRCYN',
       apiKey: 'ae1966d2aeab22bf9335679f45d2cd9a',
       indexName: 'my-hexo-blog',
+
+      // test
+      // appId: 'BH4D9OD16A',
+      // apiKey: '978ef82b43148b59dc771ea53b7a56af',
+      // indexName: 'elpsy',
     },
   },
 

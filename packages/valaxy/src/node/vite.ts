@@ -24,6 +24,8 @@ export async function createViteConfig(options: ResolvedValaxyOptions, serverOpt
     // always string
     define: {
       __DEV__: options.mode === 'dev' ? 'true' : 'false',
+
+      __ALGOLIA__: !!options.config.search.algolia.enable,
     },
 
     root: options.clientRoot,

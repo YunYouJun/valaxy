@@ -18,6 +18,7 @@ end: false
 - [ ] Debug component.
 - [ ] Git timestamp for post without `date`.
 - [ ] Check port is existed & use new port.
+- [ ] local search
 
 ## Dev
 

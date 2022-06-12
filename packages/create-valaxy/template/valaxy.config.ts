@@ -94,12 +94,7 @@ const config: UserConfig<ThemeUserConfig> = {
   ],
 
   search: {
-    algolia: {
-      enable: true,
-      appId: 'CJXXAGRCYN',
-      apiKey: 'ae1966d2aeab22bf9335679f45d2cd9a',
-      indexName: 'my-hexo-blog',
-    },
+    enable: false,
   },
 
   theme: 'yun',

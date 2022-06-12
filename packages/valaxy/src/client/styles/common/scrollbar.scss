@@ -1,10 +1,4 @@
-@use '~/styles/mixins' as *;
-
-.no-scroll {
-  position: fixed; 
-  overflow-y: scroll;
-  width: 100%;
-}
+@use "~/styles/mixins" as *;
 
 ::-webkit-scrollbar {
   width: 8px;
@@ -18,17 +12,17 @@
 
 ::-webkit-scrollbar-thumb {
   border-radius: 2px;
-  background-color: rgba(get-css-var('c', 'primary', 'rgb'), 0.3);
+  background-color: rgba(122, 122, 122, 0.3);
 
   &:window-inactive {
-    background-color: rgba(get-css-var('c', 'primary', 'rgb'), 0.3);
+    background-color: rgba(122, 122, 122, 0.3);
   }
 
   &:hover {
-    background-color: rgba(get-css-var('c', 'primary', 'rgb'), 0.7);
+    background-color: rgba(get-css-var("c", "primary", "rgb"), 0.7);
   }
 
   &:active {
-    background-color: rgba(get-css-var('c', 'primary', 'rgb'), 0.9);
+    background-color: rgba(get-css-var("c", "primary", "rgb"), 0.9);
   }
 }
