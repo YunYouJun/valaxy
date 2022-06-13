@@ -7,11 +7,12 @@
 
 .post-card-image {
   @extend .post-card;
-  height: var(--yun-post-card-height);
 
-  @media screen and (max-width: 768px) {
-    height: auto;
+  .post-card-image-info-text {
+    height: 0;
+  }
 
+  @include mobile {
     .post-card-info {
       flex-direction: column;
     }

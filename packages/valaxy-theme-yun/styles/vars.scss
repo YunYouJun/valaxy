@@ -18,7 +18,6 @@ $dark: map.merge((
 $common: () !default;
 $common: map.merge((
   'post-card-max-width': 900px,
-  'post-card-height': 260px,
 ), $common);
 
 $z-index: () !default;

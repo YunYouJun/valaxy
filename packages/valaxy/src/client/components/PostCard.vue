@@ -23,32 +23,34 @@ const { icon, styles } = usePostProperty(props.post.type)
         class="object-contain self-center"
       >
 
-      <div class="flex flex-col flex-1 justify-center items-center" w="full">
-        <AppLink
-          class="post-title-link"
-          :to="post.path || ''"
-          m="t-3"
-        >
-          <div class="flex justify-center items-center title text-2xl" font="serif black">
-            <div v-if="post.type" class="inline-flex" m="r-1" :class="icon" />{{ post.title }}
-          </div>
-        </AppLink>
+      <div class="post-card-image-info-text flex-1" w="full">
+        <div class="flex flex-col flex-1 justify-center items-center" w="full">
+          <AppLink
+            class="post-title-link"
+            :to="post.path || ''"
+            m="t-3"
+          >
+            <div class="flex justify-center items-center title text-2xl" font="serif black">
+              <div v-if="post.type" class="inline-flex" m="r-1" :class="icon" />{{ post.title }}
+            </div>
+          </AppLink>
 
-        <YunPostMeta :frontmatter="post" />
+          <YunPostMeta :frontmatter="post" />
 
-        <div v-if="post.excerpt" class="markdown-body" text="left" w="full" p="x-6 lt-sm:4" v-html="post.excerpt" />
-        <div m="b-5" />
+          <div v-if="post.excerpt" class="markdown-body" text="left" w="full" p="x-6 lt-sm:4" v-html="post.excerpt" />
+          <div m="b-5" />
 
-        <a
-          v-if="post.url"
-          :href="post.url"
-          class="post-link-btn shadow hover:shadow-md"
-          rounded
-          target="_blank"
-          m="b-4"
-        >
-          {{ t('post.view_link') }}
-        </a>
+          <a
+            v-if="post.url"
+            :href="post.url"
+            class="post-link-btn shadow hover:shadow-md"
+            rounded
+            target="_blank"
+            m="b-4"
+          >
+            {{ t('post.view_link') }}
+          </a>
+        </div>
       </div>
     </div>
 
