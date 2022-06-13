@@ -2,7 +2,7 @@ import * as readline from 'readline'
 import path from 'path'
 import os from 'os'
 
-import { blue, bold, cyan, dim, gray, green, red, underline } from 'kolorist'
+import { blue, bold, cyan, dim, gray, green, underline } from 'kolorist'
 import consola from 'consola'
 import type { InlineConfig, ViteDevServer } from 'vite'
 import { createServer } from '../server'
@@ -12,7 +12,7 @@ import { createSafelist } from '../plugins/unocss'
 
 let server: ViteDevServer | undefined
 
-export function printInfo(options: ResolvedValaxyOptions, port?: number, remote?: string | boolean, isPortChanged = false) {
+export function printInfo(options: ResolvedValaxyOptions, port?: number, remote?: string | boolean) {
   console.log()
   console.log(`  ${bold('🌌 Valaxy')}  ${blue(`v${version}`)}`)
   console.log()
@@ -31,9 +31,6 @@ export function printInfo(options: ResolvedValaxyOptions, port?: number, remote?
           }),
         )
     }
-
-    if (isPortChanged)
-      console.log(`${dim('  Notice    ')} > ${red(`Start the service on port ${port} because the original port is occupied`)}`)
 
     console.log()
     console.log(`${dim('  shortcuts ')} > ${underline('r')}${dim('estart | ')}${underline('o')}${dim('pen | ')}${underline('e')}${dim('dit')}`)

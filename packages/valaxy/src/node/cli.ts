@@ -70,7 +70,7 @@ cli.command(
           ignored: [`!${options.themeRoot}/**`, `${options.userRoot}/**.md`],
         },
 
-        port: port.port,
+        port,
         strictPort: true,
         open,
         host: remote ? '0.0.0.0' : 'localhost',
@@ -78,7 +78,7 @@ cli.command(
       logLevel: log as LogLevel,
     }
     await initServer(options, viteConfig)
-    printInfo(options, port.port, remote, port.isPortChanged)
+    printInfo(options, port, remote)
 
     const SHORTCUTS = [
       {

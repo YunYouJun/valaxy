@@ -1,15 +1,9 @@
 import net from 'net'
 
-interface GetPort {
-  port: number
-  isPortChanged: boolean
-}
-
-export async function findFreePort(startPort: number): Promise<GetPort> {
-  let _p = startPort
-  while (!await isPortFree(_p))
-    _p++
-  return { port: _p, isPortChanged: _p !== startPort }
+export async function findFreePort(start: number): Promise<number> {
+  if (await isPortFree(start))
+    return start
+  return await findFreePort(start + 1)
 }
 
 function isPortFree(port: number): Promise<boolean> {
