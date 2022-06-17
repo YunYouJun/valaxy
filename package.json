@@ -40,11 +40,11 @@
     "@antfu/eslint-config": "^0.25.1",
     "@types/debug": "^4.1.7",
     "@types/prompts": "^2.0.14",
-    "@types/semver": "^7.3.9",
+    "@types/semver": "^7.3.10",
     "cross-env": "^7.0.3",
     "eslint": "^8.17.0",
     "esno": "^0.16.3",
-    "lint-staged": "^13.0.1",
+    "lint-staged": "^13.0.2",
     "prompts": "^2.4.2",
     "rimraf": "^3.0.2",
     "simple-git-hooks": "^2.8.0",
@@ -52,7 +52,7 @@
     "typescript": "^4.7.3",
     "valaxy": "workspace:*",
     "valaxy-theme-yun": "workspace:*",
-    "vue-tsc": "0.37.3",
+    "vue-tsc": "0.37.9",
     "zx": "^6.2.4"
   },
   "simple-git-hooks": {

@@ -19,7 +19,7 @@
   },
   "dependencies": {
     "@iconify-json/ant-design": "^1.1.2",
-    "@iconify-json/simple-icons": "^1.1.14"
+    "@iconify-json/simple-icons": "^1.1.15"
   },
   "devDependencies": {
     "valaxy": "workspace:*"
