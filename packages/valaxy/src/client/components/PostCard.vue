@@ -13,32 +13,46 @@ const { icon, styles } = usePostProperty(props.post.type)
 </script>
 
 <template>
-  <YunCard m="y-4 auto" class="post-card" :style="styles">
-    <AppLink
-      class="post-title-link"
-      :to="post.path || ''"
-      m="t-3"
-    >
-      <div class="flex justify-center items-center title text-2xl" font="serif black">
-        <div v-if="post.type" class="inline-flex" m="r-1" :class="icon" />{{ post.title }}
+  <YunCard m="y-4 auto" :class="post.cover ? 'post-card-image' : 'post-card'" :style="styles">
+    <div class="flex flex-1 of-hidden justify-start items-start post-card-info" w="full">
+      <img
+        v-if="post.cover"
+        :src="post.cover"
+        :alt="t('post.cover')"
+        w="40%"
+        class="object-contain self-center"
+      >
+
+      <div class="post-card-image-info-text flex-1" w="full">
+        <div class="flex flex-col flex-1 justify-center items-center" w="full">
+          <AppLink
+            class="post-title-link"
+            :to="post.path || ''"
+            m="t-3"
+          >
+            <div class="flex justify-center items-center title text-2xl" font="serif black">
+              <div v-if="post.type" class="inline-flex" m="r-1" :class="icon" />{{ post.title }}
+            </div>
+          </AppLink>
+
+          <YunPostMeta :frontmatter="post" />
+
+          <div v-if="post.excerpt" class="markdown-body" text="left" w="full" p="x-6 lt-sm:4" v-html="post.excerpt" />
+          <div m="b-5" />
+
+          <a
+            v-if="post.url"
+            :href="post.url"
+            class="post-link-btn shadow hover:shadow-md"
+            rounded
+            target="_blank"
+            m="b-4"
+          >
+            {{ t('post.view_link') }}
+          </a>
+        </div>
       </div>
-    </AppLink>
-
-    <YunPostMeta :frontmatter="post" />
-
-    <div v-if="post.excerpt" class="markdown-body" text="left" w="full" p="x-6 lt-sm:4" v-html="post.excerpt" />
-    <div m="b-5" />
-
-    <a
-      v-if="post.url"
-      :href="post.url"
-      class="post-link-btn shadow hover:shadow-md"
-      rounded
-      target="_blank"
-      m="b-4"
-    >
-      {{ t('post.view_link') }}
-    </a>
+    </div>
 
     <div v-if="post.categories || post.tags" w="full" class="yun-card-actions flex justify-between" border="t" text="sm">
       <div class="inline-flex">
