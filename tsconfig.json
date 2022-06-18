@@ -29,7 +29,7 @@
       "valaxy": ["packages/valaxy/src/index.ts"],
       "valaxy-theme-yun/*": ["packages/valaxy-theme-yun/*"],
       "valaxy-theme-yun": ["packages/valaxy-theme-yun/index.ts"]
-    },
+    }
   },
   "include": [
     "./*.ts",
