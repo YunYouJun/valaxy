@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import { computed, ref } from 'vue'
-import { useCategory, useFrontmatter, useInvisibleElement, usePostList, usePostTitle } from 'valaxy'
+import { useCategory, useFrontmatter, useInvisibleElement, usePostList, usePostTitle } from 'valaxy/client'
 import { useI18n } from 'vue-i18n'
 import { useRoute, useRouter } from 'vue-router'
 

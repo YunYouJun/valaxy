@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { useCategory, usePageList } from 'valaxy'
+import { useCategory, usePageList } from 'valaxy/client'
 
 const pages = usePageList()
 const categories = useCategory('Docs', pages.value)

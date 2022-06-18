@@ -16,11 +16,17 @@
     "blog"
   ],
   "exports": {
-    ".": "./src/index.ts",
+    ".": {
+      "types": "./index.d.ts",
+      "require": "./dist/index.js",
+      "import": "./dist/index.mjs"
+    },
+    "./client": "./dist/client.d.ts",
+    "./client/*": "./client/*",
     "./*": "./*"
   },
   "main": "dist/index.js",
-  "types": "dist/index.d.ts",
+  "types": "index.d.ts",
   "bin": {
     "vala": "./bin/valaxy.js",
     "valaxy": "./bin/valaxy.js"

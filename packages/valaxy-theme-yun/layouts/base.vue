@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { useConfig, useFrontmatter, usePostProperty, usePostTitle } from 'valaxy'
+import { useConfig, useFrontmatter, usePostProperty, usePostTitle } from 'valaxy/client'
 const frontmatter = useFrontmatter()
 
 const config = useConfig()

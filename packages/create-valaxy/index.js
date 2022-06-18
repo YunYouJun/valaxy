@@ -1,7 +1,6 @@
 #!/usr/bin/env node
 /* eslint-disable no-console */
 
-// @ts-check
 const fs = require('fs')
 const path = require('path')
 const argv = require('minimist')(process.argv.slice(2))

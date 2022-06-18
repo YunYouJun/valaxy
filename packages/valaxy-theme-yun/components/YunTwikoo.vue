@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { useConfig, useTwikoo } from 'valaxy'
+import { useConfig, useTwikoo } from 'valaxy/client'
 
 const config = useConfig()
 useTwikoo(config.value.comment.twikoo)

@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { useFrontmatter, useInvisibleElement, usePostList, usePostTitle, useTags, useThemeConfig } from 'valaxy'
+import { useFrontmatter, useInvisibleElement, usePostList, usePostTitle, useTags, useThemeConfig } from 'valaxy/client'
 import { useI18n } from 'vue-i18n'
 import { computed, ref } from 'vue'
 import { useRoute, useRouter } from 'vue-router'

@@ -33,7 +33,7 @@
     "prepublishOnly": "npm run build",
     "release": "esno scripts/release.ts",
     "start": "node packages/valaxy/bin/valaxy.js dev",
-    "typecheck": "vue-tsc --noEmit",
+    "typecheck": "vue-tsc --noEmit --skipLibCheck",
     "test:space": "export NODE_OPTIONS='--inspect --max-old-space-size=2048' && pnpm -C demo/yun run build:ssg"
   },
   "devDependencies": {

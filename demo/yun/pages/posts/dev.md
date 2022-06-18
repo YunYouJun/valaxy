@@ -7,11 +7,11 @@ tags:
   - valaxy
 ---
 
-:::zh-CN
+::: zh-CN
 还什么都没写呢……
 :::
 
-:::en
+::: en
 Nothing has been written……
 :::
 

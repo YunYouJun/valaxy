@@ -71,7 +71,7 @@ export function getThemeRoot(name: string, entry: string) {
 
 // for cli options
 export async function resolveOptions(options: ValaxyEntryOptions, mode: ResolvedValaxyOptions['mode'] = 'dev') {
-  const clientRoot = resolve(dirname(resolveImportPath('valaxy/package.json')), 'src/client')
+  const clientRoot = resolve(dirname(resolveImportPath('valaxy/package.json', true)), 'client')
   const userRoot = resolve(options.userRoot || process.cwd())
 
   const { config: valaxyConfig, configFile, theme } = await resolveConfig(options)

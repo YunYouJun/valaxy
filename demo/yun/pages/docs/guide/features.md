@@ -12,7 +12,7 @@ end: false
 
 ## UnoCSS
 
-> 内置的类 TailwindCSS 的工具类（基于 UnoCSS）。
+> 内置的类 TailwindCSS 的工具类（基于 [UnoCSS](https://github.com/unocss/unocss)）。
 
 如果你使用过 [TailwindCSS](https://tailwindcss.com/)，那么一定能迅速领会到它的便捷之处。
 
@@ -126,7 +126,13 @@ More info see [i18n](/docs/guide/i18n).
 
 ## KaTeX
 
-默认的 KaTeX 支持。
+::: zh-CN
+KaTeX 已被默认支持并启用。
+:::
+
+::: en
+Katex is enabled by default.
+:::
 
 ```ts
 // valaxy.config.ts

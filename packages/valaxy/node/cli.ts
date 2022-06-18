@@ -9,7 +9,7 @@ import openBrowser from 'open'
 import consola from 'consola'
 
 import { yellow } from 'kolorist'
-import { version } from '../../package.json'
+import { version } from '../package.json'
 import { findFreePort } from './utils/net'
 import { resolveOptions } from './options'
 import { bindShortcut, initServer, printInfo } from './utils/cli'

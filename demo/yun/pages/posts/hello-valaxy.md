@@ -33,9 +33,8 @@ Valaxy 的目标是成为新一代的静态博客框架/生成器。
 一味地讲述 Valaxy 的优点似乎有些难以理解。
 
 我将会把 Valaxy 与现有的 Hexo（流行的静态博客框架）与 VitePress/VuePress（流行的静态站点生成器）进行对比，并阐述 Valaxy 的优势。
-:::
 
-:::en
+::: en
 
 ## Why Valaxy?
 
@@ -72,13 +71,13 @@ const config: UserConfig<ThemeUserConfig> = {
 export default config
 ```
 
-:::zh-CN
+::: zh-CN
 配置、文章热更新
 
 而不是像 hexo 一样重新加载页面
 :::
 
-:::en
+::: en
 Hot update for configuration, article.
 
 Instead of reloading pages like hexo
@@ -100,7 +99,7 @@ Instead of reloading pages like hexo
 
 - [iles](https://github.com/ElMassimo/iles)
 
-:::zh-CN
+::: zh-CN
 在完成了 Valaxy 基础结构的开发后，我从群友处得知了 iles，这和我实现的许多功能十分相似。
 
 它相比 Vitepress 拥有更多功能，也很适合写一个拥有更多交互的文档。
@@ -110,7 +109,7 @@ Instead of reloading pages like hexo
 因为 Valaxy 除此之外，还会提供文章列表、分页、标签、分类等更多面向博客的功能，并支持扩展与自定义博客主题。
 :::
 
-:::en
+::: en
 After completing the development of Valaxy's basic structures, I learned about iles from my group friend, which is very similar to many features I have archieved.
 
 It has more features than Vitepress and is also suitable for writing a document with more interaction.

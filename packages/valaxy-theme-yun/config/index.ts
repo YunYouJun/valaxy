@@ -1,5 +1,9 @@
 export const anonymousImage = 'https://cdn.jsdelivr.net/gh/YunYouJun/cdn/img/avatar/none.jpg'
 
+export namespace YunTheme {
+  export type Config = ThemeConfig
+}
+
 /**
  * Theme Config
  */

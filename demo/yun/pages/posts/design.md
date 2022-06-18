@@ -4,7 +4,7 @@ date: 2022-03-29
 end: false
 ---
 
-:::zh-CN
+::: zh-CN
 ## 特点
 
 与 Hexo 相比，没有 `_drafts` 文件夹。（当然自己新建也完全没问题……）
@@ -19,7 +19,7 @@ Valaxy 认为这完全没有必要，您只需在 `frontmatter` 中添加 `draft
 譬如：
 :::
 
-:::en
+::: en
 ## Features
 
 Compared with Hexo, There is no `_drafts` folder. (Of course, it is no problem to create the folder……)
@@ -40,12 +40,12 @@ draft: true
 ---
 ```
 
-:::zh-CN
+::: zh-CN
 也许你可能认为放在对应文件夹下适合快速查找拥有哪些草稿，但是你通过编辑器的全局搜索 `draft: true` 同样可以快速做到。
 并且你还能知道你之前打算把它发布在哪个文件夹（路径）下。
 :::
 
-:::en
+::: en
 You may think that putting it in the corresponding folder is suitable for quickly finding which drafts you have, but you can also do it quickly through the editor's global search 'draft: true'.
 And you can also know which folder (path) you planned to publish it in.
 :::

@@ -6,8 +6,6 @@ import type { ResolvedValaxyOptions } from '../options'
 import { setupMarkdownPlugins } from '../markdown'
 import { checkMd } from '../markdown/check'
 
-export type ViteMdOptions = Parameters<typeof Markdown>[0]
-
 export const excerpt_separator = '<!-- more -->'
 
 // https://github.com/antfu/vite-plugin-md
@@ -15,7 +13,7 @@ export const excerpt_separator = '<!-- more -->'
 export function createMarkdownPlugin(options: ResolvedValaxyOptions): Plugin[] {
   const mdOptions = options.config.markdownIt
 
-  const defaultOptions: ViteMdOptions = {
+  return [Markdown({
     wrapperComponent: 'ValaxyMd',
     wrapperClasses: '',
 
@@ -39,9 +37,8 @@ export function createMarkdownPlugin(options: ResolvedValaxyOptions): Plugin[] {
         return code
       },
     },
-  }
-
-  return [Markdown(Object.assign(defaultOptions, options.config.markdown)), {
+    ...options.config.markdown,
+  }), {
     name: 'valaxy:md',
     handleHotUpdate(ctx) {
       const { file, server } = ctx

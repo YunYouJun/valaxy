@@ -4,10 +4,10 @@ draft: true
 date: 2022-04-08
 ---
 
-:::zh-CN
+::: zh-CN
 草稿内容
 :::
 
-:::en
+::: en
 Here is the content of this draft
 :::

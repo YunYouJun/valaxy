@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { useThemeConfig } from 'valaxy'
+import { useThemeConfig } from 'valaxy/client'
 const themeConfig = useThemeConfig()
 </script>
 

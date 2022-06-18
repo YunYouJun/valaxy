@@ -11,7 +11,7 @@ tags:
   - test
 ---
 
-:::zh-CN
+::: zh-CN
 [[toc]]
 
 标题是一级标题
@@ -42,7 +42,7 @@ tags:
 - [x] FLAG
 :::
 
-:::en
+::: en
 [[toc]]
 
 The title is a primary title

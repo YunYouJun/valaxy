@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import type { Post } from 'valaxy'
 import { useI18n } from 'vue-i18n'
-import { formatDate } from 'valaxy'
+import { formatDate } from 'valaxy/client'
 
 defineProps<{
   frontmatter: Post

@@ -1,5 +1,6 @@
 {
   "compilerOptions": {
+    "allowJs": true,
     "baseUrl": ".",
     "module": "ESNext",
     "target": "ESNext",
@@ -21,13 +22,19 @@
     ],
     "paths": {
       "@/*": ["demo/yun/*"],
-      "~/*": ["packages/valaxy/src/client/*"],
-      "@valaxyjs/client/*": ["packages/valaxy/src/client/*"],
+      "~/*": ["packages/valaxy/client/*"],
+      "valaxy/client/*": ["packages/valaxy/client/*"],
+      "@valaxyjs/client/*": ["packages/valaxy/client/*"],
       "valaxy/package.json": ["packages/valaxy/package.json"],
       "valaxy": ["packages/valaxy/src/index.ts"],
       "valaxy-theme-yun/*": ["packages/valaxy-theme-yun/*"],
       "valaxy-theme-yun": ["packages/valaxy-theme-yun/index.ts"]
-    }
+    },
   },
-  "exclude": ["dist", "node_modules", "cypress"]
+  "include": [
+    "./*.ts",
+    "./packages/**/*.ts",
+    "./packages/**/*.vue"
+  ],
+  "exclude": ["**/dist/**", "node_modules", "cypress"]
 }

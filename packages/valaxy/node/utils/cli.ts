@@ -7,7 +7,7 @@ import consola from 'consola'
 import type { InlineConfig, ViteDevServer } from 'vite'
 import { createServer } from '../server'
 import type { ResolvedValaxyOptions } from '../options'
-import { version } from '../../../package.json'
+import { version } from '../../package.json'
 import { createSafelist } from '../plugins/unocss'
 
 let server: ViteDevServer | undefined
