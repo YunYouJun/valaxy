@@ -2,7 +2,7 @@
 import type { Post } from 'valaxy'
 import { onMounted, ref } from 'vue'
 import { useI18n } from 'vue-i18n'
-import { useAplayer, useCodePen, useKatex } from '~/composables'
+import { useAplayer, useCodePen } from '~/composables'
 import { wrapTable } from '~/utils'
 
 const props = defineProps<{
@@ -20,10 +20,6 @@ function updateDom() {
 onMounted(() => {
   updateDom()
 })
-
-// features
-if (props.frontmatter.katex)
-  useKatex()
 
 // widgets
 if (props.frontmatter.aplayer)

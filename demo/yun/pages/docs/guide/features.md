@@ -123,3 +123,20 @@ npm run rss
 ## i18n in One Page
 
 More info see [i18n](/docs/guide/i18n).
+
+## KaTeX
+
+默认的 KaTeX 支持。
+
+```ts
+// valaxy.config.ts
+import { defineConfig } from 'valaxy'
+export default defineConfig({
+  features: {
+    // disable katex
+    katex: false
+  }
+})
+```
+
+- [KaTeX | 示例 - Example](/examples/katex)

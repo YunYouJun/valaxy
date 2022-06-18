@@ -5,7 +5,7 @@ import type { Plugin } from 'vite'
 // import consola from 'consola'
 import { resolveConfig } from '../config'
 import type { ResolvedValaxyOptions, ValaxyServerOptions } from '../options'
-import { toAtFS } from '../utils'
+import { resolveImportPath, toAtFS } from '../utils'
 import { VALAXY_CONFIG_ID } from './valaxy'
 
 /**
@@ -13,8 +13,14 @@ import { VALAXY_CONFIG_ID } from './valaxy'
  * @param roots
  * @returns
  */
-function generateStyles(roots: string[]) {
+function generateStyles(roots: string[], options: ResolvedValaxyOptions) {
   const imports: string[] = []
+
+  // katex
+  if (options.config.features.katex) {
+    imports.push(`import "${toAtFS(resolveImportPath('katex/dist/katex.min.css', true))}"`)
+    imports.push(`import "${join(options.clientRoot, 'styles/third/katex.scss')}"`)
+  }
 
   for (const root of roots) {
     const styles: string[] = []
@@ -30,6 +36,7 @@ function generateStyles(roots: string[]) {
         imports.push(`import "${toAtFS(style)}"`)
     }
   }
+
   return imports.join('\n')
 }
 
@@ -85,7 +92,7 @@ export function createValaxyPlugin(options: ResolvedValaxyOptions, serverOptions
 
       // generate styles
       if (id === '/@valaxyjs/styles')
-        return generateStyles(roots)
+        return generateStyles(roots, options)
 
       if (id === '/@valaxyjs/locales')
         return generateLocales(roots)

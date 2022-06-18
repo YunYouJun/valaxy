@@ -1,4 +1,7 @@
-import { dirname } from 'path'
+import { join } from 'path'
+import isInstalledGlobally from 'is-installed-globally'
+import globalDirs from 'global-dirs'
+import { sync as resolve } from 'resolve'
 import consola from 'consola'
 
 export function slash(str: string) {
@@ -15,12 +18,31 @@ export function toAtFS(path: string) {
   return `/@fs${ensurePrefix('/', slash(path))}`
 }
 
-export function resolveImportPath(importName: string) {
+export function resolveImportPath(importName: string, ensure: true): string
+export function resolveImportPath(importName: string, ensure?: boolean): string | undefined
+export function resolveImportPath(importName: string, ensure = false) {
   try {
-    return dirname(require.resolve(importName))
+    return resolve(importName, {
+      preserveSymlinks: false,
+    })
   }
-  catch { }
+  catch {}
+
+  if (isInstalledGlobally) {
+    try {
+      return require.resolve(join(globalDirs.yarn.packages, importName))
+    }
+    catch {}
+
+    try {
+      return require.resolve(join(globalDirs.npm.packages, importName))
+    }
+    catch {}
+  }
+
+  if (ensure)
+    throw new Error(`Failed to resolve package ${importName}`)
 
   consola.error(`Failed to resolve package ${importName}`)
-  throw new Error(`Failed to resolve package ${importName}`)
+  return undefined
 }

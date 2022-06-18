@@ -124,6 +124,16 @@ export interface ValaxyConfig<T = ValaxyThemeConfig> {
   }
 
   /**
+   * Markdown Feature
+   */
+  features: {
+    /**
+     * enable katex for global
+     */
+    katex: boolean
+  }
+
+  /**
    * The name of theme
    * @description 主题名称
    */
@@ -275,6 +285,10 @@ export const defaultValaxyConfig: ValaxyConfig = {
       enable: false,
       envId: 'https://twikoo.vercel.app',
     },
+  },
+
+  features: {
+    katex: true,
   },
 
   theme: 'yun',

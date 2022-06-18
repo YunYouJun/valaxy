@@ -1,9 +1,10 @@
-import { join } from 'path'
+import { dirname, join } from 'path'
 import type { InlineConfig } from 'vite'
 import { splitVendorChunkPlugin } from 'vite'
 import type { ResolvedValaxyOptions, ValaxyServerOptions } from './options'
 
 import { ViteValaxyPlugins } from './plugins/preset'
+import { resolveImportPath } from './utils'
 
 export type Mode = 'dev' | 'build'
 
@@ -41,6 +42,7 @@ export async function createViteConfig(options: ResolvedValaxyOptions, serverOpt
           options.clientRoot,
           options.themeRoot,
           options.userRoot,
+          dirname(resolveImportPath('katex/package.json', true)),
         ],
       },
     },

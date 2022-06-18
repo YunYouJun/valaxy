@@ -66,12 +66,12 @@ export function getThemeRoot(name: string, entry: string) {
   if (isPath(name))
     return resolve(dirname(entry), name)
   else
-    return resolveImportPath(`valaxy-theme-${name}/package.json`)
+    return dirname(resolveImportPath(`valaxy-theme-${name}/package.json`) || '')
 }
 
 // for cli options
 export async function resolveOptions(options: ValaxyEntryOptions, mode: ResolvedValaxyOptions['mode'] = 'dev') {
-  const clientRoot = resolve(resolveImportPath('valaxy/package.json'), 'src/client')
+  const clientRoot = resolve(dirname(resolveImportPath('valaxy/package.json')), 'src/client')
   const userRoot = resolve(options.userRoot || process.cwd())
 
   const { config: valaxyConfig, configFile, theme } = await resolveConfig(options)
