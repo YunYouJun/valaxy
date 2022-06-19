@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import { computed } from 'vue'
-import { useConfig, useFrontmatter, useFullUrl } from 'valaxy/client'
+import { useConfig, useFrontmatter, useFullUrl } from 'valaxy'
 
 const config = useConfig()
 const frontmatter = useFrontmatter()

@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import { computed, ref, watch } from 'vue'
 import type { Post } from 'valaxy'
-import { formatDate, sortByDate } from 'valaxy/client'
+import { formatDate, sortByDate } from 'valaxy'
 import { useI18n } from 'vue-i18n'
 
 const props = defineProps<{

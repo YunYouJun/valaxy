@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import { computed } from 'vue'
-import { useThemeConfig } from 'valaxy/client'
+import { useThemeConfig } from 'valaxy'
 import { useCssVar } from '@vueuse/core'
 import { isDark } from '~/composables'
 

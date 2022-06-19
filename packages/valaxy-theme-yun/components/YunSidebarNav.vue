@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { useCategory, usePostList, useTag, useThemeConfig } from 'valaxy/client'
+import { useCategory, usePostList, useTag, useThemeConfig } from 'valaxy'
 import { useI18n } from 'vue-i18n'
 
 const { t } = useI18n()

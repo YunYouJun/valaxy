@@ -1,6 +1,6 @@
 <script setup lang="ts">
 // export layouts/base.vue as components
-import { useThemeConfig } from 'valaxy/client'
+import { useThemeConfig } from 'valaxy'
 import Base from '../layouts/base.vue'
 
 const themeConfig = useThemeConfig()

@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import type { Categories } from 'valaxy/client'
+import type { Categories } from 'valaxy'
 import { ref } from 'vue'
 
 const props = withDefaults(defineProps<{

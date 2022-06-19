@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import { onMounted, ref } from 'vue'
-import { useThemeConfig } from 'valaxy/client'
+import { useThemeConfig } from 'valaxy'
 
 const themeConfig = useThemeConfig()
 

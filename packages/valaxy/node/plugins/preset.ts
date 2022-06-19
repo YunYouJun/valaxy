@@ -42,7 +42,7 @@ export async function ViteValaxyPlugins(
 
   const roots = [clientRoot, themeRoot, userRoot]
 
-  const { default: ThemePlugin } = await import(`valaxy-theme-${options.theme}`)
+  const { default: ThemePlugin } = (await import(`valaxy-theme-${options.theme}`)).default
 
   const customElements = new Set([
   // katex

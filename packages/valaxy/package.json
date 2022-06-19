@@ -17,16 +17,22 @@
   ],
   "exports": {
     ".": {
-      "types": "./index.d.ts",
+      "types": "./dist/index.d.ts",
       "require": "./dist/index.js",
       "import": "./dist/index.mjs"
     },
     "./client": "./dist/client.d.ts",
     "./client/*": "./client/*",
+    "./node": {
+      "types": "./dist/node/index.d.ts",
+      "require": "./dist/node/index.js",
+      "import": "./dist/node/index.mjs"
+    },
     "./*": "./*"
   },
   "main": "dist/index.js",
-  "types": "index.d.ts",
+  "module": "dist/index.mjs",
+  "types": "dist/index.d.ts",
   "bin": {
     "vala": "./bin/valaxy.js",
     "valaxy": "./bin/valaxy.js"
@@ -36,7 +42,7 @@
   },
   "scripts": {
     "build": "rimraf dist && tsup --splitting",
-    "dev": "tsup --watch --splitting",
+    "dev": "tsup --watch",
     "lint": "eslint \"**/*.{vue,ts,js}\"",
     "preview": "vite preview",
     "preview-https": "serve dist"
@@ -49,7 +55,7 @@
     "@iconify-json/ri": "^1.1.2",
     "@intlify/vite-plugin-vue-i18n": "^3.4.0",
     "@vitejs/plugin-vue": "^2.3.3",
-    "@vueuse/core": "^8.7.3",
+    "@vueuse/core": "^8.7.4",
     "@vueuse/head": "^0.7.6",
     "consola": "^2.15.3",
     "critters": "^0.0.16",
@@ -73,7 +79,7 @@
     "sass": "^1.52.3",
     "star-markdown-css": "^0.3.3",
     "unconfig": "^0.3.4",
-    "unocss": "^0.39.0",
+    "unocss": "^0.39.3",
     "unplugin-vue-components": "^0.19.6",
     "vite": "^2.9.12",
     "vite-plugin-inspect": "^0.5.0",

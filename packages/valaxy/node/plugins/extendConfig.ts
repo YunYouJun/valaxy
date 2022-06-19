@@ -13,14 +13,13 @@ export function createConfigPlugin(options: ResolvedValaxyOptions): Plugin {
           alias: {
             '@/': `${toAtFS(options.userRoot)}/`,
             '~/': `${toAtFS(options.clientRoot)}/`,
+            'valaxy': toAtFS(resolve(options.clientRoot, 'index.ts')),
             'valaxy/client': `${toAtFS(options.clientRoot)}/`,
             '@valaxyjs/client': `${toAtFS(options.clientRoot)}/`,
             '@valaxyjs/config': '/@valaxyjs/config',
             'valaxy/package.json': toAtFS(resolve(options.clientRoot, '../../package.json')),
-            'valaxy/': `${toAtFS(resolve(options.clientRoot, '..'))}/`,
-            'valaxy': toAtFS(resolve(options.clientRoot, '../index.ts')),
             [`valaxy-theme-${options.theme}/`]: `${toAtFS(resolve(options.themeRoot))}/`,
-            [`valaxy-theme-${options.theme}`]: `${toAtFS(resolve(options.themeRoot))}`,
+            [`valaxy-theme-${options.theme}`]: `${toAtFS(resolve(options.themeRoot))}/index.ts`,
           },
         },
 

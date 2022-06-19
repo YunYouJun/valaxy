@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { useConfig } from 'valaxy/client'
+import { useConfig } from 'valaxy'
 import { ref } from 'vue'
 import { useI18n } from 'vue-i18n'
 const { t } = useI18n()

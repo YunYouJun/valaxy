@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { useConfig } from 'valaxy/client'
+import { useConfig } from 'valaxy'
 
 const config = useConfig()
 </script>

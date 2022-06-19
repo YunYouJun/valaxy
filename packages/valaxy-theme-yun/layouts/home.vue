@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { useConfig } from 'valaxy/client'
+import { useConfig } from 'valaxy'
 import { useLayout } from '~/composables'
 
 import { useAppStore } from '~/stores/app'

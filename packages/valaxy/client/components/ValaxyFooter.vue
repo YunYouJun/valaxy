@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import { capitalize, computed } from 'vue'
-import { useConfig, useThemeConfig } from 'valaxy/client'
+import { useConfig, useThemeConfig } from 'valaxy'
 import { useI18n } from 'vue-i18n'
 
 import pkg from '../../package.json'

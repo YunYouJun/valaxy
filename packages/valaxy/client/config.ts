@@ -37,7 +37,7 @@ export function initConfig() {
 export function useConfig() {
   const config = inject(valaxyConfigSymbol)
   if (!config)
-    throw new Error('[Valaxy] config not properly injected in qpp')
+    throw new Error('[Valaxy] config not properly injected in app')
   return config!
 }
 

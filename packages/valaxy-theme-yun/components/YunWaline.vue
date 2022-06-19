@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { useConfig, useWaline } from 'valaxy/client'
+import { useConfig, useWaline } from 'valaxy'
 
 const config = useConfig()
 useWaline(config.value.comment.waline)
