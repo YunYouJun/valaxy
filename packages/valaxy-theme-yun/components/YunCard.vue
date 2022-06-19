@@ -1,5 +1,11 @@
+<script lang="ts" setup>
+defineProps<{ cover?: string }>()
+</script>
+
 <template>
   <div class="yun-card">
+    <img v-if="cover" class="shadow h-sm object-cover" h="sm" w="full" :src="cover">
+
     <div v-if="$slots.header" class="yun-card-header">
       <header>
         <slot name="header" />

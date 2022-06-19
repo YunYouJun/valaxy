@@ -71,7 +71,7 @@ const title = usePostTitle(frontmatter)
     </template>
 
     <YunCard v-if="curTag" ref="collapse" m="t-4" w="full">
-      <YunPageHeader m="t-4" :title="curTag" icon="i-ri-hashtag" />
+      <YunPageHeader :title="curTag" icon="i-ri-hashtag" />
       <YunPostCollapse w="full" m="b-4" p="x-20 lt-sm:x-5" :posts="posts" />
     </YunCard>
   </YunBase>

@@ -20,7 +20,8 @@ const { icon, styles } = usePostProperty(props.post.type)
         :src="post.cover"
         :alt="t('post.cover')"
         w="40%"
-        class="object-contain self-center"
+        h="54"
+        class="object-cover object-center shadow"
       >
 
       <div class="post-card-image-info-text flex-1" w="full">
@@ -54,7 +55,8 @@ const { icon, styles } = usePostProperty(props.post.type)
       </div>
     </div>
 
-    <div v-if="post.categories || post.tags" w="full" class="yun-card-actions flex justify-between" border="t" text="sm">
+    <!-- always show -->
+    <div w="full" class="yun-card-actions flex justify-between" border="t" text="sm">
       <div class="inline-flex">
         <router-link
           v-if="post.categories"

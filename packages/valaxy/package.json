@@ -42,7 +42,7 @@
   },
   "scripts": {
     "build": "rimraf dist && tsup --splitting",
-    "dev": "tsup --watch",
+    "dev": "tsup --splitting --watch",
     "lint": "eslint \"**/*.{vue,ts,js}\"",
     "preview": "vite preview",
     "preview-https": "serve dist"
