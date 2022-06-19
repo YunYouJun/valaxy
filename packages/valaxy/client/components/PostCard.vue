@@ -21,7 +21,7 @@ const { icon, styles } = usePostProperty(props.post.type)
         :alt="t('post.cover')"
         w="40%"
         h="54"
-        class="object-cover object-center shadow"
+        class="object-cover object-center md:shadow"
       >
 
       <div class="post-card-image-info-text flex-1" w="full">
