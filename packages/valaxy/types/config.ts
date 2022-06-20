@@ -42,6 +42,7 @@ export interface ValaxyConfig<T = ValaxyThemeConfig> {
   /**
    * You site url in web, required for ssg & rss
    * @description 站点的 URL，SSG & RSS 需要（譬如生成版权处文章永久链接）
+   * @default '/'
    */
   url: string
   /**

@@ -24,7 +24,7 @@ const markdown = MarkdownIt({
 export async function build(options: ResolvedValaxyOptions) {
   const { config } = options
 
-  if (!config.url) {
+  if (!config.url || config.url === '/') {
     consola.error('You must set "config.url" to generate rss.')
     return
   }
