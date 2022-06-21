@@ -1,9 +1,11 @@
 <script lang="ts" setup>
+// this is a runtime toc
+// prebuild toc see composables/outline.ts
 import { onMounted, ref, watch } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { useRoute } from 'vue-router'
 
-import type { Header } from '../../node/markdown'
+import type { Header } from '../../types'
 import { useActiveSidebarLinks } from '~/composables'
 import { useConfig } from '~/config'
 
@@ -66,8 +68,6 @@ if (import.meta.hot) {
     }, 600)
   })
 }
-
-// todo mobile toc widget
 </script>
 
 <template>

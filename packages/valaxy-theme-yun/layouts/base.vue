@@ -26,7 +26,7 @@ const title = usePostTitle(frontmatter)
         </slot>
 
         <template #content>
-          <div p="x-4" class="sm:px-6 lg:px-12 xl:px-16">
+          <div p="x-4 b-8" class="sm:px-6 lg:px-12 xl:px-16">
             <slot name="content">
               <router-view />
             </slot>
@@ -53,11 +53,13 @@ const title = usePostTitle(frontmatter)
     </div>
 
     <slot name="right-sidebar">
-      <ValaxyRightSidebar :frontmatter="frontmatter">
+      <!-- <ValaxyRightSidebar > -->
+      <YunAside :frontmatter="frontmatter">
         <template #custom>
           <slot name="right-custom" />
         </template>
-      </ValaxyRightSidebar>
+      <!-- </ValaxyRightSidebar> -->
+      </YunAside>
     </slot>
   </main>
 

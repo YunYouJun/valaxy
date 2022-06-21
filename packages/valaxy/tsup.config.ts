@@ -18,6 +18,7 @@ export default defineConfig((options) => {
     minify: !options.watch,
     external: [
       '@valaxyjs/config',
+      '@valaxyjs/context',
       'valaxy-theme-yun',
     ],
   }

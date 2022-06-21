@@ -1,9 +1,6 @@
 import type { PartialDeep } from 'type-fest'
 import type { VitePluginConfig } from 'unocss/vite'
-import type Markdown from 'vite-plugin-md'
 import type { MarkdownOptions } from '../node/markdown'
-
-export type ViteMdOptions = Parameters<typeof Markdown>[0]
 
 export type ValaxyThemeConfig = Record<string, any>
 
@@ -32,6 +29,7 @@ export interface AlgoliaSearchOptions {
   initialQuery?: string
 }
 
+// packages/valaxy/node/config.ts
 export interface ValaxyConfig<T = ValaxyThemeConfig> {
   /**
    * Default language
@@ -84,6 +82,11 @@ export interface ValaxyConfig<T = ValaxyThemeConfig> {
       message: string
     }
   }
+
+  /**
+   * show last updated time by git
+   */
+  lastUpdated: boolean
 
   /**
    * icon for your website
@@ -204,7 +207,6 @@ export interface ValaxyConfig<T = ValaxyThemeConfig> {
   /**
    * for markdown
    */
-  markdown: ViteMdOptions
   markdownIt: MarkdownOptions
 }
 

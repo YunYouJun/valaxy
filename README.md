@@ -43,7 +43,7 @@ For a example, you can see [demo/yun](./demo/yun/) folder.
 - ⚡️ [Vue 3](https://github.com/vuejs/vue-next), [Vite 2](https://github.com/vitejs/vite), [pnpm](https://pnpm.js.org/), [ESBuild](https://github.com/evanw/esbuild) - born with fastness
 - 🔥 Hot Reload with Config & Markdown
 - 🔧 Type Tooltip for all config by `valaxy.config.ts`
-- 🗒 Extended Markdown Frontmatter via [vite-plugin-md](https://github.com/antfu/vite-plugin-md)
+- 🗒 Extended Markdown Frontmatter
 - 🗂 File based routing via [vite-plugin-pages](https://github.com/hannoeru/vite-plugin-pages)
 - 📦 Components auto importing via [unplugin-vue-components](https://github.com/antfu/unplugin-vue-components)
 - 🖨 Static-site generation (SSG) via [vite-ssg](https://github.com/antfu/vite-ssg) (SPA is OK!)

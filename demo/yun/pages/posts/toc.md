@@ -16,19 +16,19 @@ tags:
 
 标题是一级标题
 
-## 二级标题
+## 二级标题 {lang="zh-CN"}
 
-### 三级标题
+### 三级标题 {lang="zh-CN"}
 
-#### 四级标题
+#### 四级标题 {lang="zh-CN"}
 
-##### 五级标题
+##### 五级标题 {lang="zh-CN"}
 
-###### 六级标题
+###### 六级标题 {lang="zh-CN"}
 
-## 标题
+## 标题 {lang="zh-CN"}
 
-## 列表测试
+## 列表测试 {lang="zh-CN"}
 
 - AAA
 - BBB
@@ -47,19 +47,19 @@ tags:
 
 The title is a primary title
 
-## Secondary title
+## Secondary title {lang="en"}
 
-### Tertiary title
+### Tertiary title {lang="en"}
 
-#### Level four title
+#### Level four title {lang="en"}
 
-##### Level five title
+##### Level five title {lang="en"}
 
-###### Level six title
+###### Level six title {lang="en"}
 
-## Title
+## Title {lang="en"}
 
-## List title
+## List title {lang="en"}
 
 - AAA
 - BBB
@@ -67,7 +67,7 @@ The title is a primary title
   - DDD
     - EEE
 
-### Checkbox
+### Checkbox {lang="en"}
 
 - [ ] FLAG
 - [x] FLAG

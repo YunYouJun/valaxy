@@ -21,12 +21,14 @@ const defaultValaxyConfig: ValaxyConfig = {
       message: 'All at sea.',
     },
   },
-  favicon: 'favicon.svg',
+  favicon: '/favicon.svg',
   feed: {
     name: '',
     favicon: 'favicon.svg',
   },
   social: [],
+
+  lastUpdated: true,
 
   license: {
     enabled: true,
@@ -95,9 +97,10 @@ const defaultValaxyConfig: ValaxyConfig = {
 
   unocss: {},
 
-  markdown: {
-    excerpt: '<!-- more -->',
-  },
+  // markdown: {
+  //   excerpt: '<!-- more -->',
+  // },
+
   markdownIt: {
     toc: {
       includeLevel: [1, 2, 3, 4],

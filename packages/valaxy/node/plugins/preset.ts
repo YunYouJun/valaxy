@@ -16,7 +16,7 @@ import Inspect from 'vite-plugin-inspect'
 import { dim, yellow } from 'kolorist'
 import type { ResolvedValaxyOptions, ValaxyServerOptions } from '../options'
 import { setupMarkdownPlugins } from '../markdown'
-import { createMarkdownPlugin, excerpt_separator } from './markdown'
+// import { createMarkdownPlugin, excerpt_separator } from './markdown'
 import { createUnocssPlugin } from './unocss'
 import { createConfigPlugin } from './extendConfig'
 import { createValaxyPlugin } from '.'
@@ -32,7 +32,7 @@ export async function ViteValaxyPlugins(
 ): Promise<(PluginOption | PluginOption[])[] | undefined> {
   const { clientRoot, themeRoot, userRoot } = options
 
-  const MarkdownPlugin = createMarkdownPlugin(options)
+  // const MarkdownPlugin = createMarkdownPlugin(options)
   const UnocssPlugin = await createUnocssPlugin(options)
 
   const ValaxyPlugin = createValaxyPlugin(options, serverOptions)
@@ -90,8 +90,8 @@ export async function ViteValaxyPlugins(
       },
     }),
 
-    ValaxyPlugin,
     createConfigPlugin(options),
+    ValaxyPlugin,
 
     ThemePlugin(options.config.themeConfig),
 
@@ -118,7 +118,7 @@ export async function ViteValaxyPlugins(
         })
 
         const md = fs.readFileSync(path, 'utf-8')
-        const { data, excerpt } = matter(md, { excerpt_separator })
+        const { data, excerpt } = matter(md, { excerpt_separator: '<!-- more -->' })
 
         // warn for post frontmatter
         if (route.path.startsWith('/posts/')) {
@@ -170,7 +170,7 @@ export async function ViteValaxyPlugins(
     // UnocssPlugin,
     UnocssPlugin,
 
-    ...MarkdownPlugin,
+    // ...MarkdownPlugin,
 
     // https://github.com/intlify/bundle-tools/tree/main/packages/vite-plugin-vue-i18n
     VueI18n({

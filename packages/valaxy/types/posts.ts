@@ -118,5 +118,5 @@ export interface Post extends Record<string, any> {
    * enable markdown-body class
    * @description 是否启用默认的 markdown 样式
    */
-  markdown: boolean
+  markdown?: boolean
 }

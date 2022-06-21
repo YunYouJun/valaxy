@@ -4,6 +4,17 @@ import globalDirs from 'global-dirs'
 import { sync as resolve } from 'resolve'
 import consola from 'consola'
 
+export * from './getGitTimestamp'
+
+/**
+ * transform obj for vite cde
+ * @param obj
+ * @returns
+ */
+export const transformObject = (obj: any) => {
+  return `JSON.parse(${JSON.stringify(JSON.stringify(obj))})`
+}
+
 export function slash(str: string) {
   return str.replace(/\\/g, '/')
 }

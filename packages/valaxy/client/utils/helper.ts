@@ -28,3 +28,25 @@ export const wrapTable = (container: HTMLElement | Document = document) => {
     wrap(el, 'table-container')
   })
 }
+
+export function throttleAndDebounce(fn: () => void, delay: number): () => void {
+  let timeout: number
+  let called = false
+
+  return () => {
+    if (timeout)
+      clearTimeout(timeout)
+
+    if (!called) {
+      fn()
+      called = true
+      setTimeout(() => {
+        called = false
+      }, delay)
+    }
+    else {
+      // @ts-expect-error browser setTimeout
+      timeout = setTimeout(fn, delay)
+    }
+  }
+}

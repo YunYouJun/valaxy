@@ -87,7 +87,7 @@ function initialize(userOptions: AlgoliaSearchOptions) {
             if (route.path !== relativeHit)
               event.preventDefault()
 
-            router.go(relativeHit)
+            router.push(relativeHit)
           },
           children,
         },

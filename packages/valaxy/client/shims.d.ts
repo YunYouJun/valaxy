@@ -3,7 +3,7 @@ import 'vue-router'
 import type { Post } from 'valaxy'
 import type { Header } from '../node/markdown'
 
-// with vite-plugin-md, markdowns can be treat as Vue components
+// markdowns can be treat as Vue components
 declare module '*.md' {
   import type { DefineComponent } from 'vue'
   const component: DefineComponent<{}, {}, any>
@@ -21,6 +21,11 @@ declare module '@valaxyjs/config' {
   // import type { ValaxyConfig } from 'valaxy'
   const config: string
   export default config
+}
+
+declare module '@valaxyjs/context' {
+  const ctx: string
+  export default ctx
 }
 
 declare module '/@valaxyjs/locales' {

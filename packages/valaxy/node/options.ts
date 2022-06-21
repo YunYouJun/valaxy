@@ -1,5 +1,6 @@
 import { dirname, resolve } from 'path'
 import _debug from 'debug'
+import fg from 'fast-glob'
 import type { ValaxyConfig } from '../types'
 import { resolveConfig } from './config'
 import { resolveImportPath } from './utils'
@@ -43,6 +44,7 @@ export interface ResolvedValaxyOptions {
    * config file path
    */
   configFile: string
+  pages: string[]
 }
 
 export interface ValaxyServerOptions {
@@ -77,6 +79,19 @@ export async function resolveOptions(options: ValaxyEntryOptions, mode: Resolved
   const { config: valaxyConfig, configFile, theme } = await resolveConfig(options)
   const themeRoot = getThemeRoot(theme, userRoot)
 
+  // Important: fast-glob doesn't guarantee order of the returned files.
+  // We must sort the pages so the input list to rollup is stable across
+  // builds - otherwise different input order could result in different exports
+  // order in shared chunks which in turns invalidates the hash of every chunk!
+  // JavaScript built-in sort() is mandated to be stable as of ES2019 and
+  // supported in Node 12+, which is required by Vite.
+  const pages = (
+    await fg(['**.md'], {
+      cwd: userRoot,
+      ignore: ['**/node_modules'],
+    })
+  ).sort()
+
   const valaxyOptions: ResolvedValaxyOptions = {
     mode,
     clientRoot,
@@ -85,6 +100,7 @@ export async function resolveOptions(options: ValaxyEntryOptions, mode: Resolved
     theme,
     config: valaxyConfig,
     configFile: configFile || '',
+    pages,
   }
   debug(valaxyOptions)
 

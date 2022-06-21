@@ -8,6 +8,7 @@ tags:
   - valaxy
   - 笔记
 top: 1
+outline: deep
 ---
 
 ## What is Valaxy? {lang="en"}
@@ -22,7 +23,7 @@ Valaxy aims to be a next generation of static blogging frameworks/generators.
 Valaxy 的目标是成为新一代的静态博客框架/生成器。
 :::
 
-## 为什么是 Valaxy?
+## 为什么是 Valaxy? {lang="zh-CN"}
 
 构想新一代静态博客框架/生成器。
 
@@ -36,7 +37,7 @@ Valaxy 的目标是成为新一代的静态博客框架/生成器。
 
 ::: en
 
-## Why Valaxy?
+## Why Valaxy? {lang="en"}
 
 Next Generation Static Blog Framework/Generator
 

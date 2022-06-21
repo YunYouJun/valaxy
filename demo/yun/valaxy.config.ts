@@ -99,9 +99,9 @@ const config: UserConfig<YunTheme.Config> = {
     enable: true,
     algolia: {
       enable: true,
-      appId: 'CJXXAGRCYN',
-      apiKey: 'ae1966d2aeab22bf9335679f45d2cd9a',
-      indexName: 'my-hexo-blog',
+      appId: 'UVMHTMG1T5',
+      apiKey: '805f2584a8866388aa1631ff0348ddae',
+      indexName: 'valaxy',
 
       // test
       // appId: 'BH4D9OD16A',

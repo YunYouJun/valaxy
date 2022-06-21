@@ -1,4 +1,4 @@
-import type MarkdownIt from 'markdown-it'
+import MarkdownIt from 'markdown-it'
 
 import Anchor from 'markdown-it-anchor'
 import Emoji from 'markdown-it-emoji'
@@ -8,23 +8,14 @@ import TaskLists from 'markdown-it-task-lists'
 import attrs from 'markdown-it-attrs'
 
 import type { KatexOptions } from 'katex'
+import type { Header } from '../../types'
 import Katex from './markdown-it/katex'
 import { containerPlugin } from './markdown-it/container'
-// import { headingPlugin } from './markdown-it/headings'
+import { headingPlugin } from './markdown-it/headings'
 import { slugify } from './slugify'
 import { parseHeader } from './markdown-it/parseHeader'
 import { highlight } from './highlight'
 import { highlightLinePlugin, preWrapperPlugin } from './markdown-it/highlightLines'
-
-export interface Header {
-  level: number
-  title: string
-  slug: string
-  /**
-   * i18n
-   */
-  lang?: string
-}
 
 export interface MarkdownParsedData {
   hoistedTags?: string[]
@@ -32,6 +23,8 @@ export interface MarkdownParsedData {
   headers?: Header[]
 }
 export interface MarkdownRenderer extends MarkdownIt {
+  __path: string
+  __relativePath: string
   __data: MarkdownParsedData
 }
 
@@ -59,7 +52,7 @@ export function setupMarkdownPlugins(md: MarkdownIt, mdOptions: MarkdownOptions 
     // conflict with {% %}
     .use(attrs)
     // generate toc in client
-    // .use(headingPlugin, mdOptions?.toc?.includeLevel)
+    .use(headingPlugin, mdOptions?.toc?.includeLevel)
     // .use(lineNumberPlugin)
   // https://github.com/arve0/markdown-it-attrs
   // add classes
@@ -92,4 +85,19 @@ export function setupMarkdownPlugins(md: MarkdownIt, mdOptions: MarkdownOptions 
   }
 
   return md as MarkdownRenderer
+}
+
+export const createMarkdownRenderer = async (
+  srcDir: string,
+  options: MarkdownOptions = {},
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  base = '/',
+): Promise<MarkdownRenderer> => {
+  const md = MarkdownIt({
+    html: true,
+    linkify: true,
+    ...options,
+  }) as MarkdownRenderer
+  setupMarkdownPlugins(md)
+  return md
 }

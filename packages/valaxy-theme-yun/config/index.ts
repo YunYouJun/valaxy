@@ -2,12 +2,19 @@ export const anonymousImage = 'https://cdn.jsdelivr.net/gh/YunYouJun/cdn/img/ava
 
 export namespace YunTheme {
   export type Config = ThemeConfig
+  export type Sidebar = any
 }
 
 /**
  * Theme Config
  */
 export interface ThemeConfig {
+  /**
+   * toc title
+   * @default 'On this page'
+   */
+  outlineTitle: string
+
   // for unocss
   safelist: string[]
   colors: {
@@ -55,6 +62,8 @@ export interface ThemeConfig {
     icon: string
     color: string
   }[]
+
+  sidebar: YunTheme.Sidebar
 
   /**
    * footer
@@ -125,6 +134,7 @@ export type ThemeUserConfig = Partial<ThemeConfig>
  * Default Config
  */
 export const defaultThemeConfig: ThemeConfig = {
+  outlineTitle: 'On this page',
   safelist: ['i-ri-clipboard-line'],
   colors: {
     primary: '#0078E7',
@@ -151,6 +161,7 @@ export const defaultThemeConfig: ThemeConfig = {
 
   pages: [],
 
+  sidebar: null,
   footer: {
     since: 2022,
     icon: {

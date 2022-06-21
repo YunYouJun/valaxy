@@ -13,10 +13,11 @@ export function createConfigPlugin(options: ResolvedValaxyOptions): Plugin {
           alias: {
             '@/': `${toAtFS(options.userRoot)}/`,
             '~/': `${toAtFS(options.clientRoot)}/`,
-            'valaxy': toAtFS(resolve(options.clientRoot, 'index.ts')),
             'valaxy/client': `${toAtFS(options.clientRoot)}/`,
+            'valaxy': toAtFS(resolve(options.clientRoot, 'index.ts')),
             '@valaxyjs/client': `${toAtFS(options.clientRoot)}/`,
             '@valaxyjs/config': '/@valaxyjs/config',
+            '@valaxyjs/context': '/@valaxyjs/context',
             'valaxy/package.json': toAtFS(resolve(options.clientRoot, '../../package.json')),
             [`valaxy-theme-${options.theme}/`]: `${toAtFS(resolve(options.themeRoot))}/`,
             [`valaxy-theme-${options.theme}`]: `${toAtFS(resolve(options.themeRoot))}/index.ts`,
@@ -36,6 +37,7 @@ export function createConfigPlugin(options: ResolvedValaxyOptions): Plugin {
             'nprogress',
           ],
 
+          exclude: ['@docsearch/js'],
         },
       }
       return mergeConfig(config, injection)
