@@ -11,6 +11,15 @@ $palette: map.merge(
     "gray": #8e8e8e,
     "danger": #db2828,
     "warning": #f2711c,
+
+    "text-light-1": #213547,
+    "text-light-2": rgba(60, 60, 60, 0.7),
+    "text-light-3": rgba(60, 60, 60, 0.33),
+    "text-light-4": rgba(60, 60, 60, 0.18),
+    "text-dark-1": rgba(255, 255, 255, 0.87),
+    "text-dark-2": rgba(235, 235, 235, 0.6),
+    "text-dark-3": rgba(235, 235, 235, 0.38),
+    "text-dark-4": rgba(235, 235, 235, 0.18),
   ),
   $palette
 );
@@ -44,6 +53,8 @@ $light: map.merge(
     "c-bg": white,
     "c-bg-light": white,
     "c-bg-dark": #fafafa,
+    "c-bg-alt": #f9f9f9,
+
     "c-text": #333,
     "c-text-light": #555,
     "c-text-lighter": #666,
@@ -69,12 +80,14 @@ $dark: map.merge(
     "c-bg": #1a1a1a,
     "c-bg-light": #1d1e1f,
     "c-bg-dark": #1a1a1a,
+    "c-bg-alt": #1a1a1a,
 
     "c-text": #f2f2f2,
     "c-text-light": #ddd,
     "c-text-lighter": #eee,
     "c-text-dark": rgba(#ebebeb, 0.8),
     "c-link": map.get($colors, "primary-light"),
+    "code-block-bg": #1a1a1a,
   ),
   $dark
 );

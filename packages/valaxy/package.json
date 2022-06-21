@@ -79,8 +79,6 @@
     "nprogress": "^0.2.0",
     "open": "^8.4.0",
     "pinia": "^2.0.14",
-    "prism-theme-vars": "^0.2.3",
-    "prismjs": "^1.28.0",
     "sass": "^1.52.3",
     "shiki": "^0.10.1",
     "star-markdown-css": "^0.3.3",

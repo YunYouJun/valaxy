@@ -3,11 +3,6 @@ declare module 'escape-html' {
   export default def
 }
 
-declare module 'prismjs' {
-  const def: any
-  export default def
-}
-
 declare module 'markdown-it-attrs' {
   const def: any
   export default def

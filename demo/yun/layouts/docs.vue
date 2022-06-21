@@ -1,9 +1,9 @@
 <template>
-  <YunBase>
+  <Base>
     <template #sidebar-child>
       <DocsNav />
       <br>
       <YunConfig />
     </template>
-  </YunBase>
+  </Base>
 </template>

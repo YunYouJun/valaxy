@@ -48,7 +48,7 @@ const title = usePostTitle(frontmatter)
 </script>
 
 <template>
-  <YunBase>
+  <Base>
     <template #header>
       <YunPageHeader
         :title="title || t('menu.tags')"
@@ -74,7 +74,7 @@ const title = usePostTitle(frontmatter)
       <YunPageHeader :title="curTag" icon="i-ri-hashtag" />
       <YunPostCollapse w="full" m="b-4" p="x-20 lt-sm:x-5" :posts="posts" />
     </YunCard>
-  </YunBase>
+  </Base>
 </template>
 
 <style lang="scss">

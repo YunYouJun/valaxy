@@ -1,10 +1,10 @@
 <script lang="ts" setup>
 import { useI18n } from 'vue-i18n'
-import type { Post } from 'valaxy'
+import type { PageData, Post } from 'valaxy'
 import { useAppStore } from 'valaxy/client/stores/app'
-defineProps<{ frontmatter: Post }>()
-const { t } = useI18n()
 
+defineProps<{ frontmatter: Post; data: PageData }>()
+const { t } = useI18n()
 const app = useAppStore()
 </script>
 
@@ -19,17 +19,19 @@ const app = useAppStore()
 
   <ValaxyOverlay :show="app.isRightSidebarOpen" @click="app.toggleRightSidebar()" />
 
-  <aside class="right-sidebar fixed va-card" :class="app.isRightSidebarOpen && 'open'" m="l-4" text="center">
-    <h2 v-if="frontmatter.toc !== false" m="t-6 b-2" font="serif black">
-      {{ t('sidebar.toc') }}
-    </h2>
+  <aside class="va-card aside" flex="~" :class="app.isRightSidebarOpen && 'open'" m="l-4" text="center">
+    <div class="aside-container" flex="~ col grow">
+      <h2 v-if="frontmatter.toc !== false" m="t-6 b-2" font="serif black">
+        {{ t('sidebar.toc') }}
+      </h2>
 
-    <div class="right-sidebar-container">
       <!-- <ValaxyToc v-if="frontmatter.toc !== false" /> -->
-      <YunToc v-if="frontmatter.toc !== false" />
+      <YunToc v-if="frontmatter.toc !== false" :headers="data.headers || []" />
 
-      <div v-if="$slots.custom" class="custom-container">
-        <slot name="custom" />
+      <div class="flex-grow" />
+
+      <div v-if="$slots.default" class="custom-container">
+        <slot />
       </div>
     </div>
   </aside>
@@ -38,21 +40,15 @@ const app = useAppStore()
 <style lang="scss">
 @use '~/styles/mixins' as *;
 
-@include xl {
-  .right-sidebar {
-    transform: translateX(0) !important;
-  }
-}
+.aside {
+  position: relative;
 
-.right-sidebar {
-  width: var(--va-sidebar-width-mobile);
-
-  position: fixed;
   top: 0;
+  left: 0;
   bottom: 0;
   right: 0;
 
-  transform: translateX(100%);
+  // transform: translateX(100%);
 
   transition: box-shadow var(--va-transition-duration),
   background-color var(--va-transition-duration), opacity 0.25s,
@@ -60,11 +56,21 @@ const app = useAppStore()
 
   &.open {
     z-index: 10;
-    transform: translateX(0);
+    // transform: translateX(0);
+  }
+
+  &-container {
+    position: sticky;
+    top: 0;
+    width: var(--va-sidebar-width-mobile);
+    height: 100vh;
   }
 }
-.right-sidebar-container {
-  top: 1rem;
+
+@include xl {
+  .aside {
+    transform: translateX(0) !important;
+  }
 }
 
 .toc-btn {

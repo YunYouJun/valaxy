@@ -182,10 +182,28 @@ export async function createMarkdownToVueRenderFn(
     if (includeLastUpdatedData)
       pageData.lastUpdated = await getGitTimestamp(file)
 
-    const valaxyMd = 'ValaxyMd'
+    const pageComponent = 'ValaxyMain'
+
+    function generateSlots() {
+      const slots = [
+        'main-header',
+        'main-header-after',
+        'main-nav',
+        'main-content',
+        'footer',
+        'aside',
+        'aside-custom',
+      ]
+      const slotsText = slots.map(s => `<template #${s}><slot name="${s}" /></template>`).join('')
+      return slotsText
+    }
     const vueSrc
       = `${genPageDataCode(data.hoistedTags || [], pageData).join('\n')
-      }\n<template><${valaxyMd} :frontmatter="frontmatter">${html}</${valaxyMd}></template>`
+      }\n<template><${pageComponent} :frontmatter="frontmatter" :data="data">
+        <template #main-content-md>${html}</template>
+        ${generateSlots()}
+        <slot />
+      </${pageComponent}></template>`
 
     debug(`[render] ${file} in ${Date.now() - start}ms.`)
 
@@ -208,7 +226,7 @@ const defaultExportRE = /((?:^|\n|;)\s*)export(\s*)default/
 const namedDefaultExportRE = /((?:^|\n|;)\s*)export(.+)as(\s*)default/
 
 function genPageDataCode(tags: string[], data: PageData) {
-  const code = `\nexport const __pageData = ${transformObject(data)}`
+  const code = ''
 
   const existingScriptIndex = tags.findIndex((tag) => {
     return (
@@ -224,7 +242,10 @@ function genPageDataCode(tags: string[], data: PageData) {
   export default {
     name:'${data.relativePath}',
     data() {
-      return {frontmatter:${transformObject(data.frontmatter)}}
+      return {
+        frontmatter:${transformObject(data.frontmatter)},
+        data: ${transformObject(data)}
+      }
     }
   }`
 

@@ -1,0 +1,46 @@
+<script lang="ts" setup>
+import Base from 'valaxy-theme-yun/layouts/base.vue'
+
+// override theme base(global) layout
+</script>
+
+<template>
+  <Base>
+    <template #bg>
+      <slot name="bg" />
+    </template>
+    <template #sidebar>
+      <slot name="sidebar" />
+    </template>
+    <template v-if="$slots['sidebar-child']" #sidebar-child>
+      <slot name="sidebar-child" />
+    </template>
+    <slot />
+
+    <template #main-header-after>
+      <slot name="main-header-after" />
+    </template>
+
+    <template #main>
+      <slot name="main" />
+    </template>
+
+    <template #footer>
+      <slot name="footer" />
+      <UpyunSupport />
+    </template>
+    <template #aside>
+      <slot name="aside" />
+    </template>
+    <template #aside-custom>
+      <div m="10">
+        <hr opacity="10" m="10">
+        <p font="serif black">
+          🌟 广告位招租 🌟
+          <br>
+          <del>云游君在线征婚</del>
+        </p>
+      </div>
+    </template>
+  </Base>
+</template>

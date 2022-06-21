@@ -15,20 +15,18 @@ const showSponsor = computed(() => {
 </script>
 
 <template>
-  <YunBase>
-    <template #content>
-      <main text="left" m="auto" p="t-0 b-2">
-        <slot name="header">
-          <YunPostMeta :frontmatter="frontmatter" />
-        </slot>
-        <router-view v-slot="{ Component }">
-          <Transition appear>
-            <component :is="Component" />
-          </Transition>
-        </router-view>
-        <YunSponsor v-if="showSponsor" />
-        <ValaxyCopyright v-if="frontmatter.copyright || config.license.enabled" :url="url" m="y-4" />
-      </main>
+  <Base>
+    <template #main-header-after>
+      <YunPostMeta :frontmatter="frontmatter" />
     </template>
-  </YunBase>
+
+    <template #main>
+      <YunSponsor v-if="showSponsor" />
+      <ValaxyCopyright v-if="frontmatter.copyright || config.license.enabled" :url="url" m="y-4" />
+    </template>
+
+    <template #aside-custom>
+      <slot name="aside-custom" />
+    </template>
+  </Base>
 </template>

@@ -57,8 +57,8 @@ npm i @iconify-json/collection
 
 ### 代码高亮
 
-基于 Prism 实现。
-值得一提的是 Valaxy 也扩展了 `vue`（使用 markup）的高亮，并支持高亮其中某一行。
+基于 [Shiki](https://github.com/shikijs/shiki) 实现。
+Valaxy 支持 `vue` 等语法高亮，拷贝代码，高亮其中某一行。
 
 譬如：
 

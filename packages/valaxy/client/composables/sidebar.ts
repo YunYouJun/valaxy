@@ -158,15 +158,3 @@ function throttleAndDebounce(fn: () => void, delay: number): () => void {
     }
   }
 }
-
-export function useOutline() {
-  const route = useRoute()
-
-  const hasOutline = computed(() => {
-    return route.meta.headers.length > 0
-  })
-
-  return {
-    hasOutline,
-  }
-}

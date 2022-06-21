@@ -1,7 +1,7 @@
 <template>
-  <YunBase>
+  <Base>
     <template #content>
       <router-view />
     </template>
-  </YunBase>
+  </Base>
 </template>

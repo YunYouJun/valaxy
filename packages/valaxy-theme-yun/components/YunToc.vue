@@ -1,20 +1,18 @@
 <script setup lang="ts">
 import { computed, ref } from 'vue'
-import { useRoute } from 'vue-router'
 import { useI18n } from 'vue-i18n'
+import type { Header } from 'valaxy'
+import { useThemeConfig } from 'valaxy'
 import { useFrontmatter } from '~/composables'
 import {
   resolveHeaders,
   useActiveAnchor,
-  useOutline,
 } from '~/composables/outline'
-import { useThemeConfig } from '~/config'
 
-const route = useRoute()
+const props = defineProps<{ headers: Header[] }>()
+
 const frontmatter = useFrontmatter()
 const themeConfig = useThemeConfig()
-
-const { hasOutline } = useOutline()
 
 const { locale } = useI18n()
 const container = ref()
@@ -23,7 +21,7 @@ const marker = ref()
 useActiveAnchor(container, marker)
 
 const resolvedHeaders = computed(() => {
-  return resolveHeaders(route.meta.headers || [])
+  return resolveHeaders(props.headers || [])
 })
 
 function handleClick({ target: el }: Event) {
@@ -34,7 +32,7 @@ function handleClick({ target: el }: Event) {
 </script>
 
 <template>
-  <div ref="container" class="VPDocAsideOutline" :class="{ 'has-outline': hasOutline }">
+  <div v-show="headers.length" ref="container">
     <div class="content">
       <div class="outline-title">
         {{ themeConfig.outlineTitle || 'On this page' }}
@@ -47,7 +45,7 @@ function handleClick({ target: el }: Event) {
           Table of Contents for current page
         </span>
 
-        <ul class="root va-toc">
+        <ul class="va-toc relative z-1">
           <li
             v-for="{ text, link, children, hidden, lang } in resolvedHeaders"
             v-show="!hidden"
@@ -59,9 +57,9 @@ function handleClick({ target: el }: Event) {
               {{ text }}
             </a>
             <ul v-if="children && frontmatter.outline === 'deep'">
-              <li v-for="{ text, link, hidden } in children" v-show="!hidden" :key="link" :lang="lang || locale">
-                <a class="outline-link nested" :href="link" @click="handleClick">
-                  {{ text }}
+              <li v-for="item in children" v-show="!item.hidden" :key="item.link" :lang="lang || locale">
+                <a class="outline-link" p="l-3" :href="link" @click="handleClick">
+                  {{ item.text }}
                 </a>
               </li>
             </ul>
@@ -79,14 +77,6 @@ function handleClick({ target: el }: Event) {
   .va-toc-item {
     color: var(--va-c-text-light);
   }
-}
-
-.VPDocAsideOutline {
-  display: none;
-}
-
-.VPDocAsideOutline.has-outline {
-  display: block;
 }
 
 .content {
@@ -120,7 +110,7 @@ function handleClick({ target: el }: Event) {
 .outline-link {
   display: block;
   line-height: 28px;
-  color: var(--vp-c-text-2);
+  color: var(--va-c-text-2);
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -131,15 +121,6 @@ function handleClick({ target: el }: Event) {
 .outline-link.active {
   color: var(--va-c-brand);
   transition: color 0.25s;
-}
-
-.outline-link.nested {
-  padding-left: 13px;
-}
-
-.root {
-  position: relative;
-  z-index: 1;
 }
 
 .visually-hidden {

@@ -38,7 +38,7 @@ export async function ViteValaxyPlugins(
   const ValaxyPlugin = createValaxyPlugin(options, serverOptions)
 
   const mdIt = new MarkdownIt({ html: true })
-  setupMarkdownPlugins(mdIt, options.config.markdownIt)
+  await setupMarkdownPlugins(mdIt, options.config.markdownIt)
 
   const roots = [clientRoot, themeRoot, userRoot]
 
@@ -160,7 +160,7 @@ export async function ViteValaxyPlugins(
       allowOverrides: true,
       // override: user -> theme -> client
       // latter override former
-      dirs: roots.map(root => `${root}/components`).concat(['src/components', 'components']),
+      dirs: roots.map(root => `${root}/components`).concat(roots.map(root => `${root}/layouts`)).concat(['src/components', 'components']),
       dts: `${options.userRoot}/components.d.ts`,
 
       ...pluginOptions,

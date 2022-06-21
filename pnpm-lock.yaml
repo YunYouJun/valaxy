@@ -108,8 +108,6 @@ importers:
       nprogress: ^0.2.0
       open: ^8.4.0
       pinia: ^2.0.14
-      prism-theme-vars: ^0.2.3
-      prismjs: ^1.28.0
       sass: ^1.52.3
       shiki: ^0.10.1
       star-markdown-css: ^0.3.3
@@ -159,8 +157,6 @@ importers:
       nprogress: 0.2.0
       open: 8.4.0
       pinia: 2.0.14_vue@3.2.37
-      prism-theme-vars: 0.2.3
-      prismjs: 1.28.0
       sass: 1.52.3
       shiki: 0.10.1
       star-markdown-css: 0.3.3
@@ -5192,15 +5188,6 @@ packages:
 
   /pretty-bytes/5.6.0:
     resolution: {integrity: sha512-FFw039TmrBqFK8ma/7OL3sDz/VytdtJr044/QUJtH0wK9lb9jLq9tJyIxUwtQJHwar2BqtiA4iCWSwo9JLkzFg==}
-    engines: {node: '>=6'}
-    dev: false
-
-  /prism-theme-vars/0.2.3:
-    resolution: {integrity: sha512-lpRg8GWfxu38m4rZwjrvOxeHlmL4tERhe9sTjrC47HMu6uCEch3bLUQVNlISoEq9Z24g5Xm+B7AKdyiKSevktg==}
-    dev: false
-
-  /prismjs/1.28.0:
-    resolution: {integrity: sha512-8aaXdYvl1F7iC7Xm1spqSaY/OJBpYW3v+KJ+F17iYxvdc8sfjW194COK5wVhMZX45tGteiBQgdvD/nhxcRwylw==}
     engines: {node: '>=6'}
     dev: false
 

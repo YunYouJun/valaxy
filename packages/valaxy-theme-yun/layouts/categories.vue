@@ -46,7 +46,7 @@ const title = usePostTitle(frontmatter)
 </script>
 
 <template>
-  <YunBase>
+  <Base>
     <template #header>
       <YunPageHeader
         :title="title || t('menu.categories')"
@@ -66,5 +66,5 @@ const title = usePostTitle(frontmatter)
       <YunPageHeader :title="curCategory === 'Uncategorized' ? t('category.uncategorized') : curCategory" icon="i-ri-folder-open-line" />
       <YunPostCollapse w="full" m="b-4" p="x-20 lt-sm:x-5" :posts="posts" />
     </YunCard>
-  </YunBase>
+  </Base>
 </template>

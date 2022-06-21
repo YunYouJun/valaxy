@@ -1,5 +1,7 @@
 import MarkdownIt from 'markdown-it'
 
+import type { Theme } from 'shiki'
+
 import Anchor from 'markdown-it-anchor'
 import Emoji from 'markdown-it-emoji'
 import LinkAttributes from 'markdown-it-link-attributes'
@@ -16,6 +18,8 @@ import { slugify } from './slugify'
 import { parseHeader } from './markdown-it/parseHeader'
 import { highlight } from './highlight'
 import { highlightLinePlugin, preWrapperPlugin } from './markdown-it/highlightLines'
+
+export type ThemeOptions = Theme | { light: Theme; dark: Theme }
 
 export interface MarkdownParsedData {
   hoistedTags?: string[]
@@ -39,12 +43,13 @@ export interface MarkdownOptions extends MarkdownIt.Options {
     [key: string]: any
   }
   katex?: KatexOptions
+  /**
+   * shiki
+   */
+  theme?: ThemeOptions
 }
 
-export function setupMarkdownPlugins(md: MarkdownIt, mdOptions: MarkdownOptions = {}) {
-  md.set({
-    highlight,
-  })
+export async function setupMarkdownPlugins(md: MarkdownIt, mdOptions: MarkdownOptions = {}) {
   md
     .use(highlightLinePlugin)
     .use(preWrapperPlugin)
@@ -96,8 +101,9 @@ export const createMarkdownRenderer = async (
   const md = MarkdownIt({
     html: true,
     linkify: true,
+    highlight: await highlight(options.theme),
     ...options,
   }) as MarkdownRenderer
-  setupMarkdownPlugins(md)
+  await setupMarkdownPlugins(md)
   return md
 }

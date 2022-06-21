@@ -22,7 +22,7 @@ function generateStyles(roots: string[], options: ResolvedValaxyOptions) {
   // katex
   if (options.config.features.katex) {
     imports.push(`import "${toAtFS(resolveImportPath('katex/dist/katex.min.css', true))}"`)
-    imports.push(`import "${join(options.clientRoot, 'styles/third/katex.scss')}"`)
+    imports.push(`import "${toAtFS(join(options.clientRoot, 'styles/third/katex.scss'))}"`)
   }
 
   for (const root of roots) {

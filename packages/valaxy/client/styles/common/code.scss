@@ -1,8 +1,5 @@
 @use "~/styles/mixins" as *;
 
-/* https://github.com/antfu/prism-theme-vars */
-@use "prism-theme-vars/base.css" as *;
-
 @include mobile {
   .markdown-body {
     div[class*="language-"] {
@@ -14,8 +11,12 @@
 .markdown-body {
   div[class*="language-"] {
     position: relative;
-    padding: 0;
-    background-color: var(--smc-code-bg-color);
+    background-color: var(--va-code-block-bg);
+
+    code {
+      padding: 0;
+      background-color: var(--va-code-bg-color);
+    }
 
     pre {
       position: relative;
@@ -33,22 +34,6 @@
 
 /* Line highlighting */
 
-.highlight-lines {
-  position: absolute;
-  top: 0;
-  bottom: 0;
-  left: 0;
-  padding: 1rem 0;
-  width: 100%;
-  line-height: var(--prism-line-height);
-  user-select: none;
-  overflow: hidden;
-
-  .highlighted {
-    background-color: rgba(0, 0, 0, 0.08);
-  }
-}
-
 .dark {
   .highlight-lines {
     .highlighted {
@@ -57,151 +42,180 @@
   }
 }
 
+// marker
 .markdown-body {
-  code {
-    color: var(--prism-foreground) !important;
+  .highlight-lines {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    padding: 1rem 0;
+    width: 100%;
+    line-height: var(--va-code-line-height);
+    font-family: var(--va-font-mono);
+    font-size: var(--va-code-font-size);
+    user-select: none;
+    overflow: hidden;
+
+    .highlighted {
+      background-color: rgba(0, 0, 0, 0.08);
+    }
   }
-}
 
-// prism
-html:not(.dark) {
-  // text
-  --prism-foreground: #224466;
+  [class*="language-"] > span.copy {
+    position: absolute;
+    top: 8px;
+    right: 8px;
+    z-index: 2;
+    display: block;
+    justify-content: center;
+    align-items: center;
+    border-radius: 4px;
+    width: 40px;
+    height: 40px;
+    background-color: var(--va-code-block-bg);
+    opacity: 0;
+    cursor: pointer;
+    background-image: var(--va-icon-copy);
+    background-position: 50%;
+    background-size: 20px;
+    background-repeat: no-repeat;
+    transition: opacity 0.25s;
+  }
 
-  --prism-background: #f8f8f8;
-  --prism-comment: #758575;
-  --prism-namespace: #444444;
-  --prism-string: #bc8671;
-  --prism-punctuation: #80817d;
-  --prism-literal: #36acaa;
-  --prism-keyword: #248459;
-  --prism-function: #0088bb;
-  --prism-deleted: #9a050f;
-  --prism-class: #2b91af;
-  --prism-builtin: #800000;
-  --prism-property: #ce9178;
-  --prism-regex: #ad502b;
-}
+  [class*="language-"]:hover > span.copy {
+    opacity: 1;
+  }
 
-html.dark {
-  --prism-foreground: #a6accd;
+  [class*="language-"] > span.copy:hover {
+    background-color: var(--va-code-copy-code-hover-bg);
+  }
 
-  --prism-background: #242424;
-  --prism-namespace: #aaaaaa;
-  --prism-comment: #758575;
-  --prism-namespace: #444444;
-  --prism-string: #c3e88d;
-  --prism-punctuation: #a6accd;
-  --prism-literal: #36acaa;
-  --prism-keyword: #89ddff;
-  --prism-function: #82aaff;
-  --prism-deleted: #9a050f;
-  --prism-class: #4ec9b0;
-  --prism-builtin: #d16969;
-  --prism-property: #c792ea;
-  --prism-regex: #ad502b;
-  --prism-selector: #c3e88d;
-}
+  [class*="language-"] > span.copy.copied,
+  [class*="language-"] > span.copy:hover.copied {
+    border-radius: 0 4px 4px 0;
+    background-color: var(--va-code-copy-code-hover-bg);
+    background-image: var(--va-icon-copied);
+  }
 
-/* Language marker */
-// @use 'prism-theme-vars/marker.css' as *; * not div
-div[class*="language-"]:before {
-  position: absolute;
-  top: 0.6em;
-  right: 1em;
-  z-index: 2;
-  font-size: 0.8rem;
-  color: #888;
-}
+  [class*="language-"] > span.copy.copied::before,
+  [class*="language-"] > span.copy:hover.copied::before {
+    position: relative;
+    left: -65px;
+    display: block;
+    border-radius: 4px 0 0 4px;
+    padding-top: 8px;
+    width: 64px;
+    height: 40px;
+    text-align: center;
+    font-size: 12px;
+    font-weight: 500;
+    color: var(--va-code-copy-code-active-text);
+    background-color: var(--va-code-copy-code-hover-bg);
+    white-space: nowrap;
+    content: "Copied";
+  }
 
-div[class~="language-html"]:before,
-div[class~="language-markup"]:before {
-  content: "html";
-}
+  [class*="language-"]:before {
+    position: absolute;
+    top: 6px;
+    right: 12px;
+    z-index: 2;
+    font-size: 12px;
+    font-weight: 500;
+    color: var(--va-c-text-dark-3);
+    transition: color 0.5s, opacity 0.5s;
+  }
 
-div[class~="language-md"]:before,
-div[class~="language-markdown"]:before {
-  content: "md";
-}
+  [class*="language-"]:hover:before {
+    opacity: 0;
+  }
 
-div[class~="language-css"]:before {
-  content: "css";
-}
-
-div[class~="language-sass"]:before {
-  content: "sass";
-}
-
-div[class~="language-scss"]:before {
-  content: "scss";
-}
-
-div[class~="language-less"]:before {
-  content: "less";
-}
-
-div[class~="language-stylus"]:before {
-  content: "styl";
-}
-
-div[class~="language-js"]:before,
-div[class~="language-javascript"]:before {
-  content: "js";
-}
-
-div[class~="language-ts"]:before,
-div[class~="language-typescript"]:before {
-  content: "ts";
-}
-
-div[class~="language-json"]:before {
-  content: "json";
-}
-
-div[class~="language-rb"]:before,
-div[class~="language-ruby"]:before {
-  content: "rb";
-}
-
-div[class~="language-py"]:before,
-div[class~="language-python"]:before {
-  content: "py";
-}
-
-div[class~="language-sh"]:before,
-div[class~="language-bash"]:before {
-  content: "sh";
-}
-
-div[class~="language-php"]:before {
-  content: "php";
-}
-
-div[class~="language-go"]:before {
-  content: "go";
-}
-
-div[class~="language-rust"]:before {
-  content: "rust";
-}
-
-div[class~="language-java"]:before {
-  content: "java";
-}
-
-div[class~="language-c"]:before {
-  content: "c";
-}
-
-div[class~="language-yml"]:before,
-div[class~="language-yaml"]:before {
-  content: "yaml";
-}
-
-div[class~="language-dockerfile"]:before {
-  content: "dockerfile";
-}
-
-div[class~="language-vue"]:before {
-  content: "vue";
+  [class~="language-c"]:before {
+    content: "c";
+  }
+  [class~="language-css"]:before {
+    content: "css";
+  }
+  [class~="language-go"]:before {
+    content: "go";
+  }
+  [class~="language-html"]:before {
+    content: "html";
+  }
+  [class~="language-java"]:before {
+    content: "java";
+  }
+  [class~="language-javascript"]:before {
+    content: "js";
+  }
+  [class~="language-js"]:before {
+    content: "js";
+  }
+  [class~="language-json"]:before {
+    content: "json";
+  }
+  [class~="language-jsx"]:before {
+    content: "jsx";
+  }
+  [class~="language-less"]:before {
+    content: "less";
+  }
+  [class~="language-markdown"]:before {
+    content: "md";
+  }
+  [class~="language-md"]:before {
+    content: "md";
+  }
+  [class~="language-php"]:before {
+    content: "php";
+  }
+  [class~="language-python"]:before {
+    content: "py";
+  }
+  [class~="language-py"]:before {
+    content: "py";
+  }
+  [class~="language-rb"]:before {
+    content: "rb";
+  }
+  [class~="language-ruby"]:before {
+    content: "rb";
+  }
+  [class~="language-rust"]:before {
+    content: "rust";
+  }
+  [class~="language-sass"]:before {
+    content: "sass";
+  }
+  [class~="language-scss"]:before {
+    content: "scss";
+  }
+  [class~="language-sh"]:before {
+    content: "sh";
+  }
+  [class~="language-bash"]:before {
+    content: "sh";
+  }
+  [class~="language-stylus"]:before {
+    content: "styl";
+  }
+  [class~="language-vue-html"]:before {
+    content: "template";
+  }
+  [class~="language-typescript"]:before {
+    content: "ts";
+  }
+  [class~="language-ts"]:before {
+    content: "ts";
+  }
+  [class~="language-tsx"]:before {
+    content: "tsx";
+  }
+  [class~="language-vue"]:before {
+    content: "vue";
+  }
+  [class~="language-yaml"]:before {
+    content: "yaml";
+  }
 }

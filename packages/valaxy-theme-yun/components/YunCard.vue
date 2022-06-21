@@ -4,7 +4,7 @@ defineProps<{ cover?: string }>()
 
 <template>
   <div class="yun-card">
-    <img v-if="cover" class="object-cover" h="64 md:sm" w="full" :src="cover">
+    <img v-if="cover" class="object-cover select-none" h="64 md:sm" w="full" :src="cover">
 
     <div v-if="$slots.header" class="yun-card-header">
       <header>

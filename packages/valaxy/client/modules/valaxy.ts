@@ -12,7 +12,7 @@ import { useStorage } from '@vueuse/core'
 
 import type { Router } from 'vue-router'
 import type { PageDataPayload } from '../../types'
-import { initConfig, initContext, valaxyConfigSymbol } from '../config'
+import { initConfig, valaxyConfigSymbol } from '../config'
 import { ensureSuffix } from '@antfu/utils'
 
 import type { UserModule } from '~/types'
@@ -45,7 +45,6 @@ function shouldHotReload(payload: PageDataPayload): boolean {
 
 export const install: UserModule = ({ app, router }) => {
   // inject valaxy config before modules
-  const ctx = initContext()
   const config = initConfig()
   app.provide(valaxyConfigSymbol, config)
 
@@ -61,18 +60,6 @@ export const install: UserModule = ({ app, router }) => {
 
   router.isReady().then(() => {
     handleHMR(router)
-  })
-
-  function pathToUrl(path: string): string {
-    return `${location.origin}/@fs${ctx.value.userRoot}/pages${path}.md?import`
-  }
-
-  router.beforeEach(async (to) => {
-    try {
-      const { __pageData } = await import(/* @vite-ignore */pathToUrl(to.path))
-      to.meta = Object.assign(to.meta, __pageData)
-    }
-    catch {}
   })
 }
 

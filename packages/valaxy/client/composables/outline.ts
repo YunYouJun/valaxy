@@ -1,6 +1,5 @@
 import type { Ref } from 'vue'
-import { computed, onMounted, onUnmounted, onUpdated } from 'vue'
-import { useRoute } from 'vue-router'
+import { onMounted, onUnmounted, onUpdated } from 'vue'
 import type { Header } from '../../types'
 import { throttleAndDebounce } from '~/utils'
 
@@ -51,18 +50,6 @@ function mapHeaders(
 
 // magic number to avoid repeated retrieval
 const PAGE_OFFSET = 56
-
-export function useOutline() {
-  const route = useRoute()
-
-  const hasOutline = computed(() => {
-    return route.meta?.headers?.length > 0
-  })
-
-  return {
-    hasOutline,
-  }
-}
 
 export function useActiveAnchor(
   container: Ref<HTMLElement>,
