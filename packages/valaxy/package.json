@@ -63,6 +63,7 @@
     "dayjs": "^1.11.3",
     "escape-html": "^1.0.3",
     "feed": "^4.2.2",
+    "gray-matter": "^4.0.3",
     "katex": "^0.16.0",
     "kolorist": "^1.5.1",
     "lru-cache": "^7.10.1",

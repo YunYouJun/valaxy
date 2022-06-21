@@ -13,7 +13,6 @@
     "valaxy-theme-yun": "link:../../packages/valaxy-theme-yun"
   },
   "devDependencies": {
-    "nodemon": "^2.0.16",
-    "vite-plugin-pwa": "^0.12.0"
+    "nodemon": "^2.0.16"
   }
 }
