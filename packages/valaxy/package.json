@@ -48,6 +48,7 @@
     "preview-https": "serve dist"
   },
   "dependencies": {
+    "@antfu/utils": "^0.5.2",
     "@ctrl/tinycolor": "^3.4.1",
     "@docsearch/css": "^3.1.0",
     "@docsearch/js": "^3.1.0",
@@ -67,6 +68,7 @@
     "katex": "^0.16.0",
     "kolorist": "^1.5.1",
     "lru-cache": "^7.10.1",
+    "markdown-it": "^13.0.1",
     "markdown-it-anchor": "^8.6.4",
     "markdown-it-attrs": "^4.1.4",
     "markdown-it-container": "^3.0.0",
