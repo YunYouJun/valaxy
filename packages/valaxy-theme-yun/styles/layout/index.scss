@@ -2,14 +2,7 @@
 @use "./post" as *;
 
 .yun-main {
-  // margin: 0;
   padding-left: var(--va-sidebar-width-mobile);
   transition: padding-left var(--va-transition-duration);
-
-  box-sizing: content-box;
-
-  // max-width: calc(100vw - var(--va-sidebar-width-mobile));
-  // max-width: calc(100vw - 2 * var(--va-sidebar-width-mobile) - 1rem - 8px);
+  box-sizing: border-box;
 }
-
-// @include xl
