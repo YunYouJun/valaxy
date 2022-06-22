@@ -8,36 +8,45 @@
   }
 }
 
+@media (min-width: 640px) {
+  .markdown-body div[class*="language-"] {
+    border-radius: 6px;
+    margin: 16px 0;
+  }
+}
+
+@media (max-width: 639px) {
+  .markdown-body li div[class*="language-"] {
+    border-radius: 6px 0 0 6px;
+  }
+}
+
 .markdown-body {
   div[class*="language-"] {
     position: relative;
     background-color: var(--va-code-block-bg);
 
     code {
-      padding: 0;
-      background-color: var(--va-code-bg-color);
+      padding: 0 24px;
+      line-height: var(--va-code-line-height);
+      font-size: var(--va-code-font-size);
+      color: var(--va-code-block-color);
+      transition: color 0.5s;
+      width: fit-content;
     }
 
     pre {
       position: relative;
-      padding: 1rem;
       z-index: 1;
-      background: none;
+      margin: 0;
+      padding: 1rem 0;
+      background: transparent;
+      overflow-x: auto;
 
       // expand
       code {
         display: block;
       }
-    }
-  }
-}
-
-/* Line highlighting */
-
-.dark {
-  .highlight-lines {
-    .highlighted {
-      background-color: rgba(0, 0, 0, 0.4);
     }
   }
 }
@@ -49,7 +58,7 @@
     top: 0;
     bottom: 0;
     left: 0;
-    padding: 1rem 0;
+    padding: 16px 0;
     width: 100%;
     line-height: var(--va-code-line-height);
     font-family: var(--va-font-mono);
@@ -58,7 +67,8 @@
     overflow: hidden;
 
     .highlighted {
-      background-color: rgba(0, 0, 0, 0.08);
+      background-color: var(--va-code-line-highlight-color);
+      transition: background-color 0.5s;
     }
   }
 

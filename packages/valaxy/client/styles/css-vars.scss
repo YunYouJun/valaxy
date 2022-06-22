@@ -34,11 +34,11 @@ $c-primary: #0078e7 !default;
 
 // code
 :root {
-  --va-code-line-height: 1.7
+  --va-code-line-height: 1.7;
   --va-code-font-size: 0.875em;
 
   --va-code-block-color: var(--va-c-text-dark-1);
-  --va-code-block-bg: #292d3e;
+  --va-code-block-bg: #282c34;
 
   --va-code-line-highlight-color: rgba(0, 0, 0, 0.5);
   --va-code-line-number-color: var(--va-c-text-dark-3);

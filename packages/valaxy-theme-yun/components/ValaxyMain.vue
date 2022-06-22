@@ -14,10 +14,10 @@ const title = usePostTitle(computed(() => props.frontmatter))
 </script>
 
 <template>
-  <main class="yun-main lt-md:ml-0">
-    <div class="container" w="full" flex="~ grow">
+  <main class="yun-main lt-md:ml-0" flex="~">
+    <div w="full" flex="~">
       <slot name="main-content">
-        <div class="content block" w="full" m="auto" p="l-4 lt-md:0">
+        <div class="content" flex="~ col grow" w="full" p="l-4 lt-md:0">
           <YunCard :cover="frontmatter.cover" m="0" class="relative" :style="styles">
             <slot name="main-header">
               <YunPageHeader :title="title" :icon="frontmatter.icon || icon" :color="frontmatter.color || color" :cover="frontmatter.cover" />
@@ -50,11 +50,9 @@ const title = usePostTitle(computed(() => props.frontmatter))
       </slot>
 
       <slot name="aside">
-        <div class="block" w="300px">
-          <YunAside :frontmatter="frontmatter" :data="data">
-            <slot name="aside-custom" />
-          </YunAside>
-        </div>
+        <YunAside :frontmatter="frontmatter" :data="data">
+          <slot name="aside-custom" />
+        </YunAside>
       </slot>
     </div>
   </main>
@@ -65,7 +63,7 @@ const title = usePostTitle(computed(() => props.frontmatter))
 @include xl {
   .content{
     // 8px scrollbar width
-    // max-width: calc(100vw - 2 * var(--va-sidebar-width-mobile) - 1rem - 8px);
+    max-width: calc(100vw - 2 * var(--va-sidebar-width-mobile) - 1rem - 8px);
   }
 }
 </style>

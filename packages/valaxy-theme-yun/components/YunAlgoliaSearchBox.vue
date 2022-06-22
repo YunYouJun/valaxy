@@ -142,6 +142,9 @@ function getRelativePath(absoluteUrl: string) {
 .dark .DocSearch {
   --docsearch-modal-shadow: none;
   --docsearch-footer-shadow: none;
+  --docsearch-logo-color: var(--va-c-text-2);
+  --docsearch-hit-background: var(--va-c-bg-mute);
+  --docsearch-hit-color: var(--va-c-text-2);
   --docsearch-hit-shadow: none;
 }
 
