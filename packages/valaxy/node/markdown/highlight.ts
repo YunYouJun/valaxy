@@ -1,4 +1,5 @@
 import { getHighlighter } from 'shiki'
+import consola from 'consola'
 import type { ThemeOptions } from '../markdown'
 
 export async function highlight(theme: ThemeOptions = 'material-palenight') {
@@ -8,6 +9,15 @@ export async function highlight(theme: ThemeOptions = 'material-palenight') {
 
   return (str: string, lang: string) => {
     lang = lang || 'text'
+
+    // https://stackoverflow.com/questions/22268952/what-is-the-difference-between-yaml-and-yml-extension
+    // use yaml better
+
+    // adaptive
+    if (lang === 'yml') {
+      lang = 'yaml'
+      consola.warn('[shiki] It is recommended to use `.yaml` instead of `.yml`.')
+    }
 
     if (typeof theme === 'string') {
       return highlighter
