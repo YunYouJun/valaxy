@@ -190,6 +190,7 @@ export async function createMarkdownToVueRenderFn(
         'main-header-after',
         'main-nav',
         'main-content',
+        'main-content-after',
         'footer',
         'aside',
         'aside-custom',

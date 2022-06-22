@@ -49,14 +49,14 @@ const title = usePostTitle(frontmatter)
 
 <template>
   <Base>
-    <template #header>
+    <template #main-header>
       <YunPageHeader
         :title="title || t('menu.tags')"
         :icon="frontmatter.icon || 'i-ri-tag-line'"
         :color="frontmatter.color"
       />
     </template>
-    <template #content>
+    <template #main-content>
       <div class="yun-text-light" text="center" p="2">
         {{ t('counter.tags', Array.from(tags).length) }}
       </div>
@@ -70,10 +70,12 @@ const title = usePostTitle(frontmatter)
       <router-view />
     </template>
 
-    <YunCard v-if="curTag" ref="collapse" m="t-4" w="full">
-      <YunPageHeader :title="curTag" icon="i-ri-hashtag" />
-      <YunPostCollapse w="full" m="b-4" p="x-20 lt-sm:x-5" :posts="posts" />
-    </YunCard>
+    <template #main-content-after>
+      <YunCard v-if="curTag" ref="collapse" m="t-4" w="full">
+        <YunPageHeader :title="curTag" icon="i-ri-hashtag" />
+        <YunPostCollapse w="full" m="b-4" p="x-20 lt-sm:x-5" :posts="posts" />
+      </YunCard>
+    </template>
   </Base>
 </template>
 

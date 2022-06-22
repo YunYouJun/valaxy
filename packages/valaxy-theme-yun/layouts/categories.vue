@@ -47,14 +47,14 @@ const title = usePostTitle(frontmatter)
 
 <template>
   <Base>
-    <template #header>
+    <template #main-header>
       <YunPageHeader
         :title="title || t('menu.categories')"
         :icon="frontmatter.icon || 'i-ri-folder-2-line'"
         :color="frontmatter.color"
       />
     </template>
-    <template #content>
+    <template #main-content>
       <div text="center" class="yun-text-light" p="2">
         {{ t('counter.categories', categories.children!.size) }}
       </div>
@@ -62,9 +62,11 @@ const title = usePostTitle(frontmatter)
       <router-view />
     </template>
 
-    <YunCard v-if="curCategory" ref="collapse" m="t-4" w="full">
-      <YunPageHeader :title="curCategory === 'Uncategorized' ? t('category.uncategorized') : curCategory" icon="i-ri-folder-open-line" />
-      <YunPostCollapse w="full" m="b-4" p="x-20 lt-sm:x-5" :posts="posts" />
-    </YunCard>
+    <template #main-content-after>
+      <YunCard v-if="curCategory" ref="collapse" m="t-4" w="full">
+        <YunPageHeader :title="curCategory === 'Uncategorized' ? t('category.uncategorized') : curCategory" icon="i-ri-folder-open-line" />
+        <YunPostCollapse w="full" m="b-4" p="x-20 lt-sm:x-5" :posts="posts" />
+      </YunCard>
+    </template>
   </Base>
 </template>

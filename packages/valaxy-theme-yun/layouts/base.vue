@@ -20,11 +20,21 @@ const config = useConfig()
 
   <router-view v-slot="{ Component }">
     <component :is="Component">
+      <template #main-header>
+        <slot name="main-header" />
+      </template>
+
       <template #main-header-after>
         <slot name="main-header-after" />
       </template>
       <template #main>
         <slot name="main" />
+      </template>
+      <template #main-content>
+        <slot name="main-content" />
+      </template>
+      <template #main-content-after>
+        <slot name="main-content-after" />
       </template>
       <template #aside-custom>
         <slot name="aside-custom" />

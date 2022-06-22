@@ -16,7 +16,7 @@ const title = usePostTitle(computed(() => props.frontmatter))
 <template>
   <main class="yun-main lt-md:ml-0" flex="~">
     <div w="full" flex="~">
-      <slot name="main-content">
+      <slot name="main">
         <div class="content" flex="~ col grow" w="full" p="l-4 lt-md:0">
           <YunCard :cover="frontmatter.cover" m="0" class="relative" :style="styles">
             <slot name="main-header">
@@ -25,12 +25,15 @@ const title = usePostTitle(computed(() => props.frontmatter))
             <slot name="main-header-after" />
 
             <div p="x-4 b-8" class="sm:px-6 lg:px-12 xl:px-16" w="full">
+              <slot name="main-content" />
               <ValaxyMd :frontmatter="frontmatter">
                 <slot name="main-content-md" />
                 <slot />
               </ValaxyMd>
             </div>
           </YunCard>
+
+          <slot name="main-content-after" />
 
           <slot name="main-nav">
             <YunPostNav v-if="frontmatter.nav !== false" />

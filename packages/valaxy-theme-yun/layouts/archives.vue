@@ -12,10 +12,10 @@ const title = usePostTitle(frontmatter)
 
 <template>
   <Base>
-    <template #header>
+    <template #main-header>
       <YunPageHeader :title="title || t('menu.archives')" :icon="frontmatter.icon || 'i-ri-archive-line'" :color="frontmatter.color" />
     </template>
-    <template #content>
+    <template #main-content>
       <router-view />
       <YunPostCollapse :posts="postList" />
     </template>

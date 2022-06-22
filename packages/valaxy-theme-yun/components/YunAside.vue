@@ -26,7 +26,6 @@ const app = useAppStore()
         {{ t('sidebar.toc') }}
       </h2>
 
-      <!-- <ValaxyToc v-if="frontmatter.toc !== false" /> -->
       <YunToc v-if="frontmatter.toc !== false" :headers="data.headers || []" />
 
       <div class="flex-grow" />
