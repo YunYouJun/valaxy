@@ -3,12 +3,13 @@ button:
   back: Back
   go: GO
   home: Home
-  toggle_dark: Toggle dark mode
+  toggle_light: Switch to light mode
+  toggle_dark: Switch to dark mode
   toggle_langs: Change languages
 intro:
   desc: Theme Yun | Valaxy
   hi: Hi, {name}!
-not-found: Oops! Space collapse!
+not-found: Oops! Space collapsed!
 
 title:
   archive: Archive
@@ -40,8 +41,8 @@ post:
   toc_empty: This post does not have a Table of Contents
   views: Views
   comments_count: Comments
-  related_posts: Related Posts
-  view_link: View Link
+  related_posts: Related posts
+  view_link: View link
   read_more: READ MORE
   cover: Cover
   copyright:
@@ -61,24 +62,24 @@ footer:
   total_visitors: Total Visitors
 
 counter:
-  archives: No post | 1 post in total | {count} posts in total
-  categories: No category | 1 category in total | {count} categories in total
-  tags: No tag | 1 tag in total | {count} tags in total
+  archives: No posts | 1 post | {count} posts
+  categories: No categories | 1 category | {count} categories
+  tags: No tags | 1 tag | {count} tags
   albums:
     zero: No album
-    one: 1 album in total
-    other: '%d albums in total'
+    one: 1 album
+    other: '%d albums'
   photos:
     zero: No photo
-    one: 1 photo in total
-    other: '%d photos in total'
+    one: 1 photo
+    other: '%d photos'
 
 category:
   uncategorized: Uncategorized
 
 search:
   placeholder: Searching...
-  empty: 'We didn''t find any results for the search: {query}.'
+  empty: 'We could not find any results for the search: {query}.'
   hits_time: '{hits} results found in {time} ms'
 
 symbol:
@@ -97,12 +98,12 @@ accessibility:
 
 wordcount:
   count: Word count in article
-  count_total: Word count total
+  count_total: Total words
   time: Reading time
   time_total: Total reading time
 
 time:
-  day: Days
-  hour: Hours
-  minute: Minutes
-  second: Seconds
+  day: 1 Day | %d Days
+  hour: 1 Hour | %d Hours
+  minute: 1 Minute | %d Minutes
+  second: 1 Second | %d Seconds

@@ -3,6 +3,7 @@ button:
   back: 返回
   go: 确定
   home: 首页
+  toggle_light: 切换亮色模式
   toggle_dark: 切换深色模式
   toggle_langs: 切换语言
 intro:
@@ -101,7 +102,7 @@ wordcount:
   time_total: 站点阅读时长
 
 time:
-  day: 天
-  hour: 小时
-  minute: 分
-  second: 秒
+  day: 1 天 | %d 天
+  hour: 1 小时 | %d 小时
+  minute: 1 分 | %d 分
+  second: 1 秒 | %d 秒
