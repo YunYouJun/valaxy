@@ -3,9 +3,9 @@ button:
   back: Back
   go: GO
   home: Home
-  toggle_light: Switch to light theme
-  toggle_dark: Switch to dark theme
-  toggle_langs: Change languages
+  toggle_light: Switch to light mode
+  toggle_dark: Switch to dark mode
+  toggle_lang: Switch language
 intro:
   desc: Theme Yun | Valaxy
   hi: Hi, {name}!
