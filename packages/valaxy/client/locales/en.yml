@@ -47,7 +47,7 @@ post:
   copyright:
     author: Post author
     link: Post link
-    license_title: Copyright notice
+    license_title: Copyright Notice
     license_content: 'All articles in this blog are licensed under {0} unless otherwise stated.'
 
 # page:
@@ -57,8 +57,8 @@ post:
 footer:
   powered: 'Powered by {0}'
   theme: Theme
-  total_views: Total views
-  total_visitors: Total visitors
+  total_views: Total Views
+  total_visitors: Total Visitors
 
 counter:
   archives: No posts | 1 post | {count} posts
