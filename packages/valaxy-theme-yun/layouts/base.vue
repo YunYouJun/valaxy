@@ -36,6 +36,12 @@ const config = useConfig()
       <template #main-content-after>
         <slot name="main-content-after" />
       </template>
+      <template #main-nav-before>
+        <slot name="main-nav-before" />
+      </template>
+      <template #main-nav-after>
+        <slot name="main-nav-after" />
+      </template>
       <template #aside-custom>
         <slot name="aside-custom" />
       </template>

@@ -62,7 +62,7 @@ const title = usePostTitle(frontmatter)
       <router-view />
     </template>
 
-    <template #main-content-after>
+    <template #main-nav-before>
       <YunCard v-if="curCategory" ref="collapse" m="t-4" w="full">
         <YunPageHeader :title="curCategory === 'Uncategorized' ? t('category.uncategorized') : curCategory" icon="i-ri-folder-open-line" />
         <YunPostCollapse w="full" m="b-4" p="x-20 lt-sm:x-5" :posts="posts" />

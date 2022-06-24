@@ -191,6 +191,8 @@ export async function createMarkdownToVueRenderFn(
         'main-nav',
         'main-content',
         'main-content-after',
+        'main-nav-before',
+        'main-nav-after',
         'footer',
         'aside',
         'aside-custom',

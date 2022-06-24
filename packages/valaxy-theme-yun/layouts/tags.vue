@@ -70,7 +70,7 @@ const title = usePostTitle(frontmatter)
       <router-view />
     </template>
 
-    <template #main-content-after>
+    <template #main-nav-before>
       <YunCard v-if="curTag" ref="collapse" m="t-4" w="full">
         <YunPageHeader :title="curTag" icon="i-ri-hashtag" />
         <YunPostCollapse w="full" m="b-4" p="x-20 lt-sm:x-5" :posts="posts" />

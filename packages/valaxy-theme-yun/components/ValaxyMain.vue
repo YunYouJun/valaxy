@@ -25,19 +25,24 @@ const title = usePostTitle(computed(() => props.frontmatter))
             <slot name="main-header-after" />
 
             <div p="x-4 b-8" class="sm:px-6 lg:px-12 xl:px-16" w="full">
-              <slot name="main-content" />
-              <ValaxyMd :frontmatter="frontmatter">
-                <slot name="main-content-md" />
-                <slot />
-              </ValaxyMd>
+              <slot name="main-content">
+                <ValaxyMd :frontmatter="frontmatter">
+                  <slot name="main-content-md" />
+                  <slot />
+                </ValaxyMd>
+              </slot>
+
+              <slot name="main-content-after" />
             </div>
           </YunCard>
 
-          <slot name="main-content-after" />
+          <slot name="main-nav-before" />
 
           <slot name="main-nav">
             <YunPostNav v-if="frontmatter.nav !== false" />
           </slot>
+
+          <slot name="main-nav-after" />
 
           <slot v-if="frontmatter.comment !== false" name="comment">
             <YunCard w="full" p="4" class="comment sm:p-6 lg:px-12 xl:px-16" :class="frontmatter.nav === false ? 'mt-4' : 0">
