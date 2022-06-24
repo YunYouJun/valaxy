@@ -5,7 +5,7 @@ button:
   home: Home
   toggle_light: Switch to light mode
   toggle_dark: Switch to dark mode
-  toggle_lang: Switch language
+  toggle_langs: Change languages
 intro:
   desc: Theme Yun | Valaxy
   hi: Hi, {name}!
