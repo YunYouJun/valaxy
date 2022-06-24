@@ -1,10 +1,11 @@
 button:
   about: About
   back: Back
-  go: Go
+  go: GO
   home: Home
-  toggle_theme: Toggle theme
-  change_lang: Change language
+  toggle_light: Switch to light theme
+  toggle_dark: Switch to dark theme
+  toggle_langs: Change languages
 intro:
   desc: Theme Yun | Valaxy
   hi: Hi, {name}!
@@ -42,7 +43,7 @@ post:
   comments_count: Comments
   related_posts: Related posts
   view_link: View link
-  read_more: Read more
+  read_more: READ MORE
   cover: Cover
   copyright:
     author: Post author

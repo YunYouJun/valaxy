@@ -3,8 +3,9 @@ button:
   back: 返回
   go: 确定
   home: 首页
-  toggle_theme: 切换深色模式
-  change_lang: 切换语言
+  toggle_light: 切换亮色模式
+  toggle_dark: 切换深色模式
+  toggle_langs: 切换语言
 intro:
   desc: 主题 Yun
   hi: 你好，{name}
