@@ -16,7 +16,7 @@ jobs:
     strategy:
       matrix:
         node-version: [16.x]
-        os: [ubuntu-latest]
+        os: [ubuntu-latest, windows-latest]
       fail-fast: false
 
     steps:
@@ -44,6 +44,3 @@ jobs:
 
       - name: ☁️ Build Yun Demo (SSG)
         run: pnpm run build:demo
-
-      # - name: Unit Test
-      #   run: pnpm run test:unit
