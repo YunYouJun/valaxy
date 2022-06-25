@@ -12,7 +12,7 @@ import attrs from 'markdown-it-attrs'
 import type { KatexOptions } from 'katex'
 import type { Header } from '../../types'
 import Katex from './markdown-it/katex'
-import { containerPlugin } from './markdown-it/container'
+import { type Blocks, containerPlugin } from './markdown-it/container'
 import { headingPlugin } from './markdown-it/headings'
 import { slugify } from './slugify'
 import { parseHeader } from './markdown-it/parseHeader'
@@ -47,13 +47,17 @@ export interface MarkdownOptions extends MarkdownIt.Options {
    * shiki
    */
   theme?: ThemeOptions
+  /**
+   * Custom block configurations
+   */
+  blocks?: Blocks
 }
 
 export async function setupMarkdownPlugins(md: MarkdownIt, mdOptions: MarkdownOptions = {}) {
   md
     .use(highlightLinePlugin)
     .use(preWrapperPlugin)
-    .use(containerPlugin)
+    .use(containerPlugin, mdOptions.blocks)
     // conflict with {% %}
     .use(attrs)
     // generate toc in client
@@ -104,6 +108,6 @@ export const createMarkdownRenderer = async (
     highlight: await highlight(options.theme),
     ...options,
   }) as MarkdownRenderer
-  await setupMarkdownPlugins(md)
+  await setupMarkdownPlugins(md, options)
   return md
 }

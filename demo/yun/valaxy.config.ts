@@ -95,6 +95,26 @@ const config: UserConfig<YunTheme.Config> = {
     },
   ],
 
+  markdownIt: {
+    blocks: {
+      tip: {
+        icon: 'i-carbon-thumbs-up',
+        text: 'ヒント',
+      },
+      warning: {
+        icon: 'i-carbon-warning-alt',
+        text: '注意',
+      },
+      danger: {
+        icon: 'i-carbon-warning',
+        text: '警告',
+      },
+      info: {
+        text: 'información',
+      },
+    },
+  },
+
   search: {
     enable: true,
     algolia: {

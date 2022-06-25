@@ -13,7 +13,7 @@ type ContainerArgs = [
   },
 ]
 
-function createContainer(classes: string, defaultTitle: string): ContainerArgs {
+function createContainer(classes: string, defaultTitle: string, { icon, color }: Omit<BlockItem, 'text'> = {}): ContainerArgs {
   return [
     container,
     classes,
@@ -27,7 +27,12 @@ function createContainer(classes: string, defaultTitle: string): ContainerArgs {
               `<summary>${info}</summary>`
             }\n`
           }
-          return `<div class="${classes} custom-block"><p class="custom-block-title">${
+          let iconTag = ''
+
+          if (icon)
+            iconTag = `<i class="icon ${icon}" ${color ? `style="color: ${color}"` : ''}></i>`
+
+          return `<div class="${classes} custom-block"><p class="custom-block-title">${iconTag}${
             info || defaultTitle
           }</p>\n`
         }
@@ -39,17 +44,53 @@ function createContainer(classes: string, defaultTitle: string): ContainerArgs {
   ]
 }
 
-export const containerPlugin = (md: MarkdownIt) => {
-  md.use(...createContainer('tip', 'TIP'))
-    .use(...createContainer('info', 'INFO'))
-    .use(...createContainer('warning', 'WARNING'))
-    .use(...createContainer('danger', 'WARNING'))
-    .use(...createContainer('details', 'Details'))
-    // explicitly escape Vue syntax
-    .use(container, 'v-pre', {
-      render: (tokens: Token[], idx: number) =>
-        tokens[idx].nesting === 1 ? '<div v-pre>\n' : '</div>\n',
-    })
+export interface BlockItem {
+  text?: string
+  icon?: string
+  color?: string
+}
+
+export interface Blocks {
+  tip?: BlockItem
+  warning?: BlockItem
+  danger?: BlockItem
+  info?: BlockItem
+  details?: BlockItem
+}
+
+const defaultBlocksOptions: Blocks = {
+  tip: {
+    text: 'TIP',
+  },
+  warning: {
+    text: 'WARNING',
+  },
+  danger: {
+    text: 'WARNING',
+  },
+  info: {
+    text: 'INFO',
+  },
+  details: {
+    text: 'Details',
+  },
+}
+
+export const containerPlugin = (md: MarkdownIt, options: Blocks = {}) => {
+  Object.keys(defaultBlocksOptions).forEach((optionKey) => {
+    const option: BlockItem = {
+      ...defaultBlocksOptions[optionKey as keyof Blocks],
+      ...(options[optionKey as keyof Blocks] || {}),
+    }
+
+    md.use(...createContainer(optionKey, option.text!, option))
+  })
+
+  // explicitly escape Vue syntax
+  md.use(container, 'v-pre', {
+    render: (tokens: Token[], idx: number) =>
+      tokens[idx].nesting === 1 ? '<div v-pre>\n' : '</div>\n',
+  })
 
   const languages = ['zh-CN', 'en']
   languages.forEach((lang) => {
