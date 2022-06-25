@@ -9,12 +9,16 @@ const { t } = useI18n()
     这里是 Valaxy 的文档兼测试站点
 
     <ul>
-      <a href="/docs" :title="t('docs.view_docs')">
-        {{ t('docs.view_docs') }}
-      </a>
-      <router-link class="flex justify-center" to="/examples">
-        Examples
-      </router-link>
+      <li>
+        <a href="/docs" :title="t('docs.view_docs')">
+          {{ t('docs.view_docs') }}
+        </a>
+      </li>
+      <li>
+        <router-link class="flex justify-center" to="/examples">
+          Examples
+        </router-link>
+      </li>
     </ul>
   </YunBoard>
 </template>

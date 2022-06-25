@@ -2,11 +2,13 @@
 title: Valaxy 设计原则
 date: 2022-03-29
 end: false
+tags:
+  - design
 ---
 
-::: zh-CN
-## 特点
+## 特点 {lang="zh-CN"}
 
+::: zh-CN
 与 Hexo 相比，没有 `_drafts` 文件夹。（当然自己新建也完全没问题……）
 
 当在 drafts 文件夹下编写博文时，我不得不在它和 posts 文件夹下来回移动，以预览最终效果。
@@ -19,9 +21,9 @@ Valaxy 认为这完全没有必要，您只需在 `frontmatter` 中添加 `draft
 譬如：
 :::
 
-::: en
-## Features
+## Features {lang="en"}
 
+::: en
 Compared with Hexo, There is no `_drafts` folder. (Of course, it is no problem to create the folder……)
 
 When writing a blog post under the drafts folder, I had to move back and forth under it and the posts folder to preview the final effect.

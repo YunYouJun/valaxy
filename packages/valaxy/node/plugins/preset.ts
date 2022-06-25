@@ -38,7 +38,7 @@ export async function ViteValaxyPlugins(
   const ValaxyPlugin = createValaxyPlugin(options, serverOptions)
 
   const mdIt = new MarkdownIt({ html: true })
-  await setupMarkdownPlugins(mdIt, options.config.markdownIt)
+  await setupMarkdownPlugins(mdIt, options.config.markdownIt, true)
 
   const roots = [clientRoot, themeRoot, userRoot]
 

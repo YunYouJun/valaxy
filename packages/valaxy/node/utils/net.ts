@@ -8,13 +8,18 @@ export async function findFreePort(start: number): Promise<number> {
 
 function isPortFree(port: number): Promise<boolean> {
   return new Promise((resolve) => {
-    const server = net.createServer()
-      .listen(port, () => {
-        server.close()
-        resolve(true)
-      })
-      .on('error', () => {
-        resolve(false)
-      })
+    const server = net.createServer((socket) => {
+      socket.write('Echo server\r\n')
+      socket.pipe(socket)
+    })
+
+    server.listen(port, '127.0.0.1')
+    server.on('error', () => {
+      resolve(false)
+    })
+    server.on('listening', () => {
+      server.close()
+      resolve(true)
+    })
   })
 }

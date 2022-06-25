@@ -60,7 +60,7 @@ cli.command(
     if (!fs.existsSync(path.resolve(root, 'pages')))
       process.exit(0)
 
-    const port = await findFreePort(userPort || 4859)
+    const port = userPort || await findFreePort(4859)
     const options = await resolveOptions({ userRoot: root })
 
     const viteConfig: InlineConfig = {

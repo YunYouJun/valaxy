@@ -19,39 +19,37 @@ const { icon, styles } = usePostProperty(props.post.type)
         v-if="post.cover"
         :src="post.cover"
         :alt="t('post.cover')"
-        w="40%"
-        h="54"
-        class="object-cover object-center md:shadow"
+        width="320" height="180"
+        w="40%" h="54"
+        class="cover object-cover object-center md:shadow"
       >
 
-      <div class="post-card-image-info-text flex-1" w="full">
-        <div class="flex flex-col flex-1 justify-center items-center" w="full">
-          <AppLink
-            class="post-title-link"
-            :to="post.path || ''"
-            m="t-3"
-          >
-            <div class="flex justify-center items-center title text-2xl" font="serif black">
-              <div v-if="post.type" class="inline-flex" m="r-1" :class="icon" />{{ post.title }}
-            </div>
-          </AppLink>
+      <div class="flex flex-col flex-1 items-center" w="full" max-h="54">
+        <AppLink
+          class="post-title-link"
+          :to="post.path || ''"
+          m="t-3"
+        >
+          <div class="flex justify-center items-center title text-2xl" font="serif black">
+            <div v-if="post.type" class="inline-flex" m="r-1" :class="icon" />{{ post.title }}
+          </div>
+        </AppLink>
 
-          <YunPostMeta :frontmatter="post" />
+        <YunPostMeta :frontmatter="post" />
 
-          <div v-if="post.excerpt" class="markdown-body" text="left" w="full" p="x-6 lt-sm:4" v-html="post.excerpt" />
-          <div m="b-5" />
+        <div v-if="post.excerpt" class="markdown-body" text="left" w="full" p="x-6 lt-sm:4" v-html="post.excerpt" />
+        <div m="b-5" />
 
-          <a
-            v-if="post.url"
-            :href="post.url"
-            class="post-link-btn shadow hover:shadow-md"
-            rounded
-            target="_blank"
-            m="b-4"
-          >
-            {{ t('post.view_link') }}
-          </a>
-        </div>
+        <a
+          v-if="post.url"
+          :href="post.url"
+          class="post-link-btn shadow hover:shadow-md"
+          rounded
+          target="_blank"
+          m="b-4"
+        >
+          {{ t('post.view_link') }}
+        </a>
       </div>
     </div>
 
@@ -59,7 +57,6 @@ const { icon, styles } = usePostProperty(props.post.type)
     <div w="full" class="yun-card-actions flex justify-between" border="t" text="sm">
       <div class="inline-flex">
         <router-link
-          v-if="post.categories"
           :to="{
             path: '/categories/',
             query: { category: Array.isArray(post.categories) ? post.categories[post.categories.length - 1] : post.categories },

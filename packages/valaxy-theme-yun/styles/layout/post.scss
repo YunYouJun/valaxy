@@ -8,10 +8,6 @@
 .post-card-image {
   @extend .post-card;
 
-  .post-card-image-info-text {
-    height: 0;
-  }
-
   @include mobile {
     .post-card-info {
       flex-direction: column;

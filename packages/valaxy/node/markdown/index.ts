@@ -53,15 +53,17 @@ export interface MarkdownOptions extends MarkdownIt.Options {
   blocks?: Blocks
 }
 
-export async function setupMarkdownPlugins(md: MarkdownIt, mdOptions: MarkdownOptions = {}) {
+export async function setupMarkdownPlugins(md: MarkdownIt, mdOptions: MarkdownOptions = {}, isExcerpt = false) {
   md
     .use(highlightLinePlugin)
     .use(preWrapperPlugin)
     .use(containerPlugin, mdOptions.blocks)
     // conflict with {% %}
     .use(attrs)
-    // generate toc in client
-    .use(headingPlugin, mdOptions?.toc?.includeLevel)
+
+  // generate toc in client
+  if (!isExcerpt)
+    md.use(headingPlugin, mdOptions?.toc?.includeLevel)
     // .use(lineNumberPlugin)
   // https://github.com/arve0/markdown-it-attrs
   // add classes
@@ -74,17 +76,21 @@ export async function setupMarkdownPlugins(md: MarkdownIt, mdOptions: MarkdownOp
       },
     })
   md.use(Katex, mdOptions.katex)
-    .use(Anchor, {
+
+  if (!isExcerpt) {
+    md.use(Anchor, {
       slugify,
       permalink: Anchor.permalink.ariaHidden({}),
     })
-    .use(TOC, {
-      slugify,
-      includeLevel: [2, 3, 4],
-      format: parseHeader,
-      ...mdOptions.toc,
-    })
-    .use(Emoji)
+      .use(TOC, {
+        slugify,
+        includeLevel: [2, 3, 4],
+        format: parseHeader,
+        ...mdOptions.toc,
+      })
+  }
+
+  md.use(Emoji)
     .use(TaskLists)
 
   const originalRender = md.render
