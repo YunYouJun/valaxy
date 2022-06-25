@@ -81,4 +81,11 @@ html.dark {
 .custom-block-title {
   margin-bottom: -0.4rem;
   font-weight: 600;
+  display: flex;
+  align-items: center;
+
+  > .icon {
+    width: 16px;
+    margin-right: 4px;
+  }
 }
