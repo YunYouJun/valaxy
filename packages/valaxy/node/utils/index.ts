@@ -7,7 +7,7 @@ import consola from 'consola'
 export * from './getGitTimestamp'
 
 /**
- * transform obj for vite cde
+ * transform obj for vite code
  * @param obj
  * @returns
  */

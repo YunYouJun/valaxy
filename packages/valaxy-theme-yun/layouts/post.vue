@@ -20,7 +20,7 @@ const showSponsor = computed(() => {
       <YunPostMeta :frontmatter="frontmatter" />
     </template>
 
-    <template #main>
+    <template #main-content-after>
       <YunSponsor v-if="showSponsor" />
       <ValaxyCopyright v-if="frontmatter.copyright || config.license.enabled" :url="url" m="y-4" />
     </template>

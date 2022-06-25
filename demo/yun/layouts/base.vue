@@ -37,6 +37,14 @@ import Base from 'valaxy-theme-yun/layouts/base.vue'
       <slot name="main-content-after" />
     </template>
 
+    <template #main-nav-before>
+      <slot name="main-nav-before" />
+    </template>
+
+    <template #main-nav-after>
+      <slot name="main-nav-after" />
+    </template>
+
     <template #footer>
       <slot name="footer" />
       <UpyunSupport />
