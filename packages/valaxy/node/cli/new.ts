@@ -26,6 +26,11 @@ export const newPost = (cli: Argv<{}>) => {
           type: 'string',
           default: 'post',
         })
+        .option('date', {
+          alias: 'd',
+          type: 'boolean',
+          describe: 'Generate post with the current date',
+        })
         .strict()
         .help()
     }, async (_args) => {
