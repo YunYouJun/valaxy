@@ -13,6 +13,7 @@ import { version } from '../package.json'
 import { findFreePort } from './utils/net'
 import { resolveOptions } from './options'
 import { bindShortcut, initServer, printInfo } from './utils/cli'
+import { newPost } from './cli/new'
 
 // build
 import { build, ssgBuild } from './build'
@@ -186,6 +187,8 @@ function commonOptions(args: Argv<{}>) {
     describe: 'root folder of your source files',
   })
 }
+
+newPost(cli)
 
 export function run() {
   cli.help().parse()
