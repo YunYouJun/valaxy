@@ -16,11 +16,6 @@ export const newPost = (cli: Argv<{}>) => {
           describe: 'the path to generate new post',
           default: 'post',
         })
-        .option('slug', {
-          alias: 's',
-          type: 'string',
-          describe: 'slug',
-        })
         .option('layout', {
           alias: 'l',
           type: 'string',
