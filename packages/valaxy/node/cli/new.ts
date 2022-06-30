@@ -1,4 +1,5 @@
 import type { Argv } from 'yargs'
+import { type CreatePostParams, create } from './utils/post'
 
 export const newPost = (cli: Argv<{}>) => {
   cli.command(
@@ -13,7 +14,7 @@ export const newPost = (cli: Argv<{}>) => {
         .option('path', {
           alias: 'p',
           type: 'string',
-          describe: 'the path to generate new post',
+          describe: 'the path to generate new post. Customize the path of post to generate',
           default: 'post',
         })
         .option('layout', {
@@ -28,7 +29,14 @@ export const newPost = (cli: Argv<{}>) => {
         })
         .strict()
         .help()
-    }, async (_args) => {
+    }, async ({ title, path, date, layout }) => {
+      create({
+        title,
+        date,
+        layout,
+        // TODO: handle the path with different OS.
+        path: path || title,
+      } as CreatePostParams)
       // TODO: Implement commands
     })
 }
