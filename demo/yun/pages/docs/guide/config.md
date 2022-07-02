@@ -12,6 +12,30 @@ end: false
 
 > 在每篇文章末尾，展示赞助（打赏）信息。
 
+```ts
+// valaxy.config.ts
+import { defineConfig } from 'valaxy'
+export default defineConfig({
+  sponsor: {
+    enable: true,
+    methods: [
+      {
+        name: '支付宝',
+        url: 'https://cdn.jsdelivr.net/gh/YunYouJun/cdn/img/donate/alipay-qrcode.jpg',
+        color: '#00A3EE',
+        icon: 'i-ri-alipay-line',
+      },
+      {
+        name: '微信支付',
+        url: 'https://cdn.jsdelivr.net/gh/YunYouJun/cdn/img/donate/wechatpay-qrcode.jpg',
+        color: '#2DC100',
+        icon: 'i-ri-wechat-pay-line',
+      },
+    ],
+  },
+})
+```
+
 你可以通过 `sponsor` 属性控制全局是否开启。
 
 ```ts
