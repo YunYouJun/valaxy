@@ -19,6 +19,7 @@ import { newPost } from './cli/new'
 import { build, ssgBuild } from './build'
 // rss
 import { build as rssBuild } from './rss'
+import { mergeViteConfigs } from './common'
 
 const cli = yargs.scriptName('valaxy')
   .usage('$0 [args]')
@@ -135,14 +136,14 @@ cli.command(
     const options = await resolveOptions({ userRoot: root }, 'build')
     printInfo(options)
 
-    const viteConfig = {
+    const viteConfig = await mergeViteConfigs(options, {
       base,
       build: {
         // make out dir empty, https://vitejs.dev/config/#build-emptyoutdir
         emptyOutDir: true,
         outDir: path.resolve(options.userRoot, output),
       },
-    }
+    }, {}, 'build')
 
     if (ssg) {
       consola.info(`use ${yellow('vite-ssg')} to do ssg build...`)

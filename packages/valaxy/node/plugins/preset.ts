@@ -14,16 +14,12 @@ import VueI18n from '@intlify/vite-plugin-vue-i18n'
 import Inspect from 'vite-plugin-inspect'
 
 import { dim, yellow } from 'kolorist'
-import type { ResolvedValaxyOptions, ValaxyServerOptions } from '../options'
+import type { ResolvedValaxyOptions, ValaxyPluginOptions, ValaxyServerOptions } from '../options'
 import { setupMarkdownPlugins } from '../markdown'
 // import { createMarkdownPlugin, excerpt_separator } from './markdown'
 import { createUnocssPlugin } from './unocss'
 import { createConfigPlugin } from './extendConfig'
 import { createValaxyPlugin } from '.'
-
-export interface ValaxyPluginOptions {
-  components?: Parameters<typeof Components>[0]
-}
 
 export async function ViteValaxyPlugins(
   options: ResolvedValaxyOptions,

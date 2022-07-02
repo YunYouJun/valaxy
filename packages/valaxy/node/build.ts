@@ -18,14 +18,14 @@ export async function ssgBuild(
   options: ResolvedValaxyOptions,
   viteConfig: InlineConfig = {},
 ) {
-  const inlineConfig: InlineConfig = mergeConfig(await createViteConfig(options), viteConfig)
-
-  // https://github.com/antfu/vite-ssg
-  inlineConfig.ssgOptions = {
+  const defaultConfig = await createViteConfig(options)
+  defaultConfig.ssgOptions = {
     script: 'async',
     formatting: 'minify',
     onFinished() { generateSitemap() },
+    dirStyle: 'nested',
   }
+  const inlineConfig: InlineConfig = mergeConfig(defaultConfig, viteConfig)
 
   await viteSsgBuild({}, inlineConfig)
 }

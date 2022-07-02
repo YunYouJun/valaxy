@@ -1,6 +1,5 @@
 import { defineConfig } from 'vite'
 // import { VitePWA } from 'vite-plugin-pwa'
-// import valaxyConfig from './valaxy.config'
 
 export default defineConfig({
   plugins: [

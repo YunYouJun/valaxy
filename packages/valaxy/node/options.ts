@@ -1,6 +1,7 @@
 import { dirname, resolve } from 'path'
 import _debug from 'debug'
 import fg from 'fast-glob'
+import type Components from 'unplugin-vue-components/vite'
 import type { ValaxyConfig } from '../types'
 import { resolveConfig } from './config'
 import { resolveImportPath } from './utils'
@@ -14,6 +15,10 @@ export interface ValaxyEntryOptions {
    */
   theme?: string
   userRoot?: string
+}
+
+export interface ValaxyPluginOptions {
+  components?: Parameters<typeof Components>[0]
 }
 
 export interface ResolvedValaxyOptions {
