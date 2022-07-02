@@ -44,7 +44,7 @@ const title = usePostTitle(computed(() => props.frontmatter))
 
           <slot name="main-nav-after" />
 
-          <slot v-if="frontmatter.comment !== false" name="comment">
+          <slot v-if="config.comment.enable && frontmatter.comment !== false" name="comment">
             <YunCard w="full" p="4" class="comment sm:p-6 lg:px-12 xl:px-16" :class="frontmatter.nav === false ? 'mt-4' : 0">
               <YunWaline v-if="config.comment.waline.enable" />
               <YunTwikoo v-if="config.comment.twikoo.enable" />

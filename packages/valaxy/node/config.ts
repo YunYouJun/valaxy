@@ -53,6 +53,7 @@ const defaultValaxyConfig: ValaxyConfig = {
   },
 
   comment: {
+    enable: false,
     waline: {
       enable: false,
       serverURL: '',

@@ -119,6 +119,7 @@ export interface ValaxyConfig<T = ValaxyThemeConfig> {
    * comment: waline/...
    */
   comment: {
+    enable: boolean
     waline: {
       enable: boolean
       serverURL: string
