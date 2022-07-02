@@ -50,10 +50,10 @@
   "dependencies": {
     "@antfu/utils": "^0.5.2",
     "@ctrl/tinycolor": "^3.4.1",
-    "@docsearch/css": "^3.1.0",
-    "@docsearch/js": "^3.1.0",
-    "@iconify-json/carbon": "^1.1.5",
-    "@iconify-json/ri": "^1.1.2",
+    "@docsearch/css": "^3.1.1",
+    "@docsearch/js": "^3.1.1",
+    "@iconify-json/carbon": "^1.1.6",
+    "@iconify-json/ri": "^1.1.3",
     "@intlify/vite-plugin-vue-i18n": "^3.4.0",
     "@vitejs/plugin-vue": "^2.3.3",
     "@vueuse/core": "^8.7.5",
@@ -67,7 +67,7 @@
     "gray-matter": "^4.0.3",
     "katex": "^0.16.0",
     "kolorist": "^1.5.1",
-    "lru-cache": "^7.10.2",
+    "lru-cache": "^7.12.0",
     "markdown-it": "^13.0.1",
     "markdown-it-anchor": "^8.6.4",
     "markdown-it-attrs": "^4.1.4",
@@ -83,11 +83,11 @@
     "shiki": "^0.10.1",
     "star-markdown-css": "^0.3.3",
     "unconfig": "^0.3.4",
-    "unocss": "^0.41.0",
-    "unplugin-vue-components": "^0.19.9",
-    "vite": "^2.9.12",
-    "vite-plugin-inspect": "^0.5.0",
-    "vite-plugin-pages": "^0.24.2",
+    "unocss": "^0.43.0",
+    "unplugin-vue-components": "^0.21.0",
+    "vite": "^2.9.13",
+    "vite-plugin-inspect": "^0.5.1",
+    "vite-plugin-pages": "^0.25.0",
     "vite-plugin-vue-layouts": "^0.6.0",
     "vite-ssg": "0.19.2",
     "vite-ssg-sitemap": "0.2.7",
@@ -106,6 +106,6 @@
     "debug": "^4.3.4",
     "diacritics": "^1.3.0",
     "https-localhost": "^4.7.1",
-    "type-fest": "^2.14.0"
+    "type-fest": "^2.15.1"
   }
 }
