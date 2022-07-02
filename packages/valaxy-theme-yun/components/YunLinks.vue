@@ -12,7 +12,7 @@ interface LinkType {
 }
 
 const props = defineProps<{
-  links: LinkType[]
+  links: string | LinkType[]
   random: boolean
 }>()
 

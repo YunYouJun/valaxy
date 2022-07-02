@@ -29,4 +29,8 @@ html.dark {
       margin-bottom: 0;
     }
   }
+
+  img + em {
+    color: var(--va-c-text-lighter);
+  }
 }
