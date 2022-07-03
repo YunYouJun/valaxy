@@ -1,4 +1,7 @@
+import consola from 'consola'
+import { magenta } from 'chalk'
 import type { Argv } from 'yargs'
+import { type CreatePostParams, create } from './utils/post'
 
 export const newPost = (cli: Argv<{}>) => {
   cli.command(
@@ -13,8 +16,7 @@ export const newPost = (cli: Argv<{}>) => {
         .option('path', {
           alias: 'p',
           type: 'string',
-          describe: 'the path to generate new post',
-          default: 'post',
+          describe: 'the path to generate new post. Customize the path of post to generate',
         })
         .option('layout', {
           alias: 'l',
@@ -28,7 +30,13 @@ export const newPost = (cli: Argv<{}>) => {
         })
         .strict()
         .help()
-    }, async (_args) => {
-      // TODO: Implement commands
+    }, async ({ title, path, date, layout }) => {
+      const filename = await create({
+        title,
+        date,
+        layout,
+        path,
+      } as CreatePostParams)
+      consola.success(`[valaxy new]: successfully generated file ${magenta(filename)}}`)
     })
 }
