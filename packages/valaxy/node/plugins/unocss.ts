@@ -3,6 +3,7 @@ import { existsSync } from 'fs'
 import type { VitePluginConfig as UnoCSSConfig, VitePluginConfig } from 'unocss/vite'
 import Unocss from 'unocss/vite'
 import jiti from 'jiti'
+import defu from 'defu'
 
 import {
   presetAttributify,
@@ -14,7 +15,7 @@ import {
 } from 'unocss'
 import type { ValaxyConfig } from 'valaxy'
 import type { ThemeUserConfig } from 'valaxy-theme-yun'
-import { deepMerge, uniq } from '@antfu/utils'
+import { uniq } from '@antfu/utils'
 import type { ResolvedValaxyOptions, ValaxyPluginOptions } from '../options'
 import { loadSetups } from './setupNode'
 
@@ -127,10 +128,10 @@ export const createUnocssPlugin = async (options: ResolvedValaxyOptions, { unocs
 
   config = await loadSetups(roots, 'unocss.ts', {}, config, true)
 
-  const unocssConfig = deepMerge(defaultConfig, config)
+  const unocssConfig = defu(defaultConfig, config)
 
   return Unocss({
     configFile: false,
-    ...deepMerge(unocssConfig, unoOptions || {}) as UnoCSSConfig,
+    ...defu(unocssConfig, unoOptions || {}) as UnoCSSConfig,
   })
 }
