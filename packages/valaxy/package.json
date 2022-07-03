@@ -17,11 +17,10 @@
   ],
   "exports": {
     ".": {
-      "types": "./dist/index.d.ts",
-      "require": "./dist/index.js",
-      "import": "./dist/index.mjs"
+      "types": "./index.d.ts",
+      "require": "./dist/node/index.js",
+      "import": "./dist/node/index.mjs"
     },
-    "./client": "./dist/client.d.ts",
     "./client/*": "./client/*",
     "./node": {
       "types": "./dist/node/index.d.ts",
@@ -30,13 +29,18 @@
     },
     "./*": "./*"
   },
-  "main": "dist/index.js",
-  "module": "dist/index.mjs",
-  "types": "dist/index.d.ts",
+  "main": "dist/node/index.js",
+  "module": "dist/node/index.mjs",
+  "types": "index.d.ts",
   "bin": {
     "vala": "./bin/valaxy.js",
     "valaxy": "./bin/valaxy.js"
   },
+  "files": [
+    "bin",
+    "dist",
+    "client"
+  ],
   "engines": {
     "node": ">=14.0.0"
   },

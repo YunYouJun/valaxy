@@ -115,10 +115,15 @@ export const createUnocssPlugin = async (options: ResolvedValaxyOptions, { unocs
     resolve(clientRoot, 'uno.config.ts'),
   ])
 
-  const configFile = configFiles.find(i => existsSync(i))!
-  let config = jiti(__filename)(configFile) as UnoCSSConfig | { default: UnoCSSConfig }
-  if ('default' in config)
-    config = config.default
+  const configFile = configFiles.find(i => existsSync(i))
+
+  let config: UnoCSSConfig | { default: UnoCSSConfig } = {}
+
+  if (configFile) {
+    config = jiti(__filename)(configFile) as UnoCSSConfig | { default: UnoCSSConfig }
+    if ('default' in config)
+      config = config.default
+  }
 
   config = await loadSetups(roots, 'unocss.ts', {}, config, true)
 

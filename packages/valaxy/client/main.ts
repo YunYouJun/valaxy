@@ -9,6 +9,7 @@ import '@unocss/reset/tailwind.css'
 import '/@valaxyjs/styles'
 
 import 'uno.css'
+import setupMain from './setup/main'
 
 const routes = setupLayouts(__DEV__ ? generatedRoutes : generatedRoutes.filter(i => !i.meta?.frontmatter.draft))
 
@@ -26,5 +27,7 @@ export const createApp = ViteSSG(
   (ctx) => {
     // install all modules under `modules/`
     Object.values(import.meta.globEager('./modules/*.ts')).forEach(i => i.install?.(ctx))
+
+    setupMain(ctx)
   },
 )

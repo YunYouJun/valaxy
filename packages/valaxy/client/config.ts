@@ -15,7 +15,7 @@ import type { PageData, ValaxyConfig } from '../types'
  */
 function parse<T=any>(data: string): T {
   const parsed = JSON.parse(data)
-  return (import.meta.env.DEV ? readonly(parsed) : parsed) as T
+  return (__DEV__ ? readonly(parsed) : parsed) as T
 }
 
 interface ValaxyContext {

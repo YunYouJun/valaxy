@@ -1,7 +1,7 @@
 import { defineConfig } from 'vite'
 // import { VitePWA } from 'vite-plugin-pwa'
 
-import config from 'valaxy.config'
+import config from './valaxy.config'
 
 const safelist = [
   'i-ri-home-line',

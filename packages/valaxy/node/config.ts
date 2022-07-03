@@ -3,7 +3,8 @@ import fs from 'fs'
 import { loadConfig } from 'unconfig'
 import defu from 'defu'
 import { ensureSuffix } from '@antfu/utils'
-import type { ValaxyConfig } from '../types'
+import type { YunTheme } from 'valaxy-theme-yun'
+import type { UserConfig, ValaxyConfig } from '../types'
 import type { ValaxyEntryOptions } from './options'
 
 const defaultValaxyConfig: ValaxyConfig = {
@@ -135,4 +136,20 @@ export async function resolveConfig(options: ValaxyEntryOptions = {}) {
     configFile,
     theme,
   }
+}
+
+/**
+ * Type config helper
+ */
+export function defineConfig(config: UserConfig<YunTheme.Config>) {
+  return config
+}
+
+/**
+ * Type config helper for custom theme config
+ */
+export function defineConfigWithTheme<ThemeConfig>(
+  config: UserConfig<ThemeConfig>,
+) {
+  return config
 }

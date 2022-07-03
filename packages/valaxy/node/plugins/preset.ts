@@ -19,6 +19,7 @@ import { setupMarkdownPlugins } from '../markdown'
 // import { createMarkdownPlugin, excerpt_separator } from './markdown'
 import { createUnocssPlugin } from './unocss'
 import { createConfigPlugin } from './extendConfig'
+import { createClientSetupPlugin } from './setupClient'
 import { createValaxyPlugin } from '.'
 
 export async function ViteValaxyPlugins(
@@ -94,6 +95,7 @@ export async function ViteValaxyPlugins(
     }),
 
     createConfigPlugin(options),
+    createClientSetupPlugin(options),
     ValaxyPlugin,
 
     ThemePlugin(options.config.themeConfig),
