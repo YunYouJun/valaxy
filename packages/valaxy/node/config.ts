@@ -2,6 +2,7 @@
 import fs from 'fs'
 import { loadConfig } from 'unconfig'
 import defu from 'defu'
+import { ensureSuffix } from '@antfu/utils'
 import type { ValaxyConfig } from '../types'
 import type { ValaxyEntryOptions } from './options'
 
@@ -24,7 +25,7 @@ const defaultValaxyConfig: ValaxyConfig = {
   favicon: '/favicon.svg',
   feed: {
     name: '',
-    favicon: 'favicon.svg',
+    favicon: '/favicon.svg',
   },
   social: [],
 
@@ -128,6 +129,8 @@ export async function resolveConfig(options: ValaxyEntryOptions = {}) {
   catch (e) {
     console.error(`valaxy-theme-${theme} doesn't have package.json`)
   }
+
+  config.url = ensureSuffix('/', config.url)
 
   return {
     config,

@@ -29,8 +29,10 @@ export async function build(options: ResolvedValaxyOptions) {
     return
   }
 
-  const siteUrl = config.url.endsWith('/') ? config.url : `${config.url}/`
-  const DOMAIN = config.url.endsWith('/') ? config.url.slice(0, -1) : config.url
+  // url has been ensured '/'
+  const siteUrl = config.url
+  const DOMAIN = config.url.slice(0, -1)
+
   const author: Author = {
     name: options.config.author.name,
     email: options.config.author.email,
@@ -101,7 +103,7 @@ export async function build(options: ResolvedValaxyOptions) {
   // write
   feedOptions.author = author
   feedOptions.image = config.author.avatar.startsWith('http') ? config.author.avatar : `${DOMAIN}${config.author.avatar}`
-  feedOptions.favicon = `${DOMAIN}/${config.feed.favicon || config.favicon}`
+  feedOptions.favicon = `${DOMAIN}${config.feed.favicon || config.favicon}`
 
   const feed = new Feed(feedOptions)
   posts.forEach(item => feed.addItem(item))

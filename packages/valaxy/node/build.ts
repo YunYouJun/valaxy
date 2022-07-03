@@ -22,7 +22,13 @@ export async function ssgBuild(
   defaultConfig.ssgOptions = {
     script: 'async',
     formatting: 'minify',
-    onFinished() { generateSitemap() },
+    onFinished() {
+      generateSitemap(
+        {
+          hostname: options.config.url,
+        },
+      )
+    },
     dirStyle: 'nested',
   }
   const inlineConfig: InlineConfig = mergeConfig(defaultConfig, viteConfig)
