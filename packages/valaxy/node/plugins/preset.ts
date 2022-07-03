@@ -23,13 +23,18 @@ import { createValaxyPlugin } from '.'
 
 export async function ViteValaxyPlugins(
   options: ResolvedValaxyOptions,
-  serverOptions: ValaxyServerOptions = {},
   pluginOptions: ValaxyPluginOptions = {},
+  serverOptions: ValaxyServerOptions = {},
 ): Promise<(PluginOption | PluginOption[])[] | undefined> {
+  const {
+    vue: vueOptions = {},
+    components: componentsOptions = {},
+  } = pluginOptions
+
   const { clientRoot, themeRoot, userRoot } = options
 
   // const MarkdownPlugin = createMarkdownPlugin(options)
-  const UnocssPlugin = await createUnocssPlugin(options)
+  const UnocssPlugin = await createUnocssPlugin(options, pluginOptions)
 
   const ValaxyPlugin = createValaxyPlugin(options, serverOptions)
 
@@ -41,7 +46,7 @@ export async function ViteValaxyPlugins(
   const { default: ThemePlugin } = (await import(`valaxy-theme-${options.theme}`))
 
   const customElements = new Set([
-  // katex
+    // katex
     'annotation',
     'math',
     'menclose',
@@ -83,7 +88,9 @@ export async function ViteValaxyPlugins(
             return customElements.has(tag)
           },
         },
+        ...vueOptions?.template,
       },
+      ...vueOptions,
     }),
 
     createConfigPlugin(options),
@@ -159,7 +166,7 @@ export async function ViteValaxyPlugins(
       dirs: roots.map(root => `${root}/components`).concat(roots.map(root => `${root}/layouts`)).concat(['src/components', 'components']),
       dts: `${options.userRoot}/components.d.ts`,
 
-      ...pluginOptions,
+      ...componentsOptions,
     }),
 
     // https://github.com/antfu/unocss

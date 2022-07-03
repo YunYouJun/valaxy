@@ -1,19 +1,22 @@
-import defu from 'defu'
-import type { VitePluginConfig } from 'unocss/vite'
+import { resolve } from 'path'
+import { existsSync } from 'fs'
+import type { VitePluginConfig as UnoCSSConfig, VitePluginConfig } from 'unocss/vite'
 import Unocss from 'unocss/vite'
+import jiti from 'jiti'
 
 import {
   presetAttributify,
   presetIcons,
   presetTypography,
   presetUno,
-  presetWebFonts,
   transformerDirectives,
   transformerVariantGroup,
 } from 'unocss'
 import type { ValaxyConfig } from 'valaxy'
 import type { ThemeUserConfig } from 'valaxy-theme-yun'
-import type { ResolvedValaxyOptions } from '../options'
+import { deepMerge, uniq } from '@antfu/utils'
+import type { ResolvedValaxyOptions, ValaxyPluginOptions } from '../options'
+import { loadSetups } from './setupNode'
 
 export const createSafelist = async (config: ValaxyConfig<ThemeUserConfig>) => {
   const { generateSafelist } = await import(`valaxy-theme-${config.theme}`)
@@ -62,19 +65,17 @@ export const createUnocssConfig = async (options: ResolvedValaxyOptions) => {
         // warn: true,
       }),
       presetTypography(),
-      // todo, add unocss config it
-      presetWebFonts({
-        fonts: {
-          serif: [
-            {
-              name: 'Noto Serif SC',
-              weights: [900],
-            },
-          ],
-          // sans: 'DM Sans',
-          // mono: 'DM Mono',
-        },
-      }),
+      // web fonts is so big, so we disable it, let the user decide
+      // presetWebFonts({
+      //   fonts: {
+      //     serif: [
+      //       {
+      //         name: 'Noto Serif SC',
+      //         weights: [900],
+      //       },
+      //     ],
+      //   },
+      // }),
     ],
     rules: [
       // more see '~/styles/global/helper.scss'
@@ -101,10 +102,30 @@ export const createUnocssConfig = async (options: ResolvedValaxyOptions) => {
     safelist: await createSafelist(options.config),
   }
 
-  return defu(options.config.unocss, unocssConfig)
+  return unocssConfig
 }
 
-export const createUnocssPlugin = async (options: ResolvedValaxyOptions) => {
-  const config = await createUnocssConfig(options)
-  return Unocss(config)
+export const createUnocssPlugin = async (options: ResolvedValaxyOptions, { unocss: unoOptions }: ValaxyPluginOptions) => {
+  const defaultConfig = await createUnocssConfig(options)
+
+  const { themeRoot, clientRoot, roots } = options
+
+  const configFiles = uniq([
+    resolve(themeRoot, 'uno.config.ts'),
+    resolve(clientRoot, 'uno.config.ts'),
+  ])
+
+  const configFile = configFiles.find(i => existsSync(i))!
+  let config = jiti(__filename)(configFile) as UnoCSSConfig | { default: UnoCSSConfig }
+  if ('default' in config)
+    config = config.default
+
+  config = await loadSetups(roots, 'unocss.ts', {}, config, true)
+
+  const unocssConfig = deepMerge(defaultConfig, config)
+
+  return Unocss({
+    configFile: false,
+    ...deepMerge(unocssConfig, unoOptions || {}) as UnoCSSConfig,
+  })
 }

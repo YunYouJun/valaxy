@@ -1,7 +1,11 @@
 import { dirname, resolve } from 'path'
 import _debug from 'debug'
 import fg from 'fast-glob'
+import type Vue from '@vitejs/plugin-vue'
 import type Components from 'unplugin-vue-components/vite'
+import type { VitePluginConfig as UnoCSSConfig } from 'unocss/vite'
+import { uniq } from '@antfu/utils'
+import { resolveConfig as resolveViteConfig } from 'vite'
 import type { ValaxyConfig } from '../types'
 import { resolveConfig } from './config'
 import { resolveImportPath } from './utils'
@@ -18,7 +22,9 @@ export interface ValaxyEntryOptions {
 }
 
 export interface ValaxyPluginOptions {
+  vue?: Parameters<typeof Vue>[0]
   components?: Parameters<typeof Components>[0]
+  unocss?: UnoCSSConfig
 }
 
 export interface ResolvedValaxyOptions {
@@ -40,6 +46,7 @@ export interface ResolvedValaxyOptions {
   /**
    * Theme name
    */
+  roots: string[]
   theme: string
   /**
    * Valaxy Config
@@ -84,6 +91,8 @@ export async function resolveOptions(options: ValaxyEntryOptions, mode: Resolved
   const { config: valaxyConfig, configFile, theme } = await resolveConfig(options)
   const themeRoot = getThemeRoot(theme, userRoot)
 
+  const roots = uniq([clientRoot, themeRoot, userRoot])
+
   // Important: fast-glob doesn't guarantee order of the returned files.
   // We must sort the pages so the input list to rollup is stable across
   // builds - otherwise different input order could result in different exports
@@ -102,6 +111,7 @@ export async function resolveOptions(options: ValaxyEntryOptions, mode: Resolved
     clientRoot,
     userRoot,
     themeRoot,
+    roots,
     theme,
     config: valaxyConfig,
     configFile: configFile || '',
@@ -110,4 +120,15 @@ export async function resolveOptions(options: ValaxyEntryOptions, mode: Resolved
   debug(valaxyOptions)
 
   return valaxyOptions
+}
+
+/**
+ * resolve plugin options
+ * @param command
+ * @returns
+ */
+export async function resolvePluginOptions(command: 'build' | 'serve' = 'serve') {
+  const rawConfig = await resolveViteConfig({}, command)
+  const pluginOptions = rawConfig.valaxy || {}
+  return pluginOptions
 }

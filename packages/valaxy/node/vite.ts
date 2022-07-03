@@ -1,14 +1,14 @@
 import { dirname, join } from 'path'
 import type { InlineConfig } from 'vite'
 import { splitVendorChunkPlugin } from 'vite'
-import type { ResolvedValaxyOptions, ValaxyServerOptions } from './options'
+import type { ResolvedValaxyOptions, ValaxyPluginOptions, ValaxyServerOptions } from './options'
 
 import { ViteValaxyPlugins } from './plugins/preset'
 import { resolveImportPath } from './utils'
 
 export type Mode = 'dev' | 'build'
 
-export async function createViteConfig(options: ResolvedValaxyOptions, serverOptions: ValaxyServerOptions = {}): Promise<InlineConfig> {
+export async function createViteConfig(options: ResolvedValaxyOptions, pluginOptions: ValaxyPluginOptions, serverOptions: ValaxyServerOptions = {}): Promise<InlineConfig> {
   const viteConfig: InlineConfig = {
     // remove vue-i18n warnings
     // https://vue-i18n.intlify.dev/guide/advanced/optimization.html#reduce-bundle-size-with-feature-build-flags
@@ -33,7 +33,7 @@ export async function createViteConfig(options: ResolvedValaxyOptions, serverOpt
     publicDir: join(options.userRoot, 'public'),
 
     // https://vitejs.dev/guide/build.html#chunking-strategy
-    plugins: [await ViteValaxyPlugins(options, serverOptions, {}), splitVendorChunkPlugin()],
+    plugins: [await ViteValaxyPlugins(options, pluginOptions, serverOptions), splitVendorChunkPlugin()],
 
     server: {
       fs: {

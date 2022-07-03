@@ -153,20 +153,6 @@ const config: UserConfig<ThemeUserConfig> = {
       },
     },
   },
-
-  unocss: {
-    safelist: [
-      'i-ri-home-line',
-    ],
-  },
 }
-
-/**
- * add your icon to safelist
- * if your theme is not yun, so you can add it by yourself
- */
-config.themeConfig?.pages?.forEach((item) => {
-  config.unocss?.safelist?.push(item?.icon)
-})
 
 export default config

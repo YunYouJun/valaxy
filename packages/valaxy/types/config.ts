@@ -1,5 +1,4 @@
 import type { PartialDeep } from 'type-fest'
-import type { VitePluginConfig } from 'unocss/vite'
 import type { MarkdownOptions } from '../node/markdown'
 
 export type ValaxyThemeConfig = Record<string, any>
@@ -157,11 +156,6 @@ export interface ValaxyConfig<T = ValaxyThemeConfig> {
       [key: string]: any
     }
   }
-
-  /**
-   * Unocss Config
-   */
-  unocss: VitePluginConfig
 
   /**
    * The license of your posts

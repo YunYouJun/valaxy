@@ -7,9 +7,9 @@ import consola from 'consola'
 import type { InlineConfig, ViteDevServer } from 'vite'
 import { createServer } from '../server'
 import type { ResolvedValaxyOptions } from '../options'
+import { resolvePluginOptions } from '../options'
 import { version } from '../../package.json'
 import { createSafelist } from '../plugins/unocss'
-
 let server: ViteDevServer | undefined
 
 export function printInfo(options: ResolvedValaxyOptions, port?: number, remote?: string | boolean) {
@@ -43,7 +43,8 @@ export async function initServer(options: ResolvedValaxyOptions, viteConfig: Inl
     await server.close()
 
   try {
-    const safelist = (await createSafelist(options.config)).concat(options.config.unocss.safelist || [])
+    const pluginOptions = await resolvePluginOptions()
+    const safelist = (await createSafelist(options.config)).concat(pluginOptions.unocss?.safelist || [])
 
     server = await createServer(options, viteConfig, {
       onConfigReload(newConfig, config) {

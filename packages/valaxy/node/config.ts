@@ -77,8 +77,6 @@ const defaultValaxyConfig: ValaxyConfig = {
     },
   },
 
-  unocss: {},
-
   // markdown: {
   //   excerpt: '<!-- more -->',
   // },
