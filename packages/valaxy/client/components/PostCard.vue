@@ -24,7 +24,7 @@ const { icon, styles } = usePostProperty(props.post.type)
         class="cover object-cover object-center md:shadow"
       >
 
-      <div class="flex flex-col flex-1 items-center" w="full" max-h="54">
+      <div class="flex flex-col flex-1 items-center" :class="post.cover && 'max-h-54'" w="full">
         <AppLink
           class="post-title-link"
           :to="post.path || ''"
