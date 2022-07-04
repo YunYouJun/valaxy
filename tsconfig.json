@@ -27,7 +27,7 @@
       "valaxy/client/*": ["packages/valaxy/client/*"],
       "@valaxyjs/client/*": ["packages/valaxy/client/*"],
       "valaxy/package.json": ["packages/valaxy/package.json"],
-      "valaxy": ["packages/valaxy/src/index.ts"],
+      "valaxy": ["packages/valaxy/index.ts"],
       "valaxy-theme-yun/*": ["packages/valaxy-theme-yun/*"],
       "valaxy-theme-yun": ["packages/valaxy-theme-yun/index.ts"]
     }
