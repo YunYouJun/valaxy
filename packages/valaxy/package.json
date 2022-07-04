@@ -39,7 +39,8 @@
   "files": [
     "bin",
     "dist",
-    "client"
+    "client",
+    "shared"
   ],
   "engines": {
     "node": ">=14.0.0"
