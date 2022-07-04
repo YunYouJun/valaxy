@@ -114,7 +114,7 @@ importers:
       pinia: ^2.0.14
       sass: ^1.53.0
       shiki: ^0.10.1
-      star-markdown-css: ^0.3.3
+      star-markdown-css: ^0.4.0
       type-fest: ^2.16.0
       unconfig: ^0.3.4
       unocss: ^0.43.0
@@ -163,7 +163,7 @@ importers:
       pinia: 2.0.14_vue@3.2.37
       sass: 1.53.0
       shiki: 0.10.1
-      star-markdown-css: 0.3.3
+      star-markdown-css: 0.4.0
       unconfig: 0.3.4
       unocss: 0.43.0_vite@2.9.13
       unplugin-vue-components: 0.21.0_vite@2.9.13+vue@3.2.37
@@ -5807,8 +5807,8 @@ packages:
     resolution: {integrity: sha512-D9cPgkvLlV3t3IzL0D0YLvGA9Ahk4PcvVwUbN0dSGr1aP0Nrt4AEnTUbuGvquEC0mA64Gqt1fzirlRs5ibXx8g==}
     dev: false
 
-  /star-markdown-css/0.3.3:
-    resolution: {integrity: sha512-F8hrbZQIM4CryGJbNGkbUfLTgnDF0+bTuo7Omtw0+OOjf5JGPWWj0rVqcKFCuypZwuyraDh3CZ46Yhf5LDj8SA==}
+  /star-markdown-css/0.4.0:
+    resolution: {integrity: sha512-VK2TDgAfyqfPs6OwTCIY6fZ4GCr/eNQQuvjicu5y6+3oHFExYZ1zSNWkWYlXhQLfvw7FLGuHwdgVYPrxz8WhPg==}
     dev: false
 
   /statuses/2.0.1:
