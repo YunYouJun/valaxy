@@ -37,6 +37,7 @@
     "valaxy": "./bin/valaxy.js"
   },
   "files": [
+    "index.d.ts",
     "bin",
     "dist",
     "client",
