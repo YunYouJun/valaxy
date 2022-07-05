@@ -13,7 +13,8 @@ function isPortFree(port: number): Promise<boolean> {
       socket.pipe(socket)
     })
 
-    server.listen(port, '127.0.0.1')
+    // not 127.0.0.1
+    server.listen(port, '0.0.0.0')
     server.on('error', () => {
       resolve(false)
     })

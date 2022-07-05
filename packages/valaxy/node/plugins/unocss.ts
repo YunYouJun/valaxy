@@ -128,10 +128,8 @@ export const createUnocssPlugin = async (options: ResolvedValaxyOptions, { unocs
 
   config = await loadSetups(roots, 'unocss.ts', {}, config, true)
 
-  const unocssConfig = defu(defaultConfig, config)
-
   return Unocss({
     configFile: false,
-    ...defu(unocssConfig, unoOptions || {}) as UnoCSSConfig,
+    ...defu(unoOptions || {}, config, defaultConfig),
   })
 }
