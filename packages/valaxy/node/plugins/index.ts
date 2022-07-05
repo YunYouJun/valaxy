@@ -2,6 +2,7 @@ import fs from 'fs'
 
 import { join, relative } from 'path'
 import type { Plugin, ResolvedConfig } from 'vite'
+import { normalizePath } from 'vite'
 // import consola from 'consola'
 import { resolveConfig } from '../config'
 import type { ResolvedValaxyOptions, ValaxyServerOptions } from '../options'
@@ -175,7 +176,7 @@ export function createValaxyPlugin(options: ResolvedValaxyOptions, serverOptions
     async handleHotUpdate(ctx) {
       // handle valaxy.config.ts hmr
       const { file, server, read } = ctx
-      if (file !== options.configFile)
+      if (file !== normalizePath(options.configFile))
         return
 
       // send headers
