@@ -7,7 +7,6 @@ export const anonymousImage = 'https://cdn.jsdelivr.net/gh/YunYouJun/cdn/img/ava
  */
 export const defaultThemeConfig: ThemeConfig = {
   outlineTitle: 'On this page',
-  safelist: ['i-ri-clipboard-line'],
   colors: {
     primary: '#0078E7',
   },
@@ -108,8 +107,6 @@ export const defaultThemeConfig: ThemeConfig = {
   },
 }
 
-defaultThemeConfig.safelist = defaultThemeConfig.safelist.concat(generateSafelist(defaultThemeConfig))
-
 export default defaultThemeConfig
 
 /**
@@ -123,7 +120,7 @@ export function generateSafelist(themeConfig: ThemeUserConfig) {
   const types = themeConfig.types
   if (types) {
     for (const type in types)
-      safelist.push(types[type].icon)
+      safelist.push(types[type]?.icon)
   }
 
   if (themeConfig.footer?.icon?.name)

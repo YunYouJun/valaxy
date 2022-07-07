@@ -13,8 +13,6 @@ export interface ThemeConfig {
    */
   outlineTitle: string
 
-  // for unocss
-  safelist: string[]
   colors: {
     /**
      * primary color
@@ -66,7 +64,7 @@ export interface ThemeConfig {
   /**
    * footer
    */
-  footer: {
+  footer: Partial<{
     /**
      * 建站于
      */
@@ -104,7 +102,7 @@ export interface ThemeConfig {
        */
       icp: string
     }
-  }
+  }>
 
   /**
    * post card types

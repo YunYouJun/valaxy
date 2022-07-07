@@ -18,11 +18,12 @@ const isThisYear = computed(() => {
 })
 
 const poweredHtml = computed(() => t('footer.powered', [`<a href="${pkg.repository}" target="_blank" rel="noopener">Valaxy</a> v${pkg.version}`]))
+const footerIcon = computed(() => themeConfig.value.footer.icon!)
 </script>
 
 <template>
   <footer class="va-footer p-4" text="center sm" style="color:var(--va-c-text-light)">
-    <div v-if="themeConfig.footer.beian.enable && themeConfig.footer.beian.icp" class="beian" m="y-2">
+    <div v-if="themeConfig.footer.beian?.enable && themeConfig.footer.beian.icp" class="beian" m="y-2">
       <a href="https://beian.miit.gov.cn/" target="_blank" rel="noopener">
         {{ themeConfig.footer.beian.icp }}
       </a>
@@ -37,8 +38,8 @@ const poweredHtml = computed(() => t('footer.powered', [`<a href="${pkg.reposito
         {{ year }}
       </span>
 
-      <a m="x-2" class="inline-flex animate-pulse" :href="themeConfig.footer.icon.url" target="_blank" :title="themeConfig.footer.icon.title">
-        <div :class="themeConfig.footer.icon.name" />
+      <a m="x-2" class="inline-flex animate-pulse" :href="footerIcon.url" target="_blank" :title="footerIcon.title">
+        <div :class="footerIcon.name" />
       </a>
 
       <span>{{ config.author.name }}</span>

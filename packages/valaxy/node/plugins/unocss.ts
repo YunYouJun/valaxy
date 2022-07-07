@@ -21,6 +21,8 @@ export const createSafelist = async (config: ValaxyConfig) => {
   const { generateSafelist } = await import(`valaxy-theme-${config.theme}`)
 
   const safeIcons: string[] = [
+    'i-ri-clipboard-line',
+
     'i-ri-archive-line',
     'i-ri-folder-2-line',
     'i-ri-price-tag-3-line',
