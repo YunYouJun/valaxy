@@ -90,3 +90,12 @@
     content: none;
   }
 }
+
+.post-tag {
+  white-space: nowrap;
+  color: var(--yun-tag-color);
+
+  &:hover {
+    color: var(--va-c-primary);
+  }
+}

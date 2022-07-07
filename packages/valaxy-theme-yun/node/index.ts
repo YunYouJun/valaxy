@@ -1,8 +1,9 @@
 import type { Plugin } from 'vite'
-import type { ThemeConfig } from './config'
-import { defaultThemeConfig } from './config'
+import type { ThemeConfig } from '../types'
+import { defaultThemeConfig } from '../config'
 
-export * from './config'
+export * from '../config'
+export * from '../types'
 
 export interface UserOptions {
   colors: {

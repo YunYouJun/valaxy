@@ -6,7 +6,7 @@ const config = useConfig()
 
 <template>
   <slot name="bg">
-    <ValaxyBg v-if="config.themeConfig.bg_image.enable" />
+    <YunBg v-if="config.themeConfig.bg_image.enable" />
   </slot>
 
   <ValaxySidebar>

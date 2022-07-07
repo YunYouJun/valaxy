@@ -31,8 +31,6 @@ defineProps<{ cover?: string }>()
 
   min-height: 100px;
 
-  margin: auto;
-
   // todo
   background-color: var(--va-c-bg-light);
 }

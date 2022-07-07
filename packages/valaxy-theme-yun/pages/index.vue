@@ -1,5 +1,5 @@
 <template>
-  <PostList />
+  <YunPostList />
 </template>
 
 <route lang="yaml">

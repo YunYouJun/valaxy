@@ -71,6 +71,9 @@ jobs:
       - name: Build
         run: pnpm run build
 
+      - name: Build:demo
+        run: pnpm run build:demo
+
   test:
     runs-on: ${{ matrix.os }}
 

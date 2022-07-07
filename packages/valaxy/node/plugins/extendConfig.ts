@@ -14,7 +14,7 @@ export function createConfigPlugin(options: ResolvedValaxyOptions): Plugin {
             '@/': `${toAtFS(options.userRoot)}/`,
             '~/': `${toAtFS(options.clientRoot)}/`,
             'valaxy/client': `${toAtFS(options.clientRoot)}/`,
-            'valaxy/package.json': toAtFS(resolve(options.clientRoot, '../../package.json')),
+            'valaxy/package.json': toAtFS(resolve(options.clientRoot, '../package.json')),
             'valaxy': toAtFS(resolve(options.clientRoot, 'index.ts')),
             '@valaxyjs/client': `${toAtFS(options.clientRoot)}/`,
             '@valaxyjs/config': '/@valaxyjs/config',

@@ -25,5 +25,6 @@ export async function mergeViteConfigs({ userRoot, themeRoot }: ResolvedValaxyOp
     config = mergeConfig(config, viteConfig.config)
   }
 
-  return mergeConfig(viteConfig, config)
+  const resolvedConfig = mergeConfig(viteConfig, config)
+  return resolvedConfig
 }

@@ -14,12 +14,10 @@ import {
   transformerVariantGroup,
 } from 'unocss'
 import type { ValaxyConfig } from 'valaxy'
-import type { ThemeUserConfig } from 'valaxy-theme-yun'
-import { uniq } from '@antfu/utils'
 import type { ResolvedValaxyOptions, ValaxyPluginOptions } from '../options'
 import { loadSetups } from './setupNode'
 
-export const createSafelist = async (config: ValaxyConfig<ThemeUserConfig>) => {
+export const createSafelist = async (config: ValaxyConfig) => {
   const { generateSafelist } = await import(`valaxy-theme-${config.theme}`)
 
   const safeIcons: string[] = [
@@ -52,8 +50,6 @@ export const createSafelist = async (config: ValaxyConfig<ThemeUserConfig>) => {
 export const createUnocssConfig = async (options: ResolvedValaxyOptions) => {
   const unocssConfig: VitePluginConfig = {
     shortcuts: [
-      ['yun-main', 'lt-md:pl-0'],
-      ['yun-card', 'transition yun-transition shadow hover:shadow-lg'],
       ['btn', 'px-4 py-1 rounded inline-block bg-sky-600 text-white cursor-pointer hover:bg-sky-700 disabled:cursor-default disabled:bg-gray-600 disabled:opacity-50'],
       ['icon-btn', 'inline-block cursor-pointer select-none opacity-75 transition duration-200 ease-in-out hover:opacity-100 hover:text-sky-600'],
       ['va-card', 'shadow hover:shadow-lg'],
@@ -111,20 +107,26 @@ export const createUnocssPlugin = async (options: ResolvedValaxyOptions, { unocs
 
   const { themeRoot, clientRoot, roots } = options
 
-  const configFiles = uniq([
-    resolve(themeRoot, 'uno.config.ts'),
-    resolve(clientRoot, 'uno.config.ts'),
-  ])
-
-  const configFile = configFiles.find(i => existsSync(i))
+  const unoConfigFiles = ['uno.config.ts', 'unocss.config.ts']
+  const configFiles: string[] = []
+  const dirs = [themeRoot, clientRoot]
+  dirs.forEach(dir =>
+    unoConfigFiles.forEach(file =>
+      configFiles.push(resolve(dir, file)),
+    ),
+  )
 
   let config: UnoCSSConfig | { default: UnoCSSConfig } = {}
 
-  if (configFile) {
-    config = jiti(__filename)(configFile) as UnoCSSConfig | { default: UnoCSSConfig }
-    if ('default' in config)
-      config = config.default
-  }
+  configFiles.forEach((configFile) => {
+    if (existsSync(configFile)) {
+      let uConfig: UnoCSSConfig | { default: UnoCSSConfig } = jiti(__filename)(configFile) as UnoCSSConfig | { default: UnoCSSConfig }
+      if ('default' in uConfig)
+        uConfig = uConfig.default
+
+      config = defu(config, uConfig)
+    }
+  })
 
   config = await loadSetups(roots, 'unocss.ts', {}, config, true)
 

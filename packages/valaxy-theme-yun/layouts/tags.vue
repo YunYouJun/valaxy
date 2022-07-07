@@ -1,8 +1,9 @@
 <script lang="ts" setup>
-import { useFrontmatter, useInvisibleElement, usePostList, usePostTitle, useTags, useThemeConfig } from 'valaxy'
+import { useFrontmatter, useInvisibleElement, usePostList, usePostTitle, useTags } from 'valaxy'
 import { useI18n } from 'vue-i18n'
 import { computed, ref } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
+import { useThemeConfig } from '../composables'
 
 const route = useRoute()
 const router = useRouter()
@@ -78,13 +79,3 @@ const title = usePostTitle(frontmatter)
     </template>
   </Base>
 </template>
-
-<style lang="scss">
-.post-tag {
-  color: var(--yun-tag-color);
-
-  &:hover {
-    color: var(--va-c-primary);
-  }
-}
-</style>

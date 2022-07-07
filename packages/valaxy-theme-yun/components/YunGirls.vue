@@ -1,6 +1,6 @@
 <script lang="ts" setup>
-import { useRandomData } from 'valaxy-theme-yun/composables'
 import { onImgError } from '../utils'
+import { useRandomData } from '../composables'
 
 interface GirlType {
   name: string

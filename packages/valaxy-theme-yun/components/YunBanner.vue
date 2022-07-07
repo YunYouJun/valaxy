@@ -6,7 +6,7 @@
  */
 
 import { CSSProperties, computed } from 'vue'
-import { useThemeConfig } from 'valaxy'
+import { useThemeConfig } from '../composables'
 import { random } from '~/utils'
 const themeConfig = useThemeConfig()
 

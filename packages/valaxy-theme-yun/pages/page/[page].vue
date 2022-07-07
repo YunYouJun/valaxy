@@ -3,7 +3,7 @@ defineProps<{ page: string }>()
 </script>
 
 <template>
-  <PostList :cur-page="parseInt(page)" />
+  <YunPostList :cur-page="parseInt(page)" />
 </template>
 
 <route lang="yaml">

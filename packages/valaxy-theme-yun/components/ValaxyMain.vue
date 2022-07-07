@@ -1,7 +1,8 @@
 <script lang="ts" setup>
 import type { PageData, Post } from 'valaxy'
-import { useConfig, usePostProperty, usePostTitle } from 'valaxy'
+import { useConfig, usePostTitle } from 'valaxy'
 import { computed } from 'vue'
+import { usePostProperty } from '../composables'
 
 const props = defineProps<{
   frontmatter: Post
@@ -51,9 +52,9 @@ const title = usePostTitle(computed(() => props.frontmatter))
             </YunCard>
           </slot>
 
-          <ValaxyFooter>
+          <YunFooter>
             <slot name="footer" />
-          </ValaxyFooter>
+          </YunFooter>
         </div>
       </slot>
 

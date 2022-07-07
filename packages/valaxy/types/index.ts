@@ -11,7 +11,7 @@ declare module 'vite' {
     /**
      * Custom internal plugin options for Valaxy (advanced)
      *
-     * @see './options.ts'
+     * @see ./options.ts'
      */
     valaxy?: ValaxyPluginOptions
 

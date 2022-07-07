@@ -4,7 +4,6 @@ import valaxyConfig from '@valaxyjs/config'
 import valaxyContext from '@valaxyjs/context'
 import type { ComputedRef, InjectionKey, Ref } from 'vue'
 import { computed, inject, readonly, shallowRef } from 'vue'
-import type { ThemeConfig } from 'valaxy-theme-yun'
 // import type { RouteMeta } from 'vue-router'
 import type { PageData, ValaxyConfig } from '../types'
 
@@ -22,7 +21,7 @@ interface ValaxyContext {
   userRoot: string
 }
 
-export const valaxyConfigSymbol: InjectionKey<ComputedRef<ValaxyConfig<ThemeConfig>>> = Symbol('valaxy:config')
+export const valaxyConfigSymbol: InjectionKey<ComputedRef<ValaxyConfig>> = Symbol('valaxy:config')
 export const valaxyConfigRef = shallowRef<ValaxyConfig>(parse<ValaxyConfig>(valaxyConfig))
 
 export const valaxyContextRef = shallowRef<ValaxyContext>(parse<ValaxyContext>(valaxyContext))
@@ -50,23 +49,15 @@ export function initContext() {
 }
 
 /*
- * get Config
+ * get valaxy config
+ * @public
  * @returns
  */
-export function useConfig() {
-  const config = inject(valaxyConfigSymbol)
+export function useConfig<ThemeConfig = any>() {
+  const config = inject<ComputedRef<ValaxyConfig<ThemeConfig>>>(valaxyConfigSymbol)
   if (!config)
     throw new Error('[Valaxy] config not properly injected in app')
   return config!
-}
-
-/**
- * getThemeConfig
- * @returns
- */
-export function useThemeConfig() {
-  const config = useConfig()
-  return computed(() => config!.value.themeConfig)
 }
 
 export interface ValaxyData<T = any> {

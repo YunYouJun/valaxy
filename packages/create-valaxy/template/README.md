@@ -1,6 +1,6 @@
 # create-valaxy
 
-Example: [valaxy.yyj.moe](https://valaxy.yyj.moe)
+Example: [valaxy.site](https://valaxy.site)
 
 ## Usage
 

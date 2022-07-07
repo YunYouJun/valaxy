@@ -11,7 +11,7 @@ const isHome = useLayout('home')
 </script>
 
 <template>
-  <ValaxyBg v-if="config.themeConfig.bg_image.enable" />
+  <YunBg v-if="config.themeConfig.bg_image.enable" />
 
   <main class="yun-main justify-center items-center" :class="(isHome && !app.isSidebarOpen) && 'pl-0'" flex="~ col" w="full">
     <ValaxySidebar>
@@ -29,9 +29,9 @@ const isHome = useLayout('home')
       <router-view />
     </slot>
 
-    <ValaxyFooter>
+    <YunFooter>
       <slot name="footer" />
-    </ValaxyFooter>
+    </YunFooter>
   </main>
 
   <YunSearch v-if="config.search.enable" />

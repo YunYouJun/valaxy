@@ -1,12 +1,13 @@
-import type { YunTheme } from 'valaxy-theme-yun'
 import type { UserConfig } from '../types'
 
 export const EXTERNAL_URL_RE = /^https?:/i
 
+// type ThemeConfig = Record<string, any>
+
 /**
  * Type config helper
  */
-export function defineConfig(config: UserConfig<YunTheme.Config>) {
+export function defineConfig<ThemeConfig>(config: UserConfig<ThemeConfig>) {
   return config
 }
 

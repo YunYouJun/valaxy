@@ -1,6 +1,7 @@
 <script lang="ts" setup>
-import { useCategory, usePostList, useTag, useThemeConfig } from 'valaxy'
+import { useCategory, usePostList, useTag } from 'valaxy'
 import { useI18n } from 'vue-i18n'
+import { useThemeConfig } from '../composables'
 
 const { t } = useI18n()
 

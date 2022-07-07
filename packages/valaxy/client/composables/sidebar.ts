@@ -1,52 +1,5 @@
 import type { Ref } from 'vue'
-import { computed, onMounted, onUnmounted, ref } from 'vue'
-import { useRoute } from 'vue-router'
-import { useThemeConfig } from '..'
-import { getSidebar } from '../utils/sidebar'
-import { useFrontmatter } from './common'
-
-// todo: refactor
-
-export function useSidebar() {
-  const route = useRoute()
-  const frontmatter = useFrontmatter()
-  const themeConfig = useThemeConfig()
-
-  const isOpen = ref(false)
-
-  const sidebar = computed(() => {
-    const sidebarConfig = themeConfig.value.sidebar
-    const relativePath = route.path
-
-    return sidebarConfig ? getSidebar(sidebarConfig, relativePath) : []
-  })
-
-  const hasSidebar = computed(() => {
-    // return frontmatter.value.sidebar !== false && sidebar.value.length > 0
-    return frontmatter.value.sidebar !== false
-  })
-
-  function open() {
-    isOpen.value = true
-  }
-
-  function close() {
-    isOpen.value = false
-  }
-
-  function toggle() {
-    isOpen.value ? close() : open()
-  }
-
-  return {
-    isOpen,
-    sidebar,
-    hasSidebar,
-    open,
-    close,
-    toggle,
-  }
-}
+import { onMounted, onUnmounted } from 'vue'
 
 export function useActiveSidebarLinks(container: Ref<HTMLElement>, marker: Ref<HTMLElement>) {
   const onScroll = throttleAndDebounce(setActiveLink, 200)

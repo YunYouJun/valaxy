@@ -1,8 +1,7 @@
-import type { Ref, StyleValue } from 'vue'
+import type { Ref } from 'vue'
 import { computed } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { useI18n } from 'vue-i18n'
-import { useThemeConfig } from '../config'
 import { sortByDate } from '../utils'
 import type { Post } from '../../types'
 
@@ -84,38 +83,4 @@ export function usePrevNext(path?: string) {
   const next = computed(() => index.value + 1 < routes.value.length ? routes.value[index.value + 1] : null)
 
   return [prev, next]
-}
-
-/**
- * get type card property
- * todo: test reactive
- */
-export function usePostProperty(type?: string) {
-  if (!type) {
-    return {
-      color: '',
-      icon: '',
-      styles: {},
-    }
-  }
-
-  const themeConfig = useThemeConfig()
-
-  if (!(type in themeConfig.value.types))
-    type = 'link'
-
-  const color = themeConfig.value.types[type].color
-  const icon = themeConfig.value.types[type].icon
-
-  const styles = computed(() => {
-    return {
-      '--card-c-primary': type && color,
-    } as StyleValue
-  })
-
-  return {
-    color,
-    icon,
-    styles,
-  }
 }

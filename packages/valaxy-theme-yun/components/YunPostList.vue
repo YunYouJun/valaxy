@@ -27,7 +27,7 @@ const displayedPosts = computed(() => posts.value.slice((props.curPage - 1) * pa
     </template>
 
     <Transition v-for="route, i in displayedPosts" :key="i" name="fade">
-      <PostCard :post="route" />
+      <YunPostCard :post="route" />
     </Transition>
   </div>
 
@@ -41,10 +41,6 @@ const displayedPosts = computed(() => posts.value.slice((props.curPage - 1) * pa
 }
 
 .post-categories {
-  color: var(--va-c-text);
-}
-
-.post-tag {
   color: var(--va-c-text);
 }
 </style>
