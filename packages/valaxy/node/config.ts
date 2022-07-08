@@ -3,8 +3,24 @@ import fs from 'fs'
 import { loadConfig } from 'unconfig'
 import defu from 'defu'
 import { ensureSuffix } from '@antfu/utils'
-import type { ValaxyConfig } from '../types'
+import type { UserConfig, ValaxyConfig } from '../types'
 import type { ValaxyEntryOptions } from './options'
+
+/**
+ * Type config helper
+ */
+export function defineConfig<ThemeConfig>(config: UserConfig<ThemeConfig>) {
+  return config
+}
+
+/**
+ * Type config helper for custom theme config
+ */
+export function defineConfigWithTheme<ThemeConfig>(
+  config: UserConfig<ThemeConfig>,
+) {
+  return config
+}
 
 const defaultValaxyConfig: ValaxyConfig = {
   url: '/',

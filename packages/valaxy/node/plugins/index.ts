@@ -10,7 +10,6 @@ import { resolveImportPath, slash, toAtFS } from '../utils'
 import { createMarkdownToVueRenderFn } from '../markdown/markdownToVue'
 import type { PageDataPayload } from '../../types'
 import { checkMd } from '../markdown/check'
-import { VALAXY_CONFIG_ID } from './valaxy'
 
 /**
  * for /@valaxyjs/styles
@@ -108,7 +107,7 @@ export function createValaxyPlugin(options: ResolvedValaxyOptions, serverOptions
     },
 
     load(id) {
-      if (id === `/${VALAXY_CONFIG_ID}`)
+      if (id === '/@valaxyjs/config')
         // stringify twice for \"
         return `export default ${JSON.stringify(JSON.stringify(valaxyConfig))}`
 
@@ -126,8 +125,12 @@ export function createValaxyPlugin(options: ResolvedValaxyOptions, serverOptions
       if (id === '/@valaxyjs/locales')
         return generateLocales(roots)
 
-      if (id.startsWith(valaxyPrefix))
-        return ''
+      if (id.startsWith(valaxyPrefix)) {
+        return {
+          code: '',
+          map: { mappings: '' },
+        }
+      }
     },
 
     async transform(code, id) {
@@ -214,7 +217,7 @@ export function createValaxyPlugin(options: ResolvedValaxyOptions, serverOptions
       //   consola.warn('[valaxy]: config.base has changed. Please restart the dev server.')
       valaxyConfig = config
 
-      const moduleIds = [`/${VALAXY_CONFIG_ID}`, '/@valaxyjs/context']
+      const moduleIds = ['/@valaxyjs/config', '/@valaxyjs/context']
       const moduleEntries = [
         ...Array.from(moduleIds).map(id => server.moduleGraph.getModuleById(id)),
       ].filter(<T>(item: T): item is NonNullable<T> => !!item)

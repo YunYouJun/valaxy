@@ -7,6 +7,8 @@ import { toAtFS } from '../utils'
 export function createConfigPlugin(options: ResolvedValaxyOptions): Plugin {
   return {
     name: 'valaxy:config',
+    enforce: 'pre',
+
     config(config) {
       const injection: InlineConfig = {
         resolve: {
@@ -17,10 +19,7 @@ export function createConfigPlugin(options: ResolvedValaxyOptions): Plugin {
             'valaxy/package.json': toAtFS(resolve(options.clientRoot, '../package.json')),
             'valaxy': toAtFS(resolve(options.clientRoot, 'index.ts')),
             '@valaxyjs/client': `${toAtFS(options.clientRoot)}/`,
-            '@valaxyjs/config': '/@valaxyjs/config',
-            '@valaxyjs/context': '/@valaxyjs/context',
             [`valaxy-theme-${options.theme}/`]: `${toAtFS(resolve(options.themeRoot))}/`,
-            [`valaxy-theme-${options.theme}`]: `${toAtFS(resolve(options.themeRoot))}/index.ts`,
           },
         },
 

@@ -17,13 +17,13 @@ declare module '*.vue' {
 }
 
 // vite hmr data
-declare module '@valaxyjs/config' {
+declare module '/@valaxyjs/config' {
   // import type { ValaxyConfig } from 'valaxy'
   const config: string
   export default config
 }
 
-declare module '@valaxyjs/context' {
+declare module '/@valaxyjs/context' {
   const ctx: string
   export default ctx
 }

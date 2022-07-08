@@ -6,6 +6,8 @@ import consola from 'consola'
 
 export * from './getGitTimestamp'
 
+export const EXTERNAL_URL_RE = /^https?:/i
+
 /**
  * transform obj for vite code
  * @param obj
