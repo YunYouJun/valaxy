@@ -40,8 +40,7 @@
     "index.d.ts",
     "bin",
     "dist",
-    "client",
-    "shared"
+    "client"
   ],
   "engines": {
     "node": ">=14.0.0"

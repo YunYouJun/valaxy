@@ -1,3 +1,3 @@
 export * from './dist/node/index'
-export * from './dist/client/index'
+export * from './client'
 export * from './dist/types/index'

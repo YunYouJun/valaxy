@@ -20,6 +20,7 @@ export function createConfigPlugin(options: ResolvedValaxyOptions): Plugin {
             'valaxy': toAtFS(resolve(options.clientRoot, 'index.ts')),
             '@valaxyjs/client': `${toAtFS(options.clientRoot)}/`,
             [`valaxy-theme-${options.theme}/`]: `${toAtFS(resolve(options.themeRoot))}/`,
+            [`valaxy-theme-${options.theme}`]: `${toAtFS(resolve(options.themeRoot))}/composables/index.ts`,
           },
         },
 

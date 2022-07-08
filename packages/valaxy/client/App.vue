@@ -1,7 +1,6 @@
 <script setup lang="ts">
 import { computed } from 'vue'
 import { useHead } from '@vueuse/head'
-import { useCssVar } from '@vueuse/core'
 import { isDark } from './composables'
 
 // https://github.com/vueuse/head
@@ -27,11 +26,6 @@ useHead({
     },
   ],
 })
-
-const bgImg = useCssVar('--yun-bg-img')
-const bgImgUrl = computed(() => config.value.themeConfig.bg_image.url)
-if (bgImgUrl.value)
-  bgImg.value = config.value.themeConfig.bg_image.url
 </script>
 
 <template>
