@@ -15,7 +15,7 @@ const showSponsor = computed(() => {
 </script>
 
 <template>
-  <Base>
+  <Layout>
     <template #main-header-after>
       <YunPostMeta :frontmatter="frontmatter" />
     </template>
@@ -28,5 +28,5 @@ const showSponsor = computed(() => {
     <template #aside-custom>
       <slot name="aside-custom" />
     </template>
-  </Base>
+  </Layout>
 </template>

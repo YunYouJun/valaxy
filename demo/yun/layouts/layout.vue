@@ -5,7 +5,7 @@ import Base from 'valaxy-theme-yun/layouts/base.vue'
 </script>
 
 <template>
-  <Base>
+  <Layout>
     <template #bg>
       <slot name="bg" />
     </template>
@@ -62,5 +62,5 @@ import Base from 'valaxy-theme-yun/layouts/base.vue'
         </p>
       </div>
     </template>
-  </Base>
+  </Layout>
 </template>

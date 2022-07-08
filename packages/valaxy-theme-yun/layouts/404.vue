@@ -7,7 +7,7 @@ const { t } = useI18n()
 </script>
 
 <template>
-  <Base>
+  <Layout>
     <template #content>
       <div text="center">
         <div text-4xl>
@@ -21,5 +21,5 @@ const { t } = useI18n()
         </div>
       </div>
     </template>
-  </Base>
+  </Layout>
 </template>

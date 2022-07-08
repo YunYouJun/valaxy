@@ -46,7 +46,7 @@ const title = usePostTitle(frontmatter)
 </script>
 
 <template>
-  <Base>
+  <Layout>
     <template #main-header>
       <YunPageHeader
         :title="title || t('menu.categories')"
@@ -68,5 +68,5 @@ const title = usePostTitle(frontmatter)
         <YunPostCollapse w="full" m="b-4" p="x-20 lt-sm:x-5" :posts="posts" />
       </YunCard>
     </template>
-  </Base>
+  </Layout>
 </template>
