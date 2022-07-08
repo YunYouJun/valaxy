@@ -1,11 +1,11 @@
 import { defineConfig } from 'valaxy'
-import type { YunTheme } from 'valaxy-theme-yun'
+import type { ThemeConfig } from 'valaxy-theme-yun'
 
 /**
  * User Config
  * do not use export const config to avoid defu conflict
  */
-export default defineConfig<YunTheme.Config>({
+export default defineConfig<ThemeConfig>({
   lang: 'zh-CN',
   title: 'Valaxy Theme Yun',
   url: 'https://valaxy.yyj.moe/',
