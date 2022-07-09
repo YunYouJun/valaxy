@@ -1,5 +1,6 @@
 import { writeFile } from 'fs/promises'
 import { join, resolve } from 'path'
+import { render } from 'ejs'
 import dayjs from 'dayjs'
 import { ensureSuffix } from '@antfu/utils'
 import { exists } from './fs'
@@ -41,22 +42,18 @@ export const create = async (data: CreatePostParams) => {
   }
 }
 
+const defaultTemplate = `---
+layout: <%=layout%>
+title: <%=title%>
+date: <%=date%>
+---
+`
+
 function genPostTemplate({
   date,
   title,
   layout = 'post',
 }: CreatePostParams) {
-  let post = '---\n'
-
-  const content = [`layout: ${layout}`, `title: ${title}`]
-
-  if (date)
-    content.push(`date: ${dayjs().format('YYYY-MM-DD hh:mm:ss')}`)
-
-  post += content.join('\n')
-  return `${post}
----
-
-`
+  return render(defaultTemplate, { title, layout, date: date ? dayjs().format('YYYY-MM-DD hh:mm:ss') : '' })
 }
 
