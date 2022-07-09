@@ -12,10 +12,7 @@
     "resolveJsonModule": true,
     "noUnusedLocals": true,
     "strictNullChecks": true,
-    "forceConsistentCasingInFileNames": true,
-    "paths": {
-      "@/*": ["demo/yun/*"]
-    }
+    "forceConsistentCasingInFileNames": true
   },
   "exclude": ["dist", "node_modules"]
 }

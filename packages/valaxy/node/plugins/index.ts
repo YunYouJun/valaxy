@@ -2,7 +2,6 @@ import fs from 'fs'
 
 import { join, relative } from 'path'
 import type { Plugin, ResolvedConfig } from 'vite'
-import { normalizePath } from 'vite'
 // import consola from 'consola'
 import { resolveConfig } from '../config'
 import type { ResolvedValaxyOptions, ValaxyServerOptions } from '../options'
@@ -69,14 +68,14 @@ export function createValaxyPlugin(options: ResolvedValaxyOptions, serverOptions
 
   let valaxyConfig = options.config
 
-  const roots = [options.clientRoot, options.themeRoot, options.userRoot]
+  const roots = options.roots
 
   let markdownToVue: Awaited<ReturnType<typeof createMarkdownToVueRenderFn>>
   let hasDeadLinks = false
   let config: ResolvedConfig
 
   return {
-    name: 'valaxy',
+    name: 'valaxy:loader',
     enforce: 'pre',
 
     async configResolved(resolvedConfig) {
@@ -179,8 +178,22 @@ export function createValaxyPlugin(options: ResolvedValaxyOptions, serverOptions
     async handleHotUpdate(ctx) {
       // handle valaxy.config.ts hmr
       const { file, server, read } = ctx
-      if (file !== normalizePath(options.configFile))
-        return
+
+      if (file === options.configFile) {
+        const { config } = await resolveConfig()
+
+        serverOptions.onConfigReload?.(config, options.config)
+        Object.assign(options.config, config)
+
+        valaxyConfig = config
+
+        const moduleIds = ['/@valaxyjs/config', '/@valaxyjs/context']
+        const moduleEntries = [
+          ...Array.from(moduleIds).map(id => server.moduleGraph.getModuleById(id)),
+        ].filter(<T>(item: T): item is NonNullable<T> => !!item)
+
+        return moduleEntries
+      }
 
       // send headers
       if (file.endsWith('.md')) {
@@ -207,22 +220,6 @@ export function createValaxyPlugin(options: ResolvedValaxyOptions, serverOptions
         // overwrite src so vue plugin can handle the HMR
         ctx.read = () => vueSrc
       }
-
-      const { config } = await resolveConfig()
-
-      serverOptions.onConfigReload?.(config, options.config)
-      Object.assign(options.config, config)
-
-      // if (config.base !== options.config.base)
-      //   consola.warn('[valaxy]: config.base has changed. Please restart the dev server.')
-      valaxyConfig = config
-
-      const moduleIds = ['/@valaxyjs/config', '/@valaxyjs/context']
-      const moduleEntries = [
-        ...Array.from(moduleIds).map(id => server.moduleGraph.getModuleById(id)),
-      ].filter(<T>(item: T): item is NonNullable<T> => !!item)
-
-      return moduleEntries
     },
   }
 }

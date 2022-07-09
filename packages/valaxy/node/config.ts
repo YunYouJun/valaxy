@@ -1,8 +1,9 @@
 // import { loadConfig } from 'c12'
-import fs from 'fs'
-import { loadConfig } from 'unconfig'
+import fs from 'fs-extra'
 import defu from 'defu'
 import { ensureSuffix } from '@antfu/utils'
+import { normalizePath } from 'vite'
+import { loadConfig } from 'unconfig'
 import type { UserConfig, ValaxyConfig } from '../types'
 import type { ValaxyEntryOptions } from './options'
 
@@ -123,7 +124,9 @@ export async function resolveConfig(options: ValaxyEntryOptions = {}) {
     ],
     merge: false,
   })
-  const configFile = sources[0]
+
+  const configFile = normalizePath(sources[0])
+
   const config = defu(userConfig, defaultValaxyConfig)
 
   const theme = options.theme || config.theme || 'yun'

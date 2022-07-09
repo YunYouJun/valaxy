@@ -10,6 +10,7 @@ export * from './helper'
 export * from './dark'
 export * from './layout'
 export * from './widgets'
+export * from './locale'
 
 export * from './sidebar'
 

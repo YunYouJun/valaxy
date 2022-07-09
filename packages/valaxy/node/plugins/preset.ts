@@ -32,7 +32,7 @@ export async function ViteValaxyPlugins(
     components: componentsOptions = {},
   } = pluginOptions
 
-  const { clientRoot, themeRoot, userRoot } = options
+  const { roots } = options
 
   // const MarkdownPlugin = createMarkdownPlugin(options)
   const UnocssPlugin = await createUnocssPlugin(options, pluginOptions)
@@ -41,8 +41,6 @@ export async function ViteValaxyPlugins(
 
   const mdIt = new MarkdownIt({ html: true })
   await setupMarkdownPlugins(mdIt, options.config.markdownIt, true)
-
-  const roots = [clientRoot, themeRoot, userRoot]
 
   const { default: ThemePlugin } = (await import(`valaxy-theme-${options.theme}`))
 

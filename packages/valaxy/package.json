@@ -38,6 +38,7 @@
   },
   "files": [
     "index.d.ts",
+    "client.d.ts",
     "bin",
     "dist",
     "client"
@@ -61,7 +62,7 @@
     "@iconify-json/ri": "^1.1.3",
     "@intlify/vite-plugin-vue-i18n": "^3.4.0",
     "@vitejs/plugin-vue": "^2.3.3",
-    "@vueuse/core": "^8.9.0",
+    "@vueuse/core": "^8.9.1",
     "@vueuse/head": "^0.7.6",
     "consola": "^2.15.3",
     "critters": "^0.0.16",
@@ -92,7 +93,7 @@
     "unconfig": "^0.3.5",
     "unocss": "^0.43.2",
     "unplugin-vue-components": "^0.21.1",
-    "vite": "^2.9.13",
+    "vite": "^2.9.14",
     "vite-plugin-inspect": "^0.5.1",
     "vite-plugin-pages": "^0.25.0",
     "vite-plugin-vue-layouts": "^0.6.0",

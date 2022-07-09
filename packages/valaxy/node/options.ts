@@ -31,7 +31,7 @@ export interface ResolvedValaxyOptions {
   mode: 'dev' | 'build'
   /**
    * Client root path
-   * @default 'valaxy/src/client'
+   * @default 'valaxy/client'
    */
   clientRoot: string
   /**

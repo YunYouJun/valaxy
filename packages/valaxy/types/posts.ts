@@ -34,6 +34,11 @@ export interface Post extends Record<string, any> {
    * @description 摘要
    */
   excerpt?: string
+  /**
+   * @description Author
+   * @description:zh-CN 作者
+   */
+  author?: string
 
   /**
    * Display sponsor info
