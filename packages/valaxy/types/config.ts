@@ -1,4 +1,3 @@
-import type { PartialDeep } from 'type-fest'
 import type { MarkdownOptions } from '../node/markdown'
 
 export type ValaxyThemeConfig = Record<string, any>
@@ -214,8 +213,13 @@ export interface ValaxyConfig<T = ValaxyThemeConfig> {
   markdownIt: MarkdownOptions
 }
 
+export type PartialDeep<T> = {
+  [P in keyof T]?: T[P] extends object ? PartialDeep<T[P]> : T[P]
+}
+
 /**
  * Valaxy User Config
  * @description Valaxy 用户配置
  */
 export type UserConfig<ThemeConfig = ValaxyThemeConfig> = PartialDeep<ValaxyConfig<ThemeConfig>>
+
