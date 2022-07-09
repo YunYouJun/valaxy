@@ -2,8 +2,8 @@ import type { Ref } from 'vue'
 import { computed } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { useI18n } from 'vue-i18n'
+import type { Post } from 'valaxy/types'
 import { sortByDate } from '../utils'
-import type { Post } from '../../types'
 
 export const usePostTitle = (post: Ref<Post>) => {
   const { locale } = useI18n()

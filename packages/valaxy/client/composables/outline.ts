@@ -1,6 +1,6 @@
 import type { Ref } from 'vue'
 import { onMounted, onUnmounted, onUpdated } from 'vue'
-import type { Header } from '../../types'
+import type { Header } from 'valaxy/types'
 import { throttleAndDebounce } from '~/utils'
 
 interface HeaderWithChildren extends Header {

@@ -2,7 +2,7 @@ import { useRoute } from 'vue-router'
 import { computed } from 'vue'
 import { isClient } from '@vueuse/core'
 
-import type { Post } from '../../types'
+import type { Post } from 'valaxy/types'
 import { useConfig } from '../config'
 
 export function useFrontmatter() {

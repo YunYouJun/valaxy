@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import { useI18n } from 'vue-i18n'
-import type { Post } from '../../types'
+import type { Post } from 'valaxy/types'
 import { useAppStore } from '~/stores/app'
 defineProps<{ frontmatter: Post }>()
 const { t } = useI18n()

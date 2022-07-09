@@ -1,5 +1,5 @@
 import { unref } from 'vue'
-import type { Post } from '../../types'
+import type { Post } from 'valaxy/types'
 import { usePostList } from './post'
 
 export interface BaseCategory {

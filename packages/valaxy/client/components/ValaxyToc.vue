@@ -5,7 +5,7 @@ import { onMounted, ref, watch } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { useRoute } from 'vue-router'
 
-import type { Header } from '../../types'
+import type { Header } from 'valaxy/types'
 import { useActiveSidebarLinks } from '~/composables'
 import { useConfig } from '~/config'
 
