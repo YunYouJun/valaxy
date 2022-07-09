@@ -22,7 +22,7 @@
       "import": "./dist/node/index.mjs"
     },
     "./client/*": "./client/*",
-    "./client": "./client.d.ts",
+    "./client": "./dist/client/index.d.ts",
     "./node": {
       "types": "./dist/node/index.d.ts",
       "require": "./dist/node/index.js",
@@ -57,8 +57,6 @@
   "dependencies": {
     "@antfu/utils": "^0.5.2",
     "@ctrl/tinycolor": "^3.4.1",
-    "@docsearch/css": "^3.1.1",
-    "@docsearch/js": "^3.1.1",
     "@iconify-json/carbon": "^1.1.6",
     "@iconify-json/ri": "^1.1.3",
     "@intlify/vite-plugin-vue-i18n": "^3.4.0",
@@ -110,6 +108,7 @@
     "@types/cross-spawn": "^6.0.2",
     "@types/ejs": "^3.1.1",
     "@types/katex": "^0.14.0",
+    "@types/markdown-it": "^12.2.3",
     "@types/markdown-it-link-attributes": "^3.0.1",
     "@types/nprogress": "^0.2.0",
     "@types/yargs": "^17.0.10",

@@ -36,8 +36,6 @@ export function createConfigPlugin(options: ResolvedValaxyOptions): Plugin {
             'dayjs',
             'nprogress',
           ],
-
-          exclude: ['@docsearch/js'],
         },
       }
       return mergeConfig(config, injection)

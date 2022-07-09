@@ -25,6 +25,10 @@ export function yunPlugin(userOptions: Partial<ThemeConfig> = defaultThemeConfig
             },
           },
         },
+
+        optimizeDeps: {
+          exclude: ['@docsearch/js'],
+        },
       }
     },
   }

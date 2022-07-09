@@ -40,7 +40,6 @@
   "devDependencies": {
     "@antfu/eslint-config": "^0.25.2",
     "@types/debug": "^4.1.7",
-    "@types/markdown-it": "^12.2.3",
     "@types/prompts": "^2.0.14",
     "@types/resolve": "^1.20.2",
     "@types/semver": "^7.3.10",

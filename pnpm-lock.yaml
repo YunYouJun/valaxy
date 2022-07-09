@@ -6,7 +6,6 @@ importers:
     specifiers:
       '@antfu/eslint-config': ^0.25.2
       '@types/debug': ^4.1.7
-      '@types/markdown-it': ^12.2.3
       '@types/prompts': ^2.0.14
       '@types/resolve': ^1.20.2
       '@types/semver': ^7.3.10
@@ -27,7 +26,6 @@ importers:
     devDependencies:
       '@antfu/eslint-config': 0.25.2_4x5o4skxv6sl53vpwefgt23khm
       '@types/debug': 4.1.7
-      '@types/markdown-it': 12.2.3
       '@types/prompts': 2.0.14
       '@types/resolve': 1.20.2
       '@types/semver': 7.3.10
@@ -87,14 +85,13 @@ importers:
     specifiers:
       '@antfu/utils': ^0.5.2
       '@ctrl/tinycolor': ^3.4.1
-      '@docsearch/css': ^3.1.1
-      '@docsearch/js': ^3.1.1
       '@iconify-json/carbon': ^1.1.6
       '@iconify-json/ri': ^1.1.3
       '@intlify/vite-plugin-vue-i18n': ^3.4.0
       '@types/cross-spawn': ^6.0.2
       '@types/ejs': ^3.1.1
       '@types/katex': ^0.14.0
+      '@types/markdown-it': ^12.2.3
       '@types/markdown-it-link-attributes': ^3.0.1
       '@types/nprogress': ^0.2.0
       '@types/yargs': ^17.0.10
@@ -147,8 +144,6 @@ importers:
     dependencies:
       '@antfu/utils': 0.5.2
       '@ctrl/tinycolor': 3.4.1
-      '@docsearch/css': 3.1.1
-      '@docsearch/js': 3.1.1
       '@iconify-json/carbon': 1.1.6
       '@iconify-json/ri': 1.1.3
       '@intlify/vite-plugin-vue-i18n': 3.4.0_xvemjdrs57vyjchkqoyrcwzkya
@@ -169,7 +164,7 @@ importers:
       kolorist: 1.5.1
       lru-cache: 7.12.0
       markdown-it: 13.0.1
-      markdown-it-anchor: 8.6.4_markdown-it@13.0.1
+      markdown-it-anchor: 8.6.4_ea7kj7wzjkld5jo2noyjqxi764
       markdown-it-attrs: 4.1.4_markdown-it@13.0.1
       markdown-it-container: 3.0.0
       markdown-it-emoji: 2.0.2
@@ -199,6 +194,7 @@ importers:
       '@types/cross-spawn': 6.0.2
       '@types/ejs': 3.1.1
       '@types/katex': 0.14.0
+      '@types/markdown-it': 12.2.3
       '@types/markdown-it-link-attributes': 3.0.1
       '@types/nprogress': 0.2.0
       '@types/yargs': 17.0.10
@@ -208,10 +204,14 @@ importers:
 
   packages/valaxy-theme-yun:
     specifiers:
+      '@docsearch/css': ^3.1.1
+      '@docsearch/js': ^3.1.1
       '@iconify-json/ant-design': ^1.1.3
       '@iconify-json/simple-icons': ^1.1.19
       valaxy: workspace:*
     dependencies:
+      '@docsearch/css': 3.1.1
+      '@docsearch/js': 3.1.1
       '@iconify-json/ant-design': 1.1.3
       '@iconify-json/simple-icons': 1.1.19
     devDependencies:
@@ -802,7 +802,6 @@ packages:
 
   /@types/linkify-it/3.0.2:
     resolution: {integrity: sha512-HZQYqbiFVWufzCwexrvh694SOim8z2d+xJl5UNamcvQFejLY/2YUtzXHYi3cHdI7PMlS8ejH2slRAOJQ32aNbA==}
-    dev: true
 
   /@types/markdown-it-link-attributes/3.0.1:
     resolution: {integrity: sha512-K8RnNb1q8j7rDOJbMF7AnlhCC/45BjrQ8z3WZWOrvkBIl8u9RXvmBdG/hfpnmK1JhhEZcmFEKWt+ilW1Mly+2Q==}
@@ -815,7 +814,6 @@ packages:
     dependencies:
       '@types/linkify-it': 3.0.2
       '@types/mdurl': 1.0.2
-    dev: true
 
   /@types/mdast/3.0.10:
     resolution: {integrity: sha512-W864tg/Osz1+9f4lrGTZpCSO5/z4608eUp19tbozkq2HJK6i3z1kT0H9tlADXuYIb1YYOBByU4Jsqkk75q48qA==}
@@ -825,7 +823,6 @@ packages:
 
   /@types/mdurl/1.0.2:
     resolution: {integrity: sha512-eC4U9MlIcu2q0KQmXszyn5Akca/0jrQmwDRgpAMJai7qBWq4amIQhZyNau4VYGtCeALvW1/NtjzJJ567aZxfKA==}
-    dev: true
 
   /@types/minimist/1.2.2:
     resolution: {integrity: sha512-jhuKLIRrhvCPLqwPcx6INqmKeiA5EWrsCOPhrlFSrbrmU4ZMPjj5Ul/oLCMDO98XRUIwVm78xICz4EPCektzeQ==}
@@ -2058,6 +2055,18 @@ packages:
         optional: true
     dependencies:
       ms: 2.1.3
+    dev: true
+
+  /debug/3.2.7_supports-color@5.5.0:
+    resolution: {integrity: sha512-CFjzYYAi4ThfiQvizrFQevTTXHtnCqWfe7x1AhgEscTz6ZbLbfoLRLPugTQyBth6f8ZERVUSyWHFD/7Wu4t1XQ==}
+    peerDependencies:
+      supports-color: '*'
+    peerDependenciesMeta:
+      supports-color:
+        optional: true
+    dependencies:
+      ms: 2.1.3
+      supports-color: 5.5.0
     dev: true
 
   /debug/4.3.4:
@@ -4121,12 +4130,13 @@ packages:
     resolution: {integrity: sha512-CkYQrPYZfWnu/DAmVCpTSX/xHpKZ80eKh2lAkyA6AJTef6bW+6JpbQZN5rofum7da+SyN1bi5ctTm+lTfcCW3g==}
     dev: true
 
-  /markdown-it-anchor/8.6.4_markdown-it@13.0.1:
+  /markdown-it-anchor/8.6.4_ea7kj7wzjkld5jo2noyjqxi764:
     resolution: {integrity: sha512-Ul4YVYZNxMJYALpKtu+ZRdrryYt/GlQ5CK+4l1bp/gWXOG2QWElt6AqF3Mih/wfUKdZbNAZVXGR73/n6U/8img==}
     peerDependencies:
       '@types/markdown-it': '*'
       markdown-it: '*'
     dependencies:
+      '@types/markdown-it': 12.2.3
       markdown-it: 13.0.1
     dev: false
 
@@ -4356,7 +4366,7 @@ packages:
     requiresBuild: true
     dependencies:
       chokidar: 3.5.3
-      debug: 3.2.7
+      debug: 3.2.7_supports-color@5.5.0
       ignore-by-default: 1.0.1
       minimatch: 3.1.2
       pstree.remy: 1.1.8
@@ -5160,6 +5170,8 @@ packages:
       escape-html: 1.0.3
       parseurl: 1.3.3
       send: 0.18.0
+    transitivePeerDependencies:
+      - supports-color
     dev: true
 
   /setprototypeof/1.2.0:
