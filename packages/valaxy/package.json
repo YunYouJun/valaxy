@@ -38,7 +38,6 @@
   },
   "files": [
     "index.d.ts",
-    "client.d.ts",
     "bin",
     "dist",
     "client"
