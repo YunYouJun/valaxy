@@ -1,21 +1,35 @@
-import { isClient, useScriptTag } from '@vueuse/core'
-import { useHead } from '@vueuse/head'
-import { onUnmounted, watch } from 'vue'
+import { isClient } from '@vueuse/core'
+import { computed, onMounted, onUnmounted, watch } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { useRoute } from 'vue-router'
 
+import type { WalineInitOptions, WalineInstance } from '@waline/client'
+import { init } from '@waline/client'
+
+import '@waline/client/dist/waline.css'
+import { useConfig } from '../../config'
+
+/**
+ * A Simple, Safe Comment System.
+ * @public
+ * @see https://github.com/walinejs/waline
+ * @see https://waline.js.org/
+ * @param options
+ * @returns
+ */
 export function useWaline(options: {} = {}) {
-  useHead({
-    link: [
-      { rel: 'stylesheet', href: 'https://cdn.jsdelivr.net/npm/@waline/client/dist/waline.css' },
-    ],
-  })
+  const config = useConfig()
+  const cdnPrefix = computed(() => config.value.cdn.prefix)
 
   const route = useRoute()
 
   const { locale } = useI18n()
 
-  let waline: any
+  let waline: WalineInstance | null | undefined
+
+  onMounted(() => {
+    waline = initWaline(options)
+  })
 
   /**
    * init waline
@@ -26,25 +40,21 @@ export function useWaline(options: {} = {}) {
     if (!isClient)
       return
 
-    const defaultOptions = {
+    const defaultOptions: WalineInitOptions = {
       el: '.comment #waline',
+      serverURL: '',
       lang: locale.value,
       dark: 'html.dark',
       emoji: [
-        'https://cdn.jsdelivr.net/gh/walinejs/emojis@1.0.0/bilibili',
-        'https://cdn.jsdelivr.net/gh/walinejs/emojis@1.0.0/qq',
-        'https://cdn.jsdelivr.net/gh/walinejs/emojis@1.0.0/weibo',
+        `${cdnPrefix.value}@waline/emojis/bilibili/`,
+        `${cdnPrefix.value}@waline/emojis/qq/`,
+        `${cdnPrefix.value}@waline/emojis/weibo/`,
       ],
       path: route.path,
     }
     const walineOptions = Object.assign(defaultOptions, options)
-    return window.Waline.init(walineOptions)
+    return init(walineOptions)
   }
-
-  // 直接使用 CDN
-  useScriptTag('//cdn.jsdelivr.net/npm/@waline/client/dist/waline.js', () => {
-    waline = initWaline(options)
-  })
 
   watch(() => route.path, (path) => {
     if (!waline)

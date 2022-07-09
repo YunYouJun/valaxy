@@ -1,7 +1,7 @@
 ---
 title: 博文
 date: 2022-04-09
-cover: https://cdn.jsdelivr.net/gh/YunYouJun/cdn/img/bg/stars-timing-0-blur-30px.jpg
+cover: https://cdn.yunyoujun.cn/img/bg/stars-timing-0-blur-30px.jpg
 ---
 
 ::: zh-CN

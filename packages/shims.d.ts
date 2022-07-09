@@ -22,20 +22,3 @@ declare module '*.vue' {
   const component: DefineComponent<{}, {}, any>
   export default component
 }
-
-declare interface Window {
-  // extend the window
-
-  Waline: any
-  twikoo: {
-    init: (options: {
-      envId: string
-      el: string
-    } | any) => any
-  }
-
-  // algolia
-  instantsearch: any
-  algoliasearch: any
-}
-

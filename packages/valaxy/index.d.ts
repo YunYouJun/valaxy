@@ -1,5 +1,5 @@
 // re-export @vueuse/shared types. with strict installers like pnpm, user won't
-// be able to reference vite/client in project root.
+// be able to reference @vueuse/shared in project root.
 /// <reference types="@vueuse/shared" />
 
 export * from './client/index'

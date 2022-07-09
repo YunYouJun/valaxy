@@ -82,7 +82,7 @@ GitHub 为其提供了原生支持是一大优势，但我打算类似使用 Git
 ❤️ 也感谢以下赞助者们的支持！
 
 <p align="center">
-  <a href="https://cdn.jsdelivr.net/gh/YunYouJun/sponsors/public/sponsors.svg">
-    <img src='https://cdn.jsdelivr.net/gh/YunYouJun/sponsors/public/sponsors.svg'/>
+  <a href="https://sponsors.yunyoujun.cn">
+    <img src='https://sponsors.yunyoujun.cn/sponsors.svg'/>
   </a>
 </p>

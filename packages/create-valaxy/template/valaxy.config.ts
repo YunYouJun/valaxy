@@ -63,7 +63,7 @@ const config: UserConfig<ThemeUserConfig> = {
     },
     {
       name: '微信公众号',
-      link: 'https://cdn.jsdelivr.net/gh/YunYouJun/cdn/img/about/white-qrcode-and-search.jpg',
+      link: 'https://cdn.yunyoujun.cn/img/about/white-qrcode-and-search.jpg',
       icon: 'i-ri-wechat-2-line',
       color: '#1AAD19',
     },
@@ -103,19 +103,19 @@ const config: UserConfig<ThemeUserConfig> = {
     methods: [
       {
         name: '支付宝',
-        url: 'https://cdn.jsdelivr.net/gh/YunYouJun/cdn/img/donate/alipay-qrcode.jpg',
+        url: 'https://cdn.yunyoujun.cn/img/donate/alipay-qrcode.jpg',
         color: '#00A3EE',
         icon: 'i-ri-alipay-line',
       },
       {
         name: 'QQ 支付',
-        url: 'https://cdn.jsdelivr.net/gh/YunYouJun/cdn/img/donate/qqpay-qrcode.png',
+        url: 'https://cdn.yunyoujun.cn/img/donate/qqpay-qrcode.png',
         color: '#12B7F5',
         icon: 'i-ri-qq-line',
       },
       {
         name: '微信支付',
-        url: 'https://cdn.jsdelivr.net/gh/YunYouJun/cdn/img/donate/wechatpay-qrcode.jpg',
+        url: 'https://cdn.yunyoujun.cn/img/donate/wechatpay-qrcode.jpg',
         color: '#2DC100',
         icon: 'i-ri-wechat-pay-line',
       },

@@ -1,23 +1,28 @@
 import { useScriptTag } from '@vueuse/core'
 import { useHead } from '@vueuse/head'
+import { useConfig } from 'valaxy'
+import { computed } from 'vue'
 
 /**
  * use MetingJS and Aplayer
- * https://github.com/MoePlayer/APlayer
- * https://github.com/metowolf/MetingJS
+ * @see https://github.com/MoePlayer/APlayer
+ * @see https://github.com/metowolf/MetingJS
  */
 export function useAplayer() {
+  const config = useConfig()
+  const cdnPrefix = computed(() => config.value.cdn.prefix)
+
   useHead({
     link: [
       {
         rel: 'stylesheet',
-        href: 'https://cdn.jsdelivr.net/npm/aplayer/dist/APlayer.min.css',
+        href: `${cdnPrefix.value}aplayer/dist/APlayer.min.css`,
       },
     ],
   })
 
   // load meting after aplayer
-  useScriptTag('https://cdn.jsdelivr.net/npm/aplayer/dist/APlayer.min.js', () => {
-    useScriptTag('https://cdn.jsdelivr.net/npm/meting@2/dist/Meting.min.js')
+  useScriptTag(`${cdnPrefix.value}aplayer/dist/APlayer.min.js`, () => {
+    useScriptTag(`${cdnPrefix.value}meting@2/dist/Meting.min.js`)
   })
 }

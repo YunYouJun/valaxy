@@ -140,6 +140,15 @@ export interface ValaxyConfig<T = ValaxyThemeConfig> {
   }
 
   /**
+   * third-party plugin need cdn
+   * aplayer, twikoo
+   * @default 'https://npm.elemecdn.com/'
+   */
+  cdn: {
+    prefix: string
+  }
+
+  /**
    * The name of theme
    * @description 主题名称
    */

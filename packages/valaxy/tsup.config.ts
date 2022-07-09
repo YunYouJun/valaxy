@@ -5,7 +5,7 @@ export default defineConfig((options) => {
     entry: [
       'node/index.ts',
       'node/cli.ts',
-      // 'client/index.ts',
+      'client/index.ts',
       'types/index.ts',
     ],
     // https://tsup.egoist.sh/#code-splitting
@@ -18,6 +18,8 @@ export default defineConfig((options) => {
     external: [
       '/@valaxyjs/config',
       '/@valaxyjs/context',
+
+      '@waline/client',
     ],
   }
 })

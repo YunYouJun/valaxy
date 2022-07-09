@@ -1,6 +1,6 @@
 import type { ThemeConfig, ThemeUserConfig } from '../types'
 
-export const anonymousImage = 'https://cdn.jsdelivr.net/gh/YunYouJun/cdn/img/avatar/none.jpg'
+export const anonymousImage = 'https://cdn.yunyoujun.cn/img/avatar/none.jpg'
 
 /**
  * Default Config
@@ -17,8 +17,8 @@ export const defaultThemeConfig: ThemeConfig = {
 
   bg_image: {
     enable: true,
-    url: 'https://cdn.jsdelivr.net/gh/YunYouJun/cdn/img/bg/stars-timing-0-blur-30px.jpg',
-    dark: 'https://cdn.jsdelivr.net/gh/YunYouJun/cdn/img/bg/galaxy.jpg',
+    url: 'https://cdn.yunyoujun.cn/img/bg/stars-timing-0-blur-30px.jpg',
+    dark: 'https://cdn.yunyoujun.cn/img/bg/galaxy.jpg',
   },
 
   say: {
@@ -128,6 +128,12 @@ export function generateSafelist(themeConfig: ThemeUserConfig) {
 
   if (themeConfig.menu?.custom?.icon)
     safelist.push(themeConfig.menu?.custom?.icon)
+
+  if (themeConfig.pages) {
+    themeConfig?.pages?.forEach((item) => {
+      item?.icon && safelist?.push(item?.icon)
+    })
+  }
 
   return safelist
 }

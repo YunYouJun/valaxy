@@ -1,33 +1,47 @@
-@use 'sass:map';
+@use "sass:map";
 
 // palette
 $light: () !default;
-$light: map.merge((
-  'bg-image': url('https://cdn.jsdelivr.net/gh/YunYouJun/cdn/img/bg/stars-timing-0-blur-30px.jpg'),
-  'sidebar-bg-color': var(--va-c-bg-light),
-  'sidebar-bg-image': url("https://cdn.jsdelivr.net/gh/YunYouJun/cdn@master/img/bg/alpha-stars-timing-1.webp")
-), $light);
+$light: map.merge(
+  (
+    "bg-image":
+      url("https://cdn.yunyoujun.cn/img/bg/stars-timing-0-blur-30px.jpg"),
+    "sidebar-bg-color": var(--va-c-bg-light),
+    "sidebar-bg-image":
+      url("https://cdn.yunyoujun.cn/img/bg/alpha-stars-timing-1.webp"),
+  ),
+  $light
+);
 
 $dark: () !default;
-$dark: map.merge((
-  'bg-image': none,
-  'sidebar-bg-image': none
-), $dark);
+$dark: map.merge(
+  (
+    "bg-image": none,
+    "sidebar-bg-image": none,
+  ),
+  $dark
+);
 
 // common
 $common: () !default;
-$common: map.merge((
-  'post-card-max-width': 900px
-), $common);
+$common: map.merge(
+  (
+    "post-card-max-width": 900px,
+  ),
+  $common
+);
 
 $z-index: () !default;
-$z-index: map.merge((
-  'cloud': 8,
-  'go-down': 9,
-  'sidebar': 10,
-  'fireworks': 11,
-  'menu-btn': 20,
-  'go-up-btn': 20,
-  'search-popup': 30,
-  'search-btn': 31,
-), $z-index);
+$z-index: map.merge(
+  (
+    "cloud": 8,
+    "go-down": 9,
+    "sidebar": 10,
+    "fireworks": 11,
+    "menu-btn": 20,
+    "go-up-btn": 20,
+    "search-popup": 30,
+    "search-btn": 31,
+  ),
+  $z-index
+);

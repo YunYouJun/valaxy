@@ -1,7 +1,13 @@
 import 'vue-router'
 
 import type { Post } from 'valaxy'
-import type { Header } from '../node/markdown'
+import type { Header } from './node/markdown'
+
+declare interface Window {
+  // algolia
+  instantsearch: any
+  algoliasearch: any
+}
 
 // markdowns can be treat as Vue components
 declare module '*.md' {

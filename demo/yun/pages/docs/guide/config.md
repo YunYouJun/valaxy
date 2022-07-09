@@ -21,13 +21,13 @@ export default defineConfig({
     methods: [
       {
         name: '支付宝',
-        url: 'https://cdn.jsdelivr.net/gh/YunYouJun/cdn/img/donate/alipay-qrcode.jpg',
+        url: 'https://cdn.yunyoujun.cn/img/donate/alipay-qrcode.jpg',
         color: '#00A3EE',
         icon: 'i-ri-alipay-line',
       },
       {
         name: '微信支付',
-        url: 'https://cdn.jsdelivr.net/gh/YunYouJun/cdn/img/donate/wechatpay-qrcode.jpg',
+        url: 'https://cdn.yunyoujun.cn/img/donate/wechatpay-qrcode.jpg',
         color: '#2DC100',
         icon: 'i-ri-wechat-pay-line',
       },
