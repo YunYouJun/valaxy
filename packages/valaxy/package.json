@@ -67,6 +67,7 @@
     "critters": "^0.0.16",
     "cross-spawn": "^7.0.3",
     "dayjs": "^1.11.3",
+    "ejs": "^3.1.8",
     "escape-html": "^1.0.3",
     "feed": "^4.2.2",
     "global-dirs": "^3.0.0",
@@ -105,6 +106,7 @@
   },
   "devDependencies": {
     "@types/cross-spawn": "^6.0.2",
+    "@types/ejs": "^3.1.1",
     "@types/katex": "^0.14.0",
     "@types/lru-cache": "^7.10.10",
     "@types/markdown-it-link-attributes": "^3.0.1",
