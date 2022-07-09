@@ -43,8 +43,8 @@ async function init() {
       if (existing.length) {
         console.log(yellow(`  Target directory "${targetDir}" is not empty.`))
         /**
-       * @type {{ yes: boolean }}
-       */
+         * @type {{ yes: boolean }}
+         */
         const { yes } = await prompts({
           type: 'confirm',
           name: 'yes',

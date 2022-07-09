@@ -129,12 +129,11 @@ export async function resolveConfig(options: ValaxyEntryOptions = {}) {
     merge: false,
   })
 
-  // ensure suffix for cdn prefix
-  userConfig.cdn.prefix = ensureSuffix('/', userConfig.cdn.prefix)
-
   const configFile = normalizePath(sources[0])
 
   const config = defu(userConfig, defaultValaxyConfig)
+  // ensure suffix for cdn prefix
+  config.cdn.prefix = ensureSuffix('/', config.cdn.prefix)
 
   const theme = options.theme || config.theme || 'yun'
 

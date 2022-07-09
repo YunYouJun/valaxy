@@ -2,7 +2,7 @@
 import { useConfig, useWaline } from 'valaxy'
 
 const config = useConfig()
-useWaline(config.value.comment.waline)
+useWaline(config.value.comment.waline, config.value.cdn.prefix)
 </script>
 
 <template>

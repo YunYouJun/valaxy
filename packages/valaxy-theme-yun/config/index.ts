@@ -130,8 +130,8 @@ export function generateSafelist(themeConfig: ThemeUserConfig) {
     safelist.push(themeConfig.menu?.custom?.icon)
 
   if (themeConfig.pages) {
-    themeConfig?.pages?.forEach((item) => {
-      item?.icon && safelist?.push(item?.icon)
+    themeConfig.pages?.forEach((item) => {
+      item.icon && safelist.push(item.icon)
     })
   }
 

@@ -70,7 +70,16 @@ importers:
       prompts: 2.4.2
 
   packages/create-valaxy-theme:
-    specifiers: {}
+    specifiers:
+      execa: '5'
+      kolorist: ^1.5.1
+      minimist: ^1.2.6
+      prompts: ^2.4.2
+    dependencies:
+      execa: 5.1.1
+      kolorist: 1.5.1
+      minimist: 1.2.6
+      prompts: 2.4.2
 
   packages/valaxy:
     specifiers:
