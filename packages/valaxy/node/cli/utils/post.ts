@@ -4,6 +4,8 @@ import { render } from 'ejs'
 import dayjs from 'dayjs'
 import { ensureSuffix } from '@antfu/utils'
 import { exists } from './fs'
+import { getTemplate } from './scaffold'
+import { defaultPostTemplate, userRoot } from './constants'
 
 export interface CreatePostParams {
   date?: boolean
@@ -12,9 +14,7 @@ export interface CreatePostParams {
   title: string
 }
 
-const root = process.cwd()
-
-const pagesPath = resolve(root, 'pages')
+const pagesPath = resolve(userRoot, 'pages')
 
 export const create = async (data: CreatePostParams) => {
   const {
@@ -34,7 +34,7 @@ export const create = async (data: CreatePostParams) => {
     destinationPath = ensureSuffix('.md', destinationPath)
 
     if (!await exists(destinationPath)) {
-      const content = genPostTemplate(data)
+      const content = await genPostTemplate(data)
       writeFile(destinationPath, content, 'utf-8')
       return destinationPath
     }
@@ -42,18 +42,16 @@ export const create = async (data: CreatePostParams) => {
   }
 }
 
-const defaultTemplate = `---
-layout: <%=layout%>
-title: <%=title%>
-date: <%=date%>
----
-`
-
-function genPostTemplate({
+async function genPostTemplate({
   date,
   title,
   layout = 'post',
 }: CreatePostParams) {
-  return render(defaultTemplate, { title, layout, date: date ? dayjs().format('YYYY-MM-DD hh:mm:ss') : '' })
+  let template = await getTemplate(layout)
+
+  if (!template)
+    template = defaultPostTemplate
+
+  return render(template, { title, layout, date: date ? dayjs().format('YYYY-MM-DD hh:mm:ss') : '' })
 }
 
