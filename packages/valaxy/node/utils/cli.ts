@@ -52,7 +52,7 @@ export async function initServer(options: ResolvedValaxyOptions, viteConfig: Inl
     let safelist = (await createSafelist(options.config, viteConfigs.valaxy || {})).concat([])
     let oldSafelist = safelist
 
-    server = await createServer(options, viteConfig, {
+    server = await createServer(options, viteConfigs, {
       async onConfigReload(newConfig, config) {
         let reload = false
 
