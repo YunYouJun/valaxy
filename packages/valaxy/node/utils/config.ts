@@ -38,6 +38,7 @@ export function mergeConfig(merged: any, b: any) {
         existing.call(merged[key], ...args)
         value.call(merged[key], ...args)
       }
+      continue
     }
     merged[key] = value
   }
