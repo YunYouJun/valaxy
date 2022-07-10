@@ -69,6 +69,12 @@ export interface Post extends Record<string, any> {
   nav?: boolean
 
   /**
+   * display right sidebar
+   * @description 是否显示右侧侧边栏
+   */
+  aside?: boolean
+
+  /**
    * icon before title
    */
   icon?: string

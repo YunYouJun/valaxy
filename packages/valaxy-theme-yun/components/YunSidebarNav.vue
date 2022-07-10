@@ -37,7 +37,7 @@ const tags = useTag()
 </template>
 
 <style lang="scss">
-@use "~/styles/mixins" as *;
+@use "valaxy/client/styles/mixins" as *;
 
 .site-nav {
   display: flex;

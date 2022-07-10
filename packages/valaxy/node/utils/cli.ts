@@ -2,14 +2,15 @@ import * as readline from 'readline'
 import path from 'path'
 import os from 'os'
 
-import { blue, bold, cyan, dim, gray, green, underline } from 'kolorist'
+import { blue, bold, cyan, dim, gray, green, underline, yellow } from 'kolorist'
 import consola from 'consola'
 import type { InlineConfig, ViteDevServer } from 'vite'
+import { mergeConfig } from 'vite'
 import { createServer } from '../server'
 import type { ResolvedValaxyOptions } from '../options'
-import { resolvePluginOptions } from '../options'
 import { version } from '../../package.json'
 import { createSafelist } from '../plugins/unocss'
+import { mergeViteConfigs } from '../common'
 let server: ViteDevServer | undefined
 
 export function printInfo(options: ResolvedValaxyOptions, port?: number, remote?: string | boolean) {
@@ -42,22 +43,31 @@ export async function initServer(options: ResolvedValaxyOptions, viteConfig: Inl
   if (server)
     await server.close()
 
+  const viteConfigs: InlineConfig = mergeConfig(
+    await mergeViteConfigs(options, 'serve'),
+    viteConfig,
+  )
+
   try {
-    const pluginOptions = await resolvePluginOptions()
-    const safelist = (await createSafelist(options.config)).concat(pluginOptions.unocss?.safelist || [])
+    let safelist = (await createSafelist(options.config, viteConfigs.valaxy || {})).concat([])
+    let oldSafelist = safelist
 
     server = await createServer(options, viteConfig, {
-      onConfigReload(newConfig, config) {
+      async onConfigReload(newConfig, config) {
         let reload = false
 
-        const iconChanged = newConfig.social.some((item, i) => {
-          return !safelist.includes(item.icon) && item.icon !== config.social[i].icon
-        })
+        let iconChanged = false
 
-        if (iconChanged) {
+        safelist = (await createSafelist(newConfig, viteConfigs.valaxy || {})).concat([])
+        iconChanged = safelist.some(name => !oldSafelist.includes(name))
+        oldSafelist = safelist
+
+        if (newConfig.theme !== config.theme) {
+          reload = true
+        }
+        else if (iconChanged) {
           consola.info('Find new icon, reload server...')
-          consola.info(`If you do not want to reload it, write icon name in ${green('config.unocss.safelist')}.`)
-          consola.info('For example: ["i-ri-cloud-line"]')
+          consola.info(`If you do not want to reload, write icon name in ${yellow('vite.config.ts')} ${green('valaxy.unocss.safelist')}.`)
           console.log()
           reload = true
         }

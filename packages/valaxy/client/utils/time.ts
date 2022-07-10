@@ -1,5 +1,5 @@
 import dayjs from 'dayjs'
-import type { Post } from '../../types'
+import type { Post } from 'valaxy/types'
 
 /**
  * use dayjs format date

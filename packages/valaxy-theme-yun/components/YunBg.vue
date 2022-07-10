@@ -2,7 +2,7 @@
 import { computed } from 'vue'
 import { useThemeConfig } from 'valaxy-theme-yun/composables'
 import { useCssVar } from '@vueuse/core'
-import { isDark } from '~/composables'
+import { isDark } from 'valaxy'
 
 const themeConfig = useThemeConfig()
 

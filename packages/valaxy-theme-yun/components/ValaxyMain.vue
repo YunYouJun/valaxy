@@ -12,13 +12,15 @@ const config = useConfig()
 
 const { styles, icon, color } = usePostProperty(props.frontmatter.type)
 const title = usePostTitle(computed(() => props.frontmatter))
+
+const aside = computed(() => props.frontmatter.aside !== false)
 </script>
 
 <template>
   <main class="yun-main lt-md:ml-0" flex="~">
     <div w="full" flex="~">
       <slot name="main">
-        <div class="content" flex="~ col grow" w="full" p="l-4 lt-md:0">
+        <div class="content" :class="!aside && 'no-aside'" flex="~ col grow" w="full" p="l-4 lt-md:0">
           <YunCard :cover="frontmatter.cover" m="0" class="relative" :style="styles">
             <slot name="main-header">
               <YunPageHeader :title="title" :icon="frontmatter.icon || icon" :color="frontmatter.color || color" :cover="frontmatter.cover" />
@@ -59,7 +61,7 @@ const title = usePostTitle(computed(() => props.frontmatter))
       </slot>
 
       <slot name="aside">
-        <YunAside :frontmatter="frontmatter" :data="data">
+        <YunAside v-if="aside" :frontmatter="frontmatter" :data="data">
           <slot name="aside-custom" />
         </YunAside>
       </slot>
@@ -68,11 +70,15 @@ const title = usePostTitle(computed(() => props.frontmatter))
 </template>
 
 <style lang="scss">
-@use '~/styles/mixins' as *;
+@use 'valaxy/client/styles/mixins' as *;
 @include xl {
   .content{
     // 8px scrollbar width
     max-width: calc(100vw - 2 * var(--va-sidebar-width-mobile) - 1rem - 8px);
+
+    &.no-aside {
+      max-width: calc(100vw - var(--va-sidebar-width-mobile));
+    }
   }
 }
 </style>

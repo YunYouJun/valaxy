@@ -63,7 +63,7 @@ const trigger = () => {
 
 <style lang="scss">
 @use 'sass:map';
-@use '~/styles/vars' as *;
+@use 'valaxy/client/styles/vars' as *;
 
 .search-btn {
   position: fixed;

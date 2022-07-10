@@ -30,6 +30,7 @@ export async function ViteValaxyPlugins(
   const {
     vue: vueOptions = {},
     components: componentsOptions = {},
+    pages: pagesOptions = {},
   } = pluginOptions
 
   const { roots } = options
@@ -102,11 +103,14 @@ export async function ViteValaxyPlugins(
     Pages({
       extensions: ['vue', 'md'],
       dirs: roots.map(root => `${root}/pages`),
+
+      ...pagesOptions,
+
       /**
        * we need get frontmatter before route, so write it in Pages.extendRoute
        */
-      extendRoute(route) {
-        let path = route.component
+      extendRoute(route, parent) {
+        let path: string = route.component
         if (!route.meta)
           route.meta = {}
 
@@ -114,34 +118,52 @@ export async function ViteValaxyPlugins(
         if (route.path === '/')
           route.meta.layout = 'home'
 
+        // find page path
         roots.forEach((root) => {
           const pagePath = root + route.component
           if (fs.existsSync(pagePath))
             path = pagePath
         })
 
-        const md = fs.readFileSync(path, 'utf-8')
-        const { data, excerpt } = matter(md, { excerpt_separator: '<!-- more -->' })
-
-        // warn for post frontmatter
+        // page is post
+        let isPost = false
         if (route.path.startsWith('/posts/')) {
+          isPost = true
           route.meta.layout = 'post'
-          if (!data.date)
-            consola.warn(`You forgot to write ${yellow('date')} for post: ${dim(`${route.component}`)}`)
         }
 
-        route.meta = Object.assign(route.meta, {
-          frontmatter: Object.assign({ date: new Date() }, data),
-          excerpt: excerpt ? mdIt.render(excerpt) : '',
-        })
+        if (path.endsWith('.md')) {
+          const md = fs.readFileSync(path, 'utf-8')
+          const { data, excerpt } = matter(md, { excerpt_separator: '<!-- more -->' })
 
-        // set default updated
-        if (route.meta.frontmatter.updated)
-          route.meta.frontmatter.updated = route.meta.frontmatter.date
+          if (isPost) {
+            // warn for post frontmatter
+            if (!data.date)
+              consola.warn(`You forgot to write ${yellow('date')} for post: ${dim(`${route.component}`)}`)
+          }
 
-        // set layout
-        if (data.layout)
-          route.meta.layout = data.layout
+          route.meta = Object.assign(route.meta, {
+            frontmatter: Object.assign({ date: new Date() }, data),
+            excerpt: excerpt ? mdIt.render(excerpt) : '',
+          })
+
+          // set layout
+          if (data.layout)
+            route.meta.layout = data.layout
+
+          // set default updated
+          if (route.meta.frontmatter.updated)
+            route.meta.frontmatter.updated = route.meta.frontmatter.date
+
+          pluginOptions.extendMd?.({
+            route,
+            data,
+            excerpt,
+            path,
+          })
+        }
+
+        pagesOptions.extendRoute?.(route, parent)
 
         return route
       },

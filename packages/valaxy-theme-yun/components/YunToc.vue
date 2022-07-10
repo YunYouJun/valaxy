@@ -2,12 +2,12 @@
 import { computed, ref } from 'vue'
 import { useI18n } from 'vue-i18n'
 import type { Header } from 'valaxy'
-import { useThemeConfig } from '../composables'
-import { useFrontmatter } from '~/composables'
 import {
   resolveHeaders,
   useActiveAnchor,
-} from '~/composables/outline'
+  useFrontmatter,
+} from 'valaxy'
+import { useThemeConfig } from '../composables'
 
 const props = defineProps<{ headers: Header[] }>()
 

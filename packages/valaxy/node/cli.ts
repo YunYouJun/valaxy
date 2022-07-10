@@ -4,6 +4,7 @@ import { exec } from 'child_process'
 import type { Argv } from 'yargs'
 import yargs from 'yargs'
 import type { InlineConfig, LogLevel } from 'vite'
+import { mergeConfig } from 'vite'
 import openBrowser from 'open'
 
 import consola from 'consola'
@@ -136,14 +137,17 @@ cli.command(
     const options = await resolveOptions({ userRoot: root }, 'build')
     printInfo(options)
 
-    const viteConfig = await mergeViteConfigs(options, {
-      base,
-      build: {
+    const viteConfig = mergeConfig(
+      await mergeViteConfigs(options, 'build'),
+      {
+        base,
+        build: {
         // make out dir empty, https://vitejs.dev/config/#build-emptyoutdir
-        emptyOutDir: true,
-        outDir: path.resolve(options.userRoot, output),
+          emptyOutDir: true,
+          outDir: path.resolve(options.userRoot, output),
+        },
       },
-    }, {}, 'build')
+    )
 
     if (ssg) {
       consola.info(`use ${yellow('vite-ssg')} to do ssg build...`)

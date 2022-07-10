@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import { computed } from 'vue'
-import { useBackToTop } from '~/composables'
+import { useBackToTop } from 'valaxy'
 
 const { show, percentage } = useBackToTop({ offset: 100 })
 

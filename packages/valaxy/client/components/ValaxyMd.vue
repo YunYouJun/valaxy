@@ -2,9 +2,7 @@
 import type { Post } from 'valaxy'
 import { onMounted, ref } from 'vue'
 import { useI18n } from 'vue-i18n'
-import { useAplayer, useCodePen } from '~/composables'
-import { useCopyCode } from '~/composables/copy-code'
-import { wrapTable } from '~/utils'
+import { useAplayer, useCodePen, useCopyCode, wrapTable } from 'valaxy'
 
 const props = defineProps<{
   frontmatter: Post

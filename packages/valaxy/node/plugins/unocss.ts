@@ -17,7 +17,7 @@ import type { ValaxyConfig } from 'valaxy'
 import type { ResolvedValaxyOptions, ValaxyPluginOptions } from '../options'
 import { loadSetups } from './setupNode'
 
-export const createSafelist = async (config: ValaxyConfig) => {
+export const createSafelist = async (config: ValaxyConfig, pluginOptions: ValaxyPluginOptions = {}) => {
   const { generateSafelist } = await import(`valaxy-theme-${config.theme}`)
 
   const safeIcons: string[] = [
@@ -28,7 +28,7 @@ export const createSafelist = async (config: ValaxyConfig) => {
     'i-ri-price-tag-3-line',
 
     'i-ri-cloud-line',
-  ]
+  ].concat(pluginOptions.unocss?.safelist || [])
 
   let themeSafelist: string[] = []
   if (typeof generateSafelist === 'function')
@@ -77,7 +77,7 @@ export const createUnocssConfig = async (options: ResolvedValaxyOptions) => {
       // }),
     ],
     rules: [
-      // more see '~/styles/global/helper.scss'
+      // more see 'valaxy/client/styles/global/helper.scss'
       ['yun-transition', {
         'transition-duration': 'var(--va-transition-duration)',
       }],

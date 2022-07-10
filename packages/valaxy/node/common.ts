@@ -5,11 +5,13 @@ import { uniq } from '@antfu/utils'
 import { loadConfigFromFile, mergeConfig } from 'vite'
 import type { ResolvedValaxyOptions } from './options'
 
-export async function mergeViteConfigs({ userRoot, themeRoot }: ResolvedValaxyOptions, viteConfig: InlineConfig, config: InlineConfig, command: 'serve' | 'build') {
+export async function mergeViteConfigs({ userRoot, themeRoot }: ResolvedValaxyOptions, command: 'serve' | 'build') {
   const configEnv: ConfigEnv = {
     mode: 'development',
     command,
   }
+
+  let resolvedConfig: InlineConfig = {}
 
   const files = uniq([
     userRoot,
@@ -22,9 +24,8 @@ export async function mergeViteConfigs({ userRoot, themeRoot }: ResolvedValaxyOp
     const viteConfig = await loadConfigFromFile(configEnv, file)
     if (!viteConfig?.config)
       continue
-    config = mergeConfig(config, viteConfig.config)
+    resolvedConfig = mergeConfig(resolvedConfig, viteConfig.config)
   }
 
-  const resolvedConfig = mergeConfig(viteConfig, config)
   return resolvedConfig
 }

@@ -11,7 +11,7 @@ export interface UserOptions {
   }
 }
 
-export function yunPlugin(userOptions: Partial<ThemeConfig> = defaultThemeConfig): Plugin {
+export function themePlugin(userOptions: Partial<ThemeConfig> = defaultThemeConfig): Plugin {
   return {
     name: 'valaxy-theme-yun',
     enforce: 'pre',
@@ -25,9 +25,13 @@ export function yunPlugin(userOptions: Partial<ThemeConfig> = defaultThemeConfig
             },
           },
         },
+
+        optimizeDeps: {
+          exclude: ['@docsearch/js'],
+        },
       }
     },
   }
 }
 
-export default yunPlugin
+export default themePlugin

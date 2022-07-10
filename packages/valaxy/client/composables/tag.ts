@@ -1,5 +1,5 @@
 import { TinyColor } from '@ctrl/tinycolor'
-import type { Post } from '../../types'
+import type { Post } from 'valaxy/types'
 import { usePostList } from './post'
 
 export type Tags = Map<string, {
