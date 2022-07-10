@@ -132,12 +132,15 @@ export async function ViteValaxyPlugins(
           route.meta.layout = 'post'
         }
 
-        if (isPost && path.endsWith('.md')) {
+        if (path.endsWith('.md')) {
           const md = fs.readFileSync(path, 'utf-8')
           const { data, excerpt } = matter(md, { excerpt_separator: '<!-- more -->' })
-          // warn for post frontmatter
-          if (!data.date)
-            consola.warn(`You forgot to write ${yellow('date')} for post: ${dim(`${route.component}`)}`)
+
+          if (isPost) {
+            // warn for post frontmatter
+            if (!data.date)
+              consola.warn(`You forgot to write ${yellow('date')} for post: ${dim(`${route.component}`)}`)
+          }
 
           route.meta = Object.assign(route.meta, {
             frontmatter: Object.assign({ date: new Date() }, data),

@@ -91,7 +91,7 @@
     "shiki": "^0.10.1",
     "star-markdown-css": "^0.4.0",
     "unconfig": "^0.3.5",
-    "unocss": "^0.43.2",
+    "unocss": "^0.44.0",
     "unplugin-vue-components": "^0.21.1",
     "vite": "^2.9.14",
     "vite-plugin-inspect": "^0.5.1",
