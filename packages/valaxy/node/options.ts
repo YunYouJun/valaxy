@@ -41,7 +41,7 @@ export interface ValaxyPluginOptions {
 }
 
 export interface ValaxyThemeOptions extends ValaxyPluginOptions {
-  vite?: UserConfig
+  vite?: Omit<UserConfig, 'valaxy'>
 }
 
 export interface ResolvedValaxyOptions {
