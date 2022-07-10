@@ -40,11 +40,6 @@ function themeYun(options: ResolvedValaxyOptions): ValaxyThemeOptions {
     vite: {
       plugins: [ThemeYunVitePlugin(options)],
     },
-    markdown: {
-      config(md) {
-        console.log('-----')
-      },
-    },
   }
 }
 

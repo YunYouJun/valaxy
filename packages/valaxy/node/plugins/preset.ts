@@ -39,8 +39,6 @@ export async function ViteValaxyPlugins(
   const mdIt = new MarkdownIt({ html: true })
   await setupMarkdownPlugins(mdIt, pluginOptions.markdown, true)
 
-  const { default: ThemePlugin } = (await import(`valaxy-theme-${options.theme}`))
-
   const customElements = new Set([
     // katex
     'annotation',
@@ -76,12 +74,6 @@ export async function ViteValaxyPlugins(
   ])
 
   return [
-    {
-      name: 'valaxy:config:resolved',
-      configResolved(config) {
-        pluginOptions = config.valaxy || {}
-      },
-    },
     Vue({
       include: [/\.vue$/, /\.md$/],
       template: {
@@ -98,8 +90,6 @@ export async function ViteValaxyPlugins(
     createConfigPlugin(options),
     createClientSetupPlugin(options),
     ValaxyPlugin,
-
-    ThemePlugin(options),
 
     // https://github.com/hannoeru/vite-plugin-pages
     Pages({
