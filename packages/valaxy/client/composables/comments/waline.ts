@@ -4,8 +4,6 @@ import { useI18n } from 'vue-i18n'
 import { useRoute } from 'vue-router'
 
 import type { WalineInitOptions, WalineInstance } from '@waline/client'
-
-import '@waline/client/dist/waline.css'
 import { cdnPrefix } from '../../utils'
 
 /**
@@ -19,6 +17,9 @@ import { cdnPrefix } from '../../utils'
 export function useWaline(options: {} = {}, cdn = cdnPrefix) {
   if (!isClient)
     return
+
+  // import css
+  import('@waline/client/dist/waline.css')
 
   const route = useRoute()
 
