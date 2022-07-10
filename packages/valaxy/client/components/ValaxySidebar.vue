@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { useAppStore, useLayout } from 'valaxy'
+import { useAppStore, useLayout } from '..'
 
 const app = useAppStore()
 const isHome = useLayout('home')
