@@ -32,7 +32,14 @@ export interface MarkdownRenderer extends MarkdownIt {
   __data: MarkdownParsedData
 }
 
-export interface MarkdownOptions extends MarkdownIt.Options {
+export interface MarkdownOptions {
+  /**
+   * markdown-it options
+   */
+  options?: MarkdownIt.Options
+  /**
+   * config markdown-it
+   */
   config?: (md: MarkdownIt) => void
   anchor?: {
     permalink?: Anchor.AnchorOptions['permalink']
@@ -99,21 +106,24 @@ export async function setupMarkdownPlugins(md: MarkdownIt, mdOptions: MarkdownOp
     return originalRender.call(md, ...args)
   }
 
+  if (mdOptions.config)
+    mdOptions.config(md)
+
   return md as MarkdownRenderer
 }
 
 export const createMarkdownRenderer = async (
   srcDir: string,
-  options: MarkdownOptions = {},
+  mdOptions: MarkdownOptions = {},
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   base = '/',
 ): Promise<MarkdownRenderer> => {
   const md = MarkdownIt({
     html: true,
     linkify: true,
-    highlight: await highlight(options.theme),
-    ...options,
+    highlight: await highlight(mdOptions.theme),
+    ...mdOptions.options,
   }) as MarkdownRenderer
-  await setupMarkdownPlugins(md, options)
+  await setupMarkdownPlugins(md, mdOptions)
   return md
 }

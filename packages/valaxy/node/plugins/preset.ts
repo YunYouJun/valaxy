@@ -35,6 +35,7 @@ export async function ViteValaxyPlugins(
 
   const ValaxyPlugin = createValaxyPlugin(options, pluginOptions, serverOptions)
 
+  // for render markdown excerpt
   const mdIt = new MarkdownIt({ html: true })
   await setupMarkdownPlugins(mdIt, pluginOptions.markdown, true)
 
