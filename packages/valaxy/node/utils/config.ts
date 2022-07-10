@@ -3,21 +3,22 @@ import type { ValaxyPluginOptions } from 'valaxy/node'
 import type { InlineConfig } from 'vite'
 import { mergeConfig as mergeViteConfig } from 'vite'
 
-export async function getValaxyConfigured(options: ResolvedValaxyOptions, viteConfig: InlineConfig = {}) {
-  const { default: ValaxyThemeConfig } = (await import(`valaxy-theme-${options.theme}`))
-  let valaxyConfig = await ValaxyThemeConfig?.(options)
+export async function resolveValaxyConfig(options: ResolvedValaxyOptions, viteConfig: InlineConfig = {}) {
+  const { default: config } = (await import(`valaxy-theme-${options.theme}`))
+  let resolved = typeof config === 'function' ? (await config?.(options)) : await config
 
-  if (!valaxyConfig)
+  if (!resolved)
     return {}
 
   // if theme exists vite config
   // inherited configuration
-  if (valaxyConfig.vite)
-    Object.assign(viteConfig, mergeViteConfig(viteConfig, valaxyConfig.vite))
+  if (resolved.vite)
+    Object.assign(viteConfig, mergeViteConfig(viteConfig, resolved.vite))
 
-  valaxyConfig = mergeConfig(valaxyConfig, viteConfig.valaxy || {})
+  if (viteConfig.valaxy)
+    resolved = mergeConfig(resolved, viteConfig.valaxy)
 
-  return valaxyConfig as ValaxyPluginOptions
+  return resolved as ValaxyPluginOptions
 }
 
 export function mergeConfig(merged: any, b: any) {
