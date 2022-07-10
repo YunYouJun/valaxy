@@ -28,12 +28,6 @@ export async function ViteValaxyPlugins(
   pluginOptions: ValaxyPluginOptions = {},
   serverOptions: ValaxyServerOptions = {},
 ): Promise<(PluginOption | PluginOption[])[] | undefined> {
-  const {
-    vue: vueOptions = {},
-    components: componentsOptions = {},
-    pages: pagesOptions = {},
-  } = pluginOptions
-
   const { roots } = options
 
   // const MarkdownPlugin = createMarkdownPlugin(options)
@@ -81,6 +75,12 @@ export async function ViteValaxyPlugins(
   ])
 
   return [
+    {
+      name: 'valaxy:config:resolved',
+      configResolved(config) {
+        pluginOptions = config.valaxy || {}
+      },
+    },
     Vue({
       include: [/\.vue$/, /\.md$/],
       template: {
@@ -89,23 +89,23 @@ export async function ViteValaxyPlugins(
             return customElements.has(tag)
           },
         },
-        ...vueOptions?.template,
+        ...pluginOptions.vue?.template,
       },
-      ...vueOptions,
+      ...pluginOptions.vue,
     }),
 
     createConfigPlugin(options),
     createClientSetupPlugin(options),
     ValaxyPlugin,
 
-    ThemePlugin(options.config.themeConfig),
+    ThemePlugin(options),
 
     // https://github.com/hannoeru/vite-plugin-pages
     Pages({
       extensions: ['vue', 'md'],
       dirs: roots.map(root => `${root}/pages`),
 
-      ...pagesOptions,
+      ...pluginOptions.pages,
 
       /**
        * we need get frontmatter before route, so write it in Pages.extendRoute
@@ -171,7 +171,7 @@ export async function ViteValaxyPlugins(
           })
         }
 
-        pagesOptions.extendRoute?.(route, parent)
+        pluginOptions.pages?.extendRoute?.(route, parent)
 
         return route
       },
@@ -196,7 +196,7 @@ export async function ViteValaxyPlugins(
       dirs: roots.map(root => `${root}/components`).concat(roots.map(root => `${root}/layouts`)).concat(['src/components', 'components']),
       dts: `${options.userRoot}/components.d.ts`,
 
-      ...componentsOptions,
+      ...pluginOptions.components,
     }),
 
     // https://github.com/antfu/unocss
