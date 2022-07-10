@@ -2,7 +2,7 @@ import type { InlineConfig } from 'vite'
 import { createServer as createViteServer, mergeConfig } from 'vite'
 
 import type { ResolvedValaxyOptions, ValaxyServerOptions } from './options'
-import { createViteConfig } from './vite'
+import { ViteValaxyPlugins } from './plugins/preset'
 
 export async function createServer(
   options: ResolvedValaxyOptions,
@@ -15,7 +15,9 @@ export async function createServer(
   const server = await createViteServer(
     mergeConfig(
       viteConfig,
-      await createViteConfig(options, viteConfig.valaxy || {}, serverOptions),
+      {
+        plugins: await ViteValaxyPlugins(options, viteConfig.valaxy || {}, serverOptions),
+      },
     ),
   )
 

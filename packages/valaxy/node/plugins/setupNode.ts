@@ -1,6 +1,6 @@
 // ref slidev
 import { resolve } from 'path'
-import { existsSync } from 'fs-extra'
+import fs from 'fs-extra'
 import { isObject } from '@antfu/utils'
 import jiti from 'jiti'
 
@@ -21,7 +21,7 @@ export async function loadSetups<T, R extends object>(roots: string[], name: str
   let returns = initial
   for (const root of roots) {
     const path = resolve(root, 'setup', name)
-    if (existsSync(path)) {
+    if (fs.existsSync(path)) {
       const { default: setup } = jiti(__filename)(path)
       const result = await setup(arg)
       if (result !== null) {

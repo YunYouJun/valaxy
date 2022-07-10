@@ -1,5 +1,6 @@
 import fs from 'fs'
 import type { PluginOption } from 'vite'
+import { splitVendorChunkPlugin } from 'vite'
 
 import consola from 'consola'
 
@@ -38,10 +39,10 @@ export async function ViteValaxyPlugins(
   // const MarkdownPlugin = createMarkdownPlugin(options)
   const UnocssPlugin = await createUnocssPlugin(options, pluginOptions)
 
-  const ValaxyPlugin = createValaxyPlugin(options, serverOptions)
+  const ValaxyPlugin = createValaxyPlugin(options, pluginOptions, serverOptions)
 
   const mdIt = new MarkdownIt({ html: true })
-  await setupMarkdownPlugins(mdIt, options.config.markdownIt, true)
+  await setupMarkdownPlugins(mdIt, pluginOptions.markdown, true)
 
   const { default: ThemePlugin } = (await import(`valaxy-theme-${options.theme}`))
 
@@ -132,6 +133,13 @@ export async function ViteValaxyPlugins(
           route.meta.layout = 'post'
         }
 
+        // set default frontmatter
+        const defaultFrontmatter = {
+          date: new Date(),
+        }
+        if (!route.meta.frontmatter)
+          route.meta.frontmatter = defaultFrontmatter
+
         if (path.endsWith('.md')) {
           const md = fs.readFileSync(path, 'utf-8')
           const { data, excerpt } = matter(md, { excerpt_separator: '<!-- more -->' })
@@ -143,7 +151,7 @@ export async function ViteValaxyPlugins(
           }
 
           route.meta = Object.assign(route.meta, {
-            frontmatter: Object.assign({ date: new Date() }, data),
+            frontmatter: Object.assign(defaultFrontmatter, data),
             excerpt: excerpt ? mdIt.render(excerpt) : '',
           })
 
@@ -207,5 +215,7 @@ export async function ViteValaxyPlugins(
     // https://github.com/antfu/vite-plugin-inspect
     // Visit http://localhost:3333/__inspect/ to see the inspector
     options.mode === 'dev' && Inspect(),
+
+    splitVendorChunkPlugin(),
   ]
 }

@@ -29,6 +29,8 @@ export function themePlugin(userOptions: Partial<ThemeConfig> = defaultThemeConf
         optimizeDeps: {
           exclude: ['@docsearch/js'],
         },
+
+        valaxy: {},
       }
     },
   }

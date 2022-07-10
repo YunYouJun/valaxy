@@ -1,5 +1,5 @@
 import { createPinia } from 'pinia'
-import type { UserModule } from 'valaxy/client/types'
+import type { UserModule } from 'valaxy'
 
 // Setup Pinia
 // https://pinia.esm.dev/

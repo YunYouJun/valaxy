@@ -5,7 +5,7 @@ import valaxyContext from '/@valaxyjs/context'
 import type { ComputedRef, InjectionKey, Ref } from 'vue'
 import { computed, inject, readonly, shallowRef } from 'vue'
 // import type { RouteMeta } from 'vue-router'
-import type { PageData, ValaxyConfig } from 'valaxy/types'
+import type { PageData, ValaxyConfig } from '../types'
 
 /**
  * parse valaxy config
