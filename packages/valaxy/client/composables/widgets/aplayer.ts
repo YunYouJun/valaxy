@@ -1,7 +1,7 @@
 import { useScriptTag } from '@vueuse/core'
 import { useHead } from '@vueuse/head'
-import { useConfig } from 'valaxy'
 import { computed } from 'vue'
+import { useConfig } from '../..'
 
 /**
  * use MetingJS and Aplayer

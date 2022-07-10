@@ -1,8 +1,8 @@
 import { isClient, useScriptTag } from '@vueuse/core'
-import { useConfig } from 'valaxy'
 import { computed } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { useRoute } from 'vue-router'
+import { useConfig } from '../..'
 
 declare global {
   interface Window {

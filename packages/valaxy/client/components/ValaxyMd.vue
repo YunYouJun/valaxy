@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import { onMounted, ref } from 'vue'
 import { useI18n } from 'vue-i18n'
-import { useAplayer, useCodePen, useCopyCode, wrapTable } from 'valaxy'
+import { useAplayer, useCodePen, useCopyCode, wrapTable } from '..'
 import type { Post } from '../../types'
 
 const props = defineProps<{
