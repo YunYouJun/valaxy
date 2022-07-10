@@ -5,7 +5,10 @@ import valaxyContext from '/@valaxyjs/context'
 import type { ComputedRef, InjectionKey, Ref } from 'vue'
 import { computed, inject, readonly, shallowRef } from 'vue'
 // import type { RouteMeta } from 'vue-router'
-import type { PageData, ValaxyConfig } from '../types'
+// fix build caused by pnpm
+// This is likely not portable. A type annotation is necessary.
+// https://github.com/microsoft/TypeScript/issues/42873
+import type { PageData, ValaxyConfig } from 'valaxy/types'
 
 /**
  * parse valaxy config
