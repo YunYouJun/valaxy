@@ -21,14 +21,15 @@
     "node": ">=14.0.0"
   },
   "scripts": {
-    "build": "pnpm -r --filter=./packages/** --parallel run build",
+    "build": "pnpm run build:valaxy && pnpm run build:theme",
     "build:valaxy": "pnpm -C packages/valaxy run build",
     "build:theme": "pnpm -C packages/valaxy-theme-yun run build",
     "build:demo": "pnpm -C demo/yun run build",
     "ci:publish": "zx scripts/publish.mjs",
     "demo": "pnpm -C demo/yun run dev",
-    "dev:lib": "pnpm -r --filter=./packages/** --parallel run dev",
-    "dev": "pnpm -r --parallel run dev",
+    "dev:lib": "pnpm -C packages/valaxy run dev",
+    "dev:theme": "pnpm -C packages/valaxy-theme-yun run dev",
+    "dev": "pnpm -r --filter=./packages/** --parallel run dev",
     "lint": "eslint .",
     "prepublishOnly": "npm run build",
     "release": "tsx scripts/release.ts",
