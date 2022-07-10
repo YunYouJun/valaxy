@@ -6,6 +6,7 @@ import type Components from 'unplugin-vue-components/vite'
 import type { VitePluginConfig as UnoCSSConfig } from 'unocss/vite'
 import { uniq } from '@antfu/utils'
 import type Pages from 'vite-plugin-pages'
+import type { UserConfig } from 'vite'
 import type { ValaxyConfig } from '../types'
 import { resolveConfig } from './config'
 import { resolveImportPath } from './utils'
@@ -37,6 +38,10 @@ export interface ValaxyPluginOptions {
     excerpt?: string
     path: string
   }) => void
+}
+
+export interface ValaxyThemeOptions extends ValaxyPluginOptions {
+  vite?: UserConfig
 }
 
 export interface ResolvedValaxyOptions {

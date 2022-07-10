@@ -1,5 +1,5 @@
+import type { ResolvedValaxyOptions, ValaxyThemeOptions } from 'valaxy/node'
 import type { Plugin } from 'vite'
-import type { ResolvedValaxyOptions } from 'valaxy'
 
 export * from '../config'
 export * from '../types'
@@ -10,13 +10,11 @@ export interface UserOptions {
   }
 }
 
-export function themePlugin(options: ResolvedValaxyOptions): Plugin {
+function ThemeYunVitePlugin(options: ResolvedValaxyOptions): Plugin {
   const themeConfig = options.config.themeConfig
-
   return {
     name: 'valaxy-theme-yun',
     enforce: 'pre',
-
     config() {
       return {
         css: {
@@ -30,11 +28,24 @@ export function themePlugin(options: ResolvedValaxyOptions): Plugin {
         optimizeDeps: {
           exclude: ['@docsearch/js'],
         },
-
         valaxy: {},
       }
     },
   }
 }
 
-export default themePlugin
+// TODO: Whether to provide defineConfig function definition
+function themeYun(options: ResolvedValaxyOptions): ValaxyThemeOptions {
+  return {
+    vite: {
+      plugins: [ThemeYunVitePlugin(options)],
+    },
+    markdown: {
+      config(md) {
+        console.log('-----')
+      },
+    },
+  }
+}
+
+export default themeYun
