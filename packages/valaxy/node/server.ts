@@ -1,6 +1,5 @@
 import type { InlineConfig } from 'vite'
-import { createServer as createViteServer, resolveConfig } from 'vite'
-import { mergeViteConfigs } from './common'
+import { createServer as createViteServer, mergeConfig } from 'vite'
 
 import type { ResolvedValaxyOptions, ValaxyServerOptions } from './options'
 import { createViteConfig } from './vite'
@@ -10,18 +9,13 @@ export async function createServer(
   viteConfig: InlineConfig = {},
   serverOptions: ValaxyServerOptions = {},
 ) {
-  const rawConfig = await resolveConfig({}, 'serve')
-  const pluginOptions = rawConfig.valaxy || {}
-
   // default editor vscode
   process.env.EDITOR = process.env.EDITOR || 'code'
 
   const server = await createViteServer(
-    await mergeViteConfigs(
-      options,
+    mergeConfig(
       viteConfig,
-      await createViteConfig(options, pluginOptions, serverOptions),
-      'serve',
+      await createViteConfig(options, viteConfig.valaxy || {}, serverOptions),
     ),
   )
 

@@ -61,7 +61,7 @@ const defaultValaxyConfig: ValaxyConfig = {
   },
 
   search: {
-    enable: true,
+    enable: false,
     algolia: {
       enable: false,
       appId: '',

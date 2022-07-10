@@ -5,7 +5,7 @@ import type Vue from '@vitejs/plugin-vue'
 import type Components from 'unplugin-vue-components/vite'
 import type { VitePluginConfig as UnoCSSConfig } from 'unocss/vite'
 import { uniq } from '@antfu/utils'
-import { resolveConfig as resolveViteConfig } from 'vite'
+import type Pages from 'vite-plugin-pages'
 import type { ValaxyConfig } from '../types'
 import { resolveConfig } from './config'
 import { resolveImportPath } from './utils'
@@ -25,6 +25,13 @@ export interface ValaxyPluginOptions {
   vue?: Parameters<typeof Vue>[0]
   components?: Parameters<typeof Components>[0]
   unocss?: UnoCSSConfig
+  pages?: Parameters<typeof Pages>[0]
+  extendMd?: (ctx: {
+    route: any
+    data: Record<string, any>
+    excerpt?: string
+    path: string
+  }) => void
 }
 
 export interface ResolvedValaxyOptions {
@@ -120,15 +127,4 @@ export async function resolveOptions(options: ValaxyEntryOptions, mode: Resolved
   debug(valaxyOptions)
 
   return valaxyOptions
-}
-
-/**
- * resolve plugin options
- * @param command
- * @returns
- */
-export async function resolvePluginOptions(command: 'build' | 'serve' = 'serve') {
-  const rawConfig = await resolveViteConfig({}, command)
-  const pluginOptions = rawConfig.valaxy || {}
-  return pluginOptions
 }
