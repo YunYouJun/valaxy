@@ -9,6 +9,7 @@ import type Pages from 'vite-plugin-pages'
 import type { ValaxyConfig } from '../types'
 import { resolveConfig } from './config'
 import { resolveImportPath } from './utils'
+import type { MarkdownOptions } from './markdown'
 
 const debug = _debug('valaxy:options')
 
@@ -26,6 +27,10 @@ export interface ValaxyPluginOptions {
   components?: Parameters<typeof Components>[0]
   unocss?: UnoCSSConfig
   pages?: Parameters<typeof Pages>[0]
+  /**
+   * for markdown
+   */
+  markdown?: MarkdownOptions
   extendMd?: (ctx: {
     route: any
     data: Record<string, any>
@@ -36,6 +41,10 @@ export interface ValaxyPluginOptions {
 
 export interface ResolvedValaxyOptions {
   mode: 'dev' | 'build'
+  /**
+   * package.json root
+   */
+  pkgRoot: string
   /**
    * Client root path
    * @default 'valaxy/client'
@@ -92,7 +101,8 @@ export function getThemeRoot(name: string, entry: string) {
 
 // for cli options
 export async function resolveOptions(options: ValaxyEntryOptions, mode: ResolvedValaxyOptions['mode'] = 'dev') {
-  const clientRoot = resolve(dirname(resolveImportPath('valaxy/package.json', true)), 'client')
+  const pkgRoot = dirname(resolveImportPath('valaxy/package.json', true))
+  const clientRoot = resolve(pkgRoot, 'client')
   const userRoot = resolve(options.userRoot || process.cwd())
 
   const { config: valaxyConfig, configFile, theme } = await resolveConfig(options)
@@ -115,6 +125,7 @@ export async function resolveOptions(options: ValaxyEntryOptions, mode: Resolved
 
   const valaxyOptions: ResolvedValaxyOptions = {
     mode,
+    pkgRoot,
     clientRoot,
     userRoot,
     themeRoot,

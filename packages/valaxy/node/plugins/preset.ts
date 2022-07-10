@@ -1,5 +1,6 @@
 import fs from 'fs'
 import type { PluginOption } from 'vite'
+import { splitVendorChunkPlugin } from 'vite'
 
 import consola from 'consola'
 
@@ -27,21 +28,15 @@ export async function ViteValaxyPlugins(
   pluginOptions: ValaxyPluginOptions = {},
   serverOptions: ValaxyServerOptions = {},
 ): Promise<(PluginOption | PluginOption[])[] | undefined> {
-  const {
-    vue: vueOptions = {},
-    components: componentsOptions = {},
-    pages: pagesOptions = {},
-  } = pluginOptions
-
   const { roots } = options
 
   // const MarkdownPlugin = createMarkdownPlugin(options)
   const UnocssPlugin = await createUnocssPlugin(options, pluginOptions)
 
-  const ValaxyPlugin = createValaxyPlugin(options, serverOptions)
+  const ValaxyPlugin = createValaxyPlugin(options, pluginOptions, serverOptions)
 
   const mdIt = new MarkdownIt({ html: true })
-  await setupMarkdownPlugins(mdIt, options.config.markdownIt, true)
+  await setupMarkdownPlugins(mdIt, pluginOptions.markdown, true)
 
   const { default: ThemePlugin } = (await import(`valaxy-theme-${options.theme}`))
 
@@ -80,6 +75,12 @@ export async function ViteValaxyPlugins(
   ])
 
   return [
+    {
+      name: 'valaxy:config:resolved',
+      configResolved(config) {
+        pluginOptions = config.valaxy || {}
+      },
+    },
     Vue({
       include: [/\.vue$/, /\.md$/],
       template: {
@@ -88,23 +89,23 @@ export async function ViteValaxyPlugins(
             return customElements.has(tag)
           },
         },
-        ...vueOptions?.template,
+        ...pluginOptions.vue?.template,
       },
-      ...vueOptions,
+      ...pluginOptions.vue,
     }),
 
     createConfigPlugin(options),
     createClientSetupPlugin(options),
     ValaxyPlugin,
 
-    ThemePlugin(options.config.themeConfig),
+    ThemePlugin(options),
 
     // https://github.com/hannoeru/vite-plugin-pages
     Pages({
       extensions: ['vue', 'md'],
       dirs: roots.map(root => `${root}/pages`),
 
-      ...pagesOptions,
+      ...pluginOptions.pages,
 
       /**
        * we need get frontmatter before route, so write it in Pages.extendRoute
@@ -132,6 +133,13 @@ export async function ViteValaxyPlugins(
           route.meta.layout = 'post'
         }
 
+        // set default frontmatter
+        const defaultFrontmatter = {
+          date: new Date(),
+        }
+        if (!route.meta.frontmatter)
+          route.meta.frontmatter = defaultFrontmatter
+
         if (path.endsWith('.md')) {
           const md = fs.readFileSync(path, 'utf-8')
           const { data, excerpt } = matter(md, { excerpt_separator: '<!-- more -->' })
@@ -143,7 +151,7 @@ export async function ViteValaxyPlugins(
           }
 
           route.meta = Object.assign(route.meta, {
-            frontmatter: Object.assign({ date: new Date() }, data),
+            frontmatter: Object.assign(defaultFrontmatter, data),
             excerpt: excerpt ? mdIt.render(excerpt) : '',
           })
 
@@ -163,7 +171,7 @@ export async function ViteValaxyPlugins(
           })
         }
 
-        pagesOptions.extendRoute?.(route, parent)
+        pluginOptions.pages?.extendRoute?.(route, parent)
 
         return route
       },
@@ -188,7 +196,7 @@ export async function ViteValaxyPlugins(
       dirs: roots.map(root => `${root}/components`).concat(roots.map(root => `${root}/layouts`)).concat(['src/components', 'components']),
       dts: `${options.userRoot}/components.d.ts`,
 
-      ...componentsOptions,
+      ...pluginOptions.components,
     }),
 
     // https://github.com/antfu/unocss
@@ -207,5 +215,7 @@ export async function ViteValaxyPlugins(
     // https://github.com/antfu/vite-plugin-inspect
     // Visit http://localhost:3333/__inspect/ to see the inspector
     options.mode === 'dev' && Inspect(),
+
+    splitVendorChunkPlugin(),
   ]
 }

@@ -1,5 +1,5 @@
 import NProgress from 'nprogress'
-import type { UserModule } from 'valaxy/client/types'
+import type { UserModule } from 'valaxy'
 
 export const install: UserModule = ({ isClient, router }) => {
   if (isClient) {

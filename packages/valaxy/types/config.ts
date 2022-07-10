@@ -1,5 +1,3 @@
-import type { MarkdownOptions } from '../node/markdown'
-
 export type ValaxyThemeConfig = Record<string, any>
 
 export interface SocialLink {
@@ -206,11 +204,6 @@ export interface ValaxyConfig<T = ValaxyThemeConfig> {
       icon: string
     }[]
   }
-
-  /**
-   * for markdown
-   */
-  markdownIt: MarkdownOptions
 }
 
 export type PartialDeep<T> = {

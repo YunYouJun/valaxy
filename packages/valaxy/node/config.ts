@@ -101,14 +101,6 @@ const defaultValaxyConfig: ValaxyConfig = {
   // markdown: {
   //   excerpt: '<!-- more -->',
   // },
-
-  markdownIt: {
-    toc: {
-      includeLevel: [1, 2, 3, 4],
-      listType: 'ol',
-    },
-    katex: {},
-  },
 }
 
 // for user config

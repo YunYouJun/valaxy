@@ -1,8 +1,8 @@
 <script lang="ts" setup>
-import type { Post } from 'valaxy'
 import { onMounted, ref } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { useAplayer, useCodePen, useCopyCode, wrapTable } from 'valaxy'
+import type { Post } from '../../types'
 
 const props = defineProps<{
   frontmatter: Post

@@ -22,7 +22,11 @@
       "import": "./dist/node/index.mjs"
     },
     "./client/*": "./client/*",
-    "./client": "./dist/client/index.d.ts",
+    "./client": {
+      "types": "./dist/client/index.d.ts",
+      "require": "./dist/client/index.js",
+      "import": "./dist/client/index.mjs"
+    },
     "./node": {
       "types": "./dist/node/index.d.ts",
       "require": "./dist/node/index.js",
@@ -42,7 +46,8 @@
     "index.d.ts",
     "bin",
     "dist",
-    "client"
+    "client",
+    "types"
   ],
   "engines": {
     "node": ">=14.0.0"

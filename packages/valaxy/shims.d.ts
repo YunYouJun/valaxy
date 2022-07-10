@@ -1,6 +1,6 @@
 import 'vue-router'
 
-import type { Post } from 'valaxy'
+import type { Post } from './types'
 import type { Header } from './node/markdown'
 
 declare interface Window {

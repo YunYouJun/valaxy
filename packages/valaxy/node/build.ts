@@ -4,13 +4,15 @@ import { build as viteSsgBuild } from 'vite-ssg/node'
 import generateSitemap from 'vite-ssg-sitemap'
 
 import type { ResolvedValaxyOptions } from './options'
-import { createViteConfig } from './vite'
+import { ViteValaxyPlugins } from './plugins/preset'
 
 export async function build(
   options: ResolvedValaxyOptions,
   viteConfig: InlineConfig = {},
 ) {
-  const inlineConfig = mergeConfig(await createViteConfig(options, viteConfig.valaxy || {}), viteConfig)
+  const inlineConfig = mergeConfig({
+    plugins: await ViteValaxyPlugins(options, viteConfig.valaxy || {}),
+  }, viteConfig)
   await viteBuild(inlineConfig)
 }
 
@@ -18,7 +20,9 @@ export async function ssgBuild(
   options: ResolvedValaxyOptions,
   viteConfig: InlineConfig = {},
 ) {
-  const defaultConfig = await createViteConfig(options, viteConfig.valaxy || {})
+  const defaultConfig: InlineConfig = {
+    plugins: await ViteValaxyPlugins(options, viteConfig.valaxy || {}),
+  }
 
   defaultConfig.ssgOptions = {
     script: 'async',
