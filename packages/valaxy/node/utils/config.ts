@@ -27,8 +27,10 @@ export function mergeConfig(merged: any, b: any) {
     if (value == null)
       continue
     const existing = merged[key]
-    if (Array.isArray(existing) && Array.isArray(value))
+    if (Array.isArray(existing) && Array.isArray(value)) {
       merged[key] = [...existing, ...value]
+      continue
+    }
     if (typeof existing === 'object' && typeof value === 'object') {
       merged[key] = mergeConfig(existing, value)
       continue
