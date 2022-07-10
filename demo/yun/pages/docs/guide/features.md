@@ -90,6 +90,11 @@ export default {
 
 > 更多请参见 [valaxy-theme-yun](https://github.com/YunYouJun/valaxy/tree/main/packages/valaxy-theme-yun) 代码。
 
+## File-based Routing
+
+Routes will be auto-generated for Vue files in this dir with the same file structure.
+Check out [`vite-plugin-pages`](https://github.com/hannoeru/vite-plugin-pages) for more details.
+
 ## 构建
 
 同时支持 SPA 与 SSG 两种方案。

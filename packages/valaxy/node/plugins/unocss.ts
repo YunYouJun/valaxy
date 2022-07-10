@@ -77,7 +77,7 @@ export const createUnocssConfig = async (options: ResolvedValaxyOptions) => {
       // }),
     ],
     rules: [
-      // more see '~/styles/global/helper.scss'
+      // more see 'valaxy/client/styles/global/helper.scss'
       ['yun-transition', {
         'transition-duration': 'var(--va-transition-duration)',
       }],

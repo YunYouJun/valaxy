@@ -22,8 +22,7 @@
       "vite-plugin-vue-layouts/client"
     ],
     "paths": {
-      "@/*": ["demo/yun/*"],
-      "~/*": ["packages/valaxy/client/*"],
+      "~/*": ["demo/yun/*"],
       "valaxy/client/*": ["packages/valaxy/client/*"],
       "@valaxyjs/client/*": ["packages/valaxy/client/*"],
       "valaxy/package.json": ["packages/valaxy/package.json"],

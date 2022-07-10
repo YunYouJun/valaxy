@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { computed, ref } from 'vue'
 import type { Post } from 'valaxy'
-import { usePostList } from '~/composables'
+import { usePostList } from 'valaxy'
 
 const props = withDefaults(defineProps<{
   type?: string

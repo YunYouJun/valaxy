@@ -12,12 +12,11 @@ export function createConfigPlugin(options: ResolvedValaxyOptions): Plugin {
       const injection: InlineConfig = {
         resolve: {
           alias: {
-            '@/': `${toAtFS(options.userRoot)}/`,
-            '~/': `${toAtFS(options.clientRoot)}/`,
-            'valaxy/client': `${toAtFS(options.clientRoot)}/`,
+            '~/': `${toAtFS(options.userRoot)}/`,
+            'valaxy/client/': `${toAtFS(options.clientRoot)}/`,
             'valaxy/package.json': toAtFS(resolve(options.clientRoot, '../package.json')),
             'valaxy': toAtFS(resolve(options.clientRoot, 'index.ts')),
-            '@valaxyjs/client': `${toAtFS(options.clientRoot)}/`,
+            '@valaxyjs/client/': `${toAtFS(options.clientRoot)}/`,
             [`valaxy-theme-${options.theme}/`]: `${toAtFS(resolve(options.themeRoot))}/`,
             [`valaxy-theme-${options.theme}`]: `${toAtFS(resolve(options.themeRoot))}/client/index.ts`,
           },

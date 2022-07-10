@@ -1,10 +1,11 @@
 <script lang="ts" setup>
 import { useI18n } from 'vue-i18n'
 import type { Post } from 'valaxy/types'
-import { useAppStore } from '~/stores/app'
-defineProps<{ frontmatter: Post }>()
-const { t } = useI18n()
+import { useAppStore } from 'valaxy'
 
+defineProps<{ frontmatter: Post }>()
+
+const { t } = useI18n()
 const app = useAppStore()
 </script>
 
@@ -35,7 +36,7 @@ const app = useAppStore()
 </template>
 
 <style lang="scss">
-@use '~/styles/mixins' as *;
+@use 'valaxy/client/styles/mixins' as *;
 
 @include xl {
   .right-sidebar {

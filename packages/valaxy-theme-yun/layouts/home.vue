@@ -1,12 +1,8 @@
 <script lang="ts" setup>
-import { useConfig } from 'valaxy'
-import { useLayout } from '~/composables'
+import { useAppStore, useConfig, useLayout } from 'valaxy'
 
-import { useAppStore } from '~/stores/app'
 const app = useAppStore()
-
 const config = useConfig()
-
 const isHome = useLayout('home')
 </script>
 

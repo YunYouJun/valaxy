@@ -64,6 +64,8 @@ For a example, you can see [demo/yun](./demo/yun/) folder.
 
 Want to get involved in the development? Look [here](https://valaxy.yyj.moe/docs/dev).
 
+Want to create your theme? Check [valaxy-theme-starter](https://github.com/YunYouJun/valaxy-theme-starter).
+
 ## Thanks
 
 💗 The implementation of Valaxy is based on or refer the following projects:

@@ -68,7 +68,7 @@ const title = usePostTitle(computed(() => props.frontmatter))
 </template>
 
 <style lang="scss">
-@use '~/styles/mixins' as *;
+@use 'valaxy/client/styles/mixins' as *;
 @include xl {
   .content{
     // 8px scrollbar width

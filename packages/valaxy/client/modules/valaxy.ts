@@ -15,7 +15,7 @@ import type { PageDataPayload } from 'valaxy/types'
 import { initConfig, valaxyConfigSymbol } from '../config'
 import { ensureSuffix } from '@antfu/utils'
 
-import type { UserModule } from '~/types'
+import type { UserModule } from 'valaxy/client/types'
 
 // @ts-expect-error virtual
 import messages from '/@valaxyjs/locales'

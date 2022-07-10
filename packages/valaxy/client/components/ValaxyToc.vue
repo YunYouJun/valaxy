@@ -6,8 +6,7 @@ import { useI18n } from 'vue-i18n'
 import { useRoute } from 'vue-router'
 
 import type { Header } from 'valaxy/types'
-import { useActiveSidebarLinks } from '~/composables'
-import { useConfig } from '~/config'
+import { useActiveSidebarLinks, useConfig } from 'valaxy'
 
 const container = ref()
 const marker = ref()

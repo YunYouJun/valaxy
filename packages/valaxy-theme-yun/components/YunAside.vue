@@ -38,7 +38,7 @@ const app = useAppStore()
 </template>
 
 <style lang="scss">
-@use '~/styles/mixins' as *;
+@use 'valaxy/client/styles/mixins' as *;
 
 .aside {
   position: fixed;

@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { usePrevNext } from '~/composables'
+import { usePrevNext } from 'valaxy'
 const [prev, next] = usePrevNext()
 </script>
 
@@ -21,7 +21,7 @@ const [prev, next] = usePrevNext()
 </template>
 
 <style lang="scss">
-@use '~/styles/mixins' as *;
+@use 'valaxy/client/styles/mixins' as *;
 
 .post-nav {
   display: flex;

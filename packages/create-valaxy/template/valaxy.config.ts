@@ -1,11 +1,10 @@
-import type { UserConfig } from 'valaxy'
-import type { ThemeUserConfig } from 'valaxy-theme-yun'
+import { defineConfig } from 'valaxy'
+import type { ThemeConfig } from 'valaxy-theme-yun'
 
 /**
  * User Config
- * do not use export const
  */
-const config: UserConfig<ThemeUserConfig> = {
+export default defineConfig<ThemeConfig>({
   lang: 'zh-CN',
   title: 'Valaxy Theme Yun',
   author: {
@@ -153,6 +152,4 @@ const config: UserConfig<ThemeUserConfig> = {
       },
     },
   },
-}
-
-export default config
+})
