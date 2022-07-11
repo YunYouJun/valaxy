@@ -14,6 +14,8 @@
   },
   "devDependencies": {
     "@waline/client": "^2.6.1",
-    "nodemon": "^2.0.19"
+    "nodemon": "^2.0.19",
+    "vite-plugin-inspect": "^0.5.1",
+    "vite-plugin-pwa": "^0.12.3"
   }
 }

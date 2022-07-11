@@ -20,6 +20,11 @@ export interface ThemeConfig {
      */
     primary: string
   }
+
+  nav: {
+    link: string
+    text: string
+  }[]
 }
 
 export type ThemeUserConfig = Partial<ThemeConfig>

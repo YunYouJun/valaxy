@@ -99,7 +99,6 @@
     "unocss": "^0.44.0",
     "unplugin-vue-components": "^0.21.1",
     "vite": "^2.9.14",
-    "vite-plugin-inspect": "^0.5.1",
     "vite-plugin-pages": "^0.25.0",
     "vite-plugin-vue-layouts": "^0.6.0",
     "vite-ssg": "0.19.2",

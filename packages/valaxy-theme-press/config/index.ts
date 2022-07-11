@@ -11,6 +11,8 @@ export const defaultThemeConfig: ThemeConfig = {
   colors: {
     primary: '#0078E7',
   },
+
+  nav: [],
 }
 
 export default defaultThemeConfig

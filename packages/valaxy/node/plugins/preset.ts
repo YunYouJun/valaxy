@@ -12,7 +12,6 @@ import Pages from 'vite-plugin-pages'
 import Layouts from 'vite-plugin-vue-layouts'
 import Components from 'unplugin-vue-components/vite'
 import VueI18n from '@intlify/vite-plugin-vue-i18n'
-import Inspect from 'vite-plugin-inspect'
 
 import { dim, yellow } from 'kolorist'
 import type { ResolvedValaxyOptions, ValaxyPluginOptions, ValaxyServerOptions } from '../options'
@@ -202,10 +201,6 @@ export async function ViteValaxyPlugins(
       compositionOnly: true,
       include: roots.map(root => `${root}/locales/**`),
     }),
-
-    // https://github.com/antfu/vite-plugin-inspect
-    // Visit http://localhost:3333/__inspect/ to see the inspector
-    options.mode === 'dev' && Inspect(),
 
     splitVendorChunkPlugin(),
   ]

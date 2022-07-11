@@ -1,5 +1,6 @@
 import { defineConfig } from 'vite'
 // import { VitePWA } from 'vite-plugin-pwa'
+import Inspect from 'vite-plugin-inspect'
 
 const safelist = [
   'i-ri-home-line',
@@ -7,12 +8,16 @@ const safelist = [
 
 export default defineConfig({
   plugins: [
+    // https://github.com/antfu/vite-plugin-inspect
+    // Visit http://localhost:3333/__inspect/ to see the inspector
+    Inspect(),
+
     // VitePWA({
     //   registerType: 'autoUpdate',
     //   includeAssets: ['favicon.svg', 'safari-pinned-tab.svg'],
     //   manifest: {
-    //     name: valaxyConfig.title || 'Theme Yun',
-    //     short_name: valaxyConfig.title || 'Yun',
+    //     name: 'Theme Yun',
+    //     short_name: 'Yun',
     //     theme_color: '#ffffff',
     //     icons: [
     //       {
