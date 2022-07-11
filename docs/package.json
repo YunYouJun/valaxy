@@ -1,0 +1,20 @@
+{
+  "name": "valaxy-docs",
+  "private": true,
+  "scripts": {
+    "build": "npm run build:ssg && npm run rss",
+    "build:spa": "valaxy build",
+    "build:ssg": "valaxy build --ssg",
+    "dev": "nodemon -w \"../packages/valaxy/dist/*.js\" --exec \"valaxy .\"",
+    "rss": "valaxy rss",
+    "serve": "vite preview"
+  },
+  "dependencies": {
+    "valaxy": "link:../packages/valaxy",
+    "valaxy-theme-yun": "link:../packages/valaxy-theme-yun"
+  },
+  "devDependencies": {
+    "@waline/client": "^2.6.1",
+    "nodemon": "^2.0.19"
+  }
+}

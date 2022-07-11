@@ -1,0 +1,47 @@
+{
+  "name": "valaxy-theme-press",
+  "version": "0.0.1",
+  "description": "Docs Theme for Valaxy",
+  "author": {
+    "email": "me@yunyoujun.cn",
+    "name": "YunYouJun",
+    "url": "https://www.yunyoujun.cn"
+  },
+  "maintainers": [],
+  "homepage": "https://press.valaxy.site",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/YunYouJun/valaxy/tree/main/packages/valaxy-theme-press"
+  },
+  "exports": {
+    ".": {
+      "require": "./dist/index.js",
+      "import": "./dist/index.mjs"
+    },
+    "./*": "./*"
+  },
+  "main": "dist/index.js",
+  "module": "dist/index.mjs",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "build": "rimraf dist && tsup",
+    "dev": "tsup --watch"
+  },
+  "dependencies": {
+    "@docsearch/css": "^3.1.1",
+    "@docsearch/js": "^3.1.1"
+  },
+  "devDependencies": {
+    "valaxy": "workspace:*"
+  },
+  "pnpm": {
+    "peerDependencyRules": {
+      "ignoreMissing": [
+        "@algolia/client-search",
+        "@types/react",
+        "react",
+        "react-dom"
+      ]
+    }
+  }
+}

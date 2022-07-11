@@ -63,6 +63,17 @@ export function useConfig<ThemeConfig = any>() {
   return config!
 }
 
+/**
+ * You can use like this: import { useThemeConfig } from 'valaxy-theme-xxx'
+ * if you want to: import { useThemeConfig } from 'valaxy'
+ * you need pass themeConfig by yourself
+ * @returns
+ */
+export function useThemeConfig<T = Record<string, any>>() {
+  const config = useConfig<T>()
+  return computed(() => config!.value.themeConfig)
+}
+
 export interface ValaxyData<T = any> {
   page: Ref<PageData>
   theme: Ref<T>

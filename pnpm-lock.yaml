@@ -19,6 +19,7 @@ importers:
       tsx: ^3.7.1
       typescript: ^4.7.4
       valaxy: workspace:*
+      valaxy-theme-press: workspace:*
       valaxy-theme-yun: workspace:*
       vitest: ^0.18.0
       vue-tsc: 0.38.3
@@ -39,6 +40,7 @@ importers:
       tsx: 3.7.1
       typescript: 4.7.4
       valaxy: link:packages/valaxy
+      valaxy-theme-press: link:packages/valaxy-theme-press
       valaxy-theme-yun: link:packages/valaxy-theme-yun
       vitest: 0.18.0
       vue-tsc: 0.38.3_typescript@4.7.4
@@ -201,6 +203,17 @@ importers:
       debug: 4.3.4
       diacritics: 1.3.0
       https-localhost: 4.7.1
+
+  packages/valaxy-theme-press:
+    specifiers:
+      '@docsearch/css': ^3.1.1
+      '@docsearch/js': ^3.1.1
+      valaxy: workspace:*
+    dependencies:
+      '@docsearch/css': 3.1.1
+      '@docsearch/js': 3.1.1
+    devDependencies:
+      valaxy: link:../valaxy
 
   packages/valaxy-theme-yun:
     specifiers:
