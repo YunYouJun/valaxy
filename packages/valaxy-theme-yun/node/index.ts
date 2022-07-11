@@ -1,4 +1,5 @@
-import type { ResolvedValaxyOptions, ValaxyThemeOptions } from 'valaxy/node'
+import { defineThemePlugin } from 'valaxy'
+import type { ResolvedValaxyOptions } from 'valaxy'
 import type { Plugin } from 'vite'
 
 export * from '../config'
@@ -34,13 +35,11 @@ function ThemeYunVitePlugin(options: ResolvedValaxyOptions): Plugin {
   }
 }
 
-// TODO: Whether to provide defineConfig function definition
-function themeYun(options: ResolvedValaxyOptions): ValaxyThemeOptions {
+const themeYun = defineThemePlugin((options) => {
   return {
     vite: {
       plugins: [ThemeYunVitePlugin(options)],
     },
   }
-}
-
+})
 export default themeYun
