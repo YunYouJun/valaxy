@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import type { PageData, Post } from 'valaxy'
 import { useConfig, usePostTitle } from 'valaxy'
-import { computed } from 'vue'
+import { computed, defineAsyncComponent } from 'vue'
 import { usePostProperty } from '../composables'
 
 const props = defineProps<{
@@ -14,6 +14,14 @@ const { styles, icon, color } = usePostProperty(props.frontmatter.type)
 const title = usePostTitle(computed(() => props.frontmatter))
 
 const aside = computed(() => props.frontmatter.aside !== false)
+
+const YunWaline = config.value.comment.waline.enable
+  ? defineAsyncComponent(() => import('./YunWaline.vue'))
+  : () => null
+
+const YunTwikoo = config.value.comment.waline.enable
+  ? defineAsyncComponent(() => import('./YunTwikoo.vue'))
+  : () => null
 </script>
 
 <template>
