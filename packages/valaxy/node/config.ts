@@ -5,7 +5,7 @@ import { ensureSuffix } from '@antfu/utils'
 import { normalizePath } from 'vite'
 import { loadConfig } from 'unconfig'
 import type { UserConfig, ValaxyConfig } from '../types'
-import type { ValaxyEntryOptions } from './options'
+import type { ResolvedValaxyOptions, ValaxyEntryOptions, ValaxyThemePlugin } from './options'
 
 /**
  * Type config helper
@@ -154,3 +154,9 @@ export async function resolveConfig(options: ValaxyEntryOptions = {}) {
   }
 }
 
+export type ThemeConfigExport = ValaxyThemePlugin | Promise<ValaxyThemePlugin> | ThemeConfigFn
+export type ThemeConfigFn = (options: ResolvedValaxyOptions) => ValaxyThemePlugin | Promise<ValaxyThemePlugin>
+
+export async function defineThemePlugin(config: ThemeConfigExport) {
+  return config
+}
