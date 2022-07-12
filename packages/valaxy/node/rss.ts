@@ -61,7 +61,7 @@ export async function build(options: ResolvedValaxyOptions) {
 
   const posts: Item[] = []
   files
-    .forEach((i) => {
+    .forEach(async (i) => {
       const raw = fs.readFileSync(i, 'utf-8')
       const { data, content, excerpt } = matter(raw)
 
@@ -70,7 +70,7 @@ export async function build(options: ResolvedValaxyOptions) {
         return false
       }
 
-      formatMdDate(data, i, config.date.format, config.lastUpdated)
+      await formatMdDate(data, i, config.date.format, config.lastUpdated)
 
       // todo i18n
 

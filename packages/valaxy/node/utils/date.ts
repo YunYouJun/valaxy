@@ -20,16 +20,17 @@ export async function getUpdatedTime(file: string): Promise<Date | number> {
   return await getGitTimestamp(file, 'created') || (await fs.stat(file)).mtime
 }
 
-export function formatMdDate(data: any, path: string, format = 'YYYY-MM-DD HH:mm:ss', lastUpdated = true) {
+export async function formatMdDate(data: any, path: string, format = 'YYYY-MM-DD HH:mm:ss', lastUpdated = true) {
   if (!data.date)
-    data.date = getCreatedTime(path)
-
-  if (!data.updated && lastUpdated)
-    data.updated = getUpdatedTime(path)
+    data.date = await getCreatedTime(path)
 
   // format
   data.date = dayjs(data.date).format(format)
 
-  if (lastUpdated)
+  if (lastUpdated) {
+    if (!data.updated)
+      data.updated = await getUpdatedTime(path)
+
     data.updated = dayjs(data.updated).format(format)
+  }
 }

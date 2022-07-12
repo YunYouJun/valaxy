@@ -98,7 +98,7 @@ export async function ViteValaxyPlugins(
       /**
        * we need get frontmatter before route, so write it in Pages.extendRoute
        */
-      extendRoute(route, parent) {
+      async extendRoute(route, parent) {
         let path: string = route.component
         if (!route.meta)
           route.meta = {}
@@ -120,13 +120,15 @@ export async function ViteValaxyPlugins(
 
         // set default frontmatter
         const defaultFrontmatter = {}
+        if (!route.meta.frontmatter)
+          route.meta.frontmatter = defaultFrontmatter
 
         if (path.endsWith('.md')) {
           const md = fs.readFileSync(path, 'utf-8')
           const { data, excerpt } = matter(md, { excerpt_separator: '<!-- more -->' })
 
           // todo, optimize it to cache or on demand
-          formatMdDate(
+          await formatMdDate(
             data,
             path,
             options.config.date.format,
