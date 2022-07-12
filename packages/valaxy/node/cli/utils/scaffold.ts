@@ -5,11 +5,14 @@ import { exists } from './fs'
 import { userRoot } from './constants'
 
 export const getTemplate = async (layout: string): Promise<string | false> => {
-  const { clientRoot } = await resolveOptions({ userRoot })
-  const scaffoldPath = path.resolve(clientRoot, 'scaffolds', `${layout}.md`)
+  const { clientRoot, themeRoot } = await resolveOptions({ userRoot })
+  const roots = [userRoot, themeRoot, clientRoot]
 
-  if (await exists(scaffoldPath))
-    return readFile(scaffoldPath, 'utf-8')
+  for (const root of roots) {
+    const scaffoldPath = path.resolve(root, 'scaffolds', `${layout}.md`)
+    if (await exists(scaffoldPath))
+      return readFile(scaffoldPath, 'utf-8')
+  }
 
   return false
 }
