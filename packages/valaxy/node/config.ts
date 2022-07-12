@@ -47,6 +47,9 @@ const defaultValaxyConfig: ValaxyConfig = {
   },
   social: [],
 
+  date: {
+    format: '',
+  },
   lastUpdated: true,
 
   license: {

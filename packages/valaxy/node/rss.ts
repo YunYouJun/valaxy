@@ -9,6 +9,7 @@ import type { Author, FeedOptions, Item } from 'feed'
 import { Feed } from 'feed'
 import consola from 'consola'
 import type { ResolvedValaxyOptions } from './options'
+import { formatMdDate } from './utils/date'
 
 const markdown = MarkdownIt({
   html: true,
@@ -64,16 +65,12 @@ export async function build(options: ResolvedValaxyOptions) {
       const raw = fs.readFileSync(i, 'utf-8')
       const { data, content, excerpt } = matter(raw)
 
-      // not add to posts
-      if (!data.date) {
-        consola.warn(`Do you forget to write date for ${dim(i)}`)
-        return false
-      }
-
       if (data.draft) {
         consola.warn(`Ignore draft post: ${dim(i)}`)
         return false
       }
+
+      formatMdDate(data, i, config.date.format, config.lastUpdated)
 
       // todo i18n
 

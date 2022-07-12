@@ -2,8 +2,6 @@ import fs from 'fs'
 import type { PluginOption } from 'vite'
 import { splitVendorChunkPlugin } from 'vite'
 
-import consola from 'consola'
-
 import MarkdownIt from 'markdown-it'
 import matter from 'gray-matter'
 
@@ -13,10 +11,10 @@ import Layouts from 'vite-plugin-vue-layouts'
 import Components from 'unplugin-vue-components/vite'
 import VueI18n from '@intlify/vite-plugin-vue-i18n'
 
-import { dim, yellow } from 'kolorist'
 import type { ResolvedValaxyOptions, ValaxyPluginOptions, ValaxyServerOptions } from '../options'
 import { setupMarkdownPlugins } from '../markdown'
 // import { createMarkdownPlugin, excerpt_separator } from './markdown'
+import { formatMdDate } from '../utils/date'
 import { createUnocssPlugin } from './unocss'
 import { createConfigPlugin } from './extendConfig'
 import { createClientSetupPlugin } from './setupClient'
@@ -117,28 +115,23 @@ export async function ViteValaxyPlugins(
         })
 
         // page is post
-        let isPost = false
-        if (route.path.startsWith('/posts/')) {
-          isPost = true
+        if (route.path.startsWith('/posts/'))
           route.meta.layout = 'post'
-        }
 
         // set default frontmatter
-        const defaultFrontmatter = {
-          date: new Date(),
-        }
-        if (!route.meta.frontmatter)
-          route.meta.frontmatter = defaultFrontmatter
+        const defaultFrontmatter = {}
 
         if (path.endsWith('.md')) {
           const md = fs.readFileSync(path, 'utf-8')
           const { data, excerpt } = matter(md, { excerpt_separator: '<!-- more -->' })
 
-          if (isPost) {
-            // warn for post frontmatter
-            if (!data.date)
-              consola.warn(`You forgot to write ${yellow('date')} for post: ${dim(`${route.component}`)}`)
-          }
+          // todo, optimize it to cache or on demand
+          formatMdDate(
+            data,
+            path,
+            options.config.date.format,
+            options.config.lastUpdated,
+          )
 
           route.meta = Object.assign(route.meta, {
             frontmatter: Object.assign(defaultFrontmatter, data),

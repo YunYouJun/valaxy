@@ -14,9 +14,7 @@ end: false
 ## Todo
 
 - [ ] create-valaxy-theme: Script to generate theme template.
-- [ ] Github actions auto generate site from theme repo/npm.
 - [ ] Debug component.
-- [ ] Git timestamp for post without `date`.
 - [ ] local search
 
 ## Dev

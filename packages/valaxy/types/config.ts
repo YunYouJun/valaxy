@@ -84,8 +84,15 @@ export interface ValaxyConfig<T = ValaxyThemeConfig> {
     }
   }
 
+  date: {
+    /**
+     * The format of date
+     * @default '' as 'YYYY-MM-DD HH:mm:ss'
+     */
+    format: string
+  }
   /**
-   * show last updated time by git
+   * show last updated time by git/mtime
    */
   lastUpdated: boolean
 
