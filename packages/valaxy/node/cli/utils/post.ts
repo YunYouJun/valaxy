@@ -34,7 +34,7 @@ export const create = async (data: CreatePostParams) => {
     destinationPath = ensureSuffix('.md', destinationPath)
 
     if (!await exists(destinationPath)) {
-      const content = await genPostTemplate(data)
+      const content = await genLayoutTemplate(data)
       writeFile(destinationPath, content, 'utf-8')
       return destinationPath
     }
@@ -42,7 +42,7 @@ export const create = async (data: CreatePostParams) => {
   }
 }
 
-async function genPostTemplate({
+async function genLayoutTemplate({
   date,
   title,
   layout = 'post',
