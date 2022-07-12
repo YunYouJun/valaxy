@@ -4,6 +4,7 @@ import { mergeConfig } from 'vite'
 import isInstalledGlobally from 'is-installed-globally'
 import type { ResolvedValaxyOptions } from '../options'
 import { resolveImportPath, toAtFS } from '../utils'
+import { getIndexHtml } from '../common'
 
 export function createConfigPlugin(options: ResolvedValaxyOptions): Plugin {
   return {
@@ -11,7 +12,7 @@ export function createConfigPlugin(options: ResolvedValaxyOptions): Plugin {
 
     config(config) {
       const injection: InlineConfig = {
-        root: options.clientRoot,
+        root: options.userRoot,
         publicDir: join(options.userRoot, 'public'),
 
         define: getDefine(options),
@@ -68,6 +69,21 @@ export function createConfigPlugin(options: ResolvedValaxyOptions): Plugin {
         injection.resolve.alias.vue = `${resolveImportPath('vue/dist/vue.esm-browser.js', true)}`
       }
       return mergeConfig(config, injection)
+    },
+
+    configureServer(server) {
+      // serve our index.html after vite history fallback
+      return () => {
+        server.middlewares.use(async (req, res, next) => {
+          if (req.url!.endsWith('.html')) {
+            res.setHeader('Content-Type', 'text/html')
+            res.statusCode = 200
+            res.end(await getIndexHtml(options))
+            return
+          }
+          next()
+        })
+      }
     },
   }
 }

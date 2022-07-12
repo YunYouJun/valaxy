@@ -8,6 +8,10 @@ import { isDark } from './composables'
 // they will be rendered correctly in the html results with vite-ssg
 import { useConfig } from './config'
 
+// <link rel="apple-touch-icon" href="/pwa-192x192.png">
+// <link rel="mask-icon" href="/safari-pinned-tab.svg" color="#00aba9">
+// <meta name="msapplication-TileColor" content = "#00aba9" >
+
 const config = useConfig()
 useHead({
   title: config.value.title,

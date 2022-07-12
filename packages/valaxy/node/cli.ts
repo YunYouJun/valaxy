@@ -1,6 +1,6 @@
-import fs from 'fs'
 import path from 'path'
 import { exec } from 'child_process'
+import fs from 'fs-extra'
 import type { Argv } from 'yargs'
 import yargs from 'yargs'
 import type { InlineConfig, LogLevel } from 'vite'
@@ -20,7 +20,7 @@ import { newPost } from './cli/new'
 import { build, ssgBuild } from './build'
 // rss
 import { build as rssBuild } from './rss'
-import { mergeViteConfigs } from './common'
+import { getIndexHtml, mergeViteConfigs } from './common'
 
 const cli = yargs.scriptName('valaxy')
   .usage('$0 [args]')
@@ -149,20 +149,35 @@ cli.command(
       },
     )
 
-    if (ssg) {
-      consola.info(`use ${yellow('vite-ssg')} to do ssg build...`)
+    // merge index.html
+    const indexPath = path.resolve(options.userRoot, 'index.html')
+    let originalIndexHTML: string | undefined
+    if (fs.existsSync(indexPath))
+      originalIndexHTML = await fs.readFile(indexPath, 'utf-8')
+    await fs.writeFile(indexPath, await getIndexHtml(options), 'utf-8')
 
-      try {
-        await ssgBuild(options, viteConfig)
+    try {
+      if (ssg) {
+        consola.info(`use ${yellow('vite-ssg')} to do ssg build...`)
+
+        try {
+          await ssgBuild(options, viteConfig)
+        }
+        catch (e) {
+          consola.error('[vite-ssg] An internal error occurred.')
+          console.log(e)
+        }
       }
-      catch (e) {
-        consola.error('[vite-ssg] An internal error occurred.')
-        console.log(e)
+      else {
+        consola.info('use vite do spa build...')
+        await build(options, viteConfig)
       }
     }
-    else {
-      consola.info('use vite do spa build...')
-      await build(options, viteConfig)
+    finally {
+      if (originalIndexHTML != null)
+        await fs.writeFile(indexPath, originalIndexHTML, 'utf-8')
+      else
+        await fs.unlink(indexPath)
     }
   },
 )

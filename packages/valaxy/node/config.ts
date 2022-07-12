@@ -24,6 +24,7 @@ export function defineConfigWithTheme<ThemeConfig>(
 }
 
 const defaultValaxyConfig: ValaxyConfig = {
+  mode: 'auto',
   url: '/',
   lang: 'en',
   title: 'Valaxy Blog',

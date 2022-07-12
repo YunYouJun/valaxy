@@ -60,6 +60,21 @@ layout: album
 - 新建 `index.scss` 书写全局样式，并可在其中导入其他样式，它会被自动引入。
 - 新建 `css-vars.scss` 书写 CSS 变量，它会被自动引入。
 
+## 自定义 index.html
+
+新建 `index.html`，你可以在 `<head></head>` 与 `<body></body>` 全局地插入任意内容。
+
+譬如：
+
+```html
+<head>
+  <link
+    rel="stylesheet"
+    href="https://cdn.jsdelivr.net/npm/star-markdown-css/dist/planet/planet-markdown.min.css"
+  />
+</head>
+```
+
 ## 扩展 Client 上下文
 
 新建 `setup/main.ts`：

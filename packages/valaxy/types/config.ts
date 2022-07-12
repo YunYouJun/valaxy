@@ -28,6 +28,11 @@ export interface AlgoliaSearchOptions {
 // packages/valaxy/node/config.ts
 export interface ValaxyConfig<T = ValaxyThemeConfig> {
   /**
+   * enable auto (light/dark mode)
+   * @default 'auto'
+   */
+  mode: 'light' | 'dark' | 'auto'
+  /**
    * Default language
    * @description 默认语言
    * @default 'en'
