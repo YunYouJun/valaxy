@@ -2,7 +2,6 @@
 title: Participate in Development
 title_zh: 参与开发
 categories:
-  - Docs
   - Dev
 end: false
 ---

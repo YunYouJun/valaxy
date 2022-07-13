@@ -2,7 +2,6 @@
 title: FAQ
 title_zh: 常见问题
 categories:
-  - Docs
   - Dev
 end: false
 ---

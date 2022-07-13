@@ -2,7 +2,6 @@
 title: Config
 title_zh: 配置
 categories:
-  - Docs
   - Guide
 end: false
 ---

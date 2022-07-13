@@ -2,7 +2,6 @@
 title: Third Party
 title_zh: 第三方
 categories:
-  - Docs
   - Guide
 end: false
 aplayer: true

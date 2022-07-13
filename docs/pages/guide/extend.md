@@ -1,7 +1,6 @@
 ---
 title: 自定义扩展
 categories:
-  - Docs
   - Guide
 end: false
 ---

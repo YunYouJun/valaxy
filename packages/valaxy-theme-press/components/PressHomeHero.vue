@@ -1,9 +1,7 @@
 <script lang="ts" setup>
-import { useRouter } from 'vue-router'
 import { useFrontmatter } from 'valaxy'
 import PressButton from './PressButton.vue'
 
-const router = useRouter()
 const fm = useFrontmatter()
 </script>
 

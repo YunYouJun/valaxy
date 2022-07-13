@@ -1,7 +1,6 @@
 ---
 title: FAQ
 categories:
-  - Docs
   - Guide
 end: false
 ---

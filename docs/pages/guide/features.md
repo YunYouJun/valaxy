@@ -2,7 +2,6 @@
 title: Features
 title_zh: 亮点
 categories:
-  - Docs
   - Guide
 end: false
 ---

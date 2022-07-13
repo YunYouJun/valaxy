@@ -2,7 +2,6 @@
 title: Guide
 title_zh: 指南
 categories:
-  - Docs
   - Guide
 end: false
 ---

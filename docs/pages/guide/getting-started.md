@@ -2,7 +2,6 @@
 title: Getting Started
 title_zh: 开始
 categories:
-  - Docs
   - Guide
 end: false
 ---

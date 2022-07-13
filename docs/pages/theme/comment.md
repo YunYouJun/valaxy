@@ -3,7 +3,6 @@ title: Implement Comments
 title_zh: 实现评论
 end: false
 categories:
-  - Docs
   - Theme
 ---
 

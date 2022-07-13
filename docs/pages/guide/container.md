@@ -2,7 +2,6 @@
 title_zh: 容器
 title: Container
 categories:
-  - Docs
   - Guide
 end: false
 ---

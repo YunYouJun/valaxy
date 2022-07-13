@@ -51,9 +51,11 @@ const { hasSidebar } = useSidebar()
 </template>
 
 <style lang="scss">
-.press-main {
-  &.has-sidebar {
-    padding-left: var(--pr-sidebar-width);
+@media (min-width: 960px) {
+  .press-main {
+    &.has-sidebar {
+      padding-left: var(--pr-sidebar-width);
+    }
   }
 }
 </style>
