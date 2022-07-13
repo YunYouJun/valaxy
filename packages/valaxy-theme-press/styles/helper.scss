@@ -1,0 +1,16 @@
+.gradient-text {
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.sese-btn {
+  position: relative;
+  z-index: 0;
+
+  @apply transition;
+
+  &:hover {
+    @apply shadow;
+  }
+}

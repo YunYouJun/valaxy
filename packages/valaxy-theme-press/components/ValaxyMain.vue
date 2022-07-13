@@ -1,16 +1,22 @@
 <script lang="ts" setup>
 import type { PageData, Post } from 'valaxy'
-import { useConfig } from 'valaxy'
+import { useConfig, useSidebar } from 'valaxy'
 
 defineProps<{
   frontmatter: Post
   data?: PageData
 }>()
 const config = useConfig()
+
+const { hasSidebar } = useSidebar()
 </script>
 
 <template>
-  <main>
+  <main
+    class="press-main" :class="{
+      'has-sidebar': hasSidebar,
+    }"
+  >
     <div w="full" flex="~">
       <slot name="main">
         <div class="content" flex="~ col grow" w="full" p="l-4 lt-md:0">
@@ -43,3 +49,11 @@ const config = useConfig()
     <slot name="aside" />
   </main>
 </template>
+
+<style lang="scss">
+.press-main {
+  &.has-sidebar {
+    padding-left: var(--pr-sidebar-width);
+  }
+}
+</style>

@@ -1,8 +1,8 @@
 import { useRoute } from 'vue-router'
-import { computed } from 'vue'
+import { computed, inject } from 'vue'
 import { isClient } from '@vueuse/core'
 
-import type { Post } from '../../types'
+import type { PageData, Post } from '../../types'
 import { useConfig } from '../config'
 
 export function useFrontmatter() {
@@ -10,6 +10,15 @@ export function useFrontmatter() {
   const frontmatter = computed<Post>(() => route.meta.frontmatter)
 
   return frontmatter
+}
+
+/**
+ * inject pageData
+ * @returns
+ */
+export function useData(): PageData {
+  const value = inject<PageData>('pageData', {} as any)
+  return value
 }
 
 /**

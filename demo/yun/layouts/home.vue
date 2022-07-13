@@ -4,9 +4,6 @@ import Home from 'valaxy-theme-yun/layouts/home.vue'
 
 <template>
   <Home>
-    <template #board>
-      <DocsBoard />
-    </template>
     <template #footer>
       <UpyunSupport />
     </template>

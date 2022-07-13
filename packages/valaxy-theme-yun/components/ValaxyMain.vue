@@ -69,7 +69,7 @@ const YunTwikoo = config.value.comment.waline.enable
       </slot>
 
       <slot name="aside">
-        <YunAside v-if="aside" :frontmatter="frontmatter" :data="data">
+        <YunAside v-if="aside">
           <slot name="aside-custom" />
         </YunAside>
       </slot>

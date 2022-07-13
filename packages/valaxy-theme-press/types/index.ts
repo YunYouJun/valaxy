@@ -1,3 +1,5 @@
+export * from './home'
+
 export namespace DocsTheme {
   export type Config = ThemeConfig
   export type Sidebar = any

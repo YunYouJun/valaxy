@@ -48,7 +48,7 @@ export function usePostList(params: {
  */
 export function usePageList() {
   const router = useRouter()
-  return computed(() => {
+  return computed<Post[]>(() => {
     const routes = router.getRoutes()
       .map((i) => {
         return Object.assign({ path: i.path, excerpt: i.meta.excerpt }, i.meta.frontmatter)

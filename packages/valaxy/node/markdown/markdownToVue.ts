@@ -168,6 +168,7 @@ export async function createMarkdownToVueRenderFn(
       }
     }
 
+    // provide load
     const pageData: PageData = {
       title: inferTitle(frontmatter, content),
       titleTemplate: frontmatter.titleTemplate,
@@ -242,13 +243,16 @@ function genPageDataCode(tags: string[], data: PageData) {
   const isUsingTS = tags.findIndex(tag => scriptLangTsRE.test(tag)) > -1
 
   const exportScript = `
+  import { provide } from 'vue'
+  const data = ${transformObject(data)}
+
   export default {
     name:'${data.relativePath}',
     data() {
-      return {
-        frontmatter:${transformObject(data.frontmatter)},
-        data: ${transformObject(data)}
-      }
+      return { data, frontmatter: data.frontmatter }
+    },
+    setup() {
+      provide('pageData', data)
     }
   }`
 

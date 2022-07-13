@@ -1,9 +1,10 @@
 <script lang="ts" setup>
 import { useI18n } from 'vue-i18n'
-import type { PageData, Post } from 'valaxy'
+import { useData, useFrontmatter } from 'valaxy'
 import { useAppStore } from 'valaxy/client/stores/app'
 
-defineProps<{ frontmatter: Post; data: PageData }>()
+const frontmatter = useFrontmatter()
+const data = useData()
 const { t } = useI18n()
 const app = useAppStore()
 </script>

@@ -1,5 +1,6 @@
+import { useFrontmatter } from 'valaxy'
 import type { Ref } from 'vue'
-import { onMounted, onUnmounted } from 'vue'
+import { computed, onMounted, onUnmounted, ref } from 'vue'
 
 export function useActiveSidebarLinks(container: Ref<HTMLElement>, marker: Ref<HTMLElement>) {
   const onScroll = throttleAndDebounce(setActiveLink, 200)
@@ -109,5 +110,39 @@ function throttleAndDebounce(fn: () => void, delay: number): () => void {
       // @ts-expect-error browser
       timeout = setTimeout(fn, delay)
     }
+  }
+}
+
+/**
+ * helper for sidebar
+ */
+export function useSidebar() {
+  const isOpen = ref(false)
+  const fm = useFrontmatter()
+  const hasSidebar = computed(() => {
+    return (
+      fm.value.sidebar !== false
+      && fm.value.layout !== 'home'
+    )
+  })
+
+  function open() {
+    isOpen.value = true
+  }
+
+  function close() {
+    isOpen.value = false
+  }
+
+  function toggle() {
+    isOpen.value ? close() : open()
+  }
+
+  return {
+    isOpen,
+    hasSidebar,
+    open,
+    close,
+    toggle,
   }
 }

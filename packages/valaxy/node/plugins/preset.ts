@@ -11,10 +11,11 @@ import Layouts from 'vite-plugin-vue-layouts'
 import Components from 'unplugin-vue-components/vite'
 import VueI18n from '@intlify/vite-plugin-vue-i18n'
 
+import dayjs from 'dayjs'
 import type { ResolvedValaxyOptions, ValaxyPluginOptions, ValaxyServerOptions } from '../options'
 import { setupMarkdownPlugins } from '../markdown'
 // import { createMarkdownPlugin, excerpt_separator } from './markdown'
-import { formatMdDate } from '../utils/date'
+// import { formatMdDate } from '../utils/date'
 import { createUnocssPlugin } from './unocss'
 import { createConfigPlugin } from './extendConfig'
 import { createClientSetupPlugin } from './setupClient'
@@ -128,13 +129,30 @@ export async function ViteValaxyPlugins(
           const { data, excerpt } = matter(md, { excerpt_separator: '<!-- more -->' })
 
           // todo, optimize it to cache or on demand
-          await formatMdDate(
-            data,
-            path,
-            options.config.date.format,
-            options.config.lastUpdated,
-          )
+          // https://github.com/hannoeru/vite-plugin-pages/issues/257
+          // returned route not be awaited
+          // await formatMdDate(
+          //   data,
+          //   path,
+          //   options.config.date.format,
+          //   options.config.lastUpdated,
+          // )
+          const lastUpdated = options.config.lastUpdated
+          const format = options.config.date.format
+          if (!data.date)
+            data.date = fs.statSync(path).mtime
 
+          // format
+          data.date = dayjs(data.date).format(format)
+
+          if (lastUpdated) {
+            if (!data.updated)
+              data.updated = fs.statSync(path).ctime
+
+            data.updated = dayjs(data.updated).format(format)
+          }
+
+          // set route meta
           route.meta = Object.assign(route.meta, {
             frontmatter: Object.assign(defaultFrontmatter, data),
             excerpt: excerpt ? mdIt.render(excerpt) : '',
