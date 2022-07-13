@@ -51,6 +51,9 @@ export default defineConfig({
         tip: {
           icon: 'i-carbon-thumbs-up',
           text: 'ヒント',
+          langs: {
+            'zh-CN': '提示',
+          },
         },
         warning: {
           icon: 'i-carbon-warning-alt',

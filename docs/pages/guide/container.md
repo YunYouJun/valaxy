@@ -19,8 +19,6 @@ custom block.
 
 :::
 
-
-
 ::: tip
 
 tip

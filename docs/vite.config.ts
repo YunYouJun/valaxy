@@ -16,18 +16,15 @@ export default defineConfig({
       blocks: {
         tip: {
           icon: 'i-carbon-thumbs-up',
-          text: 'ヒント',
         },
         warning: {
           icon: 'i-carbon-warning-alt',
-          text: '注意',
         },
         danger: {
           icon: 'i-carbon-warning',
-          text: '警告',
         },
         info: {
-          text: 'información',
+          text: 'i-carbon-information',
         },
       },
     },

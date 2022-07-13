@@ -13,7 +13,7 @@ type ContainerArgs = [
   },
 ]
 
-function createContainer(classes: string, defaultTitle: string, { icon, color }: Omit<BlockItem, 'text'> = {}): ContainerArgs {
+function createContainer(classes: string, { icon, color, text: defaultTitle, langs }: BlockItem = {}): ContainerArgs {
   return [
     container,
     classes,
@@ -32,9 +32,14 @@ function createContainer(classes: string, defaultTitle: string, { icon, color }:
           if (icon)
             iconTag = `<i class="icon ${icon}" ${color ? `style="color: ${color}"` : ''}></i>`
 
-          return `<div class="${classes} custom-block"><p class="custom-block-title">${iconTag}${
-            info || defaultTitle
-          }</p>\n`
+          let title = `<span lang="en">${info || defaultTitle}</span>`
+          if (langs) {
+            Object.keys(langs).forEach((lang) => {
+              title += `<span lang="${lang}">${langs[lang]}</span>`
+            })
+          }
+
+          return `<div class="${classes} custom-block"><p class="custom-block-title">${iconTag}${title}</p>\n`
         }
         else {
           return classes === 'details' ? '</details>\n' : '</div>\n'
@@ -48,6 +53,10 @@ export interface BlockItem {
   text?: string
   icon?: string
   color?: string
+  /**
+   * for i18n
+   */
+  langs?: { [key: string]: string }
 }
 
 export interface Blocks {
@@ -61,18 +70,33 @@ export interface Blocks {
 const defaultBlocksOptions: Blocks = {
   tip: {
     text: 'TIP',
+    langs: {
+      'zh-CN': '提示',
+    },
   },
   warning: {
     text: 'WARNING',
+    langs: {
+      'zh-CN': '注意',
+    },
   },
   danger: {
-    text: 'WARNING',
+    text: 'DANGER',
+    langs: {
+      'zh-CN': '警告',
+    },
   },
   info: {
     text: 'INFO',
+    langs: {
+      'zh-CN': '信息',
+    },
   },
   details: {
     text: 'Details',
+    langs: {
+      'zh-CN': '详情',
+    },
   },
 }
 
@@ -83,7 +107,7 @@ export const containerPlugin = (md: MarkdownIt, options: Blocks = {}) => {
       ...(options[optionKey as keyof Blocks] || {}),
     }
 
-    md.use(...createContainer(optionKey, option.text!, option))
+    md.use(...createContainer(optionKey, option))
   })
 
   // explicitly escape Vue syntax
