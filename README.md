@@ -23,6 +23,12 @@
 
 ## Usage
 
+### Try it Online
+
+[![StackBlitz](https://developer.stackblitz.com/img/open_in_stackblitz.svg)](https://stackblitz.com/edit/valaxy)
+
+### Init Project Locally
+
 Just run the following command to init your blog:
 
 ```bash
@@ -35,8 +41,6 @@ pnpm create valaxy
 ```
 
 For a example, you can see [demo/yun](./demo/yun/) folder.
-
-> It is also used as the docs for valaxy.
 
 ## Features
 

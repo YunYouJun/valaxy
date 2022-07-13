@@ -125,7 +125,7 @@ export async function resolveConfig(options: ValaxyEntryOptions = {}) {
     merge: false,
   })
 
-  const configFile = normalizePath(sources[0])
+  const configFile = normalizePath(sources[0] || '')
 
   const config = defu(userConfig, defaultValaxyConfig)
   // ensure suffix for cdn prefix
