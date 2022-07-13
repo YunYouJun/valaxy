@@ -53,7 +53,10 @@ export async function initServer(options: ResolvedValaxyOptions, viteConfig: Inl
     let oldSafelist = safelist
 
     server = await createServer(options, viteConfigs, {
-      async onConfigReload(newConfig, config) {
+      async onConfigReload(newConfig, config, force = false) {
+        if (force)
+          initServer(options, viteConfig)
+
         let reload = false
 
         let iconChanged = false

@@ -81,7 +81,7 @@ export interface ResolvedValaxyOptions {
 }
 
 export interface ValaxyServerOptions {
-  onConfigReload?: (newConfig: ValaxyConfig, config: ValaxyConfig) => void
+  onConfigReload?: (newConfig: ValaxyConfig, config: ValaxyConfig, force?: boolean) => void
 }
 
 export function isPath(name: string) {
