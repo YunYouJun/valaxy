@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { useConfig } from 'valaxy'
+import { isDark, toggleDark, useConfig } from 'valaxy'
 import { computed } from 'vue'
 import { useRoute } from 'vue-router'
 import { useThemeConfig } from '../composables'
@@ -33,6 +33,11 @@ const themeConfig = useThemeConfig()
 
         <span v-if="i !== themeConfig.nav.length - 1" class="mr-2 ml-2">·</span>
       </template>
+
+      <button type="button" aria-label="Toggle Dark Mode" @click="toggleDark()">
+        <div v-if="!isDark" i-ri-sun-line />
+        <div v-else i-ri-moon-line />
+      </button>
     </div>
   </nav>
 </template>

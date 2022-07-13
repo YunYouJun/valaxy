@@ -1,6 +1,7 @@
 <script lang="ts" setup>
 import { computed } from 'vue'
 import { useRouter } from 'vue-router'
+import { EXTERNAL_URL_RE } from 'valaxy'
 
 const props = defineProps<{
   theme: 'brand' | 'alt'
@@ -8,6 +9,7 @@ const props = defineProps<{
   text: string
 }>()
 
+const isUrl = computed(() => EXTERNAL_URL_RE.test(props.link))
 const router = useRouter()
 
 const classes = computed(() => {
@@ -22,12 +24,15 @@ const classes = computed(() => {
 </script>
 
 <template>
-  <button
+  <component
+    :is="isUrl ? 'a' : 'button'"
     m="2"
     :class="classes"
     class="sese-btn btn" bg="gradient-to-r"
-    @click="router.push(link)"
+    :href="isUrl ? link : undefined"
+    :target="isUrl ? '_blank' : undefined"
+    @click="!isUrl && router.push(link)"
   >
     {{ text }}
-  </button>
+  </component>
 </template>

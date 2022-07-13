@@ -6,7 +6,7 @@ import { loadConfigFromFile, mergeConfig } from 'vite'
 import type { ResolvedValaxyOptions } from './options'
 import { toAtFS } from './utils'
 
-export async function mergeViteConfigs({ themeRoot }: ResolvedValaxyOptions, command: 'serve' | 'build') {
+export async function mergeViteConfigs({ userRoot, themeRoot }: ResolvedValaxyOptions, command: 'serve' | 'build') {
   const configEnv: ConfigEnv = {
     mode: 'development',
     command,
@@ -14,9 +14,9 @@ export async function mergeViteConfigs({ themeRoot }: ResolvedValaxyOptions, com
 
   let resolvedConfig: InlineConfig = {}
 
-  // userRoot vite.config.ts had been auto loaded by vite
+  // let vite default config file be clientRoot/vite.config.ts
   const files = uniq([
-    // userRoot,
+    userRoot,
     themeRoot,
   ]).map(i => join(i, 'vite.config.ts'))
 

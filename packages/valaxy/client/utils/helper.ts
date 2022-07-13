@@ -1,3 +1,5 @@
+export const EXTERNAL_URL_RE = /^https?:/i
+
 /**
  * 生成介于 min 与 max 之间的随机数
  * @returns

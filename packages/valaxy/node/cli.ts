@@ -67,6 +67,8 @@ cli.command(
     const options = await resolveOptions({ userRoot: root })
 
     const viteConfig: InlineConfig = {
+      // avoid load userRoot/vite.config.ts repeatedly
+      configFile: path.resolve(options.clientRoot, 'vite.config.ts'),
       server: {
         watch: {
           // watch theme updated
@@ -140,6 +142,8 @@ cli.command(
     const viteConfig = mergeConfig(
       await mergeViteConfigs(options, 'build'),
       {
+        // avoid load userRoot/vite.config.ts repeatedly
+        configFile: path.resolve(options.clientRoot, 'vite.config.ts'),
         base,
         build: {
         // make out dir empty, https://vitejs.dev/config/#build-emptyoutdir

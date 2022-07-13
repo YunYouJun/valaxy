@@ -5,7 +5,7 @@ import { mergeConfig as mergeViteConfig } from 'vite'
 
 export async function resolveValaxyConfig(options: ResolvedValaxyOptions, viteConfig: InlineConfig = {}) {
   const { default: config } = (await import(`valaxy-theme-${options.theme}`))
-  let resolved = typeof config === 'function' ? (await config?.(options)) : await config
+  let resolved = typeof config === 'function' ? (await config?.(options)) : config
 
   if (!resolved)
     return {}

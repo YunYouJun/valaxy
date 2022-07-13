@@ -22,11 +22,11 @@ defineProps<{
 
 <style scoped>
 .press-feature {
-  border: 1px solid var(--vp-c-bg-soft);
+  border: 1px solid var(--va-c-bg-soft);
   border-radius: 12px;
   padding: 24px;
   height: 100%;
-  background-color: var(--vp-c-bg-soft);
+  background-color: var(--va-c-bg-soft);
 }
 
 .icon {
