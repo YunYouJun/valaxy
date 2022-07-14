@@ -113,10 +113,7 @@ export async function setupMarkdownPlugins(md: MarkdownIt, mdOptions: MarkdownOp
 }
 
 export const createMarkdownRenderer = async (
-  srcDir: string,
   mdOptions: MarkdownOptions = {},
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  base = '/',
 ): Promise<MarkdownRenderer> => {
   const md = MarkdownIt({
     html: true,

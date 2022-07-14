@@ -8,7 +8,7 @@ const fm = useFrontmatter()
 <template>
   <h1 m="t-10" text="center">
     <span text="8xl" font="black" class="gradient-text from-purple-800 to-blue-500" bg="gradient-to-r">
-      {{ fm.title }}
+      {{ fm.hero.name }}
     </span>
     <br>
     <small opacity="75">LOGO NOT READY</small>

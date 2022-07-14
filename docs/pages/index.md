@@ -4,7 +4,7 @@ title: Valaxy
 titleTemplate: Next Generation Static Blog Framework
 
 hero:
-  name: Valaxy
+  name: VALAXY
   text: Next Generation Static Blog Framework
   tagline: Simple, powerful, and performant. Meet the modern BLOG framework you've always wanted.
   actions:

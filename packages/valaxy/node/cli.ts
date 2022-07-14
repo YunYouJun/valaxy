@@ -128,14 +128,10 @@ cli.command(
       type: 'string',
       default: 'dist',
       describe: 'output dir',
-    }).option('base', {
-      type: 'string',
-      default: '/',
-      describe: 'output base',
     })
     .strict()
     .help(),
-  async ({ ssg, root, base, output }) => {
+  async ({ ssg, root, output }) => {
     const options = await resolveOptions({ userRoot: root }, 'build')
     printInfo(options)
 
@@ -144,7 +140,6 @@ cli.command(
       {
         // avoid load userRoot/vite.config.ts repeatedly
         configFile: path.resolve(options.clientRoot, 'vite.config.ts'),
-        base,
         build: {
         // make out dir empty, https://vitejs.dev/config/#build-emptyoutdir
           emptyOutDir: true,
