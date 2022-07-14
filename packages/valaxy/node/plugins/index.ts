@@ -92,7 +92,6 @@ export function createValaxyPlugin(options: ResolvedValaxyOptions, pluginOptions
         options.pages,
         config.define,
         config.command === 'build',
-        config.base,
         options.config.lastUpdated,
       )
     },
