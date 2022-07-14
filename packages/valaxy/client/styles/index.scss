@@ -10,7 +10,6 @@ $c-primary: #0078e7 !default;
 @use "./global/nprogress.scss" as *;
 
 // common
-@use "./common/button.scss" as *;
 @use "./common/code.scss" as *;
 @use "./common/custom-blocks.scss" as *;
 @use "./common/hamburger.scss" as *;
@@ -24,8 +23,3 @@ $c-primary: #0078e7 !default;
 
 // markdown
 @use "./common/markdown.scss";
-@forward "star-markdown-css/src/scss/theme/yun.scss" with (
-  $colors: (
-    "primary": $c-primary,
-  )
-);

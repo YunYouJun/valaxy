@@ -1,2 +1,10 @@
-@use './layout' as *;
-@use './markdown' as *;
+@use "./layout" as *;
+
+@use "./common/button.scss" as *;
+@use "./common/markdown.scss" as *;
+
+@forward "star-markdown-css/src/scss/theme/yun.scss" with (
+  $colors: (
+    "primary": $c-primary,
+  )
+);

@@ -7,6 +7,7 @@ import type { VitePluginConfig as UnoCSSConfig } from 'unocss/vite'
 import { uniq } from '@antfu/utils'
 import type Pages from 'vite-plugin-pages'
 import type { UserConfig } from 'vite'
+import type { presetAttributify, presetIcons, presetTypography, presetUno } from 'unocss'
 import type { ValaxyConfig } from '../types'
 import { resolveConfig } from './config'
 import { resolveImportPath } from './utils'
@@ -27,6 +28,15 @@ export interface ValaxyPluginOptions {
   vue?: Parameters<typeof Vue>[0]
   components?: Parameters<typeof Components>[0]
   unocss?: UnoCSSConfig
+  /**
+   * unocss presets
+   */
+  unocssPresets?: {
+    uno?: Parameters<typeof presetUno>[0]
+    attributify?: Parameters<typeof presetAttributify>[0]
+    icons?: Parameters<typeof presetIcons>[0]
+    typography?: Parameters<typeof presetTypography>[0]
+  }
   pages?: Parameters<typeof Pages>[0]
   /**
    * for markdown

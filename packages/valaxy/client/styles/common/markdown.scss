@@ -1,9 +1,5 @@
 @use "sass:map";
 
-.markdown-body {
-  --smc-font-family: var(--va-font-sans);
-}
-
 // for anchor
 h1:hover .header-anchor,
 h1:focus .header-anchor,

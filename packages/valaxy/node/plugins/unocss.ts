@@ -49,7 +49,7 @@ export const createSafelist = async (config: ValaxyConfig, pluginOptions: Valaxy
   return safelist
 }
 
-export const createUnocssConfig = async (options: ResolvedValaxyOptions) => {
+export const createUnocssConfig = async (options: ResolvedValaxyOptions, pluginOptions: ValaxyPluginOptions) => {
   const unocssConfig: VitePluginConfig = {
     shortcuts: [
       ['btn', 'px-4 py-1 rounded inline-block bg-sky-600 text-white cursor-pointer hover:bg-sky-700 disabled:cursor-default disabled:bg-gray-600 disabled:opacity-50'],
@@ -57,13 +57,14 @@ export const createUnocssConfig = async (options: ResolvedValaxyOptions) => {
       ['va-card', 'shadow hover:shadow-lg'],
     ],
     presets: [
-      presetUno(),
-      presetAttributify(),
+      presetUno(pluginOptions.unocssPresets?.uno),
+      presetAttributify(pluginOptions.unocssPresets?.attributify),
       presetIcons({
         scale: 1.2,
         // warn: true,
+        ...pluginOptions.unocssPresets?.icons,
       }),
-      presetTypography(),
+      presetTypography(pluginOptions.unocssPresets?.typography),
       // web fonts is so big, so we disable it, let the user decide
       // presetWebFonts({
       //   fonts: {
@@ -78,12 +79,6 @@ export const createUnocssConfig = async (options: ResolvedValaxyOptions) => {
     ],
     rules: [
       // more see 'valaxy/client/styles/global/helper.scss'
-      ['yun-transition', {
-        'transition-duration': 'var(--va-transition-duration)',
-      }],
-      ['yun-text-light', {
-        color: 'var(--va-c-text-light)',
-      }],
       ['font-serif', {
         'font-family': 'var(--va-font-serif)',
       }],
@@ -104,8 +99,9 @@ export const createUnocssConfig = async (options: ResolvedValaxyOptions) => {
   return unocssConfig
 }
 
-export const createUnocssPlugin = async (options: ResolvedValaxyOptions, { unocss: unoOptions }: ValaxyPluginOptions) => {
-  const defaultConfig = await createUnocssConfig(options)
+export const createUnocssPlugin = async (options: ResolvedValaxyOptions, pluginOptions: ValaxyPluginOptions) => {
+  const { unocss: unoOptions } = pluginOptions
+  const defaultConfig = await createUnocssConfig(options, pluginOptions)
 
   const { themeRoot, clientRoot, roots } = options
 
@@ -120,6 +116,8 @@ export const createUnocssPlugin = async (options: ResolvedValaxyOptions, { unocs
 
   let config: UnoCSSConfig | { default: UnoCSSConfig } = {}
 
+  const configDeps: string[] = []
+
   configFiles.forEach((configFile) => {
     if (existsSync(configFile)) {
       let uConfig: UnoCSSConfig | { default: UnoCSSConfig } = jiti(__filename)(configFile) as UnoCSSConfig | { default: UnoCSSConfig }
@@ -127,12 +125,16 @@ export const createUnocssPlugin = async (options: ResolvedValaxyOptions, { unocs
         uConfig = uConfig.default
 
       config = defu(config, uConfig)
+
+      configDeps.push(configFile)
     }
   })
 
   config = await loadSetups(roots, 'unocss.ts', {}, config, true)
 
+  // https://github.com/unocss/unocss/issues/1262
   return Unocss({
+    configDeps,
     configFile: false,
     ...defu(unoOptions || {}, config, defaultConfig),
   })
