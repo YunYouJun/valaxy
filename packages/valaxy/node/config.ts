@@ -4,6 +4,8 @@ import defu from 'defu'
 import { ensureSuffix } from '@antfu/utils'
 import { normalizePath } from 'vite'
 import { loadConfig } from 'unconfig'
+import type { VitePluginConfig as UnoCssConfig } from 'unocss/vite'
+import type { Awaitable } from '@antfu/utils'
 import type { UserConfig, ValaxyConfig } from '../types'
 import type { ResolvedValaxyOptions, ValaxyEntryOptions, ValaxyThemePlugin } from './options'
 
@@ -163,4 +165,10 @@ export type ThemeConfigFn = (options: ResolvedValaxyOptions) => ValaxyThemePlugi
 
 export function defineThemePlugin(config: ThemeConfigExport) {
   return config
+}
+
+export type UnoSetup = () => Awaitable<Partial<UnoCssConfig> | undefined>
+
+export function defineUnoSetup(fn: UnoSetup) {
+  return fn
 }
