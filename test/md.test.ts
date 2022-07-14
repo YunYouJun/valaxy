@@ -6,7 +6,7 @@ import { createMarkdownRenderer } from '../packages/valaxy/node/markdown'
 // const mdDir = resolve(__dirname, 'fixtures/markdown')
 
 describe('md parse', async () => {
-  const md = await createMarkdownRenderer('')
+  const md = await createMarkdownRenderer()
 
   it('i18n:header', () => {
     const content = md.render('## Header {lang="en"}')

@@ -60,38 +60,38 @@ export async function build(options: ResolvedValaxyOptions) {
   const files = await fg(`${options.userRoot}/pages/posts/**/*.md`)
 
   const posts: Item[] = []
-  files
-    .forEach(async (i) => {
-      const raw = fs.readFileSync(i, 'utf-8')
-      const { data, content, excerpt } = matter(raw)
+  for await (const i of files) {
+    const raw = fs.readFileSync(i, 'utf-8')
 
-      if (data.draft) {
-        consola.warn(`Ignore draft post: ${dim(i)}`)
-        return false
-      }
+    const { data, content, excerpt } = matter(raw, { excerpt_separator: '<!-- more -->' })
 
-      await formatMdDate(data, i, config.date.format, config.lastUpdated)
+    if (data.draft) {
+      consola.warn(`Ignore draft post: ${dim(i)}`)
+      continue
+    }
 
-      // todo i18n
+    await formatMdDate(data, i, config.date.format, config.lastUpdated)
 
-      // render excerpt
-      const html = markdown.render(excerpt || content)
-        .replace('src="/', `src="${DOMAIN}/`)
+    // todo i18n
 
-      if (data.image?.startsWith('/'))
-        data.image = DOMAIN + data.image
+    // render excerpt
+    const html = markdown.render(excerpt || content)
+      .replace('src="/', `src="${DOMAIN}/`)
 
-      posts.push({
-        title: '',
-        ...data,
-        id: (data.id || '').toString(),
-        date: new Date(data.date),
-        published: new Date(data.updated || data.date),
-        content: html,
-        author: [author],
-        link: DOMAIN + i.replace(`${options.userRoot}/pages`, '').replace(/\.md$/, ''),
-      })
+    if (data.image?.startsWith('/'))
+      data.image = DOMAIN + data.image
+
+    posts.push({
+      title: '',
+      ...data,
+      id: (data.id || '').toString(),
+      date: new Date(data.date),
+      published: new Date(data.updated || data.date),
+      content: html,
+      author: [author],
+      link: DOMAIN + i.replace(`${options.userRoot}/pages`, '').replace(/\.md$/, ''),
     })
+  }
 
   // sort by updated
   posts.sort((a, b) => +new Date(b.published || b.date) - +new Date(a.published || a.date))
