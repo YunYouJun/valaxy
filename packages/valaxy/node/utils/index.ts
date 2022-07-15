@@ -19,7 +19,8 @@ export const mergeFullConfig = createDefu((obj: any, key, value) => {
     }
   }
   if (key === 'vite') {
-    mergeViteConfig(obj[key], value)
+    // a deep copy and needs to be taken over
+    obj[key] = mergeViteConfig(obj[key], value)
     return true
   }
 })
