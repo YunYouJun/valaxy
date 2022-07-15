@@ -6,14 +6,12 @@ import type Components from 'unplugin-vue-components/vite'
 import type { VitePluginConfig as UnoCSSConfig } from 'unocss/vite'
 import { uniq } from '@antfu/utils'
 import type Pages from 'vite-plugin-pages'
-import type { UserConfig } from 'vite'
+import type { UserConfig as ViteUserConfig } from 'vite'
 import type { presetAttributify, presetIcons, presetTypography, presetUno } from 'unocss'
 import type { ValaxyConfig } from '../types'
 import { resolveConfig } from './config'
 import { resolveImportPath } from './utils'
 import type { MarkdownOptions } from './markdown'
-
-const debug = _debug('valaxy:options')
 
 // for cli entry
 export interface ValaxyEntryOptions {
@@ -25,6 +23,7 @@ export interface ValaxyEntryOptions {
 }
 
 export interface ValaxyOptions {
+  vite?: ViteUserConfig
   vue?: Parameters<typeof Vue>[0]
   components?: Parameters<typeof Components>[0]
   unocss?: UnoCSSConfig
@@ -48,11 +47,13 @@ export interface ValaxyOptions {
     excerpt?: string
     path: string
   }) => void
+  plugins?: ValaxyPluginOption[]
 }
 
-export interface ValaxyTheme extends ValaxyOptions {
-  vite?: Omit<UserConfig, 'valaxy'>
-}
+export type ValaxyPluginLike = ValaxyPlugin | ValaxyPlugin[] | false | null | undefined
+export type ValaxyPluginOption = ValaxyPluginLike | string | [string, any]
+
+export interface ValaxyTheme extends ValaxyOptions {}
 export interface ValaxyPlugin extends ValaxyOptions {
   enhanceAppFiles?: string[]
   globalUIComponents?: string | string[]
@@ -97,6 +98,8 @@ export interface ResolvedValaxyOptions {
 export interface ValaxyServerOptions {
   onConfigReload?: (newConfig: ValaxyConfig, config: ValaxyConfig, force?: boolean) => void
 }
+
+const debug = _debug('valaxy:options')
 
 export function isPath(name: string) {
   return name.startsWith('/') || /^\.\.?[\/\\]/.test(name)
