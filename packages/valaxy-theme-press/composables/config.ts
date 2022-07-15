@@ -1,5 +1,5 @@
 import { computed } from 'vue'
-import { useConfig } from 'valaxy'
+import { useBlogConfig } from 'valaxy'
 import type { ThemeConfig } from '../types'
 
 /**
@@ -7,6 +7,6 @@ import type { ThemeConfig } from '../types'
  * @returns
  */
 export function useThemeConfig<T = ThemeConfig>() {
-  const config = useConfig<T>()
+  const config = useBlogConfig<T>()
   return computed(() => config!.value.themeConfig)
 }

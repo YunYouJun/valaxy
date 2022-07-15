@@ -3,7 +3,7 @@ import fs from 'fs'
 import { join, relative } from 'path'
 import type { Plugin, ResolvedConfig } from 'vite'
 // import consola from 'consola'
-import { resolveConfig } from '../config'
+import { resolveBlogConfig } from '../config'
 import type { ResolvedValaxyOptions, ValaxyOptions, ValaxyServerOptions } from '../options'
 import { resolveImportPath, slash, toAtFS } from '../utils'
 import { createMarkdownToVueRenderFn } from '../markdown/markdownToVue'
@@ -66,7 +66,7 @@ function generateLocales(roots: string[]) {
 export function createValaxyPlugin(options: ResolvedValaxyOptions, pluginOptions: ValaxyOptions, serverOptions: ValaxyServerOptions = {}): Plugin {
   const valaxyPrefix = '/@valaxy'
 
-  let valaxyConfig = options.config
+  let blogConfig = options.config
 
   const roots = options.roots
 
@@ -113,7 +113,7 @@ export function createValaxyPlugin(options: ResolvedValaxyOptions, pluginOptions
     load(id) {
       if (id === '/@valaxyjs/config')
         // stringify twice for \"
-        return `export default ${JSON.stringify(JSON.stringify(valaxyConfig))}`
+        return `export default ${JSON.stringify(JSON.stringify(blogConfig))}`
 
       if (id === '/@valaxyjs/context') {
         return `export default ${JSON.stringify(JSON.stringify({
@@ -185,12 +185,12 @@ export function createValaxyPlugin(options: ResolvedValaxyOptions, pluginOptions
       const { file, server, read } = ctx
 
       if (file === options.configFile) {
-        const { config } = await resolveConfig()
+        const { config } = await resolveBlogConfig()
 
         serverOptions.onConfigReload?.(config, options.config)
         Object.assign(options.config, config)
 
-        valaxyConfig = config
+        blogConfig = config
 
         const moduleIds = ['/@valaxyjs/config', '/@valaxyjs/context']
         const moduleEntries = [

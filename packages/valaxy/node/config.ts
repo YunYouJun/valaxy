@@ -6,7 +6,7 @@ import { normalizePath } from 'vite'
 import { loadConfig } from 'unconfig'
 import type { VitePluginConfig as UnoCssConfig } from 'unocss/vite'
 import type { Awaitable } from '@antfu/utils'
-import type { UserConfig, ValaxyConfig } from '../types'
+import type { UserConfig, ValaxyBlogConfig } from '../types'
 import type { ResolvedValaxyOptions, ValaxyEntryOptions, ValaxyTheme } from './options'
 
 /**
@@ -25,7 +25,7 @@ export function defineBlogWithTheme<ThemeConfig>(
   return config
 }
 
-const defaultValaxyConfig: ValaxyConfig = {
+const defaultBlogConfig: ValaxyBlogConfig = {
   mode: 'auto',
   url: '/',
   lang: 'en',
@@ -110,14 +110,14 @@ const defaultValaxyConfig: ValaxyConfig = {
 }
 
 // for user config
-export async function resolveConfig(options: ValaxyEntryOptions = {}) {
+export async function resolveBlogConfig(options: ValaxyEntryOptions = {}) {
   // c12 merge array twice, so i deprecated it
-  // const { config, configFile } = await loadConfig<ValaxyConfig>({
+  // const { config, configFile } = await loadConfig<ValaxyBlogConfig>({
   //   name: 'valaxy',
-  //   defaults: defaultValaxyConfig,
+  //   defaults: defaultBlogConfig,
   // })
 
-  const { config: userConfig, sources } = await loadConfig<ValaxyConfig>({
+  const { config: userConfig, sources } = await loadConfig<ValaxyBlogConfig>({
     sources: [
       {
         files: 'blog.config',
@@ -129,7 +129,7 @@ export async function resolveConfig(options: ValaxyEntryOptions = {}) {
 
   const configFile = normalizePath(sources[0] || '')
 
-  const config = defu(userConfig, defaultValaxyConfig)
+  const config = defu(userConfig, defaultBlogConfig)
   // ensure suffix for cdn prefix
   config.cdn.prefix = ensureSuffix('/', config.cdn.prefix)
 

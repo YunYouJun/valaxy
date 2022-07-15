@@ -24,7 +24,6 @@ declare module '*.vue' {
 
 // vite hmr data
 declare module '/@valaxyjs/config' {
-  // import type { ValaxyConfig } from 'valaxy'
   const config: string
   export default config
 }

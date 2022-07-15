@@ -1,10 +1,10 @@
 <script lang="ts" setup>
-import { useConfig } from 'valaxy'
+import { useBlogConfig } from 'valaxy'
 import { ref } from 'vue'
 import { useI18n } from 'vue-i18n'
 const { t } = useI18n()
 
-const config = useConfig()
+const config = useBlogConfig()
 
 const showQr = ref(false)
 </script>

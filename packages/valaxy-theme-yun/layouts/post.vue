@@ -1,8 +1,8 @@
 <script lang="ts" setup>
 import { computed } from 'vue'
-import { useConfig, useFrontmatter, useFullUrl } from 'valaxy'
+import { useBlogConfig, useFrontmatter, useFullUrl } from 'valaxy'
 
-const config = useConfig()
+const config = useBlogConfig()
 const frontmatter = useFrontmatter()
 const url = useFullUrl()
 

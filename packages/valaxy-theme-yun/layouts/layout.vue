@@ -1,7 +1,7 @@
 <script lang="ts" setup>
-import { useConfig } from 'valaxy'
+import { useBlogConfig } from 'valaxy'
 
-const config = useConfig()
+const config = useBlogConfig()
 </script>
 
 <template>

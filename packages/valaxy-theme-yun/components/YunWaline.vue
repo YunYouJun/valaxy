@@ -1,9 +1,9 @@
 <script lang="ts" setup>
-import { useConfig } from 'valaxy'
+import { useBlogConfig } from 'valaxy'
 // we need import on demand
 import { useWaline } from 'valaxy/client/composables/comments/waline'
 
-const config = useConfig()
+const config = useBlogConfig()
 useWaline(config.value.comment.waline, config.value.cdn.prefix)
 </script>
 

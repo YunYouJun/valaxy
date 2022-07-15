@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { isDark, toggleDark, useConfig } from 'valaxy'
+import { isDark, toggleDark, useBlogConfig } from 'valaxy'
 import { computed } from 'vue'
 import { useRoute } from 'vue-router'
 import { useThemeConfig } from '../composables'
@@ -7,7 +7,7 @@ import { useThemeConfig } from '../composables'
 const route = useRoute()
 const isIndex = computed(() => route.path.replace(/index.html$/, '') === '/')
 
-const config = useConfig()
+const config = useBlogConfig()
 const themeConfig = useThemeConfig()
 </script>
 
