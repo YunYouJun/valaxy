@@ -42,7 +42,7 @@ if (import.meta.hot) {
   })
 }
 
-export function initConfig() {
+export function initBlog() {
   return computed(() => valaxyBlogConfigRef.value)
 }
 
