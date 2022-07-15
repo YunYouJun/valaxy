@@ -1,19 +1,20 @@
 <script lang="ts" setup>
 import type { PageData, Post } from 'valaxy'
-import { useConfig, useSidebar } from 'valaxy'
+import { useConfig, useFrontmatter, useSidebar } from 'valaxy'
 
 defineProps<{
   frontmatter: Post
   data?: PageData
 }>()
 const config = useConfig()
+const frontmatter = useFrontmatter()
 
 const { hasSidebar } = useSidebar()
 </script>
 
 <template>
   <main
-    class="press-main" :class="{
+    class="press-main flex" :class="{
       'has-sidebar': hasSidebar,
     }"
   >
@@ -46,7 +47,11 @@ const { hasSidebar } = useSidebar()
       </slot>
     </div>
 
-    <slot name="aside" />
+    <slot name="aside">
+      <PressAside>
+        <!-- <slot name="aside-custom" /> -->
+      </PressAside>
+    </slot>
   </main>
 </template>
 

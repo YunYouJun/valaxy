@@ -30,6 +30,9 @@
             <template #main-nav-after>
               <slot name="main-nav-after" />
             </template>
+            <template #aside>
+              <slot name="aside" />
+            </template>
             <template #aside-custom>
               <slot name="aside-custom" />
             </template>
