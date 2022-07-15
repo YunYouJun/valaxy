@@ -19,7 +19,7 @@ export function defineBlog<ThemeConfig>(config: UserConfig<ThemeConfig>) {
 /**
  * Type config helper for custom theme config
  */
-export function defineConfigWithTheme<ThemeConfig>(
+export function defineBlogWithTheme<ThemeConfig>(
   config: UserConfig<ThemeConfig>,
 ) {
   return config
