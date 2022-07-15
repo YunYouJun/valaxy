@@ -12,8 +12,8 @@ end: false
 
 ```ts
 // valaxy.config.ts
-import { defineConfig } from 'valaxy'
-export default defineConfig({
+import { defineBlog } from 'valaxy'
+export default defineBlog({
   sponsor: {
     enable: true,
     methods: [

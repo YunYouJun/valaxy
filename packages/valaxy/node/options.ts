@@ -52,12 +52,12 @@ export interface ValaxyOptions {
 
 export type ValaxyPluginLike = ValaxyPlugin | ValaxyPlugin[] | false | null | undefined
 export type ValaxyPluginOption = ValaxyPluginLike | string | [string, any]
-
-export interface ValaxyTheme extends ValaxyOptions {}
 export interface ValaxyPlugin extends ValaxyOptions {
   enhanceAppFiles?: string[]
   globalUIComponents?: string | string[]
 }
+
+export interface ValaxyTheme extends ValaxyOptions {}
 
 export interface ResolvedValaxyOptions {
   mode: 'dev' | 'build'

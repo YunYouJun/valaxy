@@ -1,6 +1,6 @@
-import { defineConfig } from 'valaxy'
+import { defineBlog } from 'valaxy'
 
-export default defineConfig({
+export default defineBlog({
   title: 'Valaxy',
   url: 'https://valaxy.site',
 

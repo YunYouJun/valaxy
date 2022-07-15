@@ -12,7 +12,7 @@ import type { ResolvedValaxyOptions, ValaxyEntryOptions, ValaxyTheme } from './o
 /**
  * Type config helper
  */
-export function defineConfig<ThemeConfig>(config: UserConfig<ThemeConfig>) {
+export function defineBlog<ThemeConfig>(config: UserConfig<ThemeConfig>) {
   return config
 }
 
@@ -120,7 +120,7 @@ export async function resolveConfig(options: ValaxyEntryOptions = {}) {
   const { config: userConfig, sources } = await loadConfig<ValaxyConfig>({
     sources: [
       {
-        files: 'valaxy.config',
+        files: 'blog.config',
         extensions: ['ts', 'js', 'mjs', 'cjs', 'json'],
       },
     ],

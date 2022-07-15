@@ -181,7 +181,7 @@ export function createValaxyPlugin(options: ResolvedValaxyOptions, pluginOptions
     },
 
     async handleHotUpdate(ctx) {
-      // handle valaxy.config.ts hmr
+      // handle blog.config.ts hmr
       const { file, server, read } = ctx
 
       if (file === options.configFile) {
