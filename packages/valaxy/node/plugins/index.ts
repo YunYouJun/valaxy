@@ -1,6 +1,6 @@
 import fs from 'fs'
 
-import { join, relative } from 'path'
+import { basename, join, relative } from 'path'
 import type { Plugin, ResolvedConfig } from 'vite'
 // import consola from 'consola'
 import { resolveSiteConfig } from '../config'
@@ -184,10 +184,14 @@ export function createValaxyPlugin(options: ResolvedValaxyOptions, valaxyConfig:
       // handle site.config.ts hmr
       const { file, server, read } = ctx
 
-      if (file === options.configFile) {
+      const fileName = basename(file)
+      const isSiteConfig = fileName.startsWith('site.config')
+      const isValaxyConfig = fileName.startsWith('valaxy.config')
+
+      if (isSiteConfig || isValaxyConfig) {
         const { config } = await resolveSiteConfig()
 
-        serverOptions.onConfigReload?.(config, options.config)
+        serverOptions.onConfigReload?.(config, options.config, isValaxyConfig)
         Object.assign(options.config, config)
 
         siteConfig = config

@@ -3,7 +3,7 @@ import { mergeConfig as mergeViteConfig } from 'vite'
 import type { ResolvedValaxyOptions } from '../options'
 import { mergeValaxyConfigs } from '../common'
 
-export async function resolveSiteConfig(options: ResolvedValaxyOptions, viteConfig: InlineConfig = {}) {
+export async function resolveValaxyConfig(options: ResolvedValaxyOptions, viteConfig: InlineConfig = {}) {
   const resolved = await mergeValaxyConfigs(options)
 
   if (!resolved.vite)
