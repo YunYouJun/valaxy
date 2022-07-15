@@ -53,6 +53,10 @@ export interface ValaxyOptions {
 export interface ValaxyTheme extends ValaxyOptions {
   vite?: Omit<UserConfig, 'valaxy'>
 }
+export interface ValaxyPlugin extends ValaxyOptions {
+  enhanceAppFiles?: string[]
+  globalUIComponents?: string | string[]
+}
 
 export interface ResolvedValaxyOptions {
   mode: 'dev' | 'build'
