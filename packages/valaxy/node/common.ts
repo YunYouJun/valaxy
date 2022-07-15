@@ -16,10 +16,7 @@ export async function mergeViteConfigs({ userRoot, themeRoot }: ResolvedValaxyOp
   let resolvedConfig: InlineConfig = {}
 
   // let vite default config file be clientRoot/vite.config.ts
-  const files = uniq([
-    userRoot,
-    themeRoot,
-  ]).map(i => join(i, 'vite.config.ts'))
+  const files = uniq([themeRoot, userRoot]).map(i => join(i, 'vite.config.ts'))
 
   for await (const file of files) {
     if (!existsSync(file))
@@ -36,7 +33,7 @@ export async function mergeViteConfigs({ userRoot, themeRoot }: ResolvedValaxyOp
 export async function mergeValaxyConfigs(options: ResolvedValaxyOptions) {
   const { userRoot, themeRoot } = options
   let valaxyConfig: ValaxyConfig = { vite: {} }
-  for await (const root of uniq([userRoot, themeRoot])) {
+  for await (const root of uniq([themeRoot, userRoot])) {
     // no need to judge empty, unconfig will do it for us
     const { config } = await loadConfig<ValaxyConfig>({
       sources: {
@@ -61,7 +58,7 @@ export async function getIndexHtml({ clientRoot, themeRoot, userRoot, config }: 
   let head = ''
   let body = ''
 
-  const roots = [themeRoot, userRoot]
+  const roots = [userRoot, themeRoot]
 
   if (config.mode === 'auto') {
     head += `
