@@ -59,4 +59,4 @@ export interface ValaxyPluginOptions {
 
 ## Third Plugin
 
-- [关于评论](/docs/theme/comment)
+- [关于评论](/themes/comment)
