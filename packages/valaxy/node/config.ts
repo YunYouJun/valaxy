@@ -162,7 +162,6 @@ export async function resolveSiteConfig(options: ValaxyEntryOptions = {}) {
 
 export type ThemeConfigExport = ValaxyTheme | Promise<ValaxyTheme> | ThemeConfigFn
 export type ThemeConfigFn = (options: ResolvedValaxyOptions) => ValaxyTheme | Promise<ValaxyTheme>
-
 export function defineTheme(config: ThemeConfigExport) {
   return config
 }
