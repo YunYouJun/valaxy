@@ -1,11 +1,11 @@
-import { defineBlog } from 'valaxy'
+import { defineSite } from 'valaxy'
 import type { ThemeConfig } from 'valaxy-theme-yun'
 
 /**
  * Blog Config
  * do not use export const config to avoid defu conflict
  */
-export default defineBlog<ThemeConfig>({
+export default defineSite<ThemeConfig>({
   lang: 'zh-CN',
   title: 'Valaxy Theme Yun',
   url: 'https://valaxy.yyj.moe/',

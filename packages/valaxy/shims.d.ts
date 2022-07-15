@@ -23,7 +23,7 @@ declare module '*.vue' {
 }
 
 // vite hmr data
-declare module '/@valaxyjs/blog' {
+declare module '/@valaxyjs/site' {
   const config: string
   export default config
 }

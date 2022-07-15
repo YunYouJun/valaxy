@@ -13,11 +13,11 @@ import {
   transformerDirectives,
   transformerVariantGroup,
 } from 'unocss'
-import type { ValaxyBlogConfig } from 'valaxy'
+import type { ValaxySiteConfig } from 'valaxy'
 import type { ResolvedValaxyOptions, ValaxyOptions } from '../options'
 import { loadSetups } from './setupNode'
 
-export const createSafelist = async (config: ValaxyBlogConfig, pluginOptions: ValaxyOptions = {}) => {
+export const createSafelist = async (config: ValaxySiteConfig, pluginOptions: ValaxyOptions = {}) => {
   const { generateSafelist } = await import(`valaxy-theme-${config.theme}`)
 
   const safeIcons: string[] = [

@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import type { PageData, Post } from 'valaxy'
-import { useBlogConfig, usePostTitle } from 'valaxy'
+import { useSiteConfig, usePostTitle } from 'valaxy'
 import { computed, defineAsyncComponent } from 'vue'
 import { usePostProperty } from '../composables'
 
@@ -8,7 +8,7 @@ const props = defineProps<{
   frontmatter: Post
   data?: PageData
 }>()
-const config = useBlogConfig()
+const config = useSiteConfig()
 
 const { styles, icon, color } = usePostProperty(props.frontmatter.type)
 const title = usePostTitle(computed(() => props.frontmatter))

@@ -1,5 +1,5 @@
 // @ts-expect-error virtual module @valaxyjs/config
-import valaxyBlogConfig from '/@valaxyjs/blog'
+import ValaxySiteConfig from '/@valaxyjs/site'
 // @ts-expect-error virtual module @valaxyjs/context
 import valaxyContext from '/@valaxyjs/context'
 import type { ComputedRef, InjectionKey } from 'vue'
@@ -8,7 +8,7 @@ import { computed, inject, readonly, shallowRef } from 'vue'
 // fix build caused by pnpm
 // This is likely not portable. A type annotation is necessary.
 // https://github.com/microsoft/TypeScript/issues/42873
-import type { ValaxyBlogConfig } from 'valaxy/types'
+import type { ValaxySiteConfig } from 'valaxy/types'
 
 /**
  * parse valaxy config
@@ -24,16 +24,16 @@ interface ValaxyContext {
   userRoot: string
 }
 
-export const valaxyBlogConfigSymbol: InjectionKey<ComputedRef<ValaxyBlogConfig>> = Symbol('valaxy:config')
-export const valaxyBlogConfigRef = shallowRef<ValaxyBlogConfig>(parse<ValaxyBlogConfig>(valaxyBlogConfig))
+export const ValaxySiteConfigSymbol: InjectionKey<ComputedRef<ValaxySiteConfig>> = Symbol('valaxy:config')
+export const ValaxySiteConfigRef = shallowRef<ValaxySiteConfig>(parse<ValaxySiteConfig>(ValaxySiteConfig))
 
 export const valaxyContextRef = shallowRef<ValaxyContext>(parse<ValaxyContext>(valaxyContext))
 
 // hmr
 if (import.meta.hot) {
-  // /@valaxyjs/blog must be static string
-  import.meta.hot.accept('/@valaxyjs/blog', (m) => {
-    valaxyBlogConfigRef.value = parse<ValaxyBlogConfig>(m.default)
+  // /@valaxyjs/site must be static string
+  import.meta.hot.accept('/@valaxyjs/site', (m) => {
+    ValaxySiteConfigRef.value = parse<ValaxySiteConfig>(m.default)
   })
 
   // context
@@ -42,8 +42,8 @@ if (import.meta.hot) {
   })
 }
 
-export function initBlog() {
-  return computed(() => valaxyBlogConfigRef.value)
+export function initSite() {
+  return computed(() => ValaxySiteConfigRef.value)
 }
 
 export function initContext() {
@@ -55,8 +55,8 @@ export function initContext() {
  * @public
  * @returns
  */
-export function useBlogConfig<ThemeConfig = any>() {
-  const config = inject<ComputedRef<ValaxyBlogConfig<ThemeConfig>>>(valaxyBlogConfigSymbol)
+export function useSiteConfig<ThemeConfig = any>() {
+  const config = inject<ComputedRef<ValaxySiteConfig<ThemeConfig>>>(ValaxySiteConfigSymbol)
   if (!config)
     throw new Error('[Valaxy] config not properly injected in app')
   return config!
@@ -69,6 +69,6 @@ export function useBlogConfig<ThemeConfig = any>() {
  * @returns
  */
 export function useThemeConfig<T = Record<string, any>>() {
-  const config = useBlogConfig<T>()
+  const config = useSiteConfig<T>()
   return computed(() => config!.value.themeConfig)
 }

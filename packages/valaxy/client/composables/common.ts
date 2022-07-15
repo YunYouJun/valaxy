@@ -3,7 +3,7 @@ import { computed, inject } from 'vue'
 import { isClient } from '@vueuse/core'
 
 import type { PageData, Post } from '../../types'
-import { useBlogConfig } from '../config'
+import { useSiteConfig } from '../config'
 
 export function useFrontmatter() {
   const route = useRoute()
@@ -25,7 +25,7 @@ export function useData(): PageData {
  * get full url
  */
 export function useFullUrl() {
-  const config = useBlogConfig()
+  const config = useSiteConfig()
   const route = useRoute()
   const url = computed(() => {
     const siteUrl = config.value.url.endsWith('/') ? config.value.url.slice(0, -1) : config.value.url

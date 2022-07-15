@@ -11,9 +11,9 @@ end: false
 > 在每篇文章末尾，展示赞助（打赏）信息。
 
 ```ts
-// blog.config.ts
-import { defineBlog } from 'valaxy'
-export default defineBlog({
+// site.config.ts
+import { defineSite } from 'valaxy'
+export default defineSite({
   sponsor: {
     enable: true,
     methods: [

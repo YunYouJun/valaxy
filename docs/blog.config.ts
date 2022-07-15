@@ -1,6 +1,6 @@
-import { defineBlog } from 'valaxy'
+import { defineSite } from 'valaxy'
 
-export default defineBlog({
+export default defineSite({
   title: 'Valaxy',
   url: 'https://valaxy.site',
 

@@ -6,26 +6,26 @@ import { normalizePath } from 'vite'
 import { loadConfig } from 'unconfig'
 import type { VitePluginConfig as UnoCssConfig } from 'unocss/vite'
 import type { Awaitable } from '@antfu/utils'
-import type { UserConfig, ValaxyBlogConfig } from '../types'
+import type { UserConfig, ValaxySiteConfig } from '../types'
 import type { ResolvedValaxyOptions, ValaxyEntryOptions, ValaxyTheme } from './options'
 
 /**
  * Type config helper
  */
-export function defineBlog<ThemeConfig>(config: UserConfig<ThemeConfig>) {
+export function defineSite<ThemeConfig>(config: UserConfig<ThemeConfig>) {
   return config
 }
 
 /**
  * Type config helper for custom theme config
  */
-export function defineBlogWithTheme<ThemeConfig>(
+export function defineSiteWithTheme<ThemeConfig>(
   config: UserConfig<ThemeConfig>,
 ) {
   return config
 }
 
-const defaultBlogConfig: ValaxyBlogConfig = {
+const defaultSiteConfig: ValaxySiteConfig = {
   mode: 'auto',
   url: '/',
   lang: 'en',
@@ -110,17 +110,17 @@ const defaultBlogConfig: ValaxyBlogConfig = {
 }
 
 // for user config
-export async function resolveBlogConfig(options: ValaxyEntryOptions = {}) {
+export async function resolveSiteConfig(options: ValaxyEntryOptions = {}) {
   // c12 merge array twice, so i deprecated it
-  // const { config, configFile } = await loadConfig<ValaxyBlogConfig>({
+  // const { config, configFile } = await loadConfig<ValaxySiteConfig>({
   //   name: 'valaxy',
-  //   defaults: defaultBlogConfig,
+  //   defaults: defaultSiteConfig,
   // })
 
-  const { config: userConfig, sources } = await loadConfig<ValaxyBlogConfig>({
+  const { config: userConfig, sources } = await loadConfig<ValaxySiteConfig>({
     sources: [
       {
-        files: 'blog.config',
+        files: 'site.config',
         extensions: ['ts', 'js', 'mjs', 'cjs', 'json'],
       },
     ],
@@ -129,7 +129,7 @@ export async function resolveBlogConfig(options: ValaxyEntryOptions = {}) {
 
   const configFile = normalizePath(sources[0] || '')
 
-  const config = defu(userConfig, defaultBlogConfig)
+  const config = defu(userConfig, defaultSiteConfig)
   // ensure suffix for cdn prefix
   config.cdn.prefix = ensureSuffix('/', config.cdn.prefix)
 

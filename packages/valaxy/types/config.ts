@@ -26,7 +26,7 @@ export interface AlgoliaSearchOptions {
 }
 
 // packages/valaxy/node/config.ts
-export interface ValaxyBlogConfig<T = ValaxyThemeConfig> {
+export interface ValaxySiteConfig<T = ValaxyThemeConfig> {
   /**
    * enable auto (light/dark mode)
    * @default 'auto'
@@ -226,5 +226,5 @@ export type PartialDeep<T> = {
  * Valaxy User Config
  * @description Valaxy 用户配置
  */
-export type UserConfig<ThemeConfig = ValaxyThemeConfig> = PartialDeep<ValaxyBlogConfig<ThemeConfig>>
+export type UserConfig<ThemeConfig = ValaxyThemeConfig> = PartialDeep<ValaxySiteConfig<ThemeConfig>>
 

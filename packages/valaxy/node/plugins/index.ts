@@ -3,7 +3,7 @@ import fs from 'fs'
 import { join, relative } from 'path'
 import type { Plugin, ResolvedConfig } from 'vite'
 // import consola from 'consola'
-import { resolveBlogConfig } from '../config'
+import { resolveSiteConfig } from '../config'
 import type { ResolvedValaxyOptions, ValaxyOptions, ValaxyServerOptions } from '../options'
 import { resolveImportPath, slash, toAtFS } from '../utils'
 import { createMarkdownToVueRenderFn } from '../markdown/markdownToVue'
@@ -66,7 +66,7 @@ function generateLocales(roots: string[]) {
 export function createValaxyPlugin(options: ResolvedValaxyOptions, pluginOptions: ValaxyOptions, serverOptions: ValaxyServerOptions = {}): Plugin {
   const valaxyPrefix = '/@valaxy'
 
-  let blogConfig = options.config
+  let siteConfig = options.config
 
   const roots = options.roots
 
@@ -111,9 +111,9 @@ export function createValaxyPlugin(options: ResolvedValaxyOptions, pluginOptions
     },
 
     load(id) {
-      if (id === '/@valaxyjs/blog')
+      if (id === '/@valaxyjs/site')
         // stringify twice for \"
-        return `export default ${JSON.stringify(JSON.stringify(blogConfig))}`
+        return `export default ${JSON.stringify(JSON.stringify(siteConfig))}`
 
       if (id === '/@valaxyjs/context') {
         return `export default ${JSON.stringify(JSON.stringify({
@@ -181,18 +181,18 @@ export function createValaxyPlugin(options: ResolvedValaxyOptions, pluginOptions
     },
 
     async handleHotUpdate(ctx) {
-      // handle blog.config.ts hmr
+      // handle site.config.ts hmr
       const { file, server, read } = ctx
 
       if (file === options.configFile) {
-        const { config } = await resolveBlogConfig()
+        const { config } = await resolveSiteConfig()
 
         serverOptions.onConfigReload?.(config, options.config)
         Object.assign(options.config, config)
 
-        blogConfig = config
+        siteConfig = config
 
-        const moduleIds = ['/@valaxyjs/blog', '/@valaxyjs/context']
+        const moduleIds = ['/@valaxyjs/site', '/@valaxyjs/context']
         const moduleEntries = [
           ...Array.from(moduleIds).map(id => server.moduleGraph.getModuleById(id)),
         ].filter(<T>(item: T): item is NonNullable<T> => !!item)

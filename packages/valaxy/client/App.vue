@@ -6,13 +6,13 @@ import { isDark } from './composables'
 // https://github.com/vueuse/head
 // you can use this to manipulate the document head in any components,
 // they will be rendered correctly in the html results with vite-ssg
-import { useBlogConfig } from './config'
+import { useSiteConfig } from './config'
 
 // <link rel="apple-touch-icon" href="/pwa-192x192.png">
 // <link rel="mask-icon" href="/safari-pinned-tab.svg" color="#00aba9">
 // <meta name="msapplication-TileColor" content = "#00aba9" >
 
-const config = useBlogConfig()
+const config = useSiteConfig()
 useHead({
   title: config.value.title,
   link: [

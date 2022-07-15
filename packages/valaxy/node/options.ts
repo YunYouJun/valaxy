@@ -8,8 +8,8 @@ import { uniq } from '@antfu/utils'
 import type Pages from 'vite-plugin-pages'
 import type { UserConfig as ViteUserConfig } from 'vite'
 import type { presetAttributify, presetIcons, presetTypography, presetUno } from 'unocss'
-import type { ValaxyBlogConfig } from '../types'
-import { resolveBlogConfig } from './config'
+import type { ValaxySiteConfig } from '../types'
+import { resolveSiteConfig } from './config'
 import { resolveImportPath } from './utils'
 import type { MarkdownOptions } from './markdown'
 
@@ -87,7 +87,7 @@ export interface ResolvedValaxyOptions {
   /**
    * Valaxy Config
    */
-  config: ValaxyBlogConfig
+  config: ValaxySiteConfig
   /**
    * config file path
    */
@@ -96,7 +96,7 @@ export interface ResolvedValaxyOptions {
 }
 
 export interface ValaxyServerOptions {
-  onConfigReload?: (newConfig: ValaxyBlogConfig, config: ValaxyBlogConfig, force?: boolean) => void
+  onConfigReload?: (newConfig: ValaxySiteConfig, config: ValaxySiteConfig, force?: boolean) => void
 }
 
 const debug = _debug('valaxy:options')
@@ -127,7 +127,7 @@ export async function resolveOptions(options: ValaxyEntryOptions, mode: Resolved
   const clientRoot = resolve(pkgRoot, 'client')
   const userRoot = resolve(options.userRoot || process.cwd())
 
-  const { config: blogConfig, configFile, theme } = await resolveBlogConfig(options)
+  const { config: siteConfig, configFile, theme } = await resolveSiteConfig(options)
   const themeRoot = getThemeRoot(theme, userRoot)
 
   const roots = uniq([clientRoot, themeRoot, userRoot])
@@ -153,7 +153,7 @@ export async function resolveOptions(options: ValaxyEntryOptions, mode: Resolved
     themeRoot,
     roots,
     theme,
-    config: blogConfig,
+    config: siteConfig,
     configFile: configFile || '',
     pages,
   }

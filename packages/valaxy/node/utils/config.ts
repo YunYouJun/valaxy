@@ -3,7 +3,7 @@ import type { ValaxyOptions } from 'valaxy/node'
 import type { InlineConfig } from 'vite'
 import { mergeConfig as mergeViteConfig } from 'vite'
 
-export async function resolveBlogConfig(options: ResolvedValaxyOptions, viteConfig: InlineConfig = {}) {
+export async function resolveSiteConfig(options: ResolvedValaxyOptions, viteConfig: InlineConfig = {}) {
   const { default: config } = (await import(`valaxy-theme-${options.theme}`))
   let resolved = typeof config === 'function' ? (await config?.(options)) : config
 
