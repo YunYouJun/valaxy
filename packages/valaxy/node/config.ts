@@ -119,7 +119,7 @@ const defaultSiteConfig: ValaxySiteConfig = {
 }
 
 // for user config
-export async function resolveValaxyConfig(options: ValaxyEntryOptions = {}) {
+export async function resolveSiteConfig(options: ValaxyEntryOptions = {}) {
   // c12 merge array twice, so i deprecated it
   // const { config, configFile } = await loadConfig<ValaxySiteConfig>({
   //   name: 'valaxy',

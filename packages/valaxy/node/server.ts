@@ -3,7 +3,7 @@ import { createServer as createViteServer, mergeConfig as mergeViteConfig } from
 
 import type { ResolvedValaxyOptions, ValaxyServerOptions } from './options'
 import { ViteValaxyPlugins } from './plugins/preset'
-import { resolveValaxyConfig } from './utils/config'
+import { resolveSiteConfig } from './utils/config'
 
 export async function createServer(
   options: ResolvedValaxyOptions,
@@ -13,7 +13,7 @@ export async function createServer(
   // default editor vscode
   process.env.EDITOR = process.env.EDITOR || 'code'
 
-  const config = await resolveValaxyConfig(options, viteConfig)
+  const config = await resolveSiteConfig(options, viteConfig)
 
   const server = await createViteServer(
     mergeViteConfig(

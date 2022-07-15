@@ -9,7 +9,7 @@ import type Pages from 'vite-plugin-pages'
 import type { UserConfig as ViteUserConfig } from 'vite'
 import type { presetAttributify, presetIcons, presetTypography, presetUno } from 'unocss'
 import type { ValaxySiteConfig } from '../types'
-import { resolveValaxyConfig } from './config'
+import { resolveSiteConfig } from './config'
 import { resolveImportPath } from './utils'
 import type { MarkdownOptions } from './markdown'
 
@@ -124,7 +124,7 @@ export async function resolveOptions(options: ValaxyEntryOptions, mode: Resolved
   const clientRoot = resolve(pkgRoot, 'client')
   const userRoot = resolve(options.userRoot || process.cwd())
 
-  const { config: siteConfig, configFile, theme } = await resolveValaxyConfig(options)
+  const { config: siteConfig, configFile, theme } = await resolveSiteConfig(options)
   const themeRoot = getThemeRoot(theme, userRoot)
 
   const roots = uniq([clientRoot, themeRoot, userRoot])

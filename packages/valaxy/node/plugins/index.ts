@@ -3,7 +3,7 @@ import fs from 'fs'
 import { join, relative } from 'path'
 import type { Plugin, ResolvedConfig } from 'vite'
 // import consola from 'consola'
-import { resolveValaxyConfig } from '../config'
+import { resolveSiteConfig } from '../config'
 import type { ResolvedValaxyOptions, ValaxyConfig, ValaxyServerOptions } from '../options'
 import { resolveImportPath, slash, toAtFS } from '../utils'
 import { createMarkdownToVueRenderFn } from '../markdown/markdownToVue'
@@ -185,7 +185,7 @@ export function createValaxyPlugin(options: ResolvedValaxyOptions, valaxyConfig:
       const { file, server, read } = ctx
 
       if (file === options.configFile) {
-        const { config } = await resolveValaxyConfig()
+        const { config } = await resolveSiteConfig()
 
         serverOptions.onConfigReload?.(config, options.config)
         Object.assign(options.config, config)
