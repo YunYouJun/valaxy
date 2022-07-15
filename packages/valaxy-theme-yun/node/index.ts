@@ -1,4 +1,4 @@
-import { defineThemePlugin } from 'valaxy'
+import { defineTheme } from 'valaxy'
 import type { ResolvedValaxyOptions } from 'valaxy'
 import type { Plugin } from 'vite'
 
@@ -34,7 +34,7 @@ function ThemeYunVitePlugin(options: ResolvedValaxyOptions): Plugin {
   }
 }
 
-export default defineThemePlugin((options) => {
+export default defineTheme((options) => {
   return {
     vite: {
       plugins: [ThemeYunVitePlugin(options)],
