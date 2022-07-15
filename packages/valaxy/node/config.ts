@@ -7,21 +7,30 @@ import { loadConfig } from 'unconfig'
 import type { VitePluginConfig as UnoCssConfig } from 'unocss/vite'
 import type { Awaitable } from '@antfu/utils'
 import type { UserConfig, ValaxySiteConfig } from '../types'
-import type { ResolvedValaxyOptions, ValaxyEntryOptions, ValaxyTheme } from './options'
+import type { ResolvedValaxyOptions, ValaxyConfig, ValaxyEntryOptions } from './options'
 
 /**
- * Type config helper
+ * Type site helper
  */
 export function defineSite<ThemeConfig>(config: UserConfig<ThemeConfig>) {
   return config
 }
 
 /**
- * Type config helper for custom theme config
+ * Type site helper for custom theme site
  */
 export function defineSiteWithTheme<ThemeConfig>(
   config: UserConfig<ThemeConfig>,
 ) {
+  return config
+}
+
+export type ValaxyConfigExport = ValaxyConfig | Promise<ValaxyConfig> | ValaxyConfigFn
+export type ValaxyConfigFn = (options: ResolvedValaxyOptions) => ValaxyConfig | Promise<ValaxyConfig>
+/**
+ * Type valaxy config helper
+ */
+export function defineConfig(config: ValaxyConfigExport) {
   return config
 }
 
@@ -110,7 +119,7 @@ const defaultSiteConfig: ValaxySiteConfig = {
 }
 
 // for user config
-export async function resolveSiteConfig(options: ValaxyEntryOptions = {}) {
+export async function resolveValaxyConfig(options: ValaxyEntryOptions = {}) {
   // c12 merge array twice, so i deprecated it
   // const { config, configFile } = await loadConfig<ValaxySiteConfig>({
   //   name: 'valaxy',
@@ -158,12 +167,6 @@ export async function resolveSiteConfig(options: ValaxyEntryOptions = {}) {
     configFile,
     theme,
   }
-}
-
-export type ThemeConfigExport = ValaxyTheme | Promise<ValaxyTheme> | ThemeConfigFn
-export type ThemeConfigFn = (options: ResolvedValaxyOptions) => ValaxyTheme | Promise<ValaxyTheme>
-export function defineTheme(config: ThemeConfigExport) {
-  return config
 }
 
 export type UnoSetup = () => Awaitable<Partial<UnoCssConfig> | undefined>

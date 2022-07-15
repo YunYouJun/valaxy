@@ -7,7 +7,7 @@ import consola from 'consola'
 import type { InlineConfig, ViteDevServer } from 'vite'
 import { mergeConfig } from 'vite'
 import { createServer } from '../server'
-import type { ResolvedValaxyOptions } from '../options'
+import type { ResolvedValaxyOptions, ValaxyConfig } from '../options'
 import { version } from '../../package.json'
 import { createSafelist } from '../plugins/unocss'
 import { mergeViteConfigs } from '../common'
@@ -39,7 +39,7 @@ export function printInfo(options: ResolvedValaxyOptions, port?: number, remote?
   console.log()
 }
 
-export async function initServer(options: ResolvedValaxyOptions, viteConfig: InlineConfig) {
+export async function initServer(options: ResolvedValaxyOptions, viteConfig: InlineConfig, valaxyConfig: ValaxyConfig = {}) {
   if (server)
     await server.close()
 
@@ -49,7 +49,8 @@ export async function initServer(options: ResolvedValaxyOptions, viteConfig: Inl
   )
 
   try {
-    let safelist = (await createSafelist(options.config, viteConfigs.valaxy || {})).concat([])
+    // TODO: valaxyConfig get
+    let safelist = (await createSafelist(options.config, valaxyConfig)).concat([])
     let oldSafelist = safelist
 
     server = await createServer(options, viteConfigs, {
@@ -61,7 +62,7 @@ export async function initServer(options: ResolvedValaxyOptions, viteConfig: Inl
 
         let iconChanged = false
 
-        safelist = (await createSafelist(newConfig, viteConfigs.valaxy || {})).concat([])
+        safelist = (await createSafelist(newConfig, valaxyConfig || {})).concat([])
         iconChanged = safelist.some(name => !oldSafelist.includes(name))
         oldSafelist = safelist
 

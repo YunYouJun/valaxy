@@ -12,7 +12,7 @@ import Components from 'unplugin-vue-components/vite'
 import VueI18n from '@intlify/vite-plugin-vue-i18n'
 
 import dayjs from 'dayjs'
-import type { ResolvedValaxyOptions, ValaxyOptions, ValaxyServerOptions } from '../options'
+import type { ResolvedValaxyOptions, ValaxyConfig, ValaxyServerOptions } from '../options'
 import { setupMarkdownPlugins } from '../markdown'
 // import { createMarkdownPlugin, excerpt_separator } from './markdown'
 // import { formatMdDate } from '../utils/date'
@@ -23,20 +23,20 @@ import { createValaxyPlugin } from '.'
 
 export async function ViteValaxyPlugins(
   options: ResolvedValaxyOptions,
-  pluginOptions: ValaxyOptions = {},
+  valaxyConfig: ValaxyConfig = {},
   serverOptions: ValaxyServerOptions = {},
 ): Promise<(PluginOption | PluginOption[])[] | undefined> {
   const { roots } = options
 
   // const MarkdownPlugin = createMarkdownPlugin(options)
-  const UnocssPlugin = await createUnocssPlugin(options, pluginOptions)
+  const UnocssPlugin = await createUnocssPlugin(options, valaxyConfig)
 
-  const ValaxyPlugin = createValaxyPlugin(options, pluginOptions, serverOptions)
+  const ValaxyPlugin = createValaxyPlugin(options, valaxyConfig, serverOptions)
 
   // for render markdown excerpt
   const mdIt = new MarkdownIt({ html: true })
 
-  await setupMarkdownPlugins(mdIt, pluginOptions.markdown, true)
+  await setupMarkdownPlugins(mdIt, valaxyConfig.markdown, true)
 
   const customElements = new Set([
     // katex
@@ -81,9 +81,9 @@ export async function ViteValaxyPlugins(
             return customElements.has(tag)
           },
         },
-        ...pluginOptions.vue?.template,
+        ...valaxyConfig.vue?.template,
       },
-      ...pluginOptions.vue,
+      ...valaxyConfig.vue,
     }),
 
     createConfigPlugin(options),
@@ -95,7 +95,7 @@ export async function ViteValaxyPlugins(
       extensions: ['vue', 'md'],
       dirs: roots.map(root => `${root}/pages`),
 
-      ...pluginOptions.pages,
+      ...valaxyConfig.pages,
 
       /**
        * we need get frontmatter before route, so write it in Pages.extendRoute
@@ -167,7 +167,7 @@ export async function ViteValaxyPlugins(
           if (route.meta.frontmatter.updated)
             route.meta.frontmatter.updated = route.meta.frontmatter.date
 
-          pluginOptions.extendMd?.({
+          valaxyConfig.extendMd?.({
             route,
             data,
             excerpt,
@@ -175,7 +175,7 @@ export async function ViteValaxyPlugins(
           })
         }
 
-        pluginOptions.pages?.extendRoute?.(route, parent)
+        valaxyConfig.pages?.extendRoute?.(route, parent)
 
         return route
       },
@@ -200,7 +200,7 @@ export async function ViteValaxyPlugins(
       dirs: roots.map(root => `${root}/components`).concat(roots.map(root => `${root}/layouts`)).concat(['src/components', 'components']),
       dts: `${options.userRoot}/components.d.ts`,
 
-      ...pluginOptions.components,
+      ...valaxyConfig.components,
     }),
 
     // https://github.com/antfu/unocss

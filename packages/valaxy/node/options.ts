@@ -9,7 +9,7 @@ import type Pages from 'vite-plugin-pages'
 import type { UserConfig as ViteUserConfig } from 'vite'
 import type { presetAttributify, presetIcons, presetTypography, presetUno } from 'unocss'
 import type { ValaxySiteConfig } from '../types'
-import { resolveSiteConfig } from './config'
+import { resolveValaxyConfig } from './config'
 import { resolveImportPath } from './utils'
 import type { MarkdownOptions } from './markdown'
 
@@ -22,7 +22,7 @@ export interface ValaxyEntryOptions {
   userRoot?: string
 }
 
-export interface ValaxyOptions {
+export interface ValaxyConfig {
   vite?: ViteUserConfig
   vue?: Parameters<typeof Vue>[0]
   components?: Parameters<typeof Components>[0]
@@ -49,15 +49,12 @@ export interface ValaxyOptions {
   }) => void
   plugins?: ValaxyPluginOption[]
 }
-
 export type ValaxyPluginLike = ValaxyPlugin | ValaxyPlugin[] | false | null | undefined
 export type ValaxyPluginOption = ValaxyPluginLike | string | [string, any]
-export interface ValaxyPlugin extends ValaxyOptions {
+export interface ValaxyPlugin extends ValaxyConfig {
   enhanceAppFiles?: string[]
   globalUIComponents?: string | string[]
 }
-
-export interface ValaxyTheme extends ValaxyOptions {}
 
 export interface ResolvedValaxyOptions {
   mode: 'dev' | 'build'
@@ -127,7 +124,7 @@ export async function resolveOptions(options: ValaxyEntryOptions, mode: Resolved
   const clientRoot = resolve(pkgRoot, 'client')
   const userRoot = resolve(options.userRoot || process.cwd())
 
-  const { config: siteConfig, configFile, theme } = await resolveSiteConfig(options)
+  const { config: siteConfig, configFile, theme } = await resolveValaxyConfig(options)
   const themeRoot = getThemeRoot(theme, userRoot)
 
   const roots = uniq([clientRoot, themeRoot, userRoot])

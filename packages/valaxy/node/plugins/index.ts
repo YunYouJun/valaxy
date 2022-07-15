@@ -3,8 +3,8 @@ import fs from 'fs'
 import { join, relative } from 'path'
 import type { Plugin, ResolvedConfig } from 'vite'
 // import consola from 'consola'
-import { resolveSiteConfig } from '../config'
-import type { ResolvedValaxyOptions, ValaxyOptions, ValaxyServerOptions } from '../options'
+import { resolveValaxyConfig } from '../config'
+import type { ResolvedValaxyOptions, ValaxyConfig, ValaxyServerOptions } from '../options'
 import { resolveImportPath, slash, toAtFS } from '../utils'
 import { createMarkdownToVueRenderFn } from '../markdown/markdownToVue'
 import type { PageDataPayload } from '../../types'
@@ -63,7 +63,7 @@ function generateLocales(roots: string[]) {
   return imports.join('\n')
 }
 
-export function createValaxyPlugin(options: ResolvedValaxyOptions, pluginOptions: ValaxyOptions, serverOptions: ValaxyServerOptions = {}): Plugin {
+export function createValaxyPlugin(options: ResolvedValaxyOptions, valaxyConfig: ValaxyConfig, serverOptions: ValaxyServerOptions = {}): Plugin {
   const valaxyPrefix = '/@valaxy'
 
   let siteConfig = options.config
@@ -72,17 +72,17 @@ export function createValaxyPlugin(options: ResolvedValaxyOptions, pluginOptions
 
   let markdownToVue: Awaited<ReturnType<typeof createMarkdownToVueRenderFn>>
   let hasDeadLinks = false
-  let config: ResolvedConfig
+  let viteConfig: ResolvedConfig
 
   return {
     name: 'valaxy:loader',
     enforce: 'pre',
 
     async configResolved(resolvedConfig) {
-      config = resolvedConfig
+      viteConfig = resolvedConfig
       markdownToVue = await createMarkdownToVueRenderFn(
         options.userRoot,
-        pluginOptions.markdown || {
+        valaxyConfig.markdown || {
           toc: {
             includeLevel: [1, 2, 3, 4],
             listType: 'ol',
@@ -90,8 +90,8 @@ export function createValaxyPlugin(options: ResolvedValaxyOptions, pluginOptions
           katex: {},
         },
         options.pages,
-        config.define,
-        config.command === 'build',
+        viteConfig.define,
+        viteConfig.command === 'build',
         options.config.lastUpdated,
       )
     },
@@ -160,7 +160,7 @@ export function createValaxyPlugin(options: ResolvedValaxyOptions, pluginOptions
         const { vueSrc, deadLinks, includes } = await markdownToVue(
           code,
           id,
-          config.publicDir,
+          viteConfig.publicDir,
         )
         if (deadLinks.length)
           hasDeadLinks = true
@@ -185,7 +185,7 @@ export function createValaxyPlugin(options: ResolvedValaxyOptions, pluginOptions
       const { file, server, read } = ctx
 
       if (file === options.configFile) {
-        const { config } = await resolveSiteConfig()
+        const { config } = await resolveValaxyConfig()
 
         serverOptions.onConfigReload?.(config, options.config)
         Object.assign(options.config, config)

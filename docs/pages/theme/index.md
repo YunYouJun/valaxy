@@ -39,7 +39,7 @@ export default defineConfig({
 
 ```ts
 // provided by valaxy, just as a tip
-export interface ValaxyOptions {
+export interface ValaxyConfig {
   vue?: Parameters<typeof Vue>[0]
   components?: Parameters<typeof Components>[0]
   unocss?: UnoCSSConfig
