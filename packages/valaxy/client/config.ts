@@ -8,7 +8,6 @@ import { computed, inject, readonly, shallowRef } from 'vue'
 // fix build caused by pnpm
 // This is likely not portable. A type annotation is necessary.
 // https://github.com/microsoft/TypeScript/issues/42873
-import type { ValaxySiteConfig } from 'valaxy/types'
 
 /**
  * parse valaxy config

@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import type { PageData, Post } from 'valaxy'
-import { useSiteConfig, usePostTitle } from 'valaxy'
+import { usePostTitle, useSiteConfig } from 'valaxy'
 import { computed, defineAsyncComponent } from 'vue'
 import { usePostProperty } from '../composables'
 
