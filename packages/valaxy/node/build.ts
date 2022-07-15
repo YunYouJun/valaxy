@@ -12,10 +12,9 @@ export async function build(
   viteConfig: InlineConfig = {},
 ) {
   const config = await resolveValaxyConfig(options, viteConfig)
-
-  const inlineConfig = mergeConfig({
+  const inlineConfig = mergeConfig(config.vite!, {
     plugins: await ViteValaxyPlugins(options, config),
-  }, viteConfig)
+  })
 
   await viteBuild(inlineConfig)
 }
@@ -42,7 +41,7 @@ export async function ssgBuild(
     },
     dirStyle: 'nested',
   }
-  const inlineConfig: InlineConfig = mergeConfig(defaultConfig, viteConfig)
+  const inlineConfig: InlineConfig = mergeConfig(config.vite!, defaultConfig)
 
   await viteSsgBuild({}, inlineConfig)
 }
