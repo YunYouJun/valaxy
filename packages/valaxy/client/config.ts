@@ -1,5 +1,5 @@
 // @ts-expect-error virtual module @valaxyjs/config
-import valaxyBlogConfig from '/@valaxyjs/config'
+import valaxyBlogConfig from '/@valaxyjs/blog'
 // @ts-expect-error virtual module @valaxyjs/context
 import valaxyContext from '/@valaxyjs/context'
 import type { ComputedRef, InjectionKey } from 'vue'
@@ -31,8 +31,8 @@ export const valaxyContextRef = shallowRef<ValaxyContext>(parse<ValaxyContext>(v
 
 // hmr
 if (import.meta.hot) {
-  // /@valaxyjs/config must be static string
-  import.meta.hot.accept('/@valaxyjs/config', (m) => {
+  // /@valaxyjs/blog must be static string
+  import.meta.hot.accept('/@valaxyjs/blog', (m) => {
     valaxyBlogConfigRef.value = parse<ValaxyBlogConfig>(m.default)
   })
 

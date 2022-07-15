@@ -111,7 +111,7 @@ export function createValaxyPlugin(options: ResolvedValaxyOptions, pluginOptions
     },
 
     load(id) {
-      if (id === '/@valaxyjs/config')
+      if (id === '/@valaxyjs/blog')
         // stringify twice for \"
         return `export default ${JSON.stringify(JSON.stringify(blogConfig))}`
 
@@ -192,7 +192,7 @@ export function createValaxyPlugin(options: ResolvedValaxyOptions, pluginOptions
 
         blogConfig = config
 
-        const moduleIds = ['/@valaxyjs/config', '/@valaxyjs/context']
+        const moduleIds = ['/@valaxyjs/blog', '/@valaxyjs/context']
         const moduleEntries = [
           ...Array.from(moduleIds).map(id => server.moduleGraph.getModuleById(id)),
         ].filter(<T>(item: T): item is NonNullable<T> => !!item)
