@@ -7,7 +7,7 @@ import { loadConfig } from 'unconfig'
 import type { VitePluginConfig as UnoCssConfig } from 'unocss/vite'
 import type { Awaitable } from '@antfu/utils'
 import type { UserConfig, ValaxyConfig } from '../types'
-import type { ResolvedValaxyOptions, ValaxyEntryOptions, ValaxyThemePlugin } from './options'
+import type { ResolvedValaxyOptions, ValaxyEntryOptions, ValaxyTheme } from './options'
 
 /**
  * Type config helper
@@ -160,8 +160,8 @@ export async function resolveConfig(options: ValaxyEntryOptions = {}) {
   }
 }
 
-export type ThemeConfigExport = ValaxyThemePlugin | Promise<ValaxyThemePlugin> | ThemeConfigFn
-export type ThemeConfigFn = (options: ResolvedValaxyOptions) => ValaxyThemePlugin | Promise<ValaxyThemePlugin>
+export type ThemeConfigExport = ValaxyTheme | Promise<ValaxyTheme> | ThemeConfigFn
+export type ThemeConfigFn = (options: ResolvedValaxyOptions) => ValaxyTheme | Promise<ValaxyTheme>
 
 export function defineTheme(config: ThemeConfigExport) {
   return config

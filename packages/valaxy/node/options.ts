@@ -50,7 +50,7 @@ export interface ValaxyPluginOptions {
   }) => void
 }
 
-export interface ValaxyThemePlugin extends ValaxyPluginOptions {
+export interface ValaxyTheme extends ValaxyPluginOptions {
   vite?: Omit<UserConfig, 'valaxy'>
 }
 
