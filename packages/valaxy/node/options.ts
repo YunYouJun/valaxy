@@ -24,7 +24,7 @@ export interface ValaxyEntryOptions {
   userRoot?: string
 }
 
-export interface ValaxyPluginOptions {
+export interface ValaxyOptions {
   vue?: Parameters<typeof Vue>[0]
   components?: Parameters<typeof Components>[0]
   unocss?: UnoCSSConfig
@@ -50,7 +50,7 @@ export interface ValaxyPluginOptions {
   }) => void
 }
 
-export interface ValaxyTheme extends ValaxyPluginOptions {
+export interface ValaxyTheme extends ValaxyOptions {
   vite?: Omit<UserConfig, 'valaxy'>
 }
 

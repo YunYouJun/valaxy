@@ -1,5 +1,5 @@
 import type { ResolvedValaxyOptions } from 'valaxy'
-import type { ValaxyPluginOptions } from 'valaxy/node'
+import type { ValaxyOptions } from 'valaxy/node'
 import type { InlineConfig } from 'vite'
 import { mergeConfig as mergeViteConfig } from 'vite'
 
@@ -18,7 +18,7 @@ export async function resolveValaxyConfig(options: ResolvedValaxyOptions, viteCo
   if (viteConfig.valaxy)
     resolved = mergeConfig(resolved, viteConfig.valaxy)
 
-  return resolved as ValaxyPluginOptions
+  return resolved as ValaxyOptions
 }
 
 export function mergeConfig(merged: any, b: any) {

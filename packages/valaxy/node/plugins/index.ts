@@ -4,7 +4,7 @@ import { join, relative } from 'path'
 import type { Plugin, ResolvedConfig } from 'vite'
 // import consola from 'consola'
 import { resolveConfig } from '../config'
-import type { ResolvedValaxyOptions, ValaxyPluginOptions, ValaxyServerOptions } from '../options'
+import type { ResolvedValaxyOptions, ValaxyOptions, ValaxyServerOptions } from '../options'
 import { resolveImportPath, slash, toAtFS } from '../utils'
 import { createMarkdownToVueRenderFn } from '../markdown/markdownToVue'
 import type { PageDataPayload } from '../../types'
@@ -63,7 +63,7 @@ function generateLocales(roots: string[]) {
   return imports.join('\n')
 }
 
-export function createValaxyPlugin(options: ResolvedValaxyOptions, pluginOptions: ValaxyPluginOptions, serverOptions: ValaxyServerOptions = {}): Plugin {
+export function createValaxyPlugin(options: ResolvedValaxyOptions, pluginOptions: ValaxyOptions, serverOptions: ValaxyServerOptions = {}): Plugin {
   const valaxyPrefix = '/@valaxy'
 
   let valaxyConfig = options.config

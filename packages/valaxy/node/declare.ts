@@ -1,5 +1,5 @@
 import type { ViteSSGOptions } from 'vite-ssg'
-import type { ValaxyPluginOptions } from './options'
+import type { ValaxyOptions } from './options'
 
 // extend vite.config.ts
 declare module 'vite' {
@@ -9,7 +9,7 @@ declare module 'vite' {
      *
      * @see ./options.ts'
      */
-    valaxy?: ValaxyPluginOptions
+    valaxy?: ValaxyOptions
 
     ssgOptions?: ViteSSGOptions
   }

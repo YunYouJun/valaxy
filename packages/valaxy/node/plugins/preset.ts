@@ -12,7 +12,7 @@ import Components from 'unplugin-vue-components/vite'
 import VueI18n from '@intlify/vite-plugin-vue-i18n'
 
 import dayjs from 'dayjs'
-import type { ResolvedValaxyOptions, ValaxyPluginOptions, ValaxyServerOptions } from '../options'
+import type { ResolvedValaxyOptions, ValaxyOptions, ValaxyServerOptions } from '../options'
 import { setupMarkdownPlugins } from '../markdown'
 // import { createMarkdownPlugin, excerpt_separator } from './markdown'
 // import { formatMdDate } from '../utils/date'
@@ -23,7 +23,7 @@ import { createValaxyPlugin } from '.'
 
 export async function ViteValaxyPlugins(
   options: ResolvedValaxyOptions,
-  pluginOptions: ValaxyPluginOptions = {},
+  pluginOptions: ValaxyOptions = {},
   serverOptions: ValaxyServerOptions = {},
 ): Promise<(PluginOption | PluginOption[])[] | undefined> {
   const { roots } = options

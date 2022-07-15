@@ -14,10 +14,10 @@ import {
   transformerVariantGroup,
 } from 'unocss'
 import type { ValaxyConfig } from 'valaxy'
-import type { ResolvedValaxyOptions, ValaxyPluginOptions } from '../options'
+import type { ResolvedValaxyOptions, ValaxyOptions } from '../options'
 import { loadSetups } from './setupNode'
 
-export const createSafelist = async (config: ValaxyConfig, pluginOptions: ValaxyPluginOptions = {}) => {
+export const createSafelist = async (config: ValaxyConfig, pluginOptions: ValaxyOptions = {}) => {
   const { generateSafelist } = await import(`valaxy-theme-${config.theme}`)
 
   const safeIcons: string[] = [
@@ -49,7 +49,7 @@ export const createSafelist = async (config: ValaxyConfig, pluginOptions: Valaxy
   return safelist
 }
 
-export const createUnocssConfig = async (options: ResolvedValaxyOptions, pluginOptions: ValaxyPluginOptions) => {
+export const createUnocssConfig = async (options: ResolvedValaxyOptions, pluginOptions: ValaxyOptions) => {
   const unocssConfig: VitePluginConfig = {
     shortcuts: [
       ['btn', 'px-4 py-1 rounded inline-block bg-sky-600 text-white cursor-pointer hover:bg-sky-700 disabled:cursor-default disabled:bg-gray-600 disabled:opacity-50'],
@@ -99,7 +99,7 @@ export const createUnocssConfig = async (options: ResolvedValaxyOptions, pluginO
   return unocssConfig
 }
 
-export const createUnocssPlugin = async (options: ResolvedValaxyOptions, pluginOptions: ValaxyPluginOptions) => {
+export const createUnocssPlugin = async (options: ResolvedValaxyOptions, pluginOptions: ValaxyOptions) => {
   const { unocss: unoOptions } = pluginOptions
   const defaultConfig = await createUnocssConfig(options, pluginOptions)
 
