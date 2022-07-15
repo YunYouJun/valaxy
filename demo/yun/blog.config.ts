@@ -2,7 +2,7 @@ import { defineBlog } from 'valaxy'
 import type { ThemeConfig } from 'valaxy-theme-yun'
 
 /**
- * User Config
+ * Blog Config
  * do not use export const config to avoid defu conflict
  */
 export default defineBlog<ThemeConfig>({

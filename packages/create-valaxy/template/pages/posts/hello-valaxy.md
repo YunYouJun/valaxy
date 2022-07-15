@@ -17,4 +17,4 @@ Write your first post!
 
 ## Usage
 
-Modify `valaxy.config.ts` to custom your blog.
+Modify `blog.config.ts` to custom your blog.

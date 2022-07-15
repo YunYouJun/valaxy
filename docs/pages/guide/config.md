@@ -11,7 +11,7 @@ end: false
 > 在每篇文章末尾，展示赞助（打赏）信息。
 
 ```ts
-// valaxy.config.ts
+// blog.config.ts
 import { defineBlog } from 'valaxy'
 export default defineBlog({
   sponsor: {
