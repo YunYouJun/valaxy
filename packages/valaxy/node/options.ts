@@ -52,7 +52,7 @@ export interface ValaxyConfig {
 export type ValaxyPluginLike = ValaxyConfig | ValaxyConfig[] | false | null | undefined
 export type ValaxyPluginOption = ValaxyPluginLike | string | [string, any]
 
-export interface ResolvedValaxyOptions {
+export interface ResolvedValaxyOptions<T = Record<string, any>> {
   mode: 'dev' | 'build'
   /**
    * package.json root
@@ -80,7 +80,7 @@ export interface ResolvedValaxyOptions {
   /**
    * Valaxy Config
    */
-  config: ValaxySiteConfig
+  config: ValaxySiteConfig<T>
   /**
    * config file path
    */

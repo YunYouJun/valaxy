@@ -2,7 +2,7 @@ import * as readline from 'readline'
 import path from 'path'
 import os from 'os'
 
-import { blue, bold, cyan, dim, gray, green, underline } from 'kolorist'
+import { blue, bold, cyan, dim, gray, green, underline, yellow } from 'kolorist'
 import consola from 'consola'
 import type { InlineConfig, ViteDevServer } from 'vite'
 import { mergeConfig } from 'vite'
@@ -50,9 +50,11 @@ export async function initServer(options: ResolvedValaxyOptions, viteConfig: Inl
   try {
     server = await createServer(options, viteConfigs, {
       async onConfigReload(newSiteConfig, siteConfig, force = false) {
-        consola.log('force: ', force)
-        if (force)
+        if (force) {
+          consola.info('[valaxy]', `${yellow('force')} reload the server`)
           initServer(options, viteConfig)
+        }
+
         let reload = false
 
         if (newSiteConfig.theme !== siteConfig.theme)

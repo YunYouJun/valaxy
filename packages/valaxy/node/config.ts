@@ -25,12 +25,12 @@ export function defineSiteWithTheme<ThemeConfig>(
   return config
 }
 
-export type ValaxyConfigExport = ValaxyConfig | Promise<ValaxyConfig> | ValaxyConfigFn
-export type ValaxyConfigFn = (options: ResolvedValaxyOptions) => ValaxyConfig | Promise<ValaxyConfig>
+export type ValaxyConfigExport<T = Record<string, any>> = ValaxyConfig | Promise<ValaxyConfig> | ValaxyConfigFn<T>
+export type ValaxyConfigFn<T> = (options: ResolvedValaxyOptions<T>) => ValaxyConfig | Promise<ValaxyConfig>
 /**
  * Type valaxy config helper
  */
-export function defineConfig(config: ValaxyConfigExport) {
+export function defineConfig<ThemeConfig>(config: ValaxyConfigExport<ThemeConfig>) {
   return config
 }
 

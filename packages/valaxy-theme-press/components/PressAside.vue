@@ -21,12 +21,13 @@ const app = useAppStore()
   <ValaxyOverlay :show="app.isRightSidebarOpen" @click="app.toggleRightSidebar()" />
 
   <aside
-    class="press-aside lt-xl:fixed press-card xl:(shadow-none hover:shadow-none) shadow hover:shadow-lg"
+    class="press-aside lt-xl:fixed
+    press-card xl:(shadow-none hover:shadow-none) shadow hover:shadow-lg"
     p="l-0 xl:l-4" text="center"
     z="10"
     :class="app.isRightSidebarOpen && 'open'"
   >
-    <div class="aside-container lt-xl:pt-0" flex="~ col">
+    <div class="aside-container lt-xl:mt-60" flex="~ col">
       <PressToc v-if="frontmatter.toc !== false" :headers="data.headers || []" />
       <div class="flex-grow" />
       <div v-if="$slots.default" class="custom-container">
