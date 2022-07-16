@@ -8,7 +8,9 @@ const { isOpen: isSidebarOpen, open: openSidebar, close: closeSidebar } = useSid
   <div class="layout antialiased">
     <PressNav />
     <PressLocalNav :open="isSidebarOpen" @open-menu="openSidebar()" />
-    <PressSidebar :open="isSidebarOpen" />
+    <slot name="sidebar">
+      <PressSidebar :open="isSidebarOpen" />
+    </slot>
     <PressBackdrop :show="isSidebarOpen" @click="closeSidebar" />
 
     <slot>

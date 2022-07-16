@@ -27,7 +27,7 @@ const app = useAppStore()
     z="10"
     :class="app.isRightSidebarOpen && 'open'"
   >
-    <div class="aside-container lt-xl:mt-60" flex="~ col">
+    <div class="aside-container" flex="~ col">
       <PressToc v-if="frontmatter.toc !== false" :headers="data.headers || []" />
       <div class="flex-grow" />
       <div v-if="$slots.default" class="custom-container">

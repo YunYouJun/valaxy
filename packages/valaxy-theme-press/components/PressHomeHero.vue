@@ -6,7 +6,7 @@ const fm = useFrontmatter()
 </script>
 
 <template>
-  <h1 m="md:t-24 t-20" text="center">
+  <h1 m="md:t-24 t-10 md:t-20" text="center">
     <span text="5rem" font="black" class="gradient-text from-purple-800 to-blue-500" bg="gradient-to-r">
       {{ fm.hero.name }}
     </span>

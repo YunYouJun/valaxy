@@ -7,7 +7,7 @@ end: false
 top: 99
 ---
 
-> Example: [valaxy.yyj.moe](https://valaxy.yyj.moe)
+> Example: [yun.valaxy.site](https://yun.valaxy.site)
 
 <div lang="zh-CN">
 

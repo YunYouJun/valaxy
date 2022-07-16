@@ -1,4 +1,10 @@
 :root {
+  --pr-c-indigo-lighter: #c9def1;
+}
+
+:root {
+  --pr-c-text-code: #374562;
+
   // aside
   --pr-aside-text-1: #213547;
   --pr-aside-text-2: #3c3c3cb3;
@@ -24,6 +30,8 @@
 }
 
 .dark {
+  --pr-c-text-code: var(--pr-c-indigo-lighter);
+
   // aside
   --pr-aside-text-1: #ffffffde;
   --pr-aside-text-2: #ebebeb99;

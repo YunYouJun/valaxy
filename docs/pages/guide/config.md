@@ -6,6 +6,53 @@ categories:
 end: false
 ---
 
+## 社交图标
+
+```ts
+export interface SocialLink {
+  /**
+   * The title of your link
+   */
+  name: string
+  link: string
+  /**
+   * 图标名称
+   * https://icones.js.org/
+   */
+  icon: string
+  color: string
+}
+```
+
+示例：
+
+```ts
+// site.config.ts
+import { defineSite } from 'valaxy'
+export default defineSite({
+  social: [
+    {
+      name: 'RSS',
+      link: '/atom.xml',
+      icon: 'i-ri-rss-line',
+      color: 'orange',
+    },
+    {
+      name: 'QQ 群 1050458482',
+      link: 'https://qm.qq.com/cgi-bin/qm/qr?k=kZJzggTTCf4SpvEQ8lXWoi5ZjhAx0ILZ&jump_from=webapi',
+      icon: 'i-ri-qq-line',
+      color: '#12B7F5',
+    },
+    {
+      name: 'GitHub',
+      link: 'https://github.com/YunYouJun',
+      icon: 'i-ri-github-line',
+      color: '#6e5494',
+    },
+  ]
+})
+```
+
 ## 赞助
 
 > 在每篇文章末尾，展示赞助（打赏）信息。
