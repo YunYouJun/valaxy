@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import { computed } from 'vue'
 import { useI18n } from 'vue-i18n'
-import { useSiteConfig } from '../config'
+import { useSite } from '../config'
 
 withDefaults(defineProps<{
   url?: string
@@ -11,7 +11,7 @@ withDefaults(defineProps<{
 
 const { t, locale } = useI18n()
 
-const config = useSiteConfig()
+const config = useSite()
 
 const ccVersion = (config.value.license.type === 'zero') ? '1.0' : '4.0'
 const ccPrefix = (config.value.license.type === 'zero') ? 'publicdomain' : 'licenses'

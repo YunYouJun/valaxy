@@ -1,12 +1,12 @@
 <script lang="ts" setup>
 import type { PageData, Post } from 'valaxy'
-import { useSidebar, useSiteConfig } from 'valaxy'
+import { useSidebar, useSite } from 'valaxy'
 
 defineProps<{
   frontmatter: Post
   data?: PageData
 }>()
-const config = useSiteConfig()
+const config = useSite()
 
 const { hasSidebar } = useSidebar()
 </script>

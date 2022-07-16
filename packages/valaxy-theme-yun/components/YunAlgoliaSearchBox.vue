@@ -4,12 +4,12 @@ import docsearch from '@docsearch/js'
 import type { DocSearchHit } from '@docsearch/react/dist/esm/types'
 import { onMounted } from 'vue'
 import type { AlgoliaSearchOptions } from 'valaxy'
-import { useSiteConfig } from 'valaxy'
+import { useSite } from 'valaxy'
 import { useRoute, useRouter } from 'vue-router'
 
 const router = useRouter()
 const route = useRoute()
-const config = useSiteConfig()
+const config = useSite()
 
 onMounted(() => {
   initialize(config.value.search.algolia)

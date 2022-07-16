@@ -1,10 +1,10 @@
 <script lang="ts" setup>
-import { useSiteConfig } from 'valaxy'
+import { useSite } from 'valaxy'
 import { ref } from 'vue'
 import { useI18n } from 'vue-i18n'
 const { t } = useI18n()
 
-const config = useSiteConfig()
+const config = useSite()
 
 const showQr = ref(false)
 </script>
