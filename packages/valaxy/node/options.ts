@@ -49,12 +49,8 @@ export interface ValaxyConfig {
   }) => void
   plugins?: ValaxyPluginOption[]
 }
-export type ValaxyPluginLike = ValaxyPlugin | ValaxyPlugin[] | false | null | undefined
+export type ValaxyPluginLike = ValaxyConfig | ValaxyConfig[] | false | null | undefined
 export type ValaxyPluginOption = ValaxyPluginLike | string | [string, any]
-export interface ValaxyPlugin extends ValaxyConfig {
-  enhanceAppFiles?: string[]
-  globalUIComponents?: string | string[]
-}
 
 export interface ResolvedValaxyOptions {
   mode: 'dev' | 'build'
