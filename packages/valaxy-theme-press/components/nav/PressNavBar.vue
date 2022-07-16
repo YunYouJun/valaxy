@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { isDark, toggleDark, useConfig, useSidebar } from 'valaxy'
+import { isDark, toggleDark, useSidebar, useSite } from 'valaxy'
 import { useThemeConfig } from '../../composables'
 
 defineProps<{
@@ -12,7 +12,7 @@ defineEmits<{
 
 const { hasSidebar } = useSidebar()
 
-const config = useConfig()
+const config = useSite()
 const themeConfig = useThemeConfig()
 </script>
 

@@ -12,7 +12,7 @@ import { useStorage } from '@vueuse/core'
 
 import type { Router } from 'vue-router'
 import type { PageDataPayload } from '../../types'
-import { valaxySiteConfigSymbol, initSite } from '../config'
+import { initSite, valaxySiteConfigSymbol } from '../config'
 import { ensureSuffix } from '@antfu/utils'
 
 import type { UserModule } from 'valaxy/client/types'
