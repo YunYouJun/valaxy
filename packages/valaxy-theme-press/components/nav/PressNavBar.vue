@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import { isDark, toggleDark, useConfig, useSidebar } from 'valaxy'
-import { useThemeConfig } from '../composables'
+import { useThemeConfig } from '../../composables'
 
 defineProps<{
   isScreenOpen?: boolean
