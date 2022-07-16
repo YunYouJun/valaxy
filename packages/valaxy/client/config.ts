@@ -54,7 +54,7 @@ export function initContext() {
  * @public
  * @returns
  */
-export function useSiteConfig<ThemeConfig = any>() {
+export function useSite<ThemeConfig = any>() {
   const config = inject<ComputedRef<ValaxySiteConfig<ThemeConfig>>>(ValaxySiteConfigSymbol)
   if (!config)
     throw new Error('[Valaxy] config not properly injected in app')
@@ -68,6 +68,6 @@ export function useSiteConfig<ThemeConfig = any>() {
  * @returns
  */
 export function useThemeConfig<T = Record<string, any>>() {
-  const config = useSiteConfig<T>()
+  const config = useSite<T>()
   return computed(() => config!.value.themeConfig)
 }
