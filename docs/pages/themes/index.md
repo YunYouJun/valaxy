@@ -1,9 +1,10 @@
 ---
-title: How to create a valaxy theme?
+title: How to create a theme?
 title_zh: 如何创建一个 Valaxy 主题
 categories:
   - Theme
 end: false
+top: 50
 ---
 
 ::: tip
@@ -59,4 +60,4 @@ export interface ValaxyConfig {
 
 ## Third Plugin
 
-- [关于评论](/docs/theme/comment)
+- [关于评论](/themes/comment)

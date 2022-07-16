@@ -15,6 +15,8 @@
 </template>
 
 <style lang="scss">
+@use 'valaxy/client/styles/mixins' as *;
+
 .cloud {
   display: flex;
   width: 100%;
@@ -32,7 +34,7 @@
     width: 100%;
     height: 100px;
 
-    @media (max-width: 768px) {
+    @include media('md') {
       height: 40px;
     }
   }

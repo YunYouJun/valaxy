@@ -1,5 +1,6 @@
 ---
-title: 自定义扩展
+title: Extend
+title_zh: 自定义扩展
 categories:
   - Guide
 end: false

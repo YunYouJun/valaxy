@@ -79,13 +79,14 @@ const YunTwikoo = config.value.comment.waline.enable
 
 <style lang="scss">
 @use 'valaxy/client/styles/mixins' as *;
-@include xl {
+
+@include media('xl') {
   .content{
     // 8px scrollbar width
-    max-width: calc(100vw - 2 * var(--va-sidebar-width-mobile) - 1rem - 8px);
+    max-width: calc(100vw - 2 * var(--va-sidebar-width) - 1rem - 8px);
 
     &.no-aside {
-      max-width: calc(100vw - var(--va-sidebar-width-mobile));
+      max-width: calc(100vw - var(--va-sidebar-width));
     }
   }
 }

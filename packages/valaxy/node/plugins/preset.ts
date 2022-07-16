@@ -9,7 +9,7 @@ import Vue from '@vitejs/plugin-vue'
 import Pages from 'vite-plugin-pages'
 import Layouts from 'vite-plugin-vue-layouts'
 import Components from 'unplugin-vue-components/vite'
-import VueI18n from '@intlify/vite-plugin-vue-i18n'
+import { vueI18n } from '@intlify/vite-plugin-vue-i18n'
 
 import dayjs from 'dayjs'
 import type { ResolvedValaxyOptions, ValaxyConfig, ValaxyServerOptions } from '../options'
@@ -210,7 +210,7 @@ export async function ViteValaxyPlugins(
     // ...MarkdownPlugin,
 
     // https://github.com/intlify/bundle-tools/tree/main/packages/vite-plugin-vue-i18n
-    VueI18n({
+    vueI18n({
       runtimeOnly: true,
       compositionOnly: true,
       include: roots.map(root => `${root}/locales/**`),

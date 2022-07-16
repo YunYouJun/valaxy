@@ -1,5 +1,5 @@
 // @ts-expect-error virtual module @valaxyjs/config
-import ValaxySiteConfig from '/@valaxyjs/site'
+import valaxySiteConfig from '/@valaxyjs/site'
 // @ts-expect-error virtual module @valaxyjs/context
 import valaxyContext from '/@valaxyjs/context'
 import type { ComputedRef, InjectionKey } from 'vue'
@@ -8,6 +8,7 @@ import { computed, inject, readonly, shallowRef } from 'vue'
 // fix build caused by pnpm
 // This is likely not portable. A type annotation is necessary.
 // https://github.com/microsoft/TypeScript/issues/42873
+import type { ValaxySiteConfig } from 'valaxy/types'
 
 /**
  * parse valaxy config
@@ -24,7 +25,7 @@ interface ValaxyContext {
 }
 
 export const valaxySiteConfigSymbol: InjectionKey<ComputedRef<ValaxySiteConfig>> = Symbol('valaxy:site')
-export const valaxySiteConfigRef = shallowRef<ValaxySiteConfig>(parse<ValaxySiteConfig>(ValaxySiteConfig))
+export const valaxySiteConfigRef = shallowRef<ValaxySiteConfig>(parse<ValaxySiteConfig>(valaxySiteConfig))
 
 export const valaxyContextRef = shallowRef<ValaxyContext>(parse<ValaxyContext>(valaxyContext))
 

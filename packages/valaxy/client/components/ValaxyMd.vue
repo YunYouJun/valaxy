@@ -60,13 +60,3 @@ useCopyCode()
     </article>
   </Transition>
 </template>
-
-<style lang="scss">
-.markdown-body {
-  .end {
-    .line {
-      height: 1px;
-    }
-  }
-}
-</style>

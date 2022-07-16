@@ -36,3 +36,12 @@ a.header-anchor:hover,
 a.header-anchor:focus {
   text-decoration: none;
 }
+
+// end line
+.markdown-body {
+  .end {
+    .line {
+      height: 1px;
+    }
+  }
+}

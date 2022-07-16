@@ -25,7 +25,7 @@ withDefaults(defineProps<{
   right: 0;
   bottom: 0;
   left: 0;
-  z-index: calc(var(--yun-z-sidebar) - 1);
+  z-index: calc(var(--va-z-overlay) - 1);
   transition: opacity 0.4s;
 
   display: none;

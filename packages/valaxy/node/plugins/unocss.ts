@@ -53,7 +53,7 @@ export const createUnocssConfig = async (options: ResolvedValaxyOptions, pluginO
   const unocssConfig: VitePluginConfig = {
     shortcuts: [
       ['btn', 'px-4 py-1 rounded inline-block bg-sky-600 text-white cursor-pointer hover:bg-sky-700 disabled:cursor-default disabled:bg-gray-600 disabled:opacity-50'],
-      ['icon-btn', 'inline-block cursor-pointer select-none opacity-75 transition duration-200 ease-in-out hover:opacity-100 hover:text-sky-600'],
+      ['icon-btn', 'inline-flex justify-center items-center cursor-pointer select-none opacity-75 transition duration-200 ease-in-out hover:opacity-100 hover:text-sky-600'],
       ['va-card', 'shadow hover:shadow-lg'],
     ],
     presets: [

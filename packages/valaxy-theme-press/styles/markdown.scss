@@ -1,0 +1,15 @@
+@use "valaxy/client/styles/mixins" as *;
+
+.prose {
+  --un-prose-body: var(--va-c-text);
+  --un-prose-hr: var(--va-c-text);
+  --un-prose-borders: var(--va-c-brand);
+}
+
+@include mobile {
+  .markdown-body {
+    div[class*="language-"] {
+      margin: 0 -1.5rem;
+    }
+  }
+}

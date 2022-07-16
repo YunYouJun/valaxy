@@ -13,7 +13,7 @@ const { t } = useI18n()
     </slot>
   </ValaxySidebar>
 
-  <main class="yun-main" text="center">
+  <main class="va-main" text="center">
     <YunCard m="4" p="10" text="yellow-600">
       <div text-4xl>
         <div i-ri-alarm-warning-line inline-block />

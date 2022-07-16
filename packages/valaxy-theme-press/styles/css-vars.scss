@@ -1,6 +1,26 @@
 :root {
-  --pr-z-index-backdrop: 9;
-  --pr-z-index-sidebar: 10;
+  --pr-aside-text-1: #213547;
+  --pr-aside-text-2: #3c3c3cb3;
 
-  --pr-sidebar-width: 272px;
+  --pr-aside-divider: rgba(60, 60, 60, 0.122);
+
+  --pr-c-divider-light: rgba(60, 60, 60, 0.12);
+
+  // nav
+  --pr-nav-height: var(--pr-nav-height-mobile);
+  --pr-nav-height-mobile: 60px;
+
+  // z-index
+  --va-z-overlay: var(--pr-z-index-backdrop);
+  --pr-z-index-nav: 8;
+  --pr-z-index-local-nav: 9;
+  --pr-z-index-backdrop: 10;
+  --pr-z-index-sidebar: 11;
+}
+
+.dark {
+  --pr-aside-text-1: #ffffffde;
+  --pr-aside-text-2: #ebebeb99;
+
+  --pr-aside-divider: rgba(84, 84, 84, 0.48);
 }

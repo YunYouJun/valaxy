@@ -1,5 +1,5 @@
 <template>
-  <div class="press-Home">
+  <div class="press-home">
     <slot name="home-hero-before" />
     <PressHomeHero />
     <slot name="home-hero-after" />

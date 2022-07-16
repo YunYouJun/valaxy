@@ -27,11 +27,11 @@ export async function highlight(theme: ThemeOptions = 'material-palenight') {
 
     const dark = highlighter
       .codeToHtml(str, { lang, theme: theme.dark })
-      .replace(preRE, '<pre v-pre class="vp-code-dark">')
+      .replace(preRE, '<pre v-pre class="va-code-dark">')
 
     const light = highlighter
       .codeToHtml(str, { lang, theme: theme.light })
-      .replace(preRE, '<pre v-pre class="vp-code-light">')
+      .replace(preRE, '<pre v-pre class="va-code-light">')
 
     return dark + light
   }

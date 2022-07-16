@@ -7,7 +7,7 @@ const { toggleLocales } = useLocale()
 </script>
 
 <template>
-  <button class="press-icon-btn" :title="t('button.toggle_langs')" style="color:var(--va-c-text)" @click="toggleLocales">
+  <button :title="t('button.toggle_langs')" @click="toggleLocales">
     <div i-ri-translate class="transition transform" :class="locale === 'en' ? 'rotate-y-180' : ''" />
   </button>
 </template>
