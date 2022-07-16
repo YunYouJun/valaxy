@@ -1,28 +1,17 @@
 <script lang="ts" setup>
 import { isDark, toggleDark, useConfig } from 'valaxy'
-import { computed } from 'vue'
-import { useRoute } from 'vue-router'
 import { useThemeConfig } from '../composables'
-
-const route = useRoute()
-const isIndex = computed(() => route.path.replace(/index.html$/, '') === '/')
 
 const config = useConfig()
 const themeConfig = useThemeConfig()
 </script>
 
 <template>
-  <nav w="full" class="flex justify-between items-center py-10 font-bold">
+  <nav w="full" class="press-nav relative md:fixed flex justify-between items-center px-6 py-4 font-bold">
     <a class="text-xl" href="/" :aria-label="config.title">
-      <img
-        class="inline-block mr-2"
-        style="width: 50px; height: 35px"
-        alt="logo"
-        :src="config.favicon"
-      >
-      <span v-if="!isIndex" class="hidden md:inline">{{ config.title }}</span>
+      <span class="md:inline">{{ config.title }}</span>
     </a>
-    <div class="text-sm text-gray-500 leading-5">
+    <div class="flex justify-center  items-centertext-sm text-gray-500 leading-5">
       <template v-for="(item, i) in themeConfig.nav" :key="i">
         <a
           class="hover:text-gray-700"
@@ -41,3 +30,12 @@ const themeConfig = useThemeConfig()
     </div>
   </nav>
 </template>
+
+<style lang="scss">
+.press-nav {
+  z-index: var(--pr-z-index-nav);
+
+  -webkit-backdrop-filter: saturate(50%) blur(8px);
+  backdrop-filter: saturate(50%) blur(8px);
+}
+</style>

@@ -32,7 +32,7 @@ function handleClick({ target: el }: Event) {
 </script>
 
 <template>
-  <div v-show="headers.length" ref="container" p="t-26">
+  <div v-show="headers.length" ref="container" p="t-6">
     <div class="content">
       <div class="outline-title">
         {{ themeConfig.outlineTitle || t('sidebar.toc') }}
@@ -106,7 +106,6 @@ function handleClick({ target: el }: Event) {
   line-height: 28px;
   font-size: 14px;
   font-weight: 600;
-  color: #213547;
 }
 
 .outline-link {

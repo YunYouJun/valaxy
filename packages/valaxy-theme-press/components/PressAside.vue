@@ -11,7 +11,7 @@ const app = useAppStore()
 
 <template>
   <button
-    class="xl:hidden toc-btn shadow fixed yun-icon-btn z-350"
+    class="xl:hidden toc-btn shadow fixed press-icon-btn z-350"
     opacity="75" right="2" bottom="19"
     @click="app.toggleRightSidebar()"
   >
@@ -20,8 +20,12 @@ const app = useAppStore()
 
   <ValaxyOverlay :show="app.isRightSidebarOpen" @click="app.toggleRightSidebar()" />
 
-  <!--  -->
-  <aside class="press-card aside" :class="app.isRightSidebarOpen && 'open'" m="l-4" text="center">
+  <aside
+    class="press-aside lt-xl:fixed press-card xl:(shadow-none hover:shadow-none) shadow hover:shadow-lg"
+    p="l-4" text="center"
+    z="10"
+    :class="app.isRightSidebarOpen && 'open'"
+  >
     <div class="aside-container" flex="~ col">
       <PressToc v-if="frontmatter.toc !== false" :headers="data.headers || []" />
       <div class="flex-grow" />
@@ -37,17 +41,15 @@ const app = useAppStore()
 
 .press-card{
   box-shadow: none;
+  background-color: var(--va-c-bg);
 }
 
-.aside {
-  position: fixed;
-  right: 0;
-  top: 0;
-  bottom: 0;
-
-  min-width: var(--va-sidebar-width-mobile);
-
+.press-aside {
+  position: relative;
+  min-width: 272px;
   transform: translateX(100%);
+  right: 0;
+  z-index: 10;
 
   transition: box-shadow var(--va-transition-duration),
   background-color var(--va-transition-duration), opacity 0.25s,
@@ -56,25 +58,25 @@ const app = useAppStore()
   &.open {
     right: 0;
     display: block;
-    z-index: 10;
     transform: translateX(0);
-  }
-
-  &-container {
-    position: sticky;
-    top: 0;
-    height: 100vh;
   }
 }
 
-@include xl {
-  .aside {
+.aside-container {
+  position: sticky;
+  top: 0;
+  margin-top: calc(var(--pr-nav-height) * -1 - 32px);
+  padding-top: calc(var(--pr-nav-height) + 32px);
+  height: 100vh;
+}
+
+@include media('xl') {
+  .press-aside {
     transform: translateX(0);
   }
 }
 
 .toc-btn {
   color: var(--va-c-primary);
-  background-color: white;
 }
 </style>

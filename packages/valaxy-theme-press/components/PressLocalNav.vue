@@ -34,12 +34,14 @@ function scrollToTop() {
   </div>
 </template>
 
-<style scoped>
+<style scoped lang="scss">
+@use 'valaxy/client/styles/mixins' as *;
+
 .press-local-nav {
   position: sticky;
   top: 0;
   left: 0;
-  z-index: var(--vp-z-index-local-nav);
+  z-index: var(--pr-z-index-local-nav);
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -49,7 +51,7 @@ function scrollToTop() {
   transition: border-color 0.5s, background-color 0.5s;
 }
 
-@media (min-width: 960px) {
+@include media('md') {
   .press-local-nav {
     display: none;
   }
@@ -71,7 +73,7 @@ function scrollToTop() {
   transition: color 0.25s;
 }
 
-@media (min-width: 768px) {
+@include media('md') {
   .menu {
     padding: 0 32px;
   }
@@ -99,7 +101,7 @@ function scrollToTop() {
   transition: color 0.25s;
 }
 
-@media (min-width: 768px) {
+@include media('md') {
   .top-link {
     padding: 12px 32px 11px;
   }

@@ -7,6 +7,7 @@ defineProps<{
 
 const pages = usePageList()
 const categories = useCategory('', pages.value)
+categories.children.delete('Uncategorized')
 
 const { hasSidebar } = useSidebar()
 </script>
@@ -24,18 +25,20 @@ const { hasSidebar } = useSidebar()
 </template>
 
 <style lang="scss">
+@use 'valaxy/client/styles/mixins' as *;
+
 .press-sidebar {
   position: fixed;
   top: 0;
   bottom: 0;
   left: 0;
+  padding: 1.5rem 1rem;
+  padding-top: var(--pr-nav-height);
   z-index: var(--pr-z-index-sidebar);
-  padding: 32px 32px 96px;
   width: calc(100vw - 64px);
   max-width: 320px;
   background-color: var(--va-c-bg);
   opacity: 0;
-  box-shadow: var(--vp-c-shadow-3);
   overflow-x: hidden;
   overflow-y: auto;
   transform: translateX(-100%);
@@ -43,23 +46,21 @@ const { hasSidebar } = useSidebar()
 
   &.open {
     opacity: 1;
-    visibility: visible;
     transform: translateX(0);
     transition: opacity 0.25s,
                 transform 0.5s cubic-bezier(0.19, 1, 0.22, 1);
   }
 }
 
-@media (min-width: 960px) {
+@include media('md') {
   .press-sidebar {
     z-index: 1;
-    padding-top: var(--vp-nav-height-desktop);
-    padding: 1rem 0;
-    width: var(--pr-sidebar-width);
+    padding: 1.5rem 1rem;
+    padding-top: var(--pr-nav-height-desktop);
+    width: var(--va-sidebar-width);
     max-width: 100%;
     background-color: var(--va-c-bg-alt);
     opacity: 1;
-    visibility: visible;
     box-shadow: none;
     transform: translateX(0);
   }

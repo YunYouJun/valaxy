@@ -88,7 +88,7 @@ export function useActiveAnchor(
 
     const scrollY = window.scrollY
     const innerHeight = window.innerHeight
-    const offsetHeight = (document.querySelector('.yun-main') as HTMLElement)!.offsetHeight
+    const offsetHeight = container.value.offsetHeight
     const isBottom = (scrollY + innerHeight) === offsetHeight
 
     // console.log(scrollY, innerHeight, offsetHeight)

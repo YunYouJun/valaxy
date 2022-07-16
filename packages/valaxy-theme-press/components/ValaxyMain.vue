@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import type { PageData, Post } from 'valaxy'
-import { useConfig, useFrontmatter, useSidebar } from 'valaxy'
+import { useConfig, useFrontmatter, useLayout, useSidebar } from 'valaxy'
 
 defineProps<{
   frontmatter: Post
@@ -10,6 +10,7 @@ const config = useConfig()
 const frontmatter = useFrontmatter()
 
 const { hasSidebar } = useSidebar()
+const isHome = useLayout('home')
 </script>
 
 <template>
@@ -18,15 +19,19 @@ const { hasSidebar } = useSidebar()
       'has-sidebar': hasSidebar,
     }"
   >
-    <div w="full" flex="~">
+    <div w="full" flex="~" p="t-8 x-8">
       <slot name="main">
-        <div class="content" flex="~ col grow" w="full" p="l-4 lt-md:0">
+        <div class="content" m="auto y-0" flex="~ col grow" w="full" p="x-12 lt-md:0">
           <slot name="main-header" />
           <slot name="main-header-after" />
 
           <slot name="main-content">
             <div class="markdown-body prose max-w-none pb-8">
               <ValaxyMd :frontmatter="frontmatter">
+                <h1 v-if="!isHome && frontmatter.title" :id="frontmatter.title" tabindex="-1">
+                  {{ frontmatter.title }}
+                  <a class="header-anchor" :href="`#${frontmatter.title}`" aria-hidden="true">#</a>
+                </h1>
                 <slot name="main-content-md" />
                 <slot />
               </ValaxyMd>
@@ -45,21 +50,33 @@ const { hasSidebar } = useSidebar()
 
         <slot name="footer" />
       </slot>
-    </div>
 
-    <slot name="aside">
-      <PressAside>
-        <!-- <slot name="aside-custom" /> -->
-      </PressAside>
-    </slot>
+      <slot name="aside">
+        <PressAside v-if="!isHome" />
+      </slot>
+    </div>
   </main>
 </template>
 
 <style lang="scss">
-@media (min-width: 960px) {
+@use 'valaxy/client/styles/mixins' as *;
+
+@include media('md') {
   .press-main {
     &.has-sidebar {
-      padding-left: var(--pr-sidebar-width);
+      padding-top: var(--pr-nav-height);
+      padding-left: var(--va-sidebar-width);
+    }
+  }
+}
+
+@include media('xl') {
+  .content{
+    // 8px scrollbar width
+    max-width: calc(100vw - 2 * var(--va-sidebar-width) - 2.5rem);
+
+    &.no-aside {
+      max-width: calc(100vw - var(--va-sidebar-width));
     }
   }
 }

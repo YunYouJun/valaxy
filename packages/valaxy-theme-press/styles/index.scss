@@ -1,1 +1,7 @@
 @use "./helper.scss";
+@use "./markdown.scss";
+
+.layout {
+  display: flex;
+  flex-direction: column;
+}

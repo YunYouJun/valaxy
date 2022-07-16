@@ -6,8 +6,8 @@ const fm = useFrontmatter()
 </script>
 
 <template>
-  <h1 m="t-10" text="center">
-    <span text="8xl" font="black" class="gradient-text from-purple-800 to-blue-500" bg="gradient-to-r">
+  <h1 m="md:t-24 t-20" text="center">
+    <span text="5rem" font="black" class="gradient-text from-purple-800 to-blue-500" bg="gradient-to-r">
       {{ fm.hero.name }}
     </span>
     <br>

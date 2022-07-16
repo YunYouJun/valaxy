@@ -17,7 +17,7 @@ const grid = computed(() => {
 
 <template>
   <div class="press-features">
-    <div class="container grid gap-4" :class="[grid]">
+    <div class="m-auto container grid gap-4" :class="[grid]">
       <div v-for="feature in features" :key="feature.title" class="inline-grid">
         <PressFeature :feature="feature" />
       </div>

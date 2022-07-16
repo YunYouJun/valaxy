@@ -1,8 +1,6 @@
 @use "../mixins" as *;
 
 html {
-  scroll-behavior: smooth;
-
   -webkit-tap-highlight-color: transparent;
 }
 

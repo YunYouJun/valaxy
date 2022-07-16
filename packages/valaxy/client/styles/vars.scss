@@ -3,7 +3,7 @@
 $common: () !default;
 $common: map.merge(
   (
-    "sidebar-width-mobile": 320px,
+    "sidebar-width": 320px,
   ),
   $common
 );

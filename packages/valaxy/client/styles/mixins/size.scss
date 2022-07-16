@@ -1,49 +1,48 @@
 @use "sass:map";
 
 $breakpoints: (
-  'sm': 640px,
-  'md': 768px,
-  'lg': 1024px,
-  'xl': 1280px,
-  '2xl': 1536px,
+  "sm": 640px,
+  "md": 768px,
+  "lg": 1024px,
+  "xl": 1280px,
+  "2xl": 1536px,
 );
 
 // for mobile
 @mixin mobile {
-  @media screen and (max-width: map.get($breakpoints, 'sm')) {
+  @media screen and (max-width: map.get($breakpoints, "sm")) {
     @content;
   }
 }
 
 // for tablet
 @mixin tablet {
-  @media screen and (min-width: map.get($breakpoints, 'sm')) and (max-width: map.get($breakpoints, 'lg')) {
+  @media screen and (min-width: map.get($breakpoints, "sm")) and (max-width: map.get($breakpoints, "lg")) {
     @content;
   }
 }
 
 // for desktop
 @mixin desktop {
-  @media screen and (min-width: map.get($breakpoints, 'lg')) {
+  @media screen and (min-width: map.get($breakpoints, "lg")) {
     @content;
   }
 }
 
-
 @mixin sm-md {
-  @media screen and (min-width: map.get($breakpoints, 'sm')) and (max-width: map.get($breakpoints, 'md')) {
+  @media screen and (min-width: map.get($breakpoints, "sm")) and (max-width: map.get($breakpoints, "md")) {
     @content;
   }
 }
 
 @mixin md-lg {
-  @media screen and (min-width: map.get($breakpoints, 'md')) and (max-width: map.get($breakpoints, 'lg')) {
+  @media screen and (min-width: map.get($breakpoints, "md")) and (max-width: map.get($breakpoints, "lg")) {
     @content;
   }
 }
 
-@mixin xl {
-  @media screen and (min-width: map.get($breakpoints, 'xl')) {
+@mixin media($size) {
+  @media screen and (min-width: map.get($breakpoints, $size)) {
     @content;
   }
 }

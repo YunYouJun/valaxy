@@ -47,7 +47,7 @@ const app = useAppStore()
   top: 0;
   bottom: 0;
 
-  min-width: var(--va-sidebar-width-mobile);
+  min-width: var(--va-sidebar-width);
 
   transform: translateX(100%);
 
@@ -69,7 +69,7 @@ const app = useAppStore()
   }
 }
 
-@include xl {
+@include media('xl') {
   .aside {
     transform: translateX(0);
   }
