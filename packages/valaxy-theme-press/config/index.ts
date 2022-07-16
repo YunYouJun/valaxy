@@ -1,4 +1,4 @@
-import type { ThemeConfig, ThemeUserConfig } from '../types'
+import type { ThemeConfig } from '../types'
 
 export const anonymousImage = 'https://cdn.yunyoujun.cn/img/avatar/none.jpg'
 
@@ -16,14 +16,3 @@ export const defaultThemeConfig: ThemeConfig = {
 }
 
 export default defaultThemeConfig
-
-/**
- * generateSafelist by config
- * @param themeConfig
- * @returns
- */
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-export function generateSafelist(themeConfig: ThemeUserConfig) {
-  const safelist: string[] = []
-  return safelist
-}

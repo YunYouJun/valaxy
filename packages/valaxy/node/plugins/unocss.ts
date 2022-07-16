@@ -40,12 +40,7 @@ export const createSafelist = async (options: ResolvedValaxyOptions, pluginOptio
   if (config.sponsor.methods.length)
     config.sponsor.methods.forEach(item => safelist.push(item.icon))
 
-  let themeSafelist: string[] = []
-  const generateSafelist = options.themeSetup.generateSafelist
-  if (typeof generateSafelist === 'function')
-    themeSafelist = generateSafelist(options.config.themeConfig)
-
-  return safelist.concat(themeSafelist)
+  return safelist
 }
 
 export const createUnocssConfig = async (options: ResolvedValaxyOptions, pluginOptions: ValaxyConfig) => {

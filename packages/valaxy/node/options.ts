@@ -55,7 +55,6 @@ export type ValaxyPluginOption = ValaxyPluginLike | string | [string, any]
 
 export interface ThemeSetup {
   defaultThemeConfig?: Record<string, any>
-  generateSafelist?: (themeConfig: Record<string, any>) => string[]
 }
 
 export interface ResolvedValaxyOptions<T = Record<string, any>> {
