@@ -22,11 +22,11 @@ const app = useAppStore()
 
   <aside
     class="press-aside lt-xl:fixed press-card xl:(shadow-none hover:shadow-none) shadow hover:shadow-lg"
-    p="l-4" text="center"
+    p="l-0 xl:l-4" text="center"
     z="10"
     :class="app.isRightSidebarOpen && 'open'"
   >
-    <div class="aside-container" flex="~ col">
+    <div class="aside-container lt-xl:pt-0" flex="~ col">
       <PressToc v-if="frontmatter.toc !== false" :headers="data.headers || []" />
       <div class="flex-grow" />
       <div v-if="$slots.default" class="custom-container">
@@ -48,15 +48,15 @@ const app = useAppStore()
   position: relative;
   min-width: 272px;
   transform: translateX(100%);
+  top: 0;
+  bottom: 0;
   right: 0;
   z-index: 10;
 
-  transition: box-shadow var(--va-transition-duration),
-  background-color var(--va-transition-duration), opacity 0.25s,
+  transition: box-shadow var(--va-transition-duration), opacity 0.25s,
   transform var(--va-transition-duration) cubic-bezier(0.19, 1, 0.22, 1);
 
   &.open {
-    right: 0;
     display: block;
     transform: translateX(0);
   }
@@ -78,5 +78,6 @@ const app = useAppStore()
 
 .toc-btn {
   color: var(--va-c-primary);
+  background-color: var(--va-c-bg);
 }
 </style>

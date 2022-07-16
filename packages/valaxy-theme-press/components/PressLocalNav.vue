@@ -45,10 +45,10 @@ function scrollToTop() {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  border-bottom: 1px solid var(--vp-c-divider-light);
+  border-bottom: 1px solid var(--pr-c-divider-light);
   width: 100%;
   background-color: var(--va-c-bg);
-  transition: border-color 0.5s, background-color 0.5s;
+  transition: border-color 0.5s;
 }
 
 @include media('md') {

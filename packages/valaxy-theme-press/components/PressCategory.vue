@@ -29,7 +29,7 @@ const getTitle = (post: Post | any) => {
 </script>
 
 <template>
-  <li v-if="category.total" class="category-list-item inline-flex items-center cursor-pointer">
+  <li v-if="category.total" class="category-list-item inline-flex items-center">
     <span class="folder-action inline-flex" @click="collapsable = !collapsable">
       <div v-if="collapsable" i-ri-folder-add-line />
       <div v-else style="color:var(--va-c-primary)" i-ri-folder-reduce-line /></span>
@@ -43,7 +43,7 @@ const getTitle = (post: Post | any) => {
       <li v-for="post, i in category.posts" :key="i" class="post-list-item" m="l-4">
         <router-link v-if="post.title" :to="post.path || ''" class="inline-flex items-center">
           <div i-ri-file-text-line />
-          <span m="l-1" font="serif black">{{ getTitle(post) }}</span>
+          <span m="l-1">{{ getTitle(post) }}</span>
         </router-link>
       </li>
     </ul>

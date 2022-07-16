@@ -56,7 +56,7 @@ const { hasSidebar } = useSidebar()
   .press-sidebar {
     z-index: 1;
     padding: 1.5rem 1rem;
-    padding-top: var(--pr-nav-height-desktop);
+    padding-top: var(--pr-nav-height);
     width: var(--va-sidebar-width);
     max-width: 100%;
     background-color: var(--va-c-bg-alt);

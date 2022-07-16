@@ -19,7 +19,7 @@ const isHome = useLayout('home')
       'has-sidebar': hasSidebar,
     }"
   >
-    <div w="full" flex="~" p="t-8 x-8">
+    <div w="full" flex="~" p="t-8 x-6 md:x-8">
       <slot name="main">
         <div class="content" m="auto y-0" flex="~ col grow" w="full" p="x-12 lt-md:0">
           <slot name="main-header" />

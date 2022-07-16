@@ -99,6 +99,11 @@ export function useCategory(category?: string, posts: Post[] = []): ParentCatego
     }
   })
 
+  categoryMap.children.forEach((child) => {
+    if ('posts' in child)
+      child.posts.sort((a, b) => (b.top || 0) - (a.top || 0))
+  })
+
   // clear uncategorized
   if (uncategorized!.total === 0)
     categoryMap.children?.delete('Uncategorized')

@@ -69,7 +69,7 @@ function scrollTo(el: HTMLElement, hash: string, smooth = false) {
   }
 
   if (target) {
-    const targetPadding = -72
+    const targetPadding = -64
     const targetTop
       = window.scrollY
       + (target as HTMLElement).getBoundingClientRect().top

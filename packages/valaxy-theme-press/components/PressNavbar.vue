@@ -1,8 +1,9 @@
 <script lang="ts" setup>
-import { useSidebar } from 'valaxy'
+import { isDark, toggleDark, useConfig, useSidebar } from 'valaxy'
+import { useThemeConfig } from '../composables'
 
 defineProps<{
-  isScreenOpen: boolean
+  isScreenOpen?: boolean
 }>()
 
 defineEmits<{
@@ -10,11 +11,35 @@ defineEmits<{
 }>()
 
 const { hasSidebar } = useSidebar()
+
+const config = useConfig()
+const themeConfig = useThemeConfig()
 </script>
 
 <template>
-  <div class="press-navbar" :class="{ 'has-sidebar': hasSidebar }">
-    <div class="container" />
+  <div class="press-navbar flex justify-between items-center px-6 py-4" :class="{ 'has-sidebar': hasSidebar }">
+    <a class="text-xl" href="/" :aria-label="config.title">
+      <span class="md:inline">{{ config.title }}</span>
+    </a>
+    <div class="flex justify-center items-centertext-sm leading-5">
+      <template v-for="(item, i) in themeConfig.nav" :key="i">
+        <a
+          class="hover:text-gray-700"
+          :href="item.link"
+          target="_blank"
+          rel="noopener"
+        >{{ item.text }}</a>
+
+        <span v-if="i !== themeConfig.nav.length - 1" class="mr-2 ml-2">·</span>
+      </template>
+
+      <PressToggleLocale m="x-2" />
+
+      <button m="x-2" type="button" aria-label="Toggle Dark Mode" @click="toggleDark()">
+        <div v-if="!isDark" i-ri-sun-line />
+        <div v-else i-ri-moon-line />
+      </button>
+    </div>
   </div>
 </template>
 
@@ -25,7 +50,7 @@ const { hasSidebar } = useSidebar()
   position: relative;
   border-bottom: 1px solid var(--pr-c-divider-light);
   padding: 0 8px 0 24px;
-  height: var(--pr-nav-height-mobile);
+  height: var(--pr-nav-height);
   transition: border-color 0.5s, background-color 0.5s;
 }
 
@@ -36,11 +61,6 @@ const { hasSidebar } = useSidebar()
 }
 
 @include media('md') {
-  .press-navbar {
-    height: var(--pr-nav-height-desktop);
-    border-bottom: 0;
-  }
-
   .press-navbar.has-sidebar .content {
     margin-right: -32px;
     padding-right: 32px;
