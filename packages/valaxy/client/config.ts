@@ -23,8 +23,8 @@ interface ValaxyContext {
   userRoot: string
 }
 
-export const ValaxySiteConfigSymbol: InjectionKey<ComputedRef<ValaxySiteConfig>> = Symbol('valaxy:config')
-export const ValaxySiteConfigRef = shallowRef<ValaxySiteConfig>(parse<ValaxySiteConfig>(ValaxySiteConfig))
+export const ValaxySiteConfigSymbol: InjectionKey<ComputedRef<ValaxySiteConfig>> = Symbol('valaxy:site')
+export const valaxySiteConfigRef = shallowRef<ValaxySiteConfig>(parse<ValaxySiteConfig>(ValaxySiteConfig))
 
 export const valaxyContextRef = shallowRef<ValaxyContext>(parse<ValaxyContext>(valaxyContext))
 
@@ -32,7 +32,7 @@ export const valaxyContextRef = shallowRef<ValaxyContext>(parse<ValaxyContext>(v
 if (import.meta.hot) {
   // /@valaxyjs/site must be static string
   import.meta.hot.accept('/@valaxyjs/site', (m) => {
-    ValaxySiteConfigRef.value = parse<ValaxySiteConfig>(m.default)
+    valaxySiteConfigRef.value = parse<ValaxySiteConfig>(m.default)
   })
 
   // context
@@ -42,7 +42,7 @@ if (import.meta.hot) {
 }
 
 export function initSite() {
-  return computed(() => ValaxySiteConfigRef.value)
+  return computed(() => valaxySiteConfigRef.value)
 }
 
 export function initContext() {

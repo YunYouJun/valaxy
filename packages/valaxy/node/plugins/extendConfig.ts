@@ -8,7 +8,7 @@ import { getIndexHtml } from '../common'
 
 export function createConfigPlugin(options: ResolvedValaxyOptions): Plugin {
   return {
-    name: 'valaxy:config',
+    name: 'valaxy:site',
 
     config(config) {
       const injection: InlineConfig = {
