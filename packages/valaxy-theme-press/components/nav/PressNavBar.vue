@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { useConfig, useSidebar } from 'valaxy'
+import { useSidebar, useSite } from 'valaxy'
 import { useThemeConfig } from '../../composables'
 import PressSwitchAppearance from './PressSwitchAppearance.vue'
 
@@ -13,7 +13,7 @@ defineEmits<{
 
 const { hasSidebar } = useSidebar()
 
-const config = useConfig()
+const config = useSite()
 const themeConfig = useThemeConfig()
 </script>
 

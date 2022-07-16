@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import { capitalize, computed } from 'vue'
-import { useConfig } from 'valaxy'
+import { useSite } from 'valaxy'
 import { useI18n } from 'vue-i18n'
 
 import pkg from 'valaxy/package.json'
@@ -8,7 +8,7 @@ import { useThemeConfig } from '../composables'
 
 const { t } = useI18n()
 
-const config = useConfig()
+const config = useSite()
 const themeConfig = useThemeConfig()
 
 const year = new Date().getFullYear()

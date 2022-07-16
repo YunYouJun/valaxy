@@ -23,8 +23,7 @@ declare module '*.vue' {
 }
 
 // vite hmr data
-declare module '/@valaxyjs/config' {
-  // import type { ValaxyConfig } from 'valaxy'
+declare module '/@valaxyjs/site' {
   const config: string
   export default config
 }

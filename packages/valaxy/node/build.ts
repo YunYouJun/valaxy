@@ -11,11 +11,10 @@ export async function build(
   options: ResolvedValaxyOptions,
   viteConfig: InlineConfig = {},
 ) {
-  const valaxyConfig = await resolveValaxyConfig(options, viteConfig)
-
-  const inlineConfig = mergeConfig({
-    plugins: await ViteValaxyPlugins(options, valaxyConfig),
-  }, viteConfig)
+  const config = await resolveValaxyConfig(options, viteConfig)
+  const inlineConfig = mergeConfig(config.vite!, {
+    plugins: await ViteValaxyPlugins(options, config),
+  })
 
   await viteBuild(inlineConfig)
 }
@@ -24,10 +23,10 @@ export async function ssgBuild(
   options: ResolvedValaxyOptions,
   viteConfig: InlineConfig = {},
 ) {
-  const valaxyConfig = await resolveValaxyConfig(options, viteConfig)
+  const config = await resolveValaxyConfig(options, viteConfig)
 
   const defaultConfig: InlineConfig = {
-    plugins: await ViteValaxyPlugins(options, valaxyConfig),
+    plugins: await ViteValaxyPlugins(options, config),
   }
 
   defaultConfig.ssgOptions = {
@@ -42,7 +41,7 @@ export async function ssgBuild(
     },
     dirStyle: 'nested',
   }
-  const inlineConfig: InlineConfig = mergeConfig(defaultConfig, viteConfig)
+  const inlineConfig: InlineConfig = mergeConfig(config.vite!, defaultConfig)
 
   await viteSsgBuild({}, inlineConfig)
 }

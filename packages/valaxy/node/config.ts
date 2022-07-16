@@ -6,26 +6,35 @@ import { normalizePath } from 'vite'
 import { loadConfig } from 'unconfig'
 import type { VitePluginConfig as UnoCssConfig } from 'unocss/vite'
 import type { Awaitable } from '@antfu/utils'
-import type { UserConfig, ValaxyConfig } from '../types'
-import type { ResolvedValaxyOptions, ValaxyEntryOptions, ValaxyThemePlugin } from './options'
+import type { UserConfig, ValaxySiteConfig } from '../types'
+import type { ResolvedValaxyOptions, ValaxyConfig, ValaxyEntryOptions } from './options'
 
 /**
- * Type config helper
+ * Type site helper
  */
-export function defineConfig<ThemeConfig>(config: UserConfig<ThemeConfig>) {
+export function defineSite<ThemeConfig>(config: UserConfig<ThemeConfig>) {
   return config
 }
 
 /**
- * Type config helper for custom theme config
+ * Type site helper for custom theme site
  */
-export function defineConfigWithTheme<ThemeConfig>(
+export function defineSiteWithTheme<ThemeConfig>(
   config: UserConfig<ThemeConfig>,
 ) {
   return config
 }
 
-const defaultValaxyConfig: ValaxyConfig = {
+export type ValaxyConfigExport = ValaxyConfig | Promise<ValaxyConfig> | ValaxyConfigFn
+export type ValaxyConfigFn = (options: ResolvedValaxyOptions) => ValaxyConfig | Promise<ValaxyConfig>
+/**
+ * Type valaxy config helper
+ */
+export function defineConfig(config: ValaxyConfigExport) {
+  return config
+}
+
+const defaultSiteConfig: ValaxySiteConfig = {
   mode: 'auto',
   url: '/',
   lang: 'en',
@@ -110,17 +119,17 @@ const defaultValaxyConfig: ValaxyConfig = {
 }
 
 // for user config
-export async function resolveConfig(options: ValaxyEntryOptions = {}) {
+export async function resolveSiteConfig(options: ValaxyEntryOptions = {}) {
   // c12 merge array twice, so i deprecated it
-  // const { config, configFile } = await loadConfig<ValaxyConfig>({
+  // const { config, configFile } = await loadConfig<ValaxySiteConfig>({
   //   name: 'valaxy',
-  //   defaults: defaultValaxyConfig,
+  //   defaults: defaultSiteConfig,
   // })
 
-  const { config: userConfig, sources } = await loadConfig<ValaxyConfig>({
+  const { config: userConfig, sources } = await loadConfig<ValaxySiteConfig>({
     sources: [
       {
-        files: 'valaxy.config',
+        files: 'site.config',
         extensions: ['ts', 'js', 'mjs', 'cjs', 'json'],
       },
     ],
@@ -129,7 +138,7 @@ export async function resolveConfig(options: ValaxyEntryOptions = {}) {
 
   const configFile = normalizePath(sources[0] || '')
 
-  const config = defu(userConfig, defaultValaxyConfig)
+  const config = defu(userConfig, defaultSiteConfig)
   // ensure suffix for cdn prefix
   config.cdn.prefix = ensureSuffix('/', config.cdn.prefix)
 
@@ -158,13 +167,6 @@ export async function resolveConfig(options: ValaxyEntryOptions = {}) {
     configFile,
     theme,
   }
-}
-
-export type ThemeConfigExport = ValaxyThemePlugin | Promise<ValaxyThemePlugin> | ThemeConfigFn
-export type ThemeConfigFn = (options: ResolvedValaxyOptions) => ValaxyThemePlugin | Promise<ValaxyThemePlugin>
-
-export function defineThemePlugin(config: ThemeConfigExport) {
-  return config
 }
 
 export type UnoSetup = () => Awaitable<Partial<UnoCssConfig> | undefined>

@@ -1,10 +1,10 @@
 import fs from 'fs'
 
-import { join, relative } from 'path'
+import { basename, join, relative } from 'path'
 import type { Plugin, ResolvedConfig } from 'vite'
 // import consola from 'consola'
-import { resolveConfig } from '../config'
-import type { ResolvedValaxyOptions, ValaxyPluginOptions, ValaxyServerOptions } from '../options'
+import { resolveSiteConfig } from '../config'
+import type { ResolvedValaxyOptions, ValaxyConfig, ValaxyServerOptions } from '../options'
 import { resolveImportPath, slash, toAtFS } from '../utils'
 import { createMarkdownToVueRenderFn } from '../markdown/markdownToVue'
 import type { PageDataPayload } from '../../types'
@@ -63,26 +63,26 @@ function generateLocales(roots: string[]) {
   return imports.join('\n')
 }
 
-export function createValaxyPlugin(options: ResolvedValaxyOptions, pluginOptions: ValaxyPluginOptions, serverOptions: ValaxyServerOptions = {}): Plugin {
+export function createValaxyPlugin(options: ResolvedValaxyOptions, valaxyConfig: ValaxyConfig, serverOptions: ValaxyServerOptions = {}): Plugin {
   const valaxyPrefix = '/@valaxy'
 
-  let valaxyConfig = options.config
+  let siteConfig = options.config
 
   const roots = options.roots
 
   let markdownToVue: Awaited<ReturnType<typeof createMarkdownToVueRenderFn>>
   let hasDeadLinks = false
-  let config: ResolvedConfig
+  let viteConfig: ResolvedConfig
 
   return {
     name: 'valaxy:loader',
     enforce: 'pre',
 
     async configResolved(resolvedConfig) {
-      config = resolvedConfig
+      viteConfig = resolvedConfig
       markdownToVue = await createMarkdownToVueRenderFn(
         options.userRoot,
-        pluginOptions.markdown || {
+        valaxyConfig.markdown || {
           toc: {
             includeLevel: [1, 2, 3, 4],
             listType: 'ol',
@@ -90,8 +90,8 @@ export function createValaxyPlugin(options: ResolvedValaxyOptions, pluginOptions
           katex: {},
         },
         options.pages,
-        config.define,
-        config.command === 'build',
+        viteConfig.define,
+        viteConfig.command === 'build',
         options.config.lastUpdated,
       )
     },
@@ -111,9 +111,9 @@ export function createValaxyPlugin(options: ResolvedValaxyOptions, pluginOptions
     },
 
     load(id) {
-      if (id === '/@valaxyjs/config')
+      if (id === '/@valaxyjs/site')
         // stringify twice for \"
-        return `export default ${JSON.stringify(JSON.stringify(valaxyConfig))}`
+        return `export default ${JSON.stringify(JSON.stringify(siteConfig))}`
 
       if (id === '/@valaxyjs/context') {
         return `export default ${JSON.stringify(JSON.stringify({
@@ -160,7 +160,7 @@ export function createValaxyPlugin(options: ResolvedValaxyOptions, pluginOptions
         const { vueSrc, deadLinks, includes } = await markdownToVue(
           code,
           id,
-          config.publicDir,
+          viteConfig.publicDir,
         )
         if (deadLinks.length)
           hasDeadLinks = true
@@ -181,18 +181,22 @@ export function createValaxyPlugin(options: ResolvedValaxyOptions, pluginOptions
     },
 
     async handleHotUpdate(ctx) {
-      // handle valaxy.config.ts hmr
+      // handle site.config.ts hmr
       const { file, server, read } = ctx
 
-      if (file === options.configFile) {
-        const { config } = await resolveConfig()
+      const fileName = basename(file)
+      const isSiteConfig = fileName.startsWith('site.config')
+      const isValaxyConfig = fileName.startsWith('valaxy.config')
 
-        serverOptions.onConfigReload?.(config, options.config)
+      if (isSiteConfig || isValaxyConfig) {
+        const { config } = await resolveSiteConfig()
+
+        serverOptions.onConfigReload?.(config, options.config, isValaxyConfig)
         Object.assign(options.config, config)
 
-        valaxyConfig = config
+        siteConfig = config
 
-        const moduleIds = ['/@valaxyjs/config', '/@valaxyjs/context']
+        const moduleIds = ['/@valaxyjs/site', '/@valaxyjs/context']
         const moduleEntries = [
           ...Array.from(moduleIds).map(id => server.moduleGraph.getModuleById(id)),
         ].filter(<T>(item: T): item is NonNullable<T> => !!item)
