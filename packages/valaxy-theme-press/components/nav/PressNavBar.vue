@@ -1,6 +1,7 @@
 <script lang="ts" setup>
-import { isDark, toggleDark, useConfig, useSidebar } from 'valaxy'
+import { useConfig, useSidebar } from 'valaxy'
 import { useThemeConfig } from '../../composables'
+import PressSwitchAppearance from './PressSwitchAppearance.vue'
 
 defineProps<{
   isScreenOpen?: boolean
@@ -34,11 +35,7 @@ const themeConfig = useThemeConfig()
       </template>
 
       <PressToggleLocale m="x-2" />
-
-      <button m="x-2" type="button" aria-label="Toggle Dark Mode" @click="toggleDark()">
-        <div v-if="!isDark" i-ri-sun-line />
-        <div v-else i-ri-moon-line />
-      </button>
+      <PressSwitchAppearance m="l-2" />
     </div>
   </div>
 </template>
