@@ -3,7 +3,7 @@ import { isDark, toggleDark } from 'valaxy'
 </script>
 
 <template>
-  <button class="switch switchAppearance" type="button" aria-label="Toggle Dark Mode" @click="toggleDark()">
+  <button class="switch switch-appearance" type="button" aria-label="Toggle Dark Mode" @click="toggleDark()">
     <span class="check">
       <span class="icon-wrap">
         <div v-if="!isDark" class="icon" i-ri-sun-line />
@@ -65,7 +65,7 @@ import { isDark, toggleDark } from 'valaxy'
   background-color: rgba(255, 255, 255, 0.87);
 }
 
-.dark .switchAppearance :deep(.check) {
+.dark .switch-appearance :deep(.check) {
   transform: translateX(18px);
 }
 </style>

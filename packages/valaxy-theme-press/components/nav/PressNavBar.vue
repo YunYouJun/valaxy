@@ -35,7 +35,7 @@ const themeConfig = useThemeConfig()
       </template>
 
       <PressToggleLocale m="x-2" />
-      <PressSwitchAppearance />
+      <PressSwitchAppearance m="l-2" />
     </div>
   </div>
 </template>
