@@ -16,6 +16,9 @@
   --pr-z-index-local-nav: 9;
   --pr-z-index-backdrop: 10;
   --pr-z-index-sidebar: 11;
+
+  --pr-divider-switch: rgba(60, 60, 60, 0.29);
+  --pr-bg-switch: #f1f1f1;
 }
 
 .dark {
@@ -23,4 +26,7 @@
   --pr-aside-text-2: #ebebeb99;
 
   --pr-aside-divider: rgba(84, 84, 84, 0.48);
+
+  --pr-divider-switch: rgba(84, 84, 84, 0.65);
+  --pr-bg-switch: #3a3a3a;
 }
