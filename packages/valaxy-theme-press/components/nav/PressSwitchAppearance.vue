@@ -21,8 +21,8 @@ import { isDark, toggleDark } from 'valaxy'
   width: 40px;
   height: 22px;
   border-radius: 11px;
-  border: 1px solid var(--pr-divider-switch);
-  background-color: var(--pr-bg-switch);
+  border: 1px solid var(--pr-switch-divider);
+  background-color: var(--pr-switch-bg);
   transition: border-color 0.25s, background-color 0.25s;
 }
 
@@ -38,7 +38,7 @@ import { isDark, toggleDark } from 'valaxy'
   height: 18px;
   border-radius: 50%;
   background-color: #ffffff;
-  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.04), 0 1px 2px rgba(0, 0, 0, 0.06);;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.04), 0 1px 2px rgba(0, 0, 0, 0.06);
   transition: background-color 0.25s, transform 0.25s;
 }
 
