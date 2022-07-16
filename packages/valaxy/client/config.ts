@@ -23,7 +23,7 @@ interface ValaxyContext {
   userRoot: string
 }
 
-export const ValaxySiteConfigSymbol: InjectionKey<ComputedRef<ValaxySiteConfig>> = Symbol('valaxy:site')
+export const valaxySiteConfigSymbol: InjectionKey<ComputedRef<ValaxySiteConfig>> = Symbol('valaxy:site')
 export const valaxySiteConfigRef = shallowRef<ValaxySiteConfig>(parse<ValaxySiteConfig>(ValaxySiteConfig))
 
 export const valaxyContextRef = shallowRef<ValaxyContext>(parse<ValaxyContext>(valaxyContext))
@@ -55,7 +55,7 @@ export function initContext() {
  * @returns
  */
 export function useSite<ThemeConfig = any>() {
-  const config = inject<ComputedRef<ValaxySiteConfig<ThemeConfig>>>(ValaxySiteConfigSymbol)
+  const config = inject<ComputedRef<ValaxySiteConfig<ThemeConfig>>>(valaxySiteConfigSymbol)
   if (!config)
     throw new Error('[Valaxy] config not properly injected in app')
   return config!
