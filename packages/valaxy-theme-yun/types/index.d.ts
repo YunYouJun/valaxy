@@ -1,3 +1,5 @@
+export * from '../composables'
+
 export namespace YunTheme {
   export type Config = ThemeConfig
   export type Sidebar = any

@@ -1,4 +1,5 @@
-export * from './home'
+export * from '../composables'
+export * from './home.d'
 
 export namespace DocsTheme {
   export type Config = ThemeConfig

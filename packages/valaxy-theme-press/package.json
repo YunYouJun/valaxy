@@ -14,19 +14,10 @@
     "url": "https://github.com/YunYouJun/valaxy/tree/main/packages/valaxy-theme-press"
   },
   "exports": {
-    ".": {
-      "require": "./dist/index.js",
-      "import": "./dist/index.mjs"
-    },
     "./*": "./*"
   },
-  "main": "dist/index.js",
-  "module": "dist/index.mjs",
-  "types": "dist/index.d.ts",
-  "scripts": {
-    "build": "rimraf dist && tsup",
-    "dev": "tsup --watch"
-  },
+  "main": "node/index.ts",
+  "types": "types/index.d.ts",
   "dependencies": {
     "@docsearch/css": "^3.1.1",
     "@docsearch/js": "^3.1.1"

@@ -12,6 +12,7 @@ import type { ValaxySiteConfig } from '../types'
 import { resolveSiteConfig } from './config'
 import { resolveImportPath } from './utils'
 import type { MarkdownOptions } from './markdown'
+import { getThemeRoot } from './utils/theme'
 
 // for cli entry
 export interface ValaxyEntryOptions {
@@ -52,6 +53,11 @@ export interface ValaxyConfig {
 export type ValaxyPluginLike = ValaxyConfig | ValaxyConfig[] | false | null | undefined
 export type ValaxyPluginOption = ValaxyPluginLike | string | [string, any]
 
+export interface ThemeSetup {
+  defaultThemeConfig?: Record<string, any>
+  generateSafelist?: (themeConfig: Record<string, any>) => string[]
+}
+
 export interface ResolvedValaxyOptions<T = Record<string, any>> {
   mode: 'dev' | 'build'
   /**
@@ -77,6 +83,7 @@ export interface ResolvedValaxyOptions<T = Record<string, any>> {
    */
   roots: string[]
   theme: string
+  themeSetup: ThemeSetup
   /**
    * Valaxy Config
    */
@@ -94,33 +101,13 @@ export interface ValaxyServerOptions {
 
 const debug = _debug('valaxy:options')
 
-export function isPath(name: string) {
-  return name.startsWith('/') || /^\.\.?[\/\\]/.test(name)
-}
-
-/**
- * get theme roots
- * @param name
- * @param entry
- * @returns
- */
-export function getThemeRoot(name: string, entry: string) {
-  if (!name)
-    return ''
-
-  if (isPath(name))
-    return resolve(dirname(entry), name)
-  else
-    return dirname(resolveImportPath(`valaxy-theme-${name}/package.json`) || '')
-}
-
 // for cli options
 export async function resolveOptions(options: ValaxyEntryOptions, mode: ResolvedValaxyOptions['mode'] = 'dev') {
   const pkgRoot = dirname(resolveImportPath('valaxy/package.json', true))
   const clientRoot = resolve(pkgRoot, 'client')
   const userRoot = resolve(options.userRoot || process.cwd())
 
-  const { config: siteConfig, configFile, theme } = await resolveSiteConfig(options)
+  const { config: siteConfig, configFile, theme, themeSetup } = await resolveSiteConfig(options)
   const themeRoot = getThemeRoot(theme, userRoot)
 
   const roots = uniq([clientRoot, themeRoot, userRoot])
@@ -146,6 +133,7 @@ export async function resolveOptions(options: ValaxyEntryOptions, mode: Resolved
     themeRoot,
     roots,
     theme,
+    themeSetup,
     config: siteConfig,
     configFile: configFile || '',
     pages,

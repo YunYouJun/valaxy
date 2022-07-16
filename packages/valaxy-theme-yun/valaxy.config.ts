@@ -1,8 +1,9 @@
 import type { ResolvedValaxyOptions } from 'valaxy'
 import { defineConfig } from 'valaxy/node'
 import type { Plugin } from 'vite'
+import type { ThemeConfig } from './types'
 
-function ThemeYunVitePlugin(options: ResolvedValaxyOptions): Plugin {
+function ThemeVitePlugin(options: ResolvedValaxyOptions<ThemeConfig>): Plugin {
   const themeConfig = options.config.themeConfig
   return {
     name: 'valaxy-theme-yun',
@@ -25,10 +26,10 @@ function ThemeYunVitePlugin(options: ResolvedValaxyOptions): Plugin {
   }
 }
 
-const config = defineConfig((options) => {
+const config = defineConfig<ThemeConfig>((options) => {
   return {
     vite: {
-      plugins: [ThemeYunVitePlugin(options)],
+      plugins: [ThemeVitePlugin(options)],
     },
   }
 })

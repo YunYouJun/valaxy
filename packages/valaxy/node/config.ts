@@ -1,4 +1,5 @@
 // import { loadConfig } from 'c12'
+import path from 'path'
 import fs from 'fs-extra'
 import defu from 'defu'
 import { ensureSuffix } from '@antfu/utils'
@@ -6,9 +7,10 @@ import { normalizePath } from 'vite'
 import { loadConfig } from 'unconfig'
 import type { VitePluginConfig as UnoCssConfig } from 'unocss/vite'
 import type { Awaitable } from '@antfu/utils'
+import jiti from 'jiti'
 import type { UserConfig, ValaxySiteConfig } from '../types'
-import type { ResolvedValaxyOptions, ValaxyConfig, ValaxyEntryOptions } from './options'
-
+import type { ResolvedValaxyOptions, ThemeSetup, ValaxyConfig, ValaxyEntryOptions } from './options'
+import { getThemeRoot } from './utils/theme'
 /**
  * Type site helper
  */
@@ -143,12 +145,18 @@ export async function resolveSiteConfig(options: ValaxyEntryOptions = {}) {
   config.cdn.prefix = ensureSuffix('/', config.cdn.prefix)
 
   const theme = options.theme || config.theme || 'yun'
+  let themeSetup: ThemeSetup = {}
 
   try {
-    const { defaultThemeConfig } = await import(`valaxy-theme-${theme}`)
-    config.themeConfig = defu(config.themeConfig, defaultThemeConfig)
+    const themeEntry = path.resolve(getThemeRoot(theme), 'node/index.ts')
+    if (!(await fs.pathExists(themeEntry)))
+      throw new Error('theme entry not found')
+
+    themeSetup = jiti(__filename)(themeEntry)
+    config.themeConfig = defu(config.themeConfig, themeSetup.defaultThemeConfig || {})
   }
   catch (e) {
+    console.error(e)
     console.error(`valaxy-theme-${theme} doesn't have default config`)
   }
 
@@ -166,6 +174,7 @@ export async function resolveSiteConfig(options: ValaxyEntryOptions = {}) {
     config,
     configFile,
     theme,
+    themeSetup,
   }
 }
 

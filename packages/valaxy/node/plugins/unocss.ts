@@ -13,13 +13,11 @@ import {
   transformerDirectives,
   transformerVariantGroup,
 } from 'unocss'
-import type { ValaxySiteConfig } from 'valaxy'
 import type { ResolvedValaxyOptions, ValaxyConfig } from '../options'
 import { loadSetups } from './setupNode'
 
-export const createSafelist = async (config: ValaxySiteConfig, pluginOptions: ValaxyConfig = {}) => {
-  const { generateSafelist } = await import(`valaxy-theme-${config.theme}`)
-
+export const createSafelist = async (options: ResolvedValaxyOptions, pluginOptions: ValaxyConfig = {}) => {
+  const { config } = options
   const safeIcons: string[] = [
     'i-ri-clipboard-line',
 
@@ -30,13 +28,9 @@ export const createSafelist = async (config: ValaxySiteConfig, pluginOptions: Va
     'i-ri-cloud-line',
   ].concat(pluginOptions.unocss?.safelist || [])
 
-  let themeSafelist: string[] = []
-  if (typeof generateSafelist === 'function')
-    themeSafelist = generateSafelist(config.themeConfig)
-
   const safelist = 'animate-fade-in m-auto text-left'.split(' ').concat([
     'rotate-y-180',
-  ]).concat(safeIcons).concat(themeSafelist)
+  ]).concat(safeIcons)
 
   // generate icon safelist
   if (config.social.length)
@@ -46,7 +40,12 @@ export const createSafelist = async (config: ValaxySiteConfig, pluginOptions: Va
   if (config.sponsor.methods.length)
     config.sponsor.methods.forEach(item => safelist.push(item.icon))
 
-  return safelist
+  let themeSafelist: string[] = []
+  const generateSafelist = options.themeSetup.generateSafelist
+  if (typeof generateSafelist === 'function')
+    themeSafelist = generateSafelist(options.config.themeConfig)
+
+  return safelist.concat(themeSafelist)
 }
 
 export const createUnocssConfig = async (options: ResolvedValaxyOptions, pluginOptions: ValaxyConfig) => {
@@ -93,7 +92,7 @@ export const createUnocssConfig = async (options: ResolvedValaxyOptions, pluginO
       transformerDirectives(),
       transformerVariantGroup(),
     ],
-    safelist: await createSafelist(options.config),
+    safelist: await createSafelist(options),
   }
 
   return unocssConfig

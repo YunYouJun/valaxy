@@ -1,13 +1,15 @@
 <script lang="ts" setup>
 import { useAppStore, useLayout, useSite } from 'valaxy'
+import { useThemeConfig } from '../composables'
 
 const app = useAppStore()
 const config = useSite()
+const themeConfig = useThemeConfig()
 const isHome = useLayout('home')
 </script>
 
 <template>
-  <YunBg v-if="config.themeConfig.bg_image.enable" />
+  <YunBg v-if="themeConfig.bg_image.enable" />
 
   <main class="yun-main justify-center items-center" :class="(isHome && !app.isSidebarOpen) && 'pl-0'" flex="~ col" w="full">
     <ValaxySidebar>
