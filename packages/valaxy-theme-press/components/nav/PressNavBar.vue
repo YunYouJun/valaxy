@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { isDark, toggleDark, useSidebar, useSite } from 'valaxy'
+import { useSidebar, useSite } from 'valaxy'
 import { useThemeConfig } from '../../composables'
 
 defineProps<{
