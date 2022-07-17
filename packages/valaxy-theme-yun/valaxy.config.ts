@@ -1,5 +1,5 @@
 import type { ResolvedValaxyOptions } from 'valaxy'
-import { defineTheme } from 'valaxy/node'
+import { defineTheme } from 'valaxy'
 import type { Plugin } from 'vite'
 import type { ThemeConfig } from './types'
 import { defaultThemeConfig, generateSafelist } from './node'

@@ -1,10 +1,11 @@
 import type { ResolvedValaxyOptions } from 'valaxy'
-import { defineConfig } from 'valaxy/node'
+import { defineTheme } from 'valaxy'
 import type { Plugin } from 'vite'
 import type { ThemeConfig } from './types'
 
 function ThemeVitePlugin(options: ResolvedValaxyOptions<ThemeConfig>): Plugin {
-  const themeConfig = options.config.themeConfig
+  const themeConfig = options.config.themeConfig!
+
   return {
     name: 'valaxy-theme-press',
     enforce: 'pre',
@@ -26,12 +27,10 @@ function ThemeVitePlugin(options: ResolvedValaxyOptions<ThemeConfig>): Plugin {
   }
 }
 
-const config = defineConfig<ThemeConfig>((options) => {
+export default defineTheme<ThemeConfig>((options) => {
   return {
     vite: {
       plugins: [ThemeVitePlugin(options)],
     },
   }
 })
-
-export default config

@@ -8,7 +8,7 @@ import { computed, inject, readonly, shallowRef } from 'vue'
 // fix build caused by pnpm
 // This is likely not portable. A type annotation is necessary.
 // https://github.com/microsoft/TypeScript/issues/42873
-import type { ValaxySiteConfig, ValaxyThemeConfig } from 'valaxy/types'
+import type { DefaultThemeConfig, SiteConfig as ValaxySiteConfig } from 'valaxy/types'
 
 /**
  * parse valaxy config
@@ -55,7 +55,7 @@ export function initContext() {
  * @public
  * @returns
  */
-export function useSite<ThemeConfig = ValaxyThemeConfig>() {
+export function useSite<ThemeConfig = DefaultThemeConfig>() {
   const config = inject<ComputedRef<ValaxySiteConfig<ThemeConfig>>>(valaxySiteConfigSymbol)
   if (!config)
     throw new Error('[Valaxy] site config not properly injected in app')
@@ -67,7 +67,7 @@ export function useSite<ThemeConfig = ValaxyThemeConfig>() {
  * @public
  * @returns
  */
-export function useConfig<ThemeConfig = ValaxyThemeConfig>() {
+export function useConfig<ThemeConfig = DefaultThemeConfig>() {
   return useSite<ThemeConfig>()
 }
 
@@ -78,7 +78,7 @@ export function useConfig<ThemeConfig = ValaxyThemeConfig>() {
  * @internal
  * @returns
  */
-export function useThemeConfig<ThemeConfig = ValaxyThemeConfig>() {
+export function useThemeConfig<ThemeConfig = DefaultThemeConfig>() {
   const config = useSite<ThemeConfig>()
   return computed(() => config!.value.themeConfig)
 }

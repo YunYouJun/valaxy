@@ -1,4 +1,4 @@
-import type { ResolvedValaxyOptions } from 'valaxy/node'
+import type { ResolvedValaxyOptions } from 'valaxy'
 import type { ThemeUserConfig } from '../types'
 
 /**

@@ -10,7 +10,6 @@ import { createServer } from '../server'
 import type { ResolvedValaxyOptions } from '../options'
 import { version } from '../../package.json'
 import { mergeViteConfigs } from '../common'
-import type { ValaxyConfigExtendKey } from '../config'
 
 let server: ViteDevServer | undefined
 
@@ -40,15 +39,14 @@ export function printInfo(options: ResolvedValaxyOptions, port?: number, remote?
   console.log()
 }
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-const CONFIG_RESTART_FIELDS: ValaxyConfigExtendKey[] = [
-  'vite',
-  'vue',
-  'unocss',
-  'unocssPresets',
-  'markdown',
-  'extendMd',
-]
+// const CONFIG_RESTART_FIELDS: ValaxyConfigExtendKey[] = [
+//   'vite',
+//   'vue',
+//   'unocss',
+//   'unocssPresets',
+//   'markdown',
+//   'extendMd',
+// ]
 
 export async function initServer(options: ResolvedValaxyOptions, viteConfig: InlineConfig) {
   if (server)

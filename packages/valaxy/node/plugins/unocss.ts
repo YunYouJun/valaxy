@@ -13,7 +13,8 @@ import {
   transformerDirectives,
   transformerVariantGroup,
 } from 'unocss'
-import type { ResolvedValaxyOptions, ValaxyConfig } from '../options'
+import type { ResolvedValaxyOptions } from '../options'
+import type { ValaxyConfig } from '../types'
 import { loadSetups } from './setupNode'
 
 export const createSafelist = async (options: ResolvedValaxyOptions, pluginOptions: ValaxyConfig = {}) => {
@@ -33,12 +34,13 @@ export const createSafelist = async (options: ResolvedValaxyOptions, pluginOptio
   ]).concat(safeIcons)
 
   // generate icon safelist
-  if (config.social.length)
-    config.social.forEach(item => safelist.push(item.icon))
+  if (config.social?.length)
+    config.social.forEach(item => safelist.push(item?.icon || ''))
 
   // sponsor icon
-  if (config.sponsor.methods.length)
-    config.sponsor.methods.forEach(item => safelist.push(item.icon))
+  const methods = config.sponsor?.methods || []
+  if (methods.length)
+    methods.forEach(item => safelist.push(item?.icon || ''))
 
   return safelist
 }
