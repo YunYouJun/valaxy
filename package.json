@@ -45,7 +45,7 @@
     "@types/resolve": "^1.20.2",
     "@types/semver": "^7.3.10",
     "cross-env": "^7.0.3",
-    "eslint": "^8.19.0",
+    "eslint": "^8.20.0",
     "lint-staged": "^13.0.3",
     "prompts": "^2.4.2",
     "rimraf": "^3.0.2",
@@ -57,7 +57,7 @@
     "valaxy-theme-press": "workspace:*",
     "valaxy-theme-yun": "workspace:*",
     "vitest": "^0.18.1",
-    "vue-tsc": "0.38.5",
+    "vue-tsc": "0.38.8",
     "zx": "^7.0.7"
   },
   "simple-git-hooks": {

@@ -75,7 +75,7 @@ const b = a
 > `valaxy-theme-yun` 支持
 
 ```ts
-// site.config.ts
+// valaxy.config.ts
 export default {
   themeConfig: {
     colors: {
@@ -139,9 +139,9 @@ Katex is enabled by default.
 :::
 
 ```ts
-// site.config.ts
-import { defineSite } from 'valaxy'
-export default defineSite({
+// valaxy.config.ts
+import { defineConfig } from 'valaxy'
+export default defineConfig({
   features: {
     // disable katex
     katex: false

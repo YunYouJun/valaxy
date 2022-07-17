@@ -1,8 +1,17 @@
 import { defineConfig } from 'valaxy'
+
 const safelist = [
   'i-ri-home-line',
 ]
+
 export default defineConfig({
+  title: 'Valaxy',
+  url: 'https://valaxy.site',
+  description: 'Valaxy Site Docs',
+
+  theme: 'press',
+  themeConfig: {},
+
   vite: {
     base: '/',
   },

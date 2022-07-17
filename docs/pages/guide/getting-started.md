@@ -80,7 +80,7 @@ See `http://localhost:4859/`, have fun!
 
 ### Config
 
-Modify `site.config.ts` to custom your blog.
+Modify `valaxy.config.ts` to custom your blog.
 
 English & Chinese Docs is coming!
 

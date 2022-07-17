@@ -17,9 +17,9 @@ npm i valaxy-theme-yun
 配置 `theme` 字段为主题名称，如 `yun`。
 
 ```ts
-// site.config.ts
-import { defineSite } from 'valaxy'
-export default defineSite({
+// valaxy.config.ts
+import { defineConfig } from 'valaxy'
+export default defineConfig({
   theme: 'yun'
 })
 ```
@@ -29,9 +29,9 @@ export default defineSite({
 参见对应主题文档，配置 `themeConfig`。
 
 ```ts
-// site.config.ts
-import { defineSite } from 'valaxy'
-export default defineSite({
+// valaxy.config.ts
+import { defineConfig } from 'valaxy'
+export default defineConfig({
   theme: 'yun',
   themeConfig: {
     // ...

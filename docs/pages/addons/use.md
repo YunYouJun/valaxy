@@ -15,9 +15,9 @@ pnpm add [valaxy-addon-package1] [valaxy-addon-package2]
 使用
 
 ```ts
-// site.config.ts
-import { defineSite } from 'valaxy'
-export default defineSite({
+// valaxy.config.ts
+import { defineConfig } from 'valaxy'
+export default defineConfig({
   addons: [
     'valaxy-addon-package1',
     // pass addon options

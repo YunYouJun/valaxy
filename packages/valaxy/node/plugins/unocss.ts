@@ -14,10 +14,9 @@ import {
   transformerVariantGroup,
 } from 'unocss'
 import type { ResolvedValaxyOptions } from '../options'
-import type { ValaxyConfig } from '../types'
 import { loadSetups } from './setupNode'
 
-export const createSafelist = async (options: ResolvedValaxyOptions, pluginOptions: ValaxyConfig = {}) => {
+export const createSafelist = async (options: ResolvedValaxyOptions) => {
   const { config } = options
   const safeIcons: string[] = [
     'i-ri-clipboard-line',
@@ -27,7 +26,7 @@ export const createSafelist = async (options: ResolvedValaxyOptions, pluginOptio
     'i-ri-price-tag-3-line',
 
     'i-ri-cloud-line',
-  ].concat(pluginOptions.unocss?.safelist || [])
+  ].concat(options.config.unocss?.safelist || [])
 
   const safelist = 'animate-fade-in m-auto text-left'.split(' ').concat([
     'rotate-y-180',
@@ -45,7 +44,9 @@ export const createSafelist = async (options: ResolvedValaxyOptions, pluginOptio
   return safelist
 }
 
-export const createUnocssConfig = async (options: ResolvedValaxyOptions, pluginOptions: ValaxyConfig) => {
+export const createUnocssConfig = async (options: ResolvedValaxyOptions) => {
+  const { config: pluginOptions } = options
+
   const unocssConfig: VitePluginConfig = {
     shortcuts: [
       ['btn', 'px-4 py-1 rounded inline-block bg-sky-600 text-white cursor-pointer hover:bg-sky-700 disabled:cursor-default disabled:bg-gray-600 disabled:opacity-50'],
@@ -95,9 +96,9 @@ export const createUnocssConfig = async (options: ResolvedValaxyOptions, pluginO
   return unocssConfig
 }
 
-export const createUnocssPlugin = async (options: ResolvedValaxyOptions, pluginOptions: ValaxyConfig) => {
-  const { unocss: unoOptions } = pluginOptions
-  const defaultConfig = await createUnocssConfig(options, pluginOptions)
+export const createUnocssPlugin = async (options: ResolvedValaxyOptions) => {
+  const { unocss: unoOptions } = options.config
+  const defaultConfig = await createUnocssConfig(options)
 
   const { themeRoot, clientRoot, roots } = options
 

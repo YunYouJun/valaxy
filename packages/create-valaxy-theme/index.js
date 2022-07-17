@@ -36,7 +36,7 @@ async function init() {
   console.log(`  ${bold('Check it')}:`)
   console.log()
   console.log(`- Change ${bold('author')} name in ${yellow('LICENSE')} & ${green('package.json')} & ${blue('.github')}`)
-  console.log(`- Change ${blue('site.config.ts')} theme: ${yellow('starter')} to ${cyan(`${themeName}`)}`)
+  console.log(`- Change ${blue('valaxy.config.ts')} theme: ${yellow('starter')} to ${cyan(`${themeName}`)}`)
   console.log(`- Rename ${yellow(`valaxy-theme-${themeName}`)} to ${cyan(`valaxy-theme-${themeName}`)}`)
   console.log()
   console.log(`  ${cyan('✨')}`)

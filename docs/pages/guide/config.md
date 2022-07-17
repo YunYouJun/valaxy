@@ -27,9 +27,9 @@ export interface SocialLink {
 示例：
 
 ```ts
-// site.config.ts
+// valaxy.config.ts
 import { defineSite } from 'valaxy'
-export default defineSite({
+export default defineConfig({
   social: [
     {
       name: 'RSS',
@@ -58,9 +58,9 @@ export default defineSite({
 > 在每篇文章末尾，展示赞助（打赏）信息。
 
 ```ts
-// site.config.ts
+// valaxy.config.ts
 import { defineSite } from 'valaxy'
-export default defineSite({
+export default defineConfig({
   sponsor: {
     enable: true,
     methods: [

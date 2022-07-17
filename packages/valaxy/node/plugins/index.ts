@@ -183,9 +183,9 @@ export function createValaxyPlugin(options: ResolvedValaxyOptions, serverOptions
     },
 
     async handleHotUpdate(ctx) {
-      // handle site.config.ts hmr
       const { file, server, read } = ctx
 
+      // handle valaxy.config.ts hmr
       if (file === options.configFile) {
         const { config } = await resolveOptions({ userRoot: options.userRoot })
 

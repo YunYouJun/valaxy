@@ -28,7 +28,7 @@ export async function ViteValaxyPlugins(
   const { roots, config: valaxyConfig } = options
 
   // const MarkdownPlugin = createMarkdownPlugin(options)
-  const UnocssPlugin = await createUnocssPlugin(options, valaxyConfig)
+  const UnocssPlugin = await createUnocssPlugin(options)
 
   const ValaxyPlugin = createValaxyPlugin(options, serverOptions)
 
