@@ -10,6 +10,8 @@ import { createServer } from '../server'
 import type { ResolvedValaxyOptions } from '../options'
 import { version } from '../../package.json'
 import { mergeViteConfigs } from '../common'
+import type { ValaxyConfigExtendKey } from '../config'
+
 let server: ViteDevServer | undefined
 
 export function printInfo(options: ResolvedValaxyOptions, port?: number, remote?: string | boolean) {
@@ -38,6 +40,16 @@ export function printInfo(options: ResolvedValaxyOptions, port?: number, remote?
   console.log()
 }
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+const CONFIG_RESTART_FIELDS: ValaxyConfigExtendKey[] = [
+  'vite',
+  'vue',
+  'unocss',
+  'unocssPresets',
+  'markdown',
+  'extendMd',
+]
+
 export async function initServer(options: ResolvedValaxyOptions, viteConfig: InlineConfig) {
   if (server)
     await server.close()
@@ -49,7 +61,7 @@ export async function initServer(options: ResolvedValaxyOptions, viteConfig: Inl
 
   try {
     server = await createServer(options, viteConfigs, {
-      async onConfigReload(newSiteConfig, siteConfig, force = false) {
+      async onConfigReload(newConfig, config, force = false) {
         if (force) {
           consola.info('[valaxy]', `${yellow('force')} reload the server`)
           initServer(options, viteConfig)
@@ -57,13 +69,18 @@ export async function initServer(options: ResolvedValaxyOptions, viteConfig: Inl
 
         let reload = false
 
-        if (newSiteConfig.theme !== siteConfig.theme)
+        if (newConfig.theme !== config.theme)
           reload = true
 
         // consola.info('Find new icon, reload server...')
         // consola.info(`If you do not want to reload, write icon name in ${yellow('vite.config.ts')} ${green('valaxy.unocss.safelist')}.`)
         // console.log()
         // reload = true
+
+        // if (CONFIG_RESTART_FIELDS.some(i => !equal(newConfig[i], config[i]))) {
+        //   reload = true
+        //   console.log(yellow('\n  restarting on config change\n'))
+        // }
 
         if (reload)
           initServer(options, viteConfig)

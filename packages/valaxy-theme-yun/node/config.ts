@@ -104,5 +104,3 @@ export const defaultThemeConfig: ThemeConfig = {
     },
   },
 }
-
-export default defaultThemeConfig

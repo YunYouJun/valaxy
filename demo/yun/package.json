@@ -1,5 +1,8 @@
 {
   "name": "yun-demo",
+  "slidev": {
+    "theme": "yun"
+  },
   "scripts": {
     "build": "npm run build:ssg && npm run rss",
     "build:spa": "valaxy build",

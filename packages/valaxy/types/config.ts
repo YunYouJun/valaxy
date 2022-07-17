@@ -1,4 +1,4 @@
-export type ValaxyThemeConfig = Record<string, any>
+export type DefaultThemeConfig = Record<string, any>
 
 export interface SocialLink {
   /**
@@ -25,8 +25,8 @@ export interface AlgoliaSearchOptions {
   initialQuery?: string
 }
 
-// packages/valaxy/node/config.ts
-export interface ValaxySiteConfig<T = ValaxyThemeConfig> {
+// shared with valaxy node and client
+export interface SiteConfig<T = DefaultThemeConfig> {
   /**
    * enable auto (light/dark mode)
    * @default 'auto'
@@ -226,5 +226,4 @@ export type PartialDeep<T> = {
  * Valaxy User Config
  * @description Valaxy 用户配置
  */
-export type UserConfig<ThemeConfig = ValaxyThemeConfig> = PartialDeep<ValaxySiteConfig<ThemeConfig>>
-
+export type UserSiteConfig<ThemeConfig = DefaultThemeConfig> = PartialDeep<SiteConfig<ThemeConfig>>

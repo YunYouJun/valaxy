@@ -1,8 +1,8 @@
 <script lang="ts" setup>
-import { useSite } from 'valaxy'
+import { useConfig } from 'valaxy'
 import { useRouter } from 'vue-router'
 
-const config = useSite()
+const config = useConfig()
 const router = useRouter()
 </script>
 

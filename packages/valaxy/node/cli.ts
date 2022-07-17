@@ -66,7 +66,7 @@ cli.command(
     const port = userPort || await findFreePort(4859)
     const options = await resolveOptions({ userRoot: root })
 
-    const viteConfig: InlineConfig = {
+    const viteConfig: InlineConfig = mergeConfig({
       // avoid load userRoot/vite.config.ts repeatedly
       configFile: path.resolve(options.clientRoot, 'vite.config.ts'),
       server: {
@@ -81,7 +81,8 @@ cli.command(
         host: remote ? '0.0.0.0' : 'localhost',
       },
       logLevel: log as LogLevel,
-    }
+    }, options.config.vite || {})
+
     await initServer(options, viteConfig)
     printInfo(options, port, remote)
 
@@ -135,8 +136,9 @@ cli.command(
     const options = await resolveOptions({ userRoot: root }, 'build')
     printInfo(options)
 
-    const viteConfig = mergeConfig(
-      await mergeViteConfigs(options, 'build'),
+    const valaxyViteConfig: InlineConfig = mergeConfig(await mergeViteConfigs(options, 'build'), options.config.vite || {})
+    const viteConfig: InlineConfig = mergeConfig(
+      valaxyViteConfig,
       {
         // avoid load userRoot/vite.config.ts repeatedly
         configFile: path.resolve(options.clientRoot, 'vite.config.ts'),

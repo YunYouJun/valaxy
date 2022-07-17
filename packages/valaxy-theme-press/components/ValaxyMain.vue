@@ -1,13 +1,13 @@
 <script lang="ts" setup>
 import type { PageData, Post } from 'valaxy'
-import { useFrontmatter, useLayout, useSidebar, useSite } from 'valaxy'
+import { useConfig, useFrontmatter, useLayout, useSidebar } from 'valaxy'
 
 defineProps<{
   frontmatter: Post
   data?: PageData
 }>()
 
-const config = useSite()
+const config = useConfig()
 const frontmatter = useFrontmatter()
 
 const { hasSidebar } = useSidebar()

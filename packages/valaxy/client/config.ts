@@ -8,7 +8,7 @@ import { computed, inject, readonly, shallowRef } from 'vue'
 // fix build caused by pnpm
 // This is likely not portable. A type annotation is necessary.
 // https://github.com/microsoft/TypeScript/issues/42873
-import type { ValaxySiteConfig } from 'valaxy/types'
+import type { ValaxySiteConfig, ValaxyThemeConfig } from 'valaxy/types'
 
 /**
  * parse valaxy config
@@ -50,25 +50,35 @@ export function initContext() {
   return computed(() => valaxyContextRef.value)
 }
 
-/*
+/**
  * get valaxy config
  * @public
  * @returns
  */
-export function useSite<ThemeConfig = any>() {
+export function useSite<ThemeConfig = ValaxyThemeConfig>() {
   const config = inject<ComputedRef<ValaxySiteConfig<ThemeConfig>>>(valaxySiteConfigSymbol)
   if (!config)
-    throw new Error('[Valaxy] config not properly injected in app')
+    throw new Error('[Valaxy] site config not properly injected in app')
   return config!
+}
+
+/**
+ * alias for useSite
+ * @public
+ * @returns
+ */
+export function useConfig<ThemeConfig = ValaxyThemeConfig>() {
+  return useSite<ThemeConfig>()
 }
 
 /**
  * You can use like this: import { useThemeConfig } from 'valaxy-theme-xxx'
  * if you want to: import { useThemeConfig } from 'valaxy'
  * you need pass themeConfig by yourself
+ * @internal
  * @returns
  */
-export function useThemeConfig<T = Record<string, any>>() {
-  const config = useSite<T>()
+export function useThemeConfig<ThemeConfig = ValaxyThemeConfig>() {
+  const config = useSite<ThemeConfig>()
   return computed(() => config!.value.themeConfig)
 }

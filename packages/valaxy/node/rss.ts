@@ -35,20 +35,20 @@ export async function build(options: ResolvedValaxyOptions) {
   const DOMAIN = config.url.slice(0, -1)
 
   const author: Author = {
-    name: options.config.author.name,
-    email: options.config.author.email,
-    link: options.config.author.link,
+    name: config?.author?.name,
+    email: config?.author?.email,
+    link: config?.author?.link,
   }
 
   consola.info(`RSS Site Url: ${cyan(siteUrl)}`)
 
-  const ccVersion = (config.license.type === 'zero') ? '1.0' : '4.0'
+  const ccVersion = (config.license?.type === 'zero') ? '1.0' : '4.0'
   const feedOptions: FeedOptions = {
-    title: config.title,
+    title: config.title || 'Valaxy Blog',
     description: config.description,
     id: siteUrl || 'valaxy',
     link: siteUrl,
-    copyright: `CC ${config.license.type.toUpperCase()} ${ccVersion} ${new Date().getFullYear()} © ${config.author.name}`,
+    copyright: `CC ${config.license?.type?.toUpperCase()} ${ccVersion} ${new Date().getFullYear()} © ${config.author?.name}`,
     feedLinks: {
       json: `${siteUrl}feed.json`,
       atom: `${siteUrl}feed.atom`,
@@ -70,7 +70,7 @@ export async function build(options: ResolvedValaxyOptions) {
       continue
     }
 
-    await formatMdDate(data, i, config.date.format, config.lastUpdated)
+    await formatMdDate(data, i, config.date?.format, config.lastUpdated)
 
     // todo i18n
 
@@ -99,23 +99,23 @@ export async function build(options: ResolvedValaxyOptions) {
 
   // write
   feedOptions.author = author
-  feedOptions.image = config.author.avatar.startsWith('http') ? config.author.avatar : `${DOMAIN}${config.author.avatar}`
-  feedOptions.favicon = `${DOMAIN}${config.feed.favicon || config.favicon}`
+  feedOptions.image = config.author?.avatar?.startsWith('http') ? config.author.avatar : `${DOMAIN}${config.author?.avatar}`
+  feedOptions.favicon = `${DOMAIN}${config.feed?.favicon || config.favicon}`
 
   const feed = new Feed(feedOptions)
   posts.forEach(item => feed.addItem(item))
   // items.forEach(i=> console.log(i.title, i.date))
 
-  await fs.ensureDir(dirname(`./dist/${config.feed.name}`))
+  await fs.ensureDir(dirname(`./dist/${config.feed?.name}`))
   const path = './dist'
 
   const types = ['xml', 'atom', 'json']
   types.forEach((type) => {
     let data = ''
-    let name = `${path}/${config.feed.name || 'feed'}.${type}`
+    let name = `${path}/${config.feed?.name || 'feed'}.${type}`
     if (type === 'xml') { data = feed.rss2() }
     else if (type === 'atom') {
-      if (!config.feed.name)
+      if (!config.feed?.name)
         name = `${path}/atom.xml`
       data = feed.atom1()
     }

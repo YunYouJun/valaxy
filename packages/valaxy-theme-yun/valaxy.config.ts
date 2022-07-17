@@ -1,11 +1,11 @@
 import type { ResolvedValaxyOptions } from 'valaxy'
-import { defineConfig } from 'valaxy/node'
+import { defineTheme } from 'valaxy/node'
 import type { Plugin } from 'vite'
 import type { ThemeConfig } from './types'
-import { generateSafelist } from './node'
+import { defaultThemeConfig, generateSafelist } from './node'
 
 function ThemeVitePlugin(options: ResolvedValaxyOptions<ThemeConfig>): Plugin {
-  const themeConfig = options.config.themeConfig
+  const themeConfig = options.config.themeConfig || {}
   return {
     name: 'valaxy-theme-yun',
     enforce: 'pre',
@@ -27,15 +27,14 @@ function ThemeVitePlugin(options: ResolvedValaxyOptions<ThemeConfig>): Plugin {
   }
 }
 
-const config = defineConfig<ThemeConfig>((options) => {
+export default defineTheme<ThemeConfig>((options) => {
   return {
+    themeConfig: defaultThemeConfig,
     vite: {
       plugins: [ThemeVitePlugin(options)],
     },
     unocss: {
-      safelist: generateSafelist(options.config.themeConfig),
+      safelist: generateSafelist(options),
     },
   }
 })
-
-export default config

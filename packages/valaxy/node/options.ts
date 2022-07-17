@@ -1,18 +1,15 @@
 import { dirname, resolve } from 'path'
+import fs from 'fs'
 import _debug from 'debug'
 import fg from 'fast-glob'
-import type Vue from '@vitejs/plugin-vue'
-import type Components from 'unplugin-vue-components/vite'
-import type { VitePluginConfig as UnoCSSConfig } from 'unocss/vite'
-import { uniq } from '@antfu/utils'
-import type Pages from 'vite-plugin-pages'
-import type { UserConfig as ViteUserConfig } from 'vite'
-import type { presetAttributify, presetIcons, presetTypography, presetUno } from 'unocss'
-import type { ValaxySiteConfig } from '../types'
-import { resolveSiteConfig } from './config'
+import { ensureSuffix, uniq } from '@antfu/utils'
+import defu from 'defu'
+import type { DefaultThemeConfig } from '../types'
 import { resolveImportPath } from './utils'
-import type { MarkdownOptions } from './markdown'
 import { getThemeRoot } from './utils/theme'
+import { mergeValaxyConfig, resolveValaxyConfig, resolveValaxyConfigFromRoot } from './utils/config'
+import type { ValaxyConfig } from './types'
+import { defaultSiteConfig } from './config'
 
 // for cli entry
 export interface ValaxyEntryOptions {
@@ -23,41 +20,7 @@ export interface ValaxyEntryOptions {
   userRoot?: string
 }
 
-export interface ValaxyConfig {
-  vite?: ViteUserConfig
-  vue?: Parameters<typeof Vue>[0]
-  components?: Parameters<typeof Components>[0]
-  unocss?: UnoCSSConfig
-  /**
-   * unocss presets
-   */
-  unocssPresets?: {
-    uno?: Parameters<typeof presetUno>[0]
-    attributify?: Parameters<typeof presetAttributify>[0]
-    icons?: Parameters<typeof presetIcons>[0]
-    typography?: Parameters<typeof presetTypography>[0]
-  }
-  pages?: Parameters<typeof Pages>[0]
-  /**
-   * for markdown
-   */
-  markdown?: MarkdownOptions
-  extendMd?: (ctx: {
-    route: any
-    data: Record<string, any>
-    excerpt?: string
-    path: string
-  }) => void
-  plugins?: ValaxyPluginOption[]
-}
-export type ValaxyPluginLike = ValaxyConfig | ValaxyConfig[] | false | null | undefined
-export type ValaxyPluginOption = ValaxyPluginLike | string | [string, any]
-
-export interface ThemeSetup {
-  defaultThemeConfig?: Record<string, any>
-}
-
-export interface ResolvedValaxyOptions<T = Record<string, any>> {
+export interface ResolvedValaxyOptions<ThemeConfig = DefaultThemeConfig> {
   mode: 'dev' | 'build'
   /**
    * package.json root
@@ -82,11 +45,10 @@ export interface ResolvedValaxyOptions<T = Record<string, any>> {
    */
   roots: string[]
   theme: string
-  themeSetup: ThemeSetup
   /**
    * Valaxy Config
    */
-  config: ValaxySiteConfig<T>
+  config: ValaxyConfig<ThemeConfig>
   /**
    * config file path
    */
@@ -95,7 +57,7 @@ export interface ResolvedValaxyOptions<T = Record<string, any>> {
 }
 
 export interface ValaxyServerOptions {
-  onConfigReload?: (newConfig: ValaxySiteConfig, config: ValaxySiteConfig, force?: boolean) => void
+  onConfigReload?: (newConfig: ValaxyConfig, config: ValaxyConfig, force?: boolean) => void
 }
 
 const debug = _debug('valaxy:options')
@@ -106,8 +68,9 @@ export async function resolveOptions(options: ValaxyEntryOptions, mode: Resolved
   const clientRoot = resolve(pkgRoot, 'client')
   const userRoot = resolve(options.userRoot || process.cwd())
 
-  const { config: siteConfig, configFile, theme, themeSetup } = await resolveSiteConfig(options)
-  const themeRoot = getThemeRoot(theme, userRoot)
+  const { config: userValaxyConfig, configFile, theme } = await resolveValaxyConfig(options)
+
+  const themeRoot = getThemeRoot(theme, options.userRoot)
 
   const roots = uniq([clientRoot, themeRoot, userRoot])
 
@@ -132,12 +95,31 @@ export async function resolveOptions(options: ValaxyEntryOptions, mode: Resolved
     themeRoot,
     roots,
     theme,
-    themeSetup,
-    config: siteConfig,
+    config: userValaxyConfig,
     configFile: configFile || '',
     pages,
   }
   debug(valaxyOptions)
+
+  // resolve theme valaxy.config.ts and merge theme
+  const { config: themeValaxyConfig } = await resolveValaxyConfigFromRoot(themeRoot, valaxyOptions)
+  const valaxyConfig = mergeValaxyConfig(userValaxyConfig, themeValaxyConfig)
+  const config = defu(valaxyConfig, defaultSiteConfig)
+  valaxyOptions.config = config
+
+  // optimize config
+  config.url = ensureSuffix('/', config.url)
+  // ensure suffix for cdn prefix
+  config.cdn.prefix = ensureSuffix('/', config.cdn.prefix)
+
+  // mount pkg info
+  try {
+    const pkg = fs.readFileSync(require.resolve(`valaxy-theme-${theme}/package.json`), 'utf-8')
+    config.themeConfig.pkg = JSON.parse(pkg)
+  }
+  catch (e) {
+    console.error(`valaxy-theme-${theme} doesn't have package.json`)
+  }
 
   return valaxyOptions
 }

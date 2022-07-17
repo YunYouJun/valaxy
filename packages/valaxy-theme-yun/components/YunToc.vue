@@ -110,7 +110,7 @@ function handleClick({ target: el }: Event) {
 .outline-link {
   display: block;
   line-height: 28px;
-  color: var(--va-c-text-2);
+  color: var(--va-c-text-light);
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;

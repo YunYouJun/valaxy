@@ -3,10 +3,9 @@ import { join } from 'path'
 import type { ConfigEnv, InlineConfig } from 'vite'
 import { uniq } from '@antfu/utils'
 import { loadConfigFromFile, mergeConfig } from 'vite'
-import { loadConfig } from 'unconfig'
-import type { ResolvedValaxyOptions, ValaxyConfig } from './options'
-import { mergeFullConfig, toAtFS } from './utils'
-import type { ValaxyConfigExport } from './config'
+import type { ResolvedValaxyOptions } from './options'
+import { toAtFS } from './utils'
+
 export async function mergeViteConfigs({ userRoot, themeRoot }: ResolvedValaxyOptions, command: 'serve' | 'build') {
   const configEnv: ConfigEnv = {
     mode: 'development',
@@ -28,29 +27,6 @@ export async function mergeViteConfigs({ userRoot, themeRoot }: ResolvedValaxyOp
   }
 
   return resolvedConfig
-}
-
-export async function mergeValaxyConfigs(options: ResolvedValaxyOptions) {
-  const { userRoot, themeRoot } = options
-  let valaxyConfig: ValaxyConfig = { vite: {} }
-  for await (const root of uniq([themeRoot, userRoot])) {
-    // no need to judge empty, unconfig will do it for us
-    const { config } = await loadConfig<ValaxyConfig>({
-      sources: {
-        files: 'valaxy.config',
-        async rewrite(c: ValaxyConfigExport) {
-          return await (typeof c === 'function' ? c(options) : c)
-        },
-      },
-      cwd: root,
-      merge: false,
-
-    })
-    if (!config)
-      continue
-    valaxyConfig = mergeFullConfig(valaxyConfig, config)
-  }
-  return valaxyConfig
 }
 
 export async function getIndexHtml({ clientRoot, themeRoot, userRoot, config }: ResolvedValaxyOptions): Promise<string> {

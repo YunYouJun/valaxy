@@ -1,10 +1,10 @@
 import fs from 'fs'
 
-import { basename, join, relative } from 'path'
+import { join, relative } from 'path'
 import type { Plugin, ResolvedConfig } from 'vite'
 // import consola from 'consola'
-import { resolveSiteConfig } from '../config'
-import type { ResolvedValaxyOptions, ValaxyConfig, ValaxyServerOptions } from '../options'
+import type { ResolvedValaxyOptions, ValaxyServerOptions } from '../options'
+import { resolveOptions } from '../options'
 import { resolveImportPath, slash, toAtFS } from '../utils'
 import { createMarkdownToVueRenderFn } from '../markdown/markdownToVue'
 import type { PageDataPayload } from '../../types'
@@ -19,7 +19,7 @@ function generateStyles(roots: string[], options: ResolvedValaxyOptions) {
   const imports: string[] = []
 
   // katex
-  if (options.config.features.katex) {
+  if (options.config.features?.katex) {
     imports.push(`import "${toAtFS(resolveImportPath('katex/dist/katex.min.css', true))}"`)
     imports.push(`import "${toAtFS(join(options.clientRoot, 'styles/third/katex.scss'))}"`)
   }
@@ -63,7 +63,9 @@ function generateLocales(roots: string[]) {
   return imports.join('\n')
 }
 
-export function createValaxyPlugin(options: ResolvedValaxyOptions, valaxyConfig: ValaxyConfig, serverOptions: ValaxyServerOptions = {}): Plugin {
+export function createValaxyPlugin(options: ResolvedValaxyOptions, serverOptions: ValaxyServerOptions = {}): Plugin {
+  const { config: valaxyConfig } = options
+
   const valaxyPrefix = '/@valaxy'
 
   let siteConfig = options.config
@@ -184,14 +186,10 @@ export function createValaxyPlugin(options: ResolvedValaxyOptions, valaxyConfig:
       // handle site.config.ts hmr
       const { file, server, read } = ctx
 
-      const fileName = basename(file)
-      const isSiteConfig = fileName.startsWith('site.config')
-      const isValaxyConfig = fileName.startsWith('valaxy.config')
+      if (file === options.configFile) {
+        const { config } = await resolveOptions({ userRoot: options.userRoot })
 
-      if (isSiteConfig || isValaxyConfig) {
-        const { config } = await resolveSiteConfig()
-
-        serverOptions.onConfigReload?.(config, options.config, isValaxyConfig)
+        serverOptions.onConfigReload?.(config, options.config)
         Object.assign(options.config, config)
 
         siteConfig = config

@@ -74,10 +74,10 @@ Valaxy 决定中心化地提供各类封装好的评论钩子函数。
 
 ```vue {2}
 <script lang="ts" setup>
-import { useSite, useWaline } from 'valaxy'
+import { useConfig, useWaline } from 'valaxy'
 
 // 读取用户配置
-const config = useSite()
+const config = useConfig()
 // 挂载 Waline
 useWaline(config.value.comment.waline)
 </script>

@@ -12,7 +12,7 @@ import Components from 'unplugin-vue-components/vite'
 import { vueI18n } from '@intlify/vite-plugin-vue-i18n'
 
 import dayjs from 'dayjs'
-import type { ResolvedValaxyOptions, ValaxyConfig, ValaxyServerOptions } from '../options'
+import type { ResolvedValaxyOptions, ValaxyServerOptions } from '../options'
 import { setupMarkdownPlugins } from '../markdown'
 // import { createMarkdownPlugin, excerpt_separator } from './markdown'
 // import { formatMdDate } from '../utils/date'
@@ -23,15 +23,14 @@ import { createValaxyPlugin } from '.'
 
 export async function ViteValaxyPlugins(
   options: ResolvedValaxyOptions,
-  valaxyConfig: ValaxyConfig = {},
   serverOptions: ValaxyServerOptions = {},
 ): Promise<(PluginOption | PluginOption[])[] | undefined> {
-  const { roots } = options
+  const { roots, config: valaxyConfig } = options
 
   // const MarkdownPlugin = createMarkdownPlugin(options)
   const UnocssPlugin = await createUnocssPlugin(options, valaxyConfig)
 
-  const ValaxyPlugin = createValaxyPlugin(options, valaxyConfig, serverOptions)
+  const ValaxyPlugin = createValaxyPlugin(options, serverOptions)
 
   // for render markdown excerpt
   const mdIt = new MarkdownIt({ html: true })
@@ -139,7 +138,7 @@ export async function ViteValaxyPlugins(
           //   options.config.lastUpdated,
           // )
           const lastUpdated = options.config.lastUpdated
-          const format = options.config.date.format
+          const format = options.config.date?.format
           if (!data.date)
             data.date = fs.statSync(path).mtime
 

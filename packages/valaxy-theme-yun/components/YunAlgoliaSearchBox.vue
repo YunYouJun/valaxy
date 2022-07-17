@@ -4,12 +4,12 @@ import docsearch from '@docsearch/js'
 import type { DocSearchHit } from '@docsearch/react/dist/esm/types'
 import { onMounted } from 'vue'
 import type { AlgoliaSearchOptions } from 'valaxy'
-import { useSite } from 'valaxy'
+import { useConfig } from 'valaxy'
 import { useRoute, useRouter } from 'vue-router'
 
 const router = useRouter()
 const route = useRoute()
-const config = useSite()
+const config = useConfig()
 
 onMounted(() => {
   initialize(config.value.search.algolia)
@@ -142,9 +142,9 @@ function getRelativePath(absoluteUrl: string) {
 .dark .DocSearch {
   --docsearch-modal-shadow: none;
   --docsearch-footer-shadow: none;
-  --docsearch-logo-color: var(--va-c-text-2);
+  --docsearch-logo-color: var(--va-c-text-light);
   --docsearch-hit-background: var(--va-c-bg-mute);
-  --docsearch-hit-color: var(--va-c-text-2);
+  --docsearch-hit-color: var(--va-c-text-light);
   --docsearch-hit-shadow: none;
 }
 

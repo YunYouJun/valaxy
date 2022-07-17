@@ -35,14 +35,14 @@ defineProps<{
   align-items: center;
   margin-bottom: 20px;
   border-radius: 6px;
-  background-color: var(--vp-c-gray-light-4);
+  background-color: var(--va-c-gray-light-4);
   width: 48px;
   height: 48px;
   font-size: 24px;
 }
 
 .dark .icon {
-  background-color: var(--vp-c-bg);
+  background-color: var(--va-c-bg);
 }
 
 .title {
@@ -56,6 +56,6 @@ defineProps<{
   line-height: 24px;
   font-size: 14px;
   font-weight: 500;
-  color: var(--vp-c-text-2);
+  color: var(--va-c-text-light);
 }
 </style>

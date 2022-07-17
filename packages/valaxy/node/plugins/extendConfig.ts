@@ -2,6 +2,7 @@ import { dirname, join, resolve } from 'path'
 import type { InlineConfig, Plugin } from 'vite'
 import { mergeConfig } from 'vite'
 import isInstalledGlobally from 'is-installed-globally'
+import fs from 'fs-extra'
 import type { ResolvedValaxyOptions } from '../options'
 import { resolveImportPath, toAtFS } from '../utils'
 import { getIndexHtml } from '../common'
@@ -79,6 +80,13 @@ export function createConfigPlugin(options: ResolvedValaxyOptions): Plugin {
             res.setHeader('Content-Type', 'text/html')
             res.statusCode = 200
             res.end(await getIndexHtml(options))
+            return
+          }
+          // patch rss
+          if (req.url! === '/atom.xml') {
+            res.setHeader('Content-Type', 'application/xml')
+            res.statusCode = 200
+            res.end(await fs.readFile(resolve(options.userRoot, 'dist/atom.xml'), 'utf-8'))
             return
           }
           next()

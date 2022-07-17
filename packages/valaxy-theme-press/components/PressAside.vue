@@ -27,7 +27,7 @@ const app = useAppStore()
     z="10"
     :class="app.isRightSidebarOpen && 'open'"
   >
-    <div class="aside-container" flex="~ col">
+    <div class="aside-container lt-xl:fixed" flex="~ col">
       <PressToc v-if="frontmatter.toc !== false" :headers="data.headers || []" />
       <div class="flex-grow" />
       <div v-if="$slots.default" class="custom-container">
@@ -65,13 +65,17 @@ const app = useAppStore()
 
 .aside-container {
   position: sticky;
-  top: 0;
+  top: calc(var(--pr-nav-height) + 32px);
   margin-top: calc(var(--pr-nav-height) * -1 - 32px);
   padding-top: calc(var(--pr-nav-height) + 32px);
   height: 100vh;
 }
 
 @include media('xl') {
+  .aside-container {
+    top: 0;
+  }
+
   .press-aside {
     transform: translateX(0);
   }

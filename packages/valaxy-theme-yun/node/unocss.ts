@@ -1,3 +1,4 @@
+import type { ResolvedValaxyOptions } from 'valaxy/node'
 import type { ThemeUserConfig } from '../types'
 
 /**
@@ -5,7 +6,8 @@ import type { ThemeUserConfig } from '../types'
  * @param themeConfig
  * @returns
  */
-export function generateSafelist(themeConfig: ThemeUserConfig) {
+export function generateSafelist(options: ResolvedValaxyOptions<ThemeUserConfig>) {
+  const themeConfig = options.config.themeConfig || {}
   const safelist = []
 
   const types = themeConfig.types

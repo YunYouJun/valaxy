@@ -64,12 +64,12 @@ function scrollToTop() {
   line-height: 24px;
   font-size: 12px;
   font-weight: 500;
-  color: var(--vp-c-text-2);
+  color: var(--va-c-text-light);
   transition: color 0.5s;
 }
 
 .menu:hover {
-  color: var(--vp-c-text-1);
+  color: var(--va-c-text);
   transition: color 0.25s;
 }
 
