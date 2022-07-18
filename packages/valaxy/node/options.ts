@@ -113,8 +113,8 @@ export async function resolveOptions(options: ValaxyEntryOptions, mode: Resolved
   let valaxyConfig = mergeValaxyConfig(userValaxyConfig, themeValaxyConfig)
 
   // resolve addon valaxyConfig
-  const addons = await parseAddonOptions(valaxyConfig.addons || [])
-  const addonValaxyConfig = await resolveAddonConfig(addons)
+  const addons = await parseAddonOptions(valaxyConfig.addons || [], valaxyOptions.userRoot)
+  const addonValaxyConfig = await resolveAddonConfig(addons, valaxyOptions)
   valaxyConfig = mergeValaxyConfig(valaxyConfig, addonValaxyConfig)
 
   const config = defu(valaxyConfig, defaultSiteConfig)

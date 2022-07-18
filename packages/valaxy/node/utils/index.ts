@@ -39,7 +39,9 @@ export function resolveImportPath(importName: string, ensure = false) {
       preserveSymlinks: false,
     })
   }
-  catch {}
+  catch (error) {
+    consola.log(error)
+  }
 
   if (isInstalledGlobally) {
     try {
