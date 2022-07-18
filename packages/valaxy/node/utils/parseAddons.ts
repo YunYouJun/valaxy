@@ -31,7 +31,7 @@ export async function parseAddonOptions(options: ValaxyAddonOptions, userRoot: s
 }
 
 export async function parseAddonModule(userRoot: string, target: string, options?: Partial<ValaxyAddonResolver>) {
-  const root = dirname(resolveModulePath(`${target}`, {
+  const root = dirname(resolveModulePath(`${target}/package.json`, {
     preserveSymlinks: false,
     basedir: userRoot,
   }))

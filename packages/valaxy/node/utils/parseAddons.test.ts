@@ -1,3 +1,4 @@
+import { resolve } from 'path'
 import { describe, expect, it } from 'vitest'
 import { parseAddonLike, parseAddonModule } from './parseAddons'
 describe('parseAddons', () => {
@@ -11,7 +12,7 @@ describe('parseAddons', () => {
   })
 
   it('parseAddonModule read feasibility', async () => {
-    const option = await parseAddonModule('vite', process.cwd())
+    const option = await parseAddonModule('vite', resolve(__dirname, '../../'))
     expect(option?.enable).toBeTruthy()
   })
 })
