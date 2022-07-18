@@ -3,7 +3,7 @@ import { loadConfig } from 'unconfig'
 import { createDefu } from 'defu'
 import { isFunction } from '@antfu/utils'
 import type { ResolvedValaxyOptions, ValaxyEntryOptions } from '../options'
-import type { ValaxyConfig, ValaxyConfigFn } from '../types'
+import type { ValaxyAddonResolvers, ValaxyConfig, ValaxyConfigFn } from '../types'
 
 /**
  * merge valaxy.config
@@ -28,11 +28,11 @@ export const mergeValaxyConfig = createDefu((obj: any, key, value) => {
  * @param options
  * @returns
  */
-export async function resolveValaxyConfigFromRoot(root: string, options?: ResolvedValaxyOptions) {
+export async function resolveValaxyConfigFromRoot(root: string, options?: ResolvedValaxyOptions, files = 'valaxy.config') {
   // c12 merge array twice, so i deprecated it
   const { config, sources } = await loadConfig<ValaxyConfig>({
     sources: {
-      files: 'valaxy.config',
+      files,
       async rewrite(c: ValaxyConfig | ValaxyConfigFn) {
         const config = await (typeof c === 'function' ? c(options || {} as ResolvedValaxyOptions) : c)
         return config
@@ -70,4 +70,16 @@ export async function resolveValaxyConfig(options: ValaxyEntryOptions) {
     configFile,
     theme,
   }
+}
+
+export async function resolveAddonConfig(addons: ValaxyAddonResolvers, options?: ResolvedValaxyOptions) {
+  let valaxyConfig: ValaxyConfig = {}
+  for (const addon of Object.values(addons)) {
+    const { config, sources } = await resolveValaxyConfigFromRoot(addon.root, options, 'index')
+    if (!config)
+      continue
+    addon.configFile = normalizePath(sources[0] || '')
+    valaxyConfig = mergeValaxyConfig(config, valaxyConfig)
+  }
+  return valaxyConfig
 }
