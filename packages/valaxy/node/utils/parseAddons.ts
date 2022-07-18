@@ -27,7 +27,7 @@ export async function parseAddonOptions(options: ValaxyAddonOptions, userRoot: s
     for (const [name, like] of Object.entries(options))
       mergeResolver(await parseAddonModule(userRoot, name, parseAddonLike(like)))
   }
-  return Object.values(resolvers)
+  return Object.values(resolvers).map(item => item.enable)
 }
 
 export async function parseAddonModule(userRoot: string, target: string, options?: Partial<ValaxyAddonResolver>) {
