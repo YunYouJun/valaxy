@@ -1,12 +1,12 @@
 {
   "name": "valaxy-addon-icons",
   "version": "1.0.0",
-  "main": "index.ts",
+  "license": "MIT",
   "keywords": [
     "valaxy",
     "addon"
   ],
-  "license": "MIT",
+  "main": "index.ts",
   "dependencies": {
     "@iconify/tools": "^2.0.18",
     "@iconify/utils": "^1.0.33",

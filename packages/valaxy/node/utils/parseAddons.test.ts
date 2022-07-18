@@ -11,7 +11,7 @@ describe('parseAddons', () => {
   })
 
   it('parseAddonModule read feasibility', async () => {
-    const option = await parseAddonModule('vite')
+    const option = await parseAddonModule('vite', process.cwd())
     expect(option?.enable).toBeTruthy()
   })
 })
