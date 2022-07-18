@@ -2,7 +2,7 @@ import type { VitePluginConfig as UnoCssConfig } from 'unocss/vite'
 import type { Awaitable } from '@antfu/utils'
 import type { DefaultThemeConfig, SiteConfig, UserSiteConfig } from '../types'
 import type { ResolvedValaxyOptions } from './options'
-import type { UserConfig, ValaxyConfig } from './types'
+import type { UserConfig, ValaxyAddonResolver, ValaxyConfig } from './types'
 
 /**
  * Type site helper
@@ -28,11 +28,18 @@ export function defineConfig<ThemeConfig>(config: UserConfig<ThemeConfig>) {
 }
 
 export type ValaxyConfigExtendKey = 'vite' | 'vue' | 'unocss' | 'unocssPresets' | 'markdown' | 'extendMd'
-export type ValaxyTheme<ThemeConfig = DefaultThemeConfig> = Pick<ValaxyConfig, ValaxyConfigExtendKey> & { themeConfig?: ThemeConfig }
+export type ValaxyPickConfig = Pick<ValaxyConfig, ValaxyConfigExtendKey>
+export type ValaxyTheme<ThemeConfig = DefaultThemeConfig> = ValaxyPickConfig & { themeConfig?: ThemeConfig }
 export function defineTheme<ThemeConfig = DefaultThemeConfig>(
   theme: ValaxyTheme<ThemeConfig> | ((options: ResolvedValaxyOptions<ThemeConfig>) => ValaxyTheme<ThemeConfig>),
 ) {
   return theme
+}
+
+export function defineAddon(
+  addon: ValaxyPickConfig | ((addonOptions: ValaxyAddonResolver, valaxyOptions: ResolvedValaxyOptions) => ValaxyPickConfig),
+) {
+  return addon
 }
 
 export const defaultSiteConfig: SiteConfig = {
