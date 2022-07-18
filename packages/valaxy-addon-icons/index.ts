@@ -1,4 +1,4 @@
-import { resolve } from 'path'
+import { basename, extname, resolve } from 'path'
 import { defineAddon } from 'valaxy'
 import { FileSystemIconLoader } from '@iconify/utils/lib/loader/node-loaders'
 import {
@@ -11,7 +11,7 @@ import {
 } from '@iconify/tools'
 import { compareColors, stringToColor } from '@iconify/utils/lib/colors'
 import type { IconsOptions } from '@unocss/preset-icons'
-
+import fs from 'fs-extra'
 export interface IconAddonOptions {
   /**
    * The current directory to resolve
@@ -41,8 +41,18 @@ const addon = defineAddon(({ options }, { userRoot }) => {
     ...customizations
   } = options
 
-  const loader = FileSystemIconLoader(resolve(userRoot, dir), optimize ? optimizeSvg : undefined)
+  const iconDir = resolve(userRoot, dir)
+  const names = fs.readdirSync(iconDir)
+    .map((icon) => {
+      return basename(icon).replace(extname(icon), '')
+    })
+    .map(icon => `i-${collection}-${icon}`)
+
+  const loader = FileSystemIconLoader(iconDir, optimize ? optimizeSvg : undefined)
   return {
+    unocss: {
+      safelist: names,
+    },
     unocssPresets: {
       icons: {
         collections: { [collection]: loader },

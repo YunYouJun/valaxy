@@ -9,6 +9,7 @@
   "license": "MIT",
   "dependencies": {
     "@iconify/tools": "^2.0.18",
-    "@iconify/utils": "^1.0.33"
+    "@iconify/utils": "^1.0.33",
+    "fs-extra": "^10.1.0"
   }
 }
