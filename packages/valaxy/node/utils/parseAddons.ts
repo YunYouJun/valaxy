@@ -2,11 +2,11 @@ import { resolve } from 'path'
 import fs from 'fs-extra'
 import consola from 'consola'
 import defu from 'defu'
-import type { ValaxyAddonLike, ValaxyAddonOptions, ValaxyAddonResolver, ValaxyAddonResolvers } from '../types'
+import type { ValaxyAddonLike, ValaxyAddonOptions, ValaxyAddonResolver } from '../types'
 import { getModuleRoot } from './module'
 
 export async function parseAddonOptions(options: ValaxyAddonOptions) {
-  const resolvers: ValaxyAddonResolvers = {}
+  const resolvers: Record<string, ValaxyAddonResolver > = {}
   const mergeResolver = (resolver?: ValaxyAddonResolver) => {
     if (resolver)
       resolvers[resolver.name] = defu(resolvers[resolver.name] || {}, resolver)
@@ -28,7 +28,7 @@ export async function parseAddonOptions(options: ValaxyAddonOptions) {
     for (const [name, like] of Object.entries(options))
       mergeResolver(await parseAddonModule(name, parseAddonLike(like)))
   }
-  return resolvers
+  return Object.values(resolvers)
 }
 
 export async function parseAddonModule(target: string, options?: Partial<ValaxyAddonResolver>) {

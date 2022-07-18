@@ -3,7 +3,7 @@ import { loadConfig } from 'unconfig'
 import { createDefu } from 'defu'
 import { isFunction } from '@antfu/utils'
 import type { ResolvedValaxyOptions, ValaxyEntryOptions } from '../options'
-import type { ValaxyAddonFn, ValaxyAddonResolver, ValaxyAddonResolvers, ValaxyConfig, ValaxyConfigFn } from '../types'
+import type { ValaxyAddonFn, ValaxyAddonResolver, ValaxyConfig, ValaxyConfigFn } from '../types'
 
 /**
  * merge valaxy.config
@@ -93,9 +93,9 @@ export async function resolveValaxyConfigFromAddonRoot(root: string, addonOption
   }
 }
 
-export async function resolveAddonConfig(addons: ValaxyAddonResolvers, options?: ResolvedValaxyOptions) {
+export async function resolveAddonConfig(addons: ValaxyAddonResolver[], options?: ResolvedValaxyOptions) {
   let valaxyConfig: ValaxyConfig = {}
-  for (const addon of Object.values(addons)) {
+  for (const addon of addons) {
     const { config, sources } = await resolveValaxyConfigFromAddonRoot(addon.root, addon, options)
     if (!config)
       continue

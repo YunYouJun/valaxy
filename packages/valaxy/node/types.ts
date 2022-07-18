@@ -64,6 +64,4 @@ export interface ValaxyAddonResolver {
   options: Record<string, any>
   configFile?: string
 }
-export interface ValaxyAddonResolvers {
-  [name: string]: ValaxyAddonResolver
-}
+

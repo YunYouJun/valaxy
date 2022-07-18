@@ -8,7 +8,7 @@ import type { DefaultThemeConfig } from '../types'
 import { resolveImportPath } from './utils'
 import { getModuleRoot } from './utils/module'
 import { mergeValaxyConfig, resolveAddonConfig, resolveValaxyConfig, resolveValaxyConfigFromRoot } from './utils/config'
-import type { ValaxyAddonResolvers, ValaxyConfig } from './types'
+import type { ValaxyAddonResolver, ValaxyConfig } from './types'
 import { defaultSiteConfig } from './config'
 import { parseAddonOptions } from './utils/parseAddons'
 
@@ -59,7 +59,7 @@ export interface ResolvedValaxyOptions<ThemeConfig = DefaultThemeConfig> {
    * all addons
    * Record<package-name, OptionResolver>
    */
-  addons: ValaxyAddonResolvers
+  addons: ValaxyAddonResolver[]
 }
 
 export interface ValaxyServerOptions {
@@ -104,7 +104,7 @@ export async function resolveOptions(options: ValaxyEntryOptions, mode: Resolved
     config: userValaxyConfig,
     configFile: configFile || '',
     pages,
-    addons: {},
+    addons: [],
   }
   debug(valaxyOptions)
 
