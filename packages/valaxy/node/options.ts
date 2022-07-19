@@ -1,5 +1,5 @@
 import { dirname, resolve } from 'path'
-import fs from 'fs'
+import fs from 'fs-extra'
 import _debug from 'debug'
 import fg from 'fast-glob'
 import { ensureSuffix, uniq } from '@antfu/utils'
@@ -41,6 +41,10 @@ export interface ResolvedValaxyOptions<ThemeConfig = DefaultThemeConfig> {
    * Theme root path
    */
   themeRoot: string
+  /**
+   * Addon root path
+   */
+  addonRoots: string[]
   /**
    * Theme name
    */
@@ -99,6 +103,7 @@ export async function resolveOptions(options: ValaxyEntryOptions, mode: Resolved
     clientRoot,
     userRoot,
     themeRoot,
+    addonRoots: [],
     roots,
     theme,
     config: userValaxyConfig,
@@ -121,19 +126,31 @@ export async function resolveOptions(options: ValaxyEntryOptions, mode: Resolved
   valaxyOptions.config = config
   valaxyOptions.addons = addons
 
+  valaxyOptions.addonRoots = addons.map(({ root }) => root)
+  valaxyOptions.roots = valaxyOptions.roots.concat(valaxyOptions.addonRoots)
+
+  await processSiteConfig(valaxyOptions)
+  return valaxyOptions
+}
+
+/**
+ * post process site config
+ * @param options
+ */
+async function processSiteConfig(options: ResolvedValaxyOptions) {
+  const { config, themeRoot, theme } = options
+
   // optimize config
-  config.url = ensureSuffix('/', config.url)
+  config.url = ensureSuffix('/', config.url || '')
   // ensure suffix for cdn prefix
-  config.cdn.prefix = ensureSuffix('/', config.cdn.prefix)
+  config.cdn!.prefix = ensureSuffix('/', config.cdn!.prefix || '')
 
   // mount pkg info
+  const themePkgPath = resolve(themeRoot, 'package.json')
   try {
-    const pkg = fs.readFileSync(require.resolve(`valaxy-theme-${theme}/package.json`), 'utf-8')
-    config.themeConfig.pkg = JSON.parse(pkg)
+    config.themeConfig!.pkg = await fs.readJson(themePkgPath, 'utf-8')
   }
   catch (e) {
     console.error(`valaxy-theme-${theme} doesn't have package.json`)
   }
-
-  return valaxyOptions
 }

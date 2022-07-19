@@ -7,11 +7,13 @@ describe('addon parse', () => {
     const result = { enable: false }
     expect(option).toEqual(result)
   })
+
   it('addon:like:object', () => {
     const option = parseAddonLike({ global: false, options: { a: 123 } })
     const result = { enable: true, global: false, options: { a: 123 } }
     expect(option).toEqual(result)
   })
+
   it('addon:read:module', async () => {
     const option = await readAddonModule('vitest')
     const result = {
@@ -24,6 +26,7 @@ describe('addon parse', () => {
     }
     expect(option).toEqual(result)
   })
+
   it('addon:parse:cover', async () => {
     const addons = await parseAddonOptions([
       ['vitest', { global: true }],

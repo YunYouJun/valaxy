@@ -1,10 +1,9 @@
-import { dirname, resolve } from 'path'
+import { resolve } from 'path'
 import fs from 'fs-extra'
 import consola from 'consola'
 import defu from 'defu'
-import { sync as resolveImportPath } from 'resolve'
 import type { ValaxyAddonLike, ValaxyAddonOptions, ValaxyAddonResolver } from '../types'
-import { isPath } from '.'
+import { getModuleRoot } from './root'
 
 export interface ReadAddonModuleOptions {
   cwd?: string
@@ -45,7 +44,7 @@ export async function readAddonModule(name: string, options: ReadAddonModuleOpti
     consola.error(`No addon named ${name} found`)
     return
   }
-  const packageJSON = fs.readJSONSync(packageJSONPath)
+  const packageJSON = await fs.readJSON(packageJSONPath)
 
   const resolver: ValaxyAddonResolver = {
     enable: true,
@@ -69,25 +68,11 @@ export function parseAddonLike(like: ValaxyAddonLike) {
 
 /**
  * get addon root
- * @param name
+ * @param name valaxy-addon-name
  * @param entry
  * @returns
  */
 export function getAddonRoot(name: string, entry?: string) {
-  if (!name)
-    return ''
-
-  if (isPath(name)) {
-    if (entry)
-      return resolve(dirname(entry), name)
-    else
-      throw new Error(`entry is required when ${name} is path`)
-  }
-
-  else {
-    return dirname(resolveImportPath(`${name}/package.json`, {
-      preserveSymlinks: false,
-      basedir: entry,
-    }))
-  }
+  const addonModule = name.startsWith('valaxy-addon') ? name : `valaxy-addon-${name}`
+  return getModuleRoot(addonModule, entry)
 }

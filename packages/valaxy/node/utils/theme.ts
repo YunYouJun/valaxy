@@ -1,22 +1,12 @@
-import { dirname, resolve } from 'path'
-import { isPath, resolveImportPath } from '../utils'
+import { getModuleRoot } from './root'
 
 /**
  * get theme roots
- * @param name
+ * @param name valaxy-theme-name
  * @param entry
  * @returns
  */
 export function getThemeRoot(name: string, entry?: string) {
-  if (!name)
-    return ''
-
-  if (isPath(name)) {
-    if (entry)
-      return resolve(dirname(entry), name)
-    else
-      throw new Error('entry is required when theme is path')
-  }
-
-  else { return dirname(resolveImportPath(`valaxy-theme-${name}/package.json`) || '') }
+  const themeModule = name.startsWith('valaxy-theme') ? name : `valaxy-theme-${name}`
+  return getModuleRoot(themeModule, entry)
 }
