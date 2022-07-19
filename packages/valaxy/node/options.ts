@@ -6,10 +6,11 @@ import { ensureSuffix, uniq } from '@antfu/utils'
 import defu from 'defu'
 import type { DefaultThemeConfig } from '../types'
 import { resolveImportPath } from './utils'
-import { getThemeRoot } from './utils/theme'
-import { mergeValaxyConfig, resolveValaxyConfig, resolveValaxyConfigFromRoot } from './utils/config'
-import type { ValaxyConfig } from './types'
+import { mergeValaxyConfig, resolveAddonConfig, resolveValaxyConfig, resolveValaxyConfigFromRoot } from './utils/config'
+import type { ValaxyAddonResolver, ValaxyConfig } from './types'
 import { defaultSiteConfig } from './config'
+import { parseAddonOptions } from './utils/addons'
+import { getThemeRoot } from './utils/theme'
 
 // for cli entry
 export interface ValaxyEntryOptions {
@@ -54,6 +55,11 @@ export interface ResolvedValaxyOptions<ThemeConfig = DefaultThemeConfig> {
    */
   configFile: string
   pages: string[]
+  /**
+   * all addons
+   * Record<package-name, OptionResolver>
+   */
+  addons: ValaxyAddonResolver[]
 }
 
 export interface ValaxyServerOptions {
@@ -98,14 +104,22 @@ export async function resolveOptions(options: ValaxyEntryOptions, mode: Resolved
     config: userValaxyConfig,
     configFile: configFile || '',
     pages,
+    addons: [],
   }
   debug(valaxyOptions)
 
   // resolve theme valaxy.config.ts and merge theme
   const { config: themeValaxyConfig } = await resolveValaxyConfigFromRoot(themeRoot, valaxyOptions)
-  const valaxyConfig = mergeValaxyConfig(userValaxyConfig, themeValaxyConfig)
+  let valaxyConfig = mergeValaxyConfig(userValaxyConfig, themeValaxyConfig)
+
+  // resolve addon valaxyConfig
+  const addons = await parseAddonOptions(valaxyConfig.addons || [], valaxyOptions.userRoot)
+  const addonValaxyConfig = await resolveAddonConfig(addons, valaxyOptions)
+  valaxyConfig = mergeValaxyConfig(valaxyConfig, addonValaxyConfig)
+
   const config = defu(valaxyConfig, defaultSiteConfig)
   valaxyOptions.config = config
+  valaxyOptions.addons = addons
 
   // optimize config
   config.url = ensureSuffix('/', config.url)

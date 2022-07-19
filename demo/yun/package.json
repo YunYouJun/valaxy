@@ -13,6 +13,7 @@
   },
   "dependencies": {
     "valaxy": "link:../../packages/valaxy",
+    "valaxy-addon-icons": "workspace:^1.0.0",
     "valaxy-theme-yun": "link:../../packages/valaxy-theme-yun"
   },
   "devDependencies": {

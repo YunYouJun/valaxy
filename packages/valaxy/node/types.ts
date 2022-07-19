@@ -41,4 +41,27 @@ export interface ValaxyExtendConfig {
     excerpt?: string
     path: string
   }) => void
+  addons?: ValaxyAddonOptions
 }
+
+export interface ValaxyAddon {
+  global?: boolean
+  props?: Record<string, any>
+  options?: Record<string, any>
+}
+export type ValaxyAddonLike = ValaxyAddon | false | null | undefined
+export type ValaxyAddonOptions = ([string, ValaxyAddonLike] | string)[] | Record<string, ValaxyAddonLike>
+
+export type ValaxyAddonFn<ThemeConfig = DefaultThemeConfig> = (addonOptions: ValaxyAddonResolver, valaxyOptions: ResolvedValaxyOptions<ThemeConfig>) => ValaxyConfig | Promise<ValaxyConfig>
+export type ValaxyAddonExport<ThemeConfig = DefaultThemeConfig> = ValaxyConfig<ThemeConfig> | ValaxyAddonFn<ThemeConfig>
+
+export interface ValaxyAddonResolver {
+  name: string
+  root: string
+  enable: boolean
+  global: boolean
+  props: Record<string, any>
+  options: Record<string, any>
+  configFile?: string
+}
+

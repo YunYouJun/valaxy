@@ -1,9 +1,5 @@
 import { dirname, resolve } from 'path'
-import { resolveImportPath } from '../utils'
-
-export function isPath(name: string) {
-  return name.startsWith('/') || /^\.\.?[\/\\]/.test(name)
-}
+import { isPath, resolveImportPath } from '../utils'
 
 /**
  * get theme roots

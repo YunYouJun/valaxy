@@ -1,9 +1,9 @@
 import { mergeConfig as mergeViteConfig, normalizePath } from 'vite'
-import { loadConfig } from 'unconfig'
 import { createDefu } from 'defu'
 import { isFunction } from '@antfu/utils'
 import type { ResolvedValaxyOptions, ValaxyEntryOptions } from '../options'
-import type { ValaxyConfig, ValaxyConfigFn } from '../types'
+import type { ValaxyAddonFn, ValaxyAddonResolver, ValaxyConfig, ValaxyConfigFn } from '../types'
+import { loadConfigFromFiles } from '.'
 
 /**
  * merge valaxy.config
@@ -29,25 +29,12 @@ export const mergeValaxyConfig = createDefu((obj: any, key, value) => {
  * @returns
  */
 export async function resolveValaxyConfigFromRoot(root: string, options?: ResolvedValaxyOptions) {
-  // c12 merge array twice, so i deprecated it
-  const { config, sources } = await loadConfig<ValaxyConfig>({
-    sources: {
-      files: 'valaxy.config',
-      async rewrite(c: ValaxyConfig | ValaxyConfigFn) {
-        const config = await (typeof c === 'function' ? c(options || {} as ResolvedValaxyOptions) : c)
-        return config
-      },
+  return loadConfigFromFiles<ValaxyConfig>('valaxy.config', {
+    rewrite(c: ValaxyConfig | ValaxyConfigFn) {
+      return (typeof c === 'function' ? c(options || {} as ResolvedValaxyOptions) : c)
     },
     cwd: root,
   })
-
-  if (!config.vite)
-    config.vite = {}
-
-  return {
-    config,
-    sources,
-  }
 }
 
 /**
@@ -70,4 +57,21 @@ export async function resolveValaxyConfig(options: ValaxyEntryOptions) {
     configFile,
     theme,
   }
+}
+
+export async function resolveAddonConfig(addons: ValaxyAddonResolver[], options?: ResolvedValaxyOptions) {
+  let valaxyConfig: ValaxyConfig = {}
+  for (const addon of addons) {
+    const { config, sources } = await loadConfigFromFiles<ValaxyConfig>('index', {
+      rewrite(c: ValaxyConfig | ValaxyAddonFn) {
+        return (typeof c === 'function' ? c(addon, options!) : c)
+      },
+      cwd: addon.root,
+    })
+    if (!config)
+      continue
+    addon.configFile = normalizePath(sources[0] || '')
+    valaxyConfig = mergeValaxyConfig(config, valaxyConfig)
+  }
+  return valaxyConfig
 }

@@ -3,6 +3,8 @@ import isInstalledGlobally from 'is-installed-globally'
 import globalDirs from 'global-dirs'
 import { sync as resolve } from 'resolve'
 import consola from 'consola'
+import type { LoadConfigSource } from 'unconfig'
+import { loadConfig } from 'unconfig'
 
 export * from './getGitTimestamp'
 
@@ -31,6 +33,10 @@ export function toAtFS(path: string) {
   return `/@fs${ensurePrefix('/', slash(path))}`
 }
 
+export function isPath(name: string) {
+  return name.startsWith('/') || /^\.\.?[\/\\]/.test(name)
+}
+
 export function resolveImportPath(importName: string, ensure: true): string
 export function resolveImportPath(importName: string, ensure?: boolean): string | undefined
 export function resolveImportPath(importName: string, ensure = false) {
@@ -39,7 +45,9 @@ export function resolveImportPath(importName: string, ensure = false) {
       preserveSymlinks: false,
     })
   }
-  catch {}
+  catch (error) {
+    consola.log(error)
+  }
 
   if (isInstalledGlobally) {
     try {
@@ -60,3 +68,13 @@ export function resolveImportPath(importName: string, ensure = false) {
   return undefined
 }
 
+export interface LoadConfigFromFilesOptions {
+  cwd?: string
+  rewrite?: LoadConfigSource['rewrite']
+}
+export async function loadConfigFromFiles<T>(files: string, options: LoadConfigFromFilesOptions = {}) {
+  return await loadConfig<T>({
+    sources: { files, rewrite: options.rewrite },
+    cwd: options.cwd || process.cwd(),
+  })
+}
