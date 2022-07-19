@@ -82,8 +82,6 @@ export async function resolveOptions(options: ValaxyEntryOptions, mode: Resolved
 
   const themeRoot = getThemeRoot(theme, options.userRoot)
 
-  const roots = uniq([clientRoot, themeRoot, userRoot])
-
   // Important: fast-glob doesn't guarantee order of the returned files.
   // We must sort the pages so the input list to rollup is stable across
   // builds - otherwise different input order could result in different exports
@@ -104,7 +102,7 @@ export async function resolveOptions(options: ValaxyEntryOptions, mode: Resolved
     userRoot,
     themeRoot,
     addonRoots: [],
-    roots,
+    roots: [],
     theme,
     config: userValaxyConfig,
     configFile: configFile || '',
@@ -126,8 +124,10 @@ export async function resolveOptions(options: ValaxyEntryOptions, mode: Resolved
   valaxyOptions.config = config
   valaxyOptions.addons = addons
 
-  valaxyOptions.addonRoots = addons.map(({ root }) => root)
-  valaxyOptions.roots = valaxyOptions.roots.concat(valaxyOptions.addonRoots)
+  const addonRoots = addons.map(({ root }) => root)
+  valaxyOptions.addonRoots = addonRoots
+  // ensure order
+  valaxyOptions.roots = uniq([clientRoot, themeRoot, ...addonRoots, userRoot])
 
   await processSiteConfig(valaxyOptions)
   return valaxyOptions
