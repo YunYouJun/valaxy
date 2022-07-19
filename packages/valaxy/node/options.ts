@@ -6,11 +6,11 @@ import { ensureSuffix, uniq } from '@antfu/utils'
 import defu from 'defu'
 import type { DefaultThemeConfig } from '../types'
 import { resolveImportPath } from './utils'
-import { getModuleRoot } from './utils/module'
 import { mergeValaxyConfig, resolveAddonConfig, resolveValaxyConfig, resolveValaxyConfigFromRoot } from './utils/config'
 import type { ValaxyAddonResolver, ValaxyConfig } from './types'
 import { defaultSiteConfig } from './config'
-import { parseAddonOptions } from './utils/parseAddons'
+import { parseAddonOptions } from './utils/addons'
+import { getThemeRoot } from './utils/theme'
 
 // for cli entry
 export interface ValaxyEntryOptions {
@@ -76,7 +76,7 @@ export async function resolveOptions(options: ValaxyEntryOptions, mode: Resolved
 
   const { config: userValaxyConfig, configFile, theme } = await resolveValaxyConfig(options)
 
-  const themeRoot = getModuleRoot(`valaxy-theme-${theme}`, options.userRoot)
+  const themeRoot = getThemeRoot(theme, options.userRoot)
 
   const roots = uniq([clientRoot, themeRoot, userRoot])
 

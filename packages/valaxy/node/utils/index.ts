@@ -31,6 +31,10 @@ export function toAtFS(path: string) {
   return `/@fs${ensurePrefix('/', slash(path))}`
 }
 
+export function isPath(name: string) {
+  return name.startsWith('/') || /^\.\.?[\/\\]/.test(name)
+}
+
 export function resolveImportPath(importName: string, ensure: true): string
 export function resolveImportPath(importName: string, ensure?: boolean): string | undefined
 export function resolveImportPath(importName: string, ensure = false) {
