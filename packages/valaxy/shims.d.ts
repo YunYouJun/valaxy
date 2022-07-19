@@ -32,6 +32,11 @@ declare module '/@valaxyjs/context' {
   const ctx: string
   export default ctx
 }
+declare module '/@valaxyjs/addons' {
+  import type { DefineComponent } from 'vue'
+  const components: { props: any, component: DefineComponent<{}, {}, any> }[]
+  export default components
+}
 
 declare module '/@valaxyjs/locales' {
   const messages: {}
