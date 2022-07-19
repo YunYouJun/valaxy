@@ -3,6 +3,8 @@ import isInstalledGlobally from 'is-installed-globally'
 import globalDirs from 'global-dirs'
 import { sync as resolve } from 'resolve'
 import consola from 'consola'
+import type { LoadConfigSource } from 'unconfig'
+import { loadConfig } from 'unconfig'
 
 export * from './getGitTimestamp'
 
@@ -66,3 +68,13 @@ export function resolveImportPath(importName: string, ensure = false) {
   return undefined
 }
 
+export interface LoadConfigFromFilesOptions {
+  cwd?: string
+  rewrite?: LoadConfigSource['rewrite']
+}
+export async function loadConfigFromFiles<T>(files: string, options: LoadConfigFromFilesOptions = {}) {
+  return await loadConfig<T>({
+    sources: { files, rewrite: options.rewrite },
+    cwd: options.cwd || process.cwd(),
+  })
+}
