@@ -91,6 +91,7 @@
     "markdown-it-task-lists": "^2.1.1",
     "nprogress": "^0.2.0",
     "open": "^8.4.0",
+    "pascal-case": "^3.1.2",
     "pinia": "^2.0.16",
     "sass": "^1.53.0",
     "shiki": "^0.10.1",

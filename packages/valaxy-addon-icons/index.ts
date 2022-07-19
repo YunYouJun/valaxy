@@ -42,7 +42,14 @@ const addon = defineAddon(({ options }, { userRoot }) => {
   } = options
 
   const iconDir = resolve(userRoot, dir)
-  const names = fs.readdirSync(iconDir)
+  const icons: string[] = []
+
+  try {
+    icons.push(...fs.readdirSync(iconDir))
+  }
+  catch {}
+
+  const names: string[] = icons
     .map((icon) => {
       return basename(icon).replace(extname(icon), '')
     })

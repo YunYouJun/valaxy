@@ -33,5 +33,6 @@ useHead({
 </script>
 
 <template>
+  <valaxy-addons />
   <router-view />
 </template>
