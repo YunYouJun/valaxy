@@ -27,7 +27,7 @@ const collapsable = ref(props.collapsable)
 <style lang="scss">
 .post-list-item {
   a {
-    color: var(--va-c-text);
+    color: var(--va-c-text-lighter);
 
     &:hover {
       color: var(--va-c-primary);

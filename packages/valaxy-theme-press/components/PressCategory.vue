@@ -41,8 +41,8 @@ const getTitle = (post: Post | any) => {
   <template v-if="!collapsable">
     <ul v-if="!isParentCategory(category)">
       <li v-for="post, i in category.posts" :key="i" class="post-list-item" m="l-4">
-        <router-link v-if="post.title" :to="post.path || ''" class="inline-flex items-center">
-          <span m="l-1">{{ getTitle(post) }}</span>
+        <router-link v-if="post.title" :to="post.path || ''" class="inline-flex items-center" active-class="active">
+          <span m="l-1" text="sm">{{ getTitle(post) }}</span>
         </router-link>
       </li>
     </ul>

@@ -9,11 +9,14 @@ top: 50
 
 ::: tip
 
-Valaxy 与 Vite/Vue 的生态完全兼容，因此你可以像写一个 Vite 插件一样，在主题中自由地扩展。
+Valaxy 与 Vite/Vue 的生态完全兼容，因此你在编写主题时，可以任意使用第三方的 Vite/Vue 插件。
 
 - [Authoring a Plugin | Vite](https://vitejs.dev/guide/api-plugin.html#authoring-a-plugin)
+- [Writing a Plugin | Vue](https://vuejs.org/guide/reusability/plugins.html#writing-a-plugin)
 
 :::
+
+撰写中...
 
 ## APIs
 
@@ -22,18 +25,16 @@ Valaxy 与 Vite/Vue 的生态完全兼容，因此你可以像写一个 Vite 插
 你也可以直接扩展 [vite-plugin-pages](https://github.com/hannoeru/vite-plugin-pages) 插件中的 `extendRoute`。
 
 ```ts
-// vite.config.ts
-import { defineConfig } from 'vite'
-export default defineConfig({
-  valaxy: {
-    pages: {
-      extendRoute(route, parent) {
-        console.log(route)
-      },
+// valaxy.config.ts
+import { defineTheme } from 'valaxy'
+export default defineTheme({
+  pages: {
+    extendRoute(route, parent) {
+      console.log(route)
     },
-    extendMd(ctx) {
-      console.log(ctx.path)
-    },
+  },
+  extendMd(ctx) {
+    console.log(ctx.path)
   },
 })
 ```

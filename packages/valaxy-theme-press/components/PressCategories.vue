@@ -28,8 +28,13 @@ const collapsable = ref(props.collapsable)
 .post-list-item {
   a {
     color: var(--va-c-text-light);
+    transition: all 0.2s;
 
     &:hover {
+      color: var(--va-c-primary);
+    }
+
+    &.active {
       color: var(--va-c-primary);
     }
   }

@@ -89,7 +89,9 @@ export default {
 
 > 更多请参见 [valaxy-theme-yun](https://github.com/YunYouJun/valaxy/tree/main/packages/valaxy-theme-yun) 代码。
 
-## File-based Routing
+## File-based Routing {lang="en"}
+
+## 基于文件的自动路由 {lang="zh-CN"}
 
 Routes will be auto-generated for Vue files in this dir with the same file structure.
 Check out [`vite-plugin-pages`](https://github.com/hannoeru/vite-plugin-pages) for more details.
@@ -124,7 +126,9 @@ npm run rss
 # valaxy rss
 ```
 
-## i18n in One Page
+## i18n in One Page {lang="en"}
+
+## 单页 i18n {lang="zh-CN"}
 
 More info see [i18n](/docs/guide/i18n).
 
