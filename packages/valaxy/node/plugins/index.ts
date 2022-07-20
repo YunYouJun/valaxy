@@ -82,6 +82,11 @@ function generateAddons(options: ResolvedValaxyOptions) {
 }
 
 /**
+ * vue component render null
+ */
+const nullVue = 'import { defineComponent } from "vue"; export default defineComponent({ render: () => null });'
+
+/**
  * read from user App.vue
  * @internal
  * @param options
@@ -89,7 +94,7 @@ function generateAddons(options: ResolvedValaxyOptions) {
 function generateUserAppVue(options: ResolvedValaxyOptions) {
   const userAppVue = join(options.userRoot, 'App.vue')
   if (!fs.existsSync(userAppVue))
-    return 'export default null'
+    return nullVue
 
   const scripts = [
     `import UserAppVue from "${toAtFS(userAppVue)}"`,

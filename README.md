@@ -18,8 +18,8 @@
 </a>
 </p>
 
-- [Docs](https://valaxy.yyj.moe/docs): <small>Toggle 中文｜English in Sidebar</small>
-- [Demo](https://valaxy.yyj.moe): <small>with [valaxy-theme-yun](./packages/valaxy-theme-yun/)</small>
+- [English Docs](https://valaxy.site/?lang=en) | [中文文档](https://valaxy.site/?lang=zh-CN)
+- [Demo](https://yun.valaxy.site): <small>with [valaxy-theme-yun](./packages/valaxy-theme-yun/)</small>
 
 ## Usage
 
