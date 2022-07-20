@@ -81,6 +81,31 @@ function generateAddons(options: ResolvedValaxyOptions) {
   return `${imports}\n` + `export default [${components}]`
 }
 
+/**
+ * read from user App.vue
+ * @internal
+ * @param options
+ */
+function generateUserAppVue(options: ResolvedValaxyOptions) {
+  const userAppVue = join(options.userRoot, 'App.vue')
+  if (!fs.existsSync(userAppVue))
+    return 'export default null'
+
+  const scripts = [
+    `import UserAppVue from "${toAtFS(userAppVue)}"`,
+    'export default UserAppVue',
+  ]
+
+  return scripts.join('\n')
+}
+
+/**
+ * create valaxy plugin (virtual modules)
+ * @internal
+ * @param options
+ * @param serverOptions
+ * @returns
+ */
 export function createValaxyPlugin(options: ResolvedValaxyOptions, serverOptions: ValaxyServerOptions = {}): Plugin {
   const { config: valaxyConfig } = options
 
@@ -151,6 +176,9 @@ export function createValaxyPlugin(options: ResolvedValaxyOptions, serverOptions
 
       if (id === '/@valaxyjs/addons')
         return generateAddons(options)
+
+      if (id === '/@valaxyjs/UserAppVue')
+        return generateUserAppVue(options)
 
       if (id.startsWith(valaxyPrefix)) {
         return {

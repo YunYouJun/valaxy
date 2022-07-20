@@ -58,7 +58,7 @@
     "valaxy-theme-press": "workspace:*",
     "valaxy-theme-yun": "workspace:*",
     "vitest": "^0.18.1",
-    "vue-tsc": "0.38.8",
+    "vue-tsc": "0.38.9",
     "zx": "^7.0.7"
   },
   "lint-staged": {

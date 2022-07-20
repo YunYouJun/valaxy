@@ -1,6 +1,8 @@
 <script setup lang="ts">
 import { computed } from 'vue'
 import { useHead } from '@vueuse/head'
+// @ts-expect-error virtual module
+import ValaxyUserApp from '/@valaxyjs/UserAppVue'
 import { isDark } from './composables'
 
 // https://github.com/vueuse/head
@@ -10,9 +12,9 @@ import { useConfig } from './config'
 
 // <link rel="apple-touch-icon" href="/pwa-192x192.png">
 // <link rel="mask-icon" href="/safari-pinned-tab.svg" color="#00aba9">
-// <meta name="msapplication-TileColor" content = "#00aba9" >
 
 const config = useConfig()
+const themeColor = computed(() => isDark.value ? '#00aba9' : '#ffffff')
 useHead({
   title: config.value.title,
   link: [
@@ -26,13 +28,18 @@ useHead({
     { name: 'description', content: config.value.description },
     {
       name: 'theme-color',
-      content: computed(() => isDark.value ? '#00aba9' : '#ffffff'),
+      content: themeColor,
+    },
+    {
+      name: 'msapplication-TileColor',
+      content: themeColor,
     },
   ],
 })
 </script>
 
 <template>
-  <valaxy-addons />
+  <ValaxyUserApp />
+  <ValaxyAddons />
   <router-view />
 </template>

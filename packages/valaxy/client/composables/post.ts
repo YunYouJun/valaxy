@@ -42,9 +42,10 @@ export function usePostList(params: {
 } = {}) {
   return computed(() => {
     const routes = usePageList().value
-      .filter(i => i.path?.startsWith('/posts') && i.meta.frontmatter.date)
+      .filter(i => i.path?.startsWith('/posts'))
       .filter(i => !i.path?.endsWith('.html'))
-      .filter(i => !params.type || i.meta.frontmatter.type === params.type)
+      .filter(i => i.date)
+      .filter(i => !params.type || i.type === params.type)
 
     /**
      * 置顶
