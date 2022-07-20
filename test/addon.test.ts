@@ -15,22 +15,22 @@ describe('addon parse', () => {
   })
 
   it('addon:read:module', async () => {
-    const option = await readAddonModule('vitest')
+    const options = await readAddonModule('./test/fixtures/addon', { cwd: process.cwd() })
     const result = {
       enable: true,
-      name: 'vitest',
+      name: 'valaxy-addon-test',
       global: false,
-      root: getAddonRoot('vitest', process.cwd()),
+      root: getAddonRoot('./test/fixtures/addon', process.cwd()),
       options: {},
       props: {},
     }
-    expect(option).toEqual(result)
+    expect(options).toEqual(result)
   })
 
   it('addon:parse:cover', async () => {
     const addons = await parseAddonOptions([
-      ['vitest', { global: true }],
-      ['vitest', { global: false }],
+      ['./test/fixtures/addon', { global: true }],
+      ['./test/fixtures/addon', { global: false }],
     ])
     expect(addons[0].global).toBeFalsy()
     expect(addons.length).toEqual(1)

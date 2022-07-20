@@ -179,6 +179,7 @@ export async function ViteValaxyPlugins(
         return route
       },
     }),
+
     // https://github.com/JohnCampionJr/vite-plugin-vue-layouts
     Layouts({
       layoutsDirs: roots.map(root => `${root}/layouts`),

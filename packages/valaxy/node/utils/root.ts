@@ -1,4 +1,5 @@
 import { dirname, resolve } from 'path'
+import fs from 'fs'
 import { isPath, resolveImportPath } from '../utils'
 
 /**
@@ -12,11 +13,14 @@ export function getModuleRoot(name: string, entry?: string) {
     return ''
 
   if (isPath(name)) {
-    if (entry)
-      return resolve(dirname(entry), name)
-    else
-      throw new Error(`entry is required when ${name} is path`)
+    if (entry) {
+      const isFile = fs.lstatSync(entry).isFile()
+      return resolve(isFile ? dirname(entry) : entry, name)
+    }
+    else { throw new Error(`entry is required when ${name} is path`) }
   }
 
-  else { return dirname(resolveImportPath(`${name}/package.json`) || '') }
+  else {
+    return dirname(resolveImportPath(`${name}/package.json`) || '')
+  }
 }

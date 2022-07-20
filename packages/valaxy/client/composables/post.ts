@@ -14,7 +14,25 @@ export const usePostTitle = (post: Ref<Post>) => {
 }
 
 /**
- * get post list
+ * get all page in 'pages' folder
+ * @returns
+ */
+export function usePageList() {
+  const router = useRouter()
+  return computed<Post[]>(() => {
+    const excludePages = ['/:..all', '/:all(.*)*', '/']
+    const routes = router.getRoutes()
+      .filter(i => i.meta.frontmatter)
+      .filter(i => i.path && !excludePages.includes(i.path))
+      .map((i) => {
+        return Object.assign({ path: i.path, excerpt: i.meta.excerpt }, i.meta.frontmatter)
+      })
+    return routes
+  })
+}
+
+/**
+ * get post list in 'pages/posts' folder
  * todo: use vue provide/inject to global
  * @param params
  * @returns
@@ -22,15 +40,11 @@ export const usePostTitle = (post: Ref<Post>) => {
 export function usePostList(params: {
   type?: string
 } = {}) {
-  const router = useRouter()
   return computed(() => {
-    const routes = router.getRoutes()
-      .filter(i => i.path.startsWith('/posts') && i.meta.frontmatter && i.meta.frontmatter.date)
-      .filter(i => !i.path.endsWith('.html'))
+    const routes = usePageList().value
+      .filter(i => i.path?.startsWith('/posts') && i.meta.frontmatter.date)
+      .filter(i => !i.path?.endsWith('.html'))
       .filter(i => !params.type || i.meta.frontmatter.type === params.type)
-      .map((i) => {
-        return Object.assign({ path: i.path, excerpt: i.meta.excerpt }, i.meta.frontmatter)
-      })
 
     /**
      * 置顶
@@ -39,21 +53,6 @@ export function usePostList(params: {
     const otherPosts = sortByDate(routes.filter(i => !i.top))
 
     return topPosts.concat(otherPosts)
-  })
-}
-
-/**
- * get all page
- * @returns
- */
-export function usePageList() {
-  const router = useRouter()
-  return computed<Post[]>(() => {
-    const routes = router.getRoutes()
-      .map((i) => {
-        return Object.assign({ path: i.path, excerpt: i.meta.excerpt }, i.meta.frontmatter)
-      })
-    return routes
   })
 }
 

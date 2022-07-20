@@ -7,6 +7,6 @@ import { getModuleRoot } from './root'
  * @returns
  */
 export function getThemeRoot(name: string, entry?: string) {
-  const themeModule = name.startsWith('valaxy-theme') ? name : `valaxy-theme-${name}`
+  const themeModule = (name.startsWith('valaxy-theme') || name.startsWith('.')) ? name : `valaxy-theme-${name}`
   return getModuleRoot(themeModule, entry)
 }

@@ -7,7 +7,7 @@ import { useConfig } from '../config'
 
 export function useFrontmatter() {
   const route = useRoute()
-  const frontmatter = computed<Post>(() => route.meta.frontmatter)
+  const frontmatter = computed<Post>(() => route.meta.frontmatter || {})
 
   return frontmatter
 }
