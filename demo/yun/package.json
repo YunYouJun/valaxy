@@ -1,6 +1,6 @@
 {
   "name": "yun-demo",
-  "slidev": {
+  "valaxy": {
     "theme": "yun"
   },
   "scripts": {

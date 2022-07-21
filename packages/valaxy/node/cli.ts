@@ -151,10 +151,10 @@ cli.command(
     )
 
     // merge index.html
+    const templatePath = path.resolve(options.userRoot, 'template.html')
     const indexPath = path.resolve(options.userRoot, 'index.html')
-    let originalIndexHTML: string | undefined
-    if (fs.existsSync(indexPath))
-      originalIndexHTML = await fs.readFile(indexPath, 'utf-8')
+    if (fs.existsSync(templatePath))
+      await fs.copyFile(templatePath, indexPath)
     await fs.writeFile(indexPath, await getIndexHtml(options), 'utf-8')
 
     try {
@@ -175,10 +175,7 @@ cli.command(
       }
     }
     finally {
-      if (originalIndexHTML != null)
-        await fs.writeFile(indexPath, originalIndexHTML, 'utf-8')
-      else
-        await fs.unlink(indexPath)
+      await fs.unlink(indexPath)
     }
   },
 )

@@ -13,3 +13,5 @@ node_modules
 *.log
 
 components.d.ts
+# use template.html
+index.html

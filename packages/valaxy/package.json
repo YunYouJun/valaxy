@@ -22,11 +22,7 @@
       "import": "./dist/node/index.mjs"
     },
     "./client/*": "./client/*",
-    "./client": {
-      "types": "./dist/client/index.d.ts",
-      "require": "./dist/client/index.js",
-      "import": "./dist/client/index.mjs"
-    },
+    "./client": "./client/index.ts",
     "./node": {
       "types": "./dist/node/index.d.ts",
       "require": "./dist/node/index.js",
@@ -78,6 +74,7 @@
     "global-dirs": "^3.0.0",
     "gray-matter": "^4.0.3",
     "is-installed-globally": "^0.4.0",
+    "jiti": "^1.14.0",
     "katex": "^0.16.0",
     "kolorist": "^1.5.1",
     "lru-cache": "^7.13.1",

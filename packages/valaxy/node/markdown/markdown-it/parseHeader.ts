@@ -11,7 +11,9 @@
 // loader, the raw HTML in headers will finally be parsed by Vue-loader.
 // so that we can write HTML/Vue in the header. One exception is the HTML
 // wrapped by <code>(markdown token: '`') tag.
-import emojiData from 'markdown-it-emoji/lib/data/full.json'
+
+// https://v8.dev/features/import-assertions esm
+import emojiData from 'markdown-it-emoji/lib/data/full.json' assert { type: 'json' }
 
 const parseEmojis = (str: string) => {
   return str.replace(

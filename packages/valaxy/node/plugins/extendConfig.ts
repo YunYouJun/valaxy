@@ -1,8 +1,9 @@
 import { dirname, join, resolve } from 'path'
 import type { InlineConfig, Plugin } from 'vite'
-import { mergeConfig } from 'vite'
+import { mergeConfig, searchForWorkspaceRoot } from 'vite'
 import isInstalledGlobally from 'is-installed-globally'
 import fs from 'fs-extra'
+import { uniq } from '@antfu/utils'
 import type { ResolvedValaxyOptions } from '../options'
 import { resolveImportPath, toAtFS } from '../utils'
 import { getIndexHtml } from '../common'
@@ -53,13 +54,12 @@ export function createConfigPlugin(options: ResolvedValaxyOptions): Plugin {
 
         server: {
           fs: {
-            allow: [
-              // not need to search workspace root
-              options.clientRoot,
-              options.themeRoot,
-              options.userRoot,
+            allow: uniq([
+              searchForWorkspaceRoot(options.clientRoot),
+              searchForWorkspaceRoot(options.themeRoot),
+              searchForWorkspaceRoot(options.userRoot),
               dirname(resolveImportPath('katex/package.json', true)),
-            ],
+            ]),
           },
         },
       }

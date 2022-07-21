@@ -61,7 +61,7 @@ layout: album
 
 ## 自定义 index.html
 
-新建 `index.html`，你可以在 `<head></head>` 与 `<body></body>` 全局地插入任意内容。
+新建 `template.html`，你可以在 `<head></head>` 与 `<body></body>` 全局地插入任意内容。
 
 譬如：
 

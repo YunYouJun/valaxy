@@ -1,2 +1,4 @@
 # ignore it
 components.d.ts
+# use template.html
+index.html
