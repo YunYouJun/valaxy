@@ -14,7 +14,9 @@ export function createConfigPlugin(options: ResolvedValaxyOptions): Plugin {
 
     config(config) {
       const injection: InlineConfig = {
-        root: options.userRoot,
+        // root: options.userRoot,
+        // can not transform valaxy/client/*.ts when use userRoot
+        root: options.clientRoot,
         publicDir: join(options.userRoot, 'public'),
 
         define: getDefine(options),
@@ -42,6 +44,7 @@ export function createConfigPlugin(options: ResolvedValaxyOptions): Plugin {
             'dayjs',
             'nprogress',
             'katex',
+            'valaxy',
           ],
 
           exclude: [

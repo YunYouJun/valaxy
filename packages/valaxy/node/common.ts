@@ -6,6 +6,13 @@ import { loadConfigFromFile, mergeConfig } from 'vite'
 import type { ResolvedValaxyOptions } from './options'
 import { toAtFS } from './utils'
 
+/**
+ * merge vite.config.ts (user & theme)
+ * @internal
+ * @param param
+ * @param command
+ * @returns
+ */
 export async function mergeViteConfigs({ userRoot, themeRoot }: ResolvedValaxyOptions, command: 'serve' | 'build') {
   const configEnv: ConfigEnv = {
     mode: 'development',
@@ -29,6 +36,12 @@ export async function mergeViteConfigs({ userRoot, themeRoot }: ResolvedValaxyOp
   return resolvedConfig
 }
 
+/**
+ * generate index.html from user/theme/client
+ * @internal
+ * @param
+ * @returns
+ */
 export async function getIndexHtml({ clientRoot, themeRoot, userRoot, config }: ResolvedValaxyOptions): Promise<string> {
   let main = await fs.readFile(join(clientRoot, 'index.html'), 'utf-8')
   let head = ''
@@ -38,14 +51,25 @@ export async function getIndexHtml({ clientRoot, themeRoot, userRoot, config }: 
 
   if (config.mode === 'auto') {
     head += `
-  <script>
-  (function () {
-    const prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches
-    const setting = localStorage.getItem('vueuse-color-scheme') || 'auto'
-    if (setting === 'dark' || (prefersDark && setting !== 'light'))
-      document.documentElement.classList.toggle('dark', true)
-  })()
-  </script>
+    <script>
+    (function () {
+      const prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches
+      const setting = localStorage.getItem('vueuse-color-scheme') || 'auto'
+      if (setting === 'dark' || (prefersDark && setting !== 'light'))
+        document.documentElement.classList.toggle('dark', true)
+    })()
+    </script>
+    `
+  }
+
+  if (config.lang) {
+    head += `
+    <script>
+    (function () {
+      const locale = localStorage.getItem('valaxy-locale') || '${config.lang}'
+      document.documentElement.setAttribute('lang', locale)
+    })()
+    </script>
     `
   }
 

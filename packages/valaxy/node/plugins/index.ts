@@ -149,8 +149,9 @@ export function createValaxyPlugin(options: ResolvedValaxyOptions, serverOptions
     configureServer(server) {
       server.watcher.add([
         options.configFile,
-        options.userRoot,
+        options.clientRoot,
         options.themeRoot,
+        options.userRoot,
       ])
     },
 
