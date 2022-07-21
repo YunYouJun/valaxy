@@ -1,7 +1,7 @@
 import { resolve } from 'path'
 import { describe, expect, it } from 'vitest'
 import { getIndexHtml } from '../packages/valaxy/node'
-import type { ResolvedValaxyOptions, ValaxyConfig, DefaultThemeConfig } from '../packages/valaxy'
+import type { DefaultThemeConfig, ResolvedValaxyOptions, ValaxyConfig } from '../packages/valaxy'
 
 const clientRoot = resolve(__dirname, '../packages/valaxy/client')
 const themeRoot = resolve(__dirname, 'fixtures/theme')

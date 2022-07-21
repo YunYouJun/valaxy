@@ -175,7 +175,8 @@ cli.command(
       }
     }
     finally {
-      await fs.unlink(indexPath)
+      // await fs.unlink(indexPath)
+      await fs.copyFile(templatePath, indexPath)
     }
   },
 )

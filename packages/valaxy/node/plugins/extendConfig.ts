@@ -44,7 +44,6 @@ export function createConfigPlugin(options: ResolvedValaxyOptions): Plugin {
             'dayjs',
             'nprogress',
             'katex',
-            'valaxy',
           ],
 
           exclude: [
