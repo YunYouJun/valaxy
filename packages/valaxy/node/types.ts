@@ -38,6 +38,7 @@ export interface ValaxyExtendConfig {
   extendMd?: (ctx: {
     route: any
     data: Record<string, any>
+    content: string
     excerpt?: string
     path: string
   }) => void
