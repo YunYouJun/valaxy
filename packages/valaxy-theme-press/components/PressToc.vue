@@ -106,6 +106,7 @@ function handleClick({ target: el }: Event) {
   line-height: 28px;
   font-size: 14px;
   font-weight: 600;
+  color: var(--pr-c-text-1);
 }
 
 .outline-link {
