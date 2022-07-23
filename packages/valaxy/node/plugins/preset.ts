@@ -126,7 +126,7 @@ export async function ViteValaxyPlugins(
 
         if (path.endsWith('.md')) {
           const md = fs.readFileSync(path, 'utf-8')
-          const { data, excerpt } = matter(md, { excerpt_separator: '<!-- more -->' })
+          const { data, excerpt, content } = matter(md, { excerpt_separator: '<!-- more -->' })
 
           // todo, optimize it to cache or on demand
           // https://github.com/hannoeru/vite-plugin-pages/issues/257
@@ -170,6 +170,7 @@ export async function ViteValaxyPlugins(
             route,
             data,
             excerpt,
+            content,
             path,
           })
         }
