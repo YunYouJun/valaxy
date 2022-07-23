@@ -6,6 +6,19 @@ export namespace DocsTheme {
   export type Sidebar = any
 }
 
+export interface NavItemLink {
+  link: string
+  text: string
+  active?: string
+}
+
+export interface NavItemGroup {
+  text: string
+  items: NavItemLink[]
+}
+
+export type NavItem = NavItemLink | NavItemGroup
+
 /**
  * Theme Config
  */
@@ -24,10 +37,7 @@ export interface ThemeConfig {
     primary: string
   }
 
-  nav: {
-    link: string
-    text: string
-  }[]
+  nav: Array<NavItem>
 }
 
 export type ThemeUserConfig = Partial<ThemeConfig>
