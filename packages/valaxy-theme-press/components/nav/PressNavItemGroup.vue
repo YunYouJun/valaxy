@@ -1,7 +1,6 @@
 <script lang="ts" setup>
-import type { NavItemGroup } from 'types'
 import { ref } from 'vue'
-// import { isDark } from 'valaxy'
+import type { NavItemGroup } from '../../types'
 defineProps<{
   item: NavItemGroup
 }>()
