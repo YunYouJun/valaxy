@@ -10,7 +10,35 @@ export default defineConfig({
   description: 'Valaxy Site Docs',
 
   theme: 'press',
-  themeConfig: {},
+  themeConfig: {
+    nav: [
+      {
+        text: 'FAQ',
+        link: '/dev/faq',
+      },
+      {
+        text: 'Guide',
+        link: '/guide/getting-started',
+      },
+      {
+        text: 'Addons',
+        items: [
+          {
+            text: 'index',
+            link: '/addons',
+          },
+          {
+            text: 'use',
+            link: '/addons/use',
+          },
+          {
+            text: 'write',
+            link: '/addons/write',
+          },
+        ],
+      },
+    ],
+  },
 
   vite: {
     base: '/',

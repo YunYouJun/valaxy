@@ -12,33 +12,7 @@ export const defaultThemeConfig: ThemeConfig = {
     primary: '#0078E7',
   },
 
-  nav: [
-    {
-      text: 'FAQ',
-      link: '/dev/faq',
-    },
-    {
-      text: 'Guide',
-      link: '/guide/getting-started',
-    },
-    {
-      text: 'Addons',
-      items: [
-        {
-          text: 'index',
-          link: '/addons',
-        },
-        {
-          text: 'use',
-          link: '/addons/use',
-        },
-        {
-          text: 'write',
-          link: '/addons/write',
-        },
-      ],
-    },
-  ],
+  nav: [],
 }
 
 export default defaultThemeConfig
