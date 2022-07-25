@@ -68,14 +68,14 @@ export interface ValaxyConfig {
 而由于评论系统各不相同，如 Hexo 等主题开发者们通常需在主题侧重复实现多款评论系统。
 这显然是繁琐的。
 
-Valaxy 决定中心化地提供各类封装好的评论钩子函数。
+Valaxy 决定通过插件中心化地提供各类封装好的评论钩子函数。
 
-譬如主题开发者，可以快速通过 `useWaline` 来实现 [Waline](https://waline.js.org/) 评论系统的集成。  
+譬如主题开发者，可以从 `valaxy-addon-waline` 中导入 `useWaline` 来快速实现 [Waline](https://waline.js.org/) 评论系统的集成。  
 而用户则可以使用相同的配置穿梭漫游于不同的主题之间。
 
 ```vue {2}
 <script lang="ts" setup>
-import { useConfig, useWaline } from 'valaxy'
+import { useConfig, useWaline } from 'valaxy-addon-waline'
 
 // 读取用户配置
 const config = useConfig()

@@ -18,7 +18,6 @@ export default defineConfig((options) => {
     external: [
       '/@valaxyjs/site',
       '/@valaxyjs/context',
-      '@waline/client',
     ],
   }
 })
