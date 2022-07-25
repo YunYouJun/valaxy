@@ -47,4 +47,8 @@ const collapsable = ref(props.collapsable)
     }
   }
 }
+
+.category-list+.category-list {
+  margin-top: 1rem;
+}
 </style>

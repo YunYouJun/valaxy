@@ -1,7 +1,8 @@
 <script lang="ts" setup>
-import { useSidebar } from 'valaxy/client'
+import { useLayout, useSidebar } from 'valaxy'
 
 const { isOpen: isSidebarOpen, open: openSidebar, close: closeSidebar } = useSidebar()
+const layout = useLayout()
 </script>
 
 <template>
@@ -9,7 +10,7 @@ const { isOpen: isSidebarOpen, open: openSidebar, close: closeSidebar } = useSid
     <PressNav />
     <PressLocalNav :open="isSidebarOpen" @open-menu="openSidebar()" />
     <slot name="sidebar">
-      <PressSidebar :open="isSidebarOpen" />
+      <PressSidebar v-if="layout !== 'post'" :open="isSidebarOpen" />
     </slot>
     <PressBackdrop :show="isSidebarOpen" @click="closeSidebar" />
 

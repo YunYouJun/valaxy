@@ -24,6 +24,8 @@ export interface ThemeConfig {
     primary: string
   }
 
+  sidebar: string[]
+
   nav: {
     link: string
     text: string
