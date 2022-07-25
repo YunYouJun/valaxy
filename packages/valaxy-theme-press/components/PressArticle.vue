@@ -46,7 +46,6 @@ const prevPost = computed(() => posts.value[findCurrentIndex() + 1])
       "
       style="grid-template-rows: auto 1fr"
     >
-      <PressAuthor v-if="frontmatter.author" :frontmatter="frontmatter" />
       <div class="divide-y divide-gray-200 xl:pb-0 xl:col-span-3 xl:row-span-2">
         <router-view />
       </div>
