@@ -5,13 +5,14 @@ import defu from 'defu'
 import type { ResolvedValaxyOptions } from 'valaxy'
 import { sync as resolveSync } from 'resolve'
 import type { ValaxyAddonLike, ValaxyAddonOptions, ValaxyAddonResolver } from '../types'
+import { isPath } from '.'
 
 export interface ReadAddonModuleOptions {
-  valaxy?: ResolvedValaxyOptions
+  valaxy?: Partial<ResolvedValaxyOptions>
   extends?: Partial<ValaxyAddonResolver>
 }
 
-export async function parseAddonOptions(addons: ValaxyAddonOptions, valaxy: ResolvedValaxyOptions) {
+export async function parseAddonOptions(addons: ValaxyAddonOptions, valaxy: Partial<ResolvedValaxyOptions> = {}) {
   const resolvers: Record<string, ValaxyAddonResolver > = {}
   const mergeResolver = (resolver?: ValaxyAddonResolver) => {
     if (resolver)
@@ -45,14 +46,14 @@ export async function parseAddonOptions(addons: ValaxyAddonOptions, valaxy: Reso
  * @returns
  */
 export async function readAddonModule(name: string, options: ReadAddonModuleOptions = {}) {
-  let root: string
+  let root = ''
 
-  try {
+  if (!root)
     root = getAddonRoot(name, options.valaxy?.userRoot)
-  }
-  catch (error) {
+  if (!root)
     root = getAddonRoot(name, options.valaxy?.themeRoot)
-  }
+  if (!root)
+    root = getAddonRoot(name, process.cwd())
 
   const packageJSONPath = resolve(root, './package.json')
   if (!fs.existsSync(packageJSONPath)) {
@@ -89,5 +90,16 @@ export function parseAddonLike(like: ValaxyAddonLike) {
  */
 export function getAddonRoot(name: string, entry?: string) {
   const addonModule = (name.startsWith('valaxy-addon') || name.startsWith('.')) ? name : `valaxy-addon-${name}`
-  return dirname(resolveSync(`${addonModule}/package.json`, { basedir: entry, preserveSymlinks: false }))
+  if (isPath(name)) {
+    if (entry) {
+      const isFile = fs.lstatSync(entry).isFile()
+      return resolve(isFile ? dirname(entry) : entry, name)
+    }
+  }
+  try {
+    return dirname(resolveSync(`${addonModule}/package.json`, { basedir: entry, preserveSymlinks: false }))
+  }
+  catch {
+    return ''
+  }
 }

@@ -15,7 +15,7 @@ describe('addon parse', () => {
   })
 
   it('addon:read:module', async () => {
-    const options = await readAddonModule('./test/fixtures/addon', { cwd: process.cwd() })
+    const options = await readAddonModule('./test/fixtures/addon')
     const result = {
       enable: true,
       name: 'valaxy-addon-test',
