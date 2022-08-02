@@ -1,0 +1,13 @@
+{
+  "name": "valaxy-addon-image",
+  "version": "0.0.1",
+  "license": "MIT",
+  "keywords": [
+    "valaxy",
+    "addon"
+  ],
+  "dependencies": {
+    "element-plus": "^2.2.12",
+    "unoverlay-vue": "^0.2.1"
+  }
+}
