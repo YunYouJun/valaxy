@@ -17,15 +17,14 @@ const prevPost = computed(() => posts.value[findCurrentIndex() + 1])
 </script>
 
 <template>
-  <article class="xl:divide-y xl:divide-gray-200">
-    <header class="pt-6 xl:pb-10 space-y-1 text-center">
+  <article class="xl:divide-y xl:divide-gray-200 max-w-6xl m-auto">
+    <header class="pt-20 xl:pb-10 space-y-1 text-center">
       <PressDate :date="frontmatter.date" />
       <h1
         class="
           text-3xl
           leading-9
           font-extrabold
-          text-gray-900
           tracking-tight
           sm:text-4xl sm:leading-10
           md:text-5xl md:leading-14
@@ -40,7 +39,7 @@ const prevPost = computed(() => posts.value[findCurrentIndex() + 1])
         divide-y
         xl:divide-y-0
         divide-gray-200
-        xl:grid xl:grid-cols-4 xl:gap-x-10
+        xl:grid xl:grid-cols-5 xl:gap-x-6
         pb-16
         xl:pb-20
       "
@@ -68,7 +67,7 @@ const prevPost = computed(() => posts.value[findCurrentIndex() + 1])
             <a :href="nextPost.href">{{ nextPost.title }}</a>
           </div>
         </div>
-        <div v-if="prevPost" class="py-8">
+        <div v-if="prevPost && prevPost.href" class="py-8">
           <h2 class="text-xs tracking-wide uppercase text-gray-500">
             Previous Article
           </h2>
@@ -77,7 +76,7 @@ const prevPost = computed(() => posts.value[findCurrentIndex() + 1])
           </div>
         </div>
         <div class="pt-8">
-          <a class="link" href="/">← Back to the blog</a>
+          <a class="link" href="/">← Back to Home</a>
         </div>
       </footer>
     </div>

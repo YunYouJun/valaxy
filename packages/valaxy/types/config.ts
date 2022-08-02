@@ -151,7 +151,7 @@ export interface SiteConfig<T = DefaultThemeConfig> {
   /**
    * third-party plugin need cdn
    * aplayer, twikoo
-   * @default 'https://npm.elemecdn.com/'
+   * @default 'https://unpkg.com/'
    */
   cdn: {
     prefix: string

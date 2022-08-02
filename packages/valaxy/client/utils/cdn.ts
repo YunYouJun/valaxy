@@ -1,1 +1,1 @@
-export const cdnPrefix = 'https://npm.elemecdn.com/'
+export const cdnPrefix = 'https://unpkg.com/'

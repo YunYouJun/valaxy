@@ -1,6 +1,6 @@
 import type { Ref } from 'vue'
 import { computed, onMounted, onUnmounted, ref } from 'vue'
-import { useFrontmatter } from '..'
+import { useFrontmatter, useLayout } from '..'
 
 export function useActiveSidebarLinks(container: Ref<HTMLElement>, marker: Ref<HTMLElement>) {
   const onScroll = throttleAndDebounce(setActiveLink, 200)
@@ -119,10 +119,12 @@ function throttleAndDebounce(fn: () => void, delay: number): () => void {
 export function useSidebar() {
   const isOpen = ref(false)
   const fm = useFrontmatter()
+  const layout = useLayout()
   const hasSidebar = computed(() => {
     return (
       fm.value.sidebar !== false
-      && fm.value.layout !== 'home'
+      && layout.value !== 'home'
+      && layout.value !== 'post'
     )
   })
 

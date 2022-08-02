@@ -107,7 +107,7 @@ export const defaultSiteConfig: SiteConfig = {
   },
 
   cdn: {
-    prefix: 'https://npm.elemecdn.com/',
+    prefix: 'https://unpkg.com/',
   },
 
   features: {

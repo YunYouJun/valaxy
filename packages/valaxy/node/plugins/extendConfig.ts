@@ -1,5 +1,5 @@
 import { dirname, join, resolve } from 'path'
-import type { InlineConfig, Plugin } from 'vite'
+import type { AliasOptions, InlineConfig, Plugin } from 'vite'
 import { mergeConfig, searchForWorkspaceRoot } from 'vite'
 import isInstalledGlobally from 'is-installed-globally'
 import fs from 'fs-extra'
@@ -21,15 +21,7 @@ export function createConfigPlugin(options: ResolvedValaxyOptions): Plugin {
 
         define: getDefine(options),
         resolve: {
-          alias: {
-            '~/': `${toAtFS(options.userRoot)}/`,
-            'valaxy/client/': `${toAtFS(options.clientRoot)}/`,
-            'valaxy/package.json': toAtFS(resolve(options.clientRoot, '../package.json')),
-            'valaxy': toAtFS(resolve(options.clientRoot, 'index.ts')),
-            '@valaxyjs/client/': `${toAtFS(options.clientRoot)}/`,
-            [`valaxy-theme-${options.theme}/`]: `${toAtFS(resolve(options.themeRoot))}/`,
-            [`valaxy-theme-${options.theme}`]: `${toAtFS(resolve(options.themeRoot))}/client/index.ts`,
-          },
+          alias: getAlias(options),
         },
 
         optimizeDeps: {
@@ -115,4 +107,22 @@ export function getDefine(options: ResolvedValaxyOptions): Record<string, any> {
     __DEV__: options.mode === 'dev' ? 'true' : 'false',
     __ALGOLIA__: !!options.config?.search?.algolia?.enable,
   }
+}
+
+export function getAlias(options: ResolvedValaxyOptions): AliasOptions {
+  const alias = {
+    '~/': `${toAtFS(options.userRoot)}/`,
+    'valaxy/client/': `${toAtFS(options.clientRoot)}/`,
+    'valaxy/package.json': toAtFS(resolve(options.clientRoot, '../package.json')),
+    'valaxy': toAtFS(resolve(options.clientRoot, 'index.ts')),
+    '@valaxyjs/client/': `${toAtFS(options.clientRoot)}/`,
+    [`valaxy-theme-${options.theme}/`]: `${toAtFS(resolve(options.themeRoot))}/`,
+    [`valaxy-theme-${options.theme}`]: `${toAtFS(resolve(options.themeRoot))}/client/index.ts`,
+  }
+
+  options.addons.forEach((addon) => {
+    alias[addon.name] = toAtFS(resolve(addon.root, 'client/index.ts'))
+  })
+
+  return alias
 }

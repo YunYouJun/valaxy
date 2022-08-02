@@ -130,7 +130,7 @@ npm run rss
 
 ## 单页 i18n {lang="zh-CN"}
 
-More info see [i18n](/docs/guide/i18n).
+More info see [i18n](/posts/i18n).
 
 ## KaTeX
 
