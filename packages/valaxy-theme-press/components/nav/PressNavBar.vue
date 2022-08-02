@@ -24,7 +24,7 @@ const themeConfig = useThemeConfig()
     <a class="text-xl" href="/" :aria-label="config.title">
       <span class="md:inline">{{ config.title }}</span>
     </a>
-    <div class="self-stretch flex justify-center items-center items-centertext-sm leading-5">
+    <div class="self-stretch flex justify-center items-center text-sm leading-5">
       <template v-for="item in themeConfig.nav" :key="item.text">
         <PressNavItemLink v-if="'link' in item" :item="item" />
         <PressNavItemGroup v-else :item="item" />
