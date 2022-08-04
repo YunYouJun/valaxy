@@ -20,7 +20,11 @@ const isHome = useLayout('home')
       'has-sidebar': hasSidebar,
     }"
   >
-    <div w="full" flex="~" p="t-8 x-6 md:x-8">
+    <div
+      w="full" flex="~" :class="{
+        'px-6 md:px-8': hasSidebar,
+      }" p="t-8"
+    >
       <slot name="main">
         <div class="content" m="auto y-0" flex="~ col grow" w="full" p="x-12 lt-md:0">
           <slot name="main-header" />
@@ -29,7 +33,7 @@ const isHome = useLayout('home')
           <slot name="main-content">
             <div class="markdown-body prose max-w-none pb-8">
               <ValaxyMd :frontmatter="frontmatter">
-                <h1 v-if="!isHome && frontmatter.title" :id="frontmatter.title" tabindex="-1">
+                <h1 v-if="hasSidebar && !isHome && frontmatter.title" :id="frontmatter.title" tabindex="-1">
                   {{ frontmatter.title }}
                   <a class="header-anchor" :href="`#${frontmatter.title}`" aria-hidden="true">#</a>
                 </h1>

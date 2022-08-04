@@ -66,7 +66,7 @@ For a example, you can see [demo/yun](./demo/yun/) folder.
 
 ## Dev
 
-Want to get involved in the development? Look [here](https://valaxy.yyj.moe/docs/dev).
+Want to get involved in the development? Look [here](https://valaxy.site/dev).
 
 Want to create your theme? Check [valaxy-theme-starter](https://github.com/YunYouJun/valaxy-theme-starter).
 

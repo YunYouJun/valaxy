@@ -1,7 +1,8 @@
 import { join } from 'path'
 import isInstalledGlobally from 'is-installed-globally'
 import globalDirs from 'global-dirs'
-import { sync as resolve } from 'resolve'
+import type resolve from 'resolve'
+import { sync as resolveSync } from 'resolve'
 import consola from 'consola'
 import type { LoadConfigSource } from 'unconfig'
 import { loadConfig } from 'unconfig'
@@ -37,13 +38,12 @@ export function isPath(name: string) {
   return name.startsWith('/') || /^\.\.?[\/\\]/.test(name)
 }
 
-export function resolveImportPath(importName: string, ensure: true): string
-export function resolveImportPath(importName: string, ensure?: boolean): string | undefined
-export function resolveImportPath(importName: string, ensure = false) {
+export function resolveImportPath(importName: string, ensure?: true): string
+export function resolveImportPath(importName: string, ensure = false, resolveOptions: resolve.SyncOpts = {
+  preserveSymlinks: false,
+}) {
   try {
-    return resolve(importName, {
-      preserveSymlinks: false,
-    })
+    return resolveSync(importName, resolveOptions)
   }
   catch (error) {
     consola.log(error)

@@ -27,7 +27,7 @@ export function defineConfig<ThemeConfig>(config: UserConfig<ThemeConfig>) {
   return config
 }
 
-export type ValaxyConfigExtendKey = 'vite' | 'vue' | 'unocss' | 'unocssPresets' | 'markdown' | 'extendMd'
+export type ValaxyConfigExtendKey = 'vite' | 'vue' | 'unocss' | 'unocssPresets' | 'markdown' | 'extendMd' | 'addons'
 export type ValaxyPickConfig = Pick<ValaxyConfig, ValaxyConfigExtendKey>
 export type ValaxyTheme<ThemeConfig = DefaultThemeConfig> = ValaxyPickConfig & { themeConfig?: ThemeConfig }
 export function defineTheme<ThemeConfig = DefaultThemeConfig>(
@@ -107,7 +107,7 @@ export const defaultSiteConfig: SiteConfig = {
   },
 
   cdn: {
-    prefix: 'https://npm.elemecdn.com/',
+    prefix: 'https://unpkg.com/',
   },
 
   features: {

@@ -1,0 +1,15 @@
+{
+  "name": "valaxy-addon-waline",
+  "version": "0.0.1",
+  "description": "Waline Composition API for Valaxy",
+  "keywords": [
+    "valaxy",
+    "addon",
+    "waline"
+  ],
+  "main": "client/index.ts",
+  "types": "index.d.ts",
+  "dependencies": {
+    "@waline/client": "^2.6.2"
+  }
+}

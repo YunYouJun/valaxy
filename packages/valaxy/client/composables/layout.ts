@@ -1,7 +1,10 @@
 import { computed } from 'vue'
 import { useRoute } from 'vue-router'
 
-export function useLayout(layout: string) {
+export function useLayout(layout?: string) {
   const route = useRoute()
-  return computed(() => route.meta.layout === layout)
+  if (layout)
+    return computed(() => route.meta.layout === layout)
+  else
+    return computed(() => route.meta.layout)
 }

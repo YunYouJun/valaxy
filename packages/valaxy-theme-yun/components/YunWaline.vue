@@ -1,7 +1,6 @@
 <script lang="ts" setup>
 import { useConfig } from 'valaxy'
-// we need import on demand
-import { useWaline } from 'valaxy/client/composables/comments/waline'
+import { useWaline } from 'valaxy-addon-waline'
 
 const config = useConfig()
 useWaline(config.value.comment.waline, config.value.cdn.prefix)

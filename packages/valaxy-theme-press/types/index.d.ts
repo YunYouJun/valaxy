@@ -38,6 +38,7 @@ export interface ThemeConfig {
   }
 
   nav: Array<NavItem>
+  sidebar: string[]
 }
 
 export type ThemeUserConfig = Partial<ThemeConfig>

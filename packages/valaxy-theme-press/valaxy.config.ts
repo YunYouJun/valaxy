@@ -1,6 +1,7 @@
 import type { ResolvedValaxyOptions } from 'valaxy'
 import { defineTheme } from 'valaxy'
 import type { Plugin } from 'vite'
+import { defaultThemeConfig } from './config'
 import type { ThemeConfig } from './types'
 
 function ThemeVitePlugin(options: ResolvedValaxyOptions<ThemeConfig>): Plugin {
@@ -29,6 +30,7 @@ function ThemeVitePlugin(options: ResolvedValaxyOptions<ThemeConfig>): Plugin {
 
 export default defineTheme<ThemeConfig>((options) => {
   return {
+    themeConfig: defaultThemeConfig,
     vite: {
       plugins: [ThemeVitePlugin(options)],
     },

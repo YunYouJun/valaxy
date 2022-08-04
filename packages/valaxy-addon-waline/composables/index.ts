@@ -4,7 +4,8 @@ import { useI18n } from 'vue-i18n'
 import { useRoute } from 'vue-router'
 
 import type { WalineInitOptions, WalineInstance } from '@waline/client'
-import { cdnPrefix } from '../../utils'
+// waline css
+import '@waline/client/dist/waline.css'
 
 /**
  * A Simple, Safe Comment System.
@@ -14,12 +15,9 @@ import { cdnPrefix } from '../../utils'
  * @param options
  * @returns
  */
-export function useWaline(options: {} = {}, cdn = cdnPrefix) {
+export function useWaline(options: {} = {}, cdn = 'https://unpkg.com/') {
   if (!isClient)
     return
-
-  // import css
-  import('@waline/client/dist/waline.css')
 
   const route = useRoute()
 
