@@ -2,6 +2,8 @@
 import { useConfig, useSidebar } from 'valaxy'
 import { useThemeConfig } from '../../composables'
 import PressSwitchAppearance from './PressSwitchAppearance.vue'
+import PressNavItemLink from './PressNavItemLink.vue'
+import PressNavItemGroup from './PressNavItemGroup.vue'
 
 defineProps<{
   isScreenOpen?: boolean
@@ -22,18 +24,11 @@ const themeConfig = useThemeConfig()
     <a class="text-xl" href="/" :aria-label="config.title">
       <span class="md:inline">{{ config.title }}</span>
     </a>
-    <div class="flex justify-center items-centertext-sm leading-5">
-      <template v-for="(item, i) in themeConfig.nav" :key="i">
-        <a
-          class="hover:text-gray-700"
-          :href="item.link"
-          target="_blank"
-          rel="noopener"
-        >{{ item.text }}</a>
-
-        <span v-if="i !== themeConfig.nav.length - 1" class="mr-2 ml-2">·</span>
+    <div class="self-stretch flex justify-center items-center text-sm leading-5">
+      <template v-for="item in themeConfig.nav" :key="item.text">
+        <PressNavItemLink v-if="'link' in item" :item="item" />
+        <PressNavItemGroup v-else :item="item" />
       </template>
-
       <PressToggleLocale m="x-2" />
       <PressSwitchAppearance m="l-2" />
     </div>
