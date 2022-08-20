@@ -1,5 +1,4 @@
 import { resolve } from 'path'
-import { describe, expect, it } from 'vitest'
 import { getIndexHtml } from '../packages/valaxy/node'
 import type { DefaultThemeConfig, ResolvedValaxyOptions, ValaxyConfig } from '../packages/valaxy'
 

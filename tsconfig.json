@@ -15,7 +15,7 @@
     "strictNullChecks": true,
     "forceConsistentCasingInFileNames": true,
     "types": [
-      "vitest",
+      "vitest/globals",
       "vite/client",
       "vue/ref-macros",
       "vite-plugin-pages/client",
@@ -33,6 +33,7 @@
   },
   "include": [
     "./*.ts",
+    "./test/*.ts",
     "./packages/**/*.ts",
     "./packages/**/*.vue"
   ],
