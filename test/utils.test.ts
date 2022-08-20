@@ -1,6 +1,6 @@
 import { resolve } from 'path'
 import { getIndexHtml } from '../packages/valaxy/node'
-import type { DefaultThemeConfig, ResolvedValaxyOptions, ValaxyConfig } from '../packages/valaxy'
+import type { DefaultThemeConfig, ResolvedValaxyOptions, SiteConfig, ValaxyConfig } from '../packages/valaxy'
 
 const clientRoot = resolve(__dirname, '../packages/valaxy/client')
 const themeRoot = resolve(__dirname, 'fixtures/theme')
@@ -28,7 +28,7 @@ describe('utils', () => {
   it('mode light', async () => {
     const config = {
       mode: 'auto',
-    } as ValaxyConfig<ValaxyThemeConfig>
+    } as ValaxyConfig<SiteConfig>
     const indexHtml = await getIndexHtml({ clientRoot, themeRoot, userRoot, config } as ResolvedValaxyOptions)
 
     const head = indexHtml.match(/<head>([\s\S]*?)<\/head>/im)?.[1]
