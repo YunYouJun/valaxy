@@ -62,7 +62,7 @@ const title = usePostTitle(frontmatter)
         {{ t('counter.tags', Array.from(tags).length) }}
       </div>
 
-      <div text="center">
+      <div text="center" class="break-words">
         <span v-for="[key, tag] in Array.from(tags).sort()" :key="key" class="post-tag cursor-pointer" :style="getTagStyle(tag.count)" p="1" @click="displayTag(key.toString())">
           #{{ key }}<span text="xs">[{{ tag.count }}]</span>
         </span>
