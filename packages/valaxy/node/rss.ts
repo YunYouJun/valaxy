@@ -26,7 +26,7 @@ export async function build(options: ResolvedValaxyOptions) {
   const { config } = options
 
   if (!config.url || config.url === '/') {
-    consola.error('You must set "config.url" to generate rss.')
+    consola.error('You must set `url` (like `https://example.com`) in `valaxy.config.ts` to generate rss.')
     return
   }
 
