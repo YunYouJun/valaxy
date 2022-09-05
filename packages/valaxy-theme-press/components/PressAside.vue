@@ -46,18 +46,21 @@ const app = useAppStore()
 }
 
 .press-aside {
-  position: relative;
-  min-width: 272px;
-  transform: translateX(100%);
+  position: fixed;
   top: 0;
   bottom: 0;
   right: 0;
-  z-index: 10;
+
+  min-width: var(--va-sidebar-width);
+
+  transform: translateX(100%);
 
   transition: box-shadow var(--va-transition-duration), opacity 0.25s,
   transform var(--va-transition-duration) cubic-bezier(0.19, 1, 0.22, 1);
 
   &.open {
+    right: 0;
+    z-index: 10;
     display: block;
     transform: translateX(0);
   }
@@ -65,8 +68,7 @@ const app = useAppStore()
 
 .aside-container {
   position: sticky;
-  top: calc(var(--pr-nav-height) + 32px);
-  margin-top: calc(var(--pr-nav-height) * -1 - 32px);
+  top: 0;
   padding-top: calc(var(--pr-nav-height) + 32px);
   height: 100vh;
 }
