@@ -11,9 +11,41 @@ import { deeplyParseHeader } from './markdown-it/parseHeader'
 import { createMarkdownRenderer } from '.'
 import type { MarkdownOptions } from '.'
 
+const jsStringBreaker = '\u200B'
+const vueTemplateBreaker = '<wbr>'
+
 const debug = _debug('vitepress:md')
 const cache = new LRUCache<string, MarkdownCompileResult>({ max: 1024 })
 const includesRE = /<!--\s*@include:\s*(.*?)\s*-->/g
+
+function genReplaceRegexp(
+  userDefines: Record<string, any> = {},
+  isBuild: boolean,
+): RegExp {
+  // `process.env` need to be handled in both dev and build
+  // @see https://github.com/vitejs/vite/blob/cad27ee8c00bbd5aeeb2be9bfb3eb164c1b77885/packages/vite/src/node/plugins/clientInjections.ts#L57-L64
+  const replacements = ['process.env']
+  if (isBuild)
+    replacements.push('import.meta', ...Object.keys(userDefines))
+
+  return new RegExp(
+    `\\b(${replacements
+      .map(key => key.replace(/[-[\]/{}()*+?.\\^$|]/g, '\\$&'))
+      .join('|')})`,
+    'g',
+  )
+}
+
+/**
+ * To avoid env variables being replaced by vite:
+ * - insert `'\u200b'` char into those strings inside js string (page data)
+ * - insert `<wbr>` tag into those strings inside html string (vue template)
+ *
+ * @see https://vitejs.dev/guide/env-and-mode.html#production-replacement
+ */
+function replaceConstants(str: string, replaceRegex: RegExp, breaker: string) {
+  return str.replace(replaceRegex, _ => `${_[0]}${breaker}${_.slice(1)}`)
+}
 
 export interface MarkdownCompileResult {
   vueSrc: string
@@ -69,14 +101,7 @@ export async function createMarkdownToVueRenderFn(
 
   pages = pages.map(p => slash(p.replace(/\.md$/, '')))
 
-  const userDefineRegex = userDefines
-    ? new RegExp(
-        `\\b(${Object.keys(userDefines)
-          .map(key => key.replace(/[-[\]/{}()*+?.\\^$|]/g, '\\$&'))
-          .join('|')})`,
-        'g',
-    )
-    : null
+  const replaceRegex = genReplaceRegexp(userDefines, isBuild)
 
   return async (
     src: string,
@@ -109,30 +134,19 @@ export async function createMarkdownToVueRenderFn(
     md.__path = file
     md.__relativePath = relativePath
 
-    let html = md.render(content)
+    const html = md.render(content)
     const data = md.__data
-
-    if (isBuild) {
-      // avoid env variables being replaced by vite
-      html = html
-        .replace(/\bimport\.meta/g, 'import.<wbr/>meta')
-        .replace(/\bprocess\.env/g, 'process.<wbr/>env')
-
-      // also avoid replacing vite user defines
-      if (userDefineRegex) {
-        html = html.replace(
-          userDefineRegex,
-          _ => `${_[0]}<wbr/>${_.slice(1)}`,
-        )
-      }
-    }
 
     // validate data.links
     const deadLinks: string[] = []
     const recordDeadLink = (url: string) => {
       console.warn(
         c.yellow(
-          `\n(!) Found dead link ${c.cyan(url)} in file ${c.white(c.dim(file))}`,
+          `\n(!) Found dead link ${c.cyan(url)} in file ${c.white(
+            c.dim(file),
+          )}\nIf it is intended, you can use:\n    ${c.cyan(
+            `<a href="${url}" target="_blank" rel="noreferrer">${url}</a>`,
+          )}`,
         ),
       )
       deadLinks.push(url)
@@ -200,13 +214,18 @@ export async function createMarkdownToVueRenderFn(
       const slotsText = slots.map(s => `<template #${s}><slot name="${s}" /></template>`).join('')
       return slotsText
     }
+
     const vueSrc
-      = `${genPageDataCode(data.hoistedTags || [], pageData).join('\n')
-      }\n<template><${pageComponent} :frontmatter="frontmatter" :data="data">
-        <template #main-content-md>${html}</template>
-        ${generateSlots()}
-        <slot />
-      </${pageComponent}></template>`
+      = [
+        ...injectPageDataCode(data.hoistedTags || [], pageData, replaceRegex),
+        `<template><${pageComponent} :frontmatter="frontmatter" :data="data">`,
+        `<template #main-content-md>${
+          replaceConstants(html, replaceRegex, vueTemplateBreaker)
+        }</template>`,
+        generateSlots(),
+        '<slot />',
+        `</${pageComponent}></template>`,
+      ].join('\n')
 
     debug(`[render] ${file} in ${Date.now() - start}ms.`)
 
@@ -228,8 +247,15 @@ const scriptClientRE = /<\s*script[^>]*\bclient\b[^>]*/
 const defaultExportRE = /((?:^|\n|;)\s*)export(\s*)default/
 const namedDefaultExportRE = /((?:^|\n|;)\s*)export(.+)as(\s*)default/
 
-function genPageDataCode(tags: string[], data: PageData) {
-  const code = ''
+function injectPageDataCode(
+  tags: string[],
+  data: PageData,
+  replaceRegex: RegExp,
+) {
+  const dataJson = JSON.stringify(data)
+  const code = `\nexport const __pageData = JSON.parse(${JSON.stringify(
+    replaceConstants(dataJson, replaceRegex, jsStringBreaker),
+  )})`
 
   const existingScriptIndex = tags.findIndex((tag) => {
     return (
