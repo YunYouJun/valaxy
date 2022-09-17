@@ -40,27 +40,27 @@
     "prepare": "husky install"
   },
   "devDependencies": {
-    "@antfu/eslint-config": "^0.25.2",
+    "@antfu/eslint-config": "^0.26.3",
     "@types/debug": "^4.1.7",
     "@types/prompts": "^2.0.14",
     "@types/resolve": "^1.20.2",
-    "@types/semver": "^7.3.10",
+    "@types/semver": "^7.3.12",
     "cross-env": "^7.0.3",
-    "eslint": "^8.20.0",
+    "eslint": "^8.23.1",
     "husky": "^8.0.1",
     "lint-staged": "^13.0.3",
     "prompts": "^2.4.2",
     "rimraf": "^3.0.2",
-    "tsup": "^6.2.0",
-    "tsx": "^3.8.0",
-    "typescript": "^4.7.4",
+    "tsup": "^6.2.3",
+    "tsx": "^3.9.0",
+    "typescript": "^4.8.3",
     "valaxy": "workspace:*",
     "valaxy-addon-waline": "workspace:*",
     "valaxy-theme-press": "workspace:*",
     "valaxy-theme-yun": "workspace:*",
-    "vitest": "^0.19.1",
-    "vue-tsc": "0.39.0",
-    "zx": "^7.0.7"
+    "vitest": "^0.23.2",
+    "vue-tsc": "0.40.13",
+    "zx": "^7.0.8"
   },
   "pnpm": {
     "peerDependencyRules": {

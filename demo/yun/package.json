@@ -17,8 +17,8 @@
     "valaxy-theme-yun": "link:../../packages/valaxy-theme-yun"
   },
   "devDependencies": {
-    "nodemon": "^2.0.19",
-    "vite-plugin-inspect": "^0.6.0",
-    "vite-plugin-pwa": "^0.12.3"
+    "nodemon": "^2.0.20",
+    "vite-plugin-inspect": "^0.7.1",
+    "vite-plugin-pwa": "^0.12.7"
   }
 }

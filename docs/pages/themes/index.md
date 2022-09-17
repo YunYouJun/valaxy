@@ -59,6 +59,17 @@ export interface ValaxyConfig {
 
 你可以从 `ValaxyMain` 的 `props` 中获取 `frontmatter` 与 `pageData`。
 
+## 样式
+
+### Markdown 样式
+
+Markdown 样式是主题呈现文章样式的部分，需要由主题自定义。
+
+你可以参考 [valaxy-theme-press](https://github.com/YunYouJun/valaxy/blob/main/packages/valaxy-theme-press/) 自定义 Markdown 主题的方式，见 [styles/markdown.scss](https://github.com/YunYouJun/valaxy/blob/main/packages/valaxy-theme-press/styles/markdown.scss)。
+
+> 如果你想先使用常见的默认样式（后续再进行定制），你可以直接使用 [star-markdown-css](https://github.com/YunYouJun/star-markdown-css)。
+> 使用方式可参见 [valaxy-theme-yun/styles](https://github.com/YunYouJun/valaxy/blob/main/packages/valaxy-theme-yun/styles/index.scss)
+
 ## Third Plugin
 
 ### 实现评论
