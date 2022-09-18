@@ -30,7 +30,7 @@ export const mergeValaxyConfig = createDefu((obj: any, key, value) => {
  */
 export async function resolveValaxyConfigFromRoot(root: string, options?: ResolvedValaxyOptions) {
   return loadConfigFromFiles<ValaxyConfig>('valaxy.config', {
-    rewrite(c: ValaxyConfig | ValaxyConfigFn) {
+    rewrite<F=ValaxyConfig | ValaxyConfigFn>(c: F) {
       return (typeof c === 'function' ? c(options || {} as ResolvedValaxyOptions) : c)
     },
     cwd: root,
@@ -63,8 +63,8 @@ export async function resolveAddonConfig(addons: ValaxyAddonResolver[], options?
   let valaxyConfig: ValaxyConfig = {}
   for (const addon of addons) {
     const { config, sources } = await loadConfigFromFiles<ValaxyConfig>('index', {
-      rewrite(c: ValaxyConfig | ValaxyAddonFn) {
-        return (typeof c === 'function' ? c(addon, options!) : c)
+      rewrite<F = ValaxyConfig | ValaxyAddonFn>(obj: F, _filepath: string) {
+        return (typeof obj === 'function' ? obj(addon, options!) : obj)
       },
       cwd: addon.root,
     })

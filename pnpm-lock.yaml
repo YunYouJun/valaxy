@@ -22,7 +22,7 @@ importers:
       valaxy-addon-waline: workspace:*
       valaxy-theme-press: workspace:*
       valaxy-theme-yun: workspace:*
-      vitest: ^0.23.2
+      vitest: ^0.23.4
       vue-tsc: 0.40.13
       zx: ^7.0.8
     devDependencies:
@@ -44,7 +44,7 @@ importers:
       valaxy-addon-waline: link:packages/valaxy-addon-waline
       valaxy-theme-press: link:packages/valaxy-theme-press
       valaxy-theme-yun: link:packages/valaxy-theme-yun
-      vitest: 0.23.2
+      vitest: 0.23.4
       vue-tsc: 0.40.13_typescript@4.8.3
       zx: 7.0.8
 
@@ -54,16 +54,16 @@ importers:
       valaxy: link:../../packages/valaxy
       valaxy-addon-icons: workspace:*
       valaxy-theme-yun: link:../../packages/valaxy-theme-yun
-      vite-plugin-inspect: ^0.7.1
-      vite-plugin-pwa: ^0.12.7
+      vite-plugin-inspect: ^0.6.0
+      vite-plugin-pwa: ^0.12.8
     dependencies:
       valaxy: link:../../packages/valaxy
       valaxy-addon-icons: link:../../packages/valaxy-addon-icons
       valaxy-theme-yun: link:../../packages/valaxy-theme-yun
     devDependencies:
       nodemon: 2.0.20
-      vite-plugin-inspect: 0.7.1
-      vite-plugin-pwa: 0.12.7
+      vite-plugin-inspect: 0.6.1
+      vite-plugin-pwa: 0.12.8
 
   packages/create-valaxy:
     specifiers:
@@ -95,7 +95,7 @@ importers:
       '@ctrl/tinycolor': ^3.4.1
       '@iconify-json/carbon': ^1.1.7
       '@iconify-json/ri': ^1.1.3
-      '@intlify/vite-plugin-vue-i18n': ^5.0.1
+      '@intlify/vite-plugin-vue-i18n': ^6.0.1
       '@types/cross-spawn': ^6.0.2
       '@types/ejs': ^3.1.1
       '@types/katex': ^0.14.0
@@ -105,7 +105,7 @@ importers:
       '@types/yargs': ^17.0.12
       '@vitejs/plugin-vue': ^2.3.3
       '@vueuse/core': ^9.2.0
-      '@vueuse/head': ^0.7.11
+      '@vueuse/head': ^0.7.12
       consola: ^2.15.3
       critters: ^0.0.16
       cross-spawn: ^7.0.3
@@ -155,10 +155,10 @@ importers:
       '@ctrl/tinycolor': 3.4.1
       '@iconify-json/carbon': 1.1.7
       '@iconify-json/ri': 1.1.3
-      '@intlify/vite-plugin-vue-i18n': 5.0.1_vite@2.9.14+vue-i18n@9.2.2
+      '@intlify/vite-plugin-vue-i18n': 6.0.1_vite@2.9.14+vue-i18n@9.2.2
       '@vitejs/plugin-vue': 2.3.3_vite@2.9.14+vue@3.2.39
       '@vueuse/core': 9.2.0_vue@3.2.39
-      '@vueuse/head': 0.7.11_vue@3.2.39
+      '@vueuse/head': 0.7.12_vue@3.2.39
       consola: 2.15.3
       critters: 0.0.16
       cross-spawn: 7.0.3
@@ -194,7 +194,7 @@ importers:
       vite: 2.9.14_sass@1.54.9
       vite-plugin-pages: 0.26.0_vite@2.9.14
       vite-plugin-vue-layouts: 0.7.0_tybrbanilp4ja4jnjao3q6zvfy
-      vite-ssg: 0.19.2_osmd673slbht775kdzoy7khvui
+      vite-ssg: 0.19.2_72wiskdt7fldothqy7bhq6xq3q
       vite-ssg-sitemap: 0.4.1
       vue: 3.2.39
       vue-i18n: 9.2.2_vue@3.2.39
@@ -224,9 +224,9 @@ importers:
 
   packages/valaxy-addon-waline:
     specifiers:
-      '@waline/client': ^2.9.1
+      '@waline/client': ^2.10.0
     dependencies:
-      '@waline/client': 2.9.1
+      '@waline/client': 2.10.0
 
   packages/valaxy-theme-press:
     specifiers:
@@ -1902,8 +1902,8 @@ packages:
     engines: {node: '>= 14'}
     dev: false
 
-  /@intlify/vite-plugin-vue-i18n/5.0.1_vite@2.9.14+vue-i18n@9.2.2:
-    resolution: {integrity: sha512-+LAUdm5PxGtLrUYgD2Wg9SINmLmhZqrcTnzccfqopca5NvaXWOPnQR4cQOkn82qLuyjWdCYC1BoqMHWBWX/MyQ==}
+  /@intlify/vite-plugin-vue-i18n/6.0.1_vite@2.9.14+vue-i18n@9.2.2:
+    resolution: {integrity: sha512-FFVcxVU4bR9vdDLNbltM5mrhndnXMErO01i0RrpdyMegEt3Nu/YLoH0sFdjRun7/RY4vaEnhTnFvVf9uO0dQvg==}
     engines: {node: '>= 14.6'}
     peerDependencies:
       petite-vue-i18n: '*'
@@ -1921,7 +1921,7 @@ packages:
       '@intlify/shared': 9.3.0-beta.3
       '@rollup/pluginutils': 4.2.1
       debug: 4.3.4
-      fast-glob: 3.2.11
+      fast-glob: 3.2.12
       source-map: 0.6.1
       vite: 2.9.14_sass@1.54.9
       vue-i18n: 9.2.2_vue@3.2.39
@@ -2742,8 +2742,8 @@ packages:
       - vue
     dev: false
 
-  /@vueuse/head/0.7.11_vue@3.2.39:
-    resolution: {integrity: sha512-qW2VbJnQ7c1nHqt1wWQYtPf6pMKghcBsCGQd76zFSzKZXncjOYV1I5dZcmAdj3E30JP0WKWCItVbV/cgSAPipA==}
+  /@vueuse/head/0.7.12_vue@3.2.39:
+    resolution: {integrity: sha512-sRcrE6VohiHInQR0sB0U8H8x2hAKdo+AIhd5PWBLx1jUp2vwyeQyA/4rlCzP5CMDB8z61MLvsOCApFJrRMRtTQ==}
     peerDependencies:
       vue: '>=2.7 || >=3'
     dependencies:
@@ -2766,8 +2766,8 @@ packages:
       - vue
     dev: false
 
-  /@waline/client/2.9.1:
-    resolution: {integrity: sha512-PcspW0RNWBNGXQxk35S9Ohu67SUnNdRYjmcfZXtC5JpxUFVkaaeixE8eD1EQkGwBNpQQ+QpLtswh0y+lr1IMTA==}
+  /@waline/client/2.10.0:
+    resolution: {integrity: sha512-eB3Hs2HxvxDS6SaS9xfHRzHpcBttFFvYkAOPDQfrN5X75vNHbKhDQwaYqKEKO1AyA2iLXVbsM2U+9iqZjDGLkw==}
     engines: {node: '>=14'}
     dependencies:
       '@vueuse/core': 9.2.0_vue@3.2.39
@@ -7594,8 +7594,8 @@ packages:
     engines: {node: '>=8'}
     dev: true
 
-  /strip-literal/0.4.1:
-    resolution: {integrity: sha512-z+F/xmDM8GOdvA5UoZXFxEnxdvMOZ+XEBIwjfLfc8hMSuHpGxjXAUCfuEo+t1GOHSb8+qgI/IBRpxXVMaABYWA==}
+  /strip-literal/0.4.2:
+    resolution: {integrity: sha512-pv48ybn4iE1O9RLgCAN0iU4Xv7RlBTiit6DKmMiErbs9x1wH6vXBs45tWc0H5wUIF6TLTrKweqkmYF/iraQKNw==}
     dependencies:
       acorn: 8.8.0
     dev: true
@@ -8146,15 +8146,14 @@ packages:
     engines: {node: '>= 0.8'}
     dev: true
 
-  /vite-plugin-inspect/0.7.1:
-    resolution: {integrity: sha512-mkTw5itsI+89WNJ6og0BpEAaV4ticrOGaoj+oWDR61W72H2mfkuw3MaAdpnnq6s6A7tKfM4nPaMtxjlmw3uXYg==}
+  /vite-plugin-inspect/0.6.1:
+    resolution: {integrity: sha512-MQzIgMoPyiPDuHoO6p7QBOrmheBU/ntg0cgtgcnm21S/Xds5oak1CbVLSAvv4fK1ZpetLK+tlJ+2mlFO9fG3SQ==}
     engines: {node: '>=14'}
     peerDependencies:
-      vite: ^3.1.0
+      vite: ^3.0.0
     dependencies:
       '@rollup/pluginutils': 4.2.1
       debug: 4.3.4
-      fs-extra: 10.1.0
       kolorist: 1.6.0
       sirv: 2.0.2
       ufo: 0.8.5
@@ -8185,8 +8184,8 @@ packages:
       - supports-color
     dev: false
 
-  /vite-plugin-pwa/0.12.7:
-    resolution: {integrity: sha512-salSwS1wWc1niNWfhX2W6gtfXmk+XESMz62w95EHLq6fSM2bDgDm1APmvq1nkDcxH6Onky7HxysCBKMzvOHXYg==}
+  /vite-plugin-pwa/0.12.8:
+    resolution: {integrity: sha512-pSiFHmnJGMQJJL8aJzQ8SaraZBSBPMGvGUkCNzheIq9UQCEk/eP3UmANNmS9eupuhIpTK8AdxTOHcaMcAqAbCA==}
     peerDependencies:
       vite: ^2.0.0 || ^3.0.0-0
     dependencies:
@@ -8222,7 +8221,7 @@ packages:
     resolution: {integrity: sha512-M6ZephqLGe2BMKRK3ZJYTxi04QgRfTqgyvjbEy8QsVi2UcxCdLSQ5FEvVSEWj+tIU3Nq1kmscs2grmmPauHy2g==}
     dev: false
 
-  /vite-ssg/0.19.2_osmd673slbht775kdzoy7khvui:
+  /vite-ssg/0.19.2_72wiskdt7fldothqy7bhq6xq3q:
     resolution: {integrity: sha512-r9UJJ4OTMyu9f4nNe12PMVhVkeXYp1rUKbIl6zIOz5QDYEDgFcq8hZGUMMIAcyHhB4pH5ImmjZd1hJ2fO6hOmg==}
     engines: {node: '>=14.0.0'}
     hasBin: true
@@ -8236,7 +8235,7 @@ packages:
       critters:
         optional: true
     dependencies:
-      '@vueuse/head': 0.7.11_vue@3.2.39
+      '@vueuse/head': 0.7.12_vue@3.2.39
       critters: 0.0.16
       fs-extra: 10.1.0
       html-minifier: 4.0.0
@@ -8307,8 +8306,8 @@ packages:
       fsevents: 2.3.2
     dev: true
 
-  /vitest/0.23.2:
-    resolution: {integrity: sha512-kTBKp3ROPDkYC+x2zWt4znkDtnT08W1FQ6ngRFuqxpBGNuNVS+eWZKfffr8y2JGvEzZ9EzMAOcNaiqMj/FZqMw==}
+  /vitest/0.23.4:
+    resolution: {integrity: sha512-iukBNWqQAv8EKDBUNntspLp9SfpaVFbmzmM0sNcnTxASQZMzRw3PsM6DMlsHiI+I6GeO5/sYDg3ecpC+SNFLrQ==}
     engines: {node: '>=v14.16.0'}
     hasBin: true
     peerDependencies:
@@ -8335,7 +8334,7 @@ packages:
       chai: 4.3.6
       debug: 4.3.4
       local-pkg: 0.4.2
-      strip-literal: 0.4.1
+      strip-literal: 0.4.2
       tinybench: 2.1.5
       tinypool: 0.3.0
       tinyspy: 1.0.2

@@ -58,7 +58,7 @@
     "valaxy-addon-waline": "workspace:*",
     "valaxy-theme-press": "workspace:*",
     "valaxy-theme-yun": "workspace:*",
-    "vitest": "^0.23.2",
+    "vitest": "^0.23.4",
     "vue-tsc": "0.40.13",
     "zx": "^7.0.8"
   },
