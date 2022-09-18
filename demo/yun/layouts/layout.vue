@@ -12,7 +12,7 @@ import Layout from 'valaxy-theme-yun/layouts/layout.vue'
     <template #sidebar>
       <slot name="sidebar" />
     </template>
-    <template v-if="$slots['sidebar-child']" #sidebar-child>
+    <template #sidebar-child>
       <slot name="sidebar-child" />
     </template>
     <slot />

@@ -99,7 +99,7 @@
     "vite": "^2.9.14",
     "vite-plugin-pages": "^0.26.0",
     "vite-plugin-vue-layouts": "^0.7.0",
-    "vite-ssg": "0.20.2",
+    "vite-ssg": "0.19.2",
     "vite-ssg-sitemap": "0.4.1",
     "vue": "^3.2.39",
     "vue-i18n": "^9.2.2",
