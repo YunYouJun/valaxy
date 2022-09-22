@@ -8,8 +8,8 @@
   ],
   "main": "index.ts",
   "dependencies": {
-    "@iconify/tools": "^2.0.18",
-    "@iconify/utils": "^1.0.33",
+    "@iconify/tools": "^2.1.0",
+    "@iconify/utils": "^2.0.0",
     "fs-extra": "^10.1.0"
   }
 }
