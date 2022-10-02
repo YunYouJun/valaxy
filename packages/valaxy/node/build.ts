@@ -23,6 +23,10 @@ export async function ssgBuild(
 ) {
   const defaultConfig: InlineConfig = {
     plugins: await ViteValaxyPlugins(options),
+    ssr: {
+      // TODO: workaround until they support native ESM
+      noExternal: ['workbox-window', /vue-i18n/],
+    },
   }
 
   defaultConfig.ssgOptions = {

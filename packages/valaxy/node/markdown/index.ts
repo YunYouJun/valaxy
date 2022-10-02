@@ -2,8 +2,8 @@ import MarkdownIt from 'markdown-it'
 
 import type { Theme } from 'shiki'
 
-import Anchor from 'markdown-it-anchor'
-import Emoji from 'markdown-it-emoji'
+import anchorPlugin from 'markdown-it-anchor'
+import emojiPlugin from 'markdown-it-emoji'
 import LinkAttributes from 'markdown-it-link-attributes'
 import TOC from 'markdown-it-table-of-contents'
 import TaskLists from 'markdown-it-task-lists'
@@ -15,7 +15,6 @@ import Katex from './markdown-it/katex'
 import { type Blocks, containerPlugin } from './markdown-it/container'
 import { headingPlugin } from './markdown-it/headings'
 import { slugify } from './slugify'
-import { parseHeader } from './markdown-it/parseHeader'
 import { highlight } from './highlight'
 import { highlightLinePlugin, preWrapperPlugin } from './markdown-it/highlightLines'
 
@@ -42,7 +41,7 @@ export interface MarkdownOptions {
    */
   config?: (md: MarkdownIt) => void
   anchor?: {
-    permalink?: Anchor.AnchorOptions['permalink']
+    permalink?: anchorPlugin.AnchorOptions['permalink']
   }
   // https://github.com/Oktavilla/markdown-it-table-of-contents
   toc?: {
@@ -83,22 +82,22 @@ export async function setupMarkdownPlugins(md: MarkdownIt, mdOptions: MarkdownOp
       },
     })
   md.use(Katex, mdOptions.katex)
+  md.use(emojiPlugin)
 
   if (!isExcerpt) {
-    md.use(Anchor, {
+    md.use(anchorPlugin, {
       slugify,
-      permalink: Anchor.permalink.ariaHidden({}),
+      permalink: anchorPlugin.permalink.ariaHidden({}),
+      ...mdOptions.anchor,
     })
       .use(TOC, {
         slugify,
         includeLevel: [2, 3, 4],
-        format: parseHeader,
         ...mdOptions.toc,
       })
   }
 
-  md.use(Emoji)
-    .use(TaskLists)
+  md.use(TaskLists)
 
   const originalRender = md.render
   md.render = (...args) => {

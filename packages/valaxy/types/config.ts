@@ -1,3 +1,5 @@
+import type ValaxyPackage from '../package.json'
+
 export type DefaultThemeConfig = Record<string, any>
 
 export interface SocialLink {
@@ -27,6 +29,10 @@ export interface AlgoliaSearchOptions {
 
 // shared with valaxy node and client
 export interface SiteConfig<T = DefaultThemeConfig> {
+  /**
+   * valaxy package.json
+   */
+  pkg: typeof ValaxyPackage
   /**
    * enable auto (light/dark mode)
    * @default 'auto'

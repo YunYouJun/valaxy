@@ -19,6 +19,7 @@ import { setupMarkdownPlugins } from '../markdown'
 import { createUnocssPlugin } from './unocss'
 import { createConfigPlugin } from './extendConfig'
 import { createClientSetupPlugin } from './setupClient'
+import { createFixPlugins } from './patchTransform'
 import { createValaxyPlugin } from '.'
 
 export async function ViteValaxyPlugins(
@@ -218,5 +219,6 @@ export async function ViteValaxyPlugins(
     }),
 
     splitVendorChunkPlugin(),
+    createFixPlugins(options),
   ]
 }

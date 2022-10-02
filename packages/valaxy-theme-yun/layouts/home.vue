@@ -27,9 +27,7 @@ const isHome = useLayout('home')
       <router-view />
     </slot>
 
-    <YunFooter>
-      <slot name="footer" />
-    </YunFooter>
+    <YunFooter />
   </main>
 
   <YunSearch v-if="config.search.enable" />

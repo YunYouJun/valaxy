@@ -62,9 +62,9 @@ const YunTwikoo = config.value.comment.waline.enable
             </YunCard>
           </slot>
 
-          <YunFooter>
-            <slot name="footer" />
-          </YunFooter>
+          <slot name="main-footer-before" />
+          <YunFooter />
+          <slot name="main-footer-after" />
         </div>
       </slot>
 

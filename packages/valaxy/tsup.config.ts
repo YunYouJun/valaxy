@@ -19,5 +19,10 @@ export default defineConfig((options) => {
       '/@valaxyjs/site',
       '/@valaxyjs/context',
     ],
+    outExtension({ format }) {
+      return {
+        js: `.${format === 'esm' ? 'mjs' : 'cjs'}`,
+      }
+    },
   }
 })

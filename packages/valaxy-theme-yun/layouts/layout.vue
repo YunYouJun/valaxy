@@ -45,9 +45,6 @@ const config = useConfig()
       <template #aside-custom>
         <slot name="aside-custom" />
       </template>
-      <template #footer>
-        <slot name="footer" />
-      </template>
     </component>
   </router-view>
 

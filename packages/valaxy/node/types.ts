@@ -5,10 +5,11 @@ import type Pages from 'vite-plugin-pages'
 import type { UserConfig as ViteUserConfig } from 'vite'
 import type { presetAttributify, presetIcons, presetTypography, presetUno } from 'unocss'
 import type { DefaultThemeConfig, UserSiteConfig } from '../types'
+import type ValaxyPackage from '../package.json'
 import type { ResolvedValaxyOptions } from './options'
 import type { MarkdownOptions } from './markdown'
 
-export type ValaxyConfig<ThemeConfig = DefaultThemeConfig> = UserSiteConfig<ThemeConfig> & ValaxyExtendConfig
+export type ValaxyConfig<ThemeConfig = DefaultThemeConfig> = UserSiteConfig<ThemeConfig> & ValaxyExtendConfig & { pkg: typeof ValaxyPackage }
 export type UserConfig<ThemeConfig = DefaultThemeConfig> = ValaxyConfig<ThemeConfig>
 /**
  * fn with options for theme config

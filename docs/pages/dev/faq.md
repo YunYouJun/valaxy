@@ -25,3 +25,5 @@ pnpm test:space
 ## Vite3 打包卡住
 
 > 原因未知，猜测与 pnpm monorepo node_modules transforming 过多有关
+
+已解决，似乎与 `<YunFooter />` `<slot />` 有关。

@@ -2,27 +2,21 @@
 import { capitalize, computed } from 'vue'
 import { useConfig } from 'valaxy'
 import { useI18n } from 'vue-i18n'
-
-import pkg from 'valaxy/package.json'
 import { useThemeConfig } from '../composables'
-
-const { t } = useI18n()
-
 const config = useConfig()
 const themeConfig = useThemeConfig()
-
 const year = new Date().getFullYear()
-
 const isThisYear = computed(() => {
   return year === themeConfig.value.footer.since
 })
 
-const poweredHtml = computed(() => t('footer.powered', [`<a href="${pkg.repository}" target="_blank" rel="noopener">Valaxy</a> v${pkg.version}`]))
-const footerIcon = computed(() => themeConfig.value.footer.icon!)
+const { t } = useI18n()
+const poweredHtml = computed(() => t('footer.powered', [`<a href="${config.value.pkg.repository}" target="_blank" rel="noopener">Valaxy</a> v${config.value.pkg.version}`]))
+const footerIcon = computed(() => themeConfig.value.footer.icon || { url: config.value.pkg.repository, name: config.value.pkg.name })
 </script>
 
 <template>
-  <footer class="va-footer p-4" text="center sm" style="color:var(--va-c-text-light)">
+  <footer class="va-footer p-4 text-$va-c-text-light" text="center sm">
     <div v-if="themeConfig.footer.beian?.enable && themeConfig.footer.beian.icp" class="beian" m="y-2">
       <a href="https://beian.miit.gov.cn/" target="_blank" rel="noopener">
         {{ themeConfig.footer.beian.icp }}
@@ -38,15 +32,14 @@ const footerIcon = computed(() => themeConfig.value.footer.icon!)
         {{ year }}
       </span>
 
-      <a m="x-2" class="inline-flex animate-pulse" :href="footerIcon.url" target="_blank" :title="footerIcon.title">
+      <a v-if="themeConfig.footer.icon" m="x-2" class="inline-flex animate-pulse" :href="footerIcon.url" target="_blank" :title="footerIcon.title">
         <div :class="footerIcon.name" />
       </a>
-
       <span>{{ config.author.name }}</span>
     </div>
 
     <div v-if="themeConfig.footer.powered" class="powered" m="2">
-      <span v-html="poweredHtml" /> | <span>{{ t('footer.theme') }} - <a :href="themeConfig.pkg.homepage" :title="`valaxy-theme-${config.theme}`" target="_blank">{{ capitalize(config.theme) }}</a> v{{ themeConfig.pkg.version }}</span>
+      <span v-html="poweredHtml" /> | <span>{{ t('footer.theme') }} - <a :href="themeConfig.pkg.homepage" :title="themeConfig.pkg.name" target="_blank">{{ capitalize(config.theme) }}</a> v{{ themeConfig.pkg.version }}</span>
     </div>
 
     <slot />

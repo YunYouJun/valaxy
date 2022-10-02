@@ -5,11 +5,11 @@ import c from 'picocolors'
 import matter from 'gray-matter'
 import LRUCache from 'lru-cache'
 import _debug from 'debug'
+import { resolveTitleFromToken } from '@mdit-vue/shared'
 import { EXTERNAL_URL_RE, getGitTimestamp, slash, transformObject } from '../utils'
 import type { HeadConfig, PageData } from '../../types'
-import { deeplyParseHeader } from './markdown-it/parseHeader'
 import { createMarkdownRenderer } from '.'
-import type { MarkdownOptions } from '.'
+import type { MarkdownOptions, MarkdownRenderer } from '.'
 
 const jsStringBreaker = '\u200B'
 const vueTemplateBreaker = '<wbr>'
@@ -54,16 +54,21 @@ export interface MarkdownCompileResult {
   includes: string[]
 }
 
-const inferTitle = (frontmatter: Record<string, any>, content: string) => {
-  if (frontmatter.title)
-    return deeplyParseHeader(frontmatter.title)
-
-  const match = content.match(/^\s*#+\s+(.*)/m)
-
-  if (match)
-    return deeplyParseHeader(match[1].trim())
-
-  return ''
+const inferTitle = (
+  md: MarkdownRenderer,
+  frontmatter: Record<string, any>,
+  title: string,
+) => {
+  if (typeof frontmatter.title === 'string') {
+    const titleToken = md.parseInline(frontmatter.title, {})[0]
+    if (titleToken) {
+      return resolveTitleFromToken(titleToken, {
+        shouldAllowHtml: false,
+        shouldEscapeText: false,
+      })
+    }
+  }
+  return title
 }
 
 const getHeadMetaContent = (
@@ -183,7 +188,7 @@ export async function createMarkdownToVueRenderFn(
 
     // provide load
     const pageData: PageData = {
-      title: inferTitle(frontmatter, content),
+      title: inferTitle(md, frontmatter, ''),
       titleTemplate: frontmatter.titleTemplate,
       description: inferDescription(frontmatter),
       frontmatter,

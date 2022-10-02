@@ -10,6 +10,7 @@ import openBrowser from 'open'
 import consola from 'consola'
 
 import { yellow } from 'kolorist'
+import { hideBin } from 'yargs/helpers'
 import { version } from '../package.json'
 import { findFreePort } from './utils/net'
 import { resolveOptions } from './options'
@@ -22,7 +23,7 @@ import { build, ssgBuild } from './build'
 import { build as rssBuild } from './rss'
 import { getIndexHtml, mergeViteConfigs } from './common'
 
-const cli = yargs.scriptName('valaxy')
+const cli = yargs(hideBin(process.argv)).scriptName('valaxy')
   .usage('$0 [args]')
   .version(version)
   .showHelpOnFail(false)

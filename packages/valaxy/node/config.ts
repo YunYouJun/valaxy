@@ -1,6 +1,7 @@
 import type { VitePluginConfig as UnoCssConfig } from 'unocss/vite'
 import type { Awaitable } from '@antfu/utils'
 import type { DefaultThemeConfig, SiteConfig, UserSiteConfig } from '../types'
+import pkg from '../package.json'
 import type { ResolvedValaxyOptions } from './options'
 import type { UserConfig, ValaxyAddonResolver, ValaxyConfig } from './types'
 
@@ -43,6 +44,7 @@ export function defineAddon(
 }
 
 export const defaultSiteConfig: SiteConfig = {
+  pkg,
   mode: 'auto',
   url: '/',
   lang: 'en',
