@@ -1,25 +1,8 @@
 <script lang="ts" setup>
 import { useConfig } from 'valaxy'
-import { useWaline } from 'valaxy-addon-waline'
-
 const config = useConfig()
-useWaline(config.value.comment.waline, config.value.cdn.prefix)
 </script>
 
 <template>
-  <div id="waline" w="full" />
+  <WalineClient w="full" :server-u-r-l="config.comment.waline.serverURL" :cdn="config.cdn.prefix" />
 </template>
-
-<style lang="scss">
-#waline {
-  --waline-theme-color: var(--va-c-primary);
-  --waline-active-color: var(--va-c-primary-light);
-
-  .v[data-class=v] {
-    .veditor {
-      width: calc(100% - 2em);
-      padding: 0.5rem;
-    }
-  }
-}
-</style>
