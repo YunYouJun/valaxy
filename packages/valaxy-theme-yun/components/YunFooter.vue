@@ -2,17 +2,24 @@
 import { capitalize, computed } from 'vue'
 import { useConfig } from 'valaxy'
 import { useI18n } from 'vue-i18n'
+import pkg from 'valaxy/package.json'
 import { useThemeConfig } from '../composables'
+
+const { t } = useI18n()
 const config = useConfig()
 const themeConfig = useThemeConfig()
 const year = new Date().getFullYear()
+
 const isThisYear = computed(() => {
   return year === themeConfig.value.footer.since
 })
 
-const { t } = useI18n()
-const poweredHtml = computed(() => t('footer.powered', [`<a href="${config.value.pkg.repository}" target="_blank" rel="noopener">Valaxy</a> v${config.value.pkg.version}`]))
-const footerIcon = computed(() => themeConfig.value.footer.icon || { url: config.value.pkg.repository, name: config.value.pkg.name })
+const poweredHtml = computed(() => t('footer.powered', [`<a href="${pkg.repository}" target="_blank" rel="noopener">Valaxy</a> v${pkg.version}`]))
+const footerIcon = computed(() => themeConfig.value.footer.icon || {
+  url: pkg.repository,
+  name: 'i-ri-cloud-line',
+  title: pkg.name,
+})
 </script>
 
 <template>

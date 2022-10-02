@@ -55,9 +55,37 @@ export interface ValaxyConfig {
 }
 ```
 
-## ValaxyMain
+## 开始编写
 
-你可以从 `ValaxyMain` 的 `props` 中获取 `frontmatter` 与 `pageData`。
+### ValaxyMain
+
+你需要自定义一个 `ValaxyMain` 组件来决定主题的文章渲染部分。
+
+> 你可以从 `ValaxyMain` 的 `props` 中获取 `frontmatter` 与 `pageData`。
+
+```vue
+<script lang="ts" setup>
+import type { PageData, Post } from 'valaxy'
+
+defineProps<{
+  frontmatter: Post
+  data?: PageData
+}>()
+</script>
+
+<template>
+  <main>
+    <slot name="main-content">
+      <ValaxyMd :frontmatter="frontmatter">
+        <slot name="main-content-md" />
+        <slot />
+      </ValaxyMd>
+    </slot>
+  </main>
+</template>
+```
+
+> 示例可参考 [ValaxyMain.vue | valaxy-theme-yun](https://github.com/YunYouJun/valaxy/blob/main/packages/valaxy-theme-yun/components/ValaxyMain.vue)
 
 ## 样式
 

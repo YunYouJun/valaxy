@@ -33,12 +33,12 @@ export const valaxyContextRef = shallowRef<ValaxyContext>(parse<ValaxyContext>(v
 if (import.meta.hot) {
   // /@valaxyjs/site must be static string
   import.meta.hot.accept('/@valaxyjs/site', (m) => {
-    valaxySiteConfigRef.value = parse<ValaxySiteConfig>(m.default)
+    valaxySiteConfigRef.value = parse<ValaxySiteConfig>(m?.default)
   })
 
   // context
   import.meta.hot.accept('/@valaxyjs/context', (m) => {
-    valaxyContextRef.value = parse<ValaxyContext>(m.default)
+    valaxyContextRef.value = parse<ValaxyContext>(m?.default)
   })
 }
 

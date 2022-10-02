@@ -3,6 +3,7 @@ title: Use Theme
 title_zh: 使用主题
 categories:
   - Theme
+top: 100
 ---
 
 ## 安装主题

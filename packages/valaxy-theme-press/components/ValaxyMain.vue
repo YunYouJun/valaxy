@@ -23,10 +23,10 @@ const isHome = useLayout('home')
     <div
       w="full" flex="~" :class="{
         'px-6 md:px-8': hasSidebar,
-      }" p="t-8"
+      }" p="t-6"
     >
       <slot name="main">
-        <div class="content" m="auto y-0" flex="~ col grow" w="full" p="x-12 lt-md:0">
+        <div class="content" m="y-0" flex="~ col grow" w="full" p="x-12 lt-md:0">
           <slot name="main-header" />
           <slot name="main-header-after" />
 
