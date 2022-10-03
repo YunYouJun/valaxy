@@ -47,13 +47,23 @@ export interface ValaxyConfig {
   unocss?: UnoCSSConfig
   pages?: Parameters<typeof Pages>[0]
   extendMd?: (ctx: {
-    route: any
-    data: Record<string, any>
+    route: {
+      meta: { frontmatter?: Record<string, any>; layout?: string }
+      path: string
+      component: string
+    }
+    data: Readonly<Record<string, any>>
     excerpt?: string
     path: string
   }) => void
 }
 ```
+
+::: tip
+
+`data`解析自 Markdown frontmatter，为原始数据（不可变），将会被合并至 `route.meta.frontmatter` 中。
+
+:::
 
 ## 开始编写
 

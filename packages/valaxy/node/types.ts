@@ -36,8 +36,12 @@ export interface ValaxyExtendConfig {
    */
   markdown?: MarkdownOptions
   extendMd?: (ctx: {
-    route: any
-    data: Record<string, any>
+    route: {
+      meta: { frontmatter?: Record<string, any>; layout?: string } & {}
+      path: string
+      component: string
+    }
+    data: Readonly<Record<string, any>>
     content: string
     excerpt?: string
     path: string

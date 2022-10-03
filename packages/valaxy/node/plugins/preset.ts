@@ -12,6 +12,7 @@ import Components from 'unplugin-vue-components/vite'
 import VueI18n from '@intlify/vite-plugin-vue-i18n'
 
 import dayjs from 'dayjs'
+import type { ValaxyExtendConfig } from '../types'
 import type { ResolvedValaxyOptions, ValaxyServerOptions } from '../options'
 import { setupMarkdownPlugins } from '../markdown'
 // import { createMarkdownPlugin, excerpt_separator } from './markdown'
@@ -100,7 +101,10 @@ export async function ViteValaxyPlugins(
       /**
        * we need get frontmatter before route, so write it in Pages.extendRoute
        */
-      async extendRoute(route, parent) {
+      async extendRoute(
+        route: Parameters<Required<ValaxyExtendConfig>['extendMd']>[0]['route'],
+        parent,
+      ) {
         let path: string = route.component
         if (!route.meta)
           route.meta = {}
@@ -127,7 +131,9 @@ export async function ViteValaxyPlugins(
 
         if (path.endsWith('.md')) {
           const md = fs.readFileSync(path, 'utf-8')
-          const { data, excerpt, content } = matter(md, { excerpt_separator: '<!-- more -->' })
+          const { data, excerpt, content } = matter(md, {
+            excerpt_separator: '<!-- more -->',
+          })
 
           // todo, optimize it to cache or on demand
           // https://github.com/hannoeru/vite-plugin-pages/issues/257
@@ -164,12 +170,12 @@ export async function ViteValaxyPlugins(
             route.meta.layout = data.layout
 
           // set default updated
-          if (route.meta.frontmatter.updated)
+          if (route.meta.frontmatter?.updated)
             route.meta.frontmatter.updated = route.meta.frontmatter.date
 
           valaxyConfig.extendMd?.({
             route,
-            data,
+            data: data as Readonly<Record<string, any>>,
             excerpt,
             content,
             path,
@@ -199,7 +205,10 @@ export async function ViteValaxyPlugins(
       allowOverrides: true,
       // override: user -> theme -> client
       // latter override former
-      dirs: roots.map(root => `${root}/components`).concat(roots.map(root => `${root}/layouts`)).concat(['src/components', 'components']),
+      dirs: roots
+        .map(root => `${root}/components`)
+        .concat(roots.map(root => `${root}/layouts`))
+        .concat(['src/components', 'components']),
       dts: `${options.userRoot}/components.d.ts`,
 
       ...valaxyConfig.components,
