@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { computed } from 'vue'
+import { computed, provide, ref } from 'vue'
 import { useHead } from '@vueuse/head'
 // @ts-expect-error virtual module
 import ValaxyUserApp from '/@valaxyjs/UserAppVue'
@@ -36,6 +36,9 @@ useHead({
     },
   ],
 })
+
+const onContentUpdated = ref()
+provide('onContentUpdated', onContentUpdated)
 </script>
 
 <template>

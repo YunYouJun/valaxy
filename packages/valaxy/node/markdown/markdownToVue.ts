@@ -2,14 +2,13 @@
 import fs from 'fs'
 import path from 'path'
 import c from 'picocolors'
-import matter from 'gray-matter'
 import LRUCache from 'lru-cache'
 import _debug from 'debug'
 import { resolveTitleFromToken } from '@mdit-vue/shared'
 import { EXTERNAL_URL_RE, getGitTimestamp, slash, transformObject } from '../utils'
-import type { HeadConfig, PageData } from '../../types'
+import type { CleanUrlsMode, HeadConfig, PageData } from '../../types'
 import { createMarkdownRenderer } from '.'
-import type { MarkdownOptions, MarkdownRenderer } from '.'
+import type { MarkdownEnv, MarkdownOptions, MarkdownRenderer } from '.'
 
 const jsStringBreaker = '\u200B'
 const vueTemplateBreaker = '<wbr>'
@@ -101,6 +100,8 @@ export async function createMarkdownToVueRenderFn(
   userDefines: Record<string, any> | undefined,
   isBuild = false,
   includeLastUpdatedData = false,
+  // https://vitepress.vuejs.org/config/app-configs#cleanurls-experimental
+  cleanUrls: CleanUrlsMode = 'with-subfolders',
 ) {
   const md = await createMarkdownRenderer(options)
 
@@ -126,21 +127,33 @@ export async function createMarkdownToVueRenderFn(
 
     // resolve includes
     const includes: string[] = []
-    src = src.replace(includesRE, (_, m1) => {
-      const includePath = path.join(dir, m1)
-      const content = fs.readFileSync(includePath, 'utf-8')
-      includes.push(slash(includePath))
-      return content
+    src = src.replace(includesRE, (m, m1) => {
+      try {
+        const includePath = path.join(dir, m1)
+        const content = fs.readFileSync(includePath, 'utf-8')
+        includes.push(slash(includePath))
+        return content
+      }
+      catch (error) {
+        return m // silently ignore error if file is not present
+      }
     })
 
-    const { content, data: frontmatter } = matter(src)
+    // reset env before render
+    const env: MarkdownEnv = {
+      path: file,
+      relativePath,
+      cleanUrls,
+    }
 
-    // reset state before render
-    md.__path = file
-    md.__relativePath = relativePath
-
-    const html = md.render(content)
-    const data = md.__data
+    const html = md.render(src, env)
+    const {
+      frontmatter = {},
+      headers = [],
+      links = [],
+      sfcBlocks,
+      title = '',
+    } = env
 
     // validate data.links
     const deadLinks: string[] = []
@@ -157,9 +170,9 @@ export async function createMarkdownToVueRenderFn(
       deadLinks.push(url)
     }
 
-    if (data.links) {
+    if (links) {
       const dir = path.dirname(file)
-      for (let url of data.links) {
+      for (let url of links) {
         if (/\.(?!html|md)\w+($|\?)/i.test(url))
           continue
 
@@ -188,11 +201,11 @@ export async function createMarkdownToVueRenderFn(
 
     // provide load
     const pageData: PageData = {
-      title: inferTitle(md, frontmatter, ''),
-      titleTemplate: frontmatter.titleTemplate,
+      title: inferTitle(md, frontmatter, title),
+      titleTemplate: frontmatter.titleTemplate as any,
       description: inferDescription(frontmatter),
       frontmatter,
-      headers: data.headers || [],
+      headers,
       relativePath,
       path: path.join(srcDir, relativePath),
     }
@@ -216,21 +229,30 @@ export async function createMarkdownToVueRenderFn(
         'aside',
         'aside-custom',
       ]
-      const slotsText = slots.map(s => `<template #${s}><slot name="${s}" /></template>`).join('')
+      const slotsText = slots
+        .map(s => `<template #${s}><slot name="${s}" /></template>`)
+        .join('')
       return slotsText
     }
 
-    const vueSrc
-      = [
-        ...injectPageDataCode(data.hoistedTags || [], pageData, replaceRegex),
-        `<template><${pageComponent} :frontmatter="frontmatter" :data="data">`,
-        `<template #main-content-md>${
-          replaceConstants(html, replaceRegex, vueTemplateBreaker)
-        }</template>`,
-        generateSlots(),
-        '<slot />',
-        `</${pageComponent}></template>`,
-      ].join('\n')
+    const vueSrc = [
+      ...injectPageDataCode(
+        sfcBlocks?.scripts.map(item => item.content) ?? [],
+        pageData,
+        replaceRegex,
+      ),
+      `<template><${pageComponent} :frontmatter="frontmatter" :data="data">`,
+      `<template #main-content-md>${replaceConstants(
+        html,
+        replaceRegex,
+        vueTemplateBreaker,
+      )}</template>`,
+      generateSlots(),
+      '<slot />',
+      `</${pageComponent}></template>`,
+      ...(sfcBlocks?.styles.map(item => item.content) ?? []),
+      ...(sfcBlocks?.customBlocks.map(item => item.content) ?? []),
+    ].join('\n')
 
     debug(`[render] ${file} in ${Date.now() - start}ms.`)
 

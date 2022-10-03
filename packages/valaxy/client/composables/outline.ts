@@ -1,51 +1,79 @@
 import type { Ref } from 'vue'
-import { onMounted, onUnmounted, onUpdated } from 'vue'
+import { computed, inject, onMounted, onUnmounted, onUpdated, ref } from 'vue'
+import { useFrontmatter } from '../composables'
+import { useThemeConfig } from '../../client'
 import { throttleAndDebounce } from '../utils'
-import type { Header } from '../../types'
+import type { DefaultThemeConfig, Header } from '../../types'
 
-interface HeaderWithChildren extends Header {
-  children?: Header[]
-  hidden?: boolean
+export type MenuItem = Omit<Header, 'slug' | 'children'> & {
+  children?: MenuItem[]
 }
 
-interface MenuItemWithLinkAndChildren {
-  text: string
-  link: string
-  children?: MenuItemWithLinkAndChildren[]
-  hidden?: boolean
-  lang?: string
+export function resolveHeaders(
+  headers: MenuItem[],
+  levelsRange: Exclude<DefaultThemeConfig['outline'], false> = [2, 4],
+) {
+  const levels: [number, number]
+      = typeof levelsRange === 'number'
+        ? [levelsRange, levelsRange]
+        : levelsRange === 'deep'
+          ? [2, 6]
+          : levelsRange
+
+  return groupHeaders(headers, levels)
 }
 
-export function resolveHeaders(headers: Header[]) {
-  return mapHeaders(groupHeaders(headers))
+function groupHeaders(headers: MenuItem[], levelsRange: [number, number]) {
+  const result: MenuItem[] = []
+
+  headers = headers.map(h => ({ ...h }))
+  headers.forEach((h, index) => {
+    if (h.level >= levelsRange[0] && h.level <= levelsRange[1]) {
+      if (addToParent(index, headers, levelsRange))
+        result.push(h)
+    }
+  })
+
+  return result
 }
 
-function groupHeaders(headers: Header[]): HeaderWithChildren[] {
-  headers = headers.map(h => Object.assign({}, h))
+// function mapHeaders(
+//   headers: HeaderWithChildren[],
+// ): MenuItemWithLinkAndChildren[] {
+//   return headers.map(header => ({
+//     text: header.title,
+//     link: `#${header.slug}`,
+//     children: header.children ? mapHeaders(header.children) : undefined,
+//     hidden: header.hidden,
+//     lang: header.lang,
+//   }))
+// }
 
-  let lastH2: HeaderWithChildren | undefined
+function addToParent(
+  currIndex: number,
+  headers: MenuItem[],
+  levelsRange: [number, number],
+) {
+  if (currIndex === 0)
+    return true
 
-  for (const h of headers) {
-    if (h.level === 2)
-      lastH2 = h
+  const currentHeader = headers[currIndex]
+  for (let index = currIndex - 1; index >= 0; index--) {
+    const header = headers[index]
 
-    else if (lastH2 && h.level <= 3)
-      (lastH2.children || (lastH2.children = [])).push(h)
+    if (
+      header.level < currentHeader.level
+      && header.level >= levelsRange[0]
+      && header.level <= levelsRange[1]
+    ) {
+      if (header.children == null)
+        header.children = []
+      header.children.push(currentHeader)
+      return false
+    }
   }
 
-  return headers.filter(h => h.level === 2)
-}
-
-function mapHeaders(
-  headers: HeaderWithChildren[],
-): MenuItemWithLinkAndChildren[] {
-  return headers.map(header => ({
-    text: header.title,
-    link: `#${header.slug}`,
-    children: header.children ? mapHeaders(header.children) : undefined,
-    hidden: header.hidden,
-    lang: header.lang,
-  }))
+  return true
 }
 
 // magic number to avoid repeated retrieval
@@ -165,4 +193,41 @@ function isAnchorActive(
     return [true, anchor.hash]
 
   return [false, null]
+}
+
+export const useOutline = () => {
+  const frontmatter = useFrontmatter()
+  const themeConfig = useThemeConfig()
+  const headers = ref<MenuItem[]>([])
+  const pageOutline = computed<DefaultThemeConfig['outline']>(
+    () => frontmatter.value.outline ?? themeConfig.value.outline,
+  )
+
+  const onContentUpdated = inject('onContentUpdated') as Ref<() => void>
+  onContentUpdated.value = () => {
+    headers.value = getHeaders(pageOutline.value)
+  }
+
+  return {
+    headers,
+  }
+}
+
+export function getHeaders(pageOutline: DefaultThemeConfig['outline']) {
+  if (pageOutline === false)
+    return []
+  const updatedHeaders: MenuItem[] = []
+  document
+    .querySelectorAll<HTMLHeadingElement>('h2, h3, h4, h5, h6')
+    .forEach((el) => {
+      if (el.textContent && el.id) {
+        updatedHeaders.push({
+          level: Number(el.tagName[1]),
+          title: el.innerText.replace(/\s+#\s*$/, ''),
+          link: `#${el.id}`,
+          lang: el.lang,
+        })
+      }
+    })
+  return resolveHeaders(updatedHeaders, pageOutline)
 }

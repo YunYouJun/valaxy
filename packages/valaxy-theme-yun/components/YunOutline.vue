@@ -1,28 +1,19 @@
 <script setup lang="ts">
-import { computed, ref } from 'vue'
-import { useI18n } from 'vue-i18n'
-import type { Header } from 'valaxy'
+import { ref } from 'vue'
 import {
-  resolveHeaders,
   useActiveAnchor,
-  useFrontmatter,
+  useOutline,
 } from 'valaxy'
 import { useThemeConfig } from '../composables'
 
-const props = defineProps<{ headers: Header[] }>()
-
-const frontmatter = useFrontmatter()
 const themeConfig = useThemeConfig()
 
-const { locale } = useI18n()
 const container = ref()
 const marker = ref()
 
 useActiveAnchor(container, marker)
 
-const resolvedHeaders = computed(() => {
-  return resolveHeaders(props.headers || [])
-})
+const { headers } = useOutline()
 
 function handleClick({ target: el }: Event) {
   const id = `#${(el as HTMLAnchorElement).href!.split('#')[1]}`
@@ -45,26 +36,12 @@ function handleClick({ target: el }: Event) {
           Table of Contents for current page
         </span>
 
-        <ul class="va-toc relative z-1">
-          <li
-            v-for="{ text, link, children, hidden, lang } in resolvedHeaders"
-            v-show="!hidden"
-            :key="link"
-            class="va-toc-item"
-            :lang="lang || locale"
-          >
-            <a class="outline-link" :href="link" @click="handleClick">
-              {{ text }}
-            </a>
-            <ul v-if="children && frontmatter.outline === 'deep'">
-              <li v-for="item in children" v-show="!item.hidden" :key="item.link" :lang="lang || locale">
-                <a class="outline-link" p="l-3" :href="link" @click="handleClick">
-                  {{ item.text }}
-                </a>
-              </li>
-            </ul>
-          </li>
-        </ul>
+        <YunOutlineItem
+          class="va-toc relative z-1"
+          :headers="headers"
+          :on-click="handleClick"
+          root
+        />
       </nav>
     </div>
   </div>
@@ -73,10 +50,6 @@ function handleClick({ target: el }: Event) {
 <style lang="scss" scoped>
 .va-toc {
   text-align: left;
-
-  .va-toc-item {
-    color: var(--va-c-text-light);
-  }
 }
 
 .content {

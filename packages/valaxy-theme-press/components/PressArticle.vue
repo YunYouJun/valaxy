@@ -64,7 +64,9 @@ const prevPost = computed(() => posts.value[findCurrentIndex() + 1])
             Next Article
           </h2>
           <div class="link">
-            <a :href="nextPost.href">{{ nextPost.title }}</a>
+            <router-link :to="nextPost.href">
+              {{ nextPost.title }}
+            </router-link>
           </div>
         </div>
         <div v-if="prevPost && prevPost.href" class="py-8">
@@ -72,11 +74,15 @@ const prevPost = computed(() => posts.value[findCurrentIndex() + 1])
             Previous Article
           </h2>
           <div class="link">
-            <a :href="prevPost.href">{{ prevPost.title }}</a>
+            <router-link :to="prevPost.href">
+              {{ prevPost.title }}
+            </router-link>
           </div>
         </div>
         <div class="pt-8">
-          <a class="link" href="/">← Back to Home</a>
+          <router-link class="link" to="/">
+            ← Back to Home
+          </router-link>
         </div>
       </footer>
     </div>

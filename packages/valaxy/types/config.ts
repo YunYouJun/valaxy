@@ -1,4 +1,11 @@
-export type DefaultThemeConfig = Record<string, any>
+export type DefaultThemeConfig = {
+  /**
+   * Custom header levels of outline in the aside component.
+   *
+   * @default 2
+   */
+  outline?: number | [number, number] | 'deep' | false
+} & Record<string, any>
 
 export interface SocialLink {
   /**

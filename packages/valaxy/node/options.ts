@@ -90,7 +90,7 @@ export async function resolveOptions(options: ValaxyEntryOptions, mode: Resolved
   // supported in Node 12+, which is required by Vite.
   const pages = (
     await fg(['**.md'], {
-      cwd: userRoot,
+      cwd: resolve(userRoot, 'pages'),
       ignore: ['**/node_modules'],
     })
   ).sort()

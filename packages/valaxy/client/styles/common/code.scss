@@ -22,6 +22,10 @@
 }
 
 .markdown-body {
+  code {
+    font-size: inherit;
+  }
+
   div[class*="language-"] {
     position: relative;
     background-color: var(--va-code-block-bg);

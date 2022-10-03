@@ -133,10 +133,6 @@ export function createValaxyPlugin(options: ResolvedValaxyOptions, serverOptions
       markdownToVue = await createMarkdownToVueRenderFn(
         options.userRoot,
         valaxyConfig.markdown || {
-          toc: {
-            includeLevel: [1, 2, 3, 4],
-            listType: 'ol',
-          },
           katex: {},
         },
         options.pages,
@@ -199,19 +195,6 @@ export function createValaxyPlugin(options: ResolvedValaxyOptions, serverOptions
         checkMd(code, id)
         code.replace('{%', '\{\%')
         code.replace('%}', '\%\}')
-
-        // const scripts = [
-        // '<script setup>',
-        // 'import { useRoute } from "vue-router"',
-        // 'const route = useRoute()',
-        // `route.meta.headers = ${JSON.stringify(_md.__data)}`,
-        // `export const data = JSON.parse(${JSON.stringify(JSON.stringify(pageData))})`,
-        // `frontmatter.data = JSON.parse(${JSON.stringify(JSON.stringify(pageData))})`,
-        // '</script>',
-        // ]
-
-        // const li = code.lastIndexOf('</script>')
-        // code = code.slice(0, li) + scripts.join('\n') + code.slice(li + 9)
 
         // transform .md files into vueSrc so plugin-vue can handle it
         const { vueSrc, deadLinks, includes } = await markdownToVue(

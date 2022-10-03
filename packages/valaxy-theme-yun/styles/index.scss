@@ -1,10 +1,11 @@
 @use "./layout" as *;
-
 @use "./common/button.scss" as *;
-@use "./common/markdown.scss" as *;
 
 @forward "star-markdown-css/src/scss/theme/yun.scss" with (
   $colors: (
     "primary": $c-primary,
   )
 );
+
+// override the default style of star-markdown-css
+@use "./common/markdown.scss" as *;

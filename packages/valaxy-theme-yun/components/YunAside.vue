@@ -1,10 +1,10 @@
 <script lang="ts" setup>
 import { useI18n } from 'vue-i18n'
-import { useData, useFrontmatter } from 'valaxy'
+import { useFrontmatter } from 'valaxy'
 import { useAppStore } from 'valaxy/client/stores/app'
+import { provide, ref } from 'vue'
 
 const frontmatter = useFrontmatter()
-const data = useData()
 const { t } = useI18n()
 const app = useAppStore()
 </script>
@@ -27,7 +27,7 @@ const app = useAppStore()
         {{ t('sidebar.toc') }}
       </h2>
 
-      <YunToc v-if="frontmatter.toc !== false" :headers="data.headers || []" />
+      <YunOutline v-if="frontmatter.toc !== false" />
 
       <div class="flex-grow" />
 
