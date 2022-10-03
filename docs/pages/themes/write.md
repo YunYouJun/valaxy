@@ -1,6 +1,6 @@
 ---
-title: How to create a theme?
-title_zh: 如何创建一个 Valaxy 主题
+title: How to write a theme?
+title_zh: 如何编写一个 Valaxy 主题
 categories:
   - Theme
 end: false
@@ -107,6 +107,38 @@ Markdown 样式是主题呈现文章样式的部分，需要由主题自定义�
 
 > 如果你想先使用常见的默认样式（后续再进行定制），你可以直接使用 [star-markdown-css](https://github.com/YunYouJun/star-markdown-css)。
 > 使用方式可参见 [valaxy-theme-yun/styles](https://github.com/YunYouJun/valaxy/blob/main/packages/valaxy-theme-yun/styles/index.scss)
+
+## 功能
+
+### 目录
+
+如果你想要快速实现一个目录，Valaxy 提供了一个内置钩子函数 `useOutline`。
+
+你可以用它快速获取文章页的目录信息 `headers` 与对应点击事件 `handleClick`，如：
+
+```vue
+<script setup lang="ts">
+import { useOutline } from 'valaxy'
+const { headers, handleClick } = useOutline()
+</script>
+
+<template>
+  <nav aria-labelledby="doc-outline-aria-label">
+    <span id="doc-outline-aria-label" class="visually-hidden">
+      Table of Contents
+    </span>
+
+    <PressOutlineItem
+      class="va-toc relative z-1"
+      :headers="headers"
+      :on-click="handleClick"
+      root
+    />
+  </nav>
+</template>
+```
+
+> 更多可参见 [PressOutline | valaxy-theme-press](https://github.com/YunYouJun/valaxy/blob/main/packages/valaxy-theme-press/components/PressOutline.vue)。
 
 ## Third Plugin
 
