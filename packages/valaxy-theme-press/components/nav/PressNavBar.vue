@@ -21,9 +21,9 @@ const themeConfig = useThemeConfig()
 
 <template>
   <div class="press-navbar flex justify-between items-center px-6 py-4" :class="{ 'has-sidebar': hasSidebar }">
-    <a class="text-xl" href="/" :aria-label="config.title">
+    <router-link class="text-xl" to="/" :aria-label="config.title">
       <span class="md:inline">{{ config.title }}</span>
-    </a>
+    </router-link>
     <div class="self-stretch flex justify-center items-center text-sm leading-5">
       <template v-for="item in themeConfig.nav" :key="item.text">
         <PressNavItemLink v-if="'link' in item" :item="item" />

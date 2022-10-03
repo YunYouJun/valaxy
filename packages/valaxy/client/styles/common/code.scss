@@ -23,7 +23,8 @@
 
 .markdown-body {
   code {
-    font-size: inherit;
+    // relative h1, etc
+    font-size: 0.85em;
   }
 
   div[class*="language-"] {

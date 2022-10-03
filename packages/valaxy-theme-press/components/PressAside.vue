@@ -1,11 +1,9 @@
 <script lang="ts" setup>
-// import { useI18n } from 'vue-i18n'
-import { useData, useFrontmatter } from 'valaxy'
+import { useFrontmatter } from 'valaxy'
 import { useAppStore } from 'valaxy/client/stores/app'
+import PressOutline from './PressOutline.vue'
 
 const frontmatter = useFrontmatter()
-const data = useData()
-// const { t } = useI18n()
 const app = useAppStore()
 </script>
 
@@ -28,7 +26,7 @@ const app = useAppStore()
     :class="app.isRightSidebarOpen && 'open'"
   >
     <div class="aside-container lt-xl:fixed" flex="~ col">
-      <PressToc v-if="frontmatter.toc !== false" :headers="data.headers || []" />
+      <PressOutline v-if="frontmatter.toc !== false" />
       <div class="flex-grow" />
       <div v-if="$slots.default" class="custom-container">
         <slot />

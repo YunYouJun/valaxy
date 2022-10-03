@@ -9,14 +9,17 @@ const route = useRoute()
 </script>
 
 <template>
-  <a
+  <AppLink
     class="press-nav-item-link p-x-3"
     :class="{
       active: route.path === item.link,
     }"
-    :href="item.link"
+    :to="item.link"
     rel="noopener"
-  >{{ item.text }}</a>
+    show-external-icon
+  >
+    {{ item.text }}
+  </AppLink>
 </template>
 
 <style lang="scss" scoped>

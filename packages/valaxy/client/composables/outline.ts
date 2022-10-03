@@ -208,8 +208,17 @@ export const useOutline = () => {
     headers.value = getHeaders(pageOutline.value)
   }
 
+  const handleClick = ({ target: el }: Event) => {
+    const id = `#${(el as HTMLAnchorElement).href!.split('#')[1]}`
+    const heading = document.querySelector(
+      decodeURIComponent(id),
+    ) as HTMLAnchorElement
+    heading?.focus()
+  }
+
   return {
     headers,
+    handleClick,
   }
 }
 

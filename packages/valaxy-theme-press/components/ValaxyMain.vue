@@ -26,7 +26,7 @@ const isHome = useLayout('home')
       }" p="t-6"
     >
       <slot name="main">
-        <div class="content" m="y-0" flex="~ col grow" w="full" p="x-12 lt-md:0">
+        <div class="content" :class="{ 'm-auto': !hasSidebar }" m="y-0" flex="~ col grow" w="full" p="x-12 lt-md:0">
           <slot name="main-header" />
           <slot name="main-header-after" />
 

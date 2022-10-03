@@ -1,7 +1,9 @@
 <script setup lang="ts">
+// https://router.vuejs.org/guide/advanced/extending-router-link.html#extending-routerlink
 import { computed } from 'vue'
 
 const props = defineProps<{
+  showExternalIcon?: boolean
   to: string
 }>()
 
@@ -13,6 +15,7 @@ const isExternalLink = computed(() => {
 <template>
   <a v-if="isExternalLink" v-bind="$attrs" :href="to" target="_blank">
     <slot />
+    <div v-if="showExternalIcon" class="icon-link inline-block" i-ri-arrow-right-up-line />
   </a>
   <router-link v-else v-bind="$props as any">
     <slot />

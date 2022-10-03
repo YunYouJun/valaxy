@@ -17,7 +17,7 @@ const { t } = useI18n()
 const content = ref()
 function updateDom() {
   wrapTable(content.value)
-  onContentUpdated.value()
+  onContentUpdated.value?.()
 }
 
 onMounted(() => {

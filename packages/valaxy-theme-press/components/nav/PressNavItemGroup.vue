@@ -29,10 +29,9 @@ const open = ref(false)
     </button>
 
     <div class="menu flex items-center flex-col grow">
-      <a v-for="itemLink in item.items" :key="itemLink.text" class="menu-item" :href="itemLink.link">
+      <AppLink v-for="itemLink in item.items" :key="itemLink.text" class="menu-item" :to="itemLink.link">
         {{ itemLink.text }}
-        <div class="icon-link inline-block" i-ri-arrow-right-up-line />
-      </a>
+      </AppLink>
     </div>
   </div>
 </template>
@@ -104,19 +103,5 @@ const open = ref(false)
   opacity: 1;
   visibility: visible;
   transform: translateY(0);
-}
-
-.icon-link{
-  display: inline-block;
-  margin-top: -1px;
-  margin-left: 4px;
-  width: 11px;
-  height: 11px;
-  color: rgba(60, 60, 60, 0.33);
-  transition: color .25s;
-
-  .dark &{
-    color: rgba(235, 235,235, 0.38)
-  }
 }
 </style>

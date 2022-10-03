@@ -58,11 +58,10 @@ export default defineAppSetup((ctx) => {
 
 function scrollTo(el: HTMLElement, hash: string, smooth = false) {
   let target: Element | null = null
-
   try {
     target = el.classList.contains('header-anchor')
       ? el
-      : document.querySelector(decodeURIComponent(hash))
+      : (decodeURIComponent(hash) && document.querySelector(decodeURIComponent(hash))) || null
   }
   catch (e) {
     console.warn(e)

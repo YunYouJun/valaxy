@@ -27,4 +27,4 @@ features:
     details: Go wild with true SSG + SPA architecture. Static on page load, but engage users with 100% interactivity from there.
 ---
 
-<div m="y-8" text="center 4xl" font="black">🧪 <br /><br />WORK IN PROGRESS</div>
+<div m="auto y-8" text="center 4xl" font="black">🧪 <br /><br />WORK IN PROGRESS</div>
