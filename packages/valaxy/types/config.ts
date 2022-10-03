@@ -108,7 +108,7 @@ export interface SiteConfig<T = DefaultThemeConfig> {
    *
    * @default true
    */
-  ignoreDeadLinks?: boolean
+  ignoreDeadLinks: boolean
 
   /**
    * icon for your website
