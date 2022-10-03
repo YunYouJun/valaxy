@@ -1,7 +1,7 @@
 import type { Ref } from 'vue'
 import { computed, inject, ref } from 'vue'
+import type { DefaultThemeConfig, Header } from 'valaxy/types'
 import { useFrontmatter, useThemeConfig } from '../..'
-import type { DefaultThemeConfig, Header } from '../../../types'
 
 export type MenuItem = Omit<Header, 'slug' | 'children'> & {
   children?: MenuItem[]

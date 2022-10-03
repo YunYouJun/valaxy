@@ -125,7 +125,6 @@ export function useSidebar() {
     return (
       fm.value.sidebar !== false
       && layout.value !== 'home'
-      && layout.value !== 'post'
     )
   })
 

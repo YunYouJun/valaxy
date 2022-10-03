@@ -39,10 +39,16 @@ export function createConfigPlugin(options: ResolvedValaxyOptions): Plugin {
           ],
 
           exclude: [
-            'unocss',
             '@vueuse/core',
             '@vueuse/shared',
+            '@unocss/reset',
+            'unocss',
             'vue-demi',
+
+            // internal
+            'valaxy',
+            '/@valaxyjs/site',
+            '/@valaxyjs/context',
           ],
         },
 

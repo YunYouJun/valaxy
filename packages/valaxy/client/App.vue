@@ -3,6 +3,7 @@ import { computed, provide, ref } from 'vue'
 import { useHead } from '@vueuse/head'
 // @ts-expect-error virtual module
 import ValaxyUserApp from '/@valaxyjs/UserAppVue'
+import ValaxyAddons from './components/ValaxyAddons.vue'
 import { isDark } from './composables'
 
 // https://github.com/vueuse/head

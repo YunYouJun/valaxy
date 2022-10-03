@@ -80,6 +80,14 @@ const YunTwikoo = config.value.comment.waline.enable
 <style lang="scss">
 @use 'valaxy/client/styles/mixins' as *;
 
+@include media('md') {
+  .yun-main {
+    &.has-sidebar {
+      padding-left: var(--va-sidebar-width);
+    }
+  }
+}
+
 @include media('xl') {
   .content{
     // 8px scrollbar width
