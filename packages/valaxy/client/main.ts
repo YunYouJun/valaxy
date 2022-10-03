@@ -4,11 +4,10 @@ import { setupLayouts } from 'virtual:generated-layouts'
 import App from './App.vue'
 
 import '@unocss/reset/tailwind.css'
-
+import 'uno.css'
 // generate user styles
 import '/@valaxyjs/styles'
 
-import 'uno.css'
 import setupMain from './setup/main'
 
 const routes = setupLayouts(__DEV__ ? generatedRoutes : generatedRoutes.filter(i => !i.meta?.frontmatter.draft))

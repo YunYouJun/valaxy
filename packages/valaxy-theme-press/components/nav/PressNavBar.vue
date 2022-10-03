@@ -83,13 +83,6 @@ const themeConfig = useThemeConfig()
   max-width: calc(var(--pr-layout-max-width) - 64px);
 }
 
-.content {
-  display: flex;
-  justify-content: flex-end;
-  align-items: center;
-  flex-grow: 1;
-}
-
 .menu + .translations::before,
 .menu + .appearance::before,
 .menu + .social-links::before,

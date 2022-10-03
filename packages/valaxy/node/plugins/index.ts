@@ -216,7 +216,7 @@ export function createValaxyPlugin(options: ResolvedValaxyOptions, serverOptions
     },
 
     renderStart() {
-      if (hasDeadLinks)
+      if (hasDeadLinks && !siteConfig.ignoreDeadLinks)
         throw new Error('One or more pages contain dead links.')
     },
 

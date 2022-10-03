@@ -71,6 +71,7 @@ export const defaultSiteConfig: SiteConfig = {
     format: '',
   },
   lastUpdated: true,
+  ignoreDeadLinks: true,
 
   license: {
     enabled: true,

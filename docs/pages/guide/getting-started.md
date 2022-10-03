@@ -253,7 +253,7 @@ If you want to develop a theme and released, you can refer to [valaxy-theme-star
 ::: zh-CN
 如果您希望自己开发一个主题并发布，您可以参考 [valaxy-theme-starter](https://github.com/YunYouJun/valaxy-theme-starter)。
 
-更多内容请参见 [如何创建一个 Valaxy 主题](/themes).
+更多内容请参见 [如何创建一个 Valaxy 主题](/themes/index.md).
 :::
 
 ## Community {lang="en"}

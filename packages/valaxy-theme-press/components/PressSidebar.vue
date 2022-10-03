@@ -48,7 +48,7 @@ const { hasSidebar } = useSidebar()
   bottom: 0;
   left: 0;
   padding: 1.5rem 1rem;
-  padding-top: var(--pr-nav-height);
+  top: var(--pr-nav-height);
   z-index: var(--pr-z-index-sidebar);
   width: calc(100vw - 64px);
   max-width: 320px;
@@ -71,13 +71,18 @@ const { hasSidebar } = useSidebar()
   .press-sidebar {
     z-index: 1;
     padding: 1.5rem 1rem;
-    padding-top: var(--pr-nav-height);
     width: var(--va-sidebar-width);
     max-width: 100%;
     background-color: var(--va-c-bg-alt);
     opacity: 1;
     box-shadow: none;
     transform: translateX(0);
+  }
+}
+
+@include mobile {
+  .press-sidebar {
+    top: 0;
   }
 }
 </style>

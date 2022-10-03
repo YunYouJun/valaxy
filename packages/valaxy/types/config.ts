@@ -104,6 +104,13 @@ export interface SiteConfig<T = DefaultThemeConfig> {
   lastUpdated: boolean
 
   /**
+   * Don't fail builds due to dead links.
+   *
+   * @default true
+   */
+  ignoreDeadLinks?: boolean
+
+  /**
    * icon for your website
    */
   favicon: string

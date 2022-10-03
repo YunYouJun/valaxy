@@ -9,7 +9,7 @@ const app = useAppStore()
 
 <template>
   <button
-    class="xl:hidden toc-btn shadow fixed press-icon-btn z-350"
+    class="toc-btn shadow fixed press-icon-btn z-350 xl:hidden!"
     opacity="75" right="2" bottom="19"
     @click="app.toggleRightSidebar()"
   >

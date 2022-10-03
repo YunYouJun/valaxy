@@ -2,7 +2,6 @@
 import { useI18n } from 'vue-i18n'
 import { useFrontmatter } from 'valaxy'
 import { useAppStore } from 'valaxy/client/stores/app'
-import { provide, ref } from 'vue'
 
 const frontmatter = useFrontmatter()
 const { t } = useI18n()

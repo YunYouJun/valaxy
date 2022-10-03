@@ -26,21 +26,19 @@ const isHome = useLayout('home')
       }" p="t-6"
     >
       <slot name="main">
-        <div class="content" :class="{ 'm-auto': !hasSidebar }" m="y-0" flex="~ col grow" w="full" p="x-12 lt-md:0">
+        <div class="content" :class="{ 'm-auto': !hasSidebar }" flex="~ col grow" w="full" p="lt-md:0">
           <slot name="main-header" />
           <slot name="main-header-after" />
 
           <slot name="main-content">
-            <div class="markdown-body prose max-w-none pb-8">
-              <ValaxyMd :frontmatter="frontmatter">
-                <h1 v-if="hasSidebar && !isHome && frontmatter.title" :id="frontmatter.title" tabindex="-1">
-                  {{ frontmatter.title }}
-                  <a class="header-anchor" :href="`#${frontmatter.title}`" aria-hidden="true">#</a>
-                </h1>
-                <slot name="main-content-md" />
-                <slot />
-              </ValaxyMd>
-            </div>
+            <ValaxyMd class="prose pb-8 m-auto w-full max-w-4xl" :frontmatter="frontmatter">
+              <h1 v-if="hasSidebar && !isHome && frontmatter.title" :id="frontmatter.title" tabindex="-1">
+                {{ frontmatter.title }}
+                <a class="header-anchor" :href="`#${frontmatter.title}`" aria-hidden="true">#</a>
+              </h1>
+              <slot name="main-content-md" />
+              <slot />
+            </ValaxyMd>
             <slot name="main-content-after" />
           </slot>
         </div>

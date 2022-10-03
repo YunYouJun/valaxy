@@ -17,7 +17,7 @@ const prevPost = computed(() => posts.value[findCurrentIndex() + 1])
 </script>
 
 <template>
-  <article class="xl:divide-y xl:divide-gray-200 max-w-6xl m-auto">
+  <article class="xl:divide-y xl:divide-gray-200 max-w-7xl m-auto" p="x-6" w="full">
     <header class="pt-20 xl:pb-10 space-y-1 text-center">
       <PressDate :date="frontmatter.date" />
       <h1
@@ -39,14 +39,14 @@ const prevPost = computed(() => posts.value[findCurrentIndex() + 1])
         divide-y
         xl:divide-y-0
         divide-gray-200
-        xl:grid xl:grid-cols-5 xl:gap-x-6
+        xl:grid xl:grid-cols-12 xl:gap-x-6
         pb-16
         xl:pb-20
       "
       style="grid-template-rows: auto 1fr"
     >
       <PressAuthor v-if="frontmatter.author" :frontmatter="frontmatter" />
-      <div class="divide-y divide-gray-200 xl:pb-0 xl:col-span-3 xl:row-span-2">
+      <div class="divide-y divide-gray-200 xl:pb-0 xl:col-span-8 xl:row-span-2">
         <router-view />
       </div>
 
@@ -56,7 +56,7 @@ const prevPost = computed(() => posts.value[findCurrentIndex() + 1])
           font-medium
           leading-5
           divide-y divide-gray-200
-          xl:col-start-1 xl:row-start-2
+          xl:col-start-1 xl:row-start-2 xl:col-span-2
         "
       >
         <div v-if="nextPost" class="py-8">
