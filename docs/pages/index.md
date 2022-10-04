@@ -27,4 +27,19 @@ features:
     details: Go wild with true SSG + SPA architecture. Static on page load, but engage users with 100% interactivity from there.
 ---
 
-<div m="auto y-8" text="center 4xl" font="black">🧪 <br /><br />WORK IN PROGRESS</div>
+<div m="auto y-8" text="center" font="black">
+<h3 text="3xl">🧪</h3>
+
+```bash
+pnpm create valaxy
+```
+
+<span text="4xl">WORK IN PROGRESS</span>
+
+</div>
+
+<p align="center">
+  <a href="https://sponsors.yunyoujun.cn">
+    <img src="https://sponsors.yunyoujun.cn/sponsors.svg">
+  </a>
+</p>

@@ -13,5 +13,8 @@
   "dependencies": {
     "valaxy": "0.11.1",
     "valaxy-theme-yun": "0.11.1"
+  },
+  "devDependencies": {
+    "typescript": "^4.8.4"
   }
 }

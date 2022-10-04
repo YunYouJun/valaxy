@@ -1,9 +1,35 @@
 export * from '../composables'
 export * from './home.d'
 
-export namespace DocsTheme {
+export namespace PressTheme {
   export type Config = ThemeConfig
   export type Sidebar = any
+
+  export interface Footer {
+    message?: string;
+    copyright?: string;
+  }
+
+  export interface Config {
+    /**
+     * toc title
+     * @default 'On this page'
+     */
+    outlineTitle: string
+
+    colors: {
+      /**
+       * primary color
+       * @default '#0078E7'
+       */
+      primary: string
+    }
+
+    nav: Array<NavItem>
+    sidebar: string[]
+
+    footer: Footer
+  }
 }
 
 export interface NavItemLink {
@@ -19,26 +45,10 @@ export interface NavItemGroup {
 
 export type NavItem = NavItemLink | NavItemGroup
 
+
+
 /**
  * Theme Config
  */
-export interface ThemeConfig {
-  /**
-   * toc title
-   * @default 'On this page'
-   */
-  outlineTitle: string
-
-  colors: {
-    /**
-     * primary color
-     * @default '#0078E7'
-     */
-    primary: string
-  }
-
-  nav: Array<NavItem>
-  sidebar: string[]
-}
-
+export type ThemeConfig = PressTheme.Config
 export type ThemeUserConfig = Partial<ThemeConfig>

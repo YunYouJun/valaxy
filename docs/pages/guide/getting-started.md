@@ -47,7 +47,13 @@ Valaxy 基于 [Vite](https://vitejs.dev/) 提供热更新与打包等功能，�
 
 <div lang="zh-CN">
 
-::: danger
+::: danger 兼容
+
+由于 Vite 要求 [Node.js](https://nodejs.org/en/) 的版本为 14.18+, 16+，Valaxy 同样需要你将 Node.js 升级至 14.18 版本之后。
+
+:::
+
+::: tip
 
 如果您是 Windows 用户，我强烈建议您使用类 Unix 的 Shell（如 [Git Bash](https://git-scm.com/downloads) 或 [WSL](https://docs.microsoft.com/en-us/windows/wsl/install)），而非 CMD / PowerShell.
 
@@ -59,7 +65,13 @@ Valaxy 基于 [Vite](https://vitejs.dev/) 提供热更新与打包等功能，�
 
 <div lang="en">
 
-::: danger
+::: danger Compatibility Note
+
+Vite requires [Node.js](https://nodejs.org/en/) version 14.18+, 16+. Valaxy also requires you to upgrade Node.js after version 14.18+.
+
+:::
+
+::: tip
 
 If you are a Windows user, I strongly recommend using a Unix-like shell (such as [Git Bash](https://git-scm.com/downloads) or [WSL](https://docs.microsoft.com/en-us/windows/wsl/install) rather than CMD / PowerShell.
 

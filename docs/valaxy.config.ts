@@ -1,5 +1,7 @@
 import { defineConfig } from 'valaxy'
 
+const commitRef = process.env.COMMIT_REF?.slice(0, 8) || 'dev'
+
 const safelist = [
   'i-ri-home-line',
 ]
@@ -38,6 +40,12 @@ export default defineConfig({
         ],
       },
     ],
+
+    footer: {
+      message: `Released under the MIT License. (${commitRef})`,
+      copyright:
+        'Copyright © 2022-present <a href="https://github.com/YunYouJun" target="_blank">YunYouJun</a> & <a href="https://github.com/YunYouJun/valaxy/graphs/contributors" target="_blank">Valaxy Contributors</a>',
+    },
   },
 
   vite: {

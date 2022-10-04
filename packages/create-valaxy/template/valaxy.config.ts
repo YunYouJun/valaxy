@@ -10,6 +10,7 @@ const safelist = [
  * User Config
  */
 export default defineConfig<ThemeConfig>({
+  url: 'https://valaxy.site/',
   lang: 'zh-CN',
   title: 'Valaxy Theme Yun',
   author: {
