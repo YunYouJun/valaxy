@@ -1,9 +1,24 @@
 import { mergeConfig as mergeViteConfig, normalizePath } from 'vite'
 import { createDefu } from 'defu'
 import { isFunction } from '@antfu/utils'
+import type { LoadConfigSource } from 'unconfig'
+import { loadConfig } from 'unconfig'
 import type { ResolvedValaxyOptions, ValaxyEntryOptions } from '../options'
 import type { ValaxyAddonFn, ValaxyAddonResolver, ValaxyConfig, ValaxyConfigFn } from '../types'
-import { loadConfigFromFiles } from '.'
+
+export interface LoadConfigFromFilesOptions {
+  cwd?: string
+  rewrite?: LoadConfigSource['rewrite']
+}
+export async function loadConfigFromFiles<T>(
+  files: string,
+  options: LoadConfigFromFilesOptions = {},
+) {
+  return await loadConfig<T>({
+    sources: { files, rewrite: options.rewrite },
+    cwd: options.cwd || process.cwd(),
+  })
+}
 
 /**
  * merge valaxy.config

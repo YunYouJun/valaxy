@@ -10,6 +10,7 @@ import { Feed } from 'feed'
 import consola from 'consola'
 import type { ResolvedValaxyOptions } from './options'
 import { formatMdDate } from './utils/date'
+import { ensurePrefix, isExternal } from './utils'
 
 const markdown = MarkdownIt({
   html: true,
@@ -99,7 +100,9 @@ export async function build(options: ResolvedValaxyOptions) {
 
   // write
   feedOptions.author = author
-  feedOptions.image = config.author?.avatar?.startsWith('http') ? config.author.avatar : `${DOMAIN}${config.author?.avatar}`
+  feedOptions.image = isExternal(config.author?.avatar || '/favicon.svg')
+    ? config.author?.avatar
+    : `${DOMAIN}${ensurePrefix('/', config.author?.avatar)}`
   feedOptions.favicon = `${DOMAIN}${config.feed?.favicon || config.favicon}`
 
   const feed = new Feed(feedOptions)

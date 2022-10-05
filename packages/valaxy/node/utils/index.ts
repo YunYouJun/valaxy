@@ -4,12 +4,9 @@ import globalDirs from 'global-dirs'
 import type resolve from 'resolve'
 import { sync as resolveSync } from 'resolve'
 import consola from 'consola'
-import type { LoadConfigSource } from 'unconfig'
-import { loadConfig } from 'unconfig'
 
 export * from './getGitTimestamp'
-
-export const EXTERNAL_URL_RE = /^https?:/i
+export * from './helper'
 
 /**
  * transform obj for vite code
@@ -18,24 +15,6 @@ export const EXTERNAL_URL_RE = /^https?:/i
  */
 export const transformObject = (obj: any) => {
   return `JSON.parse(${JSON.stringify(JSON.stringify(obj))})`
-}
-
-export function slash(str: string) {
-  return str.replace(/\\/g, '/')
-}
-
-export function ensurePrefix(prefix: string, str: string) {
-  if (!str.startsWith(prefix))
-    return prefix + str
-  return str
-}
-
-export function toAtFS(path: string) {
-  return `/@fs${ensurePrefix('/', slash(path))}`
-}
-
-export function isPath(name: string) {
-  return name.startsWith('/') || /^\.\.?[\/\\]/.test(name)
 }
 
 export function resolveImportPath(importName: string, ensure?: true): string
@@ -66,15 +45,4 @@ export function resolveImportPath(importName: string, ensure = false, resolveOpt
 
   consola.error(`Failed to resolve package ${importName}`)
   return undefined
-}
-
-export interface LoadConfigFromFilesOptions {
-  cwd?: string
-  rewrite?: LoadConfigSource['rewrite']
-}
-export async function loadConfigFromFiles<T>(files: string, options: LoadConfigFromFilesOptions = {}) {
-  return await loadConfig<T>({
-    sources: { files, rewrite: options.rewrite },
-    cwd: options.cwd || process.cwd(),
-  })
 }
