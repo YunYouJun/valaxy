@@ -10,6 +10,6 @@
   "main": "client/index.ts",
   "types": "index.d.ts",
   "dependencies": {
-    "@waline/client": "^2.12.0"
+    "@waline/client": "^2.13.0"
   }
 }

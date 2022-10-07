@@ -51,15 +51,15 @@
     "prompts": "^2.4.2",
     "rimraf": "^3.0.2",
     "tsup": "^6.2.3",
-    "tsx": "^3.9.0",
+    "tsx": "^3.10.1",
     "typescript": "^4.8.4",
     "valaxy": "workspace:*",
     "valaxy-addon-waline": "workspace:*",
     "valaxy-theme-press": "workspace:*",
     "valaxy-theme-yun": "workspace:*",
-    "vitest": "^0.23.4",
-    "vue-tsc": "0.40.13",
-    "zx": "^7.0.8"
+    "vitest": "^0.24.0",
+    "vue-tsc": "1.0.0",
+    "zx": "^7.1.0"
   },
   "pnpm": {
     "peerDependencyRules": {

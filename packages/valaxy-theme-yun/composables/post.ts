@@ -1,4 +1,4 @@
-import type { StyleValue } from 'vue'
+import type { ComputedRef, StyleValue } from 'vue'
 import { computed } from 'vue'
 import { useThemeConfig } from './config'
 
@@ -6,12 +6,16 @@ import { useThemeConfig } from './config'
  * get type card property
  * todo: test reactive
  */
-export function usePostProperty(type?: string) {
+export function usePostProperty(type?: string): {
+  color: string
+  icon: string
+  styles: StyleValue | undefined | ComputedRef<StyleValue | undefined>
+} {
   if (!type) {
     return {
       color: '',
       icon: '',
-      styles: {},
+      styles: undefined,
     }
   }
 
@@ -23,10 +27,12 @@ export function usePostProperty(type?: string) {
   const color = themeConfig.value.types[type].color
   const icon = themeConfig.value.types[type].icon
 
-  const styles = computed(() => {
-    return {
-      '--card-c-primary': type && color,
-    } as StyleValue
+  const styles = computed<StyleValue | undefined>(() => {
+    return type
+      ? ({
+          '--card-c-primary': color,
+        })
+      : undefined
   })
 
   return {

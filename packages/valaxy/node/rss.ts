@@ -99,10 +99,11 @@ export async function build(options: ResolvedValaxyOptions) {
   // await writeFeed('feed', feedOptions, posts)
 
   // write
+  const authorAvatar = config.author?.avatar || '/favicon.svg'
   feedOptions.author = author
-  feedOptions.image = isExternal(config.author?.avatar || '/favicon.svg')
+  feedOptions.image = isExternal(authorAvatar)
     ? config.author?.avatar
-    : `${DOMAIN}${ensurePrefix('/', config.author?.avatar)}`
+    : `${DOMAIN}${ensurePrefix('/', authorAvatar)}`
   feedOptions.favicon = `${DOMAIN}${config.feed?.favicon || config.favicon}`
 
   const feed = new Feed(feedOptions)

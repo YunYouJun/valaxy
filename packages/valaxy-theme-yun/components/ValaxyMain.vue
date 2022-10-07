@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import type { PageData, Post } from 'valaxy'
 import { useConfig, usePostTitle } from 'valaxy'
-import { computed, defineAsyncComponent } from 'vue'
+import { StyleValue, computed, defineAsyncComponent } from 'vue'
 import { usePostProperty } from '../composables'
 
 const props = defineProps<{
@@ -29,7 +29,7 @@ const YunTwikoo = config.value.comment.waline.enable
     <div w="full" flex="~">
       <slot name="main">
         <div class="content" :class="!aside && 'no-aside'" flex="~ col grow" w="full" p="l-4 lt-md:0">
-          <YunCard :cover="frontmatter.cover" m="0" class="relative" :style="styles">
+          <YunCard :cover="frontmatter.cover" m="0" class="relative" :style="styles as StyleValue">
             <slot name="main-header">
               <YunPageHeader :title="title" :icon="frontmatter.icon || icon" :color="frontmatter.color || color" :cover="frontmatter.cover" />
             </slot>

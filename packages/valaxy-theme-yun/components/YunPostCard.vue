@@ -1,6 +1,7 @@
 <script lang="ts" setup>
 import { useI18n } from 'vue-i18n'
 import type { Post } from 'valaxy'
+import { StyleValue } from 'vue'
 import { usePostProperty } from '../composables'
 
 const props = defineProps<{
@@ -13,7 +14,7 @@ const { icon, styles } = usePostProperty(props.post.type)
 </script>
 
 <template>
-  <YunCard m="y-4 auto" :class="post.cover ? 'post-card-image' : 'post-card'" :style="styles">
+  <YunCard m="y-4 auto" :class="post.cover ? 'post-card-image' : 'post-card'" :style="styles as StyleValue">
     <div class="flex flex-1 of-hidden justify-start items-start post-card-info" w="full">
       <img
         v-if="post.cover"
