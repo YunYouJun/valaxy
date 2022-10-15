@@ -3,6 +3,8 @@ import { computed, provide, ref } from 'vue'
 import { useHead } from '@vueuse/head'
 // @ts-expect-error virtual module
 import ValaxyUserApp from '/@valaxyjs/UserAppVue'
+// @ts-expect-error virtual module
+import ValaxyThemeApp from '/@valaxyjs/ThemeAppVue'
 import ValaxyAddons from './components/ValaxyAddons.vue'
 import { isDark } from './composables'
 
@@ -43,7 +45,8 @@ provide('onContentUpdated', onContentUpdated)
 </script>
 
 <template>
-  <ValaxyUserApp />
+  <ValaxyThemeApp />
   <ValaxyAddons />
+  <ValaxyUserApp />
   <router-view />
 </template>

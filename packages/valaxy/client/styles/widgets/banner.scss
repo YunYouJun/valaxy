@@ -19,7 +19,8 @@ $char-animation-duration: 0.4s;
 }
 
 .vertical-line {
-  &-top, &-bottom {
+  &-top,
+  &-bottom {
     display: flex;
     background-color: var(--banner-line-color);
     width: 1px;
@@ -47,9 +48,9 @@ $char-animation-duration: 0.4s;
 }
 
 .char {
-  font-family: get-css-var('font', 'serif');
+  font-family: get-css-var("font", "serif");
+  font-weight: 900;
   font-size: var(--banner-char-size, 1rem);
-  font-weight: get-css-var('font', 'serif-weight');
   background-color: var(--banner-char-bg-color);
   line-height: 1;
 
@@ -99,7 +100,10 @@ $char-animation-duration: 0.4s;
 
   to {
     opacity: 1;
-    border-right-width: var(--banner-empty-border-size, var(--banner-char-size));
+    border-right-width: var(
+      --banner-empty-border-size,
+      var(--banner-char-size)
+    );
   }
 }
 

@@ -87,18 +87,18 @@ function generateAddons(options: ResolvedValaxyOptions) {
 const nullVue = 'import { defineComponent } from "vue"; export default defineComponent({ render: () => null });'
 
 /**
- * read from user App.vue
- * @internal
- * @param options
+ * generate app vue from root/app.vue
+ * @param root
+ * @returns
  */
-function generateUserAppVue(options: ResolvedValaxyOptions) {
-  const userAppVue = join(options.userRoot, 'App.vue')
-  if (!fs.existsSync(userAppVue))
+function generateAppVue(root: string) {
+  const appVue = join(root, 'App.vue')
+  if (!fs.existsSync(appVue))
     return nullVue
 
   const scripts = [
-    `import UserAppVue from "${toAtFS(userAppVue)}"`,
-    'export default UserAppVue',
+      `import AppVue from "${toAtFS(appVue)}"`,
+      'export default AppVue',
   ]
 
   return scripts.join('\n')
@@ -180,7 +180,10 @@ export function createValaxyPlugin(options: ResolvedValaxyOptions, serverOptions
         return generateAddons(options)
 
       if (id === '/@valaxyjs/UserAppVue')
-        return generateUserAppVue(options)
+        return generateAppVue(options.userRoot)
+
+      if (id === '/@valaxyjs/ThemeAppVue')
+        return generateAppVue(options.themeRoot)
 
       if (id.startsWith(valaxyPrefix)) {
         return {

@@ -1,14 +1,4 @@
-<script lang="ts" setup>
-import { useConfig } from 'valaxy'
-
-const config = useConfig()
-</script>
-
 <template>
-  <slot name="bg">
-    <YunBg v-if="config.themeConfig.bg_image.enable" />
-  </slot>
-
   <ValaxySidebar>
     <slot name="sidebar">
       <YunSidebar v-if="$slots['sidebar-child']">
@@ -48,7 +38,6 @@ const config = useConfig()
     </component>
   </router-view>
 
-  <YunSearch v-if="config.search.enable" />
   <YunBackToTop />
 </template>
 

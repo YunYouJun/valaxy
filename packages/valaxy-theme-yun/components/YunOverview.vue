@@ -98,7 +98,7 @@ const router = useRouter()
 .site-name {
   color: var(--va-c-text);
   font-family: get-css-var('font-serif');
-  font-weight: get-css-var('font-serif-weight');
+  font-weight: 900;
 }
 
 .site-subtitle {

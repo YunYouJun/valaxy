@@ -4,7 +4,7 @@
   "i18n-ally.keystyle": "nested",
   "i18n-ally.localesPaths": ["packages/valaxy/src/client/locales"],
   "i18n-ally.sortKeys": true,
-  "prettier.enable": true,
+  "prettier.enable": false,
   "editor.codeActionsOnSave": {
     "source.fixAll.eslint": true
   },
