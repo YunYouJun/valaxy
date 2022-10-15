@@ -56,7 +56,7 @@ const lintStyle = computed(() => (
   // banner
   --banner-line-color: black;
   --banner-char-color: black;
-  --banner-char-bg-color: rgba(white, 0.5);
+  --banner-char-bg-color: rgba(255, 255, 255, 0.5);
   --banner-char-hover-color: white;
 }
 
@@ -64,7 +64,7 @@ const lintStyle = computed(() => (
   // banner
   --banner-line-color: white;
   --banner-char-color: white;
-  --banner-char-bg-color: rgba(black, 0.5);
+  --banner-char-bg-color: rgba(0, 0, 0, 0.5);
   --banner-char-hover-color: black;
 }
 </style>
