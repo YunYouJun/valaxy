@@ -60,16 +60,16 @@
   "dependencies": {
     "@antfu/utils": "^0.5.2",
     "@ctrl/tinycolor": "^3.4.1",
-    "@iconify-json/carbon": "^1.1.8",
+    "@iconify-json/carbon": "^1.1.9",
     "@iconify-json/ri": "^1.1.3",
     "@intlify/vite-plugin-vue-i18n": "^6.0.3",
     "@vitejs/plugin-vue": "^3.1.2",
-    "@vueuse/core": "^9.3.0",
+    "@vueuse/core": "^9.4.0",
     "@vueuse/head": "^0.9.8",
     "consola": "^2.15.3",
     "critters": "^0.0.16",
     "cross-spawn": "^7.0.3",
-    "dayjs": "^1.11.5",
+    "dayjs": "^1.11.6",
     "ejs": "^3.1.8",
     "escape-html": "^1.0.3",
     "feed": "^4.2.2",
@@ -104,7 +104,7 @@
     "vite-ssg-sitemap": "0.4.3",
     "vue": "^3.2.41",
     "vue-i18n": "^9.2.2",
-    "vue-router": "^4.1.5",
+    "vue-router": "^4.1.6",
     "yargs": "^17.6.0"
   },
   "devDependencies": {

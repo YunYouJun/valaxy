@@ -8,7 +8,7 @@
   ],
   "main": "index.ts",
   "dependencies": {
-    "@iconify/tools": "^2.1.0",
+    "@iconify/tools": "^2.1.1",
     "@iconify/utils": "^2.0.1",
     "fs-extra": "^10.1.0"
   }
