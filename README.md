@@ -18,6 +18,7 @@
 </a>
 </p>
 
+- **English** | [简体中文](./README.zh-CN.md)
 - [English Docs](https://valaxy.site/?lang=en) | [中文文档](https://valaxy.site/?lang=zh-CN)
 - [Demo](https://yun.valaxy.site): <small>with [valaxy-theme-yun](./packages/valaxy-theme-yun/)</small>
 
@@ -44,7 +45,7 @@ For a example, you can see [demo/yun](./demo/yun/) folder.
 
 ## Features
 
-- ⚡️ [Vue 3](https://github.com/vuejs/vue-next), [Vite 2](https://github.com/vitejs/vite), [pnpm](https://pnpm.js.org/), [ESBuild](https://github.com/evanw/esbuild) - born with fastness
+- ⚡️ [Vue 3](https://github.com/vuejs/vue-next), [Vite 3](https://github.com/vitejs/vite), [pnpm](https://pnpm.js.org/), [ESBuild](https://github.com/evanw/esbuild) - born with fastness
 - 🔥 Hot Reload with Config & Markdown
 - 🔧 Type Tooltip for all config by `valaxy.config.ts`
 - 🗒 Extended Markdown Frontmatter
