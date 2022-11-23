@@ -15,11 +15,11 @@ const title = usePostTitle(computed(() => props.frontmatter))
 
 const aside = computed(() => props.frontmatter.aside !== false)
 
-const YunWaline = config.value.comment.waline.enable
+const YunWaline = config.value.runtime.addons['valaxy-addon-waline'].enable
   ? defineAsyncComponent(() => import('./YunWaline.vue'))
   : () => null
 
-const YunTwikoo = config.value.comment.waline.enable
+const YunTwikoo = config.value.runtime.addons['valaxy-addon-twikoo']?.enable
   ? defineAsyncComponent(() => import('./YunTwikoo.vue'))
   : () => null
 </script>

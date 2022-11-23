@@ -4,7 +4,7 @@ import _debug from 'debug'
 import fg from 'fast-glob'
 import { ensureSuffix, uniq } from '@antfu/utils'
 import defu from 'defu'
-import type { DefaultThemeConfig } from '../types'
+import type { DefaultThemeConfig, ValaxyAddon } from '../types'
 import { resolveImportPath } from './utils'
 import { mergeValaxyConfig, resolveAddonConfig, resolveValaxyConfig, resolveValaxyConfigFromRoot } from './utils/config'
 import type { ValaxyAddonResolver, ValaxyConfig } from './types'
@@ -53,7 +53,12 @@ export interface ResolvedValaxyOptions<ThemeConfig = DefaultThemeConfig> {
   /**
    * Valaxy Config
    */
-  config: ValaxyConfig<ThemeConfig>
+  config: ValaxyConfig<ThemeConfig> & {
+    /**
+     * Generated Runtime Config
+     */
+    runtime: { addons: Record<string, ValaxyAddon> }
+  }
   /**
    * config file path
    */
@@ -104,7 +109,10 @@ export async function resolveOptions(options: ValaxyEntryOptions, mode: Resolved
     addonRoots: [],
     roots: [],
     theme,
-    config: userValaxyConfig,
+    config: {
+      ...userValaxyConfig,
+      runtime: { addons: {} },
+    },
     configFile: configFile || '',
     pages,
     addons: [],
@@ -121,8 +129,17 @@ export async function resolveOptions(options: ValaxyEntryOptions, mode: Resolved
   valaxyConfig = mergeValaxyConfig(valaxyConfig, addonValaxyConfig)
 
   const config = defu(valaxyConfig, defaultSiteConfig)
-  valaxyOptions.config = config
+  valaxyOptions.config = {
+    ...config,
+    runtime: {
+      addons: {},
+    },
+  }
   valaxyOptions.addons = addons
+
+  addons.forEach((addon) => {
+    valaxyOptions.config.runtime.addons[addon.name] = addon
+  })
 
   const addonRoots = addons.map(({ root }) => root)
   valaxyOptions.addonRoots = addonRoots

@@ -126,6 +126,7 @@ export const defaultSiteConfig: SiteConfig = {
   // markdown: {
   //   excerpt: '<!-- more -->',
   // },
+  runtime: { addons: {} },
 }
 
 export type UnoSetup = () => Awaitable<Partial<UnoCssConfig> | undefined>

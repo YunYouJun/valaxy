@@ -1,8 +1,8 @@
 <script lang="ts" setup>
-import { useConfig } from 'valaxy'
-const config = useConfig()
+import { useWalineOptions } from 'valaxy-addon-waline'
+const walineOptions = useWalineOptions()
 </script>
 
 <template>
-  <WalineClient w="full" :server-u-r-l="config.comment.waline.serverURL" :cdn="config.cdn.prefix" />
+  <WalineClient w="full" :options="walineOptions" />
 </template>

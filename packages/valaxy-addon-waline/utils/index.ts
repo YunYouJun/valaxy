@@ -1,3 +1,5 @@
+export * from './options'
+
 export const getEmojis = (cdn = 'https://unpkg.com') => {
   return [
     `${cdn}@waline/emojis/bilibili/`,

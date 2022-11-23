@@ -8,20 +8,20 @@ import { Waline } from '@waline/client/dist/component'
 import { getEmojis } from '../utils'
 
 import '@waline/client/dist/waline.css'
+import type { WalineOptions } from '../types'
 
 const props = defineProps<{
-  serverURL: string
-  cdn: string
+  options: WalineOptions
 }>()
 
 const { locale } = useI18n()
-const emoji = computed(() => getEmojis(props.cdn))
+const emoji = computed(() => getEmojis(props.options.cdn))
 const route = useRoute()
 const path = computed(() => route.path)
 </script>
 
 <template>
-  <Waline :server-u-r-l="serverURL" :lang="locale" :path="path" :dark="isDark" :emoji="emoji" />
+  <Waline :server-u-r-l="options.serverURL" :lang="locale" :path="path" :dark="isDark" :emoji="emoji" />
 </template>
 
 <style>

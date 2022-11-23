@@ -2,6 +2,7 @@ import { defineConfig } from 'valaxy'
 import type { ThemeConfig } from 'valaxy-theme-yun'
 // import { VitePWA } from 'vite-plugin-pwa'
 import Inspect from 'vite-plugin-inspect'
+import { addonWaline } from 'valaxy-addon-waline/node'
 // import site from './site.config'
 
 const safelist = [
@@ -217,4 +218,10 @@ export default defineConfig<ThemeConfig>({
       },
     },
   },
+
+  addons: [
+    addonWaline({
+      serverURL: 'https://waline.yunyoujun.cn',
+    }),
+  ],
 })

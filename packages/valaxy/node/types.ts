@@ -4,7 +4,7 @@ import type { VitePluginConfig as UnoCSSConfig } from 'unocss/vite'
 import type Pages from 'vite-plugin-pages'
 import type { UserConfig as ViteUserConfig } from 'vite'
 import type { presetAttributify, presetIcons, presetTypography, presetUno } from 'unocss'
-import type { DefaultThemeConfig, UserSiteConfig } from '../types'
+import type { DefaultThemeConfig, UserSiteConfig, ValaxyAddon } from '../types'
 import type { ResolvedValaxyOptions } from './options'
 import type { MarkdownOptions } from './markdown'
 
@@ -49,13 +49,8 @@ export interface ValaxyExtendConfig {
   addons?: ValaxyAddonOptions
 }
 
-export interface ValaxyAddon {
-  global?: boolean
-  props?: Record<string, any>
-  options?: Record<string, any>
-}
 export type ValaxyAddonLike = ValaxyAddon | false | null | undefined
-export type ValaxyAddonOptions = ([string, ValaxyAddonLike] | string)[] | Record<string, ValaxyAddonLike>
+export type ValaxyAddonOptions = ([string, ValaxyAddonLike] | string | (() => [string, ValaxyAddonLike]))[] | Record<string, ValaxyAddonLike>
 
 export type ValaxyAddonFn<ThemeConfig = DefaultThemeConfig> = (addonOptions: ValaxyAddonResolver, valaxyOptions: ResolvedValaxyOptions<ThemeConfig>) => ValaxyConfig | Promise<ValaxyConfig>
 export type ValaxyAddonExport<ThemeConfig = DefaultThemeConfig> = ValaxyConfig<ThemeConfig> | ValaxyAddonFn<ThemeConfig>

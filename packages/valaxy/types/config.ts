@@ -1,3 +1,5 @@
+import type { ValaxyAddon } from '../types'
+
 export type DefaultThemeConfig = {
   /**
    * Custom header levels of outline in the aside component.
@@ -229,6 +231,10 @@ export interface SiteConfig<T = DefaultThemeConfig> {
       color: string
       icon: string
     }[]
+  }
+
+  runtime: {
+    addons: Record<string, ValaxyAddon>
   }
 }
 

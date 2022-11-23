@@ -154,25 +154,16 @@ Valaxy 决定通过插件中心化地提供各类封装好的评论钩子函数�
 譬如主题开发者，可以从 `valaxy-addon-waline` 中导入 `useWaline` 来快速实现 [Waline](https://waline.js.org/) 评论系统的集成。  
 而用户则可以使用相同的配置穿梭漫游于不同的主题之间。
 
-```vue {2}
-<script lang="ts" setup>
-import { useConfig, useWaline } from 'valaxy-addon-waline'
+启用 `valaxy-addon-waline` 插件时，`<WalineClient />` 组件将会被自动注册。
 
-// 读取用户配置
+```vue
+<!-- YunWaline -->
+<script lang="ts" setup>
+import { useConfig } from 'valaxy'
 const config = useConfig()
-// 挂载 Waline
-useWaline(config.value.comment.waline)
 </script>
 
 <template>
-  <!-- waline html 挂载点，将其写入布局中 -->
-  <div id="waline" w="full" />
+  <WalineClient w="full" :server-u-r-l="config.comment.waline.serverURL" :cdn="config.cdn.prefix" />
 </template>
-
-<style lang="scss">
-// 可以在此处覆盖 waline 样式
-#waline {
-  --waline-theme-color: var(--va-c-primary);
-}
-</style>
 ```
