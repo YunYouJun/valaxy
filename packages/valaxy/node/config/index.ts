@@ -1,8 +1,9 @@
 import type { VitePluginConfig as UnoCssConfig } from 'unocss/vite'
 import type { Awaitable } from '@antfu/utils'
-import type { DefaultThemeConfig, SiteConfig, UserSiteConfig } from '../types'
-import type { ResolvedValaxyOptions } from './options'
-import type { UserConfig, ValaxyAddonResolver, ValaxyConfig } from './types'
+import type { SiteConfig, UserSiteConfig } from '../../types'
+import type { UserConfig } from '../types'
+
+export * from './addon'
 
 /**
  * Type site helper
@@ -23,24 +24,10 @@ export function defineSiteWithTheme<ThemeConfig>(
 /**
  * Type valaxy config helper
  */
-export function defineConfig<ThemeConfig>(config: UserConfig<ThemeConfig>) {
+export function defineValaxyConfig<ThemeConfig>(config: UserConfig<ThemeConfig>) {
   return config
 }
-
-export type ValaxyConfigExtendKey = 'vite' | 'vue' | 'unocss' | 'unocssPresets' | 'markdown' | 'extendMd' | 'addons'
-export type ValaxyPickConfig = Pick<ValaxyConfig, ValaxyConfigExtendKey>
-export type ValaxyTheme<ThemeConfig = DefaultThemeConfig> = ValaxyPickConfig & { themeConfig?: ThemeConfig }
-export function defineTheme<ThemeConfig = DefaultThemeConfig>(
-  theme: ValaxyTheme<ThemeConfig> | ((options: ResolvedValaxyOptions<ThemeConfig>) => ValaxyTheme<ThemeConfig>),
-) {
-  return theme
-}
-
-export function defineAddon(
-  addon: ValaxyPickConfig | ((addonOptions: ValaxyAddonResolver, valaxyOptions: ResolvedValaxyOptions) => ValaxyPickConfig),
-) {
-  return addon
-}
+export const defineConfig = defineValaxyConfig
 
 export const defaultSiteConfig: SiteConfig = {
   mode: 'auto',
@@ -97,14 +84,6 @@ export const defaultSiteConfig: SiteConfig = {
 
   comment: {
     enable: false,
-    waline: {
-      enable: false,
-      serverURL: '',
-    },
-    twikoo: {
-      enable: false,
-      envId: 'https://twikoo.vercel.app',
-    },
   },
 
   cdn: {

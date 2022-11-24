@@ -14,10 +14,10 @@ const props = defineProps<{
   options: WalineOptions
 }>()
 
-const { locale } = useI18n()
-const emoji = computed(() => getEmojis(props.options.cdn))
 const route = useRoute()
+const { locale } = useI18n()
 const path = computed(() => route.path)
+const emoji = computed(() => getEmojis(props.options.cdn))
 </script>
 
 <template>

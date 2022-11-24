@@ -15,6 +15,8 @@ export function getGitTimestamp(file: string, type: 'created' | 'updated' = 'upd
     child.on('close', () => {
       resolve(+new Date(output))
     })
-    child.on('error', () => { resolve(0) })
+    child.on('error', () => {
+      resolve(0)
+    })
   })
 }

@@ -149,21 +149,9 @@ const { headers, handleClick } = useOutline()
 而由于评论系统各不相同，如 Hexo 等主题开发者们通常需在主题侧重复实现多款评论系统。
 这显然是繁琐的。
 
-Valaxy 决定通过插件中心化地提供各类封装好的评论钩子函数。
+Valaxy 决定通过插件中心化地提供各类封装好的评论组件和辅助函数。
 
-譬如主题开发者，可以从 `valaxy-addon-waline` 中导入 `useWaline` 来快速实现 [Waline](https://waline.js.org/) 评论系统的集成。  
+譬如主题开发者，可以借助 `valaxy-addon-waline` 来快速实现 [Waline](https://waline.js.org/) 评论系统的集成。  
 而用户则可以使用相同的配置穿梭漫游于不同的主题之间。
 
-启用 `valaxy-addon-waline` 插件时，`<WalineClient />` 组件将会被自动注册。
-
-```vue
-<!-- YunWaline -->
-<script lang="ts" setup>
-import { useConfig } from 'valaxy'
-const config = useConfig()
-</script>
-
-<template>
-  <WalineClient w="full" :server-u-r-l="config.comment.waline.serverURL" :cdn="config.cdn.prefix" />
-</template>
-```
+> 集成参见 [valaxy-addon-waline](https://github.com/YunYouJun/valaxy/blob/main/packages/valaxy-addon-waline/README.md)。

@@ -45,7 +45,7 @@ export const mergeValaxyConfig = createDefu((obj: any, key, value) => {
  */
 export async function resolveValaxyConfigFromRoot(root: string, options?: ResolvedValaxyOptions) {
   return loadConfigFromFiles<ValaxyConfig>('valaxy.config', {
-    rewrite<F=ValaxyConfig | ValaxyConfigFn>(c: F) {
+    rewrite<F = ValaxyConfig | ValaxyConfigFn>(c: F) {
       return (typeof c === 'function' ? c(options || {} as ResolvedValaxyOptions) : c)
     },
     cwd: root,

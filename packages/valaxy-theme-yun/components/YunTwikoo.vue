@@ -1,8 +1,8 @@
 <script lang="ts" setup>
-import { useConfig, useTwikoo } from 'valaxy'
+// import { useConfig, useTwikoo } from 'valaxy'
 
-const config = useConfig()
-useTwikoo(config.value.comment.twikoo)
+// const config = useConfig()
+// useTwikoo(config.value.comment.twikoo)
 </script>
 
 <template>

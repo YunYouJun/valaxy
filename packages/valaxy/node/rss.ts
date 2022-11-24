@@ -117,13 +117,17 @@ export async function build(options: ResolvedValaxyOptions) {
   types.forEach((type) => {
     let data = ''
     let name = `${path}/${config.feed?.name || 'feed'}.${type}`
-    if (type === 'xml') { data = feed.rss2() }
+    if (type === 'xml') {
+      data = feed.rss2()
+    }
     else if (type === 'atom') {
       if (!config.feed?.name)
         name = `${path}/atom.xml`
       data = feed.atom1()
     }
-    else if (type === 'json') { data = feed.json1() }
+    else if (type === 'json') {
+      data = feed.json1()
+    }
     fs.writeFileSync(name, data, 'utf-8')
     consola.info(`${type}: ${name}`)
   })

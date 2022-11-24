@@ -1,6 +1,7 @@
 <script lang="ts" setup>
 import type { PageData, Post } from 'valaxy'
 import { useConfig, usePostTitle } from 'valaxy'
+import { useAddonWaline } from 'valaxy-addon-waline'
 import { StyleValue, computed, defineAsyncComponent } from 'vue'
 import { usePostProperty } from '../composables'
 
@@ -15,13 +16,14 @@ const title = usePostTitle(computed(() => props.frontmatter))
 
 const aside = computed(() => props.frontmatter.aside !== false)
 
-const YunWaline = config.value.runtime.addons['valaxy-addon-waline'].enable
+const YunWaline = useAddonWaline()
   ? defineAsyncComponent(() => import('./YunWaline.vue'))
   : () => null
 
-const YunTwikoo = config.value.runtime.addons['valaxy-addon-twikoo']?.enable
-  ? defineAsyncComponent(() => import('./YunTwikoo.vue'))
-  : () => null
+// todo: refactor
+// const YunTwikoo = useAddonWaline()
+//   ? defineAsyncComponent(() => import('./YunTwikoo.vue'))
+//   : () => null
 </script>
 
 <template>
@@ -57,8 +59,8 @@ const YunTwikoo = config.value.runtime.addons['valaxy-addon-twikoo']?.enable
 
           <slot v-if="config.comment.enable && frontmatter.comment !== false" name="comment">
             <YunCard w="full" p="4" class="comment sm:p-6 lg:px-12 xl:px-16" :class="frontmatter.nav === false ? 'mt-4' : 0">
-              <YunWaline v-if="config.comment.waline.enable" />
-              <YunTwikoo v-if="config.comment.twikoo.enable" />
+              <YunWaline />
+              <!-- <YunTwikoo /> -->
             </YunCard>
           </slot>
 

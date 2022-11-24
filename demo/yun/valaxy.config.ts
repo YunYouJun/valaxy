@@ -116,14 +116,6 @@ export default defineConfig<ThemeConfig>({
 
   comment: {
     enable: true,
-    waline: {
-      enable: true,
-      serverURL: 'https://waline.yunyoujun.cn',
-    },
-    twikoo: {
-      // enable: true,
-      envId: 'https://twikoo.vercel.app',
-    },
   },
 
   sponsor: {

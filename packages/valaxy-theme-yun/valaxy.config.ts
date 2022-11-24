@@ -30,7 +30,6 @@ function ThemeVitePlugin(options: ResolvedValaxyOptions<ThemeConfig>): Plugin {
 export default defineTheme<ThemeConfig>((options) => {
   return {
     themeConfig: defaultThemeConfig,
-    addons: ['valaxy-addon-waline'],
     vite: {
       plugins: [ThemeVitePlugin(options)],
     },

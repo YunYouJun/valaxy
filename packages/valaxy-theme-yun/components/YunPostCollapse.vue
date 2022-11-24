@@ -19,7 +19,9 @@ watch(() => props.posts, () => {
   props.posts.forEach((post) => {
     if (post.date) {
       const year = parseInt(formatDate(post.date, 'YYYY'))
-      if (postList.value[year]) { postList.value[year].push(post) }
+      if (postList.value[year]) {
+        postList.value[year].push(post)
+      }
       else {
         years.value.push(year)
         postList.value[year] = [post]

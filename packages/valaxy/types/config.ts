@@ -144,14 +144,6 @@ export interface SiteConfig<T = DefaultThemeConfig> {
    */
   comment: {
     enable: boolean
-    waline: {
-      enable: boolean
-      serverURL: string
-    }
-    twikoo: {
-      enable: boolean
-      envId: string
-    }
   }
 
   /**
@@ -233,6 +225,9 @@ export interface SiteConfig<T = DefaultThemeConfig> {
     }[]
   }
 
+  /**
+   * Generated Runtime Config
+   */
   runtime: {
     addons: Record<string, ValaxyAddon>
   }

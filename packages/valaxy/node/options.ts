@@ -9,7 +9,7 @@ import { resolveImportPath } from './utils'
 import { mergeValaxyConfig, resolveAddonConfig, resolveValaxyConfig, resolveValaxyConfigFromRoot } from './utils/config'
 import type { ValaxyAddonResolver, ValaxyConfig } from './types'
 import { defaultSiteConfig } from './config'
-import { parseAddonOptions } from './utils/addons'
+import { parseAddons } from './utils/addons'
 import { getThemeRoot } from './utils/theme'
 
 // for cli entry
@@ -124,7 +124,7 @@ export async function resolveOptions(options: ValaxyEntryOptions, mode: Resolved
   let valaxyConfig = mergeValaxyConfig(userValaxyConfig, themeValaxyConfig)
 
   // resolve addon valaxyConfig
-  const addons = await parseAddonOptions(valaxyConfig.addons || [], valaxyOptions.userRoot)
+  const addons = await parseAddons(valaxyConfig.addons || [], valaxyOptions.userRoot)
   const addonValaxyConfig = await resolveAddonConfig(addons, valaxyOptions)
   valaxyConfig = mergeValaxyConfig(valaxyConfig, addonValaxyConfig)
 

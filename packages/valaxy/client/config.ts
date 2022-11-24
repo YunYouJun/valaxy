@@ -15,7 +15,7 @@ import type { DefaultThemeConfig, SiteConfig as ValaxySiteConfig } from 'valaxy/
  * @param data
  * @returns
  */
-function parse<T=any>(data: string): T {
+function parse<T = any>(data: string): T {
   const parsed = JSON.parse(data)
   return (__DEV__ ? readonly(parsed) : parsed) as T
 }
