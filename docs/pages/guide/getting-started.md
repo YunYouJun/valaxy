@@ -156,21 +156,7 @@ Documentation is being improved!
 
 ## 部署 {lang="zh-CN"}
 
-### GitHub Pages 自动部署
-
-上传至 GitHub Repo，打开 `Settings` -> `Pages`，选择 `gh-pages` 分支。
-
-> `gh-pages` 已由 `.github/workflows/gh-pages.yml` 自动部署。
-
-### 自行部署
-
-```bash
-# 构建打包
-npm run build
-# dist 文件夹为构建后的内容
-```
-
-可使用 [Netlify](https://www.netlify.com/)/[Vercel](https://vercel.com/)/[Render](https://render.com/)/[Cloudflare Pages](https://pages.cloudflare.com/) 等进行托管。
+部署可参见 <RouterLink to="/guide/deploy">部署｜指南</RouterLink>。
 
 ## Upgrade {lang="en"}
 

@@ -117,6 +117,11 @@ npm run build:spa
 # valaxy build
 ```
 
+## SEO
+
+Valaxy 已经默认集成了 Open Graph 的 SEO 优化，您无需为此操心。
+但需要注意的是，对于大部分搜索引擎来说，他们可能只青睐 SSG 的构建模式。
+
 ## RSS
 
 独立地 RSS 构建

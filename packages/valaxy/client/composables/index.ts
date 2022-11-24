@@ -11,7 +11,6 @@ export * from './dark'
 export * from './layout'
 export * from './widgets'
 export * from './locale'
-export * from './seo'
 
 export * from './sidebar'
 export * from './outline'
