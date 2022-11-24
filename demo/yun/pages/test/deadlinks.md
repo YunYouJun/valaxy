@@ -1,3 +1,3 @@
 # DeadLinks Test
 
-- [/pages/test/deadlinks/](/pages/test/deadlinks/)
+- [/pages/test/deadlinks/](/test/deadlinks/)

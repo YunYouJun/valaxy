@@ -1,12 +1,13 @@
 <script setup lang="ts">
 import { computed, provide, ref } from 'vue'
-import { useHead } from '@vueuse/head'
+import { useHead, useSeoMeta } from '@vueuse/head'
 // @ts-expect-error virtual module
 import ValaxyUserApp from '/@valaxyjs/UserAppVue'
 // @ts-expect-error virtual module
 import ValaxyThemeApp from '/@valaxyjs/ThemeAppVue'
+import pkg from 'valaxy/package.json'
 import ValaxyAddons from './components/ValaxyAddons.vue'
-import { isDark } from './composables'
+import { isDark, useFrontmatter } from './composables'
 
 // https://github.com/vueuse/head
 // you can use this to manipulate the document head in any components,
@@ -28,7 +29,7 @@ useHead({
     },
   ],
   meta: [
-    { name: 'description', content: config.value.description },
+    { name: 'description', content: computed(() => config.value.description) },
     {
       name: 'theme-color',
       content: themeColor,
@@ -37,7 +38,24 @@ useHead({
       name: 'msapplication-TileColor',
       content: themeColor,
     },
+    {
+      name: 'generator',
+      content: `Valaxy ${pkg.version}`,
+    },
   ],
+})
+
+// seo
+// todo: get first image url from markdown
+const fm = useFrontmatter()
+useSeoMeta({
+  description: computed(() => fm.value.excerpt || config.value.description),
+  ogDescription: computed(() => fm.value.excerpt || config.value.description),
+  ogLocale: computed(() => fm.value.lang || config.value.lang),
+  ogSiteName: computed(() => config.value.title),
+  ogTitle: computed(() => fm.value.title || config.value.title),
+  ogImage: computed(() => config.value.favicon),
+  ogUrl: computed(() => fm.value.url || config.value.url),
 })
 
 const onContentUpdated = ref()

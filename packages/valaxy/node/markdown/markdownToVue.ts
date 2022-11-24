@@ -192,7 +192,7 @@ export async function createMarkdownToVueRenderFn(
         if (
           !pages.includes(resolved)
           && !fs.existsSync(path.resolve(dir, publicDir, `${resolved}.html`))
-          && !(resolved.endsWith('/') && !pages.includes(resolved.slice(0, -1)))
+          && !(resolved.endsWith('/') && pages.includes(resolved.slice(0, -1)))
         )
           recordDeadLink(url)
       }
