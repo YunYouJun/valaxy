@@ -1,12 +1,6 @@
-import { getAddonRoot, parseAddonLike, readAddonModule } from '../packages/valaxy/node/utils/addons'
+import { getAddonRoot, readAddonModule } from '../packages/valaxy/node/utils/addons'
 
 describe('addon parse', () => {
-  it('addon:like:boolean', () => {
-    const option = parseAddonLike(false)
-    const result = { enable: false }
-    expect(option).toEqual(result)
-  })
-
   it('addon:read:module', async () => {
     const options = await readAddonModule('./test/fixtures/addon', { cwd: process.cwd() })
     const result = {

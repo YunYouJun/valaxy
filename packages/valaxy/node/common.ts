@@ -1,5 +1,5 @@
-import { existsSync, promises as fs } from 'fs'
-import { join } from 'path'
+import { join, resolve } from 'path'
+import fs from 'fs-extra'
 import type { ConfigEnv, InlineConfig } from 'vite'
 import { uniq } from '@antfu/utils'
 import { loadConfigFromFile, mergeConfig } from 'vite'
@@ -25,7 +25,7 @@ export async function mergeViteConfigs({ userRoot, themeRoot }: ResolvedValaxyOp
   const files = uniq([themeRoot, userRoot]).map(i => join(i, 'vite.config.ts'))
 
   for await (const file of files) {
-    if (!existsSync(file))
+    if (!fs.existsSync(file))
       continue
     const viteConfig = await loadConfigFromFile(configEnv, file)
     if (!viteConfig?.config)
@@ -43,7 +43,13 @@ export async function mergeViteConfigs({ userRoot, themeRoot }: ResolvedValaxyOp
  * @returns
  */
 export async function getIndexHtml({ clientRoot, themeRoot, userRoot, config }: ResolvedValaxyOptions): Promise<string> {
-  let main = await fs.readFile(join(clientRoot, 'index.html'), 'utf-8')
+  const templatePath = resolve(clientRoot, 'template.html')
+  const indexPath = resolve(clientRoot, 'index.html')
+
+  if (fs.existsSync(templatePath))
+    await fs.copyFile(templatePath, indexPath)
+
+  let main = await fs.readFile(indexPath, 'utf-8')
   let head = ''
   let body = ''
 
@@ -75,7 +81,7 @@ export async function getIndexHtml({ clientRoot, themeRoot, userRoot, config }: 
 
   for (const root of roots) {
     const path = join(root, 'index.html')
-    if (!existsSync(path))
+    if (!fs.existsSync(path))
       continue
 
     const indexHtml = await fs.readFile(path, 'utf-8')
