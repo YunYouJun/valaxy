@@ -76,7 +76,8 @@ export async function build(options: ResolvedValaxyOptions) {
     // todo i18n
 
     // render excerpt
-    const html = markdown.render(excerpt || content)
+    // default excerpt content length: 100
+    const html = markdown.render(excerpt || content.slice(0, 100))
       .replace('src="/', `src="${DOMAIN}/`)
 
     if (data.image?.startsWith('/'))

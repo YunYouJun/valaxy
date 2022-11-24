@@ -182,8 +182,6 @@ export async function createMarkdownToVueRenderFn(
         }
 
         url = url.replace(/[?#].*$/, '').replace(/\.(html|md)$/, '')
-        if (url.endsWith('/'))
-          url += 'index'
         const resolved = decodeURIComponent(
           slash(
             url.startsWith('/')
@@ -194,6 +192,7 @@ export async function createMarkdownToVueRenderFn(
         if (
           !pages.includes(resolved)
           && !fs.existsSync(path.resolve(dir, publicDir, `${resolved}.html`))
+          && !(resolved.endsWith('/') && !pages.includes(resolved.slice(0, -1)))
         )
           recordDeadLink(url)
       }
