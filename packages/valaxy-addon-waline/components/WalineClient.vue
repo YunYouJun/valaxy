@@ -16,7 +16,7 @@ const props = defineProps<{
 
 const route = useRoute()
 const { locale } = useI18n()
-const path = computed(() => route.path)
+const path = computed(() => props.options.path || route.path.replace(/\/$/, ''))
 const emoji = computed(() => getEmojis(props.options.cdn))
 </script>
 
