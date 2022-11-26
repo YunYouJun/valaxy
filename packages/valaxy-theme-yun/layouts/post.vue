@@ -21,7 +21,7 @@ const showSponsor = computed(() => {
     </template>
 
     <template #main-content-after>
-      <YunSponsor v-if="showSponsor" />
+      <YunSponsor v-if="showSponsor" m="t-6" />
       <ValaxyCopyright v-if="frontmatter.copyright || config.license.enabled" :url="url" m="y-4" />
     </template>
 

@@ -12,6 +12,8 @@ export const defaultThemeConfig: ThemeConfig = {
     primary: '#0078E7',
   },
 
-  sidebar: ['Guide', 'Dev', 'Theme', 'Addon'],
+  sidebar: [],
   nav: [],
+
+  footer: {},
 }

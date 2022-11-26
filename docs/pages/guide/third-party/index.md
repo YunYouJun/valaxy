@@ -1,10 +1,10 @@
 ---
 title: Third Party
-title_zh: 第三方
+title_zh: 第三方集成
 categories:
-  - Guide
+  - Third
 end: false
-aplayer: true
+top: 99
 ---
 
 ## 音乐播放器
@@ -42,3 +42,4 @@ aplayer: true
 </meting-js>
 
 > More info see [Option | MetingJS](https://github.com/metowolf/MetingJS#option)
+

@@ -1,5 +1,16 @@
 {
-  "cSpell.words": ["algoliasearch", "instantsearch", "valaxy", "valaxyjs", "beian", "jiti", "unconfig", "defu", "twikoo"],
+  "cSpell.words": [
+    "algoliasearch",
+    "beian",
+    "defu",
+    "instantsearch",
+    "jiti",
+    "twikoo",
+    "unconfig",
+    "vala",
+    "valaxy",
+    "valaxyjs"
+  ],
   "i18n-ally.sourceLanguage": "en",
   "i18n-ally.keystyle": "nested",
   "i18n-ally.localesPaths": ["packages/valaxy/src/client/locales"],

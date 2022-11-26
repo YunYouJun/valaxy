@@ -2,8 +2,9 @@
 title: Deploy
 title_zh: 部署
 categories:
-  - Guide
+  - Getting Started
 end: false
+top: 99
 ---
 
 Valaxy 的部署非常简单，我们推荐你直接通过第三方的 CI 构建并托管到任意平台。

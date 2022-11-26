@@ -5,7 +5,7 @@ title_zh: 为什么选 Valaxy
 date: 2022-03-22
 updated: 2022-03-23
 categories:
-  - Guide
+  - Getting Started
 tags:
   - valaxy
   - 笔记

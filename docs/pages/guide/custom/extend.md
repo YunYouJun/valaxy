@@ -2,7 +2,7 @@
 title: Extend
 title_zh: 自定义扩展
 categories:
-  - Guide
+  - Custom
 end: false
 ---
 

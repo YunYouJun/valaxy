@@ -1,4 +1,5 @@
-import { defineConfig } from 'valaxy'
+import { defineValaxyConfig } from 'valaxy'
+import type { PressTheme } from 'valaxy-theme-press'
 
 const commitRef = process.env.COMMIT_REF?.slice(0, 8) || 'dev'
 
@@ -6,13 +7,14 @@ const safelist = [
   'i-ri-home-line',
 ]
 
-export default defineConfig({
+export default defineValaxyConfig<PressTheme.Config>({
   title: 'Valaxy',
   url: 'https://valaxy.site',
   description: 'Valaxy Site Docs',
 
   theme: 'press',
   themeConfig: {
+    sidebar: ['Getting Started', 'Guide', 'built-ins', 'Third', 'Custom', 'Theme', 'Addon', 'Dev'],
     nav: [
       {
         text: 'FAQ',

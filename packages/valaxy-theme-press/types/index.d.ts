@@ -2,7 +2,6 @@ export * from '../composables'
 export * from './home.d'
 
 export namespace PressTheme {
-  export type Config = ThemeConfig
   export type Sidebar = any
 
   export interface Footer {

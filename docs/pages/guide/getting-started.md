@@ -2,9 +2,9 @@
 title: Getting Started
 title_zh: 开始
 categories:
-  - Guide
+  - Getting Started
 end: true
-top: 99
+top: 100
 ---
 
 ## Overview {lang="en"}
@@ -133,7 +133,7 @@ npm run dev
 See `http://localhost:4859/`, have fun!
 :::
 
-- Valaxy 博客通用的配置可参见 [配置](/guide/config) 与 [自定义扩展](/guide/extend)。
+- Valaxy 博客通用的配置可参见 [配置](/guide/config) 与 [自定义扩展](/guide/custom/extend)。
 - Valaxy 主题独有配置请参见对应主题文档。（Valaxy Theme Yun 主题文档编写中……）
 
 ### Config {lang="en"}
