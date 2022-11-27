@@ -29,6 +29,14 @@
     padding: 3px 6px;
     border-radius: 4px;
     font-weight: 500;
+
+    &::before {
+      content: none;
+    }
+
+    &::after {
+      content: none;
+    }
   }
 }
 
