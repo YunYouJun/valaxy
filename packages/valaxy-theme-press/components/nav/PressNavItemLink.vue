@@ -10,7 +10,7 @@ const route = useRoute()
 
 <template>
   <AppLink
-    class="press-nav-item-link p-x-3"
+    class="press-nav-item-link"
     :class="{
       active: route.path === item.link,
     }"

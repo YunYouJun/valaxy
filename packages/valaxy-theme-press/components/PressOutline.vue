@@ -19,7 +19,7 @@ const { headers, handleClick } = useOutline()
 </script>
 
 <template>
-  <div v-show="headers.length" ref="container" p="t-6">
+  <div v-show="headers.length" ref="container">
     <div class="content">
       <div class="outline-title">
         {{ themeConfig.outlineTitle || t('sidebar.toc') }}

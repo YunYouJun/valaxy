@@ -56,6 +56,7 @@ const { hasSidebar } = useSidebar()
   opacity: 0;
   overflow-x: hidden;
   overflow-y: auto;
+  overflow-y: overlay;
   transform: translateX(-100%);
   transition: opacity 0.5s, transform 0.25s ease;
 

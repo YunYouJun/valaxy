@@ -22,16 +22,16 @@ const isHome = useLayout('home')
   >
     <div
       w="full" flex="~" :class="{
-        'px-6 md:px-8': hasSidebar,
-      }" p="t-6"
+        'px-6 md:pl-12': hasSidebar,
+      }" p="t-4"
     >
       <slot name="main">
-        <div class="content" :class="{ 'm-auto': !hasSidebar }" flex="~ col grow" w="full" p="lt-md:0">
+        <div class="content" w="full" :class="{ 'm-auto': !hasSidebar }" flex="~ col grow" p="lt-md:0">
           <slot name="main-header" />
           <slot name="main-header-after" />
 
           <slot name="main-content">
-            <ValaxyMd class="prose pb-8 m-auto w-full max-w-4xl" :frontmatter="frontmatter">
+            <ValaxyMd class="prose pb-8 mx-auto w-full max-w-4xl" :frontmatter="frontmatter">
               <h1 v-if="hasSidebar && !isHome && frontmatter.title" :id="frontmatter.title" tabindex="-1">
                 {{ frontmatter.title }}
                 <a class="header-anchor" :href="`#${frontmatter.title}`" aria-hidden="true">#</a>

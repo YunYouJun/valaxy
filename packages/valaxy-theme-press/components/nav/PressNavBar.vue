@@ -26,10 +26,10 @@ const themeConfig = useThemeConfig()
     </router-link>
     <div class="self-stretch flex justify-center items-center text-sm leading-5">
       <template v-for="item in themeConfig.nav" :key="item.text">
-        <PressNavItemLink v-if="'link' in item" :item="item" />
-        <PressNavItemGroup v-else :item="item" />
+        <PressNavItemLink v-if="'link' in item" class="px-2" :item="item" />
+        <PressNavItemGroup v-else class="px-2" :item="item" />
       </template>
-      <PressToggleLocale m="x-2" />
+      <PressToggleLocale p="x-2" />
       <PressSwitchAppearance m="l-2" />
     </div>
   </div>
@@ -43,7 +43,8 @@ const themeConfig = useThemeConfig()
   border-bottom: 1px solid var(--pr-c-divider-light);
   padding: 0 8px 0 24px;
   height: var(--pr-nav-height);
-  transition: border-color 0.5s, background-color 0.5s;
+  transition: border-color 0.5s;
+  background-color: var(--va-c-bg);
 }
 
 @include media('md') {

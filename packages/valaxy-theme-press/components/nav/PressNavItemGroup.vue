@@ -11,7 +11,7 @@ const open = ref(false)
 <template>
   <div
     ref="el"
-    class="self-stretch relative group"
+    class="flex self-stretch relative group"
     :aria-expanded="open"
     aria-haspopup="true"
     @mouseenter="open = true"
@@ -28,8 +28,8 @@ const open = ref(false)
       <div i-ri-arrow-drop-down-line />
     </button>
 
-    <div class="menu flex items-center flex-col grow">
-      <AppLink v-for="itemLink in item.items" :key="itemLink.text" class="menu-item" :to="itemLink.link">
+    <div class="menu grow" flex="~ col" items="start">
+      <AppLink v-for="itemLink in item.items" :key="itemLink.text" class="menu-item" p="x-3" :to="itemLink.link">
         {{ itemLink.text }}
       </AppLink>
     </div>
@@ -37,9 +37,6 @@ const open = ref(false)
 </template>
 
 <style lang="scss" scoped>
-.group{
-  top: calc(var(--pr-nav-height) / 2 - 10px);
-}
 .group .button{
   color: var(--pr-nav-text);
   font-weight: 500;
@@ -57,13 +54,13 @@ const open = ref(false)
 
 .menu {
   position: absolute;
-  top: 30px;
-  right: 0;
+  left: 50%;
 
   min-width: 128px;
   opacity: 0;
   visibility: hidden;
   transition: opacity 0.25s, visibility 0.25s, transform 0.25s;
+  transform: translateX(-50%) translateY(calc(var(--pr-nav-height) - 10px));
 
   border-radius: 12px;
   padding: 12px;
@@ -75,10 +72,8 @@ const open = ref(false)
   }
 
   &-item{
-    display: block;
-    text-align: center;
+    display: flex;
     width: 100%;
-    padding: 0 6px;
     border-radius: 6px;
     color: var(--pr-nav-text);
     line-height: 32px;
@@ -102,6 +97,5 @@ const open = ref(false)
 .group[aria-expanded="true"] > .menu {
   opacity: 1;
   visibility: visible;
-  transform: translateY(0);
 }
 </style>

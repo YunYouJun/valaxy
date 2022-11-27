@@ -28,8 +28,6 @@ withDefaults(defineProps<{
   z-index: calc(var(--va-z-overlay) - 1);
   transition: opacity 0.4s;
 
-  display: none;
-
   &.fade-enter-from,
   &.fade-leave-to {
     opacity: 0;
