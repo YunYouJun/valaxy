@@ -8,7 +8,7 @@ Theme-Yun<sup><em>(vue)</em></sup>
 
 ## Usage
 
-TODO
+See [Docs](./docs/README.md).
 
 ### Development
 
