@@ -1,6 +1,6 @@
 ---
 title: Demo Sites
-title_zh: 站点示例
+title_zh-CN: 站点示例
 layout: docs
 categories:
   - Docs

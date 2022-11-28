@@ -1,5 +1,5 @@
 ---
-title_zh: 容器
+title_zh-CN: 容器
 title: Container
 categories:
   - Guide

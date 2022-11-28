@@ -1,6 +1,6 @@
 ---
 title: Config
-title_zh: 配置
+title_zh-CN: 配置
 categories:
   - Guide
 end: false

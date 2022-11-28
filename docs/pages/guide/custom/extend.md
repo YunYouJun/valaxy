@@ -1,6 +1,6 @@
 ---
 title: Extend
-title_zh: 自定义扩展
+title_zh-CN: 自定义扩展
 categories:
   - Custom
 end: false
@@ -76,20 +76,6 @@ layout: album
 ```
 
 同样，当存在同名布局时，覆盖顺序为 `用户目录` -> `主题目录` -> `Valaxy 客户端目录`。
-
-## 自动样式注入
-
-新建 `styles` 文件夹，目录下的以下文件将会被自动引入：
-
-- `index.scss`
-- `index.css`
-- `css-vars.scss`
-- `css-vars.css`
-
-我们推荐您：
-
-- 新建 `index.scss` 书写全局样式，并可在其中导入其他样式，它会被自动引入。
-- 新建 `css-vars.scss` 书写 CSS 变量，它会被自动引入。
 
 ## 自定义 index.html
 
@@ -175,3 +161,7 @@ valaxy new <title> -l [layout]
 ```bash
 valaxy new my-young -l album
 ```
+
+## 其他
+
+- [自定义样式 | Valaxy](/guide/custom/styles)

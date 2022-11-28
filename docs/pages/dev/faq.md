@@ -1,6 +1,6 @@
 ---
 title: FAQ
-title_zh: 常见问题
+title_zh-CN: 常见问题
 categories:
   - Dev
 end: false

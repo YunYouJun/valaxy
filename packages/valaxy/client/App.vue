@@ -6,6 +6,7 @@ import ValaxyUserApp from '/@valaxyjs/UserAppVue'
 // @ts-expect-error virtual module
 import ValaxyThemeApp from '/@valaxyjs/ThemeAppVue'
 import pkg from 'valaxy/package.json'
+import { useI18n } from 'vue-i18n'
 import ValaxyAddons from './components/ValaxyAddons.vue'
 import { isDark, useFrontmatter } from './composables'
 
@@ -19,8 +20,13 @@ import { useConfig } from './config'
 
 const config = useConfig()
 const themeColor = computed(() => isDark.value ? '#00aba9' : '#ffffff')
+const fm = useFrontmatter()
+
+const { locale } = useI18n()
+
 useHead({
-  title: config.value.title,
+  title: computed(() => fm.value[`title_${locale.value}`] || fm.value.title),
+  titleTemplate: title => title ? `${title} - ${config.value.title}` : config.value.title,
   link: [
     {
       rel: 'icon',
@@ -47,7 +53,6 @@ useHead({
 
 // seo
 // todo: get first image url from markdown
-const fm = useFrontmatter()
 useSeoMeta({
   description: computed(() => fm.value.excerpt || config.value.description),
   ogDescription: computed(() => fm.value.excerpt || config.value.description),

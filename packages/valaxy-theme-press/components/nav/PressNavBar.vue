@@ -43,7 +43,7 @@ const themeConfig = useThemeConfig()
 }
 
 .dark {
-  --pr-navbar-c-bg: rgba(36, 36, 36, 0.8);
+  --pr-navbar-c-bg: rgba(24, 24, 24, 0.8);
 }
 
 .press-navbar {
