@@ -31,7 +31,7 @@ const isHome = useLayout('home')
           <slot name="main-header-after" />
 
           <slot name="main-content">
-            <ValaxyMd class="prose pb-8 mx-auto w-full max-w-4xl" :frontmatter="frontmatter">
+            <ValaxyMd class="prose mx-auto w-full max-w-4xl" :frontmatter="frontmatter">
               <h1 v-if="hasSidebar && !isHome && frontmatter.title" :id="frontmatter.title" tabindex="-1">
                 {{ frontmatter.title }}
                 <a class="header-anchor" :href="`#${frontmatter.title}`" aria-hidden="true">#</a>
@@ -39,6 +39,9 @@ const isHome = useLayout('home')
               <slot name="main-content-md" />
               <slot />
             </ValaxyMd>
+
+            <PressDocFooter v-if="!isHome" class="pb-8 max-w-4xl" w="full" m="auto" />
+
             <slot name="main-content-after" />
           </slot>
         </div>

@@ -154,7 +154,10 @@ cli.command(
     // merge index.html
     const templatePath = path.resolve(options.clientRoot, 'template.html')
     const indexPath = path.resolve(options.clientRoot, 'index.html')
-    await fs.writeFile(indexPath, await getIndexHtml(options), 'utf-8')
+    if (fs.existsSync(templatePath))
+      await fs.copyFile(templatePath, indexPath)
+    const indexHtml = await getIndexHtml(options)
+    await fs.writeFile(indexPath, indexHtml, 'utf-8')
 
     try {
       if (ssg) {

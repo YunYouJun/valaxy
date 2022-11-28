@@ -1,7 +1,8 @@
 import { defineValaxyConfig } from 'valaxy'
 import type { PressTheme } from 'valaxy-theme-press'
 
-const commitRef = process.env.COMMIT_REF?.slice(0, 8) || 'dev'
+const COMMIT_ID = process.env.CF_PAGES_COMMIT_SHA || process.env.COMMIT_REF
+const commitRef = COMMIT_ID?.slice(0, 8) || 'dev'
 
 const safelist = [
   'i-ri-home-line',

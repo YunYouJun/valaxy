@@ -8,7 +8,7 @@ const { hasSidebar } = useSidebar()
 
 <template>
   <footer v-if="themeConfig.footer" class="press-footer" :class="{ 'has-sidebar': hasSidebar }">
-    <div class="container">
+    <div flex="~ col" class="container">
       <p v-if="themeConfig.footer.message" class="message" v-html="themeConfig.footer.message" />
       <p v-if="themeConfig.footer.copyright" class="copyright" v-html="themeConfig.footer.copyright" />
     </div>

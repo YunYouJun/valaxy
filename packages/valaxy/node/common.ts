@@ -43,11 +43,7 @@ export async function mergeViteConfigs({ userRoot, themeRoot }: ResolvedValaxyOp
  * @returns
  */
 export async function getIndexHtml({ clientRoot, themeRoot, userRoot, config }: ResolvedValaxyOptions): Promise<string> {
-  const templatePath = resolve(clientRoot, 'template.html')
   const indexPath = resolve(clientRoot, 'index.html')
-
-  if (fs.existsSync(templatePath))
-    await fs.copyFile(templatePath, indexPath)
 
   let main = await fs.readFile(indexPath, 'utf-8')
   let head = ''

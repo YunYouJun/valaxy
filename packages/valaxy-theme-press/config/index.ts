@@ -15,5 +15,10 @@ export const defaultThemeConfig: ThemeConfig = {
   sidebar: [],
   nav: [],
 
+  editLink: {
+    pattern: 'https://github.com/YunYouJun/valaxy/edit/main/docs/:path',
+    text: 'Edit this page on GitHub',
+  },
+
   footer: {},
 }

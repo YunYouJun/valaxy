@@ -9,6 +9,22 @@ export namespace PressTheme {
     copyright?: string;
   }
 
+  export interface EditLink {
+    /**
+     * Pattern for edit link.
+     *
+     * @example 'https://github.com/YunYouJun/valaxy/edit/main/docs/:path'
+     */
+    pattern: string
+
+    /**
+     * Custom text for edit link.
+     *
+     * @default 'Edit this page'
+     */
+    text?: string
+  }
+
   export interface Config {
     /**
      * toc title
@@ -26,6 +42,8 @@ export namespace PressTheme {
 
     nav: Array<NavItem>
     sidebar: string[]
+
+    editLink: EditLink
 
     footer: Footer
   }

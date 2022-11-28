@@ -1,4 +1,5 @@
 import { resolve } from 'path'
+import fs from 'fs-extra'
 import type { DefaultThemeConfig, SiteConfig } from 'valaxy/types'
 import type { ResolvedValaxyOptions, ValaxyConfig } from 'valaxy/node'
 import { getIndexHtml } from '../packages/valaxy/node'
@@ -12,6 +13,12 @@ describe('utils', () => {
     const config = {
       mode: 'light',
     } as ValaxyConfig<DefaultThemeConfig>
+
+    const templatePath = resolve(clientRoot, 'template.html')
+    const indexPath = resolve(clientRoot, 'index.html')
+
+    if (fs.existsSync(templatePath))
+      await fs.copyFile(templatePath, indexPath)
     const indexHtml = await getIndexHtml({ clientRoot, themeRoot, userRoot, config } as ResolvedValaxyOptions)
 
     const head = indexHtml.match(/<head>([\s\S]*?)<\/head>/im)?.[1]
