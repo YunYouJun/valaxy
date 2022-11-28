@@ -26,7 +26,7 @@ const { locale } = useI18n()
 
 useHead({
   title: computed(() => fm.value[`title_${locale.value}`] || fm.value.title),
-  titleTemplate: title => title ? `${title} - ${config.value.title}` : config.value.title,
+  titleTemplate: computed(() => fm.value.titleTemplate || ((title: string) => title ? `${title} - ${config.value.title}` : config.value.title)),
   link: [
     {
       rel: 'icon',

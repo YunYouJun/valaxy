@@ -20,7 +20,7 @@
     "@docsearch/css": "^3.3.0",
     "@docsearch/js": "^3.3.0",
     "@iconify-json/ant-design": "^1.1.4",
-    "@iconify-json/simple-icons": "^1.1.36",
+    "@iconify-json/simple-icons": "^1.1.37",
     "valaxy-addon-waline": "workspace:*"
   },
   "devDependencies": {

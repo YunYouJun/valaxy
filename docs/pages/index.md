@@ -1,7 +1,7 @@
 ---
 layout: home
 title: Valaxy
-titleTemplate: Next Generation Static Blog Framework
+titleTemplate: '%s - Next Generation Static Blog Framework'
 
 hero:
   name: VALAXY
