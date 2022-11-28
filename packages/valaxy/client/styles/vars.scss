@@ -4,7 +4,7 @@ $common: () !default;
 $common: map.merge(
   (
     "aside-width": 256px,
-    "sidebar-width": 320px,
+    "sidebar-width": 300px,
   ),
   $common
 );

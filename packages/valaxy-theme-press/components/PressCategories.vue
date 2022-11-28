@@ -23,7 +23,7 @@ const sidebar = computed(() => themeConfig.value.sidebar)
 </script>
 
 <template>
-  <ul v-for="item in sidebar" :key="item" class="category-list" m="l-4">
+  <ul v-for="item in sidebar" :key="item" class="category-list">
     <PressCategory
       v-if="categories.get(item)"
       :name="item" :category="categories.get(item)"

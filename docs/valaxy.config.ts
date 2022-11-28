@@ -14,29 +14,51 @@ export default defineValaxyConfig<PressTheme.Config>({
 
   theme: 'press',
   themeConfig: {
-    sidebar: ['Getting Started', 'Guide', 'built-ins', 'Third', 'Custom', 'Theme', 'Addon', 'Dev'],
+    sidebar: ['Getting Started', 'Guide', 'Migration', 'built-ins', 'Third', 'Custom', 'Theme', 'Addon', 'Dev'],
     nav: [
       {
-        text: 'FAQ',
-        link: '/dev/faq',
+        text: 'Docs',
+        items: [
+          {
+            text: 'Getting Started',
+            link: '/guide/getting-started',
+          },
+          {
+            text: 'Migration from Hexo',
+            link: '/migration/hexo',
+          },
+        ],
       },
       {
-        text: 'Guide',
-        link: '/guide/getting-started',
+        text: 'Themes',
+        items: [
+          {
+            text: 'Use Theme',
+            link: '/themes/use',
+          },
+          {
+            text: 'Write A Theme',
+            link: '/themes/write',
+          },
+          {
+            text: 'Themes Gallery',
+            link: '/themes/gallery',
+          },
+        ],
       },
       {
         text: 'Addons',
         items: [
           {
-            text: 'index',
+            text: 'Why need addons?',
             link: '/addons',
           },
           {
-            text: 'use',
+            text: 'Use A Addon',
             link: '/addons/use',
           },
           {
-            text: 'write',
+            text: 'Write A Addon',
             link: '/addons/write',
           },
         ],

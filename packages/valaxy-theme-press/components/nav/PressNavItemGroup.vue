@@ -60,7 +60,7 @@ const open = ref(false)
   opacity: 0;
   visibility: hidden;
   transition: opacity 0.25s, visibility 0.25s, transform 0.25s;
-  transform: translateX(-50%) translateY(calc(var(--pr-nav-height) - 10px));
+  transform: translateX(-50%) translateY(calc(var(--pr-nav-height) / 2));
 
   border-radius: 12px;
   padding: 12px;

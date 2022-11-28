@@ -35,8 +35,16 @@ const themeConfig = useThemeConfig()
   </div>
 </template>
 
-<style lang="scss" scoped>
+<style lang="scss">
 @use 'valaxy/client/styles/mixins' as *;
+
+:root {
+  --pr-navbar-c-bg: rgba(255, 255, 255, 0.8);
+}
+
+.dark {
+  --pr-navbar-c-bg: rgba(36, 36, 36, 0.8);
+}
 
 .press-navbar {
   position: relative;
@@ -44,7 +52,7 @@ const themeConfig = useThemeConfig()
   padding: 0 8px 0 24px;
   height: var(--pr-nav-height);
   transition: border-color 0.5s;
-  background-color: var(--va-c-bg);
+  background-color: var(--pr-navbar-c-bg);
 }
 
 @include media('md') {
@@ -59,11 +67,6 @@ const themeConfig = useThemeConfig()
     padding-right: 32px;
     -webkit-backdrop-filter: saturate(50%) blur(8px);
     backdrop-filter: saturate(50%) blur(8px);
-    background: rgba(255, 255, 255, 0.7);
-  }
-
-  .dark .press-navbar.has-sidebar .content {
-    background: rgba(36, 36, 36, 0.7);
   }
 
   @supports not (backdrop-filter: saturate(50%) blur(8px)) {
@@ -104,9 +107,5 @@ const themeConfig = useThemeConfig()
 
 .appearance + .social-links::before {
   margin-left: 16px;
-}
-
-.social-links {
-  margin-right: -8px;
 }
 </style>
