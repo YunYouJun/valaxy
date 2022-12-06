@@ -46,9 +46,7 @@ export default defineValaxyConfig({
   // 设置 valaxy-addon-waline 配置项
   addons: [
     addonWaline({
-      options: {
-        serverURL: 'https://your-waline-url',
-      }
+      serverURL: 'https://your-waline-url',
     }),
   ],
 })

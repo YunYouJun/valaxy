@@ -2,7 +2,8 @@ import { defineConfig } from 'valaxy'
 import type { ThemeConfig } from 'valaxy-theme-yun'
 // import { VitePWA } from 'vite-plugin-pwa'
 import Inspect from 'vite-plugin-inspect'
-import { addonWaline } from 'valaxy-addon-waline/node'
+import { addonAlgolia } from 'valaxy-addon-algolia'
+import { addonWaline } from 'valaxy-addon-waline'
 // import site from './site.config'
 
 const safelist = [
@@ -101,17 +102,7 @@ export default defineConfig<ThemeConfig>({
 
   search: {
     enable: true,
-    algolia: {
-      enable: true,
-      appId: 'UVMHTMG1T5',
-      apiKey: '805f2584a8866388aa1631ff0348ddae',
-      indexName: 'valaxy',
-
-      // test
-      // appId: 'BH4D9OD16A',
-      // apiKey: '978ef82b43148b59dc771ea53b7a56af',
-      // indexName: 'elpsy',
-    },
+    type: 'algolia',
   },
 
   comment: {
@@ -212,6 +203,11 @@ export default defineConfig<ThemeConfig>({
   },
 
   addons: [
+    addonAlgolia({
+      appId: 'UVMHTMG1T5',
+      apiKey: '805f2584a8866388aa1631ff0348ddae',
+      indexName: 'valaxy',
+    }),
     addonWaline({
       serverURL: 'https://waline.yunyoujun.cn',
     }),

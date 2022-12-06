@@ -1,11 +1,10 @@
 <script lang="ts" setup>
-import { defineAsyncComponent, onMounted, onUnmounted, ref } from 'vue'
+import { computed } from '@vue/reactivity'
+import { useConfig } from 'valaxy'
+import { onMounted, onUnmounted, ref } from 'vue'
 import { useI18n } from 'vue-i18n'
 
-const YunAlgoliaSearchBox = __ALGOLIA__
-  ? defineAsyncComponent(() => import('./YunAlgoliaSearchBox.vue'))
-  : () => null
-
+const config = useConfig()
 const { t } = useI18n()
 
 // to avoid loading the docsearch js upfront (which is more than 1/3 of the
@@ -18,8 +17,10 @@ function load() {
     loaded.value = true
 }
 
+const isAlgolia = computed(() => config.value.search.type === 'algolia')
+
 onMounted(() => {
-  if (!__ALGOLIA__)
+  if (!isAlgolia.value)
     return
 
   const handleSearchHotKey = (e: KeyboardEvent) => {
@@ -57,7 +58,7 @@ const trigger = () => {
       <!-- <div v-else text="!2xl" i-ri-close-line /> -->
     </button>
 
-    <YunAlgoliaSearchBox v-if="loaded" />
+    <AlgoliaSearchBox v-if="isAlgolia && loaded" />
   </div>
 </template>
 

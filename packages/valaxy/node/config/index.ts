@@ -74,12 +74,7 @@ export const defaultSiteConfig: SiteConfig = {
 
   search: {
     enable: false,
-    algolia: {
-      enable: false,
-      appId: '',
-      apiKey: '',
-      indexName: '',
-    },
+    type: 'algolia',
   },
 
   comment: {

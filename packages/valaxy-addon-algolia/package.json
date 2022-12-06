@@ -1,0 +1,23 @@
+{
+  "name": "valaxy-addon-algolia",
+  "version": "0.0.1",
+  "description": "Algolia Search Box for Valaxy",
+  "keywords": [
+    "valaxy",
+    "addon",
+    "algolia"
+  ],
+  "main": "index.ts",
+  "types": "index.d.ts",
+  "dependencies": {
+    "@docsearch/css": "^3.3.0",
+    "@docsearch/js": "^3.3.0"
+  },
+  "pnpm": {
+    "peerDependencyRules": {
+      "ignoreMissing": [
+        "@algolia/client-search"
+      ]
+    }
+  }
+}

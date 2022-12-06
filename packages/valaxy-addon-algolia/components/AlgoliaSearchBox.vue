@@ -3,17 +3,21 @@ import '@docsearch/css'
 import docsearch from '@docsearch/js'
 import type { DocSearchHit } from '@docsearch/react/dist/esm/types'
 import { onMounted } from 'vue'
-import type { AlgoliaSearchOptions } from 'valaxy'
-import { useConfig } from 'valaxy'
 import { useRoute, useRouter } from 'vue-router'
+import type { AlgoliaSearchOptions } from '../types'
+import { useAddonAlgolia } from '../client'
 
 const router = useRouter()
 const route = useRoute()
-const config = useConfig()
+
+const algolia = useAddonAlgolia()
 
 onMounted(() => {
-  initialize(config.value.search.algolia)
-  setTimeout(poll, 16)
+  const options = algolia.value.options
+  if (options && options.apiKey && options.appId && options.indexName) {
+    initialize(options)
+    setTimeout(poll, 16)
+  }
 })
 
 /**

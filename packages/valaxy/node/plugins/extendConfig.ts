@@ -111,7 +111,7 @@ export function getDefine(options: ResolvedValaxyOptions): Record<string, any> {
 
   return {
     __DEV__: options.mode === 'dev' ? 'true' : 'false',
-    __ALGOLIA__: !!options.config?.search?.algolia?.enable,
+    __ALGOLIA__: options.config?.search?.type === 'algolia',
   }
 }
 

@@ -23,17 +23,6 @@ export interface SocialLink {
   color: string
 }
 
-export interface AlgoliaSearchOptions {
-  enable: boolean
-  appId: string
-  apiKey: string
-  indexName: string
-  placeholder?: string
-  searchParameters?: any
-  disableUserPersonalization?: boolean
-  initialQuery?: string
-}
-
 // shared with valaxy node and client
 export interface SiteConfig<T = DefaultThemeConfig> {
   /**
@@ -136,7 +125,13 @@ export interface SiteConfig<T = DefaultThemeConfig> {
    */
   search: {
     enable: boolean
-    algolia: AlgoliaSearchOptions
+    /**
+     * Search Type
+     * - local: Local Search
+     * - algolia: Algolia Search
+     * - engine: Engine Search, like Google/Baidu
+     */
+    type: 'local' | 'algolia' | 'engine'
   }
 
   /**
