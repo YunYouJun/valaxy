@@ -1,7 +1,6 @@
 <script lang="ts" setup>
 import type { PageData, Post } from 'valaxy'
 import { useConfig, usePostTitle } from 'valaxy'
-import { useAddonWaline } from 'valaxy-addon-waline'
 import { StyleValue, computed, defineAsyncComponent } from 'vue'
 import { usePostProperty } from '../composables'
 
@@ -16,7 +15,8 @@ const title = usePostTitle(computed(() => props.frontmatter))
 
 const aside = computed(() => props.frontmatter.aside !== false)
 
-const YunWaline = useAddonWaline()
+// not import from 'valaxy-addon-waline' to judge
+const YunWaline = config.value.runtime.addons['valaxy-addon-waline']
   ? defineAsyncComponent(() => import('./YunWaline.vue'))
   : () => null
 
