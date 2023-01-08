@@ -21,7 +21,7 @@ const app = useAppStore()
 
   <!--  -->
   <aside class="va-card aside" :class="app.isRightSidebarOpen && 'open'" m="l-4" text="center">
-    <div class="aside-container" flex="~ col">
+    <div class="aside-container" flex="~ col" overflow="auto">
       <h2 v-if="frontmatter.toc !== false" m="t-6 b-2" font="serif black">
         {{ t('sidebar.toc') }}
       </h2>
