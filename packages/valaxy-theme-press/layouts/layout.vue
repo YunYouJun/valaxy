@@ -55,4 +55,3 @@ const layout = useLayout()
     <PressFooter />
   </div>
 </template>
-

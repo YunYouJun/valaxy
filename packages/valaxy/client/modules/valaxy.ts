@@ -6,7 +6,7 @@ import { createI18n } from 'vue-i18n'
  *
  * Not support ssr https://github.com/intlify/bundle-tools/issues/78
  */
-// import messages from '@intlify/vite-plugin-vue-i18n/messages'
+// import messages from '@intlify/unplugin-vue-i18n/messages'
 
 import { useStorage } from '@vueuse/core'
 

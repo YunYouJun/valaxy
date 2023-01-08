@@ -54,4 +54,3 @@ async function genLayoutTemplate({
 
   return render(template, { title, layout, date: date ? dayjs().format('YYYY-MM-DD hh:mm:ss') : '' })
 }
-
