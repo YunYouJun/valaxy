@@ -111,7 +111,7 @@ export async function build(options: ResolvedValaxyOptions) {
   posts.forEach(item => feed.addItem(item))
   // items.forEach(i=> console.log(i.title, i.date))
 
-  await fs.ensureDir(dirname(`./dist/${config.feed?.name}`))
+  await fs.ensureDir(dirname(`./dist/${config.feed?.name} || 'feed.xml'`))
   const path = './dist'
 
   const types = ['xml', 'atom', 'json']
