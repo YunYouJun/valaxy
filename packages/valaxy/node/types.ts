@@ -50,7 +50,7 @@ export interface ValaxyExtendConfig {
 }
 
 export type ValaxyAddonLike = ValaxyAddon | false | null | undefined
-export type ValaxyAddons = ValaxyAddon[] | Record<string, ValaxyAddonLike>
+export type ValaxyAddons = (ValaxyAddon | string)[] | Record<string, ValaxyAddonLike>
 
 export type ValaxyAddonFn<ThemeConfig = DefaultThemeConfig> = (addonOptions: ValaxyAddonResolver, valaxyOptions: ResolvedValaxyOptions<ThemeConfig>) => ValaxyConfig | Promise<ValaxyConfig>
 export type ValaxyAddonExport<ThemeConfig = DefaultThemeConfig> = ValaxyConfig<ThemeConfig> | ValaxyAddonFn<ThemeConfig>
