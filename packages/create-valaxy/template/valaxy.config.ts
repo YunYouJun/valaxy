@@ -92,7 +92,7 @@ export default defineConfig<ThemeConfig>({
     },
     {
       name: 'Travelling',
-      link: 'https://travellings.link',
+      link: 'https://www.travellings.cn/go.html',
       icon: 'i-ri-train-line',
       color: 'var(--va-c-text)',
     },
