@@ -20,10 +20,12 @@ export default defineValaxyConfig({
   comment: {
     enable: true
   },
-  // 设置 valaxy-addon-waline 配置项
+  // 设置 valaxy-addon-algolia 配置项
   addons: [
     addonAlgolia({
-      // todo
+      appId: '',
+      apiKey: '',
+      indexName: '',
     }),
   ],
 })
