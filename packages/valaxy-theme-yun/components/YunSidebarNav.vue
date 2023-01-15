@@ -30,9 +30,9 @@ const tags = useTag()
       <span class="count">{{ Array.from(tags).length }}</span>
     </router-link>
 
-    <router-link class="site-link-item yun-icon-btn" :to="themeConfig.menu.custom.url" :title="t(themeConfig.menu.custom.title)">
+    <app-link class="site-link-item yun-icon-btn" :to="themeConfig.menu.custom.url" :title="t(themeConfig.menu.custom.title)">
       <div :class="themeConfig.menu.custom.icon" />
-    </router-link>
+    </app-link>
   </nav>
 </template>
 
