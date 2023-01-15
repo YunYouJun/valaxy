@@ -30,6 +30,8 @@ const { t } = useI18n()
       </template>
     </div>
   </div>
+
+  <slot />
 </template>
 
 <style>
