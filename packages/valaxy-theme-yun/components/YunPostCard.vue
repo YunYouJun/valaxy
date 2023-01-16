@@ -31,7 +31,7 @@ const { icon, styles } = usePostProperty(props.post.type)
           :to="post.path || ''"
           m="t-3"
         >
-          <div class="flex justify-center items-center title text-2xl" font="serif black">
+          <div class="flex justify-center items-center title text-2xl" text="center" font="serif black">
             <div v-if="post.type" class="inline-flex" m="r-1" :class="icon" />{{ post.title }}
           </div>
         </AppLink>
