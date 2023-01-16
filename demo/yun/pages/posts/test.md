@@ -82,3 +82,7 @@ The title is a primary title
 
 ![]()
 _a_
+
+## Dead Links
+
+<!-- [/api/app?name=test](/api/app?name=test) -->

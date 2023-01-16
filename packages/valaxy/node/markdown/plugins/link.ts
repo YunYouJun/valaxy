@@ -7,7 +7,7 @@
 import { URL } from 'url'
 import type MarkdownIt from 'markdown-it'
 import type { MarkdownEnv } from '../env'
-import { EXTERNAL_URL_RE } from '../../utils'
+import { EXTERNAL_URL_RE, PATHNAME_PROTOCOL_RE } from '../../utils'
 
 const indexRE = /(^|.*\/)index.md(#?.*)$/i
 
@@ -33,9 +33,8 @@ export const linkPlugin = (
         Object.entries(externalAttrs).forEach(([key, val]) => {
           token.attrSet(key, val)
         })
-        // catch localhost links as dead link
-        if (url.replace(EXTERNAL_URL_RE, '').startsWith('//localhost:'))
-          pushLink(url, env)
+
+        hrefAttr[1] = url.replace(PATHNAME_PROTOCOL_RE, '')
       }
       else if (
         // internal anchor links
