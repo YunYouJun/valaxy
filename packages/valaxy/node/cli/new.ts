@@ -38,6 +38,6 @@ export const newPost = (cli: Argv<{}>) => {
         layout,
         path,
       } as CreatePostParams)
-      consola.success(`[valaxy new]: successfully generated file ${magenta(filename)}}`)
+      consola.success(`[valaxy new]: successfully generated file ${magenta(filename)}`)
     })
 }

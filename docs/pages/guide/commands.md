@@ -44,12 +44,14 @@ Options:
     "build:spa": "valaxy build",
     "build:ssg": "valaxy build --ssg",
     "dev": "valaxy .",
+    "new": "valaxy new",
     "rss": "valaxy rss"
   }
 }
 ```
 
 譬如通过 `npm run dev` 启动项目，通过 `npm run build` 可以在构建生成 ssg 站点后，再构建 RSS 源。
+通过 `pnpm new post-title` 在 `posts` 文件夹下新建一个名为 `post-title` 的文章。
 
 ### 全局安装
 
