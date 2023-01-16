@@ -30,7 +30,7 @@ const footerIcon = computed(() => themeConfig.value.footer.icon || {
       </a>
     </div>
 
-    <div class="copyright flex justify-center items-center" p="1">
+    <div class="copyright flex justify-center items-center gap-2" p="1">
       <span>
         &copy;
         <template v-if="!isThisYear">
@@ -39,7 +39,7 @@ const footerIcon = computed(() => themeConfig.value.footer.icon || {
         {{ year }}
       </span>
 
-      <a v-if="themeConfig.footer.icon" m="x-2" class="inline-flex animate-pulse" :href="footerIcon.url" target="_blank" :title="footerIcon.title">
+      <a v-if="themeConfig.footer.icon?.enable" class="inline-flex animate-pulse" :href="footerIcon.url" target="_blank" :title="footerIcon.title">
         <div :class="footerIcon.name" />
       </a>
       <span>{{ config.author.name }}</span>
