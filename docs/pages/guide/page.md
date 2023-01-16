@@ -19,3 +19,8 @@ titleTemplate: '%s - Valaxy'
 ```
 
 You will get html title `Cool - Valaxy`.
+
+### Other
+
+- `toc: false`: Hide TOC
+- `aside: false`: Hide Right Aside
