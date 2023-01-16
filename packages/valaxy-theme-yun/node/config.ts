@@ -34,6 +34,7 @@ export const defaultThemeConfig: ThemeConfig = {
   footer: {
     since: 2022,
     icon: {
+      enable: true,
       name: 'i-ri-cloud-line',
       animated: true,
       color: 'var(--va-c-primary)',
