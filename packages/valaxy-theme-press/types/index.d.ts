@@ -26,6 +26,8 @@ export namespace PressTheme {
   }
 
   export interface Config {
+    logo: string
+
     /**
      * toc title
      * @default 'On this page'
@@ -39,6 +41,7 @@ export namespace PressTheme {
        */
       primary: string
     }
+    
 
     nav: Array<NavItem>
     sidebar: string[]
@@ -46,6 +49,12 @@ export namespace PressTheme {
     editLink: EditLink
 
     footer: Footer
+
+    // label
+    /**
+     * Toggle dark label
+     */
+    darkModeSwitchLabel: string
   }
 }
 

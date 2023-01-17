@@ -15,6 +15,7 @@ export default defineValaxyConfig<PressTheme.Config>({
 
   theme: 'press',
   themeConfig: {
+    logo: '/favicon.svg',
     sidebar: ['Getting Started', 'Guide', 'Migration', 'built-ins', 'Third', 'Custom', 'Theme', 'Addon', 'Dev'],
     nav: [
       {
