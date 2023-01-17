@@ -11,8 +11,8 @@
   "main": "index.ts",
   "types": "index.d.ts",
   "dependencies": {
-    "@docsearch/css": "^3.3.0",
-    "@docsearch/js": "^3.3.0"
+    "@docsearch/css": "^3.3.2",
+    "@docsearch/js": "^3.3.2"
   },
   "pnpm": {
     "peerDependencyRules": {
