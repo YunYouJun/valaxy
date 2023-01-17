@@ -1,10 +1,6 @@
 <script setup lang="ts">
 import { ref } from 'vue'
 import { clearAllBodyScrollLocks, disableBodyScroll } from 'body-scroll-lock'
-// import VPNavScreenMenu from './VPNavScreenMenu.vue'
-// import VPNavScreenAppearance from './VPNavScreenAppearance.vue'
-// import VPNavScreenTranslations from './VPNavScreenTranslations.vue'
-// import VPNavScreenSocialLinks from './VPNavScreenSocialLinks.vue'
 
 defineProps<{
   open: boolean
@@ -30,10 +26,11 @@ function unlockBodyScroll() {
     <div v-if="open" ref="screen" class="pr-NavScreen">
       <div class="container" flex="~ col">
         <slot name="nav-screen-content-before" />
-        <!-- <VPNavScreenMenu class="menu" /> -->
+        <PressNavScreenMenu class="menu" />
         <PressNavScreenTranslations class="translations" />
         <PressNavScreenAppearance class="appearance" />
-        <!-- <VPNavScreenSocialLinks class="social-links" /> -->
+        <PressNavScreenSocialLinks class="social-links" />
+
         <slot name="nav-screen-content-after" />
       </div>
     </div>

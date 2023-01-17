@@ -28,6 +28,9 @@ export function useActiveAnchor(
   })
 
   function setActiveLink() {
+    if (!container.value)
+      return
+
     const links = [].slice.call(
       container.value.querySelectorAll('.outline-link'),
     ) as HTMLAnchorElement[]

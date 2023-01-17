@@ -6,6 +6,8 @@ const commitRef = COMMIT_ID?.slice(0, 8) || 'dev'
 
 const safelist = [
   'i-ri-home-line',
+
+  'i-ri-github-line'
 ]
 
 export default defineValaxyConfig<PressTheme.Config>({
@@ -17,6 +19,9 @@ export default defineValaxyConfig<PressTheme.Config>({
   themeConfig: {
     logo: '/favicon.svg',
     sidebar: ['Getting Started', 'Guide', 'Migration', 'built-ins', 'Third', 'Custom', 'Theme', 'Addon', 'Dev'],
+    socialLinks: [
+      { icon: 'i-ri-github-line', link: 'https://github.com/YunYouJun/valaxy' }
+    ],
     nav: [
       {
         text: 'Docs',

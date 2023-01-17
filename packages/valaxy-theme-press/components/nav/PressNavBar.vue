@@ -26,6 +26,7 @@ const themeConfig = useThemeConfig()
       <PressNavBarMenu p="x-2" />
       <PressNavBarTranslations p="x-2" />
       <PressNavBarAppearance p="x-2" />
+      <PressNavBarSocialLinks p="x-2" />
 
       <PressNavBarHamburger :active="isScreenOpen" @click="$emit('toggleScreen')" />
     </div>

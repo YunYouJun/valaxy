@@ -29,7 +29,7 @@ const { hasSidebar } = useSidebar()
 }
 
 @media (min-width: 768px) {
-  .VPFooter {
+  .pr-footer {
     padding: 32px;
   }
 }

@@ -1,8 +1,5 @@
 <script lang="ts" setup>
 import { computed, ref } from 'vue'
-import VPIconPlus from './icons/VPIconPlus.vue'
-import VPNavScreenMenuGroupLink from './VPNavScreenMenuGroupLink.vue'
-import VPNavScreenMenuGroupSection from './VPNavScreenMenuGroupSection.vue'
 
 const props = defineProps<{
   text: string
@@ -21,7 +18,7 @@ function toggle() {
 </script>
 
 <template>
-  <div class="VPNavScreenMenuGroup" :class="{ open: isOpen }">
+  <div class="pr-nav-screen-menu-group" :class="{ open: isOpen }">
     <button
       class="button"
       :aria-controls="groupId"
@@ -35,14 +32,14 @@ function toggle() {
     <div :id="groupId" class="items">
       <template v-for="item in items" :key="item.text">
         <div v-if="'link' in item" :key="item.text" class="item">
-          <VPNavScreenMenuGroupLink
+          <PressNavScreenMenuGroupLink
             :text="item.text"
             :link="item.link"
           />
         </div>
 
         <div v-else class="group">
-          <VPNavScreenMenuGroupSection
+          <PressNavScreenMenuGroupSection
             :text="item.text"
             :items="item.items"
           />
@@ -53,32 +50,32 @@ function toggle() {
 </template>
 
 <style scoped>
-.VPNavScreenMenuGroup {
-  border-bottom: 1px solid var(--vp-c-divider);
+.pr-nav-screen-menu-group {
+  border-bottom: 1px solid var(--pr-c-divider);
   height: 48px;
   overflow: hidden;
   transition: border-color 0.5s;
 }
 
-.VPNavScreenMenuGroup .items {
+.pr-nav-screen-menu-group .items {
   visibility: hidden;
 }
 
-.VPNavScreenMenuGroup.open .items {
+.pr-nav-screen-menu-group.open .items {
   visibility: visible;
 }
 
-.VPNavScreenMenuGroup.open {
+.pr-nav-screen-menu-group.open {
   padding-bottom: 10px;
   height: auto;
 }
 
-.VPNavScreenMenuGroup.open .button {
+.pr-nav-screen-menu-group.open .button {
   padding-bottom: 6px;
-  color: var(--vp-c-brand);
+  color: var(--pr-c-brand);
 }
 
-.VPNavScreenMenuGroup.open .button-icon {
+.pr-nav-screen-menu-group.open .button-icon {
   /*rtl:ignore*/
   transform: rotate(45deg);
 }
@@ -92,18 +89,18 @@ function toggle() {
   line-height: 24px;
   font-size: 14px;
   font-weight: 500;
-  color: var(--vp-c-text-1);
+  color: var(--pr-c-text-1);
   transition: color 0.25s;
 }
 
 .button:hover {
-  color: var(--vp-c-brand);
+  color: var(--pr-c-brand);
 }
 
 .button-icon {
   width: 14px;
   height: 14px;
-  fill: var(--vp-c-text-2);
+  fill: var(--pr-c-text-2);
   transition: fill 0.5s, transform 0.25s;
 }
 

@@ -8,7 +8,7 @@ defineProps<{
 </script>
 
 <template>
-  <div class="VPNavScreenMenuGroupSection">
+  <div class="pr-nav-screen-menu-group-section">
     <p v-if="text" class="title">
       {{ text }}
     </p>
@@ -22,7 +22,7 @@ defineProps<{
 </template>
 
 <style scoped>
-.VPNavScreenMenuGroupSection {
+.pr-nav-screen-menu-group-section {
   display: block;
 }
 
@@ -30,7 +30,7 @@ defineProps<{
   line-height: 32px;
   font-size: 13px;
   font-weight: 700;
-  color: var(--vp-c-text-2);
+  color: var(--pr-c-text-2);
   transition: color 0.25s;
 }
 </style>

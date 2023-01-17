@@ -9,6 +9,11 @@ export namespace PressTheme {
     copyright?: string;
   }
 
+  export interface SocialLink {
+    icon: string
+    link: string
+  }
+
   export interface EditLink {
     /**
      * Pattern for edit link.
@@ -50,11 +55,13 @@ export namespace PressTheme {
 
     footer: Footer
 
+    socialLinks: SocialLink[]
+
     // label
     /**
      * Toggle dark label
      */
-    darkModeSwitchLabel: string
+    darkModeSwitchLabel?: string
   }
 }
 
