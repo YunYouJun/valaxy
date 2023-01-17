@@ -14,7 +14,7 @@ const isExternalLink = computed(() => {
 </script>
 
 <template>
-  <a v-if="isExternalLink || href" v-bind="$attrs" :href="href" target="_blank">
+  <a v-if="isExternalLink || href" v-bind="$attrs" :href="href || to" target="_blank">
     <slot />
     <div v-if="showExternalIcon" class="icon-link inline-block" i-ri-arrow-right-up-line />
   </a>

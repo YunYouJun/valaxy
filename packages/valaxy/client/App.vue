@@ -19,7 +19,8 @@ import { useConfig } from './config'
 // <link rel="mask-icon" href="/safari-pinned-tab.svg" color="#00aba9">
 
 const config = useConfig()
-const themeColor = computed(() => isDark.value ? '#00aba9' : '#ffffff')
+// todo, allow user config
+const themeColor = computed(() => isDark.value ? '#000' : '#ffffff')
 const fm = useFrontmatter()
 
 const { locale } = useI18n()
