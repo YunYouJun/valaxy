@@ -27,11 +27,11 @@ const { icon, styles } = usePostProperty(props.post.type)
 
       <div class="flex flex-col flex-1 items-center" :class="post.cover && 'max-h-54'" w="full">
         <AppLink
-          class="post-title-link"
+          class="post-title-link cursor-pointer"
           :to="post.path || ''"
           m="t-3"
         >
-          <div class="flex justify-center items-center title text-2xl" text="center" font="serif black">
+          <div class="flex-center title text-2xl" text="center" font="serif black">
             <div v-if="post.type" class="inline-flex" m="r-1" :class="icon" />{{ post.title }}
           </div>
         </AppLink>

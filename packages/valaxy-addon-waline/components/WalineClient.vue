@@ -1,10 +1,11 @@
 <script lang="ts" setup>
 import { isDark } from 'valaxy'
-import { computed } from 'vue'
+import { computed, onMounted } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { useRoute } from 'vue-router'
 // @ts-expect-error vue waline component type
 import { Waline } from '@waline/client/dist/component'
+import { commentCount, pageviewCount } from '@waline/client'
 import { getEmojis } from '../utils'
 
 import '@waline/client/dist/waline.css'
@@ -18,6 +19,25 @@ const route = useRoute()
 const { locale } = useI18n()
 const path = computed(() => props.options.path || route.path.replace(/\/$/, ''))
 const emoji = computed(() => getEmojis(props.options.cdn))
+
+onMounted(() => {
+  const { pageview, comment } = props.options
+  if (pageview) {
+    pageviewCount({
+      serverURL: props.options.serverURL,
+      path: path.value,
+      selector: typeof pageview === 'string' ? pageview : undefined,
+    })
+  }
+
+  if (comment) {
+    commentCount({
+      serverURL: props.options.serverURL,
+      path: path.value,
+      selector: typeof comment === 'string' ? comment : undefined,
+    })
+  }
+})
 </script>
 
 <template>

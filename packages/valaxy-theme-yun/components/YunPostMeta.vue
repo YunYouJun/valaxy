@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import type { Post } from 'valaxy'
-import { useI18n } from 'vue-i18n'
 import { formatDate } from 'valaxy'
+import { useI18n } from 'vue-i18n'
 
 defineProps<{
   frontmatter: Post
@@ -18,16 +18,21 @@ const { t } = useI18n()
     <div i-ri-pushpin-line />
   </div>
 
-  <div v-if="frontmatter" class="post-meta justify-center" flex="~" text="sm">
+  <div v-if="frontmatter" class="post-meta justify-center" flex="~" text="sm" py="1">
     <div v-if="frontmatter.date" class="post-time flex items-center">
-      <div class="inline-block" i-ri-calendar-line />
-      <time m="l-1" :title="t('post.posted')">{{ formatDate(frontmatter.date) }}</time>
+      <span class="inline-flex-center" :title="t('post.posted')">
+        <div class="inline-block" i-ri-calendar-line />
+        <time m="l-1">{{ formatDate(frontmatter.date) }}</time>
+      </span>
 
-      <template v-if="frontmatter.updated && frontmatter.updated !== frontmatter.date">
+      <span
+        v-if="frontmatter.updated && frontmatter.updated !== frontmatter.date"
+        class="inline-flex-center" :title="t('post.edited')"
+      >
         <span m="x-2">-</span>
         <div i-ri-calendar-2-line />
-        <time m="l-1" :title="t('post.edited')">{{ formatDate(frontmatter.updated) }}</time>
-      </template>
+        <time m="l-1">{{ formatDate(frontmatter.updated) }}</time>
+      </span>
     </div>
   </div>
 

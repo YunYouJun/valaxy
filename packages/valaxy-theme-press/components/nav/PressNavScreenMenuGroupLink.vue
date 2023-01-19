@@ -10,7 +10,7 @@ const closeScreen = inject('close-screen') as () => void
 </script>
 
 <template>
-  <AppLink class="pr-nav-screen-menu-group-link" :href="link" @click="closeScreen">
+  <AppLink class="pr-nav-screen-menu-group-link" :to="link" @click="closeScreen">
     {{ text }}
   </AppLink>
 </template>

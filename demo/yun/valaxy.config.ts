@@ -210,6 +210,8 @@ export default defineConfig<ThemeConfig>({
     }),
     addonWaline({
       serverURL: 'https://waline.yunyoujun.cn',
+      pageview: true,
+      comment: true,
     }),
   ],
 })

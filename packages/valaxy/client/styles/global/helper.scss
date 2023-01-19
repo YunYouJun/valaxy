@@ -1,3 +1,15 @@
 .va-card {
   background-color: var(--va-c-bg-light);
 }
+
+.flex-center {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.inline-flex-center {
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+}

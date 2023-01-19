@@ -39,8 +39,8 @@ post:
   more: 更多
   untitled: 未命名
   toc_empty: 此文章未包含目录
-  views: 阅读次数
-  comments_count: 评论数
+  pageview_count: 阅读次数
+  comment_count: 评论数
   related_posts: 相关文章
   view_link: 查看链接
   read_more: 阅读更多

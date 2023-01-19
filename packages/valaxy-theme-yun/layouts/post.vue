@@ -18,6 +18,8 @@ const showSponsor = computed(() => {
   <Layout>
     <template #main-header-after>
       <YunPostMeta :frontmatter="frontmatter" />
+
+      <YunWalineMeta />
     </template>
 
     <template #main-content-after>
