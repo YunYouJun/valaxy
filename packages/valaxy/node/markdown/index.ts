@@ -1,6 +1,6 @@
 import MarkdownIt from 'markdown-it'
 
-import type { Theme } from 'shiki'
+import type { IThemeRegistration } from 'shiki'
 
 import anchorPlugin from 'markdown-it-anchor'
 import attrsPlugin from 'markdown-it-attrs'
@@ -34,7 +34,9 @@ import { linkPlugin } from './plugins/link'
 // import { lineNumberPlugin } from "./plugins/lineNumbers";
 
 export * from './env'
-export type ThemeOptions = Theme | { light: Theme; dark: Theme }
+export type ThemeOptions =
+  | IThemeRegistration
+  | { light: IThemeRegistration; dark: IThemeRegistration }
 
 export interface MarkdownParsedData {
   hoistedTags?: string[]
