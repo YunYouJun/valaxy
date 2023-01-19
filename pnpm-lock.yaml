@@ -15,7 +15,7 @@ importers:
       husky: ^8.0.3
       lint-staged: ^13.1.0
       prompts: ^2.4.2
-      rimraf: ^4.0.6
+      rimraf: ^4.1.1
       tsup: ^6.5.0
       tsx: ^3.12.2
       typescript: ^4.9.4
@@ -39,7 +39,7 @@ importers:
       husky: 8.0.3
       lint-staged: 13.1.0
       prompts: 2.4.2
-      rimraf: 4.1.0
+      rimraf: 4.1.1
       tsup: 6.5.0_typescript@4.9.4
       tsx: 3.12.2
       typescript: 4.9.4
@@ -111,7 +111,7 @@ importers:
       '@types/katex': ^0.16.0
       '@types/markdown-it': ^12.2.3
       '@types/nprogress': ^0.2.0
-      '@types/yargs': ^17.0.19
+      '@types/yargs': ^17.0.20
       '@vitejs/plugin-vue': ^4.0.0
       '@vueuse/core': ^9.10.0
       '@vueuse/head': ^1.0.22
@@ -224,7 +224,7 @@ importers:
       '@types/katex': 0.16.0
       '@types/markdown-it': 12.2.3
       '@types/nprogress': 0.2.0
-      '@types/yargs': 17.0.19
+      '@types/yargs': 17.0.20
       debug: 4.3.4
       diacritics: 1.3.0
       https-localhost: 4.7.1
@@ -258,12 +258,12 @@ importers:
   packages/valaxy-theme-yun:
     specifiers:
       '@iconify-json/ant-design': ^1.1.4
-      '@iconify-json/simple-icons': ^1.1.40
+      '@iconify-json/simple-icons': ^1.1.41
       valaxy: workspace:*
       valaxy-addon-waline: workspace:*
     dependencies:
       '@iconify-json/ant-design': 1.1.4
-      '@iconify-json/simple-icons': 1.1.40
+      '@iconify-json/simple-icons': 1.1.41
       valaxy-addon-waline: link:../valaxy-addon-waline
     devDependencies:
       valaxy: link:../valaxy
@@ -881,8 +881,8 @@ packages:
       '@iconify/types': 2.0.0
     dev: false
 
-  /@iconify-json/simple-icons/1.1.40:
-    resolution: {integrity: sha512-k+dCMQsVDVh2mrIkJpD5d/Jax+UTAlOf3YejXW1ZAwBtlu6Mq4CkO50VSJujNZRGFtPmPGAZSWbr1q72FFmR7A==}
+  /@iconify-json/simple-icons/1.1.41:
+    resolution: {integrity: sha512-jzJWIJpsfthdTW0y3mW0jhITdhQXDrMHwkGsNP2nPaPlnmxk3qv2MqiwOH8ALTHgaepr0q8YCogDExvy5G9e0w==}
     dependencies:
       '@iconify/types': 2.0.0
     dev: false
@@ -1272,8 +1272,8 @@ packages:
     resolution: {integrity: sha512-iO9ZQHkZxHn4mSakYV0vFHAVDyEOIJQrV2uZ06HxEPcx+mt8swXoZHIbaaJ2crJYFfErySgktuTZ3BeLz+XmFA==}
     dev: true
 
-  /@types/yargs/17.0.19:
-    resolution: {integrity: sha512-cAx3qamwaYX9R0fzOIZAlFpo4A+1uBVCxqpKz9D26uTF4srRXaGTTsikQmaotCtNdbhzyUH7ft6p9ktz9s6UNQ==}
+  /@types/yargs/17.0.20:
+    resolution: {integrity: sha512-eknWrTHofQuPk2iuqDm1waA7V6xPlbgBoaaXEgYkClhLOnB0TtbW+srJaOToAgawPxPlHQzwypFA2bhZaUGP5A==}
     dependencies:
       '@types/yargs-parser': 21.0.0
     dev: true
@@ -5576,8 +5576,8 @@ packages:
       glob: 7.2.3
     dev: true
 
-  /rimraf/4.1.0:
-    resolution: {integrity: sha512-ZJdkUR5/dRrRJHdcSKJLrpRn6tVjl9ALxd4yrTCxFsMpjQNzwHF6GLqMsuEzEYIXxHlFPDSk21Vr8VPuFBEz0g==}
+  /rimraf/4.1.1:
+    resolution: {integrity: sha512-Z4Y81w8atcvaJuJuBB88VpADRH66okZAuEm+Jtaufa+s7rZmIz+Hik2G53kGaNytE7lsfXyWktTmfVz0H9xuDg==}
     engines: {node: '>=14'}
     hasBin: true
     dev: true
