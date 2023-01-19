@@ -52,7 +52,7 @@ cli.command(
         describe: 'listen public host and enable remote control',
       })
       .option('log', {
-        default: 'warn',
+        default: 'info',
         type: 'string',
         choices: ['error', 'warn', 'info', 'silent'],
         describe: 'log level',
@@ -131,9 +131,15 @@ cli.command(
       default: 'dist',
       describe: 'output dir',
     })
+    .option('log', {
+      default: 'warn',
+      type: 'string',
+      choices: ['error', 'warn', 'info', 'silent'],
+      describe: 'log level',
+    })
     .strict()
     .help(),
-  async ({ ssg, root, output }) => {
+  async ({ ssg, root, output, log }) => {
     const options = await resolveOptions({ userRoot: root }, 'build')
     printInfo(options)
 
@@ -148,6 +154,7 @@ cli.command(
           emptyOutDir: true,
           outDir: path.resolve(options.userRoot, output),
         },
+        logLevel: log as LogLevel,
       },
     )
 

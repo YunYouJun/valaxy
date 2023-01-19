@@ -26,7 +26,7 @@ Options:
       --remote   listen public host and enable remote control
                                                        [boolean] [default: true]
       --log      log level
-         [string] [choices: "error", "warn", "info", "silent"] [default: "warn"]
+         [string] [choices: "error", "warn", "info", "silent"] [default: "info"]
   -h, --help     Show help                                             [boolean]
   -v, --version  Show version number                                   [boolean]
 ```
@@ -75,3 +75,14 @@ pnpm add -g valaxy
 譬如，`valaxy new your-first-post`，将会在 `pages/posts` 下自动新建 `your-first-post.md` 文件，并附带日期。
 
 > 你觉得还可以有其他更常用、更好用的命令？没问题，尽管来 [Issues](https://github.com/YunYouJun/valaxy/issues) 反馈吧！
+
+## FAQ
+
+### 控制台开发时日志太少，构建时日志太多？
+
+- 开发时（`valaxy`）默认日志等级为 `info`
+- 构件时（`valaxy build`）默认日志等级为 `warn`
+
+您可以通过设置日志等级控制。
+
+譬如 `valaxy build --log=info`。
