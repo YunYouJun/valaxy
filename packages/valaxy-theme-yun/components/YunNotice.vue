@@ -1,11 +1,18 @@
+<script lang="ts" setup>
+defineProps<{
+  content: string
+}>()
+</script>
+
 <template>
-  <div class="yun-board">
+  <div class="yun-notice">
+    <span v-html="content" />
     <slot />
   </div>
 </template>
 
 <style>
-.yun-board {
+.yun-notice {
   border: 1px solid var(--va-c-text);
   width: calc(100% - 2rem);
 

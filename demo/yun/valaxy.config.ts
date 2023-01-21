@@ -145,6 +145,11 @@ export default defineConfig<ThemeConfig>({
       title: '云游君的小站',
     },
 
+    notice: {
+      enable: true,
+      content: '公告测试',
+    },
+
     pages: [
       {
         name: '我的小伙伴们',

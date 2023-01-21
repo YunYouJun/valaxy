@@ -54,6 +54,14 @@ export interface ThemeConfig {
     }
   }
 
+  /**
+   * 公告
+   */
+  notice: {
+    enable: boolean
+    content: string
+  }
+
   pages: {
     name: string
     url: string
