@@ -6,7 +6,7 @@ const isHome = useLayout('home')
 </script>
 
 <template>
-  <ValaxyOverlay :show="app.isSidebarOpen" @click="app.toggleSidebar()" />
+  <ValaxyOverlay class="md:hidden" :show="app.isSidebarOpen" @click="app.toggleSidebar()" />
 
   <ValaxyHamburger :active="app.isSidebarOpen" class="menu-btn sidebar-toggle yun-icon-btn" :class="isHome ? '' : 'md:hidden'" @click="app.toggleSidebar()" />
 
