@@ -46,7 +46,8 @@ const app = useAppStore()
   top: 0;
   bottom: 0;
 
-  min-width: var(--va-sidebar-width);
+  // need fixed width
+  width: var(--va-sidebar-width, 300px);
 
   transform: translateX(100%);
 
