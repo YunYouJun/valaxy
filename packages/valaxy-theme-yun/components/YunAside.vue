@@ -78,5 +78,6 @@ const app = useAppStore()
 .toc-btn {
   color: var(--va-c-primary);
   background-color: white;
+  z-index: var(--yun-z-toc-btn);
 }
 </style>

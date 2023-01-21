@@ -34,6 +34,7 @@ $common: map.merge(
 $z-index: () !default;
 $z-index: map.merge(
   (
+    "toc-btn": 7,
     "cloud": 8,
     "go-down": 9,
     "backdrop": 9,
