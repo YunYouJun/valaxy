@@ -28,6 +28,11 @@ export const defaultThemeConfig: ThemeConfig = {
     },
   },
 
+  notice: {
+    enable: false,
+    content: '',
+  },
+
   pages: [],
 
   sidebar: null,
