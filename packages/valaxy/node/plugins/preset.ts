@@ -109,6 +109,9 @@ export async function ViteValaxyPlugins(
         if (!route.meta)
           route.meta = {}
 
+        // encode for chinese filename
+        route.path = encodeURI(route.path)
+
         // add default layout for home, can be overrode
         if (route.path === '/')
           route.meta.layout = 'home'
