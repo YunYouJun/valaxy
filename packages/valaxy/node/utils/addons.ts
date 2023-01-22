@@ -2,6 +2,7 @@ import { resolve } from 'path'
 import fs from 'fs-extra'
 import consola from 'consola'
 import defu from 'defu'
+import { cyan, yellow } from 'kolorist'
 import type { ValaxyAddonResolver, ValaxyAddons } from '../types'
 import { getModuleRoot } from './root'
 
@@ -26,7 +27,9 @@ export async function parseAddons(addons: ValaxyAddons, userRoot = process.cwd()
     }
   }
 
-  return Object.values(resolvers).filter(item => item.enable)
+  const resolvedAddons = Object.values(resolvers).filter(item => item.enable)
+  consola.info(`Resolve ${cyan('addons:')} ${yellow(resolvedAddons.map(item => item.name).join(', '))}`)
+  return resolvedAddons
 }
 
 /**

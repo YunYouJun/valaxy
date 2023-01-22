@@ -12,7 +12,7 @@ import { useStorage } from '@vueuse/core'
 
 import type { Router } from 'vue-router'
 import type { PageDataPayload } from '../../types'
-import { initSite, valaxySiteConfigSymbol } from '../config'
+import { initValaxyConfig, valaxyConfigSymbol } from '../config'
 import { ensureSuffix } from '@antfu/utils'
 
 import type { UserModule } from 'valaxy/client/types'
@@ -45,10 +45,10 @@ function shouldHotReload(payload: PageDataPayload): boolean {
 
 export const install: UserModule = ({ app, router }) => {
   // inject valaxy config before modules
-  const config = initSite()
-  app.provide(valaxySiteConfigSymbol, config)
+  const config = initValaxyConfig()
+  app.provide(valaxyConfigSymbol, config)
 
-  const locale = useStorage('valaxy-locale', config.value.lang || 'en')
+  const locale = useStorage('valaxy-locale', config.value.siteConfig.lang || 'en')
 
   // init i18n, by valaxy config
   const i18n = createI18n({

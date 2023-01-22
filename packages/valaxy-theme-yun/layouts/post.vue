@@ -1,8 +1,8 @@
 <script lang="ts" setup>
 import { computed } from 'vue'
-import { useConfig, useFrontmatter, useFullUrl } from 'valaxy'
+import { useFrontmatter, useFullUrl, useSiteConfig } from 'valaxy'
 
-const config = useConfig()
+const siteConfig = useSiteConfig()
 const frontmatter = useFrontmatter()
 const url = useFullUrl()
 
@@ -10,7 +10,7 @@ const showSponsor = computed(() => {
   if (typeof frontmatter.value.sponsor === 'boolean')
     return frontmatter.value.sponsor
 
-  return config.value.sponsor.enable
+  return siteConfig.value.sponsor.enable
 })
 </script>
 
@@ -24,7 +24,7 @@ const showSponsor = computed(() => {
 
     <template #main-content-after>
       <YunSponsor v-if="showSponsor" m="t-6" />
-      <ValaxyCopyright v-if="frontmatter.copyright || config.license.enabled" :url="url" m="y-4" />
+      <ValaxyCopyright v-if="frontmatter.copyright || siteConfig.license.enabled" :url="url" m="y-4" />
     </template>
 
     <template #aside-custom>

@@ -52,7 +52,7 @@ export async function getIndexHtml({ clientRoot, themeRoot, userRoot, config }: 
 
   const roots = [userRoot, themeRoot]
 
-  if (config.mode === 'auto') {
+  if (config.siteConfig.mode === 'auto') {
     head += `
     <script>
     (function () {
@@ -65,11 +65,11 @@ export async function getIndexHtml({ clientRoot, themeRoot, userRoot, config }: 
     `
   }
 
-  if (config.lang) {
+  if (config.siteConfig.lang) {
     head += `
     <script>
     (function () {
-      const locale = localStorage.getItem('valaxy-locale') || '${config.lang}'
+      const locale = localStorage.getItem('valaxy-locale') || '${config.siteConfig.lang}'
       document.documentElement.setAttribute('lang', locale)
     })()
     </script>

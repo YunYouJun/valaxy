@@ -47,7 +47,7 @@ export function createConfigPlugin(options: ResolvedValaxyOptions): Plugin {
 
             // internal
             'valaxy',
-            '/@valaxyjs/site',
+            '/@valaxyjs/config',
             '/@valaxyjs/context',
           ],
         },
@@ -111,7 +111,6 @@ export function getDefine(options: ResolvedValaxyOptions): Record<string, any> {
 
   return {
     __DEV__: options.mode === 'dev' ? 'true' : 'false',
-    __ALGOLIA__: options.config?.search?.type === 'algolia',
   }
 }
 

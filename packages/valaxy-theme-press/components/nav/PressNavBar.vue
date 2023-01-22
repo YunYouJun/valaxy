@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { useConfig, useSidebar } from 'valaxy'
+import { useSidebar, useSiteConfig } from 'valaxy'
 import { useThemeConfig } from '../../composables'
 
 defineProps<{
@@ -12,15 +12,15 @@ defineEmits<{
 
 const { hasSidebar } = useSidebar()
 
-const config = useConfig()
+const siteConfig = useSiteConfig()
 const themeConfig = useThemeConfig()
 </script>
 
 <template>
   <div class="pr-navbar flex justify-between items-center pl-4 pr-2" :class="{ 'has-sidebar': hasSidebar }">
-    <router-link class="text-xl flex justify-center items-center" to="/" :aria-label="config.title">
+    <router-link class="text-xl flex justify-center items-center" to="/" :aria-label="siteConfig.title">
       <img v-if="themeConfig.logo" class="logo" :src="themeConfig.logo" alt="LOGO">
-      <span class="inline-flex">{{ config.title }}</span>
+      <span class="inline-flex">{{ siteConfig.title }}</span>
     </router-link>
     <div class="self-stretch flex justify-center items-center text-sm leading-5">
       <PressNavBarMenu p="x-2" />

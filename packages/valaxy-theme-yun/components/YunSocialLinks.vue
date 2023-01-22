@@ -1,12 +1,12 @@
 <script lang="ts" setup>
-import { useConfig } from 'valaxy'
+import { useSiteConfig } from 'valaxy'
 
-const config = useConfig()
+const siteConfig = useSiteConfig()
 </script>
 
 <template>
   <div class="links-of-author">
-    <a v-for="item, i in config.social" :key="i" class="links-of-author-item yun-icon-btn" rel="noopener" :href="item.link" :title="item.name" target="_blank" :style="`color:${item.color}`">
+    <a v-for="item, i in siteConfig.social" :key="i" class="links-of-author-item yun-icon-btn" rel="noopener" :href="item.link" :title="item.name" target="_blank" :style="`color:${item.color}`">
       <div class="icon" :class="item.icon" />
     </a>
   </div>

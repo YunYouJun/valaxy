@@ -1,10 +1,10 @@
 <script lang="ts" setup>
 import { computed } from '@vue/reactivity'
-import { useConfig } from 'valaxy'
+import { useSiteConfig } from 'valaxy'
 import { onMounted, onUnmounted, ref } from 'vue'
 import { useI18n } from 'vue-i18n'
 
-const config = useConfig()
+const siteConfig = useSiteConfig()
 const { t } = useI18n()
 
 // to avoid loading the docsearch js upfront (which is more than 1/3 of the
@@ -17,7 +17,7 @@ function load() {
     loaded.value = true
 }
 
-const isAlgolia = computed(() => config.value.search.type === 'algolia')
+const isAlgolia = computed(() => siteConfig.value.search.type === 'algolia')
 
 onMounted(() => {
   if (!isAlgolia.value)

@@ -32,12 +32,14 @@ export const createSafelist = async (options: ResolvedValaxyOptions) => {
     'rotate-y-180',
   ]).concat(safeIcons)
 
+  const siteConfig = config.siteConfig
+
   // generate icon safelist
-  if (config.social?.length)
-    config.social.forEach(item => safelist.push(item?.icon || ''))
+  if (siteConfig.social?.length)
+    siteConfig.social.forEach(item => safelist.push(item?.icon || ''))
 
   // sponsor icon
-  const methods = config.sponsor?.methods || []
+  const methods = siteConfig.sponsor?.methods || []
   if (methods.length)
     methods.forEach(item => safelist.push(item?.icon || ''))
 

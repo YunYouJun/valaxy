@@ -30,7 +30,7 @@ More info see [valaxy.site](https://valaxy.site).
  * User Config
  * do not use export const, because c12 will set as child property
  */
-const config: UserConfig<ThemeUserConfig> = {
+const config: UserConfig<UserThemeConfig> = {
   theme: 'yun',
 
   themeConfig: {

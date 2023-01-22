@@ -2,7 +2,7 @@ import { isClient, useScriptTag } from '@vueuse/core'
 import { computed } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { useRoute } from 'vue-router'
-import { useConfig } from '../..'
+import { useSiteConfig } from '../..'
 
 declare global {
   interface Window {
@@ -24,8 +24,8 @@ declare global {
  * @param options
  */
 export function useTwikoo(options: {} = {}) {
-  const config = useConfig()
-  const cdnPrefix = computed(() => config.value.cdn.prefix)
+  const siteConfig = useSiteConfig()
+  const cdnPrefix = computed(() => siteConfig.value.cdn.prefix)
 
   const route = useRoute()
   const { locale } = useI18n()

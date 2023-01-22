@@ -145,4 +145,4 @@ export interface ThemeConfig {
   }
 }
 
-export type ThemeUserConfig = Partial<ThemeConfig>
+export type UserThemeConfig = Partial<ThemeConfig>

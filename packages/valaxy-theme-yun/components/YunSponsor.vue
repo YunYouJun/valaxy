@@ -1,10 +1,10 @@
 <script lang="ts" setup>
-import { useConfig } from 'valaxy'
+import { useSiteConfig } from 'valaxy'
 import { ref } from 'vue'
 import { useI18n } from 'vue-i18n'
 const { t } = useI18n()
 
-const config = useConfig()
+const siteConfig = useSiteConfig()
 
 const showQr = ref(false)
 </script>
@@ -17,7 +17,7 @@ const showQr = ref(false)
 
     <div class="qrcode-container qrcode flex justify-around" m="y-4" :class="showQr && 'show'">
       <a
-        v-for="method, i in config.sponsor.methods" :key="i"
+        v-for="method, i in siteConfig.sponsor.methods" :key="i"
         class="flex flex-col justify-center items-center animate-iteration-1"
         :class="showQr && 'animate-fade-in'"
         :href="method.url" target="_blank"

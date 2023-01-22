@@ -84,4 +84,4 @@ export type NavItem = NavItemLink | NavItemGroup
  * Theme Config
  */
 export type ThemeConfig = PressTheme.Config
-export type ThemeUserConfig = Partial<ThemeConfig>
+export type UserThemeConfig = Partial<ThemeConfig>

@@ -1,14 +1,14 @@
 <script lang="ts" setup>
-import { useConfig } from 'valaxy'
+import { useRuntimeConfig } from 'valaxy'
 import { computed } from 'vue'
 import { useRoute } from 'vue-router'
 
 import { useI18n } from 'vue-i18n'
 
 const route = useRoute()
-const config = useConfig()
+const runtimeConfig = useRuntimeConfig()
 
-const addonWaline = computed(() => config.value.runtime.addons['valaxy-addon-waline'])
+const addonWaline = computed(() => runtimeConfig.value.addons['valaxy-addon-waline'])
 
 const { t } = useI18n()
 </script>

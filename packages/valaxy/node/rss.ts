@@ -25,31 +25,32 @@ const markdown = MarkdownIt({
  */
 export async function build(options: ResolvedValaxyOptions) {
   const { config } = options
+  const siteConfig = config.siteConfig
 
-  if (!config.url || config.url === '/') {
-    consola.error('You must set `url` (like `https://example.com`) in `valaxy.config.ts` to generate rss.')
+  if (!siteConfig.url || siteConfig.url === '/') {
+    consola.error('You must set `url` (like `https://example.com`) in `site.config.ts` to generate rss.')
     return
   }
 
   // url has been ensured '/'
-  const siteUrl = config.url
-  const DOMAIN = config.url.slice(0, -1)
+  const siteUrl = siteConfig.url
+  const DOMAIN = siteConfig.url.slice(0, -1)
 
   const author: Author = {
-    name: config?.author?.name,
-    email: config?.author?.email,
-    link: config?.author?.link,
+    name: siteConfig.author?.name,
+    email: siteConfig.author?.email,
+    link: siteConfig.author?.link,
   }
 
   consola.info(`RSS Site Url: ${cyan(siteUrl)}`)
 
-  const ccVersion = (config.license?.type === 'zero') ? '1.0' : '4.0'
+  const ccVersion = (siteConfig.license?.type === 'zero') ? '1.0' : '4.0'
   const feedOptions: FeedOptions = {
-    title: config.title || 'Valaxy Blog',
-    description: config.description,
+    title: siteConfig.title || 'Valaxy Blog',
+    description: siteConfig.description,
     id: siteUrl || 'valaxy',
     link: siteUrl,
-    copyright: `CC ${config.license?.type?.toUpperCase()} ${ccVersion} ${new Date().getFullYear()} © ${config.author?.name}`,
+    copyright: `CC ${siteConfig.license?.type?.toUpperCase()} ${ccVersion} ${new Date().getFullYear()} © ${siteConfig.author?.name}`,
     feedLinks: {
       json: `${siteUrl}feed.json`,
       atom: `${siteUrl}feed.atom`,
@@ -71,7 +72,7 @@ export async function build(options: ResolvedValaxyOptions) {
       continue
     }
 
-    await formatMdDate(data, i, config.date?.format, config.lastUpdated)
+    await formatMdDate(data, i, siteConfig.date?.format, siteConfig.lastUpdated)
 
     // todo i18n
 
@@ -100,29 +101,29 @@ export async function build(options: ResolvedValaxyOptions) {
   // await writeFeed('feed', feedOptions, posts)
 
   // write
-  const authorAvatar = config.author?.avatar || '/favicon.svg'
+  const authorAvatar = siteConfig.author?.avatar || '/favicon.svg'
   feedOptions.author = author
   feedOptions.image = isExternal(authorAvatar)
-    ? config.author?.avatar
+    ? siteConfig.author?.avatar
     : `${DOMAIN}${ensurePrefix('/', authorAvatar)}`
-  feedOptions.favicon = `${DOMAIN}${config.feed?.favicon || config.favicon}`
+  feedOptions.favicon = `${DOMAIN}${siteConfig.feed?.favicon || siteConfig.favicon}`
 
   const feed = new Feed(feedOptions)
   posts.forEach(item => feed.addItem(item))
   // items.forEach(i=> console.log(i.title, i.date))
 
-  await fs.ensureDir(dirname(`./dist/${config.feed?.name} || 'feed.xml'`))
+  await fs.ensureDir(dirname(`./dist/${siteConfig.feed?.name} || 'feed.xml'`))
   const path = './dist'
 
   const types = ['xml', 'atom', 'json']
   types.forEach((type) => {
     let data = ''
-    let name = `${path}/${config.feed?.name || 'feed'}.${type}`
+    let name = `${path}/${siteConfig.feed?.name || 'feed'}.${type}`
     if (type === 'xml') {
       data = feed.rss2()
     }
     else if (type === 'atom') {
-      if (!config.feed?.name)
+      if (!siteConfig.feed?.name)
         name = `${path}/atom.xml`
       data = feed.atom1()
     }

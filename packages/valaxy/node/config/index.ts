@@ -1,30 +1,23 @@
 import type { VitePluginConfig as UnoCssConfig } from 'unocss/vite'
 import type { Awaitable } from '@antfu/utils'
 import type { SiteConfig, UserSiteConfig } from '../../types'
-import type { UserConfig } from '../types'
+import type { UserValaxyNodeConfig } from '../types'
 
 export * from './addon'
 
 /**
- * Type site helper
+ * Type helper for site.config.ts
+ * @param config
+ * @returns
  */
-export function defineSite<ThemeConfig>(config: UserSiteConfig<ThemeConfig>) {
+export function defineSiteConfig(config: UserSiteConfig) {
   return config
 }
 
 /**
- * Type site helper for custom theme site
+ * Type helper for valaxy.config.ts
  */
-export function defineSiteWithTheme<ThemeConfig>(
-  config: UserSiteConfig<ThemeConfig>,
-) {
-  return config
-}
-
-/**
- * Type valaxy config helper
- */
-export function defineValaxyConfig<ThemeConfig>(config: UserConfig<ThemeConfig>) {
+export function defineValaxyConfig<ThemeConfig>(config: UserValaxyNodeConfig<ThemeConfig>) {
   return config
 }
 export const defineConfig = defineValaxyConfig
@@ -58,7 +51,6 @@ export const defaultSiteConfig: SiteConfig = {
     format: '',
   },
   lastUpdated: true,
-  ignoreDeadLinks: true,
 
   license: {
     enabled: true,
@@ -88,6 +80,10 @@ export const defaultSiteConfig: SiteConfig = {
   features: {
     katex: true,
   },
+}
+
+export const defaultValaxyConfig = {
+  ignoreDeadLinks: true,
 
   theme: 'yun',
   themeConfig: {
@@ -100,7 +96,7 @@ export const defaultSiteConfig: SiteConfig = {
   // markdown: {
   //   excerpt: '<!-- more -->',
   // },
-  runtime: { addons: {} },
+  runtimeConfig: { addons: {} },
 }
 
 export type UnoSetup = () => Awaitable<Partial<UnoCssConfig> | undefined>

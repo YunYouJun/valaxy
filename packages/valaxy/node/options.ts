@@ -4,13 +4,14 @@ import _debug from 'debug'
 import fg from 'fast-glob'
 import { ensureSuffix, uniq } from '@antfu/utils'
 import defu from 'defu'
-import type { DefaultThemeConfig, ValaxyAddon } from '../types'
+import type { DefaultThemeConfig, RuntimeConfig } from '../types'
 import { resolveImportPath } from './utils'
 import { mergeValaxyConfig, resolveAddonConfig, resolveValaxyConfig, resolveValaxyConfigFromRoot } from './utils/config'
-import type { ValaxyAddonResolver, ValaxyConfig } from './types'
-import { defaultSiteConfig } from './config'
+import type { ValaxyAddonResolver, ValaxyNodeConfig } from './types'
+import { defaultValaxyConfig } from './config'
 import { parseAddons } from './utils/addons'
 import { getThemeRoot } from './utils/theme'
+import { resolveSiteConfig } from './config/site'
 
 // for cli entry
 export interface ValaxyEntryOptions {
@@ -18,7 +19,7 @@ export interface ValaxyEntryOptions {
    * theme name
    */
   theme?: string
-  userRoot?: string
+  userRoot: string
 }
 
 export interface ResolvedValaxyOptions<ThemeConfig = DefaultThemeConfig> {
@@ -53,16 +54,17 @@ export interface ResolvedValaxyOptions<ThemeConfig = DefaultThemeConfig> {
   /**
    * Valaxy Config
    */
-  config: ValaxyConfig<ThemeConfig> & {
+  config: ValaxyNodeConfig<ThemeConfig> & {
     /**
      * Generated Runtime Config
      */
-    runtime: { addons: Record<string, ValaxyAddon> }
+    runtimeConfig: RuntimeConfig
   }
   /**
    * config file path
    */
   configFile: string
+  siteConfigFile: string
   pages: string[]
   /**
    * all addons
@@ -72,18 +74,25 @@ export interface ResolvedValaxyOptions<ThemeConfig = DefaultThemeConfig> {
 }
 
 export interface ValaxyServerOptions {
-  onConfigReload?: (newConfig: ValaxyConfig, config: ValaxyConfig, force?: boolean) => void
+  onConfigReload?: (newConfig: ValaxyNodeConfig, config: ValaxyNodeConfig, force?: boolean) => void
 }
 
 const debug = _debug('valaxy:options')
 
 // for cli options
-export async function resolveOptions(options: ValaxyEntryOptions, mode: ResolvedValaxyOptions['mode'] = 'dev') {
+export async function resolveOptions(
+  options: ValaxyEntryOptions = { userRoot: process.cwd() },
+  mode: ResolvedValaxyOptions['mode'] = 'dev',
+) {
   const pkgRoot = dirname(resolveImportPath('valaxy/package.json', true))
   const clientRoot = resolve(pkgRoot, 'client')
   const userRoot = resolve(options.userRoot || process.cwd())
 
-  const { config: userValaxyConfig, configFile, theme } = await resolveValaxyConfig(options)
+  let { config: userValaxyConfig, configFile, theme } = await resolveValaxyConfig(options)
+  const { siteConfig, siteConfigFile } = await resolveSiteConfig(options.userRoot)
+
+  // merge with valaxy
+  userValaxyConfig = defu<ValaxyNodeConfig, any>({ siteConfig }, userValaxyConfig)
 
   const themeRoot = getThemeRoot(theme, options.userRoot)
 
@@ -111,9 +120,10 @@ export async function resolveOptions(options: ValaxyEntryOptions, mode: Resolved
     theme,
     config: {
       ...userValaxyConfig,
-      runtime: { addons: {} },
+      runtimeConfig: { addons: {} },
     },
     configFile: configFile || '',
+    siteConfigFile: siteConfigFile || '',
     pages,
     addons: [],
   }
@@ -128,17 +138,17 @@ export async function resolveOptions(options: ValaxyEntryOptions, mode: Resolved
   const addonValaxyConfig = await resolveAddonConfig(addons, valaxyOptions)
   valaxyConfig = mergeValaxyConfig(valaxyConfig, addonValaxyConfig)
 
-  const config = defu(valaxyConfig, defaultSiteConfig)
+  const config = defu(valaxyConfig, defaultValaxyConfig)
   valaxyOptions.config = {
     ...config,
-    runtime: {
+    runtimeConfig: {
       addons: {},
     },
   }
   valaxyOptions.addons = addons
 
   addons.forEach((addon) => {
-    valaxyOptions.config.runtime.addons[addon.name] = addon
+    valaxyOptions.config.runtimeConfig.addons[addon.name] = addon
   })
 
   const addonRoots = addons.map(({ root }) => root)
@@ -157,10 +167,11 @@ export async function resolveOptions(options: ValaxyEntryOptions, mode: Resolved
 async function processSiteConfig(options: ResolvedValaxyOptions) {
   const { config, themeRoot, theme } = options
 
+  const siteConfig = config.siteConfig
   // optimize config
-  config.url = ensureSuffix('/', config.url || '')
+  siteConfig.url = ensureSuffix('/', siteConfig.url || '')
   // ensure suffix for cdn prefix
-  config.cdn!.prefix = ensureSuffix('/', config.cdn!.prefix || '')
+  siteConfig.cdn!.prefix = ensureSuffix('/', siteConfig.cdn!.prefix || '')
 
   // mount pkg info
   const themePkgPath = resolve(themeRoot, 'package.json')

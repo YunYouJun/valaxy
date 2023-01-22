@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import { computed } from 'vue'
 import { useI18n } from 'vue-i18n'
-import { useConfig } from '../config'
+import { useSiteConfig } from '../config'
 
 withDefaults(defineProps<{
   url?: string
@@ -11,17 +11,17 @@ withDefaults(defineProps<{
 
 const { t, locale } = useI18n()
 
-const config = useConfig()
+const siteConfig = useSiteConfig()
 
-const ccVersion = (config.value.license.type === 'zero') ? '1.0' : '4.0'
-const ccPrefix = (config.value.license.type === 'zero') ? 'publicdomain' : 'licenses'
+const ccVersion = (siteConfig.value.license.type === 'zero') ? '1.0' : '4.0'
+const ccPrefix = (siteConfig.value.license.type === 'zero') ? 'publicdomain' : 'licenses'
 const ccURL = computed(() => {
-  const ccLang = config.value.license.language ? config.value.license.language : (locale.value === 'zh-CN') ? 'zh' : 'en'
-  return `https://creativecommons.org/${ccPrefix}/${config.value.license.type}/${ccVersion}/deed.${ccLang}`
+  const ccLang = siteConfig.value.license.language ? siteConfig.value.license.language : (locale.value === 'zh-CN') ? 'zh' : 'en'
+  return `https://creativecommons.org/${ccPrefix}/${siteConfig.value.license.type}/${ccVersion}/deed.${ccLang}`
 })
 
 const licenseHtml = computed(() => {
-  return t('post.copyright.license_content', [`<a href="${ccURL.value}" target="_blank" rel="noopener" title="CC ${`${config.value.license.type.toUpperCase()} ${ccVersion}`} ">CC ${config.value.license.type.toUpperCase()}</a>`])
+  return t('post.copyright.license_content', [`<a href="${ccURL.value}" target="_blank" rel="noopener" title="CC ${`${siteConfig.value.license.type.toUpperCase()} ${ccVersion}`} ">CC ${siteConfig.value.license.type.toUpperCase()}</a>`])
 })
 </script>
 
@@ -31,7 +31,7 @@ const licenseHtml = computed(() => {
       <strong>
         {{ t('post.copyright.author') + t('symbol.colon') }}
       </strong>
-      <span>{{ config.author.name }}</span>
+      <span>{{ siteConfig.author.name }}</span>
     </li>
     <li v-if="url" class="post-copyright-link">
       <strong>

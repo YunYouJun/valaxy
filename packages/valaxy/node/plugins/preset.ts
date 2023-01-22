@@ -12,6 +12,7 @@ import Components from 'unplugin-vue-components/vite'
 import VueI18n from '@intlify/unplugin-vue-i18n/vite'
 
 import dayjs from 'dayjs'
+// import { convert } from 'html-to-text'
 import type { ValaxyExtendConfig } from '../types'
 import type { ResolvedValaxyOptions, ValaxyServerOptions } from '../options'
 import { setupMarkdownPlugins } from '../markdown'
@@ -147,8 +148,8 @@ export async function ViteValaxyPlugins(
           //   options.config.date.format,
           //   options.config.lastUpdated,
           // )
-          const lastUpdated = options.config.lastUpdated
-          const format = options.config.date?.format
+          const lastUpdated = options.config.siteConfig.lastUpdated
+          const format = options.config.siteConfig.date?.format
           if (!data.date)
             data.date = fs.statSync(path).mtime
 
@@ -166,6 +167,7 @@ export async function ViteValaxyPlugins(
           route.meta = Object.assign(route.meta, {
             frontmatter: Object.assign(defaultFrontmatter, data),
             excerpt: excerpt ? mdIt.render(excerpt) : '',
+            // excerpt: convert(excerpt ? mdIt.render(excerpt) : '') || '',
           })
 
           // set layout

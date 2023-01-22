@@ -35,7 +35,7 @@ export async function ssgBuild(
     onFinished() {
       generateSitemap(
         {
-          hostname: options.config.url,
+          hostname: options.config.siteConfig.url,
         },
       )
     },

@@ -1,13 +1,13 @@
 <script lang="ts" setup>
 import type { PageData, Post } from 'valaxy'
-import { useConfig, useFrontmatter, useLayout, useSidebar } from 'valaxy'
+import { useFrontmatter, useLayout, useSidebar, useSiteConfig } from 'valaxy'
 
 defineProps<{
   frontmatter: Post
   data?: PageData
 }>()
 
-const config = useConfig()
+const siteConfig = useSiteConfig()
 const frontmatter = useFrontmatter()
 
 const { hasSidebar } = useSidebar()
@@ -52,7 +52,7 @@ const isHome = useLayout('home')
 
         <slot name="main-nav-after" />
 
-        <slot v-if="config.comment.enable && frontmatter.comment !== false" name="comment" />
+        <slot v-if="siteConfig.comment.enable && frontmatter.comment !== false" name="comment" />
 
         <slot name="footer" />
       </slot>
