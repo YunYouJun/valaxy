@@ -41,7 +41,7 @@ function scrollToTop() {
   position: sticky;
   top: 0;
   left: 0;
-  z-index: var(--pr-z-index-local-nav);
+  z-index: var(--pr-z-local-nav);
   display: flex;
   justify-content: space-between;
   align-items: center;

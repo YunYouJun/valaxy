@@ -22,7 +22,7 @@ const app = useAppStore()
     class="press-aside lt-xl:fixed shadow
     press-card xl:(shadow-none hover:shadow-none) hover:shadow-lg"
     p="l-0 xl:l-8" text="center"
-    z="5"
+    z="$"
     :class="app.isRightSidebarOpen && 'open'"
   >
     <div class="aside-container lt-xl:fixed" flex="~ col">
@@ -46,7 +46,7 @@ const app = useAppStore()
   top: 0;
   bottom: 0;
   right: 0;
-  z-index: var(--pr-z-index-aside);
+  z-index: var(--pr-z-aside);
   width: var(--va-aside-width);
 
   transform: translateX(100%);

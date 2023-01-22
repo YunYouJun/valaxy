@@ -26,5 +26,6 @@
   "[scss]": {
     "editor.formatOnSave": true
   },
-  "svg.preview.background": "editor"
+  "svg.preview.background": "editor",
+  "typescript.tsdk": "node_modules/typescript/lib"
 }

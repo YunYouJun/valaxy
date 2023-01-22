@@ -46,6 +46,8 @@ const displayTag = (tag: string) => {
 }
 
 const title = usePostTitle(frontmatter)
+
+// use flex to fix `overflow-wrap: break-words;` not working in Safari
 </script>
 
 <template>
@@ -62,9 +64,15 @@ const title = usePostTitle(frontmatter)
         {{ t('counter.tags', Array.from(tags).length) }}
       </div>
 
-      <div text="center" class="break-words">
-        <span v-for="[key, tag] in Array.from(tags).sort()" :key="key" class="post-tag cursor-pointer" :style="getTagStyle(tag.count)" p="1" @click="displayTag(key.toString())">
-          #{{ key }}<span text="xs">[{{ tag.count }}]</span>
+      <div class="justify-center items-end" flex="~ wrap" gap="1">
+        <span
+          v-for="[key, tag] in Array.from(tags).sort()"
+          :key="key"
+          inline-flex my="2"
+          class="post-tag cursor-pointer items-baseline leading-4" :style="getTagStyle(tag.count)" p="1" @click="displayTag(key.toString())"
+        >
+          <span inline-flex>#{{ key }}</span>
+          <span inline-flex text="xs">[{{ tag.count }}]</span>
         </span>
       </div>
 

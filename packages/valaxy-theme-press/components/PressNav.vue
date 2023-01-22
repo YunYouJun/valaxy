@@ -29,7 +29,7 @@ const classes = computed(() => ({
 @use 'valaxy/client/styles/mixins' as *;
 
 .press-nav {
-  z-index: var(--pr-z-index-nav);
+  z-index: var(--pr-z-nav);
 }
 
 .pr-Nav.fill-bg {

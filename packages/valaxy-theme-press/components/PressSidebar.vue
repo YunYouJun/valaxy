@@ -49,7 +49,7 @@ const { hasSidebar } = useSidebar()
   left: 0;
   padding: 1rem;
   top: var(--pr-nav-height);
-  z-index: var(--pr-z-index-sidebar);
+  z-index: var(--pr-z-sidebar);
   width: calc(100vw - 64px);
   max-width: 320px;
   background-color: var(--va-c-bg);

@@ -24,12 +24,12 @@
   --pr-nav-screen-bg-color: var(--pr-c-bg);
 
   // z-index
-  --va-z-overlay: var(--pr-z-index-backdrop);
-  --pr-z-index-local-nav: 8;
-  --pr-z-index-nav: 9;
-  --pr-z-index-backdrop: 10;
-  --pr-z-index-aside: 11;
-  --pr-z-index-sidebar: 12;
+  --va-z-overlay: var(--pr-z-backdrop);
+  --pr-z-local-nav: 8;
+  --pr-z-nav: 9;
+  --pr-z-backdrop: 10;
+  --pr-z-aside: 11;
+  --pr-z-sidebar: 12;
 
   // switch
   --pr-switch-divider: rgba(60, 60, 60, 0.29);
