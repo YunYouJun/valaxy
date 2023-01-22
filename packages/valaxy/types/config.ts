@@ -135,16 +135,6 @@ export interface SiteConfig {
   }
 
   /**
-   * Markdown Feature
-   */
-  features: {
-    /**
-     * enable katex for global
-     */
-    katex: boolean
-  }
-
-  /**
    * third-party plugin need cdn
    * aplayer, twikoo
    * @default 'https://unpkg.com/'

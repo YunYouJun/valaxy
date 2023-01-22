@@ -17,6 +17,16 @@ export type ValaxyConfigFn<ThemeConfig = DefaultThemeConfig> = (options: Resolve
 export type ValaxyConfigExport<ThemeConfig = DefaultThemeConfig> = ValaxyNodeConfig<ThemeConfig> | ValaxyConfigFn<ThemeConfig>
 
 export interface ValaxyExtendConfig {
+  /**
+   * Markdown Feature
+   */
+  features: {
+    /**
+     * enable katex for global
+     */
+    katex: boolean
+  }
+
   vite?: ViteUserConfig
   vue?: Parameters<typeof Vue>[0]
   components?: Parameters<typeof Components>[0]

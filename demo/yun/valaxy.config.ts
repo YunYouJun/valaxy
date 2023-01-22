@@ -11,7 +11,8 @@ const safelist = [
 ]
 
 export default defineValaxyConfig<ThemeConfig>({
-  // site config see site.config.ts
+  // site config see site.config.ts or write in siteConfig
+  // siteConfig: {},
 
   theme: 'yun',
   themeConfig: {

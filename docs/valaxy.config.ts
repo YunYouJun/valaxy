@@ -11,14 +11,16 @@ const safelist = [
 ]
 
 export default defineValaxyConfig<PressTheme.Config>({
-  title: 'Valaxy',
-  url: 'https://valaxy.site',
-  description: 'Valaxy Site Docs',
+  siteConfig: {
+    title: 'Valaxy',
+    url: 'https://valaxy.site',
+    description: 'Valaxy Site Docs',
+  },
 
   theme: 'press',
   themeConfig: {
     logo: '/favicon.svg',
-    sidebar: ['Getting Started', 'Guide', 'Migration', 'built-ins', 'Third', 'Custom', 'Theme', 'Addon', 'Dev'],
+    sidebar: ['Getting Started', 'Guide', 'Config', 'Migration', 'built-ins', 'Third', 'Custom', 'Theme', 'Addon', 'Dev'],
     socialLinks: [
       { icon: 'i-ri-github-line', link: 'https://github.com/YunYouJun/valaxy' },
     ],
