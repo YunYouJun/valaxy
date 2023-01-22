@@ -43,6 +43,9 @@ function genReplaceRegexp(
  * @see https://vitejs.dev/guide/env-and-mode.html#production-replacement
  */
 function replaceConstants(str: string, replaceRegex: RegExp, breaker: string) {
+  // replace a to AppLink
+  str = str.replace(/<a (.*?)>(.*?)<\/a>/g, '<AppLink $1>$2</AppLink>')
+
   return str.replace(replaceRegex, _ => `${_[0]}${breaker}${_.slice(1)}`)
 }
 
