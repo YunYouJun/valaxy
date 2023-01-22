@@ -1,0 +1,12 @@
+{
+  "name": "valaxy-addon-components",
+  "version": "0.0.1",
+  "description": "Common Components for Valaxy",
+  "repository": "https://github.com/YunYouJun/valaxy/tree/main/packages/valaxy-addon-components",
+  "keywords": [
+    "valaxy",
+    "addon",
+    "components"
+  ],
+  "main": "index.ts"
+}

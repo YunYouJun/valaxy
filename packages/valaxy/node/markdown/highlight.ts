@@ -59,7 +59,7 @@ const errorLevelProcessor = defineProcessor({
 
 export async function highlight(
   theme: ThemeOptions = 'material-palenight',
-  defaultLang = '',
+  defaultLang = 'txt',
 ): Promise<(str: string, lang: string, attrs: string) => string> {
   const hasSingleTheme = typeof theme === 'string' || 'name' in theme
   const getThemeName = (themeValue: IThemeRegistration) =>
@@ -91,13 +91,15 @@ export async function highlight(
     if (lang) {
       const langLoaded = highlighter.getLoadedLanguages().includes(lang as any)
       if (!langLoaded) {
-        console.warn(
-          c.yellow(
-            `The language '${lang}' is not loaded, falling back to '${
-              defaultLang || 'txt'
-            }' for syntax highlighting.`,
-          ),
-        )
+        if (lang !== defaultLang) {
+          console.warn(
+            c.yellow(
+              `The language '${lang}' is not loaded, falling back to '${
+                defaultLang
+              }' for syntax highlighting.`,
+            ),
+          )
+        }
         lang = defaultLang
       }
     }

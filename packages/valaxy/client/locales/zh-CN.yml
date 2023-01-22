@@ -102,7 +102,7 @@ wordcount:
   time_total: 站点阅读时长
 
 time:
-  day: 1 天 | %d 天
-  hour: 1 小时 | %d 小时
-  minute: 1 分 | %d 分
-  second: 1 秒 | %d 秒
+  day: 1 天 | {count} 天
+  hour: 1 小时 | {count} 小时
+  minute: 1 分 | {count} 分
+  second: 1 秒 | {count} 秒

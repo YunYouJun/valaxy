@@ -103,7 +103,7 @@ wordcount:
   time_total: Total reading time
 
 time:
-  day: 1 Day | %d Days
-  hour: 1 Hour | %d Hours
-  minute: 1 Minute | %d Minutes
-  second: 1 Second | %d Seconds
+  day: 1 Day | {count} Days
+  hour: 1 Hour | {count} Hours
+  minute: 1 Minute | {count} Minutes
+  second: 1 Second | {count} Seconds

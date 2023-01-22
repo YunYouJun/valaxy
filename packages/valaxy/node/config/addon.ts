@@ -2,7 +2,9 @@ import type { DefaultThemeConfig, ValaxyAddon } from '../../types'
 import type { ResolvedValaxyOptions } from '../options'
 import type { ValaxyConfig } from '../types'
 
-export function defineValaxyAddon<AddonOptions = {}>(addonFunc: (addonOptions: AddonOptions, valaxyOptions?: ResolvedValaxyOptions) => ValaxyAddon) {
+export function defineValaxyAddon<AddonOptions = {}>(
+  addonFunc: (addonOptions?: AddonOptions, valaxyOptions?: ResolvedValaxyOptions) => ValaxyAddon,
+) {
   return addonFunc
 }
 export const defineAddon = defineValaxyAddon

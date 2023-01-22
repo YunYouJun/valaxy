@@ -102,3 +102,9 @@ const isPost = useLayout('post')
 ```
 
 原理即覆盖组件，您还可以自由覆盖主题的任意其他组件。
+
+### 其他
+
+[valaxy-addon-components](https://github.com/YunYouJun/valaxy/tree/main/packages/valaxy-addon-components) 也是一个充分利用该机制的插件，你也可以参考它的实现方式，以 Valaxy 插件的形式自由发布你的自定义组件。
+
+> 由于发布的是原生的 Vue 组件，所以打包时它将会完全是**按需**的，无需您额外担忧。

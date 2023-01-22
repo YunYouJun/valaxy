@@ -15,6 +15,7 @@
   "dependencies": {
     "valaxy": "link:../../packages/valaxy",
     "valaxy-addon-algolia": "link:../../packages/valaxy-addon-algolia",
+    "valaxy-addon-components": "link:../../packages/valaxy-addon-components",
     "valaxy-theme-yun": "link:../../packages/valaxy-theme-yun"
   },
   "devDependencies": {

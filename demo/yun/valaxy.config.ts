@@ -4,6 +4,7 @@ import type { ThemeConfig } from 'valaxy-theme-yun'
 import Inspect from 'vite-plugin-inspect'
 import { addonAlgolia } from 'valaxy-addon-algolia'
 import { addonWaline } from 'valaxy-addon-waline'
+import { addonComponents } from 'valaxy-addon-components'
 // import site from './site.config'
 
 const safelist = [
@@ -213,6 +214,7 @@ export default defineConfig<ThemeConfig>({
       apiKey: '805f2584a8866388aa1631ff0348ddae',
       indexName: 'valaxy',
     }),
+    addonComponents(),
     addonWaline({
       serverURL: 'https://waline.yunyoujun.cn',
       pageview: true,
