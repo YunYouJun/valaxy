@@ -133,6 +133,9 @@ export default defineConfig<ThemeConfig>({
     banner: {
       enable: true,
       title: '云游君的小站',
+      cloud: {
+        enable: 'true',
+      },
     },
 
     pages: [

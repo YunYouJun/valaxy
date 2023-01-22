@@ -27,6 +27,7 @@ $common: () !default;
 $common: map.merge(
   (
     "post-card-max-width": 900px,
+    "c-cloud": "white"
   ),
   $common
 );
@@ -35,7 +36,7 @@ $z-index: () !default;
 $z-index: map.merge(
   (
     "toc-btn": 7,
-    "cloud": 8,
+    "cloud": 7,
     "go-down": 9,
     "backdrop": 9,
     "sidebar": 10,
