@@ -7,7 +7,8 @@
 import { URL } from 'url'
 import type MarkdownIt from 'markdown-it'
 import type { MarkdownEnv } from '../env'
-import { EXTERNAL_URL_RE, PATHNAME_PROTOCOL_RE } from '../../utils'
+import { PATHNAME_PROTOCOL_RE } from '../../utils'
+import { EXTERNAL_URL_RE } from '../../../shared'
 
 const indexRE = /(^|.*\/)index.md(#?.*)$/i
 

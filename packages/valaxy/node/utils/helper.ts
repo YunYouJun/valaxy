@@ -1,4 +1,5 @@
-export const EXTERNAL_URL_RE = /^https?:/i
+import { EXTERNAL_URL_RE } from '../../shared'
+
 export const PATHNAME_PROTOCOL_RE = /^pathname:\/\//
 
 /**

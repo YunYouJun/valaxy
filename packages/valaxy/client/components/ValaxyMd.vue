@@ -3,7 +3,7 @@ import type { Ref } from 'vue'
 import { inject, onMounted, ref } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { useAplayer, useCodePen, useCopyCode, wrapTable } from '..'
-import type { Post } from '../../types'
+import type { Post } from '../..'
 
 const props = defineProps<{
   frontmatter: Post
