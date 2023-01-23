@@ -123,8 +123,9 @@ export interface SiteConfig {
      * - local: Local Search
      * - algolia: Algolia Search
      * - engine: Engine Search, like Google/Baidu
+     * - fuse: Fuse Search for local
      */
-    type: 'local' | 'algolia' | 'engine'
+    type: 'local' | 'algolia' | 'engine' | 'fuse'
   }
 
   /**

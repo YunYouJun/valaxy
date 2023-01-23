@@ -81,6 +81,7 @@ search:
   placeholder: Searching...
   empty: 'We could not find any results for the search: {query}.'
   hits_time: '{hits} results found in {time} ms'
+  hits: '{count} results found'
 
 symbol:
   comma: ', '

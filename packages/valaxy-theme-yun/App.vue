@@ -20,5 +20,5 @@ const themeConfig = useThemeConfig()
   <slot name="bg">
     <YunBg v-if="themeConfig.bg_image.enable" />
   </slot>
-  <YunSearch v-if="siteConfig.search.enable" />
+  <YunSearchTrigger v-if="siteConfig.search.enable" />
 </template>

@@ -15,6 +15,7 @@ export interface FuseListItem {
   author: string
   tags: string[]
   categories: string[]
+  link: string
 }
 
 export async function generateFuseList(options: ResolvedValaxyOptions) {
@@ -38,6 +39,8 @@ export async function generateFuseList(options: ResolvedValaxyOptions) {
       categories: data.categories || [],
       author: options.config.siteConfig.author.name,
       excerpt: excerpt || content.slice(0, 100),
+      // encode for chinese url
+      link: encodeURI(i.replace(`${options.userRoot}/pages`, '').replace(/\.md$/, '')),
     })
   }
 
@@ -61,7 +64,7 @@ export const registerFuseCommand = (cli: Argv<{}>) => {
       const fuseList = await generateFuseList(options)
 
       await fs.ensureDir('./dist')
-      const target = `${options.userRoot}/dist/fuseList.json`
+      const target = `${options.userRoot}/dist/fuse-list.json`
       fs.writeJSONSync(target, fuseList)
       consola.info(`Generate fuse list in ${dim(target)}`)
     },
