@@ -1,4 +1,4 @@
-import { join, relative } from 'path'
+import { join, relative, resolve } from 'path'
 import fs from 'fs-extra'
 
 import type { Plugin, ResolvedConfig } from 'vite'
@@ -7,8 +7,8 @@ import { pascalCase } from 'pascal-case'
 import { defu } from 'defu'
 import { defaultSiteConfig } from '../config'
 import type { ResolvedValaxyOptions, ValaxyServerOptions } from '../options'
-import { resolveOptions } from '../options'
-import { resolveImportPath, slash, toAtFS } from '../utils'
+import { processValaxyOptions, resolveOptions, resolveThemeValaxyConfig } from '../options'
+import { mergeValaxyConfig, resolveImportPath, slash, toAtFS } from '../utils'
 import { createMarkdownToVueRenderFn } from '../markdown/markdownToVue'
 import type { PageDataPayload, SiteConfig } from '../../types'
 import type { ValaxyNodeConfig } from '../types'
@@ -24,7 +24,7 @@ function generateStyles(roots: string[], options: ResolvedValaxyOptions) {
   const imports: string[] = []
 
   // katex
-  if (options.config.siteConfig.features?.katex) {
+  if (options.config.features?.katex) {
     imports.push(`import "${toAtFS(resolveImportPath('katex/dist/katex.min.css', true))}"`)
     imports.push(`import "${toAtFS(join(options.clientRoot, 'styles/third/katex.scss'))}"`)
   }
@@ -247,8 +247,10 @@ export function createValaxyPlugin(options: ResolvedValaxyOptions, serverOptions
         return moduleEntries
       }
 
+      const configFiles = [options.configFile]
+
       // handle valaxy.config.ts hmr
-      if (file === options.configFile) {
+      if (configFiles.includes(file)) {
         const { config } = await resolveOptions({ userRoot: options.userRoot })
         return reloadConfigAndEntries(config)
       }
@@ -258,6 +260,15 @@ export function createValaxyPlugin(options: ResolvedValaxyOptions, serverOptions
         valaxyConfig.siteConfig = defu<SiteConfig, [SiteConfig]>(siteConfig, defaultSiteConfig)
         return reloadConfigAndEntries(valaxyConfig)
       }
+
+      if (file === resolve(options.themeRoot, 'valaxy.config.ts')) {
+        const themeValaxyConfig = resolveThemeValaxyConfig(options)
+        const valaxyConfig = mergeValaxyConfig(options.config, themeValaxyConfig)
+        const { config } = await processValaxyOptions(options, valaxyConfig)
+        return reloadConfigAndEntries(config)
+      }
+
+      // if (file === options.siteConfigFile) {}
 
       // send headers
       if (file.endsWith('.md')) {

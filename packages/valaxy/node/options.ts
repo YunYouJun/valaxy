@@ -4,6 +4,8 @@ import _debug from 'debug'
 import fg from 'fast-glob'
 import { ensureSuffix, uniq } from '@antfu/utils'
 import defu from 'defu'
+import consola from 'consola'
+import { cyan, yellow } from 'kolorist'
 import type { DefaultThemeConfig, RuntimeConfig } from '../types'
 import { resolveImportPath } from './utils'
 import { mergeValaxyConfig, resolveAddonConfig, resolveValaxyConfig, resolveValaxyConfigFromRoot } from './utils/config'
@@ -79,6 +81,65 @@ export interface ValaxyServerOptions {
 
 const debug = _debug('valaxy:options')
 
+/**
+ * post process site config
+ * @param options
+ */
+async function processSiteConfig(options: ResolvedValaxyOptions) {
+  const { config, themeRoot, theme } = options
+
+  const siteConfig = config.siteConfig
+  // optimize config
+  siteConfig.url = ensureSuffix('/', siteConfig.url || '')
+  // ensure suffix for cdn prefix
+  siteConfig.cdn!.prefix = ensureSuffix('/', siteConfig.cdn!.prefix || '')
+
+  // mount pkg info
+  const themePkgPath = resolve(themeRoot, 'package.json')
+  try {
+    config.themeConfig!.pkg = await fs.readJson(themePkgPath, 'utf-8')
+  }
+  catch (e) {
+    console.error(`valaxy-theme-${theme} doesn't have package.json`)
+  }
+}
+
+/**
+ * Post process valaxyOptions
+ * @param valaxyOptions
+ * @param valaxyConfig
+ */
+export async function processValaxyOptions(valaxyOptions: ResolvedValaxyOptions, valaxyConfig: ValaxyNodeConfig) {
+  const { clientRoot, themeRoot, userRoot } = valaxyOptions
+
+  // resolve addon valaxyConfig
+  const addons = await parseAddons(valaxyConfig.addons || [], valaxyOptions.userRoot)
+  const addonValaxyConfig = await resolveAddonConfig(addons, valaxyOptions)
+  valaxyConfig = mergeValaxyConfig(valaxyConfig, addonValaxyConfig)
+
+  const config = defu(valaxyConfig, defaultValaxyConfig)
+  valaxyOptions.config = {
+    ...config,
+    runtimeConfig: {
+      addons: {},
+    },
+  }
+  valaxyOptions.addons = addons
+
+  addons.forEach((addon) => {
+    valaxyOptions.config.runtimeConfig.addons[addon.name] = addon
+  })
+
+  const addonRoots = addons.map(({ root }) => root)
+  valaxyOptions.addonRoots = addonRoots
+  // ensure order
+  valaxyOptions.roots = uniq([clientRoot, themeRoot, ...addonRoots, userRoot])
+
+  await processSiteConfig(valaxyOptions)
+
+  return valaxyOptions
+}
+
 // for cli options
 export async function resolveOptions(
   options: ValaxyEntryOptions = { userRoot: process.cwd() },
@@ -109,7 +170,7 @@ export async function resolveOptions(
     })
   ).sort()
 
-  const valaxyOptions: ResolvedValaxyOptions = {
+  let valaxyOptions: ResolvedValaxyOptions = {
     mode,
     pkgRoot,
     clientRoot,
@@ -130,55 +191,20 @@ export async function resolveOptions(
   debug(valaxyOptions)
 
   // resolve theme valaxy.config.ts and merge theme
-  const { config: themeValaxyConfig } = await resolveValaxyConfigFromRoot(themeRoot, valaxyOptions)
-  let valaxyConfig = mergeValaxyConfig(userValaxyConfig, themeValaxyConfig)
+  const themeValaxyConfig = await resolveThemeValaxyConfig(valaxyOptions)
+  const valaxyConfig = mergeValaxyConfig(userValaxyConfig, themeValaxyConfig)
 
-  // resolve addon valaxyConfig
-  const addons = await parseAddons(valaxyConfig.addons || [], valaxyOptions.userRoot)
-  const addonValaxyConfig = await resolveAddonConfig(addons, valaxyOptions)
-  valaxyConfig = mergeValaxyConfig(valaxyConfig, addonValaxyConfig)
-
-  const config = defu(valaxyConfig, defaultValaxyConfig)
-  valaxyOptions.config = {
-    ...config,
-    runtimeConfig: {
-      addons: {},
-    },
-  }
-  valaxyOptions.addons = addons
-
-  addons.forEach((addon) => {
-    valaxyOptions.config.runtimeConfig.addons[addon.name] = addon
-  })
-
-  const addonRoots = addons.map(({ root }) => root)
-  valaxyOptions.addonRoots = addonRoots
-  // ensure order
-  valaxyOptions.roots = uniq([clientRoot, themeRoot, ...addonRoots, userRoot])
-
-  await processSiteConfig(valaxyOptions)
+  valaxyOptions = await processValaxyOptions(valaxyOptions, valaxyConfig)
   return valaxyOptions
 }
 
 /**
- * post process site config
+ * resolve theme config
  * @param options
+ * @returns
  */
-async function processSiteConfig(options: ResolvedValaxyOptions) {
-  const { config, themeRoot, theme } = options
-
-  const siteConfig = config.siteConfig
-  // optimize config
-  siteConfig.url = ensureSuffix('/', siteConfig.url || '')
-  // ensure suffix for cdn prefix
-  siteConfig.cdn!.prefix = ensureSuffix('/', siteConfig.cdn!.prefix || '')
-
-  // mount pkg info
-  const themePkgPath = resolve(themeRoot, 'package.json')
-  try {
-    config.themeConfig!.pkg = await fs.readJson(themePkgPath, 'utf-8')
-  }
-  catch (e) {
-    console.error(`valaxy-theme-${theme} doesn't have package.json`)
-  }
+export async function resolveThemeValaxyConfig(options: ResolvedValaxyOptions) {
+  consola.info(`Resolve ${cyan('valaxy.config.ts')} from ${yellow(`theme(${options.theme})`)}`)
+  const { config: themeValaxyConfig } = await resolveValaxyConfigFromRoot(options.themeRoot, options)
+  return themeValaxyConfig
 }
