@@ -7,6 +7,7 @@ import consola from 'consola'
 
 export * from './getGitTimestamp'
 export * from './helper'
+export * from './config'
 
 /**
  * transform obj for vite code

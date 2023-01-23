@@ -161,3 +161,7 @@ export default defineValaxyConfig({
 ```
 
 - [KaTeX | 示例 - Example](/examples/katex)
+
+## 自动路由替换
+
+当 Valaxy 检测到文章的 a 链接为站内链接时，会自动将其替换为 `RouterLink`，享受丝滑的动态切换吧！
