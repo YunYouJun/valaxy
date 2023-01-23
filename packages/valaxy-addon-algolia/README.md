@@ -2,6 +2,10 @@
 
 [Algolia Search](https://www.algolia.com/) for [valaxy](https://valaxy.site).
 
+目前仅支持 [DocSearch](https://docsearch.algolia.com/)。
+
+> DocSearch 通常只接受技术文档的申请。
+
 ## Usage
 
 ```bash

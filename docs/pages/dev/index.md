@@ -12,8 +12,10 @@ end: false
 ## Todo
 
 - [ ] create-valaxy-theme: Script to generate theme template.
+- [ ] create-valaxy-addon: Script to generate addon template.
 - [ ] Debug component.
-- [ ] local search
+- [x] local search
+- [ ] algolia search for valaxy-theme-press
 
 ## Dev
 

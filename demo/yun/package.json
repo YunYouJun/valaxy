@@ -4,7 +4,7 @@
     "theme": "yun"
   },
   "scripts": {
-    "build": "npm run build:ssg && npm run rss",
+    "build": "npm run build:ssg && npm run rss && npm run fuse",
     "build:spa": "valaxy build",
     "build:ssg": "valaxy build --ssg",
     "dev": "nodemon -w \"../../packages/valaxy/dist/*.cjs\" --exec \"valaxy .\"",
