@@ -22,6 +22,7 @@ importers:
       valaxy: workspace:*
       valaxy-addon-algolia: workspace:*
       valaxy-addon-components: workspace:*
+      valaxy-addon-twikoo: workspace:*
       valaxy-addon-waline: workspace:*
       valaxy-theme-press: workspace:*
       valaxy-theme-yun: workspace:*
@@ -47,6 +48,7 @@ importers:
       valaxy: link:packages/valaxy
       valaxy-addon-algolia: link:packages/valaxy-addon-algolia
       valaxy-addon-components: link:packages/valaxy-addon-components
+      valaxy-addon-twikoo: link:packages/valaxy-addon-twikoo
       valaxy-addon-waline: link:packages/valaxy-addon-waline
       valaxy-theme-press: link:packages/valaxy-theme-press
       valaxy-theme-yun: link:packages/valaxy-theme-yun
@@ -60,12 +62,16 @@ importers:
       valaxy: link:../../packages/valaxy
       valaxy-addon-algolia: link:../../packages/valaxy-addon-algolia
       valaxy-addon-components: link:../../packages/valaxy-addon-components
+      valaxy-addon-twikoo: link:../../packages/valaxy-addon-twikoo
+      valaxy-addon-waline: link:../../packages/valaxy-addon-waline
       valaxy-theme-yun: link:../../packages/valaxy-theme-yun
       vite-plugin-inspect: ^0.7.14
     dependencies:
       valaxy: link:../../packages/valaxy
       valaxy-addon-algolia: link:../../packages/valaxy-addon-algolia
       valaxy-addon-components: link:../../packages/valaxy-addon-components
+      valaxy-addon-twikoo: link:../../packages/valaxy-addon-twikoo
+      valaxy-addon-waline: link:../../packages/valaxy-addon-waline
       valaxy-theme-yun: link:../../packages/valaxy-theme-yun
     devDependencies:
       nodemon: 2.0.20
@@ -251,6 +257,9 @@ importers:
       '@docsearch/js': 3.3.2
 
   packages/valaxy-addon-components:
+    specifiers: {}
+
+  packages/valaxy-addon-twikoo:
     specifiers: {}
 
   packages/valaxy-addon-waline:

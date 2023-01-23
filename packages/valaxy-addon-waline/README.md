@@ -12,24 +12,6 @@ valaxy-addon-waline 是基于 Waline 的一个 Valaxy 插件。
 npm i valaxy-addon-waline
 ```
 
-### 主题开发者
-
-主题开发者将其作为主题依赖后，用户仅需安装主题即可。
-
-当用户启用 `valaxy-addon-waline` 插件时，`<WalineClient />` 组件将会被自动注册。
-
-```vue
-<!-- YunWaline -->
-<script lang="ts" setup>
-import { useAddonWaline } from 'valaxy-addon-waline'
-const addon = useAddonWaline()
-</script>
-
-<template>
-  <WalineClient w="full" :options="addon.options" />
-</template>
-```
-
 ### 主题使用者
 
 用户启用 Waline 评论。
@@ -50,4 +32,20 @@ export default defineValaxyConfig({
     }),
   ],
 })
+```
+
+### 主题开发者
+
+当用户启用 `valaxy-addon-waline` 插件时，`<WalineClient />` 组件将会被自动注册。
+
+```vue
+<!-- YunWaline -->
+<script lang="ts" setup>
+import { useAddonWaline } from 'valaxy-addon-waline'
+const addon = useAddonWaline()
+</script>
+
+<template>
+  <WalineClient w="full" :options="addon.options" />
+</template>
 ```

@@ -1,8 +1,11 @@
 import { isClient, useScriptTag } from '@vueuse/core'
+import type { ComputedRef } from 'vue'
 import { computed } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { useRoute } from 'vue-router'
-import { useSiteConfig } from '../..'
+import { useSiteConfig } from 'valaxy'
+import type { TwikooOptions } from '../types'
+import { useAddonTwikoo } from './options'
 
 declare global {
   interface Window {
@@ -23,7 +26,7 @@ declare global {
  * @see https://twikoo.js.org/
  * @param options
  */
-export function useTwikoo(options: {} = {}) {
+export function useTwikoo(options: ComputedRef<TwikooOptions | undefined>, version = 'latest') {
   const siteConfig = useSiteConfig()
   const cdnPrefix = computed(() => siteConfig.value.cdn.prefix)
 
@@ -35,7 +38,7 @@ export function useTwikoo(options: {} = {}) {
    * @param options twikoo options
    * @returns
    */
-  function initTwikoo(options: {} = {}) {
+  function initTwikoo(twikooOptions: TwikooOptions) {
     if (!isClient)
       return
 
@@ -44,12 +47,19 @@ export function useTwikoo(options: {} = {}) {
       lang: locale.value,
       path: route.path,
     }
-    const twikooOptions = Object.assign(defaultOptions, options)
-    return window.twikoo.init(twikooOptions)
+    const newTwikooOptions = Object.assign(defaultOptions, twikooOptions || {})
+    return window.twikoo.init(newTwikooOptions)
   }
 
   // 直接使用 CDN
-  useScriptTag(`${cdnPrefix.value}twikoo@1.5.1/dist/twikoo.all.min.js`, () => {
-    initTwikoo(options)
+  useScriptTag(`${cdnPrefix.value}twikoo@${version}/dist/twikoo.all.min.js`, () => {
+    if (options.value)
+      initTwikoo(options.value)
   })
+}
+
+export function useTwikooWithOptions(version = 'latest') {
+  const addonTwikoo = useAddonTwikoo()
+  const options = computed(() => addonTwikoo.value.options)
+  useTwikoo(options, version)
 }

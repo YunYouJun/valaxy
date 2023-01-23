@@ -1,8 +1,7 @@
 <script lang="ts" setup>
-// import { useSiteConfig, useTwikoo } from 'valaxy'
+import { useTwikooWithOptions } from 'valaxy-addon-twikoo'
 
-// const siteConfig = useSiteConfig()
-// useTwikoo(config.value.comment.twikoo)
+useTwikooWithOptions()
 </script>
 
 <template>

@@ -58,6 +58,7 @@
     "valaxy-addon-algolia": "workspace:*",
     "valaxy-addon-components": "workspace:*",
     "valaxy-addon-waline": "workspace:*",
+    "valaxy-addon-twikoo": "workspace:*",
     "valaxy-theme-press": "workspace:*",
     "valaxy-theme-yun": "workspace:*",
     "vitest": "^0.27.3",

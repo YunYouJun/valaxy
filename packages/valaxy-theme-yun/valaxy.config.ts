@@ -36,6 +36,5 @@ export default defineTheme<ThemeConfig>((options) => {
     unocss: {
       safelist: generateSafelist(options),
     },
-    addons: ['valaxy-addon-waline'],
   }
 })

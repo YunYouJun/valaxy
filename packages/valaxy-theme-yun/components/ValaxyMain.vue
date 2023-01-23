@@ -23,9 +23,9 @@ const YunWaline = runtimeConfig.value.addons['valaxy-addon-waline']
   : () => null
 
 // todo: refactor
-// const YunTwikoo = useAddonWaline()
-//   ? defineAsyncComponent(() => import('./YunTwikoo.vue'))
-//   : () => null
+const YunTwikoo = runtimeConfig.value.addons['valaxy-addon-twikoo']
+  ? defineAsyncComponent(() => import('./YunTwikoo.vue'))
+  : () => null
 </script>
 
 <template>
@@ -62,7 +62,7 @@ const YunWaline = runtimeConfig.value.addons['valaxy-addon-waline']
           <slot v-if="siteConfig.comment.enable && frontmatter.comment !== false" name="comment">
             <YunCard w="full" p="4" class="comment sm:p-6 lg:px-12 xl:px-16" :class="frontmatter.nav === false ? 'mt-4' : 0">
               <YunWaline />
-              <!-- <YunTwikoo /> -->
+              <YunTwikoo />
             </YunCard>
           </slot>
 
