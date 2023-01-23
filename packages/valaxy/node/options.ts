@@ -4,9 +4,9 @@ import _debug from 'debug'
 import fg from 'fast-glob'
 import { ensureSuffix, uniq } from '@antfu/utils'
 import defu from 'defu'
-import consola from 'consola'
 import { cyan, yellow } from 'kolorist'
 import type { DefaultThemeConfig, RuntimeConfig } from '../types'
+import { logger } from './logger'
 import { resolveImportPath } from './utils'
 import { mergeValaxyConfig, resolveAddonConfig, resolveValaxyConfig, resolveValaxyConfigFromRoot } from './utils/config'
 import type { ValaxyAddonResolver, ValaxyNodeConfig } from './types'
@@ -204,7 +204,7 @@ export async function resolveOptions(
  * @returns
  */
 export async function resolveThemeValaxyConfig(options: ResolvedValaxyOptions) {
-  consola.info(`Resolve ${cyan('valaxy.config.ts')} from ${yellow(`theme(${options.theme})`)}`)
+  logger.info(`Resolve ${cyan('valaxy.config.ts')} from ${yellow(`theme(${options.theme})`)}`)
   const { config: themeValaxyConfig } = await resolveValaxyConfigFromRoot(options.themeRoot, options)
   return themeValaxyConfig
 }

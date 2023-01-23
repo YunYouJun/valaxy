@@ -1,9 +1,9 @@
 import { resolve } from 'path'
 import fs from 'fs-extra'
-import consola from 'consola'
 import defu from 'defu'
 import { cyan, yellow } from 'kolorist'
 import type { ValaxyAddonResolver, ValaxyAddons } from '../types'
+import { logger } from '../logger'
 import { getModuleRoot } from './root'
 
 export interface ReadAddonModuleOptions {
@@ -28,7 +28,7 @@ export async function parseAddons(addons: ValaxyAddons, userRoot = process.cwd()
   }
 
   const resolvedAddons = Object.values(resolvers).filter(item => item.enable)
-  consola.info(`Resolve ${cyan('addons:')} ${yellow(resolvedAddons.map(item => item.name).join(', '))}`)
+  logger.info(`Resolve ${cyan('addons:')} ${yellow(resolvedAddons.map(item => item.name).join(', '))}`)
   return resolvedAddons
 }
 
@@ -44,7 +44,7 @@ export async function readAddonModule(name: string, options: ReadAddonModuleOpti
 
   const packageJSONPath = resolve(root, './package.json')
   if (!fs.existsSync(packageJSONPath)) {
-    consola.error(`No addon named ${name} found`)
+    logger.error(`No addon named ${name} found`)
     return
   }
   const packageJSON = await fs.readJSON(packageJSONPath)

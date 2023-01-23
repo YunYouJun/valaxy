@@ -1,5 +1,6 @@
 import './declare'
 
+export * from './cli'
 export * from './common'
 export * from './build'
 export * from './config'

@@ -1,8 +1,8 @@
 import type { UserSiteConfig } from 'valaxy'
-import consola from 'consola'
 import { cyan } from 'kolorist'
 import { defu } from 'defu'
 import { defaultSiteConfig } from '..'
+import { logger } from '../logger'
 import { loadConfigFromFile } from './utils'
 
 /**
@@ -11,7 +11,7 @@ import { loadConfigFromFile } from './utils'
  * @returns
  */
 export async function resolveSiteConfigFromRoot(root: string) {
-  consola.info(`Resolve ${cyan('site.config.ts')}`)
+  logger.info(`Resolve ${cyan('site.config.ts')}`)
   return loadConfigFromFile<UserSiteConfig>('site.config', {
     cwd: root,
   })

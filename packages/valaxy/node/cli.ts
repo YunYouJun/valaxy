@@ -1,7 +1,6 @@
 import path from 'path'
 import { exec } from 'child_process'
 import fs from 'fs-extra'
-import type { Argv } from 'yargs'
 import yargs from 'yargs'
 import type { InlineConfig, LogLevel } from 'vite'
 import { mergeConfig } from 'vite'
@@ -15,15 +14,19 @@ import { version } from '../package.json'
 import { findFreePort } from './utils/net'
 import { resolveOptions } from './options'
 import { bindShortcut, initServer, printInfo } from './utils/cli'
-import { newPost } from './cli/new'
 
 // build
 import { build, ssgBuild } from './build'
 // rss
 import { build as rssBuild } from './rss'
 import { getIndexHtml, mergeViteConfigs } from './common'
+import { registerFuseCommand } from './cli/fuse'
+import { registerNewCommand } from './cli/new'
 
-const cli = yargs(hideBin(process.argv)).scriptName('valaxy')
+import { setEnv, setEnvProd } from './utils/env'
+import { commonOptions } from './cli/options'
+
+export const cli = yargs(hideBin(process.argv)).scriptName('valaxy')
   .usage('$0 [args]')
   .version(version)
   .showHelpOnFail(false)
@@ -61,6 +64,8 @@ cli.command(
       .help()
   ,
   async ({ root, port: userPort, open, remote, log }) => {
+    setEnv()
+
     if (!fs.existsSync(path.resolve(root, 'pages')))
       process.exit(0)
 
@@ -140,6 +145,8 @@ cli.command(
     .strict()
     .help(),
   async ({ ssg, root, output, log }) => {
+    setEnvProd()
+
     const options = await resolveOptions({ userRoot: root }, 'build')
     printInfo(options)
 
@@ -197,26 +204,15 @@ cli.command(
     .strict()
     .help(),
   async ({ root }) => {
+    setEnvProd()
     consola.info('Generate RSS ...')
     const options = await resolveOptions({ userRoot: root }, 'build')
     await rssBuild(options)
   },
 )
 
-/**
- * set common options for cli
- * @param args
- * @returns
- */
-function commonOptions(args: Argv<{}>) {
-  return args.positional('root', {
-    default: '.',
-    type: 'string',
-    describe: 'root folder of your source files',
-  })
-}
-
-newPost(cli)
+registerNewCommand(cli)
+registerFuseCommand(cli)
 
 export function run() {
   cli.help().parse()

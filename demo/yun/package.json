@@ -8,6 +8,7 @@
     "build:spa": "valaxy build",
     "build:ssg": "valaxy build --ssg",
     "dev": "nodemon -w \"../../packages/valaxy/dist/*.cjs\" --exec \"valaxy .\"",
+    "fuse": "valaxy fuse",
     "new": "valaxy new",
     "rss": "valaxy rss",
     "serve": "vite preview"

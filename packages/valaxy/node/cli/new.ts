@@ -3,7 +3,11 @@ import { magenta } from 'chalk'
 import type { Argv } from 'yargs'
 import { type CreatePostParams, create } from './utils/post'
 
-export const newPost = (cli: Argv<{}>) => {
+/**
+ * register new post command
+ * @param cli
+ */
+export const registerNewCommand = (cli: Argv<{}>) => {
   cli.command(
     'new <title>',
     'Draft a new post',

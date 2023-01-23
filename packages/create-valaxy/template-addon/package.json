@@ -1,0 +1,12 @@
+{
+  "name": "valaxy-addon-template",
+  "version": "0.0.1",
+  "description": "Template for Valaxy Addon.",
+  "repository": "https://github.com/YunYouJun/valaxy",
+  "keywords": [
+    "valaxy",
+    "addon",
+    "template"
+  ],
+  "main": "index.ts"
+}

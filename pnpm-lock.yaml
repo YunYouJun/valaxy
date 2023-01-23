@@ -120,6 +120,7 @@ importers:
       '@vitejs/plugin-vue': ^4.0.0
       '@vueuse/core': ^9.11.1
       '@vueuse/head': ^1.0.22
+      '@yunlefun/constants': ^0.0.1
       body-scroll-lock: 4.0.0-beta.0
       consola: ^2.15.3
       critters: ^0.0.16
@@ -176,6 +177,7 @@ importers:
       '@vitejs/plugin-vue': 4.0.0_vite@4.0.4+vue@3.2.45
       '@vueuse/core': 9.11.1_vue@3.2.45
       '@vueuse/head': 1.0.22_vue@3.2.45
+      '@yunlefun/constants': 0.0.1
       body-scroll-lock: 4.0.0-beta.0
       consola: 2.15.3
       critters: 0.0.16
@@ -1875,6 +1877,10 @@ packages:
       vue: 3.2.45
     transitivePeerDependencies:
       - '@vue/composition-api'
+    dev: false
+
+  /@yunlefun/constants/0.0.1:
+    resolution: {integrity: sha512-TTYuk+v5wsjLjIPX34+9VWpetnTdqE3+qGQB65xDD6G9RNrXHrfl0RscBvkFVn80wN5WbcLdvmvQdO9rxmhEHg==}
     dev: false
 
   /@zhead/schema/1.0.9:

@@ -6,9 +6,9 @@
 
 import { URL } from 'url'
 import type MarkdownIt from 'markdown-it'
+import { EXTERNAL_URL_RE } from '@yunlefun/constants'
 import type { MarkdownEnv } from '../env'
 import { PATHNAME_PROTOCOL_RE } from '../../utils'
-import { EXTERNAL_URL_RE } from '../../../shared'
 
 const indexRE = /(^|.*\/)index.md(#?.*)$/i
 
