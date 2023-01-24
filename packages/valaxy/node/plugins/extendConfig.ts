@@ -8,6 +8,39 @@ import type { ResolvedValaxyOptions } from '../options'
 import { resolveImportPath, toAtFS } from '../utils'
 import { getIndexHtml } from '../common'
 
+/**
+ * dependencies used by client
+ */
+const clientDeps = [
+  '@vueuse/head',
+  '@vueuse/integrations/useFuse',
+  'unocss',
+  'vue',
+  'vue-router',
+  'dayjs',
+  'nprogress',
+  'katex',
+  'fuse.js',
+  'body-scroll-lock',
+]
+
+/**
+ * internal deps or esm deps do not need optimize
+ */
+const EXCLUDE = [
+  '@vueuse/core',
+  '@vueuse/shared',
+  '@unocss/reset',
+  'unocss',
+  'vue',
+  'vue-demi',
+
+  // internal
+  'valaxy',
+  '/@valaxyjs/config',
+  '/@valaxyjs/context',
+]
+
 export function createConfigPlugin(options: ResolvedValaxyOptions): Plugin {
   return {
     name: 'valaxy:site',
@@ -30,26 +63,10 @@ export function createConfigPlugin(options: ResolvedValaxyOptions): Plugin {
 
           // must need it
           include: [
-            'vue',
-            'vue-router',
-            '@vueuse/head',
-            'dayjs',
-            'nprogress',
-            'katex',
+            ...clientDeps.filter(i => !EXCLUDE.includes(i)),
           ],
 
-          exclude: [
-            '@vueuse/core',
-            '@vueuse/shared',
-            '@unocss/reset',
-            'unocss',
-            'vue-demi',
-
-            // internal
-            'valaxy',
-            '/@valaxyjs/config',
-            '/@valaxyjs/context',
-          ],
+          exclude: EXCLUDE,
         },
 
         server: {

@@ -155,3 +155,34 @@ Valaxy 决定通过插件中心化地提供各类封装好的评论组件和辅�
 而用户则可以使用相同的配置穿梭漫游于不同的主题之间。
 
 > 集成参见 [valaxy-addon-waline](https://github.com/YunYouJun/valaxy/blob/main/packages/valaxy-addon-waline/README.md)。
+
+## FAQ
+
+如果您的主题适配了多个 Addon（如 `valaxy-addon-waline`/`valaxy-addon-twikoo`），但用户并非都需要安装。
+您需要将其添加至 `build.rollupOptions.external` 中。
+
+譬如 `valaxy-theme-yun/valaxy.config.ts`:
+
+```ts
+import { defineValaxyTheme } from 'valaxy'
+import type { ThemeConfig } from './types'
+import { defaultThemeConfig, generateSafelist } from './node'
+
+export default defineValaxyTheme<ThemeConfig>((options) => {
+  return {
+    themeConfig: defaultThemeConfig,
+    vite: {
+      build: {
+        rollupOptions: {
+          // add on demand external
+          external: ['valaxy-addon-twikoo', 'valaxy-addon-waline'],
+        },
+      },
+      plugins: [ThemeVitePlugin(options)],
+    },
+    unocss: {
+      safelist: generateSafelist(options),
+    },
+  }
+})
+```

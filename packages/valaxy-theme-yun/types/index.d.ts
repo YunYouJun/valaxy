@@ -15,7 +15,7 @@ export namespace YunTheme {
      * 首页下方的动态云
      * If you want change color of cloud, please change css var `--yun-c-cloud`
      */
-    cloud: {
+    cloud?: {
       enable: boolean
     }
   }

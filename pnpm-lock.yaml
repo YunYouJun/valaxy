@@ -138,6 +138,7 @@ importers:
       ejs: ^3.1.8
       escape-html: ^1.0.3
       feed: ^4.2.2
+      fuse.js: ^6.6.2
       global-dirs: ^3.0.1
       gray-matter: ^4.0.3
       html-to-text: ^9.0.3
@@ -184,7 +185,7 @@ importers:
       '@vitejs/plugin-vue': 4.0.0_vite@4.0.4+vue@3.2.45
       '@vueuse/core': 9.11.1_vue@3.2.45
       '@vueuse/head': 1.0.23_vue@3.2.45
-      '@vueuse/integrations': 9.11.1_nprogress@0.2.0+vue@3.2.45
+      '@vueuse/integrations': 9.11.1_mxlsbeg5rfr66lwi3qdsf45g6a
       '@yunlefun/constants': 0.0.1
       body-scroll-lock: 4.0.0-beta.0
       consola: 2.15.3
@@ -194,6 +195,7 @@ importers:
       ejs: 3.1.8
       escape-html: 1.0.3
       feed: 4.2.2
+      fuse.js: 6.6.2
       global-dirs: 3.0.1
       gray-matter: 4.0.3
       html-to-text: 9.0.3
@@ -1897,7 +1899,7 @@ packages:
       vue: 3.2.45
     dev: false
 
-  /@vueuse/integrations/9.11.1_nprogress@0.2.0+vue@3.2.45:
+  /@vueuse/integrations/9.11.1_mxlsbeg5rfr66lwi3qdsf45g6a:
     resolution: {integrity: sha512-1VBT1U0ScI0GmJn+i7RvyCX5P+Dh04yxHurN3RniYPCFOJ8mCKSqJlzSA5aQ94UIK0ZKI2RyEGS8FY0WAteixw==}
     peerDependencies:
       async-validator: '*'
@@ -1937,6 +1939,7 @@ packages:
     dependencies:
       '@vueuse/core': 9.11.1_vue@3.2.45
       '@vueuse/shared': 9.11.1_vue@3.2.45
+      fuse.js: 6.6.2
       nprogress: 0.2.0
       vue-demi: 0.13.11_vue@3.2.45
     transitivePeerDependencies:
@@ -3924,6 +3927,11 @@ packages:
 
   /functions-have-names/1.2.3:
     resolution: {integrity: sha512-xckBUXyTIqT97tq2x2AMb+g163b5JFysYk0x4qxNFwbfQkmNZoiRHb6sPzI9/QV33WeuvVYBUIiD4NzNIyqaRQ==}
+
+  /fuse.js/6.6.2:
+    resolution: {integrity: sha512-cJaJkxCCxC8qIIcPBF9yGxY0W/tVZS3uEISDxhYIdtk8OL93pe+6Zj7LjCqVV4dzbqcriOZ+kQ/NE4RXZHsIGA==}
+    engines: {node: '>=10'}
+    dev: false
 
   /get-caller-file/2.0.5:
     resolution: {integrity: sha512-DyFP3BM/3YHTQOCUL/w0OZHR0lpKeGrxotcHWcqNEdnltqFwXVfhEBQ94eIo34AfQpo0rGki4cyIiftY06h2Fg==}
