@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import type { PageData, Post } from 'valaxy'
-import { usePostTitle, useRuntimeConfig, useSiteConfig } from 'valaxy'
-import { StyleValue, computed, defineAsyncComponent } from 'vue'
+import { usePostTitle, useSiteConfig } from 'valaxy'
+import { StyleValue, computed } from 'vue'
 import { usePostProperty } from '../composables'
 
 const props = defineProps<{
@@ -9,23 +9,12 @@ const props = defineProps<{
   data?: PageData
 }>()
 
-const runtimeConfig = useRuntimeConfig()
 const siteConfig = useSiteConfig()
 
 const { styles, icon, color } = usePostProperty(props.frontmatter.type)
 const title = usePostTitle(computed(() => props.frontmatter))
 
 const aside = computed(() => props.frontmatter.aside !== false)
-
-// not import from 'valaxy-addon-waline' to judge
-const YunWaline = runtimeConfig.value.addons['valaxy-addon-waline']
-  ? defineAsyncComponent(() => import('./YunWaline.vue'))
-  : () => null
-
-// todo: refactor
-const YunTwikoo = runtimeConfig.value.addons['valaxy-addon-twikoo']
-  ? defineAsyncComponent(() => import('./YunTwikoo.vue'))
-  : () => null
 </script>
 
 <template>
@@ -60,10 +49,7 @@ const YunTwikoo = runtimeConfig.value.addons['valaxy-addon-twikoo']
           <slot name="main-nav-after" />
 
           <slot v-if="siteConfig.comment.enable && frontmatter.comment !== false" name="comment">
-            <YunCard w="full" p="4" class="comment sm:p-6 lg:px-12 xl:px-16" :class="frontmatter.nav === false ? 'mt-4' : 0">
-              <YunWaline />
-              <YunTwikoo />
-            </YunCard>
+            <YunComment :class="frontmatter.nav === false ? 'mt-4' : 0" />
           </slot>
 
           <slot name="main-footer-before" />

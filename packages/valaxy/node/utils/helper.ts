@@ -1,6 +1,4 @@
-import { EXTERNAL_URL_RE } from '@yunlefun/constants'
-
-export const PATHNAME_PROTOCOL_RE = /^pathname:\/\//
+import { EXTERNAL_URL_RE } from '../constants'
 
 /**
  * is url external (http/https:)

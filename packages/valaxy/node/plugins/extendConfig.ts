@@ -1,5 +1,5 @@
 import { dirname, join, resolve } from 'path'
-import type { AliasOptions, InlineConfig, Plugin } from 'vite'
+import type { Alias, AliasOptions, InlineConfig, Plugin } from 'vite'
 import { mergeConfig, searchForWorkspaceRoot } from 'vite'
 import isInstalledGlobally from 'is-installed-globally'
 import fs from 'fs-extra'
@@ -132,19 +132,30 @@ export function getDefine(options: ResolvedValaxyOptions): Record<string, any> {
 }
 
 export function getAlias(options: ResolvedValaxyOptions): AliasOptions {
-  const alias = {
-    '~/': `${toAtFS(options.userRoot)}/`,
-    'valaxy/client/': `${toAtFS(options.clientRoot)}/`,
-    'valaxy/package.json': toAtFS(resolve(options.clientRoot, '../package.json')),
-    'valaxy': toAtFS(resolve(options.clientRoot, 'index.ts')),
-    '@valaxyjs/client/': `${toAtFS(options.clientRoot)}/`,
-    [`valaxy-theme-${options.theme}/`]: `${toAtFS(resolve(options.themeRoot))}/`,
-    [`valaxy-theme-${options.theme}`]: `${toAtFS(resolve(options.themeRoot))}/client/index.ts`,
-  }
+  const alias: Alias[] = [
+    { find: '~/', replacement: `${toAtFS(options.userRoot)}/` },
+    { find: 'valaxy/client/', replacement: `${toAtFS(options.clientRoot)}/` },
+    { find: 'valaxy/package.json', replacement: toAtFS(resolve(options.clientRoot, '../package.json')) },
+    { find: 'valaxy', replacement: toAtFS(resolve(options.clientRoot, 'index.ts')) },
+    { find: '@valaxyjs/client/', replacement: `${toAtFS(options.clientRoot)}/` },
+    { find: `valaxy-theme-${options.theme}/`, replacement: `${toAtFS(resolve(options.themeRoot))}/` },
+    { find: `valaxy-theme-${options.theme}`, replacement: `${toAtFS(resolve(options.themeRoot))}/client/index.ts` },
+  ]
 
   options.addons.forEach((addon) => {
-    alias[addon.name] = toAtFS(resolve(addon.root, 'client/index.ts'))
+    alias.push({
+      find: `${addon.name}/`,
+      replacement: toAtFS(`${resolve(addon.root)}/`),
+    })
+    alias.push({
+      find: addon.name,
+      replacement: toAtFS(resolve(addon.root, 'client/index.ts')),
+    })
   })
+
+  // alias.push(...[
+  //   { find: /valaxy-addon-(.*)/, replacement: toAtFS(resolve(options.themeRoot, '../valaxy-addon-$1/client/index.ts')) },
+  // ])
 
   return alias
 }

@@ -159,7 +159,7 @@ Valaxy 决定通过插件中心化地提供各类封装好的评论组件和辅�
 ## FAQ
 
 如果您的主题适配了多个 Addon（如 `valaxy-addon-waline`/`valaxy-addon-twikoo`），但用户并非都需要安装。
-您需要将其添加至 `build.rollupOptions.external` 中。
+您需要将其添加至 `vite.build.rollupOptions.external` 中以避免引起编译问题。
 
 譬如 `valaxy-theme-yun/valaxy.config.ts`:
 
