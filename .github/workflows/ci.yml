@@ -40,7 +40,8 @@ jobs:
         run: pnpm install
 
       - name: Typecheck
-        run: pnpm run typecheck
+        # build to check dist types
+        run: pnpm run build && pnpm run typecheck
 
   # check windows build
   build:
