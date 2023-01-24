@@ -1,20 +1,13 @@
 <script setup lang="ts">
 import { ref } from 'vue'
-import { clearAllBodyScrollLocks, disableBodyScroll } from 'body-scroll-lock'
+import { useBodyScrollLock } from 'valaxy'
 
 defineProps<{
   open: boolean
 }>()
 
-const screen = ref<HTMLElement | null>(null)
-
-function lockBodyScroll() {
-  disableBodyScroll(screen.value!, { reserveScrollBarGap: true })
-}
-
-function unlockBodyScroll() {
-  clearAllBodyScrollLocks()
-}
+const screen = ref<HTMLElement>()
+const { lockBodyScroll, unlockBodyScroll } = useBodyScrollLock(screen)
 </script>
 
 <template>

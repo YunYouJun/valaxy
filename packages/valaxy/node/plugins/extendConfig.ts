@@ -143,19 +143,19 @@ export function getAlias(options: ResolvedValaxyOptions): AliasOptions {
   ]
 
   options.addons.forEach((addon) => {
-    alias.push({
-      find: `${addon.name}/`,
-      replacement: toAtFS(`${resolve(addon.root)}/`),
-    })
+    // without this, import { xxx } from 'valaxy-addon-name' works well
+    // alias.push({
+    //   find: `${addon.name}/`,
+    //   replacement: `${toAtFS(`${resolve(addon.root)}`)}/`,
+    // })
     alias.push({
       find: addon.name,
-      replacement: toAtFS(resolve(addon.root, 'client/index.ts')),
+      replacement: `${toAtFS(resolve(addon.root))}/client/index.ts`,
     })
   })
 
   // alias.push(...[
   //   { find: /valaxy-addon-(.*)/, replacement: toAtFS(resolve(options.themeRoot, '../valaxy-addon-$1/client/index.ts')) },
   // ])
-
   return alias
 }
