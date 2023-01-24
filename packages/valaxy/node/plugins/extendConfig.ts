@@ -55,6 +55,7 @@ export function createConfigPlugin(options: ResolvedValaxyOptions): Plugin {
         define: getDefine(options),
         resolve: {
           alias: getAlias(options),
+          dedupe: ['vue'],
         },
 
         optimizeDeps: {

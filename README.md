@@ -19,7 +19,7 @@
 </p>
 
 - **English** | [简体中文](./README.zh-CN.md)
-- [English Docs](https://valaxy.site/?lang=en) | [中文文档](https://valaxy.site/?lang=zh-CN)
+- [English Docs](https://valaxy.site/?lang=en) | [中文文档](https://valaxy.site/?lang=zh-CN) | [Docs for Beta](https://beta.valaxy.site)
 - [Demo](https://yun.valaxy.site): <small>with [valaxy-theme-yun](./packages/valaxy-theme-yun/)</small>
 
 ## Usage
