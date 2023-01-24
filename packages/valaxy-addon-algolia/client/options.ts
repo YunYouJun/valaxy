@@ -8,7 +8,7 @@ import pkg from '../package.json'
  * get addon config
  * @returns
  */
-export function useAddonAlgolia() {
+export function useAddonAlgoliaConfig() {
   const runtimeConfig = useRuntimeConfig()
   return computed(() => runtimeConfig.value.addons[pkg.name] as ValaxyAddon<AlgoliaSearchOptions>)
 }

@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import { computed } from '@vue/reactivity'
 import { useSiteConfig } from 'valaxy'
-import { onMounted, onUnmounted, ref, watch } from 'vue'
+import { ref, watch } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { useMagicKeys } from '@vueuse/core'
 
@@ -20,49 +20,19 @@ function load() {
 
 const isAlgolia = computed(() => siteConfig.value.search.type === 'algolia')
 
-onMounted(() => {
-  if (!isAlgolia.value)
-    return
-
-  const handleSearchHotKey = (e: KeyboardEvent) => {
-    if (e.key === 'k' && (e.ctrlKey || e.metaKey)) {
-      e.preventDefault()
-      load()
-      // eslint-disable-next-line @typescript-eslint/no-use-before-define
-      remove()
-    }
-  }
-
-  const remove = () => {
-    window.removeEventListener('keydown', handleSearchHotKey)
-  }
-
-  window.addEventListener('keydown', handleSearchHotKey)
-
-  onUnmounted(remove)
-})
-
 const open = ref(false)
-
-const trigger = () => {
-  // todo, refactor shortcut
-  const e = new Event('keydown') as any
-
-  e.key = 'k'
-  e.metaKey = true
-}
 
 const togglePopup = () => {
   open.value = !open.value
-
-  trigger()
 }
 
 const { Meta_K } = useMagicKeys()
 
 watch(Meta_K, (val) => {
-  if (val)
+  if (val) {
     togglePopup()
+    load()
+  }
 })
 </script>
 

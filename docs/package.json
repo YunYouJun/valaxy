@@ -11,7 +11,8 @@
   },
   "dependencies": {
     "valaxy": "link:../packages/valaxy",
-    "valaxy-theme-yun": "link:../packages/valaxy-theme-yun"
+    "valaxy-theme-yun": "link:../packages/valaxy-theme-yun",
+    "valaxy-addon-algolia": "link:../packages/valaxy-addon-algolia"
   },
   "devDependencies": {
     "nodemon": "^2.0.19"

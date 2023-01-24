@@ -5,38 +5,20 @@ import type { DocSearchHit } from '@docsearch/react/dist/esm/types'
 import { onMounted } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import type { AlgoliaSearchOptions } from '../types'
-import { useAddonAlgolia } from '../client'
+import { useAddonAlgoliaConfig } from '../client'
 
 const router = useRouter()
 const route = useRoute()
 
-const algolia = useAddonAlgolia()
+const algolia = useAddonAlgoliaConfig()
 
 onMounted(() => {
   const options = algolia.value.options
   if (options && options.apiKey && options.appId && options.indexName) {
-    initialize(options)
-    setTimeout(poll, 16)
+    if (!document.querySelector('.DocSearch-Container'))
+      initialize(options)
   }
 })
-
-/**
- * poll until open
- */
-function poll() {
-  // programmatically open the search box after initialize
-  const e = new Event('keydown') as any
-
-  e.key = 'k'
-  e.metaKey = true
-
-  window.dispatchEvent(e)
-
-  setTimeout(() => {
-    if (!document.querySelector('.DocSearch-Modal'))
-      poll()
-  }, 16)
-}
 
 function initialize(userOptions: AlgoliaSearchOptions) {
   // note: multi-lang search support is removed since the theme
@@ -118,7 +100,7 @@ function getRelativePath(absoluteUrl: string) {
 </script>
 
 <template>
-  <div id="docsearch" class="hidden" />
+  <div id="docsearch" />
 </template>
 
 <style lang="scss">

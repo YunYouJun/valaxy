@@ -1,5 +1,6 @@
 import { defineValaxyConfig } from 'valaxy'
 import type { PressTheme } from 'valaxy-theme-press'
+import { addonAlgolia } from 'valaxy-addon-algolia'
 
 const COMMIT_ID = process.env.CF_PAGES_COMMIT_SHA || process.env.COMMIT_REF
 const commitRef = COMMIT_ID?.slice(0, 8) || 'dev'
@@ -15,7 +16,20 @@ export default defineValaxyConfig<PressTheme.Config>({
     title: 'Valaxy',
     url: 'https://valaxy.site',
     description: 'Valaxy Site Docs',
+
+    search: {
+      enable: true,
+      type: 'algolia',
+    },
   },
+
+  addons: [
+    addonAlgolia({
+      appId: 'UVMHTMG1T5',
+      apiKey: '805f2584a8866388aa1631ff0348ddae',
+      indexName: 'valaxy',
+    }),
+  ],
 
   theme: 'press',
   themeConfig: {

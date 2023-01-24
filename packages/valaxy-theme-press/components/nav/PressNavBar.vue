@@ -23,6 +23,7 @@ const themeConfig = useThemeConfig()
       <span class="inline-flex">{{ siteConfig.title }}</span>
     </router-link>
     <div class="self-stretch flex justify-center items-center text-sm leading-5">
+      <PressNavBarSearch p="x-2" />
       <PressNavBarMenu p="x-2" />
       <PressNavBarTranslations p="x-2" />
       <PressNavBarAppearance p="x-2" />
