@@ -255,10 +255,17 @@ export function createValaxyPlugin(options: ResolvedValaxyOptions, serverOptions
         return reloadConfigAndEntries(config)
       }
 
+      // siteConfig
       if (file === options.siteConfigFile) {
         const { siteConfig } = await resolveSiteConfig(options.userRoot)
         valaxyConfig.siteConfig = defu<SiteConfig, [SiteConfig]>(siteConfig, defaultSiteConfig)
         return reloadConfigAndEntries(valaxyConfig)
+      }
+
+      // themeConfig
+      if (file === options.themeConfigFile) {
+        const { config } = await resolveOptions({ userRoot: options.userRoot })
+        return reloadConfigAndEntries(config)
       }
 
       if (file === resolve(options.themeRoot, 'valaxy.config.ts')) {

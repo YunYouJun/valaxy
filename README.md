@@ -45,7 +45,7 @@ For a example, you can see [demo/yun](./demo/yun/) folder.
 
 ## Features
 
-- ⚡️ [Vue 3](https://github.com/vuejs/vue-next), [Vite 3](https://github.com/vitejs/vite), [pnpm](https://pnpm.js.org/), [ESBuild](https://github.com/evanw/esbuild) - born with fastness
+- ⚡️ [Vue 3](https://github.com/vuejs/vue-next), [Vite 4](https://github.com/vitejs/vite), [pnpm](https://pnpm.js.org/), [ESBuild](https://github.com/evanw/esbuild) - born with fastness
 - 🔥 Hot Reload with Config & Markdown
 - 🔧 Type Tooltip for all config by `valaxy.config.ts`
 - 🗒 Extended Markdown Frontmatter

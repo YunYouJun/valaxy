@@ -14,6 +14,7 @@ import { defaultValaxyConfig } from './config'
 import { parseAddons } from './utils/addons'
 import { getThemeRoot } from './utils/theme'
 import { resolveSiteConfig } from './config/site'
+import { resolveThemeConfig } from './config/theme'
 
 // for cli entry
 export interface ValaxyEntryOptions {
@@ -67,6 +68,7 @@ export interface ResolvedValaxyOptions<ThemeConfig = DefaultThemeConfig> {
    */
   configFile: string
   siteConfigFile: string
+  themeConfigFile: string
   pages: string[]
   /**
    * all addons
@@ -151,9 +153,10 @@ export async function resolveOptions(
 
   let { config: userValaxyConfig, configFile, theme } = await resolveValaxyConfig(options)
   const { siteConfig, siteConfigFile } = await resolveSiteConfig(options.userRoot)
+  const { themeConfig, themeConfigFile } = await resolveThemeConfig(options.userRoot)
 
   // merge with valaxy
-  userValaxyConfig = defu<ValaxyNodeConfig, any>({ siteConfig }, userValaxyConfig)
+  userValaxyConfig = defu<ValaxyNodeConfig, any>({ siteConfig }, { themeConfig }, userValaxyConfig)
 
   const themeRoot = getThemeRoot(theme, options.userRoot)
 
@@ -185,6 +188,7 @@ export async function resolveOptions(
     },
     configFile: configFile || '',
     siteConfigFile: siteConfigFile || '',
+    themeConfigFile: themeConfigFile || '',
     pages,
     addons: [],
   }

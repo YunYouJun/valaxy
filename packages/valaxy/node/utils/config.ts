@@ -2,7 +2,7 @@ import { mergeConfig as mergeViteConfig } from 'vite'
 import { createDefu } from 'defu'
 import { isFunction } from '@antfu/utils'
 
-import { cyan } from 'kolorist'
+import { cyan, dim } from 'kolorist'
 import type { ResolvedValaxyOptions, ValaxyEntryOptions } from '../options'
 import type { ValaxyAddonFn, ValaxyAddonResolver, ValaxyConfigFn, ValaxyNodeConfig } from '../types'
 import { loadConfigFromFile } from '../config/utils'
@@ -48,11 +48,11 @@ export async function resolveValaxyConfigFromRoot(root: string, options?: Resolv
  * @returns
  */
 export async function resolveValaxyConfig(options: ValaxyEntryOptions) {
-  logger.info(`Resolve ${cyan('valaxy.config.ts')}`)
-
   // const resolved = await mergeValaxyConfig(options)
   // valaxyConfig = mergeValaxyConfig(valaxyConfig, config)
   const { config: userValaxyConfig, configFile } = await resolveValaxyConfigFromRoot(options.userRoot || process.cwd())
+  if (userValaxyConfig)
+    logger.info(`Resolve ${cyan('valaxyConfig')} from ${dim(configFile)}`)
 
   const theme = options.theme || userValaxyConfig.theme || 'yun'
 

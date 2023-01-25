@@ -1,5 +1,5 @@
 import type { UserSiteConfig } from 'valaxy'
-import { cyan } from 'kolorist'
+import { cyan, dim } from 'kolorist'
 import { logger } from '../logger'
 import { loadConfigFromFile } from './utils'
 
@@ -9,7 +9,6 @@ import { loadConfigFromFile } from './utils'
  * @returns
  */
 export async function resolveSiteConfigFromRoot(root: string) {
-  logger.info(`Resolve ${cyan('site.config.ts')}`)
   return loadConfigFromFile<UserSiteConfig>('site.config', {
     cwd: root,
   })
@@ -22,6 +21,8 @@ export async function resolveSiteConfigFromRoot(root: string) {
  */
 export async function resolveSiteConfig(root: string) {
   const { config: userSiteConfig, configFile: siteConfigFile } = await resolveSiteConfigFromRoot(root)
+  if (userSiteConfig)
+    logger.info(`Resolve ${cyan('siteConfig')} from ${dim(siteConfigFile)}`)
 
   return {
     siteConfig: userSiteConfig,
