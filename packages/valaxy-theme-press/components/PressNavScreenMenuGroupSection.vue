@@ -1,5 +1,6 @@
 <script lang="ts" setup>
-import type { NavItemLink } from '../../types'
+import type { NavItemLink } from '../types'
+
 defineProps<{
   text?: string
   // todo

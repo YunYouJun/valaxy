@@ -133,9 +133,14 @@ export async function processValaxyOptions(valaxyOptions: ResolvedValaxyOptions,
   })
 
   const addonRoots = addons.map(({ root }) => root)
+  const addonNames = addons.map(({ name }) => name)
   valaxyOptions.addonRoots = addonRoots
   // ensure order
   valaxyOptions.roots = uniq([clientRoot, themeRoot, ...addonRoots, userRoot])
+
+  // when addon be used, remove it from external
+  const external = valaxyOptions.config.vite?.build?.rollupOptions?.external as string[] || []
+  valaxyOptions.config.vite!.build!.rollupOptions!.external = external.filter(name => !addonNames.includes(name))
 
   await processSiteConfig(valaxyOptions)
 

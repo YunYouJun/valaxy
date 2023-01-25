@@ -14,10 +14,7 @@ export const useAddonAlgolia = () => {
   // hit the hotkey to invoke it.
   const loaded = ref(false)
 
-  /**
-   * poll until open
-   */
-  function poll() {
+  function dispatchEvent() {
     // programmatically open the search box after initialize
     const e = new Event('keydown') as any
 
@@ -25,6 +22,14 @@ export const useAddonAlgolia = () => {
     e.metaKey = true
 
     window.dispatchEvent(e)
+  }
+
+  /**
+   * poll until open
+   */
+  function poll() {
+    // programmatically open the search box after initialize
+    dispatchEvent()
 
     setTimeout(() => {
       if (!document.querySelector('.DocSearch-Modal'))
@@ -70,5 +75,6 @@ export const useAddonAlgolia = () => {
     loaded,
     metaKey,
     load,
+    dispatchEvent,
   }
 }

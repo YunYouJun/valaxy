@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { useThemeConfig } from '../../composables'
+import { useThemeConfig } from '../composables'
 
 const themeConfig = useThemeConfig()
 </script>

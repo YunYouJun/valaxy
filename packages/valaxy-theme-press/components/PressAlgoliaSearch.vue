@@ -1,20 +1,15 @@
 <script lang="ts" setup>
-import { useSiteConfig } from 'valaxy/client'
-import { computed } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { useAddonAlgolia } from 'valaxy-addon-algolia'
 
-const siteConfig = useSiteConfig()
 const { t } = useI18n()
-
-const isAlgolia = computed(() => siteConfig.value.search.type === 'algolia')
 
 const { loaded, load, metaKey } = useAddonAlgolia()
 </script>
 
 <template>
   <div>
-    <AlgoliaSearchBox v-if="isAlgolia && loaded" />
+    <AlgoliaSearchBox v-if="loaded" />
 
     <div v-else id="docsearch" @click="load">
       <button

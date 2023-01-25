@@ -1,6 +1,7 @@
 <script lang="ts" setup>
 import { ref } from 'vue'
-import type { NavItemGroup } from '../../types'
+import type { NavItemGroup } from '../types'
+
 defineProps<{
   item: NavItemGroup
 }>()

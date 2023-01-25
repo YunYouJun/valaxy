@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import type { PressTheme } from '../../types'
+import type { PressTheme } from '../types'
 
 defineProps<{
   links: PressTheme.SocialLink[]

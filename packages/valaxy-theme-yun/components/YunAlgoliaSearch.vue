@@ -1,9 +1,23 @@
 <script lang="ts" setup>
-import { useAddonAlgolia } from 'valaxy-addon-algolia'
+import { watch } from 'vue'
 
-const { loaded } = useAddonAlgolia()
+const props = defineProps<{
+  open: boolean
+}>()
+
+const { useAddonAlgolia } = await import('valaxy-addon-algolia')
+
+const { loaded, load, dispatchEvent } = useAddonAlgolia()
+
+watch(() => props.open, () => {
+  if (props.open)
+    load()
+
+  if (loaded)
+    dispatchEvent()
+})
 </script>
 
 <template>
-  <AlgoliaSearchBox v-if="loaded" />
+  <AlgoliaSearchBox v-if="loaded" class="hidden" />
 </template>

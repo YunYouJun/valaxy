@@ -98,6 +98,14 @@ export const defaultValaxyConfig: ValaxyNodeConfig = {
   features: {
     katex: true,
   },
+
+  vite: {
+    build: {
+      rollupOptions: {
+        external: [],
+      },
+    },
+  },
 }
 
 export type UnoSetup = () => Awaitable<Partial<UnoCssConfig> | undefined>

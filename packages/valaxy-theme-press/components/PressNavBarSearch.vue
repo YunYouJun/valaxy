@@ -1,15 +1,21 @@
 <script lang="ts" setup>
 import { useSiteConfig } from 'valaxy'
-import { computed } from 'vue'
+import { computed, defineAsyncComponent } from 'vue'
 
 // ref vitepress search box
 const siteConfig = useSiteConfig()
 const isAlgolia = computed(() => siteConfig.value.search.type === 'algolia')
+
+const PressAlgoliaSearch = isAlgolia.value
+  ? defineAsyncComponent(() => import('./PressAlgoliaSearch.vue'))
+  : null
 </script>
 
 <template>
   <div v-if="siteConfig.search.enable" class="VPNavBarSearch">
-    <PressAlgoliaSearch v-if="isAlgolia" />
+    <ClientOnly>
+      <PressAlgoliaSearch v-if="isAlgolia" />
+    </ClientOnly>
   </div>
 </template>
 

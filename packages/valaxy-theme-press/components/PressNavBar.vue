@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import { useSidebar, useSiteConfig } from 'valaxy'
-import { useThemeConfig } from '../../composables'
+import { useThemeConfig } from '../composables'
 
 defineProps<{
   isScreenOpen?: boolean

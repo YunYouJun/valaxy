@@ -92,8 +92,8 @@ export default defineSiteConfig({
 
   search: {
     enable: true,
-    // type: 'algolia',
-    type: 'fuse',
+    type: 'algolia',
+    // type: 'fuse',
   },
 
   comment: {

@@ -1,14 +1,12 @@
 <script lang="ts" setup>
-import { computed } from '@vue/reactivity'
 import { useSiteConfig } from 'valaxy'
-import { defineAsyncComponent, ref, watch } from 'vue'
-import { useI18n } from 'vue-i18n'
+import { computed, defineAsyncComponent, ref, watch } from 'vue'
 import { useMagicKeys } from '@vueuse/core'
 
 const siteConfig = useSiteConfig()
-const { t } = useI18n()
 
 const isAlgolia = computed(() => siteConfig.value.search.type === 'algolia')
+const isFuse = computed(() => siteConfig.value.search.type === 'fuse')
 
 const open = ref(false)
 
@@ -23,19 +21,16 @@ watch(Meta_K, (val) => {
     togglePopup()
 })
 
-const YunAlgoliaSearch = isAlgolia
+const YunAlgoliaSearch = isAlgolia.value
   ? defineAsyncComponent(() => import('./YunAlgoliaSearch.vue'))
   : () => null
 </script>
 
 <template>
-  <button class="search-btn popup-trigger yun-icon-btn" :title="t('menu.search')" @click="togglePopup">
-    <div v-if="!open" i-ri-search-line />
-    <div v-else text="!2xl" i-ri-close-line />
-  </button>
+  <YunSearchBtn :open="open && !isAlgolia" @click="togglePopup" />
 
-  <YunAlgoliaSearch v-if="isAlgolia" />
-  <YunFuseSearch v-else-if="siteConfig.search.type === 'fuse'" :open="open" @close="open = false" />
+  <YunAlgoliaSearch v-if="isAlgolia" :open="open" @close="open = false" />
+  <YunFuseSearch v-else-if="isFuse" :open="open" @close="open = false" />
 </template>
 
 <style lang="scss">
