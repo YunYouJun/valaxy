@@ -35,7 +35,7 @@ export default defineValaxyTheme<ThemeConfig>((options) => {
         rollupOptions: {
           // add on demand external
           external: [
-            // 'valaxy-addon-algolia',
+            'valaxy-addon-algolia',
             'valaxy-addon-twikoo',
             'valaxy-addon-waline',
           ],
