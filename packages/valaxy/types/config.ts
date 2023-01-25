@@ -120,12 +120,11 @@ export interface SiteConfig {
     enable: boolean
     /**
      * Search Type
-     * - local: Local Search
      * - algolia: Algolia Search
      * - engine: Engine Search, like Google/Baidu
-     * - fuse: Fuse Search for local
+     * - fuse: Local Search by fuse.js
      */
-    type: 'local' | 'algolia' | 'engine' | 'fuse'
+    type: 'algolia' | 'engine' | 'fuse'
   }
 
   /**

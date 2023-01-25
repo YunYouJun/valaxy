@@ -66,7 +66,7 @@ export const defaultSiteConfig: SiteConfig = {
 
   search: {
     enable: false,
-    type: 'algolia',
+    type: 'fuse',
   },
 
   comment: {

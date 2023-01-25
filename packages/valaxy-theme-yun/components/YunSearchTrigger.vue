@@ -1,22 +1,12 @@
 <script lang="ts" setup>
 import { computed } from '@vue/reactivity'
 import { useSiteConfig } from 'valaxy'
-import { ref, watch } from 'vue'
+import { defineAsyncComponent, ref, watch } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { useMagicKeys } from '@vueuse/core'
 
 const siteConfig = useSiteConfig()
 const { t } = useI18n()
-
-// to avoid loading the docsearch js upfront (which is more than 1/3 of the
-// payload), we delay initializing it until the user has actually clicked or
-// hit the hotkey to invoke it.
-const loaded = ref(false)
-
-function load() {
-  if (!loaded.value)
-    loaded.value = true
-}
 
 const isAlgolia = computed(() => siteConfig.value.search.type === 'algolia')
 
@@ -29,11 +19,13 @@ const togglePopup = () => {
 const { Meta_K } = useMagicKeys()
 
 watch(Meta_K, (val) => {
-  if (val) {
+  if (val)
     togglePopup()
-    load()
-  }
 })
+
+const YunAlgoliaSearch = isAlgolia
+  ? defineAsyncComponent(() => import('./YunAlgoliaSearch.vue'))
+  : () => null
 </script>
 
 <template>
@@ -42,7 +34,7 @@ watch(Meta_K, (val) => {
     <div v-else text="!2xl" i-ri-close-line />
   </button>
 
-  <AlgoliaSearchBox v-if="isAlgolia && loaded" />
+  <YunAlgoliaSearch v-if="isAlgolia" />
   <YunFuseSearch v-else-if="siteConfig.search.type === 'fuse'" :open="open" @close="open = false" />
 </template>
 
