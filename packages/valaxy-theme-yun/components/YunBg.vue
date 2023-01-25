@@ -34,6 +34,8 @@ const styles = computed(() => {
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
+  // avoid flicker
+  background-attachment: fixed;
   animation-name: bgFadeIn;
   animation-duration: 2s;
   opacity: var(--va-bg-img-opacity, 1);
