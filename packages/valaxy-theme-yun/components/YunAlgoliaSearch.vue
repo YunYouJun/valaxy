@@ -1,11 +1,10 @@
 <script lang="ts" setup>
+import { useAddonAlgolia } from 'valaxy-addon-algolia'
 import { watch } from 'vue'
 
 const props = defineProps<{
   open: boolean
 }>()
-
-const { useAddonAlgolia } = await import('valaxy-addon-algolia')
 
 const { loaded, load, dispatchEvent } = useAddonAlgolia()
 

@@ -4,6 +4,7 @@ import { throttleAndDebounce } from '../../utils'
 
 // magic number to avoid repeated retrieval
 const PAGE_OFFSET = 56
+const topOffset = 33
 
 export function useActiveAnchor(
   container: Ref<HTMLElement>,
@@ -75,6 +76,20 @@ export function useActiveAnchor(
     }
   }
 
+  const checkActiveLinkInViewport = () => {
+    const activeLink = prevActiveLink
+    if (!activeLink) {
+      container.value.scrollIntoView({ behavior: 'smooth', block: 'start' })
+      return
+    }
+
+    const top = activeLink.getBoundingClientRect().top
+    const bottom = activeLink.getBoundingClientRect().bottom
+
+    if (top < topOffset || bottom > window.innerHeight - topOffset)
+      activeLink.scrollIntoView({ behavior: 'smooth', block: 'center' })
+  }
+
   function activateLink(hash: string | null) {
     if (prevActiveLink)
       prevActiveLink.classList.remove('active')
@@ -87,7 +102,7 @@ export function useActiveAnchor(
 
     const activeLink = prevActiveLink
 
-    const topOffset = 33
+    checkActiveLinkInViewport()
 
     if (activeLink) {
       activeLink.classList.add('active')
