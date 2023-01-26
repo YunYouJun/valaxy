@@ -24,7 +24,7 @@ export function useTags(options: {
   const primaryColor = new TinyColor(options.primary)
 
   const getTagStyle = (count: number) => {
-    const counts = Array.from(tags).map(([_, value]) => value.count)
+    const counts = Array.from(tags.value).map(([_, value]) => value.count)
     const max = Math.max(...counts)
     const min = Math.min(...counts)
     const range = max - min
@@ -43,6 +43,7 @@ export function useTags(options: {
 
 /**
  * get tag map
+ * [tagName]: count
  * @returns
  */
 export function useTag() {

@@ -18,7 +18,7 @@ export function createClientSetupPlugin({ clientRoot, themeRoot, userRoot }: Res
     enforce: 'pre',
     async transform(code, id) {
       if (id.startsWith(setupEntry)) {
-        const name = id.slice(setupEntry.length + 1)
+        const name = id.slice(setupEntry.length + 1).replace(/\?.*$/, '') // remove query
         const imports: string[] = []
         const injections: string[] = []
 

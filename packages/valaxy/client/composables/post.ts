@@ -40,8 +40,9 @@ export function usePageList() {
 export function usePostList(params: {
   type?: string
 } = {}) {
+  const pageList = usePageList()
   return computed(() => {
-    const routes = usePageList().value
+    const routes = pageList.value
       .filter(i => i.path?.startsWith('/posts'))
       .filter(i => !i.path?.endsWith('.html'))
       .filter(i => i.date)
