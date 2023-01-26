@@ -14,14 +14,17 @@ import { getIndexHtml } from '../common'
 const clientDeps = [
   '@vueuse/head',
   '@vueuse/integrations/useFuse',
+  'body-scroll-lock',
+  'dayjs',
+  'katex',
+  'nprogress',
   'unocss',
   'vue',
   'vue-router',
-  'dayjs',
-  'nprogress',
-  'katex',
+
+  // will may be addons
   'fuse.js',
-  'body-scroll-lock',
+  'medium-zoom',
 ]
 
 /**

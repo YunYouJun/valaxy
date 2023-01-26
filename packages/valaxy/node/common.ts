@@ -50,6 +50,9 @@ export async function getIndexHtml({ clientRoot, themeRoot, userRoot, config }: 
   let head = ''
   let body = ''
 
+  if (config.siteConfig.favicon)
+    head += `<link rel="icon" href="${config.siteConfig.favicon}">`
+
   const roots = [userRoot, themeRoot]
 
   if (config.siteConfig.mode === 'auto') {

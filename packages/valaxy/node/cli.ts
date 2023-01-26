@@ -16,7 +16,7 @@ import { resolveOptions } from './options'
 import { bindShortcut, initServer, printInfo } from './utils/cli'
 
 // build
-import { build, ssgBuild } from './build'
+import { build, postProcessForSSG, ssgBuild } from './build'
 // rss
 import { build as rssBuild } from './rss'
 import { getIndexHtml, mergeViteConfigs } from './common'
@@ -179,6 +179,7 @@ cli.command(
 
         try {
           await ssgBuild(options, viteConfig)
+          await postProcessForSSG(options)
         }
         catch (e) {
           consola.error('[vite-ssg] An internal error occurred.')
@@ -189,6 +190,9 @@ cli.command(
         consola.info('use vite do spa build...')
         await build(options, viteConfig)
       }
+    }
+    catch (e) {
+      console.log(e)
     }
     finally {
       // await fs.unlink(indexPath)
