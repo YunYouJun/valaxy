@@ -71,22 +71,6 @@ function handleHMR(router: Router): void {
         // console.log(payload.pageData.headers)
         Object.assign(router.currentRoute.value.meta, payload.pageData)
       }
-      else {
-        // hot reload for global categories & tags
-        let path = payload.path
-        if (payload.path.endsWith('.md'))
-          path = payload.path.slice(0, -3)
-
-        const routeName = path.split('/').slice(1).join('-')
-
-        if (!router.hasRoute(routeName))
-          return
-
-        const route = router.getRoutes().find(r => r.name === routeName)!
-        router.removeRoute(routeName)
-        route.meta.frontmatter = payload.pageData.frontmatter
-        router.addRoute(route)
-      }
     })
   }
 }

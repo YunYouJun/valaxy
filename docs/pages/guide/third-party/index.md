@@ -118,12 +118,18 @@ export default defineAppSetup((ctx) => {
 - 新建 `setup/gtag.ts`:
 
 ```ts
-import VueGtag from 'vue-gtag-next'
+import VueGtag, { trackRouter } from 'vue-gtag-next'
 import type { UserModule } from 'valaxy'
 
-export const install: UserModule = ({ app }) => {
-  app.use(VueGtag, {
-    property: { id: 'G-XXXXXXXXXX' },
-  })
+export const install: UserModule = ({ isClient, app, router }) => {
+  if (isClient) {
+    app.use(VueGtag, {
+      property: { id: 'G-1LL0D86CY9' },
+    })
+
+    trackRouter(router)
+  }
 }
 ```
+
+More info see [vue-gtag-next](https://github.com/MatteoGabriele/vue-gtag-next).
