@@ -94,3 +94,36 @@ aplayer: true
 
 > More info see [Option | MetingJS](https://github.com/metowolf/MetingJS#option)
 
+## 谷歌统计
+
+> 可参见 [扩展 Client 上下文｜自定义扩展](/guide/custom/extend#%25E6%2589%25A9%25E5%25B1%2595-client-%25E4%25B8%258A%25E4%25B8%258B%25E6%2596%2587)
+
+你可以通过直接使用 Vue 插件的方式引入谷歌统计。
+
+譬如：
+
+- 安装依赖：`pnpm add vue-gtag-next`
+- 新建 `setup/main.ts`:
+
+```ts
+// setup/main.ts
+import { defineAppSetup } from 'valaxy'
+import { install as installGtag } from './gtag'
+
+export default defineAppSetup((ctx) => {
+  installGtag(ctx)
+})
+```
+
+- 新建 `setup/gtag.ts`:
+
+```ts
+import VueGtag from 'vue-gtag-next'
+import type { UserModule } from 'valaxy'
+
+export const install: UserModule = ({ app }) => {
+  app.use(VueGtag, {
+    property: { id: 'G-XXXXXXXXXX' },
+  })
+}
+```

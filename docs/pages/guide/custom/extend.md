@@ -67,6 +67,8 @@ export default defineAppSetup((ctx) => {
 })
 ```
 
+> 具体示例可参见 [谷歌统计｜第三方集成](/guide/third-party#谷歌统计)。
+
 ## 多语言支持
 
 新建 `locales` 文件夹。
