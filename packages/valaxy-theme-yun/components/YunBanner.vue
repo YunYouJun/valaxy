@@ -22,16 +22,16 @@ const chars = computed(() => {
 // height of top/bottom line
 const lineH = computed(() => chars.value.reduce((a, b) => a + b, 0) / 2)
 
-const lintStyle = computed(() => (
+const lineStyle = computed(() => (
   {
-    '--banner-line-height': `calc(50vh - ${lineH.value}rem)`,
+    '--banner-line-height': `calc(var(--app-height, 100vh) / 2 - ${lineH.value}rem)`,
   } as CSSProperties
 ))
 </script>
 
 <template>
-  <div id="banner">
-    <div class="banner-line vertical-line-top" :style="lintStyle" />
+  <div id="banner" :style="lineStyle">
+    <div class="banner-line vertical-line-top" :style="lineStyle" />
     <div class="banner-char-container">
       <div v-for="c, i in themeConfig.banner.title" :key="i" class="char-box">
         <span
@@ -45,10 +45,11 @@ const lintStyle = computed(() => (
         </span>
       </div>
     </div>
-    <div class="banner-line vertical-line-bottom" :style="lintStyle" />
+    <div class="banner-line vertical-line-bottom" :style="lineStyle" />
   </div>
 
   <YunGoDown />
+  <YunCloud v-if="themeConfig.banner.cloud?.enable" />
 </template>
 
 <style lang="scss">

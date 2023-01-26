@@ -4,10 +4,10 @@
 $light: () !default;
 $light: map.merge(
   (
-    "bg-image":
+    "bg-img":
       url("https://cdn.yunyoujun.cn/img/bg/stars-timing-0-blur-30px.jpg"),
     "sidebar-bg-color": var(--va-c-bg-light),
-    "sidebar-bg-image":
+    "sidebar-bg-img":
       url("https://cdn.yunyoujun.cn/img/bg/alpha-stars-timing-1.webp"),
   ),
   $light
@@ -16,8 +16,8 @@ $light: map.merge(
 $dark: () !default;
 $dark: map.merge(
   (
-    "bg-image": none,
-    "sidebar-bg-image": none,
+    "bg-img": none,
+    "sidebar-bg-img": none,
   ),
   $dark
 );

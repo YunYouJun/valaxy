@@ -20,6 +20,7 @@ export default defineValaxyConfig<ThemeConfig>({
     // colors: {
     //   primary: 'red',
     // },
+    // bg_image: {},
 
     banner: {
       enable: true,

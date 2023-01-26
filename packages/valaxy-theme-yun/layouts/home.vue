@@ -17,7 +17,6 @@ const themeConfig = useThemeConfig()
 
     <YunBanner />
     <YunSay v-if="themeConfig.say.enable" w="full" />
-    <YunCloud v-if="themeConfig.banner.cloud?.enable" />
     <YunNotice
       v-if="themeConfig.notice.enable"
       :content="themeConfig.notice.content" mt="4"

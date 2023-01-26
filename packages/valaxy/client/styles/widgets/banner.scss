@@ -9,7 +9,8 @@ $char-animation-duration: 0.4s;
   display: flex;
   flex-direction: column;
   align-items: center;
-  height: 100vh;
+  width: 100%;
+  height: var(--app-height, 100vh);
 }
 
 .banner-char-container {

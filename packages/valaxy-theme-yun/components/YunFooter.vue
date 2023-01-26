@@ -47,7 +47,7 @@ const footerIcon = computed(() => themeConfig.value.footer.icon || {
     </div>
 
     <div v-if="themeConfig.footer.powered" class="powered" m="2">
-      <span v-html="poweredHtml" /> | <span>{{ t('footer.theme') }} - <a :href="themeConfig.pkg.homepage" :title="themeConfig.pkg.name" target="_blank">{{ capitalize(config.theme) }}</a> v{{ themeConfig.pkg.version }}</span>
+      <span v-html="poweredHtml" /> | <span>{{ t('footer.theme') }} - <a :href="themeConfig.pkg.repository.url" :title="themeConfig.pkg.name" target="_blank">{{ capitalize(config.theme) }}</a> v{{ themeConfig.pkg.version }}</span>
     </div>
 
     <slot />

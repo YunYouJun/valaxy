@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { computed, provide, ref } from 'vue'
+import { computed, onBeforeMount, provide, ref } from 'vue'
 import { useHead, useSeoMeta } from '@vueuse/head'
 // @ts-expect-error virtual module
 import ValaxyUserApp from '/@valaxyjs/UserAppVue'
@@ -66,6 +66,11 @@ useSeoMeta({
 
 const onContentUpdated = ref()
 provide('onContentUpdated', onContentUpdated)
+
+onBeforeMount(() => {
+  // for browser with nav bar height
+  document.documentElement.style.setProperty('--app-height', `${window.innerHeight}px`)
+})
 </script>
 
 <template>

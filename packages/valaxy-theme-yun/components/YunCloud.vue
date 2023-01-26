@@ -34,7 +34,7 @@
     width: 100%;
     height: 100px;
 
-    @include media('md') {
+    @include screen('md') {
       height: 40px;
     }
   }

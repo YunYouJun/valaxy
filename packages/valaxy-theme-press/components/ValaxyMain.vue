@@ -67,7 +67,7 @@ const isHome = useLayout('home')
 <style lang="scss">
 @use 'valaxy/client/styles/mixins' as *;
 
-@include media('md') {
+@include screen('md') {
   .press-main {
     &.has-sidebar {
       padding-top: var(--pr-nav-height);
@@ -76,7 +76,7 @@ const isHome = useLayout('home')
   }
 }
 
-@include media('xl') {
+@include screen('xl') {
   .content{
     // 8px scrollbar width
     max-width: calc(100vw - 2 * var(--va-sidebar-width) - 2.5rem);

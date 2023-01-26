@@ -51,7 +51,7 @@ function scrollToTop() {
   transition: border-color 0.5s;
 }
 
-@include media('md') {
+@include screen('md') {
   .press-local-nav {
     display: none;
   }
@@ -73,7 +73,7 @@ function scrollToTop() {
   transition: color 0.25s;
 }
 
-@include media('md') {
+@include screen('md') {
   .menu {
     padding: 0 32px;
   }
@@ -101,7 +101,7 @@ function scrollToTop() {
   transition: color 0.25s;
 }
 
-@include media('md') {
+@include screen('md') {
   .top-link {
     padding: 12px 32px 11px;
   }

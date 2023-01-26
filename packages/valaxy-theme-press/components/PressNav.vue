@@ -36,7 +36,7 @@ const classes = computed(() => ({
   background-color: var(--pr-nav-bg-color);
 }
 
-@include media('md') {
+@include screen('md') {
   .press-nav {
     -webkit-backdrop-filter: saturate(50%) blur(8px);
     backdrop-filter: saturate(50%) blur(8px);

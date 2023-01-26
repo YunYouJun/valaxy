@@ -70,7 +70,7 @@ const aside = computed(() => props.frontmatter.aside !== false)
 <style lang="scss">
 @use 'valaxy/client/styles/mixins' as *;
 
-@include media('md') {
+@include screen('md') {
   .yun-main {
     &.has-sidebar {
       padding-left: var(--va-sidebar-width);
@@ -78,7 +78,7 @@ const aside = computed(() => props.frontmatter.aside !== false)
   }
 }
 
-@include media('xl') {
+@include screen('xl') {
   .content{
     // 8px scrollbar width
     max-width: calc(100vw - 2 * var(--va-sidebar-width) - 1rem - 8px);

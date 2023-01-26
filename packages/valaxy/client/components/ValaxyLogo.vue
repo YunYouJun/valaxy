@@ -4,7 +4,7 @@ import valaxyLogoPng from '../assets/images/valaxy-logo.png'
 
 <template>
   <div class="valaxy-logo-container" relative inline-flex justify="center" items="center">
-    <div class="absolute bg-image" />
+    <div class="absolute bg-img" />
     <img max-w="50" m="auto" :src="valaxyLogoPng" alt="Valaxy Logo" z="1">
   </div>
 </template>
@@ -12,12 +12,12 @@ import valaxyLogoPng from '../assets/images/valaxy-logo.png'
 <style lang="scss" scoped>
 .valaxy-logo-container {
   &:hover {
-    .bg-image {
+    .bg-img {
       opacity: 0.4;
     }
   }
 }
-.bg-image {
+.bg-img {
   border-radius: 50%;
   filter: blur(72px);
   max-width: 350px;

@@ -60,13 +60,13 @@ const themeConfig = useThemeConfig()
   background-color: var(--pr-navbar-c-bg);
 }
 
-@include media('md') {
+@include screen('md') {
   .pr-navbar {
     padding: 0 32px;
   }
 }
 
-@include media('md') {
+@include screen('md') {
   .pr-navbar.has-sidebar .content {
     margin-right: -32px;
     padding-right: 32px;

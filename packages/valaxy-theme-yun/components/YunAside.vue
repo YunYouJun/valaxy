@@ -69,7 +69,7 @@ const app = useAppStore()
   }
 }
 
-@include media('xl') {
+@include screen('xl') {
   .aside {
     transform: translateX(0);
   }

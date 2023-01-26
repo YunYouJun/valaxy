@@ -68,7 +68,7 @@ const { hasSidebar } = useSidebar()
   }
 }
 
-@include media('md') {
+@include screen('md') {
   .press-sidebar {
     z-index: 1;
     width: var(--va-sidebar-width);

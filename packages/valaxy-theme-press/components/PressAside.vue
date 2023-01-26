@@ -70,7 +70,7 @@ const app = useAppStore()
   height: calc(100vh - var(--pr-nav-height) - 32px);
 }
 
-@include media('xl') {
+@include screen('xl') {
   .aside-container {
     top: 0;
   }
