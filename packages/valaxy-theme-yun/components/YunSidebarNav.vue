@@ -1,12 +1,13 @@
 <script lang="ts" setup>
-import { useCategory, usePostList, useTag } from 'valaxy'
+import { useCategory, useSiteStore, useTag } from 'valaxy'
 import { useI18n } from 'vue-i18n'
 import { useThemeConfig } from '../composables'
 
 const { t } = useI18n()
 
+const site = useSiteStore()
+
 const themeConfig = useThemeConfig()
-const posts = usePostList()
 const categories = useCategory()
 const tags = useTag()
 </script>
@@ -19,7 +20,7 @@ const tags = useTag()
 
     <router-link class="site-link-item" to="/archives/" :title="t('menu.archives')">
       <div class="icon" i-ri-archive-line />
-      <span class="count">{{ posts.length }}</span>
+      <span class="count">{{ site.postList.length }}</span>
     </router-link>
     <router-link class="site-link-item" to="/categories/" :title="t('menu.categories')">
       <div class="icon" i-ri-folder-2-line />

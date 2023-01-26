@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { computed } from 'vue'
 import type { Post } from 'valaxy'
-import { usePostList } from 'valaxy'
+import { useSiteStore } from 'valaxy'
 
 const props = withDefaults(defineProps<{
   type?: string
@@ -11,8 +11,8 @@ const props = withDefaults(defineProps<{
   curPage: 1,
 })
 
-const routes = usePostList({ type: props.type || '' })
-const posts = computed(() => props.posts || routes.value)
+const site = useSiteStore()
+const posts = computed(() => props.posts || site.postList)
 </script>
 
 <template>

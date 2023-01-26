@@ -2,18 +2,18 @@
 import { computed } from 'vue'
 import { useRoute } from 'vue-router'
 
-import { useFrontmatter, usePostList } from 'valaxy'
+import { useFrontmatter, useSiteStore } from 'valaxy'
 const frontmatter = useFrontmatter()
 
 const route = useRoute()
-const posts = usePostList()
+const site = useSiteStore()
 
 function findCurrentIndex() {
-  return posts.value.findIndex(p => p.href === route.path)
+  return site.postList.findIndex(p => p.href === route.path)
 }
 
-const nextPost = computed(() => posts.value[findCurrentIndex() - 1])
-const prevPost = computed(() => posts.value[findCurrentIndex() + 1])
+const nextPost = computed(() => site.postList[findCurrentIndex() - 1])
+const prevPost = computed(() => site.postList[findCurrentIndex() + 1])
 </script>
 
 <template>

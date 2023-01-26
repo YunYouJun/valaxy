@@ -1,7 +1,7 @@
 import { TinyColor } from '@ctrl/tinycolor'
 import { computed } from 'vue'
 import type { Post } from '../..'
-import { usePostList } from './post'
+import { useSiteStore } from '../stores'
 
 export type Tags = Map<string, {
   count: number
@@ -47,11 +47,11 @@ export function useTags(options: {
  * @returns
  */
 export function useTag() {
-  const posts = usePostList()
+  const site = useSiteStore()
 
   return computed(() => {
     const tagMap: Tags = new Map()
-    posts.value.forEach((post: Post) => {
+    site.postList.forEach((post: Post) => {
       if (post.tags) {
         let tags: string[]
         if (typeof post.tags === 'string')

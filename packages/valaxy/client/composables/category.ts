@@ -1,6 +1,5 @@
-import { unref } from 'vue'
 import type { Post } from '../..'
-import { usePostList } from './post'
+import { useSiteStore } from '../stores'
 
 export interface BaseCategory {
   total: number
@@ -26,8 +25,10 @@ export const isParentCategory = (category: any): category is ParentCategory => c
  * @returns
  */
 export function useCategory(category?: string, posts: Post[] = []): ParentCategory {
-  if (!posts.length)
-    posts = unref(usePostList())
+  if (!posts.length) {
+    const site = useSiteStore()
+    posts = site.postList
+  }
 
   const categoryMap: Category = {
     total: posts.length,

@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { useFrontmatter, useInvisibleElement, usePostList, usePostTitle, useTags } from 'valaxy'
+import { useFrontmatter, useInvisibleElement, usePostTitle, useSiteStore, useTags } from 'valaxy'
 import { useI18n } from 'vue-i18n'
 import { computed, ref } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
@@ -16,11 +16,11 @@ const { tags, getTagStyle } = useTags({
   primary: themeConfig.value.colors.primary,
 })
 
-const postList = usePostList()
 const curTag = computed(() => route.query.tag as string || '')
+const site = useSiteStore()
 
 const posts = computed(() => {
-  const list = postList.value.filter((post) => {
+  const list = site.postList.filter((post) => {
     if (post.tags) {
       if (typeof post.tags === 'string')
         return post.tags === curTag.value

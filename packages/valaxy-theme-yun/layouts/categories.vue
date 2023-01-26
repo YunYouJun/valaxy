@@ -1,10 +1,12 @@
 <script lang="ts" setup>
 import { computed, ref } from 'vue'
-import { useCategory, useFrontmatter, useInvisibleElement, usePostList, usePostTitle } from 'valaxy'
+import { useCategory, useFrontmatter, useInvisibleElement, usePostTitle, useSiteStore } from 'valaxy'
 import { useI18n } from 'vue-i18n'
 import { useRoute, useRouter } from 'vue-router'
 
 const { t } = useI18n()
+
+const site = useSiteStore()
 
 const frontmatter = useFrontmatter()
 const categories = useCategory()
@@ -12,9 +14,8 @@ const categories = useCategory()
 const route = useRoute()
 const curCategory = computed(() => (route.query.category as string || ''))
 
-const postList = usePostList()
 const posts = computed(() => {
-  const list = postList.value.filter((post) => {
+  const list = site.postList.filter((post) => {
     if (post.categories && curCategory.value !== 'Uncategorized') {
       if (typeof post.categories === 'string')
         return post.categories === curCategory.value
