@@ -5,7 +5,7 @@
  * @description https://github.com/YunYouJun/hexo-theme-yun
  */
 
-import { CSSProperties, computed } from 'vue'
+import { CSSProperties, computed, onMounted, ref } from 'vue'
 import { random } from 'valaxy'
 import { useThemeConfig } from '../composables'
 
@@ -22,16 +22,20 @@ const chars = computed(() => {
 // height of top/bottom line
 const lineH = computed(() => chars.value.reduce((a, b) => a + b, 0) / 2)
 
-const lineStyle = computed(() => (
-  {
-    '--banner-line-height': `calc(var(--app-height, 100vh) / 2 - ${lineH.value}rem)`,
+const bannerStyles = ref()
+onMounted(() => {
+  bannerStyles.value = {
+    '--banner-height': `${window.innerHeight}px`,
+    '--banner-line-height': `calc(var(--banner-height, 100vh) / 2 - ${lineH.value}rem)`,
   } as CSSProperties
-))
+})
 </script>
 
 <template>
-  <div id="banner" :style="lineStyle">
-    <div class="banner-line vertical-line-top" :style="lineStyle" />
+  <div id="banner" :style="bannerStyles">
+    <div class="banner-line-container">
+      <div class="banner-line vertical-line-top" />
+    </div>
     <div class="banner-char-container">
       <div v-for="c, i in themeConfig.banner.title" :key="i" class="char-box">
         <span
@@ -45,11 +49,12 @@ const lineStyle = computed(() => (
         </span>
       </div>
     </div>
-    <div class="banner-line vertical-line-bottom" :style="lineStyle" />
+    <div class="banner-line-container bottom">
+      <div class="banner-line vertical-line-bottom" />
+    </div>
+    <YunCloud v-if="themeConfig.banner.cloud?.enable" />
+    <YunGoDown />
   </div>
-
-  <YunGoDown />
-  <YunCloud v-if="themeConfig.banner.cloud?.enable" />
 </template>
 
 <style lang="scss">

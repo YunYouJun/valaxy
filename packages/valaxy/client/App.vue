@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { computed, onBeforeMount, provide, ref } from 'vue'
+import { computed, provide, ref, watch } from 'vue'
 import { useHead, useSeoMeta } from '@vueuse/head'
 // @ts-expect-error virtual module
 import ValaxyUserApp from '/@valaxyjs/UserAppVue'
@@ -7,6 +7,7 @@ import ValaxyUserApp from '/@valaxyjs/UserAppVue'
 import ValaxyThemeApp from '/@valaxyjs/ThemeAppVue'
 import pkg from 'valaxy/package.json'
 import { useI18n } from 'vue-i18n'
+import { useCssVar, useWindowSize } from '@vueuse/core'
 import ValaxyAddons from './components/ValaxyAddons.vue'
 import { isDark, useFrontmatter } from './composables'
 
@@ -66,11 +67,6 @@ useSeoMeta({
 
 const onContentUpdated = ref()
 provide('onContentUpdated', onContentUpdated)
-
-onBeforeMount(() => {
-  // for browser with nav bar height
-  document.documentElement.style.setProperty('--app-height', `${window.innerHeight}px`)
-})
 </script>
 
 <template>
