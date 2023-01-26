@@ -65,7 +65,7 @@ importers:
       valaxy-addon-twikoo: link:../../packages/valaxy-addon-twikoo
       valaxy-addon-waline: link:../../packages/valaxy-addon-waline
       valaxy-theme-yun: link:../../packages/valaxy-theme-yun
-      vite-plugin-inspect: ^0.7.14
+      vite-plugin-inspect: ^0.7.15
     dependencies:
       valaxy: link:../../packages/valaxy
       valaxy-addon-algolia: link:../../packages/valaxy-addon-algolia
@@ -75,7 +75,7 @@ importers:
       valaxy-theme-yun: link:../../packages/valaxy-theme-yun
     devDependencies:
       nodemon: 2.0.20
-      vite-plugin-inspect: 0.7.14
+      vite-plugin-inspect: 0.7.15
 
   packages/create-valaxy:
     specifiers:
@@ -6725,8 +6725,8 @@ packages:
       - terser
     dev: true
 
-  /vite-plugin-inspect/0.7.14:
-    resolution: {integrity: sha512-C9V93Yy2yUf941oVxIq93K6T1o0SZxoG8MdmyJsnoNDijOAGHT1rVSVjzF/uKFYvgnvLvaXioaoy6ica6aOS0g==}
+  /vite-plugin-inspect/0.7.15:
+    resolution: {integrity: sha512-oxeZCljacA/slhGFbDNlBqdhDU9fgdHL84i7Nz7DnaAIE7DhTiW2djanw3d/BKuZtduKUY82vRUQ4iaG917t2A==}
     engines: {node: '>=14'}
     peerDependencies:
       vite: ^3.1.0 || ^4.0.0
