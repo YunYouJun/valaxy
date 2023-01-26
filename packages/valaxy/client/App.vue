@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { computed, provide, ref, watch } from 'vue'
+import { computed, provide, ref } from 'vue'
 import { useHead, useSeoMeta } from '@vueuse/head'
 // @ts-expect-error virtual module
 import ValaxyUserApp from '/@valaxyjs/UserAppVue'
@@ -7,7 +7,6 @@ import ValaxyUserApp from '/@valaxyjs/UserAppVue'
 import ValaxyThemeApp from '/@valaxyjs/ThemeAppVue'
 import pkg from 'valaxy/package.json'
 import { useI18n } from 'vue-i18n'
-import { useCssVar, useWindowSize } from '@vueuse/core'
 import ValaxyAddons from './components/ValaxyAddons.vue'
 import { isDark, useFrontmatter } from './composables'
 
