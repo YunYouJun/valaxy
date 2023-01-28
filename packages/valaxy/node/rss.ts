@@ -72,6 +72,10 @@ export async function build(options: ResolvedValaxyOptions) {
       continue
     }
 
+    // hidden
+    if (data.hide)
+      continue
+
     await formatMdDate(data, i, siteConfig.date?.format, siteConfig.lastUpdated)
 
     // todo i18n

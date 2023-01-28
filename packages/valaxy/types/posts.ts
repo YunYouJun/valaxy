@@ -121,6 +121,13 @@ export interface Post extends Record<string, any> {
    */
   draft?: boolean
   /**
+   * hide in index
+   * - true/`all`: hide in index & archive
+   * - `index`: hide in index
+   * @description 是否隐藏
+   */
+  hide?: 'index' | boolean
+  /**
    * cover
    * @description 封面图片
    */

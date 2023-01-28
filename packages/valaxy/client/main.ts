@@ -10,7 +10,11 @@ import 'uno.css'
 
 import setupMain from './setup/main'
 
-const routes = setupLayouts(__DEV__ ? generatedRoutes : generatedRoutes.filter(i => !i.meta?.frontmatter.draft))
+const routes = setupLayouts(__DEV__
+  ? generatedRoutes
+  : generatedRoutes.filter(i =>
+    !i.meta?.frontmatter.draft && !i.meta?.frontmatter.hide,
+  ))
 
 // https://github.com/antfu/vite-ssg
 export const createApp = ViteSSG(

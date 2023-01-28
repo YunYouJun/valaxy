@@ -33,6 +33,9 @@ export async function generateFuseList(options: ResolvedValaxyOptions) {
       continue
     }
 
+    if (data.hide)
+      continue
+
     posts.push({
       title: data.title || '',
       tags: data.tags || [],

@@ -4,34 +4,39 @@ import { formatDate } from 'valaxy'
 import { useI18n } from 'vue-i18n'
 
 defineProps<{
-  frontmatter: Post
+  // FrontMatter
+  fm: Post
 }>()
 
 const { t } = useI18n()
 </script>
 
 <template>
-  <div v-if="frontmatter.draft" class="post-draft-icon" title="draft">
+  <div v-if="fm.draft" class="post-draft-icon" title="draft">
     <div i-ri-draft-line />
   </div>
-  <div v-if="frontmatter.top" class="post-top-icon">
+  <div v-if="fm.hide" class="post-top-icon" color="$va-c-danger" :title="`hide:${fm.hide}`">
+    <div v-if="fm.hide === 'index'" i-ri-eye-close-line />
+    <div i-ri-eye-off-line />
+  </div>
+  <div v-if="fm.top" class="post-top-icon" color="$va-c-warning">
     <div i-ri-pushpin-line />
   </div>
 
-  <div v-if="frontmatter" class="post-meta justify-center" flex="~" text="sm" py="1">
-    <div v-if="frontmatter.date" class="post-time flex items-center">
+  <div v-if="fm" class="post-meta justify-center" flex="~" text="sm" py="1">
+    <div v-if="fm.date" class="post-time flex items-center">
       <span class="inline-flex-center" :title="t('post.posted')">
         <div class="inline-block" i-ri-calendar-line />
-        <time m="l-1">{{ formatDate(frontmatter.date) }}</time>
+        <time m="l-1">{{ formatDate(fm.date) }}</time>
       </span>
 
       <span
-        v-if="frontmatter.updated && frontmatter.updated !== frontmatter.date"
+        v-if="fm.updated && fm.updated !== fm.date"
         class="inline-flex-center" :title="t('post.edited')"
       >
         <span m="x-2">-</span>
         <div i-ri-calendar-2-line />
-        <time m="l-1">{{ formatDate(frontmatter.updated) }}</time>
+        <time m="l-1">{{ formatDate(fm.updated) }}</time>
       </span>
     </div>
   </div>
@@ -52,7 +57,6 @@ const { t } = useI18n()
   position: absolute;
   top: 1rem;
   right: 1rem;
-  color: var(--va-c-warning);
   font-size: 1.2rem;
 }
 </style>

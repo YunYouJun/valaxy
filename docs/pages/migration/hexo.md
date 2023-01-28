@@ -30,3 +30,35 @@ Hexo 博客目录与 Valaxy 博客目录对应关系如下，将相关内容复�
 ## 示例
 
 更复杂的迁移示例，您还可以对比 [yunyoujun.github.io | GitHub](https://github.com/YunYouJun/yunyoujun.github.io) 仓库 [hexo](https://github.com/YunYouJun/yunyoujun.github.io/tree/hexo) 分支与 [valaxy](https://github.com/YunYouJun/yunyoujun.github.io/tree/valaxy) 的异同。
+
+## 常见问题
+
+### 摘要截断符
+
+默认为 `<!-- more -->`，`more` 前后需有空格。
+
+### Markdown 换行
+
+Valaxy 的 Markdown 解析基于 [`markdown-it`](https://github.com/markdown-it/markdown-it) 实现。
+
+`markdown-it` 的策略在 Markdown 中换行后渲染的内容并没有换行：
+
+```md
+第一行
+没有换行
+```
+
+第一行
+没有换行
+
+---
+
+如果需要正常换行，需在末尾添加两个空格：
+
+```md
+第一行（末尾有两个空格）  
+换行了
+```
+
+第一行（末尾有两个空格）  
+换行了

@@ -11,20 +11,22 @@ const props = defineProps<{
 const { t } = useI18n()
 
 const years = ref<number[]>([])
-const postList = ref<Record<string, Post[]>>({})
+const postListByYear = ref<Record<string, Post[]>>({})
 
 watch(() => props.posts, () => {
-  postList.value = {}
+  postListByYear.value = {}
   years.value = []
   props.posts.forEach((post) => {
+    if (post.hide && post.hide !== 'index')
+      return
     if (post.date) {
       const year = parseInt(formatDate(post.date, 'YYYY'))
-      if (postList.value[year]) {
-        postList.value[year].push(post)
+      if (postListByYear.value[year]) {
+        postListByYear.value[year].push(post)
       }
       else {
         years.value.push(year)
-        postList.value[year] = [post]
+        postListByYear.value[year] = [post]
       }
     }
   })
@@ -58,7 +60,7 @@ const sortedYears = computed(() => {
         </h2>
       </div>
 
-      <article v-for="post, j in sortByDate(postList[year], isDesc)" :key="j" class="post-item">
+      <article v-for="post, j in sortByDate(postListByYear[year], isDesc)" :key="j" class="post-item">
         <header class="post-header">
           <div class="post-meta">
             <time v-if="post.date" class="post-time" font="mono" opacity="80">{{ formatDate(post.date, 'MM-DD') }}</time>
