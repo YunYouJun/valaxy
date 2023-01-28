@@ -12,17 +12,36 @@ import Components from 'unplugin-vue-components/vite'
 import VueI18n from '@intlify/unplugin-vue-i18n/vite'
 
 import dayjs from 'dayjs'
-// import { convert } from 'html-to-text'
+import { convert } from 'html-to-text'
 import type { ValaxyExtendConfig } from '../types'
 import type { ResolvedValaxyOptions, ValaxyServerOptions } from '../options'
 import { setupMarkdownPlugins } from '../markdown'
-// import { createMarkdownPlugin, excerpt_separator } from './markdown'
 // import { formatMdDate } from '../utils/date'
+import { EXCERPT_SEPARATOR } from '../constants'
 import { createUnocssPlugin } from './unocss'
 import { createConfigPlugin } from './extendConfig'
 import { createClientSetupPlugin } from './setupClient'
 import { createFixPlugins } from './patchTransform'
 import { createValaxyPlugin } from '.'
+
+// for render markdown excerpt
+const mdIt = new MarkdownIt({ html: true })
+/**
+ * get excerpt by type
+ * @param excerpt
+ * @param type
+ * @returns
+ */
+const getExcerptByType = (excerpt = '', type: 'md' | 'html' | 'text' = 'html') => {
+  switch (type) {
+    case 'md':
+      return excerpt
+    case 'html':
+      return mdIt.render(excerpt)
+    case 'text':
+      return convert(mdIt.render(excerpt))
+  }
+}
 
 export async function ViteValaxyPlugins(
   options: ResolvedValaxyOptions,
@@ -35,9 +54,7 @@ export async function ViteValaxyPlugins(
 
   const ValaxyPlugin = createValaxyPlugin(options, serverOptions)
 
-  // for render markdown excerpt
-  const mdIt = new MarkdownIt({ html: true })
-
+  // setup mdIt
   await setupMarkdownPlugins(mdIt, valaxyConfig.markdown, true)
 
   const customElements = new Set([
@@ -136,7 +153,7 @@ export async function ViteValaxyPlugins(
         if (path.endsWith('.md')) {
           const md = fs.readFileSync(path, 'utf-8')
           const { data, excerpt, content } = matter(md, {
-            excerpt_separator: '<!-- more -->',
+            excerpt_separator: EXCERPT_SEPARATOR,
           })
 
           // todo, optimize it to cache or on demand
@@ -166,8 +183,7 @@ export async function ViteValaxyPlugins(
           // set route meta
           route.meta = Object.assign(route.meta, {
             frontmatter: Object.assign(defaultFrontmatter, data),
-            excerpt: excerpt ? mdIt.render(excerpt) : '',
-            // excerpt: convert(excerpt ? mdIt.render(excerpt) : '') || '',
+            excerpt: excerpt ? getExcerptByType(excerpt, data.excerpt_type) : '',
           })
 
           // set layout

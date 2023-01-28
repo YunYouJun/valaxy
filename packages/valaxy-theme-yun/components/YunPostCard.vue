@@ -38,7 +38,8 @@ const { icon, styles } = usePostProperty(props.post.type)
 
         <YunPostMeta :frontmatter="post" />
 
-        <div v-if="post.excerpt" class="markdown-body" text="left" w="full" p="x-6 lt-sm:4" v-html="post.excerpt" />
+        <div v-if="post.excerpt_type === 'text'" py="1" />
+        <div v-if="post.excerpt" class="markdown-body" text="left" w="full" p="x-6 lt-sm:4 y-1" v-html="post.excerpt" />
         <div m="b-5" />
 
         <a

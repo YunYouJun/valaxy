@@ -35,6 +35,14 @@ export interface Post extends Record<string, any> {
    */
   excerpt?: string
   /**
+   * @default 'html'
+   * render type of excerpt
+   * - md: render as raw markdown
+   * - html: render as html
+   * - text: render as text
+   */
+  excerpt_type?: 'md' | 'text' | 'html'
+  /**
    * @description Author
    * @description:zh-CN 作者
    */

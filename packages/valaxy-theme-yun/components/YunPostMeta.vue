@@ -5,38 +5,38 @@ import { useI18n } from 'vue-i18n'
 
 defineProps<{
   // FrontMatter
-  fm: Post
+  frontmatter: Post
 }>()
 
 const { t } = useI18n()
 </script>
 
 <template>
-  <div v-if="fm.draft" class="post-draft-icon" title="draft">
+  <div v-if="frontmatter.draft" class="post-draft-icon" title="draft">
     <div i-ri-draft-line />
   </div>
-  <div v-if="fm.hide" class="post-top-icon" color="$va-c-danger" :title="`hide:${fm.hide}`">
-    <div v-if="fm.hide === 'index'" i-ri-eye-close-line />
-    <div i-ri-eye-off-line />
+  <div v-if="frontmatter.hide" class="post-top-icon" color="$va-c-danger" :title="`hide:${frontmatter.hide}`">
+    <div v-if="frontmatter.hide === 'index'" i-ri-eye-close-line />
+    <div v-else i-ri-eye-off-line />
   </div>
-  <div v-if="fm.top" class="post-top-icon" color="$va-c-warning">
+  <div v-if="frontmatter.top" class="post-top-icon" color="$va-c-warning">
     <div i-ri-pushpin-line />
   </div>
 
-  <div v-if="fm" class="post-meta justify-center" flex="~" text="sm" py="1">
-    <div v-if="fm.date" class="post-time flex items-center">
+  <div v-if="frontmatter" class="post-meta justify-center" flex="~" text="sm" py="1">
+    <div v-if="frontmatter.date" class="post-time flex items-center">
       <span class="inline-flex-center" :title="t('post.posted')">
         <div class="inline-block" i-ri-calendar-line />
-        <time m="l-1">{{ formatDate(fm.date) }}</time>
+        <time m="l-1">{{ formatDate(frontmatter.date) }}</time>
       </span>
 
       <span
-        v-if="fm.updated && fm.updated !== fm.date"
+        v-if="frontmatter.updated && frontmatter.updated !== frontmatter.date"
         class="inline-flex-center" :title="t('post.edited')"
       >
         <span m="x-2">-</span>
         <div i-ri-calendar-2-line />
-        <time m="l-1">{{ formatDate(fm.updated) }}</time>
+        <time m="l-1">{{ formatDate(frontmatter.updated) }}</time>
       </span>
     </div>
   </div>

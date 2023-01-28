@@ -11,6 +11,7 @@ import consola from 'consola'
 import type { ResolvedValaxyOptions } from './options'
 import { formatMdDate } from './utils/date'
 import { ensurePrefix, isExternal } from './utils'
+import { EXCERPT_SEPARATOR } from './constants'
 
 const markdown = MarkdownIt({
   html: true,
@@ -65,7 +66,7 @@ export async function build(options: ResolvedValaxyOptions) {
   for await (const i of files) {
     const raw = fs.readFileSync(i, 'utf-8')
 
-    const { data, content, excerpt } = matter(raw, { excerpt_separator: '<!-- more -->' })
+    const { data, content, excerpt } = matter(raw, { excerpt_separator: EXCERPT_SEPARATOR })
 
     if (data.draft) {
       consola.warn(`Ignore draft post: ${dim(i)}`)
