@@ -25,8 +25,8 @@ const sidebar = computed(() => themeConfig.value.sidebar)
 <template>
   <ul v-for="item in sidebar" :key="item" class="category-list">
     <PressCategory
-      v-if="categories.get(item)"
-      :name="item" :category="categories.get(item)"
+      v-if="categories.find(c => c.name === item)"
+      :category="categories.find(c => c.name === item)"
       :level="level + 1"
       :display-category="displayCategory"
       :collapsable="collapsable"

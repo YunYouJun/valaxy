@@ -1,15 +1,15 @@
 <script lang="ts" setup>
-import { ref } from 'vue'
+import { onMounted, ref } from 'vue'
 import type { Category, Post } from 'valaxy'
-import { isParentCategory } from 'valaxy'
+import { isCategoryList, useInvisibleElement } from 'valaxy'
 import { useI18n } from 'vue-i18n'
+import { useRouter } from 'vue-router'
 
-const props = withDefaults(defineProps<{
-  name: string
+withDefaults(defineProps<{
+  parentKey: string
   // to eliminate the warning
   category: Category
   level?: number
-  displayCategory?: (category: string) => void
 
   /**
    * collapse children
@@ -19,34 +19,70 @@ const props = withDefaults(defineProps<{
   collapsable: true,
 })
 
-const collapsable = ref(props.collapsable)
-const { t, locale } = useI18n()
+const router = useRouter()
 
+const collapse = ref(true)
+const { t } = useI18n()
+
+/**
+ * i18n
+ */
+const { locale } = useI18n()
 const getTitle = (post: Post | any) => {
   const lang = locale.value === 'zh-CN' ? 'zh' : locale.value
   return post[`title_${lang}`] ? post[`title_${lang}`] : post.title
 }
+
+const postCollapseElRef = ref<HTMLElement>()
+const { show } = useInvisibleElement(postCollapseElRef)
+/**
+ * scroll to post collapse by category
+ * @param category
+ */
+const jumpToDisplayCategory = (category: string) => {
+  router.push({
+    query: {
+      category,
+    },
+  })
+
+  show()
+}
+
+onMounted(() => {
+  const postCollapseEl = document.querySelector('.post-collapse-container') as HTMLElement
+  if (postCollapseEl)
+    postCollapseElRef.value = postCollapseEl
+})
 </script>
 
 <template>
-  <li v-if="category.total" class="category-list-item inline-flex items-center cursor-pointer">
-    <span class="folder-action inline-flex" @click="collapsable = !collapsable">
-      <div v-if="collapsable" i-ri-folder-add-line />
+  <li class="category-list-item inline-flex items-center cursor-pointer">
+    <span class="folder-action inline-flex" @click="collapse = !collapse">
+      <div v-if="collapse" i-ri-folder-add-line />
       <div v-else style="color:var(--va-c-primary)" i-ri-folder-reduce-line /></span>
-    <span class="category-name" m="l-1" @click="displayCategory ? displayCategory(name) : null">
-      {{ name === 'Uncategorized' ? t('category.uncategorized') : name }} [{{ category.total }}]
+    <span class="category-name" m="l-1" @click="jumpToDisplayCategory(parentKey)">
+      {{ category.name === 'Uncategorized' ? t('category.uncategorized') : category.name }} [{{ category.total }}]
     </span>
   </li>
 
-  <template v-if="!collapsable">
-    <ul v-if="!isParentCategory(category)">
-      <li v-for="post, i in category.posts" :key="i" class="post-list-item" m="l-4">
-        <router-link v-if="post.title" :to="post.path || ''" class="inline-flex items-center">
-          <div i-ri-file-text-line />
-          <span m="l-1" font="serif black">{{ getTitle(post) }}</span>
-        </router-link>
+  <template v-if="!collapse">
+    <ul>
+      <li v-for="categoryItem, i in category.children" :key="i" class="post-list-item" m="l-4">
+        <template v-if="isCategoryList(categoryItem)">
+          <YunCategory
+            :parent-key="parentKey ? `${parentKey}/${categoryItem.name}` : categoryItem.name"
+            :category="categoryItem"
+          />
+        </template>
+
+        <template v-else>
+          <router-link v-if="categoryItem.title" :to="categoryItem.path || ''" class="inline-flex items-center">
+            <div i-ri-file-text-line />
+            <span m="l-1" font="serif black">{{ getTitle(categoryItem) }}</span>
+          </router-link>
+        </template>
       </li>
     </ul>
-    <YunCategories v-else :categories="category.children" :display-category="displayCategory" :collapsable="collapsable" />
   </template>
 </template>

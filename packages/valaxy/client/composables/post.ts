@@ -1,12 +1,12 @@
-import type { Ref } from 'vue'
+import type { ComputedRef } from 'vue'
 import { computed } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { useI18n } from 'vue-i18n'
-import type { Post } from '../..'
+import type { Post } from 'valaxy'
 import { sortByDate } from '../utils'
 import { useSiteStore } from '../stores'
 
-export const usePostTitle = (post: Ref<Post>) => {
+export const usePostTitle = (post: ComputedRef<Post>) => {
   const { locale } = useI18n()
   return computed(() => {
     const lang = locale.value === 'zh-CN' ? 'zh' : locale.value

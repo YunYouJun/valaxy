@@ -2,7 +2,7 @@ import { useRoute } from 'vue-router'
 import { computed, inject } from 'vue'
 import { isClient } from '@vueuse/core'
 
-import type { PageData, Post } from '../../types'
+import type { PageData, Post } from '../..'
 import { useSiteConfig } from '../config'
 
 export function useFrontmatter() {

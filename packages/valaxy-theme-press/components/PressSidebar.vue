@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import { computed } from 'vue'
-import { useCategory, usePageList, useSidebar } from 'valaxy'
+import { removeItemFromCategory, useCategory, usePageList, useSidebar } from 'valaxy'
 import { useThemeConfig } from '../composables'
 
 defineProps<{
@@ -12,16 +12,17 @@ const themeConfig = useThemeConfig()
 
 const categories = computed(() => {
   const cs = useCategory('', pages.value)
-  cs.children.delete('Uncategorized')
+  const cList = cs.value
+  removeItemFromCategory(cList, 'Uncategorized')
 
   const sidebar = themeConfig.value.sidebar
   if (sidebar) {
-    cs.children.forEach((_, key) => {
-      if (!themeConfig.value.sidebar.includes(key))
-        cs.children.delete(key)
+    cList.children.forEach((item) => {
+      if (!themeConfig.value.sidebar.includes(item.name))
+        removeItemFromCategory(cList, item.name)
     })
   }
-  return cs
+  return cList
 })
 
 const { hasSidebar } = useSidebar()

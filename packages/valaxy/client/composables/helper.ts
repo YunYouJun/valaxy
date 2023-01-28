@@ -7,7 +7,7 @@ import { ref } from 'vue'
  * @param target
  * @returns
  */
-export function useInvisibleElement(target: Ref<HTMLElement>) {
+export function useInvisibleElement(target: Ref<HTMLElement | undefined>) {
   const isVisible = ref(false)
   const { top } = useElementBounding(target)
   useIntersectionObserver(target, ([{ isIntersecting }]) => {

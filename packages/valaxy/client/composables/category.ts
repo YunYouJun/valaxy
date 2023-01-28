@@ -1,3 +1,5 @@
+import type { MaybeRef } from '@vueuse/core'
+import { computed, unref } from 'vue'
 import type { Post } from '../..'
 import { useSiteStore } from '../stores'
 
@@ -5,126 +7,148 @@ export interface BaseCategory {
   total: number
 }
 
-export interface ParentCategory extends BaseCategory {
-  children: Categories
+export interface CategoryList {
+  /**
+   * category name
+   */
+  name: string
+  /**
+   * total posts
+   */
+  total: number
+  children: (Post | CategoryList)[]
 }
+export type Category = CategoryList
+export type Categories = (Post | CategoryList)[]
 
-export interface PostCategory extends BaseCategory {
-  posts: Post[]
-}
-
-export type Category = ParentCategory | PostCategory
-
-// export type Categories = Map<string, Post[] | Category>
-export type Categories = Map<string, Category>
-
-export const isParentCategory = (category: any): category is ParentCategory => category.children
+// todo write unit test
+export const isCategoryList = (category: any): category is CategoryList => category.children
 
 /**
  * get categories from posts
+ * category: A/B/C
+ * {
+ *  name: 'A',
+ *  total: 1,
+ *  children: [
+ *    {
+ *      name: 'B'
+ *      total: 1,
+ *      children: [{ name: 'C', total: 1, children: [{ title: '' }] }]
+ *    }
+ *  ]
+ * }
  * @returns
  */
-export function useCategory(category?: string, posts: Post[] = []): ParentCategory {
-  if (!posts.length) {
-    const site = useSiteStore()
-    posts = site.postList
-  }
+export function useCategory(category?: MaybeRef<string>, posts: Post[] = []) {
+  return computed(() => {
+    const categories = unref(category)
 
-  const categoryMap: Category = {
-    total: posts.length,
-    children: new Map([
-      ['Uncategorized', { total: 0, posts: [] }],
-    ]),
-  }
+    if (!posts.length) {
+      const site = useSiteStore()
+      posts = site.postList
+    }
 
-  const uncategorized = categoryMap.children.get('Uncategorized') as PostCategory
+    const categoryList: CategoryList = {
+      name: 'All',
+      total: posts.length,
+      children: [
+        { name: 'Uncategorized', total: 0, children: [] },
+      ],
+    }
 
-  posts.forEach((post: Post) => {
-    if (post.categories) {
-      if (Array.isArray(post.categories)) {
-        const len = post.categories.length
+    const uncategorized = categoryList.children.find(item => item.name === 'Uncategorized')!
 
-        let c: ParentCategory = categoryMap
-        post.categories.forEach((category, i) => {
-          if (i === len - 1) {
-            if (c.children.has(category)) {
-              const cur = c.children.get(category) as PostCategory
-              if (cur.posts) {
-                cur.total += 1
-                cur.posts!.push(post)
+    posts.forEach((post: Post) => {
+      if (post.categories) {
+        if (Array.isArray(post.categories)) {
+          const len = post.categories.length
+
+          let curCategoryList: CategoryList = categoryList
+          let parentCategory: CategoryList = curCategoryList
+
+          post.categories.forEach((categoryName, i) => {
+            curCategoryList.total += 1
+            curCategoryList = (curCategoryList.children.find(item => item.name === categoryName)) as CategoryList
+
+            if (!curCategoryList) {
+              curCategoryList = {
+                name: categoryName,
+                total: 0,
+                children: [],
               }
+              parentCategory.children.push(curCategoryList)
             }
-            else {
-              c.children?.set(category, {
-                total: 1,
-                posts: [post],
-              })
+
+            if (i === len - 1) {
+              curCategoryList.children.push(post)
+              curCategoryList.total += 1
             }
-          }
-          else {
-            if (c.children?.has(category)) {
-              const cur = c.children.get(category) as ParentCategory
-              cur.total += 1
-              c = cur
-            }
-            else {
-              const temp = {
-                total: 1,
-                children: new Map(),
-              }
-              c.children?.set(category, temp)
-              c = temp
-            }
-          }
-        })
-      }
-      else {
-        // for string
-        const category = post.categories
-        if (categoryMap.children.has(category)) {
-          const cur = categoryMap.children.get(category) as PostCategory
-          cur.total += 1
-          cur.posts.push(post)
-        }
-        else {
-          categoryMap.children.set(category, {
-            total: 1,
-            posts: [post],
+
+            parentCategory = curCategoryList
           })
         }
+        else {
+          // for string
+          const categoryName = post.categories
+          const curCategory = categoryList.children.find(item => item.name === categoryName)
+          if (curCategory) {
+            curCategory.total += 1
+            curCategory.children.push(post)
+          }
+          else {
+            categoryList.children.push({
+              name: categoryName,
+              total: 1,
+              children: [post],
+            })
+          }
+        }
       }
+      else {
+        uncategorized.total += 1
+        uncategorized.children.push(post)
+      }
+    })
+
+    // `top` had been sorted in routes
+
+    // clear uncategorized
+    if (uncategorized!.total === 0)
+      categoryList.children.shift()
+
+    if (!categories) {
+      return categoryList
     }
     else {
-      uncategorized.total += 1
-      uncategorized.posts.push(post)
-    }
-  })
-
-  categoryMap.children.forEach((child) => {
-    if ('posts' in child)
-      child.posts.sort((a, b) => (b.top || 0) - (a.top || 0))
-  })
-
-  // clear uncategorized
-  if (uncategorized!.total === 0)
-    categoryMap.children?.delete('Uncategorized')
-
-  if (!category) {
-    return categoryMap
-  }
-  else {
-    const categoryItem = categoryMap.children.get(category)
-    if (categoryItem) {
-      return {
-        total: categoryItem?.total,
-        children: new Map([
-          [category, categoryItem],
-        ]),
+      let curCategoryList = categoryList
+      const categoryArr = categories.split('/')
+      for (const categoryName of categoryArr) {
+        const tempCList = curCategoryList.children.find(item => item.name === categoryName)
+        if (tempCList && tempCList.children) {
+          curCategoryList = tempCList as CategoryList
+        }
+        else {
+          console.warn(`Do not have category: ${category}`)
+          return categoryList
+        }
       }
+      return curCategoryList
     }
-    else {
-      console.warn(`Do not have category: ${category}`)
-      return categoryMap
-    }
+  })
+}
+
+/**
+ * remove item from category
+ * @param categoryList
+ * @param categoryName
+ */
+export function removeItemFromCategory(categoryList: CategoryList, categoryName: string) {
+  if (isCategoryList(categoryList)) {
+    const categoryArr = categoryName.split('/')
+    // todo loop find
+    const categoryListItemIndex = categoryList.children.findIndex(item => item.name === categoryArr[0])
+
+    categoryList.children.splice(categoryListItemIndex, 1)
   }
 }

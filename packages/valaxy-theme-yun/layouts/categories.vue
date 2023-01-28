@@ -1,18 +1,17 @@
 <script lang="ts" setup>
-import { computed, ref } from 'vue'
-import { useCategory, useFrontmatter, useInvisibleElement, usePostTitle, useSiteStore } from 'valaxy'
+import { computed } from 'vue'
+import { useCategory, useFrontmatter, usePostTitle, useSiteStore } from 'valaxy'
 import { useI18n } from 'vue-i18n'
-import { useRoute, useRouter } from 'vue-router'
+import { useRoute } from 'vue-router'
 
 const { t } = useI18n()
 
 const site = useSiteStore()
-
 const frontmatter = useFrontmatter()
-const categories = useCategory()
 
 const route = useRoute()
 const curCategory = computed(() => (route.query.category as string || ''))
+const categories = useCategory()
 
 const posts = computed(() => {
   const list = site.postList.filter((post) => {
@@ -20,7 +19,7 @@ const posts = computed(() => {
       if (typeof post.categories === 'string')
         return post.categories === curCategory.value
       else
-        return post.categories.includes(curCategory.value)
+        return post.categories.join('/').startsWith(curCategory.value) && post.categories[0] === curCategory.value.split('/')[0]
     }
     if (!post.categories && curCategory.value === 'Uncategorized')
       return post.categories === undefined
@@ -28,20 +27,6 @@ const posts = computed(() => {
   })
   return list
 })
-
-const collapse = ref()
-const { show } = useInvisibleElement(collapse)
-
-const router = useRouter()
-const displayCategory = (category: string) => {
-  router.push({
-    query: {
-      category,
-    },
-  })
-
-  show()
-}
 
 const title = usePostTitle(frontmatter)
 </script>
@@ -57,15 +42,15 @@ const title = usePostTitle(frontmatter)
     </template>
     <template #main-content>
       <div text="center" class="yun-text-light" p="2">
-        {{ t('counter.categories', categories.children!.size) }}
+        {{ t('counter.categories', categories.children.length) }}
       </div>
-      <YunCategories :categories="categories.children!" :display-category="displayCategory" />
+      <YunCategories :categories="categories.children" />
       <router-view />
     </template>
 
     <template #main-nav-before>
-      <YunCard v-if="curCategory" ref="collapse" m="t-4" w="full">
-        <YunPageHeader :title="curCategory === 'Uncategorized' ? t('category.uncategorized') : curCategory" icon="i-ri-folder-open-line" />
+      <YunCard v-if="curCategory" class="post-collapse-container" m="t-4" w="full">
+        <YunPageHeader :title="curCategory === 'Uncategorized' ? t('category.uncategorized') : curCategory.split('/').join(' / ')" icon="i-ri-folder-open-line" />
         <YunPostCollapse w="full" m="b-4" p="x-20 lt-sm:x-5" :posts="posts" />
       </YunCard>
     </template>

@@ -1,7 +1,6 @@
 import { resolve } from 'path'
 import { existsSync } from 'fs'
 import type { VitePluginConfig as UnoCSSConfig, VitePluginConfig } from 'unocss/vite'
-import Unocss from 'unocss/vite'
 import jiti from 'jiti'
 import defu from 'defu'
 
@@ -99,6 +98,7 @@ export const createUnocssConfig = async (options: ResolvedValaxyOptions) => {
 }
 
 export const createUnocssPlugin = async (options: ResolvedValaxyOptions) => {
+  const UnoCSS = await import('unocss/vite').then(r => r.default)
   const { unocss: unoOptions } = options.config
   const defaultConfig = await createUnocssConfig(options)
 
@@ -132,7 +132,7 @@ export const createUnocssPlugin = async (options: ResolvedValaxyOptions) => {
   config = await loadSetups(roots, 'unocss.ts', {}, config, true)
 
   // https://github.com/unocss/unocss/issues/1262
-  return Unocss({
+  return UnoCSS({
     configDeps,
     configFile: false,
     ...defu(unoOptions || {}, config, defaultConfig),
