@@ -1,3 +1,4 @@
+import type { ZoomOptions } from 'medium-zoom'
 import type { ValaxyAddon } from '../types'
 
 export type DefaultThemeConfig = {
@@ -183,6 +184,20 @@ export interface SiteConfig {
       color: string
       icon: string
     }[]
+  }
+
+  /**
+   * image preview by medium-zoom
+   * @url https://github.com/francoischalifour/medium-zoom
+   */
+  mediumZoom: {
+    enable: boolean
+    /**
+     * For example: '.markdown-body img'
+     * @default '' content.value querySelectorAll('img')
+     */
+    selector: string | HTMLElement | HTMLElement[]
+    options: ZoomOptions
   }
 }
 

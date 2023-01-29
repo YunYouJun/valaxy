@@ -58,6 +58,37 @@ Algolia 是一个在线第三方搜索服务，您需要自行申请相关 ID �
 
 Valaxy 提供了一个快速集成插件 [valaxy-addon-algolia](https://github.com/YunYouJun/valaxy/tree/main/packages/valaxy-addon-algolia)（目前仅支持 DocSearch）。
 
+## 图片预览（Medium Zoom）
+
+Valaxy 内置了 [medium-zoom](https://github.com/francoischalifour/medium-zoom) 进行图片预览，默认关闭。
+
+> [Medium Zoom Demo](https://medium-zoom.francoischalifour.com/)
+
+- mediumZoom
+  - `enable`: 是否开启
+  - `selector`: 可自定义传入选择器
+  - `options`: 与 [options | medium-zoom](https://github.com/francoischalifour/medium-zoom#options) 一致
+
+譬如开启 Medium Zoom：
+
+```ts
+// site.config.ts
+import { defineSiteConfig } from 'valaxy'
+
+export default defineSiteConfig({
+  mediumZoom: { enable: true }
+})
+```
+
+除此之外，你也可以单独控制是否在某篇文章中开启。
+
+```md
+---
+title: Test Medium Zoom
+medium_zoom: true
+---
+```
+
 ## 音乐播放器
 
 > 基于 [Aplayer](https://github.com/DIYgod/APlayer) 与 [MetingJS](https://github.com/metowolf/MetingJS) 实现

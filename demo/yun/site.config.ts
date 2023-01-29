@@ -100,6 +100,8 @@ export default defineSiteConfig({
     enable: true,
   },
 
+  mediumZoom: { enable: true },
+
   sponsor: {
     enable: true,
     methods: [

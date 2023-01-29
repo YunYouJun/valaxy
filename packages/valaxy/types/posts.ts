@@ -101,19 +101,6 @@ export interface Post extends Record<string, any> {
   end?: boolean
 
   /**
-   * use aplayer
-   */
-  aplayer?: boolean
-  /**
-   * use katex
-   */
-  katex?: boolean
-  /**
-   * use codepen
-   */
-  codepen?: boolean
-
-  /**
    * 置顶
    */
   top?: number
@@ -145,4 +132,23 @@ export interface Post extends Record<string, any> {
    * @description 是否启用默认的 markdown 样式
    */
   markdown?: boolean
+
+  // third-party features
+  /**
+   * use aplayer
+   */
+  aplayer?: boolean
+  /**
+   * use katex
+   */
+  katex?: boolean
+  /**
+   * use codepen
+   */
+  codepen?: boolean
+  /**
+   * use medium-zoom
+   * @url https://github.com/francoischalifour/medium-zoom
+   */
+  medium_zoom: boolean
 }

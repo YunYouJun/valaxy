@@ -24,7 +24,7 @@ export const defaultThemeConfig: ThemeConfig = {
 
   say: {
     enable: true,
-    api: 'https://el-bot-api.vercel.app/api/words/young',
+    api: 'https://el-bot-api.elpsy.cn/api/words/young',
     hitokoto: {
       enable: false,
       api: 'https://v1.hitokoto.cn',

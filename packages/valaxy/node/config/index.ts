@@ -76,6 +76,12 @@ export const defaultSiteConfig: SiteConfig = {
   cdn: {
     prefix: 'https://unpkg.com/',
   },
+
+  mediumZoom: {
+    enable: false,
+    selector: '',
+    options: {},
+  },
 }
 
 export const defaultValaxyConfig: ValaxyNodeConfig = {

@@ -2,8 +2,8 @@
 import type { Ref } from 'vue'
 import { inject, onMounted, ref } from 'vue'
 import { useI18n } from 'vue-i18n'
-import { useAplayer, useCodePen, useCopyCode, wrapTable } from '..'
-import type { Post } from '../..'
+import { useAplayer, useCodePen, useCopyCode, useMediumZoom, wrapTable } from 'valaxy'
+import type { Post } from 'valaxy'
 
 const props = defineProps<{
   frontmatter: Post
@@ -32,6 +32,9 @@ if (props.frontmatter.codepen)
   useCodePen()
 
 useCopyCode()
+
+if (typeof props.frontmatter.medium_zoom === 'undefined' || props.frontmatter.medium_zoom)
+  useMediumZoom()
 </script>
 
 <template>
@@ -64,3 +67,10 @@ useCopyCode()
     </article>
   </Transition>
 </template>
+
+<style>
+.medium-zoom-overlay,
+.medium-zoom-image--opened {
+  z-index: 999;
+}
+</style>
