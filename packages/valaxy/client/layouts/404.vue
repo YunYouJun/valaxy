@@ -8,7 +8,7 @@ const { t } = useI18n()
 
 <template>
   <main class="va-main" text="center">
-    <div m="4" p="10" text="yellow-600">
+    <div p="10" text="yellow-600">
       <div text-6xl>
         <div i-ri-alarm-warning-line inline-block />
       </div>
