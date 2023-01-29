@@ -5,7 +5,7 @@
  * @description https://github.com/YunYouJun/hexo-theme-yun
  */
 
-import { CSSProperties, computed, onMounted, ref } from 'vue'
+import { CSSProperties, computed, onBeforeMount, ref } from 'vue'
 import { random } from 'valaxy'
 import { useThemeConfig } from '../composables'
 
@@ -23,7 +23,7 @@ const chars = computed(() => {
 const lineH = computed(() => chars.value.reduce((a, b) => a + b, 0) / 2)
 
 const bannerStyles = ref()
-onMounted(() => {
+onBeforeMount(() => {
   bannerStyles.value = {
     '--banner-height': `${window.innerHeight}px`,
     '--banner-line-height': `calc(var(--banner-height, 100vh) / 2 - ${lineH.value}rem)`,
