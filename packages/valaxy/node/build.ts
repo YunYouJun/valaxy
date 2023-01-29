@@ -43,7 +43,8 @@ export async function ssgBuild(
         },
       )
     },
-    dirStyle: 'nested',
+    // dirStyle default it flat
+    // dirStyle: 'nested',
   }
   const inlineConfig: InlineConfig = mergeViteConfig(defaultConfig, viteConfig)
 

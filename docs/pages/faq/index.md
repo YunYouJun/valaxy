@@ -8,9 +8,9 @@ end: false
 
 ## 改变构建形式
 
-为了 URL 兼容性，Valaxy 默认将 `xxx.md` 构建为 `/xxx/index.html`。
+Valaxy 默认将 `xxx.md` 构建为 `/xxx.html`。
 
-如果您更希望默认构建为 `xxx.html` 的形式。
+如果您更希望默认构建为 `/xxx/index.html` 的形式。
 
 可以修改 `vite-ssg` 的配置。
 
@@ -22,7 +22,7 @@ import { defineConfig } from 'vite'
 export default defineConfig({
   // ...
   ssgOptions: {
-    dirStyle: 'flat',
+    dirStyle: 'nested',
   }
 })
 ```

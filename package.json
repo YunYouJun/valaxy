@@ -39,7 +39,7 @@
     "prepare": "husky install"
   },
   "devDependencies": {
-    "@antfu/eslint-config": "^0.35.0",
+    "@antfu/eslint-config": "^0.35.1",
     "@types/debug": "^4.1.7",
     "@types/node": "^18.11.18",
     "@types/prompts": "^2.4.2",

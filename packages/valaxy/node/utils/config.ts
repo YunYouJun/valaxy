@@ -67,7 +67,6 @@ export async function resolveAddonConfig(addons: ValaxyAddonResolver[], options?
   let valaxyConfig: ValaxyNodeConfig = {} as ValaxyNodeConfig
   for (const addon of addons) {
     const { config, configFile } = await loadConfigFromFile<ValaxyNodeConfig>('index', {
-      // eslint-disable-next-line @typescript-eslint/no-unused-vars
       rewrite<F = ValaxyNodeConfig | ValaxyAddonFn>(obj: F, _filepath: string) {
         return (typeof obj === 'function' ? obj(addon, options!) : obj)
       },
