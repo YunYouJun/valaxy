@@ -1,9 +1,12 @@
-import { mergeConfig as mergeViteConfig, normalizePath } from 'vite'
+import { mergeConfig as mergeViteConfig } from 'vite'
 import { createDefu } from 'defu'
 import { isFunction } from '@antfu/utils'
+
+import { cyan, dim } from 'kolorist'
 import type { ResolvedValaxyOptions, ValaxyEntryOptions } from '../options'
-import type { ValaxyAddonFn, ValaxyAddonResolver, ValaxyConfig, ValaxyConfigFn } from '../types'
-import { loadConfigFromFiles } from '.'
+import type { ValaxyAddonFn, ValaxyAddonResolver, ValaxyConfigFn, ValaxyNodeConfig } from '../types'
+import { loadConfigFromFile } from '../config/utils'
+import { logger } from '../logger'
 
 /**
  * merge valaxy.config
@@ -29,8 +32,8 @@ export const mergeValaxyConfig = createDefu((obj: any, key, value) => {
  * @returns
  */
 export async function resolveValaxyConfigFromRoot(root: string, options?: ResolvedValaxyOptions) {
-  return loadConfigFromFiles<ValaxyConfig>('valaxy.config', {
-    rewrite(c: ValaxyConfig | ValaxyConfigFn) {
+  return loadConfigFromFile<ValaxyNodeConfig>('valaxy.config', {
+    rewrite<F = ValaxyNodeConfig | ValaxyConfigFn>(c: F) {
       return (typeof c === 'function' ? c(options || {} as ResolvedValaxyOptions) : c)
     },
     cwd: root,
@@ -47,8 +50,9 @@ export async function resolveValaxyConfigFromRoot(root: string, options?: Resolv
 export async function resolveValaxyConfig(options: ValaxyEntryOptions) {
   // const resolved = await mergeValaxyConfig(options)
   // valaxyConfig = mergeValaxyConfig(valaxyConfig, config)
-  const { config: userValaxyConfig, sources } = await resolveValaxyConfigFromRoot(options.userRoot || process.cwd())
-  const configFile = normalizePath(sources[0] || '')
+  const { config: userValaxyConfig, configFile } = await resolveValaxyConfigFromRoot(options.userRoot || process.cwd())
+  if (userValaxyConfig)
+    logger.info(`Resolve ${cyan('valaxyConfig')} from ${dim(configFile)}`)
 
   const theme = options.theme || userValaxyConfig.theme || 'yun'
 
@@ -60,17 +64,17 @@ export async function resolveValaxyConfig(options: ValaxyEntryOptions) {
 }
 
 export async function resolveAddonConfig(addons: ValaxyAddonResolver[], options?: ResolvedValaxyOptions) {
-  let valaxyConfig: ValaxyConfig = {}
+  let valaxyConfig: ValaxyNodeConfig = {} as ValaxyNodeConfig
   for (const addon of addons) {
-    const { config, sources } = await loadConfigFromFiles<ValaxyConfig>('index', {
-      rewrite(c: ValaxyConfig | ValaxyAddonFn) {
-        return (typeof c === 'function' ? c(addon, options!) : c)
+    const { config, configFile } = await loadConfigFromFile<ValaxyNodeConfig>('index', {
+      rewrite<F = ValaxyNodeConfig | ValaxyAddonFn>(obj: F, _filepath: string) {
+        return (typeof obj === 'function' ? obj(addon, options!) : obj)
       },
       cwd: addon.root,
     })
     if (!config)
       continue
-    addon.configFile = normalizePath(sources[0] || '')
+    addon.configFile = configFile
     valaxyConfig = mergeValaxyConfig(config, valaxyConfig)
   }
   return valaxyConfig

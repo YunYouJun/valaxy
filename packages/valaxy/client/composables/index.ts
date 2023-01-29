@@ -14,6 +14,4 @@ export * from './locale'
 
 export * from './sidebar'
 export * from './outline'
-
-// comment
-export * from './comments'
+export * from './body-scroll-lock'

@@ -1,5 +1,5 @@
 import type { ResolvedValaxyOptions } from 'valaxy'
-import { defineTheme } from 'valaxy'
+import { defineValaxyTheme } from 'valaxy'
 import type { Plugin } from 'vite'
 import type { ThemeConfig } from './types'
 import { defaultThemeConfig, generateSafelist } from './node'
@@ -27,11 +27,20 @@ function ThemeVitePlugin(options: ResolvedValaxyOptions<ThemeConfig>): Plugin {
   }
 }
 
-export default defineTheme<ThemeConfig>((options) => {
+export default defineValaxyTheme<ThemeConfig>((options) => {
   return {
     themeConfig: defaultThemeConfig,
-    addons: ['valaxy-addon-waline'],
     vite: {
+      build: {
+        rollupOptions: {
+          // add on demand external
+          external: [
+            'valaxy-addon-algolia',
+            'valaxy-addon-twikoo',
+            'valaxy-addon-waline',
+          ],
+        },
+      },
       plugins: [ThemeVitePlugin(options)],
     },
     unocss: {

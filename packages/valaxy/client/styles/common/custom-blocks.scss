@@ -85,7 +85,9 @@ html.dark {
   align-items: center;
 
   > .icon {
-    width: 16px;
+    display: inline-flex;
+    width: 1rem;
+    height: 1rem;
     margin-right: 4px;
   }
 }

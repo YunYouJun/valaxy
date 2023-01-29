@@ -37,7 +37,9 @@ async function init() {
     const packageName = await getValidPackageName(targetDir)
     const root = path.join(cwd, targetDir)
 
-    if (!fs.existsSync(root)) { fs.mkdirSync(root, { recursive: true }) }
+    if (!fs.existsSync(root)) {
+      fs.mkdirSync(root, { recursive: true })
+    }
     else {
       const existing = fs.readdirSync(root)
       if (existing.length) {

@@ -2,10 +2,10 @@
 import { useCounter } from '@vueuse/core'
 
 const props = defineProps<{
-  initial: number
+  initial?: number
 }>()
 
-const { count, inc, dec } = useCounter(props.initial)
+const { count, inc, dec } = useCounter(props.initial || 0)
 </script>
 
 <template>

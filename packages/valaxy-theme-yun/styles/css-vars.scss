@@ -4,6 +4,9 @@
 :root {
   @include set-css-var-from-map($common);
   @include set-css-var-from-map($z-index, "z");
+
+  // z-index
+  --va-z-overlay: var(--yun-z-backdrop);
 }
 
 :root {

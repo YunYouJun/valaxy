@@ -1,32 +1,32 @@
 <script lang="ts" setup>
-import { useConfig } from 'valaxy'
+import { useSiteConfig } from 'valaxy'
 import { useRouter } from 'vue-router'
 
-const config = useConfig()
+const siteConfig = useSiteConfig()
 const router = useRouter()
 </script>
 
 <template>
   <div class="sidebar-panel">
     <div class="site-info" m="t-6">
-      <a class="site-author-avatar" href="/about">
-        <img class="rounded-full" :src="config.author.avatar" alt="avatar">
-        <span class="site-author-status">{{ config.author.status.emoji }}</span>
-      </a>
+      <router-link class="site-author-avatar" to="/about">
+        <img class="rounded-full" :src="siteConfig.author.avatar" alt="avatar">
+        <span class="site-author-status">{{ siteConfig.author.status.emoji }}</span>
+      </router-link>
       <div class="site-author-name">
-        <a href="/about">
-          {{ config.author.name }}
-        </a>
+        <router-link to="/about">
+          {{ siteConfig.author.name }}
+        </router-link>
       </div>
       <router-link v-if="router.hasRoute('about-site')" to="/about/site" class="site-name">
-        {{ config.title }}
+        {{ siteConfig.title }}
       </router-link>
-      <span v-else class="site-name">{{ config.title }}</span>
-      <h4 v-if="config.subtitle" class="site-subtitle block" text="xs">
-        {{ config.subtitle }}
+      <span v-else class="site-name">{{ siteConfig.title }}</span>
+      <h4 v-if="siteConfig.subtitle" class="site-subtitle block" text="xs">
+        {{ siteConfig.subtitle }}
       </h4>
-      <div v-if="config.description" class="site-description my-1">
-        {{ config.description }}
+      <div v-if="siteConfig.description" class="site-description my-1">
+        {{ siteConfig.description }}
       </div>
     </div>
 
@@ -98,7 +98,7 @@ const router = useRouter()
 .site-name {
   color: var(--va-c-text);
   font-family: get-css-var('font-serif');
-  font-weight: get-css-var('font-serif-weight');
+  font-weight: 900;
 }
 
 .site-subtitle {

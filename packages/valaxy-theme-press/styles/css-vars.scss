@@ -3,11 +3,15 @@
 }
 
 :root {
+  --pr-c-bg: var(--va-c-bg);
+
   --pr-c-text-code: #374562;
+  --pr-c-text-1: #213547;
+  --pr-c-text-2: rgba(60, 60, 60, .7);
 
   // aside
-  --pr-aside-text-1: #213547;
-  --pr-aside-text-2: #3c3c3cb3;
+  --pr-aside-text-1: var(--pr-c-text-1);
+  --pr-aside-text-2: rgba(60, 60, 60, 0.702);
 
   --pr-aside-divider: rgba(60, 60, 60, 0.122);
 
@@ -16,13 +20,16 @@
   // nav
   --pr-nav-height: var(--pr-nav-height-mobile);
   --pr-nav-height-mobile: 60px;
+  --pr-nav-text: var(--pr-c-text-1);
+  --pr-nav-screen-bg-color: var(--pr-c-bg);
 
   // z-index
-  --va-z-overlay: var(--pr-z-index-backdrop);
-  --pr-z-index-nav: 8;
-  --pr-z-index-local-nav: 9;
-  --pr-z-index-backdrop: 10;
-  --pr-z-index-sidebar: 11;
+  --va-z-overlay: var(--pr-z-backdrop);
+  --pr-z-local-nav: 8;
+  --pr-z-nav: 9;
+  --pr-z-backdrop: 10;
+  --pr-z-aside: 11;
+  --pr-z-sidebar: 12;
 
   // switch
   --pr-switch-divider: rgba(60, 60, 60, 0.29);
@@ -31,9 +38,10 @@
 
 .dark {
   --pr-c-text-code: var(--pr-c-indigo-lighter);
+  --pr-c-text-1: #ffffffde;
+  --pr-c-text-2: rgba(235, 235, 235, .6);
 
   // aside
-  --pr-aside-text-1: #ffffffde;
   --pr-aside-text-2: #ebebeb99;
   --pr-aside-divider: rgba(84, 84, 84, 0.48);
 

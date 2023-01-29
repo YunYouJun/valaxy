@@ -1,5 +1,4 @@
 declare const __DEV__: boolean
-declare const __ALGOLIA__: boolean
 
 // this module's typing is broken.
 declare module '@docsearch/js' {

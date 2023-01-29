@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import { computed } from 'vue'
-import { useCategory, usePageList, useSidebar } from 'valaxy'
+import { removeItemFromCategory, useCategory, usePageList, useSidebar } from 'valaxy'
 import { useThemeConfig } from '../composables'
 
 defineProps<{
@@ -12,16 +12,17 @@ const themeConfig = useThemeConfig()
 
 const categories = computed(() => {
   const cs = useCategory('', pages.value)
-  cs.children.delete('Uncategorized')
+  const cList = cs.value
+  removeItemFromCategory(cList, 'Uncategorized')
 
   const sidebar = themeConfig.value.sidebar
   if (sidebar) {
-    cs.children.forEach((_, key) => {
-      if (!themeConfig.value.sidebar.includes(key))
-        cs.children.delete(key)
+    cList.children.forEach((item) => {
+      if (!themeConfig.value.sidebar.includes(item.name))
+        removeItemFromCategory(cList, item.name)
     })
   }
-  return cs
+  return cList
 })
 
 const { hasSidebar } = useSidebar()
@@ -47,15 +48,16 @@ const { hasSidebar } = useSidebar()
   top: 0;
   bottom: 0;
   left: 0;
-  padding: 1.5rem 1rem;
-  padding-top: var(--pr-nav-height);
-  z-index: var(--pr-z-index-sidebar);
+  padding: 1rem;
+  top: var(--pr-nav-height);
+  z-index: var(--pr-z-sidebar);
   width: calc(100vw - 64px);
   max-width: 320px;
   background-color: var(--va-c-bg);
   opacity: 0;
   overflow-x: hidden;
   overflow-y: auto;
+  overflow-y: overlay;
   transform: translateX(-100%);
   transition: opacity 0.5s, transform 0.25s ease;
 
@@ -67,17 +69,21 @@ const { hasSidebar } = useSidebar()
   }
 }
 
-@include media('md') {
+@include screen('md') {
   .press-sidebar {
     z-index: 1;
-    padding: 1.5rem 1rem;
-    padding-top: var(--pr-nav-height);
     width: var(--va-sidebar-width);
     max-width: 100%;
     background-color: var(--va-c-bg-alt);
     opacity: 1;
     box-shadow: none;
     transform: translateX(0);
+  }
+}
+
+@include mobile {
+  .press-sidebar {
+    top: 0;
   }
 }
 </style>

@@ -1,27 +1,20 @@
 <script lang="ts" setup>
 import type { PageData, Post } from 'valaxy'
-import { useConfig, usePostTitle } from 'valaxy'
-import { computed, defineAsyncComponent } from 'vue'
+import { usePostTitle, useSiteConfig } from 'valaxy'
+import { StyleValue, computed } from 'vue'
 import { usePostProperty } from '../composables'
 
 const props = defineProps<{
   frontmatter: Post
   data?: PageData
 }>()
-const config = useConfig()
+
+const siteConfig = useSiteConfig()
 
 const { styles, icon, color } = usePostProperty(props.frontmatter.type)
 const title = usePostTitle(computed(() => props.frontmatter))
 
 const aside = computed(() => props.frontmatter.aside !== false)
-
-const YunWaline = config.value.comment.waline.enable
-  ? defineAsyncComponent(() => import('./YunWaline.vue'))
-  : () => null
-
-const YunTwikoo = config.value.comment.waline.enable
-  ? defineAsyncComponent(() => import('./YunTwikoo.vue'))
-  : () => null
 </script>
 
 <template>
@@ -29,7 +22,7 @@ const YunTwikoo = config.value.comment.waline.enable
     <div w="full" flex="~">
       <slot name="main">
         <div class="content" :class="!aside && 'no-aside'" flex="~ col grow" w="full" p="l-4 lt-md:0">
-          <YunCard :cover="frontmatter.cover" m="0" class="relative" :style="styles">
+          <YunCard :cover="frontmatter.cover" m="0" class="relative" :style="styles as StyleValue">
             <slot name="main-header">
               <YunPageHeader :title="title" :icon="frontmatter.icon || icon" :color="frontmatter.color || color" :cover="frontmatter.cover" />
             </slot>
@@ -55,16 +48,13 @@ const YunTwikoo = config.value.comment.waline.enable
 
           <slot name="main-nav-after" />
 
-          <slot v-if="config.comment.enable && frontmatter.comment !== false" name="comment">
-            <YunCard w="full" p="4" class="comment sm:p-6 lg:px-12 xl:px-16" :class="frontmatter.nav === false ? 'mt-4' : 0">
-              <YunWaline v-if="config.comment.waline.enable" />
-              <YunTwikoo v-if="config.comment.twikoo.enable" />
-            </YunCard>
+          <slot v-if="siteConfig.comment.enable && frontmatter.comment !== false" name="comment">
+            <YunComment :class="frontmatter.nav === false ? 'mt-4' : 0" />
           </slot>
 
-          <YunFooter>
-            <slot name="footer" />
-          </YunFooter>
+          <slot name="main-footer-before" />
+          <YunFooter />
+          <slot name="main-footer-after" />
         </div>
       </slot>
 
@@ -80,7 +70,15 @@ const YunTwikoo = config.value.comment.waline.enable
 <style lang="scss">
 @use 'valaxy/client/styles/mixins' as *;
 
-@include media('xl') {
+@include screen('md') {
+  .yun-main {
+    &.has-sidebar {
+      padding-left: var(--va-sidebar-width);
+    }
+  }
+}
+
+@include screen('xl') {
   .content{
     // 8px scrollbar width
     max-width: calc(100vw - 2 * var(--va-sidebar-width) - 1rem - 8px);

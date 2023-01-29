@@ -1,39 +1,35 @@
 import { resolve } from 'path'
 import fs from 'fs-extra'
-import consola from 'consola'
 import defu from 'defu'
-import type { ValaxyAddonLike, ValaxyAddonOptions, ValaxyAddonResolver } from '../types'
+import { cyan, yellow } from 'kolorist'
+import type { ValaxyAddonResolver, ValaxyAddons } from '../types'
+import { logger } from '../logger'
 import { getModuleRoot } from './root'
 
 export interface ReadAddonModuleOptions {
   cwd?: string
-  extends?: Partial<ValaxyAddonResolver>
 }
 
-export async function parseAddonOptions(options: ValaxyAddonOptions, userRoot = process.cwd()) {
+export async function parseAddons(addons: ValaxyAddons, userRoot = process.cwd()) {
   const resolvers: Record<string, ValaxyAddonResolver > = {}
   const mergeResolver = (resolver?: ValaxyAddonResolver) => {
     if (resolver)
       resolvers[resolver.name] = defu(resolvers[resolver.name] || {}, resolver)
   }
-  if (Array.isArray(options)) {
-    for (const option of options) {
-      if (typeof option === 'string') {
-        mergeResolver(await readAddonModule(option, { cwd: userRoot }))
+  if (Array.isArray(addons)) {
+    for (const addon of addons) {
+      if (typeof addon === 'string') {
+        mergeResolver(await readAddonModule(addon, { cwd: userRoot }))
         continue
       }
-      if (Array.isArray(option)) {
-        const [name, like] = option
-        mergeResolver(await readAddonModule(name, { cwd: userRoot, extends: parseAddonLike(like) }))
-      }
+      if (typeof addon === 'object')
+        mergeResolver(defu(await readAddonModule(addon.name, { cwd: userRoot }), addon || {}))
     }
   }
-  else if (typeof options === 'object') {
-    for (const [name, like] of Object.entries(options))
-      mergeResolver(await readAddonModule(name, { cwd: userRoot, extends: parseAddonLike(like) }))
-  }
 
-  return Object.values(resolvers).filter(item => item.enable)
+  const resolvedAddons = Object.values(resolvers).filter(item => item.enable)
+  logger.info(`Resolve ${cyan('addons:')} ${yellow(resolvedAddons.map(item => item.name).join(', '))}`)
+  return resolvedAddons
 }
 
 /**
@@ -48,7 +44,7 @@ export async function readAddonModule(name: string, options: ReadAddonModuleOpti
 
   const packageJSONPath = resolve(root, './package.json')
   if (!fs.existsSync(packageJSONPath)) {
-    consola.error(`No addon named ${name} found`)
+    logger.error(`No addon named ${name} found`)
     return
   }
   const packageJSON = await fs.readJSON(packageJSONPath)
@@ -61,16 +57,7 @@ export async function readAddonModule(name: string, options: ReadAddonModuleOpti
     options: {},
     props: {},
   }
-  return defu(resolver, options.extends || {})
-}
-
-export function parseAddonLike(like: ValaxyAddonLike) {
-  const option: Partial<ValaxyAddonResolver> = { enable: true }
-  if (like === false)
-    option.enable = false
-  if (typeof like === 'object')
-    Object.assign(option, like)
-  return option
+  return resolver
 }
 
 /**

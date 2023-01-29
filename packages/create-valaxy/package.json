@@ -1,6 +1,6 @@
 {
   "name": "create-valaxy",
-  "version": "0.10.3",
+  "version": "0.14.0",
   "description": "Create Starter Template for Valaxy",
   "author": {
     "email": "me@yunyoujun.cn",
@@ -18,12 +18,12 @@
     "create-valaxy": "index.js"
   },
   "engines": {
-    "node": ">=14.0.0"
+    "node": "^14.18.0 || >=16.0.0"
   },
   "dependencies": {
     "execa": "5",
-    "kolorist": "^1.5.1",
-    "minimist": "^1.2.6",
+    "kolorist": "^1.6.0",
+    "minimist": "^1.2.7",
     "prompts": "^2.4.2"
   }
 }

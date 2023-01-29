@@ -2,8 +2,8 @@ import { useRoute } from 'vue-router'
 import { computed, inject } from 'vue'
 import { isClient } from '@vueuse/core'
 
-import type { PageData, Post } from '../../types'
-import { useConfig } from '../config'
+import type { PageData, Post } from '../..'
+import { useSiteConfig } from '../config'
 
 export function useFrontmatter() {
   const route = useRoute()
@@ -25,10 +25,10 @@ export function useData(): PageData {
  * get full url
  */
 export function useFullUrl() {
-  const config = useConfig()
+  const siteConfig = useSiteConfig()
   const route = useRoute()
   const url = computed(() => {
-    const siteUrl = config.value.url.endsWith('/') ? config.value.url.slice(0, -1) : config.value.url
+    const siteUrl = siteConfig.value.url.endsWith('/') ? siteConfig.value.url.slice(0, -1) : siteConfig.value.url
     const origin = siteUrl || (isClient && window.location.origin)
     return origin + route.path
   })

@@ -9,12 +9,14 @@ export function getGitTimestamp(file: string, type: 'created' | 'updated' = 'upd
     if (type === 'created')
       params.push('|', 'tail', '-1')
 
-    const child = spawn('xxx', params)
+    const child = spawn('git', params)
     let output = ''
     child.stdout.on('data', d => (output += String(d)))
     child.on('close', () => {
       resolve(+new Date(output))
     })
-    child.on('error', () => { resolve(0) })
+    child.on('error', () => {
+      resolve(0)
+    })
   })
 }

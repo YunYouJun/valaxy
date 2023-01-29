@@ -1,6 +1,7 @@
 {
   "name": "valaxy",
-  "version": "0.10.3",
+  "type": "module",
+  "version": "0.14.0",
   "description": "📄 Vite & Vue powered static blog generator.",
   "author": {
     "email": "me@yunyoujun.cn",
@@ -18,25 +19,26 @@
   "exports": {
     ".": {
       "types": "./index.d.ts",
-      "require": "./dist/node/index.js",
+      "require": "./dist/node/index.cjs",
       "import": "./dist/node/index.mjs"
     },
     "./client/*": "./client/*",
     "./client": "./client/index.ts",
     "./node": {
       "types": "./dist/node/index.d.ts",
-      "require": "./dist/node/index.js",
+      "require": "./dist/node/index.cjs",
       "import": "./dist/node/index.mjs"
     },
     "./types": "./dist/types/index.d.ts",
     "./*": "./*"
   },
-  "main": "dist/node/index.js",
+  "main": "dist/node/index.cjs",
   "module": "dist/node/index.mjs",
   "types": "index.d.ts",
   "bin": {
-    "vala": "./bin/valaxy.js",
-    "valaxy": "./bin/valaxy.js"
+    "vala": "./bin/valaxy.cjs",
+    "valam": "./bin/valaxy.mjs",
+    "valaxy": "./bin/valaxy.cjs"
   },
   "files": [
     "index.d.ts",
@@ -46,7 +48,7 @@
     "types"
   ],
   "engines": {
-    "node": ">=14.0.0"
+    "node": "^14.18.0 || >=16.0.0"
   },
   "scripts": {
     "build": "rimraf dist && tsup --splitting",
@@ -56,66 +58,87 @@
     "preview-https": "serve dist"
   },
   "dependencies": {
-    "@antfu/utils": "^0.5.2",
-    "@ctrl/tinycolor": "^3.4.1",
-    "@iconify-json/carbon": "^1.1.7",
-    "@iconify-json/ri": "^1.1.3",
-    "@intlify/vite-plugin-vue-i18n": "^5.0.1",
-    "@vitejs/plugin-vue": "^2.3.3",
-    "@vueuse/core": "^8.9.4",
-    "@vueuse/head": "^0.7.7",
+    "@antfu/utils": "^0.7.2",
+    "@ctrl/tinycolor": "^3.5.0",
+    "@iconify-json/carbon": "^1.1.14",
+    "@iconify-json/ri": "^1.1.4",
+    "@intlify/unplugin-vue-i18n": "^0.8.1",
+    "@types/body-scroll-lock": "^3.1.0",
+    "@vitejs/plugin-vue": "^4.0.0",
+    "@vueuse/core": "^9.11.1",
+    "@vueuse/head": "^1.0.23",
+    "@vueuse/integrations": "^9.11.1",
+    "body-scroll-lock": "4.0.0-beta.0",
     "consola": "^2.15.3",
     "critters": "^0.0.16",
     "cross-spawn": "^7.0.3",
-    "dayjs": "^1.11.4",
+    "dayjs": "^1.11.7",
     "ejs": "^3.1.8",
     "escape-html": "^1.0.3",
     "feed": "^4.2.2",
-    "global-dirs": "^3.0.0",
+    "fuse.js": "^6.6.2",
+    "global-dirs": "^3.0.1",
     "gray-matter": "^4.0.3",
+    "html-to-text": "^9.0.3",
     "is-installed-globally": "^0.4.0",
-    "jiti": "^1.14.0",
-    "katex": "^0.16.0",
-    "kolorist": "^1.5.1",
-    "lru-cache": "^7.13.1",
+    "jiti": "^1.16.1",
+    "katex": "^0.16.4",
+    "kolorist": "^1.6.0",
+    "lru-cache": "^7.14.1",
     "markdown-it": "^13.0.1",
-    "markdown-it-anchor": "^8.6.4",
-    "markdown-it-attrs": "^4.1.4",
+    "markdown-it-anchor": "^8.6.6",
+    "markdown-it-attrs": "^4.1.6",
     "markdown-it-container": "^3.0.0",
     "markdown-it-emoji": "^2.0.2",
-    "markdown-it-link-attributes": "^4.0.0",
     "markdown-it-table-of-contents": "^0.6.0",
     "markdown-it-task-lists": "^2.1.1",
+    "medium-zoom": "^1.0.8",
     "nprogress": "^0.2.0",
     "open": "^8.4.0",
     "pascal-case": "^3.1.2",
-    "pinia": "^2.0.17",
-    "sass": "^1.54.0",
-    "shiki": "^0.10.1",
-    "star-markdown-css": "^0.4.0",
-    "unconfig": "^0.3.5",
-    "unocss": "^0.44.7",
-    "unplugin-vue-components": "^0.21.1",
-    "vite": "^2.9.14",
-    "vite-plugin-pages": "^0.25.0",
+    "pinia": "^2.0.28",
+    "sass": "^1.57.1",
+    "shiki": "^0.12.1",
+    "star-markdown-css": "^0.4.1",
+    "unconfig": "^0.3.7",
+    "unocss": "^0.46.5",
+    "unplugin-vue-components": "^0.22.12",
+    "vite": "^4.0.4",
+    "vite-plugin-pages": "^0.28.0",
     "vite-plugin-vue-layouts": "^0.7.0",
-    "vite-ssg": "0.19.2",
-    "vite-ssg-sitemap": "0.3.1",
-    "vue": "^3.2.37",
-    "vue-i18n": "^9.1.10",
-    "vue-router": "^4.1.2",
-    "yargs": "^17.5.1"
+    "vite-ssg": "0.22.1",
+    "vite-ssg-sitemap": "0.4.3",
+    "vue": "^3.2.45",
+    "vue-i18n": "^9.2.2",
+    "vue-router": "^4.1.6",
+    "yargs": "^17.6.2"
   },
   "devDependencies": {
+    "@mdit-vue/plugin-component": "^0.11.2",
+    "@mdit-vue/plugin-frontmatter": "^0.11.1",
+    "@mdit-vue/plugin-headers": "^0.11.2",
+    "@mdit-vue/plugin-sfc": "^0.11.1",
+    "@mdit-vue/plugin-title": "^0.11.2",
+    "@mdit-vue/plugin-toc": "^0.11.2",
+    "@mdit-vue/shared": "^0.11.2",
     "@types/cross-spawn": "^6.0.2",
     "@types/ejs": "^3.1.1",
-    "@types/katex": "^0.14.0",
+    "@types/html-to-text": "^9.0.0",
+    "@types/katex": "^0.16.0",
     "@types/markdown-it": "^12.2.3",
-    "@types/markdown-it-link-attributes": "^3.0.1",
     "@types/nprogress": "^0.2.0",
-    "@types/yargs": "^17.0.10",
+    "@types/yargs": "^17.0.20",
     "debug": "^4.3.4",
     "diacritics": "^1.3.0",
-    "https-localhost": "^4.7.1"
+    "https-localhost": "^4.7.1",
+    "shiki-processor": "^0.1.2"
+  },
+  "pnpm": {
+    "peerDependencyRules": {
+      "ignoreMissing": [
+        "@types/markdown-it",
+        "@algolia/client-search"
+      ]
+    }
   }
 }

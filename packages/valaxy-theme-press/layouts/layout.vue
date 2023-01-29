@@ -51,6 +51,7 @@ const layout = useLayout()
         </component>
       </router-view>
     </slot>
+
+    <PressFooter />
   </div>
 </template>
-

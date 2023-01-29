@@ -1,10 +1,10 @@
 ---
 title: Getting Started
-title_zh: 开始
+title_zh-CN: 开始
 categories:
-  - Guide
+  - Getting Started
 end: true
-top: 99
+top: 100
 ---
 
 ## Overview {lang="en"}
@@ -47,7 +47,13 @@ Valaxy 基于 [Vite](https://vitejs.dev/) 提供热更新与打包等功能，�
 
 <div lang="zh-CN">
 
-::: danger
+::: danger 兼容
+
+由于 Vite 要求 [Node.js](https://nodejs.org/en/) 的版本为 14.18+, 16+，Valaxy 同样需要你将 Node.js 升级至 14.18 版本之后。
+
+:::
+
+::: tip
 
 如果您是 Windows 用户，我强烈建议您使用类 Unix 的 Shell（如 [Git Bash](https://git-scm.com/downloads) 或 [WSL](https://docs.microsoft.com/en-us/windows/wsl/install)），而非 CMD / PowerShell.
 
@@ -59,7 +65,13 @@ Valaxy 基于 [Vite](https://vitejs.dev/) 提供热更新与打包等功能，�
 
 <div lang="en">
 
-::: danger
+::: danger Compatibility Note
+
+Vite requires [Node.js](https://nodejs.org/en/) version 14.18+, 16+. Valaxy also requires you to upgrade Node.js after version 14.18+.
+
+:::
+
+::: tip
 
 If you are a Windows user, I strongly recommend using a Unix-like shell (such as [Git Bash](https://git-scm.com/downloads) or [WSL](https://docs.microsoft.com/en-us/windows/wsl/install) rather than CMD / PowerShell.
 
@@ -121,7 +133,7 @@ npm run dev
 See `http://localhost:4859/`, have fun!
 :::
 
-- Valaxy 博客通用的配置可参见 [配置](/guide/config) 与 [自定义扩展](/guide/extend)。
+- Valaxy 博客通用的配置可参见 [配置](/guide/config) 与 [自定义扩展](/guide/custom/extend)。
 - Valaxy 主题独有配置请参见对应主题文档。（Valaxy Theme Yun 主题文档编写中……）
 
 ### Config {lang="en"}
@@ -144,21 +156,7 @@ Documentation is being improved!
 
 ## 部署 {lang="zh-CN"}
 
-### GitHub Pages 自动部署
-
-上传至 GitHub Repo，打开 `Settings` -> `Pages`，选择 `gh-pages` 分支。
-
-> `gh-pages` 已由 `.github/workflows/gh-pages.yml` 自动部署。
-
-### 自行部署
-
-```bash
-# 构建打包
-npm run build
-# dist 文件夹为构建后的内容
-```
-
-可使用 [Netlify](https://www.netlify.com/)/[Vercel](https://vercel.com/)/[Render](https://render.com/)/[Cloudflare Pages](https://pages.cloudflare.com/) 等进行托管。
+部署可参见 <RouterLink to="/guide/deploy">部署｜指南</RouterLink>。
 
 ## Upgrade {lang="en"}
 
@@ -212,7 +210,9 @@ In most cases, you only need to work in the `pages` folder.
 
 - `pages`: 你的所有页面
   - `posts`: 写在 `pages/posts` 文件夹下的内容，将被当作博客文章
-- `styles`: 覆盖主题样式，文件夹下的 `index.scss`/`css-vars.scss`/`index.css`/`css-vars.css` 将会被自动加载
+- `styles`: 覆盖主题样式，文件夹下的这些 scss 文件将会被自动加载
+  - `index.scss` / `index.css`
+  - `css-vars.scss` / `css-vars.css`
 - `components`: 自定义你的组件（将会被自动注册）
 - `layouts`: 自定义布局 (譬如可以通过 `layout: xxx` 来使用 `layouts/xxx.vue` 布局)
 - `locales`: 自定义国际化关键词
@@ -251,7 +251,7 @@ If you want to develop a theme and released, you can refer to [valaxy-theme-star
 ::: zh-CN
 如果您希望自己开发一个主题并发布，您可以参考 [valaxy-theme-starter](https://github.com/YunYouJun/valaxy-theme-starter)。
 
-更多内容请参见 [如何创建一个 Valaxy 主题](/themes).
+更多内容请参见 [如何编写一个 Valaxy 主题](/themes/write).
 :::
 
 ## Community {lang="en"}

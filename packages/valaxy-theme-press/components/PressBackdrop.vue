@@ -17,7 +17,7 @@ defineProps<{
   right: 0;
   bottom: 0;
   left: 0;
-  z-index: var(--pr-z-index-backdrop);
+  z-index: var(--pr-z-backdrop);
   background: rgba(0, 0, 0, .6);
   transition: opacity 0.5s;
 

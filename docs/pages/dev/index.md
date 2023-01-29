@@ -1,6 +1,6 @@
 ---
 title: Participate in Development
-title_zh: 参与开发
+title_zh-CN: 参与开发
 categories:
   - Dev
 end: false
@@ -12,8 +12,11 @@ end: false
 ## Todo
 
 - [ ] create-valaxy-theme: Script to generate theme template.
+- [ ] create-valaxy-addon: Script to generate addon template.
 - [ ] Debug component.
-- [ ] local search
+- [x] local search
+- [ ] algolia search for valaxy-theme-press
+- [ ] Image preview by [lightGallery](https://www.lightgalleryjs.com/docs/vue/)
 
 ## Dev
 

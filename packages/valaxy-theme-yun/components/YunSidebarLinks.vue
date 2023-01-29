@@ -5,9 +5,9 @@ const themeConfig = useThemeConfig()
 
 <template>
   <div class="links">
-    <a v-for="item, i in themeConfig.pages" :key="i" class="link-item yun-icon-btn" :href="item.url" :title="item.name" :target="item.url.startsWith('http') ? '_blank' : ''" :style="`color:${item.color}`">
+    <AppLink v-for="item, i in themeConfig.pages" :key="i" class="link-item yun-icon-btn" :to="item.url" :title="item.name" :style="`color:${item.color}`">
       <div :class="item.icon" class="icon" />
-    </a>
+    </AppLink>
   </div>
 </template>
 
@@ -21,7 +21,7 @@ const themeConfig = useThemeConfig()
   .link-item {
     display: inline-flex;
 
-    .icon {
+  .icon {
       width: 2rem;
       height: 2rem;
     }

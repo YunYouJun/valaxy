@@ -19,12 +19,12 @@
     "create-valaxy-theme": "index.js"
   },
   "engines": {
-    "node": ">=14.0.0"
+    "node": "^14.18.0 || >=16.0.0"
   },
   "dependencies": {
     "execa": "5",
-    "kolorist": "^1.5.1",
-    "minimist": "^1.2.6",
+    "kolorist": "^1.6.0",
+    "minimist": "^1.2.7",
     "prompts": "^2.4.2"
   }
 }

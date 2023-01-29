@@ -3,6 +3,22 @@ export * from '../composables'
 export namespace YunTheme {
   export type Config = ThemeConfig
   export type Sidebar = any
+
+  export type Banner = {
+    enable: boolean
+    /**
+     * 标题
+     */
+    title: string
+
+    /**
+     * 首页下方的动态云
+     * If you want change color of cloud, please change css var `--yun-c-cloud`
+     */
+    cloud?: {
+      enable: boolean
+    }
+  }
 }
 
 /**
@@ -26,13 +42,7 @@ export interface ThemeConfig {
   /**
    * 首页标语
    */
-  banner: {
-    enable: boolean
-    /**
-     * 标题
-     */
-    title: string
-  }
+  banner: YunTheme.Banner
 
   bg_image: {
     enable: boolean
@@ -52,6 +62,14 @@ export interface ThemeConfig {
       enable: boolean
       api: string
     }
+  }
+
+  /**
+   * 公告
+   */
+  notice: {
+    enable: boolean
+    content: string
   }
 
   pages: {
@@ -79,6 +97,7 @@ export interface ThemeConfig {
       /**
        * icon name, i-xxx
        */
+      enable: boolean
       name: string
       animated: boolean
       color: string
@@ -126,4 +145,4 @@ export interface ThemeConfig {
   }
 }
 
-export type ThemeUserConfig = Partial<ThemeConfig>
+export type UserThemeConfig = Partial<ThemeConfig>

@@ -1,19 +1,23 @@
 <script lang="ts" setup>
-import { onMounted, ref } from 'vue'
+import type { Ref } from 'vue'
+import { inject, onMounted, ref } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { useAplayer, useCodePen, useCopyCode, wrapTable } from '..'
-import type { Post } from '../../types'
+import type { Post } from '../..'
 
 const props = defineProps<{
   frontmatter: Post
   excerpt?: string
 }>()
 
+const onContentUpdated = inject('onContentUpdated') as Ref<() => void>
+
 const { t } = useI18n()
 
 const content = ref()
 function updateDom() {
   wrapTable(content.value)
+  onContentUpdated.value?.()
 }
 
 onMounted(() => {

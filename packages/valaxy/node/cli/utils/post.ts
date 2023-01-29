@@ -52,6 +52,7 @@ async function genLayoutTemplate({
   if (!template)
     template = defaultPostTemplate
 
-  return render(template, { title, layout, date: date ? dayjs().format('YYYY-MM-DD hh:mm:ss') : '' })
+  // 24h format
+  const dateFormat = 'YYYY-MM-DD HH:mm:ss'
+  return render(template, { title, layout, date: date ? dayjs().format(dateFormat) : '' })
 }
-

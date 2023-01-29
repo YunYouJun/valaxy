@@ -1,16 +1,13 @@
 <script lang="ts" setup>
-import { useAppStore, useConfig, useLayout } from 'valaxy'
+import { useAppStore, useLayout } from 'valaxy'
 import { useThemeConfig } from '../composables'
 
 const app = useAppStore()
-const config = useConfig()
-const themeConfig = useThemeConfig()
 const isHome = useLayout('home')
+const themeConfig = useThemeConfig()
 </script>
 
 <template>
-  <YunBg v-if="themeConfig.bg_image.enable" />
-
   <main class="yun-main justify-center items-center" :class="(isHome && !app.isSidebarOpen) && 'pl-0'" flex="~ col" w="full">
     <ValaxySidebar>
       <slot name="sidebar">
@@ -19,7 +16,11 @@ const isHome = useLayout('home')
     </ValaxySidebar>
 
     <YunBanner />
-    <YunSay w="full" />
+    <YunSay v-if="themeConfig.say.enable" w="full" />
+    <YunNotice
+      v-if="themeConfig.notice.enable"
+      :content="themeConfig.notice.content" mt="4"
+    />
 
     <slot name="board" />
 
@@ -27,10 +28,6 @@ const isHome = useLayout('home')
       <router-view />
     </slot>
 
-    <YunFooter>
-      <slot name="footer" />
-    </YunFooter>
+    <YunFooter />
   </main>
-
-  <YunSearch v-if="config.search.enable" />
 </template>

@@ -1,15 +1,19 @@
-import { join, relative } from 'path'
+import { join, relative, resolve } from 'path'
 import fs from 'fs-extra'
 
 import type { Plugin, ResolvedConfig } from 'vite'
 // import consola from 'consola'
 import { pascalCase } from 'pascal-case'
+import { defu } from 'defu'
+import { defaultSiteConfig } from '../config'
 import type { ResolvedValaxyOptions, ValaxyServerOptions } from '../options'
-import { resolveOptions } from '../options'
-import { resolveImportPath, slash, toAtFS } from '../utils'
+import { processValaxyOptions, resolveOptions, resolveThemeValaxyConfig } from '../options'
+import { mergeValaxyConfig, resolveImportPath, slash, toAtFS } from '../utils'
 import { createMarkdownToVueRenderFn } from '../markdown/markdownToVue'
-import type { PageDataPayload } from '../../types'
+import type { PageDataPayload, SiteConfig } from '../../types'
+import type { ValaxyNodeConfig } from '../types'
 import { checkMd } from '../markdown/check'
+import { resolveSiteConfig } from '../config/site'
 
 /**
  * for /@valaxyjs/styles
@@ -87,18 +91,18 @@ function generateAddons(options: ResolvedValaxyOptions) {
 const nullVue = 'import { defineComponent } from "vue"; export default defineComponent({ render: () => null });'
 
 /**
- * read from user App.vue
- * @internal
- * @param options
+ * generate app vue from root/app.vue
+ * @param root
+ * @returns
  */
-function generateUserAppVue(options: ResolvedValaxyOptions) {
-  const userAppVue = join(options.userRoot, 'App.vue')
-  if (!fs.existsSync(userAppVue))
+function generateAppVue(root: string) {
+  const appVue = join(root, 'App.vue')
+  if (!fs.existsSync(appVue))
     return nullVue
 
   const scripts = [
-    `import UserAppVue from "${toAtFS(userAppVue)}"`,
-    'export default UserAppVue',
+      `import AppVue from "${toAtFS(appVue)}"`,
+      'export default AppVue',
   ]
 
   return scripts.join('\n')
@@ -112,11 +116,9 @@ function generateUserAppVue(options: ResolvedValaxyOptions) {
  * @returns
  */
 export function createValaxyPlugin(options: ResolvedValaxyOptions, serverOptions: ValaxyServerOptions = {}): Plugin {
-  const { config: valaxyConfig } = options
+  let { config: valaxyConfig } = options
 
   const valaxyPrefix = '/@valaxy'
-
-  let siteConfig = options.config
 
   const roots = options.roots
 
@@ -133,16 +135,12 @@ export function createValaxyPlugin(options: ResolvedValaxyOptions, serverOptions
       markdownToVue = await createMarkdownToVueRenderFn(
         options.userRoot,
         valaxyConfig.markdown || {
-          toc: {
-            includeLevel: [1, 2, 3, 4],
-            listType: 'ol',
-          },
           katex: {},
         },
         options.pages,
         viteConfig.define,
         viteConfig.command === 'build',
-        options.config.lastUpdated,
+        options.config.siteConfig.lastUpdated,
       )
     },
 
@@ -162,9 +160,9 @@ export function createValaxyPlugin(options: ResolvedValaxyOptions, serverOptions
     },
 
     load(id) {
-      if (id === '/@valaxyjs/site')
+      if (id === '/@valaxyjs/config')
         // stringify twice for \"
-        return `export default ${JSON.stringify(JSON.stringify(siteConfig))}`
+        return `export default ${JSON.stringify(JSON.stringify(valaxyConfig))}`
 
       if (id === '/@valaxyjs/context') {
         return `export default ${JSON.stringify(JSON.stringify({
@@ -184,7 +182,10 @@ export function createValaxyPlugin(options: ResolvedValaxyOptions, serverOptions
         return generateAddons(options)
 
       if (id === '/@valaxyjs/UserAppVue')
-        return generateUserAppVue(options)
+        return generateAppVue(options.userRoot)
+
+      if (id === '/@valaxyjs/ThemeAppVue')
+        return generateAppVue(options.themeRoot)
 
       if (id.startsWith(valaxyPrefix)) {
         return {
@@ -199,19 +200,6 @@ export function createValaxyPlugin(options: ResolvedValaxyOptions, serverOptions
         checkMd(code, id)
         code.replace('{%', '\{\%')
         code.replace('%}', '\%\}')
-
-        // const scripts = [
-        // '<script setup>',
-        // 'import { useRoute } from "vue-router"',
-        // 'const route = useRoute()',
-        // `route.meta.headers = ${JSON.stringify(_md.__data)}`,
-        // `export const data = JSON.parse(${JSON.stringify(JSON.stringify(pageData))})`,
-        // `frontmatter.data = JSON.parse(${JSON.stringify(JSON.stringify(pageData))})`,
-        // '</script>',
-        // ]
-
-        // const li = code.lastIndexOf('</script>')
-        // code = code.slice(0, li) + scripts.join('\n') + code.slice(li + 9)
 
         // transform .md files into vueSrc so plugin-vue can handle it
         const { vueSrc, deadLinks, includes } = await markdownToVue(
@@ -233,29 +221,61 @@ export function createValaxyPlugin(options: ResolvedValaxyOptions, serverOptions
     },
 
     renderStart() {
-      if (hasDeadLinks)
+      if (hasDeadLinks && !valaxyConfig.ignoreDeadLinks)
         throw new Error('One or more pages contain dead links.')
     },
 
+    /**
+     * handle config hmr
+     * @param ctx
+     * @returns
+     */
     async handleHotUpdate(ctx) {
       const { file, server, read } = ctx
 
-      // handle valaxy.config.ts hmr
-      if (file === options.configFile) {
-        const { config } = await resolveOptions({ userRoot: options.userRoot })
-
+      const reloadConfigAndEntries = (config: ValaxyNodeConfig) => {
         serverOptions.onConfigReload?.(config, options.config)
         Object.assign(options.config, config)
 
-        siteConfig = config
+        valaxyConfig = config
 
-        const moduleIds = ['/@valaxyjs/site', '/@valaxyjs/context']
+        const moduleIds = ['/@valaxyjs/config', '/@valaxyjs/context']
         const moduleEntries = [
           ...Array.from(moduleIds).map(id => server.moduleGraph.getModuleById(id)),
         ].filter(<T>(item: T): item is NonNullable<T> => !!item)
 
         return moduleEntries
       }
+
+      const configFiles = [options.configFile]
+
+      // handle valaxy.config.ts hmr
+      if (configFiles.includes(file)) {
+        const { config } = await resolveOptions({ userRoot: options.userRoot })
+        return reloadConfigAndEntries(config)
+      }
+
+      // siteConfig
+      if (file === options.siteConfigFile) {
+        const { siteConfig } = await resolveSiteConfig(options.userRoot)
+        valaxyConfig.siteConfig = defu<SiteConfig, [SiteConfig]>(siteConfig, defaultSiteConfig)
+        return reloadConfigAndEntries(valaxyConfig)
+      }
+
+      // themeConfig
+      if (file === options.themeConfigFile) {
+        const { config } = await resolveOptions({ userRoot: options.userRoot })
+        return reloadConfigAndEntries(config)
+      }
+
+      if (file === resolve(options.themeRoot, 'valaxy.config.ts')) {
+        const themeValaxyConfig = resolveThemeValaxyConfig(options)
+        const valaxyConfig = mergeValaxyConfig(options.config, themeValaxyConfig)
+        const { config } = await processValaxyOptions(options, valaxyConfig)
+        return reloadConfigAndEntries(config)
+      }
+
+      // if (file === options.siteConfigFile) {}
 
       // send headers
       if (file.endsWith('.md')) {

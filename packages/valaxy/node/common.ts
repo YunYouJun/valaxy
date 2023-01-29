@@ -1,5 +1,5 @@
-import { existsSync, promises as fs } from 'fs'
-import { join } from 'path'
+import { join, resolve } from 'path'
+import fs from 'fs-extra'
 import type { ConfigEnv, InlineConfig } from 'vite'
 import { uniq } from '@antfu/utils'
 import { loadConfigFromFile, mergeConfig } from 'vite'
@@ -25,7 +25,7 @@ export async function mergeViteConfigs({ userRoot, themeRoot }: ResolvedValaxyOp
   const files = uniq([themeRoot, userRoot]).map(i => join(i, 'vite.config.ts'))
 
   for await (const file of files) {
-    if (!existsSync(file))
+    if (!fs.existsSync(file))
       continue
     const viteConfig = await loadConfigFromFile(configEnv, file)
     if (!viteConfig?.config)
@@ -43,13 +43,19 @@ export async function mergeViteConfigs({ userRoot, themeRoot }: ResolvedValaxyOp
  * @returns
  */
 export async function getIndexHtml({ clientRoot, themeRoot, userRoot, config }: ResolvedValaxyOptions): Promise<string> {
-  let main = await fs.readFile(join(clientRoot, 'index.html'), 'utf-8')
+  // get from template
+  const indexTemplatePath = resolve(clientRoot, 'template.html')
+
+  let main = await fs.readFile(indexTemplatePath, 'utf-8')
   let head = ''
   let body = ''
 
+  if (config.siteConfig.favicon)
+    head += `<link rel="icon" href="${config.siteConfig.favicon}">`
+
   const roots = [userRoot, themeRoot]
 
-  if (config.mode === 'auto') {
+  if (config.siteConfig.mode === 'auto') {
     head += `
     <script>
     (function () {
@@ -62,11 +68,11 @@ export async function getIndexHtml({ clientRoot, themeRoot, userRoot, config }: 
     `
   }
 
-  if (config.lang) {
+  if (config.siteConfig.lang) {
     head += `
     <script>
     (function () {
-      const locale = localStorage.getItem('valaxy-locale') || '${config.lang}'
+      const locale = localStorage.getItem('valaxy-locale') || '${config.siteConfig.lang}'
       document.documentElement.setAttribute('lang', locale)
     })()
     </script>
@@ -75,7 +81,7 @@ export async function getIndexHtml({ clientRoot, themeRoot, userRoot, config }: 
 
   for (const root of roots) {
     const path = join(root, 'index.html')
-    if (!existsSync(path))
+    if (!fs.existsSync(path))
       continue
 
     const indexHtml = await fs.readFile(path, 'utf-8')

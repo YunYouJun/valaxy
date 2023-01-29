@@ -56,6 +56,6 @@ defineProps<{
   line-height: 24px;
   font-size: 14px;
   font-weight: 500;
-  color: var(--va-c-text-light);
+  color: var(--va-c-text-lighter);
 }
 </style>

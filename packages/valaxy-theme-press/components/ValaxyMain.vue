@@ -1,13 +1,13 @@
 <script lang="ts" setup>
 import type { PageData, Post } from 'valaxy'
-import { useConfig, useFrontmatter, useLayout, useSidebar } from 'valaxy'
+import { useFrontmatter, useLayout, useSidebar, useSiteConfig } from 'valaxy'
 
 defineProps<{
   frontmatter: Post
   data?: PageData
 }>()
 
-const config = useConfig()
+const siteConfig = useSiteConfig()
 const frontmatter = useFrontmatter()
 
 const { hasSidebar } = useSidebar()
@@ -22,25 +22,26 @@ const isHome = useLayout('home')
   >
     <div
       w="full" flex="~" :class="{
-        'px-6 md:px-8': hasSidebar,
-      }" p="t-8"
+        'px-6 md:pl-12': hasSidebar,
+      }" p="t-4"
     >
       <slot name="main">
-        <div class="content" m="auto y-0" flex="~ col grow" w="full" p="x-12 lt-md:0">
+        <div class="content" w="full" :class="{ 'm-auto': !hasSidebar }" flex="~ col grow" p="lt-md:0">
           <slot name="main-header" />
           <slot name="main-header-after" />
 
           <slot name="main-content">
-            <div class="markdown-body prose max-w-none pb-8">
-              <ValaxyMd :frontmatter="frontmatter">
-                <h1 v-if="hasSidebar && !isHome && frontmatter.title" :id="frontmatter.title" tabindex="-1">
-                  {{ frontmatter.title }}
-                  <a class="header-anchor" :href="`#${frontmatter.title}`" aria-hidden="true">#</a>
-                </h1>
-                <slot name="main-content-md" />
-                <slot />
-              </ValaxyMd>
-            </div>
+            <ValaxyMd class="prose mx-auto w-full max-w-4xl" :frontmatter="frontmatter">
+              <h1 v-if="hasSidebar && !isHome && frontmatter.title" :id="frontmatter.title" tabindex="-1">
+                {{ frontmatter.title }}
+                <a class="header-anchor" :href="`#${frontmatter.title}`" aria-hidden="true">#</a>
+              </h1>
+              <slot name="main-content-md" />
+              <slot />
+            </ValaxyMd>
+
+            <PressDocFooter v-if="!isHome" class="pb-8 max-w-4xl" w="full" m="auto" />
+
             <slot name="main-content-after" />
           </slot>
         </div>
@@ -51,7 +52,7 @@ const isHome = useLayout('home')
 
         <slot name="main-nav-after" />
 
-        <slot v-if="config.comment.enable && frontmatter.comment !== false" name="comment" />
+        <slot v-if="siteConfig.comment.enable && frontmatter.comment !== false" name="comment" />
 
         <slot name="footer" />
       </slot>
@@ -66,7 +67,7 @@ const isHome = useLayout('home')
 <style lang="scss">
 @use 'valaxy/client/styles/mixins' as *;
 
-@include media('md') {
+@include screen('md') {
   .press-main {
     &.has-sidebar {
       padding-top: var(--pr-nav-height);
@@ -75,7 +76,7 @@ const isHome = useLayout('home')
   }
 }
 
-@include media('xl') {
+@include screen('xl') {
   .content{
     // 8px scrollbar width
     max-width: calc(100vw - 2 * var(--va-sidebar-width) - 2.5rem);

@@ -3,7 +3,11 @@ import { magenta } from 'chalk'
 import type { Argv } from 'yargs'
 import { type CreatePostParams, create } from './utils/post'
 
-export const newPost = (cli: Argv<{}>) => {
+/**
+ * register new post command
+ * @param cli
+ */
+export const registerNewCommand = (cli: Argv<{}>) => {
   cli.command(
     'new <title>',
     'Draft a new post',
@@ -26,6 +30,7 @@ export const newPost = (cli: Argv<{}>) => {
         .option('date', {
           alias: 'd',
           type: 'boolean',
+          default: true,
           describe: 'Generate post with the current date',
         })
         .strict()
@@ -37,6 +42,6 @@ export const newPost = (cli: Argv<{}>) => {
         layout,
         path,
       } as CreatePostParams)
-      consola.success(`[valaxy new]: successfully generated file ${magenta(filename)}}`)
+      consola.success(`[valaxy new]: successfully generated file ${magenta(filename)}`)
     })
 }

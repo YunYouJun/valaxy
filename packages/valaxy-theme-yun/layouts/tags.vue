@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { useFrontmatter, useInvisibleElement, usePostList, usePostTitle, useTags } from 'valaxy'
+import { useFrontmatter, useInvisibleElement, usePostTitle, useSiteStore, useTags } from 'valaxy'
 import { useI18n } from 'vue-i18n'
 import { computed, ref } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
@@ -16,11 +16,11 @@ const { tags, getTagStyle } = useTags({
   primary: themeConfig.value.colors.primary,
 })
 
-const postList = usePostList()
 const curTag = computed(() => route.query.tag as string || '')
+const site = useSiteStore()
 
 const posts = computed(() => {
-  const list = postList.value.filter((post) => {
+  const list = site.postList.filter((post) => {
     if (post.tags) {
       if (typeof post.tags === 'string')
         return post.tags === curTag.value
@@ -46,6 +46,8 @@ const displayTag = (tag: string) => {
 }
 
 const title = usePostTitle(frontmatter)
+
+// use flex to fix `overflow-wrap: break-words;` not working in Safari
 </script>
 
 <template>
@@ -62,9 +64,15 @@ const title = usePostTitle(frontmatter)
         {{ t('counter.tags', Array.from(tags).length) }}
       </div>
 
-      <div text="center">
-        <span v-for="[key, tag] in Array.from(tags).sort()" :key="key" class="post-tag cursor-pointer" :style="getTagStyle(tag.count)" p="1" @click="displayTag(key.toString())">
-          #{{ key }}<span text="xs">[{{ tag.count }}]</span>
+      <div class="justify-center items-end" flex="~ wrap" gap="1">
+        <span
+          v-for="[key, tag] in Array.from(tags).sort()"
+          :key="key"
+          inline-flex my="2"
+          class="post-tag cursor-pointer items-baseline leading-4" :style="getTagStyle(tag.count)" p="1" @click="displayTag(key.toString())"
+        >
+          <span inline-flex>#{{ key }}</span>
+          <span inline-flex text="xs">[{{ tag.count }}]</span>
         </span>
       </div>
 

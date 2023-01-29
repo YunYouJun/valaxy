@@ -1,36 +1,50 @@
 import MarkdownIt from 'markdown-it'
 
-import type { Theme } from 'shiki'
+import type { IThemeRegistration } from 'shiki'
 
-import Anchor from 'markdown-it-anchor'
-import Emoji from 'markdown-it-emoji'
-import LinkAttributes from 'markdown-it-link-attributes'
-import TOC from 'markdown-it-table-of-contents'
+import anchorPlugin from 'markdown-it-anchor'
+import attrsPlugin from 'markdown-it-attrs'
+import emojiPlugin from 'markdown-it-emoji'
 import TaskLists from 'markdown-it-task-lists'
-import attrs from 'markdown-it-attrs'
 
 import type { KatexOptions } from 'katex'
+
+import { componentPlugin } from '@mdit-vue/plugin-component'
+import {
+  type FrontmatterPluginOptions,
+  frontmatterPlugin,
+} from '@mdit-vue/plugin-frontmatter'
+import {
+  type HeadersPluginOptions,
+  headersPlugin,
+} from '@mdit-vue/plugin-headers'
+import { type SfcPluginOptions, sfcPlugin } from '@mdit-vue/plugin-sfc'
+import { titlePlugin } from '@mdit-vue/plugin-title'
+import { type TocPluginOptions, tocPlugin } from '@mdit-vue/plugin-toc'
+
 import type { Header } from '../../types'
 import Katex from './markdown-it/katex'
 import { type Blocks, containerPlugin } from './markdown-it/container'
-import { headingPlugin } from './markdown-it/headings'
 import { slugify } from './slugify'
-import { parseHeader } from './markdown-it/parseHeader'
 import { highlight } from './highlight'
 import { highlightLinePlugin, preWrapperPlugin } from './markdown-it/highlightLines'
 
-export type ThemeOptions = Theme | { light: Theme; dark: Theme }
+import { linkPlugin } from './plugins/link'
+
+// import { lineNumberPlugin } from "./plugins/lineNumbers";
+
+export * from './env'
+export type ThemeOptions =
+  | IThemeRegistration
+  | { light: IThemeRegistration; dark: IThemeRegistration }
 
 export interface MarkdownParsedData {
   hoistedTags?: string[]
   links?: string[]
   headers?: Header[]
 }
-export interface MarkdownRenderer extends MarkdownIt {
-  __path: string
-  __relativePath: string
-  __data: MarkdownParsedData
-}
+
+export type MarkdownRenderer = MarkdownIt
 
 export interface MarkdownOptions {
   /**
@@ -41,14 +55,19 @@ export interface MarkdownOptions {
    * config markdown-it
    */
   config?: (md: MarkdownIt) => void
-  anchor?: {
-    permalink?: Anchor.AnchorOptions['permalink']
+  anchor?: anchorPlugin.AnchorOptions
+  attrs?: {
+    leftDelimiter?: string
+    rightDelimiter?: string
+    allowedAttributes?: string[]
+    disable?: boolean
   }
-  // https://github.com/Oktavilla/markdown-it-table-of-contents
-  toc?: {
-    includeLevel?: number[]
-    [key: string]: any
-  }
+  // mdit-vue plugins
+  frontmatter?: FrontmatterPluginOptions
+  headers?: HeadersPluginOptions
+  sfc?: SfcPluginOptions
+  toc?: TocPluginOptions
+
   katex?: KatexOptions
   /**
    * shiki
@@ -58,56 +77,72 @@ export interface MarkdownOptions {
    * Custom block configurations
    */
   blocks?: Blocks
+
+  externalLinks?: Record<string, string>
 }
 
-export async function setupMarkdownPlugins(md: MarkdownIt, mdOptions: MarkdownOptions = {}, isExcerpt = false) {
-  md
-    .use(highlightLinePlugin)
+export async function setupMarkdownPlugins(
+  md: MarkdownIt,
+  mdOptions: MarkdownOptions = {},
+  isExcerpt = false,
+  base = '/',
+) {
+  // custom plugins
+  md.use(highlightLinePlugin)
     .use(preWrapperPlugin)
     .use(containerPlugin, mdOptions.blocks)
-    // conflict with {% %}
-    .use(attrs)
-
-  // generate toc in client
-  if (!isExcerpt)
-    md.use(headingPlugin, mdOptions?.toc?.includeLevel)
-    // .use(lineNumberPlugin)
-  // https://github.com/arve0/markdown-it-attrs
-  // add classes
-  md
-    .use(LinkAttributes, {
-      matcher: (link: string) => /^https?:\/\//.test(link),
-      attrs: {
+    .use(
+      linkPlugin,
+      {
         target: '_blank',
-        rel: 'noopener',
+        rel: 'noreferrer',
+        ...mdOptions.externalLinks,
       },
-    })
+      base,
+    )
+
+  // conflict with {% %}
+  // 3rd party plugins
+  if (!mdOptions.attrs?.disable)
+    md.use(attrsPlugin, mdOptions.attrs)
+
+  // .use(lineNumberPlugin)
   md.use(Katex, mdOptions.katex)
+  md.use(emojiPlugin)
 
   if (!isExcerpt) {
-    md.use(Anchor, {
+    md.use(anchorPlugin, {
       slugify,
-      permalink: Anchor.permalink.ariaHidden({}),
+      permalink: anchorPlugin.permalink.ariaHidden({}),
+      ...mdOptions.anchor,
     })
-      .use(TOC, {
-        slugify,
-        includeLevel: [2, 3, 4],
-        format: parseHeader,
-        ...mdOptions.toc,
-      })
   }
 
-  md.use(Emoji)
-    .use(TaskLists)
+  // mdit-vue plugins
+  md.use(componentPlugin)
+    .use(frontmatterPlugin, {
+      ...mdOptions.frontmatter,
+    } as FrontmatterPluginOptions)
+    .use(headersPlugin, {
+      slugify,
+      ...mdOptions.headers,
+    } as HeadersPluginOptions)
+    .use(sfcPlugin, {
+      ...mdOptions.sfc,
+    } as SfcPluginOptions)
+    .use(titlePlugin)
+    .use(tocPlugin, {
+      slugify,
+      ...mdOptions.toc,
+    } as TocPluginOptions)
 
-  const originalRender = md.render
-  md.render = (...args) => {
-    (md as MarkdownRenderer).__data = {}
-    return originalRender.call(md, ...args)
-  }
+  md.use(TaskLists)
 
   if (mdOptions.config)
     mdOptions.config(md)
+
+  // if (options.lineNumbers)
+  //   md.use(lineNumberPlugin)
 
   return md as MarkdownRenderer
 }

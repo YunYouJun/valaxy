@@ -1,7 +1,7 @@
 export * from './config'
 
 export * from './composables'
-export * from './stores/app'
+export * from './stores'
 
 export * from './utils'
 

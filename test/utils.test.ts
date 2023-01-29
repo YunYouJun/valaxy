@@ -1,7 +1,8 @@
 import { resolve } from 'path'
-import { describe, expect, it } from 'vitest'
+import fs from 'fs-extra'
+import type { DefaultThemeConfig } from 'valaxy/types'
+import type { ResolvedValaxyOptions, ValaxyNodeConfig } from 'valaxy/node'
 import { getIndexHtml } from '../packages/valaxy/node'
-import type { DefaultThemeConfig, ResolvedValaxyOptions, ValaxyConfig } from '../packages/valaxy'
 
 const clientRoot = resolve(__dirname, '../packages/valaxy/client')
 const themeRoot = resolve(__dirname, 'fixtures/theme')
@@ -10,8 +11,14 @@ const userRoot = resolve(__dirname, 'fixtures/user')
 describe('utils', () => {
   it('merge index.html', async () => {
     const config = {
-      mode: 'light',
-    } as ValaxyConfig<DefaultThemeConfig>
+      siteConfig: { mode: 'light' },
+    } as ValaxyNodeConfig<DefaultThemeConfig>
+
+    const templatePath = resolve(clientRoot, 'template.html')
+    const indexPath = resolve(clientRoot, 'index.html')
+
+    if (fs.existsSync(templatePath))
+      await fs.copyFile(templatePath, indexPath)
     const indexHtml = await getIndexHtml({ clientRoot, themeRoot, userRoot, config } as ResolvedValaxyOptions)
 
     const head = indexHtml.match(/<head>([\s\S]*?)<\/head>/im)?.[1]
@@ -28,8 +35,8 @@ describe('utils', () => {
 
   it('mode light', async () => {
     const config = {
-      mode: 'auto',
-    } as ValaxyConfig<ValaxyThemeConfig>
+      siteConfig: { mode: 'auto' },
+    } as ValaxyNodeConfig<DefaultThemeConfig>
     const indexHtml = await getIndexHtml({ clientRoot, themeRoot, userRoot, config } as ResolvedValaxyOptions)
 
     const head = indexHtml.match(/<head>([\s\S]*?)<\/head>/im)?.[1]

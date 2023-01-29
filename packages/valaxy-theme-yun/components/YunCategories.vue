@@ -8,7 +8,6 @@ const props = withDefaults(defineProps<{
    * 当前层级
    */
   level?: number
-  displayCategory?: (category: string) => void
   collapsable?: boolean
 }>(), {
   level: 0,
@@ -19,8 +18,13 @@ const collapsable = ref(props.collapsable)
 </script>
 
 <template>
-  <ul v-for="category, key in Object.fromEntries(categories)" :key="key" class="category-list" m="l-4">
-    <YunCategory :name="key.toString()" :category="category" :level="level + 1" :display-category="displayCategory" :collapsable="collapsable" />
+  <ul v-for="category in categories" :key="category.name" class="category-list" m="l-4">
+    <YunCategory
+      :parent-key="category.name"
+      :category="category"
+      :level="level + 1"
+      :collapsable="collapsable"
+    />
   </ul>
 </template>
 

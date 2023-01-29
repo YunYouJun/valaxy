@@ -1,5 +1,5 @@
 import { dirname, join, resolve } from 'path'
-import type { AliasOptions, InlineConfig, Plugin } from 'vite'
+import type { Alias, AliasOptions, InlineConfig, Plugin } from 'vite'
 import { mergeConfig, searchForWorkspaceRoot } from 'vite'
 import isInstalledGlobally from 'is-installed-globally'
 import fs from 'fs-extra'
@@ -7,6 +7,42 @@ import { uniq } from '@antfu/utils'
 import type { ResolvedValaxyOptions } from '../options'
 import { resolveImportPath, toAtFS } from '../utils'
 import { getIndexHtml } from '../common'
+
+/**
+ * dependencies used by client
+ */
+const clientDeps = [
+  '@vueuse/head',
+  '@vueuse/integrations/useFuse',
+  'body-scroll-lock',
+  'dayjs',
+  'katex',
+  'nprogress',
+  'unocss',
+  'vue',
+  'vue-router',
+
+  // will may be addons
+  'fuse.js',
+  'medium-zoom',
+]
+
+/**
+ * internal deps or esm deps do not need optimize
+ */
+const EXCLUDE = [
+  '@vueuse/core',
+  '@vueuse/shared',
+  '@unocss/reset',
+  'unocss',
+  'vue',
+  'vue-demi',
+
+  // internal
+  'valaxy',
+  '/@valaxyjs/config',
+  '/@valaxyjs/context',
+]
 
 export function createConfigPlugin(options: ResolvedValaxyOptions): Plugin {
   return {
@@ -22,6 +58,7 @@ export function createConfigPlugin(options: ResolvedValaxyOptions): Plugin {
         define: getDefine(options),
         resolve: {
           alias: getAlias(options),
+          dedupe: ['vue'],
         },
 
         optimizeDeps: {
@@ -30,20 +67,10 @@ export function createConfigPlugin(options: ResolvedValaxyOptions): Plugin {
 
           // must need it
           include: [
-            'vue',
-            'vue-router',
-            '@vueuse/head',
-            'dayjs',
-            'nprogress',
-            'katex',
+            ...clientDeps.filter(i => !EXCLUDE.includes(i)),
           ],
 
-          exclude: [
-            'unocss',
-            '@vueuse/core',
-            '@vueuse/shared',
-            'vue-demi',
-          ],
+          exclude: EXCLUDE,
         },
 
         server: {
@@ -105,24 +132,34 @@ export function getDefine(options: ResolvedValaxyOptions): Record<string, any> {
 
   return {
     __DEV__: options.mode === 'dev' ? 'true' : 'false',
-    __ALGOLIA__: !!options.config?.search?.algolia?.enable,
   }
 }
 
 export function getAlias(options: ResolvedValaxyOptions): AliasOptions {
-  const alias = {
-    '~/': `${toAtFS(options.userRoot)}/`,
-    'valaxy/client/': `${toAtFS(options.clientRoot)}/`,
-    'valaxy/package.json': toAtFS(resolve(options.clientRoot, '../package.json')),
-    'valaxy': toAtFS(resolve(options.clientRoot, 'index.ts')),
-    '@valaxyjs/client/': `${toAtFS(options.clientRoot)}/`,
-    [`valaxy-theme-${options.theme}/`]: `${toAtFS(resolve(options.themeRoot))}/`,
-    [`valaxy-theme-${options.theme}`]: `${toAtFS(resolve(options.themeRoot))}/client/index.ts`,
-  }
+  const alias: Alias[] = [
+    { find: '~/', replacement: `${toAtFS(options.userRoot)}/` },
+    { find: 'valaxy/client/', replacement: `${toAtFS(options.clientRoot)}/` },
+    { find: 'valaxy/package.json', replacement: toAtFS(resolve(options.clientRoot, '../package.json')) },
+    { find: 'valaxy', replacement: toAtFS(resolve(options.clientRoot, 'index.ts')) },
+    { find: '@valaxyjs/client/', replacement: `${toAtFS(options.clientRoot)}/` },
+    { find: `valaxy-theme-${options.theme}/`, replacement: `${toAtFS(resolve(options.themeRoot))}/` },
+    { find: `valaxy-theme-${options.theme}`, replacement: `${toAtFS(resolve(options.themeRoot))}/client/index.ts` },
+  ]
 
   options.addons.forEach((addon) => {
-    alias[addon.name] = toAtFS(resolve(addon.root, 'client/index.ts'))
+    // without this, import { xxx } from 'valaxy-addon-name' works well
+    // alias.push({
+    //   find: `${addon.name}/`,
+    //   replacement: `${toAtFS(`${resolve(addon.root)}`)}/`,
+    // })
+    alias.push({
+      find: addon.name,
+      replacement: `${toAtFS(resolve(addon.root))}/client/index.ts`,
+    })
   })
 
+  // alias.push(...[
+  //   { find: /valaxy-addon-(.*)/, replacement: toAtFS(resolve(options.themeRoot, '../valaxy-addon-$1/client/index.ts')) },
+  // ])
   return alias
 }

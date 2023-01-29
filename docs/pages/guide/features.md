@@ -1,13 +1,19 @@
 ---
 title: Features
-title_zh: 亮点
+title_zh-CN: 亮点
 categories:
-  - Guide
+  - Getting Started
 end: false
 top: 98
 ---
 
 首先，我们来介绍一下 Valaxy 有哪些便捷的特性。
+
+## 热更新
+
+最值得一提的是，Valaxy 从配置到文章内容、动画到全局的标签、分类，全部都是支持热更新的！局部的！
+
+譬如，你修改了 `valaxy.config.ts`/`site.config.ts` 或是 `xxx.md` 文章中的内容或 `frontmatter`（`tags`/`categories`）所有的变动会立刻显示在预览界面上，无需手动刷新。同时热更新也是局部的，它只变动有修改的地方，不会重新刷新整个页面。
 
 ## UnoCSS
 
@@ -117,9 +123,16 @@ npm run build:spa
 # valaxy build
 ```
 
+## SEO
+
+Valaxy 已经默认集成了 Open Graph 的 SEO 优化，您无需为此操心。
+但需要注意的是，对于许多搜索引擎来说，他们可能只青睐 SSG 的构建模式。
+
 ## RSS
 
-独立地 RSS 构建
+自带命令生成 RSS 订阅源。
+
+> [RSS 是什么？](https://baike.baidu.com/item/rss/24470)
 
 ```bash
 npm run rss
@@ -144,8 +157,8 @@ Katex is enabled by default.
 
 ```ts
 // valaxy.config.ts
-import { defineConfig } from 'valaxy'
-export default defineConfig({
+import { defineValaxyConfig } from 'valaxy'
+export default defineValaxyConfig({
   features: {
     // disable katex
     katex: false
@@ -154,3 +167,7 @@ export default defineConfig({
 ```
 
 - [KaTeX | 示例 - Example](/examples/katex)
+
+## 自动路由替换
+
+当 Valaxy 检测到文章的 a 链接为站内链接时，会自动将其替换为 `RouterLink`，享受丝滑的动态切换吧！

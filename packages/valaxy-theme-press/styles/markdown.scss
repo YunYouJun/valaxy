@@ -1,5 +1,9 @@
 @use "valaxy/client/styles/mixins" as *;
 
+:root {
+  --va-code-mobile-margin-x: -1.5rem;
+}
+
 .prose {
   --un-prose-body: var(--va-c-text);
   --un-prose-hr: var(--va-c-text);
@@ -13,6 +17,7 @@
   }
 
   a {
+    display: inline-block;
     text-decoration: none;
     border-bottom: 1px solid transparent;
     transition: all 0.4s;
@@ -28,13 +33,13 @@
     padding: 3px 6px;
     border-radius: 4px;
     font-weight: 500;
-  }
-}
 
-@include mobile {
-  .markdown-body {
-    div[class*="language-"] {
-      margin: 0 -1.5rem;
+    &::before {
+      content: none;
+    }
+
+    &::after {
+      content: none;
     }
   }
 }

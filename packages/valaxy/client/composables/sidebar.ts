@@ -1,6 +1,7 @@
 import type { Ref } from 'vue'
 import { computed, onMounted, onUnmounted, ref } from 'vue'
-import { useFrontmatter, useLayout } from '..'
+import { useFrontmatter } from './common'
+import { useLayout } from './layout'
 
 export function useActiveSidebarLinks(container: Ref<HTMLElement>, marker: Ref<HTMLElement>) {
   const onScroll = throttleAndDebounce(setActiveLink, 200)
@@ -23,7 +24,7 @@ export function useActiveSidebarLinks(container: Ref<HTMLElement>, marker: Ref<H
       const [isActive, hash] = isAnchorActive(i, anchor, nextAnchor)
 
       if (isActive) {
-        history.replaceState(null, document.title, hash || ' ')
+        history.replaceState(history.state, document.title, hash || ' ')
         activateLink(hash)
         return
       }
@@ -124,7 +125,6 @@ export function useSidebar() {
     return (
       fm.value.sidebar !== false
       && layout.value !== 'home'
-      && layout.value !== 'post'
     )
   })
 

@@ -1,7 +1,6 @@
 import path from 'path'
 import { exec } from 'child_process'
 import fs from 'fs-extra'
-import type { Argv } from 'yargs'
 import yargs from 'yargs'
 import type { InlineConfig, LogLevel } from 'vite'
 import { mergeConfig } from 'vite'
@@ -10,19 +9,24 @@ import openBrowser from 'open'
 import consola from 'consola'
 
 import { yellow } from 'kolorist'
+import { hideBin } from 'yargs/helpers'
 import { version } from '../package.json'
 import { findFreePort } from './utils/net'
 import { resolveOptions } from './options'
 import { bindShortcut, initServer, printInfo } from './utils/cli'
-import { newPost } from './cli/new'
 
 // build
-import { build, ssgBuild } from './build'
+import { build, postProcessForSSG, ssgBuild } from './build'
 // rss
 import { build as rssBuild } from './rss'
 import { getIndexHtml, mergeViteConfigs } from './common'
+import { registerFuseCommand } from './cli/fuse'
+import { registerNewCommand } from './cli/new'
 
-const cli = yargs.scriptName('valaxy')
+import { setEnv, setEnvProd } from './utils/env'
+import { commonOptions } from './cli/options'
+
+export const cli = yargs(hideBin(process.argv)).scriptName('valaxy')
   .usage('$0 [args]')
   .version(version)
   .showHelpOnFail(false)
@@ -51,7 +55,7 @@ cli.command(
         describe: 'listen public host and enable remote control',
       })
       .option('log', {
-        default: 'warn',
+        default: 'info',
         type: 'string',
         choices: ['error', 'warn', 'info', 'silent'],
         describe: 'log level',
@@ -60,6 +64,8 @@ cli.command(
       .help()
   ,
   async ({ root, port: userPort, open, remote, log }) => {
+    setEnv()
+
     if (!fs.existsSync(path.resolve(root, 'pages')))
       process.exit(0)
 
@@ -130,9 +136,17 @@ cli.command(
       default: 'dist',
       describe: 'output dir',
     })
+    .option('log', {
+      default: 'warn',
+      type: 'string',
+      choices: ['error', 'warn', 'info', 'silent'],
+      describe: 'log level',
+    })
     .strict()
     .help(),
-  async ({ ssg, root, output }) => {
+  async ({ ssg, root, output, log }) => {
+    setEnvProd()
+
     const options = await resolveOptions({ userRoot: root }, 'build')
     printInfo(options)
 
@@ -147,6 +161,7 @@ cli.command(
           emptyOutDir: true,
           outDir: path.resolve(options.userRoot, output),
         },
+        logLevel: log as LogLevel,
       },
     )
 
@@ -155,7 +170,8 @@ cli.command(
     const indexPath = path.resolve(options.clientRoot, 'index.html')
     if (fs.existsSync(templatePath))
       await fs.copyFile(templatePath, indexPath)
-    await fs.writeFile(indexPath, await getIndexHtml(options), 'utf-8')
+    const indexHtml = await getIndexHtml(options)
+    await fs.writeFile(indexPath, indexHtml, 'utf-8')
 
     try {
       if (ssg) {
@@ -163,6 +179,7 @@ cli.command(
 
         try {
           await ssgBuild(options, viteConfig)
+          await postProcessForSSG(options)
         }
         catch (e) {
           consola.error('[vite-ssg] An internal error occurred.')
@@ -173,6 +190,9 @@ cli.command(
         consola.info('use vite do spa build...')
         await build(options, viteConfig)
       }
+    }
+    catch (e) {
+      console.log(e)
     }
     finally {
       // await fs.unlink(indexPath)
@@ -188,26 +208,15 @@ cli.command(
     .strict()
     .help(),
   async ({ root }) => {
+    setEnvProd()
     consola.info('Generate RSS ...')
     const options = await resolveOptions({ userRoot: root }, 'build')
     await rssBuild(options)
   },
 )
 
-/**
- * set common options for cli
- * @param args
- * @returns
- */
-function commonOptions(args: Argv<{}>) {
-  return args.positional('root', {
-    default: '.',
-    type: 'string',
-    describe: 'root folder of your source files',
-  })
-}
-
-newPost(cli)
+registerNewCommand(cli)
+registerFuseCommand(cli)
 
 export function run() {
   cli.help().parse()

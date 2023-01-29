@@ -1,10 +1,9 @@
 <script lang="ts" setup>
 import { useI18n } from 'vue-i18n'
-import { useData, useFrontmatter } from 'valaxy'
+import { useFrontmatter } from 'valaxy'
 import { useAppStore } from 'valaxy/client/stores/app'
 
 const frontmatter = useFrontmatter()
-const data = useData()
 const { t } = useI18n()
 const app = useAppStore()
 </script>
@@ -22,12 +21,12 @@ const app = useAppStore()
 
   <!--  -->
   <aside class="va-card aside" :class="app.isRightSidebarOpen && 'open'" m="l-4" text="center">
-    <div class="aside-container" flex="~ col">
+    <div class="aside-container" flex="~ col" overflow="auto">
       <h2 v-if="frontmatter.toc !== false" m="t-6 b-2" font="serif black">
         {{ t('sidebar.toc') }}
       </h2>
 
-      <YunToc v-if="frontmatter.toc !== false" :headers="data.headers || []" />
+      <YunOutline v-if="frontmatter.toc !== false" />
 
       <div class="flex-grow" />
 
@@ -47,7 +46,8 @@ const app = useAppStore()
   top: 0;
   bottom: 0;
 
-  min-width: var(--va-sidebar-width);
+  // need fixed width
+  width: var(--va-sidebar-width, 300px);
 
   transform: translateX(100%);
 
@@ -69,7 +69,7 @@ const app = useAppStore()
   }
 }
 
-@include media('xl') {
+@include screen('xl') {
   .aside {
     transform: translateX(0);
   }
@@ -78,5 +78,6 @@ const app = useAppStore()
 .toc-btn {
   color: var(--va-c-primary);
   background-color: white;
+  z-index: var(--yun-z-toc-btn);
 }
 </style>

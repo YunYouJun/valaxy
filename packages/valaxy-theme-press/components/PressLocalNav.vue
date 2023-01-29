@@ -21,7 +21,7 @@ function scrollToTop() {
     <button
       class="menu"
       :aria-expanded="open"
-      aria-controls="VPSidebarNav"
+      aria-controls="pr-sidebar-nav"
       @click="$emit('openMenu')"
     >
       <div i-ri-align-left class="menu-icon" />
@@ -41,7 +41,7 @@ function scrollToTop() {
   position: sticky;
   top: 0;
   left: 0;
-  z-index: var(--pr-z-index-local-nav);
+  z-index: var(--pr-z-local-nav);
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -51,7 +51,7 @@ function scrollToTop() {
   transition: border-color 0.5s;
 }
 
-@include media('md') {
+@include screen('md') {
   .press-local-nav {
     display: none;
   }
@@ -73,7 +73,7 @@ function scrollToTop() {
   transition: color 0.25s;
 }
 
-@include media('md') {
+@include screen('md') {
   .menu {
     padding: 0 32px;
   }
@@ -92,16 +92,16 @@ function scrollToTop() {
   line-height: 24px;
   font-size: 12px;
   font-weight: 500;
-  color: var(--vp-c-text-2);
+  color: var(--pr-c-text-2);
   transition: color 0.5s;
 }
 
 .top-link:hover {
-  color: var(--vp-c-text-1);
+  color: var(--pr-c-text-1);
   transition: color 0.25s;
 }
 
-@include media('md') {
+@include screen('md') {
   .top-link {
     padding: 12px 32px 11px;
   }

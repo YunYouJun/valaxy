@@ -13,16 +13,17 @@
 ::-webkit-scrollbar-thumb {
   border-radius: 2px;
   background-color: rgba(122, 122, 122, 0.3);
+  // transition not work
 
   &:window-inactive {
     background-color: rgba(122, 122, 122, 0.3);
   }
 
   &:hover {
-    background-color: rgba(get-css-var("c", "primary", "rgb"), 0.7);
+    background-color: rgba(122, 122, 122, 0.7);
   }
 
   &:active {
-    background-color: rgba(get-css-var("c", "primary", "rgb"), 0.9);
+    background-color: rgba(122, 122, 122, 0.9);
   }
 }

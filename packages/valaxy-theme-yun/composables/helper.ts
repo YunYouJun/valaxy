@@ -15,7 +15,7 @@ export function useRandomData<T>(source: string | T[], random = false) {
     if (typeof source === 'string') {
       if (!isClient)
         return
-      rawData = await fetch(source).then(res => res.json()) as T[]
+      rawData = (await fetch(source).then(res => res.json()) as T[]) || []
     }
     else { rawData = source }
 

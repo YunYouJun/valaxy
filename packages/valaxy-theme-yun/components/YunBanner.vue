@@ -5,7 +5,7 @@
  * @description https://github.com/YunYouJun/hexo-theme-yun
  */
 
-import { CSSProperties, computed } from 'vue'
+import { CSSProperties, computed, onMounted, ref } from 'vue'
 import { random } from 'valaxy'
 import { useThemeConfig } from '../composables'
 
@@ -22,16 +22,20 @@ const chars = computed(() => {
 // height of top/bottom line
 const lineH = computed(() => chars.value.reduce((a, b) => a + b, 0) / 2)
 
-const lintStyle = computed(() => (
-  {
-    '--banner-line-height': `calc(50vh - ${lineH.value}rem)`,
+const bannerStyles = ref()
+onMounted(() => {
+  bannerStyles.value = {
+    '--banner-height': `${window.innerHeight}px`,
+    '--banner-line-height': `calc(var(--banner-height, 100vh) / 2 - ${lineH.value}rem)`,
   } as CSSProperties
-))
+})
 </script>
 
 <template>
-  <div id="banner">
-    <div class="banner-line vertical-line-top" :style="lintStyle" />
+  <div id="banner" :style="bannerStyles">
+    <div class="banner-line-container">
+      <div class="banner-line vertical-line-top" />
+    </div>
     <div class="banner-char-container">
       <div v-for="c, i in themeConfig.banner.title" :key="i" class="char-box">
         <span
@@ -45,10 +49,12 @@ const lintStyle = computed(() => (
         </span>
       </div>
     </div>
-    <div class="banner-line vertical-line-bottom" :style="lintStyle" />
+    <div class="banner-line-container bottom">
+      <div class="banner-line vertical-line-bottom" />
+    </div>
+    <YunCloud v-if="themeConfig.banner.cloud?.enable" />
+    <YunGoDown />
   </div>
-
-  <YunGoDown />
 </template>
 
 <style lang="scss">
@@ -56,7 +62,7 @@ const lintStyle = computed(() => (
   // banner
   --banner-line-color: black;
   --banner-char-color: black;
-  --banner-char-bg-color: rgba(white, 0.5);
+  --banner-char-bg-color: rgba(255, 255, 255, 0.5);
   --banner-char-hover-color: white;
 }
 
@@ -64,7 +70,7 @@ const lintStyle = computed(() => (
   // banner
   --banner-line-color: white;
   --banner-char-color: white;
-  --banner-char-bg-color: rgba(black, 0.5);
+  --banner-char-bg-color: rgba(0, 0, 0, 0.5);
   --banner-char-hover-color: black;
 }
 </style>

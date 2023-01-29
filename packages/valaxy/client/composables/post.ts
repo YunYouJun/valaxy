@@ -1,11 +1,12 @@
-import type { Ref } from 'vue'
+import type { ComputedRef } from 'vue'
 import { computed } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { useI18n } from 'vue-i18n'
-import type { Post } from '../../types'
+import type { Post } from 'valaxy'
 import { sortByDate } from '../utils'
+import { useSiteStore } from '../stores'
 
-export const usePostTitle = (post: Ref<Post>) => {
+export const usePostTitle = (post: ComputedRef<Post>) => {
   const { locale } = useI18n()
   return computed(() => {
     const lang = locale.value === 'zh-CN' ? 'zh' : locale.value
@@ -40,8 +41,9 @@ export function usePageList() {
 export function usePostList(params: {
   type?: string
 } = {}) {
+  const pageList = usePageList()
   return computed(() => {
-    const routes = usePageList().value
+    const routes = pageList.value
       .filter(i => i.path?.startsWith('/posts'))
       .filter(i => !i.path?.endsWith('.html'))
       .filter(i => i.date)
@@ -65,11 +67,11 @@ export function usePostList(params: {
 export function usePrevNext(path?: string) {
   const route = useRoute()
   const p = computed(() => path || route.path)
-  const routes = usePostList()
+  const site = useSiteStore()
 
   const index = computed(() => {
     let order = -1
-    routes.value.find((item, i) => {
+    site.postList.find((item, i) => {
       if (item.path === p.value) {
         order = i
         return true
@@ -79,8 +81,8 @@ export function usePrevNext(path?: string) {
     return order
   })
 
-  const prev = computed(() => index.value - 1 >= 0 ? routes.value[index.value - 1] : null)
-  const next = computed(() => index.value + 1 < routes.value.length ? routes.value[index.value + 1] : null)
+  const prev = computed(() => index.value - 1 >= 0 ? site.postList[index.value - 1] : null)
+  const next = computed(() => index.value + 1 < site.postList.length ? site.postList[index.value + 1] : null)
 
   return [prev, next]
 }

@@ -1,16 +1,99 @@
-import { defineConfig } from 'valaxy'
+import { defineValaxyConfig } from 'valaxy'
+import type { PressTheme } from 'valaxy-theme-press'
+import { addonAlgolia } from 'valaxy-addon-algolia'
+
+const COMMIT_ID = process.env.CF_PAGES_COMMIT_SHA || process.env.COMMIT_REF
+const commitRef = COMMIT_ID?.slice(0, 8) || 'dev'
 
 const safelist = [
   'i-ri-home-line',
+
+  'i-ri-github-line',
 ]
 
-export default defineConfig({
-  title: 'Valaxy',
-  url: 'https://valaxy.site',
-  description: 'Valaxy Site Docs',
+export default defineValaxyConfig<PressTheme.Config>({
+  siteConfig: {
+    title: 'Valaxy',
+    url: 'https://valaxy.site',
+    description: 'Valaxy Site Docs',
+
+    search: {
+      enable: true,
+      type: 'algolia',
+    },
+  },
+
+  addons: [
+    addonAlgolia({
+      appId: 'UVMHTMG1T5',
+      apiKey: '805f2584a8866388aa1631ff0348ddae',
+      indexName: 'valaxy',
+    }),
+  ],
 
   theme: 'press',
-  themeConfig: {},
+  themeConfig: {
+    logo: '/favicon.svg',
+    sidebar: ['Getting Started', 'Guide', 'Config', 'Migration', 'built-ins', 'Third', 'Custom', 'Theme', 'Addon', 'Dev'],
+    socialLinks: [
+      { icon: 'i-ri-github-line', link: 'https://github.com/YunYouJun/valaxy' },
+    ],
+    nav: [
+      {
+        text: 'Docs',
+        items: [
+          {
+            text: 'Getting Started',
+            link: '/guide/getting-started',
+          },
+          {
+            text: 'Migration from Hexo',
+            link: '/migration/hexo',
+          },
+        ],
+      },
+      {
+        text: 'Themes',
+        items: [
+          {
+            text: 'Use Theme',
+            link: '/themes/use',
+          },
+          {
+            text: 'Write A Theme',
+            link: '/themes/write',
+          },
+          {
+            text: 'Themes Gallery',
+            link: '/themes/gallery',
+          },
+        ],
+      },
+      {
+        text: 'Addons',
+        items: [
+          {
+            text: 'Why need addons?',
+            link: '/addons',
+          },
+          {
+            text: 'Use A Addon',
+            link: '/addons/use',
+          },
+          {
+            text: 'Write A Addon',
+            link: '/addons/write',
+          },
+        ],
+      },
+    ],
+
+    footer: {
+      message: `Released under the MIT License. (<a href="https://github.com/YunYouJun/valaxy/commit/${commitRef}" target="_blank" alt=${commitRef}>${commitRef}</a>)`,
+      copyright:
+        'Copyright © 2022-present <a href="https://github.com/YunYouJun" target="_blank">YunYouJun</a> & <a href="https://github.com/YunYouJun/valaxy/graphs/contributors" target="_blank">Valaxy Contributors</a>',
+    },
+  },
 
   vite: {
     base: '/',

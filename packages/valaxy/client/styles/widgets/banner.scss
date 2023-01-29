@@ -1,15 +1,18 @@
 @use "../mixins" as *;
 
 $banner-animation-duration: 1s;
-$line-animation-duration: 0.4s;
 $char-animation-duration: 0.4s;
 
 #banner {
+  --banner-line-height: 0;
+  --line-animation-duration: 0.4s;
+
   position: relative;
   display: flex;
   flex-direction: column;
   align-items: center;
-  height: 100vh;
+  width: 100%;
+  height: var(--banner-height, 100vh);
 }
 
 .banner-char-container {
@@ -18,21 +21,33 @@ $char-animation-duration: 0.4s;
   align-items: center;
 }
 
+.banner-line-container {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  height: var(--banner-line-height);
+
+  &.bottom {
+    justify-content: end;
+  }
+}
+
 .vertical-line {
-  &-top, &-bottom {
+  &-top,
+  &-bottom {
     display: flex;
     background-color: var(--banner-line-color);
     width: 1px;
     height: 0;
     animation-name: extend-line;
-    animation-duration: $line-animation-duration;
+    animation-duration: var(--line-animation-duration);
     animation-fill-mode: forwards;
     animation-timing-function: ease-in;
   }
 
   &-bottom {
-    position: absolute;
-    bottom: 0;
+    flex-direction: column-reverse;
   }
 }
 
@@ -47,9 +62,9 @@ $char-animation-duration: 0.4s;
 }
 
 .char {
-  font-family: get-css-var('font', 'serif');
+  font-family: get-css-var("font", "serif");
+  font-weight: 900;
   font-size: var(--banner-char-size, 1rem);
-  font-weight: get-css-var('font', 'serif-weight');
   background-color: var(--banner-char-bg-color);
   line-height: 1;
 
@@ -74,7 +89,7 @@ $char-animation-duration: 0.4s;
     border-right-width: 0px;
     animation-name: char-move-left;
     animation-duration: $char-animation-duration;
-    animation-delay: $line-animation-duration;
+    animation-delay: var(--line-animation-duration);
     animation-fill-mode: forwards;
     animation-timing-function: ease-out;
   }
@@ -85,7 +100,7 @@ $char-animation-duration: 0.4s;
     border-left-width: 0px;
     animation-name: char-move-right;
     animation-duration: $char-animation-duration;
-    animation-delay: $line-animation-duration;
+    animation-delay: var(--line-animation-duration);
     animation-fill-mode: forwards;
     animation-timing-function: ease-out;
   }
@@ -99,7 +114,10 @@ $char-animation-duration: 0.4s;
 
   to {
     opacity: 1;
-    border-right-width: var(--banner-empty-border-size, var(--banner-char-size));
+    border-right-width: var(
+      --banner-empty-border-size,
+      var(--banner-char-size)
+    );
   }
 }
 

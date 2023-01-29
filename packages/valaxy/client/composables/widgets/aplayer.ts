@@ -1,7 +1,7 @@
 import { useScriptTag } from '@vueuse/core'
 import { useHead } from '@vueuse/head'
 import { computed } from 'vue'
-import { useConfig } from '../..'
+import { useSiteConfig } from '../..'
 
 /**
  * use MetingJS and Aplayer
@@ -9,8 +9,8 @@ import { useConfig } from '../..'
  * @see https://github.com/metowolf/MetingJS
  */
 export function useAplayer() {
-  const config = useConfig()
-  const cdnPrefix = computed(() => config.value.cdn.prefix)
+  const siteConfig = useSiteConfig()
+  const cdnPrefix = computed(() => siteConfig.value.cdn.prefix)
 
   useHead({
     link: [

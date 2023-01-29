@@ -9,17 +9,39 @@ import Vue from '@vitejs/plugin-vue'
 import Pages from 'vite-plugin-pages'
 import Layouts from 'vite-plugin-vue-layouts'
 import Components from 'unplugin-vue-components/vite'
-import { vueI18n } from '@intlify/vite-plugin-vue-i18n'
+import VueI18n from '@intlify/unplugin-vue-i18n/vite'
 
 import dayjs from 'dayjs'
+import { convert } from 'html-to-text'
+import type { ValaxyExtendConfig } from '../types'
 import type { ResolvedValaxyOptions, ValaxyServerOptions } from '../options'
 import { setupMarkdownPlugins } from '../markdown'
-// import { createMarkdownPlugin, excerpt_separator } from './markdown'
 // import { formatMdDate } from '../utils/date'
+import { EXCERPT_SEPARATOR } from '../constants'
 import { createUnocssPlugin } from './unocss'
 import { createConfigPlugin } from './extendConfig'
 import { createClientSetupPlugin } from './setupClient'
+import { createFixPlugins } from './patchTransform'
 import { createValaxyPlugin } from '.'
+
+// for render markdown excerpt
+const mdIt = new MarkdownIt({ html: true })
+/**
+ * get excerpt by type
+ * @param excerpt
+ * @param type
+ * @returns
+ */
+const getExcerptByType = (excerpt = '', type: 'md' | 'html' | 'text' = 'html') => {
+  switch (type) {
+    case 'md':
+      return excerpt
+    case 'html':
+      return mdIt.render(excerpt)
+    case 'text':
+      return convert(mdIt.render(excerpt))
+  }
+}
 
 export async function ViteValaxyPlugins(
   options: ResolvedValaxyOptions,
@@ -32,9 +54,7 @@ export async function ViteValaxyPlugins(
 
   const ValaxyPlugin = createValaxyPlugin(options, serverOptions)
 
-  // for render markdown excerpt
-  const mdIt = new MarkdownIt({ html: true })
-
+  // setup mdIt
   await setupMarkdownPlugins(mdIt, valaxyConfig.markdown, true)
 
   const customElements = new Set([
@@ -99,10 +119,16 @@ export async function ViteValaxyPlugins(
       /**
        * we need get frontmatter before route, so write it in Pages.extendRoute
        */
-      async extendRoute(route, parent) {
+      async extendRoute(
+        route: Parameters<Required<ValaxyExtendConfig>['extendMd']>[0]['route'],
+        parent,
+      ) {
         let path: string = route.component
         if (!route.meta)
           route.meta = {}
+
+        // encode for chinese filename
+        route.path = encodeURI(route.path)
 
         // add default layout for home, can be overrode
         if (route.path === '/')
@@ -126,7 +152,9 @@ export async function ViteValaxyPlugins(
 
         if (path.endsWith('.md')) {
           const md = fs.readFileSync(path, 'utf-8')
-          const { data, excerpt, content } = matter(md, { excerpt_separator: '<!-- more -->' })
+          const { data, excerpt, content } = matter(md, {
+            excerpt_separator: EXCERPT_SEPARATOR,
+          })
 
           // todo, optimize it to cache or on demand
           // https://github.com/hannoeru/vite-plugin-pages/issues/257
@@ -137,8 +165,8 @@ export async function ViteValaxyPlugins(
           //   options.config.date.format,
           //   options.config.lastUpdated,
           // )
-          const lastUpdated = options.config.lastUpdated
-          const format = options.config.date?.format
+          const lastUpdated = options.config.siteConfig.lastUpdated
+          const format = options.config.siteConfig.date?.format
           if (!data.date)
             data.date = fs.statSync(path).mtime
 
@@ -155,7 +183,7 @@ export async function ViteValaxyPlugins(
           // set route meta
           route.meta = Object.assign(route.meta, {
             frontmatter: Object.assign(defaultFrontmatter, data),
-            excerpt: excerpt ? mdIt.render(excerpt) : '',
+            excerpt: excerpt ? getExcerptByType(excerpt, data.excerpt_type) : '',
           })
 
           // set layout
@@ -163,12 +191,12 @@ export async function ViteValaxyPlugins(
             route.meta.layout = data.layout
 
           // set default updated
-          if (route.meta.frontmatter.updated)
+          if (route.meta.frontmatter?.updated)
             route.meta.frontmatter.updated = route.meta.frontmatter.date
 
           valaxyConfig.extendMd?.({
             route,
-            data,
+            data: data as Readonly<Record<string, any>>,
             excerpt,
             content,
             path,
@@ -198,7 +226,10 @@ export async function ViteValaxyPlugins(
       allowOverrides: true,
       // override: user -> theme -> client
       // latter override former
-      dirs: roots.map(root => `${root}/components`).concat(roots.map(root => `${root}/layouts`)).concat(['src/components', 'components']),
+      dirs: roots
+        .map(root => `${root}/components`)
+        .concat(roots.map(root => `${root}/layouts`))
+        .concat(['src/components', 'components']),
       dts: `${options.userRoot}/components.d.ts`,
 
       ...valaxyConfig.components,
@@ -210,13 +241,14 @@ export async function ViteValaxyPlugins(
 
     // ...MarkdownPlugin,
 
-    // https://github.com/intlify/bundle-tools/tree/main/packages/vite-plugin-vue-i18n
-    vueI18n({
+    // https://github.com/intlify/bundle-tools/tree/main/packages/unplugin-vue-i18n
+    VueI18n({
       runtimeOnly: true,
       compositionOnly: true,
       include: roots.map(root => `${root}/locales/**`),
     }),
 
     splitVendorChunkPlugin(),
+    createFixPlugins(options),
   ]
 }

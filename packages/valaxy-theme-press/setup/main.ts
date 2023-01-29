@@ -8,7 +8,7 @@ export default defineAppSetup((ctx) => {
 
   window.addEventListener(
     'click',
-    (e) => {
+    async (e) => {
       const link = (e.target as Element).closest('a')
       if (link) {
         const { protocol, hostname, pathname, hash, target } = link
@@ -29,7 +29,9 @@ export default defineAppSetup((ctx) => {
             e.preventDefault()
             // scroll between hash anchors in the same page
             if (hash && hash !== currentUrl.hash) {
-              history.pushState(null, '', hash)
+              await router.push({ hash })
+              history.replaceState({ ...history.state }, '')
+
               // still emit the event so we can listen to it in themes
               window.dispatchEvent(new Event('hashchange'))
               // use smooth scroll when clicking on header anchor links
@@ -58,11 +60,10 @@ export default defineAppSetup((ctx) => {
 
 function scrollTo(el: HTMLElement, hash: string, smooth = false) {
   let target: Element | null = null
-
   try {
     target = el.classList.contains('header-anchor')
       ? el
-      : document.querySelector(decodeURIComponent(hash))
+      : (decodeURIComponent(hash) && document.querySelector(decodeURIComponent(hash))) || null
   }
   catch (e) {
     console.warn(e)

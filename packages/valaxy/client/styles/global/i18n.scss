@@ -41,7 +41,7 @@ html[lang] {
 
     .va-toc {
       li[lang="#{$lang}"] {
-        a {
+        > a {
           display: block;
         }
       }

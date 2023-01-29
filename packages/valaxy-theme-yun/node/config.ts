@@ -11,6 +11,9 @@ export const defaultThemeConfig: ThemeConfig = {
   banner: {
     enable: true,
     title: '云游君的小站',
+    cloud: {
+      enable: true,
+    },
   },
 
   bg_image: {
@@ -28,12 +31,18 @@ export const defaultThemeConfig: ThemeConfig = {
     },
   },
 
+  notice: {
+    enable: false,
+    content: '',
+  },
+
   pages: [],
 
   sidebar: null,
   footer: {
     since: 2022,
     icon: {
+      enable: true,
       name: 'i-ri-cloud-line',
       animated: true,
       color: 'var(--va-c-primary)',

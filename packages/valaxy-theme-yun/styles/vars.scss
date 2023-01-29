@@ -4,10 +4,10 @@
 $light: () !default;
 $light: map.merge(
   (
-    "bg-image":
+    "bg-img":
       url("https://cdn.yunyoujun.cn/img/bg/stars-timing-0-blur-30px.jpg"),
     "sidebar-bg-color": var(--va-c-bg-light),
-    "sidebar-bg-image":
+    "sidebar-bg-img":
       url("https://cdn.yunyoujun.cn/img/bg/alpha-stars-timing-1.webp"),
   ),
   $light
@@ -16,8 +16,8 @@ $light: map.merge(
 $dark: () !default;
 $dark: map.merge(
   (
-    "bg-image": none,
-    "sidebar-bg-image": none,
+    "bg-img": none,
+    "sidebar-bg-img": none,
   ),
   $dark
 );
@@ -27,6 +27,7 @@ $common: () !default;
 $common: map.merge(
   (
     "post-card-max-width": 900px,
+    "c-cloud": "white"
   ),
   $common
 );
@@ -34,8 +35,10 @@ $common: map.merge(
 $z-index: () !default;
 $z-index: map.merge(
   (
-    "cloud": 8,
+    "toc-btn": 7,
+    "cloud": 7,
     "go-down": 9,
+    "backdrop": 9,
     "sidebar": 10,
     "fireworks": 11,
     "menu-btn": 20,

@@ -2,18 +2,53 @@
 import fs from 'fs'
 import path from 'path'
 import c from 'picocolors'
-import matter from 'gray-matter'
 import LRUCache from 'lru-cache'
 import _debug from 'debug'
-import { EXTERNAL_URL_RE, getGitTimestamp, slash, transformObject } from '../utils'
-import type { HeadConfig, PageData } from '../../types'
-import { deeplyParseHeader } from './markdown-it/parseHeader'
+import { resolveTitleFromToken } from '@mdit-vue/shared'
+import { EXTERNAL_URL_RE } from '../constants'
+import { getGitTimestamp, slash, transformObject } from '../utils'
+import type { CleanUrlsMode, HeadConfig, PageData } from '../../types'
 import { createMarkdownRenderer } from '.'
-import type { MarkdownOptions } from '.'
+import type { MarkdownEnv, MarkdownOptions, MarkdownRenderer } from '.'
+
+const jsStringBreaker = '\u200B'
+const vueTemplateBreaker = '<wbr>'
 
 const debug = _debug('vitepress:md')
 const cache = new LRUCache<string, MarkdownCompileResult>({ max: 1024 })
 const includesRE = /<!--\s*@include:\s*(.*?)\s*-->/g
+
+function genReplaceRegexp(
+  userDefines: Record<string, any> = {},
+  isBuild: boolean,
+): RegExp {
+  // `process.env` need to be handled in both dev and build
+  // @see https://github.com/vitejs/vite/blob/cad27ee8c00bbd5aeeb2be9bfb3eb164c1b77885/packages/vite/src/node/plugins/clientInjections.ts#L57-L64
+  const replacements = ['process.env']
+  if (isBuild)
+    replacements.push('import.meta', ...Object.keys(userDefines))
+
+  return new RegExp(
+    `\\b(${replacements
+      .map(key => key.replace(/[-[\]/{}()*+?.\\^$|]/g, '\\$&'))
+      .join('|')})`,
+    'g',
+  )
+}
+
+/**
+ * To avoid env variables being replaced by vite:
+ * - insert `'\u200b'` char into those strings inside js string (page data)
+ * - insert `<wbr>` tag into those strings inside html string (vue template)
+ *
+ * @see https://vitejs.dev/guide/env-and-mode.html#production-replacement
+ */
+function replaceConstants(str: string, replaceRegex: RegExp, breaker: string) {
+  // replace a to AppLink
+  str = str.replace(/<a (.*?)>(.*?)<\/a>/g, '<AppLink $1>$2</AppLink>')
+
+  return str.replace(replaceRegex, _ => `${_[0]}${breaker}${_.slice(1)}`)
+}
 
 export interface MarkdownCompileResult {
   vueSrc: string
@@ -22,16 +57,21 @@ export interface MarkdownCompileResult {
   includes: string[]
 }
 
-const inferTitle = (frontmatter: Record<string, any>, content: string) => {
-  if (frontmatter.title)
-    return deeplyParseHeader(frontmatter.title)
-
-  const match = content.match(/^\s*#+\s+(.*)/m)
-
-  if (match)
-    return deeplyParseHeader(match[1].trim())
-
-  return ''
+const inferTitle = (
+  md: MarkdownRenderer,
+  frontmatter: Record<string, any>,
+  title: string,
+) => {
+  if (typeof frontmatter.title === 'string') {
+    const titleToken = md.parseInline(frontmatter.title, {})[0]
+    if (titleToken) {
+      return resolveTitleFromToken(titleToken, {
+        shouldAllowHtml: false,
+        shouldEscapeText: false,
+      })
+    }
+  }
+  return title
 }
 
 const getHeadMetaContent = (
@@ -64,19 +104,14 @@ export async function createMarkdownToVueRenderFn(
   userDefines: Record<string, any> | undefined,
   isBuild = false,
   includeLastUpdatedData = false,
+  // https://vitepress.vuejs.org/config/app-configs#cleanurls-experimental
+  cleanUrls: CleanUrlsMode = 'with-subfolders',
 ) {
   const md = await createMarkdownRenderer(options)
 
   pages = pages.map(p => slash(p.replace(/\.md$/, '')))
 
-  const userDefineRegex = userDefines
-    ? new RegExp(
-        `\\b(${Object.keys(userDefines)
-          .map(key => key.replace(/[-[\]/{}()*+?.\\^$|]/g, '\\$&'))
-          .join('|')})`,
-        'g',
-    )
-    : null
+  const replaceRegex = genReplaceRegexp(userDefines, isBuild)
 
   return async (
     src: string,
@@ -96,51 +131,52 @@ export async function createMarkdownToVueRenderFn(
 
     // resolve includes
     const includes: string[] = []
-    src = src.replace(includesRE, (_, m1) => {
-      const includePath = path.join(dir, m1)
-      const content = fs.readFileSync(includePath, 'utf-8')
-      includes.push(slash(includePath))
-      return content
+    src = src.replace(includesRE, (m, m1) => {
+      try {
+        const includePath = path.join(dir, m1)
+        const content = fs.readFileSync(includePath, 'utf-8')
+        includes.push(slash(includePath))
+        return content
+      }
+      catch (error) {
+        return m // silently ignore error if file is not present
+      }
     })
 
-    const { content, data: frontmatter } = matter(src)
-
-    // reset state before render
-    md.__path = file
-    md.__relativePath = relativePath
-
-    let html = md.render(content)
-    const data = md.__data
-
-    if (isBuild) {
-      // avoid env variables being replaced by vite
-      html = html
-        .replace(/\bimport\.meta/g, 'import.<wbr/>meta')
-        .replace(/\bprocess\.env/g, 'process.<wbr/>env')
-
-      // also avoid replacing vite user defines
-      if (userDefineRegex) {
-        html = html.replace(
-          userDefineRegex,
-          _ => `${_[0]}<wbr/>${_.slice(1)}`,
-        )
-      }
+    // reset env before render
+    const env: MarkdownEnv = {
+      path: file,
+      relativePath,
+      cleanUrls,
     }
+
+    const html = md.render(src, env)
+    const {
+      frontmatter = {},
+      headers = [],
+      links = [],
+      sfcBlocks,
+      title = '',
+    } = env
 
     // validate data.links
     const deadLinks: string[] = []
     const recordDeadLink = (url: string) => {
       console.warn(
         c.yellow(
-          `\n(!) Found dead link ${c.cyan(url)} in file ${c.white(c.dim(file))}`,
+          `\n(!) Found dead link ${c.cyan(url)} in file ${c.white(
+            c.dim(file),
+          )}\nIf it is intended, you can use:\n    ${c.cyan(
+            `<a href="${url}" target="_blank" rel="noreferrer">${url}</a>`,
+          )}`,
         ),
       )
       deadLinks.push(url)
     }
 
-    if (data.links) {
+    if (links) {
       const dir = path.dirname(file)
-      for (let url of data.links) {
+      for (let url of links) {
         if (/\.(?!html|md)\w+($|\?)/i.test(url))
           continue
 
@@ -150,8 +186,6 @@ export async function createMarkdownToVueRenderFn(
         }
 
         url = url.replace(/[?#].*$/, '').replace(/\.(html|md)$/, '')
-        if (url.endsWith('/'))
-          url += 'index'
         const resolved = decodeURIComponent(
           slash(
             url.startsWith('/')
@@ -162,6 +196,9 @@ export async function createMarkdownToVueRenderFn(
         if (
           !pages.includes(resolved)
           && !fs.existsSync(path.resolve(dir, publicDir, `${resolved}.html`))
+          && !(resolved.endsWith('/') && (
+            pages.includes(resolved.slice(0, -1)) || pages.includes(`${resolved}index`)
+          ))
         )
           recordDeadLink(url)
       }
@@ -169,11 +206,11 @@ export async function createMarkdownToVueRenderFn(
 
     // provide load
     const pageData: PageData = {
-      title: inferTitle(frontmatter, content),
-      titleTemplate: frontmatter.titleTemplate,
+      title: inferTitle(md, frontmatter, title),
+      titleTemplate: frontmatter.titleTemplate as any,
       description: inferDescription(frontmatter),
       frontmatter,
-      headers: data.headers || [],
+      headers,
       relativePath,
       path: path.join(srcDir, relativePath),
     }
@@ -197,16 +234,30 @@ export async function createMarkdownToVueRenderFn(
         'aside',
         'aside-custom',
       ]
-      const slotsText = slots.map(s => `<template #${s}><slot name="${s}" /></template>`).join('')
+      const slotsText = slots
+        .map(s => `<template #${s}><slot name="${s}" /></template>`)
+        .join('')
       return slotsText
     }
-    const vueSrc
-      = `${genPageDataCode(data.hoistedTags || [], pageData).join('\n')
-      }\n<template><${pageComponent} :frontmatter="frontmatter" :data="data">
-        <template #main-content-md>${html}</template>
-        ${generateSlots()}
-        <slot />
-      </${pageComponent}></template>`
+
+    const vueSrc = [
+      ...injectPageDataCode(
+        sfcBlocks?.scripts.map(item => item.content) ?? [],
+        pageData,
+        replaceRegex,
+      ),
+      `<template><${pageComponent} :frontmatter="frontmatter" :data="data">`,
+      `<template #main-content-md>${replaceConstants(
+        html,
+        replaceRegex,
+        vueTemplateBreaker,
+      )}</template>`,
+      generateSlots(),
+      '<slot />',
+      `</${pageComponent}></template>`,
+      ...(sfcBlocks?.styles.map(item => item.content) ?? []),
+      ...(sfcBlocks?.customBlocks.map(item => item.content) ?? []),
+    ].join('\n')
 
     debug(`[render] ${file} in ${Date.now() - start}ms.`)
 
@@ -228,8 +279,15 @@ const scriptClientRE = /<\s*script[^>]*\bclient\b[^>]*/
 const defaultExportRE = /((?:^|\n|;)\s*)export(\s*)default/
 const namedDefaultExportRE = /((?:^|\n|;)\s*)export(.+)as(\s*)default/
 
-function genPageDataCode(tags: string[], data: PageData) {
-  const code = ''
+function injectPageDataCode(
+  tags: string[],
+  data: PageData,
+  replaceRegex: RegExp,
+) {
+  const dataJson = JSON.stringify(data)
+  const code = `\nexport const __pageData = JSON.parse(${JSON.stringify(
+    replaceConstants(dataJson, replaceRegex, jsStringBreaker),
+  )})`
 
   const existingScriptIndex = tags.findIndex((tag) => {
     return (

@@ -41,7 +41,7 @@ $breakpoints: (
   }
 }
 
-@mixin media($size) {
+@mixin screen($size) {
   @media screen and (min-width: map.get($breakpoints, $size)) {
     @content;
   }

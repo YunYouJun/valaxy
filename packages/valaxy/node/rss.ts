@@ -10,6 +10,8 @@ import { Feed } from 'feed'
 import consola from 'consola'
 import type { ResolvedValaxyOptions } from './options'
 import { formatMdDate } from './utils/date'
+import { ensurePrefix, isExternal } from './utils'
+import { EXCERPT_SEPARATOR } from './constants'
 
 const markdown = MarkdownIt({
   html: true,
@@ -24,31 +26,32 @@ const markdown = MarkdownIt({
  */
 export async function build(options: ResolvedValaxyOptions) {
   const { config } = options
+  const siteConfig = config.siteConfig
 
-  if (!config.url || config.url === '/') {
-    consola.error('You must set "config.url" to generate rss.')
+  if (!siteConfig.url || siteConfig.url === '/') {
+    consola.error('You must set `url` (like `https://example.com`) in `site.config.ts` to generate rss.')
     return
   }
 
   // url has been ensured '/'
-  const siteUrl = config.url
-  const DOMAIN = config.url.slice(0, -1)
+  const siteUrl = siteConfig.url
+  const DOMAIN = siteConfig.url.slice(0, -1)
 
   const author: Author = {
-    name: config?.author?.name,
-    email: config?.author?.email,
-    link: config?.author?.link,
+    name: siteConfig.author?.name,
+    email: siteConfig.author?.email,
+    link: siteConfig.author?.link,
   }
 
   consola.info(`RSS Site Url: ${cyan(siteUrl)}`)
 
-  const ccVersion = (config.license?.type === 'zero') ? '1.0' : '4.0'
+  const ccVersion = (siteConfig.license?.type === 'zero') ? '1.0' : '4.0'
   const feedOptions: FeedOptions = {
-    title: config.title || 'Valaxy Blog',
-    description: config.description,
+    title: siteConfig.title || 'Valaxy Blog',
+    description: siteConfig.description,
     id: siteUrl || 'valaxy',
     link: siteUrl,
-    copyright: `CC ${config.license?.type?.toUpperCase()} ${ccVersion} ${new Date().getFullYear()} © ${config.author?.name}`,
+    copyright: `CC ${siteConfig.license?.type?.toUpperCase()} ${ccVersion} ${new Date().getFullYear()} © ${siteConfig.author?.name}`,
     feedLinks: {
       json: `${siteUrl}feed.json`,
       atom: `${siteUrl}feed.atom`,
@@ -63,19 +66,24 @@ export async function build(options: ResolvedValaxyOptions) {
   for await (const i of files) {
     const raw = fs.readFileSync(i, 'utf-8')
 
-    const { data, content, excerpt } = matter(raw, { excerpt_separator: '<!-- more -->' })
+    const { data, content, excerpt } = matter(raw, { excerpt_separator: EXCERPT_SEPARATOR })
 
     if (data.draft) {
       consola.warn(`Ignore draft post: ${dim(i)}`)
       continue
     }
 
-    await formatMdDate(data, i, config.date?.format, config.lastUpdated)
+    // hidden
+    if (data.hide)
+      continue
+
+    await formatMdDate(data, i, siteConfig.date?.format, siteConfig.lastUpdated)
 
     // todo i18n
 
     // render excerpt
-    const html = markdown.render(excerpt || content)
+    // default excerpt content length: 100
+    const html = markdown.render(excerpt || content.slice(0, 100))
       .replace('src="/', `src="${DOMAIN}/`)
 
     if (data.image?.startsWith('/'))
@@ -98,28 +106,35 @@ export async function build(options: ResolvedValaxyOptions) {
   // await writeFeed('feed', feedOptions, posts)
 
   // write
+  const authorAvatar = siteConfig.author?.avatar || '/favicon.svg'
   feedOptions.author = author
-  feedOptions.image = config.author?.avatar?.startsWith('http') ? config.author.avatar : `${DOMAIN}${config.author?.avatar}`
-  feedOptions.favicon = `${DOMAIN}${config.feed?.favicon || config.favicon}`
+  feedOptions.image = isExternal(authorAvatar)
+    ? siteConfig.author?.avatar
+    : `${DOMAIN}${ensurePrefix('/', authorAvatar)}`
+  feedOptions.favicon = `${DOMAIN}${siteConfig.feed?.favicon || siteConfig.favicon}`
 
   const feed = new Feed(feedOptions)
   posts.forEach(item => feed.addItem(item))
   // items.forEach(i=> console.log(i.title, i.date))
 
-  await fs.ensureDir(dirname(`./dist/${config.feed?.name}`))
+  await fs.ensureDir(dirname(`./dist/${siteConfig.feed?.name} || 'feed.xml'`))
   const path = './dist'
 
   const types = ['xml', 'atom', 'json']
   types.forEach((type) => {
     let data = ''
-    let name = `${path}/${config.feed?.name || 'feed'}.${type}`
-    if (type === 'xml') { data = feed.rss2() }
+    let name = `${path}/${siteConfig.feed?.name || 'feed'}.${type}`
+    if (type === 'xml') {
+      data = feed.rss2()
+    }
     else if (type === 'atom') {
-      if (!config.feed?.name)
+      if (!siteConfig.feed?.name)
         name = `${path}/atom.xml`
       data = feed.atom1()
     }
-    else if (type === 'json') { data = feed.json1() }
+    else if (type === 'json') {
+      data = feed.json1()
+    }
     fs.writeFileSync(name, data, 'utf-8')
     consola.info(`${type}: ${name}`)
   })

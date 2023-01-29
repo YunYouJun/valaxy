@@ -1,7 +1,6 @@
 import { resolve } from 'path'
 import { existsSync } from 'fs'
 import type { VitePluginConfig as UnoCSSConfig, VitePluginConfig } from 'unocss/vite'
-import Unocss from 'unocss/vite'
 import jiti from 'jiti'
 import defu from 'defu'
 
@@ -32,12 +31,14 @@ export const createSafelist = async (options: ResolvedValaxyOptions) => {
     'rotate-y-180',
   ]).concat(safeIcons)
 
+  const siteConfig = config.siteConfig
+
   // generate icon safelist
-  if (config.social?.length)
-    config.social.forEach(item => safelist.push(item?.icon || ''))
+  if (siteConfig.social?.length)
+    siteConfig.social.forEach(item => safelist.push(item?.icon || ''))
 
   // sponsor icon
-  const methods = config.sponsor?.methods || []
+  const methods = siteConfig.sponsor?.methods || []
   if (methods.length)
     methods.forEach(item => safelist.push(item?.icon || ''))
 
@@ -49,7 +50,7 @@ export const createUnocssConfig = async (options: ResolvedValaxyOptions) => {
 
   const unocssConfig: VitePluginConfig = {
     shortcuts: [
-      ['btn', 'px-4 py-1 rounded inline-block bg-sky-600 text-white cursor-pointer hover:bg-sky-700 disabled:cursor-default disabled:bg-gray-600 disabled:opacity-50'],
+      ['btn', 'px-4 py-1 rounded inline-block bg-$va-c-primary text-white cursor-pointer transition hover:bg-$va-c-primary-light disabled:cursor-default disabled:bg-gray-600 disabled:opacity-50'],
       ['icon-btn', 'inline-flex justify-center items-center cursor-pointer select-none opacity-75 transition duration-200 ease-in-out hover:opacity-100 hover:text-sky-600'],
       ['va-card', 'shadow hover:shadow-lg'],
     ],
@@ -97,6 +98,7 @@ export const createUnocssConfig = async (options: ResolvedValaxyOptions) => {
 }
 
 export const createUnocssPlugin = async (options: ResolvedValaxyOptions) => {
+  const UnoCSS = await import('unocss/vite').then(r => r.default)
   const { unocss: unoOptions } = options.config
   const defaultConfig = await createUnocssConfig(options)
 
@@ -130,7 +132,7 @@ export const createUnocssPlugin = async (options: ResolvedValaxyOptions) => {
   config = await loadSetups(roots, 'unocss.ts', {}, config, true)
 
   // https://github.com/unocss/unocss/issues/1262
-  return Unocss({
+  return UnoCSS({
     configDeps,
     configFile: false,
     ...defu(unoOptions || {}, config, defaultConfig),

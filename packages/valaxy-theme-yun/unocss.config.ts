@@ -6,11 +6,18 @@ export default defineConfig({
     ['yun-card', 'm-auto transition yun-transition shadow hover:shadow-lg'],
   ],
   rules: [
-    ['yun-text-light', {
-      color: 'var(--va-c-text-light)',
-    }],
-    ['yun-transition', {
-      'transition-duration': 'var(--va-transition-duration)',
-    }],
+    [
+      'yun-text-light',
+      {
+        color: 'var(--va-c-text-light)',
+      },
+    ],
+    [
+      'yun-transition',
+      {
+        'transition-duration': 'var(--va-transition-duration)',
+      },
+    ],
   ],
+  // web fonts is so big, let the user decide
 })

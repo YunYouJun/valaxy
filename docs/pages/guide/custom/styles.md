@@ -1,0 +1,37 @@
+---
+title: Custom Styles
+title_zh-CN: 自定义样式
+categories:
+  - Custom
+end: false
+---
+
+## 自动样式注入
+
+新建 `styles` 文件夹，目录下的以下文件将会被自动引入：
+
+- `index.scss`
+- `index.css`
+- `css-vars.scss`
+- `css-vars.css`
+
+我们推荐您：
+
+- 新建 `index.scss` 书写全局样式，并可在其中导入其他样式，它会被自动引入。
+- 新建 `css-vars.scss` 书写 CSS 变量，它会被自动引入。
+
+## 自定义字体
+
+譬如你可以在 `styles/css-vars.scss` 中覆盖默认的字体。
+
+- `serif`: 衬线字体：<span font="serif">字体 abcd 123</span>
+- `sans`: 非衬线字体：<span font="sans">字体 abcd 123</span>
+- `mono`: 等宽字体：<span font="mono">字体 abcd 123</span>
+
+```scss
+:root {
+  --va-font-serif: 'Noto Serif SC', STZhongsong, STKaiti, KaiTi, Roboto, serif;
+  --va-font-sans: Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif;
+  --va-font-mono: Menlo, Monaco, Consolas, "Courier New", monospace;
+}
+```
