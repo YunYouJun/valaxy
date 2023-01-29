@@ -5,21 +5,22 @@ import { useI18n } from 'vue-i18n'
 const { t } = useI18n()
 
 const siteConfig = useSiteConfig()
-
 const showQr = ref(false)
 </script>
 
 <template>
-  <div class="yun-sponsor-container flex justify-center items-center flex-col">
-    <button class="sponsor-button yun-icon-btn shadow hover:shadow-md" :title="t('reward.donate')" text="red-400" @click="showQr = !showQr">
+  <div class="yun-sponsor-container flex-center flex-col">
+    <button
+      class="sponsor-button yun-icon-btn shadow hover:shadow-md"
+      :title="t('reward.donate')" text="red-400" @click="showQr = !showQr"
+    >
       <div i-ri-heart-line />
     </button>
 
     <div class="qrcode-container qrcode flex justify-around" m="y-4" :class="showQr && 'show'">
       <a
         v-for="method, i in siteConfig.sponsor.methods" :key="i"
-        class="flex flex-col justify-center items-center animate-iteration-1"
-        :class="showQr && 'animate-fade-in'"
+        class="flex-center flex-col animate-iteration-1 animate-fade-in"
         :href="method.url" target="_blank"
         :style="`color:${method.color}`"
       >

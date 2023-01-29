@@ -50,7 +50,10 @@ const title = usePostTitle(frontmatter)
 
     <template #main-nav-before>
       <YunCard v-if="curCategory" class="post-collapse-container" m="t-4" w="full">
-        <YunPageHeader :title="curCategory === 'Uncategorized' ? t('category.uncategorized') : curCategory.split('/').join(' / ')" icon="i-ri-folder-open-line" />
+        <YunPageHeader
+          :title="curCategory === 'Uncategorized' ? t('category.uncategorized') : curCategory.split('/').join(' / ')"
+          icon="i-ri-folder-open-line"
+        />
         <YunPostCollapse w="full" m="b-4" p="x-20 lt-sm:x-5" :posts="posts" />
       </YunCard>
     </template>

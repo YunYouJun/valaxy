@@ -1,6 +1,7 @@
 import { spawn } from 'cross-spawn'
 
 export function getGitTimestamp(file: string, type: 'created' | 'updated' = 'updated') {
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   return new Promise<number>((resolve, _reject) => {
     const params = ['log']
     if (type === 'updated')

@@ -6,7 +6,7 @@ import { install as installNprogress } from '../modules/nprogress'
 
 export default function setupMain(ctx: ViteSSGContext) {
   // @ts-expect-error inject in runtime
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars, unused-imports/no-unused-vars
   const injection_arg = ctx
 
   installValaxy(ctx)

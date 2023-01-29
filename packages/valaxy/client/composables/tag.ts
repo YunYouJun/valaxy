@@ -24,6 +24,7 @@ export function useTags(options: {
   const primaryColor = new TinyColor(options.primary)
 
   const getTagStyle = (count: number) => {
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const counts = Array.from(tags.value).map(([_, value]) => value.count)
     const max = Math.max(...counts)
     const min = Math.min(...counts)

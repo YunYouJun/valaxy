@@ -63,7 +63,7 @@ function scrollTo(el: HTMLElement, hash: string, smooth = false) {
   try {
     target = el.classList.contains('header-anchor')
       ? el
-      : (decodeURIComponent(hash) && document.querySelector(decodeURIComponent(hash))) || null
+      : ((decodeURIComponent(hash) && document.querySelector(decodeURIComponent(hash))) || null)
   }
   catch (e) {
     console.warn(e)

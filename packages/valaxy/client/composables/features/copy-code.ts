@@ -42,7 +42,7 @@ async function copyToClipboard(text: string) {
 
     const selection = document.getSelection()
     const originalRange = selection
-      ? selection.rangeCount > 0 && selection.getRangeAt(0)
+      ? (selection.rangeCount > 0 && selection.getRangeAt(0))
       : null
 
     document.body.appendChild(element)
