@@ -1,39 +1,121 @@
-export interface Post extends Record<string, any> {
+export interface PageFrontMatter extends Record<string, any> {
   /**
    * Path of post
    * route.path
    * @description 路径
    */
-  path?: string
+  path: string
   /**
    * Title
    * @description 文章标题
    */
-  title?: string
-  date?: string | number | Date
+  title: string
+  date: string | number | Date
   /**
    * Updated Time
    */
-  updated?: string | number | Date
-  lang?: string
+  updated: string | number | Date
+  /**
+   * i18n
+   */
+  lang: string
   /**
    * TODO
    * Read Time
    * @description 阅读时长
    */
-  duration?: string
+  duration: string
+
+  /**
+   * @description Author
+   * @description:zh-CN 作者
+   */
+  author: string
+
+  /**
+   * Display sponsor info
+   * @description 是否开启赞助
+   */
+  sponsor: boolean
+  /**
+   * Copyright
+   * @description 是否显示文章底部版权信息
+   */
+  copyright: boolean
+
+  /**
+   * cover
+   * @description 封面图片
+   */
+  cover: string
+  /**
+   * display toc
+   * @description 是否显示目录
+   */
+  toc: boolean
+  /**
+   * display right sidebar
+   * @description 是否显示右侧侧边栏
+   */
+  aside: boolean
+
+  /**
+   * enable markdown-body class
+   * @description 是否启用默认的 markdown 样式
+   */
+  markdown: boolean
+
+  /**
+   * icon before title
+   */
+  icon: string
+  /**
+   * title color
+   */
+  color: string
+  /**
+   * display comment
+   */
+  comment: boolean
+  /**
+   * post is end
+   * @description 是否完结，将在末尾添加衬线字体 Q.E.D.
+   */
+  end: boolean
+
+  // third-party features
+  /**
+   * use aplayer
+   */
+  aplayer: boolean
+  /**
+   * use katex
+   */
+  katex: boolean
+  /**
+   * use codepen
+   */
+  codepen: boolean
+  /**
+   * use medium-zoom
+   * @url https://github.com/francoischalifour/medium-zoom
+   */
+  medium_zoom: boolean
+}
+
+export interface PostFrontMatter extends PageFrontMatter {
   /**
    * post card type, can be bilibili/yuque/...
    */
-  type?: string
+  type: string
   /**
    * override url, and jump directly
    */
-  url?: string
+  url: string
   /**
    * @description 摘要
    */
-  excerpt?: string
+  excerpt: string
   /**
    * @default 'html'
    * render type of excerpt
@@ -41,114 +123,43 @@ export interface Post extends Record<string, any> {
    * - html: render as html
    * - text: render as text
    */
-  excerpt_type?: 'md' | 'text' | 'html'
-  /**
-   * @description Author
-   * @description:zh-CN 作者
-   */
-  author?: string
-
-  /**
-   * Display sponsor info
-   * @description 是否开启赞助
-   */
-  sponsor?: boolean
-  /**
-   * Copyright
-   * @description 是否显示文章底部版权信息
-   */
-  copyright?: boolean
+  excerpt_type: 'md' | 'text' | 'html'
 
   /**
    * Category
    * @description 分类，若为数组，则按顺序代表多层文件夹
    */
-  categories?: string | string[]
+  categories: string | string[]
   /**
    * Tags
    * @description 标签，可以有多个
    */
-  tags?: string[]
+  tags: string[]
 
   /**
    * display prev next
    * @description 是否显示前一篇、后一篇导航
    */
-  nav?: boolean
-
-  /**
-   * display right sidebar
-   * @description 是否显示右侧侧边栏
-   */
-  aside?: boolean
-
-  /**
-   * icon before title
-   */
-  icon?: string
-  /**
-   * title color
-   */
-  color?: string
-  /**
-   * display comment
-   */
-  comment?: boolean
-  /**
-   * post is end
-   * @description 是否完结，将在末尾添加衬线字体 Q.E.D.
-   */
-  end?: boolean
+  nav: boolean
 
   /**
    * 置顶
    */
-  top?: number
+  top: number
 
-  /**
-   * display toc
-   * @description 是否显示目录
-   */
-  toc?: boolean
   /**
    * is draft
    * @description 是否为草稿
    */
-  draft?: boolean
+  draft: boolean
   /**
    * hide in index
    * - true/`all`: hide in index & archive
    * - `index`: hide in index
    * @description 是否隐藏
    */
-  hide?: 'index' | boolean
-  /**
-   * cover
-   * @description 封面图片
-   */
-  cover?: string
-  /**
-   * enable markdown-body class
-   * @description 是否启用默认的 markdown 样式
-   */
-  markdown?: boolean
-
-  // third-party features
-  /**
-   * use aplayer
-   */
-  aplayer?: boolean
-  /**
-   * use katex
-   */
-  katex?: boolean
-  /**
-   * use codepen
-   */
-  codepen?: boolean
-  /**
-   * use medium-zoom
-   * @url https://github.com/francoischalifour/medium-zoom
-   */
-  medium_zoom: boolean
+  hide: 'index' | boolean
 }
+
+export type Page = Partial<PageFrontMatter>
+export type Post = Partial<PostFrontMatter>
