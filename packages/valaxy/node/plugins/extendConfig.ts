@@ -21,6 +21,7 @@ const clientDeps = [
   'unocss',
   'vue',
   'vue-router',
+  'vue-i18n',
 
   // will may be addons
   'fuse.js',
@@ -42,6 +43,10 @@ const EXCLUDE = [
   'valaxy',
   '/@valaxyjs/config',
   '/@valaxyjs/context',
+
+  '/@valaxyjs/addons',
+  '/@valaxyjs/locales',
+  '/@valaxyjs/styles',
 ]
 
 export function createConfigPlugin(options: ResolvedValaxyOptions): Plugin {
