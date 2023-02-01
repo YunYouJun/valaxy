@@ -107,6 +107,7 @@ export async function setupMarkdownPlugins(
     md.use(attrsPlugin, mdOptions.attrs)
 
   // .use(lineNumberPlugin)
+
   md.use(Katex, mdOptions.katex)
   md.use(emojiPlugin)
 
