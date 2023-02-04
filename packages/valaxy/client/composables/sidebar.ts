@@ -93,7 +93,7 @@ function isAnchorActive(
 }
 
 function throttleAndDebounce(fn: () => void, delay: number): () => void {
-  let timeout: number
+  let timeout: ReturnType<typeof setTimeout>
   let called = false
 
   return () => {

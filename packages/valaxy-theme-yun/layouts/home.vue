@@ -15,7 +15,7 @@ const themeConfig = useThemeConfig()
       </slot>
     </ValaxySidebar>
 
-    <YunBanner />
+    <YunBanner v-if="themeConfig.banner.enable" />
     <YunSay v-if="themeConfig.say.enable" w="full" />
     <YunNotice
       v-if="themeConfig.notice.enable"

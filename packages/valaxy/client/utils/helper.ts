@@ -7,7 +7,7 @@ export function random(min: number, max: number) {
 }
 
 export function throttleAndDebounce(fn: () => void, delay: number): () => void {
-  let timeout: number
+  let timeout: ReturnType<typeof setTimeout>
   let called = false
 
   return () => {
@@ -22,7 +22,6 @@ export function throttleAndDebounce(fn: () => void, delay: number): () => void {
       }, delay)
     }
     else {
-      // @ts-expect-error browser setTimeout
       timeout = setTimeout(fn, delay)
     }
   }

@@ -10,7 +10,7 @@ const route = useRoute()
 
 onBeforeMount(() => {
   // compatible for post url ends with slash
-  if (route.path.endsWith('/'))
+  if (route.path !== '/' && route.path.endsWith('/'))
     router.replace(route.path.slice(0, -1))
 })
 </script>

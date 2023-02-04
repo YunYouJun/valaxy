@@ -58,19 +58,20 @@ export async function getIndexHtml({ clientRoot, themeRoot, userRoot, config }: 
   if (config.siteConfig.mode === 'auto') {
     head += `
     <script>
-    const prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches
-    const colorSchemeSetting = localStorage.getItem('vueuse-color-scheme') || 'auto'
-    if (colorSchemeSetting === 'dark' || (prefersDark && colorSchemeSetting !== 'light'))
-      document.documentElement.classList.toggle('dark', true)
+    const prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+    const colorSchemeSetting = localStorage.getItem('vueuse-color-scheme') || 'auto';
+    if (colorSchemeSetting === 'dark' || (prefersDark && colorSchemeSetting !== 'light')) {
+      document.documentElement.classList.toggle('dark', true);
+    }
     </script>
-    `
+  `
   }
 
   if (config.siteConfig.lang) {
     head += `
     <script>
-    const locale = localStorage.getItem('valaxy-locale') || '${config.siteConfig.lang}'
-    document.documentElement.setAttribute('lang', locale)
+    const locale = localStorage.getItem('valaxy-locale') || '${config.siteConfig.lang}';
+    document.documentElement.setAttribute('lang', locale);
     </script>
     `
   }
