@@ -108,7 +108,6 @@ function throttleAndDebounce(fn: () => void, delay: number): () => void {
       }, delay)
     }
     else {
-      // @ts-expect-error browser
       timeout = setTimeout(fn, delay)
     }
   }
