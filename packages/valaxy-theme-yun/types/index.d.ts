@@ -5,11 +5,15 @@ export namespace YunTheme {
   export type Sidebar = any
 
   export type Banner = {
+    /**
+     * 是否启用
+     */
     enable: boolean
     /**
-     * 标题
+     * @en Banner title
+     * @zh 标题，默认每个字分割，你也可以通过数组的方式来自定义分割，如 ['Hello', 'World']
      */
-    title: string
+    title: string | string[]
 
     /**
      * 首页下方的动态云
@@ -19,6 +23,13 @@ export namespace YunTheme {
       enable: boolean
     }
   }
+}
+
+export interface Page {
+  name: string
+  url: string
+  icon: string
+  color: string
 }
 
 /**
@@ -31,9 +42,14 @@ export interface ThemeConfig {
    */
   outlineTitle: string
 
+  /**
+   * @zh 配色
+   */
   colors: {
     /**
-     * primary color
+     * @en primary color
+     * 
+     * @zh 主题色
      * @default '#0078E7'
      */
     primary: string
@@ -44,16 +60,37 @@ export interface ThemeConfig {
    */
   banner: YunTheme.Banner
 
+  /**
+   * @en Background image
+   * @zh 背景图
+   */
   bg_image: {
+    /**
+     * @en Enable background image
+     */
     enable: boolean
+    /**
+     * @en Image url
+     */
     url: string
+    /**
+     * @en Image url when dark mode
+     */
     dark?: string
+    /**
+     * @en Image opacity
+     */
     opacity?: number
   }
 
   /**
+   * @en 
    * say something
-   * https://say.elpsy.cn
+   * 
+   * @zh 说点什么
+   * - 自定义 API 链接，如 https://el-bot-api.elpsy.cn/api/words/young
+   * 你可以通过在 public 下新建 json 的方式来使用, 如 public/young.json
+   * ["Hello, World!", "Bye, World!"]
    */
   say: {
     enable: boolean
@@ -72,12 +109,11 @@ export interface ThemeConfig {
     content: string
   }
 
-  pages: {
-    name: string
-    url: string
-    icon: string
-    color: string
-  }[]
+  /**
+   * @en - Pages
+   * @zh - 页面，显示在社交导航栏下方
+   */
+  pages: Page[]
 
   sidebar: YunTheme.Sidebar
 
@@ -126,7 +162,8 @@ export interface ThemeConfig {
   }>
 
   /**
-   * post card types
+   * @en Custom Post Card Types
+   * @zh 自定义文章卡片类型
    */
   types: Record<string, {
     color: string
@@ -134,9 +171,13 @@ export interface ThemeConfig {
   }>
 
   /**
-   * 菜单栏
+   * @en Menu Bar
+   * @zh 菜单栏
    */
   menu: {
+    /**
+     * @zh 最右侧的导航图标
+     */
     custom: {
       title: string
       url: string

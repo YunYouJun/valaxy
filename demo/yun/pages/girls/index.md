@@ -25,7 +25,13 @@ random: false
 
 <YunGirls :girls="frontmatter.girls" :random="frontmatter.random" />
 
+示例：
+
 ```yaml
+title: Lovely Girls
+date: 2019-01-07 11:17:35
+updated: 2019-01-07 11:17:35
+icon: i-ri-women-line
 girls:
   - name: C.C.
     anilist_id: 1111
@@ -37,6 +43,7 @@ girls:
     douban_id: 6869375
     from: 加速世界
     avatar: https://s4.anilist.co/file/anilistcdn/character/medium/b46305-CiZOEqz5u1mk.png
+random: false
 ```
 
 - `name`: 人物名称

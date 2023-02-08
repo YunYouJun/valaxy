@@ -2,6 +2,10 @@
 title: 主题配置
 ---
 
+配置 `valaxy.config.ts` 中的 `themeConfig` 字段，类型可直接参考 [valaxy-theme-yun/types/index.d.ts](https://github.com/YunYouJun/valaxy/blob/main/packages/valaxy-theme-yun/types/index.d.ts)。
+
+如您需要更详细的描述/示例，再阅读下方内容。
+
 ## 首页
 
 ### 标语动画
