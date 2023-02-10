@@ -1,7 +1,7 @@
 import type { VitePluginConfig as UnoCssConfig } from 'unocss/vite'
 import type { Awaitable } from '@antfu/utils'
 import type { SiteConfig, UserSiteConfig } from '../../types'
-import type { UserValaxyNodeConfig, ValaxyNodeConfig } from '../types'
+import type { UserValaxyNodeConfig, ValaxyExtendConfig, ValaxyNodeConfig } from '../types'
 
 export * from './addon'
 
@@ -21,6 +21,13 @@ export function defineValaxyConfig<ThemeConfig>(config: UserValaxyNodeConfig<The
   return config
 }
 export const defineConfig = defineValaxyConfig
+
+/**
+ * Type helper for addon/valaxy.config.ts
+ */
+export function defineValaxyExtendConfig(config: ValaxyExtendConfig) {
+  return config
+}
 
 export const defaultSiteConfig: SiteConfig = {
   mode: 'auto',
