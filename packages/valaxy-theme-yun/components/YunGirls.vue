@@ -22,7 +22,11 @@ const { data } = useRandomData(props.girls, props.random)
   <div class="girls">
     <ul class="girl-items">
       <li v-for="girl, i in data" :key="girl.name" class="girl-item">
-        <a :href="girl.url || `https://zh.moegirl.org/${girl.name}`" :title="girl.reason" alt="portrait" target="_blank" rel="noopener">
+        <a
+          class="girl-item-link"
+          :href="girl.url || `https://zh.moegirl.org/${girl.name}`"
+          :title="girl.reason" alt="portrait" target="_blank" rel="noopener"
+        >
           <figure class="girl-info">
             <img class="girl-avatar" loading="lazy" :src="girl.avatar" :alt="girl.name" :onError="onImgError">
             <figcaption class="girl-name" :title="(i + 1).toString()">{{ girl.name }}</figcaption>
