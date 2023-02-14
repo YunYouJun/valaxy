@@ -24,3 +24,11 @@ pnpm test:space
 > [The Fixed Background Attachment Hack | CSS Tricks](https://css-tricks.com/the-fixed-background-attachment-hack/)
 
 改为使用 `::before` 伪元素实现。
+
+## 文章列表中的标签文字被分解
+
+将文章标签 `tags` 如下格式：
+```bash
+tags: 
+    - 我的标签
+```
