@@ -176,9 +176,8 @@ export async function ViteValaxyPlugins(
           if (lastUpdated) {
             if (!data.updated)
               data.updated = fs.statSync(path).ctime
-
-            data.updated = dayjs(data.updated).format(format)
           }
+          data.updated = dayjs(data.updated).format(format)
 
           // set route meta
           route.meta = Object.assign(route.meta, {
@@ -191,8 +190,8 @@ export async function ViteValaxyPlugins(
             route.meta.layout = data.layout
 
           // set default updated
-          if (route.meta.frontmatter?.updated)
-            route.meta.frontmatter.updated = route.meta.frontmatter.date
+          if (!route.meta.frontmatter?.updated)
+            route.meta.frontmatter!.updated = route.meta.frontmatter?.date
 
           valaxyConfig.extendMd?.({
             route,

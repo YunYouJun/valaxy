@@ -1,14 +1,18 @@
 <script lang="ts" setup>
 import type { Ref } from 'vue'
-import { inject, onMounted, ref } from 'vue'
+import { computed, inject, onMounted, ref } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { useAplayer, useCodePen, useCopyCode, useMediumZoom, wrapTable } from 'valaxy'
 import type { Post } from 'valaxy'
 
+import dayjs from 'dayjs'
+import relativeTime from 'dayjs/plugin/relativeTime'
 const props = defineProps<{
   frontmatter: Post
   excerpt?: string
 }>()
+
+dayjs.extend(relativeTime)
 
 const onContentUpdated = inject('onContentUpdated') as Ref<() => void>
 
@@ -35,11 +39,26 @@ useCopyCode()
 
 if (typeof props.frontmatter.medium_zoom === 'undefined' || props.frontmatter.medium_zoom)
   useMediumZoom()
+
+/**
+ * when the post is updated more than 30 days ago, show a warning
+ * default 30 days, you can set `time_warning` in frontmatter to change it
+ */
+const time_warning = computed(() => {
+  const diff = dayjs().valueOf() - dayjs(props.frontmatter.updated).valueOf()
+  if (typeof props.frontmatter.time_warning === 'number')
+    return diff > props.frontmatter.time_warning
+  else
+    return props.frontmatter.time_warning || diff > 30 * 24 * 60 * 60 * 1000
+})
 </script>
 
 <template>
   <Transition appear>
     <article v-if="$slots.default" :class="frontmatter.markdown !== false && 'markdown-body'">
+      <blockquote v-if="time_warning" op="80">
+        {{ t('post.time_warning', { ago: dayjs(frontmatter.updated).fromNow() }) }}
+      </blockquote>
       <slot ref="content" @vnode-updated="updateDom" />
 
       <div text="center">

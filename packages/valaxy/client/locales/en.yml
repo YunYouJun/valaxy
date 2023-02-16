@@ -45,6 +45,7 @@ post:
   view_link: View link
   read_more: READ MORE
   cover: Cover
+  time_warning: This article was last updated {ago}. The information described in this article may have changed.
   copyright:
     author: Post author
     link: Post link

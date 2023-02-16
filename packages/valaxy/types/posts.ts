@@ -159,6 +159,17 @@ export interface PostFrontMatter extends PageFrontMatter {
    * @description 是否隐藏
    */
   hide: 'index' | boolean
+
+  /**
+   * when the post is updated more than 30 days ago, show a warning
+   * default 30 days, you can set `time_warning` in frontmatter to change it
+   *
+   * @zh
+   * 当文章更新时间超过 30 天时，显示一个警告
+   * 默认 30 天，你可以在 frontmatter 中设置 `time_warning` （数字）来修改，单位 ms
+   * @example 3600000
+   */
+  time_warning: boolean | number
 }
 
 export type Page = Partial<PageFrontMatter>
