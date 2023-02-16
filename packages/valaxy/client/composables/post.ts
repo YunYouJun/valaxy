@@ -26,7 +26,7 @@ export function usePageList() {
       .filter(i => i.meta.frontmatter)
       .filter(i => i.path && !excludePages.includes(i.path))
       .map((i) => {
-        return Object.assign({ path: i.path, excerpt: i.meta.excerpt }, i.meta.frontmatter)
+        return Object.assign({ path: i.path, excerpt: i.meta.excerpt }, i.meta.frontmatter) as Post
       })
     return routes
   })
