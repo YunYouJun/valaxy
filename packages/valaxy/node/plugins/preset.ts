@@ -124,8 +124,13 @@ export async function ViteValaxyPlugins(
         parent,
       ) {
         let path: string = route.component
-        if (!route.meta)
-          route.meta = {}
+        const defaultFrontmatter = {}
+        if (!route.meta) {
+          // set default frontmatter
+          route.meta = {
+            frontmatter: defaultFrontmatter,
+          }
+        }
 
         // encode for chinese filename
         route.path = encodeURI(route.path)
@@ -144,11 +149,6 @@ export async function ViteValaxyPlugins(
         // page is post
         if (route.path.startsWith('/posts/'))
           route.meta.layout = 'post'
-
-        // set default frontmatter
-        const defaultFrontmatter = {}
-        if (!route.meta.frontmatter)
-          route.meta.frontmatter = defaultFrontmatter
 
         if (path.endsWith('.md')) {
           const md = fs.readFileSync(path, 'utf-8')
