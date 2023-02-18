@@ -38,7 +38,7 @@ export async function generateFuseList(options: ResolvedValaxyOptions) {
 
     posts.push({
       title: data.title || '',
-      tags: data.tags || [],
+      tags: (typeof data.tags === 'string' ? [data.tags] : data.tags) || [],
       categories: data.categories || [],
       author: options.config.siteConfig.author.name,
       excerpt: excerpt || content.slice(0, 100),

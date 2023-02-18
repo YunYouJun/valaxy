@@ -193,6 +193,13 @@ export async function ViteValaxyPlugins(
           if (!route.meta.frontmatter?.updated)
             route.meta.frontmatter!.updated = route.meta.frontmatter?.date
 
+          // adapt for tags
+          if (route.meta.frontmatter.tags) {
+            const tags = route.meta.frontmatter.tags
+            if (typeof tags === 'string')
+              route.meta.frontmatter.tags = [tags]
+          }
+
           valaxyConfig.extendMd?.({
             route,
             data: data as Readonly<Record<string, any>>,
