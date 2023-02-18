@@ -76,9 +76,17 @@ export default defineSiteConfig({
   title: 'Valaxy Theme Yun',
   url: 'https://valaxy.yyj.moe/',
   author: {
-    avatar: 'https://www.yunyoujun.cn/images/avatar.jpg',
     name: '云游君',
+    avatar: 'https://www.yunyoujun.cn/images/avatar.jpg',
   },
+  /**
+   * 站点图标
+   */
+  favicon: 'https://www.yunyoujun.cn/favicon.svg',
+  /**
+   * 副标题
+   */
+  subtitle: 'All at sea.',
   description: 'Valaxy Theme Yun Preview.',
   social: [
     {
