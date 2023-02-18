@@ -13,7 +13,7 @@ import setupMain from './setup/main'
 const routes = setupLayouts(__DEV__
   ? generatedRoutes
   : generatedRoutes.filter(i =>
-    !i.meta?.frontmatter.draft && !i.meta?.frontmatter.hide,
+    i.meta && i.meta.frontmatter && !i.meta.frontmatter.draft && !i.meta.frontmatter.hide,
   ))
 /**
  * will generate `.html`, parsed as a downloadable file when use `vite-ssg` dirStyles: 'flat' & gh-pages
