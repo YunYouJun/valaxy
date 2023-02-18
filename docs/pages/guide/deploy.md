@@ -25,6 +25,8 @@ npm run build
 
 上传至 GitHub Repo，打开 `Settings` -> `Pages`，选择 `gh-pages` 分支。
 
+选择 Github Repo，打开 `Settings`-> `Action` -> `General` -> `Workflow permissions`，选择 `read and write permissions`。 
+
 > `gh-pages` 已由 `.github/workflows/gh-pages.yml` 自动部署。
 
 #### Netlify
