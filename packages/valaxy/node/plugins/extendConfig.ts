@@ -15,7 +15,10 @@ const clientDeps = [
   '@vueuse/head',
   '@vueuse/integrations/useFuse',
   'body-scroll-lock',
+
   'dayjs',
+  'dayjs/locale/zh-cn',
+
   'katex',
   'nprogress',
   'unocss',

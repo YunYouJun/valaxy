@@ -11,14 +11,12 @@ import { createI18n } from 'vue-i18n'
 import { useStorage } from '@vueuse/core'
 
 import type { Router } from 'vue-router'
+import { ensureSuffix } from '@antfu/utils'
+import type { UserModule } from 'valaxy/client/types'
 import type { PageDataPayload } from '../../types'
 import { initValaxyConfig, valaxyConfigSymbol } from '../config'
-import { ensureSuffix } from '@antfu/utils'
-
-import type { UserModule } from 'valaxy/client/types'
-
 // @ts-expect-error virtual
-import messages from '/@valaxyjs/locales'
+import valaxyMessages from '/@valaxyjs/locales'
 
 // Import i18n resources
 // https://vitejs.dev/guide/features.html#glob-import
@@ -54,7 +52,7 @@ export const install: UserModule = ({ app, router }) => {
   const i18n = createI18n({
     legacy: false,
     locale: locale.value,
-    messages,
+    messages: valaxyMessages,
   })
   app.use(i18n)
 
