@@ -1,6 +1,6 @@
 ---
-title: Participate in Docs Writing and Translation
-title_zh-CN: 参与文档撰写与翻译
+title: Participate in Docs
+title_zh-CN: 参与文档
 categories:
   - Dev
 end: false
