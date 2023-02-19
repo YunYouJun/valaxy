@@ -15,6 +15,12 @@ top: 98
 
 譬如，你修改了 `valaxy.config.ts`/`site.config.ts` 或是 `xxx.md` 文章中的内容或 `frontmatter`（`tags`/`categories`）所有的变动会立刻显示在预览界面上，无需手动刷新。同时热更新也是局部的，它只变动有修改的地方，不会重新刷新整个页面。
 
+## 自定义
+
+强大的自定义能力，你可以如忒修斯之船一样组件粒度地继承定制主题与你的博客。
+
+更多请参见 [自定义组件](/guide/custom/components)。
+
 ## UnoCSS
 
 > 内置的类 TailwindCSS 的工具类（基于 [UnoCSS](https://github.com/unocss/unocss)）。
