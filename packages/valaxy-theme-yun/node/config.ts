@@ -19,7 +19,7 @@ export const defaultThemeConfig: ThemeConfig = {
   bg_image: {
     enable: true,
     url: 'https://cdn.yunyoujun.cn/img/bg/stars-timing-0-blur-30px.jpg',
-    dark: 'https://cdn.yunyoujun.cn/img/bg/galaxy.jpg',
+    // dark: 'https://cdn.yunyoujun.cn/img/bg/dark-stars-timing-0-blur-30px.png',
   },
 
   say: {

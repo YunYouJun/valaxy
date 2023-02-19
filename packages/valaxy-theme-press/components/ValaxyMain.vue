@@ -31,14 +31,16 @@ const isHome = useLayout('home')
           <slot name="main-header-after" />
 
           <slot name="main-content">
-            <ValaxyMd class="prose mx-auto w-full max-w-4xl" :frontmatter="frontmatter">
-              <h1 v-if="hasSidebar && !isHome && frontmatter.title" :id="frontmatter.title" tabindex="-1">
-                {{ frontmatter.title }}
-                <a class="header-anchor" :href="`#${frontmatter.title}`" aria-hidden="true">#</a>
-              </h1>
-              <slot name="main-content-md" />
-              <slot />
-            </ValaxyMd>
+            <Transition appear>
+              <ValaxyMd class="prose mx-auto w-full max-w-4xl" :frontmatter="frontmatter">
+                <h1 v-if="hasSidebar && !isHome && frontmatter.title" :id="frontmatter.title" tabindex="-1">
+                  {{ frontmatter.title }}
+                  <a class="header-anchor" :href="`#${frontmatter.title}`" aria-hidden="true">#</a>
+                </h1>
+                <slot name="main-content-md" />
+                <slot />
+              </ValaxyMd>
+            </Transition>
 
             <PressDocFooter v-if="!isHome" class="pb-8 max-w-4xl" w="full" m="auto" />
 

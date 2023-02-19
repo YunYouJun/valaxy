@@ -8,6 +8,7 @@ const isHome = useLayout('home')
 const themeConfig = useThemeConfig()
 
 const route = useRoute()
+const isPage = route.path.startsWith('/page')
 </script>
 
 <template>
@@ -18,7 +19,7 @@ const route = useRoute()
       </slot>
     </ValaxySidebar>
 
-    <template v-if="!route.path.startsWith('/page')">
+    <template v-if="!isPage">
       <YunBanner v-if="themeConfig.banner.enable" />
       <YunSay v-if="themeConfig.say.enable" w="full" />
     </template>

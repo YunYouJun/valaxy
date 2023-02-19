@@ -124,12 +124,16 @@ export async function ViteValaxyPlugins(
         parent,
       ) {
         let path: string = route.component
+
         const defaultFrontmatter = {}
         if (!route.meta) {
-          // set default frontmatter
           route.meta = {
             frontmatter: defaultFrontmatter,
           }
+        }
+        else if (!route.meta.frontmatter) {
+          // set default frontmatter
+          route.meta.frontmatter = defaultFrontmatter
         }
 
         // encode for chinese filename
@@ -191,7 +195,7 @@ export async function ViteValaxyPlugins(
 
           // set default updated
           if (!route.meta.frontmatter?.updated)
-            route.meta.frontmatter!.updated = route.meta.frontmatter?.date
+            route.meta.frontmatter.updated = route.meta.frontmatter.date
 
           // adapt for tags
           if (route.meta.frontmatter.tags) {

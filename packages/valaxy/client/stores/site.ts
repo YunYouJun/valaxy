@@ -20,30 +20,34 @@ export const useSiteStore = defineStore('site', () => {
   })
 
   const router = useRouter()
-  router.isReady().then(() => {
-    // hot reload when save md
-    if (import.meta.hot) {
-      import.meta.hot!.on('valaxy:pageData', (payload: PageDataPayload) => {
-        // hot reload for global categories & tags
-        let path = payload.path
-        if (payload.path.endsWith('.md'))
-          path = payload.path.slice(0, -3)
+  if (router) {
+    router.isReady().then(() => {
+      // hot reload when save md
+      if (import.meta.hot) {
+        import.meta.hot!.on('valaxy:pageData', (payload: PageDataPayload) => {
+          // hot reload for global categories & tags
+          let path = payload.path
+          if (payload.path.endsWith('.md'))
+            path = payload.path.slice(0, -3)
 
-        const routeName = path.split('/').slice(1).join('-')
+          const routeName = path.split('/').slice(1).join('-')
 
-        if (!router.hasRoute(routeName))
-          return
+          if (!router.hasRoute(routeName))
+            return
 
-        const route = router.getRoutes().find(r => r.name === routeName)!
-        router.removeRoute(routeName)
-        route.meta.frontmatter = payload.pageData.frontmatter
-        router.addRoute(route)
+          // can not use generatedRoutes, otherwise will trigger ValaxyMain refresh
+          const route = router.getRoutes().find(r => r.name === routeName)!
+          router.removeRoute(routeName)
+          if (route.meta)
+            route.meta.frontmatter = payload.pageData.frontmatter
+          router.addRoute(route)
 
-        // trigger computed reload
-        reload.value += 1
-      })
-    }
-  })
+          // trigger computed reload
+          reload.value += 1
+        })
+      }
+    })
+  }
 
   return {
     postList,

@@ -15,16 +15,6 @@ const routes = setupLayouts(__DEV__
   : generatedRoutes.filter(i =>
     i.meta && i.meta.frontmatter && !i.meta.frontmatter.draft && !i.meta.frontmatter.hide,
   ))
-/**
- * will generate `.html`, parsed as a downloadable file when use `vite-ssg` dirStyles: 'flat' & gh-pages
- * wait https://github.com/JohnCampionJr/vite-plugin-vue-layouts/pull/97 merged
- */
-const homeRoute = routes.find(route => route.path === '/')
-if (homeRoute && homeRoute.children) {
-  const childRoute = homeRoute.children.find(child => child.path === '')
-  if (childRoute)
-    Object.assign(childRoute, generatedRoutes.find(route => route.path === '/'))
-}
 
 // https://github.com/antfu/vite-ssg
 export const createApp = ViteSSG(

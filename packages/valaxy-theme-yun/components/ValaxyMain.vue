@@ -30,10 +30,12 @@ const aside = computed(() => props.frontmatter.aside !== false)
 
             <div p="x-4 b-8" class="sm:px-6 lg:px-12 xl:px-16" w="full">
               <slot name="main-content">
-                <ValaxyMd :frontmatter="frontmatter">
-                  <slot name="main-content-md" />
-                  <slot />
-                </ValaxyMd>
+                <Transition appear>
+                  <ValaxyMd :frontmatter="frontmatter">
+                    <slot name="main-content-md" />
+                    <slot />
+                  </ValaxyMd>
+                </Transition>
               </slot>
 
               <slot name="main-content-after" />
