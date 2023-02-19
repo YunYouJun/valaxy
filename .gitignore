@@ -16,3 +16,5 @@ node_modules
 *.log
 
 components.d.ts
+
+cypress/downloads

@@ -20,7 +20,7 @@ const displayedPosts = computed(() => posts.value.slice((props.curPage - 1) * pa
 </script>
 
 <template>
-  <div w="full" p="x-4 lt-sm:0">
+  <div class="yun-post-list" w="full" p="x-4 lt-sm:0">
     <template v-if="!displayedPosts.length">
       <div py2 op50>
         博主还什么都没写哦～

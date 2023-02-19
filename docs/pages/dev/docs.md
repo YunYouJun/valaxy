@@ -30,6 +30,8 @@ This is a example.
 </div>
 ```
 
+更多请参见 [单页 i18n](https://valaxy.site/guide/i18n)。
+
 ## 如何提交
 
 使用 GitHub 的 Pull Request 向 valaxy 提交即可。

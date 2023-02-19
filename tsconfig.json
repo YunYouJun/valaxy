@@ -38,5 +38,5 @@
     "./packages/**/*.ts",
     "./packages/**/*.vue"
   ],
-  "exclude": ["**/dist/**", "node_modules"]
+  "exclude": ["**/dist/**", "node_modules", "cypress"]
 }

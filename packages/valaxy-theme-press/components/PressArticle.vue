@@ -3,6 +3,9 @@ import { computed } from 'vue'
 import { useRoute } from 'vue-router'
 
 import { useFrontmatter, useSiteStore } from 'valaxy'
+import { useI18n } from 'vue-i18n'
+import { getLocaleTitle } from '../utils'
+
 const frontmatter = useFrontmatter()
 
 const route = useRoute()
@@ -14,6 +17,9 @@ function findCurrentIndex() {
 
 const nextPost = computed(() => site.postList[findCurrentIndex() - 1])
 const prevPost = computed(() => site.postList[findCurrentIndex() + 1])
+
+const { locale } = useI18n()
+const localeTitle = computed(() => getLocaleTitle(locale.value, frontmatter.value))
 </script>
 
 <template>
@@ -30,7 +36,7 @@ const prevPost = computed(() => site.postList[findCurrentIndex() + 1])
           md:text-5xl md:leading-14
         "
       >
-        {{ frontmatter.title }}
+        {{ localeTitle }}
       </h1>
     </header>
 

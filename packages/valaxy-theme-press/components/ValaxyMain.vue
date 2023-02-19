@@ -1,6 +1,9 @@
 <script lang="ts" setup>
 import type { PageData, Post } from 'valaxy'
 import { useFrontmatter, useLayout, useSidebar, useSiteConfig } from 'valaxy'
+import { computed } from 'vue'
+import { useI18n } from 'vue-i18n'
+import { getLocaleTitle } from '../utils'
 
 defineProps<{
   frontmatter: Post
@@ -12,12 +15,16 @@ const frontmatter = useFrontmatter()
 
 const { hasSidebar } = useSidebar()
 const isHome = useLayout('home')
+const layout = useLayout()
+
+const { locale } = useI18n()
+const localeTitle = computed(() => getLocaleTitle(locale.value, frontmatter.value))
 </script>
 
 <template>
   <main
     class="press-main flex" :class="{
-      'has-sidebar': hasSidebar,
+      'has-sidebar': hasSidebar && layout !== 'post',
     }"
   >
     <div
@@ -37,7 +44,7 @@ const isHome = useLayout('home')
               <Transition appear>
                 <ValaxyMd class="prose mx-auto w-full max-w-4xl" :frontmatter="frontmatter">
                   <h1 v-if="hasSidebar && !isHome && frontmatter.title" :id="frontmatter.title" tabindex="-1">
-                    {{ frontmatter.title }}
+                    {{ localeTitle }}
                     <a class="header-anchor" :href="`#${frontmatter.title}`" aria-hidden="true">#</a>
                   </h1>
                   <slot name="main-content-md" />

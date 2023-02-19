@@ -35,7 +35,7 @@ function createContainer(classes: string, { icon, color, text: defaultTitle, lan
           let title = `<span lang="en">${info || defaultTitle}</span>`
           if (langs) {
             Object.keys(langs).forEach((lang) => {
-              title += `<span lang="${lang}">${langs[lang]}</span>`
+              title += `<span lang="${lang}">${info || langs[lang]}</span>`
             })
           }
 
