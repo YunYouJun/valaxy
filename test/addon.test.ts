@@ -1,3 +1,4 @@
+import { describe, expect, it } from 'vitest'
 import { getAddonRoot, readAddonModule } from '../packages/valaxy/node/utils/addons'
 
 describe('addon parse', () => {

@@ -2,6 +2,7 @@ import { resolve } from 'path'
 import fs from 'fs-extra'
 import type { DefaultThemeConfig } from 'valaxy/types'
 import type { ResolvedValaxyOptions, ValaxyNodeConfig } from 'valaxy/node'
+import { describe, expect, it } from 'vitest'
 import { getIndexHtml } from '../packages/valaxy/node'
 
 const clientRoot = resolve(__dirname, '../packages/valaxy/client')

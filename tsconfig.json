@@ -15,7 +15,7 @@
     "strictNullChecks": true,
     "forceConsistentCasingInFileNames": true,
     "types": [
-      "vitest/globals",
+      "vitest",
       "vite/client",
       "vue/ref-macros",
       "vite-plugin-pages/client",
