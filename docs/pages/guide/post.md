@@ -5,13 +5,21 @@ categories:
   - Guide
 ---
 
-## FrontMatter
+## Front Matter
 
-**文章**（`post`）继承自**页面**（`page`），因此**页面**中的 Frontmatter 通用被**文章**支持。
+::: zh-CN
+**文章**（`post`）继承自**页面**（`page`），因此**页面**中的 Front Matter 通用被**文章**支持。
 
 > 单篇文章支持的配置项。
 
 譬如：
+:::
+
+::: en
+`post` is a descendant of `page`, so the front matter in **pages** are supported by **posts**.
+
+For example:
+:::
 
 ```md
 ---
@@ -19,6 +27,8 @@ title: Title
 hide: true
 ---
 ```
+
+::: zh-CN
 
 - `title`: 文章标题
 - `hide`: 你可以在文章头部添加 hide 属性，来临时隐藏某篇文章。（该文章仍然会被渲染）
@@ -29,8 +39,24 @@ hide: true
   - `html`: 以 HTML 形式展示
   - `text`: 以纯文本形式展示（去除 HTML 标签）
 
-## 摘要
+:::
 
+::: en
+
+- `title`: Title of the article.
+- `hide`: Adding `hide` in the header allows you to hide the article temporarily. (The article will still be rendered)
+  - `true` / `all`: When set to `true` or `all`, the article will be rendered, and you can view it by visiting the link directly. It will not be displayed in article cards or archives.
+  - `index`: When set to `index`, it will be hidden only in the front page. It will still be displayed in archives. (You can use this for some notes unnecessary for the front page, but good for the archive for reference sometimes)
+- `excerpt_type`: The rendering type for the excerpt in the preview list (Used with `<!-- more -->`)
+  - `md`: Display as original markdown
+  - `html`: Display as HTML
+  - `text`: Display as text (removing HTML tags)
+
+:::
+
+## 摘要 {lang="zh-CN"}
+
+::: zh-CN
 你可以通过插入 `<!-- more -->` 的方式生成摘要（excerpt）。
 可通过设置 `excerpt_type` 设置摘要渲染类型。
 
@@ -46,3 +72,26 @@ excerpt_type: text
 
 这里是正文
 ```
+
+:::
+
+## Excerpt {lang="en"}
+
+::: en
+You can insert `<!--more-->` to generate an excerpt.
+You can set the excerpt rendering type by setting `excerpt_type`.
+
+```md
+---
+title: Hello
+excerpt_type: text
+---
+
+This is the experpt
+
+<!-- more -->
+
+Here goes the body
+```
+
+:::
