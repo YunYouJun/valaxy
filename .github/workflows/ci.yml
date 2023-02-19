@@ -126,4 +126,4 @@ jobs:
         with:
           install-command: echo
           build: pnpm run build
-          start: cd demo/yun && npx valaxy --port 3333
+          start: pnpm demo
