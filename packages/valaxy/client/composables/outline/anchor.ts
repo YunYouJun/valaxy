@@ -79,7 +79,7 @@ export function useActiveAnchor(
   const checkActiveLinkInViewport = () => {
     const activeLink = prevActiveLink
     if (!activeLink) {
-      container.value.scrollIntoView({ behavior: 'smooth', block: 'start' })
+      // container.value.scrollIntoView({ behavior: 'smooth', block: 'start' })
       return
     }
 

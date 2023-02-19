@@ -21,15 +21,19 @@ const app = useAppStore()
   <aside
     class="press-aside lt-xl:fixed shadow
     press-card xl:(shadow-none hover:shadow-none) hover:shadow-lg"
+    flex="~ col grow"
     p="l-0 xl:l-8" text="center"
     z="$"
     :class="app.isRightSidebarOpen && 'open'"
   >
+    <div class="aside-curtain" />
     <div class="aside-container lt-xl:fixed" flex="~ col">
-      <PressOutline v-if="frontmatter.toc !== false" />
-      <div class="flex-grow" />
-      <div v-if="$slots.default" class="custom-container">
-        <slot />
+      <div class="aside-content overflow-auto" flex="~ col">
+        <PressOutline v-if="frontmatter.toc !== false" />
+        <div class="flex-grow" />
+        <div v-if="$slots.default" class="custom-container">
+          <slot />
+        </div>
       </div>
     </div>
   </aside>
@@ -67,7 +71,16 @@ const app = useAppStore()
   top: 0;
   margin-top: calc(var(--pr-nav-height) * -1 - 20px);
   padding-top: calc(var(--pr-nav-height) + 20px);
-  height: calc(100vh - var(--pr-nav-height) - 32px);
+  height: 100vh;
+}
+
+.aside-curtain {
+  position: fixed;
+  bottom: 0;
+  z-index: 10;
+  width: 220px;
+  height: 32px;
+  background: linear-gradient(transparent,var(--va-c-bg) 70%);
 }
 
 @include screen('xl') {

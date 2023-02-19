@@ -23,50 +23,54 @@ const isHome = useLayout('home')
     <div
       w="full" flex="~" :class="{
         'px-6 md:pl-12': hasSidebar,
+        'has-aside': !isHome,
       }" p="t-4"
+      class="relative"
     >
-      <slot name="main">
-        <div class="content" w="full" :class="{ 'm-auto': !hasSidebar }" flex="~ col grow" p="lt-md:0">
-          <slot name="main-header" />
-          <slot name="main-header-after" />
+      <div class="container" flex="~ grow" justify="between">
+        <slot name="main">
+          <div class="content" w="full" :class="{ 'm-auto': !hasSidebar }" flex="~ col grow" p="lt-md:0">
+            <slot name="main-header" />
+            <slot name="main-header-after" />
 
-          <slot name="main-content">
-            <Transition appear>
-              <ValaxyMd class="prose mx-auto w-full max-w-4xl" :frontmatter="frontmatter">
-                <h1 v-if="hasSidebar && !isHome && frontmatter.title" :id="frontmatter.title" tabindex="-1">
-                  {{ frontmatter.title }}
-                  <a class="header-anchor" :href="`#${frontmatter.title}`" aria-hidden="true">#</a>
-                </h1>
-                <slot name="main-content-md" />
-                <slot />
-              </ValaxyMd>
-            </Transition>
+            <slot name="main-content">
+              <Transition appear>
+                <ValaxyMd class="prose mx-auto w-full max-w-4xl" :frontmatter="frontmatter">
+                  <h1 v-if="hasSidebar && !isHome && frontmatter.title" :id="frontmatter.title" tabindex="-1">
+                    {{ frontmatter.title }}
+                    <a class="header-anchor" :href="`#${frontmatter.title}`" aria-hidden="true">#</a>
+                  </h1>
+                  <slot name="main-content-md" />
+                  <slot />
+                </ValaxyMd>
+              </Transition>
 
-            <PressDocFooter v-if="!isHome" class="pb-8 max-w-4xl" w="full" m="auto" />
+              <PressDocFooter v-if="!isHome" class="pb-8 max-w-4xl" w="full" m="auto" />
 
-            <slot name="main-content-after" />
-          </slot>
-        </div>
+              <slot name="main-content-after" />
+            </slot>
+          </div>
 
-        <slot name="main-nav-before" />
+          <slot name="main-nav-before" />
 
-        <slot name="main-nav" />
+          <slot name="main-nav" />
 
-        <slot name="main-nav-after" />
+          <slot name="main-nav-after" />
 
-        <slot v-if="siteConfig.comment.enable && frontmatter.comment !== false" name="comment" />
+          <slot v-if="siteConfig.comment.enable && frontmatter.comment !== false" name="comment" />
 
-        <slot name="footer" />
-      </slot>
+          <slot name="footer" />
+        </slot>
 
-      <slot name="aside">
-        <PressAside v-if="!isHome" />
-      </slot>
+        <slot name="aside">
+          <PressAside v-if="!isHome" />
+        </slot>
+      </div>
     </div>
   </main>
 </template>
 
-<style lang="scss">
+<style lang="scss" scoped>
 @use 'valaxy/client/styles/mixins' as *;
 
 @include screen('md') {

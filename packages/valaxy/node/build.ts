@@ -8,6 +8,7 @@ import fs from 'fs-extra'
 import consola from 'consola'
 import type { ResolvedValaxyOptions } from './options'
 import { ViteValaxyPlugins } from './plugins/preset'
+import { ALL_ROUTE } from './constants'
 // import { logger } from './logger'
 
 export async function build(
@@ -37,10 +38,11 @@ export async function ssgBuild(
     script: 'async',
     formatting: 'minify',
     includedRoutes(paths, routes) {
+      const excludePages = ['/:..all', ALL_ROUTE]
       const postSize = paths.filter(path => path.startsWith('/posts/')).length
       const pages = Math.ceil(postSize / options.config.siteConfig.pageSize)
       const pagesArr = Array.from({ length: pages }, (_, i) => i + 1)
-      return routes.flatMap((route) => {
+      return routes.filter(r => !excludePages.includes(r.path)).flatMap((route) => {
         // /page/:page
         return route.path === '/page/:page'
           ? pagesArr.map(slug => `/page/${slug}`)

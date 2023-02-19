@@ -58,6 +58,7 @@ const { headers, handleClick } = useOutline()
   font-size: 14px;
   text-align: left;
   border-left: 1px solid var(--pr-aside-divider);
+  width: var(--va-aside-width + 16px);
 }
 
 .outline-marker {
