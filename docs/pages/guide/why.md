@@ -27,6 +27,8 @@ Valaxy 的目标是成为新一代的静态博客框架/生成器。
 
 ## 为什么是 Valaxy? {lang="zh-CN"}
 
+::: zh-CN
+
 构想新一代静态博客框架/生成器。
 
 <!-- more -->
@@ -37,9 +39,11 @@ Valaxy 的目标是成为新一代的静态博客框架/生成器。
 
 我将会把 Valaxy 与现有的 Hexo（流行的静态博客框架）与 VitePress/VuePress（流行的静态站点生成器）进行对比，并阐述 Valaxy 的优势。
 
-::: en
+:::
 
 ## Why Valaxy? {lang="en"}
+
+::: en
 
 Next Generation Static Blog Framework/Generator
 
@@ -86,13 +90,17 @@ Hot update for configuration, article.
 Instead of reloading pages like hexo
 :::
 
-### Motivation
+### Motivation {lang="en"}
+
+### 动机 {lang="zh-CN"}
 
 - Slidev
 - VitePress
 - Vitesse
 
-## Why not ...?
+## Why not ...? {lang="en"}
+
+## 为什么不是……？ {lang="zh-CN"}
 
 ### Hexo/Hugo
 
