@@ -23,6 +23,7 @@ export function usePageList() {
     const excludePages = ['/:..all', '/:all(.*)*', '/']
     const router = useRouter()
     const routes = router.getRoutes()
+      .filter(i => i.name)
       .filter(i => i.meta)
       .filter(i => i.meta!.frontmatter)
       .filter(i => i.path && !excludePages.includes(i.path))
