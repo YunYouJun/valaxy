@@ -1,5 +1,6 @@
 <script lang="ts" setup>
 import { useAppStore, useLayout } from 'valaxy'
+import { computed } from 'vue'
 import { useRoute } from 'vue-router'
 import { useThemeConfig } from '../composables'
 
@@ -8,7 +9,7 @@ const isHome = useLayout('home')
 const themeConfig = useThemeConfig()
 
 const route = useRoute()
-const isPage = route.path.startsWith('/page')
+const isPage = computed(() => route.path.startsWith('/page'))
 </script>
 
 <template>

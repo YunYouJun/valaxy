@@ -1,7 +1,7 @@
 <script setup lang="ts">
-import { computed, ref } from 'vue'
-import { useSiteStore } from 'valaxy'
-import type { Post } from 'valaxy'
+import { computed } from 'vue'
+import { useSiteConfig, useSiteStore } from 'valaxy'
+import type { Post } from 'valaxy/types'
 
 const props = withDefaults(defineProps<{
   type?: string
@@ -12,8 +12,8 @@ const props = withDefaults(defineProps<{
 })
 
 const site = useSiteStore()
-
-const pageSize = ref(7)
+const siteConfig = useSiteConfig()
+const pageSize = computed(() => siteConfig.value.pageSize)
 
 const posts = computed(() => props.posts || site.postList)
 const displayedPosts = computed(() => posts.value.slice((props.curPage - 1) * pageSize.value, props.curPage * pageSize.value))

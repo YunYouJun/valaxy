@@ -82,6 +82,8 @@ export const defaultSiteConfig: SiteConfig = {
     selector: '',
     options: {},
   },
+
+  pageSize: 7,
 }
 
 export const defaultValaxyConfig: ValaxyNodeConfig = {

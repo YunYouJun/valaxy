@@ -199,6 +199,12 @@ export interface SiteConfig {
     selector: string | HTMLElement | HTMLElement[]
     options: ZoomOptions
   }
+
+  /**
+   * displayed posts length in every page
+   * @default 7
+   */
+  pageSize: number
 }
 
 export type PartialDeep<T> = {
