@@ -5,7 +5,7 @@ categories:
   - Guide
 ---
 
-## Front-matter
+## FrontMatter
 
 ::: zh-CN
 你可以使用 front-matter 定制页面属性。
