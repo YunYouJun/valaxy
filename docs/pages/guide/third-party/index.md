@@ -7,16 +7,31 @@ end: false
 top: 99
 ---
 
-## 搜索
+## 搜索 {lang="zh-CN"}
 
-### 本地搜索（基于 fuse.js）
+## Search {lang="en"}
 
+### 本地搜索（基于 fuse.js） {lang="zh-CN"}
+
+### Local Search (Based on fuse.js) {lang="en"}
+
+::: zh-CN
 Valaxy 内置了基于 [fuse.js](https://fusejs.io/) 的离线搜索（须预先通过 `valaxy fuse` 构建生成本地缓存）。
 
 > `valaxy fuse` 默认将 `fuse` 生成在 `dist` 目录下，如果你想在本地预览效果，你可以将 `dist/fuse-list.json` 拷贝至 `public/` 文件夹下。
+:::
 
-#### 使用
+::: en
+Valaxy has built-in local search based on [fuse.js](https://fusejs.io/). The local cache should be generated in advance via `valaxy fuse`.
 
+> `valaxy fuse` generates `fuse` in the `dist` directory by default. If you want to preview it locally, you can copy `dist/fuse-list.json` to `public` folder.
+::: 
+
+#### 使用 {lang="zh-CN"}
+
+#### Setup {lang="en"}
+
+::: zh-CN
 ```ts
 // site.config.ts
 import { defineSiteConfig } from 'valaxy'
@@ -30,6 +45,23 @@ export default defineSiteConfig({
 ```
 
 - 在你的 `package.json` 中添加 fuse 生成脚本
+:::
+
+::: en
+```ts
+// site.config.ts
+import { defineSiteConfig } from 'valaxy'
+export default defineSiteConfig({
+  search: {
+    enable: true,
+    // Set type to 'fuse'
+    type: 'fuse',
+  },
+})
+```
+
+- Add fuse generation script in your `package.json`
+:::
 
 ```json {7,10}
 {
@@ -50,16 +82,31 @@ export default defineSiteConfig({
 }
 ```
 
-### Algolia 搜索
+### Algolia 搜索 {lang="zh-CN"}
 
+### Algolia DocSearch {lang="en"}
+
+::: zh-CN
 Algolia 是一个在线第三方搜索服务，您需要自行申请相关 ID 和 Secret。
 
 > [DocSearch](https://docsearch.algolia.com/) 申请通常只接受技术文档。
 
 Valaxy 提供了一个快速集成插件 [valaxy-addon-algolia](https://github.com/YunYouJun/valaxy/tree/main/packages/valaxy-addon-algolia)（目前仅支持 DocSearch）。
+:::
 
-## 图片预览（Medium Zoom）
+::: en
+Algolia is an online third-party search service. You need to apply for the `ID` and `Secret` by yourself.
 
+> [DocSearch](https://docsearch.algolia.com/) Only technical document applications are accepted generally.
+
+Valaxy provides a quick integration plug-in: [valaxy-addon-algolia](https://github.com/YunYouJun/valaxy/tree/main/packages/valaxy-addon-algolia) (Currently only DocSearch is supported).
+:::
+
+## 图片预览（Medium Zoom） {lang="zh-CN"}
+
+## Image Preview (Medium Zoom) {lang="en"}
+
+::: zh-CN
 Valaxy 内置了 [medium-zoom](https://github.com/francoischalifour/medium-zoom) 进行图片预览，默认关闭。
 
 > [Medium Zoom Demo](https://medium-zoom.francoischalifour.com/)
@@ -70,6 +117,18 @@ Valaxy 内置了 [medium-zoom](https://github.com/francoischalifour/medium-zoom)
   - `options`: 与 [options | medium-zoom](https://github.com/francoischalifour/medium-zoom#options) 一致
 
 譬如开启 Medium Zoom：
+:::
+
+::: en
+Valaxy has built-in [medium-zoom](https://github.com/francoischalifour/medium-zoom) to preview the pictures, which is disabled by default.
+
+> [Medium Zoom Demo](https://medium-zoom.francoischalifour.com/)
+
+- mediumZoom
+  - `enable`: Set to true to enable it
+  - `selector`: Custom CSS selector
+  - `options`: Refer to [options | medium-zoom](https://github.com/francoischalifour/medium-zoom#options)
+:::
 
 ```ts
 // site.config.ts
@@ -80,7 +139,13 @@ export default defineSiteConfig({
 })
 ```
 
+::: zh-CN
 除此之外，你也可以单独控制是否在某篇文章中开启。
+:::
+
+::: en
+In addition, you can also enable it in a certain article independently.
+:::
 
 ```md
 ---
