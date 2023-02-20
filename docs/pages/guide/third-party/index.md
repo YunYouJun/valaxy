@@ -154,13 +154,25 @@ medium_zoom: true
 ---
 ```
 
-## 音乐播放器
+## 音乐播放器 {lang="zh-CN"}
 
+## Music Player {lang="en"}
+
+::: zh-CN
 > 基于 [Aplayer](https://github.com/DIYgod/APlayer) 与 [MetingJS](https://github.com/metowolf/MetingJS) 实现
 
 譬如在文章中引入网易云某首歌曲（ID 为歌曲 ID）：
 
 在文章头部添加：
+:::
+
+::: en
+> Implementd based on [Aplayer](https://github.com/DIYgod/APlayer) and [MetingJS](https://github.com/metowolf/MetingJS)
+
+For example, add a song from Netease Cloud in a article:
+
+Enable it in the FrontMatter of the article:
+:::
 
 ```md
 ---
@@ -168,7 +180,13 @@ aplayer: true
 ---
 ```
 
+::: zh-CN
 在文中引入：
+:::
+
+::: en
+Add the component to the article:
+:::
 
 ```html
 <meting-js
@@ -179,7 +197,13 @@ aplayer: true
 </meting-js>
 ```
 
+::: zh-CN
 效果如下：
+:::
+
+::: en
+Here is a demo:
+:::
 
 <meting-js
  id="22736708"
@@ -190,8 +214,11 @@ aplayer: true
 
 > More info see [Option | MetingJS](https://github.com/metowolf/MetingJS#option)
 
-## 谷歌统计
+## 谷歌统计 {lang="zh-CN"}
 
+## Google Statistics {lang="en"}
+
+::: zh-CN
 > 可参见 [扩展 Client 上下文｜自定义扩展](/guide/custom/extend#%25E6%2589%25A9%25E5%25B1%2595-client-%25E4%25B8%258A%25E4%25B8%258B%25E6%2596%2587)
 
 你可以通过直接使用 Vue 插件的方式引入谷歌统计。
@@ -227,5 +254,44 @@ export const install: UserModule = ({ isClient, app, router }) => {
   }
 }
 ```
+:::
+
+::: en
+> Refer to [Custom Extensions | Extending Client Context](/guide/custom/extend#extending-client-context)
+
+You can add Google Statistics by using Vue plug-in directly.
+
+For example:
+
+- Install the dependency: `pnpm add vue-gtag-next`
+- Create `setup/main.ts`
+
+```ts
+// setup/main.ts
+import { defineAppSetup } from 'valaxy'
+import { install as installGtag } from './gtag'
+
+export default defineAppSetup((ctx) => {
+  installGtag(ctx)
+})
+```
+
+- Create `setup/gtag.ts`
+
+```ts
+import VueGtag, { trackRouter } from 'vue-gtag-next'
+import type { UserModule } from 'valaxy'
+
+export const install: UserModule = ({ isClient, app, router }) => {
+  if (isClient) {
+    app.use(VueGtag, {
+      property: { id: 'G-1LL0D86CY9' },
+    })
+
+    trackRouter(router)
+  }
+}
+```
+:::
 
 More info see [vue-gtag-next](https://github.com/MatteoGabriele/vue-gtag-next).
