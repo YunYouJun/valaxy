@@ -11,6 +11,8 @@ top: 100
 
 ## 总览 {lang="zh-CN"}
 
+<div lang="zh-CN">
+
 Valaxy （V + Galaxy）旨在成为下一代静态博客框架，提供更好的热更新与用户加载体验、更强大更便捷的自定义开发可能性。
 
 你可以在 [为什么选 Valaxy](/guide/why) 中了解更多关于项目的设计初衷。
@@ -21,25 +23,63 @@ Valaxy 基于 [Vite](https://vitejs.dev/) 提供热更新与打包等功能，�
 因此 Valaxy 兼容并可自由使用 Vite 与 Vue 生态的所有插件。
 :::
 
+</div>
+
+<div lang="en">
+
+Valaxy (V + Galaxy) aims for the next generation static blog framework, providing better hot reloading and user loading experience, with easier and powerful customization support.
+
+You can learn more about the original intensions for this project in [Why Valaxy](/guide/why).
+
+::: tip
+Valaxy is based on [Vite](https://vitejs.dev/) to provide hot reloading and packaging, and based on [Vue](https://vuejs.org/) to realize client functionalities such as views (themes, custom components).
+
+Therefore, Valaxy supports all extensions/plugins for Vite and Vue.
+:::
+
+</div>
+
 ## Create a Valaxy Project {lang="en"}
 
 ## 创建 Valaxy 项目 {lang="zh-CN"}
 
+::: en
 > Example: [yun.valaxy.site](https://yun.valaxy.site)
+:::
+
+::: zh-CN
+> 示例: [yun.valaxy.site](https://yun.valaxy.site)
+:::
 
 ### Try it Online {lang="en"}
 
 ### 在线试用 {lang="zh-CN"}
 
+::: zh-CN
+
 你可以通过 [StackBlitz](https://stackblitz.com/edit/valaxy) 在线试用 Valaxy（默认使用主题 [valaxy-theme-yun](https://github.com/YunYouJun/valaxy/blob/main/packages/valaxy-theme-yun/)）。
 
 [![StackBlitz](https://developer.stackblitz.com/img/open_in_stackblitz.svg)](https://stackblitz.com/edit/valaxy)
 
-> 这是一个极简项目，您仅需一下几个文件，就可以快速搭建好你的博客！
+> 这是一个极简项目，您仅需以下几个文件，就可以快速搭建好你的博客！
 >
 > - `pages` 文件夹：存放页面/文章
 > - `valaxy.config.ts` Valaxy 配置文件
 > - `package.json` 记录依赖
+
+:::
+
+::: en
+You can use [StackBlitz](https://stackblitz.com/edit/valaxy) to try Valaxy online (the default theme used is [valaxy-theme-yun](https://github.com/YunYouJun/valaxy/blob/main/packages/valaxy-theme-yun/)).
+
+[![StackBlitz](https://developer.stackblitz.com/img/open_in_stackblitz.svg)](https://stackblitz.com/edit/valaxy)
+
+> This is an extremely simple project. You only need the following files to rapidly build your own blog!
+>
+> - `pages` folder: storing the pages/posts
+> - `valaxy.config.ts`: Valaxy's configuration file
+> - `package.json`: dependencies
+:::
 
 ### Locally {lang="en"}
 
@@ -97,19 +137,37 @@ npm init valaxy
 pnpm create valaxy
 ```
 
+::: zh-CN
 跟随命令行提示完成创建！
 
 > 默认使用主题 [valaxy-theme-yun](https://github.com/YunYouJun/valaxy/blob/main/packages/valaxy-theme-yun/)，当然您也可以安装使用任意其他主题。  
 > 本文档同样是一个 Valaxy 主题 [valaxy-theme-press](https://github.com/YunYouJun/valaxy/blob/main/packages/valaxy-theme-press/)。
+:::
+
+::: en
+Follow the prompt in the commandline to complete the process!
+
+> The default theme used is [valaxy-theme-yun](https://github.com/YunYouJun/valaxy/blob/main/packages/valaxy-theme-yun/), but you can also install any other themes.  
+> This documentation is also a Valaxy theme: [valaxy-theme-press](https://github.com/YunYouJun/valaxy/blob/main/packages/valaxy-theme-press/).
+:::
 
 ## Usage {lang="en"}
 
 ## 使用 {lang="zh-CN"}
 
+::: zh-CN
 > 进入你创建好后的文件夹目录后，执行以下命令。
 > 譬如：`cd valaxy-blog`。
 
 安装依赖：
+:::
+
+::: en
+> Enter the folder for the Valaxy project you just created, and execute the following commands.
+> For example: `cd valaxy-blog`.
+
+Install the dependencies:
+:::
 
 ```bash
 # install
@@ -117,7 +175,13 @@ npm i
 # or pnpm i
 ```
 
+::: zh-CN
 启动预览：
+:::
+
+::: en
+Start a preview:
+:::
 
 ```bash
 # start
@@ -127,14 +191,17 @@ npm run dev
 
 ::: zh-CN
 博客创建完毕，查看本地 `http://localhost:4859/`，玩的开心！
+
+- Valaxy 博客通用的配置可参见 [配置](/guide/config) 与 [自定义扩展](/guide/custom/extend)。
+- Valaxy 主题独有配置请参见对应主题文档。（Valaxy Theme Yun 主题文档编写中……）
 :::
 
 ::: en
 See `http://localhost:4859/`, have fun!
-:::
 
-- Valaxy 博客通用的配置可参见 [配置](/guide/config) 与 [自定义扩展](/guide/custom/extend)。
-- Valaxy 主题独有配置请参见对应主题文档。（Valaxy Theme Yun 主题文档编写中……）
+- See [Config](/guide/config) and [Custom Extensions](/guide/custom/extend) for the general configuration for Valaxy blogs.
+- For configuring Valaxy themes, please see the documentation for the corresponding themes. (Docs for Valaxy Theme Yun is still work in progress)
+:::
 
 ### Config {lang="en"}
 
@@ -152,13 +219,19 @@ Documentation is being improved!
 文档正在不断完善中！
 :::
 
-## Deploy {lang="en"}
+## Deployment {lang="en"}
 
 ## 部署 {lang="zh-CN"}
 
-部署可参见 <RouterLink to="/guide/deploy">部署｜指南</RouterLink>。
+::: zh-CN
+部署可参见 [部署｜指南](/guide/deploy)。
+:::
 
-## Upgrade {lang="en"}
+::: en
+See [Deployment](/guide/deploy) for deployment guide.
+:::
+
+## Upgrading {lang="en"}
 
 ## 升级 {lang="zh-CN"}
 
@@ -172,14 +245,20 @@ npm i valaxy-theme-yun@latest
 
 ### pnpm
 
+::: zh-CN
 > 你可以使用 pnpm 的交互升级命令。
+:::
+
+::: en
+> You can use the interactive upgrade command provided by `pnpm`.
+:::
 
 ```bash
 # interactive upgrade
 pnpm up --latest -i
 ```
 
-## Structure {lang="en"}
+## Directory Structure {lang="en"}
 
 ## 目录结构 {lang="zh-CN"}
 
@@ -218,7 +297,7 @@ In most cases, you only need to work in the `pages` folder.
 - `locales`: 自定义国际化关键词
 :::
 
-### Other {lang="en"}
+### Others {lang="en"}
 
 ### 其他 {lang="zh-CN"}
 
@@ -240,7 +319,7 @@ In most cases, you only need to work in the `pages` folder.
 
 :::
 
-## Theme {lang="en"}
+## Themes {lang="en"}
 
 ## 主题 {lang="zh-CN"}
 
