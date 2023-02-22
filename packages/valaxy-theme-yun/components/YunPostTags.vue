@@ -12,6 +12,6 @@ defineProps<{
     class="post-tag inline-flex-center"
   >
     <div m="r-1" i-ri-price-tag-3-line />
-    {{ tag }}
+    <span>{{ tag }}</span>
   </router-link>
 </template>

@@ -12,9 +12,11 @@ defineProps<{
       path: '/categories/',
       query: { category: Array.isArray(categories) ? categories[categories.length - 1] : categories },
     }"
-    class="post-categories inline-flex justify-center items-center"
+    class="post-category inline-flex-center"
   >
-    <div m="x-1" i-ri-folder-2-line />
-    {{ Array.isArray(categories) ? categories.join(' > ') : categories }}
+    <div m="x-1" inline-flex i-ri-folder-2-line />
+    <span>
+      {{ Array.isArray(categories) ? categories.join(' > ') : categories }}
+    </span>
   </router-link>
 </template>

@@ -40,8 +40,4 @@ const displayedPosts = computed(() => posts.value.slice((props.curPage - 1) * pa
   border-top: 1px solid rgba(122, 122, 122, 0.15);
   min-height: 2.5rem;
 }
-
-.post-categories {
-  color: var(--va-c-text);
-}
 </style>

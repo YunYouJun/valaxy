@@ -57,11 +57,11 @@ const { icon, styles } = usePostProperty(props.post.type)
 
     <!-- always show -->
     <div w="full" class="yun-card-actions flex justify-between" border="t" text="sm">
-      <div class="inline-flex">
-        <YunPostCategories m="l-2" :categories="post.categories" />
+      <div class="post-categories inline-flex" flex="wrap 1">
+        <YunPostCategories m="l-1" :categories="post.categories" />
       </div>
 
-      <div class="post-tags inline-flex" m="r-2">
+      <div class="post-tags inline-flex" flex="wrap 1" justify="end" m="1">
         <template v-if="post.tags">
           <YunPostTags :tags="post.tags" />
         </template>
