@@ -37,7 +37,7 @@ const { data } = useRandomData(props.links, props.random)
   </div>
 </template>
 
-<stye lang="scss">
+<stye lang="scss" scoped>
 .link-item {
   display: inline-flex;
 }
@@ -53,7 +53,7 @@ const { data } = useRandomData(props.links, props.random)
   }
 
   .link-url {
-    --smc-primary: var(--primary-color);
+    --smc-link-color: var(--primary-color);
 
     display: inline-flex;
     text-align: center;

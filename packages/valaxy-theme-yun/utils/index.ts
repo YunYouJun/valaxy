@@ -1,5 +1,11 @@
 export const anonymousImage = 'https://cdn.yunyoujun.cn/img/avatar/none.jpg'
 
-export const onImgError = (e: Event) => {
-  (e.target as HTMLImageElement).src = anonymousImage
+/**
+ * set default img
+ * @param e
+ */
+export const onImgError = (e: Event, defaultImg = anonymousImage) => {
+  const targetEl = e.target as HTMLImageElement
+  targetEl.setAttribute('data-src', targetEl.src)
+  targetEl.src = defaultImg
 }
