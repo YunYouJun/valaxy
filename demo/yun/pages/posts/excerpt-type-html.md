@@ -10,3 +10,5 @@ excerpt_type: html
 <!-- more -->
 
 Main Content
+
+[/about](/about)
