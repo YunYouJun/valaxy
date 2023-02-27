@@ -50,11 +50,13 @@ If you want some reference, you can refer to [valaxy-theme-yun](https://github.c
 你可以在 Markdown 中如下使用它。
 :::
 
+::: en
 Valaxy provides custom layouts based on [vite-plugin-vue-layouts](https://github.com/JohnCampionJr/vite-plugin-vue-layouts).
 
 Create a `layouts` file, and write Vue components as layouts.
 
 You can use it in your Markdown as follows.
+:::
 
 ```md
 ---
@@ -114,7 +116,7 @@ export default defineAppSetup((ctx) => {
 })
 ```
 
-> 具体示例可参见 [谷歌统计｜第三方集成](/guide/third-party#谷歌统计)。
+> 具体示例可参见 [谷歌统计｜第三方集成](/guide/third-party/#谷歌统计)。
 :::
 
 ::: en
@@ -131,7 +133,7 @@ export default defineAppSetup((ctx) => {
 })
 ```
 
-> For a detailed example, please see [Google Analytics | Third Party Integration](/guide/third-party#谷歌统计)。
+> For a detailed example, please see [Google Analytics | Third Party Integration](/guide/third-party/#谷歌统计)。
 :::
 
 ## 多语言支持 {lang="zh-CN"}

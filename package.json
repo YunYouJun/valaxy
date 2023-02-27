@@ -41,16 +41,16 @@
     "prepare": "husky install"
   },
   "devDependencies": {
-    "@antfu/eslint-config": "^0.35.2",
+    "@antfu/eslint-config": "^0.35.3",
     "@microsoft/api-extractor": "^7.34.4",
     "@types/debug": "^4.1.7",
-    "@types/node": "^18.14.0",
+    "@types/node": "^18.14.2",
     "@types/prompts": "^2.4.2",
     "@types/resolve": "^1.20.2",
     "@types/semver": "^7.3.13",
     "cross-env": "^7.0.3",
-    "cypress": "^12.6.0",
-    "eslint": "^8.34.0",
+    "cypress": "^12.7.0",
+    "eslint": "^8.35.0",
     "eslint-plugin-cypress": "^2.12.1",
     "https-localhost": "^4.7.1",
     "husky": "^8.0.3",
@@ -67,9 +67,9 @@
     "valaxy-addon-waline": "workspace:*",
     "valaxy-theme-press": "workspace:*",
     "valaxy-theme-yun": "workspace:*",
-    "vitest": "^0.28.5",
-    "vue-tsc": "1.1.7",
-    "zx": "^7.1.1"
+    "vitest": "^0.29.1",
+    "vue-tsc": "1.2.0",
+    "zx": "^7.2.0"
   },
   "pnpm": {
     "peerDependencyRules": {
