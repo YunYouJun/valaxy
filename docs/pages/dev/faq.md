@@ -6,6 +6,10 @@ categories:
 end: false
 ---
 
+<details>
+
+<summary>已解决</summary>
+
 ## JavaScript heap out of memory
 
 Limit `--max-old-space-size` to reproduce.
@@ -14,9 +18,8 @@ Limit `--max-old-space-size` to reproduce.
 pnpm test:space
 ```
 
-超过 50 篇文章时需要超过 2G 内存。
-
-内存使用需要优化……
+~~超过 50 篇文章时需要超过 2G 内存。~~
+升级 vite-ssg （使用 p-queue 队列）已解决。
 
 ## `background-attachment: fixed` iOS 不支持
 
@@ -24,3 +27,5 @@ pnpm test:space
 > [The Fixed Background Attachment Hack | CSS Tricks](https://css-tricks.com/the-fixed-background-attachment-hack/)
 
 改为使用 `::before` 伪元素实现。
+
+</details>
