@@ -6,16 +6,32 @@ categories:
 end: false
 ---
 
-## 自动组件注册
+## 自动组件注册 {lang="zh-CN"}
 
+## Automatic Component Registration {lang="en"}
+
+:::zh-CN
 新建 `components` 文件夹，书写任意 Vue 组件。
 它们会被自动注册，你甚至可以在你的 Markdown 文件中使用它。
 
 如果存在与主题、Valaxy 的同名组件，覆盖顺序为 `用户目录` -> `主题目录` -> `Valaxy 客户端目录`。
 这也意味着你可以只覆盖主题的某个组件，来达到自定义局部主题的效果！
+:::
 
-### 自定义覆盖主题组件
+:::en
+Create `components` folder, write any Vue components.
+They will be registered automatically and you can even use them in your Markdown files.
 
+If there are components with the same name as the theme and Valaxy, the order of overriding is `user directory` -> `theme directory` -> `Valaxy client directory`.
+
+This also means that you can cover one component of the theme to achieve customizing the local theme!
+:::
+
+### 自定义覆盖主题组件 {lang="zh-CN"}
+
+### Custom Override Theme Component {lang="en"}
+
+:::zh-CN
 基于此，你可以非常容易地自定义主题的任何地方！
 
 譬如自定义页脚：
@@ -45,11 +61,49 @@ import YunFooter from 'valaxy-theme-yun/components/YunFooter.vue'
   </YunFooter>
 </template>
 ```
+:::
 
-## 更多示例
+:::en
+Based on this, you can easily customize the theme anywhere!
 
-### 插入不蒜子统计
+For example, custom footer:
 
+> Refer to [demo/yun/components/YunFooter.vue | GitHub](https://github.com/YunYouJun/valaxy/blob/main/demo/yun/components/YunFooter.vue)
+
+In the `components` directory of the blog folder, create a new `YunFooter.vue` to overwrite the footer file of your theme.
+
+You can replace the footer directly:
+
+```vue
+<template>
+  <div>Footer content</div>
+</template>
+```
+
+You can also inherit and extend the previous footer:
+
+```vue
+<script lang="ts" setup>
+import YunFooter from 'valaxy-theme-yun/components/YunFooter.vue'
+</script>
+
+<template>
+  <YunFooter>
+    Customize footer content
+  </YunFooter>
+</template>
+```
+:::
+
+### 更多示例 {lang="zh-CN"}
+
+### More Examples {lang="en"}
+
+### 插入不蒜子统计 {lang="zh-CN"}
+
+### Insert Busuanzi Statistics {lang="en"}
+
+:::zh-CN
 > [不蒜子统计](http://ibruce.info/2015/04/04/busuanzi/)
 
 以 valaxy-theme-yun 为例：
@@ -102,9 +156,75 @@ const isPost = useLayout('post')
 ```
 
 原理即覆盖组件，您还可以自由覆盖主题的任意其他组件。
+:::
 
-### 其他
+:::en
+> [Busuanzi Statistics](http://ibruce.info/2015/04/04/busuanzi/)
 
+Take valaxy-theme-yun as an example:
+
+> By default, operate in your blog folder.
+
+Create a new `YunFooter.vue` under the `components/` folder to customize the footer and display *Busuanzi Statistics*.
+You can customize its style freely according to your needs.
+
+```vue
+<script lang="ts" setup>
+import { useScriptTag } from '@vueuse/core'
+import YunFooter from 'valaxy-theme-yun/components/YunFooter.vue'
+
+useScriptTag('//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js')
+</script>
+
+<template>
+  <YunFooter>
+    <!-- Customize footer content -->
+    <div>Total visits of this site <span id="busuanzi_value_site_pv" /></div>
+    <div>Number of visitors <span id="busuanzi_value_site_uv" /></div>
+  </YunFooter>
+</template>
+```
+
+Create a new `YunPostMeta.vue` under the `components/` folder to customize the information of each article and display the statistics of each article.
+
+```vue
+<script lang="ts" setup>
+import type { Post } from 'valaxy'
+import { useLayout } from 'valaxy'
+import YunPostMeta from 'valaxy-theme-yun/components/YunPostMeta.vue'
+
+defineProps<{
+  frontmatter: Post
+}>()
+
+// Display only in Post layout
+const isPost = useLayout('post')
+</script>
+
+<template>
+  <YunPostMeta :frontmatter="frontmatter">
+    <span v-if="isPost" id="busuanzi_container_page_pv">
+      Total reading of this article <span id="busuanzi_value_page_pv" />
+    </span>
+  </YunPostMeta>
+</template>
+```
+
+The principle is to cover components. You can also freely cover any other components of the theme.
+:::
+
+### 其他 {lang="zh-CN"}
+
+### Other {lang="en"}
+
+:::zh-CN
 [valaxy-addon-components](https://github.com/YunYouJun/valaxy/tree/main/packages/valaxy-addon-components) 也是一个充分利用该机制的插件，你也可以参考它的实现方式，以 Valaxy 插件的形式自由发布你的自定义组件。
 
 > 由于发布的是原生的 Vue 组件，所以打包时它将会完全是**按需**的，无需您额外担忧。
+:::
+
+:::en
+[valaxy-addon-components](https://github.com/YunYouJun/valaxy/tree/main/packages/valaxy-addon-components) is also a plugin that makes full use of this mechanism. You can also refer to its implementation method and freely publish your custom components in the form of Valaxy plugin.
+
+> Because Vue components published is native, it will be completely **on-demand** when packaging, without your extra worry.
+:::

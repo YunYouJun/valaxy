@@ -363,7 +363,9 @@ sponsor: false
 Please refer to [Using Themes](/themes/use) and the theme you are using to configure it.
 :::
 
-## Valaxy 扩展配置
+## Valaxy 扩展配置 {lang="zh-CN"}
+
+## Valaxy Extended Configuration {lang="zh-CN"}
 
 > [packages/valaxy/node/type.ts](https://github.com/YunYouJun/valaxy/blob/main/packages/valaxy/node/types.ts)
 
@@ -415,7 +417,13 @@ export interface ValaxyExtendConfig {
 }
 ```
 
+::: zh-CN
+所以，你可以像这样使用：
+:::
+
+::: en
 So you can use it like this:
+:::
 
 ```ts
 // valaxy.config.ts
