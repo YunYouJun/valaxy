@@ -19,5 +19,5 @@ jobs:
               issue_number: context.issue.number,
               owner: context.repo.owner,
               repo: context.repo.repo,
-              body: '<img width="200" src="https://raw.githubusercontent.com/YunYouJun/yun/main/images/meme/yun-good-alpha-compressed.png" alt="Good!" />'
+              body: '<img width="200" src="https://user-images.githubusercontent.com/25154432/222963476-672010d2-6b54-478b-99c7-2c330f636bd0.png" alt="Yun Good!" />'
             })
