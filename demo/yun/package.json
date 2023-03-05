@@ -22,7 +22,7 @@
     "valaxy-theme-yun": "link:../../packages/valaxy-theme-yun"
   },
   "devDependencies": {
-    "nodemon": "^2.0.20",
+    "nodemon": "^2.0.21",
     "vite-plugin-inspect": "^0.7.15"
   }
 }
