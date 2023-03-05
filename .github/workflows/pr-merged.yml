@@ -1,24 +1,21 @@
-name: PR Approved
+name: PR Merged
 
 on:
-  pull_request_review:
+  pull_request_target:
     branches:
       - main
     types:
-      - submitted
+      - closed
 
-permissions:
-  contents: read
-  id-token: write
-  issues: write
-  pull-requests: write
+# due to permission, we should use pull_request_target instead of pull_request_view to trigger
+# another way: https://stackoverflow.com/a/71683208/7450566
 
 jobs:
-  reply:
+  if_merged:
     runs-on: ubuntu-latest
     steps:
       - name: reply yun approved image
-        if: github.event.review.state == 'approved'
+        if: github.event.pull_request.merged == true
         uses: actions/github-script@v6
         with:
           script: |
