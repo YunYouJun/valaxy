@@ -15,8 +15,16 @@ const site = useSiteStore()
 const siteConfig = useSiteConfig()
 const pageSize = computed(() => siteConfig.value.pageSize)
 
-const posts = computed(() => props.posts || site.postList)
-const displayedPosts = computed(() => posts.value.slice((props.curPage - 1) * pageSize.value, props.curPage * pageSize.value))
+const posts = computed(() => (
+  props.posts || site.postList).filter(post => import.meta.env.DEV ? true : !post.hide),
+)
+
+const displayedPosts = computed(() =>
+  posts.value.slice(
+    (props.curPage - 1) * pageSize.value,
+    props.curPage * pageSize.value,
+  ),
+)
 </script>
 
 <template>

@@ -26,6 +26,8 @@
     "build:docs": "pnpm -C docs run build",
     "ci:publish": "zx scripts/publish.mjs",
     "demo": "pnpm run demo:yun",
+    "demo:build": "pnpm -C demo/yun run build",
+    "demo:serve": "pnpm -C demo/yun run serve",
     "demo:yun": "pnpm -C demo/yun run dev",
     "dev:lib": "pnpm -C packages/valaxy run dev",
     "dev": "pnpm -r --filter=./packages/** --parallel run dev",

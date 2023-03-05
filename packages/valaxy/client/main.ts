@@ -13,8 +13,10 @@ import setupMain from './setup/main'
 const routes = setupLayouts(__DEV__
   ? generatedRoutes
   : generatedRoutes.filter(i =>
-    i.meta && i.meta.frontmatter && !i.meta.frontmatter.draft && !i.meta.frontmatter.hide,
+    i.meta && i.meta.frontmatter && !i.meta.frontmatter.draft,
   ))
+
+// not filter hide for ssg
 
 // https://github.com/antfu/vite-ssg
 export const createApp = ViteSSG(
