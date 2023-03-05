@@ -1,0 +1,19 @@
+name: PR Approved
+
+on:
+  pull_request_review:
+    types:
+      - submitted
+
+jobs:
+  reply:
+    runs-on: ubuntu-latest
+    steps:
+      - name: reply approved image
+        if: github.event.review.state == 'approved'
+        uses: actions-cool/issues-helper@v3
+        with:
+          actions: 'create-comment'
+          issue-number: ${{ github.event.issue.number }}
+          body: |
+            ![Yun Good](https://github.com/YunYouJun/yun/blob/main/images/meme/yun-good-alpha-compressed.png?raw=true)
