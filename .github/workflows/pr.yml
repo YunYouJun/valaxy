@@ -16,6 +16,6 @@ jobs:
           number: ${{ steps.pr.outputs.id }}
           token: ${{ secrets.GITHUB_TOKEN }}
           body: |
-            ![Yun Good](https://github.com/YunYouJun/yun/blob/main/images/meme/yun-good-alpha-compressed.png?raw=true)
+            ![Yun Good](https://raw.githubusercontent.com/YunYouJun/yun/main/images/meme/yun-good-alpha-compressed.png)
             <!-- YUN_PR_APPROVED -->
           body-include: '<!-- YUN_PR_APPROVED -->'
