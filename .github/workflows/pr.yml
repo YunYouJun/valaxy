@@ -11,8 +11,11 @@ jobs:
     steps:
       - name: reply approved image
         if: github.event.review.state == 'approved'
-        uses: actions-cool/issues-helper@v3
+        uses: actions-cool/maintain-one-comment@v3
         with:
-          actions: 'create-comment'
+          number: ${{ steps.pr.outputs.id }}
+          token: ${{ secrets.GITHUB_TOKEN }}
           body: |
             ![Yun Good](https://github.com/YunYouJun/yun/blob/main/images/meme/yun-good-alpha-compressed.png?raw=true)
+            <!-- YUN_PR_APPROVED -->
+          body-include: '<!-- YUN_PR_APPROVED -->'
