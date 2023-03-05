@@ -7,10 +7,15 @@ on:
     types:
       - submitted
 
+permissions:
+  contents: read
+  id-token: write
+  issues: write
+  pull-requests: write
+
 jobs:
   reply:
     runs-on: ubuntu-latest
-    permissions: write-all
     steps:
       - name: reply yun approved image
         if: github.event.review.state == 'approved'
