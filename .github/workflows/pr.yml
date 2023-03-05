@@ -16,6 +16,18 @@ jobs:
           number: ${{ steps.pr.outputs.id }}
           token: ${{ secrets.GITHUB_TOKEN }}
           body: |
-            ![Yun Good](https://raw.githubusercontent.com/YunYouJun/yun/main/images/meme/yun-good-alpha-compressed.png)
+            <img width="200" src="https://raw.githubusercontent.com/YunYouJun/yun/main/images/meme/yun-good-alpha-compressed.png" alt="Good!" />
             <!-- YUN_PR_APPROVED -->
           body-include: '<!-- YUN_PR_APPROVED -->'
+      - name: reply yun approved image
+        if: github.event.review.state == 'approved'
+        uses: actions/github-script@v5
+        with:
+          github-token: ${{secrets.GITHUB_TOKEN}}
+          script: |
+            github.rest.issues.createComment({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              body: '<img width="200" src="https://raw.githubusercontent.com/YunYouJun/yun/main/images/meme/yun-good-alpha-compressed.png" alt="Good!" />'
+            })
