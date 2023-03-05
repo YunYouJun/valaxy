@@ -1,4 +1,4 @@
-import { dirname } from 'path'
+import { dirname } from 'node:path'
 import { cyan, dim } from 'kolorist'
 
 import fg from 'fast-glob'

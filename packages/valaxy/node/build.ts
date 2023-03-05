@@ -1,4 +1,4 @@
-import { resolve } from 'path'
+import { resolve } from 'node:path'
 import type { InlineConfig } from 'vite'
 import { mergeConfig as mergeViteConfig, build as viteBuild } from 'vite'
 import { build as viteSsgBuild } from 'vite-ssg/node'

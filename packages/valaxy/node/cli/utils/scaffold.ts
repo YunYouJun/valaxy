@@ -1,5 +1,5 @@
-import path from 'path'
-import { readFile } from 'fs/promises'
+import path from 'node:path'
+import { readFile } from 'node:fs/promises'
 import { resolveOptions } from '../../options'
 import { exists } from './fs'
 import { userRoot } from './constants'

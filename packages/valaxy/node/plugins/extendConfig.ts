@@ -1,4 +1,4 @@
-import { dirname, join, resolve } from 'path'
+import { dirname, join, resolve } from 'node:path'
 import type { Alias, AliasOptions, InlineConfig, Plugin } from 'vite'
 import { mergeConfig, searchForWorkspaceRoot } from 'vite'
 import isInstalledGlobally from 'is-installed-globally'

@@ -1,4 +1,4 @@
-import { join } from 'path'
+import { join } from 'node:path'
 import isInstalledGlobally from 'is-installed-globally'
 import globalDirs from 'global-dirs'
 import type resolve from 'resolve'

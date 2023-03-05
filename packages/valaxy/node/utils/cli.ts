@@ -1,6 +1,6 @@
-import * as readline from 'readline'
-import path from 'path'
-import os from 'os'
+import * as readline from 'node:readline'
+import path from 'node:path'
+import os from 'node:os'
 
 import { blue, bold, cyan, dim, gray, green, underline, yellow } from 'kolorist'
 import consola from 'consola'

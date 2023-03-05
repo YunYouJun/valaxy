@@ -1,8 +1,8 @@
 #!/usr/bin/env node
 /* eslint-disable no-console */
 
-const fs = require('fs')
-const path = require('path')
+const fs = require('node:fs')
+const path = require('node:path')
 const argv = require('minimist')(process.argv.slice(2))
 const prompts = require('prompts')
 const execa = require('execa')

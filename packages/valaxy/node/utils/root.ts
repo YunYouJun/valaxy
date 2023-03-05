@@ -1,5 +1,5 @@
-import { dirname, resolve } from 'path'
-import fs from 'fs'
+import { dirname, resolve } from 'node:path'
+import fs from 'node:fs'
 import { isPath, resolveImportPath } from '../utils'
 
 /**

@@ -1,4 +1,4 @@
-import { join, relative, resolve } from 'path'
+import { join, relative, resolve } from 'node:path'
 import fs from 'fs-extra'
 
 import type { Plugin, ResolvedConfig } from 'vite'

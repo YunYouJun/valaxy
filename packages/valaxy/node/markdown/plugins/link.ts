@@ -4,7 +4,7 @@
 // 1. adding target="_blank" to external links
 // 2. normalize internal links to end with `.html`
 
-import { URL } from 'url'
+import { URL } from 'node:url'
 import type MarkdownIt from 'markdown-it'
 import { EXTERNAL_URL_RE, PATHNAME_PROTOCOL_RE } from '../../constants'
 import type { MarkdownEnv } from '../env'

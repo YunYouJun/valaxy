@@ -1,4 +1,4 @@
-import { resolve } from 'path'
+import { resolve } from 'node:path'
 import fs from 'fs-extra'
 import defu from 'defu'
 import { cyan, yellow } from 'kolorist'

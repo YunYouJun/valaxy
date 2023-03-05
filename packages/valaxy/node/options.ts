@@ -1,4 +1,4 @@
-import { dirname, resolve } from 'path'
+import { dirname, resolve } from 'node:path'
 import fs from 'fs-extra'
 import _debug from 'debug'
 import fg from 'fast-glob'

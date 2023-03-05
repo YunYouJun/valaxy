@@ -1,4 +1,4 @@
-import net from 'net'
+import net from 'node:net'
 
 export async function findFreePort(start: number): Promise<number> {
   if (await isPortFree(start))

@@ -1,4 +1,4 @@
-import { resolve } from 'path'
+import { resolve } from 'node:path'
 import fs from 'fs-extra'
 import type { DefaultThemeConfig } from 'valaxy/types'
 import type { ResolvedValaxyOptions, ValaxyNodeConfig } from 'valaxy/node'

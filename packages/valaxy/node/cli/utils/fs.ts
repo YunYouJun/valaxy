@@ -1,5 +1,5 @@
-import { access } from 'fs/promises'
-import { type PathLike } from 'fs'
+import { access } from 'node:fs/promises'
+import { type PathLike } from 'node:fs'
 
 export async function exists(path: PathLike) {
   try {
