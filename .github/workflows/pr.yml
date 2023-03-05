@@ -2,12 +2,15 @@ name: PR Approved
 
 on:
   pull_request_review:
+    branches:
+      - main
     types:
       - submitted
 
 jobs:
   reply:
     runs-on: ubuntu-latest
+    permissions: write-all
     steps:
       - name: reply yun approved image
         if: github.event.review.state == 'approved'
