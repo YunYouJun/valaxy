@@ -4,9 +4,7 @@
 
 Read [YunYouJun/valaxy](https://github.com/YunYouJun/valaxy) for more info.
 
-## Creating customized templates
-
-Learn how to creating customized templates in [here](./docs/en/creating-templates.md)
+- Docs: [valaxy.site](https://valaxy.site)
 
 ## FAQ
 
