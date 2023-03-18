@@ -23,6 +23,6 @@
   },
   "devDependencies": {
     "nodemon": "^2.0.21",
-    "vite-plugin-inspect": "^0.7.15"
+    "vite-plugin-inspect": "^0.7.17"
   }
 }
