@@ -102,6 +102,10 @@ export default defineSiteConfig({
 
   mediumZoom: { enable: true },
 
+  statistics: {
+    enable: true,
+  },
+
   sponsor: {
     enable: true,
     methods: [

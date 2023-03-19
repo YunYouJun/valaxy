@@ -83,7 +83,16 @@ export const defaultSiteConfig: SiteConfig = {
     options: {},
   },
 
+  statistics: {
+    enable: false,
+    wordCount: {
+      cnSpeed: 300,
+      enSpeed: 200,
+    },
+  },
+
   pageSize: 7,
+
 }
 
 export const defaultValaxyConfig: ValaxyNodeConfig = {

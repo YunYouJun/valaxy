@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import type { Post } from 'valaxy'
-import { formatDate } from 'valaxy'
+import { formatDate, useSiteConfig } from 'valaxy'
 import { useI18n } from 'vue-i18n'
 
 defineProps<{
@@ -9,6 +9,8 @@ defineProps<{
 }>()
 
 const { t } = useI18n()
+
+const siteConfig = useSiteConfig()
 </script>
 
 <template>
@@ -23,7 +25,10 @@ const { t } = useI18n()
     <div i-ri-pushpin-line />
   </div>
 
-  <div v-if="frontmatter" class="post-meta justify-center" flex="~" text="sm" py="1">
+  <div
+    v-if="frontmatter" class="post-meta"
+    flex="~ col" justify="center" items="center" text="sm" py="1"
+  >
     <div v-if="frontmatter.date" class="post-time flex items-center">
       <span class="inline-flex-center" :title="t('post.posted')">
         <div class="inline-block" i-ri-calendar-line />
@@ -37,6 +42,28 @@ const { t } = useI18n()
         <span m="x-2">-</span>
         <div i-ri-calendar-2-line />
         <time m="l-1">{{ formatDate(frontmatter.updated) }}</time>
+      </span>
+    </div>
+
+    <div
+      v-if="siteConfig.statistics.enable"
+      class="post-counter flex items-center" mt="2"
+    >
+      <span
+        v-if="frontmatter.wordCount"
+        class="inline-flex-center" :title="t('statistics.word')"
+      >
+        <div class="inline-block" i-ri-file-word-line />
+        <time m="l-1">{{ frontmatter.wordCount }}</time>
+      </span>
+
+      <span
+        v-if="frontmatter.readingTime"
+        class="inline-flex-center" :title="t('statistics.time')"
+      >
+        <span m="x-2">-</span>
+        <div i-ri-timer-line />
+        <time m="l-1">{{ frontmatter.readingTime }}m</time>
       </span>
     </div>
   </div>

@@ -11,7 +11,6 @@ const open = ref(false)
 
 <template>
   <div
-    ref="el"
     class="flex self-stretch relative group"
     :aria-expanded="open"
     aria-haspopup="true"

@@ -205,6 +205,28 @@ export interface SiteConfig {
    * @default 7
    */
   pageSize: number
+
+  /**
+   * statistics readingTime and wordCount
+   * @description 统计阅读时间和字数
+   */
+  statistics: {
+    enable: boolean
+    wordCount: {
+      /**
+       * Chinese word count speed
+       * @description 中文每分钟阅读字数
+       * @default 300 (300 字/分钟)
+       */
+      cnSpeed: number
+      /**
+       * English word count speed
+       * @description 英文每分钟阅读字数
+       * @default 100 (200 字/分钟)
+       */
+      enSpeed: number
+    }
+  }
 }
 
 export type PartialDeep<T> = {

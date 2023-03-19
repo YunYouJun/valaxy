@@ -22,6 +22,7 @@ import { createUnocssPlugin } from './unocss'
 import { createConfigPlugin } from './extendConfig'
 import { createClientSetupPlugin } from './setupClient'
 import { createFixPlugins } from './patchTransform'
+import { presetStatistics } from './presets/statistics'
 import { createValaxyPlugin } from '.'
 
 // for render markdown excerpt
@@ -203,6 +204,9 @@ export async function ViteValaxyPlugins(
             if (typeof tags === 'string')
               route.meta.frontmatter.tags = [tags]
           }
+
+          if (valaxyConfig.siteConfig.statistics.enable)
+            presetStatistics({ route })
 
           valaxyConfig.extendMd?.({
             route,
