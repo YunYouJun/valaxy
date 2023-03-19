@@ -85,9 +85,11 @@ export const defaultSiteConfig: SiteConfig = {
 
   statistics: {
     enable: false,
-    wordCount: {
-      cnSpeed: 300,
-      enSpeed: 200,
+    readTime: {
+      speed: {
+        cn: 300,
+        en: 100,
+      },
     },
   },
 

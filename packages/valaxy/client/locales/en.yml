@@ -98,9 +98,9 @@ accessibility:
 #   prev_page: Previous page
 #   next_page: Next page
 
-wordcount:
-  count: Word count in article
-  count_total: Total words
+statistics:
+  word: Word count in article
+  word_total: Total words
   time: Reading time
   time_total: Total reading time
 

@@ -1,11 +1,9 @@
 import { existsSync, readFileSync } from 'node:fs'
+import type { SiteConfig } from 'valaxy/types'
 import type { ValaxyExtendConfig } from '../../types'
 
 export interface CountData { cn: number; en: number }
-export interface ReadTimeOptions {
-  cnSpeed: number
-  enSpeed: number
-}
+export type ReadTimeOptions = SiteConfig['statistics']['readTime']
 
 /**
  * count characters
@@ -25,8 +23,10 @@ export const count = (content: string): CountData => {
  * @param param1
  * @returns read time (minute)
  */
-export const readTime = ({ cn, en }: CountData, { cnSpeed = 300, enSpeed = 160 }: ReadTimeOptions) => {
-  const readingTime = cn / cnSpeed + en / enSpeed
+export const readTime = (
+  { cn, en }: CountData,
+  options: ReadTimeOptions) => {
+  const readingTime = cn / (options.speed.cn || 300) + en / (options.speed.en || 100)
   return readingTime < 1 ? 1 : Math.ceil(readingTime)
 }
 
@@ -57,16 +57,20 @@ export const statistics = (content: string, options: {
 // preset addon for statistics
 export const presetStatistics = ({
   route,
+  options,
 }: {
   route: Parameters<Required<ValaxyExtendConfig>['extendMd']>[0]['route']
+  options: SiteConfig['statistics']
 }) => {
   if (existsSync(route.component)) {
     const file = readFileSync(route.component, 'utf-8')
     const { wordCount, readingTime } = statistics(file, {
-      readTime: {
-        cnSpeed: 300,
-        enSpeed: 160,
-      },
+      readTime: Object.assign({
+        speed: {
+          cn: 300,
+          en: 100,
+        },
+      }, options.readTime),
     })
     if (route.meta.frontmatter) {
       if (!route.meta.frontmatter.wordCount)

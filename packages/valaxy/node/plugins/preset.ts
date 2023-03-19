@@ -205,8 +205,12 @@ export async function ViteValaxyPlugins(
               route.meta.frontmatter.tags = [tags]
           }
 
-          if (valaxyConfig.siteConfig.statistics.enable)
-            presetStatistics({ route })
+          if (valaxyConfig.siteConfig.statistics.enable) {
+            presetStatistics({
+              options: valaxyConfig.siteConfig.statistics,
+              route,
+            })
+          }
 
           valaxyConfig.extendMd?.({
             route,

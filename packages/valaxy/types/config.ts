@@ -212,19 +212,21 @@ export interface SiteConfig {
    */
   statistics: {
     enable: boolean
-    wordCount: {
-      /**
-       * Chinese word count speed
-       * @description 中文每分钟阅读字数
-       * @default 300 (300 字/分钟)
-       */
-      cnSpeed: number
-      /**
-       * English word count speed
-       * @description 英文每分钟阅读字数
-       * @default 100 (200 字/分钟)
-       */
-      enSpeed: number
+    readTime: {
+      speed: {
+        /**
+         * Chinese word count speed
+         * @description 中文每分钟阅读字数
+         * @default 300 (300 字/分钟)
+         */
+        cn: number
+        /**
+         * English word count speed
+         * @description 英文每分钟阅读字数
+         * @default 100 (200 字/分钟)
+         */
+        en: number
+      }
     }
   }
 }

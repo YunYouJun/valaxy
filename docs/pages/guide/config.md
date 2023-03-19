@@ -351,6 +351,38 @@ sponsor: false
 ---
 ```
 
+### 阅读统计
+
+开启阅读统计，将会在每篇文章开头展示阅读统计信息。
+
+> 需要主题进行适配，即展示 `frontmatter` 中的 `wordCount` 和 `readingTime` 字段。
+
+- `wordCount`：字数统计
+- `readingTime`：阅读时长（分钟）
+  - 可以设置不同语言的阅读速度，默认 `cn` 为 300 字/分钟，`en` 为 200 字/分钟。
+
+```ts
+// site.config.ts
+import { defineSiteConfig } from 'valaxy'
+export default defineSiteConfig({
+  /**
+   * 开启阅读统计
+   */
+  statistics: {
+    enable: true,
+    readTime: {
+      /**
+       * 阅读速度
+       */
+      speed: {
+        cn: 300,
+        en: 200,
+      },
+    },
+  }
+})
+```
+
 ## 主题配置 {lang="zh-CN"}
 
 ## Theme Config {lang="en"}
