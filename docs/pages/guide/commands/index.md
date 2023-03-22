@@ -139,7 +139,7 @@ and update the date.
 > an issue at [GitHub Issues](https://github.com/YunYouJun/valaxy/issues)!
 :::
 
-- [自定义文章模板](/guide/commands/custom-templates)
+- [自定义文章模板](/guide/custom/templates)
 
 ## FAQ
 
