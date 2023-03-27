@@ -55,6 +55,8 @@ npm run build
 > `gh-pages` 已由 `.github/workflows/gh-pages.yml` 自动部署。
 :::
 
+> 注意修改 `gh-pages.yml` 中的 `on.push.branches` 为你源代码所在的分支，默认为 `main`。
+
 ::: en
 When you use `pnpm create valaxy` to create a template project, it contains the file [`.github/workflows/gh-pages.yml`](https://github.com/YunYouJun/valaxy/blob/main/packages/create-valaxy/template/.github/workflows/gh-pages.yml) for the CI workflow of GitHub Actions.
 
