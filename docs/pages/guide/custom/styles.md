@@ -10,6 +10,8 @@ end: false
 
 ## Automatic Style Injection {lang="en"}
 
+> 仅首次新建 styles/index.scss 文件时，需要重启开发服务器，以确保 scss 被加载。
+
 :::zh-CN
 新建 `styles` 文件夹，目录下的以下文件将会被自动引入：
 
