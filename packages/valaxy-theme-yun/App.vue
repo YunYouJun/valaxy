@@ -17,6 +17,7 @@ const themeConfig = useThemeConfig()
 </script>
 
 <template>
+  <YunFireworks v-if="themeConfig.fireworks.enable" />
   <slot name="bg">
     <YunBg v-if="themeConfig.bg_image.enable" />
   </slot>

@@ -110,6 +110,20 @@ export interface ThemeConfig {
   }
 
   /**
+   * @en - Fireworks when click
+   * @zh - 点击时的烟花效果
+   */
+  fireworks: {
+    enable: boolean
+    /**
+     * @en - Fireworks colors
+     * @zh - 烟花颜色
+     * @default ['#66A7DD', '#3E83E1', '#214EC2']
+     */
+    colors?: string[]
+  }
+
+  /**
    * @en - Pages
    * @zh - 页面，显示在社交导航栏下方
    */
