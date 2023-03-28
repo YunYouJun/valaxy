@@ -109,7 +109,8 @@ export async function createMarkdownToVueRenderFn(
 ) {
   const md = await createMarkdownRenderer(options)
 
-  pages = pages.map(p => slash(p.replace(/\.md$/, '')))
+  // for dead link detection
+  pages = pages.map(p => slash(p.replace(/\.md$/, '')).replace(/\/index$/, ''))
 
   const replaceRegex = genReplaceRegexp(userDefines, isBuild)
 
@@ -192,13 +193,20 @@ export async function createMarkdownToVueRenderFn(
               ? url.slice(1)
               : path.relative(srcDir, path.resolve(dir, url)),
           ),
-        )
+        ).replace(/\/index$/, '')
+
         if (
-          !pages.includes(resolved)
-          && !fs.existsSync(path.resolve(dir, publicDir, `${resolved}.html`))
-          && !(resolved.endsWith('/') && (
-            pages.includes(resolved.slice(0, -1)) || pages.includes(`${resolved}index`)
-          ))
+          !(
+            resolved.endsWith('/')
+              ? (
+                  pages.includes(resolved.slice(0, -1))
+                )
+              : (
+                  pages.includes(resolved)
+              || fs.existsSync(path.resolve(dir, publicDir, `${resolved}.html`))
+              || fs.existsSync(path.resolve(dir, publicDir, `${resolved}/index.html`))
+                )
+          )
         )
           recordDeadLink(url)
       }

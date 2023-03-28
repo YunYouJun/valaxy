@@ -3,6 +3,7 @@ import { computed } from 'vue'
 import { useCategory, useFrontmatter, usePostTitle, useSiteStore } from 'valaxy'
 import { useI18n } from 'vue-i18n'
 import { useRoute } from 'vue-router'
+import { defineWebPage, useSchemaOrg } from '@vueuse/schema-org'
 
 const { t } = useI18n()
 
@@ -29,6 +30,12 @@ const posts = computed(() => {
 })
 
 const title = usePostTitle(frontmatter)
+
+useSchemaOrg([
+  defineWebPage({
+    '@type': 'CollectionPage',
+  }),
+])
 </script>
 
 <template>

@@ -1,4 +1,5 @@
 <script lang="ts" setup>
+import { defineWebPage, useSchemaOrg } from '@vueuse/schema-org'
 import { useFrontmatter, usePostTitle, useSiteStore } from 'valaxy'
 import { useI18n } from 'vue-i18n'
 
@@ -8,6 +9,12 @@ const frontmatter = useFrontmatter()
 
 const title = usePostTitle(frontmatter)
 const site = useSiteStore()
+
+useSchemaOrg([
+  defineWebPage({
+    '@type': 'CollectionPage',
+  }),
+])
 </script>
 
 <template>

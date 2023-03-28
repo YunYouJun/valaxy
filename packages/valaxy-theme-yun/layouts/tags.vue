@@ -3,7 +3,14 @@ import { useFrontmatter, useInvisibleElement, usePostTitle, useSiteStore, useTag
 import { useI18n } from 'vue-i18n'
 import { computed, ref } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
+import { defineWebPage, useSchemaOrg } from '@vueuse/schema-org'
 import { useThemeConfig } from '../composables'
+
+useSchemaOrg([
+  defineWebPage({
+    '@type': 'CollectionPage',
+  }),
+])
 
 const route = useRoute()
 const router = useRouter()

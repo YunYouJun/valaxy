@@ -130,11 +130,12 @@ importers:
       '@types/katex': ^0.16.0
       '@types/markdown-it': ^12.2.3
       '@types/nprogress': ^0.2.0
-      '@types/yargs': ^17.0.23
+      '@types/yargs': ^17.0.24
       '@vitejs/plugin-vue': ^4.1.0
       '@vueuse/core': ^9.13.0
       '@vueuse/head': ^1.1.23
       '@vueuse/integrations': ^9.13.0
+      '@vueuse/schema-org': ^2.1.2
       body-scroll-lock: 4.0.0-beta.0
       consola: ^2.15.3
       critters: ^0.0.16
@@ -194,6 +195,7 @@ importers:
       '@vueuse/core': 9.13.0_vue@3.2.47
       '@vueuse/head': 1.1.23_vue@3.2.47
       '@vueuse/integrations': 9.13.0_hzz2dxfa5xczya3cgo7rr32wcu
+      '@vueuse/schema-org': 2.1.2_aw3eexg7qncxvqmgho2eyf5gxi
       body-scroll-lock: 4.0.0-beta.0
       consola: 2.15.3
       critters: 0.0.16
@@ -252,7 +254,7 @@ importers:
       '@types/katex': 0.16.0
       '@types/markdown-it': 12.2.3
       '@types/nprogress': 0.2.0
-      '@types/yargs': 17.0.23
+      '@types/yargs': 17.0.24
       debug: 4.3.4
       diacritics: 1.3.0
       https-localhost: 4.7.1
@@ -1443,8 +1445,8 @@ packages:
     resolution: {integrity: sha512-iO9ZQHkZxHn4mSakYV0vFHAVDyEOIJQrV2uZ06HxEPcx+mt8swXoZHIbaaJ2crJYFfErySgktuTZ3BeLz+XmFA==}
     dev: true
 
-  /@types/yargs/17.0.23:
-    resolution: {integrity: sha512-yuogunc04OnzGQCrfHx+Kk883Q4X0aSwmYZhKjI21m+SVYzjIbrWl8dOOwSv5hf2Um2pdCOXWo9isteZTNXUZQ==}
+  /@types/yargs/17.0.24:
+    resolution: {integrity: sha512-6i0aC7jV6QzQB8ne1joVZ0eSFIstHsCrobmOtghM11yGlH0j43FKL2UhWdELkyps0zuf7qVTUVCCR+tgSlyLLw==}
     dependencies:
       '@types/yargs-parser': 21.0.0
     dev: true
@@ -1598,6 +1600,13 @@ packages:
     dependencies:
       '@unhead/schema': 1.1.23
       '@unhead/shared': 1.1.23
+    dev: false
+
+  /@unhead/schema-org-vue/0.5.0:
+    resolution: {integrity: sha512-UEB54jF2+HBoHKqyqdw7oNLqdhDfEX/FSImtPT3oTDTfGBWpc7RGUPe2RG/j4N78Kk3SsfnHxxJO0GKIGPJRwQ==}
+    engines: {node: '>=14.0.0'}
+    peerDependencies:
+      '@unhead/vue': '>=1.1.9'
     dev: false
 
   /@unhead/schema/1.0.16:
@@ -2056,6 +2065,20 @@ packages:
 
   /@vueuse/metadata/9.13.0:
     resolution: {integrity: sha512-gdU7TKNAUVlXXLbaF+ZCfte8BjRJQWPCa2J55+7/h+yDtzw3vOoGQDRXzI6pyKyo6bXFT5/QoPE4hAknExjRLQ==}
+    dev: false
+
+  /@vueuse/schema-org/2.1.2_aw3eexg7qncxvqmgho2eyf5gxi:
+    resolution: {integrity: sha512-ZaVZ6RCeG4nTCbpruDv6GEzKxE3BH/V+x3yOAcSlLzK3CSuqZQjF0EAgV0PrlNVemN+whSSRqBG9wiWp6AOtoQ==}
+    engines: {node: '>=14.0.0'}
+    peerDependencies:
+      '@vueuse/head': '>=1.0.21'
+      vue: '>=3.2.0'
+    dependencies:
+      '@unhead/schema-org-vue': 0.5.0
+      '@vueuse/head': 1.1.23_vue@3.2.47
+      vue: 3.2.47
+    transitivePeerDependencies:
+      - '@unhead/vue'
     dev: false
 
   /@vueuse/shared/9.13.0_vue@3.2.47:

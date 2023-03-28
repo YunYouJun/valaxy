@@ -2,6 +2,8 @@
 import { computed } from 'vue'
 import { useFrontmatter, useFullUrl, useSiteConfig } from 'valaxy'
 
+import { defineArticle, useSchemaOrg } from '@vueuse/schema-org'
+
 const siteConfig = useSiteConfig()
 const frontmatter = useFrontmatter()
 const url = useFullUrl()
@@ -12,6 +14,20 @@ const showSponsor = computed(() => {
 
   return siteConfig.value.sponsor.enable
 })
+
+useSchemaOrg(
+  defineArticle({
+    '@type': 'BlogPosting',
+    'headline': frontmatter.value.title,
+    'description': frontmatter.value.description,
+    'author': [
+      {
+        name: siteConfig.value.author.name,
+        url: siteConfig.value.author.link,
+      },
+    ],
+  }),
+)
 </script>
 
 <template>
