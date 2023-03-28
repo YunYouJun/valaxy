@@ -33,7 +33,7 @@ export const defaultThemeConfig: ThemeConfig = {
 
   fireworks: {
     enable: true,
-    colors: ['#66A7DD', '#3E83E1', '#214EC2'],
+    colors: [],
   },
 
   notice: {
