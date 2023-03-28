@@ -5,7 +5,7 @@
  * @author YunYouJun
  */
 
-import anime from 'animejs/lib/anime.es.js'
+import anime from 'animejs'
 import { TinyColor } from '@ctrl/tinycolor'
 
 interface MinMax {
