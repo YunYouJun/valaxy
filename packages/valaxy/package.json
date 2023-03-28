@@ -1,7 +1,7 @@
 {
   "name": "valaxy",
   "type": "module",
-  "version": "0.14.20",
+  "version": "0.14.21",
   "description": "📄 Vite & Vue powered static blog generator.",
   "author": {
     "email": "me@yunyoujun.cn",
