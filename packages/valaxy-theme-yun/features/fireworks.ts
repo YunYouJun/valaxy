@@ -40,10 +40,7 @@ export interface Particle extends Point {
  * @param config
  */
 export function createFireworks(config: Partial<FireworksConfig>) {
-  const defaultColors = ['#66A7DD', '#3E83E1', '#214EC2']
-
   const {
-    colors = defaultColors,
     selector = 'canvas.fireworks',
     // sky blue
     numberOfParticles = 20,
@@ -64,6 +61,10 @@ export function createFireworks(config: Partial<FireworksConfig>) {
       max: 1500,
     },
   } = config
+
+  const colors = (config.colors && config.colors.length > 0)
+    ? config.colors
+    : ['#66A7DD', '#3E83E1', '#214EC2']
 
   let pointerX = 0
   let pointerY = 0
