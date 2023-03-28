@@ -1,6 +1,6 @@
 {
   "name": "@valaxyjs/monorepo",
-  "version": "0.14.17",
+  "version": "0.14.18",
   "private": true,
   "packageManager": "pnpm@7.25.1",
   "description": "📄 Vite & Vue powered static blog generator.",
