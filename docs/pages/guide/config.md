@@ -94,7 +94,7 @@ import { defineSiteConfig } from 'valaxy'
 export default defineSiteConfig({
   lang: 'zh-CN',
   title: 'Valaxy Theme Yun',
-  url: 'https://valaxy.yyj.moe/',
+  url: 'https://valaxy.site/',
   author: {
     name: '云游君',
     avatar: 'https://www.yunyoujun.cn/images/avatar.jpg',
@@ -147,7 +147,7 @@ import { defineSiteConfig } from 'valaxy'
 export default defineSiteConfig({
   lang: 'zh-CN',
   title: 'Valaxy Theme Yun',
-  url: 'https://valaxy.yyj.moe/',
+  url: 'https://valaxy.site/',
   author: {
     name: 'Yunyoujun',
     avatar: 'https://www.yunyoujun.cn/images/avatar.jpg',

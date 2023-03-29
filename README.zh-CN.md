@@ -1,5 +1,5 @@
 <h1 align="center">
-<a href="https://valaxy.yyj.moe">Valaxy</a>
+<a href="https://valaxy.site">Valaxy</a>
 </h1>
 
 <p align="center">
@@ -54,7 +54,7 @@ pnpm create valaxy
 - 🖨 静态站点生成 (SSG) by [vite-ssg](https://github.com/antfu/vite-ssg) (支持单页面应用！)
 - 🕸 RSS & Sitemap
 - 🎨 尽情使用 Tailwind CSS by [UnoCSS](https://github.com/antfu/unocss)
-- 🌍 [在同一页面通过 CSS 的 i18n](https://valaxy.yyj.moe/posts/i18n)
+- 🌍 [在同一页面通过 CSS 的 i18n](https://valaxy.site/guide/i18n)
 - 🔍 [通过 class 从图标集中使用图标](https://github.com/antfu/unocss/tree/main/packages/preset-icons) - [Icônes](https://icones.netlify.app/)
 - 👔 扩展主题 with [Layout system](https://github.com/JohnCampionJr/vite-plugin-vue-layouts)
 - ⚙️ 单元测试 with [Vitest](https://github.com/vitest-dev/vitest) (Todo)

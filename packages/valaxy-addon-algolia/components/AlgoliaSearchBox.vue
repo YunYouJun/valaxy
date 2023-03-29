@@ -4,6 +4,7 @@ import docsearch from '@docsearch/js'
 import type { DocSearchHit } from '@docsearch/react/dist/esm/types'
 import { onMounted } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
+import { useI18n } from 'vue-i18n'
 import type { AlgoliaSearchOptions } from '../types'
 import { useAddonAlgoliaConfig } from '../client'
 
@@ -12,11 +13,34 @@ const route = useRoute()
 
 const algolia = useAddonAlgoliaConfig()
 
+const { locale } = useI18n()
+
 onMounted(() => {
-  const options = algolia.value.options
+  const options = {
+    ...algolia.value.options,
+    ...algolia.value.options?.locales?.[locale.value],
+  }
+
+  // now only lang:en
+  // const rawFacetFilters = options.searchParameters?.facetFilters ?? []
+  // const facetFilters = [
+  //   ...(Array.isArray(rawFacetFilters)
+  //     ? rawFacetFilters
+  //     : [rawFacetFilters]
+  //   ).filter(f => !f.startsWith('lang:')),
+  //   `lang:${locale.value}`,
+  // ]
+
   if (options && options.apiKey && options.appId && options.indexName) {
-    if (!document.querySelector('.DocSearch-Container'))
-      initialize(options)
+    if (!document.querySelector('.DocSearch-Container')) {
+      initialize({
+        ...options as AlgoliaSearchOptions,
+        searchParameters: {
+          ...options.searchParameters,
+          // facetFilters,
+        },
+      })
+    }
   }
 })
 

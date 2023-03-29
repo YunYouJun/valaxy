@@ -1,5 +1,5 @@
 <h1 align="center">
-<a href="https://valaxy.yyj.moe">Valaxy</a>
+<a href="https://valaxy.site">Valaxy</a>
 </h1>
 
 <p align="center">
@@ -54,7 +54,7 @@ For a example, you can see [demo/yun](./demo/yun/) folder.
 - 🖨 Static-site generation (SSG) via [vite-ssg](https://github.com/antfu/vite-ssg) (SPA is OK!)
 - 🕸 RSS & Sitemap
 - 🎨 Free to use Tailwind CSS via [UnoCSS](https://github.com/antfu/unocss)
-- 🌍 [CSS i18n in One Page](https://valaxy.yyj.moe/posts/i18n)
+- 🌍 [CSS i18n in One Page](https://valaxy.site/guide/i18n)
 - 🔍 [Use icons from any icon sets with classes](https://github.com/antfu/unocss/tree/main/packages/preset-icons) - [Icônes](https://icones.netlify.app/)
 - 👔 Extended Theme with [Layout system](https://github.com/JohnCampionJr/vite-plugin-vue-layouts)
 - ⚙️ Unit Testing with [Vitest](https://github.com/vitest-dev/vitest) (Todo)
