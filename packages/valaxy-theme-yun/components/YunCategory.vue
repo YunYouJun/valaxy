@@ -28,7 +28,7 @@ const { t } = useI18n()
  * i18n
  */
 const { locale } = useI18n()
-const getTitle = (post: Post | any) => {
+function getTitle(post: Post | any) {
   const lang = locale.value === 'zh-CN' ? 'zh' : locale.value
   return post[`title_${lang}`] ? post[`title_${lang}`] : post.title
 }
@@ -39,7 +39,7 @@ const { show } = useInvisibleElement(postCollapseElRef)
  * scroll to post collapse by category
  * @param category
  */
-const jumpToDisplayCategory = (category: string) => {
+function jumpToDisplayCategory(category: string) {
   router.push({
     query: {
       category,

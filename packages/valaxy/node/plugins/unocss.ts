@@ -15,7 +15,7 @@ import {
 import type { ResolvedValaxyOptions } from '../options'
 import { loadSetups } from './setupNode'
 
-export const createSafelist = async (options: ResolvedValaxyOptions) => {
+export async function createSafelist(options: ResolvedValaxyOptions) {
   const { config } = options
   const safeIcons: string[] = [
     'i-ri-clipboard-line',
@@ -45,7 +45,7 @@ export const createSafelist = async (options: ResolvedValaxyOptions) => {
   return safelist
 }
 
-export const createUnocssConfig = async (options: ResolvedValaxyOptions) => {
+export async function createUnocssConfig(options: ResolvedValaxyOptions) {
   const { config: pluginOptions } = options
 
   const unocssConfig: VitePluginConfig = {
@@ -97,7 +97,7 @@ export const createUnocssConfig = async (options: ResolvedValaxyOptions) => {
   return unocssConfig
 }
 
-export const createUnocssPlugin = async (options: ResolvedValaxyOptions) => {
+export async function createUnocssPlugin(options: ResolvedValaxyOptions) {
   const UnoCSS = await import('unocss/vite').then(r => r.default)
   const { unocss: unoOptions } = options.config
   const defaultConfig = await createUnocssConfig(options)

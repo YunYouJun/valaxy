@@ -22,7 +22,9 @@ export type Category = CategoryList
 export type Categories = (Post | CategoryList)[]
 
 // todo write unit test
-export const isCategoryList = (category: any): category is CategoryList => category.children
+export function isCategoryList(category: any): category is CategoryList {
+  return category.children
+}
 
 /**
  * get categories from posts

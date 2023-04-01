@@ -10,7 +10,7 @@ const isFuse = computed(() => siteConfig.value.search.type === 'fuse')
 
 const open = ref(false)
 
-const togglePopup = () => {
+function togglePopup() {
   open.value = !open.value
 }
 

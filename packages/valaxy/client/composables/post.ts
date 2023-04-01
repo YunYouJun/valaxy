@@ -6,7 +6,7 @@ import type { Post } from 'valaxy'
 import { sortByDate } from '../utils'
 import { useSiteStore } from '../stores'
 
-export const usePostTitle = (post: ComputedRef<Post>) => {
+export function usePostTitle(post: ComputedRef<Post>) {
   const { locale } = useI18n()
   return computed(() => {
     const lang = locale.value === 'zh-CN' ? 'zh' : locale.value

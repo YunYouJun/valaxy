@@ -24,7 +24,7 @@ const nanoid = customAlphabet('abcdefghijklmnopqrstuvwxyz', 10)
  * 2. convert line numbers into line options:
  *    [{ line: number, classes: string[] }]
  */
-const attrsToLines = (attrs: string): HtmlRendererOptions['lineOptions'] => {
+function attrsToLines(attrs: string): HtmlRendererOptions['lineOptions'] {
   attrs = attrs.replace(/^(?:\[.*?\])?.*?([\d,-]+).*/, '$1').trim()
   const result: number[] = []
   if (!attrs)

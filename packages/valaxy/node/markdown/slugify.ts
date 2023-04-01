@@ -5,7 +5,7 @@ const rControl = /[\u0000-\u001F]/g
 // add '…'
 const rSpecial = /[\s~`!@#$%^&*()\-_+=[\]{}|\\;:"'<>,.…?/]+/g
 
-export const slugify = (str: string): string => {
+export function slugify(str: string): string {
   return (
     removeDiacritics(str)
       // Remove control characters

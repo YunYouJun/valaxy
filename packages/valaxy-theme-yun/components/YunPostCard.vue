@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import { useI18n } from 'vue-i18n'
 import type { Post } from 'valaxy'
-import { StyleValue } from 'vue'
+import type { StyleValue } from 'vue'
 import { usePostProperty } from '../composables'
 
 const props = defineProps<{

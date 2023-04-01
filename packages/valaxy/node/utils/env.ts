@@ -1,10 +1,14 @@
 import { logger } from '../logger'
 
-export const isProd = () => process.env.NODE_ENV === 'production'
+export function isProd() {
+  return process.env.NODE_ENV === 'production'
+}
 
-export const setEnv = (env = 'development') => {
+export function setEnv(env = 'development') {
   process.env.NODE_ENV = env
   logger.level = isProd() ? 2 : 3
 }
 
-export const setEnvProd = () => setEnv('production')
+export function setEnvProd() {
+  return setEnv('production')
+}

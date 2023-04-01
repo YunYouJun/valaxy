@@ -1,4 +1,4 @@
-export const getEmojis = (cdn = '//unpkg.com/') => {
+export function getEmojis(cdn = '//unpkg.com/') {
   return [
     `${cdn}@waline/emojis/bilibili/`,
     `${cdn}@waline/emojis/qq/`,

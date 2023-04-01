@@ -3,7 +3,7 @@ import { useI18n } from 'vue-i18n'
 import dayjs from 'dayjs'
 import 'dayjs/locale/zh-cn'
 
-export const useLocale = () => {
+export function useLocale() {
   const { availableLocales, locale } = useI18n()
   const lang = useStorage('valaxy-locale', locale.value)
   dayjs.locale(lang.value.toLowerCase())

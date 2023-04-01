@@ -4,7 +4,7 @@ import { resolveOptions } from '../../options'
 import { exists } from './fs'
 import { userRoot } from './constants'
 
-export const getTemplate = async (layout: string): Promise<string | false> => {
+export async function getTemplate(layout: string): Promise<string | false> {
   const { clientRoot, themeRoot } = await resolveOptions({ userRoot })
   const roots = [userRoot, themeRoot, clientRoot]
 

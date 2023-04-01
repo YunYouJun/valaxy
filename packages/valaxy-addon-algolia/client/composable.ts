@@ -4,7 +4,7 @@ import { useSiteConfig } from 'valaxy'
 /**
  * init algolia watch
  */
-export const useAddonAlgolia = () => {
+export function useAddonAlgolia() {
   const siteConfig = useSiteConfig()
   const isAlgolia = computed(() => siteConfig.value.search.type === 'algolia')
   const metaKey = ref('\'Meta\'')

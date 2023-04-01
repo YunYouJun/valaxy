@@ -69,7 +69,7 @@ export async function ssgBuild(
  * todo find why
  * @param options
  */
-export const postProcessForSSG = async (options: ResolvedValaxyOptions) => {
+export async function postProcessForSSG(options: ResolvedValaxyOptions) {
   const { userRoot } = options
   const indexPath = resolve(userRoot, 'dist/index.html')
   if (fs.existsSync(indexPath)) {

@@ -3,7 +3,7 @@ import type MarkdownIt from 'markdown-it'
 
 const wrapperRE = /^<pre .*?><code>/
 
-export const highlightLinePlugin = (md: MarkdownIt) => {
+export function highlightLinePlugin(md: MarkdownIt) {
   const fence = md.renderer.rules.fence!
   md.renderer.rules.fence = (...args) => {
     const [tokens, idx, options] = args
@@ -59,7 +59,7 @@ export const highlightLinePlugin = (md: MarkdownIt) => {
 //   2. <!--afterbegin-->
 //   3. <!--beforeend-->
 //   4. <!--afterend-->
-export const preWrapperPlugin = (md: MarkdownIt) => {
+export function preWrapperPlugin(md: MarkdownIt) {
   const fence = md.renderer.rules.fence!
   md.renderer.rules.fence = (...args) => {
     const [tokens, idx] = args
@@ -71,7 +71,7 @@ export const preWrapperPlugin = (md: MarkdownIt) => {
 
 // markdown-it plugin for generating line numbers.
 // It depends on preWrapper plugin.
-export const lineNumberPlugin = (md: MarkdownIt) => {
+export function lineNumberPlugin(md: MarkdownIt) {
   const fence = md.renderer.rules.fence!
   md.renderer.rules.fence = (...args) => {
     const rawCode = fence(...args)

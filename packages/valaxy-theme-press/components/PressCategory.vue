@@ -21,7 +21,7 @@ const props = withDefaults(defineProps<{
 const collapsable = ref(props.collapsable)
 const { t, locale } = useI18n()
 
-const getTitle = (post: Post | any) => {
+function getTitle(post: Post | any) {
   const lang = locale.value
   return post[`title_${lang}`] ? post[`title_${lang}`] : post.title
 }

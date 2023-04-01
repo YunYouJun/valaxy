@@ -5,7 +5,7 @@ import { useI18n } from 'vue-i18n'
 const router = useRouter()
 const { t } = useI18n()
 
-const back = () => {
+function back() {
   if (document.referrer)
     router.back()
   else

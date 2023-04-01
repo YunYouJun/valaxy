@@ -16,7 +16,7 @@ const passSecond = ref(0)
 /**
  * get live time
  */
-const siteLiveTime = () => {
+function siteLiveTime() {
   const start = new Date(props.startTime)
   const now = new Date()
   const timeDiff = (now.getTime() - start.getTime())

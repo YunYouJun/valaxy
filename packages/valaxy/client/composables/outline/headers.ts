@@ -66,7 +66,7 @@ function addToParent(
  * export headers & handleClick to generate outline
  * @returns
  */
-export const useOutline = () => {
+export function useOutline() {
   const frontmatter = useFrontmatter()
   const themeConfig = useThemeConfig()
   const headers = ref<MenuItem[]>([])

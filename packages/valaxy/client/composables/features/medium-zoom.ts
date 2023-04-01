@@ -5,7 +5,7 @@ import { onMounted } from 'vue'
 /**
  * @description image preview by medium-zoom
  */
-export const useMediumZoom = () => {
+export function useMediumZoom() {
   const siteConfig = useSiteConfig()
   const mediumZoomConfig = siteConfig.value.mediumZoom
 

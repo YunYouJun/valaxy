@@ -8,7 +8,7 @@ export type ReadTimeOptions = SiteConfig['statistics']['readTime']
 /**
  * count characters
  */
-export const count = (content: string): CountData => {
+export function count(content: string): CountData {
   const cn = (content.match(/[\u4E00-\u9FA5]/g) || []).length
   const en = (content.replace(/[\u4E00-\u9FA5]/g, '').match(/[a-zA-Z0-9_\u0392-\u03C9\u0400-\u04FF]+|[\u4E00-\u9FFF\u3400-\u4DBF\uF900-\uFAFF\u3040-\u309F\uAC00-\uD7AF\u0400-\u04FF]+|[\u00E4\u00C4\u00E5\u00C5\u00F6\u00D6]+|\w+/g) || []).length
   return {
@@ -23,9 +23,8 @@ export const count = (content: string): CountData => {
  * @param param1
  * @returns read time (minute)
  */
-export const readTime = (
-  { cn, en }: CountData,
-  options: ReadTimeOptions) => {
+export function readTime({ cn, en }: CountData,
+  options: ReadTimeOptions) {
   const readingTime = cn / (options.speed.cn || 300) + en / (options.speed.en || 100)
   return readingTime < 1 ? 1 : Math.ceil(readingTime)
 }
@@ -35,7 +34,7 @@ export const readTime = (
  * @param content
  * @returns
  */
-export const wordCount = ({ cn, en }: CountData) => {
+export function wordCount({ cn, en }: CountData) {
   const num = cn + en
   if (num < 1000)
     return num
@@ -43,9 +42,9 @@ export const wordCount = ({ cn, en }: CountData) => {
   return `${Math.round(num / 100) / 10}k`
 }
 
-export const statistics = (content: string, options: {
+export function statistics(content: string, options: {
   readTime: ReadTimeOptions
-}) => {
+}) {
   const countData = count(content)
   return {
     countData,
@@ -55,13 +54,13 @@ export const statistics = (content: string, options: {
 }
 
 // preset addon for statistics
-export const presetStatistics = ({
+export function presetStatistics({
   route,
   options,
 }: {
   route: Parameters<Required<ValaxyExtendConfig>['extendMd']>[0]['route']
   options: SiteConfig['statistics']
-}) => {
+}) {
   if (existsSync(route.component)) {
     const file = readFileSync(route.component, 'utf-8')
     const { wordCount, readingTime } = statistics(file, {

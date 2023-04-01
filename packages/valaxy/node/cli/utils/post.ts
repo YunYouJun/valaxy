@@ -16,7 +16,7 @@ export interface CreatePostParams {
 
 const pagesPath = resolve(userRoot, 'pages')
 
-export const create = async (data: CreatePostParams) => {
+export async function create(data: CreatePostParams) {
   const {
     path,
     title,

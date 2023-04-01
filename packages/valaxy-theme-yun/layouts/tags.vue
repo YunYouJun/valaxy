@@ -42,7 +42,7 @@ const posts = computed(() => {
 const collapse = ref()
 const { show } = useInvisibleElement(collapse)
 
-const displayTag = (tag: string) => {
+function displayTag(tag: string) {
   router.push({
     query: {
       tag,

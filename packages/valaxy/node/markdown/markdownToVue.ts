@@ -57,11 +57,9 @@ export interface MarkdownCompileResult {
   includes: string[]
 }
 
-const inferTitle = (
-  md: MarkdownRenderer,
+function inferTitle(md: MarkdownRenderer,
   frontmatter: Record<string, any>,
-  title: string,
-) => {
+  title: string) {
   if (typeof frontmatter.title === 'string') {
     const titleToken = md.parseInline(frontmatter.title, {})[0]
     if (titleToken) {
@@ -74,10 +72,8 @@ const inferTitle = (
   return title
 }
 
-const getHeadMetaContent = (
-  head: HeadConfig[],
-  name: string,
-): string | undefined => {
+function getHeadMetaContent(head: HeadConfig[],
+  name: string): string | undefined {
   if (!head || !head.length)
     return undefined
 
@@ -88,7 +84,7 @@ const getHeadMetaContent = (
   return meta && meta[1].content
 }
 
-const inferDescription = (frontmatter: Record<string, any>) => {
+function inferDescription(frontmatter: Record<string, any>) {
   const { description, head } = frontmatter
 
   if (description !== undefined)

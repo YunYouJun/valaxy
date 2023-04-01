@@ -54,7 +54,7 @@ export async function generateFuseList(options: ResolvedValaxyOptions) {
  * valaxy fuse
  * @param cli
  */
-export const registerFuseCommand = (cli: Argv<{}>) => {
+export function registerFuseCommand(cli: Argv<{}>) {
   cli.command(
     'fuse [root]',
     'generate fuse list for search',

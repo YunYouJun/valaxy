@@ -148,9 +148,7 @@ export async function setupMarkdownPlugins(
   return md as MarkdownRenderer
 }
 
-export const createMarkdownRenderer = async (
-  mdOptions: MarkdownOptions = {},
-): Promise<MarkdownRenderer> => {
+export async function createMarkdownRenderer(mdOptions: MarkdownOptions = {}): Promise<MarkdownRenderer> {
   const md = MarkdownIt({
     html: true,
     linkify: true,

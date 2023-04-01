@@ -11,11 +11,9 @@ import type { MarkdownEnv } from '../env'
 
 const indexRE = /(^|.*\/)index.md(#?.*)$/i
 
-export const linkPlugin = (
-  md: MarkdownIt,
+export function linkPlugin(md: MarkdownIt,
   externalAttrs: Record<string, string>,
-  base: string,
-) => {
+  base: string) {
   md.renderer.rules.link_open = (
     tokens,
     idx,

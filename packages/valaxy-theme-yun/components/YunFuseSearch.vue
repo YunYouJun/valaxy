@@ -62,7 +62,7 @@ watch(() => props.open, async () => {
 })
 
 const router = useRouter()
-const jumpToLink = (link: string) => {
+function jumpToLink(link: string) {
   router.push(link)
   emit('close')
 }

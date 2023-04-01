@@ -100,7 +100,7 @@ const defaultBlocksOptions: Blocks = {
   },
 }
 
-export const containerPlugin = (md: MarkdownIt, options: Blocks = {}) => {
+export function containerPlugin(md: MarkdownIt, options: Blocks = {}) {
   Object.keys(defaultBlocksOptions).forEach((optionKey) => {
     const option: BlockItem = {
       ...defaultBlocksOptions[optionKey as keyof Blocks],

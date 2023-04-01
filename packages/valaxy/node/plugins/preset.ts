@@ -33,7 +33,7 @@ const mdIt = new MarkdownIt({ html: true })
  * @param type
  * @returns
  */
-const getExcerptByType = (excerpt = '', type: 'md' | 'html' | 'text' = 'html') => {
+function getExcerptByType(excerpt = '', type: 'md' | 'html' | 'text' = 'html') {
   switch (type) {
     case 'md':
       return excerpt

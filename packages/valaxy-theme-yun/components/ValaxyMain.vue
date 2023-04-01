@@ -1,7 +1,8 @@
 <script lang="ts" setup>
 import type { PageData, Post } from 'valaxy'
 import { usePostTitle, useSiteConfig } from 'valaxy'
-import { StyleValue, computed } from 'vue'
+import type { StyleValue } from 'vue'
+import { computed } from 'vue'
 import { usePostProperty } from '../composables'
 
 const props = defineProps<{
