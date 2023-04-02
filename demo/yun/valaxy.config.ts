@@ -6,6 +6,7 @@ import { addonAlgolia } from 'valaxy-addon-algolia'
 // import { addonTwikoo } from 'valaxy-addon-twikoo'
 import { addonWaline } from 'valaxy-addon-waline'
 import { addonComponents } from 'valaxy-addon-components'
+import { addonLightGallery } from 'valaxy-addon-lightgallery'
 
 const safelist = [
   'i-ri-home-line',
@@ -104,6 +105,7 @@ export default defineValaxyConfig<ThemeConfig>({
       pageview: true,
       comment: true,
     }),
+    addonLightGallery(),
     // addonTwikoo({
     //   envId: 'https://twikoo.vercel.app',
     // }),

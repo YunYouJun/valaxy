@@ -16,7 +16,6 @@ end: false
 - [ ] Debug component.
 - [x] local search
 - [ ] algolia search for valaxy-theme-press
-- [ ] Image preview by [lightGallery](https://www.lightgalleryjs.com/docs/vue/)
 
 ## Dev
 

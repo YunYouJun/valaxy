@@ -1,0 +1,15 @@
+{
+  "name": "valaxy-addon-lightgallery",
+  "version": "0.0.1",
+  "description": "Light Gallery for Valaxy",
+  "repository": "https://github.com/YunYouJun/valaxy/tree/main/packages/valaxy-addon-lightgallery",
+  "keywords": [
+    "valaxy",
+    "addon",
+    "lightgallery"
+  ],
+  "main": "index.ts",
+  "dependencies": {
+    "lightgallery": "^2.7.1"
+  }
+}

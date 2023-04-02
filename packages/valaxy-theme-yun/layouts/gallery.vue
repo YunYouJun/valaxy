@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import { defineWebPage, useSchemaOrg } from '@vueuse/schema-org'
-import { useFrontmatter, usePostTitle } from 'valaxy'
-import { computed } from 'vue'
+import { useFrontmatter, usePostTitle, useRuntimeConfig } from 'valaxy'
+import { computed, defineAsyncComponent } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { useRouter } from 'vue-router'
 
@@ -20,6 +20,12 @@ useSchemaOrg([
 ])
 
 const photos = computed(() => frontmatter.value.photos || [])
+
+const runtimeConfig = useRuntimeConfig()
+
+const YunGallery = runtimeConfig.value.addons['valaxy-addon-lightgallery']
+  ? defineAsyncComponent(() => import('../components/YunGallery.vue'))
+  : () => null
 </script>
 
 <template>

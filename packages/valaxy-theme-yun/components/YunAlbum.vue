@@ -8,7 +8,7 @@ defineProps<{
 </script>
 
 <template>
-  <a class="yun-album-list-item" :href="album.url">
+  <AppLink class="yun-album-list-item" :to="album.url">
     <figure :title="album.desc">
       <img
         loading="lazy"
@@ -21,5 +21,5 @@ defineProps<{
         「{{ album.caption }}」
       </figcaption>
     </figure>
-  </a>
+  </AppLink>
 </template>
