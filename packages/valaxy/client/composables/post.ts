@@ -46,10 +46,13 @@ export function usePostList(params: {
   const pageList = usePageList()
   return computed(() => {
     const routes = pageList.value
-      .filter(i => i.path?.startsWith('/posts'))
-      .filter(i => !i.path?.endsWith('.html'))
-      .filter(i => i.date)
-      .filter(i => !params.type || i.type === params.type)
+      .filter(i =>
+        i.path?.startsWith('/posts')
+        && !i.path?.endsWith('.html')
+        && i.date
+        && (!params.type || i.type === params.type)
+        && (!i.hide || i.hide === 'index'), // hide `hide: all` posts
+      )
 
     /**
      * 置顶
