@@ -20,7 +20,7 @@ $border: map.merge(
 $font: () !default;
 $font: map.merge(
   (
-    "serif": "'Noto Serif SC', STZhongsong, Roboto, serif",
+    "serif": "'Noto Serif SC', STZhongsong, STKaiti, KaiTi, Roboto, serif",
     "sans":
       'Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif',
     "mono": 'Menlo, Monaco, Consolas, "Courier New", monospace',

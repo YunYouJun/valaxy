@@ -143,7 +143,7 @@ export interface ThemeConfig {
     /**
      * Icon between year and copyright info.
      */
-    icon: {
+    icon: Partial<{
       /**
        * icon name, i-xxx
        */
@@ -153,7 +153,7 @@ export interface ThemeConfig {
       color: string
       url: string
       title: string
-    }
+    }>
 
     /**
      * Powered by valaxy & valaxy-theme-${name}, default is yun

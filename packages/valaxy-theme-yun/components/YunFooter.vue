@@ -40,7 +40,12 @@ const footerIcon = computed(() => themeConfig.value.footer.icon || {
         {{ year }}
       </span>
 
-      <a v-if="themeConfig.footer.icon?.enable" class="inline-flex animate-pulse" :href="footerIcon.url" target="_blank" :title="footerIcon.title">
+      <a
+        v-if="themeConfig.footer.icon?.enable"
+        class="inline-flex"
+        :class="themeConfig.footer.icon.animated ? 'animate-pulse' : ''"
+        :href="footerIcon.url" target="_blank" :title="footerIcon.title"
+      >
         <div :class="footerIcon.name" />
       </a>
       <span>{{ siteConfig.author.name }}</span>

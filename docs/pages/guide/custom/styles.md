@@ -62,7 +62,7 @@ For example, you can override the default font in 'styles/css-vars.scss'.
 
 ```scss
 :root {
-  --va-font-serif: 'Noto Serif SC', STZhongsong, STKaiti, KaiTi, Roboto, serif;
+  --va-font-serif: 'Noto Serif SC', STZhongsong, STKaiti, KaiTi, Roboto,  serif;
   --va-font-sans: Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif;
   --va-font-mono: Menlo, Monaco, Consolas, "Courier New", monospace;
 }

@@ -53,6 +53,9 @@ export default defineValaxyConfig<ThemeConfig>({
         enable: true,
         icp: '苏ICP备17038157号',
       },
+      icon: {
+        animated: true,
+      },
     },
   },
 
