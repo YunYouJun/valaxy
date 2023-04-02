@@ -16,6 +16,7 @@ title:
   category: Category
   tag: Tag
   album: Album
+  gallery: Gallery
 
 menu:
   home: Home
@@ -66,14 +67,8 @@ counter:
   archives: No posts | 1 post | {count} posts
   categories: No categories | 1 category | {count} categories
   tags: No tags | 1 tag | {count} tags
-  albums:
-    zero: No album
-    one: 1 album
-    other: '%d albums'
-  photos:
-    zero: No photo
-    one: 1 photo
-    other: '%d photos'
+  albums: No album | 1 album | {count} albums
+  photos: No photo | 1 photo | {count} photos
 
 category:
   uncategorized: Uncategorized

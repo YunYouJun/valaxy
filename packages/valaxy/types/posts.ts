@@ -1,3 +1,29 @@
+export interface Album {
+  /**
+   * @description:en-US Album Link
+   */
+  url: string
+  /**
+   * @description:en-US Album cover
+   * url
+   */
+  cover: string
+  /**
+   * @description:en-US Album caption
+   */
+  caption: string
+  /**
+   * @description:en-US Album description
+   */
+  desc: string
+}
+
+export interface Photo {
+  src: string
+  caption: string
+  desc: string
+}
+
 export interface PageFrontMatter extends Record<string, any> {
   /**
    * Path of post
@@ -101,6 +127,18 @@ export interface PageFrontMatter extends Record<string, any> {
    * @url https://github.com/francoischalifour/medium-zoom
    */
   medium_zoom: boolean
+
+  /**
+   * @description:en-US Albums
+   * @description:zh-CN 相册
+   */
+  albums: Album[]
+
+  /**
+   * For layout Gallery
+   * @description:en-US Photos
+   */
+  photos: Photo[]
 }
 
 export interface PostFrontMatter extends PageFrontMatter {

@@ -20,6 +20,7 @@
     "@iconify-json/ant-design": "^1.1.5",
     "@iconify-json/simple-icons": "^1.1.47",
     "animejs": "^3.2.1",
+    "lightgallery": "^2.7.1",
     "valaxy-addon-waline": "workspace:*"
   },
   "devDependencies": {

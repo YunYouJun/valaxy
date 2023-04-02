@@ -25,7 +25,12 @@ const aside = computed(() => props.frontmatter.aside !== false)
         <div class="content" :class="!aside && 'no-aside'" flex="~ col grow" w="full" p="l-4 lt-md:0">
           <YunCard :cover="frontmatter.cover" m="0" class="relative" :style="styles as StyleValue">
             <slot name="main-header">
-              <YunPageHeader :title="title" :icon="frontmatter.icon || icon" :color="frontmatter.color || color" :cover="frontmatter.cover" />
+              <YunPageHeader
+                class="mb-2"
+                :title="title"
+                :icon="frontmatter.icon || icon" :color="frontmatter.color || color"
+                :cover="frontmatter.cover"
+              />
             </slot>
             <slot name="main-header-after" />
 
