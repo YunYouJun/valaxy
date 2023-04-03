@@ -29,6 +29,7 @@ Valaxy 主题无需预编译，直接发布源文件即可。
 ```ts
 // valaxy.config.ts
 import { defineTheme } from 'valaxy'
+
 export default defineTheme({
   pages: {
     extendRoute(route, parent) {
@@ -121,6 +122,7 @@ Markdown 样式是主题呈现文章样式的部分，需要由主题自定义�
 ```vue
 <script setup lang="ts">
 import { useOutline } from 'valaxy'
+
 const { headers, handleClick } = useOutline()
 </script>
 

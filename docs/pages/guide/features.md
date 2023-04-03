@@ -316,6 +316,7 @@ Katex is enabled by default.
 ```ts
 // valaxy.config.ts
 import { defineValaxyConfig } from 'valaxy'
+
 export default defineValaxyConfig({
   features: {
     // disable katex

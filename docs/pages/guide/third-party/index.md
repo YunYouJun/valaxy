@@ -35,6 +35,7 @@ Valaxy has built-in local search based on [fuse.js](https://fusejs.io/). The loc
 ```ts
 // site.config.ts
 import { defineSiteConfig } from 'valaxy'
+
 export default defineSiteConfig({
   search: {
     enable: true,
@@ -51,6 +52,7 @@ export default defineSiteConfig({
 ```ts
 // site.config.ts
 import { defineSiteConfig } from 'valaxy'
+
 export default defineSiteConfig({
   search: {
     enable: true,

@@ -1,5 +1,6 @@
 <script lang="ts" setup>
 import { usePrevNext } from 'valaxy'
+
 const [prev, next] = usePrevNext()
 </script>
 

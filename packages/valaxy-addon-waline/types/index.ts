@@ -1,4 +1,5 @@
 import type { WalineInitOptions } from '@waline/client'
+
 export interface WalineCustomOptions {
   /**
    * emoji cdn

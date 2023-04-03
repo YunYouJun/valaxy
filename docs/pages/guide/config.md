@@ -235,6 +235,7 @@ Example:
 ```ts
 // site.config.ts
 import { defineSiteConfig } from 'valaxy'
+
 export default defineSiteConfig({
   social: [
     {
@@ -269,6 +270,7 @@ export default defineSiteConfig({
 ```ts
 // site.config.ts
 import { defineSiteConfig } from 'valaxy'
+
 export default defineSiteConfig({
   sponsor: {
     enable: true,
@@ -299,6 +301,7 @@ export default defineSiteConfig({
 ```ts
 // site.config.ts
 import { defineSiteConfig } from 'valaxy'
+
 export default defineSiteConfig({
   sponsor: {
     enable: true,
@@ -364,6 +367,7 @@ sponsor: false
 ```ts
 // site.config.ts
 import { defineSiteConfig } from 'valaxy'
+
 export default defineSiteConfig({
   /**
    * 开启阅读统计

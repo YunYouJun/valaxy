@@ -7,6 +7,7 @@ import type { Post } from 'valaxy'
 
 import dayjs from 'dayjs'
 import relativeTime from 'dayjs/plugin/relativeTime'
+
 const props = defineProps<{
   frontmatter: Post
   excerpt?: string
