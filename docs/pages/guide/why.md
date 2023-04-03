@@ -59,11 +59,7 @@ I will compare Valaxy with the existing Hexo (popular static blog framework) and
 import type { UserConfig } from 'valaxy'
 import type { UserThemeConfig } from 'valaxy-theme-yun'
 
-/**
- * User Config
- * do not use export const, because c12 will set as child property
- */
-const config: UserConfig<UserThemeConfig> = {
+export default defineValaxyConfig<ThemeConfig>({
   theme: 'yun',
 
   themeConfig: {
@@ -72,9 +68,7 @@ const config: UserConfig<UserThemeConfig> = {
       title: '云游君的小站',
     },
   },
-}
-
-export default config
+})
 ```
 
 ::: zh-CN

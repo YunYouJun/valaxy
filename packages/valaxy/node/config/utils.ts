@@ -11,7 +11,7 @@ export async function loadConfigFromFile<T>(
   file: string,
   options: LoadConfigFromFileOptions = {},
 ) {
-  const { config: userValaxyConfig, sources } = await await loadConfig<T>({
+  const { config: userValaxyConfig, sources } = await loadConfig<T>({
     sources: { files: file, rewrite: options.rewrite },
     cwd: options.cwd || process.cwd(),
   })

@@ -30,7 +30,7 @@ More info see [valaxy.site](https://valaxy.site).
  * User Config
  * do not use export const, because c12 will set as child property
  */
-const config: UserConfig<UserThemeConfig> = {
+export default defineValaxyConfig<ThemeConfig>({
   theme: 'yun',
 
   themeConfig: {
@@ -39,7 +39,5 @@ const config: UserConfig<UserThemeConfig> = {
       title: '云游君的小站',
     },
   },
-}
-
-export default config
+})
 ```

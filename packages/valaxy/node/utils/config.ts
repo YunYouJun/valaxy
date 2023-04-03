@@ -1,3 +1,5 @@
+import { existsSync } from 'node:fs'
+import { resolve } from 'node:path'
 import { mergeConfig as mergeViteConfig } from 'vite'
 import { createDefu } from 'defu'
 import { isFunction } from '@antfu/utils'
@@ -66,14 +68,21 @@ export async function resolveValaxyConfig(options: ValaxyEntryOptions) {
 export async function resolveAddonConfig(addons: ValaxyAddonResolver[], options?: ResolvedValaxyOptions) {
   let valaxyConfig: ValaxyNodeConfig = {} as ValaxyNodeConfig
   for (const addon of addons) {
-    const { config, configFile } = await loadConfigFromFile<ValaxyNodeConfig>('valaxy.config', {
+    // unconfig get node_modules/valaxy-addon-xxx/valaxy.config.ts(not exist) but get userRoot/valaxy.config.ts
+    // so we need to check if valaxy.config.ts exist
+    if (!existsSync(resolve(addon.root, 'valaxy.config.ts')))
+      continue
+
+    const { config, configFile } = await loadConfigFromFile('valaxy.config', {
       rewrite<F = ValaxyNodeConfig | ValaxyAddonFn>(obj: F, _filepath: string) {
         return (typeof obj === 'function' ? obj(addon, options!) : obj)
       },
       cwd: addon.root,
     })
+
     if (!config)
       continue
+
     addon.configFile = configFile
     valaxyConfig = mergeValaxyConfig(config, valaxyConfig)
   }
