@@ -5,6 +5,8 @@ categories:
   - Guide
 ---
 
+> [Post VS Page](https://wordpress.com/zh-cn/support/post-vs-page/)
+
 ## FrontMatter
 
 ::: zh-CN
