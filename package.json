@@ -70,7 +70,7 @@
     "valaxy-addon-waline": "workspace:*",
     "valaxy-theme-press": "workspace:*",
     "valaxy-theme-yun": "workspace:*",
-    "vitest": "^0.29.8",
+    "vitest": "^0.30.0",
     "vue-tsc": "1.2.0",
     "zx": "^7.2.1"
   },

@@ -313,6 +313,7 @@ In most cases, you only need to work in the `pages` folder.
 ::: zh-CN
 
 - `.vscode`: 推荐安装一些有用的 VSCode 插件，这样你可以直接预览一些图标、国际化、辅助的 CSS Class 等
+  - 你可以在 VSCode 插件商店中找到 [`Valaxy` 插件](https://marketplace.visualstudio.com/items?itemName=yunyoujun.valaxy)，它提供了文章列表预览/切换/删除等功能，让你尽可能地可以在 VSCode 中完成所有操作。
 - `.github`: 使用 GitHub Actions 自动构建并部署到 GitHub Pages
 - `netlify.toml`: [Netlify](https://www.netlify.com/) 自动配置
 - `vercel.json`: [Vercel](https://vercel.com/) 重定向配置
@@ -330,7 +331,7 @@ If you want to develop a theme and released, you can refer to [valaxy-theme-star
 ::: zh-CN
 如果您希望自己开发一个主题并发布，您可以参考 [valaxy-theme-starter](https://github.com/YunYouJun/valaxy-theme-starter)。
 
-更多内容请参见 [如何编写一个 Valaxy 主题](/themes/write).
+更多内容请参见 [如何编写一个 Valaxy 主题](/themes/write)。
 :::
 
 ## Community {lang="en"}
