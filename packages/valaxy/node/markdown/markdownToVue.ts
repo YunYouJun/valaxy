@@ -2,7 +2,7 @@
 import fs from 'node:fs'
 import path from 'node:path'
 import c from 'picocolors'
-import LRUCache from 'lru-cache'
+import { LRUCache } from 'lru-cache'
 import _debug from 'debug'
 import { resolveTitleFromToken } from '@mdit-vue/shared'
 import { EXTERNAL_URL_RE } from '../constants'
