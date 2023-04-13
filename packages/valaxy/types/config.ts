@@ -177,7 +177,8 @@ export interface SiteConfig {
    */
   sponsor: {
     enable: boolean
-    title: string
+    title?: string // default: 打赏 | Donate
+    description?: string // 描述内容，在按钮下方所有图片上方，与图片一起折叠
     methods: {
       name: string
       url: string
