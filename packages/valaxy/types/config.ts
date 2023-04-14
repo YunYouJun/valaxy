@@ -177,8 +177,18 @@ export interface SiteConfig {
    */
   sponsor: {
     enable: boolean
-    title?: string // default: 打赏 | Donate
-    description?: string // 描述内容，在按钮下方所有图片上方，与图片一起折叠
+    /**
+     * Donate button title attribute
+     * @description 打赏按钮的 title 属性
+     * @default zh:'打赏' en:'Donate'
+     */
+    title?: string
+    /**
+     * Donate content description
+     * @description 打赏的描述内容，在按钮下方所有图片上方，与图片一起折叠
+     * @default undefined 不显示内容
+     */
+    description?: string
     methods: {
       name: string
       url: string
