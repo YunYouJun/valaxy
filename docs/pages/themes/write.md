@@ -20,6 +20,78 @@ Valaxy 主题无需预编译，直接发布源文件即可。
 
 撰写中...
 
+作为 Valaxy 作者，我可以很轻松的实现自己的主题。
+但也因此，我可能很难了解真正主题开发者的需求。
+
+因此，如果你有任何开发主题的相关问题，
+可前往 QQ 频道[「云乐坊」](https://pd.qq.com/s/grfe9jxoe) 或发起 [Discussions](https://github.com/YunYouJun/valaxy/discussions) 与我交流，我将会为您提供尽可能的帮助，并针对泛化的问题撰写文档。
+
+> 对了，由于目前的主题并不多，主题作者可以在[这里](/themes/gallery)发现一些来自云游君私人的奖励。
+
+## 主题示例
+
+- [valaxy-theme-starter](https://github.com/valaxyjs/valaxy-theme-starter): Valaxy 主题开发模版
+- [valaxy-theme-yun](https://github.com/YunYouJun/valaxy/tree/main/packages/valaxy-theme-yun): valaxy-theme-yun 一个更完善的主题示例
+- [valaxy-theme-press](https://github.com/YunYouJun/valaxy/tree/main/packages/valaxy-theme-press): valaxy-theme-press 当前文档主题示例
+
+## 主题结构
+
+在动手之前，我们先来了解一下一个 Valaxy 主题的基础结构，它与正常的用户目录结构也十分相似。
+
+以 [valaxy-theme-yun](https://github.com/YunYouJun/valaxy/tree/main/packages/valaxy-theme-yun) 为例：
+
+> 尽管它们看起来很多，但是大部分都是可选的，你可以根据主题的需求按需编写。
+
+- `App.vue`: 主题的入口文件，用于挂载全局的主题组件
+- `README.md`: 主题的说明文档（毫无疑问，这是必不可少的 :P）
+- `client`：主题所暴露给用户的客户端辅助函数
+  - `index.ts`: 主题的客户端辅助函数入口文件
+- `components`: 主题的组件
+  - `ValaxyMain.vue`: 主题的文章渲染组件
+  - `YunSidebar.vue`: 主题的侧边栏组件
+  - `YunSponsor.vue`: 主题的赞助组件
+  - `YunWaline.vue`: 第三方评论 Waline 适配组件
+- `composables`: 辅助的 Composition API
+  - `config.ts`: 主题的配置文件
+  - `helper.ts`: 主题的辅助函数
+  - `index.ts`: 主题的 Composition API 入口文件
+  - `post.ts`: 主题的文章相关的辅助函数
+- `docs`: 主题的文档（自由用你喜欢的结构组织并展示吧！）
+  > 处于定制化与 [DogFooding](https://zh.wikipedia.org/zh-sg/%E5%90%83%E8%87%AA%E5%B7%B1%E7%9A%84%E7%8B%97%E7%B2%AE) 的考虑，Valaxy 的文档采用自身制作，并制作了一个文档主题 [valaxy-theme-press](https://github.com/YunYouJun/valaxy/tree/main/packages/valaxy-theme-press)，如果你只是想要一个简单轻量的文档站点，[Vitepress](https://vitepress.vuejs.org/) 是个不错的选择。（[valaxy-theme-starter](https://github.com/valaxyjs/valaxy-theme-starter) 在未来也许会内置该示例模版。）
+  - `en-US`: 英文文档
+  - `zh-CN`: 中文文档
+- `features`: 主题特色功能，一些不依赖于 Vue Composition API 的功能（区别于 `composables`）
+  - `fireworks.ts`: 烟花点击小姑
+- `layouts`: 主题的布局（扩展更多布局）
+  - `default.vue`: 默认布局
+  - `home.vue`: 首页布局
+  - `layout.vue`: 文章列表布局
+  - `post.vue`: 文章布局
+  - `tags.vue`: 标签布局
+- `locales`: 主题的多语言支持
+  - `en.yml`: 英文语言文件
+  - `zh-CN.yml`: 中文语言文件
+- `node_modules`: 主题的依赖（请勿提交至仓库）
+- `node`: 主题的 Node 端逻辑
+- `package.json`: 主题的相关信息与依赖
+- `pages`: 主题的默认页面（扩展更多页面）
+  - `index.vue`: 首页
+  - `page`: 普通页
+    - `[page].vue`: 文章列表页，动态路由，如 `/page/2`
+- `setup`: 主题的入口文件（可注册 Vue 插件等）
+  - `main.ts`: 主入口文件 `defineAppSetup`
+- `stores`: 主题的状态管理
+  - `app.ts`: 全局状态管理文件
+- `styles`: 主题的样式（`css-vars.scss` 与 `index.scss` 将会被自动引入）
+  - `css-vars.scss`: 主题的 CSS 变量
+  - `index.scss`: 主题的样式入口文件
+- `tsconfig.json`: 主题的 TypeScript 配置
+- `types`: 主题的类型声明
+  - `index.d.ts`: 主题的类型声明入口文件
+- `unocss.config.ts`: 主题的 unocss 配置
+- `utils`: 主题的工具函数
+- `valaxy.config.ts`: 主题的配置文件
+
 ## APIs
 
 我们提供了一个扩展函数，以供你快速扩展页面信息。
