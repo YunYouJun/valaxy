@@ -1,38 +1,47 @@
 <script lang="ts" setup>
 import { useSiteConfig } from 'valaxy'
-import { ref } from 'vue'
+import { computed, ref } from 'vue'
 import { useI18n } from 'vue-i18n'
 
 const { t } = useI18n()
 
 const siteConfig = useSiteConfig()
 const showQr = ref(false)
+const sponsorBtnTitle = computed(() => {
+  return siteConfig.value.sponsor?.title ?? t('reward.donate')
+})
 </script>
 
 <template>
   <div class="yun-sponsor-container flex-center flex-col">
     <button
       class="sponsor-button yun-icon-btn shadow hover:shadow-md"
-      :title="t('reward.donate')" text="red-400" @click="showQr = !showQr"
+      :title="sponsorBtnTitle" text="red-400" @click="showQr = !showQr"
     >
       <div i-ri-heart-line />
     </button>
 
-    <div class="qrcode-container qrcode flex justify-around" m="y-4" :class="showQr && 'show'">
-      <a
-        v-for="method, i in siteConfig.sponsor.methods" :key="i"
-        class="flex-center flex-col animate-iteration-1 animate-fade-in"
-        :href="method.url" target="_blank"
-        :style="`color:${method.color}`"
-      >
-        <img class="sponsor-method-img" border="~ rounded" p="1" loading="lazy" :src="method.url" :title="method.name">
-        <div text="xl" m="2" :class="method.icon" />
-      </a>
+    <div class="qrcode-container qrcode flex-center flex-col" m="y-4" :class="showQr && 'show'">
+      <div v-if="siteConfig.sponsor.description" class="sponsor-description" mb="4" text="sm">
+        {{ siteConfig.sponsor.description }}
+      </div>
+      <div class="flex justify-around">
+        <a
+          v-for="method, i in siteConfig.sponsor.methods" :key="i"
+          class="flex-center flex-col animate-iteration-1 animate-fade-in"
+          :href="method.url" target="_blank"
+          :style="`color:${method.color}`"
+        >
+          <img class="sponsor-method-img" border="~ rounded" p="1" loading="lazy" :src="method.url" :title="method.name">
+          <div text="xl" m="2" :class="method.icon" />
+        </a>
+      </div>
     </div>
   </div>
 </template>
 
 <style lang="scss">
+@use "valaxy/client/styles/mixins" as *;
 .sponsor-button {
   background-color: rgba(255, 255, 255, 0.1);
 
@@ -62,8 +71,12 @@ const showQr = ref(false)
   transition: height var(--va-transition-duration) ease-in-out;
 
   &.show {
-    height: 220px;
+    height: 260px;
   }
+}
+
+.sponsor-description {
+  color: get-css-var('c-gray');
 }
 
 .sponsor-method-img {

@@ -60,7 +60,7 @@ export const defaultSiteConfig: SiteConfig = {
 
   sponsor: {
     enable: true,
-    title: '赞助',
+    description: '这是关于赞助的一些描述',
     methods: [],
   },
 
