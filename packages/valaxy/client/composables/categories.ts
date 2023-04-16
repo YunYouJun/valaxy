@@ -42,7 +42,7 @@ export function isCategoryList(category: any): category is CategoryList {
  * }
  * @returns
  */
-export function useCategory(category?: MaybeRef<string>, posts: Post[] = []) {
+export function useCategories(category?: MaybeRef<string>, posts: Post[] = []) {
   return computed(() => {
     const categories = unref(category)
 
@@ -154,3 +154,8 @@ export function removeItemFromCategory(categoryList: CategoryList, categoryName:
     categoryList.children.splice(categoryListItemIndex, 1)
   }
 }
+
+/**
+ * @deprecated use `useCategories` instead
+ */
+export const useCategory = useCategories

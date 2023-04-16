@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import { computed } from 'vue'
-import { useCategory, useFrontmatter, usePostTitle, useSiteStore } from 'valaxy'
+import { useCategories, useFrontmatter, usePostTitle, useSiteStore } from 'valaxy'
 import { useI18n } from 'vue-i18n'
 import { useRoute } from 'vue-router'
 import { defineWebPage, useSchemaOrg } from '@vueuse/schema-org'
@@ -12,7 +12,7 @@ const frontmatter = useFrontmatter()
 
 const route = useRoute()
 const curCategory = computed(() => (route.query.category as string || ''))
-const categories = useCategory()
+const categories = useCategories()
 
 const posts = computed(() => {
   const list = site.postList.filter((post) => {

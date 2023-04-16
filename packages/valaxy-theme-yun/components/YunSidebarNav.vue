@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { useCategory, useSiteStore, useTag } from 'valaxy'
+import { useCategories, useSiteStore, useTags } from 'valaxy'
 import { useI18n } from 'vue-i18n'
 import { useThemeConfig } from '../composables'
 
@@ -8,8 +8,8 @@ const { t } = useI18n()
 const site = useSiteStore()
 
 const themeConfig = useThemeConfig()
-const categories = useCategory()
-const tags = useTag()
+const categories = useCategories()
+const tags = useTags()
 </script>
 
 <template>

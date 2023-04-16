@@ -1,7 +1,7 @@
 // for classify
-export * from './category'
+export * from './categories'
 export * from './post'
-export * from './tag'
+export * from './tags'
 
 // common
 export * from './common'

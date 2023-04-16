@@ -185,6 +185,74 @@ Markdown 样式是主题呈现文章样式的部分，需要由主题自定义�
 
 ## 功能
 
+### API
+
+> 你还可以使用 Valaxy 内置的 API 以快速实现相关功能。
+
+#### 获取文章列表
+
+获取文章列表有两种方式。
+
+- `usePostList`: 获取文章列表（不推荐）
+
+```ts
+import { usePostList } from 'valaxy'
+
+const postList = usePostList()
+```
+
+- `useSiteStore`: 获取全局站点信息（推荐）
+
+```ts
+const site = useSiteStore()
+
+// site.postList
+```
+
+以上两者之间的区别是，`usePostList` 是一个基础函数，每次调用都会获取所有文章并重新过滤一次，而 `useSiteStore` 则会先调用 `usePostList` 并将获取的文章列表缓存在全局的状态中，以供你后续调用。
+
+（此外，`useSiteStore` 还实现了保存文章时（如标题）热更新列表信息的功能。）
+
+> [valaxy/packages/valaxy-theme-yun/components/YunPostList.vue](https://github.com/YunYouJun/valaxy/blob/main/packages/valaxy-theme-yun/components/YunPostList.vue) 是一个使用 `useSiteStore` 展示文章列表的示例。
+> 分页功能可参考 [valaxy-theme-yun/pages/page/[page].vue](https://github.com/YunYouJun/valaxy/blob/main/packages/valaxy-theme-yun/pages/page/%5Bpage%5D.vue) 与 [valaxy-theme-yun/components/YunPostList.vue](https://github.com/YunYouJun/valaxy/blob/main/packages/valaxy-theme-yun/components/YunPostList.vue)。
+
+#### 获取文章分类与标签
+
+在你获取文章列表后，`site.postList` 中的每篇文章都具有 `categories`（分类） 与 `tags`（标签） 属性。
+
+你还可以通过 `useCategories` 与 `useTags` 获取所有分类、标签，其中便包含了与文章的对应关系。
+
+```ts
+import { useCategories, useTags } from 'valaxy'
+
+const categories = useCategories()
+const tags = useTags()
+```
+
+- [valaxy/packages/valaxy-theme-yun/layouts/categories.vue](https://github.com/YunYouJun/valaxy/blob/main/packages/valaxy-theme-yun/layouts/categories.vue) 是一个使用 `useCategories` 展示文章分类的示例。
+- [valaxy/packages/valaxy-theme-yun/layouts/tags.vue](https://github.com/YunYouJun/valaxy/blob/main/packages/valaxy-theme-yun/layouts/tags.vue) 是一个使用 `useTags` 展示文章标签的示例。([`useYunTags`](https://github.com/YunYouJun/valaxy/blob/main/packages/valaxy-theme-yun/composables/tags.ts) 是主题对 `useTags` 的封裝。)
+
+> `useTags` 中的 `tags` 为一个对象，其键为标签名，值为对应的文章列表。
+> `useCategories` 可传入参数 `category`（`useCategories('aaa')`） 以获取指定分类的文章列表。
+
+#### 获取 Front-matter
+
+你可以通过 `useFrontmatter` 获取当前页面的 Front-matter。
+
+譬如：
+
+```vue
+<script lang="ts" setup>
+import { useFrontmatter } from 'valaxy'
+
+const fm = useFrontmatter()
+</script>
+
+<template>
+  <h1>{{ fm.title }}</h1>
+</template>
+```
+
 ### 目录
 
 如果你想要快速实现一个目录，Valaxy 提供了一个内置钩子函数 `useOutline`。

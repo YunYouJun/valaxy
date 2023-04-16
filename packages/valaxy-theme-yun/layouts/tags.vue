@@ -1,10 +1,10 @@
 <script lang="ts" setup>
-import { useFrontmatter, useInvisibleElement, usePostTitle, useSiteStore, useTags } from 'valaxy'
+import { useFrontmatter, useInvisibleElement, usePostTitle, useSiteStore } from 'valaxy'
 import { useI18n } from 'vue-i18n'
 import { computed, ref } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { defineWebPage, useSchemaOrg } from '@vueuse/schema-org'
-import { useThemeConfig } from '../composables'
+import { useThemeConfig, useYunTags } from '../composables'
 
 useSchemaOrg([
   defineWebPage({
@@ -19,7 +19,7 @@ const themeConfig = useThemeConfig()
 
 const { t } = useI18n()
 const frontmatter = useFrontmatter()
-const { tags, getTagStyle } = useTags({
+const { tags, getTagStyle } = useYunTags({
   primary: themeConfig.value.colors.primary,
 })
 
