@@ -168,8 +168,8 @@ importers:
         specifier: ^1.1.16
         version: 1.1.16
       '@iconify-json/ri':
-        specifier: ^1.1.7
-        version: 1.1.7
+        specifier: ^1.1.8
+        version: 1.1.8
       '@intlify/unplugin-vue-i18n':
         specifier: ^0.10.0
         version: 0.10.0(vue-i18n@9.2.2)
@@ -1070,8 +1070,8 @@ packages:
       '@iconify/types': 2.0.0
     dev: false
 
-  /@iconify-json/ri@1.1.7:
-    resolution: {integrity: sha512-ra80AV2Q0wFuzT3YB48DKy0q3IWmmIh2ZbDnMGNX2Wz1lOx9PHgcewVvThk8OaUJOeGkneTMAzKQ64MRrOXEpg==}
+  /@iconify-json/ri@1.1.8:
+    resolution: {integrity: sha512-yykDISjVwFxvuQ/XJhko8gf848DTUlxa/Sa71iVJ5xWgMzCN7gC5cAKs17RNUufZadAiiauK2odX5hlUkR3CNQ==}
     dependencies:
       '@iconify/types': 2.0.0
     dev: false

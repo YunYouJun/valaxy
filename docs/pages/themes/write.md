@@ -284,6 +284,30 @@ const { headers, handleClick } = useOutline()
 
 > 更多可参见 [PressOutline | valaxy-theme-press](https://github.com/YunYouJun/valaxy/blob/main/packages/valaxy-theme-press/components/PressOutline.vue)。
 
+## 引用静态资源
+
+当主题需要内置一些静态资源（如：图片等），你可以通过相对引用的方式实现。(这在 `scss` 样式文件中也适用)
+
+譬如 `assets` 与 `components` 处于同一目录下时：
+
+```vue
+<!-- assets/images/valaxy-logo.png -->
+<!-- components/ValaxyLogo.vue -->
+<script lang="ts" setup>
+import valaxyLogoPng from '../assets/images/valaxy-logo.png'
+</script>
+
+<template>
+  <img max-w="50" m="auto" :src="valaxyLogoPng" alt="Valaxy Logo" z="1">
+</template>
+
+<style scoped>
+.test-image {
+  background-image: url('../assets/images/valaxy-logo.png');
+}
+</style>
+```
+
 ## Third Plugin
 
 ### 实现评论

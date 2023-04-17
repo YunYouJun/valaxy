@@ -61,7 +61,7 @@
     "@antfu/utils": "^0.7.2",
     "@ctrl/tinycolor": "^3.6.0",
     "@iconify-json/carbon": "^1.1.16",
-    "@iconify-json/ri": "^1.1.7",
+    "@iconify-json/ri": "^1.1.8",
     "@intlify/unplugin-vue-i18n": "^0.10.0",
     "@types/body-scroll-lock": "^3.1.0",
     "@vitejs/plugin-vue": "^4.1.0",
