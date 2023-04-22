@@ -49,7 +49,7 @@ export default defineSiteConfig({
 :::
 
 ::: en
-```ts
+```ts {7}
 // site.config.ts
 import { defineSiteConfig } from 'valaxy'
 

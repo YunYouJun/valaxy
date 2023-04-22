@@ -1,5 +1,9 @@
 ---
 title: Schema.org for SEO
+title_zh-CN: Schema.org for SEO
+categories:
+  - Third
+top: 0
 ---
 
 采用 [Schema.org](https://schema.org/) 标准，可以让搜索引擎更好地理解网站内容，从而提高网站在搜索结果中的排名。
