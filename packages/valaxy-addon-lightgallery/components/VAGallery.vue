@@ -15,7 +15,8 @@ defineProps<{
   </LightGallery>
 </template>
 
-<style scoped>
+<style lang="scss">
+// https://sass-lang.com/documentation/at-rules/import#import-only-files
 @import 'lightgallery/css/lightgallery.css';
 
 .va-photo-list {
