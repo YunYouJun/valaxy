@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { useSidebar } from 'valaxy/client'
+import { useSidebar } from 'valaxy'
 
 defineProps<{
   open: boolean

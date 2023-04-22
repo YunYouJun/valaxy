@@ -15,7 +15,7 @@ defineProps<{
   </LightGallery>
 </template>
 
-<style lang="css">
+<style scoped>
 @import 'lightgallery/css/lightgallery.css';
 
 .va-photo-list {

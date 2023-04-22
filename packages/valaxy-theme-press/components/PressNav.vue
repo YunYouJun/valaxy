@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { computed, provide } from 'vue'
 import { useWindowScroll } from '@vueuse/core'
-import { useSidebar } from 'valaxy/client'
+import { useSidebar } from 'valaxy'
 import { useNav } from '../composables/nav'
 
 const { y } = useWindowScroll()
