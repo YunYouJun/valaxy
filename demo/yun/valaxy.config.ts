@@ -1,8 +1,10 @@
 import { defineValaxyConfig } from 'valaxy'
 import type { ThemeConfig } from 'valaxy-theme-yun'
+
 // import { VitePWA } from 'vite-plugin-pwa'
 import Inspect from 'vite-plugin-inspect'
 import { addonAlgolia } from 'valaxy-addon-algolia'
+
 // import { addonTwikoo } from 'valaxy-addon-twikoo'
 import { addonWaline } from 'valaxy-addon-waline'
 import { addonComponents } from 'valaxy-addon-components'

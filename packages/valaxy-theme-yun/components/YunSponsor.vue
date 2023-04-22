@@ -41,7 +41,7 @@ const sponsorBtnTitle = computed(() => {
 </template>
 
 <style lang="scss">
-@use "valaxy/client/styles/mixins" as *;
+@use "valaxy/client/styles/mixins/index.scss" as *;
 .sponsor-button {
   background-color: rgba(255, 255, 255, 0.1);
 

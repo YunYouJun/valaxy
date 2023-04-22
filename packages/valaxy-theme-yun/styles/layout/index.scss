@@ -1,5 +1,9 @@
-@use "valaxy/client/styles/mixins" as *;
+@use "valaxy/client/styles/mixins/index.scss" as *;
 @use "./post" as *;
+
+html {
+  overflow-y: scroll;
+}
 
 .yun-main {
   padding-left: var(--va-sidebar-width);

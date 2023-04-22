@@ -1,6 +1,8 @@
 ---
 title: Use Vite/Vue Plugin 
 title_zh-CN: 使用 Vite/Vue 插件
+categories:
+  - Third
 ---
 
 Valaxy 兼容 Vite/Vue 插件，你可以参考以下示例进行使用。

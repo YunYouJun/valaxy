@@ -4,6 +4,7 @@ import { setupLayouts } from 'virtual:generated-layouts'
 import App from './App.vue'
 
 import '@unocss/reset/tailwind.css'
+
 // generate user styles
 import '/@valaxyjs/styles'
 import 'uno.css'

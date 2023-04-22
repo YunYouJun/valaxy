@@ -1,8 +1,8 @@
 <script lang="ts" setup>
 import { computed, watch } from 'vue'
-import { useThemeConfig } from 'valaxy-theme-yun/composables'
 import { useCssVar } from '@vueuse/core'
 import { isDark } from 'valaxy'
+import { useThemeConfig } from '../composables'
 
 const themeConfig = useThemeConfig()
 
@@ -28,7 +28,7 @@ watch(() => bgImgUrl.value, () => {
 </template>
 
 <style lang="scss">
-@use 'valaxy/client/styles/mixins' as *;
+@use 'valaxy/client/styles/mixins/index.scss' as *;
 
 .va-bg {
   position: fixed;

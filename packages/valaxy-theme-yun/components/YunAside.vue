@@ -1,7 +1,6 @@
 <script lang="ts" setup>
 import { useI18n } from 'vue-i18n'
-import { useFrontmatter } from 'valaxy'
-import { useAppStore } from 'valaxy/client/stores/app'
+import { useAppStore, useFrontmatter } from 'valaxy'
 
 const frontmatter = useFrontmatter()
 const { t } = useI18n()
@@ -20,7 +19,7 @@ const app = useAppStore()
   <ValaxyOverlay :show="app.isRightSidebarOpen" @click="app.toggleRightSidebar()" />
 
   <!--  -->
-  <aside class="va-card aside" :class="app.isRightSidebarOpen && 'open'" m="l-4" text="center">
+  <aside class="va-card yun-aside" :class="app.isRightSidebarOpen && 'open'" m="l-4" text="center">
     <div class="aside-container" flex="~ col" overflow="auto">
       <h2 v-if="frontmatter.toc !== false" m="t-6 b-2" font="serif black">
         {{ t('sidebar.toc') }}
@@ -38,9 +37,9 @@ const app = useAppStore()
 </template>
 
 <style lang="scss">
-@use 'valaxy/client/styles/mixins' as *;
+@use 'valaxy/client/styles/mixins/index.scss' as *;
 
-.aside {
+.yun-aside {
   position: fixed;
   right: 0;
   top: 0;
@@ -70,7 +69,7 @@ const app = useAppStore()
 }
 
 @include screen('xl') {
-  .aside {
+  .yun-aside {
     transform: translateX(0);
   }
 }

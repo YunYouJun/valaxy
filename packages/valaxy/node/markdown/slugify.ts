@@ -1,5 +1,6 @@
 // ref vitepress
 import { remove as removeDiacritics } from 'diacritics'
+
 // eslint-disable-next-line no-control-regex
 const rControl = /[\u0000-\u001F]/g
 // add '…'

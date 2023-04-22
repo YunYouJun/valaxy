@@ -2,6 +2,7 @@ import { join, relative, resolve } from 'node:path'
 import fs from 'fs-extra'
 
 import type { Plugin, ResolvedConfig } from 'vite'
+
 // import consola from 'consola'
 import { pascalCase } from 'pascal-case'
 import { defu } from 'defu'

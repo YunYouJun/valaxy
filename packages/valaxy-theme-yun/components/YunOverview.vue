@@ -42,7 +42,7 @@ const router = useRouter()
 </template>
 
 <style lang="scss">
-@use "valaxy/client/styles/mixins" as *;
+@use "valaxy/client/styles/mixins/index.scss" as *;
 
 .sidebar-panel {
   padding: 0.5rem;

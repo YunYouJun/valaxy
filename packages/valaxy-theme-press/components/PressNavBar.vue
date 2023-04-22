@@ -35,7 +35,7 @@ const themeConfig = useThemeConfig()
 </template>
 
 <style lang="scss">
-@use 'valaxy/client/styles/mixins' as *;
+@use 'valaxy/client/styles/mixins/index.scss' as *;
 
 :root {
   --pr-navbar-c-bg: rgba(255, 255, 255, 0.8);

@@ -9,6 +9,7 @@ import consola from 'consola'
 import type { ResolvedValaxyOptions } from './options'
 import { ViteValaxyPlugins } from './plugins/preset'
 import { ALL_ROUTE } from './constants'
+
 // import { logger } from './logger'
 
 export async function build(

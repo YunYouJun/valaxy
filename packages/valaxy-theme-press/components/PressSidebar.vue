@@ -41,7 +41,7 @@ const { hasSidebar } = useSidebar()
 </template>
 
 <style lang="scss">
-@use 'valaxy/client/styles/mixins' as *;
+@use 'valaxy/client/styles/mixins/index.scss' as *;
 
 .press-sidebar {
   position: fixed;

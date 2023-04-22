@@ -1,5 +1,6 @@
 <script lang="ts" setup>
 import type { Photo } from 'valaxy'
+
 // @ts-expect-error esm not supported
 import LightGallery from 'lightgallery/vue/LightGalleryVue.umd.min.js'
 

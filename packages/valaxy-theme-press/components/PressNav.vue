@@ -26,7 +26,7 @@ const classes = computed(() => ({
 </template>
 
 <style lang="scss">
-@use 'valaxy/client/styles/mixins' as *;
+@use 'valaxy/client/styles/mixins/index.scss' as *;
 
 .press-nav {
   z-index: var(--pr-z-nav);

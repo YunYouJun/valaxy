@@ -1,5 +1,5 @@
 @use "./vars" as *;
-@use "valaxy/client/styles/mixins" as * with($namespace: "yun");
+@use "valaxy/client/styles/mixins/index.scss" as * with($namespace: "yun");
 
 :root {
   @include set-css-var-from-map($common);

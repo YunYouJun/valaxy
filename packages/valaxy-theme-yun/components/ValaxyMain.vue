@@ -76,7 +76,7 @@ const aside = computed(() => props.frontmatter.aside !== false)
 </template>
 
 <style lang="scss">
-@use 'valaxy/client/styles/mixins' as *;
+@use 'valaxy/client/styles/mixins/index.scss' as *;
 
 @include screen('md') {
   .yun-main {

@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { useThemeConfig } from 'valaxy/client'
+import { useThemeConfig } from 'valaxy'
 import { onMounted } from 'vue'
 import { createFireworks } from '../features/fireworks'
 

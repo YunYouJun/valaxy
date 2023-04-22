@@ -1,8 +1,10 @@
 <script setup lang="ts">
 import { computed, provide, ref } from 'vue'
 import { useHead, useSeoMeta } from '@vueuse/head'
+
 // @ts-expect-error virtual module
 import ValaxyUserApp from '/@valaxyjs/UserAppVue'
+
 // @ts-expect-error virtual module
 import ValaxyThemeApp from '/@valaxyjs/ThemeAppVue'
 import pkg from 'valaxy/package.json'

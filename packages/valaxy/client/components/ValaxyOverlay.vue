@@ -15,8 +15,7 @@ withDefaults(defineProps<{
 <style lang="scss">
 @use "sass:map";
 
-@use "valaxy/client/styles/vars" as *;
-@use "valaxy/client/styles/mixins" as *;
+@use "valaxy/client/styles/mixins/index.scss" as *;
 
 .va-overlay {
   background-color: rgba(0, 0, 0, 0.3);

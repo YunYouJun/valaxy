@@ -1,9 +1,11 @@
 // @ts-expect-error virtual module @valaxyjs/config
 import valaxyConfig from '/@valaxyjs/config'
+
 // @ts-expect-error virtual module @valaxyjs/context
 import valaxyContext from '/@valaxyjs/context'
 import type { ComputedRef, InjectionKey } from 'vue'
 import { computed, inject, readonly, shallowRef } from 'vue'
+
 // import type { RouteMeta } from 'vue-router'
 // fix build caused by pnpm
 // This is likely not portable. A type annotation is necessary.

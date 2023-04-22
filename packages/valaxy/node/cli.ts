@@ -17,6 +17,7 @@ import { bindShortcut, initServer, printInfo } from './utils/cli'
 
 // build
 import { build, postProcessForSSG, ssgBuild } from './build'
+
 // rss
 import { build as rssBuild } from './rss'
 import { getIndexHtml, mergeViteConfigs } from './common'

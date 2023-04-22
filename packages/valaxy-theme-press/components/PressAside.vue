@@ -40,7 +40,7 @@ const app = useAppStore()
 </template>
 
 <style lang="scss">
-@use 'valaxy/client/styles/mixins' as *;
+@use 'valaxy/client/styles/mixins/index.scss' as *;
 
 .press-card{
   background-color: var(--va-c-bg);

@@ -78,7 +78,7 @@ const localeTitle = computed(() => getLocaleTitle(locale.value, frontmatter.valu
 </template>
 
 <style lang="scss" scoped>
-@use 'valaxy/client/styles/mixins' as *;
+@use 'valaxy/client/styles/mixins/index.scss' as *;
 
 @include screen('md') {
   .press-main {

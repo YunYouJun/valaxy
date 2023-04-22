@@ -51,8 +51,6 @@ const licenseHtml = computed(() => {
 </template>
 
 <style lang="scss">
-@use "valaxy/client/styles/mixins/index.scss" as *;
-
 .post-copyright {
   font-size: 0.9rem;
   padding: 0.5rem 1rem;
