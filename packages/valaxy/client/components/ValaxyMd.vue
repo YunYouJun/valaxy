@@ -5,15 +5,10 @@ import { useI18n } from 'vue-i18n'
 import { useAplayer, useCodePen, useCopyCode, useMediumZoom, wrapTable } from 'valaxy'
 import type { Post } from 'valaxy'
 
-import dayjs from 'dayjs'
-import relativeTime from 'dayjs/plugin/relativeTime'
-
 const props = defineProps<{
   frontmatter: Post
   excerpt?: string
 }>()
-
-dayjs.extend(relativeTime)
 
 const onContentUpdated = inject('onContentUpdated') as Ref<() => void>
 
@@ -44,7 +39,6 @@ if (typeof props.frontmatter.medium_zoom === 'undefined' || props.frontmatter.me
 
 <template>
   <article v-if="$slots.default" :class="frontmatter.markdown !== false && 'markdown-body'">
-    <ValaxyMdTimeWarning :frontmatter="frontmatter" />
     <slot ref="content" @vnode-updated="updateDom" />
 
     <div text="center">

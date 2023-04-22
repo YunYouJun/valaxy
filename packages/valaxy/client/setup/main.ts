@@ -1,5 +1,9 @@
 /* __imports__ */
 import type { ViteSSGContext } from 'vite-ssg'
+
+import dayjs from 'dayjs'
+import relativeTime from 'dayjs/plugin/relativeTime'
+
 import { install as installValaxy } from '../modules/valaxy'
 import { install as installPinia } from '../modules/pinia'
 import { install as installNprogress } from '../modules/nprogress'
@@ -16,6 +20,9 @@ export default function setupMain(ctx: ViteSSGContext) {
 
   installPinia(ctx)
   installNprogress(ctx)
+
+  // dayjs
+  dayjs.extend(relativeTime)
 
   /* __injections__ */
 }

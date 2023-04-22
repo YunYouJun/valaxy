@@ -38,6 +38,8 @@ const aside = computed(() => props.frontmatter.aside !== false)
               <slot name="main-content">
                 <Transition appear>
                   <ValaxyMd :frontmatter="frontmatter">
+                    <YunMdTimeWarning :frontmatter="frontmatter" />
+
                     <slot name="main-content-md" />
                     <slot />
                   </ValaxyMd>

@@ -3,11 +3,15 @@ import { computed } from 'vue'
 import type { Post } from 'valaxy'
 
 import dayjs from 'dayjs'
+import relativeTime from 'dayjs/plugin/relativeTime'
+
 import { useI18n } from 'vue-i18n'
 
 const props = defineProps<{
   frontmatter: Post
 }>()
+
+dayjs.extend(relativeTime)
 
 const { t } = useI18n()
 
