@@ -8,7 +8,7 @@ const isAlgolia = computed(() => siteConfig.value.search.type === 'algolia')
 
 const PressAlgoliaSearch = isAlgolia.value
   ? defineAsyncComponent(() => import('./PressAlgoliaSearch.vue'))
-  : null
+  : () => null
 </script>
 
 <template>
