@@ -77,6 +77,50 @@ Select the Github repository, go to `Settings`-> `Action` -> `General` -> `Workf
 `netlify.toml` is built-in.
 :::
 
+#### Vercel
+
+::: zh-CN
+在 Vercel 的 Dashboard 上，点击 “Add New...”，然后点击 “Project” 新建一个项目。
+
+在左侧选择要部署的仓库，点击 “Import”，随后将 “Framework Preset” 设置为 “Other” 并更改 “Build and Output Settings”。
+
+将 “Output Directory” 设置为 `dist` 后，点击 “Deploy”。
+
+等待屏幕上撒下彩带后访问即可。
+:::
+
+::: en
+On Vercel Dashboard, click "Add New...", then click "Project" to create a project.
+
+Select the repository you want to deploy and click "Import" and then set "Framework Preset" to "Other" and modify "Build and Output Settings".
+
+Turn on the switch on the right of the textbox and type `dist`, click "Deploy".
+
+Wait for ribbons to drop on the screen, then visit your website.
+:::
+
+#### Cloudflare Pages
+
+::: zh-CN
+登录你的 Cloudflare 账号，导航到 “Pages” 页面。
+
+点击 “创建项目”、“连接到 Git”，然后选择你的 GitHub 或者 GitLab 仓库并点击 “开始设置”。
+
+选择你要部署的分支，将 “构建输出目录” 设置为 `dist` 后添加一个环境变量。
+
+“变量名称” 设置为 `NODE_VERSION`，值为 `16.0`，然后点击 “保存并部署”。
+:::
+
+::: en
+Login to your Cloudflare account and navigate to "Pages" page.
+
+Click "Create a project" and "Connect to Git", then select your GitHub or GitLab repository and click "Begin setup".
+
+Select your Production branch, set "Build output directory" to `dist` and add an environment variable.
+
+Set "Variable name" to `NODE_VERSION` and "Value" to `16.0`, then click "Save and Deploy".
+:::
+
 #### 其他 {lang="zh-CN"}
 
 #### Others {lang="en"}
@@ -84,9 +128,9 @@ Select the Github repository, go to `Settings`-> `Action` -> `General` -> `Workf
 TODO
 
 ::: zh-CN
-你还可以使用 [Vercel](https://vercel.com/)/[Render](https://render.com/)/[Cloudflare Pages](https://pages.cloudflare.com/) 等进行托管。
+你还可以使用 [Render](https://render.com/) 等进行托管。
 :::
 
 ::: en
-You can also use [Vercel](https://vercel.com/)/[Render](https://render.com/)/[Cloudflare Pages](https://pages.cloudflare.com/) to host your website.
+You can also use [Render](https://render.com/) to host your website.
 :::
