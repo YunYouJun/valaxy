@@ -48,23 +48,31 @@ npm run build
 ::: zh-CN
 在使用 `pnpm create valaxy` 创建模版项目时，已内置文件[`.github/workflows/gh-pages.yml`](https://github.com/YunYouJun/valaxy/blob/main/packages/create-valaxy/template/.github/workflows/gh-pages.yml) 以实现 GitHub Actions 的自动部署工作流。
 
-上传至 GitHub Repo，打开 `Settings` -> `Pages`，选择 `gh-pages` 分支。
 
 选择 Github Repo，打开 `Settings`-> `Action` -> `General` -> `Workflow permissions`，选择 `read and write permissions`。
 
+上传至 GitHub Repo，打开 `Settings` -> `Pages`，选择 `gh-pages` 分支。
+
 > `gh-pages` 已由 `.github/workflows/gh-pages.yml` 自动部署。
-:::
+
 
 > 注意修改 `gh-pages.yml` 中的 `on.push.branches` 为你源代码所在的分支，默认为 `main`。
+
+:::
+
 
 ::: en
 When you use `pnpm create valaxy` to create a template project, it contains the file [`.github/workflows/gh-pages.yml`](https://github.com/YunYouJun/valaxy/blob/main/packages/create-valaxy/template/.github/workflows/gh-pages.yml) for the CI workflow of GitHub Actions.
 
-Push to your GitHub repository, and go to `Settings` -> `Pages`. Select `gh-pages` branch.
 
 Select the Github repository, go to `Settings`-> `Action` -> `General` -> `Workflow permissions`, and select `read and write permissions`。
 
+Push to your GitHub repository, and go to `Settings` -> `Pages`. Select `gh-pages` branch.
+
 > `gh-pages` has been automatically deployed by `.github/workflows/gh-pages.yml`.
+
+> Please note that the 'on.push.branches' in' gh-pages.yml' should be modified to the branch where your source code is located, and the default is 'main'.
+
 :::
 
 #### Netlify
