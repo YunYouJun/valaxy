@@ -19,8 +19,8 @@
   "main": "node/index.ts",
   "types": "types/index.d.ts",
   "dependencies": {
-    "@docsearch/css": "^3.3.3",
-    "@docsearch/js": "^3.3.3"
+    "@docsearch/css": "^3.3.4",
+    "@docsearch/js": "^3.3.4"
   },
   "devDependencies": {
     "valaxy": "workspace:*"

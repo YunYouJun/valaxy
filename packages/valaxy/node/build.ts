@@ -43,6 +43,7 @@ export async function ssgBuild(
       const postSize = paths.filter(path => path.startsWith('/posts/')).length
       const pages = Math.ceil(postSize / options.config.siteConfig.pageSize)
       const pagesArr = Array.from({ length: pages }, (_, i) => i + 1)
+
       return routes.filter(r => !excludePages.includes(r.path)).flatMap((route) => {
         // /page/:page
         return route.path === '/page/:page'
