@@ -52,7 +52,7 @@ Github Pages 默认使用 Jekyll 来构建静态站点，而 Jekyll 默认不会
 
 如果 Github Pages 所部署内容的根路径有名为 .nojekyll 的空文件，则会跳过 Jekyll 构建操作。
 
-所以可以在 `.github/workflows/gh-pages.yml` 内的 `build` 脚本后添加一条这样的脚本：
+所以可以在项目的 `public` 文件夹内新建一个名为 `.nojekyll` 的文件：
 :::
 
 ::: en
@@ -64,10 +64,10 @@ In fact, the output of the Valaxy build can be used directly as a static site wi
 
 If there is an empty file named .nojekyll in the root path of the content deployed by Github Pages, the Jekyll build operation will be skipped.
 
-So you can add a script like this after the `build` script in `.github/workflows/gh-pages.yml`:
+So you can create a new file named `.nojekyll` in the `public` folder of the project:
 :::
 
-```yml
-- name: Ignore Jekyll build
-  run: touch dist/.nojekyll
+```bash
+|-- public
+|   |-- .nojekyll
 ```
