@@ -20,13 +20,17 @@ const collapsable = ref(props.collapsable)
 
 const themeConfig = useThemeConfig()
 const sidebar = computed(() => themeConfig.value.sidebar)
+
+function getCategoryByName(name: string) {
+  return props.categories.find(c => c.name === name)
+}
 </script>
 
 <template>
   <ul v-for="item in sidebar" :key="item" class="category-list">
     <PressCategory
-      v-if="categories.find(c => c.name === item)"
-      :category="categories.find(c => c.name === item)"
+      v-if="getCategoryByName(item)"
+      :category="getCategoryByName(item)"
       :level="level + 1"
       :display-category="displayCategory"
       :collapsable="collapsable"
