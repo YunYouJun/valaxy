@@ -10,4 +10,8 @@ useTwikooWithOptions()
 
 <style lang="scss">
 // custom twikoo style
+#twikoo .el-loading-spinner {
+  top: 65%;
+  right: -50%;
+}
 </style>
