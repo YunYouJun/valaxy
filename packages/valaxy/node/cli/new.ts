@@ -1,5 +1,5 @@
 import consola from 'consola'
-import { magenta } from 'chalk'
+import { magenta } from 'picocolors'
 import type { Argv } from 'yargs'
 import { type CreatePostParams, create } from './utils/post'
 

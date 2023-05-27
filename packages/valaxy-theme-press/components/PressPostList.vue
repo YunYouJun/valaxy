@@ -17,10 +17,10 @@ const posts = computed(() => props.posts || site.postList)
 
 <template>
   <ul class="divide-y divide-gray-200">
-    <Transition v-for="post, i in posts" :key="i" name="fade">
-      <li class="py-12">
+    <TransitionGroup name="fade">
+      <li v-for="post, i in posts" :key="i" class="py-12">
         <PressArticleCard :post="post" />
       </li>
-    </Transition>
+    </TransitionGroup>
   </ul>
 </template>

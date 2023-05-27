@@ -35,9 +35,9 @@ const displayedPosts = computed(() =>
       </div>
     </template>
 
-    <Transition v-for="route, i in displayedPosts" :key="i" name="fade">
-      <YunPostCard :post="route" />
-    </Transition>
+    <TransitionGroup name="fade">
+      <YunPostCard v-for="route, i in displayedPosts" :key="i" :post="route" />
+    </TransitionGroup>
   </div>
 
   <ValaxyPagination :cur-page="curPage" :page-size="pageSize" :total="posts.length" />
