@@ -7,7 +7,7 @@ import defu from 'defu'
 import { cyan, yellow } from 'kolorist'
 import type { DefaultThemeConfig, RuntimeConfig } from '../types'
 import { logger } from './logger'
-import { resolveImportPath } from './utils'
+import { resolveImportPath, slash } from './utils'
 import { mergeValaxyConfig, resolveAddonConfig, resolveValaxyConfig, resolveValaxyConfigFromRoot } from './utils/config'
 import type { ValaxyAddonResolver, ValaxyNodeConfig } from './types'
 import { defaultValaxyConfig } from './config'
@@ -154,7 +154,8 @@ export async function resolveOptions(
 ) {
   const pkgRoot = dirname(resolveImportPath('valaxy/package.json', true))
   const clientRoot = resolve(pkgRoot, 'client')
-  const userRoot = resolve(options.userRoot || process.cwd())
+  // slash for windows
+  const userRoot = slash(resolve(options.userRoot || process.cwd()))
 
   let { config: userValaxyConfig, configFile, theme } = await resolveValaxyConfig(options)
   const { siteConfig, siteConfigFile } = await resolveSiteConfig(options.userRoot)

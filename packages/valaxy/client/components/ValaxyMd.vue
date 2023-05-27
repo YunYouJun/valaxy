@@ -39,7 +39,7 @@ if (typeof props.frontmatter.medium_zoom === 'undefined' || props.frontmatter.me
 
 <template>
   <article v-if="$slots.default" :class="frontmatter.markdown !== false && 'markdown-body'">
-    <slot ref="content" @vnode-updated="updateDom" />
+    <slot ref="content" @vue:updated="updateDom" />
 
     <div text="center">
       <a
