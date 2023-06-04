@@ -47,8 +47,8 @@ export default defineValaxyConfig<PressTheme.Config>({
             link: '/guide/getting-started',
           },
           {
-            text: 'Migration from Hexo',
-            link: '/migration/hexo',
+            text: 'Migration from Other',
+            link: '/migration/',
           },
         ],
       },

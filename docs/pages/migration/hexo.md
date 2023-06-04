@@ -4,6 +4,7 @@ title: Migrate from Hexo to Valaxy
 categories:
   - Migration
 end: true
+top: 9
 ---
 
 ## 迁移步骤 {lang="zh-CN"}
@@ -66,76 +67,4 @@ Refer to [Valaxy Config](/guide/config) to migrate configurations from Hexo's `_
 
 ::: en
 For more complex migration examples, you can also compare [hexo branch](https://github.com/YunYouJun/yunyoujun.github.io/tree/hexo) and [valaxy branch](https://github.com/YunYouJun/yunyoujun.github.io/tree/valaxy) in [yunyoujun.github.io | GitHub](https://github.com/YunYouJun/yunyoujun.github.io) to see the similarities and differences.
-:::
-
-## 常见问题 {lang="zh-CN"}
-
-## Common Problems {lang="en"}
-
-### 摘要截断符 {lang="zh-CN"}
-
-### Read More Separator {lang="en"}
-
-::: zh-CN
-默认为 `<!-- more -->`，`more` 前后需有空格。
-:::
-
-::: en
-Default to `<-- More -->`, there are spaces before and after `more`.
-:::
-
-### Markdown 换行 {lang="zh-CN"}
-
-### Newline in Markdown {lang="en"}
-
-::: zh-CN
-Valaxy 的 Markdown 解析基于 [`markdown-it`](https://github.com/markdown-it/markdown-it) 实现。
-
-`markdown-it` 的策略在 Markdown 中换行后渲染的内容并没有换行：
-
-```md
-第一行
-没有换行
-```
-
-第一行
-没有换行
-
----
-
-如果需要正常换行，需在末尾添加两个空格：
-
-```md
-第一行（末尾有两个空格）  
-换行了
-```
-
-第一行（末尾有两个空格）  
-换行了
-:::
-
-::: en
-Markdown rendering in Valaxy is based on [`markdown-it`](https://github.com/markdown-it/markdown-it).
-
-The default strategy of `markdown-it` does not wrap the rendered content when wrapping in Markdown:
-
-```md
-first line
-second line but not wrapped
-```
-
-first line
-second line but not wrapped
-
----
-
-If you want to move the second line to a new line, add two spaces at the end of the first line:
-
-```md
-first line (with two spaces at the end)  
-second line got wrapped corrently
-```
-
-first line (with two spaces at the end)  
-second line got wrapped corrently
 :::

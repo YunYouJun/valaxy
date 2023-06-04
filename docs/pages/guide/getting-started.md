@@ -124,7 +124,7 @@ npm init valaxy
 ```
 
 ::: zh-CN
-> 由于 `npm init` 缓存您此前下载的版本，我更推荐您使用 `pnpm` 来创建模版。  
+> 由于 `npm init` 会缓存您此前下载的版本，我更推荐您使用 `pnpm` 来创建模版。  
 > 安装 [pnpm](https://pnpm.io/)：`npm i -g pnpm`
 :::
 
@@ -141,7 +141,7 @@ pnpm create valaxy
 跟随命令行提示完成创建！
 
 > 默认使用主题 [valaxy-theme-yun](https://github.com/YunYouJun/valaxy/blob/main/packages/valaxy-theme-yun/)，当然您也可以安装使用任意其他主题。  
-> 本文档同样是一个 Valaxy 主题 [valaxy-theme-press](https://github.com/YunYouJun/valaxy/blob/main/packages/valaxy-theme-press/)。
+> 本文档同样是一个 Valaxy 主题 [valaxy-theme-press](https://github.com/YunYouJun/valaxy/blob/main/packages/valaxy-theme-press/)，它的灵感来自 VitePress。
 :::
 
 ::: en
@@ -257,6 +257,10 @@ npm i valaxy-theme-yun@latest
 # interactive upgrade
 pnpm up --latest -i
 ```
+
+## 迁移
+
+如果你来自其他博客框架，可参考 [迁移](/migration/)。
 
 ## Directory Structure {lang="en"}
 
