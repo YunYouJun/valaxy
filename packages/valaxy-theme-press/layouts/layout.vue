@@ -16,7 +16,7 @@ const layout = useLayout()
 
     <slot>
       <router-view v-slot="{ Component }">
-        <component :is="Component">
+        <component :is="Component as any">
           <template #main-header>
             <slot name="main-header" />
           </template>
