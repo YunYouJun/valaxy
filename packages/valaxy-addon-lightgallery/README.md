@@ -26,3 +26,21 @@ export default defineValaxyConfig({
   ],
 })
 ```
+
+### 在文章中直接使用
+
+直接在 Markdown 中插入组件即可。
+
+```md
+---
+photos:
+  - caption: 我
+    src: https://cdn.jsdelivr.net/gh/YunYouJun/yun/images/meme/yun-good-alpha-compressed.png
+    desc: 我想起那天夕阳下的奔跑
+---
+<!-- 相册样式 -->
+<VAGallery :photos="frontmatter.photos" />
+
+<!-- 你也可以单独使用照片的样式 -->
+<VAPhoto :photo="frontmatter.photos[0]" />
+```

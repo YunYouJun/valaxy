@@ -11,6 +11,8 @@ top: 1
 outline: deep
 ---
 
+{{ frontmatter }}
+
 ## What is Valaxy? {lang="en"}
 
 ::: en
