@@ -43,6 +43,9 @@ export default defineValaxyConfig({
 <script lang="ts" setup>
 import { useTwikooWithOptions } from 'valaxy-addon-twikoo'
 
+// twikoo loading style patch
+import 'valaxy-addon-twikoo/client/styles/index.scss'
+
 useTwikooWithOptions()
 </script>
 

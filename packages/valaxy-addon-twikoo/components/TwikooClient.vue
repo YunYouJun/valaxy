@@ -1,6 +1,6 @@
 <script lang="ts" setup>
-import { useTwikooWithOptions } from 'valaxy-addon-twikoo'
-import 'valaxy-addon-twikoo/client/styles/index.scss'
+import { useTwikooWithOptions } from '../client'
+import '../client/styles/index.scss'
 
 useTwikooWithOptions()
 </script>
