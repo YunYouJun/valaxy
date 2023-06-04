@@ -9,7 +9,7 @@ tags:
   - valaxy
   - 笔记
 top: 100
-outline: deep
+end: false
 ---
 
 ## What is Valaxy? {lang="en"}
@@ -24,11 +24,15 @@ Valaxy aims to be a next generation of static blogging frameworks/generators.
 Valaxy 的目标是成为新一代的静态博客框架/生成器。
 :::
 
+::: info
+
 - V + galaxy = Valaxy
   - V: it based on vue + vite
   - galaxy: 我希望它可以像一个平台工具，承载大家的博客，如同银河系一般美丽
   - xy: 有点像小云（Xiao Yun）的缩写（乌拉小云）
   - val: 瓦尔（基里）- 女武神
+
+:::
 
 我的博客此前构建于 Hexo 之上，但随着现代前端框架的不断进步，Hexo 的工作流与开发体验已开始落后。
 因此我决定基于 Vue 与 Vite 构建新的 [hexo-theme-yun](https://github.com/YunYouJun/hexo-theme-yun/)。
@@ -47,7 +51,14 @@ Valaxy 的目标是成为新一代的静态博客框架/生成器。
 
 <!-- more -->
 
-「告诉你两件好事吧」，第一它与 Hexo 相比开发体验和速度上都更胜一筹，第二它与 VitePress/VuePress 相比拥有更多针对博客的集成功能，譬如文章列表钩子、自动路由与组件注册、可覆盖的布局与主题等。
+「**告诉你两件好事吧**」：
+
+- 第一它与 Hexo 相比开发体验和速度上都更胜一筹
+- 第二它与 VitePress/VuePress 相比拥有更多针对博客的集成功能，譬如文章列表钩子、自动路由与组件注册、可覆盖的布局与主题等。
+
+我认为 Valaxy 最突出的优势在于它的热更新开发体验与可定制性，但你编写文章或博客配置时，你只需要保存，所有的变更将会即刻显示在页面上，几乎无需等待！
+
+此外，Valaxy 的主题还较少，但以 valaxy-theme-yun 为例，你可以覆盖主题中的**任何**组件，来定制或编写你自己的主题。
 
 一味地讲述 Valaxy 的优点似乎有些难以理解。
 
@@ -86,33 +97,13 @@ export default defineValaxyConfig<ThemeConfig>({
 })
 ```
 
-::: zh-CN
-配置、文章热更新
-
-而不是像 hexo 一样重新加载页面
-:::
-
-::: en
-Hot update for configuration, article.
-
-Instead of reloading pages like hexo
-:::
-
-### Motivation {lang="en"}
-
-### 动机 {lang="zh-CN"}
-
-- Slidev
-- VitePress
-- Vitesse
-
 ## Why not ...? {lang="en"}
 
 ## 为什么不是……？ {lang="zh-CN"}
 
-### Hexo/Hugo/Jekyll
-
 > Wordpress/Typecho 等是动态博客，因此不在考虑范围内。
+
+### [Hexo](https://hexo.io/)/[Hugo](https://gohugo.io/)/Jekyll
 
 我非常需要现代前端框架提供的开发热重载与 PJAX 体验，以及 TypeScript 的类型提示，但 Hexo 似乎已经有些积重难返，基于此来做一些工作将会束手束脚。
 
@@ -126,21 +117,17 @@ GitHub 为其提供了原生支持是一大优势，但我打算类似使用 Git
 在主题商店，填写自己的 Repo 地址，选中主题切换即可在线预览内容效果。（这完全可以做到，只需要动态纯前端获取 Markdown 内容并渲染即可）
 而用户想要应对 SEO 时，则可再将其渲染为静态页面。我也将会为此提供一个一键可用的 GitHub Actions 脚本。 -->
 
-### Vuepress/Vitepress
+### VuePress/VitePress
 
-Vitepress 几乎已成为了 Vuepress 的继任者。
+[VitePress](https://vitepress.dev/) 几乎已成为了 VuePress 的继任者。
 
-但 Vitepress 是一个很棒的静态站点生成器，它为文档打造，但缺少一些针对博客的定制便捷功能。
+但 VitePress 是一个很棒的静态站点生成器，它为文档打造，但缺少一些针对博客的定制便捷功能。
 如：RSS、文件自动路由（vue-router）、插件（挂件）机制、文章列表/分类/标签钩子、自定义覆盖布局、覆盖组件、单页切换的 i18n、KaTeX 等。
 
-### iles
-
-- [iles](https://github.com/ElMassimo/iles)
+### [iles](https://github.com/ElMassimo/iles)
 
 ::: zh-CN
-在完成了 Valaxy 基础结构的开发后，我从群友处得知了 iles，这和我实现的许多功能十分相似。
-
-它相比 Vitepress 拥有更多功能，也很适合写一个拥有更多交互的文档。
+iles 与 Valaxy 的一些基础结构功能很相似，它相比 Vitepress 拥有更多功能，也很适合写一个拥有更多交互的文档。
 
 不过它的定位仍旧是静态站点生成器，这与 Valaxy 静态博客生成器的定位不同。
 
