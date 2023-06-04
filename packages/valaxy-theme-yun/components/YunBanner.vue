@@ -8,7 +8,6 @@
 import type { CSSProperties } from 'vue'
 import { computed } from 'vue'
 import { random } from 'valaxy'
-import { useWindowSize } from '@vueuse/core'
 import { useThemeConfig } from '../composables'
 
 const themeConfig = useThemeConfig()
@@ -24,11 +23,8 @@ const chars = computed(() => {
 // height of top/bottom line
 const lineH = computed(() => chars.value.reduce((a, b) => a + b, 0) / 2)
 
-const { height } = useWindowSize()
-
 const bannerStyles = computed<CSSProperties>(() => {
   return {
-    '--banner-height': `${height.value}px`,
     '--banner-line-height': `calc(var(--banner-height, 100vh) / 2 - ${lineH.value}rem)`,
   }
 })
