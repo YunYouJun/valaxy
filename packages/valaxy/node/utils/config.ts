@@ -36,6 +36,7 @@ export const mergeValaxyConfig = createDefu((obj: any, key, value) => {
 export async function resolveValaxyConfigFromRoot(root: string, options?: ResolvedValaxyOptions) {
   return loadConfigFromFile<ValaxyNodeConfig>('valaxy.config', {
     rewrite<F = ValaxyNodeConfig | ValaxyConfigFn>(c: F) {
+      // eslint-disable-next-line @typescript-eslint/consistent-type-assertions
       return (typeof c === 'function' ? c(options || {} as ResolvedValaxyOptions) : c)
     },
     cwd: root,
@@ -66,6 +67,7 @@ export async function resolveValaxyConfig(options: ValaxyEntryOptions) {
 }
 
 export async function resolveAddonConfig(addons: ValaxyAddonResolver[], options?: ResolvedValaxyOptions) {
+  // eslint-disable-next-line @typescript-eslint/consistent-type-assertions
   let valaxyConfig: ValaxyNodeConfig = {} as ValaxyNodeConfig
   for (const addon of addons) {
     // unconfig get node_modules/valaxy-addon-xxx/valaxy.config.ts(not exist) but get userRoot/valaxy.config.ts

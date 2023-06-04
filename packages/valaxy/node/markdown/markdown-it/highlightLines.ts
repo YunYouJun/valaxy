@@ -21,7 +21,7 @@ export function highlightLinePlugin(md: MarkdownIt) {
 
     const lineNumbers = lines
       .split(',')
-      .map(v => v.split('-').map(v => parseInt(v, 10)))
+      .map(v => v.split('-').map(v => Number.parseInt(v, 10)))
 
     const code = options.highlight
       ? options.highlight(token.content, token.info, '')

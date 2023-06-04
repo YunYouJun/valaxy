@@ -32,7 +32,7 @@ function attrsToLines(attrs: string): HtmlRendererOptions['lineOptions'] {
 
   attrs
     .split(',')
-    .map(v => v.split('-').map(v => parseInt(v, 10)))
+    .map(v => v.split('-').map(v => Number.parseInt(v, 10)))
     .forEach(([start, end]) => {
       if (start && end) {
         result.push(
