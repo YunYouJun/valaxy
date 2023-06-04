@@ -60,13 +60,15 @@ useHead({
 // seo
 // todo: get first image url from markdown
 const siteUrl = computed(() => fm.value.url || siteConfig.value.url)
+const description = computed(() => fm.value.excerpt || fm.value.description || siteConfig.value.description)
+
 useSeoMeta({
-  description: computed(() => fm.value.excerpt || siteConfig.value.description),
-  ogDescription: computed(() => fm.value.excerpt || siteConfig.value.description),
+  description,
+  ogDescription: description,
   ogLocale: computed(() => fm.value.lang || siteConfig.value.lang),
   ogSiteName: computed(() => siteConfig.value.title),
   ogTitle: computed(() => fm.value.title || siteConfig.value.title),
-  ogImage: computed(() => siteConfig.value.favicon),
+  ogImage: computed(() => fm.value.ogImage || fm.value.cover || siteConfig.value.favicon),
   ogUrl: siteUrl,
 })
 

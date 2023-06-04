@@ -17,6 +17,7 @@ girls:
 # You also can pass a json link.
 # girls: https://wives.yunyoujun.cn/girls.json
 random: false
+excerpt: 一些我喜欢的可爱女孩子
 ---
 
 <div class="text-center" m="2" title="我全都要！">
