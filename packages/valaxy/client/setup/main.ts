@@ -3,6 +3,7 @@ import type { ViteSSGContext } from 'vite-ssg'
 
 import dayjs from 'dayjs'
 import relativeTime from 'dayjs/plugin/relativeTime'
+import timezone from 'dayjs/plugin/timezone'
 
 import { install as installValaxy } from '../modules/valaxy'
 import { install as installPinia } from '../modules/pinia'
@@ -23,6 +24,7 @@ export default function setupMain(ctx: ViteSSGContext) {
 
   // dayjs
   dayjs.extend(relativeTime)
+  dayjs.extend(timezone)
 
   /* __injections__ */
 }

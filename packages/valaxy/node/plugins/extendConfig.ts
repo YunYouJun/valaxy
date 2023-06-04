@@ -21,6 +21,7 @@ const clientDeps = [
   'dayjs',
   'dayjs/locale/zh-cn',
   'dayjs/plugin/relativeTime',
+  'dayjs/plugin/timezone',
 
   'katex',
   'nprogress',

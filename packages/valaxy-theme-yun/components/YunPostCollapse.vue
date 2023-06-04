@@ -20,7 +20,7 @@ watch(() => props.posts, () => {
     if (post.hide && post.hide !== 'index')
       return
     if (post.date) {
-      const year = parseInt(formatDate(post.date, 'YYYY'))
+      const year = Number.parseInt(formatDate(post.date, 'YYYY'))
       if (postListByYear.value[year]) {
         postListByYear.value[year].push(post)
       }

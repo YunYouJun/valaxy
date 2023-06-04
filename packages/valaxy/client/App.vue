@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { computed, provide, ref } from 'vue'
+import { computed, onBeforeMount, provide, ref } from 'vue'
 import { useHead, useSeoMeta } from '@vueuse/head'
 
 // @ts-expect-error virtual module
@@ -10,6 +10,7 @@ import ValaxyThemeApp from '/@valaxyjs/ThemeAppVue'
 import pkg from 'valaxy/package.json'
 import { useI18n } from 'vue-i18n'
 import { definePerson, defineWebPage, defineWebSite, useSchemaOrg } from '@vueuse/schema-org'
+import dayjs from 'dayjs'
 import ValaxyAddons from './components/ValaxyAddons.vue'
 import { isDark, useFrontmatter } from './composables'
 
@@ -89,6 +90,11 @@ useSchemaOrg([
   }),
   defineWebPage(),
 ])
+
+onBeforeMount(() => {
+  if (siteConfig.value.timezone)
+    dayjs.tz.setDefault(siteConfig.value.timezone)
+})
 </script>
 
 <template>
