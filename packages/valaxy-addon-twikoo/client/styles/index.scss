@@ -1,0 +1,13 @@
+// custom twikoo style, center loading spinner
+#twikoo {
+  .el-loading-mask {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .el-loading-spinner {
+    display: inline-flex;
+    width: unset;
+  }
+}

@@ -1,9 +1,9 @@
 import { clearAllBodyScrollLocks, disableBodyScroll } from 'body-scroll-lock'
 import type { Ref } from 'vue'
 
-export function useBodyScrollLock(screenRef: Ref<HTMLElement | undefined>) {
+export function useBodyScrollLock(screenRef?: Ref<HTMLElement | undefined>) {
   function lockBodyScroll() {
-    disableBodyScroll(screenRef.value! || document.body, { reserveScrollBarGap: true })
+    disableBodyScroll((screenRef && screenRef.value) || document.body, { reserveScrollBarGap: true })
   }
 
   function unlockBodyScroll() {

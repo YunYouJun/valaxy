@@ -38,7 +38,7 @@ const YunAlgoliaSearch = isAlgolia.value
 @use 'valaxy/client/styles/vars.scss' as *;
 
 .search-btn {
-  position: fixed;
+  position: absolute;
   top: 0.6rem;
   right: 0.8rem;
 

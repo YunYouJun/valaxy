@@ -9,9 +9,5 @@ useTwikooWithOptions()
 </template>
 
 <style lang="scss">
-// custom twikoo style
-#twikoo .el-loading-spinner {
-  top: 65%;
-  right: -50%;
-}
+@use 'valaxy-addon-twikoo/client/styles/index.scss';
 </style>
