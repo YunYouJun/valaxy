@@ -1,4 +1,4 @@
-import fs from 'node:fs'
+import fs from 'fs-extra'
 import type { PluginOption } from 'vite'
 import { splitVendorChunkPlugin } from 'vite'
 

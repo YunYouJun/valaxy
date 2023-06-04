@@ -1,5 +1,5 @@
-import { writeFile } from 'node:fs/promises'
 import { join, resolve } from 'node:path'
+import { writeFile } from 'fs-extra'
 import { render } from 'ejs'
 import dayjs from 'dayjs'
 import { ensureSuffix } from '@antfu/utils'

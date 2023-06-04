@@ -1,5 +1,5 @@
-import { readFileSync, writeFileSync } from 'node:fs'
 import { join } from 'node:path'
+import { readFileSync, writeFileSync } from 'fs-extra'
 import type { ReleaseType } from 'semver'
 import semver from 'semver'
 import consola from 'consola'

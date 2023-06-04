@@ -15,6 +15,6 @@
     "valaxy-theme-press": "link:../packages/valaxy-theme-press"
   },
   "devDependencies": {
-    "nodemon": "^2.0.19"
+    "nodemon": "^2.0.22"
   }
 }

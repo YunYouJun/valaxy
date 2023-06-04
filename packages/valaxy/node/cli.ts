@@ -4,7 +4,6 @@ import fs from 'fs-extra'
 import yargs from 'yargs'
 import type { InlineConfig, LogLevel } from 'vite'
 import { mergeConfig } from 'vite'
-import openBrowser from 'open'
 
 import consola from 'consola'
 
@@ -104,7 +103,8 @@ cli.command(
       {
         name: 'o',
         fullName: 'open',
-        action() {
+        async action() {
+          const { default: openBrowser } = await import('open')
           openBrowser(`http://localhost:${port}`)
         },
       },

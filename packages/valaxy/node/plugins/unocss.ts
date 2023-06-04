@@ -1,5 +1,5 @@
 import { resolve } from 'node:path'
-import { existsSync } from 'node:fs'
+import { existsSync } from 'fs-extra'
 import type { VitePluginConfig as UnoCSSConfig, VitePluginConfig } from 'unocss/vite'
 import jiti from 'jiti'
 import defu from 'defu'

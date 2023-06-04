@@ -1,6 +1,6 @@
 // copy from vitepress
-import fs from 'node:fs'
 import path from 'node:path'
+import fs from 'fs-extra'
 import c from 'picocolors'
 import { LRUCache } from 'lru-cache'
 import _debug from 'debug'

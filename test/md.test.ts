@@ -1,5 +1,4 @@
 // import { resolve } from 'path'
-// import fs from 'fs'
 import { describe, expect, it } from 'vitest'
 import { createMarkdownRenderer } from '../packages/valaxy/node/markdown'
 

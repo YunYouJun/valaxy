@@ -18,6 +18,7 @@ export default defineConfig((options) => {
     external: [
       '/@valaxyjs/config',
       '/@valaxyjs/context',
+      'open',
     ],
     outExtension({ format }) {
       return {
