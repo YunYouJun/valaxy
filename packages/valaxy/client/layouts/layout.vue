@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 // (Component as any) will crush page rendering
-import { asAny } from 'valaxy/client/utils'
+import { asAny } from 'valaxy'
 </script>
 
 <template>

@@ -1,7 +1,5 @@
 <script lang="ts" setup>
-import { useLayout, useSidebar } from 'valaxy'
-
-import { asAny } from 'valaxy/client/utils'
+import { asAny, useLayout, useSidebar } from 'valaxy'
 
 const { isOpen: isSidebarOpen, open: openSidebar, close: closeSidebar } = useSidebar()
 const layout = useLayout()

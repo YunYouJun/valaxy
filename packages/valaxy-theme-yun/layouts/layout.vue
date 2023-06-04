@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { asAny } from 'valaxy/client/utils'
+import { asAny } from 'valaxy'
 </script>
 
 <template>
