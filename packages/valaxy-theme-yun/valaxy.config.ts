@@ -36,7 +36,9 @@ export default defineValaxyTheme<ThemeConfig>((options) => {
           // add on demand external
           external: [
             'valaxy-addon-algolia',
+            // adapt for twikoo
             'valaxy-addon-twikoo',
+            'valaxy-addon-twikoo/client/styles/index.scss',
             'valaxy-addon-waline',
           ],
         },

@@ -57,3 +57,27 @@ useTwikooWithOptions()
 // custom twikoo style
 </style>
 ```
+
+#### External for On Demand
+
+主题不依赖于 `valaxy-addon-twikoo` 的同时，对用户自行安装的 `valaxy-addon-twikoo` 进行适配，需要在 `valaxy.config.ts` 中配置 `external`。
+
+```ts
+// valaxy.config.ts
+export default defineValaxyTheme<ThemeConfig>((options) => {
+  return {
+    vite: {
+      build: {
+        rollupOptions: {
+          // add on demand external
+          external: [
+            // adapt for twikoo
+            'valaxy-addon-twikoo',
+            'valaxy-addon-twikoo/client/styles/index.scss',
+          ],
+        },
+      },
+    },
+  }
+})
+```
