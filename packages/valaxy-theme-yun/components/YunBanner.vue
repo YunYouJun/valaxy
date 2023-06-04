@@ -23,12 +23,12 @@ const chars = computed(() => {
 // height of top/bottom line
 const lineH = computed(() => chars.value.reduce((a, b) => a + b, 0) / 2)
 
-const bannerStyles = ref()
+const bannerStyles = ref<CSSProperties>()
 onBeforeMount(() => {
   bannerStyles.value = {
     '--banner-height': `${window.innerHeight}px`,
     '--banner-line-height': `calc(var(--banner-height, 100vh) / 2 - ${lineH.value}rem)`,
-  } as CSSProperties
+  }
 })
 </script>
 

@@ -1,6 +1,8 @@
 <script lang="ts" setup>
 import { useLayout, useSidebar } from 'valaxy'
 
+import { asAny } from 'valaxy/client/utils'
+
 const { isOpen: isSidebarOpen, open: openSidebar, close: closeSidebar } = useSidebar()
 const layout = useLayout()
 </script>
@@ -16,7 +18,7 @@ const layout = useLayout()
 
     <slot>
       <router-view v-slot="{ Component }">
-        <component :is="Component as any">
+        <component :is="asAny(Component)">
           <template #main-header>
             <slot name="main-header" />
           </template>

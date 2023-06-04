@@ -1,3 +1,7 @@
+<script lang="ts" setup>
+import { asAny } from 'valaxy/client/utils'
+</script>
+
 <template>
   <ValaxySidebar>
     <slot name="sidebar">
@@ -9,7 +13,7 @@
   </ValaxySidebar>
 
   <router-view v-slot="{ Component }">
-    <component :is="Component as any">
+    <component :is="asAny(Component)">
       <template #main-header>
         <slot name="main-header" />
       </template>

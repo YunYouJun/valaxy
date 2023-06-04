@@ -1,6 +1,11 @@
+<script lang="ts" setup>
+// (Component as any) will crush page rendering
+import { asAny } from 'valaxy/client/utils'
+</script>
+
 <template>
   <router-view v-slot="{ Component }">
-    <component :is="Component as any">
+    <Component :is="asAny(Component)">
       <template #main-header>
         <slot name="main-header" />
       </template>
@@ -29,6 +34,6 @@
       <template #footer>
         <slot name="footer" />
       </template>
-    </component>
+    </Component>
   </router-view>
 </template>
