@@ -1,5 +1,3 @@
-@use "../mixins" as *;
-
 $banner-animation-duration: 1s;
 $char-animation-duration: 0.4s;
 
@@ -10,6 +8,7 @@ $char-animation-duration: 0.4s;
   position: relative;
   display: flex;
   flex-direction: column;
+  justify-content: center;
   align-items: center;
   width: 100%;
   height: var(--banner-container-height, 100vh);
@@ -62,7 +61,7 @@ $char-animation-duration: 0.4s;
 }
 
 .char {
-  font-family: get-css-var("font", "serif");
+  font-family: var(--va-font-serif);
   font-weight: 900;
   font-size: var(--banner-char-size, 1rem);
   background-color: var(--banner-char-bg-color);

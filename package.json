@@ -43,15 +43,15 @@
     "prepare": "husky install"
   },
   "devDependencies": {
-    "@antfu/eslint-config": "^0.39.4",
-    "@microsoft/api-extractor": "^7.35.1",
+    "@antfu/eslint-config": "^0.39.5",
+    "@microsoft/api-extractor": "^7.35.2",
     "@types/debug": "^4.1.8",
-    "@types/node": "^20.2.5",
+    "@types/node": "^20.3.0",
     "@types/prompts": "^2.4.4",
     "@types/resolve": "^1.20.2",
     "@types/semver": "^7.5.0",
     "cross-env": "^7.0.3",
-    "cypress": "^12.13.0",
+    "cypress": "^12.14.0",
     "eslint": "^8.42.0",
     "eslint-plugin-cypress": "^2.13.3",
     "https-localhost": "^4.7.1",
@@ -70,7 +70,7 @@
     "valaxy-addon-waline": "workspace:*",
     "valaxy-theme-press": "workspace:*",
     "valaxy-theme-yun": "workspace:*",
-    "vitest": "^0.31.4",
+    "vitest": "^0.32.0",
     "vue-tsc": "1.6.5",
     "zx": "^7.2.2"
   },

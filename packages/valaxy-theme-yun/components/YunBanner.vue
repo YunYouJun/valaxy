@@ -57,6 +57,8 @@ const bannerStyles = computed<CSSProperties>(() => {
 </template>
 
 <style lang="scss">
+@use "../styles/widgets/banner.scss" as *;
+
 :root {
   // banner
   --banner-line-color: black;

@@ -18,8 +18,5 @@ $c-primary: #0078e7 !default;
 @use "./common/sidebar.scss" as *;
 @use "./common/transition.scss" as *;
 
-// banner
-@use "./widgets/banner.scss" as *;
-
 // markdown
 @use "./common/markdown.scss";
