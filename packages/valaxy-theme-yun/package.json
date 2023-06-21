@@ -18,21 +18,12 @@
   "types": "types/index.d.ts",
   "dependencies": {
     "@iconify-json/ant-design": "^1.1.5",
-    "@iconify-json/simple-icons": "^1.1.55",
+    "@iconify-json/simple-icons": "^1.1.57",
     "animejs": "^3.2.1",
     "valaxy-addon-waline": "workspace:*"
   },
   "devDependencies": {
     "@types/animejs": "^3.1.7",
     "valaxy": "workspace:*"
-  },
-  "pnpm": {
-    "peerDependencyRules": {
-      "ignoreMissing": [
-        "@types/react",
-        "react",
-        "react-dom"
-      ]
-    }
   }
 }

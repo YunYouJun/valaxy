@@ -14,14 +14,7 @@
     "valaxy": "latest"
   },
   "dependencies": {
-    "@docsearch/css": "^3.5.0",
-    "@docsearch/js": "^3.5.0"
-  },
-  "pnpm": {
-    "peerDependencyRules": {
-      "ignoreMissing": [
-        "@algolia/client-search"
-      ]
-    }
+    "@docsearch/css": "^3.5.1",
+    "@docsearch/js": "^3.5.1"
   }
 }

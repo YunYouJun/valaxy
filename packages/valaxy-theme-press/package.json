@@ -19,20 +19,10 @@
   "main": "node/index.ts",
   "types": "types/index.d.ts",
   "dependencies": {
-    "@docsearch/css": "^3.5.0",
-    "@docsearch/js": "^3.5.0"
+    "@docsearch/css": "^3.5.1",
+    "@docsearch/js": "^3.5.1"
   },
   "devDependencies": {
     "valaxy": "workspace:*"
-  },
-  "pnpm": {
-    "peerDependencyRules": {
-      "ignoreMissing": [
-        "@algolia/client-search",
-        "@types/react",
-        "react",
-        "react-dom"
-      ]
-    }
   }
 }
