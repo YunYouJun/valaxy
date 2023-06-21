@@ -149,18 +149,18 @@ and update the date.
 
 ::: zh-CN
 
-- 开发时（`valaxy`）默认日志等级为 `info`
-- 构件时（`valaxy build`）默认日志等级为 `warn`
+- 开发与（`valaxy`）构建（`valaxy build`）时默认日志等级为 `info`
+- 可选项：['error', 'warn', 'info', 'silent']
 
 您可以通过设置日志等级控制。
 
-譬如 `valaxy build --log=info`。
+譬如 `valaxy build --log=warn`。
 :::
 
 ::: en
 
-- When developing (`valaxy`), the default log level is `info`
-- When building (`valaxy build`), the default log level is `warn`
+- The default log level is `info` when developing (`valaxy`) and building (`valaxy build`).
+- Options: ['error', 'warn', 'info', 'silent']
 
 You can use arguments to set the log level.
 
