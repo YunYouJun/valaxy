@@ -3,6 +3,8 @@ import { writeFile } from 'fs-extra'
 import { render } from 'ejs'
 import dayjs from 'dayjs'
 import { ensureSuffix } from '@antfu/utils'
+import { consola } from 'consola'
+import { green, magenta } from 'kolorist'
 import { exists } from './fs'
 import { getTemplate } from './scaffold'
 import { defaultPostTemplate, userRoot } from './constants'
@@ -14,9 +16,8 @@ export interface CreatePostParams {
   title: string
 }
 
-const pagesPath = resolve(userRoot, 'pages')
-
 export async function create(data: CreatePostParams) {
+  const pagesPath = resolve(userRoot, 'pages')
   const {
     path,
     title,
@@ -26,7 +27,7 @@ export async function create(data: CreatePostParams) {
   let counter = 0
 
   while (true) {
-    let destinationPath = join(pagesPath, postPath)
+    let destinationPath = resolve(pagesPath, postPath)
 
     if (counter)
       destinationPath = `${destinationPath}-${counter}`
@@ -35,7 +36,16 @@ export async function create(data: CreatePostParams) {
 
     if (!await exists(destinationPath)) {
       const content = await genLayoutTemplate(data)
-      writeFile(destinationPath, content, 'utf-8')
+      try {
+        writeFile(destinationPath, content, 'utf-8')
+        consola.success(`[valaxy new]: successfully generated file ${magenta(destinationPath)}`)
+      }
+      catch (e) {
+        // eslint-disable-next-line no-console
+        console.log(e)
+        consola.error(`[valaxy new]: failed to write file ${destinationPath}`)
+        consola.warn(`You should run ${green('valaxy new')} in your valaxy project root directory.`)
+      }
       return destinationPath
     }
     counter++

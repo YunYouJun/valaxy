@@ -1,5 +1,3 @@
-import consola from 'consola'
-import { magenta } from 'picocolors'
 import type { Argv } from 'yargs'
 import { type CreatePostParams, create } from './utils/post'
 
@@ -36,12 +34,11 @@ export function registerNewCommand(cli: Argv<{}>) {
         .strict()
         .help()
     }, async ({ title, path, date, layout }) => {
-      const filename = await create({
+      await create({
         title,
         date,
         layout,
         path,
       } as CreatePostParams)
-      consola.success(`[valaxy new]: successfully generated file ${magenta(filename)}`)
     })
 }
