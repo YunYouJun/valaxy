@@ -7,13 +7,16 @@ const router = useRouter()
 </script>
 
 <template>
-  <div class="sidebar-panel">
+  <div class="sidebar-panel" p="2">
     <div class="site-info" m="t-6">
       <router-link class="site-author-avatar" to="/about">
         <img class="rounded-full" :src="siteConfig.author.avatar" alt="avatar">
         <span class="site-author-status">{{ siteConfig.author.status.emoji }}</span>
       </router-link>
-      <div class="site-author-name">
+      <div
+        class="site-author-name leading-6"
+        m="t-0 b-4"
+      >
         <router-link to="/about">
           {{ siteConfig.author.name }}
         </router-link>
@@ -44,10 +47,6 @@ const router = useRouter()
 <style lang="scss">
 @use "valaxy/client/styles/mixins/index.scss" as *;
 
-.sidebar-panel {
-  padding: 0.5rem;
-}
-
 .site-info {
   &.fix-top {
     margin-top: -1.5rem;
@@ -73,12 +72,6 @@ const router = useRouter()
       box-shadow: 0 0 30px rgba(var(--va-c-primary-rgb), 0.2);
     }
   }
-}
-
-.site-author-name {
-  margin-top: 0;
-  margin-bottom: 1rem;
-  line-height: 1.5;
 }
 
 .site-author-status {

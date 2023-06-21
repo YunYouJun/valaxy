@@ -13,12 +13,11 @@ const isPage = computed(() => route.path.startsWith('/page'))
 </script>
 
 <template>
-  <main class="yun-main justify-center items-center" :class="(isHome && !app.isSidebarOpen) && 'pl-0'" flex="~ col" w="full">
-    <ValaxySidebar>
-      <slot name="sidebar">
-        <YunSidebar />
-      </slot>
-    </ValaxySidebar>
+  <main
+    class="yun-main flex-center"
+    :class="(isHome && !app.isSidebarOpen) && 'pl-0'" flex="~ col" w="full"
+  >
+    <YunSidebar />
 
     <template v-if="!isPage">
       <YunBanner v-if="themeConfig.banner.enable" />

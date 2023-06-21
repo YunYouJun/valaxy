@@ -3,7 +3,7 @@ defineProps<{ cover?: string }>()
 </script>
 
 <template>
-  <div class="yun-card">
+  <div class="yun-card flex-center" flex="col" min-h="100px" bg="$va-c-bg-light">
     <img
       v-if="cover"
       width="640" height="360"
@@ -21,17 +21,3 @@ defineProps<{ cover?: string }>()
     </div>
   </div>
 </template>
-
-<style lang="scss">
-.yun-card {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  flex-direction: column;
-
-  min-height: 100px;
-
-  // todo
-  background-color: var(--va-c-bg-light);
-}
-</style>

@@ -3,14 +3,10 @@ import { asAny } from 'valaxy'
 </script>
 
 <template>
-  <ValaxySidebar>
-    <slot name="sidebar">
-      <YunSidebar v-if="$slots['sidebar-child']">
-        <slot name="sidebar-child" />
-      </YunSidebar>
-      <YunSidebar v-else />
-    </slot>
-  </ValaxySidebar>
+  <YunSidebar v-if="$slots['sidebar-child']">
+    <slot name="sidebar-child" />
+  </YunSidebar>
+  <YunSidebar v-else />
 
   <router-view v-slot="{ Component }">
     <component :is="asAny(Component)">
