@@ -205,8 +205,8 @@ importers:
         specifier: ^3.1.0
         version: 3.1.0
       critters:
-        specifier: ^0.0.19
-        version: 0.0.19
+        specifier: ^0.0.18
+        version: 0.0.18
       cross-spawn:
         specifier: ^7.0.3
         version: 7.0.3
@@ -314,7 +314,7 @@ importers:
         version: 0.8.0(vite@4.3.9)(vue-router@4.2.2)(vue@3.3.4)
       vite-ssg:
         specifier: 0.22.2
-        version: 0.22.2(@vueuse/head@1.1.26)(critters@0.0.19)(vite@4.3.9)(vue-router@4.2.2)(vue@3.3.4)
+        version: 0.22.2(@vueuse/head@1.1.26)(critters@0.0.18)(vite@4.3.9)(vue-router@4.2.2)(vue@3.3.4)
       vite-ssg-sitemap:
         specifier: 0.5.1
         version: 0.5.1
@@ -2640,7 +2640,7 @@ packages:
     dependencies:
       '@intlify/bundle-utils': 6.0.1(vue-i18n@9.2.2)
       '@intlify/shared': 9.3.0-beta.17
-      '@rollup/pluginutils': 5.0.2
+      '@rollup/pluginutils': 5.0.2(rollup@2.79.1)
       '@vue/compiler-sfc': 3.3.4
       debug: 4.3.4(supports-color@8.1.1)
       fast-glob: 3.2.12
@@ -2899,20 +2899,6 @@ packages:
       rollup: 2.79.1
     dev: true
 
-  /@rollup/pluginutils@5.0.2:
-    resolution: {integrity: sha512-pTd9rIsP92h+B6wWwFbW8RkZv4hiR/xKsqre4SIuAOaOEQRxi0lqLke9k2/7WegC85GgUs9pjmOjCUi3In4vwA==}
-    engines: {node: '>=14.0.0'}
-    peerDependencies:
-      rollup: ^1.20.0||^2.0.0||^3.0.0
-    peerDependenciesMeta:
-      rollup:
-        optional: true
-    dependencies:
-      '@types/estree': 1.0.1
-      estree-walker: 2.0.2
-      picomatch: 2.3.1
-    dev: false
-
   /@rollup/pluginutils@5.0.2(rollup@2.79.1):
     resolution: {integrity: sha512-pTd9rIsP92h+B6wWwFbW8RkZv4hiR/xKsqre4SIuAOaOEQRxi0lqLke9k2/7WegC85GgUs9pjmOjCUi3In4vwA==}
     engines: {node: '>=14.0.0'}
@@ -2926,7 +2912,6 @@ packages:
       estree-walker: 2.0.2
       picomatch: 2.3.1
       rollup: 2.79.1
-    dev: true
 
   /@rushstack/node-core-library@3.59.4(@types/node@20.3.1):
     resolution: {integrity: sha512-YAKJDC6Mz/KA1D7bvB88WaRX3knt/ZuLzkRu5G9QADGSjLtvTWzCNCytRF2PCSaaHOZaZsWul4F1KQdgFgUDqA==}
@@ -3398,7 +3383,7 @@ packages:
     hasBin: true
     dependencies:
       '@ampproject/remapping': 2.2.1
-      '@rollup/pluginutils': 5.0.2
+      '@rollup/pluginutils': 5.0.2(rollup@2.79.1)
       '@unocss/config': 0.53.1
       '@unocss/core': 0.53.1
       '@unocss/preset-uno': 0.53.1
@@ -3556,7 +3541,7 @@ packages:
       vite: ^2.9.0 || ^3.0.0-0 || ^4.0.0
     dependencies:
       '@ampproject/remapping': 2.2.1
-      '@rollup/pluginutils': 5.0.2
+      '@rollup/pluginutils': 5.0.2(rollup@2.79.1)
       '@unocss/config': 0.53.1
       '@unocss/core': 0.53.1
       '@unocss/inspector': 0.53.1
@@ -4731,8 +4716,8 @@ packages:
       vary: 1.1.2
     dev: true
 
-  /critters@0.0.19:
-    resolution: {integrity: sha512-Fm4ZAXsG0VzWy1U30rP4qxbaWGSsqXDgSupJW1OUJGDAs0KWC+j37v7p5a2kZ9BPJvhRzWm3be+Hc9WvQOBUOw==}
+  /critters@0.0.18:
+    resolution: {integrity: sha512-I7t/da29EIWXgxx2RSW1md1DvenEgEuLlki6nHE5+Nc0e3eib5AuGIGbPVuI8q+erCKkSP9T/NqYfvasAy7x7A==}
     dependencies:
       chalk: 4.1.2
       css-select: 5.1.0
@@ -8409,7 +8394,6 @@ packages:
     hasBin: true
     optionalDependencies:
       fsevents: 2.3.2
-    dev: true
 
   /rollup@3.20.7:
     resolution: {integrity: sha512-P7E2zezKSLhWnTz46XxjSmInrbOCiul1yf+kJccMxT56vxjHwCbDfoLbiqFgu+WQoo9ij2PkraYaBstgB2prBA==}
@@ -9458,7 +9442,7 @@ packages:
         optional: true
     dependencies:
       '@antfu/utils': 0.7.4
-      '@rollup/pluginutils': 5.0.2
+      '@rollup/pluginutils': 5.0.2(rollup@2.79.1)
       chokidar: 3.5.3
       debug: 4.3.4(supports-color@8.1.1)
       fast-glob: 3.2.12
@@ -9662,7 +9646,7 @@ packages:
     resolution: {integrity: sha512-X3ZImSVpFMypBTIhaTqEOdKj7tO9n7Puzd8vsxuQluFUyu6x/e2Dzv8qk5qZsC34ZR6iHt0wa2sPhDu1OjdOsA==}
     dev: false
 
-  /vite-ssg@0.22.2(@vueuse/head@1.1.26)(critters@0.0.19)(vite@4.3.9)(vue-router@4.2.2)(vue@3.3.4):
+  /vite-ssg@0.22.2(@vueuse/head@1.1.26)(critters@0.0.18)(vite@4.3.9)(vue-router@4.2.2)(vue@3.3.4):
     resolution: {integrity: sha512-eSlp/WiT7dkpZ6TIkZuALUcOnCJlVfqj38OdpFVZHtHFcwCH9b95edu5Hgti5WnGrq33iVfGOK67zWpt9ClroA==}
     engines: {node: '>=14.0.0'}
     hasBin: true
@@ -9680,7 +9664,7 @@ packages:
     dependencies:
       '@unhead/dom': 1.1.26
       '@vueuse/head': 1.1.26(vue@3.3.4)
-      critters: 0.0.19
+      critters: 0.0.18
       fs-extra: 11.1.1
       html-minifier: 4.0.0
       html5parser: 2.0.2
