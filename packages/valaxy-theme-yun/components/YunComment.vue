@@ -16,7 +16,7 @@ const YunTwikoo = runtimeConfig.value.addons['valaxy-addon-twikoo']
 </script>
 
 <template>
-  <YunCard w="full" p="4" class="comment sm:p-6 lg:px-12 xl:px-16">
+  <YunCard w="full" p="4" class="comment markdown-body sm:p-6 lg:px-12 xl:px-16">
     <ClientOnly>
       <YunWaline />
       <YunTwikoo />
