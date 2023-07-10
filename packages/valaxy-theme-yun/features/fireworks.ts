@@ -220,7 +220,7 @@ export function createFireworks(config: Partial<FireworksConfig>) {
   }
 
   const render = anime({
-    duration: Infinity,
+    duration: Number.POSITIVE_INFINITY,
     update: () => {
       ctx.clearRect(0, 0, canvasEl.width, canvasEl.height)
     },

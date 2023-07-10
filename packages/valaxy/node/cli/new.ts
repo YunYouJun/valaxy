@@ -5,7 +5,7 @@ import { type CreatePostParams, create } from './utils/post'
  * register new post command
  * @param cli
  */
-export function registerNewCommand(cli: Argv<{}>) {
+export function registerNewCommand(cli: Argv<object>) {
   cli.command(
     'new <title>',
     'Draft a new post',

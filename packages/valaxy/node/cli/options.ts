@@ -5,7 +5,7 @@ import type { Argv } from 'yargs'
  * @param args
  * @returns
  */
-export function commonOptions(args: Argv<{}>) {
+export function commonOptions(args: Argv<object>) {
   return args.positional('root', {
     default: '.',
     type: 'string',
