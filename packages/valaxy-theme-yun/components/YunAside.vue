@@ -19,8 +19,12 @@ const app = useAppStore()
   <ValaxyOverlay :show="app.isRightSidebarOpen" @click="app.toggleRightSidebar()" />
 
   <!--  -->
-  <aside class="va-card yun-aside" :class="app.isRightSidebarOpen && 'open'" m="l-4" text="center">
-    <div class="aside-container" flex="~ col" overflow="auto">
+  <aside
+    class="va-card yun-aside"
+    :class="app.isRightSidebarOpen && 'open'" m="l-4" text="center"
+    overflow="auto"
+  >
+    <div class="aside-container" flex="~ col">
       <h2 v-if="frontmatter.toc !== false" m="t-6 b-2" font="serif black">
         {{ t('sidebar.toc') }}
       </h2>
