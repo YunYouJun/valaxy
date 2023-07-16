@@ -7,7 +7,10 @@
     "build:ssg": "valaxy build --ssg",
     "dev": "nodemon -w \"../packages/valaxy/dist/*.cjs\" --exec \"valaxy .\"",
     "rss": "valaxy rss",
-    "serve": "vite preview"
+    "serve": "vite preview",
+    "docs:dev": "vitepress dev",
+    "docs:build": "vitepress build",
+    "docs:preview": "vitepress preview"
   },
   "dependencies": {
     "valaxy": "link:../packages/valaxy",
@@ -15,6 +18,7 @@
     "valaxy-theme-press": "link:../packages/valaxy-theme-press"
   },
   "devDependencies": {
-    "nodemon": "^2.0.22"
+    "nodemon": "^2.0.22",
+    "vitepress": "1.0.0-beta.5"
   }
 }

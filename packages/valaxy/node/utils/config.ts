@@ -1,10 +1,11 @@
 import { existsSync } from 'node:fs'
 import { resolve } from 'node:path'
+import process from 'node:process'
 import { mergeConfig as mergeViteConfig } from 'vite'
 import { createDefu } from 'defu'
 import { isFunction } from '@antfu/utils'
-
 import { cyan, dim } from 'kolorist'
+
 import type { ResolvedValaxyOptions, ValaxyEntryOptions } from '../options'
 import type { ValaxyAddonFn, ValaxyAddonResolver, ValaxyConfigFn, ValaxyNodeConfig } from '../types'
 import { loadConfigFromFile } from '../config/utils'

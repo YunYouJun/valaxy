@@ -1,3 +1,4 @@
+import process from 'node:process'
 import { defineValaxyConfig } from 'valaxy'
 import type { PressTheme } from 'valaxy-theme-press'
 import { addonAlgolia } from 'valaxy-addon-algolia'

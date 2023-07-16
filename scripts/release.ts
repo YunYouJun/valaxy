@@ -1,8 +1,8 @@
+import process from 'node:process'
 import prompts from 'prompts'
 import semver from 'semver'
 import { yellow } from 'kolorist'
 import consola from 'consola'
-
 import { $ } from 'zx'
 
 import minimist from 'minimist'

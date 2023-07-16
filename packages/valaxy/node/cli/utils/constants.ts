@@ -1,3 +1,5 @@
+import process from 'node:process'
+
 export const userRoot = process.cwd()
 
 export const defaultPostTemplate = `---

@@ -1,4 +1,5 @@
 import { dirname, resolve } from 'node:path'
+import process from 'node:process'
 import fs from 'fs-extra'
 import _debug from 'debug'
 import fg from 'fast-glob'

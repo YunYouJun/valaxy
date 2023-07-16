@@ -1,3 +1,4 @@
+import process from 'node:process'
 import type { LoadConfigSource } from 'unconfig'
 import { loadConfig } from 'unconfig'
 import { normalizePath } from 'vite'

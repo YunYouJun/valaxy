@@ -1,3 +1,4 @@
+import process from 'node:process'
 import type { InlineConfig } from 'vite'
 import { createServer as createViteServer, mergeConfig as mergeViteConfig } from 'vite'
 
