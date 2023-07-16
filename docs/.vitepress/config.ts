@@ -7,8 +7,53 @@ export default defineConfig({
   themeConfig: {
     // https://vitepress.dev/reference/default-theme-config
     nav: [
-      { text: 'Home', link: '/' },
-      { text: 'Examples', link: '/markdown-examples' },
+      {
+        text: 'Docs',
+        items: [
+          {
+            text: 'Getting Started',
+            link: '/guide/getting-started',
+          },
+          {
+            text: 'Migration from Other',
+            link: '/migration/',
+          },
+        ],
+      },
+      {
+        text: 'Themes',
+        items: [
+          {
+            text: 'Use Theme',
+            link: '/themes/use',
+          },
+          {
+            text: 'Write A Theme',
+            link: '/themes/write',
+          },
+          {
+            text: 'Themes Gallery',
+            link: '/themes/gallery',
+          },
+        ],
+      },
+      {
+        text: 'Addons',
+        items: [
+          {
+            text: 'Why need addons?',
+            link: '/addons',
+          },
+          {
+            text: 'Use A Addon',
+            link: '/addons/use',
+          },
+          {
+            text: 'Write A Addon',
+            link: '/addons/write',
+          },
+        ],
+      },
     ],
 
     sidebar: [

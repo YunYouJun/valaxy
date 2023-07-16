@@ -32,6 +32,7 @@
     "dev:lib": "pnpm -C packages/valaxy run dev",
     "dev": "pnpm -r --filter=./packages/** --parallel run dev",
     "docs": "pnpm -C docs run dev",
+    "docs:dev": "pnpm -C docs run docs:dev",
     "lint": "eslint .",
     "prepublishOnly": "npm run build",
     "release": "tsx scripts/release.ts",
