@@ -3,8 +3,6 @@ import 'vue-router'
 import type { Post } from './types'
 import type { Header } from './node/markdown'
 
-declare const __DEV__: boolean
-
 declare interface Window {
   // algolia
   instantsearch: any

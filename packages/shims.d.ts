@@ -1,5 +1,3 @@
-declare const __DEV__: boolean
-
 // this module's typing is broken.
 declare module '@docsearch/js' {
   function docsearch<T = any>(props: T): void

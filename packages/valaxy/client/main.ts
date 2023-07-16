@@ -11,7 +11,7 @@ import 'uno.css'
 
 import setupMain from './setup/main'
 
-const routes = setupLayouts(__DEV__
+const routes = setupLayouts(import.meta.env.DEV
   ? generatedRoutes
   : generatedRoutes.filter(i =>
     i.meta && i.meta.frontmatter && !i.meta.frontmatter.draft,

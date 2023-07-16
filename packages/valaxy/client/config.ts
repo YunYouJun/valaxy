@@ -19,7 +19,7 @@ import type { DefaultThemeConfig, ValaxyConfig } from 'valaxy/types'
  */
 function parse<T = any>(data: string): T {
   const parsed = JSON.parse(data)
-  return (__DEV__ ? readonly(parsed) : parsed) as T
+  return (import.meta.env.DEV ? readonly(parsed) : parsed) as T
 }
 
 interface ValaxyContext {
