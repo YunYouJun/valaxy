@@ -2,7 +2,7 @@ import { defineConfig } from 'vitepress'
 
 // https://vitepress.dev/reference/site-config
 export default defineConfig({
-  title: 'Valaxy Docs',
+  title: 'Valaxy',
   description: 'Docs for Valaxy',
   themeConfig: {
     // https://vitepress.dev/reference/default-theme-config

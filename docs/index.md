@@ -2,6 +2,9 @@
 # https://vitepress.dev/reference/default-theme-home-page
 layout: home
 
+title: Valaxy
+titleTemplate: 'Next Generation Static Blog Framework'
+
 hero:
   name: Valaxy
   text: Next Generation Static Blog Framework
@@ -12,7 +15,8 @@ hero:
   actions:
     - theme: brand
       text: Get Started
-      link: /guide
+      # link: /guide
+      link: /pages/guide/getting-started.md
     - theme: alt
       text: Why Valaxy?
       link: /guide/why
@@ -32,3 +36,5 @@ features:
     details: Go wild with true SSG + SPA architecture. Static on page load, but engage users with 100% interactivity from there.
 ---
 
+<HomeHero />
+<ValaxySponsors />

@@ -34,9 +34,6 @@ const YunAlgoliaSearch = isAlgolia.value
 </template>
 
 <style lang="scss">
-@use 'sass:map';
-@use 'valaxy/client/styles/vars.scss' as *;
-
 .search-btn {
   position: absolute;
   top: 0.6rem;
