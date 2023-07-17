@@ -1,4 +1,6 @@
 import { defineConfig } from 'vitepress'
+import UnoCSS from 'unocss/vite'
+import Components from 'unplugin-vue-components/vite'
 
 // https://vitepress.dev/reference/site-config
 export default defineConfig({
@@ -68,6 +70,21 @@ export default defineConfig({
 
     socialLinks: [
       { icon: 'github', link: 'https://github.com/vuejs/vitepress' },
+    ],
+  },
+
+  vite: {
+    plugins: [
+      UnoCSS(),
+
+      // https://github.com/antfu/unplugin-vue-components
+      Components({
+        allowOverrides: true,
+        dirs: ['.vitepress/theme/components'],
+        dts: '.vitepress/theme/components.d.ts',
+        // for docs md
+        include: [/\.vue/, /\.md/],
+      }),
     ],
   },
 })
