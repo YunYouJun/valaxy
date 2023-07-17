@@ -15,6 +15,14 @@ categories:
 You can custom page by front-matter.
 :::
 
+::: tip
+
+更多配置项可参见：
+
+- 页面配置：[PostFrontmatter](https://github.com/YunYouJun/valaxy/blob/main/packages/valaxy/types/posts.ts#L144)
+
+:::
+
 ### titleTemplate
 
 ```md

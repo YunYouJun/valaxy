@@ -56,6 +56,15 @@ hide: true
 
 :::
 
+::: tip
+
+更多配置项可参见：
+
+- 文章配置：[PostFrontmatter](https://github.com/YunYouJun/valaxy/blob/main/packages/valaxy/types/posts.ts#L144) （文章配置包含页面配置）
+- 页面配置：[PageFrontmatter](https://github.com/YunYouJun/valaxy/blob/main/packages/valaxy/types/posts.ts#L27)
+
+:::
+
 ## 摘要 {lang="zh-CN"}
 
 ::: zh-CN
