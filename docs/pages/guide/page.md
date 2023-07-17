@@ -19,7 +19,7 @@ You can custom page by front-matter.
 
 更多配置项可参见：
 
-- 页面配置：[PostFrontmatter](https://github.com/YunYouJun/valaxy/blob/main/packages/valaxy/types/posts.ts#L144)
+- 页面（Page）配置：[PageFrontmatter](https://github.com/YunYouJun/valaxy/blob/main/packages/valaxy/types/posts.ts#L27)
 
 :::
 

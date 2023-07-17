@@ -9,6 +9,15 @@ categories:
 
 ## FrontMatter
 
+::: tip
+
+更多配置项可参见：
+
+- 文章（Post）配置：[PostFrontmatter](https://github.com/YunYouJun/valaxy/blob/main/packages/valaxy/types/posts.ts#L144) （文章配置包含页面配置）
+- 页面（Page）配置：[PageFrontmatter](https://github.com/YunYouJun/valaxy/blob/main/packages/valaxy/types/posts.ts#L27)
+
+:::
+
 ::: zh-CN
 **文章**（`post`）继承自**页面**（`page`），因此**页面**中的 Front Matter 通用被**文章**支持。
 
@@ -53,15 +62,6 @@ hide: true
   - `md`: Display as original markdown
   - `html`: Display as HTML
   - `text`: Display as text (removing HTML tags)
-
-:::
-
-::: tip
-
-更多配置项可参见：
-
-- 文章配置：[PostFrontmatter](https://github.com/YunYouJun/valaxy/blob/main/packages/valaxy/types/posts.ts#L144) （文章配置包含页面配置）
-- 页面配置：[PageFrontmatter](https://github.com/YunYouJun/valaxy/blob/main/packages/valaxy/types/posts.ts#L27)
 
 :::
 
