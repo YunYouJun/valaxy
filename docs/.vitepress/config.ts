@@ -2,6 +2,15 @@ import { defineConfig } from 'vitepress'
 import UnoCSS from 'unocss/vite'
 import Components from 'unplugin-vue-components/vite'
 
+import {
+  presetAttributify,
+  presetIcons,
+  presetTypography,
+  presetUno,
+  transformerDirectives,
+  transformerVariantGroup,
+} from 'unocss'
+
 // https://vitepress.dev/reference/site-config
 export default defineConfig({
   title: 'Valaxy',
@@ -75,7 +84,21 @@ export default defineConfig({
 
   vite: {
     plugins: [
-      UnoCSS(),
+      UnoCSS({
+        presets: [
+          presetUno(),
+          presetAttributify(),
+          presetIcons({
+            scale: 1.2,
+            warn: true,
+          }),
+          presetTypography(),
+        ],
+        transformers: [
+          transformerDirectives(),
+          transformerVariantGroup(),
+        ],
+      }),
 
       // https://github.com/antfu/unplugin-vue-components
       Components({
