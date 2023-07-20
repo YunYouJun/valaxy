@@ -90,13 +90,6 @@ export interface SiteConfig {
     }
   }
 
-  date: {
-    /**
-     * The format of date
-     * @default '' as 'YYYY-MM-DD HH:mm:ss'
-     */
-    format: string
-  }
   /**
    * show last updated time by git/mtime
    */

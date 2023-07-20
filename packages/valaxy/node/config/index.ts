@@ -48,9 +48,6 @@ export const defaultSiteConfig: SiteConfig = {
   },
   social: [],
 
-  date: {
-    format: '',
-  },
   lastUpdated: true,
 
   license: {

@@ -9,7 +9,7 @@ import type { Author, FeedOptions, Item } from 'feed'
 import { Feed } from 'feed'
 import consola from 'consola'
 import type { ResolvedValaxyOptions } from './options'
-import { formatMdDate } from './utils/date'
+import { getCreatedTime, getUpdatedTime } from './utils/date'
 import { ensurePrefix, isExternal } from './utils'
 import { EXCERPT_SEPARATOR } from './constants'
 
@@ -77,7 +77,13 @@ export async function build(options: ResolvedValaxyOptions) {
     if (data.hide)
       continue
 
-    await formatMdDate(data, i, siteConfig.date?.format, siteConfig.lastUpdated)
+    const path = i
+    if (!data.date)
+      data.date = await getCreatedTime(path)
+    if (siteConfig.lastUpdated) {
+      if (!data.updated)
+        data.updated = await getUpdatedTime(path)
+    }
 
     // todo i18n
 

@@ -3,6 +3,7 @@ import type { ViteSSGContext } from 'vite-ssg'
 
 import dayjs from 'dayjs'
 import relativeTime from 'dayjs/plugin/relativeTime'
+import utc from 'dayjs/plugin/utc'
 import timezone from 'dayjs/plugin/timezone'
 
 import { install as installValaxy } from '../modules/valaxy'
@@ -24,6 +25,7 @@ export default function setupMain(ctx: ViteSSGContext) {
 
   // dayjs
   dayjs.extend(relativeTime)
+  dayjs.extend(utc)
   dayjs.extend(timezone)
 
   /* __injections__ */

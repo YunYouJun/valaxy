@@ -8,7 +8,7 @@ import type { Post } from '../..'
  * @returns
  */
 export function formatDate(date: string | number | Date, template = 'YYYY-MM-DD') {
-  const today = dayjs(date)
+  const today = dayjs.tz(date)
   return today.format(template)
 }
 
