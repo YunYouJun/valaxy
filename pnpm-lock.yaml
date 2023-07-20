@@ -259,6 +259,9 @@ importers:
       cross-spawn:
         specifier: ^7.0.3
         version: 7.0.3
+      css-i18n:
+        specifier: workspace:*
+        version: link:../css-i18n
       dayjs:
         specifier: ^1.11.9
         version: 1.11.9
