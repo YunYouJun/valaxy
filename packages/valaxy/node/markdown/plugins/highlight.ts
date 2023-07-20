@@ -1,7 +1,12 @@
 // ref vitepress
 import { customAlphabet } from 'nanoid'
 import c from 'picocolors'
-import type { HtmlRendererOptions, IThemeRegistration } from 'shiki'
+import {
+  BUNDLED_LANGUAGES,
+  type HtmlRendererOptions,
+  type ILanguageRegistration,
+  type IThemeRegistration,
+} from 'shiki'
 import {
   type Processor,
   addClass,
@@ -12,7 +17,8 @@ import {
   defineProcessor,
   getHighlighter,
 } from 'shiki-processor'
-import type { ThemeOptions } from '../markdown'
+import type { Logger } from 'vite'
+import type { ThemeOptions } from '..'
 
 const nanoid = customAlphabet('abcdefghijklmnopqrstuvwxyz', 10)
 
@@ -58,8 +64,10 @@ const errorLevelProcessor = defineProcessor({
 })
 
 export async function highlight(
-  theme: ThemeOptions = 'material-theme-palenight',
-  defaultLang = 'txt',
+  theme: ThemeOptions,
+  languages: ILanguageRegistration[] = [],
+  defaultLang: string = '',
+  logger: Pick<Logger, 'warn'> = console,
 ): Promise<(str: string, lang: string, attrs: string) => string> {
   const hasSingleTheme = typeof theme === 'string' || 'name' in theme
   const getThemeName = (themeValue: IThemeRegistration) =>
@@ -74,6 +82,7 @@ export async function highlight(
 
   const highlighter = await getHighlighter({
     themes: hasSingleTheme ? [theme] : [theme.dark, theme.light],
+    langs: [...BUNDLED_LANGUAGES, ...languages],
     processors,
   })
 
@@ -90,25 +99,28 @@ export async function highlight(
 
     if (lang) {
       const langLoaded = highlighter.getLoadedLanguages().includes(lang as any)
-      if (!langLoaded) {
-        if (lang !== defaultLang) {
-          console.warn(
-            c.yellow(
-              `The language '${lang}' is not loaded, falling back to '${
-                defaultLang
-              }' for syntax highlighting.`,
-            ),
-          )
-        }
+      if (!langLoaded && lang !== 'ansi' && lang !== 'txt') {
+        logger.warn(
+          c.yellow(
+            `\nThe language '${lang}' is not loaded, falling back to '${
+              defaultLang || 'txt'
+            }' for syntax highlighting.`,
+          ),
+        )
         lang = defaultLang
       }
     }
 
     const lineOptions = attrsToLines(attrs)
-    const cleanup = (str: string) =>
-      str
-        .replace(preRE, (_, attributes) => `<pre ${vPre}${attributes}>`)
+    const cleanup = (str: string) => {
+      return str
+        .replace(
+          preRE,
+          (_, attributes) =>
+            `<pre ${vPre}${attributes.replace(' tabindex="0"', '')}>`,
+        )
         .replace(styleRE, (_, style) => _.replace(style, ''))
+    }
 
     const mustaches = new Map<string, string>()
 
@@ -132,42 +144,34 @@ export async function highlight(
       return s
     }
 
-    if (hasSingleTheme) {
-      return cleanup(
-        restoreMustache(
-          highlighter.codeToHtml(removeMustache(str), {
-            lang,
-            lineOptions,
-            theme: getThemeName(theme),
-          }),
-        ),
+    const fillEmptyHighlightedLine = (s: string) => {
+      return s.replace(
+        /(<span class="line highlighted">)(<\/span>)/g,
+        '$1<wbr>$2',
       )
     }
 
-    const dark = addClass(
-      cleanup(
-        highlighter.codeToHtml(str, {
-          lang,
-          lineOptions,
-          theme: getThemeName(theme.dark),
-        }),
-      ),
-      'va-code-dark',
-      'pre',
-    )
+    str = removeMustache(str).trim()
 
-    const light = addClass(
-      cleanup(
-        highlighter.codeToHtml(str, {
-          lang,
-          lineOptions,
-          theme: getThemeName(theme.light),
-        }),
-      ),
-      'va-code-light',
-      'pre',
-    )
+    const codeToHtml = (theme: IThemeRegistration) => {
+      const res
+        = lang === 'ansi'
+          ? highlighter.ansiToHtml(str, {
+            lineOptions,
+            theme: getThemeName(theme),
+          })
+          : highlighter.codeToHtml(str, {
+            lang,
+            lineOptions,
+            theme: getThemeName(theme),
+          })
+      return fillEmptyHighlightedLine(cleanup(restoreMustache(res)))
+    }
 
+    if (hasSingleTheme)
+      return codeToHtml(theme)
+    const dark = addClass(codeToHtml(theme.dark), 'vp-code-dark', 'pre')
+    const light = addClass(codeToHtml(theme.light), 'vp-code-light', 'pre')
     return dark + light
   }
 }

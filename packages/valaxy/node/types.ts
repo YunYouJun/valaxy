@@ -6,7 +6,7 @@ import type { UserConfig as ViteUserConfig } from 'vite'
 import type { presetAttributify, presetIcons, presetTypography, presetUno } from 'unocss'
 import type { DefaultThemeConfig, PartialDeep, ValaxyAddon, ValaxyConfig } from '../types'
 import type { ResolvedValaxyOptions } from './options'
-import type { MarkdownOptions } from './markdown'
+import type { MarkdownOptions } from './markdown/types'
 
 export type ValaxyNodeConfig<ThemeConfig = DefaultThemeConfig> = ValaxyConfig<ThemeConfig> & ValaxyExtendConfig
 export type UserValaxyNodeConfig<ThemeConfig = DefaultThemeConfig> = PartialDeep<ValaxyNodeConfig<ThemeConfig>>

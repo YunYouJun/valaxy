@@ -33,7 +33,7 @@ const { headers, handleClick } = useOutline()
         </span>
 
         <PressOutlineItem
-          class="va-toc relative z-1"
+          class="va-toc relative z-1 css-i18n-toc"
           :headers="headers"
           :on-click="handleClick"
           root

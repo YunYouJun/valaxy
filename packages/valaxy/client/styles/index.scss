@@ -5,8 +5,10 @@ $c-primary: #0078e7 !default;
 // global css
 @use "./global/reset.scss" as *;
 @use "./global/index.scss" as *;
-@use "./global/i18n.scss" as *;
 @use "./global/nprogress.scss" as *;
+
+// css-i18n
+@use "../../../css-i18n/src/styles/index.scss" as *;
 
 // common
 @use "./common/code.scss" as *;

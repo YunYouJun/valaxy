@@ -14,7 +14,7 @@ html[lang] {
     }
   }
 
-  .va-toc {
+  .css-i18n-toc {
     li[lang] {
       a {
         display: none;
@@ -39,7 +39,7 @@ html[lang] {
       }
     }
 
-    .va-toc {
+    .css-i18n-toc {
       li[lang="#{$lang}"] {
         > a {
           display: block;

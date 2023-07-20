@@ -1,13 +1,9 @@
 import MarkdownIt from 'markdown-it'
 
-import type { IThemeRegistration } from 'shiki'
-
 import anchorPlugin from 'markdown-it-anchor'
 import attrsPlugin from 'markdown-it-attrs'
 import emojiPlugin from 'markdown-it-emoji'
 import TaskLists from 'markdown-it-task-lists'
-
-import type { KatexOptions } from 'katex'
 
 import { componentPlugin } from '@mdit-vue/plugin-component'
 import {
@@ -22,21 +18,20 @@ import { type SfcPluginOptions, sfcPlugin } from '@mdit-vue/plugin-sfc'
 import { titlePlugin } from '@mdit-vue/plugin-title'
 import { type TocPluginOptions, tocPlugin } from '@mdit-vue/plugin-toc'
 
+import { slugify } from '@mdit-vue/shared'
+import { cssI18nContainer } from '../../../css-i18n/src'
 import type { Header } from '../../types'
-import Katex from './markdown-it/katex'
-import { type Blocks, containerPlugin } from './markdown-it/container'
-import { slugify } from './slugify'
-import { highlight } from './highlight'
-import { highlightLinePlugin, preWrapperPlugin } from './markdown-it/highlightLines'
+import type { MarkdownOptions } from './types'
+import Katex from './plugins/markdown-it/katex'
+import { containerPlugin } from './plugins/markdown-it/container'
+import { highlight } from './plugins/highlight'
+import { highlightLinePlugin, preWrapperPlugin } from './plugins/markdown-it/highlightLines'
 
 import { linkPlugin } from './plugins/link'
 
 // import { lineNumberPlugin } from "./plugins/lineNumbers";
 
 export * from './env'
-export type ThemeOptions =
-  | IThemeRegistration
-  | { light: IThemeRegistration; dark: IThemeRegistration }
 
 export interface MarkdownParsedData {
   hoistedTags?: string[]
@@ -45,41 +40,6 @@ export interface MarkdownParsedData {
 }
 
 export type MarkdownRenderer = MarkdownIt
-
-export interface MarkdownOptions {
-  /**
-   * markdown-it options
-   */
-  options?: MarkdownIt.Options
-  /**
-   * config markdown-it
-   */
-  config?: (md: MarkdownIt) => void
-  anchor?: anchorPlugin.AnchorOptions
-  attrs?: {
-    leftDelimiter?: string
-    rightDelimiter?: string
-    allowedAttributes?: string[]
-    disable?: boolean
-  }
-  // mdit-vue plugins
-  frontmatter?: FrontmatterPluginOptions
-  headers?: HeadersPluginOptions
-  sfc?: SfcPluginOptions
-  toc?: TocPluginOptions
-
-  katex?: KatexOptions
-  /**
-   * shiki
-   */
-  theme?: ThemeOptions
-  /**
-   * Custom block configurations
-   */
-  blocks?: Blocks
-
-  externalLinks?: Record<string, string>
-}
 
 export async function setupMarkdownPlugins(
   md: MarkdownIt,
@@ -91,6 +51,9 @@ export async function setupMarkdownPlugins(
   md.use(highlightLinePlugin)
     .use(preWrapperPlugin)
     .use(containerPlugin, mdOptions.blocks)
+    .use(cssI18nContainer, {
+      languages: ['zh-CN', 'en'],
+    })
     .use(
       linkPlugin,
       {
@@ -149,10 +112,11 @@ export async function setupMarkdownPlugins(
 }
 
 export async function createMarkdownRenderer(mdOptions: MarkdownOptions = {}): Promise<MarkdownRenderer> {
+  const theme = mdOptions.theme ?? 'material-theme-palenight'
   const md = MarkdownIt({
     html: true,
     linkify: true,
-    highlight: await highlight(mdOptions.theme),
+    highlight: await highlight(theme, mdOptions.languages, mdOptions.defaultHighlightLang),
     ...mdOptions.options,
   }) as MarkdownRenderer
   await setupMarkdownPlugins(md, mdOptions)
