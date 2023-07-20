@@ -41,9 +41,6 @@ importers:
       cross-env:
         specifier: ^7.0.3
         version: 7.0.3
-      css-i18n:
-        specifier: workspace:*
-        version: link:packages/css-i18n
       cypress:
         specifier: ^12.17.1
         version: 12.17.1
@@ -260,8 +257,8 @@ importers:
         specifier: ^7.0.3
         version: 7.0.3
       css-i18n:
-        specifier: workspace:*
-        version: link:../css-i18n
+        specifier: ^0.0.2
+        version: 0.0.2
       dayjs:
         specifier: ^1.11.9
         version: 1.11.9
@@ -4804,6 +4801,10 @@ packages:
     engines: {node: '>=8'}
     dev: true
 
+  /css-i18n@0.0.2:
+    resolution: {integrity: sha512-pz6FSzr/WmCcm3djBF/fdnFDeW1lthu00U+eKlzKOHAnc60/+DOyXO7/9Ko3N8XS3Dtvhtfhm5KmQ7Lr55JGRA==}
+    dev: false
+
   /css-select@5.1.0:
     resolution: {integrity: sha512-nwoRF1rvRRnnCqqY7updORDsuqKzqYJ28+oSMaJMMgOauh3fvwHqMS7EZpIPqK8GL+g9mKxF1vP/ZjSeNjEVHg==}
     dependencies:
@@ -5367,7 +5368,7 @@ packages:
   /eslint-import-resolver-node@0.3.7:
     resolution: {integrity: sha512-gozW2blMLJCeFpBwugLTGyvVjNoeo1knonXAcatC6bjPBZitotxdWf7Gimr25N4c0AAOo4eOUfaG82IJPDpqCA==}
     dependencies:
-      debug: 3.2.7(supports-color@8.1.1)
+      debug: 3.2.7(supports-color@5.5.0)
       is-core-module: 2.12.1
       resolve: 1.22.2
     transitivePeerDependencies:
@@ -5396,7 +5397,7 @@ packages:
         optional: true
     dependencies:
       '@typescript-eslint/parser': 6.0.0(eslint@8.45.0)(typescript@5.1.6)
-      debug: 3.2.7(supports-color@8.1.1)
+      debug: 3.2.7(supports-color@5.5.0)
       eslint: 8.45.0
       eslint-import-resolver-node: 0.3.7
     transitivePeerDependencies:
@@ -5456,7 +5457,7 @@ packages:
     peerDependencies:
       eslint: ^7.2.0 || ^8
     dependencies:
-      debug: 3.2.7(supports-color@8.1.1)
+      debug: 3.2.7(supports-color@5.5.0)
       doctrine: 2.1.0
       eslint: 8.45.0
       eslint-import-resolver-node: 0.3.7

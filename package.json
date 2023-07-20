@@ -20,8 +20,7 @@
     "node": "^14.18.0 || >=16.0.0"
   },
   "scripts": {
-    "build": "pnpm run build:css-i18n && pnpm run build:valaxy",
-    "build:css-i18n": "pnpm -C packages/css-i18n run build",
+    "build": "pnpm run build:valaxy",
     "build:valaxy": "pnpm -C packages/valaxy run build",
     "build:demo": "pnpm -C demo/yun run build",
     "build:docs": "pnpm -C docs run build",
@@ -57,7 +56,6 @@
     "@types/resolve": "^1.20.2",
     "@types/semver": "^7.5.0",
     "cross-env": "^7.0.3",
-    "css-i18n": "workspace:*",
     "cypress": "^12.17.1",
     "eslint": "^8.45.0",
     "eslint-plugin-cypress": "^2.13.3",

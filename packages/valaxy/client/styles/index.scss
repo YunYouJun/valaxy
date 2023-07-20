@@ -7,7 +7,7 @@ $c-primary: #0078e7 !default;
 @use "./global/index.scss" as *;
 @use "./global/nprogress.scss" as *;
 
-// css-i18n
+// https://github.com/valaxyjs/css-i18n
 @use "css-i18n/src/styles/index.scss" as *;
 
 // common
