@@ -422,9 +422,6 @@ importers:
       '@types/yargs':
         specifier: ^17.0.24
         version: 17.0.24
-      css-i18n:
-        specifier: workspace:*
-        version: link:../css-i18n
       debug:
         specifier: ^4.3.4
         version: 4.3.4(supports-color@8.1.1)
