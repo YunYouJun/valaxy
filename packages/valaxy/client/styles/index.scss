@@ -8,7 +8,7 @@ $c-primary: #0078e7 !default;
 @use "./global/nprogress.scss" as *;
 
 // css-i18n
-@use "../../../css-i18n/src/styles/index.scss" as *;
+@use "css-i18n/src/styles/index.scss" as *;
 
 // common
 @use "./common/code.scss" as *;

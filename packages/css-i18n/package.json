@@ -1,6 +1,11 @@
 {
   "name": "css-i18n",
   "version": "0.0.1",
+  "homepage": "https://github.com/YunYouJun/valaxy/tree/main/packages/css-i18n",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/YunYouJun/valaxy/tree/main/packages/css-i18n"
+  },
   "keywords": [
     "markdown-it-plugin",
     "markdown-it",

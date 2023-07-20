@@ -19,7 +19,7 @@ import { titlePlugin } from '@mdit-vue/plugin-title'
 import { type TocPluginOptions, tocPlugin } from '@mdit-vue/plugin-toc'
 
 import { slugify } from '@mdit-vue/shared'
-import { cssI18nContainer } from '../../../css-i18n/src'
+import { cssI18nContainer } from 'css-i18n'
 import type { Header } from '../../types'
 import type { MarkdownOptions } from './types'
 import Katex from './plugins/markdown-it/katex'
