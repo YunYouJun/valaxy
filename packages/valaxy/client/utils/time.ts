@@ -1,5 +1,11 @@
 import dayjs from 'dayjs'
+import utc from 'dayjs/plugin/utc'
+import timezone from 'dayjs/plugin/timezone'
+
 import type { Post } from '../..'
+
+dayjs.extend(utc)
+dayjs.extend(timezone)
 
 /**
  * use dayjs format date
