@@ -311,7 +311,7 @@ function injectPageDataCode(
   export default {
     name:'${data.relativePath}',
     data() {
-      return { data, frontmatter: data.frontmatter }
+      return { data, frontmatter: data.frontmatter, $frontmatter: data.frontmatter }
     },
     setup() {
       provide('pageData', data)

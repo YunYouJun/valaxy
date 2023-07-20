@@ -163,6 +163,9 @@ importers:
       vitepress:
         specifier: 1.0.0-beta.5
         version: 1.0.0-beta.5(@types/node@20.4.2)(search-insights@2.7.0)
+      vue:
+        specifier: ^3.3.4
+        version: 3.3.4
 
   packages/create-valaxy:
     dependencies:
@@ -974,19 +977,9 @@ packages:
       '@babel/types': 7.22.5
     dev: true
 
-  /@babel/helper-string-parser@7.19.4:
-    resolution: {integrity: sha512-nHtDoQcuqFmwYNYPz3Rah5ph2p8PFeFCsZk9A/48dPc/rGocJ5J3hAAZ7pb76VWX3fZKu+uEr/FhH5jLx7umrw==}
-    engines: {node: '>=6.9.0'}
-    dev: false
-
   /@babel/helper-string-parser@7.22.5:
     resolution: {integrity: sha512-mM4COjgZox8U+JcXQwPijIZLElkgEpO5rsERVDJTc2qfCDfERyob6k5WegS14SX18IIjv+XD+GrqNumY5JRCDw==}
     engines: {node: '>=6.9.0'}
-
-  /@babel/helper-validator-identifier@7.19.1:
-    resolution: {integrity: sha512-awrNfaMtnHUr653GgGEs++LlAvW6w+DcPrOliSMXWCKo597CwL5Acf/wWdNkf/tfEQE3mjkeD1YOVZOUV/od1w==}
-    engines: {node: '>=6.9.0'}
-    dev: false
 
   /@babel/helper-validator-identifier@7.22.5:
     resolution: {integrity: sha512-aJXu+6lErq8ltp+JhkJUfk1MTGyuA4v7f3pA+BJ5HLfNC6nAQ0Cpi9uOquUj8Hehg0aUiHzWQbOVJGao6ztBAQ==}
@@ -1031,7 +1024,7 @@ packages:
     engines: {node: '>=6.0.0'}
     hasBin: true
     dependencies:
-      '@babel/types': 7.21.4
+      '@babel/types': 7.22.5
     dev: false
 
   /@babel/parser@7.22.7:
@@ -1925,15 +1918,6 @@ packages:
     transitivePeerDependencies:
       - supports-color
     dev: true
-
-  /@babel/types@7.21.4:
-    resolution: {integrity: sha512-rU2oY501qDxE8Pyo7i/Orqma4ziCOrby0/9mvbDUGEfvZjb279Nk9k19e2fiCxHbRRpY2ZyrgW1eq22mvmOIzA==}
-    engines: {node: '>=6.9.0'}
-    dependencies:
-      '@babel/helper-string-parser': 7.19.4
-      '@babel/helper-validator-identifier': 7.19.1
-      to-fast-properties: 2.0.0
-    dev: false
 
   /@babel/types@7.22.5:
     resolution: {integrity: sha512-zo3MIHGOkPOfoRXitsgHLjEXmlDaD/5KU1Uzuc9GNiZPhSqVxVRtxuPaSBZDsYZ9qV88AjtMtWW7ww98loJ9KA==}
@@ -3714,7 +3698,7 @@ packages:
   /@vue/compiler-core@3.2.47:
     resolution: {integrity: sha512-p4D7FDnQb7+YJmO2iPEv0SQNeNzcbHdGByJDsT4lynf63AFkOTFN07HsiRSvjGo0QrxR/o3d0hUyNCUnBU2Tig==}
     dependencies:
-      '@babel/parser': 7.21.4
+      '@babel/parser': 7.22.7
       '@vue/shared': 3.2.47
       estree-walker: 2.0.2
       source-map: 0.6.1
@@ -3767,7 +3751,7 @@ packages:
       '@vue/shared': 3.3.4
       estree-walker: 2.0.2
       magic-string: 0.30.1
-      postcss: 8.4.25
+      postcss: 8.4.26
       source-map-js: 1.0.2
 
   /@vue/compiler-ssr@3.2.47:
@@ -3808,7 +3792,7 @@ packages:
   /@vue/reactivity-transform@3.2.47:
     resolution: {integrity: sha512-m8lGXw8rdnPVVIdIFhf0LeQ/ixyHkH5plYuS83yop5n7ggVJU+z5v0zecwEnX7fa7HNLBhh2qngJJkxpwEEmYA==}
     dependencies:
-      '@babel/parser': 7.21.4
+      '@babel/parser': 7.22.7
       '@vue/compiler-core': 3.2.47
       '@vue/shared': 3.2.47
       estree-walker: 2.0.2
@@ -5377,7 +5361,7 @@ packages:
   /eslint-import-resolver-node@0.3.7:
     resolution: {integrity: sha512-gozW2blMLJCeFpBwugLTGyvVjNoeo1knonXAcatC6bjPBZitotxdWf7Gimr25N4c0AAOo4eOUfaG82IJPDpqCA==}
     dependencies:
-      debug: 3.2.7(supports-color@5.5.0)
+      debug: 3.2.7(supports-color@8.1.1)
       is-core-module: 2.12.1
       resolve: 1.22.2
     transitivePeerDependencies:
@@ -5406,7 +5390,7 @@ packages:
         optional: true
     dependencies:
       '@typescript-eslint/parser': 6.0.0(eslint@8.45.0)(typescript@5.1.6)
-      debug: 3.2.7(supports-color@5.5.0)
+      debug: 3.2.7(supports-color@8.1.1)
       eslint: 8.45.0
       eslint-import-resolver-node: 0.3.7
     transitivePeerDependencies:
@@ -5466,7 +5450,7 @@ packages:
     peerDependencies:
       eslint: ^7.2.0 || ^8
     dependencies:
-      debug: 3.2.7(supports-color@5.5.0)
+      debug: 3.2.7(supports-color@8.1.1)
       doctrine: 2.1.0
       eslint: 8.45.0
       eslint-import-resolver-node: 0.3.7
@@ -8080,6 +8064,7 @@ packages:
       nanoid: 3.3.6
       picocolors: 1.0.0
       source-map-js: 1.0.2
+    dev: true
 
   /postcss@8.4.26:
     resolution: {integrity: sha512-jrXHFF8iTloAenySjM/ob3gSj7pCu0Ji49hnjqzsgSRa50hkWCKD0HQ+gMNJkW38jBI68MpAAg7ZWwHwX8NMMw==}

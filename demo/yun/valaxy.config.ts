@@ -1,8 +1,6 @@
 import { defineValaxyConfig } from 'valaxy'
 import type { ThemeConfig } from 'valaxy-theme-yun'
 
-// import { VitePWA } from 'vite-plugin-pwa'
-import Inspect from 'vite-plugin-inspect'
 import { addonAlgolia } from 'valaxy-addon-algolia'
 
 // import { addonTwikoo } from 'valaxy-addon-twikoo'
@@ -60,16 +58,6 @@ export default defineValaxyConfig<ThemeConfig>({
         animated: true,
       },
     },
-  },
-
-  vite: {
-
-    plugins: [
-      // VitePWA(),
-      // https://github.com/antfu/vite-plugin-inspect
-      // Visit http://localhost:3333/__inspect/ to see the inspector
-      Inspect(),
-    ],
   },
 
   unocss: {

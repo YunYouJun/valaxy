@@ -13,6 +13,9 @@ import {
 
 // https://vitepress.dev/reference/site-config
 export default defineConfig({
+  // remove it after migrate finish
+  ignoreDeadLinks: true,
+
   title: 'Valaxy',
   description: 'Docs for Valaxy',
   themeConfig: {

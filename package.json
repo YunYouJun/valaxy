@@ -33,6 +33,7 @@
     "dev": "pnpm -r --filter=./packages/** --parallel run dev",
     "docs": "pnpm -C docs run dev",
     "docs:dev": "pnpm -C docs run docs:dev",
+    "docs:build": "pnpm -C docs run docs:build",
     "lint": "eslint .",
     "prepublishOnly": "npm run build",
     "release": "tsx scripts/release.ts",

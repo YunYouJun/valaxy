@@ -32,14 +32,3 @@ const YunAlgoliaSearch = isAlgolia.value
   <YunAlgoliaSearch v-if="isAlgolia" :open="open" @close="open = false" />
   <YunFuseSearch v-else-if="isFuse" :open="open" @close="open = false" />
 </template>
-
-<style lang="scss">
-.search-btn {
-  position: absolute;
-  top: 0.6rem;
-  right: 0.8rem;
-
-  color: var(--va-c-primary);
-  z-index: var(--yun-z-search-btn);
-}
-</style>

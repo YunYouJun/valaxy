@@ -1,60 +1,31 @@
-import fs from 'fs-extra'
 import type { PluginOption } from 'vite'
 import { splitVendorChunkPlugin } from 'vite'
 
 import MarkdownIt from 'markdown-it'
-import matter from 'gray-matter'
 
 import Vue from '@vitejs/plugin-vue'
-import Pages from 'vite-plugin-pages'
 import Layouts from 'vite-plugin-vue-layouts'
 import Components from 'unplugin-vue-components/vite'
 import VueI18n from '@intlify/unplugin-vue-i18n/vite'
 
-import { convert } from 'html-to-text'
-import type { PageFrontMatter } from 'valaxy/types'
-import { isDate } from '@antfu/utils'
-import type { ValaxyExtendConfig } from '../types'
 import type { ResolvedValaxyOptions, ValaxyServerOptions } from '../options'
 import { setupMarkdownPlugins } from '../markdown'
 
-import { EXCERPT_SEPARATOR } from '../constants'
 import { createUnocssPlugin } from './unocss'
 import { createConfigPlugin } from './extendConfig'
 import { createClientSetupPlugin } from './setupClient'
 import { createFixPlugins } from './patchTransform'
-import { presetStatistics } from './presets/statistics'
-import { createValaxyPlugin } from '.'
+import { createPagesPlugin } from './pages'
+import { createValaxyPlugin } from './valaxy'
 
 // for render markdown excerpt
-const mdIt = new MarkdownIt({ html: true })
-/**
- * get excerpt by type
- * @param excerpt
- * @param type
- * @returns
- */
-function getExcerptByType(excerpt = '', type: 'md' | 'html' | 'text' = 'html') {
-  switch (type) {
-    case 'md':
-      return excerpt
-    case 'html':
-      return mdIt.render(excerpt)
-    case 'text':
-      return convert(mdIt.render(excerpt))
-  }
-}
+export const mdIt = new MarkdownIt({ html: true })
 
 export async function ViteValaxyPlugins(
   options: ResolvedValaxyOptions,
   serverOptions: ValaxyServerOptions = {},
 ): Promise<(PluginOption | PluginOption[])[] | undefined> {
   const { roots, config: valaxyConfig } = options
-
-  // const MarkdownPlugin = createMarkdownPlugin(options)
-  const UnocssPlugin = await createUnocssPlugin(options)
-
-  const ValaxyPlugin = createValaxyPlugin(options, serverOptions)
 
   // setup mdIt
   await setupMarkdownPlugins(mdIt, valaxyConfig.markdown, true)
@@ -109,120 +80,10 @@ export async function ViteValaxyPlugins(
 
     createConfigPlugin(options),
     createClientSetupPlugin(options),
-    ValaxyPlugin,
+    createValaxyPlugin(options, serverOptions),
 
     // https://github.com/hannoeru/vite-plugin-pages
-    Pages({
-      extensions: ['vue', 'md'],
-      dirs: roots.map(root => `${root}/pages`),
-
-      ...valaxyConfig.pages,
-
-      /**
-       * we need get frontmatter before route, so write it in Pages.extendRoute
-       */
-      async extendRoute(
-        route: Parameters<Required<ValaxyExtendConfig>['extendMd']>[0]['route'],
-        parent,
-      ) {
-        let path: string = route.component
-
-        const defaultFrontmatter = {}
-        if (!route.meta) {
-          route.meta = {
-            frontmatter: defaultFrontmatter,
-          }
-        }
-        else if (!route.meta.frontmatter) {
-          // set default frontmatter
-          route.meta.frontmatter = defaultFrontmatter
-        }
-
-        // encode for chinese filename
-        route.path = encodeURI(route.path)
-
-        // add default layout for home, can be overrode
-        if (route.path === '/')
-          route.meta.layout = 'home'
-
-        // find page path
-        roots.forEach((root) => {
-          const pagePath = root + route.component
-          if (fs.existsSync(pagePath))
-            path = pagePath
-        })
-
-        // page is post
-        if (route.path.startsWith('/posts/'))
-          route.meta.layout = 'post'
-
-        if (path.endsWith('.md')) {
-          const md = fs.readFileSync(path, 'utf-8')
-          const { data, excerpt, content } = matter(md, {
-            excerpt_separator: EXCERPT_SEPARATOR,
-          })
-          const mdFm = data as PageFrontMatter
-
-          // todo, optimize it to cache or on demand
-          // https://github.com/hannoeru/vite-plugin-pages/issues/257
-          const lastUpdated = options.config.siteConfig.lastUpdated
-
-          if (!data.date)
-            data.date = fs.statSync(path).mtime
-
-          // format
-          if (lastUpdated) {
-            if (!data.updated)
-              data.updated = fs.statSync(path).ctime
-          }
-
-          if (!isDate(mdFm.date))
-            mdFm.date = new Date(mdFm.date)
-          if (!isDate(mdFm.updated))
-            mdFm.updated = new Date(mdFm.updated)
-
-          // set route meta
-          route.meta = Object.assign(route.meta, {
-            frontmatter: Object.assign(defaultFrontmatter, data),
-            excerpt: excerpt ? getExcerptByType(excerpt, data.excerpt_type) : '',
-          })
-
-          // set layout
-          if (data.layout)
-            route.meta.layout = data.layout
-
-          // set default updated
-          if (!route.meta.frontmatter?.updated)
-            route.meta.frontmatter.updated = route.meta.frontmatter.date
-
-          // adapt for tags
-          if (route.meta.frontmatter.tags) {
-            const tags = route.meta.frontmatter.tags
-            if (typeof tags === 'string')
-              route.meta.frontmatter.tags = [tags]
-          }
-
-          if (valaxyConfig.siteConfig.statistics.enable) {
-            presetStatistics({
-              options: valaxyConfig.siteConfig.statistics,
-              route,
-            })
-          }
-
-          valaxyConfig.extendMd?.({
-            route,
-            data: data as Readonly<Record<string, any>>,
-            excerpt,
-            content,
-            path,
-          })
-        }
-
-        valaxyConfig.pages?.extendRoute?.(route, parent)
-
-        return route
-      },
-    }),
+    createPagesPlugin(options),
 
     // https://github.com/JohnCampionJr/vite-plugin-vue-layouts
     Layouts({
@@ -252,7 +113,7 @@ export async function ViteValaxyPlugins(
 
     // https://github.com/antfu/unocss
     // UnocssPlugin,
-    UnocssPlugin,
+    await createUnocssPlugin(options),
 
     // ...MarkdownPlugin,
 

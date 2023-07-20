@@ -18,7 +18,7 @@ import {
   getHighlighter,
 } from 'shiki-processor'
 import type { Logger } from 'vite'
-import type { ThemeOptions } from '..'
+import type { ThemeOptions } from '../types'
 
 const nanoid = customAlphabet('abcdefghijklmnopqrstuvwxyz', 10)
 
