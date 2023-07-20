@@ -130,7 +130,7 @@
     "@types/markdown-it": "^12.2.3",
     "@types/nprogress": "^0.2.0",
     "@types/yargs": "^17.0.24",
-    "css-i18n": "workspace:^",
+    "css-i18n": "workspace:*",
     "debug": "^4.3.4",
     "diacritics": "^1.3.0",
     "https-localhost": "^4.7.1",
