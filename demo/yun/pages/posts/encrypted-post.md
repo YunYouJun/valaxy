@@ -62,4 +62,12 @@ Component provided template option but runtime compilation is not supported in t
 添加 alias：
 
 ```ts
-``
+// for runtime compile vue, encrypt and decrypt
+// type cast
+if (options.config.siteConfig.encrypt.enable) {
+  alias.push(
+    // import { sync as resolveSync } from 'resolve'
+    { find: /^vue$/, replacement: resolveImportPath('vue/dist/vue.esm-bundler.js', true) },
+  )
+}
+```
