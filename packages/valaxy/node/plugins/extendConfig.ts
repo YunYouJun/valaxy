@@ -103,6 +103,7 @@ export function createConfigPlugin(options: ResolvedValaxyOptions): Plugin {
         // @ts-expect-error type cast
         injection.resolve.alias.vue = `${resolveImportPath('vue/dist/vue.esm-browser.js', true)}`
       }
+
       return mergeConfig(config, injection)
     },
 
@@ -145,16 +146,17 @@ export function getAlias(options: ResolvedValaxyOptions): AliasOptions {
     { find: '~/', replacement: `${toAtFS(options.userRoot)}/` },
     { find: 'valaxy/client/', replacement: `${toAtFS(options.clientRoot)}/` },
     { find: 'valaxy/package.json', replacement: toAtFS(resolve(options.clientRoot, '../package.json')) },
-    { find: 'valaxy', replacement: toAtFS(resolve(options.clientRoot, 'index.ts')) },
+    { find: /^valaxy$/, replacement: toAtFS(resolve(options.clientRoot, 'index.ts')) },
     { find: '@valaxyjs/client/', replacement: `${toAtFS(options.clientRoot)}/` },
     { find: `valaxy-theme-${options.theme}/`, replacement: `${toAtFS(resolve(options.themeRoot))}/` },
     { find: `valaxy-theme-${options.theme}`, replacement: `${toAtFS(resolve(options.themeRoot))}/client/index.ts` },
   ]
 
   // for runtime compile vue, encrypt and decrypt
+  // type cast
   if (options.config.siteConfig.encrypt.enable) {
     alias.push(
-      { find: 'vue', replacement: 'vue/dist/vue.esm-bundler.js' },
+      { find: /^vue$/, replacement: resolveImportPath('vue/dist/vue.esm-bundler.js', true) },
     )
   }
 
@@ -171,7 +173,7 @@ export function getAlias(options: ResolvedValaxyOptions): AliasOptions {
   })
 
   // alias.push(...[
-  //   { find: /valaxy-addon-(.*)/, replacement: toAtFS(resolve(options.themeRoot, '../valaxy-addon-$1/client/index.ts')) },
+  //   { find: /^valaxy-addon-(.*)$/, replacement: toAtFS(resolve(options.themeRoot, '../valaxy-addon-$1/client/index.ts')) },
   // ])
   return alias
 }

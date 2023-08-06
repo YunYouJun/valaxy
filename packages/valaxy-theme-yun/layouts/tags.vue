@@ -72,15 +72,14 @@ const title = usePostTitle(frontmatter)
       </div>
 
       <div class="justify-center items-end" flex="~ wrap" gap="1">
-        <span
+        <YunLayoutPostTag
           v-for="[key, tag] in Array.from(tags).sort()"
           :key="key"
-          inline-flex my="2"
-          class="post-tag cursor-pointer items-baseline leading-4" :style="getTagStyle(tag.count)" p="1" @click="displayTag(key.toString())"
-        >
-          <span inline-flex>#{{ key }}</span>
-          <span inline-flex text="xs">[{{ tag.count }}]</span>
-        </span>
+          :title="key"
+          :count="tag.count"
+          :style="getTagStyle(tag.count)"
+          @click="displayTag(key.toString())"
+        />
       </div>
 
       <router-view />

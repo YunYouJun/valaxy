@@ -4,4 +4,62 @@ date: 2023-08-06 12:00:00
 password: valaxy
 ---
 
-这里是被机密的文章内容
+这里是被加密的复杂文章内容
+
+## 实现文章加密
+
+使用 [Web Crypto API | MDN](https://developer.mozilla.org/en-US/docs/Web/API/Web_Crypto_API)
+
+```ts
+// node
+import { webcrypto } from 'node:crypto'
+
+// browser
+window.crypto
+```
+
+## 解密时文章渲染
+
+存在如下内容，解密时还原，需动态渲染
+
+```md
+{{ frontmatter }}
+```
+
+{{ frontmatter }}
+
+```vue
+<script lang="ts" setup>
+const ValaxyDeprecatedContent = defineComponent({
+  name: 'ValaxyDeprecatedContent',
+  props: {
+    html: String,
+  },
+  render() {
+    const content = `<div>${this.html}</div>`
+    return h({
+      setup: () => {
+        const fm = useFrontmatter()
+        return {
+          frontmatter: fm,
+        }
+      },
+      template: content,
+    })
+  },
+})
+</script>
+
+<ValaxyDeprecatedContent :html="decryptedContent" />
+```
+
+## FAQ
+
+```bash
+Component provided template option but runtime compilation is not supported in this build of Vue. Configure your bundler to alias "vue" to "vue/dist/vue.esm-bundler.js".
+```
+
+添加 alias：
+
+```ts
+``
