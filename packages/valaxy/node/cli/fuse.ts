@@ -5,7 +5,6 @@ import fg from 'fast-glob'
 import matter from 'gray-matter'
 import { cyan, dim } from 'kolorist'
 import type { Argv } from 'yargs'
-import { isUndefined } from '@antfu/utils'
 import { resolveOptions } from '../options'
 import { setEnvProd } from '../utils/env'
 import { commonOptions } from './options'
@@ -38,7 +37,7 @@ export async function generateFuseList(options: ResolvedValaxyOptions) {
       continue
 
     // skip encrypt post
-    if ((data.encrypt || isUndefined(data.encrypt)) && data.password)
+    if (data.password)
       continue
 
     posts.push({

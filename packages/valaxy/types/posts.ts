@@ -149,9 +149,17 @@ export interface PageFrontMatter extends Record<string, any> {
    */
   password?: string
   /**
+   * @description:zh-CN 相册密码
+   */
+  gallery_password?: string
+  /**
    * @description:zh-CN 加密后的内容
    */
   encryptedContent?: string
+  /**
+   * @description:zh-CN 加密后的相册
+   */
+  encryptedPhotos?: string
 }
 
 export interface PostFrontMatter extends PageFrontMatter {

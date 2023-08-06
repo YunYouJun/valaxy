@@ -68,6 +68,10 @@ export async function build(options: ResolvedValaxyOptions) {
 
     const { data, content, excerpt } = matter(raw, { excerpt_separator: EXCERPT_SEPARATOR })
 
+    // skip encrypt post
+    if (data.password)
+      continue
+
     if (data.draft) {
       consola.warn(`Ignore draft post: ${dim(i)}`)
       continue

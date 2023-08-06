@@ -93,6 +93,10 @@ export function createPagesPlugin(options: ResolvedValaxyOptions) {
 
         // do not export password
         delete mdFm.password
+        if (mdFm.gallery_password) {
+          delete mdFm.gallery_password
+          delete mdFm.photos
+        }
 
         if (!mdFm.date)
           mdFm.date = fs.statSync(path).mtime

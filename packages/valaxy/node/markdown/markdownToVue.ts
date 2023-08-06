@@ -255,16 +255,28 @@ export async function createMarkdownToVueRenderFn(
     )
     // handle mainContent, encrypt
     const { config: { siteConfig: { encrypt } } } = options
-    if (encrypt.enable && frontmatter.password) {
-      const encryptedContent = await encryptContent(mainContentMd, {
-        password: frontmatter.password,
-        iv: encrypt.iv,
-        salt: encrypt.salt,
-      })
-      mainContentMd = ''
-      frontmatter.encryptedContent = encryptedContent
-      frontmatter.encrypt = true
-      delete frontmatter.password
+    if (encrypt.enable) {
+      if (frontmatter.password) {
+        const encryptedContent = await encryptContent(mainContentMd, {
+          password: frontmatter.password,
+          iv: encrypt.iv,
+          salt: encrypt.salt,
+        })
+        mainContentMd = ''
+        frontmatter.encryptedContent = encryptedContent
+        frontmatter.encrypt = true
+        delete frontmatter.password
+      }
+      if (frontmatter.gallery_password) {
+        const encryptedPhotos = await encryptContent(JSON.stringify(frontmatter.photos), {
+          password: frontmatter.gallery_password,
+          iv: encrypt.iv,
+          salt: encrypt.salt,
+        })
+        frontmatter.encryptedPhotos = encryptedPhotos
+        delete frontmatter.gallery_password
+        delete frontmatter.photos
+      }
     }
 
     const vueSrc = [
@@ -324,6 +336,7 @@ function injectPageDataCode(
 
   const exportScript = `
   import { provide } from 'vue'
+  import { useRoute } from 'vue-router'
   const data = ${transformObject(data)}
 
   export default {
@@ -332,6 +345,8 @@ function injectPageDataCode(
       return { data, frontmatter: data.frontmatter, $frontmatter: data.frontmatter }
     },
     setup() {
+      const route = useRoute()
+      route.meta.frontmatter = Object.assign(route.meta.frontmatter, data.frontmatter)
       provide('pageData', data)
     }
   }`
