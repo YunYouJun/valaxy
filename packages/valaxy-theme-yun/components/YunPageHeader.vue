@@ -7,7 +7,7 @@ defineProps<{
 </script>
 
 <template>
-  <header class="post-header" m="t-4">
+  <header class="post-header" m="t-16 sm:t-6">
     <h1
       class="post-title flex-center" p="2" text="2xl center"
       font="serif black" :style="`color:${color}`"

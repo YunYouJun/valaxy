@@ -14,9 +14,9 @@ const onContentUpdated = inject('onContentUpdated') as Ref<() => void>
 
 const { t } = useI18n()
 
-const content = ref()
+const contentRef = ref()
 function updateDom() {
-  wrapTable(content.value)
+  wrapTable(contentRef.value)
   onContentUpdated.value?.()
 }
 
@@ -39,11 +39,14 @@ if (typeof props.frontmatter.medium_zoom === 'undefined' || props.frontmatter.me
 
 <template>
   <article v-if="$slots.default" :class="frontmatter.markdown !== false && 'markdown-body'">
-    <slot ref="content" @vue:updated="updateDom" />
+    <template v-if="frontmatter.encryptedContent">
+      <ValaxyDecrypt :encrypted-content="frontmatter.encryptedContent" />
+    </template>
+    <slot v-else ref="contentRef" @vue:updated="updateDom" />
 
-    <div text="center">
+    <div v-if="frontmatter.url" text="center">
       <a
-        v-if="frontmatter.url"
+
         :href="frontmatter.url"
         class="post-link-btn shadow hover:shadow-md"
         rounded

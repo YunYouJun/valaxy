@@ -2,6 +2,7 @@ import { ViteSSG } from 'vite-ssg'
 import generatedRoutes from 'virtual:generated-pages'
 import { setupLayouts } from 'virtual:generated-layouts'
 import App from './App.vue'
+import AppLinkVue from './components/AppLink.vue'
 
 import '@unocss/reset/tailwind.css'
 
@@ -31,6 +32,7 @@ export const createApp = ViteSSG(
     },
   },
   (ctx) => {
+    ctx.app.component('AppLink', AppLinkVue)
     setupMain(ctx)
   },
 )

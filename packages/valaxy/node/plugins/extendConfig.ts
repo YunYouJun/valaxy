@@ -151,6 +151,13 @@ export function getAlias(options: ResolvedValaxyOptions): AliasOptions {
     { find: `valaxy-theme-${options.theme}`, replacement: `${toAtFS(resolve(options.themeRoot))}/client/index.ts` },
   ]
 
+  // for runtime compile vue, encrypt and decrypt
+  if (options.config.siteConfig.encrypt.enable) {
+    alias.push(
+      { find: 'vue', replacement: 'vue/dist/vue.esm-bundler.js' },
+    )
+  }
+
   options.addons.forEach((addon) => {
     // without alias 'valaxy-addon-xxx/', import { xxx } from 'valaxy-addon-name' works well
     alias.push({

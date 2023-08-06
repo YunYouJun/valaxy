@@ -240,6 +240,26 @@ export interface SiteConfig {
       }
     }
   }
+
+  /**
+   * @description Encrypt article
+   * @description:zh-CN 加密文章
+   * default algorithm: AES-CBC
+   */
+  encrypt: {
+    enable: boolean
+    /**
+     * [encrypt](https://developer.mozilla.org/zh-CN/docs/Web/API/SubtleCrypto/encrypt#%E6%94%AF%E6%8C%81%E7%9A%84%E7%AE%97%E6%B3%95)
+     * @default AES-CBC
+     */
+    algorithm: string
+    iv: Uint8Array
+    salt: Uint8Array
+    /**
+     * @description:zh-CN 全局加密密码 todo
+     */
+    // password: string
+  }
 }
 
 export type PartialDeep<T> = {

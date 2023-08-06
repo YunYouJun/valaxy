@@ -17,8 +17,8 @@
   "main": "node/index.ts",
   "types": "types/index.d.ts",
   "dependencies": {
-    "@iconify-json/ant-design": "^1.1.7",
-    "@iconify-json/simple-icons": "^1.1.63",
+    "@iconify-json/ant-design": "^1.1.8",
+    "@iconify-json/simple-icons": "^1.1.64",
     "animejs": "^3.2.1",
     "valaxy-addon-waline": "workspace:*"
   },

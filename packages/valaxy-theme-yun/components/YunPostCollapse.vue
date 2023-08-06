@@ -41,7 +41,7 @@ const sortedYears = computed(() => {
 </script>
 
 <template>
-  <div class="post-collapse px-10 lt-sm:px-5">
+  <div class="post-collapse px-10 lt-sm:px-5" relative>
     <div w="full" text="center" class="yun-text-light" p="2">
       {{ t('counter.archives', posts.length) }}
     </div>
@@ -54,18 +54,21 @@ const sortedYears = computed(() => {
     </div>
 
     <div v-for="year in sortedYears" :key="year" m="b-6">
-      <div class="collection-title">
+      <div class="collection-title" m-0 relative>
         <h2 :id="`#archive-year-${year}`" class="archive-year" text="4xl" p="y-2">
           {{ year }}
         </h2>
       </div>
 
-      <article v-for="post, j in sortByDate(postListByYear[year], isDesc)" :key="j" class="post-item">
-        <header class="post-header">
+      <article
+        v-for="post, j in sortByDate(postListByYear[year], isDesc)" :key="j"
+        class="post-item" relative
+      >
+        <header class="post-header" flex items-center relative>
           <div class="post-meta">
             <time v-if="post.date" class="post-time" font="mono" opacity="80">{{ formatDate(post.date, 'MM-DD') }}</time>
           </div>
-          <h2 class="post-title" font="serif black">
+          <h2 class="post-title" inline-flex items-center font="serif black">
             <router-link :to="post.path || ''" class="post-title-link">
               {{ post.title }}
             </router-link>
@@ -78,16 +81,7 @@ const sortedYears = computed(() => {
 
 <style lang="scss">
 .post-collapse {
-  position: relative;
-
-  &-title {
-    font-size: 2rem;
-    text-align: center;
-  }
-
   .collection-title {
-    position: relative;
-    margin: 0;
     border-bottom: 2px solid rgba(var(--va-c-primary-rgb), 0.6);
 
     &::before {
@@ -119,8 +113,6 @@ const sortedYears = computed(() => {
   }
 
   .post-item {
-    position: relative;
-
     &::before {
       content: '';
       position: absolute;
@@ -131,12 +123,7 @@ const sortedYears = computed(() => {
   }
 
   .post-header {
-    display: flex;
-    align-items: center;
-
-    position: relative;
     border-bottom: 1px solid rgba(var(--va-c-primary-rgb), 0.3);
-    display: flex;
 
     &::before {
       content: '';
@@ -162,8 +149,6 @@ const sortedYears = computed(() => {
       margin-left: 0.1rem;
       padding: 0;
       font-size: 1rem;
-      display: inline-flex;
-      align-items: center;
 
       .post-title-link {
         .icon {
@@ -180,11 +165,5 @@ const sortedYears = computed(() => {
       white-space: nowrap;
     }
   }
-}
-
-.last-word {
-  font-size: 1rem;
-  margin-top: 1rem;
-  margin-bottom: 0;
 }
 </style>

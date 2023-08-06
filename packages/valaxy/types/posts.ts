@@ -139,6 +139,19 @@ export interface PageFrontMatter extends Record<string, any> {
    * @description:en-US Photos
    */
   photos: Photo[]
+
+  /**
+   * @description:zh-CN 是否启用加密，password 存在时默认为 true
+   */
+  encrypt: boolean
+  /**
+   * @description:zh-CN 加密密码
+   */
+  password?: string
+  /**
+   * @description:zh-CN 加密后的内容
+   */
+  encryptedContent?: string
 }
 
 export interface PostFrontMatter extends PageFrontMatter {

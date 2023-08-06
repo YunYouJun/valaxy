@@ -138,6 +138,7 @@ export function createValaxyPlugin(options: ResolvedValaxyOptions, serverOptions
     async configResolved(resolvedConfig) {
       viteConfig = resolvedConfig
       markdownToVue = await createMarkdownToVueRenderFn(
+        options,
         options.userRoot,
         valaxyConfig.markdown || {
           katex: {},

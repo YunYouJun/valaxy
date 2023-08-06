@@ -15,3 +15,6 @@ export * from './locale'
 export * from './sidebar'
 export * from './outline'
 export * from './body-scroll-lock'
+
+// utils
+export * from './decrypt'

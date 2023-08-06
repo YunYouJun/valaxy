@@ -1,3 +1,4 @@
+import { webcrypto } from 'node:crypto'
 import type { VitePluginConfig as UnoCssConfig } from 'unocss/vite'
 import type { Awaitable } from '@antfu/utils'
 import type { SiteConfig, UserSiteConfig } from '../../types'
@@ -93,6 +94,12 @@ export const defaultSiteConfig: SiteConfig = {
 
   pageSize: 7,
 
+  encrypt: {
+    enable: false,
+    algorithm: 'AES-CBC',
+    salt: webcrypto.getRandomValues(new Uint8Array(16)),
+    iv: webcrypto.getRandomValues(new Uint8Array(16)),
+  },
 }
 
 export const defaultValaxyConfig: ValaxyNodeConfig = {

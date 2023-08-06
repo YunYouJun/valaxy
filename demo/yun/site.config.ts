@@ -130,4 +130,8 @@ export default defineSiteConfig({
       },
     ],
   },
+
+  encrypt: {
+    enable: true,
+  },
 })

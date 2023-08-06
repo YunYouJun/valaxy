@@ -3,7 +3,7 @@ import fs from 'fs-extra'
 import matter from 'gray-matter'
 import { isDate } from '@antfu/utils'
 import { convert } from 'html-to-text'
-import type { PageFrontMatter } from 'valaxy/types'
+import type { Page } from 'valaxy/types'
 import type { ResolvedValaxyOptions } from '../options'
 import type { ValaxyExtendConfig } from '../types'
 import { EXCERPT_SEPARATOR } from '../constants'
@@ -85,30 +85,33 @@ export function createPagesPlugin(options: ResolvedValaxyOptions) {
         const { data, excerpt, content } = matter(md, {
           excerpt_separator: EXCERPT_SEPARATOR,
         })
-        const mdFm = data as PageFrontMatter
+        const mdFm = data as Page
 
         // todo, optimize it to cache or on demand
         // https://github.com/hannoeru/vite-plugin-pages/issues/257
         const lastUpdated = options.config.siteConfig.lastUpdated
 
-        if (!data.date)
-          data.date = fs.statSync(path).mtime
+        // do not export password
+        delete mdFm.password
+
+        if (!mdFm.date)
+          mdFm.date = fs.statSync(path).mtime
 
         // format
         if (lastUpdated) {
-          if (!data.updated)
-            data.updated = fs.statSync(path).ctime
+          if (!mdFm.updated)
+            mdFm.updated = fs.statSync(path).ctime
         }
 
         if (!isDate(mdFm.date))
           mdFm.date = new Date(mdFm.date)
         if (!isDate(mdFm.updated))
-          mdFm.updated = new Date(mdFm.updated)
+          mdFm.updated = new Date(mdFm.updated!)
 
         // set route meta
         route.meta = Object.assign(route.meta, {
-          frontmatter: Object.assign(defaultFrontmatter, data),
-          excerpt: excerpt ? getExcerptByType(excerpt, data.excerpt_type) : '',
+          frontmatter: Object.assign(defaultFrontmatter, mdFm),
+          excerpt: excerpt ? getExcerptByType(excerpt, mdFm.excerpt_type) : '',
         })
 
         // set layout
@@ -133,13 +136,14 @@ export function createPagesPlugin(options: ResolvedValaxyOptions) {
           })
         }
 
-        valaxyConfig.extendMd?.({
+        const ctx: Parameters<Required<typeof valaxyConfig>['extendMd']>[0] = {
           route,
           data: data as Readonly<Record<string, any>>,
           excerpt,
           content,
           path,
-        })
+        }
+        valaxyConfig.extendMd?.(ctx)
       }
 
       valaxyConfig.pages?.extendRoute?.(route, parent)

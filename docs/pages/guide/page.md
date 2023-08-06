@@ -40,6 +40,33 @@ titleTemplate: '%s - Valaxy'
 You will get html title `Cool - Valaxy`.
 :::
 
+### 页面加密
+
+```ts
+// site.config.ts
+import { defineSiteConfig } from 'valaxy'
+
+export default defineSiteConfig({
+  encrypt: {
+    // 开启加密，默认关闭
+    enable: true
+    // algorithm
+    // iv
+    // salt
+  }
+})
+```
+
+在对应需要加密页面的 frontmatter 中添加 `password: YourPassword` 即可。
+
+当 `encrypt.enable` 为 `true`，且页面中密码 `password` 存在时，默认开启加密。
+
+```md
+---
+password: valaxy
+---
+```
+
 ### 其它 {lang="zh-CN"}
 
 ::: zh-CN
