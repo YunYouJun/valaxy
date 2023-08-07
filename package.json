@@ -2,7 +2,7 @@
   "name": "@valaxyjs/monorepo",
   "version": "0.14.47",
   "private": true,
-  "packageManager": "pnpm@8.6.11",
+  "packageManager": "pnpm@8.6.12",
   "description": "📄 Vite & Vue powered static blog generator.",
   "author": {
     "email": "me@yunyoujun.cn",
@@ -45,7 +45,7 @@
     "prepare": "husky install"
   },
   "devDependencies": {
-    "@antfu/eslint-config": "^0.40.0",
+    "@antfu/eslint-config": "^0.40.2",
     "@microsoft/api-extractor": "^7.36.3",
     "@types/debug": "^4.1.8",
     "@types/markdown-it-attrs": "^4.1.0",

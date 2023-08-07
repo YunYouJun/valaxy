@@ -42,6 +42,11 @@ You will get html title `Cool - Valaxy`.
 
 ### 页面加密
 
+::: warning
+加密依赖于浏览器原生 [Web Crypto API | MDN](https://developer.mozilla.org/en-US/docs/Web/API/Web_Crypto_API)，
+**其仅在 HTTPS 中可用**。
+:::
+
 ```ts
 // site.config.ts
 import { defineSiteConfig } from 'valaxy'

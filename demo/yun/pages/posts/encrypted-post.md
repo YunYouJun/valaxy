@@ -20,13 +20,15 @@ window.crypto
 
 ## 解密时文章渲染
 
-存在如下内容，解密时还原，需动态渲染
+存在如下内容，解密时还原，需动态渲染。
 
 ```md
 {{ frontmatter }}
 ```
 
+::: details 动态渲染的 frontmatter
 {{ frontmatter }}
+:::
 
 ```vue
 <script lang="ts" setup>
