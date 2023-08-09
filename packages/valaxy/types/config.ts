@@ -1,5 +1,7 @@
 import type { ZoomOptions } from 'medium-zoom'
+import type { FuseOptions } from '@vueuse/integrations/useFuse'
 import type { ValaxyAddon } from '../types'
+import type { FuseListItem } from './node'
 
 export type DefaultThemeConfig = {
   /**
@@ -126,6 +128,32 @@ export interface SiteConfig {
      * - fuse: Local Search by fuse.js
      */
     type: 'algolia' | 'engine' | 'fuse'
+  }
+
+  /**
+   *
+   * fuse search
+   * @see https://fusejs.io/
+   * @description 本地搜索
+   * Please set search.type to 'fuse'
+   */
+  fuse: {
+    /**
+     * @default 'valaxy-fuse-list.json'
+     * @description 搜索结果列表数据所在路径
+     */
+    dataPath: string
+    /**
+     * @see https://fusejs.io/api/options.html
+     */
+    options: FuseOptions<FuseListItem> & {
+      /**
+       * @default ['title', 'tags', 'categories', 'excerpt']
+       * @description 搜索的字段
+       * @see https://fusejs.io/api/options.html#keys
+       */
+      keys: FuseOptions<FuseListItem>['keys']
+    }
   }
 
   /**

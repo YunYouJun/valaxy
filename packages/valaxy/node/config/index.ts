@@ -67,6 +67,12 @@ export const defaultSiteConfig: SiteConfig = {
     enable: false,
     type: 'fuse',
   },
+  fuse: {
+    dataPath: 'valaxy-fuse-list.json',
+    options: {
+      keys: [],
+    },
+  },
 
   comment: {
     enable: false,

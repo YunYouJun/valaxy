@@ -4,7 +4,7 @@
     "theme": "yun"
   },
   "scripts": {
-    "build": "npm run build:ssg && npm run rss && npm run fuse",
+    "build": "npm run fuse && npm run build:ssg && npm run rss",
     "build:spa": "valaxy build",
     "build:ssg": "valaxy build --ssg --log=info",
     "dev": "nodemon -w \"../../packages/valaxy/dist/*.cjs\" --exec \"valaxy . --port 3333\"",

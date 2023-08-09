@@ -3,14 +3,9 @@ import type { UseFuseOptions } from '@vueuse/integrations/useFuse'
 import { useFuse } from '@vueuse/integrations/useFuse'
 import { computed, ref, watch } from 'vue'
 import { useI18n } from 'vue-i18n'
-import { useBodyScrollLock } from 'valaxy'
+import { useBodyScrollLock, useSiteConfig } from 'valaxy'
 import { useRouter } from 'vue-router'
-
-export interface FuseDataItem {
-  title: string
-  excerpt: string
-  link: string
-}
+import type { FuseListItem } from 'valaxy/types'
 
 const props = defineProps<{
   open: boolean
@@ -23,23 +18,28 @@ const { lockBodyScroll, unlockBodyScroll } = useBodyScrollLock(searchContainer)
 
 const { t } = useI18n()
 
-const fuseListData = ref<any[]>([])
-// const { data } = await useFetch('/fuse-list.json').get().json()
-// console.log(data)
+const fuseListData = ref<FuseListItem[]>([])
 
+const siteConfig = useSiteConfig()
 const keys = computed(() => {
-  const keys = ['title', 'excerpt']
-  return keys
+  const ks = siteConfig.value.fuse.options.keys || []
+  return ks.length === 0
+    ? ['title', 'tags', 'categories', 'excerpt']
+    : ks
 })
 
 const input = ref('')
 // todo export options
-const fuseOptions = computed<UseFuseOptions<FuseDataItem>>(() => ({
+const fuseOptions = computed<UseFuseOptions<FuseListItem>>(() => ({
   fuseOptions: {
+    ...siteConfig.value.fuse.options,
     keys: keys.value,
-  //   isCaseSensitive: isCaseSensitive.value,
-  //   threshold: exactMatch.value ? 0 : undefined,
+
+    // threshold: 0.99,
+    // ignoreLocation: true,
   },
+  includeMatches: true,
+  findAllMatches: true,
   // resultLimit: resultLimit.value,
   // matchAllWhenSearchEmpty: matchAllWhenSearchEmpty.value,
 }))
@@ -51,11 +51,14 @@ watch(() => props.open, async () => {
   if (!props.open)
     return
 
-  fetch('/fuse-list.json')
+  const fuseListDataPath = siteConfig.value.fuse.dataPath.startsWith('http')
+    ? siteConfig.value.fuse.dataPath
+    : `${import.meta.env.BASE_URL}${siteConfig.value.fuse.dataPath}`
+  fetch(fuseListDataPath)
     .then(res => res.json())
     .then((data) => {
       if (Array.isArray(data))
-        fuseListData.value = data as unknown as any[]
+        fuseListData.value = data
 
       searchInputRef.value?.focus()
     })
@@ -78,6 +81,8 @@ function jumpToLink(link: string) {
       v-if="open" ref="searchContainer"
       class="yun-popup yun-search-popup yun-fuse-search flex-center" flex="col"
     >
+      {{ keys }}
+
       <div class="yun-search-input-container flex-center" w="full">
         <input ref="searchInputRef" v-model="input" class="yun-search-input" :placeholder="t('search.placeholder')">
       </div>

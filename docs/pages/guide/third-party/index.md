@@ -18,20 +18,53 @@ top: 99
 ::: zh-CN
 Valaxy 内置了基于 [fuse.js](https://fusejs.io/) 的离线搜索（须预先通过 `valaxy fuse` 构建生成本地缓存）。
 
-> `valaxy fuse` 默认将 `fuse` 生成在 `dist` 目录下，如果你想在本地预览效果，你可以将 `dist/fuse-list.json` 拷贝至 `public/` 文件夹下。
+> `valaxy fuse` 默认将 `fuse` 生成在 `public` 目录下，并在 `.gitignore` 中添加 `public/valaxy-fuse-list.json` 忽略。
+> 请在 `valaxy build` 之前使用 `valaxy fuse` 构建。
+
+如果你想要使用全文搜索，可参考 [Options | fuse.js](https://www.fusejs.io/api/options.html) 进行设置。
+譬如：
+
+```ts
+export default defineSiteConfig({
+  search: {
+    enable: true,
+    type: 'fuse',
+  },
+  fuse: {
+    options: {
+      keys: ['title', 'tags', 'categories', 'excerpt', 'content'],
+      /**
+       * @see https://www.fusejs.io/api/options.html#threshold
+       * 设置匹配阈值，越低越精确
+       */
+      threshold: 0.8,
+      /**
+       * @see https://www.fusejs.io/api/options.html#ignoreLocation
+       * 忽略位置
+       * @default false
+       * 这对于搜索文档全文内容有用，若无需全文搜索，则无需设置此项
+       */
+      ignoreLocation: true,
+    },
+  },
+})
+```
+
 :::
 
 ::: en
 Valaxy has built-in local search based on [fuse.js](https://fusejs.io/). The local cache should be generated in advance via `valaxy fuse`.
 
-> `valaxy fuse` generates `fuse` in the `dist` directory by default. If you want to preview it locally, you can copy `dist/fuse-list.json` to `public` folder.
-::: 
+> `valaxy fuse` generates `fuse` in the `public` directory by default.
+> Please use `valaxy fuse` before `valaxy build`.
+:::
 
 #### 使用 {lang="zh-CN"}
 
 #### Setup {lang="en"}
 
 ::: zh-CN
+
 ```ts
 // site.config.ts
 import { defineSiteConfig } from 'valaxy'
@@ -49,6 +82,7 @@ export default defineSiteConfig({
 :::
 
 ::: en
+
 ```ts {7}
 // site.config.ts
 import { defineSiteConfig } from 'valaxy'
@@ -72,7 +106,7 @@ export default defineSiteConfig({
     "theme": "yun"
   },
   "scripts": {
-    "build": "npm run build:ssg && npm run rss && npm run fuse",
+    "build": "npm run fuse && npm run build:ssg && npm run rss",
     "build:ssg": "valaxy build --ssg",
     "fuse": "valaxy fuse",
     "rss": "valaxy rss"
