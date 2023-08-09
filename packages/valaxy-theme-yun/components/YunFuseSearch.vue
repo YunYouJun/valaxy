@@ -81,8 +81,6 @@ function jumpToLink(link: string) {
       v-if="open" ref="searchContainer"
       class="yun-popup yun-search-popup yun-fuse-search flex-center" flex="col"
     >
-      {{ keys }}
-
       <div class="yun-search-input-container flex-center" w="full">
         <input ref="searchInputRef" v-model="input" class="yun-search-input" :placeholder="t('search.placeholder')">
       </div>

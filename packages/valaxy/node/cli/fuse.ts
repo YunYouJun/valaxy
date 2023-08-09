@@ -77,7 +77,7 @@ export function registerFuseCommand(cli: Argv<object>) {
       const fuseList = await generateFuseList(options)
 
       await fs.ensureDir('./dist')
-      const dataPath = ensurePrefix(options.config.siteConfig.fuse.dataPath, '/')
+      const dataPath = ensurePrefix('/', options.config.siteConfig.fuse.dataPath)
       const publicRelativeFolder = `public${dataPath}`
       const publicFolder = `${options.userRoot}/${publicRelativeFolder}`
 
