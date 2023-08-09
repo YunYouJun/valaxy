@@ -1,5 +1,6 @@
 {
   "name": "valaxy-docs",
+  "type": "module",
   "private": true,
   "scripts": {
     "build": "npm run build:ssg && npm run rss",
