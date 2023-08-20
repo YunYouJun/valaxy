@@ -31,17 +31,6 @@ export default defineValaxyTheme<ThemeConfig>((options) => {
   return {
     themeConfig: defaultThemeConfig,
     vite: {
-      build: {
-        rollupOptions: {
-          // add on demand external
-          external: [
-            'valaxy-addon-algolia',
-            // adapt for twikoo
-            'valaxy-addon-twikoo',
-            'valaxy-addon-waline',
-          ],
-        },
-      },
       plugins: [ThemeVitePlugin(options)],
     },
     unocss: {

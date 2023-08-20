@@ -5,21 +5,21 @@ import { defineAsyncComponent } from 'vue'
 const runtimeConfig = useRuntimeConfig()
 
 // not import from 'valaxy-addon-waline' to judge
-const YunWaline = runtimeConfig.value.addons['valaxy-addon-waline']
-  ? defineAsyncComponent(() => import('./YunWaline.vue'))
+const AsyncYunWaline = runtimeConfig.value.addons['valaxy-addon-waline']
+  ? defineAsyncComponent(() => import('./third/YunWaline.vue'))
   : () => null
 
 // todo: refactor
-const YunTwikoo = runtimeConfig.value.addons['valaxy-addon-twikoo']
-  ? defineAsyncComponent(() => import('./YunTwikoo.vue'))
+const AsyncYunTwikoo = runtimeConfig.value.addons['valaxy-addon-twikoo']
+  ? defineAsyncComponent(() => import('./third/YunTwikoo.vue'))
   : () => null
 </script>
 
 <template>
   <YunCard w="full" p="4" class="comment sm:p-6 lg:px-12 xl:px-16">
     <ClientOnly>
-      <YunWaline />
-      <YunTwikoo />
+      <AsyncYunWaline />
+      <AsyncYunTwikoo />
     </ClientOnly>
   </YunCard>
 </template>

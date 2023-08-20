@@ -32,11 +32,6 @@ export default defineTheme<ThemeConfig>((options) => {
   return {
     themeConfig: defaultThemeConfig,
     vite: {
-      build: {
-        rollupOptions: {
-          external: ['valaxy-addon-algolia'],
-        },
-      },
       plugins: [ThemeVitePlugin(options)],
     },
   }

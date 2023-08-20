@@ -172,6 +172,12 @@ export function getAlias(options: ResolvedValaxyOptions): AliasOptions {
     })
   })
 
+  // adapt for not exist addon
+  alias.push({
+    find: /^valaxy-addon-(.*)$/,
+    replacement: toAtFS(resolve(options.clientRoot, './addons/index.ts')),
+  })
+
   // alias.push(...[
   //   { find: /^valaxy-addon-(.*)$/, replacement: toAtFS(resolve(options.themeRoot, '../valaxy-addon-$1/client/index.ts')) },
   // ])

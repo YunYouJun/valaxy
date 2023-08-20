@@ -327,30 +327,6 @@ Valaxy 决定通过插件中心化地提供各类封装好的评论组件和辅�
 ## FAQ
 
 如果您的主题适配了多个 Addon（如 `valaxy-addon-waline`/`valaxy-addon-twikoo`），但用户并非都需要安装。
-您需要将其添加至 `vite.build.rollupOptions.external` 中以避免引起编译问题。
+当用户没有主动安装对应 addon 时（即 addon 不存在的情况），则会默认重定向至一个空函数。
 
-譬如 `valaxy-theme-yun/valaxy.config.ts`:
-
-```ts
-import { defineValaxyTheme } from 'valaxy'
-import type { ThemeConfig } from './types'
-import { defaultThemeConfig, generateSafelist } from './node'
-
-export default defineValaxyTheme<ThemeConfig>((options) => {
-  return {
-    themeConfig: defaultThemeConfig,
-    vite: {
-      build: {
-        rollupOptions: {
-          // add on demand external
-          external: ['valaxy-addon-twikoo', 'valaxy-addon-waline'],
-        },
-      },
-      plugins: [ThemeVitePlugin(options)],
-    },
-    unocss: {
-      safelist: generateSafelist(options),
-    },
-  }
-})
-```
+因此，如果某个插件不是必须的，请在主题文档中提醒想要使用该功能的用户安装对应插件。
