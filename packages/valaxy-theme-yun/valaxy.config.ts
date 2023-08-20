@@ -38,7 +38,6 @@ export default defineValaxyTheme<ThemeConfig>((options) => {
             'valaxy-addon-algolia',
             // adapt for twikoo
             'valaxy-addon-twikoo',
-            'valaxy-addon-twikoo/client/styles/index.scss',
             'valaxy-addon-waline',
           ],
         },
