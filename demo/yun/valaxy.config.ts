@@ -5,7 +5,7 @@ import { addonAlgolia } from 'valaxy-addon-algolia'
 
 import { addonTwikoo } from 'valaxy-addon-twikoo'
 
-// import { addonWaline } from 'valaxy-addon-waline'
+import { addonWaline } from 'valaxy-addon-waline'
 import { addonComponents } from 'valaxy-addon-components'
 import { addonLightGallery } from 'valaxy-addon-lightgallery'
 
@@ -95,11 +95,11 @@ export default defineValaxyConfig<ThemeConfig>({
       indexName: 'valaxy',
     }),
     addonComponents(),
-    // addonWaline({
-    //   serverURL: 'https://waline.yunyoujun.cn',
-    //   pageview: true,
-    //   comment: true,
-    // }),
+    addonWaline({
+      serverURL: 'https://waline.yunyoujun.cn',
+      pageview: true,
+      comment: true,
+    }),
     addonLightGallery(),
     addonTwikoo({
       envId: 'https://twikoo.vercel.app',

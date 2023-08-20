@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import { useThemeConfig } from 'valaxy'
 import { onMounted } from 'vue'
-import { createFireworks } from '../features/fireworks'
+import { createFireworks } from '@explosions/fireworks'
 
 const themeConfig = useThemeConfig()
 
