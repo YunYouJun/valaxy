@@ -1,3 +1,4 @@
+export * from './addons'
 export * from './config'
 
 export * from './composables'

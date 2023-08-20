@@ -81,6 +81,8 @@ export function createConfigPlugin(options: ResolvedValaxyOptions): Plugin {
           // must need it
           include: [
             ...clientDeps.filter(i => !EXCLUDE.includes(i)),
+            // theme deps
+            ...Object.keys((options.config.themeConfig.pkg.dependencies || {})),
           ],
 
           exclude: EXCLUDE,

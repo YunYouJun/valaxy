@@ -1,8 +1,10 @@
 <script lang="ts" setup>
-import { useTwikooWithOptions } from 'valaxy-addon-twikoo'
+import * as addonTwikoo from 'valaxy-addon-twikoo'
 import 'valaxy-addon-twikoo/client/styles/index.scss'
+import { isEmptyAddon } from 'valaxy'
 
-useTwikooWithOptions()
+if (!isEmptyAddon(addonTwikoo.name))
+  addonTwikoo.useTwikooWithOptions()
 </script>
 
 <template>
