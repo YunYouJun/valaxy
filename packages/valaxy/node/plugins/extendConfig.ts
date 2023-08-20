@@ -40,6 +40,8 @@ const clientDeps = [
  * internal deps or esm deps do not need optimize
  */
 const EXCLUDE = [
+  '@docsearch/css',
+
   '@vueuse/core',
   '@vueuse/shared',
   '@unocss/reset',
@@ -58,6 +60,9 @@ const EXCLUDE = [
 ]
 
 export function createConfigPlugin(options: ResolvedValaxyOptions): Plugin {
+  const themeDeps = Object.keys((options.config.themeConfig.pkg.dependencies || {}))
+  const addonDeps = options.addons.map(i => Object.keys(i.pkg.dependencies || {})).flat()
+
   return {
     name: 'valaxy:site',
 
@@ -79,11 +84,13 @@ export function createConfigPlugin(options: ResolvedValaxyOptions): Plugin {
           entries: [resolve(options.clientRoot, 'main.ts')],
 
           // must need it
-          include: [
-            ...clientDeps.filter(i => !EXCLUDE.includes(i)),
+          include: uniq([
+            ...clientDeps,
             // theme deps
-            ...Object.keys((options.config.themeConfig.pkg.dependencies || {})),
-          ],
+            ...themeDeps,
+            // addon deps
+            ...addonDeps,
+          ]).filter(i => !EXCLUDE.includes(i)),
 
           exclude: EXCLUDE,
         },

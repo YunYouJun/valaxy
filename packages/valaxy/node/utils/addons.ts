@@ -57,6 +57,7 @@ export async function readAddonModule(name: string, options: ReadAddonModuleOpti
     root,
     options: {},
     props: {},
+    pkg: packageJSON,
   }
   return resolver
 }

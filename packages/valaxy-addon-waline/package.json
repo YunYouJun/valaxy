@@ -8,6 +8,9 @@
     "addon",
     "waline"
   ],
+  "exports": {
+    "./*": "./*"
+  },
   "main": "index.ts",
   "types": "index.d.ts",
   "peerDependencies": {

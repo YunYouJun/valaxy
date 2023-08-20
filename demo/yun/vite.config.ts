@@ -14,4 +14,8 @@ export default defineConfig({
     // Visit http://localhost:3333/__inspect/ to see the inspector
     // Inspect(),
   ],
+
+  optimizeDeps: {
+    include: ['@waline/client/component'],
+  },
 })

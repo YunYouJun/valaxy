@@ -20,11 +20,11 @@
     "@explosions/fireworks": "^0.0.2",
     "@iconify-json/ant-design": "^1.1.8",
     "@iconify-json/simple-icons": "^1.1.66",
-    "animejs": "^3.2.1",
-    "valaxy-addon-waline": "workspace:*"
+    "animejs": "^3.2.1"
   },
   "devDependencies": {
     "@types/animejs": "^3.1.7",
-    "valaxy": "workspace:*"
+    "valaxy": "workspace:*",
+    "valaxy-addon-waline": "workspace:*"
   }
 }

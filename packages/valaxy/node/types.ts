@@ -73,4 +73,5 @@ export interface ValaxyAddonResolver {
   props: Record<string, any>
   options: Record<string, any>
   configFile?: string
+  pkg: Record<string, any>
 }

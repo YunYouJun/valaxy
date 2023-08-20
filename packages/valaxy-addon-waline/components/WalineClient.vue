@@ -5,7 +5,7 @@ import { useI18n } from 'vue-i18n'
 import { useRoute } from 'vue-router'
 
 // @ts-expect-error vue waline component type
-import { Waline } from '@waline/client/dist/component'
+import { Waline } from '@waline/client/component'
 import { commentCount, pageviewCount } from '@waline/client'
 import { getEmojis } from '../utils'
 
