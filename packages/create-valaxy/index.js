@@ -84,7 +84,8 @@ async function init() {
 
     // write pkg name & version
     const pkg = require(path.join(templateDir, 'package.json'))
-    pkg.name = packageName
+    if (packageName)
+      pkg.name = packageName
     pkg.version = version
 
     write('package.json', JSON.stringify(pkg, null, 2))
@@ -174,8 +175,8 @@ async function getValidPackageName(projectName) {
       name: 'inputPackageName',
       message: 'Package name:',
       initial: suggestedPackageName,
-      validate: input =>
-        packageNameRegExp.test(input) ? true : 'Invalid package.json name',
+      // validate: input =>
+      //   packageNameRegExp.test(input) ? true : 'Invalid package.json name',
     })
     return inputPackageName
   }

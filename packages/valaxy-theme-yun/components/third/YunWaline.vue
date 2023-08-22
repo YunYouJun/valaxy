@@ -1,7 +1,11 @@
 <script lang="ts" setup>
-import { useAddonWaline } from 'valaxy-addon-waline'
+import * as addonWaline from 'valaxy-addon-waline'
+import { isEmptyAddon } from 'valaxy'
 
-const addon = useAddonWaline()
+if (isEmptyAddon(addonWaline))
+  throw new Error('Please install valaxy-addon-waline')
+
+const addon = addonWaline.useAddonWaline()
 </script>
 
 <template>

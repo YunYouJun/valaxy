@@ -22,7 +22,7 @@ watch(Meta_K, (val) => {
 })
 
 const YunAlgoliaSearch = isAlgolia.value
-  ? defineAsyncComponent(() => import('./YunAlgoliaSearch.vue'))
+  ? defineAsyncComponent(() => import('./third/YunAlgoliaSearch.vue'))
   : () => null
 </script>
 
