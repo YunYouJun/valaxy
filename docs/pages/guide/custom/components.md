@@ -228,3 +228,5 @@ The principle is to cover components. You can also freely cover any other compon
 
 > Because Vue components published is native, it will be completely **on-demand** when packaging, without your extra worry.
 :::
+
+[使用 valaxy-addon-components 插入公共组件的示例](https://yun.valaxy.site/examples/addons/components)

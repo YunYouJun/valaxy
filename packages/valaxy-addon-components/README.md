@@ -1,8 +1,8 @@
-# valaxy-addon-waline
+# valaxy-addon-components
 
 [![NPM version](https://img.shields.io/npm/v/valaxy-addon-waline?color=0078E7)](https://www.npmjs.com/package/valaxy-addon-waline)
 
-TODO: English Docs
+- [ ] English Docs
 
 valaxy-addon-components 是可以提供通用 Vue 组件 的一个 Valaxy 插件。
 
@@ -13,6 +13,13 @@ valaxy-addon-components 是可以提供通用 Vue 组件 的一个 Valaxy 插件
 > 命名空间以 VC 开头。
 
 - `VCLiveTime`: 生存时间
+
+### 第三方组件
+
+对第三方服务的封装，优先使用通用命名。
+
+- `CodePen`: [Codepen](https://codepen.io/)
+  - Example: <https://yun.valaxy.site/examples/addons/components>
 
 ## 如何使用
 

@@ -2,7 +2,7 @@
   "name": "@valaxyjs/monorepo",
   "version": "0.14.54",
   "private": true,
-  "packageManager": "pnpm@8.6.12",
+  "packageManager": "pnpm@8.7.1",
   "description": "📄 Vite & Vue powered static blog generator.",
   "author": {
     "email": "me@yunyoujun.cn",

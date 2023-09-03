@@ -3,6 +3,7 @@ title: Post
 title_zh-CN: 文章
 categories:
   - Guide
+end: false
 ---
 
 > [Post VS Page](https://wordpress.com/zh-cn/support/post-vs-page/)
@@ -106,3 +107,20 @@ Here goes the body
 ```
 
 :::
+
+## 插入
+
+### 组件
+
+- 如想在文章中插入现有公共组件，请参照 [组件](/guide/built-ins)。
+- 如想在文章中插入自定义组件，请参照 [自定义组件](/guide/custom/components)。
+
+### 脚本
+
+可直接通过 [`useScriptTag`](https://vueuse.org/core/useScriptTag/) 使用，封装为组件或直接添加在文章中。
+
+```vue
+<script lang="ts" setup>
+useScriptTag('https://static.codepen.io/assets/embed/ei.js')
+</script>
+```

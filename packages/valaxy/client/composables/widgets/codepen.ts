@@ -1,5 +1,8 @@
 import { useHead } from '@vueuse/head'
 
+/**
+ * @deprecated
+ */
 export function useCodePen() {
   useHead({
     script: [
