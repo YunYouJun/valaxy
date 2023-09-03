@@ -1,10 +1,16 @@
+import type { ViteSSGContext } from 'vite-ssg'
 import { ViteSSG } from 'vite-ssg'
 import generatedRoutes from 'virtual:generated-pages'
 import { setupLayouts } from 'virtual:generated-layouts'
-import App from './App.vue'
-import AppLinkVue from './components/AppLink.vue'
+import AppLink from './components/AppLink.vue'
 
-import '@unocss/reset/tailwind.css'
+import App from './App.vue'
+
+// reset styles
+// import '@unocss/reset/tailwind.css'
+// https://unocss.dev/guide/style-reset#tailwind-compat
+// minus the background color override for buttons to avoid conflicts with UI frameworks
+import '@unocss/reset/tailwind-compat.css'
 
 // generate user styles
 import '/@valaxyjs/styles'
@@ -17,6 +23,14 @@ const routes = setupLayouts(import.meta.env.DEV
   : generatedRoutes.filter(i =>
     i.meta && i.meta.frontmatter && !i.meta.frontmatter.draft,
   ))
+
+/**
+ * register global components
+ * @param ctx
+ */
+export function registerComponents(ctx: ViteSSGContext) {
+  ctx.app.component('AppLink', AppLink)
+}
 
 // not filter hide for ssg
 
@@ -32,7 +46,7 @@ export const createApp = ViteSSG(
     },
   },
   (ctx) => {
-    ctx.app.component('AppLink', AppLinkVue)
+    registerComponents(ctx)
     setupMain(ctx)
   },
 )
