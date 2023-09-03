@@ -18,8 +18,8 @@
   "types": "types/index.d.ts",
   "dependencies": {
     "@explosions/fireworks": "^0.0.2",
-    "@iconify-json/ant-design": "^1.1.8",
-    "@iconify-json/simple-icons": "^1.1.67",
+    "@iconify-json/ant-design": "^1.1.10",
+    "@iconify-json/simple-icons": "^1.1.68",
     "animejs": "^3.2.1"
   },
   "devDependencies": {

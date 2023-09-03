@@ -37,7 +37,7 @@ const licenseHtml = computed(() => {
       <strong>
         {{ t('post.copyright.link') + t('symbol.colon') }}
       </strong>
-      <a :href="url">
+      <a :href="url" target="_blank" :title="t('post.copyright.link')">
         {{ url }}
       </a>
     </li>

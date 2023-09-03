@@ -62,7 +62,7 @@ export function createPagesPlugin(options: ResolvedValaxyOptions) {
         route.meta.frontmatter = defaultFrontmatter
       }
 
-      // encode for chinese filename
+      // encode for chinese filename dev and build same
       route.path = encodeURI(route.path)
 
       // add default layout for home, can be overrode
