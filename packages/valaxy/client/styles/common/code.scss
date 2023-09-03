@@ -1,5 +1,15 @@
 @use "valaxy/client/styles/mixins/index.scss" as *;
 
+// for dark
+.dark .vp-code-light {
+  display: none;
+}
+
+html:not(.dark) .vp-code-dark {
+  display: none;
+}
+
+
 @include mobile {
   .markdown-body {
     div[class*="language-"] {
