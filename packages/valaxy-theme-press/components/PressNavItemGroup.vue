@@ -19,7 +19,7 @@ const open = ref(false)
   >
     <button
       type="button"
-      class="button flex items-center"
+      class="button flex items-center bg-transparent"
       @click="open = !open"
     >
       <span class="text">
