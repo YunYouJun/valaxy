@@ -14,7 +14,7 @@ const { t } = useI18n()
 </script>
 
 <template>
-  <div v-if="addonWaline && addonWaline.options" flex="~" text="sm" py="1">
+  <div v-if="addonWaline && addonWaline.options" flex="~" text="sm" my="1" h="5">
     <div v-if="addonWaline.options.pageview" inline-flex justify="center" items="center" mx="2" :title="t('post.pageview_count')">
       <div inline-flex i-ri-eye-line />
       <span ml-1 inline-flex class="waline-pageview-count" :data-path="route.path" />
