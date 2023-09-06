@@ -25,9 +25,10 @@ import type { MarkdownOptions } from './types'
 import Katex from './plugins/markdown-it/katex'
 import { containerPlugin } from './plugins/markdown-it/container'
 import { highlight } from './plugins/highlight'
-import { highlightLinePlugin, preWrapperPlugin } from './plugins/markdown-it/highlightLines'
+import { highlightLinePlugin } from './plugins/markdown-it/highlightLines'
 
 import { linkPlugin } from './plugins/link'
+import { preWrapperPlugin } from './plugins/markdown-it/preWrapper'
 
 // import { lineNumberPlugin } from "./plugins/lineNumbers";
 
@@ -47,9 +48,12 @@ export async function setupMarkdownPlugins(
   isExcerpt = false,
   base = '/',
 ) {
+  const theme = mdOptions.theme ?? 'material-theme-palenight'
+  const hasSingleTheme = typeof theme === 'string' || 'name' in theme
+
   // custom plugins
   md.use(highlightLinePlugin)
-    .use(preWrapperPlugin)
+    .use(preWrapperPlugin, { hasSingleTheme })
     .use(containerPlugin, mdOptions.blocks)
     .use(cssI18nContainer, {
       languages: ['zh-CN', 'en'],
@@ -113,6 +117,7 @@ export async function setupMarkdownPlugins(
 
 export async function createMarkdownRenderer(mdOptions: MarkdownOptions = {}): Promise<MarkdownRenderer> {
   const theme = mdOptions.theme ?? 'material-theme-palenight'
+
   const md = MarkdownIt({
     html: true,
     linkify: true,

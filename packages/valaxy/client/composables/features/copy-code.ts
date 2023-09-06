@@ -1,24 +1,43 @@
-import { nextTick, watch } from 'vue'
+// ref vitepress copyCode.ts
 import { isClient } from '@vueuse/core'
-import { useRoute } from 'vue-router'
 
 export function useCopyCode() {
-  const route = useRoute()
-
   if (isClient) {
-    watch(
-      () => route.path,
-      () => {
-        nextTick(() => {
-          document
-            .querySelectorAll<HTMLSpanElement>(
-              '.markdown-body div[class*="language-"]>span.copy',
-            )
-            .forEach(handleElement)
+    const timeoutIdMap: WeakMap<HTMLElement, NodeJS.Timeout> = new WeakMap()
+    window.addEventListener('click', (e) => {
+      const el = e.target as HTMLElement
+      if (el.matches('div[class*="language-"] > button.copy')) {
+        const parent = el.parentElement
+        const sibling = el.nextElementSibling?.nextElementSibling
+        if (!parent || !sibling)
+          return
+
+        const isShell = /language-(shellscript|shell|bash|sh|zsh)/.test(
+          parent.className,
+        )
+
+        let text = ''
+
+        sibling
+          .querySelectorAll('span.line:not(.diff.remove)')
+          .forEach(node => (text += `${node.textContent || ''}\n`))
+        text = text.slice(0, -1)
+
+        if (isShell)
+          text = text.replace(/^ *(\$|>) /gm, '').trim()
+
+        copyToClipboard(text).then(() => {
+          el.classList.add('copied')
+          clearTimeout(timeoutIdMap.get(el))
+          const timeoutId = setTimeout(() => {
+            el.classList.remove('copied')
+            el.blur()
+            timeoutIdMap.delete(el)
+          }, 2000)
+          timeoutIdMap.set(el, timeoutId)
         })
-      },
-      { immediate: true, flush: 'post' },
-    )
+      }
+    })
   }
 }
 
@@ -42,7 +61,7 @@ async function copyToClipboard(text: string) {
 
     const selection = document.getSelection()
     const originalRange = selection
-      ? (selection.rangeCount > 0 && selection.getRangeAt(0))
+      ? selection.rangeCount > 0 && selection.getRangeAt(0)
       : null
 
     document.body.appendChild(element)
@@ -61,32 +80,8 @@ async function copyToClipboard(text: string) {
     }
 
     // Get the focus back on the previously focused element, if any
-    if (previouslyFocusedElement)
-      (previouslyFocusedElement as HTMLElement).focus()
-  }
-}
-
-function handleElement(el: HTMLElement) {
-  el.onclick = () => {
-    const parent = el.parentElement
-
-    if (!parent)
-      return
-
-    const isShell
-      = parent.classList.contains('language-sh')
-      || parent.classList.contains('language-bash')
-
-    let { innerText: text = '' } = parent
-
-    if (isShell)
-      text = text.replace(/^ *\$ /gm, '')
-
-    copyToClipboard(text).then(() => {
-      el.classList.add('copied')
-      setTimeout(() => {
-        el.classList.remove('copied')
-      }, 3000)
-    })
+    if (previouslyFocusedElement) {
+      ;(previouslyFocusedElement as HTMLElement).focus()
+    }
   }
 }

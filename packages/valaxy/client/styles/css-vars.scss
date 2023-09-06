@@ -38,19 +38,47 @@ html.dark {
   @include set-css-var-from-map(palette.$dark);
 }
 
+/**
+ * Colors: Text
+ *
+ * - `text-1`: Used for primary text.
+ *
+ * - `text-2`: Used for muted texts, such as "inactive menu" or "info texts".
+ *
+ * - `text-3`: Used for subtle texts, such as "placeholders" or "caret icon".
+ * -------------------------------------------------------------------------- */
+:root {
+  --va-c-text-1: rgba(60, 60, 67);
+  --va-c-text-2: rgba(60, 60, 67, 0.78);
+  --va-c-text-3: rgba(60, 60, 67, 0.56);
+}
+.dark {
+  --va-c-text-1: rgba(255, 255, 245, 0.86);
+  --va-c-text-2: rgba(235, 235, 245, 0.6);
+  --va-c-text-3: rgba(235, 235, 245, 0.38);
+}
+
 /* code */
 :root {
   --va-code-line-height: 1.7;
   --va-code-font-size: 0.875em;
 
-  --va-code-block-color: var(--va-c-text-dark-1);
-  --va-code-block-bg: #282c34;
+  --va-code-block-color: var(--va-c-text-2);
+  --va-code-block-bg: var(--va-c-bg-alt);
+  --va-code-block-divider-color: var(--va-c-gutter);
+
+  --va-code-lang-color: var(--va-c-text-3);
 
   --va-code-line-highlight-color: rgba(0, 0, 0, 0.5);
   --va-code-line-number-color: var(--va-c-text-dark-3);
 
-  --va-code-copy-code-hover-bg: rgba(255, 255, 255, 0.05);
-  --va-code-copy-code-active-text: var(--va-c-text-dark-2);
+  // copy
+  --va-code-copy-code-border-color: var(--va-c-divider);
+  --va-code-copy-code-bg: var(--va-c-bg-soft);
+  --va-code-copy-code-hover-border-color: var(--va-c-divider);
+  --va-code-copy-code-hover-bg: var(--va-c-bg);
+  --va-code-copy-code-active-text: var(--va-c-text-2);
+  --va-code-copy-copied-text-content: 'Copied';
 }
 
 /* Icons */

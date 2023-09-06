@@ -1,5 +1,7 @@
 ---
 title: Code Block Test
+categories:
+  - Test
 ---
 
 ```dockerfile

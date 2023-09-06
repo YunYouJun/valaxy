@@ -51,24 +51,6 @@ export function highlightLinePlugin(md: MarkdownIt) {
   }
 }
 
-// markdown-it plugin for wrapping <pre> ... </pre>.
-//
-// If your plugin was chained before preWrapper, you can add additional element directly.
-// If your plugin was chained after preWrapper, you can use these slots:
-//   1. <!--beforebegin-->
-//   2. <!--afterbegin-->
-//   3. <!--beforeend-->
-//   4. <!--afterend-->
-export function preWrapperPlugin(md: MarkdownIt) {
-  const fence = md.renderer.rules.fence!
-  md.renderer.rules.fence = (...args) => {
-    const [tokens, idx] = args
-    const token = tokens[idx]
-    const rawCode = fence(...args)
-    return `<div class="language-${token.info.trim()}"><span class="copy"></span>${rawCode}</div>`
-  }
-}
-
 // markdown-it plugin for generating line numbers.
 // It depends on preWrapper plugin.
 export function lineNumberPlugin(md: MarkdownIt) {

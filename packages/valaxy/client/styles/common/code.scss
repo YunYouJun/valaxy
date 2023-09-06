@@ -101,50 +101,66 @@ html:not(.dark) .vp-code-dark {
     }
   }
 
-  [class*="language-"] > span.copy {
+  // copy
+  [class*='language-'] > button.copy {
+    /*rtl:ignore*/
+    direction: ltr;
     position: absolute;
-    top: 8px;
-    right: 8px;
-    z-index: 2;
-    display: block;
-    justify-content: center;
-    align-items: center;
+    top: 12px;
+    /*rtl:ignore*/
+    right: 12px;
+    z-index: 3;
+    border: 1px solid var(--va-code-copy-code-border-color);
     border-radius: 4px;
     width: 40px;
     height: 40px;
-    background-color: var(--va-code-block-bg);
+    background-color: var(--va-code-copy-code-bg);
     opacity: 0;
     cursor: pointer;
     background-image: var(--va-icon-copy);
     background-position: 50%;
     background-size: 20px;
     background-repeat: no-repeat;
-    transition: opacity 0.25s;
+    transition:
+      border-color 0.25s,
+      background-color 0.25s,
+      opacity 0.25s;
   }
-
-  [class*="language-"]:hover > span.copy {
+  
+  [class*='language-']:hover > button.copy,
+  [class*='language-'] > button.copy:focus {
     opacity: 1;
   }
-
-  [class*="language-"] > span.copy:hover {
+  
+  [class*='language-'] > button.copy:hover,
+  [class*='language-'] > button.copy.copied {
+    border-color: var(--va-code-copy-code-hover-border-color);
     background-color: var(--va-code-copy-code-hover-bg);
   }
-
-  [class*="language-"] > span.copy.copied,
-  [class*="language-"] > span.copy:hover.copied {
+  
+  [class*='language-'] > button.copy.copied,
+  [class*='language-'] > button.copy:hover.copied {
+    /*rtl:ignore*/
     border-radius: 0 4px 4px 0;
     background-color: var(--va-code-copy-code-hover-bg);
     background-image: var(--va-icon-copied);
   }
-
-  [class*="language-"] > span.copy.copied::before,
-  [class*="language-"] > span.copy:hover.copied::before {
+  
+  [class*='language-'] > button.copy.copied::before,
+  [class*='language-'] > button.copy:hover.copied::before {
     position: relative;
-    left: -65px;
-    display: block;
+    top: -1px;
+    /*rtl:ignore*/
+    transform: translateX(calc(-100% - 1px));
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: 1px solid var(--va-code-copy-code-hover-border-color);
+    /*rtl:ignore*/
+    border-right: 0;
     border-radius: 4px 0 0 4px;
-    padding-top: 8px;
-    width: 64px;
+    padding: 0 10px;
+    width: fit-content;
     height: 40px;
     text-align: center;
     font-size: 12px;
@@ -152,109 +168,25 @@ html:not(.dark) .vp-code-dark {
     color: var(--va-code-copy-code-active-text);
     background-color: var(--va-code-copy-code-hover-bg);
     white-space: nowrap;
-    content: "Copied";
+    content: var(--va-code-copy-copied-text-content);
   }
 
-  [class*="language-"]:before {
+  [class*='language-'] > span.lang {
     position: absolute;
-    top: 6px;
-    right: 12px;
+    top: 2px;
+    /*rtl:ignore*/
+    right: 8px;
     z-index: 2;
     font-size: 12px;
     font-weight: 500;
-    color: var(--va-c-text-dark-3);
-    transition: color 0.5s, opacity 0.5s;
+    color: var(--va-code-lang-color);
+    transition:
+      color 0.4s,
+      opacity 0.4s;
   }
-
-  [class*="language-"]:hover:before {
+  
+  [class*='language-']:hover > button.copy + span.lang,
+  [class*='language-'] > button.copy:focus + span.lang {
     opacity: 0;
-  }
-
-  [class~="language-c"]:before {
-    content: "c";
-  }
-  [class~="language-css"]:before {
-    content: "css";
-  }
-  [class~="language-go"]:before {
-    content: "go";
-  }
-  [class~="language-html"]:before {
-    content: "html";
-  }
-  [class~="language-java"]:before {
-    content: "java";
-  }
-  [class~="language-javascript"]:before {
-    content: "js";
-  }
-  [class~="language-js"]:before {
-    content: "js";
-  }
-  [class~="language-json"]:before {
-    content: "json";
-  }
-  [class~="language-jsx"]:before {
-    content: "jsx";
-  }
-  [class~="language-less"]:before {
-    content: "less";
-  }
-  [class~="language-markdown"]:before {
-    content: "md";
-  }
-  [class~="language-md"]:before {
-    content: "md";
-  }
-  [class~="language-php"]:before {
-    content: "php";
-  }
-  [class~="language-python"]:before {
-    content: "py";
-  }
-  [class~="language-py"]:before {
-    content: "py";
-  }
-  [class~="language-rb"]:before {
-    content: "rb";
-  }
-  [class~="language-ruby"]:before {
-    content: "rb";
-  }
-  [class~="language-rust"]:before {
-    content: "rust";
-  }
-  [class~="language-sass"]:before {
-    content: "sass";
-  }
-  [class~="language-scss"]:before {
-    content: "scss";
-  }
-  [class~="language-sh"]:before {
-    content: "sh";
-  }
-  [class~="language-bash"]:before {
-    content: "sh";
-  }
-  [class~="language-stylus"]:before {
-    content: "styl";
-  }
-  [class~="language-vue-html"]:before {
-    content: "template";
-  }
-  [class~="language-typescript"]:before {
-    content: "ts";
-  }
-  [class~="language-ts"]:before {
-    content: "ts";
-  }
-  [class~="language-tsx"]:before {
-    content: "tsx";
-  }
-  [class~="language-vue"]:before {
-    content: "vue";
-  }
-  [class~="language-yaml"]:before {
-    content: "yaml";
   }
 }
