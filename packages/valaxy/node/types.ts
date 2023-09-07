@@ -4,17 +4,17 @@ import type { VitePluginConfig as UnoCSSConfig } from 'unocss/vite'
 import type Pages from 'vite-plugin-pages'
 import type { UserConfig as ViteUserConfig } from 'vite'
 import type { presetAttributify, presetIcons, presetTypography, presetUno } from 'unocss'
-import type { DefaultThemeConfig, PartialDeep, ValaxyAddon, ValaxyConfig } from '../types'
+import type { DefaultTheme, PartialDeep, ValaxyAddon, ValaxyConfig } from '../types'
 import type { ResolvedValaxyOptions } from './options'
 import type { MarkdownOptions } from './markdown/types'
 
-export type ValaxyNodeConfig<ThemeConfig = DefaultThemeConfig> = ValaxyConfig<ThemeConfig> & ValaxyExtendConfig
-export type UserValaxyNodeConfig<ThemeConfig = DefaultThemeConfig> = PartialDeep<ValaxyNodeConfig<ThemeConfig>>
+export type ValaxyNodeConfig<ThemeConfig = DefaultTheme.Config> = ValaxyConfig<ThemeConfig> & ValaxyExtendConfig
+export type UserValaxyNodeConfig<ThemeConfig = DefaultTheme.Config> = PartialDeep<ValaxyNodeConfig<ThemeConfig>>
 /**
  * fn with options for theme config
  */
-export type ValaxyConfigFn<ThemeConfig = DefaultThemeConfig> = (options: ResolvedValaxyOptions<ThemeConfig>) => ValaxyNodeConfig | Promise<ValaxyNodeConfig>
-export type ValaxyConfigExport<ThemeConfig = DefaultThemeConfig> = ValaxyNodeConfig<ThemeConfig> | ValaxyConfigFn<ThemeConfig>
+export type ValaxyConfigFn<ThemeConfig = DefaultTheme.Config> = (options: ResolvedValaxyOptions<ThemeConfig>) => ValaxyNodeConfig | Promise<ValaxyNodeConfig>
+export type ValaxyConfigExport<ThemeConfig = DefaultTheme.Config> = ValaxyNodeConfig<ThemeConfig> | ValaxyConfigFn<ThemeConfig>
 
 export interface ValaxyExtendConfig {
   /**
@@ -62,8 +62,8 @@ export interface ValaxyExtendConfig {
 export type ValaxyAddonLike = ValaxyAddon | false | null | undefined
 export type ValaxyAddons = (ValaxyAddon | string)[] | Record<string, ValaxyAddonLike>
 
-export type ValaxyAddonFn<ThemeConfig = DefaultThemeConfig> = (addonOptions: ValaxyAddonResolver, valaxyOptions: ResolvedValaxyOptions<ThemeConfig>) => ValaxyNodeConfig | Promise<ValaxyNodeConfig>
-export type ValaxyAddonExport<ThemeConfig = DefaultThemeConfig> = ValaxyNodeConfig<ThemeConfig> | ValaxyAddonFn<ThemeConfig>
+export type ValaxyAddonFn<ThemeConfig = DefaultTheme.Config> = (addonOptions: ValaxyAddonResolver, valaxyOptions: ResolvedValaxyOptions<ThemeConfig>) => ValaxyNodeConfig | Promise<ValaxyNodeConfig>
+export type ValaxyAddonExport<ThemeConfig = DefaultTheme.Config> = ValaxyNodeConfig<ThemeConfig> | ValaxyAddonFn<ThemeConfig>
 
 export interface ValaxyAddonResolver {
   name: string

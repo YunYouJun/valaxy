@@ -10,7 +10,7 @@ import { computed, inject, readonly, shallowRef } from 'vue'
 // fix build caused by pnpm
 // This is likely not portable. A type annotation is necessary.
 // https://github.com/microsoft/TypeScript/issues/42873
-import type { DefaultThemeConfig, ValaxyConfig } from 'valaxy/types'
+import type { DefaultTheme, ValaxyConfig } from 'valaxy/types'
 
 /**
  * parse valaxy config
@@ -57,7 +57,7 @@ export function initContext() {
  * @public
  * @returns
  */
-export function useValaxyConfig<ThemeConfig = DefaultThemeConfig>() {
+export function useValaxyConfig<ThemeConfig = DefaultTheme.Config>() {
   const config = inject<ComputedRef<ValaxyConfig<ThemeConfig>>>(valaxyConfigSymbol)
   if (!config)
     throw new Error('[Valaxy] site config not properly injected in app')
@@ -69,7 +69,7 @@ export function useValaxyConfig<ThemeConfig = DefaultThemeConfig>() {
  * @public
  * @returns
  */
-export function useConfig<ThemeConfig = DefaultThemeConfig>() {
+export function useConfig<ThemeConfig = DefaultTheme.Config>() {
   return useValaxyConfig<ThemeConfig>()
 }
 
@@ -78,7 +78,7 @@ export function useConfig<ThemeConfig = DefaultThemeConfig>() {
  * @public
  * @returns
  */
-export function useSiteConfig<ThemeConfig = DefaultThemeConfig>() {
+export function useSiteConfig<ThemeConfig = DefaultTheme.Config>() {
   const config = useValaxyConfig<ThemeConfig>()
   return computed(() => config!.value.siteConfig)
 }
@@ -90,7 +90,7 @@ export function useSiteConfig<ThemeConfig = DefaultThemeConfig>() {
  * @internal
  * @returns
  */
-export function useThemeConfig<ThemeConfig = DefaultThemeConfig>() {
+export function useThemeConfig<ThemeConfig = DefaultTheme.Config>() {
   const config = useValaxyConfig<ThemeConfig>()
   return computed(() => config!.value.themeConfig)
 }

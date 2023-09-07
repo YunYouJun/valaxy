@@ -6,3 +6,6 @@ export * from './posts'
 
 // used in node, but without node deps
 export * from './node'
+
+// theme
+export * from './default-theme'

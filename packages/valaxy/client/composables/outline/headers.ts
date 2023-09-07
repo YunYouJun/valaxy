@@ -1,6 +1,6 @@
-import type { Ref } from 'vue'
-import { computed, inject, ref } from 'vue'
-import type { DefaultThemeConfig, Header } from 'valaxy/types'
+import { computed, shallowRef } from 'vue'
+import type { DefaultTheme, Header } from 'valaxy/types'
+import { onContentUpdated } from '../../utils'
 import { useFrontmatter, useThemeConfig } from '../..'
 
 export type MenuItem = Omit<Header, 'slug' | 'children'> & {
@@ -9,7 +9,7 @@ export type MenuItem = Omit<Header, 'slug' | 'children'> & {
 
 export function resolveHeaders(
   headers: MenuItem[],
-  levelsRange: Exclude<DefaultThemeConfig['outline'], false> = [2, 4],
+  levelsRange: Exclude<DefaultTheme.Config['outline'], false> = [2, 4],
 ) {
   const levels: [number, number]
     = typeof levelsRange === 'number'
@@ -69,22 +69,25 @@ function addToParent(
 export function useOutline() {
   const frontmatter = useFrontmatter()
   const themeConfig = useThemeConfig()
-  const headers = ref<MenuItem[]>([])
-  const pageOutline = computed<DefaultThemeConfig['outline']>(
+  const headers = shallowRef<MenuItem[]>([])
+  const pageOutline = computed<DefaultTheme.Config['outline']>(
     () => frontmatter.value.outline ?? themeConfig.value.outline,
   )
 
-  const onContentUpdated = inject('onContentUpdated') as Ref<() => void>
-  onContentUpdated.value = () => {
+  onContentUpdated(() => {
+    if (pageOutline.value === false)
+      return
     headers.value = getHeaders(pageOutline.value)
-  }
+  })
 
   const handleClick = ({ target: el }: Event) => {
-    const id = `#${(el as HTMLAnchorElement).href!.split('#')[1]}`
-    const heading = document.querySelector(
+    const id = (el as HTMLAnchorElement).href!.split('#')[1]
+    const heading = document.getElementById(
       decodeURIComponent(id),
     ) as HTMLAnchorElement
-    heading?.focus()
+    heading?.focus({
+      preventScroll: true,
+    })
   }
 
   return {
@@ -101,24 +104,40 @@ export function useOutline() {
 
 /**
  * get headers from document directly
- * @param pageOutline
  * @returns
  */
-export function getHeaders(pageOutline: DefaultThemeConfig['outline']) {
-  if (pageOutline === false)
-    return []
-  const updatedHeaders: MenuItem[] = []
-  document
-    .querySelectorAll<HTMLHeadingElement>('h2, h3, h4, h5, h6')
-    .forEach((el) => {
-      if (el.textContent && el.id) {
-        updatedHeaders.push({
-          level: Number(el.tagName[1]),
-          title: el.innerText.replace(/\s+#\s*$/, ''),
-          link: `#${el.id}`,
-          lang: el.lang,
-        })
+export function getHeaders(range: Exclude<DefaultTheme.Config['outline'], false>) {
+  const headers = Array.from(document.querySelectorAll('.markdown-body :where(h1,h2,h3,h4,h5,h6)'))
+    .filter(el => el.id && el.hasChildNodes())
+    .map((el) => {
+      const level = Number(el.tagName[1])
+      return {
+        title: serializeHeader(el),
+        link: `#${el.id}`,
+        level,
+        // @ts-expect-error lang
+        lang: el.lang,
       }
     })
-  return resolveHeaders(updatedHeaders, pageOutline)
+
+  return resolveHeaders(headers, range)
+}
+
+function serializeHeader(h: Element): string {
+  let ret = ''
+  for (const node of Array.from(h.childNodes)) {
+    if (node.nodeType === 1) {
+      if (
+        (node as Element).classList.contains('VABadge')
+        || (node as Element).classList.contains('header-anchor')
+      )
+        continue
+
+      ret += node.textContent
+    }
+    else if (node.nodeType === 3) {
+      ret += node.textContent
+    }
+  }
+  return ret.trim()
 }

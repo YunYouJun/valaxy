@@ -6,7 +6,7 @@ import fg from 'fast-glob'
 import { ensureSuffix, uniq } from '@antfu/utils'
 import defu from 'defu'
 import { cyan, yellow } from 'kolorist'
-import type { DefaultThemeConfig, RuntimeConfig } from '../types'
+import type { DefaultTheme, RuntimeConfig } from '../types'
 import { logger } from './logger'
 import { resolveImportPath, slash } from './utils'
 import { mergeValaxyConfig, resolveAddonConfig, resolveValaxyConfig, resolveValaxyConfigFromRoot } from './utils/config'
@@ -26,7 +26,7 @@ export interface ValaxyEntryOptions {
   userRoot: string
 }
 
-export interface ResolvedValaxyOptions<ThemeConfig = DefaultThemeConfig> {
+export interface ResolvedValaxyOptions<ThemeConfig = DefaultTheme.Config> {
   mode: 'dev' | 'build'
   /**
    * package.json root

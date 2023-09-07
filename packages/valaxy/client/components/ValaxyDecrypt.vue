@@ -1,7 +1,6 @@
 <script lang="ts" setup>
-import { useDecrypt, useFrontmatter } from 'valaxy'
-import type { Ref } from 'vue'
-import { defineComponent, h, inject, onMounted, ref } from 'vue'
+import { runContentUpdated, useDecrypt, useFrontmatter } from 'valaxy'
+import { defineComponent, h, onMounted, ref } from 'vue'
 
 const props = defineProps<{
   encryptedContent: string
@@ -11,8 +10,6 @@ const password = ref('')
 const decryptedContent = ref('')
 
 const hasError = ref(false)
-
-const onContentUpdated = inject('onContentUpdated') as Ref<() => void>
 
 const { decrypt } = useDecrypt()
 async function decryptContent() {
@@ -24,7 +21,7 @@ async function decryptContent() {
     decryptedContent.value = result || ''
 
     setTimeout(() => {
-      onContentUpdated.value?.()
+      runContentUpdated()
     }, 16)
   }
   catch (e) {
@@ -37,7 +34,7 @@ function encryptAgain() {
   password.value = ''
 
   setTimeout(() => {
-    onContentUpdated.value?.()
+    runContentUpdated()
   }, 16)
 }
 

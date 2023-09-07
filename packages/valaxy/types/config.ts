@@ -2,15 +2,7 @@ import type { ZoomOptions } from 'medium-zoom'
 import type { FuseOptions } from '@vueuse/integrations/useFuse'
 import type { ValaxyAddon } from '../types'
 import type { FuseListItem } from './node'
-
-export type DefaultThemeConfig = {
-  /**
-   * Custom header levels of outline in the aside component.
-   *
-   * @default 2
-   */
-  outline?: number | [number, number] | 'deep' | false
-} & Record<string, any>
+import type { DefaultTheme } from './default-theme'
 
 export interface SocialLink {
   /**
@@ -301,7 +293,7 @@ export interface RuntimeConfig {
   addons: Record<string, ValaxyAddon>
 }
 
-export interface ValaxyConfig<ThemeConfig = DefaultThemeConfig> {
+export interface ValaxyConfig<ThemeConfig = DefaultTheme.Config> {
   siteConfig: SiteConfig
   /**
    * The name of theme
@@ -343,4 +335,4 @@ export type UserSiteConfig = PartialDeep<SiteConfig>
  * Valaxy User Config
  * @description Valaxy 用户配置
  */
-export type UserValaxyConfig<ThemeConfig = DefaultThemeConfig> = PartialDeep<ValaxyConfig<ThemeConfig>>
+export type UserValaxyConfig<ThemeConfig = DefaultTheme.Config> = PartialDeep<ValaxyConfig<ThemeConfig>>

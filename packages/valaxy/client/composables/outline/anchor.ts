@@ -1,6 +1,7 @@
 import type { Ref } from 'vue'
 import { onMounted, onUnmounted, onUpdated } from 'vue'
 import { throttleAndDebounce } from '../../utils'
+import { useAside } from '../aside'
 
 // magic number to avoid repeated retrieval
 const PAGE_OFFSET = 56
@@ -10,6 +11,7 @@ export function useActiveAnchor(
   container: Ref<HTMLElement>,
   marker: Ref<HTMLElement>,
 ) {
+  const { isAsideEnabled } = useAside()
   const onScroll = throttleAndDebounce(setActiveLink, 100)
 
   let prevActiveLink: HTMLAnchorElement | null = null
@@ -29,7 +31,7 @@ export function useActiveAnchor(
   })
 
   function setActiveLink() {
-    if (!container.value)
+    if (!isAsideEnabled.value)
       return
 
     const links = [].slice.call(
@@ -60,8 +62,8 @@ export function useActiveAnchor(
     }
 
     // isTop
-    if (anchors.length && scrollY === 0)
-      activateLink('#')
+    // if (anchors.length && scrollY === 0)
+    //   activateLink('#')
 
     for (let i = 0; i < anchors.length; i++) {
       const anchor = anchors[i]
@@ -87,21 +89,23 @@ export function useActiveAnchor(
     const bottom = activeLink.getBoundingClientRect().bottom
 
     if (top < topOffset || bottom > window.innerHeight - topOffset)
-      activeLink.scrollIntoView({ behavior: 'smooth', block: 'center' })
+      activeLink.scrollIntoView()
   }
 
   function activateLink(hash: string | null) {
     if (prevActiveLink)
       prevActiveLink.classList.remove('active')
 
-    if (hash !== null) {
+    if (hash == null) {
+      prevActiveLink = null
+    }
+    else {
       prevActiveLink = container.value.querySelector(
         `a[href="${decodeURIComponent(hash)}"]`,
-      ) as HTMLAnchorElement
+      )
     }
 
     const activeLink = prevActiveLink
-
     checkActiveLinkInViewport()
 
     if (activeLink) {

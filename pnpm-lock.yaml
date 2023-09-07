@@ -275,8 +275,8 @@ importers:
         specifier: ^0.4.0
         version: 0.4.0
       jiti:
-        specifier: ^1.19.3
-        version: 1.19.3
+        specifier: ^1.20.0
+        version: 1.20.0
       katex:
         specifier: ^0.16.8
         version: 0.16.8
@@ -6547,8 +6547,8 @@ packages:
       supports-color: 7.2.0
     dev: true
 
-  /jiti@1.19.3:
-    resolution: {integrity: sha512-5eEbBDQT/jF1xg6l36P+mWGGoH9Spuy0PCdSr2dtWRDGC6ph/w9ZCL4lmESW8f8F7MwT3XKescfP0wnZWAKL9w==}
+  /jiti@1.20.0:
+    resolution: {integrity: sha512-3TV69ZbrvV6U5DfQimop50jE9Dl6J8O1ja1dvBbMba/sZ3YBEQqJ2VZRoQPVnhlzjNtU1vaXRZVrVjU4qtm8yA==}
     hasBin: true
     dev: false
 
@@ -8956,7 +8956,7 @@ packages:
     dependencies:
       '@antfu/utils': 0.7.6
       defu: 6.1.2
-      jiti: 1.19.3
+      jiti: 1.20.0
       mlly: 1.4.0
     dev: false
 

@@ -3,7 +3,7 @@ import type { ThemeConfig } from 'valaxy-theme-yun'
 
 import { addonAlgolia } from 'valaxy-addon-algolia'
 
-import { addonTwikoo } from 'valaxy-addon-twikoo'
+// import { addonTwikoo } from 'valaxy-addon-twikoo'
 
 import { addonWaline } from 'valaxy-addon-waline'
 import { addonComponents } from 'valaxy-addon-components'
@@ -108,8 +108,8 @@ export default defineValaxyConfig<ThemeConfig>({
       comment: true,
     }),
     addonLightGallery(),
-    addonTwikoo({
-      envId: 'https://twikoo.vercel.app',
-    }),
+    // addonTwikoo({
+    //   envId: 'https://twikoo.vercel.app',
+    // }),
   ],
 })

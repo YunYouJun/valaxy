@@ -1,8 +1,7 @@
 <script lang="ts" setup>
-import type { Ref } from 'vue'
-import { inject, onMounted, ref } from 'vue'
+import { onMounted, ref } from 'vue'
 import { useI18n } from 'vue-i18n'
-import { useAplayer, useCodePen, useCopyCode, useMediumZoom, wrapTable } from 'valaxy'
+import { onContentUpdated, runContentUpdated, useAplayer, useCodePen, useCopyCode, useMediumZoom, wrapTable } from 'valaxy'
 import type { Post } from 'valaxy'
 
 const props = defineProps<{
@@ -10,18 +9,15 @@ const props = defineProps<{
   excerpt?: string
 }>()
 
-const onContentUpdated = inject('onContentUpdated') as Ref<() => void>
-
 const { t } = useI18n()
 
 const contentRef = ref()
-function updateDom() {
+onContentUpdated(() => {
   wrapTable(contentRef.value)
-  onContentUpdated.value?.()
-}
+})
 
 onMounted(() => {
-  updateDom()
+  runContentUpdated()
 })
 
 // widgets

@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { computed, onBeforeMount, provide, ref } from 'vue'
+import { computed, onBeforeMount } from 'vue'
 import { useHead, useSeoMeta } from '@vueuse/head'
 
 // @ts-expect-error virtual module
@@ -71,9 +71,6 @@ useSeoMeta({
   ogImage: computed(() => fm.value.ogImage || fm.value.cover || siteConfig.value.favicon),
   ogUrl: siteUrl,
 })
-
-const onContentUpdated = ref()
-provide('onContentUpdated', onContentUpdated)
 
 // for SEO
 useSchemaOrg([

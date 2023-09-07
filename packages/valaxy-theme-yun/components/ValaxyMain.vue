@@ -1,8 +1,10 @@
 <script lang="ts" setup>
+import { computed, nextTick } from 'vue'
 import type { PageData, Post } from 'valaxy'
-import { usePostTitle, useSiteConfig } from 'valaxy'
+import { onContentUpdated, usePostTitle, useSiteConfig } from 'valaxy'
 import type { StyleValue } from 'vue'
-import { computed } from 'vue'
+import { useRoute, useRouter } from 'vue-router'
+import { scrollTo } from '../utils'
 import { usePostProperty } from '../composables'
 
 const props = defineProps<{
@@ -16,6 +18,59 @@ const { styles, icon, color } = usePostProperty(props.frontmatter.type)
 const title = usePostTitle(computed(() => props.frontmatter))
 
 const aside = computed(() => props.frontmatter.aside !== false)
+
+const route = useRoute()
+const router = useRouter()
+
+nextTick(() => {
+  if (route.hash) {
+    setTimeout(() => {
+      scrollTo(document.body, route.hash, true)
+    }, 0)
+  }
+})
+
+onContentUpdated(() => {
+  // to extract
+  // click title scroll
+  window.addEventListener(
+    'click',
+    async (e) => {
+      const link = (e.target as Element).closest('a')
+      if (link) {
+        const { protocol, hostname, pathname, hash, target } = link
+        const currentUrl = window.location
+        const extMatch = pathname.match(/\.\w+$/)
+        // only intercept inbound links
+        if (
+          !e.ctrlKey
+            && !e.shiftKey
+            && !e.altKey
+            && !e.metaKey
+            && target !== '_blank'
+            && protocol === currentUrl.protocol
+            && hostname === currentUrl.hostname
+            && !(extMatch && extMatch[0] !== '.html')
+        ) {
+          if (pathname === currentUrl.pathname) {
+            e.preventDefault()
+            // scroll between hash anchors in the same page
+            if (hash && hash !== currentUrl.hash) {
+              await router.push({ hash })
+              history.replaceState({ ...history.state }, '')
+
+              // still emit the event so we can listen to it in themes
+              window.dispatchEvent(new Event('hashchange'))
+              // use smooth scroll when clicking on header anchor links
+              scrollTo(link, hash, link.classList.contains('header-anchor'))
+            }
+          }
+        }
+      }
+    },
+    { capture: true },
+  )
+})
 </script>
 
 <template>
@@ -36,14 +91,14 @@ const aside = computed(() => props.frontmatter.aside !== false)
 
             <div p="x-4 b-8" class="sm:px-6 lg:px-12 xl:px-16" w="full">
               <slot name="main-content">
-                <Transition appear>
-                  <ValaxyMd :frontmatter="frontmatter">
-                    <YunMdTimeWarning :frontmatter="frontmatter" />
+                <!-- <Transition appear> -->
+                <ValaxyMd :frontmatter="frontmatter">
+                  <YunMdTimeWarning :frontmatter="frontmatter" />
 
-                    <slot name="main-content-md" />
-                    <slot />
-                  </ValaxyMd>
-                </Transition>
+                  <slot name="main-content-md" />
+                  <slot />
+                </ValaxyMd>
+                <!-- </Transition> -->
               </slot>
 
               <slot name="main-content-after" />
