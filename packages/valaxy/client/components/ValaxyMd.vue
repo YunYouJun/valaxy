@@ -38,7 +38,7 @@ if (typeof props.frontmatter.medium_zoom === 'undefined' || props.frontmatter.me
     <template v-if="frontmatter.encryptedContent">
       <ValaxyDecrypt :encrypted-content="frontmatter.encryptedContent" />
     </template>
-    <slot v-else ref="contentRef" @vue:updated="updateDom" />
+    <slot v-else ref="contentRef" @vue:updated="runContentUpdated" />
 
     <div v-if="frontmatter.url" text="center">
       <a

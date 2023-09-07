@@ -2,6 +2,7 @@
 import { useThemeConfig } from 'valaxy'
 import type { Categories } from 'valaxy'
 import { computed, ref } from 'vue'
+import type { PressTheme } from '../types'
 
 const props = withDefaults(defineProps<{
   categories: Categories
@@ -18,7 +19,7 @@ const props = withDefaults(defineProps<{
 
 const collapsable = ref(props.collapsable)
 
-const themeConfig = useThemeConfig()
+const themeConfig = useThemeConfig<PressTheme.Config>()
 const sidebar = computed(() => themeConfig.value.sidebar)
 
 function getCategoryByName(name: string) {

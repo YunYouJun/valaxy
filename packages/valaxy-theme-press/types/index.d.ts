@@ -62,6 +62,8 @@ export namespace PressTheme {
      * Toggle dark label
      */
     darkModeSwitchLabel?: string
+
+    lastUpdatedText?: string
   }
 }
 

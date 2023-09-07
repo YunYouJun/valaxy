@@ -1,9 +1,10 @@
 <script setup lang="ts">
 import { computed, onMounted, ref, watchEffect } from 'vue'
 import { useData, useThemeConfig } from 'valaxy'
+import type { PressTheme } from '../types'
 
 const data = useData()
-const themeConfig = useThemeConfig()
+const themeConfig = useThemeConfig<PressTheme.Config>()
 
 const date = computed(() => new Date(data.lastUpdated!))
 const isoDatetime = computed(() => date.value.toISOString())

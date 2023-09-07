@@ -2,8 +2,9 @@
 import { useThemeConfig } from 'valaxy'
 import { onMounted } from 'vue'
 import { createFireworks } from '@explosions/fireworks'
+import type { YunTheme } from '../types'
 
-const themeConfig = useThemeConfig()
+const themeConfig = useThemeConfig<YunTheme.Config>()
 
 onMounted(() => {
   createFireworks({
