@@ -7,14 +7,16 @@ end: false
 
 themes:
   - name: valaxy-theme-yun
+    icon: i-ri-cloud-line
     repo: https://github.com/YunYouJun/valaxy/tree/main/packages/valaxy-theme-yun
-    desc: Default Theme for Valaxy Default Theme for Valaxy Default Theme for Valaxy Default Theme for Valaxy Default Theme for Valaxy
+    desc: Default Theme for Valaxy
     siteImage: https://s2.loli.net/2023/05/05/QoK4ZimqN3fgRdD.png
     siteExampleURL:  https://www.yunyoujun.cn
     tags:
       - yun
       - light
   - name: valaxy-theme-press
+    icon: i-ri-book-line
     repo: https://github.com/YunYouJun/valaxy/tree/main/packages/valaxy-theme-press
     desc: Docs Theme for Valaxy
     siteImage: https://s2.loli.net/2023/05/05/1DyEudpohIl47cP.png
