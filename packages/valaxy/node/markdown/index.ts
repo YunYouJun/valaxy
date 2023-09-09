@@ -21,7 +21,7 @@ import { type TocPluginOptions, tocPlugin } from '@mdit-vue/plugin-toc'
 
 import { slugify } from '@mdit-vue/shared'
 import { cssI18nContainer } from 'css-i18n'
-import type { ResolvedValaxyOptions } from 'packages/valaxy/dist/node'
+import type { ResolvedValaxyOptions } from '../options'
 import type { Header } from '../../types'
 import Katex from './plugins/markdown-it/katex'
 import { containerPlugin } from './plugins/markdown-it/container'
@@ -47,11 +47,11 @@ export const defaultCodeTheme = { light: 'github-light', dark: 'github-dark' }
 
 export async function setupMarkdownPlugins(
   md: MarkdownIt,
-  options: ResolvedValaxyOptions,
+  options?: ResolvedValaxyOptions,
   isExcerpt = false,
   base = '/',
 ) {
-  const mdOptions = options.config.markdown || {}
+  const mdOptions = options?.config.markdown || {}
   const theme = mdOptions.theme ?? defaultCodeTheme
 
   // custom plugins
@@ -89,7 +89,7 @@ export async function setupMarkdownPlugins(
     })
   }
 
-  const vanillaLazyload = options.config.siteConfig.vanillaLazyload
+  const vanillaLazyload = options?.config.siteConfig.vanillaLazyload || { enable: false }
   // markdown-it-image-figures
   md.use(imageFigures, {
     figcaption: true,
@@ -139,8 +139,8 @@ export async function setupMarkdownPlugins(
   return md as MarkdownRenderer
 }
 
-export async function createMarkdownRenderer(options: ResolvedValaxyOptions): Promise<MarkdownRenderer> {
-  const mdOptions = options.config.markdown || {}
+export async function createMarkdownRenderer(options?: ResolvedValaxyOptions): Promise<MarkdownRenderer> {
+  const mdOptions = options?.config.markdown || {}
   const theme = mdOptions.theme ?? defaultCodeTheme
 
   const md = MarkdownIt({
