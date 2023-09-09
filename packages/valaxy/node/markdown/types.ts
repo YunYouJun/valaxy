@@ -44,6 +44,15 @@ export interface MarkdownOptions {
   headers?: HeadersPluginOptions
   sfc?: SfcPluginOptions
   toc?: TocPluginOptions
+  /**
+   * @see [markdown-it-image-figures](https://www.npmjs.com/package/markdown-it-image-figures)
+   */
+  imageFigures?: {
+    lazy: boolean
+    removeSrc: boolean
+    async: boolean
+    classes: string
+  }
 
   katex?: KatexOptions
   /**

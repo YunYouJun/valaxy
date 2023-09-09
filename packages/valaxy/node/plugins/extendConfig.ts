@@ -34,6 +34,7 @@ const clientDeps = [
   // will may be addons
   'fuse.js',
   'medium-zoom',
+  'vanilla-lazyload',
 ]
 
 /**

@@ -1,5 +1,6 @@
 import type { ZoomOptions } from 'medium-zoom'
 import type { FuseOptions } from '@vueuse/integrations/useFuse'
+import type { ILazyLoadOptions } from 'vanilla-lazyload'
 import type { ValaxyAddon } from '../types'
 import type { FuseListItem } from './node'
 import type { DefaultTheme } from './default-theme'
@@ -229,6 +230,16 @@ export interface SiteConfig {
      */
     selector: string | HTMLElement | HTMLElement[]
     options: ZoomOptions
+  }
+
+  /**
+   * lazyload by vanilla-lazyload and markdown-it-image-figures
+   * when vanillaLazyLoad.enable is true, imageFigures removeSrc is true, classes is 'lazy'
+   * @see https://github.com/verlok/vanilla-lazyload
+   */
+  vanillaLazyload: {
+    enable: boolean
+    options: ILazyLoadOptions
   }
 
   /**

@@ -107,6 +107,7 @@ export default defineSiteConfig({
   },
 
   mediumZoom: { enable: true },
+  vanillaLazyload: { enable: true },
 
   statistics: {
     enable: true,

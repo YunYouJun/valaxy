@@ -3,6 +3,7 @@ import { onMounted, ref } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { onContentUpdated, runContentUpdated, useAplayer, useCodePen, useCopyCode, useMediumZoom, wrapTable } from 'valaxy'
 import type { Post } from 'valaxy'
+import { useVanillaLazyLoad } from '../composables/features/vanilla-lazyload'
 
 const props = defineProps<{
   frontmatter: Post
@@ -31,6 +32,8 @@ useCopyCode()
 
 if (typeof props.frontmatter.medium_zoom === 'undefined' || props.frontmatter.medium_zoom)
   useMediumZoom()
+
+useVanillaLazyLoad()
 </script>
 
 <template>
@@ -65,7 +68,7 @@ if (typeof props.frontmatter.medium_zoom === 'undefined' || props.frontmatter.me
   </article>
 </template>
 
-<style>
+<style lang="scss">
 .medium-zoom-overlay,
 .medium-zoom-image--opened {
   z-index: 999;

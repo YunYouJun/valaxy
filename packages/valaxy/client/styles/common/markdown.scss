@@ -37,8 +37,12 @@ a.header-anchor:focus {
   text-decoration: none;
 }
 
-// end line
 .markdown-body {
+  figure {
+    text-align: center;
+  }
+
+  // end line
   .end {
     .line {
       height: 1px;

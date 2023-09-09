@@ -13,11 +13,11 @@ declare module 'markdown-it-task-lists' {
   export default def
 }
 
-declare module 'diacritics' {
-  export const remove: (str: string) => string
-}
-
-declare module 'markdown-it-image-lazy-loading' {
+declare module 'markdown-it-image-figures' {
   const def: any
   export default def
+}
+
+declare module 'diacritics' {
+  export const remove: (str: string) => string
 }

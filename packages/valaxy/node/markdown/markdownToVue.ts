@@ -10,7 +10,6 @@ import { getGitTimestamp, slash, transformObject } from '../utils'
 import type { CleanUrlsMode, HeadConfig, PageData } from '../../types'
 import type { ResolvedValaxyOptions } from '../options'
 import { encryptContent } from '../utils/encrypt'
-import type { MarkdownOptions } from './types'
 import { createMarkdownRenderer } from '.'
 import type { MarkdownEnv, MarkdownRenderer } from '.'
 
@@ -99,7 +98,6 @@ function inferDescription(frontmatter: Record<string, any>) {
 export async function createMarkdownToVueRenderFn(
   options: ResolvedValaxyOptions,
   srcDir: string,
-  mdOptions: MarkdownOptions = {},
   pages: string[],
   userDefines: Record<string, any> | undefined,
   isBuild = false,
@@ -107,7 +105,7 @@ export async function createMarkdownToVueRenderFn(
   // https://vitepress.vuejs.org/config/app-configs#cleanurls-experimental
   cleanUrls: CleanUrlsMode = 'with-subfolders',
 ) {
-  const md = await createMarkdownRenderer(mdOptions)
+  const md = await createMarkdownRenderer(options)
 
   // for dead link detection
   pages = pages.map(p => slash(p.replace(/\.md$/, '')).replace(/\/index$/, ''))

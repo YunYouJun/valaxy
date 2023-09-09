@@ -1,31 +1,37 @@
 ---
-title: Valaxy 图片懒加载测试
+title: Valaxy LazyLoad 图片懒加载测试
 date: 2023-09-09
+categories: Test
 ---
-![](https://cdn.yunyoujun.cn/img/bg/girl-in-watertank.webp)
 
-![](https://cdn.yunyoujun.cn/img/bg/stars-timing-0-blur-30px.jpg)
+图片懒加载测试。
 
-![](https://cdn.yunyoujun.cn/img/bg/galaxy.jpg)
+基于 [markdown-it-image-figures](https://github.com/Antonio-Laguna/markdown-it-image-figures) + [vanilla-lazyload](https://github.com/verlok/vanilla-lazyload) 实现。
 
-![](https://cdn.yunyoujun.cn/img/bg/mountain-blur-30px.jpg)
+![girl-in-water-tank](https://cdn.yunyoujun.cn/img/bg/girl-in-water-tank.webp "Girl In Water Tank")
 
-![](https://cdn.yunyoujun.cn/img/bg/astronaut.webp)
+![stars-timing-0-blur-30px](https://cdn.yunyoujun.cn/img/bg/stars-timing-0-blur-30px.jpg "Stars Timing BG")
 
-![](https://cdn.yunyoujun.cn/img/bg/stars-timing-1.jpg)
+![galaxy.jpg](https://cdn.yunyoujun.cn/img/bg/galaxy.jpg)
 
-![](https://cdn.yunyoujun.cn/img/bg/stars-timing-2.jpg)
+![mountain-blur-30px.jpg](https://cdn.yunyoujun.cn/img/bg/mountain-blur-30px.jpg)
 
-![](https://cdn.yunyoujun.cn/img/bg/stars-timing-3.jpg)
+![astronaut.webp](https://cdn.yunyoujun.cn/img/bg/astronaut.webp "Astronaut")
 
-![](https://cdn.yunyoujun.cn/img/bg/stars-timing-4.jpg)
+![stars-timing-1.jpg](https://cdn.yunyoujun.cn/img/bg/stars-timing-1.jpg)
 
-![](https://cdn.yunyoujun.cn/img/bg/stars-timing-5.jpg)
+![stars-timing-2.jpg](https://cdn.yunyoujun.cn/img/bg/stars-timing-2.jpg)
 
-![](https://cdn.yunyoujun.cn/img/bg/mountain.jpg)
+![stars-timing-3.jpg](https://cdn.yunyoujun.cn/img/bg/stars-timing-3.jpg)
 
-![](https://cdn.yunyoujun.cn/img/meme/bow-to-good-society.jpg)
+![stars-timing-4.jpg](https://cdn.yunyoujun.cn/img/bg/stars-timing-4.jpg)
 
-![](https://cdn.yunyoujun.cn/img/meme/no-bug.gif)
+![stars-timing-5.jpg](https://cdn.yunyoujun.cn/img/bg/stars-timing-5.jpg)
 
-![](https://cdn.yunyoujun.cn/img/meme/no-work.jpg)
+![mountain.jpg](https://cdn.yunyoujun.cn/img/bg/mountain.jpg)
+
+![bow-to-good-society.jpg](https://cdn.yunyoujun.cn/img/meme/bow-to-good-society.jpg)
+
+![no-bug.gif](https://cdn.yunyoujun.cn/img/meme/no-bug.gif "我写的代码没有 bug")
+
+![no-work.jpg](https://cdn.yunyoujun.cn/img/meme/no-work.jpg "打工是不可能打工的")
