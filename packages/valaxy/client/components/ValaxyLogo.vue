@@ -5,7 +5,7 @@ import valaxyLogoPng from '../assets/images/valaxy-logo.png'
 <template>
   <div class="valaxy-logo-container" relative inline-flex justify="center" items="center">
     <div class="absolute bg-img" />
-    <img max-w="50" m="auto" :src="valaxyLogoPng" alt="Valaxy Logo" z="1">
+    <img w="50" aspect="420/386" m="auto" :src="valaxyLogoPng" alt="Valaxy Logo" z="1">
   </div>
 </template>
 
