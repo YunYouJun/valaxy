@@ -88,6 +88,11 @@ export const defaultSiteConfig: SiteConfig = {
     options: {},
   },
 
+  vanillaLazyload: {
+    enable: false,
+    options: {},
+  },
+
   statistics: {
     enable: false,
     readTime: {

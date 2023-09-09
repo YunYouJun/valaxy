@@ -39,9 +39,22 @@ html.dark {
 
   img {
     margin: 0.5rem auto;
+    height: auto;
   }
 
   p {
     overflow: unset;
+  }
+
+  // alone image
+  figure {
+
+    figcaption {
+      text-align: center;
+      font-size: 0.8rem;
+      color: var(--va-c-text-2);
+
+      margin-bottom: 1rem;
+    }
   }
 }

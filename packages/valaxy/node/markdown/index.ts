@@ -4,6 +4,7 @@ import anchorPlugin from 'markdown-it-anchor'
 import attrsPlugin from 'markdown-it-attrs'
 import emojiPlugin from 'markdown-it-emoji'
 import TaskLists from 'markdown-it-task-lists'
+import imageFigures from 'markdown-it-image-figures'
 
 import { componentPlugin } from '@mdit-vue/plugin-component'
 import {
@@ -20,8 +21,8 @@ import { type TocPluginOptions, tocPlugin } from '@mdit-vue/plugin-toc'
 
 import { slugify } from '@mdit-vue/shared'
 import { cssI18nContainer } from 'css-i18n'
+import type { ResolvedValaxyOptions } from 'packages/valaxy/dist/node'
 import type { Header } from '../../types'
-import type { MarkdownOptions } from './types'
 import Katex from './plugins/markdown-it/katex'
 import { containerPlugin } from './plugins/markdown-it/container'
 import { highlight } from './plugins/highlight'
@@ -44,10 +45,11 @@ export type MarkdownRenderer = MarkdownIt
 
 export async function setupMarkdownPlugins(
   md: MarkdownIt,
-  mdOptions: MarkdownOptions = {},
+  options: ResolvedValaxyOptions,
   isExcerpt = false,
   base = '/',
 ) {
+  const mdOptions = options.config.markdown || {}
   const theme = mdOptions.theme ?? 'material-theme-palenight'
   const hasSingleTheme = typeof theme === 'string' || 'name' in theme
 
@@ -86,6 +88,27 @@ export async function setupMarkdownPlugins(
     })
   }
 
+  const vanillaLazyload = options.config.siteConfig.vanillaLazyload
+  // markdown-it-image-figures
+  md.use(imageFigures, {
+    figcaption: true,
+    // default web performance recommended settings
+    lazy: true,
+    async: true,
+
+    // removeSrc and classes are required by vanilla-lazyload
+    ...(vanillaLazyload.enable
+      ? {
+          lazy: false,
+          async: false,
+          removeSrc: true,
+          classes: 'lazy',
+        }
+      : {}),
+
+    ...mdOptions.imageFigures,
+  })
+
   // mdit-vue plugins
   md.use(componentPlugin)
     .use(frontmatterPlugin, {
@@ -115,7 +138,8 @@ export async function setupMarkdownPlugins(
   return md as MarkdownRenderer
 }
 
-export async function createMarkdownRenderer(mdOptions: MarkdownOptions = {}): Promise<MarkdownRenderer> {
+export async function createMarkdownRenderer(options: ResolvedValaxyOptions): Promise<MarkdownRenderer> {
+  const mdOptions = options.config.markdown || {}
   const theme = mdOptions.theme ?? 'material-theme-palenight'
 
   const md = MarkdownIt({
@@ -124,6 +148,6 @@ export async function createMarkdownRenderer(mdOptions: MarkdownOptions = {}): P
     highlight: await highlight(theme, mdOptions.languages, mdOptions.defaultHighlightLang),
     ...mdOptions.options,
   }) as MarkdownRenderer
-  await setupMarkdownPlugins(md, mdOptions)
+  await setupMarkdownPlugins(md, options)
   return md
 }

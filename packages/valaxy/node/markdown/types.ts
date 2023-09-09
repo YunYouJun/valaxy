@@ -14,6 +14,8 @@ import {
 import { type SfcPluginOptions } from '@mdit-vue/plugin-sfc'
 import { type TocPluginOptions } from '@mdit-vue/plugin-toc'
 
+// import type { lazyloadOptions } from './plugins/markdown-it/lazyload'
+
 import { type Blocks } from './plugins/markdown-it/container'
 
 export type ThemeOptions =
@@ -42,6 +44,15 @@ export interface MarkdownOptions {
   headers?: HeadersPluginOptions
   sfc?: SfcPluginOptions
   toc?: TocPluginOptions
+  /**
+   * @see [markdown-it-image-figures](https://www.npmjs.com/package/markdown-it-image-figures)
+   */
+  imageFigures?: {
+    lazy: boolean
+    removeSrc: boolean
+    async: boolean
+    classes: string
+  }
 
   katex?: KatexOptions
   /**
@@ -55,4 +66,8 @@ export interface MarkdownOptions {
   blocks?: Blocks
 
   externalLinks?: Record<string, string>
+  /* lazyload?: {
+    enabled?: boolean
+    options: lazyloadOptions
+  } */
 }

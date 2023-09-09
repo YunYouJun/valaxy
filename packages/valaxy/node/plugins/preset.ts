@@ -28,7 +28,7 @@ export async function ViteValaxyPlugins(
   const { roots, config: valaxyConfig } = options
 
   // setup mdIt
-  await setupMarkdownPlugins(mdIt, valaxyConfig.markdown, true)
+  await setupMarkdownPlugins(mdIt, options, true)
 
   const customElements = new Set([
     // katex
