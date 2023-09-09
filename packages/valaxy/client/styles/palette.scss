@@ -88,14 +88,13 @@ $dark: map.merge(
 
     "c-bg-soft": #1d1e1f,
     "c-bg-mute": #2f2f2f,
-    "c-bg-alt": #1a1a1a,
+    "c-bg-alt": #161618,
 
     "c-text": #f2f2f2,
     "c-text-light": #ddd,
     "c-text-lighter": #eee,
     "c-text-dark": rgba(#ebebeb, 0.8),
     "c-link": map.get($colors, "primary-light"),
-    "code-block-bg": #151515,
   ),
   $dark
 );

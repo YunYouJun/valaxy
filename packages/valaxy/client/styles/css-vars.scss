@@ -33,7 +33,7 @@ $c-primary: #0078e7 !default;
 }
 
 // dark
-html.dark {
+.dark {
   color-scheme: dark;
   @include set-css-var-from-map(palette.$dark);
 }
@@ -79,6 +79,10 @@ html.dark {
   --va-code-copy-code-hover-bg: var(--va-c-bg);
   --va-code-copy-code-active-text: var(--va-c-text-2);
   --va-code-copy-copied-text-content: 'Copied';
+}
+
+.dark {
+  --va-code-block-bg: var(--va-c-bg-alt);
 }
 
 /* Icons */

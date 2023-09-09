@@ -5,7 +5,7 @@
   --c-toc-link: var(--va-c-text-light);
 }
 
-html.dark {
+.dark {
   .markdown-body {
     --c-toc-link: var(--va-c-text-dark);
   }

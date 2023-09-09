@@ -13,6 +13,6 @@
   @include set-css-var-from-map($light);
 }
 
-html.dark {
+.dark {
   @include set-css-var-from-map($dark);
 }

@@ -43,6 +43,8 @@ export interface MarkdownParsedData {
 
 export type MarkdownRenderer = MarkdownIt
 
+export const defaultCodeTheme = { light: 'github-light', dark: 'github-dark' }
+
 export async function setupMarkdownPlugins(
   md: MarkdownIt,
   options: ResolvedValaxyOptions,
@@ -50,12 +52,11 @@ export async function setupMarkdownPlugins(
   base = '/',
 ) {
   const mdOptions = options.config.markdown || {}
-  const theme = mdOptions.theme ?? 'material-theme-palenight'
-  const hasSingleTheme = typeof theme === 'string' || 'name' in theme
+  const theme = mdOptions.theme ?? defaultCodeTheme
 
   // custom plugins
   md.use(highlightLinePlugin)
-    .use(preWrapperPlugin, { hasSingleTheme })
+    .use(preWrapperPlugin, { theme })
     .use(containerPlugin, mdOptions.blocks)
     .use(cssI18nContainer, {
       languages: ['zh-CN', 'en'],
@@ -140,7 +141,7 @@ export async function setupMarkdownPlugins(
 
 export async function createMarkdownRenderer(options: ResolvedValaxyOptions): Promise<MarkdownRenderer> {
   const mdOptions = options.config.markdown || {}
-  const theme = mdOptions.theme ?? 'material-theme-palenight'
+  const theme = mdOptions.theme ?? defaultCodeTheme
 
   const md = MarkdownIt({
     html: true,

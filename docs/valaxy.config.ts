@@ -118,5 +118,7 @@ export default defineValaxyConfig<PressTheme.Config>({
         text: 'i-carbon-information',
       },
     },
+
+    // theme: 'material-theme-palenight',
   },
 })
