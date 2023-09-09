@@ -3,6 +3,9 @@ title: Write a Addon
 title_zh-CN: 编写一个插件
 categories:
   - Addon
+end: false
+
+
 ---
 
 ## 开始编写
@@ -20,4 +23,6 @@ categories:
 
 - `components`: 放置于 `components` 文件夹下的组件将会被自动注册，但不会被挂载。用户可以手动加载使用。
 
-用户如何配置 global
+> 文档正在施工中，您可以参照 [插件橱窗](/addons/gallery) 一些已有的插件。
+
+<!-- 用户如何配置 global -->
