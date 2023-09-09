@@ -4,6 +4,7 @@ import anchorPlugin from 'markdown-it-anchor'
 import attrsPlugin from 'markdown-it-attrs'
 import emojiPlugin from 'markdown-it-emoji'
 import TaskLists from 'markdown-it-task-lists'
+import lazy_loading from 'markdown-it-image-lazy-loading'
 
 import { componentPlugin } from '@mdit-vue/plugin-component'
 import {
@@ -85,6 +86,8 @@ export async function setupMarkdownPlugins(
       ...mdOptions.anchor,
     })
   }
+
+  md.use(lazy_loading /* mdOptions.lazyload?.options */)
 
   // mdit-vue plugins
   md.use(componentPlugin)

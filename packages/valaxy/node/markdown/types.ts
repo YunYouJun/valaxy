@@ -14,6 +14,8 @@ import {
 import { type SfcPluginOptions } from '@mdit-vue/plugin-sfc'
 import { type TocPluginOptions } from '@mdit-vue/plugin-toc'
 
+// import type { lazyloadOptions } from './plugins/markdown-it/lazyload'
+
 import { type Blocks } from './plugins/markdown-it/container'
 
 export type ThemeOptions =
@@ -55,4 +57,8 @@ export interface MarkdownOptions {
   blocks?: Blocks
 
   externalLinks?: Record<string, string>
+  /* lazyload?: {
+    enabled?: boolean
+    options: lazyloadOptions
+  } */
 }

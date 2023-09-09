@@ -16,3 +16,8 @@ declare module 'markdown-it-task-lists' {
 declare module 'diacritics' {
   export const remove: (str: string) => string
 }
+
+declare module 'markdown-it-image-lazy-loading' {
+  const def: any
+  export default def
+}
