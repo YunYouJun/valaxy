@@ -20,6 +20,8 @@ categories: Test
 
 ## 标题 {lang="zh-CN"}
 
+[二级标题](#二级标题)
+
 ## 列表测试 {lang="zh-CN"}
 
 - AAA

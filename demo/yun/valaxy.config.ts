@@ -67,12 +67,14 @@ export default defineValaxyConfig<ThemeConfig>({
 
   markdown: {
     // default material-theme-palenight
+    // theme: 'material-theme-palenight',
     theme: {
       // light: 'material-theme-lighter',
       light: 'github-light',
       // dark: 'material-theme-darker',
       dark: 'github-dark',
     },
+
     blocks: {
       tip: {
         icon: 'i-carbon-thumbs-up',
