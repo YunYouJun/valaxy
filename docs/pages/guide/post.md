@@ -124,3 +124,13 @@ Here goes the body
 useScriptTag('https://static.codepen.io/assets/embed/ei.js')
 </script>
 ```
+
+## 强制规范
+
+由于 Valaxy 支持解析 Vue 组件渲染，因此当您输入 `<CustomComponent></CustomComponent>` 时，它会解析 `components` 目录下的 `CustomComponent.vue` 组件并渲染。
+
+当您不需要其被渲染时，请务必使用反引号包裹，如：
+
+```md
+`<CustomComponent></CustomComponent>`
+```

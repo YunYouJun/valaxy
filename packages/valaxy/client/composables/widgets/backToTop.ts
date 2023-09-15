@@ -27,8 +27,16 @@ export function useBackToTop(options: {
 
   const show = computed(() => y.value > options.offset)
 
+  const backToTop = () => {
+    window.scrollTo({
+      top: 0,
+      behavior: 'smooth',
+    })
+  }
+
   return {
     percentage,
     show,
+    backToTop,
   }
 }

@@ -2,7 +2,7 @@
 import { computed } from 'vue'
 import { useBackToTop } from 'valaxy'
 
-const { show, percentage } = useBackToTop({ offset: 100 })
+const { show, percentage, backToTop } = useBackToTop({ offset: 100 })
 
 const radius = 48
 const circumference = 2 * radius * Math.PI
@@ -15,7 +15,7 @@ const strokeOffset = computed(() => {
 </script>
 
 <template>
-  <a href="#" class="back-to-top yun-icon-btn" :class="show && 'show'">
+  <a href="#" class="back-to-top yun-icon-btn" :class="show && 'show'" @click="backToTop">
     <div w="8" h="8" i-ri-arrow-up-s-line />
     <svg class="progress-circle-container" viewBox="0 0 100 100">
       <circle :stroke-dasharray="`${circumference} ${circumference}`" :stroke-dashoffset="strokeOffset" class="progress-circle" cx="50" cy="50" :r="radius" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
