@@ -6,4 +6,4 @@ links: https://friends.yunyoujun.cn/links.json
 random: true
 ---
 
-<YunLinks :links="frontmatter.links" :random="frontmatter.random" />
+<YunLinks :links="frontmatter.links" :random="frontmatter.random" errorImg="https://cdn.yunyoujun.cn/img/avatar/none.jpg" />

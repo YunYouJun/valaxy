@@ -1,6 +1,7 @@
 import type { ThemeConfig } from '../types'
+import noneImg from '../assets/images/none.jpg'
 
-export const anonymousImage = 'https://cdn.yunyoujun.cn/img/avatar/none.jpg'
+export const anonymousImage = noneImg
 
 /**
  * Default Config

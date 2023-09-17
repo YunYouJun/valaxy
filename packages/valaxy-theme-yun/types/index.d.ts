@@ -72,7 +72,7 @@ export interface ThemeConfig {
     /**
      * @en Image url
      */
-    url: string
+    url?: string
     /**
      * @en Image url when dark mode
      */

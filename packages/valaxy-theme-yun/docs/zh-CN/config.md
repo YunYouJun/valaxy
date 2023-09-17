@@ -53,6 +53,7 @@ export default defineConfig<ThemeConfig>({
 
 - `links`: 友情链接信息（可以是 YAML 数组形式，也可以是一个 JSON 文件链接）
 - `random`: 是否随机展示
+- `errorImg`: 图片加载失败时的图片链接
 
 譬如：
 
@@ -81,5 +82,20 @@ links:
 random: true
 ---
 
-<YunLinks :links="frontmatter.links" :random="frontmatter.random" />
+<YunLinks :links="frontmatter.links" :random="frontmatter.random" errorImg="https://cdn.yunyoujun.cn/img/avatar/none.jpg" />
+```
+
+## 样式
+
+### 覆盖背景、侧边栏图片
+
+您可以新建 `styles/css-vars.scss`，覆盖默认 CSS 变量。
+
+```css
+:root {
+  /* 背景图片 */
+  --yun-bg-img: url("https://cdn.yunyoujun.cn/img/bg/stars-timing-0-blur-30px.jpg");
+  /* 侧边栏背景图片 */
+  --yun-sidebar-bg-img: url("https://cdn.yunyoujun.cn/img/bg/alpha-stars-timing-1.webp");
+}
 ```

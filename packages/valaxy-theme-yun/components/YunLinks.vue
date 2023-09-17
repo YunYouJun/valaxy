@@ -14,9 +14,17 @@ interface LinkType {
 const props = defineProps<{
   links: string | LinkType[]
   random: boolean
+  /**
+   * @description: 图片加载失败时显示的图片
+   */
+  errorImg?: string
 }>()
 
 const { data } = useRandomData(props.links, props.random)
+
+function onError(e: Event) {
+  onImgError(e, props.errorImg)
+}
 </script>
 
 <template>
@@ -25,7 +33,11 @@ const { data } = useRandomData(props.links, props.random)
       <li v-for="link, i in data" :key="i" class="link-item" :style="`--primary-color: ${link.color}`">
         <a class="link-url" p="x-4 y-2" :href="link.url" :title="link.name" alt="portrait" rel="friend">
           <div class="link-left">
-            <img class="link-avatar" w="16" h="16" loading="lazy" :src="link.avatar" :alt="link.name" :onError="onImgError">
+            <img
+              class="link-avatar" width="64" height="64" w="16" h="16"
+              loading="lazy" :src="link.avatar" :alt="link.name"
+              @error="onError"
+            >
           </div>
           <div class="link-info" m="l-2">
             <div class="link-blog" font="serif black">{{ link.blog }}</div>

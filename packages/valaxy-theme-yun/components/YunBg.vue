@@ -6,37 +6,39 @@ import { useThemeConfig } from '../composables'
 
 const themeConfig = useThemeConfig()
 
-const bgImgOpacity = useCssVar('--va-bg-img-opacity')
-if (themeConfig.value.bg_image.opacity)
-  bgImgOpacity.value = themeConfig.value.bg_image.opacity.toString() || '1'
+if (typeof themeConfig.value.bg_image.url !== 'undefined') {
+  const bgImgOpacity = useCssVar('--yun-bg-img-opacity')
+  if (themeConfig.value.bg_image.opacity)
+    bgImgOpacity.value = themeConfig.value.bg_image.opacity.toString() || '1'
 
-const bgImgUrl = computed(() => {
-  return isDark.value
-    ? themeConfig.value.bg_image.dark
-    : themeConfig.value.bg_image.url
-})
+  const bgImgUrl = computed(() => {
+    return isDark.value
+      ? themeConfig.value.bg_image.dark
+      : themeConfig.value.bg_image.url
+  })
 
-const bgImgCssVar = useCssVar('--va-bg-img')
+  const bgImgCssVar = useCssVar('--yun-bg-img')
 
-watch(() => bgImgUrl.value, () => {
-  bgImgCssVar.value = `url('${bgImgUrl.value}')`
-}, { immediate: true })
+  watch(() => bgImgUrl.value, () => {
+    bgImgCssVar.value = `url('${bgImgUrl.value}')`
+  }, { immediate: true })
+}
 </script>
 
 <template>
-  <div class="va-bg" />
+  <div class="yun-bg" />
 </template>
 
 <style lang="scss">
 @use 'valaxy/client/styles/mixins/index.scss' as *;
 
-.va-bg {
+.yun-bg {
   position: fixed;
   width: 100%;
   height: 100%;
   z-index: -1;
 
-  background-image: var(--va-bg-img);
+  background-image: var(--yun-bg-img);
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
@@ -44,12 +46,12 @@ watch(() => bgImgUrl.value, () => {
   background-attachment: fixed;
   animation-name: bgFadeIn;
   animation-duration: 2s;
-  opacity: var(--va-bg-img-opacity, 1);
+  opacity: var(--yun-bg-img-opacity, 1);
 }
 
 // for ios
 @include ios {
-  .va-bg {
+  .yun-bg {
     background-attachment: scroll;
   }
 }
@@ -60,7 +62,7 @@ watch(() => bgImgUrl.value, () => {
   }
 
   to {
-    opacity: var(--va-bg-img-opacity, 1);
+    opacity: var(--yun-bg-img-opacity, 1);
   }
 }
 </style>
