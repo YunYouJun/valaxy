@@ -27,16 +27,22 @@ export function printInfo(options: ResolvedValaxyOptions, port?: number, remote?
 
     if (remote) {
       Object.values(os.networkInterfaces())
-        .forEach(v => (v || [])
-          .filter(details => details.family === 'IPv4' && !details.address.includes('127.0.0.1'))
-          .forEach(({ address }) => {
-            console.log(`${dim('  Network   ')} > ${blue(`http://${address}:${bold(port)}/`)}`)
-          }),
+        .forEach(v =>
+          (v || [])
+            .filter(details => details.family === 'IPv4' && !details.address.includes('127.0.0.1'))
+            .forEach(({ address }) => {
+              console.log(`${dim('  Network   ')} > ${blue(`http://${address}:${bold(port)}/`)}`)
+            }),
         )
     }
 
     console.log()
-    console.log(`${dim('  shortcuts ')} > ${underline('r')}${dim('estart | ')}${underline('o')}${dim('pen | ')}${underline('e')}${dim('dit')}`)
+    const restart = `${underline('r')}${dim('estart')}`
+    const edit = `${underline('e')}${dim('dit')}`
+    const open = `${underline('o')}${dim('pen')}`
+    const qr = `${underline('q')}${dim('r')}`
+    const divider = `${dim(' | ')}`
+    console.log(`${dim('  shortcuts ')} > ${restart}${divider}${open}${divider}${qr}${divider}${edit}`)
   }
   console.log()
 }

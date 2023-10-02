@@ -1,12 +1,14 @@
 <script setup lang="ts">
 import { useI18n } from 'vue-i18n'
-import { useBack } from '..'
+import { useBack } from 'valaxy'
 
 const { t } = useI18n()
 const { back } = useBack()
 </script>
 
 <template>
+  <YunSidebar :show-hamburger="true" />
+
   <main class="va-main w-full h-screen" text="center" flex="~ col" justify="center" items="center">
     <div class="not-found" title="404" font="mono">
       404

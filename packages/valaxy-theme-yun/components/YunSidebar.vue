@@ -1,10 +1,13 @@
 <script lang="ts" setup>
 import { ref } from 'vue'
-import { useAppStore, useLayout } from 'valaxy'
+import { useAppStore } from 'valaxy'
+
+defineProps<{
+  showHamburger: boolean
+}>()
 
 const app = useAppStore()
 const showOverview = ref(false)
-const isHome = useLayout('home')
 </script>
 
 <template>
@@ -14,12 +17,12 @@ const isHome = useLayout('home')
     :active="app.isSidebarOpen"
     class="menu-btn sidebar-toggle yun-icon-btn leading-4 fixed left-0.8rem top-0.6rem"
     inline-flex cursor="pointer" z="$yun-z-menu-btn"
-    :class="isHome ? '' : 'md:hidden'" @click="app.toggleSidebar()"
+    :class="showHamburger ? '' : 'md:hidden'" @click="app.toggleSidebar()"
   />
 
   <aside
     class="va-card transition sidebar fixed inset-y-0 left-0 overflow-y-auto"
-    :class="[app.isSidebarOpen && 'open', !isHome && 'md:translate-x-0']"
+    :class="[app.isSidebarOpen && 'open', !showHamburger && 'md:translate-x-0']"
     text="center" bg="$yun-sidebar-bg-color contain no-repeat" z="$yun-z-sidebar"
   >
     <div v-if="$slots.default" class="sidebar-nav" m="t-6">

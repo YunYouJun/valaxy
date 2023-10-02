@@ -17,7 +17,7 @@ const isPage = computed(() => route.path.startsWith('/page'))
     class="yun-main flex-center"
     :class="(isHome && !app.isSidebarOpen) && 'pl-0'" flex="~ col" w="full"
   >
-    <YunSidebar />
+    <YunSidebar :show-hamburger="true" />
 
     <template v-if="!isPage">
       <YunBanner v-if="themeConfig.banner.enable" />

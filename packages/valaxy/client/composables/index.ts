@@ -17,4 +17,5 @@ export * from './outline'
 export * from './body-scroll-lock'
 
 // utils
+export * from './back'
 export * from './decrypt'

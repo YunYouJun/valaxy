@@ -24,9 +24,10 @@ export const defaultThemeConfig: ThemeConfig = {
 
   say: {
     enable: true,
-    api: 'https://el-bot-api.elpsy.cn/api/words/young',
+    api: '',
+    // api: 'https://el-bot-api.elpsy.cn/api/words/young',
     hitokoto: {
-      enable: false,
+      enable: true,
       api: 'https://v1.hitokoto.cn',
     },
   },

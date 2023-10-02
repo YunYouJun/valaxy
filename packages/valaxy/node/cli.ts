@@ -1,6 +1,7 @@
 import path from 'node:path'
 import { exec } from 'node:child_process'
 import process from 'node:process'
+import os from 'node:os'
 import fs from 'fs-extra'
 import yargs from 'yargs'
 import type { InlineConfig, LogLevel } from 'vite'
@@ -10,6 +11,7 @@ import consola from 'consola'
 
 import { yellow } from 'kolorist'
 import { hideBin } from 'yargs/helpers'
+import qrcode from 'qrcode'
 import { version } from '../package.json'
 import { findFreePort } from './utils/net'
 import { resolveOptions } from './options'
@@ -107,6 +109,22 @@ cli.command(
         async action() {
           const { default: openBrowser } = await import('open')
           openBrowser(`http://localhost:${port}`)
+        },
+      },
+      {
+        name: 'q',
+        fullName: 'qr',
+        action() {
+          const addresses = Object.values(os.networkInterfaces())
+            .flat()
+            .filter(details => details?.family === 'IPv4' && !details.address.includes('127.0.0.1'))
+          const remoteUrl = `http://${addresses[0]?.address || 'localhost'}:${port}`
+          qrcode.toString(remoteUrl, { type: 'terminal' }, (err, qrCode) => {
+            if (err)
+              throw err
+            // eslint-disable-next-line no-console
+            console.log(qrCode)
+          })
         },
       },
       {
