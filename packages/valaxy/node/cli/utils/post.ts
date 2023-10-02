@@ -1,5 +1,5 @@
 import { join, resolve } from 'node:path'
-import { writeFile } from 'fs-extra'
+import { writeFile } from 'node:fs/promises'
 import { render } from 'ejs'
 import dayjs from 'dayjs'
 import { ensureSuffix } from '@antfu/utils'
@@ -37,7 +37,7 @@ export async function create(data: CreatePostParams) {
     if (!await exists(destinationPath)) {
       const content = await genLayoutTemplate(data)
       try {
-        writeFile(destinationPath, content, 'utf-8')
+        await writeFile(destinationPath, content, 'utf-8')
         consola.success(`[valaxy new]: successfully generated file ${magenta(destinationPath)}`)
       }
       catch (e) {

@@ -25,5 +25,21 @@ export default defineConfig((options) => {
         js: `.${format === 'esm' ? 'mjs' : 'cjs'}`,
       }
     },
+
+    /**
+     * @see https://tsup.egoist.dev/#inject-cjs-and-esm-shims
+     * shim for __filename
+     */
+    shims: true,
+    /**
+     * @see https://github.com/egoist/tsup/discussions/505
+     */
+    banner: ({ format }) => {
+      if (format === 'esm') {
+        return {
+          js: `import {createRequire as __createRequire} from 'module';var require=__createRequire(import\.meta.url);`,
+        }
+      }
+    },
   }
 })

@@ -6,10 +6,8 @@ import { join, relative, resolve } from 'node:path'
 import fs from 'fs-extra'
 
 import type { Plugin, ResolvedConfig } from 'vite'
-
-// import consola from 'consola'
-import { pascalCase } from 'change-case/dist'
 import { defu } from 'defu'
+import pascalCase from 'pascalcase'
 import { defaultSiteConfig } from '../config'
 import type { ResolvedValaxyOptions, ValaxyServerOptions } from '../options'
 import { processValaxyOptions, resolveOptions, resolveThemeValaxyConfig } from '../options'

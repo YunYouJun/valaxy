@@ -3,11 +3,12 @@
   "valaxy": {
     "theme": "yun"
   },
+  "type": "module",
   "scripts": {
     "build": "npm run fuse && npm run build:ssg && npm run rss",
     "build:spa": "valaxy build",
     "build:ssg": "valaxy build --ssg --log=info",
-    "dev": "nodemon -w \"../../packages/valaxy/dist/*.cjs\" --exec \"valaxy . --port 3333\"",
+    "dev": "nodemon -w \"../../packages/valaxy/dist/*.mjs\" --exec \"valaxy . --port 3333\"",
     "fuse": "valaxy fuse",
     "new": "valaxy new",
     "rss": "valaxy rss",

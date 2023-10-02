@@ -12,6 +12,10 @@ outline: deep
 excerpt: Valaxy aims to be a next generation of static blogging frameworks/generators.
 ---
 
+```md
+{{ frontmatter }}
+```
+
 {{ frontmatter }}
 
 ## What is Valaxy? {lang="en"}
