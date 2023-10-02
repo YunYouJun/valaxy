@@ -6,7 +6,6 @@ import { isPath, resolveImportPath } from '../utils'
  * get theme roots
  * @param name
  * @param entry
- * @returns
  */
 export function getModuleRoot(name: string, entry?: string) {
   if (!name)

@@ -9,9 +9,6 @@ import { toAtFS } from './utils'
 /**
  * merge vite.config.ts (user & theme)
  * @internal
- * @param param
- * @param command
- * @returns
  */
 export async function mergeViteConfigs({ userRoot, themeRoot }: ResolvedValaxyOptions, command: 'serve' | 'build') {
   const configEnv: ConfigEnv = {
@@ -39,8 +36,6 @@ export async function mergeViteConfigs({ userRoot, themeRoot }: ResolvedValaxyOp
 /**
  * generate index.html from user/theme/client
  * @internal
- * @param
- * @returns
  */
 export async function getIndexHtml({ clientRoot, themeRoot, userRoot, config }: ResolvedValaxyOptions): Promise<string> {
   // get from template

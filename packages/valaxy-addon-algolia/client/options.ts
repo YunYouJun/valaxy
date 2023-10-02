@@ -6,7 +6,6 @@ import pkg from '../package.json'
 
 /**
  * get addon config
- * @returns
  */
 export function useAddonAlgoliaConfig() {
   const runtimeConfig = useRuntimeConfig()

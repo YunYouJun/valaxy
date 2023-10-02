@@ -5,7 +5,6 @@ import type { WalineOptions } from '../types'
 
 /**
  * get addon config
- * @returns
  */
 export function useAddonWaline() {
   const runtimeConfig = useRuntimeConfig()

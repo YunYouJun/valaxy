@@ -15,7 +15,6 @@ import type { DefaultTheme, ValaxyConfig } from 'valaxy/types'
 /**
  * parse valaxy config
  * @param data
- * @returns
  */
 function parse<T = any>(data: string): T {
   const parsed = JSON.parse(data)
@@ -55,7 +54,6 @@ export function initContext() {
 /**
  * get valaxy config
  * @public
- * @returns
  */
 export function useValaxyConfig<ThemeConfig = DefaultTheme.Config>() {
   const config = inject<ComputedRef<ValaxyConfig<ThemeConfig>>>(valaxyConfigSymbol)
@@ -67,7 +65,6 @@ export function useValaxyConfig<ThemeConfig = DefaultTheme.Config>() {
 /**
  * alias for useSite
  * @public
- * @returns
  */
 export function useConfig<ThemeConfig = DefaultTheme.Config>() {
   return useValaxyConfig<ThemeConfig>()
@@ -76,7 +73,6 @@ export function useConfig<ThemeConfig = DefaultTheme.Config>() {
 /**
  * get valaxy config
  * @public
- * @returns
  */
 export function useSiteConfig<ThemeConfig = DefaultTheme.Config>() {
   const config = useValaxyConfig<ThemeConfig>()
@@ -88,7 +84,6 @@ export function useSiteConfig<ThemeConfig = DefaultTheme.Config>() {
  * if you want to: import { useThemeConfig } from 'valaxy'
  * you need pass themeConfig by yourself
  * @internal
- * @returns
  */
 export function useThemeConfig<ThemeConfig = DefaultTheme.Config>() {
   const config = useValaxyConfig<ThemeConfig>()

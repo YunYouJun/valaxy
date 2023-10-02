@@ -5,7 +5,6 @@ import type { TwikooOptions } from '../types'
 
 /**
  * get addon config
- * @returns
  */
 export function useAddonTwikoo() {
   const runtimeConfig = useRuntimeConfig()

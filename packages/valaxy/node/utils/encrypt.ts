@@ -3,7 +3,6 @@ import { webcrypto } from 'node:crypto'
 /**
  * @see https://developer.mozilla.org/zh-CN/docs/Web/API/SubtleCrypto/deriveKey#pbkdf2_2
  * @param password
- * @returns
  */
 export function getKeyMaterial(password: string) {
   const enc = new TextEncoder()
@@ -36,10 +35,7 @@ export function getKey(keyMaterial: CryptoKey, salt: Uint8Array) {
 
 /**
  * @see https://github.com/mdn/dom-examples/blob/main/web-crypto/encrypt-decrypt/aes-cbc.js
- * @param password
  * @param content
- * @param iv
- * @returns
  */
 export async function encryptContent(content: string, options: {
   password: string

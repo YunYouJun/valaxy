@@ -33,12 +33,14 @@ export function registerNewCommand(cli: Argv<object>) {
         })
         .strict()
         .help()
-    }, async ({ title, path, date, layout }) => {
+    },
+    async ({ title, path, date, layout }) => {
       await create({
         title,
         date,
         layout,
         path,
       } as CreatePostParams)
-    })
+    },
+  )
 }

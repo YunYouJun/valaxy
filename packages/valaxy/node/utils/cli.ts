@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 import * as readline from 'node:readline'
 import path from 'node:path'
 import os from 'node:os'

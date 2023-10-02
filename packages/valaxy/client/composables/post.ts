@@ -16,7 +16,6 @@ export function usePostTitle(post: ComputedRef<Post>) {
 
 /**
  * get all page in 'pages' folder
- * @returns
  */
 export function usePageList() {
   return computed<Post[]>(() => {
@@ -37,8 +36,6 @@ export function usePageList() {
 /**
  * get post list in 'pages/posts' folder
  * todo: use vue provide/inject to global
- * @param params
- * @returns
  */
 export function usePostList(params: {
   type?: string
@@ -67,7 +64,6 @@ export function usePostList(params: {
 /**
  * get prev and next post
  * @param path
- * @returns
  */
 export function usePrevNext(path?: string) {
   const route = useRoute()

@@ -19,20 +19,15 @@ export function count(content: string): CountData {
 
 /**
  * get read time by content & speed
- * @param content
- * @param param1
  * @returns read time (minute)
  */
-export function readTime({ cn, en }: CountData,
-  options: ReadTimeOptions) {
+export function readTime({ cn, en }: CountData, options: ReadTimeOptions) {
   const readingTime = cn / (options.speed.cn || 300) + en / (options.speed.en || 100)
   return readingTime < 1 ? 1 : Math.ceil(readingTime)
 }
 
 /**
  * return word count with k
- * @param content
- * @returns
  */
 export function wordCount({ cn, en }: CountData) {
   const num = cn + en

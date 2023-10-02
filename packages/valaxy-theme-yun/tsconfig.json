@@ -2,26 +2,26 @@
   // we need tsconfig.json to compile without
   // error: This is likely not portable. A type annotation is necessary.
   "compilerOptions": {
-    "allowJs": true,
-    "baseUrl": ".",
-    "module": "ESNext",
     "target": "ESNext",
     "lib": ["DOM", "ESNext"],
-    "strict": true,
-    "esModuleInterop": true,
     "jsx": "preserve",
-    "skipLibCheck": true,
+    "module": "ESNext",
     "moduleResolution": "node",
-    "resolveJsonModule": true,
-    "noUnusedLocals": true,
-    "strictNullChecks": true,
-    "forceConsistentCasingInFileNames": true,
+    "baseUrl": ".",
     "types": [
       "vite/client",
       "vue/ref-macros",
       "vite-plugin-pages/client",
       "vite-plugin-vue-layouts/client"
-    ]
+    ],
+    "resolveJsonModule": true,
+    "allowJs": true,
+    "esModuleInterop": true,
+    "forceConsistentCasingInFileNames": true,
+    "strict": true,
+    "strictNullChecks": true,
+    "noUnusedLocals": true,
+    "skipLibCheck": true
   },
   "exclude": ["**/dist/**", "node_modules"]
 }

@@ -15,7 +15,6 @@ import { commonOptions } from './options'
 /**
  * @description Generate Fuse List Data for Search
  * @param options
- * @returns
  */
 export async function generateFuseList(options: ResolvedValaxyOptions) {
   consola.start(`Generate List for Fuse Search by (${cyan('fuse.js')}) ...`)

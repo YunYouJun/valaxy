@@ -5,7 +5,6 @@ import { isClient } from '@vueuse/core'
  * fetch data from source, and random
  * @param source
  * @param random
- * @returns
  */
 export function useRandomData<T>(source: string | T[], random = false) {
   const data = ref<T[]>()

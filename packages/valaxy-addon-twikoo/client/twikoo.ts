@@ -35,8 +35,6 @@ export function useTwikoo(options: ComputedRef<TwikooOptions | undefined>, versi
 
   /**
    * init twikoo
-   * @param options twikoo options
-   * @returns
    */
   function initTwikoo(twikooOptions: TwikooOptions) {
     if (!isClient)

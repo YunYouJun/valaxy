@@ -184,7 +184,6 @@ async function getValidPackageName(projectName) {
 
 /**
  * @param {string} dir
- * @returns
  */
 function emptyDir(dir) {
   if (!fs.existsSync(dir))

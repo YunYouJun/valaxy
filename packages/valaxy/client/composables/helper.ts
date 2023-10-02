@@ -5,7 +5,6 @@ import { ref } from 'vue'
 /**
  * trigger show invisible element
  * @param target
- * @returns
  */
 export function useInvisibleElement(target: Ref<HTMLElement | undefined>) {
   const isVisible = ref(false)

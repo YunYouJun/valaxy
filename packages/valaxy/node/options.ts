@@ -212,7 +212,6 @@ export async function resolveOptions(
 /**
  * resolve theme config
  * @param options
- * @returns
  */
 export async function resolveThemeValaxyConfig(options: ResolvedValaxyOptions) {
   logger.info(`Resolve ${cyan('valaxy.config.ts')} from ${yellow(`theme(${options.theme})`)}`)

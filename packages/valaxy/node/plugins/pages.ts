@@ -15,7 +15,6 @@ import { presetStatistics } from './presets/statistics'
  * get excerpt by type
  * @param excerpt
  * @param type
- * @returns
  */
 function getExcerptByType(excerpt = '', type: 'md' | 'html' | 'text' = 'html') {
   switch (type) {
@@ -31,7 +30,6 @@ function getExcerptByType(excerpt = '', type: 'md' | 'html' | 'text' = 'html') {
 /**
  * @see https://github.com/hannoeru/vite-plugin-pages
  * @param options
- * @returns
  */
 export function createPagesPlugin(options: ResolvedValaxyOptions) {
   const { roots, config: valaxyConfig } = options

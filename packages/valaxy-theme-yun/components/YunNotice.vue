@@ -5,7 +5,7 @@ defineProps<{
 </script>
 
 <template>
-  <div class="yun-notice">
+  <div class="yun-notice m-auto">
     <span v-html="content" />
     <slot />
   </div>

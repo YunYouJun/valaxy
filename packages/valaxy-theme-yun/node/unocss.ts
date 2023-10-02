@@ -3,8 +3,6 @@ import type { UserThemeConfig } from '../types'
 
 /**
  * generateSafelist by config
- * @param themeConfig
- * @returns
  */
 export function generateSafelist(options: ResolvedValaxyOptions<UserThemeConfig>) {
   const themeConfig = options.config.themeConfig || {}

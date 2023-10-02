@@ -9,7 +9,6 @@ export type Tags = Map<string, {
 /**
  * get tag map
  * [tagName]: count
- * @returns
  */
 export function useTags() {
   const site = useSiteStore()

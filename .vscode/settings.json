@@ -13,18 +13,40 @@
     "valaxy",
     "valaxyjs"
   ],
+
+  // Enable the ESlint flat config support
+  "eslint.experimental.useFlatConfig": true,
+  // Disable the default formatter, use eslint instead
+  "prettier.enable": false,
+  "editor.formatOnSave": false,
+  // Auto fix
+  "editor.codeActionsOnSave": {
+    "source.fixAll.eslint": true,
+    "source.organizeImports": false
+  },
+
+  // Enable eslint for all supported languages
+  "eslint.validate": [
+    "javascript",
+    "javascriptreact",
+    "typescript",
+    "typescriptreact",
+    "vue",
+    "html",
+    "markdown",
+    "json",
+    "jsonc",
+    "yaml"
+  ],
+
   "i18n-ally.sourceLanguage": "en",
   "i18n-ally.keystyle": "nested",
   "i18n-ally.localesPaths": ["packages/valaxy/src/client/locales"],
   "i18n-ally.sortKeys": true,
-  "prettier.enable": false,
-  "editor.codeActionsOnSave": {
-    "source.fixAll.eslint": true
-  },
+
   "files.associations": {
     "*.css": "postcss"
   },
-  "editor.formatOnSave": false,
   "[scss]": {
     "editor.formatOnSave": true
   },

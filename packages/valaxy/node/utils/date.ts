@@ -4,7 +4,6 @@ import { getGitTimestamp } from './getGitTimestamp'
 /**
  * get created time of file
  * @param file
- * @returns
  */
 export async function getCreatedTime(file: string): Promise<Date | number> {
   return (await getGitTimestamp(file, 'created')) || (await fs.stat(file)).ctime
@@ -13,7 +12,6 @@ export async function getCreatedTime(file: string): Promise<Date | number> {
 /**
  * get created time of file
  * @param file
- * @returns
  */
 export async function getUpdatedTime(file: string): Promise<Date | number> {
   return (await getGitTimestamp(file, 'created')) || (await fs.stat(file)).mtime

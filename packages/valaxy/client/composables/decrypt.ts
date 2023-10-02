@@ -3,7 +3,6 @@ import { useSiteConfig } from 'valaxy'
 /**
  * @see https://developer.mozilla.org/zh-CN/docs/Web/API/SubtleCrypto/deriveKey#pbkdf2_2
  * @param password
- * @returns
  */
 export function getKeyMaterial(password: string) {
   const enc = new TextEncoder()

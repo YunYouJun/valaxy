@@ -4,7 +4,7 @@ export namespace YunTheme {
   export type Config = ThemeConfig
   export type Sidebar = any
 
-  export type Banner = {
+  export interface Banner {
     /**
      * 是否启用
      */
@@ -48,7 +48,7 @@ export interface ThemeConfig {
   colors: {
     /**
      * @en primary color
-     * 
+     *
      * @zh 主题色
      * @default '#0078E7'
      */
@@ -84,9 +84,9 @@ export interface ThemeConfig {
   }
 
   /**
-   * @en 
+   * @en
    * say something
-   * 
+   *
    * @zh 说点什么
    * - 自定义 API 链接，如 https://el-bot-api.elpsy.cn/api/words/young
    * 你可以通过在 public 下新建 json 的方式来使用, 如 public/young.json

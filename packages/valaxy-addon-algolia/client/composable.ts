@@ -57,7 +57,7 @@ export function useAddonAlgolia() {
       if (e.key === 'k' && (e.ctrlKey || e.metaKey)) {
         e.preventDefault()
         load()
-        // eslint-disable-next-line @typescript-eslint/no-use-before-define
+        // eslint-disable-next-line ts/no-use-before-define
         remove()
       }
     }

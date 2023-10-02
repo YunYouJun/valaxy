@@ -1,6 +1,5 @@
 /**
  * wrap node
- * @param className
  */
 export function wrap(el: HTMLElement, className: string) {
   const wrapper = document.createElement('div')

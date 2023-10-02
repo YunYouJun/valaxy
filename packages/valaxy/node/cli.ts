@@ -118,7 +118,8 @@ cli.command(
       },
     ]
     bindShortcut(SHORTCUTS)
-  })
+  },
+)
 
 cli.command(
   'build [root]',
@@ -185,6 +186,7 @@ cli.command(
         }
         catch (e) {
           consola.error('[vite-ssg] An internal error occurred.')
+          // eslint-disable-next-line no-console
           console.log(e)
         }
       }
@@ -194,6 +196,7 @@ cli.command(
       }
     }
     catch (e) {
+      // eslint-disable-next-line no-console
       console.log(e)
     }
     finally {

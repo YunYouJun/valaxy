@@ -64,7 +64,6 @@ function addToParent(
 
 /**
  * export headers & handleClick to generate outline
- * @returns
  */
 export function useOutline() {
   const frontmatter = useFrontmatter()
@@ -104,7 +103,6 @@ export function useOutline() {
 
 /**
  * get headers from document directly
- * @returns
  */
 export function getHeaders(range: Exclude<DefaultTheme.Config['outline'], false>) {
   const headers = Array.from(document.querySelectorAll('.markdown-body :where(h1,h2,h3,h4,h5,h6)'))

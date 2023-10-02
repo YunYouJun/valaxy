@@ -14,7 +14,6 @@ export function useFrontmatter() {
 
 /**
  * inject pageData
- * @returns
  */
 export function useData(): PageData {
   const value = inject<PageData>('pageData', {} as any)

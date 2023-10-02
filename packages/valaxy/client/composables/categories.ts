@@ -40,7 +40,6 @@ export function isCategoryList(category: any): category is CategoryList {
  *    }
  *  ]
  * }
- * @returns
  */
 export function useCategories(category?: MaybeRef<string>, posts: Post[] = []) {
   return computed(() => {

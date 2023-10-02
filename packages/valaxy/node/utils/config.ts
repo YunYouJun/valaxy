@@ -31,8 +31,6 @@ export const mergeValaxyConfig = createDefu((obj: any, key, value) => {
 
 /**
  * resolve valaxy config from special root
- * @param options
- * @returns
  */
 export async function resolveValaxyConfigFromRoot(root: string, options?: ResolvedValaxyOptions) {
   return loadConfigFromFile<ValaxyNodeConfig>('valaxy.config', {
@@ -47,8 +45,6 @@ export async function resolveValaxyConfigFromRoot(root: string, options?: Resolv
  * resolve user valaxy config
  * options only have userRoot
  * @param options
- * @param viteConfig
- * @returns
  */
 export async function resolveValaxyConfig(options: ValaxyEntryOptions) {
   // const resolved = await mergeValaxyConfig(options)

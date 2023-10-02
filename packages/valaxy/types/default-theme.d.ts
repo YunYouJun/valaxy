@@ -1,5 +1,4 @@
-// eslint-disable-next-line @typescript-eslint/no-namespace
-export namespace DefaultTheme {
+declare module 'valaxy/default-theme' {
   export interface Config {
     /**
      * Custom header levels of outline in the aside component.

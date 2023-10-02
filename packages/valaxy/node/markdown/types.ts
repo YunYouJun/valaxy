@@ -24,12 +24,12 @@ export type ThemeOptions =
 
 export interface MarkdownOptions {
   /**
-     * markdown-it options
-     */
+   * markdown-it options
+   */
   options?: MarkdownIt.Options
   /**
-     * config markdown-it
-     */
+   * config markdown-it
+   */
   config?: (md: MarkdownIt) => void
   anchor?: anchorPlugin.AnchorOptions
   attrs?: {

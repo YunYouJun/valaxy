@@ -5,8 +5,8 @@ export namespace PressTheme {
   export type Sidebar = any
 
   export interface Footer {
-    message?: string;
-    copyright?: string;
+    message?: string
+    copyright?: string
   }
 
   export interface SocialLink {
@@ -46,7 +46,6 @@ export namespace PressTheme {
        */
       primary: string
     }
-    
 
     nav: Array<NavItem>
     sidebar: string[]
@@ -79,8 +78,6 @@ export interface NavItemGroup {
 }
 
 export type NavItem = NavItemLink | NavItemGroup
-
-
 
 /**
  * Theme Config

@@ -3,7 +3,6 @@ import { EXTERNAL_URL_RE } from '../constants'
 /**
  * is url external (http/https:)
  * @param str
- * @returns
  */
 export function isExternal(str: string) {
   return EXTERNAL_URL_RE.test(str)
@@ -12,7 +11,6 @@ export function isExternal(str: string) {
 /**
  * slash path for windows
  * @param str
- * @returns
  */
 export function slash(str: string) {
   return str.replace(/\\/g, '/')

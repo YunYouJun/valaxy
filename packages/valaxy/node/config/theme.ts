@@ -5,8 +5,6 @@ import { loadConfigFromFile } from './utils'
 
 /**
  * resolve theme config from special root
- * @param options
- * @returns
  */
 export async function resolveThemeConfigFromRoot(root: string) {
   return loadConfigFromFile<UserSiteConfig>('theme.config', {
@@ -16,8 +14,6 @@ export async function resolveThemeConfigFromRoot(root: string) {
 
 /**
  * resolve theme.config.ts and merge with default
- * @param root
- * @returns
  */
 export async function resolveThemeConfig(root: string) {
   const { config: userThemeConfig, configFile: themeConfigFile } = await resolveThemeConfigFromRoot(root)

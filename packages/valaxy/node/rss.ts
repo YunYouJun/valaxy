@@ -22,7 +22,6 @@ const markdown = MarkdownIt({
 /**
  * generate rss
  * @param options
- * @returns
  */
 export async function build(options: ResolvedValaxyOptions) {
   const { config } = options

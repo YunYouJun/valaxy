@@ -8,7 +8,7 @@ import fs from 'fs-extra'
 import type { Plugin, ResolvedConfig } from 'vite'
 
 // import consola from 'consola'
-import { pascalCase } from 'pascal-case'
+import { pascalCase } from 'change-case/dist'
 import { defu } from 'defu'
 import { defaultSiteConfig } from '../config'
 import type { ResolvedValaxyOptions, ValaxyServerOptions } from '../options'
@@ -23,7 +23,6 @@ import { resolveSiteConfig } from '../config/site'
 /**
  * for /@valaxyjs/styles
  * @param roots
- * @returns
  */
 function generateStyles(roots: string[], options: ResolvedValaxyOptions) {
   const imports: string[] = []
@@ -98,7 +97,6 @@ const nullVue = 'import { defineComponent } from "vue"; export default defineCom
 /**
  * generate app vue from root/app.vue
  * @param root
- * @returns
  */
 function generateAppVue(root: string) {
   const appVue = join(root, 'App.vue')
@@ -118,7 +116,6 @@ function generateAppVue(root: string) {
  * @internal
  * @param options
  * @param serverOptions
- * @returns
  */
 export function createValaxyPlugin(options: ResolvedValaxyOptions, serverOptions: ValaxyServerOptions = {}): Plugin {
   let { config: valaxyConfig } = options
@@ -231,7 +228,6 @@ export function createValaxyPlugin(options: ResolvedValaxyOptions, serverOptions
     /**
      * handle config hmr
      * @param ctx
-     * @returns
      */
     async handleHotUpdate(ctx) {
       const { file, server, read } = ctx

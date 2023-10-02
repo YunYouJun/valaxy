@@ -116,8 +116,7 @@ export async function highlight(
       return str
         .replace(
           preRE,
-          (_, attributes) =>
-            `<pre ${vPre}${attributes.replace(' tabindex="0"', '')}>`,
+          (_, attributes) => `<pre ${vPre}${attributes.replace(' tabindex="0"', '')}>`,
         )
         .replace(styleRE, (_, style) => _.replace(style, ''))
     }

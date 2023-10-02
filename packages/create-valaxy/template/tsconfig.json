@@ -1,21 +1,21 @@
 {
   "compilerOptions": {
-    "baseUrl": ".",
-    "module": "ESNext",
     "target": "ESNext",
     "lib": ["DOM", "ESNext"],
-    "strict": true,
-    "esModuleInterop": true,
     "jsx": "preserve",
-    "skipLibCheck": true,
+    "module": "ESNext",
     "moduleResolution": "node",
-    "resolveJsonModule": true,
-    "noUnusedLocals": true,
-    "strictNullChecks": true,
-    "forceConsistentCasingInFileNames": true,
+    "baseUrl": ".",
     "paths": {
       "~/*": ["./*"]
-    }
+    },
+    "resolveJsonModule": true,
+    "esModuleInterop": true,
+    "forceConsistentCasingInFileNames": true,
+    "strict": true,
+    "strictNullChecks": true,
+    "noUnusedLocals": true,
+    "skipLibCheck": true
   },
   "exclude": ["dist", "node_modules"]
 }

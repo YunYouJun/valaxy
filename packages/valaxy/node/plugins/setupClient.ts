@@ -7,8 +7,6 @@ import { toAtFS } from '../utils'
 
 /**
  * setup client for defineAppSetup
- * @param param
- * @returns
  */
 export function createClientSetupPlugin({ clientRoot, themeRoot, userRoot }: ResolvedValaxyOptions): PluginOption {
   const setupEntry = slash(resolve(clientRoot, 'setup'))

@@ -38,7 +38,6 @@ export async function parseAddons(addons: ValaxyAddons, userRoot = process.cwd()
  * @internal
  * @param name
  * @param options
- * @returns
  */
 export async function readAddonModule(name: string, options: ReadAddonModuleOptions = {}) {
   const root = getAddonRoot(name, options.cwd || process.cwd())
@@ -66,7 +65,6 @@ export async function readAddonModule(name: string, options: ReadAddonModuleOpti
  * get addon root
  * @param name valaxy-addon-name
  * @param entry
- * @returns
  */
 export function getAddonRoot(name: string, entry?: string) {
   const addonModule = (name.startsWith('valaxy-addon') || name.startsWith('.')) ? name : `valaxy-addon-${name}`

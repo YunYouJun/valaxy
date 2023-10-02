@@ -9,7 +9,6 @@ export * from './addon'
 /**
  * Type helper for site.config.ts
  * @param config
- * @returns
  */
 export function defineSiteConfig(config: UserSiteConfig) {
   return config
