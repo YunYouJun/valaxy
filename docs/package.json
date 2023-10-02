@@ -6,7 +6,7 @@
     "build": "npm run build:ssg && npm run rss",
     "build:spa": "valaxy build",
     "build:ssg": "valaxy build --ssg",
-    "dev": "nodemon -w \"../packages/valaxy/dist/*.cjs\" --exec \"valaxy .\"",
+    "dev": "nodemon -w \"../packages/valaxy/dist/*.mjs\" --exec \"valaxy .\"",
     "rss": "valaxy rss",
     "serve": "vite preview",
     "docs:dev": "vitepress dev",
