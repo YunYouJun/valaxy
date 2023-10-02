@@ -1,4 +1,4 @@
-import { dirname } from 'node:path'
+import { dirname, resolve } from 'node:path'
 import { cyan, dim } from 'kolorist'
 
 import fg from 'fast-glob'
@@ -127,7 +127,7 @@ export async function build(options: ResolvedValaxyOptions) {
   // items.forEach(i=> console.log(i.title, i.date))
 
   await fs.ensureDir(dirname(`./dist/${siteConfig.feed?.name} || 'feed.xml'`))
-  const path = './dist'
+  const path = resolve(options.userRoot, './dist')
 
   const types = ['xml', 'atom', 'json']
   types.forEach((type) => {
@@ -145,6 +145,6 @@ export async function build(options: ResolvedValaxyOptions) {
       data = feed.json1()
     }
     fs.writeFileSync(name, data, 'utf-8')
-    consola.info(`${type}: ${name}`)
+    consola.info(`${type}: ${dim(name)}`)
   })
 }

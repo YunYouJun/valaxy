@@ -6,8 +6,8 @@ import fg from 'fast-glob'
 import { ensureSuffix, uniq } from '@antfu/utils'
 import defu from 'defu'
 import { cyan, yellow } from 'kolorist'
+import ora from 'ora'
 import type { DefaultTheme, RuntimeConfig } from '../types'
-import { logger } from './logger'
 import { resolveImportPath, slash } from './utils'
 import { mergeValaxyConfig, resolveAddonConfig, resolveValaxyConfig, resolveValaxyConfigFromRoot } from './utils/config'
 import type { ValaxyAddonResolver, ValaxyNodeConfig } from './types'
@@ -214,7 +214,8 @@ export async function resolveOptions(
  * @param options
  */
 export async function resolveThemeValaxyConfig(options: ResolvedValaxyOptions) {
-  logger.info(`Resolve ${cyan('valaxy.config.ts')} from ${yellow(`theme(${options.theme})`)}`)
+  const spinner = ora(`Resolve ${cyan('valaxy.config.ts')} from ${yellow(`theme(${options.theme})`)}`).start()
   const { config: themeValaxyConfig } = await resolveValaxyConfigFromRoot(options.themeRoot, options)
+  spinner.succeed()
   return themeValaxyConfig
 }

@@ -3,6 +3,7 @@ import process from 'node:process'
 import fs from 'fs-extra'
 import defu from 'defu'
 import { cyan, dim, yellow } from 'kolorist'
+import ora from 'ora'
 import type { ValaxyAddonResolver, ValaxyAddons } from '../types'
 import { logger } from '../logger'
 import { getModuleRoot } from './root'
@@ -12,6 +13,8 @@ export interface ReadAddonModuleOptions {
 }
 
 export async function parseAddons(addons: ValaxyAddons, userRoot = process.cwd()) {
+  const spinner = ora(`Resolve ${cyan('addons')} from ${dim(userRoot)}`).start()
+
   const resolvers: Record<string, ValaxyAddonResolver > = {}
   const mergeResolver = (resolver?: ValaxyAddonResolver) => {
     if (resolver)
@@ -28,11 +31,10 @@ export async function parseAddons(addons: ValaxyAddons, userRoot = process.cwd()
     }
   }
 
+  spinner.succeed()
   const resolvedAddons = Object.values(resolvers).filter(item => item.enable)
-  logger.info(`Resolve ${cyan('addons:')}`)
-  resolvedAddons.forEach((addon) => {
-    // eslint-disable-next-line no-console
-    console.log(`  - ${yellow(addon.name)}${addon.global ? cyan(' (global)') : ''} ${dim(addon.pkg.homepage || addon.pkg.repository)}`)
+  resolvedAddons.forEach((addon, i) => {
+    logger.log(`  ${i === resolvedAddons.length - 1 ? '└─' : '├─'} ${yellow(addon.name)}${addon.global ? cyan(' (global)') : ''} ${dim(addon.pkg.homepage || addon.pkg.repository)}`)
   })
   return resolvedAddons
 }

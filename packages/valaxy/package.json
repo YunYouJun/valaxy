@@ -98,6 +98,7 @@
     "medium-zoom": "^1.0.8",
     "nprogress": "^0.2.0",
     "open": "9.1.0",
+    "ora": "^7.0.1",
     "pascalcase": "^2.0.0",
     "pinia": "^2.1.6",
     "qrcode": "^1.5.3",
