@@ -9,7 +9,7 @@ describe('md parse', async () => {
 
   it('i18n:header', () => {
     const content = md.render('## Header {lang="en"}')
-    const result = '<h2 lang="en" id="header" tabindex="-1">Header <a class="header-anchor" href="#header" aria-hidden="true">#</a></h2>'
+    const result = '<h2 lang="en" id="header" tabindex="-1">Header <a class="header-anchor" href="#header" aria-label="Permalink to &quot;Header {lang=&quot;en&quot;}&quot;">&ZeroWidthSpace;</a></h2>'
     expect(content.trim()).toEqual(result)
   })
 

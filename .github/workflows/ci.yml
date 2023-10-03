@@ -134,3 +134,4 @@ jobs:
           install-command: echo
           build: pnpm run build
           start: pnpm demo
+          wait-on: 'http://localhost:3333'
