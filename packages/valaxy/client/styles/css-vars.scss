@@ -72,7 +72,7 @@ $c-primary: #0078e7 !default;
 
   --va-code-lang-color: var(--va-c-text-3);
 
-  --va-code-line-highlight-color: rgba(0, 0, 0, 0.5);
+  --va-code-line-highlight-color: var(--va-c-default-soft);
   --va-code-line-number-color: var(--va-c-text-dark-3);
 
   // copy

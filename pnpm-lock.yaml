@@ -157,6 +157,9 @@ importers:
         specifier: link:../packages/valaxy-theme-press
         version: link:../packages/valaxy-theme-press
     devDependencies:
+      '@iconify-json/simple-icons':
+        specifier: ^1.1.73
+        version: 1.1.73
       nodemon:
         specifier: ^3.0.1
         version: 3.0.1
@@ -2404,11 +2407,9 @@ packages:
     resolution: {integrity: sha512-L9ShYHhAkJ7KHx+6wM5HK2tnCkAIKjSIyDUtTexoG8LcZF7MgiUloNfDGPDa4Vt0Oy5yHlnFBiOvqy2ojKB/8Q==}
     dependencies:
       '@iconify/types': 2.0.0
-    dev: false
 
   /@iconify/types@2.0.0:
     resolution: {integrity: sha512-+wluvCrRhXrhyOmRDJ3q8mux9JkKy5SJ/v8ol2tu4FVjyYvtEzkc/3pK15ET6RKg4b4w4BmTk1+gsCUhf21Ykg==}
-    dev: false
 
   /@iconify/utils@2.1.11:
     resolution: {integrity: sha512-M/w3PkN8zQYXi8N6qK/KhnYMfEbbb6Sk8RZVn8g+Pmmu5ybw177RpsaGwpziyHeUsu4etrexYSWq3rwnIqzYCg==}
