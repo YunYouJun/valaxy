@@ -1,6 +1,17 @@
 @use "sass:map";
 
 .markdown-body {
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    position: relative;
+    font-weight: 600;
+    outline: none;
+  }
+
   figure {
     text-align: center;
   }
@@ -20,3 +31,54 @@
     }
   }
 }
+
+
+// header-anchor
+.markdown-body {
+  .header-anchor {
+    position: absolute;
+    top: 0;
+    left: 0;
+    margin-left: -0.87em;
+    font-weight: 500;
+    user-select: none;
+    opacity: 0;
+    text-decoration: none;
+    transition:
+      color 0.25s,
+      opacity 0.25s;
+  }
+
+  .header-anchor:before {
+    content: var(--va-header-anchor-symbol, '#');
+
+    &:hover {
+      text-decoration: none;
+    }
+  }
+
+  h1:hover .header-anchor,
+  h1 .header-anchor:focus,
+  h2:hover .header-anchor,
+  h2 .header-anchor:focus,
+  h3:hover .header-anchor,
+  h3 .header-anchor:focus,
+  h4:hover .header-anchor,
+  h4 .header-anchor:focus,
+  h5:hover .header-anchor,
+  h5 .header-anchor:focus,
+  h6:hover .header-anchor,
+  h6 .header-anchor:focus {
+    opacity: 1;
+  }
+}
+
+
+@media (min-width: 768px) {
+  .markdown-body h1 {
+    letter-spacing: -0.02em;
+    line-height: 40px;
+    font-size: 32px;
+  }
+}
+

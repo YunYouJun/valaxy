@@ -21,10 +21,6 @@
     text-decoration: none;
     border-bottom: 1px solid transparent;
     transition: all 0.4s;
-
-    &:hover {
-      // border-bottom-color: var(--va-c-brand);
-    }
   }
 
   code:not(pre > code) {
