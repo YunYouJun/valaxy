@@ -10,6 +10,9 @@ $c-primary: #0078e7 !default;
   )
 );
 
+@use './css-vars/palette.css' as *;
+@use './css-vars/function.css' as *;
+
 // common
 :root {
   @include set-css-var-from-map($common);

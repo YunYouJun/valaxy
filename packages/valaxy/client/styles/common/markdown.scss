@@ -48,4 +48,12 @@ a.header-anchor:focus {
       height: 1px;
     }
   }
+
+  .custom-block {
+    margin: 16px 0;
+
+    p:first-child {
+      margin: 0;
+    }
+  }
 }

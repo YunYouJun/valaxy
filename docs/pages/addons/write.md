@@ -8,6 +8,7 @@ end: false
 
 ---
 
+
 ## 开始编写
 
 ::: tip
@@ -26,3 +27,10 @@ end: false
 > 文档正在施工中，您可以参照 [插件橱窗](/addons/gallery) 一些已有的插件。
 
 <!-- 用户如何配置 global -->
+
+### 创建插件模板
+
+```bash
+pnpm create valaxy
+# choose template addon
+```

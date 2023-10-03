@@ -1,0 +1,51 @@
+
+/**
+ * Colors: Function
+ *
+ * - `default`: The color used purely for subtle indication without any
+ *   special meanings attched to it such as bg color for menu hover state.
+ *
+ * - `brand`: Used for primary brand colors, such as link text, button with
+ *   brand theme, etc.
+ *
+ * - `tip`: Used to indicate useful information. The default theme uses the
+ *   brand color for this by default.
+ *
+ * - `warning`: Used to indicate warning to the users. Used in custom
+ *   container, badges, etc.
+ *
+ * - `danger`: Used to show error, or dangerous message to the users. Used
+ *   in custom container, badges, etc.
+ *
+ * To understand the scaling system, refer to "Colors: Palette" section.
+ * -------------------------------------------------------------------------- */
+
+:root {
+  --va-c-default-1: var(--va-c-gray-1);
+  --va-c-default-2: var(--va-c-gray-2);
+  --va-c-default-3: var(--va-c-gray-3);
+  --va-c-default-soft: var(--va-c-gray-soft);
+
+  --va-c-brand-1: var(--va-c-indigo-1);
+  --va-c-brand-2: var(--va-c-indigo-2);
+  --va-c-brand-3: var(--va-c-indigo-3);
+  --va-c-brand-soft: var(--va-c-indigo-soft);
+
+  /* DEPRECATED: Use `--va-c-brand-1` instead. */
+  --va-c-brand: var(--va-c-brand-1);
+
+  --va-c-tip-1: var(--va-c-brand-1);
+  --va-c-tip-2: var(--va-c-brand-2);
+  --va-c-tip-3: var(--va-c-brand-3);
+  --va-c-tip-soft: var(--va-c-brand-soft);
+
+  --va-c-warning-1: var(--va-c-yellow-1);
+  --va-c-warning-2: var(--va-c-yellow-2);
+  --va-c-warning-3: var(--va-c-yellow-3);
+  --va-c-warning-soft: var(--va-c-yellow-soft);
+
+  --va-c-danger-1: var(--va-c-red-1);
+  --va-c-danger-2: var(--va-c-red-2);
+  --va-c-danger-3: var(--va-c-red-3);
+  --va-c-danger-soft: var(--va-c-red-soft);
+}

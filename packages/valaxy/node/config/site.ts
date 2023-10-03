@@ -19,8 +19,7 @@ export async function resolveSiteConfigFromRoot(root: string) {
 export async function resolveSiteConfig(root: string) {
   const spinner = ora(`Resolve ${cyan('siteConfig')} from ${dim(root)}`).start()
   const { config: userSiteConfig, configFile: siteConfigFile } = await resolveSiteConfigFromRoot(root)
-  if (userSiteConfig)
-    spinner.succeed(`Resolve ${cyan('siteConfig')} from ${dim(siteConfigFile)}`)
+  spinner.succeed(`Resolve ${cyan('siteConfig')} from ${dim(siteConfigFile)}`)
 
   return {
     siteConfig: userSiteConfig,

@@ -18,8 +18,7 @@ const app = useAppStore()
   <ValaxyOverlay :show="app.isRightSidebarOpen" @click="app.toggleRightSidebar()" />
 
   <aside
-    class="press-aside lt-xl:fixed shadow
-    press-card xl:(shadow-none hover:shadow-none) hover:shadow-lg"
+    class="press-aside lt-xl:fixed shadow xl:(shadow-none hover:shadow-none) hover:shadow-lg"
     flex="~ col grow"
     p="l-0 xl:l-8" text="center"
     z="$"
@@ -40,10 +39,6 @@ const app = useAppStore()
 
 <style lang="scss">
 @use 'valaxy/client/styles/mixins/index.scss' as *;
-
-.press-card{
-  background-color: var(--va-c-bg);
-}
 
 .press-aside {
   top: 0;

@@ -36,7 +36,7 @@ const localeTitle = computed(() => getLocaleTitle(locale.value, frontmatter.valu
     >
       <div class="container" flex="~ grow" justify="between">
         <slot name="main">
-          <div class="content" w="full" :class="{ 'm-auto': !hasSidebar }" flex="~ col grow" p="lt-md:0">
+          <div class="vp-doc content" w="full" :class="{ 'm-auto': !hasSidebar }" flex="~ col grow" p="lt-md:0">
             <slot name="main-header" />
             <slot name="main-header-after" />
 

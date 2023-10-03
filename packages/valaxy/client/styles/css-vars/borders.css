@@ -1,0 +1,24 @@
+/**
+ * Colors: Borders
+ *
+ * - `divider`: This is used for separators. This is used to divide sections
+ *   within the same components, such as having separator on "h2" heading.
+ *
+ * - `border`: This is designed for borders on interactive components.
+ *   For example this should be used for a button outline.
+ *
+ * - `gutter`: This is used to divide components in the page. For example
+ *   the header and the lest of the page.
+ * -------------------------------------------------------------------------- */
+
+:root {
+  --va-c-border: #c2c2c4;
+  --va-c-divider: #e2e2e3;
+  --va-c-gutter: #e2e2e3;
+}
+
+.dark {
+  --va-c-border: #3c3f44;
+  --va-c-divider: #2e2e32;
+  --va-c-gutter: #000000;
+}

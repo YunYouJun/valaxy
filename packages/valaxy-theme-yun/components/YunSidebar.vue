@@ -3,7 +3,7 @@ import { ref } from 'vue'
 import { useAppStore } from 'valaxy'
 
 defineProps<{
-  showHamburger: boolean
+  showHamburger?: boolean
 }>()
 
 const app = useAppStore()

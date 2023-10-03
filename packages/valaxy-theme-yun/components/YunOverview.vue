@@ -34,9 +34,9 @@ const router = useRouter()
     </div>
 
     <YunSidebarNav />
-    <hr m="t-4 b-2">
+    <hr m="t-4 b-2" op="20">
     <YunSocialLinks />
-    <hr m="y-2">
+    <hr m="y-2" op="20">
     <YunSidebarLinks />
     <br>
   </div>

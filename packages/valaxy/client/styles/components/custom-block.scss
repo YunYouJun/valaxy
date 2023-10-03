@@ -1,0 +1,190 @@
+.custom-block-title {
+  margin-bottom: -0.4rem;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+
+  > .icon {
+    display: inline-flex;
+    width: 1rem;
+    height: 1rem;
+    margin-right: 4px;
+  }
+}
+
+/**
+ * Component: Custom Block
+ * -------------------------------------------------------------------------- */
+:root {
+  --va-custom-block-font-size: 14px;
+  --va-custom-block-code-font-size: 13px;
+
+  --va-custom-block-info-border: transparent;
+  --va-custom-block-info-text: var(--va-c-text-1);
+  --va-custom-block-info-bg: var(--va-c-default-soft);
+  --va-custom-block-info-code-bg: var(--va-c-default-soft);
+
+  --va-custom-block-tip-border: transparent;
+  --va-custom-block-tip-text: var(--va-c-text-1);
+  --va-custom-block-tip-bg: var(--va-c-brand-soft);
+  --va-custom-block-tip-code-bg: var(--va-c-brand-soft);
+
+  --va-custom-block-warning-border: transparent;
+  --va-custom-block-warning-text: var(--va-c-text-1);
+  --va-custom-block-warning-bg: var(--va-c-warning-soft);
+  --va-custom-block-warning-code-bg: var(--va-c-warning-soft);
+
+  --va-custom-block-danger-border: transparent;
+  --va-custom-block-danger-text: var(--va-c-text-1);
+  --va-custom-block-danger-bg: var(--va-c-danger-soft);
+  --va-custom-block-danger-code-bg: var(--va-c-danger-soft);
+
+  --va-custom-block-details-border: var(--va-custom-block-info-border);
+  --va-custom-block-details-text: var(--va-custom-block-info-text);
+  --va-custom-block-details-bg: var(--va-custom-block-info-bg);
+  --va-custom-block-details-code-bg: var(--va-custom-block-info-code-bg);
+}
+
+// ref vitepress
+.custom-block {
+  border: 1px solid transparent;
+  border-radius: 8px;
+  padding: 16px 16px 8px;
+  line-height: 24px;
+  font-size: var(--va-custom-block-font-size);
+  color: var(--va-c-text-2);
+}
+
+.custom-block.info {
+  border-color: var(--va-custom-block-info-border);
+  color: var(--va-custom-block-info-text);
+  background-color: var(--va-custom-block-info-bg);
+}
+
+.custom-block.info a,
+.custom-block.info code {
+  color: var(--va-c-brand-1);
+}
+
+.custom-block.info a:hover {
+  color: var(--va-c-brand-2);
+}
+
+.custom-block.info code {
+  background-color: var(--va-custom-block-info-code-bg);
+}
+
+.custom-block.tip {
+  border-color: var(--va-custom-block-tip-border);
+  color: var(--va-custom-block-tip-text);
+  background-color: var(--va-custom-block-tip-bg);
+}
+
+.custom-block.tip a,
+.custom-block.tip code {
+  color: var(--va-c-brand-1);
+}
+
+.custom-block.tip a:hover {
+  color: var(--va-c-brand-2);
+}
+
+.custom-block.tip code {
+  background-color: var(--va-custom-block-tip-code-bg);
+}
+
+.custom-block.warning {
+  border-color: var(--va-custom-block-warning-border);
+  color: var(--va-custom-block-warning-text);
+  background-color: var(--va-custom-block-warning-bg);
+}
+
+.custom-block.warning a,
+.custom-block.warning code {
+  color: var(--va-c-warning-1);
+}
+
+.custom-block.warning a:hover {
+  color: var(--va-c-warning-2);
+}
+
+.custom-block.warning code {
+  background-color: var(--va-custom-block-warning-code-bg);
+}
+
+.custom-block.danger {
+  border-color: var(--va-custom-block-danger-border);
+  color: var(--va-custom-block-danger-text);
+  background-color: var(--va-custom-block-danger-bg);
+}
+
+.custom-block.danger a,
+.custom-block.danger code {
+  color: var(--va-c-danger-1);
+}
+
+.custom-block.danger a:hover {
+  color: var(--va-c-danger-2);
+}
+
+.custom-block.danger code {
+  background-color: var(--va-custom-block-danger-code-bg);
+}
+
+.custom-block.details {
+  border-color: var(--va-custom-block-details-border);
+  color: var(--va-custom-block-details-text);
+  background-color: var(--va-custom-block-details-bg);
+}
+
+.custom-block.details a {
+  color: var(--va-c-brand-1);
+}
+
+.custom-block.details a:hover {
+  color: var(--va-c-brand-2);
+}
+
+.custom-block.details code {
+  background-color: var(--va-custom-block-details-code-bg);
+}
+
+.custom-block-title {
+  font-weight: 600;
+}
+
+.custom-block p + p {
+  margin: 8px 0;
+}
+
+.custom-block.details summary {
+  margin: 0 0 8px;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.custom-block.details summary + p {
+  margin: 8px 0;
+}
+
+.custom-block a {
+  color: inherit;
+  font-weight: 600;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+  transition: opacity 0.25s;
+}
+
+.custom-block a:hover {
+  opacity: 0.75;
+}
+
+.custom-block code {
+  font-size: var(--va-custom-block-code-font-size);
+}
+
+.custom-block.custom-block th,
+.custom-block.custom-block blockquote > p {
+  font-size: var(--va-custom-block-font-size);
+  color: inherit;
+}

@@ -9,7 +9,7 @@ top: 50
 
 ::: tip
 
-Valaxy 与 Vite/Vue 的生态完全兼容，因此你在编写主题时，可以任意使用第三方的 Vite/Vue 插件。
+Valaxy 与 Vite/Vue 的生态完全兼容，因此你在编写主题时，可以任意使用第三方的 `Vite`/`Vue` 插件。
 
 - [Authoring a Plugin | Vite](https://vitejs.dev/guide/api-plugin.html#authoring-a-plugin)
 - [Writing a Plugin | Vue](https://vuejs.org/guide/reusability/plugins.html#writing-a-plugin)
@@ -33,6 +33,13 @@ Valaxy 主题无需预编译，直接发布源文件即可。
 - [valaxy-theme-starter](https://github.com/valaxyjs/valaxy-theme-starter): Valaxy 主题开发模版
 - [valaxy-theme-yun](https://github.com/YunYouJun/valaxy/tree/main/packages/valaxy-theme-yun): valaxy-theme-yun 一个更完善的主题示例
 - [valaxy-theme-press](https://github.com/YunYouJun/valaxy/tree/main/packages/valaxy-theme-press): valaxy-theme-press 当前文档主题示例
+
+## 创建主题模板
+
+```bash
+pnpm create valaxy
+# choose template theme
+```
 
 ## 主题结构
 
@@ -136,7 +143,7 @@ export interface ValaxyConfig {
 
 ::: tip
 
-`data`解析自 Markdown frontmatter，为原始数据（不可变），将会被合并至 `route.meta.frontmatter` 中。
+`data` 解析自 Markdown frontmatter，为原始数据（不可变），将会被合并至 `route.meta.frontmatter` 中。
 
 :::
 
