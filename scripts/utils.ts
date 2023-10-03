@@ -14,7 +14,7 @@ export const packages = [
 ]
 
 export const templates = [
-  'packages/create-valaxy/template',
+  'packages/create-valaxy/template-blog',
 ]
 
 export function updateTemplateVersions(version: string) {
