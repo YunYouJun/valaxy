@@ -2,7 +2,7 @@
 title: Commands
 title_zh-CN: 命令行
 categories:
-  - Guide
+  - guide
 top: 99
 ---
 

@@ -35,7 +35,7 @@ function getTitle(post: Post | any) {
     class="category-list-item inline-flex items-center justify-between"
   >
     <span class="category-name" font="bold" m="l-1" @click="displayCategory ? displayCategory(category.name) : null">
-      {{ category.name === 'Uncategorized' ? t('category.uncategorized') : category.name }}
+      {{ category.name === 'Uncategorized' ? t('category.uncategorized') : t(`category.${category.name}`) }}
       <!-- <sup font="normal">[{{ category.total }}]</sup> -->
     </span>
     <span class="folder-action inline-flex cursor-pointer" opacity="50" @click="collapsable = !collapsable">

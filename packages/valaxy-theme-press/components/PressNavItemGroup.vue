@@ -1,5 +1,6 @@
 <script lang="ts" setup>
 import { ref } from 'vue'
+import { useI18n } from 'vue-i18n'
 import type { NavItemGroup } from '../types'
 
 defineProps<{
@@ -7,6 +8,8 @@ defineProps<{
 }>()
 
 const open = ref(false)
+
+const { t } = useI18n()
 </script>
 
 <template>
@@ -23,14 +26,14 @@ const open = ref(false)
       @click="open = !open"
     >
       <span class="text">
-        {{ item.text }}
+        {{ t(item.text) }}
       </span>
       <div i-ri-arrow-drop-down-line />
     </button>
 
     <div class="menu grow" flex="~ col" items="start">
       <AppLink v-for="itemLink in item.items" :key="itemLink.text" class="menu-item" p="x-3" :to="itemLink.link">
-        {{ itemLink.text }}
+        {{ t(itemLink.text) }}
       </AppLink>
     </div>
   </div>

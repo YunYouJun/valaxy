@@ -2,7 +2,7 @@
 title: Best Practice
 title_zh-CN: 最佳实践
 categories:
-  - Guide
+  - guide
 top: 1
 ---
 

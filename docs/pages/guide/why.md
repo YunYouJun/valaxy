@@ -4,7 +4,7 @@ title: Why Valaxy
 title_zh-CN: 为什么选 Valaxy
 date: 2022-03-22
 categories:
-  - Getting Started
+  - getting-started
 tags:
   - valaxy
   - 笔记

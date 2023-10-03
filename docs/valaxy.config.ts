@@ -35,55 +35,59 @@ export default defineValaxyConfig<PressTheme.Config>({
   theme: 'press',
   themeConfig: {
     logo: '/favicon.svg',
-    sidebar: ['Getting Started', 'Guide', 'Config', 'Migration', 'built-ins', 'Third', 'Custom', 'Theme', 'Addon', 'Dev'],
+    sidebar: ['getting-started', 'guide', 'config', 'migration', 'built-ins', 'third', 'custom', 'theme', 'addon', 'dev'],
     socialLinks: [
       { icon: 'i-ri-github-line', link: 'https://github.com/YunYouJun/valaxy' },
     ],
     nav: [
       {
-        text: 'Docs',
+        text: 'menu.guide',
         items: [
           {
-            text: 'Getting Started',
+            text: 'menu.getting-started',
             link: '/guide/getting-started',
           },
           {
-            text: 'Migration from Other',
+            text: 'menu.migrate-from-other',
             link: '/migration/',
           },
         ],
       },
       {
-        text: 'Themes',
+        text: 'menu.theme',
         items: [
           {
-            text: 'Use Theme',
+            text: 'menu.use-a-theme',
             link: '/themes/use',
           },
           {
-            text: 'Write A Theme',
+            text: 'menu.write-a-theme',
             link: '/themes/write',
           },
           {
-            text: 'Themes Gallery',
+            text: 'menu.themes-gallery',
             link: '/themes/gallery',
           },
         ],
       },
       {
-        text: 'Addons',
+        text: 'menu.addon',
         items: [
           {
-            text: 'Why need addons?',
+            text: 'menu.why-need-addons',
             link: '/addons',
           },
           {
-            text: 'Use A Addon',
+            text: 'menu.use-an-addon',
             link: '/addons/use',
           },
           {
-            text: 'Write A Addon',
+            text: 'menu.write-an-addon',
             link: '/addons/write',
+          },
+          {
+            text: 'menu.addons-gallery',
+            link: '/addons/gallery',
           },
         ],
       },

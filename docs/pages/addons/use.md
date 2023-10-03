@@ -2,7 +2,7 @@
 title: Use Addon
 title_zh-CN: 使用插件
 categories:
-  - Addon
+  - addon
 ---
 
 ## How To Use

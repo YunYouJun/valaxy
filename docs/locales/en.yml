@@ -1,2 +1,40 @@
 gallery:
   tip: search
+
+button:
+  get-started: Get Started
+  view-github: View Github
+
+menu:
+  guide: Guide
+  theme: Themes
+  addon: Addons
+
+  getting-started: Getting Started
+  migrate-from-other: Migrate from Other
+
+  use-a-theme: Use A Theme
+  write-a-theme: Write A Theme
+  themes-gallery: Themes Gallery
+
+  why-need-addons: Why need addons?
+  use-an-addon: Use An Addon
+  write-an-addon: Write An Addon
+  addons-gallery: Addons Gallery
+
+category:
+  getting-started: Getting Started
+  guide: Guide
+  config: Config
+  migration: Migration
+  third: Third
+  custom: Custom
+  theme: Theme
+  addon: Addon
+  dev: Dev
+
+banner:
+  next-generation: Next Generation
+  static: Static
+  blog: Blog
+  framework: Framework

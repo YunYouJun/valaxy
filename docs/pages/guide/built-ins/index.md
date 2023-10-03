@@ -2,7 +2,7 @@
 title: Components
 title_zh-CN: 组件
 categories:
-  - Guide
+  - guide
 end: false
 ---
 

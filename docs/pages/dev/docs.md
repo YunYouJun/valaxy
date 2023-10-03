@@ -2,7 +2,7 @@
 title: Participate in Docs
 title_zh-CN: 参与文档
 categories:
-  - Dev
+  - dev
 end: false
 ---
 

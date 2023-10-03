@@ -2,7 +2,7 @@
 title: Custom Extensions
 title_zh-CN: 自定义扩展
 categories:
-  - Custom
+  - custom
 end: false
 ---
 

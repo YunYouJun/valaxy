@@ -37,8 +37,8 @@ const filteredThemes = computed(() => {
       type="text" name="search"
     >
   </div>
-  <ul class="m-0 p-0 sm:grid-cols-1 lg:grid-cols-2 grid" gap="4">
-    <li v-for="theme, i in filteredThemes" :key="i" class="w-full list-none">
+  <ul class="m-0! p-0! sm:grid-cols-1 lg:grid-cols-2 grid" gap="4">
+    <li v-for="theme, i in filteredThemes" :key="i" class="w-full list-none m-0!">
       <div
         class="transition bg-$va-c-bg-alt" border rounded-xl
         dark="border-dark-200"
@@ -52,25 +52,21 @@ const filteredThemes = computed(() => {
           </a>
         </div>
         <div px-4 pb-4>
-          <a :href="theme.repo" target="_blank">
+          <a :href="theme.repo" target="_blank" class="decoration-none!">
             <h3 mt-5 flex justify-center items-center>
               <div text-xl mr-2 :class="theme.icon" />
               <span>{{ theme.name }}</span>
             </h3>
           </a>
-          <p my-1 text-xl>
-            <a mr-2 class="text-red-600" :href="`https://npmjs.com/package/${theme.name}`" target="_blank" alt="NPM Package">
+          <p class="my-1! text-xl!">
+            <a mr-2 class="text-red-600!" :href="`https://npmjs.com/package/${theme.name}`" target="_blank" alt="NPM Package">
               <div i-ri-npmjs-line />
             </a>
-
-          <!-- <a mr-2 class="text-black dark:text-white" :href="addon.repo" target="_blank" alt="GitHub Repo">
-        <div i-ri-github-line />
-      </a> -->
           </p>
-          <p my-1>
+          <p class="my-1!">
             {{ theme.desc }}
           </p>
-          <ul class=" m-0 p-0 flex flex-wrap">
+          <ul class="m-0! p-0! flex flex-wrap">
             <span v-for="tag, j in theme.tags" :key="j" class="break-all text-gray mr-6px">
               #{{ tag }}
             </span>

@@ -1,8 +1,8 @@
 ---
 title: Config
-title_zh-CN: 配置
+title_zh-CN: 基础配置
 categories:
-  - Config
+  - config
 end: false
 top: 10
 ---

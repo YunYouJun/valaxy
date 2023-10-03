@@ -2,7 +2,7 @@
 title_zh-CN: 从 Hexo 迁移至 Valaxy
 title: Migrate from Hexo to Valaxy
 categories:
-  - Migration
+  - migration
 end: true
 top: 9
 ---

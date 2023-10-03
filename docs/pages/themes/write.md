@@ -2,7 +2,7 @@
 title: How to write a theme?
 title_zh-CN: 如何编写一个 Valaxy 主题
 categories:
-  - Theme
+  - theme
 end: false
 top: 50
 ---

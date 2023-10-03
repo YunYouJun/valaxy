@@ -1,6 +1,8 @@
 <script lang="ts" setup>
 import { computed } from 'vue'
 
+import { useI18n } from 'vue-i18n'
+
 const props = defineProps<{
   theme: 'brand' | 'alt'
   link: string
@@ -16,6 +18,8 @@ const classes = computed(() => {
 
   return arr
 })
+
+const { t } = useI18n()
 </script>
 
 <template>
@@ -26,6 +30,6 @@ const classes = computed(() => {
     class="sese-btn btn rounded-full hover:shadow-lg" bg="gradient-to-r"
     p="x-6"
   >
-    {{ text }}
+    {{ t(text) }}
   </AppLink>
 </template>

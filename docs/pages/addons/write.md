@@ -2,7 +2,7 @@
 title: Write a Addon
 title_zh-CN: 编写一个插件
 categories:
-  - Addon
+  - addon
 end: false
 
 
@@ -14,6 +14,7 @@ end: false
 ::: tip
 **约定大于配置**
 
+- 插件：`Addon`，须以 `valaxy-addon-` 开头。
 - 插件与主题类似，但做的事情更少。
 - 一个站点只能使用一个主题，但可以使用多个插件。
 - Addon 无需预编译，直接发布源文件即可。

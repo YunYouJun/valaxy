@@ -1,2 +1,40 @@
 gallery:
   tip: 搜索
+
+button:
+  get-started: 快速上手
+  view-github: 查看 Github
+
+menu:
+  guide: 指南
+  theme: 主题
+  addon: 插件
+
+  getting-started: 起步
+  migrate-from-other: 从其他框架迁移
+
+  use-a-theme: 使用主题
+  write-a-theme: 编写主题
+  themes-gallery: 主题橱窗
+
+  why-need-addons: 为什么需要插件？
+  use-an-addon: 使用插件
+  write-an-addon: 编写插件
+  addons-gallery: 插件橱窗
+
+category:
+  getting-started: 起步
+  guide: 指南
+  config: 配置
+  migration: 迁移
+  third: 第三方
+  custom: 自定义
+  theme: 主题
+  addon: 插件
+  dev: 开发
+
+banner:
+  next-generation: 下一代
+  static: 静态
+  blog: 博客
+  framework: 框架

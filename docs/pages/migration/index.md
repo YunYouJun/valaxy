@@ -2,7 +2,7 @@
 title: Migration from Other
 title_zh-CN: 从其他博客框架迁移
 categories:
-  - Migration
+  - migration
 top: 10
 ---
 

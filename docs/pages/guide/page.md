@@ -2,7 +2,7 @@
 title: Page
 title_zh-CN: 页面
 categories:
-  - Guide
+  - guide
 ---
 
 ## FrontMatter

@@ -2,7 +2,7 @@
 title: Getting Started
 title_zh-CN: 开始
 categories:
-  - Getting Started
+  - getting-started
 end: true
 top: 100
 ---

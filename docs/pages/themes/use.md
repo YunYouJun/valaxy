@@ -2,7 +2,7 @@
 title: Use Theme
 title_zh-CN: 使用主题
 categories:
-  - Theme
+  - theme
 top: 100
 ---
 

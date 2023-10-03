@@ -2,7 +2,7 @@
 title: Custom Styles
 title_zh-CN: 自定义样式
 categories:
-  - Custom
+  - custom
 end: false
 ---
 

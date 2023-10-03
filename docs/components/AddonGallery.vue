@@ -39,8 +39,8 @@ const filteredAddons = computed(() => {
       type="text" name="search"
     >
   </div>
-  <ul class="m-0 p-0 sm:grid-cols-1 lg:grid-cols-2 grid" gap="4">
-    <li v-for="addon, i in filteredAddons" :key="i" class="w-full list-none">
+  <ul class="m-0! p-0! sm:grid-cols-1 lg:grid-cols-2 grid" gap="4">
+    <li v-for="addon, i in filteredAddons" :key="i" class="w-full list-none m-0!">
       <AddonGalleryCard :addon="addon" />
     </li>
   </ul>

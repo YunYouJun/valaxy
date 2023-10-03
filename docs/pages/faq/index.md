@@ -2,7 +2,7 @@
 title: FAQ
 title_zh-CN: 常见问题
 categories:
-  - Guide
+  - guide
 end: false
 ---
 

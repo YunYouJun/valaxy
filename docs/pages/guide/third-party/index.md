@@ -2,7 +2,7 @@
 title: Third Party
 title_zh-CN: 第三方集成
 categories:
-  - Third
+  - third
 end: false
 top: 99
 ---

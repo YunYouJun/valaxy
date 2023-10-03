@@ -2,7 +2,7 @@
 title: Schema.org for SEO
 title_zh-CN: Schema.org for SEO
 categories:
-  - Third
+  - third
 top: 0
 ---
 

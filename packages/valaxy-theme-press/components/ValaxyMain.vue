@@ -45,7 +45,7 @@ const localeTitle = computed(() => getLocaleTitle(locale.value, frontmatter.valu
                 <ValaxyMd class="prose mx-auto w-full max-w-4xl" :frontmatter="frontmatter">
                   <h1 v-if="hasSidebar && !isHome && frontmatter.title" :id="frontmatter.title" tabindex="-1">
                     {{ localeTitle }}
-                    <a class="header-anchor" :href="`#${frontmatter.title}`" aria-hidden="true">#</a>
+                    <a class="header-anchor" :href="`#${frontmatter.title}`" aria-hidden="true" />
                   </h1>
                   <slot name="main-content-md" />
                   <slot />

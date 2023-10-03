@@ -1,8 +1,11 @@
 <script lang="ts" setup>
 import { useFrontmatter } from 'valaxy'
+import { useI18n } from 'vue-i18n'
 import PressButton from './PressButton.vue'
 
 const fm = useFrontmatter()
+
+const { t } = useI18n()
 </script>
 
 <template>
@@ -14,9 +17,9 @@ const fm = useFrontmatter()
   </div>
 
   <h2 m="b-10" text="center 6xl" font="black" leading="tight">
-    Next Generation
+    {{ t('banner.next-generation') }}
     <br>
-    Static <span class="gradient-text from-blue-500 to-purple-700" bg="gradient-to-r">Blog</span> Framework
+    {{ t('banner.static') }} <span class="gradient-text from-blue-500 to-purple-700" bg="gradient-to-r">{{ t('banner.blog') }}</span> {{ t('banner.framework') }}
   </h2>
 
   <div p="2" text="center">

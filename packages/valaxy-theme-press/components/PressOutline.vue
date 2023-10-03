@@ -5,10 +5,8 @@ import {
   useOutline,
 } from 'valaxy'
 import { useI18n } from 'vue-i18n'
-import { useThemeConfig } from '../composables'
 
 const { t } = useI18n()
-const themeConfig = useThemeConfig()
 
 const container = ref()
 const marker = ref()
@@ -22,7 +20,7 @@ const { headers, handleClick } = useOutline()
   <div v-show="headers.length" ref="container">
     <div class="content">
       <div class="outline-title">
-        {{ themeConfig.outlineTitle || t('sidebar.toc') }}
+        {{ t('theme.outlineTitle') }}
       </div>
 
       <div ref="marker" class="outline-marker" />

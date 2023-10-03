@@ -2,7 +2,7 @@
 title: Participate in Development
 title_zh-CN: 参与开发
 categories:
-  - Dev
+  - dev
 end: false
 ---
 

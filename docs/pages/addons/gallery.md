@@ -2,7 +2,7 @@
 title: Valaxy Addons Gallery
 title_zh-CN: Valaxy 插件橱窗
 categories:
-  - Addon
+  - addon
 end: false
 
 addons:

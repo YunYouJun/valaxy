@@ -2,7 +2,7 @@
 title: Components
 title_zh-CN: 自定义组件
 categories:
-  - Custom
+  - custom
 end: false
 ---
 
@@ -178,7 +178,7 @@ useScriptTag('//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js')
 
 <template>
   <YunFooter>
-    <!-- Customize footer content -->
+    <!-- customize footer content -->
     <div>Total visits of this site <span id="busuanzi_value_site_pv" /></div>
     <div>Number of visitors <span id="busuanzi_value_site_uv" /></div>
   </YunFooter>

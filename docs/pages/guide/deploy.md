@@ -2,7 +2,7 @@
 title: Deployment
 title_zh-CN: 部署
 categories:
-  - Getting Started
+  - getting-started
 end: false
 top: 99
 ---
