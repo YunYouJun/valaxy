@@ -85,7 +85,7 @@
     "html-to-text": "^9.0.5",
     "is-installed-globally": "^0.4.0",
     "jiti": "^1.20.0",
-    "katex": "^0.16.8",
+    "katex": "^0.16.9",
     "kolorist": "^1.8.0",
     "lru-cache": "^10.0.1",
     "markdown-it": "^13.0.2",

@@ -4,7 +4,9 @@ Theme template generator.
 
 > Make a valaxy theme is so easy!
 
-Todo.
+```bash
+npx degit valaxyjs/valaxy-theme-starter valaxy-theme-name
+```
 
 ## FAQ
 

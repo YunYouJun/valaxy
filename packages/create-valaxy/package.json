@@ -1,5 +1,6 @@
 {
   "name": "create-valaxy",
+  "type": "module",
   "version": "0.14.61",
   "description": "Create Starter Template for Valaxy",
   "author": {
@@ -13,12 +14,19 @@
     "type": "git",
     "url": "https://github.com/YunYouJun/valaxy"
   },
-  "main": "index.js",
+  "main": "bin/index.mjs",
   "bin": {
-    "create-valaxy": "index.js"
+    "create-valaxy": "bin/index.mjs"
   },
   "engines": {
     "node": "^14.18.0 || >=16.0.0"
+  },
+  "scripts": {
+    "build": "unbuild",
+    "dev": "unbuild --stub",
+    "prepublishOnly": "npm run build",
+    "start": "tsx src/index.ts",
+    "typecheck": "tsc --noEmit"
   },
   "dependencies": {
     "execa": "8.0.1",
