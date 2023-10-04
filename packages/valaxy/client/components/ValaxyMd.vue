@@ -4,6 +4,7 @@ import { useI18n } from 'vue-i18n'
 import { onContentUpdated, runContentUpdated, useAplayer, useCodePen, useCopyCode, useMediumZoom, wrapTable } from 'valaxy'
 import type { Post } from 'valaxy'
 import { useVanillaLazyLoad } from '../composables/features/vanilla-lazyload'
+import { useCodeGroups } from '../composables/codeGroups'
 
 const props = defineProps<{
   frontmatter: Post
@@ -29,6 +30,7 @@ if (props.frontmatter.codepen)
   useCodePen()
 
 useCopyCode()
+useCodeGroups()
 
 if (typeof props.frontmatter.medium_zoom === 'undefined' || props.frontmatter.medium_zoom)
   useMediumZoom()

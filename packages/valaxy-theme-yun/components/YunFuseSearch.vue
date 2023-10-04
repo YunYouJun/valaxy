@@ -7,6 +7,8 @@ import { useBodyScrollLock, useSiteConfig } from 'valaxy'
 import { useRouter } from 'vue-router'
 import type { FuseListItem } from 'valaxy/types'
 
+import { onClickOutside } from '@vueuse/core'
+
 const props = defineProps<{
   open: boolean
 }>()
@@ -69,6 +71,10 @@ function jumpToLink(link: string) {
   router.push(link)
   emit('close')
 }
+
+onClickOutside(searchInputRef, () => {
+  // emit('close')
+})
 </script>
 
 <template>
@@ -79,7 +85,9 @@ function jumpToLink(link: string) {
   >
     <div
       v-if="open" ref="searchContainer"
-      class="yun-popup yun-search-popup yun-fuse-search flex-center" flex="col"
+      class="yun-popup yun-search-popup yun-fuse-search flex-center pointer-events-auto" flex="col"
+      justify="start"
+      pt-12
     >
       <div class="yun-search-input-container flex-center" w="full">
         <input ref="searchInputRef" v-model="input" class="yun-search-input" :placeholder="t('search.placeholder')">
@@ -87,27 +95,25 @@ function jumpToLink(link: string) {
       <div v-if="input" class="flex-center" w="full" py="4">
         {{ t('search.hits', results.length || 0) }}
       </div>
-      <div overflow="auto" flex="~ 1" w="full">
+      <div v-if="results.length > 0" overflow="auto" flex="~" w="full">
         <div class="yun-fuse-result-container" flex="~ col" w="full">
-          <template v-if="results.length > 0">
-            <div
-              v-for="result in results" :key="result.item.title"
-              :to="result.item.link"
-              class="yun-fuse-result-item text-$va-c-text hover:(text-$va-c-bg bg-$va-c-text-dark bg-opacity-100)"
-              flex="~ col" pb-2
-              @click="jumpToLink(result.item.link)"
-            >
-              <h3 font="serif black">
-                {{ result.item.title }}
-              </h3>
-              <span text="sm" opacity="80">
-                {{ result.item.excerpt }}
-              </span>
-              <span text-xs opacity-50 mt="1">
-                Score Index: {{ result.refIndex }}
-              </span>
-            </div>
-          </template>
+          <div
+            v-for="result in results" :key="result.item.title"
+            :to="result.item.link"
+            class="yun-fuse-result-item text-$va-c-text hover:(text-$va-c-bg bg-$va-c-text-dark bg-opacity-100)"
+            flex="~ col" pb-2
+            @click="jumpToLink(result.item.link)"
+          >
+            <h3 font="serif black">
+              {{ result.item.title }}
+            </h3>
+            <span text="sm" opacity="80">
+              {{ result.item.excerpt }}
+            </span>
+            <span text-xs opacity-50 mt="1">
+              Score Index: {{ result.refIndex }}
+            </span>
+          </div>
         </div>
       </div>
     </div>
@@ -126,7 +132,6 @@ function jumpToLink(link: string) {
   -webkit-backdrop-filter: blur(30px);
 
   text-align: center;
-  padding-top: 3.5rem;
   margin: 0;
   z-index: var(--yun-z-search-popup);
   transition: 0.6s;

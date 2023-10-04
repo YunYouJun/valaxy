@@ -68,7 +68,7 @@ html:not(.dark) .vp-code-dark {
       position: relative;
       z-index: 1;
       margin: 0;
-      padding: 1rem 0;
+      padding: 20px 0;
       background: transparent;
       overflow-x: auto;
 
@@ -87,7 +87,7 @@ html:not(.dark) .vp-code-dark {
     top: 0;
     bottom: 0;
     left: 0;
-    padding: 16px 0;
+    padding: 20px 0;
     width: 100%;
     line-height: var(--va-code-line-height);
     font-family: var(--va-font-mono);

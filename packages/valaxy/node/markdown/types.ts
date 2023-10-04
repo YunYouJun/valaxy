@@ -54,6 +54,8 @@ export interface MarkdownOptions {
     classes: string
   }
 
+  lineNumbers?: boolean
+
   katex?: KatexOptions
   /**
    * shiki

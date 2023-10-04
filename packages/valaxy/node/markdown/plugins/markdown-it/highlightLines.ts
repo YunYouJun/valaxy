@@ -1,78 +1,44 @@
 // Modified from https://github.com/egoist/markdown-it-highlight-lines
+
 import type MarkdownIt from 'markdown-it'
 
-const wrapperRE = /^<pre .*?><code>/
+const RE = /{([\d,-]+)}/
 
 export function highlightLinePlugin(md: MarkdownIt) {
   const fence = md.renderer.rules.fence!
   md.renderer.rules.fence = (...args) => {
-    const [tokens, idx, options] = args
+    const [tokens, idx] = args
     const token = tokens[idx]
 
-    // due to use of markdown-it-attrs, the {0} syntax would have been converted
-    // to attrs on the token
+    // due to use of markdown-it-attrs, the {0} syntax would have been
+    // converted to attrs on the token
     const attr = token.attrs && token.attrs[0]
-    if (!attr)
-      return fence(...args)
 
-    const lines = attr[0]
-    if (!lines || !/[\d,-]+/.test(lines))
-      return fence(...args)
+    let lines = null
 
-    const lineNumbers = lines
-      .split(',')
-      .map(v => v.split('-').map(v => Number.parseInt(v, 10)))
+    if (!attr) {
+      // markdown-it-attrs maybe disabled
+      const rawInfo = token.info
 
-    const code = options.highlight
-      ? options.highlight(token.content, token.info, '')
-      : token.content
+      if (!rawInfo || !RE.test(rawInfo))
+        return fence(...args)
 
-    const rawCode = code.replace(wrapperRE, '')
-    const highlightLinesCode = rawCode
-      .split('\n')
-      .map((split, index) => {
-        const lineNumber = index + 1
-        const inRange = lineNumbers.some(([start, end]) => {
-          if (start && end)
-            return lineNumber >= start && lineNumber <= end
+      const langName = rawInfo.replace(RE, '').trim()
 
-          return lineNumber === start
-        })
-        if (inRange)
-          return '<div class="highlighted">&nbsp;</div>'
+      // ensure the next plugin get the correct lang
+      token.info = langName
 
-        return '<br>'
-      })
-      .join('')
+      lines = RE.exec(rawInfo)![1]
+    }
 
-    const highlightLinesWrapperCode = `<div class="highlight-lines">${highlightLinesCode}</div>`
+    if (!lines) {
+      lines = attr![0]
 
-    return highlightLinesWrapperCode + code
-  }
-}
+      if (!lines || !/[\d,-]+/.test(lines))
+        return fence(...args)
+    }
 
-// markdown-it plugin for generating line numbers.
-// It depends on preWrapper plugin.
-export function lineNumberPlugin(md: MarkdownIt) {
-  const fence = md.renderer.rules.fence!
-  md.renderer.rules.fence = (...args) => {
-    const rawCode = fence(...args)
-    const code = rawCode.slice(
-      rawCode.indexOf('<code>'),
-      rawCode.indexOf('</code>'),
-    )
-
-    const lines = code.split('\n')
-    const lineNumbersCode = [...Array(lines.length - 1)]
-      .map((line, index) => `<span class="line-number">${index + 1}</span><br>`)
-      .join('')
-
-    const lineNumbersWrapperCode = `<div class="line-numbers-wrapper">${lineNumbersCode}</div>`
-
-    const finalCode = rawCode
-      .replace(/<\/div>$/, `${lineNumbersWrapperCode}</div>`)
-      .replace(/"(language-\w+)"/, '"$1 line-numbers-mode"')
-
-    return finalCode
+    token.info += ` ${lines}`
+    return fence(...args)
   }
 }

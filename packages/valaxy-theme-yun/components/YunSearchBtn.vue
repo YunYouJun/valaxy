@@ -1,17 +1,26 @@
 <script lang="ts" setup>
 import { useI18n } from 'vue-i18n'
 
-withDefaults(defineProps<{
+const props = withDefaults(defineProps<{
   open?: boolean
 }>(), {
   open: false,
 })
 
+const emit = defineEmits(['close', 'open'])
+
 const { t } = useI18n()
+
+function onClick() {
+  if (props.open)
+    emit('close')
+  else
+    emit('open')
+}
 </script>
 
 <template>
-  <button class="yun-search-btn popup-trigger yun-icon-btn" :title="t('menu.search')">
+  <button class="yun-search-btn popup-trigger yun-icon-btn" :title="t('menu.search')" @click="onClick">
     <div v-if="!open" i-ri-search-line />
     <div v-else text="!2xl" i-ri-close-line />
   </button>

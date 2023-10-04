@@ -30,8 +30,8 @@ import { highlightLinePlugin } from './plugins/markdown-it/highlightLines'
 
 import { linkPlugin } from './plugins/link'
 import { preWrapperPlugin } from './plugins/markdown-it/preWrapper'
-
-// import { lineNumberPlugin } from "./plugins/lineNumbers";
+import { lineNumberPlugin } from './plugins/markdown-it/lineNumbers'
+import { snippetPlugin } from './plugins/markdown-it/snippet'
 
 export * from './env'
 
@@ -57,7 +57,11 @@ export async function setupMarkdownPlugins(
   // custom plugins
   md.use(highlightLinePlugin)
     .use(preWrapperPlugin, { theme })
-    .use(containerPlugin, mdOptions.blocks)
+    .use(snippetPlugin, options?.userRoot)
+    .use(containerPlugin, {
+      ...mdOptions.blocks,
+      theme,
+    })
     .use(cssI18nContainer, {
       languages: ['zh-CN', 'en'],
     })
@@ -75,8 +79,6 @@ export async function setupMarkdownPlugins(
   // 3rd party plugins
   if (!mdOptions.attrs?.disable)
     md.use(attrsPlugin, mdOptions.attrs)
-
-  // .use(lineNumberPlugin)
 
   md.use(Katex, mdOptions.katex)
   md.use(emojiPlugin)
@@ -142,14 +144,13 @@ export async function setupMarkdownPlugins(
       slugify,
       ...mdOptions.toc,
     } as TocPluginOptions)
+  // ref vitepress
+  md.use(lineNumberPlugin, mdOptions.lineNumbers)
 
   md.use(TaskLists)
 
   if (mdOptions.config)
     mdOptions.config(md)
-
-  // if (options.lineNumbers)
-  //   md.use(lineNumberPlugin)
 
   return md as MarkdownRenderer
 }

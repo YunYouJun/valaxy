@@ -114,10 +114,13 @@ export async function createMarkdownToVueRenderFn(
     file: string,
     publicDir: string,
   ): Promise<MarkdownCompileResult> => {
-    const relativePath = slash(path.relative(srcDir, file))
+    const fileOrig = file
     const dir = path.dirname(file)
+    const relativePath = slash(path.relative(srcDir, file))
 
-    const cached = cache.get(src)
+    const cacheKey = JSON.stringify({ src, file: fileOrig })
+
+    const cached = cache.get(cacheKey)
     if (cached) {
       debug(`[cache hit] ${relativePath}`)
       return cached
@@ -144,6 +147,7 @@ export async function createMarkdownToVueRenderFn(
       path: file,
       relativePath,
       cleanUrls,
+      realPath: fileOrig,
     }
 
     const html = md.render(src, env)

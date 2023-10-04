@@ -9,9 +9,11 @@ export interface Options {
 export function extractLang(info: string) {
   return info
     .trim()
-    .replace(/:(no-)?line-numbers({| |$).*/, '')
+    .replace(/=(\d*)/, '')
+    .replace(/:(no-)?line-numbers({| |$|=\d*).*/, '')
     .replace(/(-vue|{| ).*$/, '')
     .replace(/^vue-html$/, 'template')
+    .replace(/^ansi$/, '')
 }
 
 export function getAdaptiveThemeMarker(options: Options) {
@@ -25,6 +27,15 @@ export function getAdaptiveThemeMarker(options: Options) {
     marker = isDark ? ' dark' : ' light'
   }
   return marker
+}
+
+export function extractTitle(info: string, html = false) {
+  if (html) {
+    return (
+      info.replace(/<!--[^]*?-->/g, '').match(/data-title="(.*?)"/)?.[1] || ''
+    )
+  }
+  return info.match(/\[(.*)\]/)?.[1] || extractLang(info) || 'txt'
 }
 
 // markdown-it plugin for wrapping <pre> ... </pre>.

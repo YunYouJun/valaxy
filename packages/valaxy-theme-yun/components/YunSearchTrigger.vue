@@ -21,14 +21,22 @@ watch(Meta_K, (val) => {
     togglePopup()
 })
 
+function openSearch() {
+  open.value = true
+}
+
+function closeSearch() {
+  open.value = false
+}
+
 const YunAlgoliaSearch = isAlgolia.value
   ? defineAsyncComponent(() => import('./third/YunAlgoliaSearch.vue'))
   : () => null
 </script>
 
 <template>
-  <YunSearchBtn :open="open && !isAlgolia" @click="togglePopup" />
+  <YunSearchBtn :open="open && !isAlgolia" @open="openSearch" @close="closeSearch" />
 
-  <YunAlgoliaSearch v-if="isAlgolia" :open="open" @close="open = false" />
-  <YunFuseSearch v-else-if="isFuse" :open="open" @close="open = false" />
+  <YunAlgoliaSearch v-if="isAlgolia" :open="open" @close="closeSearch" />
+  <YunFuseSearch v-else-if="isFuse" :open="open" @close="closeSearch" />
 </template>
