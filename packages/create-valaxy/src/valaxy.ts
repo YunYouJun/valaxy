@@ -176,6 +176,7 @@ export async function init() {
       type: 'select',
       message: 'Choose the agent',
       choices: ['npm', 'yarn', 'pnpm'].map(i => ({ value: i, title: i })),
+      initial: 2,
     })
 
     if (!agent)
