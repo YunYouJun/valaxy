@@ -1,5 +1,5 @@
 import { join } from 'node:path'
-import { readFileSync, writeFileSync } from 'fs-extra'
+import { readFile, writeFile } from 'node:fs/promises'
 import type { ReleaseType } from 'semver'
 import semver from 'semver'
 import consola from 'consola'
@@ -17,10 +17,10 @@ export const templates = [
   'packages/create-valaxy/template-blog',
 ]
 
-export function updateTemplateVersions(version: string) {
+export async function updateTemplateVersions(version: string) {
   for (const template of templates) {
     const pkgPath = join(template, 'package.json')
-    const pkg = JSON.parse(readFileSync(pkgPath, 'utf-8'))
+    const pkg = JSON.parse(await readFile(pkgPath, 'utf-8'))
     const deps = ['dependencies', 'devDependencies']
     for (const name of deps) {
       if (!pkg[name])
@@ -33,15 +33,15 @@ export function updateTemplateVersions(version: string) {
         }
       }
     }
-    writeFileSync(pkgPath, `${JSON.stringify(pkg, null, 2)}\n`)
+    await writeFile(pkgPath, `${JSON.stringify(pkg, null, 2)}\n`)
   }
 }
 
-export function updateVersion(pkgPath: string, version: string): void {
-  const pkg = JSON.parse(readFileSync(pkgPath, 'utf-8'))
+export async function updateVersion(pkgPath: string, version: string) {
+  const pkg = JSON.parse(await readFile(pkgPath, 'utf-8'))
   consola.info(`${cyan(pkg.name)} ${gray(`v${pkg.version}`)} -> ${yellow(`v${version}`)}`)
   pkg.version = version
-  writeFileSync(pkgPath, `${JSON.stringify(pkg, null, 2)}\n`)
+  await writeFile(pkgPath, `${JSON.stringify(pkg, null, 2)}\n`)
 }
 
 export function getVersionChoices(currentVersion: string) {

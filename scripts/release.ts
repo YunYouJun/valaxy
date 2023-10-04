@@ -49,14 +49,17 @@ async function main() {
 
   console.log()
   consola.info('Updating packages version...')
-  updateVersion('package.json', targetVersion)
-  packages.forEach((name) => {
-    updateVersion(`packages/${name}/package.json`, targetVersion)
-  })
+  await updateVersion('package.json', targetVersion)
+
+  await Promise.all(
+    packages.map(name =>
+      updateVersion(`packages/${name}/package.json`, targetVersion),
+    ),
+  )
 
   console.log()
   consola.info('Updating template version...')
-  updateTemplateVersions(targetVersion)
+  await updateTemplateVersions(targetVersion)
 
   if (!isDryRun) {
     console.log()

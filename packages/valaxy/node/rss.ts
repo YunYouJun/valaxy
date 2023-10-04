@@ -1,4 +1,5 @@
 import { dirname, resolve } from 'node:path'
+import { readFile } from 'node:fs/promises'
 import { cyan, dim } from 'kolorist'
 
 import fg from 'fast-glob'
@@ -63,7 +64,7 @@ export async function build(options: ResolvedValaxyOptions) {
 
   const posts: Item[] = []
   for await (const i of files) {
-    const raw = fs.readFileSync(i, 'utf-8')
+    const raw = await readFile(i, 'utf-8')
 
     const { data, content, excerpt } = matter(raw, { excerpt_separator: EXCERPT_SEPARATOR })
 
