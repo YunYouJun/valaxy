@@ -70,7 +70,7 @@ const { icon, styles } = usePostProperty(props.post.type)
       </div>
 
       <div
-        class="post-tags inline-flex" items="center"
+        class="post-tags inline-flex" items="center" gap="1"
         flex="wrap 1" justify="end" m="1"
       >
         <template v-if="post.tags">

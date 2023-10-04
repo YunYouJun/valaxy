@@ -30,9 +30,9 @@ features:
 <div m="auto y-8" text="center" font="black">
 <h3 text="3xl">🧪</h3>
 
-```bash
-pnpm create valaxy
-```
+<code class="inline-flex text-xl! mt-4 px-4!">
+<span>pnpm</span> create <span text="purple">valaxy</span>
+</code>
 
 <span text="4xl">WORK IN PROGRESS</span>
 

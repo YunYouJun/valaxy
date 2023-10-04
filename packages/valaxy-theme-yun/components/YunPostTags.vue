@@ -8,7 +8,7 @@ defineProps<{
 
 <template>
   <router-link
-    v-for="tag, i in tags" :key="i" :to="{ path: '/tags/', query: { tag } }" ml-1
+    v-for="tag, i in tags" :key="i" :to="{ path: '/tags/', query: { tag } }"
     class="transition post-tag inline-flex-center text-xs border-$va-c-divider hover:(text-blue-500 border-blue-500)"
     px-2 h="7"
     rounded-full
