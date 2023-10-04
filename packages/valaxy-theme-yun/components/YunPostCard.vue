@@ -14,7 +14,7 @@ const { icon, styles } = usePostProperty(props.post.type)
 </script>
 
 <template>
-  <YunCard m="y-4 auto" :class="post.cover ? 'post-card-image' : 'post-card'" :style="styles as StyleValue">
+  <YunCard m="y-4 auto" :class="post.cover ? 'post-card-image' : 'post-card'" overflow="hidden" :style="styles as StyleValue">
     <div class="flex flex-1 of-hidden justify-start items-start post-card-info" w="full">
       <img
         v-if="post.cover"
@@ -25,7 +25,7 @@ const { icon, styles } = usePostProperty(props.post.type)
         class="cover object-cover object-center md:shadow"
       >
 
-      <div class="flex flex-col flex-1 items-center" :class="post.cover && 'max-h-54'" w="full">
+      <div class="flex flex-col items-center justify-center" :class="post.cover && 'h-54'" w="full">
         <AppLink
           class="post-title-link cursor-pointer"
           :to="post.path || ''"
@@ -38,9 +38,13 @@ const { icon, styles } = usePostProperty(props.post.type)
 
         <YunPostMeta :frontmatter="post" />
 
-        <div v-if="post.excerpt_type === 'text'" py="1" />
-        <div v-if="post.excerpt" class="markdown-body" text="left" w="full" p="x-6 lt-sm:4 y-1" v-html="post.excerpt" />
-        <div m="b-5" />
+        <div class="flex flex-grow" justify="center" items="center">
+          <div v-if="post.excerpt_type === 'text'" py="1" />
+          <div v-if="post.excerpt" class="markdown-body" op="80" text="left" w="full" p="x-6 lt-sm:4 y-2" v-html="post.excerpt" />
+          <div v-else m="b-5" />
+        </div>
+
+        <!-- <div m="b-5" /> -->
 
         <a
           v-if="post.url"
@@ -56,12 +60,19 @@ const { icon, styles } = usePostProperty(props.post.type)
     </div>
 
     <!-- always show -->
-    <div w="full" class="yun-card-actions flex justify-between" border="t" text="sm">
-      <div class="post-categories inline-flex" flex="wrap 1">
+    <div
+      w="full" class="yun-card-actions flex justify-between"
+      min-h="10"
+      border="t" text="sm"
+    >
+      <div class="post-categories inline-flex" flex="wrap 1" items="center">
         <YunPostCategories m="l-1" :categories="post.categories" />
       </div>
 
-      <div class="post-tags inline-flex" flex="wrap 1" justify="end" m="1">
+      <div
+        class="post-tags inline-flex" items="center"
+        flex="wrap 1" justify="end" m="1"
+      >
         <template v-if="post.tags">
           <YunPostTags :tags="post.tags" />
         </template>

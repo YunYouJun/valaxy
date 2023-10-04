@@ -46,6 +46,5 @@ const displayedPosts = computed(() =>
 <style>
 .yun-card-actions {
   border-top: 1px solid rgba(122, 122, 122, 0.15);
-  min-height: 2.5rem;
 }
 </style>
