@@ -1,7 +1,7 @@
 {
   "name": "create-valaxy",
   "type": "module",
-  "version": "0.15.2",
+  "version": "0.15.2-dev.0",
   "description": "Create Starter Template for Valaxy",
   "author": {
     "email": "me@yunyoujun.cn",
@@ -18,8 +18,13 @@
   "bin": {
     "create-valaxy": "bin/index.mjs"
   },
+  "files": [
+    "bin",
+    "dist",
+    "template-*"
+  ],
   "engines": {
-    "node": "^14.18.0 || >=16.0.0"
+    "node": "^18.0.0 || >=20.0.0"
   },
   "scripts": {
     "build": "unbuild",

@@ -16,6 +16,8 @@ const argv = minimist(process.argv.slice(2))
 const cwd = process.cwd()
 const defaultTargetDir = 'valaxy-blog'
 
+const __filename = fileURLToPath(import.meta.url)
+
 export async function init() {
   console.log()
   console.log(`  ${bold('🌌 Valaxy')}  ${blue(`v${version}`)}`)
@@ -106,8 +108,6 @@ export async function init() {
   const dirName = template.prefix ? template.prefix + projectName : projectName
   const root = path.join(cwd, dirName)
 
-  console.log(root, overwrite)
-
   if (overwrite)
     emptyDir(root)
   else if (!fs.existsSync(root))
@@ -118,16 +118,18 @@ export async function init() {
     await template.customInit({ themeName: projectName })
   }
   else {
-    const templateDir = path.resolve(fileURLToPath(new URL('.', import.meta.url)), '..', `template-${template.name}`)
-    const write = (filename: string, content?: string) => {
-      const targetPath = renameFiles[filename]
-        ? path.join(root, renameFiles[filename])
-        : path.join(root, filename)
+    const templateDir = path.resolve(
+      __filename,
+      '../..',
+      `template-${template.name}`,
+    )
 
+    const write = (file: string, content?: string) => {
+      const targetPath = path.join(root, renameFiles[file] ?? file)
       if (content)
         fs.writeFileSync(targetPath, content)
       else
-        copy(path.join(templateDir, filename), targetPath)
+        copy(path.join(templateDir, file), targetPath)
     }
 
     const files = fs.readdirSync(templateDir)
@@ -135,10 +137,13 @@ export async function init() {
       write(file)
 
     // write pkg name & version
-    const pkg = await import(path.join(templateDir, 'package.json'))
+    // const pkg = await import(path.join(templateDir, 'package.json'))
+    const pkg = JSON.parse(
+      fs.readFileSync(path.join(templateDir, `package.json`), 'utf-8'),
+    )
     pkg.name = projectName || getProjectName()
 
-    write('package.json', JSON.stringify(pkg, null, 2))
+    write('package.json', `${JSON.stringify(pkg, null, 2)}\n`)
   }
 
   console.log(`  ${dim('📁')} ${dim(root)}`)

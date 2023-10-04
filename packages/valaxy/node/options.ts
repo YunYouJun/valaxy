@@ -155,7 +155,6 @@ export async function resolveOptions(
 ) {
   const pkgRoot = dirname(resolveImportPath('valaxy/package.json', true))
   const clientRoot = resolve(pkgRoot, 'client')
-  // slash for windows
   const userRoot = slash(resolve(options.userRoot || process.cwd()))
 
   let { config: userValaxyConfig, configFile, theme } = await resolveValaxyConfig(options)
