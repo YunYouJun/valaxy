@@ -1,13 +1,13 @@
 <script lang="ts" setup>
-import { useThemeConfig } from '../composables/config'
+import { useI18n } from 'vue-i18n'
 
-const themeConfig = useThemeConfig()
+const { t } = useI18n()
 </script>
 
 <template>
   <div class="pr-nav-screen-appearance" flex="~ 1">
     <p class="text">
-      {{ themeConfig.darkModeSwitchLabel || 'Appearance' }}
+      {{ t('button.appearance') }}
     </p>
     <PressSwitchAppearance />
   </div>

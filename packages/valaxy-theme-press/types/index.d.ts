@@ -56,12 +56,6 @@ export namespace PressTheme {
 
     socialLinks: SocialLink[]
 
-    // label
-    /**
-     * Toggle dark label
-     */
-    darkModeSwitchLabel?: string
-
     lastUpdatedText?: string
   }
 }

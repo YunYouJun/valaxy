@@ -1,6 +1,8 @@
 <script lang="ts" setup>
 import { computed, ref } from 'vue'
 
+import { useI18n } from 'vue-i18n'
+
 const props = defineProps<{
   text: string
   items: any[]
@@ -11,6 +13,8 @@ const isOpen = ref(false)
 const groupId = computed(() =>
   `NavScreenGroup-${props.text.replace(' ', '-').toLowerCase()}`,
 )
+
+const { t } = useI18n()
 
 function toggle() {
   isOpen.value = !isOpen.value
@@ -25,7 +29,7 @@ function toggle() {
       :aria-expanded="isOpen"
       @click="toggle"
     >
-      <span class="button-text">{{ text }}</span>
+      <span class="button-text">{{ t(text) }}</span>
       <div i-ri-add-line class="button-icon" />
     </button>
 

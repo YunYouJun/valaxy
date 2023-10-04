@@ -23,6 +23,7 @@ const app = useAppStore()
     p="l-0 xl:l-8" text="center"
     z="$"
     :class="app.isRightSidebarOpen && 'open'"
+    bg="$va-c-bg"
   >
     <div class="aside-curtain" />
     <div class="aside-container lt-xl:fixed" flex="~ col">

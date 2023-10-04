@@ -1,5 +1,6 @@
 <script lang="ts" setup>
 import { useRoute } from 'vue-router'
+import { useI18n } from 'vue-i18n'
 import type { NavItemLink } from '../types'
 
 defineProps<{
@@ -7,6 +8,8 @@ defineProps<{
 }>()
 
 const route = useRoute()
+
+const { t } = useI18n()
 </script>
 
 <template>
@@ -19,7 +22,7 @@ const route = useRoute()
     rel="noopener"
     show-external-icon
   >
-    {{ item.text }}
+    {{ t(item.text) }}
   </AppLink>
 </template>
 

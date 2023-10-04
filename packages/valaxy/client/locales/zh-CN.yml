@@ -6,6 +6,7 @@ button:
   toggle_light: 切换亮色模式
   toggle_dark: 切换深色模式
   toggle_langs: 切换语言
+  appearance: 外观
 intro:
   desc: 主题 Yun
   hi: 你好，{name}
@@ -19,6 +20,7 @@ title:
   gallery: 图片库
 
 menu:
+  title: 菜单
   home: 首页
   archives: 归档
   categories: 分类
@@ -29,6 +31,7 @@ menu:
 sidebar:
   overview: 站点概览
   toc: 文章目录
+  return_top: 返回顶部
 
 post:
   decrypt: 解密

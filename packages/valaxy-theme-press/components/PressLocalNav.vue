@@ -1,6 +1,8 @@
 <script lang="ts" setup>
 import { useSidebar } from 'valaxy'
 
+import { useI18n } from 'vue-i18n'
+
 defineProps<{
   open: boolean
 }>()
@@ -14,6 +16,8 @@ const { hasSidebar } = useSidebar()
 function scrollToTop() {
   window.scrollTo({ top: 0, left: 0, behavior: 'smooth' })
 }
+
+const { t } = useI18n()
 </script>
 
 <template>
@@ -25,11 +29,13 @@ function scrollToTop() {
       @click="$emit('openMenu')"
     >
       <div i-ri-align-left class="menu-icon" />
-      <span class="menu-text">Menu</span>
+      <span class="menu-text">
+        {{ t('menu.title') }}
+      </span>
     </button>
 
     <a class="top-link" href="#" @click="scrollToTop">
-      Return to top
+      {{ t('sidebar.return_top') }}
     </a>
   </div>
 </template>

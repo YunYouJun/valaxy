@@ -6,6 +6,7 @@ button:
   toggle_light: Switch to light mode
   toggle_dark: Switch to dark mode
   toggle_langs: Change languages
+  appearance: Appearance
 intro:
   desc: Theme Yun | Valaxy
   hi: Hi, {name}!
@@ -19,6 +20,7 @@ title:
   gallery: Gallery
 
 menu:
+  title: Menu
   home: Home
   archives: Archives
   categories: Categories
@@ -29,6 +31,7 @@ menu:
 sidebar:
   overview: Overview
   toc: Table of Contents
+  return_top: Return to top
 
 post:
   decrypt: DECRYPT
