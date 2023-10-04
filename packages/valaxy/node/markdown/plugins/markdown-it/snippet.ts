@@ -153,6 +153,7 @@ export function snippetPlugin(md: MarkdownIt, srcDir: string) {
   md.renderer.rules.fence = (...args) => {
     const [tokens, idx, , { includes }] = args
     const token = tokens[idx]
+    // @ts-expect-error - hack
     const [src, regionName] = token.src ?? []
 
     if (!src)

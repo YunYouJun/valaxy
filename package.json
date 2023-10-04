@@ -34,6 +34,7 @@
     "dev": "pnpm -r --filter=./packages/** --parallel run dev",
     "docs": "pnpm -C docs run dev",
     "docs:dev": "pnpm -C docs run dev",
+    "docs:build": "pnpm -C docs run build",
     "docs:vitepress": "pnpm -C docs run vitepress:dev",
     "lint": "eslint .",
     "prepublishOnly": "npm run build",
