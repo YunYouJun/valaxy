@@ -1,20 +1,15 @@
 ---
-title_zh-CN: Markdown 扩展
-title: Markdown Extensions
+title: Markdown Extensions Test
+title_zh: Markdown 扩展测试
 categories:
-  - guide
-end: false
+  - Test
+  - Markdown
 ---
 
-::: info
-与 `Hexo` 不同，`Valaxy` 在框架层面实现了一些 Markdown 扩展（如 Container、数学公式）等，而无需主题开发者再次实现。
+::: tip
 
-这与 `VitePress` 许多功能类似，`Valaxy` 从 `VitePress` 中借鉴了许多，并复用了 [mdit-vue](https://github.com/mdit-vue/mdit-vue) 的插件。
-但也存在一些不同之处，此前当 `Valaxy` 实现数学公式时 `VitePress` 尚未支持，目前 `Valaxy` 默认的数学公式基于 KaTeX，而 `VitePress` 基于 MathJax。
+More info see [Markdown Extensions](https://valaxy.site/guide/markdown).
 
-> KaTeX 相对于 MathJax 有更快的渲染速度，MathJax 则拥有更多的功能。
-
-当然，你仍然可以在 Valaxy 中通过添加 MarkdownIt 插件来实现更多功能。
 :::
 
 ## Emoji :tada:
@@ -252,7 +247,6 @@ You can also specify the language inside the braces (`{}`) like this:
 
 This is helpful if source language cannot be inferred from your file extension.
 
-
 ## Code Groups
 
 You can group multiple code blocks like this:
@@ -340,7 +334,6 @@ You can also [import snippets](#import-code-snippets) in code groups:
 <<< @/snippets/snippet-with-region.js#snippet{1,2 ts:line-numbers} [snippet with region]
 
 :::
-
 
 ## Container
 

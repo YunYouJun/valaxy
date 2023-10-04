@@ -10,6 +10,7 @@ $c-primary: #0078e7 !default;
   )
 );
 
+@use './css-vars/borders.css' as *;
 @use './css-vars/palette.css' as *;
 @use './css-vars/function.css' as *;
 
@@ -73,7 +74,16 @@ $c-primary: #0078e7 !default;
   --va-code-lang-color: var(--va-c-text-3);
 
   --va-code-line-highlight-color: var(--va-c-default-soft);
-  --va-code-line-number-color: var(--va-c-text-dark-3);
+  --va-code-line-number-color: var(--va-c-text-3);
+
+  --va-code-line-diff-add-color: var(--va-c-green-soft);
+  --va-code-line-diff-add-symbol-color: var(--va-c-green-1);
+
+  --va-code-line-diff-remove-color: var(--va-c-red-soft);
+  --va-code-line-diff-remove-symbol-color: var(--va-c-red-1);
+
+  --va-code-line-warning-color: var(--va-c-yellow-soft);
+  --va-code-line-error-color: var(--va-c-red-soft);
 
   // copy
   --va-code-copy-code-border-color: var(--va-c-divider);
@@ -82,6 +92,14 @@ $c-primary: #0078e7 !default;
   --va-code-copy-code-hover-bg: var(--va-c-bg);
   --va-code-copy-code-active-text: var(--va-c-text-2);
   --va-code-copy-copied-text-content: 'Copied';
+
+  // code-group
+  --va-code-tab-divider: var(--va-code-block-divider-color);
+  --va-code-tab-text-color: var(--va-c-text-2);
+  --va-code-tab-bg: var(--va-code-block-bg);
+  --va-code-tab-hover-text-color: var(--va-c-text-1);
+  --va-code-tab-active-text-color: var(--va-c-text-1);
+  --va-code-tab-active-bar-color: var(--va-c-brand-1);
 }
 
 .dark {

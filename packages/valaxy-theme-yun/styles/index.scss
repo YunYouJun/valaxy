@@ -9,4 +9,5 @@
 
 // override the default style of star-markdown-css
 @use "./common/markdown.scss" as *;
-@use './components/custom-block.scss' as *;
+@use 'valaxy/client/styles/components/code-group.scss' as *;
+@use 'valaxy/client/styles/components/custom-block.scss' as *;

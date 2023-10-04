@@ -65,3 +65,31 @@
     background-color: var(--va-c-text);
   }
 }
+
+.markdown-body {
+  div[class*='language-'].line-numbers-mode {
+    /*rtl:ignore*/
+    padding-left: 32px;
+  }
+
+  .line-numbers-wrapper {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    /*rtl:ignore*/
+    left: 0;
+    z-index: 3;
+    /*rtl:ignore*/
+    border-right: 1px solid var(--va-code-block-divider-color);
+    padding-top: 20px;
+    width: 32px;
+    text-align: center;
+    font-family: var(--va-font-family-mono);
+    line-height: var(--va-code-line-height);
+    font-size: var(--va-code-font-size);
+    color: var(--va-code-line-number-color);
+    transition:
+      border-color 0.5s,
+      color 0.5s;
+  }
+}

@@ -41,64 +41,64 @@ html:not(.dark) .vp-code-dark {
     position: relative;
     background-color: var(--va-code-block-bg);
     overflow-x: auto;
-
-    code {
-      padding: 0 24px;
-      line-height: var(--va-code-line-height);
-      font-size: var(--va-code-font-size);
-      color: var(--va-code-block-color);
-      transition: color 0.5s;
-      width: fit-content;
-
-      text-align: left;
-      white-space: pre;
-      word-spacing: normal;
-      word-break: normal;
-      word-wrap: normal;
-      -moz-tab-size: 4;
-      -o-tab-size: 4;
-      tab-size: 4;
-      -webkit-hyphens: none;
-      -moz-hyphens: none;
-      -ms-hyphens: none;
-      hyphens: none;
-    }
-
-    pre {
-      position: relative;
-      z-index: 1;
-      margin: 0;
-      padding: 20px 0;
-      background: transparent;
-      overflow-x: auto;
-
-      // expand
-      code {
-        display: block;
-      }
-    }
   }
 }
 
-// marker
 .markdown-body {
-  .highlight-lines {
-    position: absolute;
-    top: 0;
-    bottom: 0;
-    left: 0;
-    padding: 20px 0;
-    width: 100%;
-    line-height: var(--va-code-line-height);
-    font-family: var(--va-font-mono);
-    font-size: var(--va-code-font-size);
-    user-select: none;
-    overflow: hidden;
+  [class*='language-'] pre,
+  [class*='language-'] code {
+    /*rtl:ignore*/
+    direction: ltr;
+    /*rtl:ignore*/
+    text-align: left;
+    white-space: pre;
+    word-spacing: normal;
+    word-break: normal;
+    word-wrap: normal;
+    -moz-tab-size: 4;
+    -o-tab-size: 4;
+    tab-size: 4;
+    -webkit-hyphens: none;
+    -moz-hyphens: none;
+    -ms-hyphens: none;
+    hyphens: none;
+  }
 
-    .highlighted {
-      background-color: var(--va-code-line-highlight-color);
-      transition: background-color 0.5s;
-    }
+  [class*='language-'] pre {
+    position: relative;
+    z-index: 1;
+    margin: 0;
+    padding: 20px 0;
+    background: transparent;
+    overflow-x: auto;
+  }
+
+  [class*='language-'] code {
+    display: block;
+    padding: 0 24px;
+    width: fit-content;
+    min-width: 100%;
+    line-height: var(--va-code-line-height);
+    font-size: var(--va-code-font-size);
+    color: var(--va-code-block-color);
+    transition: color 0.5s;
+  }
+
+  [class*='language-'] code .highlighted {
+    background-color: var(--va-code-line-highlight-color);
+    transition: background-color 0.5s;
+    margin: 0 -24px;
+    padding: 0 24px;
+    width: calc(100% + 2 * 24px);
+    display: inline-block;
+  }
+
+  [class*='language-'] code .highlighted.error {
+    background-color: var(--va-code-line-error-color);
+  }
+
+  [class*='language-'] code .highlighted.warning {
+    background-color: var(--va-code-line-warning-color);
   }
 
   // copy
