@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { onMounted, ref } from 'vue'
+import { onMounted, onUpdated, ref } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { onContentUpdated, runContentUpdated, useAplayer, useCodePen, useCopyCode, useMediumZoom, wrapTable } from 'valaxy'
 import type { Post } from 'valaxy'
@@ -19,6 +19,10 @@ onContentUpdated(() => {
 })
 
 onMounted(() => {
+  runContentUpdated()
+})
+
+onUpdated(() => {
   runContentUpdated()
 })
 

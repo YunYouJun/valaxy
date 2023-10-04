@@ -149,6 +149,42 @@ export interface ValaxyConfig {
 
 ## 开始编写
 
+### App.vue
+
+> 你的入口文件
+
+譬如我想要为主题添加一个全局的 Loading 页面。
+
+你可以从 valaxy 导入全局状态 `useAppStore`，记录 `showLoading` 来实现。
+
+> 你也可以使用你自己的全局状态管理。参见 [状态管理](#状态管理)。
+
+```vue
+<!-- valaxy-theme-yun/App.vue -->
+<script lang="ts" setup>
+import { useHead } from '@vueuse/head'
+import { useAppStore } from 'valaxy'
+import { onMounted } from 'vue'
+
+// ...
+
+const app = useAppStore()
+onMounted(() => {
+  app.showLoading = false
+})
+</script>
+
+<template>
+  <!-- ... -->
+  <!-- 添加 Loading 组件，components/YunLoading.vue -->
+  <!-- https://github.com/YunYouJun/valaxy/blob/main/packages/valaxy-theme-yun/components/YunLoading.vue -->
+  <Transition name="fade">
+    <YunLoading v-if="app.showLoading" />
+  </Transition>
+</template>
+```
+
+
 ### ValaxyMain
 
 你需要自定义一个 `ValaxyMain` 组件来决定主题的文章渲染部分。
@@ -178,6 +214,8 @@ defineProps<{
 ```
 
 > 示例可参考 [ValaxyMain.vue | valaxy-theme-yun](https://github.com/YunYouJun/valaxy/blob/main/packages/valaxy-theme-yun/components/ValaxyMain.vue)
+
+
 
 ## 样式
 
@@ -258,6 +296,32 @@ const fm = useFrontmatter()
 <template>
   <h1>{{ fm.title }}</h1>
 </template>
+```
+
+#### 全局状态管理
+
+你可以借助 [Pinia](https://pinia.vuejs.org/) （Valaxy 内置）建立自己的全局状态，并在随后使用它，
+
+```ts
+// stores/app.ts
+import { acceptHMRUpdate, defineStore } from 'pinia'
+
+export const useYunAppStore = defineStore('yun-app', () => {
+  // global cache for yun
+
+  return {}
+})
+
+if (import.meta.hot)
+  import.meta.hot.accept(acceptHMRUpdate(useYunAppStore, import.meta.hot))
+```
+
+```ts
+// where you want to use
+// components/YunExample.vue
+import { useYunAppStore } from '../stores/app'
+
+const yun = useYunAppStore()
 ```
 
 ### 目录
