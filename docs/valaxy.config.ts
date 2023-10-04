@@ -41,52 +41,52 @@ export default defineValaxyConfig<PressTheme.Config>({
     ],
     nav: [
       {
-        text: 'menu.guide',
+        text: 'nav.guide',
         items: [
           {
-            text: 'menu.getting-started',
+            text: 'nav.getting-started',
             link: '/guide/getting-started',
           },
           {
-            text: 'menu.migrate-from-other',
+            text: 'nav.migrate-from-other',
             link: '/migration/',
           },
         ],
       },
       {
-        text: 'menu.theme',
+        text: 'nav.theme',
         items: [
           {
-            text: 'menu.use-a-theme',
+            text: 'nav.use-a-theme',
             link: '/themes/use',
           },
           {
-            text: 'menu.write-a-theme',
+            text: 'nav.write-a-theme',
             link: '/themes/write',
           },
           {
-            text: 'menu.themes-gallery',
+            text: 'nav.themes-gallery',
             link: '/themes/gallery',
           },
         ],
       },
       {
-        text: 'menu.addon',
+        text: 'nav.addon',
         items: [
           {
-            text: 'menu.why-need-addons',
+            text: 'nav.why-need-addons',
             link: '/addons',
           },
           {
-            text: 'menu.use-an-addon',
+            text: 'nav.use-an-addon',
             link: '/addons/use',
           },
           {
-            text: 'menu.write-an-addon',
+            text: 'nav.write-an-addon',
             link: '/addons/write',
           },
           {
-            text: 'menu.addons-gallery',
+            text: 'nav.addons-gallery',
             link: '/addons/gallery',
           },
         ],

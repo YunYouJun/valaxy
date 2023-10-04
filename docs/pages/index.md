@@ -9,10 +9,10 @@ hero:
   tagline: Simple, powerful, and performant. Meet the modern BLOG framework you've always wanted.
   actions:
     - theme: brand
-      text: button.get-started
+      text: hero.actions.get-started
       link: /guide/getting-started
     - theme: alt
-      text: button.view-github
+      text: hero.actions.view-github
       link: https://github.com/YunYouJun/valaxy
 
 # todo, rewrite with valaxy

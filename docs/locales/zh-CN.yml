@@ -1,11 +1,7 @@
 gallery:
   tip: 搜索
 
-button:
-  get-started: 快速上手
-  view-github: 查看 Github
-
-menu:
+nav:
   guide: 指南
   theme: 主题
   addon: 插件
@@ -38,3 +34,8 @@ banner:
   static: 静态
   blog: 博客
   framework: 框架
+
+hero:
+  actions:
+    get-started: 快速上手
+    view-github: 查看 Github

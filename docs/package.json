@@ -9,9 +9,9 @@
     "dev": "nodemon -w \"../packages/valaxy/dist/*.mjs\" --exec \"valaxy .\"",
     "rss": "valaxy rss",
     "serve": "vite preview",
-    "docs:dev": "vitepress dev",
-    "docs:build": "vitepress build",
-    "docs:preview": "vitepress preview"
+    "vitepress:dev": "vitepress dev",
+    "vitepress:build": "vitepress build",
+    "vitepress:preview": "vitepress preview"
   },
   "dependencies": {
     "valaxy": "link:../packages/valaxy",

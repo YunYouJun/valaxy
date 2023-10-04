@@ -1,11 +1,7 @@
 gallery:
   tip: search
 
-button:
-  get-started: Get Started
-  view-github: View Github
-
-menu:
+nav:
   guide: Guide
   theme: Themes
   addon: Addons
@@ -38,3 +34,8 @@ banner:
   static: Static
   blog: Blog
   framework: Framework
+
+hero:
+  actions:
+    get-started: Get Started
+    view-github: View Github
