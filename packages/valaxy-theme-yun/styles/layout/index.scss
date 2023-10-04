@@ -6,7 +6,5 @@ html {
 }
 
 .yun-main {
-  padding-left: var(--va-sidebar-width);
   transition: padding-left var(--va-transition-duration);
-  box-sizing: border-box;
 }

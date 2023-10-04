@@ -6,7 +6,7 @@
  */
 
 import type { CSSProperties } from 'vue'
-import { computed } from 'vue'
+import { computed, ref } from 'vue'
 import { random } from 'valaxy'
 import { useThemeConfig } from '../composables'
 
@@ -28,12 +28,19 @@ const bannerStyles = computed<CSSProperties>(() => {
     '--banner-line-height': `calc(var(--banner-height, 100vh) / 2 - ${lineH.value}rem)`,
   }
 })
+
+const playExtendLine = ref(true)
 </script>
 
 <template>
-  <div id="banner" :style="bannerStyles">
+  <div id="yun-banner" :style="bannerStyles">
     <div class="banner-line-container">
-      <div class="banner-line vertical-line-top" />
+      <div
+        class="banner-line vertical-line-top"
+        :class="{
+          active: playExtendLine,
+        }"
+      />
     </div>
     <div class="banner-char-container">
       <div v-for="c, i in themeConfig.banner.title" :key="i" class="char-box">
@@ -49,7 +56,12 @@ const bannerStyles = computed<CSSProperties>(() => {
       </div>
     </div>
     <div class="banner-line-container bottom">
-      <div class="banner-line vertical-line-bottom" />
+      <div
+        class="banner-line vertical-line-bottom"
+        :class="{
+          active: playExtendLine,
+        }"
+      />
     </div>
     <YunCloud v-if="themeConfig.banner.cloud?.enable" />
     <YunGoDown />

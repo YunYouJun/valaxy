@@ -74,7 +74,7 @@ onContentUpdated(() => {
 </script>
 
 <template>
-  <main class="yun-main lt-md:ml-0" flex="~">
+  <main class="yun-main md:pl-$va-sidebar-width lt-md:ml-0" flex="~">
     <div w="full" flex="~">
       <slot name="main">
         <div class="content" :class="!aside && 'no-aside'" flex="~ col grow" w="full" p="l-4 lt-md:0">

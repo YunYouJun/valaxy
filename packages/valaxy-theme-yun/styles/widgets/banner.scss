@@ -1,7 +1,7 @@
 $banner-animation-duration: 1s;
 $char-animation-duration: 0.4s;
 
-#banner {
+#yun-banner {
   --banner-line-height: 0;
   --line-animation-duration: 0.4s;
 
@@ -26,6 +26,7 @@ $char-animation-duration: 0.4s;
   flex-direction: column;
   align-items: center;
   height: var(--banner-line-height);
+  transition: height 2s;
 
   &.bottom {
     justify-content: end;
@@ -43,10 +44,19 @@ $char-animation-duration: 0.4s;
     animation-duration: var(--line-animation-duration);
     animation-fill-mode: forwards;
     animation-timing-function: ease-in;
+    animation-iteration-count: 1;
   }
 
   &-bottom {
     flex-direction: column-reverse;
+  }
+
+  &.active {
+    animation-name: extend-line;
+    animation-duration: var(--line-animation-duration);
+    animation-fill-mode: forwards;
+    animation-timing-function: ease-in;
+    animation-iteration-count: 1;
   }
 }
 

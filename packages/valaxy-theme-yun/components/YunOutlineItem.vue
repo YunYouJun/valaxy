@@ -34,7 +34,7 @@ const { locale } = useI18n()
 
       &:hover,
       &.active {
-        color: var(--va-c-brand);
+        color: var(--va-c-primary-lighter);
         transition: color 0.25s;
       }
 

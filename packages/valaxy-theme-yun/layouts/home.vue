@@ -15,7 +15,7 @@ const isPage = computed(() => route.path.startsWith('/page'))
 <template>
   <main
     class="yun-main flex-center"
-    :class="(isHome && !app.isSidebarOpen) && 'pl-0'" flex="~ col" w="full"
+    :class="(isHome && !app.isSidebarOpen) ? 'pl-0' : 'md:pl-$va-sidebar-width'" flex="~ col" w="full"
   >
     <YunSidebar :show-hamburger="true" />
 
