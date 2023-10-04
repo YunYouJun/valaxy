@@ -9,8 +9,6 @@ export const packages = [
   'valaxy',
   'valaxy-theme-yun',
   'create-valaxy',
-  // todo
-  // 'create-valaxy-theme'
 ]
 
 export const templates = [
