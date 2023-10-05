@@ -89,3 +89,6 @@ features:
   electron:
     title: Electron - Desktop Applications
     details: In the future, we will also release a client application for non-developers, making development, deployment, and publishing more convenient. Stay tuned...
+
+tooltip:
+  edit_this_page: Edit this page on GitHub

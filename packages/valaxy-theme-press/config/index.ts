@@ -15,7 +15,6 @@ export const defaultThemeConfig: ThemeConfig = {
 
   editLink: {
     pattern: 'https://github.com/YunYouJun/valaxy/edit/main/docs/:path',
-    text: 'Edit this page on GitHub',
   },
 
   socialLinks: [

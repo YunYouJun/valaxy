@@ -49,8 +49,6 @@ export namespace PressTheme {
     footer: Footer
 
     socialLinks: SocialLink[]
-
-    lastUpdatedText?: string
   }
 }
 

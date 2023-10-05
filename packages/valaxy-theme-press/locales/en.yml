@@ -2,3 +2,6 @@ valaxy_theme_press: Valaxy Theme Press
 
 theme:
   outlineTitle: On this page
+
+tooltip:
+  edit_this_page: Edit this page

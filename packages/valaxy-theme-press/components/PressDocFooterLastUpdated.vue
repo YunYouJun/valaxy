@@ -1,10 +1,9 @@
 <script setup lang="ts">
 import { computed, onMounted, ref, watchEffect } from 'vue'
-import { useData, useThemeConfig } from 'valaxy'
-import type { PressTheme } from '../types'
+import { useData } from 'valaxy'
+import { useI18n } from 'vue-i18n'
 
 const data = useData()
-const themeConfig = useThemeConfig<PressTheme.Config>()
 
 const date = computed(() => new Date(data.lastUpdated!))
 const isoDatetime = computed(() => date.value.toISOString())
@@ -18,11 +17,12 @@ onMounted(() => {
     datetime.value = date.value.toLocaleString(window.navigator.language)
   })
 })
+const { t } = useI18n()
 </script>
 
 <template>
   <p class="press-lastUpdated">
-    {{ themeConfig.lastUpdatedText ?? 'Last updated' }}:
+    {{ t('tooltip.last_updated') }}:
     <time :datetime="isoDatetime">{{ datetime }}</time>
   </p>
 </template>

@@ -51,6 +51,7 @@ function generateStyles(roots: string[], options: ResolvedValaxyOptions) {
 
 function generateLocales(roots: string[]) {
   const imports: string[] = [
+    'import { defu } from "defu"',
     'const messages = { "zh-CN": {}, en: {} }',
   ]
   const languages = ['zh-CN', 'en']
@@ -61,7 +62,8 @@ function generateLocales(roots: string[]) {
       if (fs.existsSync(langYml) && fs.readFileSync(langYml, 'utf-8')) {
         const varName = lang.replace('-', '') + i
         imports.unshift(`import ${varName} from "${toAtFS(langYml)}"`)
-        imports.push(`Object.assign(messages['${lang}'], ${varName})`)
+        // pre override next
+        imports.push(`messages['${lang}'] = defu(${varName}, messages['${lang}'])`)
       }
     })
   })

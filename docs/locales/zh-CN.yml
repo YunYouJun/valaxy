@@ -89,3 +89,6 @@ features:
   electron:
     title: Electron - 客户端应用
     details: 在未来我们还将推出面向非开发者的客户端，让你从开发、部署到发布更加便捷，敬请期待……
+
+tooltip:
+  edit_this_page: 在 GitHub 上编辑此页

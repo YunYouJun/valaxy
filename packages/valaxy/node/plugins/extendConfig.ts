@@ -18,6 +18,8 @@ const clientDeps = [
   '@vueuse/integrations/useFuse',
   'body-scroll-lock',
 
+  'defu',
+
   'dayjs',
   'dayjs/locale/zh-cn',
   'dayjs/plugin/relativeTime',

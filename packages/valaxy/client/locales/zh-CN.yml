@@ -106,3 +106,6 @@ time:
   hour: 1 小时 | {count} 小时
   minute: 1 分 | {count} 分
   second: 1 秒 | {count} 秒
+
+tooltip:
+  last_updated: 最后更新于

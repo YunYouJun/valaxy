@@ -6,9 +6,10 @@ import consola from 'consola'
 import { cyan, gray, yellow } from 'kolorist'
 
 export const packages = [
-  'valaxy',
-  'valaxy-theme-yun',
   'create-valaxy',
+  'valaxy',
+  'valaxy-theme-press',
+  'valaxy-theme-yun',
 ]
 
 export const templates = [

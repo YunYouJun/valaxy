@@ -107,3 +107,6 @@ time:
   hour: 1 Hour | {count} Hours
   minute: 1 Minute | {count} Minutes
   second: 1 Second | {count} Seconds
+
+tooltip:
+  last_updated: Last updated
