@@ -33,28 +33,30 @@ function getTitle(post: Post | any) {
     p="t-2"
     w="full" border="t t-$pr-c-divider-light"
     class="category-list-item inline-flex items-center justify-between"
+    tabindex="0"
   >
     <span class="category-name" font="bold" m="l-1" @click="displayCategory ? displayCategory(category.name) : null">
       {{ category.name === 'Uncategorized' ? t('category.uncategorized') : t(`category.${category.name}`) }}
       <!-- <sup font="normal">[{{ category.total }}]</sup> -->
     </span>
-    <span class="folder-action inline-flex cursor-pointer" opacity="50" @click="collapsable = !collapsable">
+    <button
+      tabindex="0" role="button" aria-label="toggle section"
+      class="folder-action inline-flex cursor-pointer" opacity="50" @click="collapsable = !collapsable"
+    >
       <div v-if="collapsable" i-ri-folder-add-line />
       <div v-else i-ri-folder-reduce-line />
-    </span>
+    </button>
   </li>
 
-  <template v-if="!collapsable">
-    <ul>
-      <li v-for="categoryItem, i in category.children" :key="i" class="post-list-item">
-        <template v-if="!isCategoryList(categoryItem)">
-          <router-link v-if="categoryItem.title" :to="categoryItem.path || ''" class="inline-flex items-center" active-class="active">
-            <span m="l-1" text="sm">{{ getTitle(categoryItem) }}</span>
-          </router-link>
-        </template>
+  <ul v-if="!collapsable">
+    <li v-for="categoryItem, i in category.children" :key="i" class="post-list-item">
+      <template v-if="!isCategoryList(categoryItem)">
+        <router-link v-if="categoryItem.title" :to="categoryItem.path || ''" class="inline-flex items-center" active-class="active">
+          <span m="l-1" text="sm">{{ getTitle(categoryItem) }}</span>
+        </router-link>
+      </template>
 
-        <PressCategory v-else :category="categoryItem" :display-category="displayCategory" :collapsable="collapsable" />
-      </li>
-    </ul>
-  </template>
+      <PressCategory v-else :category="categoryItem" :display-category="displayCategory" :collapsable="collapsable" />
+    </li>
+  </ul>
 </template>
