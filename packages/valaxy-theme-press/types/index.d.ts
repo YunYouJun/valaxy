@@ -33,12 +33,6 @@ export namespace PressTheme {
   export interface Config {
     logo: string
 
-    /**
-     * toc title
-     * @default 'On this page'
-     */
-    outlineTitle: string
-
     colors: {
       /**
        * primary color

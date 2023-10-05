@@ -8,8 +8,8 @@ const app = useAppStore()
 
 <template>
   <button
-    class="toc-btn shadow-lg fixed press-icon-btn z-99 xl:hidden!"
-    right="5" bottom="8"
+    class="toc-btn shadow-lg fixed press-icon-btn z-99 lt-md:hidden! xl:hidden!"
+    right="5" bottom="24"
     @click="app.toggleRightSidebar()"
   >
     <div i-ri-file-list-line />

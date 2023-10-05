@@ -12,7 +12,7 @@ const { locale } = useI18n()
 </script>
 
 <template>
-  <ul :class="root ? 'root' : 'nested'">
+  <ul :class="root ? 'root' : 'nested'" class="va-toc css-i18n-toc">
     <li v-for="{ children, link, title, lang } in headers" :key="link" class="va-toc-item" :lang="lang || locale">
       <a class="outline-link" :href="link" @click="onClick">{{ title }}</a>
       <template v-if="children?.length">
@@ -23,26 +23,33 @@ const { locale } = useI18n()
 </template>
 
 <style lang="scss" scoped>
-.va-toc {
-  .va-toc-item {
-    .outline-link {
-      color: var(--va-c-text-light);
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
-      transition: color 0.5s;
+.root {
+  position: relative;
+  z-index: 1;
+}
 
-      &:hover,
-      &.active {
-        color: var(--va-c-brand);
-        transition: color 0.25s;
-      }
+.nested {
+  padding-left: 16px;
+}
 
-    }
+.outline-link {
+  display: block;
+  line-height: 28px;
+  color: var(--va-c-text-light);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  transition: color 0.5s;
+  font-weight: 400;
 
-    .nested {
-      padding-left: 0.8rem;
-    }
+  &:hover,
+  &.active {
+    color: var(--va-c-brand);
+    transition: color 0.25s;
+  }
+
+  .nested {
+    padding-left: 13px;
   }
 }
 </style>

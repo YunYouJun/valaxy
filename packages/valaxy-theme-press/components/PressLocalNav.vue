@@ -1,7 +1,8 @@
 <script lang="ts" setup>
-import { useSidebar } from 'valaxy'
+import { useOutline, useSidebar } from 'valaxy'
 
 import { useI18n } from 'vue-i18n'
+import { onMounted, ref } from 'vue'
 
 defineProps<{
   open: boolean
@@ -13,11 +14,18 @@ defineEmits<{
 
 const { hasSidebar } = useSidebar()
 
-function scrollToTop() {
-  window.scrollTo({ top: 0, left: 0, behavior: 'smooth' })
-}
-
 const { t } = useI18n()
+
+const navHeight = ref(0)
+onMounted(() => {
+  navHeight.value = Number.parseInt(
+    getComputedStyle(document.documentElement).getPropertyValue(
+      '--pr-nav-height',
+    ),
+  )
+})
+
+const { headers } = useOutline()
 </script>
 
 <template>
@@ -34,9 +42,7 @@ const { t } = useI18n()
       </span>
     </button>
 
-    <a class="top-link" href="#" @click="scrollToTop">
-      {{ t('sidebar.return_top') }}
-    </a>
+    <PressLocalNavOutlineDropdown :headers="headers" :nav-height="navHeight" />
   </div>
 </template>
 

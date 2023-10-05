@@ -258,7 +258,7 @@ You can group multiple code blocks like this:
 
 ```js [config.js]
 /**
- * @type {import('vitepress').UserConfig}
+ * @type {import('valaxy').UserConfig}
  */
 const config = {
   // ...
@@ -268,7 +268,7 @@ export default config
 ```
 
 ```ts [config.ts]
-import type { UserConfig } from 'vitepress'
+import type { UserConfig } from 'valaxy'
 
 const config: UserConfig = {
   // ...
@@ -286,7 +286,7 @@ export default config
 
 ```js [config.js]
 /**
- * @type {import('vitepress').UserConfig}
+ * @type {import('valaxy').UserConfig}
  */
 const config = {
   // ...
@@ -296,7 +296,7 @@ export default config
 ```
 
 ```ts [config.ts]
-import type { UserConfig } from 'vitepress'
+import type { UserConfig } from 'valaxy'
 
 const config: UserConfig = {
   // ...

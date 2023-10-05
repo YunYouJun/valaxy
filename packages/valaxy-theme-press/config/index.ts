@@ -5,7 +5,6 @@ import type { ThemeConfig } from '../types'
  */
 export const defaultThemeConfig: ThemeConfig = {
   logo: '',
-  outlineTitle: 'On this page',
 
   colors: {
     primary: '#0078E7',

@@ -47,7 +47,7 @@
     "prepare": "husky install"
   },
   "devDependencies": {
-    "@antfu/eslint-config": "^1.0.0-beta.19",
+    "@antfu/eslint-config": "^1.0.0-beta.21",
     "@iconify-json/logos": "^1.1.37",
     "@iconify-json/vscode-icons": "^1.1.28",
     "@microsoft/api-extractor": "^7.38.0",

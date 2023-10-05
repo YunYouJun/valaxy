@@ -13,10 +13,3 @@ pnpm run build
 # start docs server
 pnpm run docs
 ```
-
-Migrate to VitePress.
-
-```bash
-# start vitepress docs
-pnpm run docs:dev
-```
