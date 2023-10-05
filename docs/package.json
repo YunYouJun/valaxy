@@ -21,7 +21,7 @@
   "devDependencies": {
     "@iconify-json/simple-icons": "^1.1.73",
     "nodemon": "^3.0.1",
-    "vite": "^4.4.10",
+    "vite": "^4.4.11",
     "vitepress": "1.0.0-rc.20",
     "vue": "^3.3.4"
   }

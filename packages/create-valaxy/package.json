@@ -12,7 +12,7 @@
   "homepage": "https://valaxy.site",
   "repository": {
     "type": "git",
-    "url": "https://github.com/YunYouJun/valaxy"
+    "url": "https://github.com/YunYouJun/valaxy/tree/main/packages/create-valaxy"
   },
   "main": "bin/index.mjs",
   "bin": {
