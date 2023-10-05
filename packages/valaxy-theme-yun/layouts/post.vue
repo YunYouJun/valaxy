@@ -2,7 +2,7 @@
 import { computed } from 'vue'
 import { useFrontmatter, useFullUrl, useSiteConfig } from 'valaxy'
 
-import { defineArticle, useSchemaOrg } from '@vueuse/schema-org'
+import { defineArticle, useSchemaOrg } from '@unhead/schema-org'
 
 const siteConfig = useSiteConfig()
 const frontmatter = useFrontmatter()

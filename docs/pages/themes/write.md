@@ -162,7 +162,7 @@ export interface ValaxyConfig {
 ```vue
 <!-- valaxy-theme-yun/App.vue -->
 <script lang="ts" setup>
-import { useHead } from '@vueuse/head'
+import { useHead } from '@unhead/vue'
 import { useAppStore } from 'valaxy'
 import { onMounted } from 'vue'
 

@@ -9,7 +9,7 @@ export const install: UserModule = async ({ head, isClient, router }) => {
 
   const valaxyConfig = initValaxyConfig()
 
-  const { SchemaOrgUnheadPlugin } = await import('@vueuse/schema-org')
+  const { SchemaOrgUnheadPlugin } = await import('@unhead/schema-org')
   head?.use(SchemaOrgUnheadPlugin({
     // config
     host: valaxyConfig.value.siteConfig.url || 'https://valaxy.site',

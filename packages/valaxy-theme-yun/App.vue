@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { useHead } from '@vueuse/head'
+import { useHead } from '@unhead/vue'
 import { useAppStore, useSiteConfig } from 'valaxy'
 import { onMounted } from 'vue'
 import { useThemeConfig } from './composables'

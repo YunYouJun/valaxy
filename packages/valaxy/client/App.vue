@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { computed, onBeforeMount } from 'vue'
-import { useHead, useSeoMeta } from '@vueuse/head'
+import { useHead, useSeoMeta } from '@unhead/vue'
 
 // @ts-expect-error virtual module
 import ValaxyUserApp from '/@valaxyjs/UserAppVue'
@@ -9,7 +9,7 @@ import ValaxyUserApp from '/@valaxyjs/UserAppVue'
 import ValaxyThemeApp from '/@valaxyjs/ThemeAppVue'
 import pkg from 'valaxy/package.json'
 import { useI18n } from 'vue-i18n'
-import { definePerson, defineWebPage, defineWebSite, useSchemaOrg } from '@vueuse/schema-org'
+import { definePerson, defineWebPage, defineWebSite, useSchemaOrg } from '@unhead/schema-org'
 import dayjs from 'dayjs'
 import ValaxyAddons from './components/ValaxyAddons.vue'
 import { isDark, useFrontmatter } from './composables'
@@ -55,6 +55,12 @@ useHead({
       content: `Valaxy ${pkg.version}`,
     },
   ],
+
+  templateParams: {
+    schemaOrg: {
+      host: siteConfig.value.url,
+    },
+  },
 })
 
 // seo
@@ -70,21 +76,22 @@ useSeoMeta({
   ogSiteName: computed(() => siteConfig.value.title),
   ogTitle: computed(() => fm.value.title || siteConfig.value.title),
   ogImage: computed(() => fm.value.ogImage || fm.value.cover || siteConfig.value.favicon),
+  ogType: 'website',
   ogUrl: siteUrl,
 })
 
 // for SEO
 useSchemaOrg([
-  // https://unhead-schema-org.harlanzw.com//guide/guides/identity.html
+  // https://unhead.unjs.io/guide/guides/identity.html
   // Personal Website or Blog
   definePerson({
-    name: computed(() => siteConfig.value.author.name),
-    url: siteUrl,
-    image: computed(() => siteConfig.value.author.avatar),
-    sameAs: computed(() => siteConfig.value.social.map(s => s.link)),
+    name: siteConfig.value.author.name,
+    url: siteUrl.value,
+    image: siteConfig.value.author.avatar,
+    sameAs: siteConfig.value.social.map(s => s.link),
   }),
   defineWebSite({
-    name: title,
+    name: title.value,
     datePublished: computed(() => fm.value.date),
     dateModified: computed(() => fm.value.updated),
   }),

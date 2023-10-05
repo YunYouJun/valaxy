@@ -8,6 +8,8 @@ import Layouts from 'vite-plugin-vue-layouts'
 import Components from 'unplugin-vue-components/vite'
 import VueI18n from '@intlify/unplugin-vue-i18n/vite'
 
+import UnheadVite from '@unhead/addons/vite'
+
 import type { ResolvedValaxyOptions, ValaxyServerOptions } from '../options'
 import { setupMarkdownPlugins } from '../markdown'
 
@@ -78,6 +80,7 @@ export async function ViteValaxyPlugins(
       ...valaxyConfig.vue,
     }),
 
+    UnheadVite(),
     createConfigPlugin(options),
     createClientSetupPlugin(options),
     createValaxyPlugin(options, serverOptions),

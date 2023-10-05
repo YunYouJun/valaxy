@@ -3,7 +3,7 @@ import { useFrontmatter, useInvisibleElement, usePostTitle, useSiteStore } from 
 import { useI18n } from 'vue-i18n'
 import { computed, ref } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
-import { defineWebPage, useSchemaOrg } from '@vueuse/schema-org'
+import { defineWebPage, useSchemaOrg } from '@unhead/schema-org'
 import { useThemeConfig, useYunTags } from '../composables'
 
 useSchemaOrg([

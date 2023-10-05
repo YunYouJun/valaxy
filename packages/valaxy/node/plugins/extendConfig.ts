@@ -12,9 +12,9 @@ import { getIndexHtml } from '../common'
  * dependencies used by client
  */
 const clientDeps = [
-  '@vueuse/schema-org',
+  '@unhead/schema-org',
+  '@unhead/vue',
 
-  '@vueuse/head',
   '@vueuse/integrations/useFuse',
   'body-scroll-lock',
 
