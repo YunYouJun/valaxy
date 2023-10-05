@@ -14,7 +14,8 @@ const { t } = useI18n()
 
 <template>
   <div
-    class="flex self-stretch relative group"
+    class="flex relative group"
+    h="full"
     :aria-expanded="open"
     aria-haspopup="true"
     @mouseenter="open = true"
@@ -23,6 +24,7 @@ const { t } = useI18n()
     <button
       type="button"
       class="button flex items-center bg-transparent"
+      h="full"
       @click="open = !open"
     >
       <span class="text">
@@ -57,6 +59,7 @@ const { t } = useI18n()
 
 .menu {
   position: absolute;
+  top: 20px;
   left: 50%;
 
   min-width: 128px;
