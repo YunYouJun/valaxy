@@ -1,3 +1,4 @@
+/* eslint-disable no-restricted-syntax */
 declare module 'valaxy/default-theme' {
   export interface Config {
     /**

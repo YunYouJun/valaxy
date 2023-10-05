@@ -1,4 +1,6 @@
 // this module's typing is broken.
+
+/* eslint-disable no-restricted-syntax */
 declare module '@docsearch/js' {
   function docsearch<T = any>(props: T): void
   export default docsearch

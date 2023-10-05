@@ -1,11 +1,11 @@
 {
   "compilerOptions": {
     "target": "ESNext",
-    "lib": ["DOM", "ESNext"],
     "jsx": "preserve",
+    "lib": ["DOM", "ESNext"],
+    "baseUrl": ".",
     "module": "ESNext",
     "moduleResolution": "node",
-    "baseUrl": ".",
     "paths": {
       "~/*": ["demo/yun/*"],
       "valaxy/client/*": ["packages/valaxy/client/*"],
@@ -15,6 +15,7 @@
       "valaxy-theme-yun/*": ["packages/valaxy-theme-yun/*"],
       "valaxy-theme-yun": ["packages/valaxy-theme-yun/node/index.ts"]
     },
+    "resolveJsonModule": true,
     "types": [
       "vitest",
       "vite/client",
@@ -23,13 +24,12 @@
       "vite-plugin-vue-layouts/client",
       "@intlify/unplugin-vue-i18n/messages"
     ],
-    "resolveJsonModule": true,
     "allowJs": true,
-    "esModuleInterop": true,
-    "forceConsistentCasingInFileNames": true,
     "strict": true,
     "strictNullChecks": true,
     "noUnusedLocals": true,
+    "esModuleInterop": true,
+    "forceConsistentCasingInFileNames": true,
     "skipLibCheck": true
   },
   "include": [

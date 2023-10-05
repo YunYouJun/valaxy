@@ -3,24 +3,24 @@
   // error: This is likely not portable. A type annotation is necessary.
   "compilerOptions": {
     "target": "ESNext",
-    "lib": ["DOM", "ESNext"],
     "jsx": "preserve",
+    "lib": ["DOM", "ESNext"],
+    "baseUrl": ".",
     "module": "ESNext",
     "moduleResolution": "node",
-    "baseUrl": ".",
+    "resolveJsonModule": true,
     "types": [
       "vite/client",
       "vue/ref-macros",
       "vite-plugin-pages/client",
       "vite-plugin-vue-layouts/client"
     ],
-    "resolveJsonModule": true,
     "allowJs": true,
-    "esModuleInterop": true,
-    "forceConsistentCasingInFileNames": true,
     "strict": true,
     "strictNullChecks": true,
     "noUnusedLocals": true,
+    "esModuleInterop": true,
+    "forceConsistentCasingInFileNames": true,
     "skipLibCheck": true
   },
   "exclude": ["**/dist/**", "node_modules"]

@@ -3,6 +3,8 @@ import 'vue-router'
 import type { Post } from './types'
 import type { Header } from './node/markdown'
 
+/* eslint-disable no-restricted-syntax */
+
 declare interface Window {
   // algolia
   instantsearch: any

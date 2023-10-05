@@ -1,6 +1,7 @@
+/* eslint-disable no-restricted-syntax */
 declare module 'escape-html' {
-  const def: (str: string) => string
-  export default def
+  function escape(str: string): string
+  export default escape
 }
 
 declare module 'markdown-it-table-of-contents' {
@@ -19,5 +20,6 @@ declare module 'markdown-it-image-figures' {
 }
 
 declare module 'diacritics' {
-  export const remove: (str: string) => string
+  function remove(str: string): string
+  export { remove }
 }
