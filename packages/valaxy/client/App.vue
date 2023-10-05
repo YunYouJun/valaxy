@@ -65,7 +65,8 @@ const description = computed(() => fm.value.excerpt || fm.value.description || s
 useSeoMeta({
   description,
   ogDescription: description,
-  ogLocale: computed(() => fm.value.lang || siteConfig.value.lang),
+  ogLocale: computed(() => locale.value || fm.value.lang || siteConfig.value.lang || 'en'),
+  ogLocaleAlternate: computed(() => siteConfig.value.languages.filter(l => l !== locale.value)),
   ogSiteName: computed(() => siteConfig.value.title),
   ogTitle: computed(() => fm.value.title || siteConfig.value.title),
   ogImage: computed(() => fm.value.ogImage || fm.value.cover || siteConfig.value.favicon),

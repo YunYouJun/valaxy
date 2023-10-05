@@ -63,7 +63,7 @@ export async function setupMarkdownPlugins(
       theme,
     })
     .use(cssI18nContainer, {
-      languages: ['zh-CN', 'en'],
+      languages: options?.config.siteConfig.languages,
     })
     .use(
       linkPlugin,

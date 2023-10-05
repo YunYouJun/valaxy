@@ -33,6 +33,13 @@ export interface SiteConfig {
    */
   lang: string
   /**
+   * alternative languages
+   * @description 可选语言
+   * @default ['en', 'zh-CN']
+   * @see https://ogp.me/#optional
+   */
+  languages: string[]
+  /**
    * @see https://day.js.org/docs/en/plugin/timezone
    * @zh_CN 时区 'Asia/Shanghai' Recommended
    * @en_US timezone
