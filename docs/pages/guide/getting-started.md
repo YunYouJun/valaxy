@@ -13,12 +13,12 @@ top: 100
 
 <div lang="zh-CN">
 
-Valaxy （V + Galaxy）旨在成为下一代静态博客框架，提供更好的热更新与用户加载体验、更强大更便捷的自定义开发可能性。
+<span text-purple-600 font="bold">Valaxy</span> <span bg="$va-c-bg-soft" font="bold" px-2 py-1 rounded text-sm>= V + <span op="30">G</span>alaxy</span> 旨在成为下一代静态博客框架，提供更好的热更新与用户加载体验、更强大更便捷的自定义开发可能性。
 
 你可以在 [为什么选 Valaxy](/guide/why) 中了解更多关于项目的设计初衷。
 
 ::: tip
-Valaxy 基于 [Vite](https://vitejs.dev/) 提供热更新与打包等功能，基于 [Vue](https://vuejs.org/) 实现视图（如主题、自定义组件）等客户端功能。
+`Valaxy` 基于 [Vite](https://vitejs.dev/) 提供热更新与打包等功能，基于 [Vue](https://vuejs.org/) 实现视图（如主题、自定义组件）等客户端功能。
 
 因此 Valaxy 兼容并可自由使用 Vite 与 Vue 生态的所有插件。
 :::
@@ -27,12 +27,12 @@ Valaxy 基于 [Vite](https://vitejs.dev/) 提供热更新与打包等功能，�
 
 <div lang="en">
 
-Valaxy (V + Galaxy) aims for the next generation static blog framework, providing better hot reloading and user loading experience, with easier and powerful customization support.
+<span text-purple-600 font="bold">Valaxy</span> <span bg="$va-c-bg-soft" font="bold" px-2 py-1 rounded text-sm>= V + <span op="30">G</span>alaxy</span> aims for the next generation static blog framework, providing better hot reloading and user loading experience, with easier and powerful customization support.
 
 You can learn more about the original intensions for this project in [Why Valaxy](/guide/why).
 
 ::: tip
-Valaxy is based on [Vite](https://vitejs.dev/) to provide hot reloading and packaging, and based on [Vue](https://vuejs.org/) to realize client functionalities such as views (themes, custom components).
+`Valaxy` is based on [Vite](https://vitejs.dev/) to provide hot reloading and packaging, and based on [Vue](https://vuejs.org/) to realize client functionalities such as views (themes, custom components).
 
 Therefore, Valaxy supports all extensions/plugins for Vite and Vue.
 :::

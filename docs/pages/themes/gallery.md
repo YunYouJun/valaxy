@@ -11,7 +11,7 @@ themes:
     repo: https://github.com/YunYouJun/valaxy/tree/main/packages/valaxy-theme-yun
     desc: Default Theme for Valaxy
     siteImage: https://s2.loli.net/2023/05/05/QoK4ZimqN3fgRdD.png
-    siteExampleURL:  https://www.yunyoujun.cn
+    siteExampleUrl:  https://www.yunyoujun.cn
     tags:
       - yun
       - light
@@ -20,9 +20,28 @@ themes:
     repo: https://github.com/YunYouJun/valaxy/tree/main/packages/valaxy-theme-press
     desc: Docs Theme for Valaxy
     siteImage: https://s2.loli.net/2023/05/05/1DyEudpohIl47cP.png
+    siteExampleUrl: 'https://valaxy.site/'
     tags:
       - docs
       - press
+  - name: valaxy-theme-starter
+    icon: i-ri-book-line
+    repo: https://github.com/valaxyjs/valaxy-theme-starter
+    desc: Starter Theme for Valaxy
+    siteImage: https://s2.loli.net/2023/10/06/viHCdNlQn2KZzEq.png
+    siteExampleUrl: 'https://starter.valaxy.site/'
+    tags:
+      - starter
+      - template
+  - name: valaxy-theme-gitlink
+    icon: i-ri-book-line
+    repo: https://github.com/YunYouJun/valaxy/tree/main/packages/valaxy-theme-press
+    desc: GitLink Theme for Valaxy
+    siteImage: https://s2.loli.net/2023/10/06/xJf8nHBQNFybpag.png
+    siteExampleUrl: 'https://gitlink.valaxy.site/'
+    tags:
+      - home
+      - gitlink
 ---
 ::: zh-CN
 ::: tip

@@ -2,6 +2,7 @@ import process from 'node:process'
 import { defineValaxyConfig } from 'valaxy'
 import type { PressTheme } from 'valaxy-theme-press'
 import { addonAlgolia } from 'valaxy-addon-algolia'
+import { addonComponents } from 'valaxy-addon-components'
 
 const COMMIT_ID = process.env.CF_PAGES_COMMIT_SHA || process.env.COMMIT_REF
 const commitRef = COMMIT_ID?.slice(0, 8) || 'dev'
@@ -30,12 +31,13 @@ export default defineValaxyConfig<PressTheme.Config>({
       apiKey: '9b9438ca112ab7c044c985c2daa1190b',
       indexName: 'valaxysite',
     }),
+    addonComponents(),
   ],
 
   theme: 'press',
   themeConfig: {
     logo: '/favicon.svg',
-    sidebar: ['getting-started', 'guide', 'config', 'migration', 'built-ins', 'third', 'custom', 'theme', 'addon', 'dev'],
+    sidebar: ['getting-started', 'guide', 'config', 'migration', 'built-ins', 'third', 'custom', 'examples', 'theme', 'addon', 'dev'],
     socialLinks: [
       { icon: 'i-ri-github-line', link: 'https://github.com/YunYouJun/valaxy' },
     ],
@@ -88,6 +90,35 @@ export default defineValaxyConfig<PressTheme.Config>({
           {
             text: 'nav.addons-gallery',
             link: '/addons/gallery',
+          },
+        ],
+      },
+      {
+        text: 'nav.ecosystem',
+        items: [
+          {
+            text: 'nav.vscode',
+            link: '/ecosystem/vscode',
+          },
+          {
+            text: 'nav.client',
+            link: '/ecosystem/client',
+          },
+          {
+            text: 'nav.news',
+            link: '/ecosystem/news',
+          },
+          {
+            text: 'nav.community',
+            link: '/ecosystem/community',
+          },
+          {
+            text: 'nav.dev',
+            link: '/dev',
+          },
+          {
+            text: 'nav.examples.site',
+            link: '/examples/site',
           },
         ],
       },

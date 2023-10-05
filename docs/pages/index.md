@@ -1,5 +1,6 @@
 ---
 layout: home
+
 title: Valaxy
 titleTemplate: '%s - Next Generation Static Blog Framework'
 
@@ -7,6 +8,9 @@ hero:
   name: VALAXY
   text: Next Generation Static Blog Framework
   tagline: Simple, powerful, and performant. Meet the modern BLOG framework you've always wanted.
+  image:
+    src: /valaxy-logo.png
+    alt: Valaxy Logo
   actions:
     - theme: brand
       text: hero.actions.get-started
@@ -17,14 +21,42 @@ hero:
 
 # todo, rewrite with valaxy
 features:
-  - title: "Vite: The DX that can't be beat"
-    details: Feel the speed of Vite. Instant server start and lightning fast HMR that stays fast regardless of the app size.
-  - title: Designed to be simplicity first
-    details: With Markdown-centered content, it's built to help you focus on writing and deployed with minimum configuration.
-  - title: Power of Vue meets Markdown
-    details: Enhance your content with all the features of Vue in Markdown, while being able to customize your site with Vue.
-  - title: Fully static yet still dynamic
-    details: Go wild with true SSG + SPA architecture. Static on page load, but engage users with 100% interactivity from there.
+  - icon: i-logos:markdown
+    title: features.markdown.title
+    details: features.markdown.details
+  - icon: i-logos:vitejs
+    title: features.vite.title
+    details: features.vite.details
+  - icon: i-vscode-icons:file-type-vueconfig
+    title: features.vue.title
+    details: features.vue.details
+  - icon: i-logos:unocss
+    title: features.unocss.title
+    details: features.unocss.details
+  - icon: i-logos:vueuse
+    title: features.vueuse.title
+    details: features.vueuse.details
+  - icon: i-logos:github-actions
+    title: features.actions.title
+    details: features.actions.details
+  - icon: i-vscode-icons:file-type-locale
+    title: features.i18n.title
+    details: features.i18n.details
+  - icon: i-logos:typescript-icon
+    title: features.typescript.title
+    details: features.typescript.details
+  - icon: i-logos:visual-studio-code
+    title: features.vscode.title
+    details: features.vscode.details
+  - icon: i-vscode-icons:folder-type-theme
+    title: features.theme.title
+    details: features.theme.details
+  - icon: i-vscode-icons:folder-type-plugin
+    title: features.addon.title
+    details: features.addon.details
+  - icon: i-logos:electron
+    title: features.electron.title
+    details: features.electron.details
 ---
 
 <div m="auto y-8" text="center" font="black">
@@ -38,8 +70,4 @@ features:
 
 </div>
 
-<p align="center">
-  <a href="https://sponsors.yunyoujun.cn">
-    <img src="https://sponsors.yunyoujun.cn/sponsors.svg">
-  </a>
-</p>
+<ValaxySponsors />

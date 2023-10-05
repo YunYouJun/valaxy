@@ -134,8 +134,6 @@ When you use `pnpm create valaxy` to create a template project, it contains the 
 
 #### Others {lang="en"}
 
-TODO
-
 <BrandIcon icon="i-simple-icons-render" link="https://render.com/" />
 
 ::: zh-CN

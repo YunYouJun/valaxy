@@ -4,13 +4,14 @@ date: 2020-03-23 02:02:15
 updated: 2020-03-23 02:02:15
 toc: true
 categories:
-  - Docs
-  - Example
+  - examples
 ---
 
-## [KaTeX](https://katex.org/)
+## [$\KaTeX$](https://katex.org/)
 
 - <https://katex.org/docs/autorender.html>
+- [KaTeX Supported Functions](https://katex.org/docs/supported.html)
+- [KaTeX Support Table](https://katex.org/docs/support_table.html)
 
 ### 行内公式
 

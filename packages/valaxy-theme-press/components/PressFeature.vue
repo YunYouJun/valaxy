@@ -1,21 +1,29 @@
 <script setup lang="ts">
+import { useI18n } from 'vue-i18n'
 import type { Feature } from '../types'
 
 defineProps<{
   feature: Feature
 }>()
+
+const { t } = useI18n()
 </script>
 
 <template>
   <article class="press-feature">
     <div v-if="feature.icon" class="icon">
-      {{ feature.icon }}
+      <template v-if="feature.icon.startsWith('i-')">
+        <div :class="feature.icon" />
+      </template>
+      <template v-else>
+        {{ feature.icon }}
+      </template>
     </div>
     <h2 class="title">
-      {{ feature.title }}
+      {{ t(feature.title) }}
     </h2>
     <p class="details">
-      {{ feature.details }}
+      {{ t(feature.details) }}
     </p>
   </article>
 </template>
@@ -35,10 +43,11 @@ defineProps<{
   align-items: center;
   margin-bottom: 20px;
   border-radius: 6px;
-  background-color: var(--va-c-gray-light-4);
+  background-color: var(--vp-c-default-soft);
   width: 48px;
   height: 48px;
   font-size: 24px;
+  transition: background-color 0.25s;
 }
 
 .dark .icon {

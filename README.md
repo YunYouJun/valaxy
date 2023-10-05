@@ -57,7 +57,7 @@ For a example, you can see [demo/yun](./demo/yun/) folder.
 - 🌍 [CSS i18n in One Page](https://valaxy.site/guide/i18n)
 - 🔍 [Use icons from any icon sets with classes](https://github.com/antfu/unocss/tree/main/packages/preset-icons) - [Icônes](https://icones.netlify.app/)
 - 👔 Extended Theme with [Layout system](https://github.com/JohnCampionJr/vite-plugin-vue-layouts)
-- ⚙️ Unit Testing with [Vitest](https://github.com/vitest-dev/vitest) (Todo)
+- ⚙️ Unit Testing with [Vitest](https://github.com/vitest-dev/vitest)
 - ☁️ Deploy zero-config
   - [Netlify](https://www.netlify.com/) with `netlify.toml`
   - [GitHub Pages](https://pages.github.com/) with `.github/workflows/gh-pages.yml` [GitHub Actions](https://github.com/features/actions)

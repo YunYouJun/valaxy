@@ -389,6 +389,12 @@ details
 
 ## KaTeX
 
+::: tip
+
+More information about $\KaTeX$ examples can be found [here](/examples/katex).
+
+:::
+
 **Input**
 
 ```md

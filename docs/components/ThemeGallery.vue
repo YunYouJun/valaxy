@@ -9,7 +9,7 @@ const props = withDefaults(defineProps<{
     repo: string
     desc: string
     siteImage: string
-    siteExampleURL?: string
+    siteExampleUrl?: string
     tags?: string[]
   }[]
 }>(), {})
@@ -46,14 +46,14 @@ const filteredThemes = computed(() => {
         hover="bg-$va-c-bg shadow-md"
       >
         <div class="img-wrapper" cursor-pointer>
-          <img :src="theme.siteImage" :alt="theme.name">
-          <a target="_blank" :href="theme.siteExampleURL || theme.repo" :alt="theme.name" class="mask">
+          <img w="full" h="58" class="object-cover" :src="theme.siteImage" :alt="theme.name">
+          <a target="_blank" :href="theme.siteExampleUrl || theme.repo" :alt="theme.name" class="mask">
             <div class="i-ri-eye-line text-40px text-white " />
           </a>
         </div>
         <div px-4 pb-4>
           <a :href="theme.repo" target="_blank" class="decoration-none!">
-            <h3 mt-5 flex justify-center items-center>
+            <h3 class="mt-4!" flex justify-center items-center>
               <div text-xl mr-2 :class="theme.icon" />
               <span>{{ theme.name }}</span>
             </h3>
@@ -61,6 +61,10 @@ const filteredThemes = computed(() => {
           <p class="my-1! text-xl!">
             <a mr-2 class="text-red-600!" :href="`https://npmjs.com/package/${theme.name}`" target="_blank" alt="NPM Package">
               <div i-ri-npmjs-line />
+            </a>
+
+            <a mr-2 class="text-blue-600!" :href="theme.siteExampleUrl" target="_blank" alt="NPM Package">
+              <div i-ri-slideshow-2-line />
             </a>
           </p>
           <p class="my-1!">

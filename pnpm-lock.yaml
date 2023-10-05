@@ -11,6 +11,12 @@ importers:
       '@antfu/eslint-config':
         specifier: ^1.0.0-beta.19
         version: 1.0.0-beta.19(eslint@8.50.0)(typescript@5.2.2)(vitest@0.34.6)
+      '@iconify-json/logos':
+        specifier: ^1.1.37
+        version: 1.1.37
+      '@iconify-json/vscode-icons':
+        specifier: ^1.1.28
+        version: 1.1.28
       '@microsoft/api-extractor':
         specifier: ^7.38.0
         version: 7.38.0(@types/node@20.8.2)
@@ -153,6 +159,9 @@ importers:
       valaxy-addon-algolia:
         specifier: link:../packages/valaxy-addon-algolia
         version: link:../packages/valaxy-addon-algolia
+      valaxy-addon-components:
+        specifier: workspace:*
+        version: link:../packages/valaxy-addon-components
       valaxy-theme-press:
         specifier: link:../packages/valaxy-theme-press
         version: link:../packages/valaxy-theme-press
@@ -2397,6 +2406,12 @@ packages:
       '@iconify/types': 2.0.0
     dev: false
 
+  /@iconify-json/logos@1.1.37:
+    resolution: {integrity: sha512-H2S8frTEznk6paX2kMzeUGn4KSiykghvO0b8UvEDd1fFFzt0WxCXpP1tBv67XaWK99e6JgA34hhv4lRGAm1hJg==}
+    dependencies:
+      '@iconify/types': 2.0.0
+    dev: true
+
   /@iconify-json/ri@1.1.12:
     resolution: {integrity: sha512-s5VsyMWYuUuTB5bATJRoDQKGqo6W0dsxvOBrJI/P2H9QI7IAaAWl8zHxseSjoUGG6AwZwWwDMW9YPULPt+vA6w==}
     dependencies:
@@ -2407,6 +2422,12 @@ packages:
     resolution: {integrity: sha512-L9ShYHhAkJ7KHx+6wM5HK2tnCkAIKjSIyDUtTexoG8LcZF7MgiUloNfDGPDa4Vt0Oy5yHlnFBiOvqy2ojKB/8Q==}
     dependencies:
       '@iconify/types': 2.0.0
+
+  /@iconify-json/vscode-icons@1.1.28:
+    resolution: {integrity: sha512-B2slvmqiwzBI4vrkJAuHn3wSDHJ2XNjapUVaeuPr5qXM3FY/HoCKE/gFIbTNHFRi5oLNC8c1huRLo1yITn15GQ==}
+    dependencies:
+      '@iconify/types': 2.0.0
+    dev: true
 
   /@iconify/types@2.0.0:
     resolution: {integrity: sha512-+wluvCrRhXrhyOmRDJ3q8mux9JkKy5SJ/v8ol2tu4FVjyYvtEzkc/3pK15ET6RKg4b4w4BmTk1+gsCUhf21Ykg==}
@@ -5363,7 +5384,7 @@ packages:
   /eslint-import-resolver-node@0.3.9:
     resolution: {integrity: sha512-WFj2isz22JahUv+B788TlO3N6zL3nNJGU8CcZbPZvVEkBPaJdCV4vy5wyghty5ROFbCRnm132v8BScu5/1BQ8g==}
     dependencies:
-      debug: 3.2.7(supports-color@8.1.1)
+      debug: 3.2.7(supports-color@5.5.0)
       is-core-module: 2.13.0
       resolve: 1.22.4
     transitivePeerDependencies:
@@ -5392,7 +5413,7 @@ packages:
         optional: true
     dependencies:
       '@typescript-eslint/parser': 6.7.4(eslint@8.50.0)(typescript@5.2.2)
-      debug: 3.2.7(supports-color@8.1.1)
+      debug: 3.2.7(supports-color@5.5.0)
       eslint: 8.50.0
       eslint-import-resolver-node: 0.3.9
     transitivePeerDependencies:
@@ -5446,7 +5467,7 @@ packages:
     peerDependencies:
       eslint: ^7.2.0 || ^8
     dependencies:
-      debug: 3.2.7(supports-color@8.1.1)
+      debug: 3.2.7(supports-color@5.5.0)
       doctrine: 2.1.0
       eslint: 8.50.0
       eslint-import-resolver-node: 0.3.9

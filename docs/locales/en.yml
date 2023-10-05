@@ -18,6 +18,17 @@ nav:
   write-an-addon: Write An Addon
   addons-gallery: Addons Gallery
 
+  ecosystem: Ecosystem
+
+  vscode: VSCode Extension
+  client: Client
+  news: Newsletters
+  community: Community
+  dev: Join Dev
+
+  examples:
+    site: Example Sites
+
 category:
   getting-started: Getting Started
   guide: Guide
@@ -25,6 +36,7 @@ category:
   migration: Migration
   third: Third
   custom: Custom
+  examples: Examples
   theme: Theme
   addon: Addon
   dev: Dev
@@ -39,3 +51,41 @@ hero:
   actions:
     get-started: Get Started
     view-github: View Github
+
+features:
+  markdown:
+    title: Markdown - Focus on Your Content
+    details: Supports complete Markdown syntax and various extensions, undoubtedly including SSG.
+  vite:
+    title: Vite - Lightning-Fast DX
+    details: Enjoy the ecosystem and hot-reloading development experience brought by Vite, even when writing content or configurations.
+  vue:
+    title: Vue - Customizable View
+    details: Use Vue in Markdown or customize any component and layout in the theme.
+  unocss:
+    title: UnoCSS - Freedom in Writing Styles
+    details: Freely write any styles in articles, components, and anywhere else while maintaining minimal size.
+  vueuse:
+    title: VueUse - Composable API Utilities
+    details: Built-in VueUse satisfies your various needs on demand, and we also have our own Blog Composition API.
+  actions:
+    title: Actions - Automated Deployment
+    details: Built-in deployment configurations for GitHub Actions, Netlify, Vercel, and more. Deploy your site with just one click.
+  i18n:
+    title: Internationalization - Seamless Support
+    details: Achieve global multilingual support for single pages and local elements using Vue i18n + CSS i18n. No need new pages or sites.
+  typescript:
+    title: TypeScript - Type Safety
+    details: All configurations and APIs come with comprehensive type safety and intelligent suggestions, as it should be.
+  vscode:
+    title: VSCode - Smooth Development Experience
+    details: We are improving the VSCode plugin to provide a better experience when using VSCode for development and writing articles.
+  theme:
+    title: Themes - Extension or Customization
+    details: Override any component and layout in the theme with identically named Vue components or write your own theme.
+  addon:
+    title: Addons - Infinite Possibilities
+    details: Fully compatible with Vite/Vue plugins. You can further encapsulate and simplify configurations or extend functionality (including components) through addons.
+  electron:
+    title: Electron - Desktop Applications
+    details: In the future, we will also release a client application for non-developers, making development, deployment, and publishing more convenient. Stay tuned...
