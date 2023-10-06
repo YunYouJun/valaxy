@@ -6,6 +6,11 @@ export async function findFreePort(start: number): Promise<number> {
   return await findFreePort(start + 1)
 }
 
+/**
+ * Check if the port is free
+ * @zh 检查端口是否占用
+ * @param port
+ */
 function isPortFree(port: number): Promise<boolean> {
   return new Promise((resolve) => {
     const server = net.createServer((socket) => {
