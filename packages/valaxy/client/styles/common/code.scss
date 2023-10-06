@@ -190,3 +190,38 @@ html:not(.dark) .vp-code-dark {
     opacity: 0;
   }
 }
+
+// diff
+.markdown-body {
+  [class*='language-'] code .diff {
+    transition: background-color 0.5s;
+    margin: 0 -24px;
+    padding: 0 24px;
+    width: calc(100% + 2 * 24px);
+    display: inline-block;
+  }
+
+  [class*='language-'] code .diff::before {
+    position: absolute;
+    left: 10px;
+  }
+
+  [class*='language-'] code .diff.remove {
+    background-color: var(--va-code-line-diff-remove-color);
+    opacity: 0.7;
+  }
+
+  [class*='language-'] code .diff.remove::before {
+    content: '-';
+    color: var(--va-code-line-diff-remove-symbol-color);
+  }
+
+  [class*='language-'] code .diff.add {
+    background-color: var(--va-code-line-diff-add-color);
+  }
+
+  [class*='language-'] code .diff.add::before {
+    content: '+';
+    color: var(--va-code-line-diff-add-symbol-color);
+  }
+}

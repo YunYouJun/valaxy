@@ -21,7 +21,7 @@ const { t } = useI18n()
 </script>
 
 <template>
-  <p class="press-lastUpdated">
+  <p class="press-lastUpdated text-right">
     {{ t('tooltip.last_updated') }}:
     <time :datetime="isoDatetime">{{ datetime }}</time>
   </p>

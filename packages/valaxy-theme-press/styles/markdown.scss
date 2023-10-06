@@ -44,3 +44,16 @@
     margin-bottom: 0.25em;
   }
 }
+
+.vp-doc {
+  .markdown-body {
+    a {
+      text-decoration: inherit;
+      transition: all 0.4s;
+
+      &:hover {
+        text-decoration: underline;
+      }
+    }
+  }
+}

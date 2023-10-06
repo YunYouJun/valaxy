@@ -93,3 +93,27 @@
       color 0.5s;
   }
 }
+
+.markdown-body {
+  .table-container {
+    table {
+      thead {
+        th {
+          text-align: left;
+          border: 1px solid rgba(var(--va-c-primary-rgb), 0.3);
+          background-color: rgba(var(--va-c-primary-rgb), 0.1);
+        }
+      }
+
+      td {
+        border: 1px solid rgba(var(--va-c-primary-rgb), 0.3);
+      }
+
+      tr {
+        &:hover {
+          background-color: rgba(var(--va-c-primary-rgb), 0.05);
+        }
+      }
+    }
+  }
+}

@@ -9,7 +9,7 @@ const { t } = useI18n()
 
 <template>
   <div flex justify="between" text="sm">
-    <a flex items="center" :href="editLink.url" target="_blank">
+    <a flex items="center" class="decoration-none!" :href="editLink.url" target="_blank">
       <div i-ri-external-link-line />
       <span ml-1>{{ editLink.text || t('tooltip.edit_this_page') }}</span>
     </a>

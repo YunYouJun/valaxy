@@ -104,7 +104,7 @@
     "pascalcase": "^2.0.0",
     "pinia": "^2.1.6",
     "qrcode": "^1.5.3",
-    "sass": "^1.68.0",
+    "sass": "^1.69.0",
     "shiki": "^0.14.4",
     "star-markdown-css": "^0.4.2",
     "unconfig": "^0.3.11",
