@@ -1,9 +1,11 @@
 <script lang="ts" setup>
 import type { PageData, Post } from 'valaxy'
-import { useFrontmatter, useLayout, useSidebar, useSiteConfig } from 'valaxy'
-import { computed } from 'vue'
+import { scrollTo, useFrontmatter, useLayout, useSidebar, useSiteConfig } from 'valaxy'
+import { computed, nextTick } from 'vue'
 import { useI18n } from 'vue-i18n'
+import { useRoute } from 'vue-router'
 import { getLocaleTitle } from '../utils'
+import { targetPadding } from '../client'
 
 defineProps<{
   frontmatter: Post
@@ -19,6 +21,19 @@ const layout = useLayout()
 
 const { locale } = useI18n()
 const localeTitle = computed(() => getLocaleTitle(locale.value, frontmatter.value))
+
+const route = useRoute()
+
+nextTick(() => {
+  if (route.hash) {
+    setTimeout(() => {
+      scrollTo(document.body, route.hash, {
+        smooth: true,
+        targetPadding,
+      })
+    }, 0)
+  }
+})
 </script>
 
 <template>

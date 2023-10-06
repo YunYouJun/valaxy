@@ -1,4 +1,4 @@
-import { defineAppSetup } from 'valaxy'
+import { defineAppSetup, scrollTo } from 'valaxy'
 import { nextTick } from 'vue'
 
 import 'vitepress/dist/client/theme-default/styles/vars.css'
@@ -11,6 +11,8 @@ import 'vitepress/dist/client/theme-default/styles/components/vp-doc.css'
 import 'vitepress/dist/client/theme-default/styles/components/custom-block.css'
 
 // import 'vitepress/dist/client/theme-default/styles/components/vp-sponsor.css'
+
+import { targetPadding } from '../client'
 
 export default defineAppSetup((ctx) => {
   const { router, isClient } = ctx
@@ -46,7 +48,9 @@ export default defineAppSetup((ctx) => {
               // still emit the event so we can listen to it in themes
               window.dispatchEvent(new Event('hashchange'))
               // use smooth scroll when clicking on header anchor links
-              scrollTo(link, hash, link.classList.contains('header-anchor'))
+              scrollTo(link, hash, {
+                smooth: link.classList.contains('header-anchor'),
+              })
             }
           }
         }
@@ -64,39 +68,10 @@ export default defineAppSetup((ctx) => {
       return
 
     nextTick(() => {
-      scrollTo(document.body, to.hash, true)
+      scrollTo(document.body, to.hash, {
+        smooth: true,
+        targetPadding,
+      })
     })
   })
 })
-
-function scrollTo(el: HTMLElement, hash: string, smooth = false) {
-  let target: Element | null = null
-  try {
-    target = el.classList.contains('header-anchor')
-      ? el
-      : ((decodeURIComponent(hash) && document.querySelector(decodeURIComponent(hash))) || null)
-  }
-  catch (e) {
-    console.warn(e)
-  }
-
-  if (target) {
-    const targetPadding = -64
-    const targetTop
-      = window.scrollY
-      + (target as HTMLElement).getBoundingClientRect().top
-      + targetPadding
-
-    // only smooth scroll if distance is smaller than screen height.
-    if (!smooth || Math.abs(targetTop - window.scrollY) > window.innerHeight) {
-      window.scrollTo(0, targetTop)
-    }
-    else {
-      window.scrollTo({
-        left: 0,
-        top: targetTop,
-        behavior: 'smooth',
-      })
-    }
-  }
-}

@@ -43,6 +43,7 @@ useScriptTag('//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js')
 ```
 
 3. 如果文章中不想使用外链图片，建议按照以下格式创建文件夹及引用图片，便于管理和迁移。
+
 ```txt
 posts
 ├─ your-post
@@ -57,8 +58,8 @@ posts
 ![](./a.png)
 ![](./b.png)
 ```
-:::
 
+:::
 
 ::: en
 
@@ -67,9 +68,10 @@ The following are some of our recommended best practices, but you do not need to
 1. It is recommended to name folders and files in English.
 
 ```txt
-blog/pages/posts/your-post. md
+blog/pages/posts/your-post.md
 ```
-2. When inserting third-party/large amounts of dynamic content, priority should be given to encapsulating it as a component and placing it in `blog/components`, and introducing it through component tag names. 
+
+2. When inserting third-party/large amounts of dynamic content, priority should be given to encapsulating it as a component and placing it in `blog/components`, and introducing it through component tag names.
 
 ```vue
 // blog/components/BszComponent.vue
@@ -111,6 +113,5 @@ posts
 ![](./a.png)
 ![](./b.png)
 ```
-
 
 :::

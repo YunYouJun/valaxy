@@ -119,10 +119,6 @@ If you are a Windows user, I strongly recommend using a Unix-like shell (such as
 
 </div>
 
-```bash
-npm init valaxy
-```
-
 ::: zh-CN
 > 由于 `npm init` 会缓存您此前下载的版本，我更推荐您使用 `pnpm` 来创建模版。  
 > 安装 [pnpm](https://pnpm.io/)：`npm i -g pnpm`
@@ -133,22 +129,34 @@ npm init valaxy
 > Install [pnpm](https://pnpm.io/)：`npm i -g pnpm`
 :::
 
-```bash
+::: code-group
+
+```bash [pnpm]
 pnpm create valaxy
 ```
+
+```bash [npm]
+npm init valaxy
+```
+
+:::
+
+::: details You will be greeted with a few simple questions.
+<CreateValaxyTooltip />
+:::
 
 ::: zh-CN
 跟随命令行提示完成创建！
 
 > 默认使用主题 [valaxy-theme-yun](https://github.com/YunYouJun/valaxy/blob/main/packages/valaxy-theme-yun/)，当然您也可以安装使用任意其他主题。  
-> 本文档同样是一个 Valaxy 主题 [valaxy-theme-press](https://github.com/YunYouJun/valaxy/blob/main/packages/valaxy-theme-press/)，它的灵感来自 VitePress。
+> 本文档同样是一个 Valaxy 主题 [valaxy-theme-press](https://github.com/YunYouJun/valaxy/blob/main/packages/valaxy-theme-press/)，它的灵感来自 [VitePress](https://vitepress.dev/)。
 :::
 
 ::: en
 Follow the prompt in the commandline to complete the process!
 
 > The default theme used is [valaxy-theme-yun](https://github.com/YunYouJun/valaxy/blob/main/packages/valaxy-theme-yun/), but you can also install any other themes.  
-> This documentation is also a Valaxy theme: [valaxy-theme-press](https://github.com/YunYouJun/valaxy/blob/main/packages/valaxy-theme-press/).
+> This documentation is also a Valaxy theme: [valaxy-theme-press](https://github.com/YunYouJun/valaxy/blob/main/packages/valaxy-theme-press/). It is inspired by [VitePress](https://vitepress.dev/).
 :::
 
 ## Usage {lang="en"}
@@ -169,11 +177,19 @@ Follow the prompt in the commandline to complete the process!
 Install the dependencies:
 :::
 
-```bash
+::: code-group
+
+```bash [pnpm]
+# install
+pnpm i
+```
+
+```bash [npm]
 # install
 npm i
-# or pnpm i
 ```
+
+::::
 
 ::: zh-CN
 启动预览：
@@ -183,11 +199,19 @@ npm i
 Start a preview:
 :::
 
-```bash
+::: code-group
+
+```bash [pnpm]
+# start
+pnpm dev
+```
+
+```bash [npm]
 # start
 npm run dev
-# or pnpm dev
 ```
+
+::::
 
 ::: zh-CN
 博客创建完毕，查看本地 `http://localhost:4859/`，玩的开心！
@@ -235,13 +259,25 @@ See [Deployment](/guide/deploy) for deployment guide.
 
 ## 升级 {lang="zh-CN"}
 
-```bash
+::: code-group
+
+```bash [pnpm]
+cd your-blog
+# upgrade valaxy
+pnpm add valaxy@latest
+# upgrade theme
+pnpm add valaxy-theme-yun@latest
+```
+
+```bash [npm]
 cd your-blog
 # upgrade valaxy
 npm i valaxy@latest
 # upgrade theme
 npm i valaxy-theme-yun@latest
 ```
+
+:::
 
 ### pnpm
 

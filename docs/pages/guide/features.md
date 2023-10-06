@@ -148,6 +148,14 @@ All icon names added to `config.unocss.safelist` will be ready for hot reloading
 
 ### Syntax Highlighting {lang="en"}
 
+::: en
+> More info about syntax highlighting can be found at [Markdown Syntax Highlighting](/guide/markdown#syntax-highlighting).
+:::
+
+::: zh-CN
+> 更多关于代码高亮的信息请参见 [Markdown 代码高亮](/guide/markdown#%25E4%25BB%25A3%25E7%25A0%2581%25E8%25A1%258C%25E9%25AB%2598%25E4%25BA%25AE)。
+:::
+
 ::: zh-CN
 基于 [Shiki](https://github.com/shikijs/shiki) 实现。
 Valaxy 支持 `vue` 等语法高亮，拷贝代码，高亮其中某一行。

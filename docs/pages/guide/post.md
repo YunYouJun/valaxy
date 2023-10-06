@@ -46,11 +46,6 @@ hide: true
 - `hide`: 你可以在文章头部添加 hide 属性，来临时隐藏某篇文章。（该文章仍然会被渲染）
   - `true` / `all`: 当设置为 `true` 或 `all` 时，该文章仍然会被渲染，你可以直接访问链接进行查看。但不会被显示在展示的文章卡片与归档中。
   - `index`: 设置为 `index` 时，将只在首页隐藏，归档中仍然展示。（譬如放一些没有必要放在首页的笔记，并在归档中方便自己查看。）
-- `excerpt_type`: 预览列表**摘要**的渲染类型（与 `<!-- more -->` 配合使用）
-  - `md`: 展示原始 Markdown
-  - `html`: 以 HTML 形式展示
-  - `text`: 以纯文本形式展示（去除 HTML 标签）
-
 :::
 
 ::: en
@@ -59,6 +54,31 @@ hide: true
 - `hide`: Adding `hide` in the header allows you to hide the article temporarily. (The article will still be rendered)
   - `true` / `all`: When set to `true` or `all`, the article will be rendered, and you can view it by visiting the link directly. It will not be displayed in article cards or archives.
   - `index`: When set to `index`, it will be hidden only in the front page. It will still be displayed in archives. (You can use this for some notes unnecessary for the front page, but good for the archive for reference sometimes)
+
+
+:::
+
+## 摘要 {lang="zh-CN"}
+
+## Excerpt {lang="en"}
+
+::: zh-CN
+你可以通过插入 `<!-- more -->` 的方式生成摘要（excerpt）。
+可通过设置 `excerpt_type` 设置摘要渲染类型。
+
+- `excerpt`: 自定义摘要（优先级高于 `<!-- more -->`）
+- `excerpt_type`: 预览列表**摘要**的渲染类型（与 `<!-- more -->` 配合使用）
+  - `md`: 展示原始 Markdown
+  - `html`: 以 HTML 形式展示
+  - `text`: 以纯文本形式展示（去除 HTML 标签）
+
+:::
+
+::: en
+You can insert `<!--more-->` to generate an excerpt.
+You can set the excerpt rendering type by setting `excerpt_type`.
+
+- `excerpt`: Custom excerpt (higher priority than `<!-- more -->`)
 - `excerpt_type`: The rendering type for the excerpt in the preview list (Used with `<!-- more -->`)
   - `md`: Display as original markdown
   - `html`: Display as HTML
@@ -66,44 +86,86 @@ hide: true
 
 :::
 
-## 摘要 {lang="zh-CN"}
+::: code-group
 
-::: zh-CN
-你可以通过插入 `<!-- more -->` 的方式生成摘要（excerpt）。
-可通过设置 `excerpt_type` 设置摘要渲染类型。
-
-```md
+```md{3,10} [excerpt_type: text]
 ---
-title: 嘿嘿嘿
+title: 'excerpt_type: text'
 excerpt_type: text
 ---
 
-这里是摘要
+## Header
+
+![yun-bg](https://cdn.yunyoujun.cn/img/bg/stars-timing-0-blur-30px.jpg)
 
 <!-- more -->
 
-这里是正文
+Main Content
+```
+
+```md{3,10} [excerpt_type: md]
+---
+title: 'excerpt_type: md'
+excerpt_type: md
+---
+
+## Header
+
+![yun-bg](https://cdn.yunyoujun.cn/img/bg/stars-timing-0-blur-30px.jpg)
+
+<!-- more -->
+
+Main Content
+```
+
+```md{3,10} [excerpt_type: html]
+---
+title: 'excerpt_type: html'
+excerpt_type: html
+---
+
+## Header
+
+![yun-bg](https://cdn.yunyoujun.cn/img/bg/stars-timing-0-blur-30px.jpg)
+
+<!-- more -->
+
+Main Content
+```
+
+```md{3} [custom excerpt]
+---
+title: 'custom excerpt'
+excerpt: This is a custom excerpt.
+---
+
+## Header
+
+![yun-bg](https://cdn.yunyoujun.cn/img/bg/stars-timing-0-blur-30px.jpg)
+
+Main Content
 ```
 
 :::
 
-## Excerpt {lang="en"}
+You will get excerpt:
 
-::: en
-You can insert `<!--more-->` to generate an excerpt.
-You can set the excerpt rendering type by setting `excerpt_type`.
+::: code-group
 
-```md
----
-title: Hello
-excerpt_type: text
----
+```md [excerpt_type: text]
+HEADER yun-bg
+```
 
-This is the experpt
+```md [excerpt_type: md]
+## Header ![yun-bg](https://cdn.yunyoujun.cn/img/bg/stars-timing-0-blur-30px.jpg)
+```
 
-<!-- more -->
+```md [excerpt_type: html]
+<!-- Rendered HTML -->
+```
 
-Here goes the body
+```md [custom excerpt]
+This is a custom excerpt.
 ```
 
 :::

@@ -422,3 +422,79 @@ $$ x = {-b \pm \sqrt{b^2-4ac} \over 2a} $$
 | $\nabla \cdot \vec{\mathbf{B}}  = 0$                                                                                                                                      | divergence of $\vec{\mathbf{B}}$ is zero                                               |
 | $\nabla \times \vec{\mathbf{E}}\, +\, \frac1c\, \frac{\partial\vec{\mathbf{B}}}{\partial t}  = \vec{\mathbf{0}}$                                                          | curl of $\vec{\mathbf{E}}$ is proportional to the rate of change of $\vec{\mathbf{B}}$ |
 | $\nabla \times \vec{\mathbf{B}} -\, \frac1c\, \frac{\partial\vec{\mathbf{E}}}{\partial t} = \frac{4\pi}{c}\vec{\mathbf{j}}    \nabla \cdot \vec{\mathbf{E}} = 4 \pi \rho$ | _wha?_                                                                                 |
+
+## Markdown File Inclusion
+
+**Input**
+
+```md
+# Docs
+
+## Basics
+
+<!--@include: ./parts/basics.md-->
+```
+
+**Part file** (`parts/basics.md`)
+
+```md
+Some getting started stuff.
+
+### Configuration
+
+Can be created using `.foorc.json`.
+```
+
+**Equivalent code**
+
+```md
+# Docs
+
+## Basics
+
+Some getting started stuff.
+
+### Configuration
+
+Can be created using `.foorc.json`.
+```
+
+It also supports selecting a line range:
+
+**Input**
+
+```md
+# Docs
+
+## Basics
+
+<!--@include: ./parts/basics.md{3,}-->
+```
+
+**Part file** (`parts/basics.md`)
+
+```md
+Some getting started stuff.
+
+### Configuration
+
+Can be created using `.foorc.json`.
+```
+
+**Equivalent code**
+
+```md
+# Docs
+
+## Basics
+
+### Configuration
+
+Can be created using `.foorc.json`.
+```
+
+The format of the selected line range can be: `{3,}`, `{,10}`, `{1,10}`
+
+::: warning
+Note that this does not throw errors if your file is not present. Hence, when using this feature make sure that the contents are being rendered as expected.
+:::

@@ -1,3 +1,9 @@
+.katex-display {
+  overflow-x: auto;
+  overflow-y: visible;
+  padding: 8px 0;
+}
+
 .katex-display > .katex > .katex-html > .tag {
   right: 2px;
 }
