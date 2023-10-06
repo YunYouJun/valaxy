@@ -10,6 +10,7 @@ import { getGitTimestamp, slash, transformObject } from '../utils'
 import type { CleanUrlsMode, HeadConfig, PageData } from '../../types'
 import type { ResolvedValaxyOptions } from '../options'
 import { encryptContent } from '../utils/encrypt'
+import { processIncludes } from './utils/processInclude'
 import { createMarkdownRenderer } from '.'
 import type { MarkdownEnv, MarkdownRenderer } from '.'
 
@@ -130,6 +131,7 @@ export async function createMarkdownToVueRenderFn(
 
     // resolve includes
     const includes: string[] = []
+    src = processIncludes(srcDir, src, fileOrig, includes)
     src = src.replace(includesRE, (m, m1) => {
       try {
         const includePath = path.join(dir, m1)

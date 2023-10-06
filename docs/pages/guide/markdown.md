@@ -425,19 +425,24 @@ $$ x = {-b \pm \sqrt{b^2-4ac} \over 2a} $$
 
 ## Markdown File Inclusion
 
+::: tip
+You can also prefix the markdown path with `@`, it will act as the source root. By default, it's the Valaxy project root.
+:::
+
 **Input**
 
 ```md
-# Docs
+## Docs
 
-## Basics
-
+<!--@include: @/TEST.md-->
 <!--@include: ./parts/basics.md-->
 ```
 
-**Part file** (`parts/basics.md`)
+**Part file**
 
-```md
+::: code-group
+
+```md [parts/basics.md]
 Some getting started stuff.
 
 ### Configuration
@@ -445,13 +450,18 @@ Some getting started stuff.
 Can be created using `.foorc.json`.
 ```
 
+```md [TEST.md]
+I'm a TEST.
+```
+
+:::
+
 **Equivalent code**
 
 ```md
-# Docs
+## Docs
 
-## Basics
-
+I'm a TEST.
 Some getting started stuff.
 
 ### Configuration
@@ -464,16 +474,17 @@ It also supports selecting a line range:
 **Input**
 
 ```md
-# Docs
+## Docs
 
-## Basics
-
+<!--@include: @/TEST.md-->
 <!--@include: ./parts/basics.md{3,}-->
 ```
 
-**Part file** (`parts/basics.md`)
+**Part file**
 
-```md
+::: code-group
+
+```md [parts/basics.md]
 Some getting started stuff.
 
 ### Configuration
@@ -481,13 +492,18 @@ Some getting started stuff.
 Can be created using `.foorc.json`.
 ```
 
+```md [TEST.md]
+I'm a TEST.
+```
+
+:::
+
 **Equivalent code**
 
 ```md
-# Docs
+## Docs
 
-## Basics
-
+I'm a TEST.
 ### Configuration
 
 Can be created using `.foorc.json`.
