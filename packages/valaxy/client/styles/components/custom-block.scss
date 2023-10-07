@@ -1,3 +1,4 @@
+/* stylelint-disable no-descending-specificity */
 .custom-block-title {
   margin-bottom: -0.4rem;
   font-weight: 600;
@@ -19,26 +20,31 @@
   --va-custom-block-font-size: 14px;
   --va-custom-block-code-font-size: 13px;
 
+  // info
   --va-custom-block-info-border: transparent;
   --va-custom-block-info-text: var(--va-c-text-1);
   --va-custom-block-info-bg: var(--va-c-default-soft);
   --va-custom-block-info-code-bg: var(--va-c-default-soft);
 
+  // tip
   --va-custom-block-tip-border: transparent;
   --va-custom-block-tip-text: var(--va-c-text-1);
   --va-custom-block-tip-bg: var(--va-c-brand-soft);
   --va-custom-block-tip-code-bg: var(--va-c-brand-soft);
 
+  // warning
   --va-custom-block-warning-border: transparent;
   --va-custom-block-warning-text: var(--va-c-text-1);
   --va-custom-block-warning-bg: var(--va-c-warning-soft);
   --va-custom-block-warning-code-bg: var(--va-c-warning-soft);
 
+  // danger
   --va-custom-block-danger-border: transparent;
   --va-custom-block-danger-text: var(--va-c-text-1);
   --va-custom-block-danger-bg: var(--va-c-danger-soft);
   --va-custom-block-danger-code-bg: var(--va-c-danger-soft);
 
+  // details
   --va-custom-block-details-border: var(--va-custom-block-info-border);
   --va-custom-block-details-text: var(--va-custom-block-info-text);
   --va-custom-block-details-bg: var(--va-custom-block-info-bg);
@@ -147,10 +153,6 @@
 
 .custom-block.details code {
   background-color: var(--va-custom-block-details-code-bg);
-}
-
-.custom-block-title {
-  font-weight: 600;
 }
 
 .custom-block p + p {

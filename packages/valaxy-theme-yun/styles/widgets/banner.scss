@@ -76,7 +76,6 @@ $char-animation-duration: 0.4s;
   font-size: var(--banner-char-size, 1rem);
   background-color: var(--banner-char-bg-color);
   line-height: 1;
-
   transition: all 0.3s ease-in-out;
   transition-delay: 0s;
 
@@ -94,8 +93,9 @@ $char-animation-duration: 0.4s;
 
   &-left {
     border-left: 1px solid var(--banner-line-color);
-    border-right: 0px solid rgba(var(--va-c-primary-rgb), 0.1);
-    border-right-width: 0px;
+    /* stylelint-disable-next-line color-function-notation */
+    border-right: 0 solid rgba(var(--va-c-primary-rgb), 0.1);
+    border-right-width: 0;
     animation-name: char-move-left;
     animation-duration: $char-animation-duration;
     animation-delay: var(--line-animation-duration);
@@ -104,9 +104,10 @@ $char-animation-duration: 0.4s;
   }
 
   &-right {
-    border-left: 0px solid rgba(var(--va-c-primary-rgb), 0.1);
+    /* stylelint-disable-next-line color-function-notation */
+    border-left: 0 solid rgba(var(--va-c-primary-rgb), 0.1);
     border-right: 1px solid var(--banner-line-color);
-    border-left-width: 0px;
+    border-left-width: 0;
     animation-name: char-move-right;
     animation-duration: $char-animation-duration;
     animation-delay: var(--line-animation-duration);
@@ -138,6 +139,9 @@ $char-animation-duration: 0.4s;
 
   to {
     opacity: 1;
-    border-left-width: var(--banner-empty-border-size, var(--banner-char-size));
+    border-left-width: var(
+      --banner-empty-border-size,
+      var(--banner-char-size)
+    );
   }
 }

@@ -33,9 +33,9 @@ const strokeOffset = computed(() => {
   z-index: var(--yun-z-go-up-btn);
   opacity: 0;
   pointer-events: none;
-
   color: var(--va-c-primary);
   transform: translateX(0) rotate(270deg);
+
   // override yun-icon-btn transition
   transition: transform var(--va-transition-duration), opacity var(--va-transition-duration-fast) !important;
 

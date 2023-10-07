@@ -27,6 +27,8 @@ defineEmits<{
 </template>
 
 <style scoped>
+/* stylelint-disable selector-class-pattern */
+/* stylelint-disable declaration-block-single-line-max-declarations */
 .pr-NavBarHamburger {
   display: flex;
   justify-content: center;
@@ -35,7 +37,7 @@ defineEmits<{
   height: var(--pr-nav-height);
 }
 
-@media (min-width: 768px) {
+@media (width >= 768px) {
   .pr-NavBarHamburger {
     display: none;
   }

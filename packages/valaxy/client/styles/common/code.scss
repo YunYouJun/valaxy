@@ -18,14 +18,14 @@ html:not(.dark) .vp-code-dark {
   }
 }
 
-@media (min-width: 640px) {
+@media (width >= 640px) {
   .markdown-body div[class*="language-"] {
     border-radius: 6px;
     margin: 16px 0;
   }
 }
 
-@media (max-width: 639px) {
+@media (width <= 639px) {
   .markdown-body li div[class*="language-"] {
     border-radius: 6px 0 0 6px;
   }
@@ -42,25 +42,19 @@ html:not(.dark) .vp-code-dark {
     background-color: var(--va-code-block-bg);
     overflow-x: auto;
   }
-}
 
-.markdown-body {
   [class*='language-'] pre,
   [class*='language-'] code {
-    /*rtl:ignore*/
+    /* rtl:ignore */
     direction: ltr;
-    /*rtl:ignore*/
+
+    /* rtl:ignore */
     text-align: left;
     white-space: pre;
     word-spacing: normal;
     word-break: normal;
     word-wrap: normal;
-    -moz-tab-size: 4;
-    -o-tab-size: 4;
     tab-size: 4;
-    -webkit-hyphens: none;
-    -moz-hyphens: none;
-    -ms-hyphens: none;
     hyphens: none;
   }
 
@@ -103,11 +97,12 @@ html:not(.dark) .vp-code-dark {
 
   // copy
   [class*='language-'] > button.copy {
-    /*rtl:ignore*/
+    /* rtl:ignore */
     direction: ltr;
     position: absolute;
     top: 12px;
-    /*rtl:ignore*/
+
+    /* rtl:ignore */
     right: 12px;
     z-index: 3;
     border: 1px solid var(--va-code-copy-code-border-color);
@@ -140,7 +135,7 @@ html:not(.dark) .vp-code-dark {
   
   [class*='language-'] > button.copy.copied,
   [class*='language-'] > button.copy:hover.copied {
-    /*rtl:ignore*/
+    /* rtl:ignore */
     border-radius: 0 4px 4px 0;
     background-color: var(--va-code-copy-code-hover-bg);
     background-image: var(--va-icon-copied);
@@ -150,13 +145,15 @@ html:not(.dark) .vp-code-dark {
   [class*='language-'] > button.copy:hover.copied::before {
     position: relative;
     top: -1px;
-    /*rtl:ignore*/
+
+    /* rtl:ignore */
     transform: translateX(calc(-100% - 1px));
     display: flex;
     justify-content: center;
     align-items: center;
     border: 1px solid var(--va-code-copy-code-hover-border-color);
-    /*rtl:ignore*/
+
+    /* rtl:ignore */
     border-right: 0;
     border-radius: 4px 0 0 4px;
     padding: 0 10px;
@@ -174,7 +171,8 @@ html:not(.dark) .vp-code-dark {
   [class*='language-'] > span.lang {
     position: absolute;
     top: 2px;
-    /*rtl:ignore*/
+
+    /* rtl:ignore */
     right: 8px;
     z-index: 2;
     font-size: 12px;
@@ -189,10 +187,8 @@ html:not(.dark) .vp-code-dark {
   [class*='language-'] > button.copy:focus + span.lang {
     opacity: 0;
   }
-}
 
-// diff
-.markdown-body {
+  // diff
   [class*='language-'] code .diff {
     transition: background-color 0.5s;
     margin: 0 -24px;

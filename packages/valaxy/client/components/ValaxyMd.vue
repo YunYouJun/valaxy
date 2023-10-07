@@ -75,6 +75,7 @@ useVanillaLazyLoad()
 </template>
 
 <style lang="scss">
+/* stylelint-disable selector-class-pattern */
 .medium-zoom-overlay,
 .medium-zoom-image--opened {
   z-index: 999;

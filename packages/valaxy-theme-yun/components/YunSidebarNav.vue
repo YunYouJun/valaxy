@@ -55,9 +55,7 @@ const tags = useTags()
   padding: 0 15px;
   align-items: center;
   border-left: 1px solid get-css-var('c-gray');
-
   flex-direction: column;
-
   color: var(--va-c-text);
 
   &:first-child, &:last-child {

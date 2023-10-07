@@ -43,10 +43,11 @@ function getCategoryByName(name: string) {
 .category-list {
   &:first-child {
     .category-list-item {
-      border-top: 0px;
+      border-top: 0;
     }
   }
 }
+
 .post-list-item {
   a {
     color: var(--va-c-text-light);

@@ -28,6 +28,7 @@ const { t } = useI18n()
 </template>
 
 <style scoped>
+/* stylelint-disable selector-class-pattern */
 .press-lastUpdated {
   line-height: 24px;
   font-size: 14px;
@@ -35,7 +36,7 @@ const { t } = useI18n()
   color: var(--va-c-text-light);
 }
 
-@media (min-width: 640px) {
+@media (width >= 640px) {
   .press-lastUpdated {
     line-height: 32px;
     font-size: 14px;

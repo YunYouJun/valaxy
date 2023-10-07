@@ -23,6 +23,12 @@
     "yaml"
   ],
 
+  "stylelint.validate": ["css", "scss", "vue"],
+  "[scss]": {
+    "editor.formatOnSave": true,
+    "editor.defaultFormatter": "stylelint.vscode-stylelint"
+  },
+
   "cSpell.words": [
     "algoliasearch",
     "beian",
@@ -47,9 +53,6 @@
   "files.associations": {
     "*.css": "postcss"
   },
-  // "[scss]": {
-  //   "editor.formatOnSave": true
-  // },
   "svg.preview.background": "editor",
   "typescript.tsdk": "node_modules/typescript/lib",
   "unocss.root": "."

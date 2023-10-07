@@ -32,13 +32,8 @@ const classes = computed(() => ({
   z-index: var(--pr-z-nav);
 }
 
-.pr-Nav.fill-bg {
-  background-color: var(--pr-nav-bg-color);
-}
-
 @include screen('md') {
   .press-nav {
-    -webkit-backdrop-filter: saturate(50%) blur(8px);
     backdrop-filter: saturate(50%) blur(8px);
   }
 }

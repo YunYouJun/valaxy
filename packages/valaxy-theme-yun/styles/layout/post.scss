@@ -6,7 +6,8 @@
 }
 
 .post-card-image {
-  @extend .post-card;
+  position: relative;
+  max-width: var(--yun-post-card-max-width);
 
   @include mobile {
     .post-card-info {
@@ -71,12 +72,10 @@
   padding: 0.5rem 1rem;
   color: white;
   font-size: 14px;
-
   margin-top: -0.2rem;
-
   transition: box-shadow var(--va-transition-duration);
 
-  &:before {
+  &::before {
     content: none;
   }
 }

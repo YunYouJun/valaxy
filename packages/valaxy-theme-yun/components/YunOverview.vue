@@ -62,7 +62,7 @@ const router = useRouter()
     height: 96px;
     width: 96px;
     max-width: 100%;
-    margin: 0px;
+    margin: 0;
     padding: 4px;
     background-color: white;
     box-shadow: 0 0 10px rgba(black, 0.2);
@@ -84,7 +84,6 @@ const router = useRouter()
   border-radius: 50%;
   box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
   background-color: var(--va-c-bg-light);
-
   border: 1px solid rgba(255, 255, 255, 0.1);
 }
 

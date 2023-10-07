@@ -85,11 +85,13 @@ const filteredThemes = computed(() => {
 .img-wrapper {
   position: relative;
   overflow: hidden;
+
   &:hover {
     .mask {
       transform: translateY(0%);
     }
   }
+
   .mask {
     transform: translateY(-100%);
     transition: transform 0.5s ease-out;
@@ -98,7 +100,7 @@ const filteredThemes = computed(() => {
     left: 0;
     width: 100%;
     height: 100%;
-    background-color: rgba($color: #000000, $alpha: 0.6);
+    background-color: rgba($color: #000, $alpha: 0.6);
     display: flex;
     justify-content: center;
     align-items: center;

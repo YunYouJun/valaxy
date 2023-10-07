@@ -37,7 +37,7 @@ import { isDark, toggleDark } from 'valaxy'
   width: 18px;
   height: 18px;
   border-radius: 50%;
-  background-color: #ffffff;
+  background-color: #fff;
   box-shadow: 0 1px 2px rgba(0, 0, 0, 0.04), 0 1px 2px rgba(0, 0, 0, 0.06);
   transition: background-color 0.25s, transform 0.25s;
 }

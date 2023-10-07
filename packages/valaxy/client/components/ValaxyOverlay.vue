@@ -14,16 +14,12 @@ withDefaults(defineProps<{
 
 <style lang="scss">
 @use "sass:map";
-
 @use "valaxy/client/styles/mixins/index.scss" as *;
 
 .va-overlay {
   background-color: rgba(0, 0, 0, 0.3);
   position: fixed;
-  top: 0;
-  right: 0;
-  bottom: 0;
-  left: 0;
+  inset: 0;
   z-index: calc(var(--va-z-overlay) - 1);
   transition: opacity 0.4s;
 

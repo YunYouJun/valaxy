@@ -33,12 +33,9 @@ const [prev, next] = usePrevNext()
     display: inline-flex;
     justify-content: center;
     align-items: center;
-
     color: var(--va-c-primary);
-
     outline: none;
     font-size: 1.5rem;
-
     font-weight: bold;
     text-transform: uppercase;
     height: 3rem;
@@ -61,9 +58,7 @@ const [prev, next] = usePrevNext()
   &-prev, &-next {
     display: inline-flex;
     align-items: center;
-
     height: 3rem;
-
     font-size: 1rem;
 
     .title {

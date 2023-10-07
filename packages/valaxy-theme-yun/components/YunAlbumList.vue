@@ -37,7 +37,7 @@ defineProps<{
         height: 96%;
         border: 0.25rem solid white;
         background-color: #666;
-        box-shadow: 0 5px 10px rgba(#000000, 0.3);
+        box-shadow: 0 5px 10px rgba(#000, 0.3);
         transform: rotate(-3deg);
       }
 
@@ -45,7 +45,7 @@ defineProps<{
         vertical-align: bottom;
         display: inline-flex;
         border: 0.25rem solid white;
-        box-shadow: 0 8px 10px rgba(#000000, 0.3);
+        box-shadow: 0 8px 10px rgba(#000, 0.3);
         padding: 0;
         transform: rotate(2deg);
         width: 100%;

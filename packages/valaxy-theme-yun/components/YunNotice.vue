@@ -15,7 +15,6 @@ defineProps<{
 .yun-notice {
   border: 1px solid var(--va-c-text);
   width: calc(100% - 2rem);
-
   display: flex;
   flex-direction: column;
   justify-content: center;

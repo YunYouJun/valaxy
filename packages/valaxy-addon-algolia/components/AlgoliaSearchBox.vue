@@ -128,6 +128,7 @@ function getRelativePath(absoluteUrl: string) {
 </template>
 
 <style lang="scss">
+/* stylelint-disable selector-class-pattern */
 .DocSearch {
   --docsearch-primary-color: var(--va-c-primary);
   --docsearch-highlight-color: var(--docsearch-primary-color);
@@ -135,10 +136,8 @@ function getRelativePath(absoluteUrl: string) {
   --docsearch-muted-color: var(--va-c-text-light);
   --docsearch-searchbox-focus-background: transparent;
   --docsearch-searchbox-shadow: none;
-
   --docsearch-key-gradient: transparent;
   --docsearch-key-shadow: none;
-
   --docsearch-modal-background: var(--va-c-bg-light);
   --docsearch-footer-background: var(--va-c-bg);
 

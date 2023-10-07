@@ -90,7 +90,6 @@ function jumpTo(page: number) {
     display: inline-flex;
     justify-content: center;
     align-items: center;
-
     width: 2rem;
     height: 2rem;
     margin: 0;
@@ -99,7 +98,6 @@ function jumpTo(page: number) {
 
   .prev, .next, .page-number {
     cursor: pointer;
-
     color: var(--va-c-text);
     text-decoration: none;
     background-color: var(--page-btn-bg-color);

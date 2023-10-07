@@ -1,0 +1,11 @@
+{
+  "extends": [
+    "stylelint-config-standard-scss",
+    "stylelint-config-recommended-vue/scss"
+  ],
+  "rules": {
+    "no-descending-specificity": null,
+    "alpha-value-notation": "number",
+    "color-function-notation": "legacy"
+  }
+}

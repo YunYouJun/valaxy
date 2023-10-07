@@ -4,15 +4,12 @@
 $light: () !default;
 $light: map.merge(
   (
-    "bg-img":
-      url("../assets/images/light/bg-img.jpg"),
+    "bg-img": url("../assets/images/light/bg-img.jpg"),
     "sidebar-bg-color": var(--va-c-bg-light),
-    "sidebar-bg-img":
-      url("../assets/images/light/sidebar-bg-img.webp"),
+    "sidebar-bg-img": url("../assets/images/light/sidebar-bg-img.webp"),
   ),
   $light
 );
-
 $dark: () !default;
 $dark: map.merge(
   (
@@ -31,7 +28,6 @@ $common: map.merge(
   ),
   $common
 );
-
 $z-index: () !default;
 $z-index: map.merge(
   (

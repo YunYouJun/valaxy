@@ -73,6 +73,7 @@ const { t } = useI18n()
 </template>
 
 <style scoped>
+/* stylelint-disable selector-class-pattern */
 .VPLocalNavOutlineDropdown {
   padding: 12px 20px 11px;
 }
@@ -102,7 +103,7 @@ const { t } = useI18n()
   margin-left: 2px;
   width: 14px;
   height: 14px;
-  fill: currentColor;
+  fill: currentcolor;
 }
 
 :deep(.outline-link) {

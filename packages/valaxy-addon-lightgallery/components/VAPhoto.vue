@@ -33,7 +33,7 @@ const subHtml = computed(() => {
     vertical-align: bottom;
     display: inline-flex;
     border: 0.25rem solid white;
-    box-shadow: 0 8px 10px rgba(#000000, 0.1);
+    box-shadow: 0 8px 10px rgba(#000, 0.1);
     width: 100%;
     height: 10rem;
     object-fit: cover;

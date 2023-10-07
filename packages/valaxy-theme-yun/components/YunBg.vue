@@ -37,14 +37,14 @@ if (typeof themeConfig.value.bg_image.url !== 'undefined') {
   width: 100%;
   height: 100%;
   z-index: -1;
-
   background-image: var(--yun-bg-img);
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
+
   // avoid scroll flicker but not compatible with ios
   background-attachment: fixed;
-  animation-name: bgFadeIn;
+  animation-name: bg-fade-in;
   animation-duration: 2s;
   opacity: var(--yun-bg-img-opacity, 1);
 }
@@ -56,7 +56,7 @@ if (typeof themeConfig.value.bg_image.url !== 'undefined') {
   }
 }
 
-@keyframes bgFadeIn {
+@keyframes bg-fade-in {
   from {
     opacity: 0;
   }

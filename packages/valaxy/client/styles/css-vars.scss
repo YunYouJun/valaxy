@@ -1,3 +1,4 @@
+/* stylelint-disable no-duplicate-selectors */
 @use "sass:map";
 @use "./mixins" as *;
 @use "./vars" as *;
@@ -9,7 +10,6 @@ $c-primary: #0078e7 !default;
     "primary": $c-primary,
   )
 );
-
 @use './css-vars/borders.css' as *;
 @use './css-vars/palette.css' as *;
 @use './css-vars/function.css' as *;
@@ -26,6 +26,7 @@ $c-primary: #0078e7 !default;
 :root {
   // palette different with colors
   @include set-css-var-from-map(palette.$palette, "c");
+
   // primary
   @include set-css-var-from-map(palette.$colors, "c");
 }
@@ -33,12 +34,14 @@ $c-primary: #0078e7 !default;
 // light
 :root {
   color-scheme: light;
+
   @include set-css-var-from-map(palette.$light);
 }
 
 // dark
 .dark {
   color-scheme: dark;
+
   @include set-css-var-from-map(palette.$dark);
 }
 
@@ -56,6 +59,7 @@ $c-primary: #0078e7 !default;
   --va-c-text-2: rgba(60, 60, 67, 0.78);
   --va-c-text-3: rgba(60, 60, 67, 0.56);
 }
+
 .dark {
   --va-c-text-1: rgba(255, 255, 245, 0.86);
   --va-c-text-2: rgba(235, 235, 245, 0.6);
@@ -67,21 +71,21 @@ $c-primary: #0078e7 !default;
   --va-code-line-height: 1.7;
   --va-code-font-size: 0.875em;
 
+  // block
   --va-code-block-color: var(--va-c-text-2);
   --va-code-block-bg: var(--va-c-bg-alt);
   --va-code-block-divider-color: var(--va-c-gutter);
 
+  // line
   --va-code-lang-color: var(--va-c-text-3);
-
   --va-code-line-highlight-color: var(--va-c-default-soft);
   --va-code-line-number-color: var(--va-c-text-3);
 
+  // diff
   --va-code-line-diff-add-color: var(--va-c-green-soft);
   --va-code-line-diff-add-symbol-color: var(--va-c-green-1);
-
   --va-code-line-diff-remove-color: var(--va-c-red-soft);
   --va-code-line-diff-remove-symbol-color: var(--va-c-red-1);
-
   --va-code-line-warning-color: var(--va-c-yellow-soft);
   --va-code-line-error-color: var(--va-c-red-soft);
 

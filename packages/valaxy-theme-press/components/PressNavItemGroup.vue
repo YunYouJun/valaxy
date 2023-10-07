@@ -61,18 +61,17 @@ const { t } = useI18n()
   position: absolute;
   top: 20px;
   left: 50%;
-
   min-width: 128px;
   opacity: 0;
   visibility: hidden;
   transition: opacity 0.25s, visibility 0.25s, transform 0.25s;
   transform: translateX(-50%) translateY(calc(var(--pr-nav-height) / 2));
-
   border-radius: 12px;
   padding: 12px;
   border: 1px solid rgba(60, 60, 60, 0.12);
-  background-color: #ffffff;
+  background-color: #fff;
   box-shadow: 0 12px 32px rgba(0, 0, 0, 0.1), 0 2px 6px rgba(0, 0, 0, 0.08);
+
   .dark &{
     background-color: #242424;
   }

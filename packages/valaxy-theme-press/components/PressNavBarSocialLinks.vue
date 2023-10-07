@@ -17,7 +17,7 @@ const themeConfig = useThemeConfig()
   display: none;
 }
 
-@media (min-width: 1280px) {
+@media (width >= 1280px) {
   .pr-nav-bar-social-links {
     display: flex;
     align-items: center;

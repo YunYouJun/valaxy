@@ -31,14 +31,14 @@ const { lockBodyScroll, unlockBodyScroll } = useBodyScrollLock(screen)
 </template>
 
 <style scoped>
+/* stylelint-disable selector-class-pattern */
 .pr-NavScreen {
   position: fixed;
-  top: calc(var(--pr-nav-height) + var(--pr-layout-top-height, 0px) + 1px);
-  /*rtl:ignore*/
-  right: 0;
-  bottom: 0;
-  /*rtl:ignore*/
-  left: 0;
+  inset: calc(var(--pr-nav-height) + var(--pr-layout-top-height, 0px) + 1px) 0 0 0;
+
+  /* rtl:ignore */
+
+  /* rtl:ignore */
   padding: 0 32px;
   width: 100%;
   background-color: var(--pr-nav-screen-bg-color);
@@ -67,7 +67,7 @@ const { lockBodyScroll, unlockBodyScroll } = useBodyScrollLock(screen)
   transform: translateY(-8px);
 }
 
-@media (min-width: 768px) {
+@media (width >= 768px) {
   .pr-NavScreen {
     display: none;
   }

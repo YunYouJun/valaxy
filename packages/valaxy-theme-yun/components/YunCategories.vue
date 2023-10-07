@@ -45,6 +45,7 @@ const collapsable = ref(props.collapsable)
       color: var(--va-c-primary);
     }
   }
+
   .category-name {
     &:hover {
       color: var(--va-c-primary);

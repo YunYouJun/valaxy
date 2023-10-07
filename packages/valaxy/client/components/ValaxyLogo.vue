@@ -17,6 +17,7 @@ import valaxyLogoPng from '../assets/images/valaxy-logo.png'
     }
   }
 }
+
 .bg-img {
   border-radius: 50%;
   filter: blur(72px);

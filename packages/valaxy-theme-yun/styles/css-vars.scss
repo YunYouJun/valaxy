@@ -1,3 +1,4 @@
+/* stylelint-disable no-duplicate-selectors */
 @use "./vars" as *;
 @use "valaxy/client/styles/mixins/index.scss" as * with($namespace: "yun");
 

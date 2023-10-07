@@ -1,3 +1,5 @@
+/* stylelint-disable no-descending-specificity */
+/* stylelint-disable declaration-block-single-line-max-declarations */
 @use "sass:math";
 
 $hamburger-size: 22px;
@@ -34,7 +36,6 @@ $hamburger-size: 22px;
 .vt-hamburger-middle,
 .vt-hamburger-bottom {
   left: 0; 
-
   position: absolute;
   width: $hamburger-size;
   height: 2px;
@@ -46,10 +47,12 @@ $hamburger-size: 22px;
   top: 0; 
   transform: translateX(0);
 }
+
 .vt-hamburger-middle { 
   top: math.div($hamburger-size - 4px, 2); 
   transform: translateX(math.div(-$hamburger-size, 2)); 
 }
+
 .vt-hamburger-bottom { 
   top: $hamburger-size - 4px; 
   transform: translateX(math.div(-$hamburger-size, 4));

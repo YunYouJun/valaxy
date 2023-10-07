@@ -37,6 +37,7 @@ const { t } = useI18n()
     color: var(--va-c-brand);
   }
 }
+
 .active{
   color: var(--va-c-brand);
 }

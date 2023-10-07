@@ -44,6 +44,7 @@ const { loaded, load, metaKey } = useAddonAlgolia()
 </template>
 
 <style>
+/* stylelint-disable selector-class-pattern */
 .DocSearch-Button {
   display: flex;
   justify-content: center;
@@ -69,7 +70,7 @@ const { loaded, load, metaKey } = useAddonAlgolia()
   outline: none !important;
 }
 
-@media (min-width: 768px) {
+@media (width >= 768px) {
   .DocSearch-Button {
     justify-content: flex-start;
     border: 1px solid transparent;
@@ -96,7 +97,7 @@ const { loaded, load, metaKey } = useAddonAlgolia()
   width: 16px;
   height: 16px;
   color: var(--va-c-text-1);
-  fill: currentColor;
+  fill: currentcolor;
   transition: color 0.5s;
 }
 
@@ -104,7 +105,7 @@ const { loaded, load, metaKey } = useAddonAlgolia()
   color: var(--va-c-text-1);
 }
 
-@media (min-width: 768px) {
+@media (width >= 768px) {
   .DocSearch-Button .DocSearch-Search-Icon {
     top: 1px;
     margin-right: 8px;
@@ -128,20 +129,20 @@ const { loaded, load, metaKey } = useAddonAlgolia()
   color: var(--va-c-text-1);
 }
 
-@media (min-width: 768px) {
+@media (width >= 768px) {
   .DocSearch-Button .DocSearch-Button-Placeholder {
     display: inline-block;
   }
 }
 
 .DocSearch-Button .DocSearch-Button-Keys {
-  /*rtl:ignore*/
+  /* rtl:ignore */
   direction: ltr;
   display: none;
   min-width: auto;
 }
 
-@media (min-width: 768px) {
+@media (width >= 768px) {
   .DocSearch-Button .DocSearch-Button-Keys {
     display: flex;
     align-items: center;
@@ -150,13 +151,15 @@ const { loaded, load, metaKey } = useAddonAlgolia()
 
 .DocSearch-Button .DocSearch-Button-Key {
   display: block;
-  margin: 2px 0 0 0;
+  margin: 2px 0 0;
   border: 1px solid var(--va-c-divider);
-  /*rtl:begin:ignore*/
+
+  /* rtl:begin:ignore */
   border-right: none;
   border-radius: 4px 0 0 4px;
   padding-left: 6px;
-  /*rtl:end:ignore*/
+
+  /* rtl:end:ignore */
   min-width: 0;
   width: auto;
   height: 22px;
@@ -167,13 +170,14 @@ const { loaded, load, metaKey } = useAddonAlgolia()
 }
 
 .DocSearch-Button .DocSearch-Button-Key + .DocSearch-Button-Key {
-  /*rtl:begin:ignore*/
+  /* rtl:begin:ignore */
   border-right: 1px solid var(--va-c-divider);
   border-left: none;
   border-radius: 0 4px 4px 0;
   padding-left: 2px;
   padding-right: 6px;
-  /*rtl:end:ignore*/
+
+  /* rtl:end:ignore */
 }
 
 .DocSearch-Button .DocSearch-Button-Key:first-child {
@@ -182,7 +186,8 @@ const { loaded, load, metaKey } = useAddonAlgolia()
   color: transparent;
 }
 
-.DocSearch-Button .DocSearch-Button-Key:first-child:after {
+.DocSearch-Button .DocSearch-Button-Key:first-child::after {
+  /* stylelint-disable-next-line value-keyword-case */
   content: v-bind(metaKey);
   font-size: 12px;
   letter-spacing: normal;

@@ -18,7 +18,7 @@
     "blog"
   ],
   "engines": {
-    "node": "^14.18.0 || >=16.0.0"
+    "node": "^18.0.0 || >=20.0.0"
   },
   "scripts": {
     "build": "pnpm run build:valaxy",
@@ -37,6 +37,7 @@
     "docs:build": "pnpm -C docs run build",
     "docs:vitepress": "pnpm -C docs run vitepress:dev",
     "lint": "eslint .",
+    "stylelint": "stylelint --fix \"**/*.{scss,vue}\"",
     "prepublishOnly": "npm run build",
     "release": "tsx scripts/release.ts",
     "start": "node packages/valaxy/bin/valaxy.js dev",
@@ -47,7 +48,7 @@
     "prepare": "husky install"
   },
   "devDependencies": {
-    "@antfu/eslint-config": "^1.0.0-beta.21",
+    "@antfu/eslint-config": "1.0.0-beta.21",
     "@iconify-json/logos": "^1.1.37",
     "@iconify-json/vscode-icons": "^1.1.28",
     "@microsoft/api-extractor": "^7.38.0",
@@ -68,6 +69,9 @@
     "lint-staged": "^14.0.1",
     "prompts": "^2.4.2",
     "rimraf": "^5.0.5",
+    "stylelint": "^15.10.3",
+    "stylelint-config-recommended-vue": "^1.5.0",
+    "stylelint-config-standard-scss": "^11.0.0",
     "tsup": "^7.2.0",
     "tsx": "^3.13.0",
     "typescript": "^5.2.2",

@@ -31,7 +31,6 @@ function onClick() {
   position: fixed;
   top: 0.6rem;
   right: 0.8rem;
-
   color: var(--va-c-primary);
   z-index: var(--yun-z-search-btn);
 }

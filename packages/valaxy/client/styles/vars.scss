@@ -8,7 +8,6 @@ $common: map.merge(
   ),
   $common
 );
-
 $border: () !default;
 $border: map.merge(
   (
@@ -16,7 +15,6 @@ $border: map.merge(
   ),
   $border
 );
-
 $font: () !default;
 $font: map.merge(
   (
@@ -27,7 +25,6 @@ $font: map.merge(
   ),
   $font
 );
-
 $transition: () !default;
 $transition: map.merge(
   (

@@ -7,19 +7,15 @@
 <style lang="scss">
 .go-down {
   cursor: pointer;
-
   display: inline-flex;
   justify-content: center;
   align-items: center;
-
   position: absolute;
   bottom: 1rem;
   z-index: var(--yun-z-go-down);
   animation: float 2s ease-in-out infinite;
-
   font-size: 2.5rem;
   color: var(--va-c-primary);
-
   transition: color var(--va-transition-duration);
 
   &:hover {

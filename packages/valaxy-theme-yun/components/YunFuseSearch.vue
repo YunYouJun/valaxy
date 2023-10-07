@@ -127,15 +127,13 @@ onClickOutside(searchInputRef, () => {
   left: 0;
   width: 100%;
   height: 100%;
-
   backdrop-filter: blur(30px);
+  /* stylelint-disable-next-line property-no-vendor-prefix */
   -webkit-backdrop-filter: blur(30px);
-
   text-align: center;
   margin: 0;
   z-index: var(--yun-z-search-popup);
   transition: 0.6s;
-
   background-color: var(--va-c-bg-opacity);
 }
 
@@ -177,7 +175,6 @@ onClickOutside(searchInputRef, () => {
   .yun-fuse-result-item {
     // padding: 0.5rem;
     cursor: pointer;
-
     border-top: 1px dashed #ccc;
   }
 }

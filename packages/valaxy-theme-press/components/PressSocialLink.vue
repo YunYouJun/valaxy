@@ -35,6 +35,6 @@ defineProps<{
 .pr-social-link > :deep(svg) {
   width: 20px;
   height: 20px;
-  fill: currentColor;
+  fill: currentcolor;
 }
 </style>

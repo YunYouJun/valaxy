@@ -13,10 +13,7 @@ defineProps<{
 <style scoped lang="scss">
 .press-backdrop {
   position: fixed;
-  top: 0;
-  right: 0;
-  bottom: 0;
-  left: 0;
+  inset: 0;
   z-index: var(--pr-z-backdrop);
   background: rgba(0, 0, 0, .6);
   transition: opacity 0.5s;
@@ -31,7 +28,7 @@ defineProps<{
   }
 }
 
-@media (min-width: 1280px) {
+@media (width >= 1280px) {
   .press-backdrop {
     display: none;
   }

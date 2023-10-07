@@ -11,6 +11,7 @@
   }
 }
 
+/* stylelint-disable-next-line no-duplicate-selectors */
 .markdown-body {
   word-wrap: break-word;
 
@@ -26,6 +27,7 @@
 
   ul {
     list-style: initial;
+
     li > p {
       margin-bottom: 0;
     }
@@ -48,12 +50,10 @@
 
   // alone image
   figure {
-
     figcaption {
       text-align: center;
       font-size: 0.8rem;
       color: var(--va-c-text-2);
-
       margin-bottom: 1rem;
     }
   }
@@ -64,11 +64,10 @@
     border-top-width: 0;
     background-color: var(--va-c-text);
   }
-}
 
-.markdown-body {
+  // lang
   div[class*='language-'].line-numbers-mode {
-    /*rtl:ignore*/
+    /* rtl:ignore */
     padding-left: 32px;
   }
 
@@ -76,10 +75,12 @@
     position: absolute;
     top: 0;
     bottom: 0;
-    /*rtl:ignore*/
+
+    /* rtl:ignore */
     left: 0;
     z-index: 3;
-    /*rtl:ignore*/
+
+    /* rtl:ignore */
     border-right: 1px solid var(--va-code-block-divider-color);
     padding-top: 20px;
     width: 32px;
@@ -92,9 +93,8 @@
       border-color 0.5s,
       color 0.5s;
   }
-}
 
-.markdown-body {
+  // table
   .table-container {
     table {
       thead {

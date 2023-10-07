@@ -80,7 +80,7 @@ function toggle() {
 }
 
 .pr-nav-screen-menu-group.open .button-icon {
-  /*rtl:ignore*/
+  /* rtl:ignore */
   transform: rotate(45deg);
 }
 
@@ -109,7 +109,7 @@ function toggle() {
 }
 
 .group:first-child {
-  padding-top: 0px;
+  padding-top: 0;
 }
 
 .group + .group,

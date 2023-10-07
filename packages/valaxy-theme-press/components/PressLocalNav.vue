@@ -95,7 +95,7 @@ const { headers } = useOutline()
   margin-right: 8px;
   width: 16px;
   height: 16px;
-  fill: currentColor;
+  fill: currentcolor;
 }
 
 .top-link {

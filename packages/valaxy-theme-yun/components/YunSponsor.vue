@@ -42,6 +42,7 @@ const sponsorBtnTitle = computed(() => {
 
 <style lang="scss">
 @use "valaxy/client/styles/mixins/index.scss" as *;
+
 .sponsor-button {
   background-color: rgba(255, 255, 255, 0.1);
 
@@ -49,6 +50,7 @@ const sponsorBtnTitle = computed(() => {
     transform: scale(1.1);
     transition: transform var(--va-transition-duration) ease-in-out;
   }
+
   &:hover {
     background-color: rgba(255, 255, 255, 0.9);
 
@@ -67,7 +69,6 @@ const sponsorBtnTitle = computed(() => {
 .qrcode-container {
   overflow: hidden;
   height: 0;
-
   transition: height var(--va-transition-duration) ease-in-out;
 
   &.show {

@@ -4,12 +4,18 @@
 // join-var-name(('button', 'text-color')) => '--#{namespace}-button-text-color'
 @function join-var-name($list) {
   $name: '--' + config.$namespace;
+
   @each $item in $list {
     @if $item != '' {
       $name: $name + '-' + $item;
     }
   }
+
   @return $name;
+
+  
+
+
 }
 
 // get-css-var('button', 'text-color') => var(--el-button-text-color)

@@ -56,10 +56,8 @@ const showOverview = ref(false)
 .sidebar {
   width: calc(100vw - 64px);
   max-width: var(--va-sidebar-width);
-
   background-image: var(--yun-sidebar-bg-img);
   background-position: bottom 1rem center;
-
   transform: translateX(-100%);
   transition: box-shadow var(--va-transition-duration),
     background-color var(--va-transition-duration), opacity 0.25s,
@@ -77,7 +75,6 @@ const showOverview = ref(false)
 
     &.active {
       border: 1px solid var(--va-c-primary);
-
       color: white;
       background-color: var(--va-c-primary);
     }

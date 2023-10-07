@@ -20,19 +20,20 @@ const PressAlgoliaSearch = isAlgolia.value
 </template>
 
 <style>
+/* stylelint-disable selector-class-pattern */
 .VPNavBarSearch {
   display: flex;
   align-items: center;
 }
 
-@media (min-width: 768px) {
+@media (width >= 768px) {
   .VPNavBarSearch {
     flex-grow: 1;
     padding-left: 24px;
   }
 }
 
-@media (min-width: 960px) {
+@media (width >= 960px) {
   .VPNavBarSearch {
     padding-left: 32px;
   }

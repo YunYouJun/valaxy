@@ -28,7 +28,7 @@ const { hasSidebar } = useSidebar()
   }
 }
 
-@media (min-width: 768px) {
+@media (width >= 768px) {
   .pr-footer {
     padding: 32px;
   }

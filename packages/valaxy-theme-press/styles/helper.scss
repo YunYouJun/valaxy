@@ -1,5 +1,6 @@
 .gradient-text {
   background-clip: text;
+  /* stylelint-disable-next-line property-no-vendor-prefix */
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
 }
@@ -17,15 +18,12 @@
 
 .press-icon-btn {
   cursor: pointer;
-
   display: inline-flex;
   align-items: center;
   justify-content: center;
-
   border: none;
   width: 3rem;
   height: 3rem;
-
   border-radius: 50%;
 
   div {
