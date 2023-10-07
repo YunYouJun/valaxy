@@ -1,4 +1,3 @@
-/* eslint-disable no-restricted-syntax */
 declare module 'escape-html' {
   function escape(str: string): string
   export default escape
