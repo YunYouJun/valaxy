@@ -9,8 +9,8 @@ defineProps<{
 <template>
   <router-link
     :to="{
-      path: '/categories/',
-      query: { category: Array.isArray(categories) ? categories[categories.length - 1] : categories },
+      path: '/categories',
+      query: { category: Array.isArray(categories) ? categories.join('/') : categories },
     }"
     class="transition post-category inline-flex-center text-xs border-$va-c-divider hover:(text-blue-500 border-blue-500)"
     px-2 h="7"

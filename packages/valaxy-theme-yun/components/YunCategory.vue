@@ -1,11 +1,11 @@
 <script lang="ts" setup>
-import { onMounted, ref } from 'vue'
+import { computed, onMounted, ref } from 'vue'
 import type { Category, Post } from 'valaxy'
 import { isCategoryList, useInvisibleElement } from 'valaxy'
 import { useI18n } from 'vue-i18n'
-import { useRouter } from 'vue-router'
+import { useRoute, useRouter } from 'vue-router'
 
-withDefaults(defineProps<{
+const props = withDefaults(defineProps<{
   parentKey: string
   // to eliminate the warning
   category: Category
@@ -20,8 +20,13 @@ withDefaults(defineProps<{
 })
 
 const router = useRouter()
+const route = useRoute()
+const categoryList = computed(() => {
+  const c = (route.query.category as string) || ''
+  return Array.isArray(c) ? [c] : c.split('/')
+})
 
-const collapse = ref(true)
+const collapse = ref(props.collapsable)
 const { t } = useI18n()
 
 /**
@@ -60,7 +65,8 @@ onMounted(() => {
   <li class="category-list-item inline-flex items-center cursor-pointer">
     <span class="folder-action inline-flex" @click="collapse = !collapse">
       <div v-if="collapse" i-ri-folder-add-line />
-      <div v-else style="color:var(--va-c-primary)" i-ri-folder-reduce-line /></span>
+      <div v-else style="color:var(--va-c-primary)" i-ri-folder-reduce-line />
+    </span>
     <span class="category-name" m="l-1" @click="jumpToDisplayCategory(parentKey)">
       {{ category.name === 'Uncategorized' ? t('category.uncategorized') : category.name }} [{{ category.total }}]
     </span>
@@ -73,6 +79,7 @@ onMounted(() => {
           <YunCategory
             :parent-key="parentKey ? `${parentKey}/${categoryItem.name}` : categoryItem.name"
             :category="categoryItem"
+            :collapsable="!categoryList.includes(categoryItem.name)"
           />
         </template>
 

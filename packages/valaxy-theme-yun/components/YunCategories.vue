@@ -1,8 +1,10 @@
 <script lang="ts" setup>
 import type { Categories } from 'valaxy'
-import { ref } from 'vue'
+import { computed } from 'vue'
 
-const props = withDefaults(defineProps<{
+import { useRoute } from 'vue-router'
+
+withDefaults(defineProps<{
   categories: Categories
   /**
    * 当前层级
@@ -14,7 +16,11 @@ const props = withDefaults(defineProps<{
   collapsable: true,
 })
 
-const collapsable = ref(props.collapsable)
+const route = useRoute()
+const categoryList = computed(() => {
+  const c = route.query.category || ''
+  return Array.isArray(c) ? [c] : c.split('/')
+})
 </script>
 
 <template>
@@ -23,7 +29,7 @@ const collapsable = ref(props.collapsable)
       :parent-key="category.name"
       :category="category"
       :level="level + 1"
-      :collapsable="collapsable"
+      :collapsable="!categoryList.includes(category.name)"
     />
   </ul>
 </template>
