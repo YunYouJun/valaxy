@@ -56,6 +56,23 @@ export default defineValaxyConfig<PressTheme.Config>({
         ],
       },
       {
+        text: 'API',
+        items: [
+          {
+            text: 'Core',
+            link: '/api/',
+          },
+          {
+            text: 'Theme',
+            link: '/api/theme',
+          },
+          {
+            text: 'Addon',
+            link: '/api/addon',
+          },
+        ],
+      },
+      {
         text: 'nav.theme',
         items: [
           {

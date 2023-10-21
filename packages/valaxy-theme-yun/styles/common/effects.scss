@@ -1,28 +1,3 @@
-.v {
-  &-enter-active,
-  &-leave-active {
-    transition: opacity var(--va-transition-duration, 0.4s) ease;
-  }
-
-  &-enter-from,
-  &-leave-to {
-    opacity: 0;
-  }
-}
-
-.fade {
-  &-enter-active,
-  &-leave-active {
-    transition: opacity var(--va-transition-duration, 0.4s) ease;
-  }
-
-  &-enter-from,
-  &-leave-to {
-    opacity: 0;
-  }
-}
-
-// dark toggle
 // transition
 ::view-transition-old(root),
 ::view-transition-new(root) {

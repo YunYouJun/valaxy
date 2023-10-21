@@ -14,7 +14,7 @@ const { t } = useI18n()
 
 <template>
   <AppLink
-    class="press-nav-item-link"
+    class="press-nav-item-link flex justify-center items-center"
     :class="{
       active: route.path === item.link,
     }"

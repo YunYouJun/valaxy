@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import { useI18n } from 'vue-i18n'
 import { computed } from 'vue'
-import { isDark, toggleDark } from 'valaxy'
+import { isDark, toggleDarkWithTransition } from 'valaxy'
 
 const { t } = useI18n()
 
@@ -12,7 +12,7 @@ const themeTitle = computed(() => {
 
 <template>
   <div>
-    <button class="yun-icon-btn" :title="themeTitle" :style="{ color: isDark ? '' : '#f1cb64' }" @click="toggleDark()">
+    <button class="yun-icon-btn" :title="themeTitle" :style="{ color: isDark ? '' : '#f1cb64' }" @click="toggleDarkWithTransition">
       <div i="ri-sun-line dark:ri-moon-line" />
     </button>
 

@@ -47,7 +47,9 @@
   "i18n-ally.sourceLanguage": "en",
   "i18n-ally.keystyle": "nested",
   "i18n-ally.localesPaths": [
-    "packages/valaxy/src/client/locales"
+    "packages/valaxy/client/locales",
+    "packages/valaxy-theme-yun/locales",
+    "demo/yun/locales"
   ],
   "i18n-ally.sortKeys": true,
   "files.associations": {
