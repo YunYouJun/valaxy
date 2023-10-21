@@ -28,6 +28,7 @@ import { registerNewCommand } from './cli/new'
 
 import { setEnv, setEnvProd } from './utils/env'
 import { commonOptions } from './cli/options'
+import { createValaxyNode } from './app'
 
 export const cli = yargs(hideBin(process.argv)).scriptName('valaxy')
   .usage('$0 [args]')
@@ -74,6 +75,8 @@ cli.command(
 
     const port = userPort || await findFreePort(4859)
     const options = await resolveOptions({ userRoot: root })
+
+    createValaxyNode(options)
 
     const viteConfig: InlineConfig = mergeConfig({
       // avoid load userRoot/vite.config.ts repeatedly
@@ -171,6 +174,10 @@ cli.command(
     const options = await resolveOptions({ userRoot: root }, 'build')
     printInfo(options)
 
+    const valaxyApp = createValaxyNode(options)
+    // resolve options and create valaxy app
+    valaxyApp.hooks.callHook('options:resolved')
+
     const valaxyViteConfig: InlineConfig = mergeConfig(await mergeViteConfigs(options, 'build'), options.config.vite || {})
     const viteConfig: InlineConfig = mergeConfig(
       valaxyViteConfig,
@@ -185,6 +192,8 @@ cli.command(
         logLevel: log as LogLevel,
       },
     )
+    // init config
+    valaxyApp.hooks.callHook('config:init')
 
     // merge index.html
     const templatePath = path.resolve(options.clientRoot, 'template.html')
@@ -193,6 +202,9 @@ cli.command(
       await fs.copyFile(templatePath, indexPath)
     const indexHtml = await getIndexHtml(options)
     await fs.writeFile(indexPath, indexHtml, 'utf-8')
+
+    // before build
+    valaxyApp.hooks.callHook('build:before')
 
     try {
       if (ssg) {
@@ -220,6 +232,9 @@ cli.command(
     finally {
       // await fs.unlink(indexPath)
       await fs.copyFile(templatePath, indexPath)
+
+      // after build
+      valaxyApp.hooks.callHook('build:after')
     }
   },
 )

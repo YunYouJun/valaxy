@@ -84,6 +84,7 @@
     "fuse.js": "^6.6.2",
     "global-dirs": "^3.0.1",
     "gray-matter": "^4.0.3",
+    "hookable": "^5.5.3",
     "html-to-text": "^9.0.5",
     "is-installed-globally": "^0.4.0",
     "jiti": "^1.20.0",

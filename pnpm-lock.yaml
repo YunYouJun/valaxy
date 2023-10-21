@@ -104,6 +104,9 @@ importers:
       valaxy-addon-lightgallery:
         specifier: workspace:*
         version: link:packages/valaxy-addon-lightgallery
+      valaxy-addon-test:
+        specifier: workspace:*
+        version: link:packages/valaxy-addon-test
       valaxy-addon-twikoo:
         specifier: workspace:*
         version: link:packages/valaxy-addon-twikoo
@@ -286,6 +289,9 @@ importers:
       gray-matter:
         specifier: ^4.0.3
         version: 4.0.3
+      hookable:
+        specifier: ^5.5.3
+        version: 5.5.3
       html-to-text:
         specifier: ^9.0.5
         version: 9.0.5
@@ -478,6 +484,8 @@ importers:
       lightgallery:
         specifier: ^2.7.2
         version: 2.7.2
+
+  packages/valaxy-addon-test: {}
 
   packages/valaxy-addon-twikoo:
     dependencies:

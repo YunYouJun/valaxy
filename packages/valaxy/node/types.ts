@@ -4,6 +4,7 @@ import type { VitePluginConfig as UnoCSSConfig } from 'unocss/vite'
 import type Pages from 'vite-plugin-pages'
 import type { UserConfig as ViteUserConfig } from 'vite'
 import type { presetAttributify, presetIcons, presetTypography, presetUno } from 'unocss'
+import type { Hookable } from 'hookable'
 import type { DefaultTheme, PartialDeep, ValaxyAddon, ValaxyConfig } from '../types'
 import type { ResolvedValaxyOptions } from './options'
 import type { MarkdownOptions } from './markdown/types'
@@ -15,6 +16,22 @@ export type UserValaxyNodeConfig<ThemeConfig = DefaultTheme.Config> = PartialDee
  */
 export type ValaxyConfigFn<ThemeConfig = DefaultTheme.Config> = (options: ResolvedValaxyOptions<ThemeConfig>) => ValaxyNodeConfig | Promise<ValaxyNodeConfig>
 export type ValaxyConfigExport<ThemeConfig = DefaultTheme.Config> = ValaxyNodeConfig<ThemeConfig> | ValaxyConfigFn<ThemeConfig>
+
+export type HookResult = Promise<void> | void
+
+export interface ValaxyHooks {
+  'options:resolved': () => HookResult
+  'config:init': () => HookResult
+  'build:before': () => HookResult
+  'build:after': () => HookResult
+}
+
+export interface ValaxyNode {
+  version: string
+
+  hooks: Hookable<ValaxyHooks>
+  hook: ValaxyNode['hooks']['hook']
+}
 
 export interface ValaxyExtendConfig {
   /**
@@ -57,6 +74,8 @@ export interface ValaxyExtendConfig {
     path: string
   }) => void
   addons?: ValaxyAddons
+
+  hooks?: Partial<ValaxyHooks>
 }
 
 export type ValaxyAddonLike = ValaxyAddon | false | null | undefined
@@ -74,4 +93,6 @@ export interface ValaxyAddonResolver {
   options: Record<string, any>
   configFile?: string
   pkg: Record<string, any>
+
+  setup?: (node: ValaxyNode) => void
 }

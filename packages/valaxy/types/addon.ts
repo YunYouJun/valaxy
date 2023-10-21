@@ -1,3 +1,4 @@
+// for client
 export interface ValaxyAddon<AddonOptions = Record<string, any>> {
   name: string
   /**
