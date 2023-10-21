@@ -9,7 +9,7 @@ export const addonTest = defineValaxyAddon(options => ({
 
   setup(valaxy) {
     valaxy.hook('build:before', () => {
-      consola.log('build:before')
+      consola.info('[valaxy-addon-test] build:before')
     })
   },
 }))

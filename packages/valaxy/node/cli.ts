@@ -176,7 +176,7 @@ cli.command(
 
     const valaxyApp = createValaxyNode(options)
     // resolve options and create valaxy app
-    valaxyApp.hooks.callHook('options:resolved')
+    await valaxyApp.hooks.callHook('options:resolved')
 
     const valaxyViteConfig: InlineConfig = mergeConfig(await mergeViteConfigs(options, 'build'), options.config.vite || {})
     const viteConfig: InlineConfig = mergeConfig(
@@ -193,7 +193,7 @@ cli.command(
       },
     )
     // init config
-    valaxyApp.hooks.callHook('config:init')
+    await valaxyApp.hooks.callHook('config:init')
 
     // merge index.html
     const templatePath = path.resolve(options.clientRoot, 'template.html')
@@ -204,7 +204,7 @@ cli.command(
     await fs.writeFile(indexPath, indexHtml, 'utf-8')
 
     // before build
-    valaxyApp.hooks.callHook('build:before')
+    await valaxyApp.hooks.callHook('build:before')
 
     try {
       if (ssg) {
@@ -234,7 +234,7 @@ cli.command(
       await fs.copyFile(templatePath, indexPath)
 
       // after build
-      valaxyApp.hooks.callHook('build:after')
+      await valaxyApp.hooks.callHook('build:after')
     }
   },
 )
