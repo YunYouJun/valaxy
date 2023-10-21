@@ -1,25 +1,14 @@
 <script lang="ts" setup>
 import { useRuntimeConfig } from 'valaxy'
-import { defineAsyncComponent } from 'vue'
 
 const runtimeConfig = useRuntimeConfig()
-
-// not import from 'valaxy-addon-waline' to judge
-const AsyncYunWaline = runtimeConfig.value.addons['valaxy-addon-waline']
-  ? defineAsyncComponent(() => import('./third/YunWaline.vue'))
-  : () => null
-
-// todo: refactor
-const AsyncYunTwikoo = runtimeConfig.value.addons['valaxy-addon-twikoo']
-  ? defineAsyncComponent(() => import('./third/YunTwikoo.vue'))
-  : () => null
 </script>
 
 <template>
   <YunCard w="full" p="4" class="comment sm:p-6 lg:px-12 xl:px-16">
     <ClientOnly>
-      <AsyncYunWaline />
-      <AsyncYunTwikoo />
+      <YunWaline v-if="runtimeConfig.addons['valaxy-addon-waline']" />
+      <YunTwikoo v-if="runtimeConfig.addons['valaxy-addon-twikoo']" />
     </ClientOnly>
   </YunCard>
 </template>

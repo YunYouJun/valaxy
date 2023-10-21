@@ -23,6 +23,7 @@ const emoji = computed(() => getEmojis(props.options.cdn))
 
 onMounted(() => {
   const { pageview, comment } = props.options
+
   if (pageview) {
     pageviewCount({
       serverURL: props.options.serverURL,
