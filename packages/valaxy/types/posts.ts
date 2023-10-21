@@ -24,6 +24,8 @@ export interface Photo {
   desc: string
 }
 
+export type ExcerptType = 'md' | 'html' | 'text' | 'ai'
+
 export interface PageFrontMatter extends Record<string, any> {
   /**
    * Path of post
@@ -182,7 +184,7 @@ export interface PostFrontMatter extends PageFrontMatter {
    * - html: render as html
    * - text: render as text
    */
-  excerpt_type: 'md' | 'text' | 'html'
+  excerpt_type: 'md' | 'text' | 'html' | 'ai'
 
   /**
    * Category

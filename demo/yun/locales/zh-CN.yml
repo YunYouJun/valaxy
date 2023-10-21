@@ -1,2 +1,5 @@
 docs:
   view_docs: 查看文档指南
+
+excerpt:
+  ai: 由 AI 生成的摘要

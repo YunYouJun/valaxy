@@ -3,7 +3,7 @@ import fs from 'fs-extra'
 import matter from 'gray-matter'
 import { isDate } from '@antfu/utils'
 import { convert } from 'html-to-text'
-import type { Page } from 'valaxy/types'
+import type { ExcerptType, Page } from 'valaxy/types'
 import type { ResolvedValaxyOptions } from '../options'
 import type { ValaxyExtendConfig } from '../types'
 import { EXCERPT_SEPARATOR } from '../constants'
@@ -16,14 +16,17 @@ import { presetStatistics } from './presets/statistics'
  * @param excerpt
  * @param type
  */
-function getExcerptByType(excerpt = '', type: 'md' | 'html' | 'text' = 'html') {
+function getExcerptByType(excerpt = '', type: ExcerptType = 'html') {
   switch (type) {
+    case 'ai':
     case 'md':
       return excerpt
     case 'html':
       return mdIt.render(excerpt)
     case 'text':
       return convert(mdIt.render(excerpt))
+    default:
+      return excerpt
   }
 }
 

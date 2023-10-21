@@ -4,4 +4,6 @@ categories:
   - A
   - B
   - C
+tags:
+ - A
 ---
