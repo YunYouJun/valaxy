@@ -35,3 +35,29 @@ end: false
 pnpm create valaxy
 # choose template addon
 ```
+
+### 使用生命周期钩子
+
+如示例所示，插件可以使用 `valaxy.hook` 来挂载生命周期钩子。
+实现在构建前/后以及其他节点做一些事情。
+
+> 请参考 [生命周期钩子](/guide/custom/hooks) 了解更多。
+
+```ts {11-14}
+import { defineValaxyAddon } from 'valaxy'
+import consola from 'consola'
+import pkg from '../package.json'
+
+export const addonTest = defineValaxyAddon(options => ({
+  name: pkg.name,
+  enable: true,
+  options,
+
+  setup(valaxy) {
+    valaxy.hook('build:before', () => {
+      // do something before build
+      consola.log('build:before')
+    })
+  },
+}))
+```
