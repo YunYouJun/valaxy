@@ -1,5 +1,5 @@
 import fs from 'fs-extra'
-import { type ResolvedValaxyOptions } from 'valaxy'
+import type { ResolvedValaxyOptions } from 'valaxy'
 import { ensurePrefix } from '@antfu/utils'
 import consola from 'consola'
 import fg from 'fast-glob'

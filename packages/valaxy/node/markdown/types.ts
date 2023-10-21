@@ -5,18 +5,18 @@ import type anchorPlugin from 'markdown-it-anchor'
 
 import type { KatexOptions } from 'katex'
 
-import {
-  type FrontmatterPluginOptions,
+import type {
+  FrontmatterPluginOptions,
 } from '@mdit-vue/plugin-frontmatter'
-import {
-  type HeadersPluginOptions,
+import type {
+  HeadersPluginOptions,
 } from '@mdit-vue/plugin-headers'
-import { type SfcPluginOptions } from '@mdit-vue/plugin-sfc'
-import { type TocPluginOptions } from '@mdit-vue/plugin-toc'
+import type { SfcPluginOptions } from '@mdit-vue/plugin-sfc'
+import type { TocPluginOptions } from '@mdit-vue/plugin-toc'
 
 // import type { lazyloadOptions } from './plugins/markdown-it/lazyload'
 
-import { type Blocks } from './plugins/markdown-it/container'
+import type { Blocks } from './plugins/markdown-it/container'
 
 export type ThemeOptions =
   | IThemeRegistration
