@@ -12,9 +12,11 @@ const { t } = useI18n()
       <div />
     </template>
     <div text="center" m="t-20">
-      <div text-4xl>
-        <div i-ri-alarm-warning-line inline-block />
+      <div class="not-found" title="404" font="mono">
+        404
       </div>
+
+      <router-view />
       <router-view />
       <div>
         <button btn text-sm m="3 t8" @click="router.back()">
@@ -24,3 +26,10 @@ const { t } = useI18n()
     </div>
   </Layout>
 </template>
+
+<style lang="scss" scoped>
+.not-found {
+  font-size: 10rem;
+  text-shadow: 0 5px 10px rgba(0,0,0,.25), 0 20px 20px rgba(0,0,0,.15);
+}
+</style>

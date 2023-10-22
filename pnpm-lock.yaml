@@ -188,8 +188,8 @@ importers:
         specifier: ^4.5.0
         version: 4.5.0(@types/node@20.8.7)(sass@1.69.4)
       vitepress:
-        specifier: 1.0.0-rc.22
-        version: 1.0.0-rc.22(@types/node@20.8.7)(postcss@8.4.31)(search-insights@2.8.3)(typescript@5.2.2)
+        specifier: 1.0.0-rc.23
+        version: 1.0.0-rc.23(@types/node@20.8.7)(postcss@8.4.31)(search-insights@2.8.3)(typescript@5.2.2)
       vue:
         specifier: ^3.3.6
         version: 3.3.6(typescript@5.2.2)
@@ -10536,8 +10536,8 @@ packages:
     optionalDependencies:
       fsevents: 2.3.3
 
-  /vitepress@1.0.0-rc.22(@types/node@20.8.7)(postcss@8.4.31)(search-insights@2.8.3)(typescript@5.2.2):
-    resolution: {integrity: sha512-n7le5iikCFgWMuX7sKfzDGJGlrsYQ5trG3S97BghNz2alOTr4Xp+GrB6ShwogUTX9gNgeNmrACjokhW55LNeBA==}
+  /vitepress@1.0.0-rc.23(@types/node@20.8.7)(postcss@8.4.31)(search-insights@2.8.3)(typescript@5.2.2):
+    resolution: {integrity: sha512-0YoBt8aFgbRt2JtYaCeTqq4W21q5lbGso+g1ZwkYYS35ExJxORssRJunhFuUcby8QeN4BP/88QDgsVSIVLAfXQ==}
     hasBin: true
     peerDependencies:
       markdown-it-mathjax3: ^4.3.2

@@ -10,6 +10,7 @@ import type { Argv } from 'yargs'
 import type { FuseListItem } from 'valaxy/types'
 import { resolveOptions } from '../options'
 import { setEnvProd } from '../utils/env'
+import { defineValaxyModule } from '../modules'
 import { commonOptions } from './options'
 
 /**
@@ -96,3 +97,15 @@ export function registerFuseCommand(cli: Argv<object>) {
     },
   )
 }
+
+export const fuseModule = defineValaxyModule({
+  extendCli(cli) {
+    registerFuseCommand(cli)
+  },
+
+  setup(node) {
+    node.hook('build:before', () => {
+      generateFuseList(node.options)
+    })
+  },
+})

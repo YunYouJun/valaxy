@@ -1,6 +1,6 @@
 import { dirname, resolve } from 'node:path'
 import { readFile } from 'node:fs/promises'
-import { cyan, dim } from 'kolorist'
+import { cyan, dim, yellow } from 'kolorist'
 
 import fg from 'fast-glob'
 import fs from 'fs-extra'
@@ -9,10 +9,13 @@ import MarkdownIt from 'markdown-it'
 import type { Author, FeedOptions, Item } from 'feed'
 import { Feed } from 'feed'
 import consola from 'consola'
-import type { ResolvedValaxyOptions } from './options'
-import { getCreatedTime, getUpdatedTime } from './utils/date'
-import { ensurePrefix, isExternal } from './utils'
-import { EXCERPT_SEPARATOR } from './constants'
+import { type ResolvedValaxyOptions, resolveOptions } from '../options'
+import { getCreatedTime, getUpdatedTime } from '../utils/date'
+import { ensurePrefix, isExternal } from '../utils'
+import { EXCERPT_SEPARATOR } from '../constants'
+import { commonOptions } from '../cli/options'
+import { setEnvProd } from '../utils/env'
+import { defineValaxyModule } from '.'
 
 const markdown = MarkdownIt({
   html: true,
@@ -25,6 +28,8 @@ const markdown = MarkdownIt({
  * @param options
  */
 export async function build(options: ResolvedValaxyOptions) {
+  consola.info(`${yellow('RSS Generating ...')}`)
+
   const { config } = options
   const siteConfig = config.siteConfig
 
@@ -46,18 +51,23 @@ export async function build(options: ResolvedValaxyOptions) {
   consola.info(`RSS Site Url: ${cyan(siteUrl)}`)
 
   const ccVersion = (siteConfig.license?.type === 'zero') ? '1.0' : '4.0'
+  const feedNameMap: Record<string, string> = {
+    atom: siteConfig.feed?.name ? `${siteConfig.feed?.name}.atom` : 'atom.xml',
+    json: `${siteConfig.feed?.name || 'feed'}.json`,
+    rss: `${siteConfig.feed?.name || 'feed'}.xml`,
+  }
+
   const feedOptions: FeedOptions = {
     title: siteConfig.title || 'Valaxy Blog',
     description: siteConfig.description,
     id: siteUrl || 'valaxy',
     link: siteUrl,
     copyright: `CC ${siteConfig.license?.type?.toUpperCase()} ${ccVersion} ${new Date().getFullYear()} © ${siteConfig.author?.name}`,
-    feedLinks: {
-      json: `${siteUrl}feed.json`,
-      atom: `${siteUrl}feed.atom`,
-      rss: `${siteUrl}feed.xml`,
-    },
+    feedLinks: {},
   }
+  Object.keys(feedNameMap).forEach((key) => {
+    feedOptions.feedLinks[key] = `${siteUrl}${feedNameMap[key]}`
+  })
 
   // generate
   const files = await fg(`${options.userRoot}/pages/posts/**/*.md`)
@@ -127,25 +137,50 @@ export async function build(options: ResolvedValaxyOptions) {
   posts.forEach(item => feed.addItem(item))
   // items.forEach(i=> console.log(i.title, i.date))
 
-  await fs.ensureDir(dirname(`./dist/${siteConfig.feed?.name} || 'feed.xml'`))
+  await fs.ensureDir(dirname(`./dist/${feedNameMap.atom}`))
   const path = resolve(options.userRoot, './dist')
 
-  const types = ['xml', 'atom', 'json']
+  const types = ['rss', 'atom', 'json']
   types.forEach((type) => {
     let data = ''
-    let name = `${path}/${siteConfig.feed?.name || 'feed'}.${type}`
-    if (type === 'xml') {
+    const name = `${path}/${feedNameMap[type]}`
+    if (type === 'rss')
       data = feed.rss2()
-    }
-    else if (type === 'atom') {
-      if (!siteConfig.feed?.name)
-        name = `${path}/atom.xml`
+    else if (type === 'atom')
       data = feed.atom1()
-    }
-    else if (type === 'json') {
+    else if (type === 'json')
       data = feed.json1()
-    }
+
     fs.writeFileSync(name, data, 'utf-8')
     consola.info(`${type}: ${dim(name)}`)
   })
 }
+
+export const rssModule = defineValaxyModule({
+  /**
+   * valaxy rss
+   * @param cli
+   */
+  extendCli(cli) {
+    cli.command(
+      'rss [root]',
+      'generate rss feed',
+      args => commonOptions(args)
+        .strict()
+        .help(),
+      async ({ root }) => {
+        setEnvProd()
+        const options = await resolveOptions({ userRoot: root }, 'build')
+        await build(options)
+      },
+    )
+  },
+
+  setup(node) {
+    node.hook('build:after', () => {
+      // eslint-disable-next-line no-console
+      console.log()
+      build(node.options)
+    })
+  },
+})

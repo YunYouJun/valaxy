@@ -107,7 +107,7 @@ export default defineSiteConfig({
     "theme": "yun"
   },
   "scripts": {
-    "build": "npm run fuse && npm run build:ssg && npm run rss",
+    "build": "npm run fuse && npm run build:ssg",
     "build:ssg": "valaxy build --ssg",
     "fuse": "valaxy fuse",
     "rss": "valaxy rss"
@@ -291,6 +291,7 @@ export const install: UserModule = ({ isClient, app, router }) => {
   }
 }
 ```
+
 :::
 
 ::: en
@@ -329,6 +330,7 @@ export const install: UserModule = ({ isClient, app, router }) => {
   }
 }
 ```
+
 :::
 
 More info see [vue-gtag-next](https://github.com/MatteoGabriele/vue-gtag-next).

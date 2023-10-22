@@ -4,7 +4,7 @@ export default defineConfig((options) => {
   return {
     entry: [
       'node/index.ts',
-      'node/cli.ts',
+      'node/cli/index.ts',
       // 'client/index.ts',
       'types/index.ts',
     ],

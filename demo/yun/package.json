@@ -5,7 +5,7 @@
   },
   "type": "module",
   "scripts": {
-    "build": "npm run fuse && npm run build:ssg && npm run rss",
+    "build": "npm run fuse && npm run build:ssg",
     "build:spa": "valaxy build",
     "build:ssg": "valaxy build --ssg --log=info",
     "dev": "nodemon -w \"../../packages/valaxy/dist/*.mjs\" --exec \"valaxy . --port 3333\"",

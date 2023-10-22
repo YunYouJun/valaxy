@@ -38,6 +38,7 @@ export function createValaxyNode(options: ResolvedValaxyOptions) {
     version,
     hooks,
     hook: hooks.hook,
+    options,
   }
 
   options.addons.forEach((addon) => {

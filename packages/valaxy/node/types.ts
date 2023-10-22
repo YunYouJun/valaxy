@@ -31,9 +31,23 @@ export interface ValaxyNode {
 
   hooks: Hookable<ValaxyHooks>
   hook: ValaxyNode['hooks']['hook']
+
+  options: ResolvedValaxyOptions
 }
 
 export interface ValaxyExtendConfig {
+  /**
+   * internal modules
+   */
+  modules: {
+    rss: {
+      /**
+       * enable rss
+       */
+      enable: boolean
+    }
+  }
+
   /**
    * Markdown Feature
    */

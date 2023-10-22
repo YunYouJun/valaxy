@@ -129,6 +129,12 @@ export const defaultValaxyConfig: ValaxyNodeConfig = {
   // },
   runtimeConfig: { addons: {} },
 
+  modules: {
+    rss: {
+      enable: true,
+    },
+  },
+
   features: {
     katex: true,
   },

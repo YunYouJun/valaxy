@@ -56,7 +56,7 @@ You can configure shortcut scripts in `package.json`. (**Suggested**)
 ```json
 {
   "scripts": {
-    "build": "npm run build:ssg && npm run rss",
+    "build": "npm run build:ssg",
     "build:spa": "valaxy build",
     "build:ssg": "valaxy build --ssg",
     "dev": "valaxy .",
