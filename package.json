@@ -21,6 +21,7 @@
     "node": "^18.0.0 || >=20.0.0"
   },
   "scripts": {
+    "build:all": "pnpm -r --filter=./packages/** --parallel run build",
     "build": "pnpm run build:valaxy",
     "build:valaxy": "pnpm -C packages/valaxy run build",
     "build:demo": "pnpm -C demo/yun run build",

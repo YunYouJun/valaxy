@@ -1,5 +1,7 @@
 import { useDark, useToggle } from '@vueuse/core'
 
+import 'valaxy/client/styles/common/view-transition.css'
+
 export const isDark = useDark()
 export const toggleDark = useToggle(isDark)
 

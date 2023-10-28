@@ -26,7 +26,7 @@ jobs:
           registry-url: https://registry.npmjs.org/
           cache: pnpm
 
-      - run: pnpm run build
+      - run: pnpm run build:all
       # https://docs.github.com/en/actions/publishing-packages/publishing-nodejs-packages
       - run: npm run ci:publish
         env:
