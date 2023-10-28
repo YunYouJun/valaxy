@@ -1,7 +1,7 @@
 {
   "name": "create-valaxy",
   "type": "module",
-  "version": "0.15.11-beta.1",
+  "version": "0.15.12",
   "description": "Create Starter Template for Valaxy",
   "author": {
     "email": "me@yunyoujun.cn",
