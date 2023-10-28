@@ -15,7 +15,7 @@ context('Frontmatter', {
       .first()
       .click()
       .url()
-      .should('eq', 'http://localhost:4859/guide/getting-started')
+      .should('include', '/guide/getting-started')
   })
 
   it('time warning', () => {

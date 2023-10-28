@@ -1,6 +1,7 @@
 import { defineConfig } from 'cypress'
 
 export default defineConfig({
+  projectId: 'atamvp',
   e2e: {
     baseUrl: 'http://localhost:3333',
     chromeWebSecurity: false,

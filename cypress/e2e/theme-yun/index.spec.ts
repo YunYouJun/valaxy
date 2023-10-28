@@ -7,7 +7,7 @@ context('Theme Yun', {
 
   it('basic', () => {
     cy.url()
-      .should('eq', 'http://localhost:3333/')
+      .should('eq', Cypress.env('theme-yun'))
   })
 
   it('banner', () => {
@@ -31,7 +31,7 @@ context('Theme Yun', {
       .first()
       .click()
       .url()
-      .should('eq', 'http://localhost:3333/posts/hello-valaxy')
+      .should('include', '/posts/hello-valaxy')
 
     cy.contains('Hello, Valaxy!')
       .should('exist')
@@ -41,7 +41,7 @@ context('Theme Yun', {
       .should('exist')
       .click()
       .url()
-      .should('contain', 'http://localhost:3333/posts/')
+      .should('include', `/posts/`)
   })
 
   it('comment', () => {
