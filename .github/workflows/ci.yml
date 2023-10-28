@@ -132,7 +132,7 @@ jobs:
         uses: cypress-io/github-action@v4
         with:
           install-command: echo
-          build: pnpm run build && cd demo/yun && pnpm fuse
+          build: 'pnpm run build && cd demo/yun && pnpm fuse'
           start: pnpm demo, pnpm run docs:dev
           parallel: true
           wait-on: 'http://localhost:3000, http://localhost:4859'
