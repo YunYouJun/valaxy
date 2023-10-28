@@ -3,6 +3,7 @@ import type { FuseOptions } from '@vueuse/integrations/useFuse'
 import type { ILazyLoadOptions } from 'vanilla-lazyload'
 import type * as DefaultTheme from 'valaxy/default-theme'
 import type { ValaxyAddon } from '../types'
+import type { PostFrontMatter } from './posts'
 import type { FuseListItem } from './node'
 
 export interface SocialLink {
@@ -156,6 +157,11 @@ export interface SiteConfig {
       keys: FuseOptions<FuseListItem>['keys']
     }
   }
+
+  /**
+   * set post default frontmatter
+   */
+  frontmatter: Partial<PostFrontMatter>
 
   /**
    * comment: waline/...

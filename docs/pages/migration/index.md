@@ -15,7 +15,7 @@ top: 10
 - 将你的文章（Markdown 文件）复制至 Valaxy `pages/posts` 目录下。
 - 将你的自定义页面（非文章的 Markdown/HTML 文件）复制至 Valaxy `pages` 目录下。
 - 将你的静态资源（图片等）复制至 Valaxy `public` 目录下。
-- 参考 [配置](/guide/config) 配置你的配置文件 `valaxy.config.ts`/`site.config.ts`。
+- 参考 [配置](/guide/config/) 配置你的配置文件 `valaxy.config.ts`/`site.config.ts`。
 
 ## 常见问题 {lang="zh-CN"}
 

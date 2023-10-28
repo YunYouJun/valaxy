@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import { computed } from 'vue'
-import { removeItemFromCategory, useCategory, usePageList, useSidebar } from 'valaxy'
+import { removeItemFromCategory, useCategories, usePageList, useSidebar } from 'valaxy'
 import { useThemeConfig } from '../composables'
 
 defineProps<{
@@ -10,8 +10,9 @@ defineProps<{
 const pages = usePageList()
 const themeConfig = useThemeConfig()
 
+const sidebar = computed(() => themeConfig.value.sidebar)
 const categories = computed(() => {
-  const cs = useCategory('', pages.value)
+  const cs = useCategories('', pages.value)
   const cList = cs.value
   removeItemFromCategory(cList, 'Uncategorized')
 
@@ -25,6 +26,10 @@ const categories = computed(() => {
   return cList
 })
 
+function getCategoryByName(name: string) {
+  return categories.value.children.find(c => c.name === name)
+}
+
 const { hasSidebar } = useSidebar()
 </script>
 
@@ -35,7 +40,22 @@ const { hasSidebar } = useSidebar()
     @click.stop
   >
     <div text="left" m="2">
-      <PressCategories :categories="categories.children" :collapsable="false" />
+      <ul v-for="item in sidebar" :key="item" class="category-list">
+        <template v-if="typeof item === 'string'">
+          <PressCategory
+            v-if="getCategoryByName(item)"
+            :category="getCategoryByName(item)"
+            :collapsable="false"
+          />
+        </template>
+        <PressSidebarItem
+          v-else
+          p="t-2"
+          border="t t-$pr-c-divider-light"
+          :item="item"
+          :depth="0"
+        />
+      </ul>
     </div>
   </aside>
 </template>
@@ -84,5 +104,55 @@ const { hasSidebar } = useSidebar()
   .press-sidebar {
     top: 0;
   }
+}
+
+.category-list {
+  &:first-child {
+    .category-list-item {
+      border-top: 0;
+    }
+  }
+}
+
+.post-list-item {
+  a {
+    color: var(--va-c-text-light);
+    transition: all 0.2s;
+
+    &:hover {
+      color: var(--va-c-primary);
+    }
+
+    &.active {
+      color: var(--va-c-primary);
+    }
+  }
+}
+
+.press-sidebar-item {
+  .caret {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-right: -7px;
+    width: 32px;
+    height: 32px;
+    color: var(--vp-c-text-3);
+    cursor: pointer;
+    transition: color 0.25s;
+    flex-shrink: 0;
+  }
+
+  &:hover .caret {
+    color: var(--vp-c-text-2);
+  }
+
+  &:hover .caret:hover {
+    color: var(--vp-c-text-1);
+  }
+}
+
+.category-list+.category-list {
+  margin-top: 1rem;
 }
 </style>

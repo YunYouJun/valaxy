@@ -92,3 +92,7 @@ features:
 
 tooltip:
   edit_this_page: 在 GitHub 上编辑此页
+
+toc:
+  base-config: 基础配置
+  extend-config: 扩展配置

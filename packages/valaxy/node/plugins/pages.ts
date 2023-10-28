@@ -52,7 +52,7 @@ export function createPagesPlugin(options: ResolvedValaxyOptions) {
     ) {
       let path: string = route.component
 
-      const defaultFrontmatter = {}
+      const defaultFrontmatter = valaxyConfig.siteConfig.frontmatter || {}
       if (!route.meta) {
         route.meta = {
           frontmatter: defaultFrontmatter,

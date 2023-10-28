@@ -49,7 +49,7 @@ post:
   view_link: 查看链接
   read_more: 阅读更多
   cover: 封面
-  time_warning: 本文最后更新于 {ago}，文中所描述的信息可能已发生改变。
+  time_warning: 本文最后更新于{ago}，文中所描述的信息可能已发生改变。
   copyright:
     author: 本文作者
     link: 本文链接

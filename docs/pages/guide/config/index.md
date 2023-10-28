@@ -4,7 +4,6 @@ title_zh-CN: 基础配置
 categories:
   - config
 end: false
-top: 10
 ---
 
 ## 配置说明 {lang="zh-CN"}
@@ -14,12 +13,12 @@ top: 10
 ::: zh-CN
 为了便于配置，Valaxy 将配置分为了三种。
 
-`valaxy.config.ts` 是配置的主入口。
+`valaxy.config.ts` 是配置的主入口，它包含了一下配置。
 
 - `siteConfig`: 站点**信息**配置，这部分内容面向站点展示且在任何主题也是通用的格式
 - `themeConfig`: 主题配置，这部分内容仅在特定主题生效
 - `runtimeConfig`: 运行时的配置（由 Valaxy 自动生成），用户无需配置
-- 其他 Valaxy 通用配置内容（如需要在 Node 端处理的配置）
+- 其他 Valaxy 通用配置内容（如需要在 Node 端处理的配置 `unocss`/`addons`）
 
 譬如：
 :::
@@ -187,6 +186,28 @@ export default defineSiteConfig({
 ```
 
 :::
+
+### Default Frontmatter
+
+为所有文章设置默认的 Frontmatter。
+
+譬如：
+
+> 设置 `time_warning: false`，则所有文章都不会显示阅读时间警告。
+
+```ts {8-10}
+// site.config.ts
+import { defineSiteConfig } from 'valaxy'
+
+export default defineSiteConfig({
+  /**
+   * 默认 Frontmatter
+   */
+  frontmatter: {
+    time_warning: false,
+  }
+})
+```
 
 ### 社交图标 {lang="zh-CN"}
 
@@ -400,104 +421,3 @@ export default defineSiteConfig({
 ::: en
 Please refer to [Using Themes](/themes/use) and the theme you are using to configure it.
 :::
-
-## Valaxy 扩展配置 {lang="zh-CN"}
-
-## Valaxy Extended Configuration {lang="zh-CN"}
-
-> [packages/valaxy/node/type.ts](https://github.com/YunYouJun/valaxy/blob/main/packages/valaxy/node/types.ts)
-
-### Unocss Presets
-
-```ts
-// types
-export interface ValaxyExtendConfig {
-  /**
-   * Markdown Feature
-   */
-  features: {
-    /**
-     * enable katex for global
-     */
-    katex: boolean
-  }
-
-  vite?: ViteUserConfig
-  vue?: Parameters<typeof Vue>[0]
-  components?: Parameters<typeof Components>[0]
-  unocss?: UnoCSSConfig
-  /**
-   * unocss presets
-   */
-  unocssPresets?: {
-    uno?: Parameters<typeof presetUno>[0]
-    attributify?: Parameters<typeof presetAttributify>[0]
-    icons?: Parameters<typeof presetIcons>[0]
-    typography?: Parameters<typeof presetTypography>[0]
-  }
-  pages?: Parameters<typeof Pages>[0]
-  /**
-   * for markdown
-   */
-  markdown?: MarkdownOptions
-  extendMd?: (ctx: {
-    route: {
-      meta: { frontmatter: Record<string, any>; layout?: string } & object
-      path: string
-      component: string
-    }
-    data: Readonly<Record<string, any>>
-    content: string
-    excerpt?: string
-    path: string
-  }) => void
-  addons?: ValaxyAddons
-}
-```
-
-::: zh-CN
-所以，你可以像这样使用：
-:::
-
-::: en
-So you can use it like this:
-:::
-
-```ts
-// valaxy.config.ts
-import { defineValaxyConfig } from 'valaxy'
-import type { ThemeConfig } from 'valaxy-theme-yun'
-import { addonComponents } from 'valaxy-addon-components'
-import Inspect from 'vite-plugin-inspect'
-
-const safelist = [
-  'i-ri-home-line',
-]
-
-export default defineValaxyConfig<ThemeConfig>({
-  // site config see site.config.ts or write in siteConfig
-  siteConfig: {},
-
-  theme: 'yun',
-  themeConfig: {
-    banner: {
-      enable: true,
-      title: '云游君的小站',
-    },
-  },
-
-  vite: {
-    // https://github.com/antfu/vite-plugin-inspect
-    // Visit http://localhost:3333/__inspect/ to see the inspector
-    plugins: [Inspect()],
-  },
-
-  unocss: {
-    safelist,
-  },
-
-  addons: [
-    addonComponents()
-  ],
-})
-```

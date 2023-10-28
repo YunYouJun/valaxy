@@ -216,14 +216,14 @@ npm run dev
 ::: zh-CN
 博客创建完毕，查看本地 `http://localhost:4859/`，玩的开心！
 
-- Valaxy 博客通用的配置可参见 [配置](/guide/config) 与 [自定义扩展](/guide/custom/extend)。
+- Valaxy 博客通用的配置可参见 [配置](/guide/config/) 与 [自定义扩展](/guide/custom/extend)。
 - Valaxy 主题独有配置请参见对应主题文档。（Valaxy Theme Yun 主题文档编写中……）
 :::
 
 ::: en
 See `http://localhost:4859/`, have fun!
 
-- See [Config](/guide/config) and [Custom Extensions](/guide/custom/extend) for the general configuration for Valaxy blogs.
+- See [Config](/guide/config/) and [Custom Extensions](/guide/custom/extend) for the general configuration for Valaxy blogs.
 - For configuring Valaxy themes, please see the documentation for the corresponding themes. (Docs for Valaxy Theme Yun is still work in progress)
 :::
 

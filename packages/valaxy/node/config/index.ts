@@ -77,6 +77,10 @@ export const defaultSiteConfig: SiteConfig = {
     enable: false,
   },
 
+  frontmatter: {
+    time_warning: 180 * 24 * 60 * 60 * 1000,
+  },
+
   cdn: {
     prefix: 'https://unpkg.com/',
   },

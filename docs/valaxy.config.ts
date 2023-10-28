@@ -37,7 +37,32 @@ export default defineValaxyConfig<PressTheme.Config>({
   theme: 'press',
   themeConfig: {
     logo: '/favicon.svg',
-    sidebar: ['getting-started', 'guide', 'config', 'migration', 'built-ins', 'third', 'custom', 'examples', 'theme', 'addon', 'dev'],
+    sidebar: [
+      'getting-started',
+      'guide',
+      {
+        text: 'category.config',
+        collapsed: false,
+        items: [
+          {
+            text: 'toc.base-config',
+            link: '/guide/config/',
+          },
+          {
+            text: 'toc.extend-config',
+            link: '/guide/config/extend',
+          },
+        ],
+      },
+      'migration',
+      'built-ins',
+      'third',
+      'custom',
+      'examples',
+      'theme',
+      'addon',
+      'dev',
+    ],
     socialLinks: [
       { icon: 'i-ri-github-line', link: 'https://github.com/YunYouJun/valaxy' },
     ],

@@ -32,7 +32,8 @@ function getTitle(post: Post | any) {
     v-if="category.total"
     p="t-2"
     w="full" border="t t-$pr-c-divider-light"
-    class="category-list-item inline-flex items-center justify-between"
+    class="press-sidebar-item category-list-item inline-flex items-center justify-between"
+    text-14px
     tabindex="0"
   >
     <span class="category-name" font="bold" m="l-1" @click="displayCategory ? displayCategory(category.name) : null">
@@ -41,7 +42,9 @@ function getTitle(post: Post | any) {
     </span>
     <button
       tabindex="0" role="button" aria-label="toggle section"
-      class="folder-action inline-flex cursor-pointer" opacity="50" @click="collapsable = !collapsable"
+      class="caret folder-action inline-flex cursor-pointer"
+      text-base
+      @click="collapsable = !collapsable"
     >
       <div v-if="collapsable" i-ri-folder-add-line />
       <div v-else i-ri-folder-reduce-line />
