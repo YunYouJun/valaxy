@@ -30,7 +30,6 @@
       "require": "./dist/node/index.cjs"
     },
     "./types": "./dist/types/index.d.ts",
-    "./default-theme": "./types/default-theme.d.ts",
     "./*": "./*"
   },
   "main": "dist/node/index.cjs",

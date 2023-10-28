@@ -7,4 +7,5 @@ export * from './posts'
 // used in node, but without node deps
 export * from './node'
 
-export type * as DefaultTheme from 'valaxy/default-theme'
+// default theme
+export * from './default-theme'

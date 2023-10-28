@@ -1,10 +1,12 @@
 import type { ZoomOptions } from 'medium-zoom'
 import type { FuseOptions } from '@vueuse/integrations/useFuse'
 import type { ILazyLoadOptions } from 'vanilla-lazyload'
-import type * as DefaultTheme from 'valaxy/default-theme'
 import type { ValaxyAddon } from '../types'
+import type { DefaultTheme } from './default-theme'
 import type { PostFrontMatter } from './posts'
 import type { FuseListItem } from './node'
+
+import './default-theme'
 
 export interface SocialLink {
   /**

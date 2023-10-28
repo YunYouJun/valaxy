@@ -9,5 +9,9 @@ const addon = addonWaline.useAddonWaline()
 </script>
 
 <template>
-  <WalineClient w="full" :options="addon.options || {}" />
+  <WalineClient
+    w="full" :options="addon.options || {
+      serverURL: '',
+    }"
+  />
 </template>
