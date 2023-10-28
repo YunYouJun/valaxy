@@ -15,7 +15,7 @@ const layout = useLayout()
     <PressBackdrop :show="isSidebarOpen" @click="closeSidebar" />
 
     <slot>
-      <router-view v-slot="{ Component }">
+      <RouterView v-slot="{ Component }">
         <component :is="asAny(Component)">
           <template #main-header>
             <slot name="main-header" />
@@ -49,7 +49,7 @@ const layout = useLayout()
             <slot name="footer" />
           </template>
         </component>
-      </router-view>
+      </RouterView>
     </slot>
 
     <PressFooter />

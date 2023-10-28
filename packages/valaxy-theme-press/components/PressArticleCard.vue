@@ -12,9 +12,9 @@ defineProps<{
     <div class="space-y-5 xl:col-span-3">
       <div class="space-y-6">
         <h2 class="text-2xl leading-8 font-bold tracking-tight">
-          <router-link class="text-gray-900" :to="post.path || ''">
+          <RouterLink class="text-gray-900" :to="post.path || ''">
             {{ post.title }}
-          </router-link>
+          </RouterLink>
         </h2>
         <div
           v-if="post.excerpt"
@@ -23,9 +23,9 @@ defineProps<{
         />
       </div>
       <div class="text-base leading-6 font-medium">
-        <router-link class="link" aria-label="read more" :to="post.path || ''">
+        <RouterLink class="link" aria-label="read more" :to="post.path || ''">
           Read more →
-        </router-link>
+        </RouterLink>
       </div>
     </div>
   </article>

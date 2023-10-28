@@ -82,7 +82,7 @@ const title = usePostTitle(frontmatter)
         />
       </div>
 
-      <router-view />
+      <RouterView />
     </template>
 
     <template #main-nav-before>

@@ -5,9 +5,9 @@ defineProps<{
 </script>
 
 <template>
-  <transition name="fade">
+  <Transition name="fade">
     <div v-if="show" class="press-backdrop" />
-  </transition>
+  </Transition>
 </template>
 
 <style scoped lang="scss">

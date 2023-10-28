@@ -48,7 +48,7 @@ const YunGallery = runtimeConfig.value.addons['valaxy-addon-lightgallery']
       </div>
       <ValaxyGalleryDecrypt v-if="frontmatter.encryptedPhotos" :encrypted-photos="frontmatter.encryptedPhotos" />
       <YunGallery v-else :photos="photos" />
-      <router-view />
+      <RouterView />
     </template>
   </Layout>
 </template>

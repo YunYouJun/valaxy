@@ -32,7 +32,7 @@ const isPage = computed(() => route.path.startsWith('/page'))
     <slot name="board" />
 
     <slot>
-      <router-view />
+      <RouterView />
     </slot>
 
     <YunFooter />

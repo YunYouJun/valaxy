@@ -16,8 +16,8 @@ const { t } = useI18n()
         404
       </div>
 
-      <router-view />
-      <router-view />
+      <RouterView />
+      <RouterView />
       <div>
         <button btn text-sm m="3 t8" @click="router.back()">
           {{ t('button.back') }}

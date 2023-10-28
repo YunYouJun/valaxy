@@ -18,10 +18,10 @@ const themeConfig = useThemeConfig()
 
 <template>
   <div class="pr-navbar flex justify-between items-center pl-4 pr-2" :class="{ 'has-sidebar': hasSidebar }">
-    <router-link class="text-xl flex justify-center items-center" to="/" :aria-label="siteConfig.title">
+    <RouterLink class="text-xl flex justify-center items-center" to="/" :aria-label="siteConfig.title">
       <img v-if="themeConfig.logo" class="logo" :src="themeConfig.logo" alt="LOGO">
       <span class="inline-flex">{{ siteConfig.title }}</span>
-    </router-link>
+    </RouterLink>
     <div class="self-stretch flex justify-center items-center text-sm leading-5">
       <PressNavBarSearch p="x-2" />
       <PressNavBarMenu p="x-2" />

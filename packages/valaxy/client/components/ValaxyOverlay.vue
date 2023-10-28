@@ -7,9 +7,9 @@ withDefaults(defineProps<{
 </script>
 
 <template>
-  <transition name="fade">
+  <Transition name="fade">
     <div v-if="show" class="va-overlay" />
-  </transition>
+  </Transition>
 </template>
 
 <style lang="scss">

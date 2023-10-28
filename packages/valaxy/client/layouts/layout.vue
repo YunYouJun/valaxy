@@ -4,7 +4,7 @@ import { asAny } from 'valaxy'
 </script>
 
 <template>
-  <router-view v-slot="{ Component }">
+  <RouterView v-slot="{ Component }">
     <Component :is="asAny(Component)">
       <template #main-header>
         <slot name="main-header" />
@@ -35,5 +35,5 @@ import { asAny } from 'valaxy'
         <slot name="footer" />
       </template>
     </Component>
-  </router-view>
+  </RouterView>
 </template>

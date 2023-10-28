@@ -69,9 +69,9 @@ const sortedYears = computed(() => {
             <time v-if="post.date" class="post-time" font="mono" opacity="80">{{ formatDate(post.date, 'MM-DD') }}</time>
           </div>
           <h2 class="post-title" inline-flex items-center font="serif black">
-            <router-link :to="post.path || ''" class="post-title-link">
+            <RouterLink :to="post.path || ''" class="post-title-link">
               {{ post.title }}
-            </router-link>
+            </RouterLink>
           </h2>
         </header>
       </article>

@@ -23,7 +23,7 @@ useSchemaOrg([
       <YunPageHeader :title="title || t('menu.archives')" :icon="frontmatter.icon || 'i-ri-archive-line'" :color="frontmatter.color" />
     </template>
     <template #main-content>
-      <router-view />
+      <RouterView />
       <YunPostCollapse :posts="site.postList" />
     </template>
   </Layout>

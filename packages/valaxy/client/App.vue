@@ -108,5 +108,5 @@ onBeforeMount(() => {
   <ValaxyThemeApp />
   <ValaxyAddons />
   <ValaxyUserApp />
-  <router-view />
+  <RouterView />
 </template>

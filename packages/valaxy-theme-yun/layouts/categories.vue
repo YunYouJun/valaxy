@@ -52,7 +52,7 @@ useSchemaOrg([
         {{ t('counter.categories', categories.children.length) }}
       </div>
       <YunCategories :categories="categories.children" />
-      <router-view />
+      <RouterView />
     </template>
 
     <template #main-nav-before>

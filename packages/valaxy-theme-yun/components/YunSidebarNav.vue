@@ -14,22 +14,22 @@ const tags = useTags()
 
 <template>
   <nav class="site-nav" text-xl mt-6>
-    <router-link class="site-link-item yun-icon-btn" to="/" :title="t('menu.home')">
+    <RouterLink class="site-link-item yun-icon-btn" to="/" :title="t('menu.home')">
       <div i-ri-home-4-line />
-    </router-link>
+    </RouterLink>
 
-    <router-link class="site-link-item" to="/archives/" :title="t('menu.archives')">
+    <RouterLink class="site-link-item" to="/archives/" :title="t('menu.archives')">
       <div class="icon" i-ri-archive-line />
       <span class="count">{{ site.postList.length }}</span>
-    </router-link>
-    <router-link class="site-link-item" to="/categories/" :title="t('menu.categories')">
+    </RouterLink>
+    <RouterLink class="site-link-item" to="/categories/" :title="t('menu.categories')">
       <div class="icon" i-ri-folder-2-line />
       <span class="count">{{ Array.from(categories.children).length }}</span>
-    </router-link>
-    <router-link class="site-link-item" to="/tags/" :title="t('menu.tags')">
+    </RouterLink>
+    <RouterLink class="site-link-item" to="/tags/" :title="t('menu.tags')">
       <div class="icon" i-ri-price-tag-3-line />
       <span class="count">{{ Array.from(tags).length }}</span>
-    </router-link>
+    </RouterLink>
 
     <AppLink class="site-link-item yun-icon-btn" :to="themeConfig.menu.custom.url" :title="t(themeConfig.menu.custom.title)">
       <div :class="themeConfig.menu.custom.icon" />

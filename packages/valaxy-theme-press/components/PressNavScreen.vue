@@ -11,7 +11,7 @@ const { lockBodyScroll, unlockBodyScroll } = useBodyScrollLock(screen)
 </script>
 
 <template>
-  <transition
+  <Transition
     name="fade"
     @enter="lockBodyScroll"
     @after-leave="unlockBodyScroll"
@@ -27,7 +27,7 @@ const { lockBodyScroll, unlockBodyScroll } = useBodyScrollLock(screen)
         <slot name="nav-screen-content-after" />
       </div>
     </div>
-  </transition>
+  </Transition>
 </template>
 
 <style scoped>

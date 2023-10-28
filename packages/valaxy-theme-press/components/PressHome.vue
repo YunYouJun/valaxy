@@ -13,7 +13,7 @@
     <slot name="home-features-after" />
 
     <slot>
-      <router-view />
+      <RouterView />
     </slot>
   </div>
 </template>

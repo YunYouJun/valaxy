@@ -133,7 +133,7 @@ jobs:
         with:
           install-command: echo
           build: pnpm run build
-          start: pnpm fuse && pnpm demo
+          start: cd demo/yun && pnpm fuse && pnpm dev
           wait-on: 'http://localhost:3333'
 
       - name: Cypress Docs

@@ -20,7 +20,7 @@ const isExternalLink = computed(() => {
     <slot />
     <div v-if="showExternalIcon" class="icon-link inline-block" i-ri-arrow-right-up-line />
   </a>
-  <router-link v-else v-bind="$attrs" :to="link">
+  <RouterLink v-else v-bind="$attrs" :to="link">
     <slot />
-  </router-link>
+  </RouterLink>
 </template>

@@ -29,7 +29,7 @@ const albums = computed(() => frontmatter.value.albums || [])
         {{ t('counter.albums', albums.length) }}
       </div>
       <YunAlbumList :albums="albums" />
-      <router-view />
+      <RouterView />
     </template>
   </Layout>
 </template>

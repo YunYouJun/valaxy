@@ -84,10 +84,10 @@ onMounted(() => {
         </template>
 
         <template v-else>
-          <router-link v-if="categoryItem.title" :to="categoryItem.path || ''" class="inline-flex items-center">
+          <RouterLink v-if="categoryItem.title" :to="categoryItem.path || ''" class="inline-flex items-center">
             <div i-ri-file-text-line />
             <span m="l-1" font="serif black">{{ getTitle(categoryItem) }}</span>
-          </router-link>
+          </RouterLink>
         </template>
       </li>
     </ul>

@@ -53,7 +53,7 @@ const localeTitle = computed(() => getLocaleTitle(locale.value, frontmatter.valu
     >
       <PressAuthor v-if="frontmatter.author" :frontmatter="frontmatter" />
       <div class="divide-y divide-gray-200 xl:pb-0 xl:col-span-8 xl:row-span-2">
-        <router-view />
+        <RouterView />
       </div>
 
       <footer
@@ -70,9 +70,9 @@ const localeTitle = computed(() => getLocaleTitle(locale.value, frontmatter.valu
             Next Article
           </h2>
           <div class="link">
-            <router-link :to="nextPost.href">
+            <RouterLink :to="nextPost.href">
               {{ nextPost.title }}
-            </router-link>
+            </RouterLink>
           </div>
         </div>
         <div v-if="prevPost && prevPost.href" class="py-8">
@@ -80,15 +80,15 @@ const localeTitle = computed(() => getLocaleTitle(locale.value, frontmatter.valu
             Previous Article
           </h2>
           <div class="link">
-            <router-link :to="prevPost.href">
+            <RouterLink :to="prevPost.href">
               {{ prevPost.title }}
-            </router-link>
+            </RouterLink>
           </div>
         </div>
         <div class="pt-8">
-          <router-link class="link" to="/">
+          <RouterLink class="link" to="/">
             ← Back to Home
-          </router-link>
+          </RouterLink>
         </div>
       </footer>
     </div>

@@ -9,21 +9,21 @@ const router = useRouter()
 <template>
   <div class="sidebar-panel" p="2">
     <div class="site-info" m="t-6">
-      <router-link class="site-author-avatar" to="/about">
+      <RouterLink class="site-author-avatar" to="/about">
         <img class="rounded-full" :src="siteConfig.author.avatar" alt="avatar">
         <span class="site-author-status" :title="siteConfig.author.status.message">{{ siteConfig.author.status.emoji }}</span>
-      </router-link>
+      </RouterLink>
       <div
         class="site-author-name leading-6"
         m="t-0 b-4"
       >
-        <router-link to="/about">
+        <RouterLink to="/about">
           {{ siteConfig.author.name }}
-        </router-link>
+        </RouterLink>
       </div>
-      <router-link v-if="router.hasRoute('about-site')" to="/about/site" class="site-name">
+      <RouterLink v-if="router.hasRoute('about-site')" to="/about/site" class="site-name">
         {{ siteConfig.title }}
-      </router-link>
+      </RouterLink>
       <span v-else class="site-name">{{ siteConfig.title }}</span>
       <h4 v-if="siteConfig.subtitle" class="site-subtitle block" text="xs">
         {{ siteConfig.subtitle }}

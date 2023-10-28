@@ -78,7 +78,7 @@ onClickOutside(searchInputRef, () => {
 </script>
 
 <template>
-  <transition
+  <Transition
     name="fade"
     @enter="lockBodyScroll"
     @after-leave="unlockBodyScroll"
@@ -117,7 +117,7 @@ onClickOutside(searchInputRef, () => {
         </div>
       </div>
     </div>
-  </transition>
+  </Transition>
 </template>
 
 <style lang="scss">

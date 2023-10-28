@@ -8,7 +8,7 @@ import { asAny } from 'valaxy'
   </YunSidebar>
   <YunSidebar v-else />
 
-  <router-view v-slot="{ Component }">
+  <RouterView v-slot="{ Component }">
     <component :is="asAny(Component)">
       <template #main-header>
         <slot name="main-header" />
@@ -36,7 +36,7 @@ import { asAny } from 'valaxy'
         <slot name="aside-custom" />
       </template>
     </component>
-  </router-view>
+  </RouterView>
 
   <YunBackToTop />
 </template>

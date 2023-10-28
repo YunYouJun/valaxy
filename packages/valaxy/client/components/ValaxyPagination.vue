@@ -48,14 +48,14 @@ function jumpTo(page: number) {
 
 <template>
   <nav class="pagination">
-    <router-link v-if="curPage !== 1" class="page-number" :to="jumpTo(curPage - 1)" aria-label="prev">
+    <RouterLink v-if="curPage !== 1" class="page-number" :to="jumpTo(curPage - 1)" aria-label="prev">
       <div i-ri-arrow-left-s-line />
-    </router-link>
+    </RouterLink>
 
     <template v-for="i in totalPages">
-      <router-link v-if="showPage(i)" :key="i" class="page-number" :class="curPage === i && 'active'" :to="jumpTo(i)">
+      <RouterLink v-if="showPage(i)" :key="i" class="page-number" :class="curPage === i && 'active'" :to="jumpTo(i)">
         {{ i }}
-      </router-link>
+      </RouterLink>
       <span v-else-if="i === curPage - surLen" :key="`prev-space-${i}`" class="space" disabled>
         ...
       </span>
@@ -64,9 +64,9 @@ function jumpTo(page: number) {
       </span>
     </template>
 
-    <router-link v-if="curPage !== totalPages" class="page-number" :to="jumpTo(curPage + 1)" aria-label="next">
+    <RouterLink v-if="curPage !== totalPages" class="page-number" :to="jumpTo(curPage + 1)" aria-label="next">
       <div i-ri-arrow-right-s-line />
-    </router-link>
+    </RouterLink>
   </nav>
 </template>
 

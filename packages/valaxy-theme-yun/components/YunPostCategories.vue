@@ -7,7 +7,7 @@ defineProps<{
 </script>
 
 <template>
-  <router-link
+  <RouterLink
     :to="{
       path: '/categories',
       query: { category: Array.isArray(categories) ? categories.join('/') : categories },
@@ -21,5 +21,5 @@ defineProps<{
     <span>
       {{ Array.isArray(categories) ? categories.join(' > ') : categories }}
     </span>
-  </router-link>
+  </RouterLink>
 </template>
