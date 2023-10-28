@@ -135,4 +135,4 @@ jobs:
           build: pnpm run ci
           start: pnpm demo, pnpm run docs:dev
           parallel: true
-          wait-on: 'http://localhost:3000, http://localhost:4859'
+          wait-on: 'http://localhost:3333, http://localhost:4859'

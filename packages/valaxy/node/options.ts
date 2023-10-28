@@ -5,8 +5,8 @@ import _debug from 'debug'
 import fg from 'fast-glob'
 import { ensureSuffix, uniq } from '@antfu/utils'
 import defu from 'defu'
-import { cyan, yellow } from 'kolorist'
-import ora from 'ora'
+import { cyan, magenta, yellow } from 'kolorist'
+import consola from 'consola'
 import type { DefaultTheme, RuntimeConfig } from '../types'
 import { resolveImportPath, slash } from './utils'
 import { mergeValaxyConfig, resolveAddonConfig, resolveValaxyConfig, resolveValaxyConfigFromRoot } from './utils/config'
@@ -157,27 +157,33 @@ export async function resolveOptions(
   const clientRoot = resolve(pkgRoot, 'client')
   const userRoot = slash(resolve(options.userRoot || process.cwd()))
 
-  let { config: userValaxyConfig, configFile, theme } = await resolveValaxyConfig(options)
-  const { siteConfig, siteConfigFile } = await resolveSiteConfig(options.userRoot)
-  const { themeConfig, themeConfigFile } = await resolveThemeConfig(options.userRoot)
+  consola.start(`Resolve ${magenta('valaxy')} config...`)
+  const [resolvedValaxy, resolvedSite, resolvedTheme, pages] = await Promise.all([
+    resolveValaxyConfig(options),
+    resolveSiteConfig(options.userRoot),
+    resolveThemeConfig(options.userRoot),
+
+    fg(['**.md'], {
+      cwd: resolve(userRoot, 'pages'),
+      ignore: ['**/node_modules'],
+    }),
+  ])
+  let { config: userValaxyConfig, configFile, theme } = resolvedValaxy
+  const { siteConfig, siteConfigFile } = resolvedSite
+  const { themeConfig, themeConfigFile } = resolvedTheme
 
   // merge with valaxy
   userValaxyConfig = defu<ValaxyNodeConfig, any>({ siteConfig }, { themeConfig }, userValaxyConfig)
 
   const themeRoot = getThemeRoot(theme, options.userRoot)
 
+  // pages
   // Important: fast-glob doesn't guarantee order of the returned files.
   // We must sort the pages so the input list to rollup is stable across
   // builds - otherwise different input order could result in different exports
   // order in shared chunks which in turns invalidates the hash of every chunk!
   // JavaScript built-in sort() is mandated to be stable as of ES2019 and
   // supported in Node 12+, which is required by Vite.
-  const pages = (
-    await fg(['**.md'], {
-      cwd: resolve(userRoot, 'pages'),
-      ignore: ['**/node_modules'],
-    })
-  ).sort()
 
   let valaxyOptions: ResolvedValaxyOptions = {
     mode,
@@ -195,7 +201,7 @@ export async function resolveOptions(
     configFile: configFile || '',
     siteConfigFile: siteConfigFile || '',
     themeConfigFile: themeConfigFile || '',
-    pages,
+    pages: pages.sort(),
     addons: [],
   }
   debug(valaxyOptions)
@@ -213,8 +219,8 @@ export async function resolveOptions(
  * @param options
  */
 export async function resolveThemeValaxyConfig(options: ResolvedValaxyOptions) {
-  const spinner = ora(`Resolve ${cyan('valaxy.config.ts')} from ${yellow(`theme(${options.theme})`)}`).start()
   const { config: themeValaxyConfig } = await resolveValaxyConfigFromRoot(options.themeRoot, options)
-  spinner.succeed()
+  if (themeValaxyConfig)
+    consola.success(`Resolve ${cyan('valaxy.config.ts')} from ${yellow(`theme(${options.theme})`)}`)
   return themeValaxyConfig
 }

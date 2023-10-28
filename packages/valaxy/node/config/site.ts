@@ -1,6 +1,6 @@
 import type { UserSiteConfig } from 'valaxy'
 import { cyan, dim } from 'kolorist'
-import ora from 'ora'
+import consola from 'consola'
 import { loadConfigFromFile } from './utils'
 
 /**
@@ -17,9 +17,9 @@ export async function resolveSiteConfigFromRoot(root: string) {
  * @param root
  */
 export async function resolveSiteConfig(root: string) {
-  const spinner = ora(`Resolve ${cyan('siteConfig')} from ${dim(root)}`).start()
   const { config: userSiteConfig, configFile: siteConfigFile } = await resolveSiteConfigFromRoot(root)
-  spinner.succeed(`Resolve ${cyan('siteConfig')} from ${dim(siteConfigFile)}`)
+  if (userSiteConfig)
+    consola.success(`Resolve ${cyan('siteConfig')} from ${dim(siteConfigFile)}`)
 
   return {
     siteConfig: userSiteConfig,

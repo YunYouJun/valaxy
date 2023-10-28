@@ -6,7 +6,7 @@ import { createDefu } from 'defu'
 import { isFunction } from '@antfu/utils'
 import { cyan, dim } from 'kolorist'
 
-import ora from 'ora'
+import consola from 'consola'
 import type { ResolvedValaxyOptions, ValaxyEntryOptions } from '../options'
 import type { ValaxyAddonFn, ValaxyAddonResolver, ValaxyConfigFn, ValaxyNodeConfig } from '../types'
 import { loadConfigFromFile } from '../config/utils'
@@ -49,10 +49,9 @@ export async function resolveValaxyConfigFromRoot(root: string, options?: Resolv
 export async function resolveValaxyConfig(options: ValaxyEntryOptions) {
   const configRoot = options.userRoot || process.cwd()
 
-  const spinner = ora(`Resolve ${cyan('valaxyConfig')} from ${dim(configRoot)}`).start()
   const { config: userValaxyConfig, configFile } = await resolveValaxyConfigFromRoot(configRoot)
   if (userValaxyConfig)
-    spinner.succeed(`Resolve ${cyan('valaxyConfig')} from ${dim(configFile)}`)
+    consola.success(`Resolve ${cyan('userValaxyConfig')} from ${dim(configFile)}`)
 
   const theme = options.theme || userValaxyConfig?.theme || 'yun'
 
