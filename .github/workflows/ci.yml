@@ -128,10 +128,17 @@ jobs:
       - name: Cypress PNPM Patch
         run: cp pnpm-lock.yaml package-lock.json
 
-      - name: Cypress
+      - name: Cypress Yun
         uses: cypress-io/github-action@v4
         with:
           install-command: echo
           build: pnpm run build
-          start: pnpm demo
+          start: pnpm fuse && pnpm demo
           wait-on: 'http://localhost:3333'
+
+      - name: Cypress Docs
+        uses: cypress-io/github-action@v4
+        with:
+          install-command: echo
+          start: pnpm run docs:dev
+          wait-on: 'http://localhost:4859'

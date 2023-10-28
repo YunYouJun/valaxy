@@ -1,6 +1,6 @@
+import path from 'node:path'
 import fs from 'fs-extra'
 import type { ResolvedValaxyOptions } from 'valaxy'
-import { ensurePrefix } from '@antfu/utils'
 import consola from 'consola'
 import fg from 'fast-glob'
 import matter from 'gray-matter'
@@ -77,20 +77,27 @@ export function registerFuseCommand(cli: Argv<object>) {
       const fuseList = await generateFuseList(options)
 
       await fs.ensureDir('./dist')
-      const dataPath = ensurePrefix('/', options.config.siteConfig.fuse.dataPath)
-      const publicRelativeFolder = `public${dataPath}`
-      const publicFolder = `${options.userRoot}/${publicRelativeFolder}`
+      const publicFolder = path.resolve(options.userRoot, 'public')
+      const publicFuseFile = path.resolve(publicFolder, options.config.siteConfig.fuse.dataPath)
+      const publicRelativeFile = path.join('public', options.config.siteConfig.fuse.dataPath)
 
-      await fs.ensureFile(publicFolder)
-      fs.writeJSONSync(publicFolder, fuseList)
+      await fs.ensureFile(publicFuseFile)
+      fs.writeJSONSync(publicFuseFile, fuseList)
       consola.success(`Generate fuse list in ${dim(publicFolder)}`)
+
+      // copy to dist
+      const distFolder = path.resolve(options.userRoot, 'dist')
+      const distFuseFile = path.resolve(distFolder, options.config.siteConfig.fuse.dataPath)
+      await fs.ensureDir(distFolder)
+      fs.writeJSONSync(distFuseFile, fuseList)
+      consola.success(`Generate fuse list in ${dim(distFolder)}`)
 
       try {
         const gitignore = await fs.readFile(`${options.userRoot}/.gitignore`, 'utf-8')
-        const publicRelativeFolder = `public${dataPath}`
-        if (!gitignore.includes(publicRelativeFolder)) {
-          await fs.appendFile(`${options.userRoot}/.gitignore`, `\n# valaxy\n${publicRelativeFolder}\n`)
-          consola.success(`Add ${dim(dataPath)} to ${dim('.gitignore')}`)
+        if (!gitignore.includes(publicRelativeFile)) {
+          const ignorePath = publicRelativeFile.replace(/\\/g, '/')
+          await fs.appendFile(`${options.userRoot}/.gitignore`, `\n# valaxy\n${ignorePath}\n`)
+          consola.success(`Add ${dim(ignorePath)} to ${dim('.gitignore')}`)
         }
       }
       catch {}

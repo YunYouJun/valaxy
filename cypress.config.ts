@@ -7,4 +7,8 @@ export default defineConfig({
     specPattern: 'cypress/e2e/**/*.spec.*',
     supportFile: false,
   },
+  env: {
+    'theme-yun': 'http://localhost:3333/',
+    'docs': 'http://localhost:4859/',
+  },
 })

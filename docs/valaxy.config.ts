@@ -192,7 +192,7 @@ export default defineValaxyConfig<PressTheme.Config>({
         icon: 'i-carbon-warning',
       },
       info: {
-        text: 'i-carbon-information',
+        icon: 'i-carbon-information',
       },
     },
 

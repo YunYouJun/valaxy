@@ -23,7 +23,7 @@
     "@iconify-json/simple-icons": "^1.1.76",
     "nodemon": "^3.0.1",
     "vite": "^4.5.0",
-    "vitepress": "1.0.0-rc.23",
+    "vitepress": "1.0.0-rc.24",
     "vue": "^3.3.7"
   }
 }

@@ -27,7 +27,7 @@ const time_warning = computed(() => {
 </script>
 
 <template>
-  <blockquote v-if="time_warning" op="80">
+  <blockquote v-if="time_warning" class="yun-time-warning" op="80">
     {{ t('post.time_warning', { ago: dayjs(fm.updated).fromNow() }) }}
   </blockquote>
 </template>

@@ -1,7 +1,9 @@
 # valaxy
-fuse-list.json
+
+valaxy-fuse-list.json
 
 # vite-ssg
+
 .vite-ssg-dist
 .vite-ssg-temp
 

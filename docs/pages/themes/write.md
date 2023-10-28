@@ -184,7 +184,6 @@ onMounted(() => {
 </template>
 ```
 
-
 ### ValaxyMain
 
 你需要自定义一个 `ValaxyMain` 组件来决定主题的文章渲染部分。
@@ -215,8 +214,6 @@ defineProps<{
 
 > 示例可参考 [ValaxyMain.vue | valaxy-theme-yun](https://github.com/YunYouJun/valaxy/blob/main/packages/valaxy-theme-yun/components/ValaxyMain.vue)
 
-
-
 ## 样式
 
 ### Markdown 样式
@@ -227,6 +224,28 @@ Markdown 样式是主题呈现文章样式的部分，需要由主题自定义�
 
 > 如果你想先使用常见的默认样式（后续再进行定制），你可以直接使用 [star-markdown-css](https://github.com/YunYouJun/star-markdown-css)。
 > 使用方式可参见 [valaxy-theme-yun/styles](https://github.com/YunYouJun/valaxy/blob/main/packages/valaxy-theme-yun/styles/index.scss)
+
+### NProgress 进度条
+
+内置了基础的 [nprogress](https://github.com/rstacruz/nprogress) 样式，你可以通过覆盖 nprogress 的默认样式进行定制：
+
+```scss
+// your-theme/styles/index.scss
+#nprogress {
+  pointer-events: none;
+
+  .bar {
+    background: var(--va-c-primary);
+    opacity: 0.75;
+    position: fixed;
+    z-index: 1024;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 2px;
+  }
+}
+```
 
 ## 功能
 

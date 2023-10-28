@@ -1,4 +1,6 @@
-context('Demo Yun', () => {
+context('Theme Yun', {
+  baseUrl: Cypress.env('theme-yun'),
+}, () => {
   beforeEach(() => {
     cy.visit('/')
   })
@@ -47,5 +49,20 @@ context('Demo Yun', () => {
 
     cy.get('.comment')
       .should('exist')
+  })
+
+  // search
+  it('search', () => {
+    cy.get('.yun-search-btn')
+      .should('exist')
+      .click()
+      .get('.yun-search-input')
+      .should('exist')
+
+    cy.get('.yun-search-btn')
+      .should('exist')
+      .click()
+      .get('.yun-search-input')
+      .should('not.exist')
   })
 })

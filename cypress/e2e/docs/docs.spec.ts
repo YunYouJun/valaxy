@@ -1,4 +1,6 @@
-context('Docs', () => {
+context('Docs', {
+  baseUrl: Cypress.env('docs'),
+}, () => {
   beforeEach(() => {
     cy.visit('/')
   })
