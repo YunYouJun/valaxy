@@ -13,8 +13,14 @@ const { locale } = useI18n()
 
 <template>
   <ul :class="root ? 'root' : 'nested'" class="va-toc css-i18n-toc">
-    <li v-for="{ children, link, title, lang } in headers" :key="link" class="va-toc-item" :lang="lang || locale">
-      <a class="outline-link" :href="link" @click="onClick">{{ title }}</a>
+    <li
+      v-for="{ children, link, title, lang } in headers"
+      :key="link" class="va-toc-item"
+      :lang="lang || locale"
+    >
+      <RouterLink class="outline-link" :to="link" @click="onClick">
+        {{ title }}
+      </RouterLink>
       <template v-if="children?.length">
         <PressOutlineItem :headers="children" :on-click="onClick" />
       </template>

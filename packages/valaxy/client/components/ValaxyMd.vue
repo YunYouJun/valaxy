@@ -65,7 +65,7 @@ useVanillaLazyLoad()
     <slot v-if="frontmatter.end !== undefined" name="end">
       <div m="y-4" class="end flex justify-center items-center">
         <hr class="line inline-flex" w="full" m="!y-2">
-        <span p="x-4" font="serif bold" class="whitespace-nowrap">
+        <span p="x-4" font="bold" class="whitespace-nowrap">
           {{ frontmatter.end ? 'Q.E.D.' : 'To Be Continued.' }}
         </span>
         <hr class="line inline-flex" w="full" m="!y-2">
