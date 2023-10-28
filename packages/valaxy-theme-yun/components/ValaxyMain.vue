@@ -91,7 +91,7 @@ onContentUpdated(() => {
                 <Transition appear>
                   <ValaxyMd :frontmatter="frontmatter">
                     <YunAiExcerpt v-if="frontmatter.excerpt_type === 'ai' && frontmatter.excerpt" />
-                    <YunMdTimeWarning :frontmatter="frontmatter" />
+                    <YunMdTimeWarning />
 
                     <slot name="main-content-md" />
                     <slot />

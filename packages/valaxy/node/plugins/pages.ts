@@ -52,7 +52,7 @@ export function createPagesPlugin(options: ResolvedValaxyOptions) {
     ) {
       let path: string = route.component
 
-      const defaultFrontmatter = valaxyConfig.siteConfig.frontmatter || {}
+      const defaultFrontmatter = JSON.parse(JSON.stringify(valaxyConfig.siteConfig.frontmatter)) || {}
       if (!route.meta) {
         route.meta = {
           frontmatter: defaultFrontmatter,
@@ -134,6 +134,7 @@ export function createPagesPlugin(options: ResolvedValaxyOptions) {
             route.meta.frontmatter.tags = [tags]
         }
 
+        // TODO: extract to hook call
         if (valaxyConfig.siteConfig.statistics.enable) {
           presetStatistics({
             options: valaxyConfig.siteConfig.statistics,
