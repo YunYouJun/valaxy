@@ -299,6 +299,11 @@ export interface SiteConfig {
      */
     // password: string
   }
+
+  /**
+   * limit the max height of the code
+   */
+  codeHeightLimit?: number
 }
 
 export type PartialDeep<T> = {

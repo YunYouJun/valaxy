@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import { onMounted, onUpdated, ref } from 'vue'
 import { useI18n } from 'vue-i18n'
-import { onContentUpdated, runContentUpdated, useAplayer, useCodePen, useCopyCode, useMediumZoom, wrapTable } from 'valaxy'
+import { onContentUpdated, runContentUpdated, useAplayer, useCodePen, useCollapseCode, useCopyCode, useMediumZoom, wrapTable } from 'valaxy'
 import type { Post } from 'valaxy'
 import { useVanillaLazyLoad } from '../composables/features/vanilla-lazyload'
 import { useCodeGroups } from '../composables/codeGroups'
@@ -35,6 +35,7 @@ if (props.frontmatter.codepen)
 
 useCopyCode()
 useCodeGroups()
+useCollapseCode()
 
 if (typeof props.frontmatter.medium_zoom === 'undefined' || props.frontmatter.medium_zoom)
   useMediumZoom()

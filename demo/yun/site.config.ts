@@ -140,4 +140,6 @@ export default defineSiteConfig({
   encrypt: {
     enable: true,
   },
+
+  codeHeightLimit: 300,
 })
