@@ -20,9 +20,12 @@ import { defineValaxyConfig } from 'valaxy'
 import { addonAlgolia } from 'valaxy-addon-algolia'
 
 export default defineValaxyConfig({
-  // 启用评论
-  comment: {
-    enable: true
+  // or write it in site.config.ts
+  siteConfig: {
+    // 启用评论
+    comment: {
+      enable: true
+    },
   },
   // 设置 valaxy-addon-algolia 配置项
   addons: [
