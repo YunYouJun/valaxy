@@ -9,7 +9,7 @@ codeHeightLimit: 300
 
 ## Configure for single page
 
-You can configure it in frontmatter. For example: 
+You can configure it in frontmatter. For example:
 
 ```md
 ---
@@ -17,7 +17,7 @@ codeHeightLimit: 300
 ---
 ```
 
-This is a code block that exceeds the height limit. 
+This is a code block that exceeds the height limit.
 
 ```ts
 import { defineValaxyConfig } from 'valaxy'
@@ -53,7 +53,7 @@ export default defineValaxyConfig<ThemeConfig>({
 
 ## Configure for the entire website
 
-Add codeHeightLimit field in site.config.ts
+Add `codeHeightLimit` field in `site.config.ts`.
 
 For example:
 

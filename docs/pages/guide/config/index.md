@@ -410,6 +410,31 @@ export default defineSiteConfig({
 })
 ```
 
+### 代码块高度限制
+
+你可以为每篇文章设置代码块高度限制。
+
+譬如设置 `codeHeightLimit: 300`，则文章中所有代码块高度都不会超过 300px，并自动折叠。
+
+```ts {5}
+import { defineSiteConfig } from 'valaxy'
+
+export default defineSiteConfig({
+  // ...
+  codeHeightLimit: 300
+})
+```
+
+你也可以在文章的 Front Matter 中单独设置：
+
+```md {2}
+---
+codeHeightLimit: 300
+---
+```
+
+示例可参见 [代码块高度限制](/examples/code-height-limit)。
+
 ## 主题配置 {lang="zh-CN"}
 
 ## Theme Config {lang="en"}

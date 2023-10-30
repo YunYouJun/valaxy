@@ -18,7 +18,10 @@ context('Frontmatter', {
       .should('include', '/guide/getting-started')
   })
 
-  it('time warning', () => {
-    cy.visit('/test/time-warning')
+  it('code height limit', () => {
+    cy.visit('/examples/code-height-limit')
+
+    cy.get('button.collapse')
+      .should('exist')
   })
 })

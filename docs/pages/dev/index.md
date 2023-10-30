@@ -26,6 +26,11 @@ cd valaxy
 pnpm i
 # esbuild watch valaxy cli & valaxy-theme-yun
 # and run demo
+
+# build node cli
+pnpm run build
+
+# pnpm dev = pnpm dev:lib + pnpm demo
 pnpm dev
 ```
 
@@ -42,7 +47,5 @@ pnpm dev:lib
 
 If you only want to develop client.
 
-```bash
-# open a new terminal to run demo
-pnpm demo
-```
+- Docs: `pnpm docs:dev`
+- Demo(theme-yun): `pnpm demo`

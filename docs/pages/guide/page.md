@@ -78,6 +78,7 @@ password: valaxy
 
 - `toc: false`: 隐藏目录
 - `aside: false`: 隐藏右侧文章导航栏
+- `codeHeightLimit: 300`: 代码块高度限制（300px）
 
 :::
 
@@ -87,5 +88,6 @@ password: valaxy
 
 - `toc: false`: Hide TOC
 - `aside: false`: Hide Right Aside
+- `codeHeightLimit: 300`: Code block height limit（300px）
 
 :::
