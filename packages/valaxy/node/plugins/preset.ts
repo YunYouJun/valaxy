@@ -63,6 +63,7 @@ export async function ViteValaxyPlugins(
     'semantics',
 
     // meting
+    // will migrate to valaxy-addon-meting
     'meting-js',
   ])
 

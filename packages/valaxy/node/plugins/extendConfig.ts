@@ -52,6 +52,10 @@ const EXCLUDE = [
   'vue',
   'vue-demi',
 
+  // addon, todo add externals for addon
+  // main field error
+  'meting',
+
   // internal
   'valaxy',
   '/@valaxyjs/config',
@@ -179,10 +183,18 @@ export function getAlias(options: ResolvedValaxyOptions): AliasOptions {
       replacement: `${toAtFS(`${resolve(addon.root)}`)}/client/`,
     })
     alias.push({
+      find: `${addon.name}/App.vue`,
+      replacement: `${toAtFS(resolve(addon.root))}/App.vue`,
+    })
+    alias.push({
       find: addon.name,
       replacement: `${toAtFS(resolve(addon.root))}/client/index.ts`,
     })
   })
+  // do not need it
+  // alias.push(...[
+  //   { find: /^valaxy-addon-(.*)$/, replacement: toAtFS(resolve(options.themeRoot, '../valaxy-addon-$1/client/index.ts')) },
+  // ])
 
   // adapt for not exist addon
   alias.push({
@@ -190,8 +202,5 @@ export function getAlias(options: ResolvedValaxyOptions): AliasOptions {
     replacement: toAtFS(resolve(options.clientRoot, './addons/index.ts')),
   })
 
-  // alias.push(...[
-  //   { find: /^valaxy-addon-(.*)$/, replacement: toAtFS(resolve(options.themeRoot, '../valaxy-addon-$1/client/index.ts')) },
-  // ])
   return alias
 }

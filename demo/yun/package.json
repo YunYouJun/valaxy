@@ -19,6 +19,7 @@
     "valaxy-addon-algolia": "workspace:*",
     "valaxy-addon-components": "workspace:*",
     "valaxy-addon-lightgallery": "workspace:*",
+    "valaxy-addon-meting": "workspace:*",
     "valaxy-addon-twikoo": "workspace:*",
     "valaxy-addon-waline": "workspace:*",
     "valaxy-theme-yun": "workspace:*"

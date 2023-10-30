@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { useAplayer } from './client'
+import { useAplayer } from '../client'
 
 const props = withDefaults(defineProps<{
   [key: string]: any
@@ -27,8 +27,5 @@ useAplayer()
 
 <template>
   <!-- eslint-disable-next-line vue/component-name-in-template-casing -->
-  <meting-js
-    v-bind="props"
-    :fixed="true"
-  />
+  <meting-js v-bind="props" />
 </template>

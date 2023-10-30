@@ -1,11 +1,10 @@
 import { useScriptTag } from '@vueuse/core'
 import { useHead } from '@unhead/vue'
 import { computed } from 'vue'
-import { useSiteConfig } from '../..'
+import { useSiteConfig } from 'valaxy'
 
 /**
  * use MetingJS and Aplayer
- * @deprecated will migrate to valaxy-addon-meting
  * @see https://github.com/MoePlayer/APlayer
  * @see https://github.com/metowolf/MetingJS
  */

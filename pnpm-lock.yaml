@@ -143,6 +143,9 @@ importers:
       valaxy-addon-lightgallery:
         specifier: workspace:*
         version: link:../../packages/valaxy-addon-lightgallery
+      valaxy-addon-meting:
+        specifier: workspace:*
+        version: link:../../packages/valaxy-addon-meting
       valaxy-addon-twikoo:
         specifier: workspace:*
         version: link:../../packages/valaxy-addon-twikoo
@@ -484,6 +487,15 @@ importers:
       lightgallery:
         specifier: ^2.7.2
         version: 2.7.2
+
+  packages/valaxy-addon-meting:
+    dependencies:
+      aplayer:
+        specifier: '1.2'
+        version: 1.2.14
+      meting:
+        specifier: ^2.0.1
+        version: 2.0.1
 
   packages/valaxy-addon-test: {}
 
@@ -4122,6 +4134,10 @@ packages:
       normalize-path: 3.0.0
       picomatch: 2.3.1
 
+  /aplayer@1.2.14:
+    resolution: {integrity: sha512-65fc8vUHcpZ/TfmQbuD7UHNpp4zgkE0KAsUypqvqouRrDaKE8bOE7DanMxS6xpqpm2fXKuWgkbVZbF1Ssx4QTQ==}
+    dev: false
+
   /appdata-path@1.0.0:
     resolution: {integrity: sha512-ZbH3ezXfnT/YE3NdqduIt4lBV+H0ybvA2Qx3K76gIjQvh8gROpDFdDLpx6B1QJtW7zxisCbpTlCLhKqoR8cDBw==}
     dev: true
@@ -5505,7 +5521,7 @@ packages:
   /eslint-import-resolver-node@0.3.9:
     resolution: {integrity: sha512-WFj2isz22JahUv+B788TlO3N6zL3nNJGU8CcZbPZvVEkBPaJdCV4vy5wyghty5ROFbCRnm132v8BScu5/1BQ8g==}
     dependencies:
-      debug: 3.2.7(supports-color@5.5.0)
+      debug: 3.2.7(supports-color@8.1.1)
       is-core-module: 2.13.1
       resolve: 1.22.8
     transitivePeerDependencies:
@@ -5534,7 +5550,7 @@ packages:
         optional: true
     dependencies:
       '@typescript-eslint/parser': 6.9.0(eslint@8.52.0)(typescript@5.2.2)
-      debug: 3.2.7(supports-color@5.5.0)
+      debug: 3.2.7(supports-color@8.1.1)
       eslint: 8.52.0
       eslint-import-resolver-node: 0.3.9
     transitivePeerDependencies:
@@ -5586,7 +5602,7 @@ packages:
     peerDependencies:
       eslint: ^7.2.0 || ^8
     dependencies:
-      debug: 3.2.7(supports-color@5.5.0)
+      debug: 3.2.7(supports-color@8.1.1)
       doctrine: 2.1.0
       eslint: 8.52.0
       eslint-import-resolver-node: 0.3.9
@@ -7733,6 +7749,10 @@ packages:
     resolution: {integrity: sha512-iclAHeNqNm68zFtnZ0e+1L2yUIdvzNoauKU4WBA3VvH/vPFieF7qfRlwUZU+DA9P9bPXIS90ulxoUoCH23sV2w==}
     engines: {node: '>= 0.6'}
     dev: true
+
+  /meting@2.0.1:
+    resolution: {integrity: sha512-qcn85I7btbtfDLZvcZdMa+HrpCXm2E3sRB3BRBVYWJvZG49uQFhIGK6I53c/EEcyumMdU0ekRfTlD4/FG1/48A==}
+    dev: false
 
   /micromark@2.11.4:
     resolution: {integrity: sha512-+WoovN/ppKolQOFIAajxi7Lu9kInbPxFuTBVEavFcL8eAfVstoc5MocPmqBeAdBOJV00uaVjegzH4+MA0DN/uA==}

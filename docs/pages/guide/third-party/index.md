@@ -5,6 +5,7 @@ categories:
   - third
 end: false
 top: 99
+aplayer: true
 ---
 
 ## 搜索 {lang="zh-CN"}
