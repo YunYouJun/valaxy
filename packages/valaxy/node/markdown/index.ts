@@ -53,10 +53,11 @@ export async function setupMarkdownPlugins(
 ) {
   const mdOptions = options?.config.markdown || {}
   const theme = mdOptions.theme ?? defaultCodeTheme
+  const siteConfig = options?.config.siteConfig || {}
 
   // custom plugins
   md.use(highlightLinePlugin)
-    .use(preWrapperPlugin, { theme })
+    .use(preWrapperPlugin, { theme, siteConfig })
     .use(snippetPlugin, options?.userRoot)
     .use(containerPlugin, {
       ...mdOptions.blocks,

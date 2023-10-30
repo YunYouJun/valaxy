@@ -93,6 +93,21 @@ function inferDescription(frontmatter: Record<string, any>) {
   return (head && getHeadMetaContent(head, 'description')) || ''
 }
 
+function handleCodeHeightlimit(mainContentMd: string, options: ResolvedValaxyOptions, codeHeightLimit?: number): string {
+  if (typeof codeHeightLimit !== 'number' || codeHeightLimit <= 0)
+    return mainContentMd
+
+  const siteConfigLimit = options.config.siteConfig.codeHeightLimit
+  mainContentMd = mainContentMd.replaceAll(/<div.+class="language-\w+">/g, (matchStr) => {
+    if (siteConfigLimit !== undefined && siteConfigLimit > 0)
+      matchStr = matchStr.replace(/\d+/, codeHeightLimit.toString())
+    else matchStr = `${matchStr.slice(0, 5)}style="max-height: ${codeHeightLimit}px;"${matchStr.slice(5)}`
+
+    return matchStr
+  })
+  return mainContentMd
+}
+
 export async function createMarkdownToVueRenderFn(
   options: ResolvedValaxyOptions,
   srcDir: string,
@@ -254,6 +269,9 @@ export async function createMarkdownToVueRenderFn(
       replaceRegex,
       vueTemplateBreaker,
     )
+
+    mainContentMd = handleCodeHeightlimit(mainContentMd, options, frontmatter.codeHeightLimit)
+
     // handle mainContent, encrypt
     const { config: { siteConfig: { encrypt } } } = options
     if (encrypt.enable) {

@@ -1,9 +1,11 @@
 // ref vitepress/packages/vitepress/src/node/markdown/plugins/preWrapper.ts
 import type MarkdownIt from 'markdown-it'
 import type { ThemeOptions } from '../../types'
+import type { SiteConfig } from '../../../../types/config'
 
 export interface Options {
   theme: ThemeOptions
+  siteConfig?: SiteConfig
 }
 
 export function extractLang(info: string) {
@@ -38,6 +40,14 @@ export function extractTitle(info: string, html = false) {
   return info.match(/\[(.*)\]/)?.[1] || extractLang(info) || 'txt'
 }
 
+function getCodeHeightLimitStyle(options: Options) {
+  const codeHeightLimit = options?.siteConfig?.codeHeightLimit
+  if (codeHeightLimit === undefined || codeHeightLimit <= 0)
+    return ''
+
+  return `style="max-height: ${codeHeightLimit}px;"`
+}
+
 // markdown-it plugin for wrapping <pre> ... </pre>.
 //
 // If your plugin was chained before preWrapper, you can add additional element directly.
@@ -57,8 +67,11 @@ export function preWrapperPlugin(md: MarkdownIt, options: Options) {
     const lang = extractLang(token.info)
     const rawCode = fence(...args)
 
-    return `<div class="language-${lang}${getAdaptiveThemeMarker(options)}${
+    return `
+    <div ${getCodeHeightLimitStyle(options)} class="language-${lang}${getAdaptiveThemeMarker(options)}${
       / active( |$)/.test(token.info) ? ' active' : ''
-    }"><button title="Copy Code" class="copy"></button><span class="lang">${lang}</span>${rawCode}</div>`
+    }">
+      <button title="Copy Code" class="copy"></button><span class="lang">${lang}</span><button class="collapse"></button>${rawCode}
+    </div>`
   }
 }

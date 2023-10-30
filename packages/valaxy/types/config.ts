@@ -307,6 +307,12 @@ export interface SiteConfig {
      */
     // password: string
   }
+
+  /**
+   * @description:en-US Limit the height of the code block in px
+   * @description:zh-CN 限制代码块的高度，单位是 px
+   */
+  codeHeightLimit?: number
 }
 
 export type PartialDeep<T> = {
