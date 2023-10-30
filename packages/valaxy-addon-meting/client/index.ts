@@ -8,7 +8,7 @@ import { useSiteConfig } from 'valaxy'
  * @see https://github.com/MoePlayer/APlayer
  * @see https://github.com/metowolf/MetingJS
  */
-export function useAplayer() {
+export function useMeting() {
   const siteConfig = useSiteConfig()
   const cdnPrefix = computed(() => siteConfig.value.cdn.prefix)
 

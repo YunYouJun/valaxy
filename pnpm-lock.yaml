@@ -488,14 +488,7 @@ importers:
         specifier: ^2.7.2
         version: 2.7.2
 
-  packages/valaxy-addon-meting:
-    dependencies:
-      aplayer:
-        specifier: '1.2'
-        version: 1.2.14
-      meting:
-        specifier: ^2.0.1
-        version: 2.0.1
+  packages/valaxy-addon-meting: {}
 
   packages/valaxy-addon-test: {}
 
@@ -4134,10 +4127,6 @@ packages:
       normalize-path: 3.0.0
       picomatch: 2.3.1
 
-  /aplayer@1.2.14:
-    resolution: {integrity: sha512-65fc8vUHcpZ/TfmQbuD7UHNpp4zgkE0KAsUypqvqouRrDaKE8bOE7DanMxS6xpqpm2fXKuWgkbVZbF1Ssx4QTQ==}
-    dev: false
-
   /appdata-path@1.0.0:
     resolution: {integrity: sha512-ZbH3ezXfnT/YE3NdqduIt4lBV+H0ybvA2Qx3K76gIjQvh8gROpDFdDLpx6B1QJtW7zxisCbpTlCLhKqoR8cDBw==}
     dev: true
@@ -7749,10 +7738,6 @@ packages:
     resolution: {integrity: sha512-iclAHeNqNm68zFtnZ0e+1L2yUIdvzNoauKU4WBA3VvH/vPFieF7qfRlwUZU+DA9P9bPXIS90ulxoUoCH23sV2w==}
     engines: {node: '>= 0.6'}
     dev: true
-
-  /meting@2.0.1:
-    resolution: {integrity: sha512-qcn85I7btbtfDLZvcZdMa+HrpCXm2E3sRB3BRBVYWJvZG49uQFhIGK6I53c/EEcyumMdU0ekRfTlD4/FG1/48A==}
-    dev: false
 
   /micromark@2.11.4:
     resolution: {integrity: sha512-+WoovN/ppKolQOFIAajxi7Lu9kInbPxFuTBVEavFcL8eAfVstoc5MocPmqBeAdBOJV00uaVjegzH4+MA0DN/uA==}

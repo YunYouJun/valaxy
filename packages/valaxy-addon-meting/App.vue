@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { useAplayer } from './client'
+import { useMeting } from './client'
 
 const props = withDefaults(defineProps<{
   [key: string]: any
@@ -22,7 +22,7 @@ export interface MetingJsProps {
   type: 'song' | 'playlist' | 'album' | 'search' | 'artist'
 }
 
-useAplayer()
+useMeting()
 </script>
 
 <template>
