@@ -1,3 +1,5 @@
+import type { ImageObject, NodeRelations } from '@unhead/schema-org'
+
 export interface Album {
   /**
    * @description:en-US Album Link
@@ -70,6 +72,9 @@ export interface PageFrontMatter extends Record<string, any> {
    * @description 是否显示文章底部版权信息
    */
   copyright: boolean
+
+  // schema
+  image: NodeRelations<ImageObject | string>
 
   /**
    * cover
