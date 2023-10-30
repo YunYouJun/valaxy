@@ -41,10 +41,11 @@ export function extractTitle(info: string, html = false) {
 }
 
 function getCodeHeightLimitStyle(options: Options) {
-  if (!options?.siteConfig?.codeHeightLimit || typeof options.siteConfig.codeHeightLimit !== 'number')
+  const codeHeightLimit = options?.siteConfig?.codeHeightLimit
+  if (codeHeightLimit === undefined || codeHeightLimit <= 0)
     return ''
 
-  return `style="max-height: ${options.siteConfig?.codeHeightLimit}px;"`
+  return `style="max-height: ${codeHeightLimit}px;"`
 }
 
 // markdown-it plugin for wrapping <pre> ... </pre>.

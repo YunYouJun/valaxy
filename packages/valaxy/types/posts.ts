@@ -162,6 +162,11 @@ export interface PageFrontMatter extends Record<string, any> {
    * @description:zh-CN 加密后的相册
    */
   encryptedPhotos?: string
+  /**
+   * @description:en-US Limit the height of the code block in px
+   * @description:zh-CN 限制代码块的高度，单位是 px
+   */
+  codeHeightLimit?: number
 }
 
 export interface PostFrontMatter extends PageFrontMatter {

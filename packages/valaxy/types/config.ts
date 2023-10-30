@@ -301,7 +301,8 @@ export interface SiteConfig {
   }
 
   /**
-   * limit the max height of the code
+   * @description:en-US Limit the height of the code block in px
+   * @description:zh-CN 限制代码块的高度，单位是 px
    */
   codeHeightLimit?: number
 }

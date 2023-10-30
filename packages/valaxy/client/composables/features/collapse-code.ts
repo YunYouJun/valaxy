@@ -1,9 +1,10 @@
 import { isClient } from '@vueuse/core'
 import { onMounted } from 'vue'
-import { useSiteConfig } from 'valaxy'
+import { useFrontmatter, useSiteConfig } from 'valaxy'
 
 export function useCollapseCode() {
   const config = useSiteConfig()
+  const frontmatter = useFrontmatter()
 
   if (isClient) {
     window.addEventListener('click', (e) => {
@@ -16,11 +17,22 @@ export function useCollapseCode() {
     })
   }
 
+  // determine whether to add folded class name
   onMounted(() => {
     const els = document.querySelectorAll('div[class*="language-"]')
-    const codeHeightLimit = config.value.codeHeightLimit
-    if (codeHeightLimit === undefined)
-      return
+    const siteConfigLimit = config.value.codeHeightLimit
+    const frontmatterLimit = frontmatter.value.codeHeightLimit
+    let codeHeightLimit: number
+
+    if (typeof frontmatterLimit !== 'number' || frontmatterLimit <= 0) {
+      if (siteConfigLimit === undefined || siteConfigLimit <= 0)
+        return
+      else
+        codeHeightLimit = siteConfigLimit
+    }
+    else {
+      codeHeightLimit = frontmatterLimit
+    }
 
     for (const el of Array.from(els)) {
       if (el.scrollHeight > codeHeightLimit)
