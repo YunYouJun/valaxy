@@ -85,7 +85,7 @@ I will compare Valaxy with the existing Hexo (popular static blog framework) and
 import type { UserConfig } from 'valaxy'
 import type { UserThemeConfig } from 'valaxy-theme-yun'
 
-export default defineValaxyConfig<ThemeConfig>({
+export default defineValaxyConfig<UserThemeConfig>({
   theme: 'yun',
 
   themeConfig: {
