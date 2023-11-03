@@ -1,8 +1,6 @@
 <script lang="ts" setup>
 import { runContentUpdated, useDecrypt, useFrontmatter } from 'valaxy'
-import type { VNode } from 'vue'
 import { defineComponent, h, onMounted, ref } from 'vue'
-import ValaxyPartiallyDecrypt from './ValaxyPartiallyDecrypt.vue'
 
 const props = defineProps<{
   encryptedContent: string
@@ -31,56 +29,22 @@ async function decryptContent() {
   }
 }
 
-function encryptAgain() {
-  decryptedContent.value = ''
-  password.value = ''
-
-  setTimeout(() => {
-    runContentUpdated()
-  }, 16)
-}
-
 const ValaxyDeprecatedContent = defineComponent({
   name: 'ValaxyDeprecatedContent',
   props: {
     html: String,
   },
-  setup() {
-    const fm = useFrontmatter()
-    return {
-      frontmatter: fm,
-    }
-  },
   render() {
-    const createUnencryptedVNode = (html: string) =>
-      h({
-        setup: () => {
-          const fm = useFrontmatter()
-          return {
-            frontmatter: fm,
-          }
-        },
-        template: `<div>${html}</div>`,
-      })
-
-    if (!this.frontmatter.partiallyEncryptedContents)
-      return createUnencryptedVNode(this.html!)
-
-    // Split the html string according to comments and add ValaxyPartiallyEncrypt VNode
-    const contents = this.html!.split(/<!-- valaxy-encrypt-start --><!-- valaxy-encrypt-end -->/g)
-    const elements: VNode[] = []
-    for (let i = 0; i < contents.length - 1; i++) {
-      elements.push(
-        createUnencryptedVNode(contents[i]),
-        h(ValaxyPartiallyDecrypt, {
-          encryptedContent: this.frontmatter.partiallyEncryptedContents[i],
-        }),
-      )
-    }
-    if (contents[contents.length - 1])
-      elements.push(createUnencryptedVNode(contents[contents.length - 1]))
-
-    return elements
+    const content = `<div>${this.html}</div>`
+    return h({
+      setup: () => {
+        const fm = useFrontmatter()
+        return {
+          frontmatter: fm,
+        }
+      },
+      template: content,
+    })
   },
 })
 
@@ -93,11 +57,14 @@ onMounted(() => {
 
 <template>
   <div>
-    <div v-if="!decryptedContent" w-full pt-14 pb-10>
+    <div v-if="!decryptedContent" my-4 w-full pt-14 pb-10 border rounded-lg border-gray-2>
       <div
-        class="decrypt-password-container w-full sm:w-1/2"
+        class="decrypt-password-container w-full sm:w-1/2 "
         flex-center m-auto relative
       >
+        <p class="-top-12" absolute op="50">
+          this content is encrypted
+        </p>
         <input
           v-model="password"
           w-full
@@ -124,11 +91,6 @@ onMounted(() => {
     </div>
     <div v-else>
       <ValaxyDeprecatedContent :html="decryptedContent" />
-      <div w-full text-center mt-8>
-        <button m-auto class="btn" font-bold @click="encryptAgain">
-          Encrypt Again
-        </button>
-      </div>
     </div>
   </div>
 </template>

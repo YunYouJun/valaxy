@@ -23,6 +23,9 @@ export default defineValaxyConfig<PressTheme.Config>({
       enable: true,
       type: 'algolia',
     },
+    encrypt: {
+      enable: true,
+    },
   },
 
   addons: [

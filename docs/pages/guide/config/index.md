@@ -435,6 +435,76 @@ codeHeightLimit: 300
 
 示例可参见 [代码块高度限制](/examples/code-height-limit)。
 
+### 内容加密 {lang="zh-CN"}
+
+### Content Encryption {lang="en"}
+
+
+::: zh-CN
+首先在 `site.config.ts` 中开启加密
+:::
+
+::: en
+Firstly, enable encryption in `site.config.ts`.
+:::
+
+```ts {5-7}
+import { defineSiteConfig } from 'valaxy'
+
+export default defineSiteConfig({
+  // ...
+  encrypt: {
+    enable: true,
+  }
+})
+```
+
+::: zh-CN
+- 加密整篇文章
+:::
+
+::: en
+- encrypt the entire article
+:::
+
+::: zh-CN
+在文章的 Front Matter 中设置 `password`：
+:::
+
+::: en
+Set `password` in the Front Matter of the article:
+:::
+
+```md {2}
+---
+password: your_password
+---
+```
+
+::: zh-CN
+- 加密部分内容
+:::
+
+::: en
+- encrypt partial content
+:::
+
+::: zh-CN
+将待加密的内容包裹在 `<!-- valaxy-encrypt-start:your_password --><!-- valaxy-encrypt-end -->` 中。
+:::
+
+::: en
+Wrap content to be encrypted in `<!-- valaxy-encrypt-start:your_password --><!-- valaxy-encrypt-end -->`.
+:::
+
+::: zh-CN
+示例可参见 [部分内容加密](/examples/partial-content-encryption)。
+:::
+
+::: en
+Examples can be found in [Partial Content Encryption](/examples/partial-content-encryption)。
+:::
+
 ## 主题配置 {lang="zh-CN"}
 
 ## Theme Config {lang="en"}
