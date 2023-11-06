@@ -276,25 +276,25 @@ export async function createMarkdownToVueRenderFn(
     const { config: { siteConfig: { encrypt } } } = options
     if (encrypt.enable) {
       // partial encryption
-      const encryptRegexpWithGroup = /<!-- valaxy-encrypt-start:(?<password>\w+) -->(?<content>.*?)<!-- valaxy-encrypt-end -->/gs
-      const encryptRegexp = /<!-- valaxy-encrypt-start:\w+ -->.*?<!-- valaxy-encrypt-end -->/gs
-      const partiallyEncryptedContents: string[] = []
-      for (const matchArr of mainContentMd.matchAll(encryptRegexpWithGroup)) {
-        partiallyEncryptedContents.push(
-          await encryptContent(matchArr[2], {
-            password: matchArr.groups!.password,
-            iv: encrypt.iv,
-            salt: encrypt.salt,
-          }),
-        )
-      }
-      frontmatter.partiallyEncryptedContents = partiallyEncryptedContents.length ? partiallyEncryptedContents : undefined
+      const encryptRegexp = /<!-- valaxy-encrypt-start:(?<password>\w+) -->(?<content>.*?)<!-- valaxy-encrypt-end -->/gs
+      const encryptcommentRegexp = /((<!-- valaxy-encrypt-start:\w+ -->)|(<!-- valaxy-encrypt-end -->))/g
       if (frontmatter.password) {
-        mainContentMd = mainContentMd.replaceAll(encryptRegexp, '<!-- valaxy-encrypt-start --><!-- valaxy-encrypt-end -->')
+        mainContentMd = mainContentMd.replaceAll(encryptcommentRegexp, '')
       }
       else {
+        const partiallyEncryptedContents: string[] = []
+        for (const matchArr of mainContentMd.matchAll(encryptRegexp)) {
+          partiallyEncryptedContents.push(
+            await encryptContent(matchArr.groups!.content, {
+              password: matchArr.groups!.password,
+              iv: encrypt.iv,
+              salt: encrypt.salt,
+            }),
+          )
+        }
+        frontmatter.partiallyEncryptedContents = partiallyEncryptedContents.length ? partiallyEncryptedContents : undefined
         let i = 0
-        mainContentMd = mainContentMd.replaceAll(encryptRegexp, () => `<ValaxyPartiallyDecrypt :encrypted-content="frontmatter.partiallyEncryptedContents[${i++}]" />`)
+        mainContentMd = mainContentMd.replaceAll(encryptRegexp, () => `<ValaxyDecrypt :encrypted-content="frontmatter.partiallyEncryptedContents[${i++}]" />`)
       }
 
       // encrypt the entire article

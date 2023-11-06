@@ -1,8 +1,6 @@
 <script lang="ts" setup>
 import { runContentUpdated, useDecrypt, useFrontmatter } from 'valaxy'
-import type { VNode } from 'vue'
 import { defineComponent, h, onMounted, ref } from 'vue'
-import ValaxyPartiallyDecrypt from './ValaxyPartiallyDecrypt.vue'
 
 const props = defineProps<{
   encryptedContent: string
@@ -45,42 +43,17 @@ const ValaxyDeprecatedContent = defineComponent({
   props: {
     html: String,
   },
-  setup() {
-    const fm = useFrontmatter()
-    return {
-      frontmatter: fm,
-    }
-  },
   render() {
-    const createUnencryptedVNode = (html: string) =>
-      h({
-        setup: () => {
-          const fm = useFrontmatter()
-          return {
-            frontmatter: fm,
-          }
-        },
-        template: `<div>${html}</div>`,
-      })
-
-    if (!this.frontmatter.partiallyEncryptedContents)
-      return createUnencryptedVNode(this.html!)
-
-    // Split the html string according to comments and add ValaxyPartiallyEncrypt VNode
-    const contents = this.html!.split(/<!-- valaxy-encrypt-start --><!-- valaxy-encrypt-end -->/g)
-    const elements: VNode[] = []
-    for (let i = 0; i < contents.length - 1; i++) {
-      elements.push(
-        createUnencryptedVNode(contents[i]),
-        h(ValaxyPartiallyDecrypt, {
-          encryptedContent: this.frontmatter.partiallyEncryptedContents[i],
-        }),
-      )
-    }
-    if (contents[contents.length - 1])
-      elements.push(createUnencryptedVNode(contents[contents.length - 1]))
-
-    return elements
+    const content = `<div>${this.html}</div>`
+    return h({
+      setup: () => {
+        const fm = useFrontmatter()
+        return {
+          frontmatter: fm,
+        }
+      },
+      template: content,
+    })
   },
 })
 

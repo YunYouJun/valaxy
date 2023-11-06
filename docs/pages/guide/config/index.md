@@ -489,6 +489,10 @@ password: your_password
 - encrypt partial content
 :::
 
+::: tip
+If you set `password` in Front Matter, partial encryption will be ignored.
+:::
+
 ::: zh-CN
 将待加密的内容包裹在 `<!-- valaxy-encrypt-start:your_password --><!-- valaxy-encrypt-end -->` 中。
 :::
