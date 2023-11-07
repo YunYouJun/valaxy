@@ -7,9 +7,13 @@ categories:
 codeHeightLimit: 300
 ---
 
-## Configure for single page
+::: zh-CN
+在 Front Matter 中设置 `codeHeightLimit: 300`。
+:::
 
-You can configure it in frontmatter. For example:
+::: en
+Set `codeHeightLimit: 300` in Front Matter.
+:::
 
 ```md
 ---
@@ -17,7 +21,13 @@ codeHeightLimit: 300
 ---
 ```
 
-This is a code block that exceeds the height limit.
+::: zh-CN
+渲染结果
+:::
+
+::: en
+Rendering result
+:::
 
 ```ts
 import { defineValaxyConfig } from 'valaxy'
@@ -48,20 +58,5 @@ export default defineValaxyConfig<ThemeConfig>({
   unocss: {
     safelist,
   },
-})
-```
-
-## Configure for the entire website
-
-Add `codeHeightLimit` field in `site.config.ts`.
-
-For example:
-
-```ts
-import { defineSiteConfig } from 'valaxy'
-
-export default defineSiteConfig({
-  // ignore other configuration
-  codeHeightLimit: 300
 })
 ```

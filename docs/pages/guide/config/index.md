@@ -410,22 +410,42 @@ export default defineSiteConfig({
 })
 ```
 
-### 代码块高度限制
+### 代码块高度限制 {lang="zh-CN"}
 
+### Code Height Limit {lang="en"}
+
+::: zh-CN
 你可以为每篇文章设置代码块高度限制。
+:::
 
+::: en
+You can set the height limit for each article.
+:::
+
+::: zh-CN
 譬如设置 `codeHeightLimit: 300`，则文章中所有代码块高度都不会超过 300px，并自动折叠。
+:::
+
+::: en
+For example, if you set `codeHeightLimit: 300`, the height of all code blocks in the article will not exceed 300px and will be automatically collapsed.
+:::
 
 ```ts {5}
 import { defineSiteConfig } from 'valaxy'
 
 export default defineSiteConfig({
   // ...
-  codeHeightLimit: 300
+  codeHeightLimit: 300,
 })
 ```
 
+::: zh-CN
 你也可以在文章的 Front Matter 中单独设置：
+:::
+
+::: en
+You can also set it separately in the Front Matter of the article:
+:::
 
 ```md {2}
 ---
@@ -433,7 +453,14 @@ codeHeightLimit: 300
 ---
 ```
 
+::: zh-CN
 示例可参见 [代码块高度限制](/examples/code-height-limit)。
+:::
+
+::: en
+Example can refer to [Code Height Limit](/examples/code-height-limit).
+:::
+
 
 ### 内容加密 {lang="zh-CN"}
 
