@@ -275,6 +275,29 @@ export async function createMarkdownToVueRenderFn(
     // handle mainContent, encrypt
     const { config: { siteConfig: { encrypt } } } = options
     if (encrypt.enable) {
+      // partial encryption
+      const encryptRegexp = /<!-- valaxy-encrypt-start:(?<password>\w+) -->(?<content>.*?)<!-- valaxy-encrypt-end -->/gs
+      const encryptcommentRegexp = /((<!-- valaxy-encrypt-start:\w+ -->)|(<!-- valaxy-encrypt-end -->))/g
+      if (frontmatter.password) {
+        mainContentMd = mainContentMd.replaceAll(encryptcommentRegexp, '')
+      }
+      else {
+        const partiallyEncryptedContents: string[] = []
+        for (const matchArr of mainContentMd.matchAll(encryptRegexp)) {
+          partiallyEncryptedContents.push(
+            await encryptContent(matchArr.groups!.content, {
+              password: matchArr.groups!.password,
+              iv: encrypt.iv,
+              salt: encrypt.salt,
+            }),
+          )
+        }
+        frontmatter.partiallyEncryptedContents = partiallyEncryptedContents.length ? partiallyEncryptedContents : undefined
+        let i = 0
+        mainContentMd = mainContentMd.replaceAll(encryptRegexp, () => `<ValaxyDecrypt :encrypted-content="frontmatter.partiallyEncryptedContents[${i++}]" />`)
+      }
+
+      // encrypt the entire article
       if (frontmatter.password) {
         const encryptedContent = await encryptContent(mainContentMd, {
           password: frontmatter.password,

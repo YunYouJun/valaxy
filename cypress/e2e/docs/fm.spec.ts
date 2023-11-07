@@ -24,4 +24,11 @@ context('Frontmatter', {
     cy.get('button.collapse')
       .should('exist')
   })
+
+  it('partial content encryption', () => {
+    cy.visit('/examples/partial-content-encryption')
+
+    cy.get('div.decrypt-password-container')
+      .should('exist')
+  })
 })

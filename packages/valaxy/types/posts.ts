@@ -164,6 +164,10 @@ export interface PageFrontMatter extends Record<string, any> {
    */
   encryptedContent?: string
   /**
+   * @description:zh-CN 部分加密的内容
+   */
+  partiallyEncryptedContents?: string[]
+  /**
    * @description:zh-CN 加密后的相册
    */
   encryptedPhotos?: string
