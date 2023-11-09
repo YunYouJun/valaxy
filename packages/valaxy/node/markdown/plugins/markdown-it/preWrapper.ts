@@ -71,7 +71,7 @@ export function preWrapperPlugin(md: MarkdownIt, options: Options) {
     <div ${getCodeHeightLimitStyle(options)} class="language-${lang}${getAdaptiveThemeMarker(options)}${
       / active( |$)/.test(token.info) ? ' active' : ''
     }">
-      <button title="Copy Code" class="copy"></button><span class="lang">${lang}</span><button class="collapse"></button>${rawCode}
+      <button title="Copy Code" class="copy"></button><span class="lang">${lang}</span>${rawCode}<button class="collapse"></button>
     </div>`
   }
 }
