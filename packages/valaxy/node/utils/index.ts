@@ -1,6 +1,6 @@
 import { join } from 'node:path'
 import isInstalledGlobally from 'is-installed-globally'
-import globalDirs from 'global-dirs'
+import globalDirs from 'global-directory'
 import type resolve from 'resolve'
 import { sync as resolveSync } from 'resolve'
 import consola from 'consola'
