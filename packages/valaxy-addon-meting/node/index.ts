@@ -30,7 +30,6 @@ export interface MetingOptions {
   }
 }
 
-
 export const addonMeting = defineValaxyAddon<MetingOptions>(options => ({
   name: pkg.name,
   enable: true,
