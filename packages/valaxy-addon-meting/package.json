@@ -1,10 +1,11 @@
 {
   "name": "valaxy-addon-meting",
   "global": true,
-  "version": "0.0.1",
+  "version": "0.0.3",
   "license": "MIT",
   "keywords": [
     "valaxy",
-    "addon"
+    "addon",
+    "meting"
   ]
 }

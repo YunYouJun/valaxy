@@ -18,12 +18,12 @@
   "types": "types/index.d.ts",
   "dependencies": {
     "@explosions/fireworks": "^0.0.2",
-    "@iconify-json/ant-design": "^1.1.10",
-    "@iconify-json/simple-icons": "^1.1.77",
-    "animejs": "^3.2.1"
+    "@iconify-json/ant-design": "^1.1.13",
+    "@iconify-json/simple-icons": "^1.1.84",
+    "animejs": "^3.2.2"
   },
   "devDependencies": {
-    "@types/animejs": "^3.1.11",
+    "@types/animejs": "^3.1.12",
     "valaxy": "workspace:*",
     "valaxy-addon-waline": "workspace:*"
   }

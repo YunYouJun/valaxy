@@ -2,7 +2,9 @@ import MarkdownIt from 'markdown-it'
 
 import anchorPlugin from 'markdown-it-anchor'
 import attrsPlugin from 'markdown-it-attrs'
-import emojiPlugin from 'markdown-it-emoji'
+
+// @ts-expect-error wait @types/markdown-it-emoji update
+import { full as emojiPlugin } from 'markdown-it-emoji'
 import TaskLists from 'markdown-it-task-lists'
 import imageFigures from 'markdown-it-image-figures'
 
