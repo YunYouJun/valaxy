@@ -70,7 +70,7 @@ function initialize(userOptions: AlgoliaSearchOptions) {
         })
       })
     },
-    hitComponent({ hit, children }: { hit: DocSearchHit; children: any }) {
+    hitComponent({ hit, children }: { hit: DocSearchHit, children: any }) {
       const relativeHit = hit.url.startsWith('http')
         ? getRelativePath(hit.url as string)
         : hit.url

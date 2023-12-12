@@ -252,7 +252,6 @@ You can also specify the language inside the braces (`{}`) like this:
 
 This is helpful if source language cannot be inferred from your file extension.
 
-
 ## Code Groups
 
 You can group multiple code blocks like this:
@@ -340,7 +339,6 @@ You can also [import snippets](#import-code-snippets) in code groups:
 <<< @/snippets/snippet-with-region.js#snippet{1,2 ts:line-numbers} [snippet with region]
 
 :::
-
 
 ## Container
 

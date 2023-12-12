@@ -20,7 +20,7 @@ import type { Blocks } from './plugins/markdown-it/container'
 
 export type ThemeOptions =
   | IThemeRegistration
-  | { light: IThemeRegistration; dark: IThemeRegistration }
+  | { light: IThemeRegistration, dark: IThemeRegistration }
 
 export interface MarkdownOptions {
   /**

@@ -130,7 +130,7 @@ export interface ValaxyConfig {
   pages?: Parameters<typeof Pages>[0]
   extendMd?: (ctx: {
     route: {
-      meta: { frontmatter?: Record<string, any>; layout?: string }
+      meta: { frontmatter?: Record<string, any>, layout?: string }
       path: string
       component: string
     }
@@ -409,7 +409,7 @@ import valaxyLogoPng from '../assets/images/valaxy-logo.png'
 
 Valaxy 决定通过插件中心化地提供各类封装好的评论组件和辅助函数。
 
-譬如主题开发者，可以借助 `valaxy-addon-waline` 来快速实现 [Waline](https://waline.js.org/) 评论系统的集成。  
+譬如主题开发者，可以借助 `valaxy-addon-waline` 来快速实现 [Waline](https://waline.js.org/) 评论系统的集成。
 而用户则可以使用相同的配置穿梭漫游于不同的主题之间。
 
 > 集成参见 [valaxy-addon-waline](https://github.com/YunYouJun/valaxy/blob/main/packages/valaxy-addon-waline/README.md)。

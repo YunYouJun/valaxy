@@ -72,7 +72,7 @@ export interface SearchOptions {
   aroundLatLng?: string
   aroundLatLngViaIP?: boolean
   aroundRadius?: number | 'all'
-  aroundPrecision?: number | { from: number; value: number }[]
+  aroundPrecision?: number | { from: number, value: number }[]
   minimumAroundRadius?: number
   insideBoundingBox?: number[][]
   insidePolygon?: number[][]

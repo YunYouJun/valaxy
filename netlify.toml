@@ -1,19 +1,20 @@
-[build.environment]
-  # bypass npm auto install
-  NPM_FLAGS = "--version"
-  NODE_VERSION = "16"
-  PLAYWRIGHT_BROWSERS_PATH = "0"
-
 [build]
-  publish = "demo/yun/dist"
-  command = "npx pnpm i --store=node_modules/.pnpm-store && npx pnpm build && npx pnpm run build:demo"
+publish = "demo/yun/dist"
+command = "npx pnpm i --store=node_modules/.pnpm-store && npx pnpm build && npx pnpm run build:demo"
+
+[build.environment]
+# bypass npm auto install
+NPM_FLAGS = "--version"
+NODE_VERSION = "16"
+PLAYWRIGHT_BROWSERS_PATH = "0"
 
 [[redirects]]
-  from = "/*"
-  to = "/index.html"
-  status = 200
+from = "/*"
+to = "/index.html"
+status = 200
 
 [[headers]]
-  for = "/manifest.webmanifest"
-  [headers.values]
-    Content-Type = "application/manifest+json"
+for = "/manifest.webmanifest"
+
+[headers.values]
+Content-Type = "application/manifest+json"

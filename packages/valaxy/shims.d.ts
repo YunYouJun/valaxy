@@ -37,7 +37,7 @@ declare module '/@valaxyjs/context' {
 declare module '/@valaxyjs/addons' {
   import type { DefineComponent } from 'vue'
 
-  const components: { props: any; component: DefineComponent<object, object, any> }[]
+  const components: { props: any, component: DefineComponent<object, object, any> }[]
   export default components
 }
 

@@ -120,12 +120,12 @@ If you are a Windows user, I strongly recommend using a Unix-like shell (such as
 </div>
 
 ::: zh-CN
-> 由于 `npm init` 会缓存您此前下载的版本，我更推荐您使用 `pnpm` 来创建模版。  
+> 由于 `npm init` 会缓存您此前下载的版本，我更推荐您使用 `pnpm` 来创建模版。
 > 安装 [pnpm](https://pnpm.io/)：`npm i -g pnpm`
 :::
 
 ::: en
-> Since `npm init` caches your previously downloaded version, I would recommend using `pnpm` to create templates.  
+> Since `npm init` caches your previously downloaded version, I would recommend using `pnpm` to create templates.
 > Install [pnpm](https://pnpm.io/)：`npm i -g pnpm`
 :::
 
@@ -148,14 +148,14 @@ npm init valaxy
 ::: zh-CN
 跟随命令行提示完成创建！
 
-> 默认使用主题 [valaxy-theme-yun](https://github.com/YunYouJun/valaxy/blob/main/packages/valaxy-theme-yun/)，当然您也可以安装使用任意其他主题。  
+> 默认使用主题 [valaxy-theme-yun](https://github.com/YunYouJun/valaxy/blob/main/packages/valaxy-theme-yun/)，当然您也可以安装使用任意其他主题。
 > 本文档同样是一个 Valaxy 主题 [valaxy-theme-press](https://github.com/YunYouJun/valaxy/blob/main/packages/valaxy-theme-press/)，它的灵感来自 [VitePress](https://vitepress.dev/)。
 :::
 
 ::: en
 Follow the prompt in the commandline to complete the process!
 
-> The default theme used is [valaxy-theme-yun](https://github.com/YunYouJun/valaxy/blob/main/packages/valaxy-theme-yun/), but you can also install any other themes.  
+> The default theme used is [valaxy-theme-yun](https://github.com/YunYouJun/valaxy/blob/main/packages/valaxy-theme-yun/), but you can also install any other themes.
 > This documentation is also a Valaxy theme: [valaxy-theme-press](https://github.com/YunYouJun/valaxy/blob/main/packages/valaxy-theme-press/). It is inspired by [VitePress](https://vitepress.dev/).
 :::
 

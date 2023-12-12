@@ -7,7 +7,7 @@ Starter template generator for [valaxy](https://github.com/YunYouJun/valaxy).
 ## Usage
 
 ```bash
-npm init valaxy 
+npm init valaxy
 ```
 
 or

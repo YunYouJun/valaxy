@@ -49,7 +49,7 @@ function onError(e: Event) {
   </div>
 </template>
 
-<stye lang="scss" scoped>
+<style lang="scss" scoped>
 .link-item {
   display: inline-flex;
 }
@@ -117,4 +117,4 @@ function onError(e: Event) {
     justify-content: center;
   }
 }
-</stye>
+</style>

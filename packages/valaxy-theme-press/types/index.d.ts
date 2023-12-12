@@ -32,7 +32,7 @@ export namespace PressTheme {
 
   export type Sidebar = SidebarItem[] | SidebarMulti
   export interface SidebarMulti {
-    [path: string]: SidebarItem[] | { items: SidebarItem[]; base: string }
+    [path: string]: SidebarItem[] | { items: SidebarItem[], base: string }
   }
   export interface SidebarItem {
     /**

@@ -44,13 +44,13 @@ onContentUpdated(() => {
         // only intercept inbound links
         if (
           !e.ctrlKey
-            && !e.shiftKey
-            && !e.altKey
-            && !e.metaKey
-            && target !== '_blank'
-            && protocol === currentUrl.protocol
-            && hostname === currentUrl.hostname
-            && !(extMatch && extMatch[0] !== '.html')
+          && !e.shiftKey
+          && !e.altKey
+          && !e.metaKey
+          && target !== '_blank'
+          && protocol === currentUrl.protocol
+          && hostname === currentUrl.hostname
+          && !(extMatch && extMatch[0] !== '.html')
         ) {
           if (pathname === currentUrl.pathname) {
             e.preventDefault()

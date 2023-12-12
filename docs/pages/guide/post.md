@@ -55,7 +55,6 @@ hide: true
   - `true` / `all`: When set to `true` or `all`, the article will be rendered, and you can view it by visiting the link directly. It will not be displayed in article cards or archives.
   - `index`: When set to `index`, it will be hidden only in the front page. It will still be displayed in archives. (You can use this for some notes unnecessary for the front page, but good for the archive for reference sometimes)
 
-
 :::
 
 ## 摘要 {lang="zh-CN"}

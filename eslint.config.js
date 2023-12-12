@@ -8,4 +8,9 @@ export default antfu({
     'packages/valaxy/index.d.ts',
     'packages/valaxy/client.d.ts',
   ],
+}, {
+  files: ['**/*.md'],
+  rules: {
+    'style/no-trailing-spaces': 'off',
+  },
 })

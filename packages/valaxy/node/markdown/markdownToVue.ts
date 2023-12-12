@@ -219,8 +219,8 @@ export async function createMarkdownToVueRenderFn(
                 )
               : (
                   pages.includes(resolved)
-              || fs.existsSync(path.resolve(dir, publicDir, `${resolved}.html`))
-              || fs.existsSync(path.resolve(dir, publicDir, `${resolved}/index.html`))
+                  || fs.existsSync(path.resolve(dir, publicDir, `${resolved}.html`))
+                  || fs.existsSync(path.resolve(dir, publicDir, `${resolved}/index.html`))
                 )
           )
         )
@@ -402,7 +402,7 @@ function injectPageDataCode(
     tags[existingScriptIndex] = tagSrc.replace(
       scriptRE,
       `${code
-        + (hasDefaultExport
+      + (hasDefaultExport
           ? ''
           : `\n${exportScript}`)
         }</script>`,

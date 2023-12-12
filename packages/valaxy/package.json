@@ -81,7 +81,7 @@
     "escape-html": "^1.0.3",
     "feed": "^4.2.2",
     "fs-extra": "^11.2.0",
-    "fuse.js": "^6.6.2",
+    "fuse.js": "^7.0.0",
     "gray-matter": "^4.0.3",
     "hookable": "^5.5.3",
     "html-to-text": "^9.0.5",

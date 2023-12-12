@@ -31,9 +31,7 @@ categories: Test
 <!-- valaxy-encrypt-end -->
 
 ```md
-
 <!-- valaxy-encrypt-start:valaxy -->
 This should not be encrypted.
 <!-- valaxy-encrypt-end -->
-
 ```

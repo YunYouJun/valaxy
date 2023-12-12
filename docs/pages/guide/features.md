@@ -12,7 +12,7 @@ top: 98
 :::
 
 ::: en
-First, I'll introduce you to some easy 
+First, I'll introduce you to some easy
 :::
 
 ## 热更新 {lang="zh-CN"}

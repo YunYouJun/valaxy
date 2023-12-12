@@ -26,7 +26,7 @@ function isValidDelim(state: any, pos: number) {
   // Check non-whitespace conditions for opening and closing, and
   // check that closing delimeter isn't followed by a number
   if (prevChar === 0x20/* " " */ || prevChar === 0x09
-            ||/* \t */ (nextChar >= 0x30/* "0" */ && nextChar <= 0x39/* "9" */))
+    ||/* \t */ (nextChar >= 0x30/* "0" */ && nextChar <= 0x39/* "9" */))
     can_close = false
 
   if (nextChar === 0x20/* " " */ || nextChar === 0x09/* \t */)
@@ -157,8 +157,8 @@ function math_block(state: any, start: number, end: number, silent: boolean) {
   const token = state.push('math_block', 'math', 0)
   token.block = true
   token.content = ((firstLine && firstLine.trim()) ? `${firstLine}\n` : '')
-    + state.getLines(start + 1, next, state.tShift[start], true)
-    + ((lastLine && lastLine.trim()) ? lastLine : '')
+  + state.getLines(start + 1, next, state.tShift[start], true)
+  + ((lastLine && lastLine.trim()) ? lastLine : '')
   token.map = [start, state.line]
   token.markup = '$$'
   return true

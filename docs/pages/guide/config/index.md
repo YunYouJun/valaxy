@@ -461,11 +461,9 @@ codeHeightLimit: 300
 Example can refer to [Code Height Limit](/examples/code-height-limit).
 :::
 
-
 ### 内容加密 {lang="zh-CN"}
 
 ### Content Encryption {lang="en"}
-
 
 ::: zh-CN
 首先在 `site.config.ts` 中开启加密

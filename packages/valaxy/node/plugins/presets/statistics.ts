@@ -2,7 +2,7 @@ import { existsSync, readFileSync } from 'node:fs'
 import type { SiteConfig } from 'valaxy/types'
 import type { ValaxyExtendConfig } from '../../types'
 
-export interface CountData { cn: number; en: number }
+export interface CountData { cn: number, en: number }
 export type ReadTimeOptions = SiteConfig['statistics']['readTime']
 
 /**

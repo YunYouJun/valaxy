@@ -104,7 +104,7 @@ export async function initServer(options: ResolvedValaxyOptions, viteConfig: Inl
 /**
  * bind shortcut for terminal
  */
-export function bindShortcut(SHORTCUTS: { name: string; fullName: string; action: () => void }[]) {
+export function bindShortcut(SHORTCUTS: { name: string, fullName: string, action: () => void }[]) {
   process.stdin.resume()
   process.stdin.setEncoding('utf8')
   readline.emitKeypressEvents(process.stdin)
