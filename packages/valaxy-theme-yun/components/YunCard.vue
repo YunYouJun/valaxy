@@ -9,6 +9,7 @@ defineProps<{ cover?: string }>()
       width="640" height="360"
       class="object-cover select-none" h="64 md:sm" w="full"
       :src="cover"
+      loading="lazy"
     >
 
     <div v-if="$slots.header" class="yun-card-header">

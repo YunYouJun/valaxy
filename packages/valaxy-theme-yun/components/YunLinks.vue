@@ -31,7 +31,7 @@ function onError(e: Event) {
   <div class="links">
     <ul class="link-items">
       <li v-for="link, i in data" :key="i" class="link-item" :style="`--primary-color: ${link.color}`">
-        <a class="link-url" p="x-4 y-2" :href="link.url" :title="link.name" alt="portrait" rel="friend">
+        <a class="link-url" p="x-4 y-2" :href="link.url" :title="link.name" alt="portrait" rel="friend" target="_blank">
           <div class="link-left">
             <img
               class="link-avatar" width="64" height="64" w="16" h="16"
