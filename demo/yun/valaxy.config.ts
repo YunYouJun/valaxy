@@ -2,14 +2,14 @@ import { defineValaxyConfig } from 'valaxy'
 import type { ThemeConfig } from 'valaxy-theme-yun'
 
 import { addonAlgolia } from 'valaxy-addon-algolia'
-
-// import { addonTwikoo } from 'valaxy-addon-twikoo'
-
-import { addonWaline } from 'valaxy-addon-waline'
+import { addonBangumi } from 'valaxy-addon-bangumi'
 import { addonComponents } from 'valaxy-addon-components'
 import { addonLightGallery } from 'valaxy-addon-lightgallery'
-import { addonTest } from 'valaxy-addon-test'
 import { addonMeting } from 'valaxy-addon-meting'
+import { addonTest } from 'valaxy-addon-test'
+import { addonWaline } from 'valaxy-addon-waline'
+
+// import { addonTwikoo } from 'valaxy-addon-twikoo'
 
 const safelist = [
   'i-ri-home-line',
@@ -104,6 +104,9 @@ export default defineValaxyConfig<ThemeConfig>({
       appId: 'UVMHTMG1T5',
       apiKey: '805f2584a8866388aa1631ff0348ddae',
       indexName: 'valaxy',
+    }),
+    addonBangumi({
+      uid: 378106,
     }),
     addonComponents(),
     addonWaline({

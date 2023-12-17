@@ -17,6 +17,7 @@
   "dependencies": {
     "valaxy": "workspace:*",
     "valaxy-addon-algolia": "workspace:*",
+    "valaxy-addon-bangumi": "workspace:*",
     "valaxy-addon-components": "workspace:*",
     "valaxy-addon-lightgallery": "workspace:*",
     "valaxy-addon-meting": "workspace:*",

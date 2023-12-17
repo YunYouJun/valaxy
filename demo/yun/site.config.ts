@@ -2,7 +2,7 @@ import { defineSiteConfig } from 'valaxy'
 
 export default defineSiteConfig({
   frontmatter: {
-    time_warning: true,
+    // time_warning: true,
   },
 
   lang: 'zh-CN',

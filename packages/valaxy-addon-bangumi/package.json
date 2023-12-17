@@ -1,0 +1,20 @@
+{
+  "name": "valaxy-addon-bangumi",
+  "version": "0.0.1",
+  "description": "Bangumi addon for Valaxy",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/YunYouJun/valaxy/tree/main/packages/valaxy-addon-bangumi"
+  },
+  "keywords": [
+    "valaxy",
+    "addon",
+    "bangumi"
+  ],
+  "peerDependencies": {
+    "valaxy": "latest"
+  },
+  "dependencies": {
+    "bangumi-api": "^0.0.1"
+  }
+}
