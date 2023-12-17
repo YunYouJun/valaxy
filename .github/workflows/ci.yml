@@ -121,7 +121,6 @@ jobs:
           restore-keys: |
             cypress-${{ runner.os }}-cypress-${{ github.ref }}-${{ hashFiles('**/pnpm-lock.yaml') }}
 
-
       - name: Cache local node_modules
         uses: actions/cache@v3
         with:
