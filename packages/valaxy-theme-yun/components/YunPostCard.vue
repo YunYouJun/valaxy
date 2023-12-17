@@ -23,6 +23,7 @@ const { icon, styles } = usePostProperty(props.post.type)
         width="320" height="180"
         w="40%" h="54"
         class="cover object-cover object-center md:shadow"
+        loading="lazy"
       >
 
       <div class="flex flex-col items-center" :class="post.cover && 'h-54'" w="full">
