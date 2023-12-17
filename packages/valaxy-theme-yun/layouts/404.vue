@@ -14,7 +14,7 @@ const { back } = useBack()
       404
     </div>
 
-    <RouterView />
+    <!-- <RouterView /> -->
 
     <div>
       <button class="btn rounded-full" p="x-6 y-2" text="sm" m="3 t8" :title="t('button.back')" @click="back">

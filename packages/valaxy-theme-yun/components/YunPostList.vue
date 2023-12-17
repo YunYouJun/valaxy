@@ -30,7 +30,7 @@ const displayedPosts = computed(() =>
 <template>
   <div class="yun-post-list" w="full" p="x-4 lt-sm:0">
     <template v-if="!displayedPosts.length">
-      <div py2 op50>
+      <div py2 op50 text-center>
         博主还什么都没写哦～
       </div>
     </template>
