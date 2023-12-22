@@ -56,6 +56,9 @@ export interface MarkdownOptions {
 
   lineNumbers?: boolean
 
+  /**
+   * @see https://katex.org/docs/options.html
+   */
   katex?: KatexOptions
   /**
    * shiki
