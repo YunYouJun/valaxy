@@ -426,6 +426,7 @@ $$ x = {-b \pm \sqrt{b^2-4ac} \over 2a} $$
 > [KaTeX options](https://katex.org/docs/options.html)
 
 ```ts
+// valaxy.config.ts
 export default defineValaxyConfig({
   markdown: {
     /**
@@ -439,7 +440,7 @@ export default defineValaxyConfig({
 })
 ```
 
-## Markdown File Inclusion
+## Markdown File Inclusion<!--  -->
 
 ::: tip
 You can also prefix the markdown path with `@`, it will act as the source root. By default, it's the Valaxy project root.
