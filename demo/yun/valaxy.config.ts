@@ -117,6 +117,11 @@ export default defineValaxyConfig<ThemeConfig>({
     addonLightGallery(),
     addonMeting({
       global: true,
+      props: {
+        id: '2049540645',
+        server: 'netease',
+        type: 'song',
+      },
     }),
     // addonTwikoo({
     //   envId: 'https://twikoo.vercel.app',

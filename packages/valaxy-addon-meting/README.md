@@ -2,10 +2,6 @@
 
 Global music player based on [APlayer](https://github.com/DIYgod/APlayer) and [MetingJS](https://github.com/metowolf/MetingJS).
 
-- [ ] Release
-- [ ] Components `MetingJS`
-- [ ] `addonMeting`
-
 ```ts
 import { defineConfig } from 'valaxy'
 import { addonMeting } from 'valaxy-addon-meting'
@@ -14,9 +10,12 @@ export default defineConfig({
   addons: [
     addonMeting({
       global: true,
+      /** @see https://github.com/metowolf/MetingJS */
       props: {
-        /** @see https://github.com/metowolf/MetingJS */
-      }
+        id: '2049540645',
+        server: 'netease',
+        type: 'song',
+      },
     })
   ]
 })

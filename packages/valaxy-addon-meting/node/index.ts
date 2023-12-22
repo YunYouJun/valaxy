@@ -6,18 +6,18 @@ export interface MetingOptions {
   /**
    * @see https://github.com/metowolf/MetingJS#option
    */
-  options?: {
+  props?: {
     id?: string
-    server?: string
-    type?: string
-    auto?: string
+    server?: 'netease' | 'tencent' | 'kugou' | 'xiami' | 'baidu'
+    type?: 'song' | 'album' | 'artist' | 'playlist' | 'search'
+    auto?: 'netease' | 'tencent' | 'xiami'
     fixed?: boolean
     mini?: boolean
     autoplay?: boolean
     theme?: string
-    loop?: string
+    loop?: 'all' | 'one' | 'none'
     order?: string
-    preload?: string
+    preload?: 'auto' | 'metadata' | 'none'
     volume?: number
     work?: string
     mutex?: boolean

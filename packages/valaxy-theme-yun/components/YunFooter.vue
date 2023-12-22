@@ -15,7 +15,7 @@ const isThisYear = computed(() => {
   return year === themeConfig.value.footer.since
 })
 
-const poweredHtml = computed(() => t('footer.powered', [`<a href="${pkg.repository}" target="_blank" rel="noopener">Valaxy</a> v${pkg.version}`]))
+const poweredHtml = computed(() => t('footer.powered', [`<a href="${pkg.repository.url || pkg.repository}" target="_blank" rel="noopener">Valaxy</a> v${pkg.version}`]))
 const footerIcon = computed(() => themeConfig.value.footer.icon || {
   url: pkg.repository,
   name: 'i-ri-cloud-line',
