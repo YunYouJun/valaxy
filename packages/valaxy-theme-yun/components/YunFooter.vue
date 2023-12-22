@@ -15,9 +15,9 @@ const isThisYear = computed(() => {
   return year === themeConfig.value.footer.since
 })
 
-const poweredHtml = computed(() => t('footer.powered', [`<a href="${pkg.repository.url || pkg.repository}" target="_blank" rel="noopener">Valaxy</a> v${pkg.version}`]))
+const poweredHtml = computed(() => t('footer.powered', [`<a href="${pkg.repository.url}" target="_blank" rel="noopener">Valaxy</a> v${pkg.version}`]))
 const footerIcon = computed(() => themeConfig.value.footer.icon || {
-  url: pkg.repository,
+  url: pkg.repository.url,
   name: 'i-ri-cloud-line',
   title: pkg.name,
 })
@@ -44,7 +44,9 @@ const footerIcon = computed(() => themeConfig.value.footer.icon || {
         v-if="themeConfig.footer.icon?.enable"
         class="inline-flex"
         :class="themeConfig.footer.icon.animated ? 'animate-pulse' : ''"
-        :href="footerIcon.url" target="_blank" :title="footerIcon.title"
+        :href="footerIcon.url"
+        target="_blank"
+        :title="footerIcon.title"
       >
         <div :class="footerIcon.name" />
       </a>

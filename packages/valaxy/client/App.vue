@@ -11,13 +11,13 @@ import pkg from 'valaxy/package.json'
 import { useI18n } from 'vue-i18n'
 import { definePerson, defineWebPage, defineWebSite, useSchemaOrg } from '@unhead/schema-org'
 import dayjs from 'dayjs'
-import ValaxyAddons from './components/ValaxyAddons.vue'
-import { isDark, useFrontmatter } from './composables'
 
 // https://github.com/vueuse/head
 // you can use this to manipulate the document head in any components,
 // they will be rendered correctly in the html results with vite-ssg
 import { useSiteConfig } from './config'
+import ValaxyAddons from './components/ValaxyAddons.vue'
+import { isDark, useFrontmatter } from './composables'
 
 // <link rel="apple-touch-icon" href="/pwa-192x192.png">
 // <link rel="mask-icon" href="/safari-pinned-tab.svg" color="#00aba9">

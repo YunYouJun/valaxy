@@ -10,7 +10,10 @@
   },
   "license": "MIT",
   "homepage": "https://valaxy.site",
-  "repository": "https://github.com/YunYouJun/valaxy",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/YunYouJun/valaxy"
+  },
   "keywords": [
     "vite",
     "vue",

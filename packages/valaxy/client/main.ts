@@ -2,6 +2,8 @@ import type { ViteSSGContext } from 'vite-ssg'
 import { ViteSSG } from 'vite-ssg'
 import generatedRoutes from 'virtual:generated-pages'
 import { setupLayouts } from 'virtual:generated-layouts'
+
+import { initValaxyConfig, valaxyConfigSymbol } from 'valaxy'
 import AppLink from './components/AppLink.vue'
 
 import App from './App.vue'
@@ -46,7 +48,12 @@ export const createApp = ViteSSG(
     },
   },
   (ctx) => {
+    // app-level provide
+    const { app } = ctx
+    const config = initValaxyConfig()
+    app.provide(valaxyConfigSymbol, config)
+
     registerComponents(ctx)
-    setupMain(ctx)
+    setupMain(ctx, config)
   },
 )

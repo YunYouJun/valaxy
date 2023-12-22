@@ -100,41 +100,21 @@ jobs:
   test-e2e:
     runs-on: ubuntu-latest
 
-    strategy:
-      matrix:
-        node-version: [18.x]
-        os: [ubuntu-latest]
-      fail-fast: false
-
     steps:
       - uses: actions/checkout@v3
 
-      # Ref: https://github.com/cypress-io/cypress-example-kitchensink/blob/master/.github/workflows/parallel.yml
-
-      # we use the exact restore key to avoid Cypress binary snowballing
-      # https://glebbahmutov.com/blog/do-not-let-cypress-cache-snowball/
-      - name: Cache Cypress binary
-        uses: actions/cache@v3
+      - uses: actions/cache@v3
         with:
-          path: ~/.cache/Cypress
-          key: cypress-${{ runner.os }}-cypress-${{ github.ref }}-${{ hashFiles('**/pnpm-lock.yaml') }}
-          restore-keys: |
-            cypress-${{ runner.os }}-cypress-${{ github.ref }}-${{ hashFiles('**/pnpm-lock.yaml') }}
-
-      - name: Cache local node_modules
-        uses: actions/cache@v3
-        with:
-          path: node_modules
-          key: ${{ runner.os }}-node-modules-${{ github.ref }}-${{ hashFiles('**/pnpm-lock.yaml') }}
-          restore-keys: |
-            ${{ runner.os }}-node-modules-
+          path: |
+            ~/.cache
+          key: cypress-cache-${{ runner.os }}-${{ hashFiles('pnpm-lock.yaml') }}
 
       - uses: pnpm/action-setup@v2
 
-      - name: Use Node.js ${{ matrix.node-version }}
+      - name: Use Node.js
         uses: actions/setup-node@v3
         with:
-          node-version: ${{ matrix.node-version }}
+          node-version: lts/*
           registry-url: https://registry.npmjs.org/
           cache: pnpm
 
