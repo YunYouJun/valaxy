@@ -94,8 +94,8 @@ export function registerFuseCommand(cli: Argv<object>) {
 
       try {
         const gitignore = await fs.readFile(`${options.userRoot}/.gitignore`, 'utf-8')
-        if (!gitignore.includes(publicRelativeFile)) {
-          const ignorePath = publicRelativeFile.replace(/\\/g, '/')
+        const ignorePath = publicRelativeFile.replace(/\\/g, '/')
+        if (!gitignore.includes(ignorePath)) {
           await fs.appendFile(`${options.userRoot}/.gitignore`, `\n# valaxy\n${ignorePath}\n`)
           consola.success(`Add ${dim(ignorePath)} to ${dim('.gitignore')}`)
         }

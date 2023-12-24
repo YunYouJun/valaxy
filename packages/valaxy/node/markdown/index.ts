@@ -6,6 +6,8 @@ import attrsPlugin from 'markdown-it-attrs'
 // @ts-expect-error wait @types/markdown-it-emoji update
 import { full as emojiPlugin } from 'markdown-it-emoji'
 import TaskLists from 'markdown-it-task-lists'
+
+// https://www.npmjs.com/package/markdown-it-image-figures
 import imageFigures from 'markdown-it-image-figures'
 
 import { componentPlugin } from '@mdit-vue/plugin-component'
@@ -57,6 +59,11 @@ export async function setupMarkdownPlugins(
   const theme = mdOptions.theme ?? defaultCodeTheme
   const siteConfig = options?.config.siteConfig || {}
 
+  if (mdOptions.preConfig)
+    mdOptions.preConfig(md)
+
+  // mdit-vue plugins
+  md.use(componentPlugin, { ...mdOptions.component })
   // custom plugins
   md.use(highlightLinePlugin)
     .use(preWrapperPlugin, { theme, siteConfig })
@@ -78,12 +85,14 @@ export async function setupMarkdownPlugins(
       base,
     )
 
+  // ref vitepress
+  md.use(lineNumberPlugin, mdOptions.lineNumbers)
+
   // conflict with {% %}
   // 3rd party plugins
   if (!mdOptions.attrs?.disable)
     md.use(attrsPlugin, mdOptions.attrs)
 
-  md.use(Katex, mdOptions.katex)
   md.use(emojiPlugin)
 
   if (!isExcerpt) {
@@ -108,6 +117,22 @@ export async function setupMarkdownPlugins(
       ...mdOptions.anchor,
     })
   }
+  md.use(frontmatterPlugin, {
+    ...mdOptions.frontmatter,
+  } as FrontmatterPluginOptions)
+    .use(headersPlugin, {
+      slugify,
+      ...mdOptions.headers,
+    } as HeadersPluginOptions)
+    .use(sfcPlugin, {
+      ...mdOptions.sfc,
+    } as SfcPluginOptions)
+    .use(titlePlugin)
+    .use(tocPlugin, {
+      ...mdOptions.toc,
+    } as TocPluginOptions)
+
+  md.use(Katex, mdOptions.katex)
 
   const vanillaLazyload = options?.config.siteConfig.vanillaLazyload || { enable: false }
   // markdown-it-image-figures
@@ -129,26 +154,6 @@ export async function setupMarkdownPlugins(
 
     ...mdOptions.imageFigures,
   })
-
-  // mdit-vue plugins
-  md.use(componentPlugin)
-    .use(frontmatterPlugin, {
-      ...mdOptions.frontmatter,
-    } as FrontmatterPluginOptions)
-    .use(headersPlugin, {
-      slugify,
-      ...mdOptions.headers,
-    } as HeadersPluginOptions)
-    .use(sfcPlugin, {
-      ...mdOptions.sfc,
-    } as SfcPluginOptions)
-    .use(titlePlugin)
-    .use(tocPlugin, {
-      slugify,
-      ...mdOptions.toc,
-    } as TocPluginOptions)
-  // ref vitepress
-  md.use(lineNumberPlugin, mdOptions.lineNumbers)
 
   md.use(TaskLists)
 

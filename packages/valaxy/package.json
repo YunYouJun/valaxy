@@ -117,7 +117,7 @@
     "vanilla-lazyload": "^17.8.5",
     "vite": "^5.0.10",
     "vite-plugin-pages": "^0.32.0",
-    "vite-plugin-vue-layouts": "^0.10.0",
+    "vite-plugin-vue-layouts": "0.9.1",
     "vite-ssg": "0.23.5",
     "vite-ssg-sitemap": "0.6.1",
     "vue": "^3.3.13",
