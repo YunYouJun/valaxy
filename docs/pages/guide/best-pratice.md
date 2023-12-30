@@ -84,8 +84,8 @@ useScriptTag('//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js')
 
 <template>
   <div>
-    <div>本站总访问量 <span id="busuanzi_value_site_pv" /> 次</div>
-    <div>本站访客数 <span id="busuanzi_value_site_uv" /> 人次</div>
+    <div>Total visits to this site <span id="busuanzi_value_site_pv" /> times</div>
+    <div>Visitors to this site <span id="busuanzi_value_site_uv" /></div>
   </div>
 </template>
 ```

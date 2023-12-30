@@ -294,9 +294,17 @@ npm i valaxy-theme-yun@latest
 pnpm up --latest -i
 ```
 
-## 迁移
+## Migration {lang="en"}
 
+## 迁移 {lang="zh-CN"}
+
+::: en
+If you are from another blog framework, you can refer to [Migration](/migration/).
+:::
+
+::: zh-CN
 如果你来自其他博客框架，可参考 [迁移](/migration/)。
+:::
 
 ## Directory Structure {lang="en"}
 
