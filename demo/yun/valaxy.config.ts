@@ -8,6 +8,7 @@ import { addonLightGallery } from 'valaxy-addon-lightgallery'
 import { addonMeting } from 'valaxy-addon-meting'
 import { addonTest } from 'valaxy-addon-test'
 import { addonWaline } from 'valaxy-addon-waline'
+import { addonClientRedirects } from 'valaxy-addon-client-redirects'
 
 // import { addonTwikoo } from 'valaxy-addon-twikoo'
 
@@ -127,5 +128,13 @@ export default defineValaxyConfig<ThemeConfig>({
     //   envId: 'https://twikoo.vercel.app',
     // }),
     addonTest(),
+    addonClientRedirects({
+      redirects: [
+        {
+          from: '/foo',
+          to: '/about',
+        },
+      ],
+    }),
   ],
 })
