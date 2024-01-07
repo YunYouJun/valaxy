@@ -13,7 +13,7 @@ end: false
 ::: zh-CN
 为了便于配置，Valaxy 将配置分为了三种。
 
-`valaxy.config.ts` 是配置的主入口，它包含了一下配置。
+`valaxy.config.ts` 是配置的主入口，它包含了以下配置。
 
 - `siteConfig`: 站点**信息**配置，这部分内容面向站点展示且在任何主题也是通用的格式
 - `themeConfig`: 主题配置，这部分内容仅在特定主题生效
@@ -189,6 +189,7 @@ export default defineSiteConfig({
 
 ### Default Frontmatter
 
+::: zh-CN
 为所有文章设置默认的 Frontmatter。
 
 譬如：
@@ -208,6 +209,29 @@ export default defineSiteConfig({
   }
 })
 ```
+:::
+
+::: en
+Set the default Frontmatter for all posts.
+
+For example:
+
+> Set `time_warning: false` so that all articles won't show reading time warnings.
+
+```ts {8-10}
+// site.config.ts
+import { defineSiteConfig } from 'valaxy'
+
+export default defineSiteConfig({
+  /**
+   * Default Frontmatter
+   */
+  frontmatter: {
+    time_warning: false,
+  }
+})
+```
+:::
 
 ### 社交图标 {lang="zh-CN"}
 

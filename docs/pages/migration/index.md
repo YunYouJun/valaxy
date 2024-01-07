@@ -6,16 +6,35 @@ categories:
 top: 10
 ---
 
-## 从 Hexo 迁移至 Valaxy
+## 从 Hexo 迁移至 Valaxy {lang="zh-CN"}
 
+## Migrate from Hexo to Valaxy {lang="en"}
+
+::: zh-CN
 - [从 Hexo 迁移至 Valaxy](/migration/hexo)
+:::
 
-## 从其他任意博客框架迁移
+::: en
+- [Migrate from Hexo to Valaxy](/migration/hexo)
+:::
 
+## 从其他任意博客框架迁移 {lang="zh-CN"}
+
+## Migrate from any other blog framework {lang="en"}
+
+::: zh-CN
 - 将你的文章（Markdown 文件）复制至 Valaxy `pages/posts` 目录下。
 - 将你的自定义页面（非文章的 Markdown/HTML 文件）复制至 Valaxy `pages` 目录下。
 - 将你的静态资源（图片等）复制至 Valaxy `public` 目录下。
 - 参考 [配置](/guide/config/) 配置你的配置文件 `valaxy.config.ts`/`site.config.ts`。
+:::
+
+::: en
+- Copy your posts (Markdown files) to the Valaxy `pages/posts` directory.
+- Copy your custom pages (non-article Markdown/HTML files) to the Valaxy `pages` directory.
+- Copy your static resources (images, etc.) to the Valaxy `public` directory.
+- Configure your configuration file `valaxy.config.ts`/`site.config.ts` by referring to [configuration](/guide/config/).
+:::
 
 ## 常见问题 {lang="zh-CN"}
 
