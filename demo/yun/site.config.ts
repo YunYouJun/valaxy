@@ -144,4 +144,11 @@ export default defineSiteConfig({
   encrypt: {
     enable: true,
   },
+
+  redirects: [
+    {
+      from: '/foo',
+      to: '/about',
+    },
+  ],
 })

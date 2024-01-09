@@ -140,9 +140,6 @@ importers:
       valaxy-addon-bangumi:
         specifier: workspace:*
         version: link:../../packages/valaxy-addon-bangumi
-      valaxy-addon-client-redirects:
-        specifier: workspace:*
-        version: link:../../packages/valaxy-addon-client-redirects
       valaxy-addon-components:
         specifier: workspace:*
         version: link:../../packages/valaxy-addon-components
@@ -488,15 +485,6 @@ importers:
       bangumi-api:
         specifier: ^0.0.1
         version: 0.0.1
-      valaxy:
-        specifier: latest
-        version: link:../valaxy
-
-  packages/valaxy-addon-client-redirects:
-    dependencies:
-      fs-extra:
-        specifier: ^11.2.0
-        version: 11.2.0
       valaxy:
         specifier: latest
         version: link:../valaxy

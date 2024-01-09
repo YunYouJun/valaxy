@@ -515,7 +515,15 @@ password: your_password
 :::
 
 ::: tip
+
+<div lang="zh-CN">
+如果在文章的 Front Matter 中设置了 `password`，文章中的部分加密将被忽略。
+</div>
+
+<div lang="en">
 If you set `password` in Front Matter, partial encryption will be ignored.
+</div>
+
 :::
 
 ::: zh-CN
@@ -532,6 +540,62 @@ Wrap content to be encrypted in `<!-- valaxy-encrypt-start:your_password --><!--
 
 ::: en
 Examples can be found in [Partial Content Encryption](/examples/partial-content-encryption)。
+:::
+
+### 客户端重定向 {lang="zh-CN"}
+
+### Client Redirects {lang="en"}
+
+::: zh-CN
+这会生成额外的 HTML 页面，用与跳转到 valaxy 中已有的页面。
+:::
+
+::: en
+This will generate additional HTML pages, used to jump to the valaxy's existing pages.
+:::
+
+::: tip
+
+<div lang="zh-CN">
+客户端重定向只在 SSG build 时启用
+</div>
+
+<div lang="en">
+Client redirects will only be enabled in SSG build
+</div>
+
+:::
+
+::: zh-CN
+例如：
+:::
+
+::: en
+For example:
+:::
+
+```ts
+// site.config.ts
+export default defineSiteConfig({
+  redirects: [
+    {
+      from: ['/foo', '/bar'],
+      to: '/about',
+    },
+    {
+      from: '/v1/about',
+      to: '/about',
+    },
+  ],
+})
+```
+
+::: zh-CN
+`/foo`, `/bar`, `/v1/about` 这些路由会被重定向到 `/about`。
+:::
+
+::: en
+`/foo`, `/bar`, `/v1/about` these routes will be redirected to `/about`。
 :::
 
 ## 主题配置 {lang="zh-CN"}

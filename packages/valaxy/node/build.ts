@@ -1,4 +1,4 @@
-import { resolve } from 'node:path'
+import { join, resolve } from 'node:path'
 import type { InlineConfig } from 'vite'
 import { mergeConfig as mergeViteConfig, build as viteBuild } from 'vite'
 import { build as viteSsgBuild } from 'vite-ssg/node'
@@ -8,6 +8,7 @@ import fs from 'fs-extra'
 import consola from 'consola'
 import type { ResolvedValaxyOptions } from './options'
 import { ViteValaxyPlugins } from './plugins/preset'
+import { collectRedirects, writeRedirectFiles } from './utils/clientRedirects'
 
 export async function build(
   options: ResolvedValaxyOptions,
@@ -55,6 +56,7 @@ export async function ssgBuild(
 
 /**
  * post process for ssg fix extra string like `/html>` `ml>` `l>`
+ * handle tasks after ssg build
  * todo find why
  * @param options
  */
@@ -72,4 +74,22 @@ export async function postProcessForSSG(options: ResolvedValaxyOptions) {
       await fs.writeFile(indexPath, indexFile.slice(0, htmlTagStart + htmlTag.length), 'utf-8')
     }
   }
+
+  await generateClientRedirects(options)
+}
+
+export async function generateClientRedirects(options: ResolvedValaxyOptions) {
+  const outputPath = resolve(options.userRoot, 'dist')
+  const redirectRules = collectRedirects(options.config.siteConfig?.redirects ?? [])
+
+  const task = redirectRules.map(async (rule) => {
+    const fromPath = join(outputPath, `${rule.from}.html`)
+    const toPath = join(outputPath, `${rule.to}.html`)
+    const routeExist = await fs.pathExists(toPath)
+    if (!routeExist)
+      throw new Error(`the route of '${rule.to}' not exists`)
+    await writeRedirectFiles(rule.to, fromPath)
+  })
+
+  await Promise.all(task)
 }
