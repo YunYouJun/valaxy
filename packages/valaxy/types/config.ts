@@ -22,6 +22,11 @@ export interface SocialLink {
   color: string
 }
 
+export interface RedirectRule {
+  to: string
+  from: string | string[]
+}
+
 // shared with valaxy node and client
 export interface SiteConfig {
   /**
@@ -313,6 +318,12 @@ export interface SiteConfig {
    * @description:zh-CN 限制代码块的高度，单位是 px
    */
   codeHeightLimit?: number
+
+  /**
+   * @description:en-US client redirect rules
+   * @description:zh-CN 客户端重定向规则
+   */
+  redirects?: RedirectRule[]
 }
 
 export type PartialDeep<T> = {
