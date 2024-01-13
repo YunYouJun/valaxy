@@ -5,9 +5,9 @@ categories:
   - config
 ---
 
-> [packages/valaxy/node/type.ts](https://github.com/YunYouJun/valaxy/blob/main/packages/valaxy/node/types.ts)
+以下是所有的扩展配置项与相关类型。
 
-### Unocss Presets
+> [packages/valaxy/node/type.ts](https://github.com/YunYouJun/valaxy/blob/main/packages/valaxy/node/types.ts)
 
 ```ts
 // types
@@ -101,3 +101,16 @@ export default defineValaxyConfig<ThemeConfig>({
   ],
 })
 ```
+
+### Unocss Presets
+
+我们默认集成了 [UnoCSS](https://unocss.dev) 及以下预设。
+
+- [`presetUno`](https://unocss.dev/presets/attributify): 一些常用按需生成的样式，类 TailwindCSS。
+- [`presetAttributify`](https://unocss.dev/presets/attributify): 使用属性选择器替代类名。
+- [`presetIcons`](https://unocss.dev/presets/icons): 集成了 [icones](https://icones.netlify.app/) 图标库，按需使用。
+- [`presetTypography`](https://unocss.dev/presets/typography)
+
+因此，你可以直接在 Markdown 中快速实现各式各样的效果。
+
+见 [UnoCSS | Markdown](/guide/markdown#unocss)。

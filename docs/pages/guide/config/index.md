@@ -622,6 +622,90 @@ export default defineSiteConfig({
 `/foo`, `/bar`, `/v1/about` these routes will be redirected to `/about`。
 :::
 
+### 图片预览（Medium Zoom） {lang="zh-CN"}
+
+### Image Preview (Medium Zoom) {lang="en"}
+
+::: zh-CN
+Valaxy 内置了 [medium-zoom](https://github.com/francoischalifour/medium-zoom) 进行图片预览，默认关闭。
+
+> [Medium Zoom Demo](https://medium-zoom.francoischalifour.com/)
+
+- mediumZoom
+  - `enable`: 是否开启
+  - `selector`: 可自定义传入选择器
+  - `options`: 与 [options | medium-zoom](https://github.com/francoischalifour/medium-zoom#options) 一致
+
+譬如开启 Medium Zoom：
+:::
+
+::: en
+Valaxy has built-in [medium-zoom](https://github.com/francoischalifour/medium-zoom) to preview the pictures, which is disabled by default.
+
+> [Medium Zoom Demo](https://medium-zoom.francoischalifour.com/)
+
+- mediumZoom
+  - `enable`: Set to true to enable it
+  - `selector`: Custom CSS selector
+  - `options`: Refer to [options | medium-zoom](https://github.com/francoischalifour/medium-zoom#options)
+>>>>>>> a2bbd86 (docs: update vanillaLazyLoad)
+:::
+
+```ts
+// site.config.ts
+import { defineSiteConfig } from 'valaxy'
+
+export default defineSiteConfig({
+  mediumZoom: { enable: true }
+})
+```
+
+::: zh-CN
+除此之外，你也可以单独控制是否在某篇文章中开启。
+:::
+
+::: en
+In addition, you can also enable it in a certain article independently.
+:::
+
+```md
+---
+title: Test Medium Zoom
+medium_zoom: true
+---
+```
+
+### 懒加载 Vanilla Lazyload {lang="zh-CN"}
+
+### Lazyload Vanilla Lazyload {lang="en"}
+
+::: zh-CN
+
+Valaxy 内置了 [vanilla-lazyload](https://github.com/verlok/vanilla-lazyload)。
+
+`vanillaLazyload` 默认不开启。
+因为 Valaxy 本身会为所有的图片添加 `loading="lazy"`，它是浏览器的特性，但如果你希望得到更广泛的兼容，你可以手动开启 `vanillaLazyload`。
+
+:::
+
+::: en
+
+Valaxy has built-in [vanilla-lazyload](https://github.com/verlok/vanilla-lazyload)。
+
+`vanillaLazyload` is disabled by default.
+Because Valaxy itself will add `loading="lazy"` to all images, which is a browser feature, but if you want to get more extensive compatibility, you can manually enable it.
+
+:::
+
+```ts
+export default defineSiteConfig({
+  vanillaLazyload: {
+    // 默认不开启
+    enable: true,
+  }
+})
+```
+
 ## 主题配置 {lang="zh-CN"}
 
 ## Theme Config {lang="en"}

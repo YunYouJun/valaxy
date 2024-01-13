@@ -538,6 +538,8 @@ We integrated [UnoCSS](https://unocss.dev), so you can use it in your markdown f
 
 Freedom to control your layout!
 
+> 更多配置见 [UnoCSS | 扩展配置](/guide/config/extend#unocss-presets)。
+
 <div class="flex flex-col">
 
 <div class="flex grid-cols-3">

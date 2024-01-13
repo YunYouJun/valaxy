@@ -140,58 +140,6 @@ Algolia is an online third-party search service. You need to apply for the `ID` 
 Valaxy provides a quick integration plug-in: [valaxy-addon-algolia](https://github.com/YunYouJun/valaxy/tree/main/packages/valaxy-addon-algolia) (Currently only DocSearch is supported).
 :::
 
-## 图片预览（Medium Zoom） {lang="zh-CN"}
-
-## Image Preview (Medium Zoom) {lang="en"}
-
-::: zh-CN
-Valaxy 内置了 [medium-zoom](https://github.com/francoischalifour/medium-zoom) 进行图片预览，默认关闭。
-
-> [Medium Zoom Demo](https://medium-zoom.francoischalifour.com/)
-
-- mediumZoom
-  - `enable`: 是否开启
-  - `selector`: 可自定义传入选择器
-  - `options`: 与 [options | medium-zoom](https://github.com/francoischalifour/medium-zoom#options) 一致
-
-譬如开启 Medium Zoom：
-:::
-
-::: en
-Valaxy has built-in [medium-zoom](https://github.com/francoischalifour/medium-zoom) to preview the pictures, which is disabled by default.
-
-> [Medium Zoom Demo](https://medium-zoom.francoischalifour.com/)
-
-- mediumZoom
-  - `enable`: Set to true to enable it
-  - `selector`: Custom CSS selector
-  - `options`: Refer to [options | medium-zoom](https://github.com/francoischalifour/medium-zoom#options)
-:::
-
-```ts
-// site.config.ts
-import { defineSiteConfig } from 'valaxy'
-
-export default defineSiteConfig({
-  mediumZoom: { enable: true }
-})
-```
-
-::: zh-CN
-除此之外，你也可以单独控制是否在某篇文章中开启。
-:::
-
-::: en
-In addition, you can also enable it in a certain article independently.
-:::
-
-```md
----
-title: Test Medium Zoom
-medium_zoom: true
----
-```
-
 ## 音乐播放器 {lang="zh-CN"}
 
 ## Music Player {lang="en"}
