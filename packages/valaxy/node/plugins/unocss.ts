@@ -1,5 +1,6 @@
 import { resolve } from 'node:path'
 import { existsSync } from 'node:fs'
+import { fileURLToPath } from 'node:url'
 import type { VitePluginConfig as UnoCSSConfig, VitePluginConfig } from 'unocss/vite'
 import jiti from 'jiti'
 import defu from 'defu'
@@ -122,7 +123,9 @@ export async function createUnocssPlugin(options: ResolvedValaxyOptions) {
 
   configFiles.forEach((configFile) => {
     if (existsSync(configFile)) {
-      let uConfig: UnoCSSConfig | { default: UnoCSSConfig } = jiti(__filename)(configFile) as UnoCSSConfig | { default: UnoCSSConfig }
+      let uConfig: UnoCSSConfig | { default: UnoCSSConfig } = jiti(
+        fileURLToPath(import.meta.url),
+      )(configFile) as UnoCSSConfig | { default: UnoCSSConfig }
       if ('default' in uConfig)
         uConfig = uConfig.default
 

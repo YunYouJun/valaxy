@@ -1,5 +1,6 @@
 // ref slidev
 import { resolve } from 'node:path'
+import { fileURLToPath } from 'node:url'
 import fs from 'fs-extra'
 import { isObject } from '@antfu/utils'
 import jiti from 'jiti'
@@ -22,7 +23,7 @@ export async function loadSetups<T, R extends object>(roots: string[], name: str
   for (const root of roots) {
     const path = resolve(root, 'setup', name)
     if (fs.existsSync(path)) {
-      const { default: setup } = jiti(__filename)(path)
+      const { default: setup } = jiti(fileURLToPath(import.meta.url))(path)
       const result = await setup(arg)
       if (result !== null) {
         returns = merge
