@@ -3,6 +3,8 @@
 .vite-ssg-temp
 
 temp/
+# temp pages
+pages/temp/
 
 .DS_Store
 *.local

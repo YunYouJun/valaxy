@@ -145,10 +145,12 @@ export async function setupMarkdownPlugins(
     // removeSrc and classes are required by vanilla-lazyload
     ...(vanillaLazyload.enable
       ? {
-          lazy: false,
-          async: false,
-          removeSrc: true,
+          lazy: true,
+          async: true,
           classes: 'lazy',
+          // when removeSrc, vite can not handle relative path
+          // removeSrc in useVanillaLazyload onMounted
+          // removeSrc: true,
         }
       : {}),
 

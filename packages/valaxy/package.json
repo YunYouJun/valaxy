@@ -120,7 +120,7 @@
     "vite-plugin-vue-layouts": "0.11.0",
     "vite-ssg": "0.23.6",
     "vite-ssg-sitemap": "0.6.1",
-    "vue": "^3.4.7",
+    "vue": "^3.4.13",
     "vue-i18n": "^9.9.0",
     "vue-router": "^4.2.5",
     "yargs": "^17.7.2"

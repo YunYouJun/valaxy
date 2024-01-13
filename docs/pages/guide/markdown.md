@@ -531,3 +531,69 @@ The format of the selected line range can be: `{3,}`, `{,10}`, `{1,10}`
 ::: warning
 Note that this does not throw errors if your file is not present. Hence, when using this feature make sure that the contents are being rendered as expected.
 :::
+
+## UnoCSS
+
+We integrated [UnoCSS](https://unocss.dev), so you can use it in your markdown file.
+
+Freedom to control your layout!
+
+<div class="flex flex-col">
+
+<div class="flex grid-cols-3">
+  <div>
+
+  ![image](https://yunyoujun.cn/images/avatar.jpg)
+  </div>
+
+  <div>
+
+  ![image](https://yunyoujun.cn/images/avatar.jpg)
+  </div>
+
+  <div>
+
+  ![image](https://yunyoujun.cn/images/avatar.jpg)
+  </div>
+</div>
+
+<div class="flex grid-cols-2 justify-center items-center">
+
+![image](https://cdn.yunyoujun.cn/img/bg/stars-timing-1.jpg)
+
+![image](https://fastly.jsdelivr.net/gh/YunYouJun/cdn/img/bg/astronaut.webp)
+
+</div>
+
+</div>
+
+```html
+<div class="flex flex-col">
+
+<div class="flex grid-cols-3">
+  <div>
+
+  ![image](https://yunyoujun.cn/images/avatar.jpg)
+  </div>
+
+  <div>
+
+  ![image](https://yunyoujun.cn/images/avatar.jpg)
+  </div>
+
+  <div>
+
+  ![image](https://yunyoujun.cn/images/avatar.jpg)
+  </div>
+</div>
+
+<div class="flex grid-cols-2 justify-center items-center">
+
+![image](https://cdn.yunyoujun.cn/img/bg/stars-timing-1.jpg)
+
+![image](https://fastly.jsdelivr.net/gh/YunYouJun/cdn/img/bg/astronaut.webp)
+
+</div>
+
+</div>
+```

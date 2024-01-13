@@ -34,6 +34,19 @@ pnpm run build
 pnpm dev
 ```
 
+### Docs
+
+We use valaxy to build docs. Just eat our own dog food.
+
+> If you want to use more out-of-the-box for docs, you can use [VitePress](https://vitepress.dev/).
+
+```bash
+# build latest valaxy cli
+pnpm run build
+
+pnpm run docs:build
+```
+
 If you want to display info better in two terminal (**Recommended**), follow below.
 
 ### Node
