@@ -25,6 +25,7 @@
     "build": "pnpm run build:valaxy",
     "build:valaxy": "pnpm -C packages/valaxy run build",
     "build:demo": "pnpm -C demo/yun run build",
+    "build:demo:ssg": "pnpm -C demo/yun run build:ssg",
     "build:docs": "pnpm -C docs run build",
     "ci": "pnpm run build && pnpm -C demo/yun run fuse",
     "ci:publish": "pnpm -r publish --access public --no-git-checks",

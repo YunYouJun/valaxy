@@ -36,6 +36,9 @@ const clientDeps = [
   'fuse.js',
   'medium-zoom',
   'vanilla-lazyload',
+
+  // dev
+  '@vue/devtools-api',
 ]
 
 /**
@@ -48,8 +51,13 @@ const EXCLUDE = [
   '@vueuse/shared',
   '@unocss/reset',
   'unocss',
+
   'vue',
+  'vue-i18n',
   'vue-demi',
+  // separate deps vue-i18n @vue/devtools-api
+  'vue-router',
+  '@vue/devtools-api',
 
   // addon, todo add externals for addon
   // main field error
@@ -141,7 +149,10 @@ export function getDefine(_options: ResolvedValaxyOptions): Record<string, any> 
   // https://github.com/intlify/vue-i18n-next/blob/dab6db19a1ef917425939275a41dfde9b6c61fe9/packages/vue-i18n-core/src/misc.ts#L20
   // I create a issue https://github.com/intlify/vue-i18n-next/issues/961
 
-  return {}
+  return {
+    __VUE_PROD_DEVTOOLS__: false,
+    __INTLIFY_PROD_DEVTOOLS__: false,
+  }
 }
 
 export function getAlias(options: ResolvedValaxyOptions): AliasOptions {

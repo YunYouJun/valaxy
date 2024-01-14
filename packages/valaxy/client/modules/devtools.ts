@@ -1,14 +1,16 @@
-import { addCustomCommand, addCustomTab } from '@vue/devtools-api'
 import type { UserModule } from '../types'
 
 import valaxyLogo from '../assets/images/valaxy-logo.png'
 import pkg from '../../package.json'
 
+// import {addCustomCommand, addCustomTab } from '@vue/devtools-api'
+
 /**
  * add when enable vue devtools
  * https://devtools-next.vuejs.org/plugins/api
  */
-export function addValaxyTab() {
+export async function addValaxyTabAndCommand() {
+  const { addCustomTab, addCustomCommand } = await import('@vue/devtools-api')
   addCustomTab({
     // unique identifier
     name: 'valaxy',
@@ -24,9 +26,7 @@ export function addValaxyTab() {
     // category: 'pinned',
     category: 'app',
   })
-}
 
-function addValaxyCommand() {
   addCustomCommand({
     id: 'valaxy',
     title: 'Valaxy',
@@ -55,10 +55,6 @@ function addValaxyCommand() {
   })
 }
 
-export const install: UserModule = ({ isClient }) => {
-  const enableDevtools = import.meta.env.DEV && isClient
-  if (enableDevtools) {
-    addValaxyTab()
-    addValaxyCommand()
-  }
+export const install: UserModule = async () => {
+  await addValaxyTabAndCommand()
 }

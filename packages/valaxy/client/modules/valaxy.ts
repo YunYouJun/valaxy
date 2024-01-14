@@ -43,7 +43,7 @@ function shouldHotReload(payload: PageDataPayload): boolean {
   return ensureSuffix('/', payloadPath) === ensureSuffix('/', locationPath)
 }
 
-export function install({ app, router }: ViteSSGContext, config: ComputedRef<ValaxyConfig<DefaultTheme.Config>>) {
+export async function install({ app, router }: ViteSSGContext, config: ComputedRef<ValaxyConfig<DefaultTheme.Config>>) {
   const locale = useStorage('valaxy-locale', config?.value.siteConfig.lang || 'en')
 
   // init i18n, by valaxy config

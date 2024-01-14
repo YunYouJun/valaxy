@@ -29,7 +29,7 @@ export async function ssgBuild(
     plugins: await ViteValaxyPlugins(options),
     ssr: {
       // TODO: workaround until they support native ESM
-      noExternal: ['workbox-window', /vue-i18n/],
+      noExternal: ['workbox-window', /vue-i18n/, '@vue/devtools-api'],
     },
   }
 

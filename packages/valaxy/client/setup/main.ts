@@ -19,15 +19,18 @@ import { install as installPinia } from '../modules/pinia'
 import { install as installNprogress } from '../modules/nprogress'
 import { install as installSchema } from '../modules/schemaOrg'
 
-// import { install as installDevtools } from '../modules/devtools'
-
 export default function setupMain(ctx: ViteSSGContext, config: ComputedRef<ValaxyConfig<DefaultTheme.Config>>) {
   // @ts-expect-error inject in runtime
   // eslint-disable-next-line unused-imports/no-unused-vars
   const injection_arg = ctx
 
   installValaxy(ctx, config)
-  // installDevtools(ctx)
+
+  if (import.meta.env.DEV && ctx.isClient) {
+    import('../modules/devtools').then(({ install: installDevtools }) => {
+      installDevtools(ctx)
+    })
+  }
 
   installSchema(ctx)
 

@@ -35,7 +35,7 @@
     "./types": "./dist/types/index.d.ts",
     "./*": "./*"
   },
-  "main": "dist/node/index.cjs",
+  "main": "dist/node/index.mjs",
   "module": "dist/node/index.mjs",
   "types": "index.d.ts",
   "bin": {
@@ -72,6 +72,7 @@
     "@unhead/schema-org": "^1.8.9",
     "@unhead/vue": "^1.8.9",
     "@vitejs/plugin-vue": "^5.0.3",
+    "@vue/devtools-api": "^7.0.10",
     "@vueuse/core": "^10.7.2",
     "@vueuse/integrations": "^10.7.2",
     "body-scroll-lock": "4.0.0-beta.0",
