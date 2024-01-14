@@ -28,14 +28,14 @@ const { t } = useI18n()
       @click="open = !open"
     >
       <span class="text">
-        {{ t(item.text) }}
+        {{ item.text.includes('.') ? t(item.text) : item.text }}
       </span>
       <div i-ri-arrow-drop-down-line />
     </button>
 
     <div class="menu grow" flex="~ col" items="start">
       <AppLink v-for="itemLink in item.items" :key="itemLink.text" class="menu-item" p="x-3" :to="itemLink.link">
-        {{ t(itemLink.text) }}
+        {{ itemLink.text.includes('.') ? t(itemLink.text) : itemLink.text }}
       </AppLink>
     </div>
   </div>
