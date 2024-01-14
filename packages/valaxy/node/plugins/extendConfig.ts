@@ -53,7 +53,7 @@ const EXCLUDE = [
   'unocss',
 
   'vue',
-  'vue-i18n',
+  // 'vue-i18n',
   'vue-demi',
   // separate deps vue-i18n @vue/devtools-api
   'vue-router',

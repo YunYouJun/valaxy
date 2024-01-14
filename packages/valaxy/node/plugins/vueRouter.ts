@@ -109,7 +109,7 @@ export function createRouterPlugin(options: ResolvedValaxyOptions) {
 
         // set route meta
         route.addToMeta({
-          frontmatter: Object.assign(defaultFrontmatter, mdFm),
+          frontmatter: mdFm,
           excerpt: excerpt ? getExcerptByType(excerpt, mdFm.excerpt_type) : '',
         })
 
