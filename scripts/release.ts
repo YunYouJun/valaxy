@@ -1,9 +1,9 @@
 import process from 'node:process'
-import { yellow } from 'kolorist'
+import { createRequire } from 'node:module'
+import { readFileSync } from 'node:fs'
+import { cyan, gray, yellow } from 'kolorist'
 import consola from 'consola'
 import { $ } from 'zx'
-
-import { versionBump } from 'bumpp'
 
 import minimist from 'minimist'
 import { packages, updateTemplateVersions } from './utils'
@@ -11,7 +11,15 @@ import { packages, updateTemplateVersions } from './utils'
 const args = minimist(process.argv.slice(2))
 export const isDryRun = !!args.dry
 
+const pkgPaths = packages.map(name => `packages/${name}/package.json`)
+
 async function main() {
+  const require = createRequire(import.meta.url)
+  // require for avoid bumpp mjs bundle error
+  // `import { ReleaseType } from "semver";`
+  // ReleaseType is a type, not a value
+  // TODO: create a PR to fix this
+  const { versionBump } = require('bumpp')
   const { newVersion } = await versionBump({
     commit: false,
     push: false,
@@ -20,12 +28,19 @@ async function main() {
     files: [
       'package.json',
 
-      ...packages.map(name => `packages/${name}/package.json`),
+      ...pkgPaths,
     ],
   })
 
   console.log()
-  consola.info(`Updating template version to ${yellow(newVersion)}...`)
+  consola.info('Updating packages version...')
+  pkgPaths.forEach((pkgPath) => {
+    const pkg = JSON.parse(readFileSync(pkgPath, 'utf-8'))
+    consola.info(`${cyan(pkg.name)} ${gray(`v${pkg.version}`)} -> ${yellow(`v${newVersion}`)}`)
+  })
+
+  console.log()
+  consola.info(`Updating template version...`)
   await updateTemplateVersions(newVersion)
 
   if (!isDryRun) {
