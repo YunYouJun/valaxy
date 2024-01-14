@@ -17,7 +17,7 @@ jobs:
       - uses: pnpm/action-setup@v2
       - uses: actions/setup-node@v3
         with:
-          node-version: 18.x
+          node-version: lts/*
           cache: pnpm
 
       - name: Install
@@ -33,7 +33,7 @@ jobs:
       - uses: pnpm/action-setup@v2
       - uses: actions/setup-node@v3
         with:
-          node-version: 18.x
+          node-version: lts/*
           cache: pnpm
 
       - name: Install
@@ -49,7 +49,7 @@ jobs:
 
     strategy:
       matrix:
-        node-version: [18.x]
+        node-version: [lts/*]
         os: [ubuntu-latest, windows-latest]
       fail-fast: false
 
@@ -80,7 +80,7 @@ jobs:
 
     strategy:
       matrix:
-        node-version: [18.x]
+        node-version: [lts/*]
         os: [ubuntu-latest]
       fail-fast: false
 

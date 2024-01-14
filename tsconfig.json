@@ -17,6 +17,7 @@
     },
     "resolveJsonModule": true,
     "types": [
+      "unplugin-vue-router/client",
       "vitest",
       "vite/client",
       "vite-plugin-vue-layouts/client",

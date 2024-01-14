@@ -55,8 +55,6 @@ const EXCLUDE = [
   'vue',
   // 'vue-i18n',
   'vue-demi',
-  // separate deps vue-i18n @vue/devtools-api
-  'vue-router',
   '@vue/devtools-api',
 
   // addon, todo add externals for addon
