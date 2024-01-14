@@ -18,9 +18,11 @@ describe('utils', () => {
     const templatePath = resolve(clientRoot, 'template.html')
     const indexPath = resolve(clientRoot, 'index.html')
 
+    const rawHtml = fs.readFileSync(indexPath, 'utf-8')
+
     if (fs.existsSync(templatePath))
       await fs.copyFile(templatePath, indexPath)
-    const indexHtml = await getIndexHtml({ clientRoot, themeRoot, userRoot, config } as ResolvedValaxyOptions)
+    const indexHtml = await getIndexHtml({ clientRoot, themeRoot, userRoot, config } as ResolvedValaxyOptions, rawHtml)
 
     const head = indexHtml.match(/<head>([\s\S]*?)<\/head>/im)?.[1]
     const body = indexHtml.match(/<body>([\s\S]*?)<\/body>/im)?.[1]
@@ -38,7 +40,8 @@ describe('utils', () => {
     const config: UserValaxyConfig = {
       siteConfig: { mode: 'auto' },
     }
-    const indexHtml = await getIndexHtml({ clientRoot, themeRoot, userRoot, config } as ResolvedValaxyOptions)
+    const rawHtml = fs.readFileSync(resolve(clientRoot, 'index.html'), 'utf-8')
+    const indexHtml = await getIndexHtml({ clientRoot, themeRoot, userRoot, config } as ResolvedValaxyOptions, rawHtml)
 
     const head = indexHtml.match(/<head>([\s\S]*?)<\/head>/im)?.[1]
     expect(head).toContain('prefers-color-scheme: dark')

@@ -3,6 +3,7 @@ import type { Alias, AliasOptions, InlineConfig, Plugin } from 'vite'
 import { mergeConfig, searchForWorkspaceRoot } from 'vite'
 import isInstalledGlobally from 'is-installed-globally'
 import { uniq } from '@antfu/utils'
+import { getIndexHtml } from '../common'
 import type { ResolvedValaxyOptions } from '../options'
 import { resolveImportPath, toAtFS } from '../utils'
 
@@ -122,32 +123,11 @@ export function createConfigPlugin(options: ResolvedValaxyOptions): Plugin {
       return mergeConfig(config, injection)
     },
 
-    // configureServer(server) {
-    //   // serve our index.html after vite history fallback
-    //   return () => {
-    //     server.middlewares.use(async (req, res, next) => {
-    //       if (req.url!.endsWith('.html')) {
-    //         res.setHeader('Content-Type', 'text/html')
-    //         res.statusCode = 200
-    //         res.end(await getIndexHtml(options))
-    //         return
-    //       }
-    //       // patch rss
-    //       if (req.url! === '/atom.xml') {
-    //         res.setHeader('Content-Type', 'application/xml')
-    //         res.statusCode = 200
-    //         res.end(await fs.readFile(resolve(options.userRoot, 'dist/atom.xml'), 'utf-8'))
-    //         return
-    //       }
-    //       next()
-    //     })
-    //   }
-    // },
-
-    transformIndexHtml(html) {
+    async transformIndexHtml(html) {
+      // console.log(toAtFS(options.clientRoot))
       // todo: adapt user/theme index.html by transformIndexHtml
       return {
-        html,
+        html: await getIndexHtml(options, html),
         tags: [
           {
             tag: 'script',

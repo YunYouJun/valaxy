@@ -93,10 +93,11 @@ export function registerFuseCommand(cli: Argv<object>) {
       consola.success(`Generate fuse list in ${dim(distFolder)}`)
 
       try {
-        const gitignore = await fs.readFile(`${options.userRoot}/.gitignore`, 'utf-8')
+        const gitignorePath = path.resolve(options.userRoot, '.gitignore')
+        const gitignore = await fs.readFile(gitignorePath, 'utf-8')
         const ignorePath = publicRelativeFile.replace(/\\/g, '/')
         if (!gitignore.includes(ignorePath)) {
-          await fs.appendFile(`${options.userRoot}/.gitignore`, `\n# valaxy\n${ignorePath}\n`)
+          await fs.appendFile(gitignorePath, `\n# valaxy fuse\n${ignorePath}\n`)
           consola.success(`Add ${dim(ignorePath)} to ${dim('.gitignore')}`)
         }
       }

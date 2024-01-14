@@ -6,7 +6,7 @@ import type yargs from 'yargs'
 import fs from 'fs-extra'
 import { yellow } from 'kolorist'
 import { build, postProcessForSSG, ssgBuild } from '../build'
-import { getIndexHtml, mergeViteConfigs, resolveOptions } from '..'
+import { mergeViteConfigs, resolveOptions } from '..'
 import { createValaxyNode } from '../app'
 import type { ValaxyModule } from '../modules'
 import { setupModules } from '../modules'
@@ -84,8 +84,8 @@ export function registerBuildCommand(cli: yargs.Argv) {
       const indexPath = path.resolve(options.clientRoot, 'index.html')
       if (fs.existsSync(templatePath))
         await fs.copyFile(templatePath, indexPath)
-      const indexHtml = await getIndexHtml(options)
-      await fs.writeFile(indexPath, indexHtml, 'utf-8')
+      // const indexHtml = await getIndexHtml(options)
+      // await fs.writeFile(indexPath, indexHtml, 'utf-8')
 
       // before build
       await valaxyApp.hooks.callHook('build:before')
@@ -115,7 +115,7 @@ export function registerBuildCommand(cli: yargs.Argv) {
       }
       finally {
       // await fs.unlink(indexPath)
-        await fs.copyFile(templatePath, indexPath)
+        // await fs.copyFile(templatePath, indexPath)
 
         // after build
         await valaxyApp.hooks.callHook('build:after')

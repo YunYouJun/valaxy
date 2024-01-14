@@ -83,9 +83,10 @@ export async function ViteValaxyPlugins(
     }),
 
     UnheadVite(),
+
+    createValaxyPlugin(options, serverOptions),
     createConfigPlugin(options),
     createClientSetupPlugin(options),
-    createValaxyPlugin(options, serverOptions),
 
     // https://github.com/posva/unplugin-vue-router
     createRouterPlugin(options),

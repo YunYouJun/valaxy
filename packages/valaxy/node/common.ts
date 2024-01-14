@@ -1,4 +1,4 @@
-import { join, resolve } from 'node:path'
+import { join } from 'node:path'
 import fs from 'fs-extra'
 import type { ConfigEnv, InlineConfig } from 'vite'
 import { uniq } from '@antfu/utils'
@@ -36,11 +36,12 @@ export async function mergeViteConfigs({ userRoot, themeRoot }: ResolvedValaxyOp
  * generate index.html from user/theme/client
  * @internal
  */
-export async function getIndexHtml({ clientRoot, themeRoot, userRoot, config }: ResolvedValaxyOptions): Promise<string> {
+export async function getIndexHtml({ themeRoot, userRoot, config }: ResolvedValaxyOptions, rawHtml: string): Promise<string> {
   // get from template
-  const indexTemplatePath = resolve(clientRoot, 'template.html')
+  // use client index.html directly, than change it in transformIndexHtml
 
-  let main = await fs.readFile(indexTemplatePath, 'utf-8')
+  // let main = await fs.readFile(indexTemplatePath, 'utf-8')
+  let main = rawHtml
   let head = ''
   let body = ''
 

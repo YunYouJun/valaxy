@@ -1,4 +1,4 @@
-import { dirname, resolve } from 'node:path'
+import { dirname, join, resolve } from 'node:path'
 import { readFile } from 'node:fs/promises'
 import { cyan, dim, yellow } from 'kolorist'
 
@@ -139,9 +139,10 @@ export async function build(options: ResolvedValaxyOptions) {
 
   await fs.ensureDir(dirname(`./dist/${feedNameMap.atom}`))
   const path = resolve(options.userRoot, './dist')
+  const publicFolder = resolve(options.userRoot, 'public')
 
   const types = ['rss', 'atom', 'json']
-  types.forEach((type) => {
+  types.forEach(async (type) => {
     let data = ''
     const name = `${path}/${feedNameMap[type]}`
     if (type === 'rss')
@@ -152,7 +153,23 @@ export async function build(options: ResolvedValaxyOptions) {
       data = feed.json1()
 
     fs.writeFileSync(name, data, 'utf-8')
-    consola.info(`${type}: ${dim(name)}`)
+    consola.success(`[${cyan(type)}] dist: ${dim(name)}`)
+
+    const publicFeedPath = resolve(publicFolder, feedNameMap[type])
+    const publicRelativeFile = join('public', feedNameMap[type])
+    fs.writeFileSync(publicFeedPath, data, 'utf-8')
+    consola.success(`[${cyan(type)}] public: ${dim(name)}`)
+
+    try {
+      const gitignorePath = resolve(options.userRoot, '.gitignore')
+      const gitignore = await fs.readFile(gitignorePath, 'utf-8')
+      const ignorePath = publicRelativeFile.replace(/\\/g, '/')
+      if (!gitignore.includes(ignorePath)) {
+        await fs.appendFile(gitignorePath, `\n# valaxy rss\n${ignorePath}\n`)
+        consola.success(`Add ${dim(ignorePath)} to ${dim('.gitignore')}`)
+      }
+    }
+    catch {}
   })
 }
 
