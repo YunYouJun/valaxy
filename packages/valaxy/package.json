@@ -142,7 +142,6 @@
     "@types/pascalcase": "^1.0.3",
     "@types/qrcode": "^1.5.5",
     "@types/yargs": "^17.0.32",
-    "@vue/devtools-api": "^7.0.10",
     "debug": "^4.3.4",
     "diacritics": "^1.3.0",
     "https-localhost": "^4.7.1",

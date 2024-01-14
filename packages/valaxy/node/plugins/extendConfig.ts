@@ -125,19 +125,10 @@ export function createConfigPlugin(options: ResolvedValaxyOptions): Plugin {
 
     async transformIndexHtml(html) {
       // console.log(toAtFS(options.clientRoot))
-      // todo: adapt user/theme index.html by transformIndexHtml
+      html = await getIndexHtml(options, html)
       return {
-        html: await getIndexHtml(options, html),
-        tags: [
-          {
-            tag: 'script',
-            attrs: {
-              type: 'module',
-              src: `${toAtFS(options.clientRoot)}/main.ts`,
-            },
-            injectTo: 'head-prepend',
-          },
-        ],
+        html,
+        tags: [],
       }
     },
   }

@@ -31,4 +31,5 @@ onMounted(() => {
   <Transition name="fade">
     <YunLoading v-if="app.showLoading" />
   </Transition>
+  <YunBackToTop />
 </template>

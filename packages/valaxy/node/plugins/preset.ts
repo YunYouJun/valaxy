@@ -7,7 +7,6 @@ import Vue from '@vitejs/plugin-vue'
 import Layouts from 'vite-plugin-vue-layouts'
 import Components from 'unplugin-vue-components/vite'
 import VueI18n from '@intlify/unplugin-vue-i18n/vite'
-import VueDevTools from 'vite-plugin-vue-devtools'
 
 import UnheadVite from '@unhead/addons/vite'
 
@@ -27,7 +26,7 @@ export const mdIt = new MarkdownIt({ html: true })
 export async function ViteValaxyPlugins(
   options: ResolvedValaxyOptions,
   serverOptions: ValaxyServerOptions = {},
-): Promise<(PluginOption | PluginOption[])[] | undefined> {
+): Promise<(PluginOption | PluginOption[])[]> {
   const { roots, config: valaxyConfig } = options
 
   // setup mdIt
@@ -111,7 +110,6 @@ export async function ViteValaxyPlugins(
       // latter override former
       dirs: roots
         .map(root => `${root}/components`)
-        .concat(roots.map(root => `${root}/layouts`))
         .concat(['src/components', 'components']),
       dts: `${options.userRoot}/components.d.ts`,
 
@@ -133,7 +131,5 @@ export async function ViteValaxyPlugins(
 
     splitVendorChunkPlugin(),
     createFixPlugins(options),
-
-    valaxyConfig.devtools && VueDevTools(),
   ]
 }

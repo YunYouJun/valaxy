@@ -41,20 +41,27 @@ useSchemaOrg(
 </script>
 
 <template>
-  <Layout>
-    <template #main-header-after>
-      <YunPostMeta :frontmatter="frontmatter" />
-      <YunWalineMeta />
-      <YunPostCategoriesAndTags :frontmatter="frontmatter" />
-    </template>
+  <YunSidebar v-if="$slots['sidebar-child']">
+    <slot name="sidebar-child" />
+  </YunSidebar>
+  <YunSidebar v-else />
 
-    <template #main-content-after>
-      <YunSponsor v-if="showSponsor" m="t-6" />
-      <ValaxyCopyright v-if="frontmatter.copyright || siteConfig.license.enabled" :url="url" m="y-4" />
-    </template>
+  <RouterView v-slot="{ Component }">
+    <component :is="Component">
+      <template #main-header-after>
+        <YunPostMeta :frontmatter="frontmatter" />
+        <YunWalineMeta />
+        <YunPostCategoriesAndTags :frontmatter="frontmatter" />
+      </template>
 
-    <template #aside-custom>
-      <slot name="aside-custom" />
-    </template>
-  </Layout>
+      <template #main-content-after>
+        <YunSponsor v-if="showSponsor" m="t-6" />
+        <ValaxyCopyright v-if="frontmatter.copyright || siteConfig.license.enabled" :url="url" m="y-4" />
+      </template>
+
+      <template #aside-custom>
+        <slot name="aside-custom" />
+      </template>
+    </component>
+  </RouterView>
 </template>

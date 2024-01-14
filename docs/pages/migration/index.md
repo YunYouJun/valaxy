@@ -11,10 +11,12 @@ top: 10
 ## Migrate from Hexo to Valaxy {lang="en"}
 
 ::: zh-CN
+
 - [从 Hexo 迁移至 Valaxy](/migration/hexo)
 :::
 
 ::: en
+
 - [Migrate from Hexo to Valaxy](/migration/hexo)
 :::
 
@@ -23,6 +25,7 @@ top: 10
 ## Migrate from any other blog framework {lang="en"}
 
 ::: zh-CN
+
 - 将你的文章（Markdown 文件）复制至 Valaxy `pages/posts` 目录下。
 - 将你的自定义页面（非文章的 Markdown/HTML 文件）复制至 Valaxy `pages` 目录下。
 - 将你的静态资源（图片等）复制至 Valaxy `public` 目录下。
@@ -30,6 +33,7 @@ top: 10
 :::
 
 ::: en
+
 - Copy your posts (Markdown files) to the Valaxy `pages/posts` directory.
 - Copy your custom pages (non-article Markdown/HTML files) to the Valaxy `pages` directory.
 - Copy your static resources (images, etc.) to the Valaxy `public` directory.
@@ -59,6 +63,8 @@ Default to `<-- More -->`, there are spaces before and after `more`.
 ::: zh-CN
 Valaxy 的 Markdown 解析基于 [`markdown-it`](https://github.com/markdown-it/markdown-it) 实现。
 
+#### 没有换行
+
 `markdown-it` 的策略在 Markdown 中换行后渲染的内容并没有换行：
 
 ```md
@@ -70,6 +76,8 @@ Valaxy 的 Markdown 解析基于 [`markdown-it`](https://github.com/markdown-it/
 没有换行
 
 ---
+
+#### 换行了
 
 如果需要正常换行，需在末尾添加两个空格：
 

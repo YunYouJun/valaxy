@@ -29,26 +29,33 @@ const YunGallery = runtimeConfig.value.addons['valaxy-addon-lightgallery']
 </script>
 
 <template>
-  <Layout>
-    <template #main-header>
-      <YunPageHeader
-        :title="title || t('title.gallery')"
-        :icon="frontmatter.icon || 'i-ri-gallery-line'"
-        :color="frontmatter.color"
-      />
-    </template>
-    <template #main-content>
-      <div text="center" class="yun-text-light" p="2">
-        {{ t('counter.photos', photos.length) }}
-      </div>
-      <div class="page-action" text="center">
-        <a class="yun-icon-btn" :title="t('accessibility.back')" @click="() => router.back()">
-          <div i-ri-arrow-go-back-line />
-        </a>
-      </div>
-      <ValaxyGalleryDecrypt v-if="frontmatter.encryptedPhotos" :encrypted-photos="frontmatter.encryptedPhotos" />
-      <YunGallery v-else :photos="photos" />
-      <RouterView />
-    </template>
-  </Layout>
+  <YunSidebar v-if="$slots['sidebar-child']">
+    <slot name="sidebar-child" />
+  </YunSidebar>
+  <YunSidebar v-else />
+
+  <RouterView v-slot="{ Component }">
+    <component :is="Component">
+      <template #main-header>
+        <YunPageHeader
+          :title="title || t('title.gallery')"
+          :icon="frontmatter.icon || 'i-ri-gallery-line'"
+          :color="frontmatter.color"
+        />
+      </template>
+      <template #main-content>
+        <div text="center" class="yun-text-light" p="2">
+          {{ t('counter.photos', photos.length) }}
+        </div>
+        <div class="page-action" text="center">
+          <a class="yun-icon-btn" :title="t('accessibility.back')" @click="() => router.back()">
+            <div i-ri-arrow-go-back-line />
+          </a>
+        </div>
+        <ValaxyGalleryDecrypt v-if="frontmatter.encryptedPhotos" :encrypted-photos="frontmatter.encryptedPhotos" />
+        <YunGallery v-else :photos="photos" />
+        <RouterView />
+      </template>
+    </component>
+  </RouterView>
 </template>

@@ -18,13 +18,20 @@ useSchemaOrg([
 </script>
 
 <template>
-  <Layout>
-    <template #main-header>
-      <YunPageHeader :title="title || t('menu.archives')" :icon="frontmatter.icon || 'i-ri-archive-line'" :color="frontmatter.color" />
-    </template>
-    <template #main-content>
-      <RouterView />
-      <YunPostCollapse :posts="site.postList" />
-    </template>
-  </Layout>
+  <YunSidebar v-if="$slots['sidebar-child']">
+    <slot name="sidebar-child" />
+  </YunSidebar>
+  <YunSidebar v-else />
+
+  <RouterView v-slot="{ Component }">
+    <component :is="Component">
+      <template #main-header>
+        <YunPageHeader :title="title || t('menu.archives')" :icon="frontmatter.icon || 'i-ri-archive-line'" :color="frontmatter.color" />
+      </template>
+      <template #main-content>
+        <RouterView />
+        <YunPostCollapse :posts="site.postList" />
+      </template>
+    </component>
+  </RouterView>
 </template>

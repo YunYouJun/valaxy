@@ -108,7 +108,7 @@ export function createRouterPlugin(options: ResolvedValaxyOptions) {
           mdFm.updated = new Date(mdFm.updated!)
 
         // set route meta
-        route.meta = Object.assign(route.meta, {
+        route.addToMeta({
           frontmatter: Object.assign(defaultFrontmatter, mdFm),
           excerpt: excerpt ? getExcerptByType(excerpt, mdFm.excerpt_type) : '',
         })

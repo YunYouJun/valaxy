@@ -4,6 +4,7 @@ import type { ConfigEnv, InlineConfig } from 'vite'
 import { uniq } from '@antfu/utils'
 import { loadConfigFromFile, mergeConfig } from 'vite'
 import type { ResolvedValaxyOptions } from './options'
+import { toAtFS } from './utils'
 
 /**
  * merge vite.config.ts (user & theme)
@@ -36,7 +37,7 @@ export async function mergeViteConfigs({ userRoot, themeRoot }: ResolvedValaxyOp
  * generate index.html from user/theme/client
  * @internal
  */
-export async function getIndexHtml({ themeRoot, userRoot, config }: ResolvedValaxyOptions, rawHtml: string): Promise<string> {
+export async function getIndexHtml({ clientRoot, themeRoot, userRoot, config }: ResolvedValaxyOptions, rawHtml: string): Promise<string> {
   // get from template
   // use client index.html directly, than change it in transformIndexHtml
 
@@ -83,6 +84,7 @@ export async function getIndexHtml({ themeRoot, userRoot, config }: ResolvedVala
   }
 
   main = main
+    .replace('__ENTRY__', toAtFS(join(clientRoot, 'main.ts')))
     .replace('<!-- head -->', head)
     .replace('<!-- body -->', body)
 

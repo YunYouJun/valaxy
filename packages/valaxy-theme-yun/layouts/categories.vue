@@ -39,30 +39,37 @@ useSchemaOrg([
 </script>
 
 <template>
-  <Layout>
-    <template #main-header>
-      <YunPageHeader
-        :title="title || t('menu.categories')"
-        :icon="frontmatter.icon || 'i-ri-folder-2-line'"
-        :color="frontmatter.color"
-      />
-    </template>
-    <template #main-content>
-      <div text="center" class="yun-text-light" p="2">
-        {{ t('counter.categories', categories.children.length) }}
-      </div>
-      <YunCategories :categories="categories.children" />
-      <RouterView />
-    </template>
+  <YunSidebar v-if="$slots['sidebar-child']">
+    <slot name="sidebar-child" />
+  </YunSidebar>
+  <YunSidebar v-else />
 
-    <template #main-nav-before>
-      <YunCard v-if="curCategory" class="post-collapse-container" m="t-4" w="full">
+  <RouterView v-slot="{ Component }">
+    <component :is="Component">
+      <template #main-header>
         <YunPageHeader
-          :title="curCategory === 'Uncategorized' ? t('category.uncategorized') : curCategory.split('/').join(' / ')"
-          icon="i-ri-folder-open-line"
+          :title="title || t('menu.categories')"
+          :icon="frontmatter.icon || 'i-ri-folder-2-line'"
+          :color="frontmatter.color"
         />
-        <YunPostCollapse w="full" m="b-4" p="x-20 lt-sm:x-5" :posts="posts" />
-      </YunCard>
-    </template>
-  </Layout>
+      </template>
+      <template #main-content>
+        <div text="center" class="yun-text-light" p="2">
+          {{ t('counter.categories', categories.children.length) }}
+        </div>
+        <YunCategories :categories="categories.children" />
+        <RouterView />
+      </template>
+
+      <template #main-nav-before>
+        <YunCard v-if="curCategory" class="post-collapse-container" m="t-4" w="full">
+          <YunPageHeader
+            :title="curCategory === 'Uncategorized' ? t('category.uncategorized') : curCategory.split('/').join(' / ')"
+            icon="i-ri-folder-open-line"
+          />
+          <YunPostCollapse w="full" m="b-4" p="x-20 lt-sm:x-5" :posts="posts" />
+        </YunCard>
+      </template>
+    </component>
+  </RouterView>
 </template>

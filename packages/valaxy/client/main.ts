@@ -29,6 +29,13 @@ export function registerComponents(ctx: ViteSSGContext) {
   ctx.app.component('AppLink', AppLink)
 }
 
+// fix chinese path
+routes.forEach((i) => {
+  i.children?.forEach((j) => {
+    j.path = encodeURI(j.path)
+  })
+})
+
 // not filter hide for ssg
 const routesWithLayout = setupLayouts(import.meta.env.DEV
   ? routes

@@ -19,7 +19,6 @@ defineProps<{
       border
       bg="hover:(blue-500 opacity-10)"
     >
-      <!-- <div m="r-1" i-ri-price-tag-3-line /> -->
       <span>{{ tag }}</span>
     </RouterLink>
   </div>

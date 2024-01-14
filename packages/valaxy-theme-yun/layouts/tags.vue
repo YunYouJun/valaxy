@@ -58,38 +58,45 @@ const title = usePostTitle(frontmatter)
 </script>
 
 <template>
-  <Layout>
-    <template #main-header>
-      <YunPageHeader
-        :title="title || t('menu.tags')"
-        :icon="frontmatter.icon || 'i-ri-tag-line'"
-        :color="frontmatter.color"
-      />
-    </template>
-    <template #main-content>
-      <div class="yun-text-light" text="center" p="2">
-        {{ t('counter.tags', Array.from(tags).length) }}
-      </div>
+  <YunSidebar v-if="$slots['sidebar-child']">
+    <slot name="sidebar-child" />
+  </YunSidebar>
+  <YunSidebar v-else />
 
-      <div class="justify-center items-end" flex="~ wrap" gap="1">
-        <YunLayoutPostTag
-          v-for="[key, tag] in Array.from(tags).sort()"
-          :key="key"
-          :title="key"
-          :count="tag.count"
-          :style="getTagStyle(tag.count)"
-          @click="displayTag(key.toString())"
+  <RouterView v-slot="{ Component }">
+    <component :is="Component">
+      <template #main-header>
+        <YunPageHeader
+          :title="title || t('menu.tags')"
+          :icon="frontmatter.icon || 'i-ri-tag-line'"
+          :color="frontmatter.color"
         />
-      </div>
+      </template>
+      <template #main-content>
+        <div class="yun-text-light" text="center" p="2">
+          {{ t('counter.tags', Array.from(tags).length) }}
+        </div>
 
-      <RouterView />
-    </template>
+        <div class="justify-center items-end" flex="~ wrap" gap="1">
+          <YunLayoutPostTag
+            v-for="[key, tag] in Array.from(tags).sort()"
+            :key="key"
+            :title="key"
+            :count="tag.count"
+            :style="getTagStyle(tag.count)"
+            @click="displayTag(key.toString())"
+          />
+        </div>
 
-    <template #main-nav-before>
-      <YunCard v-if="curTag" ref="collapse" m="t-4" w="full">
-        <YunPageHeader :title="curTag" icon="i-ri-hashtag" />
-        <YunPostCollapse w="full" m="b-4" p="x-20 lt-sm:x-5" :posts="posts" />
-      </YunCard>
-    </template>
-  </Layout>
+        <RouterView />
+      </template>
+
+      <template #main-nav-before>
+        <YunCard v-if="curTag" ref="collapse" m="t-4" w="full">
+          <YunPageHeader :title="curTag" icon="i-ri-hashtag" />
+          <YunPostCollapse w="full" m="b-4" p="x-20 lt-sm:x-5" :posts="posts" />
+        </YunCard>
+      </template>
+    </component>
+  </RouterView>
 </template>
