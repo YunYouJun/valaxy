@@ -18,6 +18,7 @@ import { install as installValaxy } from '../modules/valaxy'
 import { install as installPinia } from '../modules/pinia'
 import { install as installNprogress } from '../modules/nprogress'
 import { install as installSchema } from '../modules/schemaOrg'
+import { install as installDevtools } from '../modules/devtools'
 
 export default function setupMain(ctx: ViteSSGContext, config: ComputedRef<ValaxyConfig<DefaultTheme.Config>>) {
   // @ts-expect-error inject in runtime
@@ -25,6 +26,7 @@ export default function setupMain(ctx: ViteSSGContext, config: ComputedRef<Valax
   const injection_arg = ctx
 
   installValaxy(ctx, config)
+  installDevtools(ctx)
 
   installSchema(ctx)
 

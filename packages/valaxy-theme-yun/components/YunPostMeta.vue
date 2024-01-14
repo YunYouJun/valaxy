@@ -51,15 +51,16 @@ const siteConfig = useSiteConfig()
     >
       <span
         v-if="frontmatter.wordCount"
-        class="inline-flex-center" :title="t('statistics.word')"
+        class="word-count inline-flex-center" :title="t('statistics.word')"
       >
         <div class="inline-block" i-ri-file-word-line />
-        <time m="l-1">{{ frontmatter.wordCount }}</time>
+        <span m="l-1">{{ frontmatter.wordCount }}</span>
       </span>
 
       <span
         v-if="frontmatter.readingTime"
-        class="inline-flex-center" :title="t('statistics.time')"
+        class="reading-time inline-flex-center"
+        :title="t('statistics.time')"
       >
         <span m="x-2">-</span>
         <div i-ri-timer-line />

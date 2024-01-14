@@ -74,6 +74,11 @@ export interface ValaxyExtendConfig {
   }
   vueRouter?: Parameters<typeof VueRouter>[0]
   /**
+   * @experimental
+   * Enable Vue Devtools & Valaxy Devtools
+   */
+  devtools?: boolean
+  /**
    * for markdown
    */
   markdown?: MarkdownOptions

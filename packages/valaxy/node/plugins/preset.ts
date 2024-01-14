@@ -133,6 +133,6 @@ export async function ViteValaxyPlugins(
     splitVendorChunkPlugin(),
     createFixPlugins(options),
 
-    VueDevTools(),
+    valaxyConfig.devtools && VueDevTools(),
   ]
 }

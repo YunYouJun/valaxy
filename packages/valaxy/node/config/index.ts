@@ -150,6 +150,8 @@ export const defaultValaxyConfig: ValaxyNodeConfig = {
       },
     },
   },
+
+  devtools: true,
 }
 
 export type UnoSetup = () => Awaitable<Partial<UnoCssConfig> | undefined>

@@ -4,7 +4,6 @@ import type { ConfigEnv, InlineConfig } from 'vite'
 import { uniq } from '@antfu/utils'
 import { loadConfigFromFile, mergeConfig } from 'vite'
 import type { ResolvedValaxyOptions } from './options'
-import { toAtFS } from './utils'
 
 /**
  * merge vite.config.ts (user & theme)
@@ -83,7 +82,6 @@ export async function getIndexHtml({ clientRoot, themeRoot, userRoot, config }: 
   }
 
   main = main
-    .replace('__ENTRY__', toAtFS(join(clientRoot, 'main.ts')))
     .replace('<!-- head -->', head)
     .replace('<!-- body -->', body)
 
