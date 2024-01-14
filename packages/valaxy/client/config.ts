@@ -30,6 +30,9 @@ export const valaxyConfigRef = shallowRef<ValaxyConfig>(parse<ValaxyConfig>(vala
 
 export const valaxyContextRef = shallowRef<ValaxyContext>(parse<ValaxyContext>(valaxyContext))
 
+valaxyConfigRef.value = parse<ValaxyConfig>(valaxyConfig)
+valaxyContextRef.value = parse<ValaxyContext>(valaxyContext)
+
 // hmr
 if (import.meta.hot) {
   // /@valaxyjs/config must be static string

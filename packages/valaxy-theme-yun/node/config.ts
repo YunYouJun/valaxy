@@ -1,4 +1,4 @@
-import type { ThemeConfig } from '../types'
+import type { ThemeConfig, UserThemeConfig } from '../types'
 
 /**
  * Default Config
@@ -118,4 +118,13 @@ export const defaultThemeConfig: ThemeConfig = {
       url: '/about',
     },
   },
+}
+
+/**
+ * valaxy-theme-yun
+ * @see https://github.com/YunYouJun/valaxy/tree/main/packages/valaxy-theme-yun
+ * define theme config
+ */
+export function defineThemeConfig(config: UserThemeConfig) {
+  return config
 }

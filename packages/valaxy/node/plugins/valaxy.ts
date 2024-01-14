@@ -17,6 +17,7 @@ import type { PageDataPayload, SiteConfig } from '../../types'
 import type { ValaxyNodeConfig } from '../types'
 import { checkMd } from '../markdown/check'
 import { resolveSiteConfig } from '../config/site'
+import { resolveThemeConfig } from '../config/theme'
 
 /**
  * for /@valaxyjs/styles
@@ -263,8 +264,9 @@ export function createValaxyPlugin(options: ResolvedValaxyOptions, serverOptions
 
       // themeConfig
       if (file === options.themeConfigFile) {
-        const { config } = await resolveOptions({ userRoot: options.userRoot })
-        return reloadConfigAndEntries(config)
+        const { themeConfig } = await resolveThemeConfig(options.userRoot)
+        valaxyConfig.themeConfig = defu(themeConfig, valaxyConfig.themeConfig)
+        return reloadConfigAndEntries(valaxyConfig)
       }
 
       if (file === resolve(options.themeRoot, 'valaxy.config.ts')) {

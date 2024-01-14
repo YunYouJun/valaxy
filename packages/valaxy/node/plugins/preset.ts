@@ -68,6 +68,10 @@ export async function ViteValaxyPlugins(
   ])
 
   return [
+    createValaxyPlugin(options, serverOptions),
+    createConfigPlugin(options),
+    createClientSetupPlugin(options),
+
     Vue({
       include: [/\.vue$/, /\.md$/],
       template: {
@@ -82,10 +86,6 @@ export async function ViteValaxyPlugins(
     }),
 
     UnheadVite(),
-
-    createValaxyPlugin(options, serverOptions),
-    createConfigPlugin(options),
-    createClientSetupPlugin(options),
 
     // https://github.com/posva/unplugin-vue-router
     createRouterPlugin(options),

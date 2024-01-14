@@ -54,6 +54,7 @@ const EXCLUDE = [
 
   'vue',
   // 'vue-i18n',
+  'vue-router',
   'vue-demi',
   '@vue/devtools-api',
 
