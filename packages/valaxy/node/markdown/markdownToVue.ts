@@ -376,6 +376,7 @@ function injectPageDataCode(
 
   const isUsingTS = tags.findIndex(tag => scriptLangTsRE.test(tag)) > -1
 
+  // merge lastUpdated
   const exportScript = `
   import { provide } from 'vue'
   import { useRoute } from 'vue-router'

@@ -225,12 +225,12 @@ to build their own.
 ## 基于文件的自动路由 {lang="zh-CN"}
 
 ::: zh-CN
-路由会自动遵循相同目录结构从当前路径中的 Vue 文件生成。更多请参考 [`vite-plugin-pages`](https://github.com/hannoeru/vite-plugin-pages)。
+路由会自动遵循相同目录结构从当前路径中的 Vue/Markdown 文件生成。更多请参考 [unplugin-vue-router](https://github.com/posva/unplugin-vue-router)。
 :::
 
 ::: en
-Routes will be auto-generated for Vue files in this dir with the same file structure.
-Check out [`vite-plugin-pages`](https://github.com/hannoeru/vite-plugin-pages) for more details.
+Routes will be auto-generated for Vue/Markdown files in this dir with the same file structure.
+Check out [`unplugin-vue-router`](https://github.com/posva/unplugin-vue-router) for more details.
 :::
 
 ## 构建 {lang="zh-CN"}

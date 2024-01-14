@@ -63,7 +63,6 @@ $light: map.merge(
     "c-primary-rgb": #{color.red($c-primary), color.green($c-primary), color.blue($c-primary)},
 
     "c-link": get-css-var("c-primary-dark"),
-    "c-divider": rgba(60, 60, 60, 0.2),
   ),
   $light
 );

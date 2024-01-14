@@ -7,6 +7,7 @@ import Vue from '@vitejs/plugin-vue'
 import Layouts from 'vite-plugin-vue-layouts'
 import Components from 'unplugin-vue-components/vite'
 import VueI18n from '@intlify/unplugin-vue-i18n/vite'
+import VueDevTools from 'vite-plugin-vue-devtools'
 
 import UnheadVite from '@unhead/addons/vite'
 
@@ -17,7 +18,7 @@ import { createUnocssPlugin } from './unocss'
 import { createConfigPlugin } from './extendConfig'
 import { createClientSetupPlugin } from './setupClient'
 import { createFixPlugins } from './patchTransform'
-import { createPagesPlugin } from './pages'
+import { createRouterPlugin } from './vueRouter'
 import { createValaxyPlugin } from './valaxy'
 
 // for render markdown excerpt
@@ -86,12 +87,13 @@ export async function ViteValaxyPlugins(
     createClientSetupPlugin(options),
     createValaxyPlugin(options, serverOptions),
 
-    // https://github.com/hannoeru/vite-plugin-pages
-    createPagesPlugin(options),
+    // https://github.com/posva/unplugin-vue-router
+    createRouterPlugin(options),
 
     // https://github.com/JohnCampionJr/vite-plugin-vue-layouts
     Layouts({
       layoutsDirs: roots.map(root => `${root}/layouts`),
+      pagesDirs: roots.map(root => `${root}/pages`),
     }),
 
     // https://github.com/antfu/unplugin-vue-components
@@ -130,5 +132,7 @@ export async function ViteValaxyPlugins(
 
     splitVendorChunkPlugin(),
     createFixPlugins(options),
+
+    VueDevTools(),
   ]
 }

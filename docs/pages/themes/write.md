@@ -103,15 +103,21 @@ pnpm create valaxy
 
 我们提供了一个扩展函数，以供你快速扩展页面信息。
 
-你也可以直接扩展 [vite-plugin-pages](https://github.com/hannoeru/vite-plugin-pages) 插件中的 `extendRoute`。
+<!-- TODO -->
+
+你也可以直接扩展 [unplugin-vue-router](https://github.com/posva/unplugin-vue-router) 插件中的 `extendRoute`。
+
+> <https://github.com/posva/unplugin-vue-router/issues/43#issuecomment-1433140464>
 
 ```ts
 // valaxy.config.ts
 import { defineTheme } from 'valaxy'
 
 export default defineTheme({
-  pages: {
-    extendRoute(route, parent) {
+  vueRouter: {
+    extendRoutes(route) {
+      // want to get component absolute paths?
+      // const path = route.components.get('default')
       console.log(route)
     },
   },
@@ -122,6 +128,8 @@ export default defineTheme({
 ```
 
 ```ts
+import type { EditableTreeNode } from 'unplugin-vue-router'
+
 // provided by valaxy, just as a tip
 export interface ValaxyConfig {
   vue?: Parameters<typeof Vue>[0]
@@ -129,11 +137,7 @@ export interface ValaxyConfig {
   unocss?: UnoCSSConfig
   pages?: Parameters<typeof Pages>[0]
   extendMd?: (ctx: {
-    route: {
-      meta: { frontmatter?: Record<string, any>, layout?: string }
-      path: string
-      component: string
-    }
+    route: EditableTreeNode
     data: Readonly<Record<string, any>>
     excerpt?: string
     path: string

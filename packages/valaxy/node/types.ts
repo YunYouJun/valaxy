@@ -1,7 +1,8 @@
 import type Vue from '@vitejs/plugin-vue'
 import type Components from 'unplugin-vue-components/vite'
 import type { VitePluginConfig as UnoCSSConfig } from 'unocss/vite'
-import type Pages from 'vite-plugin-pages'
+import type VueRouter from 'unplugin-vue-router/vite'
+import type { EditableTreeNode } from 'unplugin-vue-router'
 import type { UserConfig as ViteUserConfig } from 'vite'
 import type { presetAttributify, presetIcons, presetTypography, presetUno } from 'unocss'
 import type { Hookable } from 'hookable'
@@ -71,17 +72,13 @@ export interface ValaxyExtendConfig {
     icons?: Parameters<typeof presetIcons>[0]
     typography?: Parameters<typeof presetTypography>[0]
   }
-  pages?: Parameters<typeof Pages>[0]
+  vueRouter?: Parameters<typeof VueRouter>[0]
   /**
    * for markdown
    */
   markdown?: MarkdownOptions
   extendMd?: (ctx: {
-    route: {
-      meta: { frontmatter: Record<string, any>, layout?: string } & object
-      path: string
-      component: string
-    }
+    route: EditableTreeNode
     data: Readonly<Record<string, any>>
     content: string
     excerpt?: string

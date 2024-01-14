@@ -19,7 +19,6 @@
     "types": [
       "vitest",
       "vite/client",
-      "vite-plugin-pages/client",
       "vite-plugin-vue-layouts/client",
       "@intlify/unplugin-vue-i18n/messages"
     ],

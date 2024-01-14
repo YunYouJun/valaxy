@@ -11,8 +11,8 @@
     "resolveJsonModule": true,
     "types": [
       "vite/client",
-      "vite-plugin-pages/client",
-      "vite-plugin-vue-layouts/client"
+      "vite-plugin-vue-layouts/client",
+      "valaxy/client"
     ],
     "allowJs": true,
     "strict": true,

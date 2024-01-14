@@ -1,11 +1,10 @@
-import Pages from 'vite-plugin-pages'
+import VueRouter from 'unplugin-vue-router/vite'
 import fs from 'fs-extra'
 import matter from 'gray-matter'
 import { isDate } from '@antfu/utils'
 import { convert } from 'html-to-text'
 import type { ExcerptType, Page } from 'valaxy/types'
 import type { ResolvedValaxyOptions } from '../options'
-import type { ValaxyExtendConfig } from '../types'
 import { EXCERPT_SEPARATOR } from '../constants'
 
 import { mdIt } from './preset'
@@ -31,55 +30,51 @@ function getExcerptByType(excerpt = '', type: ExcerptType = 'html') {
 }
 
 /**
- * @see https://github.com/hannoeru/vite-plugin-pages
+ * @see https://github.com/posva/unplugin-vue-router
  * @param options
  */
-export function createPagesPlugin(options: ResolvedValaxyOptions) {
+export function createRouterPlugin(options: ResolvedValaxyOptions) {
   const { roots, config: valaxyConfig } = options
 
-  return Pages({
-    extensions: ['vue', 'md'],
-    dirs: roots.map(root => `${root}/pages`),
+  return VueRouter({
+    extensions: ['.vue', '.md'],
+    routesFolder: roots.map(root => `${root}/pages`),
+    dts: `${options.clientRoot}/typed-router.d.ts`,
 
-    ...valaxyConfig.pages,
+    ...valaxyConfig.vueRouter,
 
     /**
-     * we need get frontmatter before route, so write it in Pages.extendRoute
+     * @experimental See https://github.com/posva/unplugin-vue-router/issues/43
+     * we need get frontmatter before route, so write it in extendRoute
      */
-    async extendRoute(
-      route: Parameters<Required<ValaxyExtendConfig>['extendMd']>[0]['route'],
-      parent,
-    ) {
-      let path: string = route.component
-
+    async extendRoute(route) {
       const defaultFrontmatter = JSON.parse(JSON.stringify(valaxyConfig.siteConfig.frontmatter)) || {}
-      if (!route.meta) {
-        route.meta = {
-          frontmatter: defaultFrontmatter,
-        }
-      }
-      else if (!route.meta.frontmatter) {
-        // set default frontmatter
-        route.meta.frontmatter = defaultFrontmatter
-      }
-
-      // encode for chinese filename dev and build same
-      route.path = encodeURI(route.path)
-
-      // add default layout for home, can be overrode
-      if (route.path === '/')
-        route.meta.layout = 'home'
-
-      // find page path
-      roots.forEach((root) => {
-        const pagePath = root + route.component
-        if (fs.existsSync(pagePath))
-          path = pagePath
+      // merge deeply
+      route.addToMeta({
+        frontmatter: defaultFrontmatter,
       })
 
+      // encode for chinese filename dev and build same
+      // const encodedPath = encodeURI(route.path)
+      // if (encodedPath !== route.path)
+      //   route.path = encodedPath
+
+      // add default layout for home, can be overrode
+      if (route.fullPath === '/' || route.fullPath === '/page') {
+        route.addToMeta({
+          layout: 'home',
+        })
+      }
+
+      // find page path
+      const path = route.components.get('default') || ''
+
       // page is post
-      if (route.path.startsWith('/posts/'))
-        route.meta.layout = 'post'
+      if (route.fullPath.startsWith('/posts/')) {
+        route.addToMeta({
+          layout: 'post',
+        })
+      }
 
       if (path.endsWith('.md')) {
         const md = fs.readFileSync(path, 'utf-8')
@@ -89,7 +84,6 @@ export function createPagesPlugin(options: ResolvedValaxyOptions) {
         const mdFm = data as Page
 
         // todo, optimize it to cache or on demand
-        // https://github.com/hannoeru/vite-plugin-pages/issues/257
         const lastUpdated = options.config.siteConfig.lastUpdated
 
         // do not export password
@@ -120,8 +114,11 @@ export function createPagesPlugin(options: ResolvedValaxyOptions) {
         })
 
         // set layout
-        if (data.layout)
-          route.meta.layout = data.layout
+        if (data.layout) {
+          route.addToMeta({
+            layout: data.layout,
+          })
+        }
 
         // set default updated
         if (!route.meta.frontmatter?.updated)
@@ -152,9 +149,7 @@ export function createPagesPlugin(options: ResolvedValaxyOptions) {
         valaxyConfig.extendMd?.(ctx)
       }
 
-      valaxyConfig.pages?.extendRoute?.(route, parent)
-
-      return route
+      return valaxyConfig.vueRouter?.extendRoute?.(route)
     },
   })
 }

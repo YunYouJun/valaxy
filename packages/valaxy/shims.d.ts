@@ -1,5 +1,7 @@
 import 'vue-router'
 
+import './client/typed-router'
+
 import type { Post } from './types'
 import type { Header } from './node/markdown'
 

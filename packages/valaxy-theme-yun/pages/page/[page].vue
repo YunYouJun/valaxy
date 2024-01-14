@@ -1,12 +1,11 @@
 <script setup lang="ts">
-defineProps<{ page: string }>()
+import { useRoute } from 'vue-router'
+import { computed } from 'vue'
+
+const route = useRoute()
+const pageIndex = computed(() => Number.parseInt((route.params as { page: string }).page))
 </script>
 
 <template>
-  <YunPostList :cur-page="parseInt(page)" />
+  <YunPostList :cur-page="pageIndex" />
 </template>
-
-<route lang="yaml">
-meta:
-  layout: home
-</route>
