@@ -1,3 +1,5 @@
+$c-primary: #0078e7 !default;
+
 @use "./layout" as *;
 @forward "star-markdown-css/src/scss/theme/yun.scss" with (
   $colors: (
@@ -8,6 +10,5 @@
 // override the default style of star-markdown-css
 @use "./common/button.scss" as *;
 @use "./common/markdown.scss" as *;
-
 @use 'valaxy/client/styles/components/code-group.scss' as *;
 @use 'valaxy/client/styles/components/custom-block.scss' as *;

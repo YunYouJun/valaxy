@@ -5,7 +5,7 @@ import type { UserThemeConfig } from '../types'
  * generateSafelist by config
  */
 export function generateSafelist(options: ResolvedValaxyOptions<UserThemeConfig>) {
-  const themeConfig = options.config.themeConfig || {}
+  const themeConfig = options?.config.themeConfig || {}
   const safelist = []
 
   const types = themeConfig.types

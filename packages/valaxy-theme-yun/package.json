@@ -12,14 +12,15 @@
     "url": "https://github.com/YunYouJun/valaxy/tree/main/packages/valaxy-theme-yun"
   },
   "exports": {
+    "./theme": "./types/index.d.ts",
     "./*": "./*"
   },
-  "main": "node/index.ts",
-  "types": "types/index.d.ts",
+  "main": "index.ts",
+  "module": "index.ts",
   "dependencies": {
     "@explosions/fireworks": "^0.0.2",
     "@iconify-json/ant-design": "^1.1.13",
-    "@iconify-json/simple-icons": "^1.1.87",
+    "@iconify-json/simple-icons": "^1.1.88",
     "animejs": "^3.2.2"
   },
   "devDependencies": {

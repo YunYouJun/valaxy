@@ -5,6 +5,12 @@ import './client/typed-router'
 import type { Post } from './types'
 import type { Header } from './node/markdown'
 
+declare module 'valaxy-addon-*'
+declare module '@docsearch/js' {
+  function docsearch<T = any>(props: T): void
+  export default docsearch
+}
+
 declare interface Window {
   // algolia
   instantsearch: any

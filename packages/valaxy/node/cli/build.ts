@@ -74,7 +74,7 @@ export function registerBuildCommand(cli: yargs.Argv) {
             outDir: path.resolve(options.userRoot, output),
           },
           logLevel: log as LogLevel,
-        },
+        } as InlineConfig,
       )
       // init config
       await valaxyApp.hooks.callHook('config:init')

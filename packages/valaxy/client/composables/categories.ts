@@ -1,6 +1,6 @@
 import type { MaybeRef } from '@vueuse/core'
 import { computed, unref } from 'vue'
-import type { Post } from '../..'
+import type { Post } from '../../types'
 import { useSiteStore } from '../stores'
 
 export interface BaseCategory {

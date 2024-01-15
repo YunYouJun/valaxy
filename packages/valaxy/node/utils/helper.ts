@@ -29,3 +29,11 @@ export function toAtFS(path: string) {
 export function isPath(name: string) {
   return name.startsWith('/') || /^\.\.?[\/\\]/.test(name)
 }
+
+/**
+ * transform obj for vite code
+ * @param obj
+ */
+export function transformObject(obj: any) {
+  return `JSON.parse(${JSON.stringify(JSON.stringify(obj))})`
+}

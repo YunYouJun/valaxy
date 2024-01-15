@@ -9,13 +9,18 @@ import { cyan, magenta, yellow } from 'kolorist'
 import consola from 'consola'
 import type { DefaultTheme, RuntimeConfig } from '../types'
 import { resolveImportPath, slash } from './utils'
-import { mergeValaxyConfig, resolveAddonConfig, resolveValaxyConfig, resolveValaxyConfigFromRoot } from './utils/config'
+import {
+  defaultValaxyConfig,
+  mergeValaxyConfig,
+  resolveAddonConfig,
+  resolveThemeConfigFromRoot,
+  resolveValaxyConfig,
+  resolveValaxyConfigFromRoot,
+} from './config'
 import type { ValaxyAddonResolver, ValaxyNodeConfig } from './types'
-import { defaultValaxyConfig } from './config'
 import { parseAddons } from './utils/addons'
 import { getThemeRoot } from './utils/theme'
 import { resolveSiteConfig } from './config/site'
-import { resolveThemeConfig } from './config/theme'
 
 // for cli entry
 export interface ValaxyEntryOptions {
@@ -161,21 +166,27 @@ export async function resolveOptions(
   const [resolvedValaxy, resolvedSite, resolvedTheme, pages] = await Promise.all([
     resolveValaxyConfig(options),
     resolveSiteConfig(options.userRoot),
-    resolveThemeConfig(options.userRoot),
+    // resolveThemeConfig(options),
+    resolveThemeConfigFromRoot(options.userRoot),
 
     fg(['**.md'], {
       cwd: resolve(userRoot, 'pages'),
       ignore: ['**/node_modules'],
     }),
   ])
-  let { config: userValaxyConfig, configFile, theme } = resolvedValaxy
-  const { siteConfig, siteConfigFile } = resolvedSite
-  const { themeConfig, themeConfigFile } = resolvedTheme
 
-  // merge with valaxy
-  userValaxyConfig = defu<ValaxyNodeConfig, any>({ siteConfig }, { themeConfig }, userValaxyConfig)
+  let { config: userValaxyConfig, configFile, theme } = resolvedValaxy
 
   const themeRoot = getThemeRoot(theme, options.userRoot)
+
+  const { siteConfig, siteConfigFile } = resolvedSite
+
+  const { config: themeConfig, configFile: themeConfigFile } = resolvedTheme
+  const { config: defaultThemeConfig } = await resolveThemeConfigFromRoot(themeRoot)
+  const userThemeConfig = defu(themeConfig, defaultThemeConfig)
+
+  // merge with valaxy
+  userValaxyConfig = defu<ValaxyNodeConfig, any>({ siteConfig }, { themeConfig: userThemeConfig }, userValaxyConfig)
 
   // pages
   // Important: fast-glob doesn't guarantee order of the returned files.

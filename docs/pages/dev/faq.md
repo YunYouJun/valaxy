@@ -29,3 +29,26 @@ pnpm test:space
 改为使用 `::before` 伪元素实现。
 
 </details>
+
+## 合并
+
+使用 `defu`。
+
+但实测 defu faster than `@fastify/deepmerge`。
+
+合并单个配置：
+
+- `defu`: 0.06ms
+- `@fastify/deepmerge`: 0.256ms
+
+- [`@fastify/deepmerge`](https://github.com/fastify/deepmerge)。
+
+```bash
+# benchmark
+@fastify/deepmerge x 605,343 ops/sec ±0.87% (96 runs sampled)
+deepmerge x 20,312 ops/sec ±1.06% (92 runs sampled)
+merge-deep x 83,167 ops/sec ±1.30% (94 runs sampled)
+ts-deepmerge x 175,977 ops/sec ±0.57% (96 runs sampled)
+deepmerge-ts x 174,973 ops/sec ±0.44% (93 runs sampled)
+lodash.merge x 89,213 ops/sec ±0.70% (98 runs sampled)
+```

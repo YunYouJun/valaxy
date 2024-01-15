@@ -1,4 +1,5 @@
 import { defineConfig } from 'tsup'
+import pkg from './package.json'
 
 export default defineConfig((options) => {
   return {
@@ -18,8 +19,10 @@ export default defineConfig((options) => {
     external: [
       '/@valaxyjs/config',
       '/@valaxyjs/context',
-      'open',
+
+      ...Object.keys(pkg.dependencies || {}),
     ],
+
     outExtension({ format }) {
       return {
         js: `.${format === 'esm' ? 'mjs' : 'cjs'}`,

@@ -8,16 +8,14 @@ import fs from 'fs-extra'
 import type { Plugin, ResolvedConfig } from 'vite'
 import { defu } from 'defu'
 import pascalCase from 'pascalcase'
-import { defaultSiteConfig } from '../config'
+import { defaultSiteConfig, mergeValaxyConfig, resolveSiteConfig, resolveUserThemeConfig } from '../config'
 import type { ResolvedValaxyOptions, ValaxyServerOptions } from '../options'
 import { processValaxyOptions, resolveOptions, resolveThemeValaxyConfig } from '../options'
-import { mergeValaxyConfig, resolveImportPath, slash, toAtFS } from '../utils'
+import { resolveImportPath, slash, toAtFS } from '../utils'
 import { createMarkdownToVueRenderFn } from '../markdown/markdownToVue'
-import type { PageDataPayload, SiteConfig } from '../../types'
+import type { DefaultTheme, PageDataPayload, Pkg, SiteConfig } from '../../types'
 import type { ValaxyNodeConfig } from '../types'
 import { checkMd } from '../markdown/check'
-import { resolveSiteConfig } from '../config/site'
-import { resolveThemeConfig } from '../config/theme'
 
 /**
  * for /@valaxyjs/styles
@@ -264,19 +262,17 @@ export function createValaxyPlugin(options: ResolvedValaxyOptions, serverOptions
 
       // themeConfig
       if (file === options.themeConfigFile) {
-        const { themeConfig } = await resolveThemeConfig(options.userRoot)
-        valaxyConfig.themeConfig = defu(themeConfig, valaxyConfig.themeConfig)
+        const { themeConfig } = await resolveUserThemeConfig(options)
+        valaxyConfig.themeConfig = themeConfig as (DefaultTheme.Config & { pkg: Pkg })
         return reloadConfigAndEntries(valaxyConfig)
       }
 
       if (file === resolve(options.themeRoot, 'valaxy.config.ts')) {
-        const themeValaxyConfig = resolveThemeValaxyConfig(options)
+        const themeValaxyConfig = await resolveThemeValaxyConfig(options)
         const valaxyConfig = mergeValaxyConfig(options.config, themeValaxyConfig)
         const { config } = await processValaxyOptions(options, valaxyConfig)
         return reloadConfigAndEntries(config)
       }
-
-      // if (file === options.siteConfigFile) {}
 
       // send headers
       if (file.endsWith('.md')) {

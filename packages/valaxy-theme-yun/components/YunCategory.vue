@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import { computed, onMounted, ref } from 'vue'
-import type { Category, Post } from 'valaxy'
+import type { CategoryList, Post } from 'valaxy'
 import { isCategoryList, useInvisibleElement } from 'valaxy'
 import { useI18n } from 'vue-i18n'
 import { useRoute, useRouter } from 'vue-router'
@@ -8,7 +8,7 @@ import { useRoute, useRouter } from 'vue-router'
 const props = withDefaults(defineProps<{
   parentKey: string
   // to eliminate the warning
-  category: Category
+  category: Post | CategoryList
   level?: number
 
   /**

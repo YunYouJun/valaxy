@@ -1,5 +1,5 @@
 import { computed } from 'vue'
-import type { Post } from '../..'
+import type { Post } from '../../types'
 import { useSiteStore } from '../stores'
 
 export type Tags = Map<string, {

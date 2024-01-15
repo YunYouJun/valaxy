@@ -1,6 +1,9 @@
-import type { DefaultTheme, ValaxyAddon } from '../../types'
+import path from 'node:path'
+import fs from 'fs-extra'
+import type { ValaxyAddon } from '../../types'
 import type { ResolvedValaxyOptions } from '../options'
 import type { ValaxyAddonResolver, ValaxyNodeConfig } from '../types'
+import { mergeValaxyConfig, resolveValaxyConfigFromRoot } from './valaxy'
 
 export function defineValaxyAddon<AddonOptions = object>(
   addonFunc: (addonOptions?: AddonOptions, valaxyOptions?: ResolvedValaxyOptions) => ValaxyAddon & {
@@ -11,13 +14,20 @@ export function defineValaxyAddon<AddonOptions = object>(
 }
 export const defineAddon = defineValaxyAddon
 
-export type ValaxyConfigExtendKey = 'vite' | 'vue' | 'unocss' | 'unocssPresets' | 'markdown' | 'extendMd' | 'addons'
-export type ValaxyPickConfig = Pick<ValaxyNodeConfig, ValaxyConfigExtendKey>
-export type ValaxyTheme<ThemeConfig = DefaultTheme.Config> = ValaxyPickConfig & { themeConfig?: ThemeConfig }
-export function defineValaxyTheme<ThemeConfig = DefaultTheme.Config>(
-  theme: ValaxyTheme<ThemeConfig> | ((options: ResolvedValaxyOptions<ThemeConfig>) => ValaxyTheme<ThemeConfig>),
-) {
-  return theme
-}
+export async function resolveAddonConfig(addons: ValaxyAddonResolver[], _options?: ResolvedValaxyOptions) {
+  let valaxyConfig: ValaxyNodeConfig = {} as ValaxyNodeConfig
+  for (const addon of addons) {
+    // unconfig get node_modules/valaxy-addon-xxx/valaxy.config.ts(not exist) but get userRoot/valaxy.config.ts
+    // so we need to check if valaxy.config.ts exist
+    if (!fs.existsSync(path.resolve(addon.root, 'valaxy.config.ts')))
+      continue
 
-export const defineTheme = defineValaxyTheme
+    const { config, configFile } = await resolveValaxyConfigFromRoot(addon.root)
+    if (!config)
+      continue
+
+    addon.configFile = configFile
+    valaxyConfig = mergeValaxyConfig(config, valaxyConfig)
+  }
+  return valaxyConfig
+}

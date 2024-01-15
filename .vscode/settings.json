@@ -25,8 +25,8 @@
 
   "stylelint.validate": ["css", "scss", "vue"],
   "[scss]": {
-    "editor.formatOnSave": true,
-    "editor.defaultFormatter": "stylelint.vscode-stylelint"
+    "editor.formatOnSave": true
+    // "editor.defaultFormatter": "stylelint.vscode-stylelint"
   },
 
   "cSpell.words": [
