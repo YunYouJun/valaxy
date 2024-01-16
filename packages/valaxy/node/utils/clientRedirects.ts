@@ -1,6 +1,6 @@
 import { writeFile } from 'node:fs/promises'
 import { ensureFile } from 'fs-extra'
-import type { RedirectRule } from '../../types'
+import type { RedirectRule } from 'valaxy/types'
 
 function handleRoute(route: string) {
   if (route === '/')

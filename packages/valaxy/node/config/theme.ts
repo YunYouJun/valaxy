@@ -1,4 +1,4 @@
-import type { DefaultTheme } from 'valaxy'
+import type { DefaultTheme } from 'valaxy/types'
 import { cyan, dim } from 'kolorist'
 import defu from 'defu'
 import { logger } from '../logger'

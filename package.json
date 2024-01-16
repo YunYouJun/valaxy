@@ -42,6 +42,7 @@
     "docs:vitepress": "pnpm -C docs run vitepress:dev",
     "lint": "eslint .",
     "stylelint": "stylelint --fix \"**/*.{scss,vue}\"",
+    "preinstall": "npx only-allow pnpm",
     "prepublishOnly": "npm run build",
     "release": "tsx scripts/release.ts",
     "start": "node packages/valaxy/bin/valaxy.js dev",
@@ -50,6 +51,9 @@
     "test:e2e": "cypress open",
     "test:space": "export NODE_OPTIONS='--inspect --max-old-space-size=2048' && pnpm -C demo/yun run build:ssg",
     "prepare": "husky install"
+  },
+  "dependencies": {
+    "c12": "^1.6.1"
   },
   "devDependencies": {
     "@antfu/eslint-config": "2.6.2",
@@ -108,8 +112,5 @@
     "{packages,demo,scripts}/**/*.{js,ts,vue,json,yml}": [
       "eslint --fix"
     ]
-  },
-  "dependencies": {
-    "c12": "^1.6.1"
   }
 }

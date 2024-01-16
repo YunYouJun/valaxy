@@ -58,7 +58,7 @@
   },
   "scripts": {
     "build": "rimraf dist && tsup --splitting",
-    "dev": "tsup --splitting --watch",
+    "dev": "tsup --watch",
     "preview": "vite preview",
     "preview-https": "serve dist"
   },

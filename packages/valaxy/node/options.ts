@@ -7,7 +7,7 @@ import { ensureSuffix, uniq } from '@antfu/utils'
 import defu from 'defu'
 import { cyan, magenta, yellow } from 'kolorist'
 import consola from 'consola'
-import type { DefaultTheme, RuntimeConfig } from '../types'
+import type { DefaultTheme, RuntimeConfig } from 'valaxy/types'
 import { resolveImportPath, slash } from './utils'
 import {
   defaultValaxyConfig,

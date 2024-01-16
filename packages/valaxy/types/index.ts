@@ -5,6 +5,7 @@ export * from './data'
 export * from './posts'
 
 // used in node, but without node deps
+// and need be shared with client types
 export * from './node'
 
 // default theme

@@ -1,7 +1,7 @@
 // ref vitepress/packages/vitepress/src/node/markdown/plugins/preWrapper.ts
 import type MarkdownIt from 'markdown-it'
+import type { SiteConfig } from 'valaxy/types'
 import type { ThemeOptions } from '../../types'
-import type { SiteConfig } from '../../../../types/config'
 
 export interface Options {
   theme: ThemeOptions

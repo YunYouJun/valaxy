@@ -6,7 +6,7 @@ import type { EditableTreeNode } from 'unplugin-vue-router'
 import type { UserConfig as ViteUserConfig } from 'vite'
 import type { presetAttributify, presetIcons, presetTypography, presetUno } from 'unocss'
 import type { Hookable } from 'hookable'
-import type { DefaultTheme, PartialDeep, ValaxyAddon, ValaxyConfig } from '../types'
+import type { DefaultTheme, PartialDeep, ValaxyAddon, ValaxyConfig } from 'valaxy/types'
 import type { ResolvedValaxyOptions } from './options'
 import type { MarkdownOptions } from './markdown/types'
 

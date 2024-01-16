@@ -1,8 +1,7 @@
 import { webcrypto } from 'node:crypto'
-import type { UserSiteConfig } from 'valaxy'
 import { cyan, dim } from 'kolorist'
 import consola from 'consola'
-import type { SiteConfig } from '../../types'
+import type { SiteConfig, UserSiteConfig } from 'valaxy/types'
 import { loadConfigFromFile } from './utils'
 
 export const defaultSiteConfig: SiteConfig = {
