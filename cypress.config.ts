@@ -1,6 +1,6 @@
 import { defineConfig } from 'cypress'
 
-const baseUrl = 'http://localhost:4860'
+const baseUrl = 'http://localhost:4860/'
 
 export default defineConfig({
   projectId: 'valaxy',
