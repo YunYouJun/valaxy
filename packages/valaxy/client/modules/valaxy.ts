@@ -61,7 +61,7 @@ export async function install({ app, router }: ViteSSGContext, config: ComputedR
 function handleHMR(router: Router): void {
   // update route.data on HMR updates of active page
   if (import.meta.hot) {
-    import.meta.hot!.on('valaxy:pageData', (payload: PageDataPayload) => {
+    import.meta.hot.on('valaxy:pageData', (payload: PageDataPayload) => {
       if (shouldHotReload(payload)) {
         // console.log(payload.pageData.headers)
         Object.assign(router.currentRoute.value.meta, payload.pageData)

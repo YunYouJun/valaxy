@@ -2,7 +2,7 @@
  * @packageDocumentation valaxy plugin
  */
 
-import { join, relative, resolve } from 'node:path'
+import { join, relative, resolve } from 'pathe'
 import fs from 'fs-extra'
 
 import type { Plugin, ResolvedConfig } from 'vite'
@@ -13,7 +13,7 @@ import { yellow } from 'kolorist'
 import { defaultSiteConfig, mergeValaxyConfig, resolveSiteConfig, resolveUserThemeConfig } from '../config'
 import type { ResolvedValaxyOptions, ValaxyServerOptions } from '../options'
 import { processValaxyOptions, resolveOptions, resolveThemeValaxyConfig } from '../options'
-import { resolveImportPath, slash, toAtFS } from '../utils'
+import { resolveImportPath, toAtFS } from '../utils'
 import { createMarkdownToVueRenderFn } from '../markdown/markdownToVue'
 import type { ValaxyNodeConfig } from '../types'
 import { checkMd } from '../markdown/check'
@@ -288,9 +288,8 @@ export function createValaxyPlugin(options: ResolvedValaxyOptions, serverOptions
           join(options.userRoot, 'public'),
         )
 
-        const path = `/${slash(relative(`${options.userRoot}/pages`, file))}`
+        const path = `/${relative(`${options.userRoot}/pages`, file)}`
         const payload: PageDataPayload = {
-          // path: `/${slash(relative(srcDir, file))}`,
           path,
           pageData,
         }
