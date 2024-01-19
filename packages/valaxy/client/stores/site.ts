@@ -12,12 +12,15 @@ import type { PageDataPayload } from '../../types'
  */
 export const useSiteStore = defineStore('site', () => {
   const reload = ref(1)
+  // for dev hot reload
   const postList = computed(() => {
     if (reload.value)
       return usePostList().value
     else
       return usePostList().value
   })
+
+  // const postList = usePostList()
 
   const router = useRouter()
   if (router) {

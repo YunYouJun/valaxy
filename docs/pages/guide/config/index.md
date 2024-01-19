@@ -41,7 +41,7 @@ For example:
 import { defineValaxyConfig } from 'valaxy'
 import type { ThemeConfig } from 'valaxy-theme-yun'
 import { addonComponents } from 'valaxy-addon-components'
-import Inspect from 'vite-plugin-inspect'
+import { VitePWA } from 'vite-plugin-pwa'
 
 const safelist = [
   'i-ri-home-line',
@@ -60,9 +60,8 @@ export default defineValaxyConfig<ThemeConfig>({
   },
 
   vite: {
-    // https://github.com/antfu/vite-plugin-inspect
-    // Visit http://localhost:3333/__inspect/ to see the inspector
-    plugins: [Inspect()],
+    // https://vite-pwa-org.netlify.app/
+    plugins: [VitePWA()],
   },
 
   unocss: {
@@ -209,6 +208,7 @@ export default defineSiteConfig({
   }
 })
 ```
+
 :::
 
 ::: en
@@ -231,6 +231,7 @@ export default defineSiteConfig({
   }
 })
 ```
+
 :::
 
 ### 社交图标 {lang="zh-CN"}
@@ -509,10 +510,12 @@ export default defineSiteConfig({
 ```
 
 ::: zh-CN
+
 - 加密整篇文章
 :::
 
 ::: en
+
 - encrypt the entire article
 :::
 
@@ -531,10 +534,12 @@ password: your_password
 ```
 
 ::: zh-CN
+
 - 加密部分内容
 :::
 
 ::: en
+
 - encrypt partial content
 :::
 
@@ -648,6 +653,7 @@ Valaxy has built-in [medium-zoom](https://github.com/francoischalifour/medium-zo
   - `enable`: Set to true to enable it
   - `selector`: Custom CSS selector
   - `options`: Refer to [options | medium-zoom](https://github.com/francoischalifour/medium-zoom#options)
+
 >>>>>>> a2bbd86 (docs: update vanillaLazyLoad)
 :::
 

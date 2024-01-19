@@ -9,6 +9,7 @@ import type { Plugin, ResolvedConfig } from 'vite'
 import { defu } from 'defu'
 import pascalCase from 'pascalcase'
 import type { DefaultTheme, PageDataPayload, Pkg, SiteConfig } from 'valaxy/types'
+import { yellow } from 'kolorist'
 import { defaultSiteConfig, mergeValaxyConfig, resolveSiteConfig, resolveUserThemeConfig } from '../config'
 import type { ResolvedValaxyOptions, ValaxyServerOptions } from '../options'
 import { processValaxyOptions, resolveOptions, resolveThemeValaxyConfig } from '../options'
@@ -16,6 +17,7 @@ import { resolveImportPath, slash, toAtFS } from '../utils'
 import { createMarkdownToVueRenderFn } from '../markdown/markdownToVue'
 import type { ValaxyNodeConfig } from '../types'
 import { checkMd } from '../markdown/check'
+import { vLogger } from '../logger'
 
 /**
  * for /@valaxyjs/styles
@@ -301,6 +303,9 @@ export function createValaxyPlugin(options: ResolvedValaxyOptions, serverOptions
 
         // overwrite src so vue plugin can handle the HMR
         ctx.read = () => vueSrc
+        vLogger.success(`${yellow('[HMR]')} ${path}`)
+
+        return []
       }
     },
   }

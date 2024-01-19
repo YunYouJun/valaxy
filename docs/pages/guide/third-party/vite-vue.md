@@ -21,8 +21,8 @@ import { VitePWA } from 'vite-plugin-pwa'
 export default defineValaxyConfig<ThemeConfig>({
   vite: {
     plugins: [
+      // https://vite-pwa-org.netlify.app/
       VitePWA(),
-      Inspect(),
     ],
   },
 })

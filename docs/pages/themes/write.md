@@ -115,7 +115,7 @@ import { defineTheme } from 'valaxy'
 
 export default defineTheme({
   vueRouter: {
-    extendRoutes(route) {
+    extendRoute(route) {
       // want to get component absolute paths?
       // const path = route.components.get('default')
       console.log(route)

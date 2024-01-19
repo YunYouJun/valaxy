@@ -125,6 +125,9 @@ export async function createUnocssPlugin(options: ResolvedValaxyOptions) {
     if (existsSync(configFile)) {
       let uConfig: UnoCSSConfig | { default: UnoCSSConfig } = jiti(
         fileURLToPath(import.meta.url),
+        {
+          esmResolve: true,
+        },
       )(configFile) as UnoCSSConfig | { default: UnoCSSConfig }
       if ('default' in uConfig)
         uConfig = uConfig.default

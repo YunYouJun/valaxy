@@ -16,6 +16,7 @@ const safelist = [
 ]
 
 export default defineValaxyConfig<ThemeConfig>({
+  devtools: false,
   // site config see site.config.ts or write in siteConfig
   // siteConfig: {},
 

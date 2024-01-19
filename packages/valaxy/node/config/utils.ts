@@ -36,6 +36,7 @@ export function loadConfig<T extends UserInputConfig = UserInputConfig>(options:
     data = jiti(fileURLToPath(import.meta.url), {
       interopDefault: true,
       requireCache: false,
+      esmResolve: true,
     })(filePath)
   }
   catch (e) { }

@@ -68,7 +68,7 @@ So you can use it like this:
 import { defineValaxyConfig } from 'valaxy'
 import type { ThemeConfig } from 'valaxy-theme-yun'
 import { addonComponents } from 'valaxy-addon-components'
-import Inspect from 'vite-plugin-inspect'
+import { VitePWA } from 'vite-plugin-pwa'
 
 const safelist = [
   'i-ri-home-line',
