@@ -1,4 +1,5 @@
-import { dirname, resolve } from 'node:path'
+import { dirname } from 'node:path'
+import { resolve } from 'pathe'
 import fs from 'fs-extra'
 import { isPath, resolveImportPath } from '../utils'
 
@@ -20,6 +21,6 @@ export function getModuleRoot(name: string, entry?: string) {
   }
 
   else {
-    return dirname(resolveImportPath(`${name}/package.json`) || '')
+    return resolve(dirname(resolveImportPath(`${name}/package.json`) || ''))
   }
 }

@@ -1,11 +1,11 @@
 // copy from vitepress
-import path from 'node:path'
 import fs from 'fs-extra'
 import c from 'picocolors'
 import { LRUCache } from 'lru-cache'
 import _debug from 'debug'
 import { resolveTitleFromToken } from '@mdit-vue/shared'
 import type { CleanUrlsMode, HeadConfig, PageData } from 'valaxy/types'
+import path from 'pathe'
 import { EXTERNAL_URL_RE } from '../constants'
 import { getGitTimestamp, slash, transformObject } from '../utils'
 import type { ResolvedValaxyOptions } from '../options'
@@ -121,7 +121,7 @@ export async function createMarkdownToVueRenderFn(
   const md = await createMarkdownRenderer(options)
 
   // for dead link detection
-  pages = pages.map(p => slash(p.replace(/\.md$/, '')).replace(/\/index$/, ''))
+  pages = pages.map(p => p.replace(/\.md$/, '').replace(/\/index$/, ''))
 
   const replaceRegex = genReplaceRegexp(userDefines, isBuild)
 
@@ -132,7 +132,7 @@ export async function createMarkdownToVueRenderFn(
   ): Promise<MarkdownCompileResult> => {
     const fileOrig = file
     const dir = path.dirname(file)
-    const relativePath = slash(path.relative(srcDir, file))
+    const relativePath = path.relative(srcDir, file)
 
     const cacheKey = JSON.stringify({ src, file: fileOrig })
 
@@ -151,7 +151,7 @@ export async function createMarkdownToVueRenderFn(
       try {
         const includePath = path.join(dir, m1)
         const content = fs.readFileSync(includePath, 'utf-8')
-        includes.push(slash(includePath))
+        includes.push(includePath)
         return content
       }
       catch (error) {
@@ -389,7 +389,7 @@ function injectPageDataCode(
     },
     setup() {
       const route = useRoute()
-      route.meta.frontmatter = Object.assign(route.meta.frontmatter, data.frontmatter)
+      route.meta.frontmatter = Object.assign(route.meta.frontmatter || {}, data.frontmatter || {})
       provide('pageData', data)
     }
   }`

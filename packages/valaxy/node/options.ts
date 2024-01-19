@@ -1,5 +1,6 @@
-import { dirname, resolve } from 'node:path'
+import { dirname } from 'node:path'
 import process from 'node:process'
+import { resolve } from 'pathe'
 import fs from 'fs-extra'
 import _debug from 'debug'
 import fg from 'fast-glob'
@@ -8,7 +9,7 @@ import defu from 'defu'
 import { blue, cyan, magenta, yellow } from 'kolorist'
 import consola from 'consola'
 import type { DefaultTheme, RuntimeConfig } from 'valaxy/types'
-import { resolveImportPath, slash } from './utils'
+import { resolveImportPath } from './utils'
 import {
   defaultValaxyConfig,
   mergeValaxyConfig,
@@ -161,7 +162,7 @@ export async function resolveOptions(
 ) {
   const pkgRoot = dirname(resolveImportPath('valaxy/package.json', true))
   const clientRoot = resolve(pkgRoot, 'client')
-  const userRoot = slash(resolve(options.userRoot || process.cwd()))
+  const userRoot = resolve(options.userRoot || process.cwd())
 
   consola.start(`Resolve ${magenta('valaxy')} config...`)
   const [resolvedValaxy, resolvedSite, resolvedTheme, pages] = await Promise.all([
