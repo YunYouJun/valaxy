@@ -1,7 +1,7 @@
 import type { ResolvedValaxyOptions } from 'valaxy'
 import type { Plugin } from 'vite'
 import { defineTheme } from 'valaxy'
-import type { ThemeConfig } from '../types'
+import type { ThemeConfig } from './types'
 import { defaultThemeConfig, generateSafelist } from './index'
 
 function ThemeVitePlugin(options: ResolvedValaxyOptions<ThemeConfig>): Plugin {

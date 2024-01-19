@@ -1,15 +1,17 @@
 import { defineConfig } from 'cypress'
 
+const baseUrl = 'http://localhost:4860'
+
 export default defineConfig({
-  projectId: 'atamvp',
+  projectId: 'valaxy',
   e2e: {
-    baseUrl: 'http://localhost:3333',
+    baseUrl,
     chromeWebSecurity: false,
     specPattern: 'cypress/e2e/**/*.spec.*',
     supportFile: false,
   },
   env: {
-    'theme-yun': 'http://localhost:3333/',
     'docs': 'http://localhost:4859/',
+    'theme-yun': baseUrl,
   },
 })

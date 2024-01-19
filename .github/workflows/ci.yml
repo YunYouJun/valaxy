@@ -131,4 +131,4 @@ jobs:
           start: pnpm demo, pnpm run docs:dev
           # These flags can only be used when recording to Cypress Cloud.
           # parallel: true
-          wait-on: 'http://localhost:3333, http://localhost:4859'
+          wait-on: 'http://localhost:4859, http://localhost:4860'

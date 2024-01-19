@@ -1,7 +1,8 @@
 import { webcrypto } from 'node:crypto'
-import { cyan, dim } from 'kolorist'
+import { cyan, dim, yellow } from 'kolorist'
 import consola from 'consola'
 import type { SiteConfig, UserSiteConfig } from 'valaxy/types'
+import { countPerformanceTime } from '../utils/performance'
 import { loadConfigFromFile } from './utils'
 
 export const defaultSiteConfig: SiteConfig = {
@@ -120,10 +121,12 @@ export async function resolveSiteConfigFromRoot(root: string) {
  * @param root
  */
 export async function resolveSiteConfig(root: string) {
+  const endCount = countPerformanceTime()
   const { config: userSiteConfig, configFile: siteConfigFile } = await resolveSiteConfigFromRoot(root)
+  const duration = endCount()
 
   if (userSiteConfig && siteConfigFile)
-    consola.success(`Resolve ${cyan('siteConfig')} from ${dim(siteConfigFile)}`)
+    consola.success(`Resolve ${cyan('siteConfig')} from ${dim(siteConfigFile)} ${yellow(duration)}`)
 
   return {
     siteConfig: userSiteConfig,

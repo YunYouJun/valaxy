@@ -5,7 +5,7 @@ import _debug from 'debug'
 import fg from 'fast-glob'
 import { ensureSuffix, uniq } from '@antfu/utils'
 import defu from 'defu'
-import { cyan, magenta, yellow } from 'kolorist'
+import { blue, cyan, magenta, yellow } from 'kolorist'
 import consola from 'consola'
 import type { DefaultTheme, RuntimeConfig } from 'valaxy/types'
 import { resolveImportPath, slash } from './utils'
@@ -21,6 +21,7 @@ import type { ValaxyAddonResolver, ValaxyNodeConfig } from './types'
 import { parseAddons } from './utils/addons'
 import { getThemeRoot } from './utils/theme'
 import { resolveSiteConfig } from './config/site'
+import { countPerformanceTime } from './utils/performance'
 
 // for cli entry
 export interface ValaxyEntryOptions {
@@ -230,8 +231,11 @@ export async function resolveOptions(
  * @param options
  */
 export async function resolveThemeValaxyConfig(options: ResolvedValaxyOptions) {
+  const endCount = countPerformanceTime()
   const { config: themeValaxyConfig } = await resolveValaxyConfigFromRoot(options.themeRoot, options)
+  const duration = endCount()
+
   if (themeValaxyConfig)
-    consola.success(`Resolve ${cyan('valaxy.config.ts')} from ${yellow(`theme(${options.theme})`)}`)
+    consola.success(`Resolve ${cyan('valaxy.config.ts')} from ${blue(`theme(${options.theme})`)} ${yellow(duration)}`)
   return themeValaxyConfig
 }

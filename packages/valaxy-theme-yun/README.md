@@ -12,7 +12,7 @@ See [Docs](./docs/README.md).
 
 ### Development
 
-Just run and visit <http://localhost:3333>
+Just run and visit `http://localhost:${port}/` displayed in your terminal.
 
 ```bash
 pnpm dev

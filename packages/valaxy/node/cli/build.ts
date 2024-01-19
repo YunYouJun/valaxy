@@ -3,7 +3,6 @@ import consola from 'consola'
 import type { InlineConfig, LogLevel } from 'vite'
 import { mergeConfig } from 'vite'
 import type yargs from 'yargs'
-import fs from 'fs-extra'
 import { yellow } from 'kolorist'
 import { build, postProcessForSSG, ssgBuild } from '../build'
 import { mergeViteConfigs, resolveOptions } from '..'
@@ -11,8 +10,8 @@ import { createValaxyNode } from '../app'
 import type { ValaxyModule } from '../modules'
 import { setupModules } from '../modules'
 import { rssModule } from '../modules/rss'
-import { printInfo } from '../utils/cli'
 import { setEnvProd } from '../utils/env'
+import { printInfo } from './utils/cli'
 import { commonOptions } from './options'
 
 export function registerBuildCommand(cli: yargs.Argv) {
@@ -78,14 +77,6 @@ export function registerBuildCommand(cli: yargs.Argv) {
       )
       // init config
       await valaxyApp.hooks.callHook('config:init')
-
-      // merge index.html
-      const templatePath = path.resolve(options.clientRoot, 'template.html')
-      const indexPath = path.resolve(options.clientRoot, 'index.html')
-      if (fs.existsSync(templatePath))
-        await fs.copyFile(templatePath, indexPath)
-      // const indexHtml = await getIndexHtml(options)
-      // await fs.writeFile(indexPath, indexHtml, 'utf-8')
 
       // before build
       await valaxyApp.hooks.callHook('build:before')

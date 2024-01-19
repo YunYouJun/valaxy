@@ -263,6 +263,9 @@ export function createValaxyPlugin(options: ResolvedValaxyOptions, serverOptions
       // themeConfig
       if (file === options.themeConfigFile) {
         const { themeConfig } = await resolveUserThemeConfig(options)
+        const pkg = valaxyConfig.themeConfig.pkg
+        // @ts-expect-error mount pkg
+        themeConfig.pkg = pkg
         valaxyConfig.themeConfig = themeConfig as (DefaultTheme.Config & { pkg: Pkg })
         return reloadConfigAndEntries(valaxyConfig)
       }

@@ -3,10 +3,11 @@ import process from 'node:process'
 import { createDefu } from 'defu'
 import { mergeConfig as mergeViteConfig } from 'vite'
 import { isFunction } from '@antfu/utils'
-import { cyan, dim } from 'kolorist'
+import { cyan, dim, yellow } from 'kolorist'
 import consola from 'consola'
 import type { UserValaxyNodeConfig, ValaxyNodeConfig } from '../types'
 import type { ResolvedValaxyOptions, ValaxyEntryOptions } from '../options'
+import { countPerformanceTime } from '../utils/performance'
 import { loadConfigFromFile } from './utils'
 import { defaultSiteConfig } from './site'
 
@@ -59,12 +60,10 @@ export const defineConfig = defineValaxyConfig
 /*
  * resolve valaxy config from special root
  */
-export async function resolveValaxyConfigFromRoot(root: string, _options?: ResolvedValaxyOptions) {
+export async function resolveValaxyConfigFromRoot(root: string, options?: ResolvedValaxyOptions) {
   const c = await loadConfigFromFile<ValaxyNodeConfig>('valaxy', {
-    // rewrite<F = ValaxyNodeConfig | ValaxyConfigFn>(c: F) {
-    //   return (typeof c === 'function' ? c(options || {} as ResolvedValaxyOptions) : c)
-    // },
     cwd: root,
+    valaxyOptions: options,
   })
   return c
 }
@@ -95,10 +94,12 @@ export const mergeValaxyConfig = createDefu((obj: any, key, value) => {
 export async function resolveValaxyConfig(options: ValaxyEntryOptions) {
   const configRoot = options.userRoot || process.cwd()
 
+  const endCount = countPerformanceTime()
   const { config: userValaxyConfig, configFile } = await resolveValaxyConfigFromRoot(configRoot)
+  const duration = endCount()
 
   if (userValaxyConfig && configFile)
-    consola.success(`Resolve ${cyan('userValaxyConfig')} from ${dim(configFile)}`)
+    consola.success(`Resolve ${cyan('userValaxyConfig')} from ${dim(configFile)} ${yellow(duration)}`)
 
   const theme = options.theme || userValaxyConfig?.theme || 'yun'
 

@@ -3,41 +3,61 @@ import process from 'node:process'
 // https://github.com/unjs/c12
 // use c12 instead of unconfig, because c12 faster a lot
 // unconfig load config need 2-3s, c12 only need 0.2s
+// use jiti directly is 0.0006s 0.6ms
+// write in valaxy directly can be fastest and solve cjs esm in vite
 
-// import type { LoadConfigSource } from 'unconfig'
-// import { loadConfig } from 'unconfig'
-
-// import { normalizePath } from 'vite'
-import type { UserInputConfig } from 'c12'
-import { loadConfig } from 'c12'
+import { fileURLToPath } from 'node:url'
+import jiti from 'jiti'
+import { resolve } from 'pathe'
+import type { ResolvedValaxyOptions } from '../options'
 
 export interface LoadConfigFromFileOptions {
   cwd?: string
-  // rewrite?: LoadConfigSource['rewrite']
+  valaxyOptions?: ResolvedValaxyOptions
 }
+
+export type UserInputConfig = Record<string, any>
+export interface ResolvedConfig<
+  T extends UserInputConfig = UserInputConfig,
+> {
+  config: T
+  configFile: string
+}
+
+export function loadConfig<T extends UserInputConfig = UserInputConfig>(options: {
+  name: string
+  cwd: string
+}): ResolvedConfig<T> {
+  const { name, cwd } = options
+  const filePath = resolve(cwd, `${name}.config.ts`)
+  const data = jiti(fileURLToPath(import.meta.url), {
+    interopDefault: true,
+    requireCache: false,
+  })(filePath)
+
+  return {
+    config: data,
+    configFile: filePath,
+  }
+}
+
+type ConfigFunction<T> = (options: ResolvedValaxyOptions) => (T | Promise<T>)
 
 export async function loadConfigFromFile<T extends UserInputConfig>(
   file: string,
   options: LoadConfigFromFileOptions = {},
-) {
-  const { config: userValaxyConfig, configFile } = await loadConfig<T, any>({
+): Promise<ResolvedConfig<T>> {
+  const { config, configFile } = loadConfig<T | ConfigFunction<T>>({
     name: file,
-
-    // sources: {
-    //   files: file,
-    //   // less for speed
-    //   extensions: ['ts', 'js'],
-    //   // rewrite: options.rewrite,
-    // },
     cwd: options.cwd || process.cwd(),
   })
-  // const configFile = normalizePath(sources[0] || '')
 
-  // if (file.startsWith('valaxy'))
-  // console.log(userValaxyConfig, configFile)
+  let userConfig: T = config as T
+  if (typeof config === 'function')
+    userConfig = await config(options.valaxyOptions || {} as ResolvedValaxyOptions)
 
   return {
-    config: userValaxyConfig,
+    config: userConfig,
     configFile,
   }
 }

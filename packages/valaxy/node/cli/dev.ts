@@ -10,11 +10,11 @@ import { mergeConfig } from 'vite'
 import qrcode from 'qrcode'
 import { findFreePort } from '../utils/net'
 import { resolveOptions } from '../options'
-import { bindShortcut, initServer, printInfo } from '../utils/cli'
 
 import { setEnv } from '../utils/env'
 import { commonOptions } from '../cli/options'
 import { createValaxyNode } from '../app'
+import { bindShortcut, initServer, printInfo } from './utils/cli'
 
 export function registerDevCommand(cli: yargs.Argv) {
   cli.command(

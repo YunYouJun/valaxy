@@ -8,10 +8,11 @@ import { blue, bold, cyan, dim, gray, green, underline, yellow } from 'kolorist'
 import consola from 'consola'
 import type { InlineConfig, ViteDevServer } from 'vite'
 import { mergeConfig } from 'vite'
-import { createServer } from '../server'
-import type { ResolvedValaxyOptions } from '../options'
-import { version } from '../../package.json'
-import { mergeViteConfigs } from '../common'
+import { version } from 'valaxy/package.json'
+import { createServer } from '../../server'
+import type { ResolvedValaxyOptions } from '../../options'
+import { mergeViteConfigs } from '../../common'
+import { vLogger } from '../../logger'
 
 let server: ViteDevServer | undefined
 
@@ -57,8 +58,10 @@ export function printInfo(options: ResolvedValaxyOptions, port?: number, remote?
 // ]
 
 export async function initServer(options: ResolvedValaxyOptions, viteConfig: InlineConfig) {
-  if (server)
+  if (server) {
+    vLogger.info('close server...')
     await server.close()
+  }
 
   const viteConfigs: InlineConfig = mergeConfig(
     await mergeViteConfigs(options, 'serve'),
@@ -93,6 +96,8 @@ export async function initServer(options: ResolvedValaxyOptions, viteConfig: Inl
       },
     })
     await server.listen()
+    // consola.success(, 'server ready')
+    vLogger.ready('server ready')
   }
   catch (e) {
     consola.error('failed to start server. error:\n')

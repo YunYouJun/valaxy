@@ -87,9 +87,8 @@ export default defineValaxyConfig<ThemeConfig>({
   },
 
   vite: {
-    // https://github.com/antfu/vite-plugin-inspect
-    // Visit http://localhost:3333/__inspect/ to see the inspector
-    plugins: [Inspect()],
+    // https://vite-pwa-org.netlify.app/
+    plugins: [VitePWA()],
   },
 
   unocss: {
