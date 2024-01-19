@@ -14,6 +14,7 @@ We need a plugin system that allows users to use/load only certain features quic
 :::
 
 ## 命名规范 {lang="zh-CN"}
+
 ## Naming conventions {lang="en"}
 
 ::: zh-CN
@@ -45,6 +46,7 @@ Plugin name: `valaxy-addon-<name>`.
 :::
 
 ## 说明 {lang="zh-CN"}
+
 ## Explanation {lang="en"}
 
 ::: zh-CN

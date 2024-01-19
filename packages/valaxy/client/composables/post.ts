@@ -18,9 +18,12 @@ export function usePostTitle(post: ComputedRef<Post>) {
  * get all page in 'pages' folder
  */
 export function usePageList() {
+  const router = useRouter()
   return computed<Post[]>(() => {
     const excludePages = ['/:..all', '/:all(.*)*', '/', '/:path(.*)']
-    const router = useRouter()
+    if (!router)
+      return []
+
     const routes = router.getRoutes()
       .filter(i => i.name)
       .filter(i => i.meta)

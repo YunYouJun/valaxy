@@ -16,10 +16,10 @@ export interface CategoryList {
    * total posts
    */
   total: number
-  children: (Post | CategoryList)[]
+  children: Map<string, Post | CategoryList>
 }
 export type Category = CategoryList
-export type Categories = (Post | CategoryList)[]
+export type Categories = Map<string, Post | CategoryList>
 
 // todo write unit test
 export function isCategoryList(category: any): category is CategoryList {
@@ -53,12 +53,12 @@ export function useCategories(category?: MaybeRef<string>, posts: Post[] = []) {
     const categoryList: CategoryList = {
       name: 'All',
       total: posts.length,
-      children: [
-        { name: 'Uncategorized', total: 0, children: [] },
-      ],
+      children: new Map([
+        ['Uncategorized', { name: 'Uncategorized', total: 0, children: new Map() }],
+      ]),
     }
 
-    const uncategorized = categoryList.children.find(item => item.name === 'Uncategorized')!
+    const uncategorized = categoryList.children.get('Uncategorized')!
 
     posts.forEach((post: Post) => {
       if (post.categories) {
@@ -69,20 +69,21 @@ export function useCategories(category?: MaybeRef<string>, posts: Post[] = []) {
           let parentCategory: CategoryList = curCategoryList
 
           post.categories.forEach((categoryName, i) => {
+            // console.log(parentCategory, curCategoryList.children, 'post', categoryName)
             curCategoryList.total += 1
-            curCategoryList = (curCategoryList.children.find(item => item.name === categoryName)) as CategoryList
+            curCategoryList = curCategoryList.children.get(categoryName) as CategoryList
 
             if (!curCategoryList) {
               curCategoryList = {
                 name: categoryName,
                 total: 0,
-                children: [],
+                children: new Map(),
               }
-              parentCategory.children.push(curCategoryList)
+              parentCategory.children.set(categoryName, curCategoryList)
             }
 
             if (i === len - 1) {
-              curCategoryList.children.push(post)
+              curCategoryList.children.set(post.path!, post)
               curCategoryList.total += 1
             }
 
@@ -92,23 +93,25 @@ export function useCategories(category?: MaybeRef<string>, posts: Post[] = []) {
         else {
           // for string
           const categoryName = post.categories
-          const curCategory = categoryList.children.find(item => item.name === categoryName)
+          const curCategory = categoryList.children.get(categoryName)
           if (curCategory) {
             curCategory.total += 1
-            curCategory.children.push(post)
+            curCategory.children.set(post.path!, post)
           }
           else {
-            categoryList.children.push({
+            categoryList.children.set(categoryName, {
               name: categoryName,
               total: 1,
-              children: [post],
+              children: new Map([
+                [post.path!, post],
+              ]),
             })
           }
         }
       }
       else {
         uncategorized.total += 1
-        uncategorized.children.push(post)
+        uncategorized.children.set(post.path!, post)
       }
     })
 
@@ -116,7 +119,7 @@ export function useCategories(category?: MaybeRef<string>, posts: Post[] = []) {
 
     // clear uncategorized
     if (uncategorized!.total === 0)
-      categoryList.children.shift()
+      categoryList.children.delete('Uncategorized')
 
     if (!categories) {
       return categoryList
@@ -125,7 +128,7 @@ export function useCategories(category?: MaybeRef<string>, posts: Post[] = []) {
       let curCategoryList = categoryList
       const categoryArr = categories.split('/')
       for (const categoryName of categoryArr) {
-        const tempCList = curCategoryList.children.find(item => item.name === categoryName)
+        const tempCList = curCategoryList.children.get(categoryName)
         if (tempCList && tempCList.children) {
           curCategoryList = tempCList as CategoryList
         }
@@ -147,10 +150,7 @@ export function useCategories(category?: MaybeRef<string>, posts: Post[] = []) {
 export function removeItemFromCategory(categoryList: CategoryList, categoryName: string) {
   if (isCategoryList(categoryList)) {
     const categoryArr = categoryName.split('/')
-    // todo loop find
-    const categoryListItemIndex = categoryList.children.findIndex(item => item.name === categoryArr[0])
-
-    categoryList.children.splice(categoryListItemIndex, 1)
+    categoryList.children.delete(categoryArr[0])
   }
 }
 

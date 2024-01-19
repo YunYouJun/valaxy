@@ -30,19 +30,22 @@ export const useSiteStore = defineStore('site', () => {
           if (payload.path.endsWith('.md'))
             path = payload.path.slice(0, -3)
 
-          const routeName = path.split('/').slice(1).join('-')
-
+          const routeName = path
           if (!router.hasRoute(routeName))
             return
 
           // can not use generatedRoutes, otherwise will trigger ValaxyMain refresh
           const route = router.getRoutes().find(r => r.name === routeName)!
           router.removeRoute(routeName)
-          if (route.meta)
-            route.meta.frontmatter = payload.pageData.frontmatter
+          if (route.meta) {
+            route.meta.frontmatter = {
+              ...route.meta.frontmatter,
+              ...payload.pageData.frontmatter,
+            }
+          }
           router.addRoute(route)
 
-          // trigger computed reload
+          // trigger `computed` reload, not server
           reload.value += 1
         })
       }

@@ -11,8 +11,8 @@ const pages = usePageList()
 const themeConfig = useThemeConfig()
 
 const sidebar = computed(() => themeConfig.value.sidebar)
+const cs = useCategories('', pages.value)
 const categories = computed(() => {
-  const cs = useCategories('', pages.value)
   const cList = cs.value
   removeItemFromCategory(cList, 'Uncategorized')
 
@@ -23,12 +23,9 @@ const categories = computed(() => {
         removeItemFromCategory(cList, item.name)
     })
   }
+
   return cList
 })
-
-function getCategoryByName(name: string) {
-  return categories.value.children.find(c => c.name === name)
-}
 
 const { hasSidebar } = useSidebar()
 </script>
@@ -42,10 +39,9 @@ const { hasSidebar } = useSidebar()
     <div text="left" m="2">
       <ul v-for="item in sidebar" :key="item" class="category-list">
         <template v-if="typeof item === 'string'">
-          <PressCategory
-            v-if="getCategoryByName(item)"
-            :category="getCategoryByName(item)"
-            :collapsable="false"
+          <PressCategoryByName
+            :categories="categories"
+            :item="item"
           />
         </template>
         <PressSidebarItem

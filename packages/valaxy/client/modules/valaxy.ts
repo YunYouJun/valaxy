@@ -39,8 +39,7 @@ import valaxyMessages from '/@valaxyjs/locales'
 function shouldHotReload(payload: PageDataPayload): boolean {
   const payloadPath = payload.path.replace(/(\bindex)?\.md$/, '')
   const locationPath = location.pathname.replace(/(\bindex)?\.html$/, '')
-  // console.log(payloadPath, locationPath)
-  return ensureSuffix('/', payloadPath) === ensureSuffix('/', locationPath)
+  return ensureSuffix('/', encodeURI(payloadPath)) === ensureSuffix('/', encodeURI(locationPath))
 }
 
 export async function install({ app, router }: ViteSSGContext, config: ComputedRef<ValaxyConfig<DefaultTheme.Config>>) {

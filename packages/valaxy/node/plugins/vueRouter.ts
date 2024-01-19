@@ -4,6 +4,7 @@ import matter from 'gray-matter'
 import { isDate } from '@antfu/utils'
 import { convert } from 'html-to-text'
 import type { ExcerptType, Page } from 'valaxy/types'
+import type { RouteMeta } from 'vue-router'
 import type { ResolvedValaxyOptions } from '../options'
 import { EXCERPT_SEPARATOR } from '../constants'
 
@@ -49,6 +50,11 @@ export function createRouterPlugin(options: ResolvedValaxyOptions) {
      */
     async extendRoute(route) {
       const defaultFrontmatter = JSON.parse(JSON.stringify(valaxyConfig.siteConfig.frontmatter)) || {}
+      if (route.meta && route.meta.frontmatter) {
+        // reset frontmatter, extendRoute will be trigger when save md file
+        const { frontmatter: _, otherMeta } = route.meta
+        route.meta = otherMeta as RouteMeta
+      }
       // merge deeply
       route.addToMeta({
         frontmatter: defaultFrontmatter,

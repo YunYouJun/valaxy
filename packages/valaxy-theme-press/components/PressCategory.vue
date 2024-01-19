@@ -52,7 +52,7 @@ function getTitle(post: Post | any) {
   </li>
 
   <ul v-if="!collapsable">
-    <li v-for="categoryItem, i in category.children" :key="i" class="post-list-item">
+    <li v-for="categoryItem, i in category.children.values()" :key="i" class="post-list-item">
       <template v-if="!isCategoryList(categoryItem)">
         <RouterLink v-if="categoryItem.title" :to="categoryItem.path || ''" class="inline-flex items-center" active-class="active">
           <span m="l-1" text="sm">{{ getTitle(categoryItem) }}</span>

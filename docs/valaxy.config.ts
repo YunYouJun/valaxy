@@ -122,7 +122,7 @@ export default defineValaxyConfig<PressTheme.Config>({
         items: [
           {
             text: 'nav.why-need-addons',
-            link: '/addons',
+            link: '/addons/why',
           },
           {
             text: 'nav.use-an-addon',

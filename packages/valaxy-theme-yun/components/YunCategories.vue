@@ -24,7 +24,7 @@ const categoryList = computed(() => {
 </script>
 
 <template>
-  <ul v-for="category in categories" :key="category.name" class="category-list" m="l-4">
+  <ul v-for="category in categories.values()" :key="category.name" class="category-list" m="l-4">
     <YunCategory
       :parent-key="category.name"
       :category="category"

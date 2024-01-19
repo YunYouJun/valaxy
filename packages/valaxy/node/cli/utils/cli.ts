@@ -72,7 +72,7 @@ export async function initServer(options: ResolvedValaxyOptions, viteConfig: Inl
     server = await createServer(options, viteConfigs, {
       async onConfigReload(newConfig, config, force = false) {
         if (force) {
-          consola.info('[valaxy]', `${yellow('force')} reload the server`)
+          vLogger.info(`${yellow('force')} reload the server`)
           initServer(options, viteConfig)
         }
 

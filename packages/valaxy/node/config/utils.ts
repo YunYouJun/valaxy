@@ -30,10 +30,15 @@ export function loadConfig<T extends UserInputConfig = UserInputConfig>(options:
 }): ResolvedConfig<T> {
   const { name, cwd } = options
   const filePath = resolve(cwd, `${name}.config.ts`)
-  const data = jiti(fileURLToPath(import.meta.url), {
-    interopDefault: true,
-    requireCache: false,
-  })(filePath)
+  let data = {} as T
+
+  try {
+    data = jiti(fileURLToPath(import.meta.url), {
+      interopDefault: true,
+      requireCache: false,
+    })(filePath)
+  }
+  catch (e) { }
 
   return {
     config: data,

@@ -55,7 +55,7 @@ useSchemaOrg([
       </template>
       <template #main-content>
         <div text="center" class="yun-text-light" p="2">
-          {{ t('counter.categories', categories.children.length) }}
+          {{ t('counter.categories', Array.from(categories.children).length) }}
         </div>
         <YunCategories :categories="categories.children" />
         <RouterView />

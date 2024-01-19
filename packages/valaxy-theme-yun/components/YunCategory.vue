@@ -74,7 +74,7 @@ onMounted(() => {
 
   <template v-if="!collapse">
     <ul>
-      <li v-for="categoryItem, i in category.children" :key="i" class="post-list-item" m="l-4">
+      <li v-for="categoryItem, i in category.children.values()" :key="i" class="post-list-item" m="l-4">
         <template v-if="isCategoryList(categoryItem)">
           <YunCategory
             :parent-key="parentKey ? `${parentKey}/${categoryItem.name}` : categoryItem.name"
