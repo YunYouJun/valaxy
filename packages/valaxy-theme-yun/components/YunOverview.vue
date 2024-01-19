@@ -21,7 +21,7 @@ const router = useRouter()
           {{ siteConfig.author.name }}
         </RouterLink>
       </div>
-      <RouterLink v-if="router.hasRoute('about-site')" to="/about/site" class="site-name">
+      <RouterLink v-if="router.hasRoute('/about/site')" to="/about/site" class="site-name">
         {{ siteConfig.title }}
       </RouterLink>
       <span v-else class="site-name">{{ siteConfig.title }}</span>
