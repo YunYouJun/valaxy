@@ -4,8 +4,9 @@ import type { Plugin } from 'vite'
 import { defaultThemeConfig } from './config'
 import type { ThemeConfig } from './types'
 
-function ThemeVitePlugin(options: ResolvedValaxyOptions<ThemeConfig>): Plugin {
-  const themeConfig = options.config.themeConfig!
+function ThemeVitePlugin(_options?: ResolvedValaxyOptions<ThemeConfig>): Plugin {
+  // TODO:
+  // const themeConfig = options.config.themeConfig!
 
   return {
     name: 'valaxy-theme-press',
@@ -15,7 +16,8 @@ function ThemeVitePlugin(options: ResolvedValaxyOptions<ThemeConfig>): Plugin {
         css: {
           preprocessorOptions: {
             scss: {
-              additionalData: `$c-primary: ${themeConfig.colors?.primary || '#0078E7'} !default;`,
+              // additionalData: `$c-primary: ${themeConfig.colors?.primary || '#0078E7'} !default;`,
+              additionalData: `$c-primary: ${'#0078E7'} !default;`,
             },
           },
         },
@@ -28,11 +30,11 @@ function ThemeVitePlugin(options: ResolvedValaxyOptions<ThemeConfig>): Plugin {
   }
 }
 
-export default defineTheme<ThemeConfig>((options) => {
+export default defineTheme<ThemeConfig>((_options) => {
   return {
     themeConfig: defaultThemeConfig,
     vite: {
-      plugins: [ThemeVitePlugin(options)],
+      plugins: [ThemeVitePlugin()],
     },
   }
 })
