@@ -114,7 +114,7 @@ pnpm create valaxy
 import { defineTheme } from 'valaxy'
 
 export default defineTheme({
-  vueRouter: {
+  router: {
     extendRoute(route) {
       // want to get component absolute paths?
       // const path = route.components.get('default')

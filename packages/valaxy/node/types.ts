@@ -1,7 +1,10 @@
 import type Vue from '@vitejs/plugin-vue'
+
 import type Components from 'unplugin-vue-components/vite'
+import type Layouts from 'vite-plugin-vue-layouts'
+import type Router from 'unplugin-vue-router/vite'
+
 import type { VitePluginConfig as UnoCSSConfig } from 'unocss/vite'
-import type VueRouter from 'unplugin-vue-router/vite'
 import type { EditableTreeNode } from 'unplugin-vue-router'
 import type { UserConfig as ViteUserConfig } from 'vite'
 import type { presetAttributify, presetIcons, presetTypography, presetUno } from 'unocss'
@@ -66,7 +69,11 @@ export interface ValaxyExtendConfig {
 
   vite?: ViteUserConfig
   vue?: Parameters<typeof Vue>[0]
+  // unplugin
   components?: Parameters<typeof Components>[0]
+  layouts?: Parameters<typeof Layouts>[0]
+  router?: Parameters<typeof Router>[0]
+
   unocss?: UnoCSSConfig
   /**
    * unocss presets
@@ -77,7 +84,6 @@ export interface ValaxyExtendConfig {
     icons?: Parameters<typeof presetIcons>[0]
     typography?: Parameters<typeof presetTypography>[0]
   }
-  vueRouter?: Parameters<typeof VueRouter>[0]
   /**
    * @experimental
    * Enable Vue Devtools & Valaxy Devtools

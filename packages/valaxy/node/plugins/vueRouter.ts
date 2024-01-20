@@ -42,7 +42,7 @@ export function createRouterPlugin(options: ResolvedValaxyOptions) {
     routesFolder: roots.map(root => `${root}/pages`),
     dts: `${options.clientRoot}/typed-router.d.ts`,
 
-    ...valaxyConfig.vueRouter,
+    ...valaxyConfig.router,
 
     /**
      * @experimental See https://github.com/posva/unplugin-vue-router/issues/43
@@ -155,7 +155,7 @@ export function createRouterPlugin(options: ResolvedValaxyOptions) {
         valaxyConfig.extendMd?.(ctx)
       }
 
-      return valaxyConfig.vueRouter?.extendRoute?.(route)
+      return valaxyConfig.router?.extendRoute?.(route)
     },
   })
 }

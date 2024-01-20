@@ -1,7 +1,19 @@
+<script lang="ts" setup>
+function goDown() {
+  const banner = document.getElementById('yun-banner')
+  if (banner) {
+    window.scrollTo({
+      top: banner.clientHeight,
+      behavior: 'smooth',
+    })
+  }
+}
+</script>
+
 <template>
-  <a class="go-down" aria-label="go-down" href="javascript:window.scrollTo(0, window.banner.clientHeight);">
+  <button class="go-down" aria-label="go-down" @click="goDown">
     <div i-ri-arrow-down-s-line inline-flex />
-  </a>
+  </button>
 </template>
 
 <style lang="scss">

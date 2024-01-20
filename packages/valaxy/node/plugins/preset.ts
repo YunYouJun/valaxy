@@ -93,7 +93,8 @@ export async function ViteValaxyPlugins(
     // https://github.com/JohnCampionJr/vite-plugin-vue-layouts
     Layouts({
       layoutsDirs: roots.map(root => `${root}/layouts`),
-      pagesDirs: roots.map(root => `${root}/pages`),
+
+      ...valaxyConfig.layouts,
     }),
 
     // https://github.com/antfu/unplugin-vue-components

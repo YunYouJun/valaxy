@@ -58,7 +58,7 @@ export interface ResolvedValaxyOptions<ThemeConfig = DefaultTheme.Config> {
    */
   addonRoots: string[]
   /**
-   * Theme name
+   * clientRoot, themeRoot, ...addonRoots, userRoot
    */
   roots: string[]
   theme: string
