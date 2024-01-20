@@ -1,4 +1,4 @@
-import { defineConfig, presetWebFonts } from 'unocss'
+import { defineConfig } from 'unocss'
 
 export default defineConfig({
   shortcuts: [
@@ -20,14 +20,5 @@ export default defineConfig({
     ],
   ],
   // web fonts is so big, let the user decide
-  presets: [
-    presetWebFonts({
-      fonts: {
-        sans: 'DM Sans',
-        serif: 'DM Serif Display',
-        mono: 'DM Mono',
-      },
-      provider: 'fontshare',
-    }),
-  ],
+  presets: [],
 })
