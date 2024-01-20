@@ -95,6 +95,13 @@ jobs:
           cache: pnpm
 
       - run: pnpm install
+
+      # for test check build dist
+      - name: Build
+        run: pnpm run build
+      - name: Build:demo
+        run: pnpm run build:demo
+
       - run: pnpm run test
 
   test-e2e:
