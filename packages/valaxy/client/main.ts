@@ -36,12 +36,21 @@ routes.forEach((i) => {
   })
 })
 
+// filter children recursive
+function filterDraft(routes: any[]) {
+  return routes.filter((i) => {
+    if (i.children)
+      i.children = filterDraft(i.children)
+
+    return !i.meta?.frontmatter?.draft
+  })
+}
+
 // not filter hide for ssg
 const routesWithLayout = setupLayouts(import.meta.env.DEV
   ? routes
-  : routes.filter(i =>
-    i.meta && i.meta.frontmatter && !i.meta.frontmatter.draft,
-  ))
+  : filterDraft(routes),
+)
 
 // https://github.com/antfu/vite-ssg
 export const createApp = ViteSSG(
