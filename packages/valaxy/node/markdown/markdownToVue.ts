@@ -14,7 +14,6 @@ import { processIncludes } from './utils/processInclude'
 import { createMarkdownRenderer } from '.'
 import type { MarkdownEnv, MarkdownRenderer } from '.'
 
-const jsStringBreaker = '\u200B'
 const vueTemplateBreaker = '<wbr>'
 
 const debug = _debug('vitepress:md')
@@ -359,13 +358,8 @@ const namedDefaultExportRE = /((?:^|\n|;)\s*)export(.+)as(\s*)default/
 function injectPageDataCode(
   tags: string[],
   data: PageData,
-  replaceRegex: RegExp,
+  _replaceRegex: RegExp,
 ) {
-  const dataJson = JSON.stringify(data)
-  const code = `\nexport const __pageData = JSON.parse(${JSON.stringify(
-    replaceConstants(dataJson, replaceRegex, jsStringBreaker),
-  )})`
-
   const existingScriptIndex = tags.findIndex((tag) => {
     return (
       scriptRE.test(tag)
@@ -380,8 +374,7 @@ function injectPageDataCode(
   const exportScript = `
   import { provide } from 'vue'
   import { useRoute } from 'vue-router'
-  const data = ${transformObject(data)}
-
+  export const data = ${transformObject(data)}
   export default {
     name:'${data.relativePath}',
     data() {
@@ -402,8 +395,8 @@ function injectPageDataCode(
       = defaultExportRE.test(tagSrc) || namedDefaultExportRE.test(tagSrc)
     tags[existingScriptIndex] = tagSrc.replace(
       scriptRE,
-      `${code
-      + (hasDefaultExport
+      `${
+        (hasDefaultExport
           ? ''
           : `\n${exportScript}`)
         }</script>`,
@@ -411,7 +404,7 @@ function injectPageDataCode(
   }
   else {
     tags.unshift(
-      `<script ${isUsingTS ? 'lang="ts"' : ''}>${code}\n${exportScript}</script>`,
+      `<script ${isUsingTS ? 'lang="ts"' : ''}>\n${exportScript}</script>`,
     )
   }
 
