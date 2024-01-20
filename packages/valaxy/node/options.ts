@@ -184,11 +184,9 @@ export async function resolveOptions(
   const { siteConfig, siteConfigFile } = resolvedSite
 
   const { config: themeConfig, configFile: themeConfigFile } = resolvedTheme
-  const { config: defaultThemeConfig } = await resolveThemeConfigFromRoot(themeRoot)
-  const userThemeConfig = defu(themeConfig, defaultThemeConfig)
 
   // merge with valaxy
-  userValaxyConfig = defu<ValaxyNodeConfig, any>({ siteConfig }, { themeConfig: userThemeConfig }, userValaxyConfig)
+  userValaxyConfig = defu<ValaxyNodeConfig, any>({ siteConfig }, { themeConfig }, userValaxyConfig)
 
   // pages
   // Important: fast-glob doesn't guarantee order of the returned files.

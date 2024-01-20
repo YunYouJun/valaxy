@@ -22,7 +22,7 @@ export default defineValaxyConfig<ThemeConfig>({
 
   theme: 'yun',
   // see theme.config.ts or write in themeConfig
-  // themeConfig: {},
+  // themeConfig in theme.config.ts
 
   unocss: {
     safelist,

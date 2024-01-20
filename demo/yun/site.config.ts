@@ -151,4 +151,5 @@ export default defineSiteConfig({
       to: '/about',
     },
   ],
+
 })
