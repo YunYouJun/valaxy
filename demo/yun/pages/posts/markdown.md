@@ -116,15 +116,13 @@ Adding the `// [!code --]` or `// [!code ++]` comments on a line will create a d
 
 **Input**
 
-Note that only one space is required after `!code`, here are two to prevent processing.
-
 ````
 ```js
 export default {
   data () {
     return {
-      msg: 'Removed' // [!code  --]
-      msg: 'Added' // [!code  ++]
+      msg: 'Removed' // [!!code --]
+      msg: 'Added' // [!!code ++]
     }
   }
 }
@@ -150,15 +148,13 @@ Adding the `// [!code warning]` or `// [!code error]` comments on a line will co
 
 **Input**
 
-Note that only one space is required after `!code`, here are two to prevent processing.
-
 ````
 ```js
 export default {
   data () {
     return {
-      msg: 'Error', // [!code  error]
-      msg: 'Warning' // [!code  warning]
+      msg: 'Error', // [!!code error]
+      msg: 'Warning' // [!code warning]
     }
   }
 }

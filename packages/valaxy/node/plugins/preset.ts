@@ -10,6 +10,7 @@ import VueI18n from '@intlify/unplugin-vue-i18n/vite'
 
 import UnheadVite from '@unhead/addons/vite'
 
+import { resolve } from 'pathe'
 import type { ResolvedValaxyOptions, ValaxyServerOptions } from '../options'
 import { setupMarkdownPlugins } from '../markdown'
 
@@ -112,7 +113,7 @@ export async function ViteValaxyPlugins(
       dirs: roots
         .map(root => `${root}/components`)
         .concat(['src/components', 'components']),
-      dts: `${options.userRoot}/components.d.ts`,
+      dts: resolve(options.tempDir, 'components.d.ts'),
 
       ...valaxyConfig.components,
     }),

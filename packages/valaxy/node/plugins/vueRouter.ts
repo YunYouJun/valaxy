@@ -1,5 +1,6 @@
 import VueRouter from 'unplugin-vue-router/vite'
 import fs from 'fs-extra'
+import { resolve } from 'pathe'
 import matter from 'gray-matter'
 import { isDate } from '@antfu/utils'
 import { convert } from 'html-to-text'
@@ -40,7 +41,7 @@ export function createRouterPlugin(options: ResolvedValaxyOptions) {
   return VueRouter({
     extensions: ['.vue', '.md'],
     routesFolder: roots.map(root => `${root}/pages`),
-    dts: `${options.clientRoot}/typed-router.d.ts`,
+    dts: resolve(options.tempDir, 'typed-router.d.ts'),
 
     ...valaxyConfig.router,
 

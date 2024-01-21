@@ -40,6 +40,11 @@ export interface ResolvedValaxyOptions<ThemeConfig = DefaultTheme.Config> {
    */
   pkgRoot: string
   /**
+   * temp dir, store d.ts and other temp files
+   * .valaxy
+   */
+  tempDir: string
+  /**
    * Client root path
    * @default 'valaxy/client'
    */
@@ -199,6 +204,7 @@ export async function resolveOptions(
   let valaxyOptions: ResolvedValaxyOptions = {
     mode,
     pkgRoot,
+    tempDir: resolve(userRoot, '.valaxy'),
     clientRoot,
     userRoot,
     themeRoot,
@@ -222,6 +228,9 @@ export async function resolveOptions(
   const valaxyConfig = mergeValaxyConfig(userValaxyConfig, themeValaxyConfig)
 
   valaxyOptions = await processValaxyOptions(valaxyOptions, valaxyConfig)
+
+  // ensure .valaxy folder to store temp files, like d.ts
+  fs.ensureDirSync(valaxyOptions.tempDir)
   return valaxyOptions
 }
 

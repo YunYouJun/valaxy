@@ -10,5 +10,6 @@ $c-primary: #0078e7 !default;
 // override the default style of star-markdown-css
 @use "./common/button.scss" as *;
 @use "./common/markdown.scss" as *;
+@use 'valaxy/client/styles/components/code.scss' as *;
 @use 'valaxy/client/styles/components/code-group.scss' as *;
 @use 'valaxy/client/styles/components/custom-block.scss' as *;

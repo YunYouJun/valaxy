@@ -113,7 +113,8 @@
     "pinia": "^2.1.7",
     "qrcode": "^1.5.3",
     "sass": "^1.70.0",
-    "shiki": "^0.14.7",
+    "shikiji": "0.9.7",
+    "shikiji-transformers": "0.9.7",
     "star-markdown-css": "^0.4.2",
     "unconfig": "^0.3.11",
     "unocss": "^0.58.3",
@@ -149,7 +150,6 @@
     "debug": "^4.3.4",
     "diacritics": "^1.3.0",
     "https-localhost": "^4.7.1",
-    "markdown-it-image-figures": "^2.1.1",
-    "shiki-processor": "^0.1.3"
+    "markdown-it-image-figures": "^2.1.1"
   }
 }

@@ -36,6 +36,7 @@ import { linkPlugin } from './plugins/link'
 import { preWrapperPlugin } from './plugins/markdown-it/preWrapper'
 import { lineNumberPlugin } from './plugins/markdown-it/lineNumbers'
 import { snippetPlugin } from './plugins/markdown-it/snippet'
+import type { ThemeOptions } from './types'
 
 export * from './env'
 
@@ -47,7 +48,7 @@ export interface MarkdownParsedData {
 
 export type MarkdownRenderer = MarkdownIt
 
-export const defaultCodeTheme = { light: 'github-light', dark: 'github-dark' }
+export const defaultCodeTheme = { light: 'github-light', dark: 'github-dark' } as const as ThemeOptions
 
 export async function setupMarkdownPlugins(
   md: MarkdownIt,
@@ -172,9 +173,12 @@ export async function createMarkdownRenderer(options?: ResolvedValaxyOptions): P
   const md = MarkdownIt({
     html: true,
     linkify: true,
-    highlight: await highlight(theme, mdOptions.languages, mdOptions.defaultHighlightLang),
+    highlight: await highlight(theme, mdOptions),
     ...mdOptions.options,
   }) as MarkdownRenderer
+
+  md.linkify.set({ fuzzyLink: false })
+
   await setupMarkdownPlugins(md, options)
   return md
 }

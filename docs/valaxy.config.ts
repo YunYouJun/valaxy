@@ -199,6 +199,14 @@ export default defineValaxyConfig<PressTheme.Config>({
       },
     },
 
+    codeTransformers: [
+      // We use `[!!code` in demo to prevent transformation, here we revert it back.
+      {
+        postprocess(code) {
+          return code.replace(/\[\!\!code/g, '[!code')
+        },
+      },
+    ],
     // theme: 'material-theme-palenight',
   },
 })

@@ -157,14 +157,14 @@ All icon names added to `config.unocss.safelist` will be ready for hot reloading
 :::
 
 ::: zh-CN
-基于 [Shiki](https://github.com/shikijs/shiki) 实现。
+基于 [Shikiji](https://shikiji.netlify.app/) 实现。
 Valaxy 支持 `vue` 等语法高亮，拷贝代码，高亮其中某一行。
 
 譬如：
 :::
 
 ::: en
-Based on [Shiki](https://github.com/shikijs/shiki).
+Based on [Shikiji](https://shikiji.netlify.app/).
 Valaxy supports syntax highlighting for languages like `vue`, and also supports copying code and
 highlighting a particular line in the code block.
 

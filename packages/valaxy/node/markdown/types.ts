@@ -1,6 +1,13 @@
 import type MarkdownIt from 'markdown-it'
-import type { ILanguageRegistration, IThemeRegistration } from 'shiki'
 
+import type {
+  BuiltinTheme,
+  Highlighter,
+  LanguageInput,
+  ShikijiTransformer,
+  ThemeRegistration
+  ,
+} from 'shikiji'
 import type anchorPlugin from 'markdown-it-anchor'
 
 import type { KatexOptions } from 'katex'
@@ -22,8 +29,12 @@ import type {
 import type { Blocks } from './plugins/markdown-it/container'
 
 export type ThemeOptions =
-  | IThemeRegistration
-  | { light: IThemeRegistration, dark: IThemeRegistration }
+  | ThemeRegistration
+  | BuiltinTheme
+  | {
+    light: ThemeRegistration | BuiltinTheme
+    dark: ThemeRegistration | BuiltinTheme
+  }
 
 export interface MarkdownOptions {
   /**
@@ -45,7 +56,50 @@ export interface MarkdownOptions {
     allowedAttributes?: string[]
     disable?: boolean
   }
+  /**
+   * Custom theme for syntax highlighting.
+   *
+   * You can also pass an object with `light` and `dark` themes to support dual themes.
+   *
+   * @example { theme: 'github-dark' }
+   * @example { theme: { light: 'github-light', dark: 'github-dark' } }
+   *
+   * You can use an existing theme.
+   * @see https://github.com/antfu/shikiji/blob/main/docs/themes.md#all-themes
+   * Or add your own theme.
+   * @see https://github.com/antfu/shikiji/blob/main/docs/themes.md#load-custom-themes
+   */
+  theme?: ThemeOptions
+  /**
+   * Languages for syntax highlighting.
+   * @see https://github.com/antfu/shikiji/blob/main/docs/languages.md#all-themes
+   */
+  languages?: LanguageInput[]
+  /**
+   * Custom language aliases.
+   *
+   * @example { 'my-lang': 'js' }
+   * @see https://github.com/antfu/shikiji/tree/main#custom-language-aliases
+   */
+  languageAlias?: Record<string, string>
+  /**
+   * Show line numbers in code blocks
+   * @default false
+   */
+  lineNumbers?: boolean
+  /**
+   * Fallback language when the specified language is not available.
+   */
   defaultHighlightLang?: string
+  /**
+   * Transformers applied to code blocks
+   * @see https://github.com/antfu/shikiji#hast-transformers
+   */
+  codeTransformers?: ShikijiTransformer[]
+  /**
+   * Setup Shikiji instance
+   */
+  shikijiSetup?: (shikiji: Highlighter) => void | Promise<void>
   // mdit-vue plugins
   frontmatter?: FrontmatterPluginOptions
   headers?: HeadersPluginOptions
@@ -66,17 +120,10 @@ export interface MarkdownOptions {
     classes: string
   }
 
-  lineNumbers?: boolean
-
   /**
    * @see https://katex.org/docs/options.html
    */
   katex?: KatexOptions
-  /**
-   * shiki
-   */
-  theme?: ThemeOptions
-  languages?: ILanguageRegistration[]
   /**
    * Custom block configurations
    */

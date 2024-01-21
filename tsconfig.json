@@ -33,6 +33,8 @@
     "skipLibCheck": true
   },
   "include": [
+    // for type check
+    "demo/yun/.valaxy/typed-router.d.ts",
     "./*.ts",
     "./test/*.ts",
     "./packages/**/*.ts",

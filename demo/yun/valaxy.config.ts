@@ -58,6 +58,15 @@ export default defineValaxyConfig<ThemeConfig>({
         text: 'información',
       },
     },
+
+    codeTransformers: [
+      // We use `[!!code` in demo to prevent transformation, here we revert it back.
+      {
+        postprocess(code) {
+          return code.replace(/\[\!\!code/g, '[!code')
+        },
+      },
+    ],
   },
 
   addons: [
