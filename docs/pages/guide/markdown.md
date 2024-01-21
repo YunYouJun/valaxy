@@ -17,7 +17,8 @@ end: false
 当然，你仍然可以在 Valaxy 中通过添加 MarkdownIt 插件来实现更多功能。
 :::
 
-## Emoji :tada:
+## Emoji :tada: {lang="en"}
+
 ## Emoji 表情支持 :tada: {lang="zh-CN"}
 
 ::: en
@@ -50,6 +51,7 @@ A [list of all emojis](https://github.com/markdown-it/markdown-it-emoji/blob/mas
 :::
 
 ## Table of Contents {lang="en"}
+
 ## 目录  {lang="zh-CN"}
 
 ::: en
@@ -63,6 +65,7 @@ A [list of all emojis](https://github.com/markdown-it/markdown-it-emoji/blob/mas
 ```
 [[toc]]
 ```
+
 ::: en
 **Output**
 :::
@@ -174,6 +177,7 @@ const line4 = 'This is line 4'
 ````
 
 ## Colored Diffs in Code Blocks {lang="en"}
+
 ## 代码块的增减色块标识  {lang="zh-CN"}
 
 ::: en
@@ -293,7 +297,9 @@ export default {
 ```
 
 ## Import Code Snippets {lang="en"}
+
 ## 导入代码片段 {lang="zh-CN"}
+
 ::: en
 You can import code snippets from existing files via following syntax:
 :::
@@ -305,6 +311,7 @@ You can import code snippets from existing files via following syntax:
 ```md
 <<< @/filepath
 ```
+
 ::: en
 It also supports [line highlighting](#line-highlighting-in-code-blocks):
 :::
@@ -351,13 +358,13 @@ It also supports [line highlighting](#line-highlighting-in-code-blocks):
 
 ::: tip
 
-::: en
+<div lang="en">
 The value of `@` corresponds to the source root. By default it's the blog root, unless `srcDir` is configured. Alternatively, you can also import from relative paths:
-:::
+</div>
 
-::: zh-CN
+<div lang="zh-CN">
 `@` 的值与源根相对应。默认情况下是博客根目录，除非配置了 `srcDir` 。另外，你也可以从相对路径导入：
-:::
+</div>
 
 ```md
 <<< ../snippets/snippet.js
@@ -431,6 +438,7 @@ This is helpful if source language cannot be inferred from your file extension.
 ::: zh-CN
 如果无法从文件扩展名推断源语言，这将很有帮助。
 :::
+
 ## Code Groups
 
 ::: en
@@ -602,17 +610,19 @@ details
 
 ## KaTeX {lang="en"}
 
-## KaTeX语法支持 {lang="zh-CN"}
+## KaTeX 语法支持 {lang="zh-CN"}
 
 ::: tip
 
-::: en
-More information about $\KaTeX$ examples can be found [here](/examples/katex).
-:::
+<div lang="en">
 
-::: zh-CN
+More information about $\KaTeX$ examples can be found [here](/examples/katex).
+</div>
+
+<div lang="zh-CN">
+
 有关更多KaTeX语法的信息可以在 [此处](/examples/katex) 找到。
-:::
+</div>
 
 :::
 
@@ -625,7 +635,6 @@ More information about $\KaTeX$ examples can be found [here](/examples/katex).
 :::
 
 ```md
-
 ::: en
 When $a \ne 0$, there are two solutions to $(ax^2 + bx + c = 0)$ and they are
 $$ x = {-b \pm \sqrt{b^2-4ac} \over 2a} $$
@@ -686,7 +695,7 @@ $$ x = {-b \pm \sqrt{b^2-4ac} \over 2a} $$
 ::: zh-CN
 > [KaTeX选项](https://katex.org/docs/options.html)
 :::
- 
+
 ```ts
 // valaxy.config.ts
 export default defineValaxyConfig({
@@ -705,6 +714,7 @@ export default defineValaxyConfig({
 ## Markdown File Inclusion<!--  --> {lang="en"}
 
 ## 包含 MarkDown 文件<!-- -->  {lang="zh-CN"}
+
 ::: tip
 You can also prefix the markdown path with `@`, it will act as the source root. By default, it's the Valaxy project root.
 :::
@@ -723,6 +733,7 @@ You can also prefix the markdown path with `@`, it will act as the source root. 
 <!--@include: @/TEST.md-->
 <!--@include: ./parts/basics.md-->
 ```
+
 ::: en
 **Part file**
 :::
@@ -840,13 +851,13 @@ The format of the selected line range can be: `{3,}`, `{,10}`, `{1,10}`
 
 ::: warning
 
-::: en
+<div lang="en">
 Note that this does not throw errors if your file is not present. Hence, when using this feature make sure that the contents are being rendered as expected.
-:::
+</div>
 
-::: zh-CN
+<div lang="zh-CN">
 请注意，如果文件不存在，该功能不会出错。因此，在使用此功能时，请确保内容已按预期渲染。
-:::
+</div>
 
 :::
 
