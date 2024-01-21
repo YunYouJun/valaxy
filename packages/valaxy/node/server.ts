@@ -24,7 +24,7 @@ export async function createServer(
 
         // only enable when dev
         enableDevtools && (await import('vite-plugin-vue-devtools')).default,
-        enableDevtools && (await import('@valaxyjs/devtools')).default({ base: options.userRoot }),
+        // enableDevtools && (await import('@valaxyjs/devtools')).default({ base: options.userRoot }),
       ],
     },
   )
