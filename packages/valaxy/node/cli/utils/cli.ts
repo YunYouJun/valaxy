@@ -4,7 +4,7 @@ import path from 'node:path'
 import os from 'node:os'
 import process from 'node:process'
 
-import { blue, bold, cyan, dim, gray, green, underline, yellow } from 'kolorist'
+import { blue, bold, cyan, dim, gray, green, underline, yellow } from 'picocolors'
 import consola from 'consola'
 import type { InlineConfig, ViteDevServer } from 'vite'
 import { mergeConfig } from 'vite'

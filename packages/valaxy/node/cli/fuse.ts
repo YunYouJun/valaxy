@@ -4,7 +4,7 @@ import type { ResolvedValaxyOptions } from 'valaxy'
 import consola from 'consola'
 import fg from 'fast-glob'
 import matter from 'gray-matter'
-import { cyan, dim } from 'kolorist'
+import { cyan, dim } from 'picocolors'
 import type { Argv } from 'yargs'
 
 import type { FuseListItem } from 'valaxy/types'

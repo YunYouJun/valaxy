@@ -4,6 +4,8 @@ import fs from 'node:fs'
 import path from 'node:path'
 import { fileURLToPath } from 'node:url'
 import { execa } from 'execa'
+
+// only use it in create-valaxy
 import { blue, bold, cyan, dim, green, red, reset } from 'kolorist'
 import minimist from 'minimist'
 import prompts from 'prompts'

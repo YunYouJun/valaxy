@@ -1,4 +1,4 @@
-import { cyan, red, yellow } from 'kolorist'
+import { cyan, red, yellow } from 'picocolors'
 import consola from 'consola'
 
 /**

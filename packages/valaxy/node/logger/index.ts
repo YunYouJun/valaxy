@@ -1,5 +1,5 @@
 import consola from 'consola'
-import { magenta } from 'kolorist'
+import { magenta } from 'picocolors'
 import { isProd } from '../utils/env'
 
 export const logger = consola.create({

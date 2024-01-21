@@ -1,5 +1,5 @@
 import { webcrypto } from 'node:crypto'
-import { cyan, dim, yellow } from 'kolorist'
+import { cyan, dim, yellow } from 'picocolors'
 import consola from 'consola'
 import type { SiteConfig, UserSiteConfig } from 'valaxy/types'
 import { countPerformanceTime } from '../utils/performance'

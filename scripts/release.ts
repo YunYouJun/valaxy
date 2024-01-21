@@ -1,7 +1,7 @@
 import process from 'node:process'
 import { createRequire } from 'node:module'
 import { readFileSync } from 'node:fs'
-import { cyan, gray, yellow } from 'kolorist'
+import { cyan, gray, yellow } from 'picocolors'
 import consola from 'consola'
 import { $ } from 'zx'
 

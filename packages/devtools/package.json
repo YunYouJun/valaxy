@@ -1,0 +1,17 @@
+{
+  "name": "@valaxyjs/devtools",
+  "version": "0.0.1",
+  "scripts": {
+    "build": "run-s build:*",
+    "build:client": "vite build src/client",
+    "build:node": "unbuild",
+    "dev": "npm run stub && npm run dev:client",
+    "dev:client": "vite build src/client --watch",
+    "stub": "unbuild --stub",
+    "prepublishOnly": "npm run build",
+    "release": "bumpp && npm publish"
+  },
+  "dependencies": {
+    "sirv": "^2.0.4"
+  }
+}

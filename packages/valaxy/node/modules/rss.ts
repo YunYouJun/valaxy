@@ -1,6 +1,6 @@
 import { dirname, join, resolve } from 'node:path'
 import { readFile } from 'node:fs/promises'
-import { cyan, dim, yellow } from 'kolorist'
+import { cyan, dim, yellow } from 'picocolors'
 
 import fg from 'fast-glob'
 import fs from 'fs-extra'

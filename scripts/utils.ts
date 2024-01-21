@@ -1,7 +1,7 @@
 import { join } from 'node:path'
 import { readFile, writeFile } from 'node:fs/promises'
 import consola from 'consola'
-import { cyan, gray, yellow } from 'kolorist'
+import { cyan, gray, yellow } from 'picocolors'
 
 export const packages = [
   'create-valaxy',
