@@ -26,6 +26,10 @@ export default defineValaxyConfig<PressTheme.Config>({
     encrypt: {
       enable: true,
     },
+
+    mediumZoom: {
+      enable: true,
+    },
   },
 
   addons: [

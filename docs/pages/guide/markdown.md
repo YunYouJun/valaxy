@@ -883,7 +883,7 @@ Freedom to control your layout!
 
 <div class="flex flex-col">
 
-<div class="flex grid-cols-3">
+<div class="flex grid-cols-3" gap="2">
   <div>
 
   ![image](https://yunyoujun.cn/images/avatar.jpg)
@@ -900,7 +900,7 @@ Freedom to control your layout!
   </div>
 </div>
 
-<div class="flex grid-cols-2 justify-center items-center">
+<div class="flex grid-cols-2 justify-center items-center" gap="2">
 
 ![image](https://cdn.yunyoujun.cn/img/bg/stars-timing-1.jpg)
 
