@@ -2,12 +2,9 @@ import type { Plugin, ResolvedConfig, ViteDevServer } from 'vite'
 import c from 'picocolors'
 import sirv from 'sirv'
 import { DIR_CLIENT } from '../dir'
+import type { ValaxyDevtoolsOptions } from './types'
 
 const NAME = 'valaxy:devtools'
-
-export interface ValaxyDevtoolsOptions {
-  base?: string
-}
 
 export default function ValaxyDevtools(options: ValaxyDevtoolsOptions): Plugin {
   let config: ResolvedConfig

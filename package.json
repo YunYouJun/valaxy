@@ -68,6 +68,7 @@
     "@types/node": "^20.11.5",
     "@types/prompts": "^2.4.9",
     "@types/resolve": "^1.20.6",
+    "@valaxyjs/devtools": "workspace:*",
     "bumpp": "^9.3.0",
     "cross-env": "^7.0.3",
     "cypress": "^13.6.3",

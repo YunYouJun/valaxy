@@ -73,6 +73,7 @@
     "@unhead/addons": "^1.8.10",
     "@unhead/schema-org": "^1.8.10",
     "@unhead/vue": "^1.8.10",
+    "@valaxyjs/devtools": "workspace:*",
     "@vitejs/plugin-vue": "^5.0.3",
     "@vue/devtools-api": "^7.0.11",
     "@vueuse/core": "^10.7.2",
