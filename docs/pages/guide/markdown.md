@@ -439,7 +439,9 @@ This is helpful if source language cannot be inferred from your file extension.
 如果无法从文件扩展名推断源语言，这将很有帮助。
 :::
 
-## Code Groups
+## Code Groups {lang="en"}
+
+## 代码分组 {lang="zh-CN"}
 
 ::: en
 You can group multiple code blocks like this:
@@ -563,7 +565,9 @@ You can also [import snippets](#import-code-snippets) in code groups:
 
 :::
 
-## Container
+## Container {lang="en"}
+
+## 标签 {lang="zh-CN"}
 
 ::: zh-CN
 
@@ -634,20 +638,12 @@ More information about $\KaTeX$ examples can be found [here](/examples/katex).
 **输入**
 :::
 
-```md
 ::: en
+```md
 When $a \ne 0$, there are two solutions to $(ax^2 + bx + c = 0)$ and they are
 $$ x = {-b \pm \sqrt{b^2-4ac} \over 2a} $$
 
 **Maxwell's equations:**
-:::
-
-::: zh-CN
-当 $a \ne 0$时，$(ax^2 + bx + c = 0)$ 有两个解，他们是
-$$ x = {-b \pm \sqrt{b^2-4ac} \over 2a} $$
-
-**麦克斯韦方程：**
-:::
 
 | equation                                                                                                                                                                  | description                                                                            |
 | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------- |
@@ -655,6 +651,22 @@ $$ x = {-b \pm \sqrt{b^2-4ac} \over 2a} $$
 | $\nabla \times \vec{\mathbf{E}}\, +\, \frac1c\, \frac{\partial\vec{\mathbf{B}}}{\partial t}  = \vec{\mathbf{0}}$                                                          | curl of $\vec{\mathbf{E}}$ is proportional to the rate of change of $\vec{\mathbf{B}}$ |
 | $\nabla \times \vec{\mathbf{B}} -\, \frac1c\, \frac{\partial\vec{\mathbf{E}}}{\partial t} = \frac{4\pi}{c}\vec{\mathbf{j}}    \nabla \cdot \vec{\mathbf{E}} = 4 \pi \rho$ | _wha?_                                                                                 |
 ```
+:::
+
+::: zh-CN
+```md
+当 $a \ne 0$时，$(ax^2 + bx + c = 0)$ 有两个解，他们是
+$$ x = {-b \pm \sqrt{b^2-4ac} \over 2a} $$
+
+**麦克斯韦方程：**
+
+| equation                                                                                                                                                                  | description                                                                            |
+| ------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------- |
+| $\nabla \cdot \vec{\mathbf{B}}  = 0$                                                                                                                                      | divergence of $\vec{\mathbf{B}}$ is zero                                               |
+| $\nabla \times \vec{\mathbf{E}}\, +\, \frac1c\, \frac{\partial\vec{\mathbf{B}}}{\partial t}  = \vec{\mathbf{0}}$                                                          | curl of $\vec{\mathbf{E}}$ is proportional to the rate of change of $\vec{\mathbf{B}}$ |
+| $\nabla \times \vec{\mathbf{B}} -\, \frac1c\, \frac{\partial\vec{\mathbf{E}}}{\partial t} = \frac{4\pi}{c}\vec{\mathbf{j}}    \nabla \cdot \vec{\mathbf{E}} = 4 \pi \rho$ | _wha?_                                                                                 |
+```
+:::
 
 ::: en
 **Output**
@@ -739,7 +751,7 @@ You can also prefix the markdown path with `@`, it will act as the source root. 
 :::
 
 ::: zh-CN
-**部分文件**
+**文件分组**
 :::
 
 ::: code-group
@@ -805,7 +817,7 @@ It also supports selecting a line range:
 :::
 
 ::: zh-CN
-**部分文件**
+**文件分组**
 :::
 
 ::: code-group
