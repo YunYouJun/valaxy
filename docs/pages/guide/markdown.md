@@ -439,7 +439,9 @@ This is helpful if source language cannot be inferred from your file extension.
 如果无法从文件扩展名推断源语言，这将很有帮助。
 :::
 
-## Code Groups
+## Code Groups {lang="en"}
+
+## 代码分组 {lang="zh-CN"}
 
 ::: en
 You can group multiple code blocks like this:
@@ -563,7 +565,9 @@ You can also [import snippets](#import-code-snippets) in code groups:
 
 :::
 
-## Container
+## Container {lang="en"}
+
+## 容器 {lang="zh-CN"}
 
 ::: zh-CN
 
@@ -634,20 +638,12 @@ More information about $\KaTeX$ examples can be found [here](/examples/katex).
 **输入**
 :::
 
+
 ```md
-::: en
 When $a \ne 0$, there are two solutions to $(ax^2 + bx + c = 0)$ and they are
 $$ x = {-b \pm \sqrt{b^2-4ac} \over 2a} $$
 
 **Maxwell's equations:**
-:::
-
-::: zh-CN
-当 $a \ne 0$时，$(ax^2 + bx + c = 0)$ 有两个解，他们是
-$$ x = {-b \pm \sqrt{b^2-4ac} \over 2a} $$
-
-**麦克斯韦方程：**
-:::
 
 | equation                                                                                                                                                                  | description                                                                            |
 | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------- |
@@ -658,17 +654,14 @@ $$ x = {-b \pm \sqrt{b^2-4ac} \over 2a} $$
 
 ::: en
 **Output**
-:::
-
-::: zh-CN
-**输出**
-:::
-
-::: en
 When $a \ne 0$, there are two solutions to $(ax^2 + bx + c = 0)$ and they are
 $$ x = {-b \pm \sqrt{b^2-4ac} \over 2a} $$
 
 **Maxwell's equations:**
+:::
+
+::: zh-CN
+**输出**
 :::
 
 ::: zh-CN
