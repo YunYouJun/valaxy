@@ -27,6 +27,6 @@
   },
   "devDependencies": {
     "nodemon": "^3.0.3",
-    "vite-plugin-pwa": "^0.17.4"
+    "vite-plugin-pwa": "^0.17.5"
   }
 }

@@ -20,9 +20,9 @@
     "valaxy-theme-press": "link:../packages/valaxy-theme-press"
   },
   "devDependencies": {
-    "@iconify-json/simple-icons": "^1.1.88",
+    "@iconify-json/simple-icons": "^1.1.89",
     "nodemon": "^3.0.3",
     "vite": "^5.0.12",
-    "vitepress": "1.0.0-rc.39"
+    "vitepress": "1.0.0-rc.40"
   }
 }

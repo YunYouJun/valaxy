@@ -1,6 +1,6 @@
 <script lang="ts" setup>
-import { ref, watch } from 'vue'
-import { useAppStore, useLayout } from 'valaxy'
+import { ref } from 'vue'
+import { useAppStore } from 'valaxy'
 
 defineProps<{
   showHamburger?: boolean
@@ -8,13 +8,6 @@ defineProps<{
 
 const app = useAppStore()
 const showOverview = ref(false)
-
-const isHome = useLayout('home')
-watch(isHome, () => {
-  app.isSidebarOpen = !isHome.value
-}, {
-  immediate: true,
-})
 </script>
 
 <template>
