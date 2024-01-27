@@ -3,7 +3,9 @@
   "version": "0.0.2",
   "description": "Common Components for Valaxy",
   "homepage": "https://github.com/YunYouJun/valaxy/tree/main/packages/valaxy-addon-components",
-  "repository": "https://github.com/YunYouJun/valaxy/tree/main/packages/valaxy-addon-components",
+  "repository": {
+    "url": "https://github.com/YunYouJun/valaxy/tree/main/packages/valaxy-addon-components"
+  },
   "keywords": [
     "valaxy",
     "addon",
