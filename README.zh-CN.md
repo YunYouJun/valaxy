@@ -62,7 +62,7 @@ pnpm create valaxy
   - [Netlify](https://www.netlify.com/) with `netlify.toml`
   - [GitHub Pages](https://pages.github.com/) with `.github/workflows/gh-pages.yml` [GitHub Actions](https://github.com/features/actions)
 - ♻️ 使用任意 Vite 插件
-  - 📲 可以通过 [vite-plugin-pwa](https://github.com/antfu/vite-plugin-pwa>) 使用 PWA
+  - 📲 可以通过 [vite-plugin-pwa](https://github.com/antfu/vite-plugin-pwa) 使用 PWA
 - ...
 
 ## 开发
