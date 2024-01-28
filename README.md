@@ -62,7 +62,7 @@ For a example, you can see [demo/yun](./demo/yun/) folder.
   - [Netlify](https://www.netlify.com/) with `netlify.toml`
   - [GitHub Pages](https://pages.github.com/) with `.github/workflows/gh-pages.yml` [GitHub Actions](https://github.com/features/actions)
 - ♻️ Use any vite plugins
-  - 📲 You can implement PWA by [vite-plugin-pwa](https://github.com/antfu/vite-plugin-pwa>)
+  - 📲 You can implement PWA by [vite-plugin-pwa](https://github.com/antfu/vite-plugin-pwa)
 - ...
 
 ## Dev
