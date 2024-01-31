@@ -860,7 +860,7 @@ We integrated [UnoCSS](https://unocss.dev), so you can use it in your markdown f
 :::
 
 ::: zh-CN
-我们集成了 [UnoCSS](https://unocss.dev)，因此您可以在标记符文件中使用它。
+我们集成了 [UnoCSS](https://unocss.dev)，因此您可以在 Markdown 文件中直接使用它。
 :::
 
 ::: en
