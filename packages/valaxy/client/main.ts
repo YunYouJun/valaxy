@@ -21,6 +21,9 @@ import 'uno.css'
 
 import setupMain from './setup/main'
 
+// @ts-expect-error virtual module
+import { redirectRoutes, useVueRouter } from '/@valaxyjs/redirects'
+
 /**
  * register global components
  * @param ctx
@@ -35,6 +38,9 @@ routes.forEach((i) => {
     j.path = encodeURI(j.path)
   })
 })
+
+if (useVueRouter)
+  routes.push(...JSON.parse(redirectRoutes))
 
 // filter children recursive
 function filterDraft(routes: any[]) {

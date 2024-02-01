@@ -1,6 +1,6 @@
 import { writeFile } from 'node:fs/promises'
 import { ensureFile } from 'fs-extra'
-import type { RedirectRule } from 'valaxy/types'
+import type { RedirectItem, RedirectRule } from 'valaxy/types'
 
 function handleRoute(route: string) {
   if (route === '/')
@@ -10,14 +10,12 @@ function handleRoute(route: string) {
   return route
 }
 
-interface RedirectItem {
-  from: string
-  to: string
-}
+export function collectRedirects(redirectRules?: RedirectRule[]): RedirectItem[] {
+  if (!redirectRules)
+    return []
 
-export function collectRedirects(redirectRule: RedirectRule[]) {
   const redirects: RedirectItem[] = []
-  for (const rule of redirectRule) {
+  for (const rule of redirectRules) {
     if (Array.isArray(rule.from)) {
       for (const from of rule.from) {
         redirects.push({

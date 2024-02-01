@@ -8,7 +8,7 @@ import { ensureSuffix, uniq } from '@antfu/utils'
 import defu from 'defu'
 import { blue, cyan, magenta, yellow } from 'picocolors'
 import consola from 'consola'
-import type { DefaultTheme, RuntimeConfig } from 'valaxy/types'
+import type { DefaultTheme, RedirectItem, RuntimeConfig } from 'valaxy/types'
 import { resolveImportPath } from './utils'
 import {
   defaultValaxyConfig,
@@ -23,6 +23,7 @@ import { parseAddons } from './utils/addons'
 import { getThemeRoot } from './utils/theme'
 import { resolveSiteConfig } from './config/site'
 import { countPerformanceTime } from './utils/performance'
+import { collectRedirects } from './utils/clientRedirects'
 
 // for cli entry
 export interface ValaxyEntryOptions {
@@ -88,6 +89,7 @@ export interface ResolvedValaxyOptions<ThemeConfig = DefaultTheme.Config> {
    * Record<package-name, OptionResolver>
    */
   addons: ValaxyAddonResolver[]
+  redirects: RedirectItem[]
 }
 
 export interface ValaxyServerOptions {
@@ -190,6 +192,8 @@ export async function resolveOptions(
 
   const { config: themeConfig, configFile: themeConfigFile } = resolvedTheme
 
+  const redirects = collectRedirects(siteConfig.redirects?.rules)
+
   // merge with valaxy
   userValaxyConfig = defu<ValaxyNodeConfig, any>({ siteConfig }, { themeConfig }, userValaxyConfig)
 
@@ -220,6 +224,7 @@ export async function resolveOptions(
     themeConfigFile: themeConfigFile || '',
     pages: pages.sort(),
     addons: [],
+    redirects,
   }
   debug(valaxyOptions)
 
