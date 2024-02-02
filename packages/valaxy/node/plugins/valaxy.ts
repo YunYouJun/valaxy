@@ -8,8 +8,9 @@ import fs from 'fs-extra'
 import type { Plugin, ResolvedConfig } from 'vite'
 import { defu } from 'defu'
 import pascalCase from 'pascalcase'
-import type { DefaultTheme, PageDataPayload, Pkg, RedirectItem, SiteConfig } from 'valaxy/types'
+import type { DefaultTheme, PageDataPayload, Pkg, SiteConfig } from 'valaxy/types'
 import { dim, yellow } from 'picocolors'
+import type { RouteRecordRaw } from 'vue-router'
 import { defaultSiteConfig, mergeValaxyConfig, resolveSiteConfig, resolveUserThemeConfig } from '../config'
 import type { ResolvedValaxyOptions, ValaxyServerOptions } from '../options'
 import { processValaxyOptions, resolveOptions, resolveThemeValaxyConfig } from '../options'
@@ -20,6 +21,21 @@ import { checkMd } from '../markdown/check'
 import { vLogger } from '../logger'
 import { countPerformanceTime } from '../utils/performance'
 import { isProd } from '../utils/env'
+
+function generateConfig(options: ResolvedValaxyOptions) {
+  const routes = options.redirects.map<RouteRecordRaw>((redirect) => {
+    return {
+      path: redirect.from,
+      redirect: redirect.to,
+    }
+  })
+  options.config.runtimeConfig.redirects = {
+    useVueRouter: isProd() ? options.config.siteConfig.redirects!.useVueRouter! : true,
+    redirectRoutes: routes,
+  }
+
+  return `export default ${JSON.stringify(JSON.stringify(options.config))}`
+}
 
 /**
  * for /@valaxyjs/styles
@@ -114,20 +130,6 @@ function generateAppVue(root: string) {
   return scripts.join('\n')
 }
 
-function generateRedirectRoutes(redirects: RedirectItem[], useVueRouter: boolean = true) {
-  const routes = redirects.map((redirect) => {
-    return {
-      path: redirect.from,
-      redirect: redirect.to,
-    }
-  })
-
-  return `
-  export const redirectRoutes = ${JSON.stringify(JSON.stringify(routes))}
-  export const useVueRouter = ${isProd() ? useVueRouter.toString() : 'true'}
-  `
-}
-
 /**
  * create valaxy plugin (virtual modules)
  * @internal
@@ -179,7 +181,7 @@ export function createValaxyPlugin(options: ResolvedValaxyOptions, serverOptions
     load(id) {
       if (id === '/@valaxyjs/config')
         // stringify twice for \"
-        return `export default ${JSON.stringify(JSON.stringify(valaxyConfig))}`
+        return generateConfig(options)
 
       if (id === '/@valaxyjs/context') {
         return `export default ${JSON.stringify(JSON.stringify({
@@ -203,9 +205,6 @@ export function createValaxyPlugin(options: ResolvedValaxyOptions, serverOptions
 
       if (id === '/@valaxyjs/ThemeAppVue')
         return generateAppVue(options.themeRoot)
-
-      if (id === '/@valaxyjs/redirects')
-        return generateRedirectRoutes(options.redirects, valaxyConfig.siteConfig.redirects?.useVueRouter)
 
       if (id.startsWith(valaxyPrefix)) {
         return {

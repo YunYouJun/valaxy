@@ -1,6 +1,7 @@
 import type { ZoomOptions } from 'medium-zoom'
 import type { FuseOptions } from '@vueuse/integrations/useFuse'
 import type { ILazyLoadOptions } from 'vanilla-lazyload'
+import type { RouteRecordRaw } from 'vue-router'
 import type { ValaxyAddon } from '../types'
 import type { DefaultTheme } from './default-theme'
 import type { PostFrontMatter } from './posts'
@@ -343,6 +344,10 @@ export type PartialDeep<T> = {
  */
 export interface RuntimeConfig {
   addons: Record<string, ValaxyAddon>
+  redirects: {
+    useVueRouter: boolean
+    redirectRoutes: RouteRecordRaw[]
+  }
 }
 
 export interface Pkg {

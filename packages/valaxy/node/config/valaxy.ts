@@ -26,7 +26,13 @@ export const defaultValaxyConfig: ValaxyNodeConfig = {
   // markdown: {
   //   excerpt: '<!-- more -->',
   // },
-  runtimeConfig: { addons: {} },
+  runtimeConfig: {
+    addons: {},
+    redirects: {
+      useVueRouter: true,
+      redirectRoutes: [],
+    },
+  },
 
   modules: {
     rss: {

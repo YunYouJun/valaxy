@@ -89,6 +89,9 @@ export interface ResolvedValaxyOptions<ThemeConfig = DefaultTheme.Config> {
    * Record<package-name, OptionResolver>
    */
   addons: ValaxyAddonResolver[]
+  /**
+   * Collect redirect rule
+   */
   redirects: RedirectItem[]
 }
 
@@ -139,6 +142,10 @@ export async function processValaxyOptions(valaxyOptions: ResolvedValaxyOptions,
     ...config,
     runtimeConfig: {
       addons: {},
+      redirects: {
+        useVueRouter: true,
+        redirectRoutes: [],
+      },
     },
   }
   valaxyOptions.addons = addons
@@ -217,7 +224,13 @@ export async function resolveOptions(
     theme,
     config: {
       ...userValaxyConfig,
-      runtimeConfig: { addons: {} },
+      runtimeConfig: {
+        addons: {},
+        redirects: {
+          useVueRouter: true,
+          redirectRoutes: [],
+        },
+      },
     },
     configFile: configFile || '',
     siteConfigFile: siteConfigFile || '',

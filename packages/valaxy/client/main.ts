@@ -21,8 +21,7 @@ import 'uno.css'
 
 import setupMain from './setup/main'
 
-// @ts-expect-error virtual module
-import { redirectRoutes, useVueRouter } from '/@valaxyjs/redirects'
+const valaxyConfig = initValaxyConfig()
 
 /**
  * register global components
@@ -32,15 +31,16 @@ export function registerComponents(ctx: ViteSSGContext) {
   ctx.app.component('AppLink', AppLink)
 }
 
+const { redirectRoutes, useVueRouter } = valaxyConfig.value.runtimeConfig.redirects
+if (useVueRouter)
+  routes.push(...redirectRoutes)
+
 // fix chinese path
 routes.forEach((i) => {
-  i.children?.forEach((j) => {
+  i?.children?.forEach((j) => {
     j.path = encodeURI(j.path)
   })
 })
-
-if (useVueRouter)
-  routes.push(...JSON.parse(redirectRoutes))
 
 // filter children recursive
 function filterDraft(routes: any[]) {
@@ -72,10 +72,10 @@ export const createApp = ViteSSG(
   (ctx) => {
     // app-level provide
     const { app } = ctx
-    const config = initValaxyConfig()
-    app.provide(valaxyConfigSymbol, config)
+
+    app.provide(valaxyConfigSymbol, valaxyConfig)
 
     registerComponents(ctx)
-    setupMain(ctx, config)
+    setupMain(ctx, valaxyConfig)
   },
 )
