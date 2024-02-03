@@ -9,51 +9,7 @@ categories:
 
 > [packages/valaxy/node/type.ts](https://github.com/YunYouJun/valaxy/blob/main/packages/valaxy/node/types.ts)
 
-```ts
-// types
-export interface ValaxyExtendConfig {
-  /**
-   * Markdown Feature
-   */
-  features: {
-    /**
-     * enable katex for global
-     */
-    katex: boolean
-  }
-
-  vite?: ViteUserConfig
-  vue?: Parameters<typeof Vue>[0]
-  components?: Parameters<typeof Components>[0]
-  unocss?: UnoCSSConfig
-  /**
-   * unocss presets
-   */
-  unocssPresets?: {
-    uno?: Parameters<typeof presetUno>[0]
-    attributify?: Parameters<typeof presetAttributify>[0]
-    icons?: Parameters<typeof presetIcons>[0]
-    typography?: Parameters<typeof presetTypography>[0]
-  }
-  pages?: Parameters<typeof Pages>[0]
-  /**
-   * for markdown
-   */
-  markdown?: MarkdownOptions
-  extendMd?: (ctx: {
-    route: {
-      meta: { frontmatter: Record<string, any>, layout?: string } & object
-      path: string
-      component: string
-    }
-    data: Readonly<Record<string, any>>
-    content: string
-    excerpt?: string
-    path: string
-  }) => void
-  addons?: ValaxyAddons
-}
-```
+<<< @/../packages/valaxy/node/types.ts
 
 ::: zh-CN
 所以，你可以像这样使用：
@@ -98,6 +54,25 @@ export default defineValaxyConfig<ThemeConfig>({
   addons: [
     addonComponents()
   ],
+})
+```
+
+### @vitejs/plugin-vue
+
+Valaxy 默认集成了 [`@vitejs/plugin-vue`](https://github.com/vitejs/vite-plugin-vue/tree/main/packages/plugin-vue) 插件，你可以通过 `vue` 配置项进行配置。
+
+```ts
+// valaxy.config.ts
+import { defineValaxyConfig } from 'valaxy'
+
+export default defineValaxyConfig({
+  vue: {
+    template: {
+      compilerOptions: {
+        isCustomElement: tag => tag.startsWith('my-')
+      }
+    }
+  }
 })
 ```
 

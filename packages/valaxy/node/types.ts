@@ -68,6 +68,10 @@ export interface ValaxyExtendConfig {
   }
 
   vite?: ViteUserConfig
+  /**
+   * @vitejs/plugin-vue options
+   * @see https://github.com/vitejs/vite-plugin-vue/blob/main/packages/plugin-vue/README.md
+   */
   vue?: Parameters<typeof Vue>[0]
   // unplugin
   components?: Parameters<typeof Components>[0]

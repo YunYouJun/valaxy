@@ -64,7 +64,7 @@ pnpm create valaxy
   - `index.ts`: 主题的 Composition API 入口文件
   - `post.ts`: 主题的文章相关的辅助函数
 - `docs`: 主题的文档（自由用你喜欢的结构组织并展示吧！）
-  > 处于定制化与 [DogFooding](https://zh.wikipedia.org/zh-sg/%E5%90%83%E8%87%AA%E5%B7%B1%E7%9A%84%E7%8B%97%E7%B2%AE) 的考虑，Valaxy 的文档采用自身制作，并制作了一个文档主题 [valaxy-theme-press](https://github.com/YunYouJun/valaxy/tree/main/packages/valaxy-theme-press)，如果你只是想要一个简单轻量的文档站点，[Vitepress](https://vitepress.vuejs.org/) 是个不错的选择。（[valaxy-theme-starter](https://github.com/valaxyjs/valaxy-theme-starter) 在未来也许会内置该示例模版。）
+  > 出于定制化与 [DogFooding](https://zh.wikipedia.org/zh-sg/%E5%90%83%E8%87%AA%E5%B7%B1%E7%9A%84%E7%8B%97%E7%B2%AE) 的考虑，Valaxy 的文档采用自身制作，并制作了一个文档主题 [valaxy-theme-press](https://github.com/YunYouJun/valaxy/tree/main/packages/valaxy-theme-press)，如果你只是想要一个简单轻量的文档站点，[Vitepress](https://vitepress.vuejs.org/) 是个不错的选择。（[valaxy-theme-starter](https://github.com/valaxyjs/valaxy-theme-starter) 在未来也许会内置该示例模版。）
   - `en-US`: 英文文档
   - `zh-CN`: 中文文档
 - `features`: 主题特色功能，一些不依赖于 Vue Composition API 的功能（区别于 `composables`）
@@ -419,6 +419,8 @@ Valaxy 决定通过插件中心化地提供各类封装好的评论组件和辅�
 > 集成参见 [valaxy-addon-waline](https://github.com/YunYouJun/valaxy/blob/main/packages/valaxy-addon-waline/README.md)。
 
 ## FAQ
+
+### 提醒特殊需求的用户安装第三方插件
 
 如果您的主题适配了多个 Addon（如 `valaxy-addon-waline`/`valaxy-addon-twikoo`），但用户并非都需要安装。
 当用户没有主动安装对应 addon 时（即 addon 不存在的情况），则会默认重定向至一个空函数。
