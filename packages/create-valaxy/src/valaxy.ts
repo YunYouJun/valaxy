@@ -216,7 +216,7 @@ export async function init() {
     )
   }
   else {
-    yes = true
+    yes = false
   }
 
   if (yes) {
