@@ -28,6 +28,13 @@ export async function init() {
   const argTargetDir = formatTargetDir(argv._[0])
   const argTemplate = argv.template || argv.t
 
+  /**
+   * default: false
+   * @type {boolean}
+   */
+  const argYes = argv.y || argv.yes
+  const argPort = argv.port || argv.p
+
   let targetDir = argTargetDir || defaultTargetDir
   const getProjectName = () =>
     targetDir === '.' ? path.basename(path.resolve()) : targetDir
@@ -37,73 +44,105 @@ export async function init() {
     >
 
   // get template
-  const { template } = await prompts({
-    type:
-            argTemplate && TEMPLATE_CHOICES.includes(argTemplate) ? null : 'select',
-    name: 'template',
-    message:
-            typeof argTemplate === 'string' && !TEMPLATE_CHOICES.includes(argTemplate)
-              ? reset(
-                  `"${argTemplate}" isn't a valid template. Please choose from below: `,
-              )
-              : reset('Select a type:'),
-    initial: 0,
-    choices: TEMPLATES.map((template) => {
-      const tColor = template.color
-      return {
-        title: tColor(template.display || template.name) + dim(` - ${template.desc}`),
-        value: template,
-      }
-    }),
-  })
+  let template = TEMPLATES[0]
 
-  try {
-    result = await prompts([
-      {
-        type: argTargetDir ? null : 'text',
-        name: 'projectName',
-        message: reset(template.message),
-        initial: template.initial,
-        onState: (state) => {
-          targetDir = formatTargetDir(template.prefix ? template.prefix + state.value : state.value) || (template.initial)
-        },
-      },
-      {
-        type: () =>
-          !fs.existsSync(targetDir) || isEmpty(targetDir) ? null : 'confirm',
-        name: 'overwrite',
-        message: () =>
-          `${targetDir === '.'
-              ? 'Current directory'
-              : `Target directory "${targetDir}"`
-            } is not empty. Remove existing files and continue?`,
-      },
-      {
-        type: (_, { overwrite }: { overwrite?: boolean }) => {
-          if (overwrite === false)
-            throw new Error(`${red('✖')} Operation cancelled`)
-
-          return null
-        },
-        name: 'overwriteChecker',
-      },
-      {
-        type: () => (isValidPackageName(getProjectName()) ? null : 'text'),
-        name: 'packageName',
-        message: reset('Package name:'),
-        initial: () => toValidPackageName(getProjectName()),
-        validate: dir =>
-          isValidPackageName(dir) || 'Invalid package.json name',
-      },
-    ], {
-      onCancel: () => {
-        throw new Error(`${red('✖')} Operation cancelled`)
-      },
+  if (!argYes) {
+    const templateRes = await prompts({
+      type:
+              argTemplate && TEMPLATE_CHOICES.includes(argTemplate) ? null : 'select',
+      name: 'template',
+      message:
+              typeof argTemplate === 'string' && !TEMPLATE_CHOICES.includes(argTemplate)
+                ? reset(
+                    `"${argTemplate}" isn't a valid template. Please choose from below: `,
+                )
+                : reset('Select a type:'),
+      initial: 0,
+      choices: TEMPLATES.map((template) => {
+        const tColor = template.color
+        return {
+          title: tColor(template.display || template.name) + dim(` - ${template.desc}`),
+          value: template,
+        }
+      }),
     })
+    template = templateRes.template
+
+    try {
+      result = await prompts([
+        {
+          type:
+                  argTemplate && TEMPLATE_CHOICES.includes(argTemplate) ? null : 'select',
+          name: 'template',
+          message:
+                  typeof argTemplate === 'string' && !TEMPLATE_CHOICES.includes(argTemplate)
+                    ? reset(
+                        `"${argTemplate}" isn't a valid template. Please choose from below: `,
+                    )
+                    : reset('Select a type:'),
+          initial: 0,
+          choices: TEMPLATES.map((template) => {
+            const tColor = template.color
+            return {
+              title: tColor(template.display || template.name) + dim(` - ${template.desc}`),
+              value: template,
+            }
+          }),
+        },
+        {
+          type: argTargetDir ? null : 'text',
+          name: 'projectName',
+          message: reset(template.message),
+          initial: template.initial,
+          onState: (state) => {
+            targetDir = formatTargetDir(template.prefix ? template.prefix + state.value : state.value) || (template.initial)
+          },
+        },
+        {
+          type: () =>
+            !fs.existsSync(targetDir) || isEmpty(targetDir) ? null : 'confirm',
+          name: 'overwrite',
+          message: () =>
+            `${targetDir === '.'
+                ? 'Current directory'
+                : `Target directory "${targetDir}"`
+              } is not empty. Remove existing files and continue?`,
+        },
+        {
+          type: (_, { overwrite }: { overwrite?: boolean }) => {
+            if (overwrite === false)
+              throw new Error(`${red('✖')} Operation cancelled`)
+
+            return null
+          },
+          name: 'overwriteChecker',
+        },
+        {
+          type: () => (isValidPackageName(getProjectName()) ? null : 'text'),
+          name: 'packageName',
+          message: reset('Package name:'),
+          initial: () => toValidPackageName(getProjectName()),
+          validate: dir =>
+            isValidPackageName(dir) || 'Invalid package.json name',
+        },
+      ], {
+        onCancel: () => {
+          throw new Error(`${red('✖')} Operation cancelled`)
+        },
+      })
+    }
+    catch (cancelled: any) {
+      console.log(cancelled.message)
+      return
+    }
   }
-  catch (cancelled: any) {
-    console.log(cancelled.message)
-    return
+  else {
+    // default
+    result = {
+      projectName: targetDir,
+      overwrite: false,
+      packageName: toValidPackageName(getProjectName()),
+    }
   }
 
   const { projectName, overwrite } = result
@@ -162,30 +201,48 @@ export async function init() {
   if (template.name === 'addon')
     return
 
-  /**
-   * @type {{ yes: boolean }}
-   */
-  const { yes } = await prompts({
-    type: 'confirm',
-    name: 'yes',
-    initial: 'Y',
-    message: 'Install and start it now?',
-  })
+  let yes: boolean | undefined
+  if (!argYes) {
+    /**
+     * @type {{ yes: boolean }}
+     */
+    (
+      { yes } = await prompts({
+        type: 'confirm',
+        name: 'yes',
+        initial: 'Y',
+        message: 'Install and start it now?',
+      })
+    )
+  }
+  else {
+    yes = true
+  }
 
   if (yes) {
-    const { agent } = await prompts({
-      name: 'agent',
-      type: 'select',
-      message: 'Choose the agent',
-      choices: ['npm', 'yarn', 'pnpm'].map(i => ({ value: i, title: i })),
-      initial: 2,
-    })
+    let agent: string | undefined
+
+    if (!argYes) {
+      (
+        { agent } = await prompts({
+          name: 'agent',
+          type: 'select',
+          message: 'Choose the agent',
+          choices: ['npm', 'yarn', 'pnpm'].map(i => ({ value: i, title: i })),
+          initial: 2,
+        })
+      )
+    }
+    else {
+      agent = 'pnpm'
+    }
 
     if (!agent)
       return
 
     await execa(agent, ['install'], { stdio: 'inherit', cwd: root })
-    await execa(agent, ['run', 'dev'], { stdio: 'inherit', cwd: root })
+    const devArgs = argPort ? ['run', 'dev', '--port', argPort] : ['run', 'dev']
+    await execa(agent, devArgs, { stdio: 'inherit', cwd: root })
   }
   else {
     console.log(dim('\n  start it later by:\n'))

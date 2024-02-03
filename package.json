@@ -23,6 +23,7 @@
   "scripts": {
     "build:all": "pnpm -r --filter=./packages/** --parallel run build",
     "build": "pnpm run build:valaxy",
+    "build:create-valaxy": "pnpm -C packages/create-valaxy run build",
     "build:valaxy": "pnpm -C packages/valaxy run build",
     "build:demo": "pnpm -C demo/yun run build",
     "build:demo:ssg": "pnpm -C demo/yun run build:ssg",

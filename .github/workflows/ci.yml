@@ -134,7 +134,7 @@ jobs:
         uses: cypress-io/github-action@v4
         with:
           install-command: echo
-          build: pnpm run ci
+          build: pnpm run ci && pnpm build:create-valaxy && node packages/create-valaxy/dist/index.mjs -y --port 4861
           start: pnpm demo, pnpm run docs:dev
           # These flags can only be used when recording to Cypress Cloud.
           # parallel: true

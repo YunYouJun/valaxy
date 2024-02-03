@@ -1,6 +1,20 @@
 import { defineConfig } from 'cypress'
 
-const baseUrl = 'http://localhost:4860/'
+const ports = {
+  'docs': 4859,
+  'theme-yun': 4860,
+  'create-valaxy': 4861,
+}
+
+// ports to env url
+const env = Object.fromEntries(
+  Object.entries(ports).map(([key, value]) => [
+    key,
+    `http://localhost:${value}/`,
+  ]),
+)
+
+const baseUrl = env['theme-yun']
 
 export default defineConfig({
   projectId: 'valaxy',
@@ -10,8 +24,5 @@ export default defineConfig({
     specPattern: 'cypress/e2e/**/*.spec.*',
     supportFile: false,
   },
-  env: {
-    'docs': 'http://localhost:4859/',
-    'theme-yun': baseUrl,
-  },
+  env,
 })
