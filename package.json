@@ -30,7 +30,7 @@
     "build:cf:docs": "tsx scripts/build-cf-docs.ts",
     "build:docs": "pnpm -C docs run build",
     "build:devtools": "pnpm -C packages/devtools run build",
-    "ci": "pnpm run build && pnpm -C demo/yun run fuse",
+    "ci": "pnpm run build && pnpm -C demo/yun run fuse && pnpm build:create-valaxy && node packages/create-valaxy/dist/index.mjs -y",
     "ci:publish": "pnpm -r publish --access public --no-git-checks",
     "demo": "pnpm run demo:yun",
     "demo:build": "pnpm -C demo/yun run build",
