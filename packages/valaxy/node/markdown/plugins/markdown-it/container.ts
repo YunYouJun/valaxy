@@ -18,7 +18,7 @@ type ContainerArgs = [
   typeof container,
   string,
   {
-    render(tokens: Token[], idx: number): string
+    render: (tokens: Token[], idx: number) => string
   },
 ]
 

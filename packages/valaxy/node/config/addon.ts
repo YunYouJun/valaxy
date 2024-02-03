@@ -14,7 +14,7 @@ export function defineValaxyAddon<AddonOptions = object>(
 }
 export const defineAddon = defineValaxyAddon
 
-export async function resolveAddonConfig(addons: ValaxyAddonResolver[], _options?: ResolvedValaxyOptions) {
+export async function resolveAddonsConfig(addons: ValaxyAddonResolver[], options: ResolvedValaxyOptions) {
   let valaxyConfig: ValaxyNodeConfig = {} as ValaxyNodeConfig
   for (const addon of addons) {
     // unconfig get node_modules/valaxy-addon-xxx/valaxy.config.ts(not exist) but get userRoot/valaxy.config.ts
@@ -22,7 +22,7 @@ export async function resolveAddonConfig(addons: ValaxyAddonResolver[], _options
     if (!fs.existsSync(path.resolve(addon.root, 'valaxy.config.ts')))
       continue
 
-    const { config, configFile } = await resolveValaxyConfigFromRoot(addon.root)
+    const { config, configFile } = await resolveValaxyConfigFromRoot(addon.root, options)
     if (!config)
       continue
 
