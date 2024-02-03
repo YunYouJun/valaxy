@@ -145,11 +145,14 @@ export default defineSiteConfig({
     enable: true,
   },
 
-  redirects: [
-    {
-      from: '/foo',
-      to: '/about',
-    },
-  ],
+  redirects: {
+    useVueRouter: true,
+    rules: [
+      {
+        from: '/foo',
+        to: '/about',
+      },
+    ],
+  },
 
 })

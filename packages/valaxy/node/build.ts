@@ -76,12 +76,14 @@ export async function postProcessForSSG(options: ResolvedValaxyOptions) {
     }
   }
 
-  await generateClientRedirects(options)
+  if (!options.config.siteConfig.redirects?.useVueRouter)
+    await generateClientRedirects(options)
 }
 
 export async function generateClientRedirects(options: ResolvedValaxyOptions) {
+  consola.info('generate client redirects...')
   const outputPath = resolve(options.userRoot, 'dist')
-  const redirectRules = collectRedirects(options.config.siteConfig?.redirects ?? [])
+  const redirectRules = collectRedirects(options.redirects)
 
   const task = redirectRules.map(async (rule) => {
     const fromPath = join(outputPath, `${rule.from}.html`)

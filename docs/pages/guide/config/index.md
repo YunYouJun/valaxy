@@ -575,28 +575,23 @@ Examples can be found in [Partial Content Encryption](/examples/partial-content-
 
 ### Client Redirects {lang="en"}
 
-::: zh-CN
-这会生成额外的 HTML 页面，用与跳转到 valaxy 中已有的页面。
-:::
-
-::: en
-This will generate additional HTML pages, used to jump to the valaxy's existing pages.
-:::
-
-::: tip
-
-<div lang="zh-CN">
-客户端重定向只在 SSG build 时启用
-</div>
-
-<div lang="en">
-Client redirects will only be enabled in SSG build
-</div>
-
-:::
+```ts
+interface Redirects {
+  // https://router.vuejs.org/guide/essentials/redirect-and-alias.html
+  // Whether to use VueRouter, default is true
+  useVueRouter?: boolean
+  rules?: RedirectRule[]
+}
+interface RedirectRule {
+  // Redirect original route
+  from: string | string[]
+  // Redirect target route
+  to: string
+}
+```
 
 ::: zh-CN
-例如：
+示例：
 :::
 
 ::: en
@@ -606,16 +601,19 @@ For example:
 ```ts
 // site.config.ts
 export default defineSiteConfig({
-  redirects: [
-    {
-      from: ['/foo', '/bar'],
-      to: '/about',
-    },
-    {
-      from: '/v1/about',
-      to: '/about',
-    },
-  ],
+  redirects: {
+    useVueRouter: true,
+    rules: [
+      {
+        from: ['/foo', '/bar'],
+        to: '/about',
+      },
+      {
+        from: '/v1/about',
+        to: '/about',
+      },
+    ]
+  },
 })
 ```
 
@@ -625,6 +623,50 @@ export default defineSiteConfig({
 
 ::: en
 `/foo`, `/bar`, `/v1/about` these routes will be redirected to `/about`。
+:::
+
+::: zh-CN
+你也可以在 Front Matter 中配置：
+:::
+
+::: en
+You can also set it in the Front Matter:
+:::
+
+```md
+<!-- pages/posts/redirect.md -->
+---
+from:
+  - /redirect/old1
+  - /redirect/old2
+---
+```
+
+```md
+<!-- pages/posts/redirect.md -->
+---
+from: /v1/redirect
+---
+```
+
+::: zh-CN
+`/redirect/old1`, `/redirect/old2`, `/v1/redirect` 这些路由会被重定向到 `/posts/redirect`。
+:::
+
+::: en
+`/redirect/old1`, `/redirect/old2`, `/v1/redirect` these routes will be redirected to `/posts/redirect`。
+:::
+
+::: tip
+
+<div lang="zh-CN">
+在 SSG 构建时，如果 useVueRouter 为 false，则会为每一个源路由生成一个 html 文件
+</div>
+
+<div lang="en">
+When building SSG, if useVueRouter is false, an html file will be generated for each original route
+</div>
+
 :::
 
 ### 图片预览（Medium Zoom） {lang="zh-CN"}

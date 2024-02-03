@@ -60,3 +60,11 @@ declare module 'vue-router' {
     frontmatter: Post
   }
 }
+
+declare module '/@valaxyjs/redirects' {
+  import type { RouteRecordRaw } from 'vue-router'
+
+  export const redirectRoutes: RouteRecordRaw[]
+
+  export const useVueRouter: boolean
+}

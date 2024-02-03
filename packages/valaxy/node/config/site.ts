@@ -97,6 +97,11 @@ export const defaultSiteConfig: SiteConfig = {
     salt: webcrypto.getRandomValues(new Uint8Array(16)),
     iv: webcrypto.getRandomValues(new Uint8Array(16)),
   },
+
+  redirects: {
+    useVueRouter: true,
+    rules: [],
+  },
 }
 
 /**

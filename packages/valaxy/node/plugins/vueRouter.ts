@@ -114,6 +114,23 @@ export function createRouterPlugin(options: ResolvedValaxyOptions) {
         if (!isDate(mdFm.updated))
           mdFm.updated = new Date(mdFm.updated!)
 
+        if (mdFm.from) {
+          if (Array.isArray(mdFm.from)) {
+            mdFm.from.forEach((from) => {
+              options.redirects.push({
+                from,
+                to: route.fullPath,
+              })
+            })
+          }
+          else {
+            options.redirects.push({
+              from: mdFm.from,
+              to: route.fullPath,
+            })
+          }
+        }
+
         // set route meta
         route.addToMeta({
           frontmatter: mdFm,

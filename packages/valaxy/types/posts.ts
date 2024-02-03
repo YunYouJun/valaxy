@@ -176,6 +176,11 @@ export interface PageFrontMatter extends Record<string, any> {
    * @description:zh-CN 限制代码块的高度，单位是 px
    */
   codeHeightLimit?: number
+  /**
+   * @description:en-US Source path for client redirection
+   * @description:zh-CN 客户端重定向的源路径
+   */
+  from?: string | string[]
 }
 
 export interface PostFrontMatter extends PageFrontMatter {

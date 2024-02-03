@@ -10,6 +10,7 @@ import { defu } from 'defu'
 import pascalCase from 'pascalcase'
 import type { DefaultTheme, PageDataPayload, Pkg, SiteConfig } from 'valaxy/types'
 import { dim, yellow } from 'picocolors'
+import type { RouteRecordRaw } from 'vue-router'
 import { defaultSiteConfig, mergeValaxyConfig, resolveSiteConfig, resolveUserThemeConfig } from '../config'
 import type { ResolvedValaxyOptions, ValaxyServerOptions } from '../options'
 import { processValaxyOptions, resolveOptions, resolveThemeValaxyConfig } from '../options'
@@ -19,6 +20,22 @@ import type { ValaxyNodeConfig } from '../types'
 import { checkMd } from '../markdown/check'
 import { vLogger } from '../logger'
 import { countPerformanceTime } from '../utils/performance'
+import { isProd } from '../utils/env'
+
+function generateConfig(options: ResolvedValaxyOptions) {
+  const routes = options.redirects.map<RouteRecordRaw>((redirect) => {
+    return {
+      path: redirect.from,
+      redirect: redirect.to,
+    }
+  })
+  options.config.runtimeConfig.redirects = {
+    useVueRouter: isProd() ? options.config.siteConfig.redirects!.useVueRouter! : true,
+    redirectRoutes: routes,
+  }
+
+  return `export default ${JSON.stringify(JSON.stringify(options.config))}`
+}
 
 /**
  * for /@valaxyjs/styles
@@ -164,7 +181,7 @@ export function createValaxyPlugin(options: ResolvedValaxyOptions, serverOptions
     load(id) {
       if (id === '/@valaxyjs/config')
         // stringify twice for \"
-        return `export default ${JSON.stringify(JSON.stringify(valaxyConfig))}`
+        return generateConfig(options)
 
       if (id === '/@valaxyjs/context') {
         return `export default ${JSON.stringify(JSON.stringify({
