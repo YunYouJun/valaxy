@@ -10,6 +10,11 @@ const themeConfig = useThemeConfig()
 
 const route = useRoute()
 const isPage = computed(() => route.path.startsWith('/page'))
+
+const showNotice = computed(() => {
+  const notice = themeConfig.value.notice
+  return notice.enable && (isPage.value ? !notice.hideInPages : true)
+})
 </script>
 
 <template>
@@ -25,7 +30,7 @@ const isPage = computed(() => route.path.startsWith('/page'))
     </template>
 
     <YunNotice
-      v-if="themeConfig.notice.enable"
+      v-if="showNotice"
       :content="themeConfig.notice.content" mt="4"
     />
 

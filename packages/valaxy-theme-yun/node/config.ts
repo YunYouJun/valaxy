@@ -39,6 +39,7 @@ export const defaultThemeConfig: ThemeConfig = {
 
   notice: {
     enable: false,
+    hideInPages: false,
     content: '',
   },
 

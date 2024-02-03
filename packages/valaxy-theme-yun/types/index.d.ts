@@ -106,6 +106,11 @@ export interface ThemeConfig {
    */
   notice: {
     enable: boolean
+    /**
+     * @en Hide in /pages/[page]
+     * @zh 在 /pages/[page] 中隐藏
+     */
+    hideInPages?: boolean
     content: string
   }
 
