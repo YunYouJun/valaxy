@@ -26,6 +26,7 @@
     "build:valaxy": "pnpm -C packages/valaxy run build",
     "build:demo": "pnpm -C demo/yun run build",
     "build:demo:ssg": "pnpm -C demo/yun run build:ssg",
+    "build:cf:docs": "tsx scripts/build-cf-docs.ts",
     "build:docs": "pnpm -C docs run build",
     "build:devtools": "pnpm -C packages/devtools run build",
     "ci": "pnpm run build && pnpm -C demo/yun run fuse",
