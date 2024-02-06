@@ -47,7 +47,7 @@ export default defineValaxyConfig({
 })
 ```
 
-### Utterances
+## Utterances
 
 > [Utterances](https://utteranc.es/) 是一个基于 GitHub Issues 实现的评论系统。
 
