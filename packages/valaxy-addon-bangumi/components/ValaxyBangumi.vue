@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { defineCustomElements } from 'bilibili-bangumi-component/loader'
+import pkg from 'bilibili-bangumi-component/loader/index.js'
 
 withDefaults(defineProps<{
   api: string
@@ -11,6 +11,8 @@ withDefaults(defineProps<{
   bilibiliEnabled: true,
   bgmEnabled: true,
 })
+
+const { defineCustomElements } = pkg
 
 defineCustomElements()
 </script>
