@@ -1,6 +1,6 @@
 // import { resolve } from 'path'
 import { describe, expect, it } from 'vitest'
-import { createMarkdownRenderer } from '../packages/valaxy/node/markdown'
+import { createMarkdownRenderer } from 'valaxy/node/plugins/markdown/index'
 
 // const mdDir = resolve(__dirname, 'fixtures/markdown')
 

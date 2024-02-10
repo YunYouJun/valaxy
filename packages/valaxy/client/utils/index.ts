@@ -1,4 +1,5 @@
 export * from './cdn'
+export * from './code'
 export * from './helper'
 export * from './time'
 export * from './wrap'

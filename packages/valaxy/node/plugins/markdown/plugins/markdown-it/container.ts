@@ -122,11 +122,6 @@ export function containerPlugin(md: MarkdownIt, options: Options, containerOptio
   })
   md.use(...createCodeGroup(options))
 
-  // explicitly escape Vue syntax
-  md.use(container, 'v-pre', {
-    render: (tokens: Token[], idx: number) => tokens[idx].nesting === 1 ? '<div v-pre>\n' : '</div>\n',
-  })
-
   const languages = ['zh-CN', 'en']
   languages.forEach((lang) => {
     md.use(container, lang, {

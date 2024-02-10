@@ -339,6 +339,9 @@ importers:
       jiti:
         specifier: ^1.21.0
         version: 1.21.0
+      js-base64:
+        specifier: ^3.7.6
+        version: 3.7.6
       katex:
         specifier: ^0.16.9
         version: 0.16.9
@@ -408,6 +411,9 @@ importers:
       unplugin-vue-components:
         specifier: ^0.26.0
         version: 0.26.0(rollup@3.29.4)(vue@3.4.18)
+      unplugin-vue-markdown:
+        specifier: ^0.26.0
+        version: 0.26.0(rollup@3.29.4)(vite@5.1.1)
       unplugin-vue-router:
         specifier: ^0.7.0
         version: 0.7.0(rollup@3.29.4)(vue-router@4.2.5)(vue@3.4.18)
@@ -2834,7 +2840,6 @@ packages:
     dependencies:
       '@types/markdown-it': 13.0.7
       markdown-it: 14.0.0
-    dev: true
 
   /@mdit-vue/plugin-frontmatter@2.0.0:
     resolution: {integrity: sha512-/LrT6E60QI4XV4mqx3J87hqYXlR7ZyMvndmftR2RGz7cRAwa/xL+kyFLlgrMxkBIKitOShKa3LS/9Ov9b0fU+g==}
@@ -2843,7 +2848,6 @@ packages:
       '@types/markdown-it': 13.0.7
       gray-matter: 4.0.3
       markdown-it: 14.0.0
-    dev: true
 
   /@mdit-vue/plugin-headers@2.0.0:
     resolution: {integrity: sha512-ITMMPCnLEYHHgj3XEUL2l75jsNn8guxNqr26YrMSi1f5zcgq4XVy1LIvfwvJ1puqM6Cc5v4BHk3oAyorAi7l1A==}
@@ -2890,7 +2894,6 @@ packages:
 
   /@mdit-vue/types@2.0.0:
     resolution: {integrity: sha512-1BeEB+DbtmDMUAfvbNUj5Hso8cSl2sBVK2iTyOMAqhfDVLdh+/9+D0JmQHaCeUk/vuJoMhOwbweZvh55wHxm4w==}
-    dev: true
 
   /@microsoft/api-extractor-model@7.28.9(@types/node@20.11.17):
     resolution: {integrity: sha512-lM77dV+VO46MGp5lu4stUBnO3jyr+CrDzU+DtapcOQEZUqJxPYUoK5zjeD+gRZ9ckgGMZC94ch6FBkpmsjwQgw==}
@@ -7900,6 +7903,10 @@ packages:
     engines: {node: '>=10'}
     dev: true
 
+  /js-base64@3.7.6:
+    resolution: {integrity: sha512-NPrWuHFxFUknr1KqJRDgUQPexQF0uIJWjeT+2KjEePhitQxQEx5EJBG1lVn5/hc8aLycTpXrDOgPQ6Zq+EDiTA==}
+    dev: false
+
   /js-tokens@4.0.0:
     resolution: {integrity: sha512-RdJUflcE3cUzKiMqQgsCu06FPu9UdIJO0beYbPhHN4k6apgJtifcoCtT9bcxOpYBtpD2kCM6Sbzg4CausW/PKQ==}
     requiresBuild: true
@@ -11344,6 +11351,23 @@ packages:
     transitivePeerDependencies:
       - rollup
       - supports-color
+    dev: false
+
+  /unplugin-vue-markdown@0.26.0(rollup@3.29.4)(vite@5.1.1):
+    resolution: {integrity: sha512-JohVC2KhMklr3OQJB6YfB20E1AZ/K+wV/q+6XtmamyUccr0cmdWRBR5jSS45y4fNtZqN3ULC+02EiD4pmaOqdQ==}
+    peerDependencies:
+      vite: ^2.0.0 || ^3.0.0-0 || ^4.0.0-0 || ^5.0.0-0
+    dependencies:
+      '@mdit-vue/plugin-component': 2.0.0
+      '@mdit-vue/plugin-frontmatter': 2.0.0
+      '@mdit-vue/types': 2.0.0
+      '@rollup/pluginutils': 5.1.0(rollup@3.29.4)
+      '@types/markdown-it': 13.0.7
+      markdown-it: 14.0.0
+      unplugin: 1.6.0
+      vite: 5.1.1(@types/node@20.11.17)(sass@1.70.0)
+    transitivePeerDependencies:
+      - rollup
     dev: false
 
   /unplugin-vue-router@0.7.0(rollup@3.29.4)(vue-router@4.2.5)(vue@3.4.18):

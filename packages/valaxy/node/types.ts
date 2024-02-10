@@ -2,6 +2,7 @@ import type Vue from '@vitejs/plugin-vue'
 
 import type Components from 'unplugin-vue-components/vite'
 import type Layouts from 'vite-plugin-vue-layouts'
+import type Markdown from 'unplugin-vue-markdown/vite'
 import type Router from 'unplugin-vue-router/vite'
 
 import type { VitePluginConfig as UnoCSSConfig } from 'unocss/vite'
@@ -11,7 +12,7 @@ import type { presetAttributify, presetIcons, presetTypography, presetUno } from
 import type { Hookable } from 'hookable'
 import type { DefaultTheme, PartialDeep, ValaxyAddon, ValaxyConfig } from 'valaxy/types'
 import type { ResolvedValaxyOptions } from './options'
-import type { MarkdownOptions } from './markdown/types'
+import type { MarkdownOptions } from './plugins/markdown/types'
 
 export type ValaxyNodeConfig<ThemeConfig = DefaultTheme.Config> = ValaxyConfig<ThemeConfig> & ValaxyExtendConfig
 export type UserValaxyNodeConfig<ThemeConfig = DefaultTheme.Config> = PartialDeep<ValaxyNodeConfig<ThemeConfig>>
@@ -97,7 +98,7 @@ export interface ValaxyExtendConfig {
   /**
    * for markdown
    */
-  markdown?: MarkdownOptions
+  markdown?: MarkdownOptions & Parameters<typeof Markdown>[0]
   extendMd?: (ctx: {
     route: EditableTreeNode
     data: Readonly<Record<string, any>>

@@ -12,14 +12,14 @@ import UnheadVite from '@unhead/addons/vite'
 
 import { resolve } from 'pathe'
 import type { ResolvedValaxyOptions, ValaxyServerOptions } from '../options'
-import { setupMarkdownPlugins } from '../markdown'
 
 import { createUnocssPlugin } from './unocss'
 import { createConfigPlugin } from './extendConfig'
 import { createClientSetupPlugin } from './setupClient'
 import { createFixPlugins } from './patchTransform'
 import { createRouterPlugin } from './vueRouter'
-import { createValaxyPlugin } from './valaxy'
+import { createValaxyLoader } from './valaxy'
+import { createMarkdownPlugin } from './markdown'
 
 // for render markdown excerpt
 export const mdIt = new MarkdownIt({ html: true })
@@ -29,9 +29,6 @@ export async function ViteValaxyPlugins(
   serverOptions: ValaxyServerOptions = {},
 ): Promise<(PluginOption | PluginOption[])[]> {
   const { roots, config: valaxyConfig } = options
-
-  // setup mdIt
-  await setupMarkdownPlugins(mdIt, options, true)
 
   const customElements = new Set([
     // katex
@@ -68,13 +65,15 @@ export async function ViteValaxyPlugins(
     'meting-js',
   ])
 
+  const MarkdownPlugin = await createMarkdownPlugin(options)
+
   return [
-    createValaxyPlugin(options, serverOptions),
+    MarkdownPlugin,
     createConfigPlugin(options),
     createClientSetupPlugin(options),
-
     Vue({
       include: [/\.vue$/, /\.md$/],
+      exclude: [],
       template: {
         compilerOptions: {
           isCustomElement: (tag) => {
@@ -85,6 +84,8 @@ export async function ViteValaxyPlugins(
       },
       ...valaxyConfig.vue,
     }),
+
+    createValaxyLoader(options, serverOptions),
 
     UnheadVite(),
 

@@ -35,7 +35,8 @@ export interface MarkdownEnv {
   title?: string
   path: string
   relativePath: string
-  cleanUrls: CleanUrlsMode
   links?: string[]
   realPath?: string
+
+  cleanUrls?: CleanUrlsMode
 }

@@ -4,7 +4,6 @@ export type CleanUrlsMode =
   | 'disabled'
   | 'without-subfolders'
   | 'with-subfolders'
-
 export interface Header {
   /**
    * The level of the header

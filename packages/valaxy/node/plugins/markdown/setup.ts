@@ -1,4 +1,4 @@
-import MarkdownIt from 'markdown-it'
+import type MarkdownIt from 'markdown-it'
 
 import anchorPlugin from 'markdown-it-anchor'
 import attrsPlugin from 'markdown-it-attrs'
@@ -11,10 +11,7 @@ import TaskLists from 'markdown-it-task-lists'
 import imageFigures from 'markdown-it-image-figures'
 
 import { componentPlugin } from '@mdit-vue/plugin-component'
-import {
-  type FrontmatterPluginOptions,
-  frontmatterPlugin,
-} from '@mdit-vue/plugin-frontmatter'
+
 import {
   type HeadersPluginOptions,
   headersPlugin,
@@ -25,11 +22,10 @@ import { type TocPluginOptions, tocPlugin } from '@mdit-vue/plugin-toc'
 
 import { slugify } from '@mdit-vue/shared'
 import { cssI18nContainer } from 'css-i18n'
-import type { Header } from 'valaxy/types'
-import type { ResolvedValaxyOptions } from '../options'
+
+import type { ResolvedValaxyOptions } from '../../options'
 import Katex from './plugins/markdown-it/katex'
 import { containerPlugin } from './plugins/markdown-it/container'
-import { highlight } from './plugins/highlight'
 import { highlightLinePlugin } from './plugins/markdown-it/highlightLines'
 
 import { linkPlugin } from './plugins/link'
@@ -37,16 +33,7 @@ import { preWrapperPlugin } from './plugins/markdown-it/preWrapper'
 import { lineNumberPlugin } from './plugins/markdown-it/lineNumbers'
 import { snippetPlugin } from './plugins/markdown-it/snippet'
 import type { ThemeOptions } from './types'
-
-export * from './env'
-
-export interface MarkdownParsedData {
-  hoistedTags?: string[]
-  links?: string[]
-  headers?: Header[]
-}
-
-export type MarkdownRenderer = MarkdownIt
+import { createMdItShikiPlugin } from './plugins/markdown-it/shiki'
 
 export const defaultCodeTheme = { light: 'github-light', dark: 'github-dark' } as const as ThemeOptions
 
@@ -63,6 +50,10 @@ export async function setupMarkdownPlugins(
 
   if (mdOptions.preConfig)
     mdOptions.preConfig(md)
+
+  // highlight
+  const shikiPlugin = await createMdItShikiPlugin(options)
+  md.use(shikiPlugin)
 
   // mdit-vue plugins
   md.use(componentPlugin, { ...mdOptions.component })
@@ -121,9 +112,8 @@ export async function setupMarkdownPlugins(
       ...mdOptions.anchor,
     })
   }
-  md.use(frontmatterPlugin, {
-    ...mdOptions.frontmatter,
-  } as FrontmatterPluginOptions)
+
+  md
     .use(headersPlugin, {
       slugify,
       ...(typeof mdOptions.headers === 'boolean' ? undefined : mdOptions.headers),
@@ -166,22 +156,5 @@ export async function setupMarkdownPlugins(
   if (mdOptions.config)
     mdOptions.config(md)
 
-  return md as MarkdownRenderer
-}
-
-export async function createMarkdownRenderer(options?: ResolvedValaxyOptions): Promise<MarkdownRenderer> {
-  const mdOptions = options?.config.markdown || {}
-  const theme = mdOptions.theme ?? defaultCodeTheme
-
-  const md = MarkdownIt({
-    html: true,
-    linkify: true,
-    highlight: await highlight(theme, mdOptions),
-    ...mdOptions.options,
-  }) as MarkdownRenderer
-
-  md.linkify.set({ fuzzyLink: false })
-
-  await setupMarkdownPlugins(md, options)
-  return md
+  return md as MarkdownIt
 }
