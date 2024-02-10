@@ -4,10 +4,10 @@ import type {
   BuiltinTheme,
   Highlighter,
   LanguageInput,
-  ShikijiTransformer,
+  ShikiTransformer,
   ThemeRegistration
   ,
-} from 'shikiji'
+} from 'shiki'
 import type anchorPlugin from 'markdown-it-anchor'
 
 import type { KatexOptions } from 'katex'
@@ -26,7 +26,7 @@ import type { TocPluginOptions } from '@mdit-vue/plugin-toc'
 import type {
   ComponentPluginOptions,
 } from '@mdit-vue/plugin-component'
-import type { Blocks } from './plugins/markdown-it/container'
+import type { Blocks, ContainerOptions } from './plugins/markdown-it/container'
 
 export type ThemeOptions =
   | ThemeRegistration
@@ -56,6 +56,8 @@ export interface MarkdownOptions {
     allowedAttributes?: string[]
     disable?: boolean
   }
+  /* ==================== Syntax Highlighting ==================== */
+
   /**
    * Custom theme for syntax highlighting.
    *
@@ -65,21 +67,21 @@ export interface MarkdownOptions {
    * @example { theme: { light: 'github-light', dark: 'github-dark' } }
    *
    * You can use an existing theme.
-   * @see https://github.com/antfu/shikiji/blob/main/docs/themes.md#all-themes
+   * @see https://shiki.style/themes
    * Or add your own theme.
-   * @see https://github.com/antfu/shikiji/blob/main/docs/themes.md#load-custom-themes
+   * @see https://shiki.style/guide/load-theme
    */
   theme?: ThemeOptions
   /**
    * Languages for syntax highlighting.
-   * @see https://github.com/antfu/shikiji/blob/main/docs/languages.md#all-themes
+   * @see https://shiki.style/languages
    */
   languages?: LanguageInput[]
   /**
    * Custom language aliases.
    *
    * @example { 'my-lang': 'js' }
-   * @see https://github.com/antfu/shikiji/tree/main#custom-language-aliases
+   * @see https://shiki.style/guide/load-lang#custom-language-aliases
    */
   languageAlias?: Record<string, string>
   /**
@@ -93,23 +95,51 @@ export interface MarkdownOptions {
   defaultHighlightLang?: string
   /**
    * Transformers applied to code blocks
-   * @see https://github.com/antfu/shikiji#hast-transformers
+   * @see https://shiki.style/guide/transformers
    */
-  codeTransformers?: ShikijiTransformer[]
+  codeTransformers?: ShikiTransformer[]
   /**
-   * Setup Shikiji instance
+   * Setup Shiki instance
    */
-  shikijiSetup?: (shikiji: Highlighter) => void | Promise<void>
+  shikiSetup?: (shiki: Highlighter) => void | Promise<void>
+
+  /* ==================== Markdown It Plugins ==================== */
   // mdit-vue plugins
+  /**
+   * Options for `@mdit-vue/plugin-frontmatter`
+   * @see https://github.com/mdit-vue/mdit-vue/tree/main/packages/plugin-frontmatter
+   */
   frontmatter?: FrontmatterPluginOptions
-  headers?: HeadersPluginOptions
+  /**
+   * Options for `@mdit-vue/plugin-headers`
+   * @see https://github.com/mdit-vue/mdit-vue/tree/main/packages/plugin-headers
+   */
+  headers?: HeadersPluginOptions | boolean
+  /**
+   * Options for `@mdit-vue/plugin-sfc`
+   * @see https://github.com/mdit-vue/mdit-vue/tree/main/packages/plugin-sfc
+   */
   sfc?: SfcPluginOptions
+  /**
+   * Options for `@mdit-vue/plugin-toc`
+   * @see https://github.com/mdit-vue/mdit-vue/tree/main/packages/plugin-toc
+   */
   toc?: TocPluginOptions
+  /**
+   * Options for `markdown-it-container`
+   * @see https://github.com/markdown-it/markdown-it-container
+   */
+  container?: ContainerOptions
+  /**
+   * Custom block configurations based on `markdown-it-container`
+   */
+  blocks?: Blocks
   /**
    * Options for `@mdit-vue/plugin-component`
    * @see https://github.com/mdit-vue/mdit-vue/tree/main/packages/plugin-component
    */
   component?: ComponentPluginOptions
+
   /**
    * @see [markdown-it-image-figures](https://www.npmjs.com/package/markdown-it-image-figures)
    */
@@ -124,10 +154,6 @@ export interface MarkdownOptions {
    * @see https://katex.org/docs/options.html
    */
   katex?: KatexOptions
-  /**
-   * Custom block configurations
-   */
-  blocks?: Blocks
 
   externalLinks?: Record<string, string>
   /* lazyload?: {

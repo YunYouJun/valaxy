@@ -4,6 +4,7 @@ import type { SiteConfig } from 'valaxy/types'
 import type { ThemeOptions } from '../../types'
 
 export interface Options {
+  hasSingleTheme: boolean
   theme: ThemeOptions
   siteConfig?: SiteConfig
 }
@@ -19,16 +20,7 @@ export function extractLang(info: string) {
 }
 
 export function getAdaptiveThemeMarker(options: Options) {
-  const { theme } = options
-  const hasSingleTheme = typeof theme === 'string' || 'name' in theme
-  let marker = ''
-  if (hasSingleTheme) {
-    marker = ' va-adaptive-theme'
-    const themeName = typeof theme === 'string' ? theme : theme.name
-    const isDark = themeName.includes('dark') || themeName.includes('night')
-    marker = isDark ? ' dark' : ' light'
-  }
-  return marker
+  return options.hasSingleTheme ? '' : ' vp-adaptive-theme'
 }
 
 export function extractTitle(info: string, html = false) {

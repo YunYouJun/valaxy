@@ -111,11 +111,11 @@ const defaultBlocksOptions: ContainerOptions = {
   },
 }
 
-export function containerPlugin(md: MarkdownIt, options: ContainerOptions = {}) {
+export function containerPlugin(md: MarkdownIt, options: Options, containerOptions: ContainerOptions = {}) {
   Object.keys(defaultBlocksOptions).forEach((optionKey) => {
     const option: BlockItem = {
       ...defaultBlocksOptions[optionKey as keyof Blocks],
-      ...(options[optionKey as keyof Blocks] || {}),
+      ...(containerOptions[optionKey as keyof Blocks] || {}),
     }
 
     md.use(...createContainer(optionKey, option))
@@ -135,7 +135,7 @@ export function containerPlugin(md: MarkdownIt, options: ContainerOptions = {}) 
   })
 }
 
-function createCodeGroup(options: ContainerOptions): ContainerArgs {
+function createCodeGroup(options: Options): ContainerArgs {
   return [
     container,
     'code-group',
@@ -177,9 +177,7 @@ function createCodeGroup(options: ContainerOptions): ContainerArgs {
           }
 
           return `<div class="vp-code-group${getAdaptiveThemeMarker(
-            {
-              theme: options.theme!,
-            },
+            options,
           )}"><div class="tabs">${tabs}</div><div class="blocks">\n`
         }
         return `</div></div>\n`

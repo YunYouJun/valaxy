@@ -58,6 +58,7 @@ export async function setupMarkdownPlugins(
 ) {
   const mdOptions = options?.config.markdown || {}
   const theme = mdOptions.theme ?? defaultCodeTheme
+  const hasSingleTheme = typeof theme === 'string' || 'name' in theme
   const siteConfig = options?.config.siteConfig || {}
 
   if (mdOptions.preConfig)
@@ -70,8 +71,10 @@ export async function setupMarkdownPlugins(
     .use(preWrapperPlugin, { theme, siteConfig })
     .use(snippetPlugin, options?.userRoot)
     .use(containerPlugin, {
+      hasSingleTheme,
+    }, {
       ...mdOptions.blocks,
-      theme,
+      ...mdOptions?.container,
     })
     .use(cssI18nContainer, {
       languages: options?.config.siteConfig.languages,
@@ -123,7 +126,7 @@ export async function setupMarkdownPlugins(
   } as FrontmatterPluginOptions)
     .use(headersPlugin, {
       slugify,
-      ...mdOptions.headers,
+      ...(typeof mdOptions.headers === 'boolean' ? undefined : mdOptions.headers),
     } as HeadersPluginOptions)
     .use(sfcPlugin, {
       ...mdOptions.sfc,
