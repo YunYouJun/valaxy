@@ -68,3 +68,9 @@ declare module '/@valaxyjs/redirects' {
 
   export const useVueRouter: boolean
 }
+
+declare module 'mermaid/dist/mermaid.esm.mjs' {
+  import Mermaid from 'mermaid/dist/mermaid.d.ts'
+
+  export default Mermaid
+}

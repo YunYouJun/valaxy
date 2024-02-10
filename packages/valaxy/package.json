@@ -106,6 +106,7 @@
     "markdown-it-table-of-contents": "^0.6.0",
     "markdown-it-task-lists": "^2.1.1",
     "medium-zoom": "^1.1.0",
+    "mermaid": "^10.8.0",
     "nprogress": "^0.2.0",
     "open": "10.0.3",
     "ora": "^8.0.1",

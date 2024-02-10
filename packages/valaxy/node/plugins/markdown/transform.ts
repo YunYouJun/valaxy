@@ -3,7 +3,8 @@ import Markdown from 'unplugin-vue-markdown/vite'
 import * as base64 from 'js-base64'
 
 import type { ResolvedValaxyOptions } from '../../options'
-import { setupMarkdownPlugins } from '.'
+import { highlight } from './plugins/highlight'
+import { defaultCodeTheme, setupMarkdownPlugins } from '.'
 
 /**
  * Transform Mermaid code blocks (render done on client side)
@@ -14,7 +15,7 @@ export function transformMermaid(md: string): string {
       code = code.trim()
       options = options.trim() || '{}'
       const encoded = base64.encode(code, true)
-      return `<Mermaid :code="'${encoded}'" v-bind="${options}" />`
+      return `<ValaxyMermaid :code="'${encoded}'" v-bind="${options}" />`
     })
 }
 
@@ -22,24 +23,26 @@ export async function createMarkdownPlugin(
   options: ResolvedValaxyOptions,
 ): Promise<Plugin> {
   const mdOptions = options?.config.markdown || {}
+  const theme = mdOptions.theme ?? defaultCodeTheme
+
   return Markdown({
     include: [/\.md$/],
     wrapperClasses: '',
     // headEnabled: false,
 
     frontmatter: true,
-    frontmatterOptions: mdOptions.frontmatter || {},
 
     // v-pre
     escapeCodeTagInterpolation: true,
 
-    // markdownItOptions: {
-    //   quotes: '""\'\'',
-    //   html: true,
-    //   xhtmlOut: true,
-    //   linkify: true,
-    //   ...mdOptions?.markdownItOptions,
-    // },
+    markdownItOptions: {
+      quotes: '""\'\'',
+      html: true,
+      xhtmlOut: true,
+      linkify: true,
+      highlight: await highlight(theme, mdOptions),
+      ...mdOptions?.markdownItOptions,
+    },
 
     async markdownItSetup(mdIt) {
       // setup mdIt
@@ -65,6 +68,9 @@ export async function createMarkdownPlugin(
 
         return code
       },
+
+      // frontmatterOptions componentOptions in mdOptions
+      ...mdOptions,
     },
   }) as Plugin
 }

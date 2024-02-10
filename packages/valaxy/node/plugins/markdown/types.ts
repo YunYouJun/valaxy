@@ -13,9 +13,6 @@ import type anchorPlugin from 'markdown-it-anchor'
 import type { KatexOptions } from 'katex'
 
 import type {
-  FrontmatterPluginOptions,
-} from '@mdit-vue/plugin-frontmatter'
-import type {
   HeadersPluginOptions,
 } from '@mdit-vue/plugin-headers'
 import type { SfcPluginOptions } from '@mdit-vue/plugin-sfc'
@@ -23,9 +20,6 @@ import type { TocPluginOptions } from '@mdit-vue/plugin-toc'
 
 // import type { lazyloadOptions } from './plugins/markdown-it/lazyload'
 
-import type {
-  ComponentPluginOptions,
-} from '@mdit-vue/plugin-component'
 import type { Blocks, ContainerOptions } from './plugins/markdown-it/container'
 
 export type ThemeOptions =
@@ -106,11 +100,6 @@ export interface MarkdownOptions {
   /* ==================== Markdown It Plugins ==================== */
   // mdit-vue plugins
   /**
-   * Options for `@mdit-vue/plugin-frontmatter`
-   * @see https://github.com/mdit-vue/mdit-vue/tree/main/packages/plugin-frontmatter
-   */
-  frontmatter?: FrontmatterPluginOptions
-  /**
    * Options for `@mdit-vue/plugin-headers`
    * @see https://github.com/mdit-vue/mdit-vue/tree/main/packages/plugin-headers
    */
@@ -134,11 +123,6 @@ export interface MarkdownOptions {
    * Custom block configurations based on `markdown-it-container`
    */
   blocks?: Blocks
-  /**
-   * Options for `@mdit-vue/plugin-component`
-   * @see https://github.com/mdit-vue/mdit-vue/tree/main/packages/plugin-component
-   */
-  component?: ComponentPluginOptions
 
   /**
    * @see [markdown-it-image-figures](https://www.npmjs.com/package/markdown-it-image-figures)

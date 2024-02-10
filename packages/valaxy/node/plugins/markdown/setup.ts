@@ -10,8 +10,6 @@ import TaskLists from 'markdown-it-task-lists'
 // https://www.npmjs.com/package/markdown-it-image-figures
 import imageFigures from 'markdown-it-image-figures'
 
-import { componentPlugin } from '@mdit-vue/plugin-component'
-
 import {
   type HeadersPluginOptions,
   headersPlugin,
@@ -33,7 +31,6 @@ import { preWrapperPlugin } from './plugins/markdown-it/preWrapper'
 import { lineNumberPlugin } from './plugins/markdown-it/lineNumbers'
 import { snippetPlugin } from './plugins/markdown-it/snippet'
 import type { ThemeOptions } from './types'
-import { createMdItShikiPlugin } from './plugins/markdown-it/shiki'
 
 export const defaultCodeTheme = { light: 'github-light', dark: 'github-dark' } as const as ThemeOptions
 
@@ -51,12 +48,6 @@ export async function setupMarkdownPlugins(
   if (mdOptions.preConfig)
     mdOptions.preConfig(md)
 
-  // highlight
-  const shikiPlugin = await createMdItShikiPlugin(options)
-  md.use(shikiPlugin)
-
-  // mdit-vue plugins
-  md.use(componentPlugin, { ...mdOptions.component })
   // custom plugins
   md.use(highlightLinePlugin)
     .use(preWrapperPlugin, { theme, siteConfig })
