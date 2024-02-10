@@ -36,6 +36,7 @@ const isDesc = ref(true)
 const sortedYears = computed(() => {
   const y = years.value
   const arr = y.sort((a, b) => b - a)
+  // avoid mutating the original array
   return isDesc.value ? arr : [...arr].reverse()
 })
 </script>
