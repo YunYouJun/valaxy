@@ -1,5 +1,5 @@
 ---
-title_zh-CN: Markdown 扩展
+title_zh: Markdown 扩展
 title: Markdown Extensions
 categories:
   - guide

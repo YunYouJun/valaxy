@@ -1,6 +1,6 @@
 ---
 title: Extend Config
-title_zh-CN: 扩展配置
+title_zh: 扩展配置
 categories:
   - config
 ---

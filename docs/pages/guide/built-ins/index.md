@@ -1,6 +1,6 @@
 ---
 title: Components
-title_zh-CN: 组件
+title_zh: 组件
 categories:
   - guide
 end: false

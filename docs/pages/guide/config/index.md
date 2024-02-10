@@ -1,6 +1,6 @@
 ---
 title: Config
-title_zh-CN: 基础配置
+title_zh: 基础配置
 categories:
   - config
 end: false

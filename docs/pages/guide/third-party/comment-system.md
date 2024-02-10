@@ -1,6 +1,6 @@
 ---
 title: Third Comment System
-title_zh-CN: 第三方评论系统
+title_zh: 第三方评论系统
 categories:
   - third
 ---

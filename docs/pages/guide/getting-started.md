@@ -1,6 +1,6 @@
 ---
 title: Getting Started
-title_zh-CN: 开始
+title_zh: 开始
 categories:
   - getting-started
 end: true

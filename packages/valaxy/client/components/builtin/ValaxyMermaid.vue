@@ -15,6 +15,7 @@ pie
 <script setup lang="ts">
 import { getCurrentInstance, ref, watch, watchEffect } from 'vue'
 
+import { isClient } from '@vueuse/core'
 import { renderMermaid } from '../../modules/mermaid'
 import ShadowRoot from '../internals/ShadowRoot.vue'
 
@@ -30,44 +31,54 @@ const vm = getCurrentInstance()
 const el = ref<ShadowRoot>()
 const html = ref('')
 
-watchEffect(async (onCleanup) => {
-  let disposed = false
-  onCleanup(() => {
-    disposed = true
-  })
-  const svg = await renderMermaid(
-    props.code || '',
-    {
-      theme: props.theme || (isDark.value ? 'dark' : undefined),
-      ...vm!.attrs,
-    },
-  )
-  if (!disposed)
-    html.value = svg
-})
+if (isClient) {
+  // dynamic import to reduce initial bundle size
+  import('mermaid').then(m => m.default)
+    .then((mermaid) => {
+      mermaid.startOnLoad = false
+      mermaid.initialize({ startOnLoad: false })
 
-const actualHeight = ref<number>()
+      watchEffect(async (onCleanup) => {
+        let disposed = false
+        onCleanup(() => {
+          disposed = true
+        })
+        const svg = await renderMermaid(
+          mermaid,
+          props.code || '',
+          {
+            theme: props.theme || (isDark.value ? 'dark' : undefined),
+            ...vm!.attrs,
+          },
+        )
+        if (!disposed)
+          html.value = svg
+      })
 
-watch(html, () => {
-  actualHeight.value = undefined
-})
+      const actualHeight = ref<number>()
 
-watchEffect(() => {
-  const svgEl = el.value?.children?.[0] as SVGElement | undefined
-  if (svgEl && svgEl.hasAttribute('viewBox') && actualHeight.value == null) {
-    const v = Number.parseFloat(svgEl.getAttribute('viewBox')?.split(' ')[3] || '')
-    actualHeight.value = Number.isNaN(v) ? undefined : v
-  }
-}, { flush: 'post' })
+      watch(html, () => {
+        actualHeight.value = undefined
+      })
 
-watchEffect(() => {
-  const svgEl = el.value?.children?.[0] as SVGElement | undefined
-  if (svgEl != null && props.scale != null && actualHeight.value != null) {
-    svgEl.setAttribute('height', `${actualHeight.value * props.scale}`)
-    svgEl.removeAttribute('width')
-    svgEl.removeAttribute('style')
-  }
-}, { flush: 'post' })
+      watchEffect(() => {
+        const svgEl = el.value?.children?.[0] as SVGElement | undefined
+        if (svgEl && svgEl.hasAttribute('viewBox') && actualHeight.value == null) {
+          const v = Number.parseFloat(svgEl.getAttribute('viewBox')?.split(' ')[3] || '')
+          actualHeight.value = Number.isNaN(v) ? undefined : v
+        }
+      }, { flush: 'post' })
+
+      watchEffect(() => {
+        const svgEl = el.value?.children?.[0] as SVGElement | undefined
+        if (svgEl != null && props.scale != null && actualHeight.value != null) {
+          svgEl.setAttribute('height', `${actualHeight.value * props.scale}`)
+          svgEl.removeAttribute('width')
+          svgEl.removeAttribute('style')
+        }
+      }, { flush: 'post' })
+    })
+}
 </script>
 
 <template>

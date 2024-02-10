@@ -1,6 +1,6 @@
 ---
 title: Write a Addon
-title_zh-CN: 编写一个插件
+title_zh: 编写一个插件
 categories:
   - addon
 end: false

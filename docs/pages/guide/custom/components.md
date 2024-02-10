@@ -1,6 +1,6 @@
 ---
 title: Components
-title_zh-CN: 自定义组件
+title_zh: 自定义组件
 categories:
   - custom
 end: false

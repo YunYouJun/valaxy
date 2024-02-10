@@ -26,7 +26,6 @@
     "valaxy-theme-yun": "workspace:*"
   },
   "devDependencies": {
-    "nodemon": "^3.0.3",
-    "vite-plugin-pwa": "^0.17.5"
+    "nodemon": "^3.0.3"
   }
 }

@@ -1,6 +1,6 @@
 ---
 title: Code height limit
-title_zh-CN: 代码块高度限制
+title_zh: 代码块高度限制
 toc: true
 categories:
   - examples

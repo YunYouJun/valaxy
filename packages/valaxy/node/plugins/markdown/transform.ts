@@ -69,8 +69,9 @@ export async function createMarkdownPlugin(
         return code
       },
 
-      // frontmatterOptions componentOptions in mdOptions
-      ...mdOptions,
     },
+
+    // frontmatterOptions componentOptions in mdOptions
+    ...mdOptions,
   }) as Plugin
 }

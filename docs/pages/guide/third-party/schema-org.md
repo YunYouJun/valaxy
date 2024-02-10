@@ -1,6 +1,6 @@
 ---
 title: Schema.org And OPG for SEO
-title_zh-CN: Schema.org And OPG for SEO
+title_zh: Schema.org And OPG for SEO
 categories:
   - third
 top: 0
