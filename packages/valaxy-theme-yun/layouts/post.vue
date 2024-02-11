@@ -41,11 +41,6 @@ useSchemaOrg(
 </script>
 
 <template>
-  <YunSidebar v-if="$slots['sidebar-child']">
-    <slot name="sidebar-child" />
-  </YunSidebar>
-  <YunSidebar v-else />
-
   <RouterView v-slot="{ Component }">
     <component :is="Component">
       <template #main-header-after>
