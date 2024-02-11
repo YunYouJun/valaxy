@@ -9,6 +9,7 @@ import process from 'node:process'
 import { fileURLToPath } from 'node:url'
 import jiti from 'jiti'
 import { resolve } from 'pathe'
+import consola from 'consola'
 import type { ResolvedValaxyOptions } from '../options'
 
 export interface LoadConfigFromFileOptions {
@@ -30,6 +31,7 @@ export function loadConfig<T extends UserInputConfig = UserInputConfig>(options:
 }): ResolvedConfig<T> {
   const { name, cwd } = options
   const filePath = resolve(cwd, `${name}.config.ts`)
+
   let data = {} as T
 
   try {
@@ -39,7 +41,9 @@ export function loadConfig<T extends UserInputConfig = UserInputConfig>(options:
       esmResolve: true,
     })(filePath)
   }
-  catch (e) { }
+  catch (e) {
+    consola.debug(`Failed to load config file: ${filePath}`)
+  }
 
   return {
     config: data,

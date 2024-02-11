@@ -3,7 +3,6 @@ import { exec } from 'node:child_process'
 import process from 'node:process'
 import os from 'node:os'
 import type yargs from 'yargs'
-import fs from 'fs-extra'
 import type { InlineConfig, LogLevel } from 'vite'
 import { mergeConfig } from 'vite'
 
@@ -11,7 +10,7 @@ import qrcode from 'qrcode'
 import { findFreePort } from '../utils/net'
 import { resolveOptions } from '../options'
 
-import { setEnv } from '../utils/env'
+import { isPagesDirExist, setEnv } from '../utils/env'
 import { commonOptions } from '../cli/options'
 import { createValaxyNode } from '../app'
 import { bindShortcut, initServer, printInfo } from './utils/cli'
@@ -50,7 +49,7 @@ export function registerDevCommand(cli: yargs.Argv) {
     async ({ root, port: userPort, open, remote, log }) => {
       setEnv()
 
-      if (!fs.existsSync(path.resolve(root, 'pages')))
+      if (!isPagesDirExist(root))
         process.exit(0)
 
       const port = userPort || await findFreePort(4859)

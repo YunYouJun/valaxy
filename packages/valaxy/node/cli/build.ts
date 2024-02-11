@@ -1,4 +1,5 @@
 import path from 'node:path'
+import process from 'node:process'
 import consola from 'consola'
 import type { InlineConfig, LogLevel } from 'vite'
 import { mergeConfig } from 'vite'
@@ -10,7 +11,7 @@ import { createValaxyNode } from '../app'
 import type { ValaxyModule } from '../modules'
 import { setupModules } from '../modules'
 import { rssModule } from '../modules/rss'
-import { setEnvProd } from '../utils/env'
+import { isPagesDirExist, setEnvProd } from '../utils/env'
 import { printInfo } from './utils/cli'
 import { commonOptions } from './options'
 
@@ -44,7 +45,11 @@ export function registerBuildCommand(cli: yargs.Argv) {
     async ({ ssg, root, output, log }) => {
       setEnvProd()
 
-      const options = await resolveOptions({ userRoot: root }, 'build')
+      if (!isPagesDirExist(root))
+        process.exit(0)
+
+      const userRoot = path.resolve(root)
+      const options = await resolveOptions({ userRoot }, 'build')
       printInfo(options)
 
       const valaxyApp = createValaxyNode(options)
