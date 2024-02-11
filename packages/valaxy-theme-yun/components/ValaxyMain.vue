@@ -88,15 +88,15 @@ onContentUpdated(() => {
 
             <div p="x-4 b-8" class="sm:px-6 lg:px-12 xl:px-16" w="full">
               <slot name="main-content">
-                <Transition appear>
-                  <ValaxyMd :frontmatter="frontmatter">
-                    <YunAiExcerpt v-if="frontmatter.excerpt_type === 'ai' && frontmatter.excerpt" />
-                    <YunMdTimeWarning />
+                <!-- <Transition appear> -->
+                <ValaxyMd :frontmatter="frontmatter">
+                  <YunAiExcerpt v-if="frontmatter.excerpt_type === 'ai' && frontmatter.excerpt" />
+                  <YunMdTimeWarning />
 
-                    <slot name="main-content-md" />
-                    <slot />
-                  </ValaxyMd>
-                </Transition>
+                  <slot name="main-content-md" />
+                  <slot />
+                </ValaxyMd>
+                <!-- </Transition> -->
               </slot>
 
               <slot name="main-content-after" />

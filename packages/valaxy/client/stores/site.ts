@@ -1,7 +1,6 @@
 import { computed, ref } from 'vue'
 import { acceptHMRUpdate, defineStore } from 'pinia'
-import { useRouter } from 'vue-router'
-import { usePostList } from '..'
+import { usePostList, useRouterStore } from '..'
 import type { PageDataPayload } from '../../types'
 
 /**
@@ -11,18 +10,21 @@ import type { PageDataPayload } from '../../types'
  * - category
  */
 export const useSiteStore = defineStore('site', () => {
+  const routerStore = useRouterStore()
+  const router = routerStore.router
+
   const reload = ref(1)
   // for dev hot reload
   const postList = computed(() => {
-    if (reload.value)
-      return usePostList().value
+    const val = usePostList().value
+    if (reload.value && val)
+      return val
     else
-      return usePostList().value
+      return val
   })
 
   // const postList = usePostList()
 
-  const router = useRouter()
   if (router) {
     router.isReady().then(() => {
       // hot reload when save md

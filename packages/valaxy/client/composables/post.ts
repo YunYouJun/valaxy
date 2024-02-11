@@ -1,10 +1,10 @@
 import type { ComputedRef } from 'vue'
 import { computed } from 'vue'
-import { useRoute, useRouter } from 'vue-router'
+import { useRoute } from 'vue-router'
 import { useI18n } from 'vue-i18n'
 import type { Post } from 'valaxy'
 import { sortByDate } from '../utils'
-import { useSiteStore } from '../stores'
+import { useRouterStore, useSiteStore } from '../stores'
 
 export function usePostTitle(post: ComputedRef<Post>) {
   const { locale } = useI18n()
@@ -18,12 +18,11 @@ export function usePostTitle(post: ComputedRef<Post>) {
  * get all page in 'pages' folder
  */
 export function usePageList() {
-  const router = useRouter()
+  const routerStore = useRouterStore()
+  const router = routerStore.router
+
   return computed<Post[]>(() => {
     const excludePages = ['/:..all', '/:all(.*)*', '/', '/:path(.*)']
-    if (!router)
-      return []
-
     const routes = router.getRoutes()
       .filter(i => i.name)
       .filter(i => i.meta)
