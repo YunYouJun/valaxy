@@ -37,7 +37,7 @@ export const defaultCodeTheme = { light: 'github-light', dark: 'github-dark' } a
 export async function setupMarkdownPlugins(
   md: MarkdownIt,
   options?: ResolvedValaxyOptions,
-  isExcerpt = false,
+  // isExcerpt = false,
   base = '/',
 ) {
   const mdOptions = options?.config.markdown || {}
@@ -81,28 +81,28 @@ export async function setupMarkdownPlugins(
 
   md.use(emojiPlugin)
 
-  if (!isExcerpt) {
-    md.use(anchorPlugin, {
-      slugify,
-      permalink: anchorPlugin.permalink.linkInsideHeader({
-        symbol: '&ZeroWidthSpace;',
-        renderAttrs: (slug, state) => {
+  // if (!isExcerpt) {
+  md.use(anchorPlugin, {
+    slugify,
+    permalink: anchorPlugin.permalink.linkInsideHeader({
+      symbol: '&ZeroWidthSpace;',
+      renderAttrs: (slug, state) => {
         // Find `heading_open` with the id identical to slug
-          const idx = state.tokens.findIndex((token) => {
-            const attrs = token.attrs
-            const id = attrs?.find(attr => attr[0] === 'id')
-            return id && slug === id[1]
-          })
-          // Get the actual heading content
-          const title = state.tokens[idx + 1].content
-          return {
-            'aria-label': `Permalink to "${title}"`,
-          }
-        },
-      }),
-      ...mdOptions.anchor,
-    })
-  }
+        const idx = state.tokens.findIndex((token) => {
+          const attrs = token.attrs
+          const id = attrs?.find(attr => attr[0] === 'id')
+          return id && slug === id[1]
+        })
+        // Get the actual heading content
+        const title = state.tokens[idx + 1].content
+        return {
+          'aria-label': `Permalink to "${title}"`,
+        }
+      },
+    }),
+    ...mdOptions.anchor,
+  })
+  // }
 
   md
     .use(headersPlugin, {

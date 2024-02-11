@@ -11,6 +11,7 @@ import type {
 import type anchorPlugin from 'markdown-it-anchor'
 
 import type { KatexOptions } from 'katex'
+import type { PageData } from 'valaxy/types'
 
 import type {
   HeadersPluginOptions,
@@ -144,4 +145,11 @@ export interface MarkdownOptions {
     enabled?: boolean
     options: lazyloadOptions
   } */
+}
+
+export interface MarkdownCompileResult {
+  vueSrc: string
+  pageData: PageData
+  deadLinks: { url: string, file: string }[]
+  includes: string[]
 }

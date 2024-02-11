@@ -6,9 +6,11 @@ import type { PageData, Post } from 'valaxy/types'
 import { useSiteConfig } from '../config'
 
 export function useFrontmatter() {
+  // inject not in app root
   const route = useRoute()
-  const frontmatter = computed<Post>(() => route.meta.frontmatter || {})
-
+  const frontmatter = computed<Post>(() => {
+    return route.meta.frontmatter || {}
+  })
   return frontmatter
 }
 

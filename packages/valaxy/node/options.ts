@@ -9,6 +9,7 @@ import defu from 'defu'
 import { blue, cyan, magenta, yellow } from 'picocolors'
 import consola from 'consola'
 import type { DefaultTheme, RedirectItem, RuntimeConfig } from 'valaxy/types'
+import type { MarkdownEnv } from 'unplugin-vue-markdown/types'
 import { resolveImportPath } from './utils'
 import {
   defaultValaxyConfig,
@@ -93,6 +94,10 @@ export interface ResolvedValaxyOptions<ThemeConfig = DefaultTheme.Config> {
    * Collect redirect rule
    */
   redirects: RedirectItem[]
+
+  env: MarkdownEnv & {
+    links: string[]
+  }
 }
 
 export interface ValaxyServerOptions {
@@ -238,6 +243,10 @@ export async function resolveOptions(
     pages: pages.sort(),
     addons: [],
     redirects,
+    env: {
+      id: '',
+      links: [],
+    },
   }
   debug(valaxyOptions)
 

@@ -2,25 +2,27 @@
  * @packageDocumentation valaxy plugin
  */
 
-import { join, resolve } from 'pathe'
+import { join, relative, resolve } from 'pathe'
 import fs from 'fs-extra'
 
-import type { Plugin } from 'vite'
+import type { Plugin, ResolvedConfig } from 'vite'
 import { defu } from 'defu'
 import pascalCase from 'pascalcase'
 import type { DefaultTheme, Pkg, SiteConfig } from 'valaxy/types'
 import { dim, yellow } from 'picocolors'
 import type { RouteRecordRaw } from 'vue-router'
-import { defaultSiteConfig, mergeValaxyConfig, resolveSiteConfig, resolveUserThemeConfig } from '../config'
-import type { ResolvedValaxyOptions, ValaxyServerOptions } from '../options'
-import { processValaxyOptions, resolveOptions, resolveThemeValaxyConfig } from '../options'
-import { resolveImportPath, toAtFS } from '../utils'
-import type { ValaxyNodeConfig } from '../types'
-import { vLogger } from '../logger'
-import { countPerformanceTime } from '../utils/performance'
-import { isProd } from '../utils/env'
-import { checkMd } from './markdown/utils'
-import { getValaxyMain } from './markdown/markdownToVue'
+import consola from 'consola'
+import { defaultSiteConfig, mergeValaxyConfig, resolveSiteConfig, resolveUserThemeConfig } from '../../config'
+import type { ResolvedValaxyOptions, ValaxyServerOptions } from '../../options'
+import { processValaxyOptions, resolveOptions, resolveThemeValaxyConfig } from '../../options'
+import { resolveImportPath, toAtFS } from '../../utils'
+import type { ValaxyNodeConfig } from '../../types'
+import { vLogger } from '../../logger'
+import { countPerformanceTime } from '../../utils/performance'
+import { isProd } from '../../utils/env'
+import type { PageDataPayload } from '../../../types'
+import { checkMd } from '../markdown/utils'
+import { createMarkdownToVueRenderFn } from '../markdown/markdownToVue'
 
 function generateConfig(options: ResolvedValaxyOptions) {
   const routes = options.redirects.map<RouteRecordRaw>((redirect) => {
@@ -123,32 +125,11 @@ function generateAppVue(root: string) {
     return nullVue
 
   const scripts = [
-      `import AppVue from "${toAtFS(appVue)}"`,
-      'export default AppVue',
+    `import AppVue from "${toAtFS(appVue)}"`,
+    'export default AppVue',
   ]
 
   return scripts.join('\n')
-}
-
-async function transformMarkdown(code: string, id: string) {
-  const endCount = countPerformanceTime()
-  // const path = `/${relative(`${options.userRoot}/pages`, file)}`
-
-  const imports = [
-    ``,
-  ]
-
-  code = code.replace(/(<script setup.*>)/g, `$1\n${imports.join('\n')}\n`)
-  const injectA = code.indexOf('<template>') + '<template>'.length
-  const injectB = code.lastIndexOf('</template>')
-  let body = code.slice(injectA, injectB).trim()
-  if (body.startsWith('<div>') && body.endsWith('</div>'))
-    body = body.slice(5, -6)
-  code = `${code.slice(0, injectA)}\n${getValaxyMain(body)}\n${code.slice(injectB)}`
-
-  vLogger.success(`${yellow('[HMR]')} ${id} ${dim(`updated in ${endCount()}`)}`)
-
-  return code
 }
 
 /**
@@ -158,30 +139,30 @@ async function transformMarkdown(code: string, id: string) {
  * @param options
  * @param serverOptions
  */
-export function createValaxyLoader(options: ResolvedValaxyOptions, serverOptions: ValaxyServerOptions = {}): Plugin[] {
+export async function createValaxyLoader(options: ResolvedValaxyOptions, serverOptions: ValaxyServerOptions = {}): Promise<Plugin[]> {
   let { config: valaxyConfig } = options
 
   const valaxyPrefix = '/@valaxy'
 
   const roots = options.roots
 
-  const hasDeadLinks = false
+  let hasDeadLinks = false
+
+  let markdownToVue: Awaited<ReturnType<typeof createMarkdownToVueRenderFn>>
+  let viteConfig: ResolvedConfig
 
   return [
     {
       name: 'valaxy:loader',
       enforce: 'pre',
 
-      // async configResolved(resolvedConfig) {
-      //   // markdownToVue = await createMarkdownToVueRenderFn(
-      //   //   options,
-      //   //   options.userRoot,
-      //   //   options.pages,
-      //   //   viteConfig.define,
-      //   //   viteConfig.command === 'build',
-      //   //   options.config.siteConfig.lastUpdated,
-      //   // )
-      // },
+      async configResolved(resolvedConfig) {
+        viteConfig = resolvedConfig
+        markdownToVue = await createMarkdownToVueRenderFn(
+          options,
+          viteConfig,
+        )
+      },
 
       configureServer(server) {
         server.watcher.add([
@@ -236,26 +217,30 @@ export function createValaxyLoader(options: ResolvedValaxyOptions, serverOptions
 
       async transform(code, id) {
         if (id.endsWith('.md')) {
+          const endCount = countPerformanceTime()
+
+          // TODO: transform replace hexo tags
           checkMd(code, id)
           code.replace('{%', '\{\%')
           code.replace('%}', '\%\}')
 
           // transform .md files into vueSrc so plugin-vue can handle it
-          // const { vueSrc, deadLinks, includes } = await markdownToVue(
-          //   code,
-          //   id,
-          //   viteConfig.publicDir,
-          // )
-          // if (deadLinks.length)
-          //   hasDeadLinks = true
+          const { code: newCode, deadLinks, includes } = await markdownToVue(code, id)
 
-          // if (includes.length) {
-          //   includes.forEach((i) => {
-          //     this.addWatchFile(i)
-          //   })
-          // }
+          if (deadLinks.length) {
+            hasDeadLinks = true
 
-          return transformMarkdown(code, id)
+            consola.error(`Dead links found in ${id}`)
+            consola.info(deadLinks)
+          }
+          if (includes.length) {
+            includes.forEach((i) => {
+              this.addWatchFile(i)
+            })
+          }
+
+          vLogger.success(`${yellow('[HMR]')} ${id} ${dim(`updated in ${endCount()}`)}`)
+          return newCode
         }
       },
 
@@ -269,7 +254,7 @@ export function createValaxyLoader(options: ResolvedValaxyOptions, serverOptions
        * @param ctx
        */
       async handleHotUpdate(ctx) {
-        const { file, server } = ctx
+        const { file, server, read } = ctx
 
         const reloadConfigAndEntries = (config: ValaxyNodeConfig) => {
           serverOptions.onConfigReload?.(config, options.config)
@@ -319,41 +304,38 @@ export function createValaxyLoader(options: ResolvedValaxyOptions, serverOptions
 
         // send headers
         if (file.endsWith('.md')) {
-          // const { pageData, vueSrc } = await markdownToVue(
-          //   content,
-          //   file,
-          //   join(options.userRoot, 'public'),
-          // )
-
-          // const path = `/${relative(`${options.userRoot}/pages`, file)}`
-          // const payload: PageDataPayload = {
-          //   path,
-          //   // pageData,
-          // }
-
-          // server.hot.send({
-          //   type: 'custom',
-          //   event: 'valaxy:pageData',
-          //   data: payload,
-          // })
+          const content = await read()
 
           // overwrite src so vue plugin can handle the HMR
-          // ctx.read = () => vueSrc
+          const { code, pageData } = await markdownToVue(content, file)
+
+          const path = `/${relative(`${options.userRoot}/pages`, file)}`
+          const payload: PageDataPayload = {
+            path,
+            pageData,
+          }
+
+          server.hot.send({
+            type: 'custom',
+            event: 'valaxy:pageData',
+            data: payload,
+          })
+
+          ctx.read = () => code
         }
       },
     },
 
-    {
-      // ValaxyMain
-      name: 'valaxy:layout-transform:pre',
-      enforce: 'pre',
-      async transform(code, id) {
-        if (!id.startsWith(valaxyPrefix))
-          return
+    // {
+    //   // we need post encrypt html
+    //   name: 'valaxy:encrypt:post',
+    //   enforce: 'pre',
+    //   async transform(code, id) {
+    //     if (id.endsWith('.md'))
+    //       code = await transformEncrypt(code, id)
 
-        if (id.endsWith('.md'))
-          return transformMarkdown(code, id)
-      },
-    },
+    //     return code
+    //   },
+    // },
   ]
 }

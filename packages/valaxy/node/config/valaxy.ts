@@ -12,8 +12,6 @@ import { loadConfigFromFile } from './utils'
 import { defaultSiteConfig } from './site'
 
 export const defaultValaxyConfig: ValaxyNodeConfig = {
-  ignoreDeadLinks: true,
-
   siteConfig: defaultSiteConfig,
   theme: 'yun',
   themeConfig: {

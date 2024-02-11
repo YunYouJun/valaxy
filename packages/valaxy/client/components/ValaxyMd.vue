@@ -45,10 +45,7 @@ useVanillaLazyLoad()
 
 <template>
   <article v-if="$slots.default" :class="frontmatter.markdown !== false && 'markdown-body'">
-    <template v-if="frontmatter.encryptedContent">
-      <ValaxyDecrypt :encrypted-content="frontmatter.encryptedContent" />
-    </template>
-    <slot v-else ref="contentRef" @vue:updated="runContentUpdated" />
+    <slot ref="contentRef" @vue:updated="runContentUpdated" />
 
     <div v-if="frontmatter.url" text="center">
       <a

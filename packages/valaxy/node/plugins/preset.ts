@@ -66,6 +66,7 @@ export async function ViteValaxyPlugins(
   ])
 
   const MarkdownPlugin = await createMarkdownPlugin(options)
+  const ValaxyLoader = await createValaxyLoader(options, serverOptions)
 
   return [
     MarkdownPlugin,
@@ -84,8 +85,7 @@ export async function ViteValaxyPlugins(
       },
       ...valaxyConfig.vue,
     }),
-
-    createValaxyLoader(options, serverOptions),
+    ValaxyLoader,
 
     UnheadVite(),
 
