@@ -24,46 +24,46 @@ import { createMarkdownPlugin } from './markdown'
 // for render markdown excerpt
 export const mdIt = new MarkdownIt({ html: true })
 
+export const customElements = new Set([
+  // katex
+  'annotation',
+  'math',
+  'menclose',
+  'mfrac',
+  'mglyph',
+  'mi',
+  'mlabeledtr',
+  'mn',
+  'mo',
+  'mover',
+  'mpadded',
+  'mphantom',
+  'mroot',
+  'mrow',
+  'mspace',
+  'msqrt',
+  'mstyle',
+  'msub',
+  'msubsup',
+  'msup',
+  'mtable',
+  'mtd',
+  'mtext',
+  'mtr',
+  'munder',
+  'munderover',
+  'semantics',
+
+  // meting
+  // will migrate to valaxy-addon-meting
+  'meting-js',
+])
+
 export async function ViteValaxyPlugins(
   options: ResolvedValaxyOptions,
   serverOptions: ValaxyServerOptions = {},
 ): Promise<(PluginOption | PluginOption[])[]> {
   const { roots, config: valaxyConfig } = options
-
-  const customElements = new Set([
-    // katex
-    'annotation',
-    'math',
-    'menclose',
-    'mfrac',
-    'mglyph',
-    'mi',
-    'mlabeledtr',
-    'mn',
-    'mo',
-    'mover',
-    'mpadded',
-    'mphantom',
-    'mroot',
-    'mrow',
-    'mspace',
-    'msqrt',
-    'mstyle',
-    'msub',
-    'msubsup',
-    'msup',
-    'mtable',
-    'mtd',
-    'mtext',
-    'mtr',
-    'munder',
-    'munderover',
-    'semantics',
-
-    // meting
-    // will migrate to valaxy-addon-meting
-    'meting-js',
-  ])
 
   const MarkdownPlugin = await createMarkdownPlugin(options)
   const ValaxyLoader = await createValaxyLoader(options, serverOptions)

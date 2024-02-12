@@ -40,7 +40,7 @@ export default function setupMain(ctx: ViteSSGContext, config: ComputedRef<Valax
     import('../modules/devtools').then(({ install: installDevtools }) => {
       setTimeout(() => {
         installDevtools(ctx)
-      })
+      }, 0)
     })
   }
 
