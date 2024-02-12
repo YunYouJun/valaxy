@@ -16,16 +16,23 @@ export async function createServer(
   const plugins = await ViteValaxyPlugins(options, serverOptions)
   // dynamic import to avoid bundle it in build
   const enableDevtools = options.mode === 'dev' && options.config.devtools
+  const vitePlugins = [
+    ...plugins,
+  ]
+  if (enableDevtools) {
+    // only enable when dev
+    vitePlugins.push(
+      (await import('vite-plugin-vue-devtools')).default(),
+      (await import('@valaxyjs/devtools')).default({
+        base: options.userRoot,
+      }),
+    )
+  }
+
   const mergedViteConfig = mergeViteConfig(
     viteConfig,
     {
-      plugins: [
-        ...plugins,
-
-        // only enable when dev
-        enableDevtools && (await import('vite-plugin-vue-devtools')).default,
-        // enableDevtools && (await import('@valaxyjs/devtools')).default({ base: options.userRoot }),
-      ],
+      plugins: vitePlugins,
     },
   )
   const server = await createViteServer(mergedViteConfig)

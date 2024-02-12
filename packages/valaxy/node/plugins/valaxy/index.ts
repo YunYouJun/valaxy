@@ -21,7 +21,6 @@ import { vLogger } from '../../logger'
 import { countPerformanceTime } from '../../utils/performance'
 import { isProd } from '../../utils/env'
 import type { PageDataPayload } from '../../../types'
-import { checkMd } from '../markdown/utils'
 import { createMarkdownToVueRenderFn } from '../markdown/markdownToVue'
 
 function generateConfig(options: ResolvedValaxyOptions) {
@@ -217,13 +216,6 @@ export async function createValaxyLoader(options: ResolvedValaxyOptions, serverO
 
       async transform(code, id) {
         if (id.endsWith('.md')) {
-          const endCount = countPerformanceTime()
-
-          // TODO: transform replace hexo tags
-          checkMd(code, id)
-          code.replace('{%', '\{\%')
-          code.replace('%}', '\%\}')
-
           // transform .md files into vueSrc so plugin-vue can handle it
           const { code: newCode, deadLinks, includes } = await markdownToVue(code, id)
 
@@ -239,7 +231,6 @@ export async function createValaxyLoader(options: ResolvedValaxyOptions, serverO
             })
           }
 
-          vLogger.success(`${yellow('[HMR]')} ${id} ${dim(`updated in ${endCount()}`)}`)
           return newCode
         }
       },
@@ -304,6 +295,8 @@ export async function createValaxyLoader(options: ResolvedValaxyOptions, serverO
 
         // send headers
         if (file.endsWith('.md')) {
+          const endCount = countPerformanceTime()
+
           const content = await read()
 
           // overwrite src so vue plugin can handle the HMR
@@ -321,6 +314,7 @@ export async function createValaxyLoader(options: ResolvedValaxyOptions, serverO
             data: payload,
           })
 
+          vLogger.success(`${yellow('[HMR]')} ${file} ${dim(`updated in ${endCount()}`)}`)
           ctx.read = () => code
         }
       },

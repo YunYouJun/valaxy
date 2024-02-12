@@ -6,7 +6,7 @@ import type { ValaxyDevtoolsOptions } from './types'
 
 const NAME = 'valaxy:devtools'
 
-export default function ValaxyDevtools(options: ValaxyDevtoolsOptions): Plugin {
+export default function ValaxyDevtools(options: ValaxyDevtoolsOptions = {}): Plugin {
   let config: ResolvedConfig
 
   function configureServer(server: ViteDevServer) {

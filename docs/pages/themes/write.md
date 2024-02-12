@@ -36,12 +36,19 @@ Valaxy 主题无需预编译，直接发布源文件即可。
 
 ## 创建主题模板
 
-```bash
-pnpm create valaxy
-# choose template theme
-```
+::: tip
 
-## 主题结构
+如果你只想简单点，创建一个自己使用的博客主题而不发布，你可以直接在本地引用你的主题。
+
+可参见 [demo/custom](https://github.com/YunYouJun/valaxy/tree/main/demo/custom)。
+
+:::
+
+```bash
+# 使用 valaxy-theme-starter 模版
+pnpm create valaxy
+# choose Theme
+```
 
 在动手之前，我们先来了解一下一个 Valaxy 主题的基础结构，它与正常的用户目录结构也十分相似。
 

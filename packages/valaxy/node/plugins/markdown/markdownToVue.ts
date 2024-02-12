@@ -11,6 +11,7 @@ import { createTransformMarkdown } from './transform/markdown'
 import { generatePageData } from './transform/page-data'
 import { createTransformCodeBlock } from './transform/code-block'
 import { createTransformEncrypt } from './transform/encrypt'
+import { transformHexoTags } from './transform/hexo'
 
 const debug = _debug('valaxy:md')
 const cache = new LRUCache<string, MarkdownCompileResult>({ max: 128 })
@@ -99,6 +100,7 @@ export async function createMarkdownToVueRenderFn(
 
     const start = Date.now()
 
+    code = transformHexoTags(code, id)
     const data = transformIncludes(code, id)
     const includes = data.includes
     code = data.code
