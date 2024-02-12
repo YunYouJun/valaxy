@@ -1,9 +1,10 @@
 import { join, resolve } from 'node:path'
 import { defineConfig } from 'vite'
 import Vue from '@vitejs/plugin-vue'
-import Router from 'unplugin-vue-router/vite'
-import Components from 'unplugin-vue-components/vite'
+import VueRouter from 'unplugin-vue-router/vite'
+import VueComponents from 'unplugin-vue-components/vite'
 import Unocss from 'unocss/vite'
+import { unoConfig } from '../../../../uno.config'
 
 export default defineConfig({
   base: './',
@@ -48,22 +49,18 @@ export default defineConfig({
       },
     },
 
-    Vue({
-      script: {
-        defineModel: true,
-      },
-    }),
-
-    Router({
-      routesFolder: ['pages'],
+    VueRouter({
+      routesFolder: join(__dirname, 'pages'),
       dts: join(__dirname, 'typed-routes.d.ts'),
     }),
-
-    Components({
+    Vue({
+      include: [/\.vue$/, /\.md$/],
+    }),
+    VueComponents({
       dirs: ['components'],
       dts: join(__dirname, 'components.d.ts'),
     }),
-    Unocss(),
+    Unocss(unoConfig),
   ],
 
   optimizeDeps: {

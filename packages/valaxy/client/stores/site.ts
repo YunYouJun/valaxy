@@ -2,6 +2,7 @@ import { computed, ref } from 'vue'
 import { acceptHMRUpdate, defineStore } from 'pinia'
 import { usePostList, useRouterStore } from '..'
 import type { PageDataPayload } from '../../types'
+import { setWindowValaxyProp } from '../utils/dev'
 
 /**
  * cache site global store
@@ -56,6 +57,9 @@ export const useSiteStore = defineStore('site', () => {
       }
     })
   }
+
+  if (import.meta.env.DEV)
+    setWindowValaxyProp('postList', postList)
 
   return {
     postList,

@@ -3,3 +3,5 @@ components.d.ts
 
 # unplugin-vue-router
 typed-router.d.ts
+
+.env.local

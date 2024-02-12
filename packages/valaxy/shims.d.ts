@@ -2,6 +2,7 @@ import 'vue-router'
 
 // import './client/typed-router'
 
+import type { Ref } from 'vue'
 import type { Post } from './types'
 import type { Header } from './node/plugins/markdown'
 
@@ -12,6 +13,10 @@ declare module '@docsearch/js' {
 }
 
 declare interface Window {
+  $valaxy: {
+    postList: Ref<Post[]>
+  }
+
   // algolia
   instantsearch: any
   algoliasearch: any

@@ -31,7 +31,12 @@ export function createTransformMarkdown(options: ResolvedValaxyOptions) {
     const isDev = options.mode === 'dev'
     const imports = [
       ...dataCode,
-      isDev ? `window.$frontmatter = $frontmatter` : '',
+      isDev
+        ? `
+window.$pageData = data
+window.$frontmatter = $frontmatter
+      `
+        : '',
     ]
 
     code = code.replace(/(<script setup.*>)/g, `$1\n${imports.join('\n')}\n`)

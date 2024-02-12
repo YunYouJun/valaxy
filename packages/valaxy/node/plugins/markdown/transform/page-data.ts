@@ -25,7 +25,7 @@ function inferDescription(frontmatter: Record<string, any>) {
 
 export async function generatePageData(code: string, id: string, options: ResolvedValaxyOptions) {
   const { frontmatter = {} as Record<string, any> } = options.env
-  const relativePath = id
+  const relativePath = path.relative(options.userRoot, id)
 
   const pageData: PageData = {
     title: frontmatter.title || options.env.title || '',
@@ -35,7 +35,7 @@ export async function generatePageData(code: string, id: string, options: Resolv
     // not be used
     headers: options.env.headers || [],
     relativePath,
-    path: path.join(options.userRoot, relativePath),
+    path: id,
   }
 
   // if (includeLastUpdatedData)

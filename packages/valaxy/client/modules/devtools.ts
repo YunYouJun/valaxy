@@ -21,7 +21,7 @@ export async function addValaxyTabAndCommand() {
     // iframe view
     view: {
       type: 'iframe',
-      src: 'https://valaxy.site',
+      src: '/__valaxy_devtools__/',
     },
     // category: 'pinned',
     category: 'app',

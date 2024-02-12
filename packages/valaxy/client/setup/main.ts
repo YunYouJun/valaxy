@@ -26,12 +26,6 @@ export default function setupMain(ctx: ViteSSGContext, config: ComputedRef<Valax
 
   installValaxy(ctx, config)
 
-  if (import.meta.env.DEV && ctx.isClient) {
-    import('../modules/devtools').then(({ install: installDevtools }) => {
-      installDevtools(ctx)
-    })
-  }
-
   installSchema(ctx)
 
   installPinia(ctx)
@@ -41,6 +35,14 @@ export default function setupMain(ctx: ViteSSGContext, config: ComputedRef<Valax
   dayjs.extend(relativeTime)
   dayjs.extend(utc)
   dayjs.extend(timezone)
+
+  if (import.meta.env.DEV && ctx.isClient) {
+    import('../modules/devtools').then(({ install: installDevtools }) => {
+      setTimeout(() => {
+        installDevtools(ctx)
+      })
+    })
+  }
 
   /* __injections__ */
 }
