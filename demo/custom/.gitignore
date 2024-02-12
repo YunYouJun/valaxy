@@ -1,0 +1,20 @@
+# valaxy
+
+valaxy-fuse-list.json
+
+# vite-ssg
+
+.vite-ssg-dist
+.vite-ssg-temp
+
+temp/
+
+.DS_Store
+*.local
+dist
+dist-ssr
+node_modules
+.idea/
+*.log
+
+components.d.ts
