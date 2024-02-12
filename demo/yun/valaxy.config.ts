@@ -74,9 +74,7 @@ export default defineValaxyConfig<ThemeConfig>({
       apiKey: '805f2584a8866388aa1631ff0348ddae',
       indexName: 'valaxy',
     }),
-    addonBangumi({
-      uid: 378106,
-    }),
+    addonBangumi(),
     addonComponents(),
     addonWaline({
       serverURL: 'https://waline.yunyoujun.cn',
