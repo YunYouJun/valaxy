@@ -354,6 +354,22 @@ import { useYunAppStore } from '../stores/app'
 const yun = useYunAppStore()
 ```
 
+#### 上一篇/下一篇
+
+文章底部通常存在切换上一篇/下一篇的导航。
+
+你可以利用 `siteStore.postList` 自行实现，也可以使用 Valaxy 提供的 `usePrevNext`。
+
+> 可参见：[valaxy-theme-yun/components/YunPrevNext.vue](https://github.com/YunYouJun/valaxy/blob/main/packages/valaxy-theme-yun/components/YunPostNav.vue)
+
+```ts
+import { usePrevNext } from 'valaxy'
+
+const [prev, next] = usePrevNext()
+// prev/next type is PostFrontMatter
+// prev.title prev.path
+```
+
 ### 目录
 
 如果你想要快速实现一个目录，Valaxy 提供了一个内置钩子函数 `useOutline`。

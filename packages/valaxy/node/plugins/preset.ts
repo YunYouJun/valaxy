@@ -1,8 +1,6 @@
 import type { PluginOption } from 'vite'
 import { splitVendorChunkPlugin } from 'vite'
 
-import MarkdownIt from 'markdown-it'
-
 import Vue from '@vitejs/plugin-vue'
 import Layouts from 'vite-plugin-vue-layouts'
 import Components from 'unplugin-vue-components/vite'
@@ -21,44 +19,6 @@ import { createRouterPlugin } from './vueRouter'
 import { createValaxyLoader } from './valaxy'
 import { createMarkdownPlugin } from './markdown'
 
-// for render markdown excerpt
-export const mdIt = new MarkdownIt({ html: true })
-
-export const customElements = new Set([
-  // katex
-  'annotation',
-  'math',
-  'menclose',
-  'mfrac',
-  'mglyph',
-  'mi',
-  'mlabeledtr',
-  'mn',
-  'mo',
-  'mover',
-  'mpadded',
-  'mphantom',
-  'mroot',
-  'mrow',
-  'mspace',
-  'msqrt',
-  'mstyle',
-  'msub',
-  'msubsup',
-  'msup',
-  'mtable',
-  'mtd',
-  'mtext',
-  'mtr',
-  'munder',
-  'munderover',
-  'semantics',
-
-  // meting
-  // will migrate to valaxy-addon-meting
-  'meting-js',
-])
-
 export async function ViteValaxyPlugins(
   options: ResolvedValaxyOptions,
   serverOptions: ValaxyServerOptions = {},
@@ -67,6 +27,8 @@ export async function ViteValaxyPlugins(
 
   const MarkdownPlugin = await createMarkdownPlugin(options)
   const ValaxyLoader = await createValaxyLoader(options, serverOptions)
+
+  const { customElements } = await import('valaxy/node')
 
   return [
     MarkdownPlugin,
@@ -78,7 +40,7 @@ export async function ViteValaxyPlugins(
       template: {
         compilerOptions: {
           isCustomElement: (tag) => {
-            return customElements.has(tag)
+            return customElements.has(tag) || valaxyConfig.vue?.template?.compilerOptions?.isCustomElement?.(tag)
           },
         },
         ...valaxyConfig.vue?.template,

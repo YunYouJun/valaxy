@@ -4,3 +4,34 @@ export const EXTERNAL_URL_RE = /^https?:/i
 export const PATHNAME_PROTOCOL_RE = /^pathname:\/\//
 
 export const ALL_ROUTE = '/:all(.*)*'
+
+export const customElements = new Set([
+  // katex
+  'annotation',
+  'math',
+  'menclose',
+  'mfrac',
+  'mglyph',
+  'mi',
+  'mlabeledtr',
+  'mn',
+  'mo',
+  'mover',
+  'mpadded',
+  'mphantom',
+  'mroot',
+  'mrow',
+  'mspace',
+  'msqrt',
+  'mstyle',
+  'msub',
+  'msubsup',
+  'msup',
+  'mtable',
+  'mtd',
+  'mtext',
+  'mtr',
+  'munder',
+  'munderover',
+  'semantics',
+])

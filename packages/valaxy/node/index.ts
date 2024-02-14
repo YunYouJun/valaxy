@@ -2,6 +2,7 @@ import './declare'
 
 export * from './cli'
 export * from './common'
+export * from './constants'
 export * from './build'
 export * from './config'
 export * from './options'

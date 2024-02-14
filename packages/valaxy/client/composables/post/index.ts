@@ -1,10 +1,11 @@
 import type { ComputedRef } from 'vue'
 import { computed } from 'vue'
-import { useRoute } from 'vue-router'
 import { useI18n } from 'vue-i18n'
 import type { Post } from 'valaxy'
-import { sortByDate } from '../utils'
-import { useRouterStore, useSiteStore } from '../stores'
+import { sortByDate } from '../../utils'
+import { useRouterStore } from '../../stores'
+
+export * from './usePrevNext'
 
 export function usePostTitle(post: ComputedRef<Post>) {
   const { locale } = useI18n()
@@ -61,31 +62,4 @@ export function usePostList(params: {
 
     return topPosts.concat(otherPosts)
   })
-}
-
-/**
- * get prev and next post
- * @param path
- */
-export function usePrevNext(path?: string) {
-  const route = useRoute()
-  const p = computed(() => path || route.path)
-  const site = useSiteStore()
-
-  const index = computed(() => {
-    let order = -1
-    site.postList.find((item, i) => {
-      if (item.path === p.value) {
-        order = i
-        return true
-      }
-      return false
-    })
-    return order
-  })
-
-  const prev = computed(() => index.value - 1 >= 0 ? site.postList[index.value - 1] : null)
-  const next = computed(() => index.value + 1 < site.postList.length ? site.postList[index.value + 1] : null)
-
-  return [prev, next]
 }

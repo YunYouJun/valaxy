@@ -7,6 +7,7 @@ import { addonComponents } from 'valaxy-addon-components'
 import { addonLightGallery } from 'valaxy-addon-lightgallery'
 import { addonTest } from 'valaxy-addon-test'
 import { addonWaline } from 'valaxy-addon-waline'
+import { addonMeting } from 'valaxy-addon-meting'
 
 // import { addonTwikoo } from 'valaxy-addon-twikoo'
 
@@ -84,14 +85,14 @@ export default defineValaxyConfig<ThemeConfig>({
       comment: true,
     }),
     addonLightGallery(),
-    // addonMeting({
-    //   global: true,
-    //   props: {
-    //     id: '2049540645',
-    //     server: 'netease',
-    //     type: 'song',
-    //   },
-    // }),
+    addonMeting({
+      global: true,
+      props: {
+        id: '2049540645',
+        server: 'netease',
+        type: 'song',
+      },
+    }),
     // addonTwikoo({
     //   envId: 'https://twikoo.vercel.app',
     // }),

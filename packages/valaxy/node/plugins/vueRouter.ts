@@ -6,11 +6,14 @@ import { isDate } from '@antfu/utils'
 import { convert } from 'html-to-text'
 import type { ExcerptType, Page } from 'valaxy/types'
 import type { RouteMeta } from 'vue-router'
+import MarkdownIt from 'markdown-it'
 import type { ResolvedValaxyOptions } from '../options'
 import { EXCERPT_SEPARATOR } from '../constants'
 
-import { mdIt } from './preset'
 import { presetStatistics } from './presets/statistics'
+
+// for render markdown excerpt
+const mdIt = new MarkdownIt({ html: true })
 
 /**
  * get excerpt by type
