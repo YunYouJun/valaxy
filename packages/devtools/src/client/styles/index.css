@@ -2,3 +2,7 @@ html,
 body {
   height: 100%;
 }
+
+.dark {
+  background-color: rgba(12, 16, 21);
+}

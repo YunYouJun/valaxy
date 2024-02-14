@@ -1,10 +1,14 @@
 import type { Plugin, ResolvedConfig, ViteDevServer } from 'vite'
 import c from 'picocolors'
 import sirv from 'sirv'
+import { createProxyMiddleware } from 'http-proxy-middleware'
 import { DIR_CLIENT } from '../dir'
 import type { ValaxyDevtoolsOptions } from './types'
+import { registerApi } from './api'
 
 const NAME = 'valaxy:devtools'
+
+// import.meta.env.VITE_DEV_VALAXY_DEVTOOLS = 'true'
 
 export default function ValaxyDevtools(options: ValaxyDevtoolsOptions = {}): Plugin {
   let config: ResolvedConfig
@@ -13,10 +17,19 @@ export default function ValaxyDevtools(options: ValaxyDevtoolsOptions = {}): Plu
     const _print = server.printUrls
     const base = (options.base ?? server.config.base) || '/'
 
-    server.middlewares.use(`${base}__valaxy_devtools__`, sirv(DIR_CLIENT, {
-      single: true,
-      dev: true,
-    }))
+    const devtoolsUrl = `${base}__valaxy_devtools__/`
+    if (import.meta.env.VITE_DEV_VALAXY_DEVTOOLS === 'true') {
+      server.middlewares.use(devtoolsUrl, createProxyMiddleware({
+        target: 'http://localhost:5001/#/',
+        changeOrigin: true,
+      }) as any)
+    }
+    else {
+      server.middlewares.use(devtoolsUrl, sirv(DIR_CLIENT, {
+        single: true,
+        dev: true,
+      }))
+    }
 
     server.printUrls = () => {
       let host = `${config.server.https ? 'https' : 'http'}://localhost:${config.server.port || '80'}`
@@ -39,10 +52,14 @@ export default function ValaxyDevtools(options: ValaxyDevtoolsOptions = {}): Plu
       // eslint-disable-next-line no-console
       console.log(`  ${c.green('➜')}  ${c.bold('Inspect')}: ${colorUrl(`${host}${base}__inspect/`)}`)
     }
+
+    registerApi(server, config)
   }
 
   const plugin = <Plugin>{
     name: NAME,
+
+    enforce: 'pre',
 
     configResolved(_config) {
       config = _config

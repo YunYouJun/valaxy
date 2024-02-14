@@ -4,6 +4,7 @@ import Vue from '@vitejs/plugin-vue'
 import VueRouter from 'unplugin-vue-router/vite'
 import VueComponents from 'unplugin-vue-components/vite'
 import Unocss from 'unocss/vite'
+import { componentsDir } from '@advjs/gui/node'
 import { unoConfig } from '../../../../uno.config'
 
 export default defineConfig({
@@ -57,7 +58,7 @@ export default defineConfig({
       include: [/\.vue$/, /\.md$/],
     }),
     VueComponents({
-      dirs: ['components'],
+      dirs: ['components', componentsDir],
       dts: join(__dirname, 'components.d.ts'),
     }),
     Unocss(unoConfig),

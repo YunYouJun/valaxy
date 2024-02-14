@@ -22,7 +22,8 @@
       "vitest",
       "vite/client",
       "vite-plugin-vue-layouts/client",
-      "@intlify/unplugin-vue-i18n/messages"
+      "@intlify/unplugin-vue-i18n/messages",
+      "@types/wicg-file-system-access"
     ],
     "allowJs": true,
     "strict": true,

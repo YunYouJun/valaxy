@@ -8,11 +8,17 @@
     "build": "npm run fuse && npm run build:ssg",
     "build:spa": "valaxy build",
     "build:ssg": "valaxy build --ssg --log=info",
-    "dev": "nodemon -w \"../../packages/valaxy/dist/*.mjs\" --exec \"valaxy . --port 4860\"",
+    "dev": "nodemon --exec \"valaxy . --port 4860\"",
     "fuse": "valaxy fuse",
     "new": "valaxy new",
     "rss": "valaxy rss",
     "serve": "vite preview"
+  },
+  "nodemonConfig": {
+    "watch": [
+      "../../packages/valaxy/dist/*.mjs",
+      "../../packages/devtools/dist/*"
+    ]
   },
   "dependencies": {
     "valaxy": "workspace:*",

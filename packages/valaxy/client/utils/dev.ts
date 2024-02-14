@@ -1,4 +1,4 @@
-export function initDevToolsClientLogic() {
+export function setupValaxyDevTools() {
 
 }
 

@@ -20,7 +20,7 @@ import '/@valaxyjs/styles'
 import 'uno.css'
 
 import setupMain from './setup/main'
-import { initDevToolsClientLogic } from './utils/dev'
+import { setupValaxyDevTools } from './utils/dev'
 
 const valaxyConfig = initValaxyConfig()
 
@@ -60,7 +60,7 @@ const routesWithLayout = setupLayouts(import.meta.env.DEV
 )
 
 if (import.meta.env.DEV)
-  initDevToolsClientLogic()
+  setupValaxyDevTools()
 
 // https://github.com/antfu/vite-ssg
 export const createApp = ViteSSG(

@@ -22,7 +22,7 @@
     "build:node": "unbuild",
     "dev": "npm run stub && npm run dev:client",
     "dev:client": "vite build src/client --watch",
-    "dev:src": "vite dev src/client",
+    "dev:src": "vite dev src/client --port 5001",
     "stub": "unbuild --stub",
     "prepublishOnly": "npm run build",
     "release": "bumpp && npm publish"
@@ -33,8 +33,12 @@
     "sirv": "^2.0.4"
   },
   "devDependencies": {
+    "@advjs/gui": "0.0.5-beta.0",
     "@iconify-json/ri": "^1.1.19",
+    "@types/body-parser": "^1.19.5",
     "@types/splitpanes": "^2.2.6",
+    "axios": "^1.6.7",
+    "http-proxy-middleware": "^2.0.6",
     "splitpanes": "^3.1.5",
     "typescript": "^5.3.3",
     "unbuild": "^2.0.0",
