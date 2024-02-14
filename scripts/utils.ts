@@ -4,6 +4,9 @@ import consola from 'consola'
 import { cyan, gray, yellow } from 'picocolors'
 
 export const packages = [
+  // @valaxyjs/devtools
+  'devtools',
+
   'create-valaxy',
   'valaxy',
   'valaxy-theme-press',
