@@ -59,6 +59,7 @@ declare module 'vue-router/auto/routes' {
     '/ecosystem/vscode': RouteRecordInfo<'/ecosystem/vscode', '/ecosystem/vscode', Record<never, never>, Record<never, never>>,
     '/examples/code-height-limit': RouteRecordInfo<'/examples/code-height-limit', '/examples/code-height-limit', Record<never, never>, Record<never, never>>,
     '/examples/katex': RouteRecordInfo<'/examples/katex', '/examples/katex', Record<never, never>, Record<never, never>>,
+    '/examples/mermaid': RouteRecordInfo<'/examples/mermaid', '/examples/mermaid', Record<never, never>, Record<never, never>>,
     '/examples/partial-content-encryption': RouteRecordInfo<'/examples/partial-content-encryption', '/examples/partial-content-encryption', Record<never, never>, Record<never, never>>,
     '/examples/site': RouteRecordInfo<'/examples/site', '/examples/site', Record<never, never>, Record<never, never>>,
     '/faq/': RouteRecordInfo<'/faq/', '/faq', Record<never, never>, Record<never, never>>,

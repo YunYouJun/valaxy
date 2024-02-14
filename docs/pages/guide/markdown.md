@@ -935,6 +935,8 @@ Freedom to control your layout!
 
 ## Mermaid
 
+Based on [mermaid](https://mermaid.js.org/), you can use it in your markdown file directly.
+
 ```mermaid
 graph TD;
     A-->B;
@@ -943,8 +945,14 @@ graph TD;
     C-->D;
 ```
 
+````txt
+```mermaid
 graph TD;
     A-->B;
     A-->C;
     B-->D;
     C-->D;
+```
+````
+
+More examples see: [Mermaid](/examples/mermaid)

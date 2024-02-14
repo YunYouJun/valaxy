@@ -223,7 +223,7 @@ export async function createValaxyLoader(options: ResolvedValaxyOptions, serverO
             hasDeadLinks = true
 
             consola.error(`Dead links found in ${id}`)
-            consola.info(deadLinks)
+            consola.error(deadLinks)
           }
           if (includes.length) {
             includes.forEach((i) => {

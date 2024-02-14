@@ -11,6 +11,7 @@ import UnheadVite from '@unhead/addons/vite'
 import { resolve } from 'pathe'
 import type { ResolvedValaxyOptions, ValaxyServerOptions } from '../options'
 
+import { customElements } from '../constants'
 import { createUnocssPlugin } from './unocss'
 import { createConfigPlugin } from './extendConfig'
 import { createClientSetupPlugin } from './setupClient'
@@ -27,8 +28,6 @@ export async function ViteValaxyPlugins(
 
   const MarkdownPlugin = await createMarkdownPlugin(options)
   const ValaxyLoader = await createValaxyLoader(options, serverOptions)
-
-  const { customElements } = await import('valaxy/node')
 
   return [
     MarkdownPlugin,
