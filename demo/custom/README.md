@@ -7,6 +7,8 @@ pnpm i
 pnpm dev
 ```
 
+Replace `"valaxy": "workspace:*"` in package.json with `"valaxy": "latest"` to use the latest version of valaxy.
+
 ## Custom
 
 ## Ref

@@ -142,7 +142,7 @@ importers:
   demo/custom:
     dependencies:
       valaxy:
-        specifier: 0.18.0-beta.0
+        specifier: workspace:*
         version: link:../../packages/valaxy
       valaxy-theme-custom:
         specifier: ./valaxy-theme-custom
