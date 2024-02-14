@@ -10,6 +10,7 @@
     "build:ssg": "valaxy build --ssg --log=info",
     "dev": "nodemon --exec \"valaxy . --port 4860\"",
     "fuse": "valaxy fuse",
+    "preview-https": "serve dist",
     "new": "valaxy new",
     "rss": "valaxy rss",
     "serve": "vite preview"

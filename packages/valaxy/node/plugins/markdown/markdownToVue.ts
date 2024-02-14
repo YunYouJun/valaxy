@@ -99,6 +99,10 @@ export async function createMarkdownToVueRenderFn(
     }
 
     const start = Date.now()
+    // pageData fm.encryptedContent
+    // avoid async problems
+    // posts transform is parallel
+    const pageData = await generatePageData(code, id, options)
 
     code = transformHexoTags(code, id)
     const data = transformIncludes(code, id)
@@ -107,10 +111,9 @@ export async function createMarkdownToVueRenderFn(
     code = transformCodeBlock(code)
 
     // run it before vue and after md parse
-    code = await transformEncrypt(code, id)
+    code = await transformEncrypt(code, id, pageData)
 
     const deadLinks = scanDeadLinks(code, id)
-    const pageData = await generatePageData(code, id, options)
     code = transformMarkdown(code, id, pageData)
 
     debug(`[render] ${file} in ${Date.now() - start}ms.`)

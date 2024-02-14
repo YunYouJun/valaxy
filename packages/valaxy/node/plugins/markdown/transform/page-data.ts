@@ -27,11 +27,14 @@ export async function generatePageData(code: string, id: string, options: Resolv
   const { frontmatter = {} as Record<string, any> } = options.env
   const relativePath = path.relative(options.userRoot, id)
 
+  // copy new object
+  const fm = JSON.parse(JSON.stringify(frontmatter))
+
   const pageData: PageData = {
-    title: frontmatter.title || options.env.title || '',
-    titleTemplate: frontmatter.titleTemplate as any,
-    description: inferDescription(frontmatter),
-    frontmatter,
+    title: fm.title || options.env.title || '',
+    titleTemplate: fm.titleTemplate as any,
+    description: inferDescription(fm),
+    frontmatter: fm,
     // not be used
     headers: options.env.headers || [],
     relativePath,

@@ -1,3 +1,4 @@
+import type { PageData } from 'valaxy/types'
 import { encryptContent } from '../../../utils/encrypt'
 import type { ResolvedValaxyOptions } from '../../../options'
 
@@ -5,9 +6,12 @@ export function createTransformEncrypt(options: ResolvedValaxyOptions) {
   // handle mainContent, encrypt
   const { config: { siteConfig: { encrypt } } } = options
 
-  return async (code: string, _id: string) => {
+  /**
+   * will modify pageData.frontmatter
+   */
+  return async (code: string, _id: string, pageData: PageData) => {
     // get env after initEnv
-    const { frontmatter = {} as Record<string, any> } = options.env
+    const { frontmatter = {} as Record<string, any> } = pageData
 
     if (encrypt.enable) {
       // partial encryption
@@ -27,13 +31,14 @@ export function createTransformEncrypt(options: ResolvedValaxyOptions) {
             }),
           )
         }
-        frontmatter.partiallyEncryptedContents = partiallyEncryptedContents.length ? partiallyEncryptedContents : undefined
         let i = 0
         if (partiallyEncryptedContents.length) {
+          // if not exist, not add to frontmatter
+          frontmatter.partiallyEncryptedContents = partiallyEncryptedContents
           code = code.replaceAll(encryptRegexp, () => {
             const partiallyEncryptedContents = `$frontmatter.partiallyEncryptedContents`
             const content = `${partiallyEncryptedContents}[${i++}]`
-            return `<ValaxyDecrypt v-if="${partiallyEncryptedContents} && ${content}" :encrypted-content="${content}" />`
+            return `<ClientOnly><ValaxyDecrypt :encrypted-content="${content}" /></ClientOnly>`
           })
         }
       }
@@ -53,13 +58,14 @@ export function createTransformEncrypt(options: ResolvedValaxyOptions) {
         delete frontmatter.password
         // replace content in <template></template> to empty
         const encryptedContentStr = '$frontmatter.encryptedContent'
-        code = code.replace(content, `<ValaxyDecrypt v-if="${encryptedContentStr}" :encrypted-content="${encryptedContentStr}" />`)
+        code = code.replace(content, `<ClientOnly><ValaxyDecrypt :encrypted-content="${encryptedContentStr}" /></ClientOnly>`)
 
         // remove export
         const scriptSetupStart = code.lastIndexOf('<script setup>')
         const scriptSetupEnd = code.lastIndexOf('</script>')
         const scriptSetupContent = code.slice(scriptSetupStart + 14, scriptSetupEnd)
-        code = code.replace(scriptSetupContent, `/* hide frontmatter */`)
+        // hide password in script setup
+        code = code.replace(scriptSetupContent, '')
       }
       if (frontmatter.gallery_password) {
         const encryptedPhotos = await encryptContent(JSON.stringify(frontmatter.photos), {

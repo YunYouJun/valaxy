@@ -37,6 +37,7 @@ window.$pageData = data
 window.$frontmatter = $frontmatter
       `
         : '',
+      'globalThis.$frontmatter = $frontmatter',
     ]
 
     // inject imports to <script setup>
