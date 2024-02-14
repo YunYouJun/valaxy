@@ -37,12 +37,13 @@ export async function ViteValaxyPlugins(
       include: [/\.vue$/, /\.md$/],
       exclude: [],
       template: {
+        ...valaxyConfig.vue?.template,
         compilerOptions: {
+          ...valaxyConfig.vue?.template?.compilerOptions,
           isCustomElement: (tag) => {
             return customElements.has(tag) || valaxyConfig.vue?.template?.compilerOptions?.isCustomElement?.(tag)
           },
         },
-        ...valaxyConfig.vue?.template,
       },
       ...valaxyConfig.vue,
     }),
