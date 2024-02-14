@@ -38,10 +38,9 @@ html:not(.dark) .vp-code-dark {
   }
 
   div[class*="language-"] {
-    overflow-y: hidden;
+    overflow: auto hidden;
     position: relative;
     background-color: var(--va-code-block-bg);
-    overflow-x: auto;
   }
 
   [class*='language-'] pre,

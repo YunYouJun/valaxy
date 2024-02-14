@@ -2,6 +2,7 @@
 import type MarkdownIt from 'markdown-it'
 import type { SiteConfig } from 'valaxy/types'
 import type { ThemeOptions } from '../../types'
+import type { MarkdownEnv } from '../../env'
 
 export interface Options {
   hasSingleTheme: boolean
@@ -32,8 +33,9 @@ export function extractTitle(info: string, html = false) {
   return info.match(/\[(.*)\]/)?.[1] || extractLang(info) || 'txt'
 }
 
-function getCodeHeightLimitStyle(options: Options) {
-  const codeHeightLimit = options?.siteConfig?.codeHeightLimit
+function getCodeHeightLimitStyle(options: Options, env: MarkdownEnv) {
+  // frontmatter has higher priority
+  const codeHeightLimit = env.frontmatter?.codeHeightLimit || options?.siteConfig?.codeHeightLimit
   if (codeHeightLimit === undefined || codeHeightLimit <= 0)
     return ''
 
@@ -51,7 +53,7 @@ function getCodeHeightLimitStyle(options: Options) {
 export function preWrapperPlugin(md: MarkdownIt, options: Options) {
   const fence = md.renderer.rules.fence!
   md.renderer.rules.fence = (...args) => {
-    const [tokens, idx] = args
+    const [tokens, idx, _, env] = args
     const token = tokens[idx]
     // remove title from info
     token.info = token.info.replace(/\[.*\]/, '')
@@ -60,7 +62,7 @@ export function preWrapperPlugin(md: MarkdownIt, options: Options) {
     const rawCode = fence(...args)
 
     return `
-    <div ${getCodeHeightLimitStyle(options)} class="language-${lang}${getAdaptiveThemeMarker(options)}${
+    <div ${getCodeHeightLimitStyle(options, env)} class="language-${lang}${getAdaptiveThemeMarker(options)}${
       / active( |$)/.test(token.info) ? ' active' : ''
     }">
       <button title="Copy Code" class="copy"></button><span class="lang">${lang}</span>${rawCode}<button class="collapse"></button>
