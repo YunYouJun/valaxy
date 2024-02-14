@@ -115,7 +115,7 @@
     "pinia": "^2.1.7",
     "qrcode": "^1.5.3",
     "sass": "^1.70.0",
-    "shiki": "^1.1.1",
+    "shiki": "^1.1.2",
     "star-markdown-css": "^0.4.2",
     "unconfig": "^0.3.11",
     "unocss": "^0.58.5",
@@ -128,7 +128,7 @@
     "vite-plugin-vue-layouts": "0.11.0",
     "vite-ssg": "0.23.6",
     "vite-ssg-sitemap": "0.6.1",
-    "vue": "^3.4.18",
+    "vue": "^3.4.19",
     "vue-i18n": "^9.9.1",
     "vue-router": "^4.2.5",
     "yargs": "^17.7.2"
