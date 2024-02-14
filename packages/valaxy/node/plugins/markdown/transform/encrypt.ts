@@ -40,7 +40,9 @@ export function createTransformEncrypt(options: ResolvedValaxyOptions) {
 
       // encrypt the entire article
       if (frontmatter.password) {
-        const content = code.match(/<template>([\s\S]*?)<\/template>/)?.[1] || ''
+        const templateStart = code.indexOf('<template>')
+        const templateEnd = code.lastIndexOf('</template>')
+        const content = code.slice(templateStart + 10, templateEnd)
         const encryptedContent = await encryptContent(content, {
           password: frontmatter.password,
           iv: encrypt.iv,
