@@ -1,6 +1,6 @@
 ---
 title: Participate in Development
-title_zh: 参与开发
+title_zh-CN: 参与开发
 categories:
   - dev
 end: false

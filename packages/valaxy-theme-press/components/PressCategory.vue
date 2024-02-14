@@ -22,9 +22,9 @@ const collapsable = ref(props.collapsable)
 const { t, locale } = useI18n()
 
 function getTitle(post: Post | any) {
-  let lang = locale.value
-  lang = lang === 'zh-CN' ? 'zh' : lang
-  return post[`title_${lang}`] ? post[`title_${lang}`] : post.title
+  const lang = locale.value
+  const localeTitle = post[`title_${lang}`] || post[`title_${lang.split('-')[0]}`]
+  return localeTitle || post.title
 }
 </script>
 
