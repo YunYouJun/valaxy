@@ -39,7 +39,12 @@ window.$frontmatter = $frontmatter
         : '',
     ]
 
-    code = code.replace(/(<script setup.*>)/g, `$1\n${imports.join('\n')}\n`)
+    // inject imports to <script setup>
+    const scriptSetupStart = code.indexOf('<script setup>')
+    if (scriptSetupStart !== -1)
+      code = code.slice(0, scriptSetupStart + '<script setup>'.length) + imports.join('\n') + code.slice(scriptSetupStart + 14)
+    else
+      code = `<script setup>\n${imports.join('\n')}\n</script>\n${code}`
 
     const injectA = code.indexOf('<template>') + '<template>'.length
     const injectB = code.lastIndexOf('</template>')

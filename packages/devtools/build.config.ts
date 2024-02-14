@@ -7,7 +7,10 @@ export default defineBuildConfig({
   clean: false,
   declaration: true,
   externals: [
+    // in valaxy
     'vite',
+    'gray-matter',
+    'fs-extra',
   ],
   rollup: {
     emitCJS: true,

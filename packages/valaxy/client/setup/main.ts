@@ -14,6 +14,7 @@ import type { ComputedRef } from 'vue'
 // https://github.com/microsoft/TypeScript/issues/42873
 import type { DefaultTheme, ValaxyConfig } from 'valaxy/types'
 
+import consola from 'consola'
 import { install as installValaxy } from '../modules/valaxy'
 import { install as installPinia } from '../modules/pinia'
 import { install as installNprogress } from '../modules/nprogress'
@@ -40,6 +41,7 @@ export default function setupMain(ctx: ViteSSGContext, config: ComputedRef<Valax
     import('../modules/devtools').then(({ install: installDevtools }) => {
       setTimeout(() => {
         installDevtools(ctx)
+        consola.success('Valaxy Devtools installed')
       }, 0)
     })
   }

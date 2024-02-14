@@ -54,6 +54,12 @@ export function createTransformEncrypt(options: ResolvedValaxyOptions) {
         // replace content in <template></template> to empty
         const encryptedContentStr = '$frontmatter.encryptedContent'
         code = code.replace(content, `<ValaxyDecrypt v-if="${encryptedContentStr}" :encrypted-content="${encryptedContentStr}" />`)
+
+        // remove export
+        const scriptSetupStart = code.lastIndexOf('<script setup>')
+        const scriptSetupEnd = code.lastIndexOf('</script>')
+        const scriptSetupContent = code.slice(scriptSetupStart + 14, scriptSetupEnd)
+        code = code.replace(scriptSetupContent, `/* hide frontmatter */`)
       }
       if (frontmatter.gallery_password) {
         const encryptedPhotos = await encryptContent(JSON.stringify(frontmatter.photos), {

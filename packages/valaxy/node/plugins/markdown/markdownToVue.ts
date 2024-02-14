@@ -106,7 +106,7 @@ export async function createMarkdownToVueRenderFn(
     code = data.code
     code = transformCodeBlock(code)
 
-    // run it before vue and after md
+    // run it before vue and after md parse
     code = await transformEncrypt(code, id)
 
     const deadLinks = scanDeadLinks(code, id)

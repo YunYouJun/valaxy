@@ -18,7 +18,7 @@ export default function ValaxyDevtools(options: ValaxyDevtoolsOptions = {}): Plu
     const base = (options.base ?? server.config.base) || '/'
 
     const devtoolsUrl = `${base}__valaxy_devtools__/`
-    if (import.meta.env.VITE_DEV_VALAXY_DEVTOOLS === 'true') {
+    if (import.meta.env?.VITE_DEV_VALAXY_DEVTOOLS === 'true') {
       server.middlewares.use(devtoolsUrl, createProxyMiddleware({
         target: 'http://localhost:5001/#/',
         changeOrigin: true,
