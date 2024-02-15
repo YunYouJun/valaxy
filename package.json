@@ -57,9 +57,6 @@
     "test:space": "export NODE_OPTIONS='--inspect --max-old-space-size=2048' && pnpm -C demo/yun run build:ssg",
     "prepare": "husky install"
   },
-  "dependencies": {
-    "c12": "^1.7.0"
-  },
   "devDependencies": {
     "@antfu/eslint-config": "2.6.4",
     "@iconify-json/logos": "^1.1.42",

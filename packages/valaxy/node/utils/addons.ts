@@ -2,7 +2,7 @@ import process from 'node:process'
 import { resolve } from 'pathe'
 import fs from 'fs-extra'
 import defu from 'defu'
-import { cyan, dim, yellow } from 'picocolors'
+import { blue, cyan, dim, yellow } from 'picocolors'
 import ora from 'ora'
 import type { ValaxyAddonResolver, ValaxyAddons } from '../types'
 import { logger } from '../logger'
@@ -34,7 +34,8 @@ export async function parseAddons(addons: ValaxyAddons, userRoot = process.cwd()
   spinner.succeed()
   const resolvedAddons = Object.values(resolvers).filter(item => item.enable)
   resolvedAddons.forEach((addon, i) => {
-    logger.log(`  ${i === resolvedAddons.length - 1 ? '└─' : '├─'} ${yellow(addon.name)}${addon.global ? cyan(' (global)') : ''} ${dim(addon.pkg.homepage || addon.pkg.repository?.url || addon.pkg.repository)}`)
+    // eslint-disable-next-line no-console
+    console.log(`  ${i === resolvedAddons.length - 1 ? '└─' : '├─'} ${yellow(addon.name)} ${blue(`v${addon.pkg?.version}`)}${addon.global ? cyan(' (global)') : ''} ${dim(addon.pkg.homepage || addon.pkg.repository?.url || addon.pkg.repository || '')}`)
   })
   return resolvedAddons
 }

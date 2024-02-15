@@ -9,7 +9,7 @@ import { Waline } from '@waline/client/component'
 import { commentCount, pageviewCount } from '@waline/client'
 import { getEmojis } from '../utils'
 
-import '@waline/client/dist/waline.css'
+import '@waline/client/style'
 import type { WalineOptions } from '../types'
 
 const props = defineProps<{
