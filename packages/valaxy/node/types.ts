@@ -83,7 +83,9 @@ export interface ValaxyExtendConfig {
    * @vitejs/plugin-vue options
    * @see https://github.com/vitejs/vite-plugin-vue/blob/main/packages/plugin-vue/README.md
    */
-  vue?: Parameters<typeof Vue>[0]
+  vue?: Parameters<typeof Vue>[0] & {
+    isCustomElement?: ((tag: string) => boolean)[]
+  }
   // unplugin
   components?: Parameters<typeof Components>[0]
   layouts?: Parameters<typeof Layouts>[0]
