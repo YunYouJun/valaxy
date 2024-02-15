@@ -15,6 +15,6 @@
     "valaxy": "latest"
   },
   "dependencies": {
-    "bangumi-api": "^0.0.1"
+    "bilibili-bangumi-component": "^0.1.2"
   }
 }
