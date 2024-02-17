@@ -77,7 +77,9 @@ export default defineValaxyConfig<ThemeConfig>({
       indexName: 'valaxy',
     }),
     addonBangumi({
-      uid: 378106,
+      api: 'https://yi_xiao_jiu-bangumi.web.val.run',
+      bilibiliUid: '1579790',
+      bgmEnabled: false,
     }),
     addonComponents(),
     addonWaline({
