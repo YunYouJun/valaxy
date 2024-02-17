@@ -264,6 +264,52 @@ Markdown 样式是主题呈现文章样式的部分，需要由主题自定义�
 
 > 你还可以使用 Valaxy 内置的 API 以快速实现相关功能。
 
+#### 获取用户的 Valaxy Config
+
+你可以通过内置的 `useValaxyConfig` 获取用户的 Valaxy 配置。
+
+::: tip
+
+这部分配置与用户的 `valaxy.config.ts` 中的配置相对应，但它仅在客户端使用，因此并不包含 Node 端相关配置（如 `vite` 等）。
+
+:::
+
+```ts
+import { useSiteConfig, useValaxyConfig } from 'valaxy'
+import { useThemeConfig } from 'valaxy-theme-custom'
+
+const config = useValaxyConfig()
+// site.config.ts or config.value.siteConfig
+const siteConfig = useSiteConfig()
+// theme.config.ts or config.value.themeConfig
+const themeConfig = useThemeConfig()
+```
+
+#### 提供 Typed useThemeConfig
+
+你可以提供一个主题的 `useThemeConfig` 函数，以便自己/用户获得带有类型约束的配置。
+
+```ts
+// composables/config.ts
+import { useValaxyConfig } from 'valaxy'
+// custom your theme type
+import type { YunTheme } from '../types'
+/**
+ * getThemeConfig
+ */
+export function useThemeConfig<ThemeConfig = YunTheme.Config>() {
+  const config = useValaxyConfig<ThemeConfig>()
+  return computed(() => config!.value.themeConfig)
+}
+```
+
+```ts
+// use
+import { useThemeConfig } from 'valaxy-theme-custom'
+
+const themeConfig = useThemeConfig()
+```
+
 #### 获取文章列表
 
 获取文章列表有两种方式。
@@ -336,6 +382,7 @@ const fm = useFrontmatter()
 // stores/app.ts
 import { acceptHMRUpdate, defineStore } from 'pinia'
 
+// custom your theme name
 export const useYunAppStore = defineStore('yun-app', () => {
   // global cache for yun
 
