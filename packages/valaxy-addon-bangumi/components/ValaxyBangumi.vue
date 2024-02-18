@@ -26,3 +26,15 @@ const { api, bgmEnabled, bgmUid, bilibiliEnabled, bilibiliUid } = bangumiOptions
     :bilibili-uid="bilibiliUid"
   />
 </template>
+
+<style>
+:root[class~="light"] bilibili-bangumi {
+  --bbc-primary-color: #425aef;
+  --bbc-text-base-color: #24292e;
+}
+
+:root[class~="dark"] bilibili-bangumi {
+  --bbc-primary-color: #2fd8d8;
+  --bbc-text-base-color: #f2f2f2;
+}
+</style>
