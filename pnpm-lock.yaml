@@ -560,8 +560,8 @@ importers:
   packages/valaxy-addon-bangumi:
     dependencies:
       bilibili-bangumi-component:
-        specifier: ^0.1.2
-        version: 0.1.2
+        specifier: ^0.1.5
+        version: 0.1.5
       valaxy:
         specifier: latest
         version: link:../valaxy
@@ -2339,12 +2339,6 @@ packages:
     resolution: {integrity: sha512-+Fj43pSMwJs4KRrH/938Uf+uAELIgVBmQzg/q1YG10djyfA3TnrU8N8XzqCh/okZdszqBQTZf96idMfE5lnwTA==}
     dev: true
 
-  /@stencil/core@4.12.2:
-    resolution: {integrity: sha512-WEMpoqwMV4hY/ab2z9NxRhSeZwuKEugjyn6Vd+qA9xqZh6VNUL27QbP8vCa7IeqD4Zql4JBtKu3lVuBHutWE6w==}
-    engines: {node: '>=16.0.0', npm: '>=7.10.0'}
-    hasBin: true
-    dev: false
-
   /@stylistic/eslint-plugin-js@1.5.4(eslint@8.56.0):
     resolution: {integrity: sha512-3ctWb3NvJNV1MsrZN91cYp2EGInLPSoZKphXIbIRx/zjZxKwLDr9z4LMOWtqjq14li/OgqUUcMq5pj8fgbLoTw==}
     engines: {node: ^16.0.0 || >=18.0.0}
@@ -4063,10 +4057,8 @@ packages:
       require-from-string: 2.0.2
     dev: false
 
-  /bilibili-bangumi-component@0.1.2:
-    resolution: {integrity: sha512-v4i3041d3PWvt6X2HMAuCaU3oPI8WKiuxRM8EcRwelOXTQtRcHDn3fxeg7gQP1JoraRFMdwTJqr191erIqyV9w==}
-    dependencies:
-      '@stencil/core': 4.12.2
+  /bilibili-bangumi-component@0.1.5:
+    resolution: {integrity: sha512-/a3OErHCNMZYXmMxb7UYXfzV7uKvIWV8I1EJmsiQViNJpp4WNbmzCreXMu3Z2NfH3ekXbrRQXuXlt0PfP8vHMg==}
     dev: false
 
   /binary-extensions@2.2.0:
