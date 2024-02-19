@@ -606,8 +606,6 @@ info
 
 :::
 
-::: details Click to expand
-
 ```md
 :::
 
@@ -636,7 +634,19 @@ info
 :::
 ```
 
+::: details Click to expand
+
+Details Content
+
 :::
+
+```md
+::: details Click to expand
+
+Details Content
+
+:::
+```
 
 ## KaTeX {lang="en"}
 
