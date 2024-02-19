@@ -608,7 +608,33 @@ info
 
 ::: details Click to expand
 
-details
+```md
+:::
+
+::: tip
+
+tip
+
+:::
+
+::: warning
+
+warning
+
+:::
+
+::: danger
+
+danger
+
+:::
+
+::: info
+
+info
+
+:::
+```
 
 :::
 
