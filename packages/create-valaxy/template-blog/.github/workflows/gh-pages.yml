@@ -15,7 +15,7 @@ jobs:
 
     strategy:
       matrix:
-        node-version: [16.x]
+        node-version: [lts/*]
         os: [ubuntu-latest]
       fail-fast: false
 

@@ -36,7 +36,7 @@
     "sirv": "^2.0.4"
   },
   "devDependencies": {
-    "@advjs/gui": "0.0.5-beta.0",
+    "@advjs/gui": "0.0.5-beta.4",
     "@iconify-json/ri": "^1.1.19",
     "@types/body-parser": "^1.19.5",
     "@types/splitpanes": "^2.2.6",

@@ -22,10 +22,10 @@ jobs:
           run_install: true
 
       # after pnpm
-      - name: Use Node.js ${{ matrix.node-version }}
+      - name: Use Node.js LTS
         uses: actions/setup-node@v3
         with:
-          node-version: 16.x
+          node-version: lts/*
           cache: pnpm
 
       - name: 🌌 Build Valaxy Cli

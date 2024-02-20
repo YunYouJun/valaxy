@@ -3,10 +3,7 @@ publish = "demo/yun/dist"
 command = "npx pnpm i --store=node_modules/.pnpm-store && npx pnpm build && npx pnpm run build:demo"
 
 [build.environment]
-# bypass npm auto install
-NPM_FLAGS = "--version"
-NODE_VERSION = "16"
-PLAYWRIGHT_BROWSERS_PATH = "0"
+NODE_VERSION = "20"
 
 [[redirects]]
 from = "/*"

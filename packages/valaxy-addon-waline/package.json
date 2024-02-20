@@ -19,6 +19,6 @@
     "valaxy": "latest"
   },
   "dependencies": {
-    "@waline/client": "^3.0.1"
+    "@waline/client": "^3.1.2"
   }
 }
