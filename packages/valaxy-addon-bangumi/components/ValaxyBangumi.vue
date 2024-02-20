@@ -8,17 +8,30 @@
 // eslint-disable-next-line ts/ban-ts-comment
 // @ts-expect-error
 import { defineCustomElements } from 'bilibili-bangumi-component/dist/cjs/loader.cjs'
+import { onMounted, ref } from 'vue'
 import { useAddonBangumi } from '../client'
 
 defineCustomElements()
 
+const bangumiRef = ref<HTMLElement>()
+
 const bangumiOptions = useAddonBangumi()
 
-const { api, bgmEnabled, bgmUid, bilibiliEnabled, bilibiliUid } = bangumiOptions.value
+const { api, bgmEnabled, bgmUid, bilibiliEnabled, bilibiliUid, customCss } = bangumiOptions.value
+
+onMounted(() => {
+  if (!customCss)
+    return
+
+  const sheet = new CSSStyleSheet()
+  sheet.replaceSync(customCss)
+  bangumiRef.value?.shadowRoot?.adoptedStyleSheets.push(sheet)
+})
 </script>
 
 <template>
   <bilibili-bangumi
+    ref="bangumiRef"
     :api="api"
     :bgm-enabled="bgmEnabled"
     :bgm-uid="bgmUid"
