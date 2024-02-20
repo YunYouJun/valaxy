@@ -1,6 +1,6 @@
 {
   "name": "valaxy-addon-bangumi",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "Bangumi addon for Valaxy",
   "repository": {
     "type": "git",
@@ -17,6 +17,6 @@
     "valaxy": "latest"
   },
   "dependencies": {
-    "bilibili-bangumi-component": "^0.1.5"
+    "bilibili-bangumi-component": "^0.2.0"
   }
 }
