@@ -25,4 +25,11 @@ export interface BangumiOptions {
    * @default true
    */
   bgmEnabled?: boolean
+
+  /**
+   * 自定义 css
+   * @example
+   * .bbc-bangumi-title a { color: red; }
+   */
+  customCss?: string
 }
