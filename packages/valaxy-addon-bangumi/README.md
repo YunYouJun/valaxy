@@ -40,6 +40,24 @@ description: Bangumi 追番列表
 <ValaxyBangumi />
 ```
 
+## 样式覆盖
+
+bilibili-bangumi-component 使用 WebComponent 实现，而 Shadow DOM 具有隔离性，外部样式样式无法覆盖内部样式，可以通过下面的方式覆盖：
+
+```ts
+// valaxy.config.ts
+import { defineConfig } from 'valaxy'
+import { addonBangumi } from 'valaxy-addon-bangumi'
+
+export default defineConfig({
+  addons: [
+    addonBangumi({
+      customCss: '.bbc-bangumi-title a { color: red; }'
+    }),
+  ]
+})
+```
+
 ## API
 
 | 字段           | 描述                                     | 默认值 |
@@ -49,3 +67,4 @@ description: Bangumi 追番列表
 | bgm-uid            | Bangumi 的 uid，在后端中引入 uid 的 env 后可以不设置  | - |
 | bilibili-enabled   | 是否展示 Bilibili 平台                             | true |
 | bgm-enabled        | 是否展示 Bangumi 平台                              | true|
+| customCss          | 自定义 css                                        | - |

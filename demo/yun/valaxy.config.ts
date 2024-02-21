@@ -7,6 +7,7 @@ import { addonComponents } from 'valaxy-addon-components'
 import { addonLightGallery } from 'valaxy-addon-lightgallery'
 import { addonTest } from 'valaxy-addon-test'
 import { addonWaline } from 'valaxy-addon-waline'
+import { addonTwikoo } from 'valaxy-addon-twikoo'
 
 import { addonMeting } from 'valaxy-addon-meting'
 
@@ -96,9 +97,9 @@ export default defineValaxyConfig<ThemeConfig>({
         type: 'song',
       },
     }),
-    // addonTwikoo({
-    //   envId: 'https://twikoo.vercel.app',
-    // }),
+    addonTwikoo({
+      envId: 'https://twikoo.vercel.app',
+    }),
     addonTest(),
   ],
 })
