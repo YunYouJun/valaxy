@@ -1,34 +1,25 @@
 <script lang="ts" setup>
 import { useRuntimeConfig } from 'valaxy'
-import { ref } from 'vue'
+import { computed, ref } from 'vue'
 
-const activeComment = ref<'waline' | 'twikoo'>('waline')
 const runtimeConfig = useRuntimeConfig()
-const isDoubleComment = !!(runtimeConfig.value.addons['valaxy-addon-waline'] && runtimeConfig.value.addons['valaxy-addon-twikoo']) as boolean
+const supportCommentAddons = ['valaxy-addon-waline', 'valaxy-addon-twikoo']
 
-function toggleComment() {
-  activeComment.value = activeComment.value === 'waline' ? 'twikoo' : 'waline'
-}
+const commentSystems = computed(() => {
+  return supportCommentAddons.filter(addonName => runtimeConfig.value.addons[addonName]).map(addonName => addonName.split('-')[2])
+})
+
+const activeComment = ref(commentSystems.value[0])
 </script>
 
 <template>
   <YunCard w="full" p="4" class="comment yun-comment sm:p-6 lg:px-12 xl:px-16">
     <ClientOnly>
-      <div v-if="isDoubleComment" class="flex justify-end w-full pr-4 mb-2">
-        <div class="flex gap-x-2 items-center px-4 py-2 rounded-2 bg-[var(--va-c-bg-dark)] text-sm">
-          <div class="text-[var(--va-c-primary-lighter)]">
-            Waline
-          </div>
-          <button class="relative w-12 h-6 rounded-full cursor-pointer bg-[var(--va-c-primary-light)]" @click="toggleComment">
-            <div class="absolute left-1 top-1 w-4 h-4 rounded-full bg-white transition" :class="activeComment === 'twikoo' ? 'translate-x-6' : 'translate-x-0'" />
-          </button>
-          <div class="text-[var(--va-c-red-3)]">
-            Twikoo
-          </div>
-        </div>
+      <div v-if="commentSystems.length > 1" class="flex justify-end w-full mb-2">
+        <YunSelect v-model="activeComment" :options="commentSystems" />
       </div>
-      <YunWaline v-if="isDoubleComment ? activeComment === 'waline' : runtimeConfig.addons['valaxy-addon-waline']" />
-      <YunTwikoo v-if="isDoubleComment ? activeComment === 'twikoo' : runtimeConfig.addons['valaxy-addon-twikoo']" />
+      <YunWaline v-if="activeComment === 'waline'" />
+      <YunTwikoo v-if="activeComment === 'twikoo'" />
       <slot />
     </ClientOnly>
   </YunCard>
