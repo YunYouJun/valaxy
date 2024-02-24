@@ -7,21 +7,21 @@ export interface MetingOptions {
    * @see https://github.com/metowolf/MetingJS#option
    */
   props?: {
-    id?: string
-    server?: 'netease' | 'tencent' | 'kugou' | 'xiami' | 'baidu'
-    type?: 'song' | 'album' | 'artist' | 'playlist' | 'search'
-    auto?: 'netease' | 'tencent' | 'xiami'
-    fixed?: boolean
-    mini?: boolean
-    autoplay?: boolean
-    theme?: string
-    loop?: 'all' | 'one' | 'none'
-    order?: string
-    preload?: 'auto' | 'metadata' | 'none'
-    volume?: number
-    work?: string
-    mutex?: boolean
-    start?: string
+    'id'?: string
+    'server'?: 'netease' | 'tencent' | 'kugou' | 'xiami' | 'baidu'
+    'type'?: 'song' | 'album' | 'artist' | 'playlist' | 'search'
+    'auto'?: 'netease' | 'tencent' | 'xiami'
+    'fixed'?: boolean
+    'mini'?: boolean
+    'autoplay'?: boolean
+    'theme'?: string
+    'loop'?: 'all' | 'one' | 'none'
+    'order'?: string
+    'preload'?: 'auto' | 'metadata' | 'none'
+    'volume'?: number
+    'work'?: string
+    'mutex'?: boolean
+    'start'?: string
     'lrc-type'?: number
     'list-folded'?: boolean
     'list-max-height'?: string

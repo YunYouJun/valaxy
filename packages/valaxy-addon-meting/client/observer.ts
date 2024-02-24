@@ -1,3 +1,4 @@
+import { onMounted, onUnmounted } from 'vue'
 import type { MetingOptions } from '../node/index'
 import { onMetingLoad, onMetingLoadBefore } from './hook'
 
@@ -22,27 +23,37 @@ export function setupHiddenLyricHidingObserver() {
   observer.observe(document.body, { childList: true, subtree: true })
 }
 
-export function setupMetingLoadObserver(addon: MetingOptions) {
+export function useMetingLoadObserver(addon: MetingOptions) {
   let hasExecuted = false
-  const observer = new MutationObserver((mutations) => {
-    function load() {
-      if (hasExecuted)
-        return
-      const aplayerNarrowElement = document.querySelector('.aplayer.aplayer-fixed.aplayer-narrow .aplayer-body') as HTMLElement
-      if (aplayerNarrowElement) {
-        hasExecuted = true
-        setTimeout(() => {
-          onMetingLoadBefore(addon)
-          requestAnimationFrame(() => {
-            onMetingLoad(addon)
-            observer.disconnect()
-          })
-        }, 0)
+  let observer: MutationObserver | null
+
+  onMounted(() => {
+    observer = new MutationObserver((mutations) => {
+      function load() {
+        if (hasExecuted)
+          return
+        const aplayerNarrowElement = document.querySelector('.aplayer.aplayer-fixed.aplayer-narrow .aplayer-body') as HTMLElement
+        if (aplayerNarrowElement) {
+          hasExecuted = true
+          setTimeout(() => {
+            onMetingLoadBefore(addon)
+            requestAnimationFrame(() => {
+              onMetingLoad(addon)
+              observer?.disconnect()
+              observer = null
+            })
+          }, 0)
+        }
       }
-    }
-    mutations.forEach((_mutation) => {
-      load()
+      mutations.forEach((_mutation) => {
+        load()
+      })
     })
+    observer.observe(document.body, { childList: true, subtree: true })
   })
-  observer.observe(document.body, { childList: true, subtree: true })
+
+  onUnmounted(() => {
+    observer?.disconnect()
+    observer = null
+  })
 }

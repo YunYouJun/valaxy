@@ -1,3 +1,5 @@
+import { useEventListener } from '@vueuse/core'
+import { onMounted } from 'vue'
 import type { MetingOptions } from '../node/index'
 import { Hook } from './hook'
 
@@ -13,10 +15,12 @@ export function handleOptions(options: MetingOptions['options'], rules: Rules) {
   })
 }
 
-export function aplayerMiniswitcherEventListener() {
-  const aplayerFixedElement = document.querySelector('.aplayer.aplayer-fixed .aplayer-body') as HTMLElement
-  const aplayerIconButton = document.querySelector('.aplayer-body .aplayer-miniswitcher .aplayer-icon') as HTMLElement
-
+/**
+ * APlayer mini switcher
+ */
+export function useAPlayerMiniSwitcherEventListener() {
+  let aplayerFixedElement: HTMLElement
+  let aplayerIconButton: HTMLElement
   let aplayerNarrow = true
 
   function toggleAplayerVisibility() {
@@ -32,9 +36,14 @@ export function aplayerMiniswitcherEventListener() {
     aplayerFixedElement.style.left = '0'
   }
 
-  aplayerFixedElement.addEventListener('mouseenter', showAplayer)
-  aplayerFixedElement.addEventListener('mouseleave', hiddenAplayer)
-  aplayerIconButton.addEventListener('click', toggleAplayerVisibility)
+  onMounted(() => {
+    aplayerFixedElement = document.querySelector('.aplayer.aplayer-fixed .aplayer-body') as HTMLElement
+    aplayerIconButton = document.querySelector('.aplayer-body .aplayer-miniswitcher .aplayer-icon') as HTMLElement
+
+    useEventListener(aplayerFixedElement, 'mouseenter', showAplayer)
+    useEventListener(aplayerFixedElement, 'mouseleave', hiddenAplayer)
+    useEventListener(aplayerIconButton, 'click', toggleAplayerVisibility)
+  })
 }
 
 function __handleAplayerAction(action: string, leftValue: string) {

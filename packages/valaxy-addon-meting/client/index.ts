@@ -2,7 +2,7 @@ import { useScriptTag } from '@vueuse/core'
 import { useHead } from '@unhead/vue'
 import { computed } from 'vue'
 import { useSiteConfig } from 'valaxy'
-import { setupMetingLoadObserver } from './observer'
+import { useMetingLoadObserver } from './observer'
 import { useAddonMeting } from './options'
 import { onMetingInit } from './hook'
 
@@ -31,5 +31,5 @@ export function useMeting() {
   })
 
   onMetingInit(addonMeting.value)
-  setupMetingLoadObserver(addonMeting.value)
+  useMetingLoadObserver(addonMeting.value)
 }

@@ -1,5 +1,5 @@
 import type { MetingOptions } from '../node/index'
-import { animationIn, aplayerMiniswitcherEventListener, autoHidden, handleOptions } from './utils'
+import { animationIn, autoHidden, handleOptions, useAPlayerMiniSwitcherEventListener } from './utils'
 import { setupHiddenLyricHidingObserver } from './observer'
 
 export enum Hook {
@@ -27,7 +27,7 @@ export function onMetingLoad({ options }: MetingOptions) {
       animationIn(Hook.metingLoad)
     },
     autoHidden: () => {
-      aplayerMiniswitcherEventListener()
+      useAPlayerMiniSwitcherEventListener()
       autoHidden(Hook.metingLoad)
     },
   })
