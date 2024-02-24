@@ -21,6 +21,28 @@ export default defineConfig({
 })
 ```
 
+```ts
+export interface MetingOptions {
+  global?: boolean
+  /** @see https://github.com/metowolf/MetingJS#option */
+  props?: {
+    id?: string
+    server?: 'netease' | 'tencent' | 'kugou' | 'xiami' | 'baidu'
+    type?: 'song' | 'album' | 'artist' | 'playlist' | 'search'
+  }
+  options?: {
+    animationIn?: boolean
+    autoHidden?: boolean
+    lyricHidden?: boolean
+  }
+}
+```
+| Configuration Item                    | Description                                                                                        | Default Value |
+| ------------------------------------- | -------------------------------------------------------------------------------------------------- | ------------- |
+| **lyricsLoadOnStart** (optional)      | Specifies whether to hide the lyrics upon startup                                                | `false`       |
+| **aplayerAutoHide** (optional)        | Enables auto-hiding of the APlayer interface when not interacted with. Recommended for use with `aplayerVisibleAfterLoad`                            | `false`        |
+| **aplayerVisibleAfterLoad** (optional) | Determines whether the APlayer interface should be visible immediately after loading is complete | `false`        |
+
 ## props
 
 You can [meting#options](https://github.com/metowolf/MetingJS#option)
