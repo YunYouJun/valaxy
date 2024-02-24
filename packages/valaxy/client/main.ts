@@ -1,7 +1,7 @@
 import type { ViteSSGContext } from 'vite-ssg'
 import { ViteSSG } from 'vite-ssg'
 
-import { routes } from 'vue-router/auto/routes'
+import { routes } from 'vue-router/auto-routes'
 import { setupLayouts } from 'virtual:generated-layouts'
 
 import { initValaxyConfig, valaxyConfigSymbol } from 'valaxy'
@@ -38,6 +38,12 @@ if (useVueRouter)
 
 // fix chinese path
 routes.forEach((i) => {
+  // set post layout
+  if (i.path === '/posts') {
+    if (i.meta && !i.meta.layout)
+      i.meta.layout = 'post'
+  }
+
   i?.children?.forEach((j) => {
     j.path = encodeURI(j.path)
   })

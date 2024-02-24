@@ -35,10 +35,10 @@
   },
   "include": [
     // for type check
-    "demo/yun/.valaxy/typed-router.d.ts",
     "./*.ts",
     "./test/*.ts",
     "./packages/valaxy/shims.d.ts",
+    "./packages/**/*.d.ts",
     "./packages/**/*.ts",
     "./packages/**/*.vue"
   ],

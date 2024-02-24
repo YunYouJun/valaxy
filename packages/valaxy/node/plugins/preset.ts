@@ -49,12 +49,6 @@ export async function ViteValaxyPlugins(
       },
       ...valaxyConfig.vue,
     }),
-    ValaxyLoader,
-
-    UnheadVite(),
-
-    // https://github.com/posva/unplugin-vue-router
-    createRouterPlugin(options),
 
     // https://github.com/JohnCampionJr/vite-plugin-vue-layouts
     Layouts({
@@ -62,6 +56,12 @@ export async function ViteValaxyPlugins(
 
       ...valaxyConfig.layouts,
     }),
+    ValaxyLoader,
+
+    UnheadVite(),
+
+    // https://github.com/posva/unplugin-vue-router
+    createRouterPlugin(options),
 
     // https://github.com/antfu/unplugin-vue-components
     Components({

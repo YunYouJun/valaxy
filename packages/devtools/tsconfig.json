@@ -10,12 +10,17 @@
     "moduleResolution": "Bundler",
     "resolveJsonModule": true,
     "types": [
-      "vite/client"
+      "vite/client",
+      "unplugin-vue-router/client"
     ],
     "strict": true,
     "strictNullChecks": true,
     "esModuleInterop": true,
     "skipDefaultLibCheck": true,
     "skipLibCheck": true
-  }
+  },
+  "include": [
+    "./src/client/typed-routes.d.ts",
+    "./src/**/*.ts"
+  ]
 }

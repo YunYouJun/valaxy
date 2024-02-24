@@ -36,7 +36,7 @@
     "sirv": "^2.0.4"
   },
   "devDependencies": {
-    "@advjs/gui": "0.0.5-beta.4",
+    "@advjs/gui": "0.0.5-beta.7",
     "@iconify-json/ri": "^1.1.19",
     "@types/body-parser": "^1.19.5",
     "@types/splitpanes": "^2.2.6",
@@ -44,7 +44,8 @@
     "splitpanes": "^3.1.5",
     "typescript": "^5.3.3",
     "unbuild": "^2.0.0",
-    "unplugin-vue-router": "^0.7.0",
-    "vite": "^5.1.3"
+    "unplugin-vue-router": "^0.8.4",
+    "vite": "^5.1.4",
+    "vue-router": "^4.3.0"
   }
 }

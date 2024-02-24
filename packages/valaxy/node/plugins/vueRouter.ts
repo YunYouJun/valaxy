@@ -76,16 +76,11 @@ export function createRouterPlugin(options: ResolvedValaxyOptions) {
         })
       }
 
+      // page is post
+      // add layout info before enter route
+
       // find page path
       const path = route.components.get('default') || ''
-
-      // page is post
-      if (route.fullPath.startsWith('/posts/')) {
-        route.addToMeta({
-          layout: 'post',
-        })
-      }
-
       if (path.endsWith('.md')) {
         const md = fs.readFileSync(path, 'utf-8')
         const { data, excerpt, content } = matter(md, {

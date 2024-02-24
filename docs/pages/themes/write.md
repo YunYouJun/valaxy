@@ -80,7 +80,7 @@ pnpm create valaxy
   - `default.vue`: 默认布局
   - `home.vue`: 首页布局
   - `layout.vue`: 文章列表布局
-  - `post.vue`: 文章布局
+  - `post.vue`: 文章布局（放置于 `pages/posts/` 文件夹下的文章默认为 post 布局）
   - `tags.vue`: 标签布局
 - `locales`: 主题的多语言支持
   - `en.yml`: 英文语言文件

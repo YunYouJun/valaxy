@@ -26,7 +26,7 @@ export function injectPageDataCode(
 }
 
 export function createTransformMarkdown(options: ResolvedValaxyOptions) {
-  return (code: string, _id: string, pageData: PageData) => {
+  return (code: string, id: string, pageData: PageData) => {
     const dataCode = injectPageDataCode(pageData)
     const isDev = options.mode === 'dev'
     const imports = [
