@@ -20,7 +20,7 @@ aplayer: true
 Valaxy 内置了基于 [fuse.js](https://fusejs.io/) 的离线搜索（须预先通过 `valaxy fuse` 构建生成本地缓存）。
 
 > `valaxy fuse` 默认将 `fuse` 生成在 `public` 目录下，并在 `.gitignore` 中添加 `public/valaxy-fuse-list.json` 忽略。
-> 请在 `valaxy build` 之前使用 `valaxy fuse` 构建。
+> 在执行 `valaxy build` 之前，会自动执行 `valaxy fuse`。
 
 如果你想要使用全文搜索，可参考 [Options | fuse.js](https://www.fusejs.io/api/options.html) 进行设置。
 譬如：
@@ -58,7 +58,7 @@ export default defineSiteConfig({
 Valaxy has built-in local search based on [fuse.js](https://fusejs.io/). The local cache should be generated in advance via `valaxy fuse`.
 
 > `valaxy fuse` generates `fuse` in the `public` directory by default.
-> Please use `valaxy fuse` before `valaxy build`.
+> When executing `valaxy build`, `valaxy fuse` will be executed automatically.
 :::
 
 #### 使用 {lang="zh-CN"}
@@ -108,7 +108,7 @@ export default defineSiteConfig({
     "theme": "yun"
   },
   "scripts": {
-    "build": "npm run fuse && npm run build:ssg",
+    "build": "npm run build:ssg",
     "build:ssg": "valaxy build --ssg",
     "fuse": "valaxy fuse",
     "rss": "valaxy rss"

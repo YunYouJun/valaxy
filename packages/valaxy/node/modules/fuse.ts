@@ -10,8 +10,8 @@ import type { Argv } from 'yargs'
 import type { FuseListItem } from 'valaxy/types'
 import { resolveOptions } from '../options'
 import { setEnvProd } from '../utils/env'
-import { defineValaxyModule } from '../modules'
-import { commonOptions } from './options'
+import { commonOptions } from '../cli/options'
+import { defineValaxyModule } from '.'
 
 /**
  * @description Generate Fuse List Data for Search
@@ -59,7 +59,42 @@ export async function generateFuseList(options: ResolvedValaxyOptions) {
 }
 
 /**
- * valaxy fuse
+ * fuse main logic
+ */
+export async function execFuse(options: ResolvedValaxyOptions) {
+  consola.info('Start generate fuse list...')
+  const fuseList = await generateFuseList(options)
+
+  await fs.ensureDir('./dist')
+  const publicFolder = path.resolve(options.userRoot, 'public')
+  const publicFuseFile = path.resolve(publicFolder, options.config.siteConfig.fuse.dataPath)
+  const publicRelativeFile = path.join('public', options.config.siteConfig.fuse.dataPath)
+
+  await fs.ensureFile(publicFuseFile)
+  fs.writeJSONSync(publicFuseFile, fuseList)
+  consola.success(`Generate fuse list in ${dim(publicFolder)}`)
+
+  // copy to dist
+  const distFolder = path.resolve(options.userRoot, 'dist')
+  const distFuseFile = path.resolve(distFolder, options.config.siteConfig.fuse.dataPath)
+  await fs.ensureDir(distFolder)
+  fs.writeJSONSync(distFuseFile, fuseList)
+  consola.success(`Generate fuse list in ${dim(distFolder)}`)
+
+  try {
+    const gitignorePath = path.resolve(options.userRoot, '.gitignore')
+    const gitignore = await fs.readFile(gitignorePath, 'utf-8')
+    const ignorePath = publicRelativeFile.replace(/\\/g, '/')
+    if (!gitignore.includes(ignorePath)) {
+      await fs.appendFile(gitignorePath, `\n# valaxy fuse\n${ignorePath}\n`)
+      consola.success(`Add ${dim(ignorePath)} to ${dim('.gitignore')}`)
+    }
+  }
+  catch { }
+}
+
+/**
+ * valaxy fuse (will auto generate before build)
  * @param cli
  */
 export function registerFuseCommand(cli: Argv<object>) {
@@ -70,38 +105,9 @@ export function registerFuseCommand(cli: Argv<object>) {
       .strict()
       .help(),
     async ({ root }) => {
-      consola.info('Please generate it before build.')
-
       setEnvProd()
       const options = await resolveOptions({ userRoot: root }, 'build')
-      const fuseList = await generateFuseList(options)
-
-      await fs.ensureDir('./dist')
-      const publicFolder = path.resolve(options.userRoot, 'public')
-      const publicFuseFile = path.resolve(publicFolder, options.config.siteConfig.fuse.dataPath)
-      const publicRelativeFile = path.join('public', options.config.siteConfig.fuse.dataPath)
-
-      await fs.ensureFile(publicFuseFile)
-      fs.writeJSONSync(publicFuseFile, fuseList)
-      consola.success(`Generate fuse list in ${dim(publicFolder)}`)
-
-      // copy to dist
-      const distFolder = path.resolve(options.userRoot, 'dist')
-      const distFuseFile = path.resolve(distFolder, options.config.siteConfig.fuse.dataPath)
-      await fs.ensureDir(distFolder)
-      fs.writeJSONSync(distFuseFile, fuseList)
-      consola.success(`Generate fuse list in ${dim(distFolder)}`)
-
-      try {
-        const gitignorePath = path.resolve(options.userRoot, '.gitignore')
-        const gitignore = await fs.readFile(gitignorePath, 'utf-8')
-        const ignorePath = publicRelativeFile.replace(/\\/g, '/')
-        if (!gitignore.includes(ignorePath)) {
-          await fs.appendFile(gitignorePath, `\n# valaxy fuse\n${ignorePath}\n`)
-          consola.success(`Add ${dim(ignorePath)} to ${dim('.gitignore')}`)
-        }
-      }
-      catch {}
+      await execFuse(options)
     },
   )
 }
@@ -112,8 +118,8 @@ export const fuseModule = defineValaxyModule({
   },
 
   setup(node) {
-    node.hook('build:before', () => {
-      generateFuseList(node.options)
+    node.hook('build:before', async () => {
+      await execFuse(node.options)
     })
   },
 })

@@ -12,6 +12,7 @@ import type { ValaxyModule } from '../modules'
 import { setupModules } from '../modules'
 import { rssModule } from '../modules/rss'
 import { isPagesDirExist, setEnvProd } from '../utils/env'
+import { fuseModule } from '../modules/fuse'
 import { printInfo } from './utils/cli'
 import { commonOptions } from './options'
 
@@ -54,9 +55,12 @@ export function registerBuildCommand(cli: yargs.Argv) {
 
       const valaxyApp = createValaxyNode(options)
       // resolve options and create valaxy app
+      consola.start(`Run ${yellow('options:resolved')} hooks`)
       await valaxyApp.hooks.callHook('options:resolved')
 
       const modules: ValaxyModule[] = []
+      if (options.config.siteConfig.search.type === 'fuse')
+        modules.push(fuseModule)
       if (options.config.modules.rss.enable)
         modules.push(rssModule)
 
@@ -81,11 +85,14 @@ export function registerBuildCommand(cli: yargs.Argv) {
         } as InlineConfig,
       )
       // init config
+      consola.start(`Run ${yellow('config:init')} hooks`)
       await valaxyApp.hooks.callHook('config:init')
 
       // before build
+      consola.start(`Run ${yellow('build:before')} hooks`)
       await valaxyApp.hooks.callHook('build:before')
 
+      consola.box('🌠 Start building...')
       try {
         if (ssg) {
           consola.info(`use ${yellow('vite-ssg')} to do ssg build...`)
@@ -114,6 +121,7 @@ export function registerBuildCommand(cli: yargs.Argv) {
         // await fs.copyFile(templatePath, indexPath)
 
         // after build
+        consola.start(`Run ${yellow('build:after')} hooks`)
         await valaxyApp.hooks.callHook('build:after')
       }
     },

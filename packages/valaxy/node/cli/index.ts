@@ -4,14 +4,13 @@ import yargs from 'yargs'
 import { hideBin } from 'yargs/helpers'
 import { version } from '../../package.json'
 
-// build
-
-// rss
-import { rssModule } from '../modules/rss'
+// modules
 import type { ValaxyModule } from '../modules'
-import { fuseModule } from './fuse'
-import { registerNewCommand } from './new'
+import { rssModule } from '../modules/rss'
+import { fuseModule } from '../modules/fuse'
 
+// commands
+import { registerNewCommand } from './new'
 import { registerBuildCommand } from './build'
 import { registerDevCommand } from './dev'
 
@@ -27,8 +26,8 @@ registerBuildCommand(cli)
 registerNewCommand(cli)
 
 const modules: ValaxyModule[] = [
-  rssModule,
   fuseModule,
+  rssModule,
 ]
 
 modules.forEach((module) => {
