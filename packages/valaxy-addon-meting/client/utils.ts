@@ -46,7 +46,7 @@ export function useAPlayerMiniSwitcherEventListener() {
   })
 }
 
-function __handleAplayerAction(action: string, leftValue: string) {
+function handleAplayerAction(action: string, leftValue: string) {
   const aplayerNarrowElement = document.querySelector('.aplayer.aplayer-fixed.aplayer-narrow .aplayer-body') as HTMLElement
   if (!aplayerNarrowElement)
     return
@@ -58,9 +58,9 @@ function __handleAplayerAction(action: string, leftValue: string) {
 }
 
 export function animationIn(action: string) {
-  __handleAplayerAction(action, '0')
+  handleAplayerAction(action, '0')
 }
 
 export function autoHidden(action: string) {
-  __handleAplayerAction(action, '-66px')
+  handleAplayerAction(action, '-66px')
 }
