@@ -1,5 +1,5 @@
 import { useEventListener } from '@vueuse/core'
-import { onMounted } from 'vue'
+import { onMounted, onUnmounted } from 'vue'
 import type { MetingOptions } from '../node/index'
 import { Hook } from './hook'
 
@@ -43,6 +43,12 @@ export function useAPlayerMiniSwitcherEventListener() {
     useEventListener(aplayerFixedElement, 'mouseenter', showAplayer)
     useEventListener(aplayerFixedElement, 'mouseleave', hiddenAplayer)
     useEventListener(aplayerIconButton, 'click', toggleAplayerVisibility)
+  })
+
+  onUnmounted(() => {
+    aplayerFixedElement?.removeEventListener('mouseenter', showAplayer)
+    aplayerFixedElement?.removeEventListener('mouseleave', hiddenAplayer)
+    aplayerIconButton?.removeEventListener('click', toggleAplayerVisibility)
   })
 }
 
