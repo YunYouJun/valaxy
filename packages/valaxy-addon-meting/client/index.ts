@@ -1,6 +1,6 @@
 import { useScriptTag } from '@vueuse/core'
 import { useHead } from '@unhead/vue'
-import { computed, onMounted } from 'vue'
+import { computed } from 'vue'
 import { useSiteConfig } from 'valaxy'
 import { useMetingLoadObserver } from './observer'
 import { useAddonMeting } from './options'
@@ -30,8 +30,6 @@ export function useMeting() {
     useScriptTag(`${cdnPrefix.value}meting@2/dist/Meting.min.js`)
   })
 
-  onMounted(() => {
-    onMetingInit(addonMeting.value)
-    useMetingLoadObserver(addonMeting.value)
-  })
+  onMetingInit(addonMeting.value)
+  useMetingLoadObserver(addonMeting.value)
 }
