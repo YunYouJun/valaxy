@@ -28,6 +28,11 @@ export interface MetingOptions {
     'storage-name'?: string
     [key: string]: any
   }
+  options?: {
+    animationIn?: boolean
+    autoHidden?: boolean
+    lyricHidden?: boolean
+  }
 }
 
 export const addonMeting = defineValaxyAddon<MetingOptions>(options => ({

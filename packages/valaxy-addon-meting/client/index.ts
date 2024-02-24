@@ -1,7 +1,10 @@
 import { useScriptTag } from '@vueuse/core'
 import { useHead } from '@unhead/vue'
-import { computed } from 'vue'
+import { computed, onMounted } from 'vue'
 import { useSiteConfig } from 'valaxy'
+import { useMetingLoadObserver } from './observer'
+import { useAddonMeting } from './options'
+import { onMetingInit } from './hook'
 
 /**
  * use MetingJS and Aplayer
@@ -10,6 +13,7 @@ import { useSiteConfig } from 'valaxy'
  */
 export function useMeting() {
   const siteConfig = useSiteConfig()
+  const addonMeting = useAddonMeting()
   const cdnPrefix = computed(() => siteConfig.value.cdn.prefix)
 
   useHead({
@@ -24,5 +28,10 @@ export function useMeting() {
   // load meting after aplayer
   useScriptTag(`${cdnPrefix.value}aplayer/dist/APlayer.min.js`, () => {
     useScriptTag(`${cdnPrefix.value}meting@2/dist/Meting.min.js`)
+  })
+
+  onMounted(() => {
+    onMetingInit(addonMeting.value)
+    useMetingLoadObserver(addonMeting.value)
   })
 }
