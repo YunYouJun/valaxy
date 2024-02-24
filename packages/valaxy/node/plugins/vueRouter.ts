@@ -77,7 +77,17 @@ export function createRouterPlugin(options: ResolvedValaxyOptions) {
       }
 
       // page is post
-      // add layout info before enter route
+      if (route.fullPath === '/posts') {
+        // avoid /posts as parent layout use 'default'
+        route.addToMeta({
+          layout: 'empty',
+        })
+      }
+      else if (route.fullPath.startsWith('/posts/')) {
+        route.addToMeta({
+          layout: 'post',
+        })
+      }
 
       // find page path
       const path = route.components.get('default') || ''

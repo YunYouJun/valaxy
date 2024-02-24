@@ -50,18 +50,19 @@ export async function ViteValaxyPlugins(
       ...valaxyConfig.vue,
     }),
 
-    // https://github.com/JohnCampionJr/vite-plugin-vue-layouts
-    Layouts({
-      layoutsDirs: roots.map(root => `${root}/layouts`),
-
-      ...valaxyConfig.layouts,
-    }),
     ValaxyLoader,
 
     UnheadVite(),
 
     // https://github.com/posva/unplugin-vue-router
     createRouterPlugin(options),
+
+    // https://github.com/JohnCampionJr/vite-plugin-vue-layouts
+    Layouts({
+      layoutsDirs: roots.map(root => `${root}/layouts`),
+
+      ...valaxyConfig.layouts,
+    }),
 
     // https://github.com/antfu/unplugin-vue-components
     Components({

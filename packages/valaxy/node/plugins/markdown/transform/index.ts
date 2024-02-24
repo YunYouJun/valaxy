@@ -56,6 +56,7 @@ export async function createMarkdownPlugin(
         code = transformMermaid(code)
         // TODO: PlantUML
         // code = transformPlantUml(code, config.plantUmlServer)
+
         return code
       },
 

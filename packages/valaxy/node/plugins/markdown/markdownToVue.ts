@@ -118,6 +118,8 @@ export async function createMarkdownToVueRenderFn(
 
     debug(`[render] ${file} in ${Date.now() - start}ms.`)
 
+    // console.log(code)
+
     const result = {
       code,
       pageData,
