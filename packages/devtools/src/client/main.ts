@@ -1,5 +1,7 @@
 // register vue composition api globally
 import { createApp } from 'vue'
+
+// @ts-expect-error ignore vue-router/auto
 import { createRouter, createWebHashHistory } from 'vue-router/auto'
 import App from './App.vue'
 

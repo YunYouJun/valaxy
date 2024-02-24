@@ -7,6 +7,37 @@ settings:
 importers:
 
   .:
+    dependencies:
+      '@valaxyjs/devtools':
+        specifier: workspace:*
+        version: link:packages/devtools
+      valaxy:
+        specifier: workspace:*
+        version: link:packages/valaxy
+      valaxy-addon-algolia:
+        specifier: workspace:*
+        version: link:packages/valaxy-addon-algolia
+      valaxy-addon-components:
+        specifier: workspace:*
+        version: link:packages/valaxy-addon-components
+      valaxy-addon-lightgallery:
+        specifier: workspace:*
+        version: link:packages/valaxy-addon-lightgallery
+      valaxy-addon-test:
+        specifier: workspace:*
+        version: link:packages/valaxy-addon-test
+      valaxy-addon-twikoo:
+        specifier: workspace:*
+        version: link:packages/valaxy-addon-twikoo
+      valaxy-addon-waline:
+        specifier: workspace:*
+        version: link:packages/valaxy-addon-waline
+      valaxy-theme-press:
+        specifier: workspace:*
+        version: link:packages/valaxy-theme-press
+      valaxy-theme-yun:
+        specifier: workspace:*
+        version: link:packages/valaxy-theme-yun
     devDependencies:
       '@antfu/eslint-config':
         specifier: 2.6.4
@@ -41,9 +72,6 @@ importers:
       '@types/resolve':
         specifier: ^1.20.6
         version: 1.20.6
-      '@valaxyjs/devtools':
-        specifier: workspace:*
-        version: link:packages/devtools
       bumpp:
         specifier: ^9.3.0
         version: 9.3.0
@@ -98,33 +126,6 @@ importers:
       unbuild:
         specifier: ^2.0.0
         version: 2.0.0(typescript@5.3.3)
-      valaxy:
-        specifier: workspace:*
-        version: link:packages/valaxy
-      valaxy-addon-algolia:
-        specifier: workspace:*
-        version: link:packages/valaxy-addon-algolia
-      valaxy-addon-components:
-        specifier: workspace:*
-        version: link:packages/valaxy-addon-components
-      valaxy-addon-lightgallery:
-        specifier: workspace:*
-        version: link:packages/valaxy-addon-lightgallery
-      valaxy-addon-test:
-        specifier: workspace:*
-        version: link:packages/valaxy-addon-test
-      valaxy-addon-twikoo:
-        specifier: workspace:*
-        version: link:packages/valaxy-addon-twikoo
-      valaxy-addon-waline:
-        specifier: workspace:*
-        version: link:packages/valaxy-addon-waline
-      valaxy-theme-press:
-        specifier: workspace:*
-        version: link:packages/valaxy-theme-press
-      valaxy-theme-yun:
-        specifier: workspace:*
-        version: link:packages/valaxy-theme-yun
       vitest:
         specifier: ^1.3.1
         version: 1.3.1(@types/node@20.11.20)
@@ -276,9 +277,6 @@ importers:
       vite:
         specifier: ^5.1.4
         version: 5.1.4(@types/node@20.11.20)(sass@1.71.1)
-      vue-router:
-        specifier: ^4.3.0
-        version: 4.3.0(vue@3.4.19)
 
   packages/valaxy:
     dependencies:
