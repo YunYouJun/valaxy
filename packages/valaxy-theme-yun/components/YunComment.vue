@@ -1,14 +1,25 @@
 <script lang="ts" setup>
 import { useRuntimeConfig } from 'valaxy'
+import { computed, ref } from 'vue'
 
 const runtimeConfig = useRuntimeConfig()
+const supportCommentAddons = ['valaxy-addon-waline', 'valaxy-addon-twikoo']
+
+const commentSystems = computed(() => {
+  return supportCommentAddons.filter(addonName => runtimeConfig.value.addons[addonName]).map(addonName => addonName.split('-')[2])
+})
+
+const activeComment = ref(commentSystems.value[0])
 </script>
 
 <template>
   <YunCard w="full" p="4" class="comment yun-comment sm:p-6 lg:px-12 xl:px-16">
     <ClientOnly>
-      <YunWaline v-if="runtimeConfig.addons['valaxy-addon-waline']" />
-      <YunTwikoo v-if="runtimeConfig.addons['valaxy-addon-twikoo']" />
+      <div v-if="commentSystems.length > 1" class="flex justify-end w-full mb-2">
+        <YunSelect v-model="activeComment" :options="commentSystems" />
+      </div>
+      <YunWaline v-if="activeComment === 'waline'" />
+      <YunTwikoo v-if="activeComment === 'twikoo'" />
       <slot />
     </ClientOnly>
   </YunCard>

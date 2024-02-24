@@ -8,5 +8,7 @@ if (!isEmptyAddon(addonTwikoo))
 </script>
 
 <template>
-  <div id="tcomment" w="full" />
+  <div>
+    <div id="tcomment" w="full" />
+  </div>
 </template>
