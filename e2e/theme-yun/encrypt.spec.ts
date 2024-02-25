@@ -9,7 +9,7 @@ test.describe('Encrypted Post', () => {
   test('encrypted post', async ({ page }) => {
     await page.goto('/posts/encrypted-post')
 
-    await expect(page.locator('.markdown-body')).toHaveCount(1)
+    await page.waitForSelector('.markdown-body')
     await expect(page.locator('.decrypt-password-container')).toHaveCount(1)
 
     await page.fill('.decrypt-password-container input', 'valaxy')

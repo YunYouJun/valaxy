@@ -85,6 +85,7 @@ export function createConfigPlugin(options: ResolvedValaxyOptions): Plugin {
         // root: options.userRoot,
         // can not transform valaxy/client/*.ts when use userRoot
         root: options.clientRoot,
+        cacheDir: join(options.userRoot, 'node_modules/.vite'),
         publicDir: join(options.userRoot, 'public'),
 
         define: getDefine(options),

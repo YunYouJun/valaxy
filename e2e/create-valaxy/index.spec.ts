@@ -15,16 +15,18 @@ test.describe('Create Valaxy Demo', () => {
   })
 
   test('banner', async ({ page }) => {
-    await page.goto('/')
+    await page.waitForSelector('#yun-banner')
     await expect(page.locator('.char-box')).toHaveCount(6)
     await expect(page.locator('.char-box').nth(0)).toHaveText('云')
   })
 
   test('sidebar', async ({ page }) => {
+    await page.waitForSelector('.sidebar')
     await expect(page.locator('.sidebar')).toContainText('Valaxy Theme Yun')
   })
 
   test('post list', async ({ page }) => {
+    await page.waitForSelector('.post-title-link')
     await expect(page.locator('.post-title-link')).toHaveText('Hello, Valaxy!')
   })
 
