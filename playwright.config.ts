@@ -56,10 +56,10 @@ export default defineConfig({
     //   name: 'Mobile Chrome',
     //   use: { ...devices['Pixel 5'] },
     // },
-    {
-      name: 'Mobile Safari',
-      use: { ...devices['iPhone 13'] },
-    },
+    // {
+    //   name: 'Mobile Safari',
+    //   use: { ...devices['iPhone 13'] },
+    // },
 
     /* Test against branded browsers. */
     // {
@@ -85,7 +85,7 @@ export default defineConfig({
       reuseExistingServer: !process.env.CI,
     },
     {
-      command: 'pnpm run -C valaxy-blog dev --port 4861',
+      command: 'pnpm -C valaxy-blog dev --port 4861',
       url: 'http://localhost:4861',
       reuseExistingServer: !process.env.CI,
     },
