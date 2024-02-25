@@ -1,5 +1,8 @@
 import dayjs from 'dayjs'
+import timezone from 'dayjs/plugin/timezone'
 import type { Post } from '../../types'
+
+dayjs.extend(timezone)
 
 /**
  * use dayjs format date
