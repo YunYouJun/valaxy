@@ -21,6 +21,9 @@ jobs:
       - name: Install
         run: pnpm install
 
+      - name: CI Build Init
+        run: pnpm run ci
+
       - name: Install Playwright Browsers
         run: pnpm exec playwright install --with-deps
 

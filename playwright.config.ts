@@ -76,8 +76,18 @@ export default defineConfig({
   webServer: [
     {
       command: 'npm run docs:dev',
-      url: 'http://127.0.0.1:4859',
+      url: 'http://localhost:4859',
       reuseExistingServer: !process.env.CI,
     },
+    {
+      command: 'npm run demo',
+      url: 'http://localhost:4860',
+      reuseExistingServer: !process.env.CI,
+    },
+    // {
+    //   command: 'pnpm run -C valaxy-blog dev --port 4861',
+    //   url: 'http://localhost:4861',
+    //   reuseExistingServer: !process.env.CI,
+    // },
   ],
 })

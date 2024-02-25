@@ -42,5 +42,5 @@
     "./packages/**/*.ts",
     "./packages/**/*.vue"
   ],
-  "exclude": ["**/dist/**", "node_modules", "cypress", "cache"]
+  "exclude": ["**/dist/**", "node_modules", "cache"]
 }

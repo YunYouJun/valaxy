@@ -17,7 +17,6 @@ node_modules
 
 components.d.ts
 
-cypress/downloads
 /test-results/
 /playwright-report/
 /blob-report/
