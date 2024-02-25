@@ -104,6 +104,5 @@ jobs:
 
       - run: pnpm run test
 
-  # see playwright
+  # see playwright.yml
   # test-e2e
-
