@@ -16,7 +16,7 @@
     "valaxy": "latest"
   },
   "dependencies": {
-    "@docsearch/css": "^3.5.2",
-    "@docsearch/js": "^3.5.2"
+    "@docsearch/css": "^3.6.0",
+    "@docsearch/js": "^3.6.0"
   }
 }
