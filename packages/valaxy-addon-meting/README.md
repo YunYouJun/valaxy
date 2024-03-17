@@ -37,11 +37,12 @@ export interface MetingOptions {
   }
 }
 ```
+
 | Configuration Item                    | Description                                                                                        | Default Value |
 | ------------------------------------- | -------------------------------------------------------------------------------------------------- | ------------- |
-| **lyricsLoadOnStart** (optional)      | Specifies whether to hide the lyrics upon startup                                                | `false`       |
-| **aplayerAutoHide** (optional)        | Enables auto-hiding of the APlayer interface when not interacted with. Recommended for use with `aplayerVisibleAfterLoad`                            | `false`        |
-| **aplayerVisibleAfterLoad** (optional) | Determines whether the APlayer interface should be visible immediately after loading is complete | `false`        |
+| **animationIn** (optional)      | Specifies whether to hide the lyrics upon startup                                                | `false`       |
+| **autoHidden** (optional)        | Enables auto-hiding of the APlayer interface when not interacted with. Recommended for use with `aplayerVisibleAfterLoad`                            | `false`        |
+| **lyricHidden** (optional) | Determines whether the APlayer interface should be visible immediately after loading is complete | `false`        |
 
 ## props
 

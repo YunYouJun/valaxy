@@ -3,32 +3,28 @@ import type { MetingOptions } from '../node/index'
 import { onMetingLoad, onMetingLoadBefore } from './hook'
 
 export function setupHiddenLyricHidingObserver() {
-  let observer: MutationObserver | null
-
-  onMounted(() => {
-    observer = new MutationObserver((mutations) => {
-      const lrcElement = document.querySelector('.aplayer-lrc .aplayer-lrc-contents .aplayer-lrc-current') as HTMLElement
-      const lrcButton = document.querySelector('.aplayer-icon-lrc') as HTMLElement
-      function removelrc() {
-        if (lrcElement) {
-          lrcElement.style.display = 'none'
-          if (lrcElement.textContent !== 'Loading') {
-            lrcButton.click()
-            lrcElement.style.display = ''
-            observer?.disconnect()
-          }
+  // This condition needs to be executed before onMounted
+  const observer = new MutationObserver((mutations) => {
+    const lrcElement = document.querySelector('.aplayer-lrc .aplayer-lrc-contents .aplayer-lrc-current') as HTMLElement
+    const lrcButton = document.querySelector('.aplayer-icon-lrc') as HTMLElement
+    function removelrc() {
+      if (lrcElement) {
+        lrcElement.style.display = 'none'
+        if (lrcElement.textContent !== 'Loading') {
+          lrcButton.click()
+          lrcElement.style.display = ''
+          observer?.disconnect()
         }
       }
-      mutations.forEach((_mutation) => {
-        removelrc()
-      })
+    }
+    mutations.forEach((_mutation) => {
+      removelrc()
     })
-    observer.observe(document.body, { childList: true, subtree: true })
   })
+  observer.observe(document.body, { childList: true, subtree: true })
 
   onUnmounted(() => {
     observer?.disconnect()
-    observer = null
   })
 }
 
