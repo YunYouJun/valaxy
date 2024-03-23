@@ -10,8 +10,7 @@ public/feed.xml
 public/feed.json
 
 # api docs
-pages/api
-!pages/api/typedoc-sidebar.json
+pages/api/**/*.md
 
 # valaxy fuse
 public/valaxy-fuse-list.json

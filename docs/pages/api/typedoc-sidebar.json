@@ -1,0 +1,794 @@
+[
+  {
+    "text": "API",
+    "link": "/api/index.md",
+    "collapsed": true
+  },
+  {
+    "text": "client",
+    "link": "/api/client/index.md",
+    "collapsed": true,
+    "items": [
+      {
+        "text": "Interfaces",
+        "collapsed": true,
+        "items": [
+          {
+            "text": "BaseCategory",
+            "link": "/api/client/interfaces/BaseCategory.md",
+            "collapsed": true
+          },
+          {
+            "text": "CategoryList",
+            "link": "/api/client/interfaces/CategoryList.md",
+            "collapsed": true
+          },
+          {
+            "text": "ScrollToOptions",
+            "link": "/api/client/interfaces/ScrollToOptions.md",
+            "collapsed": true
+          }
+        ]
+      },
+      {
+        "text": "Type Aliases",
+        "collapsed": true,
+        "items": [
+          {
+            "text": "AppContext",
+            "link": "/api/client/type-aliases/AppContext.md",
+            "collapsed": true
+          },
+          {
+            "text": "AppSetup",
+            "link": "/api/client/type-aliases/AppSetup.md",
+            "collapsed": true
+          },
+          {
+            "text": "Categories",
+            "link": "/api/client/type-aliases/Categories.md",
+            "collapsed": true
+          },
+          {
+            "text": "Category",
+            "link": "/api/client/type-aliases/Category.md",
+            "collapsed": true
+          },
+          {
+            "text": "MenuItem",
+            "link": "/api/client/type-aliases/MenuItem.md",
+            "collapsed": true
+          },
+          {
+            "text": "MermaidOptions",
+            "link": "/api/client/type-aliases/MermaidOptions.md",
+            "collapsed": true
+          },
+          {
+            "text": "MermaidSetup",
+            "link": "/api/client/type-aliases/MermaidSetup.md",
+            "collapsed": true
+          },
+          {
+            "text": "Tags",
+            "link": "/api/client/type-aliases/Tags.md",
+            "collapsed": true
+          },
+          {
+            "text": "UserModule",
+            "link": "/api/client/type-aliases/UserModule.md",
+            "collapsed": true
+          }
+        ]
+      },
+      {
+        "text": "Variables",
+        "collapsed": true,
+        "items": [
+          {
+            "text": "cdnPrefix",
+            "link": "/api/client/variables/cdnPrefix.md",
+            "collapsed": true
+          },
+          {
+            "text": "contentUpdatedCallbacks",
+            "link": "/api/client/variables/contentUpdatedCallbacks.md",
+            "collapsed": true
+          },
+          {
+            "text": "emptyAddonName",
+            "link": "/api/client/variables/emptyAddonName.md",
+            "collapsed": true
+          },
+          {
+            "text": "isDark",
+            "link": "/api/client/variables/isDark.md",
+            "collapsed": true
+          },
+          {
+            "text": "name",
+            "link": "/api/client/variables/name.md",
+            "collapsed": true
+          },
+          {
+            "text": "valaxyConfigRef",
+            "link": "/api/client/variables/valaxyConfigRef.md",
+            "collapsed": true
+          },
+          {
+            "text": "valaxyConfigSymbol",
+            "link": "/api/client/variables/valaxyConfigSymbol.md",
+            "collapsed": true
+          },
+          {
+            "text": "valaxyContextRef",
+            "link": "/api/client/variables/valaxyContextRef.md",
+            "collapsed": true
+          }
+        ]
+      },
+      {
+        "text": "Functions",
+        "collapsed": true,
+        "items": [
+          {
+            "text": "asAny",
+            "link": "/api/client/functions/asAny.md",
+            "collapsed": true
+          },
+          {
+            "text": "defineAppSetup",
+            "link": "/api/client/functions/defineAppSetup.md",
+            "collapsed": true
+          },
+          {
+            "text": "defineMermaidSetup",
+            "link": "/api/client/functions/defineMermaidSetup.md",
+            "collapsed": true
+          },
+          {
+            "text": "formatDate",
+            "link": "/api/client/functions/formatDate.md",
+            "collapsed": true
+          },
+          {
+            "text": "getHeaders",
+            "link": "/api/client/functions/getHeaders.md",
+            "collapsed": true
+          },
+          {
+            "text": "getKey",
+            "link": "/api/client/functions/getKey.md",
+            "collapsed": true
+          },
+          {
+            "text": "getKeyMaterial",
+            "link": "/api/client/functions/getKeyMaterial.md",
+            "collapsed": true
+          },
+          {
+            "text": "initContext",
+            "link": "/api/client/functions/initContext.md",
+            "collapsed": true
+          },
+          {
+            "text": "initValaxyConfig",
+            "link": "/api/client/functions/initValaxyConfig.md",
+            "collapsed": true
+          },
+          {
+            "text": "isCategoryList",
+            "link": "/api/client/functions/isCategoryList.md",
+            "collapsed": true
+          },
+          {
+            "text": "isEmptyAddon",
+            "link": "/api/client/functions/isEmptyAddon.md",
+            "collapsed": true
+          },
+          {
+            "text": "onContentUpdated",
+            "link": "/api/client/functions/onContentUpdated.md",
+            "collapsed": true
+          },
+          {
+            "text": "parseRangeString",
+            "link": "/api/client/functions/parseRangeString.md",
+            "collapsed": true
+          },
+          {
+            "text": "random",
+            "link": "/api/client/functions/random.md",
+            "collapsed": true
+          },
+          {
+            "text": "removeItemFromCategory",
+            "link": "/api/client/functions/removeItemFromCategory.md",
+            "collapsed": true
+          },
+          {
+            "text": "resolveHeaders",
+            "link": "/api/client/functions/resolveHeaders.md",
+            "collapsed": true
+          },
+          {
+            "text": "runCbs",
+            "link": "/api/client/functions/runCbs.md",
+            "collapsed": true
+          },
+          {
+            "text": "runContentUpdated",
+            "link": "/api/client/functions/runContentUpdated.md",
+            "collapsed": true
+          },
+          {
+            "text": "scrollTo",
+            "link": "/api/client/functions/scrollTo.md",
+            "collapsed": true
+          },
+          {
+            "text": "sortByDate",
+            "link": "/api/client/functions/sortByDate.md",
+            "collapsed": true
+          },
+          {
+            "text": "throttleAndDebounce",
+            "link": "/api/client/functions/throttleAndDebounce.md",
+            "collapsed": true
+          },
+          {
+            "text": "toggleDark",
+            "link": "/api/client/functions/toggleDark.md",
+            "collapsed": true
+          },
+          {
+            "text": "toggleDarkWithTransition",
+            "link": "/api/client/functions/toggleDarkWithTransition.md",
+            "collapsed": true
+          },
+          {
+            "text": "useActiveAnchor",
+            "link": "/api/client/functions/useActiveAnchor.md",
+            "collapsed": true
+          },
+          {
+            "text": "useAplayer",
+            "link": "/api/client/functions/useAplayer.md",
+            "collapsed": true
+          },
+          {
+            "text": "useAppStore",
+            "link": "/api/client/functions/useAppStore.md",
+            "collapsed": true
+          },
+          {
+            "text": "useBack",
+            "link": "/api/client/functions/useBack.md",
+            "collapsed": true
+          },
+          {
+            "text": "useBackToTop",
+            "link": "/api/client/functions/useBackToTop.md",
+            "collapsed": true
+          },
+          {
+            "text": "useBodyScrollLock",
+            "link": "/api/client/functions/useBodyScrollLock.md",
+            "collapsed": true
+          },
+          {
+            "text": "useCategories",
+            "link": "/api/client/functions/useCategories.md",
+            "collapsed": true
+          },
+          {
+            "text": "useCategory",
+            "link": "/api/client/functions/useCategory.md",
+            "collapsed": true
+          },
+          {
+            "text": "useCodePen",
+            "link": "/api/client/functions/useCodePen.md",
+            "collapsed": true
+          },
+          {
+            "text": "useCollapseCode",
+            "link": "/api/client/functions/useCollapseCode.md",
+            "collapsed": true
+          },
+          {
+            "text": "useConfig",
+            "link": "/api/client/functions/useConfig.md",
+            "collapsed": true
+          },
+          {
+            "text": "useCopyCode",
+            "link": "/api/client/functions/useCopyCode.md",
+            "collapsed": true
+          },
+          {
+            "text": "useData",
+            "link": "/api/client/functions/useData.md",
+            "collapsed": true
+          },
+          {
+            "text": "useDecrypt",
+            "link": "/api/client/functions/useDecrypt.md",
+            "collapsed": true
+          },
+          {
+            "text": "useFrontmatter",
+            "link": "/api/client/functions/useFrontmatter.md",
+            "collapsed": true
+          },
+          {
+            "text": "useFullUrl",
+            "link": "/api/client/functions/useFullUrl.md",
+            "collapsed": true
+          },
+          {
+            "text": "useInvisibleElement",
+            "link": "/api/client/functions/useInvisibleElement.md",
+            "collapsed": true
+          },
+          {
+            "text": "useLayout",
+            "link": "/api/client/functions/useLayout.md",
+            "collapsed": true
+          },
+          {
+            "text": "useLocale",
+            "link": "/api/client/functions/useLocale.md",
+            "collapsed": true
+          },
+          {
+            "text": "useMediumZoom",
+            "link": "/api/client/functions/useMediumZoom.md",
+            "collapsed": true
+          },
+          {
+            "text": "useOutline",
+            "link": "/api/client/functions/useOutline.md",
+            "collapsed": true
+          },
+          {
+            "text": "usePageList",
+            "link": "/api/client/functions/usePageList.md",
+            "collapsed": true
+          },
+          {
+            "text": "usePostList",
+            "link": "/api/client/functions/usePostList.md",
+            "collapsed": true
+          },
+          {
+            "text": "usePostTitle",
+            "link": "/api/client/functions/usePostTitle.md",
+            "collapsed": true
+          },
+          {
+            "text": "usePrevNext",
+            "link": "/api/client/functions/usePrevNext.md",
+            "collapsed": true
+          },
+          {
+            "text": "useRouterStore",
+            "link": "/api/client/functions/useRouterStore.md",
+            "collapsed": true
+          },
+          {
+            "text": "useRuntimeConfig",
+            "link": "/api/client/functions/useRuntimeConfig.md",
+            "collapsed": true
+          },
+          {
+            "text": "useSidebar",
+            "link": "/api/client/functions/useSidebar.md",
+            "collapsed": true
+          },
+          {
+            "text": "useSiteConfig",
+            "link": "/api/client/functions/useSiteConfig.md",
+            "collapsed": true
+          },
+          {
+            "text": "useSiteStore",
+            "link": "/api/client/functions/useSiteStore.md",
+            "collapsed": true
+          },
+          {
+            "text": "useTag",
+            "link": "/api/client/functions/useTag.md",
+            "collapsed": true
+          },
+          {
+            "text": "useTags",
+            "link": "/api/client/functions/useTags.md",
+            "collapsed": true
+          },
+          {
+            "text": "useValaxyConfig",
+            "link": "/api/client/functions/useValaxyConfig.md",
+            "collapsed": true
+          },
+          {
+            "text": "wrap",
+            "link": "/api/client/functions/wrap.md",
+            "collapsed": true
+          },
+          {
+            "text": "wrapTable",
+            "link": "/api/client/functions/wrapTable.md",
+            "collapsed": true
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "text": "node",
+    "link": "/api/node/index.md",
+    "collapsed": true,
+    "items": [
+      {
+        "text": "Interfaces",
+        "collapsed": true,
+        "items": [
+          {
+            "text": "LoadConfigFromFileOptions",
+            "link": "/api/node/interfaces/LoadConfigFromFileOptions.md",
+            "collapsed": true
+          },
+          {
+            "text": "ResolvedConfig",
+            "link": "/api/node/interfaces/ResolvedConfig.md",
+            "collapsed": true
+          },
+          {
+            "text": "ResolvedValaxyOptions",
+            "link": "/api/node/interfaces/ResolvedValaxyOptions.md",
+            "collapsed": true
+          },
+          {
+            "text": "ValaxyAddonResolver",
+            "link": "/api/node/interfaces/ValaxyAddonResolver.md",
+            "collapsed": true
+          },
+          {
+            "text": "ValaxyEntryOptions",
+            "link": "/api/node/interfaces/ValaxyEntryOptions.md",
+            "collapsed": true
+          },
+          {
+            "text": "ValaxyExtendConfig",
+            "link": "/api/node/interfaces/ValaxyExtendConfig.md",
+            "collapsed": true
+          },
+          {
+            "text": "ValaxyHooks",
+            "link": "/api/node/interfaces/ValaxyHooks.md",
+            "collapsed": true
+          },
+          {
+            "text": "ValaxyNode",
+            "link": "/api/node/interfaces/ValaxyNode.md",
+            "collapsed": true
+          },
+          {
+            "text": "ValaxyServerOptions",
+            "link": "/api/node/interfaces/ValaxyServerOptions.md",
+            "collapsed": true
+          }
+        ]
+      },
+      {
+        "text": "Type Aliases",
+        "collapsed": true,
+        "items": [
+          {
+            "text": "HookResult",
+            "link": "/api/node/type-aliases/HookResult.md",
+            "collapsed": true
+          },
+          {
+            "text": "UnoSetup",
+            "link": "/api/node/type-aliases/UnoSetup.md",
+            "collapsed": true
+          },
+          {
+            "text": "UserInputConfig",
+            "link": "/api/node/type-aliases/UserInputConfig.md",
+            "collapsed": true
+          },
+          {
+            "text": "UserValaxyNodeConfig",
+            "link": "/api/node/type-aliases/UserValaxyNodeConfig.md",
+            "collapsed": true
+          },
+          {
+            "text": "ValaxyAddonExport",
+            "link": "/api/node/type-aliases/ValaxyAddonExport.md",
+            "collapsed": true
+          },
+          {
+            "text": "ValaxyAddonFn",
+            "link": "/api/node/type-aliases/ValaxyAddonFn.md",
+            "collapsed": true
+          },
+          {
+            "text": "ValaxyAddonLike",
+            "link": "/api/node/type-aliases/ValaxyAddonLike.md",
+            "collapsed": true
+          },
+          {
+            "text": "ValaxyAddons",
+            "link": "/api/node/type-aliases/ValaxyAddons.md",
+            "collapsed": true
+          },
+          {
+            "text": "ValaxyConfigExport",
+            "link": "/api/node/type-aliases/ValaxyConfigExport.md",
+            "collapsed": true
+          },
+          {
+            "text": "ValaxyConfigExtendKey",
+            "link": "/api/node/type-aliases/ValaxyConfigExtendKey.md",
+            "collapsed": true
+          },
+          {
+            "text": "ValaxyConfigFn",
+            "link": "/api/node/type-aliases/ValaxyConfigFn.md",
+            "collapsed": true
+          },
+          {
+            "text": "ValaxyNodeConfig",
+            "link": "/api/node/type-aliases/ValaxyNodeConfig.md",
+            "collapsed": true
+          },
+          {
+            "text": "ValaxyPickConfig",
+            "link": "/api/node/type-aliases/ValaxyPickConfig.md",
+            "collapsed": true
+          },
+          {
+            "text": "ValaxyTheme",
+            "link": "/api/node/type-aliases/ValaxyTheme.md",
+            "collapsed": true
+          }
+        ]
+      },
+      {
+        "text": "Variables",
+        "collapsed": true,
+        "items": [
+          {
+            "text": "ALL_ROUTE",
+            "link": "/api/node/variables/ALL_ROUTE.md",
+            "collapsed": true
+          },
+          {
+            "text": "EXCERPT_SEPARATOR",
+            "link": "/api/node/variables/EXCERPT_SEPARATOR.md",
+            "collapsed": true
+          },
+          {
+            "text": "EXTERNAL_URL_RE",
+            "link": "/api/node/variables/EXTERNAL_URL_RE.md",
+            "collapsed": true
+          },
+          {
+            "text": "PATHNAME_PROTOCOL_RE",
+            "link": "/api/node/variables/PATHNAME_PROTOCOL_RE.md",
+            "collapsed": true
+          },
+          {
+            "text": "customElements",
+            "link": "/api/node/variables/customElements.md",
+            "collapsed": true
+          },
+          {
+            "text": "defaultSiteConfig",
+            "link": "/api/node/variables/defaultSiteConfig.md",
+            "collapsed": true
+          },
+          {
+            "text": "defaultValaxyConfig",
+            "link": "/api/node/variables/defaultValaxyConfig.md",
+            "collapsed": true
+          }
+        ]
+      },
+      {
+        "text": "Functions",
+        "collapsed": true,
+        "items": [
+          {
+            "text": "ViteValaxyPlugins",
+            "link": "/api/node/functions/ViteValaxyPlugins.md",
+            "collapsed": true
+          },
+          {
+            "text": "build",
+            "link": "/api/node/functions/build.md",
+            "collapsed": true
+          },
+          {
+            "text": "cli",
+            "link": "/api/node/functions/cli.md",
+            "collapsed": true
+          },
+          {
+            "text": "createServer",
+            "link": "/api/node/functions/createServer.md",
+            "collapsed": true
+          },
+          {
+            "text": "defineAddon",
+            "link": "/api/node/functions/defineAddon.md",
+            "collapsed": true
+          },
+          {
+            "text": "defineConfig",
+            "link": "/api/node/functions/defineConfig.md",
+            "collapsed": true
+          },
+          {
+            "text": "defineSiteConfig",
+            "link": "/api/node/functions/defineSiteConfig.md",
+            "collapsed": true
+          },
+          {
+            "text": "defineTheme",
+            "link": "/api/node/functions/defineTheme.md",
+            "collapsed": true
+          },
+          {
+            "text": "defineUnoSetup",
+            "link": "/api/node/functions/defineUnoSetup.md",
+            "collapsed": true
+          },
+          {
+            "text": "defineValaxyAddon",
+            "link": "/api/node/functions/defineValaxyAddon.md",
+            "collapsed": true
+          },
+          {
+            "text": "defineValaxyConfig",
+            "link": "/api/node/functions/defineValaxyConfig.md",
+            "collapsed": true
+          },
+          {
+            "text": "defineValaxyTheme",
+            "link": "/api/node/functions/defineValaxyTheme.md",
+            "collapsed": true
+          },
+          {
+            "text": "ensurePrefix",
+            "link": "/api/node/functions/ensurePrefix.md",
+            "collapsed": true
+          },
+          {
+            "text": "generateClientRedirects",
+            "link": "/api/node/functions/generateClientRedirects.md",
+            "collapsed": true
+          },
+          {
+            "text": "getGitTimestamp",
+            "link": "/api/node/functions/getGitTimestamp.md",
+            "collapsed": true
+          },
+          {
+            "text": "isExternal",
+            "link": "/api/node/functions/isExternal.md",
+            "collapsed": true
+          },
+          {
+            "text": "isPath",
+            "link": "/api/node/functions/isPath.md",
+            "collapsed": true
+          },
+          {
+            "text": "loadConfig",
+            "link": "/api/node/functions/loadConfig.md",
+            "collapsed": true
+          },
+          {
+            "text": "loadConfigFromFile",
+            "link": "/api/node/functions/loadConfigFromFile.md",
+            "collapsed": true
+          },
+          {
+            "text": "mergeValaxyConfig",
+            "link": "/api/node/functions/mergeValaxyConfig.md",
+            "collapsed": true
+          },
+          {
+            "text": "postProcessForSSG",
+            "link": "/api/node/functions/postProcessForSSG.md",
+            "collapsed": true
+          },
+          {
+            "text": "processValaxyOptions",
+            "link": "/api/node/functions/processValaxyOptions.md",
+            "collapsed": true
+          },
+          {
+            "text": "resolveAddonsConfig",
+            "link": "/api/node/functions/resolveAddonsConfig.md",
+            "collapsed": true
+          },
+          {
+            "text": "resolveImportPath",
+            "link": "/api/node/functions/resolveImportPath.md",
+            "collapsed": true
+          },
+          {
+            "text": "resolveOptions",
+            "link": "/api/node/functions/resolveOptions.md",
+            "collapsed": true
+          },
+          {
+            "text": "resolveSiteConfig",
+            "link": "/api/node/functions/resolveSiteConfig.md",
+            "collapsed": true
+          },
+          {
+            "text": "resolveSiteConfigFromRoot",
+            "link": "/api/node/functions/resolveSiteConfigFromRoot.md",
+            "collapsed": true
+          },
+          {
+            "text": "resolveThemeConfigFromRoot",
+            "link": "/api/node/functions/resolveThemeConfigFromRoot.md",
+            "collapsed": true
+          },
+          {
+            "text": "resolveThemeValaxyConfig",
+            "link": "/api/node/functions/resolveThemeValaxyConfig.md",
+            "collapsed": true
+          },
+          {
+            "text": "resolveUserThemeConfig",
+            "link": "/api/node/functions/resolveUserThemeConfig.md",
+            "collapsed": true
+          },
+          {
+            "text": "resolveValaxyConfig",
+            "link": "/api/node/functions/resolveValaxyConfig.md",
+            "collapsed": true
+          },
+          {
+            "text": "resolveValaxyConfigFromRoot",
+            "link": "/api/node/functions/resolveValaxyConfigFromRoot.md",
+            "collapsed": true
+          },
+          {
+            "text": "run",
+            "link": "/api/node/functions/run.md",
+            "collapsed": true
+          },
+          {
+            "text": "slash",
+            "link": "/api/node/functions/slash.md",
+            "collapsed": true
+          },
+          {
+            "text": "ssgBuild",
+            "link": "/api/node/functions/ssgBuild.md",
+            "collapsed": true
+          },
+          {
+            "text": "toAtFS",
+            "link": "/api/node/functions/toAtFS.md",
+            "collapsed": true
+          },
+          {
+            "text": "transformObject",
+            "link": "/api/node/functions/transformObject.md",
+            "collapsed": true
+          }
+        ]
+      }
+    ]
+  }
+]
