@@ -91,7 +91,7 @@ const htmlText = computed(() => t(props.item.text || ''))
       <component :is="textTag" v-else class="text ml-1" v-html="htmlText" />
 
       <button
-        v-if="item.collapsed != null"
+        v-if="item.collapsed != null && item.items"
         tabindex="0" role="button" aria-label="toggle section"
         class="caret folder-action inline-flex cursor-pointer"
         @click="onCaretClick" @keydown.enter="onCaretClick"

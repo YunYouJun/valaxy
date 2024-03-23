@@ -1,7 +1,7 @@
 {
   "name": "valaxy-theme-custom",
   "version": "0.0.0",
-  "packageManager": "pnpm@8.15.4",
+  "packageManager": "pnpm@8.15.5",
   "author": {
     "email": "me@yunyoujun.cn",
     "name": "YunYouJun",
@@ -22,6 +22,6 @@
   "types": "types/index.d.ts",
   "dependencies": {
     "@iconify-json/ant-design": "^1.1.15",
-    "@iconify-json/simple-icons": "^1.1.94"
+    "@iconify-json/simple-icons": "^1.1.96"
   }
 }

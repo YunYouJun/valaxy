@@ -86,6 +86,8 @@ export async function createMarkdownToVueRenderFn(
   ): Promise<MarkdownCompileResult> => {
     const file = id
     const relativePath = path.relative(srcDir, file)
+    // do not await, depend options.env
+    const deadLinks = scanDeadLinks(code, id)
 
     // only in build
     const cacheKey = JSON.stringify({ code, id })
@@ -113,7 +115,6 @@ export async function createMarkdownToVueRenderFn(
     // run it before vue and after md parse
     code = await transformEncrypt(code, id, pageData)
 
-    const deadLinks = scanDeadLinks(code, id)
     code = transformMarkdown(code, id, pageData)
 
     debug(`[render] ${file} in ${Date.now() - start}ms.`)

@@ -1,0 +1,19 @@
+{
+  "$schema": "https://typedoc.org/schema.json",
+  "entryPoints": [
+    "../../packages/valaxy/client",
+    "../../packages/valaxy/node"
+  ],
+  "plugin": [
+    "typedoc-plugin-markdown",
+    "typedoc-vitepress-theme"
+  ],
+  "out": "./api",
+  "docsRoot": ".",
+  "githubPages": false,
+  "excludePrivate": true,
+  "excludeProtected": true,
+  "excludeInternal": true,
+  "readme": "none",
+  "includes": "../../packages/valaxy"
+}

@@ -7,7 +7,7 @@ import { EXTERNAL_URL_RE } from '../../../constants'
 import { treatAsHtml } from '../utils'
 
 export function createScanDeadLinks(options: ResolvedValaxyOptions) {
-  const srcDir = options.userRoot
+  const srcDir = path.resolve(options.userRoot, 'pages')
   const { ignoreDeadLinks } = options.config
   const publicDir = options.config.vite?.publicDir || 'public'
 

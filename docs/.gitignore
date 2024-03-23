@@ -8,3 +8,9 @@ public/feed.xml
 
 # valaxy rss
 public/feed.json
+
+# api docs
+pages/api
+
+# valaxy fuse
+public/valaxy-fuse-list.json
