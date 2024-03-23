@@ -28,7 +28,7 @@
     "build:demo": "pnpm -C demo/yun run build",
     "build:demo:ssg": "pnpm -C demo/yun run build:ssg",
     "build:cf:docs": "tsx scripts/build-cf-docs.ts",
-    "build:docs": "pnpm -C docs run build",
+    "build:docs": "npm run docs:build",
     "build:devtools": "pnpm -C packages/devtools run build",
     "ci": "pnpm run build && pnpm build:create-valaxy && node packages/create-valaxy/dist/index.mjs -y",
     "ci:publish": "pnpm -r publish --access public --no-git-checks",
@@ -74,7 +74,7 @@
     "valaxy-theme-yun": "workspace:*"
   },
   "devDependencies": {
-    "@antfu/eslint-config": "2.8.0",
+    "@antfu/eslint-config": "2.9.0",
     "@iconify-json/logos": "^1.1.42",
     "@iconify-json/vscode-icons": "^1.1.33",
     "@microsoft/api-extractor": "^7.43.0",

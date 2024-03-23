@@ -11,6 +11,7 @@ public/feed.json
 
 # api docs
 pages/api
+!pages/api/typedoc-sidebar.json
 
 # valaxy fuse
 public/valaxy-fuse-list.json
