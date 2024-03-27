@@ -3,7 +3,7 @@ import { useRuntimeConfig } from 'valaxy'
 import { computed, ref } from 'vue'
 
 const runtimeConfig = useRuntimeConfig()
-const supportCommentAddons = ['valaxy-addon-waline', 'valaxy-addon-twikoo']
+const supportCommentAddons = ['valaxy-addon-waline', 'valaxy-addon-twikoo', 'valaxy-addon-artalk']
 
 const commentSystems = computed(() => {
   return supportCommentAddons.filter(addonName => runtimeConfig.value.addons[addonName]).map(addonName => addonName.split('-')[2])
@@ -20,6 +20,7 @@ const activeComment = ref(commentSystems.value[0])
       </div>
       <YunWaline v-if="activeComment === 'waline'" />
       <YunTwikoo v-if="activeComment === 'twikoo'" />
+      <YunArtalk v-if="activeComment === 'artalk'" />
       <slot />
     </ClientOnly>
   </YunCard>
