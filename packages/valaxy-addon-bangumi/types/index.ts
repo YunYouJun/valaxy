@@ -32,4 +32,22 @@ export interface BangumiOptions {
    * .bbc-bangumi-title a { color: red; }
    */
   customCss?: string
+
+  /**
+   * 分页大小
+   * @default 15
+   */
+  pageSize?: number
+
+  /**
+   * 是否启用自定义数据源
+   * @default false
+   */
+  customEnabled?: boolean
+
+  /**
+   * 自定义数据源的展示标签名
+   * @default '自定义'
+   */
+  customLabel?: string
 }
