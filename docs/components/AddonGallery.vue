@@ -7,6 +7,7 @@ export interface ValaxyAddon {
   name: string
   repo: string
   desc: string
+  desc_zh: string
   siteImage: string
   siteExampleUrl?: string
   tags?: string[]

@@ -27,9 +27,16 @@ defineProps<{
         <div i-ri-github-line />
       </a> -->
     </p>
-    <p class="text-truncate my-1!">
-      {{ addon.desc }}
-    </p>
+    <div lang="en">
+      <p class="text-truncate my-1!">
+        {{ addon.desc }}
+      </p>
+    </div>
+    <div lang="zh-CN">
+      <p class="text-truncate my-1!">
+        {{ addon.desc_zh }}
+      </p>
+    </div>
     <ul class="m-0! p-0! flex flex-wrap" items-center op="70">
       <span inline-flex mr-1>
         <div :class="addon.icon" />
