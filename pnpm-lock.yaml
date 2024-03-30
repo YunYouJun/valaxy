@@ -564,8 +564,8 @@ importers:
   packages/valaxy-addon-bangumi:
     dependencies:
       bilibili-bangumi-component:
-        specifier: ^0.2.1
-        version: 0.2.1
+        specifier: ^0.3.0
+        version: 0.3.0
       valaxy:
         specifier: latest
         version: link:../valaxy
@@ -4425,8 +4425,8 @@ packages:
       require-from-string: 2.0.2
     dev: false
 
-  /bilibili-bangumi-component@0.2.1:
-    resolution: {integrity: sha512-0AHs7pMQtviv7idlzi7SV3vt/HRDTUPxL0yg5ML3xZBw6in3h69uAKS5ZO8hfeCLlCY04cMIpMDZ2w3Aok76dw==}
+  /bilibili-bangumi-component@0.3.0:
+    resolution: {integrity: sha512-fgnvsXjpRsRBwxXi9H8nAsPQZBSUbHWWr299/INUDY8Qi07oOfDT850WamVGTN3cw3NWj5PYvvY4YpMGoPqdow==}
     dev: false
 
   /binary-extensions@2.2.0:

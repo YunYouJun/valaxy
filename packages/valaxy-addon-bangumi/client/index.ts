@@ -19,6 +19,9 @@ export function useAddonBangumi() {
       ...options,
       bilibiliEnabled: options.bilibiliEnabled ?? true,
       bgmEnabled: options.bgmEnabled ?? true,
+      pageSize: options.pageSize ?? 15,
+      customEnabled: options.customEnabled ?? false,
+      customLabel: options.customLabel ?? '自定义',
     }
   })
 }

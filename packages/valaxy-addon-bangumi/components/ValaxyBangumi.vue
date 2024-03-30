@@ -17,7 +17,7 @@ const bangumiRef = ref<HTMLElement>()
 
 const bangumiOptions = useAddonBangumi()
 
-const { api, bgmEnabled, bgmUid, bilibiliEnabled, bilibiliUid, customCss } = bangumiOptions.value
+const { api, bgmEnabled, bgmUid, bilibiliEnabled, bilibiliUid, customCss, customEnabled, customLabel, pageSize } = bangumiOptions.value
 
 onMounted(() => {
   if (!customCss)
@@ -37,6 +37,9 @@ onMounted(() => {
     :bgm-uid="bgmUid"
     :bilibili-enabled="bilibiliEnabled"
     :bilibili-uid="bilibiliUid"
+    :custom-enabled="customEnabled"
+    :custom-label="customLabel"
+    :page-size="pageSize"
   />
 </template>
 

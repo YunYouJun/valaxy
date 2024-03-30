@@ -60,11 +60,14 @@ export default defineConfig({
 
 ## API
 
-| 字段           | 描述                                     | 默认值 |
-|:--------------:|:----------------------------------------:|:------:|
-| api                | 后端 api 地址                                     | - |
-| bilibili-uid       | Bilibili 的 uid，在后端中引入 uid 的 env 后可以不设置 | - |
-| bgm-uid            | Bangumi 的 uid，在后端中引入 uid 的 env 后可以不设置  | - |
-| bilibili-enabled   | 是否展示 Bilibili 平台                             | true |
-| bgm-enabled        | 是否展示 Bangumi 平台                              | true|
-| customCss          | 自定义 css                                        | - |
+| 字段           | 描述                                                 | 类型    | 默认值 |
+|:--------------:|:----------------------------------------------------:|:------:|:------:|
+| api                | 后端 api 地址                                     |  string | - |
+| bilibiliUid       | Bilibili 的 uid，在后端中引入 uid 的 env 后可以不设置 |  string | - |
+| bgmUid            | Bangumi 的 uid，在后端中引入 uid 的 env 后可以不设置  |  string | - |
+| bilibiliEnabled   | 是否展示 Bilibili                                 |  boolean | true |
+| bgmEnabled        | 是否展示 Bangumi                                  |  boolean | true |
+| pageSize          | 分页大小                                          |  number | 15 |
+| customEnabled     | 是否启用自定义数据源                                |  boolean | false |
+| customLabel       | 自定义数据源的展示标签名                             |  string | "'自定义'" |
+| customCss          | 自定义 css                                        | string | - |
