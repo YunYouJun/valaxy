@@ -43,23 +43,23 @@ addons:
       - comment
   - name: valaxy-addon-bangumi
     icon: i-ri-film-line
+    repo: https://github.com/YunYouJun/valaxy/tree/main/packages/valaxy-addon-bangumi
     desc: Display bilibili or bangumi watching list.
     desc_zh: 展示 bilibili 或 bangumi 追番列表
-    repo: https://github.com/YunYouJun/valaxy/tree/main/packages/valaxy-addon-bangumi
     tags:
       - video
   - name: valaxy-addon-meting
     icon: i-ri-music-2-line
+    repo: https://github.com/YunYouJun/valaxy/tree/main/packages/valaxy-addon-meting
     desc: Global music player based on APlayer and MetingJS.
     desc_zh: 基于 APlayer 和 MetingJS 的全局音乐播放器
-    repo: https://github.com/YunYouJun/valaxy/tree/main/packages/valaxy-addon-meting
     tags:
       - music
   - name: valaxy-addon-live2d
     icon: i-ri-magic-line
+    repo: https://github.com/valaxyjs/valaxy-addon-live2d
     desc: Cute live2d mascot component.
     desc_zh: 萌萌哒 live2d 看板娘组件
-    repo: https://github.com/valaxyjs/valaxy-addon-live2d
     tags:
       - magic
 ---
