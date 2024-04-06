@@ -45,7 +45,7 @@ Valaxy 主题无需预编译，直接发布源文件即可。
 :::
 
 ```bash
-# 使用 valaxy-themesd-starter 模版
+# 使用 valaxy-theme-starter 模版
 pnpm create valaxy
 # choose Theme
 ```
