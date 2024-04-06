@@ -45,7 +45,7 @@ Valaxy 主题无需预编译，直接发布源文件即可。
 :::
 
 ```bash
-# 使用 valaxy-theme-starter 模版
+# 使用 valaxy-themesd-starter 模版
 pnpm create valaxy
 # choose Theme
 ```
@@ -75,7 +75,7 @@ pnpm create valaxy
   - `en-US`: 英文文档
   - `zh-CN`: 中文文档
 - `features`: 主题特色功能，一些不依赖于 Vue Composition API 的功能（区别于 `composables`）
-  - `fireworks.ts`: 烟花点击小姑
+  - `fireworks.ts`: 烟花点击效果
 - `layouts`: 主题的布局（扩展更多布局）
   - `default.vue`: 默认布局
   - `home.vue`: 首页布局
