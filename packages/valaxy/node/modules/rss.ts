@@ -115,7 +115,7 @@ export async function build(options: ResolvedValaxyOptions) {
       id: (data.id || '').toString(),
       date: new Date(data.date),
       published: new Date(data.updated || data.date),
-      content: html,
+      content: `${html}<br/><p>上述是文章摘要，请访问 <a href="(data.id || '').toString()">(data.id || '').toString()</a> 继续阅读全文。</p>`,
       author: [author],
       link: DOMAIN + i.replace(`${options.userRoot}/pages`, '').replace(/\.md$/, ''),
     })
