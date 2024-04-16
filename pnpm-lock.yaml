@@ -151,8 +151,8 @@ importers:
         specifier: workspace:*
         version: link:../../packages/valaxy
       valaxy-theme-custom:
-        specifier: file:./valaxy-theme-custom
-        version: file:demo/custom/valaxy-theme-custom
+        specifier: workspace:*
+        version: link:valaxy-theme-custom
     devDependencies:
       typescript:
         specifier: ^5.4.5
@@ -11300,11 +11300,3 @@ packages:
       '@types/fs-extra': 11.0.4
       '@types/node': 20.12.7
     dev: true
-
-  file:demo/custom/valaxy-theme-custom:
-    resolution: {directory: demo/custom/valaxy-theme-custom, type: directory}
-    name: valaxy-theme-custom
-    dependencies:
-      '@iconify-json/ant-design': 1.1.16
-      '@iconify-json/simple-icons': 1.1.99
-    dev: false

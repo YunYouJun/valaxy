@@ -13,7 +13,7 @@
   },
   "dependencies": {
     "valaxy": "workspace:*",
-    "valaxy-theme-custom": "file:./valaxy-theme-custom"
+    "valaxy-theme-custom": "workspace:*"
   },
   "devDependencies": {
     "typescript": "^5.4.5"
