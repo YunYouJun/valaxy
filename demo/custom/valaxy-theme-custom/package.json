@@ -1,21 +1,22 @@
 {
   "name": "valaxy-theme-custom",
   "version": "0.0.0",
+  "private": true,
   "packageManager": "pnpm@9.0.1",
   "author": {
     "email": "me@yunyoujun.cn",
     "name": "YunYouJun",
     "url": "https://www.yunyoujun.cn"
   },
-  "homepage": "https://starter.valaxy.site",
+  "homepage": "https://github.com/YunYouJun/valaxy/tree/main/demo/custom/valaxy-theme-custom/README.md",
   "repository": {
     "type": "git",
-    "url": "https://github.com/YunYouJun/valaxy-theme-starter"
+    "url": "https://github.com/YunYouJun/valaxy/tree/main/demo/custom/valaxy-theme-custom"
   },
   "keywords": [
     "valaxy",
     "theme",
-    "starter",
+    "custom",
     "vue"
   ],
   "main": "client/index.ts",
