@@ -3,7 +3,13 @@ import { computed, unref } from 'vue'
 import type { Post } from '../../types'
 import { useSiteStore } from '../stores'
 
+/**
+ * 基础分类
+ */
 export interface BaseCategory {
+  /**
+   * 分类下的文章数量
+   */
   total: number
 }
 

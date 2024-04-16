@@ -2,4 +2,5 @@ packages:
   - docs
   - packages/*
   - demo/*
+  - demo/custom/valaxy-theme-custom
   - scripts

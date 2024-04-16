@@ -11,7 +11,6 @@
   "out": "./typedoc",
   "categorizeByGroup": true,
   "cleanOutputDir": true,
-  "disableSources": true,
   "docsRoot": ".",
   "githubPages": false,
   "excludePrivate": true,

@@ -1,5 +1,11 @@
 export interface ScrollToOptions {
+  /**
+   * 平滑滚动
+   */
   smooth: boolean
+  /**
+   * 滚动目标的 padding
+   */
   targetPadding: number
 }
 
