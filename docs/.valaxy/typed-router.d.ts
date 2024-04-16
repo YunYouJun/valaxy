@@ -19,6 +19,7 @@ declare module 'vue-router/auto-routes' {
    */
   export interface RouteNamedMap {
     '/': RouteRecordInfo<'/', '/', Record<never, never>, Record<never, never>>,
+    '/[...all]': RouteRecordInfo<'/[...all]', '/:all(.*)', { all: ParamValue<true> }, { all: ParamValue<false> }>,
     '/[...path]': RouteRecordInfo<'/[...path]', '/:path(.*)', { path: ParamValue<true> }, { path: ParamValue<false> }>,
     '/addons/gallery': RouteRecordInfo<'/addons/gallery', '/addons/gallery', Record<never, never>, Record<never, never>>,
     '/addons/use': RouteRecordInfo<'/addons/use', '/addons/use', Record<never, never>, Record<never, never>>,
@@ -62,7 +63,6 @@ declare module 'vue-router/auto-routes' {
     '/guide/why': RouteRecordInfo<'/guide/why', '/guide/why', Record<never, never>, Record<never, never>>,
     '/migration/': RouteRecordInfo<'/migration/', '/migration', Record<never, never>, Record<never, never>>,
     '/migration/hexo': RouteRecordInfo<'/migration/hexo', '/migration/hexo', Record<never, never>, Record<never, never>>,
-    '/page/[page]': RouteRecordInfo<'/page/[page]', '/page/:page', { page: ParamValue<true> }, { page: ParamValue<false> }>,
     '/posts/i18n': RouteRecordInfo<'/posts/i18n', '/posts/i18n', Record<never, never>, Record<never, never>>,
     '/themes/gallery': RouteRecordInfo<'/themes/gallery', '/themes/gallery', Record<never, never>, Record<never, never>>,
     '/themes/use': RouteRecordInfo<'/themes/use', '/themes/use', Record<never, never>, Record<never, never>>,

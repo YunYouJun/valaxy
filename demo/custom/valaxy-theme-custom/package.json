@@ -1,7 +1,7 @@
 {
   "name": "valaxy-theme-custom",
   "version": "0.0.0",
-  "packageManager": "pnpm@9.0.0",
+  "packageManager": "pnpm@9.0.1",
   "author": {
     "email": "me@yunyoujun.cn",
     "name": "YunYouJun",

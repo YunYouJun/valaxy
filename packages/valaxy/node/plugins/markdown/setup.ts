@@ -21,6 +21,7 @@ import { type TocPluginOptions, tocPlugin } from '@mdit-vue/plugin-toc'
 import { slugify } from '@mdit-vue/shared'
 import { cssI18nContainer } from 'css-i18n'
 
+import type { Token } from 'markdown-it'
 import type { ResolvedValaxyOptions } from '../../options'
 import Katex from './plugins/markdown-it/katex'
 import { containerPlugin } from './plugins/markdown-it/container'
@@ -88,7 +89,7 @@ export async function setupMarkdownPlugins(
       symbol: '&ZeroWidthSpace;',
       renderAttrs: (slug, state) => {
         // Find `heading_open` with the id identical to slug
-        const idx = state.tokens.findIndex((token) => {
+        const idx = state.tokens.findIndex((token: Token) => {
           const attrs = token.attrs
           const id = attrs?.find(attr => attr[0] === 'id')
           return id && slug === id[1]

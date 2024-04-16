@@ -3,7 +3,6 @@ import { defineValaxyConfig } from 'valaxy'
 import type { PressTheme } from 'valaxy-theme-press'
 import { addonAlgolia } from 'valaxy-addon-algolia'
 import { addonComponents } from 'valaxy-addon-components'
-import typedocSidebar from './pages/api/typedoc-sidebar.json'
 
 const COMMIT_ID = process.env.CF_PAGES_COMMIT_SHA || process.env.COMMIT_REF
 const commitRef = COMMIT_ID?.slice(0, 8) || 'dev'
@@ -13,30 +12,6 @@ const safelist = [
 
   'i-ri-github-line',
 ]
-
-export function getTypeDocSidebar() {
-  // replace .md to ''
-  function replaceMd(str: string) {
-    if (str.endsWith('/index.md'))
-      return str.slice(0, -9)
-    if (str.endsWith('.md'))
-      return str.slice(0, -3)
-  }
-
-  function formatSidebar(sidebar: PressTheme.SidebarItem[]): PressTheme.SidebarItem[] {
-    return sidebar.map((item) => {
-      if (item.link)
-        item.link = replaceMd(item.link)
-
-      if (item.items)
-        item.items = formatSidebar(item.items)
-
-      return item
-    })
-  }
-
-  return formatSidebar(typedocSidebar as PressTheme.SidebarItem[])
-}
 
 export default defineValaxyConfig<PressTheme.Config>({
   siteConfig: {
@@ -94,10 +69,6 @@ export default defineValaxyConfig<PressTheme.Config>({
       'theme',
       'addon',
       'dev',
-      {
-        text: 'API',
-        items: getTypeDocSidebar(),
-      },
     ],
     socialLinks: [
       { icon: 'i-ri-github-line', link: 'https://github.com/YunYouJun/valaxy' },
@@ -118,7 +89,7 @@ export default defineValaxyConfig<PressTheme.Config>({
       },
       {
         text: 'API',
-        link: '/api/',
+        link: 'https://api.valaxy.site/',
       },
       {
         text: 'nav.theme',
