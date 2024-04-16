@@ -128,7 +128,7 @@
     "vite-plugin-vue-layouts": "0.11.0",
     "vite-ssg": "0.23.6",
     "vite-ssg-sitemap": "0.6.1",
-    "vue": "^3.4.22",
+    "vue": "^3.4.23",
     "vue-i18n": "^9.12.1",
     "vue-router": "^4.3.0",
     "yargs": "^17.7.2"

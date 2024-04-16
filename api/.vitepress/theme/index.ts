@@ -11,7 +11,7 @@ export default {
       // https://vitepress.dev/guide/extending-default-theme#layout-slots
     })
   },
-  enhanceApp({ app, router, siteData }) {
-    // ...
-  }
+  // enhanceApp({ app, router, siteData }) {
+  // ...
+  // },
 } satisfies Theme
