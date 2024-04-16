@@ -1,6 +1,6 @@
 {
   "name": "valaxy-addon-waline",
-  "version": "0.1.2",
+  "version": "0.1.3",
   "description": "Waline Composition API for Valaxy",
   "repository": {
     "url": "https://github.com/YunYouJun/valaxy/tree/main/packages/valaxy-addon-waline"

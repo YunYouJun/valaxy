@@ -1,12 +1,13 @@
 import process from 'node:process'
 import { createRequire } from 'node:module'
 import { readFileSync } from 'node:fs'
-import { cyan, gray, yellow } from 'picocolors'
 import consola from 'consola'
 import { $ } from 'zx'
-
+import pc from 'picocolors'
 import minimist from 'minimist'
 import { packages, updateTemplateVersions } from './utils'
+
+const { cyan, gray, yellow } = pc
 
 const args = minimist(process.argv.slice(2))
 export const isDryRun = !!args.dry

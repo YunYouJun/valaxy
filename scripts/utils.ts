@@ -1,7 +1,9 @@
 import { join } from 'node:path'
 import { readFile, writeFile } from 'node:fs/promises'
 import consola from 'consola'
-import { cyan, gray, yellow } from 'picocolors'
+import pc from 'picocolors'
+
+const { cyan, gray, yellow } = pc
 
 export const packages = [
   // @valaxyjs/devtools
