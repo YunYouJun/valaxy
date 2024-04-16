@@ -2,7 +2,7 @@
 // src/node/markdown/plugins/containers.ts
 
 import type MarkdownIt from 'markdown-it'
-import type Token from 'markdown-it/lib/token'
+import type Token from 'markdown-it/lib/token.mjs'
 import container from 'markdown-it-container'
 
 import { nanoid } from 'nanoid'

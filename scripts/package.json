@@ -1,6 +1,6 @@
 {
   "devDependencies": {
     "picocolors": "^1.0.0",
-    "zx": "^7.2.3"
+    "zx": "^8.0.1"
   }
 }
