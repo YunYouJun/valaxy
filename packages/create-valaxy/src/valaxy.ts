@@ -71,25 +71,6 @@ export async function init() {
     try {
       result = await prompts([
         {
-          type:
-                  argTemplate && TEMPLATE_CHOICES.includes(argTemplate) ? null : 'select',
-          name: 'template',
-          message:
-                  typeof argTemplate === 'string' && !TEMPLATE_CHOICES.includes(argTemplate)
-                    ? reset(
-                        `"${argTemplate}" isn't a valid template. Please choose from below: `,
-                    )
-                    : reset('Select a type:'),
-          initial: 0,
-          choices: TEMPLATES.map((template) => {
-            const tColor = template.color
-            return {
-              title: tColor(template.display || template.name) + dim(` - ${template.desc}`),
-              value: template,
-            }
-          }),
-        },
-        {
           type: argTargetDir ? null : 'text',
           name: 'projectName',
           message: reset(template.message),
