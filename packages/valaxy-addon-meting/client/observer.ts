@@ -22,10 +22,6 @@ export function setupHiddenLyricHidingObserver() {
     })
   })
   observer.observe(document.body, { childList: true, subtree: true })
-
-  onUnmounted(() => {
-    observer?.disconnect()
-  })
 }
 
 export function useMetingLoadObserver(addon: MetingOptions) {
