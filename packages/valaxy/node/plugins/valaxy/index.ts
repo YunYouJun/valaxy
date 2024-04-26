@@ -70,9 +70,15 @@ function generateStyles(roots: string[], options: ResolvedValaxyOptions) {
 }
 
 function generateLocales(roots: string[]) {
-  const imports: string[] = [
-    'import { defu } from "defu"',
-    'const messages = { "zh-CN": {}, en: {} }',
+  const imports: string[] = [`
+import { createDefu } from "defu"
+const defu = createDefu((obj, key, value) => {
+  if (key === 'items' && Array.isArray(obj[key])) {
+    obj[key] = value
+    return true
+  }
+})
+const messages = { "zh-CN": {}, en: {} }`,
   ]
   const languages = ['zh-CN', 'en']
 
