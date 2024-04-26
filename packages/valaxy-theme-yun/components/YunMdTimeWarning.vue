@@ -17,6 +17,14 @@ const updated = computed(() => {
   return dayjs(fm.value.updated || fm.value.date)
 })
 
+const ago = computed(() => {
+  const fromNow = updated.value.fromNow()
+  if (/^\d/.test(fromNow))
+    return ` ${fromNow}`
+  else
+    return fromNow
+})
+
 /**
  * when the post is updated more than 180 days ago, show a warning
  * default 180 days, you can set `time_warning` in frontmatter to change it
@@ -32,6 +40,6 @@ const time_warning = computed(() => {
 
 <template>
   <blockquote v-if="time_warning" class="yun-time-warning" op="80">
-    {{ t('post.time_warning', { ago: updated.fromNow() }) }}
+    {{ t('post.time_warning', { ago }) }}
   </blockquote>
 </template>
