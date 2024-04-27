@@ -189,6 +189,8 @@ export function createRouterPlugin(valaxyApp: ValaxyNode) {
         valaxyConfig.extendMd?.(ctx)
       }
 
+      valaxyApp.hooks.callHook('vue-router:extendRoute', route)
+
       return valaxyConfig.router?.extendRoute?.(route)
     },
   })
