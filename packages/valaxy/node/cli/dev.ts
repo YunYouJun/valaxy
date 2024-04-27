@@ -55,7 +55,7 @@ export function registerDevCommand(cli: yargs.Argv) {
       const port = userPort || await findFreePort(4859)
       const options = await resolveOptions({ userRoot: root })
 
-      createValaxyNode(options)
+      const valaxyApp = createValaxyNode(options)
 
       const viteConfig: InlineConfig = mergeConfig({
       // avoid load userRoot/vite.config.ts repeatedly
@@ -74,7 +74,7 @@ export function registerDevCommand(cli: yargs.Argv) {
         logLevel: log as LogLevel,
       }, options.config.vite || {})
 
-      await initServer(options, viteConfig)
+      await initServer(valaxyApp, viteConfig)
       printInfo(options, port, remote)
 
       const SHORTCUTS = [
@@ -82,7 +82,7 @@ export function registerDevCommand(cli: yargs.Argv) {
           name: 'r',
           fullName: 'restart',
           action() {
-            initServer(options, viteConfig)
+            initServer(valaxyApp, viteConfig)
           },
         },
         {

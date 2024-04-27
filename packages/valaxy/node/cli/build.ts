@@ -98,7 +98,7 @@ export function registerBuildCommand(cli: yargs.Argv) {
           consola.info(`use ${yellow('vite-ssg')} to do ssg build...`)
 
           try {
-            await ssgBuild(options, viteConfig)
+            await ssgBuild(valaxyApp, viteConfig)
             await postProcessForSSG(options)
           }
           catch (e) {
@@ -109,7 +109,7 @@ export function registerBuildCommand(cli: yargs.Argv) {
         }
         else {
           consola.info('use vite do spa build...')
-          await build(options, viteConfig)
+          await build(valaxyApp, viteConfig)
         }
       }
       catch (e) {

@@ -6,27 +6,29 @@ import generateSitemap from 'vite-ssg-sitemap'
 
 import fs from 'fs-extra'
 import consola from 'consola'
+import type { ValaxyNode } from './types'
 import type { ResolvedValaxyOptions } from './options'
 import { ViteValaxyPlugins } from './plugins/preset'
 import { collectRedirects, writeRedirectFiles } from './utils/clientRedirects'
 
 export async function build(
-  options: ResolvedValaxyOptions,
+  valaxyApp: ValaxyNode,
   viteConfig: InlineConfig = {},
 ) {
   const inlineConfig = mergeViteConfig(viteConfig, {
-    plugins: await ViteValaxyPlugins(options),
+    plugins: await ViteValaxyPlugins(valaxyApp),
   })
 
   await viteBuild(inlineConfig)
 }
 
 export async function ssgBuild(
-  options: ResolvedValaxyOptions,
+  valaxyApp: ValaxyNode,
   viteConfig: InlineConfig = {},
 ) {
+  const { options } = valaxyApp
   const defaultConfig: InlineConfig = {
-    plugins: await ViteValaxyPlugins(options),
+    plugins: await ViteValaxyPlugins(valaxyApp),
     ssr: {
       // TODO: workaround until they support native ESM
       noExternal: ['workbox-window', /vue-i18n/, '@vue/devtools-api'],
