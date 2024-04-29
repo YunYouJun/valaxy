@@ -9,6 +9,9 @@
     "typedoc": "typedoc --options ./typedoc.json"
   },
   "devDependencies": {
-    "vitepress": "1.1.0"
+    "typedoc": "^0.25.13",
+    "typedoc-plugin-markdown": "4.0.0-next.54",
+    "typedoc-vitepress-theme": "1.0.0-next.8",
+    "vitepress": "1.1.4"
   }
 }

@@ -31,6 +31,10 @@ export type ThemeOptions =
     dark: ThemeRegistration | BuiltinTheme
   }
 
+/**
+ * Extend Markdown options
+ * @zh 扩展 Markdown 配置，包含代码高亮、Markdown-it 和插件配置
+ */
 export interface MarkdownOptions {
   /**
    * Setup markdown-it instance before applying plugins

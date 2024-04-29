@@ -9,6 +9,9 @@ import type { FuseListItem } from './node'
 
 import './default-theme'
 
+/**
+ * @zh 社交链接
+ */
 export interface SocialLink {
   /**
    * The title of your link
@@ -20,6 +23,9 @@ export interface SocialLink {
    * https://icones.js.org/
    */
   icon: string
+  /**
+   * @zh 图标颜色
+   */
   color: string
 }
 
@@ -250,12 +256,19 @@ export interface SiteConfig {
    * @url https://github.com/francoischalifour/medium-zoom
    */
   mediumZoom: {
+    /**
+     * @zh 启用图片预览
+     */
     enable: boolean
     /**
      * For example: '.markdown-body img'
      * @default '' content.value querySelectorAll('img')
      */
     selector: string | HTMLElement | HTMLElement[]
+    /**
+     * @zh 配置项
+     * @see https://github.com/francoischalifour/medium-zoom#options
+     */
     options: ZoomOptions
   }
 

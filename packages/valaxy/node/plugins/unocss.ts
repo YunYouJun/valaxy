@@ -5,6 +5,9 @@ import type { VitePluginConfig as UnoCSSConfig, VitePluginConfig } from 'unocss/
 import jiti from 'jiti'
 import defu from 'defu'
 
+import type {
+  ConfigBase,
+} from 'unocss'
 import {
   presetAttributify,
   presetIcons,
@@ -26,11 +29,17 @@ export async function createSafelist(options: ResolvedValaxyOptions) {
     'i-ri-price-tag-3-line',
 
     'i-ri-cloud-line',
-  ].concat(options.config.unocss?.safelist || [])
+  ]
 
-  const safelist = 'animate-fade-in m-auto text-left'.split(' ').concat([
+  const safelist: ConfigBase['safelist'] = [
+    'animate-fade-in',
+    'm-auto',
+    'text-left',
     'rotate-y-180',
-  ]).concat(safeIcons)
+
+    ...safeIcons,
+    ...(options.config.unocss?.safelist ?? []),
+  ]
 
   const siteConfig = config.siteConfig
 

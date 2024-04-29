@@ -2,7 +2,8 @@
   "$schema": "https://typedoc.org/schema.json",
   "entryPoints": [
     "../packages/valaxy/client",
-    "../packages/valaxy/node"
+    "../packages/valaxy/node",
+    "../packages/valaxy/types"
   ],
   "plugin": [
     "typedoc-plugin-markdown",
@@ -11,11 +12,12 @@
   "out": "./typedoc",
   "categorizeByGroup": true,
   "cleanOutputDir": true,
-  "docsRoot": ".",
   "githubPages": false,
   "excludePrivate": true,
   "excludeProtected": true,
   "excludeInternal": true,
   "readme": "none",
-  "includes": "../packages/valaxy"
+  "includes": "../packages/valaxy",
+
+  "hideBreadcrumbs": true
 }

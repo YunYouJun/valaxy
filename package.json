@@ -3,7 +3,7 @@
   "type": "module",
   "version": "0.18.6",
   "private": true,
-  "packageManager": "pnpm@9.0.2",
+  "packageManager": "pnpm@9.0.6",
   "description": "📄 Vite & Vue powered static blog generator.",
   "author": {
     "email": "me@yunyoujun.cn",
@@ -76,7 +76,7 @@
     "valaxy-theme-yun": "workspace:*"
   },
   "devDependencies": {
-    "@antfu/eslint-config": "2.15.0",
+    "@antfu/eslint-config": "2.16.0",
     "@iconify-json/logos": "^1.1.42",
     "@iconify-json/vscode-icons": "^1.1.33",
     "@microsoft/api-extractor": "^7.43.1",
@@ -90,27 +90,24 @@
     "@types/resolve": "^1.20.6",
     "bumpp": "^9.4.0",
     "cross-env": "^7.0.3",
-    "eslint": "^9.0.0",
+    "eslint": "^9.1.1",
     "https-localhost": "^4.7.1",
     "husky": "^9.0.11",
     "lint-staged": "^15.2.2",
     "npm-run-all": "^4.1.5",
     "prompts": "^2.4.2",
     "rimraf": "^5.0.5",
-    "stylelint": "^16.3.1",
+    "stylelint": "^16.4.0",
     "stylelint-config-recommended-vue": "^1.5.0",
     "stylelint-config-standard-scss": "^13.1.0",
     "tsup": "^8.0.2",
-    "tsx": "^4.7.2",
-    "typedoc": "^0.25.13",
-    "typedoc-plugin-markdown": "4.0.0-next.23",
-    "typedoc-vitepress-theme": "1.0.0-next.10",
+    "tsx": "^4.7.3",
     "typescript": "^5.4.5",
     "unbuild": "^2.0.0",
     "valaxy-addon-artalk": "^0.1.0",
-    "vitest": "^1.5.0",
-    "vue-tsc": "2.0.13",
-    "zx": "^8.0.1"
+    "vitest": "^1.5.2",
+    "vue-tsc": "2.0.14",
+    "zx": "^8.0.2"
   },
   "pnpm": {
     "peerDependencyRules": {

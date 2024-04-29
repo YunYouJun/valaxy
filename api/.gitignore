@@ -1,2 +1,5 @@
 .temp
 typedoc/
+
+# vitepress
+.vitepress/cache
