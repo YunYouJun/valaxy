@@ -9,7 +9,8 @@ import VueI18n from '@intlify/unplugin-vue-i18n/vite'
 import UnheadVite from '@unhead/addons/vite'
 
 import { resolve } from 'pathe'
-import type { ResolvedValaxyOptions, ValaxyServerOptions } from '../options'
+import type { ValaxyServerOptions } from '../options'
+import type { ValaxyNode } from '../types'
 
 import { customElements } from '../constants'
 import { createUnocssPlugin } from './unocss'
@@ -21,9 +22,10 @@ import { createValaxyLoader } from './valaxy'
 import { createMarkdownPlugin } from './markdown'
 
 export async function ViteValaxyPlugins(
-  options: ResolvedValaxyOptions,
+  valaxyApp: ValaxyNode,
   serverOptions: ValaxyServerOptions = {},
 ): Promise<(PluginOption | PluginOption[])[]> {
+  const { options } = valaxyApp
   const { roots, config: valaxyConfig } = options
 
   const MarkdownPlugin = await createMarkdownPlugin(options)
@@ -55,7 +57,7 @@ export async function ViteValaxyPlugins(
     UnheadVite(),
 
     // https://github.com/posva/unplugin-vue-router
-    createRouterPlugin(options),
+    createRouterPlugin(valaxyApp),
 
     // https://github.com/JohnCampionJr/vite-plugin-vue-layouts
     Layouts({

@@ -7,7 +7,7 @@ import { convert } from 'html-to-text'
 import type { ExcerptType, Page } from 'valaxy/types'
 import type { RouteMeta } from 'vue-router'
 import MarkdownIt from 'markdown-it'
-import type { ResolvedValaxyOptions } from '../options'
+import type { ValaxyNode } from '../types'
 import { EXCERPT_SEPARATOR } from '../constants'
 
 import { presetStatistics } from './presets/statistics'
@@ -36,9 +36,10 @@ function getExcerptByType(excerpt = '', type: ExcerptType = 'html') {
 
 /**
  * @see https://github.com/posva/unplugin-vue-router
- * @param options
+ * @param valaxyApp
  */
-export function createRouterPlugin(options: ResolvedValaxyOptions) {
+export function createRouterPlugin(valaxyApp: ValaxyNode) {
+  const { options } = valaxyApp
   const { roots, config: valaxyConfig } = options
 
   return VueRouter({
@@ -187,6 +188,8 @@ export function createRouterPlugin(options: ResolvedValaxyOptions) {
         }
         valaxyConfig.extendMd?.(ctx)
       }
+
+      valaxyApp.hooks.callHook('vue-router:extendRoute', route)
 
       return valaxyConfig.router?.extendRoute?.(route)
     },

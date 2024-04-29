@@ -9,6 +9,7 @@ import consola from 'consola'
 import type { InlineConfig, ViteDevServer } from 'vite'
 import { mergeConfig } from 'vite'
 import { version } from 'valaxy/package.json'
+import type { ValaxyNode } from '../../types'
 import { createServer } from '../../server'
 import type { ResolvedValaxyOptions } from '../../options'
 import { mergeViteConfigs } from '../../common'
@@ -57,11 +58,13 @@ export function printInfo(options: ResolvedValaxyOptions, port?: number, remote?
 //   'extendMd',
 // ]
 
-export async function initServer(options: ResolvedValaxyOptions, viteConfig: InlineConfig) {
+export async function initServer(valaxyApp: ValaxyNode, viteConfig: InlineConfig) {
   if (server) {
     vLogger.info('close server...')
     await server.close()
   }
+
+  const { options } = valaxyApp
 
   const viteConfigs: InlineConfig = mergeConfig(
     await mergeViteConfigs(options, 'serve'),
@@ -69,11 +72,11 @@ export async function initServer(options: ResolvedValaxyOptions, viteConfig: Inl
   )
 
   try {
-    server = await createServer(options, viteConfigs, {
+    server = await createServer(valaxyApp, viteConfigs, {
       async onConfigReload(newConfig, config, force = false) {
         if (force) {
           vLogger.info(`${yellow('force')} reload the server`)
-          initServer(options, viteConfig)
+          initServer(valaxyApp, viteConfig)
         }
 
         let reload = false
@@ -92,7 +95,7 @@ export async function initServer(options: ResolvedValaxyOptions, viteConfig: Inl
         // }
 
         if (reload)
-          initServer(options, viteConfig)
+          initServer(valaxyApp, viteConfig)
       },
     })
     await server.listen()
