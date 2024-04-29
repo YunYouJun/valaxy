@@ -32,20 +32,21 @@ const keys = computed(() => {
 
 const input = ref('')
 // todo export options
-const fuseOptions = computed<UseFuseOptions<FuseListItem>>(() => ({
+const useFuseOptions = computed<UseFuseOptions<FuseListItem>>(() => ({
   fuseOptions: {
+    includeMatches: true,
+    findAllMatches: true,
+
     ...siteConfig.value.fuse.options,
     keys: keys.value,
 
     // threshold: 0.99,
     // ignoreLocation: true,
   },
-  includeMatches: true,
-  findAllMatches: true,
   // resultLimit: resultLimit.value,
   // matchAllWhenSearchEmpty: matchAllWhenSearchEmpty.value,
 }))
-const { results } = useFuse(input, fuseListData, fuseOptions)
+const { results } = useFuse(input, fuseListData, useFuseOptions)
 
 const searchInputRef = ref<HTMLInputElement>()
 

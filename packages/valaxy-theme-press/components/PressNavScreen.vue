@@ -1,20 +1,20 @@
 <script setup lang="ts">
 import { ref } from 'vue'
-import { useBodyScrollLock } from 'valaxy'
+import { isClient, useScrollLock } from '@vueuse/core'
 
 defineProps<{
   open: boolean
 }>()
 
 const screen = ref<HTMLElement>()
-const { lockBodyScroll, unlockBodyScroll } = useBodyScrollLock(screen)
+const isLocked = useScrollLock(isClient ? document.body : null)
 </script>
 
 <template>
   <Transition
     name="fade"
-    @enter="lockBodyScroll"
-    @after-leave="unlockBodyScroll"
+    @enter="isLocked = true"
+    @after-leave="isLocked = false"
   >
     <div v-if="open" ref="screen" class="pr-NavScreen">
       <div class="container" flex="~ col">
