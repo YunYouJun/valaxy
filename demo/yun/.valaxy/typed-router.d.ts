@@ -66,6 +66,7 @@ declare module 'vue-router/auto-routes' {
     '/posts/markdown': RouteRecordInfo<'/posts/markdown', '/posts/markdown', Record<never, never>, Record<never, never>>,
     '/posts/mermaid': RouteRecordInfo<'/posts/mermaid', '/posts/mermaid', Record<never, never>, Record<never, never>>,
     '/posts/nested/a/b/c': RouteRecordInfo<'/posts/nested/a/b/c', '/posts/nested/a/b/c', Record<never, never>, Record<never, never>>,
+    '/posts/nested/z/': RouteRecordInfo<'/posts/nested/z/', '/posts/nested/z', Record<never, never>, Record<never, never>>,
     '/posts/post-updated': RouteRecordInfo<'/posts/post-updated', '/posts/post-updated', Record<never, never>, Record<never, never>>,
     '/posts/redirect': RouteRecordInfo<'/posts/redirect', '/posts/redirect', Record<never, never>, Record<never, never>>,
     '/posts/test': RouteRecordInfo<'/posts/test', '/posts/test', Record<never, never>, Record<never, never>>,

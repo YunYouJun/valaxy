@@ -4,7 +4,6 @@ import { useFuse } from '@vueuse/integrations/useFuse'
 import { computed, ref, watch } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { useSiteConfig } from 'valaxy'
-import { useRouter } from 'vue-router'
 import type { FuseListItem } from 'valaxy/types'
 
 import { isClient, onClickOutside, useScrollLock } from '@vueuse/core'
@@ -67,12 +66,6 @@ watch(() => props.open, async () => {
     })
 })
 
-const router = useRouter()
-function jumpToLink(link: string) {
-  router.push(link)
-  emit('close')
-}
-
 onClickOutside(searchInputRef, () => {
   // emit('close')
 })
@@ -98,12 +91,12 @@ onClickOutside(searchInputRef, () => {
       </div>
       <div v-if="results.length > 0" overflow="auto" flex="~" w="full">
         <div class="yun-fuse-result-container" flex="~ col" w="full">
-          <div
+          <AppLink
             v-for="result in results" :key="result.item.title"
             :to="result.item.link"
             class="yun-fuse-result-item text-$va-c-text hover:(text-$va-c-bg bg-$va-c-text-dark bg-opacity-100)"
             flex="~ col" pb-2
-            @click="jumpToLink(result.item.link)"
+            @click="emit('close')"
           >
             <h3 font="serif black">
               {{ result.item.title }}
@@ -114,7 +107,7 @@ onClickOutside(searchInputRef, () => {
             <span text-xs opacity-50 mt="1">
               Score Index: {{ result.refIndex }}
             </span>
-          </div>
+          </AppLink>
         </div>
       </div>
     </div>

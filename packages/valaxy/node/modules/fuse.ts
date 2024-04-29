@@ -40,6 +40,13 @@ export async function generateFuseList(options: ResolvedValaxyOptions) {
       continue
 
     const keys = options.config.siteConfig.fuse.options.keys || []
+
+    // adapt for nested folders, like /posts/2021/01/01/index.md
+    const relativeLink = i.replace(`${options.userRoot}/pages`, '')
+    const link = i.endsWith('index.md')
+      ? relativeLink.replace(/\/index\.md$/, '')
+      : relativeLink.replace(/\.md$/, '')
+
     const fuseListItem: FuseListItem = {
       title: data.title || '',
       tags: (typeof data.tags === 'string' ? [data.tags] : data.tags) || [],
@@ -47,7 +54,7 @@ export async function generateFuseList(options: ResolvedValaxyOptions) {
       author: options.config.siteConfig.author.name,
       excerpt: excerpt || content.slice(0, 100),
       // encode for chinese url
-      link: encodeURI(i.replace(`${options.userRoot}/pages`, '').replace(/\.md$/, '')),
+      link: encodeURI(link),
     }
     if (keys.includes('content'))
       fuseListItem.content = content || ''
