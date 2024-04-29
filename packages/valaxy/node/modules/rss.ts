@@ -72,6 +72,8 @@ export async function build(options: ResolvedValaxyOptions) {
   // generate
   const files = await fg(`${options.userRoot}/pages/posts/**/*.md`)
 
+  const lang = options.config.siteConfig.lang || 'en'
+
   const posts: Item[] = []
   for await (const i of files) {
     const raw = await readFile(i, 'utf-8')
@@ -109,13 +111,20 @@ export async function build(options: ResolvedValaxyOptions) {
     if (data.image?.startsWith('/'))
       data.image = DOMAIN + data.image
 
+    const id = (data.id || '').toString()
+    const tip = `<br/><p>${
+      lang === 'zh-CN'
+        ? `访问 <a href="${id}" target="_blank">${id}</a> 阅读全文。`
+        : `Visit <a href="${id}" target="_blank">${id}</a> to read more.`
+     }</p>`
+
     posts.push({
       title: '',
       ...data,
-      id: (data.id || '').toString(),
+      id,
       date: new Date(data.date),
       published: new Date(data.updated || data.date),
-      content: `${html}<br/><p>上述是文章摘要，请访问 <a href="(data.id || '').toString()">(data.id || '').toString()</a> 继续阅读全文。</p>`,
+      content: html + tip,
       author: [author],
       link: DOMAIN + i.replace(`${options.userRoot}/pages`, '').replace(/\.md$/, ''),
     })

@@ -48,7 +48,7 @@ export interface SiteConfig {
   mode: 'light' | 'dark' | 'auto'
   /**
    * Default language
-   * @description 默认语言
+   * @description 默认语言，设置 `zh-CN` 以改变默认语言为中文
    * @default 'en'
    */
   lang: string
