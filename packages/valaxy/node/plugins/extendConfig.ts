@@ -15,7 +15,6 @@ const clientDeps = [
   '@unhead/vue',
 
   '@vueuse/integrations/useFuse',
-  'body-scroll-lock',
 
   'defu',
 

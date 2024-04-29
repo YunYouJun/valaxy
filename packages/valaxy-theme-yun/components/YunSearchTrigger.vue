@@ -1,7 +1,6 @@
 <script lang="ts" setup>
 import { useSiteConfig } from 'valaxy'
-import { computed, defineAsyncComponent, ref, watch } from 'vue'
-import { useMagicKeys } from '@vueuse/core'
+import { computed, defineAsyncComponent, onMounted, onUnmounted, ref } from 'vue'
 
 const siteConfig = useSiteConfig()
 
@@ -14,11 +13,23 @@ function togglePopup() {
   open.value = !open.value
 }
 
-const { Meta_K } = useMagicKeys()
+onMounted(() => {
+  const handleSearchHotKey = (event: KeyboardEvent) => {
+    if (
+      (event.key.toLowerCase() === 'k' && (event.metaKey || event.ctrlKey))
+    ) {
+      event.preventDefault()
+      togglePopup()
+    }
+  }
 
-watch(Meta_K, (val) => {
-  if (val)
-    togglePopup()
+  const remove = () => {
+    window.removeEventListener('keydown', handleSearchHotKey)
+  }
+
+  window.addEventListener('keydown', handleSearchHotKey)
+
+  onUnmounted(remove)
 })
 
 function openSearch() {

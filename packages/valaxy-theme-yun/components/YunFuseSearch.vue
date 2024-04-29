@@ -3,11 +3,11 @@ import type { UseFuseOptions } from '@vueuse/integrations/useFuse'
 import { useFuse } from '@vueuse/integrations/useFuse'
 import { computed, ref, watch } from 'vue'
 import { useI18n } from 'vue-i18n'
-import { useBodyScrollLock, useSiteConfig } from 'valaxy'
+import { useSiteConfig } from 'valaxy'
 import { useRouter } from 'vue-router'
 import type { FuseListItem } from 'valaxy/types'
 
-import { onClickOutside } from '@vueuse/core'
+import { isClient, onClickOutside, useScrollLock } from '@vueuse/core'
 
 const props = defineProps<{
   open: boolean
@@ -16,7 +16,7 @@ const emit = defineEmits(['close'])
 
 const searchContainer = ref<HTMLElement>()
 
-const { lockBodyScroll, unlockBodyScroll } = useBodyScrollLock(searchContainer)
+const isLocked = useScrollLock(isClient ? document.body : null)
 
 const { t } = useI18n()
 
@@ -80,8 +80,8 @@ onClickOutside(searchInputRef, () => {
 <template>
   <Transition
     name="fade"
-    @enter="lockBodyScroll"
-    @after-leave="unlockBodyScroll"
+    @enter="isLocked = true"
+    @after-leave="isLocked = false"
   >
     <div
       v-if="open" ref="searchContainer"
