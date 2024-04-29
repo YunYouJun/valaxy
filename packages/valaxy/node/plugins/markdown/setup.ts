@@ -5,6 +5,7 @@ import attrsPlugin from 'markdown-it-attrs'
 
 // @ts-expect-error wait @types/markdown-it-emoji update
 import { full as emojiPlugin } from 'markdown-it-emoji'
+import mdFootnote from 'markdown-it-footnote'
 import TaskLists from 'markdown-it-task-lists'
 
 // https://www.npmjs.com/package/markdown-it-image-figures
@@ -81,6 +82,7 @@ export async function setupMarkdownPlugins(
     md.use(attrsPlugin, mdOptions.attrs)
 
   md.use(emojiPlugin)
+    .use(mdFootnote)
 
   // if (!isExcerpt) {
   md.use(anchorPlugin, {
