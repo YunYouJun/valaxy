@@ -1,11 +1,5 @@
 /* __imports__ */
 import type { ViteSSGContext } from 'vite-ssg'
-
-import dayjs from 'dayjs'
-import relativeTime from 'dayjs/plugin/relativeTime'
-import utc from 'dayjs/plugin/utc'
-import timezone from 'dayjs/plugin/timezone'
-
 import type { ComputedRef } from 'vue'
 
 // import type { RouteMeta } from 'vue-router'
@@ -31,11 +25,6 @@ export default function setupMain(ctx: ViteSSGContext, config: ComputedRef<Valax
 
   installPinia(ctx)
   installNprogress(ctx)
-
-  // dayjs
-  dayjs.extend(relativeTime)
-  dayjs.extend(utc)
-  dayjs.extend(timezone)
 
   if (import.meta.env.DEV && ctx.isClient) {
     import('../modules/devtools').then(({ install: installDevtools }) => {

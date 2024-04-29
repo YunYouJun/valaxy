@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { computed, onBeforeMount } from 'vue'
+import { computed } from 'vue'
 import { useHead, useSeoMeta } from '@unhead/vue'
 
 // @ts-expect-error virtual module
@@ -10,7 +10,6 @@ import ValaxyThemeApp from '/@valaxyjs/ThemeAppVue'
 import pkg from 'valaxy/package.json'
 import { useI18n } from 'vue-i18n'
 import { definePerson, defineWebPage, defineWebSite, useSchemaOrg } from '@unhead/schema-org'
-import dayjs from 'dayjs'
 
 // https://github.com/vueuse/head
 // you can use this to manipulate the document head in any components,
@@ -97,11 +96,6 @@ useSchemaOrg([
   }),
   defineWebPage(),
 ])
-
-onBeforeMount(() => {
-  if (siteConfig.value.timezone)
-    dayjs.tz.setDefault(siteConfig.value.timezone)
-})
 </script>
 
 <template>

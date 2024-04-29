@@ -1,12 +1,13 @@
 import { isClient, useStorage } from '@vueuse/core'
 import { useI18n } from 'vue-i18n'
-import dayjs from 'dayjs'
-import 'dayjs/locale/zh-cn'
+import { setDefaultOptions } from 'date-fns'
+import { enUS, zhCN } from 'date-fns/locale'
 
 export function useLocale() {
   const { availableLocales, locale } = useI18n()
   const lang = useStorage('valaxy-locale', locale.value)
-  dayjs.locale(lang.value.toLowerCase())
+  // set date locale
+  setDefaultOptions({ locale: locale.value === 'zh-CN' ? zhCN : enUS })
 
   const toggleLocales = () => {
     // change to some real logic
@@ -16,8 +17,8 @@ export function useLocale() {
     // for localStorage
     lang.value = locale.value
 
-    // set dayjs locale
-    dayjs.locale(lang.value.toLowerCase())
+    // set date locale
+    setDefaultOptions({ locale: locale.value === 'zh-CN' ? zhCN : enUS })
 
     if (isClient)
       document.documentElement.setAttribute('lang', locale.value)

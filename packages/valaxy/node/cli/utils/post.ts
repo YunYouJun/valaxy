@@ -1,15 +1,18 @@
 import { join, resolve } from 'node:path'
 import { writeFile } from 'node:fs/promises'
 import { render } from 'ejs'
-import dayjs from 'dayjs'
 import { ensureSuffix } from '@antfu/utils'
 import { consola } from 'consola'
 import { green, magenta } from 'picocolors'
+import { format } from 'date-fns'
 import { exists } from './fs'
 import { getTemplate } from './scaffold'
 import { defaultPostTemplate, userRoot } from './constants'
 
 export interface CreatePostParams {
+  /**
+   * generate date in frontmatter
+   */
   date?: boolean
   path: string
   layout?: string
@@ -63,6 +66,6 @@ async function genLayoutTemplate({
     template = defaultPostTemplate
 
   // 24h format
-  const dateFormat = 'YYYY-MM-DD HH:mm:ss'
-  return render(template, { title, layout, date: date ? dayjs().format(dateFormat) : '' })
+  const dateFormat = 'yyyy-MM-dd HH:mm:ss'
+  return render(template, { title, layout, date: date ? format(new Date(), dateFormat) : '' })
 }

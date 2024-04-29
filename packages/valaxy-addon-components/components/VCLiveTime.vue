@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import { onMounted, ref } from 'vue'
 import { useI18n } from 'vue-i18n'
-import dayjs from 'dayjs'
+import { differenceInSeconds } from 'date-fns'
 
 const props = defineProps<{
   startTime: string
@@ -18,13 +18,13 @@ const passSecond = ref(0)
  * get live time
  */
 function siteLiveTime() {
-  const start = dayjs(props.startTime)
-  const now = dayjs()
-  const timeDiff = now.diff(start)
-  passDay.value = Math.floor(timeDiff / 1000 / 60 / 60 / 24)
-  passHour.value = Math.floor(timeDiff / 1000 / 60 / 60 % 24)
-  passMinute.value = Math.floor(timeDiff / 1000 / 60 % 60)
-  passSecond.value = Math.floor(timeDiff / 1000 % 60)
+  const start = (props.startTime)
+  const now = new Date()
+  const timeDiff = differenceInSeconds(now, start)
+  passDay.value = Math.floor(timeDiff / 60 / 60 / 24)
+  passHour.value = Math.floor(timeDiff / 60 / 60 % 24)
+  passMinute.value = Math.floor(timeDiff / 60 % 60)
+  passSecond.value = Math.floor(timeDiff % 60)
 }
 
 onMounted(() => {

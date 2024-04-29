@@ -19,12 +19,6 @@ const clientDeps = [
 
   'defu',
 
-  'dayjs',
-  'dayjs/locale/zh-cn',
-  'dayjs/plugin/relativeTime',
-  'dayjs/plugin/timezone',
-  'dayjs/plugin/utc',
-
   'katex',
   'nprogress',
   'unocss',

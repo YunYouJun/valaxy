@@ -4,7 +4,7 @@ import { useFrontmatter, useFullUrl, useSiteConfig } from 'valaxy'
 
 import type { Article } from '@unhead/schema-org'
 import { defineArticle, useSchemaOrg } from '@unhead/schema-org'
-import dayjs from 'dayjs'
+import { toDate } from 'date-fns'
 
 const siteConfig = useSiteConfig()
 const frontmatter = useFrontmatter()
@@ -27,8 +27,8 @@ const article: Article = {
       url: siteConfig.value.author.link,
     },
   ],
-  'datePublished': dayjs(frontmatter.value.date).toDate(),
-  'dateModified': dayjs(frontmatter.value.updated).toDate(),
+  'datePublished': toDate(frontmatter.value.date || ''),
+  'dateModified': toDate(frontmatter.value.updated || ''),
 }
 
 const image = frontmatter.value.image || frontmatter.value.cover
