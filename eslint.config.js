@@ -7,6 +7,8 @@ export default antfu({
     'public',
     'packages/valaxy/index.d.ts',
     'packages/valaxy/client.d.ts',
+    // generated
+    'api/typedoc',
   ],
 }, {
   files: ['**/*.md'],

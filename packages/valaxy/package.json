@@ -65,7 +65,7 @@
   "dependencies": {
     "@antfu/utils": "^0.7.7",
     "@ctrl/tinycolor": "^4.1.0",
-    "@iconify-json/carbon": "^1.1.31",
+    "@iconify-json/carbon": "^1.1.32",
     "@iconify-json/ri": "^1.1.20",
     "@intlify/unplugin-vue-i18n": "^4.0.0",
     "@types/body-scroll-lock": "^3.1.2",

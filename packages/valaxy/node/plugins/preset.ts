@@ -1,5 +1,4 @@
 import type { PluginOption } from 'vite'
-import { splitVendorChunkPlugin } from 'vite'
 
 import Vue from '@vitejs/plugin-vue'
 import Layouts from 'vite-plugin-vue-layouts'
@@ -97,9 +96,11 @@ export async function ViteValaxyPlugins(
       runtimeOnly: true,
       compositionOnly: true,
       include: roots.map(root => `${root}/locales/**`),
+
+      // items merged by defu will be treated as array, we should override it
+      jitCompilation: false,
     }),
 
-    splitVendorChunkPlugin(),
     createFixPlugins(options),
   ]
 }
