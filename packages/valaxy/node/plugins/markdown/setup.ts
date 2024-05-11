@@ -3,7 +3,6 @@ import type MarkdownIt from 'markdown-it'
 import anchorPlugin from 'markdown-it-anchor'
 import attrsPlugin from 'markdown-it-attrs'
 
-// @ts-expect-error wait @types/markdown-it-emoji update
 import { full as emojiPlugin } from 'markdown-it-emoji'
 import mdFootnote from 'markdown-it-footnote'
 import TaskLists from 'markdown-it-task-lists'
