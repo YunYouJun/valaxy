@@ -33,8 +33,8 @@ $colors: map.merge(
 $c-primary: map.get($colors, "primary") !default;
 $colors: map.merge(
   (
-    "primary-light": color.adjust($c-primary, $lightness: 15%),
-    "primary-lighter": color.adjust($c-primary, $lightness: 30%),
+    "primary-light": color.adjust($c-primary, $lightness: 10%),
+    "primary-lighter": color.adjust($c-primary, $lightness: 20%),
     "primary-dark": color.adjust($c-primary, $lightness: -5%),
   ),
   $colors
