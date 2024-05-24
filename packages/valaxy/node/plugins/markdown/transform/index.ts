@@ -5,6 +5,7 @@ import type MarkdownIt from 'markdown-it'
 import type { ResolvedValaxyOptions } from '../../../options'
 import { highlight } from '../plugins/highlight'
 import { defaultCodeTheme, setupMarkdownPlugins } from '../setup'
+import { createTransformIncludes } from './include'
 import { transformMermaid } from './mermaid'
 
 export async function createMarkdownPlugin(
@@ -12,6 +13,8 @@ export async function createMarkdownPlugin(
 ): Promise<Plugin> {
   const mdOptions = options?.config.markdown || {}
   const theme = mdOptions.theme ?? defaultCodeTheme
+
+  const transformIncludes = createTransformIncludes(options)
 
   return Markdown({
     include: [/\.md$/],
@@ -51,9 +54,10 @@ export async function createMarkdownPlugin(
     },
 
     transforms: {
-      before(code, _id) {
+      before(code, id) {
         // features
         code = transformMermaid(code)
+        code = transformIncludes(code, id)
         // TODO: PlantUML
         // code = transformPlantUml(code, config.plantUmlServer)
 
