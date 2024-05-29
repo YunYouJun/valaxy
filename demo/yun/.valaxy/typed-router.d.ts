@@ -74,7 +74,6 @@ declare module 'vue-router/auto-routes' {
     '/posts/test-tags': RouteRecordInfo<'/posts/test-tags', '/posts/test-tags', Record<never, never>, Record<never, never>>,
     '/posts/中文Post测试': RouteRecordInfo<'/posts/中文Post测试', '/posts/中文Post测试', Record<never, never>, Record<never, never>>,
     '/tags/': RouteRecordInfo<'/tags/', '/tags', Record<never, never>, Record<never, never>>,
-    '/temp/': RouteRecordInfo<'/temp/', '/temp', Record<never, never>, Record<never, never>>,
     '/test/deadlinks': RouteRecordInfo<'/test/deadlinks', '/test/deadlinks', Record<never, never>, Record<never, never>>,
     '/test/special-character': RouteRecordInfo<'/test/special-character', '/test/special-character', Record<never, never>, Record<never, never>>,
     '/test/time_warning': RouteRecordInfo<'/test/time_warning', '/test/time_warning', Record<never, never>, Record<never, never>>,
