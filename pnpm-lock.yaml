@@ -123,9 +123,6 @@ importers:
       unbuild:
         specifier: ^2.0.0
         version: 2.0.0(sass@1.77.2)(typescript@5.4.5)(vue-tsc@2.0.17(typescript@5.4.5))
-      valaxy-addon-artalk:
-        specifier: ^0.1.0
-        version: 0.1.0(valaxy@packages+valaxy)
       vitest:
         specifier: ^1.6.0
         version: 1.6.0(@types/node@20.12.12)(jsdom@24.1.0)(sass@1.77.2)
@@ -181,6 +178,9 @@ importers:
       valaxy-addon-algolia:
         specifier: workspace:*
         version: link:../../packages/valaxy-addon-algolia
+      valaxy-addon-artalk:
+        specifier: ^0.1.0
+        version: 0.1.0(valaxy@packages+valaxy)
       valaxy-addon-bangumi:
         specifier: workspace:*
         version: link:../../packages/valaxy-addon-bangumi
