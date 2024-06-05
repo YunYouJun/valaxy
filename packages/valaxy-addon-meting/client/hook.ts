@@ -1,3 +1,4 @@
+import { onMounted } from 'vue'
 import type { MetingOptions } from '../node/index'
 import { animationIn, autoHidden, handleOptions, useAPlayerMiniSwitcherEventListener } from './utils'
 import { setupHiddenLyricHidingObserver } from './observer'
@@ -10,7 +11,7 @@ export enum Hook {
 
 export function onMetingInit({ options }: MetingOptions) {
   handleOptions(options, {
-    animationIn: () => import('../style/animation-in.scss'),
+    animationIn: () => onMounted(() => import('./styles/animation-in.scss')),
   })
 }
 
