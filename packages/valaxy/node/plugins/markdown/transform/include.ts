@@ -14,11 +14,14 @@ export function createTransformIncludes(options: ResolvedValaxyOptions) {
   }
 }
 
-export function resolveTransformIncludes(code: string, id: string) {
+export function resolveTransformIncludes(code: string, id: string, options: ResolvedValaxyOptions) {
   const includes: string[] = []
   const dir = path.dirname(id)
   code = code.replace(includedRE, (m, m1) => {
-    const includePath = path.join(dir, m1)
+    const atPresent = m1.startsWith('@')
+    const includePath = atPresent
+      ? path.resolve(options.userRoot, m1.slice(m1[1] === '/' ? 2 : 1))
+      : path.join(dir, m1)
     includes.push(slash(includePath))
     return ''
   })

@@ -106,7 +106,7 @@ export async function createMarkdownToVueRenderFn(
     const pageData = await generatePageData(code, id, options)
 
     code = transformHexoTags(code, id)
-    const data = resolveTransformIncludes(code, id)
+    const data = resolveTransformIncludes(code, id, options)
     const includes = data.includes
     code = data.code
     code = transformCodeBlock(code)

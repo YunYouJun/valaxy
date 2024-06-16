@@ -1,7 +1,7 @@
 ---
 title: 'excerpt_type: html'
 excerpt_type: html
-cover: https://fastly.jsdelivr.net/gh/YunYouJun/cdn/img/bg/girl-in-water-tank.webp
+cover: https://cdn.jsdelivr.net/gh/YunYouJun/cdn/img/bg/girl-in-water-tank.webp
 ---
 
 ## Header

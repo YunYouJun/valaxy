@@ -51,9 +51,6 @@ export function useActiveAnchor(
     const offsetHeight = document.body.offsetHeight
     const isBottom = Math.abs(scrollY + innerHeight - offsetHeight) < 1
 
-    // console.log(scrollY, innerHeight, offsetHeight)
-    // console.log(isBottom)
-
     // page bottom - highlight last one
     if (anchors.length && isBottom) {
       activateLink(anchors[anchors.length - 1].hash)
