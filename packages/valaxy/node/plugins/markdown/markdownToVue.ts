@@ -5,7 +5,7 @@ import type { PageData } from 'valaxy/types'
 import path from 'pathe'
 import type { ResolvedConfig } from 'vite'
 import type { ResolvedValaxyOptions } from '../../options'
-import { createTransformIncludes } from './transform/include'
+import { resolveTransformIncludes } from './transform/include'
 import { createScanDeadLinks } from './transform/dead-links'
 import { createTransformMarkdown } from './transform/markdown'
 import { generatePageData } from './transform/page-data'
@@ -68,7 +68,6 @@ export async function createMarkdownToVueRenderFn(
   // for dead link detection
   options.pages = options.pages.map(p => p.replace(/\.md$/, '').replace(/\/index$/, ''))
 
-  const transformIncludes = createTransformIncludes(options)
   const transformCodeBlock = createTransformCodeBlock(options)
   const transformMarkdown = createTransformMarkdown(options)
 
@@ -107,7 +106,7 @@ export async function createMarkdownToVueRenderFn(
     const pageData = await generatePageData(code, id, options)
 
     code = transformHexoTags(code, id)
-    const data = transformIncludes(code, id)
+    const data = resolveTransformIncludes(code, id)
     const includes = data.includes
     code = data.code
     code = transformCodeBlock(code)

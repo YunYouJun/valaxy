@@ -1,35 +1,29 @@
 import path from 'pathe'
-import fs from 'fs-extra'
+import { slash } from '@antfu/utils'
 import type { ResolvedValaxyOptions } from '../../../options'
 import { processIncludes } from '../utils'
 
-const includesRE = /<!--\s*@include:\s*(.*?)\s*-->/g
+const includedRE = /<!--\s*@included:\s*(.*?)\s*-->/g
 
 export function createTransformIncludes(options: ResolvedValaxyOptions) {
   const srcDir = options.userRoot
 
   return (code: string, id: string) => {
     const fileOrig = id
-    // resolve includes
-    const includes: string[] = []
-    const dir = path.dirname(id)
+    return processIncludes(srcDir, code, fileOrig)
+  }
+}
 
-    code = processIncludes(srcDir, code, fileOrig, includes)
-    code = code.replace(includesRE, (m, m1) => {
-      try {
-        const includePath = path.join(dir, m1)
-        const content = fs.readFileSync(includePath, 'utf-8')
-        includes.push(includePath)
-        return content
-      }
-      catch (error) {
-        return m // silently ignore error if file is not present
-      }
-    })
-
-    return {
-      code,
-      includes,
-    }
+export function resolveTransformIncludes(code: string, id: string) {
+  const includes: string[] = []
+  const dir = path.dirname(id)
+  code = code.replace(includedRE, (m, m1) => {
+    const includePath = path.join(dir, m1)
+    includes.push(slash(includePath))
+    return ''
+  })
+  return {
+    code,
+    includes,
   }
 }
