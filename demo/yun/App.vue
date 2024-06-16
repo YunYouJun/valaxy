@@ -4,7 +4,11 @@
 // do script
 import { onMounted } from 'vue'
 
-onMounted(() => {
+/**
+ * mount utterances
+ * @see https://utteranc.es/
+ */
+function mountUtterances() {
   const utterScript = document.createElement('script')
 
   utterScript.src = 'https://utteranc.es/client.js'
@@ -19,6 +23,10 @@ onMounted(() => {
   const commentContainer = document.querySelector('.comment')
   if (commentContainer)
     commentContainer.appendChild(utterScript)
+}
+
+onMounted(() => {
+  mountUtterances()
 })
 </script>
 
