@@ -1,7 +1,7 @@
 {
   "name": "@valaxyjs/devtools",
   "type": "module",
-  "version": "0.18.8",
+  "version": "0.18.9",
   "repository": {
     "url": "https://github.com/YunYouJun/valaxy"
   },
