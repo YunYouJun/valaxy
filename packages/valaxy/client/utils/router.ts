@@ -1,3 +1,5 @@
+import type { Router } from 'vue-router'
+
 export interface ScrollToOptions {
   /**
    * 平滑滚动
@@ -42,4 +44,50 @@ export function scrollTo(el: HTMLElement, hash: string, options: Partial<ScrollT
       })
     }
   }
+}
+
+/**
+ * @description Intercept click events and handle offset positions for jump links on the same page
+ * @description:zh-CN 拦截点击事件，处理同一页面下跳转链接的偏移位置
+ * @param router Vue Router
+ */
+export function onClickHref(router: Router) {
+  // to extract
+  // click title scroll
+  window.addEventListener(
+    'click',
+    async (e) => {
+      const link = (e.target as Element).closest('a')
+      if (link) {
+        const { protocol, hostname, pathname, hash, target } = link
+        const currentUrl = window.location
+        const extMatch = pathname.match(/\.\w+$/)
+        // only intercept inbound links
+        if (
+          !e.ctrlKey
+          && !e.shiftKey
+          && !e.altKey
+          && !e.metaKey
+          && target !== '_blank'
+          && protocol === currentUrl.protocol
+          && hostname === currentUrl.hostname
+          && !(extMatch && extMatch[0] !== '.html')
+        ) {
+          if (pathname === currentUrl.pathname) {
+            e.preventDefault()
+            // scroll between hash anchors in the same page
+            if (hash && hash !== currentUrl.hash) {
+              await router.push({ hash: decodeURIComponent(hash) })
+
+              // use smooth scroll when clicking on header anchor links
+              scrollTo(link, hash, {
+                smooth: link.classList.contains('header-anchor'),
+              })
+            }
+          }
+        }
+      }
+    },
+    { capture: true },
+  )
 }

@@ -27,8 +27,22 @@ export namespace YunTheme {
 
 export interface Page {
   name: string
+  /**
+   * @description:en-US Page URL
+   * @description:zh-CN 页面链接
+   */
   url: string
+  /**
+   * @see https://valaxy.site/guide/features#icones
+   * @description:en-US Icon of page
+   * @description:zh-CN 页面图标
+   */
   icon: string
+  /**
+   * @description:en-US Color of icon
+   * @description:zh-CN 图标颜色
+   */
+  color: string
 }
 
 /**
