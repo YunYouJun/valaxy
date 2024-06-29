@@ -99,6 +99,7 @@ export interface PageFrontMatter extends Record<string, any> {
 
   /**
    * icon before title
+   * @description 标题前的图标
    */
   icon: string
   /**
@@ -119,14 +120,17 @@ export interface PageFrontMatter extends Record<string, any> {
   // third-party features
   /**
    * use aplayer
+   * @url https://aplayer.js.org/
    */
   aplayer: boolean
   /**
    * use katex
+   * @url https://katex.org/
    */
   katex: boolean
   /**
    * use codepen
+   * @url https://codepen.io/
    */
   codepen: boolean
   /**
@@ -160,6 +164,9 @@ export interface PageFrontMatter extends Record<string, any> {
    */
   gallery_password?: string
   /**
+   * @en
+   * @description encrypted content
+   *
    * @description:zh-CN 加密后的内容
    */
   encryptedContent?: string

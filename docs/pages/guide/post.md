@@ -28,6 +28,12 @@ More configuration options can be found in:
 
 </div>
 
+::: details PostFrontmatter Types
+
+<<< @/../packages/valaxy/types/frontmatter/post.ts#snippet{ts:line-numbers}
+
+:::
+
 :::
 
 ::: zh-CN

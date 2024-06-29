@@ -10,18 +10,22 @@ export interface PostFrontMatter extends PageFrontMatter {
   postTitleClass: string
 
   /**
-   * post card type, can be bilibili/yuque/...
+   * @description:en-US Post Card Type, can be bilibili/yuque/... (need theme support)
+   * @description:zh-CN 卡片类型，可以是 bilibili/yuque/... (需主题支持)
    */
-  type: string
+  type: 'bilibili' | 'yuque' | string
   /**
-   * override url, and jump directly
+   * @en override url, and jump directly
+   * @zh 覆盖 post url，直接跳转
    */
   url: string
   /**
-   * @description 摘要
+   * @description:en-US custom excerpt, `excerpt_type` will be invalid
+   * @description 手动指定摘要，此时 `excerpt_type` 将会无效
    */
   excerpt: string
   /**
+   * @description 摘要类型
    * @default 'html'
    * render type of excerpt
    * - md: render as raw markdown
@@ -31,30 +35,31 @@ export interface PostFrontMatter extends PageFrontMatter {
   excerpt_type: 'md' | 'text' | 'html' | 'ai'
 
   /**
-   * Category
-   * @description 分类，若为数组，则按顺序代表多层文件夹
+   * @description:en-US Category, if it is an array, it represents multiple folders in order
+   * @description:zh-CN 分类，若为数组，则按顺序代表多层文件夹
    */
   categories: string | string[]
   /**
-   * Tags
-   * @description 标签，可以有多个
+   * @description:en-US Tags, can have multiple
+   * @description:zh-CN 标签，可以有多个
    */
   tags: string[]
 
   /**
-   * display prev next
-   * @description 是否显示前一篇、后一篇导航
+   * @description:en-US Whether to display the previous and next navigation
+   * @description:zh-CN 是否显示前一篇、后一篇导航
    */
   nav: boolean
 
   /**
-   * 置顶
+   * @description:en-US Pin to top, the larger the number, the closer to the front
+   * @description:zh-CN 置顶，数字越大越靠前
    */
   top: number
 
   /**
-   * is draft
-   * @description 是否为草稿
+   * @description:en-US Whether it is a draft, it will only be displayed during development
+   * @description:zh-CN 是否为草稿，将仅在开发时被展示
    */
   draft: boolean
   /**
@@ -66,6 +71,7 @@ export interface PostFrontMatter extends PageFrontMatter {
   hide: 'index' | boolean
 
   /**
+   * @en
    * when the post is updated more than 30 days ago, show a warning
    * default 30 days, you can set `time_warning` in frontmatter to change it
    *
