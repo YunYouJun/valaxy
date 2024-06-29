@@ -32,7 +32,7 @@ export function readTime({ cn, en }: CountData, options: ReadTimeOptions) {
 export function wordCount({ cn, en }: CountData) {
   const num = cn + en
   if (num < 1000)
-    return num
+    return num.toString()
 
   return `${Math.round(num / 100) / 10}k`
 }

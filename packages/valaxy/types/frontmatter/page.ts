@@ -47,12 +47,6 @@ export interface PageFrontMatter extends Record<string, any> {
    * i18n
    */
   lang: string
-  /**
-   * TODO
-   * Read Time
-   * @description 阅读时长
-   */
-  duration: string
 
   /**
    * @description Author
