@@ -51,6 +51,7 @@ useSchemaOrg([
           :title="title || t('menu.categories')"
           :icon="frontmatter.icon || 'i-ri-folder-2-line'"
           :color="frontmatter.color"
+          :page-title-class="frontmatter.pageTitleClass"
         />
       </template>
       <template #main-content>

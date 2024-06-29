@@ -28,7 +28,12 @@ const albums = computed(() => frontmatter.value.albums || [])
   <RouterView v-slot="{ Component }">
     <component :is="Component">
       <template #main-header>
-        <YunPageHeader :title="title || t('title.album')" :icon="frontmatter.icon || 'i-ri-gallery-line'" :color="frontmatter.color" />
+        <YunPageHeader
+          :title="title || t('title.album')"
+          :icon="frontmatter.icon || 'i-ri-gallery-line'"
+          :color="frontmatter.color"
+          :page-title-class="frontmatter.pageTitleClass"
+        />
       </template>
       <template #main-content>
         <div text="center" class="yun-text-light" p="2">

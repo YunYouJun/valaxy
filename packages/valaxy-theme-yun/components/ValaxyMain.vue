@@ -80,8 +80,10 @@ onContentUpdated(() => {
               <YunPageHeader
                 class="mb-2"
                 :title="title"
-                :icon="frontmatter.icon || icon" :color="frontmatter.color || color"
+                :icon="frontmatter.icon || icon"
+                :color="frontmatter.color || color"
                 :cover="frontmatter.cover"
+                :page-title-class="frontmatter.pageTitleClass"
               />
             </slot>
             <slot name="main-header-after" />

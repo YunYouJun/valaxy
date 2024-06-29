@@ -44,7 +44,7 @@ useVanillaLazyLoad()
 </script>
 
 <template>
-  <article v-if="$slots.default" :class="frontmatter.markdown !== false && 'markdown-body'">
+  <article v-if="$slots.default" :class="frontmatter.markdownClass || 'markdown-body'">
     <slot ref="contentRef" @vue:updated="runContentUpdated" />
 
     <div v-if="frontmatter.url" text="center">

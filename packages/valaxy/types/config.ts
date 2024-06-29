@@ -4,7 +4,7 @@ import type { ILazyLoadOptions } from 'vanilla-lazyload'
 import type { RouteRecordRaw } from 'vue-router'
 import type { ValaxyAddon } from '../types'
 import type { DefaultTheme } from './default-theme'
-import type { PostFrontMatter } from './posts'
+import type { PostFrontMatter } from './frontmatter'
 import type { FuseListItem } from './node'
 
 import './default-theme'

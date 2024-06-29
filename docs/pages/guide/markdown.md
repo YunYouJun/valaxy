@@ -992,3 +992,29 @@ graph TD;
 ````
 
 More examples see: [Mermaid](/examples/mermaid)
+
+## 自定义 {lang="zh-CN"}
+
+## Custom {lang="en"}
+
+### 自定义 Markdown 容器 Class {lang="zh-CN"}
+
+### Custom Markdown Container Class {lang="en"}
+
+::: zh-CN
+
+你可以在 Markdown 文件的 frontmatter 中添加 `markdownClass` 来自定义 Markdown 容器的 Class。
+
+:::
+
+::: en
+
+You can add `markdownClass` in the frontmatter of the markdown file to customize the Class of the Markdown container.
+
+:::
+
+```md
+---
+markdownClass: 'markdown-body custom-markdown-class'
+---
+```

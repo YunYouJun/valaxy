@@ -17,9 +17,23 @@ You can custom page by front-matter.
 
 ::: tip
 
+<div lang="zh-CN">
 更多配置项可参见：
 
-- 页面（Page）配置：[PageFrontmatter](https://github.com/YunYouJun/valaxy/blob/main/packages/valaxy/types/posts.ts#L27)
+- 页面（Page）配置：[PageFrontmatter](https://github.com/YunYouJun/valaxy/blob/main/packages/valaxy/types/frontmatter/page.ts)
+
+</div>
+
+<div lang="en">
+More configuration options can be found in:
+
+- Page configuration: [PageFrontmatter](https://github.com/YunYouJun/valaxy/blob/main/packages/valaxy/types/frontmatter/page.ts)
+
+</div>
+
+::: details PageFrontmatter Types
+
+<<< @/../packages/valaxy/types/frontmatter/page.ts#snippet{29-194 ts:line-numbers}
 
 :::
 
@@ -40,11 +54,23 @@ titleTemplate: '%s - Valaxy'
 You will get html title `Cool - Valaxy`.
 :::
 
-### 页面加密
+### 页面加密 {lang="zh-CN"}
+
+### Encrypt Page {lang="en"}
 
 ::: warning
+
+<div lang="zh-CN">
+
 加密依赖于浏览器原生 [Web Crypto API | MDN](https://developer.mozilla.org/en-US/docs/Web/API/Web_Crypto_API)，
 **其仅在 HTTPS 中可用**。
+</div>
+
+<div lang="en">
+
+Encryption relies on the browser's native [Web Crypto API | MDN](https://developer.mozilla.org/en-US/docs/Web/API/Web_Crypto_API),
+**It is only available in HTTPS**.
+</div>
 :::
 
 ```ts
@@ -62,9 +88,19 @@ export default defineSiteConfig({
 })
 ```
 
+::: zh-CN
+
 在对应需要加密页面的 frontmatter 中添加 `password: YourPassword` 即可。
 
 当 `encrypt.enable` 为 `true`，且页面中密码 `password` 存在时，默认开启加密。
+:::
+
+::: en
+
+Add `password: YourPassword` to the frontmatter of the corresponding page to enable encryption.
+
+When `encrypt.enable` is `true`, and the password `password` exists in the page, encryption is enabled by default.
+:::
 
 ```md
 ---

@@ -12,10 +12,21 @@ end: false
 
 ::: tip
 
+<div lang="zh-CN">
 更多配置项可参见：
 
-- 文章（Post）配置：[PostFrontmatter](https://github.com/YunYouJun/valaxy/blob/main/packages/valaxy/types/posts.ts#L144) （文章配置包含页面配置）
-- 页面（Page）配置：[PageFrontmatter](https://github.com/YunYouJun/valaxy/blob/main/packages/valaxy/types/posts.ts#L27)
+- 文章（Post）配置：[PostFrontmatter](https://github.com/YunYouJun/valaxy/blob/main/packages/valaxy/types/frontmatter/post.ts) （文章配置包含页面配置）
+- 页面（Page）配置：[PageFrontmatter](https://github.com/YunYouJun/valaxy/blob/main/packages/valaxy/types/frontmatter/page.ts) （可参见[页面配置 | Valaxy](/guide/page)）
+
+</div>
+
+<div lang="en">
+More configuration options can be found in:
+
+- Post configuration: [PostFrontmatter](https://github.com/YunYouJun/valaxy/blob/main/packages/valaxy/types/frontmatter/post.ts) (Post configuration extends page configuration)
+- Page configuration: [PageFrontmatter](https://github.com/YunYouJun/valaxy/blob/main/packages/valaxy/types/frontmatter/page.ts) (See [Page | Valaxy](/guide/page))
+
+</div>
 
 :::
 
@@ -169,16 +180,43 @@ This is a custom excerpt.
 
 :::
 
-## 插入
+## 插入 {lang="zh-CN"}
 
-### 组件
+## Insert {lang="en"}
+
+### 组件 {lang="zh-CN"}
+
+### Components {lang="en"}
+
+::: zh-CN
 
 - 如想在文章中插入现有公共组件，请参照 [组件](/guide/built-ins)。
 - 如想在文章中插入自定义组件，请参照 [自定义组件](/guide/custom/components)。
 
-### 脚本
+:::
+
+::: en
+
+- To insert existing public components in the article, please refer to [Components](/guide/built-ins).
+- To insert custom components in the article, please refer to [Custom Components](/guide/custom/components).
+
+:::
+
+### 脚本 {lang="zh-CN"}
+
+### Scripts {lang="en"}
+
+::: zh-CN
 
 可直接通过 [`useScriptTag`](https://vueuse.org/core/useScriptTag/) 使用，封装为组件或直接添加在文章中。
+
+:::
+
+::: en
+
+You can use [`useScriptTag`](https://vueuse.org/core/useScriptTag/) directly, encapsulate it as a component, or add it directly to the article.
+
+:::
 
 ```vue
 <script lang="ts" setup>
@@ -186,11 +224,25 @@ useScriptTag('https://static.codepen.io/assets/embed/ei.js')
 </script>
 ```
 
-## 强制规范
+## 强制规范 {lang="zh-CN"}
+
+## Force Standard {lang="en"}
+
+::: zh-CN
 
 由于 Valaxy 支持解析 Vue 组件渲染，因此当您输入 `<CustomComponent></CustomComponent>` 时，它会解析 `components` 目录下的 `CustomComponent.vue` 组件并渲染。
 
 当您不需要其被渲染时，请务必使用反引号包裹，如：
+
+:::
+
+::: en
+
+Since Valaxy supports parsing Vue component rendering, when you enter `<CustomComponent></CustomComponent>`, it will parse the `CustomComponent.vue` component in the `components` directory and render it.
+
+When you don't want it to be rendered, be sure to wrap it in backticks, like:
+
+:::
 
 ```md
 `<CustomComponent></CustomComponent>`
