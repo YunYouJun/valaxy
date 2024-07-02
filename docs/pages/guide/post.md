@@ -34,8 +34,6 @@ More configuration options can be found in:
 
 :::
 
-:::
-
 ::: zh-CN
 **文章**（`post`）继承自**页面**（`page`），因此**页面**中的 Front Matter 通用被**文章**支持。
 
