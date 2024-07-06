@@ -1,21 +1,20 @@
 <script lang="ts" setup>
-import { computed } from 'vue'
+import { computed, ref, watch } from 'vue'
 import { useFrontmatter } from 'valaxy'
 import { useI18n } from 'vue-i18n'
 
 import { differenceInMilliseconds, formatDistanceToNow } from 'date-fns'
 
 const fm = useFrontmatter()
-const { t } = useI18n()
+const { t, locale } = useI18n()
 
 const updated = computed(() => fm.value.updated || fm.value.date || new Date())
-const ago = computed(() => {
+const ago = ref('')
+
+watch(locale, () => {
   const fromNow = formatDistanceToNow(updated.value, { addSuffix: true })
-  if (/^\d/.test(fromNow))
-    return ` ${fromNow}`
-  else
-    return fromNow
-})
+  ago.value = /^\d/.test(fromNow) ? ` ${fromNow}` : fromNow
+}, { immediate: true })
 
 /**
  * when the post is updated more than 180 days ago, show a warning
