@@ -1,15 +1,16 @@
 import VueRouter from 'unplugin-vue-router/vite'
 import fs from 'fs-extra'
 import { resolve } from 'pathe'
-import matter from 'gray-matter'
 import { isDate } from '@antfu/utils'
 import { convert } from 'html-to-text'
 import type { ExcerptType, Page } from 'valaxy/types'
 import type { RouteMeta } from 'vue-router'
 import MarkdownIt from 'markdown-it'
+import { fromZonedTime } from 'date-fns-tz'
+import matter from 'gray-matter'
 import type { ValaxyNode } from '../types'
-import { EXCERPT_SEPARATOR } from '../constants'
 
+import matterOptions from '../utils/matterOptions'
 import { presetStatistics } from './presets/statistics'
 
 // for render markdown excerpt
@@ -101,9 +102,7 @@ export function createRouterPlugin(valaxyApp: ValaxyNode) {
       const path = route.components.get('default') || ''
       if (path.endsWith('.md')) {
         const md = fs.readFileSync(path, 'utf-8')
-        const { data, excerpt, content } = matter(md, {
-          excerpt_separator: EXCERPT_SEPARATOR,
-        })
+        const { data, excerpt, content } = matter(md, matterOptions)
         const mdFm = data as Page
 
         // todo, optimize it to cache or on demand
@@ -125,10 +124,12 @@ export function createRouterPlugin(valaxyApp: ValaxyNode) {
             mdFm.updated = fs.statSync(path).ctime
         }
 
+        const timezone = valaxyConfig.siteConfig.timezone
+
         if (!isDate(mdFm.date))
-          mdFm.date = new Date(mdFm.date)
+          mdFm.date = fromZonedTime(mdFm.date, timezone)
         if (!isDate(mdFm.updated))
-          mdFm.updated = new Date(mdFm.updated!)
+          mdFm.updated = fromZonedTime(mdFm.updated!, timezone)
 
         if (mdFm.from) {
           if (Array.isArray(mdFm.from)) {

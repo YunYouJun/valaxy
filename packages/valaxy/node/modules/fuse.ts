@@ -8,6 +8,7 @@ import { cyan, dim } from 'picocolors'
 import type { Argv } from 'yargs'
 
 import type { FuseListItem } from 'valaxy/types'
+import matterOptions from '../utils/matterOptions'
 import { resolveOptions } from '../options'
 import { setEnvProd } from '../utils/env'
 import { commonOptions } from '../cli/options'
@@ -25,7 +26,7 @@ export async function generateFuseList(options: ResolvedValaxyOptions) {
   const posts: FuseListItem[] = []
   for await (const i of files) {
     const raw = fs.readFileSync(i, 'utf-8')
-    const { data, excerpt, content } = matter(raw, { excerpt_separator: '<!-- more -->' })
+    const { data, excerpt, content } = matter(raw, matterOptions)
 
     if (data.draft) {
       consola.warn(`Ignore draft post: ${dim(i)}`)

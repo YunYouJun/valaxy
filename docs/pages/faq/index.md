@@ -71,3 +71,39 @@ So you can create a new file named `.nojekyll` in the `public` folder of the pro
 |-- public
 |   |-- .nojekyll
 ```
+
+## 显示的文章创建/修改时间不是 UTC 时间 {lang="zh-CN"}
+
+## The displayed article creation/modification time is not UTC time {lang="en"}
+
+::: zh-CN
+根据[这份 `YAML` 规范](https://yaml.org/type/timestamp.html)，符合 `ISO 8601` 标准的时间格式都会被解析为 `Date` 类型，且**不显式标注时区的时间戳都会作 UTC 处理**。
+
+但是为了方便写作与从其他框架迁移，我们将未显式标注时区的时间戳解析为 `site.config.ts` 中 `timezone` 对应的时间（即 `2024-07-06 12:00:00` 在 `Asia/Shanghai` 下会解析 为 `2024-07-06T12:00:00+08:00`）。
+
+无论如何，我们建议**显式**添加时区信息，例如：
+
+```yaml
+date: 2024-07-06 12:00:00 +8
+```
+
+这样就能正确解析为 UTC+8 时区的 `2024-07-06 12:00:00`。
+
+主题作者也能通过在 `scaffolds/post.md` 中使用 `date: <%=date%> +8` 来实现这一点。
+:::
+
+::: en
+According to [this `YAML` specification](https://yaml.org/type/timestamp.html), time formats that conform to the `ISO 8601` standard will be parsed as `Date` type, and **timestamps without explicitly marked time zones will be treated as UTC**.
+
+However, for the convenience of writing and migrating from other frameworks, we parse timestamps without explicitly marked time zones as the time corresponding to `timezone` in `site.config.ts` (i.e., `2024-07-06 12:00:00` will be parsed as `2024-07-06T12:00:00+08:00` in `Asia/Shanghai`).
+
+Nevertheless, we recommend **explicitly** adding time zone information, for example:
+
+```yaml
+date: 2024-07-06 12:00:00 +8
+```
+
+This way, it can be correctly parsed as `2024-07-06 12:00:00` in the UTC+8 time zone.
+
+Theme authors can also achieve this by using `date: <%=date%> +8` in `scaffolds/post.md`.
+:::
