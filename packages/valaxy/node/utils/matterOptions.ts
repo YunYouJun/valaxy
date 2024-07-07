@@ -8,7 +8,7 @@ const engines = {
   },
 }
 
-export default {
+export const matterOptions = {
   excerpt_separator: EXCERPT_SEPARATOR,
   engines,
 }

@@ -10,7 +10,7 @@ import { toDate } from 'date-fns-tz'
 import matter from 'gray-matter'
 import type { ValaxyNode } from '../types'
 
-import matterOptions from '../utils/matterOptions'
+import { matterOptions } from '../utils/matterOptions'
 import { presetStatistics } from './presets/statistics'
 
 // for render markdown excerpt
