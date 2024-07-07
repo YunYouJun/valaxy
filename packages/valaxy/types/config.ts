@@ -104,6 +104,10 @@ export interface SiteConfig {
      * @description 状态
      */
     status: {
+      /**
+       * Emoji representation of your status like '👨‍💻'
+       * @description 你的状态的 Emoji 表示，如 '👨‍💻'
+       */
       emoji: string
       /**
        * show when hover emoji
