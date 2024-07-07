@@ -480,11 +480,11 @@ importers:
         specifier: ^1.77.6
         version: 1.77.6
       shiki:
-        specifier: ^1.10.2
-        version: 1.10.2
+        specifier: ^1.10.3
+        version: 1.10.3
       star-markdown-css:
-        specifier: ^0.4.2
-        version: 0.4.2
+        specifier: ^0.5.0
+        version: 0.5.0
       unocss:
         specifier: ^0.61.3
         version: 0.61.3(postcss@8.4.39)(rollup@4.18.0)(vite@5.3.3(@types/node@20.14.10)(sass@1.77.6))
@@ -625,8 +625,8 @@ importers:
   packages/valaxy-addon-waline:
     dependencies:
       '@waline/client':
-        specifier: ^3.2.7
-        version: 3.2.7(typescript@5.5.3)
+        specifier: ^3.3.0
+        version: 3.3.0(typescript@5.5.3)
       valaxy:
         specifier: latest
         version: 0.18.10(@babel/parser@7.24.7)(@types/markdown-it@14.1.1)(@types/node@20.14.10)(axios@1.7.2)(focus-trap@7.5.4)(jwt-decode@3.1.2)(postcss@8.4.39)(rollup@4.18.0)(typescript@5.5.3)
@@ -1858,11 +1858,11 @@ packages:
   '@selderee/plugin-htmlparser2@0.11.0':
     resolution: {integrity: sha512-P33hHGdldxGabLFjPPpaTxVolMrzrcegejx+0GxjrIb9Zv48D8yAIA/QTDR2dFl7Uz7urX8aX6+5bCZslr+gWQ==}
 
-  '@shikijs/core@1.10.2':
-    resolution: {integrity: sha512-hCtKSC0PNmidU+TVBUiddE0sF1QsOPVbBBRQlugsKy0QJBfSj9aIQQ/pNEIv58wwM/9cAlWG1yihi+5ovZfYmA==}
+  '@shikijs/core@1.10.3':
+    resolution: {integrity: sha512-D45PMaBaeDHxww+EkcDQtDAtzv00Gcsp72ukBtaLSmqRvh0WgGMq3Al0rl1QQBZfuneO75NXMIzEZGFitThWbg==}
 
-  '@shikijs/transformers@1.10.2':
-    resolution: {integrity: sha512-gSx8Z4ZIxP0iJlnm8gNolAf3Yxd0KYHJ0OFcT5RFGcZ73/ZhFBJgCfL9OQskHya74qlp3ExpGbrPm7zf7CSidw==}
+  '@shikijs/transformers@1.10.3':
+    resolution: {integrity: sha512-MNjsyye2WHVdxfZUSr5frS97sLGe6G1T+1P41QjyBFJehZphMcr4aBlRLmq6OSPBslYe9byQPVvt/LJCOfxw8Q==}
 
   '@sinclair/typebox@0.27.8':
     resolution: {integrity: sha512-+Fj43pSMwJs4KRrH/938Uf+uAELIgVBmQzg/q1YG10djyfA3TnrU8N8XzqCh/okZdszqBQTZf96idMfE5lnwTA==}
@@ -2418,8 +2418,8 @@ packages:
     resolution: {integrity: sha512-S6pgUUfv+gcXU3hiW3PNUwiUvPy7bXmmLB/bwdU3hN5YVT5Q7CxyVSLA3oJkrNO5lcisKK1GBPv0H2W1uB0eGA==}
     engines: {node: '>=18'}
 
-  '@waline/client@3.2.7':
-    resolution: {integrity: sha512-CR6wTskK1pcG7AWyLRDk41kCI0BxUY/Qu7CBHqEnqhPOdLaxDe+FaYwZC+JeW+z6BKLqQG18IcYyTD/Mx9tFcA==}
+  '@waline/client@3.3.0':
+    resolution: {integrity: sha512-ZQK3pWMdJyWJsETCbQdmGHfozdMccF11NqR2dwCZF0c1GpUrZym6//h1WOEeItqNF/StACDJPoE4alc5S9w6WA==}
     engines: {node: '>=18'}
 
   '@wry/context@0.4.4':
@@ -6740,8 +6740,8 @@ packages:
   shiki@0.14.7:
     resolution: {integrity: sha512-dNPAPrxSc87ua2sKJ3H5dQ/6ZaY8RNnaAqK+t0eG7p0Soi2ydiqbGOTaZCqaYvA/uZYfS1LJnemt3Q+mSfcPCg==}
 
-  shiki@1.10.2:
-    resolution: {integrity: sha512-wrddjiCJ6D8zB1MuAGZ37G37rGw+6Ntnqqbl2uXh3P8g5JxneJRRhccPnex/gqorJoXkbpTRC2x54QIsdx2b1Q==}
+  shiki@1.10.3:
+    resolution: {integrity: sha512-eneCLncGuvPdTutJuLyUGS8QNPAVFO5Trvld2wgEq1e002mwctAhJKeMGWtWVXOIEzmlcLRqcgPSorR6AVzOmQ==}
 
   side-channel@1.0.6:
     resolution: {integrity: sha512-fDW/EZ6Q9RiO8eFG8Hj+7u/oW+XrPTIChwCOM2+th2A6OblDtYYIpve9m+KvI9Z4C9qSEXlaGR6bTEYHReuglA==}
@@ -6898,6 +6898,9 @@ packages:
 
   star-markdown-css@0.4.2:
     resolution: {integrity: sha512-H9KLteIZDPqjXOOJ0qVUEDk4V/S8xXOkBJcTTrbiPi/bLRwTOMesKcQ2/dMJXjgtximcGfCQRQjjsitrS4CfYQ==}
+
+  star-markdown-css@0.5.0:
+    resolution: {integrity: sha512-T1CrGJCDKr1KhK26Kj36ambPM4a0iDJBCCphxAJeZCboOlG99doaCkX8uziOFRvHqDS8rYNoiytTUZ5Rg4o/3g==}
 
   state-toggle@1.0.3:
     resolution: {integrity: sha512-d/5Z4/2iiCnHw6Xzghyhb+GcmF89bxwgXG60wjIiZaxnymbyOmI8Hk4VqHXiVVp6u2ysaskFfXg3ekCj4WNftQ==}
@@ -9269,13 +9272,13 @@ snapshots:
       domhandler: 5.0.3
       selderee: 0.11.0
 
-  '@shikijs/core@1.10.2':
+  '@shikijs/core@1.10.3':
     dependencies:
       '@types/hast': 3.0.4
 
-  '@shikijs/transformers@1.10.2':
+  '@shikijs/transformers@1.10.3':
     dependencies:
-      shiki: 1.10.2
+      shiki: 1.10.3
 
   '@sinclair/typebox@0.27.8': {}
 
@@ -10062,7 +10065,7 @@ snapshots:
 
   '@waline/api@1.0.0-alpha.8': {}
 
-  '@waline/client@3.2.7(typescript@5.5.3)':
+  '@waline/client@3.3.0(typescript@5.5.3)':
     dependencies:
       '@vueuse/core': 10.11.0(vue@3.4.31(typescript@5.5.3))
       '@waline/api': 1.0.0-alpha.8
@@ -15151,9 +15154,9 @@ snapshots:
       vscode-oniguruma: 1.7.0
       vscode-textmate: 8.0.0
 
-  shiki@1.10.2:
+  shiki@1.10.3:
     dependencies:
-      '@shikijs/core': 1.10.2
+      '@shikijs/core': 1.10.3
       '@types/hast': 3.0.4
 
   side-channel@1.0.6:
@@ -15318,6 +15321,8 @@ snapshots:
   stackback@0.0.2: {}
 
   star-markdown-css@0.4.2: {}
+
+  star-markdown-css@0.5.0: {}
 
   state-toggle@1.0.3: {}
 
@@ -16208,7 +16213,7 @@ snapshots:
       pinia: 2.1.7(typescript@5.5.3)(vue@3.4.31(typescript@5.5.3))
       qrcode: 1.5.3
       sass: 1.77.6
-      shiki: 1.10.2
+      shiki: 1.10.3
       star-markdown-css: 0.4.2
       unocss: 0.61.3(postcss@8.4.39)(rollup@4.18.0)(vite@5.3.3(@types/node@20.14.10)(sass@1.77.6))
       unplugin-vue-components: 0.27.2(@babel/parser@7.24.7)(rollup@4.18.0)(vue@3.4.31(typescript@5.5.3))
@@ -16396,8 +16401,8 @@ snapshots:
     dependencies:
       '@docsearch/css': 3.6.0
       '@docsearch/js': 3.6.0(@algolia/client-search@4.24.0)(@types/react@18.3.3)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(search-insights@2.14.0)
-      '@shikijs/core': 1.10.2
-      '@shikijs/transformers': 1.10.2
+      '@shikijs/core': 1.10.3
+      '@shikijs/transformers': 1.10.3
       '@types/markdown-it': 14.1.1
       '@vitejs/plugin-vue': 5.0.5(vite@5.3.3(@types/node@20.14.10)(sass@1.77.6))(vue@3.4.31(typescript@5.5.3))
       '@vue/devtools-api': 7.3.5
@@ -16406,7 +16411,7 @@ snapshots:
       focus-trap: 7.5.4
       mark.js: 8.11.1
       minisearch: 6.3.0
-      shiki: 1.10.2
+      shiki: 1.10.3
       vite: 5.3.3(@types/node@20.14.10)(sass@1.77.6)
       vue: 3.4.31(typescript@5.5.3)
     optionalDependencies:

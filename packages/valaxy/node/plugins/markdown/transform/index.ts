@@ -3,7 +3,7 @@ import Markdown from 'unplugin-vue-markdown/vite'
 
 import type MarkdownIt from 'markdown-it'
 import { toDate } from 'date-fns-tz'
-import type { PageFrontMatter } from 'packages/valaxy/dist/types'
+import type { PageFrontMatter } from 'valaxy/types'
 import { matterOptions } from '../../../utils/matterOptions'
 import type { ResolvedValaxyOptions } from '../../../options'
 import { highlight } from '../plugins/highlight'

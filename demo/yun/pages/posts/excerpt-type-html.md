@@ -13,3 +13,5 @@ cover: https://cdn.jsdelivr.net/gh/YunYouJun/cdn/img/bg/girl-in-water-tank.webp
 Main Content
 
 [/about](/about)
+
+## Footer `INLINE CODE`

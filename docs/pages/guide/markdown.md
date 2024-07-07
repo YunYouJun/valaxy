@@ -932,7 +932,7 @@ Freedom to control your layout!
 
 ![image](https://cdn.yunyoujun.cn/img/bg/stars-timing-1.jpg)
 
-![image](https://fastly.jsdelivr.net/gh/YunYouJun/cdn/img/bg/astronaut.webp)
+![image](https://cdn.yunyoujun.cn/img/bg/astronaut.webp)
 
 </div>
 
@@ -962,7 +962,7 @@ Freedom to control your layout!
 
 ![image](https://cdn.yunyoujun.cn/img/bg/stars-timing-1.jpg)
 
-![image](https://fastly.jsdelivr.net/gh/YunYouJun/cdn/img/bg/astronaut.webp)
+![image](https://cdn.yunyoujun.cn/img/bg/astronaut.webp)
 
 </div>
 

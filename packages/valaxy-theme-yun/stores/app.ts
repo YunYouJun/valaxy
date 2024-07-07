@@ -1,9 +1,13 @@
 import { acceptHMRUpdate, defineStore } from 'pinia'
+import { useDynamicLeftSidebar } from 'valaxy'
 
 export const useYunAppStore = defineStore('yun-app', () => {
   // global cache for yun
+  const leftSidebar = useDynamicLeftSidebar()
 
-  return {}
+  return {
+    leftSidebar,
+  }
 })
 
 if (import.meta.hot)
