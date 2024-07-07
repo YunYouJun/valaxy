@@ -9,10 +9,11 @@ import MarkdownIt from 'markdown-it'
 import type { Author, FeedOptions, Item } from 'feed'
 import { Feed } from 'feed'
 import consola from 'consola'
+import { toDate } from 'date-fns-tz'
+import { matterOptions } from '../utils/matterOptions'
 import { type ResolvedValaxyOptions, resolveOptions } from '../options'
 import { getCreatedTime, getUpdatedTime } from '../utils/date'
 import { ensurePrefix, isExternal } from '../utils'
-import { EXCERPT_SEPARATOR } from '../constants'
 import { commonOptions } from '../cli/options'
 import { setEnvProd } from '../utils/env'
 import { defineValaxyModule } from '.'
@@ -78,7 +79,7 @@ export async function build(options: ResolvedValaxyOptions) {
   for await (const i of files) {
     const raw = await readFile(i, 'utf-8')
 
-    const { data, content, excerpt } = matter(raw, { excerpt_separator: EXCERPT_SEPARATOR })
+    const { data, content, excerpt } = matter(raw, matterOptions)
 
     // skip encrypt post
     if (data.password)
@@ -118,12 +119,14 @@ export async function build(options: ResolvedValaxyOptions) {
         : `Visit <a href="${id}" target="_blank">${id}</a> to read more.`
      }</p>`
 
+    const timeZone = options.config.siteConfig.timezone
+
     posts.push({
       title: '',
       ...data,
       id,
-      date: new Date(data.date),
-      published: new Date(data.updated || data.date),
+      date: toDate(data.date, { timeZone }),
+      published: toDate(data.updated || data.date, { timeZone }),
       content: html + tip,
       author: [author],
       link: DOMAIN + i.replace(`${options.userRoot}/pages`, '').replace(/\.md$/, ''),
