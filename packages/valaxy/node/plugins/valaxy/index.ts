@@ -54,7 +54,7 @@ function generateStyles(roots: string[], options: ResolvedValaxyOptions) {
   for (const root of roots) {
     const styles: string[] = []
 
-    const autoloadNames = ['index', 'css-vars']
+    const autoloadNames = ['css-vars', 'index']
     autoloadNames.forEach((name) => {
       styles.push(join(root, 'styles', `${name}.css`))
       styles.push(join(root, 'styles', `${name}.scss`))

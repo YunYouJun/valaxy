@@ -1,3 +1,15 @@
+// reset styles, load css before app
+// import '@unocss/reset/tailwind.css'
+// https://unocss.dev/guide/style-reset#tailwind-compat
+// minus the background color override for buttons to avoid conflicts with UI frameworks
+import '@unocss/reset/tailwind-compat.css'
+// css
+import './styles/css/css-vars.css'
+import './styles/css/main.css'
+// generate user styles
+import '/@valaxyjs/styles'
+import 'uno.css'
+
 import type { ViteSSGContext } from 'vite-ssg'
 import { ViteSSG } from 'vite-ssg'
 
@@ -8,16 +20,6 @@ import { initValaxyConfig, valaxyConfigSymbol } from 'valaxy'
 import AppLink from './components/AppLink.vue'
 
 import App from './App.vue'
-
-// reset styles
-// import '@unocss/reset/tailwind.css'
-// https://unocss.dev/guide/style-reset#tailwind-compat
-// minus the background color override for buttons to avoid conflicts with UI frameworks
-import '@unocss/reset/tailwind-compat.css'
-
-// generate user styles
-import '/@valaxyjs/styles'
-import 'uno.css'
 
 import setupMain from './setup/main'
 import { setupValaxyDevTools } from './utils/dev'

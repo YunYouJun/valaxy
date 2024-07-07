@@ -6,22 +6,25 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="icon" href="/favicon.svg" type="image/svg+xml">
   <title>Valaxy Devtools</title>
+  <script>
+  ;(function () {
+    const prefersDark =
+      window.matchMedia &&
+      window.matchMedia('(prefers-color-scheme: dark)').matches
+    const setting = localStorage.getItem('vueuse-color-scheme') || 'auto'
+    if (setting === 'dark' || (prefersDark && setting !== 'light'))
+      document.documentElement.classList.toggle('dark', true)
+  })()
+</script>
 </head>
 
 <body data-vite-inspect-mode="DEV">
   <div id="app" class="h-full"></div>
   <script>
-    (function () {
-      const prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches
-      const setting = localStorage.getItem('color-schema') || 'auto'
-      if (setting === 'dark' || (prefersDark && setting !== 'light'))
-        document.documentElement.classList.toggle('dark', true)
+    ;(function () {
+      if (!location.pathname.endsWith('/'))
+        location.pathname += '/'
     })()
-
-      ; (function () {
-        if (!location.pathname.endsWith('/'))
-          location.pathname += '/'
-      })()
   </script>
   <script type="module" src="/main.ts"></script>
 </body>

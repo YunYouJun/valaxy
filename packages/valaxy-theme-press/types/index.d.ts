@@ -1,3 +1,5 @@
+import type { DefaultTheme } from 'valaxy'
+
 export * from '../composables'
 export * from './home.d'
 
@@ -73,7 +75,7 @@ export namespace PressTheme {
     target?: string
   }
 
-  export interface Config {
+  export interface Config extends DefaultTheme.Config {
     logo: string
 
     colors: {

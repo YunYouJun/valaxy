@@ -160,25 +160,61 @@ export interface ValaxyConfig {
 
 ### Client
 
-#### Toggle Dark
+#### Toggle Dark {lang="en"}
+
+#### 切换亮暗模式 {lang="zh-CN"}
+
+::: en
+
+The following variables are stored in global state, which you can get through `useAppStore`.
 
 - `isDark`: Whether dark mode is enabled
+- `themeColor`: Theme color (follows `isDark`)
 - `toggleDark`: Toggle dark mode
 - `toggleDarkWithTransition`: Toggle dark mode with transition
 
-Example:
+:::
+
+::: zh-CN
+
+以下变量被存储在全局状态中，你可以通过 `useAppStore` 获取。
+
+- `isDark`: 是否启用了暗黑模式
+- `themeColor`: 主题色（可跟随 isDark 变化）
+- `toggleDark`: 切换暗黑模式
+- `toggleDarkWithTransition`: 带有过渡效果的切换暗黑模式
 
 ```vue
 <script lang="ts" setup>
-import { isDark, toggleDarkWithTransition } from 'valaxy'
+import { useAppStore } from 'valaxy'
+
+const appStore = useAppStore()
 </script>
 
 <template>
-  <button class="yun-icon-btn" @click="toggleDarkWithTransition">
+  <button class="yun-icon-btn" @click="app.toggleDarkWithTransition">
     <div i="ri-sun-line dark:ri-moon-line" />
   </button>
 </template>
 ```
+
+::: en
+
+> You can configure dark mode related options through `themeConfig.valaxyDarkOptions`.
+
+:::
+
+::: zh-CN
+
+> 你可以通过 `themeConfig.valaxyDarkOptions` 来配置暗黑模式的相关选项。
+
+:::
+
+::: details Default Theme Config.valaxyDarkOptions
+
+<<< @/../packages/valaxy/types/default-theme.ts {6-41 ts:line-numbers}
+
+:::
 
 ### Node
 
@@ -520,7 +556,12 @@ Valaxy 决定通过插件中心化地提供各类封装好的评论组件和辅�
 
 ### 提醒特殊需求的用户安装第三方插件
 
-如果您的主题适配了多个 Addon（如 `valaxy-addon-waline`/`valaxy-addon-twikoo`），但用户并非都需要安装。
-当用户没有主动安装对应 addon 时（即 addon 不存在的情况），则会默认重定向至一个空函数。
+如果您的主题适配了多个 `addon`，但用户并非都需要安装。
+如评论插件：
+
+- `valaxy-addon-waline`
+- `valaxy-addon-twikoo`
+
+当用户没有主动安装对应 `addon` 时（即 `addon` 不存在的情况），则会默认重定向至一个空函数。
 
 因此，如果某个插件不是必须的，请在主题文档中提醒想要使用该功能的用户安装对应插件。

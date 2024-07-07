@@ -1,18 +1,25 @@
 <script lang="ts" setup>
 import { useI18n } from 'vue-i18n'
 import { computed } from 'vue'
-import { isDark, toggleDarkWithTransition } from 'valaxy'
+import { useAppStore } from 'valaxy'
 
+const appStore = useAppStore()
 const { t } = useI18n()
 
 const themeTitle = computed(() => {
-  return isDark.value ? t('button.toggle_light') : t('button.toggle_dark')
+  return appStore.isDark ? t('button.toggle_light') : t('button.toggle_dark')
+})
+
+const styles = computed(() => {
+  return {
+    color: appStore.isDark ? '' : '#f1cb64',
+  }
 })
 </script>
 
 <template>
   <div>
-    <button class="yun-icon-btn" :title="themeTitle" :style="{ color: isDark ? '' : '#f1cb64' }" @click="toggleDarkWithTransition">
+    <button class="yun-icon-btn" :title="themeTitle" :style="styles" @click="appStore.toggleDarkWithTransition">
       <div i="ri-sun-line dark:ri-moon-line" />
     </button>
 

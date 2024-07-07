@@ -16,14 +16,13 @@ import { definePerson, defineWebPage, defineWebSite, useSchemaOrg } from '@unhea
 // they will be rendered correctly in the html results with vite-ssg
 import { useSiteConfig } from './config'
 import ValaxyAddons from './components/ValaxyAddons.vue'
-import { isDark, useFrontmatter } from './composables'
+import { useFrontmatter } from './composables'
 
 // <link rel="apple-touch-icon" href="/pwa-192x192.png">
 // <link rel="mask-icon" href="/safari-pinned-tab.svg" color="#00aba9">
 
 const siteConfig = useSiteConfig()
 // todo, allow user config
-const themeColor = computed(() => isDark.value ? '#000' : '#ffffff')
 const fm = useFrontmatter()
 
 const { locale } = useI18n()
@@ -41,14 +40,6 @@ useHead({
   ],
   meta: [
     { name: 'description', content: computed(() => siteConfig.value.description) },
-    {
-      name: 'theme-color',
-      content: themeColor,
-    },
-    {
-      name: 'msapplication-TileColor',
-      content: themeColor,
-    },
     {
       name: 'generator',
       content: `Valaxy ${pkg.version}`,

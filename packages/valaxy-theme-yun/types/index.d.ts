@@ -1,3 +1,5 @@
+import type { DefaultTheme } from 'valaxy/types'
+
 export * from '../composables'
 
 export namespace YunTheme {
@@ -48,7 +50,7 @@ export interface Page {
 /**
  * Theme Config
  */
-export interface ThemeConfig {
+export interface ThemeConfig extends DefaultTheme.Config {
   /**
    * toc title
    * @default 'On this page'

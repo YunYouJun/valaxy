@@ -155,6 +155,8 @@ export function getAlias(options: ResolvedValaxyOptions): AliasOptions {
     { find: 'valaxy/package.json', replacement: toAtFS(resolve(options.clientRoot, '../package.json')) },
     { find: /^valaxy$/, replacement: toAtFS(resolve(options.clientRoot, 'index.ts')) },
     { find: '@valaxyjs/client/', replacement: `${toAtFS(options.clientRoot)}/` },
+    // virtual module to import theme
+    { find: 'virtual:valaxy-theme', replacement: `${toAtFS(options.themeRoot)}/client/index.ts` },
     { find: `valaxy-theme-${options.theme}/`, replacement: `${toAtFS(resolve(options.themeRoot))}/` },
     { find: `valaxy-theme-${options.theme}`, replacement: `${toAtFS(resolve(options.themeRoot))}/client/index.ts` },
   ]

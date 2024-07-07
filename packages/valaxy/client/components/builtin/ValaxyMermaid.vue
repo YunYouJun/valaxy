@@ -16,10 +16,9 @@ pie
 import { getCurrentInstance, ref, watch, watchEffect } from 'vue'
 
 import { isClient } from '@vueuse/core'
+import { useAppStore } from 'valaxy'
 import { renderMermaid } from '../../modules/mermaid'
 import ShadowRoot from '../internals/ShadowRoot.vue'
-
-import { isDark } from '../../composables'
 
 const props = defineProps<{
   code: string
@@ -30,6 +29,8 @@ const props = defineProps<{
 const vm = getCurrentInstance()
 const el = ref<ShadowRoot>()
 const html = ref('')
+
+const appStore = useAppStore()
 
 if (isClient) {
   // dynamic import to reduce initial bundle size
@@ -47,7 +48,7 @@ if (isClient) {
           mermaid,
           props.code || '',
           {
-            theme: props.theme || (isDark.value ? 'dark' : undefined),
+            theme: props.theme || (appStore.isDark ? 'dark' : undefined),
             ...vm!.attrs,
           },
         )

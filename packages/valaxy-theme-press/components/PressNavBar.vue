@@ -61,6 +61,7 @@ const themeConfig = useThemeConfig()
   height: var(--pr-nav-height);
   transition: border-color 0.5s;
   background-color: var(--pr-navbar-c-bg);
+  z-index: var(--pr-z-nav);
 }
 
 @include screen('md') {

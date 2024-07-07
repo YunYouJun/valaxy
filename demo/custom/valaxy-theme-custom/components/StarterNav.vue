@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { isDark, toggleDark, useSiteConfig } from 'valaxy'
+import { useAppStore, useSiteConfig } from 'valaxy'
 
 // import { computed } from 'vue'
 // import { useRoute } from 'vue-router'
@@ -10,6 +10,8 @@ import { useThemeConfig } from '../composables'
 
 const siteConfig = useSiteConfig()
 const themeConfig = useThemeConfig()
+
+const appStore = useAppStore()
 </script>
 
 <template>
@@ -35,8 +37,8 @@ const themeConfig = useThemeConfig()
       </template>
     </div>
 
-    <button type="button" aria-label="Toggle Dark Mode" @click="toggleDark()">
-      <div v-if="!isDark" i-ri-sun-line />
+    <button type="button" aria-label="Toggle Dark Mode" @click="appStore.toggleDark()">
+      <div v-if="!appStore.isDark" i-ri-sun-line />
       <div v-else i-ri-moon-line />
     </button>
   </nav>

@@ -4,11 +4,24 @@ import { useAppStore, useSiteConfig } from 'valaxy'
 import { onMounted } from 'vue'
 import { useThemeConfig } from './composables'
 
+const appStore = useAppStore()
+
 useHead({
   link: [
     {
       rel: 'stylesheet',
       href: 'https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@900&display=swap',
+    },
+  ],
+
+  meta: [
+    {
+      name: 'theme-color',
+      content: appStore.themeColor,
+    },
+    {
+      name: 'msapplication-TileColor',
+      content: appStore.themeColor,
     },
   ],
 })

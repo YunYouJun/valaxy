@@ -59,6 +59,14 @@ declare module '/@valaxyjs/locales' {
   export default messages
 }
 
+/**
+ * for import valaxy theme composables
+ */
+declare module 'virtual:valaxy-theme' {
+  // export const isDark: Ref<boolean>
+  export default any
+}
+
 declare module 'vue-router' {
   interface RouteMeta {
     headers: Header[]

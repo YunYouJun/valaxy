@@ -16,10 +16,12 @@ const { t } = useI18n()
     </h1>
   </div>
 
-  <h2 m="b-10" text="center 6xl" font="black" leading="tight">
-    {{ t('banner.next-generation') }}
+  <h2 px="2" m="b-10" text="center 6xl" font="black" leading="tight">
+    <span>{{ t('banner.next-generation') }}</span>
     <br>
-    {{ t('banner.static') }} <span class="gradient-text from-blue-500 to-purple-700" bg="gradient-to-r">{{ t('banner.blog') }}</span> {{ t('banner.framework') }}
+    <span>{{ t('banner.static') }} </span>
+    <span class="gradient-text from-blue-500 to-purple-700" bg="gradient-to-r">{{ t('banner.blog') }}</span>
+    <span class="break-keep">{{ t('banner.framework') }}</span>
   </h2>
 
   <div p="2" text="center">
