@@ -9,7 +9,7 @@ import MarkdownIt from 'markdown-it'
 import type { Author, FeedOptions, Item } from 'feed'
 import { Feed } from 'feed'
 import consola from 'consola'
-import { fromZonedTime } from 'date-fns-tz'
+import { toDate } from 'date-fns-tz'
 import matterOptions from '../utils/matterOptions'
 import { type ResolvedValaxyOptions, resolveOptions } from '../options'
 import { getCreatedTime, getUpdatedTime } from '../utils/date'
@@ -119,14 +119,14 @@ export async function build(options: ResolvedValaxyOptions) {
         : `Visit <a href="${id}" target="_blank">${id}</a> to read more.`
      }</p>`
 
-    const timezone = options.config.siteConfig.timezone
+    const timeZone = options.config.siteConfig.timezone
 
     posts.push({
       title: '',
       ...data,
       id,
-      date: fromZonedTime(data.date, timezone),
-      published: fromZonedTime(data.updated || data.date, timezone),
+      date: toDate(data.date, { timeZone }),
+      published: toDate(data.updated || data.date, { timeZone }),
       content: html + tip,
       author: [author],
       link: DOMAIN + i.replace(`${options.userRoot}/pages`, '').replace(/\.md$/, ''),
