@@ -1,8 +1,9 @@
-import { computed, shallowRef } from 'vue'
+import { computed } from 'vue'
+import { useRoute } from 'vue-router'
 import type { DefaultTheme, Header } from 'valaxy/types'
 import { onContentUpdated } from '../../utils'
+import { useOutlineStore } from '../../stores'
 import { useFrontmatter, useThemeConfig } from '../..'
-
 export type MenuItem = Omit<Header, 'slug' | 'children'> & {
   children?: MenuItem[]
 }
@@ -68,15 +69,19 @@ function addToParent(
 export function useOutline() {
   const frontmatter = useFrontmatter()
   const themeConfig = useThemeConfig()
-  const headers = shallowRef<MenuItem[]>([])
+  const route = useRoute()
+  const store = useOutlineStore()
+
   const pageOutline = computed<DefaultTheme.Config['outline']>(
     () => frontmatter.value.outline ?? themeConfig.value.outline,
   )
 
+  const headers = computed(() => store.$state[route.path] || [])
+
   onContentUpdated(() => {
     if (pageOutline.value === false)
       return
-    headers.value = getHeaders(pageOutline.value)
+    store.$state[route.path] = getHeaders(pageOutline.value)
   })
 
   const handleClick = ({ target: el }: Event) => {
