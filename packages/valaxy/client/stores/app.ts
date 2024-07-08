@@ -1,7 +1,7 @@
 import { acceptHMRUpdate, defineStore } from 'pinia'
-import { useMediaQuery, useToggle } from '@vueuse/core'
+import { useToggle } from '@vueuse/core'
 import { ref } from 'vue'
-import { useThemeConfig, useValaxyDark } from 'valaxy'
+import { useMobile, useThemeConfig, useValaxyDark } from 'valaxy'
 
 /**
  * Global store for users
@@ -15,7 +15,7 @@ export const useAppStore = defineStore('app', () => {
   const themeConfig = useThemeConfig()
   const { isDark, toggleDark, toggleDarkWithTransition, themeColor } = useValaxyDark(themeConfig.value.valaxyDarkOptions)
 
-  const isMobile = useMediaQuery('(max-width: 768px)')
+  const isMobile = useMobile()
   const showLoading = ref(true)
 
   // right sidebar with toc

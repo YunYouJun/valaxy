@@ -1,7 +1,6 @@
 import { computed, ref, watchEffect } from 'vue'
-import { useAppStore } from 'valaxy'
 import { useFrontmatter } from './common'
-import { useLayout } from './layout'
+import { useLayout, useMobile } from './layout'
 
 /**
  * helper for sidebar
@@ -46,12 +45,12 @@ export function useSidebar() {
  * - sidebar can be toggled by user
  */
 export function useDynamicLeftSidebar() {
-  const appStore = useAppStore()
-  const isOpen = ref(false)
   const layout = useLayout()
+  const isMobile = useMobile()
+  const isOpen = ref(isMobile.value ? false : layout.value !== 'home')
 
   watchEffect(() => {
-    if (appStore.isMobile)
+    if (isMobile.value)
       close()
     else if (layout.value !== 'home')
       open()
