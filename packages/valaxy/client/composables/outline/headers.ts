@@ -4,6 +4,7 @@ import type { DefaultTheme, Header } from 'valaxy/types'
 import { onContentUpdated } from '../../utils'
 import { useOutlineStore } from '../../stores'
 import { useFrontmatter, useThemeConfig } from '../..'
+
 export type MenuItem = Omit<Header, 'slug' | 'children'> & {
   children?: MenuItem[]
 }
