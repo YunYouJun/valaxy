@@ -6,7 +6,6 @@ import { convert } from 'html-to-text'
 import type { ExcerptType, Page } from 'valaxy/types'
 import type { RouteMeta } from 'vue-router'
 import MarkdownIt from 'markdown-it'
-import { toDate } from 'date-fns-tz'
 import matter from 'gray-matter'
 import type { ValaxyNode } from '../types'
 
@@ -124,12 +123,10 @@ export function createRouterPlugin(valaxyApp: ValaxyNode) {
             mdFm.updated = fs.statSync(path).ctime
         }
 
-        const timeZone = valaxyConfig.siteConfig.timezone
-
         if (!isDate(mdFm.date))
-          mdFm.date = toDate(mdFm.date, { timeZone })
+          mdFm.date = new Date(mdFm.date)
         if (!isDate(mdFm.updated))
-          mdFm.updated = toDate(mdFm.updated!, { timeZone })
+          mdFm.updated = new Date(mdFm.updated!)
 
         if (mdFm.from) {
           if (Array.isArray(mdFm.from)) {

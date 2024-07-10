@@ -60,13 +60,6 @@ export interface SiteConfig {
    */
   languages: string[]
   /**
-   * @see https://day.js.org/docs/en/plugin/timezone
-   * @zh_CN 时区 'Asia/Shanghai' Recommended
-   * @en_US timezone
-   * @default '' Your Computer Timezone
-   */
-  timezone: string
-  /**
    * You site url in web, required for ssg & rss
    * @description 站点的完整 URL，SSG & RSS 需要（譬如生成版权处文章永久链接）
    * @example 'https://valaxy.site'

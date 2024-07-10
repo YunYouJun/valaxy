@@ -2,7 +2,6 @@ import type { Plugin } from 'vite'
 import Markdown from 'unplugin-vue-markdown/vite'
 
 import type MarkdownIt from 'markdown-it'
-import { toDate } from 'date-fns-tz'
 import type { PageFrontMatter } from 'valaxy/types'
 import { matterOptions } from '../../../utils/matterOptions'
 import type { ResolvedValaxyOptions } from '../../../options'
@@ -29,11 +28,10 @@ export async function createMarkdownPlugin(
     frontmatterOptions: { grayMatterOptions: matterOptions },
     frontmatterPreprocess(frontmatter, mdOptions, _, defaultHeadProcess) {
       const fm = frontmatter as PageFrontMatter
-      const timeZone = options.config.siteConfig.timezone
       if (fm.date)
-        fm.date = toDate(fm.date, { timeZone })
+        fm.date = new Date(fm.date)
       if (fm.updated)
-        fm.updated = toDate(fm.updated, { timeZone })
+        fm.updated = new Date(fm.updated)
       return {
         head: defaultHeadProcess(frontmatter, mdOptions),
         frontmatter,
