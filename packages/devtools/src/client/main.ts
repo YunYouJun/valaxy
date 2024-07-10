@@ -1,8 +1,8 @@
 // register vue composition api globally
 import { createApp } from 'vue'
 
-// @ts-expect-error ignore vue-router/auto
 import { createRouter, createWebHashHistory } from 'vue-router/auto'
+import { routes } from 'vue-router/auto-routes'
 import App from './App.vue'
 
 import '@unocss/reset/tailwind.css'
@@ -15,6 +15,7 @@ const app = createApp(App)
 
 const router = createRouter({
   history: createWebHashHistory(),
+  routes,
 })
 
 app.use(router)
