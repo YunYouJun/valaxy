@@ -139,17 +139,17 @@ importers:
   api:
     devDependencies:
       typedoc:
-        specifier: ^0.25.13
-        version: 0.25.13(typescript@5.5.3)
+        specifier: ^0.26.4
+        version: 0.26.4(typescript@5.5.3)
       typedoc-plugin-markdown:
-        specifier: 4.0.1
-        version: 4.0.1(typedoc@0.25.13(typescript@5.5.3))
+        specifier: ^4.1.2
+        version: 4.1.2(typedoc@0.26.4(typescript@5.5.3))
       typedoc-vitepress-theme:
-        specifier: 1.0.0
-        version: 1.0.0(typedoc-plugin-markdown@4.0.1(typedoc@0.25.13(typescript@5.5.3)))
+        specifier: ^1.0.1
+        version: 1.0.1(typedoc-plugin-markdown@4.1.2(typedoc@0.26.4(typescript@5.5.3)))
       vitepress:
-        specifier: 1.1.4
-        version: 1.1.4(@types/node@20.14.10)(@types/react@18.3.3)(axios@1.7.2)(jwt-decode@3.1.2)(nprogress@0.2.0)(postcss@8.4.39)(qrcode@1.5.3)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(sass@1.77.7)(typescript@5.5.3)
+        specifier: ^1.3.0
+        version: 1.3.0(@algolia/client-search@4.24.0)(@types/node@20.14.10)(@types/react@18.3.3)(axios@1.7.2)(jwt-decode@3.1.2)(nprogress@0.2.0)(postcss@8.4.39)(qrcode@1.5.3)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(sass@1.77.7)(search-insights@2.15.0)(typescript@5.5.3)
 
   demo/custom:
     dependencies:
@@ -2504,9 +2504,6 @@ packages:
   ansi-regex@6.0.1:
     resolution: {integrity: sha512-n5M855fKb2SsfMIiFFoVrABHJC8QtHwVx+mHWP3QcEqBHYienj5dHSgjbxtC0WEZXYt4wcD6zrQElDPhFuZgfA==}
     engines: {node: '>=12'}
-
-  ansi-sequence-parser@1.1.1:
-    resolution: {integrity: sha512-vJXt3yiaUL4UU546s3rPXlsry/RnM730G1+HkpKE012AN0sx1eOrxSu95oKDIonskeLTijMgqWZ3uDEe3NFvyg==}
 
   ansi-styles@3.2.1:
     resolution: {integrity: sha512-VT0ZI6kZRdTh8YyJw3SMbYm/u+NqfsAxEpWO0Pf9sq8/e94WxxOpPKx9FR1FlyCtOVDNOQ+8ntlqFxiRc+r5qA==}
@@ -4964,9 +4961,6 @@ packages:
     resolution: {integrity: sha512-WYDyuc/uFcGp6YtM2H0uKmUwieOuzeE/5YocFJLnLfclZ4inf3mRn8ZVy1s7Hxji7Jxm6Ss8gqpexD/GlKoGgg==}
     engines: {node: ^12.22.0 || ^14.17.0 || >=16.0.0}
 
-  jsonc-parser@3.3.1:
-    resolution: {integrity: sha512-HUgH65KyejrUFPvHFPbqOY0rsFip3Bo5wb4ngvdi1EpCYWUQDC5V+Y7mZws+DLkr4M//zQJoanu1SP+87Dv1oQ==}
-
   jsonfile@4.0.0:
     resolution: {integrity: sha512-m6F1R3z8jjlf2imQHS2Qez5sjKWQzbuuhuJ/FKYFRZvPE3PuHcSMVZzfsLhGVOkfd20obL5SWEBew5ShlquNxg==}
 
@@ -5203,11 +5197,6 @@ packages:
   marked@12.0.2:
     resolution: {integrity: sha512-qXUm7e/YKFoqFPYPa3Ukg9xlI5cyAtGmyEIzMfW//m6kXwCy2Ps9DYf5ioijFKQ8qyuscrHoY04iJGctu2Kg0Q==}
     engines: {node: '>= 18'}
-    hasBin: true
-
-  marked@4.3.0:
-    resolution: {integrity: sha512-PRsaiG84bK+AMvxziE/lCFss8juXjNaWzVbN5tXAm4XjeaS9NAHhop+PjQxz2A9h8Q4M/xGmzP8vqNwy6JeK0A==}
-    engines: {node: '>= 12'}
     hasBin: true
 
   material-colors@1.2.6:
@@ -6741,9 +6730,6 @@ packages:
   shell-quote@1.8.1:
     resolution: {integrity: sha512-6j1W9l1iAs/4xYBI1SYOVZyFcCis9b4KCLQ8fgAGG07QvzaRLVVRQvAy85yNmmZSjYjg4MWh4gNvlPujU/5LpA==}
 
-  shiki@0.14.7:
-    resolution: {integrity: sha512-dNPAPrxSc87ua2sKJ3H5dQ/6ZaY8RNnaAqK+t0eG7p0Soi2ydiqbGOTaZCqaYvA/uZYfS1LJnemt3Q+mSfcPCg==}
-
   shiki@1.10.3:
     resolution: {integrity: sha512-eneCLncGuvPdTutJuLyUGS8QNPAVFO5Trvld2wgEq1e002mwctAhJKeMGWtWVXOIEzmlcLRqcgPSorR6AVzOmQ==}
 
@@ -7326,22 +7312,23 @@ packages:
     resolution: {integrity: sha512-/OxDN6OtAk5KBpGb28T+HZc2M+ADtvRxXrKKbUwtsLgdoxgX13hyy7ek6bFRl5+aBs2yZzB0c4CnQfAtVypW/g==}
     engines: {node: '>= 0.4'}
 
-  typedoc-plugin-markdown@4.0.1:
-    resolution: {integrity: sha512-AfuIILU7aQbLMFyhX/qPT1yLrsQE9TiIxtmDKHRoQosDuHRS9CqA3aMOJyqmfE4Gn43vEQGb7vxEDwlrl3Sw8A==}
+  typedoc-plugin-markdown@4.1.2:
+    resolution: {integrity: sha512-jZt8jmQLbmg9jmFQyfJrjLf6ljRwJ5fKMeqmFr0oPXmeX5ZRYYtCe6y/058vDESE/R+TwEvNua6SuG43UBbszw==}
+    engines: {node: '>= 18'}
     peerDependencies:
-      typedoc: 0.25.x
+      typedoc: 0.26.x
 
-  typedoc-vitepress-theme@1.0.0:
-    resolution: {integrity: sha512-tkPQBVvzukxMpHVIpTuOviyR6QJoSRhoYV0JcZX6NzAJU+CD8eEA+Xrc7a4UYPncL8oznzn8KaLsxQz7yVSvjg==}
+  typedoc-vitepress-theme@1.0.1:
+    resolution: {integrity: sha512-pnpgzSQRaR9QLMl3it/tjq7vlV+eeUzKa22w/xF6ZUdAcYdmeag13kuA6EKfU7/kkIkJ/qsu1GPd3OcIC36Hlw==}
     peerDependencies:
-      typedoc-plugin-markdown: '>=4.0.0'
+      typedoc-plugin-markdown: '>=4.1.0'
 
-  typedoc@0.25.13:
-    resolution: {integrity: sha512-pQqiwiJ+Z4pigfOnnysObszLiU3mVLWAExSPf+Mu06G/qsc3wzbuM56SZQvONhHLncLUhYzOVkjFFpFfL5AzhQ==}
-    engines: {node: '>= 16'}
+  typedoc@0.26.4:
+    resolution: {integrity: sha512-FlW6HpvULDKgc3rK04V+nbFyXogPV88hurarDPOjuuB5HAwuAlrCMQ5NeH7Zt68a/ikOKu6Z/0hFXAeC9xPccQ==}
+    engines: {node: '>= 18'}
     hasBin: true
     peerDependencies:
-      typescript: 4.6.x || 4.7.x || 4.8.x || 4.9.x || 5.0.x || 5.1.x || 5.2.x || 5.3.x || 5.4.x
+      typescript: 4.6.x || 4.7.x || 4.8.x || 4.9.x || 5.0.x || 5.1.x || 5.2.x || 5.3.x || 5.4.x || 5.5.x
 
   typescript@5.4.2:
     resolution: {integrity: sha512-+2/g0Fds1ERlP6JsakQQDXjZdZMM+rqpamFZJEKh4kwTIn3iDkgKtby0CeNd5ATNZ4Ry1ax15TMx0W2V+miizQ==}
@@ -7710,6 +7697,18 @@ packages:
       postcss:
         optional: true
 
+  vitepress@1.3.0:
+    resolution: {integrity: sha512-Cbm2AgXcCrukUeV+/24g1ZDSvw8blamh/1uf2pz3ApFpaYb9T7mo4imWDZ6APn2uPo4bJ6sgOzvsJ4aH+oLbBA==}
+    hasBin: true
+    peerDependencies:
+      markdown-it-mathjax3: ^4
+      postcss: ^8
+    peerDependenciesMeta:
+      markdown-it-mathjax3:
+        optional: true
+      postcss:
+        optional: true
+
   vitest@2.0.2:
     resolution: {integrity: sha512-WlpZ9neRIjNBIOQwBYfBSr0+of5ZCbxT2TVGKW4Lv0c8+srCFIiRdsP7U009t8mMn821HQ4XKgkx5dVWpyoyLw==}
     engines: {node: ^18.0.0 || >=20.0.0}
@@ -7734,12 +7733,6 @@ packages:
         optional: true
       jsdom:
         optional: true
-
-  vscode-oniguruma@1.7.0:
-    resolution: {integrity: sha512-L9WMGRfrjOhgHSdOYgCt/yRMsXzLDJSL7BPrOZt73gU0iWO4mpqzqQzOz5srxqTvMBaR0XZTSrVWo4j55Rc6cA==}
-
-  vscode-textmate@8.0.0:
-    resolution: {integrity: sha512-AFbieoL7a5LMqcnOF04ji+rpXadgOXnZsxQr//r83kLPr7biP7am3g9zbaZIaBGwBRWeSvoMD4mgPdX3e4NWBg==}
 
   vue-demi@0.14.8:
     resolution: {integrity: sha512-Uuqnk9YE9SsWeReYqK2alDI5YzciATE0r2SkA6iMAtuXvNTMNACJLJEXNXaEy94ECuBe4Sk6RzRU80kjdbIo1Q==}
@@ -10184,8 +10177,6 @@ snapshots:
   ansi-regex@5.0.1: {}
 
   ansi-regex@6.0.1: {}
-
-  ansi-sequence-parser@1.1.1: {}
 
   ansi-styles@3.2.1:
     dependencies:
@@ -13113,8 +13104,6 @@ snapshots:
       espree: 9.6.1
       semver: 7.6.2
 
-  jsonc-parser@3.3.1: {}
-
   jsonfile@4.0.0:
     optionalDependencies:
       graceful-fs: 4.2.11
@@ -13340,8 +13329,6 @@ snapshots:
       marked: 12.0.2
 
   marked@12.0.2: {}
-
-  marked@4.3.0: {}
 
   material-colors@1.2.6: {}
 
@@ -15160,13 +15147,6 @@ snapshots:
 
   shell-quote@1.8.1: {}
 
-  shiki@0.14.7:
-    dependencies:
-      ansi-sequence-parser: 1.1.1
-      jsonc-parser: 3.3.1
-      vscode-oniguruma: 1.7.0
-      vscode-textmate: 8.0.0
-
   shiki@1.10.3:
     dependencies:
       '@shikijs/core': 1.10.3
@@ -15797,21 +15777,22 @@ snapshots:
       is-typed-array: 1.1.13
       possible-typed-array-names: 1.0.0
 
-  typedoc-plugin-markdown@4.0.1(typedoc@0.25.13(typescript@5.5.3)):
+  typedoc-plugin-markdown@4.1.2(typedoc@0.26.4(typescript@5.5.3)):
     dependencies:
-      typedoc: 0.25.13(typescript@5.5.3)
+      typedoc: 0.26.4(typescript@5.5.3)
 
-  typedoc-vitepress-theme@1.0.0(typedoc-plugin-markdown@4.0.1(typedoc@0.25.13(typescript@5.5.3))):
+  typedoc-vitepress-theme@1.0.1(typedoc-plugin-markdown@4.1.2(typedoc@0.26.4(typescript@5.5.3))):
     dependencies:
-      typedoc-plugin-markdown: 4.0.1(typedoc@0.25.13(typescript@5.5.3))
+      typedoc-plugin-markdown: 4.1.2(typedoc@0.26.4(typescript@5.5.3))
 
-  typedoc@0.25.13(typescript@5.5.3):
+  typedoc@0.26.4(typescript@5.5.3):
     dependencies:
       lunr: 2.3.9
-      marked: 4.3.0
+      markdown-it: 14.1.0
       minimatch: 9.0.5
-      shiki: 0.14.7
+      shiki: 1.10.3
       typescript: 5.5.3
+      yaml: 2.4.5
 
   typescript@5.4.2: {}
 
@@ -16454,6 +16435,53 @@ snapshots:
       - typescript
       - universal-cookie
 
+  vitepress@1.3.0(@algolia/client-search@4.24.0)(@types/node@20.14.10)(@types/react@18.3.3)(axios@1.7.2)(jwt-decode@3.1.2)(nprogress@0.2.0)(postcss@8.4.39)(qrcode@1.5.3)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(sass@1.77.7)(search-insights@2.15.0)(typescript@5.5.3):
+    dependencies:
+      '@docsearch/css': 3.6.0
+      '@docsearch/js': 3.6.0(@algolia/client-search@4.24.0)(@types/react@18.3.3)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(search-insights@2.15.0)
+      '@shikijs/core': 1.10.3
+      '@shikijs/transformers': 1.10.3
+      '@types/markdown-it': 14.1.1
+      '@vitejs/plugin-vue': 5.0.5(vite@5.3.3(@types/node@20.14.10)(sass@1.77.7))(vue@3.4.31(typescript@5.5.3))
+      '@vue/devtools-api': 7.3.5
+      '@vue/shared': 3.4.31
+      '@vueuse/core': 10.11.0(vue@3.4.31(typescript@5.5.3))
+      '@vueuse/integrations': 10.11.0(axios@1.7.2)(focus-trap@7.5.4)(fuse.js@7.0.0)(jwt-decode@3.1.2)(nprogress@0.2.0)(qrcode@1.5.3)(vue@3.4.31(typescript@5.5.3))
+      focus-trap: 7.5.4
+      mark.js: 8.11.1
+      minisearch: 6.3.0
+      shiki: 1.10.3
+      vite: 5.3.3(@types/node@20.14.10)(sass@1.77.7)
+      vue: 3.4.31(typescript@5.5.3)
+    optionalDependencies:
+      postcss: 8.4.39
+    transitivePeerDependencies:
+      - '@algolia/client-search'
+      - '@types/node'
+      - '@types/react'
+      - '@vue/composition-api'
+      - async-validator
+      - axios
+      - change-case
+      - drauu
+      - fuse.js
+      - idb-keyval
+      - jwt-decode
+      - less
+      - lightningcss
+      - nprogress
+      - qrcode
+      - react
+      - react-dom
+      - sass
+      - search-insights
+      - sortablejs
+      - stylus
+      - sugarss
+      - terser
+      - typescript
+      - universal-cookie
+
   vitest@2.0.2(@types/node@20.14.10)(jsdom@24.1.0)(sass@1.77.7):
     dependencies:
       '@ampproject/remapping': 2.3.0
@@ -16486,10 +16514,6 @@ snapshots:
       - sugarss
       - supports-color
       - terser
-
-  vscode-oniguruma@1.7.0: {}
-
-  vscode-textmate@8.0.0: {}
 
   vue-demi@0.14.8(vue@3.4.31(typescript@5.5.3)):
     dependencies:

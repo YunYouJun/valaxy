@@ -17,7 +17,5 @@
   "excludeProtected": true,
   "excludeInternal": true,
   "readme": "none",
-  "includes": "../packages/valaxy",
-
   "hideBreadcrumbs": true
 }

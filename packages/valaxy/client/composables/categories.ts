@@ -13,6 +13,13 @@ export interface BaseCategory {
   total: number
 }
 
+/**
+ * @en
+ * Category list
+ *
+ * @zh
+ * 分类列表
+ */
 export interface CategoryList {
   /**
    * category name
@@ -27,7 +34,11 @@ export interface CategoryList {
 export type Category = CategoryList
 export type Categories = Map<string, Post | CategoryList>
 
-// todo write unit test
+/**
+ * For theme development, you can use this function to determine whether the category is a category list.
+ * @todo write unit test
+ * @param category
+ */
 export function isCategoryList(category: any): category is CategoryList {
   return category.children
 }
