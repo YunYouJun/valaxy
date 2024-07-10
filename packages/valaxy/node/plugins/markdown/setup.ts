@@ -21,7 +21,7 @@ import { type TocPluginOptions, tocPlugin } from '@mdit-vue/plugin-toc'
 import { slugify } from '@mdit-vue/shared'
 import { cssI18nContainer } from 'css-i18n'
 
-import type { Token } from 'markdown-it'
+import type Token from 'markdown-it/lib/token.mjs'
 import type { ResolvedValaxyOptions } from '../../options'
 import Katex from './plugins/markdown-it/katex'
 import { containerPlugin } from './plugins/markdown-it/container'

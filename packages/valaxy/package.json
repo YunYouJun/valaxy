@@ -99,7 +99,7 @@
     "js-base64": "^3.7.7",
     "js-yaml": "^4.1.0",
     "katex": "^0.16.11",
-    "lru-cache": "^10.4.3",
+    "lru-cache": "^11.0.0",
     "markdown-it": "^14.1.0",
     "markdown-it-anchor": "^9.0.1",
     "markdown-it-attrs": "^4.1.6",

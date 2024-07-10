@@ -5,7 +5,7 @@
     "lib": ["DOM", "ESNext"],
     "baseUrl": ".",
     "module": "ESNext",
-    "moduleResolution": "node",
+    "moduleResolution": "Bundler",
     "paths": {
       "~/*": ["demo/yun/*"],
       "@valaxyjs/devtools": ["packages/devtools/src/index.ts"],
@@ -14,7 +14,9 @@
       "valaxy/package.json": ["packages/valaxy/package.json"],
       "valaxy": ["packages/valaxy/shim.ts"],
       "valaxy-theme-yun/*": ["packages/valaxy-theme-yun/*"],
-      "valaxy-theme-yun": ["packages/valaxy-theme-yun/node/index.ts"]
+      "valaxy-theme-yun": ["packages/valaxy-theme-yun/node/index.ts"],
+      "valaxy-addon-waline": ["packages/valaxy-addon-waline/client/index.ts"],
+      "valaxy-addon-twikoo": ["packages/valaxy-addon-twikoo/client/index.ts"]
     },
     "resolveJsonModule": true,
     "types": [

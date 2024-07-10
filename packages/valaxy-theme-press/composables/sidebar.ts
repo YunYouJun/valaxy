@@ -13,8 +13,7 @@ import {
 } from 'vue'
 
 import { useRoute } from 'vue-router'
-
-import type { PressTheme } from 'valaxy-theme-press'
+import type { PressTheme } from '../types'
 
 export interface SidebarControl {
   collapsed: Ref<boolean>
