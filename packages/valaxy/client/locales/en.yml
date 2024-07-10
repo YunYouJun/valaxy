@@ -35,8 +35,8 @@ sidebar:
 
 post:
   decrypt: DECRYPT
-  posted: Posted on
-  edited: Edited on
+  posted: 'Posted on '
+  edited: 'Edited on '
   created: Created
   modified: Modified
   edit: Edit this post
