@@ -18,7 +18,7 @@ export default defineAppSetup((ctx) => {
   if (!isClient)
     return
 
-  router.beforeEach((to, from) => {
+  router.afterEach((to, from) => {
     if (to.path !== from.path)
       return
 

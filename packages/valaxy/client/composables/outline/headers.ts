@@ -112,7 +112,11 @@ export function useOutline() {
  * get headers from document directly
  */
 export function getHeaders(range: Exclude<DefaultTheme.Config['outline'], false>) {
-  const headers = Array.from(document.querySelectorAll('.markdown-body :where(h1,h2,h3,h4,h5,h6)'))
+  // when transition, the markdown-body will be two
+  // the first is the old one, the last is the new one
+  const markdownBodyElements = document.querySelectorAll('.markdown-body') as NodeListOf<HTMLElement>
+  const markdownBody = markdownBodyElements[markdownBodyElements.length - 1]
+  const headers = Array.from(markdownBody.querySelectorAll('.markdown-body :where(h1,h2,h3,h4,h5,h6)'))
     .filter(el => el.id && el.hasChildNodes())
     .map((el) => {
       const level = Number(el.tagName[1])
