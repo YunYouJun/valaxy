@@ -43,7 +43,7 @@ export interface MarkdownOptions {
   /**
    * markdown-it options
    */
-  options?: MarkdownIt.Options
+  options?: MarkdownIt['options']
   /**
    * config markdown-it
    */

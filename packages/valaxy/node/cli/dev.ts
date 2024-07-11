@@ -2,7 +2,7 @@ import path from 'node:path'
 import { exec } from 'node:child_process'
 import process from 'node:process'
 import os from 'node:os'
-import type yargs from 'yargs'
+import type { Argv } from 'yargs'
 import type { InlineConfig, LogLevel } from 'vite'
 import { mergeConfig } from 'vite'
 
@@ -15,7 +15,7 @@ import { commonOptions } from '../cli/options'
 import { createValaxyNode } from '../app'
 import { bindShortcut, initServer, printInfo } from './utils/cli'
 
-export function registerDevCommand(cli: yargs.Argv) {
+export function registerDevCommand(cli: Argv) {
   cli.command(
     '* [root]',
     'Start a local server for Valaxy',

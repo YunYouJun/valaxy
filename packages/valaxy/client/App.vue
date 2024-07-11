@@ -93,5 +93,9 @@ useSchemaOrg([
   <ValaxyThemeApp />
   <ValaxyAddons />
   <ValaxyUserApp />
-  <RouterView />
+  <router-view v-slot="{ Component, route }">
+    <transition name="app-transition">
+      <component :is="Component" :key="route" />
+    </transition>
+  </router-view>
 </template>

@@ -1,7 +1,18 @@
 import type { Router } from 'vue-router'
 
+/**
+ * @en
+ * Options for scrolling to a target element.
+ *
+ * @zh
+ * 滚动到目标元素的选项。
+ */
 export interface ScrollToOptions {
   /**
+   * @en
+   * Whether to scroll smoothly.
+   *
+   * @zh
    * 平滑滚动
    */
   smooth: boolean
@@ -11,6 +22,13 @@ export interface ScrollToOptions {
   targetPadding: number
 }
 
+/**
+ * For theme developers, you can use this function to scroll to the target element.
+ * For example, when you click the anchor link in the markdown file, it will scroll to the target element.
+ * @param el
+ * @param hash
+ * @param options
+ */
 export function scrollTo(el: HTMLElement, hash: string, options: Partial<ScrollToOptions> = {
   smooth: true,
   targetPadding: -64,

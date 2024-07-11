@@ -64,6 +64,7 @@ const app = useAppStore()
   margin-top: calc(var(--pr-nav-height) * -1 - 20px);
   padding-top: calc(var(--pr-nav-height) + 20px);
   height: 100vh;
+  background-color: var(--va-c-bg);
 }
 
 .aside-curtain {

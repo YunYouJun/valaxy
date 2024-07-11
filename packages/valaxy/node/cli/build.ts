@@ -3,7 +3,8 @@ import process from 'node:process'
 import consola from 'consola'
 import type { InlineConfig, LogLevel } from 'vite'
 import { mergeConfig } from 'vite'
-import type yargs from 'yargs'
+import type { Argv } from 'yargs'
+
 import { yellow } from 'picocolors'
 import { build, postProcessForSSG, ssgBuild } from '../build'
 import { mergeViteConfigs, resolveOptions } from '..'
@@ -16,7 +17,7 @@ import { fuseModule } from '../modules/fuse'
 import { printInfo } from './utils/cli'
 import { commonOptions } from './options'
 
-export function registerBuildCommand(cli: yargs.Argv) {
+export function registerBuildCommand(cli: Argv) {
   cli.command(
     'build [root]',
     'build your blog to static content',
