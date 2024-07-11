@@ -11,6 +11,14 @@ export function formatDate(date: string | number | Date, template = 'yyyy-MM-dd'
 }
 
 /**
+ * date-fns format date with 'yyyy-MM-dd HH:mm:ss'
+ * @param date
+ */
+export function formatTimestamp(date: string | number | Date): string {
+  return format(date, 'yyyy-MM-dd HH:mm:ss')
+}
+
+/**
  * sort posts by date
  * @param posts
  * @param desc

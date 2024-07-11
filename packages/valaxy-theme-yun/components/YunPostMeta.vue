@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import type { Post } from 'valaxy'
-import { formatDate, useSiteConfig } from 'valaxy'
+import { formatDate, formatTimestamp, useSiteConfig } from 'valaxy'
 import { useI18n } from 'vue-i18n'
 
 defineProps<{
@@ -30,14 +30,14 @@ const siteConfig = useSiteConfig()
     flex="~ col" justify="center" items="center" text="sm" py="1"
   >
     <div v-if="frontmatter.date" class="post-time flex items-center">
-      <span class="posted-time inline-flex-center" :title="t('post.posted') + formatDate(frontmatter.date, 'yyyy-MM-dd HH:mm:ss')">
+      <span class="posted-time inline-flex-center" :title="t('post.posted') + formatTimestamp(frontmatter.date)">
         <div class="inline-block" i-ri-calendar-line />
         <time m="l-1">{{ formatDate(frontmatter.date) }}</time>
       </span>
 
       <span
         v-if="frontmatter.updated && frontmatter.updated !== frontmatter.date"
-        class="edited-time inline-flex-center" :title="t('post.edited') + formatDate(frontmatter.updated, 'yyyy-MM-dd HH:mm:ss')"
+        class="edited-time inline-flex-center" :title="t('post.edited') + formatTimestamp(frontmatter.updated)"
       >
         <span m="x-2">-</span>
         <div i-ri-calendar-2-line />
