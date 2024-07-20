@@ -42,6 +42,15 @@ themes:
     tags:
       - home
       - gitlink
+  - name: valaxy-theme-hairy
+    icon: i-ri-book-line
+    repo: https://github.com/hairyf/valaxy-theme-hairy
+    desc: Hairy theme for valaxy
+    siteImage: https://raw.githubusercontent.com/hairyf/valaxy-theme-hairy/main/public/preview.png
+    siteExampleUrl: 'https://www.hairy.blog/'
+    tags:
+      - hairy
+      - blog
 ---
 ::: zh-CN
 ::: tip
