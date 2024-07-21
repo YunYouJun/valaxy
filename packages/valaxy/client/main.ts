@@ -19,6 +19,7 @@ import { setupLayouts } from 'virtual:generated-layouts'
 import { initValaxyConfig, valaxyConfigSymbol } from 'valaxy'
 import AppLink from './components/AppLink.vue'
 
+// import App from '/@valaxyjs/App.vue'
 import App from './App.vue'
 
 import setupMain from './setup/main'

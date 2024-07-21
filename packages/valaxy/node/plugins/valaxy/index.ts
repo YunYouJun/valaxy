@@ -200,6 +200,10 @@ export async function createValaxyLoader(options: ResolvedValaxyOptions, serverO
         if (id === '/@valaxyjs/addons')
           return generateAddons(options)
 
+        // root client
+        if (id === '/@valaxyjs/AppVue')
+          return generateAppVue(options.clientRoot)
+
         if (id === '/@valaxyjs/UserAppVue')
           return generateAppVue(options.userRoot)
 

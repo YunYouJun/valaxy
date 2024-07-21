@@ -24,15 +24,5 @@ export default defineConfig((options) => {
      * shim for __filename
      */
     shims: true,
-    /**
-     * @see https://github.com/egoist/tsup/discussions/505
-     */
-    banner: ({ format }) => {
-      if (format === 'esm') {
-        return {
-          js: `import {createRequire as __createRequire} from 'module';var require=__createRequire(import\.meta.url);`,
-        }
-      }
-    },
   }
 })
