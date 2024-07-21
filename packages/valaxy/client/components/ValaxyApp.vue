@@ -52,6 +52,13 @@ useHead({
       host: siteConfig.value.url,
     },
   },
+
+  script: [
+    {
+      id: 'check-mac-os',
+      innerHTML: `document.documentElement.classList.toggle('mac', /Mac|iPhone|iPod|iPad/i.test(navigator.platform))`,
+    },
+  ],
 })
 
 // seo
