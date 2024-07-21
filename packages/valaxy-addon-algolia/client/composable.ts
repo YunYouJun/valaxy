@@ -1,4 +1,4 @@
-import { computed, onMounted, onUnmounted, ref } from 'vue'
+import { computed, ref } from 'vue'
 import { useSiteConfig } from 'valaxy'
 
 /**
@@ -7,12 +7,13 @@ import { useSiteConfig } from 'valaxy'
 export function useAddonAlgolia() {
   const siteConfig = useSiteConfig()
   const isAlgolia = computed(() => siteConfig.value.search.type === 'algolia')
-  const metaKey = ref('\'Meta\'')
 
   // to avoid loading the docsearch js upfront (which is more than 1/3 of the
   // payload), we delay initializing it until the user has actually clicked or
   // hit the hotkey to invoke it.
   const loaded = ref(false)
+
+  const docSearchModalRef = ref<HTMLDivElement>()
 
   function dispatchEvent() {
     // programmatically open the search box after initialize
@@ -32,8 +33,11 @@ export function useAddonAlgolia() {
     dispatchEvent()
 
     setTimeout(() => {
-      if (!document.querySelector('.DocSearch-Modal'))
+      const docSearchModal = document.querySelector('.DocSearch-Modal')
+      if (!docSearchModal)
         poll()
+      else
+        docSearchModalRef.value = docSearchModal as HTMLDivElement
     }, 16)
   }
 
@@ -44,37 +48,11 @@ export function useAddonAlgolia() {
     }
   }
 
-  onMounted(() => {
-    if (!isAlgolia.value)
-      return
-
-    // meta key detect (same logic as in @docsearch/js)
-    metaKey.value = /(Mac|iPhone|iPod|iPad)/i.test(navigator.platform)
-      ? '\'⌘\''
-      : '\'Ctrl\''
-
-    const handleSearchHotKey = (e: KeyboardEvent) => {
-      if (e.key === 'k' && (e.ctrlKey || e.metaKey)) {
-        e.preventDefault()
-        load()
-        // eslint-disable-next-line ts/no-use-before-define
-        remove()
-      }
-    }
-
-    const remove = () => {
-      window.removeEventListener('keydown', handleSearchHotKey)
-    }
-    window.addEventListener('keydown', handleSearchHotKey)
-
-    onUnmounted(remove)
-  })
-
   return {
     isAlgolia,
     loaded,
-    metaKey,
     load,
     dispatchEvent,
+    docSearchModalRef,
   }
 }
