@@ -26,6 +26,10 @@ export default defineValaxyConfig<ThemeConfig>({
   // see theme.config.ts or write in themeConfig
   // themeConfig in theme.config.ts
 
+  build: {
+    ssgForPagination: true,
+  },
+
   unocss: {
     safelist,
   },

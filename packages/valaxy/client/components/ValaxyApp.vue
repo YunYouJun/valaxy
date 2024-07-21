@@ -57,6 +57,7 @@ useHead({
     {
       id: 'check-mac-os',
       innerHTML: `document.documentElement.classList.toggle('mac', /Mac|iPhone|iPod|iPad/i.test(navigator.platform))`,
+      async: true,
     },
   ],
 })
