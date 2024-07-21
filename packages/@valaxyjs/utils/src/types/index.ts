@@ -26,3 +26,14 @@ export interface Header {
    */
   lang?: string
 }
+
+/**
+ * @en
+ * Menu item, the title menu parsed from the article.
+ *
+ * @zh
+ * 菜单项，从文章中解析出的标题菜单。
+ */
+export type MenuItem = Omit<Header, 'slug' | 'children'> & {
+  children?: MenuItem[]
+}

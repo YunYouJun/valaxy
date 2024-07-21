@@ -5,8 +5,6 @@ import { getHeaders } from '@valaxyjs/utils'
 import { onContentUpdated } from '../../utils'
 import { useFrontmatter, useThemeConfig } from '../..'
 
-export { MenuItem, Header } from '@valaxyjs/utils'
-
 /**
  * export headers & handleClick to generate outline
  */
