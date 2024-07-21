@@ -65,7 +65,10 @@ export async function ssgBuild(
       for (let i = 1; i <= pageNumber; i++)
         newPaths.push(`/page/${i}`)
 
-      return newPaths
+      if (!options.config.vite?.ssgOptions?.includeAllRoutes)
+        return newPaths.filter(path => !path.split('/').some(p => p.startsWith(':')))
+      else
+        return newPaths
     }
   }
 
