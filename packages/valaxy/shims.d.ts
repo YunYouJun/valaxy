@@ -3,8 +3,8 @@ import 'vue-router'
 // import './client/typed-router'
 
 import type { Ref } from 'vue'
+import type { Header } from '@valaxyjs/utils'
 import type { Post } from './types'
-import type { Header } from './node/plugins/markdown'
 
 declare module 'valaxy-addon-*'
 declare module '@docsearch/js' {

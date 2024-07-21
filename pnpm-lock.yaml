@@ -238,6 +238,8 @@ importers:
         specifier: 1.1.4
         version: 1.1.4(@types/node@20.14.11)(@types/react@18.3.3)(axios@1.7.2)(jwt-decode@3.1.2)(nprogress@0.2.0)(postcss@8.4.39)(qrcode@1.5.3)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(sass@1.77.8)(typescript@5.5.3)
 
+  packages/@valaxyjs/utils: {}
+
   packages/create-valaxy:
     dependencies:
       execa:
@@ -344,6 +346,9 @@ importers:
       '@valaxyjs/devtools':
         specifier: workspace:*
         version: link:../devtools
+      '@valaxyjs/utils':
+        specifier: workspace:*
+        version: link:../@valaxyjs/utils
       '@vitejs/plugin-vue':
         specifier: ^5.0.5
         version: 5.0.5(vite@5.3.4(@types/node@20.14.11)(sass@1.77.8))(vue@3.4.33(typescript@5.5.3))

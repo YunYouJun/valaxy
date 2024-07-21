@@ -9,6 +9,7 @@
     "paths": {
       "~/*": ["demo/yun/*"],
       "@valaxyjs/devtools": ["packages/devtools/src/index.ts"],
+      "@valaxyjs/*": ["packages/@valaxyjs/*/src/index.ts"],
       "valaxy/client/*": ["packages/valaxy/client/*"],
       "@valaxyjs/client/*": ["packages/valaxy/client/*"],
       "valaxy/package.json": ["packages/valaxy/package.json"],

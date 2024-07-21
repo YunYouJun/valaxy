@@ -13,6 +13,9 @@ export const packages = [
   'valaxy',
   'valaxy-theme-press',
   'valaxy-theme-yun',
+
+  // child packages
+  '@valaxyjs/utils',
 ]
 
 export const templates = [
