@@ -42,7 +42,7 @@ export function loadConfig<T extends UserInputConfig = UserInputConfig>(options:
     })(filePath)
   }
   catch (e) {
-    consola.debug(`Failed to load config file: ${filePath}`)
+    consola.error(`Failed to load config file: ${filePath}`)
   }
 
   return {
