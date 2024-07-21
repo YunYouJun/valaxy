@@ -80,6 +80,12 @@ export default defineValaxyConfig<ThemeConfig>({
 
 > 更多详细配置可参见 [types/config.ts](https://github.com/YunYouJun/valaxy/blob/main/packages/valaxy/types/config.ts)。
 
+::: details packages/valaxy/types/config.ts SiteConfig
+
+<<< @/../packages/valaxy/types/config.ts#snippet{ts:line-numbers}
+
+:::
+
 ::: zh-CN
 站点**信息**配置，这部分内容面向站点展示且在任何主题也是通用的格式。
 

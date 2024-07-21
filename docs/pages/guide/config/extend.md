@@ -9,7 +9,11 @@ categories:
 
 > [packages/valaxy/node/type.ts](https://github.com/YunYouJun/valaxy/blob/main/packages/valaxy/node/types.ts)
 
-<<< @/../packages/valaxy/node/types.ts
+::: details package/valaxy/node/types.ts ValaxyExtendConfig
+
+<<< @/../packages/valaxy/node/types.ts#snippet{ts:line-numbers}
+
+:::
 
 ::: zh-CN
 所以，你可以像这样使用：
