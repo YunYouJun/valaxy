@@ -31,11 +31,14 @@ $colors: map.merge(
   $colors
 );
 $c-primary: map.get($colors, "primary") !default;
+
+// https://sass-lang.com/documentation/modules/color/
+// The lighten() function increases lightness by a fixed amount, which is often not the desired effect. To make a color a certain percentage lighter than it was before, use scale() instead.
 $colors: map.merge(
   (
-    "primary-light": color.adjust($c-primary, $lightness: 10%),
-    "primary-lighter": color.adjust($c-primary, $lightness: 20%),
-    "primary-dark": color.adjust($c-primary, $lightness: -5%),
+    "primary-light": color.scale($c-primary, $lightness: 10%),
+    "primary-lighter": color.scale($c-primary, $lightness: 20%),
+    "primary-dark": color.scale($c-primary, $lightness: -5%),
   ),
   $colors
 );

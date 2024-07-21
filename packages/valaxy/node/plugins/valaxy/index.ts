@@ -190,6 +190,9 @@ export async function createValaxyLoader(options: ResolvedValaxyOptions, serverO
           }))}`
         }
 
+        // TODO: custom dynamic css vars
+        // if (id === 'virtual:valaxy-css-vars') {}
+
         // generate styles
         if (id === '/@valaxyjs/styles')
           return generateStyles(roots, options)
