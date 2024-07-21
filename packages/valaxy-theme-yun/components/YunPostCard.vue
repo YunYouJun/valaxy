@@ -26,7 +26,7 @@ const { icon, styles } = usePostProperty(props.post.type)
         loading="lazy"
       >
 
-      <div class="flex flex-col items-center" :class="post.cover && 'h-54'" w="full">
+      <div class="flex flex-col items-center relative" :class="post.cover && 'h-54'" w="full">
         <AppLink
           class="post-title-link cursor-pointer"
           :to="post.path || ''"
@@ -41,13 +41,14 @@ const { icon, styles } = usePostProperty(props.post.type)
 
         <YunPostMeta :frontmatter="post" />
 
-        <div class="flex flex-grow" w="full" justify="center" items="center">
+        <div flex="~ grow col" w="full" justify="center" items="center">
           <div v-if="post.excerpt_type === 'text'" py="1" />
           <div v-if="post.excerpt" class="markdown-body" op="90" text="left" w="full" p="x-6 lt-sm:4 y-2" v-html="post.excerpt" />
           <div v-else m="b-5" />
         </div>
-
         <!-- <div m="b-5" /> -->
+
+        <div v-if="post.excerpt" w="full" h="10" class="absolute bottom-0 bg-gradient-to-t from-$va-c-bg-light to-transparent z-1" />
 
         <a
           v-if="post.url"

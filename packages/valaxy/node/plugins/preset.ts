@@ -56,7 +56,7 @@ export async function ViteValaxyPlugins(
     UnheadVite(),
 
     // https://github.com/posva/unplugin-vue-router
-    createRouterPlugin(valaxyApp),
+    await createRouterPlugin(valaxyApp),
 
     // https://github.com/JohnCampionJr/vite-plugin-vue-layouts
     Layouts({

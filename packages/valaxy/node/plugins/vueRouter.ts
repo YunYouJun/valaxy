@@ -11,16 +11,14 @@ import type { ValaxyNode } from '../types'
 
 import { matterOptions } from '../utils/matterOptions'
 import { presetStatistics } from './presets/statistics'
-
-// for render markdown excerpt
-const mdIt = new MarkdownIt({ html: true })
+import { setupMarkdownPlugins } from './markdown'
 
 /**
  * get excerpt by type
  * @param excerpt
  * @param type
  */
-function getExcerptByType(excerpt = '', type: ExcerptType = 'html') {
+function getExcerptByType(excerpt = '', type: ExcerptType = 'html', mdIt: MarkdownIt) {
   switch (type) {
     case 'ai':
     case 'md':
@@ -38,9 +36,12 @@ function getExcerptByType(excerpt = '', type: ExcerptType = 'html') {
  * @see https://github.com/posva/unplugin-vue-router
  * @param valaxyApp
  */
-export function createRouterPlugin(valaxyApp: ValaxyNode) {
+export async function createRouterPlugin(valaxyApp: ValaxyNode) {
   const { options } = valaxyApp
   const { roots, config: valaxyConfig } = options
+
+  const mdIt = new MarkdownIt({ html: true })
+  await setupMarkdownPlugins(mdIt, options)
 
   return VueRouter({
     extensions: ['.vue', '.md'],
@@ -148,7 +149,7 @@ export function createRouterPlugin(valaxyApp: ValaxyNode) {
         // set route meta
         route.addToMeta({
           frontmatter: mdFm,
-          excerpt: excerpt ? getExcerptByType(excerpt, mdFm.excerpt_type) : '',
+          excerpt: excerpt ? getExcerptByType(excerpt, mdFm.excerpt_type, mdIt) : '',
         })
 
         // set layout

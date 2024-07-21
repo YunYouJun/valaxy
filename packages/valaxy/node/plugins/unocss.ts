@@ -43,6 +43,15 @@ export async function createSafelist(options: ResolvedValaxyOptions) {
 
   const siteConfig = config.siteConfig
 
+  // block icon safelist
+  if (config.markdown?.blocks) {
+    const blocks = config.markdown.blocks
+    Object.entries(blocks).forEach(([_key, block]) => {
+      if (block.icon)
+        safelist.push(block.icon)
+    })
+  }
+
   // generate icon safelist
   if (siteConfig.social?.length)
     siteConfig.social.forEach(item => safelist.push(item?.icon || ''))
