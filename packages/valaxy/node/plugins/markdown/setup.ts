@@ -32,6 +32,7 @@ import { preWrapperPlugin } from './plugins/markdown-it/preWrapper'
 import { lineNumberPlugin } from './plugins/markdown-it/lineNumbers'
 import { snippetPlugin } from './plugins/markdown-it/snippet'
 import type { ThemeOptions } from './types'
+import { footnoteTooltipPlugin } from './plugins/markdown-it/footnoteTooltip'
 
 export const defaultCodeTheme = { light: 'github-light', dark: 'github-dark' } as const as ThemeOptions
 
@@ -71,6 +72,7 @@ export async function setupMarkdownPlugins(
       },
       base,
     )
+    .use(footnoteTooltipPlugin)
 
   // ref vitepress
   md.use(lineNumberPlugin, mdOptions.lineNumbers)
