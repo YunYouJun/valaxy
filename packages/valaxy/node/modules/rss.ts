@@ -105,28 +105,27 @@ export async function build(options: ResolvedValaxyOptions) {
 
     // render excerpt
     // default excerpt content length: 100
-    const html = markdown.render(excerpt || content.slice(0, 100))
+    const html = markdown.render(excerpt || options.config.modules.rss.fullText ? content : content.slice(0, 100))
       .replace('src="/', `src="${DOMAIN}/`)
 
     if (data.image?.startsWith('/'))
       data.image = DOMAIN + data.image
 
-    const id = (data.id || '').toString()
+    const link = DOMAIN + i.replace(`${options.userRoot}/pages`, '').replace(/\.md$/, '')
     const tip = `<br/><p>${
       lang === 'zh-CN'
-        ? `访问 <a href="${id}" target="_blank">${id}</a> 阅读全文。`
-        : `Visit <a href="${id}" target="_blank">${id}</a> to read more.`
+        ? `访问 <a href="${link}" target="_blank">${link}</a> 阅读全文。`
+        : `Visit <a href="${link}" target="_blank">${link}</a> to read more.`
      }</p>`
 
     posts.push({
       title: '',
       ...data,
-      id,
       date: new Date(data.date),
       published: new Date(data.updated || data.date),
       content: html + tip,
       author: [author],
-      link: DOMAIN + i.replace(`${options.userRoot}/pages`, '').replace(/\.md$/, ''),
+      link,
     })
   }
 

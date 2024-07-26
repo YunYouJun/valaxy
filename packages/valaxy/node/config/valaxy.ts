@@ -39,6 +39,7 @@ export const defaultValaxyConfig: ValaxyNodeConfig = {
   modules: {
     rss: {
       enable: true,
+      fullText: false,
     },
   },
 

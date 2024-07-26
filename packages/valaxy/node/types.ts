@@ -85,6 +85,12 @@ export interface ValaxyExtendConfig {
        * enable rss
        */
       enable: boolean
+      /**
+       * @zh 全文输出
+       * @en full text output
+       * @default false
+       */
+      fullText: boolean
     }
   }
 
