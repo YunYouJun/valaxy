@@ -13,6 +13,7 @@ import { install as installValaxy } from '../modules/valaxy'
 import { install as installPinia } from '../modules/pinia'
 import { install as installNprogress } from '../modules/nprogress'
 import { install as installSchema } from '../modules/schemaOrg'
+import { install as installFloatingVue } from '../modules/floating-vue'
 
 export default function setupMain(ctx: ViteSSGContext, config: ComputedRef<ValaxyConfig<DefaultTheme.Config>>) {
   // @ts-expect-error inject in runtime
@@ -23,6 +24,7 @@ export default function setupMain(ctx: ViteSSGContext, config: ComputedRef<Valax
   installSchema(ctx)
   installPinia(ctx)
   installNprogress(ctx)
+  installFloatingVue(ctx)
 
   if (import.meta.env.DEV && ctx.isClient) {
     import('../modules/devtools').then(({ install: installDevtools }) => {

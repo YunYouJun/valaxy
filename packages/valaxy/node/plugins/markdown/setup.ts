@@ -72,7 +72,6 @@ export async function setupMarkdownPlugins(
       },
       base,
     )
-    .use(footnoteTooltipPlugin)
 
   // ref vitepress
   md.use(lineNumberPlugin, mdOptions.lineNumbers)
@@ -84,7 +83,7 @@ export async function setupMarkdownPlugins(
 
   md.use(emojiPlugin)
     .use(mdFootnote)
-
+    .use(footnoteTooltipPlugin)
   // if (!isExcerpt) {
   md.use(anchorPlugin, {
     slugify,
