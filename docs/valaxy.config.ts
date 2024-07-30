@@ -59,6 +59,10 @@ export default defineValaxyConfig<PressTheme.Config>({
             text: 'toc.extend-config',
             link: '/guide/config/extend',
           },
+          {
+            text: 'toc.unocss-options',
+            link: '/guide/config/unocss-options',
+          },
         ],
       },
       'migration',
