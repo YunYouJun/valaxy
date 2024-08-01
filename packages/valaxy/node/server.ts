@@ -5,7 +5,6 @@ import { createServer as createViteServer, mergeConfig as mergeViteConfig } from
 import type { ValaxyNode } from './types'
 import type { ValaxyServerOptions } from './options'
 import { ViteValaxyPlugins } from './plugins/preset'
-import { userRoot } from './cli/utils/constants'
 
 export async function createServer(
   valaxyApp: ValaxyNode,
@@ -27,7 +26,7 @@ export async function createServer(
     // only enable when dev
     vitePlugins.push(
       (await import('vite-plugin-vue-devtools')).default(),
-      (await import('@valaxyjs/devtools')).default({ userRoot }),
+      (await import('@valaxyjs/devtools')).default(),
     )
   }
 
