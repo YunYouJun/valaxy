@@ -1,4 +1,4 @@
 export interface ValaxyDevtoolsOptions {
-  userroot?: string
+  userRoot?: string
   base?: string
 }

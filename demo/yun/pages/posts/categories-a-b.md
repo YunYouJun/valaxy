@@ -1,6 +1,5 @@
 ---
-title: Categories A > B
-categories:
-  - A
-  - B
+title: 长目录测试
+categories: Test
 ---
+

@@ -4,14 +4,13 @@ import sirv from 'sirv'
 import { createProxyMiddleware } from 'http-proxy-middleware'
 import { DIR_CLIENT } from '../dir'
 import type { ValaxyDevtoolsOptions } from './types'
-import { registerApi, userroot } from './api'
+import { registerApi } from './api'
 
 const NAME = 'valaxy:devtools'
 
 // import.meta.env.VITE_DEV_VALAXY_DEVTOOLS = 'true'
 
 export default function ValaxyDevtools(options: ValaxyDevtoolsOptions = {}): Plugin {
-  userroot.root = options.userroot!
   let config: ResolvedConfig
 
   function configureServer(server: ViteDevServer) {

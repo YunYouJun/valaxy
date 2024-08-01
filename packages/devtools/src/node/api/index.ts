@@ -6,9 +6,13 @@ import { JSON_SCHEMA } from 'js-yaml'
 import fs from 'fs-extra'
 
 const prefix = '/valaxy-devtools-api'
-export const userroot: { root: string } = { root: '' }
 
-async function migration(path: string, frontmatter: { [key: string]: string }) {
+/**
+ * migration
+ * @param path
+ * @param frontmatter
+ */
+export async function migration(path: string, frontmatter: { [key: string]: string }) {
   if (fs.existsSync(path)) {
     const rawMd = await fs.readFile(path, 'utf-8')
     const matterFile = matter(rawMd, { schema: JSON_SCHEMA } as any)
@@ -40,7 +44,7 @@ export function registerApi(server: ViteDevServer, _viteConfig: ResolvedConfig) 
     if (req.method === 'POST') {
       const { pageData, frontmatter: newFm } = await (req as any).body
       // filePath
-      const path = `${userroot.root}/pages${pageData.path}.md`
+      const path = pageData.path
       if (fs.existsSync(path)) {
         const rawMd = await fs.readFile(path, 'utf-8')
         const matterFile = matter(rawMd)
@@ -51,10 +55,6 @@ export function registerApi(server: ViteDevServer, _viteConfig: ResolvedConfig) 
         await fs.writeFile(path, newMd)
       }
     }
-
-    // console.log('update', url, frontmatter)
-
-    // console.log('frontmatter', req.url, res)
   })
 
   app.use(`${prefix}/migration`, async (req, _res) => {
@@ -64,8 +64,13 @@ export function registerApi(server: ViteDevServer, _viteConfig: ResolvedConfig) 
       // filePath
       const worker: Promise<void>[] = []
 
-      for (const item of pageData)
-        worker.push(migration(`${userroot.root}/pages${item}.md`, frontmatter))
+      for (const item of pageData) {
+        const path = item
+        worker.push(migration(path, frontmatter))
+      }
+      //   worker.push(migration(`${userRoot.root}/pages${item}.md`, frontmatter))
+      // for (const item of pageData)
+      //   worker.push(migration(item, frontmatter))
 
       Promise.all(worker).then(() => {
         _res.end('ok')
