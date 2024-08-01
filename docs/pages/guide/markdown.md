@@ -901,13 +901,17 @@ We integrated [UnoCSS](https://unocss.dev), so you can use it in your markdown f
 
 ::: en
 Freedom to control your layout!
+
+> More configurations see [UnoCSS Options](/guide/config/unocss-options).
+
 :::
 
 ::: zh-CN
 自由控制你的布局！
-:::
 
-> 更多配置见 [UnoCSS | 扩展配置](/guide/config/extend#unocss-presets)。
+> 更多配置见 [UnoCSS Options | 配置](/guide/config/unocss-options)。
+
+:::
 
 <div class="flex flex-col">
 

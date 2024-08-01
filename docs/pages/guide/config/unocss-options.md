@@ -91,7 +91,8 @@ export default defineValaxyConfig<ThemeConfig>({
 <div lang="zh-CN">
 
 ::: tip
-在 `uno.config.ts` 或 `unocss.config.ts` 文件中配置 `presets` 也会覆盖 Valaxy 或主题的默认预设。若要扩展预设，请使用 [unocssPresets](#unocsspresets)
+在 `uno.config.ts` 或 `unocss.config.ts` 文件中配置 `presets` 也会覆盖 Valaxy 或主题的默认预设。  
+若要扩展预设，请使用 [unocssPresets](#unocsspresets) 。
 :::
 
 </div>
@@ -99,7 +100,8 @@ export default defineValaxyConfig<ThemeConfig>({
 <div lang="en">
 
 ::: tip
-Configuring `presets` in the `uno.config.ts` or `unocss.config.ts` files will also override the default presets of Valaxy or the theme. To extend the presets, use [unocssPresets](#unocsspresets).
+Configuring `presets` in the `uno.config.ts` or `unocss.config.ts` files will also override the default presets of Valaxy or the theme.
+To extend the presets, use [unocssPresets](#unocsspresets).
 :::
 
 </div>
@@ -165,9 +167,11 @@ export default defineValaxyConfig<ThemeConfig>({
 
 :::
 
-## About UnoCSS Hot Reloading Failure {lang="en"}
+## FAQ
 
-## 关于 UnoCSS 热重载失效 {lang="zh-CN"}
+### About UnoCSS Hot Reloading Failure {lang="en"}
+
+### 关于 UnoCSS 热重载失效 {lang="zh-CN"}
 
 ::: zh-CN
 > 由于目前无法获取 UnoCSS 的 ctx，暂时还没有找到一个好的方法来实现热重载
