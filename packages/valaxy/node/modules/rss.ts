@@ -127,7 +127,7 @@ export async function build(options: ResolvedValaxyOptions) {
       published: new Date(data.updated || data.date),
       content: html + tip,
       author: [author],
-      id: data.id.toString() || '',
+      id: data.id?.toString() || '',
       link,
     })
   }
