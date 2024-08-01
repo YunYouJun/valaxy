@@ -1,5 +1,5 @@
 // register vue composition api globally
-import { createApp } from 'vue'
+import { createApp, ref } from 'vue'
 
 import { createRouter, createWebHashHistory } from 'vue-router/auto'
 import { routes } from 'vue-router/auto-routes'
@@ -17,6 +17,16 @@ const router = createRouter({
   history: createWebHashHistory(),
   routes,
 })
+
+if (import.meta.env.DEV) {
+  window.__VUE_DEVTOOLS_ROUTER__ = router
+
+  window.$frontmatter = {}
+  window.$pageData = {}
+  window.$valaxy = {
+    postList: ref([]),
+  }
+}
 
 app.use(router)
 app.mount('#app')

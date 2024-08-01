@@ -63,7 +63,6 @@ function handleHMR(router: Router): void {
   if (import.meta.hot) {
     import.meta.hot.on('valaxy:pageData', (payload: PageDataPayload) => {
       if (shouldHotReload(payload)) {
-        // @ts-expect-error $pageData
         window.$pageData = payload.pageData
 
         // console.log(payload.pageData.headers)

@@ -13,6 +13,10 @@ declare module '@docsearch/js' {
 }
 
 declare interface Window {
+  // for devtools
+  __VUE_DEVTOOLS_ROUTER__: import('vue-router').Router
+  $frontmatter: any
+  $pageData: any
   $valaxy: {
     postList: Ref<Post[]>
   }
