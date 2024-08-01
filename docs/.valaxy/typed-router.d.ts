@@ -44,6 +44,7 @@ declare module 'vue-router/auto-routes' {
     '/guide/commands/': RouteRecordInfo<'/guide/commands/', '/guide/commands', Record<never, never>, Record<never, never>>,
     '/guide/config/': RouteRecordInfo<'/guide/config/', '/guide/config', Record<never, never>, Record<never, never>>,
     '/guide/config/extend': RouteRecordInfo<'/guide/config/extend', '/guide/config/extend', Record<never, never>, Record<never, never>>,
+    '/guide/config/unocss-options': RouteRecordInfo<'/guide/config/unocss-options', '/guide/config/unocss-options', Record<never, never>, Record<never, never>>,
     '/guide/custom/components': RouteRecordInfo<'/guide/custom/components', '/guide/custom/components', Record<never, never>, Record<never, never>>,
     '/guide/custom/extend': RouteRecordInfo<'/guide/custom/extend', '/guide/custom/extend', Record<never, never>, Record<never, never>>,
     '/guide/custom/hooks': RouteRecordInfo<'/guide/custom/hooks', '/guide/custom/hooks', Record<never, never>, Record<never, never>>,
