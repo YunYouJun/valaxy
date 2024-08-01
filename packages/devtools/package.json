@@ -1,7 +1,7 @@
 {
   "name": "@valaxyjs/devtools",
   "type": "module",
-  "version": "0.18.7",
+  "version": "0.19.5",
   "repository": {
     "url": "https://github.com/YunYouJun/valaxy"
   },
@@ -29,24 +29,24 @@
   },
   "dependencies": {
     "@rollup/pluginutils": "^5.1.0",
-    "axios": "^1.6.8",
+    "axios": "^1.7.2",
     "body-parser": "^1.20.2",
     "http-proxy-middleware": "^3.0.0",
-    "picocolors": "^1.0.0",
+    "picocolors": "^1.0.1",
     "sirv": "^2.0.4"
   },
   "devDependencies": {
     "@advjs/gui": "0.0.7-beta.1",
-    "@iconify-json/ri": "^1.1.20",
+    "@iconify-json/ri": "^1.1.21",
     "@types/body-parser": "^1.19.5",
     "@types/js-yaml": "^3.12.0",
     "@types/splitpanes": "^2.2.6",
     "gray-matter": "^4.0.3",
     "js-yaml": "^3.13.1",
     "splitpanes": "^3.1.5",
-    "typescript": "^5.4.5",
+    "typescript": "^5.5.4",
     "unbuild": "^2.0.0",
-    "unplugin-vue-router": "^0.8.6",
-    "vite": "^5.2.11"
+    "unplugin-vue-router": "^0.10.1",
+    "vite": "^5.3.5"
   }
 }

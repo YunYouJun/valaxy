@@ -9,3 +9,6 @@ export * from './utils'
 export * from './setups'
 
 export * from './types'
+
+// child packages
+export * from '@valaxyjs/utils'

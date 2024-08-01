@@ -11,7 +11,7 @@ const router = useRouter()
     <div class="site-info" m="t-6">
       <RouterLink class="site-author-avatar" to="/about">
         <img class="rounded-full" :src="siteConfig.author.avatar" alt="avatar">
-        <span class="site-author-status" :title="siteConfig.author.status.message">{{ siteConfig.author.status.emoji }}</span>
+        <span v-if="siteConfig.author.status.emoji" class="site-author-status" :title="siteConfig.author.status.message || undefined">{{ siteConfig.author.status.emoji }}</span>
       </RouterLink>
       <div
         class="site-author-name leading-6"

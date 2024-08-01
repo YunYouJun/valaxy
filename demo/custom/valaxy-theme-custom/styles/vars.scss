@@ -12,11 +12,11 @@ $light: (
   "c-text": #101820,
 ) !default;
 $light: map.merge((), $light);
-
 $dark: (
   "c-text": #f0f8ff,
 ) !default;
 $dark: map.merge((), $dark);
 
+// z-index
 $z-index: () !default;
 $z-index: map.merge((), $z-index);

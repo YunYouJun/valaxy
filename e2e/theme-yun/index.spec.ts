@@ -41,3 +41,13 @@ test.describe('Theme Yun', () => {
     await expect(page.locator('.yun-search-input')).toHaveCount(0)
   })
 })
+
+test.describe('Theme Yun - Post', () => {
+  test.beforeEach(async ({ page }) => {
+    await page.goto('/posts/hello-valaxy')
+  })
+
+  test('sidebar', async ({ page }) => {
+    await expect(page.locator('.sidebar')).toBeVisible()
+  })
+})

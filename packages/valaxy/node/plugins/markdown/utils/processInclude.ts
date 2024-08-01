@@ -5,13 +5,11 @@
 
 import path from 'node:path'
 import fs from 'fs-extra'
-import { slash } from '@antfu/utils'
 
 export function processIncludes(
   srcDir: string,
   src: string,
   file: string,
-  includes: string[],
 ): string {
   const includesRE = /<!--\s*@include:\s*(.*?)\s*-->/g
   const rangeRE = /\{(\d*),(\d*)\}$/
@@ -37,9 +35,9 @@ export function processIncludes(
           )
           .join('\n')
       }
-      includes.push(slash(includePath))
+      content = `<!-- @included: ${m1} -->\n${content}`
       // recursively process includes in the content
-      return processIncludes(srcDir, content, includePath, includes)
+      return processIncludes(srcDir, content, includePath)
     }
     catch (error) {
       return m // silently ignore error if file is not present

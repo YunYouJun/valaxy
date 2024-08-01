@@ -41,6 +41,7 @@ const YunGallery = runtimeConfig.value.addons['valaxy-addon-lightgallery']
           :title="title || t('title.gallery')"
           :icon="frontmatter.icon || 'i-ri-gallery-line'"
           :color="frontmatter.color"
+          :page-title-class="frontmatter.pageTitleClass"
         />
       </template>
       <template #main-content>

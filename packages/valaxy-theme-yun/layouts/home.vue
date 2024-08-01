@@ -1,14 +1,15 @@
 <script lang="ts" setup>
-import { useAppStore, useLayout } from 'valaxy'
+import { useLayout } from 'valaxy'
 import { computed } from 'vue'
 import { useRoute } from 'vue-router'
+import { useYunAppStore } from '../stores'
 import { useThemeConfig } from '../composables'
 
-const app = useAppStore()
+const yunStore = useYunAppStore()
+const route = useRoute()
 const isHome = useLayout('home')
 const themeConfig = useThemeConfig()
 
-const route = useRoute()
 const isPage = computed(() => route.path.startsWith('/page'))
 
 const showNotice = computed(() => {
@@ -20,7 +21,7 @@ const showNotice = computed(() => {
 <template>
   <main
     class="yun-main flex-center"
-    :class="(isHome && !app.isSidebarOpen) ? 'pl-0' : 'md:pl-$va-sidebar-width'" flex="~ col" w="full"
+    :class="(isHome && !yunStore.leftSidebar.isOpen) ? 'pl-0' : 'md:pl-$va-sidebar-width'" flex="~ col" w="full"
   >
     <YunSidebar :show-hamburger="true" />
 

@@ -1,9 +1,10 @@
 <script lang="ts" setup>
 import { computed, watch } from 'vue'
 import { useCssVar } from '@vueuse/core'
-import { isDark } from 'valaxy'
+import { useAppStore } from 'valaxy'
 import { useThemeConfig } from '../composables'
 
+const appStore = useAppStore()
 const themeConfig = useThemeConfig()
 
 if (typeof themeConfig.value.bg_image.url !== 'undefined') {
@@ -12,7 +13,7 @@ if (typeof themeConfig.value.bg_image.url !== 'undefined') {
     bgImgOpacity.value = themeConfig.value.bg_image.opacity.toString() || '1'
 
   const bgImgUrl = computed(() => {
-    return isDark.value
+    return appStore.isDark
       ? themeConfig.value.bg_image.dark
       : themeConfig.value.bg_image.url
   })

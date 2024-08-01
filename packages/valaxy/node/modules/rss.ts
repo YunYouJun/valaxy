@@ -9,10 +9,10 @@ import MarkdownIt from 'markdown-it'
 import type { Author, FeedOptions, Item } from 'feed'
 import { Feed } from 'feed'
 import consola from 'consola'
-import { type ResolvedValaxyOptions, resolveOptions } from '../options'
 import { getCreatedTime, getUpdatedTime } from '../utils/date'
+import { matterOptions } from '../utils/matterOptions'
+import { type ResolvedValaxyOptions, resolveOptions } from '../options'
 import { ensurePrefix, isExternal } from '../utils'
-import { EXCERPT_SEPARATOR } from '../constants'
 import { commonOptions } from '../cli/options'
 import { setEnvProd } from '../utils/env'
 import { defineValaxyModule } from '.'
@@ -78,7 +78,7 @@ export async function build(options: ResolvedValaxyOptions) {
   for await (const i of files) {
     const raw = await readFile(i, 'utf-8')
 
-    const { data, content, excerpt } = matter(raw, { excerpt_separator: EXCERPT_SEPARATOR })
+    const { data, content, excerpt } = matter(raw, matterOptions)
 
     // skip encrypt post
     if (data.password)
@@ -105,28 +105,28 @@ export async function build(options: ResolvedValaxyOptions) {
 
     // render excerpt
     // default excerpt content length: 100
-    const html = markdown.render(excerpt || content.slice(0, 100))
+    const fullText = options.config.modules.rss.fullText
+    const html = markdown.render(excerpt || fullText ? content : content.slice(0, 100))
       .replace('src="/', `src="${DOMAIN}/`)
 
     if (data.image?.startsWith('/'))
       data.image = DOMAIN + data.image
 
-    const id = (data.id || '').toString()
+    const link = DOMAIN + i.replace(`${options.userRoot}/pages`, '').replace(/\.md$/, '')
     const tip = `<br/><p>${
       lang === 'zh-CN'
-        ? `访问 <a href="${id}" target="_blank">${id}</a> 阅读全文。`
-        : `Visit <a href="${id}" target="_blank">${id}</a> to read more.`
+        ? `访问 <a href="${link}" target="_blank">${link}</a> ${fullText ? '查看原文' : '阅读全文'}。`
+        : `Visit <a href="${link}" target="_blank">${link}</a> to ${fullText ? 'view original article' : 'read more'}.`
      }</p>`
 
     posts.push({
       title: '',
       ...data,
-      id,
       date: new Date(data.date),
       published: new Date(data.updated || data.date),
       content: html + tip,
       author: [author],
-      link: DOMAIN + i.replace(`${options.userRoot}/pages`, '').replace(/\.md$/, ''),
+      link,
     })
   }
 

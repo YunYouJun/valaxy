@@ -1,8 +1,8 @@
 ---
-cover: https://fastly.jsdelivr.net/gh/YunYouJun/cdn/img/bg/girl-in-water-tank.webp
+cover: https://cdn.yunyoujun.cn/img/bg/girl-in-water-tank.webp
 title: Hello, Valaxy!
 date: 2022-03-22
-updated: 2022-03-23 15:00:00
+updated: 2022-03-23 19:00:00
 categories: Valaxy Notes
 tags:
   - valaxy
@@ -10,6 +10,7 @@ tags:
 top: 1
 outline: deep
 excerpt: Valaxy aims to be a next generation of static blogging frameworks/generators.
+pageTitleClass: 'text-4xl text-red'
 ---
 
 ```md

@@ -74,7 +74,8 @@ onMounted(() => {
         <input
           v-model="password"
           w-full
-          border pl-5 pr-11 py-3 rounded hover:shadow transition
+          border="~ solid dark:dark-100"
+          pl-5 pr-11 py-3 rounded-full hover:shadow transition
           type="password" placeholder="Enter password"
           :class="hasError && 'border-red'"
           @input="hasError = false"

@@ -15,7 +15,7 @@ const safelist = [
 
 export default defineValaxyConfig<PressTheme.Config>({
   siteConfig: {
-    title: 'Valaxy',
+    title: 'VALAXY',
     url: 'https://valaxy.site',
     description: 'Valaxy Site Docs',
 
@@ -58,6 +58,10 @@ export default defineValaxyConfig<PressTheme.Config>({
           {
             text: 'toc.extend-config',
             link: '/guide/config/extend',
+          },
+          {
+            text: 'toc.unocss-options',
+            link: '/guide/config/unocss-options',
           },
         ],
       },

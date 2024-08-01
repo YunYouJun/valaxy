@@ -127,7 +127,7 @@ onClickOutside(searchInputRef, () => {
   text-align: center;
   margin: 0;
   z-index: var(--yun-z-search-popup);
-  transition: 0.6s;
+  transition: 0.2s;
   background-color: var(--va-c-bg-opacity);
 }
 

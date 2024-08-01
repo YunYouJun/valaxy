@@ -1,6 +1,6 @@
 {
   "name": "valaxy-theme-yun",
-  "version": "0.18.7",
+  "version": "0.19.5",
   "author": {
     "email": "me@yunyoujun.cn",
     "name": "YunYouJun",
@@ -20,7 +20,7 @@
   "dependencies": {
     "@explosions/fireworks": "^0.0.2",
     "@iconify-json/ant-design": "^1.1.16",
-    "@iconify-json/simple-icons": "^1.1.101",
+    "@iconify-json/simple-icons": "^1.1.110",
     "animejs": "^3.2.2"
   },
   "devDependencies": {

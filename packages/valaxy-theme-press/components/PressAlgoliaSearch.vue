@@ -4,7 +4,7 @@ import { useAddonAlgolia } from 'valaxy-addon-algolia'
 
 const { t } = useI18n()
 
-const { loaded, load, metaKey } = useAddonAlgolia()
+const { loaded, load } = useAddonAlgolia()
 </script>
 
 <template>
@@ -64,6 +64,11 @@ const { loaded, load, metaKey } = useAddonAlgolia()
 .DocSearch-Button:focus {
   outline: 1px dotted;
   outline: 5px auto -webkit-focus-ring-color;
+}
+
+.DocSearch-Button-Key--pressed {
+  transform: none;
+  box-shadow: none;
 }
 
 .DocSearch-Button:focus:not(:focus-visible) {
@@ -187,11 +192,14 @@ const { loaded, load, metaKey } = useAddonAlgolia()
 }
 
 .DocSearch-Button .DocSearch-Button-Key:first-child::after {
-  /* stylelint-disable-next-line value-keyword-case */
-  content: v-bind(metaKey);
+  content: 'Ctrl';
   font-size: 12px;
   letter-spacing: normal;
   color: var(--docsearch-muted-color);
+}
+
+.mac .DocSearch-Button .DocSearch-Button-Key:first-child::after {
+  content: '\2318';
 }
 
 .DocSearch-Button .DocSearch-Button-Key:first-child > * {

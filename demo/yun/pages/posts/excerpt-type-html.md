@@ -1,8 +1,14 @@
 ---
 title: 'excerpt_type: html'
 excerpt_type: html
-cover: https://fastly.jsdelivr.net/gh/YunYouJun/cdn/img/bg/girl-in-water-tank.webp
+cover: https://cdn.jsdelivr.net/gh/YunYouJun/cdn/img/bg/girl-in-water-tank.webp
 ---
+
+::: tip
+
+Tip Style by `excerpt_type: html`
+
+:::
 
 ## Header
 
@@ -13,3 +19,5 @@ cover: https://fastly.jsdelivr.net/gh/YunYouJun/cdn/img/bg/girl-in-water-tank.we
 Main Content
 
 [/about](/about)
+
+## Footer `INLINE CODE`

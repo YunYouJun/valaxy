@@ -1,7 +1,7 @@
 {
   "type": "module",
   "devDependencies": {
-    "picocolors": "^1.0.0",
-    "zx": "^8.0.2"
+    "picocolors": "^1.0.1",
+    "zx": "^8.1.4"
   }
 }

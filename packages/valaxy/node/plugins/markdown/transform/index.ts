@@ -2,9 +2,12 @@ import type { Plugin } from 'vite'
 import Markdown from 'unplugin-vue-markdown/vite'
 
 import type MarkdownIt from 'markdown-it'
+import type { PageFrontMatter } from 'valaxy/types'
+import { matterOptions } from '../../../utils/matterOptions'
 import type { ResolvedValaxyOptions } from '../../../options'
 import { highlight } from '../plugins/highlight'
 import { defaultCodeTheme, setupMarkdownPlugins } from '../setup'
+import { createTransformIncludes } from './include'
 import { transformMermaid } from './mermaid'
 
 export async function createMarkdownPlugin(
@@ -13,6 +16,8 @@ export async function createMarkdownPlugin(
   const mdOptions = options?.config.markdown || {}
   const theme = mdOptions.theme ?? defaultCodeTheme
 
+  const transformIncludes = createTransformIncludes(options)
+
   return Markdown({
     include: [/\.md$/],
     wrapperClasses: '',
@@ -20,6 +25,18 @@ export async function createMarkdownPlugin(
 
     frontmatter: true,
     exportFrontmatter: false,
+    frontmatterOptions: { grayMatterOptions: matterOptions },
+    frontmatterPreprocess(frontmatter, mdOptions, _, defaultHeadProcess) {
+      const fm = frontmatter as PageFrontMatter
+      if (fm.date)
+        fm.date = new Date(fm.date)
+      if (fm.updated)
+        fm.updated = new Date(fm.updated)
+      return {
+        head: defaultHeadProcess(frontmatter, mdOptions),
+        frontmatter,
+      }
+    },
 
     // v-pre
     escapeCodeTagInterpolation: true,
@@ -51,9 +68,10 @@ export async function createMarkdownPlugin(
     },
 
     transforms: {
-      before(code, _id) {
+      before(code, id) {
         // features
         code = transformMermaid(code)
+        code = transformIncludes(code, id)
         // TODO: PlantUML
         // code = transformPlantUml(code, config.plantUmlServer)
 

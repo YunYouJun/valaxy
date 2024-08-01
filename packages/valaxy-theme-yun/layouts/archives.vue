@@ -26,7 +26,12 @@ useSchemaOrg([
   <RouterView v-slot="{ Component }">
     <component :is="Component">
       <template #main-header>
-        <YunPageHeader :title="title || t('menu.archives')" :icon="frontmatter.icon || 'i-ri-archive-line'" :color="frontmatter.color" />
+        <YunPageHeader
+          :title="title || t('menu.archives')"
+          :icon="frontmatter.icon || 'i-ri-archive-line'"
+          :color="frontmatter.color"
+          :page-title-class="frontmatter.pageTitleClass"
+        />
       </template>
       <template #main-content>
         <RouterView />

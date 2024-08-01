@@ -6,6 +6,7 @@ import generateSitemap from 'vite-ssg-sitemap'
 
 import fs from 'fs-extra'
 import consola from 'consola'
+import colors from 'picocolors'
 import type { ValaxyNode } from './types'
 import type { ResolvedValaxyOptions } from './options'
 import { ViteValaxyPlugins } from './plugins/preset'
@@ -48,9 +49,29 @@ export async function ssgBuild(
         },
       )
     },
+
     // dirStyle default it flat
     // dirStyle: 'nested',
   }
+
+  // generate static pages for pagination
+  if (options.config.build.ssgForPagination) {
+    defaultConfig.ssgOptions.includedRoutes = (paths, _routes) => {
+      const newPaths = paths
+      const posts = paths.filter(path => path.startsWith('/posts/'))
+      const pageNumber = Math.ceil(posts.length / options.config.siteConfig.pageSize)
+
+      consola.info(`Generate ${colors.yellow(pageNumber)} pages for pagination.`)
+      for (let i = 1; i <= pageNumber; i++)
+        newPaths.push(`/page/${i}`)
+
+      if (!options.config.vite?.ssgOptions?.includeAllRoutes)
+        return newPaths.filter(path => !path.split('/').some(p => p.startsWith(':')))
+      else
+        return newPaths
+    }
+  }
+
   const inlineConfig: InlineConfig = mergeViteConfig(defaultConfig, viteConfig)
 
   await viteSsgBuild({}, inlineConfig)

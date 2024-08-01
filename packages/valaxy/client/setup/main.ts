@@ -20,9 +20,7 @@ export default function setupMain(ctx: ViteSSGContext, config: ComputedRef<Valax
   const injection_arg = ctx
 
   installValaxy(ctx, config)
-
   installSchema(ctx)
-
   installPinia(ctx)
   installNprogress(ctx)
 

@@ -54,13 +54,23 @@ export async function getIndexHtml({ clientRoot, themeRoot, userRoot, config }: 
   if (config.siteConfig.mode === 'auto') {
     head += `
     <script>
-    const prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
-    const colorSchemeSetting = localStorage.getItem('vueuse-color-scheme') || 'auto';
-    if (colorSchemeSetting === 'dark' || (prefersDark && colorSchemeSetting !== 'light')) {
-      document.documentElement.classList.toggle('dark', true);
-    }
+    ;(function () {
+      const prefersDark =
+        window.matchMedia &&
+        window.matchMedia('(prefers-color-scheme: dark)').matches
+      const setting = localStorage.getItem('vueuse-color-scheme') || 'auto'
+      if (setting === 'dark' || (prefersDark && setting !== 'light'))
+        document.documentElement.classList.toggle('dark', true)
+    })()
     </script>
   `
+
+    // add it for first load
+    head += `<style type="text/css">
+    :root { --va-c-bg: #fff; }
+    html.dark { --va-c-bg: #1b1b1f; }
+    html { background-color: var(--va-c-bg); }
+  </style>`
   }
 
   if (config.siteConfig.lang) {

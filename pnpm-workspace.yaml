@@ -1,7 +1,8 @@
 packages:
   - api
   - docs
-  - packages/*
   - demo/*
   - demo/custom/valaxy-theme-custom
+  - packages/*
+  - packages/@valaxyjs/*
   - scripts

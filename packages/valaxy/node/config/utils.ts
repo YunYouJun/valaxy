@@ -1,4 +1,6 @@
 import process from 'node:process'
+import { fileURLToPath } from 'node:url'
+import fs from 'fs-extra'
 
 // https://github.com/unjs/c12
 // use c12 instead of unconfig, because c12 faster a lot
@@ -6,7 +8,6 @@ import process from 'node:process'
 // use jiti directly is 0.0006s 0.6ms
 // write in valaxy directly can be fastest and solve cjs esm in vite
 
-import { fileURLToPath } from 'node:url'
 import jiti from 'jiti'
 import { resolve } from 'pathe'
 import consola from 'consola'
@@ -25,24 +26,29 @@ export interface ResolvedConfig<
   configFile: string
 }
 
-export function loadConfig<T extends UserInputConfig = UserInputConfig>(options: {
+export async function loadConfig<T extends UserInputConfig = UserInputConfig>(options: {
   name: string
   cwd: string
-}): ResolvedConfig<T> {
+}): Promise<ResolvedConfig<T>> {
   const { name, cwd } = options
   const filePath = resolve(cwd, `${name}.config.ts`)
 
   let data = {} as T
 
-  try {
-    data = jiti(fileURLToPath(import.meta.url), {
-      interopDefault: true,
-      requireCache: false,
-      esmResolve: true,
-    })(filePath)
+  if (await fs.exists(filePath)) {
+    try {
+      data = jiti(fileURLToPath(import.meta.url), {
+        interopDefault: true,
+        requireCache: false,
+        esmResolve: true,
+      })(filePath)
+    }
+    catch (e) {
+      consola.error(`Failed to load config file: ${filePath}`)
+    }
   }
-  catch (e) {
-    consola.debug(`Failed to load config file: ${filePath}`)
+  else {
+    consola.debug(`Config file not found: ${filePath}`)
   }
 
   return {
@@ -57,7 +63,7 @@ export async function loadConfigFromFile<T extends UserInputConfig>(
   file: string,
   options: LoadConfigFromFileOptions = {},
 ): Promise<ResolvedConfig<T>> {
-  const { config, configFile } = loadConfig<T | ConfigFunction<T>>({
+  const { config, configFile } = await loadConfig<T | ConfigFunction<T>>({
     name: file,
     cwd: options.cwd || process.cwd(),
   })

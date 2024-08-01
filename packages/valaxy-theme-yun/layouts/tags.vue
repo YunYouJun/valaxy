@@ -70,6 +70,7 @@ const title = usePostTitle(frontmatter)
           :title="title || t('menu.tags')"
           :icon="frontmatter.icon || 'i-ri-tag-line'"
           :color="frontmatter.color"
+          :page-title-class="frontmatter.pageTitleClass"
         />
       </template>
       <template #main-content>

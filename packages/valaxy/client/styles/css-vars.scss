@@ -39,7 +39,7 @@ $c-primary: #0078e7 !default;
 }
 
 // dark
-.dark {
+html.dark {
   color-scheme: dark;
 
   @include set-css-var-from-map(palette.$dark);

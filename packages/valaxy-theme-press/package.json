@@ -1,6 +1,6 @@
 {
   "name": "valaxy-theme-press",
-  "version": "0.18.7",
+  "version": "0.19.5",
   "description": "Docs Theme for Valaxy",
   "author": {
     "email": "me@yunyoujun.cn",
@@ -19,8 +19,8 @@
   "main": "node/index.ts",
   "types": "types/index.d.ts",
   "dependencies": {
-    "@docsearch/css": "^3.6.0",
-    "@docsearch/js": "^3.6.0"
+    "@docsearch/css": "^3.6.1",
+    "@docsearch/js": "^3.6.1"
   },
   "devDependencies": {
     "valaxy": "workspace:*"

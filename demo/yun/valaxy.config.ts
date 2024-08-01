@@ -26,6 +26,10 @@ export default defineValaxyConfig<ThemeConfig>({
   // see theme.config.ts or write in themeConfig
   // themeConfig in theme.config.ts
 
+  build: {
+    ssgForPagination: true,
+  },
+
   unocss: {
     safelist,
   },
@@ -83,11 +87,17 @@ export default defineValaxyConfig<ThemeConfig>({
       bgmEnabled: false,
     }),
     addonComponents(),
+
+    // comments
     addonWaline({
       serverURL: 'https://waline.yunyoujun.cn',
       pageview: true,
       comment: true,
     }),
+    addonTwikoo({
+      envId: 'https://twikoo.vercel.app',
+    }),
+
     addonLightGallery(),
     addonMeting({
       global: true,
@@ -96,9 +106,6 @@ export default defineValaxyConfig<ThemeConfig>({
         server: 'netease',
         type: 'song',
       },
-    }),
-    addonTwikoo({
-      envId: 'https://twikoo.vercel.app',
     }),
     addonTest(),
   ],

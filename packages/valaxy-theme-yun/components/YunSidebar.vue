@@ -1,28 +1,32 @@
 <script lang="ts" setup>
 import { ref } from 'vue'
-import { useAppStore } from 'valaxy'
+import { useYunAppStore } from '../stores'
 
 defineProps<{
   showHamburger?: boolean
 }>()
 
-const app = useAppStore()
+const yunStore = useYunAppStore()
 const showOverview = ref(false)
 </script>
 
 <template>
-  <ValaxyOverlay class="md:hidden" :show="app.isSidebarOpen" @click="app.toggleSidebar()" />
+  <ValaxyOverlay class="md:hidden" :show="yunStore.leftSidebar.isOpen" @click="yunStore.leftSidebar.toggle()" />
 
   <ValaxyHamburger
-    :active="app.isSidebarOpen"
+    :active="yunStore.leftSidebar.isOpen"
     class="menu-btn sidebar-toggle yun-icon-btn leading-4 fixed left-0.8rem top-0.6rem"
     inline-flex cursor="pointer" z="$yun-z-menu-btn"
-    :class="showHamburger ? '' : 'md:hidden'" @click="app.toggleSidebar()"
+    :class="showHamburger ? '' : 'md:hidden'"
+    @click="yunStore.leftSidebar.toggle()"
   />
 
   <aside
     class="va-card transition sidebar fixed inset-y-0 left-0 overflow-y-auto"
-    :class="[app.isSidebarOpen && 'open', !showHamburger && 'md:translate-x-0']"
+    :class="{
+      'open': yunStore.leftSidebar.isOpen,
+      'md:translate-x-0': !showHamburger,
+    }"
     text="center" bg="$yun-sidebar-bg-color contain no-repeat" z="$yun-z-sidebar"
   >
     <div v-if="$slots.default" class="sidebar-nav" m="t-6">
@@ -51,8 +55,6 @@ const showOverview = ref(false)
 </template>
 
 <style lang="scss">
-@use "sass:map";
-
 .sidebar {
   width: calc(100vw - 64px);
   max-width: var(--va-sidebar-width);

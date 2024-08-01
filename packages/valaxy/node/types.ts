@@ -50,11 +50,31 @@ export interface ValaxyExtendConfig {
    * Don't fail builds due to dead links.
    *
    * @default false
+   * @deprecated use `build.ignoreDeadLinks` instead
    */
   ignoreDeadLinks?:
     | boolean
     | 'localhostLinks'
     | (string | RegExp | ((link: string) => boolean))[]
+
+  build: {
+    /**
+     * Don't fail builds due to dead links.
+     *
+     * @default false
+     */
+    ignoreDeadLinks?:
+      | boolean
+      | 'localhostLinks'
+      | (string | RegExp | ((link: string) => boolean))[]
+    /**
+     * Enable SSG for pagination
+     * @default false
+     * When enabled, it will generate pagination pages for you.
+     * `/page/1`, `/page/2`, ...
+     */
+    ssgForPagination: boolean
+  }
 
   /**
    * internal modules
@@ -65,6 +85,12 @@ export interface ValaxyExtendConfig {
        * enable rss
        */
       enable: boolean
+      /**
+       * @zh 全文输出
+       * @en full text output
+       * @default false
+       */
+      fullText: boolean
     }
   }
 

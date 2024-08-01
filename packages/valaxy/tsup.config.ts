@@ -20,6 +20,7 @@ export default defineConfig((options) => {
       '/@valaxyjs/config',
       '/@valaxyjs/context',
 
+      'valaxy/types',
       ...Object.keys(pkg.dependencies || {}),
     ],
 

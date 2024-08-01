@@ -2,6 +2,15 @@ import { computed } from 'vue'
 import type { Post } from '../../types'
 import { useSiteStore } from '../stores'
 
+/**
+ * @en
+ * Tag list, key is tag name, value is the object of tag.
+ * - count: the number of posts with this tag.
+ *
+ * @zh
+ * 标签列表，键是标签名，值是标签对象。
+ * - count: 使用该标签的文章数量。
+ */
 export type Tags = Map<string, {
   count: number
 }>

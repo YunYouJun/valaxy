@@ -21,6 +21,10 @@ export const defaultValaxyConfig: ValaxyNodeConfig = {
     },
   },
 
+  build: {
+    ssgForPagination: false,
+  },
+
   // markdown: {
   //   excerpt: '<!-- more -->',
   // },
@@ -35,6 +39,7 @@ export const defaultValaxyConfig: ValaxyNodeConfig = {
   modules: {
     rss: {
       enable: true,
+      fullText: false,
     },
   },
 
@@ -102,7 +107,7 @@ export async function resolveValaxyConfig(options: ValaxyEntryOptions) {
   const { config: userValaxyConfig, configFile } = await resolveValaxyConfigFromRoot(configRoot)
   const duration = endCount()
 
-  if (userValaxyConfig && configFile)
+  if (configFile && userValaxyConfig && Object.keys(userValaxyConfig).length !== 0)
     consola.success(`Resolve ${cyan('userValaxyConfig')} from ${dim(configFile)} ${yellow(duration)}`)
 
   const theme = options.theme || userValaxyConfig?.theme || 'yun'

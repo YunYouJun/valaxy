@@ -1,0 +1,35 @@
+{
+  "name": "@valaxyjs/utils",
+  "type": "module",
+  "version": "0.19.5",
+  "description": "A utility library for Valaxy",
+  "author": {
+    "name": "Valaxy",
+    "url": "https://valaxy.site"
+  },
+  "license": "MIT",
+  "homepage": "https://valaxy.site",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/YunYouJun/valaxy"
+  },
+  "keywords": [
+    "valaxy",
+    "utils"
+  ],
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.mjs",
+      "require": "./dist/index.cjs"
+    }
+  },
+  "main": "./dist/index.mjs",
+  "module": "./dist/index.mjs",
+  "types": "./dist/index.d.ts",
+  "scripts": {
+    "dev": "tsup --watch",
+    "build": "tsup",
+    "prepublishOnly": "npm run build"
+  }
+}

@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { isDark } from 'valaxy'
+import { useAppStore } from 'valaxy'
 import { computed, onMounted } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { useRoute } from 'vue-router'
@@ -15,6 +15,8 @@ import type { WalineOptions } from '../types'
 const props = defineProps<{
   options: WalineOptions
 }>()
+
+const appStore = useAppStore()
 
 const route = useRoute()
 const { locale } = useI18n()
@@ -43,7 +45,7 @@ onMounted(() => {
 </script>
 
 <template>
-  <Waline v-bind="options" :server-u-r-l="options.serverURL" :lang="locale" :path="path" :dark="isDark" :emoji="emoji" />
+  <Waline v-bind="options" :server-u-r-l="options.serverURL" :lang="locale" :path="path" :dark="appStore.isDark" :emoji="emoji" />
 </template>
 
 <style>

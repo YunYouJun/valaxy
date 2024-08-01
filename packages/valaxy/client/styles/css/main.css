@@ -6,7 +6,7 @@ body,
   line-height: 2;
 }
 
-body {
+html {
   background-color: var(--va-c-bg);
 }
 

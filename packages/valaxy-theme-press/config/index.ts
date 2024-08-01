@@ -4,6 +4,10 @@ import type { ThemeConfig } from '../types'
  * Default Config
  */
 export const defaultThemeConfig: ThemeConfig = {
+  valaxyDarkOptions: {
+    circleTransition: true,
+  },
+
   logo: '',
 
   colors: {

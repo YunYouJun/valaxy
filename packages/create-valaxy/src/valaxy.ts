@@ -41,7 +41,7 @@ export async function init() {
 
   let result: prompts.Answers<
     'projectName' | 'overwrite' | 'packageName'
-    >
+  >
 
   // get template
   let template = TEMPLATES[0]

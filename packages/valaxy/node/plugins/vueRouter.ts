@@ -1,26 +1,24 @@
 import VueRouter from 'unplugin-vue-router/vite'
 import fs from 'fs-extra'
 import { resolve } from 'pathe'
-import matter from 'gray-matter'
 import { isDate } from '@antfu/utils'
 import { convert } from 'html-to-text'
 import type { ExcerptType, Page } from 'valaxy/types'
 import type { RouteMeta } from 'vue-router'
 import MarkdownIt from 'markdown-it'
+import matter from 'gray-matter'
 import type { ValaxyNode } from '../types'
-import { EXCERPT_SEPARATOR } from '../constants'
 
+import { matterOptions } from '../utils/matterOptions'
 import { presetStatistics } from './presets/statistics'
-
-// for render markdown excerpt
-const mdIt = new MarkdownIt({ html: true })
+import { setupMarkdownPlugins } from './markdown'
 
 /**
  * get excerpt by type
  * @param excerpt
  * @param type
  */
-function getExcerptByType(excerpt = '', type: ExcerptType = 'html') {
+function getExcerptByType(excerpt = '', type: ExcerptType = 'html', mdIt: MarkdownIt) {
   switch (type) {
     case 'ai':
     case 'md':
@@ -38,9 +36,12 @@ function getExcerptByType(excerpt = '', type: ExcerptType = 'html') {
  * @see https://github.com/posva/unplugin-vue-router
  * @param valaxyApp
  */
-export function createRouterPlugin(valaxyApp: ValaxyNode) {
+export async function createRouterPlugin(valaxyApp: ValaxyNode) {
   const { options } = valaxyApp
   const { roots, config: valaxyConfig } = options
+
+  const mdIt = new MarkdownIt({ html: true })
+  await setupMarkdownPlugins(mdIt, options)
 
   return VueRouter({
     extensions: ['.vue', '.md'],
@@ -101,9 +102,7 @@ export function createRouterPlugin(valaxyApp: ValaxyNode) {
       const path = route.components.get('default') || ''
       if (path.endsWith('.md')) {
         const md = fs.readFileSync(path, 'utf-8')
-        const { data, excerpt, content } = matter(md, {
-          excerpt_separator: EXCERPT_SEPARATOR,
-        })
+        const { data, excerpt, content } = matter(md, matterOptions)
         const mdFm = data as Page
 
         // todo, optimize it to cache or on demand
@@ -150,7 +149,7 @@ export function createRouterPlugin(valaxyApp: ValaxyNode) {
         // set route meta
         route.addToMeta({
           frontmatter: mdFm,
-          excerpt: excerpt ? getExcerptByType(excerpt, mdFm.excerpt_type) : '',
+          excerpt: excerpt ? getExcerptByType(excerpt, mdFm.excerpt_type, mdIt) : '',
         })
 
         // set layout
@@ -189,7 +188,7 @@ export function createRouterPlugin(valaxyApp: ValaxyNode) {
         valaxyConfig.extendMd?.(ctx)
       }
 
-      valaxyApp.hooks.callHook('vue-router:extendRoute', route)
+      await valaxyApp.hooks.callHook('vue-router:extendRoute', route)
 
       return valaxyConfig.router?.extendRoute?.(route)
     },

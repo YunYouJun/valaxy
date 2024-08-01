@@ -1,9 +1,9 @@
 <script lang="ts" setup>
 import type { PageData, Post } from 'valaxy'
-import { scrollTo, useFrontmatter, useLayout, useSidebar, useSiteConfig } from 'valaxy'
+import { onClickHref, onContentUpdated, scrollTo, useFrontmatter, useLayout, useSidebar, useSiteConfig } from 'valaxy'
 import { computed, nextTick } from 'vue'
 import { useI18n } from 'vue-i18n'
-import { useRoute } from 'vue-router'
+import { useRoute, useRouter } from 'vue-router'
 import { getLocaleTitle } from '../utils'
 import { targetPadding } from '../client'
 
@@ -23,6 +23,7 @@ const { locale } = useI18n()
 const localeTitle = computed(() => getLocaleTitle(locale.value, frontmatter.value))
 
 const route = useRoute()
+const router = useRouter()
 
 nextTick(() => {
   if (route.hash) {
@@ -33,6 +34,10 @@ nextTick(() => {
       })
     }, 0)
   }
+})
+
+onContentUpdated(() => {
+  onClickHref(router)
 })
 </script>
 

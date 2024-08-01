@@ -901,13 +901,17 @@ We integrated [UnoCSS](https://unocss.dev), so you can use it in your markdown f
 
 ::: en
 Freedom to control your layout!
+
+> More configurations see [UnoCSS Options](/guide/config/unocss-options).
+
 :::
 
 ::: zh-CN
 自由控制你的布局！
-:::
 
-> 更多配置见 [UnoCSS | 扩展配置](/guide/config/extend#unocss-presets)。
+> 更多配置见 [UnoCSS Options | 配置](/guide/config/unocss-options)。
+
+:::
 
 <div class="flex flex-col">
 
@@ -932,7 +936,7 @@ Freedom to control your layout!
 
 ![image](https://cdn.yunyoujun.cn/img/bg/stars-timing-1.jpg)
 
-![image](https://fastly.jsdelivr.net/gh/YunYouJun/cdn/img/bg/astronaut.webp)
+![image](https://cdn.yunyoujun.cn/img/bg/astronaut.webp)
 
 </div>
 
@@ -962,7 +966,7 @@ Freedom to control your layout!
 
 ![image](https://cdn.yunyoujun.cn/img/bg/stars-timing-1.jpg)
 
-![image](https://fastly.jsdelivr.net/gh/YunYouJun/cdn/img/bg/astronaut.webp)
+![image](https://cdn.yunyoujun.cn/img/bg/astronaut.webp)
 
 </div>
 
@@ -992,3 +996,29 @@ graph TD;
 ````
 
 More examples see: [Mermaid](/examples/mermaid)
+
+## 自定义 {lang="zh-CN"}
+
+## Custom {lang="en"}
+
+### 自定义 Markdown 容器 Class {lang="zh-CN"}
+
+### Custom Markdown Container Class {lang="en"}
+
+::: zh-CN
+
+你可以在 Markdown 文件的 frontmatter 中添加 `markdownClass` 来自定义 Markdown 容器的 Class。
+
+:::
+
+::: en
+
+You can add `markdownClass` in the frontmatter of the markdown file to customize the Class of the Markdown container.
+
+:::
+
+```md
+---
+markdownClass: 'markdown-body custom-markdown-class'
+---
+```

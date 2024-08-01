@@ -1,3 +1,5 @@
+import type { DefaultTheme } from 'valaxy/types'
+
 export * from '../composables'
 
 export namespace YunTheme {
@@ -27,15 +29,28 @@ export namespace YunTheme {
 
 export interface Page {
   name: string
+  /**
+   * @description:en-US Page URL
+   * @description:zh-CN 页面链接
+   */
   url: string
+  /**
+   * @see https://valaxy.site/guide/features#icones
+   * @description:en-US Icon of page
+   * @description:zh-CN 页面图标
+   */
   icon: string
+  /**
+   * @description:en-US Color of icon
+   * @description:zh-CN 图标颜色
+   */
   color: string
 }
 
 /**
  * Theme Config
  */
-export interface ThemeConfig {
+export interface ThemeConfig extends DefaultTheme.Config {
   /**
    * toc title
    * @default 'On this page'

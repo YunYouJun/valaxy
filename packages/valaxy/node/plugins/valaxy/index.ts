@@ -54,7 +54,7 @@ function generateStyles(roots: string[], options: ResolvedValaxyOptions) {
   for (const root of roots) {
     const styles: string[] = []
 
-    const autoloadNames = ['index', 'css-vars']
+    const autoloadNames = ['css-vars', 'index']
     autoloadNames.forEach((name) => {
       styles.push(join(root, 'styles', `${name}.css`))
       styles.push(join(root, 'styles', `${name}.scss`))
@@ -190,6 +190,9 @@ export async function createValaxyLoader(options: ResolvedValaxyOptions, serverO
           }))}`
         }
 
+        // TODO: custom dynamic css vars
+        // if (id === 'virtual:valaxy-css-vars') {}
+
         // generate styles
         if (id === '/@valaxyjs/styles')
           return generateStyles(roots, options)
@@ -199,6 +202,10 @@ export async function createValaxyLoader(options: ResolvedValaxyOptions, serverO
 
         if (id === '/@valaxyjs/addons')
           return generateAddons(options)
+
+        // root client
+        if (id === '/@valaxyjs/AppVue')
+          return generateAppVue(options.clientRoot)
 
         if (id === '/@valaxyjs/UserAppVue')
           return generateAppVue(options.userRoot)
@@ -236,7 +243,7 @@ export async function createValaxyLoader(options: ResolvedValaxyOptions, serverO
       },
 
       renderStart() {
-        if (hasDeadLinks && !valaxyConfig.ignoreDeadLinks)
+        if (hasDeadLinks && !(valaxyConfig.ignoreDeadLinks || valaxyConfig.build.ignoreDeadLinks))
           throw new Error('One or more pages contain dead links.')
       },
 
