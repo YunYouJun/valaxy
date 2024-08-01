@@ -106,7 +106,8 @@ export async function build(options: ResolvedValaxyOptions) {
     // render excerpt
     // default excerpt content length: 100
     const fullText = options.config.modules.rss.fullText
-    const html = markdown.render(excerpt || fullText ? content : content.slice(0, 100))
+    const defaultContent = fullText ? content : content.slice(0, 100)
+    const html = markdown.render(excerpt || defaultContent)
       .replace('src="/', `src="${DOMAIN}/`)
 
     if (data.image?.startsWith('/'))
