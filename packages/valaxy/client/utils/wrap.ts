@@ -14,6 +14,8 @@ export function wrap(el: HTMLElement, className: string) {
  */
 export function wrapTable(container: HTMLElement | Document = document) {
   container.querySelectorAll('table').forEach((el) => {
+    if (el.parentElement?.classList.contains('table-container'))
+      return
     const container = document.createElement('div')
     container.className = 'table-container'
     wrap(el, 'table-container')
