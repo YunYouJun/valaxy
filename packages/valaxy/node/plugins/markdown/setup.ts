@@ -4,7 +4,7 @@ import anchorPlugin from 'markdown-it-anchor'
 import attrsPlugin from 'markdown-it-attrs'
 
 import { full as emojiPlugin } from 'markdown-it-emoji'
-import mdFootnote from 'markdown-it-footnote'
+import footnotePlugin from 'markdown-it-footnote'
 import TaskLists from 'markdown-it-task-lists'
 
 // https://www.npmjs.com/package/markdown-it-image-figures
@@ -82,7 +82,7 @@ export async function setupMarkdownPlugins(
     md.use(attrsPlugin, mdOptions.attrs)
 
   md.use(emojiPlugin)
-    .use(mdFootnote)
+    .use(footnotePlugin)
     .use(footnoteTooltipPlugin)
   // if (!isExcerpt) {
   md.use(anchorPlugin, {

@@ -997,6 +997,42 @@ graph TD;
 
 More examples see: [Mermaid](/examples/mermaid)
 
+## 脚注 {lang="zh-CN"}
+
+## Footnote {lang="en"}
+
+::: zh-CN
+
+你可以使用 `[^1]` 或 `[^footnote]` 来添加脚注，例如：
+
+这是一个脚注[^1-zh]。
+
+这是一段脚注[^2-zh]。
+
+[^1-zh]: 这是一个脚注。
+
+[^2-zh]: 这是一段脚注。
+
+  正确缩进的脚注段落会被自动附加。
+
+使用 `^[content]` 可以创建方便的内联脚注^[比如这个！]。
+:::
+
+::: en
+
+You can use `[^1]` or `[^footnote]` to add footnotes, for example:
+
+This is a footnote[^1-en].
+
+This is a paragraph of footnote[^2-en].
+
+[^1-en]: This is a footnote.
+
+[^2-en]: This is a paragraph of footnote.
+
+  Footnote paragraphs with correct indentation will be automatically attached.
+:::
+
 ## 自定义 {lang="zh-CN"}
 
 ## Custom {lang="en"}

@@ -10,7 +10,8 @@ export function footnoteTooltipPlugin(md: MarkdownIt) {
     const originalCode = originalFootnoteRef(tokens, idx, options, env, self)
     // here use RegExp to find id="..." since relying on the pattern of id="fn..."/id="fnref..." is not reliable
     const href = originalCode.match(/href="(.*?)"/)![0] // Assume that only 1 href is present
-    return `<ValaxyFootnoteRef ${href}>${originalCode}</ValaxyFootnoteRef>`
+    const id = originalCode.match(/id="(.*?)"/)![0] // Assume that only 1 id is present
+    return `<ValaxyFootnoteRef ${href} ${id}>${originalCode}</ValaxyFootnoteRef>`
   }
 
   md.renderer.rules.footnote_open = function (tokens, idx, options, env, self) {
@@ -26,6 +27,7 @@ export function footnoteTooltipPlugin(md: MarkdownIt) {
 
   md.renderer.rules.footnote_anchor = function (tokens, idx, options, env, self) {
     const originalCode = originalFootnoteAnchor(tokens, idx, options, env, self)
-    return `<ValaxyFootnoteAnchor>${originalCode}</ValaxyFootnoteAnchor>` // easier to strip out later
+    const href = originalCode.match(/href="(.*?)"/)![0] // Assume that only 1 href is present
+    return `<ValaxyFootnoteAnchor ${href}>${originalCode}</ValaxyFootnoteAnchor>` // easier to strip out later
   }
 }
