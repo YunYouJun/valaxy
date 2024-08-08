@@ -1,7 +1,8 @@
 <script lang="ts" setup>
 import type { Post } from 'valaxy'
-import { formatDate, formatTimestamp, useSiteConfig } from 'valaxy'
+import { formatDate, useSiteConfig } from 'valaxy'
 import { useI18n } from 'vue-i18n'
+import { formatTimestamp } from '../utils'
 
 defineProps<{
   // FrontMatter

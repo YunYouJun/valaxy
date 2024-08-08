@@ -1,5 +1,6 @@
 import fs from 'fs-extra'
 import { getGitTimestamp } from './getGitTimestamp'
+
 /**
  * get created time of file
  * @param file

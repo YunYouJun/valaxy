@@ -2,11 +2,10 @@ import type { Plugin } from 'vite'
 import Markdown from 'unplugin-vue-markdown/vite'
 
 import type MarkdownIt from 'markdown-it'
-import type { PageFrontMatter } from 'valaxy/types'
-import { matterOptions } from '../../../utils/matterOptions'
 import type { ResolvedValaxyOptions } from '../../../options'
 import { highlight } from '../plugins/highlight'
 import { defaultCodeTheme, setupMarkdownPlugins } from '../setup'
+import { matterOptions } from './matter'
 import { createTransformIncludes } from './include'
 import { transformMermaid } from './mermaid'
 
@@ -26,17 +25,6 @@ export async function createMarkdownPlugin(
     frontmatter: true,
     exportFrontmatter: false,
     frontmatterOptions: { grayMatterOptions: matterOptions },
-    frontmatterPreprocess(frontmatter, mdOptions, _, defaultHeadProcess) {
-      const fm = frontmatter as PageFrontMatter
-      if (fm.date)
-        fm.date = new Date(fm.date)
-      if (fm.updated)
-        fm.updated = new Date(fm.updated)
-      return {
-        head: defaultHeadProcess(frontmatter, mdOptions),
-        frontmatter,
-      }
-    },
 
     // v-pre
     escapeCodeTagInterpolation: true,
