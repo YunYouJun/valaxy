@@ -7,6 +7,7 @@ export default defineSiteConfig({
 
   lang: 'zh-CN',
   title: 'Valaxy Theme Yun',
+  timezone: 'Asia/Shanghai',
   url: 'https://yun.valaxy.site/',
   author: {
     avatar: 'https://www.yunyoujun.cn/images/avatar.jpg',
