@@ -65,6 +65,15 @@ export interface SiteConfig {
    * @example 'https://valaxy.site'
    * @default '/'
    */
+  /**
+   * @see https://wikipedia.org/wiki/List_of_tz_database_time_zones
+   * @en_US Timezone configuration
+   * @zh_CN 时区配置，国内推荐使用 'Asia/Shanghai'
+   * @description:en-US This configuration is used to generate times with timezone when no timezone is set
+   * @description:zh-CN 当时间没有设置时区时，使用该配置生成带时区的时间
+   * @default ''
+   */
+  timezone: string
   url: string
   /**
    * Site title
