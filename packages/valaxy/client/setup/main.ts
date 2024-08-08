@@ -24,7 +24,7 @@ export default function setupMain(ctx: ViteSSGContext, config: ComputedRef<Valax
   installSchema(ctx)
   installPinia(ctx)
   installNprogress(ctx)
-  installFloatingVue(ctx)
+  installFloatingVue(ctx, config)
 
   if (import.meta.env.DEV && ctx.isClient) {
     import('../modules/devtools').then(({ install: installDevtools }) => {

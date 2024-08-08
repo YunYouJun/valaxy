@@ -1,5 +1,6 @@
 import type { ZoomOptions } from 'medium-zoom'
 import type { FuseOptions } from '@vueuse/integrations/useFuse'
+import type { FloatingVueConfig } from 'floating-vue/dist/config'
 import type { ILazyLoadOptions } from 'vanilla-lazyload'
 import type { RouteRecordRaw } from 'vue-router'
 import type { ValaxyAddon } from '../types'
@@ -278,6 +279,12 @@ export interface SiteConfig {
     enable: boolean
     options: ILazyLoadOptions
   }
+
+  /**
+   * Floating Vue configuration for floating footnote tooltips.
+   * @see https://floating-vue.starpad.dev/guide/config
+   */
+  floatingVue: FloatingVueConfig
 
   /**
    * displayed posts length in every page

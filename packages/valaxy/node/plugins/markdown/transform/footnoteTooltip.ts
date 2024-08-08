@@ -13,6 +13,7 @@ export function transformFootnoteTooltip(code: string) {
     return itemContent
   }).replace(/<ValaxyFootnoteRef href="#(.*?)"(?:.*?)>(.*?)<\/ValaxyFootnoteRef>/gs, (_, href: string, content: string) => {
     // We attach a Floating Vue Tooltip
-    return `<span v-tooltip='${JSON.stringify({ content: footnoteContentMap.get(href), html: true })}'>${content}</span>`
+    // return `<span v-tooltip='${JSON.stringify({ content: footnoteContentMap.get(href), html: true })}'>${content}</span>`
+    return `<ValaxyFootnoteTooltip>${content}<template #popper>${footnoteContentMap.get(href)}</template></ValaxyFootnoteTooltip>`
   })
 }
