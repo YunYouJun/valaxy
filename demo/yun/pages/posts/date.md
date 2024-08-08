@@ -39,15 +39,15 @@ toc: false
 
 <TestFormatDate format="yyMMdd" />
 
-<TestFormatDate format="yyyy/MM/dd" />
+<TestFormatDate data="2021/3/1 12:00" format="yyyy/MM/dd" />
 
-<TestFormatDate format="yyyy/MM/dd HH:mm" />
+<TestFormatDate date="2021-12-03 1:07:23" format="yyyy/MM/dd HH:mm" />
 
 <TestFormatDate format="X" />
 
 <TestFormatDate format="x" />
 
-<TestFormatDate format="yyyy-MM-dd'T'HH:mm:ssXXX" />
+<TestFormatDate date="2023-07-19 10:55:53Z" format="yyyy-MM-dd'T'HH:mm:ssXXX" />
 
 <TestFormatDate format="yyyy-MM-dd'T'HH:mm:ss.SSSXXX" />
 

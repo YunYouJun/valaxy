@@ -2,6 +2,7 @@ import type { FormatOptionsWithTZ } from 'date-fns-tz'
 import { format, fromZonedTime, toZonedTime } from 'date-fns-tz'
 import { useSiteConfig } from 'valaxy'
 import { useI18n } from 'vue-i18n'
+import { formatISO } from 'date-fns'
 import type { Post } from '../../types'
 
 const referenceDate = new Date(1986, 3 /* Apr */, 4, 10, 32, 0, 900)
@@ -24,6 +25,10 @@ export function formatDate(date: string | number | Date, formatStr = 'yyyy-MM-dd
   const clientTimezone = Intl.DateTimeFormat().resolvedOptions().timeZone
 
   try {
+    /**
+     * Format special string date to ISO format
+     */
+    date = formatISO(date)
     /**
      * Format the timezone-less date to ISO. If none is specified, use the client's timezone.
      * If the input date is already in ISO format, the timezone won't be applied.
