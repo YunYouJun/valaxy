@@ -13,7 +13,6 @@ import { createTransformCodeBlock } from './transform/code-block'
 import { createTransformEncrypt } from './transform/encrypt'
 import { transformHexoTags } from './transform/hexo'
 import { transformFootnoteTooltip } from './transform/footnoteTooltip'
-import { transformFootnoteI18n } from './transform/footnoteI18n'
 
 const debug = _debug('valaxy:md')
 const cache = new LRUCache<string, MarkdownCompileResult>({ max: 128 })
@@ -115,8 +114,6 @@ export async function createMarkdownToVueRenderFn(
 
     // run it before vue and after md parse
     code = await transformEncrypt(code, id, pageData)
-
-    code = transformFootnoteI18n(code)
 
     code = transformFootnoteTooltip(code)
 
