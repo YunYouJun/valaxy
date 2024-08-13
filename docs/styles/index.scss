@@ -1,0 +1,13 @@
+@keyframes fly {
+  from {
+    transform: translateY(0.5em);
+  }
+
+  to {
+    transform: translateY(-0.5em);
+  }
+}
+
+.fly-animation {
+  animation: fly 0.8s ease-in-out infinite alternate;
+}

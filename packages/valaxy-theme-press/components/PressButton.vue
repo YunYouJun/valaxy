@@ -31,6 +31,8 @@ const { t } = useI18n()
     bg="gradient-to-r"
     p="x-6"
   >
-    {{ t(text) }}
+    <slot>
+      {{ t(text) }}
+    </slot>
   </AppLink>
 </template>
