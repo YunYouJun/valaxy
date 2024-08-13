@@ -19,8 +19,8 @@
   "module": "index.ts",
   "dependencies": {
     "@explosions/fireworks": "^0.0.2",
-    "@iconify-json/ant-design": "^1.1.16",
-    "@iconify-json/simple-icons": "^1.1.111",
+    "@iconify-json/ant-design": "^1.1.17",
+    "@iconify-json/simple-icons": "^1.1.113",
     "animejs": "^3.2.2"
   },
   "devDependencies": {

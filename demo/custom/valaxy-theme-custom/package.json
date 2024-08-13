@@ -2,7 +2,7 @@
   "name": "valaxy-theme-custom",
   "version": "0.0.0",
   "private": true,
-  "packageManager": "pnpm@9.6.0",
+  "packageManager": "pnpm@9.7.0",
   "author": {
     "email": "me@yunyoujun.cn",
     "name": "YunYouJun",
@@ -22,7 +22,7 @@
   "main": "client/index.ts",
   "types": "types/index.d.ts",
   "dependencies": {
-    "@iconify-json/ant-design": "^1.1.16",
-    "@iconify-json/simple-icons": "^1.1.111"
+    "@iconify-json/ant-design": "^1.1.17",
+    "@iconify-json/simple-icons": "^1.1.113"
   }
 }
