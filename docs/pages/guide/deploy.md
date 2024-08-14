@@ -91,6 +91,16 @@ When you use `pnpm create valaxy` to create a template project, it contains the 
 
 ::: zh-CN
 
+对于已有的 Valaxy 博客，在开始部署之前，您需要先对您博客的 `vercel.json` 进行修改以便[启用 `cleanUrls` 支持](https://vercel.com/docs/projects/project-configuration#cleanurls)：
+
+```json
+{
+  "cleanUrls": true
+}
+```
+
+对于新创建的 Valaxy 博客，您只需要直接进行接下来的步骤即可。
+
 - 在 Vercel 的 Dashboard 上，点击 `Add New...`，随后点击 `Project` 新建一个项目。
 - 在左侧选择要部署的仓库，点击 `Import`，随后将 `Framework Preset` 设置为 `Other` 并更改 `Build and Output Settings`。
 - 将 `Output Directory` 设置为 `dist` 后，点击 `Deploy`。
