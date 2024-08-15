@@ -47,29 +47,38 @@ function handleTimeWithDefaultZone(date: string | number | Date, defaultZone: st
 
   let dateTime = DateTime.fromISO(date, { setZone: true })
 
-  try {
-    if (!dateTime.isValid || !dateTime.zoneName) {
-      // Convert date from "yyyy-MM-dd HH:mm:ss" to "yyyy-MM-dd'T'HH:mm:ss" format
-      // Temporal supports a subset of ISO 8601
-      const isoDate = Temporal.PlainDateTime.from(date).toString()
-      dateTime = DateTime.fromISO(isoDate, { zone: defaultZone })
+  const toDateTime = (date: string, zone: string) => {
+    // Convert date from "yyyy-MM-dd HH:mm:ss" to "yyyy-MM-dd'T'HH:mm:ss" format
+    // Temporal supports a subset of ISO 8601
+    const isoDate = Temporal.PlainDateTime.from(date).toString()
+    return DateTime.fromISO(isoDate, { zone })
+  }
+
+  if (!dateTime.isValid || !dateTime.zoneName) {
+    try {
+      dateTime = toDateTime(date, defaultZone)
     }
+    catch (error) {
+      // Attempt to format the date using a function that handles non-ISO 8601 formats
+      const isoDate = formatISO(date)
 
-    return dateTime
+      if (error instanceof RangeError)
+        console.warn(error.message, '\nOriginal Date Input:', date.toString(), '\nAttempting to Format Date as ISO:', isoDate)
+
+      dateTime = toDateTime(isoDate, defaultZone)
+
+      console.warn(
+        'The date format provided is non-standard. The recommended format is \'yyyy-MM-dd HH:mm:ss\'',
+        '\nOriginal Date:',
+        date.toString(),
+        '\nFormatted Date:',
+        dateTime.toString(),
+        '\nPlease update the date format to improve consistency and avoid potential issues',
+      )
+    }
   }
-  catch (error) {
-    // Attempt to format the date using a function that handles non-ISO 8601 formats
-    let isoDate = formatISO(date)
-    isoDate = Temporal.PlainDateTime.from(isoDate).toString()
-    dateTime = DateTime.fromISO(isoDate, { zone: defaultZone })
 
-    if (error instanceof RangeError)
-      console.warn('RangeError:', error.message, '\nOriginal Date:', date.toString(), '\nFormatted Date:', dateTime.toString())
-    else
-      console.error('Date Formatting Error:', '\nOriginal Date:', date.toString(), '\nISO Formatted Date:', isoDate, '\nFinal DateTime Object:', dateTime.toString(), error)
-
-    return dateTime
-  }
+  return dateTime
 }
 
 /**
