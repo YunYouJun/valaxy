@@ -31,17 +31,17 @@ toc: false
 
 <TestFormatDate date="2023-07-19T00:00:00+08:00" format="EEEE, d MMMM yyyy" />
 
-<TestFormatDate id="text-time-format-1" date="2023-07-19T00:00:00+08:00" format="yyyyMMdd" />
+<TestFormatDate id="text-time-format-1" date="2023-07-19T00:00:00+08:00" format="yyyyMMdd" timezone="Asia/Shanghai" />
 
-<TestFormatDate format="yyyyMMdd" />
+<TestFormatDate :date="1722589089" format="yyyyMMdd" />
 
-<TestFormatDate id="text-time-format-2" date="2021.3.1 12:00" format="yyyyMMddHHmmss" />
+<TestFormatDate id="text-time-format-2" date="2021.3.1 12:00" format="yyyyMMddHHmmss" timezone="Asia/Shanghai" />
 
 <TestFormatDate format="yyMMdd" />
 
 <TestFormatDate date="2021/3/1 12:00" format="yyyy/MM/dd" />
 
-<TestFormatDate id="text-time-format-3" date="2021-12-03 1:07:23" format="yyyy/MM/dd HH:mm" />
+<TestFormatDate id="text-time-format-3" date="2021-12-03 1:07:23" format="yyyy/MM/dd HH:mm" timezone="Asia/Shanghai" />
 
 <TestFormatDate format="X" />
 
@@ -51,7 +51,7 @@ toc: false
 
 <TestFormatDate format="yyyy-MM-dd'T'HH:mm:ss.SSSXXX" />
 
-<TestFormatDate format="T" />
+<TestFormatDate :date="1722589089" format="T" />
 
 <TestFormatDate format="R" />
 
