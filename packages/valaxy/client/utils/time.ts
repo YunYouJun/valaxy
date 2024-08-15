@@ -1,8 +1,10 @@
-import type { FormatOptionsWithTZ } from 'date-fns-tz'
-import { format, fromZonedTime, toZonedTime } from 'date-fns-tz'
+import type { ToDateOptionsWithTZ } from 'date-fns-tz'
+import { format, toZonedTime } from 'date-fns-tz'
+import { formatISO } from 'date-fns'
+import { Temporal } from '@js-temporal/polyfill'
 import { useSiteConfig } from 'valaxy'
 import { useI18n } from 'vue-i18n'
-import { formatISO } from 'date-fns'
+import { DateTime } from 'luxon'
 import type { Post } from '../../types'
 
 const referenceDate = new Date(1986, 3 /* Apr */, 4, 10, 32, 0, 900)
@@ -14,34 +16,56 @@ const referenceDate = new Date(1986, 3 /* Apr */, 4, 10, 32, 0, 900)
  * @param timezone the time zone of this local time, can be an offset or IANA time zone
  * @param options the object with options. See [Options]{@link https://date-fns.org/docs/Options}
  */
-export function formatDate(date: string | number | Date, formatStr = 'yyyy-MM-dd', timezone?: string, options?: FormatOptionsWithTZ) {
+export function formatDate(date: string, formatStr = 'yyyy-MM-dd', timezone?: string, options?: ToDateOptionsWithTZ) {
   const { locale } = useI18n()
   const siteConfig = useSiteConfig()
 
-  const mergedOptions: FormatOptionsWithTZ = Object.assign({
-    originalDate: referenceDate,
-    locale: { code: locale.value },
-  }, options)
+  const mergedOptions: ToDateOptionsWithTZ = Object.assign({ locale: { code: locale.value } }, options)
   const clientTimezone = Intl.DateTimeFormat().resolvedOptions().timeZone
+  // const clientTimezone = Temporal.Now.zonedDateTimeISO().getTimeZone().id
 
   try {
-    /**
-     * Format special string date to ISO format
-     */
-    date = formatISO(date)
     /**
      * Format the timezone-less date to ISO. If none is specified, use the client's timezone.
      * If the input date is already in ISO format, the timezone won't be applied.
      */
-    date = fromZonedTime(date, timezone || siteConfig.value.timezone || clientTimezone).toISOString()
+    date = handleTimeWithDefaultZone(date, timezone || siteConfig.value.timezone || clientTimezone).toString()
     // Convert to the client's timezone unless the user specifies otherwise
-    date = toZonedTime(date, options?.timeZone || clientTimezone, mergedOptions)
+    const zonedDate = toZonedTime(date, options?.timeZone || clientTimezone, mergedOptions)
     // The format function will never change the underlying date
-    return format(date, formatStr, { timeZone: options?.timeZone })
+    return format(zonedDate, formatStr, { timeZone: options?.timeZone })
   }
   catch (error) {
     console.error('Error formatting date:', date, error)
     return format(referenceDate, formatStr)
+  }
+}
+
+function handleTimeWithDefaultZone(date: string, defaultZone: string) {
+  let dateTime = DateTime.fromISO(date, { setZone: true })
+
+  try {
+    if (!dateTime.isValid || !dateTime.zoneName) {
+      // Convert date from "yyyy-MM-dd HH:mm:ss" to "yyyy-MM-dd'T'HH:mm:ss" format
+      // Temporal supports a subset of ISO 8601
+      const isoDate = Temporal.PlainDateTime.from(date).toString()
+      dateTime = DateTime.fromISO(isoDate, { zone: defaultZone })
+    }
+
+    return dateTime
+  }
+  catch (error) {
+    // Attempt to format the date using a function that handles non-ISO 8601 formats
+    let isoDate = formatISO(date)
+    isoDate = Temporal.PlainDateTime.from(isoDate).toString()
+    dateTime = DateTime.fromISO(isoDate, { zone: defaultZone })
+
+    if (error instanceof RangeError)
+      console.warn('RangeError:', error.message, '\nOriginal Date:', date.toString(), '\nFormatted Date:', dateTime.toString())
+    else
+      console.error('Error formatting date', date, error)
+
+    return dateTime
   }
 }
 

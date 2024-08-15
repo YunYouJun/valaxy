@@ -31,17 +31,17 @@ toc: false
 
 <TestFormatDate date="2023-07-19T00:00:00+08:00" format="EEEE, d MMMM yyyy" />
 
-<TestFormatDate date="2023-07-19T00:00:00+08:00" format="yyyyMMdd" />
+<TestFormatDate id="text-time-format-1" date="2023-07-19T00:00:00+08:00" format="yyyyMMdd" />
 
-<TestFormatDate :date="1722589089" format="yyyyMMdd" />
+<TestFormatDate format="yyyyMMdd" />
 
-<TestFormatDate data="2021.3.1 12:00" format="yyyyMMddHHmmss" />
+<TestFormatDate id="text-time-format-2" date="2021.3.1 12:00" format="yyyyMMddHHmmss" />
 
 <TestFormatDate format="yyMMdd" />
 
-<TestFormatDate data="2021/3/1 12:00" format="yyyy/MM/dd" />
+<TestFormatDate date="2021/3/1 12:00" format="yyyy/MM/dd" />
 
-<TestFormatDate date="2021-12-03 1:07:23" format="yyyy/MM/dd HH:mm" />
+<TestFormatDate id="text-time-format-3" date="2021-12-03 1:07:23" format="yyyy/MM/dd HH:mm" />
 
 <TestFormatDate format="X" />
 
@@ -51,24 +51,24 @@ toc: false
 
 <TestFormatDate format="yyyy-MM-dd'T'HH:mm:ss.SSSXXX" />
 
-<TestFormatDate :date="1722589089" format="T" />
+<TestFormatDate format="T" />
 
 <TestFormatDate format="R" />
 
 <TestFormatDate format="do" />
 
-<TestFormatDate date="2004-06-16T00:00:00+08:00" format="yyyy-MM-dd HH:mm:ssxxx zzz" :options="{ timeZone: 'Europe/Berlin'  }" />
+<TestFormatDate id="text-time-zone-1" date="2004-06-16T00:00:00+08:00" format="yyyy-MM-dd HH:mm:ssxxx zzz" timezone="Europe/Berlin" :options="{ timeZone: 'Europe/Berlin'  }" />
 
-<TestFormatDate date="2004-06-16 00:00:00" format="yyyy-MM-dd HH:mm:ssxxx zzz" :options="{ timeZone: 'Europe/Berlin'  }" />
+<TestFormatDate id="text-time-zone-2" date="2004-06-16 00:00:00" format="yyyy-MM-dd HH:mm:ssxxx zzz" timezone="Asia/Shanghai" :options="{ timeZone: 'Europe/Berlin'  }" />
 
-<TestFormatDate date="2004-06-16 00:00:00" format="yyyy-MM-dd HH:mm:ssxxx zzz" :options="{ timeZone: 'Asia/Shanghai'  }" />
+<TestFormatDate id="text-time-zone-3" date="2004-06-16 00:00:00" format="yyyy-MM-dd HH:mm:ssxxx zzz" timezone="Asia/Shanghai" :options="{ timeZone: 'Asia/Shanghai'  }" />
 
-<TestFormatDate date="2004-06-16T00:00:00Z" format="yyyy-MM-dd HH:mm:ssxxx zzz" :options="{ timeZone: 'Europe/Paris'  }" />
+<TestFormatDate id="text-time-zone-4" date="2004-06-16T00:00:00Z" format="yyyy-MM-dd HH:mm:ssxxx zzz" timezone="Asia/Shanghai" :options="{ timeZone: 'Europe/Berlin'  }" />
 
-<TestFormatDate date="2004-06-16 00:00:00" format="yyyy-MM-dd HH:mm:ssxxx zzz" :options="{ timeZone: 'Asia/Bangkok'  }" />
+<TestFormatDate id="text-time-zone-5" date="2004-06-16 00:00:00" format="yyyy-MM-dd HH:mm:ssxxx zzz" timezone="Asia/Shanghai" :options="{ timeZone: 'Asia/Bangkok'  }" />
 
-<TestFormatDate date="2004-06-16 00:00:00" format="yyyy-MM-dd HH:mm:ssxxx zzz" timezone="Europe/Paris" />
+<TestFormatDate id="text-time-zone-6" date="2004-06-16 00:00:00" format="yyyy-MM-dd HH:mm:ssxxx zzz" timezone="Europe/Berlin" :options="{ timeZone: 'Asia/Shanghai'  }" />
 
-<TestFormatDate date="2004-06-16 00:00:00" format="yyyy-MM-dd HH:mm:ssxxx zzz" timezone="Europe/Paris" :options="{ timeZone: 'Europe/Paris'  }" />
+<TestFormatDate id="text-time-zone-7" date="2004-06-16 00:00:00" format="yyyy-MM-dd HH:mm:ssxxx zzz" timezone="Europe/Berlin" :options="{ timeZone: 'Europe/Berlin'  }" />
 
-<TestFormatDate date="2004-06-16T00:00:00Z" format="yyyy-MM-dd HH:mm:ssxxx zzz" timezone="Europe/Paris" />
+<TestFormatDate id="text-time-zone-8" date="2004-06-16T00:00:00Z" format="yyyy-MM-dd HH:mm:ssxxx zzz" timezone="Europe/Berlin" :options="{ timeZone: 'Asia/Shanghai'  }" />
