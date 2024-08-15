@@ -29,7 +29,7 @@ export function formatDate(date: string | number | Date, formatStr = 'yyyy-MM-dd
      * Format the timezone-less date to ISO. If none is specified, use the client's timezone.
      * If the input date is already in ISO format, the timezone won't be applied.
      */
-    date = handleTimeWithDefaultZone(date, timezone || siteConfig.value.timezone || clientTimezone).toString()
+    date = handleTimeWithZone(date, timezone || siteConfig.value.timezone || clientTimezone).toString()
     // Convert to the client's timezone unless the user specifies otherwise
     const zonedDate = toZonedTime(date, options?.timeZone || clientTimezone, mergedOptions)
     // The format function will never change the underlying date
@@ -41,7 +41,7 @@ export function formatDate(date: string | number | Date, formatStr = 'yyyy-MM-dd
   }
 }
 
-function handleTimeWithDefaultZone(date: string | number | Date, defaultZone: string) {
+function handleTimeWithZone(date: string | number | Date, timezone: string) {
   if (typeof date !== 'string')
     date = toDate(date).toISOString()
 
@@ -50,22 +50,22 @@ function handleTimeWithDefaultZone(date: string | number | Date, defaultZone: st
   const toDateTime = (date: string, zone: string) => {
     // Convert date from "yyyy-MM-dd HH:mm:ss" to "yyyy-MM-dd'T'HH:mm:ss" format
     // Temporal supports a subset of ISO 8601
-    const isoDate = Temporal.PlainDateTime.from(date).toString()
+    const isoDate = Temporal.PlainDateTime.from(`${date}[${zone}]`).toString()
     return DateTime.fromISO(isoDate, { zone })
   }
 
   if (!dateTime.isValid || !dateTime.zoneName) {
     try {
-      dateTime = toDateTime(date, defaultZone)
+      dateTime = toDateTime(date, timezone)
     }
     catch (error) {
       // Attempt to format the date using a function that handles non-ISO 8601 formats
       const isoDate = formatISO(date)
 
       if (error instanceof RangeError)
-        console.warn(error.message, '\nOriginal Date Input:', date.toString(), '\nAttempting to Format Date as ISO:', isoDate)
+        console.warn(error.message, '\nTimezone:', timezone, '\nOriginal Date Input:', date.toString(), '\nAttempting to Format Date as ISO:', isoDate)
 
-      dateTime = toDateTime(isoDate, defaultZone)
+      dateTime = toDateTime(isoDate, timezone)
 
       console.warn(
         'The date format provided is non-standard. The recommended format is \'yyyy-MM-dd HH:mm:ss\'',
