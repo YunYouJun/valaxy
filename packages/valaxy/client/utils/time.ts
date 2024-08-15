@@ -16,7 +16,7 @@ const referenceDate = new Date(1986, 3 /* Apr */, 4, 10, 32, 0, 900)
  * @param timezone the time zone of this local time, can be an offset or IANA time zone
  * @param options the object with options. See [Options]{@link https://date-fns.org/docs/Options}
  */
-export function formatDate(date: string | number | Date, formatStr = 'yyyy-MM-dd', timezone?: string, options?: ToDateOptionsWithTZ) {
+export function formatDate(date: string | number | Date, formatStr = 'yyyy-MM-dd', timezone?: string, options?: ToDateOptionsWithTZ): string {
   const { locale } = useI18n()
   const siteConfig = useSiteConfig()
 
@@ -66,7 +66,7 @@ function handleTimeWithDefaultZone(date: string | number | Date, defaultZone: st
     if (error instanceof RangeError)
       console.warn('RangeError:', error.message, '\nOriginal Date:', date.toString(), '\nFormatted Date:', dateTime.toString())
     else
-      console.error('Error formatting date', date, error)
+      console.error('Date Formatting Error:', '\nOriginal Date:', date.toString(), '\nISO Formatted Date:', isoDate, '\nFinal DateTime Object:', dateTime.toString(), error)
 
     return dateTime
   }
