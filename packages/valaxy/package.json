@@ -67,7 +67,6 @@
     "@ctrl/tinycolor": "^4.1.0",
     "@iconify-json/ri": "^1.1.22",
     "@intlify/unplugin-vue-i18n": "^4.0.0",
-    "@js-temporal/polyfill": "^0.4.4",
     "@types/katex": "^0.16.7",
     "@unhead/addons": "^1.9.16",
     "@unhead/schema-org": "^1.9.16",

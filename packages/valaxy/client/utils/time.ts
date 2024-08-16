@@ -1,7 +1,6 @@
 import type { ToDateOptionsWithTZ } from 'date-fns-tz'
-import { format, toZonedTime } from 'date-fns-tz'
-import { formatISO, toDate } from 'date-fns'
-import { Temporal } from '@js-temporal/polyfill'
+import { format as formatWithTZ, toZonedTime } from 'date-fns-tz'
+import { format, toDate } from 'date-fns'
 import { useSiteConfig } from 'valaxy'
 import { useI18n } from 'vue-i18n'
 import { DateTime } from 'luxon'
@@ -33,7 +32,7 @@ export function formatDate(date: string | number | Date, formatStr = 'yyyy-MM-dd
     // Convert to the client's timezone unless the user specifies otherwise
     const zonedDate = toZonedTime(date, options?.timeZone || clientTimezone, mergedOptions)
     // The format function will never change the underlying date
-    return format(zonedDate, formatStr, { timeZone: options?.timeZone })
+    return formatWithTZ(zonedDate, formatStr, { timeZone: options?.timeZone })
   }
   catch (error) {
     console.error('Error formatting date:', date, error)
@@ -48,34 +47,23 @@ function handleTimeWithZone(date: string | number | Date, timezone: string) {
   let dateTime = DateTime.fromISO(date, { setZone: true })
 
   const toDateTime = (date: string, zone: string) => {
-    // Convert date from "yyyy-MM-dd HH:mm:ss" to "yyyy-MM-dd'T'HH:mm:ss" format
-    // Temporal supports a subset of ISO 8601
-    const isoDate = Temporal.ZonedDateTime.from(`${date}[${zone}]`).toString()
+    // Attempt to format the date using a function that handles non-ISO 8601 formats
+    const isoDate = format(date, 'yyyy-MM-dd\'T\'HH:mm:ss')
     return DateTime.fromISO(isoDate, { zone })
   }
 
-  if (!dateTime.isValid || !dateTime.zoneName) {
-    try {
-      dateTime = toDateTime(date, timezone)
-    }
-    catch (error) {
-      // Attempt to format the date using a function that handles non-ISO 8601 formats
-      const isoDate = formatISO(date)
+  if (!dateTime.isValid || !dateTime.zoneName)
+    dateTime = toDateTime(date, timezone)
 
-      if (error instanceof RangeError)
-        console.warn(error.message, '\nTimezone:', timezone, '\nOriginal Date Input:', date.toString(), '\nAttempting to Format Date as ISO:', isoDate)
-
-      dateTime = toDateTime(isoDate, timezone)
-
-      console.warn(
-        'The date format provided is non-standard. The recommended format is \'yyyy-MM-dd HH:mm:ss\'',
-        '\nOriginal Date:',
-        date.toString(),
-        '\nFormatted Date:',
-        dateTime.toString(),
-        '\nPlease update the date format to improve consistency and avoid potential issues',
-      )
-    }
+  if (!dateTime.isValid) {
+    console.warn(
+      'The date format provided is non-standard. The recommended format is \'yyyy-MM-dd HH:mm:ss\'',
+      '\nOriginal Date:',
+      date.toString(),
+      '\nFormatted Date:',
+      dateTime.toString(),
+      '\nPlease update the date format to improve consistency and avoid potential issues',
+    )
   }
 
   return dateTime
