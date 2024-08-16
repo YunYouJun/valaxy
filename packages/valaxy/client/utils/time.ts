@@ -35,7 +35,12 @@ export function formatDate(date: string | number | Date, formatStr = 'yyyy-MM-dd
     return formatWithTZ(zonedDate, formatStr, { timeZone: options?.timeZone })
   }
   catch (error) {
-    console.error('Error formatting date:', date, error)
+    console.error(
+      'The date format provided is non-standard. The recommended format is \'yyyy-MM-dd HH:mm:ss\'',
+      '\nError formatting date:',
+      date.toString(),
+      error,
+    )
     return format(referenceDate, formatStr)
   }
 }
@@ -54,17 +59,6 @@ function handleTimeWithZone(date: string | number | Date, timezone: string) {
 
   if (!dateTime.isValid || !dateTime.zoneName)
     dateTime = toDateTime(date, timezone)
-
-  if (!dateTime.isValid) {
-    console.warn(
-      'The date format provided is non-standard. The recommended format is \'yyyy-MM-dd HH:mm:ss\'',
-      '\nOriginal Date:',
-      date.toString(),
-      '\nFormatted Date:',
-      dateTime.toString(),
-      '\nPlease update the date format to improve consistency and avoid potential issues',
-    )
-  }
 
   return dateTime
 }
