@@ -50,7 +50,7 @@ function handleTimeWithZone(date: string | number | Date, timezone: string) {
   const toDateTime = (date: string, zone: string) => {
     // Convert date from "yyyy-MM-dd HH:mm:ss" to "yyyy-MM-dd'T'HH:mm:ss" format
     // Temporal supports a subset of ISO 8601
-    const isoDate = Temporal.PlainDateTime.from(`${date}[${zone}]`).toString()
+    const isoDate = Temporal.ZonedDateTime.from(`${date}[${zone}]`).toString()
     return DateTime.fromISO(isoDate, { zone })
   }
 
