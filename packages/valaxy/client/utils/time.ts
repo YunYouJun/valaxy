@@ -21,7 +21,6 @@ export function formatDate(date: string | number | Date, formatStr = 'yyyy-MM-dd
 
   const mergedOptions: ToDateOptionsWithTZ = Object.assign({ locale: { code: locale.value } }, options)
   const clientTimezone = Intl.DateTimeFormat().resolvedOptions().timeZone
-  // const clientTimezone = Temporal.Now.zonedDateTimeISO().getTimeZone().id
 
   try {
     /**
