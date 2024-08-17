@@ -23,8 +23,7 @@
     ".": {
       "types": "./index.d.ts",
       "import": "./dist/node/index.mjs",
-      "require": "./dist/node/index.cjs",
-      "default": "./dist/node/index.mjs"
+      "require": "./dist/node/index.cjs"
     },
     "./client/*": "./client/*",
     "./client": "./client/index.ts",
