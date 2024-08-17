@@ -8,7 +8,7 @@ import { cyan, dim } from 'picocolors'
 import type { Argv } from 'yargs'
 
 import type { FuseListItem } from 'valaxy/types'
-import { matterOptions } from '../utils/matterOptions'
+import { matterOptions } from '../plugins/markdown/transform/matter'
 import { resolveOptions } from '../options'
 import { setEnvProd } from '../utils/env'
 import { commonOptions } from '../cli/options'
