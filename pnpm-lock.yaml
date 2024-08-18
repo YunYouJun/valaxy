@@ -269,7 +269,7 @@ importers:
     dependencies:
       '@rollup/pluginutils':
         specifier: ^5.1.0
-        version: 5.1.0(rollup@4.21.0)
+        version: 5.1.0(rollup@3.29.4)
       axios:
         specifier: ^1.7.4
         version: 1.7.4(debug@4.3.6)
@@ -315,7 +315,7 @@ importers:
         version: 2.0.0(sass@1.77.8)(typescript@5.5.4)(vue-tsc@2.0.17(typescript@5.5.4))
       unplugin-vue-router:
         specifier: ^0.10.7
-        version: 0.10.7(rollup@4.21.0)(vue-router@4.4.3(vue@3.4.38(typescript@5.5.4)))(vue@3.4.38(typescript@5.5.4))
+        version: 0.10.7(rollup@3.29.4)(vue-router@4.4.3(vue@3.4.38(typescript@5.5.4)))(vue@3.4.38(typescript@5.5.4))
       vite:
         specifier: ^5.4.1
         version: 5.4.1(@types/node@22.4.0)(sass@1.77.8)
@@ -366,7 +366,7 @@ importers:
         version: 11.0.0(vue@3.4.38(typescript@5.5.4))
       '@vueuse/integrations':
         specifier: ^11.0.0
-        version: 11.0.0(axios@1.7.4)(focus-trap@7.5.4)(fuse.js@7.0.0)(nprogress@0.2.0)(qrcode@1.5.4)(vue@3.4.38(typescript@5.5.4))
+        version: 11.0.0(axios@1.7.4(debug@4.3.6))(focus-trap@7.5.4)(fuse.js@7.0.0)(nprogress@0.2.0)(qrcode@1.5.4)(vue@3.4.38(typescript@5.5.4))
       consola:
         specifier: ^3.2.3
         version: 3.2.3
@@ -610,7 +610,7 @@ importers:
         version: 3.6.1(@algolia/client-search@4.24.0)(@types/react@18.3.3)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(search-insights@2.16.3)
       valaxy:
         specifier: latest
-        version: 0.19.8(@babel/parser@7.25.3)(@types/markdown-it@14.1.2)(@types/node@22.4.0)(axios@1.7.4)(focus-trap@7.5.4)(postcss@8.4.41)(rollup@4.21.0)(typescript@5.5.4)
+        version: 0.19.9(@babel/parser@7.25.3)(@types/markdown-it@14.1.2)(@types/node@22.4.0)(axios@1.7.4)(focus-trap@7.5.4)(postcss@8.4.41)(rollup@4.21.0)(typescript@5.5.4)
 
   packages/valaxy-addon-bangumi:
     dependencies:
@@ -619,7 +619,7 @@ importers:
         version: 0.3.0
       valaxy:
         specifier: latest
-        version: 0.19.8(@babel/parser@7.25.3)(@types/markdown-it@14.1.2)(@types/node@22.4.0)(axios@1.7.4)(focus-trap@7.5.4)(postcss@8.4.41)(rollup@4.21.0)(typescript@5.5.4)
+        version: 0.19.9(@babel/parser@7.25.3)(@types/markdown-it@14.1.2)(@types/node@22.4.0)(axios@1.7.4)(focus-trap@7.5.4)(postcss@8.4.41)(rollup@4.21.0)(typescript@5.5.4)
 
   packages/valaxy-addon-components: {}
 
@@ -637,7 +637,7 @@ importers:
     dependencies:
       valaxy:
         specifier: latest
-        version: 0.19.8(@babel/parser@7.25.3)(@types/markdown-it@14.1.2)(@types/node@22.4.0)(axios@1.7.4)(focus-trap@7.5.4)(postcss@8.4.41)(rollup@4.21.0)(typescript@5.5.4)
+        version: 0.19.9(@babel/parser@7.25.3)(@types/markdown-it@14.1.2)(@types/node@22.4.0)(axios@1.7.4)(focus-trap@7.5.4)(postcss@8.4.41)(rollup@4.21.0)(typescript@5.5.4)
 
   packages/valaxy-addon-waline:
     dependencies:
@@ -646,7 +646,7 @@ importers:
         version: 3.3.0(typescript@5.5.4)
       valaxy:
         specifier: latest
-        version: 0.19.8(@babel/parser@7.25.3)(@types/markdown-it@14.1.2)(@types/node@22.4.0)(axios@1.7.4)(focus-trap@7.5.4)(postcss@8.4.41)(rollup@4.21.0)(typescript@5.5.4)
+        version: 0.19.9(@babel/parser@7.25.3)(@types/markdown-it@14.1.2)(@types/node@22.4.0)(axios@1.7.4)(focus-trap@7.5.4)(postcss@8.4.41)(rollup@4.21.0)(typescript@5.5.4)
 
   packages/valaxy-theme-press:
     dependencies:
@@ -2419,11 +2419,11 @@ packages:
     peerDependencies:
       vite: ^2.9.0 || ^3.0.0-0 || ^4.0.0 || ^5.0.0-0
 
-  '@valaxyjs/devtools@0.19.8':
-    resolution: {integrity: sha512-r9LN4Ow5mfQZRwwnuno2Bl0HKZ1YhUTfVy0raHkFDDQ5qCZwHNoVu7tTzXqWOXTkIR3h51FlDGns510zierHaA==}
+  '@valaxyjs/devtools@0.19.9':
+    resolution: {integrity: sha512-Gru/6ZkVOTXdO0XAJeV5u305h128/UN/JhxN44r0TCZenET0KDQvXMVdnICswS4LHXeZGbetWg1NVEfZgu5iVQ==}
 
-  '@valaxyjs/utils@0.19.8':
-    resolution: {integrity: sha512-xT2uM454gdffgYcNdQPqXJH2dGsEd01UEqr0dBhCyKzeePiHHCatUth3+bY8bntap5ypk3g6ZjXMTojCYCCZtQ==}
+  '@valaxyjs/utils@0.19.9':
+    resolution: {integrity: sha512-tDoHlnsUrP0AULO4OuRfupSmr7KBdw5Yf01mRpVmweZlcQnRCvP/ckM2ko9COuKwrvdJCMvzJMuTqWL+r+6oBw==}
 
   '@vitejs/plugin-vue@5.1.2':
     resolution: {integrity: sha512-nY9IwH12qeiJqumTCLJLE7IiNx7HZ39cbHaysEUd+Myvbz9KAqd2yq+U01Kab1R/H1BmiyM2ShTYlNH32Fzo3A==}
@@ -2839,8 +2839,8 @@ packages:
     resolution: {integrity: sha512-es1zHFsnZ4Y4efz412nnrU3KvVAhgqy90a7Yt9Wpi5vQ3l4aYMOX0Qx4FD0elKr5ITEhiUGCSFcgGYf4YTuACg==}
     engines: {node: '>=16.14.0'}
 
-  ast-kit@1.0.1:
-    resolution: {integrity: sha512-XdXKlmX3YIrGKJS7d324CAbswH+C1klMCIRQ4VRy0+iPxGeP2scVOoYd09/V6uGjGAi/ZuEwBLzT7xBerSKNQg==}
+  ast-kit@1.1.0:
+    resolution: {integrity: sha512-RlNqd4u6c/rJ5R+tN/ZTtyNrH8X0NHCvyt6gD8RHa3JjzxxHWoyaU0Ujk3Zjbh7IZqrYl1Sxm6XzZifmVxXxHQ==}
     engines: {node: '>=16.14.0'}
 
   ast-walker-scope@0.6.2:
@@ -7830,8 +7830,8 @@ packages:
     peerDependencies:
       valaxy: latest
 
-  valaxy@0.19.8:
-    resolution: {integrity: sha512-92giE9Ne4gL4PGG6Unw0ihJxnkzQcpcwoliu0ePOx2imbOo60TCVixz8AUPT/3tCsvaOl72fXxxyJh+b+swN5w==}
+  valaxy@0.19.9:
+    resolution: {integrity: sha512-KFOXTez+AF3EhDHs1o+bpyZq1/IW0xziGl+qOZuqCyGksmzkds09+/eiMV3WMhBaZVtxKJesCj7sW9e4Op29mQ==}
     engines: {node: ^14.18.0 || >=16.0.0}
     hasBin: true
 
@@ -10139,7 +10139,7 @@ snapshots:
       - rollup
       - supports-color
 
-  '@valaxyjs/devtools@0.19.8(debug@4.3.6)(rollup@4.21.0)':
+  '@valaxyjs/devtools@0.19.9(debug@4.3.6)(rollup@4.21.0)':
     dependencies:
       '@rollup/pluginutils': 5.1.0(rollup@4.21.0)
       axios: 1.7.4(debug@4.3.6)
@@ -10153,7 +10153,7 @@ snapshots:
       - rollup
       - supports-color
 
-  '@valaxyjs/utils@0.19.8': {}
+  '@valaxyjs/utils@0.19.9': {}
 
   '@vitejs/plugin-vue@5.1.2(vite@5.4.1(@types/node@22.4.0)(sass@1.77.8))(vue@3.4.38(typescript@5.5.4))':
     dependencies:
@@ -10206,12 +10206,25 @@ snapshots:
       '@volar/language-core': 2.2.5
       path-browserify: 1.0.1
 
+  '@vue-macros/common@1.12.2(rollup@3.29.4)(vue@3.4.38(typescript@5.5.4))':
+    dependencies:
+      '@babel/types': 7.25.2
+      '@rollup/pluginutils': 5.1.0(rollup@3.29.4)
+      '@vue/compiler-sfc': 3.4.38
+      ast-kit: 1.1.0
+      local-pkg: 0.5.0
+      magic-string-ast: 0.6.2
+    optionalDependencies:
+      vue: 3.4.38(typescript@5.5.4)
+    transitivePeerDependencies:
+      - rollup
+
   '@vue-macros/common@1.12.2(rollup@4.21.0)(vue@3.4.38(typescript@5.5.4))':
     dependencies:
       '@babel/types': 7.25.2
       '@rollup/pluginutils': 5.1.0(rollup@4.21.0)
       '@vue/compiler-sfc': 3.4.38
-      ast-kit: 1.0.1
+      ast-kit: 1.1.0
       local-pkg: 0.5.0
       magic-string-ast: 0.6.2
     optionalDependencies:
@@ -10389,7 +10402,7 @@ snapshots:
       - '@vue/composition-api'
       - vue
 
-  '@vueuse/integrations@11.0.0(axios@1.7.4)(focus-trap@7.5.4)(fuse.js@7.0.0)(nprogress@0.2.0)(qrcode@1.5.4)(vue@3.4.38(typescript@5.5.4))':
+  '@vueuse/integrations@11.0.0(axios@1.7.4(debug@4.3.6))(focus-trap@7.5.4)(fuse.js@7.0.0)(nprogress@0.2.0)(qrcode@1.5.4)(vue@3.4.38(typescript@5.5.4))':
     dependencies:
       '@vueuse/core': 11.0.0(vue@3.4.38(typescript@5.5.4))
       '@vueuse/shared': 11.0.0(vue@3.4.38(typescript@5.5.4))
@@ -10671,7 +10684,7 @@ snapshots:
       '@babel/parser': 7.25.3
       pathe: 1.1.2
 
-  ast-kit@1.0.1:
+  ast-kit@1.1.0:
     dependencies:
       '@babel/parser': 7.25.3
       pathe: 1.1.2
@@ -10679,7 +10692,7 @@ snapshots:
   ast-walker-scope@0.6.2:
     dependencies:
       '@babel/parser': 7.25.3
-      ast-kit: 1.0.1
+      ast-kit: 1.1.0
 
   astral-regex@2.0.0: {}
 
@@ -16424,6 +16437,28 @@ snapshots:
     transitivePeerDependencies:
       - rollup
 
+  unplugin-vue-router@0.10.7(rollup@3.29.4)(vue-router@4.4.3(vue@3.4.38(typescript@5.5.4)))(vue@3.4.38(typescript@5.5.4)):
+    dependencies:
+      '@babel/types': 7.25.2
+      '@rollup/pluginutils': 5.1.0(rollup@3.29.4)
+      '@vue-macros/common': 1.12.2(rollup@3.29.4)(vue@3.4.38(typescript@5.5.4))
+      ast-walker-scope: 0.6.2
+      chokidar: 3.6.0
+      fast-glob: 3.3.2
+      json5: 2.2.3
+      local-pkg: 0.5.0
+      magic-string: 0.30.11
+      mlly: 1.7.1
+      pathe: 1.1.2
+      scule: 1.3.0
+      unplugin: 1.12.2
+      yaml: 2.5.0
+    optionalDependencies:
+      vue-router: 4.4.3(vue@3.4.38(typescript@5.5.4))
+    transitivePeerDependencies:
+      - rollup
+      - vue
+
   unplugin-vue-router@0.10.7(rollup@4.21.0)(vue-router@4.4.3(vue@3.4.38(typescript@5.5.4)))(vue@3.4.38(typescript@5.5.4)):
     dependencies:
       '@babel/types': 7.25.2
@@ -16528,22 +16563,23 @@ snapshots:
       artalk: 2.8.7
       valaxy: link:packages/valaxy
 
-  valaxy@0.19.8(@babel/parser@7.25.3)(@types/markdown-it@14.1.2)(@types/node@22.4.0)(axios@1.7.4)(focus-trap@7.5.4)(postcss@8.4.41)(rollup@4.21.0)(typescript@5.5.4):
+  valaxy@0.19.9(@babel/parser@7.25.3)(@types/markdown-it@14.1.2)(@types/node@22.4.0)(axios@1.7.4)(focus-trap@7.5.4)(postcss@8.4.41)(rollup@4.21.0)(typescript@5.5.4):
     dependencies:
       '@antfu/utils': 0.7.10
       '@ctrl/tinycolor': 4.1.0
       '@iconify-json/ri': 1.1.22
       '@intlify/unplugin-vue-i18n': 4.0.0(rollup@4.21.0)(vue-i18n@9.14.0(vue@3.4.38(typescript@5.5.4)))
       '@types/katex': 0.16.7
+      '@types/luxon': 3.4.2
       '@unhead/addons': 1.9.16(rollup@4.21.0)
       '@unhead/schema-org': 1.9.16
       '@unhead/vue': 1.9.16(vue@3.4.38(typescript@5.5.4))
-      '@valaxyjs/devtools': 0.19.8(debug@4.3.6)(rollup@4.21.0)
-      '@valaxyjs/utils': 0.19.8
+      '@valaxyjs/devtools': 0.19.9(debug@4.3.6)(rollup@4.21.0)
+      '@valaxyjs/utils': 0.19.9
       '@vitejs/plugin-vue': 5.1.2(vite@5.4.1(@types/node@22.4.0)(sass@1.77.8))(vue@3.4.38(typescript@5.5.4))
       '@vue/devtools-api': 7.3.8
       '@vueuse/core': 11.0.0(vue@3.4.38(typescript@5.5.4))
-      '@vueuse/integrations': 11.0.0(axios@1.7.4)(focus-trap@7.5.4)(fuse.js@7.0.0)(nprogress@0.2.0)(qrcode@1.5.4)(vue@3.4.38(typescript@5.5.4))
+      '@vueuse/integrations': 11.0.0(axios@1.7.4(debug@4.3.6))(focus-trap@7.5.4)(fuse.js@7.0.0)(nprogress@0.2.0)(qrcode@1.5.4)(vue@3.4.38(typescript@5.5.4))
       consola: 3.2.3
       critters: 0.0.24
       cross-spawn: 7.0.3
@@ -16830,7 +16866,7 @@ snapshots:
       '@vue/devtools-api': 7.3.8
       '@vue/shared': 3.4.38
       '@vueuse/core': 11.0.0(vue@3.4.38(typescript@5.5.4))
-      '@vueuse/integrations': 11.0.0(axios@1.7.4)(focus-trap@7.5.4)(fuse.js@7.0.0)(nprogress@0.2.0)(qrcode@1.5.4)(vue@3.4.38(typescript@5.5.4))
+      '@vueuse/integrations': 11.0.0(axios@1.7.4(debug@4.3.6))(focus-trap@7.5.4)(fuse.js@7.0.0)(nprogress@0.2.0)(qrcode@1.5.4)(vue@3.4.38(typescript@5.5.4))
       focus-trap: 7.5.4
       mark.js: 8.11.1
       minisearch: 7.1.0

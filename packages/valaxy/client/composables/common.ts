@@ -5,6 +5,9 @@ import { isClient } from '@vueuse/core'
 import type { PageData, Post } from 'valaxy/types'
 import { useSiteConfig } from '../config'
 
+/**
+ * get route.meta.frontmatter
+ */
 export function useFrontmatter() {
   // inject not in app root
   const route = useRoute()

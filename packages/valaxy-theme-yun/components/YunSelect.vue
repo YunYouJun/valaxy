@@ -24,7 +24,8 @@ function toggleOptionVisible(e: MouseEvent) {
 <template>
   <div class="relative h-8 w-30 text-$va-c-text-2 z-10" @mousedown.stop>
     <button
-      class="flex h-full w-full px-2 items-center justify-between border rounded transition"
+      class="flex h-full w-full px-2 items-center justify-between rounded transition"
+      border="~ gray op-30"
       :class="optionVisible ? 'border-$va-c-primary' : ''"
       @click="toggleOptionVisible"
     >

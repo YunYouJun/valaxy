@@ -19,8 +19,8 @@ function onClickPost(post: any) {
     <li v-for="post in postList" :key="post.path" class="list-decimal">
       <div flex>
         <span
-          class="inline-flex flex-grow cursor-pointer hover:text-blue-500"
-          :class="{ 'text-blue-500 font-bold': activePath === post.path }"
+          class="inline-flex flex-grow cursor-pointer hover:text-blue-500 text-xs"
+          :class="{ 'text-blue-500': activePath === post.path }"
           @click="onClickPost(post)"
         >
           {{ post.title }}
