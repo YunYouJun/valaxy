@@ -17,7 +17,7 @@ export function treatAsHtml(filename: string): boolean {
       + `opus,otf,p10,p7c,p7m,p7s,pdf,png,ps,qt,roff,rtf,rtx,ser,svg,t,tif,`
       + `tiff,tr,ts,tsv,ttf,txt,vtt,wav,weba,webm,webp,woff,woff2,xhtml,xml,`
       + `yaml,yml,zip${
-      extraExts && typeof extraExts === 'string' ? `,${extraExts}` : ''}`
+        extraExts && typeof extraExts === 'string' ? `,${extraExts}` : ''}`
     )
       .split(',')
       .forEach(ext => KNOWN_EXTENSIONS.add(ext))
