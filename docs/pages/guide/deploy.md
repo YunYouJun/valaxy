@@ -145,6 +145,66 @@ When you use `pnpm create valaxy` to create a template project, it contains the 
 - Then click "Save and Deploy".
 :::
 
+#### Nginx
+
+> [Nginx Docs](https://nginx.org/en/docs/)
+
+::: zh-CN
+
+下面是一个 Nginx 服务器块配置示例。此配置包括对基于文本的常见资源的 gzip 压缩、使用适当缓存头为 Valaxy 站点静态文件提供服务的规则以及处理 `cleanUrls: true` 的方法。
+
+:::
+
+::: en
+
+Here is an example of an Nginx server block configuration. This configuration includes rules for gzip compression of common text-based resources, serving static files for a Valaxy site with appropriate caching headers, and handling `cleanUrls: true`.
+
+:::
+
+```nginx
+server {
+    gzip on;
+    gzip_types text/plain text/css application/json application/javascript text/xml application/xml application/xml+rss text/javascript;
+
+    listen 80;
+    server_name _;
+    index index.html;
+
+    location / {
+        # content location
+        root /app;
+
+        # exact matches -> reverse clean urls -> folders -> not found
+        try_files $uri $uri.html $uri/ =404;
+
+        # non existent pages
+        error_page 404 /404.html;
+
+        # a folder without index.html raises 403 in this setup
+        error_page 403 /404.html;
+
+        # adjust caching headers
+        # files in the assets folder have hashes filenames
+        location ~* ^/assets/ {
+            expires 1y;
+            add_header Cache-Control "public, immutable";
+        }
+    }
+}
+```
+
+::: zh-CN
+
+本配置默认已构建的 Valaxy 站点位于服务器上的 `/app` 目录中。如果站点文件位于其他位置，请相应调整 `root` 指令。
+
+:::
+
+::: en
+
+This configuration assumes that the built Valaxy site is located in the `/app` directory on the server. If your site files are located elsewhere, adjust the `root` directive accordingly.
+
+:::
+
 #### 其他 {lang="zh-CN"}
 
 #### Others {lang="en"}
@@ -153,8 +213,23 @@ When you use `pnpm create valaxy` to create a template project, it contains the 
 
 ::: zh-CN
 你还可以使用 [Render](https://render.com/) 等进行托管。
+
 :::
 
 ::: en
 You can also use [Render](https://render.com/) to host your website.
+:::
+
+::: tip
+
+<div lang="zh-CN">
+
+Valaxy 与 VitePress 同样是静态站点。你也可以参考 [VitePress 部署指南](https://vitepress.dev/zh/guide/deploy) 进行部署。
+</div>
+
+<div lang="en">
+
+Valaxy is also a static site like VitePress. You can refer to the [VitePress Deployment Guide](https://vitepress.dev/guide/deploy) for deployment.
+</div>
+
 :::
