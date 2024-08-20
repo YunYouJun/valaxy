@@ -54,7 +54,7 @@ export async function init() {
       message:
               typeof argTemplate === 'string' && !TEMPLATE_CHOICES.includes(argTemplate)
                 ? reset(
-                    `"${argTemplate}" isn't a valid template. Please choose from below: `,
+                  `"${argTemplate}" isn't a valid template. Please choose from below: `,
                 )
                 : reset('Select a type:'),
       initial: 0,
@@ -85,9 +85,9 @@ export async function init() {
           name: 'overwrite',
           message: () =>
             `${targetDir === '.'
-                ? 'Current directory'
-                : `Target directory "${targetDir}"`
-              } is not empty. Remove existing files and continue?`,
+              ? 'Current directory'
+              : `Target directory "${targetDir}"`
+            } is not empty. Remove existing files and continue?`,
         },
         {
           type: (_, { overwrite }: { overwrite?: boolean }) => {

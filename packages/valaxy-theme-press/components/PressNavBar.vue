@@ -44,14 +44,14 @@ const themeConfig = useThemeConfig()
   --pr-navbar-c-bg: rgba(255, 255, 255, 0.8);
 }
 
+.dark {
+  --pr-navbar-c-bg: rgba(24, 24, 24, 0.3);
+}
+
 .logo {
   width: 32px;
   height: 32px;
   margin-right: 8px;
-}
-
-.dark {
-  --pr-navbar-c-bg: rgba(24, 24, 24, 0.3);
 }
 
 .pr-navbar {

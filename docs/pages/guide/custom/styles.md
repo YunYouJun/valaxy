@@ -24,6 +24,7 @@ end: false
 
 - 新建 `index.scss` 书写全局样式，并可在其中导入其他样式，它会被自动引入。
 - 新建 `css-vars.scss` 书写 CSS 变量，它会被自动引入。
+
 :::
 
 :::en
@@ -38,6 +39,7 @@ We recommend you:
 
 - Create `index.scss` file to write a global style and import other styles in it. It will be imported automatically.
 - Create `css-vars.scss` file to write CSS variables. It will be imported automatically.
+
 :::
 
 ## 自定义字体 {lang="zh-CN"}
@@ -50,6 +52,7 @@ We recommend you:
 - `serif`: 衬线字体：<span font="serif">字体 abcd 123</span>
 - `sans`: 非衬线字体：<span font="sans">字体 abcd 123</span>
 - `mono`: 等宽字体：<span font="mono">字体 abcd 123</span>
+
 :::
 
 :::en
@@ -58,6 +61,7 @@ For example, you can override the default font in 'styles/css-vars.scss'.
 - `serif`: serif font: <span font="serif">Font abcd 123</span>
 - `sans`: sans-serif font: <span font="sans">Font abcd 123</span>
 - `mono`: monospaced font: <span font="mono">Font abcd 123</span>
+
 :::
 
 ```scss

@@ -1,7 +1,6 @@
 import VueRouter from 'unplugin-vue-router/vite'
 import fs from 'fs-extra'
 import { resolve } from 'pathe'
-import { isDate } from '@antfu/utils'
 import { convert } from 'html-to-text'
 import type { ExcerptType, Page } from 'valaxy/types'
 import type { RouteMeta } from 'vue-router'
@@ -9,7 +8,7 @@ import MarkdownIt from 'markdown-it'
 import matter from 'gray-matter'
 import type { ValaxyNode } from '../types'
 
-import { matterOptions } from '../utils/matterOptions'
+import { matterOptions } from './markdown/transform/matter'
 import { presetStatistics } from './presets/statistics'
 import { setupMarkdownPlugins } from './markdown'
 
@@ -123,11 +122,6 @@ export async function createRouterPlugin(valaxyApp: ValaxyNode) {
           if (!mdFm.updated)
             mdFm.updated = fs.statSync(path).ctime
         }
-
-        if (!isDate(mdFm.date))
-          mdFm.date = new Date(mdFm.date)
-        if (!isDate(mdFm.updated))
-          mdFm.updated = new Date(mdFm.updated!)
 
         if (mdFm.from) {
           if (Array.isArray(mdFm.from)) {

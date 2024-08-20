@@ -2,6 +2,7 @@
 export * from './categories'
 export * from './post'
 export * from './tags'
+export * from './collections'
 
 // common
 export * from './common'

@@ -23,11 +23,21 @@ const { t } = useI18n()
     <span mx-1 class="break-keep">{{ t('banner.framework') }}</span>
   </h2>
 
-  <div p="2" text="center">
-    <PressButton
-      v-for="action in fm.hero.actions" :key="action.link" :theme="action.theme" :link="action.link"
-      :text="action.text"
-    />
+  <div p="2" text="center" class="flex justify-center items-center">
+    <template v-for="action in fm.hero.actions" :key="action.link">
+      <PressGetStarted
+        v-if="action.type === 'fly'"
+        :theme="action.theme"
+        :link="action.link"
+        :text="action.text"
+      />
+      <PressButton
+        v-else
+        :theme="action.theme"
+        :link="action.link"
+        :text="action.text"
+      />
+    </template>
   </div>
 
   <br>

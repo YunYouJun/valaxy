@@ -10,7 +10,7 @@ import type { Author, FeedOptions, Item } from 'feed'
 import { Feed } from 'feed'
 import consola from 'consola'
 import { getCreatedTime, getUpdatedTime } from '../utils/date'
-import { matterOptions } from '../utils/matterOptions'
+import { matterOptions } from '../plugins/markdown/transform/matter'
 import { type ResolvedValaxyOptions, resolveOptions } from '../options'
 import { ensurePrefix, isExternal } from '../utils'
 import { commonOptions } from '../cli/options'
@@ -118,7 +118,7 @@ export async function build(options: ResolvedValaxyOptions) {
       lang === 'zh-CN'
         ? `访问 <a href="${link}" target="_blank">${link}</a> ${fullText ? '查看原文' : '阅读全文'}。`
         : `Visit <a href="${link}" target="_blank">${link}</a> to ${fullText ? 'view original article' : 'read more'}.`
-     }</p>`
+    }</p>`
 
     posts.push({
       title: '',

@@ -1,7 +1,7 @@
 {
   "name": "@valaxyjs/devtools",
   "type": "module",
-  "version": "0.19.7",
+  "version": "0.19.9",
   "repository": {
     "url": "https://github.com/YunYouJun/valaxy"
   },
@@ -21,8 +21,7 @@
     "build:client": "vite build src/client",
     "build:node": "unbuild",
     "dev": "npm run stub && npm run dev:client",
-    "dev:client": "vite dev src/client",
-    "dev:src": "vite dev src/client --port 5001",
+    "dev:client": "vite dev src/client --port 5001",
     "watch:client": "vite build src/client --watch",
     "stub": "unbuild --stub",
     "prepublishOnly": "npm run build",
@@ -30,7 +29,7 @@
   },
   "dependencies": {
     "@rollup/pluginutils": "^5.1.0",
-    "axios": "^1.7.3",
+    "axios": "^1.7.4",
     "body-parser": "^1.20.2",
     "http-proxy-middleware": "^3.0.0",
     "js-yaml": "^4.1.0",
@@ -39,14 +38,14 @@
   },
   "devDependencies": {
     "@advjs/gui": "0.0.7-beta.1",
-    "@iconify-json/ri": "^1.1.21",
+    "@iconify-json/ri": "^1.1.22",
     "@types/body-parser": "^1.19.5",
     "@types/splitpanes": "^2.2.6",
     "gray-matter": "^4.0.3",
     "splitpanes": "^3.1.5",
     "typescript": "^5.5.4",
     "unbuild": "^2.0.0",
-    "unplugin-vue-router": "^0.10.2",
-    "vite": "^5.3.5"
+    "unplugin-vue-router": "^0.10.7",
+    "vite": "^5.4.1"
   }
 }
