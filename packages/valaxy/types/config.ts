@@ -289,6 +289,12 @@ export interface SiteConfig {
   }
 
   /**
+   * Floating Vue configuration for floating footnote tooltips.
+   * @see https://floating-vue.starpad.dev/guide/config
+   */
+  floatingVue: any // FloatingVueConfig is an alias of any, consult the documentation for actual type
+
+  /**
    * displayed posts length in every page
    * @default 7
    */

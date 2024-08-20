@@ -2,6 +2,7 @@ import { webcrypto } from 'node:crypto'
 import { cyan, dim, yellow } from 'picocolors'
 import consola from 'consola'
 import type { SiteConfig, UserSiteConfig } from 'valaxy/types'
+import { options as floatingVueOptions } from 'floating-vue'
 import { countPerformanceTime } from '../utils/performance'
 import { loadConfigFromFile } from './utils'
 
@@ -78,6 +79,8 @@ export const defaultSiteConfig: SiteConfig = {
     enable: false,
     options: {},
   },
+
+  floatingVue: floatingVueOptions,
 
   statistics: {
     enable: false,

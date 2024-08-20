@@ -997,6 +997,85 @@ graph TD;
 
 More examples see: [Mermaid](/examples/mermaid)
 
+## 脚注 {lang="zh-CN"}
+
+## Footnote {lang="en"}
+
+::: zh-CN
+你可以使用 `[^1]` 或 `[^footnote]` 来添加脚注，例如：
+
+```md
+这是一个脚注[^1-zh]。
+
+这是一段脚注[^2-zh]。
+
+[^1-zh]: 这是一个脚注。
+
+[^2-zh]: 这是一段脚注。
+
+  正确缩进的脚注段落会被自动附加。
+
+使用 `^[content]` 可以创建方便的内联脚注^[比如这个！]。
+```
+
+这是一个脚注[^1-zh]。
+
+这是一段脚注[^2-zh]。
+
+[^1-zh]: 这是一个脚注。
+
+[^2-zh]: 这是一段脚注。
+
+  正确缩进的脚注段落会被自动附加。
+
+使用 `^[content]` 可以创建方便的内联脚注^[比如这个！]。
+:::
+
+::: en
+You can use `[^1]` or `[^footnote]` to add footnotes, for example:
+
+```md
+This is a footnote[^1-en].
+
+This is a paragraph of footnote[^2-en].
+
+[^1-en]: This is a footnote.
+
+[^2-en]: This is a paragraph of footnote.
+
+  Footnote paragraphs with correct indentation will be automatically attached.
+
+Use `^[content]` to create convenient inline footnotes^[like this!].
+```
+
+This is a footnote[^1-en].
+
+This is a paragraph of footnote[^2-en].
+
+[^1-en]: This is a footnote.
+
+[^2-en]: This is a paragraph of footnote.
+
+  Footnote paragraphs with correct indentation will be automatically attached.
+
+Use `^[content]` to create convenient inline footnotes^[like this!].
+:::
+
+### 脚注预览 {lang="zh-CN"}
+### Footnote Preview {lang="en"}
+
+::: zh-CN
+借助 [`Floating Vue`](https://floating-vue.starpad.dev/), 添加的脚注链接在鼠标悬停时会显示脚注内容。你可以在本页面的脚注链接上试一试！
+
+如果你想要自定义脚注的样式，可以参考 [Floating Vue 文档](https://floating-vue.starpad.dev/guide/config) 中的 `config` 设置 `site.config.ts` 中的 `floatingVue`，你也可以修改组件 `ValaxyFootnoteTooltip` 来达到这一点。
+:::
+
+::: en
+With [`Floating Vue`](https://floating-vue.starpad.dev/), the added footnote links will display the footnote content when hovering over them. You can try it with the footnote links on this page!
+
+If you want to customize the style of the footnote, you can refer to `config` in the [Floating Vue documentation](https://floating-vue.starpad.dev/guide/config) and change the `floatingVue` option in `site.config.ts` accordingly. You can also modify the `ValaxyFootnoteTooltip` component to achieve this.
+:::
+
 ## 自定义 {lang="zh-CN"}
 
 ## Custom {lang="en"}
