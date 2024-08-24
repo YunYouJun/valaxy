@@ -377,8 +377,8 @@ importers:
         specifier: ^7.0.3
         version: 7.0.3
       css-i18n:
-        specifier: ^0.0.3
-        version: 0.0.3
+        specifier: ^0.0.5
+        version: 0.0.5
       date-fns:
         specifier: ^3.6.0
         version: 3.6.0
@@ -3296,8 +3296,8 @@ packages:
   css-i18n@0.0.2:
     resolution: {integrity: sha512-pz6FSzr/WmCcm3djBF/fdnFDeW1lthu00U+eKlzKOHAnc60/+DOyXO7/9Ko3N8XS3Dtvhtfhm5KmQ7Lr55JGRA==}
 
-  css-i18n@0.0.3:
-    resolution: {integrity: sha512-b8gDBCQybUR7FqJAzU+BnZRb1/gCtqvawmvzK3BljpPUNrnguwzY2q5m5V5PdQYmpVlzYJfURotrlrJhO67wkQ==}
+  css-i18n@0.0.5:
+    resolution: {integrity: sha512-iIBukKoe2xPzecUUEeIsTp7jr78A55+BKMgM18esXni4i3J4//qadHlAyvkgO6/4VsAa+eLF8uOMqlhvGNSjfg==}
 
   css-select@5.1.0:
     resolution: {integrity: sha512-nwoRF1rvRRnnCqqY7updORDsuqKzqYJ28+oSMaJMMgOauh3fvwHqMS7EZpIPqK8GL+g9mKxF1vP/ZjSeNjEVHg==}
@@ -11266,7 +11266,7 @@ snapshots:
 
   css-i18n@0.0.2: {}
 
-  css-i18n@0.0.3: {}
+  css-i18n@0.0.5: {}
 
   css-select@5.1.0:
     dependencies:
