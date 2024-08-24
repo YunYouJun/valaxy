@@ -20,7 +20,7 @@
   "dependencies": {
     "@explosions/fireworks": "^0.0.2",
     "@iconify-json/ant-design": "^1.1.17",
-    "@iconify-json/simple-icons": "^1.1.113",
+    "@iconify-json/simple-icons": "^1.1.114",
     "animejs": "^3.2.2"
   },
   "devDependencies": {
