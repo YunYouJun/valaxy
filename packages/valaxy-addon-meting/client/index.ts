@@ -1,7 +1,8 @@
 import { useScriptTag } from '@vueuse/core'
 import { useHead } from '@unhead/vue'
-import { computed } from 'vue'
+import { computed, ref, watch } from 'vue'
 import { useSiteConfig } from 'valaxy'
+import { useRoute } from 'vue-router'
 import { useMetingLoadObserver } from './observer'
 import { useAddonMeting } from './options'
 import { onMetingInit } from './hook'
@@ -32,4 +33,17 @@ export function useMeting() {
 
   onMetingInit(addonMeting.value)
   useMetingLoadObserver(addonMeting.value)
+}
+
+export function useVisible() {
+  const visible = ref(true)
+  const route = useRoute()
+  const addonMeting = useAddonMeting()
+
+  watch(() => route.path, () => {
+    const global = addonMeting.value.global
+    visible.value = route.meta.frontmatter.aplayer ?? global ?? true
+  }, { immediate: true })
+
+  return visible
 }
