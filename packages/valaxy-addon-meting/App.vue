@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { useMeting } from './client'
+import { useMeting, useVisible } from './client'
 
 const props = withDefaults(defineProps<{
   [key: string]: any
@@ -23,11 +23,13 @@ export interface MetingJsProps {
 }
 
 useMeting()
+const visible = useVisible()
 </script>
 
 <template>
   <!-- eslint-disable-next-line vue/component-name-in-template-casing -->
   <meting-js
+    v-show="visible"
     v-bind="props"
     :fixed="true"
   />
