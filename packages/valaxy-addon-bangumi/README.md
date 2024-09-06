@@ -2,7 +2,7 @@
 
 关联 issue [[功能建议] 追番列表](https://github.com/YunYouJun/valaxy/issues/296)
 
-依赖 [bilibili-bangumi-component](https://github.com/yixiaojiu/bilibili-bangumi-component)，需要部署后端服务，可参考 [bilibili-bangumi 使用](https://github.com/yixiaojiu/bilibili-bangumi-component?tab=readme-ov-file#%E4%BD%BF%E7%94%A8)进行搭建
+依赖 [bilibili-bangumi-component](https://github.com/yixiaojiu/bilibili-bangumi-component)，需要部署后端服务，可参考 [bilibili-bangumi 使用](https://github.com/yixiaojiu/bilibili-bangumi-component/blob/main/docs/backend.md)进行搭建，也可以先用这个 `https://yi_xiao_jiu-bangumi.web.val.run`，可能会挂。
 
 ## 如何集成
 

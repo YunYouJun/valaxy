@@ -85,6 +85,7 @@ export default defineValaxyConfig<ThemeConfig>({
       api: 'https://yi_xiao_jiu-bangumi.web.val.run',
       bilibiliUid: '1579790',
       bgmEnabled: false,
+      customCss: '.bbc-bangumi-title a { color: red; }',
     }),
     addonComponents(),
 

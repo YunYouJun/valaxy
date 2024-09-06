@@ -3,27 +3,38 @@ import { onMounted, ref } from 'vue'
 import { isClient } from '@vueuse/core'
 import { useAddonBangumi } from '../client'
 
-(async () => {
-  if (!isClient)
-    return
-  const { defineCustomElements } = await import('bilibili-bangumi-component/loader')
-  defineCustomElements()
-})()
-
 const bangumiRef = ref<HTMLElement>()
+const customCssInjected = ref(false)
 
 const bangumiOptions = useAddonBangumi()
 
 const { api, bgmEnabled, bgmUid, bilibiliEnabled, bilibiliUid, customCss, customEnabled, customLabel, pageSize } = bangumiOptions.value
 
-onMounted(() => {
-  if (!customCss)
+function injectCustomCss() {
+  if (!customCss || customCssInjected.value)
     return
 
   const sheet = new CSSStyleSheet()
   sheet.replaceSync(customCss)
   bangumiRef.value?.shadowRoot?.adoptedStyleSheets.push(sheet)
-})
+
+  if (bangumiRef.value?.shadowRoot)
+    customCssInjected.value = true
+}
+
+;(async () => {
+  if (!isClient)
+    return
+  const { defineCustomElements } = await import('bilibili-bangumi-component/loader')
+  defineCustomElements()
+
+  // Web Component may not define when vue component mount
+  injectCustomCss()
+})()
+
+onMounted(() =>
+  injectCustomCss(),
+)
 </script>
 
 <template>
