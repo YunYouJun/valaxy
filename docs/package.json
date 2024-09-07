@@ -20,10 +20,10 @@
     "valaxy-theme-press": "link:../packages/valaxy-theme-press"
   },
   "devDependencies": {
-    "@iconify-json/carbon": "^1.1.37",
-    "@iconify-json/simple-icons": "^1.1.114",
+    "@iconify-json/carbon": "^1.2.1",
+    "@iconify-json/simple-icons": "^1.2.1",
     "nodemon": "^3.1.4",
-    "vite": "^5.4.2",
+    "vite": "^5.4.3",
     "vitepress": "1.1.4"
   }
 }
