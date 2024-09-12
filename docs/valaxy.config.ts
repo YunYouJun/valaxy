@@ -3,6 +3,7 @@ import { defineValaxyConfig } from 'valaxy'
 import type { PressTheme } from 'valaxy-theme-press'
 import { addonAlgolia } from 'valaxy-addon-algolia'
 import { addonComponents } from 'valaxy-addon-components'
+import { addonGitLog } from 'valaxy-addon-git-log'
 
 const COMMIT_ID = process.env.CF_PAGES_COMMIT_SHA || process.env.COMMIT_REF
 const commitRef = COMMIT_ID?.slice(0, 8) || 'dev'
@@ -39,6 +40,9 @@ export default defineValaxyConfig<PressTheme.Config>({
       indexName: 'valaxysite',
     }),
     addonComponents(),
+    addonGitLog({
+      repositoryUrl: 'https://github.com/YunYouJun/valaxy.git',
+    }),
   ],
 
   theme: 'press',
