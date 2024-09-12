@@ -1,35 +1,21 @@
 # valaxy-addon-components
 
+**valaxy-addon-components** is a plugin that provides general-purpose Vue components for Valaxy.
+
 [![NPM version](https://img.shields.io/npm/v/valaxy-addon-waline?color=0078E7)](https://www.npmjs.com/package/valaxy-addon-waline)
 
-- [ ] English Docs
+- **English** | [简体中文](./README.zh-CN.md)
 
-valaxy-addon-components 是可以提供通用 Vue 组件 的一个 Valaxy 插件。
-
-主题开发者可以通过将其作为依赖使用，以快速使用内置组件。
-
-## 组件列表
-
-> 命名空间以 VC 开头。
-
-- `VCLiveTime`: 生存时间
-
-### 第三方组件
-
-对第三方服务的封装，优先使用通用命名。
-
-- `CodePen`: [Codepen](https://codepen.io/)
-  - Example: <https://yun.valaxy.site/examples/addons/components>
-
-## 如何使用
-
-### 安装依赖
+## Installation
 
 ```bash
-npm i valaxy-addon-components
+pnpm add valaxy-addon-components
 ```
 
-### 加载插件
+<details>
+<summary>Common Components</summary><br>
+
+You can enable common components of the plugin as follows. For a full list of common components, see [Common Components](#common-components).
 
 ```ts
 import { defineValaxyConfig } from 'valaxy'
@@ -42,29 +28,66 @@ export default defineValaxyConfig({
 })
 ```
 
-### 在任意地方使用并设置你的参数
+<br></details>
 
-> 大部分人可能希望挂在主题页脚
-> 这里以主题 `valaxy-theme-yun` 为例：
+<details>
+<summary>Theme Components</summary><br>
 
-- `start-time`: 代表站点成立开始计时的时间
+You can also extend `unplugin-vue-components` using the plugin's `ValaxyThemesResolver` to introduce third-party themes. Here is an example using the [Yun](https://github.com/YunYouJun/valaxy/tree/main/packages/valaxy-theme-yun) theme:
+
+```ts
+import { defineValaxyConfig } from 'valaxy'
+import { ValaxyThemesResolver } from 'valaxy-addon-components'
+
+export default defineValaxyConfig({
+  components: {
+    resolvers: [ValaxyThemesResolver({ themes: ['yun'] })],
+  },
+})
+```
+
+| Property | Type | Default | Description |
+| ---- | ---- | ---- | ---- |
+| themes | `string[]` | --- | Third-party themes to import components from |
+
+<br></details>
+
+## Usage
+
+Most users may want to mount the components to the footer of the theme. You can create a new file in the `components` folder, such as `MyFooter.vue`, and use it as follows:
 
 ```vue
-<!-- 新建 components/YunFooter.vue -->
-<script lang="ts" setup>
-import YunFooter from 'valaxy-theme-yun/components/YunFooter.vue'
-</script>
-
 <template>
   <YunFooter>
     <VCLiveTime start-time="2022-01-01">
       <template #live-time-before>
-        <span>本站已运行</span>
+        <span>This site has been running for</span>
       </template>
       <template #live-time-after>
-        <span>后缀</span>
+        <span>suffix</span>
       </template>
     </VCLiveTime>
   </YunFooter>
 </template>
 ```
+
+## Common Components
+
+### Namespace starting with VC
+
+#### VCLiveTime
+
+Used to display the site's uptime.
+
+| Property | Type | Default | Description |
+| ---- | ---- | ---- | ---- |
+| startTime | `string` | --- | The time from which the site starts counting |
+
+### Third-Party Components
+
+Encapsulates third-party services and follows general naming rules.
+
+#### Codepen
+
+- `CodePen`: [Codepen](https://codepen.io/)
+  - Example: <https://yun.valaxy.site/examples/addons/components>
