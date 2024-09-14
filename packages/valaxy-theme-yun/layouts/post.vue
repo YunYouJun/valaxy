@@ -56,7 +56,7 @@ useSchemaOrg(
 
       <template #main-content-after>
         <YunSponsor v-if="showSponsor" m="t-6" />
-        <ValaxyCopyright v-if="frontmatter.copyright || siteConfig.license.enabled" :url="url" m="y-4" />
+        <ValaxyCopyright v-if="frontmatter.copyright || (frontmatter.copyright !== false && siteConfig.license.enabled)" :url="url" m="y-4" />
       </template>
 
       <template #aside-custom>
