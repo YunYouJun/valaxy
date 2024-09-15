@@ -1,7 +1,7 @@
 import { useScriptTag } from '@vueuse/core'
 import { useHead } from '@unhead/vue'
 import { computed, ref, watch } from 'vue'
-import { useSiteConfig } from 'valaxy'
+import { useFrontmatter, useSiteConfig } from 'valaxy'
 import { useRoute } from 'vue-router'
 import { useMetingLoadObserver } from './observer'
 import { useAddonMeting } from './options'
@@ -35,13 +35,23 @@ export function useMeting() {
   useMetingLoadObserver(addonMeting.value)
 }
 
+interface Frontmatter {
+  /**
+   * use aplayer
+   * @url https://aplayer.js.org/
+   */
+  aplayer?: boolean
+}
+
 export function useVisible() {
   const route = useRoute()
   const addonMeting = useAddonMeting()
+  const frontmatter = useFrontmatter<Frontmatter>()
+
   const visible = ref(true)
 
   watch(() => route.path, () => {
-    visible.value = route.meta.frontmatter?.aplayer ?? addonMeting.value?.global ?? true
+    visible.value = frontmatter.value?.aplayer ?? addonMeting.value?.global ?? true
   }, { immediate: true })
 
   return visible
