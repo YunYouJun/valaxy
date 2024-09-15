@@ -11,6 +11,7 @@ permissions:
 
 jobs:
   release:
+    if: contains(github.event.head_commit.message, 'release(addon-')
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
@@ -32,13 +33,11 @@ jobs:
 
       - name: Publish Addon
         run: |
-          # Extract addon name from the commit message
-          COMMIT_MSG=${{ github.event.head_commit.message }}
-          if [[ $COMMIT_MSG == release(addon-*):* ]]; then
+          COMMIT_MSG="${{ github.event.head_commit.message }}"
+          PATTERN="release(addon-*): *"
+          if [[ $COMMIT_MSG == $PATTERN ]]; then
             ADDON_NAME=$(echo $COMMIT_MSG | cut -d'(' -f2 | cut -d')' -f1)
-            # Change to the addon directory
             cd packages/valaxy-$ADDON_NAME
-            # Publish the package
             npm publish
           fi
         env:

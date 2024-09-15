@@ -1,5 +1,6 @@
 {
   "name": "valaxy-addon-lightgallery",
+  "type": "module",
   "version": "0.0.3",
   "description": "Light Gallery for Valaxy",
   "repository": {
@@ -8,9 +9,13 @@
   "keywords": [
     "valaxy",
     "addon",
-    "lightgallery"
+    "lightgallery",
+    "gallery"
   ],
   "main": "index.ts",
+  "peerDependencies": {
+    "valaxy": "latest"
+  },
   "dependencies": {
     "lightgallery": "^2.7.2"
   }
