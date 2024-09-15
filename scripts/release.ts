@@ -16,12 +16,6 @@ export const isDryRun = !!args.dry
 const pkgPaths = packages.map(name => `packages/${name}/package.json`)
 
 async function main() {
-  // const require = createRequire(import.meta.url)
-  // require for avoid bumpp mjs bundle error
-  // `import { ReleaseType } from "semver";`
-  // ReleaseType is a type, not a value
-  // TODO: create a PR to fix this
-  // const { versionBump } = require('bumpp')
   const { newVersion } = await versionBump({
     commit: false,
     push: false,

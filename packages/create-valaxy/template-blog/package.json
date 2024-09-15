@@ -12,8 +12,8 @@
     "serve": "vite preview"
   },
   "dependencies": {
-    "valaxy": "0.19.9",
-    "valaxy-theme-yun": "0.19.9"
+    "valaxy": "0.19.10",
+    "valaxy-theme-yun": "0.19.10"
   },
   "devDependencies": {
     "typescript": "^5.5.4"
