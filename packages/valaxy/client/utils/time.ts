@@ -4,6 +4,7 @@ import { format, toDate } from 'date-fns'
 import { DateTime } from 'luxon'
 import type { Post } from '../../types'
 import { i18n } from '../modules/valaxy'
+import { timezone as globalTimezone } from '../composables/global'
 
 const referenceDate = new Date(1986, 3 /* Apr */, 4, 10, 32, 0, 900)
 
@@ -27,7 +28,7 @@ export function formatDate(date: string | number | Date, formatStr = 'yyyy-MM-dd
      */
     date = handleTimeWithZone(date, timezone || clientTimezone).toString()
     // Convert to the client's timezone unless the user specifies otherwise
-    const zonedDate = toZonedTime(date, options?.timeZone || clientTimezone, mergedOptions)
+    const zonedDate = toZonedTime(date, options?.timeZone || globalTimezone.value || clientTimezone, mergedOptions)
     // The format function will never change the underlying date
     return formatWithTZ(zonedDate, formatStr, { timeZone: options?.timeZone })
   }

@@ -11,7 +11,7 @@ test.describe('markdown footnote tooltip', () => {
     await page.evaluate(() => {
       document.documentElement.setAttribute('lang', 'zh-CN')
     })
-    await page.getByRole('link').getByText('[1]').hover()
+    await page.locator('a[href="#fn1"]').hover()
     await expect(page.locator('.v-popper__popper')).toContainText('Here is the footnote.')
   })
 })

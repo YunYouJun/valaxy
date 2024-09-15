@@ -32,7 +32,6 @@ export function useValaxyDark(options: {
     import('valaxy/client/styles/common/view-transition.css')
 
   function toggleDarkWithTransition(event: MouseEvent, options: { duration?: number, easing?: EffectTiming['easing'] } = {}) {
-    // @ts-expect-error startViewTransition is not defined
     if (!document.startViewTransition) {
       toggleDark()
       return
@@ -45,7 +44,6 @@ export function useValaxyDark(options: {
       Math.max(y, innerHeight - y),
     )
 
-    // @ts-expect-error startViewTransition is not defined
     const transition = document.startViewTransition(() => {
       toggleDark()
     })

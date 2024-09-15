@@ -17,6 +17,7 @@ import { definePerson, defineWebPage, defineWebSite, useSchemaOrg } from '@unhea
 // they will be rendered correctly in the html results with vite-ssg
 import { useSiteConfig } from '../config'
 import { useFrontmatter } from '../composables'
+import { useTimezone } from '../composables/global'
 import ValaxyAddons from './ValaxyAddons.vue'
 
 // <link rel="apple-touch-icon" href="/pwa-192x192.png">
@@ -96,6 +97,8 @@ useSchemaOrg([
   }),
   defineWebPage(),
 ])
+
+useTimezone()
 </script>
 
 <template>
