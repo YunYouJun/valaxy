@@ -1,10 +1,11 @@
 import process from 'node:process'
-import { createRequire } from 'node:module'
+// import { createRequire } from 'node:module'
 import { readFileSync } from 'node:fs'
 import consola from 'consola'
 import { $ } from 'zx'
 import pc from 'picocolors'
 import minimist from 'minimist'
+import { versionBump } from 'bumpp'
 import { packages, updateTemplateVersions } from './utils'
 
 const { cyan, gray, yellow } = pc
@@ -15,12 +16,12 @@ export const isDryRun = !!args.dry
 const pkgPaths = packages.map(name => `packages/${name}/package.json`)
 
 async function main() {
-  const require = createRequire(import.meta.url)
+  // const require = createRequire(import.meta.url)
   // require for avoid bumpp mjs bundle error
   // `import { ReleaseType } from "semver";`
   // ReleaseType is a type, not a value
   // TODO: create a PR to fix this
-  const { versionBump } = require('bumpp')
+  // const { versionBump } = require('bumpp')
   const { newVersion } = await versionBump({
     commit: false,
     push: false,

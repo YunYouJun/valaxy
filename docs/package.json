@@ -21,9 +21,9 @@
   },
   "devDependencies": {
     "@iconify-json/carbon": "^1.2.1",
-    "@iconify-json/simple-icons": "^1.2.1",
+    "@iconify-json/simple-icons": "^1.2.2",
     "nodemon": "^3.1.4",
-    "vite": "^5.4.3",
+    "vite": "^5.4.5",
     "vitepress": "1.1.4"
   }
 }

@@ -30,7 +30,7 @@
   "dependencies": {
     "@rollup/pluginutils": "^5.1.0",
     "axios": "^1.7.7",
-    "body-parser": "^1.20.2",
+    "body-parser": "^1.20.3",
     "http-proxy-middleware": "^3.0.2",
     "js-yaml": "^4.1.0",
     "picocolors": "^1.1.0",
@@ -45,7 +45,7 @@
     "splitpanes": "^3.1.5",
     "typescript": "^5.5.4",
     "unbuild": "^2.0.0",
-    "unplugin-vue-router": "^0.10.7",
-    "vite": "^5.4.3"
+    "unplugin-vue-router": "^0.10.8",
+    "vite": "^5.4.5"
   }
 }
