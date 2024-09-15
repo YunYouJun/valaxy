@@ -42,17 +42,18 @@ function shouldHotReload(payload: PageDataPayload): boolean {
   return ensureSuffix('/', encodeURI(payloadPath)) === ensureSuffix('/', encodeURI(locationPath))
 }
 
+// init i18n, by valaxy config
+export const i18n = createI18n({
+  legacy: false,
+  locale: '',
+  messages: valaxyMessages,
+})
+
 export async function install({ app, router }: ViteSSGContext, config: ComputedRef<ValaxyConfig<DefaultTheme.Config>>) {
   const locale = useStorage('valaxy-locale', config?.value.siteConfig.lang || 'en')
+  i18n.global.locale.value = locale.value
 
-  // init i18n, by valaxy config
-  const i18n = createI18n({
-    legacy: false,
-    locale: locale.value,
-    messages: valaxyMessages,
-  })
   app.use(i18n)
-
   router.isReady().then(() => {
     handleHMR(router)
   })

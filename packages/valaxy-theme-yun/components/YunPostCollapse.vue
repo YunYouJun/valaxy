@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import { computed, ref, watch } from 'vue'
 import type { Post } from 'valaxy'
-import { formatDate, sortByDate } from 'valaxy'
+import { formatDate, sortByDate, useSiteConfig } from 'valaxy'
 import { useI18n } from 'vue-i18n'
 
 const props = defineProps<{
@@ -13,6 +13,8 @@ const { t } = useI18n()
 const years = ref<number[]>([])
 const postListByYear = ref<Record<string, Post[]>>({})
 
+const siteConfig = useSiteConfig()
+
 watch(() => props.posts, () => {
   postListByYear.value = {}
   years.value = []
@@ -20,7 +22,7 @@ watch(() => props.posts, () => {
     if (post.hide && post.hide !== 'index')
       return
     if (post.date) {
-      const year = Number.parseInt(formatDate(post.date, 'yyyy'))
+      const year = Number.parseInt(formatDate(post.date, 'yyyy', siteConfig.value.timezone))
       if (postListByYear.value[year]) {
         postListByYear.value[year].push(post)
       }

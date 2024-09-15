@@ -1,10 +1,9 @@
 import type { ToDateOptionsWithTZ } from 'date-fns-tz'
 import { format as formatWithTZ, toZonedTime } from 'date-fns-tz'
 import { format, toDate } from 'date-fns'
-import { useSiteConfig } from 'valaxy'
-import { useI18n } from 'vue-i18n'
 import { DateTime } from 'luxon'
 import type { Post } from '../../types'
+import { i18n } from '../modules/valaxy'
 
 const referenceDate = new Date(1986, 3 /* Apr */, 4, 10, 32, 0, 900)
 
@@ -16,10 +15,9 @@ const referenceDate = new Date(1986, 3 /* Apr */, 4, 10, 32, 0, 900)
  * @param options the object with options. See [Options]{@link https://date-fns.org/docs/Options}
  */
 export function formatDate(date: string | number | Date, formatStr = 'yyyy-MM-dd', timezone?: string, options?: ToDateOptionsWithTZ): string {
-  const { locale } = useI18n()
-  const siteConfig = useSiteConfig()
+  const locale = i18n.global.locale.value
 
-  const mergedOptions: ToDateOptionsWithTZ = Object.assign({ locale: { code: locale.value } }, options)
+  const mergedOptions: ToDateOptionsWithTZ = Object.assign({ locale: { code: locale } }, options)
   const clientTimezone = Intl.DateTimeFormat().resolvedOptions().timeZone
 
   try {
@@ -27,7 +25,7 @@ export function formatDate(date: string | number | Date, formatStr = 'yyyy-MM-dd
      * Format the timezone-less date to ISO. If none is specified, use the client's timezone.
      * If the input date is already in ISO format, the timezone won't be applied.
      */
-    date = handleTimeWithZone(date, timezone || siteConfig.value.timezone || clientTimezone).toString()
+    date = handleTimeWithZone(date, timezone || clientTimezone).toString()
     // Convert to the client's timezone unless the user specifies otherwise
     const zonedDate = toZonedTime(date, options?.timeZone || clientTimezone, mergedOptions)
     // The format function will never change the underlying date
