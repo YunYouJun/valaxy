@@ -2,17 +2,31 @@ import { useRoute } from 'vue-router'
 import { computed, inject } from 'vue'
 import { isClient } from '@vueuse/core'
 
-import type { PageData, Post } from 'valaxy/types'
+import type { PageData, PostFrontMatter } from 'valaxy/types'
 import { useSiteConfig } from '../config'
 
 /**
- * get route.meta.frontmatter
+ * Get `route.meta.frontmatter` from your markdown file
+ * @example
+ * ```md
+ * ---
+ * title: Hello World
+ * ---
+ * ```
+ *
+ * ```ts
+ * const fm = useFrontmatter()
+ * console.log(fm.value.title)
+ *
+ * const fm = useFrontmatter<{ custom: string }>()
+ * console.log(fm.value.custom)
+ * ```
  */
-export function useFrontmatter() {
+export function useFrontmatter<T extends Record<string, any> = PostFrontMatter>() {
   // inject not in app root
   const route = useRoute()
-  const frontmatter = computed<Post>(() => {
-    return route.meta.frontmatter || {}
+  const frontmatter = computed(() => {
+    return route.meta.frontmatter as Partial<PostFrontMatter & T> || {}
   })
   return frontmatter
 }

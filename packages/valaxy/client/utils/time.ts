@@ -26,9 +26,9 @@ export function formatDate(date: string | number | Date, formatStr = 'yyyy-MM-dd
      * Format the timezone-less date to ISO. If none is specified, use the client's timezone.
      * If the input date is already in ISO format, the timezone won't be applied.
      */
-    date = handleTimeWithZone(date, timezone || clientTimezone).toString()
+    date = handleTimeWithZone(date, timezone || globalTimezone.value || clientTimezone).toString()
     // Convert to the client's timezone unless the user specifies otherwise
-    const zonedDate = toZonedTime(date, options?.timeZone || globalTimezone.value || clientTimezone, mergedOptions)
+    const zonedDate = toZonedTime(date, options?.timeZone || clientTimezone, mergedOptions)
     // The format function will never change the underlying date
     return formatWithTZ(zonedDate, formatStr, { timeZone: options?.timeZone })
   }
