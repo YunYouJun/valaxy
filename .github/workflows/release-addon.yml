@@ -1,0 +1,46 @@
+name: Release Addon
+
+on:
+  push:
+    paths:
+      - 'packages/valaxy-addon-*/package.json'
+
+permissions:
+  contents: write
+  id-token: write
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+
+      - name: Install pnpm
+        uses: pnpm/action-setup@v2
+        with:
+          run_install: true
+
+      # after pnpm
+      - name: Use Node.js LTS
+        uses: actions/setup-node@v4
+        with:
+          node-version: 'lts/*'
+          registry-url: https://registry.npmjs.org/
+          cache: pnpm
+
+      - name: Publish Addon
+        run: |
+          # Extract addon name from the commit message
+          COMMIT_MSG=${{ github.event.head_commit.message }}
+          if [[ $COMMIT_MSG == release(addon-*):* ]]; then
+            ADDON_NAME=$(echo $COMMIT_MSG | cut -d'(' -f2 | cut -d')' -f1)
+            # Change to the addon directory
+            cd packages/valaxy-$ADDON_NAME
+            # Publish the package
+            npm publish
+          fi
+        env:
+          NODE_AUTH_TOKEN: ${{secrets.NPM_TOKEN}}
+          NPM_CONFIG_PROVENANCE: true

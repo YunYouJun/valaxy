@@ -2,22 +2,21 @@
 
 [![NPM version](https://img.shields.io/npm/v/valaxy-addon-lightgallery?color=0078E7)](https://www.npmjs.com/package/valaxy-addon-lightgallery)
 
-- **English** | [简体中文](./README.zh-CN.md)
+- [English](./README.md) | **简体中文**
 
-valaxy-addon-lightgallery provides a gallery preview effect based on [lightgallery](https://github.com/sachinchoolur/lightGallery).
+valaxy-addon-lightgallery 基于 [lightgallery](https://github.com/sachinchoolur/lightGallery) 提供画廊预览效果。
 
-## How to use
+## 如何使用
 
-### Install dependencies
+### 安装依赖
 
 ```bash
 npm i valaxy-addon-lightgallery
 ```
 
-### Load the plugin
+### 加载插件
 
 ```ts
-// valaxy.config.ts
 import { defineValaxyConfig } from 'valaxy'
 import { addonLightGallery } from 'valaxy-addon-lightgallery'
 
@@ -28,20 +27,20 @@ export default defineValaxyConfig({
 })
 ```
 
-### Use directly in the article
+### 在文章中直接使用
 
-Insert the component directly in Markdown.
+直接在 Markdown 中插入组件即可。
 
 ```md
 ---
 photos:
-  - caption: Me
+  - caption: 我
     src: https://cdn.jsdelivr.net/gh/YunYouJun/yun/images/meme/yun-good-alpha-compressed.png
-    desc: 'I remember the run under the sunset that day.'
+    desc: 我想起那天夕阳下的奔跑
 ---
-<!-- The style of gallery -->
+<!-- 相册样式 -->
 <VAGallery :photos="frontmatter.photos" />
 
-<!-- You can also use the style of the photo separately -->
+<!-- 你也可以单独使用照片的样式 -->
 <VAPhoto :photo="frontmatter.photos[0]" />
 ```
