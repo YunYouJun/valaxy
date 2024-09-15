@@ -117,12 +117,6 @@ export interface PageFrontMatter extends Record<string, any> {
    */
   end: boolean
 
-  // third-party features
-  /**
-   * use aplayer
-   * @url https://aplayer.js.org/
-   */
-  aplayer: boolean
   /**
    * use katex
    * @url https://katex.org/
