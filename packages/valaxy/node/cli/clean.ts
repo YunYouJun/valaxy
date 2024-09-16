@@ -1,7 +1,7 @@
 import path from 'node:path'
 import process from 'node:process'
 import fs from 'fs-extra'
-import type yargs from 'yargs'
+import type { Argv } from 'yargs'
 import consola from 'consola'
 import { exists } from './utils/fs'
 
@@ -44,7 +44,7 @@ export async function cleanDist() {
   }
 }
 
-export function registerCleanCommand(cli: yargs.Argv) {
+export function registerCleanCommand(cli: Argv) {
   cli.command(
     'clean',
     'Clean the dist folder and cache',

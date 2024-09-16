@@ -85,7 +85,7 @@ export interface ValaxyExtendConfig {
      * @zh 部署类型
      * @en deploy type
      */
-    type: 'gh-pages' | 'remote'
+    type?: 'gh-pages' | 'remote'
   }
 
   /**

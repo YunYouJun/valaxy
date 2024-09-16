@@ -25,6 +25,8 @@ export const defaultValaxyConfig: ValaxyNodeConfig = {
     ssgForPagination: false,
   },
 
+  deploy: { },
+
   // markdown: {
   //   excerpt: '<!-- more -->',
   // },
