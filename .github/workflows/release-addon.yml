@@ -10,7 +10,7 @@ permissions:
   id-token: write
 
 jobs:
-  release:
+  release-addon:
     if: contains(github.event.head_commit.message, 'release(addon-')
     runs-on: ubuntu-latest
     steps:
