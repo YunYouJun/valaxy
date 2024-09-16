@@ -22,6 +22,9 @@ export default defineConfig((options) => {
 
       'valaxy/types',
       ...Object.keys(pkg.dependencies || {}),
+
+      // dynamic install
+      'gh-pages',
     ],
 
     outExtension({ format }) {

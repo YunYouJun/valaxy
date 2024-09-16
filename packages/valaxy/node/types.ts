@@ -77,6 +77,18 @@ export interface ValaxyExtendConfig {
   }
 
   /**
+   * @experimental
+   * Deploy to gh-pages/remote server
+   */
+  deploy: {
+    /**
+     * @zh 部署类型
+     * @en deploy type
+     */
+    type: 'gh-pages' | 'remote'
+  }
+
+  /**
    * internal modules
    */
   modules: {

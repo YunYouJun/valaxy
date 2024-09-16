@@ -13,6 +13,7 @@ import { fuseModule } from '../modules/fuse'
 import { registerNewCommand } from './new'
 import { registerBuildCommand } from './build'
 import { registerDevCommand } from './dev'
+import { registerDeployCommand } from './deploy'
 
 export const cli = yargs(hideBin(process.argv)).scriptName('valaxy')
   .usage('$0 [args]')
@@ -24,6 +25,7 @@ export const cli = yargs(hideBin(process.argv)).scriptName('valaxy')
 registerDevCommand(cli)
 registerBuildCommand(cli)
 registerNewCommand(cli)
+registerDeployCommand(cli)
 
 const modules: ValaxyModule[] = [
   fuseModule,

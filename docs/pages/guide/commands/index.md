@@ -166,3 +166,48 @@ You can use arguments to set the log level.
 
 For example, `valaxy build --log=info`.
 :::
+
+### 怀念 Hexo 的 `hexo deploy`? {lang="zh-CN"}
+
+### Miss `hexo deploy` from Hexo? {lang="en"}
+
+::: zh-CN
+
+在创建 Valaxy 项目时，已内置了 `.github/workflows/gh-pages.yml`，在推送至 GitHub 时，会自动构建并部署到 GitHub Pages。
+
+如果你仅想部署 `gh-pages` 分支，并且真的很想使用 `deploy`。
+你也可以安装 `pnpm add -D gh-pages`，并在项目的 `package.json` 中配置快捷脚本。
+
+```json
+{
+  "scripts": {
+    "deploy": "valaxy build && gh-pages -d dist"
+  },
+  "devDependencies": {
+    "gh-pages": "latest"
+  }
+}
+```
+
+:::
+
+::: en
+
+When you create a Valaxy project, a `.github/workflows/gh-pages.yml` file is included. When you push to GitHub, it will automatically build and deploy to GitHub Pages.
+
+If you only want to deploy the `gh-pages` branch and really want to use `deploy`.
+
+You can also install `pnpm add -D gh-pages` and configure shortcut scripts in `package.json`.
+
+```json
+{
+  "scripts": {
+    "deploy": "valaxy build && gh-pages -d dist"
+  },
+  "devDependencies": {
+    "gh-pages": "latest"
+  }
+}
+```
+
+:::
