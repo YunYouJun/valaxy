@@ -50,6 +50,15 @@ export default defineValaxyConfig({
 | ---- | ---- | ---- | ---- |
 | themes | `string[]` | --- | Third-party themes to import components from |
 
+> [!TIP]
+> By default, the system will automatically recognize components under the `components` folder. To manually specify the component path relationships, theme support is required. Create a `components.json` file in the root directory of the theme, and specify the component names and their paths relative to the `components` folder, as shown below:
+
+```json
+{
+  "YunCollectionItem": "collection/YunCollectionItem.vue"
+}
+```
+
 <br></details>
 
 ## Usage
