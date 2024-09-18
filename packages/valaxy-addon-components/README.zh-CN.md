@@ -50,6 +50,15 @@ export default defineValaxyConfig({
 | ---- | ---- | ---- | ---- |
 | themes | `string[]` | --- | 需要导入 components 的第三方主题 |
 
+> [!TIP]
+> 通常情况下，系统会自动识别 `components` 文件夹下的组件。如果需要手动指定组件路径关系，必须在主题中支持此功能。在主题根目录下新建 `components.json` 文件，并在文件中指定组件名和组件相对于 `components` 文件夹的路径，如下示例：
+
+```json
+{
+  "YunCollectionItem": "collection/YunCollectionItem.vue"
+}
+```
+
 <br></details>
 
 ## 使用
