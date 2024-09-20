@@ -97,3 +97,6 @@ toc:
   base-config: Base Config
   extend-config: Extend Config
   unocss-options: UnoCSS Options
+
+post:
+  contributors: Contributors

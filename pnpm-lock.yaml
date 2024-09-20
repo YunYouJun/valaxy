@@ -224,6 +224,9 @@ importers:
       valaxy-addon-components:
         specifier: workspace:*
         version: link:../packages/valaxy-addon-components
+      valaxy-addon-git-log:
+        specifier: ^0.1.0
+        version: 0.1.0(valaxy@packages+valaxy)
       valaxy-theme-press:
         specifier: link:../packages/valaxy-theme-press
         version: link:../packages/valaxy-theme-press
@@ -269,7 +272,7 @@ importers:
     dependencies:
       '@rollup/pluginutils':
         specifier: ^5.1.0
-        version: 5.1.0(rollup@4.21.3)
+        version: 5.1.0(rollup@3.29.4)
       axios:
         specifier: ^1.7.7
         version: 1.7.7(debug@4.3.7)
@@ -315,7 +318,7 @@ importers:
         version: 2.0.0(sass@1.78.0)(typescript@5.6.2)(vue-tsc@2.0.17(typescript@5.6.2))
       unplugin-vue-router:
         specifier: ^0.10.8
-        version: 0.10.8(rollup@4.21.3)(vue-router@4.4.5(vue@3.5.5(typescript@5.6.2)))(vue@3.5.5(typescript@5.6.2))
+        version: 0.10.8(rollup@3.29.4)(vue-router@4.4.5(vue@3.5.5(typescript@5.6.2)))(vue@3.5.5(typescript@5.6.2))
       vite:
         specifier: ^5.4.5
         version: 5.4.5(@types/node@22.5.5)(sass@1.78.0)
@@ -372,7 +375,7 @@ importers:
         version: 11.0.3(vue@3.5.5(typescript@5.6.2))
       '@vueuse/integrations':
         specifier: ^11.0.3
-        version: 11.0.3(axios@1.7.7)(focus-trap@7.6.0)(fuse.js@7.0.0)(nprogress@0.2.0)(qrcode@1.5.4)(vue@3.5.5(typescript@5.6.2))
+        version: 11.0.3(axios@1.7.7(debug@4.3.7))(focus-trap@7.6.0)(fuse.js@7.0.0)(nprogress@0.2.0)(qrcode@1.5.4)(vue@3.5.5(typescript@5.6.2))
       consola:
         specifier: ^3.2.3
         version: 3.2.3
@@ -2946,6 +2949,9 @@ packages:
   birpc@0.2.17:
     resolution: {integrity: sha512-+hkTxhot+dWsLpp3gia5AkVHIsKlZybNT5gIYiDlNzJrmYPcTM9k5/w2uaj3IPpd7LlEYpmCj4Jj1nC41VhDFg==}
 
+  blueimp-md5@2.19.0:
+    resolution: {integrity: sha512-DRQrD6gJyy8FbiE4s+bDoXS9hiW3Vbx5uCdwvcCf3zLHL+Iv7LtGHLpr+GZV8rHG8tK766FGYBwRbu8pELTt+w==}
+
   body-parser@1.20.3:
     resolution: {integrity: sha512-7rAxByjUMqQ3/bHJy7D6OGXvx/MMc4IqBn/X0fcM1QUcAItpZrBEYhWGem+tzXH90c+G01ypMcYJBO9Y30203g==}
     engines: {node: '>= 0.8', npm: 1.2.8000 || >= 1.4.16}
@@ -4047,6 +4053,10 @@ packages:
   email-addresses@5.0.0:
     resolution: {integrity: sha512-4OIPYlA6JXqtVn8zpHpGiI7vE6EQOAg16aGnDMIAlZVinnoZ8208tW1hAbjWydgN/4PLTT9q+O1K6AH/vALJGw==}
 
+  email-validator@2.0.4:
+    resolution: {integrity: sha512-gYCwo7kh5S3IDyZPLZf6hSS0MnZT8QmJFqYvbqlDZSbwdZlY6QZWxJ4i/6UhITOJ4XzyI647Bm2MXKCLqnJ4nQ==}
+    engines: {node: '>4.0'}
+
   emoji-regex@10.4.0:
     resolution: {integrity: sha512-EC+0oUMY1Rqm4O6LLrgjtYDvcVYTy7chDnM4Q7030tP4Kwj3u/pR6gP9ygnp2CJMK5Gq+9Q2oqmrFJAz01DXjw==}
 
@@ -4730,6 +4740,11 @@ packages:
   graphql@15.9.0:
     resolution: {integrity: sha512-GCOQdvm7XxV1S4U4CGrsdlEN37245eC8P9zaYCMr6K1BG0IPGy5lUwmJsEOGyl1GD6HXjOtl2keCP9asRBwNvA==}
     engines: {node: '>= 10.x'}
+
+  gravatar@1.8.2:
+    resolution: {integrity: sha512-GdRwLM3oYpFQKy47MKuluw9hZ2gaCtiKPbDGdcDEuYDKlc8eNnW27KYL9LVbIDzEsx88WtDWQm2ClBcsgBnj6w==}
+    engines: {node: '>=10'}
+    hasBin: true
 
   gray-matter@4.0.3:
     resolution: {integrity: sha512-5v6yZd4JK3eMI3FqqCouswVqwugaA9r4dNZB1wwcmrD02QkV5H0y7XBQW8QwQqEaZY1pM9aqORSORhJRdNK44Q==}
@@ -6566,6 +6581,11 @@ packages:
     resolution: {integrity: sha512-+38qI9SOr8tfZ4QmJNplMUxqjbe7LKvvZgWdExBOmd+egZTtjLB67Gu0HRX3u/XOq7UU2Nx6nsjvS16Z9uwfpg==}
     engines: {node: '>=0.6'}
 
+  querystring@0.2.0:
+    resolution: {integrity: sha512-X/xY82scca2tau62i9mDyU9K+I+djTMUsvwf7xnUX5GLvVzgJybOJf4Y6o9Zx3oJK/LSXg5tTZBjwzqVPaPO2g==}
+    engines: {node: '>=0.4.x'}
+    deprecated: The querystring API is considered Legacy. new code should use the URLSearchParams API instead.
+
   querystringify@2.2.0:
     resolution: {integrity: sha512-FIqgj2EUvTa7R50u0rGsyTftzjYmv/a3hO345bZNrqabNqjtgiDMgmo4mkUjd+nzU5oF3dClKqFIPUKybUyqoQ==}
 
@@ -7973,6 +7993,11 @@ packages:
 
   valaxy-addon-artalk@0.1.0:
     resolution: {integrity: sha512-J3TnXq9JfXN588Q7EESIIRgMF4GXkzIIW73Qv+tgQKEQ07CQfVaWW1GMRyTIQpieYOutCgKs/XhZ2rVqbn9GZg==}
+    peerDependencies:
+      valaxy: latest
+
+  valaxy-addon-git-log@0.1.0:
+    resolution: {integrity: sha512-H/dj9K1JHB5mIe3z9GPmBmu0KpK00AEOL6RoYr42QP9lhpHsoAwp9Il9oNIa5Hdc12eMIy8eNzEGoMHKievQBQ==}
     peerDependencies:
       valaxy: latest
 
@@ -10402,6 +10427,19 @@ snapshots:
       '@volar/language-core': 2.2.5
       path-browserify: 1.0.1
 
+  '@vue-macros/common@1.14.0(rollup@3.29.4)(vue@3.5.5(typescript@5.6.2))':
+    dependencies:
+      '@babel/types': 7.25.6
+      '@rollup/pluginutils': 5.1.0(rollup@3.29.4)
+      '@vue/compiler-sfc': 3.5.5
+      ast-kit: 1.1.0
+      local-pkg: 0.5.0
+      magic-string-ast: 0.6.2
+    optionalDependencies:
+      vue: 3.5.5(typescript@5.6.2)
+    transitivePeerDependencies:
+      - rollup
+
   '@vue-macros/common@1.14.0(rollup@4.21.3)(vue@3.5.5(typescript@5.6.2))':
     dependencies:
       '@babel/types': 7.25.6
@@ -10586,7 +10624,7 @@ snapshots:
       - '@vue/composition-api'
       - vue
 
-  '@vueuse/integrations@11.0.3(axios@1.7.7)(focus-trap@7.6.0)(fuse.js@7.0.0)(nprogress@0.2.0)(qrcode@1.5.4)(vue@3.5.5(typescript@5.6.2))':
+  '@vueuse/integrations@11.0.3(axios@1.7.7(debug@4.3.7))(focus-trap@7.6.0)(fuse.js@7.0.0)(nprogress@0.2.0)(qrcode@1.5.4)(vue@3.5.5(typescript@5.6.2))':
     dependencies:
       '@vueuse/core': 11.0.3(vue@3.5.5(typescript@5.6.2))
       '@vueuse/shared': 11.0.3(vue@3.5.5(typescript@5.6.2))
@@ -10924,6 +10962,8 @@ snapshots:
   binary-extensions@2.3.0: {}
 
   birpc@0.2.17: {}
+
+  blueimp-md5@2.19.0: {}
 
   body-parser@1.20.3:
     dependencies:
@@ -12244,6 +12284,8 @@ snapshots:
 
   email-addresses@5.0.0: {}
 
+  email-validator@2.0.4: {}
+
   emoji-regex@10.4.0: {}
 
   emoji-regex@8.0.0: {}
@@ -13188,6 +13230,13 @@ snapshots:
       tslib: 2.7.0
 
   graphql@15.9.0: {}
+
+  gravatar@1.8.2:
+    dependencies:
+      blueimp-md5: 2.19.0
+      email-validator: 2.0.4
+      querystring: 0.2.0
+      yargs: 15.4.1
 
   gray-matter@4.0.3:
     dependencies:
@@ -15057,6 +15106,8 @@ snapshots:
     dependencies:
       side-channel: 1.0.6
 
+  querystring@0.2.0: {}
+
   querystringify@2.2.0: {}
 
   queue-microtask@1.2.3: {}
@@ -16686,6 +16737,29 @@ snapshots:
       - rollup
       - webpack-sources
 
+  unplugin-vue-router@0.10.8(rollup@3.29.4)(vue-router@4.4.5(vue@3.5.5(typescript@5.6.2)))(vue@3.5.5(typescript@5.6.2)):
+    dependencies:
+      '@babel/types': 7.25.6
+      '@rollup/pluginutils': 5.1.0(rollup@3.29.4)
+      '@vue-macros/common': 1.14.0(rollup@3.29.4)(vue@3.5.5(typescript@5.6.2))
+      ast-walker-scope: 0.6.2
+      chokidar: 3.6.0
+      fast-glob: 3.3.2
+      json5: 2.2.3
+      local-pkg: 0.5.0
+      magic-string: 0.30.11
+      mlly: 1.7.1
+      pathe: 1.1.2
+      scule: 1.3.0
+      unplugin: 1.14.1
+      yaml: 2.5.1
+    optionalDependencies:
+      vue-router: 4.4.5(vue@3.5.5(typescript@5.6.2))
+    transitivePeerDependencies:
+      - rollup
+      - vue
+      - webpack-sources
+
   unplugin-vue-router@0.10.8(rollup@4.21.3)(vue-router@4.4.5(vue@3.5.5(typescript@5.6.2)))(vue@3.5.5(typescript@5.6.2)):
     dependencies:
       '@babel/types': 7.25.6
@@ -16784,6 +16858,11 @@ snapshots:
     transitivePeerDependencies:
       - marked
 
+  valaxy-addon-git-log@0.1.0(valaxy@packages+valaxy):
+    dependencies:
+      gravatar: 1.8.2
+      valaxy: link:packages/valaxy
+
   valaxy@0.19.10(@babel/parser@7.25.6)(@types/markdown-it@14.1.2)(@types/node@22.5.5)(axios@1.7.7)(focus-trap@7.6.0)(postcss@8.4.47)(rollup@4.21.3)(typescript@5.6.2):
     dependencies:
       '@antfu/utils': 0.7.10
@@ -16800,7 +16879,7 @@ snapshots:
       '@vitejs/plugin-vue': 5.1.3(vite@5.4.5(@types/node@22.5.5)(sass@1.78.0))(vue@3.5.5(typescript@5.6.2))
       '@vue/devtools-api': 7.4.5
       '@vueuse/core': 11.0.3(vue@3.5.5(typescript@5.6.2))
-      '@vueuse/integrations': 11.0.3(axios@1.7.7)(focus-trap@7.6.0)(fuse.js@7.0.0)(nprogress@0.2.0)(qrcode@1.5.4)(vue@3.5.5(typescript@5.6.2))
+      '@vueuse/integrations': 11.0.3(axios@1.7.7(debug@4.3.7))(focus-trap@7.6.0)(fuse.js@7.0.0)(nprogress@0.2.0)(qrcode@1.5.4)(vue@3.5.5(typescript@5.6.2))
       consola: 3.2.3
       critters: 0.0.24
       cross-spawn: 7.0.3
@@ -17098,7 +17177,7 @@ snapshots:
       '@vue/devtools-api': 7.4.5
       '@vue/shared': 3.5.5
       '@vueuse/core': 11.0.3(vue@3.5.5(typescript@5.6.2))
-      '@vueuse/integrations': 11.0.3(axios@1.7.7)(focus-trap@7.6.0)(fuse.js@7.0.0)(nprogress@0.2.0)(qrcode@1.5.4)(vue@3.5.5(typescript@5.6.2))
+      '@vueuse/integrations': 11.0.3(axios@1.7.7(debug@4.3.7))(focus-trap@7.6.0)(fuse.js@7.0.0)(nprogress@0.2.0)(qrcode@1.5.4)(vue@3.5.5(typescript@5.6.2))
       focus-trap: 7.6.0
       mark.js: 8.11.1
       minisearch: 7.1.0

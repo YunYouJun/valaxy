@@ -4,6 +4,12 @@ import type { ValaxyAddon } from './AddonGallery.vue'
 defineProps<{
   addon: ValaxyAddon
 }>()
+
+const emit = defineEmits(['tagClick'])
+
+function handleTagClick(tag: string) {
+  emit('tagClick', tag)
+}
 </script>
 
 <template>
@@ -18,6 +24,13 @@ defineProps<{
         <span>{{ addon.name }}</span>
       </h3>
     </a>
+    <p v-if="addon.author" class="my-2! text-sm" op="70">
+      By
+      <span v-for="(author, index) in addon.author" :key="index">
+        <a class="text-dark-200!" :href="`https://github.com/${author}`" target="_blank">{{ author }}</a>
+        <span v-if="index < addon.author.length - 1">, </span>
+      </span>
+    </p>
     <p class="my-1! text-xl!">
       <a mr-2 class="text-red-600!" :href="`https://npmjs.com/package/${addon.name}`" target="_blank" alt="NPM Package">
         <div i-ri-npmjs-line />
@@ -41,7 +54,7 @@ defineProps<{
       <span inline-flex mr-1>
         <div :class="addon.icon" />
       </span>
-      <span v-for="tag, j in addon.tags" :key="j" class="break-all mr-1">
+      <span v-for="tag, j in addon.tags" :key="j" class="break-all mr-1 cursor-pointer" @click="handleTagClick(tag)">
         #{{ tag }}
       </span>
     </ul>
