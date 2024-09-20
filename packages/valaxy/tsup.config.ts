@@ -25,6 +25,7 @@ export default defineConfig((options) => {
 
       // dynamic install
       'gh-pages',
+      'rollup-plugin-visualizer',
     ],
 
     outExtension({ format }) {

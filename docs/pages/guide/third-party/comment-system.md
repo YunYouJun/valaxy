@@ -16,6 +16,7 @@ categories:
 使用 [valaxy-addon-waline](https://github.com/YunYouJun/valaxy/blob/main/packages/valaxy-addon-waline/README.md) 集成。
 
 > valaxy-addon-waline 是基于 Waline 的一个 Valaxy 插件。
+> 除此之外，我们推荐您可以使用 [kotodama](https://github.com/YunYouJun/kotodama) 进行评论管理，它是一个基于 Waline 服务端实现的评论管理系统。
 
 ### 安装
 

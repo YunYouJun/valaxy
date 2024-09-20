@@ -6,6 +6,8 @@ valaxy-addon-waline 是基于 Waline 的一个 Valaxy 插件。
 
 主题开发者可以通过将其作为依赖使用，以快速集成 Waline 评论组件。
 
+> 除此之外，我们推荐您可以使用 [kotodama](https://github.com/YunYouJun/kotodama) 进行评论管理，它是一个基于 Waline 服务端实现的评论管理系统。
+
 ## 如何集成
 
 ```bash

@@ -8,6 +8,7 @@ import VueI18n from '@intlify/unplugin-vue-i18n/vite'
 import UnheadVite from '@unhead/addons/vite'
 
 import { resolve } from 'pathe'
+import consola from 'consola'
 import type { ValaxyServerOptions } from '../options'
 import type { ValaxyNode } from '../types'
 
@@ -30,7 +31,7 @@ export async function ViteValaxyPlugins(
   const MarkdownPlugin = await createMarkdownPlugin(options)
   const ValaxyLoader = await createValaxyLoader(options, serverOptions)
 
-  return [
+  const plugins: (PluginOption | PluginOption[])[] = [
     MarkdownPlugin,
     createConfigPlugin(options),
     createClientSetupPlugin(options),
@@ -103,4 +104,27 @@ export async function ViteValaxyPlugins(
 
     createFixPlugins(options),
   ]
+
+  if (valaxyConfig.visualizer) {
+    try {
+      const visualizer = (await import('rollup-plugin-visualizer')).visualizer
+      plugins.push(
+        visualizer({
+          open: true,
+          gzipSize: true,
+          ...valaxyConfig.visualizer,
+        }),
+      )
+    }
+    catch (e) {
+      console.error('Failed to load rollup-plugin-visualizer')
+      consola.error('Please install `rollup-plugin-visualizer` to enable the feature')
+      // eslint-disable-next-line no-console
+      console.log()
+      consola.info('pnpm add -D rollup-plugin-visualizer')
+      // eslint-disable-next-line no-console
+      console.log()
+    }
+  }
+  return plugins
 }

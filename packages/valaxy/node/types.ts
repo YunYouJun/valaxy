@@ -11,6 +11,7 @@ import type { UserConfig as ViteUserConfig } from 'vite'
 import type { presetAttributify, presetIcons, presetTypography, presetUno } from 'unocss'
 import type { Hookable } from 'hookable'
 import type { DefaultTheme, PartialDeep, ValaxyAddon, ValaxyConfig } from 'valaxy/types'
+import type { PluginVisualizerOptions } from 'rollup-plugin-visualizer'
 import type { ResolvedValaxyOptions } from './options'
 import type { MarkdownOptions } from './plugins/markdown/types'
 
@@ -128,8 +129,12 @@ export interface ValaxyExtendConfig {
   components?: Parameters<typeof Components>[0]
   layouts?: Parameters<typeof Layouts>[0]
   router?: Parameters<typeof Router>[0]
-
   unocss?: UnoCSSConfig
+  /**
+   * rollup-plugin-visualizer
+   * @see https://github.com/btd/rollup-plugin-visualizer
+   */
+  visualizer?: PluginVisualizerOptions
   /**
    * unocss presets
    */

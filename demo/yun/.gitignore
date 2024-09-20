@@ -27,3 +27,6 @@ public/feed.json
 
 # valaxy rss
 public/atom.xml
+
+# rollup-plugin-visualizer
+stats.html

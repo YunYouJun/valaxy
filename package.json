@@ -3,7 +3,7 @@
   "type": "module",
   "version": "0.19.10",
   "private": true,
-  "packageManager": "pnpm@9.10.0",
+  "packageManager": "pnpm@9.11.0",
   "description": "📄 Vite & Vue powered static blog generator.",
   "author": {
     "email": "me@yunyoujun.cn",
@@ -80,9 +80,9 @@
   "devDependencies": {
     "@antfu/eslint-config": "2.17.0",
     "@iconify-json/logos": "^1.2.0",
-    "@iconify-json/vscode-icons": "^1.2.1",
+    "@iconify-json/vscode-icons": "^1.2.2",
     "@microsoft/api-extractor": "^7.47.9",
-    "@playwright/test": "^1.47.1",
+    "@playwright/test": "^1.47.2",
     "@types/debug": "^4.1.12",
     "@types/markdown-it-attrs": "^4.1.3",
     "@types/markdown-it-container": "^2.0.10",
@@ -93,7 +93,7 @@
     "bumpp": "^9.5.2",
     "cross-env": "^7.0.3",
     "decap-cms-app": "^3.3.3",
-    "eslint": "^9.10.0",
+    "eslint": "^9.11.0",
     "https-localhost": "^4.7.1",
     "husky": "^9.1.6",
     "lint-staged": "^15.2.10",
@@ -103,13 +103,13 @@
     "stylelint": "^16.9.0",
     "stylelint-config-recommended-vue": "^1.5.0",
     "stylelint-config-standard-scss": "^13.1.0",
-    "tsup": "^8.2.4",
+    "tsup": "^8.3.0",
     "tsx": "^4.19.1",
     "typescript": "^5.5.4",
     "unbuild": "^2.0.0",
     "vitest": "^2.1.1",
     "vue-tsc": "2.0.17",
-    "zx": "^8.1.6"
+    "zx": "^8.1.8"
   },
   "pnpm": {
     "peerDependencyRules": {
