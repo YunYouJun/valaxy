@@ -509,7 +509,7 @@ importers:
         specifier: ^1.18.0
         version: 1.18.0
       star-markdown-css:
-        specifier: ^0.5.1
+        specifier: ^0.5.2
         version: 0.5.2
       unocss:
         specifier: ^0.62.4

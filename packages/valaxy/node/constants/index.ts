@@ -1,3 +1,5 @@
+import type { UserConfig } from 'vite'
+
 export const EXCERPT_SEPARATOR = '<!-- more -->'
 
 export const EXTERNAL_URL_RE = /^https?:/i
@@ -35,3 +37,16 @@ export const customElements = new Set([
   'munderover',
   'semantics',
 ])
+
+/**
+ * @see https://vitejs.dev/config/shared-options.html#css-preprocessoroptions for sass@2
+ */
+export const defaultViteConfig: UserConfig = {
+  css: {
+    preprocessorOptions: {
+      scss: {
+        api: 'modern-compiler',
+      },
+    },
+  },
+}

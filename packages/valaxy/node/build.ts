@@ -7,6 +7,7 @@ import generateSitemap from 'vite-ssg-sitemap'
 import fs from 'fs-extra'
 import consola from 'consola'
 import colors from 'picocolors'
+import { defaultViteConfig } from './constants'
 import type { ValaxyNode } from './types'
 import type { ResolvedValaxyOptions } from './options'
 import { ViteValaxyPlugins } from './plugins/preset'
@@ -14,9 +15,10 @@ import { collectRedirects, writeRedirectFiles } from './utils/clientRedirects'
 
 export async function build(
   valaxyApp: ValaxyNode,
-  viteConfig: InlineConfig = {},
+  viteConfig: InlineConfig = defaultViteConfig,
 ) {
   const inlineConfig = mergeViteConfig(viteConfig, {
+    ...defaultViteConfig,
     plugins: await ViteValaxyPlugins(valaxyApp),
   })
 
@@ -29,6 +31,7 @@ export async function ssgBuild(
 ) {
   const { options } = valaxyApp
   const defaultConfig: InlineConfig = {
+    ...defaultViteConfig,
     plugins: await ViteValaxyPlugins(valaxyApp),
     ssr: {
       // TODO: workaround until they support native ESM

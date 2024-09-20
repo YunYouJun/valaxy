@@ -51,7 +51,7 @@ export async function execBuild({ ssg, root, output, log }: { ssg: boolean, root
   const viteConfig: InlineConfig = mergeConfig(
     valaxyViteConfig,
     {
-    // avoid load userRoot/vite.config.ts repeatedly
+      // avoid load userRoot/vite.config.ts repeatedly
       configFile: path.resolve(options.clientRoot, 'vite.config.ts'),
       build: {
         // make out dir empty, https://vitejs.dev/config/#build-emptyoutdir
@@ -59,6 +59,7 @@ export async function execBuild({ ssg, root, output, log }: { ssg: boolean, root
         outDir: path.resolve(options.userRoot, output),
       },
       logLevel: log as LogLevel,
+
     } as InlineConfig,
   )
   // init config

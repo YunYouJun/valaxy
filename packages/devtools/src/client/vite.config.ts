@@ -10,6 +10,14 @@ import { unoConfig } from '../../../../uno.config'
 export default defineConfig({
   base: './',
 
+  css: {
+    preprocessorOptions: {
+      scss: {
+        api: 'modern-compiler',
+      },
+    },
+  },
+
   resolve: {
     alias: {
       '~/': __dirname,

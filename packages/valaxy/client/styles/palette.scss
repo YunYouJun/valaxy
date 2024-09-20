@@ -54,7 +54,8 @@ $light: map.merge(
     "c-text-lighter": #666,
     "c-text-dark": #111,
 
-    "c-primary-rgb": #{color.red($c-primary), color.green($c-primary), color.blue($c-primary)},
+    // "c-primary-rgb": #{color.red($c-primary), color.green($c-primary), color.blue($c-primary)},
+    "c-primary-rgb": #{color.channel($c-primary, 'red'), color.channel($c-primary, 'green'), color.channel($c-primary, 'blue')},
 
     "c-link": get-css-var("c-primary-dark"),
   ),
