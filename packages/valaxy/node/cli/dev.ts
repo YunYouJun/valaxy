@@ -7,6 +7,7 @@ import type { InlineConfig, LogLevel } from 'vite'
 import { mergeConfig } from 'vite'
 
 import qrcode from 'qrcode'
+import { defaultViteConfig } from '../constants'
 import { findFreePort } from '../utils/net'
 import { resolveOptions } from '../options'
 
@@ -58,7 +59,9 @@ export function registerDevCommand(cli: Argv) {
       const valaxyApp = createValaxyNode(options)
 
       const viteConfig: InlineConfig = mergeConfig({
-      // avoid load userRoot/vite.config.ts repeatedly
+        // initial vite config
+        ...defaultViteConfig,
+        // avoid load userRoot/vite.config.ts repeatedly
         configFile: path.resolve(options.clientRoot, 'vite.config.ts'),
         server: {
           watch: {

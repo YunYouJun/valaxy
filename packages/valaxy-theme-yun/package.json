@@ -12,8 +12,10 @@
     "url": "https://github.com/YunYouJun/valaxy/tree/main/packages/valaxy-theme-yun"
   },
   "exports": {
+    "./client": "./client/index.ts",
     "./theme": "./types/index.d.ts",
-    "./*": "./*"
+    "./*": "./*",
+    ".": "./index.ts"
   },
   "main": "index.ts",
   "module": "index.ts",
