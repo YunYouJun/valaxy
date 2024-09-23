@@ -42,6 +42,9 @@ export default defineValaxyConfig<PressTheme.Config>({
     addonComponents(),
     addonGitLog({
       repositoryUrl: 'https://github.com/YunYouJun/valaxy.git',
+      contributor: {
+        mode: 'log',
+      },
     }),
   ],
 
