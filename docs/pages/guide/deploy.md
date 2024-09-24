@@ -140,11 +140,8 @@ When you use `pnpm create valaxy` to create a template project, it contains the 
 - 登录你的 Cloudflare 账号，导航到 “Pages” 页面。
 - 点击 `创建项目`、`连接到 Git`，选择你的 GitHub 或者 GitLab 仓库，并点击 `开始设置`。
 - 选择你的部署分支。
-- 将 `构建命令` 设置为 `npm run build` 。
-- 将 `构建输出目录` 设置为 `dist` 后添加一个环境变量。
-
-> `NODE_VERSION`: `16` （设置 Node 版本）
-
+- 将 `构建命令` 设置为 `pnpm build` 。
+- 将 `构建输出目录` 设置为 `dist` 。
 - 点击 `保存并部署`。
 :::
 
@@ -153,11 +150,8 @@ When you use `pnpm create valaxy` to create a template project, it contains the 
 - Login to your Cloudflare account and navigate to "Pages" page.
 - Click `Create a project` and `Connect to Git`, then select your GitHub or GitLab repository and click `Begin setup`.
 - Select your Production branch.
-- Set `Build output directory` to `npm run build` .
-- Set `Build output directory` to `dist` and add an environment variable.
-
-> `NODE_VERSION`: `16` (Set Node version)
-
+- Set `Build output directory` to `pnpm build` .
+- Set `Build output directory` to `dist` .
 - Then click "Save and Deploy".
 :::
 
