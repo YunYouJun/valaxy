@@ -1,5 +1,4 @@
 import process from 'node:process'
-import { fileURLToPath } from 'node:url'
 import fs from 'fs-extra'
 
 // https://github.com/unjs/c12
@@ -8,10 +7,16 @@ import fs from 'fs-extra'
 // use jiti directly is 0.0006s 0.6ms
 // write in valaxy directly can be fastest and solve cjs esm in vite
 
-import jiti from 'jiti'
+import { createJiti } from 'jiti'
 import { resolve } from 'pathe'
 import consola from 'consola'
 import type { ResolvedValaxyOptions } from '../options'
+
+const jiti = createJiti(import.meta.url, {
+  interopDefault: true,
+  // for hmr
+  moduleCache: false,
+})
 
 export interface LoadConfigFromFileOptions {
   cwd?: string
@@ -37,11 +42,7 @@ export async function loadConfig<T extends UserInputConfig = UserInputConfig>(op
 
   if (await fs.exists(filePath)) {
     try {
-      data = jiti(fileURLToPath(import.meta.url), {
-        interopDefault: true,
-        requireCache: false,
-        esmResolve: true,
-      })(filePath)
+      data = (await jiti.import(filePath)) as T
     }
     catch (e) {
       consola.error(`Failed to load config file: ${filePath}`)

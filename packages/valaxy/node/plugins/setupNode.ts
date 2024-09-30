@@ -1,9 +1,10 @@
 // ref slidev
 import { resolve } from 'node:path'
-import { fileURLToPath } from 'node:url'
 import fs from 'fs-extra'
 import { isObject } from '@antfu/utils'
-import jiti from 'jiti'
+import { createJiti } from 'jiti'
+
+const jiti = createJiti(import.meta.url)
 
 function deepMerge(a: any, b: any, rootPath = '') {
   a = { ...a }
@@ -23,9 +24,7 @@ export async function loadSetups<T, R extends object>(roots: string[], name: str
   for (const root of roots) {
     const path = resolve(root, 'setup', name)
     if (fs.existsSync(path)) {
-      const { default: setup } = jiti(fileURLToPath(import.meta.url), {
-        esmResolve: true,
-      })(path)
+      const { default: setup } = (await jiti.import(path)) as { default: (arg: T) => R }
       const result = await setup(arg)
       if (result !== null) {
         returns = merge

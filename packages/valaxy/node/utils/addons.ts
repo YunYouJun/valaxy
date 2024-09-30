@@ -50,7 +50,7 @@ export async function readAddonModule(name: string, options: ReadAddonModuleOpti
   const root = getAddonRoot(name, options.cwd || process.cwd())
 
   const packageJSONPath = resolve(root, './package.json')
-  if (!fs.existsSync(packageJSONPath)) {
+  if (!await fs.exists(packageJSONPath)) {
     logger.error(`No addon named ${name} found`)
     return
   }

@@ -1,8 +1,7 @@
 import { resolve } from 'node:path'
-import { existsSync } from 'node:fs'
-import { fileURLToPath } from 'node:url'
+import fs from 'fs-extra'
 import type { VitePluginConfig as UnoCSSConfig, VitePluginConfig } from 'unocss/vite'
-import jiti from 'jiti'
+import { createJiti } from 'jiti'
 import defu from 'defu'
 
 import type {
@@ -18,6 +17,8 @@ import {
 } from 'unocss'
 import type { ResolvedValaxyOptions } from '../options'
 import { loadSetups } from './setupNode'
+
+const jiti = createJiti(import.meta.url)
 
 export async function createSafelist(options: ResolvedValaxyOptions) {
   const { config } = options
@@ -139,14 +140,9 @@ export async function createUnocssPlugin(options: ResolvedValaxyOptions) {
 
   const configDeps: string[] = []
 
-  configFiles.forEach((configFile) => {
-    if (existsSync(configFile)) {
-      let uConfig: UnoCSSConfig | { default: UnoCSSConfig } = jiti(
-        fileURLToPath(import.meta.url),
-        {
-          esmResolve: true,
-        },
-      )(configFile) as UnoCSSConfig | { default: UnoCSSConfig }
+  for (const configFile of configFiles) {
+    if (await fs.exists(configFile)) {
+      let uConfig = (await jiti.import(configFile)) as UnoCSSConfig | { default: UnoCSSConfig }
       if ('default' in uConfig)
         uConfig = uConfig.default
 
@@ -154,7 +150,7 @@ export async function createUnocssPlugin(options: ResolvedValaxyOptions) {
 
       configDeps.push(configFile)
     }
-  })
+  }
 
   config = await loadSetups(roots, 'unocss.ts', {}, config, true)
 
