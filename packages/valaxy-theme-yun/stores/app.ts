@@ -1,11 +1,14 @@
 import { acceptHMRUpdate, defineStore } from 'pinia'
-import { useDynamicLeftSidebar } from 'valaxy'
+import { useToggle } from '@vueuse/core'
 
 export const useYunAppStore = defineStore('yun-app', () => {
-  const leftSidebar = useDynamicLeftSidebar()
+  const [isLeftSidebarOpen, toggleLeftSidebar] = useToggle()
 
   return {
-    leftSidebar,
+    leftSidebar: {
+      isOpen: isLeftSidebarOpen,
+      toggle: toggleLeftSidebar,
+    },
   }
 })
 

@@ -43,8 +43,8 @@ importers:
         specifier: 2.17.0
         version: 2.17.0(@vue/compiler-sfc@3.5.10)(eslint@9.11.1(jiti@2.0.0))(typescript@5.6.2)(vitest@2.1.1(@types/node@22.7.4)(jsdom@24.1.3)(sass@1.79.4))
       '@iconify-json/logos':
-        specifier: ^1.2.0
-        version: 1.2.0
+        specifier: ^1.2.1
+        version: 1.2.1
       '@iconify-json/vscode-icons':
         specifier: ^1.2.2
         version: 1.2.2
@@ -145,8 +145,8 @@ importers:
         specifier: ^4.2.8
         version: 4.2.8(typedoc@0.26.7(typescript@5.6.2))
       typedoc-vitepress-theme:
-        specifier: ^1.0.1
-        version: 1.0.1(typedoc-plugin-markdown@4.2.8(typedoc@0.26.7(typescript@5.6.2)))
+        specifier: ^1.0.2
+        version: 1.0.2(typedoc-plugin-markdown@4.2.8(typedoc@0.26.7(typescript@5.6.2)))
       vitepress:
         specifier: ^1.3.4
         version: 1.3.4(@types/node@22.7.4)(@types/react@18.3.10)(axios@1.7.7)(fuse.js@7.0.0)(nprogress@0.2.0)(postcss@8.4.47)(qrcode@1.5.4)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(sass@1.79.4)(typescript@5.6.2)
@@ -170,8 +170,8 @@ importers:
         specifier: ^1.2.1
         version: 1.2.1
       '@iconify-json/simple-icons':
-        specifier: ^1.2.4
-        version: 1.2.4
+        specifier: ^1.2.5
+        version: 1.2.5
 
   demo/yun:
     dependencies:
@@ -235,8 +235,8 @@ importers:
         specifier: ^1.2.1
         version: 1.2.1
       '@iconify-json/simple-icons':
-        specifier: ^1.2.4
-        version: 1.2.4
+        specifier: ^1.2.5
+        version: 1.2.5
       nodemon:
         specifier: ^3.1.7
         version: 3.1.7
@@ -497,8 +497,8 @@ importers:
         specifier: ^1.1.2
         version: 1.1.2
       pinia:
-        specifier: ^2.2.2
-        version: 2.2.2(typescript@5.6.2)(vue@3.5.10(typescript@5.6.2))
+        specifier: ^2.2.4
+        version: 2.2.4(typescript@5.6.2)(vue@3.5.10(typescript@5.6.2))
       qrcode:
         specifier: ^1.5.4
         version: 1.5.4
@@ -694,8 +694,8 @@ importers:
         specifier: ^1.2.1
         version: 1.2.1
       '@iconify-json/simple-icons':
-        specifier: ^1.2.4
-        version: 1.2.4
+        specifier: ^1.2.5
+        version: 1.2.5
       animejs:
         specifier: ^3.2.2
         version: 3.2.2
@@ -1665,8 +1665,8 @@ packages:
   '@iconify-json/carbon@1.2.1':
     resolution: {integrity: sha512-dIMY6OOY9LnwR3kOqAtfz4phGFG+KNfESEwSL6muCprBelSlSPpRXtdqvEEO/qWhkf5AJ9hWrOV3Egi5Z2IuKA==}
 
-  '@iconify-json/logos@1.2.0':
-    resolution: {integrity: sha512-VkU9QSqeZR2guWbecdqkcoZEAJfgJJTUm6QAsypuZQ7Cve6zy39wOXDjp2H31I8QyQy4O3Cz96+pNji6UQFg4w==}
+  '@iconify-json/logos@1.2.1':
+    resolution: {integrity: sha512-qwvPNdudjJbaKZ/QqxjZj93OWpTFwN/9bqcKgI2jkYS1iPXs1x4YuiM3/xe1Fgl9ht0cCLxg6ZqFwFm1WfLU3w==}
 
   '@iconify-json/radix-icons@1.2.0':
     resolution: {integrity: sha512-HO2ydGjQG43tLy/X0BGb+4mJZZZ5KBAzTRGnwtPl+2uH48gv1o6Q4iA1PIJHU/8WkZ2cW4nibWzieztDer4nxg==}
@@ -1674,8 +1674,8 @@ packages:
   '@iconify-json/ri@1.2.0':
     resolution: {integrity: sha512-br8It3uRHylNhEH72aU9VF6gIdL4BAi6JMdcxsCaVbAyWBJ0jd4RxfmsYnil6TmEfP5wxihiCKbtbQmIHZdqKg==}
 
-  '@iconify-json/simple-icons@1.2.4':
-    resolution: {integrity: sha512-AKUGO7cX2KykFEJ+P6tY3wGhGgbrL3RMqbxNTfutGsKojaSEFosN/cmWQ9l9hmUiS2IN7fVLsPMAIvV1uJyyVw==}
+  '@iconify-json/simple-icons@1.2.5':
+    resolution: {integrity: sha512-ucqBlm0GSjLpGQR+b61LtmHro0xkyjWl1v23AOzLTiymHK0chx7s7aeuE2s7/5/t/BzKdDu8iYuU2drawzCIQQ==}
 
   '@iconify-json/vscode-icons@1.2.2':
     resolution: {integrity: sha512-bTpT0HJDRqGkxQv8oiETNHLEnBZpnA1QaRD35CQyO7M7qgWVLx2xwn/lK6e4waojmlPC3ckMBx3WFIUUn0/Jdg==}
@@ -6324,8 +6324,8 @@ packages:
     resolution: {integrity: sha512-C3FsVNH1udSEX48gGX1xfvwTWfsYWj5U+8/uK15BGzIGrKoUpghX8hWZwa/OFnakBiiVNmBvemTJR5mcy7iPcg==}
     engines: {node: '>=4'}
 
-  pinia@2.2.2:
-    resolution: {integrity: sha512-ja2XqFWZC36mupU4z1ZzxeTApV7DOw44cV4dhQ9sGwun+N89v/XP7+j7q6TanS1u1tdbK4r+1BUx7heMaIdagA==}
+  pinia@2.2.4:
+    resolution: {integrity: sha512-K7ZhpMY9iJ9ShTC0cR2+PnxdQRuwVIsXDO/WIEV/RnMC/vmSoKDTKW/exNQYPI+4ij10UjXqdNiEHwn47McANQ==}
     peerDependencies:
       '@vue/composition-api': ^1.4.0
       typescript: '>=4.4.4'
@@ -7853,8 +7853,8 @@ packages:
     peerDependencies:
       typedoc: 0.26.x
 
-  typedoc-vitepress-theme@1.0.1:
-    resolution: {integrity: sha512-pnpgzSQRaR9QLMl3it/tjq7vlV+eeUzKa22w/xF6ZUdAcYdmeag13kuA6EKfU7/kkIkJ/qsu1GPd3OcIC36Hlw==}
+  typedoc-vitepress-theme@1.0.2:
+    resolution: {integrity: sha512-6RUW4FBsGolOU3M92F7qz9ILKjL0oq8aHyQ5Q39tIpzapimJ2qX+ChLqzcBP7/aAtEoPYezIivjjZN9oZ4Ghvg==}
     peerDependencies:
       typedoc-plugin-markdown: '>=4.1.0'
 
@@ -9489,7 +9489,7 @@ snapshots:
     dependencies:
       '@iconify/types': 2.0.0
 
-  '@iconify-json/logos@1.2.0':
+  '@iconify-json/logos@1.2.1':
     dependencies:
       '@iconify/types': 2.0.0
 
@@ -9501,7 +9501,7 @@ snapshots:
     dependencies:
       '@iconify/types': 2.0.0
 
-  '@iconify-json/simple-icons@1.2.4':
+  '@iconify-json/simple-icons@1.2.5':
     dependencies:
       '@iconify/types': 2.0.0
 
@@ -15085,7 +15085,7 @@ snapshots:
 
   pify@3.0.0: {}
 
-  pinia@2.2.2(typescript@5.6.2)(vue@3.5.10(typescript@5.6.2)):
+  pinia@2.2.4(typescript@5.6.2)(vue@3.5.10(typescript@5.6.2)):
     dependencies:
       '@vue/devtools-api': 6.6.4
       vue: 3.5.10(typescript@5.6.2)
@@ -16774,7 +16774,7 @@ snapshots:
     dependencies:
       typedoc: 0.26.7(typescript@5.6.2)
 
-  typedoc-vitepress-theme@1.0.1(typedoc-plugin-markdown@4.2.8(typedoc@0.26.7(typescript@5.6.2))):
+  typedoc-vitepress-theme@1.0.2(typedoc-plugin-markdown@4.2.8(typedoc@0.26.7(typescript@5.6.2))):
     dependencies:
       typedoc-plugin-markdown: 4.2.8(typedoc@0.26.7(typescript@5.6.2))
 
@@ -17257,7 +17257,7 @@ snapshots:
       ora: 8.1.0
       pascalcase: 2.0.0
       pathe: 1.1.2
-      pinia: 2.2.2(typescript@5.6.2)(vue@3.5.10(typescript@5.6.2))
+      pinia: 2.2.4(typescript@5.6.2)(vue@3.5.10(typescript@5.6.2))
       qrcode: 1.5.4
       sass: 1.79.4
       shiki: 1.21.0

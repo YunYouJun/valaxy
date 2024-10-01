@@ -1,8 +1,10 @@
 <script lang="ts" setup>
 import { useHead } from '@unhead/vue'
 import { useAppStore, useSiteConfig } from 'valaxy'
-import { onMounted } from 'vue'
+import { onMounted, watch } from 'vue'
+import { useRoute } from 'vue-router'
 import { useThemeConfig } from './composables'
+import { useYunAppStore } from './stores'
 
 const appStore = useAppStore()
 
@@ -30,6 +32,20 @@ const siteConfig = useSiteConfig()
 const themeConfig = useThemeConfig()
 
 const app = useAppStore()
+const yunStore = useYunAppStore()
+const route = useRoute()
+
+watch(
+  () => route.meta.layout,
+  () => {
+    if (route.meta.layout === 'home' || app.isMobile)
+      yunStore.leftSidebar.isOpen = false
+    else
+      yunStore.leftSidebar.isOpen = true
+  },
+  { immediate: true },
+)
+
 onMounted(() => {
   app.showLoading = false
 })

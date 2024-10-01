@@ -1,6 +1,4 @@
-import { defineAppSetup, useAppStore } from 'valaxy'
-import { nextTick } from 'vue'
-import { useYunAppStore } from '../stores'
+import { defineAppSetup } from 'valaxy'
 
 export default defineAppSetup((ctx) => {
   // can do for setup
@@ -11,11 +9,5 @@ export default defineAppSetup((ctx) => {
      * router import order
      * @see https://pinia.vuejs.org/zh/core-concepts/outside-component-usage.html#single-page-applications
      */
-    const appStore = useAppStore()
-    const yunAppStore = useYunAppStore()
-    nextTick(() => {
-      if (appStore.isMobile)
-        yunAppStore.leftSidebar.close()
-    })
   })
 })
