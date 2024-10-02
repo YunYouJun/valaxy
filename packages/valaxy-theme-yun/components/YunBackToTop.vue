@@ -21,7 +21,12 @@ const strokeOffset = computed(() => {
   >
     <div w="8" h="8" i-ri-arrow-up-s-line />
     <svg class="progress-circle-container" viewBox="0 0 100 100">
-      <circle :stroke-dasharray="`${circumference} ${circumference}`" :stroke-dashoffset="strokeOffset" class="progress-circle" cx="50" cy="50" :r="radius" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
+      <circle
+        :stroke-dasharray="`${circumference} ${circumference}`"
+        :stroke-dashoffset="strokeOffset"
+        stroke="currentColor" stroke-width="2" stroke-linecap="round"
+        class="progress-circle" cx="50" cy="50" :r="radius" fill="none"
+      />
     </svg>
   </a>
 </template>

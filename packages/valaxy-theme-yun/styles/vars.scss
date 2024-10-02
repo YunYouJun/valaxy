@@ -13,6 +13,7 @@ $light: map.merge(
 $dark: () !default;
 $dark: map.merge(
   (
+    "bg": red,
     "bg-img": none,
     "sidebar-bg-img": none,
   ),
@@ -37,10 +38,24 @@ $z-index: map.merge(
     "backdrop": 9,
     "sidebar": 10,
     "fireworks": 11,
-    "menu-btn": 20,
     "go-up-btn": 20,
+    "fullscreen-menu": 21,
+    "menu-btn": 22,
     "search-popup": 30,
     "search-btn": 31,
   ),
   $z-index
 );
+
+// cubic-bezier
+$cubic-bezier: () !default;
+$cubic-bezier: map.merge(
+  (
+    // 慢速开始，然后加速
+    "ease-in": cubic-bezier(0.18, 0.66, 0.05, 0.96),
+    // 慢速开始和结束
+    "ease-in-out": cubic-bezier(0.77, 0, 0.17, 1.02),
+  ),
+  $cubic-bezier
+);
+

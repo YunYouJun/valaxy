@@ -5,4 +5,6 @@
   <YunSidebar v-else />
 
   <RouterView />
+
+  <YunFooter />
 </template>

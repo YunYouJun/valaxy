@@ -13,3 +13,4 @@ $c-primary: #0078e7 !default;
 @use 'valaxy/client/styles/components/code.scss' as *;
 @use 'valaxy/client/styles/components/code-group.scss' as *;
 @use 'valaxy/client/styles/components/custom-block.scss' as *;
+@use "./animations/index.scss" as *;

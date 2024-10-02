@@ -5,12 +5,11 @@
 .vp-code-group .tabs {
   position: relative;
   display: flex;
-  margin-right: -24px;
-  margin-left: -24px;
+  margin-right: -1rem;
+  margin-left: -1rem;
   padding: 0 12px;
   background-color: var(--va-code-tab-bg);
-  overflow-x: auto;
-  overflow-y: hidden;
+  overflow: auto hidden;
   box-shadow: inset 0 -1px var(--va-code-tab-divider);
 }
 

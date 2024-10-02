@@ -13,11 +13,11 @@ defineProps<{
   >
     <RouterLink
       v-for="tag, i in tags" :key="i" :to="{ path: '/tags/', query: { tag } }"
-      class="transition post-tag inline-flex-center text-xs border-$va-c-divider hover:(text-blue-500 border-blue-500)"
+      class="transition post-tag inline-flex-center text-xs border-$va-c-divider"
       px-2 h="7"
       rounded-full
       border
-      bg="hover:(blue-500 opacity-10)"
+      hover="bg-blue-500 text-white"
     >
       <span>{{ tag }}</span>
     </RouterLink>

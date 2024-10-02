@@ -21,7 +21,10 @@ const sponsorBtnTitle = computed(() => {
       <div i-ri-heart-line />
     </button>
 
-    <div class="qrcode-container qrcode flex-center flex-col" m="y-4" :class="showQr && 'show'">
+    <div
+      class="qrcode-container qrcode flex-center flex-col" m="y-4"
+      :class="showQr && 'show'"
+    >
       <div v-if="siteConfig.sponsor.description" class="sponsor-description" mb="4" text="sm">
         {{ siteConfig.sponsor.description }}
       </div>
@@ -41,6 +44,8 @@ const sponsorBtnTitle = computed(() => {
 </template>
 
 <style lang="scss">
+@use 'sass:map';
+@use 'valaxy-theme-yun/styles/vars.scss' as *;
 @use "valaxy/client/styles/mixins/index.scss" as *;
 
 .sponsor-button {
@@ -69,7 +74,7 @@ const sponsorBtnTitle = computed(() => {
 .qrcode-container {
   overflow: hidden;
   height: 0;
-  transition: height var(--va-transition-duration) ease-in-out;
+  transition: height var(--va-transition-duration) map.get($cubic-bezier, 'ease-in-out');
 
   &.show {
     height: 260px;

@@ -6,6 +6,7 @@ import { sortByDate } from '../../utils'
 import { useRouterStore } from '../../stores'
 
 export * from './usePrevNext'
+export * from './usePagination'
 
 export function usePostTitle(post: ComputedRef<Post>) {
   const { locale } = useI18n()

@@ -117,6 +117,10 @@ export interface SiteConfig {
        */
       message: string
     }
+    /**
+     * @zh 个人简介
+     */
+    intro?: string
   }
 
   /**

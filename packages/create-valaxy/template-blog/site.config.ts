@@ -66,7 +66,7 @@ export default defineSiteConfig({
     {
       name: 'Twitter',
       link: 'https://twitter.com/YunYouJun',
-      icon: 'i-ri-twitter-line',
+      icon: 'i-ri-twitter-x-fill',
       color: '#1da1f2',
     },
     {

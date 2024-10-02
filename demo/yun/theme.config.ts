@@ -18,13 +18,19 @@ export default defineThemeConfig({
 
   pages: [
     {
-      name: '我的小伙伴们',
+      name: '项目列表',
+      url: 'https://sponsors.yunyoujun.cn/projects',
+      icon: 'i-ri-gallery-view',
+      color: 'var(--va-c-text)',
+    },
+    {
+      name: '友情链接',
       url: '/links/',
-      icon: 'i-ri-genderless-line',
+      icon: 'i-ri-link',
       color: 'dodgerblue',
     },
     {
-      name: '喜欢的女孩子',
+      name: '老婆列表',
       url: '/girls/',
       icon: 'i-ri-women-line',
       color: 'hotpink',

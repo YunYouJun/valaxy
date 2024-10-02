@@ -1,37 +1,10 @@
 <script lang="ts" setup>
-import { useSiteConfig } from 'valaxy'
-import { useRouter } from 'vue-router'
-
-const siteConfig = useSiteConfig()
-const router = useRouter()
+// overview
 </script>
 
 <template>
   <div class="sidebar-panel" p="2">
-    <div class="site-info" m="t-6">
-      <RouterLink class="site-author-avatar" to="/about">
-        <img class="rounded-full" :src="siteConfig.author.avatar" alt="avatar">
-        <span v-if="siteConfig.author.status.emoji" class="site-author-status" :title="siteConfig.author.status.message || undefined">{{ siteConfig.author.status.emoji }}</span>
-      </RouterLink>
-      <div
-        class="site-author-name leading-6"
-        m="t-0 b-4"
-      >
-        <RouterLink to="/about">
-          {{ siteConfig.author.name }}
-        </RouterLink>
-      </div>
-      <RouterLink v-if="router.hasRoute('/about/site')" to="/about/site" class="site-name">
-        {{ siteConfig.title }}
-      </RouterLink>
-      <span v-else class="site-name">{{ siteConfig.title }}</span>
-      <h4 v-if="siteConfig.subtitle" class="site-subtitle block" text="xs">
-        {{ siteConfig.subtitle }}
-      </h4>
-      <div v-if="siteConfig.description" class="site-description my-1">
-        {{ siteConfig.description }}
-      </div>
-    </div>
+    <YunSiteInfo />
 
     <YunSidebarNav />
     <hr m="t-4 b-2" op="20">
@@ -46,12 +19,6 @@ const router = useRouter()
 
 <style lang="scss">
 @use "valaxy/client/styles/mixins/index.scss" as *;
-
-.site-info {
-  &.fix-top {
-    margin-top: -1.5rem;
-  }
-}
 
 .site-author-avatar {
   display: inline-block;
@@ -91,11 +58,6 @@ const router = useRouter()
   color: var(--va-c-text);
   font-family: get-css-var('font-serif');
   font-weight: 900;
-}
-
-.site-subtitle {
-  color: get-css-var('c-gray');
-  display: block;
 }
 
 .site-description {

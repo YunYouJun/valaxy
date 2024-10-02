@@ -12,10 +12,10 @@ defineProps<{
       path: '/categories',
       query: { category: Array.isArray(categories) ? categories.join('/') : categories },
     }"
-    class="transition post-category inline-flex-center text-xs border-$va-c-divider hover:(text-blue-500 border-blue-500)"
+    class="transition post-category inline-flex-center text-xs border-$va-c-divider"
     px-2 h="7"
     border rounded-full
-    bg="hover:(blue-500 opacity-10)"
+    hover="bg-blue-500 text-white"
   >
     <div m="x-1" inline-flex i-ri-folder-2-line />
     <span>

@@ -1,3 +1,6 @@
+@use 'sass:map';
+@use '../vars.scss' as *;
+
 $banner-animation-duration: 1s;
 $char-animation-duration: 0.4s;
 
@@ -40,22 +43,39 @@ $char-animation-duration: 0.4s;
     background-color: var(--banner-line-color);
     width: 1px;
     height: 0;
-    animation-name: extend-line;
-    animation-duration: var(--line-animation-duration);
-    animation-fill-mode: forwards;
-    animation-timing-function: ease-in;
-    animation-iteration-count: 1;
   }
 
   &-bottom {
     flex-direction: column-reverse;
   }
 
-  &.active {
+
+
+
+}
+
+.banner-line {
+  &.enter {
     animation-name: extend-line;
     animation-duration: var(--line-animation-duration);
     animation-fill-mode: forwards;
-    animation-timing-function: ease-in;
+    animation-timing-function: map.get($cubic-bezier, "ease-in");
+    animation-iteration-count: 1;
+  }
+
+  &.active {
+    height: var(--banner-line-height);
+  }
+
+  // Exit
+  &.exit {
+    animation-name: extend-line;
+    animation-duration: var(--line-animation-duration);
+    animation-fill-mode: forwards;
+
+    // reverse
+    animation-direction: reverse;
+    animation-timing-function: map.get($cubic-bezier, "ease-in-out");
     animation-iteration-count: 1;
   }
 }

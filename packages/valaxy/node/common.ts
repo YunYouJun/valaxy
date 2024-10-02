@@ -67,8 +67,8 @@ export async function getIndexHtml({ clientRoot, themeRoot, userRoot, config }: 
 
     // add it for first load
     head += `<style type="text/css">
-    :root { --va-c-bg: #fff; }
-    html.dark { --va-c-bg: #1b1b1f; }
+    :root { color-scheme: light dark; --va-c-bg: #fff; }
+    html.dark { --va-c-bg: #000; }
     html { background-color: var(--va-c-bg); }
   </style>`
   }

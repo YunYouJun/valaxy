@@ -40,11 +40,5 @@ const displayedPosts = computed(() =>
     </TransitionGroup>
   </div>
 
-  <ValaxyPagination :cur-page="curPage" :page-size="pageSize" :total="posts.length" />
+  <YunPagination :total="posts.length" :page-size="pageSize" />
 </template>
-
-<style>
-.yun-card-actions {
-  border-top: 1px solid rgba(122, 122, 122, 0.15);
-}
-</style>

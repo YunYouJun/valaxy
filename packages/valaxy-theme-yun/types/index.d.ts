@@ -27,7 +27,7 @@ export namespace YunTheme {
   }
 }
 
-export interface Page {
+export interface PageProps {
   name: string
   /**
    * @description:en-US Page URL
@@ -108,6 +108,9 @@ export interface ThemeConfig extends DefaultTheme.Config {
    * ["Hello, World!", "Bye, World!"]
    */
   say: {
+    /**
+     * @default false
+     */
     enable: boolean
     api: string
     hitokoto: {
@@ -147,7 +150,7 @@ export interface ThemeConfig extends DefaultTheme.Config {
    * @en - Pages
    * @zh - 页面，显示在社交导航栏下方
    */
-  pages: Page[]
+  pages: PageProps[]
 
   sidebar: YunTheme.Sidebar
 

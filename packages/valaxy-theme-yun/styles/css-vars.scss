@@ -14,6 +14,24 @@
   @include set-css-var-from-map($light);
 }
 
-.dark {
+html.dark {
   @include set-css-var-from-map($dark);
+
+  // bg
+  // gradient
+  --va-c-bg: #1a1a1d;
+  --va-c-bg-soft: #121215;
+}
+
+// animation
+@media screen and (width <= 768px) {
+  :root {
+    --rect-margin: 20px;
+  }
+}
+
+@media screen and (width > 768px) {
+  :root {
+    --rect-margin: 48px;
+  }
 }

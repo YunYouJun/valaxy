@@ -41,27 +41,29 @@ useSchemaOrg(
 </script>
 
 <template>
-  <YunSidebar v-if="$slots['sidebar-child']">
-    <slot name="sidebar-child" />
-  </YunSidebar>
-  <YunSidebar v-else />
+  <div class="mt-40">
+    <YunSidebar v-if="$slots['sidebar-child']">
+      <slot name="sidebar-child" />
+    </YunSidebar>
+    <YunSidebar v-else />
 
-  <RouterView v-slot="{ Component }">
-    <component :is="Component">
-      <template #main-header-after>
-        <YunPostMeta :frontmatter="frontmatter" />
-        <YunWalineMeta />
-        <YunPostCategoriesAndTags :frontmatter="frontmatter" />
-      </template>
+    <RouterView v-slot="{ Component }" class="mt-30">
+      <component :is="Component">
+        <template #main-header-after>
+          <YunPostMeta :frontmatter="frontmatter" />
+          <YunWalineMeta />
+          <YunPostCategoriesAndTags :frontmatter="frontmatter" />
+        </template>
 
-      <template #main-content-after>
-        <YunSponsor v-if="showSponsor" m="t-6" />
-        <ValaxyCopyright v-if="frontmatter.copyright || (frontmatter.copyright !== false && siteConfig.license.enabled)" :url="url" m="y-4" />
-      </template>
+        <template #main-content-after>
+          <YunSponsor v-if="showSponsor" m="t-6" />
+          <ValaxyCopyright v-if="frontmatter.copyright || (frontmatter.copyright !== false && siteConfig.license.enabled)" :url="url" m="y-4" />
+        </template>
 
-      <template #aside-custom>
-        <slot name="aside-custom" />
-      </template>
-    </component>
-  </RouterView>
+        <template #aside-custom>
+          <slot name="aside-custom" />
+        </template>
+      </component>
+    </RouterView>
+  </div>
 </template>

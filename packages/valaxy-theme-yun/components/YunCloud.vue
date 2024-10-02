@@ -17,26 +17,21 @@
 <style lang="scss">
 @use 'valaxy/client/styles/mixins/index.scss' as *;
 
+.dark .yun-cloud {
+  --yun-c-cloud: var(--va-c-bg-soft);
+}
+
 .yun-cloud {
   display: flex;
   width: 100%;
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  right: 0;
   z-index: var(--yun-z-cloud);
   box-sizing: border-box;
-  mix-blend-mode: overlay;
 
   .waves {
     display: flex;
     position: relative;
     width: 100%;
-    height: 100px;
-
-    @include screen('md') {
-      height: 40px;
-    }
+    height: 40px;
   }
 
   .parallax {

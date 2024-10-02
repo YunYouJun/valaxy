@@ -1,6 +1,8 @@
 import { formatDate } from 'valaxy'
 import noneImg from '../assets/images/none.jpg'
 
+export * from './animation'
+
 /**
  * set default img
  * @param e

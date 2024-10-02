@@ -1,9 +1,13 @@
 import { defineAppSetup } from 'valaxy'
+import '../styles/global.scss'
+import { MotionPlugin } from '@vueuse/motion'
 
 export default defineAppSetup((ctx) => {
   // can do for setup
 
-  const { router } = ctx
+  const { router, app } = ctx
+  // https://motion.vueuse.org/
+  app.use(MotionPlugin)
   router.afterEach(() => {
     /**
      * router import order

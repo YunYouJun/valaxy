@@ -1,0 +1,23 @@
+// cubic-bezier(0.18, 0.66, 0.05, 0.96)
+// cubic-bezier(0.77, 0, 0.17, 1.02)
+
+.fade-enter-active,
+.fade-leave-active {
+  opacity: 1;
+  transition: opacity 0.5s ease;
+}
+
+.fade-enter-from,
+.fade-leave-to {
+  opacity: 0;
+}
+
+@keyframes fade-in {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}

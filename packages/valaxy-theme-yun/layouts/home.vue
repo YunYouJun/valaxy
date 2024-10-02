@@ -24,8 +24,9 @@ const showNotice = computed(() => {
     <YunSidebar :show-hamburger="true" />
 
     <template v-if="!isPage">
-      <YunBanner v-if="themeConfig.banner.enable" />
+      <YunBanner />
       <YunSay v-if="themeConfig.say.enable" w="full" />
+      <YunPrologue class="absolute left-0 top-0 right-0 bottom-0" />
     </template>
 
     <YunNotice

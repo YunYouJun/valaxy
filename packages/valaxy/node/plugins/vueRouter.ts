@@ -78,10 +78,10 @@ export async function createRouterPlugin(valaxyApp: ValaxyNode) {
       }
 
       // page is post
-      if (route.fullPath === '/posts') {
-        // avoid /posts as parent layout use layout
+      if (['/posts', '/posts/'].includes(route.fullPath)) {
+        // add posts layout
         route.addToMeta({
-          layout: false,
+          layout: 'posts',
         })
       }
       else if (route.fullPath.startsWith('/posts/')) {

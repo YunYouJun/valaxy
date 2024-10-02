@@ -1,3 +1,5 @@
+@use 'sass:map';
+@use 'valaxy-theme-yun/styles/vars.scss' as *;
 @use "valaxy/client/styles/mixins/index.scss" as *;
 @use "./post" as *;
 
@@ -7,4 +9,5 @@ html {
 
 .yun-main {
   transition: padding-left var(--va-transition-duration);
+  transition-timing-function: map.get($cubic-bezier, 'ease-in-out');
 }

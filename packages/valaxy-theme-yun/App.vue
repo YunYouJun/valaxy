@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import { useHead } from '@unhead/vue'
-import { useAppStore, useSiteConfig } from 'valaxy'
+import { useAppStore } from 'valaxy'
 import { onMounted, watch } from 'vue'
 import { useRoute } from 'vue-router'
 import { useThemeConfig } from './composables'
@@ -28,7 +28,6 @@ useHead({
   ],
 })
 
-const siteConfig = useSiteConfig()
 const themeConfig = useThemeConfig()
 
 const app = useAppStore()
@@ -52,11 +51,13 @@ onMounted(() => {
 </script>
 
 <template>
+  <YunPageHeaderGradient />
+  <YunNavMenu />
+  <YunFullscreenMenu />
   <YunFireworks v-if="themeConfig.fireworks.enable" />
   <slot name="bg">
     <YunBg v-if="themeConfig.bg_image.enable" />
   </slot>
-  <YunSearchTrigger v-if="siteConfig.search.enable" />
   <Transition name="fade">
     <YunLoading v-if="app.showLoading" />
   </Transition>

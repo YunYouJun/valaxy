@@ -13,13 +13,13 @@ const showOverview = ref(false)
 <template>
   <ValaxyOverlay class="md:hidden" :show="yunStore.leftSidebar.isOpen" @click="yunStore.leftSidebar.toggle()" />
 
-  <ValaxyHamburger
+  <!-- <ValaxyHamburger
     :active="yunStore.leftSidebar.isOpen"
     class="menu-btn sidebar-toggle yun-icon-btn leading-4 fixed left-0.8rem top-0.6rem"
     inline-flex cursor="pointer" z="$yun-z-menu-btn"
     :class="showHamburger ? '' : 'md:hidden'"
     @click="yunStore.leftSidebar.toggle()"
-  />
+  /> -->
 
   <aside
     class="va-card transition sidebar fixed inset-y-0 left-0 overflow-y-auto"
@@ -55,6 +55,9 @@ const showOverview = ref(false)
 </template>
 
 <style lang="scss">
+@use 'sass:map';
+@use 'valaxy-theme-yun/styles/vars.scss' as *;
+
 .sidebar {
   width: calc(100vw - 64px);
   max-width: var(--va-sidebar-width);
@@ -62,8 +65,8 @@ const showOverview = ref(false)
   background-position: bottom 1rem center;
   transform: translateX(-100%);
   transition: box-shadow var(--va-transition-duration),
-    background-color var(--va-transition-duration), opacity 0.25s,
-    transform var(--va-transition-duration) cubic-bezier(0.19, 1, 0.22, 1) !important;
+    background-color var(--va-transition-duration), opacity var(--va-transition-duration),
+    transform var(--va-transition-duration) map.get($cubic-bezier, 'ease-in-out') !important;
 
   &.open {
     transform: translateX(0);

@@ -30,9 +30,6 @@ export default defineConfig<ThemeConfig>({
       title: '云游君的小站',
       // 手动分割
       // title: ['云游君的', '小站'],
-      cloud: {
-        enable: true
-      }
     },
   }
 })

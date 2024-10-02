@@ -9,7 +9,7 @@ import { addonTest } from 'valaxy-addon-test'
 import { addonWaline } from 'valaxy-addon-waline'
 import { addonTwikoo } from 'valaxy-addon-twikoo'
 
-import { addonMeting } from 'valaxy-addon-meting'
+// import { addonMeting } from 'valaxy-addon-meting'
 
 // import { addonTwikoo } from 'valaxy-addon-twikoo'
 
@@ -100,14 +100,14 @@ export default defineValaxyConfig<ThemeConfig>({
     }),
 
     addonLightGallery(),
-    addonMeting({
-      global: true,
-      props: {
-        id: '2049540645',
-        server: 'netease',
-        type: 'song',
-      },
-    }),
+    // addonMeting({
+    //   global: true,
+    //   props: {
+    //     id: '2049540645',
+    //     server: 'netease',
+    //     type: 'song',
+    //   },
+    // }),
     addonTest(),
   ],
 })
