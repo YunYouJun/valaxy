@@ -15,9 +15,11 @@ export default defineAppSetup((ctx) => {
   // primevue
   app.use(PrimeVue, {
     unstyled: true,
+    // ripple: true,
   })
   app.directive('animateonscroll', AnimateOnScroll)
   app.directive('styleclass', StyleClass)
+  // app.$primevue.config.ripple = true
 
   router.afterEach(() => {
     /**

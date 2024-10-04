@@ -11,7 +11,7 @@ const tags = useTags()
 </script>
 
 <template>
-  <nav class="site-nav" text-xl mt-6>
+  <nav class="site-nav" text-xl mt-2>
     <YunPostClassifyNavItem
       to="/archives/" icon="i-ri-archive-line" :title="t('menu.archives')"
       :total="site.postList.length"
@@ -37,6 +37,5 @@ const tags = useTags()
   line-height: 1.5;
   white-space: nowrap;
   text-align: center;
-  margin-top: 1rem;
 }
 </style>

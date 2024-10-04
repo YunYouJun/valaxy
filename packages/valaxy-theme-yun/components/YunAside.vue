@@ -1,11 +1,19 @@
 <script lang="ts" setup>
 import { useI18n } from 'vue-i18n'
 import { useFrontmatter } from 'valaxy'
+import { onMounted, ref } from 'vue'
 import { useYunAppStore } from '../stores'
 
 const frontmatter = useFrontmatter()
 const { t } = useI18n()
 const yun = useYunAppStore()
+
+const show = ref(false)
+onMounted(() => {
+  setTimeout(() => {
+    show.value = true
+  }, 0)
+})
 </script>
 
 <template>
@@ -20,16 +28,19 @@ const yun = useYunAppStore()
   <ValaxyOverlay :show="yun.rightSidebar.isOpen" @click="yun.rightSidebar.toggle()" />
 
   <!--  -->
-  <Transition>
-    <aside
-      v-if="yun.rightSidebar.isOpen || yun.size.isXl"
-      flex="~ col"
-      class="va-card yun-aside sticky top-68px min-h-sm w-80"
-      :class="yun.rightSidebar.isOpen && 'open'"
-      text="center"
-      overflow="auto"
-    >
-      <div class="w-full" flex="~ col">
+  <aside
+    v-if="yun.rightSidebar.isOpen || yun.size.isXl"
+    flex="~ col"
+    class="va-card yun-aside sticky top-68px min-h-sm w-80"
+    :class="{
+      show,
+      open: yun.rightSidebar.isOpen,
+    }"
+    text="center"
+    overflow="auto"
+  >
+    <Transition name="fade">
+      <div v-show="show" class="w-full" flex="~ col">
         <h2 v-if="frontmatter.toc !== false" m="t-6 b-2" font="serif black">
           {{ t('sidebar.toc') }}
         </h2>
@@ -42,8 +53,8 @@ const yun = useYunAppStore()
           <slot />
         </div>
       </div>
-    </aside>
-  </Transition>
+    </Transition>
+  </aside>
 </template>
 
 <style lang="scss">
@@ -52,13 +63,21 @@ const yun = useYunAppStore()
 .yun-aside {
   // need fixed width
   // width: var(--va-sidebar-width, 300px);
+  width: 0;
   transform: translateX(100%);
-  transition: box-shadow var(--va-transition-duration),
+  transition:
+  width var(--va-transition-duration),
+  box-shadow var(--va-transition-duration),
   background-color var(--va-transition-duration), opacity 0.25s,
   transform var(--va-transition-duration) cubic-bezier(0.19, 1, 0.22, 1);
   max-height: calc(100vh - 68px);
 
+  &.show {
+    width: 320px;
+  }
+
   &.open {
+    width: 320px;
     right: 0;
     display: block;
     z-index: 10;

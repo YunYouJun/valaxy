@@ -16,7 +16,7 @@ const siteConfig = useSiteConfig()
         :title="siteConfig.author.status.message || undefined"
       >{{ siteConfig.author.status.emoji }}</span> -->
     </RouterLink>
-    <YunAuthorName class="my-2" />
+    <YunAuthorName />
     <YunSiteTitle />
     <h4
       v-if="siteConfig.subtitle"

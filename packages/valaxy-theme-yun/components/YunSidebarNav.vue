@@ -47,7 +47,6 @@ const tags = useTags()
   line-height: 1.5;
   white-space: nowrap;
   text-align: center;
-  margin-top: 1rem;
 }
 
 .site-link-item {

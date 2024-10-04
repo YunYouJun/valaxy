@@ -4,8 +4,8 @@ defineProps<{ cover?: string }>()
 
 <template>
   <div
-    class="yun-card flex-center rounded"
-    flex="col" min-h="100px"
+    class="yun-card flex-center rounded" flex="col"
+    min-h="100px"
     bg="$va-c-bg-light"
   >
     <img

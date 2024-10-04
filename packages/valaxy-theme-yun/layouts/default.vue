@@ -1,6 +1,8 @@
 <script setup lang="ts">
+import { useAppStore } from 'valaxy'
 import { useYunAppStore } from '../stores'
 
+const app = useAppStore()
 const yun = useYunAppStore()
 </script>
 
@@ -14,6 +16,7 @@ const yun = useYunAppStore()
   >
     <YunLayoutLeft />
     <RouterView />
+    <YunAside v-if="!app.isMobile" />
   </div>
   <YunFooter />
 </template>
