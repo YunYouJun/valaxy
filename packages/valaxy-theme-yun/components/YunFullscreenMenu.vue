@@ -38,12 +38,15 @@ const fullscreenMenuRef = ref<HTMLElement>()
 
 .slide-down-enter-active,
 .slide-down-leave-active {
-  transition: transform 0.4s map.get($cubic-bezier, 'ease-in-out');
+  opacity: 1;
+  transition: transform 0.4s map.get($cubic-bezier, 'ease-in-out'),
+    opacity 0.2s map.get($cubic-bezier, 'ease-in-out');
   transform: translateY(0);
 }
 
 .slide-down-enter-from,
 .slide-down-leave-to {
+  opacity: 0;
   transform: translateY(-100%);
 }
 </style>

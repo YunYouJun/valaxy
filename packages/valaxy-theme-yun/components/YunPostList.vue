@@ -28,17 +28,18 @@ const displayedPosts = computed(() =>
 </script>
 
 <template>
-  <div class="yun-post-list" w="full" p="x-4 lt-sm:0">
+  <div flex="~ col" class="yun-post-list gap-4" w="full" p="x-4 lt-sm:0">
     <template v-if="!displayedPosts.length">
       <div py2 op50 text-center>
         博主还什么都没写哦～
       </div>
     </template>
 
-    <TransitionGroup name="fade">
-      <YunPostCard v-for="route, i in displayedPosts" :key="i" :post="route" />
-    </TransitionGroup>
+    <YunPostCard v-for="route, i in displayedPosts" :key="i" :post="route" />
   </div>
 
-  <YunPagination :total="posts.length" :page-size="pageSize" />
+  <YunPagination
+    class="mt-5"
+    :total="posts.length" :page-size="pageSize"
+  />
 </template>

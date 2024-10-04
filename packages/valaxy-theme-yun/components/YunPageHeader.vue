@@ -11,7 +11,7 @@ defineProps<{
 </script>
 
 <template>
-  <header class="post-header" m="t-20">
+  <header class="post-header">
     <h1
       class="post-title flex-center" p="2" text="2xl center"
       font="serif black"

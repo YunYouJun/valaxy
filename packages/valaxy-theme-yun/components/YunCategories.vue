@@ -24,14 +24,20 @@ const categoryList = computed(() => {
 </script>
 
 <template>
-  <ul v-for="category in categories.values()" :key="category.name" class="category-list" m="l-4">
-    <YunCategory
-      :parent-key="category.name"
-      :category="category"
-      :level="level + 1"
-      :collapsable="!categoryList.includes(category.name)"
-    />
-  </ul>
+  <div flex="~ col">
+    <ul
+      v-for="category in categories.values()"
+      :key="category.name"
+      class="category-list"
+    >
+      <YunCategory
+        :parent-key="category.name"
+        :category="category"
+        :level="level + 1"
+        :collapsable="!categoryList.includes(category.name)"
+      />
+    </ul>
+  </div>
 </template>
 
 <style lang="scss">
@@ -47,12 +53,6 @@ const categoryList = computed(() => {
 
 .category-list-item {
   .folder-action {
-    &:hover {
-      color: var(--va-c-primary);
-    }
-  }
-
-  .category-name {
     &:hover {
       color: var(--va-c-primary);
     }

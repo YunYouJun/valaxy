@@ -1,5 +1,4 @@
 import { acceptHMRUpdate, defineStore } from 'pinia'
-import { useToggle } from '@vueuse/core'
 import { ref } from 'vue'
 import { useMobile, useThemeConfig, useValaxyDark } from 'valaxy'
 
@@ -18,9 +17,6 @@ export const useAppStore = defineStore('app', () => {
   const isMobile = useMobile()
   const showLoading = ref(true)
 
-  // right sidebar with toc
-  const [isRightSidebarOpen, toggleRightSidebar] = useToggle(false)
-
   return {
     isMobile,
     // for dark
@@ -30,9 +26,6 @@ export const useAppStore = defineStore('app', () => {
     toggleDarkWithTransition,
 
     showLoading,
-
-    isRightSidebarOpen,
-    toggleRightSidebar,
   }
 })
 

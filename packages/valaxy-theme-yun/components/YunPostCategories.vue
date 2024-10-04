@@ -19,7 +19,7 @@ defineProps<{
   >
     <div m="x-1" inline-flex i-ri-folder-2-line />
     <span>
-      {{ Array.isArray(categories) ? categories.join(' > ') : categories }}
+      {{ Array.isArray(categories) ? categories.join(' / ') : categories }}
     </span>
   </RouterLink>
 </template>

@@ -1,9 +1,10 @@
 <script setup lang="ts">
-import { useSiteConfig } from 'valaxy'
-import { onMounted, ref } from 'vue'
+import { onMounted, ref, watch } from 'vue'
+import { useAppStore, useSiteConfig } from 'valaxy'
 import { useRoute } from 'vue-router'
 import { useYunAppStore } from '../stores'
 
+const app = useAppStore()
 const yunApp = useYunAppStore()
 const siteConfig = useSiteConfig()
 
@@ -19,38 +20,86 @@ onMounted(() => {
     showMenu.value = true
   }
 })
+
+const playAnimation = ref(false)
+watch(() => yunApp.scrollY, () => {
+  if (yunApp.scrollY > 10)
+    playAnimation.value = true
+  else
+    playAnimation.value = false
+})
+
+const navMenu = ref([
+  {
+    title: '项目',
+    url: 'https://sponsors.yunyoujun.cn/projects',
+  },
+  {
+    title: '赞助者',
+    url: 'https://sponsors.yunyoujun.cn',
+  },
+])
 </script>
 
 <template>
   <Transition name="fade">
     <div
       v-if="showMenu"
-      class="yun-nav-menu shadow-xl"
+      class="yun-nav-menu z-99999"
       border="~ solid $va-c-text"
+      :class="{
+        play: playAnimation,
+      }"
     >
       <!--  -->
       <ValaxyHamburger
         :active="yunApp.fullscreenMenu.isOpen"
-        class="menu-btn sidebar-toggle leading-4 size-12 bg-$va-c-bg"
+        class="menu-btn sidebar-toggle leading-4 size-12"
         inline-flex cursor="pointer"
-        hover="bg-$va-c-bg-soft"
+        hover="bg-white/80 dark:bg-black/80"
         z="$yun-z-menu-btn"
         @click="yunApp.fullscreenMenu.toggle()"
       />
-      <NavMenuTitle />
-      <YunSearchTrigger v-if="siteConfig.search.enable" />
+
+      <div class="flex flex-1 px-2">
+        <YunNavMenuTitle />
+      </div>
+
+      <div class="inline-flex-center">
+        <template v-if="!app.isMobile">
+          <AppLink
+            v-for="item in navMenu"
+            :key="item.url"
+            :to="item.url"
+            class="menu-btn inline-flex-center p-2 transition text-$va-c-text"
+            inline-flex cursor="pointer"
+            hover="bg-white/80 dark:bg-black/80"
+            z="$yun-z-menu-btn"
+          >
+            {{ item.title }}
+          </AppLink>
+        </template>
+
+        <YunClassifyPopover v-if="!yunApp.size.isLg" />
+        <YunSearchTrigger v-if="siteConfig.search.enable" />
+      </div>
     </div>
   </Transition>
 </template>
 
 <style lang="scss">
+@use 'sass:map';
+@use 'valaxy-theme-yun/styles/vars.scss' as *;
 @use "valaxy/client/styles/mixins/index.scss" as *;
 
 .yun-nav-menu {
   position: fixed;
-  animation: nav-menu-appear 0.3s linear forwards;
-  animation-timeline: scroll();
-  animation-range: 0 calc(30vh);
+
+  // safari not support
+  // animation-timeline: scroll();
+  // animation-range: 0 calc(30vh), exit;
+  background-color: transparent;
+  box-shadow: none;
   z-index: var(--yun-z-menu-btn);
   display: flex;
   top: var(--rect-margin);
@@ -59,27 +108,23 @@ onMounted(() => {
   align-items: center;
   justify-content: space-between;
   height: 50px;
+  transition: all 0.5s map.get($cubic-bezier, 'ease-in');
 
-  .vt-hamburger-top, .vt-hamburger-middle, .vt-hamburger-bottom {
-    background-color: var(--va-c-text);
-  }
-}
-
-@keyframes nav-menu-appear {
-  from {
-    top: var(--rect-margin);
-    left: var(--rect-margin);
-    right: var(--rect-margin);
-    background-color: transparent;
-    box-shadow: none;
-  }
-
-  to {
+  &.play {
     top: 0;
     left: 0;
     right: 0;
     background-color: var(--va-c-bg);
-    border-color: rgba(0, 0, 0, 0.1);
+    border-color: rgb(0 0 0 / 0.1);
+
+    --un-shadow: var(--un-shadow-inset) 0 20px 25px -5px var(--un-shadow-color, rgb(0 0 0 / 0.1)), var(--un-shadow-inset) 0 8px 10px -6px var(--un-shadow-color, rgb(0 0 0 / 0.1));
+
+    box-shadow: var(--un-ring-offset-shadow), var(--un-ring-shadow),
+      var(--un-shadow);
+    }
+
+  .vt-hamburger-top, .vt-hamburger-middle, .vt-hamburger-bottom {
+    background-color: var(--va-c-text);
   }
 }
 </style>

@@ -66,7 +66,7 @@ const EXCLUDE = [
 ]
 
 export function createConfigPlugin(options: ResolvedValaxyOptions): Plugin {
-  const themeDeps = Object.keys((options.config.themeConfig.pkg.dependencies || {}))
+  // const themeDeps = Object.keys((options.config.themeConfig.pkg.dependencies || {}))
   const addonDeps = options.addons.map(i => Object.keys(i.pkg.dependencies || {})).flat()
 
   return {
@@ -94,8 +94,8 @@ export function createConfigPlugin(options: ResolvedValaxyOptions): Plugin {
           // must need it
           include: uniq([
             ...clientDeps,
-            // theme deps
-            ...themeDeps,
+            // remove theme deps, for primevue parse entry
+            // ...themeDeps,
             // addon deps
             ...addonDeps,
           ]).filter(i => !EXCLUDE.includes(i)),

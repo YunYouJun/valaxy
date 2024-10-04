@@ -25,7 +25,9 @@
     "@iconify-json/simple-icons": "^1.2.5",
     "@vueuse/motion": "^2.2.5",
     "animejs": "^3.2.2",
-    "gsap": "^3.12.5"
+    "gsap": "^3.12.5",
+    "primevue": "^4.0.7",
+    "radix-vue": "^1.9.6"
   },
   "devDependencies": {
     "@types/animejs": "^3.1.12",

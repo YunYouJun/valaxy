@@ -1,15 +1,6 @@
 <script lang="ts" setup>
 import { useRandomData } from '../composables'
-import { onImgError } from '../utils'
-
-interface LinkType {
-  avatar: string
-  name: string
-  url: string
-  color: string
-  blog: string
-  desc: string
-}
+import type { LinkType } from '../types'
 
 const props = defineProps<{
   links: string | LinkType[]
@@ -21,50 +12,27 @@ const props = defineProps<{
 }>()
 
 const { data } = useRandomData(props.links, props.random)
-
-function onError(e: Event) {
-  onImgError(e, props.errorImg)
-}
 </script>
 
 <template>
-  <div class="links">
-    <ul class="link-items">
-      <li v-for="link, i in data" :key="i" class="link-item" :style="`--primary-color: ${link.color}`">
-        <a class="link-url" p="x-4 y-2" :href="link.url" :title="link.name" alt="portrait" rel="friend" target="_blank">
-          <div class="link-left">
-            <img
-              class="link-avatar" width="64" height="64" w="16" h="16"
-              loading="lazy" :src="link.avatar" :alt="link.name"
-              @error="onError"
-            >
-          </div>
-          <div class="link-info" m="l-2">
-            <div class="link-blog" font="serif black">{{ link.blog }}</div>
-            <div class="link-desc">{{ link.desc }}</div>
-          </div>
-        </a>
-      </li>
+  <div class="yun-links">
+    <ul class="yun-link-items" flex="center wrap">
+      <YunLinkItem
+        v-for="link, i in data"
+        :key="i"
+        :i="i" :link="link" :error-img="errorImg"
+      />
     </ul>
   </div>
 </template>
 
-<style lang="scss" scoped>
-.link-item {
-  display: inline-flex;
-}
-
-.links {
-  .link-items {
-    display: flex;
-    text-align: center;
-    justify-content: center;
-    flex-wrap: wrap;
-
+<style lang="scss">
+.yun-links {
+  .yun-link-items {
     padding-left: 0;
   }
 
-  .link-url {
+  .yun-link-url {
     --smc-link-color: var(--primary-color);
 
     display: inline-flex;
@@ -82,7 +50,7 @@ function onError(e: Event) {
       box-shadow: 0 2px 20px var(--primary-color, gray);
     }
 
-    .link {
+    .yun-link {
       &-left {
         line-height: 0;
       }
@@ -97,7 +65,7 @@ function onError(e: Event) {
         transition: 0.5s;
 
         &:hover {
-          box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+          box-shadow: 0 0 20px rgb(0 0 0 / 0.1);
         }
       }
 
@@ -111,7 +79,7 @@ function onError(e: Event) {
     }
   }
 
-  .link-info {
+  .yun-link-info {
     display: inline-flex;
     flex-direction: column;
     justify-content: center;

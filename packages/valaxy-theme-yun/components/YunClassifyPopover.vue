@@ -1,0 +1,57 @@
+<script setup lang="ts">
+import { useMotion } from '@vueuse/motion'
+import Popover from 'primevue/popover'
+import { onMounted, ref } from 'vue'
+
+const op = ref<typeof Popover>()
+
+const pContentRef = ref<HTMLElement>()
+const motion = useMotion(pContentRef, {
+  initial: {
+    opacity: 0,
+    translateY: 30,
+  },
+  enter: {
+    opacity: 1,
+    translateY: 0,
+    transition: {
+      type: 'spring',
+      duration: 200,
+      damping: 9,
+    },
+  },
+})
+
+onMounted(() => {
+  motion.variant.value = 'initial'
+
+  // 滚动时隐藏
+  window.addEventListener('scroll', () => {
+    op.value?.hide()
+    motion.variant.value = 'initial'
+  })
+})
+
+function toggle(event: Event) {
+  op.value?.toggle(event)
+  motion.variant.value = op.value?.visible ? 'enter' : 'initial'
+}
+</script>
+
+<template>
+  <YunNavMenuItem icon="i-ri-mind-map" @click="toggle" />
+  <Popover
+    ref="op"
+    :auto-z-index="false"
+    :base-z-index="1"
+  >
+    <div
+      ref="pContentRef"
+      class="p-4 shadow-xl z--1"
+      bg="$va-c-bg-light"
+    >
+      <YunSiteInfo class="text-center" />
+      <YunPostsInfo />
+    </div>
+  </Popover>
+</template>

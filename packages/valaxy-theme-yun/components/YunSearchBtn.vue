@@ -21,9 +21,9 @@ function onClick() {
 
 <template>
   <button
-    class="yun-search-btn popup-trigger h-full inline-flex justify-center items-center aspect-1 bg-$va-c-bg"
+    class="yun-search-btn popup-trigger size-12 inline-flex justify-center items-center"
     text="xl $va-c-text"
-    hover="bg-$va-c-bg-soft"
+    hover="bg-white/80 dark:bg-black/80"
     :title="t('menu.search')"
     @click="onClick"
   >

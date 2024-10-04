@@ -38,6 +38,8 @@ if (typeof themeConfig.value.bg_image.url !== 'undefined') {
   width: 100%;
   height: 100%;
   z-index: -1;
+  top: 0;
+  left: 0;
   background-image: var(--yun-bg-img);
   background-size: cover;
   background-position: center;

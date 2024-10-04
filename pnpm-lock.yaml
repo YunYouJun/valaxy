@@ -705,6 +705,12 @@ importers:
       gsap:
         specifier: ^3.12.5
         version: 3.12.5
+      primevue:
+        specifier: ^4.0.7
+        version: 4.0.7(vue@3.5.10(typescript@5.6.2))
+      radix-vue:
+        specifier: ^1.9.6
+        version: 1.9.6(vue@3.5.10(typescript@5.6.2))
     devDependencies:
       '@types/animejs':
         specifier: ^3.1.12
@@ -1876,6 +1882,24 @@ packages:
 
   '@polka/url@1.0.0-next.28':
     resolution: {integrity: sha512-8LduaNlMZGwdZ6qWrKlfa+2M4gahzFkprZiAt2TF8uS0qQgBizKXpXURqvTJ4WtmupWxaLqjRb2UCTe72mu+Aw==}
+
+  '@primeuix/styled@0.0.5':
+    resolution: {integrity: sha512-pVoGn/uPkVm/DyF3TR3EmH/pL/dP4nR42FcYbVduFq9VfO3KVeOEqvcCULHXos66RZO9MCbCFUoLy6ctf9GUGQ==}
+    engines: {node: '>=12.11.0'}
+
+  '@primeuix/utils@0.0.5':
+    resolution: {integrity: sha512-ntUiUgtRtkF8KuaxHffzhYxQxoXk6LAPHm7CVlFjdqS8Rx8xRkLkZVyo84E+pO2hcNFkOGVP/GxHhQ2s94O8zA==}
+    engines: {node: '>=12.11.0'}
+
+  '@primevue/core@4.0.7':
+    resolution: {integrity: sha512-SvWiNBEeR6hm4wjnze+rITUjHMFLwIzpRFlq+GqmJyZmjJy4h8UUksi0EoyqAWCAwKgmwlxY6XNqGJmMVyOguQ==}
+    engines: {node: '>=12.11.0'}
+    peerDependencies:
+      vue: ^3.0.0
+
+  '@primevue/icons@4.0.7':
+    resolution: {integrity: sha512-tj4dfRdV5iN6O0mbkpjhMsGlT3wZTqOPL779ndY5gKuCwN5zcFmKmABWVQmr/ClRivnMkw6Yr1x6gRTV/N0ydg==}
+    engines: {node: '>=12.11.0'}
 
   '@radix-ui/colors@3.0.0':
     resolution: {integrity: sha512-FUOsGBkHrYJwCSEtWRCIfQbZG7q1e6DgxCIOe1SUQzDe/7rXXeA47s8yCn6fuTNQAj1Zq4oTFi9Yjp3wzElcxg==}
@@ -6602,6 +6626,10 @@ packages:
     resolution: {integrity: sha512-o1piW0n3tgKIKCwk2vpM/vOV13zjJzvP37Ioze54YlTHE06m4tjEbzg9WsKkvTuyYln2DHjo5pY4qrZGI0otpw==}
     engines: {node: '>=18'}
 
+  primevue@4.0.7:
+    resolution: {integrity: sha512-88qazHqldkqsCxvhjnjO65XMBfJyHQoFW3BQvrJYO6RqPheHB4f7cY61eqtBpJAjnM5x+YKTZiWx/gBuUzqT7Q==}
+    engines: {node: '>=12.11.0'}
+
   process-nextick-args@2.0.1:
     resolution: {integrity: sha512-3ouUOpQhtgrbOa17J7+uxOTpITYWaGP7/AhoR3+A+/1e9skrzelGi/dXzEYyvbxubEF6Wn2ypscTKiKJFFn1ag==}
 
@@ -9785,6 +9813,25 @@ snapshots:
       playwright: 1.47.2
 
   '@polka/url@1.0.0-next.28': {}
+
+  '@primeuix/styled@0.0.5':
+    dependencies:
+      '@primeuix/utils': 0.0.5
+
+  '@primeuix/utils@0.0.5': {}
+
+  '@primevue/core@4.0.7(vue@3.5.10(typescript@5.6.2))':
+    dependencies:
+      '@primeuix/styled': 0.0.5
+      '@primeuix/utils': 0.0.5
+      vue: 3.5.10(typescript@5.6.2)
+
+  '@primevue/icons@4.0.7(vue@3.5.10(typescript@5.6.2))':
+    dependencies:
+      '@primeuix/utils': 0.0.5
+      '@primevue/core': 4.0.7(vue@3.5.10(typescript@5.6.2))
+    transitivePeerDependencies:
+      - vue
 
   '@radix-ui/colors@3.0.0': {}
 
@@ -15264,6 +15311,15 @@ snapshots:
   pretty-ms@9.1.0:
     dependencies:
       parse-ms: 4.0.0
+
+  primevue@4.0.7(vue@3.5.10(typescript@5.6.2)):
+    dependencies:
+      '@primeuix/styled': 0.0.5
+      '@primeuix/utils': 0.0.5
+      '@primevue/core': 4.0.7(vue@3.5.10(typescript@5.6.2))
+      '@primevue/icons': 4.0.7(vue@3.5.10(typescript@5.6.2))
+    transitivePeerDependencies:
+      - vue
 
   process-nextick-args@2.0.1: {}
 

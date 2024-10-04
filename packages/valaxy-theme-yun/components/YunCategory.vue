@@ -45,6 +45,8 @@ const { show } = useInvisibleElement(postCollapseElRef)
  * @param category
  */
 function jumpToDisplayCategory(category: string) {
+  collapse.value = false
+
   router.push({
     query: {
       category,
@@ -62,19 +64,39 @@ onMounted(() => {
 </script>
 
 <template>
-  <li class="category-list-item inline-flex items-center cursor-pointer">
+  <li
+    class="category-list-item inline-flex items-center cursor-pointer w-full gap-2 transition px-3 py-2 rounded"
+    hover="bg-black/5"
+  >
     <span class="folder-action inline-flex" @click="collapse = !collapse">
       <div v-if="collapse" i-ri-folder-add-line />
       <div v-else style="color:var(--va-c-primary)" i-ri-folder-reduce-line />
     </span>
-    <span class="category-name" m="l-1" @click="jumpToDisplayCategory(parentKey)">
-      {{ category.name === 'Uncategorized' ? t('category.uncategorized') : category.name }} [{{ category.total }}]
+    <span
+      class="category-name inline-flex items-center gap-2 w-full"
+      @click="jumpToDisplayCategory(parentKey)"
+    >
+      <span>
+        {{ category.name === 'Uncategorized' ? t('category.uncategorized') : category.name }}
+      </span>
+      <span class="rounded-full px-1.5 bg-black/5 shadow-sm" text="xs black/55">
+        {{ category.total }}
+      </span>
     </span>
   </li>
 
-  <template v-if="!collapse">
-    <ul>
-      <li v-for="categoryItem, i in category.children.values()" :key="i" class="post-list-item" m="l-4">
+  <Transition
+    enter-active-class="v-enter-active"
+    enter-from-class="v-enter-from"
+    leave-active-class="v-leave-active"
+    leave-to-class="v-leave-to"
+    :duration="{ enter: 200, leave: 0 }"
+  >
+    <ul v-if="!collapse">
+      <li
+        v-for="categoryItem, i in category.children.values()" :key="i"
+        class="post-list-item" m="l-4"
+      >
         <template v-if="isCategoryList(categoryItem)">
           <YunCategory
             :parent-key="parentKey ? `${parentKey}/${categoryItem.name}` : categoryItem.name"
@@ -84,12 +106,16 @@ onMounted(() => {
         </template>
 
         <template v-else>
-          <RouterLink v-if="categoryItem.title" :to="categoryItem.path || ''" class="inline-flex items-center">
+          <RouterLink
+            v-if="categoryItem.title" :to="categoryItem.path || ''"
+            class="inline-flex items-center gap-2 px-3 py-2 w-full rounded transition"
+            hover="bg-black/5"
+          >
             <div i-ri-file-text-line />
-            <span m="l-1" font="serif black">{{ getTitle(categoryItem) }}</span>
+            <span font="serif black">{{ getTitle(categoryItem) }}</span>
           </RouterLink>
         </template>
       </li>
     </ul>
-  </template>
+  </Transition>
 </template>

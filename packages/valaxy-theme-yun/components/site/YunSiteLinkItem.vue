@@ -11,15 +11,15 @@ const yunApp = useYunAppStore()
 
 <template>
   <AppLink
-    class="link-item w-full h-12 items-center justify-center gap-2 transition rounded"
+    class="link-item w-full items-center justify-center gap-2 transition rounded text-xl p-3"
     inline-flex
     :to="page.url" :title="page.name"
     :style="`color:${page.color}`"
     hover="bg-gray-100/50 dark:bg-gray-800/50"
     @click="yunApp.fullscreenMenu.isOpen = false"
   >
-    <div :class="page.icon" class="icon size-6" />
-    <span class="text-lg">
+    <div :class="page.icon" class="icon" />
+    <span>
       {{ page.name }}
     </span>
   </AppLink>

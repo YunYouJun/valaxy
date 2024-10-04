@@ -1,16 +1,20 @@
 <script lang="ts" setup>
-import { useFrontmatter, useInvisibleElement, usePostTitle, useSiteStore } from 'valaxy'
+import { useAppStore, useFrontmatter, useInvisibleElement, usePostTitle, useSiteStore } from 'valaxy'
 import { useI18n } from 'vue-i18n'
 import { computed, ref } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { defineWebPage, useSchemaOrg } from '@unhead/schema-org'
 import { useThemeConfig, useYunTags } from '../composables'
+import { useYunAppStore } from '../stores'
 
 useSchemaOrg([
   defineWebPage({
     '@type': 'CollectionPage',
   }),
 ])
+
+const app = useAppStore()
+const yun = useYunAppStore()
 
 const route = useRoute()
 const router = useRouter()
@@ -58,46 +62,54 @@ const title = usePostTitle(frontmatter)
 </script>
 
 <template>
-  <YunSidebar v-if="$slots['sidebar-child']">
-    <slot name="sidebar-child" />
-  </YunSidebar>
-  <YunSidebar v-else />
+  <div
+    flex="~"
+    class="mt-24 md:mt-36 w-full max-w-screen-2xl m-auto justify-center items-start gap-4"
+    :class="{
+      'flex-col': app.isMobile,
+    }"
+  >
+    <YunSidebarCard v-if="yun.size.isLg" />
 
-  <RouterView v-slot="{ Component }">
-    <component :is="Component">
-      <template #main-header>
-        <YunPageHeader
-          :title="title || t('menu.tags')"
-          :icon="frontmatter.icon || 'i-ri-tag-line'"
-          :color="frontmatter.color"
-          :page-title-class="frontmatter.pageTitleClass"
-        />
-      </template>
-      <template #main-content>
-        <div class="yun-text-light" text="center" p="2">
-          {{ t('counter.tags', Array.from(tags).length) }}
-        </div>
-
-        <div class="justify-center items-end" flex="~ wrap" gap="1">
-          <YunLayoutPostTag
-            v-for="[key, tag] in Array.from(tags).sort()"
-            :key="key"
-            :title="key"
-            :count="tag.count"
-            :style="getTagStyle(tag.count)"
-            @click="displayTag(key.toString())"
+    <RouterView v-slot="{ Component }">
+      <component :is="Component">
+        <template #main-header>
+          <YunPageHeader
+            class="mt-8"
+            :title="title || t('menu.tags')"
+            :icon="frontmatter.icon || 'i-ri-tag-line'"
+            :color="frontmatter.color"
+            :page-title-class="frontmatter.pageTitleClass"
           />
-        </div>
+        </template>
+        <template #main-content>
+          <div class="yun-text-light" text="center" p="2">
+            {{ t('counter.tags', Array.from(tags).length) }}
+          </div>
 
-        <RouterView />
-      </template>
+          <div class="justify-center items-end" flex="~ wrap" gap="1">
+            <YunLayoutPostTag
+              v-for="[key, tag] in Array.from(tags).sort()"
+              :key="key"
+              :title="key"
+              :count="tag.count"
+              :style="getTagStyle(tag.count)"
+              @click="displayTag(key.toString())"
+            />
+          </div>
 
-      <template #main-nav-before>
-        <YunCard v-if="curTag" ref="collapse" m="t-4" w="full">
-          <YunPageHeader :title="curTag" icon="i-ri-hashtag" />
-          <YunPostCollapse w="full" m="b-4" p="x-20 lt-sm:x-5" :posts="posts" />
-        </YunCard>
-      </template>
-    </component>
-  </RouterView>
+          <RouterView />
+        </template>
+
+        <template #main-nav-before>
+          <YunCard v-if="curTag" ref="collapse" m="t-4" w="full">
+            <YunPageHeader :title="curTag" icon="i-ri-hashtag" />
+            <YunPostCollapse w="full" m="b-4" p="x-20 lt-sm:x-5" :posts="posts" />
+          </YunCard>
+        </template>
+      </component>
+    </RouterView>
+  </div>
+
+  <YunFooter />
 </template>

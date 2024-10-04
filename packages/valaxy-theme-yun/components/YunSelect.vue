@@ -55,14 +55,4 @@ function toggleOptionVisible(e: MouseEvent) {
 .select-options {
   margin: 0;
 }
-
-.v-enter-active,
-.v-leave-active {
-  transition: opacity .2s ease;
-}
-
-.v-enter-from,
-.v-leave-to {
-  opacity: 0;
-}
 </style>

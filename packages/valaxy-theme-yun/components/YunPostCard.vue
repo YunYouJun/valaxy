@@ -14,7 +14,13 @@ const { icon, styles } = usePostProperty(props.post.type)
 
 <template>
   <YunCard
-    m="y-4 auto"
+    v-animateonscroll="{
+      // translate
+      enterClass: 'animate-fade-in animate-duration-200ms',
+      leaveClass: 'animate-fade-out animate-duration-200ms',
+    }"
+    class="w-full"
+    m="auto"
     :class="post.cover ? 'post-card-image' : 'post-card'"
     overflow="hidden" :style="styles"
   >
@@ -83,9 +89,10 @@ const { icon, styles } = usePostProperty(props.post.type)
 
 <style lang="scss">
 .post-card {
-  animation: card-appear 0.6s ease-in-out forwards, card-appear 0.6s ease-in-out forwards reverse;
-  animation-timeline: view();
-  animation-range: entry, exit;
+  // safari not support
+  // animation: card-appear 0.6s ease-in-out forwards, card-appear 0.6s ease-in-out forwards reverse;
+  // animation-timeline: view();
+  // animation-range: entry, exit;
 }
 
 @keyframes card-appear {
@@ -101,6 +108,6 @@ const { icon, styles } = usePostProperty(props.post.type)
 }
 
 .yun-card-actions {
-  border-top: 1px solid rgba(122, 122, 122, 0.05);
+  border-top: 1px solid rgb(122 122 122 / 0.05);
 }
 </style>

@@ -19,7 +19,11 @@ const showNotice = computed(() => {
 <template>
   <main
     class="yun-main flex-center"
-    :class="!yunStore.leftSidebar.isOpen ? 'pl-0' : 'md:pl-$va-sidebar-width'" flex="~ col" w="full"
+    :class="{
+      'pl-0': !yunStore.leftSidebar.isOpen,
+      'md:pl-$va-sidebar-width': yunStore.leftSidebar.isOpen,
+      'pt-36': isPage,
+    }" flex="~ col" w="full"
   >
     <YunSidebar :show-hamburger="true" />
 
@@ -31,7 +35,11 @@ const showNotice = computed(() => {
 
     <YunNotice
       v-if="showNotice"
-      :content="themeConfig.notice.content" mt="4"
+      class="mb-10"
+      :class="{
+        'mt-4': !isPage,
+      }"
+      :content="themeConfig.notice.content"
     />
 
     <slot name="board" />

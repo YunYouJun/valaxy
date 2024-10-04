@@ -22,6 +22,27 @@ const siteConfig = useSiteConfig()
 </template>
 
 <style lang="scss">
+.site-author-avatar {
+  display: inline-block;
+  line-height: 0;
+  position: relative;
+
+  img {
+    height: 96px;
+    width: 96px;
+    max-width: 100%;
+    margin: 0;
+    padding: 4px;
+    background-color: white;
+    box-shadow: 0 0 10px rgba(black, 0.2);
+    transition: 0.4s;
+
+    &:hover {
+      box-shadow: 0 0 30px rgba(var(--va-c-primary-rgb), 0.2);
+    }
+  }
+}
+
 .site-info {
   &.fix-top {
     margin-top: -1.5rem;

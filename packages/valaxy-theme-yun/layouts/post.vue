@@ -1,11 +1,14 @@
 <script lang="ts" setup>
 import { computed } from 'vue'
-import { useFrontmatter, useFullUrl, useSiteConfig } from 'valaxy'
+import { useAppStore, useFrontmatter, useFullUrl, useSiteConfig } from 'valaxy'
 
 import type { Article } from '@unhead/schema-org'
 import { defineArticle, useSchemaOrg } from '@unhead/schema-org'
 import { toDate } from 'date-fns'
+import { useYunAppStore } from '../stores'
 
+const app = useAppStore()
+const yun = useYunAppStore()
 const siteConfig = useSiteConfig()
 const frontmatter = useFrontmatter()
 const url = useFullUrl()
@@ -41,18 +44,26 @@ useSchemaOrg(
 </script>
 
 <template>
-  <div class="mt-40">
-    <YunSidebar v-if="$slots['sidebar-child']">
+  <div
+    flex="~"
+    class="mt-24 md:mt-36 w-full max-w-screen-2xl m-auto justify-center items-start gap-4"
+    :class="{
+      'flex-col': app.isMobile,
+    }"
+  >
+    <!-- <YunSidebar v-if="$slots['sidebar-child']">
       <slot name="sidebar-child" />
     </YunSidebar>
-    <YunSidebar v-else />
+    <YunSidebar v-else /> -->
 
-    <RouterView v-slot="{ Component }" class="mt-30">
+    <YunSidebarCard v-if="yun.size.isLg" />
+
+    <RouterView v-slot="{ Component }">
       <component :is="Component">
         <template #main-header-after>
           <YunPostMeta :frontmatter="frontmatter" />
-          <YunWalineMeta />
-          <YunPostCategoriesAndTags :frontmatter="frontmatter" />
+
+          <YunPostCategoriesAndTags class="mt-2" :frontmatter="frontmatter" />
         </template>
 
         <template #main-content-after>
@@ -65,5 +76,9 @@ useSchemaOrg(
         </template>
       </component>
     </RouterView>
+
+    <YunAside v-if="!app.isMobile" />
   </div>
+
+  <YunFooter />
 </template>

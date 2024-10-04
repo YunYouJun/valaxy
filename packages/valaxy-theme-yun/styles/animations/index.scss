@@ -1,6 +1,19 @@
 // cubic-bezier(0.18, 0.66, 0.05, 0.96)
 // cubic-bezier(0.77, 0, 0.17, 1.02)
 
+@use 'sass:map';
+@use '../vars.scss' as *;
+
+.v-enter-active,
+.v-leave-active {
+  transition: opacity .2s map.get($cubic-bezier, 'ease-in');
+}
+
+.v-enter-from,
+.v-leave-to {
+  opacity: 0;
+}
+
 .fade-enter-active,
 .fade-leave-active {
   opacity: 1;

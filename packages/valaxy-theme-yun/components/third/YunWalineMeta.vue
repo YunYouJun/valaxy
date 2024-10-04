@@ -14,14 +14,26 @@ const { t } = useI18n()
 </script>
 
 <template>
-  <div v-if="addonWaline && addonWaline.options" flex="~" text="sm" my="1" h="5">
-    <div v-if="addonWaline.options.pageview" inline-flex justify="center" items="center" mx="2" :title="t('post.pageview_count')">
+  <div v-if="addonWaline && addonWaline.options" class="inline-flex gap-4" text="sm" h="5">
+    <div
+      v-if="addonWaline.options.pageview" inline-flex justify="center" items="center"
+      :title="t('post.pageview_count')"
+    >
       <div inline-flex i-ri-eye-line />
-      <span ml-1 inline-flex class="waline-pageview-count" :data-path="route.path" />
+      <span
+        ml-1 inline-flex class="waline-pageview-count op-80"
+        :data-path="route.path"
+      />
     </div>
-    <div v-if="addonWaline.options.comment" inline-flex justify="center" items="center" mx="2" :title="t('post.comment_count')">
+    <div
+      v-if="addonWaline.options.comment" inline-flex justify="center" items="center"
+      :title="t('post.comment_count')"
+    >
       <div inline-flex i-ri-chat-4-line />
-      <span ml-1 inline-flex class="waline-comment-count" :data-path="route.path" />
+      <span
+        ml-1 inline-flex class="waline-comment-count op-80"
+        :data-path="route.path"
+      />
     </div>
   </div>
 </template>

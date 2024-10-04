@@ -1,28 +1,29 @@
 <script lang="ts" setup>
-import { useAppStore, useFrontmatter } from 'valaxy'
+import { useFrontmatter } from 'valaxy'
+import { usePressAppStore } from '../stores/app'
 import PressOutline from './PressOutline.vue'
 
 const frontmatter = useFrontmatter()
-const app = useAppStore()
+const press = usePressAppStore()
 </script>
 
 <template>
   <button
     class="toc-btn shadow-lg fixed press-icon-btn z-99 lt-md:hidden! xl:hidden!"
     right="5" bottom="24"
-    @click="app.toggleRightSidebar()"
+    @click="press.rightSidebar.toggle()"
   >
     <div i-ri-file-list-line />
   </button>
 
-  <ValaxyOverlay :show="app.isRightSidebarOpen" @click="app.toggleRightSidebar()" />
+  <ValaxyOverlay :show="press.rightSidebar.isOpen" @click="press.rightSidebar.toggle()" />
 
   <aside
     class="press-aside lt-xl:fixed shadow xl:(shadow-none hover:shadow-none) hover:shadow-lg"
     flex="~ col grow"
     p="l-0 xl:l-8" text="center"
     z="$"
-    :class="app.isRightSidebarOpen && 'open'"
+    :class="press.rightSidebar.isOpen && 'open'"
   >
     <div class="aside-curtain" />
     <div class="aside-container lt-xl:fixed" flex="~ col">

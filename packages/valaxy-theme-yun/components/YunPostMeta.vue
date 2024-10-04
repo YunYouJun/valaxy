@@ -1,14 +1,14 @@
 <script lang="ts" setup>
 import type { Post } from 'valaxy'
-import { formatDate, useSiteConfig } from 'valaxy'
+import { useAppStore, useSiteConfig } from 'valaxy'
 import { useI18n } from 'vue-i18n'
-import { formatTimestamp } from '../utils'
 
 defineProps<{
   // FrontMatter
   frontmatter: Post
 }>()
 
+const app = useAppStore()
 const { t } = useI18n()
 
 const siteConfig = useSiteConfig()
@@ -27,50 +27,42 @@ const siteConfig = useSiteConfig()
   </div>
 
   <div
-    v-if="frontmatter" class="post-meta"
-    flex="~ col" justify="center" items="center" text="sm" py="1"
+    v-if="frontmatter"
+    class="post-meta gap-4"
+    flex="~ center"
+    text="sm"
+    :class="{
+      'flex-col gap-2!': app.isMobile || frontmatter.updated,
+    }"
   >
-    <div v-if="frontmatter.date" class="post-time flex items-center">
-      <span class="posted-time inline-flex-center" :title="t('post.posted') + formatTimestamp(frontmatter.date)">
-        <div class="inline-block" i-ri-calendar-line />
-        <time m="l-1">{{ formatDate(frontmatter.date) }}</time>
-      </span>
+    <YunPostDateMeta :frontmatter="frontmatter" />
 
-      <span
-        v-if="frontmatter.updated && frontmatter.updated !== frontmatter.date"
-        class="edited-time inline-flex-center" :title="t('post.edited') + formatTimestamp(frontmatter.updated)"
+    <div class="inline-flex-center gap-4">
+      <div
+        v-if="siteConfig.statistics.enable"
+        class="inline-flex-center post-counter gap-4"
       >
-        <span m="x-2">-</span>
-        <div i-ri-calendar-2-line />
-        <time m="l-1">{{ formatDate(frontmatter.updated) }}</time>
-      </span>
-    </div>
+        <span
+          v-if="frontmatter.wordCount"
+          class="word-count inline-flex-center gap-1" :title="t('statistics.word')"
+        >
+          <div class="inline-block" i-ri-file-word-line />
+          <span class="op-80">{{ frontmatter.wordCount }}</span>
+        </span>
 
-    <div
-      v-if="siteConfig.statistics.enable"
-      class="post-counter flex items-center" mt="2"
-    >
-      <span
-        v-if="frontmatter.wordCount"
-        class="word-count inline-flex-center" :title="t('statistics.word')"
-      >
-        <div class="inline-block" i-ri-file-word-line />
-        <span m="l-1">{{ frontmatter.wordCount }}</span>
-      </span>
+        <span
+          v-if="frontmatter.readingTime"
+          class="reading-time inline-flex-center gap-1"
+          :title="t('statistics.time')"
+        >
+          <div i-ri-timer-line />
+          <time class="op-80">{{ frontmatter.readingTime }}m</time>
+        </span>
+      </div>
 
-      <span
-        v-if="frontmatter.readingTime"
-        class="reading-time inline-flex-center"
-        :title="t('statistics.time')"
-      >
-        <span m="x-2">-</span>
-        <div i-ri-timer-line />
-        <time m="l-1">{{ frontmatter.readingTime }}m</time>
-      </span>
+      <YunWalineMeta />
     </div>
   </div>
-
-  <slot />
 </template>
 
 <style>

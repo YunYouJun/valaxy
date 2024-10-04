@@ -224,3 +224,26 @@ export interface ThemeConfig extends DefaultTheme.Config {
 }
 
 export type UserThemeConfig = Partial<ThemeConfig>
+
+/**
+ * For user links
+ */
+export interface LinkType {
+  avatar: string
+  name: string
+  url: string
+  color: string
+  blog: string
+  desc: string
+}
+
+/**
+ * girl
+ */
+export interface GirlType {
+  name: string
+  url: string
+  avatar: string
+  from?: string
+  reason?: string
+}

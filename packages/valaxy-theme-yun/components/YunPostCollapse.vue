@@ -44,7 +44,7 @@ const sortedYears = computed(() => {
 </script>
 
 <template>
-  <div class="post-collapse px-10 lt-sm:px-5" relative>
+  <div class="post-collapse px-10 lt-sm:px-5 max-w-3xl" relative>
     <div w="full" text="center" class="yun-text-light" p="2">
       {{ t('counter.archives', posts.length) }}
     </div>
@@ -65,15 +65,18 @@ const sortedYears = computed(() => {
 
       <article
         v-for="post, j in sortByDate(postListByYear[year], isDesc)" :key="j"
-        class="post-item" relative
+        class="post-item relative"
       >
-        <header class="post-header" flex items-center relative>
+        <header
+          class="post-header cursor-pointer" flex items-center relative
+          hover="bg-black/1"
+        >
           <div class="post-meta">
             <time v-if="post.date" class="post-time" font="mono" opacity="80">{{
               formatDate(post.date, 'MM-dd') }}
             </time>
           </div>
-          <h2 class="post-title" inline-flex items-center font="serif black">
+          <h2 class="post-title w-full" inline-flex items-center font="serif black">
             <RouterLink :to="post.path || ''" class="post-title-link">
               {{ post.title }}
             </RouterLink>
