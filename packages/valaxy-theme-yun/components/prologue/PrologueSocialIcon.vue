@@ -38,7 +38,7 @@ useMotion(iconRef, {
 
 <template>
   <div
-    v-tooltip.top="social.name"
+    v-tooltip="social.name"
     class="size-10 inline-flex-center"
   >
     <a

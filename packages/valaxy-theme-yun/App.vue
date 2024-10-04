@@ -3,7 +3,6 @@ import { useHead } from '@unhead/vue'
 import { useAppStore } from 'valaxy'
 import { onMounted, watch } from 'vue'
 import { useRoute } from 'vue-router'
-import { useCssVar, useScroll } from '@vueuse/core'
 import { useThemeConfig } from './composables'
 import { useYunAppStore } from './stores'
 
@@ -48,14 +47,6 @@ watch(
 
 onMounted(() => {
   app.showLoading = false
-})
-
-// for scroll animation
-const scrollY = useCssVar('--scroll-y')
-const { y } = useScroll(window, {
-  onScroll: () => {
-    scrollY.value = y.value.toString()
-  },
 })
 
 const isDev = import.meta.env.DEV

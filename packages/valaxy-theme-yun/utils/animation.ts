@@ -1,5 +1,5 @@
 import { gsap } from 'gsap'
-import ScrollToPlugin from 'gsap/ScrollToPlugin'
+import ScrollToPlugin from 'gsap/dist/ScrollToPlugin'
 
 gsap.registerPlugin(ScrollToPlugin)
 

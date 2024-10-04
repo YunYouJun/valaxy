@@ -6,7 +6,6 @@ import PrimeVue from 'primevue/config'
 import AnimateOnScroll from 'primevue/animateonscroll'
 import StyleClass from 'primevue/styleclass'
 import ToastService from 'primevue/toastservice'
-import Tooltip from 'primevue/tooltip'
 
 import primeStyles from '../styles/primevue'
 import '../styles/primevue/tooltip.scss'
@@ -44,7 +43,9 @@ export default defineAppSetup((ctx) => {
   })
   app.directive('animateonscroll', AnimateOnScroll)
   app.directive('styleclass', StyleClass)
-  app.directive('tooltip', Tooltip)
+
+  // use floating-vue
+  // app.directive('tooltip', Tooltip)
   app.use(ToastService)
 
   // app.$primevue.config.ripple = true

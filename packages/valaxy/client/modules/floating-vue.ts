@@ -6,5 +6,13 @@ import type { DefaultTheme, ValaxyConfig } from 'valaxy/types'
 import type { ComputedRef } from 'vue'
 
 export async function install({ app }: ViteSSGContext, config: ComputedRef<ValaxyConfig<DefaultTheme.Config>>) {
-  app.use(FloatingVue, config.value.siteConfig.floatingVue)
+  app.use(FloatingVue, Object.assign({
+    themes: {
+      tooltip: {
+        delay: {
+          show: 0,
+        },
+      },
+    },
+  }, config.value.siteConfig.floatingVue || {}))
 }

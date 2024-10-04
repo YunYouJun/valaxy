@@ -1,9 +1,8 @@
 import { acceptHMRUpdate, defineStore } from 'pinia'
-import { useScroll, useToggle } from '@vueuse/core'
+import { isClient, useScroll, useToggle } from '@vueuse/core'
 import { useScreenSize } from 'valaxy'
 
 export const useYunAppStore = defineStore('yun-app', () => {
-  const { y } = useScroll(window)
   // 左侧边栏
   const [isLeftSidebarOpen, toggleLeftSidebar] = useToggle()
   // 右侧边栏
@@ -28,7 +27,7 @@ export const useYunAppStore = defineStore('yun-app', () => {
       isOpen: isFullscreenMenuOpen,
       toggle: toggleFullscreenMenu,
     },
-    scrollY: y,
+    scrollY: isClient ? useScroll(window).y : 0,
   }
 })
 
