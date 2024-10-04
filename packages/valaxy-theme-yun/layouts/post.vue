@@ -5,10 +5,8 @@ import { useAppStore, useFrontmatter, useFullUrl, useSiteConfig } from 'valaxy'
 import type { Article } from '@unhead/schema-org'
 import { defineArticle, useSchemaOrg } from '@unhead/schema-org'
 import { toDate } from 'date-fns'
-import { useYunAppStore } from '../stores'
 
 const app = useAppStore()
-const yun = useYunAppStore()
 const siteConfig = useSiteConfig()
 const frontmatter = useFrontmatter()
 const url = useFullUrl()
@@ -51,12 +49,7 @@ useSchemaOrg(
       'flex-col': app.isMobile,
     }"
   >
-    <!-- <YunSidebar v-if="$slots['sidebar-child']">
-      <slot name="sidebar-child" />
-    </YunSidebar>
-    <YunSidebar v-else /> -->
-
-    <YunSidebarCard v-if="yun.size.isLg" />
+    <YunLayoutLeft />
 
     <RouterView v-slot="{ Component }">
       <component :is="Component">

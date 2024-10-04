@@ -7,7 +7,7 @@ const siteConfig = useSiteConfig()
 <template>
   <div
     class="site-author-name leading-6"
-    m="t-0 b-4"
+    m="t-0"
   >
     <RouterLink to="/about">
       {{ siteConfig.author.name }}

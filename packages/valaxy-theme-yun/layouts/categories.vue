@@ -4,12 +4,10 @@ import { useAppStore, useCategories, useFrontmatter, usePostTitle, useSiteStore 
 import { useI18n } from 'vue-i18n'
 import { useRoute } from 'vue-router'
 import { defineWebPage, useSchemaOrg } from '@unhead/schema-org'
-import { useYunAppStore } from '../stores'
 
 const { t } = useI18n()
 
 const app = useAppStore()
-const yun = useYunAppStore()
 const site = useSiteStore()
 const frontmatter = useFrontmatter()
 
@@ -56,7 +54,7 @@ useSchemaOrg([
       'flex-col': app.isMobile,
     }"
   >
-    <YunSidebarCard v-if="yun.size.isLg" />
+    <YunLayoutLeft />
 
     <RouterView v-slot="{ Component }">
       <component :is="Component">

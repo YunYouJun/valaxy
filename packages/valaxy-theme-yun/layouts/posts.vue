@@ -3,5 +3,8 @@
 </script>
 
 <template>
-  <YunPostList />
+  <div class="pt-36">
+    <YunPostList />
+  </div>
+  <YunFooter />
 </template>

@@ -3,12 +3,10 @@ import { defineWebPage, useSchemaOrg } from '@unhead/schema-org'
 import { useAppStore, useFrontmatter, usePostTitle, useSiteStore } from 'valaxy'
 import { computed } from 'vue'
 import { useI18n } from 'vue-i18n'
-import { useYunAppStore } from '../stores'
 
 const { t } = useI18n()
 
 const app = useAppStore()
-const yun = useYunAppStore()
 
 const frontmatter = useFrontmatter()
 
@@ -37,7 +35,7 @@ const pageIcon = computed(() => {
       'flex-col': app.isMobile,
     }"
   >
-    <YunSidebarCard v-if="yun.size.isLg" />
+    <YunLayoutLeft />
 
     <RouterView v-slot="{ Component }">
       <component :is="Component">

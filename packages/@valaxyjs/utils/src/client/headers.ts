@@ -1,20 +1,49 @@
 import type { MenuItem } from '../types'
 
+/**
+ * @ref vitepress src/client/theme-chalk/composables/outline.ts
+ */
+// cached list of anchor elements from resolveHeaders
+export const resolvedHeaders: { element: HTMLHeadElement, link: string }[] = []
+
 export interface GetHeadersOptions {
-  range?: number | [number, number] | 'deep'
+  range?: number | [number, number] | 'deep' | { level: [number, number] }
   selector?: string
   filter?: (el: Element) => boolean
 }
 
-export function groupHeaders(headers: MenuItem[], levelsRange: [number, number]) {
-  const result: MenuItem[] = []
+export function buildTree(data: MenuItem[], min: number, max: number): MenuItem[] {
+  resolvedHeaders.length = 0
 
-  headers = headers.map(h => ({ ...h }))
-  headers.forEach((h, index) => {
-    if (h.level >= levelsRange[0] && h.level <= levelsRange[1]) {
-      if (addToParent(index, headers, levelsRange))
-        result.push(h)
+  const result: MenuItem[] = []
+  const stack: (MenuItem | { level: number, shouldIgnore: true })[] = []
+
+  data.forEach((item) => {
+    const node = { ...item, children: [] }
+    let parent = stack[stack.length - 1]
+
+    while (parent && parent.level >= node.level) {
+      stack.pop()
+      parent = stack[stack.length - 1]
     }
+
+    if (
+      node.element.classList.contains('ignore-header')
+      || (parent && 'shouldIgnore' in parent)
+    ) {
+      stack.push({ level: node.level, shouldIgnore: true })
+      return
+    }
+
+    if (node.level > max || node.level < min)
+      return
+    resolvedHeaders.push({ element: node.element, link: node.link })
+
+    if (parent)
+      parent.children!.push(node)
+    else result.push(node)
+
+    stack.push(node)
   })
 
   return result
@@ -49,16 +78,21 @@ export function addToParent(
 
 export function resolveHeaders(
   headers: MenuItem[],
-  levelsRange: GetHeadersOptions['range'] = [2, 4],
+  range: GetHeadersOptions['range'] = [2, 4],
 ) {
-  const levels: [number, number]
+  const levelsRange
+  = (typeof range === 'object' && !Array.isArray(range)
+    ? range.level
+    : range) || 2
+
+  const [high, low]: [number, number]
     = typeof levelsRange === 'number'
       ? [levelsRange, levelsRange]
       : levelsRange === 'deep'
         ? [2, 6]
         : levelsRange
 
-  return groupHeaders(headers, levels)
+  return buildTree(headers, high, low)
 }
 
 export function serializeHeader(h: Element): string {
@@ -98,6 +132,7 @@ export function getHeaders(options: GetHeadersOptions = {
     .map((el) => {
       const level = Number(el.tagName[1])
       return {
+        element: el as HTMLHeadElement,
         title: serializeHeader(el),
         link: `#${el.id}`,
         level,

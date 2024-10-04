@@ -13,13 +13,13 @@ $palette: map.merge(
     "warning": #f2711c,
 
     "text-light-1": #213547,
-    "text-light-2": rgba(60, 60, 60, 0.7),
-    "text-light-3": rgba(60, 60, 60, 0.33),
-    "text-light-4": rgba(60, 60, 60, 0.18),
-    "text-dark-1": rgba(255 ,255 ,255, 0.87),
-    "text-dark-2": rgba(235 ,235 ,235, 0.6),
-    "text-dark-3": rgba(235 ,235 ,235, 0.38),
-    "text-dark-4": rgba(235 ,235 ,235, 0.18),
+    "text-light-2": rgb(60 60 60 / 0.7),
+    "text-light-3": rgb(60 60 60 / 0.33),
+    "text-light-4": rgb(60 60 60 / 0.18),
+    "text-dark-1": rgb(255 255 255 / 0.87),
+    "text-dark-2": rgb(235 235 235 / 0.6),
+    "text-dark-3": rgb(235 235 235 / 0.38),
+    "text-dark-4": rgb(235 235 235 / 0.18),
   ),
   $palette
 );
@@ -38,7 +38,7 @@ $colors: map.merge(
   (
     "primary-light": color.scale($c-primary, $lightness: 10%),
     "primary-lighter": color.scale($c-primary, $lightness: 20%),
-    "primary-dark": color.scale($c-primary, $lightness: -5%),
+    "primary-dark": color.scale($c-primary, $lightness: -10%),
   ),
   $colors
 );
@@ -70,7 +70,7 @@ $dark: map.merge(
     "c-text-light": #ddd,
     "c-text-lighter": #eee,
     "c-text-dark": rgba(#ebebeb, 0.8),
-    "c-link": map.get($colors, "primary-light"),
+    "c-link": map.get($colors, "primary-lighter"),
   ),
   $dark
 );

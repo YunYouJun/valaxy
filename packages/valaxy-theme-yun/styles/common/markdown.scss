@@ -15,6 +15,10 @@
 .markdown-body {
   word-wrap: break-word;
 
+  a {
+    color: var(--va-c-link);
+  }
+
   h1,
   h2,
   h3,

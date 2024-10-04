@@ -14,20 +14,20 @@ const fullscreenMenuRef = ref<HTMLElement>()
       p="t-20 md:t-26"
       class="yun-fullscreen-menu fixed left-0 right-0 bottom-0 top-0 bg-$va-c-bg-soft z-$yun-z-fullscreen-menu"
     >
-      <YunSiteLinks>
-        <YunSiteLinkItem
+      <div class="flex-center gap-2">
+        <YunToggleDark />
+        <YunToggleLocale />
+      </div>
+
+      <YunFullscreenMenuList>
+        <YunFullscreenMenuItem
           :page="{
             name: '站点主页',
             icon: 'i-ri-home-2-line',
             url: '/',
           }"
         />
-      </YunSiteLinks>
-
-      <div class="flex-center gap-2">
-        <YunToggleDark />
-        <YunToggleLocale />
-      </div>
+      </YunFullscreenMenuList>
     </div>
   </Transition>
 </template>

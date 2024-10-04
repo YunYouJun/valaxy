@@ -12,7 +12,7 @@ const yun = useYunAppStore()
       'flex-col': yun.size.isXs,
     }"
   >
-    <YunSidebarCard v-if="yun.size.isLg" />
+    <YunLayoutLeft />
     <RouterView />
   </div>
   <YunFooter />

@@ -5,17 +5,27 @@ const siteConfig = useSiteConfig()
 </script>
 
 <template>
-  <div class="site-info" m="t-6">
-    <RouterLink class="site-author-avatar" to="/about">
+  <div class="site-info gap-1" flex="~ col" m="t-4">
+    <RouterLink
+      class="site-author-avatar inline-flex-center" to="/about"
+    >
       <img class="rounded-full" :src="siteConfig.author.avatar" alt="avatar">
-      <span v-if="siteConfig.author.status.emoji" class="site-author-status" :title="siteConfig.author.status.message || undefined">{{ siteConfig.author.status.emoji }}</span>
+      <!-- <span
+        v-if="siteConfig.author.status.emoji"
+        class="site-author-status absolute"
+        :title="siteConfig.author.status.message || undefined"
+      >{{ siteConfig.author.status.emoji }}</span> -->
     </RouterLink>
-    <YunAuthorName />
+    <YunAuthorName class="my-2" />
     <YunSiteTitle />
-    <h4 v-if="siteConfig.subtitle" class="site-subtitle block" text="xs">
+    <h4
+      v-if="siteConfig.subtitle"
+      class="site-subtitle block"
+      text="xs"
+    >
       {{ siteConfig.subtitle }}
     </h4>
-    <div v-if="siteConfig.description" class="site-description my-1">
+    <div v-if="siteConfig.description" class="site-description">
       {{ siteConfig.description }}
     </div>
   </div>
@@ -23,9 +33,8 @@ const siteConfig = useSiteConfig()
 
 <style lang="scss">
 .site-author-avatar {
-  display: inline-block;
-  line-height: 0;
   position: relative;
+  line-height: 0;
 
   img {
     height: 96px;
@@ -41,6 +50,18 @@ const siteConfig = useSiteConfig()
       box-shadow: 0 0 30px rgba(var(--va-c-primary-rgb), 0.2);
     }
   }
+}
+
+.site-author-status {
+  height: 1.8rem;
+  width: 1.8rem;
+  bottom: 0;
+  right: 0;
+  line-height: 1.8rem;
+  border-radius: 50%;
+  box-shadow: 0 1px 2px rgb(0 0 0 / 0.2);
+  background-color: var(--va-c-bg-light);
+  border: 1px solid rgb(255 255 255 / 0.1);
 }
 
 .site-info {

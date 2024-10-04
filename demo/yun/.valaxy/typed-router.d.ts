@@ -72,6 +72,7 @@ declare module 'vue-router/auto-routes' {
     '/posts/hello-valaxy': RouteRecordInfo<'/posts/hello-valaxy', '/posts/hello-valaxy', Record<never, never>, Record<never, never>>,
     '/posts/hide': RouteRecordInfo<'/posts/hide', '/posts/hide', Record<never, never>, Record<never, never>>,
     '/posts/hide-in-index': RouteRecordInfo<'/posts/hide-in-index', '/posts/hide-in-index', Record<never, never>, Record<never, never>>,
+    '/posts/how-to-use-adboard': RouteRecordInfo<'/posts/how-to-use-adboard', '/posts/how-to-use-adboard', Record<never, never>, Record<never, never>>,
     '/posts/katex': RouteRecordInfo<'/posts/katex', '/posts/katex', Record<never, never>, Record<never, never>>,
     '/posts/long-toc': RouteRecordInfo<'/posts/long-toc', '/posts/long-toc', Record<never, never>, Record<never, never>>,
     '/posts/lots-of-images': RouteRecordInfo<'/posts/lots-of-images', '/posts/lots-of-images', Record<never, never>, Record<never, never>>,

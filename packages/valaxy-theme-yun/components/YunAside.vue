@@ -22,7 +22,7 @@ const yun = useYunAppStore()
   <!--  -->
   <Transition>
     <aside
-      v-if="yun.rightSidebar.isOpen"
+      v-if="yun.rightSidebar.isOpen || yun.size.isXl"
       flex="~ col"
       class="va-card yun-aside sticky top-68px min-h-sm w-80"
       :class="yun.rightSidebar.isOpen && 'open'"
@@ -56,6 +56,7 @@ const yun = useYunAppStore()
   transition: box-shadow var(--va-transition-duration),
   background-color var(--va-transition-duration), opacity 0.25s,
   transform var(--va-transition-duration) cubic-bezier(0.19, 1, 0.22, 1);
+  max-height: calc(100vh - 68px);
 
   &.open {
     right: 0;

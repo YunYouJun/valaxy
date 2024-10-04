@@ -35,5 +35,6 @@ export interface Header {
  * 菜单项，从文章中解析出的标题菜单。
  */
 export type MenuItem = Omit<Header, 'slug' | 'children'> & {
+  element: HTMLHeadElement
   children?: MenuItem[]
 }

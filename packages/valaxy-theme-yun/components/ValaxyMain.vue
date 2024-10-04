@@ -40,7 +40,7 @@ onContentUpdated(() => {
   <main class="yun-main lt-md:w-full" flex="~ center">
     <slot name="main">
       <div
-        class="content w-full md:w-3xl lg:w-2xl xl:w-4xl" :class="{
+        class="content w-full md:w-3xl lg:w-2xl xl:w-2xl 2xl:w-4xl" :class="{
           'no-aside': !aside,
         }" flex="~ col grow"
         p="lt-md:0"

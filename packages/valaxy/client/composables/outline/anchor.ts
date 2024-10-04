@@ -1,11 +1,28 @@
 import type { Ref } from 'vue'
 import { onMounted, onUnmounted, onUpdated } from 'vue'
+import { resolvedHeaders } from '@valaxyjs/utils'
 import { throttleAndDebounce } from '../../utils'
 import { useAside } from '../aside'
 
 // magic number to avoid repeated retrieval
-const PAGE_OFFSET = 56
+const PAGE_OFFSET = 130
 const topOffset = 33
+
+function getAbsoluteTop(element: HTMLElement): number {
+  let offsetTop = 0
+  while (element !== document.body) {
+    if (element === null) {
+      // child element is:
+      // - not attached to the DOM (display: none)
+      // - set to fixed position (not scrollable)
+      // - body or html element (null offsetParent)
+      return Number.NaN
+    }
+    offsetTop += element.offsetTop
+    element = element.offsetParent as HTMLElement
+  }
+  return offsetTop
+}
 
 export function useActiveAnchor(
   container: Ref<HTMLElement>,
@@ -30,51 +47,6 @@ export function useActiveAnchor(
     window.removeEventListener('scroll', onScroll)
   })
 
-  function setActiveLink() {
-    if (!isAsideEnabled.value)
-      return
-
-    const links = [].slice.call(
-      container.value.querySelectorAll('.outline-link'),
-    ) as HTMLAnchorElement[]
-
-    const anchors = [].slice
-      .call(document.querySelectorAll('.content .header-anchor'))
-      .filter((anchor: HTMLAnchorElement) => {
-        return links.some((link) => {
-          return link.hash === anchor.hash && anchor.offsetParent !== null
-        })
-      }) as HTMLAnchorElement[]
-
-    const scrollY = window.scrollY
-    const innerHeight = window.innerHeight
-    const offsetHeight = document.body.offsetHeight
-    const isBottom = Math.abs(scrollY + innerHeight - offsetHeight) < 1
-
-    // page bottom - highlight last one
-    if (anchors.length && isBottom) {
-      activateLink(anchors[anchors.length - 1].hash)
-      // activateLink(null)
-      return
-    }
-
-    // isTop
-    // if (anchors.length && scrollY === 0)
-    //   activateLink('#')
-
-    for (let i = 0; i < anchors.length; i++) {
-      const anchor = anchors[i]
-      const nextAnchor = anchors[i + 1]
-
-      const [isActive, hash] = isAnchorActive(i, anchor, nextAnchor)
-
-      if (isActive) {
-        activateLink(hash)
-        return
-      }
-    }
-  }
-
   const checkActiveLinkInViewport = () => {
     const activeLink = prevActiveLink
     if (!activeLink) {
@@ -85,8 +57,60 @@ export function useActiveAnchor(
     const top = activeLink.getBoundingClientRect().top
     const bottom = activeLink.getBoundingClientRect().bottom
 
-    if (top < topOffset || bottom > window.innerHeight - topOffset)
-      activeLink.scrollIntoView()
+    const parentEl = document.querySelector('.yun-aside') as HTMLElement
+    if (parentEl) {
+      if (top < parentEl.scrollTop)
+        parentEl.scrollTo({ top: 0, behavior: 'smooth' })
+      if (bottom > parentEl.offsetHeight + parentEl.scrollTop)
+        parentEl.scrollTo({ top: bottom + 40, behavior: 'smooth' })
+    }
+  }
+
+  function setActiveLink() {
+    if (!isAsideEnabled.value)
+      return
+
+    const scrollY = window.scrollY
+    const innerHeight = window.innerHeight
+    const offsetHeight = document.body.offsetHeight
+    const isBottom = Math.abs(scrollY + innerHeight - offsetHeight) < 1
+
+    // resolvedHeaders may be repositioned, hidden or fix positioned
+    const headers = resolvedHeaders
+      .map(({ element, link }) => ({
+        link,
+        top: getAbsoluteTop(element),
+      }))
+      .filter(({ top }) => !Number.isNaN(top))
+      .sort((a, b) => a.top - b.top)
+
+    // no headers available for active link
+    if (!headers.length) {
+      activateLink(null)
+      return
+    }
+
+    // page top
+    if (scrollY < 1) {
+      activateLink(null)
+      return
+    }
+
+    // page bottom - highlight last link
+    if (isBottom) {
+      activateLink(headers[headers.length - 1].link)
+      return
+    }
+
+    // find the last header above the top of viewport
+    let activeLink: string | null = null
+    for (const { link, top } of headers) {
+      if (top > scrollY + 4 + PAGE_OFFSET)
+        break
+
+      activeLink = link
+    }
+    activateLink(activeLink)
   }
 
   function activateLink(hash: string | null) {
@@ -115,27 +139,4 @@ export function useActiveAnchor(
       marker.value.style.opacity = '0'
     }
   }
-}
-
-function getAnchorTop(anchor: HTMLAnchorElement): number {
-  return anchor.parentElement!.offsetTop - PAGE_OFFSET - 15
-}
-
-function isAnchorActive(
-  index: number,
-  anchor: HTMLAnchorElement,
-  nextAnchor: HTMLAnchorElement | undefined,
-): [boolean, string | null] {
-  const scrollTop = window.scrollY
-
-  if (index === 0 && scrollTop === 0)
-    return [true, null]
-
-  if (scrollTop < getAnchorTop(anchor))
-    return [false, null]
-
-  if (!nextAnchor || scrollTop < getAnchorTop(nextAnchor))
-    return [true, anchor.hash]
-
-  return [false, null]
 }

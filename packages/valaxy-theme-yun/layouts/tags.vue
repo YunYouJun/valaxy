@@ -5,7 +5,6 @@ import { computed, ref } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { defineWebPage, useSchemaOrg } from '@unhead/schema-org'
 import { useThemeConfig, useYunTags } from '../composables'
-import { useYunAppStore } from '../stores'
 
 useSchemaOrg([
   defineWebPage({
@@ -14,7 +13,6 @@ useSchemaOrg([
 ])
 
 const app = useAppStore()
-const yun = useYunAppStore()
 
 const route = useRoute()
 const router = useRouter()
@@ -69,7 +67,7 @@ const title = usePostTitle(frontmatter)
       'flex-col': app.isMobile,
     }"
   >
-    <YunSidebarCard v-if="yun.size.isLg" />
+    <YunLayoutLeft />
 
     <RouterView v-slot="{ Component }">
       <component :is="Component">

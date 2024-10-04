@@ -25,7 +25,7 @@ html:not(.dark) .vp-code-dark {
   }
 }
 
-@media (width <= 639px) {
+@media (width <= 639.9px) {
   .markdown-body li div[class*="language-"] {
     border-radius: 6px 0 0 6px;
   }
@@ -232,7 +232,7 @@ html:not(.dark) .vp-code-dark {
     height: 24px;
     opacity: 1;
     cursor: pointer;
-    background-image: linear-gradient(-180deg,rgba(0,0,0,0) 0%,var(--va-c-bg-dark) 100%);
+    background-image: linear-gradient(-180deg,rgb(0 0 0 / 0) 0%,var(--va-c-bg-dark) 100%);
 
     &::before {
       display: block;

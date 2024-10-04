@@ -17,8 +17,8 @@
   --size: 40px;
 
   background:
-    linear-gradient(90deg, rgba(255,255,255,.1) 1px, transparent 1px),
-    linear-gradient(rgba(255,255,255,.1) 1px, transparent 1px);
+    linear-gradient(90deg, rgb(255 255 255 / .1) 1px, transparent 1px),
+    linear-gradient(rgb(255 255 255 / .1) 1px, transparent 1px);
   background-size: var(--size) var(--size);
 }
 </style>

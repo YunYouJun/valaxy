@@ -3,7 +3,11 @@ defineProps<{ cover?: string }>()
 </script>
 
 <template>
-  <div class="yun-card flex-center rounded" flex="col" min-h="100px" bg="$va-c-bg-light">
+  <div
+    class="yun-card flex-center rounded"
+    flex="col" min-h="100px"
+    bg="$va-c-bg-light"
+  >
     <img
       v-if="cover"
       width="640" height="360"

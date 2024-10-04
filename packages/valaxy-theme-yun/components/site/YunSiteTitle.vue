@@ -7,8 +7,17 @@ const siteConfig = useSiteConfig()
 </script>
 
 <template>
-  <RouterLink v-if="router.hasRoute('/about/site')" to="/about/site" class="site-name">
+  <RouterLink
+    v-if="router.hasRoute('/about/site')" to="/about/site"
+    class="site-name"
+  >
     {{ siteConfig.title }}
   </RouterLink>
   <span v-else class="site-name">{{ siteConfig.title }}</span>
 </template>
+
+<style lang="scss">
+.site-name {
+  color: var(--va-c-text);
+}
+</style>

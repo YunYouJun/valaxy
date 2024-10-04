@@ -3,7 +3,7 @@
 </script>
 
 <template>
-  <YunCard class="sticky top-68px p-4 min-h-sm w-80">
+  <YunCard class="p-4 min-h-sm">
     <YunSiteInfo class="text-center" />
     <YunPostsInfo />
   </YunCard>

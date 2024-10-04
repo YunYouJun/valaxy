@@ -11,9 +11,8 @@ const themeConfig = useThemeConfig()
 const container = ref()
 const marker = ref()
 
-useActiveAnchor(container, marker)
-
 const { headers, handleClick } = useOutline()
+useActiveAnchor(container, marker)
 </script>
 
 <template>

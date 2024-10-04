@@ -43,13 +43,13 @@ function goToLink() {
   >
     <span
       v-if="fm.title && showPostTitle"
-      class="nav-menu-post-title text-sm font-bold flex items-center gap-1 truncate"
+      class="nav-menu-post-title text-sm font-bold flex items-center gap-1 lt-sm:max-w-50"
     >
       <div
         class="size-4"
         :class="fm.icon || 'i-ri-article-line'"
       />
-      <span> {{ fm.title }}</span>
+      <span class="truncate"> {{ fm.title }}</span>
     </span>
     <span v-else class="font-light truncate">
       {{ siteConfig.title }}

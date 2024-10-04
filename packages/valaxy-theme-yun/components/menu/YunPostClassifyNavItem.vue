@@ -23,7 +23,7 @@ defineProps<{
       </span>
     </div>
     <span
-      class="count text-base"
+      class="count text-base dark:text-white/80"
     >{{ total }}</span>
   </RouterLink>
 </template>
