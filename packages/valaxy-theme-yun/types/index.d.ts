@@ -148,7 +148,7 @@ export interface ThemeConfig extends DefaultTheme.Config {
    * nav items
    * @zh 导航栏 位于页面右上角
    */
-  nav: NavItem[]
+  nav?: NavItem[]
   /**
    * @en - Pages
    * @zh - 页面，显示在社交导航栏下方

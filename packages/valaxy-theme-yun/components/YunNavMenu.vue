@@ -57,7 +57,7 @@ watch(() => yunApp.scrollY, () => {
       </div>
 
       <div class="inline-flex-center">
-        <template v-if="!app.isMobile">
+        <template v-if="!app.isMobile && themeConfig.nav">
           <template v-for="item in themeConfig.nav" :key="item.text">
             <AppLink
               v-if="'link' in item"
@@ -70,19 +70,11 @@ watch(() => yunApp.scrollY, () => {
               {{ item.text }}
             </AppLink>
             <template v-else-if="'items' in item">
-              <YunNavMenuItem
-                :icon="item.icon"
-                class="menu-btn inline-flex-center p-2 transition text-$va-c-text"
-                inline-flex
-                cursor="pointer" hover="bg-white/80 dark:bg-black/80"
-                z="$yun-z-menu-btn"
-                @click="item.action"
-              />
+              <!-- TODO -->
             </template>
           </template>
         </template>
 
-        <YunClassifyPopover v-if="!yunApp.size.isLg" />
         <YunToggleDark class="rounded-none!" />
         <YunSearchTrigger v-if="siteConfig.search.enable" />
       </div>

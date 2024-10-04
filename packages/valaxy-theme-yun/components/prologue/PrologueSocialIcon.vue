@@ -37,29 +37,22 @@ useMotion(iconRef, {
 </script>
 
 <template>
-  <a
-    ref="iconRef"
+  <div
     v-tooltip.top="social.name"
-    class="prologue-social-icon size-10 inline-flex items-center justify-center text-white"
-    rel="noopener"
-    :href="social.link" :title="social.name"
-    target="_blank"
-    :style="`--c-brand:${social.color}`"
+    class="size-10 inline-flex-center"
   >
-    <div
-      class="size-6"
-      :class="social.icon"
-    />
-  </a>
+    <a
+      ref="iconRef"
+      class="prologue-social-icon inline-flex-center w-full h-full text-white bg-$c-brand hover:bg-white hover:text-$c-brand"
+      rel="noopener"
+      :href="social.link" :title="social.name"
+      target="_blank"
+      :style="`--c-brand:${social.color}`"
+    >
+      <div
+        class="size-6"
+        :class="social.icon"
+      />
+    </a>
+  </div>
 </template>
-
-<style lang="scss">
-.prologue-social-icon {
-  background-color: var(--c-brand);
-
-  &:hover {
-    background-color: white;
-    color: var(--c-brand);
-  }
-}
-</style>

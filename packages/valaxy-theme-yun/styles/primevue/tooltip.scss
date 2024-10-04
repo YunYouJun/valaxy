@@ -1,0 +1,53 @@
+@use 'sass:map';
+@use 'valaxy-theme-yun/styles/vars.scss' as *;
+
+:root {
+  --p-overlay-popover-shadow: 0px 4px 6px -1px rgb(0 0 0 / 0.1),0px 2px 4px -2px rgb(0 0 0 / 0.1);
+  --p-overlay-popover-border-radius: 4px;
+
+  // Tooltip
+  --p-tooltip-max-width: 12.5rem;
+  --p-tooltip-gutter: 0.25rem;
+  --p-tooltip-shadow: var(--p-overlay-popover-shadow);
+  --p-tooltip-padding: 0.25rem 0.75rem;
+  --p-tooltip-border-radius: var(--p-overlay-popover-border-radius);
+  --p-tooltip-background: var(--va-c-bg);
+  --p-tooltip-color: var(--va-c-text);
+}
+
+.yun-tooltip {
+  position: absolute;
+  display: none;
+  max-width: var(--p-tooltip-max-width);
+  transform: translateY(-5px);
+
+  &-top {
+    padding: var(--p-tooltip-gutter) 0;
+
+    .yun-tooltip-arrow {
+      margin-left: calc(-1 * var(--p-tooltip-gutter));
+      border-width: var(--p-tooltip-gutter) var(--p-tooltip-gutter) 0 var(--p-tooltip-gutter);
+      border-top-color: var(--p-tooltip-background);
+      border-bottom-color: var(--p-tooltip-background);
+    }
+  }
+
+  &-text {
+    white-space: pre-line;
+    word-break: break-word;
+    background: var(--p-tooltip-background);
+    color: var(--p-tooltip-color);
+    padding: var(--p-tooltip-padding);
+    box-shadow: var(--p-tooltip-shadow);
+    border-radius: var(--p-tooltip-border-radius);
+  }
+
+  &-arrow {
+    position: absolute;
+    width: 0;
+    height: 0;
+    border-color: transparent;
+    border-style: solid;
+    scale: 2;
+  }
+}

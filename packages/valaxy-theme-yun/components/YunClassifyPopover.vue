@@ -27,8 +27,10 @@ onMounted(() => {
 
   // 滚动时隐藏
   window.addEventListener('scroll', () => {
-    op.value?.hide()
     motion.variant.value = 'initial'
+    setTimeout(() => {
+      op.value?.hide()
+    }, 200)
   })
 })
 
@@ -39,15 +41,15 @@ function toggle(event: Event) {
 </script>
 
 <template>
-  <YunNavMenuItem icon="i-ri-mind-map" @click="toggle" />
+  <YunNavMenuItem
+    icon="i-ri-mind-map" @click="toggle"
+  />
   <Popover
     ref="op"
-    :auto-z-index="false"
-    :base-z-index="1"
   >
     <div
       ref="pContentRef"
-      class="p-4 shadow-xl z--1"
+      class="p-4 shadow-xl"
       bg="$va-c-bg-light"
     >
       <YunSiteInfo class="text-center" />

@@ -12,7 +12,7 @@ const fullscreenMenuRef = ref<HTMLElement>()
       v-if="yunApp.fullscreenMenu.isOpen"
       ref="fullscreenMenuRef"
       p="t-20 md:t-26"
-      class="yun-fullscreen-menu fixed left-0 right-0 bottom-0 top-0 bg-$va-c-bg-soft z-$yun-z-fullscreen-menu"
+      class="yun-fullscreen-menu fixed left-0 right-0 bottom-0 top-0 bg-$va-c-bg-soft z-$yun-z-fullscreen-menu overflow-auto"
     >
       <div class="flex-center gap-2">
         <YunToggleDark transition />
@@ -28,6 +28,11 @@ const fullscreenMenuRef = ref<HTMLElement>()
           }"
         />
       </YunFullscreenMenuList>
+
+      <div v-if="!yunApp.size.isLg" class="mt-4">
+        <YunSiteInfo class="text-center" />
+        <YunPostsInfo />
+      </div>
     </div>
   </Transition>
 </template>

@@ -9,6 +9,7 @@ import ToastService from 'primevue/toastservice'
 import Tooltip from 'primevue/tooltip'
 
 import primeStyles from '../styles/primevue'
+import '../styles/primevue/tooltip.scss'
 
 export default defineAppSetup((ctx) => {
   // can do for setup

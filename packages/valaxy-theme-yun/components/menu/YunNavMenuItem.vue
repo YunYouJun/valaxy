@@ -6,7 +6,7 @@ defineProps<{
 
 <template>
   <div
-    class="size-12 inline-flex-center cursor-pointer"
+    class="size-12 inline-flex-center cursor-pointer z-$yun-z-nav-menu"
     text="$va-c-text"
     hover="bg-white/80 dark:bg-black/80 op-100"
     op-80
