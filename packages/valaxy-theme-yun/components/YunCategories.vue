@@ -39,23 +39,3 @@ const categoryList = computed(() => {
     </ul>
   </div>
 </template>
-
-<style lang="scss">
-.post-list-item {
-  a {
-    color: var(--va-c-text-lighter);
-
-    &:hover {
-      color: var(--va-c-primary);
-    }
-  }
-}
-
-.category-list-item {
-  .folder-action {
-    &:hover {
-      color: var(--va-c-primary);
-    }
-  }
-}
-</style>

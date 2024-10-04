@@ -5,7 +5,7 @@ const siteConfig = useSiteConfig()
 </script>
 
 <template>
-  <div class="site-info gap-1" flex="~ col" m="t-4">
+  <div class="site-info gap-1 items-center" flex="~ col" m="t-4">
     <RouterLink
       class="site-author-avatar inline-flex-center" to="/about"
     >

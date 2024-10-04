@@ -68,9 +68,13 @@ onMounted(() => {
     class="category-list-item inline-flex items-center cursor-pointer w-full gap-2 transition px-3 py-2 rounded"
     hover="bg-black/5"
   >
-    <span class="folder-action inline-flex" @click="collapse = !collapse">
+    <span
+      class="folder-action inline-flex"
+      hover="text-$va-c-primary-lighter"
+      @click="collapse = !collapse"
+    >
       <div v-if="collapse" i-ri-folder-add-line />
-      <div v-else style="color:var(--va-c-primary)" i-ri-folder-reduce-line />
+      <div v-else class="text-$va-c-primary dark:text-$va-c-primary-lighter" i-ri-folder-reduce-line />
     </span>
     <span
       class="category-name inline-flex items-center gap-2 w-full"
@@ -95,7 +99,8 @@ onMounted(() => {
     <ul v-if="!collapse">
       <li
         v-for="categoryItem, i in category.children.values()" :key="i"
-        class="post-list-item" m="l-4"
+        class="post-list-item text-$va-c-text" m="l-4"
+        hover="text-$va-c-primary-lighter"
       >
         <template v-if="isCategoryList(categoryItem)">
           <YunCategory

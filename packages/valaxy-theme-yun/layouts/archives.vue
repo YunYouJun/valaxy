@@ -1,12 +1,10 @@
 <script lang="ts" setup>
 import { defineWebPage, useSchemaOrg } from '@unhead/schema-org'
-import { useAppStore, useFrontmatter, usePostTitle, useSiteStore } from 'valaxy'
+import { useFrontmatter, usePostTitle, useSiteStore } from 'valaxy'
 import { computed } from 'vue'
 import { useI18n } from 'vue-i18n'
 
 const { t } = useI18n()
-
-const app = useAppStore()
 
 const frontmatter = useFrontmatter()
 
@@ -28,13 +26,7 @@ const pageIcon = computed(() => {
 </script>
 
 <template>
-  <div
-    flex="~"
-    class="mt-24 md:mt-36 w-full max-w-screen-2xl m-auto justify-center items-start gap-4"
-    :class="{
-      'flex-col': app.isMobile,
-    }"
-  >
+  <YunLayoutWrapper>
     <YunLayoutLeft />
 
     <RouterView v-slot="{ Component }">
@@ -54,7 +46,9 @@ const pageIcon = computed(() => {
         </template>
       </component>
     </RouterView>
-  </div>
+
+    <YunLayoutRight />
+  </YunLayoutWrapper>
 
   <YunFooter />
 </template>

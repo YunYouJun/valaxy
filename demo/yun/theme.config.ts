@@ -16,10 +16,23 @@ export default defineThemeConfig({
     content: '公告测试',
   },
 
+  nav: [
+    {
+      text: '导航',
+      link: '/projects',
+      items: [
+        { text: '项目列表', link: '/projects' },
+        { text: '友情链接', link: '/links' },
+        { text: '老婆列表', link: '/girls' },
+        { text: '赞助者', link: 'https://sponsors.yunyoujun.cn' },
+      ],
+    },
+  ],
+
   pages: [
     {
       name: '项目列表',
-      url: 'https://sponsors.yunyoujun.cn/projects',
+      url: '/projects',
       icon: 'i-ri-gallery-view',
       color: 'var(--va-c-text)',
     },

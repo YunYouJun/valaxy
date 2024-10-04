@@ -13,9 +13,9 @@ defineProps<{
 <template>
   <RouterLink
     flex="~ col center"
-    class="gap-1 w-20 p-2 rounded transition"
+    class="gap-1 w-20 p-2 rounded transition op-80"
     :to="to" :title="title"
-    hover="bg-$va-c-bg-soft"
+    hover="bg-$va-c-bg-soft op-100"
   >
     <div flex="~ col" class="text-$va-c-text inline-flex-center gap-1">
       <div class="text-2xl" :class="icon" />

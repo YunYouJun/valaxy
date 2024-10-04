@@ -75,4 +75,6 @@ const isDev = import.meta.env.DEV
     <YunLoading v-if="app.showLoading" />
   </Transition>
   <YunBackToTop />
+
+  <YunDock />
 </template>

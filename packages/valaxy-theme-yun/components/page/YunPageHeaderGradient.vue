@@ -29,7 +29,7 @@ const gradientStyles = computed(() => {
   right: 0;
   width: 100%;
   height: 500px;
-  z-index: 999;
+  z-index: var(--yun-z-page-gradient);
   pointer-events: none;
   background: linear-gradient(to right,rgb(var(--gradient-from) / 0.2) 0,rgb(var(--gradient-to) / .2) 100%);
   mask-image: linear-gradient(#000,#fff0 70%);

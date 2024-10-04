@@ -1,51 +1,53 @@
 <script lang="ts" setup>
 import { useI18n } from 'vue-i18n'
 import { useFrontmatter } from 'valaxy'
-import { onMounted, ref } from 'vue'
+import { computed, nextTick, ref, watch } from 'vue'
 import { useYunAppStore } from '../stores'
 
-const frontmatter = useFrontmatter()
+const fm = useFrontmatter()
 const { t } = useI18n()
 const yun = useYunAppStore()
 
 const show = ref(false)
-onMounted(() => {
-  setTimeout(() => {
-    show.value = true
-  }, 0)
+const showToc = computed(() => {
+  return fm.value.toc !== false
+})
+
+// aside float
+const isAsideFloat = ref(false)
+
+watch(() => [yun.rightSidebar.isOpen, yun.size.isXl], async () => {
+  await nextTick()
+  isAsideFloat.value = !yun.size.isXl
+  show.value = (yun.rightSidebar.isOpen || !isAsideFloat.value) && fm.value.aside !== false
+}, {
+  immediate: true,
 })
 </script>
 
 <template>
-  <button
-    class="xl:hidden toc-btn shadow fixed yun-icon-btn z-350"
-    opacity="75" right="2" bottom="19"
-    @click="yun.rightSidebar.toggle()"
-  >
-    <div i-ri-file-list-line />
-  </button>
-
-  <ValaxyOverlay :show="yun.rightSidebar.isOpen" @click="yun.rightSidebar.toggle()" />
-
-  <!--  -->
   <aside
-    v-if="yun.rightSidebar.isOpen || yun.size.isXl"
     flex="~ col"
-    class="va-card yun-aside sticky top-68px min-h-sm w-80"
+    class="va-card yun-aside sticky top-0 lg:top-68px min-h-sm"
     :class="{
+      float: isAsideFloat,
       show,
       open: yun.rightSidebar.isOpen,
     }"
     text="center"
     overflow="auto"
   >
-    <Transition name="fade">
+    <Transition name="fade" :delay="100">
       <div v-show="show" class="w-full" flex="~ col">
-        <h2 v-if="frontmatter.toc !== false" m="t-6 b-2" font="serif black">
-          {{ t('sidebar.toc') }}
-        </h2>
-
-        <YunOutline v-if="frontmatter.toc !== false" />
+        <template v-if="showToc">
+          <h2
+            m="t-6 b-2"
+            font="serif black"
+          >
+            {{ t('sidebar.toc') }}
+          </h2>
+          <YunOutline />
+        </template>
 
         <div class="flex-grow" />
 
@@ -58,19 +60,27 @@ onMounted(() => {
 </template>
 
 <style lang="scss">
+@use 'sass:map';
 @use 'valaxy/client/styles/mixins/index.scss' as *;
+@use 'valaxy-theme-yun/styles/vars.scss' as *;
 
 .yun-aside {
   // need fixed width
   // width: var(--va-sidebar-width, 300px);
   width: 0;
   transform: translateX(100%);
-  transition:
-  width var(--va-transition-duration),
-  box-shadow var(--va-transition-duration),
-  background-color var(--va-transition-duration), opacity 0.25s,
-  transform var(--va-transition-duration) cubic-bezier(0.19, 1, 0.22, 1);
+  transition: all 0.2s map.get($cubic-bezier, 'ease-in-out');
   max-height: calc(100vh - 68px);
+
+  // float panel
+  &.float {
+    position: fixed;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    z-index: var(--yun-z-aside);
+    max-height: 100vh;
+  }
 
   &.show {
     width: 320px;
@@ -80,7 +90,6 @@ onMounted(() => {
     width: 320px;
     right: 0;
     display: block;
-    z-index: 10;
     transform: translateX(0);
   }
 }

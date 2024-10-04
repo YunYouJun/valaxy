@@ -40,9 +40,14 @@ $z-index: map.merge(
     "fireworks": 11,
     "go-up-btn": 20,
     "fullscreen-menu": 21,
+    "nav-menu": 22,
     "menu-btn": 22,
     "search-popup": 30,
     "search-btn": 31,
+    "overlay": 32,
+    "aside": 33,
+    "page-gradient": 34,
+    "dock": 999999,
   ),
   $z-index
 );

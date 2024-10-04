@@ -3,7 +3,7 @@
   "type": "module",
   "version": "0.19.13",
   "private": true,
-  "packageManager": "pnpm@9.11.0",
+  "packageManager": "pnpm@9.12.0",
   "description": "📄 Vite & Vue powered static blog generator.",
   "author": {
     "email": "me@yunyoujun.cn",
@@ -79,7 +79,7 @@
   },
   "devDependencies": {
     "@antfu/eslint-config": "2.17.0",
-    "@iconify-json/logos": "^1.2.1",
+    "@iconify-json/logos": "^1.2.2",
     "@iconify-json/vscode-icons": "^1.2.2",
     "@microsoft/api-extractor": "^7.47.9",
     "@playwright/test": "^1.47.2",
@@ -107,7 +107,7 @@
     "tsx": "^4.19.1",
     "typescript": "^5.6.2",
     "unbuild": "^2.0.0",
-    "vitest": "^2.1.1",
+    "vitest": "^2.1.2",
     "vue-tsc": "2.0.17",
     "zx": "^8.1.8"
   },

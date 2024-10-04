@@ -1,7 +1,5 @@
 import type { DefaultTheme } from 'valaxy/types'
 
-export * from '../composables'
-
 export namespace YunTheme {
   export type Config = ThemeConfig
   export type Sidebar = any
@@ -147,6 +145,11 @@ export interface ThemeConfig extends DefaultTheme.Config {
   }
 
   /**
+   * nav items
+   * @zh 导航栏 位于页面右上角
+   */
+  nav: NavItem[]
+  /**
    * @en - Pages
    * @zh - 页面，显示在社交导航栏下方
    */
@@ -237,6 +240,20 @@ export interface LinkType {
   desc: string
 }
 
+export interface NavItemLink {
+  icon?: string
+  link: string
+  text: string
+  active?: string
+}
+
+export interface NavItemGroup {
+  text: string
+  items: NavItemLink[]
+}
+
+export type NavItem = NavItemLink | NavItemGroup
+
 /**
  * girl
  */
@@ -247,3 +264,6 @@ export interface GirlType {
   from?: string
   reason?: string
 }
+
+export * from '../composables'
+export * from './projects'

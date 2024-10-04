@@ -5,6 +5,10 @@ import { MotionPlugin } from '@vueuse/motion'
 import PrimeVue from 'primevue/config'
 import AnimateOnScroll from 'primevue/animateonscroll'
 import StyleClass from 'primevue/styleclass'
+import ToastService from 'primevue/toastservice'
+import Tooltip from 'primevue/tooltip'
+
+import primeStyles from '../styles/primevue'
 
 export default defineAppSetup((ctx) => {
   // can do for setup
@@ -16,9 +20,32 @@ export default defineAppSetup((ctx) => {
   app.use(PrimeVue, {
     unstyled: true,
     // ripple: true,
+
+    pt: {
+      // tooltip: {
+      //   arrow: {
+      //     style: {
+      //       borderBottomColor: 'var(--p-primary-color)',
+      //     },
+      //   },
+      //   text: '!bg-primary !text-primary-contrast !font-medium',
+      // },
+      ...primeStyles,
+
+      dock: {
+        root: 'yun-dock',
+        list: 'yun-dock-list',
+        listContainer: 'yun-dock-list-container',
+        item: 'yun-dock-item',
+        itemLink: 'yun-dock-item-link',
+      },
+    },
   })
   app.directive('animateonscroll', AnimateOnScroll)
   app.directive('styleclass', StyleClass)
+  app.directive('tooltip', Tooltip)
+  app.use(ToastService)
+
   // app.$primevue.config.ripple = true
 
   router.afterEach(() => {

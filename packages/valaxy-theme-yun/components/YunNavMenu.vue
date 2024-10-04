@@ -3,10 +3,12 @@ import { onMounted, ref, watch } from 'vue'
 import { useAppStore, useSiteConfig } from 'valaxy'
 import { useRoute } from 'vue-router'
 import { useYunAppStore } from '../stores'
+import { useThemeConfig } from '../composables'
 
 const app = useAppStore()
 const yunApp = useYunAppStore()
 const siteConfig = useSiteConfig()
+const themeConfig = useThemeConfig()
 
 const showMenu = ref(false)
 const route = useRoute()
@@ -28,24 +30,13 @@ watch(() => yunApp.scrollY, () => {
   else
     playAnimation.value = false
 })
-
-const navMenu = ref([
-  {
-    title: '项目',
-    url: 'https://sponsors.yunyoujun.cn/projects',
-  },
-  {
-    title: '赞助者',
-    url: 'https://sponsors.yunyoujun.cn',
-  },
-])
 </script>
 
 <template>
   <Transition name="fade">
     <div
       v-if="showMenu"
-      class="yun-nav-menu z-99999"
+      class="yun-nav-menu z-$yun-z-nav-menu"
       border="~ solid $va-c-text"
       :class="{
         play: playAnimation,
@@ -67,20 +58,32 @@ const navMenu = ref([
 
       <div class="inline-flex-center">
         <template v-if="!app.isMobile">
-          <AppLink
-            v-for="item in navMenu"
-            :key="item.url"
-            :to="item.url"
-            class="menu-btn inline-flex-center p-2 transition text-$va-c-text"
-            inline-flex cursor="pointer"
-            hover="bg-white/80 dark:bg-black/80"
-            z="$yun-z-menu-btn"
-          >
-            {{ item.title }}
-          </AppLink>
+          <template v-for="item in themeConfig.nav" :key="item.text">
+            <AppLink
+              v-if="'link' in item"
+              :to="item.link"
+              class="menu-btn inline-flex-center p-2 transition text-$va-c-text"
+              inline-flex cursor="pointer"
+              hover="bg-white/80 dark:bg-black/80"
+              z="$yun-z-menu-btn"
+            >
+              {{ item.text }}
+            </AppLink>
+            <template v-else-if="'items' in item">
+              <YunNavMenuItem
+                :icon="item.icon"
+                class="menu-btn inline-flex-center p-2 transition text-$va-c-text"
+                inline-flex
+                cursor="pointer" hover="bg-white/80 dark:bg-black/80"
+                z="$yun-z-menu-btn"
+                @click="item.action"
+              />
+            </template>
+          </template>
         </template>
 
         <YunClassifyPopover v-if="!yunApp.size.isLg" />
+        <YunToggleDark class="rounded-none!" />
         <YunSearchTrigger v-if="siteConfig.search.enable" />
       </div>
     </div>
@@ -100,7 +103,6 @@ const navMenu = ref([
   // animation-range: 0 calc(30vh), exit;
   background-color: transparent;
   box-shadow: none;
-  z-index: var(--yun-z-menu-btn);
   display: flex;
   top: var(--rect-margin);
   left: var(--rect-margin);

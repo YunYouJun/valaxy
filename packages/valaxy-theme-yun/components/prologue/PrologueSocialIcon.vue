@@ -39,6 +39,7 @@ useMotion(iconRef, {
 <template>
   <a
     ref="iconRef"
+    v-tooltip.top="social.name"
     class="prologue-social-icon size-10 inline-flex items-center justify-center text-white"
     rel="noopener"
     :href="social.link" :title="social.name"

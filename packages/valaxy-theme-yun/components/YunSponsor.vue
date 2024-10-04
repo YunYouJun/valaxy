@@ -18,7 +18,7 @@ const sponsorBtnTitle = computed(() => {
       class="sponsor-button yun-icon-btn shadow hover:shadow-md"
       :title="sponsorBtnTitle" text="red-400" @click="showQr = !showQr"
     >
-      <div i-ri-heart-line />
+      <div class="mt-2px" i-ri-heart-fill />
     </button>
 
     <div
@@ -72,14 +72,22 @@ const sponsorBtnTitle = computed(() => {
 }
 
 .qrcode-container {
+  --height: 200px;
+
   overflow: hidden;
   height: 0;
   opacity: 0;
   transition: all var(--va-transition-duration) map.get($cubic-bezier, 'ease-in-out');
 
   &.show {
-    height: 260px;
+    height: var(--height);
     opacity: 1;
+  }
+}
+
+@include screen('md') {
+  .qrcode-container {
+    --height: 260px;
   }
 }
 

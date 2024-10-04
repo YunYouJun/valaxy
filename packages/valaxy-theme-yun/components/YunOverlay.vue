@@ -8,7 +8,7 @@ withDefaults(defineProps<{
 
 <template>
   <Transition name="fade">
-    <div v-if="show" class="va-overlay" />
+    <div v-if="show" class="yun-overlay z-$yun-z-overlay" />
   </Transition>
 </template>
 
@@ -16,11 +16,10 @@ withDefaults(defineProps<{
 @use "sass:map";
 @use "valaxy/client/styles/mixins/index.scss" as *;
 
-.va-overlay {
+.yun-overlay {
   background-color: rgb(0 0 0 / 0.3);
   position: fixed;
   inset: 0;
-  z-index: calc(var(--va-z-overlay) - 1);
   transition: opacity 0.4s;
 
   &.fade-enter-from,
@@ -30,7 +29,7 @@ withDefaults(defineProps<{
 }
 
 @include mobile {
-  .va-overlay {
+  .yun-overlay {
     display: block;
   }
 }

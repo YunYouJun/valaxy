@@ -87,6 +87,7 @@ declare module 'vue-router/auto-routes' {
     '/posts/test-tags': RouteRecordInfo<'/posts/test-tags', '/posts/test-tags', Record<never, never>, Record<never, never>>,
     '/posts/中文Post测试': RouteRecordInfo<'/posts/中文Post测试', '/posts/中文Post测试', Record<never, never>, Record<never, never>>,
     '/posts/中文分类': RouteRecordInfo<'/posts/中文分类', '/posts/中文分类', Record<never, never>, Record<never, never>>,
+    '/projects/': RouteRecordInfo<'/projects/', '/projects', Record<never, never>, Record<never, never>>,
     '/tags/': RouteRecordInfo<'/tags/', '/tags', Record<never, never>, Record<never, never>>,
     '/test/deadlinks': RouteRecordInfo<'/test/deadlinks', '/test/deadlinks', Record<never, never>, Record<never, never>>,
     '/test/footnotes': RouteRecordInfo<'/test/footnotes', '/test/footnotes', Record<never, never>, Record<never, never>>,

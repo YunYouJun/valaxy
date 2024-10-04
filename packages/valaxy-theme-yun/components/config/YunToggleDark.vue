@@ -3,6 +3,10 @@ import { useI18n } from 'vue-i18n'
 import { computed } from 'vue'
 import { useAppStore } from 'valaxy'
 
+const props = defineProps<{
+  transition?: boolean
+}>()
+
 const appStore = useAppStore()
 const { t } = useI18n()
 
@@ -15,10 +19,19 @@ const styles = computed(() => {
     color: appStore.isDark ? '' : '#f1cb64',
   }
 })
+
+function toggle(e: MouseEvent) {
+  props.transition ? appStore.toggleDarkWithTransition(e) : appStore.toggleDark()
+}
 </script>
 
 <template>
-  <button class="yun-icon-btn" :title="themeTitle" :style="styles" @click="appStore.toggleDarkWithTransition">
+  <button
+    class="yun-icon-btn"
+    :title="themeTitle"
+    :style="styles" @mousedown.prevent="() => { console.log('yes') }"
+    @click="toggle"
+  >
     <div i="ri-sun-line dark:ri-moon-line" />
   </button>
 </template>

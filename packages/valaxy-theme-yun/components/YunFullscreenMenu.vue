@@ -15,7 +15,7 @@ const fullscreenMenuRef = ref<HTMLElement>()
       class="yun-fullscreen-menu fixed left-0 right-0 bottom-0 top-0 bg-$va-c-bg-soft z-$yun-z-fullscreen-menu"
     >
       <div class="flex-center gap-2">
-        <YunToggleDark />
+        <YunToggleDark transition />
         <YunToggleLocale />
       </div>
 

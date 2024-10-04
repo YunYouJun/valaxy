@@ -1,7 +1,7 @@
 <template>
   <div class="grid-bg">
-    <AEFrame />
-    <AERect />
+    <YunAEFrame />
+    <YunAERect />
 
     <div
       flex="~ col"

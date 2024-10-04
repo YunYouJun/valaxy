@@ -5,7 +5,10 @@ const siteConfig = useSiteConfig()
 </script>
 
 <template>
-  <RouterLink class="site-author-name font-black font-serif text-$va-c-text" to="/about">
+  <RouterLink
+    class="site-author-name font-black font-serif text-$va-c-text op-80 hover:op-100"
+    to="/about"
+  >
     {{ siteConfig.author.name }}
   </RouterLink>
 </template>

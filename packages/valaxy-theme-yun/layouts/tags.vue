@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { useAppStore, useFrontmatter, useInvisibleElement, usePostTitle, useSiteStore } from 'valaxy'
+import { useFrontmatter, useInvisibleElement, usePostTitle, useSiteStore } from 'valaxy'
 import { useI18n } from 'vue-i18n'
 import { computed, ref } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
@@ -11,8 +11,6 @@ useSchemaOrg([
     '@type': 'CollectionPage',
   }),
 ])
-
-const app = useAppStore()
 
 const route = useRoute()
 const router = useRouter()
@@ -60,13 +58,7 @@ const title = usePostTitle(frontmatter)
 </script>
 
 <template>
-  <div
-    flex="~"
-    class="mt-24 md:mt-36 w-full max-w-screen-2xl m-auto justify-center items-start gap-4"
-    :class="{
-      'flex-col': app.isMobile,
-    }"
-  >
+  <YunLayoutWrapper>
     <YunLayoutLeft />
 
     <RouterView v-slot="{ Component }">
@@ -107,7 +99,9 @@ const title = usePostTitle(frontmatter)
         </template>
       </component>
     </RouterView>
-  </div>
+
+    <YunLayoutRight />
+  </YunLayoutWrapper>
 
   <YunFooter />
 </template>

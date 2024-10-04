@@ -1,12 +1,11 @@
 <script lang="ts" setup>
 import { computed } from 'vue'
-import { useAppStore, useFrontmatter, useFullUrl, useSiteConfig } from 'valaxy'
+import { useFrontmatter, useFullUrl, useSiteConfig } from 'valaxy'
 
 import type { Article } from '@unhead/schema-org'
 import { defineArticle, useSchemaOrg } from '@unhead/schema-org'
 import { toDate } from 'date-fns'
 
-const app = useAppStore()
 const siteConfig = useSiteConfig()
 const frontmatter = useFrontmatter()
 const url = useFullUrl()
@@ -42,13 +41,7 @@ useSchemaOrg(
 </script>
 
 <template>
-  <div
-    flex="~"
-    class="mt-24 md:mt-36 w-full max-w-screen-2xl m-auto justify-center items-start gap-4"
-    :class="{
-      'flex-col': app.isMobile,
-    }"
-  >
+  <YunLayoutWrapper>
     <YunLayoutLeft />
 
     <RouterView v-slot="{ Component }">
@@ -70,8 +63,8 @@ useSchemaOrg(
       </component>
     </RouterView>
 
-    <YunAside v-if="!app.isMobile" />
-  </div>
+    <YunLayoutRight />
+  </YunLayoutWrapper>
 
   <YunFooter />
 </template>
