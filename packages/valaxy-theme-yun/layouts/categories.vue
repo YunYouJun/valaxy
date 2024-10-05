@@ -60,9 +60,14 @@ useSchemaOrg([
           />
         </template>
         <template #main-content>
-          <div text="center" class="yun-text-light" p="2">
-            {{ t('counter.categories', Array.from(categories.children).length) }}
-          </div>
+          <Transition
+            enter-active-class="animate-fade-in animate-duration-400"
+            appear
+          >
+            <div text="center" class="yun-text-light" p="2">
+              {{ t('counter.categories', Array.from(categories.children).length) }}
+            </div>
+          </Transition>
           <YunCategories :categories="categories.children" />
           <RouterView />
         </template>

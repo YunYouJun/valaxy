@@ -1,11 +1,13 @@
 <script lang="ts" setup>
-import { computed, onMounted, ref } from 'vue'
+import { onMounted, ref } from 'vue'
 import type { CategoryList, Post } from 'valaxy'
-import { isCategoryList, useInvisibleElement } from 'valaxy'
+import { useInvisibleElement } from 'valaxy'
 import { useI18n } from 'vue-i18n'
-import { useRoute, useRouter } from 'vue-router'
+import { useRouter } from 'vue-router'
+import { useYunSpringAnimation } from '../composables/animation'
 
 const props = withDefaults(defineProps<{
+  i?: number
   parentKey: string
   // to eliminate the warning
   category: Post | CategoryList
@@ -20,23 +22,9 @@ const props = withDefaults(defineProps<{
 })
 
 const router = useRouter()
-const route = useRoute()
-const categoryList = computed(() => {
-  const c = (route.query.category as string) || ''
-  return Array.isArray(c) ? [c] : c.split('/')
-})
 
 const collapse = ref(props.collapsable)
 const { t } = useI18n()
-
-/**
- * i18n
- */
-const { locale } = useI18n()
-function getTitle(post: Post | any) {
-  const lang = locale.value === 'zh-CN' ? 'zh' : locale.value
-  return post[`title_${lang}`] ? post[`title_${lang}`] : post.title
-}
 
 const postCollapseElRef = ref<HTMLElement>()
 const { show } = useInvisibleElement(postCollapseElRef)
@@ -61,11 +49,21 @@ onMounted(() => {
   if (postCollapseEl)
     postCollapseElRef.value = postCollapseEl
 })
+
+const categoryRef = ref<HTMLElement>()
+if (props.level === 1) {
+  useYunSpringAnimation(categoryRef, {
+    i: props.i || 0,
+    y: 20,
+    duration: 200,
+  })
+}
 </script>
 
 <template>
   <li
-    class="category-list-item inline-flex items-center cursor-pointer w-full gap-2 transition px-3 py-2 rounded"
+    ref="categoryRef"
+    class="category-list-item inline-flex items-center cursor-pointer w-full gap-2 px-3 py-2 rounded"
     hover="bg-black/5"
   >
     <span
@@ -98,28 +96,16 @@ onMounted(() => {
   >
     <ul v-if="!collapse">
       <li
-        v-for="categoryItem, i in category.children.values()" :key="i"
+        v-for="categoryItem, cI in category.children.values()"
+        :key="cI"
         class="post-list-item text-$va-c-text" m="l-4"
         hover="text-$va-c-primary-lighter"
       >
-        <template v-if="isCategoryList(categoryItem)">
-          <YunCategory
-            :parent-key="parentKey ? `${parentKey}/${categoryItem.name}` : categoryItem.name"
-            :category="categoryItem"
-            :collapsable="!categoryList.includes(categoryItem.name)"
-          />
-        </template>
-
-        <template v-else>
-          <RouterLink
-            v-if="categoryItem.title" :to="categoryItem.path || ''"
-            class="inline-flex items-center gap-2 px-3 py-2 w-full rounded transition"
-            hover="bg-black/5"
-          >
-            <div i-ri-file-text-line />
-            <span font="serif black">{{ getTitle(categoryItem) }}</span>
-          </RouterLink>
-        </template>
+        <YunCategoryChildItem
+          :i="cI"
+          :category-item="categoryItem"
+          :parent-key="parentKey"
+        />
       </li>
     </ul>
   </Transition>

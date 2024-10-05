@@ -45,9 +45,11 @@ const sortedYears = computed(() => {
 
 <template>
   <div class="post-collapse px-10 lt-sm:px-5 max-w-3xl" relative>
-    <div w="full" text="center" class="yun-text-light" p="2">
-      {{ t('counter.archives', posts.length) }}
-    </div>
+    <Transition appear enter-active-class="animate-fade-in animate-duration-400">
+      <div w="full" text="center" class="yun-text-light" p="2">
+        {{ t('counter.archives', posts.length) }}
+      </div>
+    </Transition>
 
     <div class="post-collapse-action" text="center">
       <button class="yun-icon-btn shadow hover:shadow-md" @click="isDesc = !isDesc">

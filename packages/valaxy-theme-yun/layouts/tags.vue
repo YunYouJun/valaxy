@@ -53,6 +53,7 @@ function displayTag(tag: string) {
 }
 
 const title = usePostTitle(frontmatter)
+const tagArr = computed(() => Array.from(tags.value).sort())
 
 // use flex to fix `overflow-wrap: break-words;` not working in Safari
 </script>
@@ -72,14 +73,20 @@ const title = usePostTitle(frontmatter)
           />
         </template>
         <template #main-content>
-          <div class="yun-text-light" text="center" p="2">
-            {{ t('counter.tags', Array.from(tags).length) }}
-          </div>
+          <Transition
+            enter-active-class="animate-fade-in animate-duration-400"
+            appear
+          >
+            <div class="yun-text-light" text="center" p="2">
+              {{ t('counter.tags', tagArr.length) }}
+            </div>
+          </Transition>
 
           <div class="justify-center items-end" flex="~ wrap" gap="1">
             <YunLayoutPostTag
-              v-for="[key, tag] in Array.from(tags).sort()"
+              v-for="([key, tag], i) in tagArr"
               :key="key"
+              :i="i"
               :title="key"
               :count="tag.count"
               :style="getTagStyle(tag.count)"

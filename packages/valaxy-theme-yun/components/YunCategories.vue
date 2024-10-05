@@ -26,11 +26,12 @@ const categoryList = computed(() => {
 <template>
   <div flex="~ col">
     <ul
-      v-for="category in categories.values()"
+      v-for="(category, i) in categories.values()"
       :key="category.name"
       class="category-list"
     >
       <YunCategory
+        :i="i"
         :parent-key="category.name"
         :category="category"
         :level="level + 1"
