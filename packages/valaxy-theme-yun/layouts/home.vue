@@ -1,10 +1,8 @@
 <script lang="ts" setup>
 import { computed } from 'vue'
 import { useRoute } from 'vue-router'
-import { useYunAppStore } from '../stores'
 import { useThemeConfig } from '../composables'
 
-const yunStore = useYunAppStore()
 const route = useRoute()
 const themeConfig = useThemeConfig()
 
@@ -17,16 +15,7 @@ const showNotice = computed(() => {
 </script>
 
 <template>
-  <main
-    class="yun-main flex-center"
-    :class="{
-      'pl-0': !yunStore.leftSidebar.isOpen,
-      'md:pl-$va-sidebar-width': yunStore.leftSidebar.isOpen,
-      'pt-36': isPage,
-    }" flex="~ col" w="full"
-  >
-    <YunSidebar :show-hamburger="true" />
-
+  <YunLayoutWrapper class="items-center mt-0! flex-col">
     <template v-if="!isPage">
       <YunBanner />
       <YunSay v-if="themeConfig.say.enable" w="full" />
@@ -49,5 +38,5 @@ const showNotice = computed(() => {
     </slot>
 
     <YunFooter />
-  </main>
+  </YunLayoutWrapper>
 </template>

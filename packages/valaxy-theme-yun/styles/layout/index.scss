@@ -6,8 +6,3 @@
 html {
   overflow-y: scroll;
 }
-
-.yun-main {
-  transition: padding-left var(--va-transition-duration);
-  transition-timing-function: map.get($cubic-bezier, 'ease-in-out');
-}

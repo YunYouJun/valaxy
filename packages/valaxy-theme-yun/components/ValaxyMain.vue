@@ -45,17 +45,18 @@ onContentUpdated(() => {
         }" flex="~ col grow"
         p="lt-md:0"
       >
-        <YunCard :cover="frontmatter.cover" m="0" class="relative pt-8" :style="styles as StyleValue">
-          <slot name="main-header">
-            <YunPageHeader
-              class="mb-2"
-              :title="title"
-              :icon="frontmatter.icon || icon"
-              :color="frontmatter.color || color"
-              :cover="frontmatter.cover"
-              :page-title-class="frontmatter.pageTitleClass"
-            />
-          </slot>
+        <YunCard :cover="frontmatter.cover" m="0" class="relative" :style="styles as StyleValue">
+          <div class="mt-8 mb-4">
+            <slot name="main-header">
+              <YunPageHeader
+                :title="title"
+                :icon="frontmatter.icon || icon"
+                :color="frontmatter.color || color"
+                :cover="frontmatter.cover"
+                :page-title-class="frontmatter.pageTitleClass"
+              />
+            </slot>
+          </div>
           <slot name="main-header-after" />
 
           <div p="x-4 b-8" class="sm:px-6 lg:px-12 xl:px-16" w="full">
@@ -96,14 +97,6 @@ onContentUpdated(() => {
 
 <style lang="scss">
 @use 'valaxy/client/styles/mixins/index.scss' as *;
-
-@include screen('md') {
-  .yun-main {
-    &.has-sidebar {
-      padding-left: var(--va-sidebar-width);
-    }
-  }
-}
 
 @include screen('xl') {
   .content{
