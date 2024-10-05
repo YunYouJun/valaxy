@@ -18,10 +18,12 @@ import { vLogger } from '../../logger'
 let server: ViteDevServer | undefined
 
 export function printInfo(options: ResolvedValaxyOptions, port?: number, remote?: string | boolean) {
+  const themeVersion = blue(`v${options.config.themeConfig?.pkg?.version}`) || 'unknown'
+
   console.log()
   console.log(`  ${bold('🌌 Valaxy')}  ${blue(`v${version}`)}`)
   console.log()
-  console.log(`${dim('  🪐 theme  ')} > ${(options.theme ? green(options.theme) : gray('none'))}`)
+  console.log(`${dim('  🪐 theme  ')} > ${(options.theme ? green(options.theme) : gray('none'))} (${themeVersion})`)
   console.log(`  ${dim('📁')} ${dim(path.resolve(options.userRoot))}`)
   if (port) {
     console.log()
