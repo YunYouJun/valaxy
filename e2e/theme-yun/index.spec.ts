@@ -15,9 +15,10 @@ test.describe('Theme Yun', () => {
     await expect(page.locator('.char-box').nth(0)).toHaveText('云')
   })
 
-  test('sidebar', async ({ page }) => {
-    await expect(page.locator('.sidebar')).toContainText('Valaxy Theme Yun')
-  })
+  // new version deprecated
+  // test('sidebar', async ({ page }) => {
+  //   await expect(page.locator('.sidebar')).toContainText('Valaxy Theme Yun')
+  // })
 
   test('post list', async ({ page }) => {
     await expect(page.locator('.post-title-link').nth(0)).toHaveText('Hello, Valaxy!')
@@ -47,7 +48,8 @@ test.describe('Theme Yun - Post', () => {
     await page.goto('/posts/hello-valaxy')
   })
 
-  test('sidebar', async ({ page }) => {
-    await expect(page.locator('.sidebar')).toBeVisible()
-  })
+  // new version deprecated
+  // test('sidebar', async ({ page }) => {
+  //   await expect(page.locator('.sidebar')).toBeVisible()
+  // })
 })

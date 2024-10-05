@@ -20,10 +20,11 @@ test.describe('Create Valaxy Demo', () => {
     await expect(page.locator('.char-box').nth(0)).toHaveText('云')
   })
 
-  test('sidebar', async ({ page }) => {
-    await page.waitForSelector('.sidebar')
-    await expect(page.locator('.sidebar')).toContainText('Valaxy Theme Yun')
-  })
+  // new version yun deprecated sidebar
+  // test('sidebar', async ({ page }) => {
+  //   await page.waitForSelector('.sidebar')
+  //   await expect(page.locator('.sidebar')).toContainText('Valaxy Theme Yun')
+  // })
 
   test('post list', async ({ page }) => {
     await page.waitForSelector('.post-title-link')
