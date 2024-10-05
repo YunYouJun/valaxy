@@ -1,7 +1,12 @@
 <script setup lang="ts">
+import { useRouter } from 'vue-router'
+
 defineProps<{
   icon: string
+  to?: string
 }>()
+
+const router = useRouter()
 </script>
 
 <template>
@@ -10,6 +15,7 @@ defineProps<{
     text="$va-c-text"
     hover="bg-white/80 dark:bg-black/80 op-100"
     op-80
+    @click="to && router.push(to)"
   >
     <div class="size-6" :class="icon" />
   </div>

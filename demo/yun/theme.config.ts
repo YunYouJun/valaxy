@@ -40,14 +40,14 @@ export default defineThemeConfig({
       name: '友情链接',
       url: '/links/',
       icon: 'i-ri-link',
-      color: 'dodgerblue',
+      // color: 'dodgerblue',
     },
-    {
-      name: '老婆列表',
-      url: '/girls/',
-      icon: 'i-ri-women-line',
-      color: 'hotpink',
-    },
+    // {
+    //   name: '老婆列表',
+    //   url: '/girls/',
+    //   icon: 'i-ri-women-line',
+    //   color: 'hotpink',
+    // },
   ],
 
   footer: {

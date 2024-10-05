@@ -21,11 +21,6 @@ withDefaults(defineProps<{
   position: fixed;
   inset: 0;
   transition: opacity 0.4s;
-
-  &.fade-enter-from,
-  &.fade-leave-to {
-    opacity: 0;
-  }
 }
 
 @include mobile {

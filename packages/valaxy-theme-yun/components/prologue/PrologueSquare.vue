@@ -116,8 +116,8 @@ useMotion(introRef, {
         </div>
 
         <div
-          class="links flex-center"
-          flex="~ col"
+          class="mt-4 flex-center w-50 md:w-100 m-auto gap-2"
+          flex="~ wrap"
           p="x-$rect-margin"
         >
           <YunSiteLinkItem

@@ -96,7 +96,7 @@
     "hookable": "^5.5.3",
     "html-to-text": "^9.0.5",
     "is-installed-globally": "^1.0.0",
-    "jiti": "^2.1.2",
+    "jiti": "^2.3.1",
     "js-base64": "^3.7.7",
     "js-yaml": "^4.1.0",
     "katex": "^0.16.11",

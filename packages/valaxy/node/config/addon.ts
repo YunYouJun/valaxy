@@ -19,7 +19,8 @@ export async function resolveAddonsConfig(addons: ValaxyAddonResolver[], options
   for (const addon of addons) {
     // unconfig get node_modules/valaxy-addon-xxx/valaxy.config.ts(not exist) but get userRoot/valaxy.config.ts
     // so we need to check if valaxy.config.ts exist
-    if (!fs.existsSync(path.resolve(addon.root, 'valaxy.config.ts')))
+    const addonConfigPath = path.resolve(addon.root, 'valaxy.config.ts')
+    if (!await fs.exists(addonConfigPath))
       continue
 
     const { config, configFile } = await resolveValaxyConfigFromRoot(addon.root, options)

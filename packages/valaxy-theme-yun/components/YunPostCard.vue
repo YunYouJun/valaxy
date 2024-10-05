@@ -14,11 +14,6 @@ const { icon, styles } = usePostProperty(props.post.type)
 
 <template>
   <YunCard
-    v-animateonscroll="{
-      // translate
-      enterClass: 'animate-fade-in animate-duration-200ms',
-      leaveClass: 'animate-fade-out animate-duration-200ms',
-    }"
     class="w-full"
     m="auto"
     :class="post.cover ? 'post-card-image' : 'post-card'"

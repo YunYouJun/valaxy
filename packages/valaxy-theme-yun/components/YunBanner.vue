@@ -26,7 +26,7 @@ const totalCharHeight = computed(() => chars.value.reduce((a, b) => a + b, 0))
 const bannerStyles = computed<CSSProperties>(() => {
   return {
     '--total-char-height': `${totalCharHeight.value}rem`,
-    '--banner-line-height': `calc(var(--banner-height, 100vh) / 2 - ${totalCharHeight.value / 2}rem)`,
+    '--banner-line-height': `calc(var(--banner-height, 100 * var(--vh)) / 2 - ${totalCharHeight.value / 2}rem)`,
     'justify-content': 'space-between',
   }
 })
@@ -91,7 +91,7 @@ onMounted(async () => {
   // banner
   --banner-line-color: black;
   --banner-char-color: black;
-  --banner-char-bg-color: rgba(255, 255, 255, 0.5);
+  --banner-char-bg-color: rgb(255 255 255 / 0.5);
   --banner-char-hover-color: white;
 }
 
@@ -99,7 +99,7 @@ onMounted(async () => {
   // banner
   --banner-line-color: white;
   --banner-char-color: white;
-  --banner-char-bg-color: rgba(0, 0, 0, 0.5);
+  --banner-char-bg-color: rgb(0 0 0 / 0.5);
   --banner-char-hover-color: black;
 }
 </style>

@@ -142,10 +142,7 @@ export async function createUnocssPlugin(options: ResolvedValaxyOptions) {
 
   for (const configFile of configFiles) {
     if (await fs.exists(configFile)) {
-      let uConfig = (await jiti.import(configFile)) as UnoCSSConfig | { default: UnoCSSConfig }
-      if ('default' in uConfig)
-        uConfig = uConfig.default
-
+      const uConfig = (await jiti.import(configFile, { default: true })) as UnoCSSConfig
       config = defu(config, uConfig)
 
       configDeps.push(configFile)

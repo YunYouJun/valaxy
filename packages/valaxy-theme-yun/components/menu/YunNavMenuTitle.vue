@@ -23,7 +23,7 @@ function goToLink() {
 <template>
   <div
     v-motion
-    flex="~ col h-full"
+    flex="~ center col h-full"
     :class="{
       'cursor-pointer': !showPostTitle,
     }"
@@ -43,7 +43,7 @@ function goToLink() {
   >
     <span
       v-if="fm.title && showPostTitle"
-      class="nav-menu-post-title text-sm font-bold flex items-center gap-1 lt-sm:max-w-50"
+      class="nav-menu-post-title text-xs font-bold flex items-center gap-1 lt-sm:max-w-40"
     >
       <div
         class="size-4"

@@ -22,7 +22,7 @@ function toggleOptionVisible(e: MouseEvent) {
 </script>
 
 <template>
-  <div class="relative h-8 w-30 text-$va-c-text-2 z-10" @mousedown.stop>
+  <div class="relative h-8 w-30 text-$va-c-text-2 z-$yun-z-select" @mousedown.stop>
     <button
       class="flex h-full w-full px-2 items-center justify-between rounded transition"
       border="~ gray op-30"

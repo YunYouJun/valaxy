@@ -14,7 +14,7 @@ $char-animation-duration: 0.4s;
   justify-content: center;
   align-items: center;
   width: 100%;
-  height: var(--banner-container-height, 100vh);
+  height: var(--banner-container-height, calc(100 * var(--vh)));
 }
 
 .banner-char-container {

@@ -41,8 +41,9 @@ export interface PageProps {
   /**
    * @description:en-US Color of icon
    * @description:zh-CN 图标颜色
+   * @default 'var(--va-c-text)'
    */
-  color: string
+  color?: string
 }
 
 /**
@@ -131,6 +132,7 @@ export interface ThemeConfig extends DefaultTheme.Config {
   }
 
   /**
+   * [@explosions/fireworks](https://www.npmjs.com/package/@explosions/fireworks)
    * @en - Fireworks when click
    * @zh - 点击时的烟花效果
    */

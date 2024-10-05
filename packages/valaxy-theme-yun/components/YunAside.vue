@@ -102,7 +102,6 @@ watch(() => [yun.rightSidebar.isOpen, yun.size.isXl], async () => {
 
 .toc-btn {
   color: var(--va-c-primary);
-  background-color: white;
   z-index: var(--yun-z-toc-btn);
 }
 </style>

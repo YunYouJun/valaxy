@@ -32,12 +32,13 @@ $common: map.merge(
 $z-index: () !default;
 $z-index: map.merge(
   (
-    "toc-btn": 7,
+    "select": 6,
     "cloud": 7,
     "go-down": 9,
     "backdrop": 9,
     "sidebar": 10,
     "fireworks": 11,
+    "toc-btn": 11,
     "go-up-btn": 20,
     "fullscreen-menu": 21,
     "nav-menu": 22,

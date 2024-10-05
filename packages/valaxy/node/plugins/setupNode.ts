@@ -24,7 +24,7 @@ export async function loadSetups<T, R extends object>(roots: string[], name: str
   for (const root of roots) {
     const path = resolve(root, 'setup', name)
     if (fs.existsSync(path)) {
-      const { default: setup } = (await jiti.import(path)) as { default: (arg: T) => R }
+      const setup = (await jiti.import(path, { default: true })) as (arg: T) => R
       const result = await setup(arg)
       if (result !== null) {
         returns = merge

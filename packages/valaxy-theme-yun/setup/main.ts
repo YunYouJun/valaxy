@@ -9,6 +9,7 @@ import ToastService from 'primevue/toastservice'
 
 import primeStyles from '../styles/primevue'
 import '../styles/primevue/tooltip.scss'
+import { useYunAppStore } from '../stores'
 
 export default defineAppSetup((ctx) => {
   // can do for setup
@@ -55,5 +56,8 @@ export default defineAppSetup((ctx) => {
      * router import order
      * @see https://pinia.vuejs.org/zh/core-concepts/outside-component-usage.html#single-page-applications
      */
+    const app = useYunAppStore()
+    if (app.fullscreenMenu.isOpen)
+      app.fullscreenMenu.toggle()
   })
 })

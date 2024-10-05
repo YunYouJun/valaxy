@@ -5,7 +5,7 @@ const siteConfig = useSiteConfig()
 </script>
 
 <template>
-  <div class="site-author-intro" m="t-0 b-4">
+  <div v-if="siteConfig.author.intro" class="site-author-intro" m="t-0 b-4">
     {{ siteConfig.author.intro }}
   </div>
 </template>

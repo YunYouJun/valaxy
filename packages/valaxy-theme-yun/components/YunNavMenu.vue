@@ -1,14 +1,14 @@
 <script setup lang="ts">
 import { onMounted, ref, watch } from 'vue'
-import { useAppStore, useSiteConfig } from 'valaxy'
+import { useSiteConfig } from 'valaxy'
 import { useRoute } from 'vue-router'
 import { useYunAppStore } from '../stores'
-import { useThemeConfig } from '../composables'
+// import { useThemeConfig } from '../composables'
 
-const app = useAppStore()
+// const app = useAppStore()
 const yunApp = useYunAppStore()
 const siteConfig = useSiteConfig()
-const themeConfig = useThemeConfig()
+// const themeConfig = useThemeConfig()
 
 const showMenu = ref(false)
 const route = useRoute()
@@ -33,7 +33,9 @@ watch(() => yunApp.scrollY, () => {
 </script>
 
 <template>
-  <Transition name="fade">
+  <Transition
+    enter-active-class="animate-fade-in"
+  >
     <div
       v-if="showMenu"
       class="yun-nav-menu z-$yun-z-nav-menu"
@@ -51,13 +53,14 @@ watch(() => yunApp.scrollY, () => {
         z="$yun-z-menu-btn"
         @click="yunApp.fullscreenMenu.toggle()"
       />
+      <YunNavMenuItem icon="i-ri-home-4-line" to="/" />
 
-      <div class="flex flex-1 px-2">
+      <div class="flex flex-1 flex-center">
         <YunNavMenuTitle />
       </div>
 
       <div class="inline-flex-center">
-        <template v-if="!app.isMobile && themeConfig.nav">
+        <!-- <template v-if="!app.isMobile && themeConfig.nav">
           <template v-for="item in themeConfig.nav" :key="item.text">
             <AppLink
               v-if="'link' in item"
@@ -69,11 +72,9 @@ watch(() => yunApp.scrollY, () => {
             >
               {{ item.text }}
             </AppLink>
-            <template v-else-if="'items' in item">
-              <!-- TODO -->
-            </template>
+            <template v-else-if="'items' in item" />
           </template>
-        </template>
+        </template> -->
 
         <YunToggleDark class="rounded-none!" />
         <YunSearchTrigger v-if="siteConfig.search.enable" />
@@ -115,7 +116,7 @@ watch(() => yunApp.scrollY, () => {
 
     box-shadow: var(--un-ring-offset-shadow), var(--un-ring-shadow),
       var(--un-shadow);
-    }
+  }
 
   .vt-hamburger-top, .vt-hamburger-middle, .vt-hamburger-bottom {
     background-color: var(--va-c-text);

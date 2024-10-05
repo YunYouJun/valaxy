@@ -11,7 +11,7 @@ const yunApp = useYunAppStore()
 
 <template>
   <AppLink
-    class="link-item w-full items-center justify-center gap-2 transition rounded text-xl p-3"
+    class="link-item inline-flex-center gap-2 transition rounded text-base p-1 md:(text-xl p-3) text-$va-c-text"
     inline-flex
     :to="page.url" :title="page.name"
     :style="`color:${page.color}`"

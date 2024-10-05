@@ -12,8 +12,8 @@ import { resolve } from 'pathe'
 import consola from 'consola'
 import type { ResolvedValaxyOptions } from '../options'
 
+// interopDefault is default true
 const jiti = createJiti(import.meta.url, {
-  interopDefault: true,
   // for hmr
   moduleCache: false,
 })
@@ -42,7 +42,7 @@ export async function loadConfig<T extends UserInputConfig = UserInputConfig>(op
 
   if (await fs.exists(filePath)) {
     try {
-      data = (await jiti.import(filePath)) as T
+      data = (await jiti.import(filePath, { default: true })) as T
     }
     catch (e) {
       consola.error(`Failed to load config file: ${filePath}`)

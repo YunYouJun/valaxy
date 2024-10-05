@@ -16,10 +16,12 @@ const strokeOffset = computed(() => {
 
 <template>
   <a
-    href="#" class="back-to-top yun-icon-btn"
-    :class="show && 'show'" @click="backToTop"
+    href="#"
+    class="back-to-top yun-icon-btn bg-$va-c-bg-soft shadow-md"
+    :class="show && 'show'"
+    @click="backToTop"
   >
-    <div w="8" h="8" i-ri-arrow-up-s-line />
+    <div class="size-8" i-ri-arrow-up-s-line />
     <svg class="progress-circle-container" viewBox="0 0 100 100">
       <circle
         :stroke-dasharray="`${circumference} ${circumference}`"
