@@ -1,0 +1,4 @@
+<template>
+  <!-- empty -->
+  <div />
+</template>

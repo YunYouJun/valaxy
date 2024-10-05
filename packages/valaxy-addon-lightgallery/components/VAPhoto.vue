@@ -14,7 +14,7 @@ const subHtml = computed(() => {
 <template>
   <figure class="va-photo-list-item" :data-src="photo.src" :data-sub-html="subHtml">
     <img class="va-photo-list-cover" :src="photo.src" loading="lazy" :alt="photo.caption">
-    <figcaption>
+    <figcaption class="yun-title-effects text-$va-c-text op-80 hover:op-100">
       {{ photo.caption }}
     </figcaption>
   </figure>
@@ -25,7 +25,7 @@ const subHtml = computed(() => {
   display: inline-flex;
   position: relative;
   width: 15rem;
-  margin: 1.5rem;
+  margin: 1.8rem;
   cursor: pointer;
 
   img {
@@ -42,7 +42,7 @@ const subHtml = computed(() => {
 
   figcaption {
     position: absolute;
-    bottom: -1.8rem;
+    bottom: -2.2rem;
     display: block;
     text-align: center;
     width: 100%;

@@ -1,9 +1,34 @@
 <script setup lang="ts">
-import { type CSSProperties, computed } from 'vue'
+import { type CSSProperties, computed, ref } from 'vue'
 import { TinyColor } from '@ctrl/tinycolor'
+import { useMotion } from '@vueuse/motion'
 import type { ProjectItem } from '../../types'
+import { cubicBezier } from '../../client/constants'
 
-const props = defineProps<{ project: ProjectItem }>()
+const props = defineProps<{
+  i: number
+  project: ProjectItem
+}>()
+
+const cardRef = ref<HTMLElement>()
+useMotion(cardRef, {
+  initial: {
+    opacity: 0,
+    y: 50,
+  },
+  enter: {
+    opacity: 1,
+    y: 0,
+    transition: {
+      delay: props.i * 50,
+      type: 'spring',
+      ease: cubicBezier.easeIn,
+      damping: 8,
+      duration: 400,
+    },
+  },
+})
+
 const cardStyle = computed(() => {
   const styles: CSSProperties = {
     color: props.project.textColor,
@@ -63,8 +88,9 @@ const links = computed(() => [
 
 <template>
   <div
+    ref="cardRef"
     flex="~ col center"
-    class="m-2 w-90 transform rounded shadow-md grayscale-30 transition duration-400"
+    class="m-2 w-90 transform rounded shadow-md grayscale-30"
     bg="opacity-80 gradient-to-br"
     p="x-2 b-12"
     hover="shadow-lg grayscale-0"

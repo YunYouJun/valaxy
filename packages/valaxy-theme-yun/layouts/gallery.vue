@@ -29,34 +29,35 @@ const YunGallery = runtimeConfig.value.addons['valaxy-addon-lightgallery']
 </script>
 
 <template>
-  <YunSidebar v-if="$slots['sidebar-child']">
-    <slot name="sidebar-child" />
-  </YunSidebar>
-  <YunSidebar v-else />
+  <YunLayoutWrapper>
+    <YunLayoutLeft />
 
-  <RouterView v-slot="{ Component }">
-    <component :is="Component">
-      <template #main-header>
-        <YunPageHeader
-          :title="title || t('title.gallery')"
-          :icon="frontmatter.icon || 'i-ri-gallery-line'"
-          :color="frontmatter.color"
-          :page-title-class="frontmatter.pageTitleClass"
-        />
-      </template>
-      <template #main-content>
-        <div text="center" class="yun-text-light" p="2">
-          {{ t('counter.photos', photos.length) }}
-        </div>
-        <div class="page-action" text="center">
-          <a class="yun-icon-btn" :title="t('accessibility.back')" @click="() => router.back()">
-            <div i-ri-arrow-go-back-line />
-          </a>
-        </div>
-        <ValaxyGalleryDecrypt v-if="frontmatter.encryptedPhotos" :encrypted-photos="frontmatter.encryptedPhotos" />
-        <YunGallery v-else :photos="photos" />
-        <RouterView />
-      </template>
-    </component>
-  </RouterView>
+    <RouterView v-slot="{ Component }">
+      <component :is="Component">
+        <template #main-header>
+          <YunPageHeader
+            :title="title || t('title.gallery')"
+            :icon="frontmatter.icon || 'i-ri-gallery-line'"
+            :color="frontmatter.color"
+            :page-title-class="frontmatter.pageTitleClass"
+          />
+        </template>
+        <template #main-content>
+          <div text="center" class="yun-text-light" p="2">
+            {{ t('counter.photos', photos.length) }}
+          </div>
+          <div class="page-action" text="center">
+            <a class="yun-icon-btn" :title="t('accessibility.back')" @click="() => router.back()">
+              <div i-ri-arrow-go-back-line />
+            </a>
+          </div>
+          <ValaxyGalleryDecrypt v-if="frontmatter.encryptedPhotos" :encrypted-photos="frontmatter.encryptedPhotos" />
+          <YunGallery v-else :photos="photos" />
+          <RouterView />
+        </template>
+      </component>
+    </RouterView>
+  </YunLayoutWrapper>
+
+  <YunFooter />
 </template>

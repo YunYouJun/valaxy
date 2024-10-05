@@ -688,8 +688,8 @@ importers:
         specifier: ^4.1.0
         version: 4.1.0
       '@explosions/fireworks':
-        specifier: ^0.0.2
-        version: 0.0.2
+        specifier: ^0.0.3
+        version: 0.0.3
       '@iconify-json/ant-design':
         specifier: ^1.2.1
         version: 1.2.1
@@ -1780,8 +1780,8 @@ packages:
     resolution: {integrity: sha512-vH9PiIMMwvhCx31Af3HiGzsVNULDbyVkHXwlemn/B0TFj/00ho3y55efXrUZTfQipxoHC5u4xq6zblww1zm1Ig==}
     engines: {node: ^18.18.0 || ^20.9.0 || >=21.1.0}
 
-  '@explosions/fireworks@0.0.2':
-    resolution: {integrity: sha512-BiF9iWE/8jTmqlxcIhSZlJgUlBJ62Wk9I6jTwfkd0zMn0QS2IxTxypOnV4CSo21bsnmsvJxh9ryepAK+D4OJqA==}
+  '@explosions/fireworks@0.0.3':
+    resolution: {integrity: sha512-D2L7BbxU2SDOnZg9c/fzD8VusMYKt9yq+PaPyqe22++0F/9MJIEeqjqo5tVqNSzQaWVk05lIC+mAIX20QpMfmg==}
 
   '@floating-ui/core@1.6.8':
     resolution: {integrity: sha512-7XJ9cPU+yI2QeLS+FCSlqNFZJq8arvswefkZrYI1yQBbftw6FyrZOxYSh+9S7z7TpeWlRt9zJ5IhM1WIL334jA==}
@@ -9676,7 +9676,7 @@ snapshots:
     dependencies:
       levn: 0.4.1
 
-  '@explosions/fireworks@0.0.2': {}
+  '@explosions/fireworks@0.0.3': {}
 
   '@floating-ui/core@1.6.8':
     dependencies:

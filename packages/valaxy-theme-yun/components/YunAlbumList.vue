@@ -7,8 +7,11 @@ defineProps<{
 </script>
 
 <template>
-  <div class="yun-album-list">
-    <YunAlbum v-for="album in albums" :key="album.url" :album="album" />
+  <div class="yun-album-list mb-4">
+    <YunAlbum
+      v-for="album in albums" :key="album.url"
+      :album="album"
+    />
   </div>
 </template>
 
@@ -26,7 +29,6 @@ defineProps<{
     figure {
       position: relative;
       width: 15rem;
-      margin: 2rem;
 
       &::before {
         content: '';
@@ -52,14 +54,6 @@ defineProps<{
         height: 10rem;
         object-fit: cover;
         background-color: #eee;
-      }
-
-      figcaption {
-        position: absolute;
-        bottom: -2.5rem;
-        display: block;
-        text-align: center;
-        width: 100%;
       }
     }
   }

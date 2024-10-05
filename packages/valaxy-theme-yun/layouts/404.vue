@@ -7,8 +7,6 @@ const { back } = useBack()
 </script>
 
 <template>
-  <YunSidebar :show-hamburger="true" />
-
   <main class="va-main w-full h-screen" text="center" flex="~ col" justify="center" items="center">
     <div class="not-found" title="404" font="mono">
       404
@@ -27,6 +25,6 @@ const { back } = useBack()
 <style lang="scss" scoped>
 .not-found {
   font-size: 10rem;
-  text-shadow: 0 5px 10px rgba(0,0,0,.25), 0 20px 20px rgba(0,0,0,.15);
+  text-shadow: 0 5px 10px rgb(0 0 0 / .25), 0 20px 20px rgb(0 0 0 / .15);
 }
 </style>

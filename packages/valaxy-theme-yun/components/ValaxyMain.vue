@@ -45,10 +45,10 @@ onContentUpdated(() => {
         }" flex="~ col grow"
         p="lt-md:0"
       >
-        <YunCard :cover="frontmatter.cover" m="0" class="relative" :style="styles as StyleValue">
+        <YunCard :cover="frontmatter.cover" m="0" class="relative pt-8" :style="styles as StyleValue">
           <slot name="main-header">
             <YunPageHeader
-              class="mb-2 mt-8"
+              class="mb-2"
               :title="title"
               :icon="frontmatter.icon || icon"
               :color="frontmatter.color || color"

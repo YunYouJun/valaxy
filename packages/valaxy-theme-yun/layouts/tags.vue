@@ -65,7 +65,6 @@ const title = usePostTitle(frontmatter)
       <component :is="Component">
         <template #main-header>
           <YunPageHeader
-            class="mt-8"
             :title="title || t('menu.tags')"
             :icon="frontmatter.icon || 'i-ri-tag-line'"
             :color="frontmatter.color"

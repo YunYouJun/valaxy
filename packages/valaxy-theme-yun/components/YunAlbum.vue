@@ -9,7 +9,7 @@ defineProps<{
 
 <template>
   <AppLink class="yun-album-list-item" :to="album.url">
-    <figure :title="album.desc">
+    <figure class="m-10" flex="~ col" :title="album.desc">
       <img
         loading="lazy"
         class="yun-album-list-cover"
@@ -17,9 +17,19 @@ defineProps<{
         :alt="album.caption"
         :on-error="onImgError"
       >
-      <figcaption>
-        「{{ album.caption }}」
+      <figcaption class="yun-album-caption yun-title-effects text-$va-c-text inline-flex">
+        {{ album.caption }}
       </figcaption>
     </figure>
   </AppLink>
 </template>
+
+<style lang="scss">
+.yun-album-caption {
+  position: absolute;
+  bottom: -3rem;
+  display: block;
+  text-align: center;
+  width: 100%;
+}
+</style>

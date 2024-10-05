@@ -53,7 +53,6 @@ useSchemaOrg([
       <component :is="Component">
         <template #main-header>
           <YunPageHeader
-            class="mt-8"
             :title="title || t('menu.categories')"
             :icon="pageIcon"
             :color="frontmatter.color"
