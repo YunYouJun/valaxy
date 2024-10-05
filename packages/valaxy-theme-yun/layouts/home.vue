@@ -15,7 +15,12 @@ const showNotice = computed(() => {
 </script>
 
 <template>
-  <YunLayoutWrapper class="items-center mt-0! flex-col">
+  <YunLayoutWrapper
+    class="items-center  flex-col"
+    :class="{
+      'mt-0!': !isPage,
+    }"
+  >
     <template v-if="!isPage">
       <YunBanner />
       <YunSay v-if="themeConfig.say.enable" w="full" />

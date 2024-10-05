@@ -1,5 +1,6 @@
 import { gsap } from 'gsap'
-import ScrollToPlugin from 'gsap/dist/ScrollToPlugin'
+// use it for esm
+import ScrollToPlugin from 'gsap/ScrollToPlugin'
 
 gsap.registerPlugin(ScrollToPlugin)
 
