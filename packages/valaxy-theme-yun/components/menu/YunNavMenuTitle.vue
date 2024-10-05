@@ -41,16 +41,22 @@ function goToLink() {
     }"
     @click="goToLink"
   >
-    <span
+    <div
       v-if="fm.title && showPostTitle"
+      flex="~ col"
       class="nav-menu-post-title text-xs font-bold flex items-center gap-1 lt-sm:max-w-40"
     >
-      <div
-        class="size-4"
-        :class="fm.icon || 'i-ri-article-line'"
-      />
-      <span class="truncate"> {{ fm.title }}</span>
-    </span>
+      <div class="gap-1" flex="~">
+        <div
+          class="size-4"
+          :class="fm.icon || 'i-ri-article-line'"
+        />
+        <span class="truncate"> {{ fm.title }}</span>
+      </div>
+      <span v-if="fm.subtitle" class="font-light op-80">
+        {{ fm.subtitle }}
+      </span>
+    </div>
     <span v-else class="font-light truncate">
       {{ siteConfig.title }}
     </span>
