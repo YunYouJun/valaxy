@@ -99,7 +99,7 @@ statistics:
   word: 本文字数
   word_total: 站点总字数
   time: 阅读时长
-  time_total: 站点阅读时长
+  time_total: 站点总阅读时长
 
 time:
   day: 1 天 | {count} 天
