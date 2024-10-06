@@ -12,6 +12,10 @@ export function useYunSpringAnimation(target: MaybeRef<HTMLElement | undefined>,
   i: number
   y?: number
   duration?: number
+  /**
+   * delay in ms
+   */
+  delay?: number
 }) {
   useMotion(target, {
     initial: {
@@ -22,7 +26,7 @@ export function useYunSpringAnimation(target: MaybeRef<HTMLElement | undefined>,
       opacity: 1,
       y: 0,
       transition: {
-        delay: options.i * 50,
+        delay: options.i * (options.delay || 50),
         type: 'spring',
         ease: cubicBezier.easeIn,
         damping: 8,

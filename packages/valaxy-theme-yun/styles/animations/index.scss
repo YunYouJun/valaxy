@@ -4,6 +4,14 @@
 @use 'sass:map';
 @use '../vars.scss' as *;
 
+.transition-cubic-bezier-ease-in {
+  transition-timing-function: map.get($cubic-bezier, 'ease-in');
+}
+
+.transition-cubic-bezier-ease-in-out {
+  transition-timing-function: map.get($cubic-bezier, 'ease-in-out');
+}
+
 .v-enter-active,
 .v-leave-active {
   transition: opacity .2s map.get($cubic-bezier, 'ease-in');

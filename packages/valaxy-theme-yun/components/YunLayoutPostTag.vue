@@ -11,6 +11,7 @@ const props = defineProps<{
 const tagRef = ref<HTMLElement>()
 useYunSpringAnimation(tagRef, {
   i: props.i || 0,
+  delay: 25,
 })
 </script>
 

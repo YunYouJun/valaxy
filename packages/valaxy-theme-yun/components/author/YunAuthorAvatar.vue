@@ -7,6 +7,7 @@ const siteConfig = useSiteConfig()
 <template>
   <img
     class="rounded-full size-full"
-    :src="siteConfig.author.avatar" alt="avatar"
+    :src="siteConfig.author.avatar"
+    alt="avatar"
   >
 </template>

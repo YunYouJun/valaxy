@@ -1,16 +1,19 @@
 <script setup lang="ts">
 // 播放完销毁 css 动画
+import { sleep } from 'valaxy'
 import { onMounted, ref } from 'vue'
 
 const props = defineProps<{
+  delay: number
   duration: number
 }>()
 
-const destroy = ref(false)
-onMounted(() => {
-  setTimeout(() => {
-    destroy.value = true
-  }, props.duration)
+const destroy = ref(true)
+onMounted(async () => {
+  await sleep(props.delay)
+  destroy.value = false
+  await sleep(props.duration)
+  destroy.value = true
 })
 </script>
 

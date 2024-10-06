@@ -1,64 +1,10 @@
 <script setup lang="ts">
-import { useMotion } from '@vueuse/motion'
 import { ref } from 'vue'
-import { cubicBezier } from '../../client/constants'
 import { useThemeConfig } from '../../composables'
 
 const themeConfig = useThemeConfig()
 
 const showContent = ref(false)
-const avatarRef = ref<HTMLElement>()
-const motionInstance = useMotion(avatarRef, {
-  initial: {
-    borderRadius: '0%',
-    width: 'var(--total-char-height)',
-    height: 'var(--total-char-height)',
-    rotate: 135,
-    y: '0%',
-  },
-  enter: {
-    borderRadius: '50%',
-    rotate: 0,
-    y: '0%',
-    width: '120px',
-    height: '120px',
-    boxShadow: 'none',
-    transition: {
-      type: 'keyframes',
-      ease: cubicBezier.easeIn,
-      duration: 800,
-      onComplete: () => {
-        motionInstance.variant.value = 'leave'
-        showContent.value = true
-      },
-    },
-  },
-  leave: {
-    // y: '-50%',
-    boxShadow: '0 5px 100px rgba(0, 0, 0, 0.15)',
-    transition: {
-      type: 'keyframes',
-      ease: cubicBezier.easeInOut,
-      duration: 500,
-    },
-  },
-})
-
-const introRef = ref<HTMLElement>()
-useMotion(introRef, {
-  initial: {
-    y: '0%',
-  },
-  enter: {
-    y: 'calc(-50%)',
-    transition: {
-      delay: 800,
-      type: 'keyframes',
-      ease: cubicBezier.easeInOut,
-      duration: 400,
-    },
-  },
-})
 </script>
 
 <template>
@@ -72,69 +18,77 @@ useMotion(introRef, {
     <slot />
 
     <div
-      ref="introRef"
       flex="~ col center"
-      class="info relative"
+      class="info relative duration-800 transition-cubic-bezier-ease-in"
+      :class="{
+        'translate-y--1/2': showContent,
+      }"
     >
-      <div
-        ref="avatarRef" flex="~ col" class="absolute yun-square bg-$va-c-text square-rotate w-full"
+      <Transition
+        enter-from-class="enter-from"
+        enter-to-class="enter-to"
+        appear
+        @after-appear="showContent = true"
       >
-        <LineBurstEffects
-          class="absolute top-0 left-0 right-0 bottom-0 size-full scale-200"
-          :duration="800"
-        />
-        <YunAuthorAvatar />
-      </div>
-
-      <div
-        v-if="showContent"
-        v-motion
-        :initial="{
-          opacity: 0,
-          y: '0',
-        }"
-        :enter="{
-          opacity: 1,
-          y: 'calc(50% + 60px)',
-          transition: {
-            type: 'keyframes',
-            ease: cubicBezier.easeInOut,
-            duration: 400,
-          },
-        }"
-      >
-        <YunAuthorName class="mt-3" />
-        <YunAuthorIntro />
-
-        <YunDivider />
-
-        <div flex="~ col" class="gap-2 items-center justify-center">
-          <YunSiteTitle />
-          <YunSiteSubtitle />
-          <YunSiteDescription />
-        </div>
-
-        <YunDivider />
-
         <div
-          class="mt-4 flex-center w-50 md:w-100 m-auto gap-2"
-          flex="~ wrap"
-          p="x-$rect-margin"
+          flex="~ col"
+          class="absolute yun-square bg-$va-c-text square-rotate w-full z-1"
         >
-          <YunSiteLinkItem
-            :page="{
-              name: '博客文章',
-              icon: 'i-ri-article-line',
-              url: '/posts/',
-            }"
+          <LineBurstEffects
+            class="absolute top-0 left-0 right-0 bottom-0 size-full scale-200"
+            :delay="1000"
+            :duration="600"
           />
-          <slot />
-          <YunSiteLinkItem
-            v-for="item, i in themeConfig.pages"
-            :key="i" :page="item"
-          />
+          <Transition
+            enter-from-class="op-0"
+            enter-to-class="op-100"
+            enter-active-class="transition-400 delay-400"
+            appear
+          >
+            <YunAuthorAvatar />
+          </Transition>
         </div>
-      </div>
+      </Transition>
+
+      <Transition
+        enter-from-class="translate-y-0"
+        enter-active-class="duration-800 transition-cubic-bezier-ease-in"
+        appear
+      >
+        <div v-if="showContent" class="translate-y-[calc(50%+50px)] animate-fade-in">
+          <YunAuthorName class="mt-3" />
+          <YunAuthorIntro />
+
+          <YunDivider />
+
+          <div flex="~ col" class="gap-2 items-center justify-center">
+            <YunSiteTitle />
+            <YunSiteSubtitle />
+            <YunSiteDescription />
+          </div>
+
+          <YunDivider />
+
+          <div
+            class="mt-4 flex-center w-64 md:w-100 m-auto gap-2"
+            flex="~ wrap"
+            p="x-$rect-margin"
+          >
+            <YunSiteLinkItem
+              :page="{
+                name: '博客文章',
+                icon: 'i-ri-article-line',
+                url: '/posts/',
+              }"
+            />
+            <slot />
+            <YunSiteLinkItem
+              v-for="item, i in themeConfig.pages"
+              :key="i" :page="item"
+            />
+          </div>
+        </div>
+      </Transition>
     </div>
   </div>
 </template>
@@ -142,4 +96,21 @@ useMotion(introRef, {
 <style lang="scss">
 @use 'sass:map';
 @use 'valaxy-theme-yun/styles/vars.scss' as *;
+
+.yun-square {
+  transition: all 0.8s map.get($cubic-bezier, 'ease-in');
+  border-radius: 50%;
+  transform: rotate(0deg) translateY(0%);
+  width: 100px;
+  height: 100px;
+  box-shadow: 0 5px 100px rgb(0 0 0 / 0.15);
+
+  &.enter-from {
+    border-radius: 0%;
+    width: var(--total-char-height);
+    height: var(--total-char-height);
+    transform: rotate(135deg) translateY(0%);
+    box-shadow: none;
+  }
+}
 </style>
