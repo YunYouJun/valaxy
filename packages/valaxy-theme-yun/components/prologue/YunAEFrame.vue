@@ -1,100 +1,44 @@
 <script setup lang="ts">
-import type { PopmotionTransitionProps } from '@vueuse/motion'
-import { useMotion } from '@vueuse/motion'
-import { useAppStore } from 'valaxy'
-import { computed, ref } from 'vue'
+import { onMounted, ref } from 'vue'
 
-const tlRef = ref<HTMLElement>()
-const trRef = ref<HTMLElement>()
-const blRef = ref<HTMLElement>()
-const brRef = ref<HTMLElement>()
-
-const app = useAppStore()
-const cornerSize = computed(() => {
-  return app.isMobile ? 40 : 50
-})
-const cornerMargin = computed(() => {
-  return app.isMobile ? 10 : 30
-})
-const cornerBorderSize = computed(() => {
-  return app.isMobile ? 3 : 5
-})
-
-const cornerTransitionProps: PopmotionTransitionProps = {
-  type: 'spring',
-  duration: 600,
-}
-
-useMotion(tlRef, {
-  initial: {
-    x: -cornerMargin.value,
-    y: -cornerMargin.value,
-  },
-  enter: {
-    x: 0,
-    y: 0,
-    transition: cornerTransitionProps,
-  },
-})
-
-useMotion(trRef, {
-  initial: {
-    x: cornerMargin.value,
-    y: -cornerMargin.value,
-  },
-  enter: {
-    x: 0,
-    y: 0,
-    transition: cornerTransitionProps,
-  },
-})
-
-useMotion(blRef, {
-  initial: {
-    x: -cornerMargin.value,
-    y: cornerMargin.value,
-  },
-  enter: {
-    x: 0,
-    y: 0,
-    transition: cornerTransitionProps,
-  },
-})
-
-useMotion(brRef, {
-  initial: {
-    x: cornerMargin.value,
-    y: cornerMargin.value,
-  },
-  enter: {
-    x: 0,
-    y: 0,
-    transition: cornerTransitionProps,
-  },
-})
-
-const cssVarStyles = computed(() => {
-  return {
-    '--corner-size': `${cornerSize.value}px`,
-    '--corner-margin': `${cornerMargin.value}px`,
-    '--corner-border-size': `${cornerBorderSize.value}px`,
-  }
+const playAnim = ref(false)
+onMounted(() => {
+  playAnim.value = true
 })
 </script>
 
 <template>
   <div
-    class="ae-frame" :style="cssVarStyles"
+    class="yun-ae-frame"
+    :class="{
+      play: playAnim,
+    }"
   >
-    <div ref="tlRef" class="absolute" />
-    <div ref="trRef" class="absolute" />
-    <div ref="blRef" class="absolute" />
-    <div ref="brRef" class="absolute" />
+    <div class="tl absolute" />
+    <div class="tr absolute" />
+    <div class="bl absolute" />
+    <div class="br absolute" />
   </div>
 </template>
 
 <style lang="scss">
-.ae-frame {
+@use 'sass:map';
+@use 'valaxy/client/styles/mixins/index.scss' as *;
+@use 'valaxy-theme-yun/styles/vars.scss' as *;
+
+@include screen('md') {
+  .yun-ae-frame {
+    --corner-size: 50px;
+    --corner-margin: 30px;
+    --corner-border-size: 5px;
+  }
+}
+
+.yun-ae-frame {
+  --corner-size: 40px;
+  --corner-margin: 10px;
+  --corner-border-size: 3px;
+
   div {
     width: var(--corner-size);
     height: var(--corner-size);
@@ -149,6 +93,45 @@ const cssVarStyles = computed(() => {
         bottom: 0;
         right: 0;
       }
+    }
+  }
+
+  .tl, .tr, .bl, .br {
+    position: absolute;
+    transition: transform 0.6s map.get($cubic-bezier, 'ease-in');
+  }
+
+  .tl {
+    transform: translate(calc(var(--corner-margin) * -1), calc(var(--corner-margin) * -1));
+  }
+
+  .tr {
+    transform: translate(calc(var(--corner-margin)), calc(var(--corner-margin) * -1));
+  }
+
+  .bl {
+    transform: translate(calc(var(--corner-margin) * -1), calc(var(--corner-margin)));
+  }
+
+  .br {
+    transform: translate(calc(var(--corner-margin)), calc(var(--corner-margin)));
+  }
+
+  &.play {
+    .tl {
+      transform: translate(0, 0);
+    }
+
+    .tr {
+      transform: translate(0, 0);
+    }
+
+    .bl {
+      transform: translate(0, 0);
+    }
+
+    .br {
+      transform: translate(0, 0);
     }
   }
 }

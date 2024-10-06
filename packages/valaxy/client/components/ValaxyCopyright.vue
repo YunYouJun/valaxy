@@ -54,7 +54,7 @@ const licenseHtml = computed(() => {
 .post-copyright {
   font-size: 0.9rem;
   padding: 0.5rem 1rem;
-  border-left: 4px solid #ff5252;
+  border-left: 4px solid var(--va-c-primary);
   background-color: var(--va-c-bg-dark);
   list-style: none;
   word-break: break-all;

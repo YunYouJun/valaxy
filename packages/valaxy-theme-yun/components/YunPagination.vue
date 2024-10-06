@@ -48,7 +48,7 @@ const { curPage, totalPages, showPage, getTo, surLen, prevTo, nextTo, showPrev, 
 
 <style lang="scss">
 :root {
-  --page-btn-bg-color: rgba(255, 255, 255, 0.5);
+  --page-btn-bg-color: rgb(255 255 255 / 0.5);
   --page-btn-hover-bg-color: var(--va-c-primary-lighter);
   --page-btn-active-bg-color: var(--va-c-primary-light);
 }
@@ -69,10 +69,10 @@ const { curPage, totalPages, showPage, getTo, surLen, prevTo, nextTo, showPrev, 
     width: 2rem;
     height: 2rem;
     margin: 0;
-    transition: background-color var(--va-transition-duration) ease;
 
     // disabled attr
     &[disabled] {
+      color: var(--va-c-text-light);
       background-color: var(--va-c-bg-mute);
     }
   }
@@ -84,19 +84,22 @@ const { curPage, totalPages, showPage, getTo, surLen, prevTo, nextTo, showPrev, 
     background-color: var(--page-btn-bg-color);
 
     &:hover {
-      color: var(--va-c-bg);
+      // color: var(--va-c-bg);
+      color: white;
       background: var(--page-btn-hover-bg-color);
     }
 
     &:active {
-      color: var(--va-c-bg);
+      // color: var(--va-c-bg);
+      color: white;
       background: var(--page-btn-active-bg-color);
     }
 
     &.active {
+      // color: var(--va-c-bg);
+      color: white;
       font-weight: normal;
       background: var(--page-btn-active-bg-color);
-      color: var(--va-c-bg);
       cursor: default;
     }
 

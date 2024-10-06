@@ -20,6 +20,7 @@ function ThemeVitePlugin(options: ResolvedValaxyOptions<ThemeConfig>): Plugin {
         },
 
         optimizeDeps: {
+          include: ['gsap/dist/ScrollToPlugin'],
           exclude: ['@docsearch/js'],
         },
       }

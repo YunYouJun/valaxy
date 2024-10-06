@@ -25,9 +25,4 @@
   font-family: get-css-var('font-serif');
   font-weight: 900;
 }
-
-.site-description {
-  color: var(--va-c-text);
-  font-size: 0.8rem;
-}
 </style>

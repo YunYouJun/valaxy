@@ -1,6 +1,7 @@
 import { gsap } from 'gsap'
-// use it for esm
-import ScrollToPlugin from 'gsap/ScrollToPlugin'
+// gsap/ScrollToPlugin is ESM, but gsap not include 'type:module' in package.json
+// use cjs for vite-ssg, optimizeDeps for ESM
+import ScrollToPlugin from 'gsap/dist/ScrollToPlugin'
 
 gsap.registerPlugin(ScrollToPlugin)
 

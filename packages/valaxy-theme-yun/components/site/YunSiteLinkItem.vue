@@ -15,7 +15,7 @@ const yunApp = useYunAppStore()
     inline-flex
     :to="page.url" :title="page.name"
     :style="`color:${page.color}`"
-    hover="bg-gray-100/50 dark:bg-gray-800/50"
+    hover="bg-white/80 dark:bg-black/80"
     @click="yunApp.fullscreenMenu.isOpen = false"
   >
     <div :class="page.icon" class="icon" />

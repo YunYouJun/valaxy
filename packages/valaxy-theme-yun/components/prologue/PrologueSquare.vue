@@ -1,11 +1,9 @@
 <script setup lang="ts">
 import { useMotion } from '@vueuse/motion'
 import { ref } from 'vue'
-import { useSiteConfig } from 'valaxy'
 import { cubicBezier } from '../../client/constants'
 import { useThemeConfig } from '../../composables'
 
-const siteConfig = useSiteConfig()
 const themeConfig = useThemeConfig()
 
 const showContent = ref(false)
@@ -107,13 +105,16 @@ useMotion(introRef, {
       >
         <YunAuthorName class="mt-3" />
         <YunAuthorIntro />
-        <YunSiteTitle />
-        <h4 v-if="siteConfig.subtitle" class="site-subtitle block text-$va-c-text op-80" text="sm">
-          {{ siteConfig.subtitle }}
-        </h4>
-        <div v-if="siteConfig.description" class="site-description my-1">
-          {{ siteConfig.description }}
+
+        <YunDivider />
+
+        <div flex="~ col" class="gap-2 items-center justify-center">
+          <YunSiteTitle />
+          <YunSiteSubtitle />
+          <YunSiteDescription />
         </div>
+
+        <YunDivider />
 
         <div
           class="mt-4 flex-center w-50 md:w-100 m-auto gap-2"
