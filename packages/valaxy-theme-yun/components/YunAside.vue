@@ -38,7 +38,7 @@ watch(() => [yun.rightSidebar.isOpen, yun.size.isXl], async () => {
     overflow="auto"
   >
     <Transition name="fade" :delay="100">
-      <div v-show="show" class="w-full" flex="~ col">
+      <div v-show="show" class="w-full" flex="~ col" pb-2>
         <template v-if="showToc">
           <h2
             m="t-6 b-2"

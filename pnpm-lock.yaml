@@ -628,7 +628,7 @@ importers:
         version: 3.6.2(@algolia/client-search@4.24.0)(@types/react@18.3.11)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(search-insights@2.17.2)
       valaxy:
         specifier: latest
-        version: 0.20.0-beta.1(@babel/parser@7.25.7)(@nuxt/kit@3.13.2(rollup@4.24.0))(@types/markdown-it@14.1.2)(@types/node@22.7.4)(axios@1.7.7)(focus-trap@7.6.0)(postcss@8.4.47)(rollup@4.24.0)(typescript@5.6.2)
+        version: 0.20.0-beta.5(@babel/parser@7.25.7)(@nuxt/kit@3.13.2(rollup@4.24.0))(@types/markdown-it@14.1.2)(@types/node@22.7.4)(axios@1.7.7)(focus-trap@7.6.0)(postcss@8.4.47)(rollup@4.24.0)(typescript@5.6.2)
 
   packages/valaxy-addon-bangumi:
     dependencies:
@@ -637,7 +637,7 @@ importers:
         version: 0.3.1
       valaxy:
         specifier: latest
-        version: 0.20.0-beta.1(@babel/parser@7.25.7)(@nuxt/kit@3.13.2(rollup@4.24.0))(@types/markdown-it@14.1.2)(@types/node@22.7.4)(axios@1.7.7)(focus-trap@7.6.0)(postcss@8.4.47)(rollup@4.24.0)(typescript@5.6.2)
+        version: 0.20.0-beta.5(@babel/parser@7.25.7)(@nuxt/kit@3.13.2(rollup@4.24.0))(@types/markdown-it@14.1.2)(@types/node@22.7.4)(axios@1.7.7)(focus-trap@7.6.0)(postcss@8.4.47)(rollup@4.24.0)(typescript@5.6.2)
 
   packages/valaxy-addon-components: {}
 
@@ -648,7 +648,7 @@ importers:
         version: 2.7.2
       valaxy:
         specifier: latest
-        version: 0.20.0-beta.1(@babel/parser@7.25.7)(@nuxt/kit@3.13.2(rollup@4.24.0))(@types/markdown-it@14.1.2)(@types/node@22.7.4)(axios@1.7.7)(focus-trap@7.6.0)(postcss@8.4.47)(rollup@4.24.0)(typescript@5.6.2)
+        version: 0.20.0-beta.5(@babel/parser@7.25.7)(@nuxt/kit@3.13.2(rollup@4.24.0))(@types/markdown-it@14.1.2)(@types/node@22.7.4)(axios@1.7.7)(focus-trap@7.6.0)(postcss@8.4.47)(rollup@4.24.0)(typescript@5.6.2)
 
   packages/valaxy-addon-meting: {}
 
@@ -658,7 +658,7 @@ importers:
     dependencies:
       valaxy:
         specifier: latest
-        version: 0.20.0-beta.1(@babel/parser@7.25.7)(@nuxt/kit@3.13.2(rollup@4.24.0))(@types/markdown-it@14.1.2)(@types/node@22.7.4)(axios@1.7.7)(focus-trap@7.6.0)(postcss@8.4.47)(rollup@4.24.0)(typescript@5.6.2)
+        version: 0.20.0-beta.5(@babel/parser@7.25.7)(@nuxt/kit@3.13.2(rollup@4.24.0))(@types/markdown-it@14.1.2)(@types/node@22.7.4)(axios@1.7.7)(focus-trap@7.6.0)(postcss@8.4.47)(rollup@4.24.0)(typescript@5.6.2)
 
   packages/valaxy-addon-waline:
     dependencies:
@@ -667,7 +667,7 @@ importers:
         version: 3.3.2(typescript@5.6.2)
       valaxy:
         specifier: latest
-        version: 0.20.0-beta.1(@babel/parser@7.25.7)(@nuxt/kit@3.13.2(rollup@4.24.0))(@types/markdown-it@14.1.2)(@types/node@22.7.4)(axios@1.7.7)(focus-trap@7.6.0)(postcss@8.4.47)(rollup@4.24.0)(typescript@5.6.2)
+        version: 0.20.0-beta.5(@babel/parser@7.25.7)(@nuxt/kit@3.13.2(rollup@4.24.0))(@types/markdown-it@14.1.2)(@types/node@22.7.4)(axios@1.7.7)(focus-trap@7.6.0)(postcss@8.4.47)(rollup@4.24.0)(typescript@5.6.2)
 
   packages/valaxy-theme-press:
     dependencies:
@@ -1878,16 +1878,8 @@ packages:
       vue-i18n:
         optional: true
 
-  '@intlify/core-base@10.0.3':
-    resolution: {integrity: sha512-ysJnTGDtuXPa6R2Ii4JIvfMVvDahUUny3aY8+P4r6/0TYHkblgzIMjV6cAn60em67AB0M7OWNAdcAVfWWeN8Qg==}
-    engines: {node: '>= 16'}
-
   '@intlify/core-base@10.0.4':
     resolution: {integrity: sha512-GG428DkrrWCMhxRMRQZjuS7zmSUzarYcaHJqG9VB8dXAxw4iQDoKVQ7ChJRB6ZtsCsX3Jse1PEUlHrJiyQrOTg==}
-    engines: {node: '>= 16'}
-
-  '@intlify/message-compiler@10.0.3':
-    resolution: {integrity: sha512-KC2fG8nCzSYmXjHptEt6i/xM3k6S2szsPaHDCRgWKEYAbeHe6JFm6X4KRw3Csy112A8CxpavMi1dh3h7khwV5w==}
     engines: {node: '>= 16'}
 
   '@intlify/message-compiler@10.0.4':
@@ -1896,10 +1888,6 @@ packages:
 
   '@intlify/message-compiler@9.14.1':
     resolution: {integrity: sha512-MY8hwukJBnXvGAncVKlHsqKDQ5ZcQx4peqEmI8wBUTXn4pezrtTGYXNoz81cLyEEHB+L/zlKWVBSh5TiX4gYoQ==}
-    engines: {node: '>= 16'}
-
-  '@intlify/shared@10.0.3':
-    resolution: {integrity: sha512-PWxrCb6fDlnoGLnXLlWu6d7o/HdWACB9TjRnpLro+9uyfqgWA9hvqg5vekcPRyraTieV5srCbTk/ldYw9V3LHw==}
     engines: {node: '>= 16'}
 
   '@intlify/shared@10.0.4':
@@ -2250,35 +2238,20 @@ packages:
   '@selderee/plugin-htmlparser2@0.11.0':
     resolution: {integrity: sha512-P33hHGdldxGabLFjPPpaTxVolMrzrcegejx+0GxjrIb9Zv48D8yAIA/QTDR2dFl7Uz7urX8aX6+5bCZslr+gWQ==}
 
-  '@shikijs/core@1.21.0':
-    resolution: {integrity: sha512-zAPMJdiGuqXpZQ+pWNezQAk5xhzRXBNiECFPcJLtUdsFM3f//G95Z15EHTnHchYycU8kIIysqGgxp8OVSj1SPQ==}
-
   '@shikijs/core@1.21.1':
     resolution: {integrity: sha512-scBQo4V4O4WZLEDg11e75UPmXoCMq4Ya2A16U6efi/aTiR4o7T/GMNWZs2rq1U8dEvFKGxJZxiUy+tXgmr/4vw==}
-
-  '@shikijs/engine-javascript@1.21.0':
-    resolution: {integrity: sha512-jxQHNtVP17edFW4/0vICqAVLDAxmyV31MQJL4U/Kg+heQALeKYVOWo0sMmEZ18FqBt+9UCdyqGKYE7bLRtk9mg==}
 
   '@shikijs/engine-javascript@1.21.1':
     resolution: {integrity: sha512-29EG4KYKlAona8yikEx8uoKbK7N2YoXUO26LS1GOIxpMMIAlQS9UFONg95lkGmIfp1rRcvCvSpYYIJ/blsQxvg==}
 
-  '@shikijs/engine-oniguruma@1.21.0':
-    resolution: {integrity: sha512-AIZ76XocENCrtYzVU7S4GY/HL+tgHGbVU+qhiDyNw1qgCA5OSi4B4+HY4BtAoJSMGuD/L5hfTzoRVbzEm2WTvg==}
-
   '@shikijs/engine-oniguruma@1.21.1':
     resolution: {integrity: sha512-PvfEtXCDbQZc9ud0SC0bPiuMbul44Cv0Ky2go4SsvVkYAAKYJsMe/Hx7nxThW8yS0r+w8USa0WfOtQKsD9DU9A==}
 
-  '@shikijs/transformers@1.21.0':
-    resolution: {integrity: sha512-aA+XGGSzipcvqdsOYL8l6Q2RYiMuJNdhdt9eZnkJmW+wjSOixN/I7dBq3fISwvEMDlawrtuXM3eybLCEC+Fjlg==}
-
-  '@shikijs/types@1.21.0':
-    resolution: {integrity: sha512-tzndANDhi5DUndBtpojEq/42+dpUF2wS7wdCDQaFtIXm3Rd1QkrcVgSSRLOvEwexekihOXfbYJINW37g96tJRw==}
+  '@shikijs/transformers@1.21.1':
+    resolution: {integrity: sha512-97csTb0Gv8eLbglPDhNZTuAI9eCXOujNqD4qK6H0cjFNK+NBhkRIU02RgmYHZ7yNyLary6cEzY6WmUWb+al3MQ==}
 
   '@shikijs/types@1.21.1':
     resolution: {integrity: sha512-yLuTJTCHmYznerJ0nxF+f2rBKHQf2FMAd08QL/3du2xNBy/7yQ8CjuKN4Zc+Pk0vfIFzdBoxdzvEXE4JtXoR4Q==}
-
-  '@shikijs/vscode-textmate@9.2.2':
-    resolution: {integrity: sha512-TMp15K+GGYrWlZM8+Lnj9EaHEFmOen0WJBrfa17hF7taDOYthuPPV0GWzfd/9iMij0akS/8Yw2ikquH7uVi/fg==}
 
   '@shikijs/vscode-textmate@9.3.0':
     resolution: {integrity: sha512-jn7/7ky30idSkd/O5yDBfAnVt+JJpepofP/POZ1iMOxK59cOfqIgg/Dj0eFsjOTMw+4ycJN0uhZH/Eb0bs/EUA==}
@@ -2665,11 +2638,11 @@ packages:
     peerDependencies:
       vite: ^2.9.0 || ^3.0.0-0 || ^4.0.0 || ^5.0.0-0
 
-  '@valaxyjs/devtools@0.20.0-beta.1':
-    resolution: {integrity: sha512-tXvLSwzd3A2touH5XewJsLNVNn7aZ7bg3K+9IWjbuja7a58f6WxeCRPHbhfBSQmkZ9YixfvkhpWtmERPG4RXMA==}
+  '@valaxyjs/devtools@0.20.0-beta.5':
+    resolution: {integrity: sha512-C9vL7uUHVVL3npyMYOszT2BiD3cNzhe7djQqIAI4lUNGiDlSCM0jnheFDDvbDrrKyca6y7YTG+ohDE0i7/hPjw==}
 
-  '@valaxyjs/utils@0.20.0-beta.1':
-    resolution: {integrity: sha512-qe2NBYdW1/4MCu67qT9Jl2pH/TGjApFmVmakKuSmvgAgt62wN7A2ctF+WMw9XLP8MtjpZNadqYANq8oBoybgTg==}
+  '@valaxyjs/utils@0.20.0-beta.5':
+    resolution: {integrity: sha512-XM8QGM2bpKZ10xieqb4/O5K0OarjGMgmhwfzHlYlRFAinNb/8/LIM7vRAWKOnm0CA4dlTbf3E3bpFVM7p+J7TA==}
 
   '@vitejs/plugin-vue@5.1.4':
     resolution: {integrity: sha512-N2XSI2n3sQqp5w7Y/AN/L2XDjBIRGqXko+eDp42sydYSBeJuSm5a1sLf8zakmo8u7tA8NmBgoDLA1HeOESjp9A==}
@@ -7417,9 +7390,6 @@ packages:
   shell-quote@1.8.1:
     resolution: {integrity: sha512-6j1W9l1iAs/4xYBI1SYOVZyFcCis9b4KCLQ8fgAGG07QvzaRLVVRQvAy85yNmmZSjYjg4MWh4gNvlPujU/5LpA==}
 
-  shiki@1.21.0:
-    resolution: {integrity: sha512-apCH5BoWTrmHDPGgg3RF8+HAAbEL/CdbYr8rMw7eIrdhCkZHdVGat5mMNlRtd1erNG01VPMIKHNQ0Pj2HMAiog==}
-
   shiki@1.21.1:
     resolution: {integrity: sha512-jSOKRHyQJxGOW3kJflmwzHJbp/kjg6hP8LYuVbCPw5oyX+fSNNoCywvcCD3w9eHbj2rvNljt7YMa5BP5Xi+nHg==}
 
@@ -8328,8 +8298,8 @@ packages:
     peerDependencies:
       valaxy: latest
 
-  valaxy@0.20.0-beta.1:
-    resolution: {integrity: sha512-wOyasiTn644RC6RxaW3pfAnBEAljFx6sZkD2SEmIvGaV5R+NcUPS7sEECho0BrOroH1iYsLHCfgv3enC2WmDjw==}
+  valaxy@0.20.0-beta.5:
+    resolution: {integrity: sha512-Pi/omSVGDs1f2Gzm9/+hLGfK7s4e6eYbMbT810vlsuEGYTIactSQyGbXVTIw1FNMnNJRTzxAma4ka4HmyJFuzg==}
     engines: {node: ^14.18.0 || >=16.0.0}
     hasBin: true
 
@@ -8533,12 +8503,6 @@ packages:
     engines: {node: ^14.17.0 || >=16.0.0}
     peerDependencies:
       eslint: '>=6.0.0'
-
-  vue-i18n@10.0.3:
-    resolution: {integrity: sha512-8ul2S4Hy9orKs7eOlkw/zqnVu98GttUdyIMRyjoMpv6hFPxnybgBLdep/UCmdan5kUHyxqMnr2cGHTBuPBYJaw==}
-    engines: {node: '>= 16'}
-    peerDependencies:
-      vue: ^3.0.0
 
   vue-i18n@10.0.4:
     resolution: {integrity: sha512-1xkzVxqBLk2ZFOmeI+B5r1J7aD/WtNJ4j9k2mcFcQo5BnOmHBmD7z4/oZohh96AAaRZ4Q7mNQvxc9h+aT+Md3w==}
@@ -9829,20 +9793,10 @@ snapshots:
     optionalDependencies:
       vue-i18n: 10.0.4(vue@3.5.11(typescript@5.6.2))
 
-  '@intlify/core-base@10.0.3':
-    dependencies:
-      '@intlify/message-compiler': 10.0.3
-      '@intlify/shared': 10.0.3
-
   '@intlify/core-base@10.0.4':
     dependencies:
       '@intlify/message-compiler': 10.0.4
       '@intlify/shared': 10.0.4
-
-  '@intlify/message-compiler@10.0.3':
-    dependencies:
-      '@intlify/shared': 10.0.3
-      source-map-js: 1.2.1
 
   '@intlify/message-compiler@10.0.4':
     dependencies:
@@ -9853,8 +9807,6 @@ snapshots:
     dependencies:
       '@intlify/shared': 9.14.1
       source-map-js: 1.2.1
-
-  '@intlify/shared@10.0.3': {}
 
   '@intlify/shared@10.0.4': {}
 
@@ -10273,15 +10225,6 @@ snapshots:
       domhandler: 5.0.3
       selderee: 0.11.0
 
-  '@shikijs/core@1.21.0':
-    dependencies:
-      '@shikijs/engine-javascript': 1.21.0
-      '@shikijs/engine-oniguruma': 1.21.0
-      '@shikijs/types': 1.21.0
-      '@shikijs/vscode-textmate': 9.2.2
-      '@types/hast': 3.0.4
-      hast-util-to-html: 9.0.3
-
   '@shikijs/core@1.21.1':
     dependencies:
       '@shikijs/engine-javascript': 1.21.1
@@ -10291,43 +10234,25 @@ snapshots:
       '@types/hast': 3.0.4
       hast-util-to-html: 9.0.3
 
-  '@shikijs/engine-javascript@1.21.0':
-    dependencies:
-      '@shikijs/types': 1.21.0
-      '@shikijs/vscode-textmate': 9.2.2
-      oniguruma-to-js: 0.4.3
-
   '@shikijs/engine-javascript@1.21.1':
     dependencies:
       '@shikijs/types': 1.21.1
       '@shikijs/vscode-textmate': 9.3.0
       oniguruma-to-js: 0.4.3
 
-  '@shikijs/engine-oniguruma@1.21.0':
-    dependencies:
-      '@shikijs/types': 1.21.0
-      '@shikijs/vscode-textmate': 9.2.2
-
   '@shikijs/engine-oniguruma@1.21.1':
     dependencies:
       '@shikijs/types': 1.21.1
       '@shikijs/vscode-textmate': 9.3.0
 
-  '@shikijs/transformers@1.21.0':
+  '@shikijs/transformers@1.21.1':
     dependencies:
-      shiki: 1.21.0
-
-  '@shikijs/types@1.21.0':
-    dependencies:
-      '@shikijs/vscode-textmate': 9.2.2
-      '@types/hast': 3.0.4
+      shiki: 1.21.1
 
   '@shikijs/types@1.21.1':
     dependencies:
       '@shikijs/vscode-textmate': 9.3.0
       '@types/hast': 3.0.4
-
-  '@shikijs/vscode-textmate@9.2.2': {}
 
   '@shikijs/vscode-textmate@9.3.0': {}
 
@@ -10841,7 +10766,7 @@ snapshots:
       - rollup
       - supports-color
 
-  '@valaxyjs/devtools@0.20.0-beta.1(debug@4.3.7)(rollup@4.24.0)':
+  '@valaxyjs/devtools@0.20.0-beta.5(debug@4.3.7)(rollup@4.24.0)':
     dependencies:
       '@rollup/pluginutils': 5.1.2(rollup@4.24.0)
       axios: 1.7.7(debug@4.3.7)
@@ -10855,7 +10780,7 @@ snapshots:
       - rollup
       - supports-color
 
-  '@valaxyjs/utils@0.20.0-beta.1': {}
+  '@valaxyjs/utils@0.20.0-beta.5': {}
 
   '@vitejs/plugin-vue@5.1.4(vite@5.4.8(@types/node@22.7.4)(sass@1.79.4))(vue@3.5.11(typescript@5.6.2))':
     dependencies:
@@ -16424,15 +16349,6 @@ snapshots:
 
   shell-quote@1.8.1: {}
 
-  shiki@1.21.0:
-    dependencies:
-      '@shikijs/core': 1.21.0
-      '@shikijs/engine-javascript': 1.21.0
-      '@shikijs/engine-oniguruma': 1.21.0
-      '@shikijs/types': 1.21.0
-      '@shikijs/vscode-textmate': 9.2.2
-      '@types/hast': 3.0.4
-
   shiki@1.21.1:
     dependencies:
       '@shikijs/core': 1.21.1
@@ -17125,7 +17041,7 @@ snapshots:
       lunr: 2.3.9
       markdown-it: 14.1.0
       minimatch: 9.0.5
-      shiki: 1.21.0
+      shiki: 1.21.1
       typescript: 5.6.2
       yaml: 2.5.1
 
@@ -17533,7 +17449,7 @@ snapshots:
       artalk: 2.9.1(marked@14.1.2)
       valaxy: link:packages/valaxy
       vue: 3.5.11(typescript@5.6.2)
-      vue-i18n: 10.0.3(vue@3.5.11(typescript@5.6.2))
+      vue-i18n: 10.0.4(vue@3.5.11(typescript@5.6.2))
     transitivePeerDependencies:
       - marked
       - typescript
@@ -17543,7 +17459,7 @@ snapshots:
       gravatar: 1.8.2
       valaxy: link:packages/valaxy
 
-  valaxy@0.20.0-beta.1(@babel/parser@7.25.7)(@nuxt/kit@3.13.2(rollup@4.24.0))(@types/markdown-it@14.1.2)(@types/node@22.7.4)(axios@1.7.7)(focus-trap@7.6.0)(postcss@8.4.47)(rollup@4.24.0)(typescript@5.6.2):
+  valaxy@0.20.0-beta.5(@babel/parser@7.25.7)(@nuxt/kit@3.13.2(rollup@4.24.0))(@types/markdown-it@14.1.2)(@types/node@22.7.4)(axios@1.7.7)(focus-trap@7.6.0)(postcss@8.4.47)(rollup@4.24.0)(typescript@5.6.2):
     dependencies:
       '@antfu/install-pkg': 0.4.1
       '@antfu/utils': 0.7.10
@@ -17555,8 +17471,8 @@ snapshots:
       '@unhead/addons': 1.11.7(rollup@4.24.0)
       '@unhead/schema-org': 1.11.7
       '@unhead/vue': 1.11.7(vue@3.5.11(typescript@5.6.2))
-      '@valaxyjs/devtools': 0.20.0-beta.1(debug@4.3.7)(rollup@4.24.0)
-      '@valaxyjs/utils': 0.20.0-beta.1
+      '@valaxyjs/devtools': 0.20.0-beta.5(debug@4.3.7)(rollup@4.24.0)
+      '@valaxyjs/utils': 0.20.0-beta.5
       '@vitejs/plugin-vue': 5.1.4(vite@5.4.8(@types/node@22.7.4)(sass@1.79.4))(vue@3.5.11(typescript@5.6.2))
       '@vue/devtools-api': 7.4.6
       '@vueuse/core': 11.1.0(vue@3.5.11(typescript@5.6.2))
@@ -17806,8 +17722,8 @@ snapshots:
     dependencies:
       '@docsearch/css': 3.6.2
       '@docsearch/js': 3.6.2(@algolia/client-search@4.24.0)(@types/react@18.3.11)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(search-insights@2.17.2)
-      '@shikijs/core': 1.21.0
-      '@shikijs/transformers': 1.21.0
+      '@shikijs/core': 1.21.1
+      '@shikijs/transformers': 1.21.1
       '@types/markdown-it': 14.1.2
       '@vitejs/plugin-vue': 5.1.4(vite@5.4.8(@types/node@22.7.4)(sass@1.79.4))(vue@3.5.11(typescript@5.6.2))
       '@vue/devtools-api': 7.4.6
@@ -17816,7 +17732,7 @@ snapshots:
       focus-trap: 7.6.0
       mark.js: 8.11.1
       minisearch: 6.3.0
-      shiki: 1.21.0
+      shiki: 1.21.1
       vite: 5.4.8(@types/node@22.7.4)(sass@1.79.4)
       vue: 3.5.11(typescript@5.6.2)
     optionalDependencies:
@@ -17853,8 +17769,8 @@ snapshots:
     dependencies:
       '@docsearch/css': 3.6.2
       '@docsearch/js': 3.6.2(@algolia/client-search@4.24.0)(@types/react@18.3.11)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(search-insights@2.17.2)
-      '@shikijs/core': 1.21.0
-      '@shikijs/transformers': 1.21.0
+      '@shikijs/core': 1.21.1
+      '@shikijs/transformers': 1.21.1
       '@types/markdown-it': 14.1.2
       '@vitejs/plugin-vue': 5.1.4(vite@5.4.8(@types/node@22.7.4)(sass@1.79.4))(vue@3.5.11(typescript@5.6.2))
       '@vue/devtools-api': 7.4.6
@@ -17864,7 +17780,7 @@ snapshots:
       focus-trap: 7.6.0
       mark.js: 8.11.1
       minisearch: 7.1.0
-      shiki: 1.21.0
+      shiki: 1.21.1
       vite: 5.4.8(@types/node@22.7.4)(sass@1.79.4)
       vue: 3.5.11(typescript@5.6.2)
     optionalDependencies:
@@ -17965,13 +17881,6 @@ snapshots:
       semver: 7.6.3
     transitivePeerDependencies:
       - supports-color
-
-  vue-i18n@10.0.3(vue@3.5.11(typescript@5.6.2)):
-    dependencies:
-      '@intlify/core-base': 10.0.3
-      '@intlify/shared': 10.0.3
-      '@vue/devtools-api': 6.6.4
-      vue: 3.5.11(typescript@5.6.2)
 
   vue-i18n@10.0.4(vue@3.5.11(typescript@5.6.2)):
     dependencies:
