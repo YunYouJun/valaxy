@@ -52,12 +52,12 @@ const { icon, styles } = usePostProperty(props.post.type)
         </div>
         <!-- <div m="b-5" /> -->
 
-        <div v-if="post.excerpt" w="full" h="10" class="absolute bottom-0 bg-gradient-to-t from-$va-c-bg-light to-transparent z-1" />
+        <YunExcerptBottomGradient v-if="post.excerpt" />
 
         <a
           v-if="post.url"
           :href="post.url"
-          class="post-link-btn shadow hover:shadow-md"
+          class="post-link-btn shadow hover:shadow-md z-2"
           rounded
           target="_blank"
           m="b-4"
