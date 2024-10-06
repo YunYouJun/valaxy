@@ -16,6 +16,10 @@ const { curPage, totalPages, showPage, getTo, surLen, prevTo, nextTo, showPrev, 
   total: props.total,
   pageSize: props.pageSize,
 })
+
+defineExpose({
+  curPage,
+})
 </script>
 
 <template>

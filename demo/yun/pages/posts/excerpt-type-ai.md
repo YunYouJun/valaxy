@@ -2,7 +2,7 @@
 title: 'excerpt_type: ai'
 excerpt_type: ai
 excerpt: '这里是 AI 摘要'
-cover: https://cdn.jsdelivr.net/gh/YunYouJun/cdn/img/bg/girl-in-water-tank.webp
+cover: https://cos.yunyoujun.cn/img/bg/girl-in-water-tank.webp
 date: 2023-10-21
 ---
 

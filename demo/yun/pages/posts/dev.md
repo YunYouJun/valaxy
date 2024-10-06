@@ -1,7 +1,7 @@
 ---
 title: Valaxy 开发笔记
 date: 2022-03-23
-cover: https://fastly.jsdelivr.net/gh/YunYouJun/cdn/img/bg/astronaut.webp
+cover: https://cos.yunyoujun.cn/img/bg/astronaut.webp
 tags:
   - 笔记
   - valaxy

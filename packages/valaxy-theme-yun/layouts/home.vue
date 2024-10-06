@@ -16,7 +16,7 @@ const showNotice = computed(() => {
 
 <template>
   <YunLayoutWrapper
-    class="items-center  flex-col"
+    class="items-center flex-col"
     :class="{
       'mt-0!': !isPage,
     }"
@@ -29,7 +29,7 @@ const showNotice = computed(() => {
 
     <YunNotice
       v-if="showNotice"
-      class="mb-10"
+      class="mb-2 md:mb-6"
       :class="{
         'mt-4': !isPage,
       }"

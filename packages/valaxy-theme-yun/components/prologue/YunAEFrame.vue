@@ -36,7 +36,7 @@ onMounted(() => {
 
 .yun-ae-frame {
   --corner-size: 40px;
-  --corner-margin: 10px;
+  --corner-margin: 8px;
   --corner-border-size: 3px;
 
   div {

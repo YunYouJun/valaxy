@@ -1,15 +1,15 @@
 <script setup lang="ts">
-import { computed } from 'vue'
+import { computed, ref } from 'vue'
 import { useSiteConfig, useSiteStore } from 'valaxy'
 import type { Post } from 'valaxy/types'
 
 const props = withDefaults(defineProps<{
   type?: string
   posts?: Post[]
-  curPage?: number
-}>(), {
-  curPage: 1,
-})
+}>(), {})
+
+const paginationRef = ref()
+const curPage = computed(() => paginationRef.value?.curPage || 1)
 
 const site = useSiteStore()
 const siteConfig = useSiteConfig()
@@ -21,8 +21,8 @@ const posts = computed(() => (
 
 const displayedPosts = computed(() =>
   posts.value.slice(
-    (props.curPage - 1) * pageSize.value,
-    props.curPage * pageSize.value,
+    (curPage.value - 1) * pageSize.value,
+    curPage.value * pageSize.value,
   ),
 )
 </script>
@@ -39,6 +39,7 @@ const displayedPosts = computed(() =>
   </div>
 
   <YunPagination
+    ref="paginationRef"
     class="mt-5"
     :total="posts.length" :page-size="pageSize"
   />
