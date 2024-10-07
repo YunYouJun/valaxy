@@ -48,6 +48,12 @@ export default defineThemeConfig({
       icon: 'i-ri-women-line',
       // color: 'hotpink',
     },
+    {
+      name: '老婆列表',
+      url: '/girls/',
+      icon: 'i-ri-women-line',
+      // color: 'hotpink',
+    },
   ],
 
   footer: {

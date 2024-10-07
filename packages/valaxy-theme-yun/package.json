@@ -1,7 +1,7 @@
 {
   "name": "valaxy-theme-yun",
   "type": "module",
-  "version": "0.20.0-beta.11",
+  "version": "0.20.0-beta.12",
   "author": {
     "email": "me@yunyoujun.cn",
     "name": "YunYouJun",
@@ -27,11 +27,11 @@
     "@ctrl/tinycolor": "^4.1.0",
     "@explosions/fireworks": "^0.1.0",
     "@iconify-json/ant-design": "^1.2.1",
-    "@iconify-json/simple-icons": "^1.2.5",
+    "@iconify-json/simple-icons": "^1.2.6",
     "@vueuse/motion": "^2.2.5",
     "animejs": "^3.2.2",
     "gsap": "^3.12.5",
-    "primevue": "^4.0.7",
+    "primevue": "^4.1.0",
     "radix-vue": "^1.9.6"
   },
   "devDependencies": {

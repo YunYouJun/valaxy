@@ -10,18 +10,15 @@ const showContent = ref(false)
 <template>
   <div
     flex="~ col"
-    class="yun-square-container items-center justify-center text-center"
-    :class="{
-      'size-$total-char-height': !showContent,
-    }"
+    class="yun-square-container items-center justify-center text-center size-$total-char-height"
   >
     <slot />
 
     <div
       flex="~ col center"
-      class="info relative duration-800 transition-cubic-bezier-ease-in"
+      class="info-with-avatar relative duration-800 transition-cubic-bezier-ease-in"
       :class="{
-        'translate-y--1/2': showContent,
+        show: showContent,
       }"
     >
       <Transition
@@ -36,8 +33,8 @@ const showContent = ref(false)
         >
           <LineBurstEffects
             class="absolute top-0 left-0 right-0 bottom-0 size-full scale-200"
-            :delay="1000"
-            :duration="600"
+            :delay="200"
+            :duration="400"
           />
           <Transition
             enter-from-class="op-0"
@@ -50,45 +47,44 @@ const showContent = ref(false)
         </div>
       </Transition>
 
-      <Transition
-        enter-from-class="translate-y-0"
-        enter-active-class="duration-800 transition-cubic-bezier-ease-in"
-        appear
+      <div
+        class="info"
+        :class="{
+          show: showContent,
+        }"
       >
-        <div v-if="showContent" class="translate-y-[calc(50%+50px)] animate-fade-in">
-          <YunAuthorName class="mt-3" />
-          <YunAuthorIntro />
+        <YunAuthorName class="mt-3" />
+        <YunAuthorIntro />
 
-          <YunDivider />
+        <YunDivider />
 
-          <div flex="~ col" class="gap-2 items-center justify-center">
-            <YunSiteTitle />
-            <YunSiteSubtitle />
-            <YunSiteDescription />
-          </div>
-
-          <YunDivider />
-
-          <div
-            class="mt-4 flex-center w-64 md:w-100 m-auto gap-2"
-            flex="~ wrap"
-            p="x-$rect-margin"
-          >
-            <YunSiteLinkItem
-              :page="{
-                name: '博客文章',
-                icon: 'i-ri-article-line',
-                url: '/posts/',
-              }"
-            />
-            <slot />
-            <YunSiteLinkItem
-              v-for="item, i in themeConfig.pages"
-              :key="i" :page="item"
-            />
-          </div>
+        <div flex="~ col" class="gap-2 items-center justify-center">
+          <YunSiteTitle />
+          <YunSiteSubtitle />
+          <YunSiteDescription />
         </div>
-      </Transition>
+
+        <YunDivider />
+
+        <div
+          class="mt-4 flex-center w-64 md:w-100 m-auto gap-2"
+          flex="~ wrap"
+          p="x-$rect-margin"
+        >
+          <YunSiteLinkItem
+            :page="{
+              name: '博客文章',
+              icon: 'i-ri-article-line',
+              url: '/posts/',
+            }"
+          />
+          <slot />
+          <YunSiteLinkItem
+            v-for="item, i in themeConfig.pages"
+            :key="i" :page="item"
+          />
+        </div>
+      </div>
     </div>
   </div>
 </template>
@@ -101,8 +97,8 @@ const showContent = ref(false)
   transition: all 0.8s map.get($cubic-bezier, 'ease-in');
   border-radius: 50%;
   transform: rotate(0deg) translateY(0%);
-  width: 100px;
-  height: 100px;
+  width: var(--avatar-size);
+  height: var(--avatar-size);
   box-shadow: 0 5px 100px rgb(0 0 0 / 0.15);
 
   &.enter-from {
@@ -111,6 +107,30 @@ const showContent = ref(false)
     height: var(--total-char-height);
     transform: rotate(135deg) translateY(0%);
     box-shadow: none;
+  }
+}
+
+.yun-square-container {
+  --avatar-size: 100px;
+
+  .info-with-avatar {
+    position: relative;
+
+    &.show {
+      transform: translateY(-50%);
+    }
+  }
+
+  .info {
+    position: relative;
+    opacity: 0;
+    transform: translateY(0);
+    transition: all 0.8s map.get($cubic-bezier, 'ease-in');
+
+    &.show {
+      opacity: 1;
+      transform: translateY(calc(50% + var(--avatar-size) / 2));
+    }
   }
 }
 </style>

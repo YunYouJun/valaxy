@@ -12,7 +12,9 @@ const { t } = useI18n()
           <div class="prose mx-auto w-full max-w-4xl">
             <h2 :id="t('post.contributors')">
               <a :href="`#${t('post.contributors')}`" class="header-anchor" />
-              {{ t('post.contributors') }}
+              <span>
+                {{ t('post.contributors') }}
+              </span>
             </h2>
             <GitLogContributor />
           </div>

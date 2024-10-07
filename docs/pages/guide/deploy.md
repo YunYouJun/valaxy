@@ -63,6 +63,10 @@ The configuration files for the following third-party deployments are built into
 
 <BrandIcon icon="i-logos:github-icon" link="https://pages.github.com/" />
 
+::: details .github/workflows/gh-pages.yml
+<<< @/../packages/create-valaxy/template-blog/.github/workflows/gh-pages.yml
+:::
+
 ::: zh-CN
 在使用 `pnpm create valaxy` 创建模版项目时，已内置文件[`.github/workflows/gh-pages.yml`](https://github.com/YunYouJun/valaxy/blob/main/packages/create-valaxy/template-blog/.github/workflows/gh-pages.yml) 以实现 GitHub Actions 的自动部署工作流。
 
@@ -131,6 +135,10 @@ When you use `pnpm create valaxy` to create a template project, it contains the 
 - Wait for ribbons to drop on the screen, then visit your website.
 :::
 
+::: details netlify.toml
+<<< @/../packages/create-valaxy/template-blog/netlify.toml
+:::
+
 ### Cloudflare Pages
 
 <BrandIcon icon="i-logos:cloudflare-icon" link="https://pages.cloudflare.com/" />
@@ -171,6 +179,8 @@ Here is an example of an Nginx server block configuration `nginx.conf`. This con
 
 :::
 
+::: details nginx.conf
+
 ```nginx
 server {
     gzip on;
@@ -204,6 +214,8 @@ server {
 }
 ```
 
+:::
+
 ::: zh-CN
 
 本配置默认已构建的 Valaxy 站点位于服务器上的 `/usr/share/nginx/html` 目录中。如果站点文件位于其他位置，请相应调整 `root` 指令。
@@ -236,6 +248,8 @@ Refer to the Nginx section for the `nginx.conf` configuration and place it in th
 
 :::
 
+::: details Dockerfile
+
 ```Dockerfile
 FROM node:20-alpine as build-stage
 
@@ -257,6 +271,8 @@ EXPOSE 80
 
 CMD ["nginx", "-g", "daemon off;"]
 ```
+
+:::
 
 ### 其他 {lang="zh-CN"}
 
