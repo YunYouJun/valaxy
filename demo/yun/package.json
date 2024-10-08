@@ -34,7 +34,7 @@
     "valaxy-theme-yun": "workspace:*"
   },
   "devDependencies": {
-    "@iconify-json/carbon": "^1.2.1",
+    "@iconify-json/carbon": "^1.2.2",
     "nodemon": "^3.1.7"
   }
 }

@@ -7,6 +7,8 @@
     <RouterLink to="/posts/how-to-use-adboard">
       如何使用广告板？
     </RouterLink>
-    <!-- 跳转如何使用 -->
+    <div>
+      小云在线征婚 +QQ1050458482
+    </div>
   </YunCard>
 </template>
