@@ -1,7 +1,7 @@
 {
   "name": "@valaxyjs/monorepo",
   "type": "module",
-  "version": "0.20.0-beta.5",
+  "version": "0.20.0",
   "private": true,
   "packageManager": "pnpm@9.12.1",
   "description": "📄 Vite & Vue powered static blog generator.",
@@ -90,7 +90,7 @@
     "@types/node": "^22.7.5",
     "@types/prompts": "^2.4.9",
     "@types/resolve": "^1.20.6",
-    "bumpp": "^9.6.1",
+    "bumpp": "^9.7.1",
     "cross-env": "^7.0.3",
     "decap-cms-app": "^3.3.3",
     "eslint": "^9.12.0",
