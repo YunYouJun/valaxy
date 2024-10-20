@@ -4,6 +4,8 @@ import type { ThemeConfig, UserThemeConfig } from '../types'
  * Default Config
  */
 export const defaultThemeConfig: ThemeConfig = {
+  type: 'nimbo',
+
   valaxyDarkOptions: {
     circleTransition: true,
   },

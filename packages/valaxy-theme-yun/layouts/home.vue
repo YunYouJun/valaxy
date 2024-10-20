@@ -41,7 +41,6 @@ const showNotice = computed(() => {
     <slot>
       <RouterView />
     </slot>
-
-    <YunFooter />
   </YunLayoutWrapper>
+  <YunFooter />
 </template>

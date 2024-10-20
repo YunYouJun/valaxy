@@ -51,6 +51,17 @@ export interface PageProps {
  */
 export interface ThemeConfig extends DefaultTheme.Config {
   /**
+   * Theme Type
+   * - v1 strato 层云 Legacy
+   * - v2 nimbo 雨云
+   * - cirro 卷云 (未来)
+   * - cumulo 积云 (未来)
+   * - alto 高云 (未来)
+   * @default 'nimbo'
+   */
+  type: 'strato' | 'nimbo'
+
+  /**
    * toc title
    * @default 'On this page'
    */

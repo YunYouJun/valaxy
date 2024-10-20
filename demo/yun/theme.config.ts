@@ -49,7 +49,7 @@ export default defineThemeConfig({
       // color: 'hotpink',
     },
     {
-      name: '老婆列表',
+      name: '赞助者们',
       url: '/sponsors/',
       icon: 'i-ri-heart-line',
       color: 'red',
