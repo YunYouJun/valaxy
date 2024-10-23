@@ -175,6 +175,11 @@ export interface SiteConfig {
      */
     dataPath: string
     /**
+     * @default []
+     * @description 包含的返回字段
+     */
+    extendKeys: (keyof PostFrontMatter)[]
+    /**
      * @see https://fusejs.io/api/options.html
      */
     options: FuseOptions<FuseListItem> & {
