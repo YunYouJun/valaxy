@@ -175,8 +175,11 @@ export interface SiteConfig {
      */
     dataPath: string
     /**
+     * @en_US Extends the metadata fields returned by the search
+     * @zh_CN 扩展搜索返回的元数据字段
      * @default []
-     * @description 包含的返回字段
+     * @description:en-US By default, returns the following fields: title, tags, categories, author, excerpt, link
+     * @description:zh-CN 默认返回以下字段：title、tags、categories、author、excerpt、link
      */
     extendKeys: (keyof PostFrontMatter)[]
     /**
@@ -184,8 +187,11 @@ export interface SiteConfig {
      */
     options: FuseOptions<FuseListItem> & {
       /**
+       * @en_US The fields to be searched.
+       * @zh_CN 搜索的字段
        * @default ['title', 'tags', 'categories', 'excerpt']
-       * @description 搜索的字段
+       * @description:en-US List of keys that will be searched. This supports nested paths, weighted search, and searching in arrays of strings and objects
+       * @description:zh-CN 搜索将会涉及的字段列表，支持嵌套路径、加权搜索以及在字符串和对象数组中进行搜索
        * @see https://fusejs.io/api/options.html#keys
        */
       keys: FuseOptions<FuseListItem>['keys']
