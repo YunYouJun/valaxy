@@ -1,14 +1,14 @@
 <script setup lang="ts">
 // TODO: add docs to override ValaxyApp
 import { computed } from 'vue'
-import { useHead, useSeoMeta } from '@unhead/vue'
+// import { useHead, useSeoMeta } from '@unhead/vue'
+import { useSeoMeta } from '@unhead/vue'
 
 // @ts-expect-error virtual module
 import ValaxyUserApp from '/@valaxyjs/UserAppVue'
 // @ts-expect-error virtual module
 import ValaxyThemeApp from '/@valaxyjs/ThemeAppVue'
 
-import pkg from 'valaxy/package.json'
 import { useI18n } from 'vue-i18n'
 import { definePerson, defineWebPage, defineWebSite, useSchemaOrg } from '@unhead/schema-org'
 
@@ -16,7 +16,7 @@ import { definePerson, defineWebPage, defineWebSite, useSchemaOrg } from '@unhea
 // you can use this to manipulate the document head in any components,
 // they will be rendered correctly in the html results with vite-ssg
 import { useSiteConfig } from '../config'
-import { useFrontmatter } from '../composables'
+import { useFrontmatter, useValaxyHead } from '../composables'
 import { useTimezone } from '../composables/global'
 import ValaxyAddons from './ValaxyAddons.vue'
 
@@ -30,38 +30,6 @@ const fm = useFrontmatter()
 const { locale } = useI18n()
 
 const title = computed(() => fm.value[`title_${locale.value}`] || fm.value.title)
-useHead({
-  title,
-  titleTemplate: computed(() => fm.value.titleTemplate || ((title: string) => title ? `${title} - ${siteConfig.value.title}` : siteConfig.value.title)),
-  link: [
-    {
-      rel: 'icon',
-      href: siteConfig.value.favicon,
-      type: siteConfig.value.favicon?.endsWith('svg') ? 'image/svg+xml' : 'image/png',
-    },
-  ],
-  meta: [
-    { name: 'description', content: computed(() => siteConfig.value.description) },
-    {
-      name: 'generator',
-      content: `Valaxy ${pkg.version}`,
-    },
-  ],
-
-  templateParams: {
-    schemaOrg: {
-      host: siteConfig.value.url,
-    },
-  },
-
-  script: [
-    {
-      id: 'check-mac-os',
-      innerHTML: `document.documentElement.classList.toggle('mac', /Mac|iPhone|iPod|iPad/i.test(navigator.platform))`,
-      async: true,
-    },
-  ],
-})
 
 // seo
 // todo: get first image url from markdown
@@ -99,6 +67,8 @@ useSchemaOrg([
 ])
 
 useTimezone()
+
+useValaxyHead()
 </script>
 
 <template>
