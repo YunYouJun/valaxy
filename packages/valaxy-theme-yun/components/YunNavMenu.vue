@@ -76,6 +76,10 @@ watch(() => yunApp.scrollY, () => {
           </template>
         </template> -->
 
+        <YunToggleLocale
+          v-if="yunApp.size.isSm"
+          class="rounded-none!"
+        />
         <YunToggleDark class="rounded-none!" />
         <YunSearchTrigger v-if="siteConfig.search.enable" />
       </div>
