@@ -179,7 +179,7 @@ export async function resolveOptions(
   options: ValaxyEntryOptions = { userRoot: process.cwd() },
   mode: ResolvedValaxyOptions['mode'] = 'dev',
 ) {
-  const pkgRoot = dirname(resolveImportPath('valaxy/package.json', true))
+  const pkgRoot = dirname(await resolveImportPath('valaxy/package.json', true))
   const clientRoot = resolve(pkgRoot, 'client')
   const userRoot = resolve(options.userRoot || process.cwd())
 
@@ -198,7 +198,7 @@ export async function resolveOptions(
 
   let { config: userValaxyConfig, configFile, theme } = resolvedValaxy
 
-  const themeRoot = getThemeRoot(theme, options.userRoot)
+  const themeRoot = await getThemeRoot(theme, options.userRoot)
 
   const { siteConfig, siteConfigFile } = resolvedSite
 

@@ -69,7 +69,6 @@ Component provided template option but runtime compilation is not supported in t
 // type cast
 if (options.config.siteConfig.encrypt.enable) {
   alias.push(
-    // import { sync as resolveSync } from 'resolve'
     { find: /^vue$/, replacement: resolveImportPath('vue/dist/vue.esm-bundler.js', true) },
   )
 }

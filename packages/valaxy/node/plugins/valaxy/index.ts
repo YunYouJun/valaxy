@@ -42,12 +42,12 @@ function generateConfig(options: ResolvedValaxyOptions) {
  * for /@valaxyjs/styles
  * @param roots
  */
-function generateStyles(roots: string[], options: ResolvedValaxyOptions) {
+async function generateStyles(roots: string[], options: ResolvedValaxyOptions) {
   const imports: string[] = []
 
   // katex
   if (options.config.features?.katex) {
-    imports.push(`import "${toAtFS(resolveImportPath('katex/dist/katex.min.css', true))}"`)
+    imports.push(`import "${toAtFS(await resolveImportPath('katex/dist/katex.min.css', true))}"`)
     imports.push(`import "${toAtFS(join(options.clientRoot, 'styles/third/katex.scss'))}"`)
   }
 
@@ -178,7 +178,7 @@ export async function createValaxyLoader(options: ResolvedValaxyOptions, serverO
         return null
       },
 
-      load(id) {
+      async load(id) {
         if (id === '/@valaxyjs/config')
           // stringify twice for \"
           return generateConfig(options)
@@ -195,7 +195,7 @@ export async function createValaxyLoader(options: ResolvedValaxyOptions, serverO
 
         // generate styles
         if (id === '/@valaxyjs/styles')
-          return generateStyles(roots, options)
+          return await generateStyles(roots, options)
 
         if (id === '/@valaxyjs/locales')
           return generateLocales(roots)

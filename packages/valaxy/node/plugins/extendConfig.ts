@@ -73,7 +73,7 @@ export function createConfigPlugin(options: ResolvedValaxyOptions): Plugin {
     name: 'valaxy:site',
     // before devtools
     enforce: 'pre',
-    config(config) {
+    async config(config) {
       const injection: InlineConfig = {
         // root: options.userRoot,
         // can not transform valaxy/client/*.ts when use userRoot
@@ -83,7 +83,7 @@ export function createConfigPlugin(options: ResolvedValaxyOptions): Plugin {
 
         define: getDefine(options),
         resolve: {
-          alias: getAlias(options),
+          alias: await getAlias(options),
           dedupe: ['vue'],
         },
 
@@ -109,7 +109,7 @@ export function createConfigPlugin(options: ResolvedValaxyOptions): Plugin {
               searchForWorkspaceRoot(options.clientRoot),
               searchForWorkspaceRoot(options.themeRoot),
               searchForWorkspaceRoot(options.userRoot),
-              dirname(resolveImportPath('katex/package.json', true)),
+              dirname(await resolveImportPath('katex/package.json', true)),
             ]),
           },
         },
@@ -148,7 +148,7 @@ export function getDefine(_options: ResolvedValaxyOptions): Record<string, any> 
   }
 }
 
-export function getAlias(options: ResolvedValaxyOptions): AliasOptions {
+export async function getAlias(options: ResolvedValaxyOptions): Promise<AliasOptions> {
   const alias: Alias[] = [
     { find: '~/', replacement: `${toAtFS(options.userRoot)}/` },
     { find: 'valaxy/client/', replacement: `${toAtFS(options.clientRoot)}/` },
@@ -166,7 +166,7 @@ export function getAlias(options: ResolvedValaxyOptions): AliasOptions {
   // type cast
   if (options.config.siteConfig.encrypt.enable) {
     alias.push(
-      { find: /^vue$/, replacement: resolveImportPath('vue/dist/vue.esm-bundler.js', true) },
+      { find: /^vue$/, replacement: await resolveImportPath('vue/dist/vue.esm-bundler.js', true) },
     )
   }
 

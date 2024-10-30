@@ -10,7 +10,7 @@ describe('addon parse', () => {
       enable: true,
       name: 'valaxy-addon-test',
       global: false,
-      root: getAddonRoot('./test/fixtures/addon', process.cwd()),
+      root: await getAddonRoot('./test/fixtures/addon', process.cwd()),
       options: {},
       props: {},
       pkg,

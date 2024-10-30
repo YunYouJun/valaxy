@@ -8,7 +8,7 @@ import { isPath, resolveImportPath } from '../utils'
  * @param name
  * @param entry
  */
-export function getModuleRoot(name: string, entry?: string) {
+export async function getModuleRoot(name: string, entry?: string) {
   if (!name)
     return ''
 
@@ -21,6 +21,6 @@ export function getModuleRoot(name: string, entry?: string) {
   }
 
   else {
-    return resolve(dirname(resolveImportPath(`${name}/package.json`) || ''))
+    return resolve(dirname(await resolveImportPath(`${name}/package.json`) || ''))
   }
 }
