@@ -42,12 +42,13 @@ useMotion(itemRef, {
     }"
   >
     <a
-      class="yun-link-url" p="x-4 y-2" :href="link.url" :title="link.name"
+      class="yun-link-url" p="x-4 y-2"
+      :href="link.url" :title="link.name"
       alt="portrait" rel="friend" target="_blank"
     >
       <div class="yun-link-left">
         <img
-          class="yun-link-avatar" width="64" height="64" w="16" h="16"
+          class="yun-link-avatar w-16 h-16 aspect-ratio-1" width="64" height="64"
           loading="lazy"
           :src="link.avatar" :alt="link.name"
           @error="onError"
