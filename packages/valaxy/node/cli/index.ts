@@ -30,6 +30,7 @@ registerNewCommand(cli)
 registerCleanCommand(cli)
 registerDeployCommand(cli)
 registerDebugCommand(cli)
+cli.help()
 
 const modules: ValaxyModule[] = [
   fuseModule,
@@ -41,5 +42,5 @@ modules.forEach((module) => {
 })
 
 export function run() {
-  cli.help().parse()
+  cli.parse()
 }

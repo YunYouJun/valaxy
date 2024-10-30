@@ -28,7 +28,7 @@
     "release": "bumpp && npm publish"
   },
   "dependencies": {
-    "@rollup/pluginutils": "^5.1.2",
+    "@rollup/pluginutils": "^5.1.3",
     "axios": "^1.7.7",
     "body-parser": "^1.20.3",
     "http-proxy-middleware": "^3.0.3",
@@ -38,7 +38,7 @@
   },
   "devDependencies": {
     "@advjs/gui": "0.0.7-beta.1",
-    "@iconify-json/ri": "^1.2.1",
+    "@iconify-json/ri": "^1.2.2",
     "@types/body-parser": "^1.19.5",
     "@types/splitpanes": "^2.2.6",
     "gray-matter": "^4.0.3",
@@ -46,6 +46,6 @@
     "typescript": "^5.6.3",
     "unbuild": "^2.0.0",
     "unplugin-vue-router": "^0.10.8",
-    "vite": "^5.4.9"
+    "vite": "^5.4.10"
   }
 }
