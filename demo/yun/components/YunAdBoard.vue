@@ -8,7 +8,7 @@
       如何使用广告板？
     </RouterLink>
     <div>
-      小云在线征婚 +QQ1050458482
+      小云在线征婚 +QQ <code>1050458482</code>
     </div>
   </YunCard>
 </template>
