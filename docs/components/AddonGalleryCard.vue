@@ -14,9 +14,11 @@ function handleTagClick(tag: string) {
 
 <template>
   <div
-    class="transition bg-$va-c-bg-alt" border rounded-xl p-4
+    class="bg-purple-50/50 dark:bg-$va-c-bg-alt justify-center items-start gap-2 transition"
+    border rounded-xl p-4
     dark="border-dark-200"
-    hover="bg-$va-c-bg shadow-md"
+    hover="bg-purple-100 dark:bg-$va-c-bg shadow-lg"
+    flex="~ col"
   >
     <a class="text-purple-600! dark:text-purple-300! decoration-none!" mr-2 :href="addon.repo" target="_blank">
       <h3 flex="~" justify-center items-center class="my-2!" font="light">
@@ -24,39 +26,50 @@ function handleTagClick(tag: string) {
         <span>{{ addon.name }}</span>
       </h3>
     </a>
-    <p v-if="addon.author" class="my-2! text-sm" op="70">
-      By
-      <span v-for="(author, index) in addon.author" :key="index">
-        <a class="text-dark-200!" :href="`https://github.com/${author}`" target="_blank">{{ author }}</a>
-        <span v-if="index < addon.author.length - 1">, </span>
-      </span>
-    </p>
-    <p class="my-1! text-xl!">
-      <a mr-2 class="text-red-600!" :href="`https://npmjs.com/package/${addon.name}`" target="_blank" alt="NPM Package">
+    <div
+      flex="~"
+      class="text-sm items-center gap-1"
+      op="70"
+    >
+      <a class="text-red-600!" :href="`https://npmjs.com/package/${addon.name}`" target="_blank" alt="NPM Package">
         <div i-ri-npmjs-line />
       </a>
+      <template v-if="addon.author">
+        <span>By</span>
+        <span v-for="(author, index) in addon.author" :key="index">
+          <a
+            class="text-dark-200 dark:text-white"
+            :href="`https://github.com/${author}`"
+            target="_blank"
+          >{{ author }}</a>
+          <span v-if="index < addon.author.length - 1">, </span>
+        </span>
+      </template>
+    </div>
 
-      <!-- <a mr-2 class="text-black dark:text-white" :href="addon.repo" target="_blank" alt="GitHub Repo">
-        <div i-ri-github-line />
-      </a> -->
-    </p>
-    <div lang="en">
-      <p class="text-truncate my-1!">
+    <div class="w-full" lang="en">
+      <div class="text-truncate text-xs" :title="addon.desc_zh">
         {{ addon.desc }}
-      </p>
+      </div>
     </div>
-    <div lang="zh-CN">
-      <p class="text-truncate my-1!">
+    <div class="w-full" lang="zh-CN">
+      <div class="text-truncate text-xs" :title="addon.desc_zh">
         {{ addon.desc_zh }}
-      </p>
+      </div>
     </div>
-    <ul class="m-0! p-0! flex flex-wrap" items-center op="70">
-      <span inline-flex mr-1>
+    <ul class="m-0! p-0! gap-2" flex="~ wrap" items-center op="70">
+      <span inline-flex>
         <div :class="addon.icon" />
       </span>
-      <span v-for="tag, j in addon.tags" :key="j" class="break-all mr-1 cursor-pointer" @click="handleTagClick(tag)">
-        #{{ tag }}
-      </span>
+      <div flex="~" class="gap-2">
+        <span
+          v-for="tag, j in addon.tags" :key="j"
+          class="break-all cursor-pointer text-xs"
+          @click="handleTagClick(tag)"
+        >
+          #{{ tag }}
+        </span>
+      </div>
     </ul>
   </div>
 </template>

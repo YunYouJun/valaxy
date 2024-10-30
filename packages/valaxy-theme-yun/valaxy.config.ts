@@ -20,7 +20,7 @@ function ThemeVitePlugin(options: ResolvedValaxyOptions<ThemeConfig>): Plugin {
         },
 
         optimizeDeps: {
-          include: ['gsap/dist/ScrollToPlugin'],
+          include: ['@ctrl/tinycolor', 'gsap/dist/ScrollToPlugin'],
           exclude: ['@docsearch/js'],
         },
       }
