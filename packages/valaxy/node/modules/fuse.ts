@@ -41,7 +41,7 @@ export async function generateFuseList(options: ResolvedValaxyOptions) {
     if (fmData.password)
       continue
 
-    const extendKeys = options.config.siteConfig.fuse.extendKeys || []
+    const extendKeys = options.config.fuse?.extendKeys || []
 
     // adapt for nested folders, like /posts/2021/01/01/index.md
     const relativeLink = i.replace(`${options.userRoot}/pages`, '')

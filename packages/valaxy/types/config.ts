@@ -175,14 +175,6 @@ export interface SiteConfig {
      */
     dataPath: string
     /**
-     * @en_US Extends the metadata fields returned by the search
-     * @zh_CN 扩展搜索返回的元数据字段
-     * @default []
-     * @description:en-US By default, returns the following fields: title, tags, categories, author, excerpt, link
-     * @description:zh-CN 默认返回以下字段：title、tags、categories、author、excerpt、link
-     */
-    extendKeys: (keyof PostFrontMatter)[]
-    /**
      * @see https://fusejs.io/api/options.html
      */
     options: FuseOptions<FuseListItem> & {
