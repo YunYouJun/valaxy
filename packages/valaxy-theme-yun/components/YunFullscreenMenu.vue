@@ -1,9 +1,12 @@
 <script setup lang="ts">
 import { ref } from 'vue'
+import { useAppStore } from 'valaxy'
 import { useYunAppStore } from '../stores'
 
 const yunApp = useYunAppStore()
 const fullscreenMenuRef = ref<HTMLElement>()
+
+const app = useAppStore()
 </script>
 
 <template>
@@ -16,7 +19,7 @@ const fullscreenMenuRef = ref<HTMLElement>()
     >
       <div class="flex-center gap-2">
         <YunToggleDark transition />
-        <YunToggleLocale />
+        <YunToggleLocale v-if="app.showToggleLocale" />
       </div>
 
       <YunFullscreenMenuList>

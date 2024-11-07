@@ -29,7 +29,8 @@ function toggle(e: MouseEvent) {
   <button
     class="yun-icon-btn"
     :title="themeTitle"
-    :style="styles" @mousedown.prevent="() => { console.log('yes') }"
+    :style="styles"
+    @mousedown.prevent="() => {}"
     @click="toggle"
   >
     <div i="ri-sun-line dark:ri-moon-line" />

@@ -55,6 +55,8 @@ export interface SiteConfig {
   /**
    * alternative languages
    * @description 可选语言
+   * @en If you want to disable multi-language support for your site, you can set this to only include one language (e.g. `['en']`)
+   * @zh 如果你想要禁言站点的多语言支持，可以将此项设置为仅包含一个语言 (例如 `['zh-CN']`)
    * @default ['en', 'zh-CN']
    * @see https://ogp.me/#optional
    */

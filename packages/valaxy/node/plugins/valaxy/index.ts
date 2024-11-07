@@ -6,7 +6,6 @@ import { join, relative, resolve } from 'pathe'
 import fs from 'fs-extra'
 
 import type { Plugin, ResolvedConfig } from 'vite'
-import { defu } from 'defu'
 import pascalCase from 'pascalcase'
 import type { DefaultTheme, Pkg, SiteConfig } from 'valaxy/types'
 import { dim, yellow } from 'picocolors'
@@ -22,6 +21,7 @@ import { countPerformanceTime } from '../../utils/performance'
 import { isProd } from '../../utils/env'
 import type { PageDataPayload } from '../../../types'
 import { createMarkdownToVueRenderFn } from '../markdown/markdownToVue'
+import { replaceArrMerge } from '../../config/merge'
 
 function generateConfig(options: ResolvedValaxyOptions) {
   const routes = options.redirects.map<RouteRecordRaw>((redirect) => {
@@ -279,7 +279,7 @@ export async function createValaxyLoader(options: ResolvedValaxyOptions, serverO
         // siteConfig
         if (file === options.siteConfigFile) {
           const { siteConfig } = await resolveSiteConfig(options.userRoot)
-          valaxyConfig.siteConfig = defu<SiteConfig, [SiteConfig]>(siteConfig, defaultSiteConfig)
+          valaxyConfig.siteConfig = replaceArrMerge<SiteConfig, [SiteConfig]>(siteConfig as SiteConfig, defaultSiteConfig)
           return reloadConfigAndEntries(valaxyConfig)
         }
 

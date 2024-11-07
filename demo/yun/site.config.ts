@@ -6,6 +6,9 @@ export default defineSiteConfig({
   },
 
   lang: 'zh-CN',
+  // disable show language switch
+  languages: ['zh-CN'],
+
   title: '自定义博客名称',
   timezone: 'Asia/Shanghai',
   url: 'https://yun.valaxy.site/',

@@ -5,7 +5,7 @@ import fs from 'fs-extra'
 import _debug from 'debug'
 import fg from 'fast-glob'
 import { ensureSuffix, uniq } from '@antfu/utils'
-import defu from 'defu'
+// import defu from 'defu'
 import { blue, cyan, magenta, yellow } from 'picocolors'
 import consola from 'consola'
 import type { DefaultTheme, RedirectItem, RuntimeConfig } from 'valaxy/types'
@@ -25,6 +25,7 @@ import { getThemeRoot } from './utils/theme'
 import { resolveSiteConfig } from './config/site'
 import { countPerformanceTime } from './utils/performance'
 import { collectRedirects } from './utils/clientRedirects'
+import { replaceArrMerge } from './config/merge'
 
 // for cli entry
 export interface ValaxyEntryOptions {
@@ -142,7 +143,7 @@ export async function processValaxyOptions(valaxyOptions: ResolvedValaxyOptions,
   const addonsValaxyConfig = await resolveAddonsConfig(addons, valaxyOptions)
   valaxyConfig = mergeValaxyConfig(valaxyConfig, addonsValaxyConfig)
 
-  const config = defu(valaxyConfig, defaultValaxyConfig)
+  const config = replaceArrMerge(valaxyConfig, defaultValaxyConfig)
   valaxyOptions.config = {
     ...config,
     runtimeConfig: {
@@ -207,7 +208,7 @@ export async function resolveOptions(
   const redirects = collectRedirects(siteConfig.redirects?.rules)
 
   // merge with valaxy
-  userValaxyConfig = defu<ValaxyNodeConfig, any>({ siteConfig }, { themeConfig }, userValaxyConfig)
+  userValaxyConfig = replaceArrMerge<ValaxyNodeConfig, any>({ siteConfig } as ValaxyNodeConfig, { themeConfig }, userValaxyConfig)
 
   // pages
   // Important: fast-glob doesn't guarantee order of the returned files.

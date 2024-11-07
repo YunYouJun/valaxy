@@ -1,4 +1,4 @@
-// import defu, { createDefu } from 'defu'
+import { createDefu } from 'defu'
 
 // function replaceByClonedSource(options: any) {
 //   const clone = options.clone
@@ -7,10 +7,12 @@
 //   }
 // }
 
-// override array merge
-// export const replaceArrMerge = createDefu(({ obj, key, value }) => {
-//   console.log(value)
-
-//   return value
-// })
-// export const replaceArrMerge = defu
+/**
+ * replace array instead of concat
+ */
+export const replaceArrMerge = createDefu((obj, key, value) => {
+  if (key && obj[key] && Array.isArray(obj[key]) && Array.isArray(value)) {
+    obj[key] = value
+    return true
+  }
+})

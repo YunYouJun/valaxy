@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { onMounted, ref, watch } from 'vue'
-import { useSiteConfig } from 'valaxy'
+import { useAppStore, useSiteConfig } from 'valaxy'
 import { useRoute } from 'vue-router'
 import { useYunAppStore } from '../stores'
 // import { useThemeConfig } from '../composables'
@@ -30,6 +30,8 @@ watch(() => yunApp.scrollY, () => {
   else
     playAnimation.value = false
 })
+
+const app = useAppStore()
 </script>
 
 <template>
@@ -77,7 +79,7 @@ watch(() => yunApp.scrollY, () => {
         </template> -->
 
         <YunToggleLocale
-          v-if="yunApp.size.isSm"
+          v-if="yunApp.size.isSm && app.showToggleLocale"
           class="rounded-none!"
         />
         <YunToggleDark class="rounded-none!" transition />
