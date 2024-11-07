@@ -80,7 +80,7 @@ watch(() => yunApp.scrollY, () => {
           v-if="yunApp.size.isSm"
           class="rounded-none!"
         />
-        <YunToggleDark class="rounded-none!" />
+        <YunToggleDark class="rounded-none!" transition />
         <YunSearchTrigger v-if="siteConfig.search.enable" />
       </div>
     </div>

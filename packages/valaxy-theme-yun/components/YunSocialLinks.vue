@@ -6,9 +6,10 @@ const siteConfig = useSiteConfig()
 
 <template>
   <div class="links-of-author">
-    <a v-for="item, i in siteConfig.social" :key="i" class="links-of-author-item yun-icon-btn" rel="noopener" :href="item.link" :title="item.name" target="_blank" :style="`color:${item.color}`">
-      <div class="icon" :class="item.icon" />
-    </a>
+    <YunSocialLinkItem
+      v-for="item, i in siteConfig.social" :key="i"
+      :social="item"
+    />
   </div>
 </template>
 

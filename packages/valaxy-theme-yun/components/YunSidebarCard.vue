@@ -3,8 +3,9 @@
 </script>
 
 <template>
-  <YunCard class="p-4 min-h-sm">
+  <YunCard class="p-4 min-h-sm" flex="~ col gap-1">
     <YunSiteInfo class="text-center" />
     <YunPostsInfo />
+    <YunSocialLinks />
   </YunCard>
 </template>

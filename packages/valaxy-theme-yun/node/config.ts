@@ -94,7 +94,7 @@ export const defaultThemeConfig: ThemeConfig = {
       icon: 'i-simple-icons-notion',
     },
     'twitter': {
-      color: '#1da1f2',
+      color: 'black',
       icon: 'i-ri-twitter-x-fill',
     },
     'wechat': {
