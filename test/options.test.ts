@@ -1,9 +1,9 @@
 import { resolve } from 'pathe'
 import { resolveOptions } from 'valaxy'
 import { describe, expect, it } from 'vitest'
-import defu from 'defu'
 import { defaultThemeConfig } from '../packages/valaxy-theme-yun'
 import themePkg from '../packages/valaxy-theme-yun/package.json'
+import { replaceArrMerge } from '../packages/valaxy/node/config/merge'
 import { fixtureFolder } from './shared'
 
 // todo merge config test
@@ -35,8 +35,9 @@ describe('resolved Valaxy Options', async () => {
 
   it('merge theme config', async () => {
     expect(themeConfig.pkg).toEqual(themePkg)
+    // theme.config.ts override valaxyConfig.themeConfig
     expect(themeConfig).toEqual(
-      defu({
+      replaceArrMerge({
         arr: [1, 2, 3],
         pages: [
           {
@@ -44,12 +45,6 @@ describe('resolved Valaxy Options', async () => {
             url: '/girls/',
             icon: 'i-ri-women-line',
             color: 'hotpink',
-          },
-          {
-            name: 'Valaxy',
-            url: 'https://valaxy.site/',
-            icon: 'i-ri-heart-line',
-            color: 'red',
           },
         ],
       }, defaultThemeConfig, { pkg: themePkg }),
