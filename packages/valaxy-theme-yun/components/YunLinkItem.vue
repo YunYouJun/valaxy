@@ -47,12 +47,15 @@ useMotion(itemRef, {
       alt="portrait" rel="friend" target="_blank"
     >
       <div class="yun-link-left">
-        <img
-          class="yun-link-avatar w-16 h-16 aspect-ratio-1" width="64" height="64"
-          loading="lazy"
-          :src="link.avatar" :alt="link.name"
-          @error="onError"
-        >
+        <div class="yun-link-avatar size-16 overflow-hidden flex-center">
+          <img
+            class="size-16 object-center object-cover m-0!"
+            width="64" height="64"
+            loading="lazy"
+            :src="link.avatar" :alt="link.name"
+            @error="onError"
+          >
+        </div>
       </div>
       <div class="yun-link-info" m="l-2">
         <div class="yun-link-blog" font="serif black">{{ link.blog }}</div>

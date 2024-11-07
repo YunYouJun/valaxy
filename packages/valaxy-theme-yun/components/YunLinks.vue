@@ -58,7 +58,6 @@ const { data } = useRandomData(props.links, props.random)
       &-avatar {
         margin: 0;
         display: inline-flex;
-        max-width: 100%;
         border-radius: 50%;
         background-color: #fff;
         border: 1px solid var(--primary-color, gray);
