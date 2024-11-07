@@ -13,7 +13,8 @@ test.describe('Categories Page', () => {
     const searchParams = new URLSearchParams()
     searchParams.set('category', curCategory)
 
-    await page.goto(`/categories?${searchParams.toString()}`)
+    const url = `/categories?${searchParams.toString()}`
+    await page.goto(url)
     // .post-item
     await expect(page.locator('.post-item')).toHaveCount(1)
     // first post
