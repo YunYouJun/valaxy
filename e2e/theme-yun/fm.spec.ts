@@ -12,6 +12,7 @@ test.beforeEach(async ({ page }) => {
 test.describe('Frontmatter', () => {
   test('posted & edited time', async ({ page }) => {
     await page.goto('/posts/hello-valaxy')
+    await page.waitForSelector('.post-meta')
 
     await expect(page.locator('.post-time time')).toHaveCount(2)
     await expect(page.locator('.post-time > .posted-time time')).toHaveText(/\d{4}-\d{2}-\d{2}/)

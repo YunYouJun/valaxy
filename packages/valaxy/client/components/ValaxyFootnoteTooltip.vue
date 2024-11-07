@@ -1,17 +1,14 @@
-<script lang="ts">
-import { PopperWrapper } from 'floating-vue'
-
-const Component = ({
-  ...PopperWrapper,
-  name: 'ValaxyFootnoteTooltip',
-  vPopperTheme: 'tooltip',
-}) as unknown as typeof PopperWrapper
-
-export default Component
+<script setup lang="ts">
+import { Tooltip } from 'floating-vue'
+// distance offset for sup
 </script>
 
-<style scoped>
-div .v-popper {
-  display: inline
-}
-</style>
+<template>
+  <Tooltip class="inline-block" :distance="8">
+    <slot />
+
+    <template #popper>
+      <slot name="popper" />
+    </template>
+  </Tooltip>
+</template>

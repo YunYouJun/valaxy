@@ -6,13 +6,7 @@ import type { DefaultTheme, ValaxyConfig } from 'valaxy/types'
 import type { ComputedRef } from 'vue'
 
 export async function install({ app }: ViteSSGContext, config: ComputedRef<ValaxyConfig<DefaultTheme.Config>>) {
-  app.use(FloatingVue, Object.assign({
-    themes: {
-      tooltip: {
-        delay: {
-          show: 0,
-        },
-      },
-    },
-  }, config.value.siteConfig.floatingVue || {}))
+  // @see https://floating-vue.starpad.dev/guide/config#default-values
+  const defaultFloatingVueConfig = {}
+  app.use(FloatingVue, Object.assign(defaultFloatingVueConfig, config.value.siteConfig.floatingVue || {}))
 }
