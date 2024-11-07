@@ -62,13 +62,14 @@ export interface MarkdownOptions {
    *
    * You can also pass an object with `light` and `dark` themes to support dual themes.
    *
-   * @example { theme: 'github-dark' }
-   * @example { theme: { light: 'github-light', dark: 'github-dark' } }
+   * @see You can use an existing theme. https://shiki.style/themes
+   * @see Or add your own theme. https://shiki.style/guide/load-theme
    *
-   * You can use an existing theme.
-   * @see https://shiki.style/themes
-   * Or add your own theme.
-   * @see https://shiki.style/guide/load-theme
+   * @example { theme: 'github-dark' }
+   * @example light and dark themes
+   * ```js
+   * { theme: { light: 'github-light', dark: 'github-dark' } }
+   * ```
    */
   theme?: ThemeOptions
   /**

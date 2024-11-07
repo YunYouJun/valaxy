@@ -38,7 +38,7 @@
   },
   "devDependencies": {
     "@advjs/gui": "0.0.7-beta.1",
-    "@iconify-json/ri": "^1.2.2",
+    "@iconify-json/ri": "^1.2.3",
     "@types/body-parser": "^1.19.5",
     "@types/splitpanes": "^2.2.6",
     "gray-matter": "^4.0.3",

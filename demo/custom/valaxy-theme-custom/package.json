@@ -23,6 +23,6 @@
   "types": "types/index.d.ts",
   "dependencies": {
     "@iconify-json/ant-design": "^1.2.2",
-    "@iconify-json/simple-icons": "^1.2.10"
+    "@iconify-json/simple-icons": "^1.2.11"
   }
 }

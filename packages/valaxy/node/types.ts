@@ -58,10 +58,13 @@ export interface ValaxyExtendConfig {
     | 'localhostLinks'
     | (string | RegExp | ((link: string) => boolean))[]
 
+  /**
+   * options for `valaxy build`
+   */
   build: {
     /**
      * Don't fail builds due to dead links.
-     *
+     * @zh 忽略死链
      * @default false
      */
     ignoreDeadLinks?:
@@ -70,9 +73,9 @@ export interface ValaxyExtendConfig {
       | (string | RegExp | ((link: string) => boolean))[]
     /**
      * Enable SSG for pagination
+     * @en When enabled, it will generate pagination pages for you. `/page/1`, `/page/2`, ...
+     * @zh 启用 SSG 分页，将单独构建分页页面 `/page/1`, `/page/2`, ...
      * @default false
-     * When enabled, it will generate pagination pages for you.
-     * `/page/1`, `/page/2`, ...
      */
     ssgForPagination: boolean
   }
@@ -113,10 +116,15 @@ export interface ValaxyExtendConfig {
   features: {
     /**
      * enable katex for global
+     * @see [Example | Valaxy](https://valaxy.site/examples/katex)
+     * @see https://katex.org/
      */
     katex: boolean
   }
-
+  /**
+   * vite.config.ts options
+   * @see https://vite.dev/
+   */
   vite?: ViteUserConfig
   /**
    * @vitejs/plugin-vue options
@@ -125,10 +133,21 @@ export interface ValaxyExtendConfig {
   vue?: Parameters<typeof Vue>[0] & {
     isCustomElement?: ((tag: string) => boolean)[]
   }
-  // unplugin
+  /**
+   * @see https://github.com/unplugin/unplugin-vue-components
+   */
   components?: Parameters<typeof Components>[0]
+  /**
+   * @see https://github.com/JohnCampionJr/vite-plugin-vue-layouts
+   */
   layouts?: Parameters<typeof Layouts>[0]
+  /**
+   * @see https://github.com/posva/unplugin-vue-router
+   */
   router?: Parameters<typeof Router>[0]
+  /**
+   * @see https://unocss.dev/config/
+   */
   unocss?: UnoCSSConfig
   /**
    * rollup-plugin-visualizer
@@ -137,6 +156,7 @@ export interface ValaxyExtendConfig {
   visualizer?: PluginVisualizerOptions
   /**
    * unocss presets
+   * @see https://unocss.dev/guide/presets
    */
   unocssPresets?: {
     uno?: Parameters<typeof presetUno>[0]
@@ -151,9 +171,15 @@ export interface ValaxyExtendConfig {
    */
   devtools?: boolean
   /**
-   * for markdown
+   * @en config for markdown (include markdown-it plugins)
+   * @zh markdown 相关配置
+   * {@link MarkdownOptions}
    */
   markdown?: MarkdownOptions & Parameters<typeof Markdown>[0]
+  /**
+   * @en Extend markdown, you can modify the markdown content/excerpt
+   * @zh 扩展 markdown
+   */
   extendMd?: (ctx: {
     route: EditableTreeNode
     data: Readonly<Record<string, any>>
@@ -161,8 +187,31 @@ export interface ValaxyExtendConfig {
     excerpt?: string
     path: string
   }) => void
+  /**
+   * @en Addons system
+   * @zh 插件系统
+   * @see 为什么需要插件？ [Why Addon? | Valaxy](https://valaxy.site/addons/why)
+   * @see 插件橱窗 [Addons Gallery | Valaxy](https://valaxy.site/addons/gallery)
+   * @example
+   * ```ts
+   * import { defineValaxyConfig } from 'valaxy'
+   * import { addonTest } from 'valaxy-addon-test'
+   *
+   * export default defineValaxyConfig({
+   *   addons: [
+   *     // we always recommend to use function, so that you can pass options
+   *     addonTest(),
+   *   ]
+   * })
+   * ```
+   */
   addons?: ValaxyAddons
 
+  /**
+   * @en Hooks system, you can customize each stage of the lifecycle.
+   * @zh 钩子系统，你可以对生命周期的各个阶段进行定制。
+   * @see https://valaxy.site/guide/custom/hooks
+   */
   hooks?: Partial<ValaxyHooks>
 }
 

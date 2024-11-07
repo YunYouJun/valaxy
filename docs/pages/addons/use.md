@@ -17,9 +17,13 @@ pnpm add [valaxy-addon-package1] [valaxy-addon-package2]
 ```ts
 // valaxy.config.ts
 import { defineValaxyConfig } from 'valaxy'
+import { addonTest } from 'valaxy-addon-test'
 
 export default defineValaxyConfig({
   addons: [
+    // we always recommend to use function, so that you can pass options
+    addonTest(),
+
     'valaxy-addon-package1',
     // pass addon options
     ['valaxy-addon-package2', { global: false }],

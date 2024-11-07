@@ -1,11 +1,10 @@
 import { dirname, join, resolve } from 'node:path'
 import type { Alias, AliasOptions, InlineConfig, Plugin } from 'vite'
 import { mergeConfig, searchForWorkspaceRoot } from 'vite'
-import isInstalledGlobally from 'is-installed-globally'
 import { uniq } from '@antfu/utils'
 import { getIndexHtml } from '../common'
 import type { ResolvedValaxyOptions } from '../options'
-import { resolveImportPath, toAtFS } from '../utils'
+import { isInstalledGlobally, resolveImportPath, toAtFS } from '../utils'
 
 /**
  * dependencies used by client
