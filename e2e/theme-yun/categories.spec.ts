@@ -10,8 +10,10 @@ test.use({
 test.describe('Categories Page', () => {
   test('toggle categories', async ({ page }) => {
     const curCategory = '中文/分类/测试'
-    await page.goto(`/categories?category=${curCategory}`)
-    await page.waitForSelector('.post-collapse-container')
+    const url = new URL(page.url())
+    url.searchParams.set('category', curCategory)
+    await page.goto(url.toString())
+
     // .post-item
     await expect(page.locator('.post-item')).toHaveCount(1)
     // first post
