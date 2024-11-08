@@ -22,8 +22,8 @@ function onClick() {
 <template>
   <button
     class="yun-search-btn popup-trigger size-12 inline-flex justify-center items-center"
+    :class="!open && 'hover-bg-white/80 hover:bg-black/80'"
     text="xl $va-c-text"
-    hover="bg-white/80 dark:bg-black/80"
     :title="t('menu.search')"
     @click="onClick"
   >
@@ -35,5 +35,6 @@ function onClick() {
 <style lang="scss">
 .yun-search-btn {
   z-index: var(--yun-z-search-btn);
+  transition: background-color var(--va-transition-duration);
 }
 </style>

@@ -1,4 +1,4 @@
-export interface FuseListItem {
+export interface FuseListItem extends Record<string, any> {
   title: string
   excerpt?: string
   author: string

@@ -1,5 +1,5 @@
 import { ref, watch } from 'vue'
-import { isClient } from '@vueuse/core'
+import { isClient, useEventListener } from '@vueuse/core'
 
 /**
  * fetch data from source, and random
@@ -24,4 +24,19 @@ export function useRandomData<T>(source: string | T[], random = false) {
   return {
     data,
   }
+}
+
+export function useHotKey(key: string, callback: () => void) {
+  const isHotKeyActive = ref(false)
+
+  function handleHotKey(event: KeyboardEvent) {
+    if (event.key.toLowerCase() === key.toLowerCase() && (event.metaKey || event.ctrlKey)) {
+      event.preventDefault()
+      callback()
+    }
+  }
+
+  useEventListener('keydown', handleHotKey)
+
+  return { isHotKeyActive }
 }

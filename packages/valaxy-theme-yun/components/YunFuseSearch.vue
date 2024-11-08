@@ -1,70 +1,23 @@
 <script lang="ts" setup>
-import type { UseFuseOptions } from '@vueuse/integrations/useFuse'
-import { useFuse } from '@vueuse/integrations/useFuse'
-import { computed, ref, watch } from 'vue'
+import { ref } from 'vue'
 import { useI18n } from 'vue-i18n'
-import { useSiteConfig } from 'valaxy'
-import type { FuseListItem } from 'valaxy/types'
+import { useFuseSearch } from 'valaxy'
 
 import { isClient, onClickOutside, useScrollLock } from '@vueuse/core'
 
-const props = defineProps<{
+defineProps<{
   open: boolean
 }>()
 const emit = defineEmits(['close'])
 
-const searchContainer = ref<HTMLElement>()
-
-const isLocked = useScrollLock(isClient ? document.body : null)
-
-const { t } = useI18n()
-
-const fuseListData = ref<FuseListItem[]>([])
-
-const siteConfig = useSiteConfig()
-const keys = computed(() => {
-  const ks = siteConfig.value.fuse.options.keys || []
-  return ks.length === 0
-    ? ['title', 'tags', 'categories', 'excerpt']
-    : ks
-})
-
 const input = ref('')
-// todo export options
-const useFuseOptions = computed<UseFuseOptions<FuseListItem>>(() => ({
-  fuseOptions: {
-    includeMatches: true,
-    findAllMatches: true,
 
-    ...siteConfig.value.fuse.options,
-    keys: keys.value,
-
-    // threshold: 0.99,
-    // ignoreLocation: true,
-  },
-  // resultLimit: resultLimit.value,
-  // matchAllWhenSearchEmpty: matchAllWhenSearchEmpty.value,
-}))
-const { results } = useFuse(input, fuseListData, useFuseOptions)
+const isLocked = useScrollLock(isClient ? document.documentElement : null)
+const { t } = useI18n()
+const { results } = useFuseSearch(input)
 
 const searchInputRef = ref<HTMLInputElement>()
-
-watch(() => props.open, async () => {
-  if (!props.open)
-    return
-
-  const fuseListDataPath = siteConfig.value.fuse.dataPath.startsWith('http')
-    ? siteConfig.value.fuse.dataPath
-    : `${import.meta.env.BASE_URL}${siteConfig.value.fuse.dataPath}`
-  fetch(fuseListDataPath)
-    .then(res => res.json())
-    .then((data) => {
-      if (Array.isArray(data))
-        fuseListData.value = data
-
-      searchInputRef.value?.focus()
-    })
-})
+const searchContainer = ref<HTMLElement>()
 
 onClickOutside(searchInputRef, () => {
   // emit('close')

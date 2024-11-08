@@ -164,6 +164,16 @@ export interface ValaxyExtendConfig {
     icons?: Parameters<typeof presetIcons>[0]
     typography?: Parameters<typeof presetTypography>[0]
   }
+  fuse?: {
+    /**
+     * @en_US Extends the metadata fields returned by the search
+     * @zh_CN 扩展搜索返回的元数据字段
+     * @default []
+     * @description:en-US By default, returns the following fields: title, tags, categories, author, excerpt, link
+     * @description:zh-CN 默认返回以下字段：title、tags、categories、author、excerpt、link
+     */
+    extendKeys?: string[]
+  }
   /**
    * @experimental
    * Enable Vue Devtools & Valaxy Devtools

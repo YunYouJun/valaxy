@@ -7,7 +7,7 @@ import matter from 'gray-matter'
 import { cyan, dim } from 'picocolors'
 import type { Argv } from 'yargs'
 
-import type { FuseListItem } from 'valaxy/types'
+import type { FuseListItem, PostFrontMatter } from 'valaxy/types'
 import { matterOptions } from '../plugins/markdown/transform/matter'
 import { resolveOptions } from '../options'
 import { setEnvProd } from '../utils/env'
@@ -27,20 +27,21 @@ export async function generateFuseList(options: ResolvedValaxyOptions) {
   for await (const i of files) {
     const raw = fs.readFileSync(i, 'utf-8')
     const { data, excerpt, content } = matter(raw, matterOptions)
+    const fmData = data as PostFrontMatter
 
-    if (data.draft) {
+    if (fmData.draft) {
       consola.warn(`Ignore draft post: ${dim(i)}`)
       continue
     }
 
-    if (data.hide)
+    if (fmData.hide)
       continue
 
     // skip encrypt post
-    if (data.password)
+    if (fmData.password)
       continue
 
-    const keys = options.config.siteConfig.fuse.options.keys || []
+    const extendKeys = options.config.fuse?.extendKeys || []
 
     // adapt for nested folders, like /posts/2021/01/01/index.md
     const relativeLink = i.replace(`${options.userRoot}/pages`, '')
@@ -49,16 +50,18 @@ export async function generateFuseList(options: ResolvedValaxyOptions) {
       : relativeLink.replace(/\.md$/, '')
 
     const fuseListItem: FuseListItem = {
-      title: data.title || '',
-      tags: (typeof data.tags === 'string' ? [data.tags] : data.tags) || [],
-      categories: data.categories || [],
+      title: fmData.title || '',
+      tags: (typeof fmData.tags === 'string' ? [fmData.tags] : fmData.tags) || [],
+      categories: (typeof fmData.categories === 'string' ? [fmData.categories] : fmData.categories) || [],
       author: options.config.siteConfig.author.name,
       excerpt: excerpt || content.slice(0, 100),
       // encode for chinese url
       link: encodeURI(link),
     }
-    if (keys.includes('content'))
-      fuseListItem.content = content || ''
+
+    extendKeys.forEach((key) => {
+      fuseListItem[key] = fmData[key] || ''
+    })
 
     posts.push(fuseListItem)
   }

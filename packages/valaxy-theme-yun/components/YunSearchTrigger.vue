@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import { useSiteConfig } from 'valaxy'
 import { computed, defineAsyncComponent, onMounted, ref } from 'vue'
-import { useEventListener } from '@vueuse/core'
+import { useHotKey } from '../composables'
 
 const siteConfig = useSiteConfig()
 
@@ -14,20 +14,11 @@ function togglePopup() {
   open.value = !open.value
 }
 
-function handleSearchHotKey(event: KeyboardEvent) {
-  if (
-    (event.key.toLowerCase() === 'k' && (event.metaKey || event.ctrlKey))
-  ) {
-    event.preventDefault()
-    togglePopup()
-  }
-}
-
 const algoliaRef = ref()
 onMounted(() => {
   // algolia has its own hotkey
   if (isFuse.value)
-    useEventListener('keydown', handleSearchHotKey)
+    useHotKey('k', togglePopup)
 })
 
 function openSearch() {
