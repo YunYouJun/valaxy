@@ -3,6 +3,11 @@
 @use "valaxy/client/styles/mixins/index.scss" as * with($namespace: "yun");
 
 :root {
+  // yun
+  --yun-margin-top: 68px;
+}
+
+:root {
   @include set-css-var-from-map($common);
   @include set-css-var-from-map($z-index, "z");
 

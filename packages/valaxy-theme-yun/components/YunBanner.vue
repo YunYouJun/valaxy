@@ -7,28 +7,28 @@
 
 import type { CSSProperties } from 'vue'
 import { computed, onMounted, ref } from 'vue'
-import { random, sleep } from 'valaxy'
+import { sleep } from 'valaxy'
 import { useThemeConfig } from '../composables'
+import { useYunAppStore } from '../stores'
+import { useYunBanner } from '../composables/useYunBanner'
 
+const yun = useYunAppStore()
 const themeConfig = useThemeConfig()
 
-const chars = computed(() => {
-  const arr = []
-  for (let i = 0; i < themeConfig.value.banner.title.length; i++) {
-    const rn = random(1.5, 3.5)
-    arr.push(rn)
-  }
-  return arr
-})
 // height of top/bottom line
-const totalCharHeight = computed(() => chars.value.reduce((a, b) => a + b, 0))
+
+const { totalCharHeight, chars } = useYunBanner(themeConfig.value.banner)
 
 const bannerStyles = computed<CSSProperties>(() => {
-  return {
+  const styles: CSSProperties = {
     '--total-char-height': `${totalCharHeight.value}rem`,
     '--banner-line-height': `calc(var(--banner-height, 100 * var(--vh)) / 2 - ${totalCharHeight.value / 2}rem)`,
     'justify-content': 'space-between',
   }
+  if (yun.isStrato)
+    styles.borderBottom = `1px solid var(--banner-line-color)`
+
+  return styles
 })
 
 const lineStatus = ref<
@@ -43,10 +43,12 @@ const animationStatus = ref('banner')
 onMounted(async () => {
   await sleep(500)
   lineStatus.value = 'active'
-  await sleep(500)
-  lineStatus.value = 'exit'
+  if (yun.isNimbo) {
+    await sleep(500)
+    lineStatus.value = 'exit'
 
-  animationStatus.value = 'prologue'
+    animationStatus.value = 'prologue'
+  }
 })
 </script>
 
@@ -58,20 +60,21 @@ onMounted(async () => {
         :class="lineStatusClass"
       />
     </div>
-    <div v-if="animationStatus === 'banner'" class="banner-char-container">
-      <div v-for="c, i in themeConfig.banner.title" :key="i" class="char-box">
-        <span
-          :class="[i % 2 !== 0 ? 'char-right' : 'char-left']" :style="{
-            '--banner-char-size': `${chars[i]}rem`,
-          } as CSSProperties"
-        >
-          <span class="char">
-            {{ c }}
-          </span>
-        </span>
-      </div>
-    </div>
-    <PrologueSquare v-else class="z-1" />
+
+    <template v-if="yun.isNimbo">
+      <YunBannerCharContainer
+        v-if="animationStatus === 'banner'"
+        :title="themeConfig.banner.title"
+        :chars="chars"
+      />
+      <PrologueSquare v-else class="z-1" />
+    </template>
+    <template v-if="yun.isStrato">
+      <YunBannerCharContainer
+        :title="themeConfig.banner.title"
+        :chars="chars"
+      />
+    </template>
 
     <div class="banner-line-container bottom">
       <div

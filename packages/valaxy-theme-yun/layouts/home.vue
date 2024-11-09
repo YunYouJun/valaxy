@@ -2,6 +2,9 @@
 import { computed } from 'vue'
 import { useRoute } from 'vue-router'
 import { useThemeConfig } from '../composables'
+import { useYunAppStore } from '../stores'
+
+const yun = useYunAppStore()
 
 const route = useRoute()
 const themeConfig = useThemeConfig()
@@ -24,7 +27,7 @@ const showNotice = computed(() => {
     <template v-if="!isPage">
       <YunBanner />
       <YunSay v-if="themeConfig.say.enable" w="full" />
-      <YunPrologue class="absolute left-0 top-0 right-0 bottom-0" />
+      <YunPrologue v-if="yun.isNimbo" class="absolute left-0 top-0 right-0 bottom-0" />
     </template>
 
     <YunNotice

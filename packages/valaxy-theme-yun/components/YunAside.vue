@@ -28,7 +28,7 @@ watch(() => [yun.rightSidebar.isOpen, yun.size.isXl], async () => {
 <template>
   <aside
     flex="~ col"
-    class="va-card yun-aside sticky top-0 lg:top-68px min-h-sm"
+    class="va-card yun-aside sticky top-0 lg:top-$yun-margin-top min-h-sm"
     :class="{
       float: isAsideFloat,
       show,
@@ -70,7 +70,7 @@ watch(() => [yun.rightSidebar.isOpen, yun.size.isXl], async () => {
   width: 0;
   transform: translateX(100%);
   transition: all 0.2s map.get($cubic-bezier, 'ease-in-out');
-  max-height: calc(100vh - 68px);
+  max-height: calc(100vh - var(--yun-margin-top));
 
   // float panel
   &.float {

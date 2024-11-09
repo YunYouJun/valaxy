@@ -10,7 +10,6 @@ const props = defineProps<{
   frontmatter: Post
   data?: PageData
 }>()
-
 const siteConfig = useSiteConfig()
 
 const { styles, icon, color } = usePostProperty(props.frontmatter.type)
@@ -37,12 +36,16 @@ onContentUpdated(() => {
 </script>
 
 <template>
-  <main class="yun-main lt-md:w-full" flex="~ center">
+  <main
+    class="yun-main lt-md:w-full" flex="~ center"
+  >
     <slot name="main">
       <div
-        class="content w-full md:w-3xl lg:w-2xl xl:w-2xl 2xl:w-4xl" :class="{
+        class="content w-full md:w-3xl lg:w-2xl xl:w-2xl 2xl:w-4xl"
+        :class="{
           'no-aside': !aside,
-        }" flex="~ col grow"
+        }"
+        flex="~ col grow"
         p="lt-md:0"
       >
         <YunCard :cover="frontmatter.cover" m="0" class="relative" :style="styles as StyleValue">

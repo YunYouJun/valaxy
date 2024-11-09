@@ -31,16 +31,16 @@ useHead({
 const themeConfig = useThemeConfig()
 
 const app = useAppStore()
-const yunStore = useYunAppStore()
+const yun = useYunAppStore()
 const route = useRoute()
 
 watch(
   () => route.meta.layout,
   () => {
     if (route.meta.layout === 'home' || app.isMobile)
-      yunStore.leftSidebar.isOpen = false
+      yun.leftSidebar.isOpen = false
     else
-      yunStore.leftSidebar.isOpen = true
+      yun.leftSidebar.isOpen = false
   },
   { immediate: true },
 )
@@ -55,11 +55,15 @@ const isDev = import.meta.env.DEV
 </script>
 
 <template>
+  <YunStratoApp v-if="yun.isStrato" />
   <YunDebug v-if="isDev" />
 
   <YunPageHeaderGradient />
   <YunNavMenu />
-  <YunFullscreenMenu />
+
+  <YunFullscreenMenu v-if="yun.isNimbo" />
+  <YunStratoSidebar v-if="yun.isStrato" />
+
   <YunFireworks v-if="themeConfig.fireworks.enable" />
   <slot name="bg">
     <YunBg v-if="themeConfig.bg_image.enable" />

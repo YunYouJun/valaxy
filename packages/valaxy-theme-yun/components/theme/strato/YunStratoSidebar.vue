@@ -1,17 +1,18 @@
 <script lang="ts" setup>
 import { ref } from 'vue'
-import { useYunAppStore } from '../stores'
+import { useYunAppStore } from '../../../stores'
 
 defineProps<{
   showHamburger?: boolean
 }>()
 
-const yunStore = useYunAppStore()
+const yun = useYunAppStore()
 const showOverview = ref(false)
 </script>
 
 <template>
-  <ValaxyOverlay class="md:hidden" :show="yunStore.leftSidebar.isOpen" @click="yunStore.leftSidebar.toggle()" />
+  <!-- class="md:hidden"  -->
+  <YunOverlay :show="yun.leftSidebar.isOpen" @click="yun.leftSidebar.toggle()" />
 
   <!-- <ValaxyHamburger
     :active="yunStore.leftSidebar.isOpen"
@@ -22,12 +23,14 @@ const showOverview = ref(false)
   /> -->
 
   <aside
-    class="va-card transition sidebar fixed inset-y-0 left-0 overflow-y-auto"
+    id="yun-left-sidebar"
+    class="va-card transition yun-sidebar fixed inset-y-0 left-0 overflow-y-auto"
     :class="{
-      'open': yunStore.leftSidebar.isOpen,
+      'open': yun.leftSidebar.isOpen,
       'md:translate-x-0': !showHamburger,
     }"
-    text="center" bg="$yun-sidebar-bg-color contain no-repeat" z="$yun-z-sidebar"
+    text="center" bg="$yun-sidebar-bg-color contain no-repeat"
+    z="$yun-z-left-sidebar"
   >
     <div v-if="$slots.default" class="sidebar-nav" m="t-6">
       <button
@@ -58,7 +61,7 @@ const showOverview = ref(false)
 @use 'sass:map';
 @use 'valaxy-theme-yun/styles/vars.scss' as *;
 
-.sidebar {
+#yun-left-sidebar {
   width: calc(100vw - 64px);
   max-width: var(--va-sidebar-width);
   background-image: var(--yun-sidebar-bg-img);
@@ -71,17 +74,17 @@ const showOverview = ref(false)
   &.open {
     transform: translateX(0);
   }
-}
 
-.sidebar-nav {
-  .sidebar-nav-item {
-    color: var(--va-c-primary);
-    border: 1px solid var(--va-c-primary);
-
-    &.active {
+  .sidebar-nav {
+    .sidebar-nav-item {
+      color: var(--va-c-primary);
       border: 1px solid var(--va-c-primary);
-      color: white;
-      background-color: var(--va-c-primary);
+
+      &.active {
+        border: 1px solid var(--va-c-primary);
+        color: white;
+        background-color: var(--va-c-primary);
+      }
     }
   }
 }

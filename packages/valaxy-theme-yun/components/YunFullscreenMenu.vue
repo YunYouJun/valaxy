@@ -10,17 +10,17 @@ const app = useAppStore()
 </script>
 
 <template>
-  <Transition name="slide-down">
+  <Transition :name="app.isMobile ? 'slide-down' : 'slide-left'">
     <div
       v-if="yunApp.fullscreenMenu.isOpen"
       ref="fullscreenMenuRef"
       p="t-20 md:t-26"
       class="yun-fullscreen-menu fixed left-0 right-0 bottom-0 top-0 bg-$va-c-bg-soft z-$yun-z-fullscreen-menu overflow-auto"
     >
-      <div class="flex-center gap-2">
+      <!-- <div v-if="app.isMobile" class="flex-center gap-2">
         <YunToggleDark transition />
         <YunToggleLocale v-if="app.showToggleLocale" />
-      </div>
+      </div> -->
 
       <YunFullscreenMenuList>
         <YunFullscreenMenuItem
@@ -44,6 +44,8 @@ const app = useAppStore()
 @use 'sass:map';
 @use 'valaxy-theme-yun/styles/vars.scss' as *;
 
+.slide-left-enter-active,
+.slide-left-leave-active,
 .slide-down-enter-active,
 .slide-down-leave-active {
   opacity: 1;
@@ -56,5 +58,11 @@ const app = useAppStore()
 .slide-down-leave-to {
   opacity: 0;
   transform: translateY(-100%);
+}
+
+.slide-left-enter-from,
+.slide-left-leave-to {
+  opacity: 0;
+  transform: translateX(-100%);
 }
 </style>

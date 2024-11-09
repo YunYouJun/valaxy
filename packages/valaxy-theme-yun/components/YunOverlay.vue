@@ -17,7 +17,7 @@ withDefaults(defineProps<{
 @use "valaxy/client/styles/mixins/index.scss" as *;
 
 .yun-overlay {
-  background-color: rgb(0 0 0 / 0.3);
+  background-color: rgb(0 0 0 / 0.5);
   position: fixed;
   inset: 0;
   transition: opacity 0.4s;

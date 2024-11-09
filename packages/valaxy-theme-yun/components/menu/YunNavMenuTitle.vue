@@ -1,16 +1,23 @@
 <script setup lang="ts">
 import { useFrontmatter, useSiteConfig } from 'valaxy'
-import { ref, watch } from 'vue'
-import { useRouter } from 'vue-router'
+import { computed, ref, watch } from 'vue'
+import { useRoute, useRouter } from 'vue-router'
 import { useYunAppStore } from '../../stores'
 
 const yunApp = useYunAppStore()
 const fm = useFrontmatter()
 const siteConfig = useSiteConfig()
 
+const route = useRoute()
 const showPostTitle = ref(false)
+const showSiteTitle = computed(() => {
+  if (yunApp.isStrato)
+    return route.path === '/' ? false : yunApp.scrollY < 10
+  return !showPostTitle.value
+})
 watch(() => yunApp.scrollY, () => {
-  showPostTitle.value = yunApp.scrollY > 200
+  if (yunApp.isNimbo)
+    showPostTitle.value = yunApp.scrollY > 200
 })
 
 const router = useRouter()
@@ -57,9 +64,11 @@ function goToLink() {
         {{ fm.subtitle }}
       </span>
     </div>
-    <span v-else class="font-light truncate">
-      {{ siteConfig.title }}
-    </span>
+    <Transition>
+      <span v-if="showSiteTitle" class="font-light truncate">
+        {{ siteConfig.title }}
+      </span>
+    </Transition>
   </div>
 </template>
 
