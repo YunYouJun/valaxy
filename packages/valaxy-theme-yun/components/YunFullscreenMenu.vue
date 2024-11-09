@@ -22,19 +22,20 @@ const app = useAppStore()
         <YunToggleLocale v-if="app.showToggleLocale" />
       </div> -->
 
-      <YunFullscreenMenuList>
-        <YunFullscreenMenuItem
-          :page="{
-            name: '站点主页',
-            icon: 'i-ri-home-2-line',
-            url: '/',
-          }"
-        />
-      </YunFullscreenMenuList>
-
-      <div v-if="!yunApp.size.isLg" class="mt-4">
+      <div v-if="!yunApp.size.isLg" class="my-4">
         <YunSiteInfo class="text-center" />
+
+        <YunGradientDivider class="my-2 op-20" />
+
         <YunPostsInfo />
+      </div>
+      <YunGradientDivider v-if="!yunApp.size.isLg" class="my-2 op-20" />
+
+      <YunFullscreenMenuList />
+
+      <YunGradientDivider v-if="!yunApp.size.isLg" class="my-2 op-20" />
+      <div v-if="!yunApp.size.isLg" class="flex-center">
+        <YunConfig />
       </div>
     </div>
   </Transition>

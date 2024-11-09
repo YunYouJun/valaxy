@@ -12,7 +12,7 @@ const themeConfig = useThemeConfig()
       :to="item.url" :title="item.name"
       :style="`color:${item.color}`"
     >
-      <div :class="item.icon" class="icon w-8 h-8" />
+      <div :class="item.icon" class="icon size-6" />
     </AppLink>
   </div>
 </template>

@@ -129,6 +129,7 @@ export async function getPosts(params: {
       return false
       // skip draft post
     if (data.draft) {
+      // TODO: console draftPosts
       draftPosts.push(p)
       return false
     }

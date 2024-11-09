@@ -47,21 +47,23 @@ const app = useAppStore()
       }"
     >
       <!--  -->
-      <ValaxyHamburger
-        :active="yunApp.fullscreenMenu.isOpen"
-        class="menu-btn sidebar-toggle leading-4 size-12"
-        inline-flex cursor="pointer"
-        hover="bg-white/80 dark:bg-black/80"
-        z="$yun-z-menu-btn"
-        @click="yunApp.fullscreenMenu.toggle()"
-      />
-      <YunNavMenuItem icon="i-ri-home-4-line" to="/" />
+      <div class="inline-flex justify-start items-center flex-1">
+        <ValaxyHamburger
+          :active="yunApp.fullscreenMenu.isOpen"
+          class="menu-btn sidebar-toggle leading-4 size-12"
+          inline-flex cursor="pointer"
+          hover="bg-white/80 dark:bg-black/80"
+          z="$yun-z-menu-btn"
+          @click="yunApp.fullscreenMenu.toggle()"
+        />
+        <YunNavMenuItem icon="i-ri-home-4-line" to="/" />
+      </div>
 
       <div class="flex flex-1 flex-center">
         <YunNavMenuTitle />
       </div>
 
-      <div class="inline-flex-center">
+      <div class="inline-flex-center justify-end items-center flex-1">
         <!-- <template v-if="!app.isMobile && themeConfig.nav">
           <template v-for="item in themeConfig.nav" :key="item.text">
             <AppLink

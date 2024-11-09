@@ -56,15 +56,17 @@ const showContent = ref(false)
         <YunAuthorName class="mt-3" />
         <YunAuthorIntro />
 
-        <YunDivider />
-
-        <div flex="~ col" class="gap-2 items-center justify-center">
+        <div
+          flex="~ col"
+          class="gap-2 items-center justify-center"
+          my-4 md:my-6
+          py-4 md:py-6
+          border="t-1px b-1px black/60 dark:white/60"
+        >
           <YunSiteTitle />
           <YunSiteSubtitle />
           <YunSiteDescription />
         </div>
-
-        <YunDivider />
 
         <div
           class="mt-4 flex-center w-64 md:w-100 m-auto gap-2"

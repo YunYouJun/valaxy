@@ -64,11 +64,9 @@ function goToLink() {
         {{ fm.subtitle }}
       </span>
     </div>
-    <Transition>
-      <span v-if="showSiteTitle" class="font-light truncate">
-        {{ siteConfig.title }}
-      </span>
-    </Transition>
+    <span v-if="showSiteTitle" class="font-light truncate">
+      {{ siteConfig.title }}
+    </span>
   </div>
 </template>
 
