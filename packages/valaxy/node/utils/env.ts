@@ -1,6 +1,7 @@
 import process from 'node:process'
 import fs from 'node:fs'
 import path from 'node:path'
+import consola from 'consola'
 import { logger } from '../logger'
 
 export function isProd() {
@@ -9,7 +10,8 @@ export function isProd() {
 
 export function setEnv(env = 'development') {
   process.env.NODE_ENV = env
-  logger.level = isProd() ? 2 : 3
+  consola.level = isProd() ? 2 : 3
+  logger.level = consola.level
 }
 
 export function setEnvProd() {
