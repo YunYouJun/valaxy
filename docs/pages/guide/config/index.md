@@ -15,7 +15,7 @@ end: false
 
 `valaxy.config.ts` 是配置的主入口，它包含了以下配置。
 
-- `siteConfig`: 站点**信息**配置，这部分内容面向站点展示且在任何主题也是通用的格式
+- `siteConfig`: 站点**信息**配置，这部分内容面向站点展示，且在不同主题中也是通用的格式
 - `themeConfig`: 主题配置，这部分内容仅在特定主题生效
 - `runtimeConfig`: 运行时的配置（由 Valaxy 自动生成），用户无需配置
 - 其他 Valaxy 通用配置内容（如需要在 Node 端处理的配置 `unocss`/`addons`）

@@ -32,7 +32,7 @@
     "animejs": "^3.2.2",
     "gsap": "^3.12.5",
     "primevue": "^4.2.1",
-    "radix-vue": "^1.9.8"
+    "radix-vue": "^1.9.9"
   },
   "devDependencies": {
     "@types/animejs": "^3.1.12",

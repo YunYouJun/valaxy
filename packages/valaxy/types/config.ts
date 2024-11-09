@@ -150,9 +150,13 @@ export interface SiteConfig {
   social: SocialLink[]
 
   /**
-   * search
+   * @en search engine for your site
+   * @zh 搜索功能
    */
   search: {
+    /**
+     * @zh 是否启用
+     */
     enable: boolean
     /**
      * Search Type
@@ -210,6 +214,10 @@ export interface SiteConfig {
    * @default 'https://unpkg.com/'
    */
   cdn: {
+    /**
+     * prefix for your third-party
+     * @default 'https://unpkg.com/'
+     */
     prefix: string
   }
 
@@ -258,6 +266,9 @@ export interface SiteConfig {
      * @default undefined 不显示内容
      */
     description?: string
+    /**
+     * @zh 赞助方式
+     */
     methods: {
       name: string
       url: string
@@ -392,17 +403,26 @@ export interface Pkg {
 }
 
 export interface ValaxyConfig<ThemeConfig = DefaultTheme.Config> {
+  /**
+   * @en Site **info** config. This affects info displayed on the site, and is independent of themes.
+   * @zh 站点**信息**配置，这部分内容面向站点展示，且在不同主题中也是通用的格式
+   * @see [站点配置 | Valaxy](https://valaxy.site/guide/config#%E7%AB%99%E7%82%B9%E9%85%8D%E7%BD%AE)
+   * @see [Site Config | Valaxy](https://valaxy.site/guide/config#site-config)
+   */
   siteConfig: SiteConfig
   /**
    * The name of theme
    * @description 主题名称
    * @see 主题橱窗 [Valaxy Themes Gallery](https://valaxy.site/themes/gallery)
    * @see 如何编写主题？ [How to write a theme? | Valaxy](https://valaxy.site/themes/write)
+   * @see [默认 Yun 主题示例](https://yun.valaxy.site/)
    */
   theme: string
   /**
    * The config of theme
+   * @zh 请参考对应主题的相关文档
    * @description 主题配置
+   * @see [默认 Yun 主题文档](https://github.com/YunYouJun/valaxy/blob/main/packages/valaxy-theme-yun/docs/README.md)
    */
   themeConfig: ThemeConfig & {
     pkg: Pkg

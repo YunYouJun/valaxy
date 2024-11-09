@@ -1,6 +1,5 @@
 import { dirname, join, resolve } from 'node:path'
 import { readFile } from 'node:fs/promises'
-import { cyan, dim, yellow } from 'picocolors'
 
 import fg from 'fast-glob'
 import fs from 'fs-extra'
@@ -9,13 +8,16 @@ import MarkdownIt from 'markdown-it'
 import type { Author, FeedOptions, Item } from 'feed'
 import { Feed } from 'feed'
 import consola from 'consola'
-import { getCreatedTime, getUpdatedTime } from '../utils/date'
-import { matterOptions } from '../plugins/markdown/transform/matter'
-import { type ResolvedValaxyOptions, resolveOptions } from '../options'
-import { ensurePrefix, isExternal } from '../utils'
-import { commonOptions } from '../cli/options'
-import { setEnvProd } from '../utils/env'
-import { defineValaxyModule } from '.'
+import { colors } from 'consola/utils'
+
+import { getBorderCharacters, table } from 'table'
+import { formatDate } from 'date-fns'
+import ora from 'ora'
+
+import { getCreatedTime, getUpdatedTime } from '../../utils/date'
+import { matterOptions } from '../../plugins/markdown/transform/matter'
+import type { ResolvedValaxyOptions } from '../../options'
+import { ensurePrefix, isExternal } from '../../utils'
 
 const markdown = MarkdownIt({
   html: true,
@@ -28,7 +30,8 @@ const markdown = MarkdownIt({
  * @param options
  */
 export async function build(options: ResolvedValaxyOptions) {
-  consola.info(`${yellow('RSS Generating ...')}`)
+  // consola.info(`${yellow('RSS Generating ...')}`)
+  const s = ora('RSS Generating ...').start()
 
   const { config } = options
   const siteConfig = config.siteConfig
@@ -40,15 +43,12 @@ export async function build(options: ResolvedValaxyOptions) {
 
   // url has been ensured '/'
   const siteUrl = siteConfig.url
-  const DOMAIN = siteConfig.url.slice(0, -1)
 
   const author: Author = {
     name: siteConfig.author?.name,
     email: siteConfig.author?.email,
     link: siteConfig.author?.link,
   }
-
-  consola.info(`RSS Site Url: ${cyan(siteUrl)}`)
 
   const ccVersion = (siteConfig.license?.type === 'zero') ? '1.0' : '4.0'
   const feedNameMap: Record<string, string> = {
@@ -69,31 +69,79 @@ export async function build(options: ResolvedValaxyOptions) {
     feedOptions.feedLinks[key] = `${siteUrl}${feedNameMap[key]}`
   })
 
+  const DOMAIN = siteConfig.url.slice(0, -1)
+
   // generate
   const files = await fg(`${options.userRoot}/pages/posts/**/*.md`)
+  const posts = await getPosts({
+    author,
+    files,
+    DOMAIN,
+  }, options)
 
-  const lang = options.config.siteConfig.lang || 'en'
+  if (!posts)
+    return
 
-  const posts: Item[] = []
-  for await (const i of files) {
+  // write
+  const authorAvatar = siteConfig.author?.avatar || '/favicon.svg'
+  feedOptions.author = author
+  feedOptions.image = isExternal(authorAvatar)
+    ? siteConfig.author?.avatar
+    : `${DOMAIN}${ensurePrefix('/', authorAvatar)}`
+  feedOptions.favicon = `${DOMAIN}${siteConfig.feed?.favicon || siteConfig.favicon}`
+
+  s.succeed('RSS Generated.')
+  await writeFeed(feedOptions, posts, options, feedNameMap)
+}
+
+/**
+ * get posts from files
+ */
+export async function getPosts(params: {
+  author: Author
+  files: string[]
+  DOMAIN: string
+}, options: ResolvedValaxyOptions) {
+  const { config } = options
+  const siteConfig = config.siteConfig
+  const lang = siteConfig.lang || 'en'
+
+  const { files, author, DOMAIN } = params
+
+  // read file & matter
+  const readFilePromises = files.map(async (i) => {
     const raw = await readFile(i, 'utf-8')
-
     const { data, content, excerpt } = matter(raw, matterOptions)
-
+    return { data, content, excerpt, path: i }
+  })
+  const draftPosts: {
+    data: Record<string, any>
+    content: string
+    excerpt?: string
+    path: string
+  }[] = []
+  const rawPosts = (await Promise.all(readFilePromises))
+  // filter
+  const filteredPosts = rawPosts.filter((p) => {
+    const { data } = p
     // skip encrypt post
     if (data.password)
-      continue
-
+      return false
+      // skip draft post
     if (data.draft) {
-      consola.warn(`Ignore draft post: ${dim(i)}`)
-      continue
+      draftPosts.push(p)
+      return false
     }
-
-    // hidden
+    // skip hidden post
     if (data.hide)
-      continue
+      return false
+    return true
+  })
 
-    const path = i
+  // returned posts
+  const posts: Item[] = []
+  for (const rawPost of filteredPosts) {
+    const { data, path, content, excerpt } = rawPost
     if (!data.date)
       data.date = await getCreatedTime(path)
     if (siteConfig.lastUpdated) {
@@ -113,7 +161,7 @@ export async function build(options: ResolvedValaxyOptions) {
     if (data.image?.startsWith('/'))
       data.image = DOMAIN + data.image
 
-    const link = DOMAIN + i.replace(`${options.userRoot}/pages`, '').replace(/\.md$/, '')
+    const link = DOMAIN + path.replace(`${options.userRoot}/pages`, '').replace(/\.md$/, '')
     const tip = `<br/><p>${
       lang === 'zh-CN'
         ? `访问 <a href="${link}" target="_blank">${link}</a> ${fullText ? '查看原文' : '阅读全文'}。`
@@ -134,16 +182,13 @@ export async function build(options: ResolvedValaxyOptions) {
 
   // sort by updated
   posts.sort((a, b) => +new Date(b.published || b.date) - +new Date(a.published || a.date))
-  // await writeFeed('feed', feedOptions, posts)
+  return posts
+}
 
-  // write
-  const authorAvatar = siteConfig.author?.avatar || '/favicon.svg'
-  feedOptions.author = author
-  feedOptions.image = isExternal(authorAvatar)
-    ? siteConfig.author?.avatar
-    : `${DOMAIN}${ensurePrefix('/', authorAvatar)}`
-  feedOptions.favicon = `${DOMAIN}${siteConfig.feed?.favicon || siteConfig.favicon}`
-
+/**
+ * write feed to local
+ */
+export async function writeFeed(feedOptions: FeedOptions, posts: Item[], options: ResolvedValaxyOptions, feedNameMap: Record<string, string>) {
   const feed = new Feed(feedOptions)
   posts.forEach(item => feed.addItem(item))
   // items.forEach(i=> console.log(i.title, i.date))
@@ -152,10 +197,19 @@ export async function build(options: ResolvedValaxyOptions) {
   const path = resolve(options.userRoot, './dist')
   const publicFolder = resolve(options.userRoot, 'public')
 
+  const { config } = options
+  const siteConfig = config.siteConfig
+  const now = formatDate(new Date(), 'yyyy-MM-dd HH:mm:ss zzz')
+  const tableData = [
+    [`${colors.yellow('RSS Feed Files')} 📡 ${colors.dim(now)}`, '', ''],
+    [colors.bold('Site Url'), '', colors.cyan(siteConfig.url)],
+    ['Type', 'Folder', 'Path'],
+  ]
+
   const types = ['rss', 'atom', 'json']
-  types.forEach(async (type) => {
+  for (const type of types) {
     let data = ''
-    const name = `${path}/${feedNameMap[type]}`
+    const distFeedPath = `${path}/${feedNameMap[type]}`
     if (type === 'rss')
       data = feed.rss2()
     else if (type === 'atom')
@@ -163,13 +217,15 @@ export async function build(options: ResolvedValaxyOptions) {
     else if (type === 'json')
       data = feed.json1()
 
-    fs.writeFileSync(name, data, 'utf-8')
-    consola.success(`[${cyan(type)}] dist: ${dim(name)}`)
+    await fs.writeFile(distFeedPath, data, 'utf-8')
+    consola.debug(`[${colors.cyan(type)}] dist: ${colors.dim(distFeedPath)}`)
+    tableData.push([colors.cyan(type), colors.yellow('dist'), colors.dim(distFeedPath)])
 
     const publicFeedPath = resolve(publicFolder, feedNameMap[type])
     const publicRelativeFile = join('public', feedNameMap[type])
-    fs.writeFileSync(publicFeedPath, data, 'utf-8')
-    consola.success(`[${cyan(type)}] public: ${dim(name)}`)
+    await fs.writeFile(publicFeedPath, data, 'utf-8')
+    consola.debug(`[${colors.cyan(type)}] public: ${colors.dim(publicFeedPath)}`)
+    tableData.push(['', colors.green('public'), colors.dim(publicFeedPath)])
 
     try {
       const gitignorePath = resolve(options.userRoot, '.gitignore')
@@ -177,38 +233,25 @@ export async function build(options: ResolvedValaxyOptions) {
       const ignorePath = publicRelativeFile.replace(/\\/g, '/')
       if (!gitignore.includes(ignorePath)) {
         await fs.appendFile(gitignorePath, `\n# valaxy rss\n${ignorePath}\n`)
-        consola.success(`Add ${dim(ignorePath)} to ${dim('.gitignore')}`)
+        consola.success(`Add ${colors.dim(ignorePath)} to ${colors.dim('.gitignore')}`)
       }
     }
     catch {}
-  })
+  }
+  // eslint-disable-next-line no-console
+  console.log(table(tableData, {
+    columns: [
+      { alignment: 'center' },
+      { alignment: 'right' },
+      { alignment: 'left' },
+    ],
+    spanningCells: [
+      { col: 0, row: 0, colSpan: 3 },
+      { col: 0, row: 1, colSpan: 2 },
+      { col: 0, row: 3, rowSpan: 2, verticalAlignment: 'middle' },
+      { col: 0, row: 5, rowSpan: 2, verticalAlignment: 'middle' },
+      { col: 0, row: 7, rowSpan: 2, verticalAlignment: 'middle' },
+    ],
+    border: getBorderCharacters('norc'),
+  }))
 }
-
-export const rssModule = defineValaxyModule({
-  /**
-   * valaxy rss
-   * @param cli
-   */
-  extendCli(cli) {
-    cli.command(
-      'rss [root]',
-      'generate rss feed',
-      args => commonOptions(args)
-        .strict()
-        .help(),
-      async ({ root }) => {
-        setEnvProd()
-        const options = await resolveOptions({ userRoot: root }, 'build')
-        await build(options)
-      },
-    )
-  },
-
-  setup(node) {
-    node.hook('build:after', () => {
-      // eslint-disable-next-line no-console
-      console.log()
-      build(node.options)
-    })
-  },
-})
