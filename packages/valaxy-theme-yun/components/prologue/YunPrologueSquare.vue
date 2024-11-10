@@ -91,7 +91,8 @@ const showContent = ref(false)
   </div>
 </template>
 
-<style lang="scss">
+<style lang="scss" scoped>
+// use scoped for css injection
 @use 'sass:map';
 @use 'valaxy-theme-yun/styles/vars.scss' as *;
 

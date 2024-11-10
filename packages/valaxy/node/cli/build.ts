@@ -14,6 +14,7 @@ import { setupModules } from '../modules'
 import { rssModule } from '../modules/rss'
 import { isPagesDirExist, setEnvProd } from '../utils/env'
 import { fuseModule } from '../modules/fuse'
+import { callHookWithLog } from '../logger'
 import { printInfo } from './utils/cli'
 import { commonOptions } from './options'
 
@@ -32,8 +33,7 @@ export async function execBuild({ ssg, root, output, log }: { ssg: boolean, root
 
   const valaxyApp = createValaxyNode(options)
   // resolve options and create valaxy app
-  consola.start(`Run ${yellow('options:resolved')} hooks`)
-  await valaxyApp.hooks.callHook('options:resolved')
+  await callHookWithLog('options:resolved', valaxyApp)
 
   const modules: ValaxyModule[] = []
   if (options.config.siteConfig.search.type === 'fuse')
@@ -63,12 +63,10 @@ export async function execBuild({ ssg, root, output, log }: { ssg: boolean, root
     } as InlineConfig,
   )
   // init config
-  consola.start(`Run ${yellow('config:init')} hooks`)
-  await valaxyApp.hooks.callHook('config:init')
+  await callHookWithLog('config:init', valaxyApp)
 
   // before build
-  consola.start(`Run ${yellow('build:before')} hooks`)
-  await valaxyApp.hooks.callHook('build:before')
+  await callHookWithLog('build:before', valaxyApp)
 
   consola.box('🌠 Start building...')
   try {
@@ -99,8 +97,7 @@ export async function execBuild({ ssg, root, output, log }: { ssg: boolean, root
     // await fs.copyFile(templatePath, indexPath)
 
     // after build
-    consola.start(`Run ${yellow('build:after')} hooks`)
-    await valaxyApp.hooks.callHook('build:after')
+    await callHookWithLog('build:after', valaxyApp)
   }
 }
 

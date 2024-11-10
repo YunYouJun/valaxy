@@ -67,7 +67,7 @@ onMounted(async () => {
         :title="themeConfig.banner.title"
         :chars="chars"
       />
-      <PrologueSquare v-else class="z-1" />
+      <YunPrologueSquare v-else class="z-1" />
     </template>
     <template v-if="yun.isStrato">
       <YunBannerCharContainer

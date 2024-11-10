@@ -184,7 +184,7 @@ export async function resolveOptions(
   const clientRoot = resolve(pkgRoot, 'client')
   const userRoot = resolve(options.userRoot || process.cwd())
 
-  consola.start(`Resolve ${magenta('valaxy')} config...`)
+  consola.start(`Resolve ${magenta('valaxy')} config ...`)
   const [resolvedValaxy, resolvedSite, resolvedTheme, pages] = await Promise.all([
     resolveValaxyConfig(options),
     resolveSiteConfig(options.userRoot),
