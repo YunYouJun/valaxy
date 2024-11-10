@@ -49,8 +49,7 @@ useMotion(itemRef, {
       <div class="yun-link-left">
         <div class="yun-link-avatar size-16 overflow-hidden flex-center">
           <img
-            class="size-16 object-center object-cover m-0!"
-            width="64" height="64"
+            class="size-full object-center object-cover m-0! max-w-unset!"
             loading="lazy"
             :src="link.avatar" :alt="link.name"
             @error="onError"
