@@ -29,7 +29,7 @@ const showContent = ref(false)
       >
         <div
           flex="~ col"
-          class="absolute yun-square bg-$va-c-text square-rotate z-1"
+          class="absolute yun-square square-rotate z-1 bg-white/80"
         >
           <LineBurstEffects
             class="absolute top-0 left-0 right-0 bottom-0 size-full scale-200"

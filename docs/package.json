@@ -24,7 +24,7 @@
     "@iconify-json/carbon": "^1.2.4",
     "@iconify-json/simple-icons": "^1.2.11",
     "nodemon": "^3.1.7",
-    "vite": "^5.4.10",
+    "vite": "^5.4.11",
     "vitepress": "1.1.4"
   }
 }

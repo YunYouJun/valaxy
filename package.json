@@ -3,7 +3,7 @@
   "type": "module",
   "version": "0.20.4",
   "private": true,
-  "packageManager": "pnpm@9.12.3",
+  "packageManager": "pnpm@9.13.2",
   "description": "📄 Vite & Vue powered static blog generator.",
   "author": {
     "email": "me@yunyoujun.cn",
@@ -93,8 +93,8 @@
     "@types/resolve": "^1.20.6",
     "bumpp": "^9.8.1",
     "cross-env": "^7.0.3",
-    "decap-cms-app": "^3.3.3",
-    "eslint": "^9.14.0",
+    "decap-cms-app": "^3.4.0",
+    "eslint": "^9.15.0",
     "https-localhost": "^4.7.1",
     "husky": "^9.1.6",
     "lint-staged": "^15.2.10",
@@ -108,9 +108,9 @@
     "tsx": "^4.19.2",
     "typescript": "^5.6.3",
     "unbuild": "^2.0.0",
-    "vitest": "^2.1.4",
+    "vitest": "^2.1.5",
     "vue-tsc": "2.0.17",
-    "zx": "^8.2.1"
+    "zx": "^8.2.2"
   },
   "pnpm": {
     "peerDependencyRules": {
