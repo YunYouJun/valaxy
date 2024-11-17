@@ -272,7 +272,7 @@ importers:
     dependencies:
       '@rollup/pluginutils':
         specifier: ^5.1.3
-        version: 5.1.3(rollup@3.29.5)
+        version: 5.1.3(rollup@4.27.2)
       axios:
         specifier: ^1.7.7
         version: 1.7.7(debug@4.3.7)
@@ -318,7 +318,7 @@ importers:
         version: 2.0.0(sass@1.81.0)(typescript@5.6.3)(vue-tsc@2.0.17(typescript@5.6.3))
       unplugin-vue-router:
         specifier: ^0.10.8
-        version: 0.10.8(rollup@3.29.5)(vue-router@4.4.5(vue@3.5.13(typescript@5.6.3)))(vue@3.5.13(typescript@5.6.3))
+        version: 0.10.8(rollup@4.27.2)(vue-router@4.4.5(vue@3.5.13(typescript@5.6.3)))(vue@3.5.13(typescript@5.6.3))
       vite:
         specifier: ^5.4.11
         version: 5.4.11(@types/node@22.9.0)(sass@1.81.0)(terser@5.36.0)
@@ -653,8 +653,8 @@ importers:
   packages/valaxy-addon-lightgallery:
     dependencies:
       lightgallery:
-        specifier: ^2.8.1
-        version: 2.8.1
+        specifier: ^2.7.2
+        version: 2.7.2
       valaxy:
         specifier: latest
         version: 0.20.4(@babel/parser@7.26.2)(@nuxt/kit@3.14.159(rollup@4.27.2))(@types/markdown-it@14.1.2)(@types/node@22.9.0)(axios@1.7.7)(focus-trap@7.6.2)(postcss@8.4.49)(rollup@4.27.2)(terser@5.36.0)(typescript@5.6.3)
@@ -5856,8 +5856,8 @@ packages:
   lie@3.1.1:
     resolution: {integrity: sha512-RiNhHysUjhrDQntfYSfY4MU24coXXdEOgw9WGcKHNeEwffDYbF//u87M1EWaMGzuFoSbqW0C9C6lEEhDOAswfw==}
 
-  lightgallery@2.8.1:
-    resolution: {integrity: sha512-K9bRsrKQM4UyjNUXOX+mW1IMWKvWbDmK42x5nNzgxsi5CNEYMfLoRsA27F1lXp+yegeqdXusymS9w16Fd8a3Rg==}
+  lightgallery@2.7.2:
+    resolution: {integrity: sha512-Ewdcg9UPDqV0HGZeD7wNE4uYejwH2u0fMo5VAr6GHzlPYlhItJvjhLTR0cL0V1HjhMsH39PAom9iv69ewitLWw==}
     engines: {node: '>=6.0.0'}
 
   lilconfig@3.1.2:
@@ -11254,19 +11254,6 @@ snapshots:
       '@volar/language-core': 2.2.5
       path-browserify: 1.0.1
 
-  '@vue-macros/common@1.15.0(rollup@3.29.5)(vue@3.5.13(typescript@5.6.3))':
-    dependencies:
-      '@babel/types': 7.26.0
-      '@rollup/pluginutils': 5.1.3(rollup@3.29.5)
-      '@vue/compiler-sfc': 3.5.13
-      ast-kit: 1.3.1
-      local-pkg: 0.5.0
-      magic-string-ast: 0.6.2
-    optionalDependencies:
-      vue: 3.5.13(typescript@5.6.3)
-    transitivePeerDependencies:
-      - rollup
-
   '@vue-macros/common@1.15.0(rollup@4.27.2)(vue@3.5.13(typescript@5.6.3))':
     dependencies:
       '@babel/types': 7.26.0
@@ -14809,7 +14796,7 @@ snapshots:
     dependencies:
       immediate: 3.0.6
 
-  lightgallery@2.8.1: {}
+  lightgallery@2.7.2: {}
 
   lilconfig@3.1.2: {}
 
@@ -17760,28 +17747,6 @@ snapshots:
       vite: 5.4.11(@types/node@22.9.0)(sass@1.81.0)(terser@5.36.0)
     transitivePeerDependencies:
       - rollup
-
-  unplugin-vue-router@0.10.8(rollup@3.29.5)(vue-router@4.4.5(vue@3.5.13(typescript@5.6.3)))(vue@3.5.13(typescript@5.6.3)):
-    dependencies:
-      '@babel/types': 7.26.0
-      '@rollup/pluginutils': 5.1.3(rollup@3.29.5)
-      '@vue-macros/common': 1.15.0(rollup@3.29.5)(vue@3.5.13(typescript@5.6.3))
-      ast-walker-scope: 0.6.2
-      chokidar: 3.6.0
-      fast-glob: 3.3.2
-      json5: 2.2.3
-      local-pkg: 0.5.0
-      magic-string: 0.30.12
-      mlly: 1.7.3
-      pathe: 1.1.2
-      scule: 1.3.0
-      unplugin: 1.16.0
-      yaml: 2.6.0
-    optionalDependencies:
-      vue-router: 4.4.5(vue@3.5.13(typescript@5.6.3))
-    transitivePeerDependencies:
-      - rollup
-      - vue
 
   unplugin-vue-router@0.10.8(rollup@4.27.2)(vue-router@4.4.5(vue@3.5.13(typescript@5.6.3)))(vue@3.5.13(typescript@5.6.3)):
     dependencies:
