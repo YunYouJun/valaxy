@@ -9,7 +9,8 @@ export default defineConfig({
     // VitePWA(),
   ],
 
-  optimizeDeps: {
-    include: ['@waline/client/component'],
+  preview: {
+    // default is 4173
+    port: 4173,
   },
 })

@@ -84,8 +84,10 @@ export default defineConfig({
       reuseExistingServer: !process.env.CI,
     },
     {
-      command: 'pnpm run demo',
-      url: 'http://localhost:4860',
+      command: 'pnpm -C demo/yun run serve',
+      // url: 'http://localhost:4860',
+      // use dist
+      url: 'http://localhost:4173',
       reuseExistingServer: !process.env.CI,
     },
     {

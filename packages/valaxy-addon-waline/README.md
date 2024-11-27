@@ -55,22 +55,3 @@ const addon = useAddonWaline()
   <WalineClient w="full" :options="addon.options" />
 </template>
 ```
-
-## FAQ
-
-### 为什么开发阶段第一次启动后进入文章页面会重新刷新？
-
-在进入带有评论的文章页面后，Vite 按需加载发现了 `@waline/client/component` 组件，此时将其加入至 `optimizeDeps` 中。
-这减少了初次启动的时间。
-
-如果你希望初次进入后，即不再动态加载 `@waline/client/component`，可预先将其加入至 `optimizeDeps` 中。
-
-```ts
-import { defineConfig } from 'vite'
-
-export default defineConfig({
-  optimizeDeps: {
-    include: ['@waline/client/component'],
-  },
-})
-```

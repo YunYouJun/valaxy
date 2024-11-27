@@ -32,7 +32,6 @@ const clientDeps = [
   'vue',
   'vue-router',
   'vue-i18n',
-  '@vueuse/integrations/useFuse',
   // dev
   '@vue/devtools-api',
 
@@ -40,6 +39,8 @@ const clientDeps = [
   'fuse.js',
   'medium-zoom',
   'vanilla-lazyload',
+
+  'valaxy > @vueuse/integrations/useFuse',
 ]
 
 /**
@@ -47,15 +48,13 @@ const clientDeps = [
  */
 const EXCLUDE = [
   '@docsearch/css',
+  '@docsearch/js',
 
-  // exclude for @waline/client/dist/component import
+  // exclude for @waline/client/dist/component(use @vueuse/core) import
   '@vueuse/core',
   '@vueuse/shared',
   '@unocss/reset',
   'unocss',
-
-  // 'vue-i18n',
-  'vue-router',
 
   // addon, todo add externals for addon
   // main field error
@@ -74,6 +73,13 @@ const EXCLUDE = [
 export function createConfigPlugin(options: ResolvedValaxyOptions): Plugin {
   // const themeDeps = Object.keys((options.config.themeConfig.pkg.dependencies || {}))
   const addonDeps = options.addons.map(i => Object.keys(i.pkg.dependencies || {})).flat()
+  const includedDeps = uniq([
+    ...clientDeps,
+    // remove theme deps, for primevue parse entry
+    // ...themeDeps,
+    // addon deps
+    ...addonDeps,
+  ]).filter(i => !EXCLUDE.includes(i))
 
   return {
     name: 'valaxy:site',
@@ -98,14 +104,7 @@ export function createConfigPlugin(options: ResolvedValaxyOptions): Plugin {
           entries: [resolve(options.clientRoot, 'main.ts')],
 
           // must need it
-          include: uniq([
-            ...clientDeps,
-            // remove theme deps, for primevue parse entry
-            // ...themeDeps,
-            // addon deps
-            ...addonDeps,
-          ]).filter(i => !EXCLUDE.includes(i)),
-
+          include: includedDeps,
           exclude: EXCLUDE,
         },
 
