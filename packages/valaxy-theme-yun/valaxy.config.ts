@@ -20,7 +20,16 @@ function ThemeVitePlugin(options: ResolvedValaxyOptions<ThemeConfig>): Plugin {
         },
 
         optimizeDeps: {
-          include: ['@ctrl/tinycolor', 'gsap/dist/ScrollToPlugin'],
+          include: [
+            '@ctrl/tinycolor',
+            'gsap',
+            'gsap/dist/ScrollToPlugin',
+            '@explosions/fireworks',
+
+            '@vueuse/motion',
+            'primevue/toastservice',
+            'primevue/config',
+          ],
           exclude: ['@docsearch/js'],
         },
       }

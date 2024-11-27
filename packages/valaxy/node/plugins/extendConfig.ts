@@ -13,6 +13,11 @@ const clientDeps = [
   // https://cn.vite.dev/guide/dep-pre-bundling.html#the-why
   // bundle date-fns to one file
   'date-fns',
+  'date-fns/locale/en-US',
+  'date-fns/locale/zh-CN',
+  'date-fns-tz',
+  // @TODO replace luxon by date-fns
+  'luxon',
 
   '@unhead/schema-org',
   '@unhead/vue',

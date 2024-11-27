@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { differenceInSeconds } from 'date-fns/differenceInSeconds'
+import { differenceInSeconds } from 'date-fns'
 import { onMounted, ref } from 'vue'
 import { useI18n } from 'vue-i18n'
 

@@ -11,9 +11,12 @@ const siteConfig = useSiteConfig()
 const route = useRoute()
 const showPostTitle = ref(false)
 const showSiteTitle = computed(() => {
+  if (route.path === '/')
+    return false
   if (yunApp.isStrato)
-    return route.path === '/' ? false : yunApp.scrollY < 10
-  return !showPostTitle.value
+    return yunApp.scrollY < 10
+  else
+    return !showPostTitle.value
 })
 watch(() => yunApp.scrollY, () => {
   if (yunApp.isNimbo)

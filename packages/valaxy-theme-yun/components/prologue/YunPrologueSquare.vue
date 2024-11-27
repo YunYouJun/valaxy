@@ -59,7 +59,7 @@ const showContent = ref(false)
         <div
           flex="~ col"
           class="gap-2 items-center justify-center"
-          my-4 md:my-6
+          my-4 md:my-5 lg:my-6
           py-4 md:py-6
           border="t-1px b-1px black/60 dark:white/60"
         >

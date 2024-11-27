@@ -1,8 +1,6 @@
 import { MotionPlugin } from '@vueuse/motion'
-import AnimateOnScroll from 'primevue/animateonscroll'
 import PrimeVue from 'primevue/config'
 
-import StyleClass from 'primevue/styleclass'
 import ToastService from 'primevue/toastservice'
 import { defineAppSetup } from 'valaxy'
 import { useYunAppStore } from '../stores'
@@ -42,8 +40,6 @@ export default defineAppSetup((ctx) => {
       },
     },
   })
-  app.directive('animateonscroll', AnimateOnScroll)
-  app.directive('styleclass', StyleClass)
 
   // use floating-vue
   // app.directive('tooltip', Tooltip)

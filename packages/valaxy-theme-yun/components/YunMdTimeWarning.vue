@@ -1,6 +1,5 @@
 <script lang="ts" setup>
-import { differenceInMilliseconds } from 'date-fns/differenceInMilliseconds'
-import { formatDistanceToNow } from 'date-fns/formatDistanceToNow'
+import { differenceInMilliseconds, formatDistanceToNow } from 'date-fns'
 import { useFrontmatter } from 'valaxy'
 
 import { computed, ref, watch } from 'vue'
