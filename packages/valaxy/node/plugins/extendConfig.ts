@@ -10,27 +10,31 @@ import { isInstalledGlobally, resolveImportPath, toAtFS } from '../utils'
  * dependencies used by client
  */
 const clientDeps = [
+  // https://cn.vite.dev/guide/dep-pre-bundling.html#the-why
+  // bundle date-fns to one file
+  'date-fns',
+
   '@unhead/schema-org',
   '@unhead/vue',
-
-  '@vueuse/integrations/useFuse',
 
   'defu',
 
   'katex',
   'nprogress',
   'unocss',
+
+  // vue
   'vue',
   'vue-router',
   'vue-i18n',
+  '@vueuse/integrations/useFuse',
+  // dev
+  '@vue/devtools-api',
 
   // will may be addons
   'fuse.js',
   'medium-zoom',
   'vanilla-lazyload',
-
-  // dev
-  '@vue/devtools-api',
 ]
 
 /**
@@ -39,15 +43,14 @@ const clientDeps = [
 const EXCLUDE = [
   '@docsearch/css',
 
+  // exclude for @waline/client/dist/component import
   '@vueuse/core',
   '@vueuse/shared',
   '@unocss/reset',
   'unocss',
 
-  'vue',
   // 'vue-i18n',
   'vue-router',
-  '@vue/devtools-api',
 
   // addon, todo add externals for addon
   // main field error
