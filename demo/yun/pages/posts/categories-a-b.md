@@ -1,4 +1,4 @@
 ---
-title: 长目录测试
+title: Categories A > B
 categories: Test
 ---

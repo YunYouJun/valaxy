@@ -6,6 +6,8 @@ categories: Test
 
 ## 实现文章部分内容加密
 
+> 密码：`valaxy`
+
 使用 [Web Crypto API | MDN](https://developer.mozilla.org/en-US/docs/Web/API/Web_Crypto_API)
 
 <!-- valaxy-encrypt-start:valaxy -->
