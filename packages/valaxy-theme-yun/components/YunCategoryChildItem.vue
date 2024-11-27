@@ -2,8 +2,8 @@
 import type { Post } from 'valaxy'
 import { isCategoryList } from 'valaxy'
 import { computed } from 'vue'
-import { useRoute } from 'vue-router'
 import { useI18n } from 'vue-i18n'
+import { useRoute } from 'vue-router'
 
 defineProps<{
   i?: number

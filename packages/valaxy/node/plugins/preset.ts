@@ -1,25 +1,25 @@
 import type { PluginOption } from 'vite'
 
-import Vue from '@vitejs/plugin-vue'
-import Layouts from 'vite-plugin-vue-layouts'
-import Components from 'unplugin-vue-components/vite'
-import VueI18n from '@intlify/unplugin-vue-i18n/vite'
-
-import UnheadVite from '@unhead/addons/vite'
-
-import { resolve } from 'pathe'
-import consola from 'consola'
 import type { ValaxyServerOptions } from '../options'
 import type { ValaxyNode } from '../types'
+import VueI18n from '@intlify/unplugin-vue-i18n/vite'
+import UnheadVite from '@unhead/addons/vite'
+
+import Vue from '@vitejs/plugin-vue'
+
+import consola from 'consola'
+import { resolve } from 'pathe'
+import Components from 'unplugin-vue-components/vite'
+import Layouts from 'vite-plugin-vue-layouts'
 
 import { customElements } from '../constants'
-import { createUnocssPlugin } from './unocss'
 import { createConfigPlugin } from './extendConfig'
-import { createClientSetupPlugin } from './setupClient'
-import { createFixPlugins } from './patchTransform'
-import { createRouterPlugin } from './vueRouter'
-import { createValaxyLoader } from './valaxy'
 import { createMarkdownPlugin } from './markdown'
+import { createFixPlugins } from './patchTransform'
+import { createClientSetupPlugin } from './setupClient'
+import { createUnocssPlugin } from './unocss'
+import { createValaxyLoader } from './valaxy'
+import { createRouterPlugin } from './vueRouter'
 
 export async function ViteValaxyPlugins(
   valaxyApp: ValaxyNode,
@@ -117,7 +117,8 @@ export async function ViteValaxyPlugins(
       )
     }
     catch (e) {
-      console.error('Failed to load rollup-plugin-visualizer')
+      console.error(e)
+      consola.error('Failed to load rollup-plugin-visualizer')
       consola.error('Please install `rollup-plugin-visualizer` to enable the feature')
       // eslint-disable-next-line no-console
       console.log()

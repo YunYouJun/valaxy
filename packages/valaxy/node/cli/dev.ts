@@ -1,19 +1,19 @@
-import path from 'node:path'
-import { exec } from 'node:child_process'
-import process from 'node:process'
-import os from 'node:os'
-import type { Argv } from 'yargs'
 import type { InlineConfig, LogLevel } from 'vite'
-import { mergeConfig } from 'vite'
-
+import type { Argv } from 'yargs'
+import { exec } from 'node:child_process'
+import os from 'node:os'
+import path from 'node:path'
+import process from 'node:process'
 import qrcode from 'qrcode'
-import { defaultViteConfig } from '../constants'
-import { findFreePort } from '../utils/net'
-import { resolveOptions } from '../options'
 
-import { isPagesDirExist, setEnv } from '../utils/env'
-import { commonOptions } from '../cli/options'
+import { mergeConfig } from 'vite'
 import { createValaxyNode } from '../app'
+import { commonOptions } from '../cli/options'
+import { defaultViteConfig } from '../constants'
+
+import { resolveOptions } from '../options'
+import { isPagesDirExist, setEnv } from '../utils/env'
+import { findFreePort } from '../utils/net'
 import { bindShortcut, initServer, printInfo } from './utils/cli'
 
 export function registerDevCommand(cli: Argv) {
@@ -107,7 +107,7 @@ export function registerDevCommand(cli: Argv) {
             qrcode.toString(remoteUrl, { type: 'terminal' }, (err, qrCode) => {
               if (err)
                 throw err
-              // eslint-disable-next-line no-console
+
               console.log(qrCode)
             })
           },

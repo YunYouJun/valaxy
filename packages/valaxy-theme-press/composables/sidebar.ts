@@ -1,19 +1,19 @@
-import { isClient } from '@vueuse/core'
 import type { DefaultTheme } from 'vitepress/theme'
+import type { PressTheme } from '../types'
+import { isClient } from '@vueuse/core'
+
 import {
-  type ComputedRef,
-  type Ref,
   computed,
+  type ComputedRef,
   onMounted,
   onUnmounted,
+  type Ref,
   ref,
   watch,
   watchEffect,
   watchPostEffect,
 } from 'vue'
-
 import { useRoute } from 'vue-router'
-import type { PressTheme } from '../types'
 
 export interface SidebarControl {
   collapsed: Ref<boolean>

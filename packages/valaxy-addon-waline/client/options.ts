@@ -1,7 +1,7 @@
-import { computed } from 'vue'
 import type { ValaxyAddon } from 'valaxy'
-import { useRuntimeConfig } from 'valaxy'
 import type { WalineOptions } from '../types'
+import { useRuntimeConfig } from 'valaxy'
+import { computed } from 'vue'
 
 /**
  * get addon config

@@ -1,7 +1,7 @@
-import { commonOptions } from '../../cli/options'
-import { setEnvProd } from '../../utils/env'
 import { defineValaxyModule } from '..'
+import { commonOptions } from '../../cli/options'
 import { resolveOptions } from '../../options'
+import { setEnvProd } from '../../utils/env'
 import { build } from './utils'
 
 export const rssModule = defineValaxyModule({

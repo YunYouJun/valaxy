@@ -3,12 +3,12 @@
 
 import type MarkdownIt from 'markdown-it'
 import type Token from 'markdown-it/lib/token.mjs'
-import container from 'markdown-it-container'
-
-import { nanoid } from 'nanoid'
 import type {
   Options,
 } from './preWrapper'
+
+import container from 'markdown-it-container'
+import { nanoid } from 'nanoid'
 import {
   extractTitle,
   getAdaptiveThemeMarker,

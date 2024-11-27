@@ -1,6 +1,6 @@
-import { computed } from 'vue'
-import { useValaxyConfig } from 'valaxy'
 import type { YunTheme } from '../types'
+import { useValaxyConfig } from 'valaxy'
+import { computed } from 'vue'
 
 /**
  * getThemeConfig

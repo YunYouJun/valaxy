@@ -1,11 +1,11 @@
-import process from 'node:process'
 // import { createRequire } from 'node:module'
 import { readFileSync } from 'node:fs'
-import consola from 'consola'
-import { $ } from 'zx'
-import pc from 'picocolors'
-import minimist from 'minimist'
+import process from 'node:process'
 import { versionBump } from 'bumpp'
+import consola from 'consola'
+import minimist from 'minimist'
+import pc from 'picocolors'
+import { $ } from 'zx'
 import { packages, updateTemplateVersions } from './utils'
 
 const { cyan, gray, yellow } = pc

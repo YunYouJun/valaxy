@@ -1,12 +1,13 @@
-import { resolve } from 'node:path'
-import fs from 'fs-extra'
-import type { VitePluginConfig as UnoCSSConfig, VitePluginConfig } from 'unocss/vite'
-import { createJiti } from 'jiti'
-import defu from 'defu'
-
 import type {
   ConfigBase,
 } from 'unocss'
+import type { VitePluginConfig as UnoCSSConfig, VitePluginConfig } from 'unocss/vite'
+import type { ResolvedValaxyOptions } from '../options'
+import { resolve } from 'node:path'
+import defu from 'defu'
+
+import fs from 'fs-extra'
+import { createJiti } from 'jiti'
 import {
   presetAttributify,
   presetIcons,
@@ -15,7 +16,6 @@ import {
   transformerDirectives,
   transformerVariantGroup,
 } from 'unocss'
-import type { ResolvedValaxyOptions } from '../options'
 import { loadSetups } from './setupNode'
 
 const jiti = createJiti(import.meta.url)

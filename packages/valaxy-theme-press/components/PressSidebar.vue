@@ -1,6 +1,6 @@
 <script lang="ts" setup>
-import { computed } from 'vue'
 import { removeItemFromCategory, useCategories, usePageList, useSidebar } from 'valaxy'
+import { computed } from 'vue'
 import { useThemeConfig } from '../composables'
 
 defineProps<{

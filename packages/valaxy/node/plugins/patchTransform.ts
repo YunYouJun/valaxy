@@ -1,6 +1,6 @@
 import type { Plugin } from 'vite'
-import { objectEntries } from '@antfu/utils'
 import type { ResolvedValaxyOptions } from '../options'
+import { objectEntries } from '@antfu/utils'
 import { getDefine } from './extendConfig'
 
 export function createFixPlugins(

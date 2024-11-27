@@ -227,8 +227,8 @@ export default defineAppSetup((ctx) => {
 - 新建 `setup/gtag.ts`:
 
 ```ts
-import VueGtag, { trackRouter } from 'vue-gtag-next'
 import type { UserModule } from 'valaxy'
+import VueGtag, { trackRouter } from 'vue-gtag-next'
 
 export const install: UserModule = ({ isClient, app, router }) => {
   if (isClient) {
@@ -266,8 +266,8 @@ export default defineAppSetup((ctx) => {
 - Create `setup/gtag.ts`
 
 ```ts
-import VueGtag, { trackRouter } from 'vue-gtag-next'
 import type { UserModule } from 'valaxy'
+import VueGtag, { trackRouter } from 'vue-gtag-next'
 
 export const install: UserModule = ({ isClient, app, router }) => {
   if (isClient) {

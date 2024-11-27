@@ -1,11 +1,11 @@
-import { useScriptTag } from '@vueuse/core'
 import { useHead } from '@unhead/vue'
-import { computed, ref, watch } from 'vue'
+import { useScriptTag } from '@vueuse/core'
 import { useFrontmatter, useSiteConfig } from 'valaxy'
+import { computed, ref, watch } from 'vue'
 import { useRoute } from 'vue-router'
+import { onMetingInit } from './hook'
 import { useMetingLoadObserver } from './observer'
 import { useAddonMeting } from './options'
-import { onMetingInit } from './hook'
 
 /**
  * use MetingJS and Aplayer

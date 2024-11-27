@@ -1,8 +1,8 @@
-import { webcrypto } from 'node:crypto'
-import { cyan, dim, yellow } from 'picocolors'
-import consola from 'consola'
 import type { SiteConfig, UserSiteConfig } from 'valaxy/types'
+import { webcrypto } from 'node:crypto'
+import consola from 'consola'
 import { options as floatingVueOptions } from 'floating-vue'
+import { cyan, dim, yellow } from 'picocolors'
 import { countPerformanceTime } from '../utils/performance'
 import { loadConfigFromFile } from './utils'
 

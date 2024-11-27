@@ -1,5 +1,5 @@
-import { onMounted, onUnmounted } from 'vue'
 import type { MetingOptions } from '../node/index'
+import { onMounted, onUnmounted } from 'vue'
 import { onMetingLoad, onMetingLoadBefore } from './hook'
 
 export function setupHiddenLyricHidingObserver() {

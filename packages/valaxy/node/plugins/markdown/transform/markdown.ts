@@ -1,7 +1,7 @@
 import type { PageData } from 'valaxy/types'
-import { getValaxyMain } from '../../markdown/markdownToVue'
 import type { ResolvedValaxyOptions } from '../../../options'
 import { transformObject } from '../../../utils'
+import { getValaxyMain } from '../../markdown/markdownToVue'
 
 export function injectPageDataCode(
   data: PageData,

@@ -1,7 +1,7 @@
 import type { HeadConfig, PageData } from 'valaxy/types'
+import type { ResolvedValaxyOptions } from '../../../options'
 import path from 'pathe'
 import { getGitTimestamp } from '../../../utils'
-import type { ResolvedValaxyOptions } from '../../../options'
 
 function getHeadMetaContent(head: HeadConfig[], name: string): string | undefined {
   if (!head || !head.length)

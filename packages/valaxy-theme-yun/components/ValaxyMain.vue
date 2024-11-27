@@ -1,8 +1,8 @@
 <script lang="ts" setup>
-import { computed, nextTick } from 'vue'
 import type { PageData, Post } from 'valaxy'
-import { onClickHref, onContentUpdated, scrollTo, usePostTitle, useSiteConfig } from 'valaxy'
 import type { StyleValue } from 'vue'
+import { onClickHref, onContentUpdated, scrollTo, usePostTitle, useSiteConfig } from 'valaxy'
+import { computed, nextTick } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { usePostProperty } from '../composables'
 

@@ -1,22 +1,22 @@
+import type { InlineConfig, LogLevel } from 'vite'
+import type { Argv } from 'yargs'
+import type { ValaxyModule } from '../modules'
 import path from 'node:path'
 import process from 'node:process'
 import consola from 'consola'
-import type { InlineConfig, LogLevel } from 'vite'
-import { mergeConfig } from 'vite'
-import type { Argv } from 'yargs'
 
 import { yellow } from 'picocolors'
-import { build, postProcessForSSG, ssgBuild } from '../build'
+import { mergeConfig } from 'vite'
 import { mergeViteConfigs, resolveOptions } from '..'
 import { createValaxyNode } from '../app'
-import type { ValaxyModule } from '../modules'
+import { build, postProcessForSSG, ssgBuild } from '../build'
+import { callHookWithLog } from '../logger'
 import { setupModules } from '../modules'
+import { fuseModule } from '../modules/fuse'
 import { rssModule } from '../modules/rss'
 import { isPagesDirExist, setEnvProd } from '../utils/env'
-import { fuseModule } from '../modules/fuse'
-import { callHookWithLog } from '../logger'
-import { printInfo } from './utils/cli'
 import { commonOptions } from './options'
+import { printInfo } from './utils/cli'
 
 /**
  * valaxy build
@@ -79,7 +79,7 @@ export async function execBuild({ ssg, root, output, log }: { ssg: boolean, root
       }
       catch (e) {
         consola.error('[vite-ssg] An internal error occurred.')
-        // eslint-disable-next-line no-console
+
         console.log(e)
       }
     }
@@ -89,7 +89,6 @@ export async function execBuild({ ssg, root, output, log }: { ssg: boolean, root
     }
   }
   catch (e) {
-  // eslint-disable-next-line no-console
     console.log(e)
   }
   finally {

@@ -1,3 +1,16 @@
+import type { ViteSSGContext } from 'vite-ssg'
+import { initValaxyConfig, valaxyConfigSymbol } from 'valaxy'
+import { setupLayouts } from 'virtual:generated-layouts'
+import { ViteSSG } from 'vite-ssg'
+import { routes } from 'vue-router/auto-routes'
+
+// import App from '/@valaxyjs/App.vue'
+import App from './App.vue'
+import AppLink from './components/AppLink.vue'
+
+import setupMain from './setup/main'
+import { setupValaxyDevTools } from './utils/dev'
+
 // reset styles, load css before app
 // import '@unocss/reset/tailwind.css'
 // https://unocss.dev/guide/style-reset#tailwind-compat
@@ -5,25 +18,12 @@
 import '@unocss/reset/tailwind-compat.css'
 // css
 import './styles/css/css-vars.css'
+
 import './styles/css/main.css'
+
 // generate user styles
 import '/@valaxyjs/styles'
 import 'uno.css'
-
-import type { ViteSSGContext } from 'vite-ssg'
-import { ViteSSG } from 'vite-ssg'
-
-import { routes } from 'vue-router/auto-routes'
-import { setupLayouts } from 'virtual:generated-layouts'
-
-import { initValaxyConfig, valaxyConfigSymbol } from 'valaxy'
-import AppLink from './components/AppLink.vue'
-
-// import App from '/@valaxyjs/App.vue'
-import App from './App.vue'
-
-import setupMain from './setup/main'
-import { setupValaxyDevTools } from './utils/dev'
 
 const valaxyConfig = initValaxyConfig()
 

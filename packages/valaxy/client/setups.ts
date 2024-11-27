@@ -1,5 +1,5 @@
-import type { ViteSSGContext } from 'vite-ssg'
 import type { Awaitable } from '@antfu/utils'
+import type { ViteSSGContext } from 'vite-ssg'
 import type { MermaidOptions } from './types'
 
 /**

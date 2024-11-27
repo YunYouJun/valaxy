@@ -1,9 +1,9 @@
 import type { DefaultTheme } from 'valaxy/types'
-import { cyan, dim } from 'picocolors'
-import defu from 'defu'
-import { logger } from '../logger'
 import type { ResolvedValaxyOptions } from '../options'
 import type { ValaxyNodeConfig } from '../types'
+import defu from 'defu'
+import { cyan, dim } from 'picocolors'
+import { logger } from '../logger'
 import { loadConfigFromFile } from './utils'
 
 /**

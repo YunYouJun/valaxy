@@ -1,6 +1,6 @@
-import { computed } from 'vue'
-import { random } from 'valaxy'
 import type { YunTheme } from '../types'
+import { random } from 'valaxy'
+import { computed } from 'vue'
 
 export function useYunBanner(options: YunTheme.Banner) {
   const chars = computed(() => {

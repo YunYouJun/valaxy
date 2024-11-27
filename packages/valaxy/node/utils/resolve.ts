@@ -1,6 +1,6 @@
+import consola from 'consola'
 import { resolvePath } from 'mlly'
 import { resolveGlobal } from 'resolve-global'
-import consola from 'consola'
 
 export const isInstalledGlobally: { value?: boolean } = {}
 

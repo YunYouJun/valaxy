@@ -1,7 +1,7 @@
 <script lang="ts" setup>
-import { useI18n } from 'vue-i18n'
-import { computed } from 'vue'
 import { useAppStore } from 'valaxy'
+import { computed } from 'vue'
+import { useI18n } from 'vue-i18n'
 
 const props = defineProps<{
   transition?: boolean

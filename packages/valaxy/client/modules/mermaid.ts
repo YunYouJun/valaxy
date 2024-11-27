@@ -1,7 +1,7 @@
-import { customAlphabet } from 'nanoid'
-import { decode } from 'js-base64'
-import { clearUndefined } from '@antfu/utils'
 import type { Mermaid } from 'mermaid'
+import { clearUndefined } from '@antfu/utils'
+import { decode } from 'js-base64'
+import { customAlphabet } from 'nanoid'
 import setupMermaid from '../setup/mermaid'
 
 const nanoid = customAlphabet('abcedfghicklmn', 10)

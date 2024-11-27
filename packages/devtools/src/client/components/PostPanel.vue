@@ -1,6 +1,6 @@
 <script lang="ts" setup>
-import { getWindowProperty, openInEditor } from '../utils'
 import { frontmatter } from '../composables/app'
+import { getWindowProperty, openInEditor } from '../utils'
 
 function launchEditor() {
   openInEditor({

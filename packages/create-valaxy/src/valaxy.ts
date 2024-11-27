@@ -1,7 +1,7 @@
 /* eslint-disable no-console */
-import process from 'node:process'
 import fs from 'node:fs'
 import path from 'node:path'
+import process from 'node:process'
 import { fileURLToPath } from 'node:url'
 import { execa } from 'execa'
 
@@ -10,8 +10,8 @@ import { blue, bold, cyan, dim, green, red, reset } from 'kolorist'
 import minimist from 'minimist'
 import prompts from 'prompts'
 import { version } from '../package.json'
+import { renameFiles, TEMPLATE_CHOICES, TEMPLATES } from './config'
 import { copy, emptyDir, formatTargetDir, isEmpty, isValidPackageName, pkgFromUserAgent, toValidPackageName } from './utils'
-import { TEMPLATES, TEMPLATE_CHOICES, renameFiles } from './config'
 
 const argv = minimist(process.argv.slice(2))
 

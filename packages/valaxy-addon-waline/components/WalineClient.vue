@@ -1,16 +1,16 @@
 <script lang="ts" setup>
+import type { WalineOptions } from '../types'
+import { commentCount, pageviewCount } from '@waline/client'
+// @ts-expect-error vue waline component type
+import { Waline } from '@waline/client/component'
 import { useAppStore } from 'valaxy'
+
 import { computed, onMounted } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { useRoute } from 'vue-router'
 
-// @ts-expect-error vue waline component type
-import { Waline } from '@waline/client/component'
-import { commentCount, pageviewCount } from '@waline/client'
 import { getEmojis } from '../utils'
-
 import '@waline/client/style'
-import type { WalineOptions } from '../types'
 
 const props = defineProps<{
   options: WalineOptions

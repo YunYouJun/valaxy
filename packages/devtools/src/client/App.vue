@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import { onMounted } from 'vue'
-import { initDevtoolsClient } from './utils'
 import VDHeader from './components/VDHeader.vue'
+import { initDevtoolsClient } from './utils'
 
 onMounted(() => {
   initDevtoolsClient()

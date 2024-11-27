@@ -1,5 +1,5 @@
-import { cyan, red, yellow } from 'picocolors'
 import consola from 'consola'
+import { cyan, red, yellow } from 'picocolors'
 
 /**
  * replace hexo tag, conflict with markdown-it-attrs

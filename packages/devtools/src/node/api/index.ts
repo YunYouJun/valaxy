@@ -1,9 +1,9 @@
 import type { ResolvedConfig, ViteDevServer } from 'vite'
 import bodyParser from 'body-parser'
 
+import fs from 'fs-extra'
 import matter from 'gray-matter'
 import { JSON_SCHEMA } from 'js-yaml'
-import fs from 'fs-extra'
 
 const prefix = '/valaxy-devtools-api'
 

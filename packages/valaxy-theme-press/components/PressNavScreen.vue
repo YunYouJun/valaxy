@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import { ref } from 'vue'
 import { isClient, useScrollLock } from '@vueuse/core'
+import { ref } from 'vue'
 
 defineProps<{
   open: boolean

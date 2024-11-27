@@ -1,6 +1,6 @@
 <script lang="ts" setup>
-import * as addonAlgolia from 'valaxy-addon-algolia'
 import { isEmptyAddon } from 'valaxy'
+import * as addonAlgolia from 'valaxy-addon-algolia'
 
 defineProps<{
   open: boolean

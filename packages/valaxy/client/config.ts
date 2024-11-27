@@ -1,16 +1,16 @@
-// @ts-expect-error virtual module @valaxyjs/config
-import valaxyConfig from '/@valaxyjs/config'
-
-// @ts-expect-error virtual module @valaxyjs/context
-import valaxyContext from '/@valaxyjs/context'
-import type { ComputedRef, InjectionKey } from 'vue'
-import { computed, inject, readonly, shallowRef } from 'vue'
-
 // import type { RouteMeta } from 'vue-router'
 // fix build caused by pnpm
 // This is likely not portable. A type annotation is necessary.
 // https://github.com/microsoft/TypeScript/issues/42873
 import type { DefaultTheme, ValaxyConfig } from 'valaxy/types'
+
+import type { ComputedRef, InjectionKey } from 'vue'
+import { computed, inject, readonly, shallowRef } from 'vue'
+// @ts-expect-error virtual module @valaxyjs/config
+import valaxyConfig from '/@valaxyjs/config'
+
+// @ts-expect-error virtual module @valaxyjs/context
+import valaxyContext from '/@valaxyjs/context'
 
 /**
  * parse valaxy config

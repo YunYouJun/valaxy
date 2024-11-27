@@ -1,38 +1,38 @@
 import type MarkdownIt from 'markdown-it'
 
-import anchorPlugin from 'markdown-it-anchor'
-import attrsPlugin from 'markdown-it-attrs'
-
-import { full as emojiPlugin } from 'markdown-it-emoji'
-import footnotePlugin from 'markdown-it-footnote'
-import TaskLists from 'markdown-it-task-lists'
-
-// https://www.npmjs.com/package/markdown-it-image-figures
-import imageFigures from 'markdown-it-image-figures'
-
-import {
-  type HeadersPluginOptions,
-  headersPlugin,
-} from '@mdit-vue/plugin-headers'
-import { type SfcPluginOptions, sfcPlugin } from '@mdit-vue/plugin-sfc'
-import { titlePlugin } from '@mdit-vue/plugin-title'
-import { type TocPluginOptions, tocPlugin } from '@mdit-vue/plugin-toc'
-
-import { slugify } from '@mdit-vue/shared'
-import { cssI18nContainer } from 'css-i18n'
-
 import type Token from 'markdown-it/lib/token.mjs'
 import type { ResolvedValaxyOptions } from '../../options'
-import Katex from './plugins/markdown-it/katex'
-import { containerPlugin } from './plugins/markdown-it/container'
-import { highlightLinePlugin } from './plugins/markdown-it/highlightLines'
 
-import { linkPlugin } from './plugins/link'
-import { preWrapperPlugin } from './plugins/markdown-it/preWrapper'
-import { lineNumberPlugin } from './plugins/markdown-it/lineNumbers'
-import { snippetPlugin } from './plugins/markdown-it/snippet'
 import type { ThemeOptions } from './types'
+import {
+  headersPlugin,
+  type HeadersPluginOptions,
+} from '@mdit-vue/plugin-headers'
+import { sfcPlugin, type SfcPluginOptions } from '@mdit-vue/plugin-sfc'
+
+import { titlePlugin } from '@mdit-vue/plugin-title'
+
+import { tocPlugin, type TocPluginOptions } from '@mdit-vue/plugin-toc'
+import { slugify } from '@mdit-vue/shared'
+import { cssI18nContainer } from 'css-i18n'
+import anchorPlugin from 'markdown-it-anchor'
+
+import attrsPlugin from 'markdown-it-attrs'
+import { full as emojiPlugin } from 'markdown-it-emoji'
+
+import footnotePlugin from 'markdown-it-footnote'
+// https://www.npmjs.com/package/markdown-it-image-figures
+import imageFigures from 'markdown-it-image-figures'
+import TaskLists from 'markdown-it-task-lists'
+import { linkPlugin } from './plugins/link'
+import { containerPlugin } from './plugins/markdown-it/container'
+
 import { footnoteTooltipPlugin } from './plugins/markdown-it/footnoteTooltip'
+import { highlightLinePlugin } from './plugins/markdown-it/highlightLines'
+import Katex from './plugins/markdown-it/katex'
+import { lineNumberPlugin } from './plugins/markdown-it/lineNumbers'
+import { preWrapperPlugin } from './plugins/markdown-it/preWrapper'
+import { snippetPlugin } from './plugins/markdown-it/snippet'
 
 export const defaultCodeTheme = { light: 'github-light', dark: 'github-dark' } as const as ThemeOptions
 

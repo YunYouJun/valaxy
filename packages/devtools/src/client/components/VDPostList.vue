@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import { onMounted, ref } from 'vue'
-import { getGlobalValaxyProperty } from '../utils'
 import { activePath, devtoolsRouter } from '../composables/app'
+import { getGlobalValaxyProperty } from '../utils'
 
 const postList = ref()
 

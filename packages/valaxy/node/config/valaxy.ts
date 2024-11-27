@@ -1,15 +1,15 @@
-import process from 'node:process'
-
-import { createDefu } from 'defu'
-import { mergeConfig as mergeViteConfig } from 'vite'
-import { isFunction } from '@antfu/utils'
-import { cyan, dim, yellow } from 'picocolors'
-import consola from 'consola'
-import type { UserValaxyNodeConfig, ValaxyNodeConfig } from '../types'
 import type { ResolvedValaxyOptions, ValaxyEntryOptions } from '../options'
+
+import type { UserValaxyNodeConfig, ValaxyNodeConfig } from '../types'
+import process from 'node:process'
+import { isFunction } from '@antfu/utils'
+import consola from 'consola'
+import { createDefu } from 'defu'
+import { cyan, dim, yellow } from 'picocolors'
+import { mergeConfig as mergeViteConfig } from 'vite'
 import { countPerformanceTime } from '../utils/performance'
-import { loadConfigFromFile } from './utils'
 import { defaultSiteConfig } from './site'
+import { loadConfigFromFile } from './utils'
 
 export const defaultValaxyConfig: ValaxyNodeConfig = {
   siteConfig: defaultSiteConfig,

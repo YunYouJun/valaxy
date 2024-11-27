@@ -6,6 +6,7 @@ export async function exists(path: PathLike) {
     await access(path)
     return true
   }
+  // eslint-disable-next-line unused-imports/no-unused-vars
   catch (e) {
     return false
   }

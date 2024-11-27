@@ -1,6 +1,6 @@
 import { dirname } from 'node:path'
-import { resolve } from 'pathe'
 import fs from 'fs-extra'
+import { resolve } from 'pathe'
 import { isPath, resolveImportPath } from '../utils'
 
 /**

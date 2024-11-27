@@ -37,9 +37,9 @@ For example:
 :::
 
 ```ts
+import type { ThemeConfig } from 'valaxy-theme-yun'
 // valaxy.config.ts
 import { defineValaxyConfig } from 'valaxy'
-import type { ThemeConfig } from 'valaxy-theme-yun'
 import { addonComponents } from 'valaxy-addon-components'
 import { VitePWA } from 'vite-plugin-pwa'
 

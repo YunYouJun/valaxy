@@ -1,5 +1,5 @@
-import consola from 'consola'
 import type { Argv } from 'yargs'
+import consola from 'consola'
 
 /**
  * @TODO valaxy debug

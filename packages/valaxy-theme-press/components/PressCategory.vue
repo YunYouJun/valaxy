@@ -1,7 +1,7 @@
 <script lang="ts" setup>
-import { ref } from 'vue'
 import type { Category, Post } from 'valaxy'
 import { isCategoryList } from 'valaxy'
+import { ref } from 'vue'
 import { useI18n } from 'vue-i18n'
 
 const props = withDefaults(defineProps<{

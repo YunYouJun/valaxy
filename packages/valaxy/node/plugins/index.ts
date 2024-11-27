@@ -1,2 +1,2 @@
-export * from './valaxy'
 export * from './preset'
+export * from './valaxy'

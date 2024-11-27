@@ -1,8 +1,8 @@
 <script lang="ts" setup>
+import type { YunTheme } from '../types'
+import { createFireworks } from '@explosions/fireworks'
 import { useThemeConfig } from 'valaxy'
 import { onMounted } from 'vue'
-import { createFireworks } from '@explosions/fireworks'
-import type { YunTheme } from '../types'
 
 const themeConfig = useThemeConfig<YunTheme.Config>()
 

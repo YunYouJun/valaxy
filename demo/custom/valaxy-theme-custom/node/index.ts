@@ -1,5 +1,5 @@
-import type { Plugin } from 'vite'
 import type { ResolvedValaxyOptions } from 'valaxy'
+import type { Plugin } from 'vite'
 import type { ThemeConfig } from '../types'
 
 /**

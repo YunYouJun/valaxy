@@ -1,7 +1,7 @@
 /* eslint-disable no-console */
-import prompts from 'prompts'
 import { execa } from 'execa'
 import { blue, bold, cyan, dim, gray, green, yellow } from 'kolorist'
+import prompts from 'prompts'
 
 const starterTheme = {
   name: 'starter',

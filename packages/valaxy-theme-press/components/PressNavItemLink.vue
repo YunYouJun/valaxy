@@ -1,7 +1,7 @@
 <script lang="ts" setup>
-import { useRoute } from 'vue-router'
-import { useI18n } from 'vue-i18n'
 import type { NavItemLink } from '../types'
+import { useI18n } from 'vue-i18n'
+import { useRoute } from 'vue-router'
 
 defineProps<{
   item: NavItemLink

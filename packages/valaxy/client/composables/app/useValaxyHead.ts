@@ -1,10 +1,10 @@
-import { computed } from 'vue'
-import pkg from 'valaxy/package.json'
 import { useHead } from '@unhead/vue'
+import pkg from 'valaxy/package.json'
+import { computed } from 'vue'
 import { useI18n } from 'vue-i18n'
 
-import { useSiteConfig } from '../../config'
 import { useFrontmatter } from '../../composables'
+import { useSiteConfig } from '../../config'
 
 export function useValaxyHead() {
   const { locale } = useI18n()

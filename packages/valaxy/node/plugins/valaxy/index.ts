@@ -2,26 +2,26 @@
  * @packageDocumentation valaxy plugin
  */
 
-import { join, relative, resolve } from 'pathe'
-import fs from 'fs-extra'
-
-import type { Plugin, ResolvedConfig } from 'vite'
-import pascalCase from 'pascalcase'
 import type { DefaultTheme, Pkg, SiteConfig } from 'valaxy/types'
-import { dim, yellow } from 'picocolors'
+import type { Plugin, ResolvedConfig } from 'vite'
+
 import type { RouteRecordRaw } from 'vue-router'
-import consola from 'consola'
-import { defaultSiteConfig, mergeValaxyConfig, resolveSiteConfig, resolveUserThemeConfig } from '../../config'
+import type { PageDataPayload } from '../../../types'
 import type { ResolvedValaxyOptions, ValaxyServerOptions } from '../../options'
+import type { ValaxyNodeConfig } from '../../types'
+import consola from 'consola'
+import fs from 'fs-extra'
+import pascalCase from 'pascalcase'
+import { join, relative, resolve } from 'pathe'
+import { dim, yellow } from 'picocolors'
+import { defaultSiteConfig, mergeValaxyConfig, resolveSiteConfig, resolveUserThemeConfig } from '../../config'
+import { replaceArrMerge } from '../../config/merge'
+import { vLogger } from '../../logger'
 import { processValaxyOptions, resolveOptions, resolveThemeValaxyConfig } from '../../options'
 import { resolveImportPath, toAtFS } from '../../utils'
-import type { ValaxyNodeConfig } from '../../types'
-import { vLogger } from '../../logger'
-import { countPerformanceTime } from '../../utils/performance'
 import { isProd } from '../../utils/env'
-import type { PageDataPayload } from '../../../types'
+import { countPerformanceTime } from '../../utils/performance'
 import { createMarkdownToVueRenderFn } from '../markdown/markdownToVue'
-import { replaceArrMerge } from '../../config/merge'
 
 function generateConfig(options: ResolvedValaxyOptions) {
   const routes = options.redirects.map<RouteRecordRaw>((redirect) => {

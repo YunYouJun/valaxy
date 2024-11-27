@@ -1,8 +1,8 @@
 <script setup lang="ts">
-import { ref } from 'vue'
-import { useMotion } from '@vueuse/motion'
-import { onImgError } from '../utils'
 import type { GirlType } from '../types'
+import { useMotion } from '@vueuse/motion'
+import { ref } from 'vue'
+import { onImgError } from '../utils'
 
 const props = defineProps<{
   i: number

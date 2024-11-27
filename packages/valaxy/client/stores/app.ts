@@ -1,6 +1,6 @@
 import { acceptHMRUpdate, defineStore } from 'pinia'
-import { computed, ref } from 'vue'
 import { useMobile, useSiteConfig, useThemeConfig, useValaxyDark } from 'valaxy'
+import { computed, ref } from 'vue'
 
 /**
  * Global store for users

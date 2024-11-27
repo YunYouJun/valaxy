@@ -1,4 +1,4 @@
-import { createI18n } from 'vue-i18n'
+import type { DefaultTheme, ValaxyConfig } from 'valaxy/types'
 
 /*
  * All i18n resources specified in the plugin `include` option can be loaded
@@ -8,14 +8,14 @@ import { createI18n } from 'vue-i18n'
  */
 // import messages from '@intlify/unplugin-vue-i18n/messages'
 
-import { useStorage } from '@vueuse/core'
-
-import type { Router } from 'vue-router'
-import { ensureSuffix } from '@antfu/utils'
-import type { ComputedRef } from 'vue'
 import type { ViteSSGContext } from 'vite-ssg'
-import type { DefaultTheme, ValaxyConfig } from 'valaxy/types'
+
+import type { ComputedRef } from 'vue'
+import type { Router } from 'vue-router'
 import type { PageDataPayload } from '../../types'
+import { ensureSuffix } from '@antfu/utils'
+import { useStorage } from '@vueuse/core'
+import { createI18n } from 'vue-i18n'
 
 // @ts-expect-error virtual
 import valaxyMessages from '/@valaxyjs/locales'

@@ -1,7 +1,7 @@
 <script lang="ts" setup>
-import { useI18n } from 'vue-i18n'
 import { useFrontmatter } from 'valaxy'
 import { computed, nextTick, ref, watch } from 'vue'
+import { useI18n } from 'vue-i18n'
 import { useYunAppStore } from '../stores'
 
 const fm = useFrontmatter()

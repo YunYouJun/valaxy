@@ -4,12 +4,12 @@
 // 1. adding target="_blank" to external links
 // 2. normalize internal links to end with `.html`
 
-import { URL } from 'node:url'
 import type MarkdownIt from 'markdown-it'
-import { EXTERNAL_URL_RE, PATHNAME_PROTOCOL_RE } from '../../../constants'
 import type { MarkdownEnv } from '../env'
+import { URL } from 'node:url'
+import { EXTERNAL_URL_RE, PATHNAME_PROTOCOL_RE } from '../../../constants'
 
-const indexRE = /(^|.*\/)index.md(#?.*)$/i
+const indexRE = /(^|.*\/)index.md(.*)$/i
 
 export function linkPlugin(md: MarkdownIt, externalAttrs: Record<string, string>, base: string) {
   md.renderer.rules.link_open = (
@@ -75,8 +75,9 @@ export function linkPlugin(md: MarkdownIt, externalAttrs: Record<string, string>
         env.cleanUrls === 'disabled'
         && !cleanUrl.endsWith('.html')
         && !cleanUrl.endsWith('/')
-      )
+      ) {
         cleanUrl += '.html'
+      }
 
       const parsed = new URL(url, 'http://a.com')
       url = cleanUrl + parsed.search + parsed.hash

@@ -42,8 +42,8 @@ pnpm create valaxy
 > 请参考 [生命周期钩子](/guide/custom/hooks) 了解更多。
 
 ```ts {11-14}
-import { defineValaxyAddon } from 'valaxy'
 import consola from 'consola'
+import { defineValaxyAddon } from 'valaxy'
 import pkg from '../package.json'
 
 export const addonTest = defineValaxyAddon(options => ({

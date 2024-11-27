@@ -1,9 +1,9 @@
-import { computed, shallowRef } from 'vue'
-import type { DefaultTheme } from 'valaxy/types'
 import type { MenuItem } from '@valaxyjs/utils'
+import type { DefaultTheme } from 'valaxy/types'
 import { getHeaders } from '@valaxyjs/utils'
-import { onContentUpdated } from '../../utils'
+import { computed, shallowRef } from 'vue'
 import { useFrontmatter, useThemeConfig } from '../..'
+import { onContentUpdated } from '../../utils'
 
 /**
  * export headers & handleClick to generate outline

@@ -1,8 +1,8 @@
+import type { PluginOption } from 'vite'
+import type { ResolvedValaxyOptions } from '../options'
 import { existsSync } from 'node:fs'
 import { join, resolve } from 'node:path'
 import { slash, uniq } from '@antfu/utils'
-import type { PluginOption } from 'vite'
-import type { ResolvedValaxyOptions } from '../options'
 import { toAtFS } from '../utils'
 
 /**
@@ -33,9 +33,9 @@ export function createClientSetupPlugin({ clientRoot, themeRoot, userRoot }: Res
 
           let fn = `__n${idx}`
 
-          if (/\binjection_return\b/g.test(code))
+          if (/\binjection_return\b/.test(code))
             fn = `injection_return = ${fn}`
-          if (/\binjection_arg\b/g.test(code))
+          if (/\binjection_arg\b/.test(code))
             fn += ('(injection_arg)')
           else
             fn += ('()')

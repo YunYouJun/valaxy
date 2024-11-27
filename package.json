@@ -79,7 +79,7 @@
     "valaxy-theme-yun": "workspace:*"
   },
   "devDependencies": {
-    "@antfu/eslint-config": "2.17.0",
+    "@antfu/eslint-config": "^3.10.0",
     "@iconify-json/logos": "^1.2.3",
     "@iconify-json/vscode-icons": "^1.2.2",
     "@microsoft/api-extractor": "^7.48.0",

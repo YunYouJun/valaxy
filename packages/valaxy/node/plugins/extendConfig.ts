@@ -1,9 +1,9 @@
-import { dirname, join, resolve } from 'node:path'
 import type { Alias, AliasOptions, InlineConfig, Plugin } from 'vite'
-import { mergeConfig, searchForWorkspaceRoot } from 'vite'
-import { uniq } from '@antfu/utils'
-import { getIndexHtml } from '../common'
 import type { ResolvedValaxyOptions } from '../options'
+import { dirname, join, resolve } from 'node:path'
+import { uniq } from '@antfu/utils'
+import { mergeConfig, searchForWorkspaceRoot } from 'vite'
+import { getIndexHtml } from '../common'
 import { isInstalledGlobally, resolveImportPath, toAtFS } from '../utils'
 
 /**

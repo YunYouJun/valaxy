@@ -1,5 +1,5 @@
-import { defineValaxyAddon } from 'valaxy'
 import type { AlgoliaSearchOptions } from '../types'
+import { defineValaxyAddon } from 'valaxy'
 
 export const name = 'valaxy-addon-algolia'
 

@@ -1,8 +1,8 @@
 <script lang="ts" setup>
 import { useOutline, useSidebar } from 'valaxy'
 
-import { useI18n } from 'vue-i18n'
 import { onMounted, ref } from 'vue'
+import { useI18n } from 'vue-i18n'
 
 defineProps<{
   open: boolean

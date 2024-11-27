@@ -1,9 +1,9 @@
-import { join } from 'node:path'
-import fs from 'fs-extra'
 import type { ConfigEnv, InlineConfig } from 'vite'
-import { uniq } from '@antfu/utils'
-import { loadConfigFromFile, mergeConfig } from 'vite'
 import type { ResolvedValaxyOptions } from './options'
+import { join } from 'node:path'
+import { uniq } from '@antfu/utils'
+import fs from 'fs-extra'
+import { loadConfigFromFile, mergeConfig } from 'vite'
 import { toAtFS } from './utils'
 
 /**
@@ -89,8 +89,8 @@ export async function getIndexHtml({ clientRoot, themeRoot, userRoot, config }: 
 
     const indexHtml = await fs.readFile(path, 'utf-8')
 
-    head += `\n${(indexHtml.match(/<head>([\s\S]*?)<\/head>/im)?.[1] || '').trim()}`
-    body += `\n${(indexHtml.match(/<body>([\s\S]*?)<\/body>/im)?.[1] || '').trim()}`
+    head += `\n${(indexHtml.match(/<head>([\s\S]*?)<\/head>/i)?.[1] || '').trim()}`
+    body += `\n${(indexHtml.match(/<body>([\s\S]*?)<\/body>/i)?.[1] || '').trim()}`
   }
 
   main = main

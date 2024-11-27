@@ -6,11 +6,11 @@
  */
 
 import type { CSSProperties } from 'vue'
-import { computed, onMounted, ref } from 'vue'
 import { sleep } from 'valaxy'
+import { computed, onMounted, ref } from 'vue'
 import { useThemeConfig } from '../composables'
-import { useYunAppStore } from '../stores'
 import { useYunBanner } from '../composables/useYunBanner'
+import { useYunAppStore } from '../stores'
 
 const yun = useYunAppStore()
 const themeConfig = useThemeConfig()

@@ -1,7 +1,7 @@
-import { computed, ref } from 'vue'
-import { acceptHMRUpdate, defineStore } from 'pinia'
-import { usePostList, useRouterStore } from '..'
 import type { PageDataPayload } from '../../types'
+import { acceptHMRUpdate, defineStore } from 'pinia'
+import { computed, ref } from 'vue'
+import { usePostList, useRouterStore } from '..'
 import { setWindowValaxyProp } from '../utils/dev'
 
 /**

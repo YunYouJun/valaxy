@@ -1,8 +1,8 @@
-import path from 'node:path'
 import { readFile } from 'node:fs/promises'
+import path from 'node:path'
 import { resolveOptions } from '../../options'
-import { exists } from './fs'
 import { userRoot } from './constants'
+import { exists } from './fs'
 
 export async function getTemplate(layout: string): Promise<string | false> {
   const { clientRoot, themeRoot } = await resolveOptions({ userRoot })

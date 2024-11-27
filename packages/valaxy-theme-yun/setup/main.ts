@@ -1,15 +1,15 @@
-import { defineAppSetup } from 'valaxy'
-import '../styles/global.scss'
 import { MotionPlugin } from '@vueuse/motion'
-
-import PrimeVue from 'primevue/config'
 import AnimateOnScroll from 'primevue/animateonscroll'
+import PrimeVue from 'primevue/config'
+
 import StyleClass from 'primevue/styleclass'
 import ToastService from 'primevue/toastservice'
+import { defineAppSetup } from 'valaxy'
+import { useYunAppStore } from '../stores'
 
 import primeStyles from '../styles/primevue'
+import '../styles/global.scss'
 import '../styles/primevue/tooltip.scss'
-import { useYunAppStore } from '../stores'
 
 export default defineAppSetup((ctx) => {
   // can do for setup

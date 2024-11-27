@@ -1,3 +1,3 @@
 export * from './client'
-export * from './types'
 export * from './node'
+export * from './types'

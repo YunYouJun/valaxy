@@ -1,5 +1,5 @@
-import { ref } from 'vue'
 import type { CollectionConfig } from '../define'
+import { ref } from 'vue'
 
 /**
  * Composable for Collections

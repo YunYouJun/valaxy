@@ -1,8 +1,8 @@
 // ref vitepress/packages/vitepress/src/node/markdown/plugins/preWrapper.ts
 import type MarkdownIt from 'markdown-it'
 import type { SiteConfig } from 'valaxy/types'
-import type { ThemeOptions } from '../../types'
 import type { MarkdownEnv } from '../../env'
+import type { ThemeOptions } from '../../types'
 
 export interface Options {
   hasSingleTheme: boolean
@@ -14,8 +14,8 @@ export function extractLang(info: string) {
   return info
     .trim()
     .replace(/=(\d*)/, '')
-    .replace(/:(no-)?line-numbers({| |$|=\d*).*/, '')
-    .replace(/(-vue|{| ).*$/, '')
+    .replace(/:(no-)?line-numbers(\{| |$|=\d*).*/, '')
+    .replace(/(-vue|\{| ).*$/, '')
     .replace(/^vue-html$/, 'template')
     .replace(/^ansi$/, '')
 }
@@ -27,7 +27,7 @@ export function getAdaptiveThemeMarker(options: Options) {
 export function extractTitle(info: string, html = false) {
   if (html) {
     return (
-      info.replace(/<!--[^]*?-->/g, '').match(/data-title="(.*?)"/)?.[1] || ''
+      info.replace(/<!--[\s\S]*?-->/g, '').match(/data-title="(.*?)"/)?.[1] || ''
     )
   }
   return info.match(/\[(.*)\]/)?.[1] || extractLang(info) || 'txt'

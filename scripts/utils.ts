@@ -1,5 +1,5 @@
-import { join } from 'node:path'
 import { readFile, writeFile } from 'node:fs/promises'
+import { join } from 'node:path'
 import consola from 'consola'
 import pc from 'picocolors'
 

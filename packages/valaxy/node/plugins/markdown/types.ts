@@ -1,5 +1,14 @@
+import type {
+  HeadersPluginOptions,
+} from '@mdit-vue/plugin-headers'
+
+import type { SfcPluginOptions } from '@mdit-vue/plugin-sfc'
+import type { TocPluginOptions } from '@mdit-vue/plugin-toc'
+
+import type { KatexOptions } from 'katex'
 import type MarkdownIt from 'markdown-it'
 
+import type anchorPlugin from 'markdown-it-anchor'
 import type {
   BuiltinTheme,
   Highlighter,
@@ -8,16 +17,7 @@ import type {
   ThemeRegistration
   ,
 } from 'shiki'
-import type anchorPlugin from 'markdown-it-anchor'
-
-import type { KatexOptions } from 'katex'
 import type { PageData } from 'valaxy/types'
-
-import type {
-  HeadersPluginOptions,
-} from '@mdit-vue/plugin-headers'
-import type { SfcPluginOptions } from '@mdit-vue/plugin-sfc'
-import type { TocPluginOptions } from '@mdit-vue/plugin-toc'
 
 // import type { lazyloadOptions } from './plugins/markdown-it/lazyload'
 

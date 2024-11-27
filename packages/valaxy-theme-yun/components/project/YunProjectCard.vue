@@ -1,8 +1,8 @@
 <script setup lang="ts">
-import { type CSSProperties, computed, ref } from 'vue'
+import type { ProjectItem } from '../../types'
 import { TinyColor } from '@ctrl/tinycolor'
 import { useMotion } from '@vueuse/motion'
-import type { ProjectItem } from '../../types'
+import { computed, type CSSProperties, ref } from 'vue'
 import { cubicBezier } from '../../client/constants'
 
 const props = defineProps<{

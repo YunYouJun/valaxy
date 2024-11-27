@@ -1,7 +1,7 @@
 <script lang="ts" setup>
+import { isEmptyAddon } from 'valaxy'
 import * as addonArtalk from 'valaxy-addon-artalk'
 import 'valaxy-addon-artalk/client/styles/index.scss'
-import { isEmptyAddon } from 'valaxy'
 
 if (!isEmptyAddon(addonArtalk))
   addonArtalk.useArtalkWithOptions()

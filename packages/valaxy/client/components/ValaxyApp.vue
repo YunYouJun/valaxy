@@ -1,24 +1,24 @@
 <script setup lang="ts">
-// TODO: add docs to override ValaxyApp
-import { computed } from 'vue'
+import { definePerson, defineWebPage, defineWebSite, useSchemaOrg } from '@unhead/schema-org'
 // import { useHead, useSeoMeta } from '@unhead/vue'
 import { useSeoMeta } from '@unhead/vue'
 
-// @ts-expect-error virtual module
-import ValaxyUserApp from '/@valaxyjs/UserAppVue'
-// @ts-expect-error virtual module
-import ValaxyThemeApp from '/@valaxyjs/ThemeAppVue'
-
+// TODO: add docs to override ValaxyApp
+import { computed } from 'vue'
 import { useI18n } from 'vue-i18n'
-import { definePerson, defineWebPage, defineWebSite, useSchemaOrg } from '@unhead/schema-org'
+
+import { useFrontmatter, useValaxyHead } from '../composables'
+import { useTimezone } from '../composables/global'
 
 // https://github.com/vueuse/head
 // you can use this to manipulate the document head in any components,
 // they will be rendered correctly in the html results with vite-ssg
 import { useSiteConfig } from '../config'
-import { useFrontmatter, useValaxyHead } from '../composables'
-import { useTimezone } from '../composables/global'
 import ValaxyAddons from './ValaxyAddons.vue'
+// @ts-expect-error virtual module
+import ValaxyThemeApp from '/@valaxyjs/ThemeAppVue'
+// @ts-expect-error virtual module
+import ValaxyUserApp from '/@valaxyjs/UserAppVue'
 
 // <link rel="apple-touch-icon" href="/pwa-192x192.png">
 // <link rel="mask-icon" href="/safari-pinned-tab.svg" color="#00aba9">

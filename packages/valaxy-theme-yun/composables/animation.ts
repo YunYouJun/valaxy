@@ -1,5 +1,5 @@
-import { useMotion } from '@vueuse/motion'
 import type { MaybeRef } from 'vue'
+import { useMotion } from '@vueuse/motion'
 import { cubicBezier } from '../client/constants'
 
 /**

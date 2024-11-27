@@ -1,21 +1,20 @@
-/* eslint-disable no-console */
-import * as readline from 'node:readline'
-import path from 'node:path'
-import os from 'node:os'
-import process from 'node:process'
-
-import { blue, bold, cyan, dim, gray, green, underline, yellow } from 'picocolors'
-import consola from 'consola'
 import type { InlineConfig, ViteDevServer } from 'vite'
-import { mergeConfig } from 'vite'
-import { version } from 'valaxy/package.json'
-import ora from 'ora'
-import { colors } from 'consola/utils'
-import type { ValaxyNode } from '../../types'
-import { createServer } from '../../server'
 import type { ResolvedValaxyOptions } from '../../options'
+import type { ValaxyNode } from '../../types'
+import os from 'node:os'
+
+import path from 'node:path'
+import process from 'node:process'
+import * as readline from 'node:readline'
+import consola from 'consola'
+import { colors } from 'consola/utils'
+import ora from 'ora'
+import { blue, bold, cyan, dim, gray, green, underline, yellow } from 'picocolors'
+import { version } from 'valaxy/package.json'
+import { mergeConfig } from 'vite'
 import { mergeViteConfigs } from '../../common'
-import { vLogger, valaxyPrefix } from '../../logger'
+import { valaxyPrefix, vLogger } from '../../logger'
+import { createServer } from '../../server'
 
 let server: ViteDevServer | undefined
 

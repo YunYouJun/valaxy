@@ -1,5 +1,5 @@
-import process from 'node:process'
 import type { Argv } from 'yargs'
+import process from 'node:process'
 import { confirm, intro, outro, select } from '@clack/prompts'
 import { execBuild } from './build'
 

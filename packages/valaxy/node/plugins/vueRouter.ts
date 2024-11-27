@@ -1,16 +1,16 @@
-import VueRouter from 'unplugin-vue-router/vite'
-import fs from 'fs-extra'
-import { resolve } from 'pathe'
-import { convert } from 'html-to-text'
 import type { ExcerptType, Page } from 'valaxy/types'
 import type { RouteMeta } from 'vue-router'
-import MarkdownIt from 'markdown-it'
-import matter from 'gray-matter'
 import type { ValaxyNode } from '../types'
+import fs from 'fs-extra'
+import matter from 'gray-matter'
+import { convert } from 'html-to-text'
+import MarkdownIt from 'markdown-it'
+import { resolve } from 'pathe'
+import VueRouter from 'unplugin-vue-router/vite'
 
+import { setupMarkdownPlugins } from './markdown'
 import { matterOptions } from './markdown/transform/matter'
 import { presetStatistics } from './presets/statistics'
-import { setupMarkdownPlugins } from './markdown'
 
 /**
  * get excerpt by type

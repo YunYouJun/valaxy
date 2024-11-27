@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import { useI18n } from 'vue-i18n'
 import { useBack } from 'valaxy'
+import { useI18n } from 'vue-i18n'
 
 const { t } = useI18n()
 const { back } = useBack()

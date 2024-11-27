@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import { useAppStore } from 'valaxy'
 import type { SocialLink } from 'valaxy/types'
+import { useAppStore } from 'valaxy'
 import { computed } from 'vue'
 
 const props = defineProps<{

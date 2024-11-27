@@ -1,5 +1,5 @@
+import type { ResolvedValaxyOptions } from '../options'
 import process from 'node:process'
-import fs from 'fs-extra'
 
 // https://github.com/unjs/c12
 // use c12 instead of unconfig, because c12 faster a lot
@@ -7,10 +7,10 @@ import fs from 'fs-extra'
 // use jiti directly is 0.0006s 0.6ms
 // write in valaxy directly can be fastest and solve cjs esm in vite
 
+import consola from 'consola'
+import fs from 'fs-extra'
 import { createJiti } from 'jiti'
 import { resolve } from 'pathe'
-import consola from 'consola'
-import type { ResolvedValaxyOptions } from '../options'
 
 // interopDefault is default true
 const jiti = createJiti(import.meta.url, {
@@ -45,6 +45,7 @@ export async function loadConfig<T extends UserInputConfig = UserInputConfig>(op
       data = (await jiti.import(filePath, { default: true })) as T
     }
     catch (e) {
+      console.error(e)
       consola.error(`Failed to load config file: ${filePath}`)
     }
   }

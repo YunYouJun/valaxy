@@ -1,18 +1,18 @@
-import path from 'node:path'
-import fs from 'fs-extra'
 import type { ResolvedValaxyOptions } from 'valaxy'
+import type { FuseListItem, PostFrontMatter } from 'valaxy/types'
+import type { Argv } from 'yargs'
+import path from 'node:path'
 import consola from 'consola'
 import fg from 'fast-glob'
+import fs from 'fs-extra'
 import matter from 'gray-matter'
-import { cyan, dim } from 'picocolors'
-import type { Argv } from 'yargs'
 
-import type { FuseListItem, PostFrontMatter } from 'valaxy/types'
-import { matterOptions } from '../plugins/markdown/transform/matter'
-import { resolveOptions } from '../options'
-import { setEnvProd } from '../utils/env'
-import { commonOptions } from '../cli/options'
+import { cyan, dim } from 'picocolors'
 import { defineValaxyModule } from '.'
+import { commonOptions } from '../cli/options'
+import { resolveOptions } from '../options'
+import { matterOptions } from '../plugins/markdown/transform/matter'
+import { setEnvProd } from '../utils/env'
 
 /**
  * @description Generate Fuse List Data for Search

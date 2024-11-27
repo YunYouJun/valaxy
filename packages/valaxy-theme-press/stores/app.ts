@@ -1,5 +1,5 @@
-import { acceptHMRUpdate, defineStore } from 'pinia'
 import { useToggle } from '@vueuse/core'
+import { acceptHMRUpdate, defineStore } from 'pinia'
 
 export const usePressAppStore = defineStore('press-app', () => {
   // 右侧边栏

@@ -1,6 +1,6 @@
 import { isClient } from '@vueuse/core'
-import { onMounted } from 'vue'
 import { useFrontmatter, useSiteConfig } from 'valaxy'
+import { onMounted } from 'vue'
 
 export function useCollapseCode() {
   const config = useSiteConfig()

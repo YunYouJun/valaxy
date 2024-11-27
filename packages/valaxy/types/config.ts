@@ -1,5 +1,5 @@
-import type { ZoomOptions } from 'medium-zoom'
 import type { FuseOptions } from '@vueuse/integrations/useFuse'
+import type { ZoomOptions } from 'medium-zoom'
 import type { ILazyLoadOptions } from 'vanilla-lazyload'
 import type { RouteRecordRaw } from 'vue-router'
 import type { ValaxyAddon } from '../types'

@@ -1,7 +1,7 @@
 /* __imports__ */
 
-import { defineMermaidSetup } from 'valaxy'
 import type { MermaidOptions } from '../types'
+import { defineMermaidSetup } from 'valaxy'
 
 /**
  * @en

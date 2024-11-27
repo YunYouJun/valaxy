@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import { computed, onMounted, ref, watch } from 'vue'
 import { useAppStore, useSiteConfig } from 'valaxy'
+import { computed, onMounted, ref, watch } from 'vue'
 import { useRoute } from 'vue-router'
 import { useYunAppStore } from '../../../stores'
 // import { useThemeConfig } from '../composables'

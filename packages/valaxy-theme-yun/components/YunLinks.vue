@@ -1,6 +1,6 @@
 <script lang="ts" setup>
-import { useRandomData } from '../composables'
 import type { LinkType } from '../types'
+import { useRandomData } from '../composables'
 
 const props = defineProps<{
   links: string | LinkType[]

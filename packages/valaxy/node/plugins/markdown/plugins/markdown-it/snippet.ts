@@ -1,8 +1,8 @@
-import path from 'pathe'
-import fs from 'fs-extra'
 import type MarkdownIt from 'markdown-it'
 import type { RuleBlock } from 'markdown-it/lib/parser_block.mjs'
 import type { MarkdownEnv } from '../..'
+import fs from 'fs-extra'
+import path from 'pathe'
 
 /**
  * raw path format: "/path/to/file.extension#region {meta} [title]"
@@ -16,7 +16,7 @@ import type { MarkdownEnv } from '../..'
  * captures: ['/path/to/file.extension', 'extension', '#region', '{meta}', '[title]']
  */
 export const rawPathRegexp
-  = /^(.+?(?:(?:\.([a-z0-9]+))?))(?:(#[\w-]+))?(?: ?(?:{(\d+(?:[,-]\d+)*)? ?(\S+)?}))? ?(?:\[(.+)\])?$/
+  = /^(.+?(?:\.([a-z0-9]+))?)(#[\w-]+)?(?: ?\{(\d+(?:[,-]\d+)*)? ?(\S+)?\})? ?(?:\[(.+)\])?$/
 
 export function rawPathToToken(rawPath: string) {
   const [
@@ -73,8 +73,8 @@ function findRegion(lines: Array<string>, regionName: string) {
     /^\/\* ?#((?:end)?region) ([\w*-]+) ?\*\/$/, // css, less, scss
     /^#pragma ((?:end)?region) ([\w*-]+)$/, // C, C++
     /^<!-- #?((?:end)?region) ([\w*-]+) -->$/, // HTML, markdown
-    /^#((?:End )Region) ([\w*-]+)$/, // Visual Basic
-    /^::#((?:end)region) ([\w*-]+)$/, // Bat
+    /^#(End Region) ([\w*-]+)$/, // Visual Basic
+    /^::#(endregion) ([\w*-]+)$/, // Bat
     /^# ?((?:end)?region) ([\w*-]+)$/, // C#, PHP, Powershell, Python, perl & misc
   ]
 

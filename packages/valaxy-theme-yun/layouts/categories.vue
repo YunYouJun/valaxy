@@ -1,9 +1,9 @@
 <script lang="ts" setup>
-import { computed } from 'vue'
+import { defineWebPage, useSchemaOrg } from '@unhead/schema-org'
 import { useCategories, useFrontmatter, usePostTitle, useSiteStore } from 'valaxy'
+import { computed } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { useRoute } from 'vue-router'
-import { defineWebPage, useSchemaOrg } from '@unhead/schema-org'
 
 const { t } = useI18n()
 

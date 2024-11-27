@@ -1,7 +1,7 @@
 <script lang="ts" setup>
+import { isEmptyAddon } from 'valaxy'
 import * as addonTwikoo from 'valaxy-addon-twikoo'
 import 'valaxy-addon-twikoo/client/styles/index.scss'
-import { isEmptyAddon } from 'valaxy'
 
 if (!isEmptyAddon(addonTwikoo))
   addonTwikoo.useTwikooWithOptions()

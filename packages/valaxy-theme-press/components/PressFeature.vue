@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import { useI18n } from 'vue-i18n'
 import type { Feature } from '../types'
+import { useI18n } from 'vue-i18n'
 
 defineProps<{
   feature: Feature

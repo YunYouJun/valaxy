@@ -14,8 +14,9 @@ export function lineNumberPlugin(md: MarkdownIt, enable = false) {
     if (
       (!enable && !/:line-numbers($| |=)/.test(info))
       || (enable && /:no-line-numbers($| )/.test(info))
-    )
+    ) {
       return rawCode
+    }
 
     let startLineNumber = 1
     const matchStartLineNumber = info.match(/=(\d*)/)
@@ -29,7 +30,7 @@ export function lineNumberPlugin(md: MarkdownIt, enable = false) {
 
     const lines = code.split('\n')
 
-    const lineNumbersCode = [...Array(lines.length)]
+    const lineNumbersCode = [...Array.from({ length: lines.length })]
       .map(
         (_, index) => `<span class="line-number">${index + startLineNumber}</span><br>`,
       )
@@ -39,7 +40,7 @@ export function lineNumberPlugin(md: MarkdownIt, enable = false) {
 
     const finalCode = rawCode
       .replace(/<\/div>$/, `${lineNumbersWrapperCode}</div>`)
-      .replace(/"(language-[^"]*?)"/, '"$1 line-numbers-mode"')
+      .replace(/"(language-[^"]*)"/, '"$1 line-numbers-mode"')
 
     return finalCode
   }

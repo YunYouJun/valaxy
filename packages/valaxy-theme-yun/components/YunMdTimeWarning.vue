@@ -1,10 +1,10 @@
 <script lang="ts" setup>
-import { computed, ref, watch } from 'vue'
-import { useFrontmatter } from 'valaxy'
-import { useI18n } from 'vue-i18n'
-
 import { differenceInMilliseconds } from 'date-fns/differenceInMilliseconds'
 import { formatDistanceToNow } from 'date-fns/formatDistanceToNow'
+import { useFrontmatter } from 'valaxy'
+
+import { computed, ref, watch } from 'vue'
+import { useI18n } from 'vue-i18n'
 
 const fm = useFrontmatter()
 const { t, locale } = useI18n()

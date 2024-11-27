@@ -1,13 +1,13 @@
-import process from 'node:process'
 import type { InlineConfig } from 'vite'
-import { createServer as createViteServer, mergeConfig as mergeViteConfig } from 'vite'
-
-import { colors } from 'consola/utils'
-import type { ValaxyNode } from './types'
 import type { ValaxyServerOptions } from './options'
-import { ViteValaxyPlugins } from './plugins/preset'
+import type { ValaxyNode } from './types'
+
+import process from 'node:process'
+import { colors } from 'consola/utils'
+import { createServer as createViteServer, mergeConfig as mergeViteConfig } from 'vite'
 import { serverSpinner } from './cli/utils/cli'
 import { valaxyPrefix } from './logger'
+import { ViteValaxyPlugins } from './plugins/preset'
 
 function getServerInfoText(msg: string) {
   return `${valaxyPrefix} ${colors.gray(msg)}`

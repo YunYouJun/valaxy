@@ -1,17 +1,17 @@
 import type Vue from '@vitejs/plugin-vue'
 
-import type Components from 'unplugin-vue-components/vite'
-import type Layouts from 'vite-plugin-vue-layouts'
-import type Markdown from 'unplugin-vue-markdown/vite'
-import type Router from 'unplugin-vue-router/vite'
-
-import type { VitePluginConfig as UnoCSSConfig } from 'unocss/vite'
-import type { EditableTreeNode } from 'unplugin-vue-router'
-import type { UserConfig as ViteUserConfig } from 'vite'
-import type { presetAttributify, presetIcons, presetTypography, presetUno } from 'unocss'
 import type { Hookable } from 'hookable'
-import type { DefaultTheme, PartialDeep, ValaxyAddon, ValaxyConfig } from 'valaxy/types'
 import type { PluginVisualizerOptions } from 'rollup-plugin-visualizer'
+import type { presetAttributify, presetIcons, presetTypography, presetUno } from 'unocss'
+import type { VitePluginConfig as UnoCSSConfig } from 'unocss/vite'
+
+import type Components from 'unplugin-vue-components/vite'
+import type Markdown from 'unplugin-vue-markdown/vite'
+import type { EditableTreeNode } from 'unplugin-vue-router'
+import type Router from 'unplugin-vue-router/vite'
+import type { DefaultTheme, PartialDeep, ValaxyAddon, ValaxyConfig } from 'valaxy/types'
+import type { UserConfig as ViteUserConfig } from 'vite'
+import type Layouts from 'vite-plugin-vue-layouts'
 import type { ResolvedValaxyOptions } from './options'
 import type { MarkdownOptions } from './plugins/markdown/types'
 

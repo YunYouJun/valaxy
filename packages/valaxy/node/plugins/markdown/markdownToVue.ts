@@ -1,18 +1,18 @@
-// copy from vitepress
-import { LRUCache } from 'lru-cache'
-import _debug from 'debug'
 import type { PageData } from 'valaxy/types'
-import path from 'pathe'
 import type { ResolvedConfig } from 'vite'
 import type { ResolvedValaxyOptions } from '../../options'
-import { resolveTransformIncludes } from './transform/include'
+import _debug from 'debug'
+// copy from vitepress
+import { LRUCache } from 'lru-cache'
+import path from 'pathe'
+import { createTransformCodeBlock } from './transform/code-block'
 import { createScanDeadLinks } from './transform/dead-links'
+import { createTransformEncrypt } from './transform/encrypt'
+import { transformFootnoteTooltip } from './transform/footnoteTooltip'
+import { transformHexoTags } from './transform/hexo'
+import { resolveTransformIncludes } from './transform/include'
 import { createTransformMarkdown } from './transform/markdown'
 import { generatePageData } from './transform/page-data'
-import { createTransformCodeBlock } from './transform/code-block'
-import { createTransformEncrypt } from './transform/encrypt'
-import { transformHexoTags } from './transform/hexo'
-import { transformFootnoteTooltip } from './transform/footnoteTooltip'
 
 const debug = _debug('valaxy:md')
 const cache = new LRUCache<string, MarkdownCompileResult>({ max: 128 })

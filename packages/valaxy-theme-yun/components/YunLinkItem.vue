@@ -1,8 +1,8 @@
 <script setup lang="ts">
+import type { LinkType } from '../types'
 import { useMotion } from '@vueuse/motion'
 import { ref } from 'vue'
 import { onImgError } from '../utils'
-import type { LinkType } from '../types'
 
 const props = defineProps<{
   i: number

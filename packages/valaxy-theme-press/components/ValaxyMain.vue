@@ -4,8 +4,8 @@ import { onClickHref, onContentUpdated, scrollTo, useFrontmatter, useLayout, use
 import { computed, nextTick } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { useRoute, useRouter } from 'vue-router'
-import { getLocaleTitle } from '../utils'
 import { targetPadding } from '../client'
+import { getLocaleTitle } from '../utils'
 
 defineProps<{
   frontmatter: Post

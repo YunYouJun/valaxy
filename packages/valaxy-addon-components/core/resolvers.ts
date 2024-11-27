@@ -1,5 +1,5 @@
-import { promises as fs } from 'node:fs'
 import type { ComponentResolver } from 'unplugin-vue-components'
+import { promises as fs } from 'node:fs'
 import { resolveModule } from 'local-pkg'
 
 export interface ValaxyThemesResolverOptions {

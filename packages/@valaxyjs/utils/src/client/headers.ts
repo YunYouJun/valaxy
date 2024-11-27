@@ -102,8 +102,9 @@ export function serializeHeader(h: Element): string {
       if (
         (node as Element).classList.contains('VABadge')
         || (node as Element).classList.contains('header-anchor')
-      )
+      ) {
         continue
+      }
 
       ret += node.textContent
     }

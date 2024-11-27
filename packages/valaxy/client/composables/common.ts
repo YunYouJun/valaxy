@@ -1,8 +1,8 @@
-import { useRoute } from 'vue-router'
-import { computed, inject } from 'vue'
-import { isClient } from '@vueuse/core'
-
 import type { PageData, PostFrontMatter } from 'valaxy/types'
+import { isClient } from '@vueuse/core'
+import { computed, inject } from 'vue'
+
+import { useRoute } from 'vue-router'
 import { useSiteConfig } from '../config'
 
 /**

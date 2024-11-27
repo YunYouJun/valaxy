@@ -1,6 +1,6 @@
-import { computed } from 'vue'
-import { useRuntimeConfig } from 'valaxy'
 import type { MetingOptions } from '../node/index'
+import { useRuntimeConfig } from 'valaxy'
+import { computed } from 'vue'
 
 /**
  * get addon config

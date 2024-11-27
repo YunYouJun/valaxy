@@ -1,7 +1,7 @@
-import MarkdownIt from 'markdown-it'
 import type { Header } from '@valaxyjs/utils'
-
 import type { ResolvedValaxyOptions } from '../../options'
+
+import MarkdownIt from 'markdown-it'
 import { highlight } from './plugins/highlight'
 import { defaultCodeTheme, setupMarkdownPlugins } from './setup'
 

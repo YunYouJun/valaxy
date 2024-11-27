@@ -1,6 +1,6 @@
 import type { Ref } from 'vue'
-import { onMounted, onUnmounted, onUpdated } from 'vue'
 import { resolvedHeaders } from '@valaxyjs/utils'
+import { onMounted, onUnmounted, onUpdated } from 'vue'
 import { throttleAndDebounce } from '../../utils'
 import { useAside } from '../aside'
 

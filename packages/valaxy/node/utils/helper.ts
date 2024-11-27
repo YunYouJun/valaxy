@@ -27,7 +27,7 @@ export function toAtFS(path: string) {
 }
 
 export function isPath(name: string) {
-  return name.startsWith('/') || /^\.\.?[\/\\]/.test(name)
+  return name.startsWith('/') || /^\.\.?[/\\]/.test(name)
 }
 
 /**

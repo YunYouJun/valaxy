@@ -1,8 +1,8 @@
 <script setup lang="ts">
-import { computed } from 'vue'
-import { useRoute } from 'vue-router'
-
 import { useFrontmatter, usePostList } from 'valaxy'
+import { computed } from 'vue'
+
+import { useRoute } from 'vue-router'
 
 const frontmatter = useFrontmatter()
 

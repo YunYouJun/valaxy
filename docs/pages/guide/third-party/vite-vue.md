@@ -14,8 +14,8 @@ Valaxy 兼容 Vite/Vue 插件，你可以参考以下示例进行使用。
 在 `vite.config.ts` 中添加以下配置：
 
 ```ts
-import { defineValaxyConfig } from 'valaxy'
 import type { ThemeConfig } from 'valaxy-theme-yun'
+import { defineValaxyConfig } from 'valaxy'
 import { VitePWA } from 'vite-plugin-pwa'
 
 export default defineValaxyConfig<ThemeConfig>({
@@ -57,9 +57,9 @@ Valaxy 默认集成了 [`@vitejs/plugin-vue`](https://github.com/vitejs/vite-plu
 譬如使用 Element Plus，你可以在 `setup/main.ts` 中添加以下配置：
 
 ```ts
-import { defineAppSetup } from 'valaxy'
-
 import ElementPlus from 'element-plus'
+
+import { defineAppSetup } from 'valaxy'
 import 'element-plus/lib/theme-chalk/index.css'
 
 export default defineAppSetup(({ app }) => {

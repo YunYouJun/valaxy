@@ -1,8 +1,8 @@
 <script lang="ts" setup>
+import type { ProjectDataType } from '../../types'
 import { useFrontmatter } from 'valaxy'
 import { reactive, ref } from 'vue'
 import { useI18n } from 'vue-i18n'
-import type { ProjectDataType } from '../../types'
 
 const fm = useFrontmatter()
 const { t } = useI18n()

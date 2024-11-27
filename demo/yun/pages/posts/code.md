@@ -15,8 +15,8 @@ ffmpeg -i input.avi -b:v 64k -bufsize 64k output.mp4
 ```
 
 ```ts
-import { defineValaxyConfig } from 'valaxy'
 import type { ThemeConfig } from 'valaxy-theme-yun'
+import { defineValaxyConfig } from 'valaxy'
 
 const safelist = [
   'i-ri-home-line',

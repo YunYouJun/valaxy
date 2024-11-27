@@ -1,12 +1,12 @@
 <script setup lang="ts">
-import '@docsearch/css'
-import docsearch from '@docsearch/js'
 import type { DocSearchHit } from '@docsearch/react/dist/esm/types'
-import { onMounted } from 'vue'
-import { useRoute, useRouter } from 'vue-router'
-import { useI18n } from 'vue-i18n'
 import type { AlgoliaSearchOptions } from '../types'
+import docsearch from '@docsearch/js'
+import { onMounted } from 'vue'
+import { useI18n } from 'vue-i18n'
+import { useRoute, useRouter } from 'vue-router'
 import { useAddonAlgoliaConfig } from '../client'
+import '@docsearch/css'
 
 const router = useRouter()
 const route = useRoute()

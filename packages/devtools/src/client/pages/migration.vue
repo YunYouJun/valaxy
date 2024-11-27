@@ -1,7 +1,7 @@
 <script lang="ts" setup>
-import { onMounted, ref } from 'vue'
-import { Pane, Splitpanes } from 'splitpanes'
 import axios from 'axios'
+import { Pane, Splitpanes } from 'splitpanes'
+import { onMounted, ref } from 'vue'
 import { getGlobalValaxyProperty } from '../utils'
 
 interface frontmatter {

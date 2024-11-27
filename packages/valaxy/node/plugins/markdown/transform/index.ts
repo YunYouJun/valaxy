@@ -1,12 +1,12 @@
-import type { Plugin } from 'vite'
-import Markdown from 'unplugin-vue-markdown/vite'
-
 import type MarkdownIt from 'markdown-it'
+import type { Plugin } from 'vite'
+
 import type { ResolvedValaxyOptions } from '../../../options'
+import Markdown from 'unplugin-vue-markdown/vite'
 import { highlight } from '../plugins/highlight'
 import { defaultCodeTheme, setupMarkdownPlugins } from '../setup'
-import { matterOptions } from './matter'
 import { createTransformIncludes } from './include'
+import { matterOptions } from './matter'
 import { transformMermaid } from './mermaid'
 
 export async function createMarkdownPlugin(

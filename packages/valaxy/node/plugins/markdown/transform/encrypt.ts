@@ -1,6 +1,6 @@
 import type { PageData } from 'valaxy/types'
-import { encryptContent } from '../../../utils/encrypt'
 import type { ResolvedValaxyOptions } from '../../../options'
+import { encryptContent } from '../../../utils/encrypt'
 
 export function createTransformEncrypt(options: ResolvedValaxyOptions) {
   // handle mainContent, encrypt

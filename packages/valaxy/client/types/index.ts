@@ -1,5 +1,5 @@
-import type { ViteSSGContext } from 'vite-ssg'
 import type mermaid from 'mermaid'
+import type { ViteSSGContext } from 'vite-ssg'
 
 export type UserModule = (ctx: ViteSSGContext) => void
 

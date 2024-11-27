@@ -1,7 +1,7 @@
 <script lang="ts" setup>
-import { computed, watch } from 'vue'
 import { useCssVar } from '@vueuse/core'
 import { useAppStore } from 'valaxy'
+import { computed, watch } from 'vue'
 import { useThemeConfig } from '../composables'
 
 const appStore = useAppStore()

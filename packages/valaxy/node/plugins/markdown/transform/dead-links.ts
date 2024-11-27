@@ -1,8 +1,8 @@
-import path from 'pathe'
+import type { ResolvedValaxyOptions } from '../../../options'
+import type { MarkdownCompileResult } from '../types'
 import { slash } from '@antfu/utils'
 import fs from 'fs-extra'
-import type { MarkdownCompileResult } from '../types'
-import type { ResolvedValaxyOptions } from '../../../options'
+import path from 'pathe'
 import { EXTERNAL_URL_RE } from '../../../constants'
 import { treatAsHtml } from '../utils'
 
@@ -68,8 +68,9 @@ export function createScanDeadLinks(options: ResolvedValaxyOptions) {
           !options.pages.includes(resolved)
           && !fs.existsSync(path.resolve(dir, publicDir, `${resolved}.html`))
           && !shouldIgnoreDeadLink(url)
-        )
+        ) {
           recordDeadLink(url)
+        }
       }
     }
 

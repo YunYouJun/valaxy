@@ -1,10 +1,10 @@
 import { join, resolve } from 'node:path'
-import { defineConfig } from 'vite'
-import Vue from '@vitejs/plugin-vue'
-import VueRouter from 'unplugin-vue-router/vite'
-import VueComponents from 'unplugin-vue-components/vite'
-import Unocss from 'unocss/vite'
 import { componentsDir } from '@advjs/gui/node'
+import Vue from '@vitejs/plugin-vue'
+import Unocss from 'unocss/vite'
+import VueComponents from 'unplugin-vue-components/vite'
+import VueRouter from 'unplugin-vue-router/vite'
+import { defineConfig } from 'vite'
 import { unoConfig } from '../../../../uno.config'
 
 export default defineConfig({

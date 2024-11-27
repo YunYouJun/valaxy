@@ -1,5 +1,5 @@
-import { computed, ref } from 'vue'
 import { useSiteConfig } from 'valaxy'
+import { computed, ref } from 'vue'
 
 /**
  * init algolia watch

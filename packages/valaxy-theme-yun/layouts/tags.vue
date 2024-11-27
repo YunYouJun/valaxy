@@ -1,9 +1,9 @@
 <script lang="ts" setup>
-import { useFrontmatter, useInvisibleElement, usePostTitle, useSiteStore } from 'valaxy'
-import { useI18n } from 'vue-i18n'
-import { computed, ref } from 'vue'
-import { useRoute, useRouter } from 'vue-router'
 import { defineWebPage, useSchemaOrg } from '@unhead/schema-org'
+import { useFrontmatter, useInvisibleElement, usePostTitle, useSiteStore } from 'valaxy'
+import { computed, ref } from 'vue'
+import { useI18n } from 'vue-i18n'
+import { useRoute, useRouter } from 'vue-router'
 import { useThemeConfig, useYunTags } from '../composables'
 
 useSchemaOrg([

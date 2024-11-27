@@ -1,7 +1,7 @@
 <script lang="ts" setup>
+import type { NavItemGroup } from '../types'
 import { ref } from 'vue'
 import { useI18n } from 'vue-i18n'
-import type { NavItemGroup } from '../types'
 
 defineProps<{
   item: NavItemGroup

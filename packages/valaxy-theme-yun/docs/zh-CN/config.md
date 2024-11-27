@@ -18,8 +18,8 @@ title: 主题配置
   - `enable`: 是否开启
 
 ```ts
-import { defineConfig } from 'valaxy'
 import type { ThemeConfig } from 'valaxy-theme-yun'
+import { defineConfig } from 'valaxy'
 
 export default defineConfig<ThemeConfig>({
   theme: 'yun',

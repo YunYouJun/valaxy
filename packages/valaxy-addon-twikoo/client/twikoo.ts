@@ -1,10 +1,10 @@
-import { isClient, useScriptTag } from '@vueuse/core'
 import type { ComputedRef } from 'vue'
+import type { TwikooOptions } from '../types'
+import { isClient, useScriptTag } from '@vueuse/core'
+import { useSiteConfig } from 'valaxy'
 import { computed } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { useRoute } from 'vue-router'
-import { useSiteConfig } from 'valaxy'
-import type { TwikooOptions } from '../types'
 import { useAddonTwikoo } from './options'
 
 declare global {

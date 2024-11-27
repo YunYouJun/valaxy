@@ -1,13 +1,13 @@
-import { join, resolve } from 'node:path'
 import { writeFile } from 'node:fs/promises'
-import { render } from 'ejs'
+import { join, resolve } from 'node:path'
 import { ensureSuffix } from '@antfu/utils'
 import { consola } from 'consola'
-import { green, magenta } from 'picocolors'
 import { formatDate } from 'date-fns/format'
+import { render } from 'ejs'
+import { green, magenta } from 'picocolors'
+import { defaultPostTemplate, userRoot } from './constants'
 import { exists } from './fs'
 import { getTemplate } from './scaffold'
-import { defaultPostTemplate, userRoot } from './constants'
 
 export interface CreatePostParams {
   /**
@@ -44,7 +44,6 @@ export async function create(data: CreatePostParams) {
         consola.success(`[valaxy new]: successfully generated file ${magenta(destinationPath)}`)
       }
       catch (e) {
-        // eslint-disable-next-line no-console
         console.log(e)
         consola.error(`[valaxy new]: failed to write file ${destinationPath}`)
         consola.warn(`You should run ${green('valaxy new')} in your valaxy project root directory.`)

@@ -1,7 +1,7 @@
+import type { ResolvedValaxyOptions } from 'valaxy/node'
+import type { UserValaxyConfig } from 'valaxy/types'
 import { resolve } from 'node:path'
 import fs from 'fs-extra'
-import type { UserValaxyConfig } from 'valaxy/types'
-import type { ResolvedValaxyOptions } from 'valaxy/node'
 import { describe, expect, it } from 'vitest'
 import { getIndexHtml } from '../packages/valaxy/node'
 
@@ -24,8 +24,8 @@ describe('utils', () => {
       await fs.copyFile(templatePath, indexPath)
     const indexHtml = await getIndexHtml({ clientRoot, themeRoot, userRoot, config } as ResolvedValaxyOptions, rawHtml)
 
-    const head = indexHtml.match(/<head>([\s\S]*?)<\/head>/im)?.[1]
-    const body = indexHtml.match(/<body>([\s\S]*?)<\/body>/im)?.[1]
+    const head = indexHtml.match(/<head>([\s\S]*?)<\/head>/i)?.[1]
+    const body = indexHtml.match(/<body>([\s\S]*?)<\/body>/i)?.[1]
 
     // theme
     expect(head).toContain('<script src="/theme/head.js"></script>')
@@ -43,7 +43,7 @@ describe('utils', () => {
     const rawHtml = fs.readFileSync(resolve(clientRoot, 'index.html'), 'utf-8')
     const indexHtml = await getIndexHtml({ clientRoot, themeRoot, userRoot, config } as ResolvedValaxyOptions, rawHtml)
 
-    const head = indexHtml.match(/<head>([\s\S]*?)<\/head>/im)?.[1]
+    const head = indexHtml.match(/<head>([\s\S]*?)<\/head>/i)?.[1]
     expect(head).toContain('prefers-color-scheme: dark')
   })
 })

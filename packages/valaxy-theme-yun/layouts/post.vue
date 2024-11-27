@@ -1,10 +1,10 @@
 <script lang="ts" setup>
-import { computed } from 'vue'
-import { useFrontmatter, useFullUrl, useSiteConfig } from 'valaxy'
-
 import type { Article } from '@unhead/schema-org'
 import { defineArticle, useSchemaOrg } from '@unhead/schema-org'
+
 import { toDate } from 'date-fns/toDate'
+import { useFrontmatter, useFullUrl, useSiteConfig } from 'valaxy'
+import { computed } from 'vue'
 
 const siteConfig = useSiteConfig()
 const frontmatter = useFrontmatter()

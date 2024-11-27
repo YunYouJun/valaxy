@@ -1,9 +1,9 @@
+import type { HookKeys } from 'hookable'
+import type { ValaxyHooks, ValaxyNode } from '../types'
 import consola from 'consola'
 import { colors } from 'consola/utils'
 import ora from 'ora'
 import { magenta } from 'picocolors'
-import type { HookKeys } from 'hookable'
-import type { ValaxyHooks, ValaxyNode } from '../types'
 
 export const logger = consola.create({})
 

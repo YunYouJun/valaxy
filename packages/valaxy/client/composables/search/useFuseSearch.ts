@@ -1,9 +1,9 @@
-import { computed, shallowRef } from 'vue'
-import { useSiteConfig } from 'valaxy'
-import type { MaybeRefOrGetter } from '@vueuse/shared'
 import type { UseFuseOptions } from '@vueuse/integrations/useFuse'
-import { useFuse } from '@vueuse/integrations/useFuse'
+import type { MaybeRefOrGetter } from '@vueuse/shared'
 import type { FuseListItem } from 'valaxy/types'
+import { useFuse } from '@vueuse/integrations/useFuse'
+import { useSiteConfig } from 'valaxy'
+import { computed, shallowRef } from 'vue'
 
 export function useFuseSearch<T extends FuseListItem = FuseListItem>(
   search: MaybeRefOrGetter<string>,

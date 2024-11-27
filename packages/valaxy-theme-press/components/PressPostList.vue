@@ -1,7 +1,7 @@
 <script setup lang="ts">
-import { computed } from 'vue'
 import type { Post } from 'valaxy'
 import { useSiteStore } from 'valaxy'
+import { computed } from 'vue'
 
 const props = withDefaults(defineProps<{
   type?: string

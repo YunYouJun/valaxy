@@ -1,9 +1,9 @@
 <script setup>
-import { onBeforeUnmount, onMounted, ref, watch } from 'vue'
-import { useToast } from 'primevue/usetoast'
-import TerminalService from 'primevue/terminalservice'
 import Dock from 'primevue/dock'
+import TerminalService from 'primevue/terminalservice'
 import Toast from 'primevue/toast'
+import { useToast } from 'primevue/usetoast'
+import { onBeforeUnmount, onMounted, ref, watch } from 'vue'
 import { useYunAppStore } from '../stores'
 
 onMounted(() => {

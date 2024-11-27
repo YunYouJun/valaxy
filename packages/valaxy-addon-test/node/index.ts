@@ -1,5 +1,5 @@
-import { defineValaxyAddon } from 'valaxy'
 import consola from 'consola'
+import { defineValaxyAddon } from 'valaxy'
 import pkg from '../package.json'
 
 export const addonTest = defineValaxyAddon(options => ({

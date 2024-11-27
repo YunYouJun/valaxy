@@ -26,6 +26,7 @@ async function decryptContent() {
   }
   catch (e) {
     hasError.value = true
+    console.error(e)
   }
 }
 

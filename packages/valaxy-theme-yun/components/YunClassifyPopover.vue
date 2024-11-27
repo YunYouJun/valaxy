@@ -1,7 +1,7 @@
 <script setup lang="ts">
+import type { ComponentInstance } from 'vue'
 import { useMotion } from '@vueuse/motion'
 import Popover from 'primevue/popover'
-import type { ComponentInstance } from 'vue'
 import { onMounted, ref } from 'vue'
 
 const op = ref<ComponentInstance<typeof Popover>>()

@@ -1,16 +1,16 @@
+import type { MarkdownEnv } from 'unplugin-vue-markdown/types'
+import type { DefaultTheme, RedirectItem, RuntimeConfig } from 'valaxy/types'
+import type { ValaxyAddonResolver, ValaxyNodeConfig } from './types'
 import { dirname } from 'node:path'
 import process from 'node:process'
-import { resolve } from 'pathe'
-import fs from 'fs-extra'
+import { ensureSuffix, uniq } from '@antfu/utils'
+import consola from 'consola'
 import _debug from 'debug'
 import fg from 'fast-glob'
-import { ensureSuffix, uniq } from '@antfu/utils'
+import fs from 'fs-extra'
+import { resolve } from 'pathe'
 // import defu from 'defu'
 import { blue, cyan, magenta, yellow } from 'picocolors'
-import consola from 'consola'
-import type { DefaultTheme, RedirectItem, RuntimeConfig } from 'valaxy/types'
-import type { MarkdownEnv } from 'unplugin-vue-markdown/types'
-import { resolveImportPath } from './utils'
 import {
   defaultValaxyConfig,
   mergeValaxyConfig,
@@ -19,13 +19,13 @@ import {
   resolveValaxyConfig,
   resolveValaxyConfigFromRoot,
 } from './config'
-import type { ValaxyAddonResolver, ValaxyNodeConfig } from './types'
-import { parseAddons } from './utils/addons'
-import { getThemeRoot } from './utils/theme'
-import { resolveSiteConfig } from './config/site'
-import { countPerformanceTime } from './utils/performance'
-import { collectRedirects } from './utils/clientRedirects'
 import { replaceArrMerge } from './config/merge'
+import { resolveSiteConfig } from './config/site'
+import { resolveImportPath } from './utils'
+import { parseAddons } from './utils/addons'
+import { collectRedirects } from './utils/clientRedirects'
+import { countPerformanceTime } from './utils/performance'
+import { getThemeRoot } from './utils/theme'
 
 // for cli entry
 export interface ValaxyEntryOptions {
@@ -125,6 +125,7 @@ async function processSiteConfig(options: ResolvedValaxyOptions) {
   try {
     config.themeConfig!.pkg = await fs.readJson(themePkgPath, 'utf-8')
   }
+  // eslint-disable-next-line unused-imports/no-unused-vars
   catch (e) {
     console.error(`valaxy-theme-${theme} doesn't have package.json`)
   }

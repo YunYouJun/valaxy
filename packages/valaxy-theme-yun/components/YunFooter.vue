@@ -1,8 +1,8 @@
 <script lang="ts" setup>
-import { capitalize, computed } from 'vue'
 import { useSiteConfig, useValaxyConfig, useValaxyDark } from 'valaxy'
-import { useI18n } from 'vue-i18n'
 import pkg from 'valaxy/package.json'
+import { capitalize, computed } from 'vue'
+import { useI18n } from 'vue-i18n'
 import { useThemeConfig } from '../composables'
 
 // background-image: linear-gradient(120deg, #a1c4fd 0%, #c2e9fb 100%);

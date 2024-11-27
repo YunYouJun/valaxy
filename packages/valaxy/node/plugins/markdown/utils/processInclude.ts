@@ -39,6 +39,7 @@ export function processIncludes(
       // recursively process includes in the content
       return processIncludes(srcDir, content, includePath)
     }
+    // eslint-disable-next-line unused-imports/no-unused-vars
     catch (error) {
       return m // silently ignore error if file is not present
     }

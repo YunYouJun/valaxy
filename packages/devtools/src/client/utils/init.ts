@@ -1,5 +1,5 @@
-import { nextTick, onMounted } from 'vue'
 import type { Router } from 'vue-router'
+import { nextTick, onMounted } from 'vue'
 import { activePath, devtoolsRouter, frontmatter, pageData } from '../composables/app'
 import { getWindowProperty } from './get'
 

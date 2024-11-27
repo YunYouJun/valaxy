@@ -1,6 +1,6 @@
-// ref vitepress
-import { customAlphabet } from 'nanoid'
-import c from 'picocolors'
+import type { ShikiTransformer } from 'shiki'
+import type { Logger } from 'vite'
+import type { MarkdownOptions, ThemeOptions } from '../types'
 import {
   type TransformerCompactLineOption,
   transformerCompactLineOptions,
@@ -9,15 +9,15 @@ import {
   transformerNotationFocus,
   transformerNotationHighlight,
 } from '@shikijs/transformers'
-import type { ShikiTransformer } from 'shiki'
+// ref vitepress
+import { customAlphabet } from 'nanoid'
+import c from 'picocolors'
 import {
   addClassToHast,
   bundledLanguages,
   getHighlighter,
   isSpecialLang,
 } from 'shiki'
-import type { Logger } from 'vite'
-import type { MarkdownOptions, ThemeOptions } from '../types'
 
 const nanoid = customAlphabet('abcdefghijklmnopqrstuvwxyz', 10)
 

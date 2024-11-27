@@ -1,13 +1,13 @@
-import { defineValaxyConfig } from 'valaxy'
 import type { ThemeConfig } from 'valaxy-theme-yun'
+import { defineValaxyConfig } from 'valaxy'
 
 import { addonAlgolia } from 'valaxy-addon-algolia'
 import { addonBangumi } from 'valaxy-addon-bangumi'
 import { addonComponents } from 'valaxy-addon-components'
 import { addonLightGallery } from 'valaxy-addon-lightgallery'
 import { addonTest } from 'valaxy-addon-test'
-import { addonWaline } from 'valaxy-addon-waline'
 import { addonTwikoo } from 'valaxy-addon-twikoo'
+import { addonWaline } from 'valaxy-addon-waline'
 
 // import { addonMeting } from 'valaxy-addon-meting'
 
@@ -69,7 +69,7 @@ export default defineValaxyConfig<ThemeConfig>({
       // We use `[!!code` in demo to prevent transformation, here we revert it back.
       {
         postprocess(code) {
-          return code.replace(/\[\!\!code/g, '[!code')
+          return code.replace(/\[!!code/g, '[!code')
         },
       },
     ],

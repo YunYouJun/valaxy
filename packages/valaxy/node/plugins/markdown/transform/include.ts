@@ -1,6 +1,6 @@
-import path from 'pathe'
-import { slash } from '@antfu/utils'
 import type { ResolvedValaxyOptions } from '../../../options'
+import { slash } from '@antfu/utils'
+import path from 'pathe'
 import { processIncludes } from '../utils'
 
 const includedRE = /<!--\s*@included:\s*(.*?)\s*-->/g

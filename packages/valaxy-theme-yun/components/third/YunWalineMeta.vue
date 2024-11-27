@@ -1,9 +1,9 @@
 <script lang="ts" setup>
 import { useRuntimeConfig } from 'valaxy'
 import { computed } from 'vue'
-import { useRoute } from 'vue-router'
-
 import { useI18n } from 'vue-i18n'
+
+import { useRoute } from 'vue-router'
 
 const route = useRoute()
 const runtimeConfig = useRuntimeConfig()

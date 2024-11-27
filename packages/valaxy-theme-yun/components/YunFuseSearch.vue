@@ -1,9 +1,9 @@
 <script lang="ts" setup>
-import { ref, watch } from 'vue'
-import { useI18n } from 'vue-i18n'
-import { useFuseSearch } from 'valaxy'
-
 import { isClient, onClickOutside, useScrollLock } from '@vueuse/core'
+import { useFuseSearch } from 'valaxy'
+import { ref, watch } from 'vue'
+
+import { useI18n } from 'vue-i18n'
 
 const props = defineProps<{
   open: boolean

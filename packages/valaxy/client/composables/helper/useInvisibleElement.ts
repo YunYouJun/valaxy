@@ -1,5 +1,5 @@
-import { useElementBounding, useIntersectionObserver } from '@vueuse/core'
 import type { Ref } from 'vue'
+import { useElementBounding, useIntersectionObserver } from '@vueuse/core'
 import { ref } from 'vue'
 
 /**

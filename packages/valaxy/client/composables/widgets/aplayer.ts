@@ -1,5 +1,5 @@
-import { useScriptTag } from '@vueuse/core'
 import { useHead } from '@unhead/vue'
+import { useScriptTag } from '@vueuse/core'
 import { computed } from 'vue'
 import { useSiteConfig } from '../..'
 

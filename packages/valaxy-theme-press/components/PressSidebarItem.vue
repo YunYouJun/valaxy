@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import { computed } from 'vue'
 import type { DefaultTheme } from 'vitepress/theme'
+import { computed } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { useSidebarControl } from '../composables/sidebar'
 

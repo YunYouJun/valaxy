@@ -2,7 +2,7 @@
 
 import type MarkdownIt from 'markdown-it'
 
-const RE = /{([\d,-]+)}/
+const RE = /\{([\d,-]+)\}/
 
 export function highlightLinePlugin(md: MarkdownIt) {
   const fence = md.renderer.rules.fence!

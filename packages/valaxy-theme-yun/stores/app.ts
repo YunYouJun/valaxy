@@ -1,5 +1,5 @@
-import { acceptHMRUpdate, defineStore } from 'pinia'
 import { isClient, useScroll, useToggle } from '@vueuse/core'
+import { acceptHMRUpdate, defineStore } from 'pinia'
 import { useScreenSize } from 'valaxy'
 import { computed } from 'vue'
 import { useThemeConfig } from '../composables'

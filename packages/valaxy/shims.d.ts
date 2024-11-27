@@ -1,10 +1,10 @@
-import 'vue-router'
+import type { Header } from '@valaxyjs/utils'
 
 // import './client/typed-router'
 
 import type { Ref } from 'vue'
-import type { Header } from '@valaxyjs/utils'
 import type { Post } from './types'
+import 'vue-router'
 
 declare module 'valaxy-addon-*'
 declare module '@docsearch/js' {

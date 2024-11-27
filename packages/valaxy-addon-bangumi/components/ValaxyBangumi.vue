@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import { onMounted, ref } from 'vue'
 import { isClient } from '@vueuse/core'
+import { onMounted, ref } from 'vue'
 import { useAddonBangumi } from '../client'
 
 const bangumiRef = ref<HTMLElement>()

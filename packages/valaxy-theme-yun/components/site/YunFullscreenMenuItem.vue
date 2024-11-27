@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import { useYunAppStore } from '../../stores'
 import type { PageProps } from '../../types'
+import { useYunAppStore } from '../../stores'
 
 defineProps<{
   page: PageProps

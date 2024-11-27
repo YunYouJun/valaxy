@@ -1,5 +1,5 @@
-import { useEventListener } from '@vueuse/core'
 import type { MetingOptions } from '../node/index'
+import { useEventListener } from '@vueuse/core'
 import { Hook } from './hook'
 
 type Rules = {

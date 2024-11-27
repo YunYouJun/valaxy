@@ -1,7 +1,7 @@
 <script setup lang="ts">
-import { nextTick, ref } from 'vue'
 import type { MenuItem } from 'valaxy'
 import { onContentUpdated } from 'valaxy'
+import { nextTick, ref } from 'vue'
 
 import { useI18n } from 'vue-i18n'
 

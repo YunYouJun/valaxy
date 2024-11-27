@@ -354,10 +354,10 @@ const themeConfig = useThemeConfig()
 你可以提供一个主题的 `useThemeConfig` 函数，以便自己/用户获得带有类型约束的配置。
 
 ```ts
-// composables/config.ts
-import { useValaxyConfig } from 'valaxy'
 // custom your theme type
 import type { YunTheme } from '../types'
+// composables/config.ts
+import { useValaxyConfig } from 'valaxy'
 /**
  * getThemeConfig
  */
@@ -552,7 +552,48 @@ Valaxy 决定通过插件中心化地提供各类封装好的评论组件和辅�
 
 > 集成参见 [valaxy-addon-waline](https://github.com/YunYouJun/valaxy/blob/main/packages/valaxy-addon-waline/README.md)。
 
-## FAQ
+## 性能优化 {lang="zh-CN"}
+
+## Performance Optimization {lang="en"}
+
+### 添加依赖预构建 `optimizeDeps` {lang="zh-CN"}
+
+### Add Dep Pre-bundling `optimizeDeps` {lang="en"}
+
+::: zh-CN
+
+- [原因｜依赖预构建](https://cn.vite.dev/guide/dep-pre-bundling.html#the-why)
+
+为了提高后续页面的加载性能，Vite 将那些具有许多内部模块的 ESM 依赖项转换为单个模块。
+如果你的主题依赖了一些大型的 ESM 包，你可以通过添加 `optimizeDeps` 选项来预构建这些依赖项。
+
+> `date-fns` 已被默认预构建，您无需再次添加。
+
+:::
+
+::: en
+
+- [Why｜Dep Pre-bundling](https://vitejs.dev/guide/dep-pre-bundling.html#the-why)
+
+To improve the loading performance of subsequent pages, Vite bundles ESM dependencies with many internal modules into a single module.
+If your theme depends on some large ESM packages, you can pre-build these dependencies by adding the `optimizeDeps` option.
+
+> `date-fns` has been pre-built by default, you don't need to add it again.
+
+:::
+
+```ts
+// valaxy.config.ts
+import { defineTheme } from 'valaxy'
+
+export default defineTheme({
+  vite: {
+    optimizeDeps: {
+      include: ['lodash-es'],
+    },
+  }
+})
+```
 
 ### 提醒特殊需求的用户安装第三方插件
 

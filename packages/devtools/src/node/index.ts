@@ -1,9 +1,9 @@
 import type { Plugin, ResolvedConfig, ViteDevServer } from 'vite'
+import type { ValaxyDevtoolsOptions } from './types'
+import { createProxyMiddleware } from 'http-proxy-middleware'
 import c from 'picocolors'
 import sirv from 'sirv'
-import { createProxyMiddleware } from 'http-proxy-middleware'
 import { DIR_CLIENT } from '../dir'
-import type { ValaxyDevtoolsOptions } from './types'
 import { registerApi } from './api'
 
 const NAME = 'valaxy:devtools'

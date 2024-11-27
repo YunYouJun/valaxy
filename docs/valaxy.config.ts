@@ -1,6 +1,6 @@
+import type { PressTheme } from 'valaxy-theme-press'
 import process from 'node:process'
 import { defineValaxyConfig } from 'valaxy'
-import type { PressTheme } from 'valaxy-theme-press'
 import { addonAlgolia } from 'valaxy-addon-algolia'
 import { addonComponents } from 'valaxy-addon-components'
 import { addonGitLog } from 'valaxy-addon-git-log'
@@ -202,7 +202,7 @@ export default defineValaxyConfig<PressTheme.Config>({
       // We use `[!!code` in demo to prevent transformation, here we revert it back.
       {
         postprocess(code) {
-          return code.replace(/\[\!\!code/g, '[!code')
+          return code.replace(/\[!!code/g, '[!code')
         },
       },
     ],

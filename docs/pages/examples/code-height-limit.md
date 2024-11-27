@@ -30,8 +30,8 @@ Rendering result
 :::
 
 ```ts
-import { defineValaxyConfig } from 'valaxy'
 import type { ThemeConfig } from 'valaxy-theme-yun'
+import { defineValaxyConfig } from 'valaxy'
 
 const safelist = [
   'i-ri-home-line',

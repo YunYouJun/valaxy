@@ -1,7 +1,7 @@
-import { onMounted } from 'vue'
 import type { MetingOptions } from '../node/index'
-import { animationIn, autoHidden, handleOptions, useAPlayerMiniSwitcherEventListener } from './utils'
+import { onMounted } from 'vue'
 import { setupHiddenLyricHidingObserver } from './observer'
+import { animationIn, autoHidden, handleOptions, useAPlayerMiniSwitcherEventListener } from './utils'
 
 export enum Hook {
   metingInit = 'metingInit',

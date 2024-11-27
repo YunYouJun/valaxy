@@ -1,5 +1,5 @@
-import yaml, { CORE_SCHEMA } from 'js-yaml'
 import type matter from 'gray-matter'
+import yaml, { CORE_SCHEMA } from 'js-yaml'
 import { EXCERPT_SEPARATOR } from '../../../constants'
 
 type GrayMatterOptions = matter.GrayMatterOption<string, GrayMatterOptions>

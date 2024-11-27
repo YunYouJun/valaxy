@@ -1,5 +1,5 @@
-import { initValaxyConfig } from 'valaxy'
 import type { UserModule } from '../types'
+import { initValaxyConfig } from 'valaxy'
 
 // https://unhead-schema-org.harlanzw.com/
 export const install: UserModule = async ({ head, isClient, router }) => {

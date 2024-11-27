@@ -1,12 +1,12 @@
+import type { Post } from 'valaxy'
 import type { ComputedRef } from 'vue'
 import { computed } from 'vue'
 import { useI18n } from 'vue-i18n'
-import type { Post } from 'valaxy'
-import { sortByDate } from '../../utils'
 import { useRouterStore } from '../../stores'
+import { sortByDate } from '../../utils'
 
-export * from './usePrevNext'
 export * from './usePagination'
+export * from './usePrevNext'
 
 export function usePostTitle(post: ComputedRef<Post>) {
   const { locale } = useI18n()

@@ -1,8 +1,8 @@
 import type { ResolvedValaxyOptions } from 'valaxy'
-import { defineTheme } from 'valaxy'
 import type { Plugin } from 'vite'
-import { defaultThemeConfig } from './config'
 import type { ThemeConfig } from './types'
+import { defineTheme } from 'valaxy'
+import { defaultThemeConfig } from './config'
 
 function ThemeVitePlugin(options: ResolvedValaxyOptions<ThemeConfig>): Plugin {
   const themeConfig = options.config.themeConfig!

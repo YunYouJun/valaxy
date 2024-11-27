@@ -1,5 +1,5 @@
-import { onContentUpdated } from 'valaxy'
 import { isClient } from '@vueuse/core'
+import { onContentUpdated } from 'valaxy'
 
 export function useCodeGroups() {
   if (import.meta.env.DEV) {

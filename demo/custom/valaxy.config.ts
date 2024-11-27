@@ -1,5 +1,5 @@
-import { defineValaxyConfig } from 'valaxy'
 import type { UserThemeConfig } from 'valaxy-theme-yun'
+import { defineValaxyConfig } from 'valaxy'
 
 // add icons what you will need
 const safelist = [

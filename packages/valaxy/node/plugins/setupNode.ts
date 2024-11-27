@@ -1,7 +1,7 @@
 // ref slidev
 import { resolve } from 'node:path'
-import fs from 'fs-extra'
 import { isObject } from '@antfu/utils'
+import fs from 'fs-extra'
 import { createJiti } from 'jiti'
 
 const jiti = createJiti(import.meta.url)
