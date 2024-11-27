@@ -5,7 +5,7 @@ export default defineConfig({
     deps: {
       optimizer: {
         ssr: {
-          include: ['@vue', '@vueuse', 'vue-demi'],
+          include: ['@vue', '@vueuse'],
         },
       },
     },

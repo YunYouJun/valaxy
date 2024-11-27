@@ -1,6 +1,6 @@
 import { isClient, useStorage } from '@vueuse/core'
 import { useI18n } from 'vue-i18n'
-import { setDefaultOptions } from 'date-fns'
+import { setDefaultOptions } from 'date-fns/setDefaultOptions'
 import { enUS, zhCN } from 'date-fns/locale'
 
 export function useLocale() {

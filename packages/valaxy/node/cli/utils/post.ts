@@ -4,7 +4,7 @@ import { render } from 'ejs'
 import { ensureSuffix } from '@antfu/utils'
 import { consola } from 'consola'
 import { green, magenta } from 'picocolors'
-import { format } from 'date-fns'
+import { formatDate } from 'date-fns/format'
 import { exists } from './fs'
 import { getTemplate } from './scaffold'
 import { defaultPostTemplate, userRoot } from './constants'
@@ -67,5 +67,5 @@ async function genLayoutTemplate({
 
   // 24h format
   const dateFormat = 'yyyy-MM-dd HH:mm:ss'
-  return render(template, { title, layout, date: date ? format(new Date(), dateFormat) : '' })
+  return render(template, { title, layout, date: date ? formatDate(new Date(), dateFormat) : '' })
 }

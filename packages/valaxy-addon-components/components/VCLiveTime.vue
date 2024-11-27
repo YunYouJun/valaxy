@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import { onMounted, ref } from 'vue'
 import { useI18n } from 'vue-i18n'
-import { differenceInSeconds } from 'date-fns'
+import { differenceInSeconds } from 'date-fns/differenceInSeconds'
 
 const props = defineProps<{
   startTime: string

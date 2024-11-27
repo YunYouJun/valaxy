@@ -17,6 +17,6 @@
     "valaxy": "latest"
   },
   "dependencies": {
-    "lightgallery": "^2.7.2"
+    "lightgallery": "2.7.2"
   }
 }

@@ -3,7 +3,8 @@ import { computed, ref, watch } from 'vue'
 import { useFrontmatter } from 'valaxy'
 import { useI18n } from 'vue-i18n'
 
-import { differenceInMilliseconds, formatDistanceToNow } from 'date-fns'
+import { differenceInMilliseconds } from 'date-fns/differenceInMilliseconds'
+import { formatDistanceToNow } from 'date-fns/formatDistanceToNow'
 
 const fm = useFrontmatter()
 const { t, locale } = useI18n()

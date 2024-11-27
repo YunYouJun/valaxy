@@ -1,4 +1,4 @@
-import { computed, onMounted, shallowRef } from 'vue'
+import { computed, shallowRef } from 'vue'
 import { useSiteConfig } from 'valaxy'
 import type { MaybeRefOrGetter } from '@vueuse/shared'
 import type { UseFuseOptions } from '@vueuse/integrations/useFuse'
@@ -31,12 +31,13 @@ export function useFuseSearch<T extends FuseListItem = FuseListItem>(
     // resultLimit: resultLimit.value,
     // matchAllWhenSearchEmpty: matchAllWhenSearchEmpty.value,
   }
+
   const useFuseOptions = computed<UseFuseOptions<T>>(() => ({
     ...defaultOptions,
     ...options,
   }))
 
-  const ruse = useFuse<T>(search, fuseListData, useFuseOptions)
+  const { fuse, results } = useFuse<T>(search, fuseListData, useFuseOptions)
 
   async function fetchFuseListData(path?: string) {
     const fuseListDataPath = path
@@ -51,7 +52,10 @@ export function useFuseSearch<T extends FuseListItem = FuseListItem>(
       fuseListData.value = data
   }
 
-  onMounted(fetchFuseListData)
+  return {
+    fuse,
+    results,
 
-  return ruse
+    fetchFuseListData,
+  }
 }

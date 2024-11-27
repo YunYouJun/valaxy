@@ -4,7 +4,7 @@ import { useFrontmatter, useFullUrl, useSiteConfig } from 'valaxy'
 
 import type { Article } from '@unhead/schema-org'
 import { defineArticle, useSchemaOrg } from '@unhead/schema-org'
-import { toDate } from 'date-fns'
+import { toDate } from 'date-fns/toDate'
 
 const siteConfig = useSiteConfig()
 const frontmatter = useFrontmatter()

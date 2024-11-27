@@ -1,11 +1,11 @@
 <script lang="ts" setup>
-import { ref } from 'vue'
+import { ref, watch } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { useFuseSearch } from 'valaxy'
 
 import { isClient, onClickOutside, useScrollLock } from '@vueuse/core'
 
-defineProps<{
+const props = defineProps<{
   open: boolean
 }>()
 const emit = defineEmits(['close'])
@@ -14,13 +14,18 @@ const input = ref('')
 
 const isLocked = useScrollLock(isClient ? document.documentElement : null)
 const { t } = useI18n()
-const { results } = useFuseSearch(input)
+const { results, fetchFuseListData } = useFuseSearch(input)
 
 const searchInputRef = ref<HTMLInputElement>()
 const searchContainer = ref<HTMLElement>()
 
 onClickOutside(searchInputRef, () => {
   // emit('close')
+})
+
+watch(() => props.open, () => {
+  if (props.open)
+    fetchFuseListData()
 })
 </script>
 

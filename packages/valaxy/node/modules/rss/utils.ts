@@ -11,7 +11,7 @@ import consola from 'consola'
 import { colors } from 'consola/utils'
 
 import { getBorderCharacters, table } from 'table'
-import { formatDate } from 'date-fns'
+import { formatDate } from 'date-fns/format'
 import ora from 'ora'
 
 import { getCreatedTime, getUpdatedTime } from '../../utils/date'
