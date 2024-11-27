@@ -15,7 +15,7 @@ import c from 'picocolors'
 import {
   addClassToHast,
   bundledLanguages,
-  getHighlighter,
+  createHighlighter,
   isSpecialLang,
 } from 'shiki'
 
@@ -30,6 +30,7 @@ const nanoid = customAlphabet('abcdefghijklmnopqrstuvwxyz', 10)
  *    [{ line: number, classes: string[] }]
  */
 function attrsToLines(attrs: string): TransformerCompactLineOption[] {
+  // eslint-disable-next-line regexp/optimal-quantifier-concatenation, regexp/no-super-linear-backtracking
   attrs = attrs.replace(/^(?:\[.*?\])?.*?([\d,-]+).*/, '$1').trim()
   const result: number[] = []
   if (!attrs)
@@ -64,7 +65,7 @@ export async function highlight(
     codeTransformers: userTransformers = [],
   } = options
 
-  const highlighter = await getHighlighter({
+  const highlighter = await createHighlighter({
     themes:
       typeof theme === 'object' && 'light' in theme && 'dark' in theme
         ? [theme.light, theme.dark]

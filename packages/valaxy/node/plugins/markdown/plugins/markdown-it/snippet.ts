@@ -16,6 +16,7 @@ import path from 'pathe'
  * captures: ['/path/to/file.extension', 'extension', '#region', '{meta}', '[title]']
  */
 export const rawPathRegexp
+  // eslint-disable-next-line regexp/no-super-linear-backtracking
   = /^(.+?(?:\.([a-z0-9]+))?)(#[\w-]+)?(?: ?\{(\d+(?:[,-]\d+)*)? ?(\S+)?\})? ?(?:\[(.+)\])?$/
 
 export function rawPathToToken(rawPath: string) {

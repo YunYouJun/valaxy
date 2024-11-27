@@ -12,6 +12,7 @@ export function useCopyCode() {
         if (!parent || !sibling)
           return
 
+        // eslint-disable-next-line regexp/no-unused-capturing-group
         const isShell = /language-(shellscript|shell|bash|sh|zsh)/.test(
           parent.className,
         )

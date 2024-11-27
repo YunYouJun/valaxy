@@ -3,6 +3,7 @@ import { slash } from '@antfu/utils'
 import path from 'pathe'
 import { processIncludes } from '../utils'
 
+// eslint-disable-next-line regexp/no-super-linear-backtracking
 const includedRE = /<!--\s*@included:\s*(.*?)\s*-->/g
 
 export function createTransformIncludes(options: ResolvedValaxyOptions) {

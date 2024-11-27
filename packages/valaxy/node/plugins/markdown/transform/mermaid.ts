@@ -8,6 +8,7 @@ export function transformMermaid(md: string): string {
   md = md.replace(/^````txt\n```mermaid/gm, '````txt\n\\`\\`\\`mermaid')
 
   md = md
+    // eslint-disable-next-line regexp/no-super-linear-backtracking
     .replace(/^```mermaid\s*?(\{.*?\})?\n([\s\S]+?)\n```/gm, (full, options = '', code = '') => {
       code = code.trim()
       options = options.trim() || '{}'

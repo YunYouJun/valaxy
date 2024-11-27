@@ -14,6 +14,7 @@ export function extractLang(info: string) {
   return info
     .trim()
     .replace(/=(\d*)/, '')
+    // eslint-disable-next-line regexp/optimal-quantifier-concatenation
     .replace(/:(no-)?line-numbers(\{| |$|=\d*).*/, '')
     .replace(/(-vue|\{| ).*$/, '')
     .replace(/^vue-html$/, 'template')
@@ -63,6 +64,7 @@ export function preWrapperPlugin(md: MarkdownIt, options: Options) {
 
     return `
     <div ${getCodeHeightLimitStyle(options, env)} class="language-${lang}${getAdaptiveThemeMarker(options)}${
+      // eslint-disable-next-line regexp/no-unused-capturing-group
       / active( |$)/.test(token.info) ? ' active' : ''
     }">
       <button title="Copy Code" class="copy"></button><span class="lang">${lang}</span>${rawCode}<button class="collapse"></button>

@@ -11,6 +11,7 @@ export function processIncludes(
   src: string,
   file: string,
 ): string {
+  // eslint-disable-next-line regexp/no-super-linear-backtracking
   const includesRE = /<!--\s*@include:\s*(.*?)\s*-->/g
   const rangeRE = /\{(\d*),(\d*)\}$/
   return src.replace(includesRE, (m: string, m1: string) => {

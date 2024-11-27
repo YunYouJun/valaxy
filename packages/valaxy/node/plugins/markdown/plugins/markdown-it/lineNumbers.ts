@@ -12,7 +12,9 @@ export function lineNumberPlugin(md: MarkdownIt, enable = false) {
     const info = tokens[idx].info
 
     if (
+      // eslint-disable-next-line regexp/no-unused-capturing-group
       (!enable && !/:line-numbers($| |=)/.test(info))
+      // eslint-disable-next-line regexp/no-unused-capturing-group
       || (enable && /:no-line-numbers($| )/.test(info))
     ) {
       return rawCode

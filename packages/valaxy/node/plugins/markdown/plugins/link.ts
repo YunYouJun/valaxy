@@ -38,6 +38,7 @@ export function linkPlugin(md: MarkdownIt, externalAttrs: Record<string, string>
         // mail links
         && !url.startsWith('mailto:')
         // links to files (other than html/md)
+        // eslint-disable-next-line regexp/no-unused-capturing-group
         && !/\.(?!html|md)\w+($|\?)/i.test(url)
       ) {
         normalizeHref(hrefAttr, env)

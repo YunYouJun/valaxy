@@ -12,7 +12,7 @@ export default antfu(
       'api/typedoc',
     ],
     rules: {
-      'no-dupe-keys': 'warn',
+      'no-dupe-keys': 'off',
     },
   },
   {

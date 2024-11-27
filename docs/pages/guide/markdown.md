@@ -1062,6 +1062,7 @@ Use `^[content]` to create convenient inline footnotes^[like this!].
 :::
 
 ### 脚注预览 {lang="zh-CN"}
+
 ### Footnote Preview {lang="en"}
 
 ::: zh-CN
