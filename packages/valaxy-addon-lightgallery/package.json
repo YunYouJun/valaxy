@@ -1,7 +1,7 @@
 {
   "name": "valaxy-addon-lightgallery",
   "type": "module",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "Light Gallery for Valaxy",
   "repository": {
     "url": "https://github.com/YunYouJun/valaxy/tree/main/packages/valaxy-addon-lightgallery"

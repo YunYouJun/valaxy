@@ -79,16 +79,16 @@
     "valaxy-theme-yun": "workspace:*"
   },
   "devDependencies": {
-    "@antfu/eslint-config": "^3.11.0",
-    "@iconify-json/logos": "^1.2.3",
-    "@iconify-json/vscode-icons": "^1.2.2",
+    "@antfu/eslint-config": "^3.11.2",
+    "@iconify-json/logos": "catalog:",
+    "@iconify-json/vscode-icons": "catalog:",
     "@microsoft/api-extractor": "^7.48.0",
     "@playwright/test": "^1.49.0",
     "@types/debug": "^4.1.12",
     "@types/markdown-it-attrs": "^4.1.3",
     "@types/markdown-it-container": "^2.0.10",
     "@types/markdown-it-emoji": "^3.0.1",
-    "@types/node": "^22.10.0",
+    "@types/node": "^22.10.1",
     "@types/prompts": "^2.4.9",
     "@types/resolve": "^1.20.6",
     "bumpp": "^9.8.1",
@@ -106,11 +106,11 @@
     "stylelint-config-standard-scss": "^13.1.0",
     "tsup": "^8.3.5",
     "tsx": "^4.19.2",
-    "typescript": "^5.7.2",
+    "typescript": "catalog:",
     "unbuild": "^2.0.0",
     "vitest": "^2.1.6",
     "vue-tsc": "2.0.17",
-    "zx": "^8.2.2"
+    "zx": "^8.2.3"
   },
   "pnpm": {
     "peerDependencyRules": {

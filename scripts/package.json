@@ -2,6 +2,6 @@
   "type": "module",
   "devDependencies": {
     "picocolors": "^1.1.1",
-    "zx": "^8.2.2"
+    "zx": "^8.2.3"
   }
 }

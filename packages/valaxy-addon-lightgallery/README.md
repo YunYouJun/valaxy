@@ -45,3 +45,11 @@ photos:
 <!-- You can also use the style of the photo separately -->
 <VAPhoto :photo="frontmatter.photos[0]" />
 ```
+
+## FAQ
+
+### Rollup failed to resolve import "lightgallery/vue/LightGalleryVue.umd.min.js"
+
+- [Vue bundle missing from npm package | sachinchoolur/lightGallery](https://github.com/sachinchoolur/lightGallery/issues/1671)
+
+Lock packages.json dependencies version to `"lightgallery": "2.7.2"`.

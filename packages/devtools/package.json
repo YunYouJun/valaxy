@@ -25,12 +25,12 @@
     "watch:client": "vite build src/client --watch",
     "stub": "unbuild --stub",
     "prepublishOnly": "npm run build",
-    "release": "bumpp && npm publish"
+    "release": "bumpp && pnpm publish"
   },
   "dependencies": {
     "@rollup/pluginutils": "^5.1.3",
     "axios": "^1.7.8",
-    "body-parser": "^2.0.1",
+    "body-parser": "^2.0.2",
     "http-proxy-middleware": "^3.0.3",
     "js-yaml": "^4.1.0",
     "picocolors": "^1.1.1",
@@ -38,12 +38,12 @@
   },
   "devDependencies": {
     "@advjs/gui": "0.0.7-beta.1",
-    "@iconify-json/ri": "^1.2.3",
+    "@iconify-json/ri": "catalog:",
     "@types/body-parser": "^1.19.5",
     "@types/splitpanes": "^2.2.6",
     "gray-matter": "^4.0.3",
     "splitpanes": "^3.1.5",
-    "typescript": "^5.7.2",
+    "typescript": "catalog:",
     "unbuild": "^2.0.0",
     "unplugin-vue-router": "^0.10.8",
     "vite": "^6.0.1"

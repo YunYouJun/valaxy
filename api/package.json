@@ -3,7 +3,8 @@
   "type": "module",
   "private": true,
   "scripts": {
-    "build": "pnpm run typedoc && vitepress build",
+    "prebuild": "pnpm run typedoc",
+    "build": "vitepress build",
     "dev": "vitepress dev",
     "preview": "vitepress preview",
     "typedoc": "typedoc --options ./typedoc.json"

@@ -21,8 +21,8 @@
     "valaxy-theme-press": "link:../packages/valaxy-theme-press"
   },
   "devDependencies": {
-    "@iconify-json/carbon": "^1.2.4",
-    "@iconify-json/simple-icons": "^1.2.13",
+    "@iconify-json/carbon": "catalog:",
+    "@iconify-json/simple-icons": "catalog:",
     "nodemon": "^3.1.7",
     "vite": "^6.0.1",
     "vitepress": "1.1.4"

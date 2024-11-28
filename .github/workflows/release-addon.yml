@@ -38,7 +38,7 @@ jobs:
           if [[ $COMMIT_MSG == $PATTERN ]]; then
             ADDON_NAME=$(echo $COMMIT_MSG | cut -d'(' -f2 | cut -d')' -f1)
             cd packages/valaxy-$ADDON_NAME
-            npm publish
+            pnpm publish
           fi
         env:
           NODE_AUTH_TOKEN: ${{secrets.NPM_TOKEN}}
