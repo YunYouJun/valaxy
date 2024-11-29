@@ -6,6 +6,24 @@ categories:
 end: false
 ---
 
+## 构建失败
+
+### ReferenceError: document is not defined
+
+这通常发生在使用自定义代码 `document.xxx` 或引入第三方库（仅在浏览器端可用的 NPM 包）时。
+代码直接调用了 `document`，而该变量在 Node 端不存在，因此导致构建失败。
+
+你应当使用 `isClient` 判断逻辑来使得该代码仅在客户端执行。
+
+```ts
+import { isClient } from '@vueuse/core'
+
+if (isClient) {
+  document.xxx()
+  // import('xxx')
+}
+```
+
 ## 改变构建形式 {lang="zh-CN"}
 
 ## Change Generated Directory Style {lang="en"}
