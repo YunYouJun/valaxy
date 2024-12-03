@@ -66,7 +66,7 @@
     "@antfu/utils": "^0.7.10",
     "@clack/prompts": "^0.8.2",
     "@iconify-json/ri": "catalog:",
-    "@intlify/unplugin-vue-i18n": "4",
+    "@intlify/unplugin-vue-i18n": "^6.0.0",
     "@types/katex": "^0.16.7",
     "@types/luxon": "^3.4.2",
     "@unhead/addons": "^1.11.13",
