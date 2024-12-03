@@ -98,8 +98,6 @@ export async function ViteValaxyPlugins(
       compositionOnly: true,
       fullInstall: true,
       include: roots.map(root => `${root}/locales/**`),
-      // items merged by defu will be treated as array, we should override it
-      jitCompilation: false,
     }),
 
     createFixPlugins(options),
