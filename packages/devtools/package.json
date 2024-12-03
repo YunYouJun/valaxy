@@ -46,6 +46,6 @@
     "typescript": "catalog:",
     "unbuild": "^2.0.0",
     "unplugin-vue-router": "^0.10.8",
-    "vite": "^6.0.1"
+    "vite": "catalog:"
   }
 }
