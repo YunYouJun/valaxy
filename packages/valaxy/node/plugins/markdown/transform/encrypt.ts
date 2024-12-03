@@ -14,6 +14,20 @@ export function createTransformEncrypt(options: ResolvedValaxyOptions) {
     const { frontmatter = {} as Record<string, any> } = pageData
 
     if (encrypt.enable) {
+      /**
+       * get `<ValaxyDecrypt />` template
+       */
+      function getValaxyDecryptTemplate(options: {
+        encryptedContent: string
+        hint?: string
+      }) {
+        return [
+          '<ClientOnly>',
+          `<ValaxyDecrypt :encrypted-content="${options.encryptedContent}" hint="${options.hint}" />`,
+          '</ClientOnly>',
+        ].join('')
+      }
+
       // partial encryption
       const encryptRegexp = /<!-- valaxy-encrypt-start:(?<password>\w+) -->(?<content>.*?)<!-- valaxy-encrypt-end -->/gs
       const encryptCommentRegexp = /((<!-- valaxy-encrypt-start:\w+ -->)|(<!-- valaxy-encrypt-end -->))/g
@@ -38,7 +52,10 @@ export function createTransformEncrypt(options: ResolvedValaxyOptions) {
           code = code.replaceAll(encryptRegexp, () => {
             const partiallyEncryptedContents = `$frontmatter.partiallyEncryptedContents`
             const content = `${partiallyEncryptedContents}[${i++}]`
-            return `<ClientOnly><ValaxyDecrypt :encrypted-content="${content}" /></ClientOnly>`
+            return getValaxyDecryptTemplate({
+              encryptedContent: content,
+              hint: frontmatter.password_hint,
+            })
           })
         }
       }
@@ -58,7 +75,10 @@ export function createTransformEncrypt(options: ResolvedValaxyOptions) {
         delete frontmatter.password
         // replace content in <template></template> to empty
         const encryptedContentStr = '$frontmatter.encryptedContent'
-        code = code.replace(content, `<ClientOnly><ValaxyDecrypt :encrypted-content="${encryptedContentStr}" /></ClientOnly>`)
+        code = code.replace(content, getValaxyDecryptTemplate({
+          encryptedContent: encryptedContentStr,
+          hint: frontmatter.password_hint,
+        }))
 
         // remove export
         const scriptSetupStart = code.lastIndexOf('<script setup>')

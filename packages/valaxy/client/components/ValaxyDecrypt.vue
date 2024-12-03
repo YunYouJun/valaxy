@@ -1,9 +1,10 @@
 <script lang="ts" setup>
 import { runContentUpdated, useDecrypt, useFrontmatter } from 'valaxy'
-import { defineComponent, h, onMounted, ref } from 'vue'
+import { computed, defineComponent, h, ref } from 'vue'
 
 const props = defineProps<{
   encryptedContent: string
+  hint?: string
 }>()
 
 const password = ref('')
@@ -58,11 +59,7 @@ const ValaxyDeprecatedContent = defineComponent({
   },
 })
 
-const hasWarning = ref(false)
-onMounted(() => {
-  if (location.protocol !== 'https:')
-    hasWarning.value = true
-})
+const hasWarning = computed(() => location.protocol !== 'https:')
 </script>
 
 <template>
@@ -83,12 +80,16 @@ onMounted(() => {
           @keyup.enter="decryptContent"
         >
         <div
+          class="text-gray/70 hover:text-gray transition"
           cursor-pointer
           absolute text-2xl
           i-ri-arrow-right-circle-line right-3
-          text-gray hover:text-black
           @click="decryptContent"
         />
+
+        <div v-if="hint" class="-top-6" absolute text-xs op="50">
+          <div v-html="hint" />
+        </div>
 
         <div v-if="hasWarning" class="-bottom-6" absolute text-xs op="50">
           <a href="https://developer.mozilla.org/en-US/docs/Web/API/Web_Crypto_API" target="_blank">

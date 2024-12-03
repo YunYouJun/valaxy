@@ -3,6 +3,7 @@ title: '加密文章测试 - 密码 valaxy'
 date: 2023-08-06 12:00:00
 categories: Test
 password: valaxy
+password_hint: 这是密码提示
 ---
 
 这里是被加密的复杂文章内容
