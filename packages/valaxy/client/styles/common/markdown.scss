@@ -25,15 +25,15 @@
 
   // custom block
   .custom-block {
-    margin: 16px 0;
-
     p {
       margin: 8px 0;
       line-height: 24px;
     }
+  }
 
-    p:first-child {
-      margin: 0;
+  .custom-block div[lang] {
+    p {
+      margin: 8px 0;
     }
   }
 

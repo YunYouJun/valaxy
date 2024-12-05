@@ -26,6 +26,7 @@ declare module 'vue-router/auto-routes' {
     '/addons/use': RouteRecordInfo<'/addons/use', '/addons/use', Record<never, never>, Record<never, never>>,
     '/addons/why': RouteRecordInfo<'/addons/why', '/addons/why', Record<never, never>, Record<never, never>>,
     '/addons/write': RouteRecordInfo<'/addons/write', '/addons/write', Record<never, never>, Record<never, never>>,
+    '/api/': RouteRecordInfo<'/api/', '/api', Record<never, never>, Record<never, never>>,
     '/dev/': RouteRecordInfo<'/dev/', '/dev', Record<never, never>, Record<never, never>>,
     '/dev/docs': RouteRecordInfo<'/dev/docs', '/dev/docs', Record<never, never>, Record<never, never>>,
     '/dev/faq': RouteRecordInfo<'/dev/faq', '/dev/faq', Record<never, never>, Record<never, never>>,

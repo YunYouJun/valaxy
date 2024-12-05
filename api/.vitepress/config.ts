@@ -16,6 +16,10 @@ export default defineConfig({
   title: 'Valaxy API Docs',
   description: 'API Docs For Valaxy',
   themeConfig: {
+    search: {
+      provider: 'local',
+    },
+
     // https://vitepress.dev/reference/default-theme-config
     nav: [
       { text: 'TypeDoc', link: '/typedoc' },

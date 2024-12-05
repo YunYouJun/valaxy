@@ -3,7 +3,6 @@ title: Deployment
 title_zh: 部署
 categories:
   - getting-started
-end: false
 top: 99
 ---
 
