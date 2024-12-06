@@ -16,6 +16,8 @@ export default defineConfig({
   title: 'Valaxy API Docs',
   description: 'API Docs For Valaxy',
   themeConfig: {
+    outline: [2, 3],
+
     search: {
       provider: 'local',
     },

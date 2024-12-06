@@ -3,7 +3,6 @@ title: Getting Started
 title_zh: 开始
 categories:
   - getting-started
-end: true
 top: 100
 ---
 
@@ -95,7 +94,7 @@ You can use [StackBlitz](https://stackblitz.com/edit/valaxy) to try Valaxy onlin
 
 ::: tip
 
-如果您是 Windows 用户，我强烈建议您使用类 Unix 的 Shell（如 [Git Bash](https://git-scm.com/downloads) 或 [WSL](https://docs.microsoft.com/en-us/windows/wsl/install)），而非 CMD / PowerShell.
+如果您是 Windows 用户，我们**强烈建议**您使用类 Unix 的 Shell（如 [Git Bash](https://git-scm.com/downloads) 或 [WSL](https://docs.microsoft.com/en-us/windows/wsl/install)），而非 CMD / PowerShell.
 
 :::
 

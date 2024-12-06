@@ -25,6 +25,7 @@ Hexo 博客目录与 Valaxy 博客目录对应关系如下，将相关内容复�
 |文章（Markdown 文件）|`source/_posts`|`pages/posts`|
 |页面（Markdown / Html）|`source`|`pages`|
 |静态资源（`*.js` / `*.css` / `CNAME` etc.）|`source`|`public`|
+
 :::
 
 ::: en
@@ -37,6 +38,7 @@ The relationship between Hexo blog directory and Valaxy blog directory is shown 
 |Posts (Markdown files)|`source/_posts`|`pages/posts`|
 |Pages (Markdown / Html files)|`source`|`pages`|
 |Static assets (`*.js` / `*.css` / `CNAME` etc.)|`source`|`public`|
+
 :::
 
 ### 迁移配置 {lang="zh-CN"}

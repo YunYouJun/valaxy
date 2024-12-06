@@ -8,7 +8,7 @@ import type { MermaidOptions } from './types'
  * The context object for the application setup function.
  *
  * @zh
- * 应用 setup 函数的上下文对象。（包括了 ViteSSG context）
+ * 应用 setup 函数的上下文对象。（包括了 `ViteSSGContext`）
  */
 export type AppContext = ViteSSGContext
 

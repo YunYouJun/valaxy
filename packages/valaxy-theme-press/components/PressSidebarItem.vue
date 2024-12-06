@@ -115,6 +115,14 @@ const htmlText = computed(() => t(props.item.text || ''))
 </template>
 
 <style scoped>
+/* .VPSidebarItem.level-0 {
+  padding-bottom: 24px;
+} */
+
+.VPSidebarItem.collapsed.level-0 {
+  padding-bottom: 10px;
+}
+
 .item {
   position: relative;
   display: flex;

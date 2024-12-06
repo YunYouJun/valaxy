@@ -55,8 +55,11 @@ function getTitle(post: Post | any) {
   <ul v-if="!collapsable">
     <li v-for="categoryItem, i in category.children.values()" :key="i" class="post-list-item">
       <template v-if="!isCategoryList(categoryItem)">
-        <RouterLink v-if="categoryItem.title" :to="categoryItem.path || ''" class="inline-flex items-center" active-class="active">
-          <span m="l-1" text="sm">{{ getTitle(categoryItem) }}</span>
+        <RouterLink
+          v-if="categoryItem.title" :to="categoryItem.path || ''"
+          class="inline-flex items-center"
+        >
+          <span class="text ml-1" text="sm">{{ getTitle(categoryItem) }}</span>
         </RouterLink>
       </template>
 
@@ -64,3 +67,24 @@ function getTitle(post: Post | any) {
     </li>
   </ul>
 </template>
+
+<style lang="scss">
+.post-list-item {
+  // align with vitepress
+  a {
+    // color: var(--va-c-text-light);
+    color: var(--vp-c-text-2);
+    transition: all 0.2s;
+
+    &:hover {
+      // color: var(--va-c-primary);
+      color: var(--vp-c-brand-1);
+    }
+
+    &.router-link-exact-active {
+      // color: var(--va-c-primary);
+      color: var(--vp-c-brand-1);
+    }
+  }
+}
+</style>
