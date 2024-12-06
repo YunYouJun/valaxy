@@ -1,8 +1,8 @@
 // register vue composition api globally
 import { createApp, ref } from 'vue'
 
-import { createRouter, createWebHashHistory } from 'vue-router/auto'
-import { routes } from 'vue-router/auto-routes'
+import { createRouter, createWebHashHistory } from 'vue-router'
+import { handleHotUpdate, routes } from 'vue-router/auto-routes'
 import App from './App.vue'
 
 import '@unocss/reset/tailwind.css'
@@ -26,6 +26,11 @@ if (import.meta.env.DEV) {
   window.$valaxy = {
     postList: ref([]),
   }
+}
+
+// This will update routes at runtime without reloading the page
+if (import.meta.hot) {
+  handleHotUpdate(router)
 }
 
 app.use(router)

@@ -13,5 +13,5 @@ catalog:
   '@iconify-json/ri': ^1.2.3
   '@iconify-json/simple-icons': ^1.2.14
   '@iconify-json/vscode-icons': ^1.2.3
-  typescript: ^5.7.2
+  typescript: '5.6'
   vite: ^6.0.3

@@ -11,10 +11,12 @@ export function useValaxyHead() {
 
   const fm = useFrontmatter()
   const siteConfig = useSiteConfig()
-  const title = computed(() => fm.value[`title_${locale.value}`] || fm.value.title)
+  const title = computed<string>(() => fm.value[`title_${locale.value}`] || fm.value.title)
   useHead({
     title,
-    titleTemplate: computed(() => fm.value.titleTemplate || ((title: string) => title ? `${title} - ${siteConfig.value.title}` : siteConfig.value.title)),
+    titleTemplate: (title) => {
+      return fm.value.titleTemplate || (title ? `${title} - ${siteConfig.value.title}` : siteConfig.value.title)
+    },
     link: [
       {
         rel: 'icon',
@@ -23,7 +25,12 @@ export function useValaxyHead() {
       },
     ],
     meta: [
-      { name: 'description', content: computed(() => siteConfig.value.description) },
+      computed(() => {
+        return {
+          name: 'description',
+          content: fm.value.description || siteConfig.value.description,
+        }
+      }),
       {
         name: 'generator',
         content: `Valaxy ${pkg.version}`,
