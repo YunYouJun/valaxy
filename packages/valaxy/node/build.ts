@@ -42,7 +42,7 @@ export async function ssgBuild(
   defaultConfig.ssgOptions = {
     script: 'async',
     formatting: 'minify',
-    crittersOptions: {
+    beastiesOptions: {
       reduceInlineStyles: false,
     },
     onFinished() {
