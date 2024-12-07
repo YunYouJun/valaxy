@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import { definePerson, defineWebPage, defineWebSite, useSchemaOrg } from '@unhead/schema-org'
-// import { useHead, useSeoMeta } from '@unhead/vue'
 import { useSeoMeta } from '@unhead/vue'
 
 // TODO: add docs to override ValaxyApp

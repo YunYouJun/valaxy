@@ -47,6 +47,10 @@ export function useActiveAnchor(
     window.removeEventListener('scroll', onScroll)
   })
 
+  /**
+   * 长目录自动滚动
+   * @TODO add e2e test
+   */
   const checkActiveLinkInViewport = () => {
     const activeLink = prevActiveLink
     if (!activeLink) {
@@ -54,15 +58,12 @@ export function useActiveAnchor(
       return
     }
 
-    const top = activeLink.getBoundingClientRect().top
-    const bottom = activeLink.getBoundingClientRect().bottom
-
     const parentEl = document.querySelector('.yun-aside') as HTMLElement
     if (parentEl) {
-      if (top < parentEl.scrollTop)
-        parentEl.scrollTo({ top: 0, behavior: 'smooth' })
-      if (bottom > parentEl.offsetHeight + parentEl.scrollTop)
-        parentEl.scrollTo({ top: bottom + 40, behavior: 'smooth' })
+      // 超出
+      const top = activeLink.offsetTop + topOffset + 60
+      if (top < parentEl.scrollTop || (top > parentEl.offsetHeight + parentEl.scrollTop))
+        parentEl.scrollTo({ top, behavior: 'smooth' })
     }
   }
 
