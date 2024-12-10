@@ -99,6 +99,15 @@ addons:
     tags:
       - busuanzi
       - vercount
+  - name: valaxy-addon-face
+    author: qtqz
+    icon: i-ri-emoji-sticker-line
+    repo: 'https://github.com/qtqz/my-valaxy-addons/tree/main/valaxy-addon-face'
+    desc: Use stickers in articles.
+    desc_zh: 在文章中使用表情包
+    tags:
+      - emoji
+      - sticker
 ---
 
 <AddonGallery :addons="$frontmatter.addons" />
