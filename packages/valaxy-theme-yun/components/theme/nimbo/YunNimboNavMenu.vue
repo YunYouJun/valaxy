@@ -2,13 +2,13 @@
 import { useAppStore, useSiteConfig } from 'valaxy'
 import { onMounted, ref, watch } from 'vue'
 import { useRoute } from 'vue-router'
+import { useThemeConfig } from '../../../composables'
 import { useYunAppStore } from '../../../stores'
-// import { useThemeConfig } from '../composables'
 
 // const app = useAppStore()
 const yunApp = useYunAppStore()
 const siteConfig = useSiteConfig()
-// const themeConfig = useThemeConfig()
+const themeConfig = useThemeConfig()
 
 const showMenu = ref(false)
 const route = useRoute()
@@ -41,7 +41,6 @@ const app = useAppStore()
     <div
       v-if="showMenu"
       class="yun-nav-menu z-$yun-z-nav-menu fixed bg-transparent"
-      border="~ solid $va-c-text"
       :class="{
         play: playAnimation,
       }"
@@ -49,6 +48,7 @@ const app = useAppStore()
       <!--  -->
       <div class="inline-flex justify-start items-center flex-1">
         <ValaxyHamburger
+          v-if="!yunApp.size.isMd"
           :active="yunApp.fullscreenMenu.isOpen"
           class="menu-btn sidebar-toggle leading-4 size-12"
           inline-flex cursor="pointer"
@@ -57,6 +57,20 @@ const app = useAppStore()
           @click="yunApp.fullscreenMenu.toggle()"
         />
         <YunNavMenuItem icon="i-ri-home-4-line" to="/" />
+        <template v-if="yunApp.size.isMd">
+          <YunNavMenuItem
+            icon="i-ri-article-line" to="/posts/"
+            title="博客文章"
+          />
+
+          <YunNavMenuItem
+            v-for="item, i in themeConfig.pages"
+            :key="i"
+            :icon="item.icon"
+            :to="item.url"
+            :title="item.name"
+          />
+        </template>
       </div>
 
       <div class="flex flex-1 flex-center">
@@ -102,9 +116,14 @@ const app = useAppStore()
   // animation-range: 0 calc(30vh), exit;
   box-shadow: none;
   display: flex;
-  top: var(--rect-margin);
-  left: var(--rect-margin);
-  right: var(--rect-margin);
+  // top: var(--rect-margin);
+  // left: var(--rect-margin);
+  // right: var(--rect-margin);
+
+  top: 0;
+  left: 0;
+  right: 0;
+
   align-items: center;
   justify-content: space-between;
   height: 50px;

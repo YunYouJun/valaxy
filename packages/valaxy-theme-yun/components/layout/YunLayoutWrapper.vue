@@ -7,7 +7,7 @@ import { useYunAppStore } from '../../stores'
 const yun = useYunAppStore()
 const classes = computed(() => {
   if (yun.isNimbo)
-    return 'mt-24 md:mt-36'
+    return 'mt-12 md:mt-24'
   return 'mt-12'
 })
 </script>

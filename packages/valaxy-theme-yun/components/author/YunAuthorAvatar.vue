@@ -6,8 +6,9 @@ const siteConfig = useSiteConfig()
 
 <template>
   <div class="relative yun-author-avatar">
+    <div class="absolute size-full avatar-bg bg-image-$yun-home-hero-image-background-image filter-blur-2xl op-30" />
     <img
-      class="rounded-full size-full bg-white dark:bg-white/20 p-1 m-0"
+      class="rounded-full size-full bg-white dark:bg-white/20 p-1 m-0 absolute"
       :src="siteConfig.author.avatar"
       alt="avatar"
     >

@@ -10,7 +10,7 @@ const showContent = ref(false)
 <template>
   <div
     flex="~ col"
-    class="yun-square-container items-center justify-center text-center size-$total-char-height"
+    class="yun-square-container items-center justify-center text-center max-w-2xl"
   >
     <slot />
 
@@ -29,7 +29,7 @@ const showContent = ref(false)
       >
         <div
           flex="~ col"
-          class="absolute yun-square square-rotate z-1 bg-white/80"
+          class="yun-square square-rotate z-1 bg-white/80"
         >
           <LineBurstEffects
             class="absolute top-0 left-0 right-0 bottom-0 size-full scale-200"
@@ -68,10 +68,11 @@ const showContent = ref(false)
           <YunSiteDescription />
         </div>
 
+        <YunSocialLinks />
+
         <div
-          class="mt-4 flex-center w-64 md:w-100 m-auto gap-2"
+          class="mt-4 flex-center w-72 md:w-150 m-auto gap-2"
           flex="~ wrap"
-          p="x-$rect-margin"
         >
           <YunSiteLinkItem
             :page="{
@@ -106,8 +107,8 @@ const showContent = ref(false)
 
   &.enter-from {
     border-radius: 0%;
-    width: var(--total-char-height);
-    height: var(--total-char-height);
+    // width: var(--total-char-height);
+    // height: var(--total-char-height);
     transform: rotate(135deg) translateY(0%);
     box-shadow: none;
   }
@@ -120,7 +121,7 @@ const showContent = ref(false)
     position: relative;
 
     &.show {
-      transform: translateY(-50%);
+      // transform: translateY(-50%);
     }
   }
 
@@ -132,7 +133,7 @@ const showContent = ref(false)
 
     &.show {
       opacity: 1;
-      transform: translateY(calc(50% + var(--avatar-size) / 2));
+      // transform: translateY(calc(50% + var(--avatar-size) / 2));
     }
   }
 }

@@ -1,14 +1,7 @@
 <template>
   <div class="grid-bg">
-    <YunAEFrame />
-    <YunAERect />
-
-    <div
-      flex="~ col"
-      class="justify-center items-center absolute bottom-$rect-margin left-0 right-0"
-    >
-      <PrologueSocialLinks />
-    </div>
+    <!-- <YunAEFrame /> -->
+    <!-- <YunAERect /> -->
   </div>
 </template>
 

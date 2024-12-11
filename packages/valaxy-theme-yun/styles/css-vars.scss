@@ -5,6 +5,10 @@
 :root {
   // yun
   --yun-margin-top: 68px;
+
+  --yun-home-hero-image-filter: blur(48px);
+  --yun-home-hero-name-background: -webkit-linear-gradient(120deg, var(--va-c-text) 30%, black);
+  --yun-home-hero-image-background-image: linear-gradient(-45deg, #bd34fe 50%, #47caff 50%);
 }
 
 :root {
@@ -26,6 +30,8 @@ html.dark {
   // gradient
   --va-c-bg: #1a1a1d;
   --va-c-bg-soft: #121215;
+
+  --yun-home-hero-name-background: -webkit-linear-gradient(120deg, var(--va-c-primary) 30%, #41d1ff);
 }
 
 // animation

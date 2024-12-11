@@ -7,7 +7,7 @@ const siteConfig = useSiteConfig()
 <template>
   <h4
     v-if="siteConfig.subtitle"
-    class="site-subtitle block text-$va-c-text op-80" text="sm"
+    class="site-subtitle block text-$va-c-text op-80 font-medium" text="sm"
   >
     {{ siteConfig.subtitle }}
   </h4>

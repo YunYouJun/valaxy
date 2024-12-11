@@ -50,7 +50,7 @@ const strokeOffset = computed(() => {
   transition: all var(--va-transition-duration), opacity var(--va-transition-duration-fast) !important;
 
   &.show {
-    transform: translateX(-32px) rotate(360deg);
+    transform: translateX(-40px) rotate(360deg);
     opacity: 1;
     pointer-events: fill;
   }
