@@ -9,12 +9,4 @@ $c-primary: #0078e7 !default;
 // https://github.com/valaxyjs/css-i18n
 @use "css-i18n/src/styles/index.scss" as *;
 
-// common
-@use "./common/code.scss" as *;
-@use "./common/hamburger.scss" as *;
-@use "./common/transition.scss" as *;
-
-// markdown
-@use "./common/markdown.scss";
-
 // components import by yourself

@@ -1,6 +1,8 @@
 import { defineAppSetup, scrollTo } from 'valaxy'
 import { nextTick } from 'vue'
 
+import 'valaxy/client/styles/common/index.scss'
+
 import 'vitepress/dist/client/theme-default/styles/vars.css'
 import 'vitepress/dist/client/theme-default/styles/icons.css'
 

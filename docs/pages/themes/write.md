@@ -291,6 +291,45 @@ defineProps<{
 
 ## 样式
 
+### 引入默认样式
+
+Valaxy 提供了一些默认样式，你需要在主题中自行引入。
+
+例如，新建 `valaxy-theme-yun/setup/main.ts`:
+
+```ts [setup/main.ts]
+import { defineAppSetup, scrollTo } from 'valaxy'
+import { nextTick } from 'vue'
+
+// 引入 valaxy 公共样式
+import 'valaxy/client/styles/common/index.scss'
+
+// 你也可以按需引入
+// common
+import 'valaxy/client/styles/common/code.scss'
+import 'valaxy/client/styles/common/hamburger.scss'
+import 'valaxy/client/styles/common/transition.scss'
+// Markdown Style
+import 'valaxy/client/styles/common/markdown.scss'
+
+export default defineAppSetup((ctx) => {
+  const { router, isClient } = ctx
+  if (!isClient)
+    return
+
+  router.afterEach((to, from) => {
+    if (to.path !== from.path)
+      return
+
+    nextTick(() => {
+      scrollTo(document.body, to.hash, {
+        smooth: true,
+      })
+    })
+  })
+})
+```
+
 ### Markdown 样式
 
 Markdown 样式是主题呈现文章样式的部分，需要由主题自定义。
