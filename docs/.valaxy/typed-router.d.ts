@@ -68,7 +68,7 @@ declare module 'vue-router/auto-routes' {
     '/guide/third-party/vite-vue': RouteRecordInfo<'/guide/third-party/vite-vue', '/guide/third-party/vite-vue', Record<never, never>, Record<never, never>>,
     '/guide/why': RouteRecordInfo<'/guide/why', '/guide/why', Record<never, never>, Record<never, never>>,
     '/migration/': RouteRecordInfo<'/migration/', '/migration', Record<never, never>, Record<never, never>>,
-    '/migration/hexo': RouteRecordInfo<'/migration/hexo', '/migration/hexo', Record<never, never>, Record<never, never>>,
+    '/migration/version': RouteRecordInfo<'/migration/version', '/migration/version', Record<never, never>, Record<never, never>>,
     '/posts/i18n': RouteRecordInfo<'/posts/i18n', '/posts/i18n', Record<never, never>, Record<never, never>>,
     '/themes/': RouteRecordInfo<'/themes/', '/themes', Record<never, never>, Record<never, never>>,
     '/themes/gallery': RouteRecordInfo<'/themes/gallery', '/themes/gallery', Record<never, never>, Record<never, never>>,
