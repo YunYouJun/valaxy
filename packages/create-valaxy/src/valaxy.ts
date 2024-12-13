@@ -54,8 +54,8 @@ export async function init() {
       message:
               typeof argTemplate === 'string' && !TEMPLATE_CHOICES.includes(argTemplate)
                 ? reset(
-                  `"${argTemplate}" isn't a valid template. Please choose from below: `,
-                )
+                    `"${argTemplate}" isn't a valid template. Please choose from below: `,
+                  )
                 : reset('Select a type:'),
       initial: 0,
       choices: TEMPLATES.map((template) => {
