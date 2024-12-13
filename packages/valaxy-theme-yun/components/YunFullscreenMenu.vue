@@ -14,7 +14,7 @@ const app = useAppStore()
     <div
       v-if="yunApp.fullscreenMenu.isOpen"
       ref="fullscreenMenuRef"
-      p="t-20 md:t-26"
+      p="t-12 md:t-20"
       class="yun-fullscreen-menu fixed left-0 right-0 bottom-0 top-0 bg-$va-c-bg-soft z-$yun-z-fullscreen-menu overflow-auto"
     >
       <!-- <div v-if="app.isMobile" class="flex-center gap-2">
@@ -22,13 +22,18 @@ const app = useAppStore()
         <YunToggleLocale v-if="app.showToggleLocale" />
       </div> -->
 
-      <div v-if="!yunApp.size.isLg" class="my-4">
+      <div v-if="!yunApp.size.isLg">
         <YunSiteInfo class="text-center" />
 
         <YunGradientDivider class="my-2 op-20" />
 
         <YunPostsInfo />
       </div>
+
+      <YunGradientDivider v-if="!yunApp.size.isLg" class="my-2 op-20" />
+
+      <YunSocialLinks />
+
       <YunGradientDivider v-if="!yunApp.size.isLg" class="my-2 op-20" />
 
       <YunFullscreenMenuList />

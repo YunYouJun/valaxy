@@ -5,11 +5,15 @@ import { onClickHref, onContentUpdated, scrollTo, usePostTitle, useSiteConfig } 
 import { computed, nextTick } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { usePostProperty } from '../composables'
+import { useYunAppStore } from '../stores'
 
 const props = defineProps<{
   frontmatter: Post
   data?: PageData
 }>()
+
+const yun = useYunAppStore()
+
 const siteConfig = useSiteConfig()
 
 const { styles, icon, color } = usePostProperty(props.frontmatter.type)
@@ -90,6 +94,8 @@ onContentUpdated(() => {
         <slot v-if="siteConfig.comment.enable && frontmatter.comment !== false" name="comment">
           <YunComment :class="frontmatter.nav === false ? 'mt-4' : 0" />
         </slot>
+
+        <YunAdBoard v-if="!yun.size.isLg" class="mt-4" />
 
         <slot name="main-footer-before" />
         <slot name="main-footer-after" />
