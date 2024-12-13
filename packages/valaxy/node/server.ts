@@ -26,7 +26,7 @@ export async function createServer(
   serverSpinner.text = getServerInfoText('init vite plugins ..')
   const plugins = await ViteValaxyPlugins(valaxyApp, serverOptions)
   // dynamic import to avoid bundle it in build
-  const enableDevtools = options.mode === 'dev' && options.config.devtools
+  const enableDevtools = options.config.devtools
   const vitePlugins = [
     ...plugins,
   ]

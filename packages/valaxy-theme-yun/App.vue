@@ -61,7 +61,7 @@ const isDev = import.meta.env.DEV
   <YunPageHeaderGradient />
   <YunNavMenu />
 
-  <YunFullscreenMenu v-if="yun.isNimbo" />
+  <YunFullscreenMenu v-if="yun.isNimbo && !yun.size.isSm" />
   <YunStratoSidebar v-if="yun.isStrato" />
 
   <YunFireworks v-if="themeConfig.fireworks.enable" />

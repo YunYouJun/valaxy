@@ -22,24 +22,18 @@ const app = useAppStore()
         <YunToggleLocale v-if="app.showToggleLocale" />
       </div> -->
 
-      <div v-if="!yunApp.size.isLg">
-        <YunSiteInfo class="text-center" />
-
-        <YunGradientDivider class="my-2 op-20" />
-
-        <YunPostsInfo />
-      </div>
-
-      <YunGradientDivider v-if="!yunApp.size.isLg" class="my-2 op-20" />
-
+      <!-- <YunFullscreenMenuList /> -->
+      <YunSiteInfo class="text-center" />
+      <YunGradientDivider class="my-2 op-20" />
+      <YunPostsInfo />
+      <YunGradientDivider class="my-2 op-20" />
       <YunSocialLinks />
+      <YunGradientDivider class="my-2 op-20" />
+      <YunSidebarLinks />
 
       <YunGradientDivider v-if="!yunApp.size.isLg" class="my-2 op-20" />
 
-      <YunFullscreenMenuList />
-
-      <YunGradientDivider v-if="!yunApp.size.isLg" class="my-2 op-20" />
-      <div v-if="!yunApp.size.isLg" class="flex-center">
+      <div class="flex-center">
         <YunConfig />
       </div>
     </div>

@@ -1,5 +1,6 @@
 <script lang="ts" setup>
 import type { Post } from 'valaxy'
+import { computed, ref } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { usePostProperty } from '../composables'
 
@@ -9,7 +10,15 @@ const props = defineProps<{
 
 const { t } = useI18n()
 
-const { icon, styles } = usePostProperty(props.post.type)
+const { icon, styles, color } = usePostProperty(props.post.type)
+
+const gradientClasses = ref('bg-gradient-to-r gradient-text from-$va-c-primary to-$va-c-primary-lighter')
+const postTitleClass = computed(() => {
+  if (color) {
+    return ''
+  }
+  return props.post.postTitleClass || gradientClasses.value
+})
 </script>
 
 <template>
@@ -35,9 +44,12 @@ const { icon, styles } = usePostProperty(props.post.type)
           class="post-title-link cursor-pointer"
           :to="post.path || ''"
           m="t-3"
-          :class="post.postTitleClass"
+          :class="postTitleClass"
         >
-          <div class="flex-center title text-2xl" text="center" font="serif black">
+          <div
+            class="flex-center title text-2xl"
+            text="center" font="serif black"
+          >
             <div v-if="post.type" class="inline-flex" m="r-1" :class="icon" />
             <span>{{ post.title }}</span>
           </div>
