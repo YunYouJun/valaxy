@@ -9,6 +9,8 @@
     "build:spa": "valaxy build",
     "build:ssg": "valaxy build --ssg --log=info",
     "dev": "nodemon --exec \"valaxy . --port 4860\"",
+    "vite:dev": "npx vite-node -w scripts/vite-node.ts",
+    "valaxy:dev": "valaxy .",
     "fuse": "valaxy fuse",
     "preview-https": "serve dist",
     "new": "valaxy new",
@@ -17,7 +19,7 @@
   },
   "nodemonConfig": {
     "watch": [
-      "../../packages/valaxy/dist/*.mjs",
+      "../../packages/valaxy/dist/*.js",
       "../../packages/devtools/dist/*"
     ]
   },

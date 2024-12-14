@@ -25,15 +25,26 @@ export default defineConfig({
     // https://vitepress.dev/reference/default-theme-config
     nav: [
       { text: 'TypeDoc', link: '/typedoc' },
+      { text: '优化笔记', link: '/notes/' },
       { text: 'Valaxy Docs', link: 'https://valaxy.site' },
     ],
 
     sidebar: {
       '/typedoc/': typedocSidebar,
+      '/notes': [
+        {
+          text: 'Shiki 高亮耗时问题',
+          link: '/notes/shiki-performance',
+        },
+      ],
     },
 
     socialLinks: [
       { icon: 'github', link: 'https://github.com/vuejs/vitepress' },
     ],
+  },
+
+  markdown: {
+    lineNumbers: true,
   },
 })

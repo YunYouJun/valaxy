@@ -40,6 +40,10 @@ window.$frontmatter = $frontmatter
       'globalThis.$frontmatter = $frontmatter',
     ]
 
+    // const loaderVuePath = path.resolve(options.pkgRoot, 'node/templates/loader.vue')
+    // const loaderVue = fs.readFileSync(loaderVuePath)
+    // code = loaderVue + code
+
     // inject imports to <script setup>
     const scriptSetupStart = code.indexOf('<script setup>')
     if (scriptSetupStart !== -1)

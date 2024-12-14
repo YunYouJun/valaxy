@@ -22,27 +22,23 @@
   "exports": {
     ".": {
       "types": "./index.d.ts",
-      "import": "./dist/node/index.mjs",
-      "require": "./dist/node/index.cjs"
+      "default": "./dist/node/index.js"
     },
     "./client/*": "./client/*",
     "./client": "./client/index.ts",
     "./node": {
       "types": "./dist/node/index.d.ts",
-      "import": "./dist/node/index.mjs",
-      "require": "./dist/node/index.cjs"
+      "default": "./dist/node/index.js"
     },
     "./types": "./dist/types/index.d.ts",
     "./*": "./*"
   },
-  "main": "dist/node/index.mjs",
-  "module": "dist/node/index.mjs",
+  "main": "dist/node/index.js",
+  "module": "dist/node/index.js",
   "types": "index.d.ts",
   "bin": {
-    "vala": "./bin/valaxy.cjs",
-    "valac": "./bin/valaxy.cjs",
-    "valam": "./bin/valaxy.mjs",
-    "valaxy": "./bin/valaxy.mjs"
+    "vala": "./bin/valaxy.js",
+    "valaxy": "./bin/valaxy.js"
   },
   "files": [
     "bin",

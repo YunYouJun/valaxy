@@ -1,5 +1,6 @@
-import type { ShikiTransformer } from 'shiki'
+import type { LanguageRegistration, ShikiTransformer } from 'shiki'
 import type { Logger } from 'vite'
+import type { ShikiResolveLang } from '../../../worker_shikiResolveLang'
 import type { MarkdownOptions, ThemeOptions } from '../types'
 import {
   type TransformerCompactLineOption,
@@ -14,11 +15,14 @@ import { customAlphabet } from 'nanoid'
 import c from 'picocolors'
 import {
   addClassToHast,
-  bundledLanguages,
   createHighlighter,
   isSpecialLang,
 } from 'shiki'
+import { createSyncFn } from 'synckit'
 
+const resolveLangSync = createSyncFn<ShikiResolveLang>(
+  require.resolve('valaxy/dist/node/worker_shikiResolveLang.js'),
+)
 const nanoid = customAlphabet('abcdefghijklmnopqrstuvwxyz', 10)
 
 /**
@@ -61,7 +65,7 @@ export async function highlight(
   logger: Pick<Logger, 'warn'> = console,
 ): Promise<(str: string, lang: string, attrs: string) => string> {
   const {
-    defaultHighlightLang: defaultLang = '',
+    defaultHighlightLang: defaultLang = 'txt',
     codeTransformers: userTransformers = [],
   } = options
 
@@ -70,9 +74,36 @@ export async function highlight(
       typeof theme === 'object' && 'light' in theme && 'dark' in theme
         ? [theme.light, theme.dark]
         : [theme],
-    langs: [...Object.keys(bundledLanguages), ...(options.languages || [])],
+    langs: [
+      // load long time, about 3s
+      // ...Object.keys(bundledLanguages),
+      ...(options.languages || []),
+      ...Object.values(options.languageAlias || {}),
+    ],
     langAlias: options.languageAlias,
   })
+
+  function loadLanguage(name: string | LanguageRegistration) {
+    const lang = typeof name === 'string' ? name : name.name
+    if (
+      !isSpecialLang(lang)
+      && !highlighter.getLoadedLanguages().includes(lang)
+    ) {
+      const resolvedLang = resolveLangSync(lang)
+      if (resolvedLang.length)
+        highlighter.loadLanguageSync(resolvedLang)
+      else return false
+    }
+    return true
+  }
+
+  // patch for twoslash - https://github.com/vuejs/vitepress/issues/4334
+  const internal = highlighter.getInternalContext()
+  const getLanguage = internal.getLanguage
+  internal.getLanguage = (name) => {
+    loadLanguage(name)
+    return getLanguage.call(internal, name)
+  }
 
   await options?.shikiSetup?.(highlighter)
   const transformers: ShikiTransformer[] = [
@@ -111,18 +142,13 @@ export async function highlight(
         .replace(vueRE, '')
         .toLowerCase() || defaultLang
 
-    if (lang) {
-      const langLoaded = highlighter.getLoadedLanguages().includes(lang as any)
-      if (!langLoaded && !isSpecialLang(lang)) {
-        logger.warn(
-          c.yellow(
-            `\nThe language '${lang}' is not loaded, falling back to '${
-              defaultLang || 'txt'
-            }' for syntax highlighting.`,
-          ),
-        )
-        lang = defaultLang
-      }
+    if (!loadLanguage(lang)) {
+      logger.warn(
+        c.yellow(
+          `\nThe language '${lang}' is not loaded, falling back to '${defaultLang}' for syntax highlighting.`,
+        ),
+      )
+      lang = defaultLang
     }
 
     const lineOptions = attrsToLines(attrs)

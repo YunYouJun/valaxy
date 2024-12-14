@@ -16,6 +16,94 @@ import { isPagesDirExist, setEnv } from '../utils/env'
 import { findFreePort } from '../utils/net'
 import { bindShortcut, initServer, printInfo } from './utils/cli'
 
+export async function startValaxyDev({
+  root = process.cwd(),
+  port,
+  remote,
+  log,
+  open,
+}: {
+  root?: string
+  port?: number
+  remote?: boolean
+  log?: LogLevel
+  open?: boolean
+}) {
+  setEnv()
+
+  if (!isPagesDirExist(root))
+    process.exit(0)
+
+  port = port || await findFreePort(4859)
+  const resolvedOptions = await resolveOptions({ userRoot: root })
+
+  const valaxyApp = createValaxyNode(resolvedOptions)
+
+  const viteConfig: InlineConfig = mergeConfig({
+    // initial vite config
+    ...defaultViteConfig,
+    // avoid load userRoot/vite.config.ts repeatedly
+    configFile: path.resolve(resolvedOptions.clientRoot, 'vite.config.ts'),
+    server: {
+      watch: {
+        // watch theme updated
+        ignored: [`!${resolvedOptions.themeRoot}/**`, `${resolvedOptions.userRoot}/**.md`],
+      },
+
+      port,
+      strictPort: true,
+      open,
+      host: remote ? '0.0.0.0' : 'localhost',
+    },
+    logLevel: log as LogLevel,
+  }, resolvedOptions.config.vite || {})
+
+  await initServer(valaxyApp, viteConfig)
+  printInfo(resolvedOptions, port, remote)
+
+  const SHORTCUTS = [
+    {
+      name: 'r',
+      fullName: 'restart',
+      action() {
+        initServer(valaxyApp, viteConfig)
+      },
+    },
+    {
+      name: 'o',
+      fullName: 'open',
+      async action() {
+        const { default: openBrowser } = await import('open')
+        openBrowser(`http://localhost:${port}`)
+      },
+    },
+    {
+      name: 'q',
+      fullName: 'qr',
+      action() {
+        const addresses = Object.values(os.networkInterfaces())
+          .flat()
+          .filter(details => details?.family === 'IPv4' && !details.address.includes('127.0.0.1'))
+        const remoteUrl = `http://${addresses[0]?.address || 'localhost'}:${port}`
+        qrcode.toString(remoteUrl, { type: 'terminal' }, (err, qrCode) => {
+          if (err)
+            throw err
+
+          console.log(qrCode)
+        })
+      },
+    },
+    {
+      name: 'e',
+      fullName: 'edit',
+      action() {
+        exec(`code "${root}"`)
+      },
+    },
+  ]
+  bindShortcut(SHORTCUTS)
+}
+
 export function registerDevCommand(cli: Argv) {
   cli.command(
     '* [root]',
@@ -47,80 +135,14 @@ export function registerDevCommand(cli: Argv) {
         .strict()
         .help()
     ,
-    async ({ root, port: userPort, open, remote, log }) => {
-      setEnv()
-
-      if (!isPagesDirExist(root))
-        process.exit(0)
-
-      const port = userPort || await findFreePort(4859)
-      const options = await resolveOptions({ userRoot: root })
-
-      const valaxyApp = createValaxyNode(options)
-
-      const viteConfig: InlineConfig = mergeConfig({
-        // initial vite config
-        ...defaultViteConfig,
-        // avoid load userRoot/vite.config.ts repeatedly
-        configFile: path.resolve(options.clientRoot, 'vite.config.ts'),
-        server: {
-          watch: {
-          // watch theme updated
-            ignored: [`!${options.themeRoot}/**`, `${options.userRoot}/**.md`],
-          },
-
-          port,
-          strictPort: true,
-          open,
-          host: remote ? '0.0.0.0' : 'localhost',
-        },
-        logLevel: log as LogLevel,
-      }, options.config.vite || {})
-
-      await initServer(valaxyApp, viteConfig)
-      printInfo(options, port, remote)
-
-      const SHORTCUTS = [
-        {
-          name: 'r',
-          fullName: 'restart',
-          action() {
-            initServer(valaxyApp, viteConfig)
-          },
-        },
-        {
-          name: 'o',
-          fullName: 'open',
-          async action() {
-            const { default: openBrowser } = await import('open')
-            openBrowser(`http://localhost:${port}`)
-          },
-        },
-        {
-          name: 'q',
-          fullName: 'qr',
-          action() {
-            const addresses = Object.values(os.networkInterfaces())
-              .flat()
-              .filter(details => details?.family === 'IPv4' && !details.address.includes('127.0.0.1'))
-            const remoteUrl = `http://${addresses[0]?.address || 'localhost'}:${port}`
-            qrcode.toString(remoteUrl, { type: 'terminal' }, (err, qrCode) => {
-              if (err)
-                throw err
-
-              console.log(qrCode)
-            })
-          },
-        },
-        {
-          name: 'e',
-          fullName: 'edit',
-          action() {
-            exec(`code "${root}"`)
-          },
-        },
-      ]
-      bindShortcut(SHORTCUTS)
+    async ({ root, port, open, remote, log }) => {
+      startValaxyDev({
+        root,
+        open,
+        port,
+        remote,
+        log: log as LogLevel,
+      })
     },
   )
 }

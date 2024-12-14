@@ -1,7 +1,7 @@
-import fs from 'node:fs'
 import path from 'node:path'
 import process from 'node:process'
 import consola from 'consola'
+import fs from 'fs-extra'
 import { logger } from '../logger'
 
 export function isProd() {
@@ -21,8 +21,8 @@ export function setEnvProd() {
 /**
  * is pages dir exist
  */
-export function isPagesDirExist(root: string) {
-  const exist = fs.existsSync(path.resolve(root, 'pages'))
+export async function isPagesDirExist(root: string) {
+  const exist = await fs.exists(path.resolve(root, 'pages'))
   if (!exist)
     logger.error(`No pages directory found in ${root}`)
   return exist

@@ -16,6 +16,7 @@ export async function createMarkdownPlugin(
   const theme = mdOptions.theme ?? defaultCodeTheme
 
   const transformIncludes = createTransformIncludes(options)
+  const mdItHighlight = await highlight(theme, mdOptions)
 
   return Markdown({
     include: [/\.md$/],
@@ -34,7 +35,7 @@ export async function createMarkdownPlugin(
       html: true,
       xhtmlOut: true,
       linkify: true,
-      highlight: await highlight(theme, mdOptions),
+      highlight: mdItHighlight,
       ...mdOptions?.markdownItOptions,
     },
 

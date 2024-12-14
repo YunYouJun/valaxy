@@ -17,19 +17,21 @@ export async function mergeViteConfigs({ userRoot, themeRoot }: ResolvedValaxyOp
   }
 
   let resolvedConfig: InlineConfig = {}
-
   // let vite default config file be clientRoot/vite.config.ts
   const files = uniq([themeRoot, userRoot]).map(i => join(i, 'vite.config.ts'))
 
-  for await (const file of files) {
-    if (!fs.existsSync(file))
-      continue
-    const viteConfig = await loadConfigFromFile(configEnv, file)
+  const loadViteConfigPromiseArr = files.map(async (file) => {
+    if (!await fs.exists(file))
+      return
+    return loadConfigFromFile(configEnv, file)
+  })
+  const viteConfigs = await Promise.all(loadViteConfigPromiseArr)
+
+  for (const viteConfig of viteConfigs) {
     if (!viteConfig?.config)
       continue
     resolvedConfig = mergeConfig(resolvedConfig, viteConfig.config)
   }
-
   return resolvedConfig
 }
 

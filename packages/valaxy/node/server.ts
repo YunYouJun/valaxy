@@ -9,6 +9,9 @@ import { serverSpinner } from './cli/utils/cli'
 import { valaxyPrefix } from './logger'
 import { ViteValaxyPlugins } from './plugins/preset'
 
+/**
+ * with valaxyPrefix
+ */
 function getServerInfoText(msg: string) {
   return `${valaxyPrefix} ${colors.gray(msg)}`
 }
@@ -25,6 +28,7 @@ export async function createServer(
 
   serverSpinner.text = getServerInfoText('init vite plugins ..')
   const plugins = await ViteValaxyPlugins(valaxyApp, serverOptions)
+
   // dynamic import to avoid bundle it in build
   const enableDevtools = options.config.devtools
   const vitePlugins = [

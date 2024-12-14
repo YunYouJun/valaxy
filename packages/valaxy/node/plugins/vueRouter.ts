@@ -70,6 +70,12 @@ export async function createRouterPlugin(valaxyApp: ValaxyNode) {
       // if (encodedPath !== route.path)
       //   route.path = encodedPath
 
+      // if (!route.meta.frontmatter) {
+      //   route.addToMeta({
+      //     frontmatter: {},
+      //   })
+      // }
+
       // add default layout for home, can be overrode
       if (route.fullPath === '/' || route.fullPath === '/page') {
         route.addToMeta({
@@ -155,7 +161,7 @@ export async function createRouterPlugin(valaxyApp: ValaxyNode) {
 
         // set default updated
         if (!route.meta.frontmatter?.updated)
-          route.meta.frontmatter.updated = route.meta.frontmatter.date
+          route.meta.frontmatter.updated = mdFm.date
 
         // adapt for tags
         if (route.meta.frontmatter.tags) {

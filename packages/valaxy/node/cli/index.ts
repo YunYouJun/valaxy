@@ -17,7 +17,14 @@ import { registerDevCommand } from './dev'
 // commands
 import { registerNewCommand } from './new'
 
-export const cli = yargs(hideBin(process.argv)).scriptName('valaxy').usage('$0 [args]').version(version).showHelpOnFail(false).alias('h', 'help').alias('v', 'version')
+export * from './dev'
+export const cli = yargs(hideBin(process.argv))
+  .scriptName('valaxy')
+  .usage('$0 [args]')
+  .version(version)
+  .showHelpOnFail(false)
+  .alias('h', 'help')
+  .alias('v', 'version')
 
 registerDevCommand(cli)
 registerBuildCommand(cli)

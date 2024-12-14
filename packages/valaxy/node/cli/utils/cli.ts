@@ -1,4 +1,4 @@
-import type { InlineConfig, ViteDevServer } from 'vite'
+import type { InlineConfig } from 'vite'
 import type { ResolvedValaxyOptions } from '../../options'
 import type { ValaxyNode } from '../../types'
 import os from 'node:os'
@@ -13,10 +13,9 @@ import { blue, bold, cyan, dim, gray, green, underline, yellow } from 'picocolor
 import { version } from 'valaxy/package.json'
 import { mergeConfig } from 'vite'
 import { mergeViteConfigs } from '../../common'
+import { GLOBAL_STATE } from '../../env'
 import { valaxyPrefix, vLogger } from '../../logger'
 import { createServer } from '../../server'
-
-let server: ViteDevServer | undefined
 
 export function printInfo(options: ResolvedValaxyOptions, port?: number, remote?: string | boolean) {
   const themeVersion = blue(`v${options.config.themeConfig?.pkg?.version}`) || 'unknown'
@@ -52,20 +51,11 @@ export function printInfo(options: ResolvedValaxyOptions, port?: number, remote?
   console.log()
 }
 
-// const CONFIG_RESTART_FIELDS: ValaxyConfigExtendKey[] = [
-//   'vite',
-//   'vue',
-//   'unocss',
-//   'unocssPresets',
-//   'markdown',
-//   'extendMd',
-// ]
-
 export const serverSpinner = ora(`${valaxyPrefix} creating server ...`)
 export async function initServer(valaxyApp: ValaxyNode, viteConfig: InlineConfig) {
-  if (server) {
+  if (GLOBAL_STATE.server) {
     vLogger.info('close server...')
-    await server.close()
+    await GLOBAL_STATE.server.close()
   }
 
   const { options } = valaxyApp
@@ -77,7 +67,7 @@ export async function initServer(valaxyApp: ValaxyNode, viteConfig: InlineConfig
   )
 
   try {
-    server = await createServer(valaxyApp, viteConfigs, {
+    GLOBAL_STATE.server = await createServer(valaxyApp, viteConfigs, {
       async onConfigReload(newConfig, config, force = false) {
         if (force) {
           vLogger.info(`${yellow('force')} reload the server`)
@@ -103,7 +93,7 @@ export async function initServer(valaxyApp: ValaxyNode, viteConfig: InlineConfig
           initServer(valaxyApp, viteConfig)
       },
     })
-    await server.listen()
+    await GLOBAL_STATE.server.listen()
     serverSpinner.succeed(`${valaxyPrefix} ${colors.green('server ready.')}`)
   }
   catch (e) {
@@ -138,5 +128,25 @@ export function bindShortcut(SHORTCUTS: { name: string, fullName: string, action
         }
       }
     }
+  })
+}
+
+/**
+ * support vite-node reload (close server)
+ * @see https://github.com/vitest-dev/vitest/discussions/1738
+ */
+if (import.meta.hot) {
+  await import.meta.hot.data.stopping
+
+  let reload = async () => {
+    // info('Performing an HMR reload...'), stop()
+    consola.info('HMR: Stop Server')
+    await GLOBAL_STATE.server?.close()
+  }
+  import.meta.hot.on('vite:beforeFullReload', () => {
+    const stopping = reload()
+    reload = () => Promise.resolve()
+    if (import.meta.hot)
+      import.meta.hot.data.stopping = stopping
   })
 }
