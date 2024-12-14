@@ -38,7 +38,6 @@ export async function startValaxyDev({
   const resolvedOptions = await resolveOptions({ userRoot: root })
 
   const valaxyApp = createValaxyNode(resolvedOptions)
-
   const viteConfig: InlineConfig = mergeConfig({
     // initial vite config
     ...defaultViteConfig,
@@ -65,8 +64,9 @@ export async function startValaxyDev({
     {
       name: 'r',
       fullName: 'restart',
-      action() {
-        initServer(valaxyApp, viteConfig)
+      async action() {
+        await initServer(valaxyApp, viteConfig)
+        printInfo(resolvedOptions, port, remote)
       },
     },
     {

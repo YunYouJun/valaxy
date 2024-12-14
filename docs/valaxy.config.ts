@@ -96,6 +96,10 @@ export default defineValaxyConfig<PressTheme.Config>({
         ],
       },
       {
+        text: 'nav.config',
+        link: '/guide/config/',
+      },
+      {
         text: 'API',
         link: 'https://api.valaxy.site/',
       },

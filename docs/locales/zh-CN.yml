@@ -2,6 +2,7 @@ gallery:
   tip: 搜索
 
 nav:
+  config: 配置
   guide: 指南
   theme: 主题
   addon: 插件

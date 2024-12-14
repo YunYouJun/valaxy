@@ -67,7 +67,7 @@ export async function initServer(valaxyApp: ValaxyNode, viteConfig: InlineConfig
   )
 
   try {
-    GLOBAL_STATE.server = await createServer(valaxyApp, viteConfigs, {
+    const server = await createServer(valaxyApp, viteConfigs, {
       async onConfigReload(newConfig, config, force = false) {
         if (force) {
           vLogger.info(`${yellow('force')} reload the server`)
@@ -93,8 +93,10 @@ export async function initServer(valaxyApp: ValaxyNode, viteConfig: InlineConfig
           initServer(valaxyApp, viteConfig)
       },
     })
-    await GLOBAL_STATE.server.listen()
+    await server.listen()
     serverSpinner.succeed(`${valaxyPrefix} ${colors.green('server ready.')}`)
+    GLOBAL_STATE.server = server
+    return server
   }
   catch (e) {
     consola.error('failed to start server. error:\n')

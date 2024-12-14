@@ -192,6 +192,23 @@ export default defineSiteConfig({
 
 :::
 
+### 作者信息
+
+更多字段可参考上文类型或直接在编辑器提示中查看。
+
+```ts [site.config.ts]
+import { defineSiteConfig } from 'valaxy'
+
+export default defineSiteConfig({
+  author: {
+    name: '你的名字',
+    // 你的头像
+    avatar: 'https://xxx',
+    intro: '个人简介'
+  }
+})
+```
+
 ### Default Frontmatter
 
 ::: zh-CN
@@ -760,6 +777,16 @@ export default defineSiteConfig({
 })
 ```
 
+### 更多配置
+
+> 更多详细配置可参见 [types/config.ts](https://github.com/YunYouJun/valaxy/blob/main/packages/valaxy/types/config.ts)。
+
+::: details packages/valaxy/types/config.ts SiteConfig
+
+<<< @/../packages/valaxy/types/config.ts#snippet{ts:line-numbers}
+
+:::
+
 ## 主题配置 {lang="zh-CN"}
 
 ## Theme Config {lang="en"}
@@ -771,3 +798,7 @@ export default defineSiteConfig({
 ::: en
 Please refer to [Using Themes](/themes/use) and the theme you are using to configure it.
 :::
+
+## 扩展配置
+
+更多高阶配置请参见 [扩展配置](/guide/config/extend)。

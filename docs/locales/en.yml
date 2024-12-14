@@ -2,6 +2,7 @@ gallery:
   tip: search
 
 nav:
+  config: Config
   guide: Guide
   theme: Themes
   addon: Addons
