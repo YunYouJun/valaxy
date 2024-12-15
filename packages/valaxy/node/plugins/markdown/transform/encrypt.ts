@@ -50,11 +50,11 @@ export function createTransformEncrypt(options: ResolvedValaxyOptions) {
           // if not exist, not add to frontmatter
           frontmatter.partiallyEncryptedContents = partiallyEncryptedContents
           code = code.replaceAll(encryptRegexp, () => {
-            const partiallyEncryptedContents = `$frontmatter.partiallyEncryptedContents`
+            const partiallyEncryptedContents = `$partiallyEncryptedContents`
             const content = `${partiallyEncryptedContents}[${i++}]`
             return getValaxyDecryptTemplate({
               encryptedContent: content,
-              hint: frontmatter.password_hint,
+              hint: frontmatter.password_hint || '',
             })
           })
         }
@@ -74,7 +74,7 @@ export function createTransformEncrypt(options: ResolvedValaxyOptions) {
         frontmatter.encrypt = true
         delete frontmatter.password
         // replace content in <template></template> to empty
-        const encryptedContentStr = '$frontmatter.encryptedContent'
+        const encryptedContentStr = '$encryptedContent'
         code = code.replace(content, getValaxyDecryptTemplate({
           encryptedContent: encryptedContentStr,
           hint: frontmatter.password_hint,

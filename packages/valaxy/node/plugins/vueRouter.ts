@@ -164,6 +164,7 @@ export async function createRouterPlugin(valaxyApp: ValaxyNode) {
             updated: mdFm.updated,
             excerpt: mdFm.excerpt,
             excerpt_type: mdFm.excerpt_type,
+            photos: mdFm.photos,
           },
           excerpt: mdFm.excerpt || (excerpt ? getExcerptByType(excerpt, mdFm.excerpt_type, mdIt) : ''),
         })

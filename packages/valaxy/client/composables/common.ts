@@ -32,6 +32,43 @@ export function useFrontmatter<T extends Record<string, any> = PostFrontMatter>(
 }
 
 /**
+ * 获取加密文章数据
+ */
+export function useEncryptedContent() {
+  // const value = inject<string>('valaxy:encryptedContent')
+  // inject 还没有插入
+  const route = useRoute()
+  return computed(() => {
+    return route.meta.$encryptedContent || ''
+  })
+}
+
+/**
+ * 获取部分加密内容
+ */
+export function usePartiallyEncryptedContents() {
+  // const value = inject<string>('valaxy:partiallyEncryptedContents')
+  // inject 还没有插入
+  const route = useRoute()
+  return computed(() => {
+    return route.meta.$partiallyEncryptedContents || []
+  })
+}
+
+/**
+ * encryptedPhotos
+ * 获取加密相册数据
+ */
+export function useEncryptedPhotos() {
+  // const value = inject<string>('valaxy:encryptedPhotos')
+  // inject 还没有插入
+  const route = useRoute()
+  return computed(() => {
+    return route.meta.$encryptedPhotos || []
+  })
+}
+
+/**
  * inject pageData
  */
 export function useData(): PageData {

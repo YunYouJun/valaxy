@@ -2,19 +2,28 @@ import type { PageData } from 'valaxy/types'
 import type { ResolvedValaxyOptions } from '../../../options'
 import path from 'node:path'
 import fs from 'fs-extra'
+
 import { transformObject } from '../../../utils'
 import { getValaxyMain } from '../../markdown/markdownToVue'
 
-export function injectPageDataCode() {
+function genProvideCode(name: string, data: any) {
+  return [
+    `const $${name} = ${transformObject(data)}`,
+    `route.meta.$${name} = $${name}`,
+    `provide('valaxy:${name}', $${name})`,
+  ]
+}
+
+const encryptedKeys = ['encryptedContent', 'partiallyEncryptedContents', 'encryptedPhotos']
+export function injectPageDataCode(pageData: PageData) {
   const vueContextImports = [
     `import { provide } from 'vue'`,
     `import { useRoute } from 'vue-router'`,
 
     'const { data: pageData } = usePageData()',
     'const route = useRoute()',
-    // $frontmatter contain runtime added data
-    // for example, $frontmatter.partiallyEncryptedContents
-    `const $frontmatter = Object.assign(route.meta.frontmatter || {}, pageData.frontmatter || {})
+    // $frontmatter contain runtime added data, will be deleted (for example, $frontmatter.partiallyEncryptedContents)
+    `const $frontmatter = Object.assign(route.meta.frontmatter || {}, pageData.value.frontmatter || {})
     route.meta.frontmatter = $frontmatter
 
     provide('pageData', pageData)
@@ -22,6 +31,11 @@ export function injectPageDataCode() {
     `,
   ]
 
+  for (const key of encryptedKeys) {
+    if (pageData.frontmatter[key]) {
+      vueContextImports.push(...genProvideCode(key, pageData.frontmatter[key]))
+    }
+  }
   return vueContextImports
 }
 
@@ -32,18 +46,22 @@ export function createTransformMarkdown(options: ResolvedValaxyOptions) {
       // do not build path in production
       delete pageData.filePath
     }
-    const dataCode = injectPageDataCode()
+    const dataCode = injectPageDataCode(pageData)
     const imports = [
       ...dataCode,
       isDev ? `globalThis.$pageData = pageData` : '',
       'globalThis.$frontmatter = $frontmatter',
     ]
+    // remove useless frontmatter
+    encryptedKeys.forEach((key) => {
+      delete pageData.frontmatter[key]
+    })
 
     const loaderVuePath = path.resolve(options.pkgRoot, 'node/templates/loader.vue')
     let loaderVue = fs.readFileSync(loaderVuePath, 'utf-8')
     loaderVue = loaderVue
       .replace('/relativePath', pageData.relativePath.slice('/pages'.length - 1, -'.md'.length))
-      .replace('// custom basic loader', `return ${transformObject(pageData)}`)
+      .replace('// custom basic loader', `return JSON.parse(\`${JSON.stringify(pageData)}\`)`)
     code = loaderVue + code
 
     // inject imports to <script setup>

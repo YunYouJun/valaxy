@@ -50,11 +50,7 @@ export const defaultValaxyConfig: ValaxyNodeConfig = {
   },
 
   vite: {
-    build: {
-      rollupOptions: {
-        external: [],
-      },
-    },
+    build: { },
   },
 
   devtools: true,

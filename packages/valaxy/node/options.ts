@@ -11,6 +11,7 @@ import fs from 'fs-extra'
 import { resolve } from 'pathe'
 // import defu from 'defu'
 import { blue, cyan, magenta, yellow } from 'picocolors'
+import { getRollupOptions } from './build/bundle'
 import {
   defaultValaxyConfig,
   mergeValaxyConfig,
@@ -143,6 +144,9 @@ export async function processValaxyOptions(valaxyOptions: ResolvedValaxyOptions,
   const addons = await parseAddons(valaxyConfig.addons || [], valaxyOptions.userRoot)
   const addonsValaxyConfig = await resolveAddonsConfig(addons, valaxyOptions)
   valaxyConfig = mergeValaxyConfig(valaxyConfig, addonsValaxyConfig)
+
+  const rollupOptions = getRollupOptions(valaxyOptions)
+  defaultValaxyConfig.vite!.build!.rollupOptions = rollupOptions
 
   const config = replaceArrMerge(valaxyConfig, defaultValaxyConfig)
   valaxyOptions.config = {

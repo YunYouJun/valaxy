@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import { defineWebPage, useSchemaOrg } from '@unhead/schema-org'
-import { useFrontmatter, usePostTitle, useRuntimeConfig } from 'valaxy'
+import { useEncryptedPhotos, useFrontmatter, usePostTitle, useRuntimeConfig } from 'valaxy'
 import { computed, defineAsyncComponent } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { useRouter } from 'vue-router'
@@ -26,6 +26,8 @@ const runtimeConfig = useRuntimeConfig()
 const YunGallery = runtimeConfig.value.addons['valaxy-addon-lightgallery']
   ? defineAsyncComponent(() => import('../components/YunGallery.vue'))
   : () => null
+
+const encryptedPhotos = useEncryptedPhotos()
 </script>
 
 <template>
@@ -51,7 +53,7 @@ const YunGallery = runtimeConfig.value.addons['valaxy-addon-lightgallery']
               <div i-ri-arrow-go-back-line />
             </a>
           </div>
-          <ValaxyGalleryDecrypt v-if="frontmatter.encryptedPhotos" :encrypted-photos="frontmatter.encryptedPhotos" />
+          <ValaxyGalleryDecrypt v-if="encryptedPhotos" :encrypted-photos="encryptedPhotos" />
           <YunGallery v-else :photos="photos" />
           <RouterView />
         </template>
