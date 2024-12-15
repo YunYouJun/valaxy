@@ -26,7 +26,7 @@ export function injectPageDataCode(pageData: PageData) {
     `const $frontmatter = Object.assign(route.meta.frontmatter || {}, pageData.value.frontmatter || {})
     route.meta.frontmatter = $frontmatter
 
-    provide('pageData', pageData)
+    provide('pageData', pageData.value)
     provide('valaxy:frontmatter', $frontmatter)
     `,
   ]
