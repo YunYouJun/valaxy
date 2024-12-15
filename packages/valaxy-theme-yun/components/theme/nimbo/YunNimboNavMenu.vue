@@ -48,7 +48,7 @@ const app = useAppStore()
       <!--  -->
       <div class="inline-flex justify-start items-center flex-1">
         <ValaxyHamburger
-          v-if="!yunApp.size.isSm"
+          v-if="!yunApp.size.isLg"
           :active="yunApp.fullscreenMenu.isOpen"
           class="menu-btn sidebar-toggle leading-4 size-12"
           inline-flex cursor="pointer"
@@ -57,7 +57,7 @@ const app = useAppStore()
           @click="yunApp.fullscreenMenu.toggle()"
         />
         <YunNavMenuItem icon="i-ri-home-4-line" to="/" />
-        <template v-if="yunApp.size.isSm">
+        <template v-if="yunApp.size.isLg">
           <YunNavMenuItem
             icon="i-ri-article-line" to="/posts/"
             title="博客文章"

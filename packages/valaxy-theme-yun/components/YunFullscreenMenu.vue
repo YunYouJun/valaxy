@@ -15,7 +15,7 @@ const app = useAppStore()
       v-if="yunApp.fullscreenMenu.isOpen"
       ref="fullscreenMenuRef"
       p="t-12 md:t-20"
-      class="yun-fullscreen-menu fixed left-0 right-0 bottom-0 top-0 bg-$va-c-bg-soft z-$yun-z-fullscreen-menu overflow-auto"
+      class="yun-fullscreen-menu fixed left-0 right-0 bottom-0 top-0 bg-$va-c-bg-soft z-$yun-z-fullscreen-menu overflow-auto max-w-md shadow-2xl"
     >
       <!-- <div v-if="app.isMobile" class="flex-center gap-2">
         <YunToggleDark transition />
@@ -49,7 +49,7 @@ const app = useAppStore()
 .slide-down-enter-active,
 .slide-down-leave-active {
   opacity: 1;
-  transition: transform 0.4s map.get($cubic-bezier, 'ease-in-out'),
+  transition: transform 0.3s map.get($cubic-bezier, 'ease-in-out'),
     opacity 0.2s map.get($cubic-bezier, 'ease-in-out');
   transform: translateY(0);
 }

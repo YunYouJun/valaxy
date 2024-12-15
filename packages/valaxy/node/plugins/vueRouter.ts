@@ -151,21 +151,12 @@ export async function createRouterPlugin(valaxyApp: ValaxyNode) {
 
         /**
          * set route meta
-         * 仅添加必要的 frontmatter（首页、摘要、分页、分类、标签等地方使用）
-         * 其他在页面内获取即可
+         * 必要的 frontmatter（草稿、首页、摘要、分页、分类、标签等地方使用）
+         *
+         * 发现会和 vue-router loader 自动合并
          */
         route.addToMeta({
-          frontmatter: {
-            title: mdFm.title,
-            categories: mdFm.categories,
-            tags: typeof mdFm.tags === 'string' ? [mdFm.tags] : mdFm.tags,
-            description: mdFm.description,
-            date: mdFm.date,
-            updated: mdFm.updated,
-            excerpt: mdFm.excerpt,
-            excerpt_type: mdFm.excerpt_type,
-            photos: mdFm.photos,
-          },
+          frontmatter: mdFm,
           excerpt: mdFm.excerpt || (excerpt ? getExcerptByType(excerpt, mdFm.excerpt_type, mdIt) : ''),
         })
 
