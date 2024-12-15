@@ -24,4 +24,6 @@ pnpm create valaxy
 
 ## FAQ
 
+### Valaxy Version < 0.18
+
 Use `execa@5` for cjs.

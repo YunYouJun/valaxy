@@ -13,7 +13,6 @@ export default defineBuildConfig({
     'fs-extra',
   ],
   rollup: {
-    emitCJS: true,
     dts: {
       respectExternal: true,
     },
