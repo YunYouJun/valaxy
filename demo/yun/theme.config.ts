@@ -39,6 +39,12 @@ export default defineThemeConfig({
       color: 'var(--va-c-text)',
     },
     {
+      name: '相册',
+      url: '/albums',
+      icon: 'i-ri-image-line',
+      color: 'var(--va-c-text)',
+    },
+    {
       name: '友情链接',
       url: '/links/',
       icon: 'i-ri-link',

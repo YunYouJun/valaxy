@@ -149,14 +149,42 @@ export async function createRouterPlugin(valaxyApp: ValaxyNode) {
           }
         }
 
+        // const keys = [
+        //   'title',
+        //   'categories',
+        //   'description',
+        //   'date',
+        //   'updated',
+        //   'excerpt_type',
+
+        //   'hero',
+        // ]
+        const excludeKeys = [
+          'albums',
+          'excerpt',
+          'girls',
+          'links',
+          'photos',
+          // @TODO defineBasicLoader for page
+          // 'projects',
+        ]
+        const routerFM: Post = {
+          ...mdFm,
+          // 主题有新的字段需要主动设置
+          // @TODO 添加文档和配置项，或者反过来允许用户自行优化
+          tags: typeof mdFm.tags === 'string' ? [mdFm.tags] : mdFm.tags,
+        }
+        excludeKeys.forEach((key) => {
+          delete routerFM[key]
+        })
         /**
          * set route meta
          * 必要的 frontmatter（草稿、首页、摘要、分页、分类、标签等地方使用）
          *
-         * 发现会和 vue-router loader 自动合并
+         * 不会与 vue-router loader 自动合并
          */
         route.addToMeta({
-          frontmatter: mdFm,
+          frontmatter: routerFM,
           excerpt: mdFm.excerpt || (excerpt ? getExcerptByType(excerpt, mdFm.excerpt_type, mdIt) : ''),
         })
 

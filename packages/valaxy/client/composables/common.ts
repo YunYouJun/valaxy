@@ -64,7 +64,7 @@ export function useEncryptedPhotos() {
   // inject 还没有插入
   const route = useRoute()
   return computed(() => {
-    return route.meta.$encryptedPhotos || []
+    return route.meta.$encryptedPhotos || ''
   })
 }
 
