@@ -135,6 +135,8 @@ export interface ValaxyExtendConfig {
   }
   /**
    * @see https://github.com/unplugin/unplugin-vue-components
+   *
+   * exclude @default components/.exclude
    */
   components?: Parameters<typeof Components>[0]
   /**

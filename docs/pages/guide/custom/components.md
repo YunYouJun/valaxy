@@ -27,6 +27,23 @@ If there are components with the same name as the theme and Valaxy, the order of
 This also means that you can cover one component of the theme to achieve customizing the local theme!
 :::
 
+### 取消默认注册
+
+你可以将组件放置于**非** `components` 文件夹或 `components/.exclude` 文件夹下。
+
+你也可以自定义排除规则。
+
+```ts [valaxy.config.ts]
+import { defineValaxyConfig } from 'valaxy'
+
+export default defineValaxyConfig({
+  // @see https://github.com/unplugin/unplugin-vue-components#configuration
+  components: {
+    exclude: [/[\\/]node_modules[\\/]/, /[\\/]\.git[\\/]/, /[\\/]\.exclude[\\/]/],
+  },
+})
+```
+
 ### 自定义覆盖主题组件 {lang="zh-CN"}
 
 ### Custom Override Theme Component {lang="en"}
@@ -61,6 +78,7 @@ import YunFooter from 'valaxy-theme-yun/components/YunFooter.vue'
   </YunFooter>
 </template>
 ```
+
 :::
 
 :::en
@@ -93,6 +111,7 @@ import YunFooter from 'valaxy-theme-yun/components/YunFooter.vue'
   </YunFooter>
 </template>
 ```
+
 :::
 
 ### 更多示例 {lang="zh-CN"}

@@ -72,7 +72,10 @@ export async function ViteValaxyPlugins(
 
       // allow auto import and register components used in markdown
       include: [/\.vue$/, /\.vue\?vue/, /\.md$/],
-      exclude: [],
+      /**
+       * 默认排除 components/.exclude
+       */
+      exclude: [/[\\/]node_modules[\\/]/, /[\\/]\.git[\\/]/, /[\\/]\.exclude[\\/]/],
 
       // allow override
       allowOverrides: true,
