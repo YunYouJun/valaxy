@@ -1,23 +1,23 @@
 import type { PageData } from 'valaxy/types'
 import type { ResolvedValaxyOptions } from '../../../options'
+import path from 'node:path'
+import fs from 'fs-extra'
 import { transformObject } from '../../../utils'
 import { getValaxyMain } from '../../markdown/markdownToVue'
 
-export function injectPageDataCode(
-  data: PageData,
-) {
+export function injectPageDataCode() {
   const vueContextImports = [
     `import { provide } from 'vue'`,
     `import { useRoute } from 'vue-router'`,
-    `
-    const data = ${transformObject(data)}
-    const route = useRoute()`,
 
+    'const { data: pageData } = usePageData()',
+    'const route = useRoute()',
     // $frontmatter contain runtime added data
     // for example, $frontmatter.partiallyEncryptedContents
-    `const $frontmatter = data.frontmatter || {}
-    route.meta.frontmatter = Object.assign(route.meta.frontmatter || {}, data.frontmatter || {})
-    provide('pageData', data)
+    `const $frontmatter = Object.assign(route.meta.frontmatter || {}, pageData.frontmatter || {})
+    route.meta.frontmatter = $frontmatter
+
+    provide('pageData', pageData)
     provide('valaxy:frontmatter', $frontmatter)
     `,
   ]
@@ -27,21 +27,24 @@ export function injectPageDataCode(
 
 export function createTransformMarkdown(options: ResolvedValaxyOptions) {
   return (code: string, id: string, pageData: PageData) => {
-    const dataCode = injectPageDataCode(pageData)
     const isDev = options.mode === 'dev'
+    if (!isDev) {
+      // do not build path in production
+      delete pageData.filePath
+    }
+    const dataCode = injectPageDataCode()
     const imports = [
       ...dataCode,
-      isDev
-        ? `
-window.$pageData = data
-      `
-        : '',
+      isDev ? `globalThis.$pageData = pageData` : '',
       'globalThis.$frontmatter = $frontmatter',
     ]
 
-    // const loaderVuePath = path.resolve(options.pkgRoot, 'node/templates/loader.vue')
-    // const loaderVue = fs.readFileSync(loaderVuePath)
-    // code = loaderVue + code
+    const loaderVuePath = path.resolve(options.pkgRoot, 'node/templates/loader.vue')
+    let loaderVue = fs.readFileSync(loaderVuePath, 'utf-8')
+    loaderVue = loaderVue
+      .replace('/relativePath', pageData.relativePath.slice('/pages'.length - 1, -'.md'.length))
+      .replace('// custom basic loader', `return ${transformObject(pageData)}`)
+    code = loaderVue + code
 
     // inject imports to <script setup>
     const scriptSetupStart = code.indexOf('<script setup>')

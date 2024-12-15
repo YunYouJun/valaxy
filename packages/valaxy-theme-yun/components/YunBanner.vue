@@ -53,7 +53,7 @@ onMounted(async () => {
 </script>
 
 <template>
-  <div id="yun-banner" :style="bannerStyles">
+  <div id="yun-banner" border="b-1px b-solid b-$banner-line-color" :style="bannerStyles">
     <div class="banner-line-container">
       <div
         class="banner-line vertical-line-top"

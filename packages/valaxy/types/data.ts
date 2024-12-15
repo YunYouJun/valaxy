@@ -7,8 +7,12 @@ export type CleanUrlsMode =
   | 'with-subfolders'
 
 export interface PageData {
-  path: string
   relativePath: string
+  /**
+   * differs from relativePath in case of path rewrites
+   * absolute file path
+   */
+  filePath?: string
   title: string
   titleTemplate?: string
   description: string

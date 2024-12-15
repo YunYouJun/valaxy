@@ -1,7 +1,10 @@
-<script lang="ts">
-// import { defineBasicLoader } from 'unplugin-vue-router/data-loaders/basic'
+<script>
+import { defineBasicLoader } from 'unplugin-vue-router/data-loaders/basic'
 
-// export const useUserData = defineBasicLoader('/users/[id]', async (to) => {
-//   // return getUserById(to.params.id)
-// })
+export const usePageData = defineBasicLoader('/relativePath', async (_to) => {
+  // custom basic loader
+}, {
+  // @see https://uvr.esm.is/data-loaders/defining-loaders.html#non-blocking-loaders-with-lazy
+  lazy: (to, from) => to.name === from.name,
+})
 </script>

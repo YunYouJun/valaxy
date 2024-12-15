@@ -4,7 +4,7 @@ import axios from 'axios'
 
 import consola from 'consola'
 import { ref, toRaw } from 'vue'
-import { pageData } from '../composables/app'
+import { activePath, pageData } from '../composables/app'
 
 const props = defineProps<{
   frontmatter: PostFrontMatter
@@ -18,6 +18,7 @@ async function saveNewFm() {
   // })
 
   const res = await axios.post('/valaxy-devtools-api/frontmatter', {
+    path: activePath.value,
     pageData: pageData.value,
     frontmatter: toRaw(newFm.value),
   })

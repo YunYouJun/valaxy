@@ -38,7 +38,7 @@ export async function generatePageData(code: string, id: string, options: Resolv
     // not be used
     headers: options.env.headers || [],
     relativePath,
-    path: id,
+    filePath: id,
   }
 
   // if (includeLastUpdatedData)

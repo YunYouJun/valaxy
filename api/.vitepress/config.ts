@@ -53,6 +53,10 @@ export default defineConfig({
       '/typedoc/': typedocSidebar,
       '/notes': [
         {
+          text: 'App Bundle Size',
+          link: '/notes/app-bundle-size',
+        },
+        {
           text: 'Shiki 高亮耗时问题',
           link: '/notes/shiki-performance',
         },
