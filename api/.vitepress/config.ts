@@ -22,11 +22,31 @@ export default defineConfig({
       provider: 'local',
     },
 
-    // https://vitepress.dev/reference/default-theme-config
     nav: [
       { text: 'TypeDoc', link: '/typedoc' },
       { text: '优化笔记', link: '/notes/' },
       { text: 'Valaxy Docs', link: 'https://valaxy.site' },
+      // {
+      //   text: 'Dropdown Menu',
+      //   items: [
+      //     {
+      //       // Title for the section.
+      //       text: 'Section A Title',
+      //       items: [
+      //         { text: 'Section A Item A', link: '...' },
+      //         { text: 'Section B Item B', link: '...' },
+      //       ],
+      //     },
+      //     {
+      //       // Title for the section.
+      //       text: 'Section B Title',
+      //       items: [
+      //         { text: 'Section A Item A', link: '...' },
+      //         { text: 'Section B Item B', link: '...' },
+      //       ],
+      //     },
+      //   ],
+      // },
     ],
 
     sidebar: {

@@ -34,14 +34,12 @@ pnpm test:space
 
 使用 `defu`。
 
-但实测 defu faster than `@fastify/deepmerge`。
+但实测 `defu` faster than `@fastify/deepmerge`。
 
 合并单个配置：
 
 - `defu`: 0.06ms
-- `@fastify/deepmerge`: 0.256ms
-
-- [`@fastify/deepmerge`](https://github.com/fastify/deepmerge)。
+- [`@fastify/deepmerge`](https://github.com/fastify/deepmerge): 0.256ms
 
 ```bash
 # benchmark

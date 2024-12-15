@@ -74,7 +74,6 @@ export async function createUnocssConfig(options: ResolvedValaxyOptions) {
       ['inline-flex-center', 'inline-flex items-center justify-center'],
 
       ['btn', 'px-4 py-1 rounded inline-block bg-$va-c-primary text-white cursor-pointer transition hover:bg-$va-c-primary-light disabled:cursor-default disabled:bg-gray-600 disabled:opacity-50'],
-      ['icon-btn', 'inline-flex justify-center items-center cursor-pointer select-none opacity-75 transition duration-200 ease-in-out hover:opacity-100 hover:text-sky-600'],
       ['va-card', 'shadow hover:shadow-lg bg-$va-c-bg-light'],
     ],
     presets: [
