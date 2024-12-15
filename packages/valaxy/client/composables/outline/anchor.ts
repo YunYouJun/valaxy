@@ -136,8 +136,10 @@ export function useActiveAnchor(
       marker.value.style.opacity = '1'
     }
     else {
-      marker.value.style.top = `${topOffset}px`
-      marker.value.style.opacity = '0'
+      if (marker.value) {
+        marker.value.style.top = `${topOffset}px`
+        marker.value.style.opacity = '0'
+      }
     }
   }
 }

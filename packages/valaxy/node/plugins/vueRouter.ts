@@ -1,4 +1,4 @@
-import type { ExcerptType, Page } from 'valaxy/types'
+import type { ExcerptType, Page, Post } from 'valaxy/types'
 import type { RouteMeta } from 'vue-router'
 import type { ValaxyNode } from '../types'
 import fs from 'fs-extra'
@@ -60,7 +60,10 @@ export async function createRouterPlugin(valaxyApp: ValaxyNode) {
         const { frontmatter: _, otherMeta } = route.meta
         route.meta = otherMeta as RouteMeta
       }
-      // merge deeply
+      /**
+       * merge deeply
+       * 添加全局默认的 frontmatter
+       */
       route.addToMeta({
         frontmatter: defaultFrontmatter,
       })
@@ -108,7 +111,7 @@ export async function createRouterPlugin(valaxyApp: ValaxyNode) {
       if (path.endsWith('.md')) {
         const md = fs.readFileSync(path, 'utf-8')
         const { data, excerpt, content } = matter(md, matterOptions)
-        const mdFm = data as Page
+        const mdFm = data as (Page | Post)
 
         // todo, optimize it to cache or on demand
         const lastUpdated = options.config.siteConfig.lastUpdated
@@ -121,12 +124,12 @@ export async function createRouterPlugin(valaxyApp: ValaxyNode) {
         }
 
         if (!mdFm.date)
-          mdFm.date = fs.statSync(path).mtime
+          mdFm.date = (await fs.stat(path)).mtime
 
         // format
         if (lastUpdated) {
           if (!mdFm.updated)
-            mdFm.updated = fs.statSync(path).ctime
+            mdFm.updated = (await fs.stat(path)).ctime
         }
 
         if (mdFm.from) {
@@ -146,10 +149,23 @@ export async function createRouterPlugin(valaxyApp: ValaxyNode) {
           }
         }
 
-        // set route meta
+        /**
+         * set route meta
+         * 仅添加必要的 frontmatter（首页、摘要、分页、分类、标签等地方使用）
+         * 其他在页面内获取即可
+         */
         route.addToMeta({
-          frontmatter: mdFm,
-          excerpt: excerpt ? getExcerptByType(excerpt, mdFm.excerpt_type, mdIt) : '',
+          frontmatter: {
+            title: mdFm.title,
+            categories: mdFm.categories,
+            tags: typeof mdFm.tags === 'string' ? [mdFm.tags] : mdFm.tags,
+            description: mdFm.description,
+            date: mdFm.date,
+            updated: mdFm.updated,
+            excerpt: mdFm.excerpt,
+            excerpt_type: mdFm.excerpt_type,
+          },
+          excerpt: mdFm.excerpt || (excerpt ? getExcerptByType(excerpt, mdFm.excerpt_type, mdIt) : ''),
         })
 
         // set layout
@@ -162,13 +178,6 @@ export async function createRouterPlugin(valaxyApp: ValaxyNode) {
         // set default updated
         if (!route.meta.frontmatter?.updated)
           route.meta.frontmatter.updated = mdFm.date
-
-        // adapt for tags
-        if (route.meta.frontmatter.tags) {
-          const tags = route.meta.frontmatter.tags
-          if (typeof tags === 'string')
-            route.meta.frontmatter.tags = [tags]
-        }
 
         // TODO: extract to hook call
         if (valaxyConfig.siteConfig.statistics.enable) {
@@ -189,7 +198,6 @@ export async function createRouterPlugin(valaxyApp: ValaxyNode) {
       }
 
       await valaxyApp.hooks.callHook('vue-router:extendRoute', route)
-
       return valaxyConfig.router?.extendRoute?.(route)
     },
   })

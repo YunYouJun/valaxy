@@ -34,7 +34,6 @@ export function createTransformMarkdown(options: ResolvedValaxyOptions) {
       isDev
         ? `
 window.$pageData = data
-window.$frontmatter = $frontmatter
       `
         : '',
       'globalThis.$frontmatter = $frontmatter',
