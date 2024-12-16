@@ -14,7 +14,7 @@ test.describe('enter docs', () => {
     // Click the get started button
     await page.click('.sese-btn')
     // wait page load
-    await page.waitForURL(`${env.docs}/guide/getting-started`)
+    await page.waitForURL('/guide/getting-started')
     // Expect a new url
     await expect(page.locator('h1')).toHaveText('Getting Started')
   })

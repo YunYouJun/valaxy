@@ -52,7 +52,7 @@
     "node": "^14.18.0 || >=16.0.0"
   },
   "scripts": {
-    "build": "rimraf dist && tsup --splitting",
+    "build": "rimraf dist && tsup",
     "dev": "tsup --watch",
     "preview": "vite preview",
     "preview-https": "serve dist"

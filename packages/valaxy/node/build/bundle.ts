@@ -86,9 +86,19 @@ export function getRollupOptions(options: ResolvedValaxyOptions) {
     )}`,
   )
 
+  const assetsDir = 'assets'
   const rollupOptions: Rollup.RollupOptions = {
+    ...options.config.vite?.build?.rollupOptions,
     external: [],
+    // important so that each page chunk and the index export things for each
+    // other
+    preserveEntrySignatures: 'allow-extension',
     output: {
+      assetFileNames: `${assetsDir}/[name].[hash].[ext]`,
+      entryFileNames: `${assetsDir}/[name].[hash].js`,
+      chunkFileNames() {
+        return `${assetsDir}/[name].[hash].js`
+      },
       manualChunks(id, ctx) {
         // move known framework code into a stable chunk so that
         // custom theme changes do not invalidate hash for all pages
@@ -102,6 +112,7 @@ export function getRollupOptions(options: ResolvedValaxyOptions) {
         // lib
         const libs = [
           '@vueuse/motion',
+
           'date-fns',
           'luxon',
           'vue-i18n',

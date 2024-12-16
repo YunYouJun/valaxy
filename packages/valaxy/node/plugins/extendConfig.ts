@@ -31,6 +31,8 @@ const clientDeps = [
   // vue
   'vue',
   'vue-router',
+  'unplugin-vue-router/data-loaders/basic',
+
   'vue-i18n',
   // dev
   '@vue/devtools-api',
@@ -90,7 +92,8 @@ export function createConfigPlugin(options: ResolvedValaxyOptions): Plugin {
         // root: options.userRoot,
         // can not transform valaxy/client/*.ts when use userRoot
         root: options.clientRoot,
-        cacheDir: join(options.userRoot, 'node_modules/.vite'),
+        // cacheDir: join(options.userRoot, 'node_modules/.vite'),
+        cacheDir: join(options.userRoot, 'node_modules/.valaxy/cache'),
         publicDir: join(options.userRoot, 'public'),
 
         define: getDefine(options),
@@ -121,7 +124,6 @@ export function createConfigPlugin(options: ResolvedValaxyOptions): Plugin {
       }
 
       if (isInstalledGlobally) {
-        injection.cacheDir = join(options.pkgRoot, 'node_modules/.vite')
         // @ts-expect-error type cast
         injection.resolve.alias.vue = `${resolveImportPath('vue/dist/vue.esm-browser.js', true)}`
       }

@@ -59,8 +59,10 @@ export function createTransformMarkdown(options: ResolvedValaxyOptions) {
 
     const loaderVuePath = path.resolve(options.pkgRoot, 'node/templates/loader.vue')
     let loaderVue = fs.readFileSync(loaderVuePath, 'utf-8')
+    const pagePath = pageData.relativePath.slice('/pages'.length - 1, -'.md'.length)
     loaderVue = loaderVue
-      .replace('/relativePath', pageData.relativePath.slice('/pages'.length - 1, -'.md'.length))
+      // adapt for /index
+      .replace('/relativePath', pagePath.endsWith('index') ? pagePath.replace(/\/index$/, '') : pagePath)
       .replace('// custom basic loader', `return JSON.parse(\`${JSON.stringify(pageData)}\`)`)
     code = loaderVue + code
 

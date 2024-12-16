@@ -50,7 +50,11 @@ export const defaultValaxyConfig: ValaxyNodeConfig = {
   },
 
   vite: {
-    build: { },
+    build: {
+      emptyOutDir: true,
+      // not inlined?
+      cssCodeSplit: false,
+    },
   },
 
   devtools: true,
