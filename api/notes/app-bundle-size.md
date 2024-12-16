@@ -128,7 +128,7 @@ function staticImportedByEntry(
 
 export function getRollupOptions(options: ResolvedValaxyOptions) {
   // these deps are also being used in the client code (outside of the theme)
-// exclude them from the theme chunk so there is no circular dependency
+  // exclude them from the theme chunk so there is no circular dependency
   const excludedModules = [
     '/@siteData',
     'node_modules/@vueuse/core/',

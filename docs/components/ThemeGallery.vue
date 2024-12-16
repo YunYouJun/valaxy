@@ -58,7 +58,7 @@ const filteredThemes = computed(() => {
               <span>{{ theme.name }}</span>
             </h3>
           </a>
-          <p class="my-1! text-xl!">
+          <div class="flex my-1! text-xl!">
             <a mr-2 class="text-red-600!" :href="`https://npmjs.com/package/${theme.name}`" target="_blank" alt="NPM Package">
               <div i-ri-npmjs-line />
             </a>
@@ -66,10 +66,10 @@ const filteredThemes = computed(() => {
             <a mr-2 class="text-blue-600!" :href="theme.siteExampleUrl" target="_blank" alt="NPM Package">
               <div i-ri-slideshow-2-line />
             </a>
-          </p>
-          <p class="my-1!">
+          </div>
+          <div class="my-1 op-80">
             {{ theme.desc }}
-          </p>
+          </div>
           <ul class="m-0! p-0! flex flex-wrap">
             <span v-for="tag, j in theme.tags" :key="j" class="break-all text-gray mr-6px">
               #{{ tag }}
