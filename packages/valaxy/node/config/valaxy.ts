@@ -52,11 +52,7 @@ export const defaultValaxyConfig: ValaxyNodeConfig = {
   vite: {
     build: {
       emptyOutDir: true,
-      /**
-       * false
-       * 避免出现错落的 html 后才渲染好正确的样式
-       */
-      cssCodeSplit: false,
+      // cssCodeSplit: false,
     },
   },
 
