@@ -16,11 +16,11 @@ dayjs.tz.setDefault(cnTimezone)
  * format the date (dayjs)
  */
 export function formatDate(date?: string | number | Date, options: {
-  formatStr?: string
+  template?: string
   timezone?: string
   keepLocalTime?: boolean
 } = {}) {
-  return dayjs(date).tz(options.timezone, options.keepLocalTime).format(options.formatStr || 'YYYY-MM-DD')
+  return dayjs(date).tz(options.timezone, options.keepLocalTime).format(options.template || 'YYYY-MM-DD')
 }
 
 /**

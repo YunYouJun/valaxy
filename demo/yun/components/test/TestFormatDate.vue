@@ -4,14 +4,14 @@ import { computed } from 'vue'
 
 const props = defineProps<{
   date?: string | number | Date
-  format?: string
+  template?: string
   timezone?: string
   keepLocalTime?: boolean
 }>()
 
 const formattedDate = computed(() => {
   return formatDate(props.date, {
-    formatStr: props.format,
+    template: props.template,
     timezone: props.timezone,
     keepLocalTime: props.keepLocalTime,
   })

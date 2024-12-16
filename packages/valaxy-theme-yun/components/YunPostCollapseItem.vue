@@ -41,7 +41,9 @@ useMotion(itemRef, {
     >
       <div class="post-meta">
         <time v-if="post.date" class="post-time" font="mono" opacity="80">{{
-          formatDate(post.date, 'MM-dd') }}
+          formatDate(post.date, {
+            template: 'MM-DD',
+          }) }}
         </time>
       </div>
       <h2 class="post-title w-full" inline-flex items-center font="serif black">

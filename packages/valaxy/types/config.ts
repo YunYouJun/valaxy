@@ -73,7 +73,7 @@ export interface SiteConfig {
    * @zh_CN 时区配置，国内推荐使用 'Asia/Shanghai'
    * @description:en-US This configuration is used to generate times with timezone when no timezone is set
    * @description:zh-CN 当时间没有设置时区时，使用该配置生成带时区的时间
-   * @default ''
+   * @default 'Asia/Shanghai'
    */
   timezone: string
   url: string

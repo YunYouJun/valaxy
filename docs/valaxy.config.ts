@@ -5,6 +5,8 @@ import { addonAlgolia } from 'valaxy-addon-algolia'
 import { addonComponents } from 'valaxy-addon-components'
 import { addonGitLog } from 'valaxy-addon-git-log'
 
+import pkg from '../packages/valaxy/package.json'
+
 const COMMIT_ID = process.env.CF_PAGES_COMMIT_SHA || process.env.COMMIT_REF
 const commitRef = COMMIT_ID?.slice(0, 8) || 'dev'
 
@@ -167,6 +169,15 @@ export default defineValaxyConfig<PressTheme.Config>({
           {
             text: 'nav.examples.site',
             link: '/examples/site',
+          },
+        ],
+      },
+      {
+        text: pkg.version,
+        items: [
+          {
+            text: 'Release Notes',
+            link: 'https://github.com/YunYouJun/valaxy/releases',
           },
         ],
       },
