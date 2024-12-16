@@ -7,8 +7,8 @@ settings:
 catalogs:
   default:
     '@iconify-json/ant-design':
-      specifier: ^1.2.3
-      version: 1.2.3
+      specifier: ^1.2.4
+      version: 1.2.4
     '@iconify-json/carbon':
       specifier: ^1.2.4
       version: 1.2.4
@@ -19,11 +19,11 @@ catalogs:
       specifier: ^1.2.3
       version: 1.2.3
     '@iconify-json/simple-icons':
-      specifier: ^1.2.15
-      version: 1.2.15
+      specifier: ^1.2.16
+      version: 1.2.16
     '@iconify-json/vscode-icons':
-      specifier: ^1.2.4
-      version: 1.2.4
+      specifier: ^1.2.5
+      version: 1.2.5
     typescript:
       specifier: '5.6'
       version: 5.6.3
@@ -77,7 +77,7 @@ importers:
         version: 1.2.3
       '@iconify-json/vscode-icons':
         specifier: 'catalog:'
-        version: 1.2.4
+        version: 1.2.5
       '@microsoft/api-extractor':
         specifier: ^7.48.1
         version: 7.48.1(@types/node@22.10.2)
@@ -201,10 +201,10 @@ importers:
     dependencies:
       '@iconify-json/ant-design':
         specifier: 'catalog:'
-        version: 1.2.3
+        version: 1.2.4
       '@iconify-json/simple-icons':
         specifier: 'catalog:'
-        version: 1.2.15
+        version: 1.2.16
 
   demo/yun:
     dependencies:
@@ -269,7 +269,7 @@ importers:
         version: 1.2.4
       '@iconify-json/simple-icons':
         specifier: 'catalog:'
-        version: 1.2.15
+        version: 1.2.16
       nodemon:
         specifier: ^3.1.9
         version: 3.1.9
@@ -376,9 +376,6 @@ importers:
       '@types/katex':
         specifier: ^0.16.7
         version: 0.16.7
-      '@types/luxon':
-        specifier: ^3.4.2
-        version: 3.4.2
       '@unhead/addons':
         specifier: ^1.11.14
         version: 1.11.14(rollup@4.28.1)
@@ -418,12 +415,9 @@ importers:
       css-i18n:
         specifier: ^0.0.5
         version: 0.0.5
-      date-fns:
-        specifier: ^4.1.0
-        version: 4.1.0
-      date-fns-tz:
-        specifier: ^3.2.0
-        version: 3.2.0(date-fns@4.1.0)
+      dayjs:
+        specifier: ^1.11.13
+        version: 1.11.13
       debug:
         specifier: ^4.4.0
         version: 4.4.0(supports-color@5.5.0)
@@ -472,9 +466,6 @@ importers:
       lru-cache:
         specifier: ^11.0.2
         version: 11.0.2
-      luxon:
-        specifier: ^3.5.0
-        version: 3.5.0
       markdown-it:
         specifier: ^14.1.0
         version: 14.1.0
@@ -734,10 +725,10 @@ importers:
         version: 0.1.0
       '@iconify-json/ant-design':
         specifier: 'catalog:'
-        version: 1.2.3
+        version: 1.2.4
       '@iconify-json/simple-icons':
         specifier: 'catalog:'
-        version: 1.2.15
+        version: 1.2.16
       '@vueuse/motion':
         specifier: ^2.2.6
         version: 2.2.6(rollup@4.28.1)(vue@3.5.13(typescript@5.6.3))
@@ -1746,8 +1737,8 @@ packages:
   '@iarna/toml@2.2.5':
     resolution: {integrity: sha512-trnsAYxU3xnS1gPHPyU961coFyLkh4gAD/0zQ5mymY4yOZ+CYvsPqUbOFSw0aDM4y0tV7tiFxL/1XfXPNC6IPg==}
 
-  '@iconify-json/ant-design@1.2.3':
-    resolution: {integrity: sha512-LoGrgGfRJ9iwwmTbtKnWg0FtN+87gy/C5WWErC2qUygyRuOyOMTxKJoUnl360UaXejiInDIK58o0jlJKoIVS4Q==}
+  '@iconify-json/ant-design@1.2.4':
+    resolution: {integrity: sha512-hcrq18yTNmYyDhP+Lk26aA30UmmnrFEk/kxj/kVMgLkBMglgnHRu2PAMHlS2h3mAqJCRj9+OtnczsAT60THvZA==}
 
   '@iconify-json/carbon@1.2.4':
     resolution: {integrity: sha512-DhW2jjMVGwV0DLHc0cmDYohdtGxMra8UuwgjHrryPy+rQX4gXhJwCBBVP2h2UG/92AoRCTn7zUJve4WvY5MLYg==}
@@ -1764,8 +1755,14 @@ packages:
   '@iconify-json/simple-icons@1.2.15':
     resolution: {integrity: sha512-4vxMQwkjsbjVIVGsPjKBnLMqAXu4wSlHmeN35KaJLK0UJNUj/ef6ES5c4bT/U4bSZjD2oZqOjOWTPD+HCrSUkg==}
 
+  '@iconify-json/simple-icons@1.2.16':
+    resolution: {integrity: sha512-mnQ0Ih8CDIgOqbi0qz01AJNOeFVuGFRimelg3JmJtD0y5EpZVw+enPPcpcxJKipsRZ/oqhcP3AhYkF1kM7yomg==}
+
   '@iconify-json/vscode-icons@1.2.4':
     resolution: {integrity: sha512-cmSNh18IMlOgCIYqqW5zqvXn7/6bRpr246c+/ywE/Uq3F0zQPcpHhuJp1nAIj275PF7+ouj+MU1jlmuL59pPRA==}
+
+  '@iconify-json/vscode-icons@1.2.5':
+    resolution: {integrity: sha512-VgDWPmgfNxgzkz8/NWLI6+42DDh3VuntXgrYZLmjkzFH8rosyGFz5SkGT7S6sNy+bIu67MCJOK62k1/r19twBw==}
 
   '@iconify/types@2.0.0':
     resolution: {integrity: sha512-+wluvCrRhXrhyOmRDJ3q8mux9JkKy5SJ/v8ol2tu4FVjyYvtEzkc/3pK15ET6RKg4b4w4BmTk1+gsCUhf21Ykg==}
@@ -10034,7 +10031,7 @@ snapshots:
 
   '@iarna/toml@2.2.5': {}
 
-  '@iconify-json/ant-design@1.2.3':
+  '@iconify-json/ant-design@1.2.4':
     dependencies:
       '@iconify/types': 2.0.0
 
@@ -10058,7 +10055,15 @@ snapshots:
     dependencies:
       '@iconify/types': 2.0.0
 
+  '@iconify-json/simple-icons@1.2.16':
+    dependencies:
+      '@iconify/types': 2.0.0
+
   '@iconify-json/vscode-icons@1.2.4':
+    dependencies:
+      '@iconify/types': 2.0.0
+
+  '@iconify-json/vscode-icons@1.2.5':
     dependencies:
       '@iconify/types': 2.0.0
 

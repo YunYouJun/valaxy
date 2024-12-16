@@ -606,7 +606,8 @@ Valaxy 决定通过插件中心化地提供各类封装好的评论组件和辅�
 为了提高后续页面的加载性能，Vite 将那些具有许多内部模块的 ESM 依赖项转换为单个模块。
 如果你的主题依赖了一些大型的 ESM 包，你可以通过添加 `optimizeDeps` 选项来预构建这些依赖项。
 
-> `date-fns` 已被默认预构建，您无需再次添加。
+> `dayjs` 已被默认预构建，您无需再次添加。
+> [为什么用 dayjs 而不是 date-fns？](/notes/app-bundle-size.html#date-fns-vs-dayjs?)
 
 :::
 
@@ -617,7 +618,7 @@ Valaxy 决定通过插件中心化地提供各类封装好的评论组件和辅�
 To improve the loading performance of subsequent pages, Vite bundles ESM dependencies with many internal modules into a single module.
 If your theme depends on some large ESM packages, you can pre-build these dependencies by adding the `optimizeDeps` option.
 
-> `date-fns` has been pre-built by default, you don't need to add it again.
+> `dayjs` has been pre-built by default, you don't need to add it again.
 
 :::
 

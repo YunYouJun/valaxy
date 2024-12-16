@@ -14,9 +14,9 @@ export function onImgError(e: Event, defaultImg = noneImg) {
 }
 
 /**
- * date-fns format date with 'yyyy-MM-dd HH:mm:ss'
+ * date-fns format date with 'YYYY-MM-DD HH:mm:ss'
  * @param date
  */
 export function formatTimestamp(date: string | number | Date): string {
-  return formatDate(date, 'yyyy-MM-dd HH:mm:ss')
+  return formatDate(date, 'YYYY-MM-DD HH:mm:ss')
 }

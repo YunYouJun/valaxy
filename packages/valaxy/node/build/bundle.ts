@@ -113,8 +113,7 @@ export function getRollupOptions(options: ResolvedValaxyOptions) {
         const libs = [
           '@vueuse/motion',
 
-          'date-fns',
-          'luxon',
+          'dayjs',
           'vue-i18n',
           'vue-router',
           'nprogress',

@@ -5,9 +5,10 @@ import { readFile } from 'node:fs/promises'
 import { dirname, join, resolve } from 'node:path'
 import consola from 'consola'
 import { colors } from 'consola/utils'
-import { formatDate } from 'date-fns'
+import dayjs from 'dayjs'
 import fg from 'fast-glob'
 import { Feed } from 'feed'
+
 import fs from 'fs-extra'
 
 import matter from 'gray-matter'
@@ -200,7 +201,7 @@ export async function writeFeed(feedOptions: FeedOptions, posts: Item[], options
 
   const { config } = options
   const siteConfig = config.siteConfig
-  const now = formatDate(new Date(), 'yyyy-MM-dd HH:mm:ss zzz')
+  const now = dayjs().format('YYYY-MM-DD HH:mm:ss zzz')
   const tableData = [
     [`${colors.yellow('RSS Feed Files')} 📡 ${colors.dim(now)}`, '', ''],
     [colors.bold('Site Url'), '', colors.cyan(siteConfig.url)],

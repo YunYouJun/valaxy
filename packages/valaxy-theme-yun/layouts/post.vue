@@ -2,7 +2,7 @@
 import type { Article } from '@unhead/schema-org'
 import { defineArticle, useSchemaOrg } from '@unhead/schema-org'
 
-import { toDate } from 'date-fns'
+import dayjs from 'dayjs'
 import { useFrontmatter, useFullUrl, useSiteConfig } from 'valaxy'
 import { computed } from 'vue'
 
@@ -27,8 +27,8 @@ const article: Article = {
       url: siteConfig.value.author.link,
     },
   ],
-  'datePublished': toDate(frontmatter.value.date || ''),
-  'dateModified': toDate(frontmatter.value.updated || ''),
+  'datePublished': dayjs(frontmatter.value.date || '').toDate(),
+  'dateModified': dayjs(frontmatter.value.updated || '').toDate(),
 }
 
 const image = frontmatter.value.image || frontmatter.value.cover

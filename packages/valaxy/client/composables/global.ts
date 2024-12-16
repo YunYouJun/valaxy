@@ -1,7 +1,6 @@
+import dayjs from 'dayjs'
 import { useSiteConfig } from 'valaxy'
-import { onBeforeMount, ref } from 'vue'
-
-export const timezone = ref<string>()
+import { onBeforeMount } from 'vue'
 
 /**
  * use timezone
@@ -11,6 +10,7 @@ export function useTimezone() {
   const siteConfig = useSiteConfig()
 
   onBeforeMount(() => {
-    timezone.value = siteConfig.value.timezone
+    if (siteConfig.value.timezone)
+      dayjs.tz.setDefault(siteConfig.value.timezone)
   })
 }

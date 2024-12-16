@@ -11,6 +11,9 @@ test.beforeEach(async ({ page }) => {
 
 test.describe('Theme Yun', () => {
   test('banner', async ({ page }) => {
+    // refresh to trigger animation
+    await page.reload()
+    await page.waitForSelector('#yun-banner')
     await expect(page.locator('.char-box')).toHaveCount(6)
     await expect(page.locator('.char-box').nth(0)).toHaveText('云')
   })

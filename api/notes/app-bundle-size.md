@@ -185,3 +185,11 @@ export function getRollupOptions(options: ResolvedValaxyOptions) {
   return rollupOptions
 }
 ```
+
+## date-fns vs dayjs?
+
+尽管 [date-fns](https://date-fns.org/) 支持 ESM，而 [dayjs](https://github.com/iamkun/dayjs/) 不支持 ESM。
+
+但 Valaxy 所使用到的函数，打包分析后，date-fns 的 chunk 约为 `30KB`，而 dayjs 的 chunk 约为 `21KB`。
+
+因此 dayjs 占用体积仍小于 date-fns，且 dayjs 全局的特性使得 API 更加简洁。

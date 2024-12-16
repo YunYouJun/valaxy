@@ -1,64 +1,26 @@
-import type { ToDateOptionsWithTZ } from 'date-fns-tz'
 import type { Post } from '../../types'
-import { format, toDate } from 'date-fns'
-import { format as formatWithTZ, toZonedTime } from 'date-fns-tz'
-import { DateTime } from 'luxon'
-import { timezone as globalTimezone } from '../composables/global'
-import { i18n } from '../modules/valaxy'
+// dayjs
+import dayjs from 'dayjs'
+import relativeTime from 'dayjs/plugin/relativeTime'
+import timezone from 'dayjs/plugin/timezone'
+import utc from 'dayjs/plugin/utc'
 
-const referenceDate = new Date(1986, 3 /* Apr */, 4, 10, 32, 0, 900)
+dayjs.extend(relativeTime)
+dayjs.extend(timezone)
+dayjs.extend(utc)
+
+const cnTimezone = 'Asia/Shanghai'
+dayjs.tz.setDefault(cnTimezone)
 
 /**
- * format the date
- * @param date the original date
- * @param formatStr the string of tokens
- * @param timezone the time zone of this local time, can be an offset or IANA time zone
- * @param options the object with options. See [Options]{@link https://date-fns.org/docs/Options}
+ * format the date (dayjs)
  */
-export function formatDate(date: string | number | Date, formatStr = 'yyyy-MM-dd', timezone?: string, options?: ToDateOptionsWithTZ): string {
-  const locale = i18n.global.locale.value
-
-  const mergedOptions: ToDateOptionsWithTZ = Object.assign({ locale: { code: locale } }, options)
-  const clientTimezone = Intl.DateTimeFormat().resolvedOptions().timeZone
-
-  try {
-    /**
-     * Format the timezone-less date to ISO. If none is specified, use the client's timezone.
-     * If the input date is already in ISO format, the timezone won't be applied.
-     */
-    date = handleTimeWithZone(date, timezone || globalTimezone.value || clientTimezone).toString()
-    // Convert to the client's timezone unless the user specifies otherwise
-    const zonedDate = toZonedTime(date, options?.timeZone || clientTimezone, mergedOptions)
-    // The format function will never change the underlying date
-    return formatWithTZ(zonedDate, formatStr, { timeZone: options?.timeZone })
-  }
-  catch (error) {
-    console.error(
-      'The date format provided is non-standard. The recommended format is \'yyyy-MM-dd HH:mm:ss\'',
-      '\nError formatting date:',
-      date.toString(),
-      error,
-    )
-    return format(referenceDate, formatStr)
-  }
-}
-
-function handleTimeWithZone(date: string | number | Date, timezone: string) {
-  if (typeof date !== 'string')
-    date = toDate(date).toISOString()
-
-  let dateTime = DateTime.fromISO(date, { setZone: true })
-
-  const toDateTime = (date: string, zone: string) => {
-    // Attempt to format the date using a function that handles non-ISO 8601 formats
-    const isoDate = format(date, 'yyyy-MM-dd\'T\'HH:mm:ss')
-    return DateTime.fromISO(isoDate, { zone })
-  }
-
-  if (!dateTime.isValid || !dateTime.zoneName)
-    dateTime = toDateTime(date, timezone)
-
-  return dateTime
+export function formatDate(date?: string | number | Date, options: {
+  formatStr?: string
+  timezone?: string
+  keepLocalTime?: boolean
+} = {}) {
+  return dayjs(date).tz(options.timezone, options.keepLocalTime).format(options.formatStr || 'YYYY-MM-DD')
 }
 
 /**
