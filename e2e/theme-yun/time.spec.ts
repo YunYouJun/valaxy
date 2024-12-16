@@ -11,10 +11,10 @@ test.beforeEach(async ({ page }) => {
 })
 
 test.describe('Frontmatter', () => {
-  test('timezone format validation', async ({ page }) => {
-    for (let i = 0; i < dateExamples.length; i++) {
-      const example = dateExamples[i]
+  for (let i = 0; i < dateExamples.length; i++) {
+    const example = dateExamples[i]
+    test(`timezone format validation(${i}) ${example.date}`, async ({ page }) => {
       await expect(page.locator(`.test-format-date.item-${i} time`)).toHaveText(example.expected)
-    }
-  })
+    })
+  }
 })
