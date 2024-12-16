@@ -10,18 +10,21 @@ export const dateExamples: {
     date: '2023-07-19',
     template: 'YYYYMMDD',
     timezone: 'Asia/Shanghai',
+    keepLocalTime: true,
     expected: '20230719',
   },
   {
     date: '2021-03-01T12:00:00',
     template: 'YYYYMMDDHHmmss',
     timezone: 'Asia/Shanghai',
+    keepLocalTime: true,
     expected: '20210301120000',
   },
   {
     date: '2021-12-03T01:07:00',
     template: 'YYYY/MM/DD HH:mm',
     timezone: 'Asia/Shanghai',
+    keepLocalTime: true,
     expected: '2021/12/03 01:07',
   },
 

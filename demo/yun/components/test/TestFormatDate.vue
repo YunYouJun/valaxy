@@ -35,7 +35,7 @@ const formattedDate = computed(() => {
           FORMAT:
         </span>
         <span>
-          {{ format }}
+          {{ template }}
         </span>
       </span>
       <span class="flex justify-between gap-2">
