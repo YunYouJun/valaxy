@@ -40,6 +40,9 @@ export function injectPageDataCode(pageData: PageData) {
 }
 
 export function createTransformMarkdown(options: ResolvedValaxyOptions) {
+  const loaderVuePath = path.resolve(options.clientRoot, 'templates/loader.vue')
+  const loaderVue = fs.readFileSync(loaderVuePath, 'utf-8')
+
   return (code: string, id: string, pageData: PageData) => {
     const isDev = options.mode === 'dev'
     if (!isDev) {
@@ -57,14 +60,12 @@ export function createTransformMarkdown(options: ResolvedValaxyOptions) {
       delete pageData.frontmatter[key]
     })
 
-    const loaderVuePath = path.resolve(options.pkgRoot, 'node/templates/loader.vue')
-    let loaderVue = fs.readFileSync(loaderVuePath, 'utf-8')
     const pagePath = pageData.relativePath.slice('/pages'.length - 1, -'.md'.length)
-    loaderVue = loaderVue
+    const customDataLoader = loaderVue
       // adapt for /index
       .replace('/relativePath', pagePath.endsWith('index') ? pagePath.replace(/\/index$/, '') : pagePath)
       .replace('// custom basic loader', `return JSON.parse(\`${JSON.stringify(pageData)}\`)`)
-    code = loaderVue + code
+    code = customDataLoader + code
 
     // inject imports to <script setup>
     const scriptSetupStart = code.indexOf('<script setup>')
