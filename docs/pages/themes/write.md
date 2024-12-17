@@ -607,7 +607,7 @@ Valaxy 决定通过插件中心化地提供各类封装好的评论组件和辅�
 如果你的主题依赖了一些大型的 ESM 包，你可以通过添加 `optimizeDeps` 选项来预构建这些依赖项。
 
 > `dayjs` 已被默认预构建，您无需再次添加。
-> [为什么用 dayjs 而不是 date-fns？](/notes/app-bundle-size.html#date-fns-vs-dayjs?)
+> [为什么用 dayjs 而不是 date-fns？](https://api.valaxy.site/notes/app-bundle-size.html#date-fns-vs-dayjs?)
 
 :::
 
