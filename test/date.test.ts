@@ -8,7 +8,7 @@ it('dayjs date', () => {
 })
 
 describe('dayjs date', () => {
-  // process.env.TZ = 'Asia/Shanghai'
+  process.env.TZ = 'Asia/Shanghai'
   dayjs.tz.setDefault('Asia/Shanghai')
 
   for (let i = 0; i < dateExamples.length; i++) {
