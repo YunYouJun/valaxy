@@ -74,8 +74,9 @@ export async function ViteValaxyPlugins(
       include: [/\.vue$/, /\.vue\?vue/, /\.md$/],
       /**
        * 默认排除 components/.exclude
+       * `/[\\/]node_modules[\\/]/, ` 不要排除 node_modules/valaxy/client/components 下的组件
        */
-      exclude: [/[\\/]node_modules[\\/]/, /[\\/]\.git[\\/]/, /[\\/]\.exclude[\\/]/],
+      exclude: [/[\\/]\.git[\\/]/, /[\\/]\.exclude[\\/]/],
 
       // allow override
       allowOverrides: true,

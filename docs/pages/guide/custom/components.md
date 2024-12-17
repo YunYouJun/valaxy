@@ -37,9 +37,12 @@ This also means that you can cover one component of the theme to achieve customi
 import { defineValaxyConfig } from 'valaxy'
 
 export default defineValaxyConfig({
-  // @see https://github.com/unplugin/unplugin-vue-components#configuration
+  /**
+   * @see https://github.com/unplugin/unplugin-vue-components#configuration
+   * `/[\\/]node_modules[\\/]/, ` 不要排除 node_modules/valaxy/client/components 下的组件
+   */
   components: {
-    exclude: [/[\\/]node_modules[\\/]/, /[\\/]\.git[\\/]/, /[\\/]\.exclude[\\/]/],
+    exclude: [/[\\/]\.git[\\/]/, /[\\/]\.exclude[\\/]/],
   },
 })
 ```

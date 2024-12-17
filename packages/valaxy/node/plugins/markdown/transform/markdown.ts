@@ -40,7 +40,7 @@ export function injectPageDataCode(pageData: PageData) {
 }
 
 export function createTransformMarkdown(options: ResolvedValaxyOptions) {
-  const loaderVuePath = path.resolve(options.clientRoot, 'templates/loader.vue')
+  const loaderVuePath = path.resolve(options.clientRoot, 'templates', 'loader.vue')
   const loaderVue = fs.readFileSync(loaderVuePath, 'utf-8')
 
   return (code: string, id: string, pageData: PageData) => {
