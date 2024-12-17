@@ -7,6 +7,8 @@ test.use({
 })
 
 test.beforeEach(async ({ page }) => {
+  process.env.TZ = 'Asia/Shanghai'
+
   await page.goto('/posts/date')
 })
 
