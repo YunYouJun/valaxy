@@ -9,18 +9,21 @@ dayjs.extend(relativeTime)
 dayjs.extend(timezone)
 dayjs.extend(utc)
 
-const cnTimezone = 'Asia/Shanghai'
-dayjs.tz.setDefault(cnTimezone)
+export { dayjs }
 
 /**
  * format the date (dayjs)
+ * with default timezone
  */
 export function formatDate(date?: string | number | Date, options: {
   template?: string
   timezone?: string
-  keepLocalTime?: boolean
+  // keepLocalTime?: boolean
 } = {}) {
-  return dayjs(date).tz(options.timezone, options.keepLocalTime).format(options.template || 'YYYY-MM-DD')
+  if (typeof date === 'string') {
+    date = new Date(date)
+  }
+  return dayjs.tz(dayjs.utc(date), options.timezone).format(options.template || 'YYYY-MM-DD')
 }
 
 /**

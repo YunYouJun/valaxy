@@ -1,11 +1,6 @@
 <script setup lang="ts">
 import dayjs from 'dayjs'
-import { onBeforeMount } from 'vue'
 import { dateExamples } from '../../../../e2e/utils/date-examples'
-
-onBeforeMount(() => {
-  dayjs.tz.setDefault('Asia/Shanghai')
-})
 </script>
 
 <template>

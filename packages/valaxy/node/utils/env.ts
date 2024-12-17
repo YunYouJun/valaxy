@@ -18,6 +18,10 @@ export function setEnvProd() {
   return setEnv('production')
 }
 
+export function setTimezone(timezone?: string) {
+  process.env.TZ = timezone
+}
+
 /**
  * is pages dir exist
  */

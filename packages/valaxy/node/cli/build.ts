@@ -14,7 +14,7 @@ import { callHookWithLog } from '../logger'
 import { setupModules } from '../modules'
 import { fuseModule } from '../modules/fuse'
 import { rssModule } from '../modules/rss'
-import { isPagesDirExist, setEnvProd } from '../utils/env'
+import { isPagesDirExist, setEnvProd, setTimezone } from '../utils/env'
 import { commonOptions } from './options'
 import { printInfo } from './utils/cli'
 
@@ -29,6 +29,7 @@ export async function execBuild({ ssg, root, output, log }: { ssg: boolean, root
 
   const userRoot = path.resolve(root)
   const options = await resolveOptions({ userRoot }, 'build')
+  setTimezone(options.config.siteConfig.timezone)
   printInfo(options)
 
   const valaxyApp = createValaxyNode(options)
