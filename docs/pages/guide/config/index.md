@@ -209,6 +209,22 @@ export default defineSiteConfig({
 })
 ```
 
+### 时区
+
+如果你使用 CI/CD 构建部署，远程机器可能处于其他时区，你可以设置时区。
+
+此时将会默认使用该时区格式化时间，并设置 `process.env.TZ` 变量。
+
+如果你托管于其他平台，你可能需要在对应平台添加环境变量。
+
+```ts [site.config.ts]
+import { defineSiteConfig } from 'valaxy'
+
+export default defineSiteConfig({
+  timezone: 'Asia/Shanghai'
+})
+```
+
 ### Default Frontmatter
 
 ::: zh-CN

@@ -9,6 +9,7 @@ dayjs.extend(relativeTime)
 dayjs.extend(timezone)
 dayjs.extend(utc)
 
+// https://day.js.org/docs/en/timezone/set-default-timezone
 export { dayjs }
 
 /**
