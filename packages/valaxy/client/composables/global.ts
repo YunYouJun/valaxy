@@ -1,6 +1,6 @@
-import dayjs from 'dayjs'
 import { useSiteConfig } from 'valaxy'
 import { onBeforeMount } from 'vue'
+import { dayjs } from '../utils/time'
 
 /**
  * use timezone

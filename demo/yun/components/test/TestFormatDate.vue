@@ -13,7 +13,6 @@ const formattedDate = computed(() => {
   return formatDate(props.date, {
     template: props.template,
     timezone: props.timezone,
-    keepLocalTime: props.keepLocalTime,
   })
 })
 </script>
