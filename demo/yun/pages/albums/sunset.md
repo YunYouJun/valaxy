@@ -4,6 +4,7 @@ date: 2020-04-18 16:27:24
 updated: 2020-04-18 16:27:24
 layout: gallery
 gallery_password: test
+time_warning: false
 photos:
   - caption: 我
     src: https://interactive-examples.mdn.mozilla.net/media/examples/elephant-660-480.jpg
@@ -29,5 +30,3 @@ photos:
 ---
 
 - 测试密码：test
-
-{{ frontmatter }}

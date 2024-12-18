@@ -22,6 +22,7 @@ export function generateSlots() {
     'main-header',
     'main-header-after',
     'main-nav',
+    'main-content-before',
     'main-content',
     'main-content-after',
     'main-nav-before',

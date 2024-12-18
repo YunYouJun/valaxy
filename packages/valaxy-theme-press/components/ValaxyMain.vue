@@ -61,6 +61,8 @@ onContentUpdated(() => {
             <slot name="main-header-after" />
 
             <slot name="main-content">
+              <slot name="main-content-before" />
+
               <ValaxyMd class="mx-auto w-full max-w-4xl" :frontmatter="frontmatter">
                 <h1 v-if="hasSidebar && !isHome && frontmatter.title" :id="frontmatter.title" tabindex="-1">
                   {{ localeTitle }}
@@ -69,7 +71,6 @@ onContentUpdated(() => {
                 <slot name="main-content-md" />
                 <slot />
               </ValaxyMd>
-
               <PressDocFooter v-if="!isHome" class="pb-8 max-w-4xl" w="full" m="auto" />
 
               <slot name="main-content-after" />
