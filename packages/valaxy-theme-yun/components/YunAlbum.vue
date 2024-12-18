@@ -17,7 +17,7 @@ defineProps<{
         :alt="album.caption"
         :on-error="onImgError"
       >
-      <figcaption class="yun-album-caption yun-title-effects text-$va-c-text inline-flex">
+      <figcaption class="yun-album-caption yun-title-effects text-$va-c-text inline-flex-center">
         {{ album.caption }}
       </figcaption>
     </figure>

@@ -1,9 +1,9 @@
 <script lang="ts" setup>
 import { defineWebPage, useSchemaOrg } from '@unhead/schema-org'
 import { useEncryptedPhotos, useFrontmatter, usePostTitle, useRuntimeConfig } from 'valaxy'
-import { computed, defineAsyncComponent } from 'vue'
+import { computed, defineAsyncComponent, useTemplateRef } from 'vue'
 import { useI18n } from 'vue-i18n'
-import { useRouter } from 'vue-router'
+import { useRoute, useRouter } from 'vue-router'
 
 const router = useRouter()
 
@@ -19,7 +19,8 @@ useSchemaOrg([
   }),
 ])
 
-const photos = computed(() => frontmatter.value.photos || [])
+const route = useRoute()
+const photos = computed(() => route.meta.frontmatter.photos || [])
 
 const runtimeConfig = useRuntimeConfig()
 
@@ -28,6 +29,12 @@ const YunGallery = runtimeConfig.value.addons['valaxy-addon-lightgallery']
   : () => null
 
 const encryptedPhotos = useEncryptedPhotos()
+
+const galleryRef = useTemplateRef<{
+  photos: string[]
+}>('galleryRef')
+
+const photosLength = computed(() => photos.value.length || galleryRef.value?.photos.length)
 </script>
 
 <template>
@@ -46,14 +53,14 @@ const encryptedPhotos = useEncryptedPhotos()
         </template>
         <template #main-content>
           <div text="center" class="yun-text-light" p="2">
-            {{ t('counter.photos', photos.length) }}
+            {{ t('counter.photos', photosLength || 0) }}
           </div>
           <div class="page-action" text="center">
             <a class="yun-icon-btn" :title="t('accessibility.back')" @click="() => router.back()">
               <div i-ri-arrow-go-back-line />
             </a>
           </div>
-          <ValaxyGalleryDecrypt v-if="encryptedPhotos" :encrypted-photos="encryptedPhotos" />
+          <ValaxyGalleryDecrypt v-if="encryptedPhotos" ref="galleryRef" :encrypted-photos="encryptedPhotos" />
           <YunGallery v-else :photos="photos" />
           <RouterView />
         </template>

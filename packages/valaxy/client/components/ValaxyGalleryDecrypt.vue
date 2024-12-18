@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import { useDecrypt } from 'valaxy'
-import { ref } from 'vue'
+import { computed, ref } from 'vue'
 
 const props = defineProps<{
   encryptedPhotos: string
@@ -30,6 +30,12 @@ function encryptAgain() {
   decryptedContent.value = ''
   password.value = ''
 }
+
+const photos = computed(() => JSON.parse(decryptedContent.value || '[]') || [])
+
+defineExpose({
+  photos,
+})
 </script>
 
 <template>
@@ -58,7 +64,7 @@ function encryptAgain() {
       </div>
     </div>
     <div v-else>
-      <YunGallery :photos="JSON.parse(decryptedContent)" />
+      <YunGallery :photos="photos" />
       <div w-full text-center mt-8>
         <button m-auto class="btn" font-bold @click="encryptAgain">
           Encrypt Again
