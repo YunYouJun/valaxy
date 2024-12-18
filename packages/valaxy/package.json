@@ -1,7 +1,7 @@
 {
   "name": "valaxy",
   "type": "module",
-  "version": "0.22.2",
+  "version": "0.22.3-beta.2",
   "description": "📄 Vite & Vue powered static blog generator.",
   "author": {
     "email": "me@yunyoujun.cn",
@@ -55,7 +55,8 @@
     "build": "rimraf dist && tsup",
     "dev": "tsup --watch",
     "preview": "vite preview",
-    "preview-https": "serve dist"
+    "preview-https": "serve dist",
+    "release:beta": "bumpp --no-tag --no-commit --no-push && pnpm publish --no-git-checks --tag beta"
   },
   "dependencies": {
     "@antfu/install-pkg": "^0.5.0",

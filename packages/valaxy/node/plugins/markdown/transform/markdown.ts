@@ -64,7 +64,8 @@ export function createTransformMarkdown(options: ResolvedValaxyOptions) {
     const customDataLoader = loaderVue
       // adapt for /index
       .replace('/relativePath', pagePath.endsWith('index') ? pagePath.replace(/\/index$/, '') : pagePath)
-      .replace('// custom basic loader', `return JSON.parse(\`${JSON.stringify(pageData)}\`)`)
+      // transform data has \" in object
+      .replace('// custom basic loader', `return ${transformObject(pageData)}`)
     code = customDataLoader + code
 
     // inject imports to <script setup>
