@@ -92,6 +92,7 @@ declare module 'vue-router/auto-routes' {
     '/test/deadlinks': RouteRecordInfo<'/test/deadlinks', '/test/deadlinks', Record<never, never>, Record<never, never>>,
     '/test/define-basic-loader': RouteRecordInfo<'/test/define-basic-loader', '/test/define-basic-loader', Record<never, never>, Record<never, never>>,
     '/test/footnotes': RouteRecordInfo<'/test/footnotes', '/test/footnotes', Record<never, never>, Record<never, never>>,
+    '/test/i18n': RouteRecordInfo<'/test/i18n', '/test/i18n', Record<never, never>, Record<never, never>>,
     '/test/markdown-file-inclusion': RouteRecordInfo<'/test/markdown-file-inclusion', '/test/markdown-file-inclusion', Record<never, never>, Record<never, never>>,
     '/test/special-character': RouteRecordInfo<'/test/special-character', '/test/special-character', Record<never, never>, Record<never, never>>,
     '/test/time_warning': RouteRecordInfo<'/test/time_warning', '/test/time_warning', Record<never, never>, Record<never, never>>,
