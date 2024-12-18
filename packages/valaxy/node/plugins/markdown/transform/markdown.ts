@@ -23,7 +23,7 @@ export function injectPageDataCode(pageData: PageData) {
     'const { data: pageData } = usePageData()',
     'const route = useRoute()',
     // $frontmatter contain runtime added data, will be deleted (for example, $frontmatter.partiallyEncryptedContents)
-    `const $frontmatter = Object.assign(route.meta.frontmatter || {}, pageData.value.frontmatter || {})
+    `const $frontmatter = Object.assign(route.meta.frontmatter || {}, pageData.value?.frontmatter || {})
     route.meta.frontmatter = $frontmatter
 
     provide('pageData', pageData.value)
