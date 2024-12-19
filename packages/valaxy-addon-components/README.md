@@ -2,7 +2,7 @@
 
 **valaxy-addon-components** is a plugin that provides general-purpose Vue components for Valaxy.
 
-[![NPM version](https://img.shields.io/npm/v/valaxy-addon-waline?color=0078E7)](https://www.npmjs.com/package/valaxy-addon-waline)
+[![NPM version](https://img.shields.io/npm/v/valaxy-addon-components?color=0078E7)](https://www.npmjs.com/package/valaxy-addon-components)
 
 - **English** | [简体中文](./README.zh-CN.md)
 
