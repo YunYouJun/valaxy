@@ -1,10 +1,12 @@
 <script lang="ts" setup>
-import type { NavItemGroup } from '../types'
+import type { NavItemWithChildren } from '../types'
 import { ref } from 'vue'
 import { useI18n } from 'vue-i18n'
+import PressMenuLink from './PressMenuLink.vue'
+import PressNavItemGroupChild from './PressNavItemGroupChild.vue'
 
 defineProps<{
-  item: NavItemGroup
+  item: NavItemWithChildren
 }>()
 
 const open = ref(false)
@@ -27,33 +29,38 @@ const { t } = useI18n()
       h="full"
       @click="open = !open"
     >
-      <span class="text">
-        {{ item.text.includes('.') ? t(item.text) : item.text }}
+      <span v-if="item.text" class="text">
+        {{ item.text.includes(".") ? t(item.text) : item.text }}
       </span>
       <div i-ri-arrow-drop-down-line />
     </button>
 
     <div class="menu grow" flex="~ col" items="start">
-      <AppLink v-for="itemLink in item.items" :key="itemLink.text" class="menu-item" p="x-3" :to="itemLink.link">
-        {{ itemLink.text.includes('.') ? t(itemLink.text) : itemLink.text }}
-      </AppLink>
+      <template v-for="itemLink in item.items" :key="JSON.stringify(itemLink)">
+        <PressMenuLink v-if="'link' in itemLink" :item="itemLink" />
+        <PressNavItemGroupChild
+          v-else
+          :text="itemLink.text"
+          :items="itemLink.items"
+        />
+      </template>
     </div>
   </div>
 </template>
 
 <style lang="scss" scoped>
-.group .button{
+.group .button {
   color: var(--pr-nav-text);
   font-weight: 500;
   font-size: 14px;
 }
 
-.group[aria-expanded="true"] .button{
-  color: rgba(60, 60, 60, 0.70);
+.group[aria-expanded="true"] .button {
+  color: rgb(60 60 60 / 0.70);
   transition: color 0.25s;
 
-  .dark &{
-    color: rgba(235, 235, 235, 0.6)
+  .dark & {
+    color: rgb(235 235 235 / 0.6)
   }
 }
 
@@ -64,39 +71,21 @@ const { t } = useI18n()
   min-width: 128px;
   opacity: 0;
   visibility: hidden;
-  transition: opacity 0.25s, visibility 0.25s, transform 0.25s;
+  transition:
+    opacity 0.25s,
+    visibility 0.25s,
+    transform 0.25s;
   transform: translateX(-50%) translateY(calc(var(--pr-nav-height) / 2));
   border-radius: 12px;
   padding: 12px;
-  border: 1px solid rgba(60, 60, 60, 0.12);
+  border: 1px solid rgb(60 60 60 / 0.12);
   background-color: #fff;
-  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.1), 0 2px 6px rgba(0, 0, 0, 0.08);
+  box-shadow: 0 12px 32px rgb(0 0 0 / 0.1), 0 2px 6px rgb(0 0 0 / 0.08);
 
-  .dark &{
+  .dark & {
     background-color: #242424;
   }
 
-  &-item{
-    display: flex;
-    width: 100%;
-    border-radius: 6px;
-    color: var(--pr-nav-text);
-    line-height: 32px;
-    font-size: 14px;
-    font-weight: 500;
-    white-space: nowrap;
-    transition: background-color .25s,color .25s;
-
-    &:hover{
-      background-color: #f1f1f1;
-      color: var(--va-c-brand);
-
-      .dark &{
-        background-color: #2f2f2f;
-      }
-    }
-
-  }
 }
 
 .group[aria-expanded="true"] > .menu {
