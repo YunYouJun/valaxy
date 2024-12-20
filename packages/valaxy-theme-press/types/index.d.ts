@@ -103,9 +103,16 @@ export interface NavItemLink {
   active?: string
 }
 
+export interface NavItemChildren {
+  text?: string
+  items: NavItemLink[]
+}
+
 export interface NavItemGroup {
   text: string
-  items: NavItemLink[]
+  items?: (NavItemChildren | NavItemLink)[]
+  link?: string
+  active?: string
 }
 
 export type NavItem = NavItemLink | NavItemGroup
