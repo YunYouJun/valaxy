@@ -4,6 +4,9 @@ import { EXCERPT_SEPARATOR } from '../../../constants'
 
 type GrayMatterOptions = matter.GrayMatterOption<string, GrayMatterOptions>
 
+/**
+ * valaxy gray-matter options
+ */
 export const matterOptions: GrayMatterOptions = {
   excerpt_separator: EXCERPT_SEPARATOR,
   engines: {

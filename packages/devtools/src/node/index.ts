@@ -1,30 +1,29 @@
 import type { Plugin, ResolvedConfig, ViteDevServer } from 'vite'
+import type { ClientFunctions, ServerFunctions } from '../rpc'
 import type { ValaxyDevtoolsOptions } from './types'
-import { createProxyMiddleware } from 'http-proxy-middleware'
 import c from 'picocolors'
 import sirv from 'sirv'
+import { createRPCServer } from 'vite-dev-rpc'
 import { DIR_CLIENT } from '../dir'
 import { registerApi } from './api'
+import { getFunctions } from './functions'
 
 const NAME = 'valaxy:devtools'
 
-// import.meta.env.VITE_DEV_VALAXY_DEVTOOLS = 'true'
-
-export default function ValaxyDevtools(options: ValaxyDevtoolsOptions = {}): Plugin {
+export function ValaxyDevtools(options: ValaxyDevtoolsOptions = {}): Plugin {
   let config: ResolvedConfig
+
+  const isDevDevtools = import.meta.env?.VITE_VALAXY_DEVTOOLS_DEV === 'true'
 
   function configureServer(server: ViteDevServer) {
     const _print = server.printUrls
     const base = (options.base ?? server.config.base) || '/'
 
+    const functions = getFunctions(server, options)
+    createRPCServer<ClientFunctions, ServerFunctions>('demo', server.ws, functions)
+
     const devtoolsUrl = `${base}__valaxy_devtools__/`
-    if (import.meta.env?.VITE_DEV_VALAXY_DEVTOOLS === 'true') {
-      server.middlewares.use(devtoolsUrl, createProxyMiddleware({
-        target: 'http://localhost:5001/#/',
-        changeOrigin: true,
-      }) as any)
-    }
-    else {
+    if (!isDevDevtools) {
       server.middlewares.use(devtoolsUrl, sirv(DIR_CLIENT, {
         single: true,
         dev: true,
@@ -53,6 +52,7 @@ export default function ValaxyDevtools(options: ValaxyDevtoolsOptions = {}): Plu
       console.log(`  ${c.green('➜')}  ${c.bold('Inspect')}: ${colorUrl(`${host}${base}__inspect/`)}`)
     }
 
+    // register api to vite.server
     registerApi(server, config)
   }
 
@@ -60,6 +60,8 @@ export default function ValaxyDevtools(options: ValaxyDevtoolsOptions = {}): Plu
     name: NAME,
 
     enforce: 'pre',
+
+    // config: () => { },
 
     configResolved(_config) {
       config = _config
@@ -72,3 +74,5 @@ export default function ValaxyDevtools(options: ValaxyDevtoolsOptions = {}): Plu
 
   return plugin
 }
+
+export default ValaxyDevtools

@@ -33,6 +33,8 @@ export async function execBuild({ ssg, root, output, log }: { ssg: boolean, root
   printInfo(options)
 
   const valaxyApp = createValaxyNode(options)
+  // GLOBAL_STATE.valaxyApp = valaxyApp
+
   // resolve options and create valaxy app
   await callHookWithLog('options:resolved', valaxyApp)
 

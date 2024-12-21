@@ -21,7 +21,7 @@ export async function addValaxyTabAndCommand() {
     // iframe view
     view: {
       type: 'iframe',
-      src: '/__valaxy_devtools__/',
+      src: import.meta.env.DEV ? 'http://localhost:5001/' : '/__valaxy_devtools__/',
     },
     // category: 'pinned',
     category: 'app',
@@ -56,5 +56,5 @@ export async function addValaxyTabAndCommand() {
 }
 
 export const install: UserModule = async () => {
-  await addValaxyTabAndCommand()
+  // await addValaxyTabAndCommand()
 }

@@ -38,7 +38,9 @@ export async function createServer(
     // only enable when dev
     vitePlugins.push(
       (await import('vite-plugin-vue-devtools')).default(),
-      (await import('@valaxyjs/devtools')).default(),
+      (await import('@valaxyjs/devtools')).default({
+        valaxyApp,
+      }),
     )
   }
 

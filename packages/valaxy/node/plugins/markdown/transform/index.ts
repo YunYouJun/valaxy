@@ -9,6 +9,8 @@ import { createTransformIncludes } from './include'
 import { matterOptions } from './matter'
 import { transformMermaid } from './mermaid'
 
+export * from './matter'
+
 export async function createMarkdownPlugin(
   options: ResolvedValaxyOptions,
 ): Promise<Plugin> {

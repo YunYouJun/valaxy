@@ -16,10 +16,10 @@ function onClickPost(post: any) {
 
 <template>
   <ul class="h-full" overflow="auto" pl="12" pr="4" py="4">
-    <li v-for="post in postList" :key="post.path" class="list-decimal">
+    <li v-for="post in postList" :key="post.path" class="list-decimal text-sm">
       <div flex>
         <span
-          class="inline-flex flex-grow cursor-pointer hover:text-blue-500 text-xs"
+          class="inline-flex flex-grow cursor-pointer hover:text-blue-500"
           :class="{ 'text-blue-500': activePath === post.path }"
           @click="onClickPost(post)"
         >

@@ -6,8 +6,6 @@ import { addonBangumi } from 'valaxy-addon-bangumi'
 import { addonComponents } from 'valaxy-addon-components'
 import { addonLightGallery } from 'valaxy-addon-lightgallery'
 import { addonTest } from 'valaxy-addon-test'
-import { addonTwikoo } from 'valaxy-addon-twikoo'
-import { addonWaline } from 'valaxy-addon-waline'
 
 // import { addonMeting } from 'valaxy-addon-meting'
 
@@ -90,14 +88,15 @@ export default defineValaxyConfig<ThemeConfig>({
     addonComponents(),
 
     // comments
-    addonWaline({
-      serverURL: 'https://waline.yunyoujun.cn',
-      pageview: true,
-      comment: true,
-    }),
-    addonTwikoo({
-      envId: 'https://twikoo.vercel.app',
-    }),
+    // addonWaline({
+    //   serverURL: 'https://waline.yunyoujun.cn',
+    //   pageview: true,
+    //   comment: true,
+    // }),
+
+    // addonTwikoo({
+    //   envId: 'https://twikoo.vercel.app',
+    // }),
 
     addonLightGallery(),
     // addonMeting({

@@ -12,6 +12,7 @@ import type Router from 'unplugin-vue-router/vite'
 import type { DefaultTheme, PartialDeep, ValaxyAddon, ValaxyConfig } from 'valaxy/types'
 import type { UserConfig as ViteUserConfig } from 'vite'
 import type Layouts from 'vite-plugin-vue-layouts'
+import type { createValaxyNode } from './app'
 import type { ResolvedValaxyOptions } from './options'
 import type { MarkdownOptions } from './plugins/markdown/types'
 
@@ -245,3 +246,5 @@ export interface ValaxyAddonResolver {
 
   setup?: (node: ValaxyNode) => void
 }
+
+export type ValaxyApp = ReturnType<typeof createValaxyNode>

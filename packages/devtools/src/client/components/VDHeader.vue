@@ -47,11 +47,13 @@ const routeMenus = [
 
     <div flex="1" />
 
-    <a
+    <SelectRootDir />
+    <ToggleDark />
+    <MenuBarBtn
+      tag="a"
       href="https://valaxy.site" target="_blank"
-      class="bg-white dark:bg-gray-900 inline-flex justify-center items-center w-8 h-8 hover:bg-gray-200"
     >
       <div i-ri-book-line />
-    </a>
+    </MenuBarBtn>
   </div>
 </template>

@@ -11,6 +11,7 @@ import { createValaxyNode } from '../app'
 import { commonOptions } from '../cli/options'
 import { defaultViteConfig } from '../constants'
 
+import { GLOBAL_STATE } from '../env'
 import { resolveOptions } from '../options'
 import { isPagesDirExist, setEnv, setTimezone } from '../utils/env'
 import { findFreePort } from '../utils/net'
@@ -39,6 +40,8 @@ export async function startValaxyDev({
   setTimezone(resolvedOptions.config.siteConfig.timezone)
 
   const valaxyApp = createValaxyNode(resolvedOptions)
+  GLOBAL_STATE.valaxyApp = valaxyApp
+
   const viteConfig: InlineConfig = mergeConfig({
     // initial vite config
     ...defaultViteConfig,

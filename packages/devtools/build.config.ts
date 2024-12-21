@@ -8,9 +8,12 @@ export default defineBuildConfig({
   declaration: true,
   externals: [
     // in valaxy
+    'valaxy',
     'vite',
     'gray-matter',
     'fs-extra',
+    'fast-glob',
+    'consola',
   ],
   rollup: {
     dts: {

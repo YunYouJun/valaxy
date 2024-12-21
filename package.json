@@ -3,7 +3,7 @@
   "type": "module",
   "version": "0.22.4",
   "private": true,
-  "packageManager": "pnpm@9.15.0",
+  "packageManager": "pnpm@9.15.1",
   "description": "📄 Vite & Vue powered static blog generator.",
   "author": {
     "email": "me@yunyoujun.cn",
@@ -95,7 +95,6 @@
     "@types/resolve": "^1.20.6",
     "bumpp": "^9.9.1",
     "cross-env": "^7.0.3",
-    "decap-cms-app": "^3.4.0",
     "eslint": "^9.17.0",
     "https-localhost": "^4.7.1",
     "husky": "^9.1.7",

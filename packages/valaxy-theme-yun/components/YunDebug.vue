@@ -36,7 +36,7 @@ const infoList = computed(() => {
 
 <template>
   <div
-    class="bg-black/50 fixed bottom-2 left-2 p-2 gap-1 rounded z-9999"
+    class="bg-black/50 fixed bottom-20 left-2 p-2 gap-1 rounded z-9999"
     text="xs white" flex="~ col"
   >
     <div v-for="item in infoList" :key="item.label" class="gap-2 inline-flex">

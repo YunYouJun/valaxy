@@ -19,7 +19,7 @@
     "build": "rimraf dist && run-s build:*",
     "build:client": "vite build src/client",
     "build:node": "unbuild",
-    "dev": "npm run stub && npm run dev:client",
+    "dev": "npm run dev:client",
     "dev:client": "vite dev src/client --port 5001",
     "watch:client": "vite build src/client --watch",
     "stub": "unbuild --stub",
@@ -30,21 +30,26 @@
     "@rollup/pluginutils": "^5.1.4",
     "axios": "^1.7.9",
     "body-parser": "^2.0.2",
+    "cors": "^2.8.5",
     "http-proxy-middleware": "^3.0.3",
     "js-yaml": "^4.1.0",
     "picocolors": "^1.1.1",
-    "sirv": "^3.0.0"
+    "sirv": "^3.0.0",
+    "vite-dev-rpc": "^0.1.7"
   },
   "devDependencies": {
     "@advjs/gui": "0.0.7-beta.1",
     "@iconify-json/ri": "catalog:",
     "@types/body-parser": "^1.19.5",
     "@types/splitpanes": "^2.2.6",
+    "@types/wicg-file-system-access": "^2023.10.5",
     "gray-matter": "^4.0.3",
     "splitpanes": "^3.1.5",
     "typescript": "catalog:",
     "unbuild": "catalog:",
     "unplugin-vue-router": "^0.10.9",
-    "vite": "catalog:"
+    "vite": "catalog:",
+    "vue-i18n": "^10.0.5",
+    "zod": "^3.24.1"
   }
 }
