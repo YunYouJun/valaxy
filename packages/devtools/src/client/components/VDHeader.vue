@@ -1,8 +1,16 @@
 <script setup lang="ts">
 import { useRoute } from 'vue-router'
+// import { activeRoute } from '../router'
 
-const route = useRoute()
-const routeMenus = [
+/**
+ * not use valaxy route
+ */
+const routeMenus: {
+  to: string
+  icon?: string
+  opened?: string
+  closed?: string
+}[] = [
   {
     to: '/',
     opened: 'i-vscode-icons:folder-type-route-opened',
@@ -23,7 +31,14 @@ const routeMenus = [
     opened: 'i-vscode-icons:folder-type-tools-opened',
     closed: 'i-vscode-icons:folder-type-tools',
   },
+
+  {
+    to: '/about',
+    icon: 'i-ri:information-line',
+  },
 ]
+
+const route = useRoute()
 </script>
 
 <template>
@@ -34,20 +49,21 @@ const routeMenus = [
     <RouterLink
       v-for="menu in routeMenus"
       :key="menu.to"
-      class=" dark:bg-gray-900 inline-flex justify-center items-center w-8 h-8 hover:bg-gray-100 dark:hover:bg-gray-800"
+      class=" dark:bg-gray-900 inline-flex justify-center items-center w-8 h-8 hover:bg-gray-100 dark:hover:bg-gray-800 cursor-pointer"
       :class="{
         'bg-gray-200 dark:bg-gray-800': route.path === menu.to,
         'bg-white': route.path !== menu.to,
       }"
       :to="menu.to"
     >
-      <div v-if="route.path === menu.to" :class="menu.opened" />
+      <div v-if="menu.icon" :class="menu.icon" />
+      <div v-else-if="route.path === menu.to" :class="menu.opened" />
       <div v-else :class="menu.closed" />
     </RouterLink>
 
     <div flex="1" />
 
-    <SelectRootDir />
+    <VDToggleLocale />
     <ToggleDark />
     <MenuBarBtn
       tag="a"

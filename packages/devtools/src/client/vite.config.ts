@@ -7,8 +7,10 @@ import Unocss from 'unocss/vite'
 import VueComponents from 'unplugin-vue-components/vite'
 import VueRouter from 'unplugin-vue-router/vite'
 import { defineConfig } from 'vite'
+import VueDevtools from 'vite-plugin-vue-devtools'
 import { unoConfig } from '../../../../uno.config'
 import { config } from '../config'
+
 import { ValaxyDevtools } from '../node'
 
 export default defineConfig(() => {
@@ -99,11 +101,22 @@ export default defineConfig(() => {
         include: [path.resolve(__dirname, 'locales/**')],
       }),
 
-      ValaxyDevtools(),
+      VueDevtools(),
+
+      ValaxyDevtools({
+        userRoot: path.resolve(__dirname, '../../../../demo/yun'),
+      }),
     ],
 
     optimizeDeps: {
+      include: [
+        'dayjs',
+        'primevue/datepicker',
+        '@vueuse/core',
+        'vite-dev-rpc',
+      ],
       exclude: [
+        'valaxy',
         'vite-hot-client',
       ],
     },
@@ -113,6 +126,11 @@ export default defineConfig(() => {
       outDir: path.resolve(__dirname, '../../dist/client'),
       minify: false, // 'esbuild',
       emptyOutDir: true,
+    },
+
+    ssr: {
+      // TODO: workaround until they support native ESM
+      noExternal: ['workbox-window', /vue-i18n/],
     },
   }
 })

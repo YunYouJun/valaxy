@@ -1,8 +1,31 @@
 html,
-body {
+body,
+#app {
   height: 100%;
+  margin: 0;
+  padding: 0;
 }
 
-.dark {
-  background-color: rgba(12, 16, 21);
+html {
+  background: white;
+}
+
+html.dark {
+  background: #121212;
+  color-scheme: dark;
+}
+
+#nprogress {
+  pointer-events: none;
+}
+
+#nprogress .bar {
+  background: rgb(13, 148, 136);
+  opacity: 0.75;
+  position: fixed;
+  z-index: 1031;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 2px;
 }

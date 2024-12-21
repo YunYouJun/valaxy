@@ -1,29 +1,16 @@
-import { acceptHMRUpdate, defineStore } from 'pinia'
+import type { ClientOptions, ClientPageData, ClientPostList } from '../types'
 import { ref } from 'vue'
 
+export const isDevtoolsVisible = ref(false)
 /**
- * Global store for users
- * @example
- * ```ts
- * import { useAppStore } from 'valaxy'
- * const appStore = useAppStore()
- * ```
+ * base options
  */
-export const useAppStore = defineStore('app', () => {
-  async function getDir() {
-    const dirHandle = await window.showDirectoryPicker()
-    return dirHandle
-  }
-
-  const isDevtoolsVisible = ref(false)
-
-  // a
-  return {
-    getDir,
-
-    isDevtoolsVisible,
-  }
+export const clientOptions = ref<ClientOptions>({
+  userRoot: '',
 })
 
-if (import.meta.hot)
-  import.meta.hot.accept(acceptHMRUpdate(useAppStore, import.meta.hot))
+export const postList = ref<ClientPostList>({
+  posts: [],
+})
+
+export const clientPageData = ref<ClientPageData>()

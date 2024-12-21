@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { useDraggable } from '@vueuse/core'
 import { ref } from 'vue'
-import { useAppStore } from '../stores/app'
+import { isDevtoolsVisible } from '../stores/app'
 
 const entryRef = ref()
 const { style } = useDraggable(entryRef, {
@@ -11,27 +11,29 @@ const { style } = useDraggable(entryRef, {
   },
 })
 
-const app = useAppStore()
+function toggleDevtoolsVisible() {
+  isDevtoolsVisible.value = !isDevtoolsVisible.value
+}
 </script>
 
 <template>
   <div ref="entryRef" :style="style" class="fixed z-9999999999 valaxy-devtools-entry">
     <button
       class="bg-white size-10 rounded-full shadow hover:shadow-lg transition p-1 z-1 cursor-pointer"
-      @click="app.isDevtoolsVisible = !app.isDevtoolsVisible"
+      @click="toggleDevtoolsVisible"
     >
       <ValaxySvgLogo />
     </button>
   </div>
 
-  <template v-if="app.isDevtoolsVisible">
+  <template v-if="isDevtoolsVisible">
     <ValaxyOverlay
       class="z-9999999998! op-50"
-      :show="app.isDevtoolsVisible"
-      @click="app.isDevtoolsVisible = !app.isDevtoolsVisible"
+      :show="isDevtoolsVisible"
+      @click="toggleDevtoolsVisible"
     />
     <div
-      v-if="app.isDevtoolsVisible"
+      v-if="isDevtoolsVisible"
       class="valaxy-devtools-container fixed left-0 right-0 bottom-1 z-9999999999 shadow-xl rounded overflow-hidden m-auto"
       bg-white dark:bg-dark-800
     >

@@ -5,3 +5,22 @@ button:
   home: 首页
   toggle_dark: 切换深色模式
   toggle_langs: 切换语言
+
+frontmatter:
+  title: 标题
+  title_zh: 中文标题
+  time_warning: 过期警告
+  hide: 是否隐藏
+  date: 创建日期
+  updated: 更新日期
+  cover: 封面
+  categories: 分类
+  tags: 标签
+  excerpt: 摘要
+  excerpt_type: 摘要类型
+  toc: 是否展示目录
+  password: 密码
+  password_hint: 密码提示
+  type: 自定义文章类型
+  end: 是否完结
+  draft: 是否为草稿

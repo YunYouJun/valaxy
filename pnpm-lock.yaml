@@ -318,6 +318,9 @@ importers:
       js-yaml:
         specifier: ^4.1.0
         version: 4.1.0
+      pathe:
+        specifier: ^1.1.2
+        version: 1.1.2
       picocolors:
         specifier: ^1.1.1
         version: 1.1.1
@@ -334,6 +337,12 @@ importers:
       '@iconify-json/ri':
         specifier: 'catalog:'
         version: 1.2.5
+      '@intlify/unplugin-vue-i18n':
+        specifier: ^6.0.2
+        version: 6.0.2(@vue/compiler-dom@3.5.13)(eslint@9.17.0(jiti@2.4.2))(rollup@4.28.1)(typescript@5.6.3)(vue-i18n@10.0.5(vue@3.5.13(typescript@5.6.3)))(vue@3.5.13(typescript@5.6.3))
+      '@primevue/themes':
+        specifier: ^4.2.5
+        version: 4.2.5
       '@types/body-parser':
         specifier: ^1.19.5
         version: 1.19.5
@@ -346,6 +355,9 @@ importers:
       gray-matter:
         specifier: ^4.0.3
         version: 4.0.3
+      primevue:
+        specifier: ^4.2.5
+        version: 4.2.5(vue@3.5.13(typescript@5.6.3))
       splitpanes:
         specifier: ^3.1.5
         version: 3.1.5
@@ -2056,6 +2068,10 @@ packages:
 
   '@primevue/icons@4.2.5':
     resolution: {integrity: sha512-WFbUMZhQkXf/KmwcytkjGVeJ9aGEDXjP3uweOjQZMmRdEIxFnqYYpd90wE90JE1teZn3+TVnT4ZT7ejGyEXnFQ==}
+    engines: {node: '>=12.11.0'}
+
+  '@primevue/themes@4.2.5':
+    resolution: {integrity: sha512-8F7yA36xYIKtNuAuyBdZZEks/bKDwlhH5WjpqGGB0FdwfAEoBYsynQ5sdqcT2Lb/NsajHmS5lc++Ttlvr1g1Lw==}
     engines: {node: '>=12.11.0'}
 
   '@radix-ui/colors@3.0.0':
@@ -9100,6 +9116,10 @@ snapshots:
       '@primevue/core': 4.2.5(vue@3.5.13(typescript@5.6.3))
     transitivePeerDependencies:
       - vue
+
+  '@primevue/themes@4.2.5':
+    dependencies:
+      '@primeuix/styled': 0.3.2
 
   '@radix-ui/colors@3.0.0': {}
 

@@ -1,5 +1,7 @@
 import { defineBuildConfig } from 'unbuild'
 
+import { dependencies } from '../../packages/valaxy/package.json'
+
 export default defineBuildConfig({
   entries: [
     './src/index',
@@ -7,6 +9,8 @@ export default defineBuildConfig({
   clean: false,
   declaration: true,
   externals: [
+    ...Object.keys(dependencies),
+
     // in valaxy
     'valaxy',
     'vite',

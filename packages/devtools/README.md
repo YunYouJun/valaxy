@@ -8,6 +8,10 @@ pnpm dev
 ```
 
 ```bash
+pnpm stub
+```
+
+```bash
 # in root
 pnpm devtools
 ```

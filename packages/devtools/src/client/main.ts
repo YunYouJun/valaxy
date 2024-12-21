@@ -1,17 +1,19 @@
+import Aura from '@primevue/themes/aura'
 import { createPinia } from 'pinia'
-
+import PrimeVue from 'primevue/config'
 // register vue composition api globally
 import { createApp, ref } from 'vue'
 import { createRouter, createWebHashHistory } from 'vue-router'
+
 import { handleHotUpdate, routes } from 'vue-router/auto-routes'
-
 import App from './App.vue'
-import { installI18n } from './modules/i18n'
 
+import { installI18n } from './modules/i18n'
 import '@unocss/reset/tailwind.css'
 import 'uno.css'
 import './styles/index.css'
 
+import './styles/index.scss'
 import 'splitpanes/dist/splitpanes.css'
 
 const app = createApp(App)
@@ -40,5 +42,13 @@ const pinia = createPinia()
 
 app.use(pinia)
 app.use(router)
+app.use(PrimeVue, {
+  theme: {
+    preset: Aura,
+    options: {
+      darkModeSelector: '.dark',
+    },
+  },
+})
 installI18n(app)
 app.mount('#app')

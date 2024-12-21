@@ -42,6 +42,13 @@ export async function createSafelist(options: ResolvedValaxyOptions) {
     ...(options.config.unocss?.safelist ?? []),
   ]
 
+  if (options.mode === 'dev') {
+    const { safelist: devtoolsSafelist = [] } = (await import('@valaxyjs/devtools'))
+    safelist.push(
+      ...devtoolsSafelist,
+    )
+  }
+
   const siteConfig = config.siteConfig
 
   // block icon safelist
