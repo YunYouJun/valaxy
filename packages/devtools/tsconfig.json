@@ -22,6 +22,8 @@
   },
   "include": [
     "./src/client/typed-routes.d.ts",
-    "./src/**/*.ts"
+    "./src/**/*.ts",
+    "../valaxy/client/rpc.ts",
+    "../valaxy/client/rpc.ts"
   ]
 }

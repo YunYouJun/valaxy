@@ -13,4 +13,5 @@ export const postList = ref<ClientPostList>({
   posts: [],
 })
 
+export const curPost = ref('')
 export const clientPageData = ref<ClientPageData>()

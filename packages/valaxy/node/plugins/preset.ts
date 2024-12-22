@@ -2,7 +2,6 @@ import type { PluginOption } from 'vite'
 
 import type { ValaxyServerOptions } from '../options'
 import type { ValaxyNode } from '../types'
-import path from 'node:path'
 import VueI18n from '@intlify/unplugin-vue-i18n/vite'
 
 import UnheadVite from '@unhead/addons/vite'
@@ -14,7 +13,6 @@ import Components from 'unplugin-vue-components/vite'
 
 import Layouts from 'vite-plugin-vue-layouts'
 import { customElements } from '../constants'
-import { resolveImportPath } from '../utils'
 import { createConfigPlugin } from './extendConfig'
 import { createMarkdownPlugin } from './markdown'
 import { createFixPlugins } from './patchTransform'
@@ -40,14 +38,14 @@ export async function ViteValaxyPlugins(
     .map(root => `${root}/components`)
     .concat(['src/components', 'components'])
 
-  if (valaxyApp.options.mode === 'dev') {
-    const devtoolsDir = path.dirname(await resolveImportPath('@valaxyjs/devtools/package.json'))
-    const devtoolsComponentsDir = path.resolve(devtoolsDir, 'src/client/components')
-    componentsDirs.push(devtoolsComponentsDir)
+  // if (valaxyApp.options.mode === 'dev') {
+  //   const devtoolsDir = path.dirname(await resolveImportPath('@valaxyjs/devtools/package.json'))
+  //   const devtoolsComponentsDir = path.resolve(devtoolsDir, 'src/client/components')
+  //   componentsDirs.push(devtoolsComponentsDir)
 
-    const { componentsDir } = await import('@advjs/gui/node')
-    componentsDirs.push(componentsDir)
-  }
+  //   const { componentsDir } = await import('@advjs/gui/node')
+  //   componentsDirs.push(componentsDir)
+  // }
 
   const plugins: (PluginOption | PluginOption[])[] = [
     MarkdownPlugin,

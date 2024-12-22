@@ -5,6 +5,7 @@ export * from './config'
 
 // extend define
 export * from './define'
+
 export * from './setups'
 
 export * from './stores'

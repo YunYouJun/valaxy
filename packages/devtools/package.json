@@ -10,11 +10,17 @@
       "types": "./dist/index.d.ts",
       "default": "./dist/index.mjs"
     },
+    "./rpc": "./rpc.d.ts",
+    "./client": "./dist/client",
     "./*": "./*"
   },
   "main": "dist/index.mjs",
   "module": "dist/index.mjs",
   "types": "dist/index.d.ts",
+  "files": [
+    "dist",
+    "rpc.d.ts"
+  ],
   "scripts": {
     "build": "rimraf dist && run-s build:*",
     "build:client": "vite build src/client",

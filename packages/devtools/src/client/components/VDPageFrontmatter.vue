@@ -4,8 +4,13 @@ import axios from 'axios'
 import consola from 'consola'
 
 import dayjs from 'dayjs'
+import Button from 'primevue/button'
 import Checkbox from 'primevue/checkbox'
 import DatePicker from 'primevue/datepicker'
+import InputNumber from 'primevue/inputnumber'
+import InputText from 'primevue/inputtext'
+import Password from 'primevue/password'
+
 import Textarea from 'primevue/textarea'
 import { ref, toRaw } from 'vue'
 
@@ -36,7 +41,7 @@ const updated = ref(dayjs(clientPageData.value?.frontmatter.updated).toDate())
 </script>
 
 <template>
-  <div>
+  <div p-2>
     <ul v-if="frontmatter" class="flex flex-col gap-2">
       <li
         v-for="(value, key) in frontmatter"
@@ -47,7 +52,7 @@ const updated = ref(dayjs(clientPageData.value?.frontmatter.updated).toDate())
           <strong>{{ t(`frontmatter.${key}`, key as string) }}</strong>
         </div>
 
-        <div v-if="clientPageData" class="inline-flex items-center w-full">
+        <div v-if="clientPageData" class="inline-flex items-center w-full min-h-8">
           <div v-if="key === 'tags'" flex="~ gap-1">
             <VDTag v-for="tag in value" :key="tag">
               {{ tag }}
@@ -61,15 +66,6 @@ const updated = ref(dayjs(clientPageData.value?.frontmatter.updated).toDate())
           </template>
           <template v-else-if="key === 'partiallyEncryptedContents'">
             [Partially Encrypted]
-          </template>
-          <template v-else-if="key === 'title'">
-            <!-- eslint-disable-next-line vue/no-mutating-props -->
-            <!-- <AGUIInput v-model="newFm.title" /> -->
-            {{ value }}
-          </template>
-
-          <template v-else-if="typeof value === 'boolean'">
-            <Checkbox v-model="clientPageData.frontmatter[key]" binary />
           </template>
           <template v-else-if="key === 'cover'">
             <a :href="value" target="_blank">
@@ -87,17 +83,35 @@ const updated = ref(dayjs(clientPageData.value?.frontmatter.updated).toDate())
             <Textarea v-model="clientPageData.frontmatter.excerpt" rows="4" w-full auto-resize />
           </template>
           <template v-else-if="key === 'excerpt_type'">
-            <VDFmExcerptType :excerpt-type="value" />
+            <VDFmExcerptType v-model:excerpt-type="clientPageData.frontmatter.excerpt_type" />
+          </template>
+          <template v-else-if="key === 'pageTitleClass'">
+            <code class="px-2 py-1 bg-gray-1 rounded text-xs">
+              {{ value }}
+            </code>
+          </template>
+          <template v-else-if="key === 'password'">
+            <Password v-model="clientPageData.frontmatter.password" size="small" toggle-mask />
+          </template>
+          <template v-else-if="typeof value === 'boolean'">
+            <Checkbox v-model="clientPageData.frontmatter[key]" binary size="small" />
+          </template>
+          <template v-else-if="typeof value === 'number'">
+            <InputNumber v-model="clientPageData.frontmatter[key]" size="small" />
           </template>
           <template v-else>
-            {{ value }}
+            <InputText v-model="clientPageData.frontmatter[key]" size="small" fluid />
           </template>
         </div>
       </li>
     </ul>
 
-    <AGUIButton @click="saveNewFm">
+    <Button
+      v-if="Object.keys(frontmatter).length" size="small"
+      class="w-full my-3"
+      @click="saveNewFm"
+    >
       Save Frontmatter
-    </AGUIButton>
+    </Button>
   </div>
 </template>

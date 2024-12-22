@@ -113,11 +113,12 @@ export default defineConfig(() => {
         'dayjs',
         'primevue/datepicker',
         '@vueuse/core',
-        'vite-dev-rpc',
       ],
       exclude: [
         'valaxy',
+        '@valaxyjs/devtools',
         'vite-hot-client',
+        'vite-dev-rpc',
       ],
     },
 
