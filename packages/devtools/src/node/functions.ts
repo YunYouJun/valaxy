@@ -1,5 +1,5 @@
 import type { ViteDevServer } from 'vite'
-import type { ServerFunctions } from '../rpc'
+import type { ServerFunctions } from '../../rpc'
 import type { ValaxyDevtoolsOptions } from './types'
 import path from 'node:path'
 import process from 'node:process'

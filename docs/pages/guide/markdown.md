@@ -918,17 +918,17 @@ Freedom to control your layout!
 <div class="flex grid-cols-3" gap="2">
   <div>
 
-  ![image](https://yunyoujun.cn/images/avatar.jpg)
+  ![image](https://www.yunyoujun.cn/images/avatar.jpg)
   </div>
 
   <div>
 
-  ![image](https://yunyoujun.cn/images/avatar.jpg)
+  ![image](https://www.yunyoujun.cn/images/avatar.jpg)
   </div>
 
   <div>
 
-  ![image](https://yunyoujun.cn/images/avatar.jpg)
+  ![image](https://www.yunyoujun.cn/images/avatar.jpg)
   </div>
 </div>
 
@@ -948,17 +948,17 @@ Freedom to control your layout!
 <div class="flex grid-cols-3">
   <div>
 
-  ![image](https://yunyoujun.cn/images/avatar.jpg)
+  ![image](https://www.yunyoujun.cn/images/avatar.jpg)
   </div>
 
   <div>
 
-  ![image](https://yunyoujun.cn/images/avatar.jpg)
+  ![image](https://www.yunyoujun.cn/images/avatar.jpg)
   </div>
 
   <div>
 
-  ![image](https://yunyoujun.cn/images/avatar.jpg)
+  ![image](https://www.yunyoujun.cn/images/avatar.jpg)
   </div>
 </div>
 

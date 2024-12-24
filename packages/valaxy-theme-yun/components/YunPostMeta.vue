@@ -3,6 +3,8 @@ import type { Post } from 'valaxy'
 import { useAppStore, useSiteConfig } from 'valaxy'
 import { useI18n } from 'vue-i18n'
 
+// @TODO: add edit by vscode directly when dev
+
 defineProps<{
   // FrontMatter
   frontmatter: Post

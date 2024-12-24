@@ -13,19 +13,16 @@ const routeMenus: {
 }[] = [
   {
     to: '/',
-    opened: 'i-vscode-icons:folder-type-route-opened',
-    closed: 'i-vscode-icons:folder-type-route',
+    icon: 'i-ri-archive-line',
   },
-  // {
-  //   to: '/categories',
-  //   opened: 'i-vscode-icons:folder-type-route-opened',
-  //   closed: 'i-vscode-icons:folder-type-route',
-  // },
-  // {
-  //   to: '/tags',
-  //   opened: 'i-vscode-icons:folder-type-route-opened',
-  //   closed: 'i-vscode-icons:folder-type-route',
-  // },
+  {
+    to: '/categories',
+    icon: 'i-ri:folder-2-line',
+  },
+  {
+    to: '/tags',
+    icon: 'i-ri:price-tag-3-line',
+  },
   {
     to: '/migration',
     opened: 'i-vscode-icons:folder-type-tools-opened',

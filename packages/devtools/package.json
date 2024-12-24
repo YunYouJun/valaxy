@@ -45,7 +45,7 @@
     "vite-dev-rpc": "^0.1.7"
   },
   "devDependencies": {
-    "@advjs/gui": "0.0.7-beta.1",
+    "@advjs/gui": "0.0.7-beta.7",
     "@iconify-json/ri": "catalog:",
     "@intlify/unplugin-vue-i18n": "^6.0.2",
     "@primevue/themes": "^4.2.5",

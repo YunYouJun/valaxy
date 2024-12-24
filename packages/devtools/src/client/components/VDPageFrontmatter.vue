@@ -69,7 +69,7 @@ const updated = ref(dayjs(clientPageData.value?.frontmatter.updated).toDate())
           </template>
           <template v-else-if="key === 'cover'">
             <a :href="value" target="_blank">
-              <img :src="value" class="h-20">
+              <img :src="value" class="max-h-20 rounded shadow">
             </a>
           </template>
           <template v-else-if="key === 'date'">
