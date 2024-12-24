@@ -103,12 +103,18 @@ export interface NavItemLink {
   active?: string
 }
 
-export interface NavItemGroup {
-  text: string
+export interface NavItemChildren {
+  text?: string
   items: NavItemLink[]
 }
 
-export type NavItem = NavItemLink | NavItemGroup
+export interface NavItemWithChildren {
+  text?: string
+  items?: (NavItemChildren | NavItemLink)[]
+  active?: string
+}
+
+export type NavItem = NavItemLink | NavItemWithChildren
 
 /**
  * Theme Config
