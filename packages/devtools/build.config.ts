@@ -13,6 +13,7 @@ export default defineBuildConfig({
 
     // in valaxy
     'valaxy',
+    'valaxy/node',
     'vite',
     'gray-matter',
     'fs-extra',

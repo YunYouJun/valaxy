@@ -27,6 +27,7 @@
     "node": "^18.0.0 || >=20.0.0"
   },
   "scripts": {
+    "clean": "rimraf dist",
     "build": "unbuild",
     "dev": "unbuild --stub",
     "prepublishOnly": "npm run build",

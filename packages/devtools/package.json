@@ -22,6 +22,7 @@
     "rpc.d.ts"
   ],
   "scripts": {
+    "clean": "rimraf dist",
     "build": "rimraf dist && run-s build:*",
     "build:client": "vite build src/client",
     "build:node": "unbuild",

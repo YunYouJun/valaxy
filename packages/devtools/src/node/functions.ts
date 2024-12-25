@@ -9,7 +9,7 @@ import fs from 'fs-extra'
 import matter from 'gray-matter'
 
 export function getFunctions(server: ViteDevServer, devtoolsOptions: ValaxyDevtoolsOptions): ServerFunctions {
-  const userRoot = devtoolsOptions.userRoot || devtoolsOptions.valaxyApp?.options.userRoot || process.cwd()
+  const userRoot = devtoolsOptions.userRoot || process.cwd()
   // const userRoot = GLOBAL_STATE.valaxyApp?.options.userRoot || process.cwd()
   // const userRoot = process.cwd()
   // const userRoot = server.config.root

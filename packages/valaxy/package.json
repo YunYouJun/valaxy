@@ -30,7 +30,6 @@
       "types": "./dist/node/index.d.ts",
       "default": "./dist/node/index.js"
     },
-    "./rpc/client": "/client/rpc.ts",
     "./types": "./dist/types/index.d.ts",
     "./*": "./*"
   },
@@ -53,6 +52,7 @@
     "node": "^14.18.0 || >=16.0.0"
   },
   "scripts": {
+    "clean": "rimraf dist",
     "build": "rimraf dist && tsup",
     "dev": "tsup --watch",
     "preview": "vite preview",

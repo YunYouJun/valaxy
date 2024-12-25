@@ -34,6 +34,7 @@
     "build:cf:docs": "tsx scripts/build-cf-docs.ts",
     "build:docs": "npm run docs:build",
     "build:devtools": "pnpm -C packages/devtools run build",
+    "clean": "pnpm -r --filter=./packages/** run clean",
     "cli:debug": "tsx packages/valaxy/node/cli/index.ts debug",
     "ci": "pnpm run build && pnpm build:create-valaxy && node packages/create-valaxy/dist/index.mjs -y",
     "ci:publish": "pnpm -r publish --access public --no-git-checks",

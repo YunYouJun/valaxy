@@ -39,7 +39,7 @@ export async function createServer(
     vitePlugins.push(
       (await import('vite-plugin-vue-devtools')).default(),
       (await import('@valaxyjs/devtools')).default({
-        valaxyApp,
+        userRoot: options.userRoot,
       }),
     )
   }
