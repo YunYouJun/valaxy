@@ -59,7 +59,7 @@
     "unbuild": "catalog:",
     "unplugin-vue-router": "^0.10.9",
     "vite": "catalog:",
-    "vue-i18n": "^10.0.5",
+    "vue-i18n": "catalog:",
     "zod": "^3.24.1"
   }
 }

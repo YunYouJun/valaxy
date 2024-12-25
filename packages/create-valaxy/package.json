@@ -1,7 +1,7 @@
 {
   "name": "create-valaxy",
   "type": "module",
-  "version": "0.22.4",
+  "version": "0.22.5-beta.0",
   "description": "Create Starter Template for Valaxy",
   "author": {
     "email": "me@yunyoujun.cn",
@@ -30,6 +30,7 @@
     "build": "unbuild",
     "dev": "unbuild --stub",
     "prepublishOnly": "npm run build",
+    "release": "bumpp --no-commit --no-tag --no-push && pnpm publish --no-git-checks --tag beta",
     "start": "tsx src/index.ts",
     "typecheck": "tsc --noEmit"
   },

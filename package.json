@@ -81,7 +81,7 @@
     "valaxy-theme-yun": "workspace:*"
   },
   "devDependencies": {
-    "@antfu/eslint-config": "^3.12.0",
+    "@antfu/eslint-config": "^3.12.1",
     "@iconify-json/logos": "catalog:",
     "@iconify-json/vscode-icons": "catalog:",
     "@microsoft/api-extractor": "^7.48.1",
@@ -112,7 +112,7 @@
     "vite-node": "^2.1.8",
     "vitest": "^2.1.8",
     "vue-tsc": "2.2.0",
-    "zx": "^8.2.4"
+    "zx": "catalog:"
   },
   "pnpm": {
     "peerDependencyRules": {

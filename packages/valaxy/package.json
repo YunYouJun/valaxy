@@ -120,7 +120,7 @@
     "sass": "^1.83.0",
     "shiki": "^1.24.4",
     "star-markdown-css": "^0.5.3",
-    "unocss": "^0.65.2",
+    "unocss": "^0.65.3",
     "unplugin-vue-components": "^0.28.0",
     "unplugin-vue-markdown": "^0.28.0",
     "unplugin-vue-router": "^0.10.9",
@@ -132,7 +132,7 @@
     "vite-ssg": "^0.24.3",
     "vite-ssg-sitemap": "^0.8.1",
     "vue": "^3.5.13",
-    "vue-i18n": "^10.0.5",
+    "vue-i18n": "catalog:",
     "vue-router": "^4.5.0",
     "yargs": "^17.7.2"
   },
