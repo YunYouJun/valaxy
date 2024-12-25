@@ -1,10 +1,11 @@
 import type Vue from '@vitejs/plugin-vue'
 
+import type { Options as BeastiesOptions } from 'beasties'
 import type { Hookable } from 'hookable'
 import type { PluginVisualizerOptions } from 'rollup-plugin-visualizer'
 import type { presetAttributify, presetIcons, presetTypography, presetUno } from 'unocss'
-import type { VitePluginConfig as UnoCSSConfig } from 'unocss/vite'
 
+import type { VitePluginConfig as UnoCSSConfig } from 'unocss/vite'
 import type Components from 'unplugin-vue-components/vite'
 import type Markdown from 'unplugin-vue-markdown/vite'
 import type { EditableTreeNode } from 'unplugin-vue-router'
@@ -14,6 +15,7 @@ import type { UserConfig as ViteUserConfig } from 'vite'
 import type Layouts from 'vite-plugin-vue-layouts'
 import type { createValaxyNode } from './app'
 import type { ResolvedValaxyOptions } from './options'
+
 import type { MarkdownOptions } from './plugins/markdown/types'
 
 export type ValaxyNodeConfig<ThemeConfig = DefaultTheme.Config> = ValaxyConfig<ThemeConfig> & ValaxyExtendConfig
@@ -226,6 +228,12 @@ export interface ValaxyExtendConfig {
    * @see https://valaxy.site/guide/custom/hooks
    */
   hooks?: Partial<ValaxyHooks>
+
+  /**
+   * beastiesOptions
+   * @see https://github.com/danielroe/beasties
+   */
+  beastiesOptions?: BeastiesOptions
 }
 
 export type ValaxyAddonLike = ValaxyAddon | false | null | undefined

@@ -43,7 +43,9 @@ export async function ssgBuild(
     script: 'async',
     formatting: 'minify',
     beastiesOptions: {
-      reduceInlineStyles: false,
+      preload: 'swap',
+      // reduceInlineStyles: false,
+      ...(options.config.beastiesOptions || {}),
     },
     onFinished() {
       generateSitemap(
