@@ -24,7 +24,7 @@
     "api:dev": "pnpm -C api run dev",
     "api:build": "pnpm -C api run build",
     "api:preview": "pnpm -C api run preview",
-    "build:all": "pnpm -r --filter=./packages/** --parallel run build",
+    "build:all": "pnpm -r --filter=./packages/** run build",
     "build": "pnpm run build:@valaxyjs/utils && pnpm run build:valaxy && pnpm run build:devtools",
     "build:@valaxyjs/utils": "pnpm -C packages/@valaxyjs/utils run build",
     "build:create-valaxy": "pnpm -C packages/create-valaxy run build",

@@ -1,4 +1,4 @@
-import type { ValaxyApp } from 'valaxy'
+import type { ValaxyApp } from 'valaxy/node'
 
 export interface ValaxyDevtoolsOptions {
   userRoot?: string
