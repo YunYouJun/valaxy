@@ -47,25 +47,35 @@ watch(() => props.open, () => {
       <div v-if="input" class="flex-center" w="full" py="4">
         {{ t('search.hits', results.length || 0) }}
       </div>
-      <div v-if="results.length > 0" overflow="auto" flex="~" w="full">
-        <div class="yun-fuse-result-container" flex="~ col" w="full">
+      <div v-if="results.length > 0" overflow="auto" flex="~" w="full" class="justify-center">
+        <div class="yun-fuse-result-container max-w-3xl" flex="~ col" w="full">
           <AppLink
             v-for="result in results" :key="result.item.title"
             :to="result.item.link"
-            class="yun-fuse-result-item text-$va-c-text hover:(text-$va-c-bg bg-$va-c-text-dark bg-opacity-100)"
-            flex="~ col" pb-2
+            class="yun-fuse-result-item text-$va-c-text hover:(text-$va-c-bg bg-$va-c-text-dark bg-opacity-100) text-left p-2"
+            flex="~ col"
             @click="emit('close')"
           >
-            <h3 font="serif black">
+            <h3 font="medium">
               {{ result.item.title }}
             </h3>
-            <span text="sm" opacity="80">
+            <span text="sm" font="light" opacity="80">
               {{ result.item.excerpt }}
             </span>
-            <span text-xs opacity-50 mt="1">
-              Score Index: {{ result.refIndex }}
-            </span>
+            <div class="flex justify-between op-50" text-xs mt="1" font="light">
+              <span>
+                {{ result.item.link }}
+              </span>
+              <span flex="~ gap-1">
+                <span>Score Index:</span>
+                <div class="text-right w-4">{{ result.refIndex }}</div>
+              </span>
+            </div>
           </AppLink>
+
+          <div class="flex op-30 justify-end text-xs p-4">
+            Search by Local
+          </div>
         </div>
       </div>
     </div>

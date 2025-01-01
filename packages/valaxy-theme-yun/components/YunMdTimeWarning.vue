@@ -1,13 +1,8 @@
 <script lang="ts" setup>
-import dayjs from 'dayjs'
-
-import relativeTime from 'dayjs/plugin/relativeTime'
-import { useFrontmatter } from 'valaxy'
+import { dayjs, useFrontmatter } from 'valaxy'
 
 import { computed } from 'vue'
 import { useI18n } from 'vue-i18n'
-
-dayjs.extend(relativeTime)
 
 const fm = useFrontmatter()
 const { t } = useI18n()

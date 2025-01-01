@@ -9,7 +9,7 @@ const yun = useYunAppStore()
 <template>
   <button
     v-if="fm.aside !== false"
-    class="xl:hidden toc-btn shadow-md fixed yun-icon-btn z-350 bg-$va-c-bg-soft"
+    class="xl:hidden toc-btn shadow-md fixed yun-icon-btn z-20 bg-$va-c-bg-soft"
     opacity="75" right="4" bottom="19"
     @click="yun.rightSidebar.toggle()"
   >
