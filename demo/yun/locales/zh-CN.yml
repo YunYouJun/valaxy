@@ -5,4 +5,4 @@ excerpt:
   ai: 由 AI 生成的摘要
 
 post:
-  time_warning: '本文最后更新于{ago}，文中所描述的信息可能已发生改变。（覆盖测试）'
+  time_warning: '本文最后更新于 {ago}，文中所描述的信息可能已发生改变。（覆盖测试）'

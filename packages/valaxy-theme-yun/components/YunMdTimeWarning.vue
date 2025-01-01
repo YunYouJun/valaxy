@@ -5,19 +5,13 @@ import { computed } from 'vue'
 import { useI18n } from 'vue-i18n'
 
 const fm = useFrontmatter()
-const { t } = useI18n()
+const { t, locale } = useI18n()
 
 const updated = computed(() => {
-  return dayjs(fm.value.updated || fm.value.date)
+  return dayjs(fm.value.updated || fm.value.date).locale(locale.value)
 })
 
-const ago = computed(() => {
-  const fromNow = updated.value.fromNow()
-  if (/^\d/.test(fromNow))
-    return ` ${fromNow}`
-  else
-    return fromNow
-})
+const ago = computed(() => updated.value.fromNow())
 
 /**
  * when the post is updated more than 180 days ago, show a warning
