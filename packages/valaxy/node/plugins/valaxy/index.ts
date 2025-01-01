@@ -71,8 +71,16 @@ async function generateStyles(roots: string[], options: ResolvedValaxyOptions) {
 
 function generateLocales(roots: string[]) {
   const imports: string[] = [
-    'import { defu } from "defu"',
+    'import { createDefu } from "defu"',
     'const messages = { "zh-CN": {}, en: {} }',
+    `
+const replaceArrMerge = createDefu((obj, key, value) => {
+  if (key && obj[key] && Array.isArray(obj[key]) && Array.isArray(value)) {
+    obj[key] = value
+    return true
+  }
+})
+`,
   ]
   const languages = ['zh-CN', 'en']
 
@@ -83,7 +91,7 @@ function generateLocales(roots: string[]) {
         const varName = lang.replace('-', '') + i
         imports.unshift(`import ${varName} from "${toAtFS(langYml)}"`)
         // pre override next
-        imports.push(`messages['${lang}'] = defu(${varName}, messages['${lang}'])`)
+        imports.push(`messages['${lang}'] = replaceArrMerge(${varName}, messages['${lang}'])`)
       }
     })
   })
