@@ -40,10 +40,10 @@
     "cors": "^2.8.5",
     "http-proxy-middleware": "^3.0.3",
     "js-yaml": "^4.1.0",
-    "pathe": "^1.1.2",
+    "pathe": "^2.0.2",
     "picocolors": "^1.1.1",
     "sirv": "^3.0.0",
-    "vite-dev-rpc": "^0.1.7"
+    "vite-dev-rpc": "^1.0.7"
   },
   "devDependencies": {
     "@advjs/gui": "0.0.7-beta.7",
@@ -55,7 +55,7 @@
     "@types/wicg-file-system-access": "^2023.10.5",
     "gray-matter": "^4.0.3",
     "primevue": "^4.2.5",
-    "splitpanes": "^3.1.5",
+    "splitpanes": "^3.1.8",
     "typescript": "catalog:",
     "unbuild": "catalog:",
     "unplugin-vue-router": "^0.10.9",

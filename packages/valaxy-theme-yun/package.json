@@ -30,7 +30,7 @@
     "@iconify-json/simple-icons": "catalog:",
     "@vueuse/motion": "^2.2.6",
     "animejs": "^3.2.2",
-    "gsap": "^3.12.5",
+    "gsap": "^3.12.7",
     "primevue": "^4.2.5"
   },
   "devDependencies": {

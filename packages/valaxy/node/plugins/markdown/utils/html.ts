@@ -6,8 +6,8 @@ export function treatAsHtml(filename: string): boolean {
   if (KNOWN_EXTENSIONS.size === 0) {
     const extraExts
       = (typeof process === 'object' && process.env.VITE_EXTRA_EXTENSIONS)
-      || process.env?.VITE_EXTRA_EXTENSIONS
-      || ''
+        || process.env?.VITE_EXTRA_EXTENSIONS
+        || ''
 
     // md, html? are intentionally omitted
     ;(
