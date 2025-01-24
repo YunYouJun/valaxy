@@ -4,7 +4,7 @@ import type { ValaxyNode } from '../types'
 import fs from 'fs-extra'
 import matter from 'gray-matter'
 import { convert } from 'html-to-text'
-import MarkdownIt from 'markdown-it'
+import { MarkdownItAsync } from 'markdown-it-async'
 import { resolve } from 'pathe'
 import VueRouter from 'unplugin-vue-router/vite'
 
@@ -17,7 +17,7 @@ import { presetStatistics } from './presets/statistics'
  * @param excerpt
  * @param type
  */
-function getExcerptByType(excerpt = '', type: ExcerptType = 'html', mdIt: MarkdownIt) {
+function getExcerptByType(excerpt = '', type: ExcerptType = 'html', mdIt: MarkdownItAsync) {
   switch (type) {
     case 'ai':
     case 'md':
@@ -39,7 +39,7 @@ export async function createRouterPlugin(valaxyApp: ValaxyNode) {
   const { options } = valaxyApp
   const { roots, config: valaxyConfig } = options
 
-  const mdIt = new MarkdownIt({ html: true })
+  const mdIt = new MarkdownItAsync({ html: true })
   await setupMarkdownPlugins(mdIt, options)
 
   return VueRouter({

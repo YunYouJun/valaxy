@@ -4,11 +4,12 @@ import type {
 
 import type { SfcPluginOptions } from '@mdit-vue/plugin-sfc'
 import type { TocPluginOptions } from '@mdit-vue/plugin-toc'
-
 import type { KatexOptions } from 'katex'
-import type MarkdownIt from 'markdown-it'
 
+import type MarkdownIt from 'markdown-it'
 import type anchorPlugin from 'markdown-it-anchor'
+
+import type { MarkdownItAsync } from 'markdown-it-async'
 import type {
   BuiltinTheme,
   Highlighter,
@@ -39,7 +40,7 @@ export interface MarkdownOptions {
   /**
    * Setup markdown-it instance before applying plugins
    */
-  preConfig?: (md: MarkdownIt) => void
+  preConfig?: (md: MarkdownItAsync) => void
   /**
    * markdown-it options
    */
@@ -47,7 +48,7 @@ export interface MarkdownOptions {
   /**
    * config markdown-it
    */
-  config?: (md: MarkdownIt) => void
+  config?: (md: MarkdownItAsync) => void
   anchor?: anchorPlugin.AnchorOptions
   attrs?: {
     leftDelimiter?: string

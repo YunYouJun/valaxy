@@ -1,7 +1,9 @@
 import type { Header } from '@valaxyjs/utils'
-import type { ResolvedValaxyOptions } from '../../options'
 
-import MarkdownIt from 'markdown-it'
+import type { MarkdownItAsync } from 'markdown-it-async'
+import type { ResolvedValaxyOptions } from '../../options'
+import { createMarkdownItAsync } from 'markdown-it-async'
+
 import { highlight } from './plugins/highlight'
 import { defaultCodeTheme, setupMarkdownPlugins } from './setup'
 
@@ -15,16 +17,16 @@ export interface MarkdownParsedData {
   headers?: Header[]
 }
 
-export async function createMarkdownRenderer(options?: ResolvedValaxyOptions): Promise<MarkdownIt> {
+export async function createMarkdownRenderer(options?: ResolvedValaxyOptions): Promise<MarkdownItAsync> {
   const mdOptions = options?.config.markdown || {}
   const theme = mdOptions.theme ?? defaultCodeTheme
 
-  const md = MarkdownIt({
+  const md = createMarkdownItAsync({
     html: true,
     linkify: true,
     highlight: await highlight(theme, mdOptions),
     ...mdOptions.options,
-  }) as MarkdownIt
+  })
 
   md.linkify.set({ fuzzyLink: false })
 
