@@ -81,7 +81,7 @@ if (props.level === 1) {
       <span>
         {{ category.name === 'Uncategorized' ? t('category.uncategorized') : category.name }}
       </span>
-      <span class="rounded-full px-1.5 bg-black/5 shadow-sm" text="xs black/55">
+      <span class="rounded-full px-1.5 bg-black/5 shadow-sm op-60" text="xs">
         {{ category.total }}
       </span>
     </span>

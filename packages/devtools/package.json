@@ -58,7 +58,7 @@
     "splitpanes": "^3.1.8",
     "typescript": "catalog:",
     "unbuild": "catalog:",
-    "unplugin-vue-router": "^0.10.9",
+    "unplugin-vue-router": "^0.11.1",
     "vite": "catalog:",
     "vue-i18n": "catalog:",
     "zod": "^3.24.1"

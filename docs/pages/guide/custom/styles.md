@@ -71,3 +71,49 @@ For example, you can override the default font in 'styles/css-vars.scss'.
   --va-font-mono: Menlo, Monaco, Consolas, "Courier New", monospace;
 }
 ```
+
+## 示例
+
+### 自定义光标 {lang="zh-CN"}
+
+### Custom Cursor {lang="en"}
+
+::: warning
+
+编写中...
+
+:::
+
+替换鼠标光标，默认关闭。
+
+例如使用 [Material Design Cursors](https://www.deviantart.com/rosea92/art/Material-Design-Cursors-Dark-756850032)。
+
+- `default`: 默认状态下图标。
+- `pointer`: 指针（即链接状态下）图标。
+- `text`: 文本选择图标。
+
+```scss
+// $cursor-default = hexo-config('cursor.default');
+// $cursor-pointer = hexo-config('cursor.pointer');
+// $cursor-text = hexo-config('cursor.text');
+
+body {
+  cursor: url($cursor-default), auto;
+}
+
+a {
+  cursor: url($cursor-pointer), auto;
+
+  &:hover {
+    cursor: url($cursor-pointer), auto;
+  }
+}
+
+.hty-icon-button {
+  cursor: url($cursor-pointer), pointer;
+}
+
+input {
+  cursor: url($cursor-text), auto;
+}
+```

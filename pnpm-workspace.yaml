@@ -11,10 +11,10 @@ catalog:
   '@iconify-json/carbon': ^1.2.5
   '@iconify-json/logos': ^1.2.4
   '@iconify-json/ri': ^1.2.5
-  '@iconify-json/simple-icons': ^1.2.20
+  '@iconify-json/simple-icons': ^1.2.21
   '@iconify-json/vscode-icons': ^1.2.10
   typescript: ^5.7.3
   unbuild: ^3.3.1
-  vite: ^6.0.7
+  vite: ^6.0.11
   vue-i18n: ^11.0.1
   zx: ^8.3.0
