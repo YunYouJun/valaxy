@@ -93,6 +93,10 @@ export default defineSiteConfig({
 在对应需要加密页面的 frontmatter 中添加 `password: YourPassword` 即可。
 
 当 `encrypt.enable` 为 `true`，且页面中密码 `password` 存在时，默认开启加密。
+
+被加密的内容应在解密后动态渲染。此时无法（也不应）参与到构建流程中生成静态产物（否则会被直接看到）。
+因此对于加密内容中的图片路径，总是应该使用绝对路径而非相对路径。
+
 :::
 
 ::: en
@@ -100,6 +104,9 @@ export default defineSiteConfig({
 Add `password: YourPassword` to the frontmatter of the corresponding page to enable encryption.
 
 When `encrypt.enable` is `true`, and the password `password` exists in the page, encryption is enabled by default.
+
+The encrypted content should be dynamically rendered after decryption.
+At this time, it cannot (and should not) participate in the build process to generate static artifacts (otherwise it will be seen directly).
 :::
 
 ```md
