@@ -137,8 +137,7 @@ export function registerDevCommand(cli: Argv) {
           describe: 'log level',
         })
         .strict()
-        .help()
-    ,
+        .help(),
     async ({ root, port, open, remote, log }) => {
       startValaxyDev({
         root,

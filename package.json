@@ -82,7 +82,7 @@
     "valaxy-theme-yun": "workspace:*"
   },
   "devDependencies": {
-    "@antfu/eslint-config": "^3.16.0",
+    "@antfu/eslint-config": "^4.0.0",
     "@iconify-json/logos": "catalog:",
     "@iconify-json/vscode-icons": "catalog:",
     "@microsoft/api-extractor": "^7.49.1",
@@ -94,9 +94,9 @@
     "@types/node": "^22.10.10",
     "@types/prompts": "^2.4.9",
     "@types/resolve": "^1.20.6",
-    "bumpp": "^9.10.2",
+    "bumpp": "^10.0.0",
     "cross-env": "^7.0.3",
-    "eslint": "^9.18.0",
+    "eslint": "^9.19.0",
     "https-localhost": "^4.7.1",
     "husky": "^9.1.7",
     "lint-staged": "^15.4.2",

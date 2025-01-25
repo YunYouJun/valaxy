@@ -15,8 +15,7 @@ import type {
   Highlighter,
   LanguageInput,
   ShikiTransformer,
-  ThemeRegistration
-  ,
+  ThemeRegistration,
 } from 'shiki'
 import type { PageData } from 'valaxy/types'
 
