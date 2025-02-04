@@ -185,7 +185,7 @@ export async function createRouterPlugin(valaxyApp: ValaxyNode) {
          */
         route.addToMeta({
           frontmatter: routerFM,
-          excerpt: mdFm.excerpt || (excerpt ? getExcerptByType(excerpt, mdFm.excerpt_type, mdIt) : ''),
+          excerpt: mdFm.excerpt || (excerpt ? getExcerptByType(excerpt, mdFm.excerpt_type || defaultFrontmatter.excerpt_type, mdIt) : ''),
         })
 
         // set layout
