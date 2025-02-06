@@ -1,13 +1,12 @@
 import type { DefaultTheme } from 'vitepress/theme'
+import type { ComputedRef, Ref } from 'vue'
 import type { PressTheme } from '../types'
-import { isClient } from '@vueuse/core'
 
+import { isClient } from '@vueuse/core'
 import {
   computed,
-  type ComputedRef,
   onMounted,
   onUnmounted,
-  type Ref,
   ref,
   watch,
   watchEffect,

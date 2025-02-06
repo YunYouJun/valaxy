@@ -1,19 +1,22 @@
-import type MarkdownIt from 'markdown-it'
+import type { HeadersPluginOptions } from '@mdit-vue/plugin-headers'
 
+import type { SfcPluginOptions } from '@mdit-vue/plugin-sfc'
+import type { TocPluginOptions } from '@mdit-vue/plugin-toc'
+
+import type MarkdownIt from 'markdown-it'
 import type { MarkdownItAsync } from 'markdown-it-async'
 import type Token from 'markdown-it/lib/token.mjs'
-
 import type { ResolvedValaxyOptions } from '../../options'
+
 import type { ThemeOptions } from './types'
 import {
   headersPlugin,
-  type HeadersPluginOptions,
+
 } from '@mdit-vue/plugin-headers'
 
-import { sfcPlugin, type SfcPluginOptions } from '@mdit-vue/plugin-sfc'
-
+import { sfcPlugin } from '@mdit-vue/plugin-sfc'
 import { titlePlugin } from '@mdit-vue/plugin-title'
-import { tocPlugin, type TocPluginOptions } from '@mdit-vue/plugin-toc'
+import { tocPlugin } from '@mdit-vue/plugin-toc'
 import { slugify } from '@mdit-vue/shared'
 import { cssI18nContainer } from 'css-i18n'
 

@@ -54,10 +54,10 @@ internal.getLanguage = (name) => {
 预先打包 `worker_shikiResolveLang.ts` 为 JS 以便调用。
 
 ```ts [worker_shikiResolveLang.ts]
+import type { DynamicImportLanguageRegistration, LanguageRegistration } from 'shiki'
 import {
-  bundledLanguages,
-  type DynamicImportLanguageRegistration,
-  type LanguageRegistration,
+  bundledLanguages
+
 } from 'shiki'
 import { runAsWorker } from 'synckit'
 

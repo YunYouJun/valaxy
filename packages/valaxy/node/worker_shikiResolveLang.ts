@@ -1,10 +1,10 @@
+import type { DynamicImportLanguageRegistration, LanguageRegistration } from 'shiki'
 /**
  * 2024-12-14 ref vitepress
  */
 import {
   bundledLanguages,
-  type DynamicImportLanguageRegistration,
-  type LanguageRegistration,
+
 } from 'shiki'
 import { runAsWorker } from 'synckit'
 

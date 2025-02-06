@@ -1,9 +1,10 @@
+import type { TransformerCompactLineOption } from '@shikijs/transformers'
 import type { LanguageRegistration, ShikiTransformer } from 'shiki'
 import type { Logger } from 'vite'
 import type { ShikiResolveLang } from '../../../worker_shikiResolveLang'
 import type { MarkdownOptions, ThemeOptions } from '../types'
 import {
-  type TransformerCompactLineOption,
+
   transformerCompactLineOptions,
   transformerNotationDiff,
   transformerNotationErrorLevel,

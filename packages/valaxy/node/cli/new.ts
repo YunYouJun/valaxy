@@ -1,5 +1,6 @@
 import type { Argv } from 'yargs'
-import { create, type CreatePostParams } from './utils/post'
+import type { CreatePostParams } from './utils/post'
+import { create } from './utils/post'
 
 /**
  * register new post command
