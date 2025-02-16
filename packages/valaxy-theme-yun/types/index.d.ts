@@ -22,6 +22,11 @@ export namespace YunTheme {
     cloud?: {
       enable: boolean
     }
+
+    /**
+     * site-name class
+     */
+    siteNameClass?: string
   }
 }
 

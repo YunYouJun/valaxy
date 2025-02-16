@@ -1,22 +1,30 @@
 <script setup lang="ts">
 import { useSiteConfig } from 'valaxy'
-import { ref } from 'vue'
 import { useRouter } from 'vue-router'
+import { useThemeConfig } from '../../composables'
 
 const router = useRouter()
 const siteConfig = useSiteConfig()
+const themeConfig = useThemeConfig()
 
-const classes = ref('site-name text-lg leading-loose bg-gradient-to-r gradient-text from-#1e3c72 to-dark dark:(from-#66a6ff to-blue-500)')
+// bg-gradient-to-r gradient-text from-#1e3c72 to-dark dark:(from-#66a6ff to-blue-500)
 </script>
 
 <template>
   <RouterLink
     v-if="router.hasRoute('/about/site')" to="/about/site"
-    :class="classes"
+    class="site-name text-lg leading-loose"
+    :class="themeConfig.banner.siteNameClass"
   >
     {{ siteConfig.title }}
   </RouterLink>
-  <span v-else :class="classes">{{ siteConfig.title }}</span>
+  <span
+    v-else
+    class="site-name text-lg leading-loose"
+    :class="themeConfig.banner.siteNameClass"
+  >
+    {{ siteConfig.title }}
+  </span>
 </template>
 
 <style lang="scss">
