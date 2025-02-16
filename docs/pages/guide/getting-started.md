@@ -337,8 +337,7 @@ In most cases, you only need to work in the `pages` folder.
 - `pages`: 你的所有页面
   - `posts`: 写在 `pages/posts` 文件夹下的内容，将被当作博客文章
 - `styles`: 覆盖主题样式，文件夹下的这些 scss 文件将会被自动加载
-  - `index.scss` / `index.css`
-  - `css-vars.scss` / `css-vars.css`
+  - `index.ts` / `index.scss` / `index.css`
 - `components`: 自定义你的组件（将会被自动注册）
 - `layouts`: 自定义布局 (譬如可以通过 `layout: xxx` 来使用 `layouts/xxx.vue` 布局)
 - `locales`: 自定义国际化关键词

@@ -96,9 +96,8 @@ pnpm create valaxy
   - `main.ts`: 主入口文件 `defineAppSetup`
 - `stores`: 主题的状态管理
   - `app.ts`: 全局状态管理文件
-- `styles`: 主题的样式（`css-vars.scss` 与 `index.scss` 将会被自动引入）
-  - `css-vars.scss`: 主题的 CSS 变量
-  - `index.scss`: 主题的样式入口文件
+- `styles`: 主题的样式
+  - `index.ts`: 主题的样式入口文件
 - `tsconfig.json`: 主题的 TypeScript 配置
 - `types`: 主题的类型声明
   - `index.d.ts`: 主题的类型声明入口文件

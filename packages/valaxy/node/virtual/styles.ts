@@ -24,7 +24,6 @@ export const templateStyles: VirtualModuleTemplate = {
         join(root, 'styles', 'index.css'),
         join(root, 'styles', 'index.scss'),
 
-        join(root, 'styles', 'css-vars.css'),
         join(root, 'styles', 'css-vars.scss'),
       ]
 

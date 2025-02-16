@@ -15,30 +15,29 @@ end: false
 :::zh-CN
 新建 `styles` 文件夹，目录下的以下文件将会被自动引入：
 
+- `index.ts`
 - `index.scss`
 - `index.css`
-- `css-vars.scss`
-- `css-vars.css`
+- `css-vars.scss` (推荐在 `index.ts` 中自己引入 `xxx.scss`，后续可能会被弃用)
 
 我们推荐您：
 
-- 新建 `index.scss` 书写全局样式，并可在其中导入其他样式，它会被自动引入。
-- 新建 `css-vars.scss` 书写 CSS 变量，它会被自动引入。
+- 新建 `index.ts` 文件，并在其中自由引入其他样式文件 `xxx.scss`。
+- `index.ts` / `index.scss` / `index.css` 不应当同时存在，否则可能会导致重复引入。
 
 :::
 
 :::en
 Create `styles` folder, and the following files under the directory will be automatically imported:
 
+- `index.ts`
 - `index.scss`
 - `index.css`
-- `css-vars.scss`
-- `css-vars.css`
 
 We recommend you:
 
-- Create `index.scss` file to write a global style and import other styles in it. It will be imported automatically.
-- Create `css-vars.scss` file to write CSS variables. It will be imported automatically.
+- Create `index.ts` file, and import other style files `xxx.scss` freely.
+- `index.ts` / `index.scss` / `index.css` should not exist at the same time, otherwise it may cause duplicate imports.
 
 :::
 
@@ -47,7 +46,7 @@ We recommend you:
 ## Custom Font {lang="en"}
 
 :::zh-CN
-譬如你可以在 `styles/css-vars.scss` 中覆盖默认的字体。
+譬如你可以在 `styles/index.ts` 中覆盖默认的字体。
 
 - `serif`: 衬线字体：<span font="serif">字体 abcd 123</span>
 - `sans`: 非衬线字体：<span font="sans">字体 abcd 123</span>
@@ -56,7 +55,7 @@ We recommend you:
 :::
 
 :::en
-For example, you can override the default font in 'styles/css-vars.scss'.
+For example, you can override the default font in 'styles/index.ts'.
 
 - `serif`: serif font: <span font="serif">Font abcd 123</span>
 - `sans`: sans-serif font: <span font="sans">Font abcd 123</span>
@@ -64,7 +63,13 @@ For example, you can override the default font in 'styles/css-vars.scss'.
 
 :::
 
+```ts
+// styles/index.ts
+import './vars.scss'
+```
+
 ```scss
+// styles/vars.scss
 :root {
   --va-font-serif: 'Noto Serif SC', STZhongsong, STKaiti, KaiTi, Roboto,  serif;
   --va-font-sans: Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif;

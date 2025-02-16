@@ -38,10 +38,16 @@ export default defineConfig<ThemeConfig>({
 > 如果您想要更改云的色彩，请更改 `var(--yun-c-cloud)` 的值
 
 ```scss
-// 新建 styles/css-vars.scss
+// 新建 styles/vars.css 文件
 :root {
   --yun-c-cloud: red;
 }
+```
+
+新建 `styles/index.ts` 文件，引入 `vars.css`。
+
+```ts
+import './vars.css'
 ```
 
 ## 自定义友情链接
@@ -88,9 +94,15 @@ random: true
 
 ### 覆盖背景、侧边栏图片
 
-您可以新建 `styles/css-vars.scss`，覆盖默认 CSS 变量。
+您可以新建样式文件并引入，以覆盖默认 CSS 变量。
 
-```css
+```ts
+// styles/index.ts
+import './vars.scss'
+```
+
+```scss
+// styles/vars.scss
 :root {
   /* 背景图片 */
   --yun-bg-img: url("https://cdn.yunyoujun.cn/img/bg/stars-timing-0-blur-30px.jpg");

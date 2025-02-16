@@ -2,7 +2,19 @@
 
 You can override styles here.
 
-- New file `index.scss` to write global css.
-- New file `css-vars.scss` to set css vars.
+## 示例
+
+- New file `index.ts` to import other style files.
+
+```ts
+import './vars.scss'
+```
+
+```scss
+// vars.scss
+:root {
+  --primary-color: #007bff;
+}
+```
 
 More info see <https://valaxy.site/guide/custom/styles>.
