@@ -12,19 +12,9 @@ import AppLink from './components/AppLink.vue'
 import setupMain from './setup/main'
 
 import { setupValaxyDevTools } from './utils/dev'
-// reset styles, load css before app
-// import '@unocss/reset/tailwind.css'
-// https://unocss.dev/guide/style-reset#tailwind-compat
-// minus the background color override for buttons to avoid conflicts with UI frameworks
-import '@unocss/reset/tailwind-compat.css'
 
-// css
-import './styles/css/css-vars.css'
-
-import './styles/css/main.css'
 // generate user styles
-import '/@valaxyjs/styles'
-import 'uno.css'
+import '#valaxy/styles'
 
 const valaxyConfig = initValaxyConfig()
 

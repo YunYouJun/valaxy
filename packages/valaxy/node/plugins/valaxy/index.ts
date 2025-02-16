@@ -5,117 +5,21 @@
 import type { DefaultTheme, Pkg, SiteConfig } from 'valaxy/types'
 import type { Plugin, ResolvedConfig } from 'vite'
 
-import type { RouteRecordRaw } from 'vue-router'
 import type { PageDataPayload } from '../../../types'
 import type { ResolvedValaxyOptions, ValaxyServerOptions } from '../../options'
 import type { ValaxyNodeConfig } from '../../types'
 import consola from 'consola'
 import fs from 'fs-extra'
-import pascalCase from 'pascalcase'
 import { join, relative, resolve } from 'pathe'
 import { dim, yellow } from 'picocolors'
 import { defaultSiteConfig, mergeValaxyConfig, resolveSiteConfig, resolveUserThemeConfig } from '../../config'
 import { replaceArrMerge } from '../../config/merge'
 import { vLogger } from '../../logger'
 import { processValaxyOptions, resolveOptions, resolveThemeValaxyConfig } from '../../options'
-import { resolveImportPath, toAtFS } from '../../utils'
-import { isProd } from '../../utils/env'
+import { toAtFS } from '../../utils'
 import { countPerformanceTime } from '../../utils/performance'
+import { templates } from '../../virtual'
 import { createMarkdownToVueRenderFn } from '../markdown/markdownToVue'
-
-function generateConfig(options: ResolvedValaxyOptions) {
-  const routes = options.redirects.map<RouteRecordRaw>((redirect) => {
-    return {
-      path: redirect.from,
-      redirect: redirect.to,
-    }
-  })
-  options.config.runtimeConfig.redirects = {
-    useVueRouter: isProd() ? options.config.siteConfig.redirects!.useVueRouter! : true,
-    redirectRoutes: routes,
-  }
-
-  return `export default ${JSON.stringify(JSON.stringify(options.config))}`
-}
-
-/**
- * for /@valaxyjs/styles
- * @param roots
- */
-async function generateStyles(roots: string[], options: ResolvedValaxyOptions) {
-  const imports: string[] = []
-
-  // katex
-  if (options.config.features?.katex) {
-    imports.push(`import "${toAtFS(await resolveImportPath('katex/dist/katex.min.css', true))}"`)
-    imports.push(`import "${toAtFS(join(options.clientRoot, 'styles/third/katex.scss'))}"`)
-  }
-
-  for (const root of roots) {
-    const styles: string[] = []
-
-    const autoloadNames = ['css-vars', 'index']
-    autoloadNames.forEach((name) => {
-      styles.push(join(root, 'styles', `${name}.css`))
-      styles.push(join(root, 'styles', `${name}.scss`))
-    })
-
-    for (const style of styles) {
-      if (fs.existsSync(style))
-        imports.push(`import "${toAtFS(style)}"`)
-    }
-  }
-
-  return imports.join('\n')
-}
-
-function generateLocales(roots: string[]) {
-  const imports: string[] = [
-    'import { createDefu } from "defu"',
-    'const messages = { "zh-CN": {}, en: {} }',
-    `
-const replaceArrMerge = createDefu((obj, key, value) => {
-  if (key && obj[key] && Array.isArray(obj[key]) && Array.isArray(value)) {
-    obj[key] = value
-    return true
-  }
-})
-`,
-  ]
-  const languages = ['zh-CN', 'en']
-
-  roots.forEach((root, i) => {
-    languages.forEach((lang) => {
-      const langYml = `${root}/locales/${lang}.yml`
-      if (fs.existsSync(langYml) && fs.readFileSync(langYml, 'utf-8')) {
-        const varName = lang.replace('-', '') + i
-        imports.unshift(`import ${varName} from "${toAtFS(langYml)}"`)
-        // pre override next
-        imports.push(`messages['${lang}'] = replaceArrMerge(${varName}, messages['${lang}'])`)
-      }
-    })
-  })
-
-  imports.push('export default messages')
-  return imports.join('\n')
-}
-
-function generateAddons(options: ResolvedValaxyOptions) {
-  const globalAddonComponents = options.addons
-    .filter(v => v.global)
-    .filter(v => fs.existsSync(join(v.root, './App.vue')))
-  const spliceImportName = (str: string) => `Addon${pascalCase(str)}App`
-
-  const imports = globalAddonComponents
-    .map(addon => `import ${spliceImportName(addon.name)} from "${addon.name}/App.vue"`)
-    .join('\n')
-
-  const components = globalAddonComponents
-    .map(addon => `{ component: ${spliceImportName(addon.name)}, props: ${JSON.stringify(addon.props)} }`)
-    .join(',')
-
-  return `${imports}\n` + `export default [${components}]`
-}
 
 /**
  * vue component render null
@@ -151,8 +55,6 @@ export async function createValaxyLoader(options: ResolvedValaxyOptions, serverO
 
   const valaxyPrefix = '/@valaxy'
 
-  const roots = options.roots
-
   let hasDeadLinks = false
 
   let markdownToVue: Awaited<ReturnType<typeof createMarkdownToVueRenderFn>>
@@ -187,9 +89,13 @@ export async function createValaxyLoader(options: ResolvedValaxyOptions, serverO
       },
 
       async load(id) {
-        if (id === '/@valaxyjs/config')
-          // stringify twice for \"
-          return generateConfig(options)
+        const template = templates.find(t => t.id === id)
+        if (template) {
+          return {
+            code: await template.getContent.call(this, options),
+            map: { mappings: '' },
+          }
+        }
 
         if (id === '/@valaxyjs/context') {
           return `export default ${JSON.stringify(JSON.stringify({
@@ -200,16 +106,6 @@ export async function createValaxyLoader(options: ResolvedValaxyOptions, serverO
 
         // TODO: custom dynamic css vars
         // if (id === 'virtual:valaxy-css-vars') {}
-
-        // generate styles
-        if (id === '/@valaxyjs/styles')
-          return await generateStyles(roots, options)
-
-        if (id === '/@valaxyjs/locales')
-          return generateLocales(roots)
-
-        if (id === '/@valaxyjs/addons')
-          return generateAddons(options)
 
         // root client
         if (id === '/@valaxyjs/AppVue')

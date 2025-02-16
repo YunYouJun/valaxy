@@ -93,27 +93,29 @@ For example, you can override the default font in 'styles/css-vars.scss'.
 - `text`: 文本选择图标。
 
 ```scss
-// $cursor-default = hexo-config('cursor.default');
-// $cursor-pointer = hexo-config('cursor.pointer');
-// $cursor-text = hexo-config('cursor.text');
+:root {
+  --cursor-default: url('https://cdn.yunyoujun.cn/css/md-cursors/pointer.cur');
+  --cursor-pointer: url('https://cdn.yunyoujun.cn/css/md-cursors/link.cur');
+  --cursor-text: url('https://cdn.yunyoujun.cn/css/md-cursors/text.cur');
+}
 
 body {
-  cursor: url($cursor-default), auto;
+  cursor: var(--cursor-default), auto;
 }
 
 a {
-  cursor: url($cursor-pointer), auto;
+  cursor: var(--cursor-pointer), auto;
 
   &:hover {
-    cursor: url($cursor-pointer), auto;
+    cursor: var(--cursor-pointer), auto;
   }
 }
 
-.hty-icon-button {
-  cursor: url($cursor-pointer), pointer;
+button {
+  cursor: var(--cursor-pointer), pointer;
 }
 
 input {
-  cursor: url($cursor-text), auto;
+  cursor: var(--cursor-text), text;
 }
 ```

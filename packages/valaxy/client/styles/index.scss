@@ -10,3 +10,18 @@ $c-primary: #0078e7 !default;
 @use "css-i18n/src/styles/index.scss" as *;
 
 // components import by yourself
+html,
+body,
+#app {
+  margin: 0;
+  padding: 0;
+  line-height: 2;
+}
+
+html {
+  background-color: var(--va-c-bg);
+}
+
+a {
+  cursor: pointer;
+}

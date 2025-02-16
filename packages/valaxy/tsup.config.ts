@@ -17,6 +17,7 @@ export default defineConfig((options) => {
     format: ['esm'],
     minify: !options.watch,
     external: [
+      '/@valaxyjs/',
       '/@valaxyjs/config',
       '/@valaxyjs/context',
 

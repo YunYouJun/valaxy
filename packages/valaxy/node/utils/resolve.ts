@@ -1,8 +1,20 @@
+import { ensurePrefix, slash } from '@antfu/utils'
 import consola from 'consola'
 import { resolvePath } from 'mlly'
 import { resolveGlobal } from 'resolve-global'
 
 export const isInstalledGlobally: { value?: boolean } = {}
+
+/**
+ * Resolve path for import url on Vite client side
+ */
+export async function resolveImportUrl(id: string) {
+  return toAtFS(await resolveImportPath(id, true))
+}
+
+export function toAtFS(path: string) {
+  return `/@fs${ensurePrefix('/', slash(path))}`
+}
 
 /**
  * Before is CJS: use 'resolve'

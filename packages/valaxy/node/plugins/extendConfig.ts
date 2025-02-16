@@ -161,7 +161,12 @@ export async function getAlias(options: ResolvedValaxyOptions): Promise<AliasOpt
     { find: 'valaxy/package.json', replacement: toAtFS(resolve(options.clientRoot, '../package.json')) },
     { find: /^valaxy$/, replacement: toAtFS(resolve(options.clientRoot, 'index.ts')) },
     { find: '@valaxyjs/client/', replacement: `${toAtFS(options.clientRoot)}/` },
-    // virtual module to import theme
+    // virtual module alias
+    {
+      find: /^#valaxy\/(.*)/,
+      replacement: '/@valaxyjs/$1',
+    },
+    // import theme
     { find: 'virtual:valaxy-theme', replacement: `${toAtFS(options.themeRoot)}/client/index.ts` },
     { find: `valaxy-theme-${options.theme}/client`, replacement: `${toAtFS(resolve(options.themeRoot))}/client/index.ts` },
     { find: `valaxy-theme-${options.theme}/`, replacement: `${toAtFS(resolve(options.themeRoot))}/` },

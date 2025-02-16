@@ -3,21 +3,22 @@ import type { ResolvedValaxyOptions } from '../../options'
 
 import { readFile } from 'node:fs/promises'
 import { dirname, join, resolve } from 'node:path'
+import { ensurePrefix } from '@antfu/utils'
 import consola from 'consola'
 import { colors } from 'consola/utils'
 import dayjs from 'dayjs'
 import fg from 'fast-glob'
+
 import { Feed } from 'feed'
 
 import fs from 'fs-extra'
-
 import matter from 'gray-matter'
 import MarkdownIt from 'markdown-it'
-import ora from 'ora'
 
+import ora from 'ora'
 import { getBorderCharacters, table } from 'table'
 import { matterOptions } from '../../plugins/markdown/transform/matter'
-import { ensurePrefix, isExternal } from '../../utils'
+import { isExternal } from '../../utils'
 import { getCreatedTime, getUpdatedTime } from '../../utils/date'
 
 const markdown = MarkdownIt({
