@@ -78,19 +78,21 @@ For example, you can override the default font in 'styles/css-vars.scss'.
 
 ### Custom Cursor {lang="en"}
 
-::: warning
-
-编写中...
-
-:::
-
-替换鼠标光标，默认关闭。
+替换鼠标光标样式。
 
 例如使用 [Material Design Cursors](https://www.deviantart.com/rosea92/art/Material-Design-Cursors-Dark-756850032)。
 
 - `default`: 默认状态下图标。
 - `pointer`: 指针（即链接状态下）图标。
 - `text`: 文本选择图标。
+
+新建 `styles/index.ts` 文件，引入 `vars.scss`：
+
+```ts
+import './vars.scss'
+```
+
+新建 `styles/vars.scss` 文件：
 
 ```scss
 :root {

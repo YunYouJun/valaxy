@@ -1,0 +1,31 @@
+// custom your css variables here
+:root {
+  /* 侧边栏背景图片 */
+  // --yun-sidebar-bg-img: url("https://cdn.yunyoujun.cn/img/avatar/none.jpg");
+}
+
+:root {
+  --cursor-default: url('https://cdn.yunyoujun.cn/css/md-cursors/pointer.cur');
+  --cursor-pointer: url('https://cdn.yunyoujun.cn/css/md-cursors/link.cur');
+  --cursor-text: url('https://cdn.yunyoujun.cn/css/md-cursors/text.cur');
+}
+
+body {
+  cursor: var(--cursor-default), auto;
+}
+
+a {
+  cursor: var(--cursor-pointer), auto;
+
+  &:hover {
+    cursor: var(--cursor-pointer), auto;
+  }
+}
+
+button {
+  cursor: var(--cursor-pointer), pointer;
+}
+
+input {
+  cursor: var(--cursor-text), text;
+}
