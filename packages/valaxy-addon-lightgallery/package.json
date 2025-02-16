@@ -14,7 +14,7 @@
   ],
   "main": "index.ts",
   "peerDependencies": {
-    "valaxy": "latest"
+    "valaxy": ">=0.22"
   },
   "dependencies": {
     "lightgallery": "2.7.2"

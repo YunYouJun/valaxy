@@ -16,7 +16,7 @@
   "main": "index.ts",
   "types": "index.d.ts",
   "peerDependencies": {
-    "valaxy": "latest"
+    "valaxy": ">=0.22"
   },
   "dependencies": {
     "@waline/client": "3.4.1"

@@ -126,7 +126,7 @@ const app = useAppStore()
 
   align-items: center;
   justify-content: space-between;
-  height: 50px;
+  height: var(--yun-nav-height, 50px);
   transition: all 0.5s map.get($cubic-bezier, 'ease-in');
 
   &.play {

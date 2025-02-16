@@ -15,7 +15,7 @@ export interface ReadAddonModuleOptions {
 export async function parseAddons(addons: ValaxyAddons, userRoot = process.cwd()) {
   const spinner = ora(`Resolve ${cyan('addons')} from ${dim(userRoot)}`).start()
 
-  const resolvers: Record<string, ValaxyAddonResolver > = {}
+  const resolvers: Record<string, ValaxyAddonResolver> = {}
   const mergeResolver = (resolver?: ValaxyAddonResolver) => {
     if (resolver)
       resolvers[resolver.name] = defu(resolvers[resolver.name] || {}, resolver)
