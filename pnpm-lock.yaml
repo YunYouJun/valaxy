@@ -432,7 +432,7 @@ importers:
         version: 12.0.0-beta.1(typescript@5.7.3)
       '@vueuse/integrations':
         specifier: 12.0.0-beta.1
-        version: 12.0.0-beta.1(axios@1.7.9)(focus-trap@7.6.4)(fuse.js@7.1.0)(nprogress@0.2.0)(qrcode@1.5.4)(typescript@5.7.3)
+        version: 12.0.0-beta.1(axios@1.7.9(debug@4.4.0))(focus-trap@7.6.4)(fuse.js@7.1.0)(nprogress@0.2.0)(qrcode@1.5.4)(typescript@5.7.3)
       beasties:
         specifier: ^0.2.0
         version: 0.2.0
@@ -572,8 +572,8 @@ importers:
         specifier: ^66.0.0
         version: 66.0.0(postcss@8.5.2)(vite@6.1.0(@types/node@22.13.4)(jiti@2.4.2)(sass@1.85.0)(terser@5.39.0)(tsx@4.19.2)(yaml@2.7.0))(vue@3.5.13(typescript@5.7.3))
       unplugin-vue-components:
-        specifier: ^28.2.0
-        version: 28.2.0(@babel/parser@7.26.9)(@nuxt/kit@3.15.4)(vue@3.5.13(typescript@5.7.3))
+        specifier: 28.0.0
+        version: 28.0.0(@babel/parser@7.26.9)(@nuxt/kit@3.15.4)(rollup@4.34.8)(vue@3.5.13(typescript@5.7.3))
       unplugin-vue-markdown:
         specifier: ^28.3.1
         version: 28.3.1(vite@6.1.0(@types/node@22.13.4)(jiti@2.4.2)(sass@1.85.0)(terser@5.39.0)(tsx@4.19.2)(yaml@2.7.0))
@@ -5365,6 +5365,10 @@ packages:
     resolution: {integrity: sha512-IXO6OCs9yg8tMKzfPZ1YmheJbZCiEsnBdcB03l0OcfK9prKnJb96siuHCr5Fl37/yo9DnKU+TLpxzTUspw9shg==}
     engines: {node: ^12.20.0 || ^14.13.1 || >=16.0.0}
 
+  local-pkg@0.5.1:
+    resolution: {integrity: sha512-9rrA30MRRP3gBD3HTGnC6cDFpaE1kVDWxWgqWJUN0RvDNAo+Nz/9GxB+nHOH0ifbVFy0hSA1V6vFDvnx54lTEQ==}
+    engines: {node: '>=14'}
+
   local-pkg@1.0.0:
     resolution: {integrity: sha512-bbgPw/wmroJsil/GgL4qjDzs5YLTBMQ99weRsok1XCDccQeehbHA/I1oRvk2NPtr7KGZgT/Y5tPRnAtMqeG2Kg==}
     engines: {node: '>=14'}
@@ -7449,6 +7453,19 @@ packages:
   unplugin-utils@0.2.4:
     resolution: {integrity: sha512-8U/MtpkPkkk3Atewj1+RcKIjb5WBimZ/WSLhhR3w6SsIj8XJuKTacSP8g+2JhfSGw0Cb125Y+2zA/IzJZDVbhA==}
     engines: {node: '>=18.12.0'}
+
+  unplugin-vue-components@28.0.0:
+    resolution: {integrity: sha512-vYe0wSyqTVhyNFIad1iiGyQGhG++tDOMgohqenMDOAooMJP9vvzCdXTqCVx20A0rCQXFNjgoRbSeDAioLPH36Q==}
+    engines: {node: '>=14'}
+    peerDependencies:
+      '@babel/parser': ^7.15.8
+      '@nuxt/kit': ^3.2.2
+      vue: 2 || 3
+    peerDependenciesMeta:
+      '@babel/parser':
+        optional: true
+      '@nuxt/kit':
+        optional: true
 
   unplugin-vue-components@28.2.0:
     resolution: {integrity: sha512-FMncMZRnOcVs81BligpZL4tPFHE+VX1P1SYgzzl4D6ZgLiJHoZWNx743z+Vfyz701GsZ8WX/ENvYrIZ4mvJPeA==}
@@ -10547,7 +10564,7 @@ snapshots:
       - '@vue/composition-api'
       - vue
 
-  '@vueuse/integrations@12.0.0-beta.1(axios@1.7.9)(focus-trap@7.6.4)(fuse.js@7.1.0)(nprogress@0.2.0)(qrcode@1.5.4)(typescript@5.7.3)':
+  '@vueuse/integrations@12.0.0-beta.1(axios@1.7.9(debug@4.4.0))(focus-trap@7.6.4)(fuse.js@7.1.0)(nprogress@0.2.0)(qrcode@1.5.4)(typescript@5.7.3)':
     dependencies:
       '@vueuse/core': 12.0.0-beta.1(typescript@5.7.3)
       '@vueuse/shared': 12.0.0-beta.1(typescript@5.7.3)
@@ -13182,6 +13199,11 @@ snapshots:
 
   load-tsconfig@0.2.5: {}
 
+  local-pkg@0.5.1:
+    dependencies:
+      mlly: 1.7.4
+      pkg-types: 1.3.1
+
   local-pkg@1.0.0:
     dependencies:
       mlly: 1.7.4
@@ -15630,6 +15652,26 @@ snapshots:
       pathe: 2.0.3
       picomatch: 4.0.2
 
+  unplugin-vue-components@28.0.0(@babel/parser@7.26.9)(@nuxt/kit@3.15.4)(rollup@4.34.8)(vue@3.5.13(typescript@5.7.3)):
+    dependencies:
+      '@antfu/utils': 0.7.10
+      '@rollup/pluginutils': 5.1.4(rollup@4.34.8)
+      chokidar: 3.6.0
+      debug: 4.4.0(supports-color@5.5.0)
+      fast-glob: 3.3.3
+      local-pkg: 0.5.1
+      magic-string: 0.30.17
+      minimatch: 9.0.5
+      mlly: 1.7.4
+      unplugin: 2.2.0
+      vue: 3.5.13(typescript@5.7.3)
+    optionalDependencies:
+      '@babel/parser': 7.26.9
+      '@nuxt/kit': 3.15.4
+    transitivePeerDependencies:
+      - rollup
+      - supports-color
+
   unplugin-vue-components@28.2.0(@babel/parser@7.26.9)(@nuxt/kit@3.15.4)(vue@3.5.13(typescript@5.7.3)):
     dependencies:
       chokidar: 3.6.0
@@ -15761,7 +15803,7 @@ snapshots:
       '@vitejs/plugin-vue': 5.2.1(vite@6.1.0(@types/node@22.13.4)(jiti@2.4.2)(sass@1.85.0)(terser@5.39.0)(tsx@4.19.2)(yaml@2.7.0))(vue@3.5.13(typescript@5.7.3))
       '@vue/devtools-api': 7.7.2
       '@vueuse/core': 12.0.0-beta.1(typescript@5.7.3)
-      '@vueuse/integrations': 12.0.0-beta.1(axios@1.7.9)(focus-trap@7.6.4)(fuse.js@7.1.0)(nprogress@0.2.0)(qrcode@1.5.4)(typescript@5.7.3)
+      '@vueuse/integrations': 12.0.0-beta.1(axios@1.7.9(debug@4.4.0))(focus-trap@7.6.4)(fuse.js@7.1.0)(nprogress@0.2.0)(qrcode@1.5.4)(typescript@5.7.3)
       beasties: 0.2.0
       birpc: 2.2.0
       consola: 3.4.0

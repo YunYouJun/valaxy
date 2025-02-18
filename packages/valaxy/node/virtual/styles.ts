@@ -23,8 +23,6 @@ export const templateStyles: VirtualModuleTemplate = {
         join(root, 'styles', 'index.ts'),
         join(root, 'styles', 'index.css'),
         join(root, 'styles', 'index.scss'),
-
-        join(root, 'styles', 'css-vars.scss'),
       ]
 
       for (const style of styles) {

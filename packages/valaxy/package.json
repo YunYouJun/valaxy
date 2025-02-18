@@ -121,7 +121,7 @@
     "shiki": "^2",
     "star-markdown-css": "^0.5.3",
     "unocss": "^66.0.0",
-    "unplugin-vue-components": "^28.2.0",
+    "unplugin-vue-components": "28.0.0",
     "unplugin-vue-markdown": "^28.3.1",
     "unplugin-vue-router": "^0.11.2",
     "vanilla-lazyload": "^19.1.3",
