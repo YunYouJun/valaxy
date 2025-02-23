@@ -44,6 +44,19 @@ const updated = ref(dayjs(clientPageData.value?.frontmatter.updated).toDate())
   <div p-2>
     <ul v-if="frontmatter" class="flex flex-col gap-2">
       <li
+        class="flex gap-2 text-sm min-h-8"
+      >
+        <div class="w-32 flex items-center h-8">
+          <strong>{{ t('pageData.path') }}</strong>
+        </div>
+        <div class="inline-flex items-center w-full min-h-8">
+          <code class="px-2 py-1 bg-gray-1 rounded text-xs">
+            {{ activePath }}
+          </code>
+        </div>
+      </li>
+
+      <li
         v-for="(value, key) in frontmatter"
         :key="key"
         class="flex gap-2 text-sm min-h-8"
@@ -111,7 +124,7 @@ const updated = ref(dayjs(clientPageData.value?.frontmatter.updated).toDate())
       class="w-full my-3"
       @click="saveNewFm"
     >
-      Save Frontmatter
+      {{ t('button.save_frontmatter') }}
     </Button>
   </div>
 </template>
