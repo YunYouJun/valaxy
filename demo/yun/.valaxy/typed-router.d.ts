@@ -43,6 +43,7 @@ declare module 'vue-router/auto-routes' {
     '/collections/love-and-peace/3': RouteRecordInfo<'/collections/love-and-peace/3', '/collections/love-and-peace/3', Record<never, never>, Record<never, never>>,
     '/collections/README': RouteRecordInfo<'/collections/README', '/collections/README', Record<never, never>, Record<never, never>>,
     '/examples/addons/components': RouteRecordInfo<'/examples/addons/components', '/examples/addons/components', Record<never, never>, Record<never, never>>,
+    '/examples/code-height-limit': RouteRecordInfo<'/examples/code-height-limit', '/examples/code-height-limit', Record<never, never>, Record<never, never>>,
     '/examples/custom-components': RouteRecordInfo<'/examples/custom-components', '/examples/custom-components', Record<never, never>, Record<never, never>>,
     '/examples/sites': RouteRecordInfo<'/examples/sites', '/examples/sites', Record<never, never>, Record<never, never>>,
     '/examples/without-aside': RouteRecordInfo<'/examples/without-aside', '/examples/without-aside', Record<never, never>, Record<never, never>>,

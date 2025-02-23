@@ -28,6 +28,7 @@ const showNotice = computed(() => {
       <template v-if="!isPage">
         <YunBanner />
         <Transition
+          v-if="yun.isNimbo"
           enter-from-class="scale-60"
           enter-to-class="scale-100"
           enter-active-class="transition-300 transition-cubic-bezier-ease-in-out delay-1000"
