@@ -1,21 +1,33 @@
-import { isClient } from '@vueuse/core'
+import { useEventListener } from '@vueuse/core'
 import { useFrontmatter, useSiteConfig } from 'valaxy'
 import { onMounted } from 'vue'
+
+function getHeightViaClone(el: HTMLElement) {
+  const clone = el.cloneNode(true) as HTMLElement
+  clone.style.cssText = `
+      position: absolute;
+      visibility: hidden;
+      display: block;
+      left: -9999px;
+  `
+  document.body.appendChild(clone)
+  const height = clone.scrollHeight
+  document.body.removeChild(clone)
+  return height
+}
 
 export function useCollapseCode() {
   const config = useSiteConfig()
   const frontmatter = useFrontmatter()
 
-  if (isClient) {
-    window.addEventListener('click', (e) => {
-      const el = e.target as HTMLElement
-      if (el.matches('[class*="language-"] > button.collapse')) {
-        const parent = el.parentElement
-        parent?.removeAttribute('style')
-        parent?.classList.remove('folded')
-      }
-    })
-  }
+  useEventListener('click', (e) => {
+    const el = e.target as HTMLElement
+    if (el.matches('[class*="language-"] > button.collapse')) {
+      const parent = el.parentElement
+      parent?.removeAttribute('style')
+      parent?.classList.remove('folded')
+    }
+  })
 
   // determine whether to add folded class name
   onMounted(() => {
@@ -35,7 +47,8 @@ export function useCollapseCode() {
     }
 
     for (const el of Array.from(els)) {
-      if (el.scrollHeight > codeHeightLimit)
+      const elHeight = getHeightViaClone(el as HTMLElement)
+      if (elHeight > codeHeightLimit)
         el.classList.add('folded')
     }
   })

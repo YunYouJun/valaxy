@@ -11,8 +11,8 @@ catalog:
   '@iconify-json/carbon': ^1.2.7
   '@iconify-json/logos': ^1.2.4
   '@iconify-json/ri': ^1.2.5
-  '@iconify-json/simple-icons': ^1.2.25
-  '@iconify-json/vscode-icons': ^1.2.15
+  '@iconify-json/simple-icons': ^1.2.26
+  '@iconify-json/vscode-icons': ^1.2.16
   typescript: ^5.7.3
   unbuild: ^3.3.1
   vite: ^6.1.1

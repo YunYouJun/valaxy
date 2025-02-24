@@ -19,11 +19,11 @@ catalogs:
       specifier: ^1.2.5
       version: 1.2.5
     '@iconify-json/simple-icons':
-      specifier: ^1.2.25
-      version: 1.2.25
+      specifier: ^1.2.26
+      version: 1.2.26
     '@iconify-json/vscode-icons':
-      specifier: ^1.2.15
-      version: 1.2.15
+      specifier: ^1.2.16
+      version: 1.2.16
     typescript:
       specifier: ^5.7.3
       version: 5.7.3
@@ -83,7 +83,7 @@ importers:
         version: 1.2.4
       '@iconify-json/vscode-icons':
         specifier: 'catalog:'
-        version: 1.2.15
+        version: 1.2.16
       '@microsoft/api-extractor':
         specifier: ^7.50.1
         version: 7.50.1(@types/node@22.13.5)
@@ -207,7 +207,7 @@ importers:
         version: 1.2.5
       '@iconify-json/simple-icons':
         specifier: 'catalog:'
-        version: 1.2.25
+        version: 1.2.26
 
   demo/yun:
     dependencies:
@@ -272,7 +272,7 @@ importers:
         version: 1.2.7
       '@iconify-json/simple-icons':
         specifier: 'catalog:'
-        version: 1.2.25
+        version: 1.2.26
       nodemon:
         specifier: ^3.1.9
         version: 3.1.9
@@ -764,7 +764,7 @@ importers:
         version: 1.2.5
       '@iconify-json/simple-icons':
         specifier: 'catalog:'
-        version: 1.2.25
+        version: 1.2.26
       '@vueuse/motion':
         specifier: ^2.2.6
         version: 2.2.6(vue@3.5.13(typescript@5.7.3))
@@ -1812,11 +1812,14 @@ packages:
   '@iconify-json/simple-icons@1.2.25':
     resolution: {integrity: sha512-2E1/gOCO97rF6usfhhiXxwzCb+UhdEsxW3lW1Sew+xZY0COY6dp82Z/r1rUt2fWKneWjuoGcNeJHHXQyG8mIuw==}
 
+  '@iconify-json/simple-icons@1.2.26':
+    resolution: {integrity: sha512-NvqRuE+5h/tp4boPlnvfs0alD0CvnRE7oeG9Li5NGmZRx2/rhwlNjW/vEVTyhZcR9zqvRPAVh2GXR+PTEpzV+A==}
+
   '@iconify-json/vscode-icons@1.2.14':
     resolution: {integrity: sha512-DLFEWtKpqpzzWbn8DWQoBb2j/KK8KASLHPKQ7763/F4SJelMZg2xVUPUEWrceLNcTu8OVtKQcd/+3Ysa3WcAsg==}
 
-  '@iconify-json/vscode-icons@1.2.15':
-    resolution: {integrity: sha512-L4IgpPqpZLUvO4NgMYV8jo4idIRn3xfXwBKQCUxKFqa50v65Vc12tipI392Mv+QodagQcouqWAt2emFufGJJ8A==}
+  '@iconify-json/vscode-icons@1.2.16':
+    resolution: {integrity: sha512-hstc2yVq2UJ6v6FrgjftzXRvphGZBsKxvSeXoFLP1Hgx89TPZKrGE5SV6vqsoeIlLYaQ7OZbXmAoVGroTfGmVQ==}
 
   '@iconify/types@2.0.0':
     resolution: {integrity: sha512-+wluvCrRhXrhyOmRDJ3q8mux9JkKy5SJ/v8ol2tu4FVjyYvtEzkc/3pK15ET6RKg4b4w4BmTk1+gsCUhf21Ykg==}
@@ -9014,11 +9017,15 @@ snapshots:
     dependencies:
       '@iconify/types': 2.0.0
 
+  '@iconify-json/simple-icons@1.2.26':
+    dependencies:
+      '@iconify/types': 2.0.0
+
   '@iconify-json/vscode-icons@1.2.14':
     dependencies:
       '@iconify/types': 2.0.0
 
-  '@iconify-json/vscode-icons@1.2.15':
+  '@iconify-json/vscode-icons@1.2.16':
     dependencies:
       '@iconify/types': 2.0.0
 
