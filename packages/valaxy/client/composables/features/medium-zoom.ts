@@ -9,8 +9,8 @@ export function useMediumZoom() {
   const siteConfig = useSiteConfig()
   const mediumZoomConfig = siteConfig.value.mediumZoom
 
-  onMounted(() => {
-    if (mediumZoomConfig.enable) {
+  if (mediumZoomConfig.enable) {
+    onMounted(() => {
       mediumZoom(
         mediumZoomConfig.selector || '.markdown-body img',
         {
@@ -18,6 +18,6 @@ export function useMediumZoom() {
           ...mediumZoomConfig.options,
         },
       )
-    }
-  })
+    })
+  }
 }
