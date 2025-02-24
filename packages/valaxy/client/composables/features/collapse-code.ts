@@ -2,6 +2,9 @@ import { useEventListener } from '@vueuse/core'
 import { useFrontmatter, useSiteConfig } from 'valaxy'
 import { onMounted } from 'vue'
 
+/**
+ * 获取未渲染元素的高度
+ */
 function getHeightViaClone(el: HTMLElement) {
   const clone = el.cloneNode(true) as HTMLElement
   clone.style.cssText = `
@@ -16,9 +19,19 @@ function getHeightViaClone(el: HTMLElement) {
   return height
 }
 
+/**
+ * 折叠代码块（允许设置最大高度）
+ *
+ * - 通过设置 `codeHeightLimit` 来限制代码块的高度
+ */
 export function useCollapseCode() {
   const config = useSiteConfig()
   const frontmatter = useFrontmatter()
+
+  const codeHeightLimit = frontmatter.value.codeHeightLimit || config.value.codeHeightLimit
+  if (typeof codeHeightLimit !== 'number' || codeHeightLimit <= 0) {
+    return
+  }
 
   useEventListener('click', (e) => {
     const el = e.target as HTMLElement
@@ -32,20 +45,6 @@ export function useCollapseCode() {
   // determine whether to add folded class name
   onMounted(() => {
     const els = document.querySelectorAll('div[class*="language-"]')
-    const siteConfigLimit = config.value.codeHeightLimit
-    const frontmatterLimit = frontmatter.value.codeHeightLimit
-    let codeHeightLimit: number
-
-    if (typeof frontmatterLimit !== 'number' || frontmatterLimit <= 0) {
-      if (siteConfigLimit === undefined || siteConfigLimit <= 0)
-        return
-      else
-        codeHeightLimit = siteConfigLimit
-    }
-    else {
-      codeHeightLimit = frontmatterLimit
-    }
-
     for (const el of Array.from(els)) {
       const elHeight = getHeightViaClone(el as HTMLElement)
       if (elHeight > codeHeightLimit)
