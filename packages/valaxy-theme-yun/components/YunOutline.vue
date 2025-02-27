@@ -4,22 +4,21 @@ import {
   useOutline,
 } from 'valaxy'
 import { ref } from 'vue'
-import { useThemeConfig } from '../composables'
+import { useI18n } from 'vue-i18n'
 
-const themeConfig = useThemeConfig()
-
-const container = ref()
+const { t } = useI18n()
+const containerRef = ref()
 const marker = ref()
 
 const { headers, handleClick } = useOutline()
-useActiveAnchor(container, marker)
+useActiveAnchor(containerRef, marker)
 </script>
 
 <template>
-  <div v-show="headers.length" ref="container">
+  <div v-show="headers.length" ref="containerRef">
     <div class="content">
       <div class="outline-title">
-        {{ themeConfig.outlineTitle || 'On this page' }}
+        {{ t('theme.outlineTitle') }}
       </div>
 
       <div ref="marker" class="outline-marker" />
