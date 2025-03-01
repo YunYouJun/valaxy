@@ -65,6 +65,7 @@
     "@clack/prompts": "^0.10.0",
     "@iconify-json/ri": "catalog:",
     "@intlify/unplugin-vue-i18n": "^6.0.3",
+    "@shikijs/transformers": "^3.1.0",
     "@types/katex": "^0.16.7",
     "@unhead/addons": "^1.11.20",
     "@unhead/schema-org": "^1.11.20",

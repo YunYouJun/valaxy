@@ -16,7 +16,7 @@ export const defaultThemeConfig: ThemeConfig = {
       name: 'i-ri-cloud-line',
       animated: true,
       color: 'var(--va-c-primary)',
-      url: 'https://sponsors.yunyoujun.cn',
+      url: 'https://www.yunyoujun.cn/sponsors/',
       title: 'Sponsor YunYouJun',
     },
 

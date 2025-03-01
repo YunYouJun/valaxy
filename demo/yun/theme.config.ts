@@ -27,7 +27,7 @@ export default defineThemeConfig({
         { text: '项目列表', link: '/projects' },
         { text: '友情链接', link: '/links' },
         { text: '老婆列表', link: '/girls' },
-        { text: '赞助者', link: 'https://sponsors.yunyoujun.cn' },
+        { text: '赞助者', link: 'https://www.yunyoujun.cn/sponsors/' },
       ],
     },
   ],

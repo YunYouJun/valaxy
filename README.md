@@ -82,12 +82,12 @@ Want to create your theme? Check [valaxy-theme-starter](https://github.com/YunYo
 - [Vitesse](https://github.com/antfu/vitesse)
 - [Slidev](https://github.com/slidevjs/slidev)
 
-## [Sponsors](https://sponsors.yunyoujun.cn)
+## [Sponsors](https://www.yunyoujun.cn/sponsors/)
 
 ❤️ Special thanks to the following sponsors for their support.
 
 <p align="center">
-  <a href="https://sponsors.yunyoujun.cn">
+  <a href="https://www.yunyoujun.cn/sponsors/">
     <img src='https://fastly.jsdelivr.net/gh/YunYouJun/sponsors/public/sponsors.svg'/>
   </a>
 </p>

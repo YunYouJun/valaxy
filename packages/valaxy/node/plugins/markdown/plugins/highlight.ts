@@ -4,7 +4,6 @@ import type { Logger } from 'vite'
 import type { ShikiResolveLang } from '../../../worker_shikiResolveLang'
 import type { MarkdownOptions, ThemeOptions } from '../types'
 import {
-
   transformerCompactLineOptions,
   transformerNotationDiff,
   transformerNotationErrorLevel,
@@ -129,6 +128,7 @@ export async function highlight(
       },
     },
   ]
+
   const vueRE = /-vue$/
   const lineNoStartRE = /=(\d*)/
   const lineNoRE = /:(no-)?line-numbers(=\d*)?$/

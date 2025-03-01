@@ -33,12 +33,12 @@ Valaxy 的默认启动端口号截取自其中小数点后第二位开始的 <sp
 
 ## [Why Valaxy?](https://valaxy.site/guide/why)
 
-## [Sponsors](https://sponsors.yunyoujun.cn)
+## [Sponsors](https://www.yunyoujun.cn/sponsors/)
 
 ❤️ 感谢以下赞助者们的支持！
 
 <p align="center">
-  <a href="https://sponsors.yunyoujun.cn">
-    <img src='https://sponsors.yunyoujun.cn/sponsors.svg'/>
+  <a href="https://www.yunyoujun.cn/sponsors/">
+    <img src='https://www.yunyoujun.cn/sponsors//sponsors.svg'/>
   </a>
 </p>

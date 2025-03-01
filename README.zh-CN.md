@@ -82,12 +82,12 @@ pnpm create valaxy
 - [Vitesse](https://github.com/antfu/vitesse)
 - [Slidev](https://github.com/slidevjs/slidev)
 
-## [赞助者](https://sponsors.yunyoujun.cn)
+## [赞助者](https://www.yunyoujun.cn/sponsors/)
 
 ❤️ 特别感谢以下赞助者的支持。
 
 <p align="center">
-  <a href="https://sponsors.yunyoujun.cn">
+  <a href="https://www.yunyoujun.cn/sponsors/">
     <img src='https://fastly.jsdelivr.net/gh/YunYouJun/sponsors/public/sponsors.svg' alt="YunYouJun Sponsors"/>
   </a>
 </p>
