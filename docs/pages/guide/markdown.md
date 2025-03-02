@@ -17,6 +17,23 @@ end: false
 当然，你仍然可以在 Valaxy 中通过添加 MarkdownIt 插件来实现更多功能。
 :::
 
+## 在 Markdown 中使用 Vue
+
+可以直接在 Markdown 文件中导入和使用 Vue 组件。
+
+例如在 `components` 目录下创建一个 Vue 组件 `CustomVueDemo.vue`：
+
+<<< @/components/CustomVueDemo.vue
+
+```md
+---
+title: 在 Markdown 中使用 Vue
+---
+
+<!-- 在 markdown 中直接使用即可： -->
+<CustomVueDemo />
+```
+
 ## Emoji :tada: {lang="en"}
 
 ## Emoji 表情支持 :tada: {lang="zh-CN"}

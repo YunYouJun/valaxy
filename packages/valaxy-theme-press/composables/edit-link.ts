@@ -4,6 +4,7 @@ import { useThemeConfig } from '.'
 
 export function useEditLink() {
   const themeConfig = useThemeConfig()
+
   return computed(() => {
     const { text, pattern } = themeConfig.value.editLink || {}
     const { relativePath } = useData()

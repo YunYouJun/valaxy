@@ -19,8 +19,8 @@ catalogs:
       specifier: ^1.2.5
       version: 1.2.5
     '@iconify-json/simple-icons':
-      specifier: ^1.2.26
-      version: 1.2.26
+      specifier: ^1.2.27
+      version: 1.2.27
     '@iconify-json/vscode-icons':
       specifier: ^1.2.16
       version: 1.2.16
@@ -207,7 +207,7 @@ importers:
         version: 1.2.5
       '@iconify-json/simple-icons':
         specifier: 'catalog:'
-        version: 1.2.26
+        version: 1.2.27
 
   demo/yun:
     dependencies:
@@ -272,7 +272,7 @@ importers:
         version: 1.2.8
       '@iconify-json/simple-icons':
         specifier: 'catalog:'
-        version: 1.2.26
+        version: 1.2.27
       nodemon:
         specifier: ^3.1.9
         version: 3.1.9
@@ -767,7 +767,7 @@ importers:
         version: 1.2.5
       '@iconify-json/simple-icons':
         specifier: 'catalog:'
-        version: 1.2.26
+        version: 1.2.27
       '@vueuse/motion':
         specifier: ^2.2.6
         version: 2.2.6(vue@3.5.13(typescript@5.8.2))
@@ -1787,6 +1787,9 @@ packages:
 
   '@iconify-json/simple-icons@1.2.26':
     resolution: {integrity: sha512-NvqRuE+5h/tp4boPlnvfs0alD0CvnRE7oeG9Li5NGmZRx2/rhwlNjW/vEVTyhZcR9zqvRPAVh2GXR+PTEpzV+A==}
+
+  '@iconify-json/simple-icons@1.2.27':
+    resolution: {integrity: sha512-FtZwp/H7ih5rY9FPfDR+k6toOo/cuwpHWY8faNhxLs5O5uW6Q8TeqdNWfjVfgFtrs5tUUzWysjqNGL234v8EMA==}
 
   '@iconify-json/vscode-icons@1.2.16':
     resolution: {integrity: sha512-hstc2yVq2UJ6v6FrgjftzXRvphGZBsKxvSeXoFLP1Hgx89TPZKrGE5SV6vqsoeIlLYaQ7OZbXmAoVGroTfGmVQ==}
@@ -8863,6 +8866,10 @@ snapshots:
       '@iconify/types': 2.0.0
 
   '@iconify-json/simple-icons@1.2.26':
+    dependencies:
+      '@iconify/types': 2.0.0
+
+  '@iconify-json/simple-icons@1.2.27':
     dependencies:
       '@iconify/types': 2.0.0
 

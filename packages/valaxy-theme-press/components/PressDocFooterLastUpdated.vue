@@ -3,6 +3,7 @@ import { useData } from 'valaxy'
 import { computed, onMounted, ref, watchEffect } from 'vue'
 import { useI18n } from 'vue-i18n'
 
+const { t } = useI18n()
 const data = useData()
 
 const date = computed(() => new Date(data.lastUpdated!))
@@ -17,7 +18,6 @@ onMounted(() => {
     datetime.value = date.value.toLocaleString(window.navigator.language)
   })
 })
-const { t } = useI18n()
 </script>
 
 <template>
