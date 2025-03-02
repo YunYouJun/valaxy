@@ -4,10 +4,10 @@ import { computed, onMounted, ref, watchEffect } from 'vue'
 import { useI18n } from 'vue-i18n'
 
 const { t } = useI18n()
-const data = useData()
+const { page } = useData()
 
-const date = computed(() => new Date(data.lastUpdated!))
-const isoDatetime = computed(() => date.value.toISOString())
+const date = computed(() => new Date(page.value.lastUpdated!))
+const isoDatetime = computed(() => date.value?.toISOString())
 const datetime = ref('')
 
 // set time on mounted hook because the locale string might be different

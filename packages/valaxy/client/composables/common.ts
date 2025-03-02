@@ -1,9 +1,10 @@
-import type { PageData, PostFrontMatter } from 'valaxy/types'
+import type { PostFrontMatter } from 'valaxy/types'
+import type { ValaxyData } from '../app/data'
 import { isClient } from '@vueuse/core'
-import { computed, inject } from 'vue'
 
+import { computed, inject } from 'vue'
 import { useRoute } from 'vue-router'
-import { useSiteConfig } from '../config'
+import { dataSymbol, useSiteConfig } from '../config'
 
 /**
  * Get `route.meta.frontmatter` from your markdown file
@@ -71,9 +72,12 @@ export function useEncryptedPhotos() {
 /**
  * inject pageData
  */
-export function useData(): PageData {
-  const value = inject<PageData>('pageData', {} as any)
-  return value
+export function useData(): ValaxyData {
+  const data = inject(dataSymbol, {} as any)
+  if (!data) {
+    throw new Error('Valaxy data not properly injected in app')
+  }
+  return data
 }
 
 /**

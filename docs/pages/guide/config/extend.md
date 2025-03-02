@@ -71,8 +71,7 @@ export default defineValaxyConfig<ThemeConfig>({
 
 Valaxy 默认集成了 [`@vitejs/plugin-vue`](https://github.com/vitejs/vite-plugin-vue/tree/main/packages/plugin-vue) 插件，你可以通过 `vue` 配置项进行配置。
 
-```ts
-// valaxy.config.ts
+```ts [valaxy.config.ts]
 import { defineValaxyConfig } from 'valaxy'
 
 export default defineValaxyConfig({

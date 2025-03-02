@@ -39,6 +39,7 @@ export const templateStyles: VirtualModuleTemplate = {
     // minus the background color override for buttons to avoid conflicts with UI frameworks
     imports.unshift(`import "${await resolveImportUrl('@unocss/reset/tailwind-compat.css')}"`)
     imports.push('import "uno.css"')
+    imports.push('import "virtual:group-icons.css"')
 
     return imports.join('\n')
   },

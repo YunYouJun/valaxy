@@ -15,7 +15,7 @@ codeHeightLimit: 300
 Set `codeHeightLimit: 300` in Front Matter.
 :::
 
-```md
+```md [pages/code-height-limit.md]
 ---
 codeHeightLimit: 300
 ---
@@ -29,7 +29,7 @@ codeHeightLimit: 300
 Rendering result
 :::
 
-```ts
+```ts [valaxy.config.ts]
 import type { ThemeConfig } from 'valaxy-theme-yun'
 import { defineValaxyConfig } from 'valaxy'
 

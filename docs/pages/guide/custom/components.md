@@ -135,7 +135,7 @@ import YunFooter from 'valaxy-theme-yun/components/YunFooter.vue'
 在 `components/` 文件夹下新建 `YunFooter.vue` 以自定义页脚并显示不蒜子统计。
 你可以根据你的需要自由定制它的样式。
 
-```vue
+```vue [components/YunFooter.vue]
 <script lang="ts" setup>
 import { useScriptTag } from '@vueuse/core'
 import YunFooter from 'valaxy-theme-yun/components/YunFooter.vue'
@@ -154,7 +154,7 @@ useScriptTag('//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js')
 
 在 `components/` 文件夹下新建 `YunPostMeta.vue` 以自定义每篇文章的信息并显示不蒜子单篇文章统计。
 
-```vue
+```vue [components/YunPostMeta.vue]
 <script lang="ts" setup>
 import type { Post } from 'valaxy'
 import { useLayout } from 'valaxy'

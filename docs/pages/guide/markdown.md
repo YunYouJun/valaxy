@@ -23,9 +23,9 @@ end: false
 
 例如在 `components` 目录下创建一个 Vue 组件 `CustomVueDemo.vue`：
 
-<<< @/components/CustomVueDemo.vue
+<<< @/components/CustomVueDemo.vue [components/CustomVueDemo.vue]
 
-```md
+```md [pages/posts/xxx.md]
 ---
 title: 在 Markdown 中使用 Vue
 ---
@@ -663,6 +663,45 @@ Details Content
 Details Content
 
 :::
+```
+
+## 添加代码块标题 {lang="zh-CN"}
+
+## Add Code Block Title {lang="en"}
+
+使用以下语法：
+
+````md
+```ts [valaxy.config.ts]
+import { defineValaxyConfig } from 'valaxy'
+
+export default defineValaxyConfig({}) 
+```
+````
+
+我们将会得到带有 `valaxy.config.ts` 标题与 TypeScript 图标的代码块：
+
+```ts [valaxy.config.ts]
+import { defineValaxyConfig } from 'valaxy'
+
+export default defineValaxyConfig({})
+```
+
+它基于 [vitepress-plugin-group-icons](https://github.com/yuyinws/vitepress-plugin-group-icons) 实现，你可以如下自定义更多图标。
+
+```ts [valaxy.config.ts] {4-11}
+import { defineValaxyConfig } from 'valaxy'
+
+export default defineValaxyConfig({
+  groupIcons: {
+    customIcon: {
+      nodejs: 'vscode-icons:file-type-node',
+      playwright: 'vscode-icons:file-type-playwright',
+      typedoc: 'vscode-icons:file-type-typedoc',
+      eslint: 'vscode-icons:file-type-eslint',
+    },
+  }
+})
 ```
 
 ## KaTeX {lang="en"}

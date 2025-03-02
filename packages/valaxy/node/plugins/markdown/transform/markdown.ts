@@ -18,15 +18,16 @@ const encryptedKeys = ['encryptedContent', 'partiallyEncryptedContents', 'encryp
 export function injectPageDataCode(pageData: PageData) {
   const vueContextImports = [
     `import { provide } from 'vue'`,
-    `import { useRoute } from 'vue-router'`,
+    `import { useRoute, useRouter } from 'vue-router'`,
 
     'const { data: pageData } = usePageData()',
+    'const router = useRouter()',
     'const route = useRoute()',
     // $frontmatter contain runtime added data, will be deleted (for example, $frontmatter.partiallyEncryptedContents)
     `const $frontmatter = Object.assign(route.meta.frontmatter || {}, pageData.value?.frontmatter || {})
     route.meta.frontmatter = $frontmatter
+    router.currentRoute.value.data = pageData.value
 
-    provide('pageData', pageData.value)
     provide('valaxy:frontmatter', $frontmatter)
     `,
   ]

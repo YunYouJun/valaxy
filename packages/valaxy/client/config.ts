@@ -5,10 +5,11 @@
 import type { DefaultTheme, ValaxyConfig } from 'valaxy/types'
 
 import type { ComputedRef, InjectionKey } from 'vue'
+import type { ValaxyData } from './app/data'
 import { computed, inject, readonly, shallowRef } from 'vue'
+
 // @ts-expect-error virtual module @valaxyjs/config
 import valaxyConfig from '/@valaxyjs/config'
-
 // @ts-expect-error virtual module @valaxyjs/context
 import valaxyContext from '/@valaxyjs/context'
 
@@ -27,6 +28,8 @@ interface ValaxyContext {
 
 export const valaxyConfigSymbol: InjectionKey<ComputedRef<ValaxyConfig>> = Symbol('valaxy:config')
 export const valaxyConfigRef = shallowRef<ValaxyConfig>(parse<ValaxyConfig>(valaxyConfig))
+
+export const dataSymbol: InjectionKey<ValaxyData> = Symbol('ValaxyData')
 
 export const valaxyContextRef = shallowRef<ValaxyContext>(parse<ValaxyContext>(valaxyContext))
 

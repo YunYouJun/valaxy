@@ -58,7 +58,7 @@ Create a `layouts` file, and write Vue components as layouts.
 You can use it in your Markdown as follows.
 :::
 
-```md
+```md [pages/album.md]
 ---
 title: Photos
 layout: album
@@ -89,7 +89,7 @@ Create a new `index.html` file. You can globally insert anything in between `<he
 For example:
 :::
 
-```html
+```html [index.html]
 <head>
   <link
     rel="stylesheet"
@@ -105,7 +105,7 @@ For example:
 ::: zh-CN
 新建 `setup/main.ts`：
 
-```ts
+```ts [setup/main.ts]
 import { defineAppSetup } from 'valaxy'
 
 export default defineAppSetup((ctx) => {
@@ -158,14 +158,12 @@ Create `locales` folder.
 For example (make sure that the file is not empty):
 :::
 
-```yaml
-# en.yml
+```yaml [locales/en.yml]
 button:
   about: About
 ```
 
-```yaml
-# zh-CN.yml
+```yaml [locales/zh-CN.yml]
 button:
   about: 关于
 ```
@@ -178,7 +176,7 @@ button:
 You can use it like this:
 :::
 
-```vue
+```vue [components/CustomButton.vue]
 <script setup>
 import { useI18n } from 'vue-i18n'
 

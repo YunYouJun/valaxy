@@ -27,8 +27,7 @@ Valaxy 提供了钩子系统，以便你可以对生命周期的各个阶段进�
 | `build:before` |  | 在构建开始之前执行。|
 | `build:done` |  | 在构建完成之后执行。 |
 
-```ts
-// valaxy.config.ts
+```ts [valaxy.config.ts]
 import { defineValaxyConfig } from 'valaxy'
 
 export default defineValaxyConfig({
@@ -41,6 +40,8 @@ export default defineValaxyConfig({
 ```
 
 ### App Client
+
+> TODO: 仅在客户端执行。
 
 | Hook | Arguments | Description |
 | ---- | --------- | ----------- |

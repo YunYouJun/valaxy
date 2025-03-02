@@ -115,8 +115,7 @@ pnpm create valaxy
 
 > <https://github.com/posva/unplugin-vue-router/issues/43#issuecomment-1433140464>
 
-```ts
-// valaxy.config.ts
+```ts [valaxy.config.ts]
 import { defineTheme } from 'valaxy'
 
 export default defineTheme({
@@ -183,7 +182,7 @@ The following variables are stored in global state, which you can get through `u
 - `toggleDark`: 切换暗黑模式
 - `toggleDarkWithTransition`: 带有过渡效果的切换暗黑模式
 
-```vue
+```vue [components/YunToggleDark.vue]
 <script lang="ts" setup>
 import { useAppStore } from 'valaxy'
 
@@ -233,8 +232,7 @@ const appStore = useAppStore()
 
 > 你也可以使用你自己的全局状态管理。参见 [状态管理](#状态管理)。
 
-```vue
-<!-- valaxy-theme-yun/App.vue -->
+```vue [valaxy-theme-yun/App.vue]
 <script lang="ts" setup>
 import { useHead } from '@unhead/vue'
 import { useAppStore } from 'valaxy'
@@ -264,7 +262,7 @@ onMounted(() => {
 
 > 你可以从 `ValaxyMain` 的 `props` 中获取 `frontmatter` 与 `pageData`。
 
-```vue
+```vue [valaxy-theme-yun/components/ValaxyMain.vue]
 <script lang="ts" setup>
 import type { PageData, Post } from 'valaxy'
 
@@ -342,8 +340,7 @@ Markdown 样式是主题呈现文章样式的部分，需要由主题自定义�
 
 内置了基础的 [nprogress](https://github.com/rstacruz/nprogress) 样式，你可以通过覆盖 nprogress 的默认样式进行定制：
 
-```scss
-// your-theme/styles/index.scss
+```scss [your-theme/styles/index.scss]
 #nprogress {
   pointer-events: none;
 
@@ -376,7 +373,7 @@ Markdown 样式是主题呈现文章样式的部分，需要由主题自定义�
 
 :::
 
-```ts
+```ts [composables/config.ts]
 import { useSiteConfig, useValaxyConfig } from 'valaxy'
 import { useThemeConfig } from 'valaxy-theme-custom'
 
@@ -391,10 +388,9 @@ const themeConfig = useThemeConfig()
 
 你可以提供一个主题的 `useThemeConfig` 函数，以便自己/用户获得带有类型约束的配置。
 
-```ts
+```ts [composables/config.ts]
 // custom your theme type
 import type { YunTheme } from '../types'
-// composables/config.ts
 import { useValaxyConfig } from 'valaxy'
 /**
  * getThemeConfig
@@ -405,11 +401,12 @@ export function useThemeConfig<ThemeConfig = YunTheme.Config>() {
 }
 ```
 
-```ts
-// use
+```vue [components/Example.vue]
+<script lang="ts" setup>
 import { useThemeConfig } from 'valaxy-theme-custom'
 
 const themeConfig = useThemeConfig()
+</script>
 ```
 
 #### 获取文章列表
@@ -480,8 +477,7 @@ const fm = useFrontmatter()
 
 你可以借助 [Pinia](https://pinia.vuejs.org/) （Valaxy 内置）建立自己的全局状态，并在随后使用它，
 
-```ts
-// stores/app.ts
+```ts [stores/app.ts]
 import { acceptHMRUpdate, defineStore } from 'pinia'
 
 // custom your theme name
@@ -621,8 +617,7 @@ If your theme depends on some large ESM packages, you can pre-build these depend
 
 :::
 
-```ts
-// valaxy.config.ts
+```ts [valaxy.config.ts]
 import { defineTheme } from 'valaxy'
 
 export default defineTheme({

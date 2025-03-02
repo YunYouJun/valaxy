@@ -11,9 +11,7 @@ Valaxy 兼容 Vite/Vue 插件，你可以参考以下示例进行使用。
 
 ### 使用 vite-plugin-pwa
 
-在 `vite.config.ts` 中添加以下配置：
-
-```ts
+```ts [valaxy.config.ts]
 import type { ThemeConfig } from 'valaxy-theme-yun'
 import { defineValaxyConfig } from 'valaxy'
 import { VitePWA } from 'vite-plugin-pwa'
@@ -28,8 +26,7 @@ export default defineValaxyConfig<ThemeConfig>({
 })
 ```
 
-```ts
-// setup/main.ts
+```ts [setup/main.ts]
 import { defineAppSetup } from 'valaxy'
 
 export default defineAppSetup(({ router, isClient }) => {

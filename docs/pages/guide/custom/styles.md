@@ -63,13 +63,11 @@ For example, you can override the default font in 'styles/index.ts'.
 
 :::
 
-```ts
-// styles/index.ts
+```ts [styles/index.ts]
 import './vars.scss'
 ```
 
-```scss
-// styles/vars.scss
+```scss [styles/vars.scss]
 :root {
   --va-font-serif: 'Noto Serif SC', STZhongsong, STKaiti, KaiTi, Roboto,  serif;
   --va-font-sans: Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif;
@@ -93,13 +91,13 @@ import './vars.scss'
 
 新建 `styles/index.ts` 文件，引入 `vars.scss`：
 
-```ts
+```ts [styles/index.ts]
 import './vars.scss'
 ```
 
 新建 `styles/vars.scss` 文件：
 
-```scss
+```scss [styles/vars.scss]
 :root {
   --cursor-default: url('https://cdn.yunyoujun.cn/css/md-cursors/pointer.cur');
   --cursor-pointer: url('https://cdn.yunyoujun.cn/css/md-cursors/link.cur');

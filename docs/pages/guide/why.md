@@ -134,7 +134,7 @@ export default defineValaxyConfig<ThemeConfig>({
 
 :::
 
-### [Hexo](https://hexo.io/)/[Hugo](https://gohugo.io/)/Jekyll
+### [Hexo](https://hexo.io/)/[Hugo](https://gohugo.io/)/[Jekyll](https://jekyllrb.com/)
 
 ::: zh-CN
 

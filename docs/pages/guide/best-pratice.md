@@ -18,9 +18,7 @@ top: 1
 
 2. 插入第三方/大量动态内容时，优先将其封装为组件放置于 `components`，并通过组件标签名引入，以下是一个例子。
 
-```vue
-// blog/components/BszComponent.vue
-
+```vue [blog/components/BszComponent.vue]
 <script lang="ts" setup>
 import { useScriptTag } from '@vueuse/core'
 
@@ -35,29 +33,12 @@ useScriptTag('//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js')
 </template>
 ```
 
-```md
-// blog/pages/posts/test-custom-component.md
-
+```md [blog/pages/posts/test-custom-component.md]
 # hello World
 <BszComponent/>
 ```
 
 3. 如果文章中不想使用外链图片，建议按照以下格式创建文件夹及引用图片，便于管理和迁移。
-
-```txt
-posts
-├─ your-post
-│  ├─ a.png
-|  ├─ b.png
-│  └─ index.md
-```
-
-```md
-// posts/your-post/index.md
-
-![](./a.png)
-![](./b.png)
-```
 
 :::
 
@@ -73,9 +54,7 @@ blog/pages/posts/your-post.md
 
 2. When inserting third-party/large amounts of dynamic content, priority should be given to encapsulating it as a component and placing it in `blog/components`, and introducing it through component tag names.
 
-```vue
-// blog/components/BszComponent.vue
-
+```vue [blog/components/BszComponent.vue]
 <script lang="ts" setup>
 import { useScriptTag } from '@vueuse/core'
 
@@ -90,14 +69,14 @@ useScriptTag('//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js')
 </template>
 ```
 
-```md
-// blog/pages/posts/test-custom-component.md
-
+```md [blog/pages/posts/test-custom-component.md]
 # hello World
 <BszComponent/>
 ```
 
 3. If you do not want to use external links in the post, it is recommended to create folders and reference images in the following format for easy management and migration.
+
+:::
 
 ```txt
 posts
@@ -107,11 +86,7 @@ posts
 │  └─ index.md
 ```
 
-```md
-// posts/your-post/index.md
-
+```md [posts/your-post/index.md]
 ![](./a.png)
 ![](./b.png)
 ```
-
-:::

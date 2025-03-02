@@ -13,9 +13,10 @@ import type Router from 'unplugin-vue-router/vite'
 import type { DefaultTheme, PartialDeep, ValaxyAddon, ValaxyConfig } from 'valaxy/types'
 import type { UserConfig as ViteUserConfig } from 'vite'
 import type Layouts from 'vite-plugin-vue-layouts'
+import type { Options as GroupIconsOptions } from 'vitepress-plugin-group-icons'
 import type { createValaxyNode } from './app'
-import type { ResolvedValaxyOptions } from './options'
 
+import type { ResolvedValaxyOptions } from './options'
 import type { MarkdownOptions } from './plugins/markdown/types'
 
 export type ValaxyNodeConfig<ThemeConfig = DefaultTheme.Config> = ValaxyConfig<ThemeConfig> & ValaxyExtendConfig
@@ -159,6 +160,7 @@ export interface ValaxyExtendConfig {
    * @see https://github.com/btd/rollup-plugin-visualizer
    */
   visualizer?: PluginVisualizerOptions
+  groupIcons?: GroupIconsOptions
   /**
    * unocss presets
    * @see https://unocss.dev/guide/presets

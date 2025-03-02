@@ -11,7 +11,6 @@ import type { ResolvedValaxyOptions } from '../../options'
 import type { ThemeOptions } from './types'
 import {
   headersPlugin,
-
 } from '@mdit-vue/plugin-headers'
 
 import { sfcPlugin } from '@mdit-vue/plugin-sfc'
@@ -28,15 +27,16 @@ import footnotePlugin from 'markdown-it-footnote'
 // https://www.npmjs.com/package/markdown-it-image-figures
 import imageFigures from 'markdown-it-image-figures'
 import TaskLists from 'markdown-it-task-lists'
-import { linkPlugin } from './plugins/link'
+import { groupIconMdPlugin } from 'vitepress-plugin-group-icons'
 
+import { linkPlugin } from './plugins/link'
 import { containerPlugin } from './plugins/markdown-it/container'
 import { footnoteTooltipPlugin } from './plugins/markdown-it/footnoteTooltip'
 import { highlightLinePlugin } from './plugins/markdown-it/highlightLines'
 import Katex from './plugins/markdown-it/katex'
 import { lineNumberPlugin } from './plugins/markdown-it/lineNumbers'
-import { preWrapperPlugin } from './plugins/markdown-it/preWrapper'
 
+import { preWrapperPlugin } from './plugins/markdown-it/preWrapper'
 import { snippetPlugin } from './plugins/markdown-it/snippet'
 
 export const defaultCodeTheme = { light: 'github-light', dark: 'github-dark' } as const as ThemeOptions
@@ -154,6 +154,10 @@ export async function setupMarkdownPlugins(
 
   if (mdOptions.config)
     mdOptions.config(md)
+
+  md.use(groupIconMdPlugin, {
+    titleBar: { includeSnippet: true },
+  })
 
   return md as MarkdownIt
 }

@@ -96,8 +96,7 @@ random: true
 
 您可以新建样式文件并引入，以覆盖默认 CSS 变量。
 
-```ts
-// styles/index.ts
+```ts [styles/index.ts]
 import './vars.scss'
 ```
 

@@ -21,8 +21,10 @@ You must use [pnpm](https://pnpm.io/). Because we use its workspace.
 
 ```bash
 git clone https://github.com/YunYouJun/valaxy
-cd valaxy
+```
 
+```bash [pnpm]
+cd valaxy
 pnpm i
 # esbuild watch valaxy cli & valaxy-theme-yun
 # and run demo

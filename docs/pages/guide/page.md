@@ -73,8 +73,7 @@ Encryption relies on the browser's native [Web Crypto API | MDN](https://develop
 </div>
 :::
 
-```ts
-// site.config.ts
+```ts [site.config.ts]
 import { defineSiteConfig } from 'valaxy'
 
 export default defineSiteConfig({

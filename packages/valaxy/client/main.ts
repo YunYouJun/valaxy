@@ -1,6 +1,6 @@
 import type { ViteSSGContext } from 'vite-ssg'
 import { DataLoaderPlugin } from 'unplugin-vue-router/data-loaders'
-import { initValaxyConfig, valaxyConfigSymbol } from 'valaxy'
+import { dataSymbol, initValaxyConfig, valaxyConfigSymbol } from 'valaxy'
 import { setupLayouts } from 'virtual:generated-layouts'
 import { ViteSSG } from 'vite-ssg'
 
@@ -8,11 +8,12 @@ import { routes } from 'vue-router/auto-routes'
 // import App from '/@valaxyjs/App.vue'
 import App from './App.vue'
 
+import { initData } from './app/data'
 import AppLink from './components/AppLink.vue'
+
 import setupMain from './setup/main'
 
 import { setupValaxyDevTools } from './utils/dev'
-
 // generate user styles
 import '#valaxy/styles'
 
@@ -70,6 +71,9 @@ export const createApp = ViteSSG(
   (ctx) => {
     // app-level provide
     const { app, router } = ctx
+
+    const data = initData(router)
+    app.provide(dataSymbol, data)
 
     // Register the plugin before the router
     app.use(DataLoaderPlugin, { router })

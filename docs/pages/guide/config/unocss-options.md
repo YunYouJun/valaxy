@@ -42,7 +42,7 @@ See [UnoCSS | Markdown](/guide/markdown#unocss).
 You can write UnoCSS configurations in the `uno.config.ts` or `unocss.config.ts` files within the theme directory. Alternatively, you can configure it in the `unocss` property of the `valaxy.config.ts` file. Below is an example of the `unocss` configuration in `valaxy.config.ts`:
 :::
 
-```ts
+```ts [valaxy.config.ts]
 import { presetIcons } from 'unocss'
 
 export default defineValaxyConfig<ThemeConfig>({
@@ -69,7 +69,7 @@ export default defineValaxyConfig<ThemeConfig>({
 Directly configuring `presets` in the `unocss` option will override the default `presets` of the theme and Valaxy. To extend these presets, use [unocssPresets](#unocsspresets).
 :::
 
-```ts
+```ts [valaxy.config.ts]
 import { presetIcons } from 'unocss'
 
 export default defineValaxyConfig<ThemeConfig>({
@@ -116,7 +116,7 @@ To extend the presets, use [unocssPresets](#unocsspresets).
 To extend the [UnoCSS presets](https://unocss.dev/guide/presets) in Valaxy, here is a basic example:
 :::
 
-```ts
+```ts [valaxy.config.ts]
 import { presetIcons } from 'unocss'
 
 export default defineValaxyConfig<ThemeConfig>({
@@ -147,7 +147,7 @@ The following method is incorrect. Note the difference between the `unocssPreset
 
 </span>
 
-```ts
+```ts [valaxy.config.ts]
 import { presetIcons } from 'unocss'
 
 export default defineValaxyConfig<ThemeConfig>({

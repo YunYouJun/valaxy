@@ -25,7 +25,7 @@ Valaxy 内置了基于 [fuse.js](https://fusejs.io/) 的离线搜索（须预先
 如果你想要使用全文搜索，可参考 [Options | fuse.js](https://www.fusejs.io/api/options.html) 进行设置。
 譬如：
 
-```ts
+```ts [site.config.ts]
 export default defineSiteConfig({
   search: {
     enable: true,
@@ -67,8 +67,7 @@ Valaxy has built-in local search based on [fuse.js](https://fusejs.io/). The loc
 
 ::: zh-CN
 
-```ts
-// site.config.ts
+```ts [site.config.ts]
 import { defineSiteConfig } from 'valaxy'
 
 export default defineSiteConfig({
@@ -85,8 +84,7 @@ export default defineSiteConfig({
 
 ::: en
 
-```ts {7}
-// site.config.ts
+```ts [site.config.ts] {7}
 import { defineSiteConfig } from 'valaxy'
 
 export default defineSiteConfig({
@@ -214,8 +212,7 @@ Here is a demo:
 - 安装依赖：`pnpm add vue-gtag-next`
 - 新建 `setup/main.ts`:
 
-```ts
-// setup/main.ts
+```ts [setup/main.ts]
 import { defineAppSetup } from 'valaxy'
 import { install as installGtag } from './gtag'
 
@@ -226,7 +223,7 @@ export default defineAppSetup((ctx) => {
 
 - 新建 `setup/gtag.ts`:
 
-```ts
+```ts [setup/gtag.ts]
 import type { UserModule } from 'valaxy'
 import VueGtag, { trackRouter } from 'vue-gtag-next'
 

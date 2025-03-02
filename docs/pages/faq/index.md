@@ -46,7 +46,7 @@ If you prefer to build them as `/xxx/index.html`, you can modify the configurati
 Set it in `vite.config.ts` under the user directory as follows:
 :::
 
-```ts
+```ts [vite.config.ts]
 import { defineConfig } from 'vite'
 
 export default defineConfig({

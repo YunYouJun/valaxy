@@ -14,8 +14,7 @@ pnpm add [valaxy-addon-package1] [valaxy-addon-package2]
 
 使用
 
-```ts
-// valaxy.config.ts
+```ts [valaxy.config.ts]
 import { defineValaxyConfig } from 'valaxy'
 import { addonTest } from 'valaxy-addon-test'
 
@@ -35,7 +34,7 @@ export default defineValaxyConfig({
 
 譬如开启 Waline 评论：
 
-```ts
+```ts [valaxy.config.ts]
 import { defineValaxyConfig } from 'valaxy'
 import { addonWaline } from 'valaxy-addon-waline'
 

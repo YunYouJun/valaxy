@@ -41,21 +41,4 @@ pnpm create valaxy
 
 > 请参考 [生命周期钩子](/guide/custom/hooks) 了解更多。
 
-```ts {11-14}
-import consola from 'consola'
-import { defineValaxyAddon } from 'valaxy'
-import pkg from '../package.json'
-
-export const addonTest = defineValaxyAddon(options => ({
-  name: pkg.name,
-  enable: true,
-  options,
-
-  setup(valaxy) {
-    valaxy.hook('build:before', () => {
-      // do something before build
-      consola.info('[valaxy-addon-test] build:before')
-    })
-  },
-}))
-```
+<<< @/../packages/valaxy-addon-test/node/index.ts {11-14} [valaxy-addon-test/node/index.ts]

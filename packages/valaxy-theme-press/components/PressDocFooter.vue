@@ -2,9 +2,8 @@
 import { useI18n } from 'vue-i18n'
 import { useEditLink } from '../composables'
 
-const editLink = useEditLink()
-
 const { t } = useI18n()
+const editLink = useEditLink()
 </script>
 
 <template>

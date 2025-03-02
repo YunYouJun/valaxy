@@ -120,7 +120,7 @@ If you are a Windows user, I strongly recommend using a Unix-like shell (such as
 
 ::: zh-CN
 > 由于 `npm init` 会缓存您此前下载的版本，我更推荐您使用 `pnpm` 来创建模版。
-> 安装 [pnpm](https://pnpm.io/)：`npm i -g pnpm`
+> [安装 pnpm](https://pnpm.io/installation)
 :::
 
 ::: en

@@ -128,7 +128,7 @@ export function getHeaders(options: GetHeadersOptions = {
   // the first is the old one, the last is the new one
   const markdownBodyElements = document.querySelectorAll(mdBodySelector) as NodeListOf<HTMLElement>
   const markdownBody = markdownBodyElements[markdownBodyElements.length - 1]
-  const headers = Array.from(markdownBody.querySelectorAll(`${mdBodySelector} :where(h1,h2,h3,h4,h5,h6)`))
+  const headers = Array.from(markdownBody?.querySelectorAll(`${mdBodySelector} :where(h1,h2,h3,h4,h5,h6)`) || [])
     .filter(el => options.filter ? options.filter(el) : true)
     .map((el) => {
       const level = Number(el.tagName[1])
