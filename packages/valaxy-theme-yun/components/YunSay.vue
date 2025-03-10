@@ -70,7 +70,7 @@ onMounted(() => {
   font-family: var(--va-font-serif);
   font-weight: bold;
   padding: 0.5rem;
-  border-top: var(--va-border-width) solid var(--va-c-text-light);
+  // border-top: var(--va-border-width) solid var(--va-c-text-light);
   border-bottom: var(--va-border-width) solid var(--va-c-text-light);
 
   .say-content {

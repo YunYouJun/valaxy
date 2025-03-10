@@ -26,7 +26,8 @@ export const defaultThemeConfig: ThemeConfig = {
   },
 
   say: {
-    enable: false,
+    // enable: false,
+    enable: true,
     api: '',
     // api: 'https://el-bot-api.elpsy.cn/api/words/young',
     hitokoto: {
