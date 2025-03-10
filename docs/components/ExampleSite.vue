@@ -24,7 +24,7 @@ export interface ExampleSite {
 
 withDefaults(
   defineProps<{
-    site: ExampleSite
+    site?: ExampleSite
   }>(),
   {
     site: () => ({

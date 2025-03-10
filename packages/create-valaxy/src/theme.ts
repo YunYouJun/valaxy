@@ -1,6 +1,6 @@
 /* eslint-disable no-console */
+import { colors } from 'consola/utils'
 import { execa } from 'execa'
-import { blue, bold, cyan, dim, gray, green, yellow } from 'kolorist'
 import prompts from 'prompts'
 
 const starterTheme = {
@@ -29,17 +29,17 @@ export async function initTheme(options: {
 
   const targetDir = `valaxy-theme-${themeName!.trim()}`
 
-  console.log(`  ${dim('npx')} ${gray('degit')} ${blue(starterTheme.repo)} ${yellow(targetDir)}`)
+  console.log(`  ${colors.dim('npx')} ${colors.gray('degit')} ${colors.blue(starterTheme.repo)} ${colors.yellow(targetDir)}`)
   await execa('npx', ['degit', starterTheme.repo, targetDir], { stdio: 'inherit' })
 
   console.log()
-  console.log(`  ${bold('Check it')}:`)
+  console.log(`  ${colors.bold('Check it')}:`)
   console.log()
-  console.log(`- Change ${bold('author')} name in ${yellow('LICENSE')} & ${green('package.json')} & ${blue('.github')}`)
-  console.log(`- Change ${blue('valaxy.config.ts')} theme: ${yellow('starter')} to ${cyan(`${themeName}`)}`)
-  console.log(`- Rename ${yellow(`valaxy-theme-${themeName}`)} to ${cyan(`valaxy-theme-${themeName}`)}`)
+  console.log(`- Change ${colors.bold('author')} name in ${colors.yellow('LICENSE')} & ${colors.green('package.json')} & ${colors.blue('.github')}`)
+  console.log(`- Change ${colors.blue('valaxy.config.ts')} theme: ${colors.yellow('starter')} to ${colors.cyan(`${themeName}`)}`)
+  console.log(`- Rename ${colors.yellow(`valaxy-theme-${themeName}`)} to ${colors.cyan(`valaxy-theme-${themeName}`)}`)
   console.log()
-  console.log(`  ${cyan('✨')}`)
+  console.log(`  ${colors.cyan('✨')}`)
   console.log()
 
   return `valaxy-theme-${themeName}`

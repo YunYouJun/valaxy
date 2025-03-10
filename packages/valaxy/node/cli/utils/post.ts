@@ -2,9 +2,9 @@ import { writeFile } from 'node:fs/promises'
 import { join, resolve } from 'node:path'
 import { ensureSuffix } from '@antfu/utils'
 import { consola } from 'consola'
+import { colors } from 'consola/utils'
 import dayjs from 'dayjs'
 import { render } from 'ejs'
-import { green, magenta } from 'picocolors'
 import { defaultPostTemplate, userRoot } from './constants'
 import { exists } from './fs'
 
@@ -42,12 +42,12 @@ export async function create(data: CreatePostParams) {
       const content = await genLayoutTemplate(data)
       try {
         await writeFile(destinationPath, content, 'utf-8')
-        consola.success(`[valaxy new]: successfully generated file ${magenta(destinationPath)}`)
+        consola.success(`[valaxy new]: successfully generated file ${colors.magenta(destinationPath)}`)
       }
       catch (e) {
         console.log(e)
         consola.error(`[valaxy new]: failed to write file ${destinationPath}`)
-        consola.warn(`You should run ${green('valaxy new')} in your valaxy project root directory.`)
+        consola.warn(`You should run ${colors.green('valaxy new')} in your valaxy project root directory.`)
       }
       return destinationPath
     }

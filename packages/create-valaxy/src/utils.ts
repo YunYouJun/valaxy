@@ -1,6 +1,6 @@
 import fs from 'node:fs'
 import path from 'node:path'
-import { dim, red } from 'kolorist'
+import { colors } from 'consola/utils'
 
 /**
  * remove trailing slash
@@ -34,7 +34,7 @@ export function copyDir(srcDir: string, destDir: string) {
 
 export function emptyDir(dir: string) {
   // eslint-disable-next-line no-console
-  console.log(`\n  ${red(`Removing`)} ${dim(dir)}`)
+  console.log(`\n  ${colors.red(`Removing`)} ${colors.dim(dir)}`)
   if (!fs.existsSync(dir))
     return
 

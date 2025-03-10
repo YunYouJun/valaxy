@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 withDefaults(defineProps<{
-  show: boolean
+  show?: boolean
 }>(), {
   show: false,
 })

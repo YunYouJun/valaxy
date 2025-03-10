@@ -3,10 +3,10 @@ import fs from 'node:fs'
 import path from 'node:path'
 import process from 'node:process'
 import { fileURLToPath } from 'node:url'
-import { execa } from 'execa'
-
 // only use it in create-valaxy
-import { blue, bold, cyan, dim, green, red, reset } from 'kolorist'
+import { colors } from 'consola/utils'
+
+import { execa } from 'execa'
 import minimist from 'minimist'
 import prompts from 'prompts'
 import { version } from '../package.json'
@@ -22,7 +22,7 @@ const __filename = fileURLToPath(import.meta.url)
 
 export async function init() {
   console.log()
-  console.log(`  ${bold('🌌 Valaxy')}  ${blue(`v${version}`)}`)
+  console.log(`  ${colors.bold('🌌 Valaxy')}  ${colors.blue(`v${version}`)}`)
   console.log()
 
   const argTargetDir = formatTargetDir(argv._[0])
@@ -53,15 +53,15 @@ export async function init() {
       name: 'template',
       message:
               typeof argTemplate === 'string' && !TEMPLATE_CHOICES.includes(argTemplate)
-                ? reset(
+                ? colors.reset(
                     `"${argTemplate}" isn't a valid template. Please choose from below: `,
                   )
-                : reset('Select a type:'),
+                : colors.reset('Select a type:'),
       initial: 0,
       choices: TEMPLATES.map((template) => {
         const tColor = template.color
         return {
-          title: tColor(template.display || template.name) + dim(` - ${template.desc}`),
+          title: tColor(template.display || template.name) + colors.dim(` - ${template.desc}`),
           value: template,
         }
       }),
@@ -73,7 +73,7 @@ export async function init() {
         {
           type: argTargetDir ? null : 'text',
           name: 'projectName',
-          message: reset(template.message),
+          message: colors.reset(template.message),
           initial: template.initial,
           onState: (state) => {
             targetDir = formatTargetDir(template.prefix ? template.prefix + state.value : state.value) || (template.initial)
@@ -92,7 +92,7 @@ export async function init() {
         {
           type: (_, { overwrite }: { overwrite?: boolean }) => {
             if (overwrite === false)
-              throw new Error(`${red('✖')} Operation cancelled`)
+              throw new Error(`${colors.red('✖')} Operation cancelled`)
 
             return null
           },
@@ -101,14 +101,14 @@ export async function init() {
         {
           type: () => (isValidPackageName(getProjectName()) ? null : 'text'),
           name: 'packageName',
-          message: reset('Package name:'),
+          message: colors.reset('Package name:'),
           initial: () => toValidPackageName(getProjectName()),
           validate: dir =>
             isValidPackageName(dir) || 'Invalid package.json name',
         },
       ], {
         onCancel: () => {
-          throw new Error(`${red('✖')} Operation cancelled`)
+          throw new Error(`${colors.red('✖')} Operation cancelled`)
         },
       })
     }
@@ -168,15 +168,15 @@ export async function init() {
     write('package.json', `${JSON.stringify(pkg, null, 2)}\n`)
   }
 
-  console.log(`  ${dim('📁')} ${dim(root)}`)
+  console.log(`  ${colors.dim('📁')} ${colors.dim(root)}`)
   console.log()
-  console.log(dim('  Scaffolding project in ') + targetDir + dim(' ...'))
+  console.log(colors.dim('  Scaffolding project in ') + targetDir + colors.dim(' ...'))
 
   const pkgInfo = pkgFromUserAgent(process.env.npm_config_user_agent)
   const pkgManager = pkgInfo ? pkgInfo.name : 'npm'
 
   const related = path.relative(cwd, root)
-  console.log(green('  Done.\n'))
+  console.log(colors.green('  Done.\n'))
 
   // addon not start
   if (template.name === 'addon')
@@ -226,21 +226,21 @@ export async function init() {
     await execa(agent, devArgs, { stdio: 'inherit', cwd: root })
   }
   else {
-    console.log(dim('\n  start it later by:\n'))
+    console.log(colors.dim('\n  start it later by:\n'))
     if (root !== cwd)
-      console.log(`  ${green('cd')} ${blue(related)}`)
+      console.log(`  ${colors.green('cd')} ${colors.blue(related)}`)
 
     switch (pkgManager) {
       case 'yarn':
-        console.log(`  ${green('yarn')}`)
-        console.log(`  ${green('yarn')} dev`)
+        console.log(`  ${colors.green('yarn')}`)
+        console.log(`  ${colors.green('yarn')} dev`)
         break
       default:
-        console.log(`  ${green(pkgManager)} install`)
-        console.log(`  ${green(pkgManager)} run dev`)
+        console.log(`  ${colors.green(pkgManager)} install`)
+        console.log(`  ${colors.green(pkgManager)} run dev`)
         break
     }
     console.log()
-    console.log(`  ${cyan('✨')}`)
+    console.log(`  ${colors.cyan('✨')}`)
   }
 }

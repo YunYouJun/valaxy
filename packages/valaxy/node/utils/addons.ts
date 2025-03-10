@@ -1,10 +1,10 @@
 import type { ValaxyAddonResolver, ValaxyAddons } from '../types'
 import process from 'node:process'
+import { colors } from 'consola/utils'
 import defu from 'defu'
 import fs from 'fs-extra'
 import ora from 'ora'
 import { resolve } from 'pathe'
-import { blue, cyan, dim, yellow } from 'picocolors'
 import { logger } from '../logger'
 import { getModuleRoot } from './root'
 
@@ -13,7 +13,7 @@ export interface ReadAddonModuleOptions {
 }
 
 export async function parseAddons(addons: ValaxyAddons, userRoot = process.cwd()) {
-  const spinner = ora(`Resolve ${cyan('addons')} from ${dim(userRoot)}`).start()
+  const spinner = ora(`Resolve ${colors.cyan('addons')} from ${colors.dim(userRoot)}`).start()
 
   const resolvers: Record<string, ValaxyAddonResolver> = {}
   const mergeResolver = (resolver?: ValaxyAddonResolver) => {
@@ -35,7 +35,7 @@ export async function parseAddons(addons: ValaxyAddons, userRoot = process.cwd()
   const resolvedAddons = Object.values(resolvers).filter(item => item.enable)
   resolvedAddons.forEach((addon, i) => {
     // eslint-disable-next-line no-console
-    console.log(`  ${i === resolvedAddons.length - 1 ? '└─' : '├─'} ${yellow(addon.name)} ${blue(`v${addon.pkg?.version}`)}${addon.global ? cyan(' (global)') : ''} ${dim(addon.pkg.homepage || addon.pkg.repository?.url || addon.pkg.repository || '')}`)
+    console.log(`  ${i === resolvedAddons.length - 1 ? '└─' : '├─'} ${colors.yellow(addon.name)} ${colors.blue(`v${addon.pkg?.version}`)}${addon.global ? colors.cyan(' (global)') : ''} ${colors.dim(addon.pkg.homepage || addon.pkg.repository?.url || addon.pkg.repository || '')}`)
   })
   return resolvedAddons
 }

@@ -10,9 +10,9 @@ import {
   transformerNotationFocus,
   transformerNotationHighlight,
 } from '@shikijs/transformers'
+import { colors } from 'consola/utils'
 // ref vitepress
 import { customAlphabet } from 'nanoid'
-import c from 'picocolors'
 import {
   addClassToHast,
   createHighlighter,
@@ -145,7 +145,7 @@ export async function highlight(
 
     if (!loadLanguage(lang)) {
       logger.warn(
-        c.yellow(
+        colors.yellow(
           `\nThe language '${lang}' is not loaded, falling back to '${defaultLang}' for syntax highlighting.`,
         ),
       )

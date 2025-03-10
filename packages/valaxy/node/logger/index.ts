@@ -3,7 +3,6 @@ import type { ValaxyHooks, ValaxyNode } from '../types'
 import consola from 'consola'
 import { colors } from 'consola/utils'
 import ora from 'ora'
-import { magenta } from 'picocolors'
 
 export const logger = consola.create({})
 
@@ -18,7 +17,7 @@ export const vLogger = {
  * log for hook run
  */
 export async function callHookWithLog(hookName: HookKeys<ValaxyHooks>, valaxyApp: ValaxyNode) {
-  const hookNameStr = `${colors.cyan('[HOOK]')} ${magenta(hookName)}`
+  const hookNameStr = `${colors.cyan('[HOOK]')} ${colors.magenta(hookName)}`
   const s = ora(`${hookNameStr} calling...`).start()
   await valaxyApp.hooks.callHook(hookName)
   s.succeed(`${hookNameStr} done.`)

@@ -1,8 +1,8 @@
 import type { SiteConfig, UserSiteConfig } from 'valaxy/types'
 import { webcrypto } from 'node:crypto'
 import consola from 'consola'
+import { colors } from 'consola/utils'
 import { options as floatingVueOptions } from 'floating-vue'
-import { cyan, dim, yellow } from 'picocolors'
 import { countPerformanceTime } from '../utils/performance'
 import { loadConfigFromFile } from './utils'
 
@@ -134,7 +134,7 @@ export async function resolveSiteConfig(root: string) {
   const duration = endCount()
 
   if (userSiteConfig && siteConfigFile)
-    consola.success(`Resolve ${cyan('siteConfig')} from ${dim(siteConfigFile)} ${yellow(duration)}`)
+    consola.success(`Resolve ${colors.cyan('siteConfig')} from ${colors.dim(siteConfigFile)} ${colors.yellow(duration)}`)
 
   return {
     siteConfig: userSiteConfig,

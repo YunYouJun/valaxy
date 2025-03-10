@@ -5,7 +5,7 @@ import path from 'node:path'
 import process from 'node:process'
 import consola from 'consola'
 
-import { yellow } from 'picocolors'
+import { colors } from 'consola/utils'
 import { mergeConfig } from 'vite'
 import { mergeViteConfigs, resolveOptions } from '..'
 import { createValaxyNode } from '../app'
@@ -74,7 +74,7 @@ export async function execBuild({ ssg, root, output, log }: { ssg: boolean, root
   consola.box('🌠 Start building...')
   try {
     if (ssg) {
-      consola.info(`use ${yellow('vite-ssg')} to do ssg build...`)
+      consola.info(`use ${colors.yellow('vite-ssg')} to do ssg build...`)
 
       try {
         await ssgBuild(valaxyApp, viteConfig)

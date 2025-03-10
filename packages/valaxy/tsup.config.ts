@@ -2,7 +2,7 @@ import { globSync } from 'tinyglobby'
 import { defineConfig } from 'tsup'
 import pkg from './package.json'
 
-export default defineConfig((options) => {
+export default defineConfig((_options) => {
   return {
     entry: [
       'node/index.ts',
@@ -15,7 +15,7 @@ export default defineConfig((options) => {
     clean: true,
     dts: true,
     format: ['esm'],
-    minify: !options.watch,
+    // minify: !options.watch,
     external: [
       '/@valaxyjs/',
       '/@valaxyjs/config',

@@ -1,8 +1,8 @@
 import type { DefaultTheme } from 'valaxy/types'
 import type { ResolvedValaxyOptions } from '../options'
 import type { ValaxyNodeConfig } from '../types'
+import { colors } from 'consola/utils' // updated import
 import defu from 'defu'
-import { cyan, dim } from 'picocolors'
 import { logger } from '../logger'
 import { loadConfigFromFile } from './utils'
 
@@ -22,7 +22,7 @@ export async function resolveUserThemeConfig(options: ResolvedValaxyOptions) {
   let { config: userThemeConfig, configFile: themeConfigFile } = await resolveThemeConfigFromRoot(options.userRoot)
 
   if (userThemeConfig && themeConfigFile)
-    logger.info(`Resolve ${cyan('themeConfig')} from ${dim(themeConfigFile)}`)
+    logger.info(`Resolve ${colors.cyan('themeConfig')} from ${colors.dim(themeConfigFile)}`) // updated code
 
   if (options?.themeRoot) {
     // todo mount defaultThemeConfig

@@ -3,12 +3,10 @@ import { readFileSync } from 'node:fs'
 import process from 'node:process'
 import { versionBump } from 'bumpp'
 import consola from 'consola'
+import { colors } from 'consola/utils'
 import minimist from 'minimist'
-import pc from 'picocolors'
 import { $ } from 'zx'
 import { packages, updateTemplateVersions } from './utils'
-
-const { cyan, gray, yellow } = pc
 
 const args = minimist(process.argv.slice(2))
 export const isDryRun = !!args.dry
@@ -32,7 +30,7 @@ async function main() {
   consola.info('Updating packages version...')
   pkgPaths.forEach((pkgPath) => {
     const pkg = JSON.parse(readFileSync(pkgPath, 'utf-8'))
-    consola.info(`${cyan(pkg.name)} ${gray(`v${pkg.version}`)} -> ${yellow(`v${newVersion}`)}`)
+    consola.info(`${colors.cyan(pkg.name)} ${colors.gray(`v${pkg.version}`)} -> ${colors.yellow(`v${newVersion}`)}`)
   })
 
   console.log()

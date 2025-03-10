@@ -1,7 +1,7 @@
 import type { Plugin, ResolvedConfig, ViteDevServer } from 'vite'
 import type { ClientFunctions, ServerFunctions } from '../../rpc'
 import type { ValaxyDevtoolsOptions } from './types'
-import c from 'picocolors'
+import { colors } from 'consola/utils'
 import sirv from 'sirv'
 import { createRPCServer } from 'vite-dev-rpc'
 import { NAMESPACE } from '../config'
@@ -45,9 +45,9 @@ export function ValaxyDevtools(options: ValaxyDevtoolsOptions = {}): Plugin {
 
       _print()
 
-      const colorUrl = (url: string) => c.green(url.replace(/:(\d+)\//, (_, port) => `:${c.bold(port)}/`))
+      const colorUrl = (url: string) => colors.green(url.replace(/:(\d+)\//, (_, port) => `:${colors.bold(port)}/`))
       // eslint-disable-next-line no-console
-      console.log(`  ${c.green('➜')}  ${c.bold('Inspect')}: ${colorUrl(`${host}${base}__inspect/`)}`)
+      console.log(`  ${colors.green('➜')}  ${colors.bold('Inspect')}: ${colorUrl(`${host}${base}__inspect/`)}`)
     }
 
     // register api to vite.server

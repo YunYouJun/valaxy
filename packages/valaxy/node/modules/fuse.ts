@@ -3,11 +3,11 @@ import type { FuseListItem, PostFrontMatter } from 'valaxy/types'
 import type { Argv } from 'yargs'
 import path from 'node:path'
 import consola from 'consola'
+import { colors } from 'consola/utils'
 import fg from 'fast-glob'
 import fs from 'fs-extra'
-import matter from 'gray-matter'
 
-import { cyan, dim } from 'picocolors'
+import matter from 'gray-matter'
 import { defineValaxyModule } from '.'
 import { commonOptions } from '../cli/options'
 import { resolveOptions } from '../options'
@@ -19,7 +19,7 @@ import { setEnvProd } from '../utils/env'
  * @param options
  */
 export async function generateFuseList(options: ResolvedValaxyOptions) {
-  consola.start(`Generate List for Fuse Search by (${cyan('fuse.js')}) ...`)
+  consola.start(`Generate List for Fuse Search by (${colors.cyan('fuse.js')}) ...`)
   // generate
   const files = await fg(`${options.userRoot}/pages/posts/**/*.md`)
 
@@ -30,7 +30,7 @@ export async function generateFuseList(options: ResolvedValaxyOptions) {
     const fmData = data as PostFrontMatter
 
     if (fmData.draft) {
-      consola.warn(`Ignore draft post: ${dim(i)}`)
+      consola.warn(`Ignore draft post: ${colors.dim(i)}`)
       continue
     }
 
@@ -83,14 +83,14 @@ export async function execFuse(options: ResolvedValaxyOptions) {
 
   await fs.ensureFile(publicFuseFile)
   fs.writeJSONSync(publicFuseFile, fuseList)
-  consola.success(`Generate fuse list in ${dim(publicFolder)}`)
+  consola.success(`Generate fuse list in ${colors.dim(publicFolder)}`)
 
   // copy to dist
   const distFolder = path.resolve(options.userRoot, 'dist')
   const distFuseFile = path.resolve(distFolder, options.config.siteConfig.fuse.dataPath)
   await fs.ensureDir(distFolder)
   fs.writeJSONSync(distFuseFile, fuseList)
-  consola.success(`Generate fuse list in ${dim(distFolder)}`)
+  consola.success(`Generate fuse list in ${colors.dim(distFolder)}`)
 
   try {
     const gitignorePath = path.resolve(options.userRoot, '.gitignore')
@@ -98,7 +98,7 @@ export async function execFuse(options: ResolvedValaxyOptions) {
     const ignorePath = publicRelativeFile.replace(/\\/g, '/')
     if (!gitignore.includes(ignorePath)) {
       await fs.appendFile(gitignorePath, `\n# valaxy fuse\n${ignorePath}\n`)
-      consola.success(`Add ${dim(ignorePath)} to ${dim('.gitignore')}`)
+      consola.success(`Add ${colors.dim(ignorePath)} to ${colors.dim('.gitignore')}`)
     }
   }
   catch { }

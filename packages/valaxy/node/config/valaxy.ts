@@ -4,8 +4,8 @@ import type { UserValaxyNodeConfig, ValaxyNodeConfig } from '../types'
 import process from 'node:process'
 import { isFunction } from '@antfu/utils'
 import consola from 'consola'
+import { colors } from 'consola/utils'
 import { createDefu } from 'defu'
-import { cyan, dim, yellow } from 'picocolors'
 import { mergeConfig as mergeViteConfig } from 'vite'
 import { countPerformanceTime } from '../utils/performance'
 import { defaultSiteConfig } from './site'
@@ -109,7 +109,7 @@ export async function resolveValaxyConfig(options: ValaxyEntryOptions) {
   const duration = endCount()
 
   if (configFile && userValaxyConfig && Object.keys(userValaxyConfig).length !== 0)
-    consola.success(`Resolve ${cyan('userValaxyConfig')} from ${dim(configFile)} ${yellow(duration)}`)
+    consola.success(`Resolve ${colors.cyan('userValaxyConfig')} from ${colors.dim(configFile)} ${colors.yellow(duration)}`)
 
   const theme = options.theme || userValaxyConfig?.theme || 'yun'
 

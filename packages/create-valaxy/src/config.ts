@@ -1,4 +1,4 @@
-import { cyan, green, yellow } from 'kolorist'
+import { colors } from 'consola/utils'
 import { initTheme } from './theme'
 
 export const renameFiles: Record<string, string> = {
@@ -13,7 +13,7 @@ export const TEMPLATES = [
     desc: 'For Most Users',
     message: 'Project name:',
     initial: 'valaxy-blog',
-    color: cyan,
+    color: colors.cyan,
   },
   {
     name: 'theme',
@@ -22,7 +22,7 @@ export const TEMPLATES = [
     message: 'Theme name: valaxy-theme-',
     initial: 'starter',
     prefix: 'valaxy-theme-',
-    color: green,
+    color: colors.green,
     customInit: async (options: {
       themeName?: string
     }) => {
@@ -38,7 +38,7 @@ export const TEMPLATES = [
     message: 'Addon name: valaxy-addon-',
     initial: 'template',
     prefix: 'valaxy-addon-',
-    color: yellow,
+    color: colors.yellow,
   },
 ]
 

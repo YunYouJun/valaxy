@@ -9,9 +9,9 @@ import type { PageDataPayload } from '../../../types'
 import type { ResolvedValaxyOptions, ValaxyServerOptions } from '../../options'
 import type { ValaxyNodeConfig } from '../../types'
 import consola from 'consola'
+import { colors } from 'consola/utils'
 import fs from 'fs-extra'
 import { join, relative, resolve } from 'pathe'
-import { dim, yellow } from 'picocolors'
 import { defaultSiteConfig, mergeValaxyConfig, resolveSiteConfig, resolveUserThemeConfig } from '../../config'
 import { replaceArrMerge } from '../../config/merge'
 import { vLogger } from '../../logger'
@@ -225,7 +225,7 @@ export async function createValaxyLoader(options: ResolvedValaxyOptions, serverO
             data: payload,
           })
 
-          vLogger.success(`${yellow('[HMR]')} ${file} ${dim(`updated in ${endCount()}`)}`)
+          vLogger.success(`${colors.yellow('[HMR]')} ${file} ${colors.dim(`updated in ${endCount()}`)}`)
           ctx.read = () => code
         }
       },

@@ -1,5 +1,5 @@
 import consola from 'consola'
-import { cyan, red, yellow } from 'picocolors'
+import { colors } from 'consola/utils'
 
 /**
  * replace hexo tag, conflict with markdown-it-attrs
@@ -7,7 +7,7 @@ import { cyan, red, yellow } from 'picocolors'
 export function transformHexoTags(code: string, id: string) {
   if (code.includes('{%') && code.includes('%}')) {
     consola.error(
-      `${`${id}\n`}        Please ${red('remove')} ${cyan('{% %}')}, because it conflicts with ${yellow('markdown-it-attrs')}.`,
+      `${`${id}\n`}        Please ${colors.red('remove')} ${colors.cyan('{% %}')}, because it conflicts with ${colors.yellow('markdown-it-attrs')}.`,
     )
   }
 

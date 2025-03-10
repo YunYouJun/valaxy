@@ -5,12 +5,12 @@ import { dirname } from 'node:path'
 import process from 'node:process'
 import { ensureSuffix, uniq } from '@antfu/utils'
 import consola from 'consola'
+// import defu from 'defu'
+import { colors } from 'consola/utils'
 import _debug from 'debug'
 import fg from 'fast-glob'
 import fs from 'fs-extra'
 import { resolve } from 'pathe'
-// import defu from 'defu'
-import { blue, cyan, magenta, yellow } from 'picocolors'
 import { getRollupOptions } from './build/bundle'
 import {
   defaultValaxyConfig,
@@ -189,7 +189,7 @@ export async function resolveOptions(
   const clientRoot = resolve(pkgRoot, 'client')
   const userRoot = resolve(options.userRoot || process.cwd())
 
-  consola.start(`Resolve ${magenta('valaxy')} config ...`)
+  consola.start(`Resolve ${colors.magenta('valaxy')} config ...`)
   const [resolvedValaxy, resolvedSite, resolvedTheme, pages] = await Promise.all([
     resolveValaxyConfig(options),
     resolveSiteConfig(options.userRoot),
@@ -277,6 +277,6 @@ export async function resolveThemeValaxyConfig(options: ResolvedValaxyOptions) {
   const duration = endCount()
 
   if (themeValaxyConfig)
-    consola.success(`Resolve ${cyan('valaxy.config.ts')} from ${blue(`theme(${options.theme})`)} ${yellow(duration)}`)
+    consola.success(`Resolve ${colors.cyan('valaxy.config.ts')} from ${colors.blue(`theme(${options.theme})`)} ${colors.yellow(duration)}`)
   return themeValaxyConfig
 }
