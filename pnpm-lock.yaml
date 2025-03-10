@@ -24,6 +24,9 @@ catalogs:
     '@iconify-json/vscode-icons':
       specifier: ^1.2.16
       version: 1.2.16
+    consola:
+      specifier: ^3.4.0
+      version: 3.4.0
     typescript:
       specifier: ^5.8.2
       version: 5.8.2
@@ -291,14 +294,11 @@ importers:
   packages/create-valaxy:
     dependencies:
       consola:
-        specifier: ^3.4.0
+        specifier: 'catalog:'
         version: 3.4.0
       execa:
         specifier: 9.0.2
         version: 9.0.2
-      kolorist:
-        specifier: ^1.8.0
-        version: 1.8.0
       minimist:
         specifier: ^1.2.8
         version: 1.2.8
@@ -441,7 +441,7 @@ importers:
         version: 12.0.0-beta.1(typescript@5.8.2)
       '@vueuse/integrations':
         specifier: 12.0.0-beta.1
-        version: 12.0.0-beta.1(axios@1.8.2(debug@4.4.0))(focus-trap@7.6.4)(fuse.js@7.1.0)(nprogress@0.2.0)(qrcode@1.5.4)(typescript@5.8.2)
+        version: 12.0.0-beta.1(axios@1.8.2)(focus-trap@7.6.4)(fuse.js@7.1.0)(nprogress@0.2.0)(qrcode@1.5.4)(typescript@5.8.2)
       beasties:
         specifier: ^0.2.0
         version: 0.2.0
@@ -449,7 +449,7 @@ importers:
         specifier: ^2.2.0
         version: 2.2.0
       consola:
-        specifier: ^3.4.0
+        specifier: 'catalog:'
         version: 3.4.0
       cross-spawn:
         specifier: ^7.0.6
@@ -517,6 +517,9 @@ importers:
       markdown-it-anchor:
         specifier: ^9.2.0
         version: 9.2.0(@types/markdown-it@14.1.2)(markdown-it@14.1.0)
+      markdown-it-async:
+        specifier: ^2.2.0
+        version: 2.2.0
       markdown-it-attrs:
         specifier: ^4.3.1
         version: 4.3.1(markdown-it@14.1.0)
@@ -805,9 +808,6 @@ importers:
 
   scripts:
     devDependencies:
-      picocolors:
-        specifier: ^1.1.1
-        version: 1.1.1
       zx:
         specifier: 'catalog:'
         version: 8.4.0
@@ -10537,7 +10537,7 @@ snapshots:
       - '@vue/composition-api'
       - vue
 
-  '@vueuse/integrations@12.0.0-beta.1(axios@1.8.2(debug@4.4.0))(focus-trap@7.6.4)(fuse.js@7.1.0)(nprogress@0.2.0)(qrcode@1.5.4)(typescript@5.8.2)':
+  '@vueuse/integrations@12.0.0-beta.1(axios@1.8.2)(focus-trap@7.6.4)(fuse.js@7.1.0)(nprogress@0.2.0)(qrcode@1.5.4)(typescript@5.8.2)':
     dependencies:
       '@vueuse/core': 12.0.0-beta.1(typescript@5.8.2)
       '@vueuse/shared': 12.0.0-beta.1(typescript@5.8.2)
@@ -15839,7 +15839,7 @@ snapshots:
       '@vitejs/plugin-vue': 5.2.1(vite@6.2.1(@types/node@22.13.10)(jiti@2.4.2)(sass@1.85.1)(terser@5.39.0)(tsx@4.19.3)(yaml@2.7.0))(vue@3.5.13(typescript@5.8.2))
       '@vue/devtools-api': 7.7.2
       '@vueuse/core': 12.0.0-beta.1(typescript@5.8.2)
-      '@vueuse/integrations': 12.0.0-beta.1(axios@1.8.2(debug@4.4.0))(focus-trap@7.6.4)(fuse.js@7.1.0)(nprogress@0.2.0)(qrcode@1.5.4)(typescript@5.8.2)
+      '@vueuse/integrations': 12.0.0-beta.1(axios@1.8.2)(focus-trap@7.6.4)(fuse.js@7.1.0)(nprogress@0.2.0)(qrcode@1.5.4)(typescript@5.8.2)
       beasties: 0.2.0
       birpc: 2.2.0
       consola: 3.4.0
