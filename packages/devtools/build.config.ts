@@ -14,6 +14,7 @@ export default defineBuildConfig({
     // in valaxy
     'valaxy',
     'valaxy/node',
+    'consola/utils',
   ],
   rollup: {
     dts: {

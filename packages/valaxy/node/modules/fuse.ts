@@ -59,6 +59,13 @@ export async function generateFuseList(options: ResolvedValaxyOptions) {
       link: encodeURI(link),
     }
 
+    /**
+     * 全文搜索
+     */
+    if (options.config.siteConfig.fuse.options.keys?.includes('content')) {
+      fuseListItem.content = content
+    }
+
     extendKeys.forEach((key) => {
       fuseListItem[key] = fmData[key] || ''
     })
