@@ -53,7 +53,7 @@ Valaxy 默认集成了 [`@vitejs/plugin-vue`](https://github.com/vitejs/vite-plu
 
 譬如使用 Element Plus，你可以在 `setup/main.ts` 中添加以下配置：
 
-```ts
+```ts [setup/main.ts]
 import ElementPlus from 'element-plus'
 
 import { defineAppSetup } from 'valaxy'

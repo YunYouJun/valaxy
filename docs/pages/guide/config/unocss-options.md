@@ -34,8 +34,25 @@ See [UnoCSS | Markdown](/guide/markdown#unocss).
 
 ## unocss
 
+您可以在主题 theme 目录的 `uno.config.ts` 或 `unocss.config.ts` 文件中编写 UnoCSS 配置。
+
+```ts [uno.config.ts]
+import { defineConfig } from 'unocss'
+
+export default defineConfig({
+  shortcuts: [
+    [
+      'custom-uno-btn',
+      'px-4 py-1 rounded inline-block bg-teal-700 text-white cursor-pointer !outline-none hover:bg-teal-800 disabled:cursor-default disabled:bg-gray-600 disabled:opacity-50'
+    ],
+  ]
+  safelist: ['bg-red-500'],
+})
+
+```
+
 ::: zh-CN
-您可以在主题 theme 目录的 `uno.config.ts` 或 `unocss.config.ts` 文件中编写 UnoCSS 配置，也可以在 `valaxy.config.ts` 文件的 `unocss` 配置项中进行配置。以下是 `valaxy.config.ts` 中 `unocss` 配置项的示例:
+也可以在 `valaxy.config.ts` 文件的 `unocss` 配置项中进行配置。以下是 `valaxy.config.ts` 中 `unocss` 配置项的示例:
 :::
 
 ::: en
@@ -62,7 +79,9 @@ export default defineValaxyConfig<ThemeConfig>({
 ```
 
 ::: zh-CN
-在 `unocss` 配置项中直接配置 `presets` 会覆盖主题和 Valaxy 默认的 `presets`。如果想扩展这些预设，请使用 [unocssPresets](#unocsspresets)
+在 `unocss` 配置项中直接配置 `presets` 会覆盖主题和 Valaxy 默认的 `presets`。
+
+如果想扩展这些预设，请使用 [unocssPresets](#unocsspresets)。
 :::
 
 ::: en

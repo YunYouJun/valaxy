@@ -229,6 +229,9 @@ export default defineValaxyConfig<PressTheme.Config>({
   groupIcons: {
     customIcon: {
       valaxy: localIconLoader(import.meta.url, './public/favicon.svg'),
+      docker: 'vscode-icons:file-type-docker',
+      nginx: 'vscode-icons:file-type-nginx',
+      toml: 'vscode-icons:file-type-toml',
     },
   },
 })

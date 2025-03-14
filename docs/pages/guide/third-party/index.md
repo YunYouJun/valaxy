@@ -99,7 +99,7 @@ export default defineSiteConfig({
 - Add fuse generation script in your `package.json`
 :::
 
-```json {7,9}
+```json {7,9} [package.json]
 {
   "name": "yun-demo",
   "valaxy": {

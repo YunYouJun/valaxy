@@ -132,7 +132,7 @@ Built-in components are not available temporarily, public components are current
 
 :::
 
-```bash
+```bash [pnpm]
 pnpm add valaxy-addon-components
 ```
 
@@ -152,7 +152,7 @@ pnpm add valaxy-addon-components
 
 :::
 
-```md
+```md [pages/posts/your-post.md]
 My Blog Content
 
 <CodePen class="h-300px" name="Margin Collapse" id="WqXGpo" user="YunYouJun" tab="html,result" />

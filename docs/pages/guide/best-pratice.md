@@ -78,12 +78,12 @@ useScriptTag('//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js')
 
 :::
 
-```txt
+```bash
 posts
-├─ your-post
-│  ├─ a.png
-|  ├─ b.png
-│  └─ index.md
+└── your-post
+    ├── a.png
+    ├── b.png
+    └── index.md
 ```
 
 ```md [posts/your-post/index.md]

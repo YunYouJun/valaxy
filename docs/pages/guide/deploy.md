@@ -142,7 +142,7 @@ When you use `pnpm create valaxy` to create a template project, it contains the 
 
 对于已有的 Valaxy 博客，在开始部署之前，您需要先对您博客的 `vercel.json` 进行修改以便[启用 `cleanUrls` 支持](https://vercel.com/docs/projects/project-configuration#cleanurls)：
 
-```json
+```json [vercel.json]
 {
   "cleanUrls": true
 }
@@ -210,7 +210,7 @@ Here is an example of an Nginx server block configuration `nginx.conf`. This con
 
 ::: details nginx.conf
 
-```nginx
+```nginx [nginx.conf]
 server {
     gzip on;
     gzip_types text/plain text/css application/json application/javascript text/xml application/xml application/xml+rss text/javascript;
@@ -279,7 +279,7 @@ Refer to the Nginx section for the `nginx.conf` configuration and place it in th
 
 ::: details Dockerfile
 
-```Dockerfile
+```Dockerfile [Dockerfile]
 FROM node:20-alpine as build-stage
 
 WORKDIR /app

@@ -552,9 +552,15 @@ const { headers, handleClick } = useOutline()
 
 譬如 `assets` 与 `components` 处于同一目录下时：
 
-```vue
-<!-- assets/images/valaxy-logo.png -->
-<!-- components/ValaxyLogo.vue -->
+```bash
+├── components
+│   └── ValaxyLogo.vue
+└── assets
+    └── images
+        └── valaxy-logo.png
+```
+
+```vue [components/ValaxyLogo.vue]
 <script lang="ts" setup>
 import valaxyLogoPng from '../assets/images/valaxy-logo.png'
 </script>
