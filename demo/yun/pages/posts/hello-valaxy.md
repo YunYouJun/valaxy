@@ -33,7 +33,7 @@ Valaxy 的目标是成为新一代的静态博客框架/生成器。
 
 More info see [valaxy.site](https://valaxy.site).
 
-```ts
+```ts [valaxy.config.ts]
 /**
  * User Config
  * do not use export const, because c12 will set as child property

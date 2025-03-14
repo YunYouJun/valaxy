@@ -6,6 +6,7 @@ import { addonBangumi } from 'valaxy-addon-bangumi'
 import { addonComponents } from 'valaxy-addon-components'
 import { addonLightGallery } from 'valaxy-addon-lightgallery'
 import { addonTest } from 'valaxy-addon-test'
+import { localIconLoader } from 'vitepress-plugin-group-icons'
 
 // import { addonMeting } from 'valaxy-addon-meting'
 
@@ -110,5 +111,10 @@ export default defineValaxyConfig<ThemeConfig>({
     addonTest(),
   ],
 
-  groupIcons: {},
+  groupIcons: {
+    customIcon: {
+      // valaxy: 'https://valaxy.site/favicon.svg',
+      valaxy: localIconLoader(import.meta.url, '../../docs/public/favicon.svg'),
+    },
+  },
 })

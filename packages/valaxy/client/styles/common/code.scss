@@ -1,5 +1,10 @@
 @use "valaxy/client/styles/mixins/index.scss" as *;
 
+:root {
+  --vp-code-block-bg: var(--va-c-bg-alt);
+  --vp-code-tab-divider: var(--va-c-gutter);
+}
+
 // for dark
 .dark .vp-code-light {
   display: none;

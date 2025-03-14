@@ -690,7 +690,7 @@ import { localIconLoader } from 'vitepress-plugin-group-icons'
 export default defineValaxyConfig({
   groupIcons: {
     customIcon: {
-      // https://valaxy.site/favicon.svg
+      // valaxy: 'https://valaxy.site/favicon.svg',
       valaxy: localIconLoader(import.meta.url, './public/favicon.svg'),
       nodejs: 'vscode-icons:file-type-node',
       playwright: 'vscode-icons:file-type-playwright',
