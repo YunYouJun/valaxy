@@ -10,7 +10,7 @@ const { t } = useI18n()
 </script>
 
 <template>
-  <div class="menu-link">
+  <div class="menu-link w-full">
     <AppLink
       v-if="'link' in item"
       class="menu-item"
@@ -24,7 +24,7 @@ const { t } = useI18n()
 
 <style lang="scss" scoped>
 .menu-link{
-    .menu-item {
+  .menu-item {
     display: flex;
     width: 100%;
     border-radius: 6px;
