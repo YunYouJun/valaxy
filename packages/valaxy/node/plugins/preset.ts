@@ -12,7 +12,6 @@ import { resolve } from 'pathe'
 import Components from 'unplugin-vue-components/vite'
 
 import Layouts from 'vite-plugin-vue-layouts'
-import { groupIconVitePlugin } from 'vitepress-plugin-group-icons'
 import { customElements } from '../constants'
 import { createConfigPlugin } from './extendConfig'
 import { createMarkdownPlugin } from './markdown'
@@ -123,17 +122,43 @@ export async function ViteValaxyPlugins(
       include: roots.map(root => `${root}/locales/**`),
     }),
 
-    groupIconVitePlugin({
-      customIcon: {
-        nodejs: 'vscode-icons:file-type-node',
-        playwright: 'vscode-icons:file-type-playwright',
-        typedoc: 'vscode-icons:file-type-typedoc',
-        eslint: 'vscode-icons:file-type-eslint',
-      },
-      ...valaxyConfig.groupIcons,
-    }),
     createFixPlugins(options),
   ]
+
+  if (valaxyConfig.groupIcons) {
+    const { groupIconVitePlugin } = await import('vitepress-plugin-group-icons')
+    plugins.push(
+      groupIconVitePlugin({
+        customIcon: {
+          nodejs: 'vscode-icons:file-type-node',
+          playwright: 'vscode-icons:file-type-playwright',
+          typedoc: 'vscode-icons:file-type-typedoc',
+          eslint: 'vscode-icons:file-type-eslint',
+        },
+        ...valaxyConfig.groupIcons,
+      }),
+    )
+  }
+  else {
+    // virtual module placeholder
+    const virtualCssId = 'virtual:group-icons.css'
+    const resolvedVirtualCssId = `\0${virtualCssId}`
+    plugins.push({
+      name: 'valaxy:virtual:group-icons.css',
+      resolveId(id) {
+        if (id === virtualCssId) {
+          return resolvedVirtualCssId
+        }
+        return void 0
+      },
+      async load(id) {
+        if (id === resolvedVirtualCssId) {
+          return ''
+        }
+        return void 0
+      },
+    })
+  }
 
   if (valaxyConfig.visualizer) {
     try {

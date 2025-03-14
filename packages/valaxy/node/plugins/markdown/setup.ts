@@ -27,7 +27,6 @@ import footnotePlugin from 'markdown-it-footnote'
 // https://www.npmjs.com/package/markdown-it-image-figures
 import imageFigures from 'markdown-it-image-figures'
 import TaskLists from 'markdown-it-task-lists'
-import { groupIconMdPlugin } from 'vitepress-plugin-group-icons'
 
 import { linkPlugin } from './plugins/link'
 import { containerPlugin } from './plugins/markdown-it/container'
@@ -152,12 +151,15 @@ export async function setupMarkdownPlugins(
 
   md.use(TaskLists)
 
+  if (options?.config.groupIcons) {
+    const { groupIconMdPlugin } = await import('vitepress-plugin-group-icons')
+    md.use(groupIconMdPlugin, {
+      titleBar: { includeSnippet: true },
+    })
+  }
+
   if (mdOptions.config)
     mdOptions.config(md)
-
-  md.use(groupIconMdPlugin, {
-    titleBar: { includeSnippet: true },
-  })
 
   return md as MarkdownIt
 }

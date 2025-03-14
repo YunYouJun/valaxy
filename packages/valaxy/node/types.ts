@@ -160,7 +160,7 @@ export interface ValaxyExtendConfig {
    * @see https://github.com/btd/rollup-plugin-visualizer
    */
   visualizer?: PluginVisualizerOptions
-  groupIcons?: GroupIconsOptions
+  groupIcons?: Partial<GroupIconsOptions>
   /**
    * unocss presets
    * @see https://unocss.dev/guide/presets

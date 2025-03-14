@@ -3,7 +3,7 @@ import pkg from '../../package.json'
 </script>
 
 <template>
-  <div text="white sm" bg="dark" rounded-lg>
+  <div class="p-4" text="white sm" bg="dark" rounded-lg>
     <pre>
   🌌 Valaxy  <span text-blue>v{{ pkg.version }}</span>
 

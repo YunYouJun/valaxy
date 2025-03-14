@@ -1,4 +1,6 @@
 <script setup lang="ts">
+// import it in setup/main.ts for ssg
+import 'virtual:group-icons.css'
 // import { defineAsyncComponent } from 'vue'
 /**
  * @see @valaxyjs/devtools

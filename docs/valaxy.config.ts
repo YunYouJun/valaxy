@@ -223,4 +223,6 @@ export default defineValaxyConfig<PressTheme.Config>({
     ],
     // theme: 'material-theme-palenight',
   },
+
+  groupIcons: {},
 })

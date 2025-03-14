@@ -669,7 +669,17 @@ Details Content
 
 ## Add Code Block Title {lang="en"}
 
-使用以下语法：
+默认**关闭**，你可以通过将其设置为空对象来开启：
+
+```ts [valaxy.config.ts]
+import { defineValaxyConfig } from 'valaxy'
+
+export default defineValaxyConfig({
+  groupIcons: {}
+})
+```
+
+此时，使用以下语法：
 
 ````md
 ```ts [valaxy.config.ts]

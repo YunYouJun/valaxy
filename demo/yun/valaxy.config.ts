@@ -109,4 +109,6 @@ export default defineValaxyConfig<ThemeConfig>({
     // }),
     addonTest(),
   ],
+
+  groupIcons: {},
 })

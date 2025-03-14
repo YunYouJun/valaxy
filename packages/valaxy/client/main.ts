@@ -14,8 +14,12 @@ import AppLink from './components/AppLink.vue'
 import setupMain from './setup/main'
 
 import { setupValaxyDevTools } from './utils/dev'
-// generate user styles
+/**
+ * user styles
+ * virtual module
+ */
 import '#valaxy/styles'
+import 'uno.css'
 
 const valaxyConfig = initValaxyConfig()
 
