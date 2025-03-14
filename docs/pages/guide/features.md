@@ -196,8 +196,7 @@ For example, if I want my theme color to be red:
 > Supported by `valaxy-theme-yun`
 :::
 
-```ts
-// valaxy.config.ts
+```ts [valaxy.config.ts]
 export default {
   themeConfig: {
     colors: {
@@ -321,8 +320,7 @@ KaTeX 已被默认支持并启用。
 Katex is enabled by default.
 :::
 
-```ts
-// valaxy.config.ts
+```ts [valaxy.config.ts]
 import { defineValaxyConfig } from 'valaxy'
 
 export default defineValaxyConfig({

@@ -29,9 +29,8 @@ categories:
 So you can use it like this:
 :::
 
-```ts
+```ts [valaxy.config.ts]
 import type { ThemeConfig } from 'valaxy-theme-yun'
-// valaxy.config.ts
 import { defineValaxyConfig } from 'valaxy'
 import { addonComponents } from 'valaxy-addon-components'
 import { VitePWA } from 'vite-plugin-pwa'

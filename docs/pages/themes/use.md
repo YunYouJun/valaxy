@@ -25,8 +25,7 @@ npm i valaxy-theme-yun
 Configure the `theme` field as the theme name, such as `yun`.
 :::
 
-```ts
-// valaxy.config.ts
+```ts [valaxy.config.ts]
 import { defineConfig } from 'valaxy'
 
 export default defineConfig({
@@ -45,8 +44,7 @@ export default defineConfig({
 Refer to the corresponding theme documentation, configure `themeConfig`.
 :::
 
-```ts
-// valaxy.config.ts
+```ts [valaxy.config.ts]
 import { defineConfig } from 'valaxy'
 
 export default defineConfig({

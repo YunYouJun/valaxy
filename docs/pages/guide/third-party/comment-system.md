@@ -25,8 +25,7 @@ npm i valaxy-addon-waline
 # pnpm add valaxy-addon-waline
 ```
 
-```ts
-// valaxy.config.ts
+```ts [valaxy.config.ts]
 import { defineValaxyConfig } from 'valaxy'
 import { addonWaline } from 'valaxy-addon-waline'
 

@@ -16,8 +16,7 @@ codepen: false
 pnpm add -D valaxy-addon-components
 ```
 
-```ts
-// valaxy.config.ts
+```ts [valaxy.config.ts]
 import { defineValaxyConfig } from 'valaxy'
 import { addonComponents } from 'valaxy-addon-components'
 

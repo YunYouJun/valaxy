@@ -36,9 +36,8 @@ To simplify config, Valaxy divided the configuration into 3.
 For example:
 :::
 
-```ts
+```ts [valaxy.config.ts]
 import type { ThemeConfig } from 'valaxy-theme-yun'
-// valaxy.config.ts
 import { defineValaxyConfig } from 'valaxy'
 import { addonComponents } from 'valaxy-addon-components'
 import { VitePWA } from 'vite-plugin-pwa'
@@ -93,8 +92,7 @@ export default defineValaxyConfig<ThemeConfig>({
 
 譬如：
 
-```ts
-// site.config.ts
+```ts [site.config.ts]
 import { defineSiteConfig } from 'valaxy'
 
 export default defineSiteConfig({
@@ -146,8 +144,7 @@ You can also write it in `site.config.ts`.
 
 For example:
 
-```ts
-// site.config.ts
+```ts [site.config.ts]
 import { defineSiteConfig } from 'valaxy'
 
 export default defineSiteConfig({
@@ -234,8 +231,7 @@ export default defineSiteConfig({
 
 > 设置 `time_warning: false`，则所有文章都不会显示阅读时间警告。
 
-```ts {8-10}
-// site.config.ts
+```ts {8-10} [site.config.ts]
 import { defineSiteConfig } from 'valaxy'
 
 export default defineSiteConfig({
@@ -257,8 +253,7 @@ For example:
 
 > Set `time_warning: false` so that all articles won't show reading time warnings.
 
-```ts {8-10}
-// site.config.ts
+```ts {8-10} [site.config.ts]
 import { defineSiteConfig } from 'valaxy'
 
 export default defineSiteConfig({
@@ -319,8 +314,7 @@ export interface SocialLink {
 Example:
 :::
 
-```ts
-// site.config.ts
+```ts [site.config.ts]
 import { defineSiteConfig } from 'valaxy'
 
 export default defineSiteConfig({
@@ -354,8 +348,7 @@ export default defineSiteConfig({
 ::: zh-CN
 > 在每篇文章末尾，展示赞助（打赏）信息。
 
-```ts
-// site.config.ts
+```ts [site.config.ts]
 import { defineSiteConfig } from 'valaxy'
 
 export default defineSiteConfig({
@@ -385,8 +378,7 @@ export default defineSiteConfig({
 ::: en
 > At the end of each post, show sponsor information.
 
-```ts
-// site.config.ts
+```ts [site.config.ts]
 import { defineSiteConfig } from 'valaxy'
 
 export default defineSiteConfig({
@@ -451,8 +443,7 @@ sponsor: false
 - `readingTime`：阅读时长（分钟）
   - 可以设置不同语言的阅读速度，默认 `cn` 为 300 字/分钟，`en` 为 200 字/分钟。
 
-```ts
-// site.config.ts
+```ts [site.config.ts]
 import { defineSiteConfig } from 'valaxy'
 
 export default defineSiteConfig({
@@ -637,8 +628,7 @@ interface RedirectRule {
 For example:
 :::
 
-```ts
-// site.config.ts
+```ts [site.config.ts]
 export default defineSiteConfig({
   redirects: {
     useVueRouter: true,
@@ -735,11 +725,9 @@ Valaxy has built-in [medium-zoom](https://github.com/francoischalifour/medium-zo
   - `selector`: Custom CSS selector
   - `options`: Refer to [options | medium-zoom](https://github.com/francoischalifour/medium-zoom#options)
 
->>>>>>> a2bbd86 (docs: update vanillaLazyLoad)
 :::
 
-```ts
-// site.config.ts
+```ts [site.config.ts]
 import { defineSiteConfig } from 'valaxy'
 
 export default defineSiteConfig({

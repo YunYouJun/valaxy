@@ -14,8 +14,7 @@ npm i valaxy-addon-bangumi
 
 使用示例：
 
-```ts
-// valaxy.config.ts
+```ts [valaxy.config.ts]
 import { defineConfig } from 'valaxy'
 import { addonBangumi } from 'valaxy-addon-bangumi'
 
@@ -44,8 +43,7 @@ description: Bangumi 追番列表
 
 bilibili-bangumi-component 使用 WebComponent 实现，而 Shadow DOM 具有隔离性，外部样式样式无法覆盖内部样式，可以通过下面的方式覆盖：
 
-```ts
-// valaxy.config.ts
+```ts [valaxy.config.ts]
 import { defineConfig } from 'valaxy'
 import { addonBangumi } from 'valaxy-addon-bangumi'
 

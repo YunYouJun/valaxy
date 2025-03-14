@@ -665,17 +665,39 @@ Details Content
 :::
 ```
 
-## 添加代码块标题 {lang="zh-CN"}
+## 添加代码块标题与图标 {lang="zh-CN"}
 
-## Add Code Block Title {lang="en"}
+## Add Code Block Title And Icons {lang="en"}
 
-默认**关闭**，你可以通过将其设置为空对象来开启：
+默认**关闭**，你可以通过将 `groupIcons` 设置为 `空对象` 来开启：
 
 ```ts [valaxy.config.ts]
 import { defineValaxyConfig } from 'valaxy'
 
 export default defineValaxyConfig({
-  groupIcons: {}
+  groupIcons: {
+    customIcon: {}
+  }
+})
+```
+
+它基于 [vitepress-plugin-group-icons](https://github.com/yuyinws/vitepress-plugin-group-icons) 实现，内置了一些[常用图标](https://vp.yuy1n.io/features.html#built-in-icons)，你可以如下自定义更多图标。
+
+```ts [valaxy.config.ts] {5-14}
+import { defineValaxyConfig } from 'valaxy'
+import { localIconLoader } from 'vitepress-plugin-group-icons'
+
+export default defineValaxyConfig({
+  groupIcons: {
+    customIcon: {
+      // https://valaxy.site/favicon.svg
+      valaxy: localIconLoader(import.meta.url, './public/favicon.svg'),
+      nodejs: 'vscode-icons:file-type-node',
+      playwright: 'vscode-icons:file-type-playwright',
+      typedoc: 'vscode-icons:file-type-typedoc',
+      eslint: 'vscode-icons:file-type-eslint',
+    },
+  }
 })
 ```
 
@@ -689,29 +711,12 @@ export default defineValaxyConfig({})
 ```
 ````
 
-我们将会得到带有 `valaxy.config.ts` 标题与 TypeScript 图标的代码块：
+我们将会得到带有 `valaxy.config.ts` 标题与 Valaxy 图标的代码块：
 
 ```ts [valaxy.config.ts]
 import { defineValaxyConfig } from 'valaxy'
 
 export default defineValaxyConfig({})
-```
-
-它基于 [vitepress-plugin-group-icons](https://github.com/yuyinws/vitepress-plugin-group-icons) 实现，你可以如下自定义更多图标。
-
-```ts [valaxy.config.ts] {4-11}
-import { defineValaxyConfig } from 'valaxy'
-
-export default defineValaxyConfig({
-  groupIcons: {
-    customIcon: {
-      nodejs: 'vscode-icons:file-type-node',
-      playwright: 'vscode-icons:file-type-playwright',
-      typedoc: 'vscode-icons:file-type-typedoc',
-      eslint: 'vscode-icons:file-type-eslint',
-    },
-  }
-})
 ```
 
 ## KaTeX {lang="en"}
@@ -790,8 +795,7 @@ $$ x = {-b \pm \sqrt{b^2-4ac} \over 2a} $$
 > [KaTeX选项](https://katex.org/docs/options.html)
 :::
 
-```ts
-// valaxy.config.ts
+```ts [valaxy.config.ts]
 export default defineValaxyConfig({
   markdown: {
     /**
@@ -821,7 +825,7 @@ You can also prefix the markdown path with `@`, it will act as the source root. 
 **输入**
 :::
 
-```md
+```md [your-file.md]
 ## Docs
 
 <!--@include: @/TEST.md-->
@@ -1008,7 +1012,7 @@ Freedom to control your layout!
 
 </div>
 
-```html
+```html [pages/posts/your-post.md]
 <div class="flex flex-col">
 
 <div class="flex grid-cols-3">

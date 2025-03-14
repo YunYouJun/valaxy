@@ -16,8 +16,7 @@ npm i valaxy-addon-lightgallery
 
 ### Load the plugin
 
-```ts
-// valaxy.config.ts
+```ts [valaxy.config.ts]
 import { defineValaxyConfig } from 'valaxy'
 import { addonLightGallery } from 'valaxy-addon-lightgallery'
 

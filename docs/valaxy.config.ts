@@ -5,6 +5,8 @@ import { addonAlgolia } from 'valaxy-addon-algolia'
 import { addonComponents } from 'valaxy-addon-components'
 import { addonGitLog } from 'valaxy-addon-git-log'
 
+import { localIconLoader } from 'vitepress-plugin-group-icons'
+
 import pkg from '../packages/valaxy/package.json'
 
 const COMMIT_ID = process.env.CF_PAGES_COMMIT_SHA || process.env.COMMIT_REF
@@ -224,5 +226,9 @@ export default defineValaxyConfig<PressTheme.Config>({
     // theme: 'material-theme-palenight',
   },
 
-  groupIcons: {},
+  groupIcons: {
+    customIcon: {
+      valaxy: localIconLoader(import.meta.url, './public/favicon.svg'),
+    },
+  },
 })
