@@ -1,3 +1,7 @@
+/**
+ * Algolia search options. Partially copied from
+ * `@docsearch/react/dist/esm/DocSearch.d.ts`
+ */
 export interface AlgoliaSearchOptions extends DocSearchProps {
   locales?: Record<string, Partial<DocSearchProps>>
 }
@@ -10,6 +14,7 @@ export interface DocSearchProps {
   searchParameters?: SearchOptions
   disableUserPersonalization?: boolean
   initialQuery?: string
+  insights?: boolean
   translations?: DocSearchTranslations
 }
 
