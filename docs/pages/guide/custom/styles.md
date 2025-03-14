@@ -10,9 +10,15 @@ end: false
 
 ## Automatic Style Injection {lang="en"}
 
-> 仅首次新建 styles/index.scss 文件时，需要重启开发服务器，以确保 scss 被加载。
+::: warning
+
+- `index.ts` / `index.scss` / `index.css` 不应当同时存在，否则可能会导致重复引入。
+- 仅首次新建 styles/index.scss 文件时，需要重启开发服务器，以确保 scss 被加载。
+
+:::
 
 :::zh-CN
+
 新建 `styles` 文件夹，目录下的以下文件将会被自动引入：
 
 - `index.ts`
@@ -23,7 +29,6 @@ end: false
 我们推荐您：
 
 - 新建 `index.ts` 文件，并在其中自由引入其他样式文件 `xxx.scss`。
-- `index.ts` / `index.scss` / `index.css` 不应当同时存在，否则可能会导致重复引入。
 
 :::
 
@@ -122,5 +127,33 @@ button {
 
 input {
   cursor: var(--cursor-text), text;
+}
+```
+
+### 覆盖暗色模式 {lang="zh-CN"}
+
+需使用 `html.dark` 选择器包裹样式。
+
+```ts [styles/index.ts]
+import './vars.scss'
+```
+
+```scss [styles/vars.scss]
+// 亮色
+.yun-page-header-gradient {
+  background: linear-gradient(to right, blue 0, rgba(0, 0, 0, 0.2) 100%);
+}
+
+// 覆盖 Dark Mode
+html.dark{
+  --va-c-bg-light:rgba(5, 16, 29, 0.8);
+
+  .yun-page-header-gradient {
+    background: linear-gradient(to right, rgba(0, 0, 0, 0.2) 0, rgba(0, 0, 0, 0.2) 100%);
+  }
+
+  .yun-footer-gradient {
+    background: linear-gradient(to right, rgba(0, 0, 0, 0.2) 0, rgba(0, 0, 0, 0.2) 100%);
+  }
 }
 ```
