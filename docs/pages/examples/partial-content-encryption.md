@@ -6,24 +6,26 @@ categories:
   - examples
 ---
 
+密码为 `valaxy`。
+
 ```md
 <!-- valaxy-encrypt-start:valaxy -->
-::: details dynamically rendered frontmatter
-{{ frontmatter }}
+我是被加密的文本。
+
+::: details dynamically rendered frontmatter 支持动态渲染
+**Frontmatter**: {{ frontmatter }}
 :::
 <!-- valaxy-encrypt-end -->
 ```
 
-::: zh-CN
-渲染结果
-:::
+## 渲染结果 {lang="zh-CN"}
 
-::: en
-Rendering result
-:::
+## Rendering result {lang="en"}
 
 <!-- valaxy-encrypt-start:valaxy -->
-::: details dynamically rendered frontmatter
-{{ frontmatter }}
+我是被加密的文本。
+
+::: details dynamically rendered frontmatter 支持动态渲染
+**Frontmatter**: {{ frontmatter }}
 :::
 <!-- valaxy-encrypt-end -->
