@@ -51,6 +51,35 @@ themes:
     tags:
       - hairy
       - blog
+  - name: valaxy-theme-sakura
+    icon: i-ri-book-line
+    repo: https://github.com/wrxinyue/valaxy-theme-sakura
+    desc: A simple, personalized, and cute anime-style blog theme
+    siteImage: https://common.s3.bitiful.net/valaxy%2Fvalaxy-theme-sakura.png
+    siteExampleUrl: 'https://sakura.wrxinyue.org/'
+    tags:
+      - blog
+      - sakura
+      - light
+  - name: valaxy-theme-oceanus
+    icon: i-ri-book-line
+    repo: https://github.com/wrxinyue/valaxy-theme-oceanus
+    desc: Simple and elegant Valaxy documentation theme
+    siteImage: https://common.s3.bitiful.net/valaxy%2Fvalaxy-theme-oceanus.png
+    siteExampleUrl: 'https://oceanus.wrxinyue.org/'
+    tags:
+      - docs
+      - oceanus
+  - name: valaxy-theme-antfu
+    icon: i-ri-book-line
+    repo: https://github.com/wrxinyue/valaxy-theme-antfu
+    desc: The Valaxy ported version of antfu.me
+    siteImage: https://common.s3.bitiful.net/valaxy%2Fvalaxy-theme-antfu.png
+    siteExampleUrl: 'https://antfu.wrxinyue.org/'
+    tags:
+      - blog
+      - antfu
+      - dark
 ---
 ::: zh-CN
 ::: tip
