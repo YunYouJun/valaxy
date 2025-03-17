@@ -180,6 +180,15 @@ export interface ThemeConfig extends DefaultTheme.Config {
    */
   footer: Partial<{
     /**
+     * @en The flowing cloud on top of the footer (If you want change color of cloud, please change css var `--yun-c-cloud`)
+     * @zh 页脚上部的动态云
+     * @default { enable: true }
+     */
+    cloud: {
+      enable: boolean
+    }
+
+    /**
      * 建站于
      */
     since: number

@@ -51,6 +51,9 @@ export const defaultThemeConfig: ThemeConfig = {
 
   sidebar: null,
   footer: {
+    cloud: {
+      enable: true,
+    },
     since: 2022,
     icon: {
       enable: true,

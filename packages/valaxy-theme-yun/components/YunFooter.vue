@@ -45,7 +45,7 @@ const footerIcon = computed(() => themeConfig.value.footer.icon || {
     bg="white dark:$va-c-bg-soft"
     text="center sm"
   >
-    <YunCloud class="absolute top--10 left-0 right-0" />
+    <YunCloud v-if="themeConfig.footer.cloud?.enable" class="absolute top--10 left-0 right-0" />
 
     <div v-if="themeConfig.footer.beian?.enable && themeConfig.footer.beian.icp" class="beian" m="y-2">
       <a href="https://beian.miit.gov.cn/" target="_blank" rel="noopener">
