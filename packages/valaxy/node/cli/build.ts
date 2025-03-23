@@ -3,7 +3,7 @@ import type { Argv } from 'yargs'
 import type { ValaxyModule } from '../modules'
 import path from 'node:path'
 import process from 'node:process'
-import consola from 'consola'
+import { consola } from 'consola'
 
 import { colors } from 'consola/utils'
 import { mergeConfig } from 'vite'

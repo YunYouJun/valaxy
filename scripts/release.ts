@@ -2,7 +2,7 @@
 import { readFileSync } from 'node:fs'
 import process from 'node:process'
 import { versionBump } from 'bumpp'
-import consola from 'consola'
+import { consola } from 'consola'
 import { colors } from 'consola/utils'
 import minimist from 'minimist'
 import { $ } from 'zx'

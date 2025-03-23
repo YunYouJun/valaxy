@@ -26,7 +26,7 @@
   "dependencies": {
     "valaxy": "workspace:*",
     "valaxy-addon-algolia": "workspace:*",
-    "valaxy-addon-artalk": "^0.1.1",
+    "valaxy-addon-artalk": "^0.1.2",
     "valaxy-addon-bangumi": "workspace:*",
     "valaxy-addon-components": "workspace:*",
     "valaxy-addon-lightgallery": "workspace:*",

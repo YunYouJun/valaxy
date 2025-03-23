@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import type { WalineInitOptions } from '@waline/client'
 
-// import consola from 'consola'
+// import { consola } from 'consola'
 
 const customOptions: WalineInitOptions = {
   serverURL: 'https://waline.yunyoujun.cn',

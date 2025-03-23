@@ -1,6 +1,6 @@
 import type { SiteConfig, UserSiteConfig } from 'valaxy/types'
 import { webcrypto } from 'node:crypto'
-import consola from 'consola'
+import { consola } from 'consola'
 import { colors } from 'consola/utils'
 import { options as floatingVueOptions } from 'floating-vue'
 import { countPerformanceTime } from '../utils/performance'

@@ -7,7 +7,7 @@ import VueI18n from '@intlify/unplugin-vue-i18n/vite'
 import UnheadVite from '@unhead/addons/vite'
 
 import Vue from '@vitejs/plugin-vue'
-import consola from 'consola'
+import { consola } from 'consola'
 import { resolve } from 'pathe'
 import Components from 'unplugin-vue-components/vite'
 

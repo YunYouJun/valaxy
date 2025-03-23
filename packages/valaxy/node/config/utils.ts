@@ -7,7 +7,7 @@ import process from 'node:process'
 // use jiti directly is 0.0006s 0.6ms
 // write in valaxy directly can be fastest and solve cjs esm in vite
 
-import consola from 'consola'
+import { consola } from 'consola'
 import fs from 'fs-extra'
 import { createJiti } from 'jiti'
 import { resolve } from 'pathe'

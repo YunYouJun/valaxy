@@ -1,6 +1,6 @@
 import type { HookKeys } from 'hookable'
 import type { ValaxyHooks, ValaxyNode } from '../types'
-import consola from 'consola'
+import { consola } from 'consola'
 import { colors } from 'consola/utils'
 import ora from 'ora'
 

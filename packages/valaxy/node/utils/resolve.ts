@@ -1,5 +1,5 @@
 import { ensurePrefix, slash } from '@antfu/utils'
-import consola from 'consola'
+import { consola } from 'consola'
 import { resolvePath } from 'mlly'
 import { resolveGlobal } from 'resolve-global'
 

@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import type { Post } from 'valaxy'
 import axios from 'axios'
-import consola from 'consola'
+import { consola } from 'consola'
 
 import dayjs from 'dayjs'
 import Button from 'primevue/button'

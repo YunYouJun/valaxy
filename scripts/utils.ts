@@ -1,6 +1,6 @@
 import { readFile, writeFile } from 'node:fs/promises'
 import { join } from 'node:path'
-import consola from 'consola'
+import { consola } from 'consola'
 import { colors } from 'consola/utils'
 
 const { cyan, gray, yellow } = colors

@@ -1,7 +1,7 @@
 import type { Argv } from 'yargs'
 import path from 'node:path'
 import process from 'node:process'
-import consola from 'consola'
+import { consola } from 'consola'
 import fs from 'fs-extra'
 import { exists } from './utils/fs'
 

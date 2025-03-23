@@ -8,7 +8,7 @@ import type { ViteSSGContext } from 'vite-ssg'
 
 import type { ComputedRef } from 'vue'
 
-import consola from 'consola'
+import { consola } from 'consola'
 import { install as installFloatingVue } from '../modules/floating-vue'
 import { install as installNprogress } from '../modules/nprogress'
 import { install as installPinia } from '../modules/pinia'
