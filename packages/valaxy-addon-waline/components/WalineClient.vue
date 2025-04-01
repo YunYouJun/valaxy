@@ -21,7 +21,7 @@ const appStore = useAppStore()
 const route = useRoute()
 const { locale } = useI18n()
 const path = computed(() => props.options.path || route.path.replace(/\/$/, ''))
-const emoji = computed(() => getEmojis(props.options.cdn))
+const emoji = computed(() => props.options.emoji || getEmojis(props.options.cdn))
 
 onMounted(() => {
   const { pageview, comment } = props.options
@@ -45,7 +45,14 @@ onMounted(() => {
 </script>
 
 <template>
-  <Waline v-bind="options" :server-u-r-l="options.serverURL" :lang="locale" :path="path" :dark="appStore.isDark" :emoji="emoji" />
+  <Waline
+    v-bind="options"
+    :server-u-r-l="options.serverURL"
+    :lang="locale"
+    :path="path"
+    :dark="appStore.isDark"
+    :emoji="emoji"
+  />
 </template>
 
 <style>
