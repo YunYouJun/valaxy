@@ -21,7 +21,7 @@ const appStore = useAppStore()
 const route = useRoute()
 const { locale } = useI18n()
 const path = computed(() => props.options.path || route.path.replace(/\/$/, ''))
-const emoji = computed(() => props.options.emoji || getEmojis(props.options.cdn))
+const emoji = computed(() => getEmojis(props.options.cdn, props.options.types, props.options.emoji))
 
 onMounted(() => {
   const { pageview, comment } = props.options

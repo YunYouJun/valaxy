@@ -5,6 +5,8 @@ export interface WalineCustomOptions {
    * emoji cdn
    */
   cdn?: string
+  emoji?: string[]
+  types?: string[]
 }
 
-export type WalineOptions = { cdn?: string } & WalineInitOptions
+export type WalineOptions = { cdn?: string, types?: string[], emoji?: string[] } & WalineInitOptions
