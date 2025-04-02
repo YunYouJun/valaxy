@@ -18,7 +18,7 @@ const clientDeps = [
   'dayjs/plugin/timezone',
   'dayjs/plugin/utc',
 
-  '@unhead/schema-org',
+  '@unhead/schema-org/vue',
   '@unhead/vue',
 
   'defu',

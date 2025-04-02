@@ -1,4 +1,4 @@
-import { definePerson, defineWebPage, defineWebSite, useSchemaOrg } from '@unhead/schema-org'
+import { definePerson, defineWebPage, defineWebSite, useSchemaOrg } from '@unhead/schema-org/vue'
 import { useSeoMeta } from '@unhead/vue'
 
 // TODO: add docs to override ValaxyApp
@@ -41,8 +41,8 @@ export function useValaxyApp() {
 
   // for SEO
   useSchemaOrg([
-  // https://unhead.unjs.io/guide/guides/identity.html
-  // Personal Website or Blog
+    // https://unhead.unjs.io/docs/schema-org/guides/recipes/identity
+    // Personal Website or Blog
     definePerson({
       name: siteConfig.value.author.name,
       url: siteUrl.value,

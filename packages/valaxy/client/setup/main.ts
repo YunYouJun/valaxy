@@ -12,7 +12,7 @@ import { consola } from 'consola'
 import { install as installFloatingVue } from '../modules/floating-vue'
 import { install as installNprogress } from '../modules/nprogress'
 import { install as installPinia } from '../modules/pinia'
-import { install as installSchema } from '../modules/schemaOrg'
+import { install as installUnhead } from '../modules/unhead'
 import { install as installValaxy } from '../modules/valaxy'
 
 export default function setupMain(ctx: ViteSSGContext, config: ComputedRef<ValaxyConfig<DefaultTheme.Config>>) {
@@ -21,7 +21,7 @@ export default function setupMain(ctx: ViteSSGContext, config: ComputedRef<Valax
   const injection_arg = ctx
 
   installValaxy(ctx, config)
-  installSchema(ctx)
+  installUnhead(ctx)
   installPinia(ctx)
   installNprogress(ctx)
   installFloatingVue(ctx, config)

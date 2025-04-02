@@ -1,6 +1,5 @@
 <script lang="ts" setup>
-import type { Article } from '@unhead/schema-org'
-import { defineArticle, useSchemaOrg } from '@unhead/schema-org'
+import { defineArticle, useSchemaOrg } from '@unhead/schema-org/vue'
 
 import dayjs from 'dayjs'
 import { useFrontmatter, useFullUrl, useSiteConfig } from 'valaxy'
@@ -17,7 +16,7 @@ const showSponsor = computed(() => {
   return siteConfig.value.sponsor.enable
 })
 
-const article: Article = {
+const article: Parameters<typeof defineArticle>[0] = {
   '@type': 'BlogPosting',
   'headline': frontmatter.value.title,
   'description': frontmatter.value.description,

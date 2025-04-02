@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { defineArticle, useSchemaOrg } from '@unhead/schema-org'
+import { defineArticle, useSchemaOrg } from '@unhead/schema-org/vue'
 
 useSchemaOrg([
   defineArticle({

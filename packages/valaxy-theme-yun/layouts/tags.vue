@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { defineWebPage, useSchemaOrg } from '@unhead/schema-org'
+import { defineWebPage, useSchemaOrg } from '@unhead/schema-org/vue'
 import { useFrontmatter, useInvisibleElement, usePostTitle, useSiteStore } from 'valaxy'
 import { computed, ref } from 'vue'
 import { useI18n } from 'vue-i18n'
