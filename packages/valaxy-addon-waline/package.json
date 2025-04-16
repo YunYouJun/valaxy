@@ -20,5 +20,8 @@
   },
   "dependencies": {
     "@waline/client": "3.4.1"
+  },
+  "devDependencies": {
+    "valaxy": "workspace:*"
   }
 }

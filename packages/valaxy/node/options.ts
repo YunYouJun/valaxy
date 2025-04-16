@@ -1,5 +1,5 @@
 import type { MarkdownEnv } from 'unplugin-vue-markdown/types'
-import type { DefaultTheme, RedirectItem, RuntimeConfig } from 'valaxy/types'
+import type { DefaultTheme, RedirectItem, RuntimeConfig } from '../types'
 import type { ValaxyAddonResolver, ValaxyNodeConfig } from './types'
 import { dirname } from 'node:path'
 import process from 'node:process'

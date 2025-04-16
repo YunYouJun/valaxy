@@ -1,4 +1,4 @@
-import type { ValaxyAddon } from 'valaxy/types'
+import type { ValaxyAddon } from '../../types'
 import type { ResolvedValaxyOptions } from '../options'
 import type { ValaxyAddonResolver, ValaxyNodeConfig } from '../types'
 import path from 'node:path'

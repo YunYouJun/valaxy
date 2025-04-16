@@ -17,5 +17,8 @@
   "types": "index.d.ts",
   "peerDependencies": {
     "valaxy": ">=0.22"
+  },
+  "devDependencies": {
+    "valaxy": "workspace:*"
   }
 }

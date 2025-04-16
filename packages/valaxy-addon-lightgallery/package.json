@@ -18,5 +18,8 @@
   },
   "dependencies": {
     "lightgallery": "2.7.2"
+  },
+  "devDependencies": {
+    "valaxy": "workspace:*"
   }
 }

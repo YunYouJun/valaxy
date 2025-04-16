@@ -1,7 +1,6 @@
 import type { TransformerCompactLineOption } from '@shikijs/transformers'
-import type { LanguageRegistration, ShikiTransformer } from 'shiki'
+import type { ShikiTransformer } from 'shiki'
 import type { Logger } from 'vite'
-import type { ShikiResolveLang } from '../../../worker_shikiResolveLang'
 import type { MarkdownOptions, ThemeOptions } from '../types'
 import {
   transformerCompactLineOptions,
@@ -18,11 +17,7 @@ import {
   createHighlighter,
   isSpecialLang,
 } from 'shiki'
-import { createSyncFn } from 'synckit'
 
-const resolveLangSync = createSyncFn<ShikiResolveLang>(
-  require.resolve('valaxy/dist/node/worker_shikiResolveLang.js'),
-)
 const nanoid = customAlphabet('abcdefghijklmnopqrstuvwxyz', 10)
 
 /**
@@ -63,7 +58,9 @@ export async function highlight(
   theme: ThemeOptions,
   options: MarkdownOptions,
   logger: Pick<Logger, 'warn'> = console,
-): Promise<(str: string, lang: string, attrs: string) => string> {
+): Promise<
+    [(str: string, lang: string, attrs: string) => Promise<string>, () => void]
+  > {
   const {
     defaultHighlightLang: defaultLang = 'txt',
     codeTransformers: userTransformers = [],
@@ -83,29 +80,8 @@ export async function highlight(
     langAlias: options.languageAlias,
   })
 
-  function loadLanguage(name: string | LanguageRegistration) {
-    const lang = typeof name === 'string' ? name : name.name
-    if (
-      !isSpecialLang(lang)
-      && !highlighter.getLoadedLanguages().includes(lang)
-    ) {
-      const resolvedLang = resolveLangSync(lang)
-      if (resolvedLang.length)
-        highlighter.loadLanguageSync(resolvedLang)
-      else return false
-    }
-    return true
-  }
-
-  // patch for twoslash - https://github.com/vuejs/vitepress/issues/4334
-  const internal = highlighter.getInternalContext()
-  const getLanguage = internal.getLanguage
-  internal.getLanguage = (name) => {
-    loadLanguage(name)
-    return getLanguage.call(internal, name)
-  }
-
   await options?.shikiSetup?.(highlighter)
+
   const transformers: ShikiTransformer[] = [
     transformerNotationDiff(),
     transformerNotationFocus({
@@ -134,92 +110,104 @@ export async function highlight(
   const lineNoRE = /:(no-)?line-numbers(=\d*)?$/
   const mustacheRE = /\{\{.*?\}\}/g
 
-  return (str: string, lang: string, attrs: string) => {
-    const vPre = vueRE.test(lang) ? '' : 'v-pre'
-    lang
-      = lang
-        .replace(lineNoStartRE, '')
-        .replace(lineNoRE, '')
-        .replace(vueRE, '')
-        .toLowerCase() || defaultLang
+  return [
+    async (str: string, lang: string, attrs: string) => {
+      const vPre = vueRE.test(lang) ? '' : 'v-pre'
+      lang
+        = lang
+          .replace(lineNoStartRE, '')
+          .replace(lineNoRE, '')
+          .replace(vueRE, '')
+          .toLowerCase() || defaultLang
 
-    if (!loadLanguage(lang)) {
-      logger.warn(
-        colors.yellow(
-          `\nThe language '${lang}' is not loaded, falling back to '${defaultLang}' for syntax highlighting.`,
-        ),
-      )
-      lang = defaultLang
-    }
-
-    const lineOptions = attrsToLines(attrs)
-    const mustaches = new Map<string, string>()
-
-    const removeMustache = (s: string) => {
-      if (vPre)
-        return s
-      return s.replace(mustacheRE, (match) => {
-        let marker = mustaches.get(match)
-        if (!marker) {
-          marker = nanoid()
-          mustaches.set(match, marker)
+      try {
+        // https://github.com/shikijs/shiki/issues/952
+        if (
+          !isSpecialLang(lang)
+          && !highlighter.getLoadedLanguages().includes(lang)
+        ) {
+          await highlighter.loadLanguage(lang as any)
         }
-        return marker
-      })
-    }
+      }
+      catch {
+        logger.warn(
+          colors.yellow(
+            `\nThe language '${lang}' is not loaded, falling back to '${defaultLang}' for syntax highlighting.`,
+          ),
+        )
+        lang = defaultLang
+      }
 
-    const restoreMustache = (s: string) => {
-      mustaches.forEach((marker, match) => {
-        s = s.replaceAll(marker, match)
-      })
-      return s
-    }
+      const lineOptions = attrsToLines(attrs)
+      const mustaches = new Map<string, string>()
 
-    str = removeMustache(str).trimEnd()
+      const removeMustache = (s: string) => {
+        if (vPre)
+          return s
+        return s.replace(mustacheRE, (match) => {
+          let marker = mustaches.get(match)
+          if (!marker) {
+            marker = nanoid()
+            mustaches.set(match, marker)
+          }
+          return marker
+        })
+      }
 
-    const highlighted = highlighter.codeToHtml(str, {
-      lang,
-      transformers: [
-        ...transformers,
-        transformerCompactLineOptions(lineOptions),
-        {
-          name: 'valaxy:v-pre',
-          pre(node) {
-            if (vPre)
-              node.properties['v-pre'] = ''
+      const restoreMustache = (s: string) => {
+        mustaches.forEach((marker, match) => {
+          s = s.replaceAll(marker, match)
+        })
+        return s
+      }
+
+      str = removeMustache(str).trimEnd()
+
+      const highlighted = highlighter.codeToHtml(str, {
+        lang,
+        transformers: [
+          ...transformers,
+          transformerCompactLineOptions(lineOptions),
+          {
+            name: 'valaxy:v-pre',
+            pre(node) {
+              if (vPre)
+                node.properties['v-pre'] = ''
+            },
           },
-        },
-        {
-          name: 'valaxy:empty-line',
-          code(hast) {
-            hast.children.forEach((span) => {
-              if (
-                span.type === 'element'
-                && span.tagName === 'span'
-                && Array.isArray(span.properties.class)
-                && span.properties.class.includes('line')
-                && span.children.length === 0
-              ) {
-                span.children.push({
-                  type: 'element',
-                  tagName: 'wbr',
-                  properties: {},
-                  children: [],
-                })
-              }
-            })
+          {
+            name: 'valaxy:empty-line',
+            code(hast) {
+              hast.children.forEach((span) => {
+                if (
+                  span.type === 'element'
+                  && span.tagName === 'span'
+                  && Array.isArray(span.properties.class)
+                  && span.properties.class.includes('line')
+                  && span.children.length === 0
+                ) {
+                  span.children.push({
+                    type: 'element',
+                    tagName: 'wbr',
+                    properties: {},
+                    children: [],
+                  })
+                }
+              })
+            },
           },
+          ...userTransformers,
+        ],
+        meta: {
+          __raw: attrs,
         },
-        ...userTransformers,
-      ],
-      meta: {
-        __raw: attrs,
-      },
-      ...(typeof theme === 'object' && 'light' in theme && 'dark' in theme
-        ? { themes: theme, defaultColor: false }
-        : { theme }),
-    })
+        ...(typeof theme === 'object' && 'light' in theme && 'dark' in theme
+          ? { themes: theme, defaultColor: false }
+          : { theme }),
+      })
 
-    return restoreMustache(highlighted)
-  }
+      return restoreMustache(highlighted)
+    },
+    highlighter.dispose,
+  ]
 }

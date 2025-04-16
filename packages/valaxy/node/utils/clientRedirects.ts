@@ -1,4 +1,4 @@
-import type { RedirectItem, RedirectRule } from 'valaxy/types'
+import type { RedirectItem, RedirectRule } from '../../types'
 import { writeFile } from 'node:fs/promises'
 import { ensureFile } from 'fs-extra'
 

@@ -11,6 +11,7 @@ top: 1
 outline: deep
 excerpt: Valaxy aims to be a next generation of static blogging frameworks/generators.
 pageTitleClass: 'text-4xl text-red'
+markdownClass: 'markdown-body custom-class'
 ---
 
 ```md

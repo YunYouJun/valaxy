@@ -1,4 +1,4 @@
-import type { SiteConfig } from 'valaxy/types'
+import type { SiteConfig } from '../../../types'
 import type { ValaxyExtendConfig } from '../../types'
 import { existsSync, readFileSync } from 'node:fs'
 

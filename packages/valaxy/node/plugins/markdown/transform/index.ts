@@ -1,15 +1,29 @@
 import type MarkdownIt from 'markdown-it'
-import type { Plugin } from 'vite'
+import type { MarkdownItAsync } from 'markdown-it-async'
 
+import type { Plugin } from 'vite'
 import type { ResolvedValaxyOptions } from '../../../options'
 import Markdown from 'unplugin-vue-markdown/vite'
-import { highlight } from '../plugins/highlight'
+import { logger } from '../../../logger'
+import { highlight as createHighlighter } from '../plugins/highlight'
 import { defaultCodeTheme, setupMarkdownPlugins } from '../setup'
 import { createTransformIncludes } from './include'
 import { matterOptions } from './matter'
 import { transformMermaid } from './mermaid'
 
 export * from './matter'
+
+export type MarkdownRenderer = MarkdownItAsync
+
+let md: MarkdownRenderer | undefined
+let _disposeHighlighter: (() => void) | undefined
+
+export function disposeMdItInstance() {
+  if (md) {
+    md = undefined
+    _disposeHighlighter?.()
+  }
+}
 
 export async function createMarkdownPlugin(
   options: ResolvedValaxyOptions,
@@ -18,7 +32,13 @@ export async function createMarkdownPlugin(
   const theme = mdOptions.theme ?? defaultCodeTheme
 
   const transformIncludes = createTransformIncludes(options)
-  const mdItHighlight = await highlight(theme, mdOptions)
+  // const mdItHighlight = await highlight(theme, mdOptions)
+
+  const [highlight, dispose] = mdOptions.highlight
+    ? [mdOptions.highlight, () => {}]
+    : await createHighlighter(theme, mdOptions, logger)
+
+  _disposeHighlighter = dispose
 
   return Markdown({
     include: [/\.md$/],
@@ -37,7 +57,7 @@ export async function createMarkdownPlugin(
       html: true,
       xhtmlOut: true,
       linkify: true,
-      highlight: mdItHighlight,
+      highlight,
       ...mdOptions?.markdownItOptions,
     },
 

@@ -1,4 +1,3 @@
-import { globSync } from 'tinyglobby'
 import { defineConfig } from 'tsup'
 import pkg from './package.json'
 
@@ -9,8 +8,6 @@ export default defineConfig((_options) => {
       'node/cli/index.ts',
       // 'client/index.ts',
       'types/index.ts',
-
-      ...globSync('node/worker_*.ts'),
     ],
     clean: true,
     dts: true,
@@ -36,13 +33,7 @@ export default defineConfig((_options) => {
     shims: true,
     /**
      * @see https://github.com/egoist/tsup/discussions/505
+     * banner require not needed
      */
-    banner: ({ format }) => {
-      if (format === 'esm') {
-        return {
-          js: `import {createRequire as __createRequire} from 'module';var require=__createRequire(import\.meta.url);`,
-        }
-      }
-    },
   }
 })

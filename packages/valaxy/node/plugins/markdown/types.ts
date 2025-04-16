@@ -9,7 +9,7 @@ import type { KatexOptions } from 'katex'
 import type MarkdownIt from 'markdown-it'
 import type anchorPlugin from 'markdown-it-anchor'
 
-import type { MarkdownItAsync } from 'markdown-it-async'
+import type { MarkdownItAsync, Options } from 'markdown-it-async'
 import type {
   BuiltinTheme,
   Highlighter,
@@ -17,7 +17,7 @@ import type {
   ShikiTransformer,
   ThemeRegistration,
 } from 'shiki'
-import type { PageData } from 'valaxy/types'
+import type { PageData } from '../../../types'
 
 // import type { lazyloadOptions } from './plugins/markdown-it/lazyload'
 
@@ -35,7 +35,7 @@ export type ThemeOptions =
  * Extend Markdown options
  * @zh 扩展 Markdown 配置，包含代码高亮、Markdown-it 和插件配置
  */
-export interface MarkdownOptions {
+export interface MarkdownOptions extends Options {
   /**
    * Setup markdown-it instance before applying plugins
    */

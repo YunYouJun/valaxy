@@ -89,3 +89,9 @@ if (!loadLanguage(lang)) {
   lang = defaultLang
 }
 ```
+
+### Shiki v3
+
+> https://github.com/shikijs/shiki/issues/952
+
+使用内置的 `highlighter.loadLanguage`

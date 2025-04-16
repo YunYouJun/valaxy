@@ -1,4 +1,4 @@
-import type { DefaultTheme } from 'valaxy/types'
+import type { DefaultTheme } from '../../types'
 import type { ResolvedValaxyOptions } from '../options'
 import type { ValaxyNodeConfig } from '../types'
 import { colors } from 'consola/utils' // updated import

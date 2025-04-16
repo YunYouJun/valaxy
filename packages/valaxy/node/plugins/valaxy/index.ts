@@ -2,10 +2,9 @@
  * @packageDocumentation valaxy plugin
  */
 
-import type { DefaultTheme, Pkg, SiteConfig } from 'valaxy/types'
 import type { Plugin, ResolvedConfig } from 'vite'
+import type { DefaultTheme, PageDataPayload, Pkg, SiteConfig } from '../../../types'
 
-import type { PageDataPayload } from '../../../types'
 import type { ResolvedValaxyOptions, ValaxyServerOptions } from '../../options'
 import type { ValaxyNodeConfig } from '../../types'
 import { consola } from 'consola'
@@ -191,7 +190,7 @@ export async function createValaxyLoader(options: ResolvedValaxyOptions, serverO
         if (file === options.themeConfigFile) {
           const { themeConfig } = await resolveUserThemeConfig(options)
           const pkg = valaxyConfig.themeConfig.pkg
-          // @ts-expect-error mount pkg
+          // @ts-expect-error pkg
           themeConfig.pkg = pkg
           valaxyConfig.themeConfig = themeConfig as (DefaultTheme.Config & { pkg: Pkg })
           return reloadConfigAndEntries(valaxyConfig)
