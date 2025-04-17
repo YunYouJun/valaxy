@@ -1,4 +1,4 @@
-import type { PageData } from 'valaxy/types'
+import type { PageData } from '../../../../types'
 import type { ResolvedValaxyOptions } from '../../../options'
 import { encryptContent } from '../../../utils/encrypt'
 
@@ -9,9 +9,8 @@ export function createTransformEncrypt(options: ResolvedValaxyOptions) {
   /**
    * will modify pageData.frontmatter
    */
-  return async (code: string, _id: string, pageData: PageData) => {
-    // get env after initEnv
-    const { frontmatter = {} as Record<string, any> } = pageData
+  return async (code: string, id: string, pageData: PageData) => {
+    const { frontmatter = {} } = pageData
 
     if (encrypt.enable) {
       /**
@@ -65,6 +64,7 @@ export function createTransformEncrypt(options: ResolvedValaxyOptions) {
         const templateStart = code.indexOf('<template>')
         const templateEnd = code.lastIndexOf('</template>')
         const content = code.slice(templateStart + 10, templateEnd)
+
         const encryptedContent = await encryptContent(content, {
           password: frontmatter.password,
           iv: encrypt.iv,

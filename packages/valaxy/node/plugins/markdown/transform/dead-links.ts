@@ -3,16 +3,18 @@ import type { MarkdownCompileResult } from '../types'
 import { slash } from '@antfu/utils'
 import fs from 'fs-extra'
 import path from 'pathe'
+import { Valaxy } from '../../../app'
 import { EXTERNAL_URL_RE } from '../../../constants'
 import { treatAsHtml } from '../utils'
 
 export function createScanDeadLinks(options: ResolvedValaxyOptions) {
   const srcDir = path.resolve(options.userRoot, 'pages')
-  const { ignoreDeadLinks } = options.config
+  const { ignoreDeadLinks } = options.config.build
   const publicDir = options.config.vite?.publicDir || 'public'
 
   return (code: string, id: string) => {
-    const { links = [] } = options.env
+    const fileInfo = Valaxy.state.idMap.get(id)
+    const { links = [] } = fileInfo || {}
     const fileOrig = id
     const file = id
 

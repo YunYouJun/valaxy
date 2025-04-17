@@ -1,5 +1,5 @@
 import type { MenuItem } from '@valaxyjs/utils'
-import type { DefaultTheme } from 'valaxy/types'
+import type { DefaultTheme } from '../../../types'
 import { getHeaders } from '@valaxyjs/utils'
 import { computed, shallowRef } from 'vue'
 import { useFrontmatter, useThemeConfig } from '../..'

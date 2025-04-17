@@ -1,7 +1,7 @@
 /**
  * Transforms fake elements ValaxyFootnoteRef, ValaxyFootnoteItem, ValaxyFootnoteAnchor to actual elements
  */
-export function transformFootnoteTooltip(code: string) {
+export function transformFootnoteTooltip(code: string, _id: string) {
   const footnoteContentMap = new Map<string, string>()
   return code.replace(/<ValaxyFootnoteItem id="(.*?)">(.*?)<\/ValaxyFootnoteItem>/gs, (_, id: string, content: string) => {
     // Strip out ValaxyFootnoteAnchor

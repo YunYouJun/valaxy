@@ -14,6 +14,7 @@
       "@valaxyjs/client/*": ["packages/valaxy/client/*"],
       "valaxy/package.json": ["packages/valaxy/package.json"],
       "valaxy": ["packages/valaxy/shim.ts"],
+      "valaxy/types": ["packages/valaxy/types/index.ts"],
       "valaxy-theme-yun/*": ["packages/valaxy-theme-yun/*"],
       "valaxy-theme-yun": ["packages/valaxy-theme-yun/node/index.ts"],
       "valaxy-addon-waline": ["packages/valaxy-addon-waline/client/index.ts"],

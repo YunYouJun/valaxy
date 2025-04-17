@@ -1,10 +1,10 @@
+import type { ComputedRef, InjectionKey } from 'vue'
+
 // import type { RouteMeta } from 'vue-router'
 // fix build caused by pnpm
 // This is likely not portable. A type annotation is necessary.
 // https://github.com/microsoft/TypeScript/issues/42873
-import type { DefaultTheme, ValaxyConfig } from 'valaxy/types'
-
-import type { ComputedRef, InjectionKey } from 'vue'
+import type { DefaultTheme, ValaxyConfig } from '../types'
 import type { ValaxyData } from './app/data'
 import { computed, inject, readonly, shallowRef } from 'vue'
 

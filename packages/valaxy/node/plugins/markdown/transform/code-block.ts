@@ -1,4 +1,5 @@
 import type { ResolvedValaxyOptions } from 'valaxy'
+import { Valaxy } from '../../../app'
 
 function handleCodeHeightLimit(mainContentMd: string, options: ResolvedValaxyOptions, codeHeightLimit?: number): string {
   if (typeof codeHeightLimit !== 'number' || codeHeightLimit <= 0)
@@ -16,8 +17,8 @@ function handleCodeHeightLimit(mainContentMd: string, options: ResolvedValaxyOpt
 }
 
 export function createTransformCodeBlock(options: ResolvedValaxyOptions) {
-  return (code: string) => {
-    const { frontmatter = {} as Record<string, any> } = options.env
-    return handleCodeHeightLimit(code, options, frontmatter.codeHeightLimit)
+  return (code: string, id: string) => {
+    const fileInfo = Valaxy.state.idMap.get(id)
+    return handleCodeHeightLimit(code, options, fileInfo?.frontmatter.codeHeightLimit)
   }
 }

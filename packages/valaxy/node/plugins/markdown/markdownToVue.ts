@@ -1,10 +1,11 @@
-import type { PageData } from 'valaxy/types'
 import type { ResolvedConfig } from 'vite'
+import type { PageData } from '../../../types'
 import type { ResolvedValaxyOptions } from '../../options'
 import _debug from 'debug'
 // copy from vitepress
 import { LRUCache } from 'lru-cache'
 import path from 'pathe'
+import { Valaxy } from '../../app'
 import { createTransformCodeBlock } from './transform/code-block'
 import { createScanDeadLinks } from './transform/dead-links'
 import { createTransformEncrypt } from './transform/encrypt'
@@ -72,7 +73,6 @@ export async function createMarkdownToVueRenderFn(
 
   const transformCodeBlock = createTransformCodeBlock(options)
   const transformMarkdown = createTransformMarkdown(options)
-
   const transformEncrypt = createTransformEncrypt(options)
 
   const scanDeadLinks = createScanDeadLinks(options)
@@ -87,7 +87,6 @@ export async function createMarkdownToVueRenderFn(
   ): Promise<MarkdownCompileResult> => {
     const file = id
     const relativePath = path.relative(srcDir, file)
-    // do not await, depend options.env
     const deadLinks = scanDeadLinks(code, id)
 
     // only in build
@@ -111,12 +110,12 @@ export async function createMarkdownToVueRenderFn(
     const data = resolveTransformIncludes(code, id, options)
     const includes = data.includes
     code = data.code
-    code = transformCodeBlock(code)
+    code = transformCodeBlock(code, id)
 
     // run it before vue and after md parse
     code = await transformEncrypt(code, id, pageData)
 
-    code = transformFootnoteTooltip(code)
+    code = transformFootnoteTooltip(code, id)
 
     code = transformMarkdown(code, id, pageData)
 
@@ -133,6 +132,8 @@ export async function createMarkdownToVueRenderFn(
     if (isBuild)
       cache.set(cacheKey, result)
 
+    // clear
+    Valaxy.state.idMap.delete(id)
     return result
   }
 }

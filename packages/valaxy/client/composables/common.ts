@@ -1,4 +1,4 @@
-import type { PostFrontMatter } from 'valaxy/types'
+import type { PostFrontMatter } from '../../types'
 import type { ValaxyData } from '../app/data'
 import { isClient } from '@vueuse/core'
 

@@ -4,6 +4,7 @@ import type { MarkdownItAsync } from 'markdown-it-async'
 import type { Plugin } from 'vite'
 import type { ResolvedValaxyOptions } from '../../../options'
 import Markdown from 'unplugin-vue-markdown/vite'
+import { Valaxy } from '../../../app/class'
 import { logger } from '../../../logger'
 import { highlight as createHighlighter } from '../plugins/highlight'
 import { defaultCodeTheme, setupMarkdownPlugins } from '../setup'
@@ -72,7 +73,14 @@ export async function createMarkdownPlugin(
       // get env
       function initEnv(md: MarkdownIt) {
         md.core.ruler.push('valaxy_md_env', (state) => {
-          options.env = state.env
+          // record to map
+          Valaxy.state.idMap.set(state.env.id, {
+            id: state.env.id,
+            title: state.env.title,
+            links: state.env.links,
+            headers: state.env.headers,
+            frontmatter: state.env.frontmatter,
+          })
         })
       }
       mdIt.use(initEnv)

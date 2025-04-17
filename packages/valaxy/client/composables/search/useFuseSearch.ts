@@ -1,6 +1,6 @@
 import type { UseFuseOptions } from '@vueuse/integrations/useFuse'
 import type { MaybeRefOrGetter } from '@vueuse/shared'
-import type { FuseListItem } from 'valaxy/types'
+import type { FuseListItem } from '../../../types'
 import { useFuse } from '@vueuse/integrations/useFuse'
 import { useSiteConfig } from 'valaxy'
 import { computed, shallowRef } from 'vue'

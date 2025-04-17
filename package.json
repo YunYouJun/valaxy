@@ -85,7 +85,7 @@
     "@antfu/eslint-config": "^4.12.0",
     "@iconify-json/logos": "catalog:",
     "@iconify-json/vscode-icons": "catalog:",
-    "@microsoft/api-extractor": "^7.52.3",
+    "@microsoft/api-extractor": "^7.52.4",
     "@playwright/test": "^1.51.1",
     "@types/debug": "^4.1.12",
     "@types/fs-extra": "^11.0.4",

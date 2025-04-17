@@ -4,6 +4,8 @@ import type { ValaxyHooks, ValaxyNode } from '../types'
 import { createHooks } from 'hookable'
 import { version } from '../../package.json'
 
+export * from './class'
+
 const buildHooks: (keyof ValaxyHooks)[] = [
   'build:before',
   'build:after',
