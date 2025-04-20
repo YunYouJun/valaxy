@@ -560,6 +560,7 @@ Set `password` in the Front Matter of the article:
 ```md {2}
 ---
 password: your_password
+password_hint: 自定义密码提示
 ---
 ```
 

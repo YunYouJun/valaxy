@@ -154,6 +154,10 @@ export interface PageFrontMatter extends Record<string, any> {
    */
   password?: string
   /**
+   * @description:zh-CN 密码提示
+   */
+  password_hint?: string
+  /**
    * @description:zh-CN 相册密码
    */
   gallery_password?: string
