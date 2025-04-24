@@ -21,7 +21,7 @@ export const addonAbbrlink = defineValaxyAddon<Options>(options => ({
       if (!postsRoot)
         return
 
-      const abbrlinkChildren = postsRoot.children.filter(child => child.meta.frontmatter.abbrlink)
+      const abbrlinkChildren = postsRoot.children.filter(child => child.meta.frontmatter?.abbrlink)
 
       if (abbrlinkChildren.length > 0) {
         abbrlinkChildren.forEach((child) => {
