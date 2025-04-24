@@ -1,0 +1,22 @@
+{
+  "name": "valaxy-addon-abbrlink",
+  "version": "0.0.1",
+  "description": "Template for Valaxy Addon.",
+  "repository": "https://github.com/YunYouJun/valaxy",
+  "keywords": [
+    "valaxy",
+    "addon",
+    "abbrlink",
+    "crc"
+  ],
+  "main": "index.ts",
+  "scripts": {
+    "test": "vitest"
+  },
+  "dependencies": {
+    "crc": "^4.3.2"
+  },
+  "devDependencies": {
+    "vitest": "^3.1.1"
+  }
+}

@@ -220,5 +220,9 @@ export async function createRouterPlugin(valaxyApp: ValaxyNode) {
       await valaxyApp.hooks.callHook('vue-router:extendRoute', route)
       return valaxyConfig.router?.extendRoute?.(route)
     },
+
+    async beforeWriteFiles(root) {
+      await valaxyApp.hooks.callHook('vue-router:beforeWriteFiles', root)
+    },
   })
 }

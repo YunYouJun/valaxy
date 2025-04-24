@@ -1,15 +1,15 @@
 import type { ThemeConfig } from 'valaxy-theme-yun'
 import { defineValaxyConfig } from 'valaxy'
 
+import { addonAbbrlink } from 'valaxy-addon-abbrlink'
 import { addonAlgolia } from 'valaxy-addon-algolia'
 import { addonBangumi } from 'valaxy-addon-bangumi'
 import { addonComponents } from 'valaxy-addon-components'
 import { addonLightGallery } from 'valaxy-addon-lightgallery'
 import { addonTest } from 'valaxy-addon-test'
+
 import { localIconLoader } from 'vitepress-plugin-group-icons'
-
 // import { addonMeting } from 'valaxy-addon-meting'
-
 // import { addonTwikoo } from 'valaxy-addon-twikoo'
 
 const safelist = [
@@ -75,6 +75,10 @@ export default defineValaxyConfig<ThemeConfig>({
   },
 
   addons: [
+    addonAbbrlink({
+      // override: true,
+    }),
+
     addonAlgolia({
       appId: 'UVMHTMG1T5',
       apiKey: '805f2584a8866388aa1631ff0348ddae',
