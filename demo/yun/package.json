@@ -38,6 +38,6 @@
   },
   "devDependencies": {
     "@iconify-json/carbon": "catalog:",
-    "nodemon": "^3.1.9"
+    "nodemon": "^3.1.10"
   }
 }

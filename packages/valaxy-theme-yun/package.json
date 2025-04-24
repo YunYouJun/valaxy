@@ -29,7 +29,7 @@
     "@iconify-json/ant-design": "catalog:",
     "@iconify-json/simple-icons": "catalog:",
     "@vueuse/motion": "^3.0.3",
-    "animejs": "^4.0.1",
+    "animejs": "^4.0.2",
     "gsap": "^3.12.7",
     "primevue": "^4.3.3"
   },

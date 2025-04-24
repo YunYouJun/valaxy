@@ -17,6 +17,6 @@
     "crc": "^4.3.2"
   },
   "devDependencies": {
-    "vitest": "^3.1.1"
+    "vitest": "^3.1.2"
   }
 }
