@@ -1,7 +1,7 @@
 {
   "name": "@valaxyjs/devtools",
   "type": "module",
-  "version": "0.23.1",
+  "version": "0.23.2",
   "repository": {
     "url": "https://github.com/YunYouJun/valaxy"
   },
@@ -35,7 +35,7 @@
   },
   "dependencies": {
     "@rollup/pluginutils": "^5.1.4",
-    "axios": "^1.8.4",
+    "axios": "^1.9.0",
     "body-parser": "^2.2.0",
     "cors": "^2.8.5",
     "http-proxy-middleware": "^3.0.5",
