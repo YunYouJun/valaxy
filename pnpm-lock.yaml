@@ -279,8 +279,8 @@ importers:
         specifier: workspace:*
         version: link:../packages/valaxy-addon-components
       valaxy-addon-git-log:
-        specifier: ^0.2.1
-        version: 0.2.1(valaxy@packages+valaxy)
+        specifier: ^0.3.2
+        version: 0.3.2(valaxy@packages+valaxy)
       valaxy-theme-press:
         specifier: link:../packages/valaxy-theme-press
         version: link:../packages/valaxy-theme-press
@@ -7490,10 +7490,10 @@ packages:
     peerDependencies:
       valaxy: latest
 
-  valaxy-addon-git-log@0.2.1:
-    resolution: {integrity: sha512-Xofxvu+Vb6K5HyRjUZgLBBHo08+P0cWKHx96FJ9iFnbpllZsZXyomUie+ZcRm6mC06Z+WdkeBAwgv9QAB0j3qw==}
+  valaxy-addon-git-log@0.3.2:
+    resolution: {integrity: sha512-2gJPX6+gXYvyMtoboLORuFrsE9Bh+jz5cy8zjXfW2kDJdxmyJI8rqpP8WBHepssbU2DRUauK3cS+O+Xhnchs3A==}
     peerDependencies:
-      valaxy: latest
+      valaxy: '>=0.22'
 
   validate-npm-package-license@3.0.4:
     resolution: {integrity: sha512-DpKm2Ui/xN7/HQKCtpZxoRWBhZ9Z0kqtygG8XCgNQ8ZlDnxuQmWhj566j8fN4Cu3/JmbhsDo7fcAJq4s9h27Ew==}
@@ -15596,9 +15596,10 @@ snapshots:
       - marked
       - typescript
 
-  valaxy-addon-git-log@0.2.1(valaxy@packages+valaxy):
+  valaxy-addon-git-log@0.3.2(valaxy@packages+valaxy):
     dependencies:
       '@octokit/rest': 21.1.1
+      fs-extra: 11.3.0
       gravatar: 1.8.2
       md5: 2.3.0
       simple-git: 3.27.0
