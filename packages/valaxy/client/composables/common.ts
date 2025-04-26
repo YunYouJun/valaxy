@@ -1,6 +1,7 @@
+import type { PostFrontMatter } from '../../types'
 import type { ValaxyData } from '../app/data'
-import { isClient } from '@vueuse/core'
 
+import { isClient } from '@vueuse/core'
 import { computed, inject } from 'vue'
 import { useRoute } from 'vue-router'
 import { dataSymbol, useSiteConfig } from '../config'
@@ -25,8 +26,8 @@ import { dataSymbol, useSiteConfig } from '../config'
 export function useFrontmatter<FM extends Record<string, any>>() {
   // inject not in app root
   const route = useRoute()
-  const frontmatter = computed<FM>(() => {
-    return route.meta.frontmatter as FM
+  const frontmatter = computed(() => {
+    return route.meta.frontmatter as Partial<(PostFrontMatter & FM)> || {}
   })
   return frontmatter
 }
