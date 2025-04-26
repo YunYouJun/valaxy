@@ -37,8 +37,9 @@ import valaxyMessages from '/@valaxyjs/locales'
 // import en from '../../../../../demo/yun/locales/en.yml'
 
 function shouldHotReload(payload: PageDataPayload): boolean {
-  const payloadPath = payload.path.replace(/(\bindex)?\.md$/, '')
-  const locationPath = location.pathname.replace(/(\bindex)?\.html$/, '')
+  const payloadPath = payload.path.replace(/(?:(^|\/)index)?\.md$/, '$1')
+  const locationPath = location.pathname
+    .replace(/(?:(^|\/)index)?\.html$/, '')
   return ensureSuffix('/', encodeURI(payloadPath)) === ensureSuffix('/', encodeURI(locationPath))
 }
 

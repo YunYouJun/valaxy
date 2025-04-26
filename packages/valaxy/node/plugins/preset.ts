@@ -6,7 +6,6 @@ import VueI18n from '@intlify/unplugin-vue-i18n/vite'
 
 import UnheadVite from '@unhead/addons/vite'
 
-import Vue from '@vitejs/plugin-vue'
 import { consola } from 'consola'
 import { resolve } from 'pathe'
 import Components from 'unplugin-vue-components/vite'
@@ -18,7 +17,7 @@ import { createMarkdownPlugin } from './markdown'
 import { createFixPlugins } from './patchTransform'
 import { createClientSetupPlugin } from './setupClient'
 import { createUnocssPlugin } from './unocss'
-import { createValaxyLoader } from './valaxy'
+import { createValaxyPlugin } from './valaxy'
 
 import { createRouterPlugin } from './vueRouter'
 
@@ -30,7 +29,7 @@ export async function ViteValaxyPlugins(
   const { roots, config: valaxyConfig } = options
 
   const MarkdownPlugin = await createMarkdownPlugin(options)
-  const ValaxyLoader = await createValaxyLoader(options, serverOptions)
+  const ValaxyPlugin = await createValaxyPlugin(options, serverOptions)
 
   /**
    * for unplugin-vue-components
@@ -48,15 +47,15 @@ export async function ViteValaxyPlugins(
   //   componentsDirs.push(componentsDir)
   // }
 
-  const plugins: (PluginOption | PluginOption[])[] = [
-    MarkdownPlugin,
-    createConfigPlugin(options),
-    createClientSetupPlugin(options),
-    Vue({
-      include: [/\.vue$/, /\.md$/],
+  const vuePlugin = await import('@vitejs/plugin-vue').then(r =>
+    r.default({
+      include: /\.(?:vue|md)$/,
       exclude: [],
+      ...valaxyConfig.vue,
       template: {
+        ...valaxyConfig.vue?.template,
         compilerOptions: {
+          ...valaxyConfig.vue?.template?.compilerOptions,
           isCustomElement: (tag) => {
             let is = customElements.has(tag)
             valaxyConfig.vue?.isCustomElement?.forEach((fn) => {
@@ -66,10 +65,15 @@ export async function ViteValaxyPlugins(
           },
         },
       },
-      ...valaxyConfig.vue,
     }),
+  )
 
-    ValaxyLoader,
+  const plugins: (PluginOption | PluginOption[])[] = [
+    MarkdownPlugin,
+    ValaxyPlugin,
+    vuePlugin,
+    createConfigPlugin(options),
+    createClientSetupPlugin(options),
 
     UnheadVite(),
 

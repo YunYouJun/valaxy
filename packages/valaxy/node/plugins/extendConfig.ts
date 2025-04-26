@@ -63,6 +63,9 @@ const EXCLUDE = [
 
   // internal
   'valaxy',
+  'virtual:valaxy-addons:empty',
+  '@valaxyjs/devtools',
+
   '/@valaxyjs/config',
   '/@valaxyjs/context',
 

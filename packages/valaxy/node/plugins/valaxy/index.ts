@@ -4,7 +4,6 @@
 
 import type { Plugin, ResolvedConfig } from 'vite'
 import type { DefaultTheme, PageDataPayload, Pkg, SiteConfig } from '../../../types'
-
 import type { ResolvedValaxyOptions, ValaxyServerOptions } from '../../options'
 import type { ValaxyNodeConfig } from '../../types'
 import { consola } from 'consola'
@@ -49,7 +48,7 @@ function generateAppVue(root: string) {
  * @param options
  * @param serverOptions
  */
-export async function createValaxyLoader(options: ResolvedValaxyOptions, serverOptions: ValaxyServerOptions = {}): Promise<Plugin[]> {
+export async function createValaxyPlugin(options: ResolvedValaxyOptions, serverOptions: ValaxyServerOptions = {}): Promise<Plugin[]> {
   let { config: valaxyConfig } = options
 
   const valaxyPrefix = '/@valaxy'
@@ -73,8 +72,13 @@ export async function createValaxyLoader(options: ResolvedValaxyOptions, serverO
       },
 
       configureServer(server) {
+        if (options.configFile) {
+          server.watcher.add(options.configFile)
+          // @TODO configDeps
+          // configDeps.forEach((file) => server.watcher.add(file))
+        }
+
         server.watcher.add([
-          options.configFile,
           options.clientRoot,
           options.themeRoot,
           options.userRoot,

@@ -12,7 +12,7 @@ catalog:
   '@iconify-json/logos': ^1.2.4
   '@iconify-json/ri': ^1.2.5
   '@iconify-json/simple-icons': ^1.2.33
-  '@iconify-json/vscode-icons': ^1.2.19
+  '@iconify-json/vscode-icons': ^1.2.20
   '@unhead/addons': ^2.0.8
   '@unhead/schema-org': ^2.0.8
   '@unhead/vue': ^2.0.8

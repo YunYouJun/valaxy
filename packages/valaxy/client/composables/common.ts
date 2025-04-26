@@ -1,4 +1,3 @@
-import type { PostFrontMatter } from '../../types'
 import type { ValaxyData } from '../app/data'
 import { isClient } from '@vueuse/core'
 
@@ -23,11 +22,11 @@ import { dataSymbol, useSiteConfig } from '../config'
  * console.log(fm.value.custom)
  * ```
  */
-export function useFrontmatter<T extends Record<string, any> = PostFrontMatter>() {
+export function useFrontmatter<FM extends Record<string, any>>() {
   // inject not in app root
   const route = useRoute()
-  const frontmatter = computed(() => {
-    return route.meta.frontmatter as Partial<PostFrontMatter & T> || {}
+  const frontmatter = computed<FM>(() => {
+    return route.meta.frontmatter as FM
   })
   return frontmatter
 }
@@ -72,7 +71,7 @@ export function useEncryptedPhotos() {
 /**
  * inject pageData
  */
-export function useData(): ValaxyData {
+export function useData<FM = Record<string, any>>(): ValaxyData<FM> {
   const data = inject(dataSymbol, {} as any)
   if (!data) {
     throw new Error('Valaxy data not properly injected in app')

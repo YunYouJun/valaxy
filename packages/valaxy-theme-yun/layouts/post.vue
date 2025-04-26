@@ -2,19 +2,10 @@
 import { defineArticle, useSchemaOrg } from '@unhead/schema-org/vue'
 
 import dayjs from 'dayjs'
-import { useFrontmatter, useFullUrl, useSiteConfig } from 'valaxy'
-import { computed } from 'vue'
+import { useFrontmatter, useSiteConfig } from 'valaxy'
 
 const siteConfig = useSiteConfig()
 const frontmatter = useFrontmatter()
-const url = useFullUrl()
-
-const showSponsor = computed(() => {
-  if (typeof frontmatter.value.sponsor === 'boolean')
-    return frontmatter.value.sponsor
-
-  return siteConfig.value.sponsor.enable
-})
 
 const article: Parameters<typeof defineArticle>[0] = {
   '@type': 'BlogPosting',
@@ -46,14 +37,11 @@ useSchemaOrg(
     <RouterView v-slot="{ Component }">
       <component :is="Component">
         <template #main-header-after>
-          <YunPostMeta :frontmatter="frontmatter" />
-
-          <YunPostCategoriesAndTags class="mt-2" :frontmatter="frontmatter" />
+          <YunMainHeaderAfter />
         </template>
 
         <template #main-content-after>
-          <YunSponsor v-if="showSponsor" m="t-6" />
-          <ValaxyCopyright v-if="frontmatter.copyright || (frontmatter.copyright !== false && siteConfig.license.enabled)" :url="url" m="y-4" />
+          <YunMainContentAfter />
         </template>
 
         <template #aside-custom>
