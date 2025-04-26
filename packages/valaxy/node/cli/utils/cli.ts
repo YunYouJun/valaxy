@@ -5,7 +5,6 @@ import os from 'node:os'
 
 import path from 'node:path'
 import process from 'node:process'
-import * as readline from 'node:readline'
 import { consola } from 'consola'
 import { colors } from 'consola/utils'
 import ora from 'ora'
@@ -70,7 +69,7 @@ export async function initServer(valaxyApp: ValaxyNode, viteConfig: InlineConfig
   )
 
   try {
-    const server = await createServer(valaxyApp, viteConfigs, {
+    GLOBAL_STATE.server = await createServer(valaxyApp, viteConfigs, {
       async onConfigReload(newConfig, config, force = false) {
         if (force) {
           vLogger.info(`${colors.yellow('force')} reload the server`)
@@ -96,9 +95,9 @@ export async function initServer(valaxyApp: ValaxyNode, viteConfig: InlineConfig
           initServer(valaxyApp, viteConfig)
       },
     })
+    const server = GLOBAL_STATE.server
     await server.listen()
     serverSpinner.succeed(`${valaxyPrefix} ${colors.green('server ready.')}`)
-    GLOBAL_STATE.server = server
     return server
   }
   catch (e) {
@@ -106,34 +105,6 @@ export async function initServer(valaxyApp: ValaxyNode, viteConfig: InlineConfig
     console.error(e)
     process.exit(1)
   }
-}
-
-/**
- * bind shortcut for terminal
- */
-export function bindShortcut(SHORTCUTS: { name: string, fullName: string, action: () => void }[]) {
-  process.stdin.resume()
-  process.stdin.setEncoding('utf8')
-  readline.emitKeypressEvents(process.stdin)
-  if (process.stdin.isTTY)
-    process.stdin.setRawMode(true)
-
-  process.stdin.on('keypress', (str, key) => {
-    if (key.ctrl && key.name === 'c') {
-      process.exit()
-    }
-    else {
-      const [sh] = SHORTCUTS.filter(item => item.name === str)
-      if (sh) {
-        try {
-          sh.action()
-        }
-        catch (err) {
-          console.error(`Failed to execute shortcut ${sh.fullName}`, err)
-        }
-      }
-    }
-  })
 }
 
 /**

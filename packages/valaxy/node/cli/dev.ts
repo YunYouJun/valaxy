@@ -1,21 +1,19 @@
-import type { InlineConfig, LogLevel } from 'vite'
+import type { InlineConfig, LogLevel, ViteDevServer } from 'vite'
 import type { Argv } from 'yargs'
-import { exec } from 'node:child_process'
-import os from 'node:os'
 import path from 'node:path'
 import process from 'node:process'
-import qrcode from 'qrcode'
 
 import { mergeConfig } from 'vite'
 import { createValaxyNode } from '../app'
 import { commonOptions } from '../cli/options'
-import { defaultViteConfig } from '../constants'
 
+import { defaultViteConfig } from '../constants'
 import { GLOBAL_STATE } from '../env'
 import { resolveOptions } from '../options'
 import { isPagesDirExist, setEnv, setTimezone } from '../utils/env'
 import { findFreePort } from '../utils/net'
-import { bindShortcut, initServer, printInfo } from './utils/cli'
+import { initServer, printInfo } from './utils/cli'
+import { bindShortcuts } from './utils/shortcuts'
 
 export async function startValaxyDev({
   root = process.cwd(),
@@ -61,51 +59,10 @@ export async function startValaxyDev({
     logLevel: log as LogLevel,
   }, resolvedOptions.config.vite || {})
 
-  await initServer(valaxyApp, viteConfig)
+  const server = await initServer(valaxyApp, viteConfig)
   printInfo(resolvedOptions, port, remote)
 
-  const SHORTCUTS = [
-    {
-      name: 'r',
-      fullName: 'restart',
-      async action() {
-        await initServer(valaxyApp, viteConfig)
-        printInfo(resolvedOptions, port, remote)
-      },
-    },
-    {
-      name: 'o',
-      fullName: 'open',
-      async action() {
-        const { default: openBrowser } = await import('open')
-        openBrowser(`http://localhost:${port}`)
-      },
-    },
-    {
-      name: 'q',
-      fullName: 'qr',
-      action() {
-        const addresses = Object.values(os.networkInterfaces())
-          .flat()
-          .filter(details => details?.family === 'IPv4' && !details.address.includes('127.0.0.1'))
-        const remoteUrl = `http://${addresses[0]?.address || 'localhost'}:${port}`
-        qrcode.toString(remoteUrl, { type: 'terminal' }, (err, qrCode) => {
-          if (err)
-            throw err
-
-          console.log(qrCode)
-        })
-      },
-    },
-    {
-      name: 'e',
-      fullName: 'edit',
-      action() {
-        exec(`code "${root}"`)
-      },
-    },
-  ]
-  bindShortcut(SHORTCUTS)
+  return server
 }
 
 export function registerDevCommand(cli: Argv) {
@@ -139,13 +96,18 @@ export function registerDevCommand(cli: Argv) {
         .strict()
         .help(),
     async ({ root, port, open, remote, log }) => {
-      startValaxyDev({
-        root,
-        open,
-        port,
-        remote,
-        log: log as LogLevel,
-      })
+      let server: ViteDevServer | undefined
+      const createDevServer = async () => {
+        server = await startValaxyDev({
+          root,
+          open,
+          port,
+          remote,
+          log: log as LogLevel,
+        })
+        bindShortcuts(server, createDevServer)
+      }
+      createDevServer()
     },
   )
 }
