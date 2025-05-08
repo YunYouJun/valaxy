@@ -91,3 +91,11 @@ Want to create your theme? Check [valaxy-theme-starter](https://github.com/YunYo
     <img src='https://fastly.jsdelivr.net/gh/YunYouJun/sponsors/public/sponsors.svg'/>
   </a>
 </p>
+
+## Contributing
+
+Thanks to everyone who has contributed to Valaxy
+
+<a href="https://openomy.app/github/YunYouJun/valaxy" target="_blank" style="display: block; width: 100%;" align="center">
+  <img src="https://openomy.app/svg?repo=YunYouJun/valaxy&chart=bubble&latestMonth=3" target="_blank" alt="Contribution Leaderboard" style="display: block; width: 100%;" />
+ </a>
