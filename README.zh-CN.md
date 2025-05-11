@@ -91,3 +91,11 @@ pnpm create valaxy
     <img src='https://fastly.jsdelivr.net/gh/YunYouJun/sponsors/public/sponsors.svg' alt="YunYouJun Sponsors"/>
   </a>
 </p>
+
+##  致谢
+
+感谢所有为 Valaxy 贡献力量的朋友们
+
+<a href="https://openomy.app/github/YunYouJun/valaxy" target="_blank" style="display: block; width: 100%;" align="center">
+  <img src="https://openomy.app/svg?repo=YunYouJun/valaxy&chart=bubble&latestMonth=3" target="_blank" alt="Contribution Leaderboard" style="display: block; width: 100%;" />
+ </a>
