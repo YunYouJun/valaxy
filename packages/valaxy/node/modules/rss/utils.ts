@@ -181,7 +181,7 @@ export async function getPosts(params: {
   }
 
   // sort by updated
-  posts.sort((a, b) => +new Date(b.publishedAt || b.updatedAt) - +new Date(a.publishedAt || a.updatedAt))
+  posts.sort((a, b) => +(b.publishedAt || b.updatedAt) - +(a.publishedAt || a.updatedAt))
   return posts
 }
 
