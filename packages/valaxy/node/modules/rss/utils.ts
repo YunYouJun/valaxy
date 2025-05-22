@@ -64,7 +64,9 @@ export async function build(options: ResolvedValaxyOptions) {
     id: siteUrl || 'valaxy',
     link: siteUrl,
     copyright: `CC ${siteConfig.license?.type?.toUpperCase()} ${ccVersion} ${new Date().getFullYear()} © ${siteConfig.author?.name}`,
-    feed: feedNameMap,
+    feed: Object.fromEntries(
+      Object.entries(feedNameMap).map(([key, value]) => [key, `${siteUrl}${value}`]),
+    ),
   }
 
   const DOMAIN = siteConfig.url.slice(0, -1)
