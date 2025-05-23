@@ -1,4 +1,4 @@
-import type { Author, FeedOptions, Item } from 'feed'
+import type { Author, Feed, Item } from 'zfeed'
 import type { ResolvedValaxyOptions } from '../../options'
 
 import { readFile } from 'node:fs/promises'
@@ -9,14 +9,13 @@ import { colors } from 'consola/utils'
 import dayjs from 'dayjs'
 import fg from 'fast-glob'
 
-import { Feed } from 'feed'
-
 import fs from 'fs-extra'
 import matter from 'gray-matter'
 import MarkdownIt from 'markdown-it'
 
 import ora from 'ora'
 import { getBorderCharacters, table } from 'table'
+import { createFeed, generateAtom1, generateJson1, generateRss2 } from 'zfeed'
 import { matterOptions } from '../../plugins/markdown/transform/matter'
 import { isExternal } from '../../utils'
 import { getCreatedTime, getUpdatedTime } from '../../utils/date'
@@ -53,23 +52,22 @@ export async function build(options: ResolvedValaxyOptions) {
   }
 
   const ccVersion = (siteConfig.license?.type === 'zero') ? '1.0' : '4.0'
-  const feedNameMap: Record<string, string> = {
+  const feedNameMap = {
     atom: siteConfig.feed?.name ? `${siteConfig.feed?.name}.atom` : 'atom.xml',
     json: `${siteConfig.feed?.name || 'feed'}.json`,
     rss: `${siteConfig.feed?.name || 'feed'}.xml`,
   }
 
-  const feedOptions: FeedOptions = {
+  const feedOptions: Feed = {
     title: siteConfig.title || 'Valaxy Blog',
     description: siteConfig.description,
     id: siteUrl || 'valaxy',
     link: siteUrl,
     copyright: `CC ${siteConfig.license?.type?.toUpperCase()} ${ccVersion} ${new Date().getFullYear()} © ${siteConfig.author?.name}`,
-    feedLinks: {},
+    feed: Object.fromEntries(
+      Object.entries(feedNameMap).map(([key, value]) => [key, `${siteUrl}${value}`]),
+    ),
   }
-  Object.keys(feedNameMap).forEach((key) => {
-    feedOptions.feedLinks[key] = `${siteUrl}${feedNameMap[key]}`
-  })
 
   const DOMAIN = siteConfig.url.slice(0, -1)
 
@@ -172,29 +170,29 @@ export async function getPosts(params: {
     }</p>`
 
     posts.push({
-      title: '',
-      ...data,
-      date: new Date(data.date),
-      published: new Date(data.updated || data.date),
+      title: data.title,
+      updatedAt: new Date(data.date),
+      publishedAt: new Date(data.updated || data.date),
       content: html + tip,
-      author: [author],
-      id: data.id?.toString() || '',
+      author,
+      id: data.id || link,
       link,
     })
   }
 
   // sort by updated
-  posts.sort((a, b) => +new Date(b.published || b.date) - +new Date(a.published || a.date))
+  posts.sort((a, b) => +(b.publishedAt || b.updatedAt) - +(a.publishedAt || a.updatedAt))
   return posts
 }
 
 /**
  * write feed to local
  */
-export async function writeFeed(feedOptions: FeedOptions, posts: Item[], options: ResolvedValaxyOptions, feedNameMap: Record<string, string>) {
-  const feed = new Feed(feedOptions)
-  posts.forEach(item => feed.addItem(item))
-  // items.forEach(i=> console.log(i.title, i.date))
+export async function writeFeed(feedOptions: Feed, posts: Item[], options: ResolvedValaxyOptions, feedNameMap: Record<string, string>) {
+  const feed = createFeed({
+    ...feedOptions,
+    items: posts,
+  })
 
   await fs.ensureDir(dirname(`./dist/${feedNameMap.atom}`))
   const path = resolve(options.userRoot, './dist')
@@ -214,11 +212,11 @@ export async function writeFeed(feedOptions: FeedOptions, posts: Item[], options
     let data = ''
     const distFeedPath = `${path}/${feedNameMap[type]}`
     if (type === 'rss')
-      data = feed.rss2()
+      data = generateRss2(feed)
     else if (type === 'atom')
-      data = feed.atom1()
+      data = generateAtom1(feed)
     else if (type === 'json')
-      data = feed.json1()
+      data = generateJson1(feed)
 
     await fs.writeFile(distFeedPath, data, 'utf-8')
     consola.debug(`[${colors.cyan(type)}] dist: ${colors.dim(distFeedPath)}`)
