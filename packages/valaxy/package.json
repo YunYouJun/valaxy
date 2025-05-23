@@ -53,8 +53,8 @@
   },
   "scripts": {
     "clean": "rimraf dist",
-    "build": "rimraf dist && tsup",
-    "dev": "tsup --watch",
+    "build": "rimraf dist && tsdown",
+    "dev": "tsdown --watch",
     "preview": "vite preview",
     "preview-https": "serve dist",
     "release:beta": "bumpp --no-tag --no-commit --no-push && pnpm publish --no-git-checks --tag beta"

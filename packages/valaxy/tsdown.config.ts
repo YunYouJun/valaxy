@@ -1,5 +1,5 @@
-import { defineConfig } from 'tsup'
-import pkg from './package.json'
+import { defineConfig } from 'tsdown'
+import pkg from './package.json' with { type: 'json' }
 
 export default defineConfig((_options) => {
   return {
@@ -9,9 +9,6 @@ export default defineConfig((_options) => {
       // 'client/index.ts',
       'types/index.ts',
     ],
-    clean: true,
-    dts: true,
-    format: ['esm'],
     // minify: !options.watch,
     external: [
       '/@valaxyjs/',
@@ -27,13 +24,9 @@ export default defineConfig((_options) => {
     ],
 
     /**
-     * @see https://tsup.egoist.dev/#inject-cjs-and-esm-shims
+     * @see https://tsdown.dev/options/shims
      * shim for __filename
      */
     shims: true,
-    /**
-     * @see https://github.com/egoist/tsup/discussions/505
-     * banner require not needed
-     */
   }
 })
