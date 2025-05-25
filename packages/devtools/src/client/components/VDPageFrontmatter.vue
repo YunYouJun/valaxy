@@ -43,18 +43,14 @@ const updated = ref(dayjs(clientPageData.value?.frontmatter.updated).toDate())
 <template>
   <div p-2>
     <ul v-if="frontmatter" class="flex flex-col gap-2">
-      <li
-        class="flex gap-2 text-sm min-h-8"
-      >
-        <div class="w-32 flex items-center h-8">
-          <strong>{{ t('pageData.path') }}</strong>
-        </div>
-        <div class="inline-flex items-center w-full min-h-8">
-          <code class="px-2 py-1 bg-gray-1 rounded text-xs">
-            {{ activePath }}
-          </code>
-        </div>
-      </li>
+      <VDFormItem
+        v-if="clientPageData?.routePath"
+        :label="t('pageData.routePath')" :value="clientPageData?.routePath"
+      />
+      <VDFormItem
+        v-if="clientPageData?.routePath"
+        :label="t('pageData.filePath')" :value="clientPageData?.filePath"
+      />
 
       <li
         v-for="(value, key) in frontmatter"

@@ -9,6 +9,8 @@ button:
 
 pageData:
   path: 路径
+  filePath: 文件路径
+  routePath: 路由路径
 
 frontmatter:
   title: 标题

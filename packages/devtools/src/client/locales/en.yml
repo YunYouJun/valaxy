@@ -9,3 +9,5 @@ button:
 
 pageData:
   path: Path
+  filePath: File Path
+  routePath: Route Path

@@ -8,6 +8,12 @@ import fg from 'fast-glob'
 import fs from 'fs-extra'
 import matter from 'gray-matter'
 
+function ensurePrefix(prefix: string, str: string) {
+  if (!str.startsWith(prefix))
+    return prefix + str
+  return str
+}
+
 export function getFunctions(server: ViteDevServer, devtoolsOptions: ValaxyDevtoolsOptions): ServerFunctions {
   const userRoot = devtoolsOptions.userRoot || process.cwd()
   // const userRoot = GLOBAL_STATE.valaxyApp?.options.userRoot || process.cwd()
@@ -15,7 +21,8 @@ export function getFunctions(server: ViteDevServer, devtoolsOptions: ValaxyDevto
   // const userRoot = server.config.root
 
   function getRoutePath(filePath: string) {
-    return path.relative(path.resolve(userRoot, 'pages'), filePath).slice(0, -'.md'.length)
+    const relativePath = path.relative(path.resolve(userRoot, 'pages'), filePath).slice(0, -'.md'.length)
+    return ensurePrefix('/', relativePath)
   }
 
   return {
@@ -33,9 +40,9 @@ export function getFunctions(server: ViteDevServer, devtoolsOptions: ValaxyDevto
         const md = await fs.readFile(file, 'utf-8')
         const { data } = matter(md)
         posts.push({
+          routePath: getRoutePath(file),
           frontmatter: data,
           filePath: file,
-          routePath: path.relative(path.resolve(userRoot, 'pages'), file).slice(0, -'.md'.length),
         })
       }
 
