@@ -9,7 +9,6 @@ tags:
   - valaxy
   - 笔记
 top: 100
-end: false
 ---
 
 ## What is Valaxy? {lang="en"}
@@ -124,13 +123,13 @@ export default defineValaxyConfig<ThemeConfig>({
 
 ::: zh-CN
 
-> Wordpress/Typecho 等是动态博客，因此不在考虑范围内。
+> Wordpress/Typecho 等属于动态博客，需要额外的服务器支持。它们的特性与目标群体差异较大，因此不在对比范围内。
 
 :::
 
 ::: en
 
-> Wordpress/Typecho are dynamic blogs and therefore are not considered.
+> Wordpress/Typecho, etc. are dynamic blogs that require additional server support. Their features and target audience are quite different, so they are not included in the comparison.
 
 :::
 
@@ -168,7 +167,7 @@ Jekyll is a bit of a veteran, but again I don't use Ruby, and it doesn't seem to
 
 [VitePress](https://vitepress.dev/) 几乎已成为了 VuePress 的继任者。
 
-但 VitePress 是一个很棒的静态站点生成器，它为文档打造，但缺少一些针对博客的定制便捷功能。
+VitePress 是一个很棒的静态站点生成器，它为文档打造，但缺少一些针对博客的定制便捷功能。
 如：RSS、文件自动路由（vue-router）、插件（挂件）机制、文章列表/分类/标签钩子、自定义覆盖布局、覆盖组件、单页切换的 i18n、KaTeX 等。
 
 :::
@@ -177,7 +176,7 @@ Jekyll is a bit of a veteran, but again I don't use Ruby, and it doesn't seem to
 
 [VitePress](https://vitepress.dev/)  is almost the successor to VuePress.
 
-But VitePress is a great static site generator, which is built for documentation, but lacks some convenient customization features for blogs, such as RSS, file automatic routing (vue-router), plugin (widget) mechanism, article list/category/tag hooks, custom override layout, override components, single-page switching i18n, KaTeX, etc.
+VitePress is a great static site generator, which is built for documentation, but lacks some convenient customization features for blogs, such as RSS, file automatic routing (vue-router), plugin (widget) mechanism, article list/category/tag hooks, custom override layout, override components, single-page switching i18n, KaTeX, etc.
 
 :::
 

@@ -1,7 +1,7 @@
 import type { MenuItem } from '../types'
 
 /**
- * @ref vitepress src/client/theme-chalk/composables/outline.ts
+ * @ref vitepress src/client/theme-default/composables/outline.ts
  */
 // cached list of anchor elements from resolveHeaders
 export const resolvedHeaders: { element: HTMLHeadElement, link: string }[] = []

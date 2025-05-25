@@ -54,12 +54,12 @@
     "@types/wicg-file-system-access": "^2023.10.6",
     "gray-matter": "^4.0.3",
     "primevue": "^4.3.4",
-    "splitpanes": "^4.0.3",
+    "splitpanes": "^4.0.4",
     "typescript": "catalog:",
     "unbuild": "catalog:",
     "unplugin-vue-router": "^0.12.0",
     "vite": "catalog:",
     "vue-i18n": "catalog:",
-    "zod": "^3.25.23"
+    "zod": "^3.25.28"
   }
 }

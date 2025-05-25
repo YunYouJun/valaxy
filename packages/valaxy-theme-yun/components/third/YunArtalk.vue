@@ -4,7 +4,7 @@ import * as addonArtalk from 'valaxy-addon-artalk'
 import 'valaxy-addon-artalk/client/styles/index.scss'
 
 if (!isEmptyAddon(addonArtalk))
-  addonArtalk.useArtalkWithOptions()
+  addonArtalk.useArtalkWithOptions?.()
 </script>
 
 <template>

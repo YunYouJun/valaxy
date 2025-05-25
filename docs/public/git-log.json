@@ -6329,5 +6329,116 @@
       }
     ],
     "path": "docs/pages/guide/third-party/vite-vue.md"
+  },
+  "docs/pages/api/index.md": {
+    "contributors": [
+      {
+        "count": 2,
+        "name": "YunYouJun",
+        "email": "me@yunyoujun.cn",
+        "avatar": "//www.gravatar.com/avatar/515e2b667cc65fac595640adbf6bfd76",
+        "github": null,
+        "hash": "515e2b667cc65fac595640adbf6bfd76"
+      }
+    ],
+    "changeLog": [
+      {
+        "hash": "ff9490d8ae96fead809c010a2440cafa87f86932",
+        "date": "2024-08-13T23:14:22+08:00",
+        "message": "feat(docs): add fly float animation",
+        "refs": "",
+        "author_name": "YunYouJun",
+        "author_email": "me@yunyoujun.cn",
+        "functions": []
+      },
+      {
+        "hash": "d18e70d257badbc8adab959df00da2bfcbb08a6e",
+        "date": "2023-10-05T05:58:50+08:00",
+        "message": "fix(theme-yun): post-card tags gap",
+        "refs": "",
+        "author_name": "YunYouJun",
+        "author_email": "me@yunyoujun.cn",
+        "functions": []
+      },
+      {
+        "hash": "b09dd4c1a9fd21519e366afee2d9cccc649958a2",
+        "date": "2023-10-05T02:38:45+08:00",
+        "message": "fix(theme-press): i18n menu",
+        "refs": "",
+        "author_name": "YunYouJun",
+        "author_email": "me@yunyoujun.cn",
+        "functions": []
+      },
+      {
+        "hash": "95381b583b94b062329a939b1d072c749b75bc1c",
+        "date": "2022-10-04T17:36:55+08:00",
+        "message": "feat(theme-press): add press footer & commit ref",
+        "refs": "",
+        "author_name": "YunYouJun",
+        "author_email": "me@yunyoujun.cn",
+        "functions": []
+      },
+      {
+        "hash": "7b3c504e6159bbf45e89e2a8bb6e0d0fb3fb690d",
+        "date": "2022-10-03T22:29:46+08:00",
+        "message": "fix(theme-press): router-link instead of a & toc",
+        "refs": "",
+        "author_name": "YunYouJun",
+        "author_email": "me@yunyoujun.cn",
+        "functions": []
+      },
+      {
+        "hash": "3e4030433a55f5bcd1801e0f90396366330de380",
+        "date": "2022-07-15T00:04:41+08:00",
+        "message": "fix: config base by vite.config.ts not cli, close #54",
+        "refs": "",
+        "author_name": "YunYouJun",
+        "author_email": "me@yunyoujun.cn",
+        "functions": [
+          "node"
+        ]
+      },
+      {
+        "hash": "ce85edc7debf82bf200090c00cbd2c9ece74563d",
+        "date": "2022-07-13T13:21:59+08:00",
+        "message": "feat(theme-press): basic layout & home",
+        "refs": "",
+        "author_name": "YunYouJun",
+        "author_email": "me@yunyoujun.cn",
+        "functions": [
+          "client"
+        ]
+      },
+      {
+        "hash": "2e6c4ca2084e03b7a3b7da862dd6eace61dc7925",
+        "date": "2022-07-11T23:33:21+08:00",
+        "message": "feat: add valaxy-theme-press for docs",
+        "refs": "",
+        "author_name": "YunYouJun",
+        "author_email": "me@yunyoujun.cn",
+        "functions": [
+          "client"
+        ]
+      },
+      {
+        "hash": "f3654556f66e428c3cd66f6d1d93743bb1a06638",
+        "date": "2022-06-18T22:50:03+08:00",
+        "message": "feat: enable katex by default & compile local",
+        "refs": "",
+        "author_name": "YunYouJun",
+        "author_email": "me@yunyoujun.cn",
+        "functions": []
+      },
+      {
+        "hash": "cf639deb61a5a6918a1602edab9b6bb0d8a99bcc",
+        "date": "2022-03-30T02:36:30+08:00",
+        "message": "feat: support katex",
+        "refs": "",
+        "author_name": "YunYouJun",
+        "author_email": "me@yunyoujun.cn",
+        "functions": []
+      }
+    ],
+    "path": "docs/pages/api/index.md"
   }
 }

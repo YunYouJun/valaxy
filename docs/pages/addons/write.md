@@ -19,8 +19,7 @@ end: false
 
 :::
 
-- [ ] `App.vue` 如果插件作者希望插件被使用时立刻全局挂载，可以将内容放置于 `valaxy-addon-<name>/App.vue` 中，并设置 `package.json` 中 `global: true`。
-
+- `App.vue` 如果插件作者希望插件被使用时立刻全局挂载，可以将内容放置于 `valaxy-addon-<name>/App.vue` 中，并设置 `package.json` 中 `global: true`。
 - `components`: 放置于 `components` 文件夹下的组件将会被自动注册，但不会被挂载。用户可以手动加载使用。
 
 > 文档正在施工中，您可以参照 [插件橱窗](/addons/gallery) 一些已有的插件。
