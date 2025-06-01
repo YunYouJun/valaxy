@@ -10,8 +10,8 @@
     "typedoc": "typedoc --options ./typedoc.json"
   },
   "devDependencies": {
-    "typedoc": "^0.28.4",
-    "typedoc-plugin-markdown": "^4.6.3",
+    "typedoc": "^0.28.5",
+    "typedoc-plugin-markdown": "^4.6.4",
     "typedoc-vitepress-theme": "^1.1.2",
     "vitepress": "^1.6.3"
   }

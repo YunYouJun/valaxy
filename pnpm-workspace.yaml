@@ -11,8 +11,8 @@ catalog:
   '@iconify-json/carbon': ^1.2.8
   '@iconify-json/logos': ^1.2.4
   '@iconify-json/ri': ^1.2.5
-  '@iconify-json/simple-icons': ^1.2.35
-  '@iconify-json/vscode-icons': ^1.2.21
+  '@iconify-json/simple-icons': ^1.2.36
+  '@iconify-json/vscode-icons': ^1.2.22
   '@unhead/addons': ^2.0.10
   '@unhead/schema-org': ^2.0.10
   '@unhead/vue': ^2.0.10
@@ -21,7 +21,7 @@ catalog:
   unbuild: ^3.5.0
   unhead: ^2.0.10
   vite: ^6.3.5
-  vue-i18n: ^11.1.4
+  vue-i18n: ^11.1.5
   zx: ^8.5.4
 onlyBuiltDependencies:
   - vue-demi

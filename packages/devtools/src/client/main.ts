@@ -1,3 +1,4 @@
+/* eslint-disable import/no-duplicates */
 import { definePreset } from '@primevue/themes'
 import Aura from '@primevue/themes/aura'
 import { createPinia } from 'pinia'
@@ -5,8 +6,8 @@ import PrimeVue from 'primevue/config'
 // register vue composition api globally
 import { createApp, ref } from 'vue'
 import { createRouter, createWebHashHistory } from 'vue-router'
-
 import { handleHotUpdate, routes } from 'vue-router/auto-routes'
+
 import App from './App.vue'
 
 import { installI18n } from './modules/i18n'
