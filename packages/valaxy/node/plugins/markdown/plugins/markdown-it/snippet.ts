@@ -150,7 +150,6 @@ export function snippetPlugin(md: MarkdownIt, srcDir: string) {
     const { realPath, path: _path } = state.env as MarkdownEnv
     const resolvedPath = path.resolve(path.dirname(realPath ?? _path), filepath)
 
-    // [FIXED] Type safety issue
     token.src = [resolvedPath, region.slice(1)]
     token.markup = '```'
     token.map = [startLine, startLine + 1]
@@ -163,7 +162,6 @@ export function snippetPlugin(md: MarkdownIt, srcDir: string) {
   md.renderer.rules.fence = (...args) => {
     const [tokens, idx, , { includes }] = args
     const token = tokens[idx]
-    // [FIXED] Type safety issue
     const [src, regionName] = token.src ?? []
 
     if (!src)
