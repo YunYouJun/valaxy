@@ -4,7 +4,7 @@ import type { MarkdownEnv } from '../..'
 import fs from 'fs-extra'
 import path from 'pathe'
 
-//add type extension for markdown-it Token
+// add type extension for markdown-it Token
 interface SnippetToken {
   src?: [string, string]
 }
