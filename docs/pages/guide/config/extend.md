@@ -172,3 +172,12 @@ export default defineValaxyConfig({
 ### UnoCSS
 
 参见 [UnoCSS](/guide/config/unocss-options)。
+
+### Modules
+
+#### RSS
+
+Valaxy 内置了 RSS 模块，你可以在 `valaxy.config.ts` 中通过 `modules.rss` 配置项进行配置。
+
+- `enable`: 是否启用 RSS 模块。
+- `fullText`: 是否输出文章全文。默认 `false`，只输出摘要。

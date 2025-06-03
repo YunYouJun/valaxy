@@ -3,7 +3,7 @@
   "type": "module",
   "version": "0.23.4",
   "private": true,
-  "packageManager": "pnpm@10.11.0",
+  "packageManager": "pnpm@10.11.1",
   "description": "📄 Vite & Vue powered static blog generator.",
   "author": {
     "email": "me@yunyoujun.cn",
@@ -110,8 +110,8 @@
     "tsx": "^4.19.4",
     "typescript": "catalog:",
     "unbuild": "catalog:",
-    "vite-node": "^3.1.4",
-    "vitest": "^3.1.4",
+    "vite-node": "^3.2.0",
+    "vitest": "^3.2.0",
     "vue-tsc": "2.2.0",
     "zx": "catalog:"
   },
