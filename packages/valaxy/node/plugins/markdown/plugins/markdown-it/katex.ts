@@ -177,9 +177,10 @@ export default function math_plugin(md: any, options: KatexOptions) {
       return katex.renderToString(latex, options)
     }
     catch (error) {
-      if (options.throwOnError)
-
-        console.warn(error)
+      if (options.throwOnError) {  
+        throw error  
+      } 
+      console.warn(error)
       return latex
     }
   }
@@ -194,8 +195,9 @@ export default function math_plugin(md: any, options: KatexOptions) {
       return `<p>${katex.renderToString(latex, options)}</p>`
     }
     catch (error) {
-      if (options.throwOnError)
-
+      if (options.throwOnError) {  
+        throw error  
+      } 
         console.warn(error)
       return latex
     }
