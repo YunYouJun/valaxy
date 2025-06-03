@@ -11,7 +11,7 @@ export function transformHexoTags(code: string, id: string) {
     )
   }
 
-  code.replace('{%', '\{\%')
-  code.replace('%}', '\%\}')
+  code = code.replaceAll('{%', '\\{\\%')
+  code = code.replaceAll('%}', '\\%\\}')
   return code
 }

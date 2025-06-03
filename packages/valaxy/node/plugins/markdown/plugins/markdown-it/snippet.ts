@@ -4,6 +4,15 @@ import type { MarkdownEnv } from '../..'
 import fs from 'fs-extra'
 import path from 'pathe'
 
+// add type extension for markdown-it Token
+interface SnippetToken {
+  src?: [string, string]
+}
+
+declare module 'markdown-it/lib/token' {
+  interface Token extends SnippetToken {}
+}
+
 /**
  * raw path format: "/path/to/file.extension#region {meta} [title]"
  *    where #region, {meta} and [title] are optional
@@ -141,7 +150,6 @@ export function snippetPlugin(md: MarkdownIt, srcDir: string) {
     const { realPath, path: _path } = state.env as MarkdownEnv
     const resolvedPath = path.resolve(path.dirname(realPath ?? _path), filepath)
 
-    // @ts-expect-error - hack
     token.src = [resolvedPath, region.slice(1)]
     token.markup = '```'
     token.map = [startLine, startLine + 1]
@@ -154,7 +162,6 @@ export function snippetPlugin(md: MarkdownIt, srcDir: string) {
   md.renderer.rules.fence = (...args) => {
     const [tokens, idx, , { includes }] = args
     const token = tokens[idx]
-    // @ts-expect-error - hack
     const [src, regionName] = token.src ?? []
 
     if (!src)
