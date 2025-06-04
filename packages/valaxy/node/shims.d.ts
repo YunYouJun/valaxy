@@ -22,3 +22,9 @@ declare module 'diacritics' {
   function remove(str: string): string
   export { remove }
 }
+
+declare module 'markdown-it/lib/token.mjs' {
+  interface Token {
+    src?: [string, string]
+  }
+}
