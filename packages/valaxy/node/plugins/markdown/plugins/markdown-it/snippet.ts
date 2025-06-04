@@ -4,13 +4,6 @@ import type { MarkdownEnv } from '../..'
 import fs from 'fs-extra'
 import path from 'pathe'
 
-// extend the Token interface to include a custom src attribute
-declare module 'markdown-it/lib/token.mjs' {
-  interface Token {
-    src?: [string, string]
-  }
-}
-
 /**
  * raw path format: "/path/to/file.extension#region {meta} [title]"
  *    where #region, {meta} and [title] are optional
@@ -148,7 +141,7 @@ export function snippetPlugin(md: MarkdownIt, srcDir: string) {
     const { realPath, path: _path } = state.env as MarkdownEnv
     const resolvedPath = path.resolve(path.dirname(realPath ?? _path), filepath)
 
-    token.src = [resolvedPath, region.slice(1)]
+    (token as any).src = [resolvedPath, region.slice(1)]
     token.markup = '```'
     token.map = [startLine, startLine + 1]
 
@@ -160,7 +153,7 @@ export function snippetPlugin(md: MarkdownIt, srcDir: string) {
   md.renderer.rules.fence = (...args) => {
     const [tokens, idx, , { includes }] = args
     const token = tokens[idx]
-    const [src, regionName] = token.src ?? []
+    const [src, regionName] = (token as any).src ?? []
 
     if (!src)
       return fence(...args)
