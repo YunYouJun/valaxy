@@ -4,15 +4,6 @@ import type { MarkdownEnv } from '../..'
 import fs from 'fs-extra'
 import path from 'pathe'
 
-// add type extension for markdown-it Token
-interface SnippetToken {
-  src?: [string, string]
-}
-
-declare module 'markdown-it/lib/token.mjs' {
-  interface Token extends SnippetToken {}
-}
-
 /**
  * raw path format: "/path/to/file.extension#region {meta} [title]"
  *    where #region, {meta} and [title] are optional
