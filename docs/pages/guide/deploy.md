@@ -111,7 +111,7 @@ This is because when there is a directory with the same name, GitHub Pages will 
 ::: en
 When you use `pnpm create valaxy` to create a template project, it contains the file [`.github/workflows/gh-pages.yml`](https://github.com/YunYouJun/valaxy/blob/main/packages/create-valaxy/template-blog/.github/workflows/gh-pages.yml) for the CI workflow of GitHub Actions.
 
-- Select the Github repository, go to `Settings`-> `Action` -> `General` -> `Workflow permissions`, and select `read and write permissions`。
+- Select the Github repository, go to `Settings`-> `Action` -> `General` -> `Workflow permissions`, and select `read and write permissions`.
 - Push to your GitHub repository, and go to `Settings` -> `Pages`. Select `gh-pages` branch.
 
 > `gh-pages` has been automatically deployed by `.github/workflows/gh-pages.yml`.
