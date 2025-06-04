@@ -1,8 +1,16 @@
 import type MarkdownIt from 'markdown-it'
 import type { RuleBlock } from 'markdown-it/lib/parser_block.mjs'
+import type Token from 'markdown-it/lib/token.mjs' 
 import type { MarkdownEnv } from '../..'
 import fs from 'fs-extra'
 import path from 'pathe'
+
+// extend the Token interface to include a custom src attribute
+declare module 'markdown-it/lib/token.mjs' {
+  interface Token {
+    src?: [string, string]
+  }
+}
 
 /**
  * raw path format: "/path/to/file.extension#region {meta} [title]"
