@@ -9,7 +9,7 @@ interface SnippetToken {
   src?: [string, string]
 }
 
-declare module 'markdown-it/lib/token' {
+declare module 'markdown-it/lib/token.mjs' {
   interface Token extends SnippetToken {}
 }
 
