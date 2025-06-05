@@ -177,7 +177,20 @@ export default defineValaxyConfig({
 
 #### RSS
 
+::: zh-CN
+
 Valaxy 内置了 RSS 模块，你可以在 `valaxy.config.ts` 中通过 `modules.rss` 配置项进行配置。
 
-- `enable`: 是否启用 RSS 模块。
+- `enable`: 是否启用 RSS 模块。默认 `true`，启用。
 - `fullText`: 是否输出文章全文。默认 `false`，只输出摘要。
+
+:::
+
+::: en
+
+Valaxy has a built-in RSS module, which can be configured in `valaxy.config.ts` through the `modules.rss` configuration item.
+
+- `enable`: Whether to enable the RSS module. Default is `true`, enabled.
+- `fullText`: Whether to output the full text of the article. Default is `false`, only the summary is output.
+
+:::

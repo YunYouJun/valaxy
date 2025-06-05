@@ -110,8 +110,8 @@
     "tsx": "^4.19.4",
     "typescript": "catalog:",
     "unbuild": "catalog:",
-    "vite-node": "^3.2.0",
-    "vitest": "^3.2.0",
+    "vite-node": "^3.2.1",
+    "vitest": "^3.2.1",
     "vue-tsc": "2.2.0",
     "zx": "catalog:"
   },
