@@ -191,7 +191,7 @@ iles 与 Valaxy 的一些基础结构功能很相似，它相比 Vitepress 拥�
 :::
 
 ::: en
-After completing the development of Valaxy's basic structures, I learned about iles from my group friend, which is very similar to many features I have archieved.
+After completing the development of Valaxy's basic structures, I learned about iles from my group friend, which is very similar to many features I have archived.
 
 It has more features than Vitepress and is also suitable for writing a document with more interaction.
 
