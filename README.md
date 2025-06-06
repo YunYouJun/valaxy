@@ -41,7 +41,7 @@ pnpm create valaxy
 # yarn create valaxy
 ```
 
-For a example, you can see [demo/yun](./demo/yun/) folder.
+For an example, you can see [demo/yun](./demo/yun/) folder.
 
 ## Features
 

@@ -153,7 +153,7 @@ Valaxy provides a quick integration plug-in: [valaxy-addon-algolia](https://gith
 ::: en
 > Implementd based on [Aplayer](https://github.com/DIYgod/APlayer) and [MetingJS](https://github.com/metowolf/MetingJS)
 
-For example, add a song from Netease Cloud in a article:
+For example, add a song from Netease Cloud in an article:
 
 Enable it in the FrontMatter of the article:
 :::

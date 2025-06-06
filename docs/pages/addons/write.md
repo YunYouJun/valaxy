@@ -1,5 +1,5 @@
 ---
-title: Write a Addon
+title: Write an Addon
 title_zh: 编写一个插件
 categories:
   - addon
