@@ -26,7 +26,7 @@ Valaxy 将中英文写一个 Markdown 文件中，因此您可以很容易地进
 :::
 
 <div>
-This is a example.
+This is an example.
 </div>
 ```
 
