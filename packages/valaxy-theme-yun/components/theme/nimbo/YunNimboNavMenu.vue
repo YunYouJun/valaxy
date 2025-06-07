@@ -79,14 +79,15 @@ const app = useAppStore()
             />
           </div>
 
-          <YunNavMenuItem
-            v-for="item, i in themeConfig.pages"
-            v-if="showItems"
-            :key="i"
-            :icon="item.icon"
-            :to="item.url"
-            :title="item.name"
-          />
+          <div v-if="showItems">
+            <YunNavMenuItem
+              v-for="item, i in themeConfig.pages"
+              :key="i"
+              :icon="item.icon"
+              :to="item.url"
+              :title="item.name"
+            />
+          </div>
         </template>
       </div>
 
