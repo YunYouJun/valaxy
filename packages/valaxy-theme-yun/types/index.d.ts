@@ -172,6 +172,12 @@ export interface ThemeConfig extends DefaultTheme.Config {
    * @zh - 页面，显示在社交导航栏下方
    */
   pages: PageProps[]
+  /**
+   * show items
+   * @zh 左上角使用页面链接替换导航栏
+   * @default false
+   */
+  showItems?: boolean
 
   sidebar: YunTheme.Sidebar
 

@@ -11,6 +11,7 @@ const siteConfig = useSiteConfig()
 const themeConfig = useThemeConfig()
 
 const showMenu = ref(false)
+const showItems = themeConfig.value.showItems || false
 const route = useRoute()
 onMounted(() => {
   if (route.meta.layout === 'home') {
@@ -63,13 +64,31 @@ const app = useAppStore()
             title="博客文章"
           />
 
-          <YunNavMenuItem
-            v-for="item, i in themeConfig.pages"
-            :key="i"
-            :icon="item.icon"
-            :to="item.url"
-            :title="item.name"
-          />
+          <!-- Default items are displayed when `showItems` is false -->
+          <div v-if="!showItems">
+            <YunNavMenuItem
+              icon="i-ri-archive-line" to="/archives/"
+              title="归档"
+            />
+            <YunNavMenuItem
+              icon="i-ri-folder-2-line" to="/categories/"
+              title="分类"
+            />
+            <YunNavMenuItem
+              icon="i-ri-price-tag-3-line" to="/tags/"
+              title="标签"
+            />
+          </div>
+
+          <div v-if="showItems">
+            <YunNavMenuItem
+              v-for="item, i in themeConfig.pages"
+              :key="i"
+              :icon="item.icon"
+              :to="item.url"
+              :title="item.name"
+            />
+          </div>
         </template>
       </div>
 
