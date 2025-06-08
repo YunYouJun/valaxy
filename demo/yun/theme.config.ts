@@ -1,8 +1,8 @@
 import { defineThemeConfig } from 'valaxy-theme-yun'
 
 export default defineThemeConfig({
-  type: 'strato',
-  // type: 'nimbo',
+  // type: 'strato',
+  type: 'nimbo',
   // colors: {
   //   primary: 'red',
   // },
@@ -20,16 +20,11 @@ export default defineThemeConfig({
   },
 
   nav: [
-    {
-      text: '导航',
-      link: '/projects',
-      items: [
-        { text: '项目列表', link: '/projects' },
-        { text: '友情链接', link: '/links' },
-        { text: '老婆列表', link: '/girls' },
-        { text: '赞助者', link: 'https://www.yunyoujun.cn/sponsors/' },
-      ],
-    },
+    { text: '项目列表', link: '/projects', icon: 'i-ri-gallery-view' },
+    { text: '相册', link: '/albums', icon: 'i-ri-image-line' },
+    { text: '友情链接', link: '/links/', icon: 'i-ri-link' },
+    { text: '老婆列表', link: '/girls/', icon: 'i-ri-women-line' },
+    { text: '赞助者们', link: '/sponsors/', icon: 'i-ri-heart-line' },
   ],
 
   pages: [

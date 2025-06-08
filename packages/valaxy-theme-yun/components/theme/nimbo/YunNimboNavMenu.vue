@@ -64,11 +64,11 @@ const app = useAppStore()
           />
 
           <YunNavMenuItem
-            v-for="item, i in themeConfig.pages"
+            v-for="item, i in themeConfig.nav"
             :key="i"
             :icon="item.icon"
-            :to="item.url"
-            :title="item.name"
+            :to="item.link"
+            :title="item.text"
           />
         </template>
       </div>

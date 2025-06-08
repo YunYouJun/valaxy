@@ -295,7 +295,8 @@ export interface NavItemGroup {
   items: NavItemLink[]
 }
 
-export type NavItem = NavItemLink | NavItemGroup
+// export type NavItem = NavItemLink | NavItemGroup
+export type NavItem = NavItemLink
 
 /**
  * girl
