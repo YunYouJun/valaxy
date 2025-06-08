@@ -27,6 +27,14 @@ export namespace YunTheme {
      * site-name class
      */
     siteNameClass?: string
+
+    /**
+     * @nimbo
+     * @en Banner Animation Duration
+     * @zh Banner 动画持续时间
+     * @default 500
+     */
+    duration?: number
   }
 }
 
@@ -89,6 +97,14 @@ export interface ThemeConfig extends DefaultTheme.Config {
    * 首页标语
    */
   banner: YunTheme.Banner
+  // /**
+  //  * prologue
+  //  * 开场白
+  //  * @zh banner 之后的首页导航
+  //  */
+  // prologue: {
+  //   enable: boolean
+  // }
 
   /**
    * @en Background image

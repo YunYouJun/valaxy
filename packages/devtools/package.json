@@ -49,7 +49,7 @@
     "@iconify-json/ri": "catalog:",
     "@intlify/unplugin-vue-i18n": "^6.0.8",
     "@primevue/themes": "^4.3.5",
-    "@types/body-parser": "^1.19.5",
+    "@types/body-parser": "^1.19.6",
     "@types/splitpanes": "^2.2.6",
     "@types/wicg-file-system-access": "^2023.10.6",
     "gray-matter": "^4.0.3",

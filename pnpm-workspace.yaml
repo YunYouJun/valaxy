@@ -8,7 +8,7 @@ packages:
   - scripts
 catalog:
   '@iconify-json/ant-design': ^1.2.5
-  '@iconify-json/carbon': ^1.2.8
+  '@iconify-json/carbon': ^1.2.9
   '@iconify-json/logos': ^1.2.4
   '@iconify-json/ri': ^1.2.5
   '@iconify-json/simple-icons': ^1.2.37
@@ -22,6 +22,6 @@ catalog:
   unhead: ^2.0.10
   vite: ^6.3.5
   vue-i18n: ^11.1.5
-  zx: ^8.5.4
+  zx: ^8.5.5
 onlyBuiltDependencies:
   - vue-demi

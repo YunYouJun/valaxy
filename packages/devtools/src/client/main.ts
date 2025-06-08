@@ -1,4 +1,3 @@
-/* eslint-disable import/no-duplicates */
 import { definePreset } from '@primevue/themes'
 import Aura from '@primevue/themes/aura'
 import { createPinia } from 'pinia'

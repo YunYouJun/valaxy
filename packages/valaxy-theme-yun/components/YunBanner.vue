@@ -44,7 +44,7 @@ onMounted(async () => {
   await sleep(500)
   lineStatus.value = 'active'
   if (yun.isNimbo) {
-    await sleep(500)
+    await sleep(themeConfig.value.banner.duration || 500)
     lineStatus.value = 'exit'
 
     animationStatus.value = 'prologue'

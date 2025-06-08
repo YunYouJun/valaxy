@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { useValaxyDark } from 'valaxy'
 import { computed } from 'vue'
+
 // background-image: linear-gradient(120deg, #a1c4fd 0%, #c2e9fb 100%);
 const { isDark } = useValaxyDark()
 const gradientStyles = computed(() => {

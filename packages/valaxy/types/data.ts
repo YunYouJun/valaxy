@@ -1,10 +1,10 @@
 import type { Header } from '@valaxyjs/utils'
 import type { Post } from './posts'
 
-export type CleanUrlsMode =
-  | 'disabled'
-  | 'without-subfolders'
-  | 'with-subfolders'
+export type CleanUrlsMode
+  = | 'disabled'
+    | 'without-subfolders'
+    | 'with-subfolders'
 
 export interface PageData {
   relativePath: string
@@ -26,6 +26,6 @@ export interface PageDataPayload {
   pageData: PageData
 }
 
-export type HeadConfig =
-  | [string, Record<string, string>]
-  | [string, Record<string, string>, string]
+export type HeadConfig
+  = | [string, Record<string, string>]
+    | [string, Record<string, string>, string]

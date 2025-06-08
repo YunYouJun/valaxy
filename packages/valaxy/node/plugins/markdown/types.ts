@@ -23,13 +23,13 @@ import type { PageData } from '../../../types'
 
 import type { Blocks, ContainerOptions } from './plugins/markdown-it/container'
 
-export type ThemeOptions =
-  | ThemeRegistration
-  | BuiltinTheme
-  | {
-    light: ThemeRegistration | BuiltinTheme
-    dark: ThemeRegistration | BuiltinTheme
-  }
+export type ThemeOptions
+  = | ThemeRegistration
+    | BuiltinTheme
+    | {
+      light: ThemeRegistration | BuiltinTheme
+      dark: ThemeRegistration | BuiltinTheme
+    }
 
 /**
  * Extend Markdown options

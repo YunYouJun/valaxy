@@ -1,8 +1,8 @@
 import { defineThemeConfig } from 'valaxy-theme-yun'
 
 export default defineThemeConfig({
-  // type: 'strato',
-  type: 'nimbo',
+  type: 'strato',
+  // type: 'nimbo',
   // colors: {
   //   primary: 'red',
   // },
