@@ -11,8 +11,8 @@ catalog:
   '@iconify-json/carbon': ^1.2.9
   '@iconify-json/logos': ^1.2.4
   '@iconify-json/ri': ^1.2.5
-  '@iconify-json/simple-icons': ^1.2.37
-  '@iconify-json/vscode-icons': ^1.2.22
+  '@iconify-json/simple-icons': ^1.2.38
+  '@iconify-json/vscode-icons': ^1.2.23
   '@unhead/addons': ^2.0.10
   '@unhead/schema-org': ^2.0.10
   '@unhead/vue': ^2.0.10
