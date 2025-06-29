@@ -40,13 +40,6 @@ export const customElements = new Set([
 
 /**
  * @see https://vitejs.dev/config/shared-options.html#css-preprocessoroptions for sass@2
+ * vite@7 default use sass modern api
  */
-export const defaultViteConfig: UserConfig = {
-  css: {
-    preprocessorOptions: {
-      scss: {
-        api: 'modern-compiler',
-      },
-    },
-  },
-}
+export const defaultViteConfig: UserConfig = {}

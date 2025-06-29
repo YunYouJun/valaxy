@@ -17,14 +17,6 @@ export default defineConfig(() => {
   return {
     base: './',
 
-    css: {
-      preprocessorOptions: {
-        scss: {
-          api: 'modern-compiler',
-        },
-      },
-    },
-
     resolve: {
       alias: {
         '~/': __dirname,

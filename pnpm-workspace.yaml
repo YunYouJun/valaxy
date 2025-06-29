@@ -8,20 +8,20 @@ packages:
   - scripts
 catalog:
   '@iconify-json/ant-design': ^1.2.5
-  '@iconify-json/carbon': ^1.2.9
+  '@iconify-json/carbon': ^1.2.10
   '@iconify-json/logos': ^1.2.4
   '@iconify-json/ri': ^1.2.5
-  '@iconify-json/simple-icons': ^1.2.38
+  '@iconify-json/simple-icons': ^1.2.40
   '@iconify-json/vscode-icons': ^1.2.23
-  '@unhead/addons': ^2.0.10
-  '@unhead/schema-org': ^2.0.10
-  '@unhead/vue': ^2.0.10
+  '@unhead/addons': ^2.0.11
+  '@unhead/schema-org': ^2.0.11
+  '@unhead/vue': ^2.0.11
   consola: ^3.4.2
   typescript: ^5.8.3
   unbuild: ^3.5.0
-  unhead: ^2.0.10
-  vite: ^6.3.5
-  vue-i18n: ^11.1.5
-  zx: ^8.5.5
+  unhead: ^2.0.11
+  vite: ^7.0.0
+  vue-i18n: ^11.1.7
+  zx: ^8.6.0
 onlyBuiltDependencies:
   - vue-demi
