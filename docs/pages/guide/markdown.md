@@ -687,6 +687,7 @@ I am a custom block.
 
 ```ts [valaxy.config.ts]
 import { defineValaxyConfig } from 'valaxy'
+
 export default defineValaxyConfig({
   markdown: {
     blocks: {

@@ -1,4 +1,4 @@
-import type { ResolvedValaxyOptions } from 'valaxy/node'
+import type { ResolvedValaxyOptions } from 'valaxy'
 import type { UserValaxyConfig } from 'valaxy/types'
 import { resolve } from 'node:path'
 import fs from 'fs-extra'
