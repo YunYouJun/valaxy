@@ -112,7 +112,8 @@ const defaultBlocksOptions: ContainerOptions = {
 }
 
 export function containerPlugin(md: MarkdownIt, options: Options, containerOptions: ContainerOptions = {}) {
-  Object.keys(defaultBlocksOptions).forEach((optionKey) => {
+  const blockKeys = Object.keys(Object.assign(defaultBlocksOptions, containerOptions))
+  blockKeys.forEach((optionKey) => {
     const option: BlockItem = {
       ...defaultBlocksOptions[optionKey as keyof Blocks],
       ...(containerOptions[optionKey as keyof Blocks] || {}),
@@ -120,6 +121,7 @@ export function containerPlugin(md: MarkdownIt, options: Options, containerOptio
 
     md.use(...createContainer(optionKey, option))
   })
+
   md.use(...createCodeGroup(options))
 
   const languages = ['zh-CN', 'en']

@@ -17,11 +17,11 @@ import type {
   ShikiTransformer,
   ThemeRegistration,
 } from 'shiki'
-import type { PageData } from '../../../types'
 
 // import type { lazyloadOptions } from './plugins/markdown-it/lazyload'
 
-import type { Blocks, ContainerOptions } from './plugins/markdown-it/container'
+import type { PageData } from '../../../types'
+import type { BlockItem, Blocks, ContainerOptions } from './plugins/markdown-it/container'
 
 export type ThemeOptions
   = | ThemeRegistration
@@ -128,7 +128,7 @@ export interface MarkdownOptions extends Options {
   /**
    * Custom block configurations based on `markdown-it-container`
    */
-  blocks?: Blocks
+  blocks?: Record<string, BlockItem> | Blocks
 
   /**
    * @see [markdown-it-image-figures](https://www.npmjs.com/package/markdown-it-image-figures)

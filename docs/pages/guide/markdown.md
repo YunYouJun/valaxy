@@ -665,6 +665,40 @@ Details Content
 :::
 ```
 
+::: zh-CN
+
+你也可以自定义新的容器名称。
+
+:::
+
+::: en
+
+You can also customize new container names.
+
+:::
+
+```md
+::: custom
+
+I am a custom block.
+
+:::
+```
+
+```ts [valaxy.config.ts]
+import { defineValaxyConfig } from 'valaxy'
+export default defineValaxyConfig({
+  markdown: {
+    blocks: {
+      custom: {
+        icon: 'i-ri:info-i',
+        text: 'CUSTOM',
+      },
+    }
+  }
+})
+```
+
 ## 添加代码块标题与图标 {lang="zh-CN"}
 
 ## Add Code Block Title And Icons {lang="en"}

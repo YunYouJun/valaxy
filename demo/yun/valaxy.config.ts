@@ -62,6 +62,11 @@ export default defineValaxyConfig<ThemeConfig>({
       info: {
         text: 'información',
       },
+
+      custom: {
+        icon: 'i-ri:info-i',
+        text: 'CUSTOM',
+      },
     },
 
     codeTransformers: [
