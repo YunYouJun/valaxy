@@ -1,5 +1,5 @@
 ---
-cover: https://cos.yunyoujun.cn/img/bg/girl-in-water-tank.webp
+cover: https://cos.yunle.fun/images/bg/girl-in-water-tank.webp
 title: Why Valaxy
 title_zh: 为什么选 Valaxy
 date: 2022-03-22

@@ -2,7 +2,7 @@
 title: 'excerpt_type: html'
 date: 2024-03-22
 excerpt_type: html
-cover: https://cos.yunyoujun.cn/img/bg/girl-in-water-tank.webp
+cover: https://cos.yunle.fun/images/bg/girl-in-water-tank.webp
 ---
 
 ::: tip

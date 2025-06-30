@@ -46,7 +46,7 @@
   },
   "devDependencies": {
     "@advjs/gui": "0.0.7-beta.7",
-    "@iconify-json/ri": "catalog:",
+    "@iconify-json/ri": "catalog:build",
     "@intlify/unplugin-vue-i18n": "^6.0.8",
     "@primevue/themes": "^4.3.5",
     "@types/body-parser": "^1.19.6",
@@ -55,10 +55,10 @@
     "gray-matter": "^4.0.3",
     "primevue": "^4.3.5",
     "splitpanes": "^4.0.4",
-    "typescript": "catalog:",
-    "unbuild": "catalog:",
-    "unplugin-vue-router": "^0.13.0",
-    "vite": "catalog:",
-    "vue-i18n": "catalog:"
+    "typescript": "catalog:build",
+    "unbuild": "catalog:build",
+    "unplugin-vue-router": "catalog:build",
+    "vite": "catalog:build",
+    "vue-i18n": "catalog:build"
   }
 }

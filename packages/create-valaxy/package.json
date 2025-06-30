@@ -36,7 +36,7 @@
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
-    "consola": "catalog:",
+    "consola": "catalog:build",
     "execa": "9.0.2",
     "minimist": "^1.2.8",
     "prompts": "^2.4.2"

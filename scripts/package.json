@@ -1,6 +1,6 @@
 {
   "type": "module",
   "devDependencies": {
-    "zx": "catalog:"
+    "zx": "catalog:build"
   }
 }

@@ -26,8 +26,8 @@
   "dependencies": {
     "@ctrl/tinycolor": "^4.1.0",
     "@explosions/fireworks": "^0.2.0",
-    "@iconify-json/ant-design": "catalog:",
-    "@iconify-json/simple-icons": "catalog:",
+    "@iconify-json/ant-design": "catalog:build",
+    "@iconify-json/simple-icons": "catalog:build",
     "@vueuse/motion": "^3.0.3",
     "animejs": "^4.0.2",
     "gsap": "^3.13.0",

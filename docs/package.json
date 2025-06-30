@@ -21,10 +21,10 @@
     "valaxy-theme-press": "link:../packages/valaxy-theme-press"
   },
   "devDependencies": {
-    "@iconify-json/carbon": "catalog:",
-    "@iconify-json/simple-icons": "catalog:",
+    "@iconify-json/carbon": "catalog:build",
+    "@iconify-json/simple-icons": "catalog:build",
     "nodemon": "^3.1.10",
-    "vite": "catalog:",
+    "vite": "catalog:build",
     "vitepress": "1.1.4"
   }
 }

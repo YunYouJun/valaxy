@@ -16,6 +16,6 @@
     "valaxy-theme-custom": "workspace:*"
   },
   "devDependencies": {
-    "typescript": "catalog:"
+    "typescript": "catalog:build"
   }
 }

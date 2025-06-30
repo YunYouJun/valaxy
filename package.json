@@ -83,8 +83,8 @@
   },
   "devDependencies": {
     "@antfu/eslint-config": "^4.16.1",
-    "@iconify-json/logos": "catalog:",
-    "@iconify-json/vscode-icons": "catalog:",
+    "@iconify-json/logos": "catalog:build",
+    "@iconify-json/vscode-icons": "catalog:build",
     "@microsoft/api-extractor": "^7.52.8",
     "@playwright/test": "^1.53.1",
     "@types/debug": "^4.1.12",
@@ -108,12 +108,12 @@
     "stylelint-config-standard-scss": "^15.0.1",
     "tsup": "^8.5.0",
     "tsx": "^4.20.3",
-    "typescript": "catalog:",
-    "unbuild": "catalog:",
+    "typescript": "catalog:build",
+    "unbuild": "catalog:build",
     "vite-node": "^3.2.4",
     "vitest": "^3.2.4",
     "vue-tsc": "2.2.0",
-    "zx": "catalog:"
+    "zx": "catalog:build"
   },
   "pnpm": {
     "peerDependencyRules": {

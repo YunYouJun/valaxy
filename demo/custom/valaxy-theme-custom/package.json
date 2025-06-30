@@ -22,7 +22,7 @@
   "main": "client/index.ts",
   "types": "types/index.d.ts",
   "dependencies": {
-    "@iconify-json/ant-design": "catalog:",
-    "@iconify-json/simple-icons": "catalog:"
+    "@iconify-json/ant-design": "catalog:build",
+    "@iconify-json/simple-icons": "catalog:build"
   }
 }
