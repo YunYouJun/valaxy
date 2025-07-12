@@ -87,6 +87,7 @@
     "ejs": "^3.1.10",
     "escape-html": "^1.0.3",
     "fast-glob": "^3.3.3",
+    "feed": "^5.1.0",
     "floating-vue": "^5.2.2",
     "fs-extra": "^11.3.0",
     "fuse.js": "^7.1.0",
@@ -139,8 +140,7 @@
     "vue": "catalog:frontend",
     "vue-i18n": "catalog:build",
     "vue-router": "^4.5.1",
-    "yargs": "^18.0.0",
-    "zfeed": "^0.2.3"
+    "yargs": "^18.0.0"
   },
   "devDependencies": {
     "@mdit-vue/plugin-component": "^2.1.4",
