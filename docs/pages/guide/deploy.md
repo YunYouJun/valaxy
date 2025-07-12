@@ -1,6 +1,7 @@
 ---
-title: Deployment
-title_zh: 部署
+title:
+  en: Deployment
+  zh-CN: 部署
 categories:
   - getting-started
 top: 99

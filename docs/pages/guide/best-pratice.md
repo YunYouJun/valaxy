@@ -1,6 +1,7 @@
 ---
-title: Best Practice
-title_zh: 最佳实践
+title:
+  en: Best Practice
+  zh-CN: 最佳实践
 categories:
   - guide
 top: 1

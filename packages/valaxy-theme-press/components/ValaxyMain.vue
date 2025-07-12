@@ -1,11 +1,10 @@
 <script lang="ts" setup>
 import type { PageData, Post } from 'valaxy'
-import { onClickHref, onContentUpdated, scrollTo, useFrontmatter, useLayout, useSidebar, useSiteConfig } from 'valaxy'
+import { onClickHref, onContentUpdated, scrollTo, tObject, useFrontmatter, useLayout, useSidebar, useSiteConfig } from 'valaxy'
 import { computed, nextTick } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { useRoute, useRouter } from 'vue-router'
 import { targetPadding } from '../client'
-import { getLocaleTitle } from '../utils'
 
 defineProps<{
   frontmatter: Post
@@ -20,7 +19,7 @@ const isHome = useLayout('home')
 const layout = useLayout()
 
 const { locale } = useI18n()
-const localeTitle = computed(() => getLocaleTitle(locale.value, frontmatter.value))
+const $title = computed(() => tObject(frontmatter.value.title || '', locale.value))
 
 const route = useRoute()
 const router = useRouter()
@@ -64,9 +63,9 @@ onContentUpdated(() => {
               <slot name="main-content-before" />
 
               <ValaxyMd class="mx-auto w-full max-w-4xl" :frontmatter="frontmatter">
-                <h1 v-if="hasSidebar && !isHome && frontmatter.title" :id="frontmatter.title" tabindex="-1">
-                  {{ localeTitle }}
-                  <a class="header-anchor" :href="`#${frontmatter.title}`" aria-hidden="true" />
+                <h1 v-if="hasSidebar && !isHome && $title" :id="$title" tabindex="-1">
+                  {{ $title }}
+                  <a class="header-anchor" :href="`#${$title}`" aria-hidden="true" />
                 </h1>
                 <slot name="main-content-md" />
                 <slot />

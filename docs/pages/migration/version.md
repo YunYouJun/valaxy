@@ -1,6 +1,7 @@
 ---
-title: Version Migration
-title_zh: 版本迁移
+title:
+  en: Version Migration
+  zh-CN: 版本迁移
 categories:
   - migration
 top: 8

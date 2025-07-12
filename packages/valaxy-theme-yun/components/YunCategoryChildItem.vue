@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import type { Post } from 'valaxy'
-import { isCategoryList } from 'valaxy'
+import { isCategoryList, tObject } from 'valaxy'
 import { computed } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { useRoute } from 'vue-router'
@@ -16,8 +16,7 @@ defineProps<{
  */
 const { locale } = useI18n()
 function getTitle(post: Post | any) {
-  const lang = locale.value === 'zh-CN' ? 'zh' : locale.value
-  return post[`title_${lang}`] ? post[`title_${lang}`] : post.title
+  return tObject(post.title || '', locale.value)
 }
 const route = useRoute()
 const categoryList = computed(() => {

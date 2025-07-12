@@ -1,6 +1,7 @@
 ---
-title: Markdown Extensions Test
-title_zh: Markdown 扩展测试
+title:
+  en: Markdown Extensions Test
+  zh-CN: Markdown 扩展测试
 categories:
   - Test
   - Markdown

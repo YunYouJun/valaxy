@@ -1,6 +1,7 @@
 ---
-title: Custom Extensions
-title_zh: 自定义扩展
+title:
+  en: Custom Extensions
+  zh-CN: 自定义扩展
 categories:
   - custom
 end: false

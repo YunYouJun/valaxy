@@ -1,6 +1,7 @@
 ---
-title: Partial Content Encryption
-title_zh: 部分内容加密
+title:
+  en: Partial Content Encryption
+  zh-CN: 部分内容加密
 toc: true
 categories:
   - examples

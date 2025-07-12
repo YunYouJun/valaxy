@@ -16,6 +16,7 @@ import MarkdownIt from 'markdown-it'
 
 import ora from 'ora'
 import { getBorderCharacters, table } from 'table'
+import { tObject } from '../../../shared'
 import { matterOptions } from '../../plugins/markdown/transform/matter'
 import { isExternal } from '../../utils'
 import { getCreatedTime, getUpdatedTime } from '../../utils/date'
@@ -36,6 +37,7 @@ export async function build(options: ResolvedValaxyOptions) {
 
   const { config } = options
   const siteConfig = config.siteConfig
+  const lang = siteConfig.lang || 'en'
 
   if (!siteConfig.url || siteConfig.url === '/') {
     consola.error('You must set `url` (like `https://example.com`) in `site.config.ts` to generate rss.')
@@ -62,9 +64,11 @@ export async function build(options: ResolvedValaxyOptions) {
   Object.keys(feedNameMap).forEach((key) => {
     feedLinks[key] = `${siteUrl}${feedNameMap[key]}`
   })
+  const title = tObject(siteConfig.title, lang)
+  const description = tObject(siteConfig.description, lang)
   const feedOptions: FeedOptions = {
-    title: siteConfig.title || 'Valaxy Blog',
-    description: siteConfig.description,
+    title: title || 'Valaxy Blog',
+    description,
     id: siteUrl || 'valaxy',
     link: siteUrl,
     copyright: `CC ${siteConfig.license?.type?.toUpperCase()} ${ccVersion} ${new Date().getFullYear()} © ${siteConfig.author?.name}`,
@@ -172,8 +176,9 @@ export async function getPosts(params: {
     }</p>`
 
     posts.push({
-      title: data.title,
       ...data,
+      title: tObject(data.title, lang),
+      description: tObject(data.description, lang),
       date: new Date(data.date),
       published: new Date(data.updated || data.date),
       content: html + tip,

@@ -1,6 +1,7 @@
 ---
-title: Config
-title_zh: 基础配置
+title:
+  en: Config
+  zh-CN: 基础配置
 categories:
   - config
 end: false

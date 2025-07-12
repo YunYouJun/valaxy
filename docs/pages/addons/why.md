@@ -1,6 +1,7 @@
 ---
-title: Why Addon?
-title_zh: 为什么需要插件？
+title:
+  en: Why Addon?
+  zh-CN: 为什么需要插件？
 categories:
   - addon
 ---

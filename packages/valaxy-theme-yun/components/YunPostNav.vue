@@ -1,20 +1,23 @@
 <script lang="ts" setup>
-import { usePrevNext } from 'valaxy'
+import { useLocaleTitle, usePrevNext } from 'valaxy'
 
 const [prev, next] = usePrevNext()
+
+const prevTitle = useLocaleTitle(prev)
+const nextTitle = useLocaleTitle(next)
 </script>
 
 <template>
   <div class="post-nav">
     <div class="post-nav-item">
-      <RouterLink v-if="prev" class="post-nav-prev" :to="prev.path || ''" :title="prev.title">
+      <RouterLink v-if="prev" class="post-nav-prev" :to="prev.path || ''" :title="prevTitle">
         <div class="icon" i-ri-arrow-left-s-line />
-        <span class="title truncate" text="sm">{{ prev.title }}</span>
+        <span class="title truncate" text="sm">{{ prevTitle }}</span>
       </RouterLink>
     </div>
     <div class="post-nav-item">
-      <RouterLink v-if="next" :to="next.path || ''" :title="next.title" class="post-nav-next">
-        <span class="title truncate" text="sm">{{ next.title }}</span>
+      <RouterLink v-if="next" :to="next.path || ''" :title="nextTitle" class="post-nav-next">
+        <span class="title truncate" text="sm">{{ nextTitle }}</span>
         <div class="icon" i-ri-arrow-right-s-line />
       </RouterLink>
     </div>

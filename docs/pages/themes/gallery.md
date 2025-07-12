@@ -1,6 +1,7 @@
 ---
-title: Valaxy Themes Gallery
-title_zh: Valaxy 主题橱窗
+title:
+  en: Valaxy Themes Gallery
+  zh-CN: Valaxy 主题橱窗
 categories:
   - theme
 end: false

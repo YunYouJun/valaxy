@@ -44,8 +44,22 @@ export interface PageFrontMatter extends Record<string, any> {
   /**
    * Title
    * @description 文章标题
+   *
+   * ```md
+   * ---
+   * title: Post Title
+   * ---
+   * ```
+   *
+   * ```md
+   * ---
+   * title:
+   *   en: Post Title
+   *   zh-CN: 文章标题
+   * ---
+   * ```
    */
-  title: string
+  title: string | Record<string, string>
   date: string | number | Date
   /**
    * Updated Time

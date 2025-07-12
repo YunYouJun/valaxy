@@ -1,10 +1,9 @@
 <script setup lang="ts">
-import { useFrontmatter, useSiteStore } from 'valaxy'
+import { tObject, useFrontmatter, useSiteStore } from 'valaxy'
 import { computed } from 'vue'
 
 import { useI18n } from 'vue-i18n'
 import { useRoute } from 'vue-router'
-import { getLocaleTitle } from '../utils'
 
 const frontmatter = useFrontmatter()
 
@@ -19,7 +18,7 @@ const nextPost = computed(() => site.postList[findCurrentIndex() - 1])
 const prevPost = computed(() => site.postList[findCurrentIndex() + 1])
 
 const { locale } = useI18n()
-const localeTitle = computed(() => getLocaleTitle(locale.value, frontmatter.value))
+const $title = computed(() => tObject(frontmatter.value.title || '', locale.value))
 </script>
 
 <template>
@@ -36,7 +35,7 @@ const localeTitle = computed(() => getLocaleTitle(locale.value, frontmatter.valu
           md:text-5xl md:leading-14
         "
       >
-        {{ localeTitle }}
+        {{ $title }}
       </h1>
     </header>
 

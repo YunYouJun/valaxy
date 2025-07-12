@@ -1,6 +1,7 @@
 ---
-title: Getting Started
-title_zh: 开始
+title:
+  en: Getting Started
+  zh-CN: 开始
 categories:
   - getting-started
 top: 100

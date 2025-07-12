@@ -45,6 +45,7 @@
     "client",
     "dist",
     "index.d.ts",
+    "shared",
     "shims.d.ts",
     "types"
   ],

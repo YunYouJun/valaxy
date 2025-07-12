@@ -1,6 +1,7 @@
 ---
-title: Custom Styles
-title_zh: 自定义样式
+title:
+  en: Custom Styles
+  zh-CN: 自定义样式
 categories:
   - custom
 end: false

@@ -1,6 +1,7 @@
 ---
-title: Commands
-title_zh: 命令行
+title:
+  en: Commands
+  zh-CN: 命令行
 categories:
   - guide
 top: 99

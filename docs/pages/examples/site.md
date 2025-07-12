@@ -1,6 +1,7 @@
 ---
-title: 示例站点
-title_zh: 示例站点
+title:
+  en: Example Sites
+  zh-CN: 示例站点
 categories:
   - ecosystem
 ---

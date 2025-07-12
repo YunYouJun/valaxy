@@ -5,9 +5,10 @@ import { useSeoMeta } from '@unhead/vue'
 import { computed } from 'vue'
 import { useI18n } from 'vue-i18n'
 
+import { tObject } from '../../../shared/utils/i18n'
 import { useFrontmatter, useValaxyHead } from '../../composables'
-import { useTimezone } from '../../composables/global'
 
+import { useTimezone } from '../../composables/global'
 // https://github.com/vueuse/head
 // you can use this to manipulate the document head in any components,
 // they will be rendered correctly in the html results with vite-ssg
@@ -20,7 +21,7 @@ export function useValaxyApp() {
 
   const { locale } = useI18n()
 
-  const title = computed(() => fm.value[`title_${locale.value}`] || fm.value.title)
+  const title = computed(() => tObject(fm.value.title || '', locale.value))
 
   // seo
   // todo: get first image url from markdown
@@ -33,7 +34,7 @@ export function useValaxyApp() {
     ogLocale: computed(() => locale.value || fm.value.lang || siteConfig.value.lang || 'en'),
     ogLocaleAlternate: computed(() => siteConfig.value.languages.filter(l => l !== locale.value)),
     ogSiteName: computed(() => siteConfig.value.title),
-    ogTitle: computed(() => fm.value.title || siteConfig.value.title),
+    ogTitle: computed(() => tObject(fm.value.title || siteConfig.value.title, locale.value)),
     ogImage: computed(() => fm.value.ogImage || fm.value.cover || siteConfig.value.favicon),
     ogType: 'website',
     ogUrl: siteUrl,

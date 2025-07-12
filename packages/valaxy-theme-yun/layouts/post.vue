@@ -2,15 +2,17 @@
 import { defineArticle, useSchemaOrg } from '@unhead/schema-org/vue'
 
 import dayjs from 'dayjs'
-import { useFrontmatter, useSiteConfig } from 'valaxy'
+import { tObject, useFrontmatter, useSiteConfig } from 'valaxy'
+import { useI18n } from 'vue-i18n'
 
 const siteConfig = useSiteConfig()
 const frontmatter = useFrontmatter()
 
+const { locale } = useI18n()
 const article: Parameters<typeof defineArticle>[0] = {
   '@type': 'BlogPosting',
-  'headline': frontmatter.value.title,
-  'description': frontmatter.value.description,
+  'headline': tObject(frontmatter.value.title || '', locale.value),
+  'description': tObject(frontmatter.value.description || '', locale.value),
   'author': [
     {
       name: siteConfig.value.author.name,

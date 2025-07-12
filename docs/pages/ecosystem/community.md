@@ -1,6 +1,7 @@
 ---
-title: Community
-title_zh: 社区
+title:
+  en: Community
+  zh-CN: 社区
 categories:
   - ecosystem
 ---

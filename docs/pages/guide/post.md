@@ -1,6 +1,7 @@
 ---
-title: Post
-title_zh: 文章
+title:
+  en: Post
+  zh-CN: 文章
 categories:
   - guide
 end: false

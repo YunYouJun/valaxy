@@ -1,6 +1,7 @@
 ---
-title: Hooks
-title_zh: 钩子
+title:
+  en: Hooks
+  zh-CN: 钩子
 categories:
   - custom
 end: false

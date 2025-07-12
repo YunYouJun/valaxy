@@ -1,6 +1,7 @@
 ---
-title: Markdown Styles
-title_zh: Markdown 样式
+title:
+  en: Markdown Styles
+  zh-CN: Markdown 样式
 categories:
   - Test
   - Markdown

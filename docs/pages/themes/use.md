@@ -1,6 +1,7 @@
 ---
-title: Use Theme
-title_zh: 使用主题
+title:
+  en: Use Theme
+  zh-CN: 使用主题
 categories:
   - theme
 top: 100

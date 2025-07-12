@@ -1,6 +1,7 @@
 ---
-title: Migration from Other
-title_zh: 从其他博客框架迁移
+title:
+  en: Migration from Other
+  zh-CN: 从其他博客框架迁移
 categories:
   - migration
 top: 10

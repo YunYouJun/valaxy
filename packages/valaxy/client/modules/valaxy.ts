@@ -48,6 +48,8 @@ export const i18n = createI18n({
   legacy: false,
   locale: '',
   messages: valaxyMessages,
+  // use key
+  missingWarn: false,
 })
 
 export async function install({ app, router }: ViteSSGContext, config: ComputedRef<ValaxyConfig<DefaultTheme.Config>>) {

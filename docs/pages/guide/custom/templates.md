@@ -1,6 +1,7 @@
 ---
-title: Custom Post Templates
-title_zh: 自定义文章模板
+title:
+  en: Custom Post Templates
+  zh-CN: 自定义文章模板
 categories:
   - custom
 end: false

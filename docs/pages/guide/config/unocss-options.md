@@ -1,6 +1,7 @@
 ---
-title: UnoCSS Options
-title_zh: UnoCSS 配置
+title:
+  en: UnoCSS Options
+  zh-CN: UnoCSS 配置
 categories:
   - config
 end: false

@@ -1,6 +1,7 @@
 ---
-title: Participate in Docs
-title_zh: 参与文档
+title:
+  en: Participate in Docs
+  zh-CN: 参与文档
 categories:
   - dev
 end: false

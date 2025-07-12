@@ -1,6 +1,7 @@
 ---
-title: FAQ
-title_zh: 常见问题
+title:
+  en: FAQ
+  zh-CN: 常见问题
 categories:
   - guide
 end: false

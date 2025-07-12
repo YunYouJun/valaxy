@@ -1,6 +1,7 @@
 ---
-title: Client
-title_zh: 客户端
+title:
+  en: Client
+  zh-CN: 客户端
 categories:
   - ecosystem
 ---

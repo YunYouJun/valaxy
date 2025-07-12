@@ -1,6 +1,7 @@
 ---
-title: Use Addon
-title_zh: 使用插件
+title:
+  zh-CN: 使用插件
+  en: Use Addon
 categories:
   - addon
 ---

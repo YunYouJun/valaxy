@@ -3,7 +3,7 @@ import type { ComputedRef } from 'vue'
 import { computed } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { useRouterStore } from '../../stores'
-import { sortByDate } from '../../utils'
+import { sortByDate, tObject } from '../../utils'
 
 export * from './usePagination'
 export * from './usePrevNext'
@@ -11,8 +11,7 @@ export * from './usePrevNext'
 export function usePostTitle(post: ComputedRef<Post>) {
   const { locale } = useI18n()
   return computed(() => {
-    const lang = locale.value === 'zh-CN' ? 'zh' : locale.value
-    return post.value[`title_${lang}`] || post.value.title
+    return tObject(post.value.title || '', locale.value)
   })
 }
 

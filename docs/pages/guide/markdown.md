@@ -1,6 +1,7 @@
 ---
-title_zh: Markdown 扩展
-title: Markdown Extensions
+title:
+  en: Markdown Extensions
+  zh-CN: Markdown 扩展
 categories:
   - guide
 end: false

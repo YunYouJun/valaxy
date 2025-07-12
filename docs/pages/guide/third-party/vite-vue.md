@@ -1,6 +1,7 @@
 ---
-title: Use Vite/Vue Plugin
-title_zh: 使用 Vite/Vue 插件
+title:
+  en: Use Vite/Vue Plugin
+  zh-CN: 使用 Vite/Vue 插件
 categories:
   - third
 ---

@@ -1,6 +1,7 @@
 ---
-title: Page
-title_zh: 页面
+title:
+  en: Page
+  zh-CN: 页面
 categories:
   - guide
 ---

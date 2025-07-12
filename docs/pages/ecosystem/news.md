@@ -1,6 +1,7 @@
 ---
-title: News
-title_zh: 新闻
+title:
+  en: News
+  zh-CN: 新闻
 categories:
   - ecosystem
 ---

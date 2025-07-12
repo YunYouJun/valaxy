@@ -1,6 +1,7 @@
 ---
-title: Schema.org And OPG for SEO
-title_zh: Schema.org And OPG for SEO
+title:
+  en: Schema.org And OPG for SEO
+  zh-CN: Schema.org 和 OPG 用于 SEO
 categories:
   - third
 top: 0

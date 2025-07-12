@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import type { Category, Post } from 'valaxy'
-import { isCategoryList } from 'valaxy'
+import { isCategoryList, tObject } from 'valaxy'
 import { ref } from 'vue'
 import { useI18n } from 'vue-i18n'
 
@@ -23,8 +23,7 @@ const { t, locale } = useI18n()
 
 function getTitle(post: Post | any) {
   const lang = locale.value
-  const localeTitle = post[`title_${lang}`] || post[`title_${lang.split('-')[0]}`]
-  return localeTitle || post.title
+  return tObject(post.title || '', lang)
 }
 </script>
 

@@ -1,6 +1,7 @@
 ---
-title: VSCode Extension
-title_zh: VSCode 扩展
+title:
+  en: VSCode Extension
+  zh-CN: VSCode 扩展
 categories:
   - ecosystem
 ---

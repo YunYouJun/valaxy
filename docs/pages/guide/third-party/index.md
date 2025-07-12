@@ -1,6 +1,7 @@
 ---
-title: Third Party
-title_zh: 第三方集成
+title:
+  en: Third Party Integration
+  zh-CN: 第三方集成
 categories:
   - third
 end: false
