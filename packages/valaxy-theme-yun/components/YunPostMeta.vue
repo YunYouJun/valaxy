@@ -38,6 +38,7 @@ const siteConfig = useSiteConfig()
     }"
   >
     <YunPostDateMeta :frontmatter="frontmatter" />
+    <slot />
 
     <div class="inline-flex-center gap-4">
       <div
