@@ -89,7 +89,7 @@ You can use [StackBlitz](https://stackblitz.com/edit/valaxy) to try Valaxy onlin
 
 ::: danger 兼容
 
-由于 Vite 要求 [Node.js](https://nodejs.org/en/) 的版本为 14.18+, 16+，Valaxy 同样需要你将 Node.js 升级至 14.18 版本之后。
+由于 Vite@7 要求 [Node.js](https://nodejs.org/en/) 的版本为 `^20.19.0 || >=22.12.0`，Valaxy 同样需要你将 Node.js 升级至 `20.19.0` 版本之后。
 
 :::
 
@@ -107,7 +107,7 @@ You can use [StackBlitz](https://stackblitz.com/edit/valaxy) to try Valaxy onlin
 
 ::: danger Compatibility Note
 
-Vite requires [Node.js](https://nodejs.org/en/) version 14.18+, 16+. Valaxy also requires you to upgrade Node.js after version 14.18+.
+Vite@7 requires [Node.js](https://nodejs.org/en/) version `^20.19.0 || >=22.12.0`. Valaxy also requires you to upgrade Node.js after version `20.19.0`.
 
 :::
 
