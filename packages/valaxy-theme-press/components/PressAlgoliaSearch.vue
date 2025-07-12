@@ -1,10 +1,51 @@
 <script lang="ts" setup>
 import { useAddonAlgolia } from 'valaxy-addon-algolia'
+import { onMounted, onUnmounted } from 'vue'
 import { useI18n } from 'vue-i18n'
 
 const { t } = useI18n()
 
-const { loaded, load } = useAddonAlgolia()
+const { loaded, load, dispatchEvent } = useAddonAlgolia()
+
+defineExpose({
+  loaded,
+  load,
+  dispatchEvent,
+})
+
+function isEditingContent(event: KeyboardEvent): boolean {
+  const element = event.target as HTMLElement
+  const tagName = element.tagName
+
+  return (
+    element.isContentEditable
+    || tagName === 'INPUT'
+    || tagName === 'SELECT'
+    || tagName === 'TEXTAREA'
+  )
+}
+
+onMounted(() => {
+  const handleSearchHotKey = (event: KeyboardEvent) => {
+    if (
+      (event.key?.toLowerCase() === 'k' && (event.metaKey || event.ctrlKey))
+      || (!isEditingContent(event) && event.key === '/')
+    ) {
+      event.preventDefault()
+      load()
+      // eslint-disable-next-line ts/no-use-before-define
+      remove()
+    }
+  }
+
+  const remove = () => {
+    window.removeEventListener('keydown', handleSearchHotKey)
+  }
+
+  window.addEventListener('keydown', handleSearchHotKey)
+
+  onUnmounted(remove)
+})
 </script>
 
 <template>

@@ -44,35 +44,6 @@ async function update() {
   })
 }
 
-onMounted(() => {
-  const options = {
-    ...algolia.value.options,
-    ...algolia.value.options?.locales?.[locale.value],
-  }
-
-  // now only lang:en
-  // const rawFacetFilters = options.searchParameters?.facetFilters ?? []
-  // const facetFilters = [
-  //   ...(Array.isArray(rawFacetFilters)
-  //     ? rawFacetFilters
-  //     : [rawFacetFilters]
-  //   ).filter(f => !f.startsWith('lang:')),
-  //   `lang:${locale.value}`,
-  // ]
-
-  if (options && options.apiKey && options.appId && options.indexName) {
-    if (!document.querySelector('.DocSearch-Container')) {
-      initialize({
-        ...options as AlgoliaSearchOptions,
-        searchParameters: {
-          ...options.searchParameters,
-          // facetFilters,
-        },
-      })
-    }
-  }
-})
-
 function initialize(userOptions: AlgoliaSearchOptions) {
   // note: multi-lang search support is removed since the theme
   // doesn't support multiple locales as of now.
