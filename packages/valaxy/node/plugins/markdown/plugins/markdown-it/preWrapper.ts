@@ -36,7 +36,7 @@ function getCodeHeightLimitStyle(options: Options, env: MarkdownEnv) {
   if (codeHeightLimit === undefined || codeHeightLimit <= 0)
     return ''
 
-  return `style="max-height: ${codeHeightLimit}px;"`
+  return ` max-h-${codeHeightLimit}px`
 }
 
 // markdown-it plugin for wrapping <pre> ... </pre>.
@@ -62,8 +62,10 @@ export function preWrapperPlugin(md: MarkdownIt, options: Options) {
     const lang = extractLang(token.info)
     const rawCode = fence(...args)
 
+    const codeHeightLimitClass = getCodeHeightLimitStyle(options, env)
+
     return (
-      `<div ${getCodeHeightLimitStyle(options, env)} class="language-${lang}${active}">`
+      `<div class="language-${lang}${active}${codeHeightLimitClass}">`
       + `<button title="${options.codeCopyButtonTitle}" class="copy"></button>`
       + `<span class="lang">${lang}</span>`
       + `${rawCode}`
