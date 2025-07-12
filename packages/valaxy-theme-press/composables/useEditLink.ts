@@ -8,8 +8,7 @@ export function useEditLink() {
 
   return computed(() => {
     const { text, pattern } = themeConfig.value.editLink || {}
-    const url = pattern.replace(/:path/g, page.value.relativePath)
-
+    const url = pattern.replace(/:path/g, page.value?.relativePath || '')
     return { url, text }
   })
 }
