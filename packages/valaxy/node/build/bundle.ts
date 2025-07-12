@@ -108,6 +108,9 @@ export function getRollupOptions(options: ResolvedValaxyOptions) {
         if (id.includes('plugin-vue:export-helper')) {
           return 'framework'
         }
+        if (id.includes('virtual:group-icons.css')) {
+          return 'group-icons'
+        }
 
         // lib
         const libs = [

@@ -28,13 +28,14 @@ import footnotePlugin from 'markdown-it-footnote'
 import imageFigures from 'markdown-it-image-figures'
 import TaskLists from 'markdown-it-task-lists'
 
+import { groupIconMdPlugin } from 'vitepress-plugin-group-icons'
 import { linkPlugin } from './plugins/link'
 import { containerPlugin } from './plugins/markdown-it/container'
 import { footnoteTooltipPlugin } from './plugins/markdown-it/footnoteTooltip'
 import { highlightLinePlugin } from './plugins/markdown-it/highlightLines'
 import Katex from './plugins/markdown-it/katex'
-import { lineNumberPlugin } from './plugins/markdown-it/lineNumbers'
 
+import { lineNumberPlugin } from './plugins/markdown-it/lineNumbers'
 import { preWrapperPlugin } from './plugins/markdown-it/preWrapper'
 import { snippetPlugin } from './plugins/markdown-it/snippet'
 
@@ -157,7 +158,6 @@ export async function setupMarkdownPlugins(
 
   md.use(TaskLists)
 
-  const { groupIconMdPlugin } = await import('vitepress-plugin-group-icons')
   md.use(groupIconMdPlugin, {
     titleBar: { includeSnippet: true },
   })

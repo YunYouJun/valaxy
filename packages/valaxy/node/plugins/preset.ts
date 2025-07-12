@@ -11,14 +11,15 @@ import { resolve } from 'pathe'
 import Components from 'unplugin-vue-components/vite'
 
 import Layouts from 'vite-plugin-vue-layouts'
+import { groupIconVitePlugin } from 'vitepress-plugin-group-icons'
 import { customElements } from '../constants'
 import { createConfigPlugin } from './extendConfig'
 import { createMarkdownPlugin } from './markdown'
 import { createFixPlugins } from './patchTransform'
 import { createClientSetupPlugin } from './setupClient'
 import { createUnocssPlugin } from './unocss'
-import { createValaxyPlugin } from './valaxy'
 
+import { createValaxyPlugin } from './valaxy'
 import { createRouterPlugin } from './vueRouter'
 
 export async function ViteValaxyPlugins(
@@ -129,19 +130,6 @@ export async function ViteValaxyPlugins(
     createFixPlugins(options),
   ]
 
-  const { groupIconVitePlugin } = await import('vitepress-plugin-group-icons')
-  plugins.push(
-    groupIconVitePlugin({
-      customIcon: {
-        nodejs: 'vscode-icons:file-type-node',
-        playwright: 'vscode-icons:file-type-playwright',
-        typedoc: 'vscode-icons:file-type-typedoc',
-        eslint: 'vscode-icons:file-type-eslint',
-      },
-      ...valaxyConfig.groupIcons,
-    }),
-  )
-
   if (valaxyConfig.visualizer) {
     try {
       const visualizer = (await import('rollup-plugin-visualizer')).visualizer
@@ -164,5 +152,22 @@ export async function ViteValaxyPlugins(
       console.log()
     }
   }
+
+  const customIcon = {
+    nodejs: 'vscode-icons:file-type-node',
+    playwright: 'vscode-icons:file-type-playwright',
+    typedoc: 'vscode-icons:file-type-typedoc',
+    eslint: 'vscode-icons:file-type-eslint',
+  }
+  plugins.push(
+    groupIconVitePlugin({
+      customIcon,
+      ...valaxyConfig.groupIcons,
+      defaultLabels: [
+        ...valaxyConfig.groupIcons?.defaultLabels || [],
+        ...Object.keys(valaxyConfig.groupIcons?.customIcon || {}),
+      ],
+    }),
+  )
   return plugins
 }

@@ -19,23 +19,31 @@ Deploying Valaxy is very easy. We suggest that you build and deploy to any platf
 
 ## Manual Deployment {lang="en"}
 
+::: code-group
+
+```bash [pnpm]
+pnpm run build
+```
+
+```bash [yarn]
+yarn build
+```
+
+```bash [npm]
+npm run build
+```
+
+:::
+
 ::: zh-CN
 
-```bash
-# 构建打包
-npm run build
-# dist 文件夹为构建后的内容
-```
+执行 `build` 命令构建，`dist` 文件夹为构建后的内容。
 
 :::
 
 ::: en
 
-```bash
-# Build the package
-npm run build
-# The `dist/` directory contains the artifact
-```
+Run the `build` command to build, and the `dist` directory contains the built content.
 
 :::
 

@@ -1,5 +1,5 @@
 <script setup lang="ts">
-// import it in setup/main.ts for ssg
+// vite-ssg build for client
 import 'virtual:group-icons.css'
 // import { defineAsyncComponent } from 'vue'
 /**
