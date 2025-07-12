@@ -70,7 +70,7 @@ const $title = computed(() => tObject(frontmatter.value.title || '', locale.valu
           </h2>
           <div class="link">
             <RouterLink :to="nextPost.href">
-              {{ nextPost.title }}
+              {{ tObject(nextPost.title || '', locale) }}
             </RouterLink>
           </div>
         </div>
@@ -80,7 +80,7 @@ const $title = computed(() => tObject(frontmatter.value.title || '', locale.valu
           </h2>
           <div class="link">
             <RouterLink :to="prevPost.href">
-              {{ prevPost.title }}
+              {{ tObject(prevPost.title || '', locale) }}
             </RouterLink>
           </div>
         </div>

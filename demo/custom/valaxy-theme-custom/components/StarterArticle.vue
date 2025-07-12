@@ -1,6 +1,8 @@
 <script setup lang="ts">
-import { useFrontmatter, usePostList } from 'valaxy'
+import { tObject, useFrontmatter, usePostList } from 'valaxy'
 import { computed } from 'vue'
+
+import { useI18n } from 'vue-i18n'
 
 import { useRoute } from 'vue-router'
 
@@ -12,7 +14,7 @@ const posts = usePostList()
 function findCurrentIndex() {
   return posts.value.findIndex(p => p.path === route.path)
 }
-
+const { locale } = useI18n()
 const nextPost = computed(() => posts.value[findCurrentIndex() - 1])
 const prevPost = computed(() => posts.value[findCurrentIndex() + 1])
 </script>
@@ -67,7 +69,7 @@ const prevPost = computed(() => posts.value[findCurrentIndex() + 1])
           </h2>
           <div class="link">
             <RouterLink :to="nextPost.path">
-              {{ nextPost.title }}
+              {{ tObject(nextPost.title || '', locale) }}
             </RouterLink>
           </div>
         </div>
@@ -77,7 +79,7 @@ const prevPost = computed(() => posts.value[findCurrentIndex() + 1])
           </h2>
           <div class="link">
             <RouterLink :to="prevPost.path">
-              {{ prevPost.title }}
+              {{ tObject(prevPost.title || '', locale) }}
             </RouterLink>
           </div>
         </div>

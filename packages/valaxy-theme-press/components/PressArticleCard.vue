@@ -1,9 +1,13 @@
 <script lang="ts" setup>
 import type { Post } from 'valaxy'
+import { tObject } from 'valaxy'
+import { useI18n } from 'vue-i18n'
 
 defineProps<{
   post: Post
 }>()
+
+const { locale } = useI18n()
 </script>
 
 <template>
@@ -13,7 +17,7 @@ defineProps<{
       <div class="space-y-6">
         <h2 class="text-2xl leading-8 font-bold tracking-tight">
           <RouterLink class="text-gray-900" :to="post.path || ''">
-            {{ post.title }}
+            {{ tObject(post.title || '', locale) }}
           </RouterLink>
         </h2>
         <div
