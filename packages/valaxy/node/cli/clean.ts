@@ -3,7 +3,6 @@ import path from 'node:path'
 import process from 'node:process'
 import { consola } from 'consola'
 import fs from 'fs-extra'
-import { exists } from './utils/fs'
 
 export async function cleanDist() {
   const distDir = path.join(process.cwd(), 'dist')
@@ -12,7 +11,7 @@ export async function cleanDist() {
   consola.box('🧹 Starting clean...')
 
   // Clean the dist directory
-  if (await exists(distDir)) {
+  if (await fs.exists(distDir)) {
     consola.info('dist directory exists, removing...')
     try {
       await fs.rm(distDir, { recursive: true, force: true })
@@ -28,7 +27,7 @@ export async function cleanDist() {
   }
 
   // Clean the cache directory
-  if (await exists(cacheDir)) {
+  if (await fs.exists(cacheDir)) {
     consola.info('.valaxy cache directory exists, removing...')
     try {
       await fs.rm(cacheDir, { recursive: true, force: true })

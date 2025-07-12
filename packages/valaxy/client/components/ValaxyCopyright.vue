@@ -31,7 +31,7 @@ const licenseHtml = computed(() => {
       <strong>
         {{ t('post.copyright.author') + t('symbol.colon') }}
       </strong>
-      <span>{{ siteConfig.author.name }}</span>
+      <span>{{ t(siteConfig.author.name) }}</span>
     </li>
     <li v-if="url" class="post-copyright-link">
       <strong>

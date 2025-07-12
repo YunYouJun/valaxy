@@ -14,6 +14,7 @@
     "fuse": "valaxy fuse",
     "preview-https": "serve dist",
     "new": "valaxy new",
+    "new:f": "valaxy new -f",
     "rss": "valaxy rss",
     "serve": "vite preview"
   },

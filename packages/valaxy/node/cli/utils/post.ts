@@ -1,12 +1,10 @@
-import { writeFile } from 'node:fs/promises'
-import { join, resolve } from 'node:path'
-import { ensureSuffix } from '@antfu/utils'
+import { dirname, join, resolve } from 'node:path'
 import { consola } from 'consola'
 import { colors } from 'consola/utils'
 import dayjs from 'dayjs'
 import { render } from 'ejs'
+import fs from 'fs-extra'
 import { defaultPostTemplate, userRoot } from './constants'
-import { exists } from './fs'
 
 import { getTemplate } from './scaffold'
 
@@ -15,41 +13,38 @@ export interface CreatePostParams {
    * generate date in frontmatter
    */
   date?: boolean
+  /**
+   * folder
+   * @zh-CN 生成文件夹
+   */
+  folder?: boolean
   path: string
   layout?: string
   title: string
 }
 
-export async function create(data: CreatePostParams) {
-  const pagesPath = resolve(userRoot, 'pages')
-  const {
-    path,
-    title,
-  } = data
-  const postPath = path || join('posts', title)
+export async function create(params: CreatePostParams) {
+  const pagesPath = resolve(userRoot, params.path || 'pages')
 
   let counter = 0
-
   while (true) {
-    let destinationPath = resolve(pagesPath, postPath)
+    const postFileName = `${params.title}${counter ? `-${counter}` : ''}`
+    const postFilePath = params.folder ? join(postFileName, 'index.md') : `${postFileName}.md`
+    const targetPath = resolve(pagesPath, 'posts', postFilePath)
 
-    if (counter)
-      destinationPath = `${destinationPath}-${counter}`
-
-    destinationPath = ensureSuffix('.md', destinationPath)
-
-    if (!await exists(destinationPath)) {
-      const content = await genLayoutTemplate(data)
+    if (!await fs.exists(targetPath)) {
+      await fs.ensureDir(dirname(targetPath))
+      const content = await genLayoutTemplate(params)
       try {
-        await writeFile(destinationPath, content, 'utf-8')
-        consola.success(`[valaxy new]: successfully generated file ${colors.magenta(destinationPath)}`)
+        await fs.writeFile(targetPath, content, 'utf-8')
+        consola.success(`[valaxy new]: successfully generated file ${colors.magenta(targetPath)}`)
       }
       catch (e) {
         console.log(e)
-        consola.error(`[valaxy new]: failed to write file ${destinationPath}`)
+        consola.error(`[valaxy new]: failed to write file ${targetPath}`)
         consola.warn(`You should run ${colors.green('valaxy new')} in your valaxy project root directory.`)
       }
-      return destinationPath
+      return targetPath
     }
     counter++
   }

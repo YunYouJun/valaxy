@@ -16,6 +16,12 @@ export function registerNewCommand(cli: Argv<object>) {
           describe: 'The title of the new post',
           required: true,
         })
+        .option('folder', {
+          alias: 'f',
+          type: 'boolean',
+          default: false,
+          describe: 'Generate a new post in a folder',
+        })
         .option('path', {
           alias: 'p',
           type: 'string',
@@ -35,12 +41,13 @@ export function registerNewCommand(cli: Argv<object>) {
         .strict()
         .help()
     },
-    async ({ title, path, date, layout }) => {
+    async ({ title, folder, path, date, layout }) => {
       await create({
         title,
         date,
         layout,
         path,
+        folder,
       } as CreatePostParams)
     },
   )
