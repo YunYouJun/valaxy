@@ -48,7 +48,6 @@ export async function setupMarkdownPlugins(
 ) {
   const mdOptions = options?.config.markdown || {}
   const theme = mdOptions.theme ?? defaultCodeTheme
-  const hasSingleTheme = typeof theme === 'string' || 'name' in theme
   const siteConfig = options?.config.siteConfig || {}
 
   if (mdOptions.preConfig)
@@ -59,8 +58,6 @@ export async function setupMarkdownPlugins(
     .use(preWrapperPlugin, { theme, siteConfig })
     .use(snippetPlugin, options?.userRoot)
     .use(containerPlugin, {
-      hasSingleTheme,
-    }, {
       ...mdOptions.blocks,
       ...mdOptions?.container,
     })
@@ -88,9 +85,16 @@ export async function setupMarkdownPlugins(
   md.use(emojiPlugin)
     .use(footnotePlugin)
     .use(footnoteTooltipPlugin)
+
   // if (!isExcerpt) {
   md.use(anchorPlugin, {
     slugify,
+    getTokensText: (tokens) => {
+      return tokens
+        .filter(t => !['html_inline', 'emoji'].includes(t.type))
+        .map(t => t.content)
+        .join('')
+    },
     permalink: anchorPlugin.permalink.linkInsideHeader({
       symbol: '&ZeroWidthSpace;',
       renderAttrs: (slug, state) => {
@@ -113,6 +117,7 @@ export async function setupMarkdownPlugins(
 
   md
     .use(headersPlugin, {
+      level: [2, 3, 4, 5, 6],
       slugify,
       ...(typeof mdOptions.headers === 'boolean' ? undefined : mdOptions.headers),
     } as HeadersPluginOptions)
@@ -121,6 +126,7 @@ export async function setupMarkdownPlugins(
     } as SfcPluginOptions)
     .use(titlePlugin)
     .use(tocPlugin, {
+      slugify,
       ...mdOptions.toc,
     } as TocPluginOptions)
 
@@ -151,12 +157,10 @@ export async function setupMarkdownPlugins(
 
   md.use(TaskLists)
 
-  if (options?.config.groupIcons) {
-    const { groupIconMdPlugin } = await import('vitepress-plugin-group-icons')
-    md.use(groupIconMdPlugin, {
-      titleBar: { includeSnippet: true },
-    })
-  }
+  const { groupIconMdPlugin } = await import('vitepress-plugin-group-icons')
+  md.use(groupIconMdPlugin, {
+    titleBar: { includeSnippet: true },
+  })
 
   if (mdOptions.config)
     mdOptions.config(md)

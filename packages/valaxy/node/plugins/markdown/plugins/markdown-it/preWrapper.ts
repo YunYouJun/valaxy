@@ -5,7 +5,7 @@ import type { MarkdownEnv } from '../../env'
 import type { ThemeOptions } from '../../types'
 
 export interface Options {
-  hasSingleTheme: boolean
+  codeCopyButtonTitle: string
   theme: ThemeOptions
   siteConfig?: SiteConfig
 }
@@ -19,10 +19,6 @@ export function extractLang(info: string) {
     .replace(/(-vue|\{| ).*$/, '')
     .replace(/^vue-html$/, 'template')
     .replace(/^ansi$/, '')
-}
-
-export function getAdaptiveThemeMarker(options: Options) {
-  return options.hasSingleTheme ? '' : ' vp-adaptive-theme'
 }
 
 export function extractTitle(info: string, html = false) {
@@ -59,15 +55,20 @@ export function preWrapperPlugin(md: MarkdownIt, options: Options) {
     // remove title from info
     token.info = token.info.replace(/\[.*\]/, '')
 
+    // eslint-disable-next-line regexp/no-unused-capturing-group
+    const active = / active( |$)/.test(token.info) ? ' active' : ''
+    token.info = token.info.replace(/ active$/, '').replace(/ active /, ' ')
+
     const lang = extractLang(token.info)
     const rawCode = fence(...args)
 
-    return `
-    <div ${getCodeHeightLimitStyle(options, env)} class="language-${lang}${getAdaptiveThemeMarker(options)}${
-      // eslint-disable-next-line regexp/no-unused-capturing-group
-      / active( |$)/.test(token.info) ? ' active' : ''
-    }">
-      <button title="Copy Code" class="copy"></button><span class="lang">${lang}</span>${rawCode}<button class="collapse"></button>
-    </div>`
+    return (
+      `<div ${getCodeHeightLimitStyle(options, env)} class="language-${lang}${active}">`
+      + `<button title="${options.codeCopyButtonTitle}" class="copy"></button>`
+      + `<span class="lang">${lang}</span>`
+      + `${rawCode}`
+      + '<button class="collapse"></button>'
+      + '</div>'
+    )
   }
 }

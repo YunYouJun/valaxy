@@ -1,6 +1,8 @@
 <script lang="ts" setup>
 import { useSiteConfig } from 'valaxy'
+import { useI18n } from 'vue-i18n'
 
+const { t } = useI18n()
 const siteConfig = useSiteConfig()
 </script>
 
@@ -18,10 +20,10 @@ const siteConfig = useSiteConfig()
       class="site-subtitle block"
       text="xs"
     >
-      {{ siteConfig.subtitle }}
+      {{ t(siteConfig.subtitle) }}
     </h4>
     <div v-if="siteConfig.description" class="site-description">
-      {{ siteConfig.description }}
+      {{ t(siteConfig.description) }}
     </div>
   </div>
 </template>

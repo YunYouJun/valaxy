@@ -161,6 +161,9 @@ export interface ValaxyExtendConfig {
    * @see https://github.com/btd/rollup-plugin-visualizer
    */
   visualizer?: PluginVisualizerOptions
+  /**
+   * @see https://github.com/yuyinws/vitepress-plugin-group-icons
+   */
   groupIcons?: Partial<GroupIconsOptions>
   /**
    * unocss presets

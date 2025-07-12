@@ -704,18 +704,6 @@ export default defineValaxyConfig({
 
 ## Add Code Block Title And Icons {lang="en"}
 
-默认**关闭**，你可以通过将 `groupIcons` 设置为 `空对象` 来开启：
-
-```ts [valaxy.config.ts]
-import { defineValaxyConfig } from 'valaxy'
-
-export default defineValaxyConfig({
-  groupIcons: {
-    customIcon: {}
-  }
-})
-```
-
 它基于 [vitepress-plugin-group-icons](https://github.com/yuyinws/vitepress-plugin-group-icons) 实现，内置了一些[常用图标](https://vp.yuy1n.io/features.html#built-in-icons)，你可以如下自定义更多图标。
 
 ```ts [valaxy.config.ts] {5-14}

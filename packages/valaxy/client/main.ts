@@ -20,6 +20,7 @@ import { setupValaxyDevTools } from './utils/dev'
  */
 import '#valaxy/styles'
 import 'uno.css'
+import 'virtual:group-icons.css'
 
 const valaxyConfig = initValaxyConfig()
 

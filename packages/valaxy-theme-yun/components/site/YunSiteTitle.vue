@@ -1,11 +1,14 @@
 <script setup lang="ts">
 import { useSiteConfig } from 'valaxy'
+import { useI18n } from 'vue-i18n'
 import { useRouter } from 'vue-router'
 import { useThemeConfig } from '../../composables'
 
 const router = useRouter()
 const siteConfig = useSiteConfig()
 const themeConfig = useThemeConfig()
+
+const { t } = useI18n()
 
 // bg-gradient-to-r gradient-text from-#1e3c72 to-dark dark:(from-#66a6ff to-blue-500)
 </script>
@@ -16,14 +19,14 @@ const themeConfig = useThemeConfig()
     class="site-name text-lg leading-loose"
     :class="themeConfig.banner.siteNameClass"
   >
-    {{ siteConfig.title }}
+    {{ t(siteConfig.title) }}
   </RouterLink>
   <span
     v-else
     class="site-name text-lg leading-loose"
     :class="themeConfig.banner.siteNameClass"
   >
-    {{ siteConfig.title }}
+    {{ t(siteConfig.title) }}
   </span>
 </template>
 

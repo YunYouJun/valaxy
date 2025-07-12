@@ -1,17 +1,15 @@
 // ref vitepress
 // src/node/markdown/plugins/containers.ts
 
-import type MarkdownIt from 'markdown-it'
+import type { MarkdownItAsync } from 'markdown-it-async'
 import type Token from 'markdown-it/lib/token.mjs'
+
 import type {
   Options,
 } from './preWrapper'
-
 import container from 'markdown-it-container'
-import { nanoid } from 'nanoid'
 import {
   extractTitle,
-  getAdaptiveThemeMarker,
 } from './preWrapper'
 
 type ContainerArgs = [
@@ -22,33 +20,35 @@ type ContainerArgs = [
   },
 ]
 
-function createContainer(classes: string, { icon, color, text: defaultTitle, langs }: BlockItem = {}): ContainerArgs {
+function createContainer(classes: string, { icon, color, text: defaultTitle, langs }: BlockItem = {}, md: MarkdownItAsync): ContainerArgs {
   return [
     container,
     classes,
     {
       render(tokens, idx) {
         const token = tokens[idx]
-        const info = token.info.trim().slice(classes.length).trim()
         if (token.nesting === 1) {
-          if (classes === 'details') {
-            return `<details class="${classes} custom-block">${
-              `<summary>${info}</summary>`
-            }\n`
-          }
-          let iconTag = ''
+          token.attrJoin('class', `${classes} custom-block`)
+          const attrs = md.renderer.renderAttrs(token)
+          const info = token.info.trim().slice(classes.length).trim()
 
+          let iconTag = ''
           if (icon)
             iconTag = `<i class="icon ${icon}" ${color ? `style="color: ${color}"` : ''}></i>`
 
-          let title = `<span lang="en">${info || defaultTitle}</span>`
+          let titleWithLang = `<span lang="en">${info || defaultTitle}</span>`
           if (langs) {
             Object.keys(langs).forEach((lang) => {
-              title += `<span lang="${lang}">${info || langs[lang]}</span>`
+              titleWithLang += `<span lang="${lang}">${info || langs[lang]}</span>`
             })
           }
+          const title = md.renderInline(titleWithLang, {})
+          const titleClass
+            = `custom-block-title${info ? '' : ' custom-block-title-default'}`
 
-          return `<div class="${classes} custom-block"><p class="custom-block-title">${iconTag}${title}</p>\n`
+          if (classes === 'details')
+            return `<details ${attrs}><summary>${title}</summary>\n`
+          return `<div ${attrs}><p class="${titleClass}">${iconTag}${title}</p>\n`
         }
         else {
           return classes === 'details' ? '</details>\n' : '</div>\n'
@@ -111,37 +111,47 @@ const defaultBlocksOptions: ContainerOptions = {
   },
 }
 
-export function containerPlugin(md: MarkdownIt, options: Options, containerOptions: ContainerOptions = {}) {
-  const blockKeys = Object.keys(Object.assign(defaultBlocksOptions, containerOptions))
+export function containerPlugin(md: MarkdownItAsync, containerOptions: ContainerOptions = {}) {
+  const blockKeys = new Set(Object.keys(Object.assign(defaultBlocksOptions, containerOptions)))
   blockKeys.forEach((optionKey) => {
     const option: BlockItem = {
       ...defaultBlocksOptions[optionKey as keyof Blocks],
       ...(containerOptions[optionKey as keyof Blocks] || {}),
     }
 
-    md.use(...createContainer(optionKey, option))
+    md.use(...createContainer(optionKey, option, md))
   })
 
-  md.use(...createCodeGroup(options))
+  // explicitly escape Vue syntax
+  md.use(container, 'v-pre', {
+    render: (tokens: Token[], idx: number) =>
+      tokens[idx].nesting === 1 ? `<div v-pre>\n` : `</div>\n`,
+  })
+  md.use(container, 'raw', {
+    render: (tokens: Token[], idx: number) =>
+      tokens[idx].nesting === 1 ? `<div class="vp-raw">\n` : `</div>\n`,
+  })
 
   const languages = ['zh-CN', 'en']
   languages.forEach((lang) => {
     md.use(container, lang, {
-      render: (tokens: Token[], idx: number) => tokens[idx].nesting === 1 ? `<div lang="${lang}">\n` : '</div>\n',
+      render: (tokens: Token[], idx: number) =>
+        tokens[idx].nesting === 1 ? `<div lang="${lang}">\n` : '</div>\n',
     })
   })
+
+  md.use(...createCodeGroup(md))
 }
 
-function createCodeGroup(options: Options): ContainerArgs {
+function createCodeGroup(md: MarkdownItAsync): ContainerArgs {
   return [
     container,
     'code-group',
     {
       render(tokens, idx) {
         if (tokens[idx].nesting === 1) {
-          const name = nanoid(5)
           let tabs = ''
-          let checked = 'checked="checked"'
+          let checked = 'checked'
 
           for (
             let i = idx + 1;
@@ -163,8 +173,8 @@ function createCodeGroup(options: Options): ContainerArgs {
               )
 
               if (title) {
-                const id = nanoid(7)
-                tabs += `<input type="radio" name="group-${name}" id="tab-${id}" ${checked}><label for="tab-${id}">${title}</label>`
+                tabs += `<input type="radio" name="group-${idx}" id="tab-${i}" ${checked}/>`
+                tabs += `<label data-title="${md.utils.escapeHtml(title)}" for="tab-${i}">${title}</label>`
 
                 if (checked && !isHtml)
                   tokens[i].info += ' active'
@@ -173,9 +183,7 @@ function createCodeGroup(options: Options): ContainerArgs {
             }
           }
 
-          return `<div class="vp-code-group${getAdaptiveThemeMarker(
-            options,
-          )}"><div class="tabs">${tabs}</div><div class="blocks">\n`
+          return `<div class="vp-code-group"><div class="tabs">${tabs}</div><div class="blocks">\n`
         }
         return `</div></div>\n`
       },

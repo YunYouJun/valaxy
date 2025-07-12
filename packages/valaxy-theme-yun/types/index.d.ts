@@ -180,7 +180,8 @@ export interface ThemeConfig extends DefaultTheme.Config {
 
   /**
    * nav items
-   * @zh 导航栏 位于页面右上角
+   * @zh 导航栏
+   * 位于页面顶部
    */
   nav?: NavItem[]
   /**
