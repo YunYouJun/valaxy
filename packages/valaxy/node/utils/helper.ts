@@ -1,4 +1,4 @@
-import { EXTERNAL_URL_RE } from '../constants'
+import { EXTERNAL_URL_RE } from '../../shared'
 
 /**
  * is url external (http/https:)

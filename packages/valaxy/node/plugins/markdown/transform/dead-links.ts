@@ -3,8 +3,8 @@ import type { MarkdownCompileResult } from '../types'
 import { slash } from '@antfu/utils'
 import fs from 'fs-extra'
 import path from 'pathe'
+import { EXTERNAL_URL_RE } from '../../../../shared'
 import { Valaxy } from '../../../app'
-import { EXTERNAL_URL_RE } from '../../../constants'
 import { treatAsHtml } from '../utils'
 
 export function createScanDeadLinks(options: ResolvedValaxyOptions) {

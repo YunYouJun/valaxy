@@ -2,7 +2,7 @@
 // https://router.vuejs.org/guide/advanced/extending-router-link.html#extending-routerlink
 import { computed } from 'vue'
 import { RouterLink } from 'vue-router'
-import { EXTERNAL_URL_RE } from '../../node/constants'
+import { EXTERNAL_URL_RE } from '../../shared'
 
 const props = defineProps<{
   showExternalIcon?: boolean
