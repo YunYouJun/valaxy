@@ -6,3 +6,6 @@ excerpt:
 
 post:
   time_warning: '本文最后更新于 {ago}，文中所描述的信息可能已发生改变。（覆盖测试）'
+
+siteConfig:
+  title: 自定义博客名称

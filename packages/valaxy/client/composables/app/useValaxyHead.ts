@@ -8,15 +8,17 @@ import { useSiteConfig } from '../../config'
 import { tObject } from '../../utils'
 
 export function useValaxyHead() {
-  const { locale } = useI18n()
+  const { locale, t } = useI18n()
 
   const fm = useFrontmatter()
   const siteConfig = useSiteConfig()
   const $title = computed(() => tObject(fm.value.title || '', locale.value))
+
   useHead({
     title: $title,
     titleTemplate: (title) => {
-      return fm.value.titleTemplate || (title ? `${title} - ${siteConfig.value.title}` : siteConfig.value.title)
+      const siteTitle = t(siteConfig.value.title)
+      return fm.value.titleTemplate || (title ? `${title} - ${siteTitle}` : siteTitle)
     },
     link: [
       {

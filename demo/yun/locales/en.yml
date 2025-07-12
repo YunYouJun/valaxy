@@ -3,3 +3,6 @@ docs:
 
 excerpt:
   ai: AI-Generated Excerpt
+
+siteConfig:
+  title: Site Config Title
