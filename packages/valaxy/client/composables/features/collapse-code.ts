@@ -37,8 +37,9 @@ export function useCollapseCode() {
     const el = e.target as HTMLElement
     if (el.matches('[class*="language-"] > button.collapse')) {
       const parent = el.parentElement
-      parent?.removeAttribute('style')
       parent?.classList.remove('folded')
+      const codeHeightLimitClass = `max-h-${codeHeightLimit}px`
+      parent?.classList.remove(codeHeightLimitClass)
     }
   })
 
