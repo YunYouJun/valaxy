@@ -12,8 +12,11 @@ export namespace YunTheme {
     /**
      * @en Banner title
      * @zh 标题，默认每个字分割，你也可以通过数组的方式来自定义分割，如 ['Hello', 'World']
+     *
+     * i18n: { 'en': 'Title', 'zh-CN': '标题' }
+     * { en: ['Hello', 'World'], 'zh-CN': ['你好', '世界'] }
      */
-    title: string | string[]
+    title: string | string[] | Record<string, string | string[]>
 
     /**
      * 首页下方的动态云

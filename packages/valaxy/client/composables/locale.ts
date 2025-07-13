@@ -92,7 +92,7 @@ export function useValaxyI18n() {
    *   "en": "Hello"
    * }
    */
-  const $tO = (data?: string | Record<string, string>) => {
+  const $tO = <T = string>(data?: string | Record<string, T>) => {
     return tObject(data || '', locale.value)
   }
 

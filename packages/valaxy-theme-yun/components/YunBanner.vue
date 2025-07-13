@@ -17,7 +17,7 @@ const themeConfig = useThemeConfig()
 
 // height of top/bottom line
 
-const { totalCharHeight, chars } = useYunBanner(themeConfig.value.banner)
+const { totalCharHeight, chars, bannerTitle } = useYunBanner(themeConfig.value.banner)
 
 const bannerStyles = computed<CSSProperties>(() => {
   const styles: CSSProperties = {
@@ -64,13 +64,13 @@ onMounted(async () => {
     <template v-if="yun.isNimbo">
       <YunBannerCharContainer
         v-if="animationStatus === 'banner'"
-        :title="themeConfig.banner.title"
+        :title="bannerTitle"
         :chars="chars"
       />
     </template>
     <template v-if="yun.isStrato">
       <YunBannerCharContainer
-        :title="themeConfig.banner.title"
+        :title="bannerTitle"
         :chars="chars"
       />
     </template>

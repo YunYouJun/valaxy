@@ -10,7 +10,11 @@ export default defineThemeConfig({
 
   banner: {
     enable: true,
-    title: '云游君的小站',
+    // title: '云游君的小站',
+    title: {
+      'zh-CN': '云游君的小站',
+      'en': ['Yun', 'You', 'Jun', 'Site'],
+    },
     siteNameClass: 'bg-gradient-to-r gradient-text from-#1e3c72 to-dark dark:from-#66a6ff dark:to-blue-500',
   },
 

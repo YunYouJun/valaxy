@@ -26,15 +26,15 @@ export function useValaxyApp() {
   // seo
   // todo: get first image url from markdown
   const siteUrl = computed(() => fm.value.url || siteConfig.value.url)
-  const description = computed(() => fm.value.excerpt || fm.value.description || siteConfig.value.description)
+  const description = computed(() => $tO(fm.value.excerpt) || $tO(fm.value.description) || $tO(siteConfig.value.description))
 
   useSeoMeta({
     description,
     ogDescription: description,
     ogLocale: computed(() => locale.value || fm.value.lang || siteConfig.value.lang || 'en'),
     ogLocaleAlternate: computed(() => siteConfig.value.languages.filter(l => l !== locale.value)),
-    ogSiteName: computed(() => siteConfig.value.title),
-    ogTitle: computed(() => $tO(fm.value.title || siteConfig.value.title)),
+    ogSiteName: computed(() => $t(siteConfig.value.title)),
+    ogTitle: computed(() => $tO(fm.value.title) || $t(siteConfig.value.title)),
     ogImage: computed(() => fm.value.ogImage || fm.value.cover || siteConfig.value.favicon),
     ogType: 'website',
     ogUrl: siteUrl,

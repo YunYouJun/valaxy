@@ -9,7 +9,7 @@
  * tObject({ 'en': 'English', 'zh-CN': '中文' }, 'fr') // English
  * ```
  */
-export function tObject(data: string | Record<string, string>, lang: string): string {
+export function tObject<T = string>(data: string | Record<string, T>, lang: string): T | string {
   if (typeof data === 'object') {
     return data[lang] || Object.values(data)[0] || ''
   }
