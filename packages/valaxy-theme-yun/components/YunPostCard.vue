@@ -41,7 +41,7 @@ const postTitleClass = computed(() => {
         loading="lazy"
       >
 
-      <div class="flex flex-col items-center relative" :class="post.cover && 'h-54'" w="full">
+      <div class="flex flex-col items-center relative px-6" :class="post.cover && 'h-54'" w="full">
         <AppLink
           class="post-title-link cursor-pointer"
           :to="post.path || ''"
@@ -83,7 +83,7 @@ const postTitleClass = computed(() => {
 
     <!-- always show -->
     <div
-      w="full" class="yun-card-actions flex justify-between"
+      w="full" class="yun-card-actions flex justify-between px-6"
       min-h="10"
       text="sm"
     >
