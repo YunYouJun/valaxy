@@ -1,7 +1,7 @@
 <script lang="ts" setup>
+import { useValaxyI18n } from 'valaxy'
 import { computed } from 'vue'
 import { useI18n } from 'vue-i18n'
-import { useValaxyI18n } from '../composables'
 import { useSiteConfig } from '../config'
 
 withDefaults(defineProps<{

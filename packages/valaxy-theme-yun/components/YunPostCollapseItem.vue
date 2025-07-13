@@ -1,10 +1,8 @@
 <script setup lang="ts">
 import type { Post } from 'valaxy'
 import { useMotion } from '@vueuse/motion'
-import { formatDate, tObject } from 'valaxy'
-import { computed, ref } from 'vue'
-
-import { useI18n } from 'vue-i18n'
+import { formatDate, useValaxyI18n } from 'valaxy'
+import { ref } from 'vue'
 
 const props = defineProps<{
   i: number
@@ -29,10 +27,7 @@ useMotion(itemRef, {
   },
 })
 
-const { locale } = useI18n()
-const postTitle = computed(() => {
-  return tObject(props.post.title || '', locale.value)
-})
+const { $tO } = useValaxyI18n()
 </script>
 
 <template>
@@ -55,7 +50,7 @@ const postTitle = computed(() => {
       </div>
       <h2 class="post-title w-full" inline-flex items-center font="serif black">
         <RouterLink :to="post.path || ''" class="post-title-link">
-          {{ postTitle }}
+          {{ $tO(post.title) }}
         </RouterLink>
       </h2>
     </header>

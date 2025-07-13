@@ -1,10 +1,10 @@
 <script setup lang="ts">
-import { tObject, useFrontmatter, useSiteConfig, useValaxyI18n } from 'valaxy'
+import { useFrontmatter, useSiteConfig, useValaxyI18n } from 'valaxy'
 import { computed, ref, watch } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { useYunAppStore } from '../../stores'
 
-const { $t, locale } = useValaxyI18n()
+const { $t, $tO } = useValaxyI18n()
 
 const yunApp = useYunAppStore()
 const fm = useFrontmatter()
@@ -63,10 +63,10 @@ function goToLink() {
           class="size-4"
           :class="fm.icon || 'i-ri-article-line'"
         />
-        <span class="truncate"> {{ tObject(fm.title || '', locale) }}</span>
+        <span class="truncate"> {{ $tO(fm.title || '') }}</span>
       </div>
       <span v-if="fm.subtitle" class="font-light op-80">
-        {{ tObject(fm.subtitle || '', locale) }}
+        {{ $tO(fm.subtitle || '') }}
       </span>
     </div>
     <span v-if="showSiteTitle" class="font-light truncate">

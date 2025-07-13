@@ -73,14 +73,35 @@ export function useLocaleTitle(fm: Ref<{
 export function useValaxyI18n() {
   const { t, locale } = useI18n()
 
+  /**
+   * translate `$locale:key`
+   * @param key
+   */
+  const $t = (key: string) => {
+    if (key.startsWith(LOCALE_PREFIX)) {
+      return t(key.slice(LOCALE_PREFIX.length))
+    }
+    return key
+  }
+
+  /**
+   * translate object
+   *
+   * {
+   *   "zh-CN": "你好",
+   *   "en": "Hello"
+   * }
+   */
+  const $tO = (data?: string | Record<string, string>) => {
+    return tObject(data || '', locale.value)
+  }
+
   return {
     locale,
-
-    $t: (key: string) => {
-      if (key.startsWith(LOCALE_PREFIX)) {
-        return t(key.slice(LOCALE_PREFIX.length))
-      }
-      return key
-    },
+    /**
+     * vue-i18n t function
+     */
+    $t,
+    $tO,
   }
 }

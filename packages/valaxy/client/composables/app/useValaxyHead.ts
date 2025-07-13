@@ -1,19 +1,16 @@
 import { useHead } from '@unhead/vue'
 import pkg from 'valaxy/package.json'
 import { computed } from 'vue'
-import { useI18n } from 'vue-i18n'
 
 import { useFrontmatter, useValaxyI18n } from '../../composables'
 import { useSiteConfig } from '../../config'
-import { tObject } from '../../utils'
 
 export function useValaxyHead() {
-  const { locale } = useI18n()
-  const { $t } = useValaxyI18n()
+  const { $t, $tO } = useValaxyI18n()
 
   const fm = useFrontmatter()
   const siteConfig = useSiteConfig()
-  const $title = computed(() => tObject(fm.value.title || '', locale.value))
+  const $title = computed(() => $tO(fm.value.title))
 
   useHead({
     title: $title,

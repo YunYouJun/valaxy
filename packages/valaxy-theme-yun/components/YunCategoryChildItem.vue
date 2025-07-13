@@ -1,8 +1,6 @@
 <script setup lang="ts">
-import type { Post } from 'valaxy'
-import { isCategoryList, tObject } from 'valaxy'
+import { isCategoryList, useValaxyI18n } from 'valaxy'
 import { computed } from 'vue'
-import { useI18n } from 'vue-i18n'
 import { useRoute } from 'vue-router'
 
 defineProps<{
@@ -14,10 +12,8 @@ defineProps<{
 /**
  * i18n
  */
-const { locale } = useI18n()
-function getTitle(post: Post | any) {
-  return tObject(post.title || '', locale.value)
-}
+const { $tO } = useValaxyI18n()
+
 const route = useRoute()
 const categoryList = computed(() => {
   const c = (route.query.category as string) || ''
@@ -42,7 +38,7 @@ const categoryList = computed(() => {
       hover="bg-black/5"
     >
       <div i-ri-file-text-line />
-      <span font="serif black">{{ getTitle(categoryItem) }}</span>
+      <span class="st-text">{{ $tO(categoryItem.title) }}</span>
     </RouterLink>
   </template>
 </template>

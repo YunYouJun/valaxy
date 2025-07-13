@@ -4,6 +4,8 @@ import dayjs from 'dayjs'
 import relativeTime from 'dayjs/plugin/relativeTime'
 
 import { computed } from 'vue'
+import { useI18n } from 'vue-i18n'
+import { tObject } from '../../../../valaxy/shared'
 import { activePath, devtoolsRouter } from '../composables/app'
 import { clientPageData } from '../stores/app'
 import { openInEditor } from '../utils'
@@ -11,6 +13,8 @@ import { openInEditor } from '../utils'
 const props = defineProps<{
   post: ClientPageData
 }>()
+
+const { locale } = useI18n()
 
 dayjs.extend(relativeTime)
 
@@ -45,7 +49,7 @@ const active = computed(() => {
         class="inline-flex flex-grow cursor-pointer truncate"
         @click="onClickPost(post)"
       >
-        {{ post.frontmatter.title }}
+        {{ tObject(post.frontmatter.title || '', locale) }}
       </span>
 
       <div class="text-xs">

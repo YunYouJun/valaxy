@@ -5,7 +5,6 @@ import { useSeoMeta } from '@unhead/vue'
 import { computed } from 'vue'
 import { useI18n } from 'vue-i18n'
 
-import { tObject } from '../../../shared/utils/i18n'
 import { useFrontmatter, useValaxyHead, useValaxyI18n } from '../../composables'
 
 import { useTimezone } from '../../composables/global'
@@ -20,9 +19,9 @@ export function useValaxyApp() {
   const fm = useFrontmatter()
 
   const { locale } = useI18n()
-  const { $t } = useValaxyI18n()
+  const { $t, $tO } = useValaxyI18n()
 
-  const title = computed(() => tObject(fm.value.title || '', locale.value))
+  const title = computed(() => $tO(fm.value.title))
 
   // seo
   // todo: get first image url from markdown
@@ -35,7 +34,7 @@ export function useValaxyApp() {
     ogLocale: computed(() => locale.value || fm.value.lang || siteConfig.value.lang || 'en'),
     ogLocaleAlternate: computed(() => siteConfig.value.languages.filter(l => l !== locale.value)),
     ogSiteName: computed(() => siteConfig.value.title),
-    ogTitle: computed(() => tObject(fm.value.title || siteConfig.value.title, locale.value)),
+    ogTitle: computed(() => $tO(fm.value.title || siteConfig.value.title)),
     ogImage: computed(() => fm.value.ogImage || fm.value.cover || siteConfig.value.favicon),
     ogType: 'website',
     ogUrl: siteUrl,

@@ -1,8 +1,7 @@
 <script lang="ts" setup>
 import type { PageData, Post } from 'valaxy'
-import { onClickHref, onContentUpdated, scrollTo, tObject, useFrontmatter, useLayout, useSidebar, useSiteConfig } from 'valaxy'
+import { onClickHref, onContentUpdated, scrollTo, useFrontmatter, useLayout, useSidebar, useSiteConfig, useValaxyI18n } from 'valaxy'
 import { computed, nextTick } from 'vue'
-import { useI18n } from 'vue-i18n'
 import { useRoute, useRouter } from 'vue-router'
 import { targetPadding } from '../client'
 
@@ -18,8 +17,8 @@ const { hasSidebar } = useSidebar()
 const isHome = useLayout('home')
 const layout = useLayout()
 
-const { locale } = useI18n()
-const $title = computed(() => tObject(frontmatter.value.title || '', locale.value))
+const { $tO } = useValaxyI18n()
+const $title = computed(() => $tO(frontmatter.value.title))
 
 const route = useRoute()
 const router = useRouter()

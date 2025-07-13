@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import type { Post } from 'valaxy'
-import { tObject } from 'valaxy'
+import { useValaxyI18n } from 'valaxy'
 import { computed, ref } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { usePostProperty } from '../composables'
@@ -9,7 +9,8 @@ const props = defineProps<{
   post: Post
 }>()
 
-const { t, locale } = useI18n()
+const { t } = useI18n()
+const { $tO } = useValaxyI18n()
 
 const { icon, styles, color } = usePostProperty(props.post.type)
 
@@ -19,10 +20,6 @@ const postTitleClass = computed(() => {
     return ''
   }
   return props.post.postTitleClass || gradientClasses.value
-})
-
-const postTitle = computed(() => {
-  return tObject(props.post.title || '', locale.value)
 })
 </script>
 
@@ -56,7 +53,7 @@ const postTitle = computed(() => {
             text="center" font="serif black"
           >
             <div v-if="post.type" class="inline-flex" m="r-1" :class="icon" />
-            <span>{{ postTitle }}</span>
+            <span>{{ $tO(post.title) }}</span>
           </div>
         </AppLink>
 

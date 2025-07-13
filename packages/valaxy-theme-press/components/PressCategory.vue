@@ -1,6 +1,6 @@
 <script lang="ts" setup>
-import type { Category, Post } from 'valaxy'
-import { isCategoryList, tObject } from 'valaxy'
+import type { Category } from 'valaxy'
+import { isCategoryList, useValaxyI18n } from 'valaxy'
 import { ref } from 'vue'
 import { useI18n } from 'vue-i18n'
 
@@ -19,12 +19,8 @@ const props = withDefaults(defineProps<{
 })
 
 const collapsable = ref(props.collapsable)
-const { t, locale } = useI18n()
-
-function getTitle(post: Post | any) {
-  const lang = locale.value
-  return tObject(post.title || '', lang)
-}
+const { t } = useI18n()
+const { $tO } = useValaxyI18n()
 </script>
 
 <template>
@@ -58,7 +54,7 @@ function getTitle(post: Post | any) {
           v-if="categoryItem.title" :to="categoryItem.path || ''"
           class="inline-flex items-center"
         >
-          <span class="text ml-1" text="sm">{{ getTitle(categoryItem) }}</span>
+          <span class="text ml-1" text="sm">{{ $tO(categoryItem.title) }}</span>
         </RouterLink>
       </template>
 

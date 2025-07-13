@@ -1,8 +1,11 @@
 <script setup lang="ts">
 import { ref } from 'vue'
+import { useI18n } from 'vue-i18n'
+
 import { useThemeConfig } from '../../composables'
 
 const themeConfig = useThemeConfig()
+const { t } = useI18n()
 
 const showContent = ref(false)
 </script>
@@ -79,7 +82,7 @@ const showContent = ref(false)
         >
           <YunSiteLinkItem
             :page="{
-              name: '博客文章',
+              name: t('menu.posts'),
               icon: 'i-ri-article-line',
               url: '/posts/',
             }"
