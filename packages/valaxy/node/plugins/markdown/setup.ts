@@ -6,35 +6,36 @@ import type { TocPluginOptions } from '@mdit-vue/plugin-toc'
 import type MarkdownIt from 'markdown-it'
 import type { MarkdownItAsync } from 'markdown-it-async'
 import type Token from 'markdown-it/lib/token.mjs'
-import type { ResolvedValaxyOptions } from '../../options'
+import type { UserSiteConfig } from '../../../types'
 
+import type { ResolvedValaxyOptions } from '../../options'
 import type { ThemeOptions } from './types'
+
 import {
   headersPlugin,
 } from '@mdit-vue/plugin-headers'
-
 import { sfcPlugin } from '@mdit-vue/plugin-sfc'
 import { titlePlugin } from '@mdit-vue/plugin-title'
 import { tocPlugin } from '@mdit-vue/plugin-toc'
 import { slugify } from '@mdit-vue/shared'
+
 import { cssI18nContainer } from 'css-i18n'
-
 import anchorPlugin from 'markdown-it-anchor'
-import attrsPlugin from 'markdown-it-attrs'
 
+import attrsPlugin from 'markdown-it-attrs'
 import { full as emojiPlugin } from 'markdown-it-emoji'
 import footnotePlugin from 'markdown-it-footnote'
 // https://www.npmjs.com/package/markdown-it-image-figures
 import imageFigures from 'markdown-it-image-figures'
-import TaskLists from 'markdown-it-task-lists'
 
+import TaskLists from 'markdown-it-task-lists'
 import { groupIconMdPlugin } from 'vitepress-plugin-group-icons'
 import { linkPlugin } from './plugins/link'
 import { containerPlugin } from './plugins/markdown-it/container'
 import { footnoteTooltipPlugin } from './plugins/markdown-it/footnoteTooltip'
 import { highlightLinePlugin } from './plugins/markdown-it/highlightLines'
-import Katex from './plugins/markdown-it/katex'
 
+import Katex from './plugins/markdown-it/katex'
 import { lineNumberPlugin } from './plugins/markdown-it/lineNumbers'
 import { preWrapperPlugin } from './plugins/markdown-it/preWrapper'
 import { snippetPlugin } from './plugins/markdown-it/snippet'
@@ -49,7 +50,7 @@ export async function setupMarkdownPlugins(
 ) {
   const mdOptions = options?.config.markdown || {}
   const theme = mdOptions.theme ?? defaultCodeTheme
-  const siteConfig = options?.config.siteConfig || {}
+  const siteConfig: UserSiteConfig = options?.config.siteConfig || {}
 
   if (mdOptions.preConfig)
     mdOptions.preConfig(md)
@@ -59,9 +60,12 @@ export async function setupMarkdownPlugins(
     .use(preWrapperPlugin, { theme, siteConfig })
     .use(snippetPlugin, options?.userRoot)
     .use(containerPlugin, {
-      siteConfig,
-      ...mdOptions.blocks,
+      languages: siteConfig.languages,
       ...mdOptions?.container,
+      blocks: {
+        ...mdOptions.blocks,
+        ...mdOptions.container?.blocks,
+      },
     })
     .use(cssI18nContainer, {
       languages: options?.config.siteConfig.languages,

@@ -4,9 +4,6 @@
 import type { MarkdownItAsync } from 'markdown-it-async'
 import type Token from 'markdown-it/lib/token.mjs'
 
-import type {
-  Options,
-} from './preWrapper'
 import container from 'markdown-it-container'
 import {
   extractTitle,
@@ -20,7 +17,8 @@ type ContainerArgs = [
   },
 ]
 
-function createContainer(classes: string, { icon, color, text: defaultTitle, langs }: BlockItem = {}, md: MarkdownItAsync): ContainerArgs {
+function createContainer(key: string, block: BlockItem = {}, md: MarkdownItAsync): ContainerArgs {
+  const classes = key
   return [
     container,
     classes,
@@ -33,16 +31,10 @@ function createContainer(classes: string, { icon, color, text: defaultTitle, lan
           const info = token.info.trim().slice(classes.length).trim()
 
           let iconTag = ''
-          if (icon)
-            iconTag = `<i class="icon ${icon}" ${color ? `style="color: ${color}"` : ''}></i>`
+          if (block.icon)
+            iconTag = `<i class="icon ${block.icon}" ${block.color ? `style="color: ${block.color}"` : ''}></i>`
 
-          let titleWithLang = `<span lang="en">${info || defaultTitle}</span>`
-          if (langs) {
-            Object.keys(langs).forEach((lang) => {
-              titleWithLang += `<span lang="${lang}">${info || langs[lang]}</span>`
-            })
-          }
-          const title = md.renderInline(titleWithLang, {})
+          const title = `<ValaxyContainerBlockTitle title="blocks.${key}" />`
           const titleClass
             = `custom-block-title${info ? '' : ' custom-block-title-default'}`
 
@@ -62,10 +54,6 @@ export interface BlockItem {
   text?: string
   icon?: string
   color?: string
-  /**
-   * for i18n
-   */
-  langs?: { [key: string]: string }
 }
 
 export interface Blocks {
@@ -76,49 +64,35 @@ export interface Blocks {
   details?: BlockItem
 }
 
-export type ContainerOptions = Blocks & Partial<Options>
+export interface ContainerOptions {
+  blocks?: Blocks
+  languages?: string[]
+}
 
-const defaultBlocksOptions: ContainerOptions = {
+const defaultBlocksOptions: Blocks = {
   tip: {
     text: 'TIP',
-    langs: {
-      'zh-CN': '提示',
-    },
   },
   warning: {
     text: 'WARNING',
-    langs: {
-      'zh-CN': '注意',
-    },
   },
   danger: {
     text: 'DANGER',
-    langs: {
-      'zh-CN': '警告',
-    },
   },
   info: {
     text: 'INFO',
-    langs: {
-      'zh-CN': '信息',
-    },
   },
   details: {
     text: 'Details',
-    langs: {
-      'zh-CN': '详情',
-    },
   },
 }
 
 export function containerPlugin(md: MarkdownItAsync, containerOptions: ContainerOptions = {}) {
-  const blockKeys = new Set(Object.keys(Object.assign(defaultBlocksOptions, containerOptions)))
+  const blockKeys = new Set(Object.keys(Object.assign({}, defaultBlocksOptions, containerOptions.blocks)))
   blockKeys.forEach((optionKey) => {
-    const option: BlockItem = {
-      ...defaultBlocksOptions[optionKey as keyof Blocks],
-      ...(containerOptions[optionKey as keyof Blocks] || {}),
-    }
-
+    const key = optionKey as keyof Blocks
+    const userOption = containerOptions.blocks?.[key] || {}
+    const option: BlockItem = Object.assign({}, defaultBlocksOptions[key], userOption)
     md.use(...createContainer(optionKey, option, md))
   })
 
@@ -132,7 +106,7 @@ export function containerPlugin(md: MarkdownItAsync, containerOptions: Container
       tokens[idx].nesting === 1 ? `<div class="vp-raw">\n` : `</div>\n`,
   })
 
-  const languages = containerOptions.siteConfig?.languages || ['zh-CN', 'en']
+  const languages = containerOptions.languages || ['zh-CN', 'en']
   languages.forEach((lang) => {
     md.use(container, lang, {
       render: (tokens: Token[], idx: number) =>

@@ -110,3 +110,10 @@ time:
 
 tooltip:
   last_updated: Last updated
+
+blocks:
+  tip: TIP
+  warning: WARNING
+  danger: DANGER
+  info: INFO
+  details: DETAILS

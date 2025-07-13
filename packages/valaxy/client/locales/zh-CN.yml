@@ -109,3 +109,10 @@ time:
 
 tooltip:
   last_updated: 最后更新于
+
+blocks:
+  tip: 提示
+  warning: 注意
+  danger: 警告
+  info: 信息
+  details: 详情

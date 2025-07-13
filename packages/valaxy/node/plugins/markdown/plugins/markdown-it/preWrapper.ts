@@ -2,11 +2,9 @@
 import type MarkdownIt from 'markdown-it'
 import type { SiteConfig } from '../../../../../types'
 import type { MarkdownEnv } from '../../env'
-import type { ThemeOptions } from '../../types'
 
 export interface Options {
   codeCopyButtonTitle: string
-  theme: ThemeOptions
   siteConfig?: SiteConfig
 }
 
@@ -66,7 +64,7 @@ export function preWrapperPlugin(md: MarkdownIt, options: Options) {
 
     return (
       `<div class="language-${lang}${active}${codeHeightLimitClass}">`
-      + `<button title="${options.codeCopyButtonTitle}" class="copy"></button>`
+      + `<button title="${options.codeCopyButtonTitle || 'Copy code'}" class="copy"></button>`
       + `<span class="lang">${lang}</span>`
       + `${rawCode}`
       + '<button class="collapse"></button>'
