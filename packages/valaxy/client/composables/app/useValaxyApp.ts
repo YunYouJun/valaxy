@@ -26,7 +26,7 @@ export function useValaxyApp() {
   // seo
   // todo: get first image url from markdown
   const siteUrl = computed(() => fm.value.url || siteConfig.value.url)
-  const description = computed(() => $tO(fm.value.excerpt) || $tO(fm.value.description) || $tO(siteConfig.value.description))
+  const description = computed(() => $tO(fm.value.excerpt) || $tO(fm.value.description) || $t(siteConfig.value.description))
 
   useSeoMeta({
     description,
@@ -47,7 +47,7 @@ export function useValaxyApp() {
     definePerson({
       name: $t(siteConfig.value.author.name),
       url: siteUrl.value,
-      image: siteConfig.value.author.avatar,
+      image: $t(siteConfig.value.author.avatar),
       sameAs: siteConfig.value.social.map(s => s.link),
     }),
     defineWebSite({

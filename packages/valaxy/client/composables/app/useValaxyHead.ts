@@ -16,7 +16,7 @@ export function useValaxyHead() {
     title: $title,
     titleTemplate: (title) => {
       const siteTitle = $t(siteConfig.value.title)
-      return fm.value.titleTemplate || (title ? `${title} - ${siteTitle}` : siteTitle)
+      return $tO(fm.value.titleTemplate) || (title ? `${title} - ${siteTitle}` : siteTitle)
     },
     link: [
       {
@@ -29,7 +29,7 @@ export function useValaxyHead() {
       computed(() => {
         return {
           name: 'description',
-          content: fm.value.description || siteConfig.value.description,
+          content: $tO(fm.value.description) || $t(siteConfig.value.description),
         }
       }),
       {
