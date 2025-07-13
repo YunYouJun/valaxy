@@ -16,7 +16,7 @@ function togglePopup() {
 
 const algoliaRef = ref()
 onMounted(() => {
-  // algolia has its own hotkey
+  // algolia has its own hotkey handling in YunAlgoliaSearch component
   if (isFuse.value)
     useHotKey('k', togglePopup)
 })

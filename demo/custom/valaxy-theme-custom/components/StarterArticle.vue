@@ -34,7 +34,7 @@ const prevPost = computed(() => posts.value[findCurrentIndex() + 1])
           md:text-5xl md:leading-14
         "
       >
-        {{ frontmatter.title }}
+        {{ tObject(frontmatter.title || '', locale) }}
       </h1>
     </header>
 

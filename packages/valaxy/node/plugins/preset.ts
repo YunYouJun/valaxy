@@ -153,7 +153,7 @@ export async function ViteValaxyPlugins(
     }
   }
 
-  const customIcon = {
+  const builtinCustomIcon = {
     nodejs: 'vscode-icons:file-type-node',
     playwright: 'vscode-icons:file-type-playwright',
     typedoc: 'vscode-icons:file-type-typedoc',
@@ -161,10 +161,13 @@ export async function ViteValaxyPlugins(
   }
   plugins.push(
     groupIconVitePlugin({
-      customIcon,
-      ...valaxyConfig.groupIcons,
+      customIcon: {
+        ...builtinCustomIcon,
+        ...valaxyConfig.groupIcons?.customIcon,
+      },
       defaultLabels: [
         ...valaxyConfig.groupIcons?.defaultLabels || [],
+        ...Object.keys(builtinCustomIcon),
         ...Object.keys(valaxyConfig.groupIcons?.customIcon || {}),
       ],
     }),
