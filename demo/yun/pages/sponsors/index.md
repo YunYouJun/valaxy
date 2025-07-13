@@ -1,5 +1,7 @@
 ---
-title: 赞助者
+title:
+  en: Sponsors
+  zh-CN: 赞助者
 ---
 
 ## [Sponsors](https://www.yunyoujun.cn/sponsors/)

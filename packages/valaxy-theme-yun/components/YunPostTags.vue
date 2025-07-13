@@ -1,9 +1,12 @@
 <script lang="ts" setup>
 import type { Post } from 'valaxy'
+import { useValaxyI18n } from 'valaxy'
 
 defineProps<{
   tags: Post['tags']
 }>()
+
+const { $t } = useValaxyI18n()
 </script>
 
 <template>
@@ -19,7 +22,7 @@ defineProps<{
       border
       hover="bg-blue-500 text-white"
     >
-      <span>{{ tag }}</span>
+      <span>{{ $t(tag) }}</span>
     </RouterLink>
   </div>
 </template>

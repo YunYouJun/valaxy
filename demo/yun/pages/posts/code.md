@@ -1,5 +1,7 @@
 ---
-title: Code Block Test
+title:
+  en: Code Block Test
+  zh-CN: 代码块测试
 categories:
   - $locale:category.test
 ---
