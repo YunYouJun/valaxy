@@ -132,7 +132,7 @@ export function containerPlugin(md: MarkdownItAsync, containerOptions: Container
       tokens[idx].nesting === 1 ? `<div class="vp-raw">\n` : `</div>\n`,
   })
 
-  const languages = ['zh-CN', 'en']
+  const languages = containerOptions.siteConfig?.languages || ['zh-CN', 'en']
   languages.forEach((lang) => {
     md.use(container, lang, {
       render: (tokens: Token[], idx: number) =>

@@ -59,6 +59,7 @@ export async function setupMarkdownPlugins(
     .use(preWrapperPlugin, { theme, siteConfig })
     .use(snippetPlugin, options?.userRoot)
     .use(containerPlugin, {
+      siteConfig,
       ...mdOptions.blocks,
       ...mdOptions?.container,
     })

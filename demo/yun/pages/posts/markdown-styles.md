@@ -3,7 +3,7 @@ title:
   en: Markdown Styles
   zh-CN: Markdown 样式
 categories:
-  - Test
+  - $locale:category.test
   - Markdown
 ---
 

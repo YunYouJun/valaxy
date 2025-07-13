@@ -1,7 +1,7 @@
 ---
 title: Markdown File Inclusion By @include
 categories:
-  - Test
+  - $locale:category.test
 ---
 
 Include content:

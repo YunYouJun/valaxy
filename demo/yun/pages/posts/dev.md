@@ -3,7 +3,7 @@ title: Valaxy 开发笔记
 date: 2022-03-23
 cover: https://cos.yunle.fun/images/bg/astronaut.webp
 tags:
-  - 笔记
+  - $locale:tag.notes
   - valaxy
 ---
 

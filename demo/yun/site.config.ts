@@ -1,4 +1,4 @@
-import { defineSiteConfig } from 'valaxy'
+import { $t, defineSiteConfig } from 'valaxy'
 
 export default defineSiteConfig({
   frontmatter: {
@@ -9,14 +9,15 @@ export default defineSiteConfig({
   // disable show language switch
   // languages: ['zh-CN'],
 
-  title: 'siteConfig.title',
+  title: $t('siteConfig.title'),
+  subtitle: $t('siteConfig.subtitle'),
   timezone: 'Asia/Shanghai',
   url: 'https://yun.valaxy.site/',
   author: {
     avatar: 'https://www.yunyoujun.cn/images/avatar.jpg',
-    name: '云游君',
+    name: $t('siteConfig.author.name'),
   },
-  description: 'Valaxy Theme Yun Preview.',
+  description: $t('siteConfig.description'),
   social: [
     {
       name: 'RSS',
@@ -61,7 +62,7 @@ export default defineSiteConfig({
       color: '#0084FF',
     },
     {
-      name: '哔哩哔哩',
+      name: $t('siteConfig.social.bilibili'),
       link: 'https://space.bilibili.com/1579790',
       icon: 'i-ri-bilibili-line',
       color: '#FF8EB3',
@@ -124,7 +125,7 @@ export default defineSiteConfig({
     enable: true,
     methods: [
       {
-        name: '支付宝',
+        name: $t('siteConfig.sponsor.alipay'),
         url: 'https://cdn.yunyoujun.cn/img/donate/alipay-qrcode.jpg',
         color: '#00A3EE',
         icon: 'i-ri-alipay-line',
@@ -136,7 +137,7 @@ export default defineSiteConfig({
         icon: 'i-ri-qq-line',
       },
       {
-        name: '微信支付',
+        name: $t('siteConfig.sponsor.wechatpay'),
         url: 'https://cdn.yunyoujun.cn/img/donate/wechatpay-qrcode.jpg',
         color: '#2DC100',
         icon: 'i-ri-wechat-pay-line',

@@ -4,7 +4,7 @@ import { toAtFS } from '../utils'
 
 export const templateLocales: VirtualModuleTemplate = {
   id: '/@valaxyjs/locales',
-  async getContent({ roots }) {
+  async getContent({ roots, config }) {
     const imports: string[] = [
       'import { createDefu } from "defu"',
       'const messages = { "zh-CN": {}, en: {} }',
@@ -17,8 +17,7 @@ export const templateLocales: VirtualModuleTemplate = {
   })
   `,
     ]
-    const languages = ['zh-CN', 'en']
-
+    const languages = config.siteConfig.languages || ['zh-CN', 'en']
     roots.forEach((root, i) => {
       languages.forEach((lang) => {
         const langYml = `${root}/locales/${lang}.yml`

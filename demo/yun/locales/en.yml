@@ -6,3 +6,18 @@ excerpt:
 
 siteConfig:
   title: Site Config Title
+  subtitle: Next Generation Static Blog Framework.
+  description: Valaxy Theme Yun Preview
+  author:
+    name: YunYouJun
+  social:
+    bilibili: Bilibili
+  sponsor:
+    alipay: Alipay
+    wechatpay: WeChat Pay
+
+tag:
+  notes: Notes
+
+category:
+  test: Test

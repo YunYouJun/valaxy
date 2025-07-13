@@ -6,7 +6,7 @@ import { computed } from 'vue'
 import { useI18n } from 'vue-i18n'
 
 import { tObject } from '../../../shared/utils/i18n'
-import { useFrontmatter, useValaxyHead } from '../../composables'
+import { useFrontmatter, useValaxyHead, useValaxyI18n } from '../../composables'
 
 import { useTimezone } from '../../composables/global'
 // https://github.com/vueuse/head
@@ -20,6 +20,7 @@ export function useValaxyApp() {
   const fm = useFrontmatter()
 
   const { locale } = useI18n()
+  const { $t } = useValaxyI18n()
 
   const title = computed(() => tObject(fm.value.title || '', locale.value))
 
@@ -45,7 +46,7 @@ export function useValaxyApp() {
     // https://unhead.unjs.io/docs/schema-org/guides/recipes/identity
     // Personal Website or Blog
     definePerson({
-      name: siteConfig.value.author.name,
+      name: $t(siteConfig.value.author.name),
       url: siteUrl.value,
       image: siteConfig.value.author.avatar,
       sameAs: siteConfig.value.social.map(s => s.link),

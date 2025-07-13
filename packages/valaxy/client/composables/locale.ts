@@ -6,6 +6,7 @@ import { computed } from 'vue'
 // not optimize deps all locales
 import { useI18n } from 'vue-i18n'
 import { tObject } from '../../shared/utils/i18n'
+import { LOCALE_PREFIX } from '../utils'
 import 'dayjs/locale/en'
 import 'dayjs/locale/zh-cn'
 
@@ -62,4 +63,24 @@ export function useLocaleTitle(fm: Ref<{
     const lang = locale.value
     return tObject(fm.value.title || '', lang) || ''
   })
+}
+
+/**
+ * @experimental
+ * 以 `$locale:` 开头的 key 会被认为是国际化的 key
+ * 会从 locales/ 目录中获取对应的翻译
+ */
+export function useValaxyI18n() {
+  const { t, locale } = useI18n()
+
+  return {
+    locale,
+
+    $t: (key: string) => {
+      if (key.startsWith(LOCALE_PREFIX)) {
+        return t(key.slice(LOCALE_PREFIX.length))
+      }
+      return key
+    },
+  }
 }

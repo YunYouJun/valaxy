@@ -1,6 +1,7 @@
 <script lang="ts" setup>
 import { computed } from 'vue'
 import { useI18n } from 'vue-i18n'
+import { useValaxyI18n } from '../composables'
 import { useSiteConfig } from '../config'
 
 withDefaults(defineProps<{
@@ -10,6 +11,7 @@ withDefaults(defineProps<{
 })
 
 const { t, locale } = useI18n()
+const { $t } = useValaxyI18n()
 
 const siteConfig = useSiteConfig()
 
@@ -31,7 +33,7 @@ const licenseHtml = computed(() => {
       <strong>
         {{ t('post.copyright.author') + t('symbol.colon') }}
       </strong>
-      <span>{{ t(siteConfig.author.name) }}</span>
+      <span>{{ $t(siteConfig.author.name) }}</span>
     </li>
     <li v-if="url" class="post-copyright-link">
       <strong>

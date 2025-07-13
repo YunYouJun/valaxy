@@ -1,11 +1,10 @@
 <script setup lang="ts">
-import { tObject, useFrontmatter, useSiteConfig } from 'valaxy'
+import { tObject, useFrontmatter, useSiteConfig, useValaxyI18n } from 'valaxy'
 import { computed, ref, watch } from 'vue'
-import { useI18n } from 'vue-i18n'
 import { useRoute, useRouter } from 'vue-router'
 import { useYunAppStore } from '../../stores'
 
-const { t, locale } = useI18n()
+const { $t, locale } = useValaxyI18n()
 
 const yunApp = useYunAppStore()
 const fm = useFrontmatter()
@@ -71,7 +70,7 @@ function goToLink() {
       </span>
     </div>
     <span v-if="showSiteTitle" class="font-light truncate">
-      {{ t(siteConfig.title) }}
+      {{ $t(siteConfig.title) }}
     </span>
   </div>
 </template>

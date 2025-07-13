@@ -3,7 +3,7 @@ title:
   en: Markdown Extensions Test
   zh-CN: Markdown 扩展测试
 categories:
-  - Test
+  - $locale:category.test
   - Markdown
 ---
 

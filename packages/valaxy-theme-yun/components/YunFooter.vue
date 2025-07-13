@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { useSiteConfig, useValaxyConfig, useValaxyDark } from 'valaxy'
+import { useSiteConfig, useValaxyConfig, useValaxyDark, useValaxyI18n } from 'valaxy'
 import pkg from 'valaxy/package.json'
 import { capitalize, computed } from 'vue'
 import { useI18n } from 'vue-i18n'
@@ -21,6 +21,7 @@ const gradientStyles = computed(() => {
 })
 
 const { t } = useI18n()
+const { $t } = useValaxyI18n()
 const config = useValaxyConfig()
 const siteConfig = useSiteConfig()
 const themeConfig = useThemeConfig()
@@ -72,7 +73,7 @@ const footerIcon = computed(() => themeConfig.value.footer.icon || {
       >
         <div :class="footerIcon.name" />
       </a>
-      <span>{{ siteConfig.author.name }}</span>
+      <span>{{ $t(siteConfig.author.name) }}</span>
     </div>
 
     <div v-if="themeConfig.footer.powered" class="powered" m="2">

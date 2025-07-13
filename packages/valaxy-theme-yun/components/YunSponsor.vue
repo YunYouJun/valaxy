@@ -1,9 +1,10 @@
 <script lang="ts" setup>
-import { useSiteConfig } from 'valaxy'
+import { useSiteConfig, useValaxyI18n } from 'valaxy'
 import { computed, ref } from 'vue'
 import { useI18n } from 'vue-i18n'
 
 const { t } = useI18n()
+const { $t } = useValaxyI18n()
 
 const siteConfig = useSiteConfig()
 const showQr = ref(false)
@@ -35,7 +36,7 @@ const sponsorBtnTitle = computed(() => {
           :href="method.url" target="_blank"
           :style="`color:${method.color}`"
         >
-          <img class="sponsor-method-img" border="~ rounded" p="1" loading="lazy" :src="method.url" :title="method.name">
+          <img class="sponsor-method-img" border="~ rounded" p="1" loading="lazy" :src="method.url" :title="$t(method.name)">
           <div text="xl" m="2" :class="method.icon" />
         </a>
       </div>

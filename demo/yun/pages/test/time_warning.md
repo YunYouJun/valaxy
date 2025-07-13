@@ -2,7 +2,7 @@
 title: Time Warning Test
 date: 2020-10-01
 categories:
- - test
+ - $locale:category.test
 time_warning: true
 ---
 

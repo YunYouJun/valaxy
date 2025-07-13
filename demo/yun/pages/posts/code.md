@@ -1,7 +1,7 @@
 ---
 title: Code Block Test
 categories:
-  - Test
+  - $locale:category.test
 ---
 
 ```dockerfile

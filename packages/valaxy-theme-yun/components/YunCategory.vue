@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import type { CategoryList, Post } from 'valaxy'
-import { useInvisibleElement } from 'valaxy'
+import { useInvisibleElement, useValaxyI18n } from 'valaxy'
 import { onMounted, ref } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { useRouter } from 'vue-router'
@@ -25,6 +25,7 @@ const router = useRouter()
 
 const collapse = ref(props.collapsable)
 const { t } = useI18n()
+const { $t } = useValaxyI18n()
 
 const postCollapseElRef = ref<HTMLElement>()
 const { show } = useInvisibleElement(postCollapseElRef)
@@ -79,7 +80,7 @@ if (props.level === 1) {
       @click="jumpToDisplayCategory(parentKey)"
     >
       <span>
-        {{ category.name === 'Uncategorized' ? t('category.uncategorized') : category.name }}
+        {{ category.name === 'Uncategorized' ? t('category.uncategorized') : $t(category.name) }}
       </span>
       <span class="rounded-full px-1.5 bg-black/5 shadow-sm op-60" text="xs">
         {{ category.total }}

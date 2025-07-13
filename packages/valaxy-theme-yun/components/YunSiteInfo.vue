@@ -1,8 +1,7 @@
 <script lang="ts" setup>
-import { useSiteConfig } from 'valaxy'
-import { useI18n } from 'vue-i18n'
+import { useSiteConfig, useValaxyI18n } from 'valaxy'
 
-const { t } = useI18n()
+const { $t } = useValaxyI18n()
 const siteConfig = useSiteConfig()
 </script>
 
@@ -16,14 +15,14 @@ const siteConfig = useSiteConfig()
     <YunAuthorName />
     <YunSiteTitle />
     <h4
-      v-if="siteConfig.subtitle"
+      v-if="$t(siteConfig.subtitle)"
       class="site-subtitle block"
       text="xs"
     >
-      {{ t(siteConfig.subtitle) }}
+      {{ $t(siteConfig.subtitle) }}
     </h4>
     <div v-if="siteConfig.description" class="site-description">
-      {{ t(siteConfig.description) }}
+      {{ $t(siteConfig.description) }}
     </div>
   </div>
 </template>

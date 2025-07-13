@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { useMotion } from '@vueuse/motion'
-import { ref } from 'vue'
+import { useValaxyI18n } from 'valaxy/client'
+import { computed, ref } from 'vue'
 
 const props = defineProps<{
   social: {
@@ -12,7 +13,7 @@ const props = defineProps<{
   // animation
   delay: number
 }>()
-
+const { $t } = useValaxyI18n()
 const iconRef = ref<HTMLElement>()
 useMotion(iconRef, {
   initial: {
@@ -34,18 +35,20 @@ useMotion(iconRef, {
     },
   },
 })
+
+const socialName = computed(() => $t(props.social.name))
 </script>
 
 <template>
   <div
-    v-tooltip="social.name"
+    v-tooltip="socialName"
     class="size-10 inline-flex-center"
   >
     <a
       ref="iconRef"
       class="prologue-social-icon inline-flex-center w-full h-full text-white bg-$c-brand hover:bg-white hover:text-$c-brand"
       rel="noopener"
-      :href="social.link" :title="social.name"
+      :href="social.link" :title="socialName"
       target="_blank"
       :style="`--c-brand:${social.color}`"
     >

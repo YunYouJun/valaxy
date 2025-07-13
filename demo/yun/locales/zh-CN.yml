@@ -9,3 +9,18 @@ post:
 
 siteConfig:
   title: 自定义博客名称
+  subtitle: 下一代静态博客框架
+  description: Valaxy 主题云预览
+  author:
+    name: 云游君
+  social:
+    bilibili: 哔哩哔哩
+  sponsor:
+    alipay: 支付宝
+    wechatpay: 微信支付
+
+tag:
+  notes: 笔记
+
+category:
+  test: 测试

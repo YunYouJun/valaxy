@@ -1,11 +1,13 @@
 <script setup lang="ts">
 import type { SocialLink } from 'valaxy/types'
-import { useAppStore } from 'valaxy'
+import { useAppStore, useValaxyI18n } from 'valaxy'
 import { computed } from 'vue'
 
 const props = defineProps<{
   social: SocialLink
 }>()
+
+const { $t } = useValaxyI18n()
 
 const appStore = useAppStore()
 const color = computed(() => {
@@ -16,7 +18,7 @@ const color = computed(() => {
 <template>
   <a
     class="links-of-author-item yun-icon-btn"
-    rel="noopener" :href="social.link" :title="social.name"
+    rel="noopener" :href="social.link" :title="$t(social.name)"
     target="_blank"
     :style="`color:${color}`"
   >

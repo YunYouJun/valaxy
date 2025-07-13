@@ -3,12 +3,13 @@ import pkg from 'valaxy/package.json'
 import { computed } from 'vue'
 import { useI18n } from 'vue-i18n'
 
-import { useFrontmatter } from '../../composables'
+import { useFrontmatter, useValaxyI18n } from '../../composables'
 import { useSiteConfig } from '../../config'
 import { tObject } from '../../utils'
 
 export function useValaxyHead() {
-  const { locale, t } = useI18n()
+  const { locale } = useI18n()
+  const { $t } = useValaxyI18n()
 
   const fm = useFrontmatter()
   const siteConfig = useSiteConfig()
@@ -17,7 +18,7 @@ export function useValaxyHead() {
   useHead({
     title: $title,
     titleTemplate: (title) => {
-      const siteTitle = t(siteConfig.value.title)
+      const siteTitle = $t(siteConfig.value.title)
       return fm.value.titleTemplate || (title ? `${title} - ${siteTitle}` : siteTitle)
     },
     link: [

@@ -1,7 +1,8 @@
 <script setup lang="ts">
-import { useSiteConfig } from 'valaxy'
+import { useSiteConfig, useValaxyI18n } from 'valaxy'
 
 const siteConfig = useSiteConfig()
+const { $t } = useValaxyI18n()
 </script>
 
 <template>
@@ -9,6 +10,6 @@ const siteConfig = useSiteConfig()
     class="site-author-name font-black font-serif text-$va-c-text op-80 hover:op-100 flex-center"
     to="/about"
   >
-    {{ siteConfig.author.name }}
+    {{ $t(siteConfig.author.name) }}
   </RouterLink>
 </template>
