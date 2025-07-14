@@ -18,21 +18,40 @@ html:not(.dark) .vp-code-dark {
 @include mobile {
   .markdown-body {
     div[class*="language-"] {
-      margin: 0 var(--va-code-mobile-margin-x, -1rem);
+      position: relative;
+      left: 50%;
+      right: 50%;
+      margin-left: -50vw !important;
+      margin-right: -50vw !important;
+      width: 100vw !important;
+      margin-top: 16px;
+      margin-bottom: 0;
+      height: auto;
     }
   }
 }
 
-@media (width >= 640px) {
+@media (width >=640px) {
   .markdown-body div[class*="language-"] {
     border-radius: 6px;
     margin: 16px 0;
   }
 }
 
-@media (width <= 639.9px) {
+@media (width <=639.9px) {
   .markdown-body li div[class*="language-"] {
     border-radius: 6px 0 0 6px;
+  }
+
+  .markdown-body .vp-code-group .tabs,
+  .markdown-body .vp-code-group div[class*="language-"] {
+    position: relative;
+    left: 50%;
+    right: 50%;
+    margin-left: -50vw !important;
+    margin-right: -50vw !important;
+    width: 100vw !important;
+    height: auto;
   }
 }
 
@@ -101,7 +120,7 @@ html:not(.dark) .vp-code-dark {
   }
 
   // copy
-  [class*='language-'] > button.copy {
+  [class*='language-']>button.copy {
     /* rtl:ignore */
     direction: ltr;
     position: absolute;
@@ -126,28 +145,28 @@ html:not(.dark) .vp-code-dark {
       background-color 0.25s,
       opacity 0.25s;
   }
-  
-  [class*='language-']:hover > button.copy,
-  [class*='language-'] > button.copy:focus {
+
+  [class*='language-']:hover>button.copy,
+  [class*='language-']>button.copy:focus {
     opacity: 1;
   }
-  
-  [class*='language-'] > button.copy:hover,
-  [class*='language-'] > button.copy.copied {
+
+  [class*='language-']>button.copy:hover,
+  [class*='language-']>button.copy.copied {
     border-color: var(--va-code-copy-code-hover-border-color);
     background-color: var(--va-code-copy-code-hover-bg);
   }
-  
-  [class*='language-'] > button.copy.copied,
-  [class*='language-'] > button.copy:hover.copied {
+
+  [class*='language-']>button.copy.copied,
+  [class*='language-']>button.copy:hover.copied {
     /* rtl:ignore */
     border-radius: 0 4px 4px 0;
     background-color: var(--va-code-copy-code-hover-bg);
     background-image: var(--va-icon-copied);
   }
-  
-  [class*='language-'] > button.copy.copied::before,
-  [class*='language-'] > button.copy:hover.copied::before {
+
+  [class*='language-']>button.copy.copied::before,
+  [class*='language-']>button.copy:hover.copied::before {
     position: relative;
     top: -1px;
 
@@ -173,7 +192,7 @@ html:not(.dark) .vp-code-dark {
     content: var(--va-code-copy-copied-text-content);
   }
 
-  [class*='language-'] > span.lang {
+  [class*='language-']>span.lang {
     position: absolute;
     top: 2px;
 
@@ -187,9 +206,9 @@ html:not(.dark) .vp-code-dark {
       color 0.4s,
       opacity 0.4s;
   }
-  
-  [class*='language-']:hover > button.copy + span.lang,
-  [class*='language-'] > button.copy:focus + span.lang {
+
+  [class*='language-']:hover>button.copy+span.lang,
+  [class*='language-']>button.copy:focus+span.lang {
     opacity: 0;
   }
 
@@ -227,7 +246,7 @@ html:not(.dark) .vp-code-dark {
   }
 
   // collapse
-  [class*='language-'] > button.collapse {
+  [class*='language-']>button.collapse {
     display: none;
     position: absolute;
     z-index: 10;
@@ -237,7 +256,7 @@ html:not(.dark) .vp-code-dark {
     height: 24px;
     opacity: 1;
     cursor: pointer;
-    background-image: linear-gradient(-180deg,rgb(0 0 0 / 0) 0%,var(--va-c-bg-dark) 100%);
+    background-image: linear-gradient(-180deg, rgb(0 0 0 / 0) 0%, var(--va-c-bg-dark) 100%);
 
     &::before {
       display: block;
@@ -251,7 +270,7 @@ html:not(.dark) .vp-code-dark {
     }
   }
 
-  [class*='language-'].folded > button.collapse {
+  [class*='language-'].folded>button.collapse {
     display: block;
   }
 }

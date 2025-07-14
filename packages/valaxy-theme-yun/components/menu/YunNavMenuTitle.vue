@@ -61,7 +61,7 @@ function goToLink() {
       <div class="gap-1" flex="~">
         <div
           class="size-4"
-          :class="fm.icon || 'i-ri-article-line'"
+          :class="fm.icon || ''"
         />
         <span class="truncate"> {{ $tO(fm.title || '') }}</span>
       </div>

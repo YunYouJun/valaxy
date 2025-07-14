@@ -1,6 +1,7 @@
 @use "sass:map";
 
 .markdown-body {
+
   h1,
   h2,
   h3,
@@ -94,7 +95,7 @@
 }
 
 
-@media (width >= 768px) {
+@media (width >=768px) {
   .markdown-body h1 {
     letter-spacing: -0.02em;
     line-height: 40px;
@@ -102,3 +103,8 @@
   }
 }
 
+@media (width <=767.9px) {
+  .markdown-body {
+    padding: 1rem;
+  }
+}
