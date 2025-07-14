@@ -121,6 +121,7 @@ export default defineValaxyConfig<ThemeConfig>({
     customIcon: {
       // valaxy: 'https://valaxy.site/favicon.svg',
       valaxy: localIconLoader(import.meta.url, '../../docs/public/favicon.svg'),
+      dockerfile: 'vscode-icons:file-type-docker',
     },
   },
 })

@@ -15,6 +15,8 @@ import { groupIconVitePlugin } from 'vitepress-plugin-group-icons'
 import { customElements } from '../constants'
 import { createConfigPlugin } from './extendConfig'
 import { createMarkdownPlugin } from './markdown'
+import { getGlobalTitleCollector } from './markdown/plugins/markdown-it/titleCollector'
+
 import { createFixPlugins } from './patchTransform'
 import { createClientSetupPlugin } from './setupClient'
 import { createUnocssPlugin } from './unocss'
@@ -153,12 +155,16 @@ export async function ViteValaxyPlugins(
     }
   }
 
+  // Get code block titles collected during markdown processing (no file I/O needed)
+  const codeBlockTitles = getGlobalTitleCollector()
+
   const builtinCustomIcon = {
     nodejs: 'vscode-icons:file-type-node',
     playwright: 'vscode-icons:file-type-playwright',
     typedoc: 'vscode-icons:file-type-typedoc',
     eslint: 'vscode-icons:file-type-eslint',
   }
+
   plugins.push(
     groupIconVitePlugin({
       customIcon: {
@@ -169,6 +175,7 @@ export async function ViteValaxyPlugins(
         ...valaxyConfig.groupIcons?.defaultLabels || [],
         ...Object.keys(builtinCustomIcon),
         ...Object.keys(valaxyConfig.groupIcons?.customIcon || {}),
+        ...Array.from(codeBlockTitles),
       ],
     }),
   )
