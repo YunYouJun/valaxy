@@ -6,7 +6,7 @@ categories:
   - $locale:category.test
 ---
 
-```dockerfile
+```dockerfile [Sample.dockerfile]
 FROM ubuntu
 
 ENV PATH /opt/conda/bin:$PATH
