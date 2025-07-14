@@ -36,7 +36,7 @@ themes:
       - template
   - name: valaxy-theme-gitlink
     icon: i-ri-book-line
-    repo: https://github.com/YunYouJun/valaxy/tree/main/packages/valaxy-theme-press
+    repo: https://github.com/valaxyjs/valaxy-theme-gitlink
     desc: GitLink Theme for Valaxy
     siteImage: https://s2.loli.net/2023/10/06/xJf8nHBQNFybpag.png
     siteExampleUrl: 'https://gitlink.valaxy.site/'
