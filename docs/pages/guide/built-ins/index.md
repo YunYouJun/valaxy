@@ -55,18 +55,18 @@ Built for theme developers (common users usually do not need to use them directl
 
 </div>
 
-::: zh-CN
+### 布局与渲染 {lang="zh-CN"}
 
-### 布局与渲染
+::: zh-CN
 
 - [`ValaxyMain.vue`](https://github.com/YunYouJun/valaxy/blob/main/packages/valaxy/client/components/ValaxyMain.vue): 页面基础布局
 - [`ValaxyMd.vue`](https://github.com/YunYouJun/valaxy/blob/main/packages/valaxy/client/components/ValaxyMd.vue): Markdown 渲染内容
 
 :::
 
-::: en
+### Layout and Rendering {lang="en"}
 
-### Layout and Rendering
+::: en
 
 - [`ValaxyMain.vue`](https://github.com/YunYouJun/valaxy/blob/main/packages/valaxy/client/components/ValaxyMain.vue): Basic page layout
 - [`ValaxyMd.vue`](https://github.com/YunYouJun/valaxy/blob/main/packages/valaxy/client/components/ValaxyMd.vue): Rendered Markdown content
@@ -117,11 +117,13 @@ Built for theme developers (common users usually do not need to use them directl
 
 ## Helper Components {lang="en"}
 
+### 内置组件
+
 ::: zh-CN
 
 > 面向用户，可直接使用
 
-内置组件暂无，目前通过 [valaxy-addon-components](https://github.com/YunYouJun/valaxy/tree/main/packages/valaxy-addon-components) 扩展公共组件。
+你也可以通过 [valaxy-addon-components](https://github.com/YunYouJun/valaxy/tree/main/packages/valaxy-addon-components) 扩展公共组件。
 
 :::
 
@@ -129,9 +131,32 @@ Built for theme developers (common users usually do not need to use them directl
 
 > For users, can be used directly.
 
-Built-in components are not available temporarily, public components are currently extended through [valaxy-addon-components](https://github.com/YunYouJun/valaxy/tree/main/packages/valaxy-addon-components).
+You can also extend public components by [valaxy-addon-components](https://github.com/YunYouJun/valaxy/tree/main/packages/valaxy-addon-components).
 
 :::
+
+
+#### 国际化组件 `<VT />` {lang="zh-CN"}
+#### Internationalization Component `<VT />` {lang="en"}
+
+```yaml [locales/zh-CN.yml]
+menu:
+  posts: 博客文章
+```
+
+```yaml [locales/en.yml]
+menu:
+  posts: Posts
+```
+
+```md
+<!-- auto follow locale -->
+<VT content="menu.posts" />
+```
+
+<VT content="menu.posts" />
+
+### 扩展公共组件
 
 ```bash [pnpm]
 pnpm add valaxy-addon-components

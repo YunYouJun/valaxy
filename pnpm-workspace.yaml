@@ -13,7 +13,7 @@ catalogs:
     '@iconify-json/carbon': ^1.2.10
     '@iconify-json/logos': ^1.2.4
     '@iconify-json/ri': ^1.2.5
-    '@iconify-json/simple-icons': ^1.2.42
+    '@iconify-json/simple-icons': ^1.2.43
     '@iconify-json/vscode-icons': ^1.2.23
     '@unhead/addons': ^2.0.12
     '@unhead/schema-org': ^2.0.12
@@ -25,7 +25,7 @@ catalogs:
     unplugin-vue-router: ^0.14.0
     vite: ^7.0.4
     vue-i18n: ^11.1.9
-    zx: ^8.7.0
+    zx: ^8.7.1
   frontend:
     '@primevue/themes': ^4.3.6
     primevue: ^4.3.6
