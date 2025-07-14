@@ -18,36 +18,16 @@ html:not(.dark) .vp-code-dark {
 @include mobile {
   .markdown-body {
     div[class*="language-"] {
-      margin: 0 var(--va-code-mobile-margin-x, 0);
+      position: relative;
+      left: 50%;
+      right: 50%;
+      margin-left: -50vw !important;
+      margin-right: -50vw !important;
+      width: 100vw !important;
+      margin-top: 16px;
+      margin-bottom: 0;
+      height: auto;
     }
-
-    // Fix negative margins on mobile to prevent horizontal overflow
-    [class*='language-'] code .highlighted {
-      margin: 0;
-      width: 100%;
-    }
-
-    [class*='language-'] code .diff {
-      margin: 0;
-      width: 100%;
-    }
-
-    // General fix for any code-related elements with negative margins that cause overflow
-    // This handles VitePress classes and other code block title/header elements
-    div[class*="language-"] *[class*="title"],
-    div[class*="language-"] *[class*="bar"],
-    div[class*="language-"] *[class*="header"],
-    [class*="vp-code"] *[class*="title"],
-    [class*="vp-code"] *[class*="bar"],
-    [class*="vp-code"] *[class*="header"] {
-      margin-left: 0 !important;
-      margin-right: 0 !important;
-      // Also ensure padding doesn't cause overflow
-      padding-left: min(var(--padding-left, 1rem), 1rem) !important;
-      padding-right: min(var(--padding-right, 1rem), 1rem) !important;
-    }
-
-
   }
 }
 
