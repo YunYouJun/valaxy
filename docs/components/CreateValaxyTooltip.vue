@@ -4,7 +4,7 @@ import pkg from '../../package.json'
 
 <template>
   <div class="p-4" text="white sm" bg="dark" rounded-lg>
-    <pre>
+    <pre class="overflow-scroll">
   🌌 Valaxy  <span text-blue>v{{ pkg.version }}</span>
 
 <span text-cyan>?</span> Select a type: <span op="70">› - Use arrow-keys. Return to submit.</span>

@@ -42,6 +42,17 @@ html:not(.dark) .vp-code-dark {
   .markdown-body li div[class*="language-"] {
     border-radius: 6px 0 0 6px;
   }
+
+  .markdown-body .vp-code-group .tabs,
+  .markdown-body .vp-code-group div[class*="language-"] {
+    position: relative;
+    left: 50%;
+    right: 50%;
+    margin-left: -50vw !important;
+    margin-right: -50vw !important;
+    width: 100vw !important;
+    height: auto;
+  }
 }
 
 .markdown-body {
