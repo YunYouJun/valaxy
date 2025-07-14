@@ -14,7 +14,7 @@ test.describe('Categories Page', () => {
     searchParams.set('category', curCategory)
 
     const url = `/categories?${searchParams.toString()}`
-    await page.goto(url)
+    await page.goto(url, { waitUntil: 'domcontentloaded' })
     // .post-item
     await expect(page.locator('.post-item')).toHaveCount(1)
     // first post

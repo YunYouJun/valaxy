@@ -1,15 +1,14 @@
 import { expect, test } from '@playwright/test'
 import { env } from '../env'
+import { commonBeforeEach } from '../utils'
 
 test.use({
   baseURL: env['theme-yun'],
 })
 
-test.beforeEach(async ({ page }) => {
-  await page.goto('/')
-})
-
 test.describe('Frontmatter', () => {
+  commonBeforeEach()
+
   test('posted & edited time', async ({ page }) => {
     await page.goto('/posts/hello-valaxy')
     await page.waitForSelector('.post-meta')

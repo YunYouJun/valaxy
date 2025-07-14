@@ -6,13 +6,12 @@ test.use({
   baseURL: env['theme-yun'],
 })
 
-test.beforeEach(async ({ page }) => {
-  process.env.TZ = 'Asia/Shanghai'
-
-  await page.goto('/posts/date')
-})
-
 test.describe('Frontmatter', () => {
+  test.beforeEach(async ({ page }) => {
+    process.env.TZ = 'Asia/Shanghai'
+    await page.goto('/posts/date', { waitUntil: 'domcontentloaded' })
+  })
+
   for (let i = 0; i < dateExamples.length; i++) {
     const example = dateExamples[i]
     test(`timezone format validation(${i}) ${example.date}`, async ({ page }) => {

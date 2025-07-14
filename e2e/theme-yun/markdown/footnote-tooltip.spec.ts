@@ -1,9 +1,12 @@
 import { expect, test } from '@playwright/test'
 import { env } from '../../env'
+import { commonBeforeEach } from '../../utils'
 
 test.use({
   baseURL: env['theme-yun'],
 })
+
+commonBeforeEach()
 
 test.describe('markdown footnote tooltip', () => {
   test('visibility', async ({ page }) => {

@@ -7,7 +7,7 @@ test.use({
 
 test.describe('Encrypted Post', () => {
   test('encrypted post', async ({ page }) => {
-    await page.goto('/posts/encrypted-post')
+    await page.goto('/posts/encrypted-post', { waitUntil: 'domcontentloaded' })
 
     await page.waitForSelector('.markdown-body')
     await expect(page.locator('.decrypt-password-container')).toHaveCount(1)

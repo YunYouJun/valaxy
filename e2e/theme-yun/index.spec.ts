@@ -1,16 +1,16 @@
 import { expect, test } from '@playwright/test'
 import { env } from '../env'
+import { commonBeforeEach } from '../utils'
 
 test.use({
   baseURL: env['theme-yun'],
 })
 
-test.beforeEach(async ({ page }) => {
-  await page.goto('/')
-})
+commonBeforeEach()
 
 test.describe('Theme Yun', () => {
   test('banner', async ({ page }) => {
+    await page.goto('/')
     // refresh to trigger animation
     await page.reload()
     await page.waitForSelector('#yun-banner')
@@ -24,10 +24,12 @@ test.describe('Theme Yun', () => {
   // })
 
   test('post list', async ({ page }) => {
+    await page.goto('/')
     await expect(page.locator('.post-title-link').nth(0)).toHaveText('Hello, Valaxy!')
   })
 
   test('enter post', async ({ page }) => {
+    await page.goto('/')
     await page.click('.post-title-link')
     await page.waitForURL('/posts/hello-valaxy')
     await expect(page.locator('h1')).toHaveText('Hello, Valaxy!')
@@ -39,20 +41,10 @@ test.describe('Theme Yun', () => {
   })
 
   test('search', async ({ page }) => {
+    await page.goto('/')
     await page.click('.yun-search-btn')
     await expect(page.locator('.yun-search-input')).toHaveCount(1)
     await page.click('.yun-search-btn')
     await expect(page.locator('.yun-search-input')).toHaveCount(0)
   })
-})
-
-test.describe('Theme Yun - Post', () => {
-  test.beforeEach(async ({ page }) => {
-    await page.goto('/posts/hello-valaxy')
-  })
-
-  // new version deprecated
-  // test('sidebar', async ({ page }) => {
-  //   await expect(page.locator('.sidebar')).toBeVisible()
-  // })
 })
