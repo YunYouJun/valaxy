@@ -720,6 +720,7 @@ export default defineValaxyConfig({
       playwright: 'vscode-icons:file-type-playwright',
       typedoc: 'vscode-icons:file-type-typedoc',
       eslint: 'vscode-icons:file-type-eslint',
+      dockerfile: 'vscode-icons:file-type-docker',
     },
   }
 })
@@ -733,6 +734,11 @@ import { defineValaxyConfig } from 'valaxy'
 
 export default defineValaxyConfig({}) 
 ```
+```dockerfile [sample.dockerfile]
+FROM ubuntu
+
+ENV PATH /opt/conda/bin:$PATH
+```
 ````
 
 我们将会得到带有 `valaxy.config.ts` 标题与 Valaxy 图标的代码块：
@@ -741,6 +747,14 @@ export default defineValaxyConfig({})
 import { defineValaxyConfig } from 'valaxy'
 
 export default defineValaxyConfig({})
+```
+
+还会得到带有 `sample.dockerfile` 标题与 Docker 图标的代码块：
+
+```dockerfile [sample.dockerfile]
+FROM ubuntu
+
+ENV PATH /opt/conda/bin:$PATH
 ```
 
 ## KaTeX {lang="en"}
