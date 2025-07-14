@@ -32,13 +32,13 @@
   ul {
     list-style: initial;
 
-    li > p {
+    li>p {
       margin-bottom: 0;
     }
   }
 
   ol {
-    > li {
+    >li {
       list-style: decimal;
     }
   }
@@ -120,5 +120,43 @@
         }
       }
     }
+  }
+}
+
+@media (width <=767.9px) {
+  .markdown-body {
+    padding: 0.5rem;
+  }
+}
+
+@include mobile {
+  .markdown-body {
+    div[class*="language-"] {
+      position: relative;
+      // left: 50%;
+      // right: 50%;
+      // margin-left: -50vw !important;
+      // margin-right: -50vw !important;
+      // width: 100vw !important;
+      margin-top: 16px;
+      margin-bottom: 0;
+      margin-left: -24px;
+      margin-right: -24px;
+      height: auto;
+    }
+  }
+}
+
+@media (width <=639.9px) {
+
+  .markdown-body .vp-code-group .tabs,
+  .markdown-body .vp-code-group div[class*="language-"] {
+    position: relative;
+    left: 50%;
+    right: 50%;
+    margin-left: -50vw !important;
+    margin-right: -50vw !important;
+    width: 100vw !important;
+    height: auto;
   }
 }

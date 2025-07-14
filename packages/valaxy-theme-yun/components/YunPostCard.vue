@@ -47,10 +47,19 @@ const postTitleClass = computed(() => {
 
           <div flex="~ grow col" w="full" justify="center" items="center">
             <div v-if="post.excerpt_type === 'text'" py="1" />
-            <div
-              v-if="post.excerpt" class="markdown-body" op="90" text="left" w="full" p="x-8 y-2"
-              v-html="post.excerpt"
-            />
+            <template v-if="post.excerpt">
+              <div
+                v-if="post.excerpt_type === 'html'"
+                class="markdown-body" op="90" text="left" w="full" p="x-8 y-2"
+              >
+                <ValaxyDynamicComponent :template-str="post.excerpt" />
+              </div>
+              <div
+                v-else
+                class="markdown-body" op="90" text="left" w="full" p="x-8 y-2"
+                v-html="post.excerpt"
+              />
+            </template>
             <div v-else m="b-5" />
           </div>
           <!-- <div m="b-5" /> -->

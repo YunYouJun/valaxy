@@ -1,4 +1,3 @@
-import type { ViteSSGContext } from 'vite-ssg'
 import { DataLoaderPlugin } from 'unplugin-vue-router/data-loaders'
 import { dataSymbol, initValaxyConfig, valaxyConfigSymbol } from 'valaxy'
 import { setupLayouts } from 'virtual:generated-layouts'
@@ -9,10 +8,8 @@ import { routes } from 'vue-router/auto-routes'
 import App from './App.vue'
 
 import { initData } from './app/data'
-import AppLink from './components/AppLink.vue'
 
 import setupMain from './setup/main'
-
 import { setupValaxyDevTools } from './utils/dev'
 /**
  * user styles
@@ -22,14 +19,6 @@ import '#valaxy/styles'
 import 'uno.css'
 
 const valaxyConfig = initValaxyConfig()
-
-/**
- * register global components
- * @param ctx
- */
-export function registerComponents(ctx: ViteSSGContext) {
-  ctx.app.component('AppLink', AppLink)
-}
 
 const { redirectRoutes, useVueRouter } = valaxyConfig.value.runtimeConfig.redirects
 if (useVueRouter)
@@ -84,7 +73,6 @@ export const createApp = ViteSSG(
 
     app.provide(valaxyConfigSymbol, valaxyConfig)
 
-    registerComponents(ctx)
     setupMain(ctx, valaxyConfig)
   },
 )

@@ -34,7 +34,7 @@ function createContainer(key: string, block: BlockItem = {}, md: MarkdownItAsync
           if (block.icon)
             iconTag = `<i class="icon ${block.icon}" ${block.color ? `style="color: ${block.color}"` : ''}></i>`
 
-          const title = `<ValaxyContainerBlockTitle title="blocks.${key}" />`
+          const title = `<VT content="blocks.${key}" />`
           const titleClass
             = `custom-block-title${info ? '' : ' custom-block-title-default'}`
 

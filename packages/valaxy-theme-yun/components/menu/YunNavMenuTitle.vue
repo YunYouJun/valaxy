@@ -60,8 +60,9 @@ function goToLink() {
     >
       <div class="gap-1" flex="~">
         <div
+          v-if="fm.icon"
           class="size-4"
-          :class="fm.icon || ''"
+          :class="fm.icon"
         />
         <span class="truncate"> {{ $tO(fm.title || '') }}</span>
       </div>

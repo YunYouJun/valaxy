@@ -9,6 +9,7 @@ import type { ViteSSGContext } from 'vite-ssg'
 import type { ComputedRef } from 'vue'
 
 import { consola } from 'consola'
+import { registerGlobalComponents } from '../modules/components'
 import { install as installFloatingVue } from '../modules/floating-vue'
 import { install as installNprogress } from '../modules/nprogress'
 import { install as installPinia } from '../modules/pinia'
@@ -20,6 +21,7 @@ export default function setupMain(ctx: ViteSSGContext, config: ComputedRef<Valax
   // eslint-disable-next-line unused-imports/no-unused-vars
   const injection_arg = ctx
 
+  registerGlobalComponents(ctx)
   installValaxy(ctx, config)
   installUnhead(ctx)
   installPinia(ctx)

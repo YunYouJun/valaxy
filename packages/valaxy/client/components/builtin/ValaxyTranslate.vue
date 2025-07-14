@@ -1,16 +1,13 @@
 <script setup lang="ts">
-// import { useValaxyI18n } from 'valaxy'
 import { useI18n } from 'vue-i18n'
 
 defineProps<{
-  title: string
+  content: string
 }>()
 
 const { t } = useI18n()
 </script>
 
 <template>
-  <span>
-    {{ t(title) }}
-  </span>
+  {{ t(content) }}
 </template>
