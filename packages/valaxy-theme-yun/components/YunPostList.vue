@@ -28,7 +28,7 @@ const displayedPosts = computed(() =>
 </script>
 
 <template>
-  <div flex="~ col" class="yun-post-list gap-4" w="full" p="x-4 lt-sm:0">
+  <div flex="~ col" class="yun-post-list gap-4 items-center" w="full" p="x-4 lt-sm:0">
     <template v-if="!displayedPosts.length">
       <div py2 op50 text-center>
         博主还什么都没写哦～

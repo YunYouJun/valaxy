@@ -24,7 +24,7 @@ const postTitleClass = computed(() => {
 </script>
 
 <template>
-  <a class="w-full flex-center post-card-link" :href="post.path || ''">
+  <RouterLink class="post-card-link flex-center w-full" :to="post.path || ''">
     <YunCard
       class="w-full hover:scale-102 hover:z-1" mx="4" :class="post.cover ? 'post-card-image' : 'post-card'"
       overflow="hidden" :style="styles"
@@ -84,7 +84,7 @@ const postTitleClass = computed(() => {
         <YunPostTags v-if="post.tags" m="1" :tags="post.tags" />
       </div>
     </YunCard>
-  </a>
+  </RouterLink>
 </template>
 
 <style lang="scss">
@@ -98,6 +98,8 @@ const postTitleClass = computed(() => {
 .post-card-link {
   text-decoration: none;
   color: inherit;
+  // max-w-$yun-post-card-max-width
+  max-width: calc(var(--yun-post-card-max-width) + 2rem);
 
   &:hover {
     text-decoration: none;
