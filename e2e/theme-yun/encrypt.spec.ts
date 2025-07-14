@@ -1,9 +1,7 @@
 import { expect, test } from '@playwright/test'
-import { env } from '../env'
+import { setup } from '../utils'
 
-test.use({
-  baseURL: env['theme-yun'],
-})
+setup('theme-yun')
 
 test.describe('Encrypted Post', () => {
   test('encrypted post', async ({ page }) => {

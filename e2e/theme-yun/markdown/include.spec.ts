@@ -1,12 +1,12 @@
 import { expect, test } from '@playwright/test'
 import { env } from '../../env'
-import { commonBeforeEach } from '../../utils'
+import { setup } from '../../utils'
 
 test.use({
   baseURL: env['theme-yun'],
 })
 
-commonBeforeEach()
+setup()
 
 test.describe('Markdown File Inclusion by @include', () => {
   test('test/markdown-file-inclusion', async ({ page }) => {

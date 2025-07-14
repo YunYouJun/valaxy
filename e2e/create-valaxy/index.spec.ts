@@ -3,6 +3,7 @@ import { env } from '../env'
 
 test.use({
   baseURL: env['create-valaxy'],
+  locale: 'zh-CN',
 })
 
 test.beforeEach(async ({ page }) => {

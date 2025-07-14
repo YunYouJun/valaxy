@@ -1,3 +1,4 @@
+// 标准的 Playwright 测试 - 网络拦截已全局启用
 import { expect, test } from '@playwright/test'
 import { env } from '../env'
 

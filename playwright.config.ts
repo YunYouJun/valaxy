@@ -40,6 +40,11 @@ export default defineConfig({
 
     /* Collect trace when retrying the failed test. See https://playwright.dev/docs/trace-viewer */
     trace: 'on-first-retry',
+
+    // 全局网络拦截设置 - 为所有测试自动拦截特定 URL
+    extraHTTPHeaders: {
+      // 可以在这里添加全局请求头
+    },
   },
 
   /* Configure projects for major browsers */

@@ -1,10 +1,8 @@
 import { expect, test } from '@playwright/test'
-import { env } from '../env'
+import { setup } from '../utils'
 import { dateExamples } from '../utils/date-examples'
 
-test.use({
-  baseURL: env['theme-yun'],
-})
+setup('theme-yun')
 
 test.describe('Frontmatter', () => {
   test.beforeEach(async ({ page }) => {
