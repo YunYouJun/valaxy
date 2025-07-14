@@ -135,7 +135,6 @@ You can also extend public components by [valaxy-addon-components](https://githu
 
 :::
 
-
 #### 国际化组件 `<VT />` {lang="zh-CN"}
 #### Internationalization Component `<VT />` {lang="en"}
 
