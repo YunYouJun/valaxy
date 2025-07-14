@@ -2,7 +2,7 @@ import { defineConfig } from 'unocss'
 
 export default defineConfig({
   shortcuts: [
-    ['yun-card', 'transition yun-transition shadow hover:shadow-lg'],
+    ['yun-card', 'transition-all yun-transition shadow hover:shadow-2xl'],
   ],
   rules: [
     [

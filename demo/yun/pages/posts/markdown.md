@@ -5,6 +5,7 @@ title:
 categories:
   - $locale:category.test
   - Markdown
+excerpt_type: html
 ---
 
 ::: tip
@@ -26,6 +27,7 @@ More info see [Markdown Extensions](https://valaxy.site/guide/markdown).
 :tada: :100:
 
 A [list of all emojis](https://github.com/markdown-it/markdown-it-emoji/blob/master/lib/data/full.json) is available.
+<!-- more -->
 
 ## Table of Contents
 
