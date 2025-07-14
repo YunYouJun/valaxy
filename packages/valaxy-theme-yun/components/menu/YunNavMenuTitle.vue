@@ -58,13 +58,7 @@ function goToLink() {
       flex="~ col"
       class="nav-menu-post-title text-xs font-bold flex items-center gap-1 lt-sm:max-w-40"
     >
-      <div class="gap-1" flex="~">
-        <div
-          class="size-4"
-          :class="fm.icon || 'i-ri-article-line'"
-        />
-        <span class="truncate"> {{ $tO(fm.title || '') }}</span>
-      </div>
+      <span class="truncate"> {{ $tO(fm.title || '') }}</span>
       <span v-if="fm.subtitle" class="font-light op-80">
         {{ $tO(fm.subtitle || '') }}
       </span>

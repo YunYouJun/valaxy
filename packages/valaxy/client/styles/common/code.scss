@@ -18,19 +18,47 @@ html:not(.dark) .vp-code-dark {
 @include mobile {
   .markdown-body {
     div[class*="language-"] {
-      margin: 0 var(--va-code-mobile-margin-x, -1rem);
+      margin: 0 var(--va-code-mobile-margin-x, 0);
     }
+
+    // Fix negative margins on mobile to prevent horizontal overflow
+    [class*='language-'] code .highlighted {
+      margin: 0;
+      width: 100%;
+    }
+
+    [class*='language-'] code .diff {
+      margin: 0;
+      width: 100%;
+    }
+
+    // General fix for any code-related elements with negative margins that cause overflow
+    // This handles VitePress classes and other code block title/header elements
+    div[class*="language-"] *[class*="title"],
+    div[class*="language-"] *[class*="bar"],
+    div[class*="language-"] *[class*="header"],
+    [class*="vp-code"] *[class*="title"],
+    [class*="vp-code"] *[class*="bar"],
+    [class*="vp-code"] *[class*="header"] {
+      margin-left: 0 !important;
+      margin-right: 0 !important;
+      // Also ensure padding doesn't cause overflow
+      padding-left: min(var(--padding-left, 1rem), 1rem) !important;
+      padding-right: min(var(--padding-right, 1rem), 1rem) !important;
+    }
+
+
   }
 }
 
-@media (width >= 640px) {
+@media (width >=640px) {
   .markdown-body div[class*="language-"] {
     border-radius: 6px;
     margin: 16px 0;
   }
 }
 
-@media (width <= 639.9px) {
+@media (width <=639.9px) {
   .markdown-body li div[class*="language-"] {
     border-radius: 6px 0 0 6px;
   }
@@ -101,7 +129,7 @@ html:not(.dark) .vp-code-dark {
   }
 
   // copy
-  [class*='language-'] > button.copy {
+  [class*='language-']>button.copy {
     /* rtl:ignore */
     direction: ltr;
     position: absolute;
@@ -126,28 +154,28 @@ html:not(.dark) .vp-code-dark {
       background-color 0.25s,
       opacity 0.25s;
   }
-  
-  [class*='language-']:hover > button.copy,
-  [class*='language-'] > button.copy:focus {
+
+  [class*='language-']:hover>button.copy,
+  [class*='language-']>button.copy:focus {
     opacity: 1;
   }
-  
-  [class*='language-'] > button.copy:hover,
-  [class*='language-'] > button.copy.copied {
+
+  [class*='language-']>button.copy:hover,
+  [class*='language-']>button.copy.copied {
     border-color: var(--va-code-copy-code-hover-border-color);
     background-color: var(--va-code-copy-code-hover-bg);
   }
-  
-  [class*='language-'] > button.copy.copied,
-  [class*='language-'] > button.copy:hover.copied {
+
+  [class*='language-']>button.copy.copied,
+  [class*='language-']>button.copy:hover.copied {
     /* rtl:ignore */
     border-radius: 0 4px 4px 0;
     background-color: var(--va-code-copy-code-hover-bg);
     background-image: var(--va-icon-copied);
   }
-  
-  [class*='language-'] > button.copy.copied::before,
-  [class*='language-'] > button.copy:hover.copied::before {
+
+  [class*='language-']>button.copy.copied::before,
+  [class*='language-']>button.copy:hover.copied::before {
     position: relative;
     top: -1px;
 
@@ -173,7 +201,7 @@ html:not(.dark) .vp-code-dark {
     content: var(--va-code-copy-copied-text-content);
   }
 
-  [class*='language-'] > span.lang {
+  [class*='language-']>span.lang {
     position: absolute;
     top: 2px;
 
@@ -187,9 +215,9 @@ html:not(.dark) .vp-code-dark {
       color 0.4s,
       opacity 0.4s;
   }
-  
-  [class*='language-']:hover > button.copy + span.lang,
-  [class*='language-'] > button.copy:focus + span.lang {
+
+  [class*='language-']:hover>button.copy+span.lang,
+  [class*='language-']>button.copy:focus+span.lang {
     opacity: 0;
   }
 
@@ -227,7 +255,7 @@ html:not(.dark) .vp-code-dark {
   }
 
   // collapse
-  [class*='language-'] > button.collapse {
+  [class*='language-']>button.collapse {
     display: none;
     position: absolute;
     z-index: 10;
@@ -237,7 +265,7 @@ html:not(.dark) .vp-code-dark {
     height: 24px;
     opacity: 1;
     cursor: pointer;
-    background-image: linear-gradient(-180deg,rgb(0 0 0 / 0) 0%,var(--va-c-bg-dark) 100%);
+    background-image: linear-gradient(-180deg, rgb(0 0 0 / 0) 0%, var(--va-c-bg-dark) 100%);
 
     &::before {
       display: block;
@@ -251,7 +279,7 @@ html:not(.dark) .vp-code-dark {
     }
   }
 
-  [class*='language-'].folded > button.collapse {
+  [class*='language-'].folded>button.collapse {
     display: block;
   }
 }
