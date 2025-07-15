@@ -31,11 +31,7 @@ export function titleCollectorPlugin(md: MarkdownIt) {
 
     // Extract title from token.info before it gets modified by other plugins
     const title = extractTitle(token.info)
-
-    // Only collect actual titles (not language fallbacks)
-    if (title && title !== extractTitle('')) {
-      globalTitleCollector.add(title)
-    }
+    globalTitleCollector.add(title)
 
     // Call the original fence renderer
     return fence(...args)

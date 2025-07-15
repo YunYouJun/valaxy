@@ -1,4 +1,4 @@
-import type { PluginOption } from 'vite'
+import type { PluginOption, ViteDevServer } from 'vite'
 
 import type { ValaxyServerOptions } from '../options'
 import type { ValaxyNode } from '../types'
@@ -155,9 +155,6 @@ export async function ViteValaxyPlugins(
     }
   }
 
-  // Get code block titles collected during markdown processing (no file I/O needed)
-  const codeBlockTitles = getGlobalTitleCollector()
-
   const builtinCustomIcon = {
     nodejs: 'vscode-icons:file-type-node',
     playwright: 'vscode-icons:file-type-playwright',
@@ -165,19 +162,100 @@ export async function ViteValaxyPlugins(
     eslint: 'vscode-icons:file-type-eslint',
   }
 
-  plugins.push(
-    groupIconVitePlugin({
-      customIcon: {
-        ...builtinCustomIcon,
-        ...valaxyConfig.groupIcons?.customIcon,
-      },
-      defaultLabels: [
-        ...valaxyConfig.groupIcons?.defaultLabels || [],
-        ...Object.keys(builtinCustomIcon),
-        ...Object.keys(valaxyConfig.groupIcons?.customIcon || {}),
-        ...Array.from(codeBlockTitles),
-      ],
-    }),
-  )
+  let cachedGroupIconsCSS: string | null = null
+
+  // Create a custom plugin that intercepts the virtual CSS generation
+  const dynamicGroupIconPlugin: PluginOption = {
+    name: 'vitepress-plugin-group-icons',
+    enforce: 'post' as const,
+
+    configureServer(server: ViteDevServer) {
+      // Watch for markdown file changes to invalidate the virtual module
+      const markdownGlobs = roots.map(root => `${root}/**/*.md`)
+      server.watcher.add(markdownGlobs)
+
+      server.watcher.on('change', (file: string) => {
+        if (file.endsWith('.md')) {
+          // Clear cache and invalidate the virtual module when markdown files change
+          cachedGroupIconsCSS = null
+          const module = server.moduleGraph.getModuleById('\0virtual:group-icons.css')
+          if (module) {
+            server.reloadModule(module)
+          }
+        }
+      })
+    },
+
+    resolveId(id: string) {
+      if (id === 'virtual:group-icons.css') {
+        return '\0virtual:group-icons.css'
+      }
+      return undefined
+    },
+
+    async load(id: string) {
+      if (id === '\0virtual:group-icons.css') {
+        // Return cached CSS if available (for build mode after generateBundle)
+        if (cachedGroupIconsCSS !== null) {
+          return cachedGroupIconsCSS
+        }
+
+        // For dev mode or initial build, generate with current titles
+        const codeBlockTitles = getGlobalTitleCollector()
+
+        // Create the original plugin with dynamic titles
+        const originalPlugin = groupIconVitePlugin({
+          customIcon: {
+            ...builtinCustomIcon,
+            ...valaxyConfig.groupIcons?.customIcon,
+          },
+          defaultLabels: [
+            ...valaxyConfig.groupIcons?.defaultLabels || [],
+            ...Object.keys(builtinCustomIcon),
+            ...Object.keys(valaxyConfig.groupIcons?.customIcon || {}),
+            ...Array.from(codeBlockTitles),
+          ],
+        })
+
+        // Call the original plugin's load method
+        if (originalPlugin && typeof originalPlugin === 'object' && 'load' in originalPlugin) {
+          const css = (originalPlugin as any).load(id)
+          return css
+        }
+
+        return ''
+      }
+      return undefined
+    },
+
+    // In build mode, regenerate the CSS after all markdown files have been processed
+    generateBundle() {
+      if (this.meta.rollupVersion) { // Build mode only
+        // At this point, all markdown files should have been processed
+        const codeBlockTitles = getGlobalTitleCollector()
+
+        // Generate the final CSS with all collected titles
+        const originalPlugin = groupIconVitePlugin({
+          customIcon: {
+            ...builtinCustomIcon,
+            ...valaxyConfig.groupIcons?.customIcon,
+          },
+          defaultLabels: [
+            ...valaxyConfig.groupIcons?.defaultLabels || [],
+            ...Object.keys(builtinCustomIcon),
+            ...Object.keys(valaxyConfig.groupIcons?.customIcon || {}),
+            ...Array.from(codeBlockTitles),
+          ],
+        })
+
+        // Cache the final CSS
+        if (originalPlugin && typeof originalPlugin === 'object' && 'load' in originalPlugin) {
+          cachedGroupIconsCSS = (originalPlugin as any).load('\0virtual:group-icons.css')
+        }
+      }
+    },
+  }
+
+  plugins.push(dynamicGroupIconPlugin)
   return plugins
 }
