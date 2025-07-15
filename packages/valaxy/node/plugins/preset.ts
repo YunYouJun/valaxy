@@ -164,9 +164,33 @@ export async function ViteValaxyPlugins(
 
   let cachedGroupIconsCSS: string | null = null
 
-  // Create a custom plugin that intercepts the virtual CSS generation
+  // Helper function to generate group icons CSS with collected titles
+  const generateGroupIconsCSS = (id: string) => {
+    const codeBlockTitles = getGlobalTitleCollector()
+
+    const originalPlugin = groupIconVitePlugin({
+      customIcon: {
+        ...builtinCustomIcon,
+        ...valaxyConfig.groupIcons?.customIcon,
+      },
+      defaultLabels: [
+        ...valaxyConfig.groupIcons?.defaultLabels || [],
+        ...Object.keys(builtinCustomIcon),
+        ...Object.keys(valaxyConfig.groupIcons?.customIcon || {}),
+        ...Array.from(codeBlockTitles),
+      ],
+    })
+
+    if (originalPlugin && typeof originalPlugin === 'object' && 'load' in originalPlugin) {
+      return (originalPlugin as any).load(id)
+    }
+
+    return ''
+  }
+
+  // For issue #578 and #573
   const dynamicGroupIconPlugin: PluginOption = {
-    name: 'vitepress-plugin-group-icons',
+    name: 'post-process-add-group-icons',
     enforce: 'post' as const,
 
     configureServer(server: ViteDevServer) {
@@ -201,29 +225,7 @@ export async function ViteValaxyPlugins(
         }
 
         // For dev mode or initial build, generate with current titles
-        const codeBlockTitles = getGlobalTitleCollector()
-
-        // Create the original plugin with dynamic titles
-        const originalPlugin = groupIconVitePlugin({
-          customIcon: {
-            ...builtinCustomIcon,
-            ...valaxyConfig.groupIcons?.customIcon,
-          },
-          defaultLabels: [
-            ...valaxyConfig.groupIcons?.defaultLabels || [],
-            ...Object.keys(builtinCustomIcon),
-            ...Object.keys(valaxyConfig.groupIcons?.customIcon || {}),
-            ...Array.from(codeBlockTitles),
-          ],
-        })
-
-        // Call the original plugin's load method
-        if (originalPlugin && typeof originalPlugin === 'object' && 'load' in originalPlugin) {
-          const css = (originalPlugin as any).load(id)
-          return css
-        }
-
-        return ''
+        return generateGroupIconsCSS(id)
       }
       return undefined
     },
@@ -232,26 +234,8 @@ export async function ViteValaxyPlugins(
     generateBundle() {
       if (this.meta.rollupVersion) { // Build mode only
         // At this point, all markdown files should have been processed
-        const codeBlockTitles = getGlobalTitleCollector()
-
-        // Generate the final CSS with all collected titles
-        const originalPlugin = groupIconVitePlugin({
-          customIcon: {
-            ...builtinCustomIcon,
-            ...valaxyConfig.groupIcons?.customIcon,
-          },
-          defaultLabels: [
-            ...valaxyConfig.groupIcons?.defaultLabels || [],
-            ...Object.keys(builtinCustomIcon),
-            ...Object.keys(valaxyConfig.groupIcons?.customIcon || {}),
-            ...Array.from(codeBlockTitles),
-          ],
-        })
-
-        // Cache the final CSS
-        if (originalPlugin && typeof originalPlugin === 'object' && 'load' in originalPlugin) {
-          cachedGroupIconsCSS = (originalPlugin as any).load('\0virtual:group-icons.css')
-        }
+        // Generate and cache the final CSS with all collected titles
+        cachedGroupIconsCSS = generateGroupIconsCSS('\0virtual:group-icons.css')
       }
     },
   }
