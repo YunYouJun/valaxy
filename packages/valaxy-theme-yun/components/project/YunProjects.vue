@@ -13,11 +13,13 @@ const curCategory = ref('all')
 
 <template>
   <div flex="~ col center">
-    <h2 class="mb-3 text-2xl">
-      {{ fm.title || t('title.projects') }}
-    </h2>
+    <YunPageHeader
+      :title="fm.title || t('title.projects')"
+      :icon="fm.icon"
+      :page-title-class="fm.pageTitleClass"
+    />
 
-    <div flex="~ wrap" justify="center">
+    <div class="mt-3" flex="~ wrap" justify="center">
       <YunProjectToggleButton
         :active="curCategory === 'all'"
         @click="curCategory = 'all'"
