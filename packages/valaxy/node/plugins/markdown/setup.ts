@@ -58,9 +58,9 @@ export async function setupMarkdownPlugins(
 
   // custom plugins
   md.use(highlightLinePlugin)
-    .use(titleCollectorPlugin)
     .use(preWrapperPlugin, { theme, siteConfig })
     .use(snippetPlugin, options?.userRoot)
+    .use(titleCollectorPlugin)
     .use(containerPlugin, {
       languages: siteConfig.languages,
       ...mdOptions?.container,
