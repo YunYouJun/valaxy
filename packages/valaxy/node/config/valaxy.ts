@@ -55,6 +55,9 @@ export const defaultValaxyConfig: ValaxyNodeConfig = {
       // cssCodeSplit: false,
     },
   },
+  vue: {
+    browserTemplateCompilation: true,
+  },
 
   devtools: true,
 }

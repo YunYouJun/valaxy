@@ -181,9 +181,7 @@ export async function getAlias(options: ResolvedValaxyOptions): Promise<AliasOpt
     { find: `valaxy-theme-${options.theme}`, replacement: `${toAtFS(resolve(options.themeRoot))}/client/index.ts` },
   ]
 
-  // for runtime compile vue, encrypt and decrypt
-  // type cast
-  if (options.config.siteConfig.encrypt.enable) {
+  if (options.config.vue?.browserTemplateCompilation) {
     alias.push(
       { find: /^vue$/, replacement: await resolveImportPath('vue/dist/vue.esm-bundler.js', true) },
     )

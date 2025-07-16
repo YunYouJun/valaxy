@@ -136,7 +136,24 @@ export interface ValaxyExtendConfig {
    * @see https://github.com/vitejs/vite-plugin-vue/blob/main/packages/plugin-vue/README.md
    */
   vue?: Parameters<typeof Vue>[0] & {
+    /**
+     * @valaxy
+     */
     isCustomElement?: ((tag: string) => boolean)[]
+    /**
+     * @valaxy
+     * @see https://cn.vuejs.org/guide/scaling-up/tooling#note-on-in-browser-template-compilation
+     * enable
+     *
+     * for runtime compile vue, encrypt and decrypt
+     * for excerpt_type: html (runtime render)
+     *
+     * @default true
+     *
+     * browserTemplateCompilation
+     * @description 支持浏览器内的模板编译
+     */
+    browserTemplateCompilation?: boolean
   }
   /**
    * @see https://github.com/unplugin/unplugin-vue-components

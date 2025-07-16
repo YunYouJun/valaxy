@@ -74,3 +74,7 @@ if (options.config.siteConfig.encrypt.enable) {
   )
 }
 ```
+
+After `v0.25.6`, use `options.config.vue.browserTemplateCompilation = true` to disable runtime compile vue.
+
+- `excerpt_type: html` also need this option to work properly.
