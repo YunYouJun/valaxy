@@ -1,12 +1,7 @@
 import { expect, test } from '@playwright/test'
-import { env } from '../../env'
 import { setup } from '../../utils'
 
-test.use({
-  baseURL: env['theme-yun'],
-})
-
-setup()
+setup('theme-yun')
 
 test.describe('Markdown File Inclusion by @include', () => {
   test('test/markdown-file-inclusion', async ({ page }) => {
