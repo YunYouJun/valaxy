@@ -34,7 +34,19 @@ info
 
 :::
 
-::: details Click to expand
+::: details
+
+details
+
+:::
+
+::: danger 自定义标题
+
+info
+
+:::
+
+::: details 自定义标题
 
 details
 
