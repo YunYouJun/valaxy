@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import type { Component } from 'vue'
-import { compile, defineAsyncComponent, onMounted, shallowRef } from 'vue'
+import { compile, defineAsyncComponent, shallowRef, watch } from 'vue'
 
 const props = withDefaults(
   defineProps<{
@@ -23,9 +23,9 @@ async function createComponent() {
   dynamicComponent.value = defineAsyncComponent(() => Promise.resolve(componentDefinition))
 }
 
-onMounted(() => {
+watch(() => [props.templateStr, props.data], () => {
   createComponent()
-})
+}, { immediate: true })
 </script>
 
 <template>
