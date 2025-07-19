@@ -6,7 +6,6 @@ import { toAtFS } from '../utils'
 /**
  * blog features
  * @param name
- * @returns
  */
 function createBlogTemplate(name: string): VirtualModuleTemplate {
   return {
