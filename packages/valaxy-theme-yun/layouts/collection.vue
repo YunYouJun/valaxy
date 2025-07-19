@@ -4,12 +4,23 @@
 
 <template>
   <YunLayoutWrapper>
+    <YunLayoutLeft>
+      <YunCollectionSidebar />
+    </YunLayoutLeft>
+
     <RouterView v-slot="{ Component }">
       <component :is="Component">
-        <div flex="~ wrap" gap="4">
-          Collection
-        </div>
+        <template #main-header-after>
+          <YunMainHeaderAfter />
+        </template>
+        <template #main-content-after>
+          <YunMainContentAfter />
+        </template>
+        <template #aside-custom>
+          <slot name="aside-custom" />
+        </template>
       </component>
     </RouterView>
+    <YunLayoutRight />
   </YunLayoutWrapper>
 </template>

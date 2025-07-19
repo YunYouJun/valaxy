@@ -7,4 +7,12 @@ declare module 'virtual:valaxy-theme' {
 
 declare module '#valaxy/styles' {
   // side-effects only
+  export default string
+}
+
+// valaxy features
+declare module '#valaxy/blog/collections' {
+
+  const collections: Collection[]
+  export default collections
 }

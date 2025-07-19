@@ -6,7 +6,7 @@ import { useI18n } from 'vue-i18n'
 const { t } = useI18n()
 const { page } = useData()
 
-const date = computed(() => new Date(page.value.lastUpdated!))
+const date = computed(() => new Date(page.value?.lastUpdated || 0))
 const isoDatetime = computed(() => date.value?.toISOString())
 const datetime = ref('')
 

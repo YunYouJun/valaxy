@@ -119,8 +119,9 @@ password: valaxy
 
 ::: zh-CN
 
-- `toc: false`: 隐藏目录
+- `sidebar: false`: 隐藏左侧文章导航栏
 - `aside: false`: 隐藏右侧文章导航栏
+- `toc: false`: 隐藏目录
 - `codeHeightLimit: 300`: 代码块高度限制（300px）
 
 :::
@@ -129,8 +130,9 @@ password: valaxy
 
 ::: en
 
-- `toc: false`: Hide TOC
+- `sidebar: false`: Hide Left Sidebar
 - `aside: false`: Hide Right Aside
+- `toc: false`: Hide TOC
 - `codeHeightLimit: 300`: Code block height limit（300px）
 
 :::

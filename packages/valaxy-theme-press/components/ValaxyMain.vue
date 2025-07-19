@@ -69,9 +69,8 @@ onContentUpdated(() => {
                 <slot name="main-content-md" />
                 <slot />
               </ValaxyMd>
-              <PressDocFooter v-if="!isHome" class="pb-8 max-w-4xl" w="full" m="auto" />
-
               <slot name="main-content-after" />
+              <PressDocFooter v-if="!isHome" class="pb-8 max-w-4xl" w="full" m="auto" />
             </slot>
           </div>
 

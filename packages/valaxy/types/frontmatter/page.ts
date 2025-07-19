@@ -1,4 +1,5 @@
 import type { ImageObject, NodeRelations } from '@unhead/schema-org'
+import type { CollectionConfig } from '../../client/define'
 
 export interface Album {
   /**
@@ -160,17 +161,21 @@ export interface PageFrontMatter extends Record<string, any> {
    */
   medium_zoom: boolean
 
+  // --- layout ---
   /**
    * @description:en-US Albums
    * @description:zh-CN 相册
    */
   albums: Album[]
-
   /**
    * For layout Gallery
    * @description:en-US Photos
    */
   photos: Photo[]
+  /**
+   * for collections
+   */
+  collections: CollectionConfig[]
 
   /**
    * @description:zh-CN 是否启用加密，password 存在时默认为 true

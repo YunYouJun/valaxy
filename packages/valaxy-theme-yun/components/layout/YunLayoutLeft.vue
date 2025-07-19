@@ -18,7 +18,9 @@ const showLeftLayout = computed(() => {
     v-if="showLeftLayout"
     flex="~ col" class="gap-4 sticky top-$yun-margin-top w-80"
   >
-    <YunSidebarCard />
-    <YunAdBoard />
+    <slot>
+      <YunSidebarCard />
+      <YunAdBoard />
+    </slot>
   </div>
 </template>

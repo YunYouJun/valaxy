@@ -1,5 +1,8 @@
 import type { CollectionConfig } from '../define'
-import { ref } from 'vue'
+import collections from '#valaxy/blog/collections'
+
+import { computed } from 'vue'
+import { useRoute } from 'vue-router'
 
 /**
  * Composable for Collections
@@ -7,22 +10,28 @@ import { ref } from 'vue'
  * @example /collections/love-letters/1
  */
 export function useCollections() {
-  // TODO
+  return {
+    collections: computed(() => collections),
+  }
+}
 
-  const collections = ref<CollectionConfig[]>([
-    {
-      id: 'i-and-she',
-      name: 'I and She',
-      description: 'Love letters from the past',
-    },
-    {
-      id: 'love-and-peace',
-      name: '爱与和平',
-      description: 'Recipes for a good life',
-    },
-  ])
+/**
+ * 获取当前集合
+ */
+export function useCollection() {
+  const route = useRoute()
+  const collectionId = computed(() => {
+    if (route.path.startsWith('/collections/')) {
+      return route.path.split('/')[2] // 获取集合 ID
+    }
+    return ''
+  })
+
+  const collection = computed<CollectionConfig>(() => {
+    return collections.find(item => item.key === collectionId.value)
+  })
 
   return {
-    collections,
+    collection,
   }
 }

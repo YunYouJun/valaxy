@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import { defineWebPage, useSchemaOrg } from '@unhead/schema-org/vue'
-import { useCategories, useFrontmatter, usePostTitle, useSiteStore } from 'valaxy'
+import { useCategories, useFrontmatter, useSiteStore, useValaxyI18n } from 'valaxy'
 import { computed } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { useRoute } from 'vue-router'
@@ -36,7 +36,7 @@ const posts = computed(() => {
   return list
 })
 
-const title = usePostTitle(frontmatter)
+const { $tO } = useValaxyI18n()
 
 useSchemaOrg([
   defineWebPage({
@@ -53,7 +53,7 @@ useSchemaOrg([
       <component :is="Component">
         <template #main-header>
           <YunPageHeader
-            :title="title || t('menu.categories')"
+            :title="$tO(frontmatter.title) || t('menu.categories')"
             :icon="pageIcon"
             :color="frontmatter.color"
             :page-title-class="frontmatter.pageTitleClass"

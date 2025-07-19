@@ -164,16 +164,19 @@ export function getDefine(_options: ResolvedValaxyOptions): Record<string, any> 
 
 export async function getAlias(options: ResolvedValaxyOptions): Promise<AliasOptions> {
   const alias: Alias[] = [
+    /**
+     * virtual module alias
+     * `/` 开头无法 declare module 类型
+     *
+     * #valaxy/* => /@valaxyjs/*
+     */
+    { find: /^#valaxy\/(.*)/, replacement: '/@valaxyjs/$1' },
+
     { find: '~/', replacement: `${toAtFS(options.userRoot)}/` },
     { find: 'valaxy/client/', replacement: `${toAtFS(options.clientRoot)}/` },
     { find: 'valaxy/package.json', replacement: toAtFS(resolve(options.clientRoot, '../package.json')) },
     { find: /^valaxy$/, replacement: toAtFS(resolve(options.clientRoot, 'index.ts')) },
     { find: '@valaxyjs/client/', replacement: `${toAtFS(options.clientRoot)}/` },
-    // virtual module alias
-    {
-      find: /^#valaxy\/(.*)/,
-      replacement: '/@valaxyjs/$1',
-    },
     // import theme
     { find: 'virtual:valaxy-theme', replacement: `${toAtFS(options.themeRoot)}/client/index.ts` },
     { find: `valaxy-theme-${options.theme}/client`, replacement: `${toAtFS(resolve(options.themeRoot))}/client/index.ts` },

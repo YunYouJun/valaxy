@@ -8,9 +8,9 @@ const { t } = useI18n()
   <Layout>
     <RouterView v-slot="{ Component }">
       <component :is="Component">
-        <template #default>
-          <div class="prose mx-auto w-full max-w-4xl">
-            <h2 :id="t('post.contributors')">
+        <template #main-content-after>
+          <div class="prose mx-auto w-full max-w-4xl mb-4">
+            <h2 :id="t('post.contributors')" class="mt-4!">
               <a :href="`#${t('post.contributors')}`" class="header-anchor" />
               <span>
                 {{ t('post.contributors') }}
