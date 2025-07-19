@@ -99,11 +99,14 @@ export async function createRouterPlugin(valaxyApp: ValaxyNode) {
             layout: 'post',
           })
         }
-        // else {
-        //   route.addToMeta({
-        //     layout: false,
-        //   })
-        // }
+      }
+      else if (route.fullPath.startsWith('/collections/')) {
+        if (route.fullPath.split('/').length > 3) {
+          // add collection layout
+          route.addToMeta({
+            layout: 'collection',
+          })
+        }
       }
 
       // find page path

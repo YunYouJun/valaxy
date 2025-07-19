@@ -19,8 +19,13 @@
         <template #aside-custom>
           <slot name="aside-custom" />
         </template>
+
+        <template #main-nav>
+          <!--  -->
+        </template>
       </component>
     </RouterView>
+
     <YunLayoutRight />
   </YunLayoutWrapper>
 </template>

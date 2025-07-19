@@ -34,8 +34,17 @@ collections:
 
 新建合集文件夹 `pages/collections/hamster/`：
 
+- `index.md`：合集总览页，指定布局为 `collection`。
 - `index.ts`：合集配置文件。
 - `1.md`：合集中的第一篇文章。
+
+新建合集入口页 `pages/collections/hamster/index.md`，并指定布局为 `collection`。
+
+```md [pages/collections/hamster/index.md]
+---
+layout: collection
+---
+```
 
 定义当前合集信息：
 
@@ -66,6 +75,8 @@ export default defineCollection({
 ```
 
 新建合集中文章：
+
+> `layout: collection` 可省略，`pages/collections/` 目录下的所有文章默认使用 `collection` 布局。
 
 ```md [pages/collections/hamster/1.md]
 ---

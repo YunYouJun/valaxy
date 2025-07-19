@@ -7,9 +7,9 @@ const { collection } = useCollection()
 <template>
   <YunCard class="collection p-4 min-h-sm justify-start items-start" flex="~ col gap-1">
     <section class="yun-sidebar-item">
-      <div class="title">
+      <RouterLink :to="`/collections/${collection.key}/`" class="title">
         {{ collection.title }}
-      </div>
+      </RouterLink>
       <div class="items">
         <div v-for="item in collection.items" :key="item.key" class="item">
           <div class="indicator" />
@@ -32,6 +32,7 @@ const { collection } = useCollection()
     .title {
       font-weight: 500;
       font-size: 16px;
+      color: var(--va-c-text-1);
     }
 
     .items {
