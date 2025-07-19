@@ -105,6 +105,11 @@ export interface PageFrontMatter extends Record<string, any> {
    * @description 是否显示右侧侧边栏
    */
   aside: boolean
+  /**
+   * display left sidebar
+   * @description 是否显示左侧侧边栏
+   */
+  sidebar: boolean
 
   /**
    * @description:en-US Custom Markdown class

@@ -47,6 +47,7 @@ declare module 'vue-router/auto-routes' {
     '/examples/custom-components': RouteRecordInfo<'/examples/custom-components', '/examples/custom-components', Record<never, never>, Record<never, never>>,
     '/examples/sites': RouteRecordInfo<'/examples/sites', '/examples/sites', Record<never, never>, Record<never, never>>,
     '/examples/without-aside': RouteRecordInfo<'/examples/without-aside', '/examples/without-aside', Record<never, never>, Record<never, never>>,
+    '/examples/without-sidebar': RouteRecordInfo<'/examples/without-sidebar', '/examples/without-sidebar', Record<never, never>, Record<never, never>>,
     '/girls/': RouteRecordInfo<'/girls/', '/girls', Record<never, never>, Record<never, never>>,
     '/links/': RouteRecordInfo<'/links/', '/links', Record<never, never>, Record<never, never>>,
     '/notes/': RouteRecordInfo<'/notes/', '/notes', Record<never, never>, Record<never, never>>,
