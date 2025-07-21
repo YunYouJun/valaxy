@@ -10,7 +10,7 @@
  * ```
  */
 export function tObject<T = string>(data: string | Record<string, T>, lang: string): T | string {
-  if (typeof data === 'object') {
+  if (data && typeof data === 'object') {
     return data[lang] || Object.values(data)[0] || ''
   }
   return data

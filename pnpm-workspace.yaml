@@ -10,10 +10,10 @@ packages:
 catalogs:
   build:
     '@iconify-json/ant-design': ^1.2.5
-    '@iconify-json/carbon': ^1.2.10
+    '@iconify-json/carbon': ^1.2.11
     '@iconify-json/logos': ^1.2.4
     '@iconify-json/ri': ^1.2.5
-    '@iconify-json/simple-icons': ^1.2.43
+    '@iconify-json/simple-icons': ^1.2.44
     '@iconify-json/vscode-icons': ^1.2.23
     '@unhead/addons': ^2.0.12
     '@unhead/schema-org': ^2.0.12
