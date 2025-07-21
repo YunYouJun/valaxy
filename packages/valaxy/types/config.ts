@@ -181,6 +181,14 @@ export interface SiteConfig {
      */
     dataPath: string
     /**
+     * fast-glob pattern to match Fuse List Data
+     * @default `pages\/**\/*.md`
+     * ```ts
+     * await fg(`${userRoot}/pages/posts/**\/*.md`)
+     * ```
+     */
+    pattern?: string
+    /**
      * @see https://fusejs.io/api/options.html
      */
     options: FuseOptions<FuseListItem> & {

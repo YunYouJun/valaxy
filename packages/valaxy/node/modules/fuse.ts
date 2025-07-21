@@ -21,7 +21,8 @@ import { setEnvProd } from '../utils/env'
 export async function generateFuseList(options: ResolvedValaxyOptions) {
   consola.start(`Generate List for Fuse Search by (${colors.cyan('fuse.js')}) ...`)
   // generate
-  const files = await fg(`${options.userRoot}/pages/**/*.md`)
+  const pattern = options.config.siteConfig.fuse.pattern || path.join(options.userRoot, 'pages/**/*.md')
+  const files = await fg(pattern)
 
   const posts: FuseListItem[] = []
   for await (const i of files) {

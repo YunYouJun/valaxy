@@ -33,6 +33,10 @@ export default defineSiteConfig({
     type: 'fuse',
   },
   fuse: {
+    /**
+     * 设置搜索的文件路径
+     */
+    // pattern: 'pages/**/*.md',
     options: {
       keys: ['title', 'tags', 'categories', 'excerpt', 'content'],
       /**
