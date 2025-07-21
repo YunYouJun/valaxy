@@ -17,24 +17,32 @@ export function useLocale() {
   // setDefaultOptions({ locale: locale.value === 'zh-CN' ? zhCN : enUS })
   dayjs.locale(locale.value === 'zh-CN' ? 'zh-cn' : 'en')
 
+  /**
+   * toggle to new locale
+   * @param newLocale
+   */
+  function toggleLocale(newLocale: string) {
+    locale.value = newLocale
+    // for localStorage
+    lang.value = newLocale
+    // set date locale
+    // setDefaultOptions({ locale: locale.value === 'zh-CN' ? zhCN : enUS })
+    dayjs.locale(newLocale === 'zh-CN' ? 'zh-cn' : 'en')
+    if (isClient)
+      document.documentElement.setAttribute('lang', newLocale)
+  }
+
   const toggleLocales = () => {
     // change to some real logic
     const locales = availableLocales
-
     locale.value = locales[(locales.indexOf(locale.value) + 1) % locales.length]
-    // for localStorage
-    lang.value = locale.value
-
-    // set date locale
-    // setDefaultOptions({ locale: locale.value === 'zh-CN' ? zhCN : enUS })
-    dayjs.locale(locale.value === 'zh-CN' ? 'zh-cn' : 'en')
-
-    if (isClient)
-      document.documentElement.setAttribute('lang', locale.value)
+    const newLocale = locale.value
+    toggleLocale(newLocale)
   }
 
   return {
     lang,
+    toggleLocale,
     toggleLocales,
   }
 }

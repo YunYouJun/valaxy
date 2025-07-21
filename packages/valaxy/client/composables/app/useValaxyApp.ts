@@ -5,8 +5,9 @@ import { useSeoMeta } from '@unhead/vue'
 import { computed } from 'vue'
 import { useI18n } from 'vue-i18n'
 
-import { useFrontmatter, useValaxyHead, useValaxyI18n } from '../../composables'
+import { useRoute } from 'vue-router'
 
+import { useFrontmatter, useLocale, useValaxyHead, useValaxyI18n } from '../../composables'
 import { useTimezone } from '../../composables/global'
 // https://github.com/vueuse/head
 // you can use this to manipulate the document head in any components,
@@ -22,6 +23,13 @@ export function useValaxyApp() {
   const { $t, $tO } = useValaxyI18n()
 
   const title = computed(() => $tO(fm.value.title))
+
+  const route = useRoute()
+  const { toggleLocale } = useLocale()
+  // if lang exist, toggle the locale
+  if (route.query.lang) {
+    toggleLocale(route.query.lang as string)
+  }
 
   // seo
   // todo: get first image url from markdown
@@ -59,6 +67,5 @@ export function useValaxyApp() {
   ])
 
   useTimezone()
-
   useValaxyHead()
 }
