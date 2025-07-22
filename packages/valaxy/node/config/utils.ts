@@ -7,16 +7,7 @@ import process from 'node:process'
 // use jiti directly is 0.0006s 0.6ms
 // write in valaxy directly can be fastest and solve cjs esm in vite
 
-import { consola } from 'consola'
-import fs from 'fs-extra'
-import { createJiti } from 'jiti'
-import { resolve } from 'pathe'
-
-// interopDefault is default true
-const jiti = createJiti(import.meta.url, {
-  // for hmr
-  moduleCache: false,
-})
+import { loadConfig } from 'define-config-ts'
 
 export interface LoadConfigFromFileOptions {
   cwd?: string
@@ -29,34 +20,6 @@ export interface ResolvedConfig<
 > {
   config: T
   configFile: string
-}
-
-export async function loadConfig<T extends UserInputConfig = UserInputConfig>(options: {
-  name: string
-  cwd: string
-}): Promise<ResolvedConfig<T>> {
-  const { name, cwd } = options
-  const filePath = resolve(cwd, `${name}.config.ts`)
-
-  let data = {} as T
-
-  if (await fs.exists(filePath)) {
-    try {
-      data = (await jiti.import(filePath, { default: true })) as T
-    }
-    catch (e) {
-      console.error(e)
-      consola.error(`Failed to load config file: ${filePath}`)
-    }
-  }
-  else {
-    consola.debug(`Config file not found: ${filePath}`)
-  }
-
-  return {
-    config: data,
-    configFile: filePath,
-  }
 }
 
 type ConfigFunction<T> = (options: ResolvedValaxyOptions) => (T | Promise<T>)
