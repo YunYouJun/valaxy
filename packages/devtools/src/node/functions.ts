@@ -21,7 +21,8 @@ export function getFunctions(server: ViteDevServer, devtoolsOptions: ValaxyDevto
   // const userRoot = server.config.root
 
   function getRoutePath(filePath: string) {
-    const relativePath = path.relative(path.resolve(userRoot, 'pages'), filePath).slice(0, -'.md'.length)
+    // convert \ to / to ensure compatibility with different OS
+    const relativePath = path.relative(path.resolve(userRoot, 'pages'), filePath).slice(0, -'.md'.length).replace(/\\/g, '/')
     return ensurePrefix('/', relativePath)
   }
 
@@ -33,7 +34,7 @@ export function getFunctions(server: ViteDevServer, devtoolsOptions: ValaxyDevto
     },
 
     async getPostList() {
-      const files = await fg(`${userRoot}/pages/posts/**/*.md`)
+      const files = await fg(`${userRoot}/pages/posts/**/*.md`.replaceAll('\\', '/'))
 
       const posts = []
       for await (const file of files) {
