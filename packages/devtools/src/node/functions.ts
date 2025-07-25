@@ -1,28 +1,26 @@
 import type { ViteDevServer } from 'vite'
 import type { ServerFunctions } from '../../rpc'
 import type { ValaxyDevtoolsOptions } from './types'
-import path from 'node:path'
 import process from 'node:process'
 import dayjs from 'dayjs'
 import fg from 'fast-glob'
 import fs from 'fs-extra'
 import matter from 'gray-matter'
+import pathe from 'pathe'
 
 function ensurePrefix(prefix: string, str: string) {
   if (!str.startsWith(prefix))
     return prefix + str
-  return str
 }
 
 export function getFunctions(server: ViteDevServer, devtoolsOptions: ValaxyDevtoolsOptions): ServerFunctions {
-  const userRoot = devtoolsOptions.userRoot || process.cwd()
+  const userRoot = (devtoolsOptions.userRoot || process.cwd()).replace(/\\/g, '/')
   // const userRoot = GLOBAL_STATE.valaxyApp?.options.userRoot || process.cwd()
   // const userRoot = process.cwd()
   // const userRoot = server.config.root
 
   function getRoutePath(filePath: string) {
-    // convert \ to / to ensure compatibility with different OS
-    const relativePath = path.relative(path.resolve(userRoot, 'pages'), filePath).slice(0, -'.md'.length).replace(/\\/g, '/')
+    const relativePath = pathe.relative(pathe.resolve(userRoot, 'pages'), filePath).slice(0, -'.md'.length)
     return ensurePrefix('/', relativePath)
   }
 
@@ -34,7 +32,7 @@ export function getFunctions(server: ViteDevServer, devtoolsOptions: ValaxyDevto
     },
 
     async getPostList() {
-      const files = await fg(`${userRoot}/pages/posts/**/*.md`.replaceAll('\\', '/'))
+      const files = await fg(`${userRoot}/pages/posts/**/*.md`)
 
       const posts = []
       for await (const file of files) {
@@ -60,7 +58,7 @@ export function getFunctions(server: ViteDevServer, devtoolsOptions: ValaxyDevto
 
     async getPageData(pagePath: string) {
       const relativePath = pagePath.startsWith('/') ? pagePath.slice(1) : pagePath
-      const file = path.resolve(userRoot, relativePath)
+      const file = pathe.resolve(userRoot, relativePath)
       const { data } = matter(file)
 
       return {
