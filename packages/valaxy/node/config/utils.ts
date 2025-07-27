@@ -31,6 +31,7 @@ export async function loadConfigFromFile<T extends UserInputConfig>(
   const { config, configFile } = await loadConfig<T | ConfigFunction<T>>({
     name: file,
     cwd: options.cwd || process.cwd(),
+    throwOnNotFound: false,
   })
 
   let userConfig: T = config as T

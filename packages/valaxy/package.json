@@ -83,7 +83,7 @@
     "css-i18n": "^0.0.5",
     "dayjs": "^1.11.13",
     "debug": "^4.4.1",
-    "define-config-ts": "^0.0.3",
+    "define-config-ts": "^0.1.2",
     "defu": "^6.1.4",
     "ejs": "^3.1.10",
     "escape-html": "^1.0.3",

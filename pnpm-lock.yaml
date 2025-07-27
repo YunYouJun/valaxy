@@ -480,8 +480,8 @@ importers:
         specifier: ^4.4.1
         version: 4.4.1(supports-color@5.5.0)
       define-config-ts:
-        specifier: ^0.0.3
-        version: 0.0.3
+        specifier: ^0.1.2
+        version: 0.1.2
       defu:
         specifier: ^6.1.4
         version: 6.1.4
@@ -3779,8 +3779,8 @@ packages:
     resolution: {integrity: sha512-WY/3TUME0x3KPYdRRxEJJvXRHV4PyPoUsxtZa78lwItwRQRHhd2U9xOscaT/YTf8uCXIAjeJOFBVEh/7FtD8Xg==}
     engines: {node: '>=18'}
 
-  define-config-ts@0.0.3:
-    resolution: {integrity: sha512-PbL1wgE7Kv5LwcOWhkyoBoEXNRqxjt0+46Kn/uBL1YomxqF0l0uJNcnGzu50lMjXNihIB8luRXAuB14aH1YW6w==}
+  define-config-ts@0.1.2:
+    resolution: {integrity: sha512-SKWiLc9tOEGzPop3XgHTHOCBO5/a835sLzTl79JpaoUec8fsj/baAe2KA2H/pCSmeOSddOrax3xBbgu0x4jMQA==}
 
   define-data-property@1.1.4:
     resolution: {integrity: sha512-rBMvIzlpA8v6E+SJZoo++HAYqsLrkg7MSfIinMPFhmkorw7X+dOXVJQs+QT69zGkzMyfDnIMN2Wid1+NbL3T+A==}
@@ -10986,7 +10986,7 @@ snapshots:
       bundle-name: 4.1.0
       default-browser-id: 5.0.0
 
-  define-config-ts@0.0.3:
+  define-config-ts@0.1.2:
     dependencies:
       jiti: 2.5.1
 
