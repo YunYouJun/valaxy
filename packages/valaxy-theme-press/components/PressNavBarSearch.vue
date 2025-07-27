@@ -5,10 +5,12 @@ import { computed, defineAsyncComponent } from 'vue'
 // ref vitepress search box
 const siteConfig = useSiteConfig()
 const isAlgolia = computed(() => siteConfig.value.search.type === 'algolia')
+const isFuse = computed(() => siteConfig.value.search.type === 'fuse')
 
-const PressAlgoliaSearch = isAlgolia.value
-  ? defineAsyncComponent(() => import('./PressAlgoliaSearch.vue'))
-  : () => null
+const PressAlgoliaSearch = isAlgolia.value && defineAsyncComponent({
+  loader: () => import('./PressAlgoliaSearch.vue'),
+  errorComponent: import('./PressFuseSearchModal.vue'),
+})
 </script>
 
 <template>
@@ -16,6 +18,8 @@ const PressAlgoliaSearch = isAlgolia.value
     <ClientOnly>
       <PressAlgoliaSearch v-if="isAlgolia" />
     </ClientOnly>
+
+    <PressFuseSearch v-if="isFuse" />
   </div>
 </template>
 
