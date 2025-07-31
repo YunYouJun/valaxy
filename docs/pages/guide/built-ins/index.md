@@ -94,8 +94,7 @@ Built for theme developers (common users usually do not need to use them directl
 
 ::: en
 
-- [`AppLink.vue`](https://github.com/YunYouJun/valaxy/blob/main/packages/valaxy/client/components/ValaxyCopyright.vue): The link automatically determines whether it is an intra-site link. Use `<router-link/>` for intra-site links and `<a target=" blank"></a>`for external links.
-
+- [`AppLink.vue`](https://github.com/YunYouJun/valaxy/blob/main/packages/valaxy/client/components/AppLink.vue): The link automatically determines whether it is an intra-site link. Use `<router-link/>` for intra-site links and `<a target=" blank"></a>`for external links.
 - [`ValaxyCopyright.vue`](https://github.com/YunYouJun/valaxy/blob/main/packages/valaxy/client/components/ValaxyCopyright.vue): The copyright information in the article.
 - [`ValaxyDecrypt.vue`](https://github.com/YunYouJun/valaxy/blob/main/packages/valaxy/client/components/ValaxyDecrypt.vue): Text decryption component
 - [`ValaxyGalleryDecrypt.vue`](https://github.com/YunYouJun/valaxy/blob/main/packages/valaxy/client/components/ValaxyGalleryDecrypt.vue): Picture decryption component
