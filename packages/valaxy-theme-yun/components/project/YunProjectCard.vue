@@ -91,8 +91,8 @@ const links = computed(() => [
   <div
     ref="cardRef"
     flex="~ col center"
-    class="m-2 w-90 transform rounded shadow-md grayscale-30"
-    bg="opacity-80 gradient-to-br"
+    class="m-2 w-90 transform rounded shadow-md grayscale-30 bg-linear-to-br"
+    bg="opacity-80"
     p="x-2 b-12"
     hover="shadow-lg grayscale-0"
     :style="cardStyle"

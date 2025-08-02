@@ -67,7 +67,7 @@ export function preWrapperPlugin(md: MarkdownIt, options: Options) {
       + `<button title="${options.codeCopyButtonTitle || 'Copy code'}" class="copy"></button>`
       + `<span class="lang">${lang}</span>`
       + `${rawCode}`
-      + '<button class="collapse"></button>'
+      + '<button class="code-block-unfold-btn"></button>'
       + '</div>'
     )
   }

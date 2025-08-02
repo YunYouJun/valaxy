@@ -227,7 +227,7 @@ html:not(.dark) .vp-code-dark {
   }
 
   // collapse
-  [class*='language-']>button.collapse {
+  [class*='language-']>button.code-block-unfold-btn {
     display: none;
     position: absolute;
     z-index: 10;
@@ -251,7 +251,7 @@ html:not(.dark) .vp-code-dark {
     }
   }
 
-  [class*='language-'].folded>button.collapse {
+  [class*='language-'].folded>button.code-block-unfold-btn {
     display: block;
   }
 }

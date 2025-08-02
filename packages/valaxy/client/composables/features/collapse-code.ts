@@ -35,7 +35,7 @@ export function useCollapseCode() {
 
   useEventListener('click', (e) => {
     const el = e.target as HTMLElement
-    if (el.matches('[class*="language-"] > button.collapse')) {
+    if (el.matches('[class*="language-"] > button.code-block-unfold-btn')) {
       const parent = el.parentElement
       parent?.classList.remove('folded')
       const codeHeightLimitClass = `max-h-${codeHeightLimit}px`

@@ -9,7 +9,7 @@ test.describe('docs feature', () => {
   test('code height limit', async ({ page }) => {
     await page.goto('/examples/code-height-limit')
     // Expect a collapse button
-    await expect(page.getByRole('article').locator('button.collapse').nth(1)).toBeVisible()
+    await expect(page.getByRole('article').locator('button.code-block-unfold-btn').nth(1)).toBeVisible()
   })
 
   test('partial content encryption', async ({ page }) => {
