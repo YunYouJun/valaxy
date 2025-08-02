@@ -186,7 +186,7 @@ VitePress is a great static site generator, which is built for documentation, bu
 ::: zh-CN
 iles 与 Valaxy 的一些基础结构功能很相似，它相比 Vitepress 拥有更多功能，也很适合写一个拥有更多交互的文档。
 
-不过它的定位仍旧是静态站点生成器，这与 Valaxy 静态博客生成器的定位不同。
+不过它的定位仍旧是静态站点生成器，这与 Valaxy 静态博客生成器的定位不同。它的维护似乎也逐渐陷入停滞。
 
 因为 Valaxy 除此之外，还会提供文章列表、分页、标签、分类等更多面向博客的功能，并支持扩展与自定义博客主题。
 :::
@@ -199,6 +199,62 @@ It has more features than Vitepress and is also suitable for writing a document 
 However, its positioning is still static site generator, which is different from that of Valaxy static blog generator.
 
 In addition, Valaxy also provides more blog oriented features such as article list, pagination, tag and category, and supports extension and customization of blog topics.
+:::
+
+### [Astro](https://astro.build/)
+
+::: zh-CN
+
+Astro 是一个内容驱动的 Web 框架。它相比 Valaxy 针对博客的定位拥有更多的泛用性。
+
+> 得益于它的[群岛架构](https://docs.astro.build/zh-cn/concepts/islands/)，Astro 可以将任何前端框架（如 React、Vue、Svelte 等）与静态内容结合起来。
+
+事实上，Valaxy 对于博客的构建与 Astro 是两种技术路线。
+
+Valaxy 使用基于 Vue 的 Vite [SSG](https://cn.vuejs.org/guide/extras/ways-of-using-vue#jamstack-ssg)（静态站点生成）功能来构建博客，暂不考虑支持其他前端框架。
+Valaxy 目前采用的是单页 SSG，它会为每个博客页面生成一个单独的 HTML 文件，而从任一入口进入后，除了当前页面内容的展示外，也会将其激活为 [SPA](https://cn.vuejs.org/guide/extras/ways-of-using-vue#single-page-application-spa)。
+而在此之后它只需要部分地更新页面内容，而无需重新加载整个页面。
+
+用比喻的话来说，Astro 的每个页面都是一个独立的岛屿，站点则是群岛。
+而 Valaxy 的站点更像是一个整体的星球，每个页面都是进入星球的入口。
+
+> - 我们可以打开 astro 的[文档官网](https://docs.astro.build/en/getting-started/)，并打开浏览器的开发者工具，取消勾选保留日志，随后切换左侧目录，并查看其网络请求。
+> 此时你可以发现，每次切换页面时，Astro 都会重新加载整个页面，并产生新的请求，且左侧目录所处位置可能发生改变。
+> - 你也可以打开 Valaxy 的[文档官网](https://valaxy.site/guide/getting-started)，并重复上述操作。
+> 此时你会发现，Valaxy 在切换页面时并不会重新加载整个页面，而是仅加载部分脚本，并更新页面内容。
+>
+> 视频演示：[为什么不是 Astro？| #596](https://github.com/YunYouJun/valaxy/discussions/596)
+
+这是两种架构的取舍，毫无意外，Astro 的首屏加载速度会更快，但切换页面时可能存在部分的体验中断。
+而 Valaxy 的首屏加载速度介于 Astro 与传统的 SPA 之间，但切换页面时则可拥有 SPA 的体验。
+
+:::
+
+::: en
+
+Astro is a content-driven web framework. It has more versatility than Valaxy's blog-oriented positioning.
+
+> Thanks to its [islands architecture](https://docs.astro.build/en/concepts/islands/), Astro can combine any front-end framework (such as React, Vue, Svelte, etc.) with static content.
+
+In fact, Valaxy and Astro are two different technical routes for building blogs.
+
+Valaxy uses Vue-based Vite [SSG](https://vuejs.org/guide/extras/ways-of-using-vue#jamstack-ssg) (static site generation) to build blogs, and currently does not consider supporting other front-end frameworks.
+Currently, Valaxy adopts a single-page SSG, which generates a separate HTML file for each blog page, and after entering from any entry point, it activates as a [SPA](https://vuejs.org/guide/extras/ways-of-using-vue#single-page-application-spa) while displaying the content of the current page.
+After that, it only needs to update the page content partially without reloading the entire page.
+
+In metaphorical terms, each page of Astro is an independent island, and the site is an archipelago.
+Valaxy's site is more like a whole planet, with each page being an entry point to the planet. 
+
+> - We can open the [Astro documentation website](https://docs.astro.build/en/getting-started/) and open the browser's developer tools, uncheck the "Preserve log" option, then switch to the left directory and check its network requests.
+> At this point, you will find that Astro reloads the entire page and generates new requests every time you switch pages, and the position of the left directory may change.
+> - You can also open the [Valaxy documentation website](https://valaxy.site/guide/getting-started) and repeat the above operation.
+> At this point, you will find that Valaxy does not reload the entire page when switching pages, but only loads part of the scripts and updates the page content.
+>
+> Video demonstration: [Why not Astro? | #596](https://github.com/YunYouJun/valaxy/discussions/596)
+
+This is a trade-off between two architectures. Unsurprisingly, Astro's first screen loading speed is faster, but there may be some experience interruptions when switching pages.
+Valaxy's first screen loading speed is between Astro and traditional SPAs, but it provides a SPA-like experience when switching pages.
+
 :::
 
 ## Thanks
