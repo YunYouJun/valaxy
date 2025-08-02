@@ -19,7 +19,7 @@ const themeConfig = useThemeConfig()
 <template>
   <div class="pr-navbar flex justify-between items-center pl-4 pr-2" :class="{ 'has-sidebar': hasSidebar }">
     <RouterLink
-      class="text-xl flex justify-center items-center font-black gradient-text from-purple-800 to-blue-500 bg-gradient-to-r"
+      class="text-xl flex justify-center items-center font-black gradient-text from-purple-800 to-blue-500 bg-linear-to-r"
       to="/" :aria-label="siteConfig.title"
     >
       <img v-if="themeConfig.logo" class="logo" :src="themeConfig.logo" alt="LOGO">

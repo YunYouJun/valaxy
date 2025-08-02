@@ -14,7 +14,7 @@ const { $tO } = useValaxyI18n()
 
 const { icon, styles, color } = usePostProperty(props.post.type)
 
-const gradientClasses = ref('bg-gradient-to-r gradient-text from-$va-c-primary to-$va-c-primary-lighter')
+const gradientClasses = ref('bg-linear-to-r gradient-text from-$va-c-primary to-$va-c-primary-lighter')
 const postTitleClass = computed(() => {
   if (color) {
     return ''
