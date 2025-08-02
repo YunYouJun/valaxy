@@ -17,5 +17,13 @@
   "excludeProtected": true,
   "excludeInternal": true,
   "readme": "none",
-  "hideBreadcrumbs": true
+  "hideBreadcrumbs": true,
+  // https://typedoc-plugin-markdown.org/plugins/vitepress
+  "indexFormat": "table",
+  "useCodeBlocks": true,
+  "sidebar": {
+    "autoConfiguration": true,
+    "format": "vitepress",
+    "pretty": true
+  }
 }

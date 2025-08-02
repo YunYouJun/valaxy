@@ -71,4 +71,10 @@ export default defineConfig({
   markdown: {
     lineNumbers: true,
   },
+
+  ignoreDeadLinks: [
+    (link: string) => {
+      return link === './index'
+    },
+  ],
 })

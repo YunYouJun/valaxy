@@ -25,6 +25,6 @@
     "@iconify-json/simple-icons": "catalog:build",
     "nodemon": "^3.1.10",
     "vite": "catalog:build",
-    "vitepress": "1.1.4"
+    "vitepress": "catalog:frontend"
   }
 }

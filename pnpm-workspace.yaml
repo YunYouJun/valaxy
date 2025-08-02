@@ -29,8 +29,8 @@ catalogs:
   frontend:
     '@primevue/themes': ^4.3.7
     primevue: ^4.3.7
+    vitepress: ^2.0.0-alpha.9
     vue: ^3.5.18
-
 onlyBuiltDependencies:
   - vue-demi
   - esbuild

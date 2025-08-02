@@ -27,7 +27,40 @@ export interface Photo {
   desc: string
 }
 
-export interface PageFrontMatter extends Record<string, any> {
+export interface BaseFrontMatter extends Record<string, any> {
+  /**
+   * Title
+   * @description 文章标题
+   *
+   * ```md
+   * ---
+   * title: Post Title
+   * ---
+   * ```
+   *
+   * i18n:
+   *
+   * ```md
+   * ---
+   * title:
+   *   en: Post Title
+   *   zh-CN: 文章标题
+   * ---
+   * ```
+   */
+  title: string | Record<string, string>
+  /**
+   * @description:en-US Created Date
+   * @description:zh-CN 文章创建日期
+   */
+  date: string | number | Date
+  /**
+   * Updated Time
+   */
+  updated: string | number | Date
+}
+
+export interface PageFrontMatter extends BaseFrontMatter {
   /**
    * Path of post
    * route.path
@@ -42,30 +75,7 @@ export interface PageFrontMatter extends Record<string, any> {
    * just compatible for [hexo-abbrlink](https://github.com/ohroy/hexo-abbrlink)
    */
   abbrlink: string
-  /**
-   * Title
-   * @description 文章标题
-   *
-   * ```md
-   * ---
-   * title: Post Title
-   * ---
-   * ```
-   *
-   * ```md
-   * ---
-   * title:
-   *   en: Post Title
-   *   zh-CN: 文章标题
-   * ---
-   * ```
-   */
-  title: string | Record<string, string>
-  date: string | number | Date
-  /**
-   * Updated Time
-   */
-  updated: string | number | Date
+
   /**
    * i18n
    */
@@ -88,7 +98,10 @@ export interface PageFrontMatter extends Record<string, any> {
    */
   copyright: boolean
 
-  // schema
+  /**
+   * for seo
+   * schema
+   */
   image: NodeRelations<ImageObject | string>
 
   /**
