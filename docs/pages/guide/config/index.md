@@ -200,7 +200,10 @@ import { defineSiteConfig } from 'valaxy'
 export default defineSiteConfig({
   author: {
     name: '你的名字',
-    // 你的头像
+    /**
+     * Your avatar
+     * 头像链接
+     */
     avatar: 'https://xxx',
     intro: '个人简介'
   }

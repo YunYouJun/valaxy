@@ -15,7 +15,7 @@ export function getKeyMaterial(password: string) {
   )
 }
 
-export function getKey(keyMaterial: CryptoKey, salt: Uint8Array) {
+export function getKey(keyMaterial: CryptoKey, salt: BufferSource) {
   return window.crypto.subtle.deriveKey(
     {
       name: 'PBKDF2',

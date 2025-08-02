@@ -234,11 +234,15 @@ See `http://localhost:4859/`, have fun!
 ::: en
 Modify `valaxy.config.ts` to custom your blog.
 
+See [Config](/guide/config/) for basic configuration.
+
 Documentation is being improved!
 :::
 
 ::: zh-CN
 修改 `valaxy.config.ts` 来自定义你的博客吧。
+
+基础配置可参见 [配置](/guide/config/)。
 
 文档正在不断完善中！
 :::
