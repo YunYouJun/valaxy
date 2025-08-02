@@ -1,4 +1,4 @@
-import type { SiteConfig, UserSiteConfig } from '../../types'
+import type { SiteConfig, UserSiteConfig } from 'valaxy/types'
 import { webcrypto } from 'node:crypto'
 import { consola } from 'consola'
 import { colors } from 'consola/utils'

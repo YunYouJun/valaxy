@@ -10,7 +10,7 @@ end: false
 ::: zh-CN
 我们默认集成了 [UnoCSS](https://unocss.dev) 以下 presets 预设。
 
-- [`presetUno`](https://unocss.dev/presets/attributify): 一些常用按需生成的样式，类 TailwindCSS。
+- [`presetWind4`](https://unocss.dev/presets/wind4): 一些常用按需生成的样式，TailwindCSS v4 风格。
 - [`presetAttributify`](https://unocss.dev/presets/attributify): 使用属性选择器替代类名。
 - [`presetIcons`](https://unocss.dev/presets/icons): 集成了 [icones](https://icones.netlify.app/) 图标库，按需使用。
 - [`presetTypography`](https://unocss.dev/presets/typography): 排版相关的样式预设。
@@ -23,7 +23,7 @@ end: false
 ::: en
 We have integrated [UnoCSS](https://unocss.dev) by default with the following presets.
 
-- [`presetUno`](https://unocss.dev/presets/attributify): Some commonly used on-demand generated styles, similar to TailwindCSS.
+- [`presetWind4`](https://unocss.dev/presets/wind4): Commonly used styles generated on demand, styled like TailwindCSS v4.
 - [`presetAttributify`](https://unocss.dev/presets/attributify): Use attribute selectors instead of class names.
 - [`presetIcons`](https://unocss.dev/presets/icons): Integrated with the [icones](https://icones.netlify.app/) icon library for on-demand usage.
 - [`presetTypography`](https://unocss.dev/presets/typography): Typography-related style presets.

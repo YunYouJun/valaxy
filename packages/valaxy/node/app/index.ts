@@ -1,4 +1,4 @@
-import type { ResolvedValaxyOptions } from '..'
+import type { ResolvedValaxyOptions } from '../options'
 import type { ValaxyHooks, ValaxyNode } from '../types'
 
 import { createHooks } from 'hookable'

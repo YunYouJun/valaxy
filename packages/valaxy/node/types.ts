@@ -3,17 +3,17 @@ import type Vue from '@vitejs/plugin-vue'
 import type { Options as BeastiesOptions } from 'beasties'
 import type { Hookable } from 'hookable'
 import type { PluginVisualizerOptions } from 'rollup-plugin-visualizer'
-import type { presetAttributify, presetIcons, presetTypography, presetUno } from 'unocss'
+import type { presetAttributify, presetIcons, presetTypography, presetUno, presetWind4 } from 'unocss'
 
 import type { VitePluginConfig as UnoCSSConfig } from 'unocss/vite'
 import type Components from 'unplugin-vue-components/vite'
 import type Markdown from 'unplugin-vue-markdown/vite'
 import type { EditableTreeNode } from 'unplugin-vue-router'
 import type Router from 'unplugin-vue-router/vite'
+import type { DefaultTheme, PartialDeep, ValaxyAddon, ValaxyConfig } from 'valaxy/types'
 import type { UserConfig as ViteUserConfig } from 'vite'
 import type Layouts from 'vite-plugin-vue-layouts'
 import type { Options as GroupIconsOptions } from 'vitepress-plugin-group-icons'
-import type { DefaultTheme, PartialDeep, ValaxyAddon, ValaxyConfig } from '../types'
 import type { createValaxyNode } from './app'
 
 import type { ResolvedValaxyOptions } from './options'
@@ -187,10 +187,14 @@ export interface ValaxyExtendConfig {
    * @see https://unocss.dev/guide/presets
    */
   unocssPresets?: {
+    /**
+     * @deprecated use wind4 instead
+     */
     uno?: Parameters<typeof presetUno>[0]
     attributify?: Parameters<typeof presetAttributify>[0]
     icons?: Parameters<typeof presetIcons>[0]
     typography?: Parameters<typeof presetTypography>[0]
+    wind4?: Parameters<typeof presetWind4>[0]
   }
   fuse?: {
     /**

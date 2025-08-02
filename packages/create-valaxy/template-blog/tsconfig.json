@@ -10,6 +10,12 @@
       "~/*": ["./*"]
     },
     "resolveJsonModule": true,
+    "types": [
+      "vite/client",
+      "valaxy/client",
+      "vite-plugin-vue-layouts/client",
+      "unplugin-vue-router/client"
+    ],
     "strict": true,
     "strictNullChecks": true,
     "noUnusedLocals": true,

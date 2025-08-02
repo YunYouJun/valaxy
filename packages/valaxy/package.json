@@ -25,7 +25,7 @@
       "default": "./dist/node/index.js"
     },
     "./client/*": "./client/*",
-    "./client": "./client/index.ts",
+    "./client": "./client/shims.d.ts",
     "./node": {
       "types": "./dist/node/index.d.ts",
       "default": "./dist/node/index.js"

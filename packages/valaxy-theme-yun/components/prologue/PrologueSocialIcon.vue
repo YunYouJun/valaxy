@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { useMotion } from '@vueuse/motion'
-import { useValaxyI18n } from 'valaxy/client'
+import { useValaxyI18n } from 'valaxy'
 import { computed, ref } from 'vue'
 
 const props = defineProps<{

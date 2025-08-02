@@ -21,14 +21,20 @@ You can use them directly when writing articles or themes.
 
 <div lang="zh-CN">
 
-::: tip <div flex items="center" pb-1><div inline-flex i-logos:vue /> <span ml-1 inline-flex>基于 Vue 组件</span></div>
+::: tip
+
+<div flex items="center" pb-1><div inline-flex i-logos:vue /> <span ml-1 inline-flex>基于 Vue 组件</span></div>
+
 :::
 
 </div>
 
 <div lang="en">
 
-::: tip <div flex items="center" pb-1><div inline-flex i-logos:vue /> <span ml-1 inline-flex>Based on Vue components</span></div>
+::: tip
+
+<div flex items="center" pb-1><div inline-flex i-logos:vue /> <span ml-1 inline-flex>Based on Vue components</span></div>
+
 :::
 
 </div>
@@ -78,10 +84,8 @@ Built for theme developers (common users usually do not need to use them directl
 ### Others {lang="en"}
 
 ::: zh-CN
-- [`AppLink.vue`](https://github.com/YunYouJun/valaxy/blob/main/packages/valaxy/client/components/AppLink.vue): 根据链接
-  自动判断是否为站内链接，站内链接使用 `<router-link/>`，站外链接使用 `<a target="_blank"></a>`。
-- [`ValaxyCopyright.vue`](https://github.com/YunYouJun/valaxy/blob/main/packages/valaxy/client/components/ValaxyCopyright.vue): 文章中的
-  版权信息
+- [`AppLink.vue`](https://github.com/YunYouJun/valaxy/blob/main/packages/valaxy/client/components/AppLink.vue): 根据链接自动判断是否为站内链接，站内链接使用 `<router-link/>`，站外链接使用 `<a target="_blank"></a>`。
+- [`ValaxyCopyright.vue`](https://github.com/YunYouJun/valaxy/blob/main/packages/valaxy/client/components/ValaxyCopyright.vue): 文章中的版权信息
 - [`ValaxyDecrypt.vue`](https://github.com/YunYouJun/valaxy/blob/main/packages/valaxy/client/components/ValaxyDecrypt.vue): 文本解密组件
 - [`ValaxyGalleryDecrypt.vue`](https://github.com/YunYouJun/valaxy/blob/main/packages/valaxy/client/components/ValaxyGalleryDecrypt.vue): 图片解密组件
 - [`ValaxyLogo.vue`](https://github.com/YunYouJun/valaxy/blob/main/packages/valaxy/client/components/ValaxyLogo.vue): 带渐变色彩的 Valaxy Logo

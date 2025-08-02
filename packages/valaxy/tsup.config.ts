@@ -14,11 +14,12 @@ export default defineConfig((_options) => {
     format: ['esm'],
     // minify: !options.watch,
     external: [
+      'valaxy/types',
+
       '/@valaxyjs/',
       '/@valaxyjs/config',
       '/@valaxyjs/context',
 
-      'valaxy/types',
       ...Object.keys(pkg.dependencies || {}),
 
       // dynamic install

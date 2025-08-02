@@ -12,7 +12,7 @@ import {
   presetAttributify,
   presetIcons,
   presetTypography,
-  presetUno,
+  presetWind4,
   transformerDirectives,
   transformerVariantGroup,
 } from 'unocss'
@@ -84,7 +84,7 @@ export async function createUnocssConfig(options: ResolvedValaxyOptions) {
       ['va-card', 'shadow hover:shadow-lg bg-$va-c-bg-light'],
     ],
     presets: [
-      presetUno(pluginOptions.unocssPresets?.uno),
+      presetWind4(pluginOptions.unocssPresets?.wind4),
       presetAttributify(pluginOptions.unocssPresets?.attributify),
       presetIcons({
         scale: 1.2,
