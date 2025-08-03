@@ -45,7 +45,7 @@
     "demo:yun": "pnpm -C demo/yun run dev",
     "demo:vite": "pnpm -C demo/yun run vite:dev",
     "dev:lib": "pnpm -C packages/valaxy run dev",
-    "dev": "pnpm -r --filter=./packages/** --parallel run dev",
+    "dev": "pnpm -r --filter=./packages/** --filter='!./packages/devtools' --parallel run dev",
     "devtools": "pnpm -C packages/devtools run dev",
     "devtools:client": "pnpm -C packages/devtools run dev:client",
     "docs": "pnpm -C docs run dev",
