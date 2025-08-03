@@ -729,6 +729,9 @@ importers:
       rollup-plugin-visualizer:
         specifier: ^6.0.3
         version: 6.0.3(rollup@4.46.2)
+      unbuild:
+        specifier: catalog:build
+        version: 3.6.0(sass@1.89.2)(typescript@5.9.2)(vue-tsc@2.2.0(typescript@5.9.2))(vue@3.5.18(typescript@5.9.2))
 
   packages/valaxy-addon-abbrlink:
     dependencies:

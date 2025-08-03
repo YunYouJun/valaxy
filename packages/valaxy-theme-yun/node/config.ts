@@ -47,6 +47,9 @@ export const defaultThemeConfig: ThemeConfig = {
     content: '',
   },
 
+  nav: [
+    { text: 'menu.posts', link: '/posts/', icon: 'i-ri-article-line' },
+  ],
   pages: [],
 
   sidebar: null,

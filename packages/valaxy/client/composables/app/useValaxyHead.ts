@@ -1,6 +1,6 @@
 import { useHead } from '@unhead/vue'
-import pkg from 'valaxy/package.json'
 import { computed } from 'vue'
+import pkg from '../../../package.json' with { type: 'json' }
 
 import { useFrontmatter, useValaxyI18n } from '../../composables'
 import { useSiteConfig } from '../../config'

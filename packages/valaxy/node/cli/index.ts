@@ -5,7 +5,8 @@ import process from 'node:process'
 import yargs from 'yargs'
 import { hideBin } from 'yargs/helpers'
 
-import { version } from '../../package.json'
+// type:json
+import { version } from '../env'
 import { fuseModule } from '../modules/fuse'
 import { rssModule } from '../modules/rss'
 

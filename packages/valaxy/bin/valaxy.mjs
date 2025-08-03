@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 'use strict'
 
-import { run } from '../dist/node/cli/index.js'
+import { run } from '../dist/node/cli/index.mjs'
 
 function main() {
   run()

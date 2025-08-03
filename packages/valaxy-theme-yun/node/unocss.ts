@@ -26,5 +26,11 @@ export function generateSafelist(options: ResolvedValaxyOptions<UserThemeConfig>
     })
   }
 
+  if (themeConfig.nav) {
+    themeConfig.nav?.forEach((item) => {
+      item.icon && safelist.push(item.icon)
+    })
+  }
+
   return safelist
 }

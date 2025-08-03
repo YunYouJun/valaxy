@@ -8,6 +8,7 @@ import { colors } from 'consola/utils'
 import { createDefu } from 'defu'
 import { mergeConfig as mergeViteConfig } from 'vite'
 import { countPerformanceTime } from '../utils/performance'
+import { replaceArrMerge } from './merge'
 import { defaultSiteConfig } from './site'
 import { loadConfigFromFile } from './utils'
 
@@ -91,6 +92,15 @@ export const mergeValaxyConfig = createDefu((obj: any, key, value) => {
       obj[key].call(this, ...args)
       value.call(this, ...args)
     }
+    return true
+  }
+  /**
+   * use array replace for default themeConfig
+   */
+  if (key === 'themeConfig') {
+    // replaceArrMerge
+    obj[key] = replaceArrMerge(value, obj[key])
+    return true
   }
   if (key === 'vite') {
     // a deep copy and needs to be taken over

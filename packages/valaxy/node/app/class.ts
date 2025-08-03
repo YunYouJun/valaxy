@@ -1,4 +1,4 @@
-import { version } from '../../package.json'
+import { version } from '../env'
 import { StateManager } from './state'
 
 export class Valaxy {

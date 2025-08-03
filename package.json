@@ -62,7 +62,6 @@
     "preinstall": "npx only-allow pnpm",
     "prepublishOnly": "npm run build",
     "release": "tsx scripts/release.ts",
-    "start": "node packages/valaxy/bin/valaxy.js dev",
     "typecheck": "vue-tsc --noEmit --skipLibCheck",
     "test": "vitest",
     "test:e2e": "npm run e2e",

@@ -25,11 +25,11 @@ export interface ResolvedConfig<
 type ConfigFunction<T> = (options: ResolvedValaxyOptions) => (T | Promise<T>)
 
 export async function loadConfigFromFile<T extends UserInputConfig>(
-  file: string,
+  name: string,
   options: LoadConfigFromFileOptions = {},
 ): Promise<ResolvedConfig<T>> {
   const { config, configFile } = await loadConfig<T | ConfigFunction<T>>({
-    name: file,
+    name,
     cwd: options.cwd || process.cwd(),
     throwOnNotFound: false,
   })

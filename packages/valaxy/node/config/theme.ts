@@ -2,8 +2,8 @@ import type { DefaultTheme } from '../../types'
 import type { ResolvedValaxyOptions } from '../options'
 import type { ValaxyNodeConfig } from '../types'
 import { colors } from 'consola/utils' // updated import
-import defu from 'defu'
 import { logger } from '../logger'
+import { replaceArrMerge } from './merge'
 import { loadConfigFromFile } from './utils'
 
 /**
@@ -18,7 +18,10 @@ export async function resolveThemeConfigFromRoot(root: string) {
 /**
  * resolve theme.config.ts and merge with default
  */
-export async function resolveUserThemeConfig(options: ResolvedValaxyOptions) {
+export async function resolveUserThemeConfig(options: {
+  userRoot: string
+  themeRoot: string
+}) {
   let { config: userThemeConfig, configFile: themeConfigFile } = await resolveThemeConfigFromRoot(options.userRoot)
 
   if (userThemeConfig && themeConfigFile)
@@ -27,7 +30,7 @@ export async function resolveUserThemeConfig(options: ResolvedValaxyOptions) {
   if (options?.themeRoot) {
     // todo mount defaultThemeConfig
     const { config: defaultThemeConfig } = await resolveThemeConfigFromRoot(options.themeRoot)
-    userThemeConfig = defu(userThemeConfig || {}, defaultThemeConfig)
+    userThemeConfig = replaceArrMerge(userThemeConfig || {}, defaultThemeConfig)
   }
 
   return {

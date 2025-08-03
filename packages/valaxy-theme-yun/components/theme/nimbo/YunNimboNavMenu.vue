@@ -1,12 +1,10 @@
 <script setup lang="ts">
 import { useAppStore, useSiteConfig, useValaxyI18n } from 'valaxy'
 import { onMounted, ref, watch } from 'vue'
-import { useI18n } from 'vue-i18n'
 import { useRoute } from 'vue-router'
 import { useThemeConfig } from '../../../composables'
 import { useYunAppStore } from '../../../stores'
 
-const { t } = useI18n()
 const { $t } = useValaxyI18n()
 
 // const app = useAppStore()
@@ -62,11 +60,6 @@ const app = useAppStore()
         />
         <YunNavMenuItem icon="i-ri-home-4-line" to="/" />
         <template v-if="yunApp.size.isLg">
-          <YunNavMenuItem
-            icon="i-ri-article-line" to="/posts/"
-            :title="t('menu.posts')"
-          />
-
           <YunNavMenuItem
             v-for="item, i in themeConfig.nav"
             :key="i"

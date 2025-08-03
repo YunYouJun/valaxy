@@ -3,7 +3,7 @@ import os from 'node:os'
 import process from 'node:process'
 import { consola } from 'consola'
 import { colors } from 'consola/utils'
-import { version } from '../../package.json'
+import { version } from '../env'
 
 /**
  * @TODO valaxy debug

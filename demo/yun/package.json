@@ -8,7 +8,7 @@
     "build": "npm run build:ssg",
     "build:spa": "valaxy build",
     "build:ssg": "valaxy build --ssg --log=info",
-    "dev": "nodemon --exec \"valaxy . --port 4860\"",
+    "dev": "valaxy . --port 4860",
     "vite:dev": "npx vite-node -w scripts/vite-node.ts",
     "valaxy:dev": "valaxy .",
     "fuse": "valaxy fuse",

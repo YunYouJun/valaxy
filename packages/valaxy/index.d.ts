@@ -4,5 +4,5 @@
 
 export * from './shims'
 export * from './client/index'
-export * from './dist/node/index'
-export * from './dist/types/index'
+export * from './dist/node/index.mjs'
+export * from './dist/types/index.mjs'

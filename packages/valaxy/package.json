@@ -22,23 +22,24 @@
   "exports": {
     ".": {
       "types": "./index.d.ts",
-      "default": "./dist/node/index.js"
+      "default": "./dist/node/index.mjs"
     },
     "./client/*": "./client/*",
     "./client": "./client/shims.d.ts",
     "./node": {
-      "types": "./dist/node/index.d.ts",
-      "default": "./dist/node/index.js"
+      "types": "./dist/node/index.d.mts",
+      "default": "./dist/node/index.mjs"
     },
-    "./types": "./dist/types/index.d.ts",
+    "./package.json": "./package.json",
+    "./types": "./dist/types/index.d.mts",
     "./*": "./*"
   },
-  "main": "dist/node/index.js",
-  "module": "dist/node/index.js",
+  "main": "dist/node/index.mjs",
+  "module": "dist/node/index.mjs",
   "types": "index.d.ts",
   "bin": {
-    "vala": "./bin/valaxy.js",
-    "valaxy": "./bin/valaxy.js"
+    "vala": "./bin/valaxy.mjs",
+    "valaxy": "./bin/valaxy.mjs"
   },
   "files": [
     "bin",
@@ -54,8 +55,8 @@
   },
   "scripts": {
     "clean": "rimraf dist",
-    "build": "rimraf dist && tsup",
-    "dev": "tsup --watch",
+    "build": "unbuild",
+    "dev": "unbuild --stub",
     "preview": "vite preview",
     "preview-https": "serve dist",
     "release:beta": "bumpp --no-tag --no-commit --no-push && pnpm publish --no-git-checks --tag beta"
@@ -166,7 +167,8 @@
     "diacritics": "^1.3.0",
     "gh-pages": "^6.3.0",
     "https-localhost": "^4.7.1",
-    "rollup-plugin-visualizer": "^6.0.3"
+    "rollup-plugin-visualizer": "^6.0.3",
+    "unbuild": "catalog:build"
   },
   "resolutions": {
     "vite": "catalog:build"
