@@ -11,7 +11,7 @@ const props = defineProps<{
 
 const classes = computed(() => {
   const arr = [
-    'bg-linear-to-r',
+    'bg-gradient-to-r',
   ]
   if (props.theme === 'brand')
     arr.push('from-purple-700', 'to-indigo-600')

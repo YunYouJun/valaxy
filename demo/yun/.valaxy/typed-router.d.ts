@@ -113,4 +113,404 @@ declare module 'vue-router/auto-routes' {
     '/test/time_warning': RouteRecordInfo<'/test/time_warning', '/test/time_warning', Record<never, never>, Record<never, never>>,
     '/yun/': RouteRecordInfo<'/yun/', '/yun', Record<never, never>, Record<never, never>>,
   }
+
+  /**
+   * Route file to route info map by unplugin-vue-router.
+   * Used by the volar plugin to automatically type useRoute()
+   *
+   * Each key is a file path relative to the project root with 2 properties:
+   * - routes: union of route names of the possible routes when in this page (passed to useRoute<...>())
+   * - views: names of nested views (can be passed to <RouterView name="...">)
+   *
+   * @internal
+   */
+  export interface _RouteFileInfoMap {
+    '../../packages/valaxy-theme-yun/pages/index.vue': {
+      routes: '/'
+      views: never
+    }
+    'pages/_drafts/README.md': {
+      routes: '/_drafts/README'
+      views: never
+    }
+    '../../packages/valaxy/client/pages/[...path].vue': {
+      routes: '/[...path]'
+      views: never
+    }
+    'pages/404.md': {
+      routes: '/404'
+      views: never
+    }
+    'pages/about/index.md': {
+      routes: '/about/'
+      views: never
+    }
+    'pages/about/site.md': {
+      routes: '/about/site'
+      views: never
+    }
+    'pages/albums/index.md': {
+      routes: '/albums/'
+      views: never
+    }
+    'pages/albums/daily.md': {
+      routes: '/albums/daily'
+      views: never
+    }
+    'pages/albums/miracle.md': {
+      routes: '/albums/miracle'
+      views: never
+    }
+    'pages/albums/sunset.md': {
+      routes: '/albums/sunset'
+      views: never
+    }
+    'pages/albums/young.md': {
+      routes: '/albums/young'
+      views: never
+    }
+    'pages/archives/index.md': {
+      routes: '/archives/'
+      views: never
+    }
+    'pages/bangumi/index.md': {
+      routes: '/bangumi/'
+      views: never
+    }
+    'pages/categories/index.md': {
+      routes: '/categories/'
+      views: never
+    }
+    'pages/collections/index.md': {
+      routes: '/collections/'
+      views: never
+    }
+    'pages/collections/hamster/index.md': {
+      routes: '/collections/hamster/'
+      views: never
+    }
+    'pages/collections/hamster/1.md': {
+      routes: '/collections/hamster/1'
+      views: never
+    }
+    'pages/collections/hamster/2.md': {
+      routes: '/collections/hamster/2'
+      views: never
+    }
+    'pages/collections/hamster/3.md': {
+      routes: '/collections/hamster/3'
+      views: never
+    }
+    'pages/collections/hamster/dim-star-sky.md': {
+      routes: '/collections/hamster/dim-star-sky'
+      views: never
+    }
+    'pages/collections/hamster/hamsters-evolve-today.md': {
+      routes: '/collections/hamster/hamsters-evolve-today'
+      views: never
+    }
+    'pages/collections/hamster/meeting.md': {
+      routes: '/collections/hamster/meeting'
+      views: never
+    }
+    'pages/collections/hamster/our-journey-is-the-stars-and-sea.md': {
+      routes: '/collections/hamster/our-journey-is-the-stars-and-sea'
+      views: never
+    }
+    'pages/collections/hamster/the-duelist-romance.md': {
+      routes: '/collections/hamster/the-duelist-romance'
+      views: never
+    }
+    'pages/collections/hamster/the-lizard-king.md': {
+      routes: '/collections/hamster/the-lizard-king'
+      views: never
+    }
+    'pages/collections/hamster/the-third-kind.md': {
+      routes: '/collections/hamster/the-third-kind'
+      views: never
+    }
+    'pages/collections/hamster/they-are-the-gods.md': {
+      routes: '/collections/hamster/they-are-the-gods'
+      views: never
+    }
+    'pages/collections/hamster/to-be-or-not-to-be.md': {
+      routes: '/collections/hamster/to-be-or-not-to-be'
+      views: never
+    }
+    'pages/collections/love-and-peace/index.md': {
+      routes: '/collections/love-and-peace/'
+      views: never
+    }
+    'pages/collections/love-and-peace/1.md': {
+      routes: '/collections/love-and-peace/1'
+      views: never
+    }
+    'pages/collections/love-and-peace/2.md': {
+      routes: '/collections/love-and-peace/2'
+      views: never
+    }
+    'pages/collections/love-and-peace/3.md': {
+      routes: '/collections/love-and-peace/3'
+      views: never
+    }
+    'pages/collections/README.md': {
+      routes: '/collections/README'
+      views: never
+    }
+    'pages/examples/addons/components.md': {
+      routes: '/examples/addons/components'
+      views: never
+    }
+    'pages/examples/code-height-limit.md': {
+      routes: '/examples/code-height-limit'
+      views: never
+    }
+    'pages/examples/custom-components.md': {
+      routes: '/examples/custom-components'
+      views: never
+    }
+    'pages/examples/sites.md': {
+      routes: '/examples/sites'
+      views: never
+    }
+    'pages/examples/without-aside.md': {
+      routes: '/examples/without-aside'
+      views: never
+    }
+    'pages/examples/without-sidebar.md': {
+      routes: '/examples/without-sidebar'
+      views: never
+    }
+    'pages/girls/index.md': {
+      routes: '/girls/'
+      views: never
+    }
+    'pages/links/index.md': {
+      routes: '/links/'
+      views: never
+    }
+    'pages/notes/index.md': {
+      routes: '/notes/'
+      views: never
+    }
+    '../../packages/valaxy-theme-yun/pages/page/[page].vue': {
+      routes: '/page/[page]'
+      views: never
+    }
+    '../../packages/valaxy-theme-yun/pages/posts/index.vue': {
+      routes: '/posts/'
+      views: never
+    }
+    'pages/posts/abbrlink.md': {
+      routes: '/posts/abbrlink'
+      views: never
+    }
+    'pages/posts/about.md': {
+      routes: '/posts/about'
+      views: never
+    }
+    'pages/posts/aplayer.md': {
+      routes: '/posts/aplayer'
+      views: never
+    }
+    'pages/posts/categories-a-b.md': {
+      routes: '/posts/categories-a-b'
+      views: never
+    }
+    'pages/posts/categories-a-b-c.md': {
+      routes: '/posts/categories-a-b-c'
+      views: never
+    }
+    'pages/posts/code.md': {
+      routes: '/posts/code'
+      views: never
+    }
+    'pages/posts/date.md': {
+      routes: '/posts/date'
+      views: never
+    }
+    'pages/posts/design.md': {
+      routes: '/posts/design'
+      views: never
+    }
+    'pages/posts/dev.md': {
+      routes: '/posts/dev'
+      views: never
+    }
+    'pages/posts/draft.md': {
+      routes: '/posts/draft'
+      views: never
+    }
+    'pages/posts/encrypted-part-post.md': {
+      routes: '/posts/encrypted-part-post'
+      views: never
+    }
+    'pages/posts/encrypted-post.md': {
+      routes: '/posts/encrypted-post'
+      views: never
+    }
+    'pages/posts/excerpt-type-ai.md': {
+      routes: '/posts/excerpt-type-ai'
+      views: never
+    }
+    'pages/posts/excerpt-type-html.md': {
+      routes: '/posts/excerpt-type-html'
+      views: never
+    }
+    'pages/posts/excerpt-type-md.md': {
+      routes: '/posts/excerpt-type-md'
+      views: never
+    }
+    'pages/posts/excerpt-type-text.md': {
+      routes: '/posts/excerpt-type-text'
+      views: never
+    }
+    'pages/posts/framework-and-pages.md': {
+      routes: '/posts/framework-and-pages'
+      views: never
+    }
+    'pages/posts/hello-valaxy.md': {
+      routes: '/posts/hello-valaxy'
+      views: never
+    }
+    'pages/posts/hide.md': {
+      routes: '/posts/hide'
+      views: never
+    }
+    'pages/posts/hide-in-index.md': {
+      routes: '/posts/hide-in-index'
+      views: never
+    }
+    'pages/posts/how-to-use-adboard.md': {
+      routes: '/posts/how-to-use-adboard'
+      views: never
+    }
+    'pages/posts/katex.md': {
+      routes: '/posts/katex'
+      views: never
+    }
+    'pages/posts/long-toc.md': {
+      routes: '/posts/long-toc'
+      views: never
+    }
+    'pages/posts/lots-of-images.md': {
+      routes: '/posts/lots-of-images'
+      views: never
+    }
+    'pages/posts/markdown.md': {
+      routes: '/posts/markdown'
+      views: never
+    }
+    'pages/posts/markdown-styles.md': {
+      routes: '/posts/markdown-styles'
+      views: never
+    }
+    'pages/posts/mermaid.md': {
+      routes: '/posts/mermaid'
+      views: never
+    }
+    'pages/posts/nested/a/b/c.md': {
+      routes: '/posts/nested/a/b/c'
+      views: never
+    }
+    'pages/posts/nested/z/index.md': {
+      routes: '/posts/nested/z/'
+      views: never
+    }
+    'pages/posts/post-i18n.md': {
+      routes: '/posts/post-i18n'
+      views: never
+    }
+    'pages/posts/post-updated.md': {
+      routes: '/posts/post-updated'
+      views: never
+    }
+    'pages/posts/redirect.md': {
+      routes: '/posts/redirect'
+      views: never
+    }
+    'pages/posts/test.md': {
+      routes: '/posts/test'
+      views: never
+    }
+    'pages/posts/test-images.md': {
+      routes: '/posts/test-images'
+      views: never
+    }
+    'pages/posts/test-tags.md': {
+      routes: '/posts/test-tags'
+      views: never
+    }
+    'pages/posts/type-link-jump.md': {
+      routes: '/posts/type-link-jump'
+      views: never
+    }
+    'pages/posts/中文Post测试.md': {
+      routes: '/posts/中文Post测试'
+      views: never
+    }
+    'pages/posts/中文分类.md': {
+      routes: '/posts/中文分类'
+      views: never
+    }
+    'pages/projects/index.md': {
+      routes: '/projects/'
+      views: never
+    }
+    'pages/sponsors/index.md': {
+      routes: '/sponsors/'
+      views: never
+    }
+    'pages/tags/index.md': {
+      routes: '/tags/'
+      views: never
+    }
+    'pages/test/custom-blocks.md': {
+      routes: '/test/custom-blocks'
+      views: never
+    }
+    'pages/test/deadlinks.md': {
+      routes: '/test/deadlinks'
+      views: never
+    }
+    'pages/test/define-basic-loader.md': {
+      routes: '/test/define-basic-loader'
+      views: never
+    }
+    'pages/test/footnotes.md': {
+      routes: '/test/footnotes'
+      views: never
+    }
+    'pages/test/i18n.md': {
+      routes: '/test/i18n'
+      views: never
+    }
+    'pages/test/markdown-file-inclusion.md': {
+      routes: '/test/markdown-file-inclusion'
+      views: never
+    }
+    'pages/test/special-character.md': {
+      routes: '/test/special-character'
+      views: never
+    }
+    'pages/test/time_warning.md': {
+      routes: '/test/time_warning'
+      views: never
+    }
+    'pages/yun/index.md': {
+      routes: '/yun/'
+      views: never
+    }
+  }
+
+  /**
+   * Get a union of possible route names in a certain route component file.
+   * Used by the volar plugin to automatically type useRoute()
+   *
+   * @internal
+   */
+  export type _RouteNamesForFilePath<FilePath extends string> =
+    _RouteFileInfoMap extends Record<FilePath, infer Info>
+      ? Info['routes']
+      : keyof RouteNamedMap
 }

@@ -8,7 +8,7 @@ const siteConfig = useSiteConfig()
 const themeConfig = useThemeConfig()
 
 const { $t } = useValaxyI18n()
-// bg-linear-to-r gradient-text from-#1e3c72 to-dark dark:(from-#66a6ff to-blue-500)
+// bg-gradient-to-r gradient-text from-#1e3c72 to-dark dark:(from-#66a6ff to-blue-500)
 </script>
 
 <template>
