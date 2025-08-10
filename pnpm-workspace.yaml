@@ -13,8 +13,8 @@ catalogs:
     '@iconify-json/carbon': ^1.2.11
     '@iconify-json/logos': ^1.2.5
     '@iconify-json/ri': ^1.2.5
-    '@iconify-json/simple-icons': ^1.2.46
-    '@iconify-json/vscode-icons': ^1.2.24
+    '@iconify-json/simple-icons': ^1.2.47
+    '@iconify-json/vscode-icons': ^1.2.25
     '@unhead/addons': ^2.0.14
     '@unhead/schema-org': ^2.0.14
     '@unhead/vue': ^2.0.14

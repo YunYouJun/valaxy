@@ -17,5 +17,5 @@ const yun = useYunAppStore()
   </button>
 
   <YunOverlay :show="yun.rightSidebar.isOpen" @click="yun.rightSidebar.toggle()" />
-  <YunAside />
+  <YunAside v-if="fm.aside !== false" />
 </template>

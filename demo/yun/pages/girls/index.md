@@ -18,6 +18,7 @@ girls:
 # girls: https://wives.yunyoujun.cn/girls.json
 random: false
 excerpt: 一些我喜欢的可爱女孩子
+aside: false
 ---
 
 <div class="text-center" m="2" title="我全都要！">
