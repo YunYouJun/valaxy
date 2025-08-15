@@ -2,7 +2,7 @@ import type MarkdownIt from 'markdown-it'
 import type { MarkdownItAsync } from 'markdown-it-async'
 
 import type { Plugin } from 'vite'
-import type { ResolvedValaxyOptions } from '../../../options'
+import type { ResolvedValaxyOptions } from '../../../types'
 import Markdown from 'unplugin-vue-markdown/vite'
 import { Valaxy } from '../../../app/class'
 import { logger } from '../../../logger'

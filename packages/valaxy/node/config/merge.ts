@@ -9,6 +9,8 @@ import { createDefu } from 'defu'
 
 /**
  * replace array instead of concat
+ *
+ * @example ['a'] + ['b'] => ['b']
  */
 export const replaceArrMerge = createDefu((obj, key, value) => {
   if (key && obj[key] && Array.isArray(obj[key]) && Array.isArray(value)) {

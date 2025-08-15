@@ -1,4 +1,4 @@
-import type { ResolvedValaxyOptions } from 'valaxy'
+import type { ResolvedValaxyOptions } from '../../../types'
 import { Valaxy } from '../../../app'
 
 function handleCodeHeightLimit(mainContentMd: string, options: ResolvedValaxyOptions, codeHeightLimit?: number): string {

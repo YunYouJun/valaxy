@@ -1,5 +1,5 @@
-import type { HeadConfig, PageData } from 'valaxy/types'
-import type { ResolvedValaxyOptions } from '../../../options'
+import type { HeadConfig, PageData } from '../../../../types'
+import type { ResolvedValaxyOptions } from '../../../types'
 import path from 'pathe'
 import { Valaxy } from '../../../app'
 import { getGitTimestamp } from '../../../utils'

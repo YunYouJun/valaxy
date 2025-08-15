@@ -10,6 +10,7 @@
     "moduleResolution": "Bundler",
     "resolveJsonModule": true,
     "types": [
+      "valaxy/client",
       "vite/client",
       "vite-plugin-vue-layouts/client"
     ],

@@ -1,6 +1,5 @@
-import type { RedirectItem, RedirectRule } from 'valaxy/types'
-import { writeFile } from 'node:fs/promises'
-import { ensureFile } from 'fs-extra'
+import type { RedirectItem, RedirectRule } from '../../types'
+import fs from 'fs-extra'
 
 function handleRoute(route: string) {
   if (route === '/')
@@ -36,8 +35,8 @@ export function collectRedirects(redirectRules?: RedirectRule[]): RedirectItem[]
 }
 
 export async function writeRedirectFiles(route: string, filePath: string) {
-  await ensureFile(filePath)
-  await writeFile(filePath, `
+  await fs.ensureFile(filePath)
+  await fs.writeFile(filePath, `
 <!DOCTYPE html>
 <html lang="en">
 <head>

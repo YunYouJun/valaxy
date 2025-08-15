@@ -1,4 +1,4 @@
-import type { CollectionConfig } from '../define'
+import type { CollectionConfig } from '../types'
 import collections from '#valaxy/blog/collections'
 
 import { computed } from 'vue'

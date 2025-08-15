@@ -7,7 +7,6 @@ export default antfu(
       'dist',
       'public',
       'packages/valaxy/index.d.ts',
-      'packages/valaxy/client.d.ts',
       // generated
       'api/typedoc',
     ],

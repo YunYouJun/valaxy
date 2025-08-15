@@ -1,7 +1,6 @@
 import type { DefaultTheme } from '../../types'
-import type { ResolvedValaxyOptions } from '../options'
-import type { ValaxyNodeConfig } from '../types'
-import { colors } from 'consola/utils' // updated import
+import type { ResolvedValaxyOptions, ValaxyNodeConfig } from '../types'
+import { colors } from 'consola/utils'
 import { logger } from '../logger'
 import { replaceArrMerge } from './merge'
 import { loadConfigFromFile } from './utils'

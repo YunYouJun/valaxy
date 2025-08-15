@@ -1,0 +1,16 @@
+{
+  "extends": "../tsconfig.json",
+  "compilerOptions": {
+    "baseUrl": ".",
+    "paths": {
+      "valaxy": ["./index.d.ts"]
+    },
+    "types": [
+      "unplugin-vue-router/client",
+      "vite/client",
+      "vite-plugin-vue-layouts/client",
+      "@intlify/unplugin-vue-i18n/messages"
+    ]
+  },
+  "include": ["."]
+}

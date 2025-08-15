@@ -1,11 +1,8 @@
-import type { MarkdownEnv } from 'unplugin-vue-markdown/types'
-import type { DefaultTheme, RedirectItem, RuntimeConfig } from 'valaxy/types'
-import type { ValaxyAddonResolver, ValaxyNodeConfig } from './types'
+import type { ResolvedValaxyOptions, ValaxyEntryOptions, ValaxyNodeConfig } from './types'
 import { dirname } from 'node:path'
 import process from 'node:process'
 import { ensureSuffix, uniq } from '@antfu/utils'
 import { consola } from 'consola'
-// import defu from 'defu'
 import { colors } from 'consola/utils'
 import _debug from 'debug'
 import fg from 'fast-glob'
@@ -27,84 +24,6 @@ import { parseAddons } from './utils/addons'
 import { collectRedirects } from './utils/clientRedirects'
 import { countPerformanceTime } from './utils/performance'
 import { getThemeRoot } from './utils/theme'
-
-// for cli entry
-export interface ValaxyEntryOptions {
-  /**
-   * theme name
-   */
-  theme?: string
-  userRoot: string
-}
-
-export interface ResolvedValaxyOptions<ThemeConfig = DefaultTheme.Config> {
-  mode: 'dev' | 'build'
-  /**
-   * package.json root
-   */
-  pkgRoot: string
-  /**
-   * temp dir, store d.ts and other temp files
-   * .valaxy
-   */
-  tempDir: string
-  /**
-   * Client root path
-   * @default 'valaxy/client'
-   */
-  clientRoot: string
-  /**
-   * User root path
-   * @default process.cwd()
-   */
-  userRoot: string
-  /**
-   * Theme root path
-   */
-  themeRoot: string
-  /**
-   * Addon root path
-   */
-  addonRoots: string[]
-  /**
-   * clientRoot, themeRoot, ...addonRoots, userRoot
-   */
-  roots: string[]
-  theme: string
-  /**
-   * Valaxy Config
-   */
-  config: ValaxyNodeConfig<ThemeConfig> & {
-    /**
-     * Generated Runtime Config
-     */
-    runtimeConfig: RuntimeConfig
-  }
-  /**
-   * config file path
-   */
-  configFile: string
-  siteConfigFile: string
-  themeConfigFile: string
-  pages: string[]
-  /**
-   * all addons
-   * Record<package-name, OptionResolver>
-   */
-  addons: ValaxyAddonResolver[]
-  /**
-   * Collect redirect rule
-   */
-  redirects: RedirectItem[]
-
-  env: MarkdownEnv & {
-    links: string[]
-  }
-}
-
-export interface ValaxyServerOptions {
-  onConfigReload?: (newConfig: ValaxyNodeConfig, config: ValaxyNodeConfig, force?: boolean) => void
-}
 
 const debug = _debug('valaxy:options')
 

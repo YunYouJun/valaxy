@@ -1,6 +1,5 @@
 import type { InlineConfig } from 'vite'
-import type { ResolvedValaxyOptions } from './options'
-import type { ValaxyNode } from './types'
+import type { ResolvedValaxyOptions, ValaxyNode } from './types'
 import { join, resolve } from 'node:path'
 import { consola } from 'consola'
 

@@ -1,6 +1,5 @@
 import type { InlineConfig } from 'vite'
-import type { ValaxyServerOptions } from './options'
-import type { ValaxyNode } from './types'
+import type { ValaxyNode, ValaxyServerOptions } from './types'
 
 import process from 'node:process'
 import { colors } from 'consola/utils'

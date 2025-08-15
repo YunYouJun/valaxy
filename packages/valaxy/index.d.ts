@@ -2,7 +2,6 @@
 // be able to reference @vueuse/shared in project root.
 /// <reference types="@vueuse/shared" />
 
-export * from './shims'
 export * from './client/index'
 export * from './dist/node/index.mjs'
 export * from './dist/types/index.mjs'

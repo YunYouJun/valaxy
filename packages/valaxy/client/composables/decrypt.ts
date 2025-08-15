@@ -4,7 +4,7 @@ import { useSiteConfig } from 'valaxy'
  * @see https://developer.mozilla.org/zh-CN/docs/Web/API/SubtleCrypto/deriveKey#pbkdf2_2
  * @param password
  */
-export function getKeyMaterial(password: string) {
+function getKeyMaterial(password: string) {
   const enc = new TextEncoder()
   return window.crypto.subtle.importKey(
     'raw',
@@ -15,7 +15,10 @@ export function getKeyMaterial(password: string) {
   )
 }
 
-export function getKey(keyMaterial: CryptoKey, salt: BufferSource) {
+/**
+ * crypto
+ */
+function getCryptoDeriveKey(keyMaterial: CryptoKey, salt: BufferSource) {
   return window.crypto.subtle.deriveKey(
     {
       name: 'PBKDF2',
@@ -46,7 +49,7 @@ export function useDecrypt() {
         return
 
       const keyMaterial = await getKeyMaterial(password)
-      const key = await getKey(keyMaterial, salt)
+      const key = await getCryptoDeriveKey(keyMaterial, salt)
 
       const ciphertextData = Uint8Array.from(ciphertext, c => c.charCodeAt(0))
 

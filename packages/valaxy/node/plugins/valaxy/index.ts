@@ -4,8 +4,7 @@
 
 import type { Plugin, ResolvedConfig } from 'vite'
 import type { DefaultTheme, PageDataPayload, Pkg, SiteConfig } from '../../../types'
-import type { ResolvedValaxyOptions, ValaxyServerOptions } from '../../options'
-import type { ValaxyNodeConfig } from '../../types'
+import type { ResolvedValaxyOptions, ValaxyNodeConfig, ValaxyServerOptions } from '../../types'
 import { consola } from 'consola'
 import { colors } from 'consola/utils'
 import fs from 'fs-extra'

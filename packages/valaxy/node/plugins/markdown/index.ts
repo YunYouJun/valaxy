@@ -1,7 +1,7 @@
 import type { Header } from '@valaxyjs/utils'
 
 import type { MarkdownItAsync } from 'markdown-it-async'
-import type { ResolvedValaxyOptions } from '../../options'
+import type { ResolvedValaxyOptions } from '../../types'
 import { createMarkdownItAsync } from 'markdown-it-async'
 import { logger } from '../../logger'
 

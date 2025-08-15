@@ -1,5 +1,5 @@
-import type { PageData } from 'valaxy/types'
-import type { ResolvedValaxyOptions } from '../../../options'
+import type { PageData } from '../../../../types'
+import type { ResolvedValaxyOptions } from '../../../types'
 import path from 'node:path'
 import fs from 'fs-extra'
 

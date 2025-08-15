@@ -9,5 +9,4 @@ export * from './frontmatter'
 // used in node, but without node deps
 // and need be shared with client types
 export * from './node'
-
 export * from './posts'

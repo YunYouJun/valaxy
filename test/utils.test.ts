@@ -1,5 +1,5 @@
-import type { ResolvedValaxyOptions } from 'valaxy'
-import type { UserValaxyConfig } from 'valaxy/types'
+import type { ResolvedValaxyOptions } from '../packages/valaxy/node'
+import type { UserValaxyConfig } from '../packages/valaxy/types'
 import { resolve } from 'node:path'
 import fs from 'fs-extra'
 import { describe, expect, it } from 'vitest'

@@ -1,5 +1,5 @@
 import type { ConfigEnv, InlineConfig } from 'vite'
-import type { ResolvedValaxyOptions } from './options'
+import type { ResolvedValaxyOptions } from './types'
 import { join } from 'node:path'
 import { uniq } from '@antfu/utils'
 import fs from 'fs-extra'

@@ -3,21 +3,24 @@ import type Vue from '@vitejs/plugin-vue'
 import type { Options as BeastiesOptions } from 'beasties'
 import type { Hookable } from 'hookable'
 import type { PluginVisualizerOptions } from 'rollup-plugin-visualizer'
-import type { presetAttributify, presetIcons, presetTypography, presetUno, presetWind4 } from 'unocss'
-
+import type { presetAttributify, presetIcons, presetTypography, presetWind4 } from 'unocss'
 import type { VitePluginConfig as UnoCSSConfig } from 'unocss/vite'
+
 import type Components from 'unplugin-vue-components/vite'
 import type Markdown from 'unplugin-vue-markdown/vite'
 import type { EditableTreeNode } from 'unplugin-vue-router'
 import type Router from 'unplugin-vue-router/vite'
-import type { DefaultTheme, PartialDeep, ValaxyAddon, ValaxyConfig } from 'valaxy/types'
 import type { UserConfig as ViteUserConfig } from 'vite'
 import type Layouts from 'vite-plugin-vue-layouts'
 import type { Options as GroupIconsOptions } from 'vitepress-plugin-group-icons'
-import type { createValaxyNode } from './app'
+import type { DefaultTheme, PartialDeep, ValaxyConfig } from '../../types'
+import type { createValaxyNode } from '../app'
+import type { MarkdownOptions } from '../plugins/markdown/types'
+
+import type { ValaxyAddons } from './addon'
+import type { ValaxyHooks } from './hook'
 
 import type { ResolvedValaxyOptions } from './options'
-import type { MarkdownOptions } from './plugins/markdown/types'
 
 export type ValaxyNodeConfig<ThemeConfig = DefaultTheme.Config> = ValaxyConfig<ThemeConfig> & ValaxyExtendConfig
 export type UserValaxyNodeConfig<ThemeConfig = DefaultTheme.Config> = PartialDeep<ValaxyNodeConfig<ThemeConfig>>
@@ -26,21 +29,6 @@ export type UserValaxyNodeConfig<ThemeConfig = DefaultTheme.Config> = PartialDee
  */
 export type ValaxyConfigFn<ThemeConfig = DefaultTheme.Config> = (options: ResolvedValaxyOptions<ThemeConfig>) => ValaxyNodeConfig | Promise<ValaxyNodeConfig>
 export type ValaxyConfigExport<ThemeConfig = DefaultTheme.Config> = ValaxyNodeConfig<ThemeConfig> | ValaxyConfigFn<ThemeConfig>
-
-export type HookResult = Promise<void> | void
-
-export interface ValaxyHooks {
-  'options:resolved': () => HookResult
-  'config:init': () => HookResult
-  /**
-   * @see valaxy/node/plugins/vueRouter.ts extendRoute
-   */
-  'vue-router:extendRoute': (route: EditableTreeNode) => HookResult
-  'vue-router:beforeWriteFiles': (root: EditableTreeNode) => HookResult
-
-  'build:before': () => HookResult
-  'build:after': () => HookResult
-}
 
 export interface ValaxyNode {
   version: string
@@ -190,7 +178,7 @@ export interface ValaxyExtendConfig {
     /**
      * @deprecated use wind4 instead
      */
-    uno?: Parameters<typeof presetUno>[0]
+    uno?: Parameters<typeof presetWind4>[0]
     attributify?: Parameters<typeof presetAttributify>[0]
     icons?: Parameters<typeof presetIcons>[0]
     typography?: Parameters<typeof presetTypography>[0]
@@ -261,25 +249,6 @@ export interface ValaxyExtendConfig {
    * @see https://github.com/danielroe/beasties
    */
   beastiesOptions?: BeastiesOptions
-}
-
-export type ValaxyAddonLike = ValaxyAddon | false | null | undefined
-export type ValaxyAddons = (ValaxyAddon | string)[] | Record<string, ValaxyAddonLike>
-
-export type ValaxyAddonFn<ThemeConfig = DefaultTheme.Config> = (addonOptions: ValaxyAddonResolver, valaxyOptions: ResolvedValaxyOptions<ThemeConfig>) => ValaxyNodeConfig | Promise<ValaxyNodeConfig>
-export type ValaxyAddonExport<ThemeConfig = DefaultTheme.Config> = ValaxyNodeConfig<ThemeConfig> | ValaxyAddonFn<ThemeConfig>
-
-export interface ValaxyAddonResolver {
-  name: string
-  root: string
-  enable: boolean
-  global: boolean
-  props: Record<string, any>
-  options: Record<string, any>
-  configFile?: string
-  pkg: Record<string, any>
-
-  setup?: (node: ValaxyNode) => void
 }
 
 export type ValaxyApp = ReturnType<typeof createValaxyNode>

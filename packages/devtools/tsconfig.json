@@ -12,6 +12,7 @@
     "types": [
       "@types/wicg-file-system-access",
       "vite/client",
+      "valaxy/client",
       "unplugin-vue-router/client"
     ],
     "strict": true,

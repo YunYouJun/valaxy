@@ -1,6 +1,5 @@
-import type { ResolvedValaxyOptions, ValaxyEntryOptions } from '../options'
+import type { ResolvedValaxyOptions, UserValaxyNodeConfig, ValaxyEntryOptions, ValaxyNodeConfig } from '../types'
 
-import type { UserValaxyNodeConfig, ValaxyNodeConfig } from '../types'
 import process from 'node:process'
 import { isFunction } from '@antfu/utils'
 import { consola } from 'consola'

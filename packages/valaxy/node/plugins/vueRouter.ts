@@ -1,5 +1,5 @@
-import type { ExcerptType, Page, Post } from 'valaxy/types'
 import type { RouteMeta } from 'vue-router'
+import type { ExcerptType, Page, Post } from '../../types'
 import type { ValaxyNode } from '../types'
 import fs from 'fs-extra'
 import matter from 'gray-matter'

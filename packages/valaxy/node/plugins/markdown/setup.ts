@@ -8,7 +8,7 @@ import type { MarkdownItAsync } from 'markdown-it-async'
 import type Token from 'markdown-it/lib/token.mjs'
 import type { UserSiteConfig } from '../../../types'
 
-import type { ResolvedValaxyOptions } from '../../options'
+import type { ResolvedValaxyOptions } from '../../types'
 import type { ThemeOptions } from './types'
 
 import {

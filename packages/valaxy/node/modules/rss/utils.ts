@@ -1,5 +1,5 @@
 import type { Author, FeedOptions, Item } from 'feed'
-import type { ResolvedValaxyOptions } from '../../options'
+import type { ResolvedValaxyOptions } from '../../types'
 import { readFile } from 'node:fs/promises'
 
 import { dirname, join, resolve } from 'node:path'

@@ -1,6 +1,6 @@
-import type { ResolvedValaxyOptions } from 'valaxy'
-import type { FuseListItem, PostFrontMatter } from 'valaxy/types'
 import type { Argv } from 'yargs'
+import type { FuseListItem, PostFrontMatter } from '../../types'
+import type { ResolvedValaxyOptions } from '../types'
 import path from 'node:path'
 import { consola } from 'consola'
 import { colors } from 'consola/utils'

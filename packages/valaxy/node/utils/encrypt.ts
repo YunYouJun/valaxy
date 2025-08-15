@@ -4,7 +4,7 @@ import { webcrypto } from 'node:crypto'
  * @see https://developer.mozilla.org/zh-CN/docs/Web/API/SubtleCrypto/deriveKey#pbkdf2_2
  * @param password
  */
-export function getKeyMaterial(password: string) {
+function getKeyMaterial(password: string) {
   const enc = new TextEncoder()
   return webcrypto.subtle.importKey(
     'raw',
@@ -15,7 +15,7 @@ export function getKeyMaterial(password: string) {
   )
 }
 
-export function getKey(keyMaterial: CryptoKey, salt: Uint8Array) {
+function getCryptoDeriveKey(keyMaterial: CryptoKey, salt: Uint8Array) {
   return webcrypto.subtle.deriveKey(
     {
       name: 'PBKDF2',
@@ -44,7 +44,7 @@ export async function encryptContent(content: string, options: {
 }) {
   const { password, iv, salt } = options
   const keyMaterial = await getKeyMaterial(password)
-  const key = await getKey(keyMaterial, salt)
+  const key = await getCryptoDeriveKey(keyMaterial, salt)
 
   const enc = new TextEncoder()
   const ciphertextData = await webcrypto.subtle.encrypt(

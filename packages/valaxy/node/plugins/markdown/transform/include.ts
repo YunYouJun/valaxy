@@ -1,4 +1,4 @@
-import type { ResolvedValaxyOptions } from '../../../options'
+import type { ResolvedValaxyOptions } from '../../../types'
 import { slash } from '@antfu/utils'
 import path from 'pathe'
 import { processIncludes } from '../utils'

@@ -1,7 +1,6 @@
 import type { PluginOption, ViteDevServer } from 'vite'
 
-import type { ValaxyServerOptions } from '../options'
-import type { ValaxyNode } from '../types'
+import type { ValaxyNode, ValaxyServerOptions } from '../types'
 import VueI18n from '@intlify/unplugin-vue-i18n/vite'
 
 import UnheadVite from '@unhead/addons/vite'

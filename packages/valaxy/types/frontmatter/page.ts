@@ -1,5 +1,5 @@
 import type { ImageObject, NodeRelations } from '@unhead/schema-org'
-import type { CollectionConfig } from '../../client/define'
+import type { CollectionConfig } from '../../client/types'
 
 export interface Album {
   /**

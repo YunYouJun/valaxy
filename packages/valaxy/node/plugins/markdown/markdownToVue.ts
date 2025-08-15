@@ -1,6 +1,6 @@
 import type { ResolvedConfig } from 'vite'
 import type { PageData } from '../../../types'
-import type { ResolvedValaxyOptions } from '../../options'
+import type { ResolvedValaxyOptions } from '../../types'
 import _debug from 'debug'
 // copy from vitepress
 import { LRUCache } from 'lru-cache'

@@ -1,7 +1,5 @@
-import type {
-  Rollup,
-} from 'vite'
-import type { ResolvedValaxyOptions } from '../options'
+import type { Rollup } from 'vite'
+import type { ResolvedValaxyOptions } from '../types'
 import path from 'node:path'
 
 // ref vitepress

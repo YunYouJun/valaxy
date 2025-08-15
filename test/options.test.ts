@@ -1,8 +1,8 @@
 import { resolve } from 'pathe'
-import { resolveOptions } from 'valaxy'
 import { describe, expect, it } from 'vitest'
 import { defaultThemeConfig } from '../packages/valaxy-theme-yun'
 import themePkg from '../packages/valaxy-theme-yun/package.json'
+import { resolveOptions } from '../packages/valaxy/node'
 import { replaceArrMerge } from '../packages/valaxy/node/config/merge'
 import { fixtureFolder } from './shared'
 

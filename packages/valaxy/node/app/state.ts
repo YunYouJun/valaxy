@@ -1,4 +1,4 @@
-import type { Header } from '../../client'
+import type { Header } from '@valaxyjs/utils'
 
 export interface ValaxyFileInfo {
   /**

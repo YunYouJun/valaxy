@@ -1,4 +1,4 @@
-import type { ResolvedValaxyOptions } from '../options'
+import type { ResolvedValaxyOptions } from '../types'
 import process from 'node:process'
 
 // https://github.com/unjs/c12

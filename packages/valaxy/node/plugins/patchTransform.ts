@@ -1,5 +1,5 @@
 import type { Plugin } from 'vite'
-import type { ResolvedValaxyOptions } from '../options'
+import type { ResolvedValaxyOptions } from '../types'
 import { objectEntries } from '@antfu/utils'
 import { getDefine } from './extendConfig'
 

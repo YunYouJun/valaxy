@@ -1,5 +1,5 @@
 import type { Argv } from 'yargs'
-import type { ValaxyNode } from '..'
+import type { ValaxyNode } from '../types'
 
 export interface ValaxyModule {
   extendCli?: (cli: Argv) => void

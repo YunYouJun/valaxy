@@ -1,5 +1,5 @@
 import type { PluginOption } from 'vite'
-import type { ResolvedValaxyOptions } from '../options'
+import type { ResolvedValaxyOptions } from '../types'
 import { existsSync } from 'node:fs'
 import { join, resolve } from 'node:path'
 import { slash, uniq } from '@antfu/utils'

@@ -2,7 +2,7 @@ import type {
   ConfigBase,
 } from 'unocss'
 import type { VitePluginConfig as UnoCSSConfig, VitePluginConfig } from 'unocss/vite'
-import type { ResolvedValaxyOptions } from '../options'
+import type { ResolvedValaxyOptions } from '../types'
 import { resolve } from 'node:path'
 import defu from 'defu'
 

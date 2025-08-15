@@ -1,6 +1,5 @@
 import type { ValaxyAddon } from '../../types'
-import type { ResolvedValaxyOptions } from '../options'
-import type { ValaxyAddonResolver, ValaxyNodeConfig } from '../types'
+import type { ResolvedValaxyOptions, ValaxyAddonResolver, ValaxyNodeConfig } from '../types'
 import path from 'node:path'
 import fs from 'fs-extra'
 import { mergeValaxyConfig, resolveValaxyConfigFromRoot } from './valaxy'

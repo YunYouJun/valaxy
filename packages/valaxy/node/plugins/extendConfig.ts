@@ -1,5 +1,5 @@
 import type { Alias, AliasOptions, InlineConfig, Plugin } from 'vite'
-import type { ResolvedValaxyOptions } from '../options'
+import type { ResolvedValaxyOptions } from '../types'
 import { dirname, join, resolve } from 'node:path'
 import { uniq } from '@antfu/utils'
 import { mergeConfig, searchForWorkspaceRoot } from 'vite'
@@ -178,7 +178,6 @@ export async function getAlias(options: ResolvedValaxyOptions): Promise<AliasOpt
     { find: /^valaxy$/, replacement: toAtFS(resolve(options.clientRoot, 'index.ts')) },
     { find: '@valaxyjs/client/', replacement: `${toAtFS(options.clientRoot)}/` },
     // import theme
-    { find: 'virtual:valaxy-theme', replacement: `${toAtFS(options.themeRoot)}/client/index.ts` },
     { find: `valaxy-theme-${options.theme}/client`, replacement: `${toAtFS(resolve(options.themeRoot))}/client/index.ts` },
     { find: `valaxy-theme-${options.theme}/`, replacement: `${toAtFS(resolve(options.themeRoot))}/` },
     { find: `valaxy-theme-${options.theme}`, replacement: `${toAtFS(resolve(options.themeRoot))}/client/index.ts` },
