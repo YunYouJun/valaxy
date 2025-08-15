@@ -14,11 +14,13 @@ categories:
 
 以下是所有的扩展配置项与相关类型。
 
-> [packages/valaxy/node/type.ts](https://github.com/YunYouJun/valaxy/blob/main/packages/valaxy/node/types.ts)
+> [packages/valaxy/node/types/index.ts](https://github.com/YunYouJun/valaxy/blob/main/packages/valaxy/node/types/index.ts)
 
-::: details package/valaxy/node/types.ts ValaxyExtendConfig
+::: details package/valaxy/node/types/index.ts ValaxyExtendConfig
 
-<<< @/../packages/valaxy/node/types.ts#snippet{ts:line-numbers}
+<<< @/../packages/valaxy/node/types/index.ts#snippet{ts:line-numbers}
+
+<<< @/../packages/valaxy/node/types/config.ts#snippet{ts:line-numbers}
 
 :::
 

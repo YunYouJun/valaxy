@@ -76,4 +76,256 @@ declare module 'vue-router/auto-routes' {
     '/themes/use': RouteRecordInfo<'/themes/use', '/themes/use', Record<never, never>, Record<never, never>>,
     '/themes/write': RouteRecordInfo<'/themes/write', '/themes/write', Record<never, never>, Record<never, never>>,
   }
+
+  /**
+   * Route file to route info map by unplugin-vue-router.
+   * Used by the volar plugin to automatically type useRoute()
+   *
+   * Each key is a file path relative to the project root with 2 properties:
+   * - routes: union of route names of the possible routes when in this page (passed to useRoute<...>())
+   * - views: names of nested views (can be passed to <RouterView name="...">)
+   *
+   * @internal
+   */
+  export interface _RouteFileInfoMap {
+    'pages/index.md': {
+      routes: '/'
+      views: never
+    }
+    '../packages/valaxy-theme-press/pages/[...all].vue': {
+      routes: '/[...all]'
+      views: never
+    }
+    '../packages/valaxy/client/pages/[...path].vue': {
+      routes: '/[...path]'
+      views: never
+    }
+    'pages/addons/index.md': {
+      routes: '/addons/'
+      views: never
+    }
+    'pages/addons/gallery.md': {
+      routes: '/addons/gallery'
+      views: never
+    }
+    'pages/addons/use.md': {
+      routes: '/addons/use'
+      views: never
+    }
+    'pages/addons/why.md': {
+      routes: '/addons/why'
+      views: never
+    }
+    'pages/addons/write.md': {
+      routes: '/addons/write'
+      views: never
+    }
+    'pages/api/index.md': {
+      routes: '/api/'
+      views: never
+    }
+    'pages/dev/index.md': {
+      routes: '/dev/'
+      views: never
+    }
+    'pages/dev/docs.md': {
+      routes: '/dev/docs'
+      views: never
+    }
+    'pages/dev/faq.md': {
+      routes: '/dev/faq'
+      views: never
+    }
+    'pages/dev/logo.md': {
+      routes: '/dev/logo'
+      views: never
+    }
+    'pages/ecosystem/index.md': {
+      routes: '/ecosystem/'
+      views: never
+    }
+    'pages/ecosystem/client.md': {
+      routes: '/ecosystem/client'
+      views: never
+    }
+    'pages/ecosystem/community.md': {
+      routes: '/ecosystem/community'
+      views: never
+    }
+    'pages/ecosystem/news.md': {
+      routes: '/ecosystem/news'
+      views: never
+    }
+    'pages/ecosystem/vscode.md': {
+      routes: '/ecosystem/vscode'
+      views: never
+    }
+    'pages/examples/index.md': {
+      routes: '/examples/'
+      views: never
+    }
+    'pages/examples/code-height-limit.md': {
+      routes: '/examples/code-height-limit'
+      views: never
+    }
+    'pages/examples/katex.md': {
+      routes: '/examples/katex'
+      views: never
+    }
+    'pages/examples/mermaid.md': {
+      routes: '/examples/mermaid'
+      views: never
+    }
+    'pages/examples/partial-content-encryption.md': {
+      routes: '/examples/partial-content-encryption'
+      views: never
+    }
+    'pages/examples/site.md': {
+      routes: '/examples/site'
+      views: never
+    }
+    'pages/faq/index.md': {
+      routes: '/faq/'
+      views: never
+    }
+    'pages/guide/index.md': {
+      routes: '/guide/'
+      views: never
+    }
+    'pages/guide/best-pratice.md': {
+      routes: '/guide/best-pratice'
+      views: never
+    }
+    'pages/guide/built-ins/index.md': {
+      routes: '/guide/built-ins/'
+      views: never
+    }
+    'pages/guide/commands/index.md': {
+      routes: '/guide/commands/'
+      views: never
+    }
+    'pages/guide/config/index.md': {
+      routes: '/guide/config/'
+      views: never
+    }
+    'pages/guide/config/extend.md': {
+      routes: '/guide/config/extend'
+      views: never
+    }
+    'pages/guide/config/unocss-options.md': {
+      routes: '/guide/config/unocss-options'
+      views: never
+    }
+    'pages/guide/custom/components.md': {
+      routes: '/guide/custom/components'
+      views: never
+    }
+    'pages/guide/custom/extend.md': {
+      routes: '/guide/custom/extend'
+      views: never
+    }
+    'pages/guide/custom/hooks.md': {
+      routes: '/guide/custom/hooks'
+      views: never
+    }
+    'pages/guide/custom/styles.md': {
+      routes: '/guide/custom/styles'
+      views: never
+    }
+    'pages/guide/custom/templates.md': {
+      routes: '/guide/custom/templates'
+      views: never
+    }
+    'pages/guide/deploy.md': {
+      routes: '/guide/deploy'
+      views: never
+    }
+    'pages/guide/features.md': {
+      routes: '/guide/features'
+      views: never
+    }
+    'pages/guide/getting-started.md': {
+      routes: '/guide/getting-started'
+      views: never
+    }
+    'pages/guide/i18n.md': {
+      routes: '/guide/i18n'
+      views: never
+    }
+    'pages/guide/layout.md': {
+      routes: '/guide/layout'
+      views: never
+    }
+    'pages/guide/markdown.md': {
+      routes: '/guide/markdown'
+      views: never
+    }
+    'pages/guide/page.md': {
+      routes: '/guide/page'
+      views: never
+    }
+    'pages/guide/post.md': {
+      routes: '/guide/post'
+      views: never
+    }
+    'pages/guide/third-party/index.md': {
+      routes: '/guide/third-party/'
+      views: never
+    }
+    'pages/guide/third-party/comment-system.md': {
+      routes: '/guide/third-party/comment-system'
+      views: never
+    }
+    'pages/guide/third-party/schema-org.md': {
+      routes: '/guide/third-party/schema-org'
+      views: never
+    }
+    'pages/guide/third-party/vite-vue.md': {
+      routes: '/guide/third-party/vite-vue'
+      views: never
+    }
+    'pages/guide/why.md': {
+      routes: '/guide/why'
+      views: never
+    }
+    'pages/migration/index.md': {
+      routes: '/migration/'
+      views: never
+    }
+    'pages/migration/version.md': {
+      routes: '/migration/version'
+      views: never
+    }
+    'pages/posts/i18n.md': {
+      routes: '/posts/i18n'
+      views: never
+    }
+    'pages/themes/index.md': {
+      routes: '/themes/'
+      views: never
+    }
+    'pages/themes/gallery.md': {
+      routes: '/themes/gallery'
+      views: never
+    }
+    'pages/themes/use.md': {
+      routes: '/themes/use'
+      views: never
+    }
+    'pages/themes/write.md': {
+      routes: '/themes/write'
+      views: never
+    }
+  }
+
+  /**
+   * Get a union of possible route names in a certain route component file.
+   * Used by the volar plugin to automatically type useRoute()
+   *
+   * @internal
+   */
+  export type _RouteNamesForFilePath<FilePath extends string> =
+    _RouteFileInfoMap extends Record<FilePath, infer Info>
+      ? Info['routes']
+      : keyof RouteNamedMap
 }
