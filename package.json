@@ -11,7 +11,7 @@
     "url": "https://www.yunyoujun.cn"
   },
   "license": "MIT",
-  "repository": "https://github.com/YunYouJun/valaxy",
+  "repository": "git+https://github.com/YunYouJun/valaxy.git",
   "keywords": [
     "vite",
     "vue",
@@ -81,7 +81,7 @@
     "valaxy-theme-yun": "workspace:*"
   },
   "devDependencies": {
-    "@antfu/eslint-config": "^5.2.0",
+    "@antfu/eslint-config": "^5.2.1",
     "@iconify-json/logos": "catalog:build",
     "@iconify-json/vscode-icons": "catalog:build",
     "@microsoft/api-extractor": "^7.52.10",
@@ -91,9 +91,9 @@
     "@types/markdown-it-attrs": "^4.1.3",
     "@types/markdown-it-container": "^2.0.10",
     "@types/markdown-it-emoji": "^3.0.1",
-    "@types/node": "^24.2.1",
+    "@types/node": "^24.3.0",
     "@types/prompts": "^2.4.9",
-    "bumpp": "^10.2.2",
+    "bumpp": "^10.2.3",
     "cross-env": "^10.0.0",
     "eslint": "^9.33.0",
     "https-localhost": "^4.7.1",
@@ -106,7 +106,7 @@
     "stylelint-config-recommended-vue": "^1.6.1",
     "stylelint-config-standard-scss": "^15.0.1",
     "tsup": "^8.5.0",
-    "tsx": "^4.20.3",
+    "tsx": "^4.20.4",
     "typescript": "catalog:build",
     "unbuild": "catalog:build",
     "vite-node": "^3.2.4",

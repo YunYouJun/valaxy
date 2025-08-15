@@ -7,10 +7,11 @@
     "name": "YunYouJun",
     "url": "https://www.yunyoujun.cn"
   },
+  "license": "MIT",
   "homepage": "https://yun.valaxy.site",
   "repository": {
     "type": "git",
-    "url": "https://github.com/YunYouJun/valaxy/tree/main/packages/valaxy-theme-yun"
+    "url": "git+https://github.com/YunYouJun/valaxy/tree/main/packages/valaxy-theme-yun.git"
   },
   "exports": {
     "./client": "./client/index.ts",
@@ -29,7 +30,7 @@
     "@iconify-json/ant-design": "catalog:build",
     "@iconify-json/simple-icons": "catalog:build",
     "@vueuse/motion": "^3.0.3",
-    "animejs": "^4.1.2",
+    "animejs": "^4.1.3",
     "gsap": "^3.13.0",
     "primevue": "catalog:frontend"
   },
