@@ -1,12 +1,11 @@
 .vitepress/cache
 
+# valaxy temp files
+.valaxy
+
 # valaxy rss
 public/atom.xml
-
-# valaxy rss
 public/feed.xml
-
-# valaxy rss
 public/feed.json
 
 # api docs
