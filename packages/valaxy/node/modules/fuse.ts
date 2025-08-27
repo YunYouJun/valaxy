@@ -21,7 +21,7 @@ import { setEnvProd } from '../utils/env'
 export async function generateFuseList(options: ResolvedValaxyOptions) {
   consola.start(`Generate List for Fuse Search by (${colors.cyan('fuse.js')}) ...`)
   // generate
-  const pattern = options.config.siteConfig.fuse.pattern || path.join(options.userRoot, 'pages/**/*.md')
+  const pattern = path.resolve(options.userRoot, options.config.siteConfig.fuse.pattern || 'pages/**/*.md')
   const files = await fg(pattern)
 
   const posts: FuseListItem[] = []
@@ -45,7 +45,7 @@ export async function generateFuseList(options: ResolvedValaxyOptions) {
     const extendKeys = options.config.fuse?.extendKeys || []
 
     // adapt for nested folders, like /posts/2021/01/01/index.md
-    const relativeLink = i.replace(`${options.userRoot}/pages`, '')
+    const relativeLink = path.relative(path.resolve(options.userRoot, 'pages'), i)
     const link = i.endsWith('index.md')
       ? relativeLink.replace(/\/index\.md$/, '')
       : relativeLink.replace(/\.md$/, '')

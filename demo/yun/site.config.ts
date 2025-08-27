@@ -108,6 +108,9 @@ export default defineSiteConfig({
     options: {
       keys: ['title', 'tags', 'categories', 'excerpt', 'content'],
     },
+
+    // custom pattern
+    // pattern: 'pages\/posts\/**\/*.md',
   },
 
   comment: {
