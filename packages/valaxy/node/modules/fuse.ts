@@ -45,7 +45,7 @@ export async function generateFuseList(options: ResolvedValaxyOptions) {
     const extendKeys = options.config.fuse?.extendKeys || []
 
     // adapt for nested folders, like /posts/2021/01/01/index.md
-    const relativeLink = path.relative(path.resolve(options.userRoot, 'pages'), i)
+    const relativeLink = path.resolve(options.config.vite?.base || '/', path.relative(path.resolve(options.userRoot, 'pages'), i))
     const link = i.endsWith('index.md')
       ? relativeLink.replace(/\/index\.md$/, '')
       : relativeLink.replace(/\.md$/, '')
