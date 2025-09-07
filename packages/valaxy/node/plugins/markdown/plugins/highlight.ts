@@ -59,8 +59,8 @@ export async function highlight(
   options: MarkdownOptions,
   logger: Pick<Logger, 'warn'> = console,
 ): Promise<
-    [(str: string, lang: string, attrs: string) => Promise<string>, () => void]
-  > {
+  [(str: string, lang: string, attrs: string) => Promise<string>, () => void]
+> {
   const {
     defaultHighlightLang: defaultLang = 'txt',
     codeTransformers: userTransformers = [],

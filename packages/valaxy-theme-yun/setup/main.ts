@@ -6,9 +6,6 @@ import { defineAppSetup } from 'valaxy'
 import { useYunAppStore } from '../stores'
 
 import primeStyles from '../styles/primevue'
-
-import 'valaxy/client/styles/common/index.scss'
-import '../styles/global.scss'
 import '../styles/primevue/tooltip.scss'
 
 export default defineAppSetup((ctx) => {

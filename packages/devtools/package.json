@@ -34,20 +34,20 @@
     "release": "bumpp && pnpm publish"
   },
   "dependencies": {
-    "@rollup/pluginutils": "^5.2.0",
+    "@rollup/pluginutils": "^5.3.0",
     "axios": "^1.11.0",
     "body-parser": "^2.2.0",
     "cors": "^2.8.5",
     "http-proxy-middleware": "^3.0.5",
     "js-yaml": "^4.1.0",
     "pathe": "^2.0.3",
-    "sirv": "^3.0.1",
+    "sirv": "^3.0.2",
     "vite-dev-rpc": "^1.1.0"
   },
   "devDependencies": {
     "@advjs/gui": "0.0.7-beta.7",
     "@iconify-json/ri": "catalog:build",
-    "@intlify/unplugin-vue-i18n": "^6.0.8",
+    "@intlify/unplugin-vue-i18n": "catalog:build",
     "@primevue/themes": "catalog:frontend",
     "@types/body-parser": "^1.19.6",
     "@types/splitpanes": "^2.2.6",

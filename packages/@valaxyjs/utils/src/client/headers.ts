@@ -81,9 +81,9 @@ export function resolveHeaders(
   range: GetHeadersOptions['range'] = [2, 4],
 ) {
   const levelsRange
-  = (typeof range === 'object' && !Array.isArray(range)
-    ? range.level
-    : range) || 2
+    = (typeof range === 'object' && !Array.isArray(range)
+      ? range.level
+      : range) || 2
 
   const [high, low]: [number, number]
     = typeof levelsRange === 'number'

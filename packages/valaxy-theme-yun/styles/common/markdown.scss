@@ -1,7 +1,10 @@
 @use "valaxy/client/styles/mixins/index.scss" as *;
 
 .markdown-body {
-  --smc-font-family: var(--va-font-sans);
+  --smc-font-sans: var(--va-font-sans);
+  --smc-font-serif: var(--va-font-serif);
+  --smc-font-mono: var(--va-font-mono);
+
   --c-toc-link: var(--va-c-text-light);
 }
 

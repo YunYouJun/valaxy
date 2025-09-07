@@ -111,6 +111,7 @@ export interface ValaxyExtendConfig {
      * enable katex for global
      * @see [Example | Valaxy](https://valaxy.site/examples/katex)
      * @see https://katex.org/
+     * @default true
      */
     katex: boolean
   }
