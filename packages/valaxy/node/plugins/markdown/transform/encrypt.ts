@@ -22,7 +22,7 @@ export function createTransformEncrypt(options: ResolvedValaxyOptions) {
       }) {
         return [
           '<ClientOnly>',
-          `<ValaxyDecrypt :encrypted-content="${options.encryptedContent}" hint="${options.hint}" />`,
+          `<ValaxyDecrypt :encrypted-content="${options.encryptedContent}" hint="${options.hint || ''}" />`,
           '</ClientOnly>',
         ].join('')
       }

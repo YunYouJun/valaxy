@@ -2,10 +2,12 @@
 import { runContentUpdated, useDecrypt, useFrontmatter } from 'valaxy'
 import { computed, defineComponent, h, ref } from 'vue'
 
-const props = defineProps<{
+const props = withDefaults(defineProps<{
   encryptedContent: string
   hint?: string
-}>()
+}>(), {
+  hint: '',
+})
 
 const password = ref('')
 const decryptedContent = ref('')
