@@ -25,7 +25,7 @@
     "release": "bumpp && pnpm publish"
   },
   "dependencies": {
-    "@ctrl/tinycolor": "^4.1.0",
+    "@ctrl/tinycolor": "^4.2.0",
     "@explosions/fireworks": "^0.2.0",
     "@iconify-json/ant-design": "catalog:build",
     "@iconify-json/simple-icons": "catalog:build",
