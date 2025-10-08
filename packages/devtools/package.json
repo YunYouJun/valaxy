@@ -51,7 +51,7 @@
     "@primevue/themes": "catalog:frontend",
     "@types/body-parser": "^1.19.6",
     "@types/splitpanes": "^2.2.6",
-    "@types/wicg-file-system-access": "^2023.10.6",
+    "@types/wicg-file-system-access": "^2023.10.7",
     "gray-matter": "^4.0.3",
     "primevue": "catalog:frontend",
     "splitpanes": "^4.0.4",

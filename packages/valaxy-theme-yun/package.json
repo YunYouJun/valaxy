@@ -30,7 +30,7 @@
     "@iconify-json/ant-design": "catalog:build",
     "@iconify-json/simple-icons": "catalog:build",
     "@vueuse/motion": "^3.0.3",
-    "animejs": "^4.1.3",
+    "animejs": "^4.2.2",
     "gsap": "^3.13.0",
     "primevue": "catalog:frontend"
   },

@@ -99,3 +99,29 @@ layout: collection
 - `useCollection` API 获取单个合集（根据路径判断当前合集 ID）。
 
 <<< @/../packages/valaxy-theme-yun/layouts/collections.vue
+
+## FAQ
+
+### 子页面发生了多层布局嵌套 {lang="zh-CN"}
+
+### Child pages with multiple layout nesting {lang="en"}
+
+::: zh-CN
+
+Unplugin Vue Router 的页面会自动嵌套父级布局，请参考 [Nested Routes｜Unplugin Vue Router](https://uvr.esm.is/guide/file-based-routing#nested-routes)。
+
+例如将：
+
+`pages/users/create.vue` 修改为 `pages/users.create.vue`。
+
+:::
+
+::: en
+
+Unplugin Vue Router pages will automatically nest parent layouts, please refer to [Nested Routes｜Unplugin Vue Router](https://uvr.esm.is/guide/file-based-routing#nested-routes).
+
+For example, change:
+
+`pages/users/create.vue` to `pages/users.create.vue`.
+
+:::

@@ -15,7 +15,7 @@ function getKeyMaterial(password: string) {
   )
 }
 
-function getCryptoDeriveKey(keyMaterial: CryptoKey, salt: Uint8Array) {
+function getCryptoDeriveKey(keyMaterial: CryptoKey | webcrypto.CryptoKey, salt: Uint8Array) {
   return webcrypto.subtle.deriveKey(
     {
       name: 'PBKDF2',
