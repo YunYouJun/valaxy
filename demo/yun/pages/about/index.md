@@ -37,8 +37,4 @@ Valaxy 的默认启动端口号截取自其中小数点后第二位开始的 <sp
 
 ❤️ 感谢以下赞助者们的支持！
 
-<p align="center">
-  <a href="https://www.yunyoujun.cn/sponsors/">
-    <img src='https://www.yunyoujun.cn/sponsors//sponsors.svg'/>
-  </a>
-</p>
+<ValaxySponsors />
