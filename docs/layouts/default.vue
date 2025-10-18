@@ -16,7 +16,7 @@ const { t } = useI18n()
                 {{ t('post.contributors') }}
               </span>
             </h2>
-            <GitLogContributor />
+            <GitLogContributor class="not-prose" />
           </div>
         </template>
       </component>
