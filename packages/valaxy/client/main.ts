@@ -3,7 +3,7 @@ import { dataSymbol, initValaxyConfig, valaxyConfigSymbol } from 'valaxy'
 import { setupLayouts } from 'virtual:generated-layouts'
 import { ViteSSG } from 'vite-ssg'
 
-import { routes } from 'vue-router/auto-routes'
+import { routes as autoRoutes } from 'vue-router/auto-routes'
 // import App from '/@valaxyjs/App.vue'
 import App from './App.vue'
 
@@ -20,13 +20,15 @@ import 'uno.css'
 
 const valaxyConfig = initValaxyConfig()
 
+const routes = [...autoRoutes]
+
 const { redirectRoutes, useVueRouter } = valaxyConfig.value.runtimeConfig.redirects
 if (useVueRouter)
   routes.push(...redirectRoutes)
 
 // fix chinese path
 routes.forEach((i) => {
-  i?.children?.forEach((j) => {
+  i?.children?.forEach((j: { path: string }) => {
     j.path = encodeURI(j.path)
   })
 })

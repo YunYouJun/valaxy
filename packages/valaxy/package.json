@@ -105,7 +105,7 @@
     "jiti": "^2.6.1",
     "js-base64": "^3.7.8",
     "js-yaml": "^4.1.0",
-    "katex": "^0.16.23",
+    "katex": "^0.16.25",
     "lru-cache": "^11.2.2",
     "markdown-it": "^14.1.0",
     "markdown-it-anchor": "^9.2.0",
@@ -133,21 +133,21 @@
     "star-markdown-css": "^0.5.3",
     "table": "^6.9.0",
     "unhead": "catalog:build",
-    "unocss": "^66.5.2",
+    "unocss": "^66.5.4",
     "unplugin-vue-components": "28.0.0",
     "unplugin-vue-markdown": "^29.2.0",
     "unplugin-vue-router": "catalog:build",
     "vanilla-lazyload": "^19.1.3",
     "vite": "catalog:build",
     "vite-dev-rpc": "^1.1.0",
-    "vite-plugin-vue-devtools": "^8.0.2",
+    "vite-plugin-vue-devtools": "^8.0.3",
     "vite-plugin-vue-layouts": "^0.11.0",
     "vite-ssg": "^28.2.1",
     "vite-ssg-sitemap": "^0.10.0",
-    "vitepress-plugin-group-icons": "^1.6.3",
+    "vitepress-plugin-group-icons": "^1.6.4",
     "vue": "catalog:frontend",
     "vue-i18n": "catalog:build",
-    "vue-router": "^4.5.1",
+    "vue-router": "^4.6.3",
     "yargs": "^18.0.0"
   },
   "devDependencies": {
@@ -173,10 +173,7 @@
     "diacritics": "^1.3.0",
     "gh-pages": "^6.3.0",
     "https-localhost": "^4.7.1",
-    "rollup-plugin-visualizer": "^6.0.4",
+    "rollup-plugin-visualizer": "^6.0.5",
     "unbuild": "catalog:build"
-  },
-  "resolutions": {
-    "vite": "catalog:build"
   }
 }

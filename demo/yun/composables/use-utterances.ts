@@ -1,11 +1,19 @@
 import { useAppStore } from 'valaxy'
-import { onMounted, ref, watch } from 'vue'
+import { nextTick, onMounted, ref, watch } from 'vue'
+import { useRoute } from 'vue-router'
+
+const utterancesClientSrc = 'https://utteranc.es/client.js'
 
 /**
  * @see https://utteranc.es/
  */
-export function useUtterances() {
+export function useUtterances(options: {
+  repo: string
+  issueTerm: 'pathname' | 'title'
+  label: string
+}) {
   const app = useAppStore()
+  const route = useRoute()
 
   const utterScriptRef = ref<HTMLScriptElement>()
   /**
@@ -13,15 +21,19 @@ export function useUtterances() {
    * @see https://utteranc.es/
    */
   function createUtterancesScript() {
+    if (utterScriptRef.value) {
+      utterScriptRef.value.remove()
+    }
+
     utterScriptRef.value = document.createElement('script')
 
-    utterScriptRef.value.src = 'https://utteranc.es/client.js'
+    utterScriptRef.value.src = utterancesClientSrc
     utterScriptRef.value.async = true
     utterScriptRef.value.crossOrigin = 'anonymous'
 
-    utterScriptRef.value.setAttribute('repo', 'YunYouJun/valaxy')
-    utterScriptRef.value.setAttribute('issue-term', 'pathname')
-    utterScriptRef.value.setAttribute('label', 'utterances')
+    utterScriptRef.value.setAttribute('repo', options.repo)
+    utterScriptRef.value.setAttribute('issue-term', options.issueTerm)
+    utterScriptRef.value.setAttribute('label', options.label)
 
     utterScriptRef.value.setAttribute('theme', app.isDark ? 'github-dark' : 'github-light')
 
@@ -41,6 +53,15 @@ export function useUtterances() {
   watch(() => app.isDark, () => {
     createUtterancesScript()
   })
+
+  watch(
+    () => route.path,
+    () => {
+      nextTick(() => {
+        createUtterancesScript()
+      })
+    },
+  )
 
   onMounted(() => {
     createUtterancesScript()

@@ -5,6 +5,7 @@ import type { Post } from '../types'
 import './shims.d'
 
 export * from '../dist/types/index.mjs'
+export * from './index'
 
 declare module '@docsearch/js' {
   function docsearch<T = any>(props: T): void

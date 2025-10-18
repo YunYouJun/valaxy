@@ -56,32 +56,6 @@ export default defineValaxyConfig({
 
 在博客根目录下新建 `App.vue`，添加挂载脚本:
 
-```vue
-<script lang="ts" setup>
-// do script
-import { onMounted } from 'vue'
+<<< @/../demo/yun/App.vue
 
-onMounted(() => {
-  const utterScript = document.createElement('script')
-
-  utterScript.src = 'https://utteranc.es/client.js'
-  utterScript.async = true
-  utterScript.crossOrigin = 'anonymous'
-
-  utterScript.setAttribute('repo', 'YunYouJun/valaxy')
-  utterScript.setAttribute('issue-term', 'pathname')
-  utterScript.setAttribute('label', 'utterances')
-  utterScript.setAttribute('theme', 'github-light')
-
-  // 挂载至 .comment，你也可以通过修改 selector 挂载至其他地方
-  const commentContainer = document.querySelector('.comment')
-  if (commentContainer)
-    commentContainer.appendChild(utterScript)
-})
-</script>
-
-<template>
-  <!-- try it -->
-  <div />
-</template>
-```
+<<< @/../demo/yun/composables/use-utterances.ts

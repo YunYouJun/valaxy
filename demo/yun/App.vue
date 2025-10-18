@@ -3,7 +3,14 @@
 <script lang="ts" setup>
 import { useUtterances } from './composables/use-utterances'
 
-useUtterances()
+useUtterances({
+  /**
+   * use your repo
+   */
+  repo: 'YunYouJun/valaxy',
+  issueTerm: 'pathname',
+  label: 'utterances',
+})
 </script>
 
 <template>
