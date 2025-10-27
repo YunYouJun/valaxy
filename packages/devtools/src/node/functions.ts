@@ -48,8 +48,8 @@ export function getFunctions(server: ViteDevServer, devtoolsOptions: ValaxyDevto
       return {
         // sort by updated
         posts: posts.sort((a, b) => {
-          const bDateValue = dayjs(b.frontmatter.date).valueOf()
-          const aDateValue = dayjs(a.frontmatter.date).valueOf()
+          const bDateValue = dayjs(b.frontmatter.updated || b.frontmatter.date).valueOf()
+          const aDateValue = dayjs(a.frontmatter.updated || a.frontmatter.date).valueOf()
           return bDateValue - aDateValue
         }),
         root: userRoot,

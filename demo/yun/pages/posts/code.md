@@ -4,6 +4,7 @@ title:
   zh-CN: 代码块测试
 categories:
   - $locale:category.test
+updated: 2024-07-10T00:00:00.000Z
 ---
 
 ```dockerfile [Sample.dockerfile]

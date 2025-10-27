@@ -6,6 +6,7 @@ categories:
   - $locale:category.test
   - Markdown
 excerpt_type: html
+updated: 2024-06-11T00:00:00.000Z
 ---
 
 ::: tip

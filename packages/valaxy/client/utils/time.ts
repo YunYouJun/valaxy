@@ -34,8 +34,8 @@ export function formatDate(date?: string | number | Date, options: {
  */
 export function sortByDate(posts: Post[], desc = true) {
   return posts.sort((a, b) => {
-    const aDate = +new Date(a.date || '')
-    const bDate = +new Date(b.date || '')
+    const aDate = +new Date(a.updated || a.date || '')
+    const bDate = +new Date(b.updated || b.date || '')
     if (desc)
       return bDate - aDate
     else
