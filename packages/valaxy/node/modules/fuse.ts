@@ -22,7 +22,14 @@ export async function generateFuseList(options: ResolvedValaxyOptions) {
   consola.start(`Generate List for Fuse Search by (${colors.cyan('fuse.js')}) ...`)
   // generate
   const pattern = path.resolve(options.userRoot, options.config.siteConfig.fuse.pattern || 'pages/**/*.md')
-  const files = await fg(pattern)
+  // adapt for windows path
+  const files = await fg(fg.convertPathToPattern(pattern))
+  if (files.length > 0) {
+    consola.success(`Found ${colors.dim(files.length.toString())} markdown files for fuse search.`)
+  }
+  else {
+    consola.warn(`No markdown files found for fuse search. Please check your fuse pattern: ${colors.dim(pattern)}`)
+  }
 
   const posts: FuseListItem[] = []
   for await (const i of files) {
