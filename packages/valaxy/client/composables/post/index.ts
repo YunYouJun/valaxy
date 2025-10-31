@@ -1,9 +1,10 @@
 import type { Post } from 'valaxy'
 import type { ComputedRef } from 'vue'
+import { orderByMeta, useSiteConfig } from 'valaxy'
 import { computed } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { useRouterStore } from '../../stores'
-import { sortByDate, tObject } from '../../utils'
+import { tObject } from '../../utils'
 
 export * from './usePagination'
 export * from './usePrevNext'
@@ -43,6 +44,7 @@ export function usePageList() {
 export function usePostList(params: {
   type?: string
 } = {}) {
+  const siteConfig = useSiteConfig()
   const pageList = usePageList()
   return computed(() => {
     const routes = pageList.value
@@ -54,11 +56,16 @@ export function usePostList(params: {
         && (!i.hide || i.hide === 'index'), // hide `hide: all` posts
       )
 
+    function sortBySiteConfigOrderBy(posts: Post[]) {
+      const orderBy = siteConfig.value.orderBy
+      return orderByMeta(posts, orderBy)
+    }
+
     /**
      * 置顶
      */
-    const topPosts = sortByDate(routes.filter(i => i.top)).sort((a, b) => b.top! - a.top!)
-    const otherPosts = sortByDate(routes.filter(i => !i.top))
+    const topPosts = sortBySiteConfigOrderBy(routes.filter(i => i.top)).sort((a, b) => b.top! - a.top!)
+    const otherPosts = sortBySiteConfigOrderBy(routes.filter(i => !i.top))
 
     return topPosts.concat(otherPosts)
   })

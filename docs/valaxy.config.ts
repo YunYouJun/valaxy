@@ -35,6 +35,8 @@ export default defineValaxyConfig<PressTheme.Config>({
     mediumZoom: {
       enable: true,
     },
+
+    lastUpdated: true,
   },
 
   addons: [

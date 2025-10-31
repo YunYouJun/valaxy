@@ -226,6 +226,40 @@ export default defineSiteConfig({
 })
 ```
 
+### 文章排序 {lang="zh-CN"}
+
+### Post Sorting {lang="en"}
+
+::: zh-CN
+
+设置 `siteConfig.orderBy` 可控制文章列表的排序方式。
+
+- `date`: 按照文章的日期排序（默认）
+- `updated`: 按照文章的最后更新时间排序
+
+当 `lastUpdated` 开启时，将会为未设置 `updated` 的文章自动注入文件的最后更新时间。
+
+:::
+
+::: en
+
+Set `siteConfig.orderBy` to control the sorting method of the article list.
+
+- `date`: Sort by the date of the article (default)
+- `updated`: Sort by the last update time of the article
+
+When `lastUpdated` is enabled, the last update time of the file will be automatically injected for articles that do not have `updated` set.
+
+:::
+
+```ts [site.config.ts]
+import { defineSiteConfig } from 'valaxy'
+
+export default defineSiteConfig({
+  orderBy: 'updated',
+})
+```
+
 ### Default Frontmatter
 
 ::: zh-CN
@@ -235,7 +269,7 @@ export default defineSiteConfig({
 
 > 设置 `time_warning: false`，则所有文章都不会显示阅读时间警告。
 
-```ts {8-10} [site.config.ts]
+```ts {7-9} [site.config.ts]
 import { defineSiteConfig } from 'valaxy'
 
 export default defineSiteConfig({

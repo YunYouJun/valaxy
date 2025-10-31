@@ -126,7 +126,20 @@ export interface SiteConfig {
   }
 
   /**
+   * order posts by 'date' or 'updated'
+   *
+   * - date: 按创建时间排序
+   * - updated: 按最后更新时间排序
+   *
+   * 当开启 `lastUpdated` 时，`updated` 会按照文件的更新时间自动赋值
+   *
+   * @default 'date'
+   */
+  orderBy: 'date' | 'updated'
+
+  /**
    * show last updated time by git/mtime
+   * @default false
    */
   lastUpdated: boolean
 

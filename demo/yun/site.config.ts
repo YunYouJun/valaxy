@@ -18,6 +18,9 @@ export default defineSiteConfig({
     name: $t('siteConfig.author.name'),
   },
   description: $t('siteConfig.description'),
+
+  orderBy: 'date',
+
   social: [
     {
       name: 'RSS',

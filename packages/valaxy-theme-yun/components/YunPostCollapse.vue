@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import type { Post } from 'valaxy'
-import { formatDate, sortByDate } from 'valaxy'
+import { formatDate, orderByMeta, useSiteConfig } from 'valaxy'
 import { computed, ref, watch } from 'vue'
 import { useI18n } from 'vue-i18n'
 
@@ -12,6 +12,8 @@ const { t } = useI18n()
 
 const years = ref<number[]>([])
 const postListByYear = ref<Record<string, Post[]>>({})
+
+const siteConfig = useSiteConfig()
 
 watch(() => props.posts, () => {
   postListByYear.value = {}
@@ -66,7 +68,7 @@ const sortedYears = computed(() => {
       </div>
 
       <YunPostCollapseItem
-        v-for="post, j in sortByDate(postListByYear[year], isDesc)"
+        v-for="post, j in orderByMeta(postListByYear[year], siteConfig.orderBy, isDesc)"
         :key="j"
         :post="post"
         :i="j"

@@ -33,9 +33,21 @@ export function formatDate(date?: string | number | Date, options: {
  * @param desc
  */
 export function sortByDate(posts: Post[], desc = true) {
+  return orderByMeta(posts, 'date', desc)
+}
+
+export function sortByUpdated(posts: Post[], desc = true) {
+  return orderByMeta(posts, 'updated', desc)
+}
+
+/**
+ * sort posts by date
+ * @param posts
+ */
+export function orderByMeta(posts: Post[], orderBy: 'date' | 'updated' = 'date', desc = true) {
   return posts.sort((a, b) => {
-    const aDate = +new Date(a.updated || a.date || '')
-    const bDate = +new Date(b.updated || b.date || '')
+    const aDate = +new Date(a[orderBy] || a.date || '')
+    const bDate = +new Date(b[orderBy] || a.date || '')
     if (desc)
       return bDate - aDate
     else

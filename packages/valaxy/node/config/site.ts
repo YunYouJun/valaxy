@@ -32,7 +32,8 @@ export const defaultSiteConfig: SiteConfig = {
   },
   social: [],
 
-  lastUpdated: true,
+  orderBy: 'date',
+  lastUpdated: false,
 
   license: {
     enabled: true,

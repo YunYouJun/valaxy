@@ -11,9 +11,9 @@ catalogs:
   build:
     '@iconify-json/ant-design': ^1.2.5
     '@iconify-json/carbon': ^1.2.14
-    '@iconify-json/logos': ^1.2.9
+    '@iconify-json/logos': ^1.2.10
     '@iconify-json/ri': ^1.2.6
-    '@iconify-json/simple-icons': ^1.2.55
+    '@iconify-json/simple-icons': ^1.2.56
     '@iconify-json/vscode-icons': ^1.2.33
     '@intlify/unplugin-vue-i18n': ^11.0.1
     '@unhead/addons': ^2.0.19
@@ -23,7 +23,7 @@ catalogs:
     typescript: ^5.9.3
     unbuild: ^3.6.1
     unhead: ^2.0.19
-    unplugin-vue-router: ^0.16.0
+    unplugin-vue-router: ^0.16.1
     vite: ^7.1.12
     vue-i18n: ^11.1.12
     zx: ^8.8.5
