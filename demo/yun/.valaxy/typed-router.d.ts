@@ -373,6 +373,13 @@ declare module 'vue-router/auto-routes' {
       Record<never, never>,
       | never
     >,
+    '/posts/code-icon': RouteRecordInfo<
+      '/posts/code-icon',
+      '/posts/code-icon',
+      Record<never, never>,
+      Record<never, never>,
+      | never
+    >,
     '/posts/date': RouteRecordInfo<
       '/posts/date',
       '/posts/date',
@@ -991,6 +998,12 @@ declare module 'vue-router/auto-routes' {
     'pages/posts/code.md': {
       routes:
         | '/posts/code'
+      views:
+        | never
+    }
+    'pages/posts/code-icon.md': {
+      routes:
+        | '/posts/code-icon'
       views:
         | never
     }
