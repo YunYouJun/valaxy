@@ -120,8 +120,13 @@ export default defineValaxyConfig<ThemeConfig>({
   groupIcons: {
     customIcon: {
       // valaxy: 'https://valaxy.site/favicon.svg',
-      valaxy: localIconLoader(import.meta.url, '../../docs/public/favicon.svg'),
-      dockerfile: 'vscode-icons:file-type-docker',
+      'valaxy': localIconLoader(import.meta.url, '../../docs/public/favicon.svg'),
+      'valaxy.config': localIconLoader(import.meta.url, '../../docs/public/favicon.svg'),
+      'dockerfile': 'vscode-icons:file-type-docker',
+      'java': 'vscode-icons:file-type-java',
+      'xml': 'vscode-icons:file-type-xml',
+      'yml': 'vscode-icons:file-type-yaml',
+      'ahk': 'vscode-icons:file-type-autohotkey',
     },
   },
 })

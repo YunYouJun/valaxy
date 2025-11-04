@@ -39,7 +39,6 @@ import Katex from './plugins/markdown-it/katex'
 import { lineNumberPlugin } from './plugins/markdown-it/lineNumbers'
 import { preWrapperPlugin } from './plugins/markdown-it/preWrapper'
 import { snippetPlugin } from './plugins/markdown-it/snippet'
-import { titleCollectorPlugin } from './plugins/markdown-it/titleCollector'
 
 export const defaultCodeTheme = { light: 'github-light', dark: 'github-dark' } as const as ThemeOptions
 
@@ -60,7 +59,6 @@ export async function setupMarkdownPlugins(
   md.use(highlightLinePlugin)
     .use(preWrapperPlugin, { theme, siteConfig })
     .use(snippetPlugin, options?.userRoot)
-    .use(titleCollectorPlugin)
     .use(containerPlugin, {
       languages: siteConfig.languages,
       ...mdOptions?.container,
