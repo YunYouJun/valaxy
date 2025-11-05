@@ -13,7 +13,7 @@ catalogs:
     '@iconify-json/carbon': ^1.2.14
     '@iconify-json/logos': ^1.2.10
     '@iconify-json/ri': ^1.2.6
-    '@iconify-json/simple-icons': ^1.2.56
+    '@iconify-json/simple-icons': ^1.2.57
     '@iconify-json/vscode-icons': ^1.2.33
     '@intlify/unplugin-vue-i18n': ^11.0.1
     '@unhead/addons': ^2.0.19
@@ -24,7 +24,7 @@ catalogs:
     unbuild: ^3.6.1
     unhead: ^2.0.19
     unplugin-vue-router: ^0.16.1
-    vite: ^7.1.12
+    vite: ^7.2.0
     vue-i18n: ^11.1.12
     zx: ^8.8.5
   frontend:
