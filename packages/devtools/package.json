@@ -45,7 +45,6 @@
     "vite-dev-rpc": "^1.1.0"
   },
   "devDependencies": {
-    "@advjs/gui": "0.0.7-beta.7",
     "@iconify-json/ri": "catalog:build",
     "@intlify/unplugin-vue-i18n": "catalog:build",
     "@primevue/themes": "catalog:frontend",

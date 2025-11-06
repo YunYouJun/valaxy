@@ -1,5 +1,4 @@
 import path from 'node:path'
-import { componentsDir } from '@advjs/gui/node'
 
 import VueI18n from '@intlify/unplugin-vue-i18n/vite'
 import Vue from '@vitejs/plugin-vue'
@@ -80,7 +79,6 @@ export default defineConfig(() => {
         include: [/\.vue$/, /\.md$/],
       }),
       VueComponents({
-        dirs: ['components', componentsDir],
         dts: path.join(__dirname, 'components.d.ts'),
       }),
       Unocss(unoConfig),

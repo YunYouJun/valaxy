@@ -44,9 +44,6 @@ export async function ViteValaxyPlugins(
   //   const devtoolsDir = path.dirname(await resolveImportPath('@valaxyjs/devtools/package.json'))
   //   const devtoolsComponentsDir = path.resolve(devtoolsDir, 'src/client/components')
   //   componentsDirs.push(devtoolsComponentsDir)
-
-  //   const { componentsDir } = await import('@advjs/gui/node')
-  //   componentsDirs.push(componentsDir)
   // }
 
   const vuePlugin = await import('@vitejs/plugin-vue').then(r =>
