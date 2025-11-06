@@ -1,6 +1,7 @@
 import type { Argv } from 'yargs'
 import type { FuseListItem, PostFrontMatter } from '../../types'
 import type { ResolvedValaxyOptions } from '../types'
+import os from 'node:os'
 import path from 'node:path'
 import { consola } from 'consola'
 import { colors } from 'consola/utils'
@@ -14,6 +15,8 @@ import { resolveOptions } from '../options'
 import { matterOptions } from '../plugins/markdown/transform/matter'
 import { setEnvProd } from '../utils/env'
 
+export const isWindows = os.platform() === 'win32'
+
 /**
  * @description Generate Fuse List Data for Search
  * @param options
@@ -23,12 +26,13 @@ export async function generateFuseList(options: ResolvedValaxyOptions) {
   // generate
   const pattern = path.resolve(options.userRoot, options.config.siteConfig.fuse.pattern || 'pages/**/*.md')
   // adapt for windows path
-  const files = await fg(fg.convertPathToPattern(pattern))
+  const finalPattern = isWindows ? fg.convertPathToPattern(pattern) : pattern
+  const files = await fg(finalPattern)
   if (files.length > 0) {
     consola.success(`Found ${colors.dim(files.length.toString())} markdown files for fuse search.`)
   }
   else {
-    consola.warn(`No markdown files found for fuse search. Please check your fuse pattern: ${colors.dim(pattern)}`)
+    consola.warn(`No markdown files found for fuse search. Please check your fuse pattern: ${colors.dim(finalPattern)}`)
   }
 
   const posts: FuseListItem[] = []
