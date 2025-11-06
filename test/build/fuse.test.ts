@@ -14,5 +14,8 @@ describe('valaxy fuse', async () => {
 
     const fuseList = await fs.readJSON(fuseListFile)
     expect(fuseList.length).toBeGreaterThan(0)
+
+    expect(fuseList[0]).toHaveProperty('link')
+    expect(fuseList[0].link.startsWith('/')).toBe(true)
   })
 })
