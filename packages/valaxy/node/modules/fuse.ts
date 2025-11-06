@@ -61,7 +61,7 @@ export async function generateFuseList(options: ResolvedValaxyOptions) {
     const extendKeys = options.config.fuse?.extendKeys || []
 
     // adapt for nested folders, like /posts/2021/01/01/index.md
-    const relativeLink = path.join(options.config.vite?.base || '/', path.relative(path.resolve(options.userRoot, 'pages'), i))
+    const relativeLink = path.join(options.config.vite?.base || '/', path.relative(path.resolve(options.userRoot, 'pages'), i)).replace(/\\/g, '/')
     const link = i.endsWith('index.md')
       ? relativeLink.replace(/\/index\.md$/, '')
       : relativeLink.replace(/\.md$/, '')
@@ -72,7 +72,7 @@ export async function generateFuseList(options: ResolvedValaxyOptions) {
       categories: (typeof fmData.categories === 'string' ? [fmData.categories] : fmData.categories) || [],
       author: fmData.author || globalAuthor,
       excerpt: excerpt || content.slice(0, 100),
-      // encode for chinese url
+      // encode for chinese url, replace for windows path
       link: encodeURI(link),
     }
 
