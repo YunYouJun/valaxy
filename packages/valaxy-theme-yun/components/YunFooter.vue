@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import { useSiteConfig, useValaxyConfig, useValaxyDark, useValaxyI18n } from 'valaxy'
-import pkg from 'valaxy/package.json'
+import pkg from 'valaxy/package.json' with { type: 'json' }
 import { capitalize, computed } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { useThemeConfig } from '../composables'

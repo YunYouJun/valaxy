@@ -1,10 +1,15 @@
 <script setup lang="ts">
 import type { CSSProperties } from 'vue'
 
-defineProps<{
-  title: string
-  chars: number[]
-}>()
+withDefaults(
+  defineProps<{
+    title: string
+    chars?: number[]
+  }>(),
+  {
+    chars: () => [],
+  },
+)
 </script>
 
 <template>

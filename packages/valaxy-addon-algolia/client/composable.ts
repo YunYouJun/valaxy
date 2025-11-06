@@ -6,7 +6,7 @@ import { computed, ref } from 'vue'
  */
 export function useAddonAlgolia() {
   const siteConfig = useSiteConfig()
-  const isAlgolia = computed(() => siteConfig.value.search.type === 'algolia')
+  const isAlgolia = computed(() => siteConfig.value.search.provider === 'algolia')
 
   // to avoid loading the docsearch js upfront (which is more than 1/3 of the
   // payload), we delay initializing it until the user has actually clicked or

@@ -4,8 +4,8 @@ import { computed, defineAsyncComponent } from 'vue'
 
 // ref vitepress search box
 const siteConfig = useSiteConfig()
-const isAlgolia = computed(() => siteConfig.value.search.type === 'algolia')
-const isFuse = computed(() => siteConfig.value.search.type === 'fuse')
+const isAlgolia = computed(() => siteConfig.value.search.provider === 'algolia')
+const isFuse = computed(() => siteConfig.value.search.provider === 'fuse')
 
 const PressAlgoliaSearch = isAlgolia.value && defineAsyncComponent({
   loader: () => import('./PressAlgoliaSearch.vue'),

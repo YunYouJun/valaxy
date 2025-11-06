@@ -49,7 +49,7 @@ export const defaultSiteConfig: SiteConfig = {
 
   search: {
     enable: false,
-    type: 'fuse',
+    provider: 'fuse',
   },
   fuse: {
     dataPath: 'valaxy-fuse-list.json',

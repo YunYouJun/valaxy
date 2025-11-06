@@ -41,7 +41,7 @@ export async function execBuild({ ssg, root, output, log }: { ssg: boolean, root
   await callHookWithLog('options:resolved', valaxyApp)
 
   const modules: ValaxyModule[] = []
-  if (options.config.siteConfig.search.type === 'fuse')
+  if (options.config.siteConfig.search.provider === 'fuse')
     modules.push(fuseModule)
   if (options.config.modules.rss.enable)
     modules.push(rssModule)

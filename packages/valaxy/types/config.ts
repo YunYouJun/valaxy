@@ -172,12 +172,17 @@ export interface SiteConfig {
      */
     enable: boolean
     /**
+     * @deprecated will be deprecated, use search.provider instead
+     */
+    type?: SiteConfig['search']['provider']
+    /**
      * Search Type
      * - algolia: Algolia Search
      * - engine: Engine Search, like Google/Baidu
      * - fuse: Local Search by fuse.js
+     * - local(todo): Local Search by MiniSearch
      */
-    type: 'algolia' | 'engine' | 'fuse'
+    provider: 'algolia' | 'engine' | 'fuse' | 'local'
   }
 
   /**
@@ -185,7 +190,7 @@ export interface SiteConfig {
    * fuse search
    * @see https://fusejs.io/
    * @description 本地搜索
-   * Please set search.type to 'fuse'
+   * Please set search.provider to 'fuse'
    */
   fuse: {
     /**

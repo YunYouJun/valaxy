@@ -5,8 +5,8 @@ import { useHotKey } from '../composables'
 
 const siteConfig = useSiteConfig()
 
-const isAlgolia = computed(() => siteConfig.value.search.type === 'algolia')
-const isFuse = computed(() => siteConfig.value.search.type === 'fuse')
+const isAlgolia = computed(() => siteConfig.value.search.provider === 'algolia')
+const isFuse = computed(() => siteConfig.value.search.provider === 'fuse')
 
 const open = ref(false)
 

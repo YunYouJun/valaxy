@@ -13,12 +13,13 @@ import Layouts from 'vite-plugin-vue-layouts'
 import { groupIconVitePlugin } from 'vitepress-plugin-group-icons'
 import { customElements } from '../constants'
 import { createConfigPlugin } from './extendConfig'
-import { createMarkdownPlugin } from './markdown'
+import { localSearchPlugin } from './localSearchPlugin'
 
+import { createMarkdownPlugin } from './markdown'
 import { createFixPlugins } from './patchTransform'
 import { createClientSetupPlugin } from './setupClient'
-import { createUnocssPlugin } from './unocss'
 
+import { createUnocssPlugin } from './unocss'
 import { createValaxyPlugin } from './valaxy'
 import { createRouterPlugin } from './vueRouter'
 
@@ -128,6 +129,9 @@ export async function ViteValaxyPlugins(
     }),
 
     createFixPlugins(options),
+
+    // localSearch
+    await localSearchPlugin(options),
   ]
 
   if (valaxyConfig.visualizer) {
