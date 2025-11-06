@@ -1,9 +1,7 @@
 import { resolve } from 'node:path'
 import fs from 'fs-extra'
 import { describe, expect, it } from 'vitest'
-
-const demoFolder = resolve(__dirname, '../../demo')
-const demoYunDistFolder = resolve(demoFolder, 'yun/dist')
+import { demoYunDistFolder } from '../config'
 
 // const mdDir = resolve(__dirname, 'fixtures/markdown')
 
