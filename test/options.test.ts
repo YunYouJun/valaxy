@@ -1,4 +1,4 @@
-import { resolve } from 'pathe'
+import { resolve } from 'node:path'
 import { describe, expect, it } from 'vitest'
 import { defaultThemeConfig } from '../packages/valaxy-theme-yun'
 import themePkg from '../packages/valaxy-theme-yun/package.json'

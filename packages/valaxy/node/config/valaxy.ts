@@ -1,6 +1,5 @@
 import type { ResolvedValaxyOptions, UserValaxyNodeConfig, ValaxyEntryOptions, ValaxyNodeConfig } from '../types'
 
-import path from 'node:path'
 import process from 'node:process'
 import { isFunction } from '@antfu/utils'
 import { consola } from 'consola'
@@ -115,10 +114,7 @@ export const mergeValaxyConfig = createDefu((obj: any, key, value) => {
  * @param options
  */
 export async function resolveValaxyConfig(options: ValaxyEntryOptions) {
-  /**
-   * resolve to convert window path to posix path
-   */
-  const configRoot = path.resolve(options.userRoot || process.cwd())
+  const configRoot = options.userRoot || process.cwd()
 
   const endCount = countPerformanceTime()
   const { config: userValaxyConfig, configFile } = await resolveValaxyConfigFromRoot(configRoot)
