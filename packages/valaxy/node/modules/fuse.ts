@@ -10,6 +10,7 @@ import fs from 'fs-extra'
 
 import matter from 'gray-matter'
 import { defineValaxyModule } from '.'
+import { loadLocalesYml, nodeT } from '../../shared/node/i18n'
 import { commonOptions } from '../cli/options'
 import { resolveOptions } from '../options'
 import { matterOptions } from '../plugins/markdown/transform/matter'
@@ -35,6 +36,10 @@ export async function generateFuseList(options: ResolvedValaxyOptions) {
     consola.warn(`No markdown files found for fuse search. Please check your fuse pattern: ${colors.dim(finalPattern)}`)
   }
 
+  // load to locale
+  loadLocalesYml(path.resolve(options.userRoot, 'locales'))
+
+  const globalAuthor = nodeT(options.config.siteConfig.author.name, options.config.siteConfig.lang || 'en')
   const posts: FuseListItem[] = []
   for await (const i of files) {
     const raw = fs.readFileSync(i, 'utf-8')
@@ -56,7 +61,7 @@ export async function generateFuseList(options: ResolvedValaxyOptions) {
     const extendKeys = options.config.fuse?.extendKeys || []
 
     // adapt for nested folders, like /posts/2021/01/01/index.md
-    const relativeLink = path.resolve(options.config.vite?.base || '/', path.relative(path.resolve(options.userRoot, 'pages'), i))
+    const relativeLink = path.join(options.config.vite?.base || '/', path.relative(path.resolve(options.userRoot, 'pages'), i))
     const link = i.endsWith('index.md')
       ? relativeLink.replace(/\/index\.md$/, '')
       : relativeLink.replace(/\.md$/, '')
@@ -65,7 +70,7 @@ export async function generateFuseList(options: ResolvedValaxyOptions) {
       title: fmData.title || '',
       tags: (typeof fmData.tags === 'string' ? [fmData.tags] : fmData.tags) || [],
       categories: (typeof fmData.categories === 'string' ? [fmData.categories] : fmData.categories) || [],
-      author: options.config.siteConfig.author.name,
+      author: fmData.author || globalAuthor,
       excerpt: excerpt || content.slice(0, 100),
       // encode for chinese url
       link: encodeURI(link),
