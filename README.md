@@ -16,6 +16,7 @@
 <a href="https://discord.gg/nd3mPkU5j8" target="_blank">
 <img alt="Discord" src="https://img.shields.io/discord/752821465891733574?color=%234960ea&logo=discord">
 </a>
+<a href="https://gitcode.com/YunYouJun/valaxy" target="_blank"><img src="https://gitcode.com/YunYouJun/valaxy/star/badge.svg" alt="GitCode"/></a>
 </p>
 
 - **English** | [简体中文](./README.zh-CN.md)

@@ -23,7 +23,7 @@
   "devDependencies": {
     "@iconify-json/carbon": "catalog:build",
     "@iconify-json/simple-icons": "catalog:build",
-    "nodemon": "^3.1.10",
+    "nodemon": "^3.1.11",
     "vite": "catalog:build",
     "vitepress": "catalog:frontend"
   }
