@@ -257,6 +257,18 @@ onMounted(() => {
 </template>
 ```
 
+::: tip
+
+::: zh-CN
+- 你可以通过 `ValaxyApp.vue` 组件完全覆盖根组件，来达成你更深层次的定制化需求。（完全由你自定义，不再默认挂在 `router-view` 等默认处理。）
+:::
+
+::: en
+- You can completely override the root component through the `ValaxyApp.vue` component to achieve deeper customization needs. (Completely customized by you, no longer default handling such as mounting `router-view`, etc.)
+:::
+
+:::
+
 ### ValaxyMain
 
 你需要自定义一个 `ValaxyMain` 组件来决定主题的文章渲染部分。
