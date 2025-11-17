@@ -13,9 +13,7 @@
 <p align="center">
 <a href="https://www.npmjs.com/package/valaxy" rel="nofollow"><img src="https://img.shields.io/npm/v/valaxy?color=0078E7" alt="NPM version"></a>
 <a href="https://github.com/YunYouJun/valaxy/actions/workflows/release.yml"><img src="https://github.com/YunYouJun/valaxy/actions/workflows/release.yml/badge.svg" alt="Release"></a>
-<a href="https://discord.gg/nd3mPkU5j8" target="_blank">
-<img alt="Discord" src="https://img.shields.io/discord/752821465891733574?color=%234960ea&logo=discord">
-</a>
+<a href="https://discord.gg/nd3mPkU5j8" target="_blank"><img alt="Discord" src="https://img.shields.io/discord/752821465891733574?color=%234960ea&logo=discord"></a>
 <a href="https://gitcode.com/YunYouJun/valaxy" target="_blank"><img src="https://gitcode.com/YunYouJun/valaxy/star/badge.svg" alt="GitCode"/></a>
 </p>
 
