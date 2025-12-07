@@ -1,2 +1,7 @@
 packages:
   - valaxy-theme-custom
+catalogs:
+  build:
+    '@iconify-json/ant-design': ^0.0.0
+    '@iconify-json/simple-icons': ^0.0.0
+    typescript: ^0.0.0

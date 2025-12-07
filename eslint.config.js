@@ -29,4 +29,10 @@ export default antfu(
       'regexp/optimal-quantifier-concatenation': 'warn',
     },
   },
+  {
+    files: ['packages/create-valaxy/**/*'],
+    rules: {
+      'pnpm/json-enforce-catalog': 'off',
+    },
+  },
 )

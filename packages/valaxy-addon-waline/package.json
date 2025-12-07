@@ -19,7 +19,7 @@
     "valaxy": ">=0.22"
   },
   "dependencies": {
-    "@waline/client": "3.4.1"
+    "@waline/client": "catalog:"
   },
   "devDependencies": {
     "valaxy": "workspace:*"

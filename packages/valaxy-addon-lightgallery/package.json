@@ -17,7 +17,7 @@
     "valaxy": ">=0.22"
   },
   "dependencies": {
-    "lightgallery": "2.7.2"
+    "lightgallery": "catalog:"
   },
   "devDependencies": {
     "valaxy": "workspace:*"

@@ -1,3 +1,9 @@
+catalogMode: prefer
+cleanupUnusedCatalogs: true
+
+shellEmulator: true
+trustPolicy: no-downgrade
+
 packages:
   - api
   - docs
@@ -7,14 +13,166 @@ packages:
   - packages/@valaxyjs/*
   - scripts
 
+overrides:
+  vue: catalog:frontend
+catalog:
+  '@antfu/eslint-config': ^6.4.2
+  '@antfu/install-pkg': ^1.1.0
+  '@antfu/utils': ^9.3.0
+  '@clack/prompts': ^0.11.0
+  '@ctrl/tinycolor': ^4.2.0
+  '@docsearch/css': ^3.9.0
+  '@docsearch/js': ^3.9.0
+  '@explosions/fireworks': ^0.2.0
+  '@mdit-vue/plugin-component': ^3.0.2
+  '@mdit-vue/plugin-frontmatter': ^3.0.2
+  '@mdit-vue/plugin-headers': ^3.0.2
+  '@mdit-vue/plugin-sfc': ^3.0.2
+  '@mdit-vue/plugin-title': ^3.0.2
+  '@mdit-vue/plugin-toc': ^3.0.2
+  '@mdit-vue/shared': ^3.0.2
+  '@microsoft/api-extractor': ^7.55.2
+  '@playwright/test': ^1.57.0
+  '@rollup/pluginutils': ^5.3.0
+  '@shikijs/transformers': ^3.19.0
+  '@types/animejs': ^3.1.13
+  '@types/body-parser': ^1.19.6
+  '@types/cross-spawn': ^6.0.6
+  '@types/debug': ^4.1.12
+  '@types/ejs': ^3.1.5
+  '@types/fs-extra': ^11.0.4
+  '@types/gh-pages': ^6.1.0
+  '@types/html-to-text': ^9.0.4
+  '@types/js-yaml': ^4.0.9
+  '@types/katex': ^0.16.7
+  '@types/markdown-it': ^14.1.2
+  '@types/markdown-it-attrs': ^4.1.3
+  '@types/markdown-it-container': ^2.0.10
+  '@types/markdown-it-emoji': ^3.0.1
+  '@types/markdown-it-footnote': ^3.0.4
+  '@types/minimist': ^1.2.5
+  '@types/node': ^24.10.1
+  '@types/nprogress': ^0.2.3
+  '@types/pascalcase': ^1.0.3
+  '@types/prompts': ^2.4.9
+  '@types/qrcode': ^1.5.6
+  '@types/splitpanes': ^2.2.6
+  '@types/wicg-file-system-access': ^2023.10.7
+  '@types/yargs': ^17.0.35
+  '@vitejs/plugin-vue': ^6.0.2
+  '@vue/devtools-api': 7.7.2
+  '@vueuse/core': ^14.1.0
+  '@vueuse/integrations': ^14.1.0
+  '@vueuse/motion': ^3.0.3
+  '@waline/client': 3.4.1
+  animejs: ^4.2.2
+  axios: ^1.13.2
+  beasties: ^0.3.5
+  bilibili-bangumi-component: ^0.3.1
+  body-parser: ^2.2.1
+  bumpp: ^10.3.2
+  cilicili: ^0.1.1
+  cors: ^2.8.5
+  crc: ^4.3.2
+  cross-env: ^10.1.0
+  cross-spawn: ^7.0.6
+  css-i18n: ^0.0.5
+  dayjs: ^1.11.19
+  debug: ^4.4.3
+  define-config-ts: ^0.1.3
+  defu: ^6.1.4
+  diacritics: ^1.3.0
+  ejs: ^3.1.10
+  escape-html: ^1.0.3
+  eslint: ^9.39.1
+  execa: 9.0.2
+  fast-glob: ^3.3.3
+  feed: ^5.1.0
+  floating-vue: ^5.2.2
+  fs-extra: ^11.3.2
+  fuse.js: ^7.1.0
+  gh-pages: ^6.3.0
+  gray-matter: ^4.0.3
+  gsap: ^3.13.0
+  hookable: ^5.5.3
+  html-to-text: ^9.0.5
+  http-proxy-middleware: ^3.0.5
+  https-localhost: ^4.7.1
+  husky: ^9.1.7
+  jiti: ^2.6.1
+  js-base64: ^3.7.8
+  js-yaml: ^4.1.1
+  katex: ^0.16.25
+  lightgallery: 2.7.2
+  lint-staged: ^16.2.7
+  lru-cache: ^11.2.4
+  markdown-it: ^14.1.0
+  markdown-it-anchor: ^9.2.0
+  markdown-it-async: ^2.2.0
+  markdown-it-attrs: ^4.3.1
+  markdown-it-container: ^4.0.0
+  markdown-it-emoji: ^3.0.0
+  markdown-it-footnote: ^4.0.0
+  markdown-it-image-figures: ^2.1.1
+  markdown-it-table-of-contents: ^1.1.0
+  markdown-it-task-lists: ^2.1.1
+  medium-zoom: ^1.1.0
+  mermaid: ^11.12.2
+  minimist: ^1.2.8
+  mlly: ^1.8.0
+  nodemon: ^3.1.11
+  npm-run-all: ^4.1.5
+  nprogress: ^0.2.0
+  open: 10.1.0
+  ora: ^9.0.0
+  p-map: ^7.0.4
+  pascalcase: ^2.0.0
+  pathe: ^2.0.3
+  pinia: ^3.0.4
+  prompts: ^2.4.2
+  qrcode: ^1.5.4
+  resolve-global: ^2.0.0
+  rimraf: ^6.1.2
+  rollup-plugin-visualizer: ^6.0.5
+  sass: ^1.94.2
+  shiki: ^3.19.0
+  sirv: ^3.0.2
+  splitpanes: ^4.0.4
+  star-markdown-css: ^0.5.3
+  stylelint: ^16.26.1
+  stylelint-config-recommended-vue: ^1.6.1
+  stylelint-config-standard-scss: ^16.0.0
+  table: ^6.9.0
+  tsup: ^8.5.1
+  tsx: ^4.21.0
+  typedoc: ^0.28.15
+  typedoc-plugin-markdown: ^4.9.0
+  typedoc-vitepress-theme: ^1.1.2
+  unocss: ^66.5.10
+  unplugin-vue-components: 28.0.0
+  unplugin-vue-markdown: ^29.2.0
+  valaxy-addon-artalk: ^0.1.3
+  valaxy-addon-git-log: ^0.3.2
+  vanilla-lazyload: ^19.1.3
+  vite-dev-rpc: ^1.1.0
+  vite-node: ^5.2.0
+  vite-plugin-vue-devtools: ^8.0.5
+  vite-plugin-vue-layouts: ^0.11.0
+  vite-ssg: ^28.2.2
+  vite-ssg-sitemap: ^0.10.0
+  vitepress-plugin-group-icons: ^1.6.5
+  vitest: ^4.0.15
+  vue-router: ^4.6.3
+  vue-tsc: 2.2.0
+  yargs: ^18.0.0
 catalogs:
   build:
     '@iconify-json/ant-design': ^1.2.5
-    '@iconify-json/carbon': ^1.2.14
+    '@iconify-json/carbon': ^1.2.15
     '@iconify-json/logos': ^1.2.10
     '@iconify-json/ri': ^1.2.6
-    '@iconify-json/simple-icons': ^1.2.59
-    '@iconify-json/vscode-icons': ^1.2.35
+    '@iconify-json/simple-icons': ^1.2.61
+    '@iconify-json/vscode-icons': ^1.2.37
     '@intlify/unplugin-vue-i18n': ^11.0.1
     '@unhead/addons': ^2.0.19
     '@unhead/schema-org': ^2.0.19
@@ -23,15 +181,22 @@ catalogs:
     typescript: ^5.9.3
     unbuild: ^3.6.1
     unhead: ^2.0.19
-    unplugin-vue-router: ^0.17.0
-    vite: ^7.2.2
-    vue-i18n: ^11.1.12
+    unplugin-vue-router: ^0.19.0
+    vite: ^7.2.6
+    vue-i18n: ^11.2.2
     zx: ^8.8.5
   frontend:
     '@primevue/themes': ^4.4.1
     primevue: ^4.4.1
-    vitepress: ^2.0.0-alpha.13
+    vitepress: ^2.0.0-alpha.15
     vue: 3.5.22
 onlyBuiltDependencies:
   - vue-demi
   - esbuild
+peerDependencyRules:
+  ignoreMissing:
+    - '@algolia/client-search'
+    - '@types/markdown-it'
+    - '@types/react'
+    - react
+    - react-dom

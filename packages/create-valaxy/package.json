@@ -37,11 +37,11 @@
   },
   "dependencies": {
     "consola": "catalog:build",
-    "execa": "9.0.2",
-    "minimist": "^1.2.8",
-    "prompts": "^2.4.2"
+    "execa": "catalog:",
+    "minimist": "catalog:",
+    "prompts": "catalog:"
   },
   "devDependencies": {
-    "@types/minimist": "^1.2.5"
+    "@types/minimist": "catalog:"
   }
 }

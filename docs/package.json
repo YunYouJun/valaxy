@@ -17,13 +17,13 @@
     "valaxy": "link:../packages/valaxy",
     "valaxy-addon-algolia": "link:../packages/valaxy-addon-algolia",
     "valaxy-addon-components": "workspace:*",
-    "valaxy-addon-git-log": "^0.3.2",
+    "valaxy-addon-git-log": "catalog:",
     "valaxy-theme-press": "link:../packages/valaxy-theme-press"
   },
   "devDependencies": {
     "@iconify-json/carbon": "catalog:build",
     "@iconify-json/simple-icons": "catalog:build",
-    "nodemon": "^3.1.11",
+    "nodemon": "catalog:",
     "vite": "catalog:build",
     "vitepress": "catalog:frontend"
   }

@@ -14,9 +14,9 @@
     "test": "vitest"
   },
   "dependencies": {
-    "crc": "^4.3.2"
+    "crc": "catalog:"
   },
   "devDependencies": {
-    "vitest": "^4.0.9"
+    "vitest": "catalog:"
   }
 }

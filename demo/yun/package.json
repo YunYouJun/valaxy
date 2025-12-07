@@ -28,7 +28,7 @@
     "valaxy": "workspace:*",
     "valaxy-addon-abbrlink": "workspace:*",
     "valaxy-addon-algolia": "workspace:*",
-    "valaxy-addon-artalk": "^0.1.3",
+    "valaxy-addon-artalk": "catalog:",
     "valaxy-addon-bangumi": "workspace:*",
     "valaxy-addon-components": "workspace:*",
     "valaxy-addon-lightgallery": "workspace:*",
@@ -39,6 +39,6 @@
   },
   "devDependencies": {
     "@iconify-json/carbon": "catalog:build",
-    "nodemon": "^3.1.11"
+    "nodemon": "catalog:"
   }
 }

@@ -18,7 +18,7 @@
     "valaxy": ">=0.22"
   },
   "dependencies": {
-    "bilibili-bangumi-component": "^0.3.1"
+    "bilibili-bangumi-component": "catalog:"
   },
   "devDependencies": {
     "valaxy": "workspace:*"
