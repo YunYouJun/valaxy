@@ -115,6 +115,8 @@
     "zx": "catalog:build"
   },
   "resolutions": {
+    "chokidar": "5.0.0",
+    "semver": "7",
     "vite": "catalog:build",
     "vue": "catalog:frontend"
   },

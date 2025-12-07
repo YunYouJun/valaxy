@@ -23,7 +23,7 @@
   ],
   "scripts": {
     "clean": "rimraf dist",
-    "build": "rimraf dist && run-s build:*",
+    "build": "rimraf dist && pnpm run build:client && npm run build:node",
     "build:client": "vite build src/client",
     "build:node": "unbuild",
     "dev": "npm run stub && npm run dev:client",
