@@ -16,11 +16,11 @@ top: 0
 
 采用 [Schema.org](https://schema.org/) 标准，可以让搜索引擎更好地理解网站内容，从而提高网站在搜索结果中的排名。
 
-基于 [@unhead/schema-org](https://unhead.unjs.io/schema-org/) 实现。
+基于 [@unhead/schema-org](https://unhead.unjs.io/docs/typescript/schema-org/guides/get-started/overview) 实现。
 
 - Identity 采用了 Person (Personal Website or Blog)
 
-> [Person | @unhead/schema.org](https://unhead-schema-org.harlanzw.com/guide/guides/identity#person)
+> [Person | @unhead/schema.org](https://unhead.unjs.io/docs/typescript/schema-org/guides/recipes/identity#person)
 
 ## Validators
 
