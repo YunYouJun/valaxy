@@ -1,7 +1,7 @@
 import type { Author, FeedOptions, Item } from 'feed'
 import type { ResolvedValaxyOptions } from '../../types'
 import { readFile } from 'node:fs/promises'
-import { dirname, join, resolve } from 'node:path'
+import { dirname, join, relative, resolve } from 'node:path'
 import { ensurePrefix } from '@antfu/utils'
 import { consola } from 'consola'
 import { colors } from 'consola/utils'
@@ -170,7 +170,11 @@ export async function getPosts(params: {
     if (data.image?.startsWith('/'))
       data.image = DOMAIN + data.image
 
-    const link = DOMAIN + path.replace(`${options.userRoot}/pages`, '').replace(/\.md$/, '')
+    // Use relative path to correctly handle cross-platform file paths
+    const relativePath = relative(join(options.userRoot, 'pages'), path)
+    // Convert Windows backslashes to forward slashes for URL
+    const urlPath = relativePath.replace(/\\/g, '/').replace(/\.md$/, '')
+    const link = `${DOMAIN}/${urlPath}`
     const tip = `<br/><p>${
       lang === 'zh-CN'
         ? `访问 <a href="${link}" target="_blank">${link}</a> ${fullText ? '查看原文' : '阅读全文'}。`
