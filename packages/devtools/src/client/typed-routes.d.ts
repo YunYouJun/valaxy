@@ -71,31 +71,31 @@ declare module 'vue-router/auto-routes' {
    * @internal
    */
   export interface _RouteFileInfoMap {
-    'pages/index.vue': {
+    'src/client/pages/index.vue': {
       routes:
         | '/'
       views:
         | never
     }
-    'pages/about.vue': {
+    'src/client/pages/about.vue': {
       routes:
         | '/about'
       views:
         | never
     }
-    'pages/categories.vue': {
+    'src/client/pages/categories.vue': {
       routes:
         | '/categories'
       views:
         | never
     }
-    'pages/migration.vue': {
+    'src/client/pages/migration.vue': {
       routes:
         | '/migration'
       views:
         | never
     }
-    'pages/tags.vue': {
+    'src/client/pages/tags.vue': {
       routes:
         | '/tags'
       views:
