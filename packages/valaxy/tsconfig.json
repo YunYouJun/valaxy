@@ -5,6 +5,10 @@
     "module": "ESNext",
     "moduleResolution": "Bundler",
     "resolveJsonModule": true,
+    "typeRoots": [
+      "./types",
+      "../../node_modules/@types"
+    ],
     "types": [
       "node",
       "vite/client"

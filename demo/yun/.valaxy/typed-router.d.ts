@@ -331,6 +331,20 @@ declare module 'vue-router/auto-routes' {
       Record<never, never>,
       | never
     >,
+    '/posts/中文分类': RouteRecordInfo<
+      '/posts/中文分类',
+      '/posts/%E4%B8%AD%E6%96%87%E5%88%86%E7%B1%BB',
+      Record<never, never>,
+      Record<never, never>,
+      | never
+    >,
+    '/posts/中文Post测试': RouteRecordInfo<
+      '/posts/中文Post测试',
+      '/posts/%E4%B8%AD%E6%96%87Post%E6%B5%8B%E8%AF%95',
+      Record<never, never>,
+      Record<never, never>,
+      | never
+    >,
     '/posts/abbrlink': RouteRecordInfo<
       '/posts/abbrlink',
       '/posts/abbrlink',
@@ -586,20 +600,6 @@ declare module 'vue-router/auto-routes' {
     '/posts/type-link-jump': RouteRecordInfo<
       '/posts/type-link-jump',
       '/posts/type-link-jump',
-      Record<never, never>,
-      Record<never, never>,
-      | never
-    >,
-    '/posts/中文Post测试': RouteRecordInfo<
-      '/posts/中文Post测试',
-      '/posts/中文Post测试',
-      Record<never, never>,
-      Record<never, never>,
-      | never
-    >,
-    '/posts/中文分类': RouteRecordInfo<
-      '/posts/中文分类',
-      '/posts/中文分类',
       Record<never, never>,
       Record<never, never>,
       | never
@@ -965,6 +965,18 @@ declare module 'vue-router/auto-routes' {
       views:
         | never
     }
+    'pages/posts/中文分类.md': {
+      routes:
+        | '/posts/中文分类'
+      views:
+        | never
+    }
+    'pages/posts/中文Post测试.md': {
+      routes:
+        | '/posts/中文Post测试'
+      views:
+        | never
+    }
     'pages/posts/abbrlink.md': {
       routes:
         | '/posts/abbrlink'
@@ -1184,18 +1196,6 @@ declare module 'vue-router/auto-routes' {
     'pages/posts/type-link-jump.md': {
       routes:
         | '/posts/type-link-jump'
-      views:
-        | never
-    }
-    'pages/posts/中文Post测试.md': {
-      routes:
-        | '/posts/中文Post测试'
-      views:
-        | never
-    }
-    'pages/posts/中文分类.md': {
-      routes:
-        | '/posts/中文分类'
       views:
         | never
     }

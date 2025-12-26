@@ -1,7 +1,6 @@
 import type { Author, FeedOptions, Item } from 'feed'
 import type { ResolvedValaxyOptions } from '../../types'
 import { readFile } from 'node:fs/promises'
-
 import { dirname, join, resolve } from 'node:path'
 import { ensurePrefix } from '@antfu/utils'
 import { consola } from 'consola'
@@ -20,6 +19,9 @@ import { tObject } from '../../../shared'
 import { matterOptions } from '../../plugins/markdown/transform/matter'
 import { isExternal } from '../../utils'
 import { getCreatedTime, getUpdatedTime } from '../../utils/date'
+
+// Extend Item type to include optional updated field for Atom feed
+type ExtendedItem = Item & { updated?: Date }
 
 const markdown = MarkdownIt({
   html: true,
@@ -146,7 +148,7 @@ export async function getPosts(params: {
   })
 
   // returned posts
-  const posts: Item[] = []
+  const posts: ExtendedItem[] = []
   for (const rawPost of filteredPosts) {
     const { data, path, content, excerpt } = rawPost
     if (!data.date)
@@ -175,29 +177,48 @@ export async function getPosts(params: {
         : `Visit <a href="${link}" target="_blank">${link}</a> to ${fullText ? 'view original article' : 'read more'}.`
     }</p>`
 
-    posts.push({
+    // RSS/Atom/JSON Feed time fields mapping:
+    // - RSS 2.0: only uses `date` -> <pubDate>
+    // - Atom (RFC 4287): uses `published` (optional) and `updated` (required)
+    // - JSON Feed: uses `date_published` and `date_modified`
+    const item: ExtendedItem = {
       ...data,
       title: tObject(data.title, lang),
       description: tObject(data.description, lang),
-      date: new Date(data.date),
-      published: new Date(data.updated || data.date),
+      date: new Date(data.date), // RSS pubDate / JSON date_published
+      published: new Date(data.date), // Atom published (first publish time)
       content: html + tip,
       author: [author],
       id: data.id || link,
       link,
-    })
+      // Add updated field for Atom feed (if exists)
+      // Atom: <updated> (last modified time)
+      // JSON Feed: date_modified
+      ...(data.updated && { updated: new Date(data.updated) }),
+    }
+
+    posts.push(item)
   }
 
-  // sort by updated
-  posts.sort((a, b) => +(b.published || b.date) - +(a.published || a.date))
+  // sort by siteConfig.orderBy
+  const orderBy = siteConfig.orderBy || 'date'
+  const useUpdatedTime = orderBy === 'updated'
+  posts.sort((a, b) => {
+    // when orderBy is 'updated', use updated time (fallback to date)
+    // when orderBy is 'date', use publish date
+    const aTime = useUpdatedTime ? (a.updated || a.date) : a.date
+    const bTime = useUpdatedTime ? (b.updated || b.date) : b.date
+    return +bTime - +aTime
+  })
   return posts
 }
 
 /**
  * write feed to local
  */
-export async function writeFeed(feedOptions: FeedOptions, posts: Item[], options: ResolvedValaxyOptions, feedNameMap: Record<string, string>) {
+export async function writeFeed(feedOptions: FeedOptions, posts: ExtendedItem[], options: ResolvedValaxyOptions, feedNameMap: Record<string, string>) {
   const feed = new Feed(feedOptions)
+  // Feed.addItem accepts Item, ExtendedItem is compatible
   posts.forEach(item => feed.addItem(item))
 
   await fs.ensureDir(dirname(`./dist/${feedNameMap.atom}`))
