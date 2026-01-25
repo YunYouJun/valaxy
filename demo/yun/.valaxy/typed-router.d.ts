@@ -576,6 +576,13 @@ declare module 'vue-router/auto-routes' {
       Record<never, never>,
       | never
     >,
+    '/posts/rss-image-test': RouteRecordInfo<
+      '/posts/rss-image-test',
+      '/posts/rss-image-test',
+      Record<never, never>,
+      Record<never, never>,
+      | never
+    >,
     '/posts/test': RouteRecordInfo<
       '/posts/test',
       '/posts/test',
@@ -586,6 +593,13 @@ declare module 'vue-router/auto-routes' {
     '/posts/test-images': RouteRecordInfo<
       '/posts/test-images',
       '/posts/test-images',
+      Record<never, never>,
+      Record<never, never>,
+      | never
+    >,
+    '/posts/test-relative-images/': RouteRecordInfo<
+      '/posts/test-relative-images/',
+      '/posts/test-relative-images',
       Record<never, never>,
       Record<never, never>,
       | never
@@ -1175,6 +1189,12 @@ declare module 'vue-router/auto-routes' {
       views:
         | never
     }
+    'pages/posts/rss-image-test.md': {
+      routes:
+        | '/posts/rss-image-test'
+      views:
+        | never
+    }
     'pages/posts/test.md': {
       routes:
         | '/posts/test'
@@ -1184,6 +1204,12 @@ declare module 'vue-router/auto-routes' {
     'pages/posts/test-images.md': {
       routes:
         | '/posts/test-images'
+      views:
+        | never
+    }
+    'pages/posts/test-relative-images/index.md': {
+      routes:
+        | '/posts/test-relative-images/'
       views:
         | never
     }

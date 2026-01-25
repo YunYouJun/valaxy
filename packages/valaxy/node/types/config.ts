@@ -100,6 +100,12 @@ export interface ValaxyExtendConfig {
        * @default false
        */
       fullText: boolean
+      /**
+       * @zh 从构建后的 HTML 中提取图片路径（用于解析 Vite 打包后的 hash 文件名）
+       * @en Extract image paths from built HTML files (to resolve Vite hashed filenames)
+       * @default true
+       */
+      extractImagePathsFromHTML: boolean
     }
   }
 

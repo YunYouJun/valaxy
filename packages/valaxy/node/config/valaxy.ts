@@ -42,6 +42,7 @@ export const defaultValaxyConfig: ValaxyNodeConfig = {
     rss: {
       enable: true,
       fullText: false,
+      extractImagePathsFromHTML: true,
     },
   },
 

@@ -107,6 +107,7 @@ This is hidden.`,
           modules: {
             rss: {
               fullText: false,
+              extractImagePathsFromHTML: true,
             },
           },
         },
@@ -144,6 +145,7 @@ This is hidden.`,
           modules: {
             rss: {
               fullText: false,
+              extractImagePathsFromHTML: true,
             },
           },
         },
@@ -198,6 +200,7 @@ This is the content of post 3.`,
           modules: {
             rss: {
               fullText: false,
+              extractImagePathsFromHTML: true,
             },
           },
         },
@@ -251,6 +254,7 @@ This is the content of post 3.`,
           modules: {
             rss: {
               fullText: false,
+              extractImagePathsFromHTML: true,
             },
           },
         },
@@ -296,6 +300,7 @@ This is the content of post 3.`,
           modules: {
             rss: {
               fullText: false,
+              extractImagePathsFromHTML: true,
             },
           },
         },
@@ -334,6 +339,7 @@ This is the content of post 3.`,
           modules: {
             rss: {
               fullText: true,
+              extractImagePathsFromHTML: true,
             },
           },
         },
@@ -373,6 +379,7 @@ This is the content of post 3.`,
           modules: {
             rss: {
               fullText: false,
+              extractImagePathsFromHTML: true,
             },
           },
         },
@@ -422,6 +429,7 @@ image: /images/cover.jpg
           modules: {
             rss: {
               fullText: true,
+              extractImagePathsFromHTML: true,
             },
           },
         },
@@ -438,6 +446,188 @@ image: /images/cover.jpg
 
       expect(post.image).toBe('https://example.com/images/cover.jpg')
       expect(post.content).toContain('src="https://example.com/images/test.png"')
+    })
+
+    it('should convert relative image paths without built HTML', async () => {
+      await fs.ensureDir(resolve(mockUserRoot, 'pages/posts/hello-valaxy'))
+      await fs.writeFile(
+        resolve(mockUserRoot, 'pages/posts/hello-valaxy/index.md'),
+        `---
+title: Hello Valaxy
+date: 2024-01-01
+---
+![pic](test.webp)
+![pic2](./another.png)`,
+        'utf-8',
+      )
+
+      const author: Author = {
+        name: 'Test Author',
+        email: 'test@example.com',
+      }
+
+      const files = [
+        resolve(mockUserRoot, 'pages/posts/hello-valaxy/index.md'),
+      ]
+
+      const mockOptions = {
+        userRoot: mockUserRoot,
+        config: {
+          siteConfig: {
+            url: 'https://example.com/',
+            lang: 'en',
+          },
+          modules: {
+            rss: {
+              fullText: true,
+              extractImagePathsFromHTML: true,
+            },
+          },
+        },
+      } as ResolvedValaxyOptions
+
+      const posts = await getPosts({
+        author,
+        files,
+        DOMAIN: 'https://example.com',
+      }, mockOptions)
+
+      expect(posts).toHaveLength(1)
+      const post = posts![0]
+
+      // Without built HTML, relative paths should be converted to post directory URLs
+      expect(post.content).toContain('src="https://example.com/posts/hello-valaxy/test.webp"')
+      expect(post.content).toContain('src="https://example.com/posts/hello-valaxy/another.png"')
+    })
+
+    it('should use built HTML asset paths when available', async () => {
+      // Create the markdown file
+      await fs.ensureDir(resolve(mockUserRoot, 'pages/posts/hello-valaxy'))
+      await fs.writeFile(
+        resolve(mockUserRoot, 'pages/posts/hello-valaxy/index.md'),
+        `---
+title: Hello Valaxy
+date: 2024-01-01
+---
+![pic](test.webp)`,
+        'utf-8',
+      )
+
+      // Create a mock built HTML file with hashed asset
+      await fs.ensureDir(resolve(mockUserRoot, 'dist/posts/hello-valaxy'))
+      await fs.writeFile(
+        resolve(mockUserRoot, 'dist/posts/hello-valaxy/index.html'),
+        `<!DOCTYPE html>
+<html>
+<body>
+  <img src="/assets/test.zBFFFKJX.webp" alt="pic">
+</body>
+</html>`,
+        'utf-8',
+      )
+
+      const author: Author = {
+        name: 'Test Author',
+        email: 'test@example.com',
+      }
+
+      const files = [
+        resolve(mockUserRoot, 'pages/posts/hello-valaxy/index.md'),
+      ]
+
+      const mockOptions = {
+        userRoot: mockUserRoot,
+        config: {
+          siteConfig: {
+            url: 'https://example.com/',
+            lang: 'en',
+          },
+          modules: {
+            rss: {
+              fullText: true,
+              extractImagePathsFromHTML: true,
+            },
+          },
+        },
+      } as ResolvedValaxyOptions
+
+      const posts = await getPosts({
+        author,
+        files,
+        DOMAIN: 'https://example.com',
+      }, mockOptions)
+
+      expect(posts).toHaveLength(1)
+      const post = posts![0]
+
+      // With built HTML, should use the actual hashed asset path
+      expect(post.content).toContain('src="https://example.com/assets/test.zBFFFKJX.webp"')
+    })
+
+    it('should not extract image paths when extractImagePathsFromHTML is false', async () => {
+      // Create the markdown file
+      await fs.ensureDir(resolve(mockUserRoot, 'pages/posts/hello-valaxy-no-extract'))
+      await fs.writeFile(
+        resolve(mockUserRoot, 'pages/posts/hello-valaxy-no-extract/index.md'),
+        `---
+title: Hello Valaxy No Extract
+date: 2024-01-01
+---
+![pic](test.webp)`,
+        'utf-8',
+      )
+
+      // Create a mock built HTML file with hashed asset (this should be ignored)
+      await fs.ensureDir(resolve(mockUserRoot, 'dist/posts/hello-valaxy-no-extract'))
+      await fs.writeFile(
+        resolve(mockUserRoot, 'dist/posts/hello-valaxy-no-extract/index.html'),
+        `<!DOCTYPE html>
+<html>
+<body>
+  <img src="/assets/test.zBFFFKJX.webp" alt="pic">
+</body>
+</html>`,
+        'utf-8',
+      )
+
+      const author: Author = {
+        name: 'Test Author',
+        email: 'test@example.com',
+      }
+
+      const files = [
+        resolve(mockUserRoot, 'pages/posts/hello-valaxy-no-extract/index.md'),
+      ]
+
+      const mockOptions = {
+        userRoot: mockUserRoot,
+        config: {
+          siteConfig: {
+            url: 'https://example.com/',
+            lang: 'en',
+          },
+          modules: {
+            rss: {
+              fullText: true,
+              extractImagePathsFromHTML: false,
+            },
+          },
+        },
+      } as ResolvedValaxyOptions
+
+      const posts = await getPosts({
+        author,
+        files,
+        DOMAIN: 'https://example.com',
+      }, mockOptions)
+
+      expect(posts).toHaveLength(1)
+      const post = posts![0]
+
+      // Without HTML extraction, should use fallback URL construction
+      expect(post.content).toContain('src="https://example.com/posts/hello-valaxy-no-extract/test.webp"')
+      // Should NOT contain the hashed asset path
+      expect(post.content).not.toContain('zBFFFKJX')
     })
   })
 })

@@ -1,0 +1,14 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(gh issue view:*)",
+      "Bash(pnpm build)",
+      "Bash(ls:*)",
+      "Bash(pnpm test:unit:*)",
+      "Bash(pnpm test:*)",
+      "WebFetch(domain:tex-theta.vercel.app)",
+      "Bash(git log:*)",
+      "Bash(git checkout:*)"
+    ]
+  }
+}

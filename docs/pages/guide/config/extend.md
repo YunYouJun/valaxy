@@ -186,6 +186,7 @@ Valaxy 内置了 RSS 模块，你可以在 `valaxy.config.ts` 中通过 `modules
 
 - `enable`: 是否启用 RSS 模块。默认 `true`，启用。
 - `fullText`: 是否输出文章全文。默认 `false`，只输出摘要。
+- `extractImagePathsFromHTML`: 是否从构建后的 HTML 中提取图片路径（用于解析 Vite 打包后的 hash 文件名）。默认 `true`，启用。
 
 :::
 
@@ -195,5 +196,46 @@ Valaxy has a built-in RSS module, which can be configured in `valaxy.config.ts` 
 
 - `enable`: Whether to enable the RSS module. Default is `true`, enabled.
 - `fullText`: Whether to output the full text of the article. Default is `false`, only the summary is output.
+- `extractImagePathsFromHTML`: Whether to extract image paths from built HTML files (to resolve Vite hashed filenames). Default is `true`, enabled.
+
+:::
+
+```ts [valaxy.config.ts]
+export default defineValaxyConfig({
+  modules: {
+    rss: {
+      enable: true,
+      fullText: false,
+      // 当设置为 true 时，会从构建后的 HTML 中提取图片的实际路径（包含 hash）
+      // When set to true, it will extract actual image paths (with hash) from built HTML
+      extractImagePathsFromHTML: true,
+    },
+  },
+})
+```
+
+::: zh-CN
+
+**关于 `extractImagePathsFromHTML`**
+
+当你在 Markdown 中使用相对路径引用图片时（如 `![pic](test.webp)`），Vite 会将图片打包并生成带 hash 的文件名（如 `/assets/test.zBFFFKJX.webp`）。
+
+- 启用此选项（默认）：RSS feed 中的图片 URL 将使用构建后的实际路径，如 `https://example.com/assets/test.zBFFFKJX.webp`
+- 禁用此选项：RSS feed 中的图片 URL 将基于文章目录构建，如 `https://example.com/posts/article-name/test.webp`
+
+大多数情况下，你应该保持此选项为 `true`，以确保 RSS 阅读器能正确加载图片。
+
+:::
+
+::: en
+
+**About `extractImagePathsFromHTML`**
+
+When you reference images with relative paths in Markdown (e.g., `![pic](test.webp)`), Vite will bundle the image and generate a hashed filename (e.g., `/assets/test.zBFFFKJX.webp`).
+
+- When enabled (default): Image URLs in RSS feed will use the actual built paths, like `https://example.com/assets/test.zBFFFKJX.webp`
+- When disabled: Image URLs in RSS feed will be constructed based on the post directory, like `https://example.com/posts/article-name/test.webp`
+
+In most cases, you should keep this option as `true` to ensure RSS readers can load images correctly.
 
 :::
