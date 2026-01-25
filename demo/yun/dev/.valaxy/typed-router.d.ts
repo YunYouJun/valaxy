@@ -30,30 +30,23 @@ declare module 'vue-router/auto-routes' {
       Record<never, never>,
       | never
     >,
-    '/about': RouteRecordInfo<
-      '/about',
-      '/about',
-      Record<never, never>,
-      Record<never, never>,
+    '/[...path]': RouteRecordInfo<
+      '/[...path]',
+      '/:path(.*)',
+      { path: ParamValue<true> },
+      { path: ParamValue<false> },
       | never
     >,
-    '/categories': RouteRecordInfo<
-      '/categories',
-      '/categories',
-      Record<never, never>,
-      Record<never, never>,
+    '/page/[page]': RouteRecordInfo<
+      '/page/[page]',
+      '/page/:page',
+      { page: ParamValue<true> },
+      { page: ParamValue<false> },
       | never
     >,
-    '/migration': RouteRecordInfo<
-      '/migration',
-      '/migration',
-      Record<never, never>,
-      Record<never, never>,
-      | never
-    >,
-    '/tags': RouteRecordInfo<
-      '/tags',
-      '/tags',
+    '/posts/': RouteRecordInfo<
+      '/posts/',
+      '/posts',
       Record<never, never>,
       Record<never, never>,
       | never
@@ -71,33 +64,27 @@ declare module 'vue-router/auto-routes' {
    * @internal
    */
   export interface _RouteFileInfoMap {
-    'src/client/pages/index.vue': {
+    '../../packages/valaxy-theme-yun/pages/index.vue': {
       routes:
         | '/'
       views:
         | never
     }
-    'src/client/pages/about.vue': {
+    '../../packages/valaxy/client/pages/[...path].vue': {
       routes:
-        | '/about'
+        | '/[...path]'
       views:
         | never
     }
-    'src/client/pages/categories.vue': {
+    '../../packages/valaxy-theme-yun/pages/page/[page].vue': {
       routes:
-        | '/categories'
+        | '/page/[page]'
       views:
         | never
     }
-    'src/client/pages/migration.vue': {
+    '../../packages/valaxy-theme-yun/pages/posts/index.vue': {
       routes:
-        | '/migration'
-      views:
-        | never
-    }
-    'src/client/pages/tags.vue': {
-      routes:
-        | '/tags'
+        | '/posts/'
       views:
         | never
     }

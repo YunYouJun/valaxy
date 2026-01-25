@@ -21,6 +21,7 @@ components.d.ts
 /playwright-report/
 /blob-report/
 /playwright/.cache/
+.playwright-mcp
 
 # test
 valaxy-blog

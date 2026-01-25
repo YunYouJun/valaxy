@@ -23,7 +23,7 @@ overrides:
 
   vue: catalog:frontend
 catalog:
-  '@antfu/eslint-config': ^6.7.3
+  '@antfu/eslint-config': ^7.2.0
   '@antfu/install-pkg': ^1.1.0
   '@antfu/utils': ^9.3.0
   '@clack/prompts': ^0.11.0
@@ -39,9 +39,9 @@ catalog:
   '@mdit-vue/plugin-toc': ^3.0.2
   '@mdit-vue/shared': ^3.0.2
   '@microsoft/api-extractor': ^7.55.2
-  '@playwright/test': ^1.57.0
+  '@playwright/test': ^1.58.0
   '@rollup/pluginutils': ^5.3.0
-  '@shikijs/transformers': ^3.20.0
+  '@shikijs/transformers': ^3.21.0
   '@types/animejs': ^3.1.13
   '@types/body-parser': ^1.19.6
   '@types/cross-spawn': ^6.0.6
@@ -51,14 +51,14 @@ catalog:
   '@types/gh-pages': ^6.1.0
   '@types/html-to-text': ^9.0.4
   '@types/js-yaml': ^4.0.9
-  '@types/katex': ^0.16.7
+  '@types/katex': ^0.16.8
   '@types/markdown-it': ^14.1.2
   '@types/markdown-it-attrs': ^4.1.3
-  '@types/markdown-it-container': ^2.0.11
+  '@types/markdown-it-container': ^4.0.0
   '@types/markdown-it-emoji': ^3.0.1
   '@types/markdown-it-footnote': ^3.0.4
   '@types/minimist': ^1.2.5
-  '@types/node': ^24.10.4
+  '@types/node': ^24.10.9
   '@types/nprogress': ^0.2.3
   '@types/pascalcase': ^1.0.3
   '@types/prompts': ^2.4.9
@@ -72,14 +72,14 @@ catalog:
   '@vueuse/integrations': ^14.1.0
   '@vueuse/motion': ^3.0.3
   '@waline/client': 3.4.1
-  animejs: ^4.2.2
-  axios: ^1.13.2
-  beasties: ^0.3.5
-  bilibili-bangumi-component: ^0.3.1
-  body-parser: ^2.2.1
-  bumpp: ^10.3.2
+  animejs: ^4.3.5
+  axios: ^1.13.3
+  beasties: ^0.4.1
+  bilibili-bangumi-component: ^0.4.0
+  body-parser: ^2.2.2
+  bumpp: ^10.4.0
   cilicili: ^0.1.1
-  cors: ^2.8.5
+  cors: ^2.8.6
   crc: ^4.3.2
   cross-env: ^10.1.0
   cross-spawn: ^7.0.6
@@ -89,12 +89,12 @@ catalog:
   define-config-ts: ^0.1.3
   defu: ^6.1.4
   diacritics: ^1.3.0
-  ejs: ^3.1.10
+  ejs: ^4.0.1
   escape-html: ^1.0.3
   eslint: ^9.39.2
   execa: 9.0.2
   fast-glob: ^3.3.3
-  feed: ^5.1.0
+  feed: ^5.2.0
   floating-vue: ^5.2.2
   fs-extra: ^11.3.3
   fuse.js: ^7.1.0
@@ -131,7 +131,7 @@ catalog:
   npm-run-all: 4.1.5
   nprogress: ^0.2.0
   open: 10.1.0
-  ora: ^9.0.0
+  ora: ^9.1.0
   p-map: ^7.0.4
   pascalcase: ^2.0.0
   pathe: ^2.0.3
@@ -141,18 +141,18 @@ catalog:
   resolve-global: ^2.0.0
   rimraf: ^6.1.2
   rollup-plugin-visualizer: ^6.0.5
-  sass: ^1.97.1
-  shiki: ^3.20.0
+  sass: ^1.97.3
+  shiki: ^3.21.0
   sirv: ^3.0.2
   splitpanes: ^4.0.4
   star-markdown-css: ^0.5.3
-  stylelint: ^16.26.1
+  stylelint: ^17.0.0
   stylelint-config-recommended-vue: ^1.6.1
-  stylelint-config-standard-scss: ^16.0.0
+  stylelint-config-standard-scss: ^17.0.0
   table: ^6.9.0
   tsup: ^8.5.1
   tsx: ^4.21.0
-  typedoc: ^0.28.15
+  typedoc: ^0.28.16
   typedoc-plugin-markdown: ^4.9.0
   typedoc-vitepress-theme: ^1.1.2
   unocss: 66.5.10
@@ -162,13 +162,13 @@ catalog:
   valaxy-addon-git-log: ^0.3.2
   vanilla-lazyload: ^19.1.3
   vite-dev-rpc: ^1.1.0
-  vite-node: ^5.2.0
+  vite-node: ^5.3.0
   vite-plugin-vue-devtools: ^8.0.5
   vite-plugin-vue-layouts: ^0.11.0
   vite-ssg: ^28.2.2
   vite-ssg-sitemap: ^0.10.0
-  vitepress-plugin-group-icons: ^1.6.5
-  vitest: ^4.0.16
+  vitepress-plugin-group-icons: ^1.7.1
+  vitest: ^4.0.18
   vue-router: ^4.6.4
   vue-tsc: 2.2.0
   yargs: ^18.0.0
@@ -176,22 +176,22 @@ catalog:
 catalogs:
   build:
     '@iconify-json/ant-design': ^1.2.5
-    '@iconify-json/carbon': ^1.2.15
+    '@iconify-json/carbon': ^1.2.18
     '@iconify-json/logos': ^1.2.10
-    '@iconify-json/ri': ^1.2.6
-    '@iconify-json/simple-icons': ^1.2.63
-    '@iconify-json/vscode-icons': ^1.2.37
+    '@iconify-json/ri': ^1.2.7
+    '@iconify-json/simple-icons': ^1.2.67
+    '@iconify-json/vscode-icons': ^1.2.40
     '@intlify/unplugin-vue-i18n': ^11.0.3
-    '@unhead/addons': ^2.1.1
-    '@unhead/schema-org': ^2.1.1
-    '@unhead/vue': ^2.1.1
+    '@unhead/addons': ^2.1.2
+    '@unhead/schema-org': ^2.1.2
+    '@unhead/vue': ^2.1.2
     consola: ^3.4.2
     typescript: ^5.9.3
     unbuild: ^3.6.1
-    unhead: ^2.1.1
-    unplugin-vue-router: ^0.19.1
-    vite: ^7.3.0
-    vue-i18n: ^11.2.7
+    unhead: ^2.1.2
+    unplugin-vue-router: ^0.19.2
+    vite: ^7.3.1
+    vue-i18n: ^11.2.8
     zx: ^8.8.5
   frontend:
     '@primevue/themes': ^4.5.4

@@ -12,7 +12,7 @@ import type { EditableTreeNode } from 'unplugin-vue-router'
 import type Router from 'unplugin-vue-router/vite'
 import type { UserConfig as ViteUserConfig } from 'vite'
 import type Layouts from 'vite-plugin-vue-layouts'
-import type { Options as GroupIconsOptions } from 'vitepress-plugin-group-icons'
+import type { groupIconVitePlugin } from 'vitepress-plugin-group-icons'
 import type { DefaultTheme, PartialDeep, ValaxyConfig } from '../../types'
 import type { createValaxyNode } from '../app'
 import type { MarkdownOptions } from '../plugins/markdown/types'
@@ -176,7 +176,7 @@ export interface ValaxyExtendConfig {
   /**
    * @see https://github.com/yuyinws/vitepress-plugin-group-icons
    */
-  groupIcons?: Partial<GroupIconsOptions>
+  groupIcons?: Partial<NonNullable<Parameters<typeof groupIconVitePlugin>[0]>>
   /**
    * unocss presets
    * @see https://unocss.dev/guide/presets
