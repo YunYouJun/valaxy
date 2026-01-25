@@ -10,6 +10,16 @@ end: false
 - `create-valaxy`
 - `create-valaxy-theme`
 
+## AI-Assisted Development
+
+Valaxy supports AI-assisted development workflows. See [AI-Assisted Development](./ai) for details.
+
+Quick example - fix a GitHub issue automatically:
+
+```bash
+/fix-github-issue 628
+```
+
 ## Todo
 
 - [ ] create-valaxy
