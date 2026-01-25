@@ -20,7 +20,6 @@ jobs:
 
       - name: Cache Playwright Browsers
         uses: actions/cache@v4
-        id: playwright-cache
         with:
           path: ~/.cache/ms-playwright
           key: ${{ runner.os }}-playwright-${{ hashFiles('**/pnpm-lock.yaml') }}
