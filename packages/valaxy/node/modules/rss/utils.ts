@@ -66,7 +66,8 @@ async function extractImagePathsFromHTML(htmlPath: string, DOMAIN: string): Prom
       }
     }
     if (imageMap.size > 0) {
-      consola.info(`[RSS] Extracted ${imageMap.size} image(s) from ${htmlPath}`)
+      const uniqueImageCount = imageMap.size / 2
+      consola.info(`[RSS] Extracted ${uniqueImageCount} image(s) from ${htmlPath}`)
     }
   }
   catch (error) {
@@ -240,42 +241,24 @@ export async function getPosts(params: {
     let html = markdown.render(rssContent)
 
     // Replace image paths with actual built asset URLs
-    if (imageMap.size > 0) {
-      html = html.replace(/src="([^"]+)"/g, (_fullMatch, src) => {
-        // Check if we have a mapping for this image
-        if (imageMap.has(src)) {
-          return `src="${imageMap.get(src)}"`
-        }
-        // If not in map, handle as before
-        if (src.startsWith('/')) {
-          return `src="${DOMAIN}${src}"`
-        }
-        if (src.startsWith('http://') || src.startsWith('https://')) {
-          return _fullMatch
-        }
-        // For relative paths without mapping, construct URL based on post directory
-        const postDirUrl = `${DOMAIN}/${urlPath.split('/').slice(0, -1).join('/')}`
-        const cleanSrc = src.startsWith('./') ? src.slice(2) : src
-        return `src="${postDirUrl}/${cleanSrc}"`
-      })
-    }
-    else {
-      // Fallback: handle image paths without HTML mapping
-      html = html.replace(/src="([^"]+)"/g, (_fullMatch, src) => {
-        // Handle absolute URLs (already complete)
-        if (src.startsWith('http://') || src.startsWith('https://')) {
-          return _fullMatch
-        }
-        // Handle absolute paths starting with /
-        if (src.startsWith('/')) {
-          return `src="${DOMAIN}${src}"`
-        }
-        // Handle relative paths (./ or direct filename)
-        const postDirUrl = `${DOMAIN}/${urlPath.split('/').slice(0, -1).join('/')}`
-        const cleanSrc = src.startsWith('./') ? src.slice(2) : src
-        return `src="${postDirUrl}/${cleanSrc}"`
-      })
-    }
+    html = html.replace(/src="([^"]+)"/g, (_fullMatch, src) => {
+      // Check if we have a mapping for this image
+      if (imageMap.has(src)) {
+        return `src="${imageMap.get(src)}"`
+      }
+      // Handle absolute URLs (already complete)
+      if (src.startsWith('http://') || src.startsWith('https://')) {
+        return _fullMatch
+      }
+      // Handle absolute paths starting with /
+      if (src.startsWith('/')) {
+        return `src="${DOMAIN}${src}"`
+      }
+      // Handle relative paths (./ or direct filename)
+      const postDirUrl = `${DOMAIN}/${urlPath.split('/').slice(0, -1).join('/')}`
+      const cleanSrc = src.startsWith('./') ? src.slice(2) : src
+      return `src="${postDirUrl}/${cleanSrc}"`
+    })
 
     if (data.image?.startsWith('/'))
       data.image = DOMAIN + data.image
