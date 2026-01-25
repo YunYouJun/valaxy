@@ -39,11 +39,7 @@ jobs:
         run: pnpm run build:demo
 
       - name: Install Playwright Chromium
-        run: pnpm exec playwright install chromium
-
-      - name: Install Playwright System Dependencies
-        if: steps.playwright-cache.outputs.cache-hit != 'true'
-        run: pnpm exec playwright install-deps chromium
+        run: pnpm exec playwright install chromium --with-deps
 
       - name: Run Playwright tests
         run: pnpm exec playwright test
