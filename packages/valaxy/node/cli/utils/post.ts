@@ -2,7 +2,7 @@ import { dirname, join, resolve } from 'node:path'
 import { consola } from 'consola'
 import { colors } from 'consola/utils'
 import dayjs from 'dayjs'
-import { render } from 'ejs'
+import ejs from 'ejs'
 import fs from 'fs-extra'
 import { defaultPostTemplate, userRoot } from './constants'
 
@@ -62,5 +62,5 @@ async function genLayoutTemplate({
 
   // 24h format
   const dateFormat = 'YYYY-MM-DD HH:mm:ss'
-  return render(template, { title, layout, date: date ? dayjs().format(dateFormat) : '' })
+  return ejs.render(template, { title, layout, date: date ? dayjs().format(dateFormat) : '' })
 }
