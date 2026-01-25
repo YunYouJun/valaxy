@@ -1,5 +1,6 @@
 import type { ValaxyAddonResolver, ValaxyAddons } from '../types'
 import process from 'node:process'
+import { normalizeRepositoryUrl } from '@valaxyjs/utils'
 import { colors } from 'consola/utils'
 import defu from 'defu'
 import fs from 'fs-extra'
@@ -10,13 +11,6 @@ import { getModuleRoot } from './root'
 
 export interface ReadAddonModuleOptions {
   cwd?: string
-}
-
-/**
- * Remove git+ prefix from repository URL
- */
-function normalizeRepositoryUrl(url: string) {
-  return url.replace(/^git\+/, '')
 }
 
 export async function parseAddons(addons: ValaxyAddons, userRoot = process.cwd()) {

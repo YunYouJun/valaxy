@@ -1,16 +1,10 @@
 import type { UserModule } from '../types'
 
+import { normalizeRepositoryUrl } from '@valaxyjs/utils'
 import pkg from '../../package.json'
 import valaxyLogo from '../assets/images/valaxy-logo.png'
 
 // import {addCustomCommand, addCustomTab } from '@vue/devtools-api'
-
-/**
- * Remove git+ prefix from repository URL
- */
-function normalizeRepositoryUrl(url: string) {
-  return url.replace(/^git\+/, '')
-}
 
 /**
  * add when enable vue devtools
