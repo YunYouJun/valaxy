@@ -18,7 +18,14 @@ const isThisYear = computed(() => {
   return year === themeConfig.value.footer.since
 })
 
-const poweredHtml = computed(() => t('footer.powered', [`<a href="${pkg.repository}" target="_blank" rel="noopener">Valaxy</a> v${pkg.version}`]))
+/**
+ * Remove git+ prefix from repository URL
+ */
+function normalizeRepositoryUrl(url: string) {
+  return url.replace(/^git\+/, '')
+}
+
+const poweredHtml = computed(() => t('footer.powered', [`<a href="${normalizeRepositoryUrl(pkg.repository.url)}" target="_blank" rel="noopener">Valaxy</a> v${pkg.version}`]))
 const footerIcon = computed(() => themeConfig.value.footer.icon!)
 </script>
 

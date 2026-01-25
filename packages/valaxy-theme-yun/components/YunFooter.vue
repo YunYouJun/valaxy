@@ -31,9 +31,16 @@ const isThisYear = computed(() => {
   return year === themeConfig.value.footer.since
 })
 
-const poweredHtml = computed(() => t('footer.powered', [`<a href="${pkg.repository.url}" target="_blank" rel="noopener">Valaxy</a> <span class="op-60">v${pkg.version}</span>`]))
+/**
+ * Remove git+ prefix from repository URL
+ */
+function normalizeRepositoryUrl(url: string) {
+  return url.replace(/^git\+/, '')
+}
+
+const poweredHtml = computed(() => t('footer.powered', [`<a href="${normalizeRepositoryUrl(pkg.repository.url)}" target="_blank" rel="noopener">Valaxy</a> <span class="op-60">v${pkg.version}</span>`]))
 const footerIcon = computed(() => themeConfig.value.footer.icon || {
-  url: pkg.repository.url,
+  url: normalizeRepositoryUrl(pkg.repository.url),
   name: 'i-ri-cloud-line',
   title: pkg.name,
 })
@@ -82,7 +89,7 @@ const footerIcon = computed(() => themeConfig.value.footer.icon || {
       <span>
         <span>{{ t('footer.theme') }}</span>
         <span mx-1>-</span>
-        <a :href="themeConfig.pkg.repository.url" :title="themeConfig.pkg.name" target="_blank">{{ capitalize(config.theme) }}</a>
+        <a :href="normalizeRepositoryUrl(themeConfig.pkg.repository.url)" :title="themeConfig.pkg.name" target="_blank">{{ capitalize(config.theme) }}</a>
         <span class="ml-1 op-60">v{{ themeConfig.pkg.version }}</span>
       </span>
     </div>

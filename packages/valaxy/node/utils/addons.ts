@@ -12,6 +12,13 @@ export interface ReadAddonModuleOptions {
   cwd?: string
 }
 
+/**
+ * Remove git+ prefix from repository URL
+ */
+function normalizeRepositoryUrl(url: string) {
+  return url.replace(/^git\+/, '')
+}
+
 export async function parseAddons(addons: ValaxyAddons, userRoot = process.cwd()) {
   const spinner = ora(`Resolve ${colors.cyan('addons')} from ${colors.dim(userRoot)}`).start()
 
@@ -34,8 +41,10 @@ export async function parseAddons(addons: ValaxyAddons, userRoot = process.cwd()
   spinner.succeed()
   const resolvedAddons = Object.values(resolvers).filter(item => item.enable)
   resolvedAddons.forEach((addon, i) => {
+    const repoUrl = addon.pkg.repository?.url || addon.pkg.repository
+    const displayUrl = typeof repoUrl === 'string' ? normalizeRepositoryUrl(repoUrl) : repoUrl
     // eslint-disable-next-line no-console
-    console.log(`  ${i === resolvedAddons.length - 1 ? '└─' : '├─'} ${colors.yellow(addon.name)} ${colors.blue(`v${addon.pkg?.version}`)}${addon.global ? colors.cyan(' (global)') : ''} ${colors.dim(addon.pkg.homepage || addon.pkg.repository?.url || addon.pkg.repository || '')}`)
+    console.log(`  ${i === resolvedAddons.length - 1 ? '└─' : '├─'} ${colors.yellow(addon.name)} ${colors.blue(`v${addon.pkg?.version}`)}${addon.global ? colors.cyan(' (global)') : ''} ${colors.dim(addon.pkg.homepage || displayUrl || '')}`)
   })
   return resolvedAddons
 }

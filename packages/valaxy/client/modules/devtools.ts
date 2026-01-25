@@ -6,6 +6,13 @@ import valaxyLogo from '../assets/images/valaxy-logo.png'
 // import {addCustomCommand, addCustomTab } from '@vue/devtools-api'
 
 /**
+ * Remove git+ prefix from repository URL
+ */
+function normalizeRepositoryUrl(url: string) {
+  return url.replace(/^git\+/, '')
+}
+
+/**
  * add when enable vue devtools
  * https://devtools-next.vuejs.org/plugins/api
  */
@@ -39,7 +46,7 @@ export async function addValaxyTabAndCommand() {
         icon: 'i-ri-github-fill',
         action: {
           type: 'url',
-          src: pkg.repository.url,
+          src: normalizeRepositoryUrl(pkg.repository.url),
         },
       },
       {
