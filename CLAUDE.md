@@ -1,6 +1,6 @@
 # CLAUDE.md
 
-This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
+This file provides guidance to Claude Code (https://claude.com/code) when working with code in this repository.
 
 ## Project Overview
 
@@ -254,11 +254,11 @@ pnpm run build  # Builds in order: utils → valaxy → devtools
 ```
 
 ### Repository URL Normalization
-When displaying repository URLs from package.json, always use the `normalizeRepositoryUrl()` helper to remove the "git+" prefix:
+When displaying repository URLs from package.json, always import and use the `normalizeRepositoryUrl()` helper from `@valaxyjs/utils` to remove the "git+" prefix:
 ```ts
-function normalizeRepositoryUrl(url: string) {
-  return url.replace(/^git\+/, '')
-}
+import { normalizeRepositoryUrl } from '@valaxyjs/utils'
+
+const repoUrl = normalizeRepositoryUrl(pkg.repository.url)
 ```
 This prevents browser errors with `git+https://...` URLs.
 
