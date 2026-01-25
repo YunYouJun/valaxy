@@ -18,8 +18,18 @@ jobs:
           node-version: lts/*
           cache: pnpm
 
+      - name: Cache Playwright Browsers
+        uses: actions/cache@v4
+        with:
+          path: ~/.cache/ms-playwright
+          key: ${{ runner.os }}-playwright-${{ hashFiles('**/pnpm-lock.yaml') }}
+          restore-keys: |
+            ${{ runner.os }}-playwright-
+
       - name: Install
         run: pnpm install
+        env:
+          PLAYWRIGHT_SKIP_BROWSER_DOWNLOAD: 1
 
       - name: CI Build Init
         run: pnpm run ci
@@ -27,8 +37,8 @@ jobs:
       - name: Build Demo Dist
         run: pnpm run build:demo
 
-      - name: Install Playwright Browsers
-        run: pnpm exec playwright install --with-deps
+      - name: Install Playwright Chromium
+        run: pnpm exec playwright install chromium --with-deps
 
       - name: Run Playwright tests
         run: pnpm exec playwright test
