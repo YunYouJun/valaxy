@@ -58,7 +58,7 @@ catalog:
   '@types/markdown-it-emoji': ^3.0.1
   '@types/markdown-it-footnote': ^3.0.4
   '@types/minimist': ^1.2.5
-  '@types/node': ^24.10.9
+  '@types/node': ^25.0.10
   '@types/nprogress': ^0.2.3
   '@types/pascalcase': ^1.0.3
   '@types/prompts': ^2.4.9
