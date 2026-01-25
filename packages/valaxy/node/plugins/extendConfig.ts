@@ -41,6 +41,12 @@ const clientDeps = [
   'vanilla-lazyload',
 
   'valaxy > @vueuse/integrations/useFuse',
+
+  // mermaid dependencies
+  'd3',
+  'lodash-es',
+  '@braintree/sanitize-url',
+  'mermaid',
 ]
 
 /**
