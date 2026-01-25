@@ -286,12 +286,16 @@ Note that for many search engines, they like SSG builds more.
 自带命令生成 RSS 订阅源。
 
 > [RSS 是什么？](https://baike.baidu.com/item/rss/24470)
+
+更多配置选项请参见 [RSS 配置](/guide/config/extend#rss)。
 :::
 
 ::: en
 Valaxy comes with a command to generate RSS feeds.
 
 > [What is RSS?](https://en.wikipedia.org/wiki/RSS)
+
+For more configuration options, see [RSS Configuration](/guide/config/extend#rss).
 :::
 
 ```bash

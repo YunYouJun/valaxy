@@ -30,6 +30,54 @@ const markdown = MarkdownIt({
 })
 
 /**
+ * Extract image paths from built HTML file
+ * Returns a map of original paths to built asset paths
+ */
+async function extractImagePathsFromHTML(htmlPath: string, DOMAIN: string): Promise<Map<string, string>> {
+  const imageMap = new Map<string, string>()
+
+  try {
+    if (!await fs.exists(htmlPath))
+      return imageMap
+
+    const html = await fs.readFile(htmlPath, 'utf-8')
+
+    // Match all img tags with src containing assets/
+    // e.g., <img src="/assets/test.zBFFFKJX.webp" alt="pic">
+    const imgRegex = /<img[^>]+src="([^"]+)"[^>]*>/g
+    let match: RegExpExecArray | null
+
+    // eslint-disable-next-line no-cond-assign
+    while ((match = imgRegex.exec(html)) !== null) {
+      const src = match[1]
+      // Extract the filename from the asset path
+      // /assets/test.zBFFFKJX.webp -> test (without hash and extension)
+      // Support both single-part and multi-part filenames (e.g., bg-img)
+      const assetMatch = src.match(/\/assets\/(.+)\.([a-zA-Z0-9]+)\.([a-z0-9]+)$/)
+      if (assetMatch) {
+        const [, basename, , ext] = assetMatch
+        // Map original filename to full URL
+        // test.webp -> https://domain/assets/test.zBFFFKJX.webp
+        // bg-img.jpg -> https://domain/assets/bg-img.kXdNMxcF.jpg
+        const originalName = `${basename}.${ext}`
+        imageMap.set(originalName, `${DOMAIN}${src}`)
+        imageMap.set(`./${originalName}`, `${DOMAIN}${src}`)
+        consola.debug(`[RSS] Mapped image: ${originalName} -> ${DOMAIN}${src}`)
+      }
+    }
+    if (imageMap.size > 0) {
+      const uniqueImageCount = imageMap.size / 2
+      consola.info(`[RSS] Extracted ${uniqueImageCount} image(s) from ${htmlPath}`)
+    }
+  }
+  catch (error) {
+    consola.debug(`Failed to extract image paths from ${htmlPath}:`, error)
+  }
+
+  return imageMap
+}
+
+/**
  * generate rss
  * @param options
  */
@@ -164,17 +212,57 @@ export async function getPosts(params: {
     // default excerpt content length: 100
     const fullText = options.config.modules.rss.fullText
     const rssContent = fullText ? content : (excerpt || content.slice(0, 100))
-    const html = markdown.render(rssContent)
-      .replace('src="/', `src="${DOMAIN}/`)
-
-    if (data.image?.startsWith('/'))
-      data.image = DOMAIN + data.image
 
     // Use relative path to correctly handle cross-platform file paths
     const relativePath = relative(join(options.userRoot, 'pages'), path)
     // Convert Windows backslashes to forward slashes for URL
     const urlPath = relativePath.replace(/\\/g, '/').replace(/\.md$/, '')
     const link = `${DOMAIN}/${urlPath}`
+
+    // Extract image paths from built HTML if enabled
+    const extractImages = options.config.modules.rss.extractImagePathsFromHTML
+    let imageMap = new Map<string, string>()
+
+    if (extractImages) {
+      // Try to load the built HTML file to get actual asset paths
+      // Handle both /posts/xxx/index.md -> /posts/xxx.html and /posts/xxx.md -> /posts/xxx.html
+      let htmlPath = resolve(options.userRoot, 'dist', `${urlPath}.html`)
+      if (urlPath.endsWith('/index')) {
+        // For pages/posts/xxx/index.md, try posts/xxx.html first
+        const withoutIndex = urlPath.slice(0, -6) // Remove '/index'
+        const alternativePath = resolve(options.userRoot, 'dist', `${withoutIndex}.html`)
+        if (await fs.exists(alternativePath)) {
+          htmlPath = alternativePath
+        }
+      }
+      imageMap = await extractImagePathsFromHTML(htmlPath, DOMAIN)
+    }
+
+    let html = markdown.render(rssContent)
+
+    // Replace image paths with actual built asset URLs
+    html = html.replace(/src="([^"]+)"/g, (_fullMatch, src) => {
+      // Check if we have a mapping for this image
+      if (imageMap.has(src)) {
+        return `src="${imageMap.get(src)}"`
+      }
+      // Handle absolute URLs (already complete)
+      if (src.startsWith('http://') || src.startsWith('https://')) {
+        return _fullMatch
+      }
+      // Handle absolute paths starting with /
+      if (src.startsWith('/')) {
+        return `src="${DOMAIN}${src}"`
+      }
+      // Handle relative paths (./ or direct filename)
+      const postDirUrl = `${DOMAIN}/${urlPath.split('/').slice(0, -1).join('/')}`
+      const cleanSrc = src.startsWith('./') ? src.slice(2) : src
+      return `src="${postDirUrl}/${cleanSrc}"`
+    })
+
+    if (data.image?.startsWith('/'))
+      data.image = DOMAIN + data.image
+
     const tip = `<br/><p>${
       lang === 'zh-CN'
         ? `访问 <a href="${link}" target="_blank">${link}</a> ${fullText ? '查看原文' : '阅读全文'}。`
