@@ -19,7 +19,7 @@ function getCryptoDeriveKey(keyMaterial: CryptoKey | webcrypto.CryptoKey, salt: 
   return webcrypto.subtle.deriveKey(
     {
       name: 'PBKDF2',
-      salt: salt as Uint8Array<ArrayBuffer>,
+      salt,
       iterations: 100000,
       hash: 'SHA-256',
     },
@@ -50,7 +50,7 @@ export async function encryptContent(content: string, options: {
   const ciphertextData = await webcrypto.subtle.encrypt(
     {
       name: 'AES-CBC',
-      iv: iv as Uint8Array<ArrayBuffer>,
+      iv,
     },
     key,
     enc.encode(content),
