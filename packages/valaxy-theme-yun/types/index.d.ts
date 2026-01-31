@@ -245,6 +245,7 @@ export interface ThemeConfig extends DefaultTheme.Config {
        * 苏ICP备xxxxxxxx号
        */
       icp: string
+      police: string
     }
   }>
 

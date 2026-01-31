@@ -25,6 +25,7 @@ export const defaultThemeConfig: ThemeConfig = {
     beian: {
       enable: false,
       icp: '',
+      police: '',
     },
   },
 

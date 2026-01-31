@@ -55,6 +55,7 @@ export interface ThemeConfig {
        * 苏ICP备xxxxxxxx号
        */
       icp: string
+      police: string
     }
   }>
 
