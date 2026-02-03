@@ -1,12 +1,12 @@
 import type { RouteMeta } from 'vue-router'
-import type { ExcerptType, Page, Post } from '../../types'
+import type { ExcerptType, Page, Post, PostFrontMatter } from '../../types'
 import type { ValaxyNode } from '../types'
 import fs from 'fs-extra'
 import matter from 'gray-matter'
 import { convert } from 'html-to-text'
 import { MarkdownItAsync } from 'markdown-it-async'
 import { resolve } from 'pathe'
-import VueRouter from 'unplugin-vue-router/vite'
+import VueRouter from 'vue-router/vite'
 
 import { setupMarkdownPlugins } from './markdown'
 import { matterOptions } from './markdown/transform/matter'
@@ -45,7 +45,7 @@ export async function createRouterPlugin(valaxyApp: ValaxyNode) {
   return VueRouter({
     extensions: ['.vue', '.md'],
     routesFolder: roots.map(root => `${root}/pages`),
-    dts: resolve(options.tempDir, 'typed-router.d.ts'),
+    dts: resolve(options.tempDir, 'route-map.d.ts'),
 
     ...valaxyConfig.router,
 
@@ -199,8 +199,8 @@ export async function createRouterPlugin(valaxyApp: ValaxyNode) {
         }
 
         // set default updated
-        if (!route.meta.frontmatter?.updated)
-          route.meta.frontmatter.updated = mdFm.date
+        if (route.meta.frontmatter && typeof route.meta.frontmatter === 'object' && !('updated' in route.meta.frontmatter))
+          (route.meta.frontmatter as PostFrontMatter).updated = mdFm.date
 
         // TODO: extract to hook call
         if (valaxyConfig.siteConfig.statistics.enable) {

@@ -1,3 +1,4 @@
+import type { PostFrontMatter } from 'valaxy'
 import type { Options } from '../types'
 import { defineValaxyAddon } from 'valaxy'
 
@@ -10,8 +11,9 @@ export const addonAbbrlink = defineValaxyAddon<Options>(options => ({
 
   setup(node) {
     node.hook('vue-router:extendRoute', (route) => {
-      if (route.meta.frontmatter?.abbrlink) {
-        route.addAlias(`/posts/${route.meta.frontmatter.abbrlink}`)
+      const fm = route.meta.frontmatter as PostFrontMatter | undefined
+      if (fm?.abbrlink) {
+        route.addAlias(`/posts/${fm.abbrlink}`)
       }
     })
 

@@ -1,9 +1,9 @@
-import { DataLoaderPlugin } from 'unplugin-vue-router/data-loaders'
 import { dataSymbol, initValaxyConfig, valaxyConfigSymbol } from 'valaxy'
 import { setupLayouts } from 'virtual:generated-layouts'
 import { ViteSSG } from 'vite-ssg'
-
 import { routes as autoRoutes } from 'vue-router/auto-routes'
+
+import { DataLoaderPlugin } from 'vue-router/experimental'
 // import App from '/@valaxyjs/App.vue'
 import App from './App.vue'
 

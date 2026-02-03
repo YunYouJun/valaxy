@@ -20,7 +20,7 @@ useSchemaOrg([
 ])
 
 const route = useRoute()
-const photos = computed(() => route.meta.frontmatter.photos || [])
+const photos = computed(() => route.meta.frontmatter?.photos || [])
 
 const runtimeConfig = useRuntimeConfig()
 

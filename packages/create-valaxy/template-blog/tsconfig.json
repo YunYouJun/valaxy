@@ -13,8 +13,7 @@
     "types": [
       "vite/client",
       "valaxy/client",
-      "vite-plugin-vue-layouts/client",
-      "unplugin-vue-router/client"
+      "vite-plugin-vue-layouts/client"
     ],
     "strict": true,
     "strictNullChecks": true,

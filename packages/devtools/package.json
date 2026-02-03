@@ -56,7 +56,6 @@
     "splitpanes": "catalog:",
     "typescript": "catalog:build",
     "unbuild": "catalog:build",
-    "unplugin-vue-router": "catalog:build",
     "vite": "catalog:build",
     "vue-i18n": "catalog:build"
   }

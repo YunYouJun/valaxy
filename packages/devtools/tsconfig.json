@@ -12,8 +12,7 @@
     "types": [
       "@types/wicg-file-system-access",
       "vite/client",
-      "valaxy/client",
-      "unplugin-vue-router/client"
+      "valaxy/client"
     ],
     "strict": true,
     "strictNullChecks": true,
@@ -22,7 +21,7 @@
     "skipLibCheck": true
   },
   "include": [
-    "./src/client/typed-routes.d.ts",
+    "./src/client/route-map.d.ts",
     "./src/**/*.ts",
     "../valaxy/client/rpc.ts",
     "../valaxy/client/rpc.ts"

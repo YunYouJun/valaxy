@@ -9,7 +9,7 @@
 
 ```vue
 <script>
-import { defineBasicLoader } from 'unplugin-vue-router/data-loaders/basic'
+import { defineBasicLoader } from 'vue-router/experimental'
 
 export const usePageData = defineBasicLoader('/relativePath', async (_to) => {
   // custom basic loader

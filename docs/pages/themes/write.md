@@ -134,7 +134,7 @@ export default defineTheme({
 ```
 
 ```ts
-import type { EditableTreeNode } from 'unplugin-vue-router'
+import type { EditableTreeNode } from 'vue-router/unplugin'
 
 // provided by valaxy, just as a tip
 export interface ValaxyConfig {

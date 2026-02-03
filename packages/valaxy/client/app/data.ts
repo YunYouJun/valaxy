@@ -1,6 +1,6 @@
 import type { Ref } from 'vue'
 import type { Router } from 'vue-router'
-import type { PageData } from '../../types'
+import type { PageData, Post } from '../../types'
 import { computed } from 'vue'
 
 export interface ValaxyData<FM = PageData['frontmatter']> {
@@ -16,6 +16,6 @@ export function initData(router: Router): ValaxyData {
     page: computed(() => (router.currentRoute.value as unknown as {
       data: PageData
     }).data),
-    frontmatter: computed(() => router.currentRoute.value.meta.frontmatter),
+    frontmatter: computed(() => router.currentRoute.value.meta.frontmatter!) as Ref<Post>,
   }
 }

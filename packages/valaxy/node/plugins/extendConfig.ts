@@ -73,10 +73,10 @@ const EXCLUDE = [
   '/@valaxyjs/styles',
 
   /**
-   * unplugin-vue-router
+   * vue-router data loaders
    * exclude to avoid vite optimize, will make Symbol('loaderEntries') valid
    */
-  'unplugin-vue-router/data-loaders/basic',
+  'vue-router/experimental',
 ]
 
 export function createConfigPlugin(options: ResolvedValaxyOptions): Plugin {

@@ -136,7 +136,6 @@
     "unocss": "catalog:",
     "unplugin-vue-components": "catalog:",
     "unplugin-vue-markdown": "catalog:",
-    "unplugin-vue-router": "catalog:build",
     "vanilla-lazyload": "catalog:",
     "vite": "catalog:build",
     "vite-dev-rpc": "catalog:",

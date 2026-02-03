@@ -1,4 +1,4 @@
-import type { EditableTreeNode } from 'unplugin-vue-router'
+import type { EditableTreeNode } from 'vue-router/unplugin'
 
 export type HookResult = Promise<void> | void
 
