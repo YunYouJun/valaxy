@@ -213,6 +213,7 @@ export default defineThemeConfig({
     beian: {
       enable: true,
       icp: '苏ICP备17038157号',
+      police: '苏公网安备xxxxxx号',
     },
     icon: {
       animated: true,

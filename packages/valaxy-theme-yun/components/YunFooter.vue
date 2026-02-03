@@ -38,6 +38,14 @@ const footerIcon = computed(() => themeConfig.value.footer.icon || {
   name: 'i-ri-cloud-line',
   title: pkg.name,
 })
+
+const policeCode = computed(() => {
+  const police = themeConfig.value.footer.beian?.police
+  if (!police)
+    return ''
+  const match = police.match(/(\d+)/)
+  return match ? match[1] : ''
+})
 </script>
 
 <template>
@@ -53,6 +61,23 @@ const footerIcon = computed(() => themeConfig.value.footer.icon || {
       <a href="https://beian.miit.gov.cn/" target="_blank" rel="noopener">
         {{ themeConfig.footer.beian.icp }}
       </a>
+
+      <template v-if="themeConfig.footer.beian?.police && policeCode">
+        <span mx-2>|</span>
+        <a
+          :href="`https://beian.mps.gov.cn/#/query/webSearch?code=${policeCode}`"
+          target="_blank"
+          rel="noreferrer"
+          class="inline-flex items-center justify-center gap-1"
+        >
+          <img
+            src="https://beian.mps.gov.cn/web/assets/logo01.6189a29f.png"
+            alt="备案图标"
+            class="w-4 h-4 inline-block"
+          >
+          {{ themeConfig.footer.beian.police }}
+        </a>
+      </template>
     </div>
 
     <div class="copyright flex justify-center items-center gap-2" p="1">
