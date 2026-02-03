@@ -1,6 +1,6 @@
 import type { UseDarkOptions } from '@vueuse/core'
 import { useDark, useToggle } from '@vueuse/core'
-import { computed } from 'vue'
+import { computed, nextTick } from 'vue'
 
 export function useValaxyDark(options: {
   /**
@@ -31,8 +31,12 @@ export function useValaxyDark(options: {
   if (options.circleTransition)
     import('valaxy/client/styles/common/view-transition.css')
 
+  const enableTransitions = () =>
+    'startViewTransition' in document
+    && window.matchMedia('(prefers-reduced-motion: no-preference)').matches
+
   function toggleDarkWithTransition(event: MouseEvent, options: { duration?: number, easing?: EffectTiming['easing'] } = {}) {
-    if (!document.startViewTransition) {
+    if (!enableTransitions()) {
       toggleDark()
       return
     }
@@ -44,23 +48,26 @@ export function useValaxyDark(options: {
       Math.max(y, innerHeight - y),
     )
 
-    const transition = document.startViewTransition(() => {
+    const clipPath = [
+      `circle(0px at ${x}px ${y}px)`,
+      `circle(${endRadius}px at ${x}px ${y}px)`,
+    ]
+
+    const transition = document.startViewTransition(async () => {
       toggleDark()
+      await nextTick()
     })
 
     transition.ready.then(() => {
-      const clipPath = [
-        `circle(0px at ${x}px ${y}px)`,
-        `circle(${endRadius}px at ${x}px ${y}px)`,
-      ]
       document.documentElement.animate(
         {
-          clipPath: isDark.value ? clipPath.reverse() : clipPath,
+          clipPath: isDark.value ? [...clipPath].reverse() : clipPath,
         },
         {
-          duration: options.duration || 300,
-          easing: options.easing || 'ease-in',
-          pseudoElement: isDark.value ? '::view-transition-old(root)' : '::view-transition-new(root)',
+          duration: options.duration ?? 200,
+          easing: options.easing ?? 'ease-in',
+          fill: 'forwards',
+          pseudoElement: `::view-transition-${isDark.value ? 'old' : 'new'}(root)`,
         },
       )
     })
