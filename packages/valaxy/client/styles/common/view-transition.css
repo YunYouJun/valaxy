@@ -5,6 +5,17 @@
   mix-blend-mode: normal;
 }
 
+/**
+ * Disable all CSS transitions during View Transition to prevent flickering
+ * @see https://github.com/YunYouJun/valaxy/issues/636
+ */
+:root:active-view-transition,
+:root:active-view-transition *,
+:root:active-view-transition *::before,
+:root:active-view-transition *::after {
+  transition: none !important;
+}
+
 /* 进入dark模式和退出dark模式时，两个图像的位置顺序正好相反 */
 .dark::view-transition-old(root) {
   z-index: 9999;
