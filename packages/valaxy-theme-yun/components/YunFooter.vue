@@ -58,26 +58,26 @@ const policeCode = computed(() => {
     <YunCloud v-if="themeConfig.footer.cloud?.enable" class="absolute top--10 left-0 right-0" />
 
     <div v-if="themeConfig.footer.beian?.enable && themeConfig.footer.beian.icp" class="beian" m="y-2">
-        <a href="https://beian.miit.gov.cn/" target="_blank" rel="noopener">
-            {{ themeConfig.footer.beian.icp }}
-        </a>
+      <a href="https://beian.miit.gov.cn/" target="_blank" rel="noopener">
+        {{ themeConfig.footer.beian.icp }}
+      </a>
 
-        <template v-if="themeConfig.footer.beian?.police && policeCode">
-            <span mx-2>|</span>
-            <a
-                :href="`https://beian.mps.gov.cn/#/query/webSearch?code=${policeCode}`"
-                target="_blank"
-                rel="noreferrer"
-                class="items-center justify-center gap-1"
-            >
-            <img
-                src="https://beian.mps.gov.cn/web/assets/logo01.6189a29f.png"
-                alt="备案图标"
-                class="w-4 h-4 inline-block"
-            />
-                {{ themeConfig.footer.beian.police }}
-            </a>
-        </template>
+      <template v-if="themeConfig.footer.beian?.police && policeCode">
+        <span mx-2>|</span>
+        <a
+          :href="`https://beian.mps.gov.cn/#/query/webSearch?code=${policeCode}`"
+          target="_blank"
+          rel="noreferrer"
+          class="inline-flex items-center justify-center gap-1"
+        >
+        <img
+          src="https://beian.mps.gov.cn/web/assets/logo01.6189a29f.png"
+          alt="备案图标"
+          class="w-4 h-4 inline-block"
+        />
+          {{ themeConfig.footer.beian.police }}
+        </a>
+      </template>
     </div>
 
     <div class="copyright flex justify-center items-center gap-2" p="1">

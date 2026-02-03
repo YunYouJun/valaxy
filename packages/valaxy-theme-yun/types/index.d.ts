@@ -245,6 +245,11 @@ export interface ThemeConfig extends DefaultTheme.Config {
        * 苏ICP备xxxxxxxx号
        */
       icp: string
+      /**
+       * 公安网备案号
+       * 苏公网安备xxxxxxxx号
+       * https://beian.mps.gov.cn/
+       */
       police: string
     }
   }>
