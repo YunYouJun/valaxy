@@ -1,8 +1,9 @@
-import type { Header } from '@valaxyjs/utils'
 import type { Ref } from 'vue'
 import type { Post } from '../types'
 
 import './shims.d'
+// Import vue-router RouteMeta augmentation
+import '../types/vue-router.d'
 
 export * from '../dist/types/index.mjs'
 export * from './index'
@@ -10,13 +11,6 @@ export * from './index'
 declare module '@docsearch/js' {
   function docsearch<T = any>(props: T): void
   export default docsearch
-}
-
-declare module 'vue-router' {
-  interface RouteMeta {
-    headers: Header[]
-    frontmatter: Post
-  }
 }
 
 declare interface Window {

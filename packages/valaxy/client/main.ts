@@ -3,7 +3,6 @@ import { setupLayouts } from 'virtual:generated-layouts'
 import { ViteSSG } from 'vite-ssg'
 import { routes as autoRoutes } from 'vue-router/auto-routes'
 
-import { DataLoaderPlugin } from 'vue-router/experimental'
 // import App from '/@valaxyjs/App.vue'
 import App from './App.vue'
 
@@ -70,8 +69,10 @@ export const createApp = ViteSSG(
     const data = initData(router)
     app.provide(dataSymbol, data)
 
-    // Register the plugin before the router
-    app.use(DataLoaderPlugin, { router })
+    // Note: DataLoaderPlugin is not compatible with vite-ssg because vite-ssg
+    // calls this callback BEFORE app.use(router), but DataLoaderPlugin requires
+    // the router to be installed first for useRouter()/useRoute() to work.
+    // The page data is loaded via route.meta.frontmatter instead.
 
     app.provide(valaxyConfigSymbol, valaxyConfig)
 

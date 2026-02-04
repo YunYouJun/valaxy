@@ -1,4 +1,7 @@
 // do not export node type here
+// vue-router RouteMeta augmentation
+import './vue-router.d'
+
 export * from './addon'
 export * from './config'
 export * from './data'

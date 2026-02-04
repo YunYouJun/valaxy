@@ -12,6 +12,8 @@ test.beforeEach(async ({ page }) => {
 
 test.describe('enter docs', () => {
   test('get started', async ({ page }) => {
+    // Wait for the get started button to be visible before clicking
+    await page.waitForSelector('.sese-btn', { state: 'visible' })
     // Click the get started button
     await page.click('.sese-btn')
     // wait page load

@@ -1,7 +1,5 @@
 import type { PageData } from '../../../../types'
 import type { ResolvedValaxyOptions } from '../../../types'
-import path from 'node:path'
-import fs from 'fs-extra'
 
 import { transformObject } from '../../../utils'
 import { getValaxyMain } from '../../markdown/markdownToVue'
@@ -15,12 +13,17 @@ function genProvideCode(name: string, data: any) {
 }
 
 const encryptedKeys = ['encryptedContent', 'partiallyEncryptedContents', 'encryptedPhotos']
+
 export function injectPageDataCode(pageData: PageData) {
+  // Generate static page data that will be embedded in the component
+  const staticPageData = transformObject(pageData)
+
   const vueContextImports = [
-    `import { provide } from 'vue'`,
+    `import { provide, shallowRef } from 'vue'`,
     `import { useRoute, useRouter } from 'vue-router'`,
 
-    'const { data: pageData } = usePageData()',
+    // Use static page data instead of data loader
+    `const pageData = shallowRef(${staticPageData})`,
     'const router = useRouter()',
     'const route = useRoute()',
     // $frontmatter contain runtime added data, will be deleted (for example, $frontmatter.partiallyEncryptedContents)
@@ -40,9 +43,6 @@ export function injectPageDataCode(pageData: PageData) {
 }
 
 export function createTransformMarkdown(options: ResolvedValaxyOptions) {
-  const loaderVuePath = path.resolve(options.clientRoot, 'templates', 'loader.vue')
-  const loaderVue = fs.readFileSync(loaderVuePath, 'utf-8')
-
   return (code: string, id: string, pageData: PageData) => {
     const isDev = options.mode === 'dev'
     if (!isDev) {
@@ -59,14 +59,6 @@ export function createTransformMarkdown(options: ResolvedValaxyOptions) {
     encryptedKeys.forEach((key) => {
       delete pageData.frontmatter[key]
     })
-
-    const pagePath = pageData.relativePath.slice('/pages'.length - 1, -'.md'.length)
-    const customDataLoader = loaderVue
-      // adapt for /index
-      .replace('/relativePath', pagePath.endsWith('index') ? pagePath.replace(/\/index$/, '') : pagePath)
-      // transform data has \" in object
-      .replace('// custom basic loader', `return ${transformObject(pageData)}`)
-    code = customDataLoader + code
 
     // inject imports to <script setup>
     const scriptSetupStart = code.indexOf('<script setup>')

@@ -1,16 +1,20 @@
 import type { RouteMeta } from 'vue-router'
-import type { ExcerptType, Page, Post, PostFrontMatter } from '../../types'
+import type { ExcerptType, Page, Post } from '../../types'
 import type { ValaxyNode } from '../types'
+
 import fs from 'fs-extra'
+
 import matter from 'gray-matter'
 import { convert } from 'html-to-text'
 import { MarkdownItAsync } from 'markdown-it-async'
 import { resolve } from 'pathe'
 import VueRouter from 'vue-router/vite'
-
 import { setupMarkdownPlugins } from './markdown'
+
 import { matterOptions } from './markdown/transform/matter'
 import { presetStatistics } from './presets/statistics'
+// Import vue-router RouteMeta augmentation
+import '../../types/vue-router.d'
 
 /**
  * get excerpt by type
@@ -176,6 +180,8 @@ export async function createRouterPlugin(valaxyApp: ValaxyNode) {
           // 主题有新的字段需要主动设置
           // @TODO 添加文档和配置项，或者反过来允许用户自行优化
           tags: typeof mdFm.tags === 'string' ? [mdFm.tags] : mdFm.tags,
+          // set default updated to date if not present
+          updated: mdFm.updated ?? mdFm.date,
         }
         excludeKeys.forEach((key) => {
           delete routerFM[key]
@@ -197,10 +203,6 @@ export async function createRouterPlugin(valaxyApp: ValaxyNode) {
             layout: data.layout,
           })
         }
-
-        // set default updated
-        if (route.meta.frontmatter && typeof route.meta.frontmatter === 'object' && !('updated' in route.meta.frontmatter))
-          (route.meta.frontmatter as PostFrontMatter).updated = mdFm.date
 
         // TODO: extract to hook call
         if (valaxyConfig.siteConfig.statistics.enable) {

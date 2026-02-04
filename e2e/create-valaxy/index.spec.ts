@@ -35,6 +35,9 @@ test.describe('Create Valaxy Demo', () => {
   test('enter post', async ({ page }) => {
     await page.click('.post-title-link')
     await page.waitForURL('/posts/hello-valaxy')
-    await expect(page.locator('h1')).toHaveText('Hello, Valaxy!')
+    // Wait for the main content area to render
+    await page.waitForSelector('.yun-main', { state: 'visible' })
+    // The h1.post-title contains an inner span with the title text
+    await expect(page.locator('h1.post-title')).toContainText('Hello, Valaxy!')
   })
 })

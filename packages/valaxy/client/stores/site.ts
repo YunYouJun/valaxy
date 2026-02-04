@@ -1,7 +1,7 @@
 import type { PageDataPayload } from '../../types'
 import { acceptHMRUpdate, defineStore } from 'pinia'
 import { computed, ref } from 'vue'
-import { usePostList, useRouterStore } from '..'
+import { filterAndSortPosts, usePageList, useRouterStore, useSiteConfig } from '..'
 import { setWindowValaxyProp } from '../utils/dev'
 
 /**
@@ -14,14 +14,19 @@ export const useSiteStore = defineStore('site', () => {
   const routerStore = useRouterStore()
   const router = routerStore.router
 
+  // Get siteConfig once during store initialization to avoid inject() issues during HMR
+  const siteConfig = useSiteConfig()
+  const pageList = usePageList()
+
   const reload = ref(1)
   // for dev hot reload
   const postList = computed(() => {
-    const val = usePostList().value
-    if (reload.value && val)
-      return val
-    else
-      return val
+    // Touch reload.value to trigger reactivity on HMR
+    // eslint-disable-next-line ts/no-unused-expressions
+    reload.value
+
+    // Reuse the same filter and sort logic as usePostList
+    return filterAndSortPosts(pageList.value, siteConfig.value)
   })
 
   // const postList = usePostList()
