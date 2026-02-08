@@ -56,6 +56,9 @@ const JS_RESERVED_WORDS = new Set([
   'yield',
   // contextual keywords that cannot be used as export const bindings
   'await',
+  // strict mode restricted identifiers (ES modules are always strict)
+  'eval',
+  'arguments',
 ])
 
 /**
@@ -70,7 +73,11 @@ export function generateCdnModuleCode(mod: CdnModule): string {
   ]
 
   if (mod.exports) {
+    const seen = new Set<string>()
     for (const name of mod.exports) {
+      if (seen.has(name))
+        continue
+      seen.add(name)
       if (!VALID_JS_IDENTIFIER_RE.test(name) || JS_RESERVED_WORDS.has(name)) {
         throw new Error(
           `[valaxy:cdn] Invalid export name ${JSON.stringify(name)} `
