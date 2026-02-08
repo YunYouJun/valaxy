@@ -3,18 +3,30 @@ import type { CdnModule, ResolvedValaxyOptions } from '../types'
 
 const CDN_MODULE_PREFIX = '\0valaxy-cdn:'
 
+// https://tc39.es/ecma262/#prod-IdentifierName
+const VALID_JS_IDENTIFIER_RE = /^[$_\p{ID_Start}][$\u200C\u200D\p{ID_Continue}]*$/u
+
 /**
  * Generate virtual module code that re-exports from a CDN global variable.
  */
 function generateCdnModuleCode(mod: CdnModule): string {
+  const globalKey = JSON.stringify(mod.global)
   const lines = [
-    `const g = window['${mod.global}']`,
+    `const g = window[${globalKey}]`,
     `export default g`,
   ]
 
   if (mod.exports) {
-    for (const name of mod.exports)
-      lines.push(`export const ${name} = g['${name}']`)
+    for (const name of mod.exports) {
+      if (!VALID_JS_IDENTIFIER_RE.test(name)) {
+        throw new Error(
+          `[valaxy:cdn] Invalid export name ${JSON.stringify(name)} `
+          + `in CDN module ${JSON.stringify(mod.name)}. `
+          + `Export names must be valid JavaScript identifiers.`,
+        )
+      }
+      lines.push(`export const ${name} = g[${JSON.stringify(name)}]`)
+    }
   }
 
   return lines.join('\n')
@@ -27,7 +39,7 @@ function generateCdnModuleCode(mod: CdnModule): string {
  * virtual modules that reference global variables loaded from CDN scripts.
  * `<script>` and `<link>` tags are injected into the HTML.
  *
- * Only applies during `valaxy build`, not in dev mode.
+ * Only applies during `valaxy build` (client bundle), not in dev or SSR.
  *
  * @experimental
  * @see https://github.com/YunYouJun/valaxy/issues/604
@@ -44,12 +56,18 @@ export function createCdnPlugin(options: ResolvedValaxyOptions): Plugin | null {
     enforce: 'pre',
     apply: 'build',
 
-    resolveId(source) {
+    resolveId(source, _importer, resolveOptions) {
+      // Skip CDN rewriting during SSR so the server bundle uses the real package
+      if (resolveOptions?.ssr)
+        return
       if (cdnMap.has(source))
         return CDN_MODULE_PREFIX + source
     },
 
-    load(id) {
+    load(id, loadOptions) {
+      // Do not provide browser-only virtual modules during SSR
+      if (loadOptions?.ssr)
+        return
       if (!id.startsWith(CDN_MODULE_PREFIX))
         return
       const name = id.slice(CDN_MODULE_PREFIX.length)
