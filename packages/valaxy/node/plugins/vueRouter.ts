@@ -244,10 +244,13 @@ export async function createRouterPlugin(valaxyApp: ValaxyNode) {
         }
         valaxyConfig.extendMd?.(ctx)
 
+        // read excerpt from route.meta in case extendMd modified it
+        const finalExcerpt = (route.meta as RouteMeta & { excerpt?: string }).excerpt ?? resolvedExcerpt
+
         await valaxyApp.hooks.callHook('md:afterRender', {
           route,
           data: data as Readonly<Record<string, any>>,
-          excerpt: resolvedExcerpt,
+          excerpt: finalExcerpt,
           content,
           path,
         })

@@ -230,8 +230,11 @@ export interface SiteConfig {
    */
   excerpt: {
     /**
-     * @description:en-US Default excerpt render type, can be overridden per-post via frontmatter `excerpt_type`
-     * @description:zh-CN 默认摘要渲染类型，可通过 frontmatter `excerpt_type` 逐篇覆盖
+     * @description:en-US Default excerpt render type for `<!-- more -->` and auto-generated excerpts.
+     * Can be overridden per-post via frontmatter `excerpt_type`.
+     * Does not apply when frontmatter `excerpt` is set manually (used as-is).
+     * @description:zh-CN `<!-- more -->` 及自动摘要的默认渲染类型，可通过 frontmatter `excerpt_type` 逐篇覆盖。
+     * 当 frontmatter 手动指定 `excerpt` 时不生效（直接使用原始字符串）。
      * @default 'html'
      */
     type: ExcerptType

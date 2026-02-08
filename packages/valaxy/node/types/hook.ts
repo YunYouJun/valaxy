@@ -6,8 +6,10 @@ export interface MdAfterRenderContext {
   route: EditableTreeNode
   data: Readonly<Record<string, any>>
   /**
-   * The resolved excerpt (rendered HTML/text/md depending on `excerpt_type`),
-   * including auto-generated excerpts. Empty string if no excerpt is available.
+   * The final excerpt stored in `route.meta.excerpt`.
+   * - For `<!-- more -->` or auto-generated excerpts: rendered according to `excerpt_type` (HTML/text/md).
+   * - For manual frontmatter `excerpt`: used as-is (raw string, `excerpt_type` does not apply).
+   * - Empty string if no excerpt is available.
    */
   excerpt: string
   /**
