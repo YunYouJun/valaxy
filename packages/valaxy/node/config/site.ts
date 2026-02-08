@@ -62,8 +62,9 @@ export const defaultSiteConfig: SiteConfig = {
     enable: false,
   },
 
-  autoExcerpt: {
-    enable: false,
+  excerpt: {
+    type: 'html',
+    auto: false,
     length: 200,
   },
 

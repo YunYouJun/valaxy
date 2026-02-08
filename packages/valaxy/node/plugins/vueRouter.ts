@@ -205,12 +205,12 @@ export async function createRouterPlugin(valaxyApp: ValaxyNode) {
          *
          * 不会与 vue-router loader 自动合并
          */
-        let resolvedExcerpt = mdFm.excerpt || (excerpt ? getExcerptByType(excerpt, mdFm.excerpt_type || defaultFrontmatter.excerpt_type, mdIt) : '')
+        let resolvedExcerpt = mdFm.excerpt || (excerpt ? getExcerptByType(excerpt, mdFm.excerpt_type || defaultFrontmatter.excerpt_type || valaxyConfig.siteConfig.excerpt.type, mdIt) : '')
 
         // auto excerpt: generate from content if no manual excerpt
-        if (!resolvedExcerpt && valaxyConfig.siteConfig.autoExcerpt?.enable) {
-          const autoExcerptLength = valaxyConfig.siteConfig.autoExcerpt.length ?? 200
-          const excerptType = mdFm.excerpt_type || defaultFrontmatter.excerpt_type
+        if (!resolvedExcerpt && valaxyConfig.siteConfig.excerpt.auto) {
+          const autoExcerptLength = valaxyConfig.siteConfig.excerpt.length
+          const excerptType = mdFm.excerpt_type || defaultFrontmatter.excerpt_type || valaxyConfig.siteConfig.excerpt.type
           const autoExcerptMd = generateAutoExcerptMd(content, autoExcerptLength)
           resolvedExcerpt = getExcerptByType(autoExcerptMd, excerptType, mdIt)
         }
