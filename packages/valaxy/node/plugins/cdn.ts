@@ -8,8 +8,9 @@ const VALID_JS_IDENTIFIER_RE = /^[$_\p{ID_Start}][$\u200C\u200D\p{ID_Continue}]*
 
 /**
  * Generate virtual module code that re-exports from a CDN global variable.
+ * exported for testing
  */
-function generateCdnModuleCode(mod: CdnModule): string {
+export function generateCdnModuleCode(mod: CdnModule): string {
   const globalKey = JSON.stringify(mod.global)
   const lines = [
     `const g = window[${globalKey}]`,
@@ -45,11 +46,13 @@ function generateCdnModuleCode(mod: CdnModule): string {
  * @see https://github.com/YunYouJun/valaxy/issues/604
  */
 export function createCdnPlugin(options: ResolvedValaxyOptions): Plugin | null {
-  const cdnModules = options.config.cdn?.modules || []
-  if (cdnModules.length === 0)
+  const rawModules = options.config.cdn?.modules || []
+  if (rawModules.length === 0)
     return null
 
-  const cdnMap = new Map(cdnModules.map(m => [m.name, m]))
+  // Deduplicate by name, last entry wins (consistent with Map behavior)
+  const cdnMap = new Map(rawModules.map(m => [m.name, m]))
+  const cdnModules = [...cdnMap.values()]
 
   return {
     name: 'valaxy:cdn',
@@ -81,15 +84,7 @@ export function createCdnPlugin(options: ResolvedValaxyOptions): Plugin | null {
       const tags: HtmlTagDescriptor[] = []
 
       for (const mod of cdnModules) {
-        tags.push({
-          tag: 'script',
-          attrs: {
-            src: mod.url,
-            crossorigin: 'anonymous',
-          },
-          injectTo: 'head-prepend',
-        })
-
+        // Inject CSS before script to avoid unstyled content flash
         if (mod.css) {
           tags.push({
             tag: 'link',
@@ -101,6 +96,15 @@ export function createCdnPlugin(options: ResolvedValaxyOptions): Plugin | null {
             injectTo: 'head-prepend',
           })
         }
+
+        tags.push({
+          tag: 'script',
+          attrs: {
+            src: mod.url,
+            crossorigin: 'anonymous',
+          },
+          injectTo: 'head-prepend',
+        })
       }
 
       return tags
