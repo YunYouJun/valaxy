@@ -36,18 +36,16 @@ function getExcerptByType(excerpt = '', type: ExcerptType = 'html', mdIt: Markdo
 }
 
 /**
- * Generate auto excerpt from raw content by truncating to the specified length.
- * Strips frontmatter-like headers and trims to word boundaries for clean output.
+ * Generate auto excerpt markdown from raw content by stripping headings and truncating.
+ * Returns raw markdown text (not rendered) so it can be passed through `getExcerptByType`.
  */
-function generateAutoExcerpt(content: string, length: number, mdIt: MarkdownItAsync): string {
+function generateAutoExcerptMd(content: string, length: number): string {
   // remove heading markers (# Title)
   const cleaned = content.replace(/^#+\s[^\n]*/gm, '').trim()
   if (!cleaned)
     return ''
 
-  const truncated = cleaned.length > length ? `${cleaned.slice(0, length)}...` : cleaned
-
-  return mdIt.render(truncated)
+  return cleaned.length > length ? `${cleaned.slice(0, length)}...` : cleaned
 }
 
 /**
@@ -212,7 +210,9 @@ export async function createRouterPlugin(valaxyApp: ValaxyNode) {
         // auto excerpt: generate from content if no manual excerpt
         if (!resolvedExcerpt && valaxyConfig.siteConfig.autoExcerpt?.enable) {
           const autoExcerptLength = valaxyConfig.siteConfig.autoExcerpt.length ?? 200
-          resolvedExcerpt = generateAutoExcerpt(content, autoExcerptLength, mdIt)
+          const excerptType = mdFm.excerpt_type || defaultFrontmatter.excerpt_type
+          const autoExcerptMd = generateAutoExcerptMd(content, autoExcerptLength)
+          resolvedExcerpt = getExcerptByType(autoExcerptMd, excerptType, mdIt)
         }
 
         route.addToMeta({
@@ -244,7 +244,13 @@ export async function createRouterPlugin(valaxyApp: ValaxyNode) {
         }
         valaxyConfig.extendMd?.(ctx)
 
-        await valaxyApp.hooks.callHook('post:afterRender', ctx)
+        await valaxyApp.hooks.callHook('md:afterRender', {
+          route,
+          data: data as Readonly<Record<string, any>>,
+          excerpt: resolvedExcerpt,
+          content,
+          path,
+        })
       }
 
       await valaxyApp.hooks.callHook('vue-router:extendRoute', route)
