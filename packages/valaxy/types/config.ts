@@ -5,6 +5,7 @@ import type { RouteRecordRaw } from 'vue-router'
 import type { ValaxyAddon } from './addon'
 import type { DefaultTheme } from './default-theme'
 import type { PostFrontMatter } from './frontmatter'
+import type { ExcerptType } from './frontmatter/post'
 import type { FuseListItem } from './node'
 
 import './default-theme'
@@ -220,6 +221,35 @@ export interface SiteConfig {
        */
       keys: FuseOptions<FuseListItem>['keys']
     }
+  }
+
+  /**
+   * Excerpt configuration
+   * @description:en-US Global excerpt settings for posts
+   * @description:zh-CN 全局摘要配置
+   */
+  excerpt: {
+    /**
+     * @description:en-US Default excerpt render type for `<!-- more -->` and auto-generated excerpts.
+     * Can be overridden per-post via frontmatter `excerpt_type`.
+     * Does not apply when frontmatter `excerpt` is set manually (used as-is).
+     * @description:zh-CN `<!-- more -->` 及自动摘要的默认渲染类型，可通过 frontmatter `excerpt_type` 逐篇覆盖。
+     * 当 frontmatter 手动指定 `excerpt` 时不生效（直接使用原始字符串）。
+     * @default 'html'
+     */
+    type: ExcerptType
+    /**
+     * @description:en-US Auto-generate excerpt from post content when no manual excerpt is provided
+     * @description:zh-CN 当没有手动指定摘要时，自动从文章内容截取摘要
+     * @default false
+     */
+    auto: boolean
+    /**
+     * @description:en-US Maximum length of auto-generated excerpt (in characters)
+     * @description:zh-CN 自动摘要的最大长度（字符数）
+     * @default 200
+     */
+    length: number
   }
 
   /**

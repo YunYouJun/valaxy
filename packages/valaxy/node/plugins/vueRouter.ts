@@ -21,7 +21,7 @@ import '../../types/vue-router.d'
  * @param excerpt
  * @param type
  */
-function getExcerptByType(excerpt = '', type: ExcerptType = 'html', mdIt: MarkdownItAsync) {
+export function getExcerptByType(excerpt = '', type: ExcerptType = 'html', mdIt: MarkdownItAsync) {
   switch (type) {
     case 'ai':
     case 'md':
@@ -33,6 +33,19 @@ function getExcerptByType(excerpt = '', type: ExcerptType = 'html', mdIt: Markdo
     default:
       return excerpt
   }
+}
+
+/**
+ * Generate auto excerpt markdown from raw content by stripping headings and truncating.
+ * Returns raw markdown text (not rendered) so it can be passed through `getExcerptByType`.
+ */
+export function generateAutoExcerptMd(content: string, length: number): string {
+  // remove heading markers (# Title)
+  const cleaned = content.replace(/^#+\s[^\n]*/gm, '').trim()
+  if (!cleaned)
+    return ''
+
+  return cleaned.length > length ? `${cleaned.slice(0, length)}...` : cleaned
 }
 
 /**
@@ -192,9 +205,19 @@ export async function createRouterPlugin(valaxyApp: ValaxyNode) {
          *
          * 不会与 vue-router loader 自动合并
          */
+        let resolvedExcerpt = mdFm.excerpt || (excerpt ? getExcerptByType(excerpt, mdFm.excerpt_type || defaultFrontmatter.excerpt_type || valaxyConfig.siteConfig.excerpt.type, mdIt) : '')
+
+        // auto excerpt: generate from content if no manual excerpt
+        if (!resolvedExcerpt && valaxyConfig.siteConfig.excerpt.auto) {
+          const autoExcerptLength = valaxyConfig.siteConfig.excerpt.length
+          const excerptType = mdFm.excerpt_type || defaultFrontmatter.excerpt_type || valaxyConfig.siteConfig.excerpt.type
+          const autoExcerptMd = generateAutoExcerptMd(content, autoExcerptLength)
+          resolvedExcerpt = getExcerptByType(autoExcerptMd, excerptType, mdIt)
+        }
+
         route.addToMeta({
           frontmatter: routerFM,
-          excerpt: mdFm.excerpt || (excerpt ? getExcerptByType(excerpt, mdFm.excerpt_type || defaultFrontmatter.excerpt_type, mdIt) : ''),
+          excerpt: resolvedExcerpt,
         })
 
         // set layout
@@ -220,6 +243,17 @@ export async function createRouterPlugin(valaxyApp: ValaxyNode) {
           path,
         }
         valaxyConfig.extendMd?.(ctx)
+
+        // read excerpt from route.meta in case extendMd modified it
+        const finalExcerpt = (route.meta as RouteMeta & { excerpt?: string }).excerpt ?? resolvedExcerpt
+
+        await valaxyApp.hooks.callHook('md:afterRender', {
+          route,
+          data: data as Readonly<Record<string, any>>,
+          excerpt: finalExcerpt,
+          content,
+          path,
+        })
       }
 
       await valaxyApp.hooks.callHook('vue-router:extendRoute', route)
