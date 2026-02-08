@@ -21,7 +21,7 @@ import '../../types/vue-router.d'
  * @param excerpt
  * @param type
  */
-function getExcerptByType(excerpt = '', type: ExcerptType = 'html', mdIt: MarkdownItAsync) {
+export function getExcerptByType(excerpt = '', type: ExcerptType = 'html', mdIt: MarkdownItAsync) {
   switch (type) {
     case 'ai':
     case 'md':
@@ -39,7 +39,7 @@ function getExcerptByType(excerpt = '', type: ExcerptType = 'html', mdIt: Markdo
  * Generate auto excerpt markdown from raw content by stripping headings and truncating.
  * Returns raw markdown text (not rendered) so it can be passed through `getExcerptByType`.
  */
-function generateAutoExcerptMd(content: string, length: number): string {
+export function generateAutoExcerptMd(content: string, length: number): string {
   // remove heading markers (# Title)
   const cleaned = content.replace(/^#+\s[^\n]*/gm, '').trim()
   if (!cleaned)
