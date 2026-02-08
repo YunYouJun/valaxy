@@ -6,6 +6,58 @@ const CDN_MODULE_PREFIX = '\0valaxy-cdn:'
 // https://tc39.es/ecma262/#prod-IdentifierName
 const VALID_JS_IDENTIFIER_RE = /^[$_\p{ID_Start}][$\u200C\u200D\p{ID_Continue}]*$/u
 
+// https://tc39.es/ecma262/#sec-keywords-and-reserved-words
+const JS_RESERVED_WORDS = new Set([
+  'break',
+  'case',
+  'catch',
+  'class',
+  'const',
+  'continue',
+  'debugger',
+  'default',
+  'delete',
+  'do',
+  'else',
+  'enum',
+  'export',
+  'extends',
+  'false',
+  'finally',
+  'for',
+  'function',
+  'if',
+  'import',
+  'in',
+  'instanceof',
+  'new',
+  'null',
+  'return',
+  'super',
+  'switch',
+  'this',
+  'throw',
+  'true',
+  'try',
+  'typeof',
+  'var',
+  'void',
+  'while',
+  'with',
+  // strict mode reserved
+  'let',
+  'static',
+  'implements',
+  'interface',
+  'package',
+  'private',
+  'protected',
+  'public',
+  'yield',
+  // contextual keywords that cannot be used as export const bindings
+  'await',
+])
+
 /**
  * Generate virtual module code that re-exports from a CDN global variable.
  * exported for testing
@@ -19,11 +71,11 @@ export function generateCdnModuleCode(mod: CdnModule): string {
 
   if (mod.exports) {
     for (const name of mod.exports) {
-      if (!VALID_JS_IDENTIFIER_RE.test(name)) {
+      if (!VALID_JS_IDENTIFIER_RE.test(name) || JS_RESERVED_WORDS.has(name)) {
         throw new Error(
           `[valaxy:cdn] Invalid export name ${JSON.stringify(name)} `
           + `in CDN module ${JSON.stringify(mod.name)}. `
-          + `Export names must be valid JavaScript identifiers.`,
+          + `Export names must be valid JavaScript identifiers and not reserved words.`,
         )
       }
       lines.push(`export const ${name} = g[${JSON.stringify(name)}]`)

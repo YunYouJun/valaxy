@@ -46,6 +46,17 @@ describe('cdn plugin', () => {
       })).toThrowError(/Invalid export name/)
     })
 
+    it('throws on reserved word export names', () => {
+      for (const word of ['default', 'class', 'return', 'await', 'let']) {
+        expect(() => generateCdnModuleCode({
+          name: 'test',
+          global: 'Test',
+          url: 'https://example.com/test.js',
+          exports: [word],
+        })).toThrowError(/Invalid export name/)
+      }
+    })
+
     it('accepts unicode identifiers in exports', () => {
       const code = generateCdnModuleCode({
         name: 'test',
