@@ -12,6 +12,7 @@ import Components from 'unplugin-vue-components/vite'
 import Layouts from 'vite-plugin-vue-layouts'
 import { groupIconVitePlugin } from 'vitepress-plugin-group-icons'
 import { customElements } from '../constants'
+import { createCdnPlugin } from './cdn'
 import { createConfigPlugin } from './extendConfig'
 import { localSearchPlugin } from './localSearchPlugin'
 
@@ -68,6 +69,8 @@ export async function ViteValaxyPlugins(
   )
 
   const plugins: (PluginOption | PluginOption[])[] = [
+    createCdnPlugin(options),
+
     MarkdownPlugin,
     ValaxyPlugin,
     vuePlugin,

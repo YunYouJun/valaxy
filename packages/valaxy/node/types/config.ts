@@ -22,6 +22,40 @@ import type { ValaxyHooks } from './hook'
 
 import type { ResolvedValaxyOptions } from './options'
 
+/**
+ * @experimental
+ * A module to load from CDN instead of bundling
+ */
+export interface CdnModule {
+  /**
+   * npm package name to externalize
+   * @example 'vue'
+   */
+  name: string
+  /**
+   * Global variable name the library exposes on `window`
+   * Used for mapping imports to `window[global]`
+   * @example 'Vue'
+   */
+  global: string
+  /**
+   * Full CDN URL to the UMD/IIFE script
+   * @example 'https://cdn.jsdelivr.net/npm/vue@3.5.0/dist/vue.global.prod.js'
+   */
+  url: string
+  /**
+   * Optional CSS URL if the module requires stylesheet
+   * @example 'https://cdn.jsdelivr.net/npm/katex@0.16.0/dist/katex.min.css'
+   */
+  css?: string
+  /**
+   * Named exports to re-export from the global variable.
+   * Required for libraries that use named exports (e.g., `import { ref } from 'vue'`).
+   * @example ['ref', 'computed', 'watch', 'createApp']
+   */
+  exports?: string[]
+}
+
 export type ValaxyNodeConfig<ThemeConfig = DefaultTheme.Config> = ValaxyConfig<ThemeConfig> & ValaxyExtendConfig
 export type UserValaxyNodeConfig<ThemeConfig = DefaultTheme.Config> = PartialDeep<ValaxyNodeConfig<ThemeConfig>>
 /**
@@ -256,6 +290,21 @@ export interface ValaxyExtendConfig {
    * @see https://github.com/danielroe/beasties
    */
   beastiesOptions?: BeastiesOptions
+
+  /**
+   * @experimental
+   * CDN externals configuration.
+   * Specify modules to load from CDN instead of bundling them.
+   * Only takes effect during `valaxy build`, not in dev mode.
+   * @see https://github.com/YunYouJun/valaxy/issues/604
+   */
+  cdn?: {
+    /**
+     * Modules to load from CDN instead of bundling
+     * @default []
+     */
+    modules?: CdnModule[]
+  }
 }
 
 export type ValaxyApp = ReturnType<typeof createValaxyNode>
