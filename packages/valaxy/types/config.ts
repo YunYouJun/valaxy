@@ -223,6 +223,26 @@ export interface SiteConfig {
   }
 
   /**
+   * Auto-generate excerpt from post content when no manual excerpt is provided.
+   * @description:en-US Automatically truncate post content to use as excerpt
+   * @description:zh-CN 当没有手动指定摘要时，自动从文章内容截取摘要
+   */
+  autoExcerpt: {
+    /**
+     * @description:en-US Enable auto excerpt
+     * @description:zh-CN 是否启用自动摘要
+     * @default false
+     */
+    enable: boolean
+    /**
+     * @description:en-US Maximum length of auto-generated excerpt (in characters)
+     * @description:zh-CN 自动摘要的最大长度（字符数）
+     * @default 200
+     */
+    length: number
+  }
+
+  /**
    * set post default frontmatter
    */
   frontmatter: Partial<PostFrontMatter>

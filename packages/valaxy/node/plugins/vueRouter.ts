@@ -36,6 +36,21 @@ function getExcerptByType(excerpt = '', type: ExcerptType = 'html', mdIt: Markdo
 }
 
 /**
+ * Generate auto excerpt from raw content by truncating to the specified length.
+ * Strips frontmatter-like headers and trims to word boundaries for clean output.
+ */
+function generateAutoExcerpt(content: string, length: number, mdIt: MarkdownItAsync): string {
+  // remove heading markers (# Title)
+  const cleaned = content.replace(/^#+\s[^\n]*/gm, '').trim()
+  if (!cleaned)
+    return ''
+
+  const truncated = cleaned.length > length ? `${cleaned.slice(0, length)}...` : cleaned
+
+  return mdIt.render(truncated)
+}
+
+/**
  * @see https://github.com/posva/unplugin-vue-router
  * @param valaxyApp
  */
@@ -192,9 +207,17 @@ export async function createRouterPlugin(valaxyApp: ValaxyNode) {
          *
          * 不会与 vue-router loader 自动合并
          */
+        let resolvedExcerpt = mdFm.excerpt || (excerpt ? getExcerptByType(excerpt, mdFm.excerpt_type || defaultFrontmatter.excerpt_type, mdIt) : '')
+
+        // auto excerpt: generate from content if no manual excerpt
+        if (!resolvedExcerpt && valaxyConfig.siteConfig.autoExcerpt?.enable) {
+          const autoExcerptLength = valaxyConfig.siteConfig.autoExcerpt.length ?? 200
+          resolvedExcerpt = generateAutoExcerpt(content, autoExcerptLength, mdIt)
+        }
+
         route.addToMeta({
           frontmatter: routerFM,
-          excerpt: mdFm.excerpt || (excerpt ? getExcerptByType(excerpt, mdFm.excerpt_type || defaultFrontmatter.excerpt_type, mdIt) : ''),
+          excerpt: resolvedExcerpt,
         })
 
         // set layout
@@ -220,6 +243,8 @@ export async function createRouterPlugin(valaxyApp: ValaxyNode) {
           path,
         }
         valaxyConfig.extendMd?.(ctx)
+
+        await valaxyApp.hooks.callHook('post:afterRender', ctx)
       }
 
       await valaxyApp.hooks.callHook('vue-router:extendRoute', route)

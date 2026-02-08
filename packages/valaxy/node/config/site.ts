@@ -62,6 +62,11 @@ export const defaultSiteConfig: SiteConfig = {
     enable: false,
   },
 
+  autoExcerpt: {
+    enable: false,
+    length: 200,
+  },
+
   frontmatter: {
     time_warning: 180 * 24 * 60 * 60 * 1000,
   },
