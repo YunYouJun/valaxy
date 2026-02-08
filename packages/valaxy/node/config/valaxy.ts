@@ -50,6 +50,10 @@ export const defaultValaxyConfig: ValaxyNodeConfig = {
     katex: true,
   },
 
+  cdn: {
+    modules: [],
+  },
+
   vite: {
     build: {
       emptyOutDir: true,

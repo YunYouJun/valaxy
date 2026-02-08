@@ -29,12 +29,13 @@ export async function ssgBuild(
   viteConfig: InlineConfig = {},
 ) {
   const { options } = valaxyApp
+  const cdnModuleNames = (options.config.cdn?.modules || []).map(m => m.name)
   const defaultConfig: InlineConfig = {
     ...defaultViteConfig,
     plugins: await ViteValaxyPlugins(valaxyApp),
     ssr: {
       // TODO: workaround until they support native ESM
-      noExternal: ['workbox-window', /vue-i18n/, '@vue/devtools-api'],
+      noExternal: ['workbox-window', /vue-i18n/, '@vue/devtools-api', ...cdnModuleNames],
     },
   }
 

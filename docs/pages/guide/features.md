@@ -339,12 +339,14 @@ export default defineValaxyConfig({
 ::: zh-CN
 
 - [KaTeX | 示例](/examples/katex)
+- [通过 CDN 加载 KaTeX](/guide/config/extend#cdn-externals) (实验性)
 
 :::
 
 ::: en
 
 - [KaTeX | Examples](/examples/katex)
+- [Load KaTeX from CDN](/guide/config/extend#cdn-externals) (Experimental)
 
 :::
 

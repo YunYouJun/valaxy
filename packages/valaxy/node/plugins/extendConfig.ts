@@ -82,13 +82,16 @@ const EXCLUDE = [
 export function createConfigPlugin(options: ResolvedValaxyOptions): Plugin {
   // const themeDeps = Object.keys((options.config.themeConfig.pkg.dependencies || {}))
   const addonDeps = options.addons.map(i => Object.keys(i.pkg.dependencies || {})).flat()
+  const cdnModuleNames = options.mode === 'build'
+    ? (options.config.cdn?.modules || []).map(m => m.name)
+    : []
   const includedDeps = uniq([
     ...clientDeps,
     // remove theme deps, for primevue parse entry
     // ...themeDeps,
     // addon deps
     ...addonDeps,
-  ]).filter(i => !EXCLUDE.includes(i))
+  ]).filter(i => !EXCLUDE.includes(i) && !cdnModuleNames.includes(i))
 
   return {
     name: 'valaxy:site',
