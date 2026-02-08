@@ -239,3 +239,115 @@ When you reference images with relative paths in Markdown (e.g., `![pic](test.we
 In most cases, you should keep this option as `true` to ensure RSS readers can load images correctly.
 
 :::
+
+### CDN Externals {lang="en"}
+
+### CDN 外部化 {lang="zh-CN"}
+
+::: zh-CN
+
+> 实验性功能
+
+通过 `cdn.modules` 配置项，你可以指定某些 npm 包在构建时从 CDN 加载，而非打包到最终产物中。
+这可以显著减小构建产物体积，并利用 CDN 加速资源加载。
+
+该配置仅在 `valaxy build` 时生效，开发模式下不受影响。
+
+:::
+
+::: en
+
+> Experimental
+
+With the `cdn.modules` option, you can specify certain npm packages to be loaded from CDN at runtime instead of being bundled.
+This can significantly reduce bundle size and leverage CDN for faster resource loading.
+
+This option only takes effect during `valaxy build`, not in dev mode.
+
+:::
+
+::: tip
+
+::: zh-CN
+`cdn.modules` 中的每个模块需要提供以下字段：
+
+- `name`: npm 包名（如 `'katex'`）
+- `global`: 该库在 `window` 上暴露的全局变量名（如 `'katex'`）
+- `url`: CDN 脚本的完整 URL
+- `css`（可选）: CDN 样式表的完整 URL
+- `exports`（可选）: 需要重新导出的命名导出列表（如 `['ref', 'computed']`）
+:::
+
+::: en
+Each module in `cdn.modules` requires the following fields:
+
+- `name`: npm package name (e.g., `'katex'`)
+- `global`: global variable name the library exposes on `window` (e.g., `'katex'`)
+- `url`: full CDN URL to the UMD/IIFE script
+- `css` (optional): full CDN URL to the stylesheet
+- `exports` (optional): named exports to re-export from the global variable (e.g., `['ref', 'computed']`)
+:::
+
+:::
+
+::: zh-CN
+
+#### 示例：通过 CDN 加载 KaTeX
+
+KaTeX 默认会被打包进构建产物。如果你希望通过 CDN 加载 KaTeX 以减小打包体积，可以如下配置：
+
+:::
+
+::: en
+
+#### Example: Load KaTeX from CDN
+
+KaTeX is bundled into the build output by default. If you want to load it from CDN to reduce bundle size, you can configure it as follows:
+
+:::
+
+```ts [valaxy.config.ts]
+import { defineValaxyConfig } from 'valaxy'
+
+export default defineValaxyConfig({
+  cdn: {
+    modules: [
+      {
+        name: 'katex',
+        global: 'katex',
+        url: 'https://cdn.jsdelivr.net/npm/katex@0.16.21/dist/katex.min.js',
+        css: 'https://cdn.jsdelivr.net/npm/katex@0.16.21/dist/katex.min.css',
+      },
+    ],
+  },
+})
+```
+
+::: zh-CN
+
+你也可以使用其他 CDN 源，只需替换 URL 即可。例如使用 unpkg：
+
+:::
+
+::: en
+
+You can also use other CDN providers by replacing the URL. For example, using unpkg:
+
+:::
+
+```ts [valaxy.config.ts]
+import { defineValaxyConfig } from 'valaxy'
+
+export default defineValaxyConfig({
+  cdn: {
+    modules: [
+      {
+        name: 'katex',
+        global: 'katex',
+        url: 'https://unpkg.com/katex@0.16.21/dist/katex.min.js',
+        css: 'https://unpkg.com/katex@0.16.21/dist/katex.min.css',
+      },
+    ],
+  },
+})
+```
