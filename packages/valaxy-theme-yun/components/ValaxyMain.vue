@@ -64,6 +64,11 @@ onContentUpdated(() => {
               />
             </slot>
           </div>
+
+          <div v-if="route.path.startsWith('/posts/')" flex="~ center" mb="2">
+            <YunCopyMarkdownBtn />
+          </div>
+
           <slot name="main-header-after" />
 
           <div p="x-4 b-8" class="sm:px-6 lg:px-12 xl:px-16" w="full">

@@ -151,7 +151,7 @@ export interface ValaxyExtendConfig {
       /**
        * @zh 是否开启 llms.txt 和 .md 原始文件输出
        * @en Enable llms.txt and raw .md file output
-       * @default true
+       * @default false
        */
       enable: boolean
       /**
@@ -161,11 +161,11 @@ export interface ValaxyExtendConfig {
        */
       fullText: boolean
       /**
-       * @zh 是否为每篇文章生成独立的 .md 文件
-       * @en Whether to generate individual .md files for each post
+       * @zh 是否为每篇文章生成独立的 .md 文件（可通过 /posts/xxx.md 访问）
+       * @en Whether to generate individual .md files for each post (accessible via /posts/xxx.md)
        * @default true
        */
-      copyMarkdown: boolean
+      files: boolean
       /**
        * @zh 自定义提示词（添加到 llms.txt blockquote 部分）
        * @en Custom prompt text (added to the llms.txt blockquote section)

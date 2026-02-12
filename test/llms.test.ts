@@ -13,7 +13,7 @@ function createMockOptions(overrides: Partial<{
   description: string
   enable: boolean
   fullText: boolean
-  copyMarkdown: boolean
+  files: boolean
   prompt: string
 }> = {}): ResolvedValaxyOptions {
   return {
@@ -34,7 +34,7 @@ function createMockOptions(overrides: Partial<{
         llms: {
           enable: overrides.enable ?? true,
           fullText: overrides.fullText ?? true,
-          copyMarkdown: overrides.copyMarkdown ?? true,
+          files: overrides.files ?? true,
           prompt: overrides.prompt ?? '',
         },
       },
@@ -181,7 +181,7 @@ This is hidden.`,
 
   describe('raw .md file copying', () => {
     it('should copy raw .md files to dist', async () => {
-      await build(createMockOptions({ copyMarkdown: true }))
+      await build(createMockOptions({ files: true }))
 
       const helloMd = await fs.readFile(resolve(mockUserRoot, 'dist/posts/hello.md'), 'utf-8')
       expect(helloMd).toContain('# Hello World')
@@ -191,15 +191,15 @@ This is hidden.`,
       expect(secondMd).toContain('# Second Post')
     })
 
-    it('should not copy .md files when copyMarkdown is false', async () => {
-      await build(createMockOptions({ copyMarkdown: false }))
+    it('should not copy .md files when files is false', async () => {
+      await build(createMockOptions({ files: false }))
 
       const exists = await fs.pathExists(resolve(mockUserRoot, 'dist/posts/hello.md'))
       expect(exists).toBe(false)
     })
 
     it('should not copy draft/encrypted/hidden posts as .md', async () => {
-      await build(createMockOptions({ copyMarkdown: true }))
+      await build(createMockOptions({ files: true }))
 
       expect(await fs.pathExists(resolve(mockUserRoot, 'dist/posts/draft.md'))).toBe(false)
       expect(await fs.pathExists(resolve(mockUserRoot, 'dist/posts/encrypted.md'))).toBe(false)

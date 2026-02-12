@@ -50,6 +50,8 @@ post:
   related_posts: Related posts
   view_link: View link
   read_more: READ MORE
+  copy_markdown: Copy Markdown
+  copied_markdown: Copied!
   cover: Cover
   time_warning: This article was last updated {ago}. The information described in this article may have changed.
   copyright:

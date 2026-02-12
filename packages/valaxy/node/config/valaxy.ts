@@ -45,9 +45,9 @@ export const defaultValaxyConfig: ValaxyNodeConfig = {
       extractImagePathsFromHTML: true,
     },
     llms: {
-      enable: true,
+      enable: false,
       fullText: true,
-      copyMarkdown: true,
+      files: true,
       prompt: '',
     },
   },

@@ -76,7 +76,7 @@ export async function build(options: ResolvedValaxyOptions) {
   }
 
   // Copy raw .md files to dist
-  if (llmsConfig.copyMarkdown) {
+  if (llmsConfig.files) {
     for (const post of posts) {
       const mdPath = path.resolve(distPath, `${post.urlPath.slice(1)}.md`)
       await fs.ensureDir(path.dirname(mdPath))
