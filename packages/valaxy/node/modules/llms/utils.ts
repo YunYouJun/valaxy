@@ -38,8 +38,9 @@ export async function build(options: ResolvedValaxyOptions) {
 
   const siteUrl = siteConfig.url.endsWith('/') ? siteConfig.url.slice(0, -1) : siteConfig.url
 
-  // Scan markdown files
-  const files = await fg(`${options.userRoot}/pages/posts/**/*.md`)
+  // Scan markdown files (use fg.convertPathToPattern for Windows compatibility)
+  const pattern = fg.convertPathToPattern(path.join(options.userRoot, 'pages/posts'))
+  const files = await fg(`${pattern}/**/*.md`)
 
   const posts = await getLlmsPosts({ files, lang }, options)
 
