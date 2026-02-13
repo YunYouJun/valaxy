@@ -50,6 +50,8 @@ post:
   related_posts: 相关文章
   view_link: 查看链接
   read_more: 阅读更多
+  copy_markdown: 复制 Markdown
+  copied_markdown: 已复制！
   cover: 封面
   time_warning: '本文最后更新于 {ago}，文中所描述的信息可能已发生改变。'
   copyright:

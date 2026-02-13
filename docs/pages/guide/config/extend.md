@@ -240,6 +240,59 @@ In most cases, you should keep this option as `true` to ensure RSS readers can l
 
 :::
 
+#### LLMS
+
+::: zh-CN
+
+Valaxy 内置了 LLMS 模块，遵循 [llms.txt 标准](https://llmstxt.org/)，在构建时生成 AI 可读的 Markdown 内容。
+
+启用后，构建产物中将包含：
+
+- `/llms.txt` — 站点文章索引，包含指向各 `.md` 文件的链接
+- `/llms-full.txt` — 所有文章内容的合集（可选）
+- `/posts/*.md` — 每篇文章的原始 Markdown 文件，可通过 URL 直接访问
+
+同时，主题可以利用 `useCopyMarkdown()` composable 为文章页添加「复制 Markdown」按钮（Yun 主题已内置支持）。
+
+- `enable`: 是否启用 LLMS 模块。默认 `false`，关闭。
+- `files`: 是否为每篇文章生成独立的 `.md` 文件。默认 `true`。
+- `fullText`: 是否生成 `llms-full.txt`（包含所有文章完整内容）。默认 `true`。
+- `prompt`: 自定义提示词，添加到 `llms.txt` 的描述部分。默认 `''`。
+
+:::
+
+::: en
+
+Valaxy has a built-in LLMS module, following the [llms.txt standard](https://llmstxt.org/), to generate AI-readable Markdown content during build.
+
+When enabled, the build output will include:
+
+- `/llms.txt` — Post index with links to individual `.md` files
+- `/llms-full.txt` — All post content concatenated (optional)
+- `/posts/*.md` — Raw Markdown files for each post, accessible via URL
+
+Themes can use the `useCopyMarkdown()` composable to add a "Copy Markdown" button on post pages (built-in support in Yun theme).
+
+- `enable`: Whether to enable the LLMS module. Default is `false`, disabled.
+- `files`: Whether to generate individual `.md` files for each post. Default is `true`.
+- `fullText`: Whether to generate `llms-full.txt` (with all post content inlined). Default is `true`.
+- `prompt`: Custom prompt text, added to the `llms.txt` description section. Default is `''`.
+
+:::
+
+```ts [valaxy.config.ts]
+export default defineValaxyConfig({
+  modules: {
+    llms: {
+      enable: true,
+      files: true,
+      fullText: true,
+      prompt: '',
+    },
+  },
+})
+```
+
 ### CDN Externals {lang="en"}
 
 ### CDN 外部化 {lang="zh-CN"}

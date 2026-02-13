@@ -141,6 +141,38 @@ export interface ValaxyExtendConfig {
        */
       extractImagePathsFromHTML: boolean
     }
+
+    /**
+     * @zh llms.txt 及原始 Markdown 文件输出
+     * @en llms.txt and raw Markdown file output
+     * @see https://llmstxt.org/
+     */
+    llms: {
+      /**
+       * @zh 是否开启 llms.txt 和 .md 原始文件输出
+       * @en Enable llms.txt and raw .md file output
+       * @default false
+       */
+      enable: boolean
+      /**
+       * @zh 是否生成 llms-full.txt（包含所有文章完整内容）
+       * @en Whether to generate llms-full.txt (with all post content inlined)
+       * @default true
+       */
+      fullText: boolean
+      /**
+       * @zh 是否为每篇文章生成独立的 .md 文件（可通过 /posts/xxx.md 访问）
+       * @en Whether to generate individual .md files for each post (accessible via /posts/xxx.md)
+       * @default true
+       */
+      files: boolean
+      /**
+       * @zh 自定义提示词（添加到 llms.txt blockquote 部分）
+       * @en Custom prompt text (added to the llms.txt blockquote section)
+       * @default ''
+       */
+      prompt: string
+    }
   }
 
   /**

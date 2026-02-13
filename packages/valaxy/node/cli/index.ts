@@ -8,6 +8,7 @@ import { hideBin } from 'yargs/helpers'
 // type:json
 import { version } from '../env'
 import { fuseModule } from '../modules/fuse'
+import { llmsModule } from '../modules/llms'
 import { rssModule } from '../modules/rss'
 
 import { registerBuildCommand } from './build'
@@ -37,6 +38,7 @@ cli.help()
 
 const modules: ValaxyModule[] = [
   fuseModule,
+  llmsModule,
   rssModule,
 ]
 
