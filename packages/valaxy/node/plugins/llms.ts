@@ -5,8 +5,8 @@ import { Buffer } from 'node:buffer'
 import path from 'node:path'
 import fs from 'fs-extra'
 import matter from 'gray-matter'
-import { tObject } from '../../shared'
-import { generateLlmsFullTxt, generateLlmsTxt } from '../modules/llms/utils'
+import { loadLocalesYml } from '../../shared/node/i18n'
+import { generateLlmsFullTxt, generateLlmsTxt, resolveText } from '../modules/llms/utils'
 import { filePathToUrlPath, filterPublicPosts, getSiteUrl, readPostFiles, scanPostFiles } from '../modules/utils'
 import { matterOptions } from './markdown/transform/matter'
 
@@ -66,9 +66,11 @@ async function buildLlmsTxt(options: ResolvedValaxyOptions): Promise<string> {
   const lang = siteConfig.lang || 'en'
   const siteUrl = getSiteUrl(options)
 
+  loadLocalesYml(path.resolve(options.userRoot, 'locales'))
+
   const posts = await collectPosts(options, lang)
-  const title = tObject(siteConfig.title, lang) || 'Valaxy Blog'
-  const description = tObject(siteConfig.description, lang)
+  const title = resolveText(siteConfig.title, lang) || 'Valaxy Blog'
+  const description = resolveText(siteConfig.description, lang)
 
   return generateLlmsTxt({
     title,
@@ -87,9 +89,11 @@ async function buildLlmsFullTxt(options: ResolvedValaxyOptions): Promise<string>
   const siteConfig = config.siteConfig
   const lang = siteConfig.lang || 'en'
 
+  loadLocalesYml(path.resolve(options.userRoot, 'locales'))
+
   const posts = await collectPosts(options, lang)
-  const title = tObject(siteConfig.title, lang) || 'Valaxy Blog'
-  const description = tObject(siteConfig.description, lang)
+  const title = resolveText(siteConfig.title, lang) || 'Valaxy Blog'
+  const description = resolveText(siteConfig.description, lang)
 
   return generateLlmsFullTxt({
     title,
@@ -108,8 +112,8 @@ async function collectPosts(options: ResolvedValaxyOptions, lang: string): Promi
   const publicPosts = filterPublicPosts(rawPosts)
 
   const posts = publicPosts.map<LlmsPost>(({ data, content, filePath }) => ({
-    title: tObject(data.title, lang) || path.basename(filePath, '.md'),
-    description: tObject(data.description, lang) || '',
+    title: resolveText(data.title, lang) || path.basename(filePath, '.md'),
+    description: resolveText(data.description, lang) || '',
     date: data.date ? new Date(data.date) : new Date(0),
     urlPath: filePathToUrlPath(filePath, options.userRoot),
     content,

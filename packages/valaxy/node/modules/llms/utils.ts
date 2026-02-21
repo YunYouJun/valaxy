@@ -5,6 +5,8 @@ import { colors } from 'consola/utils'
 import fs from 'fs-extra'
 import ora from 'ora'
 import { tObject } from '../../../shared'
+import { LOCALE_PREFIX } from '../../../shared/constants'
+import { loadLocalesYml, nodeT } from '../../../shared/node/i18n'
 import { filePathToUrlPath, filterPublicPosts, getSiteUrl, readPostFiles, scanPostFiles } from '../utils'
 
 export interface LlmsPost {
@@ -15,6 +17,15 @@ export interface LlmsPost {
   urlPath: string
   /** Raw markdown content (without frontmatter) */
   content: string
+}
+
+/**
+ * Resolve a config value that may be a `$locale:` key, a `Record<lang, string>`, or a plain string.
+ */
+export function resolveText(value: string | Record<string, string>, lang: string): string {
+  if (typeof value === 'string' && value.startsWith(LOCALE_PREFIX))
+    return nodeT(value, lang)
+  return tObject(value, lang) as string
 }
 
 /**
@@ -29,6 +40,9 @@ export async function build(options: ResolvedValaxyOptions) {
   const llmsConfig = config.modules.llms
   const lang = siteConfig.lang || 'en'
 
+  // Load locale yml files so nodeT can resolve $locale: keys
+  loadLocalesYml(path.resolve(options.userRoot, 'locales'))
+
   const siteUrl = getSiteUrl(options)
   if (!siteUrl) {
     consola.warn('`url` is not set in site.config.ts. llms.txt will use relative paths.')
@@ -40,8 +54,8 @@ export async function build(options: ResolvedValaxyOptions) {
   const publicPosts = filterPublicPosts(rawPosts)
 
   const posts = publicPosts.map<LlmsPost>(({ data, content, filePath }) => ({
-    title: tObject(data.title, lang) || path.basename(filePath, '.md'),
-    description: tObject(data.description, lang) || '',
+    title: resolveText(data.title, lang) || path.basename(filePath, '.md'),
+    description: resolveText(data.description, lang) || '',
     date: data.date ? new Date(data.date) : new Date(0),
     urlPath: filePathToUrlPath(filePath, options.userRoot),
     content,
@@ -53,8 +67,8 @@ export async function build(options: ResolvedValaxyOptions) {
   const distPath = path.resolve(options.userRoot, 'dist')
   await fs.ensureDir(distPath)
 
-  const title = tObject(siteConfig.title, lang) || 'Valaxy Blog'
-  const description = tObject(siteConfig.description, lang)
+  const title = resolveText(siteConfig.title, lang) || 'Valaxy Blog'
+  const description = resolveText(siteConfig.description, lang)
 
   // Generate llms.txt
   const llmsTxt = generateLlmsTxt({
