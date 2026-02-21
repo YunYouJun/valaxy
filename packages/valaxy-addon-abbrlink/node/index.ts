@@ -14,7 +14,7 @@ export const addonAbbrlink = defineValaxyAddon<Options>(options => ({
       // route.meta.frontmatter is typed as Post (Partial<PostFrontMatter>)
       const fm = route.meta.frontmatter as Post | undefined
       if (fm?.abbrlink) {
-        route.addAlias(`/posts/${fm.abbrlink}`)
+        route.addAlias([`/posts/${fm.abbrlink}`])
       }
     })
 
