@@ -46,7 +46,7 @@ export async function execBuild({ ssg, root, output, log }: { ssg: boolean, root
     modules.push(fuseModule)
   if (options.config.modules.rss.enable)
     modules.push(rssModule)
-  if (options.config.modules.llms.enable)
+  if (options.config.siteConfig.llms.enable)
     modules.push(llmsModule)
 
   // setup modules

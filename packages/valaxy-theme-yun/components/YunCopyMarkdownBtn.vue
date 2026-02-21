@@ -10,6 +10,7 @@ const { t } = useI18n()
   <button
     v-if="available"
     class="copy-markdown-btn inline-flex-center"
+    :aria-label="copied ? t('post.copied_markdown', 'Copied!') : t('post.copy_markdown', 'Copy Markdown')"
     :title="copied ? t('post.copied_markdown', 'Copied!') : t('post.copy_markdown', 'Copy Markdown')"
     :disabled="loading"
     @click="copy"
@@ -22,6 +23,10 @@ const { t } = useI18n()
 
 <style>
 .copy-markdown-btn {
+  position: absolute;
+  top: 0.75rem;
+  right: 0.75rem;
+  z-index: 1;
   cursor: pointer;
   border: none;
   background: transparent;
@@ -29,12 +34,18 @@ const { t } = useI18n()
   padding: 0.25rem;
   border-radius: 0.25rem;
   transition: color 0.2s, opacity 0.2s;
-  opacity: 0.6;
+  opacity: 0.4;
   font-size: 1rem;
 }
 
 .copy-markdown-btn:hover {
   color: var(--va-c-primary);
+  opacity: 1;
+}
+
+.copy-markdown-btn:focus-visible {
+  outline: 2px solid var(--va-c-primary);
+  outline-offset: 2px;
   opacity: 1;
 }
 

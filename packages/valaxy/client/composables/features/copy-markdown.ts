@@ -4,11 +4,11 @@ import { useRoute } from 'vue-router'
 
 /**
  * Composable for copying raw Markdown content of the current post.
- * Requires `modules.llms.files: true` to have .md files available at build output.
+ * Requires `siteConfig.llms.files: true` to have .md files available at build output.
  *
  * The `available` ref is initially `false` and becomes `true` after a HEAD request
  * confirms the `.md` file exists. This allows themes to conditionally render
- * the copy button only when the llms module is enabled.
+ * the copy button only when the llms feature is enabled.
  *
  * @example
  * ```vue
@@ -36,7 +36,7 @@ export function useCopyMarkdown() {
     return `${p}.md`
   })
 
-  // Probe the .md file to detect availability (llms.files enabled at build time)
+  // Probe the .md file to detect availability (siteConfig.llms.files enabled at build time)
   if (isClient) {
     watchEffect(() => {
       available.value = false

@@ -112,6 +112,13 @@ export const defaultSiteConfig: SiteConfig = {
     useVueRouter: true,
     rules: [],
   },
+
+  llms: {
+    enable: false,
+    fullText: true,
+    files: true,
+    prompt: '',
+  },
 }
 
 /**

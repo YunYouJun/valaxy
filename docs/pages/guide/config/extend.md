@@ -280,15 +280,13 @@ Themes can use the `useCopyMarkdown()` composable to add a "Copy Markdown" butto
 
 :::
 
-```ts [valaxy.config.ts]
-export default defineValaxyConfig({
-  modules: {
-    llms: {
-      enable: true,
-      files: true,
-      fullText: true,
-      prompt: '',
-    },
+```ts [site.config.ts]
+export default defineSiteConfig({
+  llms: {
+    enable: true,
+    files: true,
+    fullText: true,
+    prompt: '',
   },
 })
 ```

@@ -37,7 +37,7 @@ export async function build(options: ResolvedValaxyOptions) {
 
   const { config } = options
   const siteConfig = config.siteConfig
-  const llmsConfig = config.modules.llms
+  const llmsConfig = siteConfig.llms
   const lang = siteConfig.lang || 'en'
 
   // Load locale yml files so nodeT can resolve $locale: keys

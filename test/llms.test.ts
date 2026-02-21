@@ -25,18 +25,18 @@ function createMockOptions(overrides: Partial<{
         lang: overrides.lang ?? 'en',
         title: overrides.title ?? 'Test Blog',
         description: overrides.description ?? 'A test blog',
+        llms: {
+          enable: overrides.enable ?? true,
+          fullText: overrides.fullText ?? true,
+          files: overrides.files ?? true,
+          prompt: overrides.prompt ?? '',
+        },
       },
       modules: {
         rss: {
           enable: true,
           fullText: false,
           extractImagePathsFromHTML: true,
-        },
-        llms: {
-          enable: overrides.enable ?? true,
-          fullText: overrides.fullText ?? true,
-          files: overrides.files ?? true,
-          prompt: overrides.prompt ?? '',
         },
       },
     },

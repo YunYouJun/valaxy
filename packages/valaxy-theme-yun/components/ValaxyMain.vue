@@ -1,6 +1,5 @@
 <script lang="ts" setup>
 import type { PageData, Post } from 'valaxy'
-import type { StyleValue } from 'vue'
 import { onClickHref, onContentUpdated, scrollTo, usePostTitle, useSiteConfig } from 'valaxy'
 import { computed, nextTick } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
@@ -37,6 +36,12 @@ nextTick(() => {
 onContentUpdated(() => {
   onClickHref(router)
 })
+
+/**
+ * show copy markdown btn
+ * llms
+ */
+const showCopyMarkdownBtn = computed(() => siteConfig.value.llms?.enable && route.path.startsWith('/posts/'))
 </script>
 
 <template>
@@ -52,7 +57,9 @@ onContentUpdated(() => {
         flex="~ col grow"
         p="lt-md:0"
       >
-        <YunCard :cover="frontmatter.cover" m="0" class="relative" :style="styles as StyleValue">
+        <YunCard :cover="frontmatter.cover" m="0" class="relative" :style="styles">
+          <YunCopyMarkdownBtn v-if="showCopyMarkdownBtn" />
+
           <div class="mt-8 mb-4">
             <slot name="main-header">
               <YunPageHeader
@@ -63,10 +70,6 @@ onContentUpdated(() => {
                 :page-title-class="frontmatter.pageTitleClass"
               />
             </slot>
-          </div>
-
-          <div v-if="route.path.startsWith('/posts/')" flex="~ center" mb="2">
-            <YunCopyMarkdownBtn />
           </div>
 
           <slot name="main-header-after" />

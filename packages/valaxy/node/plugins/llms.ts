@@ -18,7 +18,7 @@ import { matterOptions } from './markdown/transform/matter'
  * Content is generated on each request (always fresh, no disk writes).
  */
 export function createLlmsPlugin(options: ResolvedValaxyOptions): Plugin | null {
-  const llmsConfig = options.config.modules.llms
+  const llmsConfig = options.config.siteConfig.llms
   if (!llmsConfig.enable)
     return null
 
@@ -75,7 +75,7 @@ async function buildLlmsTxt(options: ResolvedValaxyOptions): Promise<string> {
   return generateLlmsTxt({
     title,
     description,
-    prompt: config.modules.llms.prompt,
+    prompt: siteConfig.llms.prompt,
     posts,
     siteUrl,
   })
@@ -98,7 +98,7 @@ async function buildLlmsFullTxt(options: ResolvedValaxyOptions): Promise<string>
   return generateLlmsFullTxt({
     title,
     description,
-    prompt: config.modules.llms.prompt,
+    prompt: siteConfig.llms.prompt,
     posts,
   })
 }
