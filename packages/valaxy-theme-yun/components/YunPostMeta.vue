@@ -17,16 +17,7 @@ const siteConfig = useSiteConfig()
 </script>
 
 <template>
-  <div v-if="frontmatter.draft" class="post-draft-icon" title="draft">
-    <div i-ri-draft-line />
-  </div>
-  <div v-if="frontmatter.hide" class="post-top-icon" color="$va-c-danger" :title="`hide:${frontmatter.hide}`">
-    <div v-if="frontmatter.hide === 'index'" i-ri-eye-close-line />
-    <div v-else i-ri-eye-off-line />
-  </div>
-  <div v-if="frontmatter.top" class="post-top-icon" color="$va-c-warning">
-    <div i-ri-pushpin-line />
-  </div>
+  <YunPostStatusIcons :frontmatter="frontmatter" />
 
   <div
     v-if="frontmatter"
@@ -67,20 +58,3 @@ const siteConfig = useSiteConfig()
     </div>
   </div>
 </template>
-
-<style>
-.post-draft-icon {
-  position: absolute;
-  top: 1rem;
-  left: 1rem;
-  color: var(--va-c-gray);
-  font-size: 1.2rem;
-}
-
-.post-top-icon {
-  position: absolute;
-  top: 1rem;
-  right: 1rem;
-  font-size: 1.2rem;
-}
-</style>

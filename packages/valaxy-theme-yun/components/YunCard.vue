@@ -4,24 +4,20 @@ defineProps<{ cover?: string }>()
 
 <template>
   <div
-    class="yun-card flex-center rounded-2" flex="col"
+    class="yun-card flex-center rounded-2 overflow-hidden" flex="col"
     min-h="100px"
     bg="$va-c-bg-light"
   >
-    <img
-      v-if="cover"
-      width="640" height="360"
-      class="object-cover select-none" h="64 md:sm" w="full"
-      :src="cover"
-      loading="lazy"
-    >
+    <YunCover :src="cover" />
 
     <div v-if="$slots.header" class="yun-card-header">
       <header>
         <slot name="header" />
       </header>
     </div>
-    <slot />
+    <div class="yun-card-body relative" w="full" flex="~ col" items="center">
+      <slot />
+    </div>
     <div v-if="$slots.content" class="yun-card-content" w="full">
       <slot name="content" />
     </div>

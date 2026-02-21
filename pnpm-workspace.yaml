@@ -195,6 +195,7 @@ catalogs:
   frontend:
     '@primevue/themes': ^4.5.4
     primevue: ^4.5.4
+    reka-ui: ^2.2.0
     vitepress: ^2.0.0-alpha.16
     vue: 3.5.22
 

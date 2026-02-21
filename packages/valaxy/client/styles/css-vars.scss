@@ -5,11 +5,8 @@
 
 $c-primary: #0078e7 !default;
 
-@use "./palette" with (
-  $colors: (
-    "primary": $c-primary,
-  )
-);
+@use "./palette" with ($colors: ("primary": $c-primary,
+  ));
 @use './css-vars/borders.css' as *;
 @use './css-vars/palette.css' as *;
 @use './css-vars/function.css' as *;
@@ -75,6 +72,8 @@ html.dark {
   --va-c-bg-soft: #f9f9f9;
   --va-c-bg-alt: #f9f9f9;
   --va-c-bg-mute: #f1f1f1;
+
+  --va-c-bg-elevated: #f9f9f9;
 }
 
 html.dark {
@@ -85,6 +84,8 @@ html.dark {
   --va-c-bg-alt: #161618;
   --va-c-bg-soft: #202127;
   --va-c-bg-mute: #2f2f2f;
+
+  --va-c-bg-elevated: #202127;
 }
 
 /* code */

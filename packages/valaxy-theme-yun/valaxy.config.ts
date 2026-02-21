@@ -29,6 +29,8 @@ function ThemeVitePlugin(options: ResolvedValaxyOptions<ThemeConfig>): Plugin {
             '@vueuse/motion',
             'primevue/toastservice',
             'primevue/config',
+
+            'reka-ui',
           ],
           exclude: ['@docsearch/js'],
         },

@@ -32,7 +32,8 @@
     "@vueuse/motion": "catalog:",
     "animejs": "catalog:",
     "gsap": "catalog:",
-    "primevue": "catalog:frontend"
+    "primevue": "catalog:frontend",
+    "reka-ui": "catalog:frontend"
   },
   "devDependencies": {
     "@types/animejs": "catalog:",

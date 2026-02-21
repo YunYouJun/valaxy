@@ -51,7 +51,10 @@ post:
   view_link: 查看链接
   read_more: 阅读更多
   copy_markdown: 复制 Markdown
+  copy_markdown_link: 复制 Markdown 链接
   copied_markdown: 已复制！
+  view_as_markdown: 查看 Markdown
+  open_in_github: 在 GitHub 中打开
   cover: 封面
   time_warning: '本文最后更新于 {ago}，文中所描述的信息可能已发生改变。'
   copyright:

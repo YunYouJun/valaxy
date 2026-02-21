@@ -28,7 +28,7 @@ watch(() => [yun.rightSidebar.isOpen, yun.size.isXl], async () => {
 <template>
   <aside
     flex="~ col"
-    class="va-card yun-aside sticky top-0 lg:top-$yun-margin-top min-h-sm"
+    class="va-card yun-aside sticky top-0 lg:top-$yun-margin-top min-h-sm rounded-2"
     :class="{
       float: isAsideFloat,
       show,

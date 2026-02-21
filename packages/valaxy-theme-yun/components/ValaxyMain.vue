@@ -36,12 +36,6 @@ nextTick(() => {
 onContentUpdated(() => {
   onClickHref(router)
 })
-
-/**
- * show copy markdown btn
- * llms
- */
-const showCopyMarkdownBtn = computed(() => siteConfig.value.llms?.enable && route.path.startsWith('/posts/'))
 </script>
 
 <template>
@@ -57,9 +51,8 @@ const showCopyMarkdownBtn = computed(() => siteConfig.value.llms?.enable && rout
         flex="~ col grow"
         p="lt-md:0"
       >
-        <YunCard :cover="frontmatter.cover" m="0" class="relative" :style="styles">
-          <YunCopyMarkdownBtn v-if="showCopyMarkdownBtn" />
-
+        <YunCard :cover="frontmatter.cover" m="0" :style="styles">
+          <YunPostActions />
           <div class="mt-8 mb-4">
             <slot name="main-header">
               <YunPageHeader
