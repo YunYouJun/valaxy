@@ -7,7 +7,7 @@ import ora from 'ora'
 import { tObject } from '../../../shared'
 import { filePathToUrlPath, filterPublicPosts, getSiteUrl, readPostFiles, scanPostFiles } from '../utils'
 
-interface LlmsPost {
+export interface LlmsPost {
   title: string
   description: string
   date: Date
@@ -96,7 +96,7 @@ export async function build(options: ResolvedValaxyOptions) {
  * Generate the llms.txt index file content following the llms.txt standard.
  * @see https://llmstxt.org/
  */
-function generateLlmsTxt(params: {
+export function generateLlmsTxt(params: {
   title: string
   description: string
   prompt: string
@@ -141,7 +141,7 @@ function generateLlmsTxt(params: {
 /**
  * Generate the llms-full.txt file with all post content inlined.
  */
-function generateLlmsFullTxt(params: {
+export function generateLlmsFullTxt(params: {
   title: string
   description: string
   prompt: string

@@ -14,6 +14,7 @@ import { groupIconVitePlugin } from 'vitepress-plugin-group-icons'
 import { customElements } from '../constants'
 import { createCdnPlugin } from './cdn'
 import { createConfigPlugin } from './extendConfig'
+import { createLlmsPlugin } from './llms'
 import { localSearchPlugin } from './localSearchPlugin'
 
 import { createMarkdownPlugin } from './markdown'
@@ -70,6 +71,7 @@ export async function ViteValaxyPlugins(
 
   const plugins: (PluginOption | PluginOption[])[] = [
     createCdnPlugin(options),
+    createLlmsPlugin(options),
 
     MarkdownPlugin,
     ValaxyPlugin,
