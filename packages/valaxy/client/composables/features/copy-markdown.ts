@@ -1,18 +1,23 @@
-import { computed, ref } from 'vue'
+import { isClient } from '@vueuse/core'
+import { computed, ref, watchEffect } from 'vue'
 import { useRoute } from 'vue-router'
 
 /**
  * Composable for copying raw Markdown content of the current post.
  * Requires `modules.llms.files: true` to have .md files available at build output.
  *
+ * The `available` ref is initially `false` and becomes `true` after a HEAD request
+ * confirms the `.md` file exists. This allows themes to conditionally render
+ * the copy button only when the llms module is enabled.
+ *
  * @example
  * ```vue
  * <script setup>
  * import { useCopyMarkdown } from 'valaxy'
- * const { copy, copied, loading } = useCopyMarkdown()
+ * const { copy, copied, loading, available } = useCopyMarkdown()
  * </script>
  * <template>
- *   <button @click="copy" :disabled="loading">
+ *   <button v-if="available" @click="copy" :disabled="loading">
  *     {{ copied ? 'Copied!' : 'Copy Markdown' }}
  *   </button>
  * </template>
@@ -22,8 +27,24 @@ export function useCopyMarkdown() {
   const route = useRoute()
   const copied = ref(false)
   const loading = ref(false)
+  const available = ref(false)
 
-  const mdUrl = computed(() => `${route.path}.md`)
+  const mdUrl = computed(() => {
+    const p = route.path !== '/' && route.path.endsWith('/')
+      ? route.path.slice(0, -1)
+      : route.path
+    return `${p}.md`
+  })
+
+  // Probe the .md file to detect availability (llms.files enabled at build time)
+  if (isClient) {
+    watchEffect(() => {
+      available.value = false
+      fetch(mdUrl.value, { method: 'HEAD' })
+        .then((res) => { available.value = res.ok })
+        .catch(() => { available.value = false })
+    })
+  }
 
   async function copy() {
     if (loading.value)
@@ -50,5 +71,5 @@ export function useCopyMarkdown() {
     }
   }
 
-  return { copy, copied, loading, mdUrl }
+  return { copy, copied, loading, mdUrl, available }
 }

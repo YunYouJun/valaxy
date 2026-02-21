@@ -1,14 +1,11 @@
 import type { ResolvedValaxyOptions } from '../../types'
-import { readFile } from 'node:fs/promises'
 import path from 'node:path'
 import { consola } from 'consola'
 import { colors } from 'consola/utils'
-import fg from 'fast-glob'
 import fs from 'fs-extra'
-import matter from 'gray-matter'
 import ora from 'ora'
 import { tObject } from '../../../shared'
-import { matterOptions } from '../../plugins/markdown/transform/matter'
+import { filePathToUrlPath, filterPublicPosts, getSiteUrl, readPostFiles, scanPostFiles } from '../utils'
 
 interface LlmsPost {
   title: string
@@ -32,17 +29,23 @@ export async function build(options: ResolvedValaxyOptions) {
   const llmsConfig = config.modules.llms
   const lang = siteConfig.lang || 'en'
 
-  if (!siteConfig.url || siteConfig.url === '/') {
+  const siteUrl = getSiteUrl(options)
+  if (!siteUrl) {
     consola.warn('`url` is not set in site.config.ts. llms.txt will use relative paths.')
   }
 
-  const siteUrl = siteConfig.url.endsWith('/') ? siteConfig.url.slice(0, -1) : siteConfig.url
+  // Scan, read, and filter posts
+  const files = await scanPostFiles(options.userRoot)
+  const rawPosts = await readPostFiles(files)
+  const publicPosts = filterPublicPosts(rawPosts)
 
-  // Scan markdown files (use fg.convertPathToPattern for Windows compatibility)
-  const pattern = fg.convertPathToPattern(path.join(options.userRoot, 'pages/posts'))
-  const files = await fg(`${pattern}/**/*.md`)
-
-  const posts = await getLlmsPosts({ files, lang }, options)
+  const posts = publicPosts.map<LlmsPost>(({ data, content, filePath }) => ({
+    title: tObject(data.title, lang) || path.basename(filePath, '.md'),
+    description: tObject(data.description, lang) || '',
+    date: data.date ? new Date(data.date) : new Date(0),
+    urlPath: filePathToUrlPath(filePath, options.userRoot),
+    content,
+  }))
 
   // Sort by date descending
   posts.sort((a, b) => +b.date - +a.date)
@@ -78,49 +81,15 @@ export async function build(options: ResolvedValaxyOptions) {
 
   // Copy raw .md files to dist
   if (llmsConfig.files) {
-    for (const post of posts) {
+    await Promise.all(posts.map(async (post) => {
       const mdPath = path.resolve(distPath, `${post.urlPath.slice(1)}.md`)
       await fs.ensureDir(path.dirname(mdPath))
       await fs.writeFile(mdPath, post.content, 'utf-8')
-    }
+    }))
     consola.debug(`[llms] Copied ${colors.dim(posts.length.toString())} raw .md files to dist/`)
   }
 
   s.succeed(`llms.txt generated. (${posts.length} posts)`)
-}
-
-/**
- * Read and filter posts for llms output
- */
-async function getLlmsPosts(
-  params: { files: string[], lang: string },
-  options: ResolvedValaxyOptions,
-): Promise<LlmsPost[]> {
-  const { files, lang } = params
-
-  const posts: LlmsPost[] = []
-
-  for (const file of files) {
-    const raw = await readFile(file, 'utf-8')
-    const { data, content } = matter(raw, matterOptions)
-
-    // Skip encrypted, draft, and hidden posts
-    if (data.password || data.draft || data.hide)
-      continue
-
-    const relativePath = path.relative(path.join(options.userRoot, 'pages'), file)
-    const urlPath = `/${relativePath.replace(/\\/g, '/').replace(/\.md$/, '')}`
-
-    posts.push({
-      title: tObject(data.title, lang) || path.basename(file, '.md'),
-      description: tObject(data.description, lang) || '',
-      date: data.date ? new Date(data.date) : new Date(0),
-      urlPath,
-      content,
-    })
-  }
-
-  return posts
 }
 
 /**
@@ -158,9 +127,9 @@ function generateLlmsTxt(params: {
   lines.push('## Posts')
   lines.push('')
   for (const post of posts) {
-    const mdUrl = siteUrl === '/'
-      ? `${post.urlPath}.md`
-      : `${siteUrl}${post.urlPath}.md`
+    const mdUrl = siteUrl
+      ? `${siteUrl}${post.urlPath}.md`
+      : `${post.urlPath}.md`
     const desc = post.description ? `: ${post.description}` : ''
     lines.push(`- [${post.title}](${mdUrl})${desc}`)
   }

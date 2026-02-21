@@ -2,12 +2,13 @@
 import { useCopyMarkdown } from 'valaxy'
 import { useI18n } from 'vue-i18n'
 
-const { copy, copied, loading } = useCopyMarkdown()
+const { copy, copied, loading, available } = useCopyMarkdown()
 const { t } = useI18n()
 </script>
 
 <template>
   <button
+    v-if="available"
     class="copy-markdown-btn inline-flex-center"
     :title="copied ? t('post.copied_markdown', 'Copied!') : t('post.copy_markdown', 'Copy Markdown')"
     :disabled="loading"
