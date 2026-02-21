@@ -8,14 +8,14 @@ defineProps<{
 
 <template>
   <div v-if="frontmatter.draft || frontmatter.hide || frontmatter.top" class="post-status-icons">
-    <div v-if="frontmatter.draft" color="$va-c-gray" title="draft">
+    <div v-if="frontmatter.draft" text="$va-c-gray" title="draft">
       <div i-ri-draft-line />
     </div>
-    <div v-if="frontmatter.hide" color="$va-c-danger" :title="`hide:${frontmatter.hide}`">
+    <div v-if="frontmatter.hide" text="$va-c-danger" :title="`hide:${frontmatter.hide}`">
       <div v-if="frontmatter.hide === 'index'" i-ri-eye-close-line />
       <div v-else i-ri-eye-off-line />
     </div>
-    <div v-if="frontmatter.top" color="$va-c-warning">
+    <div v-if="frontmatter.top" text="$va-c-warning">
       <div i-ri-pushpin-line />
     </div>
   </div>
