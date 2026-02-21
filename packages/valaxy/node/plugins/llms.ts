@@ -22,36 +22,44 @@ export function createLlmsPlugin(options: ResolvedValaxyOptions): Plugin | null 
   if (!llmsConfig.enable)
     return null
 
+  // Load locales once at plugin creation time instead of per-request
+  loadLocalesYml(path.resolve(options.userRoot, 'locales'))
+
   return {
     name: 'valaxy:llms-dev',
     apply: 'serve',
 
     configureServer(server) {
       server.middlewares.use(async (req, res, next) => {
-        const url = req.url
-        if (!url)
-          return next()
+        try {
+          const url = req.url
+          if (!url)
+            return next()
 
-        // Serve /llms.txt
-        if (url === '/llms.txt') {
-          const content = await buildLlmsTxt(options)
-          return sendText(res, content, req.method === 'HEAD')
-        }
-
-        // Serve /llms-full.txt
-        if (url === '/llms-full.txt' && llmsConfig.fullText) {
-          const content = await buildLlmsFullTxt(options)
-          return sendText(res, content, req.method === 'HEAD')
-        }
-
-        // Serve /posts/**/*.md raw files
-        if (llmsConfig.files && url.startsWith('/posts/') && url.endsWith('.md')) {
-          const content = await resolveRawMd(url, options)
-          if (content !== null)
+          // Serve /llms.txt
+          if (url === '/llms.txt') {
+            const content = await buildLlmsTxt(options)
             return sendText(res, content, req.method === 'HEAD')
-        }
+          }
 
-        next()
+          // Serve /llms-full.txt
+          if (url === '/llms-full.txt' && llmsConfig.fullText) {
+            const content = await buildLlmsFullTxt(options)
+            return sendText(res, content, req.method === 'HEAD')
+          }
+
+          // Serve /posts/**/*.md raw files
+          if (llmsConfig.files && url.startsWith('/posts/') && url.endsWith('.md')) {
+            const content = await resolveRawMd(url, options)
+            if (content !== null)
+              return sendText(res, content, req.method === 'HEAD')
+          }
+
+          next()
+        }
+        catch (err) {
+          next(err)
+        }
       })
     },
   }
@@ -65,8 +73,6 @@ async function buildLlmsTxt(options: ResolvedValaxyOptions): Promise<string> {
   const siteConfig = config.siteConfig
   const lang = siteConfig.lang || 'en'
   const siteUrl = getSiteUrl(options)
-
-  loadLocalesYml(path.resolve(options.userRoot, 'locales'))
 
   const posts = await collectPosts(options, lang)
   const title = resolveText(siteConfig.title, lang) || 'Valaxy Blog'
@@ -88,8 +94,6 @@ async function buildLlmsFullTxt(options: ResolvedValaxyOptions): Promise<string>
   const { config } = options
   const siteConfig = config.siteConfig
   const lang = siteConfig.lang || 'en'
-
-  loadLocalesYml(path.resolve(options.userRoot, 'locales'))
 
   const posts = await collectPosts(options, lang)
   const title = resolveText(siteConfig.title, lang) || 'Valaxy Blog'
@@ -130,12 +134,18 @@ async function collectPosts(options: ResolvedValaxyOptions, lang: string): Promi
  * Returns `null` if not found or post is draft/hidden/encrypted.
  */
 async function resolveRawMd(url: string, options: ResolvedValaxyOptions): Promise<string | null> {
-  const pagesDir = path.join(options.userRoot, 'pages')
+  const pagesDir = path.resolve(options.userRoot, 'pages')
+  // Strip leading slash and resolve against pagesDir
+  const safePath = path.resolve(pagesDir, url.slice(1))
+  // Prevent path traversal: resolved path must stay within pagesDir
+  if (!safePath.startsWith(pagesDir + path.sep))
+    return null
+
   // url is e.g. `/posts/hello.md` → try `pages/posts/hello.md`
-  const directPath = path.join(pagesDir, url)
+  const directPath = safePath
   // Also try index form: `/posts/hello.md` → `pages/posts/hello/index.md`
-  const stem = url.slice(0, -'.md'.length) // `/posts/hello`
-  const indexPath = path.join(pagesDir, stem, 'index.md')
+  const stem = safePath.slice(0, -'.md'.length)
+  const indexPath = path.join(stem, 'index.md')
 
   let filePath: string | null = null
   if (await fs.pathExists(directPath))

@@ -11,5 +11,6 @@ defineProps<{
     class="yun-cover object-cover select-none" h="64 md:sm" w="full"
     :src="src"
     loading="lazy"
+    alt=""
   >
 </template>

@@ -21,13 +21,6 @@ export default defineValaxyConfig<ThemeConfig>({
   // site config see site.config.ts or write in siteConfig
   // siteConfig: {},
 
-  siteConfig: {
-    llms: {
-      enable: true,
-      files: true,
-    },
-  },
-
   theme: 'yun',
   // see theme.config.ts or write in themeConfig
   // themeConfig in theme.config.ts

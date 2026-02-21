@@ -1,4 +1,4 @@
-import { isClient } from '@vueuse/core'
+import { isClient, useClipboard } from '@vueuse/core'
 import { computed, ref, watchEffect } from 'vue'
 import { useRoute } from 'vue-router'
 
@@ -28,6 +28,7 @@ export function useCopyMarkdown() {
   const copied = ref(false)
   const loading = ref(false)
   const available = ref(false)
+  const { copy: copyToClipboard } = useClipboard({ legacy: true })
 
   const mdUrl = computed(() => {
     const p = route.path !== '/' && route.path.endsWith('/')
@@ -57,7 +58,7 @@ export function useCopyMarkdown() {
         throw new Error(`Failed to fetch ${mdUrl.value}: ${res.status}`)
 
       const text = await res.text()
-      await navigator.clipboard.writeText(text)
+      await copyToClipboard(text)
       copied.value = true
       setTimeout(() => {
         copied.value = false

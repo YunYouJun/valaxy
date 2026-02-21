@@ -155,6 +155,11 @@ export default defineSiteConfig({
     enable: true,
   },
 
+  llms: {
+    enable: true,
+    files: true,
+  },
+
   redirects: {
     useVueRouter: true,
     rules: [
