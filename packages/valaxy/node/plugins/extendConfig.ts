@@ -41,9 +41,6 @@ const clientDeps = [
   'vanilla-lazyload',
 
   'valaxy > @vueuse/integrations/useFuse',
-
-  // mermaid (dynamically imported in ValaxyMermaid.vue)
-  'mermaid',
 ]
 
 /**
