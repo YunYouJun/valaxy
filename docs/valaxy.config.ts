@@ -16,6 +16,11 @@ const safelist = [
   'i-ri-home-line',
 
   'i-ri-github-line',
+
+  'i-ri-sparkle-line',
+  'i-ri-file-copy-line',
+  'i-ri-file-text-line',
+  'i-ri-check-line',
 ]
 
 export default defineValaxyConfig<PressTheme.Config>({
@@ -37,6 +42,10 @@ export default defineValaxyConfig<PressTheme.Config>({
     },
 
     lastUpdated: true,
+
+    llms: {
+      files: true,
+    },
   },
 
   addons: [
