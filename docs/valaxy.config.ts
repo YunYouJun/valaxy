@@ -21,6 +21,11 @@ const safelist = [
   'i-ri-file-copy-line',
   'i-ri-file-text-line',
   'i-ri-check-line',
+  'i-ri-arrow-down-s-line',
+  'i-ri-link',
+  'i-ri-external-link-line',
+  'i-simple-icons-openai',
+  'i-simple-icons-claude',
 ]
 
 export default defineValaxyConfig<PressTheme.Config>({

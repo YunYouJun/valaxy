@@ -48,8 +48,8 @@ export function createLlmsPlugin(options: ResolvedValaxyOptions): Plugin | null 
             return sendText(res, content, req.method === 'HEAD')
           }
 
-          // Serve /posts/**/*.md raw files
-          if (llmsConfig.files && url.startsWith('/posts/') && url.endsWith('.md')) {
+          // Serve raw .md files for any page
+          if (llmsConfig.files && url.endsWith('.md')) {
             const content = await resolveRawMd(url, options)
             if (content !== null)
               return sendText(res, content, req.method === 'HEAD')

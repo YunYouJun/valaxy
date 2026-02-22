@@ -1254,6 +1254,9 @@ importers:
       '@docsearch/js':
         specifier: 'catalog:'
         version: 3.9.0(@algolia/client-search@5.47.0)(search-insights@2.17.3)
+      reka-ui:
+        specifier: catalog:frontend
+        version: 2.8.2(vue@3.5.22(typescript@5.9.3))
     devDependencies:
       valaxy:
         specifier: workspace:*
@@ -14445,8 +14448,8 @@ snapshots:
       '@internationalized/date': 3.11.0
       '@internationalized/number': 3.6.5
       '@tanstack/vue-virtual': 3.13.18(vue@3.5.22(typescript@5.9.3))
-      '@vueuse/core': 14.2.0(vue@3.5.22(typescript@5.9.3))
-      '@vueuse/shared': 14.2.0(vue@3.5.22(typescript@5.9.3))
+      '@vueuse/core': 14.2.1(vue@3.5.22(typescript@5.9.3))
+      '@vueuse/shared': 14.2.1(vue@3.5.22(typescript@5.9.3))
       aria-hidden: 1.2.6
       defu: 6.1.4
       ohash: 2.0.11

@@ -23,7 +23,8 @@
   "types": "types/index.d.ts",
   "dependencies": {
     "@docsearch/css": "catalog:",
-    "@docsearch/js": "catalog:"
+    "@docsearch/js": "catalog:",
+    "reka-ui": "catalog:frontend"
   },
   "devDependencies": {
     "valaxy": "workspace:*"

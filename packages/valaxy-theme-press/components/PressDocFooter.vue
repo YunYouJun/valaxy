@@ -8,13 +8,10 @@ const editLink = useEditLink()
 
 <template>
   <div flex justify="between" items="center" text="sm">
-    <div flex items="center" gap="3">
-      <a flex items="center" class="decoration-none!" :href="editLink.url" target="_blank">
-        <div i-ri-external-link-line />
-        <span ml-1>{{ editLink.text || t('tooltip.edit_this_page') }}</span>
-      </a>
-      <PressPostActions />
-    </div>
+    <a flex items="center" class="decoration-none!" :href="editLink.url" target="_blank">
+      <div i-ri-external-link-line />
+      <span ml-1>{{ editLink.text || t('tooltip.edit_this_page') }}</span>
+    </a>
     <PressDocFooterLastUpdated />
   </div>
 </template>

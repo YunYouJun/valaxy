@@ -52,9 +52,12 @@ post:
   read_more: READ MORE
   copy_markdown: Copy Markdown
   copy_markdown_link: Copy Markdown Link
+  copy_page: Copy page
   copied_markdown: Copied!
   view_as_markdown: View as Markdown
   open_in_github: Open in GitHub
+  open_in_chatgpt: Open in ChatGPT
+  open_in_claude: Open in Claude
   cover: Cover
   time_warning: This article was last updated {ago}. The information described in this article may have changed.
   copyright:

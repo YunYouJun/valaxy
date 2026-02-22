@@ -62,10 +62,13 @@ onContentUpdated(() => {
               <slot name="main-content-before" />
 
               <ValaxyMd class="mx-auto w-full max-w-4xl" :frontmatter="frontmatter">
-                <h1 v-if="hasSidebar && !isHome && $title" :id="$title" tabindex="-1">
-                  {{ $title }}
-                  <a class="header-anchor" :href="`#${$title}`" aria-hidden="true" />
-                </h1>
+                <div v-if="hasSidebar && !isHome && $title" flex items-center justify-between gap-2>
+                  <h1 :id="$title" tabindex="-1" class="!mt-0">
+                    {{ $title }}
+                    <a class="header-anchor" :href="`#${$title}`" aria-hidden="true" />
+                  </h1>
+                  <PressPostActions />
+                </div>
                 <slot name="main-content-md" />
                 <slot />
               </ValaxyMd>

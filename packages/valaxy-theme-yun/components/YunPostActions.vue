@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import type { DropdownMenuItemConfig } from './YunDropdownMenu.vue'
-import { useCopyMarkdown, useData, useFullUrl } from 'valaxy'
+import { useCopyMarkdown, useData, useFrontmatter, useFullUrl, useValaxyI18n } from 'valaxy'
 import { computed, ref } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { useThemeConfig } from '../composables'
@@ -9,6 +9,8 @@ const { copy, copied, loading, available, mdUrl } = useCopyMarkdown()
 const { t } = useI18n()
 const themeConfig = useThemeConfig()
 const { page } = useData()
+const frontmatter = useFrontmatter()
+const { $tO } = useValaxyI18n()
 const fullUrl = useFullUrl()
 
 const linkCopied = ref(false)
@@ -59,7 +61,7 @@ const menuItems = computed<DropdownMenuItemConfig[]>(() => {
 
 async function copyMarkdownLink() {
   try {
-    const title = page.value?.frontmatter?.title || page.value?.title || 'Untitled'
+    const title = $tO(frontmatter.value.title) || 'Untitled'
     const link = `[${title}](${fullUrl.value})`
     await navigator.clipboard.writeText(link)
     linkCopied.value = true
