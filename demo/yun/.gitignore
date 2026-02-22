@@ -14,7 +14,9 @@ node_modules
 .idea/
 *.log
 
+# .valaxy
 components.d.ts
+route-map.d.ts
 
 # valaxy fuse
 public/valaxy-fuse-list.json
