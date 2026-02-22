@@ -38,35 +38,31 @@ const photosLength = computed(() => photos.value.length || galleryRef.value?.pho
 </script>
 
 <template>
-  <div class="min-h-screen flex flex-col">
-    <YunLayoutWrapper>
-      <YunLayoutLeft />
+  <YunLayoutWrapper>
+    <YunLayoutLeft />
 
-      <RouterView v-slot="{ Component }">
-        <component :is="Component">
-          <template #main-header>
-            <YunPageHeader
-              :title="title || t('title.gallery')"
-              :icon="frontmatter.icon || 'i-ri-gallery-line'"
-              :color="frontmatter.color"
-              :page-title-class="frontmatter.pageTitleClass"
-            />
-          </template>
+    <RouterView v-slot="{ Component }">
+      <component :is="Component">
+        <template #main-header>
+          <YunPageHeader
+            :title="title || t('title.gallery')"
+            :icon="frontmatter.icon || 'i-ri-gallery-line'"
+            :color="frontmatter.color"
+            :page-title-class="frontmatter.pageTitleClass"
+          />
+        </template>
 
-          <div text="center" class="yun-text-light" p="2">
-            {{ t('counter.photos', photosLength || 0) }}
-          </div>
-          <div class="page-action" text="center">
-            <a class="yun-icon-btn" :title="t('accessibility.back')" @click="() => router.back()">
-              <div i-ri-arrow-go-back-line />
-            </a>
-          </div>
-          <ValaxyGalleryDecrypt v-if="encryptedPhotos" ref="galleryRef" :encrypted-photos="encryptedPhotos" />
-          <YunGallery v-else :photos="photos" />
-        </component>
-      </RouterView>
-    </YunLayoutWrapper>
-
-    <YunFooter />
-  </div>
+        <div text="center" class="yun-text-light" p="2">
+          {{ t('counter.photos', photosLength || 0) }}
+        </div>
+        <div class="page-action" text="center">
+          <a class="yun-icon-btn" :title="t('accessibility.back')" @click="() => router.back()">
+            <div i-ri-arrow-go-back-line />
+          </a>
+        </div>
+        <ValaxyGalleryDecrypt v-if="encryptedPhotos" ref="galleryRef" :encrypted-photos="encryptedPhotos" />
+        <YunGallery v-else :photos="photos" />
+      </component>
+    </RouterView>
+  </YunLayoutWrapper>
 </template>

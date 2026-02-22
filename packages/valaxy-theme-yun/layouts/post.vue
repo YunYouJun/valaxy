@@ -32,29 +32,25 @@ useSchemaOrg(
 </script>
 
 <template>
-  <div class="min-h-screen flex flex-col">
-    <YunLayoutWrapper>
-      <YunLayoutLeft />
+  <YunLayoutWrapper>
+    <YunLayoutLeft />
 
-      <RouterView v-slot="{ Component }">
-        <component :is="Component">
-          <template #main-header-after>
-            <YunMainHeaderAfter />
-          </template>
+    <RouterView v-slot="{ Component }">
+      <component :is="Component">
+        <template #main-header-after>
+          <YunMainHeaderAfter />
+        </template>
 
-          <template #main-content-after>
-            <YunMainContentAfter />
-          </template>
+        <template #main-content-after>
+          <YunMainContentAfter />
+        </template>
 
-          <template #aside-custom>
-            <slot name="aside-custom" />
-          </template>
-        </component>
-      </RouterView>
+        <template #aside-custom>
+          <slot name="aside-custom" />
+        </template>
+      </component>
+    </RouterView>
 
-      <YunLayoutRight />
-    </YunLayoutWrapper>
-
-    <YunFooter />
-  </div>
+    <YunLayoutRight />
+  </YunLayoutWrapper>
 </template>

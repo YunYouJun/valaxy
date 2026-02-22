@@ -3,10 +3,9 @@
 </script>
 
 <template>
-  <div class="min-h-screen flex flex-col">
-    <div class="pt-16 md:pt-24 flex-grow">
+  <YunLayoutWrapper>
+    <div class="pt-16 md:pt-24">
       <YunPostList />
     </div>
-    <YunFooter />
-  </div>
+  </YunLayoutWrapper>
 </template>

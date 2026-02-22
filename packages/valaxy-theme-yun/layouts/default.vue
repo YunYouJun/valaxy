@@ -3,13 +3,9 @@
 </script>
 
 <template>
-  <div class="min-h-screen flex flex-col">
-    <YunLayoutWrapper>
-      <YunLayoutLeft />
-      <RouterView />
-      <YunLayoutRight />
-    </YunLayoutWrapper>
-
-    <YunFooter />
-  </div>
+  <YunLayoutWrapper>
+    <YunLayoutLeft />
+    <RouterView />
+    <YunLayoutRight />
+  </YunLayoutWrapper>
 </template>

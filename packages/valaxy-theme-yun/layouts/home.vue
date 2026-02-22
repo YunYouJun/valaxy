@@ -18,13 +18,8 @@ const showNotice = computed(() => {
 </script>
 
 <template>
-  <div class="min-h-screen flex flex-col">
-    <YunLayoutWrapper
-      class="items-center flex-col"
-      :class="{
-        'mt-0!': !isPage,
-      }"
-    >
+  <YunLayoutWrapper :no-margin="!isPage">
+    <div class="w-full flex flex-col items-center">
       <template v-if="themeConfig.banner.enable">
         <template v-if="!isPage">
           <div class="w-full">
@@ -68,7 +63,6 @@ const showNotice = computed(() => {
       <slot>
         <RouterView />
       </slot>
-    </YunLayoutWrapper>
-    <YunFooter />
-  </div>
+    </div>
+  </YunLayoutWrapper>
 </template>
