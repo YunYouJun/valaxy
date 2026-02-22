@@ -26,28 +26,30 @@ const pageIcon = computed(() => {
 </script>
 
 <template>
-  <YunLayoutWrapper>
-    <YunLayoutLeft />
+  <div class="min-h-screen flex flex-col">
+    <YunLayoutWrapper>
+      <YunLayoutLeft />
 
-    <RouterView v-slot="{ Component }">
-      <component :is="Component">
-        <template #main-header>
-          <YunPageHeader
-            :title="title || t('menu.archives')"
-            :icon="pageIcon"
-            :color="frontmatter.color"
-            :page-title-class="frontmatter.pageTitleClass"
-          />
-        </template>
-        <template #main-content>
-          <RouterView />
-          <YunPostCollapse :posts="site.postList" />
-        </template>
-      </component>
-    </RouterView>
+      <RouterView v-slot="{ Component }">
+        <component :is="Component">
+          <template #main-header>
+            <YunPageHeader
+              :title="title || t('menu.archives')"
+              :icon="pageIcon"
+              :color="frontmatter.color"
+              :page-title-class="frontmatter.pageTitleClass"
+            />
+          </template>
+          <template #main-content>
+            <RouterView />
+            <YunPostCollapse :posts="site.postList" />
+          </template>
+        </component>
+      </RouterView>
 
-    <YunLayoutRight />
-  </YunLayoutWrapper>
+      <YunLayoutRight />
+    </YunLayoutWrapper>
 
-  <YunFooter />
+    <YunFooter />
+  </div>
 </template>

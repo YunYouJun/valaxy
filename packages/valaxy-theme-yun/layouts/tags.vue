@@ -59,55 +59,57 @@ const tagArr = computed(() => Array.from(tags.value).sort())
 </script>
 
 <template>
-  <YunLayoutWrapper>
-    <YunLayoutLeft />
+  <div class="min-h-screen flex flex-col">
+    <YunLayoutWrapper>
+      <YunLayoutLeft />
 
-    <RouterView v-slot="{ Component }">
-      <component :is="Component">
-        <template #main-header>
-          <YunPageHeader
-            :title="title || t('menu.tags')"
-            :icon="frontmatter.icon || 'i-ri-tag-line'"
-            :color="frontmatter.color"
-            :page-title-class="frontmatter.pageTitleClass"
-          />
-        </template>
-        <template #main-content>
-          <Transition
-            enter-active-class="animate-fade-in animate-duration-400"
-            appear
-          >
-            <div class="yun-text-light" text="center" p="2">
-              {{ t('counter.tags', tagArr.length) }}
-            </div>
-          </Transition>
-
-          <div class="justify-center items-end" flex="~ wrap" gap="1">
-            <YunLayoutPostTag
-              v-for="([key, tag], i) in tagArr"
-              :key="key"
-              :i="i"
-              :title="key"
-              :count="tag.count"
-              :style="getTagStyle(tag.count)"
-              @click="displayTag(key.toString())"
+      <RouterView v-slot="{ Component }">
+        <component :is="Component">
+          <template #main-header>
+            <YunPageHeader
+              :title="title || t('menu.tags')"
+              :icon="frontmatter.icon || 'i-ri-tag-line'"
+              :color="frontmatter.color"
+              :page-title-class="frontmatter.pageTitleClass"
             />
-          </div>
+          </template>
+          <template #main-content>
+            <Transition
+              enter-active-class="animate-fade-in animate-duration-400"
+              appear
+            >
+              <div class="yun-text-light" text="center" p="2">
+                {{ t('counter.tags', tagArr.length) }}
+              </div>
+            </Transition>
 
-          <RouterView />
-        </template>
+            <div class="justify-center items-end" flex="~ wrap" gap="1">
+              <YunLayoutPostTag
+                v-for="([key, tag], i) in tagArr"
+                :key="key"
+                :i="i"
+                :title="key"
+                :count="tag.count"
+                :style="getTagStyle(tag.count)"
+                @click="displayTag(key.toString())"
+              />
+            </div>
 
-        <template #main-nav-before>
-          <YunCard v-if="curTag" ref="collapse" m="t-4" w="full">
-            <YunPageHeader :title="curTag" icon="i-ri-hashtag" />
-            <YunPostCollapse w="full" m="b-4" p="x-20 lt-sm:x-5" :posts="posts" />
-          </YunCard>
-        </template>
-      </component>
-    </RouterView>
+            <RouterView />
+          </template>
 
-    <YunLayoutRight />
-  </YunLayoutWrapper>
+          <template #main-nav-before>
+            <YunCard v-if="curTag" ref="collapse" m="t-4" w="full">
+              <YunPageHeader :title="curTag" icon="i-ri-hashtag" />
+              <YunPostCollapse w="full" m="b-4" p="x-20 lt-sm:x-5" :posts="posts" />
+            </YunCard>
+          </template>
+        </component>
+      </RouterView>
 
-  <YunFooter />
+      <YunLayoutRight />
+    </YunLayoutWrapper>
+
+    <YunFooter />
+  </div>
 </template>

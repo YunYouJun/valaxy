@@ -3,8 +3,10 @@
 </script>
 
 <template>
-  <div class="pt-16 md:pt-24">
-    <YunPostList />
+  <div class="min-h-screen flex flex-col">
+    <div class="pt-16 md:pt-24 flex-grow">
+      <YunPostList />
+    </div>
+    <YunFooter />
   </div>
-  <YunFooter />
 </template>

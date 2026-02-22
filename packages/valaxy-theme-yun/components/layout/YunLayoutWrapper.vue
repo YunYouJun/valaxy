@@ -14,7 +14,7 @@ const classes = computed(() => {
 
 <template>
   <div
-    flex="~"
+    flex="~ grow"
     class="w-full m-auto justify-center items-start gap-4"
     :class="classes"
   >

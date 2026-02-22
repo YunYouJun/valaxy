@@ -20,29 +20,31 @@ const albums = computed(() => frontmatter.value.albums || [])
 </script>
 
 <template>
-  <YunLayoutWrapper>
-    <YunLayoutLeft />
+  <div class="min-h-screen flex flex-col">
+    <YunLayoutWrapper>
+      <YunLayoutLeft />
 
-    <RouterView v-slot="{ Component }">
-      <component :is="Component">
-        <template #main-header>
-          <YunPageHeader
-            :title="title || t('title.album')"
-            :icon="frontmatter.icon || 'i-ri-gallery-line'"
-            :color="frontmatter.color"
-            :page-title-class="frontmatter.pageTitleClass"
-          />
-        </template>
-        <template #main-content>
-          <div text="center" class="yun-text-light" p="2">
-            {{ t('counter.albums', albums.length) }}
-          </div>
-          <YunAlbumList :albums="albums" />
-          <RouterView />
-        </template>
-      </component>
-    </RouterView>
-  </YunLayoutWrapper>
+      <RouterView v-slot="{ Component }">
+        <component :is="Component">
+          <template #main-header>
+            <YunPageHeader
+              :title="title || t('title.album')"
+              :icon="frontmatter.icon || 'i-ri-gallery-line'"
+              :color="frontmatter.color"
+              :page-title-class="frontmatter.pageTitleClass"
+            />
+          </template>
+          <template #main-content>
+            <div text="center" class="yun-text-light" p="2">
+              {{ t('counter.albums', albums.length) }}
+            </div>
+            <YunAlbumList :albums="albums" />
+            <RouterView />
+          </template>
+        </component>
+      </RouterView>
+    </YunLayoutWrapper>
 
-  <YunFooter />
+    <YunFooter />
+  </div>
 </template>
