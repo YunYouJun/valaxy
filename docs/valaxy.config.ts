@@ -31,7 +31,7 @@ export default defineValaxyConfig<PressTheme.Config>({
 
     search: {
       enable: true,
-      type: 'algolia',
+      provider: 'algolia',
     },
     encrypt: {
       enable: true,
