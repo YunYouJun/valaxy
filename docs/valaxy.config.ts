@@ -44,7 +44,7 @@ export default defineValaxyConfig<PressTheme.Config>({
     lastUpdated: true,
 
     llms: {
-      files: true,
+      enable: true,
     },
   },
 
