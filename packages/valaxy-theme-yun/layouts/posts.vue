@@ -3,8 +3,9 @@
 </script>
 
 <template>
-  <div class="pt-16 md:pt-24">
-    <YunPostList />
-  </div>
-  <YunFooter />
+  <YunLayoutWrapper>
+    <div class="pt-16 md:pt-24">
+      <YunPostList />
+    </div>
+  </YunLayoutWrapper>
 </template>

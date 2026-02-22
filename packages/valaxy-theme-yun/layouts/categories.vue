@@ -87,6 +87,4 @@ useSchemaOrg([
 
     <YunLayoutRight />
   </YunLayoutWrapper>
-
-  <YunFooter />
 </template>

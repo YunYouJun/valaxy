@@ -4,6 +4,14 @@ import { useYunAppStore } from '../../stores'
 
 // common layout
 
+withDefaults(defineProps<{
+  footer?: boolean
+  noMargin?: boolean
+}>(), {
+  footer: true,
+  noMargin: false,
+})
+
 const yun = useYunAppStore()
 const classes = computed(() => {
   if (yun.isNimbo)
@@ -13,11 +21,14 @@ const classes = computed(() => {
 </script>
 
 <template>
-  <div
-    flex="~"
-    class="w-full m-auto justify-center items-start gap-4"
-    :class="classes"
-  >
-    <slot />
+  <div class="min-h-screen flex flex-col">
+    <div
+      flex="~ grow"
+      class="w-full m-auto justify-center items-start gap-4"
+      :class="noMargin ? '' : classes"
+    >
+      <slot />
+    </div>
+    <YunFooter v-if="footer" />
   </div>
 </template>

@@ -48,6 +48,4 @@ const pageIcon = computed(() => {
 
     <YunLayoutRight />
   </YunLayoutWrapper>
-
-  <YunFooter />
 </template>

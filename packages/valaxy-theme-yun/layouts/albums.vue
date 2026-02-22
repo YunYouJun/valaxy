@@ -43,6 +43,4 @@ const albums = computed(() => frontmatter.value.albums || [])
       </component>
     </RouterView>
   </YunLayoutWrapper>
-
-  <YunFooter />
 </template>

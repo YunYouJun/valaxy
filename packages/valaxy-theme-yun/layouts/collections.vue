@@ -34,6 +34,4 @@ const { collections } = useCollections()
       </component>
     </RouterView>
   </YunLayoutWrapper>
-
-  <YunFooter />
 </template>

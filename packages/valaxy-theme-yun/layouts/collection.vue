@@ -28,6 +28,4 @@
 
     <YunLayoutRight />
   </YunLayoutWrapper>
-
-  <YunFooter />
 </template>

@@ -748,6 +748,9 @@ importers:
       valaxy-addon-git-log:
         specifier: 'catalog:'
         version: 0.3.2(valaxy@packages+valaxy)
+      valaxy-addon-meting:
+        specifier: workspace:*
+        version: link:../packages/valaxy-addon-meting
       valaxy-theme-press:
         specifier: link:../packages/valaxy-theme-press
         version: link:../packages/valaxy-theme-press

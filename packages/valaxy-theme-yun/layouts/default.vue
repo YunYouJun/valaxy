@@ -8,6 +8,4 @@
     <RouterView />
     <YunLayoutRight />
   </YunLayoutWrapper>
-
-  <YunFooter />
 </template>

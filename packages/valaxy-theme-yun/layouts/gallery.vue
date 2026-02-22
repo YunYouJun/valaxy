@@ -65,6 +65,4 @@ const photosLength = computed(() => photos.value.length || galleryRef.value?.pho
       </component>
     </RouterView>
   </YunLayoutWrapper>
-
-  <YunFooter />
 </template>

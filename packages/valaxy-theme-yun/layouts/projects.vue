@@ -20,6 +20,4 @@ const fm = useFrontmatter()
       />
     </div>
   </YunLayoutWrapper>
-
-  <YunFooter />
 </template>

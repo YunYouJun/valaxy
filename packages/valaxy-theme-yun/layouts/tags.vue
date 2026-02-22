@@ -108,6 +108,4 @@ const tagArr = computed(() => Array.from(tags.value).sort())
 
     <YunLayoutRight />
   </YunLayoutWrapper>
-
-  <YunFooter />
 </template>
