@@ -12,6 +12,7 @@ import Components from 'unplugin-vue-components/vite'
 import Layouts from 'vite-plugin-vue-layouts'
 import { groupIconVitePlugin } from 'vitepress-plugin-group-icons'
 import { customElements } from '../constants'
+import { scanCodeBlockTitles } from '../utils/groupIcons'
 import { createCdnPlugin } from './cdn'
 import { createConfigPlugin } from './extendConfig'
 import { createLlmsPlugin } from './llms'
@@ -43,6 +44,7 @@ export async function ViteValaxyPlugins(
     RouterPlugin,
     UnocssPlugin,
     LocalSearchPlugin,
+    scannedTitles,
   ] = await Promise.all([
     createMarkdownPlugin(options),
     createValaxyPlugin(options, serverOptions),
@@ -69,6 +71,7 @@ export async function ViteValaxyPlugins(
     createRouterPlugin(valaxyApp),
     createUnocssPlugin(options),
     localSearchPlugin(options),
+    scanCodeBlockTitles(options),
   ])
 
   /**
@@ -181,6 +184,7 @@ export async function ViteValaxyPlugins(
       ...valaxyConfig.groupIcons?.defaultLabels || [],
       ...Object.keys(builtinCustomIcon),
       ...Object.keys(valaxyConfig.groupIcons?.customIcon || {}),
+      ...scannedTitles,
     ],
   })
 
