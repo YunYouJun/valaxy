@@ -2,6 +2,7 @@ import type { InlineConfig } from 'vite'
 import type { ViteSSGOptions } from 'vite-ssg'
 import type { ResolvedValaxyOptions, ValaxyNode } from './types'
 import { join, resolve } from 'node:path'
+import v8 from 'node:v8'
 import { consola } from 'consola'
 
 import { colors } from 'consola/utils'
@@ -10,8 +11,33 @@ import { mergeConfig as mergeViteConfig, build as viteBuild } from 'vite'
 import generateSitemap from 'vite-ssg-sitemap'
 import { build as viteSsgBuild } from 'vite-ssg/node'
 import { defaultViteConfig } from './constants'
+import { disposeMdItInstance, disposePreviewMdItInstance } from './plugins/markdown'
 import { ViteValaxyPlugins } from './plugins/preset'
 import { collectRedirects, writeRedirectFiles } from './utils/clientRedirects'
+
+/**
+ * Determine SSG concurrency based on the available JS heap size.
+ *
+ * Each concurrent page render creates a JSDOM instance + beasties CSS
+ * processing, consuming ~100-200 MB. We read V8's heap_size_limit
+ * (which reflects `--max-old-space-size`) and scale concurrency accordingly.
+ */
+function getSSGConcurrency(): number {
+  const heapLimitMB = v8.getHeapStatistics().heap_size_limit / 1024 / 1024
+
+  let concurrency: number
+  if (heapLimitMB <= 2048)
+    concurrency = 2
+  else if (heapLimitMB <= 3072)
+    concurrency = 4
+  else if (heapLimitMB <= 4096)
+    concurrency = 8
+  else
+    concurrency = 16
+
+  consola.info(`SSG concurrency: ${colors.yellow(concurrency)} (heap limit: ${colors.yellow(Math.round(heapLimitMB))} MB)`)
+  return concurrency
+}
 
 export async function build(
   valaxyApp: ValaxyNode,
@@ -37,6 +63,10 @@ export async function ssgBuild(
     ssr: {
       // TODO: workaround until they support native ESM
       noExternal: ['workbox-window', /vue-i18n/, '@vue/devtools-api', ...cdnModuleNames],
+    },
+    build: {
+      // SSR bundle is a temporary artifact deleted after rendering — sourcemaps are never used
+      sourcemap: false,
     },
   }
 
@@ -66,6 +96,7 @@ export async function ssgBuild(
   const valaxySsgDefaults: Partial<ViteSSGOptions> = {
     script: 'async',
     formatting: 'minify',
+    concurrency: getSSGConcurrency(),
     beastiesOptions: {
       /**
        * Preload strategy for non-critical CSS.
@@ -80,7 +111,8 @@ export async function ssgBuild(
        * @see https://github.com/danielroe/beasties#preload
        */
       preload: 'media',
-      // reduceInlineStyles: false,
+      // Skip inline <style> blocks (Vue scoped styles) — they are already small and scoped
+      reduceInlineStyles: false,
     },
     onFinished() {
       generateSitemap(
@@ -118,6 +150,29 @@ export async function ssgBuild(
       await valaxyOnFinished()
       await userOnFinished()
     }
+  }
+
+  // Dispose Shiki highlighter before SSG page rendering to free ~20-50MB of
+  // language grammar/theme data that is no longer needed after Vite builds.
+  let mdDisposed = false
+  const valaxyOnBeforePageRender: ViteSSGOptions['onBeforePageRender'] = async (_route, indexHTML) => {
+    if (!mdDisposed) {
+      disposeMdItInstance()
+      disposePreviewMdItInstance()
+      mdDisposed = true
+    }
+    return indexHTML
+  }
+
+  if (userSsgOptions.onBeforePageRender) {
+    const userOnBeforePageRender = userSsgOptions.onBeforePageRender
+    mergedSsgOptions.onBeforePageRender = async (route, indexHTML, appCtx) => {
+      const html = await valaxyOnBeforePageRender(route, indexHTML, appCtx) ?? indexHTML
+      return userOnBeforePageRender(route, html, appCtx)
+    }
+  }
+  else {
+    mergedSsgOptions.onBeforePageRender = valaxyOnBeforePageRender
   }
 
   // Generate static pages for pagination

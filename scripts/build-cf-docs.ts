@@ -5,7 +5,7 @@ async function main() {
   await $`pnpm i`
   // get full history
   await $`git fetch --unshallow || true`
-  await $`npm run build && npm run build:docs`
+  await $`export NODE_OPTIONS=--max-old-space-size=4096 && npm run build && npm run build:docs`
 }
 
 main()

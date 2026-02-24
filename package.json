@@ -65,7 +65,8 @@
     "typecheck": "vue-tsc --noEmit --skipLibCheck",
     "test": "vitest",
     "test:e2e": "pnpm run e2e",
-    "test:space": "export NODE_OPTIONS='--inspect --max-old-space-size=2048' && pnpm -C demo/yun run build:ssg",
+    "test:space": "cross-env NODE_OPTIONS=--max-old-space-size=2048 pnpm -C demo/yun run build:ssg",
+    "test:space:docs": "cross-env NODE_OPTIONS=--max-old-space-size=2048 pnpm -C docs run build",
     "prepare": "husky install"
   },
   "dependencies": {
