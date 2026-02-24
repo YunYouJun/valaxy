@@ -1,6 +1,10 @@
 import type { ResolvedValaxyOptions } from '../types'
 import { readFile } from 'node:fs/promises'
+import _debug from 'debug'
+import pMap from 'p-map'
 import { resolve } from 'pathe'
+
+const debug = _debug('valaxy:group-icons')
 
 /**
  * Regex to extract code block titles from markdown fenced code blocks.
@@ -9,10 +13,12 @@ import { resolve } from 'pathe'
  * - ` ```ts [filename.ts] ` → captures "filename.ts"
  * - ` ```typescript [builtin.ts] ` → captures "builtin.ts"
  * - ` ```sh [pnpm] ` → captures "pnpm"
+ * - ` ```ts {7-9} [site.config.ts] ` → captures "site.config.ts"
  *
- * Also handles nested brackets like `[foo[bar]]`.
+ * Uses `[^\S\n]+` instead of `\s+` to prevent cross-line false matches
+ * (e.g. `[[toc]]` on the line after a code fence).
  */
-const codeBlockTitleRE = /^`{3}\S*[^\S\n]+\[((?:[^[\]]|\[[^[\]]*\])*)\]/gm
+const codeBlockTitleRE = /^`{3}[^\n[]*\[((?:[^[\]]|\[[^[\]]*\])*)\]/gm
 
 /**
  * Scan all markdown pages to extract code block titles.
@@ -29,19 +35,21 @@ export async function scanCodeBlockTitles(options: ResolvedValaxyOptions): Promi
   const pagesDir = resolve(options.userRoot, 'pages')
   const titles = new Set<string>()
 
-  await Promise.all(
-    options.pages.map(async (page) => {
+  await pMap(
+    options.pages,
+    async (page) => {
       try {
         const content = await readFile(resolve(pagesDir, page), 'utf-8')
         extractCodeBlockTitles(content, titles)
       }
-      catch {
-        // Ignore files that can't be read
+      catch (error) {
+        debug('Failed to read %s: %O', page, error)
       }
-    }),
+    },
+    { concurrency: 64 },
   )
 
-  return [...titles]
+  return [...titles].sort()
 }
 
 /**

@@ -108,4 +108,16 @@ describe('extractCodeBlockTitles', () => {
     const titles = extractCodeBlockTitles(md)
     expect([...titles]).toEqual([])
   })
+
+  it('handles code blocks with meta attrs before the title', () => {
+    const md = '```ts {7-9} [site.config.ts]\nexport default {}\n```'
+    const titles = extractCodeBlockTitles(md)
+    expect([...titles]).toContain('site.config.ts')
+  })
+
+  it('handles code blocks with meta attrs after the title', () => {
+    const md = '```ts [site.config.ts] {7-9}\nexport default {}\n```'
+    const titles = extractCodeBlockTitles(md)
+    expect([...titles]).toContain('site.config.ts')
+  })
 })
