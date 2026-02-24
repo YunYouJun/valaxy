@@ -16,14 +16,11 @@ export * from './matter'
 
 export type MarkdownRenderer = MarkdownItAsync
 
-let md: MarkdownRenderer | undefined
 let _disposeHighlighter: (() => void) | undefined
 
 export function disposeMdItInstance() {
-  if (md) {
-    md = undefined
-    _disposeHighlighter?.()
-  }
+  _disposeHighlighter?.()
+  _disposeHighlighter = undefined
 }
 
 export async function createMarkdownPlugin(

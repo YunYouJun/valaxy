@@ -18,14 +18,11 @@ export interface MarkdownParsedData {
   headers?: Header[]
 }
 
-let md: MarkdownItAsync | undefined
 let _disposeHighlighter: (() => void) | undefined
 
 export function disposePreviewMdItInstance() {
-  if (md) {
-    md = undefined
-    _disposeHighlighter?.()
-  }
+  _disposeHighlighter?.()
+  _disposeHighlighter = undefined
 }
 
 export async function createMarkdownRenderer(options?: ResolvedValaxyOptions): Promise<MarkdownItAsync> {
