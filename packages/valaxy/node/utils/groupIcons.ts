@@ -15,8 +15,8 @@ const debug = _debug('valaxy:group-icons')
  * - ` ```sh [pnpm] ` → captures "pnpm"
  * - ` ```ts {7-9} [site.config.ts] ` → captures "site.config.ts"
  *
- * Uses `[^\S\n]+` instead of `\s+` to prevent cross-line false matches
- * (e.g. `[[toc]]` on the line after a code fence).
+ * Uses `[^\n[]*` to match any content on the same line before `[title]`,
+ * preventing cross-line false matches (e.g. `[[toc]]` after a code fence).
  */
 const codeBlockTitleRE = /^`{3}[^\n[]*\[((?:[^[\]]|\[[^[\]]*\])*)\]/gm
 
