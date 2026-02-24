@@ -32,8 +32,12 @@ function getSSGConcurrency(): number {
     concurrency = 4
   else if (heapLimitMB <= 4096)
     concurrency = 8
-  else
+  else if (heapLimitMB <= 8192)
     concurrency = 16
+  else if (heapLimitMB <= 12288)
+    concurrency = 20
+  else
+    concurrency = 24
 
   consola.info(`SSG concurrency: ${colors.yellow(concurrency)} (heap limit: ${colors.yellow(Math.round(heapLimitMB))} MB)`)
   return concurrency
@@ -154,13 +158,15 @@ export async function ssgBuild(
 
   // Dispose Shiki highlighter before SSG page rendering to free ~20-50MB of
   // language grammar/theme data that is no longer needed after Vite builds.
-  let mdDisposed = false
-  const valaxyOnBeforePageRender: ViteSSGOptions['onBeforePageRender'] = async (_route, indexHTML) => {
-    if (!mdDisposed) {
-      disposeMdItInstance()
-      disposePreviewMdItInstance()
-      mdDisposed = true
+  let mdDisposePromise: Promise<void> | null = null
+  const valaxyOnBeforePageRender: ViteSSGOptions['onBeforePageRender'] = async (_route, indexHTML, _appCtx) => {
+    if (!mdDisposePromise) {
+      mdDisposePromise = (async () => {
+        disposeMdItInstance()
+        disposePreviewMdItInstance()
+      })()
     }
+    await mdDisposePromise
     return indexHTML
   }
 
