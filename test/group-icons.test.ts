@@ -120,4 +120,20 @@ describe('extractCodeBlockTitles', () => {
     const titles = extractCodeBlockTitles(md)
     expect([...titles]).toContain('site.config.ts')
   })
+
+  it('extracts title from indented fenced code block (up to 3 spaces)', () => {
+    const md = [
+      '   ```ts [filename.ts]',
+      '   console.log("hello")',
+      '   ```',
+    ].join('\n')
+    const titles = extractCodeBlockTitles(md)
+    expect([...titles]).toEqual(['filename.ts'])
+  })
+
+  it('does not match fence indented more than 3 spaces', () => {
+    const md = '    ```ts [filename.ts]\n    code\n    ```'
+    const titles = extractCodeBlockTitles(md)
+    expect([...titles]).toEqual([])
+  })
 })

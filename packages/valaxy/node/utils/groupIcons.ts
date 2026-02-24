@@ -15,10 +15,11 @@ const debug = _debug('valaxy:group-icons')
  * - ` ```sh [pnpm] ` → captures "pnpm"
  * - ` ```ts {7-9} [site.config.ts] ` → captures "site.config.ts"
  *
- * Uses `[^\n[]*` to match any content on the same line before `[title]`,
- * preventing cross-line false matches (e.g. `[[toc]]` after a code fence).
+ * Allows up to 3 leading spaces per CommonMark spec (indented fences in
+ * lists/blockquotes). Uses `[^\n[]*` to match any content on the same
+ * line before `[title]`, preventing cross-line false matches.
  */
-const codeBlockTitleRE = /^`{3}[^\n[]*\[((?:[^[\]]|\[[^[\]]*\])*)\]/gm
+const codeBlockTitleRE = /^[ \t]{0,3}`{3}[^\n[]*\[((?:[^[\]]|\[[^[\]]*\])*)\]/gm
 
 /**
  * Scan all markdown pages to extract code block titles.
