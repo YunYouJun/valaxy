@@ -158,8 +158,8 @@ export async function localSearchPlugin(
         try {
           index.discard(id)
         }
-        catch {
-          // Document may have already been removed
+        catch (e) {
+          debug('Failed to discard document %s: %O', id, e)
         }
       }
     }

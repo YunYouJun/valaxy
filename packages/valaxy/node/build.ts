@@ -168,12 +168,20 @@ export async function ssgBuild(
       __VALAXY_SSG_CLIENT_BUILD__: '1',
     }
 
-    execFileSync(nodeExec, childArgs, {
-      cwd: userRoot,
-      stdio: 'inherit',
-      env: childEnv,
-      timeout: 10 * 60 * 1000, // 10 min timeout
-    })
+    try {
+      execFileSync(nodeExec, childArgs, {
+        cwd: userRoot,
+        stdio: 'inherit',
+        env: childEnv,
+        timeout: 10 * 60 * 1000, // 10 min timeout
+      })
+    }
+    catch (e: any) {
+      const msg = e.killed
+        ? 'Client build in child process timed out'
+        : `Client build in child process failed (exit code: ${e.status ?? 'unknown'})`
+      throw new Error(msg, { cause: e })
+    }
 
     skipClientBuild = true
     consola.info('Client build completed in child process, continuing with server build...')

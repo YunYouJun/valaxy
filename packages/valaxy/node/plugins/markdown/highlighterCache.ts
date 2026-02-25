@@ -10,8 +10,9 @@ let _refCount = 0
 
 /**
  * Get a shared Shiki highlighter instance.
- * Multiple callers share the same highlighter; call `releaseSharedHighlighter()`
- * when done. The underlying instance is disposed when all references are released.
+ * Multiple callers share the same highlighter; call the returned release
+ * function when done. The underlying instance is disposed when all
+ * references are released.
  */
 export async function getSharedHighlighter(
   theme: ThemeOptions,
@@ -25,14 +26,18 @@ export async function getSharedHighlighter(
     _refCount = 0
   }
   _refCount++
-  return [_cachedHighlightFn, () => releaseSharedHighlighter()]
-}
 
-function releaseSharedHighlighter() {
-  _refCount--
-  if (_refCount <= 0) {
-    disposeSharedHighlighter()
+  // Guard against double-release: each call gets a one-shot release function
+  let released = false
+  const release = () => {
+    if (released)
+      return
+    released = true
+    _refCount--
+    if (_refCount <= 0)
+      disposeSharedHighlighter()
   }
+  return [_cachedHighlightFn, release]
 }
 
 /**

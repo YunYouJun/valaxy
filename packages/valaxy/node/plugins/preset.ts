@@ -1,6 +1,7 @@
 import type { PluginOption } from 'vite'
 
 import type { ValaxyNode, ValaxyServerOptions } from '../types'
+import process from 'node:process'
 import VueI18n from '@intlify/unplugin-vue-i18n/vite'
 
 import UnheadVite from '@unhead/addons/vite'
@@ -199,6 +200,11 @@ export async function ViteValaxyPlugins(
   // module graphs, etc.) can be released.
   if (options.mode === 'build') {
     let buildCount = 0
+    // When the client build runs in a child process (memory-constrained mode),
+    // only the server build runs in the main process, so we need threshold=1.
+    // Otherwise (normal mode), both client + server run here → threshold=2.
+    const isChildProcess = process.env.__VALAXY_SSG_CLIENT_BUILD__ === '1'
+    const releaseThreshold = isChildProcess ? 1 : 2
     let resolvedConfig: any = null
     plugins.push({
       name: 'valaxy:memory-release',
@@ -208,7 +214,7 @@ export async function ViteValaxyPlugins(
       },
       closeBundle() {
         buildCount++
-        if (buildCount >= 2) {
+        if (buildCount >= releaseThreshold) {
           disposeSharedHighlighter()
           disposeMdItInstance()
           disposePreviewMdItInstance()
