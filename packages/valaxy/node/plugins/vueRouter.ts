@@ -59,6 +59,10 @@ export async function createRouterPlugin(valaxyApp: ValaxyNode) {
   const mdIt = new MarkdownItAsync({ html: true })
   await setupMarkdownPlugins(mdIt, options)
 
+  // Cache the serialized default frontmatter template outside extendRoute
+  // to avoid re-serializing on every route
+  let _cachedFrontmatterJSON = JSON.stringify(valaxyConfig.siteConfig.frontmatter)
+
   return VueRouter({
     extensions: ['.vue', '.md'],
     routesFolder: roots.map(root => `${root}/pages`),
@@ -71,7 +75,11 @@ export async function createRouterPlugin(valaxyApp: ValaxyNode) {
      * we need get frontmatter before route, so write it in extendRoute
      */
     async extendRoute(route) {
-      const defaultFrontmatter = JSON.parse(JSON.stringify(valaxyConfig.siteConfig.frontmatter)) || {}
+      // Refresh cached JSON when siteConfig changes (e.g. HMR)
+      const currentJSON = JSON.stringify(valaxyConfig.siteConfig.frontmatter)
+      if (currentJSON !== _cachedFrontmatterJSON)
+        _cachedFrontmatterJSON = currentJSON
+      const defaultFrontmatter = JSON.parse(_cachedFrontmatterJSON) || {}
       if (route.meta && route.meta.frontmatter) {
         // reset frontmatter, extendRoute will be trigger when save md file
         const { frontmatter: _, otherMeta } = route.meta

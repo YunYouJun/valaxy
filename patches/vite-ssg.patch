@@ -1,0 +1,113 @@
+diff --git a/dist/shared/vite-ssg.D5Fdxh1E.mjs b/dist/shared/vite-ssg.D5Fdxh1E.mjs
+index e895c28a60750cd494a28d3603c695d1b77ef807..76a81e0dbb2574ff68026c258c07830fbcea54a5 100644
+--- a/dist/shared/vite-ssg.D5Fdxh1E.mjs
++++ b/dist/shared/vite-ssg.D5Fdxh1E.mjs
+@@ -1377,19 +1377,25 @@ async function build(ssgOptions = {}, viteConfig = {}) {
+   const beastiesOptions = mergedOptions.beastiesOptions ?? {};
+   if (existsSync(ssgOutTempFolder))
+     await fs.rm(ssgOutTempFolder, { recursive: true });
+-  buildLog("Build for client...");
+-  await build$1(mergeConfig(viteConfig, {
+-    base,
+-    build: {
+-      ssrManifest: true,
+-      rollupOptions: {
+-        input: {
+-          app: resolve(root, "./index.html")
++  // Support skipping client build when it was already done externally
++  // (e.g., in a separate process to isolate memory)
++  if (!mergedOptions.skipClientBuild) {
++    buildLog("Build for client...");
++    await build$1(mergeConfig(viteConfig, {
++      base,
++      build: {
++        ssrManifest: true,
++        rollupOptions: {
++          input: {
++            app: resolve(root, "./index.html")
++          }
+         }
+-      }
+-    },
+-    mode: config.mode
+-  }));
++      },
++      mode: config.mode
++    }));
++  } else {
++    buildLog("Skipping client build (already done externally)...");
++  }
+   if (mock) {
+     const { jsdomGlobal } = await import('../chunks/jsdomGlobal.mjs');
+     jsdomGlobal();
+@@ -1416,6 +1422,30 @@ async function build(ssgOptions = {}, viteConfig = {}) {
+       noExternal: ["vite-ssg"]
+     }
+   }));
++  // Hint V8 to collect garbage after builds complete
++  if (typeof globalThis.gc === 'function') globalThis.gc();
++  const _logger = config.logger;
++  const _configPlugins = config.plugins;
++  // Release heavy properties from the Vite config object to allow GC.
++  // After both builds complete, only the logger and plugins list are needed
++  // for the rendering phase. The rest (resolve cache, module graph refs,
++  // optimizer metadata, etc.) can be freed.
++  if (config.plugins) {
++    for (const p of config.plugins) {
++      if (p && typeof p === 'object') {
++        for (const key of ['transform', 'load', 'resolveId', 'buildStart', 'buildEnd',
++          'renderStart', 'renderChunk', 'generateBundle', 'writeBundle',
++          'moduleParsed', 'resolveDynamicImport', 'configResolved',
++          'configureServer', 'handleHotUpdate']) {
++          if (key in p) p[key] = undefined;
++        }
++      }
++    }
++  }
++  // Null out heavy config sub-objects no longer needed during SSG rendering
++  config.optimizeDeps = undefined;
++  config.worker = undefined;
++  config.createResolver = undefined;
+   const serverEntry = pathToFileURL(resolve(ssgOut, `${parse(ssrEntry).name}.mjs`)).href;
+   const {
+     createApp,
+@@ -1467,6 +1497,9 @@ async function build(ssgOptions = {}, viteConfig = {}) {
+         if (head)
+           await renderDOMHead(head, { document: jsdom.window.document });
+         const html = jsdom.serialize();
++        // Explicitly close the JSDOM window to release internal resources
++        // (event listeners, timers, etc.) immediately instead of waiting for GC.
++        jsdom.window.close();
+         let transformed = await onPageRendered?.(route, html, appCtx) || html;
+         if (beasties)
+           transformed = await beasties.process(transformed);
+@@ -1478,9 +1511,15 @@ async function build(ssgOptions = {}, viteConfig = {}) {
+         );
+         await fs.mkdir(resolve(out, dirname(filename)), { recursive: true });
+         await fs.writeFile(resolve(out, filename), formatted, "utf-8");
+-        config.logger.info(
++        _logger.info(
+           `${dim(`${outDir}/`)}${cyan(filename.padEnd(15, " "))}  ${dim(getSize(formatted))}`
+         );
++        // Release Vue app instance to free component trees and reactive
++        // subscriptions. In SSR mode apps are never mounted, so we clean up
++        // internal references directly instead of calling app.unmount().
++        app._instance = null;
++        app._container = null;
++        app._context.app = null;
+       } catch (err) {
+         throw new Error(`${gray("[vite-ssg]")} ${red(`Error on page: ${cyan(route)}`)}
+ ${err.stack}`);
+@@ -1488,8 +1527,11 @@ ${err.stack}`);
+     });
+   }
+   await queue.start().onIdle();
++  // Release SSR manifest after all pages are rendered — it can be large
++  // for projects with many chunks and is no longer needed.
++  for (const key of Object.keys(ssrManifest)) delete ssrManifest[key];
+   await fs.rm(ssgOutTempFolder, { recursive: true, force: true });
+-  const pwaPlugin = config.plugins.find((i) => i.name === "vite-plugin-pwa")?.api;
++  const pwaPlugin = _configPlugins.find((i) => i.name === "vite-plugin-pwa")?.api;
+   if (pwaPlugin && !pwaPlugin.disabled && pwaPlugin.generateSW) {
+     buildLog("Regenerate PWA...");
+     await pwaPlugin.generateSW();

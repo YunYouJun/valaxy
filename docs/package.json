@@ -6,6 +6,7 @@
     "build": "pnpm run build:ssg",
     "build:spa": "valaxy build",
     "build:ssg": "valaxy build --ssg",
+    "build:debug": "valaxy build --ssg --log=info",
     "dev": "nodemon -w \"../packages/valaxy/dist/*.js\" --exec \"valaxy .\"",
     "rss": "valaxy rss",
     "serve": "vite preview",

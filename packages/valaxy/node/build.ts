@@ -1,7 +1,9 @@
 import type { InlineConfig } from 'vite'
 import type { ViteSSGOptions } from 'vite-ssg'
 import type { ResolvedValaxyOptions, ValaxyNode } from './types'
+import { execFileSync } from 'node:child_process'
 import { join, resolve } from 'node:path'
+import process from 'node:process'
 import v8 from 'node:v8'
 import { consola } from 'consola'
 
@@ -10,8 +12,10 @@ import fs from 'fs-extra'
 import { mergeConfig as mergeViteConfig, build as viteBuild } from 'vite'
 import generateSitemap from 'vite-ssg-sitemap'
 import { build as viteSsgBuild } from 'vite-ssg/node'
+import { clearBundleCache } from './build/bundle'
 import { defaultViteConfig } from './constants'
 import { disposeMdItInstance, disposePreviewMdItInstance } from './plugins/markdown'
+import { disposeSharedHighlighter } from './plugins/markdown/highlighterCache'
 import { ViteValaxyPlugins } from './plugins/preset'
 import { collectRedirects, writeRedirectFiles } from './utils/clientRedirects'
 
@@ -92,6 +96,21 @@ export async function build(
     plugins: await ViteValaxyPlugins(valaxyApp),
   })
 
+  // When invoked as a child process for SSG client build,
+  // add ssrManifest: true so vite-ssg can skip the client build later
+  if (process.env.__VALAXY_SSG_CLIENT_BUILD__ === '1') {
+    if (!inlineConfig.build)
+      inlineConfig.build = {}
+    inlineConfig.build.ssrManifest = true
+    if (!inlineConfig.build.rollupOptions)
+      inlineConfig.build.rollupOptions = {}
+    if (!inlineConfig.build.rollupOptions.input) {
+      inlineConfig.build.rollupOptions.input = {
+        app: resolve(valaxyApp.options.userRoot, 'index.html'),
+      }
+    }
+  }
+
   await viteBuild(inlineConfig)
 }
 
@@ -115,6 +134,50 @@ export async function ssgBuild(
   }
 
   const inlineConfig: InlineConfig = mergeViteConfig(defaultConfig, viteConfig)
+
+  // Under tight heap limits (≤ 2 GB), run the client build in a separate
+  // child process to isolate its ~1300 MB memory footprint. When the child
+  // exits, all that memory (ESM module registry, Rollup caches, Shiki
+  // grammars, UnoCSS engine) is completely freed by the OS, leaving the
+  // main process with a clean heap for server build + SSG rendering.
+  const isMemoryConstrained = getHeapLimitMB() <= 2560
+  let skipClientBuild = false
+
+  if (isMemoryConstrained && !process.env.__VALAXY_SSG_CLIENT_BUILD__) {
+    consola.info('Memory-constrained mode: running client build in child process...')
+
+    // Fork a child process that runs `valaxy build` (SPA mode, with ssrManifest).
+    // This reuses the same CLI entry point so all Valaxy plugins are loaded
+    // correctly in the child. The __VALAXY_SSG_CLIENT_BUILD__ env var tells
+    // the child to do a client-only build with ssrManifest enabled.
+    const nodeExec = process.execPath
+    const valaxyBin = resolve(options.pkgRoot, 'bin/valaxy.mjs')
+    const userRoot = options.userRoot
+    const outDir = inlineConfig.build?.outDir
+      ? resolve(userRoot, inlineConfig.build.outDir as string)
+      : resolve(userRoot, 'dist')
+
+    const childArgs = [valaxyBin, 'build', userRoot]
+    if (inlineConfig.logLevel)
+      childArgs.push('--log', inlineConfig.logLevel as string)
+    if (outDir)
+      childArgs.push('--output', outDir)
+
+    const childEnv: Record<string, string> = {
+      ...process.env as Record<string, string>,
+      __VALAXY_SSG_CLIENT_BUILD__: '1',
+    }
+
+    execFileSync(nodeExec, childArgs, {
+      cwd: userRoot,
+      stdio: 'inherit',
+      env: childEnv,
+      timeout: 10 * 60 * 1000, // 10 min timeout
+    })
+
+    skipClientBuild = true
+    consola.info('Client build completed in child process, continuing with server build...')
+  }
 
   /**
    * User ssgOptions from `vite.config.ts` or `valaxy.config.ts > vite.ssgOptions`.
@@ -149,6 +212,7 @@ export async function ssgBuild(
     // simple <link rel="stylesheet"> which is fine for most sites.
     beastiesOptions: getSSGBeastiesOptions(),
     onFinished() {
+      clearBundleCache()
       generateSitemap(
         {
           hostname: options.config.siteConfig.url,
@@ -194,6 +258,7 @@ export async function ssgBuild(
       mdDisposePromise = (async () => {
         disposeMdItInstance()
         disposePreviewMdItInstance()
+        disposeSharedHighlighter()
         // Hint V8 to collect garbage freed by disposing Shiki/MarkdownIt.
         // This is especially important under tight heap limits where the Vite
         // build phase already consumed most of the budget.
@@ -262,6 +327,10 @@ export async function ssgBuild(
         return newPaths
     }
   }
+
+  // Pass skipClientBuild when client was already built in a child process
+  if (skipClientBuild)
+    (mergedSsgOptions as any).skipClientBuild = true
 
   await viteSsgBuild(mergedSsgOptions, inlineConfig)
 }

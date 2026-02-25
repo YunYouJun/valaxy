@@ -6,6 +6,14 @@ import path from 'node:path'
 const cache = new Map<string, boolean>()
 const cacheTheme = new Map<string, boolean>()
 
+/**
+ * Clear rollup chunk-splitting caches after build completes.
+ */
+export function clearBundleCache() {
+  cache.clear()
+  cacheTheme.clear()
+}
+
 // https://github.com/sindresorhus/escape-string-regexp/blob/ba9a4473850cb367936417e97f1f2191b7cc67dd/index.js
 export function escapeRegExp(str: string) {
   return str.replace(/[|\\{}()[\]^$+*?.]/g, '\\$&').replace(/-/g, '\\x2d')

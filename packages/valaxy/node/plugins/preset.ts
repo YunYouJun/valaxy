@@ -18,7 +18,9 @@ import { createConfigPlugin } from './extendConfig'
 import { createLlmsPlugin } from './llms'
 import { localSearchPlugin } from './localSearchPlugin'
 
-import { createMarkdownPlugin } from './markdown'
+import { createMarkdownPlugin, disposeMdItInstance, disposePreviewMdItInstance } from './markdown'
+import { disposeSharedHighlighter } from './markdown/highlighterCache'
+import { clearMarkdownCache } from './markdown/markdownToVue'
 import { createFixPlugins } from './patchTransform'
 import { createClientSetupPlugin } from './setupClient'
 
@@ -189,5 +191,70 @@ export async function ViteValaxyPlugins(
   })
 
   plugins.push(groupIconPlugin)
+
+  // Release heavy resources after Vite builds complete.
+  // In SSG mode vite-ssg runs two consecutive builds (client + server).
+  // After the final build, SSG rendering only uses pre-compiled bundles on
+  // disk, so all Vite plugin machinery (Shiki, MarkdownIt, UnoCSS, Rollup
+  // module graphs, etc.) can be released.
+  if (options.mode === 'build') {
+    let buildCount = 0
+    let resolvedConfig: any = null
+    plugins.push({
+      name: 'valaxy:memory-release',
+      enforce: 'post',
+      configResolved(config) {
+        resolvedConfig = config
+      },
+      closeBundle() {
+        buildCount++
+        if (buildCount >= 2) {
+          disposeSharedHighlighter()
+          disposeMdItInstance()
+          disposePreviewMdItInstance()
+          clearMarkdownCache()
+
+          // Break closure chains by clearing heavy plugin hooks from the
+          // resolved Vite config. After the server build completes, these
+          // hooks will never be called again — vite-ssg only does
+          // JSDOM-based page rendering from here. This allows V8 to
+          // reclaim the large closures (Shiki grammar data, UnoCSS engine,
+          // Rollup module graph references, etc.) that are otherwise kept
+          // alive by the vite-ssg function scope holding `config`.
+          if (resolvedConfig?.plugins) {
+            const hookKeys = [
+              'transform',
+              'load',
+              'resolveId',
+              'buildStart',
+              'buildEnd',
+              'renderStart',
+              'renderChunk',
+              'generateBundle',
+              'writeBundle',
+              'moduleParsed',
+              'resolveDynamicImport',
+              'configResolved',
+              'configureServer',
+              'handleHotUpdate',
+            ]
+            for (const p of resolvedConfig.plugins) {
+              if (p && typeof p === 'object') {
+                for (const key of hookKeys) {
+                  if (key in p)
+                    (p as any)[key] = undefined
+                }
+              }
+            }
+            resolvedConfig = null
+          }
+
+          if (typeof globalThis.gc === 'function')
+            globalThis.gc()
+        }
+      },
+    })
+  }
+
   return plugins
 }

@@ -5,7 +5,7 @@ import type { ResolvedValaxyOptions } from '../../types'
 import { createMarkdownItAsync } from 'markdown-it-async'
 import { logger } from '../../logger'
 
-import { highlight as createHighlighter } from './plugins/highlight'
+import { getSharedHighlighter } from './highlighterCache'
 import { defaultCodeTheme, setupMarkdownPlugins } from './setup'
 
 export * from './env'
@@ -31,7 +31,7 @@ export async function createMarkdownRenderer(options?: ResolvedValaxyOptions): P
 
   const [highlight, dispose] = mdOptions.highlight
     ? [mdOptions.highlight, () => {}]
-    : await createHighlighter(theme, mdOptions, logger)
+    : await getSharedHighlighter(theme, mdOptions, logger)
 
   _disposeHighlighter = dispose
 
@@ -39,6 +39,29 @@ export async function createMarkdownRenderer(options?: ResolvedValaxyOptions): P
     html: true,
     linkify: true,
     highlight,
+    ...mdOptions.options,
+  })
+
+  md.linkify.set({ fuzzyLink: false })
+
+  await setupMarkdownPlugins(md, options)
+  return md
+}
+
+/**
+ * Light markdown renderer without Shiki highlighter.
+ * Used by localSearchPlugin where HTML output is stripped anyway,
+ * saving ~20-50 MB of Shiki theme/grammar data.
+ */
+export async function createLightMarkdownRenderer(options?: ResolvedValaxyOptions): Promise<MarkdownItAsync> {
+  const mdOptions = options?.config.markdown || {}
+
+  const md = createMarkdownItAsync({
+    html: true,
+    linkify: true,
+    highlight: (str: string) => {
+      return `<pre><code>${md.utils.escapeHtml(str)}</code></pre>`
+    },
     ...mdOptions.options,
   })
 

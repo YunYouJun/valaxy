@@ -12,6 +12,7 @@ import { mergeViteConfigs } from '../../common'
 import { GLOBAL_STATE, version } from '../../env'
 import { valaxyPrefix, vLogger } from '../../logger'
 import { disposeMdItInstance, disposePreviewMdItInstance } from '../../plugins/markdown'
+import { disposeSharedHighlighter } from '../../plugins/markdown/highlighterCache'
 import { createServer } from '../../server'
 
 export function printInfo(options: ResolvedValaxyOptions, port?: number, remote?: string | boolean) {
@@ -52,6 +53,7 @@ export const serverSpinner = ora(`${valaxyPrefix} creating server ...`)
 export async function initServer(valaxyApp: ValaxyNode, viteConfig: InlineConfig) {
   disposeMdItInstance()
   disposePreviewMdItInstance()
+  disposeSharedHighlighter()
 
   if (GLOBAL_STATE.server) {
     vLogger.info('close server...')

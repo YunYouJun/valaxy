@@ -78,7 +78,11 @@ export async function execBuild({ ssg, root, output, log }: { ssg: boolean, root
 
   consola.box('🌠 Start building...')
   try {
-    if (ssg) {
+    // When running as a child process for SSG client build,
+    // always use SPA build (which will add ssrManifest: true internally)
+    const effectiveSsg = ssg && process.env.__VALAXY_SSG_CLIENT_BUILD__ !== '1'
+
+    if (effectiveSsg) {
       consola.info(`use ${colors.yellow('vite-ssg')} to do ssg build...`)
 
       try {

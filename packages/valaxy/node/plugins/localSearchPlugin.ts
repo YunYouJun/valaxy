@@ -13,7 +13,7 @@ import _debug from 'debug'
 import fs from 'fs-extra'
 import MiniSearch from 'minisearch'
 import pMap from 'p-map'
-import { createMarkdownRenderer } from './markdown'
+import { createLightMarkdownRenderer } from './markdown'
 import { processIncludes } from './markdown/utils/processInclude'
 
 const debug = _debug('valaxy:local-search')
@@ -50,7 +50,7 @@ export async function localSearchPlugin(
   }
 
   const srcDir = path.resolve(options.userRoot, 'pages')
-  const md = await createMarkdownRenderer(options)
+  const md = await createLightMarkdownRenderer(options)
 
   async function render(file: string) {
     if (!fs.existsSync(file))
@@ -64,6 +64,8 @@ export async function localSearchPlugin(
   }
 
   const indexByLocales = new Map<string, MiniSearch<IndexObject>>()
+  // Track which document IDs belong to each page file for incremental HMR updates
+  const fileToDocIds = new Map<string, { locale: string, ids: string[] }>()
 
   function getIndexByLocale(locale: string) {
     let index = indexByLocales.get(locale)
@@ -126,11 +128,13 @@ export async function localSearchPlugin(
 
     const html = await render(file)
     const sections = splitPageIntoSections(html)
+    const docIds: string[] = []
     for (const section of sections) {
       if (!section || !(section.text || section.titles))
         break
       const { anchor, text, titles } = section
       const id = anchor ? [fileId, anchor].join('#') : fileId
+      docIds.push(id)
       index.add({
         id,
         text,
@@ -138,11 +142,34 @@ export async function localSearchPlugin(
         titles: titles.slice(0, -1),
       })
     }
+    fileToDocIds.set(page, { locale, ids: docIds })
+  }
+
+  /**
+   * Remove all indexed entries for a given page file.
+   */
+  function discardFile(page: string) {
+    const entry = fileToDocIds.get(page)
+    if (!entry)
+      return
+    const index = indexByLocales.get(entry.locale)
+    if (index) {
+      for (const id of entry.ids) {
+        try {
+          index.discard(id)
+        }
+        catch {
+          // Document may have already been removed
+        }
+      }
+    }
+    fileToDocIds.delete(page)
   }
 
   async function scanForBuild() {
     debug('Indexing files for search...')
     indexByLocales.clear()
+    fileToDocIds.clear()
     await pMap(options.pages, indexFile, {
       concurrency: 10,
     })
@@ -202,9 +229,9 @@ export async function localSearchPlugin(
       if (file.endsWith('.md')) {
         const relPath = slash(path.relative(srcDir, file))
         if (!relPath.startsWith('..')) {
-          // Rebuild the entire index for simplicity
-          // (avoids accessing protected MiniSearch internals for discard)
-          await scanForBuild()
+          // Incremental update: discard old entries and re-index only the changed file
+          discardFile(relPath)
+          await indexFile(relPath)
           debug('Updated index for %s', relPath)
           onIndexUpdated()
         }
