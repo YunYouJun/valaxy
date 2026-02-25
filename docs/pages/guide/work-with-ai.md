@@ -60,7 +60,7 @@ npx skills add YunYouJun/valaxy
 
 示例提示词：
 
-```
+```text
 创建一个 Valaxy 博客站点：
 - 使用 valaxy-theme-yun 主题
 - 配置 Algolia 搜索
@@ -79,7 +79,7 @@ Agent 将自动引用 Valaxy Skills 中的知识来正确配置 `site.config.ts`
 
 Example prompt:
 
-```
+```text
 Create a Valaxy blog site with:
 - valaxy-theme-yun theme
 - Algolia search configuration
@@ -154,7 +154,7 @@ export default defineSiteConfig({
 - `/llms-full.txt` — 完整内容，包含所有文章的全文（可通过 `fullText: false` 关闭）
 - `/posts/xxx.md` — 每篇文章的原始 Markdown 文件（可通过 `files: false` 关闭）
 
-#### 配置选项
+### 配置选项
 
 ```ts
 export default defineSiteConfig({
@@ -172,7 +172,7 @@ export default defineSiteConfig({
 })
 ```
 
-#### CLI 命令
+### CLI 命令
 
 你也可以单独生成 llms.txt 相关文件：
 
@@ -204,7 +204,7 @@ Once enabled, Valaxy will automatically generate:
 - `/llms-full.txt` — Full content with complete text of all posts (disable with `fullText: false`)
 - `/posts/xxx.md` — Raw Markdown files for each post (disable with `files: false`)
 
-#### Configuration Options
+### Configuration Options
 
 ```ts
 export default defineSiteConfig({
@@ -222,7 +222,7 @@ export default defineSiteConfig({
 })
 ```
 
-#### CLI Command
+### CLI Command
 
 You can also generate llms.txt files separately:
 
