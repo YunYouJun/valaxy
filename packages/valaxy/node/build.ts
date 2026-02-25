@@ -96,21 +96,6 @@ export async function build(
     plugins: await ViteValaxyPlugins(valaxyApp),
   })
 
-  // When invoked as a child process for SSG client build,
-  // add ssrManifest: true so vite-ssg can skip the client build later
-  if (process.env.__VALAXY_SSG_CLIENT_BUILD__ === '1') {
-    if (!inlineConfig.build)
-      inlineConfig.build = {}
-    inlineConfig.build.ssrManifest = true
-    if (!inlineConfig.build.rollupOptions)
-      inlineConfig.build.rollupOptions = {}
-    if (!inlineConfig.build.rollupOptions.input) {
-      inlineConfig.build.rollupOptions.input = {
-        app: resolve(valaxyApp.options.userRoot, 'index.html'),
-      }
-    }
-  }
-
   await viteBuild(inlineConfig)
 }
 
@@ -118,6 +103,55 @@ export async function ssgBuild(
   valaxyApp: ValaxyNode,
   viteConfig: InlineConfig = {},
 ) {
+  // SSG builds run two Vite builds (client + server) then render all pages
+  // with JSDOM, requiring both --expose-gc (so tryGC() works) and sufficient
+  // heap space. When either is missing, respawn this process with correct flags.
+  if (!process.env.__VALAXY_SSG_NO_RESPAWN__) {
+    const needGC = typeof globalThis.gc !== 'function'
+    // Two Vite builds + SSG rendering typically need ~3-4 GB. If the current
+    // heap limit is below that, bump it to 4096 MB to avoid OOM.
+    const currentHeapMB = getHeapLimitMB()
+    const minRequiredMB = 4096
+    const needMoreHeap = currentHeapMB < minRequiredMB
+
+    if (needGC || needMoreHeap) {
+      const extraNodeArgs: string[] = []
+      if (needGC)
+        extraNodeArgs.push('--expose-gc')
+      if (needMoreHeap)
+        extraNodeArgs.push(`--max-old-space-size=${minRequiredMB}`)
+
+      consola.info(`Restarting SSG build with ${extraNodeArgs.join(' ')} (current heap: ${Math.round(currentHeapMB)} MB)...`)
+
+      // Filter out any existing --max-old-space-size from execArgv to avoid conflicts
+      const filteredExecArgv = needMoreHeap
+        ? process.execArgv.filter(arg => !arg.startsWith('--max-old-space-size') && !arg.startsWith('--max_old_space_size'))
+        : process.execArgv
+      const nodeArgs = [...extraNodeArgs, ...filteredExecArgv, ...process.argv.slice(1)]
+
+      try {
+        execFileSync(process.execPath, nodeArgs, {
+          cwd: process.cwd(),
+          stdio: 'inherit',
+          env: { ...process.env, __VALAXY_SSG_NO_RESPAWN__: '1' },
+          timeout: 30 * 60 * 1000, // 30 min timeout
+        })
+        // Child process completed successfully — skip running SSG in this process
+        return
+      }
+      catch (e: any) {
+        if (e.signal) {
+          throw new Error(`SSG build was killed by signal ${e.signal}${e.signal === 'SIGTERM' ? ' (possible timeout)' : ''}`, { cause: e })
+        }
+        if (e.status != null && e.status !== 0) {
+          throw new Error(`SSG build failed (exit code: ${e.status})`, { cause: e })
+        }
+        // If execFileSync itself fails for other reasons, re-throw
+        throw e
+      }
+    }
+  }
+
   const { options } = valaxyApp
   const cdnModuleNames = (options.config.cdn?.modules || []).map(m => m.name)
   const defaultConfig: InlineConfig = {
@@ -134,58 +168,6 @@ export async function ssgBuild(
   }
 
   const inlineConfig: InlineConfig = mergeViteConfig(defaultConfig, viteConfig)
-
-  // Under tight heap limits (≤ 2 GB), run the client build in a separate
-  // child process to isolate its ~1300 MB memory footprint. When the child
-  // exits, all that memory (ESM module registry, Rollup caches, Shiki
-  // grammars, UnoCSS engine) is completely freed by the OS, leaving the
-  // main process with a clean heap for server build + SSG rendering.
-  const isMemoryConstrained = getHeapLimitMB() <= 2560
-  let skipClientBuild = false
-
-  if (isMemoryConstrained && !process.env.__VALAXY_SSG_CLIENT_BUILD__) {
-    consola.info('Memory-constrained mode: running client build in child process...')
-
-    // Fork a child process that runs `valaxy build` (SPA mode, with ssrManifest).
-    // This reuses the same CLI entry point so all Valaxy plugins are loaded
-    // correctly in the child. The __VALAXY_SSG_CLIENT_BUILD__ env var tells
-    // the child to do a client-only build with ssrManifest enabled.
-    const nodeExec = process.execPath
-    const valaxyBin = resolve(options.pkgRoot, 'bin/valaxy.mjs')
-    const userRoot = options.userRoot
-    const outDir = inlineConfig.build?.outDir
-      ? resolve(userRoot, inlineConfig.build.outDir as string)
-      : resolve(userRoot, 'dist')
-
-    const childArgs = [valaxyBin, 'build', userRoot]
-    if (inlineConfig.logLevel)
-      childArgs.push('--log', inlineConfig.logLevel as string)
-    if (outDir)
-      childArgs.push('--output', outDir)
-
-    const childEnv: Record<string, string> = {
-      ...process.env as Record<string, string>,
-      __VALAXY_SSG_CLIENT_BUILD__: '1',
-    }
-
-    try {
-      execFileSync(nodeExec, childArgs, {
-        cwd: userRoot,
-        stdio: 'inherit',
-        env: childEnv,
-        timeout: 10 * 60 * 1000, // 10 min timeout
-      })
-    }
-    catch (e: any) {
-      const msg = e.killed
-        ? 'Client build in child process timed out'
-        : `Client build in child process failed (exit code: ${e.status ?? 'unknown'})`
-      throw new Error(msg, { cause: e })
-    }
-
-    skipClientBuild = true
-    consola.info('Client build completed in child process, continuing with server build...')
-  }
 
   /**
    * User ssgOptions from `vite.config.ts` or `valaxy.config.ts > vite.ssgOptions`.
@@ -288,16 +270,50 @@ export async function ssgBuild(
     mergedSsgOptions.onBeforePageRender = valaxyOnBeforePageRender
   }
 
-  // Eagerly release Vue app instances after each page is rendered to prevent
-  // JSDOM + Vue trees from accumulating across concurrent renders.
-  // vite-ssg does NOT call app.unmount() or clean up initialState, so without
-  // this hook each render leaks ~30-80 MB until GC catches up (often too late).
+  // Eagerly release Vue app instances and associated objects after each page
+  // is rendered. vite-ssg creates a new JSDOM + Vue app per page but never
+  // calls jsdom.window.close() or app.unmount(). Without cleanup, each render
+  // leaks ~30-80 MB (Vue reactive trees, router matcher, JSDOM window) that
+  // accumulates until OOM — the GC trace shows `Mark-Compact` failing at ~2 GB.
   const valaxyOnPageRendered: ViteSSGOptions['onPageRendered'] = (_route, renderedHTML, appCtx) => {
     // Clear serialized Pinia state and any other accumulated SSR state
     if (appCtx.initialState) {
       for (const key of Object.keys(appCtx.initialState))
         delete appCtx.initialState[key]
     }
+
+    // Release Vue app internal references to free component trees and reactive
+    // subscriptions. In SSR mode apps are never mounted, so we clean up
+    // internal references directly instead of calling app.unmount().
+    const app = appCtx.app as any
+    if (app) {
+      // Clear the component instance tree (all setup() closures, reactive refs)
+      app._instance = null
+      app._container = null
+      if (app._context) {
+        // Clear provides chain (may hold large injected state like Pinia stores)
+        app._context.provides = Object.create(null)
+        app._context.app = null
+      }
+    }
+
+    // Release the Vue Router instance — its matcher holds all route records
+    // and accumulated history entries
+    const router = appCtx.router as any
+    if (router) {
+      router.currentRoute = null
+      router.options = null
+      // Unref to break the circular reference between app <-> router
+      ;(appCtx as any).router = null
+    }
+
+    // Release Unhead instance which accumulates head tag entries per page
+    if ((appCtx as any).head) {
+      (appCtx as any).head = null
+    }
+
+    // Null out the app reference on appCtx so vite-ssg's closure can release it
+    ;(appCtx as any).app = null
 
     // Hint V8 to collect garbage between page renders — this is the only
     // chance to free JSDOM instances from the previous render before the
@@ -335,10 +351,6 @@ export async function ssgBuild(
         return newPaths
     }
   }
-
-  // Pass skipClientBuild when client was already built in a child process
-  if (skipClientBuild)
-    (mergedSsgOptions as any).skipClientBuild = true
 
   await viteSsgBuild(mergedSsgOptions, inlineConfig)
 }

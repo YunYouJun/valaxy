@@ -50,6 +50,11 @@ export async function localSearchPlugin(
   }
 
   const srcDir = path.resolve(options.userRoot, 'pages')
+  // Snapshot the original page list before other plugins (markdownToVue) may
+  // mutate `options.pages` by stripping the `.md` extension for dead-link
+  // detection. We need the original paths (with `.md`) to read files on disk
+  // and to keep consistent keys with handleHotUpdate which also uses `.md` paths.
+  const originalPages = [...options.pages]
   const md = await createLightMarkdownRenderer(options)
 
   async function render(file: string) {
@@ -170,7 +175,7 @@ export async function localSearchPlugin(
     debug('Indexing files for search...')
     indexByLocales.clear()
     fileToDocIds.clear()
-    await pMap(options.pages, indexFile, {
+    await pMap(originalPages, indexFile, {
       concurrency: 10,
     })
     debug('Indexing finished..., %d locales', indexByLocales.size)
