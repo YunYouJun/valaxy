@@ -56,12 +56,21 @@ export async function createMarkdownRenderer(options?: ResolvedValaxyOptions): P
 export async function createLightMarkdownRenderer(options?: ResolvedValaxyOptions): Promise<MarkdownItAsync> {
   const mdOptions = options?.config.markdown || {}
 
+  // Define highlight separately to avoid circular type inference
+  // (md referencing itself in its own initializer)
+  const highlight = (str: string): string => {
+    const escaped = str
+      .replace(/&/g, '&amp;')
+      .replace(/</g, '&lt;')
+      .replace(/>/g, '&gt;')
+      .replace(/"/g, '&quot;')
+    return `<pre><code>${escaped}</code></pre>`
+  }
+
   const md = createMarkdownItAsync({
     html: true,
     linkify: true,
-    highlight: (str: string) => {
-      return `<pre><code>${md.utils.escapeHtml(str)}</code></pre>`
-    },
+    highlight,
     ...mdOptions.options,
   })
 

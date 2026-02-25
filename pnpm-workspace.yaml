@@ -1,3 +1,11 @@
+catalogMode: manual
+
+cleanupUnusedCatalogs: true
+
+shellEmulator: true
+
+trustPolicy: no-downgrade
+
 packages:
   - api
   - docs
@@ -6,6 +14,14 @@ packages:
   - packages/*
   - packages/@valaxyjs/*
   - scripts
+
+overrides:
+  '@types/markdown-it': ^14.1.2
+  unocss: 66.5.10
+  vue: catalog:frontend
+
+patchedDependencies:
+  vite-ssg: patches/vite-ssg.patch
 
 catalog:
   '@antfu/eslint-config': ^7.5.0
@@ -160,8 +176,6 @@ catalog:
   vue-tsc: 2.2.0
   yargs: ^18.0.0
 
-catalogMode: manual
-
 catalogs:
   build:
     '@iconify-json/ant-design': ^1.2.5
@@ -188,19 +202,9 @@ catalogs:
     vitepress: ^2.0.0-alpha.16
     vue: 3.5.22
 
-cleanupUnusedCatalogs: true
-
 onlyBuiltDependencies:
   - vue-demi
   - esbuild
-
-overrides:
-  '@types/markdown-it': ^14.1.2
-  unocss: 66.5.10
-  vue: catalog:frontend
-
-patchedDependencies:
-  vite-ssg: patches/vite-ssg.patch
 
 peerDependencyRules:
   allowedVersions:
@@ -211,7 +215,3 @@ peerDependencyRules:
     - '@types/react'
     - react
     - react-dom
-
-shellEmulator: true
-
-trustPolicy: no-downgrade
