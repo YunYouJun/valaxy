@@ -233,7 +233,7 @@ export default defineValaxyConfig<PressTheme.Config>({
   },
 
   // use MathJax (SVG output, no external CSS/fonts)
-  math: true,
+  // math: true,
 
   markdown: {
     blocks: {

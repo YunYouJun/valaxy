@@ -8,11 +8,10 @@ import type { DefaultTheme, ValaxyConfig } from 'valaxy/types'
  */
 // import messages from '@intlify/unplugin-vue-i18n/messages'
 
-import type { ViteSSGContext } from 'vite-ssg'
-
 import type { ComputedRef } from 'vue'
 import type { Router } from 'vue-router'
 import type { PageDataPayload } from '../../types'
+import type { ValaxySSGContext } from '../setups'
 import { ensureSuffix } from '@antfu/utils'
 import { useStorage } from '@vueuse/core'
 import { createI18n } from 'vue-i18n'
@@ -52,7 +51,7 @@ export const i18n = createI18n({
   missingWarn: false,
 })
 
-export async function install({ app, router }: ViteSSGContext, config: ComputedRef<ValaxyConfig<DefaultTheme.Config>>) {
+export async function install({ app, router }: ValaxySSGContext, config: ComputedRef<ValaxyConfig<DefaultTheme.Config>>) {
   const locale = useStorage('valaxy-locale', config?.value.siteConfig.lang || 'en')
   i18n.global.locale.value = locale.value
 

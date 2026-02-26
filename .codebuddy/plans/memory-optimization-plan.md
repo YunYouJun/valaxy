@@ -4,9 +4,6 @@
 > 
 > **最终目标**: `pnpm build:valaxy && pnpm run docs:build` 在 `--max-old-space-size=2048` 下成功完成 ✅
 
-可以参考 vite-ssg 文档能否优化 ssg 的构建内存占用？
-https://github.com/antfu-collective/vite-ssg。
-
 ## 高收益（各 ~20-50 MB）
 
 ### ✅ TODO 1: localSearchPlugin 去掉 Shiki 高亮器

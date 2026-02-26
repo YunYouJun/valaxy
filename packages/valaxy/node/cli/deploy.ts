@@ -23,7 +23,7 @@ export function registerDeployCommand(cli: Argv) {
 
     if (shouldBuild) {
       // build
-      await execBuild({ ssg: true, root: process.cwd(), output: 'dist', log: 'info' })
+      await execBuild({ ssg: true, ssgEngine: 'valaxy', root: process.cwd(), output: 'dist', log: 'info' })
     }
 
     const deployType = await select({

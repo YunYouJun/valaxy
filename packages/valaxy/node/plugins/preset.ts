@@ -1,7 +1,6 @@
 import type { PluginOption } from 'vite'
 
 import type { ValaxyNode, ValaxyServerOptions } from '../types'
-import process from 'node:process'
 import VueI18n from '@intlify/unplugin-vue-i18n/vite'
 
 import UnheadVite from '@unhead/addons/vite'
@@ -194,17 +193,17 @@ export async function ViteValaxyPlugins(
   plugins.push(groupIconPlugin)
 
   // Release heavy resources after Vite builds complete.
-  // In SSG mode vite-ssg runs two consecutive builds (client + server).
-  // After the final build, SSG rendering only uses pre-compiled bundles on
-  // disk, so all Vite plugin machinery (Shiki, MarkdownIt, UnoCSS, Rollup
-  // module graphs, etc.) can be released.
+  // Both the new Valaxy SSG engine and the legacy vite-ssg run two consecutive
+  // builds (client + server). This plugin disposes Shiki, MarkdownIt, and other
+  // heavy resources after the 2nd build. The new SSG engine also does its own
+  // disposal in build/ssg.ts (redundant but harmless); the plugin hook clearing
+  // below is specifically needed for the legacy vite-ssg path where its function
+  // scope keeps closures alive.
   if (options.mode === 'build') {
     let buildCount = 0
-    // When the client build runs in a child process (memory-constrained mode),
-    // only the server build runs in the main process, so we need threshold=1.
-    // Otherwise (normal mode), both client + server run here → threshold=2.
-    const isChildProcess = process.env.__VALAXY_SSG_CLIENT_BUILD__ === '1'
-    const releaseThreshold = isChildProcess ? 1 : 2
+    // vite-ssg runs two consecutive builds (client + server) in the same process.
+    // Release heavy resources after the final (2nd) build completes.
+    const releaseThreshold = 2
     let resolvedConfig: any = null
     plugins.push({
       name: 'valaxy:memory-release',

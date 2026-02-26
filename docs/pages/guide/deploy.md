@@ -39,7 +39,7 @@ npm run build
 
 执行 `build` 命令构建，`dist` 文件夹为构建后的内容。
 
-SSG 构建最低需要 ~2.3 GB 堆内存。如果遇到 `JavaScript heap out of memory` 错误，请设置：
+SSG 构建（默认 Valaxy SSG 引擎）最低需要 ~2 GB 堆内存；传统 vite-ssg 引擎需要 ~2.3 GB。如果遇到 `JavaScript heap out of memory` 错误，请设置：
 
 ```bash
 NODE_OPTIONS=--max-old-space-size=4096 pnpm build
@@ -51,7 +51,7 @@ NODE_OPTIONS=--max-old-space-size=4096 pnpm build
 
 Run the `build` command to build, and the `dist` directory contains the built content.
 
-SSG build requires at least ~2.3 GB of heap memory. If you encounter `JavaScript heap out of memory`, set:
+SSG build (default Valaxy SSG engine) requires at least ~2 GB of heap memory; the legacy vite-ssg engine requires ~2.3 GB. If you encounter `JavaScript heap out of memory`, set:
 
 ```bash
 NODE_OPTIONS=--max-old-space-size=4096 pnpm build

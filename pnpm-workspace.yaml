@@ -20,9 +20,6 @@ overrides:
   unocss: 66.5.10
   vue: catalog:frontend
 
-patchedDependencies:
-  vite-ssg: patches/vite-ssg.patch
-
 catalog:
   '@antfu/eslint-config': ^7.5.0
   '@antfu/install-pkg': ^1.1.0
