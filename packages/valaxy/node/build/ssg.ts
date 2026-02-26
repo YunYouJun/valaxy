@@ -161,6 +161,11 @@ export async function ssgBuild(
         outDir: ssgTemp,
         minify: false,
         cssCodeSplit: false,
+        rollupOptions: {
+          output: {
+            entryFileNames: '[name].mjs',
+          },
+        },
       },
     }))
 

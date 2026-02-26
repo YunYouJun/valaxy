@@ -1,8 +1,8 @@
 {
   "name": "valaxy-docs",
   "type": "module",
-  "packageManager": "pnpm@10.30.2",
   "private": true,
+  "packageManager": "pnpm@10.30.2",
   "scripts": {
     "build": "pnpm run build:ssg",
     "build:spa": "valaxy build",
