@@ -75,7 +75,10 @@ export async function createRouterPlugin(valaxyApp: ValaxyNode) {
      * we need get frontmatter before route, so write it in extendRoute
      */
     async extendRoute(route) {
-      // Refresh cached JSON when siteConfig changes (e.g. HMR)
+      // Cache the serialized frontmatter JSON to avoid deep-cloning via
+      // JSON.parse(JSON.stringify(...)) when the config hasn't changed.
+      // JSON.stringify is still called per route to detect changes (e.g. HMR),
+      // but JSON.parse only runs when the config actually differs.
       const currentJSON = JSON.stringify(valaxyConfig.siteConfig.frontmatter)
       if (currentJSON !== _cachedFrontmatterJSON)
         _cachedFrontmatterJSON = currentJSON

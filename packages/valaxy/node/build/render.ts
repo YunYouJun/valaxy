@@ -133,6 +133,8 @@ function serializeState(state: Record<string, any>): string {
     .replace(/>/g, '\\u003e')
     .replace(/&/g, '\\u0026')
     .replace(/'/g, '\\u0027')
+    .replace(/\u2028/g, '\\u2028')
+    .replace(/\u2029/g, '\\u2029')
 
   return `<script>window.__INITIAL_STATE__='${serialised}'</script>`
 }

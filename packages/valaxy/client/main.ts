@@ -124,3 +124,11 @@ if (!import.meta.env.SSR) {
     app.mount('#app', true)
   })()
 }
+
+/**
+ * Legacy compatibility export for vite-ssg.
+ * vite-ssg expects `createApp(routePath)` returning `{ app, router, ... }`.
+ * This wraps `createValaxyApp` to match that signature so
+ * `--ssg-engine vite-ssg` continues to work.
+ */
+export const createApp = (routePath?: string) => createValaxyApp({ routePath })
