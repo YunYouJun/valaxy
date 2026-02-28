@@ -8,7 +8,7 @@ import { consola } from 'consola'
 import { colors } from 'consola/utils'
 import { mergeConfig } from 'vite'
 import { createValaxyNode } from '../app'
-import { build, postProcessForSSG, ssgBuild } from '../build'
+import { build, postProcessForSSG, ssgBuild, ssgBuildLegacy } from '../build'
 
 import { mergeViteConfigs } from '../common'
 import { callHookWithLog } from '../logger'
@@ -24,7 +24,7 @@ import { printInfo } from './utils/cli'
 /**
  * valaxy build
  */
-export async function execBuild({ ssg, root, output, log }: { ssg: boolean, root: string, output: string, log: string }) {
+export async function execBuild({ ssg, ssgEngine, root, output, log }: { ssg: boolean, ssgEngine: string, root: string, output: string, log: string }) {
   setEnvProd()
 
   if (!isPagesDirExist(root))
@@ -79,16 +79,27 @@ export async function execBuild({ ssg, root, output, log }: { ssg: boolean, root
   consola.box('🌠 Start building...')
   try {
     if (ssg) {
-      consola.info(`use ${colors.yellow('vite-ssg')} to do ssg build...`)
-
-      try {
-        await ssgBuild(valaxyApp, viteConfig)
-        await postProcessForSSG(options)
+      if (ssgEngine === 'vite-ssg') {
+        consola.info(`use ${colors.yellow('vite-ssg')} (legacy) to do ssg build...`)
+        try {
+          await ssgBuildLegacy(valaxyApp, viteConfig)
+          await postProcessForSSG(options)
+        }
+        catch (e) {
+          consola.error('[vite-ssg] An internal error occurred.')
+          console.log(e)
+        }
       }
-      catch (e) {
-        consola.error('[vite-ssg] An internal error occurred.')
-
-        console.log(e)
+      else {
+        consola.info(`use ${colors.yellow('valaxy')} SSG engine to build...`)
+        try {
+          await ssgBuild(valaxyApp, viteConfig)
+          await postProcessForSSG(options)
+        }
+        catch (e) {
+          consola.error('[valaxy-ssg] An internal error occurred.')
+          console.log(e)
+        }
       }
     }
     else {
@@ -121,6 +132,12 @@ export function registerBuildCommand(cli: Argv) {
         default: false,
         describe: 'static site generate',
       })
+      .option('ssg-engine', {
+        type: 'string',
+        default: 'valaxy',
+        choices: ['valaxy', 'vite-ssg'],
+        describe: 'SSG engine to use (valaxy: built-in, no JSDOM; vite-ssg: legacy)',
+      })
       .option('output', {
         alias: 'o',
         type: 'string',
@@ -135,8 +152,8 @@ export function registerBuildCommand(cli: Argv) {
       })
       .strict()
       .help(),
-    async ({ ssg, root, output, log }) => {
-      await execBuild({ ssg, root, output, log })
+    async ({ ssg, ssgEngine, root, output, log }) => {
+      await execBuild({ ssg, ssgEngine, root, output, log })
     },
   )
 }

@@ -1,7 +1,9 @@
 import type { InlineConfig } from 'vite'
 import type { ViteSSGOptions } from 'vite-ssg'
 import type { ResolvedValaxyOptions, ValaxyNode } from './types'
+import { execFileSync } from 'node:child_process'
 import { join, resolve } from 'node:path'
+import process from 'node:process'
 import v8 from 'node:v8'
 import { consola } from 'consola'
 
@@ -9,11 +11,15 @@ import { colors } from 'consola/utils'
 import fs from 'fs-extra'
 import { mergeConfig as mergeViteConfig, build as viteBuild } from 'vite'
 import generateSitemap from 'vite-ssg-sitemap'
-import { build as viteSsgBuild } from 'vite-ssg/node'
+import { clearBundleCache } from './build/bundle'
 import { defaultViteConfig } from './constants'
 import { disposeMdItInstance, disposePreviewMdItInstance } from './plugins/markdown'
+import { disposeSharedHighlighter } from './plugins/markdown/highlighterCache'
 import { ViteValaxyPlugins } from './plugins/preset'
 import { collectRedirects, writeRedirectFiles } from './utils/clientRedirects'
+
+// Re-export the new self-built SSG
+export { ssgBuild } from './build/ssg'
 
 /**
  * Attempt to trigger garbage collection if `--expose-gc` is enabled.
@@ -27,10 +33,6 @@ function tryGC() {
 
 /**
  * Determine SSG concurrency based on the available JS heap size.
- *
- * Each concurrent page render creates a JSDOM instance + beasties CSS
- * processing, consuming ~100-200 MB. We read V8's heap_size_limit
- * (which reflects `--max-old-space-size`) and scale concurrency accordingly.
  */
 function getHeapLimitMB(): number {
   return v8.getHeapStatistics().heap_size_limit / 1024 / 1024
@@ -39,10 +41,6 @@ function getHeapLimitMB(): number {
 function getSSGConcurrency(): number {
   const heapLimitMB = getHeapLimitMB()
 
-  // Each concurrent page render holds a JSDOM instance (~30-50 MB) + Vue App +
-  // beasties CSS processing (~20-40 MB).
-  // V8's heap_size_limit is ~200 MB above --max-old-space-size, so thresholds
-  // are set accordingly (e.g. 2560 covers --max-old-space-size=2048).
   let concurrency: number
   if (heapLimitMB <= 2560)
     concurrency = 1
@@ -59,19 +57,8 @@ function getSSGConcurrency(): number {
   return concurrency
 }
 
-/**
- * Return beasties options or `false` to disable Critical CSS generation.
- *
- * Beasties loads the full CSS bundle into memory and creates a JSDOM-backed
- * HTML parser for **every** page it processes, consuming ~100-200 MB on top
- * of what vite-ssg's own JSDOM instance already uses. Under tight heap
- * limits (≤ 2 GB) this alone is enough to cause OOM, so we disable it.
- */
-function getSSGBeastiesOptions(): ViteSSGOptions['beastiesOptions'] {
+function getSSGBeastiesOptions(): any {
   const heapLimitMB = getHeapLimitMB()
-
-  // V8's heap_size_limit includes young generation overhead (~200 MB above
-  // --max-old-space-size), so we use 2560 to cover --max-old-space-size=2048.
   if (heapLimitMB <= 2560) {
     consola.warn(`Heap limit ${Math.round(heapLimitMB)} MB is too low for beasties — Critical CSS generation disabled`)
     return false
@@ -95,79 +82,97 @@ export async function build(
   await viteBuild(inlineConfig)
 }
 
-export async function ssgBuild(
+/**
+ * Legacy SSG build using vite-ssg (JSDOM-based).
+ * Kept as fallback for `--ssg-engine vite-ssg`.
+ */
+export async function ssgBuildLegacy(
   valaxyApp: ValaxyNode,
   viteConfig: InlineConfig = {},
 ) {
+  // Lazy-import vite-ssg so it's not required when using the new SSG engine
+  const { build: viteSsgBuild } = await import('vite-ssg/node')
+
+  if (!process.env.__VALAXY_SSG_NO_RESPAWN__) {
+    const needGC = typeof globalThis.gc !== 'function'
+    const currentHeapMB = getHeapLimitMB()
+    const minRequiredMB = 2560
+    const needMoreHeap = currentHeapMB < minRequiredMB
+    // Only respawn for --expose-gc if heap is also constrained.
+    // On memory-rich machines, tryGC() being a no-op is acceptable.
+    const needRespawn = needMoreHeap || (needGC && currentHeapMB < 4096)
+
+    if (needRespawn) {
+      const extraNodeArgs: string[] = []
+      if (needGC)
+        extraNodeArgs.push('--expose-gc')
+      if (needMoreHeap)
+        extraNodeArgs.push(`--max-old-space-size=${minRequiredMB}`)
+
+      consola.info(`Restarting SSG build with ${extraNodeArgs.join(' ')} (current heap: ${Math.round(currentHeapMB)} MB)...`)
+
+      const filteredExecArgv = needMoreHeap
+        ? process.execArgv.filter(arg => !arg.startsWith('--max-old-space-size') && !arg.startsWith('--max_old_space_size'))
+        : process.execArgv
+      const nodeArgs = [...extraNodeArgs, ...filteredExecArgv, ...process.argv.slice(1)]
+
+      try {
+        execFileSync(process.execPath, nodeArgs, {
+          cwd: process.cwd(),
+          stdio: 'inherit',
+          env: { ...process.env, __VALAXY_SSG_NO_RESPAWN__: '1' },
+          timeout: 30 * 60 * 1000,
+        })
+        return
+      }
+      catch (e: any) {
+        if (e.signal) {
+          throw new Error(`SSG build was killed by signal ${e.signal}${e.signal === 'SIGTERM' ? ' (possible timeout)' : ''}`, { cause: e })
+        }
+        if (e.status != null && e.status !== 0) {
+          throw new Error(`SSG build failed (exit code: ${e.status})`, { cause: e })
+        }
+        throw e
+      }
+    }
+  }
+
   const { options } = valaxyApp
   const cdnModuleNames = (options.config.cdn?.modules || []).map(m => m.name)
   const defaultConfig: InlineConfig = {
     ...defaultViteConfig,
     plugins: await ViteValaxyPlugins(valaxyApp),
     ssr: {
-      // TODO: workaround until they support native ESM
       noExternal: ['workbox-window', /vue-i18n/, '@vue/devtools-api', ...cdnModuleNames],
     },
     build: {
-      // SSR bundle is a temporary artifact deleted after rendering — sourcemaps are never used
       sourcemap: false,
     },
   }
 
   const inlineConfig: InlineConfig = mergeViteConfig(defaultConfig, viteConfig)
 
-  /**
-   * User ssgOptions from `vite.config.ts` or `valaxy.config.ts > vite.ssgOptions`.
-   *
-   * `vite-ssg` internally merges via `Object.assign({}, config.ssgOptions, ssgOptions)`,
-   * where the first argument (ssgOptions) takes priority over `config.ssgOptions`.
-   *
-   * We extract user ssgOptions from the resolved vite config, then:
-   * 1. Shallow-merge with Valaxy defaults (user wins on top-level keys)
-   * 2. Deep-merge `beastiesOptions` so user values extend (not replace) defaults
-   * 3. Compose `onFinished` to always run Valaxy's sitemap + user callback
-   *
-   * The merged result is passed as the first argument to `viteSsgBuild`,
-   * and `inlineConfig.ssgOptions` is deleted to prevent double-merging.
-   *
-   * @see https://github.com/antfu-collective/vite-ssg
-   */
-  const userSsgOptions: Partial<ViteSSGOptions> = inlineConfig.ssgOptions || {}
-
-  // Remove ssgOptions from viteConfig to avoid double-merging inside vite-ssg
+  const userSsgOptions: Partial<ViteSSGOptions> = (inlineConfig.ssgOptions || {}) as Partial<ViteSSGOptions>
   delete inlineConfig.ssgOptions
 
   const valaxySsgDefaults: Partial<ViteSSGOptions> = {
     script: 'async',
-    // html-minifier-terser parses inline JS/CSS into ASTs, consuming ~50-100 MB
-    // per page. Disable under tight heap limits; the output gzips equally well.
     formatting: getHeapLimitMB() <= 2560 ? 'none' : 'minify',
     concurrency: getSSGConcurrency(),
-    // Disable beasties (Critical CSS) when heap is constrained.
-    // beasties loads full CSS into memory and parses HTML via JSDOM for every
-    // page, adding ~100-200 MB to the rendering baseline. We fall back to a
-    // simple <link rel="stylesheet"> which is fine for most sites.
     beastiesOptions: getSSGBeastiesOptions(),
     onFinished() {
-      generateSitemap(
-        {
-          hostname: options.config.siteConfig.url,
-        },
-      )
+      clearBundleCache()
+      generateSitemap({
+        hostname: options.config.siteConfig.url,
+      })
     },
-
-    // dirStyle default it flat
-    // dirStyle: 'nested',
   }
 
-  // User ssgOptions override Valaxy defaults
-  // Users can customize beastiesOptions via `vite.ssgOptions.beastiesOptions`
   const mergedSsgOptions: Partial<ViteSSGOptions> = {
     ...valaxySsgDefaults,
     ...userSsgOptions,
   }
 
-  // Deep-merge beastiesOptions so user values extend (not replace) Valaxy defaults
   if (userSsgOptions.beastiesOptions && valaxySsgDefaults.beastiesOptions) {
     mergedSsgOptions.beastiesOptions = {
       ...valaxySsgDefaults.beastiesOptions,
@@ -175,8 +180,6 @@ export async function ssgBuild(
     }
   }
 
-  // Compose onFinished: always run Valaxy's sitemap generation,
-  // then call the user's onFinished if provided
   if (userSsgOptions.onFinished) {
     const valaxyOnFinished = valaxySsgDefaults.onFinished!
     const userOnFinished = userSsgOptions.onFinished
@@ -186,17 +189,13 @@ export async function ssgBuild(
     }
   }
 
-  // Dispose Shiki highlighter before SSG page rendering to free ~20-50MB of
-  // language grammar/theme data that is no longer needed after Vite builds.
   let mdDisposePromise: Promise<void> | null = null
   const valaxyOnBeforePageRender: ViteSSGOptions['onBeforePageRender'] = async (_route, indexHTML, _appCtx) => {
     if (!mdDisposePromise) {
       mdDisposePromise = (async () => {
         disposeMdItInstance()
         disposePreviewMdItInstance()
-        // Hint V8 to collect garbage freed by disposing Shiki/MarkdownIt.
-        // This is especially important under tight heap limits where the Vite
-        // build phase already consumed most of the budget.
+        disposeSharedHighlighter()
         tryGC()
       })()
     }
@@ -215,20 +214,35 @@ export async function ssgBuild(
     mergedSsgOptions.onBeforePageRender = valaxyOnBeforePageRender
   }
 
-  // Eagerly release Vue app instances after each page is rendered to prevent
-  // JSDOM + Vue trees from accumulating across concurrent renders.
-  // vite-ssg does NOT call app.unmount() or clean up initialState, so without
-  // this hook each render leaks ~30-80 MB until GC catches up (often too late).
   const valaxyOnPageRendered: ViteSSGOptions['onPageRendered'] = (_route, renderedHTML, appCtx) => {
-    // Clear serialized Pinia state and any other accumulated SSR state
     if (appCtx.initialState) {
       for (const key of Object.keys(appCtx.initialState))
         delete appCtx.initialState[key]
     }
 
-    // Hint V8 to collect garbage between page renders — this is the only
-    // chance to free JSDOM instances from the previous render before the
-    // next one allocates a new one.
+    const app = appCtx.app as any
+    if (app) {
+      app._instance = null
+      app._container = null
+      if (app._context) {
+        app._context.provides = Object.create(null)
+        app._context.app = null
+      }
+    }
+
+    const router = appCtx.router as any
+    if (router) {
+      router.currentRoute = null
+      router.options = null
+      ;(appCtx as any).router = null
+    }
+
+    if ((appCtx as any).head) {
+      (appCtx as any).head = null
+    }
+
+    ;(appCtx as any).app = null
+
     tryGC()
 
     return renderedHTML
@@ -245,7 +259,6 @@ export async function ssgBuild(
     mergedSsgOptions.onPageRendered = valaxyOnPageRendered
   }
 
-  // Generate static pages for pagination
   if (options.config.build.ssgForPagination) {
     mergedSsgOptions.includedRoutes = (paths, _routes) => {
       const newPaths = paths

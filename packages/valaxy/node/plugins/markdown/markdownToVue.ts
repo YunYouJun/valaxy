@@ -1,4 +1,3 @@
-import type { ResolvedConfig } from 'vite'
 import type { PageData } from '../../../types'
 import type { ResolvedValaxyOptions } from '../../types'
 import _debug from 'debug'
@@ -17,6 +16,13 @@ import { generatePageData } from './transform/page-data'
 
 const debug = _debug('valaxy:md')
 const cache = new LRUCache<string, MarkdownCompileResult>({ max: 128 })
+
+/**
+ * Clear the markdown render cache to free memory after build completes.
+ */
+export function clearMarkdownCache() {
+  cache.clear()
+}
 
 export function generateSlots() {
   const slots = [
@@ -66,7 +72,6 @@ export interface MarkdownCompileResult {
  */
 export async function createMarkdownToVueRenderFn(
   options: ResolvedValaxyOptions,
-  _viteConfig: ResolvedConfig,
 ) {
   // for dead link detection
   options.pages = options.pages.map(p => p.replace(/\.md$/, '').replace(/\/index$/, ''))
@@ -89,10 +94,10 @@ export async function createMarkdownToVueRenderFn(
     const relativePath = path.relative(srcDir, file)
     const deadLinks = scanDeadLinks(code, id)
 
-    // only in build
-    const cacheKey = JSON.stringify({ code, id })
+    // only compute cacheKey in build mode
+    let cacheKey: string | undefined
     if (isBuild) {
-      const cacheKey = JSON.stringify({ code, id })
+      cacheKey = JSON.stringify({ code, id })
       const cached = cache.get(cacheKey)
       if (cached) {
         debug(`[cache hit] ${relativePath}`)
@@ -130,7 +135,7 @@ export async function createMarkdownToVueRenderFn(
       includes,
     }
     if (isBuild)
-      cache.set(cacheKey, result)
+      cache.set(cacheKey!, result)
 
     // clear
     Valaxy.state.idMap.delete(id)
