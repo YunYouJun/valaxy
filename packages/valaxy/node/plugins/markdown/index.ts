@@ -38,8 +38,8 @@ export async function createMarkdownRenderer(options?: ResolvedValaxyOptions): P
   const md = createMarkdownItAsync({
     html: true,
     linkify: true,
-    highlight,
     ...mdOptions.options,
+    highlight,
   })
 
   md.linkify.set({ fuzzyLink: false })
@@ -70,8 +70,8 @@ export async function createLightMarkdownRenderer(options?: ResolvedValaxyOption
   const md = createMarkdownItAsync({
     html: true,
     linkify: true,
-    highlight,
     ...mdOptions.options,
+    highlight,
   })
 
   md.linkify.set({ fuzzyLink: false })

@@ -98,8 +98,11 @@ export async function ssgBuildLegacy(
     const currentHeapMB = getHeapLimitMB()
     const minRequiredMB = 2560
     const needMoreHeap = currentHeapMB < minRequiredMB
+    // Only respawn for --expose-gc if heap is also constrained.
+    // On memory-rich machines, tryGC() being a no-op is acceptable.
+    const needRespawn = needMoreHeap || (needGC && currentHeapMB < 4096)
 
-    if (needGC || needMoreHeap) {
+    if (needRespawn) {
       const extraNodeArgs: string[] = []
       if (needGC)
         extraNodeArgs.push('--expose-gc')

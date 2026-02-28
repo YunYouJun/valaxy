@@ -57,13 +57,16 @@ if (import.meta.env.DEV)
 interface CreateValaxyAppOptions {
   routePath?: string
   createHead?: () => any
+  hydrate?: boolean
 }
 
 export function createValaxyApp(options: CreateValaxyAppOptions = {}): ValaxySSGContext {
-  const { routePath, createHead } = options
+  const { routePath, createHead, hydrate } = options
   const isSSR = import.meta.env.SSR
 
-  const app = isSSR ? createSSRApp(App) : vueCreateApp(App)
+  // Use createSSRApp for server-side rendering and for client-side hydration
+  // of SSG pre-rendered pages. vueCreateApp is only for pure SPA mode.
+  const app = (isSSR || hydrate) ? createSSRApp(App) : vueCreateApp(App)
 
   const history = isSSR
     ? createMemoryHistory(import.meta.env.BASE_URL)
@@ -119,9 +122,12 @@ export function createValaxyApp(options: CreateValaxyAppOptions = {}): ValaxySSG
 if (!import.meta.env.SSR) {
   ;(async () => {
     const { createHead } = await import('@unhead/vue/client')
-    const { app, router } = createValaxyApp({ createHead })
+    // Detect SSG pre-rendered content for proper hydration
+    const appEl = document.getElementById('app')
+    const hydrate = !!(appEl && appEl.innerHTML.trim())
+    const { app, router } = createValaxyApp({ createHead, hydrate })
     await router.isReady()
-    app.mount('#app', true)
+    app.mount('#app', hydrate)
   })()
 }
 
