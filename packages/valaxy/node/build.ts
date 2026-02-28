@@ -96,7 +96,7 @@ export async function ssgBuildLegacy(
   if (!process.env.__VALAXY_SSG_NO_RESPAWN__) {
     const needGC = typeof globalThis.gc !== 'function'
     const currentHeapMB = getHeapLimitMB()
-    const minRequiredMB = 4096
+    const minRequiredMB = 2560
     const needMoreHeap = currentHeapMB < minRequiredMB
 
     if (needGC || needMoreHeap) {

@@ -70,6 +70,11 @@ export async function renderPage(opts: RenderPageOptions) {
       else if (target === 'body') {
         html = html.replace('</body>', `${content}\n</body>`)
       }
+      else {
+        // Custom teleport targets (e.g. #modal-root) can't be resolved
+        // without a DOM. Fall back to injecting at end of <body>.
+        html = html.replace('</body>', `${content}\n</body>`)
+      }
     }
   }
 

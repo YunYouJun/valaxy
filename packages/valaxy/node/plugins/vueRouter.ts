@@ -59,9 +59,10 @@ export async function createRouterPlugin(valaxyApp: ValaxyNode) {
   const mdIt = new MarkdownItAsync({ html: true })
   await setupMarkdownPlugins(mdIt, options)
 
-  // Cache the serialized default frontmatter template outside extendRoute
-  // to avoid re-serializing on every route
-  let _cachedFrontmatterJSON = JSON.stringify(valaxyConfig.siteConfig.frontmatter)
+  // Cache the deep-cloned default frontmatter to avoid re-cloning on every route.
+  // Only re-clone when the reference changes (e.g. HMR config reload).
+  let _lastFrontmatterRef = valaxyConfig.siteConfig.frontmatter
+  let _cachedFrontmatter = structuredClone(valaxyConfig.siteConfig.frontmatter)
 
   return VueRouter({
     extensions: ['.vue', '.md'],
@@ -75,14 +76,12 @@ export async function createRouterPlugin(valaxyApp: ValaxyNode) {
      * we need get frontmatter before route, so write it in extendRoute
      */
     async extendRoute(route) {
-      // Cache the serialized frontmatter JSON to avoid deep-cloning via
-      // JSON.parse(JSON.stringify(...)) when the config hasn't changed.
-      // JSON.stringify is still called per route to detect changes (e.g. HMR),
-      // but JSON.parse only runs when the config actually differs.
-      const currentJSON = JSON.stringify(valaxyConfig.siteConfig.frontmatter)
-      if (currentJSON !== _cachedFrontmatterJSON)
-        _cachedFrontmatterJSON = currentJSON
-      const defaultFrontmatter = JSON.parse(_cachedFrontmatterJSON) || {}
+      // Re-clone only when the frontmatter config reference changes (e.g. HMR)
+      if (valaxyConfig.siteConfig.frontmatter !== _lastFrontmatterRef) {
+        _lastFrontmatterRef = valaxyConfig.siteConfig.frontmatter
+        _cachedFrontmatter = structuredClone(valaxyConfig.siteConfig.frontmatter)
+      }
+      const defaultFrontmatter = structuredClone(_cachedFrontmatter) || {}
       if (route.meta && route.meta.frontmatter) {
         // reset frontmatter, extendRoute will be trigger when save md file
         const { frontmatter: _, otherMeta } = route.meta
