@@ -58,7 +58,7 @@ const policeCode = computed(() => {
     <YunCloud v-if="themeConfig.footer.cloud?.enable" class="absolute top--10 left-0 right-0" />
 
     <div v-if="themeConfig.footer.beian?.enable && themeConfig.footer.beian.icp" class="beian" m="y-2">
-      <a href="https://beian.miit.gov.cn/" target="_blank" rel="noopener">
+      <a :href="themeConfig.footer.beian.icpLink || 'https://beian.miit.gov.cn/'" target="_blank" rel="noopener">
         {{ themeConfig.footer.beian.icp }}
       </a>
 
