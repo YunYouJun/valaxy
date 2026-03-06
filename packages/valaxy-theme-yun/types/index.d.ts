@@ -263,7 +263,7 @@ export interface ThemeConfig extends DefaultTheme.Config {
        * @zh 自定义 ICP 备案链接，默认为 https://beian.miit.gov.cn/
        * @default 'https://beian.miit.gov.cn/'
        */
-      icpLink: string
+      icpLink?: string
       /**
        * 公安网备案号
        * 苏公网安备xxxxxxxx号
