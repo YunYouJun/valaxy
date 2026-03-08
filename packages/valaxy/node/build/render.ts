@@ -92,7 +92,7 @@ export async function renderPage(opts: RenderPageOptions) {
 /**
  * Generate preload link tags from the SSR manifest.
  */
-function renderPreloadLinks(modules: Set<string> | undefined, manifest: Record<string, string[]>): string {
+export function renderPreloadLinks(modules: Set<string> | undefined, manifest: Record<string, string[]>): string {
   if (!modules || modules.size === 0)
     return ''
 
@@ -129,7 +129,7 @@ function renderPreloadLinks(modules: Set<string> | undefined, manifest: Record<s
 /**
  * Serialise initial state to a `<script>` tag for client-side hydration.
  */
-function serializeState(state: Record<string, any>): string {
+export function serializeState(state: Record<string, any>): string {
   if (!state || Object.keys(state).length === 0)
     return ''
 
@@ -148,7 +148,7 @@ function serializeState(state: Record<string, any>): string {
  * Convert a route path to a file name.
  * e.g. `/` → `index.html`, `/about` → `about.html`, `/posts/` → `posts/index.html`
  */
-function routeToFileName(route: string): string {
+export function routeToFileName(route: string): string {
   if (route.endsWith('/'))
     return `${route}index.html`.slice(1)
 

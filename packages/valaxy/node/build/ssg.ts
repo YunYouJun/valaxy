@@ -32,7 +32,7 @@ function getHeapLimitMB(): number {
 /**
  * Extract flat route paths from vue-router route records.
  */
-function routesToPaths(routes: any[]): string[] {
+export function routesToPaths(routes: any[]): string[] {
   if (!routes)
     return ['/']
 
@@ -60,7 +60,7 @@ function routesToPaths(routes: any[]): string[] {
 /**
  * Exclude dynamic route segments (`:param`, `*`).
  */
-function defaultIncludedRoutes(paths: string[]): string[] {
+export function defaultIncludedRoutes(paths: string[]): string[] {
   return paths.filter(i => !i.includes(':') && !i.includes('*'))
 }
 
