@@ -232,9 +232,7 @@ export default defineValaxyConfig<PressTheme.Config>({
     safelist,
   },
 
-  // MathJax is disabled to reduce memory usage during docs build.
-  // Re-enable when math expressions are needed: math: true
-  // math: true,
+  math: true,
 
   markdown: {
     blocks: {
