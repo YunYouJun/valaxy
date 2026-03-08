@@ -123,6 +123,9 @@ export async function ssgBuildLegacy(
           env: { ...process.env, __VALAXY_SSG_NO_RESPAWN__: '1' },
           timeout: 30 * 60 * 1000,
         })
+        // Parent process returns after successful respawn. Any in-process
+        // JavaScript callbacks (e.g. ssgOptions callbacks) will only
+        // run in the child process, not here.
         return
       }
       catch (e: any) {

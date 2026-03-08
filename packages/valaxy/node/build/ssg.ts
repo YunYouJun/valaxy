@@ -114,6 +114,9 @@ export async function ssgBuild(
           env: { ...process.env, __VALAXY_SSG_NO_RESPAWN__: '1' },
           timeout: 30 * 60 * 1000,
         })
+        // Parent process returns after successful respawn. Any in-process
+        // JavaScript callbacks (e.g. userSsgOptions.onFinished) will only
+        // run in the child process, not here.
         return
       }
       catch (e: any) {
@@ -131,7 +134,7 @@ export async function ssgBuild(
   const cdnModuleNames = (options.config.cdn?.modules || []).map((m: any) => m.name)
   const configOutDir = (viteConfig.build?.outDir as string) || 'dist'
   const outDir = isAbsolute(configOutDir) ? configOutDir : resolve(options.userRoot, configOutDir)
-  const ssgTemp = resolve(outDir, '../.vite-ssg-temp')
+  const ssgTemp = resolve(outDir, '.vite-ssg-temp')
 
   const defaultConfig: InlineConfig = {
     ...defaultViteConfig,

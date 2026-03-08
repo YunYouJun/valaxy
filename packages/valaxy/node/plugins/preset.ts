@@ -201,8 +201,11 @@ export async function ViteValaxyPlugins(
   // scope keeps closures alive.
   if (options.mode === 'build') {
     let buildCount = 0
-    // vite-ssg runs two consecutive builds (client + server) in the same process.
-    // Release heavy resources after the final (2nd) build completes.
+    // Both SSG engines run two consecutive viteBuild() calls (client + server)
+    // sharing the same plugin instances. Release heavy resources after the 2nd
+    // closeBundle. Note: buildCount is scoped per ViteValaxyPlugins() call, so
+    // separate build sequences (e.g. tests calling ViteValaxyPlugins again) each
+    // get their own counter.
     const releaseThreshold = 2
     let resolvedConfig: any = null
     plugins.push({
