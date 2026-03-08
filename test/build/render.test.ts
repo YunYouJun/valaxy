@@ -77,6 +77,12 @@ describe('renderPreloadLinks', () => {
     expect(result).toContain('<link rel="modulepreload" crossorigin href="/assets/chunk.js">')
   })
 
+  it('generates modulepreload for .mjs files', () => {
+    const manifest = { 'mod-a': ['/assets/chunk.mjs'] }
+    const result = renderPreloadLinks(new Set(['mod-a']), manifest)
+    expect(result).toContain('<link rel="modulepreload" crossorigin href="/assets/chunk.mjs">')
+  })
+
   it('generates stylesheet link for .css files', () => {
     const manifest = { 'mod-a': ['/assets/style.css'] }
     const result = renderPreloadLinks(new Set(['mod-a']), manifest)

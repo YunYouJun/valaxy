@@ -108,7 +108,7 @@ export function renderPreloadLinks(modules: Set<string> | undefined, manifest: R
         continue
       seen.add(file)
 
-      if (file.endsWith('.js')) {
+      if (file.endsWith('.js') || file.endsWith('.mjs')) {
         links.push(`<link rel="modulepreload" crossorigin href="${file}">`)
       }
       else if (file.endsWith('.css')) {
