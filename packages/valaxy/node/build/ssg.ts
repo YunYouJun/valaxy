@@ -13,9 +13,6 @@ import pMap from 'p-map'
 import { mergeConfig as mergeViteConfig, build as viteBuild } from 'vite'
 import generateSitemap from 'vite-ssg-sitemap'
 import { defaultViteConfig } from '../constants'
-import { disposeMdItInstance, disposePreviewMdItInstance } from '../plugins/markdown'
-import { disposeSharedHighlighter } from '../plugins/markdown/highlighterCache'
-import { clearMarkdownCache } from '../plugins/markdown/markdownToVue'
 import { ViteValaxyPlugins } from '../plugins/preset'
 import { clearBundleCache } from './bundle'
 import { renderPage } from './render'
@@ -176,11 +173,10 @@ export async function ssgBuild(
     }))
 
     // === Step 3: Release build resources ===
+    // The `valaxy:memory-release` plugin in preset.ts already disposes
+    // Shiki, MarkdownIt, and clears caches after the 2nd closeBundle.
+    // We only need to trigger GC here.
     consola.info('Releasing build resources...')
-    disposeMdItInstance()
-    disposePreviewMdItInstance()
-    disposeSharedHighlighter()
-    clearMarkdownCache()
     tryGC()
 
     // === Step 4: Load SSR entry and discover routes ===

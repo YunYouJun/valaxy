@@ -224,11 +224,11 @@ export async function ViteValaxyPlugins(
 
           // Break closure chains by clearing heavy plugin hooks from the
           // resolved Vite config. After the server build completes, these
-          // hooks will never be called again — vite-ssg only does
-          // JSDOM-based page rendering from here. This allows V8 to
-          // reclaim the large closures (Shiki grammar data, UnoCSS engine,
-          // Rollup module graph references, etc.) that are otherwise kept
-          // alive by the vite-ssg function scope holding `config`.
+          // hooks will never be called again — both the new Valaxy SSG
+          // engine and legacy vite-ssg only do page rendering from here.
+          // This allows V8 to reclaim the large closures (Shiki grammar
+          // data, UnoCSS engine, Rollup module graph references, etc.)
+          // that are otherwise kept alive by function scope holding `config`.
           if (resolvedConfig?.plugins) {
             const hookKeys = [
               'transform',
