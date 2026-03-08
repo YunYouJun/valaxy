@@ -51,6 +51,14 @@ describe('serializeState', () => {
     expect(result).toContain('\\u0026')
   })
 
+  it('escapes single quotes in state values', () => {
+    const result = serializeState({ title: 'it\'s O\'Reilly' })
+    expect(result).toContain('\\u0027')
+    // \u0027 inside a single-quoted JS string is a valid escape, not a delimiter break
+    expect(result).toContain('<script>')
+    expect(result).toContain('</script>')
+  })
+
   it('escapes U+2028 and U+2029 line separators', () => {
     const result = serializeState({ text: 'a\u2028b\u2029c' })
     expect(result).toContain('\\u2028')
