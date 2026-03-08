@@ -93,7 +93,8 @@ export async function execBuild({ ssg, ssgEngine, root, output, log }: { ssg: bo
       else {
         consola.info(`use ${colors.yellow('valaxy')} SSG engine to build...`)
         try {
-          await ssgBuild(valaxyApp, viteConfig)
+          const userSsgOptions = (viteConfig as any).ssgOptions || {}
+          await ssgBuild(valaxyApp, viteConfig, userSsgOptions)
           await postProcessForSSG(options)
         }
         catch (e) {

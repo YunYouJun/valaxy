@@ -49,10 +49,10 @@ export async function renderPage(opts: RenderPageOptions) {
   let html = template
 
   if (headPayload.htmlAttrs)
-    html = html.replace('<html', `<html ${headPayload.htmlAttrs}`)
+    html = html.replace(/<html[^>]*>/, `<html ${headPayload.htmlAttrs}>`)
 
   if (headPayload.bodyAttrs)
-    html = html.replace('<body', `<body ${headPayload.bodyAttrs}`)
+    html = html.replace(/<body[^>]*>/, `<body ${headPayload.bodyAttrs}>`)
 
   html = html
     .replace('</head>', `${preloadLinks}${headPayload.headTags}\n</head>`)

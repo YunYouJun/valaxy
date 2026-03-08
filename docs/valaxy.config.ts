@@ -232,7 +232,8 @@ export default defineValaxyConfig<PressTheme.Config>({
     safelist,
   },
 
-  // use MathJax (SVG output, no external CSS/fonts)
+  // MathJax is disabled to reduce memory usage during docs build.
+  // Re-enable when math expressions are needed: math: true
   // math: true,
 
   markdown: {
