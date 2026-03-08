@@ -58,7 +58,7 @@ export async function createLightMarkdownRenderer(options?: ResolvedValaxyOption
 
   // Define highlight separately to avoid circular type inference
   // (md referencing itself in its own initializer)
-  const highlight = (str: string): string => {
+  const highlight = (str: string, _lang: string, _attrs: string): string => {
     const escaped = str
       .replace(/&/g, '&amp;')
       .replace(/</g, '&lt;')

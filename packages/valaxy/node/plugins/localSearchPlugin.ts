@@ -50,11 +50,11 @@ export async function localSearchPlugin(
   }
 
   const srcDir = path.resolve(options.userRoot, 'pages')
-  // Snapshot the original page list before other plugins (markdownToVue) may
-  // mutate `options.pages` by stripping the `.md` extension for dead-link
-  // detection. We need the original paths (with `.md`) to read files on disk
-  // and to keep consistent keys with handleHotUpdate which also uses `.md` paths.
-  const originalPages = [...options.pages]
+  // Use a live reference to options.pages so that newly added .md files during
+  // development are included when scanForBuild() performs a full index rebuild.
+  // Note: other plugins (markdownToVue) may strip the .md extension from entries,
+  // but scanForBuild reads files from disk using the current page list.
+  const originalPages = options.pages
   const md = await createLightMarkdownRenderer(options)
 
   async function render(file: string) {
@@ -259,7 +259,7 @@ const headingContentRegex = /(.*)<a[^>]* href="#([^"]*)"[^>]*>[^<]*<\/a>/i
 /**
  * Splits HTML into sections based on headings
  */
-function* splitPageIntoSections(html: string) {
+export function* splitPageIntoSections(html: string) {
   const result = html.split(headingRegex)
   result.shift()
   let parentTitles: string[] = []
@@ -295,7 +295,7 @@ function getSearchableText(content: string) {
  * a `<semantics>` block. We pull out that plain-text LaTeX so that math formulas
  * remain searchable (e.g. "E = mc^2") instead of becoming garbled span fragments.
  */
-function replaceKatexWithSource(html: string): string {
+export function replaceKatexWithSource(html: string): string {
   // Replace each KaTeX wrapper with the original LaTeX from <annotation>
   return html.replace(
     /<span class="katex(?:-display)?">[\s\S]*?<annotation encoding="application\/x-tex">([\s\S]*?)<\/annotation>[\s\S]*?<\/span>(?:<\/span>)?/g,
@@ -303,7 +303,7 @@ function replaceKatexWithSource(html: string): string {
   )
 }
 
-function clearHtmlTags(str: string) {
+export function clearHtmlTags(str: string) {
   // First, replace KaTeX-rendered blocks with their LaTeX source
   str = replaceKatexWithSource(str)
   // Then strip remaining HTML tags
