@@ -60,7 +60,7 @@ npx skills add YunYouJun/valaxy
 
 示例提示词：
 
-```text
+```txt
 创建一个 Valaxy 博客站点：
 - 使用 valaxy-theme-yun 主题
 - 配置 Algolia 搜索
@@ -79,7 +79,7 @@ Agent 将自动引用 Valaxy Skills 中的知识来正确配置 `site.config.ts`
 
 Example prompt:
 
-```text
+```txt
 Create a Valaxy blog site with:
 - valaxy-theme-yun theme
 - Algolia search configuration
