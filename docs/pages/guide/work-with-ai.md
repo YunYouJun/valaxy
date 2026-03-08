@@ -172,7 +172,7 @@ export default defineSiteConfig({
 })
 ```
 
-#### CLI 命令
+### CLI 命令
 
 你也可以单独生成 llms.txt 相关文件：
 
@@ -204,7 +204,7 @@ Once enabled, Valaxy will automatically generate:
 - `/llms-full.txt` — Full content with complete text of all posts (disable with `fullText: false`)
 - `/posts/xxx.md` — Raw Markdown files for each post (disable with `files: false`)
 
-#### Configuration Options
+### Configuration Options
 
 ```ts
 export default defineSiteConfig({
@@ -222,7 +222,7 @@ export default defineSiteConfig({
 })
 ```
 
-#### CLI Command
+### CLI Command
 
 You can also generate llms.txt files separately:
 

@@ -13,7 +13,7 @@ import _debug from 'debug'
 import fs from 'fs-extra'
 import MiniSearch from 'minisearch'
 import pMap from 'p-map'
-import { createMarkdownRenderer } from './markdown'
+import { createLightMarkdownRenderer } from './markdown'
 import { processIncludes } from './markdown/utils/processInclude'
 
 const debug = _debug('valaxy:local-search')
@@ -50,7 +50,12 @@ export async function localSearchPlugin(
   }
 
   const srcDir = path.resolve(options.userRoot, 'pages')
-  const md = await createMarkdownRenderer(options)
+  // Use a live reference to options.pages so that newly added .md files during
+  // development are included when scanForBuild() performs a full index rebuild.
+  // Note: other plugins (markdownToVue) may strip the .md extension from entries,
+  // but scanForBuild reads files from disk using the current page list.
+  const originalPages = options.pages
+  const md = await createLightMarkdownRenderer(options)
 
   async function render(file: string) {
     if (!fs.existsSync(file))
@@ -64,6 +69,8 @@ export async function localSearchPlugin(
   }
 
   const indexByLocales = new Map<string, MiniSearch<IndexObject>>()
+  // Track which document IDs belong to each page file for incremental HMR updates
+  const fileToDocIds = new Map<string, { locale: string, ids: string[] }>()
 
   function getIndexByLocale(locale: string) {
     let index = indexByLocales.get(locale)
@@ -126,11 +133,13 @@ export async function localSearchPlugin(
 
     const html = await render(file)
     const sections = splitPageIntoSections(html)
+    const docIds: string[] = []
     for (const section of sections) {
       if (!section || !(section.text || section.titles))
         break
       const { anchor, text, titles } = section
       const id = anchor ? [fileId, anchor].join('#') : fileId
+      docIds.push(id)
       index.add({
         id,
         text,
@@ -138,12 +147,37 @@ export async function localSearchPlugin(
         titles: titles.slice(0, -1),
       })
     }
+    fileToDocIds.set(page, { locale, ids: docIds })
+  }
+
+  /**
+   * Remove all indexed entries for a given page file.
+   */
+  function discardFile(page: string): boolean {
+    const entry = fileToDocIds.get(page)
+    if (!entry)
+      return true
+    const index = indexByLocales.get(entry.locale)
+    if (index) {
+      for (const id of entry.ids) {
+        try {
+          index.discard(id)
+        }
+        catch (e) {
+          debug('Failed to discard document %s: %O', id, e)
+          return false
+        }
+      }
+    }
+    fileToDocIds.delete(page)
+    return true
   }
 
   async function scanForBuild() {
     debug('Indexing files for search...')
     indexByLocales.clear()
-    await pMap(options.pages, indexFile, {
+    fileToDocIds.clear()
+    await pMap(originalPages, indexFile, {
       concurrency: 10,
     })
     debug('Indexing finished..., %d locales', indexByLocales.size)
@@ -202,10 +236,16 @@ export async function localSearchPlugin(
       if (file.endsWith('.md')) {
         const relPath = slash(path.relative(srcDir, file))
         if (!relPath.startsWith('..')) {
-          // Rebuild the entire index for simplicity
-          // (avoids accessing protected MiniSearch internals for discard)
-          await scanForBuild()
-          debug('Updated index for %s', relPath)
+          // Incremental update: discard old entries and re-index only the changed file.
+          // If discard fails, fall back to a full rebuild to avoid stale index state.
+          if (discardFile(relPath)) {
+            await indexFile(relPath)
+            debug('Updated index for %s', relPath)
+          }
+          else {
+            debug('Discard failed for %s, rebuilding full index', relPath)
+            await scanForBuild()
+          }
           onIndexUpdated()
         }
       }
@@ -219,7 +259,7 @@ const headingContentRegex = /(.*)<a[^>]* href="#([^"]*)"[^>]*>[^<]*<\/a>/i
 /**
  * Splits HTML into sections based on headings
  */
-function* splitPageIntoSections(html: string) {
+export function* splitPageIntoSections(html: string) {
   const result = html.split(headingRegex)
   result.shift()
   let parentTitles: string[] = []
@@ -255,7 +295,7 @@ function getSearchableText(content: string) {
  * a `<semantics>` block. We pull out that plain-text LaTeX so that math formulas
  * remain searchable (e.g. "E = mc^2") instead of becoming garbled span fragments.
  */
-function replaceKatexWithSource(html: string): string {
+export function replaceKatexWithSource(html: string): string {
   // Replace each KaTeX wrapper with the original LaTeX from <annotation>
   return html.replace(
     /<span class="katex(?:-display)?">[\s\S]*?<annotation encoding="application\/x-tex">([\s\S]*?)<\/annotation>[\s\S]*?<\/span>(?:<\/span>)?/g,
@@ -263,7 +303,7 @@ function replaceKatexWithSource(html: string): string {
   )
 }
 
-function clearHtmlTags(str: string) {
+export function clearHtmlTags(str: string) {
   // First, replace KaTeX-rendered blocks with their LaTeX source
   str = replaceKatexWithSource(str)
   // Then strip remaining HTML tags

@@ -19,8 +19,8 @@ overrides:
   '@types/markdown-it': ^14.1.2
   # Force all packages to use the same UnoCSS version to avoid type conflicts
   unocss: 66.5.10
-
   vue: catalog:frontend
+
 catalog:
   '@antfu/eslint-config': ^7.5.0
   '@antfu/install-pkg': ^1.1.0

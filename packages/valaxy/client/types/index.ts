@@ -1,7 +1,7 @@
 import type mermaid from 'mermaid'
-import type { ViteSSGContext } from 'vite-ssg'
+import type { ValaxySSGContext } from '../setups'
 
-export type UserModule = (ctx: ViteSSGContext) => void
+export type UserModule = (ctx: ValaxySSGContext) => void
 
 /**
  * @see https://mermaid.js.org/config/schema-docs/config.html#mermaid-config-schema

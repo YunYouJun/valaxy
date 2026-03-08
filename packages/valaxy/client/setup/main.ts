@@ -4,9 +4,8 @@
 // https://github.com/microsoft/TypeScript/issues/42873
 import type { DefaultTheme, ValaxyConfig } from 'valaxy/types'
 /* __imports__ */
-import type { ViteSSGContext } from 'vite-ssg'
-
 import type { ComputedRef } from 'vue'
+import type { ValaxySSGContext } from '../setups'
 
 import { consola } from 'consola'
 import { registerGlobalComponents } from '../modules/components'
@@ -16,7 +15,7 @@ import { install as installPinia } from '../modules/pinia'
 import { install as installUnhead } from '../modules/unhead'
 import { install as installValaxy } from '../modules/valaxy'
 
-export default function setupMain(ctx: ViteSSGContext, config: ComputedRef<ValaxyConfig<DefaultTheme.Config>>) {
+export default function setupMain(ctx: ValaxySSGContext, config: ComputedRef<ValaxyConfig<DefaultTheme.Config>>) {
   // @ts-expect-error inject in runtime
   // eslint-disable-next-line unused-imports/no-unused-vars
   const injection_arg = ctx

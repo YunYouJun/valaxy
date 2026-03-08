@@ -6,7 +6,7 @@ import type { ResolvedValaxyOptions } from '../../../types'
 import Markdown from 'unplugin-vue-markdown/vite'
 import { Valaxy } from '../../../app/class'
 import { logger } from '../../../logger'
-import { highlight as createHighlighter } from '../plugins/highlight'
+import { getSharedHighlighter } from '../highlighterCache'
 import { defaultCodeTheme, setupMarkdownPlugins } from '../setup'
 import { createTransformIncludes } from './include'
 import { matterOptions } from './matter'
@@ -34,7 +34,7 @@ export async function createMarkdownPlugin(
 
   const [highlight, dispose] = mdOptions.highlight
     ? [mdOptions.highlight, () => {}]
-    : await createHighlighter(theme, mdOptions, logger)
+    : await getSharedHighlighter(theme, mdOptions, logger)
 
   _disposeHighlighter = dispose
 

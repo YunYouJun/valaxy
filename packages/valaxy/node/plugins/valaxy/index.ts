@@ -2,7 +2,7 @@
  * @packageDocumentation valaxy plugin
  */
 
-import type { Plugin, ResolvedConfig } from 'vite'
+import type { Plugin } from 'vite'
 import type { DefaultTheme, PageDataPayload, Pkg, SiteConfig } from '../../../types'
 import type { ResolvedValaxyOptions, ValaxyNodeConfig, ValaxyServerOptions } from '../../types'
 import { consola } from 'consola'
@@ -55,18 +55,15 @@ export async function createValaxyPlugin(options: ResolvedValaxyOptions, serverO
   let hasDeadLinks = false
 
   let markdownToVue: Awaited<ReturnType<typeof createMarkdownToVueRenderFn>>
-  let viteConfig: ResolvedConfig
 
   return [
     {
       name: 'valaxy:loader',
       enforce: 'pre',
 
-      async configResolved(resolvedConfig) {
-        viteConfig = resolvedConfig
+      async configResolved(_resolvedConfig) {
         markdownToVue = await createMarkdownToVueRenderFn(
           options,
-          viteConfig,
         )
       },
 
