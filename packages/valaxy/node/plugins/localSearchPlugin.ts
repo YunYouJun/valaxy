@@ -153,10 +153,10 @@ export async function localSearchPlugin(
   /**
    * Remove all indexed entries for a given page file.
    */
-  function discardFile(page: string) {
+  function discardFile(page: string): boolean {
     const entry = fileToDocIds.get(page)
     if (!entry)
-      return
+      return true
     const index = indexByLocales.get(entry.locale)
     if (index) {
       for (const id of entry.ids) {
@@ -165,10 +165,12 @@ export async function localSearchPlugin(
         }
         catch (e) {
           debug('Failed to discard document %s: %O', id, e)
+          return false
         }
       }
     }
     fileToDocIds.delete(page)
+    return true
   }
 
   async function scanForBuild() {
@@ -234,10 +236,16 @@ export async function localSearchPlugin(
       if (file.endsWith('.md')) {
         const relPath = slash(path.relative(srcDir, file))
         if (!relPath.startsWith('..')) {
-          // Incremental update: discard old entries and re-index only the changed file
-          discardFile(relPath)
-          await indexFile(relPath)
-          debug('Updated index for %s', relPath)
+          // Incremental update: discard old entries and re-index only the changed file.
+          // If discard fails, fall back to a full rebuild to avoid stale index state.
+          if (discardFile(relPath)) {
+            await indexFile(relPath)
+            debug('Updated index for %s', relPath)
+          }
+          else {
+            debug('Discard failed for %s, rebuilding full index', relPath)
+            await scanForBuild()
+          }
           onIndexUpdated()
         }
       }
