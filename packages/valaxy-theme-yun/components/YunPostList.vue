@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import type { Post } from 'valaxy/types'
-import { useSiteConfig, useSiteStore } from 'valaxy'
+import { usePostListWithCollections, useSiteConfig } from 'valaxy'
 import { computed, ref } from 'vue'
 
 const props = withDefaults(defineProps<{
@@ -11,12 +11,12 @@ const props = withDefaults(defineProps<{
 const paginationRef = ref()
 const curPage = computed(() => paginationRef.value?.curPage || 1)
 
-const site = useSiteStore()
+const postListWithCollections = usePostListWithCollections()
 const siteConfig = useSiteConfig()
 const pageSize = computed(() => siteConfig.value.pageSize)
 
 const posts = computed(() => (
-  props.posts || site.postList).filter(post => import.meta.env.DEV ? true : !post.hide),
+  props.posts || postListWithCollections.value).filter(post => import.meta.env.DEV ? true : !post.hide),
 )
 
 const displayedPosts = computed(() =>
@@ -35,7 +35,14 @@ const displayedPosts = computed(() =>
       </div>
     </template>
 
-    <YunPostCard v-for="route, i in displayedPosts" :key="i" :post="route" />
+    <template v-for="route, i in displayedPosts" :key="i">
+      <YunCollectionCard
+        v-if="route._collection"
+        :post="route"
+        :collection="route._collection"
+      />
+      <YunPostCard v-else :post="route" />
+    </template>
   </div>
 
   <YunPagination

@@ -13,6 +13,27 @@ function ensurePrefix(prefix: string, str: string) {
     return prefix + str
 }
 
+/**
+ * Extract a string field value from a TS/JS source file.
+ * Handles both single and double quoted strings.
+ */
+function extractStringField(content: string, field: string): string {
+  const regex = new RegExp(`${field}\\s*:\\s*['"\`]([^'"\`]*)['"\`]`)
+  const match = content.match(regex)
+  return match?.[1] || ''
+}
+
+/**
+ * Extract a boolean field value from a TS/JS source file.
+ */
+function extractBooleanField(content: string, field: string, defaultValue: boolean): boolean {
+  const regex = new RegExp(`${field}\\s*:\\s*(true|false)`)
+  const match = content.match(regex)
+  if (!match)
+    return defaultValue
+  return match[1] === 'true'
+}
+
 export function getFunctions(server: ViteDevServer, devtoolsOptions: ValaxyDevtoolsOptions): ServerFunctions {
   const userRoot = (devtoolsOptions.userRoot || process.cwd()).replace(/\\/g, '/')
   // const userRoot = GLOBAL_STATE.valaxyApp?.options.userRoot || process.cwd()
@@ -66,6 +87,66 @@ export function getFunctions(server: ViteDevServer, devtoolsOptions: ValaxyDevto
         filePath: file,
         frontmatter: data,
       }
+    },
+
+    async getCollectionList() {
+      const collectionsRoot = pathe.resolve(userRoot, 'pages', 'collections')
+      if (!await fs.pathExists(collectionsRoot))
+        return []
+
+      const entries = await fs.readdir(collectionsRoot)
+      const dirs = entries.filter(f => fs.statSync(pathe.join(collectionsRoot, f)).isDirectory())
+
+      const result = []
+
+      for (const dir of dirs) {
+        const indexPath = pathe.join(collectionsRoot, dir, 'index.ts')
+        if (!await fs.pathExists(indexPath))
+          continue
+
+        // Read the index.ts to extract collection config fields
+        const indexContent = await fs.readFile(indexPath, 'utf-8')
+        const title = extractStringField(indexContent, 'title')
+        const cover = extractStringField(indexContent, 'cover')
+        const description = extractStringField(indexContent, 'description')
+        const collapse = extractBooleanField(indexContent, 'collapse', true)
+
+        // Read all .md files in the directory
+        const mdFiles = await fg(`${collectionsRoot}/${dir}/*.md`)
+        const items = []
+        for (const file of mdFiles) {
+          const basename = pathe.basename(file, '.md')
+          if (basename === 'index')
+            continue
+          const md = await fs.readFile(file, 'utf-8')
+          const { data } = matter(md)
+          items.push({
+            title: data.title || basename,
+            key: basename,
+            filePath: file,
+            frontmatter: data,
+          })
+        }
+
+        // Sort items by date
+        items.sort((a, b) => {
+          const aDate = dayjs(a.frontmatter.date).valueOf()
+          const bDate = dayjs(b.frontmatter.date).valueOf()
+          return aDate - bDate
+        })
+
+        result.push({
+          key: dir,
+          title,
+          cover,
+          description,
+          collapse,
+          dirPath: pathe.join(collectionsRoot, dir),
+          items,
+        })
+      }
+
+      return result
     },
   }
 }

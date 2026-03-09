@@ -26,11 +26,14 @@ function createBlogTemplate(name: string): VirtualModuleTemplate {
       const getImportedName = (idx: number) => `__valaxy_${name}_${idx + 1}`
       files.forEach((file, idx) => {
         const importedName = getImportedName(idx)
+        const dirName = path.basename(path.dirname(file))
         imports.push(`import ${importedName} from '${toAtFS(file)}'`)
+        // auto-derive key from directory name if not set
+        imports.push(`const ${importedName}_e = { key: '${dirName}', ...${importedName} }`)
       })
 
-      // return array
-      imports.push(`export default [${files.map((_, idx) => getImportedName(idx)).join(', ')}]`)
+      // return array with enriched entries
+      imports.push(`export default [${files.map((_, idx) => `${getImportedName(idx)}_e`).join(', ')}]`)
       return imports.join('\n')
     },
   }

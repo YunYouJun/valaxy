@@ -23,3 +23,20 @@ export interface ClientPageData {
    */
   filePath: string
 }
+
+export interface ClientCollectionItem {
+  title: string
+  key: string
+  filePath: string
+  frontmatter: Record<string, any>
+}
+
+export interface ClientCollectionData {
+  key: string
+  title: string
+  cover: string
+  description: string
+  collapse: boolean
+  dirPath: string
+  items: ClientCollectionItem[]
+}

@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import { defineWebPage, useSchemaOrg } from '@unhead/schema-org/vue'
-import { useFrontmatter, usePostTitle, useSiteStore } from 'valaxy'
+import { useFrontmatter, usePostListWithCollections, usePostTitle } from 'valaxy'
 import { computed } from 'vue'
 import { useI18n } from 'vue-i18n'
 
@@ -9,7 +9,7 @@ const { t } = useI18n()
 const frontmatter = useFrontmatter()
 
 const title = usePostTitle(frontmatter)
-const site = useSiteStore()
+const postListWithCollections = usePostListWithCollections()
 
 useSchemaOrg([
   defineWebPage({
@@ -41,7 +41,7 @@ const pageIcon = computed(() => {
         </template>
         <template #main-content>
           <RouterView />
-          <YunPostCollapse :posts="site.postList" />
+          <YunPostCollapse :posts="postListWithCollections" />
         </template>
       </component>
     </RouterView>
