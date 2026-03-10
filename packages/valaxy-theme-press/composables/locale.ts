@@ -11,6 +11,15 @@ export interface LocaleData {
   link: string
 }
 
+/**
+ * Ensure a locale link has a trailing slash (except root '/').
+ */
+function normalizeLink(link: string): string {
+  if (link === '/')
+    return link
+  return link.endsWith('/') ? link : `${link}/`
+}
+
 export function useLocaleConfig() {
   const themeConfig = useThemeConfig()
   const route = useRoute()
@@ -27,7 +36,7 @@ export function useLocaleConfig() {
     for (const key of Object.keys(locales)) {
       if (key === 'root')
         continue
-      const link = locales[key].link || `/${key}/`
+      const link = normalizeLink(locales[key].link || `/${key}/`)
       if (path.startsWith(link) && link.length > matchedLen) {
         matchedKey = key
         matchedLen = link.length
@@ -48,7 +57,7 @@ export function useLocaleConfig() {
       key,
       label: cfg.label || key,
       lang: cfg.lang,
-      link: cfg.link || (key === 'root' ? '/' : `/${key}/`),
+      link: normalizeLink(cfg.link || (key === 'root' ? '/' : `/${key}/`)),
     }
   })
 
@@ -71,7 +80,7 @@ export function useLocaleConfig() {
         key,
         label: cfg.label || key,
         lang: cfg.lang,
-        link: cfg.link || (key === 'root' ? '/' : `/${key}/`),
+        link: normalizeLink(cfg.link || (key === 'root' ? '/' : `/${key}/`)),
       }
     })
   })
@@ -92,7 +101,7 @@ export function useLocaleConfig() {
       return '/'
 
     const targetCfg = locales[targetKey]
-    const targetLink = targetCfg?.link || (targetKey === 'root' ? '/' : `/${targetKey}/`)
+    const targetLink = normalizeLink(targetCfg?.link || (targetKey === 'root' ? '/' : `/${targetKey}/`))
 
     if (!i18nRouting.value)
       return `${targetLink}${route.hash}`
@@ -106,8 +115,10 @@ export function useLocaleConfig() {
       relativePath = path
     }
     else {
-      relativePath = path.startsWith(currentLink)
-        ? path.slice(currentLink.length - 1) // Keep leading "/"
+      // currentLink is normalized with trailing slash, so slice safely
+      const prefix = currentLink.endsWith('/') ? currentLink.slice(0, -1) : currentLink
+      relativePath = path.startsWith(prefix)
+        ? path.slice(prefix.length) || '/'
         : path
     }
 
@@ -116,7 +127,6 @@ export function useLocaleConfig() {
       return `${relativePath || '/'}${route.hash}`
     }
 
-    // Ensure targetLink ends with "/" and relativePath starts with "/"
     const base = targetLink.endsWith('/') ? targetLink.slice(0, -1) : targetLink
     return `${base}${relativePath}${route.hash}`
   }

@@ -80,3 +80,5 @@ themes:
       - antfu
       - dark
 ---
+
+<ThemeGallery :themes="$frontmatter.themes" />

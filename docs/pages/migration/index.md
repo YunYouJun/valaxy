@@ -61,7 +61,7 @@ For more complex migration examples, you can also compare [hexo branch](https://
 ### Read More Separator
 
 
-Default to `<-- More -->`, there are spaces before and after `more`.
+Default to `<!-- more -->`, there are spaces before and after `more`.
 
 
 ### Newline in Markdown
@@ -85,8 +85,8 @@ If you want to move the second line to a new line, add two spaces at the end of 
 
 ```md
 first line (with two spaces at the end)  
-second line got wrapped corrently
+second line got wrapped correctly
 ```
 
 first line (with two spaces at the end)  
-second line got wrapped corrently
+second line got wrapped correctly

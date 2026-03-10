@@ -99,7 +99,7 @@ pnpm i
 npm i
 ```
 
-::::
+:::
 
 
 Start a preview:
@@ -116,7 +116,7 @@ pnpm dev
 npm run dev
 ```
 
-::::
+:::
 
 
 See `http://localhost:4859/`, have fun!
