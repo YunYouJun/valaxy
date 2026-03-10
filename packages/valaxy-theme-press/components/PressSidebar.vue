@@ -25,11 +25,11 @@ const localePages = computed(() => {
           .filter(k => k !== 'root')
           .map(k => locales[k].link || `/${k}/`)
       : []
-    return pages.value.filter(p => !prefixes.some(prefix => p.path.startsWith(prefix)))
+    return pages.value.filter(p => p.path && !prefixes.some(prefix => p.path!.startsWith(prefix)))
   }
 
   const prefix = currentLocale.value.link
-  return pages.value.filter(p => p.path.startsWith(prefix))
+  return pages.value.filter(p => p.path?.startsWith(prefix))
 })
 
 const sidebar = computed(() => localeConfig.value.sidebar)

@@ -312,6 +312,11 @@ You can also specify the language inside the braces (`{}`) like this:
 This is helpful if source language cannot be inferred from your file extension.
 
 
+## Container
+
+By configuring `markdownIt`, you can set the text and icon (and its color) for
+custom block.
+
 ::: tip
 
 tip
@@ -335,7 +340,8 @@ danger
 info
 
 :::
-```
+
+```md
 
 ::: details Click to expand
 
