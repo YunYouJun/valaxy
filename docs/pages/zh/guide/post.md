@@ -7,7 +7,7 @@ end: false
 
 > [Post VS Page](https://wordpress.com/zh-cn/support/post-vs-page/)
 
-## FrontMatter
+## FrontMatter {#frontmatter}
 
 ::: tip
 
@@ -45,7 +45,7 @@ hide: true
   - `index`: 设置为 `index` 时，将只在首页隐藏，归档中仍然展示。（譬如放一些没有必要放在首页的笔记，并在归档中方便自己查看。）
 
 
-## 摘要
+## 摘要 {#excerpt}
 
 
 你可以通过插入 `<!-- more -->` 的方式生成摘要（excerpt）。
@@ -143,10 +143,10 @@ This is a custom excerpt.
 
 :::
 
-## 插入
+## 插入 {#insert}
 
 
-### 组件
+### 组件 {#components}
 
 
 
@@ -155,7 +155,7 @@ This is a custom excerpt.
 
 
 
-### 脚本
+### 脚本 {#scripts}
 
 
 
@@ -169,7 +169,7 @@ useScriptTag('https://static.codepen.io/assets/embed/ei.js')
 </script>
 ```
 
-## 强制规范
+## 强制规范 {#force-standard}
 
 
 

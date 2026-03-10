@@ -5,7 +5,7 @@ categories:
 end: false
 ---
 
-## 自动样式注入
+## 自动样式注入 {#automatic-style-injection}
 
 
 ::: warning
@@ -44,7 +44,7 @@ We recommend you:
 
 :::
 
-## 自定义字体
+## 自定义字体 {#custom-font}
 
 
 :::zh-CN
@@ -77,9 +77,9 @@ import './vars.scss'
 }
 ```
 
-## 示例
+## 示例 {#示例}
 
-### 自定义光标
+### 自定义光标 {#custom-cursor}
 
 
 替换鼠标光标样式。

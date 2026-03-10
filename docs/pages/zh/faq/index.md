@@ -5,9 +5,9 @@ categories:
 end: false
 ---
 
-## 构建失败
+## 构建失败 {#构建失败}
 
-### ReferenceError: document is not defined
+### ReferenceError: document is not defined {#referenceerror-document-is-not-defined}
 
 这通常发生在使用自定义代码 `document.xxx` 或引入第三方库（仅在浏览器端可用的 NPM 包）时。
 代码直接调用了 `document`，而该变量在 Node 端不存在，因此导致构建失败。
@@ -23,7 +23,7 @@ if (isClient) {
 }
 ```
 
-## 改变构建形式
+## 改变构建形式 {#change-generated-directory-style}
 
 
 Valaxy 默认将 `xxx.md` 构建为 `/xxx.html`。
@@ -46,7 +46,7 @@ export default defineConfig({
 })
 ```
 
-## 部署到 Github Pages 后部分页面无法访问或 JS 路径找不到
+## 部署到 Github Pages 后部分页面无法访问或 JS 路径找不到 {#after-deploying-to-github-pages-some-pages-cannot-be-accessed-or-the-js-path-cannot-be-found}
 
 
 Github Pages 默认使用 Jekyll 来构建静态站点，而 Jekyll 默认不会构建以 `_` 开头的文件或文件夹。

@@ -4,7 +4,7 @@ categories:
   - addon
 ---
 
-## How To Use
+## How To Use {#how-to-use}
 
 ```bash
 pnpm add [valaxy-addon-package1] [valaxy-addon-package2]
@@ -29,7 +29,7 @@ export default defineValaxyConfig({
 })
 ```
 
-### Addon With Options
+### Addon With Options {#addon-with-options}
 
 譬如开启 Waline 评论：
 

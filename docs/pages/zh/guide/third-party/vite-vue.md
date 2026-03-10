@@ -6,9 +6,9 @@ categories:
 
 Valaxy 兼容 Vite/Vue 插件，你可以参考以下示例进行使用。
 
-## 使用 Vite 插件
+## 使用 Vite 插件 {#使用-vite-插件}
 
-### 使用 vite-plugin-pwa
+### 使用 vite-plugin-pwa {#使用-vite-plugin-pwa}
 
 ```ts [valaxy.config.ts]
 import type { ThemeConfig } from 'valaxy-theme-yun'
@@ -40,7 +40,7 @@ export default defineAppSetup(({ router, isClient }) => {
 
 更多配置请参考 [vite-plugin-pwa](https://github.com/vite-pwa/vite-plugin-pwa)。
 
-## 使用 Vue 插件
+## 使用 Vue 插件 {#使用-vue-插件}
 
 ::: tip
 

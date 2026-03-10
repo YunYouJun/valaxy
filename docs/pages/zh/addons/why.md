@@ -7,7 +7,7 @@ categories:
 我们需要一个插件系统允许用户仅使用/快速加载部分功能。
 
 
-## 命名规范
+## 命名规范 {#naming-conventions}
 
 
 插件名称：`valaxy-addon-<name>`。
@@ -23,7 +23,7 @@ categories:
 > 此时，Addon 的 API 仅仅适用于 Valaxy 平台。
 
 
-## 说明
+## 说明 {#explanation}
 
 
 插件可以做什么？

@@ -5,11 +5,11 @@ categories:
 end: false
 ---
 
-## Docs Writing
+## Docs Writing {#docs-writing}
 
 Valaxy 正在为 1.0 的发布做准备，我们很期待您参与文档的撰写与翻译。
 
-## 如何翻译
+## 如何翻译 {#如何翻译}
 
 Valaxy 将中英文写一个 Markdown 文件中，因此您可以很容易地进行前后文对比。
 
@@ -26,7 +26,7 @@ This is an example.
 
 更多请参见 [单页 i18n](https://valaxy.site/guide/i18n)。
 
-## 如何提交
+## 如何提交 {#如何提交}
 
 使用 GitHub 的 Pull Request 向 valaxy 提交即可。
 建议您以一个完整的 md 文件或一个分类翻译为一次提交。

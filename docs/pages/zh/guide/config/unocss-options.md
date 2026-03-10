@@ -17,7 +17,7 @@ end: false
 见 [UnoCSS | Markdown](/zh/guide/markdown#unocss)。
 
 
-## unocss
+## unocss {#unocss}
 
 您可以在主题 theme 目录的 `uno.config.ts` 或 `unocss.config.ts` 文件中编写 UnoCSS 配置。
 
@@ -89,7 +89,7 @@ export default defineValaxyConfig<ThemeConfig>({
 
 
 
-## unocssPresets
+## unocssPresets {#unocsspresets}
 
 若要在 Valaxy 中扩展 [UnoCSS presets](https://unocss.dev/guide/presets) 配置项，以下是一个基本示例
 
@@ -145,10 +145,10 @@ export default defineValaxyConfig<ThemeConfig>({
 
 :::
 
-## FAQ
+## FAQ {#faq}
 
 
-### 关于 UnoCSS 热重载失效
+### 关于 UnoCSS 热重载失效 {#about-unocss-hot-reloading-failure}
 
 > 由于目前无法获取 UnoCSS 的 ctx，暂时还没有找到一个好的方法来实现热重载
 [#48](https://github.com/YunYouJun/valaxy/issues/48)

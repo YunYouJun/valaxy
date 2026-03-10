@@ -4,7 +4,7 @@ title: Mermaid
 
 - [Mermaid](https://mermaid.js.org/) - Diagramming and charting tool
 
-## Flowchart
+## Flowchart {#flowchart}
 
 ```mermaid
 graph TD;
@@ -24,7 +24,7 @@ graph TD;
 ```
 ````
 
-## Sequence diagram
+## Sequence diagram {#sequence-diagram}
 
 ```mermaid
 sequenceDiagram
@@ -56,7 +56,7 @@ sequenceDiagram
 ```
 ````
 
-## Gantt diagram
+## Gantt diagram {#gantt-diagram}
 
 ```mermaid
 gantt
@@ -86,7 +86,7 @@ Future task2               :         des4, after des3, 5d
 ```
 ````
 
-## Class diagram
+## Class diagram {#class-diagram}
 
 ```mermaid
 classDiagram
@@ -124,7 +124,7 @@ Class08 <--> C2: Cool label
 ```
 ````
 
-## Git graph
+## Git graph {#git-graph}
 
 ```mermaid
     gitGraph
@@ -154,7 +154,7 @@ Class08 <--> C2: Cool label
 ```
 ````
 
-## Quadrant Chart
+## Quadrant Chart {#quadrant-chart}
 
 ```mermaid
 quadrantChart
@@ -192,7 +192,7 @@ quadrantChart
 ```
 ````
 
-## XY Chart
+## XY Chart {#xy-chart}
 
 ```mermaid
 xychart-beta

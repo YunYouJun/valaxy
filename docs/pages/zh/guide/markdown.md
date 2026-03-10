@@ -26,7 +26,7 @@ export default defineValaxyConfig({
 当然，你仍然可以在 Valaxy 中通过添加 MarkdownIt 插件来实现更多功能。
 :::
 
-## 在 Markdown 中使用 Vue
+## 在 Markdown 中使用 Vue {#using-vue-in-markdown}
 
 可以直接在 Markdown 文件中导入和使用 Vue 组件。
 
@@ -44,7 +44,7 @@ title: 在 Markdown 中使用 Vue
 ```
 
 
-## Emoji 表情支持 :tada:
+## Emoji 表情支持 :tada: {#emoji-tada}
 
 
 **输入**
@@ -61,7 +61,7 @@ title: 在 Markdown 中使用 Vue
 这是一个我们所 [支持的 Emoji 列表](https://github.com/markdown-it/markdown-it-emoji/blob/master/lib/data/full.mjs) 。
 
 
-## 目录
+## 目录 {#table-of-contents}
 
 
 **输入**
@@ -79,7 +79,7 @@ title: 在 Markdown 中使用 Vue
 可以使用 `markdown.toc` 选项配置 TOC 的渲染。
 
 
-## 代码行高亮
+## 代码行高亮 {#line-of-code-highlighting}
 
 
 ````md
@@ -152,7 +152,7 @@ const line4 = 'This is line 4'
 ````
 
 
-## 代码块的增减色块标识
+## 代码块的增减色块标识 {#colored-diffs-in-code-blocks}
 
 
 在一行上添加 `// [!code --]` 或者 `// [!code ++]` 注释将创建该行代码的增减标识，同时保持代码块的颜色。
@@ -191,7 +191,7 @@ export default {
 ```
 
 
-## 代码块中的错误和警告
+## 代码块中的错误和警告 {#errors-and-warnings-in-code-blocks}
 
 
 在一行代码后中添加 `// [!code warning]` 或者 `// [!code error]` 注释将会使改行代码呈现指定颜色块。
@@ -230,7 +230,7 @@ export default {
 ```
 
 
-## 导入代码片段
+## 导入代码片段 {#import-code-snippets}
 
 
 您可以通过以下语法从现有文件中导入代码片段：
@@ -311,7 +311,7 @@ export default {
 
 
 
-## 代码分组
+## 代码分组 {#code-groups}
 
 
 您可以像这样对多个代码块进行分组：
@@ -406,7 +406,7 @@ export default config
 :::
 
 
-## 容器
+## 容器 {#container}
 
 
 通过对 `markdownIt` 进行配置，你可以自由设置自定义块区域的文字以及图标及图标的颜色。
@@ -507,7 +507,7 @@ export default defineValaxyConfig({
 })
 ```
 
-## 添加代码块标题与图标
+## 添加代码块标题与图标 {#add-code-block-title-and-icons}
 
 
 它基于 [vitepress-plugin-group-icons](https://github.com/yuyinws/vitepress-plugin-group-icons) 实现，内置了一些[常用图标](https://vp.yuy1n.io/features.html#built-in-icons)，你可以如下自定义更多图标。
@@ -563,7 +563,7 @@ ENV PATH /opt/conda/bin:$PATH
 ```
 
 
-## 数学公式
+## 数学公式 {#math-formulas}
 
 ::: tip
 
@@ -604,7 +604,7 @@ $$ x = {-b \pm \sqrt{b^2-4ac} \over 2a} $$
 | $\nabla \times \vec{\mathbf{B}} -\, \frac1c\, \frac{\partial\vec{\mathbf{E}}}{\partial t} = \frac{4\pi}{c}\vec{\mathbf{j}}    \nabla \cdot \vec{\mathbf{E}} = 4 \pi \rho$ | _wha?_                                                                                 |
 
 
-### 自定义 KaTeX 选项
+### 自定义 KaTeX 选项 {#configuration}
 
 
 > [KaTeX选项](https://katex.org/docs/options.html)
@@ -624,7 +624,7 @@ export default defineValaxyConfig({
 ```
 
 
-## 包含 MarkDown 文件<!-- -->
+## 包含 MarkDown 文件<!-- --> {#markdown-file-inclusion}
 
 ::: tip
 You can also prefix the markdown path with `@`, it will act as the source root. By default, it's the Valaxy project root.

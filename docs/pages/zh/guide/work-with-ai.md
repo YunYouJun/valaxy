@@ -5,7 +5,7 @@ categories:
 ---
 
 
-## Agent Skills
+## Agent Skills {#agent-skills}
 
 ::: tip
 
@@ -24,17 +24,17 @@ categories:
 
 
 
-### 安装
+### 安装 {#installation}
 
 ```bash
 npx skills add YunYouJun/valaxy
 ```
 
 
-### 使用
+### 使用 {#usage}
 
 
-#### 使用 Agent 开发 Valaxy 站点
+#### 使用 Agent 开发 Valaxy 站点 {#using-an-agent-to-develop-valaxy-sites}
 
 示例提示词：
 
@@ -52,7 +52,7 @@ Agent 将自动引用 Valaxy Skills 中的知识来正确配置 `site.config.ts`
 
 
 
-## CLAUDE.md
+## CLAUDE.md {#claudemd}
 
 
 Valaxy 仓库内置了 [CLAUDE.md](https://github.com/YunYouJun/valaxy/blob/main/CLAUDE.md) 文件，用于为 [Claude Code](https://docs.anthropic.com/en/docs/agents-and-tools/claude-code/overview) 等 AI 工具提供项目上下文。
@@ -70,7 +70,7 @@ Valaxy 仓库内置了 [CLAUDE.md](https://github.com/YunYouJun/valaxy/blob/main
 
 
 
-## llms.txt
+## llms.txt {#llmstxt}
 
 
 Valaxy 内置了 [llms.txt](https://llmstxt.org/) 支持，可以为你的博客生成 AI 可读的纯文本内容。
@@ -93,7 +93,7 @@ export default defineSiteConfig({
 - `/llms-full.txt` — 完整内容，包含所有文章的全文（可通过 `fullText: false` 关闭）
 - `/posts/xxx.md` — 每篇文章的原始 Markdown 文件（可通过 `files: false` 关闭）
 
-### 配置选项
+### 配置选项 {#configuration-options}
 
 ```ts
 export default defineSiteConfig({
@@ -111,7 +111,7 @@ export default defineSiteConfig({
 })
 ```
 
-### CLI 命令
+### CLI 命令 {#cli-command}
 
 你也可以单独生成 llms.txt 相关文件：
 

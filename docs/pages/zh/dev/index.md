@@ -8,7 +8,7 @@ end: false
 - `create-valaxy`
 - `create-valaxy-theme`
 
-## AI-Assisted Development
+## AI-Assisted Development {#ai-assisted-development}
 
 Valaxy supports AI-assisted development workflows. See [AI-Assisted Development](./ai) for details.
 
@@ -18,13 +18,13 @@ Quick example - fix a GitHub issue automatically:
 /fix-github-issue 628
 ```
 
-## Todo
+## Todo {#todo}
 
 - [ ] create-valaxy
   - select theme to init (default: valaxy-theme-yun)
 - [ ] Debug component.
 
-## Dev
+## Dev {#dev}
 
 You must use [pnpm](https://pnpm.io/). Because we use its workspace.
 
@@ -45,7 +45,7 @@ pnpm run build
 pnpm dev
 ```
 
-### Docs
+### Docs {#docs}
 
 We use valaxy to build docs. Just eat our own dog food.
 
@@ -60,14 +60,14 @@ pnpm run docs:build
 
 If you want to display info better in two terminal (**Recommended**), follow below.
 
-### Node
+### Node {#node}
 
 ```bash
 # watch valaxy & valaxy-theme-yun
 pnpm dev:lib
 ```
 
-### Client
+### Client {#client}
 
 If you only want to develop client.
 

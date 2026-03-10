@@ -4,7 +4,7 @@ categories:
   - guide
 ---
 
-## FrontMatter
+## FrontMatter {#frontmatter}
 
 你可以使用 front-matter 定制页面属性。
 
@@ -23,7 +23,7 @@ categories:
 
 :::
 
-### titleTemplate
+### titleTemplate {#titletemplate}
 
 ```md
 ---
@@ -35,7 +35,7 @@ titleTemplate: '%s - Valaxy'
 这样可以使 HTML 标题变为 `Cool - Valaxy`。
 
 
-### 页面加密
+### 页面加密 {#encrypt-page}
 
 
 ::: warning
@@ -76,7 +76,7 @@ password: valaxy
 ---
 ```
 
-### 其它
+### 其它 {#other}
 
 
 - `sidebar: false`: 隐藏左侧文章导航栏

@@ -6,7 +6,7 @@ top: 100
 ---
 
 
-## 总览
+## 总览 {#overview}
 
 
 <span text-purple-600 font="bold">Valaxy</span> <span bg="$va-c-bg-soft" font="bold" px-2 py-1 rounded text-sm>= V + <span op="30">G</span>alaxy</span> 旨在成为下一代静态博客框架，提供更好的热更新与用户加载体验、更强大更便捷的自定义开发可能性。
@@ -22,13 +22,13 @@ top: 100
 
 
 
-## 创建 Valaxy 项目
+## 创建 Valaxy 项目 {#create-a-valaxy-project}
 
 
 > 示例: [yun.valaxy.site](https://yun.valaxy.site)
 
 
-### 在线试用
+### 在线试用 {#try-it-online}
 
 
 你可以通过 [StackBlitz](https://stackblitz.com/edit/valaxy) 在线试用 Valaxy（默认使用主题 [valaxy-theme-yun](https://github.com/YunYouJun/valaxy/blob/main/packages/valaxy-theme-yun/)）。
@@ -44,7 +44,7 @@ top: 100
 
 
 
-### 在本地创建
+### 在本地创建 {#locally}
 
 
 ::: danger 兼容
@@ -90,7 +90,7 @@ npm init valaxy
 
 
 
-## 使用
+## 使用 {#usage}
 
 > 进入你创建好后的文件夹目录后，执行以下命令。
 > 譬如：`cd valaxy-blog`。
@@ -136,7 +136,7 @@ npm run dev
 
 
 
-### 配置
+### 配置 {#config}
 
 
 修改 `valaxy.config.ts` 来自定义你的博客吧。
@@ -146,13 +146,13 @@ npm run dev
 文档正在不断完善中！
 
 
-## 部署
+## 部署 {#deployment}
 
 部署可参见 [部署｜指南](/zh/guide/deploy)。
 
 
 
-## 升级
+## 升级 {#upgrading}
 
 ::: code-group
 
@@ -174,7 +174,7 @@ npm i valaxy-theme-yun@latest
 
 :::
 
-### pnpm
+### pnpm {#pnpm}
 
 > 你可以使用 pnpm 的交互升级命令。
 
@@ -185,19 +185,19 @@ pnpm up --latest -i
 ```
 
 
-## 迁移
+## 迁移 {#migration}
 
 
 如果你来自其他博客框架，可参考 [迁移](/zh/migration/)。
 
 
-## 目录结构
+## 目录结构 {#directory-structure}
 
 
 在大部分情况下，你只需要在 `pages` 文件夹下进行工作，编写文章。
 
 
-### 主要的文件夹
+### 主要的文件夹 {#main-folders}
 
 
 
@@ -210,7 +210,7 @@ pnpm up --latest -i
 - `locales`: 自定义国际化关键词
 
 
-### 其他
+### 其他 {#others}
 
 
 
@@ -222,7 +222,7 @@ pnpm up --latest -i
 
 
 
-## 主题
+## 主题 {#themes}
 
 
 如果您希望自己开发一个主题并发布，您可以参考 [valaxy-theme-starter](https://github.com/YunYouJun/valaxy-theme-starter)。
@@ -230,7 +230,7 @@ pnpm up --latest -i
 更多内容请参见 [如何编写一个 Valaxy 主题](/zh/themes/write)。
 
 
-## 社区
+## 社区 {#community}
 
 
 如果你有疑问或者需要帮助，可以到 [Discord](https://discord.gg/nd3mPkU5j8) 和 [GitHub Discussions](https://github.com/YunYouJun/valaxy/discussions) 社区来寻求帮助。

@@ -5,9 +5,9 @@ categories:
 top: 8
 ---
 
-## v0.21.0
+## v0.21.0 {#v0210}
 
-### 自行引入公共样式
+### 自行引入公共样式 {#自行引入公共样式}
 
 主题开发者需要自行引入公共样式 `valaxy/client/styles/common/index.scss`。
 

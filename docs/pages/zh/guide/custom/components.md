@@ -5,7 +5,7 @@ categories:
 end: false
 ---
 
-## 自动组件注册
+## 自动组件注册 {#automatic-component-registration}
 
 
 :::zh-CN
@@ -26,7 +26,7 @@ If there are components with the same name as the theme and Valaxy, the order of
 This also means that you can cover one component of the theme to achieve customizing the local theme!
 :::
 
-### 取消默认注册
+### 取消默认注册 {#取消默认注册}
 
 你可以将组件放置于**非** `components` 文件夹或 `components/.exclude` 文件夹下。
 
@@ -46,7 +46,7 @@ export default defineValaxyConfig({
 })
 ```
 
-### 自定义覆盖主题组件
+### 自定义覆盖主题组件 {#custom-override-theme-component}
 
 
 :::zh-CN
@@ -115,10 +115,10 @@ import YunFooter from 'valaxy-theme-yun/components/YunFooter.vue'
 
 :::
 
-### 更多示例
+### 更多示例 {#more-examples}
 
 
-### 插入不蒜子统计
+### 插入不蒜子统计 {#insert-busuanzi-statistics}
 
 
 :::zh-CN
@@ -231,7 +231,7 @@ const isPost = useLayout('post')
 The principle is to cover components. You can also freely cover any other components of the theme.
 :::
 
-### 其他
+### 其他 {#other}
 
 
 :::zh-CN

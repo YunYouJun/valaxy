@@ -9,7 +9,7 @@ end: false
 
 <summary>已解决</summary>
 
-## `background-attachment: fixed` iOS 不支持
+## `background-attachment: fixed` iOS 不支持 {#background-attachment-fixed-ios-不支持}
 
 > iOS has an issue preventing background-attachment: fixed from being used with background-size: cover.
 > [The Fixed Background Attachment Hack | CSS Tricks](https://css-tricks.com/the-fixed-background-attachment-hack/)
@@ -18,7 +18,7 @@ end: false
 
 </details>
 
-## JavaScript heap out of memory
+## JavaScript heap out of memory {#javascript-heap-out-of-memory}
 
 
 
@@ -49,7 +49,7 @@ NODE_OPTIONS=--max-old-space-size=4096 pnpm build --ssg
 
 
 
-## 合并
+## 合并 {#合并}
 
 使用 `defu`。
 

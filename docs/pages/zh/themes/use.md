@@ -5,14 +5,14 @@ categories:
 top: 100
 ---
 
-## 安装主题
+## 安装主题 {#install-theme}
 
 ```bash
 npm i valaxy-theme-yun
 # pnpm add valaxy-theme-yun
 ```
 
-## 启用主题
+## 启用主题 {#enable-theme}
 
 配置 `theme` 字段为主题名称，如 `yun`。
 
@@ -25,7 +25,7 @@ export default defineConfig({
 })
 ```
 
-## 主题配置
+## 主题配置 {#theme-config}
 
 参见对应主题文档，配置 `themeConfig`。
 

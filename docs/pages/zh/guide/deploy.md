@@ -8,7 +8,7 @@ top: 99
 Valaxy 的部署非常简单，我们推荐你直接通过第三方的 CI 构建并托管到任意平台。
 
 
-## 自行部署
+## 自行部署 {#manual-deployment}
 
 
 ::: code-group
@@ -38,7 +38,7 @@ NODE_OPTIONS=--max-old-space-size=4096 pnpm build
 
 
 
-## 第三方部署
+## 第三方部署 {#third-party-deployment}
 
 
 ::: tip
@@ -52,7 +52,7 @@ NODE_OPTIONS=--max-old-space-size=4096 pnpm build
 
 :::
 
-### GitHub Pages
+### GitHub Pages {#github-pages}
 
 <BrandIcon icon="i-logos:github-icon" link="https://pages.github.com/" />
 
@@ -85,7 +85,7 @@ NODE_OPTIONS=--max-old-space-size=4096 pnpm build
 
 
 
-### Netlify
+### Netlify {#netlify}
 
 <BrandIcon icon="i-logos:netlify-icon" link="https://www.netlify.com/" />
 
@@ -94,7 +94,7 @@ NODE_OPTIONS=--max-old-space-size=4096 pnpm build
 - 连接 GitHub 仓库，可自动部署。
 
 
-### Vercel
+### Vercel {#vercel}
 
 <BrandIcon icon="i-logos:vercel-icon" link="https://vercel.com/" />
 
@@ -119,7 +119,7 @@ NODE_OPTIONS=--max-old-space-size=4096 pnpm build
 <<< @/../packages/create-valaxy/template-blog/netlify.toml
 :::
 
-### Cloudflare Pages
+### Cloudflare Pages {#cloudflare-pages}
 
 <BrandIcon icon="i-logos:cloudflare-icon" link="https://pages.cloudflare.com/" />
 
@@ -132,7 +132,7 @@ NODE_OPTIONS=--max-old-space-size=4096 pnpm build
 - 点击 `保存并部署`。
 
 
-### Nginx
+### Nginx {#nginx}
 
 > [Nginx Docs](https://nginx.org/en/docs/)
 
@@ -183,7 +183,7 @@ server {
 
 
 
-### Docker
+### Docker {#docker}
 
 > [Docker Docs](https://docs.docker.com/)
 
@@ -220,7 +220,7 @@ CMD ["nginx", "-g", "daemon off;"]
 
 :::
 
-### 其他
+### 其他 {#others}
 
 
 <BrandIcon class="text-xl!" icon="i-simple-icons-render" link="https://render.com/" />

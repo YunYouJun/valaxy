@@ -64,7 +64,7 @@ export default defineValaxyConfig<ThemeConfig>({
 })
 ```
 
-### Build
+### Build {#build}
 
 :::: zh-CN
 
@@ -78,7 +78,7 @@ The `build` field configures the behavior of `valaxy build`.
 
 ::::
 
-#### ssgForPagination
+#### ssgForPagination {#ssgforpagination}
 
 :::: zh-CN
 
@@ -92,7 +92,7 @@ When enabled, Valaxy generates static HTML for pagination pages (e.g., `/page/1`
 
 ::::
 
-#### foucGuard
+#### foucGuard {#foucguard}
 
 :::: zh-CN
 
@@ -126,7 +126,7 @@ export default defineValaxyConfig({
 })
 ```
 
-### @vitejs/plugin-vue
+### @vitejs/plugin-vue {#vitejsplugin-vue}
 
 Valaxy 默认集成了 [`@vitejs/plugin-vue`](https://github.com/vitejs/vite-plugin-vue/tree/main/packages/plugin-vue) 插件，你可以通过 `vue` 配置项进行配置。
 
@@ -145,7 +145,7 @@ export default defineValaxyConfig({
 })
 ```
 
-### Vite
+### Vite {#vite}
 
 你可以参见 [Vite 文档](https://vite.dev/config/shared-options.html) 自定义 Vite 相关配置。
 
@@ -160,7 +160,7 @@ export default defineValaxyConfig({
 })
 ```
 
-### SSG Options
+### SSG Options {#ssg-options}
 
 
 Valaxy 使用 [vite-ssg](https://github.com/antfu-collective/vite-ssg) 进行静态站点生成。
@@ -240,7 +240,7 @@ export default defineValaxyConfig({
 })
 ```
 
-### Markdown
+### Markdown {#markdown}
 
 可自定义 Markdown 相关配置，如代码主题、区块内容、添加 `markdown-it` 插件、transformer 等。
 
@@ -304,25 +304,25 @@ export default defineValaxyConfig({
 })
 ```
 
-### DevTools
+### DevTools {#devtools}
 
 设置 `devtools: false` 以关闭 DevTools。
 
 
-### 插件 Addons
+### 插件 Addons {#addons}
 
 
 参见 [使用插件](/zh/addons/use)。
 
 
-### UnoCSS
+### UnoCSS {#unocss}
 
 参见 [UnoCSS](/zh/guide/config/unocss-options)。
 
 
-### Modules
+### Modules {#modules}
 
-#### RSS
+#### RSS {#rss}
 
 
 Valaxy 内置了 RSS 模块，你可以在 `valaxy.config.ts` 中通过 `modules.rss` 配置项进行配置。
@@ -359,7 +359,7 @@ export default defineValaxyConfig({
 
 
 
-#### LLMS
+#### LLMS {#llms}
 
 
 Valaxy 内置了 LLMS 模块，遵循 [llms.txt 标准](https://llmstxt.org/)，在构建时生成 AI 可读的 Markdown 内容。
@@ -402,7 +402,7 @@ export default defineSiteConfig({
 ```
 
 
-### CDN 外部化
+### CDN 外部化 {#cdn-externals}
 
 
 > 实验性功能
@@ -427,7 +427,7 @@ export default defineSiteConfig({
 
 ::::
 
-#### 示例：通过 CDN 加载 KaTeX
+#### 示例：通过 CDN 加载 KaTeX {#example-load-katex-from-cdn}
 
 
 KaTeX 默认会被打包进构建产物。如果你希望通过 CDN 加载 KaTeX 以减小打包体积，可以如下配置：

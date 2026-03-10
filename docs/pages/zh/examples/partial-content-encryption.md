@@ -17,7 +17,7 @@ categories:
 <!-- valaxy-encrypt-end -->
 ```
 
-## 渲染结果
+## 渲染结果 {#rendering-result}
 
 
 <!-- valaxy-encrypt-start:valaxy -->

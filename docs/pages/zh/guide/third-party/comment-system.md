@@ -8,7 +8,7 @@ categories:
 
 > [第三方评论系统之我见](https://www.yunyoujun.cn/posts/third-party-comment-system)
 
-## Waline
+## Waline {#waline}
 
 > [Waline](https://waline.js.org/) 是一个依赖服务端实现的评论系统，它可以托管在 Vercel 等平台上。
 
@@ -17,7 +17,7 @@ categories:
 > valaxy-addon-waline 是基于 Waline 的一个 Valaxy 插件。
 > 除此之外，我们推荐您可以使用 [kotodama](https://github.com/YunYouJun/kotodama) 进行评论管理，它是一个基于 Waline 服务端实现的评论管理系统。
 
-### 安装
+### 安装 {#安装}
 
 ```bash
 npm i valaxy-addon-waline
@@ -46,7 +46,7 @@ export default defineValaxyConfig({
 })
 ```
 
-## Utterances
+## Utterances {#utterances}
 
 > [Utterances](https://utteranc.es/) 是一个基于 GitHub Issues 实现的评论系统。
 

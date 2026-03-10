@@ -5,7 +5,7 @@ categories:
 top: 1
 ---
 
-## 文章
+## 文章 {#post}
 
 
 

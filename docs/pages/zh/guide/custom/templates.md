@@ -8,14 +8,14 @@ end: false
 Valaxy 使用 [ejs](https://ejs.co/) 作为模板生成助手，你可以按照以下方式定义自己的模板：
 
 
-## 在项目根目录中创建 scaffold 文件夹
+## 在项目根目录中创建 scaffold 文件夹 {#create-a-scaffold-folder-in-your-project-root}
 
 
 ```shell
 $ mkdir scaffolds
 ```
 
-## 在 scaffolds 文件夹中创建自己的模板
+## 在 scaffolds 文件夹中创建自己的模板 {#create-your-own-template-to-the-scaffolds-folder}
 
 
 

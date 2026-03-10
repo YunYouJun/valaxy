@@ -12,9 +12,9 @@ categories:
 - `categories`：分类布局
 - `collections`：合集布局
 
-## 使用布局
+## 使用布局 {#使用布局}
 
-### 合集布局
+### 合集布局 {#合集布局}
 
 新建总览页 `pages/collections/index.md`，并指定布局为 `collections`。
 
@@ -85,7 +85,7 @@ layout: collection
 
 效果预览：[合集｜Valaxy Theme Yun](https://yun.valaxy.site/collections/hamster/1)
 
-## 实现布局
+## 实现布局 {#实现布局}
 
 如 [valaxy-theme-yun](https://github.com/YunYouJun/valaxy/tree/main/packages/valaxy-theme-yun) 自 `v0.25.9` 支持了 `collections` 布局。
 
@@ -98,9 +98,9 @@ layout: collection
 
 <<< @/../packages/valaxy-theme-yun/layouts/collections.vue
 
-## FAQ
+## FAQ {#faq}
 
-### 子页面发生了多层布局嵌套
+### 子页面发生了多层布局嵌套 {#child-pages-with-multiple-layout-nesting}
 
 
 

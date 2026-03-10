@@ -19,7 +19,7 @@ Valaxy 内置了几个简单的组件。
 
 
 
-## 基础组件
+## 基础组件 {#basic-components}
 
 
 
@@ -29,7 +29,7 @@ Valaxy 内置了几个简单的组件。
 
 
 
-### 布局与渲染
+### 布局与渲染 {#layout-and-rendering}
 
 
 - [`ValaxyMain.vue`](https://github.com/YunYouJun/valaxy/blob/main/packages/valaxy/client/components/ValaxyMain.vue): 页面基础布局
@@ -38,7 +38,7 @@ Valaxy 内置了几个简单的组件。
 
 
 
-### 其他
+### 其他 {#others}
 
 
 - [`AppLink.vue`](https://github.com/YunYouJun/valaxy/blob/main/packages/valaxy/client/components/AppLink.vue): 根据链接自动判断是否为站内链接，站内链接使用 `<router-link/>`，站外链接使用 `<a target="_blank"></a>`。
@@ -59,10 +59,10 @@ Valaxy 内置了几个简单的组件。
 
 <ValaxyLogo />
 
-## 辅助组件
+## 辅助组件 {#helper-components}
 
 
-### 内置组件
+### 内置组件 {#内置组件}
 
 
 > 面向用户，可直接使用
@@ -71,7 +71,7 @@ Valaxy 内置了几个简单的组件。
 
 
 
-#### 国际化组件 `<VT />`
+#### 国际化组件 `<VT />` {#internationalization-component}
 
 ```yaml [locales/zh-CN.yml]
 menu:
@@ -90,7 +90,7 @@ menu:
 
 <VT content="menu.posts" />
 
-### 扩展公共组件
+### 扩展公共组件 {#扩展公共组件}
 
 ```bash [pnpm]
 pnpm add valaxy-addon-components
@@ -114,7 +114,7 @@ My Blog Content
 
 <CodePen class="h-300px" name="Margin Collapse" id="WqXGpo" user="YunYouJun" tab="html,result" />
 
-## 自定义
+## 自定义 {#自定义}
 
 
 更多用法请参见 [自定义组件](/zh/guide/custom/components)。

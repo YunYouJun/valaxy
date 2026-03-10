@@ -5,7 +5,7 @@ categories:
 end: false
 ---
 
-## 配置说明
+## 配置说明 {#configurations}
 
 
 为了便于配置，Valaxy 将配置分为了三种。
@@ -57,7 +57,7 @@ export default defineValaxyConfig<ThemeConfig>({
 })
 ```
 
-## 站点配置
+## 站点配置 {#site-config}
 
 
 > 更多详细配置可参见 [types/config.ts](https://github.com/YunYouJun/valaxy/blob/main/packages/valaxy/types/config.ts)。
@@ -119,7 +119,7 @@ export default defineSiteConfig({
 
 
 
-### 作者信息
+### 作者信息 {#作者信息}
 
 更多字段可参考上文类型或直接在编辑器提示中查看。
 
@@ -139,7 +139,7 @@ export default defineSiteConfig({
 })
 ```
 
-### 时区
+### 时区 {#时区}
 
 如果你使用 CI/CD 构建部署，远程机器可能处于其他时区，你可以设置时区。
 
@@ -155,7 +155,7 @@ export default defineSiteConfig({
 })
 ```
 
-### 文章排序
+### 文章排序 {#post-sorting}
 
 
 
@@ -176,7 +176,7 @@ export default defineSiteConfig({
 })
 ```
 
-### Default Frontmatter
+### Default Frontmatter {#default-frontmatter}
 
 为所有文章设置默认的 Frontmatter。
 
@@ -199,7 +199,7 @@ export default defineSiteConfig({
 
 
 
-### 社交图标
+### 社交图标 {#social-icons}
 
 
 
@@ -249,7 +249,7 @@ export default defineSiteConfig({
 })
 ```
 
-### 赞助
+### 赞助 {#sponsor}
 
 
 > 在每篇文章末尾，展示赞助（打赏）信息。
@@ -304,7 +304,7 @@ sponsor: false
 ---
 ```
 
-### 阅读统计
+### 阅读统计 {#阅读统计}
 
 开启阅读统计，将会在每篇文章开头展示阅读统计信息。
 
@@ -336,7 +336,7 @@ export default defineSiteConfig({
 })
 ```
 
-### 代码块高度限制
+### 代码块高度限制 {#code-height-limit}
 
 
 你可以为每篇文章设置代码块高度限制。
@@ -366,7 +366,7 @@ codeHeightLimit: 300
 示例可参见 [代码块高度限制](/zh/examples/code-height-limit)。
 
 
-### 内容加密
+### 内容加密 {#content-encryption}
 
 
 首先在 `site.config.ts` 中开启加密
@@ -414,7 +414,7 @@ password_hint: 自定义密码提示
 示例可参见 [部分内容加密](/zh/examples/partial-content-encryption)。
 
 
-### 客户端重定向
+### 客户端重定向 {#client-redirects}
 
 
 ```ts
@@ -485,7 +485,7 @@ from: /v1/redirect
 
 :::
 
-### 图片预览（Medium Zoom）
+### 图片预览（Medium Zoom） {#image-preview-medium-zoom}
 
 
 Valaxy 内置了 [medium-zoom](https://github.com/francoischalifour/medium-zoom) 进行图片预览，默认关闭。
@@ -518,7 +518,7 @@ medium_zoom: true
 ---
 ```
 
-### 懒加载 Vanilla Lazyload
+### 懒加载 Vanilla Lazyload {#lazyload-vanilla-lazyload}
 
 
 
@@ -538,7 +538,7 @@ export default defineSiteConfig({
 })
 ```
 
-### 更多配置
+### 更多配置 {#更多配置}
 
 > 更多详细配置可参见 [types/config.ts](https://github.com/YunYouJun/valaxy/blob/main/packages/valaxy/types/config.ts)。
 
@@ -548,13 +548,13 @@ export default defineSiteConfig({
 
 :::
 
-## 主题配置
+## 主题配置 {#theme-config}
 
 
 参照 [使用主题](/zh/themes/use) 及您所使用的主题文档进行配置。
 
 
-## 扩展配置
+## 扩展配置 {#扩展配置}
 
 更多高阶配置请参见 [扩展配置](/zh/guide/config/extend)。
 

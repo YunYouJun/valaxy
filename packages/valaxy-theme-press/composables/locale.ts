@@ -1,5 +1,6 @@
 import type { PressTheme } from '../types'
-import { computed } from 'vue'
+import { useLocale } from 'valaxy'
+import { computed, watch } from 'vue'
 import { useRoute } from 'vue-router'
 import { useThemeConfig } from './config'
 
@@ -119,6 +120,14 @@ export function useLocaleConfig() {
     const base = targetLink.endsWith('/') ? targetLink.slice(0, -1) : targetLink
     return `${base}${relativePath}`
   }
+
+  // Sync vue-i18n locale with route-based locale so that UI strings
+  // (banner, nav labels, features, etc.) follow the current locale.
+  const { toggleLocale } = useLocale()
+  watch(currentLocale, (loc) => {
+    if (loc.lang)
+      toggleLocale(loc.lang)
+  }, { immediate: true })
 
   return {
     localeConfig,

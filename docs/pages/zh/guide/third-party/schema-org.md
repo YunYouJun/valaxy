@@ -20,7 +20,7 @@ top: 0
 
 > [Person | @unhead/schema.org](https://unhead.unjs.io/docs/typescript/schema-org/guides/recipes/identity#person)
 
-## Validators
+## Validators {#validators}
 
 - [Google 富媒体搜索结果测试](https://search.google.com/test/rich-results)
 - [架构标记验证器](https://validator.schema.org/)
