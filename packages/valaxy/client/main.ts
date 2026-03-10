@@ -43,7 +43,7 @@ routes.forEach((i) => {
  * `vite-plugin-vue-layouts`' `setupLayouts` only wraps **top-level** routes,
  * so nested children would miss the layout wrapper entirely.
  *
- * This function extracts every leaf (component-bearing) route into a flat
+ * This function extracts every leaf (component-bearing or redirect) route into a flat
  * top-level entry with a fully-resolved path, preserving its `meta`.
  */
 function flattenRoutes(routes: any[]): any[] {
@@ -53,7 +53,7 @@ function flattenRoutes(routes: any[]): any[] {
       ? `${parentPath.replace(/\/$/, '')}/${route.path.replace(/^\//, '')}`
       : route.path
 
-    if (route.component || route.components) {
+    if (route.component || route.components || route.redirect) {
       flat.push({
         ...route,
         path: fullPath,
