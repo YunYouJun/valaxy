@@ -88,14 +88,27 @@ export function mergeCollapsedCollections(
   if (collapsedCollections.length === 0)
     return posts
 
+  // Pre-index collection pages by key in a single pass
+  const collectionPagesMap = new Map<string, Post[]>()
+  for (const p of allPages) {
+    if (!p.path?.startsWith('/collections/') || !p.date)
+      continue
+    const parts = p.path.split('/')
+    // path format: /collections/{key}/{slug}
+    if (parts.length < 4 || !parts[3] || p.path.endsWith('/'))
+      continue
+    const colKey = parts[2]
+    if (!collectionPagesMap.has(colKey))
+      collectionPagesMap.set(colKey, [])
+    collectionPagesMap.get(colKey)!.push(p)
+  }
+
   const collectionEntries: Post[] = []
   for (const col of collapsedCollections) {
     if (!col.key)
       continue
 
-    const prefix = `/collections/${col.key}/`
-    const colPages = allPages
-      .filter(p => p.path?.startsWith(prefix) && p.path !== prefix && !p.path.endsWith('/') && p.date)
+    const colPages = collectionPagesMap.get(col.key) || []
 
     if (colPages.length === 0)
       continue

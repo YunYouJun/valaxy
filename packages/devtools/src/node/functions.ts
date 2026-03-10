@@ -130,13 +130,17 @@ export function getFunctions(server: ViteDevServer, devtoolsOptions: ValaxyDevto
 
         // Sort items by date (fallback to 0 for missing/invalid dates)
         items.sort((a, b) => {
-          const aDate = dayjs(a.frontmatter.date).valueOf() || 0
-          const bDate = dayjs(b.frontmatter.date).valueOf() || 0
+          const aVal = dayjs(a.frontmatter.date).valueOf()
+          const bVal = dayjs(b.frontmatter.date).valueOf()
+          const aDate = Number.isNaN(aVal) ? 0 : aVal
+          const bDate = Number.isNaN(bVal) ? 0 : bVal
           return aDate - bDate
         })
 
+        const key = extractStringField(indexContent, 'key') || dir
+
         result.push({
-          key: dir,
+          key,
           title,
           cover,
           description,

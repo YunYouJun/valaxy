@@ -21,12 +21,14 @@ export interface CollectionConfig {
   tags?: string[]
 
   /**
-   * @en Whether to collapse collection articles in homepage/archive lists.
-   * When true, collection articles are hidden from the regular post list
-   * and the collection appears as a single entry instead.
-   * @zh 是否在首页/归档列表中折叠合集文章。
-   * 为 true 时，合集文章不在普通文章列表中显示，
-   * 合集以一个条目出现。
+   * @en Whether to show collection as a single collapsed entry in homepage/archive lists.
+   * When true (default), a synthetic collection card is added to the post list,
+   * representing all articles in the collection as one entry.
+   * When false, no synthetic entry is added.
+   * @zh 是否在首页/归档列表中以单个条目展示合集。
+   * 为 true（默认）时，合集以一张卡片出现在文章列表中，
+   * 代表合集内的所有文章。
+   * 为 false 时，不添加合集条目。
    * @default true
    */
   collapse?: boolean
