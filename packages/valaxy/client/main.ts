@@ -38,7 +38,7 @@ routes.forEach((i) => {
 /**
  * Flatten nested routes so that `setupLayouts` can wrap every leaf route.
  *
- * `unplugin-vue-router` generates nested route trees for subdirectories
+ * `vue-router/vite` (file-based routing) generates nested route trees for subdirectories
  * (e.g. `pages/zh/guide/foo.md` → `{ path: '/zh', children: [{ path: 'guide', children: … }] }`).
  * `vite-plugin-vue-layouts`' `setupLayouts` only wraps **top-level** routes,
  * so nested children would miss the layout wrapper entirely.

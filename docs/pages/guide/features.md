@@ -124,7 +124,7 @@ to build their own.
 
 
 Routes will be auto-generated for Vue/Markdown files in this dir with the same file structure.
-Check out [`unplugin-vue-router`](https://github.com/posva/unplugin-vue-router) for more details.
+Check out [`vue-router` file-based routing](https://router.vuejs.org/file-based-routing/) for more details.
 
 
 ## Building

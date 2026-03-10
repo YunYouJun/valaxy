@@ -110,9 +110,9 @@ pnpm create valaxy
 
 <!-- TODO -->
 
-你也可以直接扩展 [unplugin-vue-router](https://github.com/posva/unplugin-vue-router) 插件中的 `extendRoute`。
+你也可以直接扩展 [`vue-router/vite`](https://router.vuejs.org/file-based-routing/) 插件中的 `extendRoute`。
 
-> <https://github.com/posva/unplugin-vue-router/issues/43#issuecomment-1433140464>
+> <https://github.com/posva/unplugin-vue-router/issues/43#issuecomment-1433140464> (now part of vue-router)
 
 ```ts [valaxy.config.ts]
 import { defineTheme } from 'valaxy'

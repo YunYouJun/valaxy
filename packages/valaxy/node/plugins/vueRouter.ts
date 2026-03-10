@@ -49,7 +49,7 @@ export function generateAutoExcerptMd(content: string, length: number): string {
 }
 
 /**
- * @see https://github.com/posva/unplugin-vue-router
+ * @see https://router.vuejs.org/file-based-routing/
  * @param valaxyApp
  */
 export async function createRouterPlugin(valaxyApp: ValaxyNode) {
@@ -72,7 +72,7 @@ export async function createRouterPlugin(valaxyApp: ValaxyNode) {
     ...valaxyConfig.router,
 
     /**
-     * @experimental See https://github.com/posva/unplugin-vue-router/issues/43
+     * @experimental See https://github.com/posva/unplugin-vue-router/issues/43 (now part of vue-router)
      * we need get frontmatter before route, so write it in extendRoute
      */
     async extendRoute(route) {

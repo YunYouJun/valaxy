@@ -117,7 +117,7 @@ export default {
 
 ## 基于文件的自动路由 {#file-based-routing}
 
-路由会自动遵循相同目录结构从当前路径中的 Vue/Markdown 文件生成。更多请参考 [unplugin-vue-router](https://github.com/posva/unplugin-vue-router)。
+路由会自动遵循相同目录结构从当前路径中的 Vue/Markdown 文件生成。更多请参考 [`vue-router` 基于文件的路由](https://router.vuejs.org/file-based-routing/)。
 
 
 ## 构建 {#building}
