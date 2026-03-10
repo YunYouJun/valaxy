@@ -59,13 +59,13 @@ export function useCollectionPosts(collectionKey: MaybeRef<string>) {
     // Sort by collection items order if available
     const col = collections.value.find(c => c.key === key)
     if (col?.items) {
-      const order = col.items.map(item => item.key)
+      const orderMap = new Map(col.items.map((item, idx) => [item.key, idx]))
       return [...pages].sort((a, b) => {
         const aSlug = a.path?.split('/').pop() || ''
         const bSlug = b.path?.split('/').pop() || ''
-        const aIdx = order.indexOf(aSlug)
-        const bIdx = order.indexOf(bSlug)
-        return (aIdx === -1 ? Infinity : aIdx) - (bIdx === -1 ? Infinity : bIdx)
+        const aIdx = orderMap.get(aSlug) ?? Infinity
+        const bIdx = orderMap.get(bSlug) ?? Infinity
+        return aIdx - bIdx
       })
     }
 

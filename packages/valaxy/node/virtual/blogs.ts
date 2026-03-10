@@ -29,7 +29,7 @@ function createBlogTemplate(name: string): VirtualModuleTemplate {
         const dirName = path.basename(path.dirname(file))
         imports.push(`import ${importedName} from '${toAtFS(file)}'`)
         // auto-derive key from directory name if not set
-        imports.push(`const ${importedName}_e = { key: '${dirName}', ...${importedName} }`)
+        imports.push(`const ${importedName}_e = { key: ${JSON.stringify(dirName)}, ...${importedName} }`)
       })
 
       // return array with enriched entries

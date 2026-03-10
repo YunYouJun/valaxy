@@ -90,6 +90,9 @@ export function mergeCollapsedCollections(
 
   const collectionEntries: Post[] = []
   for (const col of collapsedCollections) {
+    if (!col.key)
+      continue
+
     const prefix = `/collections/${col.key}/`
     const colPages = allPages
       .filter(p => p.path?.startsWith(prefix) && p.path !== prefix && !p.path.endsWith('/') && p.date)
@@ -114,7 +117,7 @@ export function mergeCollapsedCollections(
       categories: col.categories || latest.categories,
       tags: col.tags || latest.tags,
       _collection: col,
-    } as Post)
+    })
   }
 
   if (collectionEntries.length === 0)

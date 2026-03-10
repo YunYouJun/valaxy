@@ -94,8 +94,8 @@ export function getFunctions(server: ViteDevServer, devtoolsOptions: ValaxyDevto
       if (!await fs.pathExists(collectionsRoot))
         return []
 
-      const entries = await fs.readdir(collectionsRoot)
-      const dirs = entries.filter(f => fs.statSync(pathe.join(collectionsRoot, f)).isDirectory())
+      const entries = await fs.readdir(collectionsRoot, { withFileTypes: true })
+      const dirs = entries.filter(f => f.isDirectory()).map(f => f.name)
 
       const result = []
 
@@ -128,10 +128,10 @@ export function getFunctions(server: ViteDevServer, devtoolsOptions: ValaxyDevto
           })
         }
 
-        // Sort items by date
+        // Sort items by date (fallback to 0 for missing/invalid dates)
         items.sort((a, b) => {
-          const aDate = dayjs(a.frontmatter.date).valueOf()
-          const bDate = dayjs(b.frontmatter.date).valueOf()
+          const aDate = dayjs(a.frontmatter.date).valueOf() || 0
+          const bDate = dayjs(b.frontmatter.date).valueOf() || 0
           return aDate - bDate
         })
 
