@@ -95,7 +95,7 @@ export function useLocaleConfig() {
     const targetLink = targetCfg?.link || (targetKey === 'root' ? '/' : `/${targetKey}/`)
 
     if (!i18nRouting.value)
-      return targetLink
+      return `${targetLink}${route.hash}`
 
     const currentLink = currentLocale.value.link
     const path = route.path
@@ -113,12 +113,12 @@ export function useLocaleConfig() {
 
     // Prepend target locale prefix
     if (targetKey === 'root') {
-      return relativePath || '/'
+      return `${relativePath || '/'}${route.hash}`
     }
 
     // Ensure targetLink ends with "/" and relativePath starts with "/"
     const base = targetLink.endsWith('/') ? targetLink.slice(0, -1) : targetLink
-    return `${base}${relativePath}`
+    return `${base}${relativePath}${route.hash}`
   }
 
   // Sync vue-i18n locale with route-based locale so that UI strings
