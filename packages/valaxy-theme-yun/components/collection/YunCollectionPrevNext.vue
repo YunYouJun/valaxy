@@ -14,7 +14,7 @@ const basePath = computed(() => `/collections/${props.collection.key}/`)
 </script>
 
 <template>
-  <nav v-if="prev || next" class="collection-prev-next" flex="~ justify-between" p="4" m="t-4">
+  <nav v-if="prev || next" class="collection-prev-next" flex="~ justify-between" p="4">
     <RouterLink
       v-if="prev"
       :to="`${basePath}${prev.key}`"

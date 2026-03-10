@@ -117,11 +117,19 @@ export function mergeCollapsedCollections(
     } as Post)
   }
 
+  if (collectionEntries.length === 0)
+    return posts
+
   function sortBySiteConfigOrderBy(entries: Post[]) {
     return orderByMeta(entries, siteConfig.orderBy)
   }
 
-  return sortBySiteConfigOrderBy([...posts, ...collectionEntries])
+  // Re-sort only when collection entries were actually added
+  // to preserve the topPosts-first ordering from filterAndSortPosts
+  const topPosts = posts.filter(i => i.top)
+  const otherPosts = posts.filter(i => !i.top)
+  const mergedOther = sortBySiteConfigOrderBy([...otherPosts, ...collectionEntries])
+  return [...topPosts, ...mergedOther]
 }
 
 /**
