@@ -1,12 +1,12 @@
 <script lang="ts" setup>
-import { useThemeConfig } from '../composables'
+import { useLocaleConfig } from '../composables'
 
-const themeConfig = useThemeConfig()
+const { localeConfig } = useLocaleConfig()
 </script>
 
 <template>
-  <nav v-if="themeConfig.nav" class="pr-nav-screen-menu">
-    <template v-for="item in themeConfig.nav" :key="item.text">
+  <nav v-if="localeConfig.nav" class="pr-nav-screen-menu">
+    <template v-for="item in localeConfig.nav" :key="item.text">
       <PressNavScreenMenuLink
         v-if="'link' in item"
         :text="item.text"

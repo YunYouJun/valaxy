@@ -1,25 +1,25 @@
 <script lang="ts" setup>
 import { removeItemFromCategory, useCategories, usePageList, useSidebar } from 'valaxy'
 import { computed } from 'vue'
-import { useThemeConfig } from '../composables'
+import { useLocaleConfig } from '../composables'
 
 defineProps<{
   open: boolean
 }>()
 
 const pages = usePageList()
-const themeConfig = useThemeConfig()
+const { localeConfig } = useLocaleConfig()
 
-const sidebar = computed(() => themeConfig.value.sidebar)
+const sidebar = computed(() => localeConfig.value.sidebar)
 const cs = useCategories('', pages.value)
 const categories = computed(() => {
   const cList = cs.value
   removeItemFromCategory(cList, 'Uncategorized')
 
-  const sidebar = themeConfig.value.sidebar
+  const sidebar = localeConfig.value.sidebar
   if (sidebar) {
     cList.children.forEach((item) => {
-      if (!themeConfig.value.sidebar.includes(item.name))
+      if (!localeConfig.value.sidebar.includes(item.name))
         removeItemFromCategory(cList, item.name)
     })
   }

@@ -1,13 +1,13 @@
 <script lang="ts" setup>
-import { useThemeConfig } from '../composables'
+import { useLocaleConfig } from '../composables'
 
-const themeConfig = useThemeConfig()
+const { localeConfig } = useLocaleConfig()
 </script>
 
 <template>
   <PressSocialLinks
-    v-if="themeConfig.socialLinks"
+    v-if="localeConfig.socialLinks"
     class="pr-nav-screen-social-links"
-    :links="themeConfig.socialLinks"
+    :links="localeConfig.socialLinks"
   />
 </template>
