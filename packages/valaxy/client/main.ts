@@ -69,15 +69,7 @@ function flattenRoutes(routes: any[]): any[] {
   }
 
   for (const route of routes) {
-    if (route.children?.length && !route.component && !route.components) {
-      // Parent-only route (directory node): flatten its children
-      for (const child of route.children) {
-        walk(child, route.path)
-      }
-    }
-    else {
-      flat.push(route)
-    }
+    walk(route, '')
   }
   return flat
 }
