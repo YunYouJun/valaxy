@@ -74,8 +74,8 @@ export function filterAndSortPosts(
 
 /**
  * Merge collapsed collections into the post list.
- * Collapsed collections replace their individual articles with a single
- * synthetic entry that uses the latest article's date for sorting.
+ * For collapsed collections, add a single synthetic entry representing the
+ * collection, using the latest article's date for sorting.
  */
 export function mergeCollapsedCollections(
   posts: Post[],
@@ -151,8 +151,8 @@ export function usePostList(params: {
 
 /**
  * Get post list merged with collapsed collection entries.
- * Collapsed collections appear as a single card, and their individual
- * articles are removed from the list.
+ * Collapsed collections are represented by a single synthetic entry
+ * (card) that is appended and re-sorted with the existing posts.
  *
  * @experimental
  */

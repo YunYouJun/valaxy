@@ -18,7 +18,7 @@ function ensurePrefix(prefix: string, str: string) {
  * Handles both single and double quoted strings.
  */
 function extractStringField(content: string, field: string): string {
-  const regex = new RegExp(`${field}\\s*:\\s*['"\`]([^'"\`]*)['"\`]`)
+  const regex = new RegExp(`\\b${field}\\s*:\\s*['"\`]([^'"\`]*)['"\`]`)
   const match = content.match(regex)
   return match?.[1] || ''
 }
@@ -27,7 +27,7 @@ function extractStringField(content: string, field: string): string {
  * Extract a boolean field value from a TS/JS source file.
  */
 function extractBooleanField(content: string, field: string, defaultValue: boolean): boolean {
-  const regex = new RegExp(`${field}\\s*:\\s*(true|false)`)
+  const regex = new RegExp(`\\b${field}\\s*:\\s*(true|false)`)
   const match = content.match(regex)
   if (!match)
     return defaultValue
