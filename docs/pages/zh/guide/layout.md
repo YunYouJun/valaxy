@@ -16,9 +16,25 @@ categories:
 
 ### 合集布局 {#合集布局}
 
-新建总览页 `pages/collections/index.md`，并指定布局为 `collections`。
+合集允许你将一系列相关文章（如小说、系列教程）组织为一个整体，并提供有序的导航。
 
-- `collections`: 合集列表，须指定唯一合集 ID。
+#### 目录结构 {#目录结构}
+
+```txt
+pages/
+  collections/
+    index.md              # 合集总览页
+    hamster/              # 一个合集
+      index.ts            # 合集配置（必需）
+      index.md            # 合集入口页
+      1.md                # 文章 1
+      2.md                # 文章 2
+      to-be-or-not.md     # 使用字符串 key 的文章
+```
+
+#### 1. 创建总览页 {#创建总览页}
+
+新建 `pages/collections/index.md`，并指定布局为 `collections`：
 
 ```md [pages/collections/index.md]
 ---
@@ -30,13 +46,15 @@ collections:
 ---
 ```
 
-新建合集文件夹 `pages/collections/hamster/`：
+#### 2. 创建合集 {#创建合集}
 
-- `index.md`：合集总览页，指定布局为 `collection`。
-- `index.ts`：合集配置文件。
-- `1.md`：合集中的第一篇文章。
+新建合集文件夹 `pages/collections/hamster/`，包含以下文件：
 
-新建合集入口页 `pages/collections/hamster/index.md`，并指定布局为 `collection`。
+- `index.ts`：合集配置文件（必需）。
+- `index.md`：合集入口页。
+- `1.md`、`2.md`、...：合集中的文章。
+
+新建入口页 `pages/collections/hamster/index.md`：
 
 ```md [pages/collections/hamster/index.md]
 ---
@@ -44,7 +62,7 @@ layout: collection
 ---
 ```
 
-定义当前合集信息：
+在 `index.ts` 中定义合集配置：
 
 ```ts [pages/collections/hamster/index.ts]
 import { defineCollection } from 'valaxy'
@@ -55,46 +73,78 @@ export default defineCollection({
   cover: 'https://cover.sli.dev',
   description: 'The story of I and She',
   items: [
-    {
-      title: '第一章 仓鼠的笼子',
-      // 文章唯一索引，对应路径为 `pages/collections/hamster/1.md`
-      key: '1',
-    },
-    {
-      title: '第二章 白昼之光，岂知夜色之深。',
-      key: '2',
-    },
-    {
-      title: '第三章 作茧自缚',
-      key: '3',
-    },
-  ]
+    { title: '第一章 仓鼠的笼子', key: '1' },
+    { title: '第二章 白昼之光，岂知夜色之深。', key: '2' },
+    { title: '第三章 作茧自缚', key: '3' },
+  ],
 })
 ```
 
-新建合集中文章：
+#### 3. 创建文章 {#创建文章}
 
 > `layout: collection` 可省略，`pages/collections/` 目录下的所有文章默认使用 `collection` 布局。
 
 ```md [pages/collections/hamster/1.md]
 ---
 title: 第一章 仓鼠的笼子
-layout: collection
 ---
+
+你的文章内容。
 ```
 
-效果预览：[合集｜Valaxy Theme Yun](https://yun.valaxy.site/collections/hamster/1)
+效果预览：[合集 | Valaxy Theme Yun](https://yun.valaxy.site/collections/hamster/1)
 
-## 实现布局 {#实现布局}
+### CollectionConfig {#collection-config}
 
-如 [valaxy-theme-yun](https://github.com/YunYouJun/valaxy/tree/main/packages/valaxy-theme-yun) 自 `v0.25.9` 支持了 `collections` 布局。
+| 字段 | 类型 | 默认值 | 说明 |
+|------|------|--------|------|
+| `key` | `string` | 目录名 | 唯一标识符。未指定时自动从目录名派生。 |
+| `title` | `string` | — | 合集显示标题。 |
+| `cover` | `string` | — | 封面图 URL。 |
+| `description` | `string` | — | 简短描述。 |
+| `categories` | `string[]` | — | 合集卡片的分类。 |
+| `tags` | `string[]` | — | 合集卡片的标签。 |
+| `collapse` | `boolean` | `true` | 是否在首页/归档文章列表中以单个折叠卡片展示。详见[折叠模式](#折叠模式)。 |
+| `items` | `{ title?, key? }[]` | — | 有序文章列表。`key` 对应 `.md` 文件名（如 `key: '1'` → `1.md`）。决定文章阅读顺序和上下篇导航。 |
+
+### 折叠模式 {#折叠模式}
+
+::: tip
+`collapse` 为实验性功能，自 `v0.28.0` 起可用。
+:::
+
+当 `collapse` 为 `true`（默认）时，合集在首页和归档文章列表中显示为**一张卡片**，代替各篇文章的单独条目。适合合集文章较多时保持列表整洁。
+
+```ts
+export default defineCollection({
+  title: '我的系列',
+  collapse: true, // 默认 — 显示为一张卡片
+  items: [/* ... */],
+})
+```
+
+当 `collapse` 为 `false` 时，不会在文章列表中添加合集条目。
+
+```ts
+export default defineCollection({
+  title: '我的系列',
+  collapse: false, // 不在文章列表中显示卡片
+  items: [/* ... */],
+})
+```
+
+## 实现布局（主题开发者） {#实现布局}
+
+[valaxy-theme-yun](https://github.com/YunYouJun/valaxy/tree/main/packages/valaxy-theme-yun) 自 `v0.25.9` 起支持 `collections` 布局。
 
 按约定，主题需要在 `layouts` 目录下创建对应的布局文件，文件名与布局名称相同。
 
-在主题中，你可以使用以下合集相关 API。
+在主题中，你可以使用以下合集相关 API：
 
-- `useCollections` API 获取合集列表。
-- `useCollection` API 获取单个合集（根据路径判断当前合集 ID）。
+- `useCollections()` — 获取所有合集配置。
+- `useCollection()` — 获取当前合集（根据路由路径判断）。
+- `useCollectionPosts(key)` — 获取指定合集的文章列表，按 `items` 定义的顺序排列。
+- `usePostListWithCollections()` — 获取合并了折叠合集条目的文章列表。
 
 <<< @/../packages/valaxy-theme-yun/layouts/collections.vue
 
@@ -102,13 +152,8 @@ layout: collection
 
 ### 子页面发生了多层布局嵌套 {#child-pages-with-multiple-layout-nesting}
 
-
-
-Unplugin Vue Router 的页面会自动嵌套父级布局，请参考 [Nested Routes｜Unplugin Vue Router](https://uvr.esm.is/guide/file-based-routing#nested-routes)。
+Vue Router 的页面会自动嵌套父级布局，请参考 [Nested Routes | Vue Router](https://uvr.esm.is/guide/file-based-routing#nested-routes)。
 
 例如将：
 
 `pages/users/create.vue` 修改为 `pages/users.create.vue`。
-
-
-
