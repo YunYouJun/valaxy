@@ -65,6 +65,8 @@ export function useCollectionPosts(collectionKey: MaybeRef<string>) {
         const bSlug = b.path?.split('/').pop() || ''
         const aIdx = orderMap.get(aSlug) ?? Infinity
         const bIdx = orderMap.get(bSlug) ?? Infinity
+        if (aIdx === bIdx)
+          return 0
         return aIdx - bIdx
       })
     }

@@ -80,10 +80,10 @@ export function filterAndSortPosts(
 export function mergeCollapsedCollections(
   posts: Post[],
   allPages: Post[],
-  collections: CollectionConfig[],
+  collectionConfigs: CollectionConfig[],
   siteConfig: SiteConfig,
 ): Post[] {
-  const collapsedCollections = collections.filter(c => c.collapse !== false)
+  const collapsedCollections = collectionConfigs.filter(c => c.collapse !== false)
 
   if (collapsedCollections.length === 0)
     return posts

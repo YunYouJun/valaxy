@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import type { Post } from 'valaxy/types'
-import { mergeCollapsedCollections, useCollections, usePageList, useSiteConfig, useSiteStore } from 'valaxy'
+import { usePostListWithCollections, useSiteConfig } from 'valaxy'
 import { computed, ref } from 'vue'
 
 const props = withDefaults(defineProps<{
@@ -11,18 +11,12 @@ const props = withDefaults(defineProps<{
 const paginationRef = ref()
 const curPage = computed(() => paginationRef.value?.curPage || 1)
 
-const site = useSiteStore()
 const siteConfig = useSiteConfig()
 const pageSize = computed(() => siteConfig.value.pageSize)
-const pageList = usePageList()
-const { collections } = useCollections()
-
-const postsWithCollections = computed(() => {
-  return mergeCollapsedCollections(site.postList, pageList.value, collections.value, siteConfig.value)
-})
+const postListWithCollections = usePostListWithCollections()
 
 const posts = computed(() => (
-  props.posts || postsWithCollections.value).filter(post => import.meta.env.DEV ? true : !post.hide),
+  props.posts || postListWithCollections.value).filter(post => import.meta.env.DEV ? true : !post.hide),
 )
 
 const displayedPosts = computed(() =>

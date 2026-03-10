@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import { defineWebPage, useSchemaOrg } from '@unhead/schema-org/vue'
-import { mergeCollapsedCollections, useCollections, useFrontmatter, usePageList, usePostTitle, useSiteConfig, useSiteStore } from 'valaxy'
+import { useFrontmatter, usePostListWithCollections, usePostTitle } from 'valaxy'
 import { computed } from 'vue'
 import { useI18n } from 'vue-i18n'
 
@@ -9,14 +9,7 @@ const { t } = useI18n()
 const frontmatter = useFrontmatter()
 
 const title = usePostTitle(frontmatter)
-const site = useSiteStore()
-const siteConfig = useSiteConfig()
-const pageList = usePageList()
-const { collections } = useCollections()
-
-const postsWithCollections = computed(() => {
-  return mergeCollapsedCollections(site.postList, pageList.value, collections.value, siteConfig.value)
-})
+const postsWithCollections = usePostListWithCollections()
 
 useSchemaOrg([
   defineWebPage({
