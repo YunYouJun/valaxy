@@ -1,12 +1,12 @@
 ---
-title: Custom Styles
+title: 自定义样式
 categories:
   - custom
 end: false
 ---
 
+## 自动样式注入
 
-## Automatic Style Injection
 
 ::: warning
 
@@ -44,8 +44,8 @@ We recommend you:
 
 :::
 
+## 自定义字体
 
-## Custom Font
 
 :::zh-CN
 譬如你可以在 `styles/index.ts` 中覆盖默认的字体。
@@ -79,8 +79,8 @@ import './vars.scss'
 
 ## 示例
 
+### 自定义光标
 
-### Custom Cursor
 
 替换鼠标光标样式。
 
@@ -126,6 +126,7 @@ input {
 }
 ```
 
+### 覆盖暗色模式
 
 需使用 `html.dark` 选择器包裹样式。
 
@@ -152,3 +153,4 @@ html.dark{
   }
 }
 ```
+

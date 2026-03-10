@@ -1,7 +1,5 @@
 ---
-title:
-  zh-CN: 使用插件
-  en: Use Addon
+title: 使用插件
 categories:
   - addon
 ---
@@ -52,3 +50,4 @@ export default defineValaxyConfig({
   ],
 })
 ```
+

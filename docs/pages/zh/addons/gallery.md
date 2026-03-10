@@ -1,7 +1,5 @@
 ---
-title:
-  en: Valaxy Addons Gallery
-  zh-CN: Valaxy 插件橱窗
+title: Valaxy 插件橱窗
 categories:
   - addon
 end: false
@@ -112,3 +110,4 @@ addons:
 ---
 
 <AddonGallery :addons="$frontmatter.addons" />
+

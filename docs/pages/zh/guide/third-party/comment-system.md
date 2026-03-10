@@ -1,7 +1,5 @@
 ---
-title:
-  en: Third Comment System
-  zh-CN: 第三方评论系统
+title: 第三方评论系统
 categories:
   - third
 ---
@@ -59,3 +57,4 @@ export default defineValaxyConfig({
 <<< @/../demo/yun/App.vue
 
 <<< @/../demo/yun/composables/use-utterances.ts
+

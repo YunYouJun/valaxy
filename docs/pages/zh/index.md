@@ -2,12 +2,12 @@
 layout: home
 
 title: Valaxy
-titleTemplate: '%s - Next Generation Static Blog Framework'
+titleTemplate: '%s - 下一代静态博客框架'
 
 hero:
   name: VALAXY
-  text: Next Generation Static Blog Framework
-  tagline: Simple, powerful, and performant. Meet the modern BLOG framework you've always wanted.
+  text: 下一代静态博客框架
+  tagline: 简洁、强大、高性能。遇见你一直想要的现代博客框架。
   image:
     src: /valaxy-logo.png
     alt: Valaxy Logo

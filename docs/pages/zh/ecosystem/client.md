@@ -1,7 +1,5 @@
 ---
-title:
-  en: Client
-  zh-CN: 客户端
+title: 客户端
 categories:
   - ecosystem
 ---
@@ -17,3 +15,4 @@ categories:
 ## 功能
 
 我们计划以客户端面板（基于 Electron）的形式，提供从安装到部署的一体化界面流程，以便供非开发者用户使用。
+

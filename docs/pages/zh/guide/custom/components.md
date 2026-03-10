@@ -1,12 +1,12 @@
 ---
-title: Custom Components
+title: 自定义组件
 categories:
   - custom
 end: false
 ---
 
+## 自动组件注册
 
-## Automatic Component Registration
 
 :::zh-CN
 新建 `components` 文件夹，书写任意 Vue 组件。
@@ -46,8 +46,8 @@ export default defineValaxyConfig({
 })
 ```
 
+### 自定义覆盖主题组件
 
-### Custom Override Theme Component
 
 :::zh-CN
 基于此，你可以非常容易地自定义主题的任何地方！
@@ -115,11 +115,11 @@ import YunFooter from 'valaxy-theme-yun/components/YunFooter.vue'
 
 :::
 
+### 更多示例
 
-### More Examples
 
+### 插入不蒜子统计
 
-### Insert Busuanzi Statistics
 
 :::zh-CN
 > [不蒜子统计](http://ibruce.info/2015/04/04/busuanzi/)
@@ -231,8 +231,8 @@ const isPost = useLayout('post')
 The principle is to cover components. You can also freely cover any other components of the theme.
 :::
 
+### 其他
 
-### Other
 
 :::zh-CN
 [valaxy-addon-components](https://github.com/YunYouJun/valaxy/tree/main/packages/valaxy-addon-components) 也是一个充分利用该机制的插件，你也可以参考它的实现方式，以 Valaxy 插件的形式自由发布你的自定义组件。
@@ -247,3 +247,4 @@ The principle is to cover components. You can also freely cover any other compon
 :::
 
 [使用 valaxy-addon-components 插入公共组件的示例](https://yun.valaxy.site/examples/addons/components)
+

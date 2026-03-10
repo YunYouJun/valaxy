@@ -1,7 +1,5 @@
 ---
-title:
-  en: Use Vite/Vue Plugin
-  zh-CN: 使用 Vite/Vue 插件
+title: 使用 Vite/Vue 插件
 categories:
   - third
 ---
@@ -48,7 +46,7 @@ export default defineAppSetup(({ router, isClient }) => {
 
 Valaxy 默认集成了 [`@vitejs/plugin-vue`](https://github.com/vitejs/vite-plugin-vue/tree/main/packages/plugin-vue) 插件，如果你自定义插件 `@vitejs/plugin-vue` 的配置，你可以通过 `vue` 配置项进行配置。
 
-可参见 [扩展配置](/guide/config/extend.md#vitejs-plugin-vue)。
+可参见 [扩展配置](/zh/guide/config/extend.md#vitejs-plugin-vue)。
 
 :::
 
@@ -64,3 +62,4 @@ export default defineAppSetup(({ app }) => {
   app.use(ElementPlus)
 })
 ```
+

@@ -1,21 +1,21 @@
 ---
-title: Use Theme
+title: 使用主题
 categories:
   - theme
 top: 100
 ---
 
-## Install Theme
+## 安装主题
 
 ```bash
 npm i valaxy-theme-yun
 # pnpm add valaxy-theme-yun
 ```
 
-## Enable Theme
+## 启用主题
 
+配置 `theme` 字段为主题名称，如 `yun`。
 
-Configure the `theme` field as the theme name, such as `yun`.
 
 ```ts [valaxy.config.ts]
 import { defineConfig } from 'valaxy'
@@ -25,10 +25,10 @@ export default defineConfig({
 })
 ```
 
-## Theme Config
+## 主题配置
 
+参见对应主题文档，配置 `themeConfig`。
 
-Refer to the corresponding theme documentation, configure `themeConfig`.
 
 > [valaxy-theme-yun](https://github.com/YunYouJun/valaxy/blob/main/packages/valaxy-theme-yun/docs/README.md)
 
@@ -42,3 +42,4 @@ export default defineConfig({
   }
 })
 ```
+

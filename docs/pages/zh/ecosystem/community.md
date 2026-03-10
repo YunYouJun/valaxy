@@ -1,7 +1,5 @@
 ---
-title:
-  en: Community
-  zh-CN: 社区
+title: 社区
 categories:
   - ecosystem
 ---
@@ -24,8 +22,9 @@ categories:
 
 ## 主题
 
-- 见 [主题橱窗](/themes/gallery)
+- 见 [主题橱窗](/zh/themes/gallery)
 
 ## 插件
 
-- 见 [插件橱窗](/addons/gallery)
+- 见 [插件橱窗](/zh/addons/gallery)
+

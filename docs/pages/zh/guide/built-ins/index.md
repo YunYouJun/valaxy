@@ -1,52 +1,56 @@
 ---
-title: Components
+title: 组件
 categories:
   - guide
 end: false
 ---
 
+Valaxy 内置了几个简单的组件。
 
-Valaxy has several simple components built in.
+你可以在写文章或者创作主题时直接使用。
 
-You can use them directly when writing articles or themes.
 
 
 ::: tip
 
-<div flex items="center" pb-1><div inline-flex i-logos:vue /> <span ml-1 inline-flex>Based on Vue components</span></div>
+<div flex items="center" pb-1><div inline-flex i-logos:vue /> <span ml-1 inline-flex>基于 Vue 组件</span></div>
 
 :::
 
 
-## Basic Components
+
+## 基础组件
+
 
 
 ::: info
-
-Built for theme developers (common users usually do not need to use them directly)
-
+面向主题开发者（普通用户通常不需要直接使用）
 :::
 
 
-### Layout and Rendering
+
+### 布局与渲染
 
 
-- [`ValaxyMain.vue`](https://github.com/YunYouJun/valaxy/blob/main/packages/valaxy/client/components/ValaxyMain.vue): Basic page layout
-- [`ValaxyMd.vue`](https://github.com/YunYouJun/valaxy/blob/main/packages/valaxy/client/components/ValaxyMd.vue): Rendered Markdown content
+- [`ValaxyMain.vue`](https://github.com/YunYouJun/valaxy/blob/main/packages/valaxy/client/components/ValaxyMain.vue): 页面基础布局
+- [`ValaxyMd.vue`](https://github.com/YunYouJun/valaxy/blob/main/packages/valaxy/client/components/ValaxyMd.vue): Markdown 渲染内容
 
 
-### Others
 
 
-- [`AppLink.vue`](https://github.com/YunYouJun/valaxy/blob/main/packages/valaxy/client/components/AppLink.vue): The link automatically determines whether it is an intra-site link. Use `<router-link/>` for intra-site links and `<a target=" blank"></a>`for external links.
-- [`ValaxyCopyright.vue`](https://github.com/YunYouJun/valaxy/blob/main/packages/valaxy/client/components/ValaxyCopyright.vue): The copyright information in the article.
-- [`ValaxyDecrypt.vue`](https://github.com/YunYouJun/valaxy/blob/main/packages/valaxy/client/components/ValaxyDecrypt.vue): Text decryption component
-- [`ValaxyGalleryDecrypt.vue`](https://github.com/YunYouJun/valaxy/blob/main/packages/valaxy/client/components/ValaxyGalleryDecrypt.vue): Picture decryption component
-- [`ValaxyLogo.vue`](https://github.com/YunYouJun/valaxy/blob/main/packages/valaxy/client/components/ValaxyLogo.vue): Valaxy Logo with gradient color
+### 其他
+
+
+- [`AppLink.vue`](https://github.com/YunYouJun/valaxy/blob/main/packages/valaxy/client/components/AppLink.vue): 根据链接自动判断是否为站内链接，站内链接使用 `<router-link/>`，站外链接使用 `<a target="_blank"></a>`。
+- [`ValaxyCopyright.vue`](https://github.com/YunYouJun/valaxy/blob/main/packages/valaxy/client/components/ValaxyCopyright.vue): 文章中的版权信息
+- [`ValaxyDecrypt.vue`](https://github.com/YunYouJun/valaxy/blob/main/packages/valaxy/client/components/ValaxyDecrypt.vue): 文本解密组件
+- [`ValaxyGalleryDecrypt.vue`](https://github.com/YunYouJun/valaxy/blob/main/packages/valaxy/client/components/ValaxyGalleryDecrypt.vue): 图片解密组件
+- [`ValaxyLogo.vue`](https://github.com/YunYouJun/valaxy/blob/main/packages/valaxy/client/components/ValaxyLogo.vue): 带渐变色彩的 Valaxy Logo
 - [`ValaxySvgLogo.vue`](<https://github.com/YunYouJun/valaxy/blob/main/packages/valaxy/client/components/ValaxySvgLogo.vue>): Valaxy SVG Logo
-- [`ValaxyPagination.vue`](<https://github.com/YunYouJun/valaxy/blob/main/packages/valaxy/client/components/ValaxyPagination.vue>): Paging component
-- [`ValaxyOverlay.vue`](<https://github.com/YunYouJun/valaxy/blob/main/packages/valaxy/client/components/ValaxyOverlay.vue>): Grey mask component
-- [`ValaxyHamburger.vue`](<https://github.com/YunYouJun/valaxy/blob/main/packages/valaxy/client/components/ValaxyHamburger.vue>): Hamburger button
+- [`ValaxyPagination.vue`](<https://github.com/YunYouJun/valaxy/blob/main/packages/valaxy/client/components/ValaxyPagination.vue>): 分页组件
+- [`ValaxyOverlay.vue`](<https://github.com/YunYouJun/valaxy/blob/main/packages/valaxy/client/components/ValaxyOverlay.vue>): 灰色遮罩组件
+- [`ValaxyHamburger.vue`](<https://github.com/YunYouJun/valaxy/blob/main/packages/valaxy/client/components/ValaxyHamburger.vue>): 汉堡按钮
+
 
 
 ```md
@@ -55,18 +59,19 @@ Built for theme developers (common users usually do not need to use them directl
 
 <ValaxyLogo />
 
+## 辅助组件
 
-## Helper Components
 
 ### 内置组件
 
 
-> For users, can be used directly.
+> 面向用户，可直接使用
 
-You can also extend public components by [valaxy-addon-components](https://github.com/YunYouJun/valaxy/tree/main/packages/valaxy-addon-components).
+你也可以通过 [valaxy-addon-components](https://github.com/YunYouJun/valaxy/tree/main/packages/valaxy-addon-components) 扩展公共组件。
 
 
-#### Internationalization Component `<VT />`
+
+#### 国际化组件 `<VT />`
 
 ```yaml [locales/zh-CN.yml]
 menu:
@@ -94,8 +99,9 @@ pnpm add valaxy-addon-components
 如：
 
 
-- `CodePen`: CodePen code snippets
-- `VCLiveTime`: The establishment time of the site
+- `CodePen`: CodePen 代码片段
+- `VCLiveTime`: 站点建立时间
+
 
 
 ```md [pages/posts/your-post.md]
@@ -111,5 +117,7 @@ My Blog Content
 ## 自定义
 
 
-For more usage, please refer to [Custom Components](/guide/custom/components)。
+更多用法请参见 [自定义组件](/zh/guide/custom/components)。
+
+
 

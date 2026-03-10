@@ -1,7 +1,5 @@
 ---
-title:
-  zh-CN: 数学公式
-  en: Math Formulas
+title: 数学公式
 date: 2020-03-23 02:02:15
 updated: 2020-03-23 02:02:15
 toc: true
@@ -159,3 +157,4 @@ $$
 \end{pmatrix}
 $$
 ```
+

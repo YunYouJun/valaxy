@@ -1,21 +1,21 @@
 ---
-title: UnoCSS Options
+title: UnoCSS 配置
 categories:
   - config
 end: false
 ---
 
+我们默认集成了 [UnoCSS](https://unocss.dev) 以下 presets 预设。
 
-We have integrated [UnoCSS](https://unocss.dev) by default with the following presets.
+- [`presetWind4`](https://unocss.dev/presets/wind4): 一些常用按需生成的样式，TailwindCSS v4 风格。
+- [`presetAttributify`](https://unocss.dev/presets/attributify): 使用属性选择器替代类名。
+- [`presetIcons`](https://unocss.dev/presets/icons): 集成了 [icones](https://icones.netlify.app/) 图标库，按需使用。
+- [`presetTypography`](https://unocss.dev/presets/typography): 排版相关的样式预设。
 
-- [`presetWind4`](https://unocss.dev/presets/wind4): Commonly used styles generated on demand, styled like TailwindCSS v4.
-- [`presetAttributify`](https://unocss.dev/presets/attributify): Use attribute selectors instead of class names.
-- [`presetIcons`](https://unocss.dev/presets/icons): Integrated with the [icones](https://icones.netlify.app/) icon library for on-demand usage.
-- [`presetTypography`](https://unocss.dev/presets/typography): Typography-related style presets.
+因此，你可以直接在 Markdown 中快速实现各式各样的效果。
 
-Therefore, you can quickly achieve various effects directly in Markdown.
+见 [UnoCSS | Markdown](/zh/guide/markdown#unocss)。
 
-See [UnoCSS | Markdown](/guide/markdown#unocss).
 
 ## unocss
 
@@ -35,8 +35,8 @@ export default defineConfig({
 })
 ```
 
+也可以在 `valaxy.config.ts` 文件的 `unocss` 配置项中进行配置。以下是 `valaxy.config.ts` 中 `unocss` 配置项的示例:
 
-You can write UnoCSS configurations in the `uno.config.ts` or `unocss.config.ts` files within the theme directory. Alternatively, you can configure it in the `unocss` property of the `valaxy.config.ts` file. Below is an example of the `unocss` configuration in `valaxy.config.ts`:
 
 ```ts [valaxy.config.ts]
 import { presetIcons } from 'unocss'
@@ -57,8 +57,10 @@ export default defineValaxyConfig<ThemeConfig>({
 })
 ```
 
+在 `unocss` 配置项中直接配置 `presets` 会覆盖主题和 Valaxy 默认的 `presets`。
 
-Directly configuring `presets` in the `unocss` option will override the default `presets` of the theme and Valaxy. To extend these presets, use [unocssPresets](#unocsspresets).
+如果想扩展这些预设，请使用 [unocssPresets](#unocsspresets)。
+
 
 ```ts [valaxy.config.ts]
 import { presetIcons } from 'unocss'
@@ -81,15 +83,16 @@ export default defineValaxyConfig<ThemeConfig>({
 
 
 ::: tip
-Configuring `presets` in the `uno.config.ts` or `unocss.config.ts` files will also override the default presets of Valaxy or the theme.
-To extend the presets, use [unocssPresets](#unocsspresets).
+在 `uno.config.ts` 或 `unocss.config.ts` 文件中配置 `presets` 也会覆盖 Valaxy 或主题的默认预设。  
+若要扩展预设，请使用 [unocssPresets](#unocsspresets) 。
 :::
+
 
 
 ## unocssPresets
 
+若要在 Valaxy 中扩展 [UnoCSS presets](https://unocss.dev/guide/presets) 配置项，以下是一个基本示例
 
-To extend the [UnoCSS presets](https://unocss.dev/guide/presets) in Valaxy, here is a basic example:
 
 ```ts [valaxy.config.ts]
 import { presetIcons } from 'unocss'
@@ -144,8 +147,10 @@ export default defineValaxyConfig<ThemeConfig>({
 
 ## FAQ
 
-### About UnoCSS Hot Reloading Failure
 
+### 关于 UnoCSS 热重载失效
 
-> Currently, due to the inability to access UnoCSS's ctx, we have not yet found a good method to implement hot reload.
+> 由于目前无法获取 UnoCSS 的 ctx，暂时还没有找到一个好的方法来实现热重载
 [#48](https://github.com/YunYouJun/valaxy/issues/48)
+
+

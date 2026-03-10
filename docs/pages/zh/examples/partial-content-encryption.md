@@ -1,5 +1,5 @@
 ---
-title: Partial Content Encryption
+title: 部分内容加密
 toc: true
 categories:
   - examples
@@ -17,8 +17,8 @@ categories:
 <!-- valaxy-encrypt-end -->
 ```
 
+## 渲染结果
 
-## Rendering result
 
 <!-- valaxy-encrypt-start:valaxy -->
 我是被加密的文本。
@@ -27,3 +27,4 @@ categories:
 **Frontmatter**: {{ frontmatter }}
 :::
 <!-- valaxy-encrypt-end -->
+

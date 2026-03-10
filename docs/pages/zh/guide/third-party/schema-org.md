@@ -1,7 +1,5 @@
 ---
-title:
-  en: Schema.org And OPG for SEO
-  zh-CN: Schema.org 和 OPG 用于 SEO
+title: Schema.org 和 OPG 用于 SEO
 categories:
   - third
 top: 0
@@ -26,3 +24,4 @@ top: 0
 
 - [Google 富媒体搜索结果测试](https://search.google.com/test/rich-results)
 - [架构标记验证器](https://validator.schema.org/)
+

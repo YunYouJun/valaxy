@@ -1,7 +1,5 @@
 ---
-title:
-  en: Participate in Development
-  zh-CN: 参与开发
+title: 参与开发
 categories:
   - dev
 end: false
@@ -75,3 +73,4 @@ If you only want to develop client.
 
 - Docs: `pnpm docs:dev`
 - Demo(theme-yun): `pnpm demo`
+

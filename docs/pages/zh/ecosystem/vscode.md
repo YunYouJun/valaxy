@@ -1,7 +1,5 @@
 ---
-title:
-  en: VSCode Extension
-  zh-CN: VSCode 扩展
+title: VSCode 扩展
 categories:
   - ecosystem
 ---
@@ -20,3 +18,4 @@ categories:
 它提供了文章列表预览/切换/删除等功能，以便让你尽可能地可以在 VSCode 中完成所有操作。
 
 正在完善中……
+

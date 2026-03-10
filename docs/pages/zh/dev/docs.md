@@ -1,5 +1,5 @@
 ---
-title: Participate in Docs
+title: 参与文档
 categories:
   - dev
 end: false
@@ -16,8 +16,8 @@ Valaxy 将中英文写一个 Markdown 文件中，因此您可以很容易地进
 您可以以如下方式进行中英文内容书写，而文中公共的例子则只需保留一份。
 
 ```md [pages/posts/xxx.md]
+**效果如下**（点击按钮切换）：
 
-**The effect is as follows** (click the button to switch).
 
 <div>
 This is an example.
@@ -38,3 +38,4 @@ Commit message 请以 `docs:` 开头。
 
 修改了 `xxx.md` 中的错别字：
 即：`docs: fix xxx.md typo`。
+

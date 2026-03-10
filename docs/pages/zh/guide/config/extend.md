@@ -1,18 +1,18 @@
 ---
-title: Extend Config
+title: 扩展配置
 categories:
   - config
 ---
 
 ::: tip
 
+扩展配置是 Valaxy 提供的高阶配置，允许你自定义更多与底层/构建相关的配置。
 
-Extend Config is an advanced configuration provided by Valaxy, allowing you to customize more low-level and build-related settings.
 
 :::
 
+以下是所有的扩展配置项与相关类型。
 
-Below are all the extend configuration options and related types.
 
 > [packages/valaxy/node/types/index.ts](https://github.com/YunYouJun/valaxy/blob/main/packages/valaxy/node/types/index.ts)
 
@@ -24,8 +24,8 @@ Below are all the extend configuration options and related types.
 
 :::
 
+所以，你可以像这样使用：
 
-So you can use it like this:
 
 ```ts [valaxy.config.ts]
 import type { ThemeConfig } from 'valaxy-theme-yun'
@@ -128,8 +128,8 @@ export default defineValaxyConfig({
 
 ### @vitejs/plugin-vue
 
+Valaxy 默认集成了 [`@vitejs/plugin-vue`](https://github.com/vitejs/vite-plugin-vue/tree/main/packages/plugin-vue) 插件，你可以通过 `vue` 配置项进行配置。
 
-Valaxy integrates [`@vitejs/plugin-vue`](https://github.com/vitejs/vite-plugin-vue/tree/main/packages/plugin-vue) by default. You can configure it via the `vue` option.
 
 ```ts [valaxy.config.ts]
 import { defineValaxyConfig } from 'valaxy'
@@ -147,8 +147,8 @@ export default defineValaxyConfig({
 
 ### Vite
 
+你可以参见 [Vite 文档](https://vite.dev/config/shared-options.html) 自定义 Vite 相关配置。
 
-You can refer to the [Vite documentation](https://vite.dev/config/shared-options.html) to customize Vite-related configurations.
 
 ```ts [valaxy.config.ts]
 import { defineValaxyConfig } from 'valaxy'
@@ -163,35 +163,39 @@ export default defineValaxyConfig({
 ### SSG Options
 
 
-Valaxy uses [vite-ssg](https://github.com/antfu-collective/vite-ssg) for Static Site Generation.
-You can customize SSG behavior via `vite.ssgOptions`.
+Valaxy 使用 [vite-ssg](https://github.com/antfu-collective/vite-ssg) 进行静态站点生成。
+你可以通过 `vite.ssgOptions` 自定义 SSG 行为。
 
 
-Valaxy sets the following SSG defaults. User values override them:
 
-- `script`: `'async'` — script loading mode
-- `formatting`: `'minify'` — HTML output formatting (auto-degrades to `'none'` under low memory)
-- `beastiesOptions.preload`: `'media'` — non-critical CSS preload strategy ([see beasties](https://github.com/danielroe/beasties#preload))
-- `concurrency` — concurrent page rendering count (auto-adjusted based on available heap memory)
-- `onFinished` — auto-generates sitemap after build (always runs; user callback runs after it)
 
-See [ViteSSGOptions](https://github.com/antfu-collective/vite-ssg) for the full parameter list.
+Valaxy 默认设置了以下 SSG 选项，用户配置会覆盖这些默认值：
+
+- `script`: `'async'` — 脚本加载模式
+- `formatting`: `'minify'` — HTML 输出格式（低内存时自动降级为 `'none'`）
+- `beastiesOptions.preload`: `'media'` — 非关键 CSS 预加载策略（[详见 beasties](https://github.com/danielroe/beasties#preload)）
+- `concurrency` — 并发渲染页面数（根据可用堆内存自动调整）
+- `onFinished` — 构建完成后自动生成 sitemap（始终执行，用户回调会在其后运行）
+
+完整参数列表请参见 [ViteSSGOptions](https://github.com/antfu-collective/vite-ssg)。
+
 
 
 :::: warning
 
 
-**SSG build minimum memory requirement: ~2.3 GB**
+**SSG 构建最低内存要求：~2.3 GB**
 
-vite-ssg runs Vite build and page rendering in the same Node.js process, and memory from the build phase cannot be fully reclaimed. Valaxy auto-adjusts based on V8 heap limits: when heap ≤ 2.5 GB, Critical CSS (beasties) and HTML minify are disabled to save memory.
+vite-ssg 在同一 Node.js 进程中执行 Vite 构建和页面渲染，构建阶段的内存无法完全释放。Valaxy 会根据 V8 堆限制自动调整：堆 ≤ 2.5 GB 时禁用 Critical CSS（beasties）和 HTML minify 以节省内存。
 
-If you encounter `JavaScript heap out of memory` errors, increase the heap limit:
+如果遇到 `JavaScript heap out of memory` 错误，请增大堆限制：
 
 ```bash
 NODE_OPTIONS=--max-old-space-size=4096 pnpm build --ssg
 ```
 
-See [Dev FAQ - JavaScript heap out of memory](/dev/faq#javascript-heap-out-of-memory) for details.
+详见 [开发 FAQ - JavaScript heap out of memory](/zh/dev/faq#javascript-heap-out-of-memory)。
+
 
 
 ::::
@@ -238,10 +242,10 @@ export default defineValaxyConfig({
 
 ### Markdown
 
+可自定义 Markdown 相关配置，如代码主题、区块内容、添加 `markdown-it` 插件、transformer 等。
 
-You can customize Markdown-related configurations, such as code themes, block content, adding `markdown-it` plugins, transformers, etc.
+效果参见: [Markdown](/zh/guide/markdown)。
 
-See the effect at: [Markdown](/guide/markdown).
 
 ::: details valaxy/node/plugins/markdown/types.ts
 
@@ -302,30 +306,31 @@ export default defineValaxyConfig({
 
 ### DevTools
 
-
-Set `devtools: false` to disable DevTools.
-
-
-### Addons
+设置 `devtools: false` 以关闭 DevTools。
 
 
-See [Using Addons](/addons/use).
+### 插件 Addons
+
+
+参见 [使用插件](/zh/addons/use)。
+
 
 ### UnoCSS
 
+参见 [UnoCSS](/zh/guide/config/unocss-options)。
 
-See [UnoCSS](/guide/config/unocss-options).
 
 ### Modules
 
 #### RSS
 
 
-Valaxy has a built-in RSS module, which can be configured in `valaxy.config.ts` through the `modules.rss` configuration item.
+Valaxy 内置了 RSS 模块，你可以在 `valaxy.config.ts` 中通过 `modules.rss` 配置项进行配置。
 
-- `enable`: Whether to enable the RSS module. Default is `true`, enabled.
-- `fullText`: Whether to output the full text of the article. Default is `false`, only the summary is output.
-- `extractImagePathsFromHTML`: Whether to extract image paths from built HTML files (to resolve Vite hashed filenames). Default is `true`, enabled.
+- `enable`: 是否启用 RSS 模块。默认 `true`，启用。
+- `fullText`: 是否输出文章全文。默认 `false`，只输出摘要。
+- `extractImagePathsFromHTML`: 是否从构建后的 HTML 中提取图片路径（用于解析 Vite 打包后的 hash 文件名）。默认 `true`，启用。
+
 
 
 ```ts [valaxy.config.ts]
@@ -343,36 +348,38 @@ export default defineValaxyConfig({
 ```
 
 
-**About `extractImagePathsFromHTML`**
+**关于 `extractImagePathsFromHTML`**
 
-When you reference images with relative paths in Markdown (e.g., `![pic](test.webp)`), Vite will bundle the image and generate a hashed filename (e.g., `/assets/test.zBFFFKJX.webp`).
+当你在 Markdown 中使用相对路径引用图片时（如 `![pic](test.webp)`），Vite 会将图片打包并生成带 hash 的文件名（如 `/assets/test.zBFFFKJX.webp`）。
 
-- When enabled (default): Image URLs in RSS feed will use the actual built paths, like `https://example.com/assets/test.zBFFFKJX.webp`
-- When disabled: Image URLs in RSS feed will be constructed based on the post directory, like `https://example.com/posts/article-name/test.webp`
+- 启用此选项（默认）：RSS feed 中的图片 URL 将使用构建后的实际路径，如 `https://example.com/assets/test.zBFFFKJX.webp`
+- 禁用此选项：RSS feed 中的图片 URL 将基于文章目录构建，如 `https://example.com/posts/article-name/test.webp`
 
-In most cases, you should keep this option as `true` to ensure RSS readers can load images correctly.
+大多数情况下，你应该保持此选项为 `true`，以确保 RSS 阅读器能正确加载图片。
+
 
 
 #### LLMS
 
 
-Valaxy has a built-in LLMS module, following the [llms.txt standard](https://llmstxt.org/), to generate AI-readable Markdown content during build.
+Valaxy 内置了 LLMS 模块，遵循 [llms.txt 标准](https://llmstxt.org/)，在构建时生成 AI 可读的 Markdown 内容。
 
-When enabled, the build output will include:
+启用后，构建产物中将包含：
 
-- `/llms.txt` — Page index grouped by directory, with links to individual `.md` files
-- `/llms-full.txt` — All page content concatenated (optional)
-- `/*.md` — Raw Markdown files for each page, accessible via URL
+- `/llms.txt` — 站点页面索引，按目录分组，包含指向各 `.md` 文件的链接
+- `/llms-full.txt` — 所有页面内容的合集（可选）
+- `/*.md` — 每个页面的原始 Markdown 文件，可通过 URL 直接访问
 
-Themes can use the `useCopyMarkdown()` composable to add a "Copy Markdown" button on post pages (built-in support in Yun theme).
+同时，主题可以利用 `useCopyMarkdown()` composable 为文章页添加「复制 Markdown」按钮（Yun 主题已内置支持）。
 
-- `enable`: Whether to enable the LLMS module. Default is `false`, disabled.
-- `files`: Whether to generate individual `.md` files for each page. Default is `true`.
-- `fullText`: Whether to generate `llms-full.txt` (with all page content inlined). Default is `true`.
-- `prompt`: Custom prompt text, added to the `llms.txt` description section. Default is `''`.
-- `include`: Glob patterns for markdown files to include (relative to `pages/` directory). Default is `['posts/**/*.md']` to only include posts. Set to `['**/*.md']` to include all markdown files under `pages/`. You can also specify multiple directories, e.g. `['posts/**/*.md', 'guide/**/*.md']`.
+- `enable`: 是否启用 LLMS 模块。默认 `false`，关闭。
+- `files`: 是否为每个页面生成独立的 `.md` 文件。默认 `true`。
+- `fullText`: 是否生成 `llms-full.txt`（包含所有页面完整内容）。默认 `true`。
+- `prompt`: 自定义提示词，添加到 `llms.txt` 的描述部分。默认 `''`。
+- `include`: 要包含的 Markdown 文件 glob 模式（相对于 `pages/` 目录）。默认 `['posts/**/*.md']` 仅包含 posts 目录。设为 `['**/*.md']` 可包含所有 `pages/` 下的 Markdown 文件，也可指定多个目录如 `['posts/**/*.md', 'guide/**/*.md']`。
 
-Pages in `llms.txt` are automatically grouped by their top-level directory (e.g. `## Posts`, `## Guide`, etc.).
+`llms.txt` 中的页面会按顶级目录自动分组（如 `## Posts`、`## Guide` 等）。
+
 
 
 ```ts [site.config.ts]
@@ -394,35 +401,37 @@ export default defineSiteConfig({
 })
 ```
 
-### CDN Externals
+
+### CDN 外部化
 
 
-> Experimental
+> 实验性功能
 
-With the `cdn.modules` option, you can specify certain npm packages to be loaded from CDN at runtime instead of being bundled.
-This can significantly reduce bundle size and leverage CDN for faster resource loading.
+通过 `cdn.modules` 配置项，你可以指定某些 npm 包在构建时从 CDN 加载，而非打包到最终产物中。
+这可以显著减小构建产物体积，并利用 CDN 加速资源加载。
 
-This option only takes effect during `valaxy build`, not in dev mode.
+该配置仅在 `valaxy build` 时生效，开发模式下不受影响。
+
 
 
 :::: tip
 
+`cdn.modules` 中的每个模块需要提供以下字段：
 
-Each module in `cdn.modules` requires the following fields:
+- `name`: npm 包名（如 `'katex'`）
+- `global`: 该库在 `window` 上暴露的全局变量名（如 `'katex'`）
+- `url`: CDN 脚本的完整 URL
+- `css`（可选）: CDN 样式表的完整 URL
+- `exports`（可选）: 需要重新导出的命名导出列表（如 `['ref', 'computed']`）
 
-- `name`: npm package name (e.g., `'katex'`)
-- `global`: global variable name the library exposes on `window` (e.g., `'katex'`)
-- `url`: full CDN URL to the UMD/IIFE script
-- `css` (optional): full CDN URL to the stylesheet
-- `exports` (optional): named exports to re-export from the global variable (e.g., `['ref', 'computed']`)
 
 ::::
 
+#### 示例：通过 CDN 加载 KaTeX
 
-#### Example: Load KaTeX from CDN
 
+KaTeX 默认会被打包进构建产物。如果你希望通过 CDN 加载 KaTeX 以减小打包体积，可以如下配置：
 
-KaTeX is bundled into the build output by default. If you want to load it from CDN to reduce bundle size, you can configure it as follows:
 
 ```ts [valaxy.config.ts]
 import { defineValaxyConfig } from 'valaxy'
@@ -442,7 +451,8 @@ export default defineValaxyConfig({
 ```
 
 
-You can also use other CDN providers by replacing the URL. For example, using unpkg:
+你也可以使用其他 CDN 源，只需替换 URL 即可。例如使用 unpkg：
+
 
 
 ```ts [valaxy.config.ts]
@@ -461,3 +471,4 @@ export default defineValaxyConfig({
   },
 })
 ```
+

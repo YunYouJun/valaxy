@@ -1,7 +1,5 @@
 ---
-title:
-  en: News
-  zh-CN: 新闻
+title: 新闻
 categories:
   - ecosystem
 ---
@@ -13,3 +11,4 @@ categories:
 ### Break Changes
 
 Valaxy 完全升级至 ESM 模块化，不再支持 CommonJS。
+

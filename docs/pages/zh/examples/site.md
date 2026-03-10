@@ -1,7 +1,5 @@
 ---
-title:
-  en: Example Sites
-  zh-CN: 示例站点
+title: 示例站点
 categories:
   - ecosystem
 ---
@@ -11,3 +9,4 @@ categories:
 :::
 
 <ExampleSites />
+

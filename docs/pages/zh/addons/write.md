@@ -1,7 +1,5 @@
 ---
-title:
-  en: Write an Addon
-  zh-CN: 编写一个插件
+title: 编写一个插件
 categories:
   - addon
 end: false
@@ -23,7 +21,7 @@ end: false
 - `App.vue` 如果插件作者希望插件被使用时立刻全局挂载，可以将内容放置于 `valaxy-addon-<name>/App.vue` 中，并设置 `package.json` 中 `global: true`。
 - `components`: 放置于 `components` 文件夹下的组件将会被自动注册，但不会被挂载。用户可以手动加载使用。
 
-> 文档正在施工中，您可以参照 [插件橱窗](/addons/gallery) 一些已有的插件。
+> 文档正在施工中，您可以参照 [插件橱窗](/zh/addons/gallery) 一些已有的插件。
 
 <!-- 用户如何配置 global -->
 
@@ -39,6 +37,7 @@ pnpm create valaxy
 如示例所示，插件可以使用 `valaxy.hook` 来挂载生命周期钩子。
 实现在构建前/后以及其他节点做一些事情。
 
-> 请参考 [生命周期钩子](/guide/custom/hooks) 了解更多。
+> 请参考 [生命周期钩子](/zh/guide/custom/hooks) 了解更多。
 
 <<< @/../packages/valaxy-addon-test/node/index.ts {11-14} [valaxy-addon-test/node/index.ts]
+

@@ -38,11 +38,10 @@ const open = ref(false)
         {{ currentLocale.label }}
       </p>
       <template v-for="loc in availableLocales" :key="loc.key">
-        <div class="menu-link w-full">
+        <div v-if="loc.key !== currentLocaleKey" class="menu-link w-full">
           <AppLink
             class="menu-item"
             p="x-3"
-            :class="{ active: loc.key === currentLocaleKey }"
             :to="getLocalePath(loc.key)"
           >
             {{ loc.label }}
@@ -77,7 +76,7 @@ const open = ref(false)
 .menu {
   position: absolute;
   top: 20px;
-  right: 0;
+  left: 50%;
   min-width: 128px;
   opacity: 0;
   visibility: hidden;
@@ -85,7 +84,7 @@ const open = ref(false)
     opacity 0.25s,
     visibility 0.25s,
     transform 0.25s;
-  transform: translateY(calc(var(--pr-nav-height) / 2));
+  transform: translateX(-50%) translateY(calc(var(--pr-nav-height) / 2));
   border-radius: 12px;
   padding: 12px;
   border: 1px solid rgb(60 60 60 / 0.12);
@@ -139,9 +138,6 @@ const open = ref(false)
       }
     }
 
-    &.active {
-      color: var(--va-c-brand);
-    }
-  }
+}
 }
 </style>
