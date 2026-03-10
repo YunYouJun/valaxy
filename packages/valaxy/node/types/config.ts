@@ -241,7 +241,7 @@ export interface ValaxyExtendConfig {
    */
   layouts?: Parameters<typeof Layouts>[0]
   /**
-   * @see https://github.com/posva/unplugin-vue-router
+   * @see https://router.vuejs.org/file-based-routing/
    */
   router?: Parameters<typeof Router>[0]
   /**

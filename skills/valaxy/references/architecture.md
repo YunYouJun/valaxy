@@ -44,7 +44,7 @@ Build order: `@valaxyjs/utils` → `valaxy` → `devtools`
 - `plugins/` — Vite plugin orchestration
   - `preset.ts` — Main plugin composition
   - `markdown/` — markdown-it pipeline
-  - `vueRouter.ts` — File-based routing (unplugin-vue-router)
+  - `vueRouter.ts` — File-based routing (vue-router/vite)
   - `valaxy.ts` — Virtual module generation
   - `unocss.ts` — UnoCSS integration
 - `modules/` — Built-in features (RSS, Fuse search)
@@ -172,7 +172,7 @@ Generated at build time via Vite plugins:
 
 ## Routing System
 
-- File-based via `unplugin-vue-router`
+- File-based via `vue-router/vite`
 - `.vue` and `.md` files in `pages/` directory (scanned across all roots)
 - Files in `pages/posts/` are auto-counted as blog posts
 - Frontmatter parsed from `.md` and merged into `route.meta.frontmatter`

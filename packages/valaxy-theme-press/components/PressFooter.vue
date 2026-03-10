@@ -1,16 +1,16 @@
 <script setup lang="ts">
 import { useSidebar } from 'valaxy'
-import { useThemeConfig } from '../composables'
+import { useLocaleConfig } from '../composables'
 
-const themeConfig = useThemeConfig()
+const { localeConfig } = useLocaleConfig()
 const { hasSidebar } = useSidebar()
 </script>
 
 <template>
-  <footer v-if="themeConfig.footer" class="press-footer" :class="{ 'has-sidebar': hasSidebar }">
+  <footer v-if="localeConfig.footer" class="press-footer" :class="{ 'has-sidebar': hasSidebar }">
     <div flex="~ col" class="container">
-      <p v-if="themeConfig.footer.message" class="message" v-html="themeConfig.footer.message" />
-      <p v-if="themeConfig.footer.copyright" class="copyright" v-html="themeConfig.footer.copyright" />
+      <p v-if="localeConfig.footer.message" class="message" v-html="localeConfig.footer.message" />
+      <p v-if="localeConfig.footer.copyright" class="copyright" v-html="localeConfig.footer.copyright" />
     </div>
   </footer>
 </template>

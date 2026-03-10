@@ -1,7 +1,5 @@
 ---
-title:
-  en: FAQ
-  zh-CN: 常见问题
+title: FAQ
 categories:
   - dev
 end: false
@@ -20,40 +18,9 @@ end: false
 
 </details>
 
-## JavaScript heap out of memory {lang="zh-CN"}
 
-## JavaScript heap out of memory {lang="en"}
+## JavaScript heap out of memory
 
-::: zh-CN
-
-SSG 构建（`valaxy build --ssg`）时，[vite-ssg](https://github.com/antfu-collective/vite-ssg) 在同一进程中依次执行 client 构建、server 构建、页面渲染。构建阶段的 Vite resolved config 和插件系统会驻留内存，导致渲染阶段可用堆空间有限。
-
-**最低内存要求：`--max-old-space-size=2304`（约 2.3 GB）**
-
-```bash
-# 复现测试
-pnpm test:space        # demo/yun
-pnpm test:space:docs   # docs
-```
-
-Valaxy 会根据 V8 的 `heap_size_limit` 自动调整 SSG 行为：
-
-| 堆限制 | beasties (Critical CSS) | HTML minify | 并发数 |
-|--------|------------------------|-------------|--------|
-| ≤ 2.5 GB | 禁用 | 禁用 | 1 |
-| ≤ 3.1 GB | 启用 | 启用 | 2 |
-| ≤ 4.2 GB | 启用 | 启用 | 4 |
-| > 4.2 GB | 启用 | 启用 | 8+ |
-
-如果你在 CI 环境中遇到 OOM，可以通过设置 `NODE_OPTIONS` 增大堆限制：
-
-```bash
-NODE_OPTIONS=--max-old-space-size=4096 pnpm build --ssg
-```
-
-:::
-
-::: en
 
 During SSG build (`valaxy build --ssg`), [vite-ssg](https://github.com/antfu-collective/vite-ssg) runs client build, server build, and page rendering in the same process. The Vite resolved config and plugin system from the build phase remain in memory, leaving limited heap space for the rendering phase.
 
@@ -80,7 +47,6 @@ If you encounter OOM in CI environments, increase the heap limit via `NODE_OPTIO
 NODE_OPTIONS=--max-old-space-size=4096 pnpm build --ssg
 ```
 
-:::
 
 ## 合并
 

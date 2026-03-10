@@ -1,13 +1,13 @@
 import { useData } from 'valaxy'
 import { computed } from 'vue'
-import { useThemeConfig } from '.'
+import { useLocaleConfig } from './locale'
 
 export function useEditLink() {
-  const themeConfig = useThemeConfig()
+  const { localeConfig } = useLocaleConfig()
   const { page } = useData()
 
   return computed(() => {
-    const { text, pattern } = themeConfig.value.editLink || {}
+    const { text, pattern } = localeConfig.value.editLink || {}
     const url = pattern.replace(/:path/g, page.value?.relativePath || '')
     return { url, text }
   })

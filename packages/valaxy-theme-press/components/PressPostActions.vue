@@ -138,7 +138,7 @@ function onSelect(key: string) {
       <div v-else i-ri-file-copy-line />
       <span>{{ copied ? t('post.copied_markdown', 'Copied!') : t('post.copy_page', 'Copy page') }}</span>
     </button>
-    <DropdownMenuRoot>
+    <DropdownMenuRoot :modal="false">
       <DropdownMenuTrigger as-child>
         <button class="press-post-actions-trigger" :aria-label="t('menu.title', 'More actions')">
           <div i-ri-arrow-down-s-line />

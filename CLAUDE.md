@@ -135,7 +135,7 @@ The core is split into **Node** (build-time) and **Client** (runtime):
 - `plugins/` - Vite plugin orchestration
   - `preset.ts` - Main plugin composition
   - `markdown/` - Markdown-it processing pipeline
-  - `vueRouter.ts` - File-based routing via unplugin-vue-router
+  - `vueRouter.ts` - File-based routing via vue-router/vite
   - `valaxy.ts` - Virtual module generation
   - `unocss.ts` - UnoCSS configuration
 - `modules/` - Built-in features (RSS, Fuse search)
@@ -177,7 +177,7 @@ Generated at build time via Vite plugins:
 - `virtual:valaxy-addons` - Addon registration
 
 **Routing:**
-- File-based via `unplugin-vue-router`
+- File-based via `vue-router/vite`
 - `.vue` and `.md` files in `pages/` directory
 - Frontmatter parsed from `.md` and merged into route meta
 - Layouts auto-assigned by path patterns

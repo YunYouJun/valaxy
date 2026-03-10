@@ -1,7 +1,5 @@
 ---
-title:
-  en: Partial Content Encryption
-  zh-CN: 部分内容加密
+title: Partial Content Encryption
 toc: true
 categories:
   - examples
@@ -19,9 +17,8 @@ categories:
 <!-- valaxy-encrypt-end -->
 ```
 
-## 渲染结果 {lang="zh-CN"}
 
-## Rendering result {lang="en"}
+## Rendering result
 
 <!-- valaxy-encrypt-start:valaxy -->
 我是被加密的文本。

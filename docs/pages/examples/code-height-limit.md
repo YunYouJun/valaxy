@@ -1,20 +1,13 @@
 ---
-title:
-  zh-CN: 代码块高度限制
-  en: Code height limit
+title: Code height limit
 toc: true
 categories:
   - examples
 codeHeightLimit: 300
 ---
 
-::: zh-CN
-在 Front Matter 中设置 `codeHeightLimit: 300`。
-:::
 
-::: en
 Set `codeHeightLimit: 300` in Front Matter.
-:::
 
 ```md [pages/code-height-limit.md]
 ---
@@ -22,13 +15,8 @@ codeHeightLimit: 300
 ---
 ```
 
-::: zh-CN
-渲染结果
-:::
 
-::: en
 Rendering result
-:::
 
 ```ts [valaxy.config.ts]
 import type { ThemeConfig } from 'valaxy-theme-yun'

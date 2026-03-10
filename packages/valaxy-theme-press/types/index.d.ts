@@ -75,6 +75,17 @@ export namespace PressTheme {
     target?: string
   }
 
+  export interface LocaleSpecificConfig {
+    /** Label shown in locale switcher (e.g. "English", "简体中文") */
+    label?: string
+    /** BCP 47 language tag (e.g. "en", "zh-CN") */
+    lang?: string
+    /** URL prefix for this locale (e.g. "/zh/"), defaults to `/${key}/` */
+    link?: string
+    /** Per-locale theme config overrides, shallow-merged with top-level Config */
+    themeConfig?: Partial<Omit<Config, 'locales' | 'i18nRouting'>>
+  }
+
   export interface Config extends DefaultTheme.Config {
     logo: string
 
@@ -94,6 +105,17 @@ export namespace PressTheme {
     footer: Footer
 
     socialLinks: SocialLink[]
+
+    /**
+     * Locale configurations. Key is a path prefix ('root' for the default locale).
+     */
+    locales?: Record<string, LocaleSpecificConfig>
+
+    /**
+     * Whether to automatically adjust URL path when switching locales.
+     * @default false
+     */
+    i18nRouting?: boolean
   }
 }
 
