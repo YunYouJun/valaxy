@@ -8,10 +8,31 @@ defineProps<{
 }>()
 
 const pages = usePageList()
-const { localeConfig } = useLocaleConfig()
+const { localeConfig, currentLocaleKey, hasLocales, currentLocale } = useLocaleConfig()
+
+// Filter pages by current locale prefix so categories are locale-scoped
+const localePages = computed(() => {
+  if (!hasLocales.value)
+    return pages.value
+
+  if (currentLocaleKey.value === 'root') {
+    // Root locale: exclude pages under other locale prefixes
+    const locales = localeConfig.value.locales
+    const prefixes = locales
+      ? Object.keys(locales)
+          .filter(k => k !== 'root')
+          .map(k => locales[k].link || `/${k}/`)
+      : []
+    return pages.value.filter(p => !prefixes.some(prefix => p.path.startsWith(prefix)))
+  }
+
+  // Non-root locale: only include pages under this locale's prefix
+  const prefix = currentLocale.value.link
+  return pages.value.filter(p => p.path.startsWith(prefix))
+})
 
 const sidebar = computed(() => localeConfig.value.sidebar)
-const cs = useCategories('', pages.value)
+const cs = useCategories('', localePages.value)
 const categories = computed(() => {
   const cList = cs.value
   removeItemFromCategory(cList, 'Uncategorized')

@@ -6,37 +6,49 @@ import { useLocaleConfig } from '../composables'
 
 const { t, locale } = useI18n()
 const { toggleLocales } = useLocale()
-const { hasLocales, availableLocales, currentLocaleKey, getLocalePath } = useLocaleConfig()
+const { hasLocales, availableLocales, currentLocale, currentLocaleKey, getLocalePath } = useLocaleConfig()
 
-const dropdownOpen = ref(false)
-
-function toggleDropdown() {
-  dropdownOpen.value = !dropdownOpen.value
-}
-
-function closeDropdown() {
-  dropdownOpen.value = false
-}
+const open = ref(false)
 </script>
 
 <template>
-  <!-- Dropdown mode: when locales config exists -->
-  <div v-if="hasLocales" class="pr-locale-selector" @mouseleave="closeDropdown">
-    <button :title="t('button.toggle_langs')" class="pr-locale-trigger" @click="toggleDropdown">
-      <div i-ri-translate class="transition transform" />
-      <div i-ri-arrow-down-s-line class="pr-locale-arrow" :class="{ open: dropdownOpen }" />
+  <!-- Flyout mode: reuse PressNavItemGroup dropdown pattern -->
+  <div
+    v-if="hasLocales"
+    class="flex relative group"
+    h="full"
+    :aria-expanded="open"
+    aria-haspopup="true"
+    @mouseenter="open = true"
+    @mouseleave="open = false"
+  >
+    <button
+      type="button"
+      class="button flex items-center bg-transparent"
+      h="full"
+      :title="t('button.toggle_langs')"
+      @click="open = !open"
+    >
+      <div i-ri-translate />
+      <div i-ri-arrow-drop-down-line />
     </button>
-    <div v-show="dropdownOpen" class="pr-locale-dropdown">
-      <RouterLink
-        v-for="loc in availableLocales"
-        :key="loc.key"
-        :to="getLocalePath(loc.key)"
-        class="pr-locale-option"
-        :class="{ active: loc.key === currentLocaleKey }"
-        @click="closeDropdown"
-      >
-        {{ loc.label }}
-      </RouterLink>
+
+    <div class="menu grow" flex="~ col" items="start">
+      <p class="menu-title">
+        {{ currentLocale.label }}
+      </p>
+      <template v-for="loc in availableLocales" :key="loc.key">
+        <div class="menu-link w-full">
+          <AppLink
+            class="menu-item"
+            p="x-3"
+            :class="{ active: loc.key === currentLocaleKey }"
+            :to="getLocalePath(loc.key)"
+          >
+            {{ loc.label }}
+          </AppLink>
+        </div>
+      </template>
     </div>
   </div>
 
@@ -46,60 +58,90 @@ function closeDropdown() {
   </button>
 </template>
 
-<style scoped>
-.pr-locale-selector {
-  position: relative;
-  display: inline-flex;
-  align-items: center;
+<style lang="scss" scoped>
+.group .button {
+  color: var(--pr-nav-text);
+  font-weight: 500;
+  font-size: 14px;
 }
 
-.pr-locale-trigger {
-  display: flex;
-  align-items: center;
-  gap: 2px;
-  cursor: pointer;
+.group[aria-expanded="true"] .button {
+  color: rgb(60 60 60 / 0.70);
+  transition: color 0.25s;
+
+  .dark & {
+    color: rgb(235 235 235 / 0.6)
+  }
 }
 
-.pr-locale-arrow {
-  font-size: 12px;
-  transition: transform 0.2s;
-}
-
-.pr-locale-arrow.open {
-  transform: rotate(180deg);
-}
-
-.pr-locale-dropdown {
+.menu {
   position: absolute;
-  top: 100%;
+  top: 20px;
   right: 0;
-  margin-top: 4px;
-  min-width: 120px;
-  padding: 4px 0;
-  background: var(--va-c-bg);
-  border: 1px solid var(--pr-c-divider-light);
-  border-radius: 8px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-  z-index: var(--pr-z-nav, 30);
+  min-width: 128px;
+  opacity: 0;
+  visibility: hidden;
+  transition:
+    opacity 0.25s,
+    visibility 0.25s,
+    transform 0.25s;
+  transform: translateY(calc(var(--pr-nav-height) / 2));
+  border-radius: 12px;
+  padding: 12px;
+  border: 1px solid rgb(60 60 60 / 0.12);
+  background-color: #fff;
+  box-shadow: 0 12px 32px rgb(0 0 0 / 0.1), 0 2px 6px rgb(0 0 0 / 0.08);
+
+  .dark & {
+    background-color: #242424;
+  }
 }
 
-.pr-locale-option {
-  display: block;
-  padding: 6px 16px;
-  font-size: 13px;
-  line-height: 20px;
-  color: var(--va-c-text);
-  text-decoration: none;
+.group[aria-expanded="true"] > .menu {
+  opacity: 1;
+  visibility: visible;
+}
+
+.menu-title {
+  padding: 0 12px;
+  font-size: 12px;
+  font-weight: 700;
+  color: rgb(60 60 60 / 0.5);
+  line-height: 28px;
   white-space: nowrap;
-  transition: background-color 0.15s;
+  text-transform: uppercase;
+
+  .dark & {
+    color: rgb(235 235 235 / 0.5);
+  }
 }
 
-.pr-locale-option:hover {
-  background-color: var(--pr-c-divider-light);
-}
+.menu-link {
+  .menu-item {
+    display: flex;
+    width: 100%;
+    border-radius: 6px;
+    color: var(--pr-nav-text);
+    line-height: 32px;
+    font-size: 14px;
+    font-weight: 500;
+    white-space: nowrap;
+    transition:
+      background-color 0.25s,
+      color 0.25s;
 
-.pr-locale-option.active {
-  color: var(--pr-c-brand);
-  font-weight: 600;
+    &:hover {
+      background-color: #f1f1f1;
+      color: var(--va-c-brand);
+
+      .dark & {
+        background-color: #2f2f2f;
+      }
+    }
+
+    &.active {
+      color: var(--va-c-brand);
+    }
+  }
 }
 </style>
