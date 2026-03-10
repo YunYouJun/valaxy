@@ -1,11 +1,33 @@
 <script lang="ts" setup>
 import { useFrontmatter } from 'valaxy'
+import { computed } from 'vue'
 import { useI18n } from 'vue-i18n'
+import { useLocaleConfig } from '../composables'
 import PressButton from './PressButton.vue'
 
 const fm = useFrontmatter()
 
 const { t } = useI18n()
+
+const { currentLocale, currentLocaleKey, hasLocales } = useLocaleConfig()
+
+/**
+ * Prepend the current locale prefix to internal links.
+ */
+function resolveLocaleLink(link: string): string {
+  if (!hasLocales.value || !link.startsWith('/') || currentLocaleKey.value === 'root')
+    return link
+  const prefix = currentLocale.value.link
+  const base = prefix.endsWith('/') ? prefix.slice(0, -1) : prefix
+  return `${base}${link}`
+}
+
+const actions = computed(() => {
+  return (fm.value.hero?.actions || []).map((action: any) => ({
+    ...action,
+    link: resolveLocaleLink(action.link),
+  }))
+})
 </script>
 
 <template>
@@ -24,7 +46,7 @@ const { t } = useI18n()
   </h2>
 
   <div p="2" text="center" class="flex justify-center items-center">
-    <template v-for="action in fm.hero.actions" :key="action.link">
+    <template v-for="action in actions" :key="action.link">
       <PressGetStarted
         v-if="action.type === 'fly'"
         :theme="action.theme"

@@ -1,5 +1,6 @@
 <script lang="ts" setup>
 import { useSidebar, useSiteConfig } from 'valaxy'
+import { computed } from 'vue'
 import { useLocaleConfig } from '../composables'
 
 defineProps<{
@@ -13,14 +14,15 @@ defineEmits<{
 const { hasSidebar } = useSidebar()
 
 const siteConfig = useSiteConfig()
-const { localeConfig } = useLocaleConfig()
+const { localeConfig, currentLocale, hasLocales } = useLocaleConfig()
+const homeLink = computed(() => hasLocales.value ? currentLocale.value.link : '/')
 </script>
 
 <template>
   <div class="pr-navbar flex justify-between items-center pl-4 pr-2" :class="{ 'has-sidebar': hasSidebar }">
     <RouterLink
       class="text-xl flex justify-center items-center font-black gradient-text from-purple-800 to-blue-500 bg-gradient-to-r"
-      to="/" :aria-label="siteConfig.title"
+      :to="homeLink" :aria-label="siteConfig.title"
     >
       <img v-if="localeConfig.logo" class="logo" :src="localeConfig.logo" alt="LOGO">
       <span class="inline-flex">{{ siteConfig.title }}</span>
