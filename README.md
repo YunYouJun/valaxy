@@ -48,7 +48,7 @@ For an example, you can see [demo/yun](./demo/yun/) folder.
 - 🔥 Hot Reload with Config & Markdown
 - 🔧 Type Tooltip for all config by `valaxy.config.ts`
 - 🗒 Extended Markdown Frontmatter
-- 🗂 File based routing via [unplugin-vue-router](https://github.com/posva/unplugin-vue-router)
+- 🗂 File based routing via [vue-router](https://router.vuejs.org/file-based-routing/)
 - 📦 Components auto importing via [unplugin-vue-components](https://github.com/antfu/unplugin-vue-components)
 - 🖨 Static-site generation (SSG) via [vite-ssg](https://github.com/antfu/vite-ssg) (SPA is OK!)
 - 🕸 RSS & Sitemap

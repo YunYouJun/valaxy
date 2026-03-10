@@ -223,6 +223,158 @@ export default defineValaxyConfig<PressTheme.Config>({
       copyright:
         'Copyright © 2022-present <a href="https://github.com/YunYouJun" target="_blank">YunYouJun</a> & <a href="https://github.com/YunYouJun/valaxy/graphs/contributors" target="_blank">Valaxy Contributors</a>',
     },
+
+    i18nRouting: true,
+    locales: {
+      root: {
+        label: 'English',
+        lang: 'en',
+      },
+      zh: {
+        label: '简体中文',
+        lang: 'zh-CN',
+        link: '/zh/',
+        themeConfig: {
+          nav: [
+            {
+              text: '指南',
+              items: [
+                {
+                  text: '起步',
+                  link: '/zh/guide/getting-started',
+                },
+                {
+                  text: '从其他框架迁移',
+                  link: '/zh/migration/',
+                },
+              ],
+            },
+            {
+              text: '配置',
+              link: '/zh/guide/config/',
+            },
+            {
+              text: 'API',
+              link: 'https://api.valaxy.site/',
+            },
+            {
+              text: '主题',
+              items: [
+                {
+                  text: '使用主题',
+                  link: '/zh/themes/use',
+                },
+                {
+                  text: '编写主题',
+                  link: '/zh/themes/write',
+                },
+                {
+                  text: '主题橱窗',
+                  link: '/zh/themes/gallery',
+                },
+              ],
+            },
+            {
+              text: '插件',
+              items: [
+                {
+                  text: '为什么需要插件？',
+                  link: '/zh/addons/why',
+                },
+                {
+                  text: '使用插件',
+                  link: '/zh/addons/use',
+                },
+                {
+                  text: '编写插件',
+                  link: '/zh/addons/write',
+                },
+                {
+                  text: '插件橱窗',
+                  link: '/zh/addons/gallery',
+                },
+              ],
+            },
+            {
+              text: '生态',
+              items: [
+                {
+                  text: 'VSCode 插件',
+                  link: '/zh/ecosystem/vscode',
+                },
+                {
+                  text: '客户端应用',
+                  link: '/zh/ecosystem/client',
+                },
+                {
+                  text: '新闻',
+                  link: '/zh/ecosystem/news',
+                },
+                {
+                  text: '社区',
+                  link: '/zh/ecosystem/community',
+                },
+                {
+                  text: '参与开发',
+                  link: '/zh/dev',
+                },
+                {
+                  text: '开发笔记',
+                  link: '/zh/posts/',
+                },
+                {
+                  text: '示例站点',
+                  link: '/zh/examples/site',
+                },
+              ],
+            },
+            {
+              text: pkg.version,
+              items: [
+                {
+                  text: 'Release Notes',
+                  link: 'https://github.com/YunYouJun/valaxy/releases',
+                },
+              ],
+            },
+          ],
+          sidebar: [
+            'getting-started',
+            'guide',
+            {
+              text: '配置',
+              collapsed: false,
+              items: [
+                {
+                  text: '基础配置',
+                  link: '/zh/guide/config/',
+                },
+                {
+                  text: '扩展配置',
+                  link: '/zh/guide/config/extend',
+                },
+                {
+                  text: 'UnoCSS 配置',
+                  link: '/zh/guide/config/unocss-options',
+                },
+              ],
+            },
+            'migration',
+            'built-ins',
+            'third',
+            'custom',
+            'examples',
+            'theme',
+            'addon',
+            'dev',
+            {
+              text: '开发笔记',
+              link: '/zh/posts/',
+            },
+          ],
+        },
+      },
+    },
   },
 
   vite: {

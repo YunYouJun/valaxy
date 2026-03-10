@@ -35,6 +35,45 @@ routes.forEach((i) => {
   })
 })
 
+/**
+ * Flatten nested routes so that `setupLayouts` can wrap every leaf route.
+ *
+ * `vue-router/vite` (file-based routing) generates nested route trees for subdirectories
+ * (e.g. `pages/zh/guide/foo.md` → `{ path: '/zh', children: [{ path: 'guide', children: … }] }`).
+ * `vite-plugin-vue-layouts`' `setupLayouts` only wraps **top-level** routes,
+ * so nested children would miss the layout wrapper entirely.
+ *
+ * This function extracts every leaf (component-bearing or redirect) route into a flat
+ * top-level entry with a fully-resolved path, preserving its `meta`.
+ */
+function flattenRoutes(routes: any[]): any[] {
+  const flat: any[] = []
+  function walk(route: any, parentPath: string) {
+    const fullPath = parentPath
+      ? `${parentPath.replace(/\/$/, '')}/${route.path.replace(/^\//, '')}`
+      : route.path
+
+    if (route.component || route.components || route.redirect) {
+      flat.push({
+        ...route,
+        path: fullPath,
+        children: undefined,
+      })
+    }
+
+    if (route.children) {
+      for (const child of route.children) {
+        walk(child, fullPath)
+      }
+    }
+  }
+
+  for (const route of routes) {
+    walk(route, '')
+  }
+  return flat
+}
+
 // filter children recursive
 function filterDraft(routes: any[]) {
   return routes.filter((i) => {
@@ -47,8 +86,8 @@ function filterDraft(routes: any[]) {
 
 // not filter hide for ssg
 export const routesWithLayout = setupLayouts(import.meta.env.DEV
-  ? routes
-  : filterDraft(routes),
+  ? flattenRoutes(routes)
+  : filterDraft(flattenRoutes(routes)),
 )
 
 if (import.meta.env.DEV)

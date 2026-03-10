@@ -1,15 +1,12 @@
 ---
-title:
-  en: Custom Styles
-  zh-CN: 自定义样式
+title: Custom Styles
 categories:
   - custom
 end: false
 ---
 
-## 自动样式注入 {lang="zh-CN"}
 
-## Automatic Style Injection {lang="en"}
+## Automatic Style Injection
 
 ::: warning
 
@@ -47,9 +44,8 @@ We recommend you:
 
 :::
 
-## 自定义字体 {lang="zh-CN"}
 
-## Custom Font {lang="en"}
+## Custom Font
 
 :::zh-CN
 譬如你可以在 `styles/index.ts` 中覆盖默认的字体。
@@ -83,9 +79,8 @@ import './vars.scss'
 
 ## 示例
 
-### 自定义光标 {lang="zh-CN"}
 
-### Custom Cursor {lang="en"}
+### Custom Cursor
 
 替换鼠标光标样式。
 
@@ -131,7 +126,6 @@ input {
 }
 ```
 
-### 覆盖暗色模式 {lang="zh-CN"}
 
 需使用 `html.dark` 选择器包裹样式。
 

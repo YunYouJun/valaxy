@@ -1,7 +1,7 @@
 # unplugin-vue-components
 components.d.ts
 
-# unplugin-vue-router
+# vue-router/vite (file-based routing)
 typed-router.d.ts
 
 .env.local

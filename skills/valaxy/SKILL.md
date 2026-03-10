@@ -47,7 +47,7 @@ User components/layouts/styles override theme which overrides core — by filena
 
 ### Routing
 
-File-based via `unplugin-vue-router`. Files in `pages/` become routes. Layout auto-assigned:
+File-based via `vue-router/vite`. Files in `pages/` become routes. Layout auto-assigned:
 - `pages/posts/**` → `post` layout
 - `pages/tags/**` → `tags` layout
 - `pages/categories/**` → `categories` layout

@@ -95,7 +95,7 @@ export async function ViteValaxyPlugins(
 
     UnheadVite(),
 
-    // https://github.com/posva/unplugin-vue-router
+    // https://router.vuejs.org/file-based-routing/
     RouterPlugin,
 
     // https://github.com/JohnCampionJr/vite-plugin-vue-layouts
