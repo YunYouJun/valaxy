@@ -3,6 +3,7 @@ import type { ResolvedValaxyOptions } from '../types'
 import { dirname, join, resolve } from 'node:path'
 import { uniq } from '@antfu/utils'
 import { mergeConfig, searchForWorkspaceRoot } from 'vite'
+import { escapeRegExp } from '../build/bundle'
 import { getIndexHtml } from '../common'
 import { isKatexPluginNeeded } from '../config/valaxy'
 import { isInstalledGlobally, resolveImportPath, toAtFS } from '../utils'
@@ -209,7 +210,6 @@ export async function getAlias(options: ResolvedValaxyOptions): Promise<AliasOpt
   }
 
   options.addons.forEach((addon) => {
-    // without alias 'valaxy-addon-xxx/', import { xxx } from 'valaxy-addon-name' works well
     alias.push({
       find: `${addon.name}/client/`,
       replacement: `${toAtFS(`${resolve(addon.root)}`)}/client/`,
@@ -218,6 +218,14 @@ export async function getAlias(options: ResolvedValaxyOptions): Promise<AliasOpt
       find: `${addon.name}/App.vue`,
       replacement: `${toAtFS(resolve(addon.root))}/App.vue`,
     })
+    // general subpath: e.g. valaxy-addon-xxx/components/Foo.vue -> addonRoot/components/Foo.vue
+    // Use regex to avoid Vite's normalizeSingleAlias stripping trailing slashes
+    // from string aliases, which would make this collide with the bare import alias.
+    alias.push({
+      find: new RegExp(`^${escapeRegExp(addon.name)}/(.+)`),
+      replacement: `${toAtFS(resolve(addon.root))}/$1`,
+    })
+    // bare import: e.g. valaxy-addon-xxx -> addonRoot/client/index.ts
     alias.push({
       find: addon.name,
       replacement: `${toAtFS(resolve(addon.root))}/client/index.ts`,
