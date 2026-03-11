@@ -44,12 +44,12 @@ function extractConfigItems(content: string): { key?: string, title?: string, li
 
 describe('resolveCollectionItemHref', () => {
   it('resolves key-based item to collection path', () => {
-    const result = resolveCollectionItemHref('hamster', { key: '1', title: 'Chapter 1' })
+    const result = resolveCollectionItemHref('hamster', { key: '1' })
     expect(result).toEqual({ href: '/collections/hamster/1', isExternal: false })
   })
 
   it('resolves external link item', () => {
-    const result = resolveCollectionItemHref('hamster', { title: 'External', link: 'https://valaxy.site' })
+    const result = resolveCollectionItemHref('hamster', { link: 'https://valaxy.site' })
     expect(result).toEqual({ href: 'https://valaxy.site', isExternal: true })
   })
 
@@ -59,7 +59,7 @@ describe('resolveCollectionItemHref', () => {
   })
 
   it('resolves internal link item (starting with /)', () => {
-    const result = resolveCollectionItemHref('hamster', { title: 'Related Post', link: '/posts/hello-valaxy' })
+    const result = resolveCollectionItemHref('hamster', { link: '/posts/hello-valaxy' })
     expect(result).toEqual({ href: '/posts/hello-valaxy', isExternal: false })
   })
 
@@ -69,7 +69,7 @@ describe('resolveCollectionItemHref', () => {
   })
 
   it('returns empty href when neither key nor link is set', () => {
-    const result = resolveCollectionItemHref('hamster', { title: 'No link' })
+    const result = resolveCollectionItemHref('hamster', {})
     expect(result).toEqual({ href: '', isExternal: false })
   })
 
