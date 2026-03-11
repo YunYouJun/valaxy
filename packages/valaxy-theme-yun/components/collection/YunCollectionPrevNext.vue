@@ -14,23 +14,23 @@ const basePath = computed(() => `/collections/${props.collection.key}/`)
 </script>
 
 <template>
-  <nav v-if="prev || next" class="collection-prev-next" flex="~ justify-between" p="4">
+  <nav v-if="(prev?.key && collection.key) || (next?.key && collection.key)" class="collection-prev-next" flex="~ justify-between" p="4">
     <RouterLink
-      v-if="prev"
+      v-if="prev?.key"
       :to="`${basePath}${prev.key}`"
       class="prev inline-flex items-center gap-1 op-70 hover:op-100 transition"
     >
       <div i-ri-arrow-left-line />
-      <span>{{ prev.title }}</span>
+      <span>{{ prev.title || prev.key }}</span>
     </RouterLink>
     <span v-else />
 
     <RouterLink
-      v-if="next"
+      v-if="next?.key"
       :to="`${basePath}${next.key}`"
       class="next inline-flex items-center gap-1 op-70 hover:op-100 transition"
     >
-      <span>{{ next.title }}</span>
+      <span>{{ next.title || next.key }}</span>
       <div i-ri-arrow-right-line />
     </RouterLink>
   </nav>

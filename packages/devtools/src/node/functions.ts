@@ -34,6 +34,20 @@ function extractBooleanField(content: string, field: string, defaultValue: boole
   return match[1] === 'true'
 }
 
+/**
+ * Extract item keys from a collection's index.ts items array.
+ * Returns keys in the order they appear in the config.
+ */
+function extractItemKeys(content: string): string[] {
+  const keys: string[] = []
+  const keyRegex = /key\s*:\s*['"`]([^'"`]*)['"`]/g
+  let match: RegExpExecArray | null
+  // eslint-disable-next-line no-cond-assign
+  while ((match = keyRegex.exec(content)) !== null)
+    keys.push(match[1])
+  return keys
+}
+
 export function getFunctions(server: ViteDevServer, devtoolsOptions: ValaxyDevtoolsOptions): ServerFunctions {
   const userRoot = (devtoolsOptions.userRoot || process.cwd()).replace(/\\/g, '/')
   // const userRoot = GLOBAL_STATE.valaxyApp?.options.userRoot || process.cwd()
@@ -128,14 +142,27 @@ export function getFunctions(server: ViteDevServer, devtoolsOptions: ValaxyDevto
           })
         }
 
-        // Sort items by date (fallback to 0 for missing/invalid dates)
-        items.sort((a, b) => {
-          const aVal = dayjs(a.frontmatter.date).valueOf()
-          const bVal = dayjs(b.frontmatter.date).valueOf()
-          const aDate = Number.isNaN(aVal) ? 0 : aVal
-          const bDate = Number.isNaN(bVal) ? 0 : bVal
-          return aDate - bDate
-        })
+        // Sort items by collection config order if available, otherwise by date
+        const configKeys = extractItemKeys(indexContent)
+        if (configKeys.length > 0) {
+          const orderMap = new Map(configKeys.map((k, i) => [k, i]))
+          items.sort((a, b) => {
+            const aIdx = orderMap.get(a.key) ?? Infinity
+            const bIdx = orderMap.get(b.key) ?? Infinity
+            if (aIdx === bIdx)
+              return 0
+            return aIdx - bIdx
+          })
+        }
+        else {
+          items.sort((a, b) => {
+            const aVal = dayjs(a.frontmatter.date).valueOf()
+            const bVal = dayjs(b.frontmatter.date).valueOf()
+            const aDate = Number.isNaN(aVal) ? 0 : aVal
+            const bDate = Number.isNaN(bVal) ? 0 : bVal
+            return aDate - bDate
+          })
+        }
 
         const key = extractStringField(indexContent, 'key') || dir
 
