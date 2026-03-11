@@ -13,6 +13,7 @@ import { build, postProcessForSSG, ssgBuild, ssgBuildLegacy } from '../build'
 import { mergeViteConfigs } from '../common'
 import { callHookWithLog } from '../logger'
 import { setupModules } from '../modules'
+import { contentModule } from '../modules/content'
 import { fuseModule } from '../modules/fuse'
 import { llmsModule } from '../modules/llms'
 import { rssModule } from '../modules/rss'
@@ -48,6 +49,8 @@ export async function execBuild({ ssg, ssgEngine, root, output, log }: { ssg: bo
     modules.push(rssModule)
   if (options.config.siteConfig.llms.enable)
     modules.push(llmsModule)
+  if (options.config.loaders?.length)
+    modules.push(contentModule)
 
   // setup modules
   setupModules(

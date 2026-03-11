@@ -66,7 +66,12 @@ export async function createRouterPlugin(valaxyApp: ValaxyNode) {
 
   return VueRouter({
     extensions: ['.vue', '.md'],
-    routesFolder: roots.map(root => `${root}/pages`),
+    routesFolder: [
+      ...roots.map(root => `${root}/pages`),
+      ...(valaxyConfig.loaders?.length
+        ? [resolve(options.tempDir, 'content', 'pages')]
+        : []),
+    ],
     dts: resolve(options.tempDir, 'route-map.d.ts'),
 
     ...valaxyConfig.router,

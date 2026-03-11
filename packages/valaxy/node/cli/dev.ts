@@ -1,5 +1,6 @@
 import type { InlineConfig, LogLevel, ViteDevServer } from 'vite'
 import type { Argv } from 'yargs'
+import type { ContentLoaderContext } from '../types/loader'
 import path from 'node:path'
 import process from 'node:process'
 
@@ -39,6 +40,30 @@ export async function startValaxyDev({
 
   const valaxyApp = createValaxyNode(resolvedOptions)
   GLOBAL_STATE.valaxyApp = valaxyApp
+
+  // Load content from external loaders before starting the dev server
+  const loaders = resolvedOptions.config.loaders
+  if (loaders?.length) {
+    const { loadAllContent } = await import('../modules/content')
+    const { resolve } = await import('pathe')
+    const cacheDir = resolve(resolvedOptions.tempDir, 'content')
+    const ctx: ContentLoaderContext = {
+      node: valaxyApp,
+      cacheDir,
+      mode: 'dev',
+    }
+
+    await valaxyApp.hooks.callHook('content:before-load')
+    await loadAllContent(loaders, ctx)
+    await valaxyApp.hooks.callHook('content:loaded')
+
+    // Set up polling for loaders that request it
+    for (const loader of loaders) {
+      if (loader.devPollInterval) {
+        setInterval(() => loadAllContent([loader], ctx), loader.devPollInterval)
+      }
+    }
+  }
 
   const viteConfig: InlineConfig = mergeConfig({
     // initial vite config

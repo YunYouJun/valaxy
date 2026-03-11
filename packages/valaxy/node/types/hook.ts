@@ -39,4 +39,17 @@ export interface ValaxyHooks {
 
   'build:before': () => HookResult
   'build:after': () => HookResult
+
+  /**
+   * @experimental
+   * Called before content loaders start fetching.
+   * @see https://github.com/YunYouJun/valaxy/issues/294
+   */
+  'content:before-load': () => HookResult
+  /**
+   * @experimental
+   * Called after all content loaders have finished and files are written to cache.
+   * @see https://github.com/YunYouJun/valaxy/issues/294
+   */
+  'content:loaded': () => HookResult
 }
