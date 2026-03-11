@@ -70,12 +70,22 @@ function onSelectCollection(col: ClientCollectionData) {
         <div class="border rounded dark:border-gray-700">
           <div
             v-for="(item, idx) in selectedCollection.items"
-            :key="item.key"
+            :key="item.key || item.link"
             class="flex items-center gap-2 px-3 py-2 text-sm border-b last:border-b-0 dark:border-gray-700"
           >
             <span class="op-40 text-xs w-6 text-right">{{ idx + 1 }}</span>
             <span class="flex-1">{{ item.title }}</span>
-            <span class="text-xs op-40 font-mono">{{ item.key }}</span>
+            <a
+              v-if="item.link"
+              :href="item.link"
+              target="_blank"
+              rel="noopener noreferrer"
+              class="text-xs text-blue-500 font-mono inline-flex items-center gap-0.5"
+            >
+              {{ item.link }}
+              <span class="i-ri-external-link-line text-xs" />
+            </a>
+            <span v-else class="text-xs op-40 font-mono">{{ item.key }}</span>
           </div>
           <div v-if="!selectedCollection.items.length" class="text-center op-50 py-4 text-sm">
             No items

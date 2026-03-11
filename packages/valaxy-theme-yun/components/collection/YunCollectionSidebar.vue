@@ -1,7 +1,17 @@
 <script setup lang="ts">
-import { useCollection } from 'valaxy'
+import { resolveCollectionItemHref, useCollection } from 'valaxy'
+import { computed } from 'vue'
 
 const { collection } = useCollection()
+
+const resolvedItems = computed(() => {
+  if (!collection.value?.items || !collection.value.key)
+    return []
+  return collection.value.items.map(item => ({
+    ...item,
+    ...resolveCollectionItemHref(collection.value.key!, item),
+  }))
+})
 </script>
 
 <template>
@@ -11,10 +21,22 @@ const { collection } = useCollection()
         {{ collection.title }}
       </RouterLink>
       <div class="items">
-        <div v-for="item in collection.items" :key="item.key" class="item">
+        <div v-for="item in resolvedItems" :key="item.key || item.link" class="item">
           <div class="indicator" />
+          <a
+            v-if="item.isExternal"
+            :href="item.href"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            <p class="text inline-flex items-center gap-1">
+              {{ item.title }}
+              <span class="i-ri-external-link-line text-xs op-50" />
+            </p>
+          </a>
           <RouterLink
-            :to="`/collections/${collection.key}/${item.key}`"
+            v-else
+            :to="item.href"
           >
             <p class="text">
               {{ item.title }}

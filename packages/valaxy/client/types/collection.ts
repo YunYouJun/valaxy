@@ -44,5 +44,19 @@ export interface CollectionConfig {
      * 对应路径为 `/collections/${key}/${item.key}`
      */
     key?: string
+    /**
+     * @en
+     * Link to an existing page or external URL.
+     * Internal links (starting with `/`) use `<RouterLink>`.
+     * External links (e.g. `https://...`) open in a new tab.
+     * Mutually exclusive with `key` — if both are set, `link` takes precedence.
+     *
+     * @zh
+     * 链接到已有页面或外部 URL。
+     * 内部链接（以 `/` 开头）使用 `<RouterLink>`。
+     * 外部链接（如 `https://...`）在新标签页中打开。
+     * 与 `key` 互斥——若同时设置，`link` 优先。
+     */
+    link?: string
   }[]
 }

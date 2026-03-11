@@ -105,7 +105,7 @@ title: 第一章 仓鼠的笼子
 | `categories` | `string[]` | — | 合集卡片的分类。 |
 | `tags` | `string[]` | — | 合集卡片的标签。 |
 | `collapse` | `boolean` | `true` | 是否在首页/归档文章列表中以单个折叠卡片展示。详见[折叠模式](#折叠模式)。 |
-| `items` | `{ title?, key? }[]` | — | 有序文章列表。`key` 对应 `.md` 文件名（如 `key: '1'` → `1.md`）。决定文章阅读顺序和上下篇导航。 |
+| `items` | `{ title?, key?, link? }[]` | — | 有序文章列表。`key` 对应 `.md` 文件名（如 `key: '1'` → `1.md`）。`link` 引用已有页面或外部 URL。`key` 与 `link` 互斥，若同时设置，`link` 优先。决定文章阅读顺序和上下篇导航。 |
 
 ### 折叠模式 {#折叠模式}
 
@@ -130,6 +130,26 @@ export default defineCollection({
   title: '我的系列',
   collapse: false, // 不在文章列表中显示卡片
   items: [/* ... */],
+})
+```
+
+### 链接外部内容 {#链接外部内容}
+
+你可以使用 `link` 字段在合集的阅读顺序中引用已有的博客文章或外部 URL。当合集包含不在合集目录中的内容时，这个功能非常有用。
+
+- 内部链接（以 `/` 开头）通过 `<RouterLink>` 在站内导航。
+- 外部链接（如 `https://...`）在新标签页中打开，并显示外部链接图标。
+- `key` 与 `link` 互斥。若同时设置，`link` 优先。
+
+```ts
+export default defineCollection({
+  title: '我的学习路径',
+  items: [
+    { title: '第一章 - 基础', key: '1' },
+    { title: '相关博文', link: '/posts/my-related-article' },
+    { title: '第二章 - 进阶', key: '2' },
+    { title: '外部参考', link: 'https://example.com/resource' },
+  ],
 })
 ```
 

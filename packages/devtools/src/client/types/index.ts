@@ -27,6 +27,7 @@ export interface ClientPageData {
 export interface ClientCollectionItem {
   title: string
   key: string
+  link?: string
   filePath: string
   frontmatter: Record<string, any>
 }

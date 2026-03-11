@@ -7,6 +7,20 @@ import { useRoute } from 'vue-router'
 import { usePageList } from './post'
 
 /**
+ * Resolve the href and external status for a collection item.
+ * `link` takes precedence over `key`. Internal links start with `/`.
+ */
+export function resolveCollectionItemHref(collectionKey: string, item: { key?: string, link?: string }): { href: string, isExternal: boolean } {
+  if (item.link) {
+    const isExternal = /^https?:\/\//.test(item.link)
+    return { href: item.link, isExternal }
+  }
+  if (item.key)
+    return { href: `/collections/${collectionKey}/${item.key}`, isExternal: false }
+  return { href: '', isExternal: false }
+}
+
+/**
  * Composable for Collections
  * /collections/:collectionId/:slug
  * @example /collections/love-letters/1
@@ -59,7 +73,11 @@ export function useCollectionPosts(collectionKey: MaybeRef<string>) {
     // Sort by collection items order if available
     const col = collections.value.find(c => c.key === key)
     if (col?.items) {
-      const orderMap = new Map(col.items.map((item, idx) => [item.key, idx]))
+      const orderMap = new Map(
+        col.items
+          .filter(item => item.key && !item.link)
+          .map((item, idx) => [item.key, idx]),
+      )
       return [...pages].sort((a, b) => {
         const aSlug = a.path?.split('/').pop() || ''
         const bSlug = b.path?.split('/').pop() || ''

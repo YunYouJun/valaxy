@@ -35,17 +35,32 @@ function extractBooleanField(content: string, field: string, defaultValue: boole
 }
 
 /**
- * Extract item keys from a collection's index.ts items array.
- * Returns keys in the order they appear in the config.
+ * Extract item configs from a collection's index.ts items array.
+ * Returns items with key, title, and link in the order they appear in the config.
  */
-function extractItemKeys(content: string): string[] {
-  const keys: string[] = []
-  const keyRegex = /key\s*:\s*['"`]([^'"`]*)['"`]/g
-  let match: RegExpExecArray | null
+function extractConfigItems(content: string): { key?: string, title?: string, link?: string }[] {
+  const items: { key?: string, title?: string, link?: string }[] = []
+  // Match each object literal { ... } in the items array
+  const itemsMatch = content.match(/items\s*:\s*\[([^\]]*)\]/)
+  if (!itemsMatch)
+    return items
+
+  const itemsContent = itemsMatch[1]
+  const objectRegex = /\{([^}]*)\}/g
+  let objMatch: RegExpExecArray | null
   // eslint-disable-next-line no-cond-assign
-  while ((match = keyRegex.exec(content)) !== null)
-    keys.push(match[1])
-  return keys
+  while ((objMatch = objectRegex.exec(itemsContent)) !== null) {
+    const block = objMatch[1]
+    const keyMatch = block.match(/key\s*:\s*['"`]([^'"`]*)['"`]/)
+    const titleMatch = block.match(/title\s*:\s*['"`]([^'"`]*)['"`]/)
+    const linkMatch = block.match(/link\s*:\s*['"`]([^'"`]*)['"`]/)
+    items.push({
+      key: keyMatch?.[1],
+      title: titleMatch?.[1],
+      link: linkMatch?.[1],
+    })
+  }
+  return items
 }
 
 export function getFunctions(server: ViteDevServer, devtoolsOptions: ValaxyDevtoolsOptions): ServerFunctions {
@@ -143,12 +158,33 @@ export function getFunctions(server: ViteDevServer, devtoolsOptions: ValaxyDevto
         }
 
         // Sort items by collection config order if available, otherwise by date
-        const configKeys = extractItemKeys(indexContent)
-        if (configKeys.length > 0) {
-          const orderMap = new Map(configKeys.map((k, i) => [k, i]))
+        const configItems = extractConfigItems(indexContent)
+        if (configItems.length > 0) {
+          // Merge link-only items from config (they have no .md files)
+          for (const ci of configItems) {
+            if (ci.link && !items.find(i => i.key === ci.key)) {
+              items.push({
+                title: ci.title || ci.link,
+                key: ci.key || '',
+                link: ci.link,
+                filePath: '',
+                frontmatter: {},
+              })
+            }
+          }
+
+          // Build order map from config — use key for key-based items, link for link-only items
+          const orderMap = new Map<string, number>()
+          configItems.forEach((ci, i) => {
+            if (ci.key)
+              orderMap.set(`key:${ci.key}`, i)
+            else if (ci.link)
+              orderMap.set(`link:${ci.link}`, i)
+          })
+
           items.sort((a, b) => {
-            const aIdx = orderMap.get(a.key) ?? Infinity
-            const bIdx = orderMap.get(b.key) ?? Infinity
+            const aIdx = (a.key ? orderMap.get(`key:${a.key}`) : orderMap.get(`link:${a.link}`)) ?? Infinity
+            const bIdx = (b.key ? orderMap.get(`key:${b.key}`) : orderMap.get(`link:${b.link}`)) ?? Infinity
             if (aIdx === bIdx)
               return 0
             return aIdx - bIdx

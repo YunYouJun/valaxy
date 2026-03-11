@@ -10,7 +10,14 @@ const currentItemIndex = computed(() => {
   if (!collection.value?.items)
     return -1
   const slug = route.path.split('/').pop()
-  return collection.value.items.findIndex(item => item.key === slug)
+  return collection.value.items.findIndex((item) => {
+    if (item.key === slug)
+      return true
+    // Match internal link items against current route path
+    if (item.link && !(/^https?:\/\//).test(item.link) && item.link === route.path)
+      return true
+    return false
+  })
 })
 </script>
 

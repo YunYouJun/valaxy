@@ -28,26 +28,28 @@ const displayedPosts = computed(() =>
 </script>
 
 <template>
-  <div flex="~ col" class="yun-post-list gap-4 items-center" w="full" p="x-4 lt-sm:0">
-    <template v-if="!displayedPosts.length">
-      <div py2 op50 text-center>
-        博主还什么都没写哦～
-      </div>
-    </template>
+  <div w="full">
+    <div flex="~ col" class="yun-post-list gap-4 items-center" w="full" p="x-4 lt-sm:0">
+      <template v-if="!displayedPosts.length">
+        <div py2 op50 text-center>
+          博主还什么都没写哦～
+        </div>
+      </template>
 
-    <template v-for="route, i in displayedPosts" :key="i">
-      <YunCollectionCard
-        v-if="route._collection"
-        :post="route"
-        :collection="route._collection"
-      />
-      <YunPostCard v-else :post="route" />
-    </template>
+      <template v-for="route, i in displayedPosts" :key="i">
+        <YunCollectionCard
+          v-if="route._collection"
+          :post="route"
+          :collection="route._collection"
+        />
+        <YunPostCard v-else :post="route" />
+      </template>
+    </div>
+
+    <YunPagination
+      ref="paginationRef"
+      class="mt-5"
+      :total="posts.length" :page-size="pageSize"
+    />
   </div>
-
-  <YunPagination
-    ref="paginationRef"
-    class="mt-5"
-    :total="posts.length" :page-size="pageSize"
-  />
 </template>

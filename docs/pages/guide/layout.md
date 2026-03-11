@@ -105,7 +105,7 @@ Preview: [Collection | Valaxy Theme Yun](https://yun.valaxy.site/collections/ham
 | `categories` | `string[]` | — | Categories for the collection card. |
 | `tags` | `string[]` | — | Tags for the collection card. |
 | `collapse` | `boolean` | `true` | Whether to show the collection as a single collapsed card in homepage/archive post lists. See [Collapse Mode](#collapse-mode). |
-| `items` | `{ title?, key? }[]` | — | Ordered list of articles. `key` maps to the `.md` filename (e.g. `key: '1'` → `1.md`). Determines the article reading order and prev/next navigation. |
+| `items` | `{ title?, key?, link? }[]` | — | Ordered list of articles. `key` maps to the `.md` filename (e.g. `key: '1'` → `1.md`). `link` references an existing page or external URL. `key` and `link` are mutually exclusive; if both are set, `link` takes precedence. Determines the article reading order and prev/next navigation. |
 
 ### Collapse Mode
 
@@ -130,6 +130,26 @@ export default defineCollection({
   title: 'My Series',
   collapse: false, // no card in post list
   items: [/* ... */],
+})
+```
+
+### Linking External Content
+
+You can reference existing blog posts or external URLs in a collection's reading order using the `link` field. This is useful when your collection includes content that lives outside the collection directory.
+
+- Internal links (starting with `/`) navigate within the site using `<RouterLink>`.
+- External links (e.g. `https://...`) open in a new tab with an external-link icon.
+- `key` and `link` are mutually exclusive per item. If both are set, `link` takes precedence.
+
+```ts
+export default defineCollection({
+  title: 'My Learning Path',
+  items: [
+    { title: 'Chapter 1 - Basics', key: '1' },
+    { title: 'Related Blog Post', link: '/posts/my-related-article' },
+    { title: 'Chapter 2 - Advanced', key: '2' },
+    { title: 'External Reference', link: 'https://example.com/resource' },
+  ],
 })
 ```
 
