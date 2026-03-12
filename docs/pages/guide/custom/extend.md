@@ -21,7 +21,7 @@ If you want some reference, you can refer to [valaxy-theme-yun](https://github.c
 ## Automatic Layout Registration
 
 
-Valaxy provides custom layouts based on [vite-plugin-vue-layouts](https://github.com/JohnCampionJr/vite-plugin-vue-layouts).
+Valaxy provides custom layouts based on [vite-plugin-vue-layouts-next](https://github.com/loicduong/vite-plugin-vue-layouts-next).
 
 Create a `layouts` file, and write Vue components as layouts.
 

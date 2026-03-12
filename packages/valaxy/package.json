@@ -142,7 +142,7 @@
     "vite": "catalog:build",
     "vite-dev-rpc": "catalog:",
     "vite-plugin-vue-devtools": "catalog:",
-    "vite-plugin-vue-layouts": "catalog:",
+    "vite-plugin-vue-layouts-next": "catalog:",
     "vite-ssg": "catalog:",
     "vite-ssg-sitemap": "catalog:",
     "vitepress-plugin-group-icons": "catalog:",
