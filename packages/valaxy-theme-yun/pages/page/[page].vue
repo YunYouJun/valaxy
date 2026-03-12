@@ -1,8 +1,8 @@
-<script setup lang="ts">
-// dynamic page
-// layout is home
-</script>
-
 <template>
   <YunPostList />
 </template>
+
+<route lang="yaml">
+meta:
+  layout: home
+</route>

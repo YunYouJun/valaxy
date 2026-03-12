@@ -1,4 +1,4 @@
-import type { ClientOptions, ClientPageData, ClientPostList } from '../types'
+import type { ClientCollectionData, ClientOptions, ClientPageData, ClientPostList } from '../types'
 import { ref } from 'vue'
 
 export const isDevtoolsVisible = ref(false)
@@ -12,6 +12,8 @@ export const clientOptions = ref<ClientOptions>({
 export const postList = ref<ClientPostList>({
   posts: [],
 })
+
+export const collectionList = ref<ClientCollectionData[]>([])
 
 export const curPost = ref('')
 export const clientPageData = ref<ClientPageData>()

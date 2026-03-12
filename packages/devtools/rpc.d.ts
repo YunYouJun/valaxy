@@ -1,4 +1,4 @@
-import type { ClientOptions, ClientPageData, ClientPostList } from './client/types'
+import type { ClientCollectionData, ClientOptions, ClientPageData, ClientPostList } from './client/types'
 
 export interface ServerFunctions {
   // add: (a: number, b: number) => number
@@ -14,6 +14,10 @@ export interface ServerFunctions {
    * 获取页面 pageData
    */
   getPageData: (pagePath: string) => Promise<ClientPageData>
+  /**
+   * 获取合集列表
+   */
+  getCollectionList: () => Promise<ClientCollectionData[]>
 }
 
 export interface ClientFunctions {

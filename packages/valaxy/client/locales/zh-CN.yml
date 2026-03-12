@@ -75,6 +75,10 @@ footer:
   total_views: 总访问量
   total_visitors: 总访客量
 
+collection:
+  badge: 合集
+  empty: 暂无内容
+
 counter:
   archives: 暂无文章 | 共计 1 篇文章 | 共计 {count} 篇文章
   categories: 暂无分类 | 共计 1 个分类 | 共计 {count} 个分类

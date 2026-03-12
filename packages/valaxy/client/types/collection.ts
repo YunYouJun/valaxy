@@ -21,6 +21,19 @@ export interface CollectionConfig {
   tags?: string[]
 
   /**
+   * @en Whether to show collection as a single collapsed entry in homepage/archive lists.
+   * When true (default), a synthetic collection card is added to the post list,
+   * representing all articles in the collection as one entry.
+   * When false, no synthetic entry is added.
+   * @zh 是否在首页/归档列表中以单个条目展示合集。
+   * 为 true（默认）时，合集以一张卡片出现在文章列表中，
+   * 代表合集内的所有文章。
+   * 为 false 时，不添加合集条目。
+   * @default true
+   */
+  collapse?: boolean
+
+  /**
    * items
    */
   items?: {
@@ -31,5 +44,19 @@ export interface CollectionConfig {
      * 对应路径为 `/collections/${key}/${item.key}`
      */
     key?: string
+    /**
+     * @en
+     * Link to an existing page or external URL.
+     * Internal links (starting with `/`) use `<RouterLink>`.
+     * External links (e.g. `https://...`) open in a new tab.
+     * Mutually exclusive with `key` — if both are set, `link` takes precedence.
+     *
+     * @zh
+     * 链接到已有页面或外部 URL。
+     * 内部链接（以 `/` 开头）使用 `<RouterLink>`。
+     * 外部链接（如 `https://...`）在新标签页中打开。
+     * 与 `key` 互斥——若同时设置，`link` 优先。
+     */
+    link?: string
   }[]
 }
