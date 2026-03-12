@@ -1,7 +1,7 @@
 import { isClient, useScroll, useToggle } from '@vueuse/core'
 import { acceptHMRUpdate, defineStore } from 'pinia'
 import { useScreenSize } from 'valaxy'
-import { computed } from 'vue'
+import { computed, ref } from 'vue'
 import { useThemeConfig } from '../composables'
 
 export const useYunAppStore = defineStore('yun-app', () => {
@@ -10,6 +10,9 @@ export const useYunAppStore = defineStore('yun-app', () => {
   const isStrato = computed(() => themeConfig.value.type === 'strato')
   // v2 Theme
   const isNimbo = computed(() => themeConfig.value.type === 'nimbo')
+
+  // Banner animation completed, prologue can show
+  const bannerAnimationDone = ref(false)
 
   // 左侧边栏
   const [isLeftSidebarOpen, toggleLeftSidebar] = useToggle()
@@ -39,6 +42,7 @@ export const useYunAppStore = defineStore('yun-app', () => {
 
     isStrato,
     isNimbo,
+    bannerAnimationDone,
   }
 })
 

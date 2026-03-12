@@ -25,7 +25,7 @@ const showNotice = computed(() => {
           <div class="w-full">
             <YunBanner />
             <Transition
-              v-if="yun.isNimbo"
+              v-if="yun.isNimbo && yun.bannerAnimationDone"
               enter-from-class="scale-60"
               enter-to-class="scale-100"
               enter-active-class="transition-300 transition-cubic-bezier-ease-in-out delay-1000"
