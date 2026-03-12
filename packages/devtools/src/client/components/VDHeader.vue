@@ -24,6 +24,10 @@ const routeMenus: {
     icon: 'i-ri:price-tag-3-line',
   },
   {
+    to: '/collections',
+    icon: 'i-ri:book-2-line',
+  },
+  {
     to: '/migration',
     opened: 'i-vscode-icons:folder-type-tools-opened',
     closed: 'i-vscode-icons:folder-type-tools',

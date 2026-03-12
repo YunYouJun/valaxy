@@ -50,6 +50,7 @@ const { $tO } = useValaxyI18n()
       </div>
       <h2 class="post-title w-full" inline-flex items-center font="serif black">
         <RouterLink :to="post.path || ''" class="post-title-link">
+          <span v-if="post._collection" i-ri-book-2-line class="mr-1 op-60" />
           {{ $tO(post.title) }}
         </RouterLink>
       </h2>

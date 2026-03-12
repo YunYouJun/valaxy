@@ -112,7 +112,7 @@ export async function createRouterPlugin(valaxyApp: ValaxyNode) {
       // }
 
       // add default layout for home, can be overrode
-      if (route.fullPath === '/' || route.fullPath === '/page') {
+      if (route.fullPath === '/' || route.fullPath === '/page' || route.fullPath.startsWith('/page/')) {
         route.addToMeta({
           layout: 'home',
         })

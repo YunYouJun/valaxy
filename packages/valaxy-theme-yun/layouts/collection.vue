@@ -1,5 +1,24 @@
 <script setup lang="ts">
-// TODO: Implement collection layout
+import { useCollection } from 'valaxy'
+import { computed } from 'vue'
+import { useRoute } from 'vue-router'
+
+const { collection } = useCollection()
+const route = useRoute()
+
+const currentItemIndex = computed(() => {
+  if (!collection.value?.items)
+    return -1
+  const slug = route.path.split('/').pop()
+  return collection.value.items.findIndex((item) => {
+    if (item.key === slug)
+      return true
+    // Match internal link items against current route path
+    if (item.link && !(/^https?:\/\//).test(item.link) && item.link === route.path)
+      return true
+    return false
+  })
+})
 </script>
 
 <template>
@@ -11,6 +30,11 @@
     <RouterView v-slot="{ Component }">
       <component :is="Component">
         <template #main-header-after>
+          <YunCollectionNav
+            v-if="collection && currentItemIndex >= 0"
+            :collection="collection"
+            :current-index="currentItemIndex"
+          />
           <YunMainHeaderAfter />
         </template>
         <template #main-content-after>
@@ -21,7 +45,11 @@
         </template>
 
         <template #main-nav>
-          <!--  -->
+          <YunCollectionPrevNext
+            v-if="collection && currentItemIndex >= 0"
+            :collection="collection"
+            :current-index="currentItemIndex"
+          />
         </template>
       </component>
     </RouterView>
