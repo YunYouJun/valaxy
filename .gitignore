@@ -25,3 +25,6 @@ components.d.ts
 
 # test
 valaxy-blog
+
+# codebuddy
+.codebuddy/memory
