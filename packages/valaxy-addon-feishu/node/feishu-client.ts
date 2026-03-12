@@ -21,8 +21,8 @@ export class FeishuClient {
   }
 
   /**
-   * List all wiki nodes in a space, returns doc IDs and titles.
-   * Traverses the wiki tree recursively.
+   * List wiki nodes in a space, returning their doc IDs and titles.
+   * Paginates through all top-level nodes available from the Feishu API.
    */
   async listWikiNodes(spaceId: string): Promise<WikiNode[]> {
     const nodes: WikiNode[] = []
@@ -93,9 +93,9 @@ export class FeishuClient {
     const res = await this.client.drive.file.download({
       path: { file_token: fileToken },
     })
-    // The SDK returns a readable stream in res.data
     const chunks: Uint8Array[] = []
-    const stream = res as any
+    // The SDK may return a readable stream as res or res.data depending on version
+    const stream = ((res as any)?.data ?? res) as AsyncIterable<Uint8Array>
     for await (const chunk of stream) {
       chunks.push(chunk)
     }

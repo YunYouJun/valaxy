@@ -35,7 +35,6 @@ export interface ContentLoader {
    * Per-item transform before writing to cache
    */
   transform?: (item: ContentItem) => ContentItem | Promise<ContentItem>
-  cleanup?: () => Promise<void> | void
 }
 
 /**

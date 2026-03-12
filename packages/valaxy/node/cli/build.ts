@@ -43,14 +43,15 @@ export async function execBuild({ ssg, ssgEngine, root, output, log }: { ssg: bo
   await callHookWithLog('options:resolved', valaxyApp)
 
   const modules: ValaxyModule[] = []
+  // Content loaders must run first so CMS pages are available to downstream modules
+  if (options.config.loaders?.length)
+    modules.push(contentModule)
   if (options.config.siteConfig.search.provider === 'fuse')
     modules.push(fuseModule)
   if (options.config.modules.rss.enable)
     modules.push(rssModule)
   if (options.config.siteConfig.llms.enable)
     modules.push(llmsModule)
-  if (options.config.loaders?.length)
-    modules.push(contentModule)
 
   // setup modules
   setupModules(

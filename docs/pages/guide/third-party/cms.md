@@ -130,7 +130,6 @@ interface ContentLoader {
   devPollInterval?: number
   /** Per-item transform before writing to cache */
   transform?: (item: ContentItem) => ContentItem | Promise<ContentItem>
-  cleanup?: () => Promise<void> | void
 }
 ```
 

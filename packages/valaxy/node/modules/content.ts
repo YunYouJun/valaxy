@@ -18,7 +18,8 @@ function computeDigest(content: string): string {
 }
 
 function getManifestPath(cacheDir: string, loaderName: string): string {
-  return resolve(cacheDir, `.manifest-${loaderName}.json`)
+  const safeName = loaderName.replace(/[^\w.-]/g, '_')
+  return resolve(cacheDir, `.manifest-${safeName}.json`)
 }
 
 async function readManifest(manifestPath: string): Promise<Manifest> {
@@ -76,7 +77,20 @@ export async function loadAllContent(
         }
       }
 
-      const filePath = resolve(pagesDir, item.path)
+      // Validate item.path: reject absolute paths, '..' traversal, and non-.md files
+      const normalizedPath = path.normalize(item.path)
+      if (path.isAbsolute(normalizedPath) || normalizedPath.startsWith('..') || !normalizedPath.endsWith('.md')) {
+        consola.warn(`[content-loader] Skipping invalid path: ${colors.dim(item.path)}`)
+        continue
+      }
+
+      const filePath = resolve(pagesDir, normalizedPath)
+      // Ensure resolved path stays within pagesDir
+      if (!filePath.startsWith(pagesDir)) {
+        consola.warn(`[content-loader] Skipping path escaping cache directory: ${colors.dim(item.path)}`)
+        continue
+      }
+
       const digest = item.digest || computeDigest(item.content)
 
       nextManifest[item.path] = { digest }
@@ -95,8 +109,8 @@ export async function loadAllContent(
     // Remove stale files from previous manifest that no longer exist in current output
     const staleKeys = Object.keys(prevManifest).filter(key => !(key in nextManifest))
     for (const key of staleKeys) {
-      const stalePath = resolve(pagesDir, key)
-      if (await fs.pathExists(stalePath)) {
+      const stalePath = resolve(pagesDir, path.normalize(key))
+      if (stalePath.startsWith(pagesDir) && await fs.pathExists(stalePath)) {
         await fs.remove(stalePath)
         consola.info(`[content-loader] Removed stale: ${colors.dim(key)}`)
       }

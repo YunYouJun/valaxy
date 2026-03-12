@@ -130,7 +130,6 @@ interface ContentLoader {
   devPollInterval?: number
   /** 写入缓存前的逐项转换 */
   transform?: (item: ContentItem) => ContentItem | Promise<ContentItem>
-  cleanup?: () => Promise<void> | void
 }
 ```
 

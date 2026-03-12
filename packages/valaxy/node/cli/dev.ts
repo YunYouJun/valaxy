@@ -3,6 +3,7 @@ import type { Argv } from 'yargs'
 import type { ContentLoaderContext } from '../types/loader'
 import path from 'node:path'
 import process from 'node:process'
+import { consola } from 'consola'
 
 import { mergeConfig } from 'vite'
 import { createValaxyNode } from '../app'
@@ -60,7 +61,19 @@ export async function startValaxyDev({
     // Set up polling for loaders that request it
     for (const loader of loaders) {
       if (loader.devPollInterval) {
-        setInterval(() => loadAllContent([loader], ctx), loader.devPollInterval)
+        const poll = async () => {
+          try {
+            await loadAllContent([loader], ctx)
+          }
+          catch (error) {
+            consola.error('[content-loader] Error while polling:', error)
+          }
+          finally {
+            if (loader.devPollInterval)
+              setTimeout(poll, loader.devPollInterval)
+          }
+        }
+        setTimeout(poll, loader.devPollInterval)
       }
     }
   }
