@@ -181,7 +181,7 @@ function onSelect(key: string) {
   padding: 4px 10px;
   font-size: 12px;
   line-height: 1;
-  transition: color 0.2s, background 0.2s;
+  transition: color var(--va-transition-duration-fast), background var(--va-transition-duration-fast);
   white-space: nowrap;
 }
 
@@ -206,7 +206,7 @@ function onSelect(key: string) {
   color: var(--va-c-text-3);
   padding: 4px 6px;
   font-size: 14px;
-  transition: color 0.2s, background 0.2s;
+  transition: color var(--va-transition-duration-fast), background var(--va-transition-duration-fast);
 }
 
 .press-post-actions-trigger:hover {
@@ -245,7 +245,7 @@ function onSelect(key: string) {
   cursor: pointer;
   font-size: 13px;
   color: var(--va-c-text-2);
-  transition: background 0.15s, color 0.15s;
+  transition: background var(--va-transition-duration-fast), color var(--va-transition-duration-fast);
   outline: none;
 }
 

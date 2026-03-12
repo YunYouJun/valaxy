@@ -172,7 +172,7 @@
   color: inherit;
   font-weight: 600;
   text-underline-offset: 2px;
-  transition: opacity 0.25s;
+  transition: opacity var(--va-transition-duration);
 }
 
 .custom-block a:hover {

@@ -60,7 +60,7 @@ const { headers } = useOutline()
   border-bottom: 1px solid var(--pr-c-divider-light);
   width: 100%;
   background-color: var(--va-c-bg);
-  transition: border-color 0.5s;
+  transition: border-color var(--va-transition-duration-moderate);
 }
 
 @include screen('md') {
@@ -77,12 +77,12 @@ const { headers } = useOutline()
   font-size: 12px;
   font-weight: 500;
   color: var(--va-c-text-light);
-  transition: color 0.5s;
+  transition: color var(--va-transition-duration-moderate);
 }
 
 .menu:hover {
   color: var(--va-c-text);
-  transition: color 0.25s;
+  transition: color var(--va-transition-duration);
 }
 
 @include screen('md') {
@@ -105,12 +105,12 @@ const { headers } = useOutline()
   font-size: 12px;
   font-weight: 500;
   color: var(--pr-c-text-2);
-  transition: color 0.5s;
+  transition: color var(--va-transition-duration-moderate);
 }
 
 .top-link:hover {
   color: var(--pr-c-text-1);
-  transition: color 0.25s;
+  transition: color var(--va-transition-duration);
 }
 
 @include screen('md') {

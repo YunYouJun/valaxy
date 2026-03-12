@@ -34,7 +34,7 @@ const { t } = useI18n()
   span {
     display: block;
     margin-left: 0.3em;
-    transition: all 0.3s ease-in-out;
+    transition: all var(--va-transition-duration) ease-in-out;
   }
 
   .svg-wrapper {
@@ -46,7 +46,7 @@ const { t } = useI18n()
 
   .icon {
     transform-origin: center center;
-    transition: all 0.3s ease-in-out;
+    transition: all var(--va-transition-duration) ease-in-out;
 
     // mask
     mask-image: url('/favicon.svg');

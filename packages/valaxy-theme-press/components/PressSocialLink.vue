@@ -24,12 +24,12 @@ defineProps<{
   width: 36px;
   height: 36px;
   color: var(--pr-c-text-2);
-  transition: color 0.5s;
+  transition: color var(--va-transition-duration-moderate);
 }
 
 .pr-social-link:hover {
   color: var(--pr-c-text-1);
-  transition: color 0.25s;
+  transition: color var(--va-transition-duration);
 }
 
 .pr-social-link > :deep(svg) {

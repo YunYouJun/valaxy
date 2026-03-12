@@ -95,7 +95,7 @@ watch(() => props.open, () => {
   text-align: center;
   margin: 0;
   z-index: var(--yun-z-search-popup);
-  transition: 0.2s;
+  transition: var(--va-transition-duration-fast);
   background-color: var(--va-c-bg-opacity);
 }
 
@@ -112,7 +112,7 @@ watch(() => props.open, () => {
   font-family: var(--va-font-serif);
   font-weight: 900;
   text-align: center;
-  transition: all 0.2s;
+  transition: all var(--va-transition-duration-fast);
 
   &:focus {
     border-color: var(--va-c-text);

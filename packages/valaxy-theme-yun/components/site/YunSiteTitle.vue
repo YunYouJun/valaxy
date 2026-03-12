@@ -44,7 +44,7 @@ const { $t } = useValaxyI18n()
     height: 10px;
     opacity: 0;
     border: 2px solid;
-    transition: 0.3s;
+    transition: var(--va-transition-duration);
     transition-timing-function: cubic-bezier(0.17, 0.67, 0.05, 1.29);
   }
 

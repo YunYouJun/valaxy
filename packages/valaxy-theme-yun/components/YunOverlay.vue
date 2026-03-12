@@ -20,7 +20,7 @@ withDefaults(defineProps<{
   background-color: rgb(0 0 0 / 0.5);
   position: fixed;
   inset: 0;
-  transition: opacity 0.4s;
+  transition: opacity var(--va-transition-duration-moderate);
 }
 
 @include mobile {

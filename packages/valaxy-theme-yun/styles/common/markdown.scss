@@ -98,8 +98,8 @@
     font-size: var(--va-code-font-size);
     color: var(--va-code-line-number-color);
     transition:
-      border-color 0.5s,
-      color 0.5s;
+      border-color var(--va-transition-duration-moderate),
+      color var(--va-transition-duration-moderate);
   }
 
   // table

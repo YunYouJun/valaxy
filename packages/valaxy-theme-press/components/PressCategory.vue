@@ -69,7 +69,7 @@ const { $tO } = useValaxyI18n()
   a {
     // color: var(--va-c-text-light);
     color: var(--vp-c-text-2);
-    transition: all 0.2s;
+    transition: all var(--va-transition-duration-fast);
 
     &:hover {
       // color: var(--va-c-primary);

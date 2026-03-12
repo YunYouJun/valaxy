@@ -21,7 +21,7 @@ withDefaults(defineProps<{
   position: fixed;
   inset: 0;
   z-index: calc(var(--va-z-overlay) - 1);
-  transition: opacity 0.4s;
+  transition: opacity var(--va-transition-duration-moderate);
 
   &.fade-enter-from,
   &.fade-leave-to {

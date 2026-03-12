@@ -31,7 +31,7 @@ const { t } = useI18n()
   font-size: 14px;
   font-weight: 500;
   color: var(--pr-nav-text);
-  transition: color 0.25s;
+  transition: color var(--va-transition-duration);
 
   &:hover{
     color: var(--va-c-brand);

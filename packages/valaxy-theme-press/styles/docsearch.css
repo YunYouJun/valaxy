@@ -86,7 +86,7 @@
 /* Sidepanel tweaks */
 .DocSearch-Sidepanel-Prompt--form {
   border-color: var(--docsearch-subtle-color);
-  transition: border-color 0.2s;
+  transition: border-color var(--va-transition-duration-fast);
 }
 
 .DocSearch-Sidepanel-Prompt--submit {

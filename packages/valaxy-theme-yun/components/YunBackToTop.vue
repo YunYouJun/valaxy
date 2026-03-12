@@ -62,7 +62,7 @@ const strokeOffset = computed(() => {
 }
 
 .progress-circle {
-  transition: 0.3s stroke-dashoffset;
+  transition: var(--va-transition-duration) stroke-dashoffset;
   transform: rotate(-90deg);
   transform-origin: 50% 50%;
 

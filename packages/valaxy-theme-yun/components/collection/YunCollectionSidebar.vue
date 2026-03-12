@@ -50,13 +50,13 @@ const { collection } = useCollection()
           padding: 4px 0;
           font-size: 14px;
           line-height: 24px;
-          transition: color .25s;
+          transition: color var(--va-transition-duration);
         }
 
         .indicator {
           border-radius: 2px;
           width: 2px;
-          transition: background-color .25s;
+          transition: background-color var(--va-transition-duration);
           position: absolute;
           top: 6px;
           bottom: 6px;

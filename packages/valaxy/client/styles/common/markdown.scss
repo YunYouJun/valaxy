@@ -69,8 +69,8 @@
     opacity: 0;
     text-decoration: none;
     transition:
-      color 0.25s,
-      opacity 0.25s;
+      color var(--va-transition-duration),
+      opacity var(--va-transition-duration);
   }
 
   .header-anchor::before {

@@ -14,7 +14,7 @@
 
 .v-enter-active,
 .v-leave-active {
-  transition: opacity .2s map.get($cubic-bezier, 'ease-in');
+  transition: opacity var(--va-transition-duration-fast) map.get($cubic-bezier, 'ease-in');
 }
 
 .v-enter-from,
@@ -25,7 +25,7 @@
 .fade-enter-active,
 .fade-leave-active {
   opacity: 1;
-  transition: opacity 0.5s ease;
+  transition: opacity var(--va-transition-duration-moderate) ease;
 }
 
 .fade-enter-from,
@@ -55,7 +55,7 @@
     height: 10px;
     opacity: 0;
     border: 2px solid;
-    transition: 0.3s;
+    transition: var(--va-transition-duration);
     transition-timing-function: cubic-bezier(0.17, 0.67, 0.05, 1.29);
   }
 

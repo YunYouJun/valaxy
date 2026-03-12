@@ -66,7 +66,7 @@ const open = ref(false)
 
 .group[aria-expanded="true"] .button {
   color: rgb(60 60 60 / 0.70);
-  transition: color 0.25s;
+  transition: color var(--va-transition-duration);
 
   .dark & {
     color: rgb(235 235 235 / 0.6)
@@ -81,9 +81,9 @@ const open = ref(false)
   opacity: 0;
   visibility: hidden;
   transition:
-    opacity 0.25s,
-    visibility 0.25s,
-    transform 0.25s;
+    opacity var(--va-transition-duration),
+    visibility var(--va-transition-duration),
+    transform var(--va-transition-duration);
   transform: translateX(-50%) translateY(calc(var(--pr-nav-height) / 2));
   border-radius: 12px;
   padding: 12px;
@@ -126,8 +126,8 @@ const open = ref(false)
     font-weight: 500;
     white-space: nowrap;
     transition:
-      background-color 0.25s,
-      color 0.25s;
+      background-color var(--va-transition-duration),
+      color var(--va-transition-duration);
 
     &:hover {
       background-color: #f1f1f1;

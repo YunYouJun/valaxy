@@ -201,7 +201,7 @@ function getResultKey(title: string | Record<string, string>): string {
   border-radius: 12px;
   border: 2px solid var(--vp-c-divider);
   box-shadow: 0 4px 20px rgb(0 0 0 / 0.1);
-  transition: all 0.2s ease;
+  transition: all var(--va-transition-duration-fast) ease;
 
   &:focus-within {
     border-color: var(--vp-c-brand);
@@ -247,7 +247,7 @@ function getResultKey(title: string | Record<string, string>): string {
   border: none;
   cursor: pointer;
   border-radius: 8px;
-  transition: all 0.2s ease;
+  transition: all var(--va-transition-duration-fast) ease;
   flex-shrink: 0;
 
   &:hover {
@@ -297,7 +297,7 @@ function getResultKey(title: string | Record<string, string>): string {
   padding: 1rem 1.25rem;
   color: var(--vp-c-text-1);
   text-decoration: none;
-  transition: all 0.2s ease;
+  transition: all var(--va-transition-duration-fast) ease;
   animation: slide-in-up 0.3s ease forwards;
   opacity: 0;
   transform: translateY(10px);
@@ -383,7 +383,7 @@ function getResultKey(title: string | Record<string, string>): string {
   color: var(--vp-c-text-3);
   margin-left: 0.75rem;
   flex-shrink: 0;
-  transition: all 0.2s ease;
+  transition: all var(--va-transition-duration-fast) ease;
 }
 
 .press-result-item:hover .press-result-arrow {
@@ -449,7 +449,7 @@ function getResultKey(title: string | Record<string, string>): string {
 
 .modal-enter-active,
 .modal-leave-active {
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  transition: all var(--va-transition-duration) cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .modal-enter-from {
