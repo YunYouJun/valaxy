@@ -80,12 +80,12 @@ html:not(.dark) .vp-code-dark {
     line-height: var(--va-code-line-height);
     font-size: var(--va-code-font-size);
     color: var(--va-code-block-color);
-    transition: color 0.5s;
+    transition: color var(--va-transition-duration-moderate);
   }
 
   [class*='language-'] code .highlighted {
     background-color: var(--va-code-line-highlight-color);
-    transition: background-color 0.5s;
+    transition: background-color var(--va-transition-duration-moderate);
     margin: 0 -24px;
     padding: 0 24px;
     width: calc(100% + 2 * 24px);
@@ -122,9 +122,9 @@ html:not(.dark) .vp-code-dark {
     background-size: 20px;
     background-repeat: no-repeat;
     transition:
-      border-color 0.25s,
-      background-color 0.25s,
-      opacity 0.25s;
+      border-color var(--va-transition-duration),
+      background-color var(--va-transition-duration),
+      opacity var(--va-transition-duration);
   }
 
   [class*='language-']:hover>button.copy,
@@ -184,8 +184,8 @@ html:not(.dark) .vp-code-dark {
     font-weight: 500;
     color: var(--va-code-lang-color);
     transition:
-      color 0.4s,
-      opacity 0.4s;
+      color var(--va-transition-duration-moderate),
+      opacity var(--va-transition-duration-moderate);
   }
 
   [class*='language-']:hover>button.copy+span.lang,
@@ -195,7 +195,7 @@ html:not(.dark) .vp-code-dark {
 
   // diff
   [class*='language-'] code .diff {
-    transition: background-color 0.5s;
+    transition: background-color var(--va-transition-duration-moderate);
     margin: 0 -24px;
     padding: 0 24px;
     width: calc(100% + 2 * 24px);

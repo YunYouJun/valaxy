@@ -68,7 +68,7 @@ useMotion(itemRef, {
       padding: 0.2rem;
       background-color: #fff;
       box-shadow: 0 0 1rem rgb(0 0 0 / 0.12);
-      transition: 0.5s;
+      transition: var(--va-transition-duration-moderate);
 
       &:hover {
         box-shadow: 0 0 2rem rgb(0 0 0 / 0.12);

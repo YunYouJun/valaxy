@@ -162,13 +162,13 @@ const { hasSidebar } = useSidebar()
   overflow-y: auto;
   overflow-y: overlay;
   transform: translateX(-100%);
-  transition: opacity 0.5s, transform 0.25s ease;
+  transition: opacity var(--va-transition-duration-moderate), transform var(--va-transition-duration) ease;
 
   &.open {
     opacity: 1;
     transform: translateX(0);
-    transition: opacity 0.25s,
-                transform 0.5s cubic-bezier(0.19, 1, 0.22, 1);
+    transition: opacity var(--va-transition-duration),
+                transform var(--va-transition-duration-moderate) cubic-bezier(0.19, 1, 0.22, 1);
   }
 }
 
@@ -208,7 +208,7 @@ const { hasSidebar } = useSidebar()
     height: 32px;
     color: var(--vp-c-text-3);
     cursor: pointer;
-    transition: color 0.25s;
+    transition: color var(--va-transition-duration);
     flex-shrink: 0;
   }
 

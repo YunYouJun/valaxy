@@ -92,7 +92,7 @@ defineSlots<{
   cursor: pointer;
   font-size: 0.8rem;
   color: var(--va-c-text-2);
-  transition: background 0.15s, color 0.15s;
+  transition: background var(--va-transition-duration-fast), color var(--va-transition-duration-fast);
   outline: none;
 }
 

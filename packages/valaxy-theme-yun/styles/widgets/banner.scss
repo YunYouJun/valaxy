@@ -92,7 +92,7 @@ $char-animation-duration: 0.4s;
   font-size: var(--banner-char-size, 1rem);
   background-color: var(--banner-char-bg-color);
   line-height: 1;
-  transition: all 0.3s ease-in-out;
+  transition: all var(--va-transition-duration) ease-in-out;
   transition-delay: 0s;
 
   &:hover {

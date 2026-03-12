@@ -33,7 +33,7 @@ defineProps<{
     font-weight: 600;
     color: rgb(60 60 60 / 0.33);
     white-space: nowrap;
-    transition: color 0.25s;
+    transition: color var(--va-transition-duration);
   }
 
   &:first-child {

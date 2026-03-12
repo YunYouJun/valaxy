@@ -123,7 +123,7 @@ function onSelect(key: string) {
   color: var(--va-c-text-3);
   padding: 0.15rem;
   border-radius: 0.25rem;
-  transition: color 0.2s, background 0.2s;
+  transition: color var(--va-transition-duration-fast), background var(--va-transition-duration-fast);
   font-size: 1rem;
 }
 

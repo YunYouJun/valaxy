@@ -28,10 +28,11 @@ $font: map.merge(
 $transition: () !default;
 $transition: map.merge(
   (
-    "duration-fast": 0.2s,
-    "duration": 0.4s,
+    "duration-fast": 0.15s,
+    "duration": 0.25s,
+    "duration-moderate": 0.4s,
     "duration-slow": 0.6s,
-    "": all var(--va-transition-duration-fast) ease-in-out,
+    "": all var(--va-transition-duration) ease-in-out,
   ),
   $transition
 );

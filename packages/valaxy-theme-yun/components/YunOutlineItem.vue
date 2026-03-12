@@ -30,12 +30,12 @@ const { locale } = useI18n()
       white-space: nowrap;
       overflow: hidden;
       text-overflow: ellipsis;
-      transition: color 0.5s;
+      transition: color var(--va-transition-duration-moderate);
 
       &:hover,
       &.active {
         color: var(--va-c-primary-lighter);
-        transition: color 0.25s;
+        transition: color var(--va-transition-duration);
       }
 
     }

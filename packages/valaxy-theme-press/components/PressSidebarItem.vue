@@ -140,7 +140,7 @@ const htmlText = computed(() => t(props.item.text || ''))
   left: -17px;
   width: 2px;
   border-radius: 2px;
-  transition: background-color 0.25s;
+  transition: background-color var(--va-transition-duration);
 }
 
 .VPSidebarItem.level-2.is-active > .item > .indicator,
@@ -161,7 +161,7 @@ const htmlText = computed(() => t(props.item.text || ''))
   padding: 4px 0;
   line-height: 24px;
   font-size: 14px;
-  transition: color 0.25s;
+  transition: color var(--va-transition-duration);
 }
 
 .VPSidebarItem.level-0 .text {

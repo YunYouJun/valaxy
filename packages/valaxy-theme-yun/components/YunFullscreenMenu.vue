@@ -49,8 +49,8 @@ const app = useAppStore()
 .slide-down-enter-active,
 .slide-down-leave-active {
   opacity: 1;
-  transition: transform 0.3s map.get($cubic-bezier, 'ease-in-out'),
-    opacity 0.2s map.get($cubic-bezier, 'ease-in-out');
+  transition: transform var(--va-transition-duration) map.get($cubic-bezier, 'ease-in-out'),
+    opacity var(--va-transition-duration-fast) map.get($cubic-bezier, 'ease-in-out');
   transform: translateY(0);
 }
 

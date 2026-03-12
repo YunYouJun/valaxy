@@ -69,7 +69,7 @@ watch(() => [yun.rightSidebar.isOpen, yun.size.isXl], async () => {
   // width: var(--va-sidebar-width, 300px);
   width: 0;
   transform: translateX(100%);
-  transition: all 0.2s map.get($cubic-bezier, 'ease-in-out');
+  transition: all var(--va-transition-duration-fast) map.get($cubic-bezier, 'ease-in-out');
   max-height: calc(100vh - var(--yun-margin-top));
 
   // float panel

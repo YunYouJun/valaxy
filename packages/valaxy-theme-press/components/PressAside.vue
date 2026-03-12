@@ -48,7 +48,7 @@ const press = usePressAppStore()
   z-index: var(--pr-z-aside);
   width: var(--va-aside-width);
   transform: translateX(100%);
-  transition: box-shadow var(--va-transition-duration), opacity 0.25s,
+  transition: box-shadow var(--va-transition-duration), opacity var(--va-transition-duration),
   transform var(--va-transition-duration) cubic-bezier(0.19, 1, 0.22, 1);
 
   &.open {

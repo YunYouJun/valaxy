@@ -47,7 +47,7 @@ const { t } = useI18n()
   width: 48px;
   height: 48px;
   font-size: 24px;
-  transition: background-color 0.25s;
+  transition: background-color var(--va-transition-duration);
 }
 
 .dark .icon {

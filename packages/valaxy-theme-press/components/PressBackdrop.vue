@@ -16,7 +16,7 @@ defineProps<{
   inset: 0;
   z-index: var(--pr-z-backdrop);
   background: rgba(0, 0, 0, .6);
-  transition: opacity 0.5s;
+  transition: opacity var(--va-transition-duration-moderate);
 
   .fade-enter-from,
   .fade-leave-to {
@@ -24,7 +24,7 @@ defineProps<{
   }
 
   .fade-leave-active {
-    transition-duration: .25s;
+    transition-duration: var(--va-transition-duration);
   }
 }
 

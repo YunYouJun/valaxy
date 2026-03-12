@@ -30,6 +30,6 @@ import valaxyLogoPng from '../assets/images/valaxy-logo.png'
   height: 150%;
   background-image: linear-gradient(-45deg, rgb(108, 34, 236) 50%, rgba(59,130,246,var(--un-to-opacity, 1)) 50%);
   opacity: 0.3;
-  transition: opacity 0.2s;
+  transition: opacity var(--va-transition-duration-fast);
 }
 </style>
