@@ -84,13 +84,13 @@ const { t } = useI18n()
   font-weight: 500;
   line-height: 24px;
   color: var(--vp-c-text-2);
-  transition: color 0.5s;
+  transition: color var(--va-transition-duration-moderate);
   position: relative;
 }
 
 .VPLocalNavOutlineDropdown button:hover {
   color: var(--vp-c-text-1);
-  transition: color 0.25s;
+  transition: color var(--va-transition-duration);
 }
 
 .VPLocalNavOutlineDropdown button.open {
@@ -144,11 +144,11 @@ const { t } = useI18n()
 }
 
 .flyout-enter-active {
-  transition: all .2s ease-out;
+  transition: all var(--va-transition-duration-fast) ease-out;
 }
 
 .flyout-leave-active {
-  transition: all .15s ease-in;
+  transition: all var(--va-transition-duration-fast) ease-in;
 }
 
 .flyout-enter-from,

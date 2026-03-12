@@ -27,13 +27,13 @@ defineProps<{
 .yun-project-link-item {
   position: relative;
   background-color: rgb(0 0 0 / 0.05);
-  transition: background-color 0.3s;
+  transition: background-color var(--va-transition-duration);
 
   &::before {
     content: '';
     position: absolute;
     background-color: var(--c-brand);
-    transition: all 0.3s map.get($cubic-bezier, 'ease-in');
+    transition: all var(--va-transition-duration) map.get($cubic-bezier, 'ease-in');
     bottom: 0;
     left: 0;
     right: 0;
@@ -44,7 +44,7 @@ defineProps<{
     content: '';
     position: absolute;
     background-color: var(--c-brand);
-    transition: all 0.3s map.get($cubic-bezier, 'ease-in');
+    transition: all var(--va-transition-duration) map.get($cubic-bezier, 'ease-in');
     inset: 0;
     opacity: 0.1;
     z-index: -1;

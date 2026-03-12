@@ -38,7 +38,7 @@
   color: var(--va-code-tab-text-color);
   white-space: nowrap;
   cursor: pointer;
-  transition: color 0.25s;
+  transition: color var(--va-transition-duration);
 }
 
 .vp-code-group .tabs label::after {
@@ -51,7 +51,7 @@
   border-radius: 2px;
   content: '';
   background-color: transparent;
-  transition: background-color 0.25s;
+  transition: background-color var(--va-transition-duration);
 }
 
 .vp-code-group label:hover {

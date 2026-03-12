@@ -46,7 +46,7 @@ defineProps<{
   background: transparent;
   font-size: 20px;
   cursor: pointer;
-  transition: border-color 0.25s;
+  transition: border-color var(--va-transition-duration);
 }
 
 .PressSearchButton:hover {
@@ -91,7 +91,7 @@ defineProps<{
   height: 16px;
   color: var(--va-c-text-1);
   fill: currentcolor;
-  transition: color 0.5s;
+  transition: color var(--va-transition-duration-moderate);
 }
 
 .PressSearchButton:hover .PressSearchButton-icon svg {
@@ -113,7 +113,7 @@ defineProps<{
   font-size: 13px;
   font-weight: 500;
   color: var(--va-c-text-2);
-  transition: color 0.5s;
+  transition: color var(--va-transition-duration-moderate);
 }
 
 .PressSearchButton:hover .PressSearchButton-text {

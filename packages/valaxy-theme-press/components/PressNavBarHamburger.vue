@@ -62,7 +62,7 @@ defineEmits<{
 .pr-NavBarHamburger.active:hover .middle,
 .pr-NavBarHamburger.active:hover .bottom {
   background-color: var(--pr-c-text-2);
-  transition: top .25s, background-color .25s, transform .25s;
+  transition: top var(--va-transition-duration), background-color var(--va-transition-duration), transform var(--va-transition-duration);
 }
 
 .top,
@@ -72,7 +72,7 @@ defineEmits<{
   width: 16px;
   height: 2px;
   background-color: var(--pr-c-text-1);
-  transition: top .25s, background-color .5s, transform .25s;
+  transition: top var(--va-transition-duration), background-color var(--va-transition-duration-moderate), transform var(--va-transition-duration);
 }
 
 .top    { top: 0; left: 0; transform: translateX(0); }

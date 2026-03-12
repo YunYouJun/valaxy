@@ -43,18 +43,18 @@ const isLocked = useScrollLock(isClient ? document.body : null)
   width: 100%;
   background-color: var(--pr-nav-screen-bg-color);
   overflow-y: auto;
-  transition: background-color 0.5s;
+  transition: background-color var(--va-transition-duration-moderate);
   pointer-events: auto;
 }
 
 .pr-NavScreen.fade-enter-active,
 .pr-NavScreen.fade-leave-active {
-  transition: opacity 0.25s;
+  transition: opacity var(--va-transition-duration);
 }
 
 .pr-NavScreen.fade-enter-active .container,
 .pr-NavScreen.fade-leave-active .container {
-  transition: transform 0.25s ease;
+  transition: transform var(--va-transition-duration) ease;
 }
 
 .pr-NavScreen.fade-enter-from,

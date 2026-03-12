@@ -27,7 +27,7 @@ const { t } = useI18n()
   font-size: 14px;
   font-weight: 400;
   color: var(--pr-c-text-1);
-  transition: color 0.25s;
+  transition: color var(--va-transition-duration);
 }
 
 .pr-nav-screen-menu-group-link:hover {

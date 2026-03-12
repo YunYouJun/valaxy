@@ -98,7 +98,7 @@ onMounted(() => {
 
   .tl, .tr, .bl, .br {
     position: absolute;
-    transition: transform 0.6s map.get($cubic-bezier, 'ease-in');
+    transition: transform var(--va-transition-duration-slow) map.get($cubic-bezier, 'ease-in');
   }
 
   .tl {

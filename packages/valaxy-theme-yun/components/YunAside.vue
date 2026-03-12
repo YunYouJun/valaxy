@@ -59,7 +59,22 @@ const asideEnabled = computed(() => fm.value.aside !== false)
   width: 0;
   max-height: 100vh;
   transform: translateX(100%);
-  transition: all 0.2s map.get($cubic-bezier, 'ease-in-out');
+  transition: all var(--va-transition-duration-fast) map.get($cubic-bezier, 'ease-in-out');
+  max-height: calc(100vh - var(--yun-margin-top));
+
+  // float panel
+  &.float {
+    position: fixed;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    z-index: var(--yun-z-aside);
+    max-height: 100vh;
+  }
+
+  &.show {
+    width: 320px;
+  }
 
   // Mobile/tablet: toggle open via JS
   &.open {

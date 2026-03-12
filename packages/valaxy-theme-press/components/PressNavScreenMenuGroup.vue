@@ -58,7 +58,7 @@ function toggle() {
   border-bottom: 1px solid var(--pr-c-divider);
   height: 48px;
   overflow: hidden;
-  transition: border-color 0.5s;
+  transition: border-color var(--va-transition-duration-moderate);
 }
 
 .pr-nav-screen-menu-group .items {
@@ -94,7 +94,7 @@ function toggle() {
   font-size: 14px;
   font-weight: 500;
   color: var(--pr-c-text-1);
-  transition: color 0.25s;
+  transition: color var(--va-transition-duration);
 }
 
 .button:hover {
@@ -105,7 +105,7 @@ function toggle() {
   width: 14px;
   height: 14px;
   fill: var(--pr-c-text-2);
-  transition: fill 0.5s, transform 0.25s;
+  transition: fill var(--va-transition-duration-moderate), transform var(--va-transition-duration);
 }
 
 .group:first-child {

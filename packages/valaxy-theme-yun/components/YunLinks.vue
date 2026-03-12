@@ -40,7 +40,7 @@ const { data } = useRandomData(props.links, props.random)
     justify-self: center;
     line-height: 1.5;
     margin: 0.5rem;
-    transition: 0.2s;
+    transition: var(--va-transition-duration-fast);
     color: var(--primary-color, black);
     border: 1px solid var(--primary-color, gray);
 
@@ -61,7 +61,7 @@ const { data } = useRandomData(props.links, props.random)
         border-radius: 50%;
         background-color: #fff;
         border: 1px solid var(--primary-color, gray);
-        transition: 0.5s;
+        transition: var(--va-transition-duration-moderate);
 
         &:hover {
           box-shadow: 0 0 20px rgb(0 0 0 / 0.1);

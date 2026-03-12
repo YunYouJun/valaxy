@@ -42,7 +42,7 @@ const nextTitle = useLocaleTitle(next)
     font-weight: bold;
     text-transform: uppercase;
     height: 3rem;
-    transition: 0.4s;
+    transition: var(--va-transition-duration-moderate);
 
     &:hover {
       background-color: rgba(var(--va-c-primary-rgb), 0.1);

@@ -67,7 +67,7 @@ useActiveAnchor(container, marker)
   width: 1px;
   height: 18px;
   background-color: var(--va-c-brand);
-  transition: top 0.25s cubic-bezier(0, 1, 0.5, 1), background-color 0.5s, opacity 0.25s;
+  transition: top var(--va-transition-duration) cubic-bezier(0, 1, 0.5, 1), background-color var(--va-transition-duration-moderate), opacity var(--va-transition-duration);
   border-top-right-radius: 2px;
   border-bottom-right-radius: 2px;
 }
@@ -88,13 +88,13 @@ useActiveAnchor(container, marker)
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
-  transition: color 0.5s;
+  transition: color var(--va-transition-duration-moderate);
 }
 
 .outline-link:hover,
 .outline-link.active {
   color: var(--pr-aside-text-1);
-  transition: color 0.25s;
+  transition: color var(--va-transition-duration);
 }
 
 .visually-hidden {

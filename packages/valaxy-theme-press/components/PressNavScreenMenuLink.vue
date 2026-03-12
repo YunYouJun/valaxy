@@ -24,7 +24,7 @@ const closeScreen = inject('close-screen') as () => void
   font-size: 14px;
   font-weight: 500;
   color: var(--pr-c-text-1);
-  transition: border-color 0.25s, color 0.25s;
+  transition: border-color var(--va-transition-duration), color var(--va-transition-duration);
 }
 
 .pr-nav-screen-menu-link:hover {

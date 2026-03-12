@@ -61,7 +61,7 @@ const homeLink = computed(() => hasLocales.value ? currentLocale.value.link : '/
   border-bottom: 1px solid var(--pr-c-divider-light);
   padding: 0 8px 0 24px;
   height: var(--pr-nav-height);
-  transition: border-color 0.5s;
+  transition: border-color var(--va-transition-duration-moderate);
   background-color: var(--pr-navbar-c-bg);
   z-index: var(--pr-z-nav);
 }

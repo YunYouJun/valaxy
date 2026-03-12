@@ -29,7 +29,7 @@ defineProps<{
   .PressNavBarAskAiButton {
     height: auto;
     padding: 11.5px;
-    transition: color 0.3s ease;
+    transition: color var(--va-transition-duration) ease;
     background-color: var(--va-c-bg-alt);
     border-radius: 8px;
     font-size: 15px;
