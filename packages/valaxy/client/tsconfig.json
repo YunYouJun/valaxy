@@ -7,7 +7,7 @@
     },
     "types": [
       "vite/client",
-      "vite-plugin-vue-layouts/client",
+      "vite-plugin-vue-layouts-next/client",
       "@intlify/unplugin-vue-i18n/messages"
     ]
   },

@@ -9,7 +9,7 @@ import { consola } from 'consola'
 import { resolve } from 'pathe'
 import Components from 'unplugin-vue-components/vite'
 
-import Layouts from 'vite-plugin-vue-layouts'
+import Layouts from 'vite-plugin-vue-layouts-next'
 import { groupIconVitePlugin } from 'vitepress-plugin-group-icons'
 import { customElements } from '../constants'
 import { scanCodeBlockTitles } from '../utils/groupIcons'
@@ -98,7 +98,7 @@ export async function ViteValaxyPlugins(
     // https://router.vuejs.org/file-based-routing/
     RouterPlugin,
 
-    // https://github.com/JohnCampionJr/vite-plugin-vue-layouts
+    // https://github.com/loicduong/vite-plugin-vue-layouts-next
     Layouts({
       layoutsDirs: roots.map(root => `${root}/layouts`),
 

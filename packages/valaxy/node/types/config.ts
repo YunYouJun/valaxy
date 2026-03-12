@@ -8,7 +8,7 @@ import type { VitePluginConfig as UnoCSSConfig } from 'unocss/vite'
 import type Components from 'unplugin-vue-components/vite'
 import type Markdown from 'unplugin-vue-markdown/vite'
 import type { UserConfig as ViteUserConfig } from 'vite'
-import type Layouts from 'vite-plugin-vue-layouts'
+import type Layouts from 'vite-plugin-vue-layouts-next'
 import type { groupIconVitePlugin } from 'vitepress-plugin-group-icons'
 import type { EditableTreeNode } from 'vue-router/unplugin'
 import type Router from 'vue-router/vite'
@@ -238,7 +238,7 @@ export interface ValaxyExtendConfig {
    */
   components?: Parameters<typeof Components>[0]
   /**
-   * @see https://github.com/JohnCampionJr/vite-plugin-vue-layouts
+   * @see https://github.com/loicduong/vite-plugin-vue-layouts-next
    */
   layouts?: Parameters<typeof Layouts>[0]
   /**

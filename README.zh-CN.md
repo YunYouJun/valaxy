@@ -56,7 +56,7 @@ pnpm create valaxy
 - 🎨 尽情使用 Tailwind CSS by [UnoCSS](https://github.com/antfu/unocss)
 - 🌍 [在同一页面通过 CSS 的 i18n](https://valaxy.site/guide/i18n)
 - 🔍 [通过 class 从图标集中使用图标](https://github.com/antfu/unocss/tree/main/packages/preset-icons) - [Icônes](https://icones.netlify.app/)
-- 👔 扩展主题 with [Layout system](https://github.com/JohnCampionJr/vite-plugin-vue-layouts)
+- 👔 扩展主题 with [Layout system](https://github.com/loicduong/vite-plugin-vue-layouts-next)
 - ⚙️ 单元测试 with [Vitest](https://github.com/vitest-dev/vitest)
 - ☁️ 零配置部署
   - [Netlify](https://www.netlify.com/) with `netlify.toml`
