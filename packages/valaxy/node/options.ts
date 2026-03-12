@@ -142,6 +142,13 @@ export async function resolveOptions(
   // JavaScript built-in sort() is mandated to be stable as of ES2019 and
   // supported in Node 12+, which is required by Vite.
 
+  // Include content loader pages from cache directory
+  const contentDir = resolve(userRoot, '.valaxy', 'content', 'pages')
+  if (await fs.pathExists(contentDir)) {
+    const contentPages = await fg(['**.md'], { cwd: contentDir, ignore: ['**/node_modules'] })
+    pages.push(...contentPages)
+  }
+
   let valaxyOptions: ResolvedValaxyOptions = {
     mode,
     pkgRoot,

@@ -18,6 +18,7 @@ import type { MarkdownOptions } from '../plugins/markdown/types'
 
 import type { ValaxyAddons } from './addon'
 import type { ValaxyHooks } from './hook'
+import type { ContentLoader } from './loader'
 
 import type { ResolvedValaxyOptions } from './options'
 
@@ -345,6 +346,15 @@ export interface ValaxyExtendConfig {
      */
     modules?: CdnModule[]
   }
+
+  /**
+   * @experimental
+   * Content loaders for fetching content from external CMS platforms.
+   * Loaded content is written as .md files to `.valaxy/content/pages/`
+   * and automatically integrated into the routing and markdown pipeline.
+   * @see https://github.com/YunYouJun/valaxy/issues/294
+   */
+  loaders?: ContentLoader[]
 }
 
 export type ValaxyApp = ReturnType<typeof createValaxyNode>
