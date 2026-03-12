@@ -13,7 +13,9 @@ const curPage = computed(() => paginationRef.value?.curPage || 1)
 
 const siteConfig = useSiteConfig()
 const pageSize = computed(() => siteConfig.value.pageSize)
-const postListWithCollections = usePostListWithCollections()
+const postListWithCollections = usePostListWithCollections({
+  type: props.type,
+})
 
 const posts = computed(() => (
   props.posts || postListWithCollections.value).filter(post => import.meta.env.DEV ? true : !post.hide),

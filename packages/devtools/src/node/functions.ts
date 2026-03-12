@@ -11,6 +11,7 @@ import pathe from 'pathe'
 function ensurePrefix(prefix: string, str: string) {
   if (!str.startsWith(prefix))
     return prefix + str
+  return str
 }
 
 /**
@@ -200,7 +201,11 @@ export function getFunctions(server: ViteDevServer, devtoolsOptions: ValaxyDevto
           })
         }
 
-        const key = extractStringField(indexContent, 'key') || dir
+        const itemsSectionIndex = indexContent.indexOf('items:')
+        const topLevelArea = itemsSectionIndex === -1
+          ? indexContent
+          : indexContent.slice(0, itemsSectionIndex)
+        const key = extractStringField(topLevelArea, 'key') || dir
 
         result.push({
           key,

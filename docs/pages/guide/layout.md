@@ -113,7 +113,7 @@ Preview: [Collection | Valaxy Theme Yun](https://yun.valaxy.site/collections/ham
 `collapse` is an experimental feature available since `v0.28.0`.
 :::
 
-When `collapse` is `true` (default), the collection appears as a **single card** in the homepage and archive post lists, replacing individual article entries. This keeps the post list clean when you have many collection articles.
+When `collapse` is `true` (default), the collection appears as a **single card** in the homepage and archive post lists. Since collection articles live under `/collections/`, they are not shown individually in these lists — the collapsed card provides a convenient entry point to the collection.
 
 ```ts
 export default defineCollection({
@@ -172,7 +172,7 @@ The following composables are available for collection support in themes:
 
 ### Child pages with multiple layout nesting
 
-Vue Router pages will automatically nest parent layouts, please refer to [Nested Routes | Vue Router](https://uvr.esm.is/guide/file-based-routing#nested-routes).
+Vue Router pages will automatically nest parent layouts, please refer to [Nested Routes | Unplugin Vue Router](https://uvr.esm.is/guide/file-based-routing#nested-routes).
 
 For example, change:
 

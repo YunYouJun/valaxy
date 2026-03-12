@@ -113,7 +113,7 @@ title: 第一章 仓鼠的笼子
 `collapse` 为实验性功能，自 `v0.28.0` 起可用。
 :::
 
-当 `collapse` 为 `true`（默认）时，合集在首页和归档文章列表中显示为**一张卡片**，代替各篇文章的单独条目。适合合集文章较多时保持列表整洁。
+当 `collapse` 为 `true`（默认）时，合集在首页和归档文章列表中显示为**一张卡片**。由于合集文章位于 `/collections/` 路径下，它们不会单独出现在文章列表中——折叠卡片提供了进入合集的便捷入口。
 
 ```ts
 export default defineCollection({
@@ -172,7 +172,7 @@ export default defineCollection({
 
 ### 子页面发生了多层布局嵌套 {#child-pages-with-multiple-layout-nesting}
 
-Vue Router 的页面会自动嵌套父级布局，请参考 [Nested Routes | Vue Router](https://uvr.esm.is/guide/file-based-routing#nested-routes)。
+Vue Router 的页面会自动嵌套父级布局，请参考 [Nested Routes | Unplugin Vue Router](https://uvr.esm.is/guide/file-based-routing#nested-routes)。
 
 例如将：
 
