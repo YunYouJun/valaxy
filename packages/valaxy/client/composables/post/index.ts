@@ -33,6 +33,11 @@ export function usePageList() {
       .map((i) => {
         return Object.assign({ path: i.path, excerpt: i.meta!.excerpt }, i.meta!.frontmatter || {}) as Post
       })
+
+    // Sort by `top` so pages with higher `top` values appear first.
+    // This ensures frontmatter `top` affects ordering in sidebars and categories.
+    routes.sort((a, b) => (b.top || 0) - (a.top || 0))
+
     return routes
   })
 }
