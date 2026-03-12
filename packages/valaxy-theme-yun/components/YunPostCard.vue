@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import type { Post } from 'valaxy'
-import { useValaxyI18n } from 'valaxy'
+import { usePostCollections, useValaxyI18n } from 'valaxy'
 import { computed, ref } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { usePostProperty } from '../composables'
@@ -13,6 +13,8 @@ const { t } = useI18n()
 const { $tO } = useValaxyI18n()
 
 const { icon, styles, color } = usePostProperty(props.post.type)
+
+const postCollections = usePostCollections(computed(() => props.post.path || ''))
 
 const gradientClasses = ref('bg-gradient-to-r gradient-text from-$va-c-primary to-$va-c-primary-lighter')
 const postTitleClass = computed(() => {
@@ -80,6 +82,7 @@ const postTitleClass = computed(() => {
       <div w="full" class="yun-card-actions flex justify-between p-4" min-h="10" text="sm">
         <div class="post-categories inline-flex" flex="wrap 1" items="center">
           <YunPostCategories m="l-1" :categories="post.categories" />
+          <YunPostCollectionBadge v-if="postCollections.length" m="l-1" :collections="postCollections" />
         </div>
 
         <YunPostTags v-if="post.tags" m="1" :tags="post.tags" />

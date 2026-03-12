@@ -1,10 +1,15 @@
-import type { MaybeRef } from 'vue'
+import type { ComputedRef, MaybeRef } from 'vue'
 import type { CollectionConfig } from '../types'
 import collections from '#valaxy/blog/collections'
 
 import { computed, unref } from 'vue'
 import { useRoute } from 'vue-router'
 import { usePageList } from './post'
+
+export interface PostCollectionInfo {
+  collection: CollectionConfig
+  itemIndex: number
+}
 
 /**
  * Resolve the href and external status for a collection item.
@@ -91,4 +96,41 @@ export function useCollectionPosts(collectionKey: MaybeRef<string>) {
 
     return pages
   })
+}
+
+/**
+ * Find which collection(s) a given post path belongs to.
+ * Checks both key-based items (`/collections/{collKey}/{item.key}`)
+ * and internal link items (`item.link`).
+ */
+export function usePostCollections(postPath: MaybeRef<string>): ComputedRef<PostCollectionInfo[]> {
+  return computed(() => {
+    const path = stripTrailingSlash(unref(postPath))
+    if (!path)
+      return []
+
+    const result: PostCollectionInfo[] = []
+    for (const col of collections) {
+      if (!col.items || !col.key)
+        continue
+      for (let i = 0; i < col.items.length; i++) {
+        const item = col.items[i]
+        // Match key-based items: /collections/{collKey}/{item.key}
+        if (item.key && stripTrailingSlash(`/collections/${col.key}/${item.key}`) === path) {
+          result.push({ collection: col, itemIndex: i })
+          break
+        }
+        // Match internal link items (non-http)
+        if (item.link && !/^https?:\/\//.test(item.link) && stripTrailingSlash(item.link) === path) {
+          result.push({ collection: col, itemIndex: i })
+          break
+        }
+      }
+    }
+    return result
+  })
+}
+
+function stripTrailingSlash(path: string): string {
+  return path.length > 1 && path.endsWith('/') ? path.slice(0, -1) : path
 }
