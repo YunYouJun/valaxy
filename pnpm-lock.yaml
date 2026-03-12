@@ -82,6 +82,9 @@ catalogs:
     '@explosions/fireworks':
       specifier: ^0.2.0
       version: 0.2.0
+    '@larksuiteoapi/node-sdk':
+      specifier: ^1.40.0
+      version: 1.59.0
     '@mdit-vue/plugin-component':
       specifier: ^3.0.2
       version: 3.0.2
@@ -1231,7 +1234,7 @@ importers:
   packages/valaxy-addon-feishu:
     dependencies:
       '@larksuiteoapi/node-sdk':
-        specifier: ^1.40.0
+        specifier: 'catalog:'
         version: 1.59.0
     devDependencies:
       valaxy:
