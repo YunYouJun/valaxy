@@ -93,10 +93,11 @@ export async function loadAllContent(
 
       const digest = item.digest || computeDigest(item.content)
 
-      nextManifest[item.path] = { digest }
+      // Use normalizedPath as manifest key to handle non-canonical inputs (e.g. ./posts/a.md)
+      nextManifest[normalizedPath] = { digest }
 
       // Skip write if content unchanged
-      if (prevManifest[item.path]?.digest === digest && await fs.pathExists(filePath)) {
+      if (prevManifest[normalizedPath]?.digest === digest && await fs.pathExists(filePath)) {
         cached++
         continue
       }

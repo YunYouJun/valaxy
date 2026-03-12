@@ -136,10 +136,17 @@ function processChildren(
     return ''
 
   const lines: string[] = []
+  let prevWasOrdered = false
   for (const id of childIds) {
     const child = blockMap.get(id)
-    if (child)
+    if (child) {
+      // Reset ordered counter when transitioning from non-ordered to ordered
+      const isOrdered = child.block_type === BlockType.ORDERED
+      if (isOrdered && !prevWasOrdered)
+        orderedCounters.delete(`ordered-${indent}`)
+      prevWasOrdered = isOrdered
       lines.push(blockToMarkdown(child, blockMap, indent, orderedCounters))
+    }
   }
   return lines.join('\n')
 }
@@ -192,8 +199,8 @@ function blockToMarkdown(
     }
 
     case BlockType.ORDERED: {
-      // Track ordered list counters per parent context
-      const counterKey = `${indent}`
+      // Track ordered list counters per indent level, reset handled by processChildren
+      const counterKey = `ordered-${indent}`
       const count = (orderedCounters.get(counterKey) || 0) + 1
       orderedCounters.set(counterKey, count)
 

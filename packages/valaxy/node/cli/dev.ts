@@ -63,7 +63,9 @@ export async function startValaxyDev({
       if (loader.devPollInterval) {
         const poll = async () => {
           try {
+            await valaxyApp.hooks.callHook('content:before-load')
             await loadAllContent([loader], ctx)
+            await valaxyApp.hooks.callHook('content:loaded')
           }
           catch (error) {
             consola.error('[content-loader] Error while polling:', error)

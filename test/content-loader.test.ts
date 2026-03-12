@@ -228,4 +228,89 @@ describe('loadAllContent', () => {
     // Content should be from first write since digest didn't change
     expect(content2).toBe(content1)
   })
+
+  it('rejects absolute paths', async () => {
+    const ctx = createMockCtx()
+    const loader = defineContentLoader({
+      name: 'abs-path-test',
+      load: () => [
+        { path: '/etc/passwd.md', content: 'malicious' },
+        { path: 'posts/good.md', content: '---\ntitle: Good\n---\nGood' },
+      ],
+    })
+
+    await loadAllContent([loader], ctx)
+
+    const pagesDir = resolve(ctx.cacheDir, 'pages')
+    expect(await fs.pathExists(resolve(pagesDir, 'posts/good.md'))).toBe(true)
+    // Absolute path should be rejected
+    expect(await fs.pathExists('/etc/passwd.md')).toBe(false)
+  })
+
+  it('rejects paths with .. traversal', async () => {
+    const ctx = createMockCtx()
+    const loader = defineContentLoader({
+      name: 'traversal-test',
+      load: () => [
+        { path: '../../../etc/passwd.md', content: 'malicious' },
+        { path: 'posts/../../../escape.md', content: 'malicious' },
+        { path: 'posts/good.md', content: '---\ntitle: Good\n---\nGood' },
+      ],
+    })
+
+    await loadAllContent([loader], ctx)
+
+    const pagesDir = resolve(ctx.cacheDir, 'pages')
+    expect(await fs.pathExists(resolve(pagesDir, 'posts/good.md'))).toBe(true)
+  })
+
+  it('rejects non-.md file paths', async () => {
+    const ctx = createMockCtx()
+    const loader = defineContentLoader({
+      name: 'ext-test',
+      load: () => [
+        { path: 'posts/script.js', content: 'alert(1)' },
+        { path: 'posts/data.json', content: '{}' },
+        { path: 'posts/good.md', content: '---\ntitle: Good\n---\nGood' },
+      ],
+    })
+
+    await loadAllContent([loader], ctx)
+
+    const pagesDir = resolve(ctx.cacheDir, 'pages')
+    expect(await fs.pathExists(resolve(pagesDir, 'posts/script.js'))).toBe(false)
+    expect(await fs.pathExists(resolve(pagesDir, 'posts/data.json'))).toBe(false)
+    expect(await fs.pathExists(resolve(pagesDir, 'posts/good.md'))).toBe(true)
+  })
+
+  it('normalizes equivalent paths for manifest consistency', async () => {
+    const ctx = createMockCtx()
+
+    // First run with non-canonical path
+    const loader1 = defineContentLoader({
+      name: 'normalize-test',
+      load: () => [
+        { path: './posts/hello.md', content: '---\ntitle: Hello\n---\nContent' },
+      ],
+    })
+    await loadAllContent([loader1], ctx)
+
+    const filePath = resolve(ctx.cacheDir, 'pages', 'posts/hello.md')
+    expect(await fs.pathExists(filePath)).toBe(true)
+    const stat1 = await fs.stat(filePath)
+
+    await new Promise(r => setTimeout(r, 50))
+
+    // Second run with canonical path but same content — should use cache
+    const loader2 = defineContentLoader({
+      name: 'normalize-test',
+      load: () => [
+        { path: 'posts/hello.md', content: '---\ntitle: Hello\n---\nContent' },
+      ],
+    })
+    await loadAllContent([loader2], ctx)
+
+    const stat2 = await fs.stat(filePath)
+    expect(stat2.mtimeMs).toBe(stat1.mtimeMs)
+  })
 })
