@@ -1,5 +1,9 @@
+import fs from 'node:fs'
 import { expect, test } from '@playwright/test'
 import { env } from '../env'
+
+// Skip all tests when valaxy-blog directory is not available
+const skipAll = !fs.existsSync('valaxy-blog')
 
 test.use({
   baseURL: env['create-valaxy'],
@@ -7,6 +11,7 @@ test.use({
 })
 
 test.beforeEach(async ({ page }) => {
+  test.skip(skipAll, 'valaxy-blog directory not found')
   await page.goto('/')
 })
 

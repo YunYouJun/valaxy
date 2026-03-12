@@ -5,7 +5,7 @@ setup('theme-yun')
 
 test.describe('Collections', () => {
   test('collection sidebar shows all items including link items', async ({ page }) => {
-    await page.goto('/collections/hamster/1')
+    await page.goto('/collections/links-test/1')
     await page.waitForSelector('.yun-sidebar-item')
 
     // Sidebar should show items
@@ -24,7 +24,7 @@ test.describe('Collections', () => {
   })
 
   test('collection sidebar internal link uses RouterLink', async ({ page }) => {
-    await page.goto('/collections/hamster/1')
+    await page.goto('/collections/links-test/1')
     await page.waitForSelector('.yun-sidebar-item')
 
     // Internal link items should be <a> tags without target="_blank" (RouterLink renders as <a>)
@@ -37,23 +37,23 @@ test.describe('Collections', () => {
   })
 
   test('collection prev/next navigation includes link items', async ({ page }) => {
-    await page.goto('/collections/hamster/the-lizard-king')
+    await page.goto('/collections/links-test/1')
     await page.waitForSelector('.collection-prev-next')
 
-    // Next item after "the-lizard-king" is "Valaxy 官网" (external link)
+    // Next item after "1" (第一章 开始) is "Valaxy 官网" (external link)
     const nextLink = page.locator('.collection-prev-next .next')
     await expect(nextLink).toBeVisible()
   })
 
   test('collection nav shows correct item count including links', async ({ page }) => {
-    await page.goto('/collections/hamster/1')
+    await page.goto('/collections/links-test/1')
 
     // The collection nav should show position like "1 / N" where N includes link items
     const nav = page.locator('.collection-nav')
     if (await nav.count() > 0) {
       const text = await nav.textContent()
-      // Total items = 12 key items + 2 link items = 14
-      expect(text).toContain('14')
+      // Total items = 3 key items + 2 link items = 5
+      expect(text).toContain('5')
     }
   })
 })
