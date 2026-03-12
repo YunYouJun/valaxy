@@ -31,6 +31,7 @@ catalog:
   '@docsearch/js': ^4.6.0
   '@docsearch/sidepanel-js': ^4.6.0
   '@explosions/fireworks': ^0.2.0
+  '@larksuiteoapi/node-sdk': ^1.40.0
   '@mdit-vue/plugin-component': ^3.0.2
   '@mdit-vue/plugin-frontmatter': ^3.0.2
   '@mdit-vue/plugin-headers': ^3.0.2

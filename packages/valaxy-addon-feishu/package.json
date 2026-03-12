@@ -1,0 +1,29 @@
+{
+  "name": "valaxy-addon-feishu",
+  "version": "0.0.1",
+  "description": "Feishu/Lark CMS integration for Valaxy via Content Loaders",
+  "repository": {
+    "url": "https://github.com/YunYouJun/valaxy/tree/main/packages/valaxy-addon-feishu"
+  },
+  "keywords": [
+    "valaxy",
+    "addon",
+    "feishu",
+    "lark",
+    "cms"
+  ],
+  "exports": {
+    "./*": "./*"
+  },
+  "main": "index.ts",
+  "types": "index.d.ts",
+  "peerDependencies": {
+    "valaxy": ">=0.28"
+  },
+  "dependencies": {
+    "@larksuiteoapi/node-sdk": "catalog:"
+  },
+  "devDependencies": {
+    "valaxy": "workspace:*"
+  }
+}
