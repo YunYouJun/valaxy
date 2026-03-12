@@ -15,8 +15,8 @@ const resolvedItems = computed(() => {
 </script>
 
 <template>
-  <YunCard class="collection p-4 min-h-sm justify-start items-start" flex="~ col gap-1">
-    <section class="yun-sidebar-item">
+  <YunCard class="collection p-4 justify-start items-start" flex="~ col gap-1">
+    <section class="yun-sidebar-item w-full">
       <RouterLink :to="`/collections/${collection.key}/`" class="title">
         {{ collection.title }}
       </RouterLink>

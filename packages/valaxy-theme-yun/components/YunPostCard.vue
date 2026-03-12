@@ -79,13 +79,13 @@ const postTitleClass = computed(() => {
       </div>
 
       <!-- always show -->
-      <div w="full" class="yun-card-actions flex justify-between p-4" min-h="10" text="sm">
-        <div class="post-categories inline-flex" flex="wrap 1" items="center">
-          <YunPostCategories m="l-1" :categories="post.categories" />
-          <YunPostCollectionBadge v-if="postCollections.length" m="l-1" :collections="postCollections" />
+      <div w="full" class="yun-card-actions flex items-center justify-between" p="x-4 y-2" text="sm">
+        <div class="post-categories inline-flex gap-2" flex="wrap 1" items="center">
+          <YunPostCategories :categories="post.categories" />
+          <YunPostCollectionBadge v-if="postCollections.length" :collections="postCollections" />
         </div>
 
-        <YunPostTags v-if="post.tags" m="1" :tags="post.tags" />
+        <YunPostTags v-if="post.tags" m="l-2" :tags="post.tags" />
       </div>
     </YunCard>
   </RouterLink>
@@ -153,6 +153,6 @@ const postTitleClass = computed(() => {
 }
 
 .yun-card-actions {
-  border-top: 1px solid rgb(122 122 122 / 0.05);
+  border-top: 1px solid rgb(122 122 122 / 0.08);
 }
 </style>
