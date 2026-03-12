@@ -1,10 +1,9 @@
 import type { ContentItem, ContentLoader, ContentLoaderContext } from '../types/loader'
 import { createHash } from 'node:crypto'
-import path from 'node:path'
 import { consola } from 'consola'
 import { colors } from 'consola/utils'
 import fs from 'fs-extra'
-import { resolve } from 'pathe'
+import { dirname, isAbsolute, normalize, resolve } from 'pathe'
 import { defineValaxyModule } from '.'
 
 interface ManifestEntry {
@@ -78,8 +77,8 @@ export async function loadAllContent(
       }
 
       // Validate item.path: reject absolute paths, '..' traversal, and non-.md files
-      const normalizedPath = path.normalize(item.path)
-      if (path.isAbsolute(normalizedPath) || normalizedPath.startsWith('..') || !normalizedPath.endsWith('.md')) {
+      const normalizedPath = normalize(item.path)
+      if (isAbsolute(normalizedPath) || normalizedPath.startsWith('..') || !normalizedPath.endsWith('.md')) {
         consola.warn(`[content-loader] Skipping invalid path: ${colors.dim(item.path)}`)
         continue
       }
@@ -102,7 +101,7 @@ export async function loadAllContent(
         continue
       }
 
-      await fs.ensureDir(path.dirname(filePath))
+      await fs.ensureDir(dirname(filePath))
       await fs.writeFile(filePath, item.content, 'utf-8')
       written++
     }
@@ -110,7 +109,7 @@ export async function loadAllContent(
     // Remove stale files from previous manifest that no longer exist in current output
     const staleKeys = Object.keys(prevManifest).filter(key => !(key in nextManifest))
     for (const key of staleKeys) {
-      const stalePath = resolve(pagesDir, path.normalize(key))
+      const stalePath = resolve(pagesDir, normalize(key))
       if (stalePath.startsWith(pagesDir) && await fs.pathExists(stalePath)) {
         await fs.remove(stalePath)
         consola.info(`[content-loader] Removed stale: ${colors.dim(key)}`)

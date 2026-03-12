@@ -98,9 +98,15 @@ export function createFeishuLoader(options: FeishuAddonOptions): ContentLoader {
           }
 
           const slug = slugify(meta.title)
+          // Sanitize title for safe YAML frontmatter embedding:
+          // - Remove newlines/control chars to prevent frontmatter injection
+          // - Escape double quotes
+          const safeTitle = meta.title
+            .replace(/[\n\r\t\0]/g, ' ')
+            .replace(/"/g, '\\"')
           const frontmatter = [
             '---',
-            `title: "${meta.title.replace(/"/g, '\\"')}"`,
+            `title: "${safeTitle}"`,
             meta.createTime ? `date: ${meta.createTime}` : '',
             meta.editTime ? `updated: ${meta.editTime}` : '',
             '---',
