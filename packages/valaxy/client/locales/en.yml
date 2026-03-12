@@ -76,6 +76,10 @@ footer:
   total_views: Total Views
   total_visitors: Total Visitors
 
+collection:
+  badge: Collection
+  empty: No items yet
+
 counter:
   archives: No posts | 1 post | {count} posts
   categories: No categories | 1 category | {count} categories

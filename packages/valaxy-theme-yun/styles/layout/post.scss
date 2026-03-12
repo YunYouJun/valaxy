@@ -67,13 +67,19 @@
 
 .post-link-btn,
 .markdown-body .post-link-btn {
-  background-color: #111;
+  background-color: var(--va-c-primary, #111);
   line-height: 1.2;
-  padding: 0.5rem 1rem;
+  padding: 0.5rem 1.2rem;
   color: white;
-  font-size: 14px;
+  font-size: 0.85rem;
+  font-weight: 500;
+  letter-spacing: 0.02em;
   margin-top: -0.2rem;
-  transition: box-shadow var(--va-transition-duration);
+  transition: box-shadow var(--va-transition-duration), transform var(--va-transition-duration-fast);
+
+  &:hover {
+    transform: translateY(-1px);
+  }
 
   &::before {
     content: none;
@@ -88,6 +94,7 @@
 .post-tag {
   white-space: nowrap;
   color: var(--yun-tag-color);
+  transition: color var(--va-transition-duration-fast);
 
   &:hover {
     color: var(--va-c-primary);

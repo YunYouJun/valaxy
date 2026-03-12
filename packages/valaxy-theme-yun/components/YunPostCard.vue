@@ -26,7 +26,9 @@ const postTitleClass = computed(() => {
 <template>
   <RouterLink class="post-card-link flex-center w-full" :to="post.path || ''">
     <YunCard
-      class="w-full hover:scale-102 hover:z-1" mx="4" :class="post.cover ? 'post-card-image' : 'post-card'"
+      class="post-card-wrapper w-full hover:scale-102 hover:z-1"
+      mx="4"
+      :class="post.cover ? 'post-card-image' : 'post-card'"
       overflow="hidden" :style="styles"
     >
       <div class="flex flex-1 of-hidden justify-start items-start post-card-info" w="full">
@@ -35,9 +37,9 @@ const postTitleClass = computed(() => {
           class="cover object-cover object-center md:shadow" loading="lazy"
         >
 
-        <div class="flex flex-col items-center relative" :class="post.cover && 'h-54'" w="full">
+        <div class="post-card-body flex flex-col items-center relative" :class="post.cover && 'h-54'" w="full">
           <AppLink class="post-title-link cursor-pointer" :to="post.path || ''" m="t-3" :class="postTitleClass">
-            <div class="flex-center title text-2xl" text="center" font="serif black">
+            <div class="post-card-title flex-center title text-2xl" text="center" font="serif black">
               <div v-if="post.type" class="inline-flex" m="r-1" :class="icon" />
               <span>{{ $tO(post.title) }}</span>
             </div>
@@ -45,24 +47,23 @@ const postTitleClass = computed(() => {
 
           <YunPostMeta :frontmatter="post" />
 
-          <div flex="~ grow col" w="full" justify="center" items="center">
+          <div class="post-card-excerpt" flex="~ grow col" w="full" justify="center" items="center">
             <div v-if="post.excerpt_type === 'text'" py="1" />
             <template v-if="post.excerpt">
               <div
                 v-if="post.excerpt_type === 'html'"
-                class="markdown-body" op="90" text="left" w="full" p="x-8 y-2"
+                class="post-card-excerpt-content markdown-body" op="90" text="left" w="full" p="x-6 y-2"
               >
                 <ValaxyDynamicComponent :template-str="post.excerpt" />
               </div>
               <div
                 v-else
-                class="markdown-body" op="90" text="left" w="full" p="x-8 y-2"
+                class="post-card-excerpt-content markdown-body" op="90" text="left" w="full" p="x-6 y-2"
                 v-html="post.excerpt"
               />
             </template>
             <div v-else m="b-5" />
           </div>
-          <!-- <div m="b-5" /> -->
 
           <YunExcerptBottomGradient v-if="post.excerpt" />
 
@@ -88,6 +89,18 @@ const postTitleClass = computed(() => {
 </template>
 
 <style lang="scss">
+.post-card-wrapper {
+  transition: box-shadow var(--va-transition-duration), scale var(--va-transition-duration);
+
+  &:hover {
+    box-shadow: 0 4px 24px rgb(0 0 0 / 0.08);
+  }
+}
+
+.post-card-body {
+  gap: 0.15rem;
+}
+
 .post-card {
   // safari not support
   // animation: card-appear 0.6s ease-in-out forwards, card-appear 0.6s ease-in-out forwards reverse;
@@ -117,6 +130,11 @@ const postTitleClass = computed(() => {
 
 .post-card-link :hover {
   cursor: var(--cursor-pointer), pointer;
+}
+
+.post-card-excerpt-content {
+  font-size: 0.875rem;
+  line-height: 1.7;
 }
 
 @keyframes card-appear {
