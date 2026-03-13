@@ -32,7 +32,7 @@ export async function startValaxyDev({
 }) {
   setEnv()
 
-  if (!isPagesDirExist(root))
+  if (!(await isPagesDirExist(root)))
     process.exit(0)
 
   port = port || await findFreePort(4859)
@@ -147,7 +147,9 @@ export function registerDevCommand(cli: Argv) {
         })
         bindShortcuts(server, createDevServer)
       }
-      createDevServer()
+      await createDevServer()
+      // Keep the process alive — yargs 18 exits after async handlers resolve
+      await new Promise(() => {})
     },
   )
 }

@@ -4,8 +4,6 @@
 
 <template>
   <YunLayoutWrapper>
-    <div class="pt-16 md:pt-24">
-      <YunPostList />
-    </div>
+    <YunPostList />
   </YunLayoutWrapper>
 </template>

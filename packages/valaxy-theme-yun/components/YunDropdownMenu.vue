@@ -40,7 +40,7 @@ defineSlots<{
 </script>
 
 <template>
-  <DropdownMenuRoot>
+  <DropdownMenuRoot :modal="false">
     <DropdownMenuTrigger as-child>
       <slot name="trigger" />
     </DropdownMenuTrigger>

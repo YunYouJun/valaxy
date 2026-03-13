@@ -28,7 +28,7 @@ import { printInfo } from './utils/cli'
 export async function execBuild({ ssg, ssgEngine, root, output, log }: { ssg: boolean, ssgEngine: string, root: string, output: string, log: string }) {
   setEnvProd()
 
-  if (!isPagesDirExist(root))
+  if (!(await isPagesDirExist(root)))
     process.exit(0)
 
   const userRoot = path.resolve(root)
