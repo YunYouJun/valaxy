@@ -10,8 +10,7 @@
       "../../node_modules/@types"
     ],
     "types": [
-      "node",
-      "vite/client"
+      "node"
     ],
     "strict": true,
     "strictNullChecks": true,

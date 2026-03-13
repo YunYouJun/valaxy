@@ -15,6 +15,7 @@ import { callHookWithLog } from '../logger'
 import { setupModules } from '../modules'
 import { contentModule } from '../modules/content'
 import { fuseModule } from '../modules/fuse'
+// cspell:word llms
 import { llmsModule } from '../modules/llms'
 import { rssModule } from '../modules/rss'
 import { resolveOptions } from '../options'

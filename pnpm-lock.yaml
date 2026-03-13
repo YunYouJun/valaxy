@@ -665,9 +665,6 @@ importers:
 
   api:
     devDependencies:
-      oxc-minify:
-        specifier: latest
-        version: 0.118.0
       typedoc:
         specifier: 'catalog:'
         version: 0.28.17(typescript@5.9.3)
@@ -14820,6 +14817,7 @@ snapshots:
       '@oxc-minify/binding-win32-arm64-msvc': 0.118.0
       '@oxc-minify/binding-win32-ia32-msvc': 0.118.0
       '@oxc-minify/binding-win32-x64-msvc': 0.118.0
+    optional: true
 
   p-limit@2.3.0:
     dependencies:

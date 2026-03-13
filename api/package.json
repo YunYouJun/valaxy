@@ -10,7 +10,6 @@
     "typedoc": "typedoc --options ./typedoc.json"
   },
   "devDependencies": {
-    "oxc-minify": "latest",
     "typedoc": "catalog:",
     "typedoc-plugin-markdown": "catalog:",
     "typedoc-vitepress-theme": "catalog:",
