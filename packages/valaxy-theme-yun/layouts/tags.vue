@@ -53,7 +53,8 @@ function displayTag(tag: string) {
 }
 
 const title = usePostTitle(frontmatter)
-const tagArr = computed(() => Array.from(tags.value).sort())
+// eslint-disable-next-line e18e/prefer-array-to-sorted
+const tagArr = computed(() => [...tags.value].sort())
 
 // use flex to fix `overflow-wrap: break-words;` not working in Safari
 </script>

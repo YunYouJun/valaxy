@@ -12,7 +12,7 @@ export function createFixPlugins(
       name: 'valaxy:flags',
       enforce: 'pre',
       transform(code, id) {
-        if (id.match(/\.vue($|\?)/)) {
+        if (/\.vue(?:$|\?)/.test(id)) {
           const original = code
           define.forEach(([from, to]) => {
             code = code.replace(new RegExp(from, 'g'), to)

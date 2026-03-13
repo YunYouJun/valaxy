@@ -42,6 +42,7 @@ const isLocked = useScrollLock(isClient ? document.body : null)
   padding: 0 32px;
   width: 100%;
   background-color: var(--pr-nav-screen-bg-color);
+  z-index: var(--pr-z-nav-screen);
   overflow-y: auto;
   transition: background-color var(--va-transition-duration-moderate);
   pointer-events: auto;

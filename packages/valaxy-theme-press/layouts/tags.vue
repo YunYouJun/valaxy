@@ -27,10 +27,11 @@ const filteredPosts = computed(() => {
 
 const title = computed(() => $tO(frontmatter.value.title) || 'Tags')
 
-const tagArr = computed(() => Array.from(tags.value).sort())
+// eslint-disable-next-line e18e/prefer-array-to-sorted
+const tagArr = computed(() => [...tags.value].sort())
 
 function getTagSize(count: number) {
-  const counts = Array.from(tags.value).map(([_, v]) => v.count)
+  const counts = Array.from(tags.value, ([_, v]) => v.count)
   const max = Math.max(...counts)
   const min = Math.min(...counts)
   const range = max - min || 1

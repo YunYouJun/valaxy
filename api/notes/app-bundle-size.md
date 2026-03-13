@@ -119,7 +119,7 @@ function staticImportedByEntry(
       getModuleInfo,
       cache,
       entryRE,
-      importStack.concat(id),
+      [...importStack, ...id],
     ),
   )
   cache.set(id, someImporterIs)

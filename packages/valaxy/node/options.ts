@@ -8,7 +8,7 @@ import _debug from 'debug'
 import fg from 'fast-glob'
 import fs from 'fs-extra'
 import { resolve } from 'pathe'
-import { getRollupOptions } from './build/bundle'
+import { getRolldownOutputOptions } from './build/bundle'
 import {
   defaultValaxyConfig,
   mergeValaxyConfig,
@@ -64,8 +64,14 @@ export async function processValaxyOptions(valaxyOptions: ResolvedValaxyOptions,
   const addonsValaxyConfig = await resolveAddonsConfig(addons, valaxyOptions)
   valaxyConfig = mergeValaxyConfig(valaxyConfig, addonsValaxyConfig)
 
-  const rollupOptions = getRollupOptions(valaxyOptions)
-  defaultValaxyConfig.vite!.build!.rollupOptions = rollupOptions
+  const rolldownOutputOptions = getRolldownOutputOptions(valaxyOptions)
+
+  // Set rolldownOptions with codeSplitting (Vite 8 / Rolldown)
+  const buildConfig = defaultValaxyConfig.vite!.build ??= {}
+  buildConfig.rolldownOptions = {
+    ...buildConfig.rolldownOptions,
+    output: rolldownOutputOptions,
+  }
 
   const config = replaceArrMerge(valaxyConfig, defaultValaxyConfig)
   valaxyOptions.config = {
@@ -91,8 +97,13 @@ export async function processValaxyOptions(valaxyOptions: ResolvedValaxyOptions,
   valaxyOptions.roots = uniq([clientRoot, themeRoot, ...addonRoots, userRoot])
 
   // when addon be used, remove it from external
-  const external = valaxyOptions.config.vite?.build?.rollupOptions?.external as string[] || []
-  valaxyOptions.config.vite!.build!.rollupOptions!.external = external.filter(name => !addonNames.includes(name))
+  const resolvedBuild = valaxyOptions.config.vite!.build ??= {}
+  const rawExternal = resolvedBuild.rolldownOptions?.external ?? resolvedBuild.rollupOptions?.external ?? []
+  const external = Array.isArray(rawExternal) ? rawExternal.filter((e): e is string => typeof e === 'string') : []
+  resolvedBuild.rolldownOptions = {
+    ...resolvedBuild.rolldownOptions,
+    external: external.filter(name => !addonNames.includes(name)),
+  }
 
   await processSiteConfig(valaxyOptions)
 
@@ -132,7 +143,7 @@ export async function resolveOptions(
   const redirects = collectRedirects(siteConfig.redirects?.rules)
 
   // merge with valaxy
-  userValaxyConfig = replaceArrMerge<ValaxyNodeConfig, any>({ siteConfig } as ValaxyNodeConfig, { themeConfig }, userValaxyConfig)
+  userValaxyConfig = replaceArrMerge({ siteConfig }, { themeConfig }, userValaxyConfig) as ValaxyNodeConfig
 
   // pages
   // Important: fast-glob doesn't guarantee order of the returned files.

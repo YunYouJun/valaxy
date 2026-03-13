@@ -61,7 +61,7 @@ export function useValaxyDark(options: {
     transition.ready.then(() => {
       document.documentElement.animate(
         {
-          clipPath: isDark.value ? [...clipPath].reverse() : clipPath,
+          clipPath: isDark.value ? clipPath.toReversed() : clipPath,
         },
         {
           duration: options.duration ?? 200,

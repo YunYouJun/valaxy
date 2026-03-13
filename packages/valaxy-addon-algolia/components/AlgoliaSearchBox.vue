@@ -47,26 +47,22 @@ async function update() {
 function initialize(userOptions: AlgoliaSearchOptions) {
   // note: multi-lang search support is removed since the theme
   // doesn't support multiple locales as of now.
-  const options = Object.assign<object, AlgoliaSearchOptions, Partial<DocSearchProps>>(
-    {},
-    userOptions,
-    {
-      container: '#docsearch',
+  const options = { ...userOptions, ...{
+    container: '#docsearch',
 
-      navigator: {
-        navigate({ itemUrl }) {
-          router.push(itemUrl)
-        },
-      },
-      transformItems(items) {
-        return items.map((item) => {
-          return Object.assign({}, item, {
-            url: getRelativePath(item.url),
-          })
-        })
+    navigator: {
+      navigate({ itemUrl }) {
+        router.push(itemUrl)
       },
     },
-  ) as DocSearchProps
+    transformItems(items) {
+      return items.map((item) => {
+        return { ...item, ...{
+          url: getRelativePath(item.url),
+        } }
+      })
+    },
+  } } as DocSearchProps
 
   docsearch(options)
 }

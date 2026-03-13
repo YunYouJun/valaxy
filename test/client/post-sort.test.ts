@@ -21,7 +21,7 @@ function filterAndSortPosts(
   const topPosts = orderByMeta(routes.filter(i => i.top), orderBy).sort((a, b) => b.top! - a.top!)
   const otherPosts = orderByMeta(routes.filter(i => !i.top), orderBy)
 
-  return topPosts.concat(otherPosts)
+  return [...topPosts, ...otherPosts]
 }
 
 /**
@@ -29,7 +29,7 @@ function filterAndSortPosts(
  * Mirrors the `top` sort added in packages/valaxy/client/composables/post/index.ts
  */
 function sortPagesByTop(pages: Post[]): Post[] {
-  return [...pages].sort((a, b) => (b.top || 0) - (a.top || 0))
+  return pages.toSorted((a, b) => (b.top || 0) - (a.top || 0))
 }
 
 describe('page list top sorting (issue #554)', () => {

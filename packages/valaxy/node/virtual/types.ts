@@ -4,5 +4,5 @@ import type { ResolvedValaxyOptions } from '../types'
 
 export interface VirtualModuleTemplate {
   id: string
-  getContent: (this: PluginContext, options: ResolvedValaxyOptions) => Awaitable<string>
+  getContent: (this: PluginContext | any, options: ResolvedValaxyOptions) => Awaitable<string>
 }

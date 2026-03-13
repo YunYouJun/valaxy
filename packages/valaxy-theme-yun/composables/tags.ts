@@ -18,7 +18,7 @@ export function useYunTags(options: {
   const primaryColor = new TinyColor(options.primary)
 
   const getTagStyle = (count: number) => {
-    const counts = Array.from(tags.value).map(([_, value]) => value.count)
+    const counts = Array.from(tags.value, ([_, value]) => value.count)
     const max = Math.max(...counts)
     const min = Math.min(...counts)
     const range = max - min

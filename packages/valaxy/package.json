@@ -170,7 +170,6 @@
     "@types/pascalcase": "catalog:",
     "@types/qrcode": "catalog:",
     "@types/yargs": "catalog:",
-
     "gh-pages": "catalog:",
     "https-localhost": "catalog:",
     "nanoid": "catalog:",

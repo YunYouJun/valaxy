@@ -88,11 +88,11 @@ const defaultBlocksOptions: Blocks = {
 }
 
 export function containerPlugin(md: MarkdownItAsync, containerOptions: ContainerOptions = {}) {
-  const blockKeys = new Set(Object.keys(Object.assign({}, defaultBlocksOptions, containerOptions.blocks)))
+  const blockKeys = new Set(Object.keys({ ...defaultBlocksOptions, ...containerOptions.blocks }))
   blockKeys.forEach((optionKey) => {
     const key = optionKey as keyof Blocks
     const userOption = containerOptions.blocks?.[key] || {}
-    const option: BlockItem = Object.assign({}, defaultBlocksOptions[key], userOption)
+    const option: BlockItem = { ...defaultBlocksOptions[key], ...userOption }
     md.use(...createContainer(optionKey, option, md))
   })
 

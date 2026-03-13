@@ -33,7 +33,7 @@ export function usePageList() {
       .filter(i => i.meta!.frontmatter)
       .filter(i => i.path && !excludePages.includes(i.path))
       .map((i) => {
-        return Object.assign({ path: i.path, excerpt: i.meta!.excerpt }, i.meta!.frontmatter || {}) as Post
+        return { path: i.path, excerpt: i.meta!.excerpt, ...i.meta!.frontmatter || {} } as Post
       })
 
     // Sort by `top` so pages with higher `top` values appear first.
@@ -74,7 +74,7 @@ export function filterAndSortPosts(
   const topPosts = sortBySiteConfigOrderBy(routes.filter(i => i.top)).sort((a, b) => b.top! - a.top!)
   const otherPosts = sortBySiteConfigOrderBy(routes.filter(i => !i.top))
 
-  return topPosts.concat(otherPosts)
+  return [...topPosts, ...otherPosts]
 }
 
 /**

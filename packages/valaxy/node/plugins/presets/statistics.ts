@@ -60,12 +60,13 @@ export function presetStatistics({
   if (existsSync(absolutePath)) {
     const file = readFileSync(absolutePath, 'utf-8')
     const { wordCount, readingTime } = statistics(file, {
-      readTime: Object.assign({
+      readTime: {
+        ...options.readTime,
         speed: {
-          cn: 300,
-          en: 100,
+          cn: options.readTime?.speed?.cn || 300,
+          en: options.readTime?.speed?.en || 100,
         },
-      }, options.readTime),
+      },
     })
     const { frontmatter } = route.meta
     // Type guard: check if frontmatter is a mutable object

@@ -15,7 +15,7 @@ const checkedPosts = ref<string[]>([])
 function clearPosts(select: boolean) {
   checkedPosts.value.length = 0
   if (select)
-    checkedPosts.value = checkedPosts.value.concat(postList.value.posts.map(i => i.filePath))
+    checkedPosts.value = [...checkedPosts.value, ...postList.value.posts.map(i => i.filePath)]
 }
 
 async function migration() {

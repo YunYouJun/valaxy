@@ -46,7 +46,7 @@ export function useCollapseCode() {
   // determine whether to add folded class name
   onMounted(() => {
     const els = document.querySelectorAll('div[class*="language-"]')
-    for (const el of Array.from(els)) {
+    for (const el of [...els]) {
       const elHeight = getHeightViaClone(el as HTMLElement)
       if (elHeight > codeHeightLimit)
         el.classList.add('folded')

@@ -5,7 +5,7 @@ export function useCodeGroups() {
   if (import.meta.env.DEV) {
     onContentUpdated(() => {
       document.querySelectorAll('.vp-code-group > .blocks').forEach((el) => {
-        Array.from(el.children).forEach((child) => {
+        [...el.children].forEach((child) => {
           child.classList.remove('active')
         })
         el.children[0].classList.add('active')
@@ -21,7 +21,7 @@ export function useCodeGroups() {
       if (!group)
         return
 
-      const i = Array.from(group.querySelectorAll('input')).indexOf(el)
+      const i = [...group.querySelectorAll('input')].indexOf(el)
       if (i < 0)
         return
 
@@ -29,7 +29,7 @@ export function useCodeGroups() {
       if (!blocks)
         return
 
-      const current = Array.from(blocks.children).find(child =>
+      const current = [...blocks.children].find(child =>
         child.classList.contains('active'),
       )
       if (!current)

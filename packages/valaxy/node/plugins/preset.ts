@@ -79,9 +79,8 @@ export async function ViteValaxyPlugins(
   /**
    * for unplugin-vue-components
    */
-  const componentsDirs = roots
-    .map(root => `${root}/components`)
-    .concat(['src/components', 'components'])
+  const componentsDirs = [...roots
+    .map(root => `${root}/components`), ...['src/components', 'components']]
 
   const plugins: (PluginOption | PluginOption[])[] = [
     createCdnPlugin(options),
@@ -206,6 +205,9 @@ export async function ViteValaxyPlugins(
     // closeBundle. Note: buildCount is scoped per ViteValaxyPlugins() call, so
     // separate build sequences (e.g. tests calling ViteValaxyPlugins again) each
     // get their own counter.
+    //
+    // We cannot release Shiki/MarkdownIt after the 1st build (client) because
+    // the server build still needs to transform markdown files.
     const releaseThreshold = 2
     let resolvedConfig: any = null
     plugins.push({
@@ -227,7 +229,7 @@ export async function ViteValaxyPlugins(
           // hooks will never be called again — both the new Valaxy SSG
           // engine and legacy vite-ssg only do page rendering from here.
           // This allows V8 to reclaim the large closures (Shiki grammar
-          // data, UnoCSS engine, Rollup module graph references, etc.)
+          // data, UnoCSS engine, Rolldown module graph references, etc.)
           // that are otherwise kept alive by function scope holding `config`.
           if (resolvedConfig?.plugins) {
             const hookKeys = [

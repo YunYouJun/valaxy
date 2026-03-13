@@ -18,7 +18,7 @@ export function useRandomData<T>(source: string | T[], random = false) {
     }
     else { rawData = source }
 
-    data.value = random ? Array.from(rawData).sort(() => Math.random() - 0.5) : rawData
+    data.value = random ? rawData.toSorted(() => Math.random() - 0.5) : rawData
   }, { immediate: true })
 
   return {

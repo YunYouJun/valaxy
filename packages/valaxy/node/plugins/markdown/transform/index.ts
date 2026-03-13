@@ -63,7 +63,7 @@ export async function createMarkdownPlugin(
       mdIt.linkify.set({ fuzzyLink: false })
 
       // setup mdIt
-      await setupMarkdownPlugins(mdIt, options)
+      await setupMarkdownPlugins(mdIt as unknown as MarkdownItAsync, options)
 
       options?.config.markdown?.markdownItSetup?.(mdIt)
 
@@ -80,7 +80,7 @@ export async function createMarkdownPlugin(
           })
         })
       }
-      mdIt.use(initEnv)
+      mdIt.use(initEnv as any)
     },
 
     transforms: {

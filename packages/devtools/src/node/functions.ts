@@ -163,7 +163,7 @@ export function getFunctions(server: ViteDevServer, devtoolsOptions: ValaxyDevto
         if (configItems.length > 0) {
           // Merge link-only items from config (they have no .md files)
           for (const ci of configItems) {
-            if (ci.link && !items.find(i => i.key === ci.key)) {
+            if (ci.link && !items.some(i => i.key === ci.key)) {
               items.push({
                 title: ci.title || ci.link,
                 key: ci.key || '',

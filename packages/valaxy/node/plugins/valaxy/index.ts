@@ -165,7 +165,7 @@ export async function createValaxyPlugin(options: ResolvedValaxyOptions, serverO
 
           const moduleIds = ['/@valaxyjs/config', '/@valaxyjs/context']
           const moduleEntries = [
-            ...Array.from(moduleIds).map(id => server.moduleGraph.getModuleById(id)),
+            ...Array.from(moduleIds, id => server.moduleGraph.getModuleById(id)),
           ].filter(<T>(item: T): item is NonNullable<T> => !!item)
 
           return moduleEntries

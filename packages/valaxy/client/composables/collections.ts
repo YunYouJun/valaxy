@@ -83,7 +83,7 @@ export function useCollectionPosts(collectionKey: MaybeRef<string>) {
           .filter(item => item.key && !item.link)
           .map((item, idx) => [item.key, idx]),
       )
-      return [...pages].sort((a, b) => {
+      return pages.toSorted((a, b) => {
         const aSlug = a.path?.split('/').pop() || ''
         const bSlug = b.path?.split('/').pop() || ''
         const aIdx = orderMap.get(aSlug) ?? Infinity

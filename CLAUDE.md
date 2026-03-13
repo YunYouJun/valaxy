@@ -196,8 +196,8 @@ Uses `markdown-it` with custom plugins:
 - Filters draft posts in production
 - Supports pagination
 - Generates sitemap and redirects
-- **Minimum heap (Valaxy SSG): ~2 GB** (`--max-old-space-size=2048`). No JSDOM overhead; default concurrency 20.
-- **Minimum heap (vite-ssg): ~2.3 GB** (`--max-old-space-size=2304`). JSDOM + beasties CSS processing; auto-adjusts concurrency (1-16) based on heap limit.
+- **Minimum heap (Valaxy SSG): ~4 GB** (`--max-old-space-size=4096`). Vite 8 (Rolldown) uses more memory during chunk generation; the SSG engine auto-respawns with sufficient heap.
+- **Minimum heap (vite-ssg): ~4 GB** (`--max-old-space-size=4096`). JSDOM + beasties CSS processing; auto-adjusts concurrency (1-16) based on heap limit.
 
 ## Theme Development
 

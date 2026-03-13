@@ -12,6 +12,7 @@ export default antfu(
     ],
     rules: {
       'no-dupe-keys': 'off',
+      'e18e/prefer-static-regex': 'off',
     },
   },
   {

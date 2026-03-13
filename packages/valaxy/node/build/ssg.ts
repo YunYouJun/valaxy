@@ -54,7 +54,7 @@ export function routesToPaths(routes: any[]): string[] {
   }
 
   getPaths(routes)
-  return Array.from(paths)
+  return [...paths]
 }
 
 /**
@@ -84,11 +84,13 @@ export async function ssgBuild(
   if (!process.env.__VALAXY_SSG_NO_RESPAWN__) {
     const needGC = typeof globalThis.gc !== 'function'
     const currentHeapMB = getHeapLimitMB()
-    const minRequiredMB = 2048
+    // Vite 8 (Rolldown) + large projects (many addons, dual Shiki themes, etc.)
+    // can easily exceed 2 GB during chunk generation. Require at least 4 GB.
+    const minRequiredMB = 4096
     const needMoreHeap = currentHeapMB < minRequiredMB
     // Only respawn for --expose-gc if heap is also constrained.
     // On memory-rich machines, tryGC() being a no-op is acceptable.
-    const needRespawn = needMoreHeap || (needGC && currentHeapMB < 4096)
+    const needRespawn = needMoreHeap || (needGC && currentHeapMB < minRequiredMB)
 
     if (needRespawn) {
       const extraNodeArgs: string[] = []
@@ -164,7 +166,7 @@ export async function ssgBuild(
         outDir: ssgTemp,
         minify: false,
         cssCodeSplit: false,
-        rollupOptions: {
+        rolldownOptions: {
           output: {
             entryFileNames: '[name].mjs',
           },

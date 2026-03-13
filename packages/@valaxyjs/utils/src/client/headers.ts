@@ -20,11 +20,11 @@ export function buildTree(data: MenuItem[], min: number, max: number): MenuItem[
 
   data.forEach((item) => {
     const node = { ...item, children: [] }
-    let parent = stack[stack.length - 1]
+    let parent = stack.at(-1)
 
     while (parent && parent.level >= node.level) {
       stack.pop()
-      parent = stack[stack.length - 1]
+      parent = stack.at(-1)
     }
 
     if (
@@ -66,8 +66,7 @@ export function addToParent(
       && header.level >= levelsRange[0]
       && header.level <= levelsRange[1]
     ) {
-      if (header.children == null)
-        header.children = []
+      header.children ??= []
       header.children.push(currentHeader)
       return false
     }
@@ -97,7 +96,7 @@ export function resolveHeaders(
 
 export function serializeHeader(h: Element): string {
   let ret = ''
-  for (const node of Array.from(h.childNodes)) {
+  for (const node of [...h.childNodes]) {
     if (node.nodeType === 1) {
       if (
         (node as Element).classList.contains('VABadge')
@@ -127,8 +126,8 @@ export function getHeaders(options: GetHeadersOptions = {
   // when transition, the markdown-body will be two
   // the first is the old one, the last is the new one
   const markdownBodyElements = document.querySelectorAll(mdBodySelector) as NodeListOf<HTMLElement>
-  const markdownBody = markdownBodyElements[markdownBodyElements.length - 1]
-  const headers = Array.from(markdownBody?.querySelectorAll(`${mdBodySelector} :where(h1,h2,h3,h4,h5,h6)`) || [])
+  const markdownBody = [...markdownBodyElements].at(-1)
+  const headers = [...markdownBody?.querySelectorAll(`${mdBodySelector} :where(h1,h2,h3,h4,h5,h6)`) || []]
     .filter(el => options.filter ? options.filter(el) : true)
     .map((el) => {
       const level = Number(el.tagName[1])
@@ -137,8 +136,7 @@ export function getHeaders(options: GetHeadersOptions = {
         title: serializeHeader(el),
         link: `#${el.id}`,
         level,
-        // @ts-expect-error lang
-        lang: el.lang,
+        lang: (el as HTMLElement).lang,
       }
     })
 
