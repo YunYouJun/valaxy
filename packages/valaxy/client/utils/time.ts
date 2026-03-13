@@ -47,7 +47,7 @@ export function sortByUpdated(posts: Post[], desc = true) {
 export function orderByMeta(posts: Post[], orderBy: 'date' | 'updated' = 'date', desc = true) {
   return posts.sort((a, b) => {
     const aDate = +new Date(a[orderBy] || a.date || '')
-    const bDate = +new Date(b[orderBy] || a.date || '')
+    const bDate = +new Date(b[orderBy] || b.date || '')
     if (desc)
       return bDate - aDate
     else
