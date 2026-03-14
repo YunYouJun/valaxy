@@ -62,19 +62,13 @@ export function preWrapperPlugin(md: MarkdownIt, options: Options) {
 
     const codeHeightLimitClass = getCodeHeightLimitStyle(options, env)
 
-    const wrap = (code: string) =>
+    return (
       `<div class="language-${lang}${active}${codeHeightLimitClass}">`
       + `<button title="${options.codeCopyButtonTitle || 'Copy code'}" class="copy"></button>`
       + `<span class="lang">${lang}</span>`
-      + `${code}`
+      + `${rawCode}`
       + '<button class="code-block-unfold-btn"></button>'
       + '</div>'
-
-    // Handle async fence result (from markdown-exit with async highlight)
-    if (typeof rawCode === 'object' && rawCode !== null && typeof (rawCode as any).then === 'function') {
-      return (rawCode as unknown as Promise<string>).then(wrap)
-    }
-
-    return wrap(rawCode as string)
+    )
   }
 }

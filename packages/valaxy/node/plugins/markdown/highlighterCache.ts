@@ -2,7 +2,7 @@ import type { Logger } from 'vite'
 import type { MarkdownOptions, ThemeOptions } from './types'
 import { highlight as createHighlighter } from './plugins/highlight'
 
-type HighlightFn = (str: string, lang: string, attrs: string) => Promise<string>
+type HighlightFn = (str: string, lang: string, attrs: string) => string | Promise<string>
 
 let _cachedHighlightFn: HighlightFn | undefined
 let _cachedDispose: (() => void) | undefined

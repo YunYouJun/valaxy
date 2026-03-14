@@ -59,7 +59,7 @@ export async function highlight(
   options: MarkdownOptions,
   logger: Pick<Logger, 'warn'> = console,
 ): Promise<
-  [(str: string, lang: string, attrs: string) => Promise<string>, () => void]
+  [(str: string, lang: string, attrs: string) => string | Promise<string>, () => void]
 > {
   const {
     defaultHighlightLang: defaultLang = 'txt',
@@ -72,8 +72,51 @@ export async function highlight(
         ? [theme.light, theme.dark]
         : [theme],
     langs: [
-      // load long time, about 3s
-      // ...Object.keys(bundledLanguages),
+      // Pre-load common languages so the highlight function returns
+      // synchronously for most code blocks. Without this, unloaded languages
+      // trigger async loadLanguage() and fence-wrapper plugins (preWrapper,
+      // lineNumbers, groupIcons) receive a Promise instead of a string,
+      // resulting in "[object Promise]" in rendered output.
+      'javascript',
+      'typescript',
+      'vue',
+      'vue-html',
+      'jsx',
+      'tsx',
+      'bash',
+      'shell',
+      'sh',
+      'zsh',
+      'json',
+      'json5',
+      'jsonc',
+      'css',
+      'scss',
+      'less',
+      'html',
+      'xml',
+      'yaml',
+      'yml',
+      'toml',
+      'markdown',
+      'md',
+      'python',
+      'java',
+      'c',
+      'cpp',
+      'rust',
+      'go',
+      'diff',
+      'ini',
+      'sql',
+      'graphql',
+      'ruby',
+      'php',
+      'swift',
+      'kotlin',
+      'docker',
+      'dockerfile',
+      'nginx',
       ...(options.languages || []),
       ...Object.values(options.languageAlias || {}),
     ],
@@ -111,7 +154,7 @@ export async function highlight(
   const mustacheRE = /\{\{.*?\}\}/g
 
   return [
-    async (str: string, lang: string, attrs: string) => {
+    (str: string, lang: string, attrs: string): string | Promise<string> => {
       const vPre = vueRE.test(lang) ? '' : 'v-pre'
       lang
         = lang
@@ -120,93 +163,98 @@ export async function highlight(
           .replace(vueRE, '')
           .toLowerCase() || defaultLang
 
-      try {
-        // https://github.com/shikijs/shiki/issues/952
-        if (
-          !isSpecialLang(lang)
+      const needsLoad
+        = !isSpecialLang(lang)
           && !highlighter.getLoadedLanguages().includes(lang)
-        ) {
-          await highlighter.loadLanguage(lang as any)
+
+      const doHighlight = (resolvedLang: string): string => {
+        const lineOptions = attrsToLines(attrs)
+        const mustaches = new Map<string, string>()
+
+        const removeMustache = (s: string) => {
+          if (vPre)
+            return s
+          return s.replace(mustacheRE, (match) => {
+            let marker = mustaches.get(match)
+            if (!marker) {
+              marker = nanoid()
+              mustaches.set(match, marker)
+            }
+            return marker
+          })
         }
-      }
-      catch {
-        logger.warn(
-          colors.yellow(
-            `\nThe language '${lang}' is not loaded, falling back to '${defaultLang}' for syntax highlighting.`,
-          ),
-        )
-        lang = defaultLang
-      }
 
-      const lineOptions = attrsToLines(attrs)
-      const mustaches = new Map<string, string>()
-
-      const removeMustache = (s: string) => {
-        if (vPre)
+        const restoreMustache = (s: string) => {
+          mustaches.forEach((marker, match) => {
+            s = s.replaceAll(marker, match)
+          })
           return s
-        return s.replace(mustacheRE, (match) => {
-          let marker = mustaches.get(match)
-          if (!marker) {
-            marker = nanoid()
-            mustaches.set(match, marker)
-          }
-          return marker
+        }
+
+        const cleanStr = removeMustache(str).trimEnd()
+
+        const highlighted = highlighter.codeToHtml(cleanStr, {
+          lang: resolvedLang,
+          transformers: [
+            ...transformers,
+            transformerCompactLineOptions(lineOptions),
+            {
+              name: 'valaxy:v-pre',
+              pre(node) {
+                if (vPre)
+                  node.properties['v-pre'] = ''
+              },
+            },
+            {
+              name: 'valaxy:empty-line',
+              code(hast) {
+                hast.children.forEach((span) => {
+                  if (
+                    span.type === 'element'
+                    && span.tagName === 'span'
+                    && Array.isArray(span.properties.class)
+                    && span.properties.class.includes('line')
+                    && span.children.length === 0
+                  ) {
+                    span.children.push({
+                      type: 'element',
+                      tagName: 'wbr',
+                      properties: {},
+                      children: [],
+                    })
+                  }
+                })
+              },
+            },
+            ...userTransformers,
+          ],
+          meta: {
+            __raw: attrs,
+          },
+          ...(typeof theme === 'object' && 'light' in theme && 'dark' in theme
+            ? { themes: theme, defaultColor: false }
+            : { theme }),
         })
+
+        return restoreMustache(highlighted)
       }
 
-      const restoreMustache = (s: string) => {
-        mustaches.forEach((marker, match) => {
-          s = s.replaceAll(marker, match)
-        })
-        return s
+      if (needsLoad) {
+        // Async path: load the language first, then highlight
+        return highlighter.loadLanguage(lang as any)
+          .catch(() => {
+            logger.warn(
+              colors.yellow(
+                `\nThe language '${lang}' is not loaded, falling back to '${defaultLang}' for syntax highlighting.`,
+              ),
+            )
+            lang = defaultLang
+          })
+          .then(() => doHighlight(lang))
       }
 
-      str = removeMustache(str).trimEnd()
-
-      const highlighted = highlighter.codeToHtml(str, {
-        lang,
-        transformers: [
-          ...transformers,
-          transformerCompactLineOptions(lineOptions),
-          {
-            name: 'valaxy:v-pre',
-            pre(node) {
-              if (vPre)
-                node.properties['v-pre'] = ''
-            },
-          },
-          {
-            name: 'valaxy:empty-line',
-            code(hast) {
-              hast.children.forEach((span) => {
-                if (
-                  span.type === 'element'
-                  && span.tagName === 'span'
-                  && Array.isArray(span.properties.class)
-                  && span.properties.class.includes('line')
-                  && span.children.length === 0
-                ) {
-                  span.children.push({
-                    type: 'element',
-                    tagName: 'wbr',
-                    properties: {},
-                    children: [],
-                  })
-                }
-              })
-            },
-          },
-          ...userTransformers,
-        ],
-        meta: {
-          __raw: attrs,
-        },
-        ...(typeof theme === 'object' && 'light' in theme && 'dark' in theme
-          ? { themes: theme, defaultColor: false }
-          : { theme }),
-      })
-
-      return restoreMustache(highlighted)
+      // Sync path: language already loaded
+      return doHighlight(lang)
     },
     highlighter.dispose,
   ]
