@@ -26,7 +26,7 @@ export function useMediumZoom() {
       // to force full-resolution rendering. Before closing, we restore the original
       // transform so the close animation works correctly.
       // @see https://github.com/francoischalifour/medium-zoom/issues/151
-      let savedTransform = ''
+      let savedStyles: { transform: string, width: string, height: string } | null = null
 
       zoom.on('opened', () => {
         const zoomed = document.querySelector('.medium-zoom-image--opened') as HTMLElement | null
@@ -42,7 +42,11 @@ export function useMediumZoom() {
         if (!scale || scale === 1)
           return
 
-        savedTransform = transform
+        savedStyles = {
+          transform,
+          width: zoomed.style.width,
+          height: zoomed.style.height,
+        }
         const rect = zoomed.getBoundingClientRect()
 
         // Replace scale transform with actual width/height
@@ -52,17 +56,17 @@ export function useMediumZoom() {
       })
 
       zoom.on('close', () => {
-        if (!savedTransform)
+        if (!savedStyles)
           return
 
         const zoomed = document.querySelector('.medium-zoom-image--opened') as HTMLElement | null
         if (zoomed) {
-          // Restore original transform for close animation
-          zoomed.style.transform = savedTransform
-          zoomed.style.width = ''
-          zoomed.style.height = ''
+          // Restore original styles for close animation
+          zoomed.style.transform = savedStyles.transform
+          zoomed.style.width = savedStyles.width
+          zoomed.style.height = savedStyles.height
         }
-        savedTransform = ''
+        savedStyles = null
       })
     })
   }
