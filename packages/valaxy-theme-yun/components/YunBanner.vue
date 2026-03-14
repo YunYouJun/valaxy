@@ -48,6 +48,7 @@ onMounted(async () => {
     lineStatus.value = 'exit'
 
     animationStatus.value = 'prologue'
+    yun.bannerAnimationDone = true
   }
 })
 </script>
