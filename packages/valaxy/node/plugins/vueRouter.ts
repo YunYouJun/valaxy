@@ -27,7 +27,7 @@ export async function getExcerptByType(excerpt = '', type: ExcerptType = 'html',
     case 'md':
       return excerpt
     case 'html':
-      return await mdIt.renderAsync(excerpt)
+      return mdIt.renderAsync(excerpt)
     case 'text':
       return convert(await mdIt.renderAsync(excerpt))
     default:
