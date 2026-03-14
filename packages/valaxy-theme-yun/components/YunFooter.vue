@@ -29,7 +29,8 @@ const themeConfig = useThemeConfig()
 const year = new Date().getFullYear()
 
 const isThisYear = computed(() => {
-  return year === themeConfig.value.footer?.since
+  const since = themeConfig.value.footer?.since
+  return !since || year === since
 })
 
 const poweredHtml = computed(() => t('footer.powered', [`<a href="${normalizeRepositoryUrl(pkg.repository.url)}" target="_blank" rel="noopener">Valaxy</a> <span class="op-60">v${pkg.version}</span>`]))

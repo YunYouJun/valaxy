@@ -40,7 +40,7 @@ function fetchApiToSay() {
       }
       else {
         throw new Error(
-          `${themeConfig.value.say?.api}, HTTP error, status = ${res.status}`,
+          `${api}, HTTP error, status = ${res.status}`,
         )
       }
     })
