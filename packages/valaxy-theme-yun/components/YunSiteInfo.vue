@@ -16,7 +16,7 @@ const siteConfig = useSiteConfig()
     <YunSiteTitle />
     <h4
       v-if="$t(siteConfig.subtitle)"
-      class="site-subtitle block"
+      class="site-subtitle block op-70"
       text="xs"
     >
       {{ $t(siteConfig.subtitle) }}
