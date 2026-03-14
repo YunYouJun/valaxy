@@ -27,7 +27,7 @@ test.describe('code blocks should not contain [object Promise]', () => {
       expect(count).toBeGreaterThan(0)
 
       for (let i = 0; i < count; i++) {
-        const text = await codeBlocks.nth(i).textContent()
+        const text = await codeBlocks.nth(i).textContent() ?? ''
         expect(
           text,
           `Code block #${i + 1} on ${pagePath} contains [object Promise]`,
@@ -35,7 +35,7 @@ test.describe('code blocks should not contain [object Promise]', () => {
       }
 
       // Also check the full page text as a catch-all
-      const bodyText = await page.locator('article').textContent()
+      const bodyText = await page.locator('article').textContent() ?? ''
       expect(
         bodyText,
         `Page ${pagePath} contains [object Promise] in article content`,

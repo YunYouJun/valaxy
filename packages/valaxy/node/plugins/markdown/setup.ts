@@ -235,8 +235,9 @@ export async function setupMarkdownPlugins(
       const namedIconMatch = title[1].match(namedIconMatchRegex)
       const innerResult = fenceBeforeGroupIcon(...args)
 
+      const titleText = namedIconMatch ? title![1].replace(namedIconMatch[0], '') : title![1]
       const wrap = (code: string) =>
-        `<div class="vp-code-block-title">\n      <div class="vp-code-block-title-bar">\n          <span class="vp-code-block-title-text" data-title="${md.utils.escapeHtml(title![1])}">${namedIconMatch ? title![1].replace(namedIconMatch[0], '') : title![1]}</span>\n      </div>\n        ${code}\n      </div>\n      `
+        `<div class="vp-code-block-title">\n      <div class="vp-code-block-title-bar">\n          <span class="vp-code-block-title-text" data-title="${md.utils.escapeHtml(title![1])}">${md.utils.escapeHtml(titleText)}</span>\n      </div>\n        ${code}\n      </div>\n      `
 
       return isPromiseLike(innerResult)
         ? (innerResult as unknown as Promise<string>).then(wrap)
