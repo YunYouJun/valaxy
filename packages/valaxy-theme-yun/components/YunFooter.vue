@@ -29,18 +29,19 @@ const themeConfig = useThemeConfig()
 const year = new Date().getFullYear()
 
 const isThisYear = computed(() => {
-  return year === themeConfig.value.footer.since
+  const since = themeConfig.value.footer?.since
+  return !since || year === since
 })
 
 const poweredHtml = computed(() => t('footer.powered', [`<a href="${normalizeRepositoryUrl(pkg.repository.url)}" target="_blank" rel="noopener">Valaxy</a> <span class="op-60">v${pkg.version}</span>`]))
-const footerIcon = computed(() => themeConfig.value.footer.icon || {
+const footerIcon = computed(() => themeConfig.value.footer?.icon || {
   url: normalizeRepositoryUrl(pkg.repository.url),
   name: 'i-ri-cloud-line',
   title: pkg.name,
 })
 
 const policeCode = computed(() => {
-  const police = themeConfig.value.footer.beian?.police
+  const police = themeConfig.value.footer?.beian?.police
   if (!police)
     return ''
   const match = police.match(/(\d+)/)
@@ -55,14 +56,14 @@ const policeCode = computed(() => {
     bg="white dark:$va-c-bg-soft"
     text="center sm"
   >
-    <YunCloud v-if="themeConfig.footer.cloud?.enable" class="absolute top--10 left-0 right-0" />
+    <YunCloud v-if="themeConfig.footer?.cloud?.enable" class="absolute top--10 left-0 right-0" />
 
-    <div v-if="themeConfig.footer.beian?.enable && themeConfig.footer.beian.icp" class="beian" m="y-2">
-      <a :href="themeConfig.footer.beian.icpLink || 'https://beian.miit.gov.cn/'" target="_blank" rel="noopener">
-        {{ themeConfig.footer.beian.icp }}
+    <div v-if="themeConfig.footer?.beian?.enable && themeConfig.footer?.beian?.icp" class="beian" m="y-2">
+      <a :href="themeConfig.footer?.beian?.icpLink || 'https://beian.miit.gov.cn/'" target="_blank" rel="noopener">
+        {{ themeConfig.footer?.beian?.icp }}
       </a>
 
-      <template v-if="themeConfig.footer.beian?.police && policeCode">
+      <template v-if="themeConfig.footer?.beian?.police && policeCode">
         <span mx-2>|</span>
         <a
           :href="`https://beian.mps.gov.cn/#/query/webSearch?code=${policeCode}`"
@@ -75,7 +76,7 @@ const policeCode = computed(() => {
             alt="备案图标"
             class="w-4 h-4 inline-block"
           >
-          {{ themeConfig.footer.beian.police }}
+          {{ themeConfig.footer?.beian?.police }}
         </a>
       </template>
     </div>
@@ -84,15 +85,15 @@ const policeCode = computed(() => {
       <span>
         &copy;
         <template v-if="!isThisYear">
-          {{ themeConfig.footer.since }} -
+          {{ themeConfig.footer?.since }} -
         </template>
         {{ year }}
       </span>
 
       <a
-        v-if="themeConfig.footer.icon?.enable"
+        v-if="themeConfig.footer?.icon?.enable"
         class="inline-flex"
-        :class="themeConfig.footer.icon.animated ? 'animate-pulse' : ''"
+        :class="themeConfig.footer?.icon?.animated ? 'animate-pulse' : ''"
         :href="footerIcon.url"
         target="_blank"
         :title="footerIcon.title"
@@ -102,7 +103,7 @@ const policeCode = computed(() => {
       <span>{{ $t(siteConfig.author.name) }}</span>
     </div>
 
-    <div v-if="themeConfig.footer.powered" class="powered" m="2">
+    <div v-if="themeConfig.footer?.powered" class="powered" m="2">
       <span v-html="poweredHtml" />
       <span mx-1>|</span>
       <span>

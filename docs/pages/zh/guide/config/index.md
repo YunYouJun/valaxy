@@ -36,6 +36,9 @@ export default defineValaxyConfig<ThemeConfig>({
 
   theme: 'yun',
   themeConfig: {
+    // 主题布局类型：'nimbo'（默认，现代布局）或 'strato'（经典侧边栏）
+    // 详见：https://github.com/YunYouJun/valaxy/blob/main/packages/valaxy-theme-yun/docs
+    type: 'nimbo',
     banner: {
       enable: true,
       title: '云游君的小站',

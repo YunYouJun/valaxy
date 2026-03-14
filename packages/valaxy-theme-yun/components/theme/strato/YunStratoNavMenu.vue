@@ -34,7 +34,7 @@ watch(() => yunApp.scrollY, () => {
 const app = useAppStore()
 
 const showHamburger = computed(() => {
-  return app.isMobile ? true : route.meta.layout === 'home'
+  return !yunApp.size.isMd || route.meta.layout === 'home'
 })
 </script>
 

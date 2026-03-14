@@ -36,6 +36,9 @@ export default defineValaxyConfig<ThemeConfig>({
 
   theme: 'yun',
   themeConfig: {
+    // Theme layout type: 'nimbo' (default, modern) or 'strato' (classic sidebar)
+    // See: https://github.com/YunYouJun/valaxy/blob/main/packages/valaxy-theme-yun/docs
+    type: 'nimbo',
     banner: {
       enable: true,
       title: '云游君的小站',

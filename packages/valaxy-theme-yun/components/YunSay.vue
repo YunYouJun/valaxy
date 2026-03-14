@@ -12,7 +12,7 @@ const sayFrom = ref('')
  * 获取在线 API 语录
  */
 function fetchApiToSay() {
-  const api = themeConfig.value.say.hitokoto.enable ? themeConfig.value.say.hitokoto.api : themeConfig.value.say.api
+  const api = themeConfig.value.say?.hitokoto?.enable ? themeConfig.value.say.hitokoto.api : themeConfig.value.say?.api
   if (!api)
     return
 
@@ -20,7 +20,7 @@ function fetchApiToSay() {
     .then((res) => {
       if (res.ok) {
         res.json().then((data) => {
-          if (themeConfig.value.say.hitokoto.enable) {
+          if (themeConfig.value.say?.hitokoto?.enable) {
             sayContent.value = data.hitokoto
             sayAuthor.value = data.from_who
             sayFrom.value = data.from
@@ -40,7 +40,7 @@ function fetchApiToSay() {
       }
       else {
         throw new Error(
-          `${themeConfig.value.say.api}, HTTP error, status = ${res.status}`,
+          `${api}, HTTP error, status = ${res.status}`,
         )
       }
     })

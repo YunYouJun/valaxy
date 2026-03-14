@@ -6,6 +6,33 @@ title: 主题配置
 
 如您需要更详细的描述/示例，再阅读下方内容。
 
+## 主题类型 {#theme-type}
+
+Yun 主题支持两种布局类型，通过 `themeConfig.type` 进行切换。
+
+- `nimbo`（雨云）：默认布局。顶部导航栏 + 首页 Banner 动画 + 全屏菜单（移动端）。
+- `strato`（层云）：经典布局。左侧边栏 + 顶部导航栏，类似传统博客风格。
+
+```ts
+import type { ThemeConfig } from 'valaxy-theme-yun'
+import { defineConfig } from 'valaxy'
+
+export default defineConfig<ThemeConfig>({
+  theme: 'yun',
+
+  themeConfig: {
+    // 'nimbo'（默认）或 'strato'
+    type: 'strato',
+  }
+})
+```
+
+::: tip
+`strato` 对应 v1 版本的布局风格，`nimbo` 对应 v2 版本的布局风格。
+
+在未来，Yun 主题的不同布局变更将以不同云的名称命名（如 cirro 卷云、cumulo 积云等）。
+:::
+
 ## 首页
 
 ### 标语动画

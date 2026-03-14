@@ -17,7 +17,7 @@ const themeConfig = useThemeConfig()
 
 // height of top/bottom line
 
-const { totalCharHeight, chars, bannerTitle } = useYunBanner(themeConfig.value.banner)
+const { totalCharHeight, chars, bannerTitle } = useYunBanner(themeConfig.value.banner || { enable: true, title: '' })
 
 const bannerStyles = computed<CSSProperties>(() => {
   const styles: CSSProperties = {
@@ -44,7 +44,7 @@ onMounted(async () => {
   await sleep(500)
   lineStatus.value = 'active'
   if (yun.isNimbo) {
-    await sleep(themeConfig.value.banner.duration || 500)
+    await sleep(themeConfig.value.banner?.duration || 500)
     lineStatus.value = 'exit'
 
     animationStatus.value = 'prologue'
