@@ -2,6 +2,7 @@
 import type MarkdownIt from 'markdown-it'
 import type { SiteConfig } from '../../../../../types'
 import type { MarkdownEnv } from '../../env'
+import { isPromiseLike } from '../async-utils'
 
 export interface Options {
   codeCopyButtonTitle: string
@@ -47,7 +48,9 @@ function getCodeHeightLimitStyle(options: Options, env: MarkdownEnv) {
 //   4. <!--afterend-->
 export function preWrapperPlugin(md: MarkdownIt, options: Options) {
   const fence = md.renderer.rules.fence!
-  md.renderer.rules.fence = (...args) => {
+  // markdown-exit's fence rule may return Promise<string> for async highlight.
+  // Type-assert because markdown-it's RenderRule type doesn't account for this.
+  md.renderer.rules.fence = ((...args: Parameters<typeof fence>) => {
     const [tokens, idx, _, env] = args
     const token = tokens[idx]
     // remove title from info
@@ -62,13 +65,17 @@ export function preWrapperPlugin(md: MarkdownIt, options: Options) {
 
     const codeHeightLimitClass = getCodeHeightLimitStyle(options, env)
 
-    return (
+    const wrap = (code: string) =>
       `<div class="language-${lang}${active}${codeHeightLimitClass}">`
       + `<button title="${options.codeCopyButtonTitle || 'Copy code'}" class="copy"></button>`
       + `<span class="lang">${lang}</span>`
-      + `${rawCode}`
+      + `${code}`
       + '<button class="code-block-unfold-btn"></button>'
       + '</div>'
-    )
-  }
+
+    // Support async fence results from markdown-exit with async highlight
+    return isPromiseLike(rawCode)
+      ? (rawCode as unknown as Promise<string>).then(wrap)
+      : wrap(rawCode as string)
+  }) as typeof fence
 }

@@ -45,7 +45,15 @@ export async function createMarkdownPlugin(
 
     frontmatter: true,
     exportFrontmatter: false,
-    frontmatterOptions: { grayMatterOptions: matterOptions },
+    frontmatterOptions: {
+      // Disable excerpt rendering in @mdit-vue/plugin-frontmatter because it
+      // uses sync md.render() which throws with async highlight (markdown-exit:
+      // "Renderer.render: async rule detected, use renderAsync()").
+      // Valaxy handles excerpt rendering separately in vueRouter.ts via
+      // getExcerptByType() which properly uses renderAsync().
+      renderExcerpt: false,
+      grayMatterOptions: matterOptions,
+    },
 
     // v-pre
     escapeCodeTagInterpolation: true,
