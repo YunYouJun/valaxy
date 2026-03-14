@@ -21,15 +21,15 @@ import '../../types/vue-router.d'
  * @param excerpt
  * @param type
  */
-export function getExcerptByType(excerpt = '', type: ExcerptType = 'html', mdIt: MarkdownItAsync) {
+export async function getExcerptByType(excerpt = '', type: ExcerptType = 'html', mdIt: MarkdownItAsync) {
   switch (type) {
     case 'ai':
     case 'md':
       return excerpt
     case 'html':
-      return mdIt.render(excerpt)
+      return await mdIt.renderAsync(excerpt)
     case 'text':
-      return convert(mdIt.render(excerpt))
+      return convert(await mdIt.renderAsync(excerpt))
     default:
       return excerpt
   }
@@ -220,14 +220,14 @@ export async function createRouterPlugin(valaxyApp: ValaxyNode) {
          *
          * 不会与 vue-router loader 自动合并
          */
-        let resolvedExcerpt = mdFm.excerpt || (excerpt ? getExcerptByType(excerpt, mdFm.excerpt_type || defaultFrontmatter.excerpt_type || valaxyConfig.siteConfig.excerpt.type, mdIt) : '')
+        let resolvedExcerpt = mdFm.excerpt || (excerpt ? await getExcerptByType(excerpt, mdFm.excerpt_type || defaultFrontmatter.excerpt_type || valaxyConfig.siteConfig.excerpt.type, mdIt) : '')
 
         // auto excerpt: generate from content if no manual excerpt
         if (!resolvedExcerpt && valaxyConfig.siteConfig.excerpt.auto) {
           const autoExcerptLength = valaxyConfig.siteConfig.excerpt.length
           const excerptType = mdFm.excerpt_type || defaultFrontmatter.excerpt_type || valaxyConfig.siteConfig.excerpt.type
           const autoExcerptMd = generateAutoExcerptMd(content, autoExcerptLength)
-          resolvedExcerpt = getExcerptByType(autoExcerptMd, excerptType, mdIt)
+          resolvedExcerpt = await getExcerptByType(autoExcerptMd, excerptType, mdIt)
         }
 
         route.addToMeta({

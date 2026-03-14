@@ -55,37 +55,52 @@ describe('generateAutoExcerptMd', () => {
 describe('getExcerptByType', async () => {
   const mdIt = await createMarkdownRenderer()
 
-  it('returns rendered HTML for type "html"', () => {
-    const result = getExcerptByType('**bold** text', 'html', mdIt)
+  it('returns rendered HTML for type "html"', async () => {
+    const result = await getExcerptByType('**bold** text', 'html', mdIt)
     expect(result).toContain('<strong>bold</strong>')
     expect(result).toContain('text')
   })
 
-  it('returns raw markdown for type "md"', () => {
-    const result = getExcerptByType('**bold** text', 'md', mdIt)
+  it('returns raw markdown for type "md"', async () => {
+    const result = await getExcerptByType('**bold** text', 'md', mdIt)
     expect(result).toBe('**bold** text')
   })
 
-  it('returns plain text for type "text"', () => {
-    const result = getExcerptByType('**bold** text', 'text', mdIt)
+  it('returns plain text for type "text"', async () => {
+    const result = await getExcerptByType('**bold** text', 'text', mdIt)
     expect(result).not.toContain('<')
     expect(result).toContain('bold')
     expect(result).toContain('text')
   })
 
-  it('returns raw string for type "ai"', () => {
-    const result = getExcerptByType('**bold** text', 'ai', mdIt)
+  it('returns raw string for type "ai"', async () => {
+    const result = await getExcerptByType('**bold** text', 'ai', mdIt)
     expect(result).toBe('**bold** text')
   })
 
-  it('returns raw string for unknown type (default branch)', () => {
-    const result = getExcerptByType('hello', 'unknown' as any, mdIt)
+  it('returns raw string for unknown type (default branch)', async () => {
+    const result = await getExcerptByType('hello', 'unknown' as any, mdIt)
     expect(result).toBe('hello')
   })
 
-  it('returns empty string for empty excerpt', () => {
-    const result = getExcerptByType('', 'html', mdIt)
+  it('returns empty string for empty excerpt', async () => {
+    const result = await getExcerptByType('', 'html', mdIt)
     expect(result).toBe('')
+  })
+
+  it('should never return [object Promise] for any excerpt type', async () => {
+    const excerptTypes = ['html', 'text', 'md', 'ai'] as const
+    const markdown = '```ts\nconst x = 1\n```\n\nSome **bold** and `inline code`.'
+
+    for (const type of excerptTypes) {
+      const result = await getExcerptByType(markdown, type, mdIt)
+      expect(result, `type "${type}" returned [object Promise]`).not.toContain('[object Promise]')
+    }
+  })
+
+  it('should return a string, not a Promise, when awaited', async () => {
+    const result = await getExcerptByType('hello', 'html', mdIt)
+    expect(typeof result).toBe('string')
   })
 })
 
