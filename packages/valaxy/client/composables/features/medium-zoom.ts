@@ -11,13 +11,63 @@ export function useMediumZoom() {
 
   if (mediumZoomConfig.enable) {
     onMounted(() => {
-      mediumZoom(
+      const zoom = mediumZoom(
         mediumZoomConfig.selector || '.markdown-body img',
         {
           background: 'var(--medium-zoom-c-bg, rgba(0, 0, 0, 0.8))',
           ...mediumZoomConfig.options,
         },
       )
+
+      // Fix blurry images after zoom animation completes.
+      // medium-zoom uses CSS transform: scale() which causes browsers (especially
+      // Chrome) to render scaled images at lower quality.
+      // After the open animation, we replace the transform with actual dimensions
+      // to force full-resolution rendering. Before closing, we restore the original
+      // transform so the close animation works correctly.
+      // @see https://github.com/francoischalifour/medium-zoom/issues/151
+      let savedStyles: { transform: string, width: string, height: string } | null = null
+
+      zoom.on('opened', () => {
+        const zoomed = document.querySelector('.medium-zoom-image--opened') as HTMLElement | null
+        if (!zoomed)
+          return
+
+        const { transform } = zoomed.style
+        const scaleMatch = transform.match(/scale\(([^)]+)\)/)
+        if (!scaleMatch)
+          return
+
+        const scale = Number.parseFloat(scaleMatch[1])
+        if (!scale || scale === 1)
+          return
+
+        savedStyles = {
+          transform,
+          width: zoomed.style.width,
+          height: zoomed.style.height,
+        }
+        const rect = zoomed.getBoundingClientRect()
+
+        // Replace scale transform with actual width/height
+        zoomed.style.transform = transform.replace(/scale\([^)]+\)/, 'scale(1)')
+        zoomed.style.width = `${rect.width}px`
+        zoomed.style.height = `${rect.height}px`
+      })
+
+      zoom.on('close', () => {
+        if (!savedStyles)
+          return
+
+        const zoomed = document.querySelector('.medium-zoom-image--opened') as HTMLElement | null
+        if (zoomed) {
+          // Restore original styles for close animation
+          zoomed.style.transform = savedStyles.transform
+          zoomed.style.width = savedStyles.width
+          zoomed.style.height = savedStyles.height
+        }
+        savedStyles = null
+      })
     })
   }
 }
