@@ -199,9 +199,53 @@ export async function setupMarkdownPlugins(
 
   md.use(TaskLists)
 
+  // Save the fence rule before groupIconMdPlugin wraps it.
+  // groupIconMdPlugin doesn't handle async highlight results (Promises),
+  // so we need to patch its wrapper after it's applied.
+  const fenceBeforeGroupIcon = md.renderer.rules.fence!
+
   md.use(groupIconMdPlugin, {
     titleBar: { includeSnippet: true },
   })
+
+  // Patch: groupIconMdPlugin wraps fenceRule(...args) in template literals,
+  // which converts Promise<string> to "[object Promise]". Replace its wrapper
+  // with an async-aware version that awaits inner results.
+  {
+    const _groupIconFence = md.renderer.rules.fence!
+    md.renderer.rules.fence = (...args) => {
+      const [tokens, idx] = args
+      const token = tokens[idx]
+      let isOnCodeGroup = false
+      for (let i = idx - 1; i >= 0; i--) {
+        if (tokens[i].type === 'container_code-group_open') {
+          isOnCodeGroup = true
+          break
+        }
+        if (tokens[i].type === 'container_code-group_close')
+          break
+      }
+      const title = token.info.match(/\[((?:[^[\]]|\[[^[\]]*\])*)\]/)
+      const isIncludedSnippet = true // titleBar.includeSnippet
+
+      if (!isOnCodeGroup && title && (!(token as any).src || isIncludedSnippet)) {
+        const namedIconMatchRegex = /(?:^|\s)icon:([\w-]+)(?:\s|$)/
+        const namedIconMatch = title[1].match(namedIconMatchRegex)
+        const innerResult = fenceBeforeGroupIcon(...args)
+        const wrap = (code: string) =>
+          `<div class="vp-code-block-title">\n      <div class="vp-code-block-title-bar">\n          <span class="vp-code-block-title-text" data-title="${md.utils.escapeHtml(title![1])}">${namedIconMatch ? title![1].replace(namedIconMatch[0], '') : title![1]}</span>\n      </div>\n        ${code}\n      </div>\n      `
+
+        if (typeof innerResult === 'object' && innerResult !== null && typeof (innerResult as any).then === 'function')
+          return (innerResult as unknown as Promise<string>).then(wrap)
+
+        return wrap(innerResult as string)
+      }
+
+      // Non-title case: just pass through
+      const innerResult = fenceBeforeGroupIcon(...args)
+      return innerResult
+    }
+  }
 
   if (mdOptions.config)
     mdOptions.config(md)
