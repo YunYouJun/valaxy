@@ -66,9 +66,9 @@ const isDev = import.meta.env.DEV
     <YunFullscreenMenu v-if="yun.isNimbo && !yun.size.isLg" />
     <YunStratoSidebar v-if="yun.isStrato" />
 
-    <YunFireworks v-if="themeConfig.fireworks.enable" />
+    <YunFireworks v-if="themeConfig.fireworks?.enable" />
     <slot name="bg">
-      <YunBg v-if="themeConfig.bg_image.enable" />
+      <YunBg v-if="themeConfig.bg_image?.enable" />
     </slot>
     <Transition name="fade">
       <YunLoading v-if="app.showLoading" />

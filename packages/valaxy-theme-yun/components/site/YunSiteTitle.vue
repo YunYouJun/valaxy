@@ -15,14 +15,14 @@ const { $t } = useValaxyI18n()
   <RouterLink
     v-if="router.hasRoute('/about/site')" to="/about/site"
     class="site-name text-lg leading-loose"
-    :class="themeConfig.banner.siteNameClass"
+    :class="themeConfig.banner?.siteNameClass"
   >
     {{ $t(siteConfig.title) }}
   </RouterLink>
   <span
     v-else
     class="site-name text-lg leading-loose"
-    :class="themeConfig.banner.siteNameClass"
+    :class="themeConfig.banner?.siteNameClass"
   >
     {{ $t(siteConfig.title) }}
   </span>

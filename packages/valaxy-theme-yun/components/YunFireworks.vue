@@ -9,7 +9,7 @@ const themeConfig = useThemeConfig<YunTheme.Config>()
 onMounted(() => {
   createFireworks({
     selector: 'canvas.fireworks',
-    colors: themeConfig.value.fireworks.colors,
+    colors: themeConfig.value.fireworks?.colors,
   })
 })
 </script>

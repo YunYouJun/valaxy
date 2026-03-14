@@ -7,15 +7,15 @@ import { useThemeConfig } from '../composables'
 const appStore = useAppStore()
 const themeConfig = useThemeConfig()
 
-if (typeof themeConfig.value.bg_image.url !== 'undefined') {
+if (typeof themeConfig.value.bg_image?.url !== 'undefined') {
   const bgImgOpacity = useCssVar('--yun-bg-img-opacity')
-  if (themeConfig.value.bg_image.opacity)
+  if (themeConfig.value.bg_image?.opacity)
     bgImgOpacity.value = themeConfig.value.bg_image.opacity.toString() || '1'
 
   const bgImgUrl = computed(() => {
     return appStore.isDark
-      ? themeConfig.value.bg_image.dark
-      : themeConfig.value.bg_image.url
+      ? themeConfig.value.bg_image?.dark
+      : themeConfig.value.bg_image?.url
   })
 
   const bgImgCssVar = useCssVar('--yun-bg-img')

@@ -12,15 +12,15 @@ const themeConfig = useThemeConfig()
 const isPage = computed(() => route.path.startsWith('/page'))
 
 const showNotice = computed(() => {
-  const notice = themeConfig.value.notice
-  return notice.enable && (isPage.value ? !notice.hideInPages : true)
+  const notice = themeConfig.value?.notice
+  return notice?.enable && (isPage.value ? !notice.hideInPages : true)
 })
 </script>
 
 <template>
   <YunLayoutWrapper :no-margin="!isPage">
     <div class="w-full flex flex-col items-center">
-      <template v-if="themeConfig.banner.enable">
+      <template v-if="themeConfig.banner?.enable">
         <template v-if="!isPage">
           <div class="w-full">
             <YunBanner />
@@ -42,7 +42,7 @@ const showNotice = computed(() => {
                 </Transition>
               </div>
             </Transition>
-            <YunSay v-if="themeConfig.say.enable" w="full" />
+            <YunSay v-if="themeConfig.say?.enable" w="full" />
           </div>
           <YunPrologue v-if="yun.isNimbo" class="absolute left-0 top-0 right-0 bottom-0" />
         </template>
@@ -55,7 +55,7 @@ const showNotice = computed(() => {
         :class="{
           'mt-4': !isPage,
         }"
-        :content="themeConfig.notice.content"
+        :content="themeConfig.notice?.content"
       />
 
       <slot name="board" />
