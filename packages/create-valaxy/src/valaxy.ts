@@ -209,7 +209,7 @@ export async function init() {
           name: 'agent',
           type: 'select',
           message: 'Choose the agent',
-          choices: ['npm', 'yarn', 'pnpm'].map(i => ({ value: i, title: i })),
+          choices: ['npm', 'yarn', 'pnpm', 'bun'].map(i => ({ value: i, title: i })),
           initial: 2,
         })
       )
@@ -234,6 +234,10 @@ export async function init() {
       case 'yarn':
         console.log(`  ${colors.green('yarn')}`)
         console.log(`  ${colors.green('yarn')} dev`)
+        break
+      case 'bun':
+        console.log(`  ${colors.green('bun')} install`)
+        console.log(`  ${colors.green('bun')} run dev`)
         break
       default:
         console.log(`  ${colors.green(pkgManager)} install`)
