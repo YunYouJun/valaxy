@@ -60,7 +60,7 @@ const showContent = ref(false)
         <YunAuthorIntro />
 
         <div class="py-4 md:py-5 lg:pt-6">
-          <YunAnimLineDraw />
+          <YunAnimLineDraw :active="showContent" />
         </div>
         <div
           flex="~ col"
@@ -71,7 +71,7 @@ const showContent = ref(false)
           <YunSiteDescription />
         </div>
         <div class="scale-x--100 py-4 md:py-5 lg:pb-6">
-          <YunAnimLineDraw />
+          <YunAnimLineDraw :active="showContent" />
         </div>
 
         <YunSocialLinks />

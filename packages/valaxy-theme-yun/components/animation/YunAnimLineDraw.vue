@@ -1,16 +1,20 @@
 <script setup lang="ts">
-import { onMounted, ref } from 'vue'
-
-const slideIn = ref(false)
-onMounted(() => {
-  slideIn.value = true
+const props = withDefaults(defineProps<{
+  /**
+   * Whether the line draw animation is active.
+   * When `true`, the line starts drawing (with CSS transition-delay).
+   * @default true
+   */
+  active?: boolean
+}>(), {
+  active: true,
 })
 </script>
 
 <template>
   <div
     class="line" :class="{
-      enter: slideIn,
+      enter: props.active,
     }"
   />
 </template>
@@ -26,7 +30,6 @@ onMounted(() => {
   left: 0;
   background-color: var(--va-c-text);
   transition: width 1s map.get($cubic-bezier, 'ease-in');
-  transition-delay: 1.2s;
 
   &.enter {
     width: 100%;
