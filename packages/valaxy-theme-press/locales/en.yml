@@ -3,5 +3,9 @@ valaxy_theme_press: Valaxy Theme Press
 theme:
   outlineTitle: On this page
 
+doc_footer:
+  prev: Previous page
+  next: Next page
+
 tooltip:
   edit_this_page: Edit this page
