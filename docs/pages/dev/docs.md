@@ -5,36 +5,92 @@ categories:
 end: false
 ---
 
-## Docs Writing
+## Documentation Guidelines
 
-Valaxy 正在为 1.0 的发布做准备，我们很期待您参与文档的撰写与翻译。
+Valaxy is preparing for the 1.0 release, and we look forward to your participation in writing and translating documentation.
 
-## 如何翻译
+## Documentation Organization
 
-Valaxy 将中英文写一个 Markdown 文件中，因此您可以很容易地进行前后文对比。
+Valaxy documentation uses a **path-based separation** approach for organizing content in different languages:
 
-您可以以如下方式进行中英文内容书写，而文中公共的例子则只需保留一份。
+- English documentation is located in `/docs/pages/`
+- Chinese documentation is located in `/docs/pages/zh/`
 
-```md [pages/posts/xxx.md]
-
-**The effect is as follows** (click the button to switch).
-
-<div>
-This is an example.
-</div>
+For example:
+```
+docs/pages/guide/getting-started.md    # English version
+docs/pages/zh/guide/getting-started.md # Chinese version
 ```
 
-更多请参见 [单页 i18n](https://valaxy.site/guide/i18n)。
+### Bilingual Container Approach (for specific scenarios)
 
-## 如何提交
+Some documents (such as blog posts) may use bilingual containers to write content in both languages within the same file:
 
-使用 GitHub 的 Pull Request 向 valaxy 提交即可。
-建议您以一个完整的 md 文件或一个分类翻译为一次提交。
+```md
+::: zh-CN
+Chinese content
+:::
 
-Commit message 请以 `docs:` 开头。
+::: en
+English content
+:::
+```
 
-譬如，我对文档的指南部分的翻译进行了修改。
-即：`docs: update guide translation`。
+For more details, see [Single Page i18n](https://valaxy.site/guide/i18n) and [i18n Container Syntax](/guide/i18n#container-syntax).
 
-修改了 `xxx.md` 中的错别字：
-即：`docs: fix xxx.md typo`。
+## How to Translate
+
+### 1. Create the Corresponding Chinese Document
+
+If you find an English document that doesn't have a Chinese version yet, create the corresponding file under `/docs/pages/zh/`.
+
+For example, to translate `/docs/pages/guide/ssr-compat.md`:
+
+1. Create `/docs/pages/zh/guide/ssr-compat.md`
+2. Copy the structure from the English document
+3. Translate the content to Chinese
+4. Keep code examples unchanged (unless comments need localization)
+
+### 2. Keep Document Structure Consistent
+
+- **Frontmatter**: Keep the same `categories`, `top`, etc. fields, only translate `title`
+- **Heading Hierarchy**: Maintain the same heading structure as the English version
+- **Code Examples**: Usually no translation needed, keep as-is
+- **Links**: Internal links in Chinese docs should point to Chinese versions (e.g., `/zh/guide/...`)
+
+### 3. Translation Tips
+
+- Technical terms can include English on first use, e.g., "SSR (Server-Side Rendering)"
+- Maintain technical accuracy, refer to [Vue documentation](https://vuejs.org/) translation standards
+- Comments in code can be localized, but keep variable and function names in English
+
+## How to Submit
+
+Use GitHub Pull Requests to submit to valaxy.
+It's recommended to submit a complete markdown file or a category translation as one commit.
+
+Commit messages should start with `docs:`.
+
+Examples:
+
+- Adding new Chinese translation: `docs: add zh translation for ssr-compat`
+- Updating existing translation: `docs: update guide translation`
+- Fixing typos: `docs: fix typo in xxx.md`
+- Updating English docs: `docs(en): update getting-started guide`
+
+## Documentation Preview
+
+Before submitting, preview the documentation locally:
+
+```bash
+# Install dependencies
+pnpm install
+
+# Start documentation dev server
+pnpm docs:dev
+
+# Build documentation (to check for build errors)
+pnpm docs:build
+```
+
+Visit `http://localhost:4859` to view the documentation, and use the language toggle button in the top right to test language switching.

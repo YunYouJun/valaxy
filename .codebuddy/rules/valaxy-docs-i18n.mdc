@@ -2,15 +2,35 @@
 description: 
 alwaysApply: true
 enabled: true
-updatedAt: 2026-02-24T18:30:44.144Z
+updatedAt: 2026-03-16T12:00:00.000Z
 provider: 
 ---
 
-# Valaxy Docs i18n Container Convention
+# Valaxy Docs i18n Convention
 
-When writing bilingual documentation in `docs/pages/**/*.md`:
+Valaxy documentation supports two i18n approaches depending on the content type.
 
-## Container Syntax
+## Path-Based Separation (Recommended for Guide Docs)
+
+For guide documentation in `docs/pages/`, use **separate files** for different languages:
+
+```
+docs/pages/guide/getting-started.md      # English version
+docs/pages/zh/guide/getting-started.md   # Chinese version
+```
+
+### Guidelines:
+- Keep the same directory structure under `/pages/` and `/pages/zh/`
+- Maintain consistent frontmatter (only translate `title`)
+- Keep heading hierarchy and anchor IDs the same
+- Code examples usually stay in English
+- Internal links in Chinese docs should point to `/zh/...` paths
+
+## Container-Based (for Blog Posts & Special Cases)
+
+When writing bilingual documentation in the **same file** (e.g., `docs/pages/posts/**/*.md`):
+
+### Container Syntax
 
 - Use **3 colons** (`:::`) for `zh-CN` / `en` language containers:
   ```md
@@ -35,7 +55,7 @@ When writing bilingual documentation in `docs/pages/**/*.md`:
   ::::
   ```
 
-## Heading Syntax
+### Heading Syntax
 
 Bilingual headings use `{lang="..."}` attribute:
 ```md
@@ -44,7 +64,7 @@ Bilingual headings use `{lang="..."}` attribute:
 ## English Title {lang="en"}
 ```
 
-## Frontmatter
+### Frontmatter
 
 Titles support bilingual object format:
 ```yaml
@@ -55,4 +75,9 @@ title:
 
 ## Locale Files
 
-i18n strings go in `docs/locales/zh-CN.yml` and `docs/locales/en.yml`.
+UI strings go in `docs/locales/zh-CN.yml` and `docs/locales/en.yml`.
+
+## When to Use Which Approach
+
+- **Path-based**: Guide documentation, API references, tutorials
+- **Container-based**: Blog posts, release notes, content that benefits from side-by-side comparison
