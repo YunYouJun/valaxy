@@ -27,7 +27,7 @@ const postTitleClass = computed(() => {
 
 <template>
   <RouterLink v-slot="{ navigate }" :to="post.path || ''" custom>
-    <div class="post-card-link flex-center w-full" role="link" tabindex="0" @click="navigate" @keydown.enter="navigate">
+    <div class="post-card-link flex-center w-full" role="link" tabindex="0" @click="navigate" @keydown.enter="() => navigate()">
       <YunCard
         class="post-card-wrapper w-full hover:scale-102 hover:z-1"
         mx="4"

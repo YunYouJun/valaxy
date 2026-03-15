@@ -36,10 +36,13 @@ test.describe('Theme Yun', () => {
   })
 
   test('search', async ({ page }) => {
-    await page.goto('/')
-    await page.click('.yun-search-btn')
+    // Use networkidle to ensure Vue hydration is complete before interacting
+    await page.goto('/', { waitUntil: 'networkidle' })
+    const searchBtn = page.locator('.yun-search-btn')
+    await searchBtn.waitFor({ state: 'visible' })
+    await searchBtn.click()
     await expect(page.locator('.yun-search-input')).toHaveCount(1)
-    await page.click('.yun-search-btn')
+    await searchBtn.click()
     await expect(page.locator('.yun-search-input')).toHaveCount(0)
   })
 })
