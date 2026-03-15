@@ -146,12 +146,22 @@ export async function createUnocssPlugin(options: ResolvedValaxyOptions) {
 
   const configDeps: string[] = []
 
-  for (const configFile of configFiles) {
-    if (await fs.exists(configFile)) {
-      const uConfig = (await jiti.import(configFile, { default: true })) as UnoCSSConfig
-      config = defu(config, uConfig)
+  // Load all config files in parallel via jiti for faster startup
+  const loadResults = await Promise.all(
+    configFiles.map(async (configFile) => {
+      if (await fs.exists(configFile)) {
+        const uConfig = (await jiti.import(configFile, { default: true })) as UnoCSSConfig
+        return { configFile, uConfig }
+      }
+      return null
+    }),
+  )
 
-      configDeps.push(configFile)
+  // Merge sequentially to preserve deterministic order
+  for (const result of loadResults) {
+    if (result) {
+      config = defu(config, result.uConfig)
+      configDeps.push(result.configFile)
     }
   }
 
