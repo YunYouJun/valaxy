@@ -26,8 +26,8 @@ const postTitleClass = computed(() => {
 </script>
 
 <template>
-  <RouterLink v-slot="{ navigate, href }" :to="post.path || ''" custom>
-    <a class="post-card-link flex-center w-full" :href="href" @click.prevent="navigate">
+  <RouterLink v-slot="{ navigate }" :to="post.path || ''" custom>
+    <div class="post-card-link flex-center w-full" role="link" tabindex="0" @click="navigate" @keydown.enter="() => navigate()" @keydown.space.prevent="() => navigate()">
       <YunCard
         class="post-card-wrapper w-full hover:scale-102 hover:z-1"
         mx="4"
@@ -41,12 +41,12 @@ const postTitleClass = computed(() => {
           >
 
           <div class="post-card-body flex flex-col items-center relative" :class="post.cover && 'h-54'" w="full">
-            <span class="post-title-link cursor-pointer" m="t-3" :class="postTitleClass">
+            <AppLink class="post-title-link cursor-pointer" :to="post.path || ''" m="t-3" :class="postTitleClass">
               <div class="post-card-title flex-center title text-2xl" text="center" font="serif black">
                 <div v-if="post.type" class="inline-flex" m="r-1" :class="icon" />
                 <span>{{ $tO(post.title) }}</span>
               </div>
-            </span>
+            </AppLink>
 
             <YunPostMeta :frontmatter="post" />
 
@@ -89,7 +89,7 @@ const postTitleClass = computed(() => {
           <YunPostTags v-if="post.tags" m="l-2" :tags="post.tags" />
         </div>
       </YunCard>
-    </a>
+    </div>
   </RouterLink>
 </template>
 
@@ -130,6 +130,12 @@ const postTitleClass = computed(() => {
 
   &:focus {
     outline: none;
+  }
+
+  &:focus-visible {
+    outline: 2px solid var(--va-c-primary);
+    outline-offset: 2px;
+    border-radius: var(--va-card-border-radius, 0.5rem);
   }
 }
 
