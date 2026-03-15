@@ -10,18 +10,19 @@ const yunApp = useYunAppStore()
 const siteConfig = useSiteConfig()
 // const themeConfig = useThemeConfig()
 
-const showMenu = ref(false)
+// Always render the menu to avoid SSG hydration mismatch.
+const showMenu = ref(true)
 const route = useRoute()
-onMounted(() => {
-  if (route.meta.layout === 'home') {
-    setTimeout(() => {
-      showMenu.value = true
-    }, 600)
-  }
-  else {
-    showMenu.value = true
-  }
-})
+if (!import.meta.env.SSR) {
+  onMounted(() => {
+    if (route.meta.layout === 'home') {
+      showMenu.value = false
+      setTimeout(() => {
+        showMenu.value = true
+      }, 600)
+    }
+  })
+}
 
 const playAnimation = ref(false)
 watch(() => yunApp.scrollY, () => {
@@ -33,22 +34,29 @@ watch(() => yunApp.scrollY, () => {
 
 const app = useAppStore()
 
-const showHamburger = computed(() => {
-  return !yunApp.size.isMd || route.meta.layout === 'home'
-})
+const isHomePage = computed(() => route.meta.layout === 'home')
 </script>
 
 <template>
   <div class="fixed left-0 top-0" z="$yun-z-left-sidebar-menu">
     <ValaxyHamburger
-      v-if="showHamburger"
+      v-if="isHomePage"
       :active="yunApp.leftSidebar.isOpen"
       class="menu-btn sidebar-toggle leading-4 size-12 fixed"
       inline-flex cursor="pointer"
       hover="bg-white/80 dark:bg-black/80"
       @click="yunApp.leftSidebar.toggle()"
     />
-    <YunNavMenuItem v-else icon="i-ri-home-4-line" to="/" />
+    <template v-else>
+      <ValaxyHamburger
+        :active="yunApp.leftSidebar.isOpen"
+        class="menu-btn sidebar-toggle leading-4 size-12 fixed md:hidden"
+        inline-flex cursor="pointer"
+        hover="bg-white/80 dark:bg-black/80"
+        @click="yunApp.leftSidebar.toggle()"
+      />
+      <YunNavMenuItem class="hidden md:inline-flex" icon="i-ri-home-4-line" to="/" />
+    </template>
   </div>
 
   <Transition
@@ -70,8 +78,8 @@ const showHamburger = computed(() => {
 
       <div class="inline-flex flex-1 justify-end items-center">
         <YunToggleLocale
-          v-if="yunApp.size.isSm && app.showToggleLocale"
-          class="rounded-none!"
+          v-if="app.showToggleLocale"
+          class="rounded-none! hidden sm:inline-flex"
         />
         <YunToggleDark class="rounded-none!" transition />
         <YunSearchTrigger v-if="siteConfig.search.enable" />

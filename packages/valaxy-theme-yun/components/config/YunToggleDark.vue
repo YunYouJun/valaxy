@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import { useAppStore } from 'valaxy'
-import { computed } from 'vue'
+import { onMounted, ref } from 'vue'
 import { useI18n } from 'vue-i18n'
 
 const props = defineProps<{
@@ -10,14 +10,10 @@ const props = defineProps<{
 const appStore = useAppStore()
 const { t } = useI18n()
 
-const themeTitle = computed(() => {
-  return appStore.isDark ? t('button.toggle_light') : t('button.toggle_dark')
-})
-
-const styles = computed(() => {
-  return {
-    color: appStore.isDark ? '' : '#f1cb64',
-  }
+// Use a stable default title for SSR, then update on client to avoid hydration mismatch.
+const themeTitle = ref(t('button.toggle_dark'))
+onMounted(() => {
+  themeTitle.value = appStore.isDark ? t('button.toggle_light') : t('button.toggle_dark')
 })
 
 function toggle(e: MouseEvent) {
@@ -27,12 +23,21 @@ function toggle(e: MouseEvent) {
 
 <template>
   <button
-    class="yun-icon-btn"
+    class="yun-icon-btn yun-toggle-dark"
     :title="themeTitle"
-    :style="styles"
     @mousedown.prevent="() => {}"
     @click="toggle"
   >
     <div i="ri-sun-line dark:ri-moon-line" />
   </button>
 </template>
+
+<style lang="scss">
+.yun-toggle-dark {
+  color: #f1cb64;
+
+  html.dark & {
+    color: inherit;
+  }
+}
+</style>
