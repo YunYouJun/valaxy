@@ -10,7 +10,7 @@ const control = usePrevNext()
 <template>
   <div class="press-doc-footer">
     <div flex justify="between" items="center" text="sm">
-      <a flex items="center" class="decoration-none!" :href="editLink.url" target="_blank">
+      <a flex items="center" class="decoration-none!" :href="editLink.url" target="_blank" rel="noopener noreferrer">
         <div i-ri-external-link-line />
         <span ml-1>{{ editLink.text || t('tooltip.edit_this_page') }}</span>
       </a>
@@ -52,8 +52,14 @@ const control = usePrevNext()
   padding-top: 1.5rem;
   margin-top: 1.5rem;
   display: grid;
-  grid-template-columns: repeat(2, 1fr);
+  grid-template-columns: 1fr;
   gap: 1rem;
+}
+
+@media (min-width: 640px) {
+  .prev-next {
+    grid-template-columns: repeat(2, 1fr);
+  }
 }
 
 .pager-link {

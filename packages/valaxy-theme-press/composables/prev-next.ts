@@ -3,6 +3,7 @@ import { useFrontmatter } from 'valaxy'
 import { computed } from 'vue'
 import { useRoute } from 'vue-router'
 import { useLocaleConfig } from './locale'
+import { normalize } from './sidebar'
 
 export interface DocFooterLink {
   text: string
@@ -19,8 +20,11 @@ function getSidebarItems(
   if (!sidebar)
     return []
 
-  if (Array.isArray(sidebar))
-    return addBase(sidebar)
+  if (Array.isArray(sidebar)) {
+    // Sidebar arrays may contain strings (category names) — filter to objects only
+    const items = sidebar.filter((item): item is PressTheme.SidebarItem => typeof item !== 'string')
+    return addBase(items)
+  }
 
   // SidebarMulti: find the longest matching prefix
   path = ensureStartingSlash(path)
@@ -32,8 +36,10 @@ function getSidebarItems(
     return []
 
   const matched = sidebar[dir]
-  if (Array.isArray(matched))
-    return addBase(matched)
+  if (Array.isArray(matched)) {
+    const items = matched.filter((item): item is PressTheme.SidebarItem => typeof item !== 'string')
+    return addBase(items)
+  }
 
   return addBase(matched.items, matched.base)
 }
@@ -42,12 +48,21 @@ function ensureStartingSlash(path: string): string {
   return path.startsWith('/') ? path : `/${path}`
 }
 
+/**
+ * Join base and link with exactly one `/` separator.
+ */
+function joinPath(base: string, link: string): string {
+  const normalizedBase = base.endsWith('/') ? base.slice(0, -1) : base
+  const normalizedLink = link.startsWith('/') ? link : `/${link}`
+  return normalizedBase + normalizedLink
+}
+
 function addBase(items: PressTheme.SidebarItem[], base?: string): PressTheme.SidebarItem[] {
   return items.map((item) => {
     const result = { ...item }
     const itemBase = result.base || base
     if (itemBase && result.link)
-      result.link = itemBase + result.link.replace(/^\//, itemBase.endsWith('/') ? '' : '/')
+      result.link = joinPath(itemBase, result.link)
     if (result.items)
       result.items = addBase(result.items, itemBase)
     return result
@@ -128,11 +143,4 @@ export function usePrevNext() {
 
     return { prev, next }
   })
-}
-
-const HASH_RE = /#.*$/
-const EXT_RE = /(index)?\.(md|html)$/
-
-function normalize(path: string): string {
-  return decodeURI(path).replace(HASH_RE, '').replace(EXT_RE, '')
 }
