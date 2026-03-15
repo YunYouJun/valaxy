@@ -38,7 +38,7 @@ const displayedPosts = computed(() =>
         </div>
       </template>
 
-      <template v-for="route, i in displayedPosts" :key="i">
+      <template v-for="route in displayedPosts" :key="route.path">
         <YunCollectionCard
           v-if="route._collection"
           :post="route"

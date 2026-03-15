@@ -48,7 +48,7 @@ onContentUpdated(() => {
         flex="~ col grow"
         p="lt-md:0"
       >
-        <YunCard :cover="frontmatter.cover" m="0" :style="styles">
+        <YunCard :cover="frontmatter.cover" m="0" v-bind="styles ? { style: styles } : {}">
           <YunPostActions />
           <div class="mt-8 mb-4">
             <slot name="main-header">
@@ -71,7 +71,9 @@ onContentUpdated(() => {
               <!-- <Transition appear> -->
               <ValaxyMd :frontmatter="frontmatter">
                 <YunAiExcerpt v-if="frontmatter.excerpt_type === 'ai' && frontmatter.excerpt" />
-                <YunMdTimeWarning />
+                <ClientOnly>
+                  <YunMdTimeWarning />
+                </ClientOnly>
 
                 <slot />
                 <slot name="main-content-md" />
