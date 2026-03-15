@@ -38,6 +38,7 @@
     "cli:debug": "tsx packages/valaxy/node/cli/index.ts debug",
     "ci": "pnpm run build && pnpm build:create-valaxy && node packages/create-valaxy/dist/index.mjs -y",
     "ci:publish": "pnpm -r publish --access public --no-git-checks",
+    "create:start": "pnpm -C packages/create-valaxy run start",
     "custom": "pnpm -C demo/custom run dev",
     "demo": "pnpm run demo:yun",
     "demo:build": "pnpm -C demo/yun run build",
