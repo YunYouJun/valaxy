@@ -53,6 +53,6 @@ export function orderByMeta(posts: Post[], orderBy: 'date' | 'updated' = 'date',
     // to ensure consistent order between SSR and client hydration
     if (diff !== 0)
       return diff
-    return (a.path || '').localeCompare(b.path || '')
+    return (a.path || '') < (b.path || '') ? -1 : (a.path || '') > (b.path || '') ? 1 : 0
   })
 }
