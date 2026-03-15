@@ -2,7 +2,7 @@
 const props = withDefaults(defineProps<{
   /**
    * Whether the line draw animation is active.
-   * When `true`, the line starts drawing (with CSS transition-delay).
+   * When `true`, the line draws to full width via CSS transition.
    * @default true
    */
   active?: boolean

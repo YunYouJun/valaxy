@@ -23,11 +23,21 @@ const postTitleClass = computed(() => {
   }
   return props.post.postTitleClass || gradientClasses.value
 })
+
+/**
+ * Guard navigation so clicks on nested interactive elements (e.g. external links)
+ * don't also trigger the card's route navigation.
+ */
+function guardedNavigate(e: Event, navigate: () => void) {
+  if ((e.target as HTMLElement)?.closest('a'))
+    return
+  navigate()
+}
 </script>
 
 <template>
   <RouterLink v-slot="{ navigate }" :to="post.path || ''" custom>
-    <div class="post-card-link flex-center w-full" role="link" tabindex="0" @click="navigate" @keydown.enter="() => navigate()" @keydown.space.prevent="() => navigate()">
+    <div class="post-card-link flex-center w-full" role="link" tabindex="0" @click="(e) => guardedNavigate(e, navigate)" @keydown.enter="(e) => guardedNavigate(e, navigate)" @keydown.space.prevent="(e) => guardedNavigate(e, navigate)">
       <YunCard
         class="post-card-wrapper w-full hover:scale-102 hover:z-1"
         mx="4"
@@ -72,6 +82,7 @@ const postTitleClass = computed(() => {
 
             <a
               v-if="post.url" :href="post.url" class="post-link-btn shadow hover:shadow-md z-2" rounded target="_blank"
+              rel="noopener noreferrer"
               m="b-4"
             >
               {{ t('post.view_link') }}

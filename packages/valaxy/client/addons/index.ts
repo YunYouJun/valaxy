@@ -7,11 +7,12 @@ export function isEmptyAddon(addon: any) {
 }
 
 /**
- * Convert a module namespace import to a plain object reference.
+ * Cast a module namespace import to a plain type, breaking Rollup's
+ * static binding analysis on `import * as ns` namespace objects.
  *
- * This breaks Rollup's static binding analysis on `import * as ns` namespace objects,
- * avoiding `IMPORT_IS_UNDEFINED` warnings when accessing addon-specific exports
- * that don't exist in the empty addon fallback module.
+ * The identity return is intentional — the cast alone is enough to
+ * suppress `IMPORT_IS_UNDEFINED` warnings when accessing addon-specific
+ * exports that don't exist in the empty addon fallback module.
  *
  * @example
  * ```ts
