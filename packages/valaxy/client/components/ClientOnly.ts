@@ -7,6 +7,6 @@ export default defineComponent({
     onMounted(() => {
       show.value = true
     })
-    return () => show.value ? slots.default?.() : null
+    return () => show.value ? slots.default?.() : slots.fallback?.() ?? null
   },
 })

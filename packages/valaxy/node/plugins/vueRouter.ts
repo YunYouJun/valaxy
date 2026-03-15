@@ -144,7 +144,7 @@ export async function createRouterPlugin(valaxyApp: ValaxyNode) {
       // find page path
       const path = route.components.get('default') || ''
       if (path.endsWith('.md')) {
-        const md = fs.readFileSync(path, 'utf-8')
+        const md = await fs.readFile(path, 'utf-8')
         const { data, excerpt, content } = matter(md, matterOptions)
         const mdFm = data as (Page | Post)
 
