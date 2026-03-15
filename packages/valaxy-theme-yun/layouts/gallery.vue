@@ -60,7 +60,11 @@ const photosLength = computed(() => photos.value.length || galleryRef.value?.pho
             <div i-ri-arrow-go-back-line />
           </a>
         </div>
-        <ValaxyGalleryDecrypt v-if="encryptedPhotos" ref="galleryRef" :encrypted-photos="encryptedPhotos" />
+        <ValaxyGalleryDecrypt v-if="encryptedPhotos" ref="galleryRef" :encrypted-photos="encryptedPhotos">
+          <template #default="{ photos: decryptedPhotos }">
+            <YunGallery :photos="decryptedPhotos" />
+          </template>
+        </ValaxyGalleryDecrypt>
         <YunGallery v-else :photos="photos" />
       </component>
     </RouterView>

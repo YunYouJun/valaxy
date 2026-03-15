@@ -1,29 +1,34 @@
 <script lang="ts" setup>
-import { useCssVar } from '@vueuse/core'
 import { useAppStore } from 'valaxy'
-import { computed, watch } from 'vue'
+import { onMounted, watch } from 'vue'
 import { useThemeConfig } from '../composables'
 
 const appStore = useAppStore()
 const themeConfig = useThemeConfig()
 
-if (typeof themeConfig.value.bg_image?.url !== 'undefined') {
-  const bgImgOpacity = useCssVar('--yun-bg-img-opacity')
-  if (themeConfig.value.bg_image?.opacity != null)
-    bgImgOpacity.value = themeConfig.value.bg_image.opacity.toString()
+/**
+ * Set background image CSS variables only on client side (onMounted)
+ * to avoid hydration mismatch caused by isDark / useCssVar during SSR.
+ */
+onMounted(() => {
+  const bgConfig = themeConfig.value.bg_image
+  if (typeof bgConfig?.url === 'undefined')
+    return
 
-  const bgImgUrl = computed(() => {
-    return appStore.isDark
-      ? themeConfig.value.bg_image?.dark
-      : themeConfig.value.bg_image?.url
-  })
+  const root = document.documentElement
 
-  const bgImgCssVar = useCssVar('--yun-bg-img')
+  if (bgConfig?.opacity != null)
+    root.style.setProperty('--yun-bg-img-opacity', bgConfig.opacity.toString())
 
-  watch(() => bgImgUrl.value, () => {
-    bgImgCssVar.value = `url('${bgImgUrl.value}')`
-  }, { immediate: true })
-}
+  function updateBgImg() {
+    const url = appStore.isDark ? bgConfig?.dark : bgConfig?.url
+    if (url)
+      root.style.setProperty('--yun-bg-img', `url('${url}')`)
+  }
+
+  updateBgImg()
+  watch(() => appStore.isDark, updateBgImg)
+})
 </script>
 
 <template>

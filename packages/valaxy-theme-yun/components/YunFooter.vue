@@ -1,25 +1,10 @@
 <script lang="ts" setup>
 import { normalizeRepositoryUrl } from '@valaxyjs/utils'
-import { useSiteConfig, useValaxyConfig, useValaxyDark, useValaxyI18n } from 'valaxy'
+import { useSiteConfig, useValaxyConfig, useValaxyI18n } from 'valaxy'
 import pkg from 'valaxy/package.json' with { type: 'json' }
 import { capitalize, computed } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { useThemeConfig } from '../composables'
-
-// background-image: linear-gradient(120deg, #a1c4fd 0%, #c2e9fb 100%);
-const { isDark } = useValaxyDark()
-const gradientStyles = computed(() => {
-  if (isDark.value) {
-    return {
-      '--gradient-from': '0 0 0',
-      '--gradient-to': '0 0 0',
-    }
-  }
-  return {
-    '--gradient-from': '161 196 253',
-    '--gradient-to': '194 233 251',
-  }
-})
 
 const { t } = useI18n()
 const { $t } = useValaxyI18n()
@@ -116,7 +101,7 @@ const policeCode = computed(() => {
 
     <slot />
 
-    <div class="yun-footer-gradient" :style="gradientStyles" />
+    <div class="yun-footer-gradient" />
   </footer>
 </template>
 
@@ -127,6 +112,9 @@ const policeCode = computed(() => {
 }
 
 .yun-footer-gradient {
+  --gradient-from: 161 196 253;
+  --gradient-to: 194 233 251;
+
   position: absolute;
   bottom: 0;
   left: 0;
@@ -138,5 +126,10 @@ const policeCode = computed(() => {
   background: linear-gradient(to right,rgb(var(--gradient-from) / 0.2) 0,rgb(var(--gradient-to) / .2) 100%);
   mask-image: linear-gradient(#fff0,#000 70%);
   animation: fade-in 2s;
+
+  html.dark & {
+    --gradient-from: 0 0 0;
+    --gradient-to: 0 0 0;
+  }
 }
 </style>

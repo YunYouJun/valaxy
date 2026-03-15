@@ -1,19 +1,14 @@
 <script lang="ts" setup>
-import { useAppStore } from 'valaxy'
 import { useThemeConfig } from '../../composables'
 
-const app = useAppStore()
 const themeConfig = useThemeConfig()
 </script>
 
 <template>
   <div
-    class="links flex-center lg:flex-col"
+    class="links yun-fullscreen-menu-list flex-center lg:flex-col"
     flex="~" text="left"
     p="x-$rect-margin"
-    :class="{
-      'flex-wrap': app.isMobile,
-    }"
   >
     <slot />
     <YunFullscreenMenuItem
@@ -22,3 +17,12 @@ const themeConfig = useThemeConfig()
     />
   </div>
 </template>
+
+<style>
+/* Use CSS media query for mobile flex-wrap instead of JS isMobile to avoid hydration mismatch */
+@media (max-width: 768px) {
+  .yun-fullscreen-menu-list {
+    flex-wrap: wrap;
+  }
+}
+</style>

@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import type { Post } from 'valaxy'
-import { useAppStore, useSiteConfig } from 'valaxy'
+import { useSiteConfig } from 'valaxy'
 import { useI18n } from 'vue-i18n'
 
 // @TODO: add edit by vscode directly when dev
@@ -10,7 +10,6 @@ defineProps<{
   frontmatter: Post
 }>()
 
-const app = useAppStore()
 const { t } = useI18n()
 
 const siteConfig = useSiteConfig()
@@ -25,7 +24,7 @@ const siteConfig = useSiteConfig()
     flex="~ center"
     text="sm"
     :class="{
-      'flex-col gap-2!': app.isMobile || frontmatter.updated,
+      'post-meta-col': frontmatter.updated,
     }"
   >
     <YunPostDateMeta :frontmatter="frontmatter" />
@@ -58,3 +57,18 @@ const siteConfig = useSiteConfig()
     </div>
   </div>
 </template>
+
+<style>
+/* Use CSS media query for mobile layout instead of JS isMobile to avoid hydration mismatch */
+@media (max-width: 768px) {
+  .post-meta {
+    flex-direction: column;
+    gap: 0.5rem !important;
+  }
+}
+
+.post-meta-col {
+  flex-direction: column;
+  gap: 0.5rem !important;
+}
+</style>

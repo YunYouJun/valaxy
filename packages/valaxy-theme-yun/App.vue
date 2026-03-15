@@ -63,16 +63,20 @@ const isDev = import.meta.env.DEV
     <YunPageHeaderGradient />
     <YunNavMenu />
 
-    <YunFullscreenMenu v-if="yun.isNimbo && !yun.size.isLg" />
+    <YunFullscreenMenu v-if="yun.isNimbo" class="lg:hidden" />
     <YunStratoSidebar v-if="yun.isStrato" />
 
-    <YunFireworks v-if="themeConfig.fireworks?.enable" />
+    <ClientOnly>
+      <YunFireworks v-if="themeConfig.fireworks?.enable" />
+    </ClientOnly>
     <slot name="bg">
       <YunBg v-if="themeConfig.bg_image?.enable" />
     </slot>
-    <Transition name="fade">
-      <YunLoading v-if="app.showLoading" />
-    </Transition>
+    <ClientOnly>
+      <Transition name="fade">
+        <YunLoading v-if="app.showLoading" />
+      </Transition>
+    </ClientOnly>
     <YunBackToTop />
   </TooltipProvider>
 </template>
