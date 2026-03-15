@@ -101,6 +101,14 @@ export async function ViteValaxyPlugins(
     Layouts({
       layoutsDirs: roots.map(root => `${root}/layouts`),
 
+      // In SSG builds, layout components must be imported synchronously so that
+      // the client-side hydration tree matches the server-rendered HTML. Without
+      // this, non-default layouts (post, home, etc.) are lazy-loaded and haven't
+      // resolved when hydration starts, causing a mismatch. The old vite-ssg
+      // library handled this by setting VITE_SSG=true; the built-in SSG engine
+      // needs an explicit importMode override instead.
+      ...(options.mode === 'build' ? { importMode: () => 'sync' as const } : {}),
+
       ...valaxyConfig.layouts,
     }),
 

@@ -23,7 +23,9 @@ const showNotice = computed(() => {
       <template v-if="themeConfig.banner?.enable">
         <template v-if="!isPage">
           <div class="w-full">
-            <YunBanner />
+            <ClientOnly>
+              <YunBanner />
+            </ClientOnly>
             <Transition
               v-if="yun.isNimbo && yun.bannerAnimationDone"
               enter-from-class="scale-60"

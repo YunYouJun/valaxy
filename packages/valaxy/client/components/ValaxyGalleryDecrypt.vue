@@ -64,7 +64,7 @@ defineExpose({
       </div>
     </div>
     <div v-else>
-      <YunGallery :photos="photos" />
+      <slot :photos="photos" />
       <div w-full text-center mt-8>
         <button m-auto class="btn" font-bold @click="encryptAgain">
           Encrypt Again

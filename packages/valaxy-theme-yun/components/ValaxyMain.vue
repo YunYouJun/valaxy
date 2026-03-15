@@ -4,14 +4,11 @@ import { onClickHref, onContentUpdated, scrollTo, usePostTitle, useSiteConfig } 
 import { computed, nextTick } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { usePostProperty } from '../composables'
-import { useYunAppStore } from '../stores'
 
 const props = defineProps<{
   frontmatter: Post
   data?: PageData
 }>()
-
-const yun = useYunAppStore()
 
 const siteConfig = useSiteConfig()
 
@@ -51,7 +48,7 @@ onContentUpdated(() => {
         flex="~ col grow"
         p="lt-md:0"
       >
-        <YunCard :cover="frontmatter.cover" m="0" :style="styles">
+        <YunCard :cover="frontmatter.cover" m="0" v-bind="styles ? { style: styles } : {}">
           <YunPostActions />
           <div class="mt-8 mb-4">
             <slot name="main-header">
@@ -74,7 +71,9 @@ onContentUpdated(() => {
               <!-- <Transition appear> -->
               <ValaxyMd :frontmatter="frontmatter">
                 <YunAiExcerpt v-if="frontmatter.excerpt_type === 'ai' && frontmatter.excerpt" />
-                <YunMdTimeWarning />
+                <ClientOnly>
+                  <YunMdTimeWarning />
+                </ClientOnly>
 
                 <slot />
                 <slot name="main-content-md" />
@@ -98,7 +97,7 @@ onContentUpdated(() => {
           <YunComment :class="frontmatter.nav === false ? 'mt-4' : 0" />
         </slot>
 
-        <YunAdBoard v-if="!yun.size.isLg" class="mt-4" />
+        <YunAdBoard class="mt-4 lg:hidden" />
 
         <slot name="main-footer-before" />
         <slot name="main-footer-after" />

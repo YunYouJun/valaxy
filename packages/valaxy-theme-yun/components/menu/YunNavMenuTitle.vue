@@ -34,22 +34,10 @@ function goToLink() {
 
 <template>
   <div
-    v-motion
     flex="~ center col h-full"
+    class="nav-menu-title-container"
     :class="{
       'cursor-pointer': !showPostTitle,
-    }"
-    :initial="{
-      opacity: 0,
-      y: 10,
-    }"
-    :enter="{
-      opacity: 1,
-      y: 0,
-      transition: {
-        duration: 400,
-        delay: 1200,
-      },
     }"
     @click="goToLink"
   >
@@ -77,12 +65,30 @@ function goToLink() {
 </template>
 
 <style lang="scss">
+/* Use pure CSS animation instead of useMotion to avoid hydration mismatch */
+.nav-menu-title-container {
+  opacity: 0;
+  animation: nav-menu-title-enter 0.4s ease 1.2s forwards;
+}
+
 .nav-menu-post-title {
   // safari not support
   animation: nav-menu-title-appear 0.3s linear forwards;
 
   // animation-timeline: scroll();
   // animation-range: 0 calc(30vh);
+}
+
+@keyframes nav-menu-title-enter {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 @keyframes nav-menu-title-appear {
