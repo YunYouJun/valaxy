@@ -25,6 +25,9 @@ const showNotice = computed(() => {
           <div class="w-full">
             <ClientOnly>
               <YunBanner />
+              <template #fallback>
+                <div id="yun-banner-placeholder" class="w-full h-[var(--banner-container-height,100vh)]" />
+              </template>
             </ClientOnly>
             <Transition
               v-if="yun.isNimbo && yun.bannerAnimationDone"

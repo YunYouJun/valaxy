@@ -23,8 +23,7 @@ const classes = computed(() => {
 <template>
   <div class="min-h-screen flex flex-col">
     <div
-      flex="~ grow"
-      class="yun-layout-wrapper__content w-full m-auto justify-center items-start gap-4 flex-col lg:flex-row"
+      class="yun-layout-wrapper__content"
       :class="noMargin ? '' : classes"
     >
       <slot />
@@ -32,3 +31,24 @@ const classes = computed(() => {
     <YunFooter v-if="footer" />
   </div>
 </template>
+
+<style>
+.yun-layout-wrapper__content {
+  display: flex;
+  flex-grow: 1;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+  width: 100%;
+  margin: 0 auto;
+}
+
+/* Switch to horizontal three-column layout on large screens */
+@media (min-width: 1024px) {
+  .yun-layout-wrapper__content {
+    flex-direction: row;
+    align-items: start;
+  }
+}
+</style>
