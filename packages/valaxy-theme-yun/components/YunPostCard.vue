@@ -46,11 +46,11 @@ function guardedNavigate(e: Event, navigate: () => void) {
       >
         <div class="flex flex-1 of-hidden justify-start items-start post-card-info" w="full">
           <img
-            v-if="post.cover" :src="post.cover" :alt="t('post.cover')" width="320" height="180" w="40%" h="54"
-            class="cover object-cover object-center md:shadow" loading="lazy"
+            v-if="post.cover" :src="post.cover" :alt="t('post.cover')" width="320" height="180"
+            class="post-card-cover cover object-cover object-center md:shadow" loading="lazy"
           >
 
-          <div class="post-card-body flex flex-col items-center relative" :class="post.cover && 'h-54'" w="full">
+          <div class="post-card-body flex flex-col items-center relative" :class="post.cover && 'post-card-body-with-cover'" w="full">
             <AppLink class="post-title-link cursor-pointer" :to="post.path || ''" m="t-3" :class="postTitleClass">
               <div class="post-card-title flex-center title text-2xl" text="center" font="serif black">
                 <div v-if="post.type" class="inline-flex" m="r-1" :class="icon" />

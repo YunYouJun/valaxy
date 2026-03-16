@@ -24,7 +24,7 @@ const classes = computed(() => {
   <div class="min-h-screen flex flex-col">
     <div
       flex="~ grow"
-      class="yun-layout-wrapper__content w-full m-auto justify-center items-start gap-4"
+      class="yun-layout-wrapper__content w-full m-auto justify-center items-start gap-4 flex-col lg:flex-row"
       :class="noMargin ? '' : classes"
     >
       <slot />

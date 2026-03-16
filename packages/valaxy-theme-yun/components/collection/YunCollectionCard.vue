@@ -40,12 +40,12 @@ const hasMoreItems = computed(() => itemCount.value > 3)
           v-if="cover"
           :src="cover"
           :alt="$tO(title)"
-          width="320" height="180" w="40%" h="54"
-          class="cover object-cover object-center md:shadow"
+          width="320" height="180"
+          class="post-card-cover cover object-cover object-center md:shadow"
           loading="lazy"
         >
 
-        <div class="collection-card-body flex flex-col items-center relative" :class="cover && 'h-54'" w="full">
+        <div class="collection-card-body flex flex-col items-center relative" :class="cover && 'post-card-body-with-cover'" w="full">
           <!-- Meta: type badge (above title, independent line) -->
           <div class="collection-card-badge">
             <span i-ri-book-2-line />

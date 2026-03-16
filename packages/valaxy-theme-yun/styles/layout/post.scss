@@ -9,13 +9,31 @@
   position: relative;
   max-width: var(--yun-post-card-max-width);
 
-  @include mobile {
+  .post-card-cover {
+    width: 40%;
+    height: 13.5rem; // h-54
+    flex-shrink: 0;
+  }
+
+  .post-card-body-with-cover {
+    height: 13.5rem; // h-54
+  }
+
+  // Use md breakpoint (768px) instead of mobile (640px)
+  // because 640~768px screens are still too narrow for side-by-side layout
+  @media screen and (max-width: 768px) {
     .post-card-info {
       flex-direction: column;
     }
 
-    img {
+    .post-card-cover {
       width: 100%;
+      height: auto;
+      max-height: 12rem;
+    }
+
+    .post-card-body-with-cover {
+      height: auto;
     }
   }
 }

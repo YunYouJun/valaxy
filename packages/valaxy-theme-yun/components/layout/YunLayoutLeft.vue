@@ -5,9 +5,8 @@ import { computed } from 'vue'
 const fm = useFrontmatter()
 
 /**
- * When frontmatter.sidebar is explicitly set, use it directly.
- * Otherwise, default to CSS-controlled responsive visibility (lg breakpoint)
- * to avoid hydration mismatch from JS-based screen size detection.
+ * When frontmatter.sidebar is explicitly set to false, the sidebar is not rendered.
+ * Otherwise, CSS media query controls visibility (hidden on mobile, shown on lg+).
  */
 const sidebarExplicit = computed(() => {
   if (typeof fm.value.sidebar !== 'undefined')
@@ -19,9 +18,7 @@ const sidebarExplicit = computed(() => {
 <template>
   <div
     v-if="sidebarExplicit !== false"
-    flex="~ col"
     class="yun-layout-left gap-4 sticky top-$yun-margin-top w-80"
-    :class="{ 'yun-layout-left--responsive': sidebarExplicit === undefined }"
   >
     <slot>
       <YunSidebarCard />
@@ -31,14 +28,17 @@ const sidebarExplicit = computed(() => {
 </template>
 
 <style>
-/* When no explicit sidebar setting, use CSS media query for responsive visibility */
-.yun-layout-left--responsive {
+/* Hide left sidebar on screens smaller than lg (1024px) to prevent
+   side-by-side layout with yun-main on narrow/mobile screens.
+   Mobile users use the hamburger menu instead. */
+.yun-layout-left {
   display: none;
 }
 
 @media (min-width: 1024px) {
-  .yun-layout-left--responsive {
+  .yun-layout-left {
     display: flex;
+    flex-direction: column;
   }
 }
 </style>
