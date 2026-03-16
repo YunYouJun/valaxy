@@ -3,5 +3,9 @@ valaxy_theme_press: Valaxy 主题 Press
 theme:
   outlineTitle: 本页
 
+doc_footer:
+  prev: 上一页
+  next: 下一页
+
 tooltip:
   edit_this_page: 编辑本页

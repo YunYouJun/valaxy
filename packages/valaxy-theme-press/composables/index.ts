@@ -1,5 +1,6 @@
 export * from './config'
 export * from './locale'
 export * from './nav'
+export * from './prev-next'
 export * from './sidebar'
 export * from './useEditLink'
