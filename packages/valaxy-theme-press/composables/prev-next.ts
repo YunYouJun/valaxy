@@ -2,6 +2,7 @@ import type { CategoryList, Post } from 'valaxy'
 import type { PressTheme } from '../types'
 import { isCategoryList, removeItemFromCategory, useFrontmatter, usePageList, useValaxyI18n } from 'valaxy'
 import { computed } from 'vue'
+import { useI18n } from 'vue-i18n'
 import { useRoute } from 'vue-router'
 import { useLocaleConfig } from './locale'
 import { normalize } from './sidebar'
@@ -180,17 +181,19 @@ interface FlatLink {
 
 /**
  * Recursively flatten sidebar items into a flat list of links.
+ * Translates text via the provided `t` function (vue-i18n) so that
+ * i18n message keys used in sidebar config are resolved for the footer.
  */
-function getFlatLinks(items: PressTheme.SidebarItem[]): FlatLink[] {
+function getFlatLinks(items: PressTheme.SidebarItem[], t: (key: string) => string): FlatLink[] {
   const links: FlatLink[] = []
 
   function extract(items: PressTheme.SidebarItem[]) {
     for (const item of items) {
       if (item.text && item.link) {
         links.push({
-          text: item.text,
+          text: t(item.text),
           link: item.link,
-          docFooterText: item.docFooterText,
+          docFooterText: item.docFooterText ? t(item.docFooterText) : undefined,
         })
       }
       if (item.items)
@@ -215,6 +218,7 @@ export function usePrevNext() {
   const { localeConfig, currentLocaleKey, hasLocales, currentLocale } = useLocaleConfig()
   const pages = usePageList()
   const { $tO } = useValaxyI18n()
+  const { t } = useI18n()
 
   /**
    * Resolve post title to a locale-aware string.
@@ -263,13 +267,13 @@ export function usePrevNext() {
         }
         else {
           // Object sidebar item — flatten as before
-          candidates.push(...getFlatLinks(addBase([item])))
+          candidates.push(...getFlatLinks(addBase([item]), t))
         }
       }
     }
     else {
       // SidebarMulti — only object items, use original logic
-      candidates = getFlatLinks(getSidebarItems(sidebar, route.path))
+      candidates = getFlatLinks(getSidebarItems(sidebar, route.path), t)
     }
 
     const index = candidates.findIndex(link =>
