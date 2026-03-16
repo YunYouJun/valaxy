@@ -18,7 +18,7 @@ pnpm run build
 ```
 
 ```bash [bun]
-bun run build
+ bunx valaxy build --ssg
 ```
 
 ```bash [yarn]

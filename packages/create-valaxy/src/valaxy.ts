@@ -235,10 +235,6 @@ export async function init() {
         console.log(`  ${colors.green('yarn')}`)
         console.log(`  ${colors.green('yarn')} dev`)
         break
-      case 'bun':
-        console.log(`  ${colors.green('bun')} install`)
-        console.log(`  ${colors.green('bun')} run dev`)
-        break
       default:
         console.log(`  ${colors.green(pkgManager)} install`)
         console.log(`  ${colors.green(pkgManager)} run dev`)
