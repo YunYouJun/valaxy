@@ -1,6 +1,6 @@
 import type { CategoryList, Post } from 'valaxy'
 import type { PressTheme } from '../types'
-import { isCategoryList, removeItemFromCategory, useFrontmatter, usePageList } from 'valaxy'
+import { isCategoryList, removeItemFromCategory, useFrontmatter, usePageList, useValaxyI18n } from 'valaxy'
 import { computed } from 'vue'
 import { useRoute } from 'vue-router'
 import { useLocaleConfig } from './locale'
@@ -81,7 +81,7 @@ function buildCategoryTree(pages: Post[]): CategoryList {
 /**
  * Extract flat links from a category by name.
  */
-function getCategoryLinks(categoryTree: CategoryList, categoryName: string): FlatLink[] {
+function getCategoryLinks(categoryTree: CategoryList, categoryName: string, resolveTitle: (title: Post['title']) => string): FlatLink[] {
   const category = categoryTree.children.get(categoryName)
   if (!category || !isCategoryList(category))
     return []
@@ -97,7 +97,7 @@ function getCategoryLinks(categoryTree: CategoryList, categoryName: string): Fla
         const post = child as Post
         if (post.path && post.title) {
           links.push({
-            text: typeof post.title === 'string' ? post.title : (post.title as any)?.en || String(post.title),
+            text: resolveTitle(post.title),
             link: post.path,
           })
         }
@@ -128,7 +128,12 @@ function getSidebarItems(
   path = ensureStartingSlash(path)
   const dir = Object.keys(sidebar)
     .sort((a, b) => b.split('/').length - a.split('/').length)
-    .find(dir => path.startsWith(ensureStartingSlash(dir)))
+    .find((dir) => {
+      const normalizedDir = ensureStartingSlash(dir)
+      // Ensure boundary match: dir must end with '/' or path must have '/' after dir
+      const dirWithSlash = normalizedDir.endsWith('/') ? normalizedDir : `${normalizedDir}/`
+      return path.startsWith(dirWithSlash) || path === normalizedDir
+    })
 
   if (!dir)
     return []
@@ -209,6 +214,16 @@ export function usePrevNext() {
   const frontmatter = useFrontmatter()
   const { localeConfig, currentLocaleKey, hasLocales, currentLocale } = useLocaleConfig()
   const pages = usePageList()
+  const { $tO } = useValaxyI18n()
+
+  /**
+   * Resolve post title to a locale-aware string.
+   */
+  const resolveTitle = (title: Post['title']): string => {
+    if (typeof title === 'string')
+      return title
+    return $tO(title) || String(title)
+  }
 
   /**
    * Filter pages by current locale prefix (same logic as PressSidebar.vue).
@@ -244,7 +259,7 @@ export function usePrevNext() {
       for (const item of sidebar) {
         if (typeof item === 'string') {
           // Expand category name into its page links
-          candidates.push(...getCategoryLinks(categoryTree, item))
+          candidates.push(...getCategoryLinks(categoryTree, item, resolveTitle))
         }
         else {
           // Object sidebar item — flatten as before
