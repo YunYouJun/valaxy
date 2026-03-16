@@ -18,7 +18,9 @@ export function useRandomData<T>(source: string | T[], random = false) {
     }
     else { rawData = source }
 
-    data.value = random ? rawData.toSorted(() => Math.random() - 0.5) : rawData
+    // During SSR, always use original order to avoid hydration mismatch
+    // Random sorting will be applied on the client side
+    data.value = (random && isClient) ? rawData.toSorted(() => Math.random() - 0.5) : rawData
   }, { immediate: true })
 
   return {

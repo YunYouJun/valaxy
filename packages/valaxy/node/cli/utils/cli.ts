@@ -106,23 +106,3 @@ export async function initServer(valaxyApp: ValaxyNode, viteConfig: InlineConfig
     process.exit(1)
   }
 }
-
-/**
- * support vite-node reload (close server)
- * @see https://github.com/vitest-dev/vitest/discussions/1738
- */
-if (import.meta.hot) {
-  await import.meta.hot.data.stopping
-
-  let reload = async () => {
-    // info('Performing an HMR reload...'), stop()
-    consola.info('HMR: Stop Server')
-    await GLOBAL_STATE.server?.close()
-  }
-  import.meta.hot.on('vite:beforeFullReload', () => {
-    const stopping = reload()
-    reload = () => Promise.resolve()
-    if (import.meta.hot)
-      import.meta.hot.data.stopping = stopping
-  })
-}

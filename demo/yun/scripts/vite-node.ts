@@ -1,4 +1,4 @@
-import { startValaxyDev } from '../../../packages/valaxy/node'
+import { startValaxyDev } from 'valaxy/node'
 
 function main() {
   startValaxyDev({

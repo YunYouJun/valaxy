@@ -2,7 +2,7 @@
 import { normalizeRepositoryUrl } from '@valaxyjs/utils'
 import { useSiteConfig, useValaxyConfig, useValaxyI18n } from 'valaxy'
 import pkg from 'valaxy/package.json' with { type: 'json' }
-import { capitalize, computed } from 'vue'
+import { capitalize, computed, onMounted, ref } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { useThemeConfig } from '../composables'
 
@@ -11,11 +11,17 @@ const { $t } = useValaxyI18n()
 const config = useValaxyConfig()
 const siteConfig = useSiteConfig()
 const themeConfig = useThemeConfig()
-const year = new Date().getFullYear()
+
+// Use since year as initial value to avoid hydration mismatch when crossing years
+const since = computed(() => themeConfig.value.footer?.since)
+const year = ref(since.value || 0)
+
+onMounted(() => {
+  year.value = new Date().getFullYear()
+})
 
 const isThisYear = computed(() => {
-  const since = themeConfig.value.footer?.since
-  return !since || year === since
+  return !since.value || year.value === since.value
 })
 
 const poweredHtml = computed(() => t('footer.powered', [`<a href="${normalizeRepositoryUrl(pkg.repository.url)}" target="_blank" rel="noopener">Valaxy</a> <span class="op-60">v${pkg.version}</span>`]))

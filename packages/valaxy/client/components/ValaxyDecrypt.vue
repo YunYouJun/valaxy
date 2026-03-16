@@ -1,4 +1,5 @@
 <script lang="ts" setup>
+import { isClient } from '@vueuse/core'
 import { runContentUpdated, useDecrypt, useFrontmatter } from 'valaxy'
 import { computed, defineComponent, h, ref } from 'vue'
 
@@ -61,7 +62,7 @@ const ValaxyDeprecatedContent = defineComponent({
   },
 })
 
-const hasWarning = computed(() => location.protocol !== 'https:')
+const hasWarning = computed(() => isClient && location.protocol !== 'https:')
 </script>
 
 <template>

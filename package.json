@@ -110,7 +110,7 @@
     "tsx": "catalog:",
     "typescript": "catalog:build",
     "unbuild": "catalog:build",
-    "vite-node": "catalog:",
+
     "vitest": "catalog:",
     "vue-tsc": "catalog:",
     "zx": "catalog:build"
