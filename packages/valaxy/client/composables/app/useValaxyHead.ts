@@ -1,18 +1,21 @@
 import { useHead } from '@unhead/vue'
-import { computed } from 'vue'
+import { computed, onMounted } from 'vue'
 import pkg from '../../../package.json' with { type: 'json' }
 
 import { useFrontmatter, useValaxyI18n } from '../../composables'
 import { useSiteConfig } from '../../config'
 
 export function useValaxyHead() {
-  const { $t, $tO } = useValaxyI18n()
+  const { $t, $tO, locale } = useValaxyI18n()
 
   const fm = useFrontmatter()
   const siteConfig = useSiteConfig()
   const $title = computed(() => $tO(fm.value.title))
 
   useHead({
+    htmlAttrs: {
+      lang: () => locale.value || siteConfig.value.lang || 'en',
+    },
     title: $title,
     titleTemplate: (title) => {
       const siteTitle = $t(siteConfig.value.title)
@@ -43,13 +46,14 @@ export function useValaxyHead() {
         host: siteConfig.value.url,
       },
     },
+  })
 
-    script: [
-      {
-        id: 'check-mac-os',
-        innerHTML: `document.documentElement.classList.toggle('mac', /Mac|iPhone|iPod|iPad/i.test(navigator.platform))`,
-        async: true,
-      },
-    ],
+  // Add mac detection class on client side only, after hydration
+  // to avoid SSR/client mismatch on the <html> element
+  onMounted(() => {
+    document.documentElement.classList.toggle(
+      'mac',
+      /Mac|iPhone|iPod|iPad/i.test(navigator.platform),
+    )
   })
 }

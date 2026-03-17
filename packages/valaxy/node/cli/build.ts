@@ -26,7 +26,7 @@ import { printInfo } from './utils/cli'
 /**
  * valaxy build
  */
-export async function execBuild({ ssg, ssgEngine, root, output, log }: { ssg: boolean, ssgEngine: string, root: string, output: string, log: string }) {
+export async function execBuild({ ssg, ssgEngine, root, output, log }: { ssg: boolean, ssgEngine?: string, root: string, output: string, log: string }) {
   setEnvProd()
 
   if (!(await isPagesDirExist(root)))
@@ -36,6 +36,9 @@ export async function execBuild({ ssg, ssgEngine, root, output, log }: { ssg: bo
   const options = await resolveOptions({ userRoot }, 'build')
   setTimezone(options.config.siteConfig.timezone)
   printInfo(options)
+
+  // CLI flag takes priority, then config file, then default
+  const resolvedSsgEngine = ssgEngine ?? options.config.build?.ssg?.engine ?? 'valaxy'
 
   const valaxyApp = createValaxyNode(options)
   // GLOBAL_STATE.valaxyApp = valaxyApp
@@ -84,7 +87,7 @@ export async function execBuild({ ssg, ssgEngine, root, output, log }: { ssg: bo
   consola.box('🌠 Start building...')
   try {
     if (ssg) {
-      if (ssgEngine === 'vite-ssg') {
+      if (resolvedSsgEngine === 'vite-ssg') {
         consola.info(`use ${colors.yellow('vite-ssg')} (legacy) to do ssg build...`)
         try {
           await ssgBuildLegacy(valaxyApp, viteConfig)
@@ -141,9 +144,8 @@ export function registerBuildCommand(cli: Argv) {
       })
       .option('ssg-engine', {
         type: 'string',
-        default: 'valaxy',
         choices: ['valaxy', 'vite-ssg'],
-        describe: 'SSG engine to use (valaxy: built-in, no JSDOM; vite-ssg: legacy)',
+        describe: 'SSG engine to use, overrides `build.ssg.engine` in config (default: valaxy)',
       })
       .option('output', {
         alias: 'o',

@@ -23,6 +23,9 @@ export const defaultValaxyConfig: ValaxyNodeConfig = {
 
   build: {
     ssgForPagination: false,
+    ssg: {
+      engine: 'valaxy',
+    },
     foucGuard: {
       enabled: true,
       maxDuration: 5000,

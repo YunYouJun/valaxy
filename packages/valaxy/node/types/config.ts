@@ -105,6 +105,29 @@ export interface ValaxyExtendConfig {
      * @default false
      */
     ssgForPagination: boolean
+
+    /**
+     * SSG (Static Site Generation) configuration.
+     */
+    ssg?: {
+      /**
+       * @en SSG engine to use.
+       * - `'valaxy'`: Built-in engine, no JSDOM dependency. (recommended)
+       * - `'vite-ssg'`: Legacy engine based on vite-ssg / JSDOM.
+       *
+       * Can be overridden by CLI flag `--ssg-engine`.
+       *
+       * @zh 使用的 SSG 引擎。
+       * - `'valaxy'`：内置引擎，无 JSDOM 依赖。（推荐）
+       * - `'vite-ssg'`：基于 vite-ssg / JSDOM 的旧版引擎。
+       *
+       * 可通过 CLI 参数 `--ssg-engine` 覆盖。
+       *
+       * @default 'valaxy'
+       */
+      engine?: 'valaxy' | 'vite-ssg'
+    }
+
     /**
      * @en FOUC (Flash of Unstyled Content) guard configuration.
      * Prevents layout shift on first paint by hiding the page body until

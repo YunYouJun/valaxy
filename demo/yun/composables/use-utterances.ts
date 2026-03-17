@@ -1,3 +1,4 @@
+import { isClient } from '@vueuse/core'
 import { useAppStore } from 'valaxy'
 import { nextTick, onMounted, ref, watch } from 'vue'
 import { useRoute } from 'vue-router'
@@ -12,6 +13,11 @@ export function useUtterances(options: {
   issueTerm: 'pathname' | 'title'
   label: string
 }) {
+  // Guard: only run on client side
+  if (!isClient) {
+    return
+  }
+
   const app = useAppStore()
   const route = useRoute()
 
