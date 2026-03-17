@@ -63,6 +63,10 @@ If you are a Windows user, I strongly recommend using a Unix-like shell (such as
 pnpm create valaxy
 ```
 
+```bash [bun]
+bun create valaxy
+```
+
 ```bash [npm]
 npm init valaxy
 ```
@@ -94,6 +98,11 @@ Install the dependencies:
 pnpm i
 ```
 
+```bash [bun]
+# install
+bun install
+```
+
 ```bash [npm]
 # install
 npm i
@@ -109,6 +118,11 @@ Start a preview:
 ```bash [pnpm]
 # start
 pnpm dev
+```
+
+```bash [bun]
+# start
+bun dev
 ```
 
 ```bash [npm]
@@ -150,6 +164,14 @@ cd your-blog
 pnpm add valaxy@latest
 # upgrade theme
 pnpm add valaxy-theme-yun@latest
+```
+
+```bash [bun]
+cd your-blog
+# upgrade valaxy
+bun add valaxy@latest
+# upgrade theme
+bun add valaxy-theme-yun@latest
 ```
 
 ```bash [npm]

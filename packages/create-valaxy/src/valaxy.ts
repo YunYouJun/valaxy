@@ -209,7 +209,7 @@ export async function init() {
           name: 'agent',
           type: 'select',
           message: 'Choose the agent',
-          choices: ['npm', 'yarn', 'pnpm'].map(i => ({ value: i, title: i })),
+          choices: ['npm', 'yarn', 'pnpm', 'bun'].map(i => ({ value: i, title: i })),
           initial: 2,
         })
       )

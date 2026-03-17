@@ -17,6 +17,10 @@ Deploying Valaxy is very easy. We suggest that you build and deploy to any platf
 pnpm run build
 ```
 
+```bash [bun]
+bunx valaxy build --ssg
+```
+
 ```bash [yarn]
 yarn build
 ```
