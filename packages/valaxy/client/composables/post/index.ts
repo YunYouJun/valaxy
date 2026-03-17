@@ -31,6 +31,10 @@ export function usePageList() {
       .filter(i => i.name)
       .filter(i => i.meta)
       .filter(i => i.meta!.frontmatter)
+      // In production, filter out draft routes as a safety net.
+      // This guards against SSR/client build inconsistencies where
+      // `filterDraft` in main.ts may produce different route sets.
+      .filter(i => import.meta.env.DEV || !i.meta!.frontmatter!.draft)
       .filter(i => i.path && !excludePages.includes(i.path))
       .map((i) => {
         return { path: i.path, excerpt: i.meta!.excerpt, ...i.meta!.frontmatter || {} } as Post

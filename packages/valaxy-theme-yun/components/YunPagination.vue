@@ -67,6 +67,7 @@ defineExpose({
   display: flex;
   justify-content: center;
   align-items: center;
+  margin-top: 1.25rem;
 
   .prev, .next, .page-number, .space {
     display: inline-flex;

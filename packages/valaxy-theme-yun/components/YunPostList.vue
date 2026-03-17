@@ -50,7 +50,6 @@ const displayedPosts = computed(() =>
 
     <YunPagination
       ref="paginationRef"
-      class="mt-5"
       :total="posts.length" :page-size="pageSize"
     />
   </div>
