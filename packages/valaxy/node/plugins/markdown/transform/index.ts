@@ -39,6 +39,10 @@ export async function createMarkdownPlugin(
 
   _disposeHighlighter = dispose
 
+  // Extract user transforms so they can be composed with internal transforms
+  // instead of being overwritten by `...mdOptions` spread.
+  const { transforms: userTransforms, ...restMdOptions } = mdOptions
+
   return Markdown({
     include: [/\.md$/],
     wrapperClasses: '',
@@ -100,16 +104,20 @@ export async function createMarkdownPlugin(
         // TODO: PlantUML
         // code = transformPlantUml(code, config.plantUmlServer)
 
-        return code
+        // Run user's before transform if provided
+        return userTransforms?.before?.(code, id) ?? code
       },
 
       after(html) {
         // Workaround for unplugin-vue-markdown extracting <script>/<style> tags
         // from inside HTML comments (https://github.com/YunYouJun/valaxy/issues/558)
-        return sanitizeCommentedSfcBlocks(html)
+        html = sanitizeCommentedSfcBlocks(html)
+
+        // Run user's after transform if provided
+        return userTransforms?.after?.(html) ?? html
       },
     },
 
-    ...mdOptions,
+    ...restMdOptions,
   }) as Plugin
 }
