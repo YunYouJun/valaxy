@@ -1,6 +1,6 @@
 <script setup lang="ts">
+import type { MotionVariants } from '@vueuse/motion'
 import type { Post } from 'valaxy'
-import { useMotion } from '@vueuse/motion'
 import { formatDate, useValaxyI18n } from 'valaxy'
 import { ref } from 'vue'
 
@@ -11,8 +11,7 @@ const props = defineProps<{
 
 const show = ref(false)
 
-const itemRef = ref<HTMLElement>()
-useMotion(itemRef, {
+const motionVariants: MotionVariants<never> = {
   initial: { opacity: 0, y: 20 },
   enter: {
     opacity: 1,
@@ -25,14 +24,14 @@ useMotion(itemRef, {
       },
     },
   },
-})
+}
 
 const { $tO } = useValaxyI18n()
 </script>
 
 <template>
   <article
-    ref="itemRef"
+    v-motion="motionVariants"
     class="post-item relative"
     :class="{ show }"
   >

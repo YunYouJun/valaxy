@@ -8,7 +8,9 @@ test.describe('Theme Yun', () => {
     await page.goto('/')
     // refresh to trigger animation
     await page.reload()
-    await page.waitForSelector('#yun-banner')
+    // In nimbo mode, .char-box elements are transient (removed after ~1s animation).
+    // Wait directly for .char-box to appear instead of just the banner container.
+    await page.waitForSelector('.char-box', { timeout: 10000 })
     await expect(page.locator('.char-box')).toHaveCount(6)
     await expect(page.locator('.char-box').nth(0)).toHaveText('云')
   })

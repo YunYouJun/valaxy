@@ -2,33 +2,15 @@
 import type { CSSProperties } from 'vue'
 import type { ProjectItem } from '../../types'
 import { TinyColor } from '@ctrl/tinycolor'
-import { useMotion } from '@vueuse/motion'
-import { computed, ref } from 'vue'
-import { cubicBezier } from '../../client/constants'
+import { computed } from 'vue'
+import { yunSpringVariants } from '../../composables/animation'
 
 const props = defineProps<{
   i: number
   project: ProjectItem
 }>()
 
-const cardRef = ref<HTMLElement>()
-useMotion(cardRef, {
-  initial: {
-    opacity: 0,
-    y: 50,
-  },
-  enter: {
-    opacity: 1,
-    y: 0,
-    transition: {
-      delay: props.i * 50,
-      type: 'spring',
-      ease: cubicBezier.easeIn,
-      damping: 8,
-      duration: 400,
-    },
-  },
-})
+const motionVariants = yunSpringVariants({ i: props.i, y: 50 })
 
 const cardStyle = computed(() => {
   const styles: CSSProperties = {
@@ -89,7 +71,7 @@ const links = computed(() => [
 
 <template>
   <div
-    ref="cardRef"
+    v-motion="motionVariants"
     flex="~ col center"
     class="m-2 w-90 transform rounded shadow-md grayscale-30 bg-gradient-to-br"
     bg="opacity-80"

@@ -12,12 +12,17 @@ const config = useValaxyConfig()
 const siteConfig = useSiteConfig()
 const themeConfig = useThemeConfig()
 
-// Use since year as initial value to avoid hydration mismatch when crossing years
+// Use current year for both SSR and client to avoid hydration mismatch.
+// SSG build year matches client year in the vast majority of cases.
+// On the rare cross-year boundary, onMounted will correct it.
 const since = computed(() => themeConfig.value.footer?.since)
-const year = ref(since.value || 0)
+const year = ref(new Date().getFullYear())
 
 onMounted(() => {
-  year.value = new Date().getFullYear()
+  // Correct year on the client in case SSG was built in a different year
+  const currentYear = new Date().getFullYear()
+  if (year.value !== currentYear)
+    year.value = currentYear
 })
 
 const isThisYear = computed(() => {

@@ -1,5 +1,5 @@
 import { isClient, useEventListener } from '@vueuse/core'
-import { ref, watch } from 'vue'
+import { onMounted, ref, watch } from 'vue'
 
 /**
  * fetch data from source, and random
@@ -18,10 +18,19 @@ export function useRandomData<T>(source: string | T[], random = false) {
     }
     else { rawData = source }
 
-    // During SSR, always use original order to avoid hydration mismatch
-    // Random sorting will be applied on the client side
-    data.value = (random && isClient) ? rawData.toSorted(() => Math.random() - 0.5) : rawData
+    // Always use original order during initial render to avoid hydration mismatch.
+    // Random sorting is deferred to onMounted (see below).
+    data.value = rawData
   }, { immediate: true })
+
+  // Apply random sorting only after hydration is complete
+  if (random && isClient) {
+    onMounted(() => {
+      if (data.value) {
+        data.value = data.value.toSorted(() => Math.random() - 0.5)
+      }
+    })
+  }
 
   return {
     data,

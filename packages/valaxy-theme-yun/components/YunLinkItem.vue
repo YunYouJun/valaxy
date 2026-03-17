@@ -1,7 +1,6 @@
 <script setup lang="ts">
 import type { LinkType } from '../types'
-import { useMotion } from '@vueuse/motion'
-import { ref } from 'vue'
+import { yunSpringVariants } from '../composables/animation'
 import { onImgError } from '../utils'
 
 const props = defineProps<{
@@ -14,28 +13,12 @@ function onError(e: Event) {
   onImgError(e, props.errorImg)
 }
 
-const itemRef = ref()
-useMotion(itemRef, {
-  initial: {
-    opacity: 0,
-    translateY: 40,
-  },
-  enter: {
-    opacity: 1,
-    translateY: 0,
-    transition: {
-      type: 'spring',
-      duration: 400,
-      damping: 8,
-      delay: props.i * 50,
-    },
-  },
-})
+const motionVariants = yunSpringVariants({ i: props.i })
 </script>
 
 <template>
   <li
-    ref="itemRef"
+    v-motion="motionVariants"
     class="yun-link-item inline-flex"
     :style="{
       '--primary-color': link.color,

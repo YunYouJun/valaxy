@@ -1,7 +1,7 @@
 <script setup lang="ts">
-import { useMotion } from '@vueuse/motion'
+import type { MotionVariants } from '@vueuse/motion'
 import { useValaxyI18n } from 'valaxy'
-import { computed, ref } from 'vue'
+import { computed } from 'vue'
 
 const props = defineProps<{
   social: {
@@ -14,8 +14,8 @@ const props = defineProps<{
   delay: number
 }>()
 const { $t } = useValaxyI18n()
-const iconRef = ref<HTMLElement>()
-useMotion(iconRef, {
+
+const motionVariants: MotionVariants<never> = {
   initial: {
     scale: 0.8,
     x: 0,
@@ -34,7 +34,7 @@ useMotion(iconRef, {
       delay: props.delay,
     },
   },
-})
+}
 
 const socialName = computed(() => $t(props.social.name))
 </script>
@@ -43,7 +43,7 @@ const socialName = computed(() => $t(props.social.name))
   <YunTooltip :content="socialName">
     <div class="size-10 inline-flex-center">
       <a
-        ref="iconRef"
+        v-motion="motionVariants"
         class="prologue-social-icon inline-flex-center w-full h-full text-white bg-$c-brand hover:bg-white hover:text-$c-brand"
         rel="noopener"
         :href="social.link" :title="socialName"

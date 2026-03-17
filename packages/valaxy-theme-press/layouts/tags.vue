@@ -27,7 +27,6 @@ const filteredPosts = computed(() => {
 
 const title = computed(() => $tO(frontmatter.value.title) || 'Tags')
 
-// eslint-disable-next-line e18e/prefer-array-to-sorted
 const tagArr = computed(() => [...tags.value].sort())
 
 function getTagSize(count: number) {

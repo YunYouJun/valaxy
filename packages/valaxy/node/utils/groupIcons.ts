@@ -50,7 +50,6 @@ export async function scanCodeBlockTitles(options: ResolvedValaxyOptions): Promi
     { concurrency: 64 },
   )
 
-  // eslint-disable-next-line e18e/prefer-array-to-sorted
   return [...titles].sort()
 }
 

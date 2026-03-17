@@ -4,7 +4,7 @@ import { useInvisibleElement, useValaxyI18n } from 'valaxy'
 import { onMounted, ref } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { useRouter } from 'vue-router'
-import { useYunSpringAnimation } from '../composables/animation'
+import { yunSpringVariants } from '../composables/animation'
 
 const props = withDefaults(defineProps<{
   i?: number
@@ -51,19 +51,14 @@ onMounted(() => {
     postCollapseElRef.value = postCollapseEl
 })
 
-const categoryRef = ref<HTMLElement>()
-if (props.level === 1) {
-  useYunSpringAnimation(categoryRef, {
-    i: props.i || 0,
-    y: 20,
-    duration: 200,
-  })
-}
+const motionVariants = props.level === 1
+  ? yunSpringVariants({ i: props.i || 0, y: 20, duration: 200 })
+  : undefined
 </script>
 
 <template>
   <li
-    ref="categoryRef"
+    v-motion="motionVariants"
     class="category-list-item inline-flex items-center cursor-pointer w-full gap-2 px-3 py-2 rounded"
     hover="bg-black/5"
   >

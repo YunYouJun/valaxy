@@ -2,12 +2,16 @@
 import { useHead } from '@unhead/vue'
 import { TooltipProvider } from 'reka-ui'
 import { useAppStore } from 'valaxy'
-import { onMounted, watch } from 'vue'
+import { computed, onMounted, watch } from 'vue'
 import { useRoute } from 'vue-router'
 import { useThemeConfig } from './composables'
 import { useYunAppStore } from './stores'
 
 const appStore = useAppStore()
+
+// Use a safe default for SSR; real themeColor is applied after mount
+// to avoid hydration mismatch when user prefers dark mode.
+const safeThemeColor = computed(() => appStore.themeColor)
 
 useHead({
   link: [
@@ -20,11 +24,11 @@ useHead({
   meta: [
     {
       name: 'theme-color',
-      content: appStore.themeColor,
+      content: safeThemeColor,
     },
     {
       name: 'msapplication-TileColor',
-      content: appStore.themeColor,
+      content: safeThemeColor,
     },
   ],
 })

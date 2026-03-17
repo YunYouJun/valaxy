@@ -41,6 +41,10 @@ const lineStatusClass = computed(() => {
 const animationStatus = ref('banner')
 
 onMounted(async () => {
+  // Reset banner animation state to ensure prologue waits for banner
+  // This is needed when navigating back from post to home (SPA navigation)
+  yun.bannerAnimationDone = false
+
   await sleep(500)
   lineStatus.value = 'active'
   if (yun.isNimbo) {

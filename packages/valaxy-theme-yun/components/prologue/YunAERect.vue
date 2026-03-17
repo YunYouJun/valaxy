@@ -1,83 +1,48 @@
 <script setup lang="ts">
-import type { PopmotionTransitionProps } from '@vueuse/motion'
-import { useMotion } from '@vueuse/motion'
-import { ref } from 'vue'
+import type { MotionVariants, Tween } from '@vueuse/motion'
 import { cubicBezier } from '../../client/constants'
 
-const rectRef = ref<HTMLElement>()
-
-const tRef = ref<HTMLElement>()
-const lRef = ref<HTMLElement>()
-const bRef = ref<HTMLElement>()
-const rRef = ref<HTMLElement>()
-
-const transitionOptions: PopmotionTransitionProps = {
+const tweenTransition: Tween = {
   type: 'tween',
   duration: 600,
   ease: cubicBezier.easeIn,
 }
 
-useMotion(rectRef, {
-  initial: {
-    backgroundColor: 'rgba(255, 255, 255, 0)',
-  },
+const rectMotion: MotionVariants<never> = {
+  initial: { backgroundColor: 'rgba(255, 255, 255, 0)' },
   enter: {
     backgroundColor: 'rgba(255, 255, 255, 0.05)',
-    transition: {
-      type: 'keyframes',
-      duration: 1000,
-      ease: cubicBezier.easeIn,
-    },
+    transition: { type: 'keyframes', duration: 1000, ease: cubicBezier.easeIn },
   },
-})
+}
 
-useMotion(tRef, {
-  initial: {
-    x: '-100%',
-  },
-  enter: {
-    x: '0%',
-    transition: transitionOptions,
-  },
-})
+const topMotion: MotionVariants<never> = {
+  initial: { x: '-100%' },
+  enter: { x: '0%', transition: tweenTransition },
+}
 
-useMotion(lRef, {
-  initial: {
-    y: '-100%',
-  },
-  enter: {
-    y: '0%',
-    transition: transitionOptions,
-  },
-})
+const leftMotion: MotionVariants<never> = {
+  initial: { y: '-100%' },
+  enter: { y: '0%', transition: tweenTransition },
+}
 
-useMotion(bRef, {
-  initial: {
-    x: '100%',
-  },
-  enter: {
-    x: '0%',
-    transition: transitionOptions,
-  },
-})
+const bottomMotion: MotionVariants<never> = {
+  initial: { x: '100%' },
+  enter: { x: '0%', transition: tweenTransition },
+}
 
-useMotion(rRef, {
-  initial: {
-    y: '100%',
-  },
-  enter: {
-    y: '0%',
-    transition: transitionOptions,
-  },
-})
+const rightMotion: MotionVariants<never> = {
+  initial: { y: '100%' },
+  enter: { y: '0%', transition: tweenTransition },
+}
 </script>
 
 <template>
-  <div ref="rectRef" class="absolute ae-rect">
-    <div ref="tRef" />
-    <div ref="lRef" />
-    <div ref="bRef" />
-    <div ref="rRef" />
+  <div v-motion="rectMotion" class="absolute ae-rect">
+    <div v-motion="topMotion" />
+    <div v-motion="leftMotion" />
+    <div v-motion="bottomMotion" />
+    <div v-motion="rightMotion" />
   </div>
 </template>
 
