@@ -11,6 +11,7 @@ import { defaultCodeTheme, setupMarkdownPlugins } from '../setup'
 import { createTransformIncludes } from './include'
 import { matterOptions } from './matter'
 import { transformMermaid } from './mermaid'
+import { sanitizeCommentedSfcBlocks } from './sanitize-comment'
 
 export * from './matter'
 
@@ -37,6 +38,10 @@ export async function createMarkdownPlugin(
     : await getSharedHighlighter(theme, mdOptions, logger)
 
   _disposeHighlighter = dispose
+
+  // Extract user transforms so they can be composed with internal transforms
+  // instead of being overwritten by `...mdOptions` spread.
+  const { transforms: userTransforms, ...restMdOptions } = mdOptions
 
   return Markdown({
     include: [/\.md$/],
@@ -99,11 +104,22 @@ export async function createMarkdownPlugin(
         // TODO: PlantUML
         // code = transformPlantUml(code, config.plantUmlServer)
 
-        return code
+        // Run user's before transform if provided
+        return userTransforms?.before?.(code, id) ?? code
       },
 
+      async after(html, id) {
+        // Run user's after transform first
+        if (userTransforms?.after)
+          html = await userTransforms.after(html, id) ?? html
+
+        // Workaround for unplugin-vue-markdown extracting <script>/<style> tags
+        // from inside HTML comments (https://github.com/YunYouJun/valaxy/issues/558)
+        // Run LAST to guarantee the invariant before SFC extraction.
+        return sanitizeCommentedSfcBlocks(html)
+      },
     },
 
-    ...mdOptions,
+    ...restMdOptions,
   }) as Plugin
 }
