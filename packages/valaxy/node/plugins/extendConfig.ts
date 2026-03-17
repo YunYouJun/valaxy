@@ -2,7 +2,7 @@ import type { Alias, AliasOptions, InlineConfig, Plugin } from 'vite'
 import type { ResolvedValaxyOptions } from '../types'
 import { dirname, join, resolve } from 'node:path'
 import { uniq } from '@antfu/utils'
-import { mergeConfig, searchForWorkspaceRoot } from 'vite'
+import { searchForWorkspaceRoot } from 'vite'
 import { escapeRegExp } from '../build/bundle'
 import { getIndexHtml } from '../common'
 import { isKatexPluginNeeded } from '../config/valaxy'
@@ -120,6 +120,11 @@ export function createConfigPlugin(options: ResolvedValaxyOptions): Plugin {
         fsAllow.push(dirname(await resolveImportPath('katex/package.json', true)))
       }
 
+      // Merge define: valaxy defaults first, then let user config override
+      const valaxyDefine = getDefine(options)
+      const userDefine = config.define || {}
+      const mergedDefine = { ...valaxyDefine, ...userDefine }
+
       const injection: InlineConfig = {
         // root: options.userRoot,
         // can not transform valaxy/client/*.ts when use userRoot
@@ -128,7 +133,7 @@ export function createConfigPlugin(options: ResolvedValaxyOptions): Plugin {
         cacheDir: join(options.userRoot, 'node_modules/.valaxy/cache'),
         publicDir: join(options.userRoot, 'public'),
 
-        define: getDefine(options),
+        define: mergedDefine,
         resolve: {
           alias: await getAlias(options),
           dedupe: ['vue'],
@@ -155,7 +160,16 @@ export function createConfigPlugin(options: ResolvedValaxyOptions): Plugin {
         injection.resolve.alias.vue = `${resolveImportPath('vue/dist/vue.esm-browser.js', true)}`
       }
 
-      return mergeConfig(injection, config)
+      // Return only the injection object — Vite will merge it via
+      // `conf = mergeConfig(conf, injection)` internally, which means
+      // injection values override the current config. This is intentional:
+      // valaxy's alias entries (e.g. `valaxy/client/`) must take precedence
+      // over any less-specific aliases from user vite.config.ts (e.g. the
+      // bare `valaxy` alias in commonAlias), otherwise path resolution breaks.
+      //
+      // For `define`, we manually merge above (valaxy defaults + user overrides)
+      // so users can override feature flags in their vite.config.ts.
+      return injection
     },
 
     async transformIndexHtml(html) {

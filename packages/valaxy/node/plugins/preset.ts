@@ -21,7 +21,6 @@ import { localSearchPlugin } from './localSearchPlugin'
 import { createMarkdownPlugin, disposeMdItInstance, disposePreviewMdItInstance } from './markdown'
 import { disposeSharedHighlighter } from './markdown/highlighterCache'
 import { clearMarkdownCache } from './markdown/markdownToVue'
-import { createFixPlugins } from './patchTransform'
 import { createClientSetupPlugin } from './setupClient'
 
 import { createUnocssPlugin } from './unocss'
@@ -147,8 +146,6 @@ export async function ViteValaxyPlugins(
       fullInstall: true,
       include: roots.map(root => `${root}/locales/**`),
     }),
-
-    createFixPlugins(options),
 
     // localSearch
     LocalSearchPlugin,
