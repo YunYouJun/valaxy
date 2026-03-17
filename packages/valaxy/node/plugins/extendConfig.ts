@@ -155,7 +155,7 @@ export function createConfigPlugin(options: ResolvedValaxyOptions): Plugin {
         injection.resolve.alias.vue = `${resolveImportPath('vue/dist/vue.esm-browser.js', true)}`
       }
 
-      return mergeConfig(config, injection)
+      return mergeConfig(injection, config)
     },
 
     async transformIndexHtml(html) {
