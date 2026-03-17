@@ -11,6 +11,7 @@ import { defaultCodeTheme, setupMarkdownPlugins } from '../setup'
 import { createTransformIncludes } from './include'
 import { matterOptions } from './matter'
 import { transformMermaid } from './mermaid'
+import { sanitizeCommentedSfcBlocks } from './sanitize-comment'
 
 export * from './matter'
 
@@ -102,6 +103,11 @@ export async function createMarkdownPlugin(
         return code
       },
 
+      after(html) {
+        // Workaround for unplugin-vue-markdown extracting <script>/<style> tags
+        // from inside HTML comments (https://github.com/YunYouJun/valaxy/issues/558)
+        return sanitizeCommentedSfcBlocks(html)
+      },
     },
 
     ...mdOptions,
