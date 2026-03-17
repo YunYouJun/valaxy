@@ -108,13 +108,13 @@ export async function createMarkdownPlugin(
         return userTransforms?.before?.(code, id) ?? code
       },
 
-      after(html) {
+      after(html, id) {
         // Workaround for unplugin-vue-markdown extracting <script>/<style> tags
         // from inside HTML comments (https://github.com/YunYouJun/valaxy/issues/558)
         html = sanitizeCommentedSfcBlocks(html)
 
         // Run user's after transform if provided
-        return userTransforms?.after?.(html) ?? html
+        return userTransforms?.after?.(html, id) ?? html
       },
     },
 
