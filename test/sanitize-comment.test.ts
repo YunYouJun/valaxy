@@ -102,4 +102,22 @@ import { ref } from "vue";
     expect(matches).toHaveLength(1)
     expect(matches[0][0]).toContain('const count = ref(0)')
   })
+
+  it('should handle whitespace-tolerant forms like "< script setup>"', () => {
+    // The upstream regex uses `<\s*script`, so `< script` also matches
+    const html = `<!-- < script setup lang="ts">code</ script> -->`
+    const sanitized = sanitizeCommentedSfcBlocks(html)
+
+    const scriptSetupRE = /<\s*script([^>]*)\bsetup\b([^>]*)>([\s\S]*)<\/script>/g
+    expect([...sanitized.matchAll(scriptSetupRE)]).toHaveLength(0)
+  })
+
+  it('should not escape tag names that merely start with script/style', () => {
+    // <scripture> and <stylesheet> are not SFC tags
+    const html = `<!-- <scripture>text</scripture> <stylesheet>css</stylesheet> -->`
+    const result = sanitizeCommentedSfcBlocks(html)
+    // These should NOT be escaped because they are not real script/style tags
+    expect(result).toContain('<scripture>')
+    expect(result).toContain('<stylesheet>')
+  })
 })

@@ -30,9 +30,14 @@ const HTML_COMMENT_RE = /<!--[\s\S]*?-->/g
  * (both opening and closing tags) so that SFC extraction regexes skip them.
  */
 function escapeSfcTagsInComment(comment: string): string {
-  // Replace opening tags: <script, <style  →  &lt;script, &lt;style
-  // Replace closing tags: </script, </style  →  &lt;/script, &lt;/style
-  return comment.replace(/<(\/?(?:script|style))/gi, '&lt;$1')
+  // Match the same forms the upstream regex accepts:
+  //   <script, < script, </script, < /script, < / script  (and style)
+  // The upstream scriptSetupRE uses `<\s*script` so we must also handle
+  // optional whitespace after `<` and after `/`.
+  // Word boundary `\b` prevents matching `<scripture>`, `<stylesheet>`, etc.
+  return comment
+    .replace(/<(\s*(?:script|style)\b)/gi, '&lt;$1')
+    .replace(/<(\s*\/\s*(?:script|style)\b)/gi, '&lt;$1')
 }
 
 /**
