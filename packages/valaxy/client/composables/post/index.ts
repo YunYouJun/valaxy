@@ -59,6 +59,7 @@ export function filterAndSortPosts(
       i.path?.startsWith('/posts')
       && !i.path?.endsWith('.html')
       && i.date
+      && (import.meta.env.DEV || !i.draft) // filter draft posts in production (SSG safety net)
       && (!params.type || i.type === params.type)
       && (!i.hide || i.hide === 'index'), // hide `hide: all` posts
     )

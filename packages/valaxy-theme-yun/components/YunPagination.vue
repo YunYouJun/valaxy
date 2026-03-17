@@ -23,31 +23,33 @@ defineExpose({
 </script>
 
 <template>
-  <nav class="pagination">
-    <RouterLink v-if="showPrev" class="page-number" :to="prevTo" aria-label="prev">
-      <div i-ri-arrow-left-s-line />
-    </RouterLink>
-
-    <template v-for="i in totalPages">
-      <RouterLink
-        v-if="showPage(i)" :key="i" class="page-number"
-        :class="curPage === i && 'active'"
-        :to="getTo(i)"
-      >
-        {{ i }}
+  <ClientOnly>
+    <nav class="pagination">
+      <RouterLink v-if="showPrev" class="page-number" :to="prevTo" aria-label="prev">
+        <div i-ri-arrow-left-s-line />
       </RouterLink>
-      <span v-else-if="i === curPage - surLen" :key="`prev-space-${i}`" class="space" disabled>
-        ...
-      </span>
-      <span v-else-if="i === curPage + surLen" :key="`next-space-${i}`" class="space" disabled>
-        ...
-      </span>
-    </template>
 
-    <RouterLink v-if="showNext" class="page-number" :to="nextTo" aria-label="next">
-      <div i-ri-arrow-right-s-line />
-    </RouterLink>
-  </nav>
+      <template v-for="i in totalPages" :key="i">
+        <RouterLink
+          v-if="showPage(i)" class="page-number"
+          :class="curPage === i && 'active'"
+          :to="getTo(i)"
+        >
+          {{ i }}
+        </RouterLink>
+        <span v-else-if="i === curPage - surLen" class="space" disabled>
+          ...
+        </span>
+        <span v-else-if="i === curPage + surLen" class="space" disabled>
+          ...
+        </span>
+      </template>
+
+      <RouterLink v-if="showNext" class="page-number" :to="nextTo" aria-label="next">
+        <div i-ri-arrow-right-s-line />
+      </RouterLink>
+    </nav>
+  </ClientOnly>
 </template>
 
 <style lang="scss">

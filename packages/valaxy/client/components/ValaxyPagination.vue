@@ -47,27 +47,29 @@ function jumpTo(page: number) {
 </script>
 
 <template>
-  <nav class="pagination">
-    <RouterLink v-if="curPage !== 1" class="page-number" :to="jumpTo(curPage - 1)" aria-label="prev">
-      <div i-ri-arrow-left-s-line />
-    </RouterLink>
-
-    <template v-for="i in totalPages">
-      <RouterLink v-if="showPage(i)" :key="i" class="page-number" :class="curPage === i && 'active'" :to="jumpTo(i)">
-        {{ i }}
+  <ClientOnly>
+    <nav class="pagination">
+      <RouterLink v-if="curPage !== 1" class="page-number" :to="jumpTo(curPage - 1)" aria-label="prev">
+        <div i-ri-arrow-left-s-line />
       </RouterLink>
-      <span v-else-if="i === curPage - surLen" :key="`prev-space-${i}`" class="space" disabled>
-        ...
-      </span>
-      <span v-else-if="i === curPage + surLen" :key="`next-space-${i}`" class="space" disabled>
-        ...
-      </span>
-    </template>
 
-    <RouterLink v-if="curPage !== totalPages" class="page-number" :to="jumpTo(curPage + 1)" aria-label="next">
-      <div i-ri-arrow-right-s-line />
-    </RouterLink>
-  </nav>
+      <template v-for="i in totalPages" :key="i">
+        <RouterLink v-if="showPage(i)" class="page-number" :class="curPage === i && 'active'" :to="jumpTo(i)">
+          {{ i }}
+        </RouterLink>
+        <span v-else-if="i === curPage - surLen" class="space" disabled>
+          ...
+        </span>
+        <span v-else-if="i === curPage + surLen" class="space" disabled>
+          ...
+        </span>
+      </template>
+
+      <RouterLink v-if="curPage !== totalPages" class="page-number" :to="jumpTo(curPage + 1)" aria-label="next">
+        <div i-ri-arrow-right-s-line />
+      </RouterLink>
+    </nav>
+  </ClientOnly>
 </template>
 
 <style lang="scss">
