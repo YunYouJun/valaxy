@@ -13,8 +13,8 @@
   "exports": {
     "./*": "./*",
     ".": {
-      "main": "./index.ts",
-      "types": "./index.d.ts"
+      "types": "./index.d.ts",
+      "default": "./index.ts"
     }
   },
   "main": "index.ts",
