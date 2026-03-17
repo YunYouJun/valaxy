@@ -1,6 +1,6 @@
 {
   "name": "valaxy-addon-twikoo",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "Twikoo Composition API for Valaxy",
   "repository": {
     "url": "https://github.com/YunYouJun/valaxy/tree/main/packages/valaxy-addon-twikoo"
@@ -11,6 +11,10 @@
     "twikoo"
   ],
   "exports": {
+    ".": {
+      "types": "./index.d.ts",
+      "default": "./index.ts"
+    },
     "./*": "./*"
   },
   "main": "index.ts",
