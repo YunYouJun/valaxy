@@ -28,12 +28,15 @@ export function usePageList() {
   return computed<Post[]>(() => {
     const excludePages = ['/:..all', '/:all(.*)*', '/', '/:path(.*)']
     const routes = router.getRoutes()
+      // Exclude alias routes (e.g. abbrlink) to avoid duplicate entries
+      // router.getRoutes() returns alias routes as separate RouteRecordNormalized
+      // entries with aliasOf pointing to the original record
+      .filter(i => !i.aliasOf)
       .filter(i => i.name)
       .filter(i => i.meta)
       .filter(i => i.meta!.frontmatter)
-      // In production, filter out draft routes as a safety net.
-      // This guards against SSR/client build inconsistencies where
-      // `filterDraft` in main.ts may produce different route sets.
+      // In production, draft routes are already removed before registration (see main.ts filterDraft).
+      // In dev, they remain in the router so they can be previewed.
       .filter(i => import.meta.env.DEV || !i.meta!.frontmatter!.draft)
       .filter(i => i.path && !excludePages.includes(i.path))
       .map((i) => {

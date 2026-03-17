@@ -1,9 +1,5 @@
 <script lang="ts" setup>
-import { computed } from 'vue'
-
-import { useRoute } from 'vue-router'
-
-const props = defineProps<{
+defineProps<{
   activeIcon?: string
   icon: string
   title: string
@@ -13,15 +9,6 @@ const props = defineProps<{
   total: number
   to: string
 }>()
-
-const route = useRoute()
-const active = computed(() => route.path === props.to)
-
-const icon = computed(() => {
-  if (active.value && props.activeIcon)
-    return props.activeIcon
-  return props.icon
-})
 </script>
 
 <template>
@@ -33,10 +20,9 @@ const icon = computed(() => {
     hover="bg-$va-c-bg-soft op-100"
   >
     <div flex="~ col" class="text-$va-c-text inline-flex-center gap-1">
-      <div
-        class="text-2xl"
-        :class="icon"
-      />
+      <!-- Use CSS to toggle icons based on router-link-active class to avoid SSR hydration mismatch -->
+      <div class="text-2xl icon-default" :class="icon" />
+      <div v-if="activeIcon" class="text-2xl icon-active" :class="activeIcon" />
       <span class="text-xs">
         {{ title }}
       </span>
@@ -51,8 +37,19 @@ const icon = computed(() => {
 
 <style lang="scss">
 .post-classify-nav-item {
+  .icon-active {
+    display: none;
+  }
+
   &.router-link-active {
     background-color: rgba(var(--va-c-primary-rgb), 0.08);
+
+    .icon-default {
+      display: none;
+    }
+    .icon-active {
+      display: block;
+    }
   }
 }
 </style>
