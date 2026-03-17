@@ -11,11 +11,11 @@
     "twikoo"
   ],
   "exports": {
-    "./*": "./*",
     ".": {
       "types": "./index.d.ts",
       "default": "./index.ts"
-    }
+    },
+    "./*": "./*"
   },
   "main": "index.ts",
   "types": "index.d.ts",
