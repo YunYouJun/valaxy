@@ -6,7 +6,7 @@ import path from 'node:path'
 import fs from 'fs-extra'
 import matter from 'gray-matter'
 import { loadLocalesYml } from '../../shared/node/i18n'
-import { generateLlmsFullTxt, generateLlmsTxt, resolveText } from '../modules/llms/utils'
+import { formatMetadataHeader, generateLlmsFullTxt, generateLlmsTxt, resolveText, stripSensitiveFrontmatter } from '../modules/llms/utils'
 import { filePathToUrlPath, filterPublicPosts, getSiteUrl, readPostFiles, scanPageFiles } from '../modules/utils'
 import { matterOptions } from './markdown/transform/matter'
 
@@ -122,6 +122,7 @@ async function collectPosts(options: ResolvedValaxyOptions, lang: string): Promi
     date: data.date ? new Date(data.date) : new Date(0),
     urlPath: filePathToUrlPath(filePath, options.userRoot),
     content,
+    rawFrontmatter: stripSensitiveFrontmatter(data),
   }))
 
   posts.sort((a, b) => +b.date - +a.date)
@@ -164,7 +165,22 @@ async function resolveRawMd(url: string, options: ResolvedValaxyOptions): Promis
   if (data.password || data.draft || data.hide)
     return null
 
-  return content
+  // Build a LlmsPost object for metadata header generation
+  const lang = options.config.siteConfig.lang || 'en'
+  const urlPath = url.replace(/\.md$/, '')
+  const cleanedFrontmatter = stripSensitiveFrontmatter(data)
+  const post: LlmsPost = {
+    title: resolveText(data.title, lang) || path.basename(filePath, '.md'),
+    description: resolveText(data.description, lang) || '',
+    date: data.date ? new Date(data.date) : new Date(0),
+    urlPath,
+    content,
+    rawFrontmatter: cleanedFrontmatter,
+  }
+
+  const header = formatMetadataHeader(post)
+  const body = content.trim()
+  return body ? `${header}${body}\n` : header
 }
 
 /**

@@ -1,10 +1,12 @@
+import type { PostFrontMatter } from '../../../types/frontmatter'
 import type { ResolvedValaxyOptions } from '../../types'
 import path from 'node:path'
 import { consola } from 'consola'
 import { colors } from 'consola/utils'
 import fs from 'fs-extra'
+import yaml from 'js-yaml'
 import { tObject } from '../../../shared'
-import { LOCALE_PREFIX } from '../../../shared/constants'
+import { LOCALE_PREFIX, SENSITIVE_FRONTMATTER_KEYS } from '../../../shared/constants'
 import { loadLocalesYml, nodeT } from '../../../shared/node/i18n'
 import { filePathToUrlPath, filterPublicPosts, getSiteUrl, readPostFiles, scanPageFiles } from '../utils'
 
@@ -16,6 +18,8 @@ export interface LlmsPost {
   urlPath: string
   /** Raw markdown content (without frontmatter) */
   content: string
+  /** Original frontmatter data (with sensitive fields removed) */
+  rawFrontmatter: Partial<PostFrontMatter>
 }
 
 /**
@@ -59,6 +63,7 @@ export async function build(options: ResolvedValaxyOptions) {
     date: data.date ? new Date(data.date) : new Date(0),
     urlPath: filePathToUrlPath(filePath, options.userRoot),
     content,
+    rawFrontmatter: stripSensitiveFrontmatter(data),
   }))
 
   // Sort by date descending
@@ -93,12 +98,15 @@ export async function build(options: ResolvedValaxyOptions) {
     consola.debug(`[llms] Generated ${colors.dim('dist/llms-full.txt')}`)
   }
 
-  // Copy raw .md files to dist
+  // Copy raw .md files to dist with metadata header
   if (llmsConfig.files) {
     await Promise.all(posts.map(async (post) => {
       const mdPath = path.resolve(distPath, `${post.urlPath.slice(1)}.md`)
       await fs.ensureDir(path.dirname(mdPath))
-      await fs.writeFile(mdPath, post.content, 'utf-8')
+      const header = formatMetadataHeader(post)
+      const body = post.content.trim()
+      const fileContent = body ? `${header}${body}\n` : `${header}`
+      await fs.writeFile(mdPath, fileContent, 'utf-8')
     }))
     consola.debug(`[llms] Copied ${colors.dim(posts.length.toString())} raw .md files to dist/`)
   }
@@ -210,6 +218,12 @@ export function generateLlmsFullTxt(params: {
   for (const post of posts) {
     lines.push(`## ${post.title}`)
     lines.push('')
+    // Inline metadata for LLM context
+    const metaLines = formatMetadataLines(post)
+    if (metaLines) {
+      lines.push(metaLines)
+      lines.push('')
+    }
     if (post.description) {
       lines.push(post.description)
       lines.push('')
@@ -219,4 +233,95 @@ export function generateLlmsFullTxt(params: {
   }
 
   return lines.join('\n')
+}
+
+/**
+ * Normalize a frontmatter value to a flat string array.
+ * Handles: string, string[], nested arrays (e.g. categories hierarchy), undefined/null.
+ */
+function normalizeStringArray(value: unknown): string[] {
+  if (!value)
+    return []
+  if (typeof value === 'string')
+    return [value]
+  if (Array.isArray(value))
+    return value.flat(Infinity).filter((v): v is string => typeof v === 'string')
+  return []
+}
+
+/**
+ * Format a date as YYYY-MM-DD string.
+ */
+function formatDate(date: Date): string {
+  if (!date || Number.isNaN(date.getTime()) || date.getTime() === 0)
+    return ''
+  return date.toISOString().slice(0, 10)
+}
+
+/**
+ * Strip sensitive/internal frontmatter fields that should not appear in LLM output.
+ * Also removes `photos` when gallery is password-protected.
+ */
+export function stripSensitiveFrontmatter(data: Partial<PostFrontMatter>): Partial<PostFrontMatter> {
+  const hasGalleryPassword = 'gallery_password' in data
+  const cleaned: Partial<PostFrontMatter> = {}
+  for (const [key, value] of Object.entries(data)) {
+    if (SENSITIVE_FRONTMATTER_KEYS.has(key))
+      continue
+    // Photos should be hidden when gallery is password-protected
+    if (hasGalleryPassword && key === 'photos') {
+      continue
+    }
+    ;(cleaned as Record<string, any>)[key] = value
+  }
+  return cleaned
+}
+
+/**
+ * Generate a YAML frontmatter header block for .md file output.
+ * Directly serializes the original frontmatter (with sensitive fields removed).
+ *
+ * Example output:
+ * ```
+ * ---
+ * title: Post Title
+ * date: 2024-01-15
+ * categories:
+ *   - A
+ *   - B
+ * tags:
+ *   - javascript
+ *   - vue
+ * ---
+ * ```
+ */
+export function formatMetadataHeader(post: LlmsPost): string {
+  const fm = post.rawFrontmatter
+  if (!fm || Object.keys(fm).length === 0)
+    return ''
+
+  const yamlStr = yaml.dump(fm, {
+    lineWidth: -1,
+    noCompatMode: true,
+  }).trimEnd()
+
+  return `---\n${yamlStr}\n---\n\n`
+}
+
+/**
+ * Format inline metadata lines for llms-full.txt.
+ * Returns empty string if no metadata to display.
+ */
+export function formatMetadataLines(post: LlmsPost): string {
+  const items: string[] = []
+  const dateStr = formatDate(post.date)
+  if (dateStr)
+    items.push(`- **Date**: ${dateStr}`)
+  const categories = normalizeStringArray(post.rawFrontmatter.categories)
+  if (categories.length > 0)
+    items.push(`- **Categories**: ${categories.join(' > ')}`)
+  const tags = normalizeStringArray(post.rawFrontmatter.tags)
+  if (tags.length > 0)
+    items.push(`- **Tags**: ${tags.join(', ')}`)
+  return items.join('\n')
 }

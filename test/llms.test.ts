@@ -57,6 +57,10 @@ describe('llms module', () => {
 title: Hello World
 date: 2024-01-15
 description: My first post
+categories: Tutorials
+tags:
+  - valaxy
+  - blog
 ---
 # Hello World
 
@@ -70,6 +74,8 @@ This is my first post.`,
 title: Second Post
 date: 2024-01-01
 description: Another post
+tags:
+  - notes
 ---
 # Second Post
 
@@ -162,13 +168,16 @@ This is hidden.`,
   })
 
   describe('llms-full.txt generation', () => {
-    it('should generate llms-full.txt with inlined content', async () => {
+    it('should generate llms-full.txt with inlined content and metadata', async () => {
       await build(createMockOptions({ fullText: true }))
 
       const fullTxt = await fs.readFile(resolve(mockUserRoot, 'dist/llms-full.txt'), 'utf-8')
 
       expect(fullTxt).toContain('# Test Blog')
       expect(fullTxt).toContain('## Hello World')
+      expect(fullTxt).toContain('- **Date**: 2024-01-15')
+      expect(fullTxt).toContain('- **Categories**: Tutorials')
+      expect(fullTxt).toContain('- **Tags**: valaxy, blog')
       expect(fullTxt).toContain('This is my first post.')
       expect(fullTxt).toContain('## Second Post')
       expect(fullTxt).toContain('Content of second post.')
@@ -183,15 +192,29 @@ This is hidden.`,
   })
 
   describe('raw .md file copying', () => {
-    it('should copy raw .md files to dist', async () => {
+    it('should copy raw .md files to dist with YAML frontmatter', async () => {
       await build(createMockOptions({ files: true }))
 
       const helloMd = await fs.readFile(resolve(mockUserRoot, 'dist/posts/hello.md'), 'utf-8')
-      expect(helloMd).toContain('# Hello World')
+      // Should include YAML frontmatter
+      expect(helloMd).toMatch(/^---\n/)
+      expect(helloMd).toContain('title: Hello World')
+      expect(helloMd).toContain('date:')
+      expect(helloMd).toContain('description: My first post')
+      expect(helloMd).toContain('categories:')
+      expect(helloMd).toContain('tags:')
+      expect(helloMd).toContain('valaxy')
+      expect(helloMd).toContain('blog')
+      // Should NOT contain sensitive fields
+      expect(helloMd).not.toContain('password')
+      expect(helloMd).not.toContain('draft')
+      expect(helloMd).not.toContain('hide')
+      // Should also include original body content
       expect(helloMd).toContain('This is my first post.')
 
       const secondMd = await fs.readFile(resolve(mockUserRoot, 'dist/posts/second.md'), 'utf-8')
-      expect(secondMd).toContain('# Second Post')
+      expect(secondMd).toContain('title: Second Post')
+      expect(secondMd).toContain('notes')
     })
 
     it('should not copy .md files when files is false', async () => {
@@ -201,12 +224,75 @@ This is hidden.`,
       expect(exists).toBe(false)
     })
 
+    it('should include YAML frontmatter for frontmatter-only posts (no body content)', async () => {
+      await fs.writeFile(
+        resolve(mockUserRoot, 'pages/posts/frontmatter-only.md'),
+        `---
+title: Frontmatter Only
+date: 2024-01-12
+categories:
+  - A
+  - B
+---
+`,
+        'utf-8',
+      )
+
+      await build(createMockOptions({ files: true }))
+
+      const mdContent = await fs.readFile(resolve(mockUserRoot, 'dist/posts/frontmatter-only.md'), 'utf-8')
+      // Should not be empty — YAML frontmatter ensures non-zero file
+      expect(mdContent.trim().length).toBeGreaterThan(0)
+      expect(mdContent).toContain('title: Frontmatter Only')
+      expect(mdContent).toMatch(/date:.*2024-01-12/)
+      expect(mdContent).toContain('  - A')
+      expect(mdContent).toContain('  - B')
+    })
+
     it('should not copy draft/encrypted/hidden posts as .md', async () => {
       await build(createMockOptions({ files: true }))
 
       expect(await fs.pathExists(resolve(mockUserRoot, 'dist/posts/draft.md'))).toBe(false)
       expect(await fs.pathExists(resolve(mockUserRoot, 'dist/posts/encrypted.md'))).toBe(false)
       expect(await fs.pathExists(resolve(mockUserRoot, 'dist/posts/hidden.md'))).toBe(false)
+    })
+
+    it('should preserve custom frontmatter fields and strip sensitive ones', async () => {
+      await fs.writeFile(
+        resolve(mockUserRoot, 'pages/posts/custom-fields.md'),
+        `---
+title: Custom Fields Post
+date: 2024-01-20
+author: John
+cover: /images/cover.jpg
+layout: post
+custom_field: hello
+gallery_password: secret123
+password_hint: my hint
+encryptedContent: abc
+partiallyEncryptedContents:
+  - x
+  - y
+encryptedPhotos: xyz
+---
+Content here.`,
+        'utf-8',
+      )
+
+      await build(createMockOptions({ files: true }))
+
+      const md = await fs.readFile(resolve(mockUserRoot, 'dist/posts/custom-fields.md'), 'utf-8')
+      // Custom fields should be preserved
+      expect(md).toContain('author: John')
+      expect(md).toContain('cover: /images/cover.jpg')
+      expect(md).toContain('layout: post')
+      expect(md).toContain('custom_field: hello')
+      // All sensitive fields should be stripped
+      expect(md).not.toContain('gallery_password')
+      expect(md).not.toContain('password_hint')
+      expect(md).not.toContain('encryptedContent')
+      expect(md).not.toContain('partiallyEncryptedContents')
+      expect(md).not.toContain('encryptedPhotos')
     })
   })
 
@@ -240,7 +326,9 @@ Content of nested post.`,
       await build(createMockOptions({ files: true }))
 
       const nestedMd = await fs.readFile(resolve(mockUserRoot, 'dist/posts/nested-post.md'), 'utf-8')
-      expect(nestedMd).toContain('# Nested Post')
+      expect(nestedMd).toContain('title: Nested Post')
+      expect(nestedMd).toMatch(/date:.*2024-01-20/)
+      expect(nestedMd).toContain('Content of nested post.')
 
       // Should NOT create a dist/posts/nested-post/index.md
       expect(await fs.pathExists(resolve(mockUserRoot, 'dist/posts/nested-post/index.md'))).toBe(false)
