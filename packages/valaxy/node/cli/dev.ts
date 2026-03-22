@@ -11,6 +11,7 @@ import { commonOptions } from '../cli/options'
 
 import { defaultViteConfig } from '../constants'
 import { GLOBAL_STATE } from '../env'
+import { validateTaxonomyI18n } from '../modules/taxonomy-i18n'
 import { resolveOptions } from '../options'
 import { isPagesDirExist, setEnv, setTimezone } from '../utils/env'
 import { findFreePort } from '../utils/net'
@@ -57,6 +58,7 @@ export async function startValaxyDev({
     await valaxyApp.hooks.callHook('content:before-load')
     await loadAllContent(loaders, ctx)
     await valaxyApp.hooks.callHook('content:loaded')
+    await validateTaxonomyI18n(resolvedOptions)
 
     // Set up polling for loaders that request it
     for (const loader of loaders) {
@@ -66,6 +68,7 @@ export async function startValaxyDev({
             await valaxyApp.hooks.callHook('content:before-load')
             await loadAllContent([loader], ctx)
             await valaxyApp.hooks.callHook('content:loaded')
+            await validateTaxonomyI18n(resolvedOptions)
           }
           catch (error) {
             consola.error('[content-loader] Error while polling:', error)
@@ -78,6 +81,9 @@ export async function startValaxyDev({
         setTimeout(poll, loader.devPollInterval)
       }
     }
+  }
+  else {
+    await validateTaxonomyI18n(resolvedOptions)
   }
 
   const viteConfig: InlineConfig = mergeConfig({

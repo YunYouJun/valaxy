@@ -30,6 +30,9 @@ export const defaultValaxyConfig: ValaxyNodeConfig = {
       enabled: true,
       maxDuration: 5000,
     },
+    taxonomyI18n: {
+      level: 'warn',
+    },
   },
 
   deploy: { },

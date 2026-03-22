@@ -1,12 +1,12 @@
 import type { Ref } from 'vue'
+import type { TaxonomyNamespace } from '../../shared/utils/i18n'
 import { isClient, useStorage } from '@vueuse/core'
 import dayjs from 'dayjs'
-import { computed } from 'vue'
 
+import { computed, watch } from 'vue'
 // not optimize deps all locales
 import { useI18n } from 'vue-i18n'
-import { tObject } from '../../shared/utils/i18n'
-import { LOCALE_PREFIX } from '../utils'
+import { isLocaleKey, resolveTaxonomyLocaleKey, stripLocalePrefix, tObject } from '../../shared/utils/i18n'
 import 'dayjs/locale/en'
 import 'dayjs/locale/zh-cn'
 
@@ -63,13 +63,16 @@ export function useLocale() {
 export function useLocaleTitle(fm: Ref<{
   title?: string | Record<string, string>
 } | null>) {
-  const { locale } = useI18n()
+  const { t, locale } = useI18n()
   return computed(() => {
     if (!fm.value)
       return ''
 
     const lang = locale.value
-    return tObject(fm.value.title || '', lang) || ''
+    const title = tObject(fm.value.title || '', lang) || ''
+    if (typeof title === 'string' && isLocaleKey(title))
+      return t(stripLocalePrefix(title))
+    return title
   })
 }
 
@@ -79,16 +82,19 @@ export function useLocaleTitle(fm: Ref<{
  * 会从 locales/ 目录中获取对应的翻译
  */
 export function useValaxyI18n() {
-  const { t, locale } = useI18n()
+  const { t, te, locale } = useI18n()
+  const termCache = new Map<string, string>()
+
+  // Clear cache on locale switches so each composable instance stays bounded.
+  watch(locale, () => termCache.clear())
 
   /**
    * translate `$locale:key`
    * @param key
    */
   const $t = (key: string) => {
-    if (key.startsWith(LOCALE_PREFIX)) {
-      return t(key.slice(LOCALE_PREFIX.length))
-    }
+    if (isLocaleKey(key))
+      return t(stripLocalePrefix(key))
     return key
   }
 
@@ -104,6 +110,47 @@ export function useValaxyI18n() {
     return tObject(data || '', locale.value)
   }
 
+  /**
+   * @en
+   * Translate a taxonomy term.
+   *
+   * Resolution order:
+   * 1. `$locale:` prefix → strip and translate via `t()`
+   * 2. Locale key `{namespace}.{key}` exists → translate via `t()`
+   * 3. Fallback → return the original key as-is
+   *
+   * The result is cached by `locale + namespace + key` to avoid repeated
+   * `te()` / `t()` lookups in tag clouds and category trees.
+   *
+   * @zh
+   * 翻译 taxonomy 术语。
+   *
+   * 解析顺序：
+   * 1. `$locale:` 前缀 → 去掉前缀后通过 `t()` 翻译
+   * 2. locale 中存在 `{namespace}.{key}` → 通过 `t()` 翻译
+   * 3. 兜底 → 原样返回
+   *
+   * 结果会按 `locale + namespace + key` 做轻量缓存，
+   * 避免标签云和分类树中重复执行 `te()` / `t()`。
+   */
+  const $tTerm = (namespace: TaxonomyNamespace, key: string) => {
+    const cacheKey = `${locale.value}:${namespace}:${key}`
+    const cached = termCache.get(cacheKey)
+    if (cached !== undefined)
+      return cached
+
+    const { localeKey, isExplicitLocaleKey } = resolveTaxonomyLocaleKey(namespace, key)
+    const result = isExplicitLocaleKey || te(localeKey)
+      ? `${t(localeKey)}`
+      : key
+
+    termCache.set(cacheKey, result)
+    return result
+  }
+
+  const $tTag = (key: string) => $tTerm('tag', key)
+  const $tCategory = (key: string) => $tTerm('category', key)
+
   return {
     locale,
     /**
@@ -111,5 +158,17 @@ export function useValaxyI18n() {
      */
     $t,
     $tO,
+    /**
+     * translate taxonomy term (auto-lookup `{namespace}.{key}` in locale files)
+     */
+    $tTerm,
+    /**
+     * translate tag name (auto-lookup `tag.{key}` in locale files)
+     */
+    $tTag,
+    /**
+     * translate category name (auto-lookup `category.{key}` in locale files)
+     */
+    $tCategory,
   }
 }

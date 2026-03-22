@@ -30,40 +30,6 @@ docs/pages/zh/guide/getting-started.md   # Chinese version
 
 When writing bilingual documentation in the **same file** (e.g., `docs/pages/posts/**/*.md`):
 
-### Container Syntax
-
-- Use **3 colons** (`:::`) for `zh-CN` / `en` language containers:
-  ```md
-  ::: zh-CN
-  中文内容
-  :::
-
-  ::: en
-  English content
-  :::
-  ```
-
-- Use **4 colons** (`::::`) for outer containers (e.g., `tip`, `warning`, `important`) that **nest** inner `:::` containers:
-  ```md
-  :::: tip
-  ::: zh-CN
-  提示内容
-  :::
-  ::: en
-  Tip content
-  :::
-  ::::
-  ```
-
-### Heading Syntax
-
-Bilingual headings use `{lang="..."}` attribute:
-```md
-## 中文标题 {lang="zh-CN"}
-
-## English Title {lang="en"}
-```
-
 ### Frontmatter
 
 Titles support bilingual object format:

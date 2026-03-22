@@ -6,15 +6,18 @@ import { orderByMeta, useSiteConfig } from 'valaxy'
 import { computed } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { useRouterStore } from '../../stores'
-import { tObject } from '../../utils'
+import { isLocaleKey, stripLocalePrefix, tObject } from '../../utils'
 
 export * from './usePagination'
 export * from './usePrevNext'
 
 export function usePostTitle(post: ComputedRef<Post>) {
-  const { locale } = useI18n()
+  const { t, locale } = useI18n()
   return computed(() => {
-    return tObject(post.value.title || '', locale.value)
+    const title = tObject(post.value.title || '', locale.value)
+    if (typeof title === 'string' && isLocaleKey(title))
+      return t(stripLocalePrefix(title))
+    return title
   })
 }
 

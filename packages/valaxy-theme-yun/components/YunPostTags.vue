@@ -6,7 +6,7 @@ defineProps<{
   tags: Post['tags']
 }>()
 
-const { $t } = useValaxyI18n()
+const { $tTag } = useValaxyI18n()
 </script>
 
 <template>
@@ -22,7 +22,7 @@ const { $t } = useValaxyI18n()
       border
       hover="bg-blue-500 text-white"
     >
-      <span>{{ $t(tag) }}</span>
+      <span>{{ $tTag(tag) }}</span>
     </RouterLink>
   </div>
 </template>

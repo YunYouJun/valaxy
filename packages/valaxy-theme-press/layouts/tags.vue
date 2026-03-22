@@ -7,7 +7,7 @@ const route = useRoute()
 const router = useRouter()
 const frontmatter = useFrontmatter()
 const site = useSiteStore()
-const { $tO } = useValaxyI18n()
+const { $tO, $tTag } = useValaxyI18n()
 
 const tags = useTags()
 
@@ -65,7 +65,7 @@ function selectTag(tag: string) {
             :style="{ fontSize: getTagSize(tag.count) }"
             @click="selectTag(key.toString())"
           >
-            <span>#{{ key }}</span>
+            <span>#{{ $tTag(key.toString()) }}</span>
             <span class="text-xs op-70">({{ tag.count }})</span>
           </button>
         </div>
@@ -74,7 +74,7 @@ function selectTag(tag: string) {
         <div v-if="curTag">
           <h2 class="text-xl font-bold text-gray-900 dark:text-gray-100 mb-6 flex items-center gap-2">
             <span class="i-ri-hashtag" />
-            {{ curTag }}
+            {{ $tTag(curTag) }}
             <span class="text-sm font-normal text-gray-500">({{ filteredPosts.length }})</span>
           </h2>
           <PressPostList :posts="filteredPosts" />

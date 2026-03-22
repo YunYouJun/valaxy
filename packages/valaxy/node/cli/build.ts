@@ -18,6 +18,7 @@ import { fuseModule } from '../modules/fuse'
 // cspell:word llms
 import { llmsModule } from '../modules/llms'
 import { rssModule } from '../modules/rss'
+import { validateTaxonomyI18n } from '../modules/taxonomy-i18n'
 import { resolveOptions } from '../options'
 import { isPagesDirExist, setEnvProd, setTimezone } from '../utils/env'
 import { commonOptions } from './options'
@@ -83,6 +84,7 @@ export async function execBuild({ ssg, ssgEngine, root, output, log }: { ssg: bo
 
   // before build
   await callHookWithLog('build:before', valaxyApp)
+  await validateTaxonomyI18n(options)
 
   consola.box('🌠 Start building...')
   try {

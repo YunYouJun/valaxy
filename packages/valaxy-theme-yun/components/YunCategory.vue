@@ -25,7 +25,7 @@ const router = useRouter()
 
 const collapse = ref(props.collapsable)
 const { t } = useI18n()
-const { $t } = useValaxyI18n()
+const { $tCategory } = useValaxyI18n()
 
 const postCollapseElRef = ref<HTMLElement>()
 const { show } = useInvisibleElement(postCollapseElRef)
@@ -75,7 +75,7 @@ const motionVariants = props.level === 1
       @click="jumpToDisplayCategory(parentKey)"
     >
       <span>
-        {{ category.name === 'Uncategorized' ? t('category.uncategorized') : $t(category.name) }}
+        {{ category.name === 'Uncategorized' ? t('category.uncategorized') : $tCategory(category.name) }}
       </span>
       <span class="rounded-full px-1.5 bg-black/5 shadow-sm op-60" text="xs">
         {{ category.total }}

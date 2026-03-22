@@ -36,7 +36,7 @@ const posts = computed(() => {
   return list
 })
 
-const { $tO } = useValaxyI18n()
+const { $tO, $tCategory } = useValaxyI18n()
 
 useSchemaOrg([
   defineWebPage({
@@ -76,7 +76,7 @@ useSchemaOrg([
           <YunCard v-if="curCategory" class="post-collapse-container" m="t-4" w="full">
             <YunPageHeader
               m="t-10"
-              :title="curCategory === 'Uncategorized' ? t('category.uncategorized') : curCategory.split('/').join(' / ')"
+              :title="curCategory === 'Uncategorized' ? t('category.uncategorized') : curCategory.split('/').map($tCategory).join(' / ')"
               icon="i-ri-folder-open-line"
             />
             <YunPostCollapse w="full" m="b-4" p="x-20 lt-sm:x-5" :posts="posts" />

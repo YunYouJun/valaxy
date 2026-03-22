@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import { defineWebPage, useSchemaOrg } from '@unhead/schema-org/vue'
-import { useFrontmatter, useInvisibleElement, usePostTitle, useSiteStore } from 'valaxy'
+import { useFrontmatter, useInvisibleElement, usePostTitle, useSiteStore, useValaxyI18n } from 'valaxy'
 import { computed, ref } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { useRoute, useRouter } from 'vue-router'
@@ -18,6 +18,7 @@ const router = useRouter()
 const themeConfig = useThemeConfig()
 
 const { t } = useI18n()
+const { $tTag } = useValaxyI18n()
 const frontmatter = useFrontmatter()
 const { tags, getTagStyle } = useYunTags({
   primary: themeConfig.value.colors.primary,
@@ -100,7 +101,7 @@ const tagArr = computed(() => [...tags.value].sort())
 
         <template #main-nav-before>
           <YunCard v-if="curTag" ref="collapse" m="t-4" w="full">
-            <YunPageHeader :title="curTag" icon="i-ri-hashtag" />
+            <YunPageHeader :title="$tTag(curTag)" icon="i-ri-hashtag" />
             <YunPostCollapse w="full" m="b-4" p="x-20 lt-sm:x-5" :posts="posts" />
           </YunCard>
         </template>

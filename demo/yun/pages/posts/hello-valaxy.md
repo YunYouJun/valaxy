@@ -6,7 +6,7 @@ updated: 2022-03-23 19:00:00
 categories: Valaxy Notes
 tags:
   - valaxy
-  - $locale:tag.notes
+  - notes
 top: 1
 outline: deep
 excerpt: Valaxy aims to be a next generation of static blogging frameworks/generators.

@@ -1,6 +1,6 @@
 import fs from 'fs-extra'
 import yaml from 'js-yaml'
-import { LOCALE_PREFIX } from '../constants'
+import { isLocaleKey, stripLocalePrefix } from '../utils/i18n'
 
 export const NODE_I18N: {
   locales: Record<string, any>
@@ -64,9 +64,9 @@ export function loadLocalesYml(localesPath: string, force = false): Record<strin
  * ```
  */
 export function nodeT(key: string, lang: string): string {
-  if (key.startsWith(LOCALE_PREFIX)) {
-    key = key.slice(LOCALE_PREFIX.length)
-  }
+  if (isLocaleKey(key))
+    key = stripLocalePrefix(key)
+
   const data = NODE_I18N.locales[lang] || {}
   const keys = key.split('.')
   let result: any = data

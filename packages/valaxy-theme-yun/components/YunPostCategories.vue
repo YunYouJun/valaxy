@@ -6,7 +6,7 @@ defineProps<{
   categories: Post['categories']
 }>()
 
-const { $t } = useValaxyI18n()
+const { $tCategory } = useValaxyI18n()
 </script>
 
 <template>
@@ -22,7 +22,7 @@ const { $t } = useValaxyI18n()
   >
     <div m="x-1" inline-flex i-ri-folder-2-line />
     <span>
-      {{ Array.isArray(categories) ? categories.map($t).join(' / ') : $t(categories || '') }}
+      {{ Array.isArray(categories) ? categories.map($tCategory).join(' / ') : $tCategory(categories || '') }}
     </span>
   </RouterLink>
 </template>

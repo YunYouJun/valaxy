@@ -3,7 +3,7 @@ title:
   en: Markdown Extensions Test
   zh-CN: Markdown 扩展测试
 categories:
-  - $locale:category.test
+  - test
   - Markdown
 excerpt_type: html
 date: 2024-06-11T00:00:00.000Z

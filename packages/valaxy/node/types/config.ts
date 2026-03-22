@@ -156,6 +156,31 @@ export interface ValaxyExtendConfig {
        */
       maxDuration?: number
     }
+
+    /**
+     * @en Taxonomy i18n validation during `valaxy dev` / `valaxy build`.
+     * Checks whether translated `tag.*` / `category.*` keys are consistently
+     * defined across configured languages.
+     *
+     * @zh `valaxy dev` / `valaxy build` 期间的 taxonomy i18n 校验。
+     * 用于检查 `tag.*` / `category.*` 翻译 key 是否在已配置语言中保持一致。
+     */
+    taxonomyI18n?: {
+      /**
+       * @en Validation level for taxonomy i18n checks.
+       * - `'off'`: disable checks
+       * - `'warn'`: print warnings and continue
+       * - `'error'`: fail validation after reporting all issues
+       *
+       * @zh taxonomy i18n 校验级别。
+       * - `'off'`：关闭检查
+       * - `'warn'`：输出 warning 并继续流程
+       * - `'error'`：输出所有问题后以错误结束
+       *
+       * @default 'warn'
+       */
+      level?: 'off' | 'warn' | 'error'
+    }
   }
 
   /**

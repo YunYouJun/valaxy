@@ -6,11 +6,9 @@ categories:
 
 ::: tip
 
-
 Extend Config is an advanced configuration provided by Valaxy, allowing you to customize more low-level and build-related settings.
 
 :::
-
 
 Below are all the extend configuration options and related types.
 
@@ -23,7 +21,6 @@ Below are all the extend configuration options and related types.
 <<< @/../packages/valaxy/node/types/config.ts#snippet{ts:line-numbers}
 
 :::
-
 
 So you can use it like this:
 
@@ -66,51 +63,18 @@ export default defineValaxyConfig<ThemeConfig>({
 
 ### Build
 
-:::: zh-CN
-
-`build` 字段用于配置 `valaxy build` 的构建行为。
-
-::::
-
-:::: en
-
 The `build` field configures the behavior of `valaxy build`.
-
-::::
 
 #### ssgForPagination
 
-:::: zh-CN
-
-启用后，Valaxy 会为分页页面生成独立的静态 HTML（如 `/page/1`、`/page/2` 等）。默认 `false`。
-
-::::
-
-:::: en
-
 When enabled, Valaxy generates static HTML for pagination pages (e.g., `/page/1`, `/page/2`). Default is `false`.
 
-::::
-
 #### foucGuard
-
-:::: zh-CN
-
-FOUC（Flash of Unstyled Content）防护配置。通过在 `<head>` 中内联 `body { opacity: 0 !important }` 隐藏页面，并通过 JS 监测所有样式表（包括 beasties 异步加载的样式表）加载完成后，移除该隐藏样式标签以显示页面，防止首屏样式闪烁和样式分批渲染的问题。
-
-- `enabled`（默认 `true`）：是否启用 FOUC 防护
-- `maxDuration`（默认 `5000`）：最大等待时间（毫秒），作为 CSS 加载失败时的安全兜底。设为 `0` 可禁用超时兜底
-
-::::
-
-:::: en
 
 FOUC (Flash of Unstyled Content) guard. Inlines `body { opacity: 0 !important }` in `<head>` and uses JS to monitor all stylesheets (including async ones loaded by beasties) until they finish loading, then removes the hidden style tag to reveal the page with a smooth fade-in.
 
 - `enabled` (default `true`): enable/disable the guard
 - `maxDuration` (default `5000`): max wait time (ms) before force-showing the page. Set to `0` to disable the timeout fallback
-
-::::
 
 ```ts [valaxy.config.ts]
 import { defineValaxyConfig } from 'valaxy'
@@ -127,7 +91,6 @@ export default defineValaxyConfig({
 ```
 
 ### @vitejs/plugin-vue
-
 
 Valaxy integrates [`@vitejs/plugin-vue`](https://github.com/vitejs/vite-plugin-vue/tree/main/packages/plugin-vue) by default. You can configure it via the `vue` option.
 
@@ -147,7 +110,6 @@ export default defineValaxyConfig({
 
 ### Vite
 
-
 You can refer to the [Vite documentation](https://vite.dev/config/shared-options.html) to customize Vite-related configurations.
 
 ```ts [valaxy.config.ts]
@@ -162,10 +124,8 @@ export default defineValaxyConfig({
 
 ### SSG Options
 
-
 Valaxy uses [vite-ssg](https://github.com/antfu-collective/vite-ssg) for Static Site Generation.
 You can customize SSG behavior via `vite.ssgOptions`.
-
 
 Valaxy sets the following SSG defaults. User values override them:
 
@@ -176,10 +136,7 @@ Valaxy sets the following SSG defaults. User values override them:
 - `onFinished` — auto-generates sitemap after build (always runs; user callback runs after it)
 
 See [ViteSSGOptions](https://github.com/antfu-collective/vite-ssg) for the full parameter list.
-
-
-:::: warning
-
+ warning
 
 **SSG build minimum memory requirement: ~2.3 GB**
 
@@ -192,10 +149,6 @@ NODE_OPTIONS=--max-old-space-size=4096 pnpm build --ssg
 ```
 
 See [Dev FAQ - JavaScript heap out of memory](/dev/faq#javascript-heap-out-of-memory) for details.
-
-
-::::
-
 ```ts [valaxy.config.ts]
 import { defineValaxyConfig } from 'valaxy'
 
@@ -237,7 +190,6 @@ export default defineValaxyConfig({
 ```
 
 ### Markdown
-
 
 You can customize Markdown-related configurations, such as code themes, block content, adding `markdown-it` plugins, transformers, etc.
 
@@ -302,17 +254,13 @@ export default defineValaxyConfig({
 
 ### DevTools
 
-
 Set `devtools: false` to disable DevTools.
 
-
 ### Addons
-
 
 See [Using Addons](/addons/use).
 
 ### UnoCSS
-
 
 See [UnoCSS](/guide/config/unocss-options).
 
@@ -320,13 +268,11 @@ See [UnoCSS](/guide/config/unocss-options).
 
 #### RSS
 
-
 Valaxy has a built-in RSS module, which can be configured in `valaxy.config.ts` through the `modules.rss` configuration item.
 
 - `enable`: Whether to enable the RSS module. Default is `true`, enabled.
 - `fullText`: Whether to output the full text of the article. Default is `false`, only the summary is output.
 - `extractImagePathsFromHTML`: Whether to extract image paths from built HTML files (to resolve Vite hashed filenames). Default is `true`, enabled.
-
 
 ```ts [valaxy.config.ts]
 export default defineValaxyConfig({
@@ -342,7 +288,6 @@ export default defineValaxyConfig({
 })
 ```
 
-
 **About `extractImagePathsFromHTML`**
 
 When you reference images with relative paths in Markdown (e.g., `![pic](test.webp)`), Vite will bundle the image and generate a hashed filename (e.g., `/assets/test.zBFFFKJX.webp`).
@@ -352,9 +297,7 @@ When you reference images with relative paths in Markdown (e.g., `![pic](test.we
 
 In most cases, you should keep this option as `true` to ensure RSS readers can load images correctly.
 
-
 #### LLMS
-
 
 Valaxy has a built-in LLMS module, following the [llms.txt standard](https://llmstxt.org/), to generate AI-readable Markdown content during build.
 
@@ -373,7 +316,6 @@ Themes can use the `useCopyMarkdown()` composable to add a "Copy Markdown" butto
 - `include`: Glob patterns for markdown files to include (relative to `pages/` directory). Default is `['posts/**/*.md']` to only include posts. Set to `['**/*.md']` to include all markdown files under `pages/`. You can also specify multiple directories, e.g. `['posts/**/*.md', 'guide/**/*.md']`.
 
 Pages in `llms.txt` are automatically grouped by their top-level directory (e.g. `## Posts`, `## Guide`, etc.).
-
 
 ```ts [site.config.ts]
 export default defineSiteConfig({
@@ -396,7 +338,6 @@ export default defineSiteConfig({
 
 ### CDN Externals
 
-
 > Experimental
 
 With the `cdn.modules` option, you can specify certain npm packages to be loaded from CDN at runtime instead of being bundled.
@@ -404,9 +345,7 @@ This can significantly reduce bundle size and leverage CDN for faster resource l
 
 This option only takes effect during `valaxy build`, not in dev mode.
 
-
-:::: tip
-
+::: tip
 
 Each module in `cdn.modules` requires the following fields:
 
@@ -416,11 +355,9 @@ Each module in `cdn.modules` requires the following fields:
 - `css` (optional): full CDN URL to the stylesheet
 - `exports` (optional): named exports to re-export from the global variable (e.g., `['ref', 'computed']`)
 
-::::
-
+:::
 
 #### Example: Load KaTeX from CDN
-
 
 KaTeX is bundled into the build output by default. If you want to load it from CDN to reduce bundle size, you can configure it as follows:
 
@@ -441,9 +378,7 @@ export default defineValaxyConfig({
 })
 ```
 
-
 You can also use other CDN providers by replacing the URL. For example, using unpkg:
-
 
 ```ts [valaxy.config.ts]
 import { defineValaxyConfig } from 'valaxy'

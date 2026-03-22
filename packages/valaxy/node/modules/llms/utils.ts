@@ -6,8 +6,9 @@ import { colors } from 'consola/utils'
 import fs from 'fs-extra'
 import yaml from 'js-yaml'
 import { tObject } from '../../../shared'
-import { LOCALE_PREFIX, SENSITIVE_FRONTMATTER_KEYS } from '../../../shared/constants'
+import { SENSITIVE_FRONTMATTER_KEYS } from '../../../shared/constants'
 import { loadLocalesYml, nodeT } from '../../../shared/node/i18n'
+import { isLocaleKey } from '../../../shared/utils'
 import { filePathToUrlPath, filterPublicPosts, getSiteUrl, readPostFiles, scanPageFiles } from '../utils'
 
 export interface LlmsPost {
@@ -26,7 +27,7 @@ export interface LlmsPost {
  * Resolve a config value that may be a `$locale:` key, a `Record<lang, string>`, or a plain string.
  */
 export function resolveText(value: string | Record<string, string>, lang: string): string {
-  if (typeof value === 'string' && value.startsWith(LOCALE_PREFIX))
+  if (typeof value === 'string' && isLocaleKey(value))
     return nodeT(value, lang)
   return tObject(value, lang) as string
 }

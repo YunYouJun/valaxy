@@ -3,7 +3,7 @@ title:
   en: Code Block Test
   zh-CN: 代码块测试
 categories:
-  - $locale:category.test
+  - test
 date: 2024-07-10T00:00:00.000Z
 updated: 2024-07-10T00:00:00.000Z
 ---
