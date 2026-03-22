@@ -14,7 +14,7 @@ import type { PageDataPayload } from '../../types'
 import type { ValaxySSGContext } from '../setups'
 import { ensureSuffix } from '@antfu/utils'
 import { useStorage } from '@vueuse/core'
-import { watch } from 'vue'
+import { nextTick, watch } from 'vue'
 import { createI18n } from 'vue-i18n'
 
 // @ts-expect-error virtual
@@ -55,25 +55,33 @@ export const i18n = createI18n({
 export async function install({ app, router }: ValaxySSGContext, config: ComputedRef<ValaxyConfig<DefaultTheme.Config>>) {
   const defaultLang = config?.value.siteConfig.lang || 'en'
 
-  // Use `initOnMounted` to defer reading localStorage until after hydration.
-  // During SSR/SSG and client hydration, locale stays at `defaultLang` so
-  // the rendered HTML matches on both sides — no more hydration mismatch for
-  // any i18n-dependent attribute (title, class, text content, etc.).
-  // After mount, the stored user preference is restored automatically.
-  const storedLocale = useStorage('valaxy-locale', defaultLang, undefined, {
-    initOnMounted: true,
-  })
-
+  // During SSR/SSG build **and** the initial client hydration pass we must
+  // keep the locale at `defaultLang` so that the rendered HTML matches on
+  // both sides — no hydration mismatch for any i18n-dependent attribute
+  // (title, class, text content, etc.).
+  //
+  // The stored user preference is restored **after** hydration is complete
+  // (router.isReady + nextTick) so Vue can patch the DOM normally.
   i18n.global.locale.value = defaultLang
 
-  // Sync i18n locale whenever the stored value is restored / changed
-  watch(storedLocale, (val) => {
-    if (val)
-      i18n.global.locale.value = val
-  })
-
   app.use(i18n)
-  router.isReady().then(() => {
+
+  router.isReady().then(async () => {
+    // Wait for the hydration to finish before restoring the stored locale.
+    await nextTick()
+
+    const storedLocale = useStorage('valaxy-locale', defaultLang)
+
+    // Apply the stored locale (if different from default)
+    if (storedLocale.value && storedLocale.value !== i18n.global.locale.value)
+      i18n.global.locale.value = storedLocale.value
+
+    // Keep i18n locale in sync when the stored value changes later
+    watch(storedLocale, (val) => {
+      if (val)
+        i18n.global.locale.value = val
+    })
+
     handleHMR(router)
   })
 }
