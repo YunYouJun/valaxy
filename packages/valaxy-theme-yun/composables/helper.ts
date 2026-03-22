@@ -9,12 +9,12 @@ import { onMounted, ref } from 'vue'
 export function useRandomData<T>(source: string | T[], random = false) {
   const data = ref<T[]>()
 
-  async function fetchData() {
+  async function fetchData(url: string) {
     if (!isClient)
       return
 
     try {
-      const res = await fetch(source as string)
+      const res = await fetch(url)
       if (!res.ok)
         return
       const rawData = (await res.json() as T[]) || []
@@ -35,7 +35,7 @@ export function useRandomData<T>(source: string | T[], random = false) {
     // Callers pass `props.links` / `props.girls` which are stable for the
     // component's lifetime.
     if (isClient) {
-      onMounted(fetchData)
+      onMounted(() => fetchData(source))
     }
   }
   else {
