@@ -32,6 +32,10 @@ const routeMenus: {
     opened: 'i-vscode-icons:folder-type-tools-opened',
     closed: 'i-vscode-icons:folder-type-tools',
   },
+  {
+    to: '/batch-edit',
+    icon: 'i-ri:file-edit-line',
+  },
 
   {
     to: '/about',

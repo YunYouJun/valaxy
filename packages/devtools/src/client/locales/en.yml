@@ -11,3 +11,21 @@ pageData:
   path: Path
   filePath: File Path
   routePath: Route Path
+
+batchEdit:
+  title: Batch Edit Frontmatter
+  operations: Operations
+  field_key: Field key
+  field_value: Value
+  new_key: New key
+  add_operation: Add Operation
+  select_posts: Select Posts
+  select_all: Select All
+  deselect_all: Deselect All
+  show_preview: Preview Changes
+  hide_preview: Hide Preview
+  current_frontmatter: Current Frontmatter
+  post_title: Title
+  execute: Apply Changes
+  result_success: 'Successfully updated {updated}/{total} posts.'
+  result_partial: 'Updated {updated}/{total} posts, {errors} errors occurred.'

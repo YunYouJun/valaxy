@@ -30,3 +30,21 @@ frontmatter:
   type: 自定义文章类型
   end: 是否完结
   draft: 是否为草稿
+
+batchEdit:
+  title: 批量编辑 Frontmatter
+  operations: 操作列表
+  field_key: 字段名
+  field_value: 值
+  new_key: 新字段名
+  add_operation: 添加操作
+  select_posts: 选择文章
+  select_all: 全选
+  deselect_all: 取消全选
+  show_preview: 预览更改
+  hide_preview: 隐藏预览
+  current_frontmatter: 当前 Frontmatter
+  post_title: 标题
+  execute: 应用更改
+  result_success: '成功更新 {updated}/{total} 篇文章。'
+  result_partial: '已更新 {updated}/{total} 篇文章，{errors} 篇出错。'

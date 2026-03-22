@@ -1,5 +1,5 @@
 import type { ViteDevServer } from 'vite'
-import type { ServerFunctions } from '../../rpc'
+import type { BatchFrontmatterOperation, ServerFunctions } from '../../rpc'
 import type { ValaxyDevtoolsOptions } from './types'
 import process from 'node:process'
 import dayjs from 'dayjs'
@@ -216,6 +216,60 @@ export function getFunctions(server: ViteDevServer, devtoolsOptions: ValaxyDevto
           dirPath: pathe.join(collectionsRoot, dir),
           items,
         })
+      }
+
+      return result
+    },
+
+    async batchUpdateFrontmatter(filePaths: string[], operations: BatchFrontmatterOperation[]) {
+      const result = {
+        total: filePaths.length,
+        updated: 0,
+        errors: [] as { filePath: string, error: string }[],
+      }
+
+      for (const filePath of filePaths) {
+        try {
+          if (!await fs.pathExists(filePath)) {
+            result.errors.push({ filePath, error: 'File not found' })
+            continue
+          }
+
+          const rawMd = await fs.readFile(filePath, 'utf-8')
+          const matterFile = matter(rawMd)
+          let modified = false
+
+          for (const op of operations) {
+            switch (op.type) {
+              case 'set':
+                matterFile.data[op.key] = op.value
+                modified = true
+                break
+              case 'delete':
+                if (op.key in matterFile.data) {
+                  delete matterFile.data[op.key]
+                  modified = true
+                }
+                break
+              case 'rename':
+                if (op.key in matterFile.data && op.newKey) {
+                  matterFile.data[op.newKey] = matterFile.data[op.key]
+                  delete matterFile.data[op.key]
+                  modified = true
+                }
+                break
+            }
+          }
+
+          if (modified) {
+            const newMd = matter.stringify(matterFile.content, matterFile.data)
+            await fs.writeFile(filePath, newMd)
+            result.updated++
+          }
+        }
+        catch (e: any) {
+          result.errors.push({ filePath, error: e.message || String(e) })
+        }
       }
 
       return result
