@@ -1,5 +1,5 @@
 import { isClient, useEventListener } from '@vueuse/core'
-import { onMounted, ref, watch } from 'vue'
+import { onMounted, ref } from 'vue'
 
 /**
  * fetch data from source, and random
@@ -10,18 +10,19 @@ export function useRandomData<T>(source: string | T[], random = false) {
   const data = ref<T[]>()
 
   async function fetchData() {
-    let rawData: T[]
-    if (typeof source === 'string') {
-      if (!isClient)
+    if (!isClient)
+      return
+
+    try {
+      const res = await fetch(source as string)
+      if (!res.ok)
         return
-      rawData = (await fetch(source).then(res => res.json()) as T[]) || []
+      const rawData = (await res.json() as T[]) || []
+      data.value = random ? rawData.toSorted(() => Math.random() - 0.5) : rawData
     }
-    else { rawData = source }
-
-    if (random && isClient)
-      rawData = rawData.toSorted(() => Math.random() - 0.5)
-
-    data.value = rawData
+    catch {
+      // Network or JSON parse failure — leave data unchanged
+    }
   }
 
   if (typeof source === 'string') {
@@ -29,20 +30,19 @@ export function useRandomData<T>(source: string | T[], random = false) {
     // During SSG, the fetch is skipped (data stays undefined → empty list).
     // If the fetch runs during hydration via an immediate watcher, data would
     // update before hydration completes, causing a DOM mismatch error.
+    //
+    // Note: `source` is a plain parameter (not reactive), so no watch is needed.
+    // Callers pass `props.links` / `props.girls` which are stable for the
+    // component's lifetime.
     if (isClient) {
-      onMounted(() => {
-        fetchData()
-        watch(() => source, fetchData)
-      })
+      onMounted(fetchData)
     }
   }
   else {
-    // For static array data, use immediate watch so SSR and client
+    // For static array data, set the initial value directly so SSR and client
     // render the same content (original order, no random).
     // Random sorting is deferred to onMounted below.
-    watch(() => source, () => {
-      data.value = source as T[]
-    }, { immediate: true })
+    data.value = source as T[]
 
     // Apply random sorting only after hydration is complete
     if (random && isClient) {
