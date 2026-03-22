@@ -12,7 +12,9 @@ import 'dayjs/locale/zh-cn'
 
 export function useLocale() {
   const { availableLocales, locale } = useI18n()
-  const lang = useStorage('valaxy-locale', locale.value)
+  const lang = useStorage('valaxy-locale', locale.value, undefined, {
+    initOnMounted: true,
+  })
   // set date locale
   // setDefaultOptions({ locale: locale.value === 'zh-CN' ? zhCN : enUS })
   dayjs.locale(locale.value === 'zh-CN' ? 'zh-cn' : 'en')

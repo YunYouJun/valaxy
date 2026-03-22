@@ -14,6 +14,7 @@ import type { PageDataPayload } from '../../types'
 import type { ValaxySSGContext } from '../setups'
 import { ensureSuffix } from '@antfu/utils'
 import { useStorage } from '@vueuse/core'
+import { watch } from 'vue'
 import { createI18n } from 'vue-i18n'
 
 // @ts-expect-error virtual
@@ -52,8 +53,24 @@ export const i18n = createI18n({
 })
 
 export async function install({ app, router }: ValaxySSGContext, config: ComputedRef<ValaxyConfig<DefaultTheme.Config>>) {
-  const locale = useStorage('valaxy-locale', config?.value.siteConfig.lang || 'en')
-  i18n.global.locale.value = locale.value
+  const defaultLang = config?.value.siteConfig.lang || 'en'
+
+  // Use `initOnMounted` to defer reading localStorage until after hydration.
+  // During SSR/SSG and client hydration, locale stays at `defaultLang` so
+  // the rendered HTML matches on both sides — no more hydration mismatch for
+  // any i18n-dependent attribute (title, class, text content, etc.).
+  // After mount, the stored user preference is restored automatically.
+  const storedLocale = useStorage('valaxy-locale', defaultLang, undefined, {
+    initOnMounted: true,
+  })
+
+  i18n.global.locale.value = defaultLang
+
+  // Sync i18n locale whenever the stored value is restored / changed
+  watch(storedLocale, (val) => {
+    if (val)
+      i18n.global.locale.value = val
+  })
 
   app.use(i18n)
   router.isReady().then(() => {
