@@ -29,6 +29,8 @@ frontmatter:
   type: 自定义文章类型
   end: 是否完结
   draft: 是否为草稿
+  save_success: Frontmatter 保存成功
+  save_failed: Frontmatter 保存失败
 
 batchEdit:
   title: 批量编辑 Frontmatter
@@ -106,6 +108,19 @@ posts:
   detail: 详情
   empty_hint: 选择一篇文章查看详情
   empty_hint_sub: 从左侧列表中选择
+  search_placeholder: 搜索文章...
+  filter_all: 全部
+  filter_published: 已发布
+  filter_draft: 草稿
+  new_post: 新建文章
+  new_post_placeholder: 文章标题
+  path_placeholder: my-post
+  tags_placeholder: 添加标签...
+  categories_placeholder: 添加分类...
+  create: 创建
+  create_success: 文章创建成功
+  create_failed: 文章创建失败
+  no_results: 没有找到匹配的文章
 
 devtools:
   select_post_hint: 从左侧列表选择一篇文章以编辑 Frontmatter
@@ -118,6 +133,8 @@ settings:
   sort_order_updated: 更新时间
   sort_order_date: 创建时间
   sort_order_title: 标题
+  sort_desc: 降序
+  sort_asc: 升序
   list_density: 列表密度
   density_compact: 紧凑
   density_comfortable: 舒适
@@ -181,5 +198,6 @@ config:
   group_comment: 评论
   group_license: 协议
   group_sponsor: 赞助
+  group_general: 通用
   group_excerpt: 摘要
   group_llms: LLMs

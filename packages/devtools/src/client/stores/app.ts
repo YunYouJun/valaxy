@@ -23,12 +23,14 @@ export const clientPageData = ref<ClientPageData>()
 export interface DevtoolsSettings {
   siteUrl: string
   sortOrder: 'updated' | 'date' | 'title'
+  sortDirection: 'desc' | 'asc'
   listDensity: 'compact' | 'comfortable'
 }
 
 export const defaultSettings: DevtoolsSettings = {
   siteUrl: 'http://localhost:4859',
   sortOrder: 'updated',
+  sortDirection: 'desc',
   listDensity: 'comfortable',
 }
 

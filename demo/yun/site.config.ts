@@ -6,19 +6,22 @@ export default defineSiteConfig({
   },
 
   lang: 'zh-CN',
+
   // disable show language switch
   // languages: ['zh-CN'],
 
   title: $t('siteConfig.title'),
+
   subtitle: $t('siteConfig.subtitle'),
   timezone: 'Asia/Shanghai',
   url: 'https://yun.valaxy.site/',
+
   author: {
     avatar: 'https://www.yunyoujun.cn/images/avatar.jpg',
     name: $t('siteConfig.author.name'),
   },
-  description: $t('siteConfig.description'),
 
+  description: $t('siteConfig.description'),
   orderBy: 'date',
 
   social: [
@@ -107,6 +110,7 @@ export default defineSiteConfig({
     // type: 'algolia',
     type: 'fuse',
   },
+
   fuse: {
     options: {
       keys: ['title', 'tags', 'categories', 'excerpt', 'content'],
@@ -170,4 +174,5 @@ export default defineSiteConfig({
     ],
   },
 
+  lastUpdated: false,
 })

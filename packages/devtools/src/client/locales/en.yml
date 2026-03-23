@@ -87,6 +87,40 @@ posts:
   detail: Detail
   empty_hint: Select a post to view details
   empty_hint_sub: Choose from the list on the left
+  search_placeholder: Search posts...
+  filter_all: All
+  filter_published: Published
+  filter_draft: Draft
+  new_post: New Post
+  new_post_placeholder: Post title
+  path_placeholder: my-post
+  tags_placeholder: Add tag...
+  categories_placeholder: Add category...
+  create: Create
+  create_success: Post created successfully
+  create_failed: Failed to create post
+  no_results: No matching posts found
+
+frontmatter:
+  title: Title
+  title_zh: Chinese Title
+  time_warning: Expiry Warning
+  hide: Hidden
+  date: Created
+  updated: Updated
+  cover: Cover
+  categories: Categories
+  tags: Tags
+  excerpt: Excerpt
+  excerpt_type: Excerpt Type
+  toc: Table of Contents
+  password: Password
+  password_hint: Password Hint
+  type: Custom Type
+  end: Completed
+  draft: Draft
+  save_success: Frontmatter saved successfully
+  save_failed: Failed to save frontmatter
 
 devtools:
   select_post_hint: Select a post from the list to edit frontmatter
@@ -99,6 +133,8 @@ settings:
   sort_order_updated: Updated Time
   sort_order_date: Created Time
   sort_order_title: Title
+  sort_desc: Descending
+  sort_asc: Ascending
   list_density: List Density
   density_compact: Compact
   density_comfortable: Comfortable
@@ -162,5 +198,6 @@ config:
   group_comment: Comment
   group_license: License
   group_sponsor: Sponsor
+  group_general: General
   group_excerpt: Excerpt
   group_llms: LLMs

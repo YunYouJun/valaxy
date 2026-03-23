@@ -1,35 +1,89 @@
 <script lang="ts" setup>
 import type { Post } from 'valaxy'
-import axios from 'axios'
-import { consola } from 'consola'
 
 import dayjs from 'dayjs'
 import { computed, ref, toRaw } from 'vue'
 
 import { useI18n } from 'vue-i18n'
-import { activePath, pageData } from '../composables/app'
-import { clientPageData } from '../stores/app'
+import { rpc } from '../rpc'
+import { clientPageData, postList } from '../stores/app'
 
 const props = defineProps<{
   frontmatter: Post
 }>()
+const { t } = useI18n()
 
 const newFm = ref<Post>(props.frontmatter)
+const isSaving = ref(false)
+const saveMessage = ref<{ severity: 'success' | 'error', text: string } | null>(null)
+let clearTimer: ReturnType<typeof setTimeout> | undefined
+
 async function saveNewFm() {
-  const res = await axios.post('/valaxy-devtools-api/frontmatter', {
-    path: activePath.value,
-    pageData: pageData.value,
-    frontmatter: toRaw(newFm.value),
-  })
-  if (res)
-    consola.success('Frontmatter saved')
+  if (isSaving.value)
+    return
+  isSaving.value = true
+  saveMessage.value = null
+  if (clearTimer)
+    clearTimeout(clearTimer)
+  try {
+    await rpc.updateFrontmatter({
+      filePath: clientPageData.value!.filePath,
+      frontmatter: toRaw(newFm.value),
+    })
+    saveMessage.value = { severity: 'success', text: t('frontmatter.save_success') }
+  }
+  catch (e: any) {
+    saveMessage.value = { severity: 'error', text: e.message || t('frontmatter.save_failed') }
+  }
+  finally {
+    isSaving.value = false
+    clearTimer = setTimeout(() => {
+      saveMessage.value = null
+    }, 3000)
+  }
 }
-const { t } = useI18n()
 
 const date = ref(dayjs(clientPageData.value?.frontmatter.date).toDate())
 const updated = ref(dayjs(clientPageData.value?.frontmatter.updated).toDate())
 
 const showPassword = ref(false)
+
+// Extract all existing tags & categories for suggestions
+const allTagSuggestions = computed(() => {
+  const tagSet = new Set<string>()
+  for (const post of postList.value.posts) {
+    const tags = post.frontmatter.tags
+    if (Array.isArray(tags)) {
+      for (const tag of tags)
+        tagSet.add(tag)
+    }
+  }
+  return Array.from(tagSet).sort()
+})
+
+const allCategorySuggestions = computed(() => {
+  const catSet = new Set<string>()
+  for (const post of postList.value.posts) {
+    const cats = post.frontmatter.categories
+    if (!cats)
+      continue
+    if (typeof cats === 'string') {
+      catSet.add(cats)
+    }
+    else if (Array.isArray(cats)) {
+      if (cats.length > 0 && Array.isArray(cats[0])) {
+        for (const c of cats) {
+          if (Array.isArray(c))
+            c.forEach((s: string) => catSet.add(s))
+        }
+      }
+      else {
+        cats.forEach((s: string) => catSet.add(s))
+      }
+    }
+  }
+  return Array.from(catSet).sort()
+})
 
 // Field grouping definitions
 const metaFields = new Set(['title', 'date', 'updated', 'draft', 'hide', 'type'])
@@ -131,10 +185,10 @@ const fieldGroups = computed<FieldGroup[]>(() => {
 
             <div v-if="clientPageData" class="inline-flex items-center w-full min-h-8">
               <div v-if="key === 'tags'" class="w-full">
-                <VDFmTagsEditor v-model="clientPageData.frontmatter.tags" />
+                <VDFmTagsEditor v-model="clientPageData.frontmatter.tags" :suggestions="allTagSuggestions" />
               </div>
               <template v-else-if="key === 'categories'">
-                <VDPostCategories :categories="value as Post['categories']" />
+                <VDFmCategoriesEditor v-model="(clientPageData.frontmatter as any).categories" :suggestions="allCategorySuggestions" />
               </template>
               <template v-else-if="key === 'encryptedContent'">
                 [Encrypted]
@@ -195,12 +249,17 @@ const fieldGroups = computed<FieldGroup[]>(() => {
       </fieldset>
     </div>
 
-    <VDButton
-      v-if="Object.keys(frontmatter).length"
-      class="w-full my-3"
-      @click="saveNewFm"
-    >
-      {{ t('button.save_frontmatter') }}
-    </VDButton>
+    <div v-if="Object.keys(frontmatter).length" class="px-2">
+      <VDMessage v-if="saveMessage" :severity="saveMessage.severity" closable class="mb-2">
+        {{ saveMessage.text }}
+      </VDMessage>
+      <VDButton
+        class="w-full my-3"
+        :loading="isSaving"
+        @click="saveNewFm"
+      >
+        {{ t('button.save_frontmatter') }}
+      </VDButton>
+    </div>
   </div>
 </template>

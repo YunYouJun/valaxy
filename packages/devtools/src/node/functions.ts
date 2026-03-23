@@ -8,6 +8,7 @@ import fs from 'fs-extra'
 import matter from 'gray-matter'
 import pathe from 'pathe'
 import { DANGEROUS_FIELD_KEYS, readConfigs, writeConfigField } from './utils/config-rw'
+import { migration } from './utils/migration'
 
 function ensurePrefix(prefix: string, str: string) {
   if (!str.startsWith(prefix))
@@ -118,6 +119,18 @@ export function getFunctions(server: ViteDevServer, devtoolsOptions: ValaxyDevto
         filePath: file,
         frontmatter: data,
       }
+    },
+
+    async updateFrontmatter(req) {
+      const { filePath, frontmatter: newFm } = req
+      if (!fs.existsSync(filePath))
+        throw new Error(`File not found: ${filePath}`)
+      const rawMd = await fs.readFile(filePath, 'utf-8')
+      const matterFile = matter(rawMd)
+      matterFile.data = newFm
+      const newMd = matter.stringify(matterFile.content, matterFile.data)
+      await fs.writeFile(filePath, newMd)
+      return { success: true }
     },
 
     async getCollectionList() {
@@ -297,6 +310,71 @@ export function getFunctions(server: ViteDevServer, devtoolsOptions: ValaxyDevto
       try {
         await writeConfigField(userRoot, configType, fieldPath, value)
         return { success: true }
+      }
+      catch (e: any) {
+        return { success: false, error: e.message || String(e) }
+      }
+    },
+
+    async runMigration(filePaths, frontmatter) {
+      const workers = filePaths.map(path => migration(path, frontmatter))
+      await Promise.all(workers)
+      return { success: true }
+    },
+
+    async createPost(options) {
+      try {
+        const { title, path: customPath, tags, categories } = options
+        const postsDir = pathe.resolve(userRoot, 'pages', 'posts')
+
+        let filePath: string
+        if (customPath) {
+          // User specified a path like 'my-post.md' or 'sub/my-post.md'
+          const normalized = customPath.endsWith('.md') ? customPath : `${customPath}.md`
+          filePath = pathe.resolve(postsDir, normalized)
+        }
+        else {
+          // Auto-generate from title (kebab-case)
+          const slug = title
+            .toLowerCase()
+            .replace(/[\s_]+/g, '-')
+            .replace(/[^\w\u4E00-\u9FFF-]/g, '')
+            .replace(/-+/g, '-')
+            .replace(/^-|-$/g, '')
+            || `post-${Date.now()}`
+          filePath = pathe.resolve(postsDir, `${slug}.md`)
+        }
+
+        // Ensure parent directory exists
+        await fs.ensureDir(pathe.dirname(filePath))
+
+        // Ensure unique filename
+        if (await fs.pathExists(filePath)) {
+          const ext = pathe.extname(filePath)
+          const base = filePath.slice(0, -ext.length)
+          let counter = 1
+          while (await fs.pathExists(filePath)) {
+            filePath = `${base}-${counter}${ext}`
+            counter++
+          }
+        }
+
+        const now = dayjs().format('YYYY-MM-DD HH:mm:ss')
+        const frontmatter: Record<string, unknown> = {
+          title,
+          date: now,
+          updated: now,
+          draft: true,
+        }
+        if (tags && tags.length > 0)
+          frontmatter.tags = tags
+        if (categories && categories.length > 0)
+          frontmatter.categories = categories
+
+        const content = matter.stringify('\n', frontmatter)
+        await fs.writeFile(filePath, content, 'utf-8')
+
+        return { success: true, filePath }
       }
       catch (e: any) {
         return { success: false, error: e.message || String(e) }

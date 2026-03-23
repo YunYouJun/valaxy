@@ -11,6 +11,11 @@ const sortOrderOptions = computed(() => [
   { label: t('settings.sort_order_title'), value: 'title' },
 ])
 
+const sortDirectionOptions = computed(() => [
+  { icon: 'i-ri:sort-desc', label: t('settings.sort_desc'), value: 'desc' },
+  { icon: 'i-ri:sort-asc', label: t('settings.sort_asc'), value: 'asc' },
+])
+
 const densityOptions = computed(() => [
   { icon: 'i-ri:list-check', label: t('settings.density_compact'), value: 'compact' },
   { icon: 'i-ri:list-unordered', label: t('settings.density_comfortable'), value: 'comfortable' },
@@ -29,7 +34,7 @@ function resetSettings() {
       </h3>
     </div>
 
-    <div class="p-4 max-w-lg flex flex-col gap-5">
+    <div class="p-6 max-w-lg mx-auto w-full flex flex-col gap-5">
       <!-- Site URL -->
       <div class="flex flex-col gap-1.5">
         <label class="text-sm font-medium">{{ t('settings.site_url') }}</label>
@@ -46,11 +51,17 @@ function resetSettings() {
       <!-- Sort Order -->
       <div class="flex flex-col gap-1.5">
         <label class="text-sm font-medium">{{ t('settings.sort_order') }}</label>
-        <VDSelect
-          v-model="settings.sortOrder"
-          :options="sortOrderOptions"
-          class="w-48"
-        />
+        <div class="flex items-center gap-2">
+          <VDSelect
+            v-model="settings.sortOrder"
+            :options="sortOrderOptions"
+            class="w-48"
+          />
+          <VDToggleGroup
+            v-model="settings.sortDirection"
+            :options="sortDirectionOptions"
+          />
+        </div>
       </div>
 
       <!-- List Density -->

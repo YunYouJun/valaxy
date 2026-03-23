@@ -1,66 +1,17 @@
-/* eslint-disable unused-imports/no-unused-vars */
 import type { Connect, ResolvedConfig, ViteDevServer } from 'vite'
 import type { ValaxyDevtoolsOptions } from '../types'
 import bodyParser from 'body-parser'
-
-import fs from 'fs-extra'
-import matter from 'gray-matter'
 import { getFunctions } from '../functions'
-import { migration } from '../utils/migration'
 
 const prefix = '/valaxy-devtools-api'
 
-const apis: {
-  route: string
-  fn: Connect.NextHandleFunction
-}[] = [
-  {
-    route: '/frontmatter',
-    fn: async (req, res) => {
-      // update
-      if (req.method === 'POST') {
-        const { pageData, frontmatter: newFm } = await (req as any).body
-        // filePath
-        const path = pageData.path
-        if (fs.existsSync(path)) {
-          const rawMd = await fs.readFile(path, 'utf-8')
-          const matterFile = matter(rawMd)
+type HttpMethod = 'GET' | 'POST' | 'PUT' | 'DELETE'
+type RouteHandler = (req: Connect.IncomingMessage, res: any) => Promise<unknown>
 
-          // update frontmatter
-          matterFile.data = newFm
-          const newMd = matter.stringify(matterFile.content, matterFile.data)
-          await fs.writeFile(path, newMd)
-        }
-      }
-    },
-  },
-
-  {
-    route: '/migration',
-    fn: async (req, res) => {
-      // update
-      if (req.method === 'POST') {
-        const { pageData, frontmatter } = await (req as any).body
-        // filePath
-        const worker: Promise<void>[] = []
-
-        for (const item of pageData) {
-          const path = item
-          worker.push(migration(path, frontmatter))
-        }
-        //   worker.push(migration(`${userRoot.root}/pages${item}.md`, frontmatter))
-        // for (const item of pageData)
-        //   worker.push(migration(item, frontmatter))
-
-        Promise.all(worker).then(() => {
-          res.end('ok')
-        }).catch((_) => {
-          res.end('migration error')
-        })
-      }
-    },
-  },
-]
+function isExactRouteRequest(req: Connect.IncomingMessage) {
+  const pathname = new URL(req.url || '/', 'http://localhost').pathname
+  return pathname === '/' || pathname === ''
+}
 
 function sendJson(res: any, data: unknown) {
   res.setHeader('Content-Type', 'application/json')
@@ -72,13 +23,29 @@ function sendError(res: any, statusCode: number, error: string) {
   sendJson(res, { error })
 }
 
-function createJsonRoute(
-  handler: (req: any, res: any) => Promise<unknown>,
-  options: { method?: 'GET' | 'POST' } = {},
-): Connect.NextHandleFunction {
-  return async (req, res) => {
-    if (options.method && req.method !== options.method) {
-      sendError(res, 405, 'Method not allowed')
+/**
+ * Create a Connect middleware that dispatches by HTTP method.
+ *
+ * @example
+ * ```ts
+ * app.use('/posts', createRoute({
+ *   GET: () => getPostList(),
+ *   POST: req => createPost(req.body),
+ * }))
+ * ```
+ */
+function createRoute(handlers: Partial<Record<HttpMethod, RouteHandler>>): Connect.NextHandleFunction {
+  return async (req, res, next) => {
+    if (!isExactRouteRequest(req)) {
+      next?.()
+      return
+    }
+
+    const method = req.method?.toUpperCase() as HttpMethod
+    const handler = handlers[method]
+
+    if (!handler) {
+      next?.()
       return
     }
 
@@ -94,52 +61,100 @@ function createJsonRoute(
 }
 
 /**
- * register api in vite.server
- * @param server
- * @param _viteConfig
- * @param options
+ * Register RESTful API routes on the Vite dev server.
+ *
+ * All routes are prefixed with {@link prefix} (`/valaxy-devtools-api`).
+ *
+ * | Method | Route                | Description              |
+ * |--------|----------------------|--------------------------|
+ * | GET    | /options             | Dev server options       |
+ * | GET    | /posts               | List posts               |
+ * | POST   | /posts               | Create a new post        |
+ * | GET    | /pages?path=...      | Single page data         |
+ * | GET    | /collections         | List collections         |
+ * | POST   | /frontmatter         | Update single frontmatter|
+ * | POST   | /frontmatter/batch   | Batch update frontmatter |
+ * | POST   | /migration           | Run migration            |
+ * | GET    | /config              | Read config              |
+ * | PUT    | /config              | Update config field      |
  */
 export function registerApi(server: ViteDevServer, _viteConfig: ResolvedConfig, options: ValaxyDevtoolsOptions = {}) {
   const app = server.middlewares
   app.use(bodyParser.json())
 
-  // Legacy routes (frontmatter, migration)
-  apis.forEach(({ route, fn }) => {
-    app.use(prefix + route, fn)
-  })
-
-  // New REST routes — powered by getFunctions()
   const functions = getFunctions(server, options)
 
-  app.use(`${prefix}/options`, createJsonRoute(() => functions.getOptions(), { method: 'GET' }))
-  app.use(`${prefix}/posts`, createJsonRoute(() => functions.getPostList(), { method: 'GET' }))
-  app.use(`${prefix}/collections`, createJsonRoute(() => functions.getCollectionList(), { method: 'GET' }))
+  // GET /options
+  app.use(`${prefix}/options`, createRoute({
+    GET: () => functions.getOptions(),
+  }))
 
-  app.use(`${prefix}/page`, createJsonRoute(async (req, res) => {
-    const url = new URL(req.url || '', 'http://localhost')
-    const pagePath = url.searchParams.get('path')
-    if (!pagePath) {
-      sendError(res, 400, 'Missing "path" query parameter')
-      return
-    }
-    return functions.getPageData(pagePath)
-  }, { method: 'GET' }))
+  // GET|POST /posts
+  app.use(`${prefix}/posts`, createRoute({
+    GET: () => functions.getPostList(),
+    POST: async (req, res) => {
+      const body = (req as any).body
+      if (!body?.title) {
+        sendError(res, 400, 'Missing title')
+        return
+      }
+      return functions.createPost(body)
+    },
+  }))
 
-  app.use(`${prefix}/batch-frontmatter`, createJsonRoute(async (req) => {
-    const body = (req as any).body
-    const { filePaths, operations } = body
-    return functions.batchUpdateFrontmatter(filePaths, operations)
-  }, { method: 'POST' }))
+  // GET /pages?path=...
+  app.use(`${prefix}/pages`, createRoute({
+    GET: async (req, res) => {
+      const url = new URL(req.url || '', 'http://localhost')
+      const pagePath = url.searchParams.get('path')
+      if (!pagePath) {
+        sendError(res, 400, 'Missing "path" query parameter')
+        return
+      }
+      return functions.getPageData(pagePath)
+    },
+  }))
 
-  app.use(`${prefix}/config/update`, createJsonRoute(async (req, res) => {
-    const body = (req as any).body
-    const { configType, fieldPath, value } = body
-    if (!configType || !fieldPath) {
-      sendError(res, 400, 'Missing configType or fieldPath')
-      return
-    }
-    return functions.updateConfigField(configType, fieldPath, value)
-  }, { method: 'POST' }))
+  // GET /collections
+  app.use(`${prefix}/collections`, createRoute({
+    GET: () => functions.getCollectionList(),
+  }))
 
-  app.use(`${prefix}/config`, createJsonRoute(() => functions.getConfig(), { method: 'GET' }))
+  // POST /frontmatter — update single page frontmatter
+  // POST /frontmatter/batch — batch update frontmatter
+  app.use(`${prefix}/frontmatter/batch`, createRoute({
+    POST: async (req) => {
+      const body = (req as any).body
+      const { filePaths, operations } = body
+      return functions.batchUpdateFrontmatter(filePaths, operations)
+    },
+  }))
+
+  app.use(`${prefix}/frontmatter`, createRoute({
+    POST: async (req) => {
+      return functions.updateFrontmatter((req as any).body)
+    },
+  }))
+
+  // POST /migration
+  app.use(`${prefix}/migration`, createRoute({
+    POST: async (req) => {
+      const { filePaths, frontmatter } = (req as any).body
+      return functions.runMigration(filePaths, frontmatter)
+    },
+  }))
+
+  // GET|PUT /config
+  app.use(`${prefix}/config`, createRoute({
+    GET: () => functions.getConfig(),
+    PUT: async (req, res) => {
+      const body = (req as any).body
+      const { configType, fieldPath, value } = body
+      if (!configType || !fieldPath) {
+        sendError(res, 400, 'Missing configType or fieldPath')
+        return
+      }
+      return functions.updateConfigField(configType, fieldPath, value)
+    },
+  }))
 }
