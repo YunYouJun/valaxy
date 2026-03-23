@@ -140,7 +140,6 @@
     "unplugin-vue-markdown": "catalog:",
     "vanilla-lazyload": "catalog:",
     "vite": "catalog:build",
-    "vite-dev-rpc": "catalog:",
     "vite-plugin-vue-devtools": "catalog:",
     "vite-plugin-vue-layouts-next": "catalog:",
     "vite-ssg": "catalog:",

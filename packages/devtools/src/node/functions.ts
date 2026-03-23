@@ -1,5 +1,5 @@
 import type { ViteDevServer } from 'vite'
-import type { ServerFunctions } from '../../rpc'
+import type { BatchFrontmatterOperation, ServerFunctions } from '../../rpc'
 import type { ValaxyDevtoolsOptions } from './types'
 import process from 'node:process'
 import dayjs from 'dayjs'
@@ -7,6 +7,8 @@ import fg from 'fast-glob'
 import fs from 'fs-extra'
 import matter from 'gray-matter'
 import pathe from 'pathe'
+import { DANGEROUS_FIELD_KEYS, readConfigs, writeConfigField } from './utils/config-rw'
+import { migration } from './utils/migration'
 
 function ensurePrefix(prefix: string, str: string) {
   if (!str.startsWith(prefix))
@@ -119,6 +121,25 @@ export function getFunctions(server: ViteDevServer, devtoolsOptions: ValaxyDevto
       }
     },
 
+    async updateFrontmatter(req) {
+      const { filePath, frontmatter: newFm } = req
+      // Validate file path is within userRoot/pages and is a .md file
+      const pagesDir = pathe.resolve(userRoot, 'pages')
+      const resolved = pathe.resolve(filePath)
+      const rel = pathe.relative(pagesDir, resolved)
+      if (rel.startsWith('..') || pathe.isAbsolute(rel) || !resolved.endsWith('.md'))
+        throw new Error('Invalid file path: must be within pages directory and end with .md')
+
+      if (!fs.existsSync(resolved))
+        throw new Error(`File not found: ${resolved}`)
+      const rawMd = await fs.readFile(resolved, 'utf-8')
+      const matterFile = matter(rawMd)
+      matterFile.data = newFm
+      const newMd = matter.stringify(matterFile.content, matterFile.data)
+      await fs.writeFile(resolved, newMd)
+      return { success: true }
+    },
+
     async getCollectionList() {
       const collectionsRoot = pathe.resolve(userRoot, 'pages', 'collections')
       if (!await fs.pathExists(collectionsRoot))
@@ -219,6 +240,157 @@ export function getFunctions(server: ViteDevServer, devtoolsOptions: ValaxyDevto
       }
 
       return result
+    },
+
+    async batchUpdateFrontmatter(filePaths: string[], operations: BatchFrontmatterOperation[]) {
+      const pagesDir = pathe.resolve(userRoot, 'pages')
+
+      const result = {
+        total: filePaths.length,
+        updated: 0,
+        errors: [] as { filePath: string, error: string }[],
+      }
+
+      for (const filePath of filePaths) {
+        try {
+          // Validate file path is within userRoot/pages and is a .md file
+          const resolved = pathe.resolve(filePath)
+          const rel = pathe.relative(pagesDir, resolved)
+          if (rel.startsWith('..') || pathe.isAbsolute(rel) || !resolved.endsWith('.md')) {
+            result.errors.push({ filePath, error: 'Invalid file path: must be within pages directory and end with .md' })
+            continue
+          }
+
+          if (!await fs.pathExists(resolved)) {
+            result.errors.push({ filePath, error: 'File not found' })
+            continue
+          }
+
+          const rawMd = await fs.readFile(resolved, 'utf-8')
+          const matterFile = matter(rawMd)
+          let modified = false
+
+          for (const op of operations) {
+            // Reject dangerous keys to prevent prototype pollution
+            if (DANGEROUS_FIELD_KEYS.has(op.key) || (op.newKey && DANGEROUS_FIELD_KEYS.has(op.newKey)))
+              continue
+
+            switch (op.type) {
+              case 'set':
+                matterFile.data[op.key] = op.value
+                modified = true
+                break
+              case 'delete':
+                if (op.key in matterFile.data) {
+                  delete matterFile.data[op.key]
+                  modified = true
+                }
+                break
+              case 'rename':
+                if (op.key in matterFile.data && op.newKey) {
+                  matterFile.data[op.newKey] = matterFile.data[op.key]
+                  delete matterFile.data[op.key]
+                  modified = true
+                }
+                break
+            }
+          }
+
+          if (modified) {
+            const newMd = matter.stringify(matterFile.content, matterFile.data)
+            await fs.writeFile(resolved, newMd)
+            result.updated++
+          }
+        }
+        catch (e: any) {
+          result.errors.push({ filePath, error: e.message || String(e) })
+        }
+      }
+
+      return result
+    },
+
+    async getConfig() {
+      return readConfigs(userRoot)
+    },
+
+    async updateConfigField(configType, fieldPath, value) {
+      try {
+        await writeConfigField(userRoot, configType, fieldPath, value)
+        return { success: true }
+      }
+      catch (e: any) {
+        return { success: false, error: e.message || String(e) }
+      }
+    },
+
+    async runMigration(filePaths, frontmatter) {
+      const workers = filePaths.map(path => migration(path, frontmatter))
+      await Promise.all(workers)
+      return { success: true }
+    },
+
+    async createPost(options) {
+      try {
+        const { title, path: customPath, tags, categories } = options
+        const postsDir = pathe.resolve(userRoot, 'pages', 'posts')
+
+        let filePath: string
+        if (customPath) {
+          // User specified a path like 'my-post.md' or 'sub/my-post.md'
+          const normalized = customPath.endsWith('.md') ? customPath : `${customPath}.md`
+          filePath = pathe.resolve(postsDir, normalized)
+          // Validate resolved path stays under postsDir
+          const rel = pathe.relative(postsDir, filePath)
+          if (rel.startsWith('..') || pathe.isAbsolute(rel))
+            return { success: false, error: 'Invalid path: must be within posts directory' }
+        }
+        else {
+          // Auto-generate from title (kebab-case)
+          const slug = title
+            .toLowerCase()
+            .replace(/[\s_]+/g, '-')
+            .replace(/[^\w\u4E00-\u9FFF-]/g, '')
+            .replace(/-+/g, '-')
+            .replace(/^-|-$/g, '')
+            || `post-${Date.now()}`
+          filePath = pathe.resolve(postsDir, `${slug}.md`)
+        }
+
+        // Ensure parent directory exists
+        await fs.ensureDir(pathe.dirname(filePath))
+
+        // Ensure unique filename
+        if (await fs.pathExists(filePath)) {
+          const ext = pathe.extname(filePath)
+          const base = filePath.slice(0, -ext.length)
+          let counter = 1
+          while (await fs.pathExists(filePath)) {
+            filePath = `${base}-${counter}${ext}`
+            counter++
+          }
+        }
+
+        const now = dayjs().format('YYYY-MM-DD HH:mm:ss')
+        const frontmatter: Record<string, unknown> = {
+          title,
+          date: now,
+          updated: now,
+          draft: true,
+        }
+        if (tags && tags.length > 0)
+          frontmatter.tags = tags
+        if (categories && categories.length > 0)
+          frontmatter.categories = categories
+
+        const content = matter.stringify('\n', frontmatter)
+        await fs.writeFile(filePath, content, 'utf-8')
+
+        return { success: true, filePath }
+      }
+      catch (e: any) {
+        return { success: false, error: e.message || String(e) }
+      }
     },
   }
 }

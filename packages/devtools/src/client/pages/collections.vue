@@ -67,11 +67,11 @@ function onSelectCollection(col: ClientCollectionData) {
           Items ({{ selectedCollection.items.length }})
         </h3>
 
-        <div class="border rounded dark:border-gray-700">
+        <div class="border border-gray-200 rounded dark:border-gray-700">
           <div
             v-for="(item, idx) in selectedCollection.items"
             :key="item.key || item.link"
-            class="flex items-center gap-2 px-3 py-2 text-sm border-b last:border-b-0 dark:border-gray-700"
+            class="flex items-center gap-2 px-3 py-2 text-sm border-b border-gray-200 last:border-b-0 dark:border-gray-700"
           >
             <span class="op-40 text-xs w-6 text-right">{{ idx + 1 }}</span>
             <span class="flex-1">{{ item.title }}</span>

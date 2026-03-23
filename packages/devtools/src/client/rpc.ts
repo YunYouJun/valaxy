@@ -1,16 +1,54 @@
-import type { ClientFunctions, ServerFunctions } from '../../rpc'
-import { createRPCClient } from 'vite-dev-rpc'
-import { createHotContext } from 'vite-hot-client'
-import { NAMESPACE } from '../config'
+import type { ServerFunctions } from '../../rpc'
 
-// use this instead of import.meta.hot
-const hot = createHotContext('/___', `${location.pathname.split('/__valaxy_devtools__')[0] || ''}/`.replace(/\/\//g, '/'))
-export const rpc = createRPCClient<ServerFunctions, ClientFunctions>(
-  NAMESPACE,
-  hot,
-  {
-    async onModuleUpdated() {
-      // onModuleUpdated.trigger()
-    },
-  },
-)
+const API_BASE = '/valaxy-devtools-api'
+
+async function request<T>(path: string, method: string, body?: unknown): Promise<T> {
+  const res = await fetch(`${API_BASE}${path}`, {
+    method,
+    ...(body != null && {
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(body),
+    }),
+  })
+  if (!res.ok) {
+    let message = `HTTP ${res.status}: ${res.statusText}`
+    try {
+      const body = await res.json()
+      if (body?.error)
+        message = body.error
+    }
+    catch {}
+    throw new Error(message)
+  }
+  return res.json()
+}
+
+function get<T>(path: string): Promise<T> {
+  return request<T>(path, 'GET')
+}
+
+function post<T>(path: string, body: unknown): Promise<T> {
+  return request<T>(path, 'POST', body)
+}
+
+function put<T>(path: string, body: unknown): Promise<T> {
+  return request<T>(path, 'PUT', body)
+}
+
+export const rpc: ServerFunctions = {
+  getOptions: () => get('/options'),
+  getPostList: () => get('/posts'),
+  getCollectionList: () => get('/collections'),
+  getPageData: path => get(`/pages?path=${encodeURIComponent(path)}`),
+  updateFrontmatter: req =>
+    post('/frontmatter', req),
+  batchUpdateFrontmatter: (filePaths, operations) =>
+    post('/frontmatter/batch', { filePaths, operations }),
+  getConfig: () => get('/config'),
+  updateConfigField: (configType, fieldPath, value) =>
+    put('/config', { configType, fieldPath, value }),
+  runMigration: (filePaths, frontmatter) =>
+    post('/migration', { filePaths, frontmatter }),
+  createPost: options =>
+    post('/posts', options),
+}

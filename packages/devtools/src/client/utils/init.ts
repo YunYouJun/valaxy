@@ -11,9 +11,8 @@ export function initDevtoolsClient() {
   const __VUE_DEVTOOLS_ROUTER__ = getWindowProperty('__VUE_DEVTOOLS_ROUTER__') as Router
   devtoolsRouter.value = __VUE_DEVTOOLS_ROUTER__
 
-  devtoolsRouter.value?.beforeEach?.((to, _from, next) => {
+  devtoolsRouter.value?.beforeEach?.((to) => {
     activePath.value = to.path
-    next()
   })
 
   devtoolsRouter.value.afterEach?.(async () => {

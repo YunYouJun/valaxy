@@ -1,5 +1,4 @@
 button:
-  about: About
   back: Back
   go: GO
   home: Home
@@ -11,3 +10,194 @@ pageData:
   path: Path
   filePath: File Path
   routePath: Route Path
+
+batchEdit:
+  title: Batch Edit Frontmatter
+  operations: Operations
+  op_set: Set
+  op_delete: Delete
+  op_rename: Rename
+  field_key: Field key
+  field_value: Value
+  new_key: New key
+  add_operation: Add Operation
+  select_posts: Select Posts
+  select_all: Select All
+  deselect_all: Deselect All
+  show_preview: Preview Changes
+  hide_preview: Hide Preview
+  current_frontmatter: Current Frontmatter
+  post_title: Title
+  execute: Apply Changes
+  no_posts: No posts found
+  empty_hint: Select posts from the left panel to begin
+  summary: '{ops} operation(s) on {posts} post(s)'
+  confirm: 'Apply {ops} operation(s) to {posts} post(s)?'
+  confirm_yes: Confirm
+  confirm_no: Cancel
+  result_success: 'Successfully updated {updated}/{total} posts.'
+  result_partial: 'Updated {updated}/{total} posts, {errors} errors occurred.'
+
+categories:
+  title: Categories
+  all: Select a category to view posts
+  empty: No categories found
+  posts_count: '{count} post(s)'
+
+tags:
+  title: Tags
+  all: All Tags
+  selected: Selected
+  empty: No tags found
+
+dashboard:
+  title: Dashboard
+  recent_posts: Recent Posts
+  top_tags: Top Tags
+  top_categories: Top Categories
+  published_posts: Published
+  view_all: View All
+  user_root: User Root
+  open_folder: Open Folder
+  open_in_editor: Open in Editor
+  stats: Statistics
+  total_posts: Total Posts
+  draft_posts: Drafts
+  total_categories: Categories
+  total_tags: Tags
+
+archives:
+  title: Archives
+  posts_count: '{count} post(s)'
+
+nav:
+  dashboard: Dashboard
+  posts: Posts
+  archives: Archives
+  categories: Categories
+  tags: Tags
+  collections: Collections
+  batch_edit: Batch Edit
+  config: Config
+  settings: Settings
+  docs: Documentation
+
+posts:
+  title: Posts
+  detail: Detail
+  empty_hint: Select a post to view details
+  empty_hint_sub: Choose from the list on the left
+  search_placeholder: Search posts...
+  filter_all: All
+  filter_published: Published
+  filter_draft: Draft
+  new_post: New Post
+  new_post_placeholder: Post title
+  path_placeholder: my-post
+  tags_placeholder: Add tag...
+  categories_placeholder: Add category...
+  create: Create
+  create_success: Post created successfully
+  create_failed: Failed to create post
+  no_results: No matching posts found
+
+frontmatter:
+  title: Title
+  title_zh: Chinese Title
+  time_warning: Expiry Warning
+  hide: Hidden
+  date: Created
+  updated: Updated
+  cover: Cover
+  categories: Categories
+  tags: Tags
+  excerpt: Excerpt
+  excerpt_type: Excerpt Type
+  toc: Table of Contents
+  password: Password
+  password_hint: Password Hint
+  type: Custom Type
+  end: Completed
+  draft: Draft
+  save_success: Frontmatter saved successfully
+  save_failed: Failed to save frontmatter
+
+devtools:
+  select_post_hint: Select a post from the list to edit frontmatter
+
+settings:
+  title: Settings
+  site_url: Site URL
+  site_url_desc: Target URL for opening posts in standalone mode
+  sort_order: Sort Order
+  sort_order_updated: Updated Time
+  sort_order_date: Created Time
+  sort_order_title: Title
+  sort_desc: Descending
+  sort_asc: Ascending
+  list_density: List Density
+  density_compact: Compact
+  density_comfortable: Comfortable
+  reset: Reset to Defaults
+
+footer:
+  documentation: Documentation
+  github: GitHub
+
+config:
+  title: Config
+  quick_edit: Quick Edit
+  all_options: All Options
+  loading: Loading configuration...
+  no_data: No configuration data available
+  saved: Saved successfully
+  save_failed: Save failed
+  copy_snippet: Copy code snippet
+  open_in_editor: Open in Editor
+  open_site_config: Open site.config.ts
+  open_valaxy_config: Open valaxy.config.ts
+  search_placeholder: Search config options...
+  no_theme_config: No theme config fields found. Edit valaxy.config.ts to add themeConfig.
+  tab_site: Site Info
+  tab_author: Author
+  tab_features: Features
+  tab_build: Build
+  tab_theme: Theme
+  field_title: Title
+  field_subtitle: Subtitle
+  field_description: Description
+  field_url: Site URL
+  field_mode: Mode
+  field_lang: Language
+  field_favicon: Favicon
+  field_page_size: Page Size
+  field_author_name: Name
+  field_author_email: Email
+  field_author_link: Profile Link
+  field_author_avatar: Avatar
+  field_author_intro: Introduction
+  field_author_status: Status
+  field_status_emoji: Emoji
+  field_status_message: Message
+  field_search_enable: Enable Search
+  field_search_provider: Search Provider
+  field_comment_enable: Enable Comment
+  field_license_enabled: Show License
+  field_license_type: License Type
+  field_sponsor_enable: Enable Sponsor
+  field_last_updated: Show Last Updated
+  field_statistics_enable: Enable Statistics
+  field_medium_zoom: Enable Image Preview
+  field_llms_enable: Enable llms.txt
+  field_llms_full_text: Generate llms-full.txt
+  field_theme: Theme
+  field_order_by: Post Order
+  field_excerpt_auto: Auto Excerpt
+  field_excerpt_length: Excerpt Length
+  group_search: Search
+  group_comment: Comment
+  group_license: License
+  group_sponsor: Sponsor
+  group_general: General
+  group_excerpt: Excerpt
+  group_llms: LLMs
