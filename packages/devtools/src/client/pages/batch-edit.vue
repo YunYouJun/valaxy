@@ -283,7 +283,7 @@ function getFmValue(post: ClientPageData, key: string): string {
             <span class="text-xs op-40">{{ operations.length }}</span>
           </div>
 
-          <div class="border rounded-lg dark:border-gray-700 divide-y divide-gray-100 dark:divide-gray-800">
+          <div class="border border-gray-200 rounded-lg dark:border-gray-700 divide-y divide-gray-100 dark:divide-gray-800">
             <div
               v-for="(op, index) in operations" :key="index"
               class="flex gap-2 items-center px-3 py-2"
@@ -399,17 +399,17 @@ function getFmValue(post: ClientPageData, key: string): string {
             {{ t('batchEdit.show_preview') }}
           </h3>
 
-          <div class="overflow-auto border rounded-lg dark:border-gray-700 max-h-[calc(100vh-24rem)]">
+          <div class="overflow-auto border border-gray-200 rounded-lg dark:border-gray-700 max-h-[calc(100vh-24rem)]">
             <!-- Preview Table -->
             <table v-if="previewVisible" class="text-xs w-full border-collapse">
               <thead>
                 <tr class="bg-gray-50 dark:bg-gray-800/80">
-                  <th class="border-b border-r px-2 py-1.5 dark:border-gray-700 sticky left-0 bg-gray-50 dark:bg-gray-800/80 z-1 text-left font-semibold">
+                  <th class="border-b border-r border-gray-200 px-2 py-1.5 dark:border-gray-700 sticky left-0 bg-gray-50 dark:bg-gray-800/80 z-1 text-left font-semibold">
                     {{ t('batchEdit.post_title') }}
                   </th>
                   <th
                     v-for="key in allFrontmatterKeys" :key="key"
-                    class="border-b border-r last:border-r-0 px-2 py-1.5 dark:border-gray-700 whitespace-nowrap text-left font-semibold"
+                    class="border-b border-r border-gray-200 last:border-r-0 px-2 py-1.5 dark:border-gray-700 whitespace-nowrap text-left font-semibold"
                   >
                     {{ key }}
                   </th>
@@ -420,12 +420,12 @@ function getFmValue(post: ClientPageData, key: string): string {
                   v-for="item in previewData" :key="item.filePath"
                   class="hover:bg-gray-50/50 dark:hover:bg-gray-800/30 transition-colors"
                 >
-                  <td class="border-b border-r px-2 py-1 dark:border-gray-700 sticky left-0 bg-white dark:bg-gray-900 z-1 font-medium whitespace-nowrap">
+                  <td class="border-b border-r border-gray-200 px-2 py-1 dark:border-gray-700 sticky left-0 bg-white dark:bg-gray-900 z-1 font-medium whitespace-nowrap">
                     {{ item.title }}
                   </td>
                   <td
                     v-for="key in allFrontmatterKeys" :key="key"
-                    class="border-b border-r last:border-r-0 px-2 py-1 dark:border-gray-700 max-w-40 truncate font-mono"
+                    class="border-b border-r border-gray-200 last:border-r-0 px-2 py-1 dark:border-gray-700 max-w-40 truncate font-mono"
                   >
                     {{ displayFmValue(item.frontmatter[key]) }}
                   </td>
@@ -437,12 +437,12 @@ function getFmValue(post: ClientPageData, key: string): string {
             <table v-else class="text-xs w-full border-collapse">
               <thead>
                 <tr class="bg-gray-50 dark:bg-gray-800/80">
-                  <th class="border-b border-r px-2 py-1.5 dark:border-gray-700 sticky left-0 bg-gray-50 dark:bg-gray-800/80 z-1 text-left font-semibold">
+                  <th class="border-b border-r border-gray-200 px-2 py-1.5 dark:border-gray-700 sticky left-0 bg-gray-50 dark:bg-gray-800/80 z-1 text-left font-semibold">
                     {{ t('batchEdit.post_title') }}
                   </th>
                   <th
                     v-for="key in allFrontmatterKeys" :key="key"
-                    class="border-b border-r last:border-r-0 px-2 py-1.5 dark:border-gray-700 whitespace-nowrap text-left font-semibold"
+                    class="border-b border-r border-gray-200 last:border-r-0 px-2 py-1.5 dark:border-gray-700 whitespace-nowrap text-left font-semibold"
                   >
                     {{ key }}
                   </th>
@@ -453,12 +453,12 @@ function getFmValue(post: ClientPageData, key: string): string {
                   v-for="post in postList.posts.filter(p => checkedPosts.includes(p.filePath))" :key="post.filePath"
                   class="hover:bg-gray-50/50 dark:hover:bg-gray-800/30 transition-colors"
                 >
-                  <td class="border-b border-r px-2 py-1 dark:border-gray-700 sticky left-0 bg-white dark:bg-gray-900 z-1 font-medium whitespace-nowrap">
+                  <td class="border-b border-r border-gray-200 px-2 py-1 dark:border-gray-700 sticky left-0 bg-white dark:bg-gray-900 z-1 font-medium whitespace-nowrap">
                     {{ resolveTitle(post) }}
                   </td>
                   <td
                     v-for="key in allFrontmatterKeys" :key="key"
-                    class="border-b border-r last:border-r-0 px-2 py-1 dark:border-gray-700 max-w-40 truncate font-mono"
+                    class="border-b border-r border-gray-200 last:border-r-0 px-2 py-1 dark:border-gray-700 max-w-40 truncate font-mono"
                   >
                     {{ getFmValue(post, key) }}
                   </td>
