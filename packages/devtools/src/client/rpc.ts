@@ -10,8 +10,16 @@ async function request<T>(path: string, method: string, body?: unknown): Promise
       body: JSON.stringify(body),
     }),
   })
-  if (!res.ok)
-    throw new Error(`HTTP ${res.status}: ${res.statusText}`)
+  if (!res.ok) {
+    let message = `HTTP ${res.status}: ${res.statusText}`
+    try {
+      const body = await res.json()
+      if (body?.error)
+        message = body.error
+    }
+    catch {}
+    throw new Error(message)
+  }
   return res.json()
 }
 

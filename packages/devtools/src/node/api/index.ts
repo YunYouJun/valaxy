@@ -123,9 +123,19 @@ export function registerApi(server: ViteDevServer, _viteConfig: ResolvedConfig, 
   // POST /frontmatter — update single page frontmatter
   // POST /frontmatter/batch — batch update frontmatter
   app.use(`${prefix}/frontmatter/batch`, createRoute({
-    POST: async (req) => {
+    POST: async (req, res) => {
       const body = (req as any).body
       const { filePaths, operations } = body
+      if (!Array.isArray(filePaths) || !Array.isArray(operations)) {
+        sendError(res, 400, 'Invalid request: filePaths and operations must be arrays')
+        return
+      }
+      for (const op of operations) {
+        if (!op || typeof op.type !== 'string' || typeof op.key !== 'string') {
+          sendError(res, 400, 'Invalid operation: each operation must have type and key')
+          return
+        }
+      }
       return functions.batchUpdateFrontmatter(filePaths, operations)
     },
   }))

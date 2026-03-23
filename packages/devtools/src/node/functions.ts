@@ -123,13 +123,20 @@ export function getFunctions(server: ViteDevServer, devtoolsOptions: ValaxyDevto
 
     async updateFrontmatter(req) {
       const { filePath, frontmatter: newFm } = req
-      if (!fs.existsSync(filePath))
-        throw new Error(`File not found: ${filePath}`)
-      const rawMd = await fs.readFile(filePath, 'utf-8')
+      // Validate file path is within userRoot/pages and is a .md file
+      const pagesDir = pathe.resolve(userRoot, 'pages')
+      const resolved = pathe.resolve(filePath)
+      const rel = pathe.relative(pagesDir, resolved)
+      if (rel.startsWith('..') || pathe.isAbsolute(rel) || !resolved.endsWith('.md'))
+        throw new Error('Invalid file path: must be within pages directory and end with .md')
+
+      if (!fs.existsSync(resolved))
+        throw new Error(`File not found: ${resolved}`)
+      const rawMd = await fs.readFile(resolved, 'utf-8')
       const matterFile = matter(rawMd)
       matterFile.data = newFm
       const newMd = matter.stringify(matterFile.content, matterFile.data)
-      await fs.writeFile(filePath, newMd)
+      await fs.writeFile(resolved, newMd)
       return { success: true }
     },
 
@@ -248,17 +255,18 @@ export function getFunctions(server: ViteDevServer, devtoolsOptions: ValaxyDevto
         try {
           // Validate file path is within userRoot/pages and is a .md file
           const resolved = pathe.resolve(filePath)
-          if (!resolved.startsWith(pagesDir) || !resolved.endsWith('.md')) {
+          const rel = pathe.relative(pagesDir, resolved)
+          if (rel.startsWith('..') || pathe.isAbsolute(rel) || !resolved.endsWith('.md')) {
             result.errors.push({ filePath, error: 'Invalid file path: must be within pages directory and end with .md' })
             continue
           }
 
-          if (!await fs.pathExists(filePath)) {
+          if (!await fs.pathExists(resolved)) {
             result.errors.push({ filePath, error: 'File not found' })
             continue
           }
 
-          const rawMd = await fs.readFile(filePath, 'utf-8')
+          const rawMd = await fs.readFile(resolved, 'utf-8')
           const matterFile = matter(rawMd)
           let modified = false
 
@@ -290,7 +298,7 @@ export function getFunctions(server: ViteDevServer, devtoolsOptions: ValaxyDevto
 
           if (modified) {
             const newMd = matter.stringify(matterFile.content, matterFile.data)
-            await fs.writeFile(filePath, newMd)
+            await fs.writeFile(resolved, newMd)
             result.updated++
           }
         }
@@ -332,6 +340,10 @@ export function getFunctions(server: ViteDevServer, devtoolsOptions: ValaxyDevto
           // User specified a path like 'my-post.md' or 'sub/my-post.md'
           const normalized = customPath.endsWith('.md') ? customPath : `${customPath}.md`
           filePath = pathe.resolve(postsDir, normalized)
+          // Validate resolved path stays under postsDir
+          const rel = pathe.relative(postsDir, filePath)
+          if (rel.startsWith('..') || pathe.isAbsolute(rel))
+            return { success: false, error: 'Invalid path: must be within posts directory' }
         }
         else {
           // Auto-generate from title (kebab-case)

@@ -58,13 +58,13 @@ const sortedAndFilteredPosts = computed(() => {
 
   if (order === 'date') {
     return posts.sort((a, b) => {
-      return (toTimestamp(b.frontmatter.date) - toTimestamp(a.frontmatter.date)) * direction
+      return (toTimestamp(a.frontmatter.date) - toTimestamp(b.frontmatter.date)) * direction
     })
   }
 
   // default: 'updated'
   return posts.sort((a, b) => {
-    return (toTimestamp(b.frontmatter.updated || b.frontmatter.date) - toTimestamp(a.frontmatter.updated || a.frontmatter.date)) * direction
+    return (toTimestamp(a.frontmatter.updated || a.frontmatter.date) - toTimestamp(b.frontmatter.updated || b.frontmatter.date)) * direction
   })
 })
 </script>
