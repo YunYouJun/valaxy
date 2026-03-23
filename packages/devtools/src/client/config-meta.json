@@ -1,0 +1,455 @@
+{
+  "generated": "2026-03-23T00:00:00.000Z",
+  "siteConfig": [
+    {
+      "name": "mode",
+      "type": "'light' | 'dark' | 'auto'",
+      "description": "Enable auto light/dark mode",
+      "descriptionZh": "启用自动亮色/暗色模式",
+      "default": "'auto'"
+    },
+    {
+      "name": "lang",
+      "type": "string",
+      "description": "Default language",
+      "descriptionZh": "默认语言，设置 'zh-CN' 以改变默认语言为中文",
+      "default": "'en'"
+    },
+    {
+      "name": "languages",
+      "type": "string[]",
+      "description": "Alternative languages",
+      "descriptionZh": "可选语言",
+      "default": "['en', 'zh-CN']"
+    },
+    {
+      "name": "url",
+      "type": "string",
+      "description": "Site URL in web, required for SSG & RSS",
+      "descriptionZh": "站点的完整 URL，SSG & RSS 需要",
+      "default": "'/'"
+    },
+    {
+      "name": "timezone",
+      "type": "string",
+      "description": "Timezone configuration",
+      "descriptionZh": "时区配置，国内推荐使用 'Asia/Shanghai'",
+      "default": "''"
+    },
+    {
+      "name": "title",
+      "type": "string",
+      "description": "Site title",
+      "descriptionZh": "站点标题"
+    },
+    {
+      "name": "subtitle",
+      "type": "string",
+      "description": "Site subtitle",
+      "descriptionZh": "副标题"
+    },
+    {
+      "name": "description",
+      "type": "string",
+      "description": "Site description",
+      "descriptionZh": "站点描述"
+    },
+    {
+      "name": "author",
+      "type": "object",
+      "description": "The owner of this blog",
+      "descriptionZh": "博客作者",
+      "children": [
+        {
+          "name": "name",
+          "type": "string",
+          "description": "Your name",
+          "descriptionZh": "你的名字"
+        },
+        {
+          "name": "email",
+          "type": "string",
+          "description": "Your email",
+          "descriptionZh": "邮箱"
+        },
+        {
+          "name": "link",
+          "type": "string",
+          "description": "Your profile link",
+          "descriptionZh": "个人链接"
+        },
+        {
+          "name": "avatar",
+          "type": "string",
+          "description": "Avatar URL",
+          "descriptionZh": "头像 URL"
+        },
+        {
+          "name": "intro",
+          "type": "string",
+          "description": "Personal introduction",
+          "descriptionZh": "个人简介"
+        },
+        {
+          "name": "status",
+          "type": "object",
+          "description": "The status of you",
+          "descriptionZh": "状态",
+          "children": [
+            {
+              "name": "emoji",
+              "type": "string",
+              "description": "Emoji representation of your status like '👨‍💻'",
+              "descriptionZh": "你的状态的 Emoji 表示"
+            },
+            {
+              "name": "message",
+              "type": "string",
+              "description": "Show when hover emoji",
+              "descriptionZh": "当鼠标悬浮在图标上时显示"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "favicon",
+      "type": "string",
+      "description": "Icon for your website",
+      "descriptionZh": "站点图标"
+    },
+    {
+      "name": "orderBy",
+      "type": "'date' | 'updated'",
+      "description": "Order posts by 'date' or 'updated'",
+      "descriptionZh": "按创建时间或更新时间排序",
+      "default": "'date'"
+    },
+    {
+      "name": "lastUpdated",
+      "type": "boolean",
+      "description": "Show last updated time by git/mtime",
+      "descriptionZh": "显示最后更新时间",
+      "default": "false"
+    },
+    {
+      "name": "pageSize",
+      "type": "number",
+      "description": "Posts per page",
+      "descriptionZh": "每页显示的文章数",
+      "default": "7"
+    },
+    {
+      "name": "search",
+      "type": "object",
+      "description": "Search engine for your site",
+      "descriptionZh": "搜索功能",
+      "children": [
+        {
+          "name": "enable",
+          "type": "boolean",
+          "description": "Enable search",
+          "descriptionZh": "是否启用",
+          "default": "false"
+        },
+        {
+          "name": "provider",
+          "type": "'algolia' | 'engine' | 'fuse' | 'local'",
+          "description": "Search provider type",
+          "descriptionZh": "搜索提供商类型",
+          "default": "'fuse'"
+        }
+      ]
+    },
+    {
+      "name": "comment",
+      "type": "object",
+      "description": "Comment system",
+      "descriptionZh": "评论系统",
+      "children": [
+        {
+          "name": "enable",
+          "type": "boolean",
+          "description": "Enable comment",
+          "descriptionZh": "启用评论",
+          "default": "false"
+        }
+      ]
+    },
+    {
+      "name": "feed",
+      "type": "object",
+      "description": "Feed configuration",
+      "descriptionZh": "RSS 订阅配置",
+      "children": [
+        {
+          "name": "name",
+          "type": "string",
+          "description": "Feed file name",
+          "descriptionZh": "订阅文件名",
+          "default": "''"
+        },
+        {
+          "name": "favicon",
+          "type": "string",
+          "description": "Feed favicon",
+          "descriptionZh": "订阅图标",
+          "default": "'/favicon.svg'"
+        }
+      ]
+    },
+    {
+      "name": "license",
+      "type": "object",
+      "description": "Post license configuration",
+      "descriptionZh": "文章所使用的协议",
+      "children": [
+        {
+          "name": "enabled",
+          "type": "boolean",
+          "description": "Whether to show at the bottom of the article",
+          "descriptionZh": "是否显示在文章底部",
+          "default": "true"
+        },
+        {
+          "name": "language",
+          "type": "string",
+          "description": "Creative License Language",
+          "descriptionZh": "协议语言，默认与站点语言相同",
+          "default": "'en'"
+        },
+        {
+          "name": "type",
+          "type": "'zero' | 'by-sa' | 'by-nd' | 'by-nc' | 'by-nc-sa' | 'by-nc-nd'",
+          "description": "Type of license",
+          "descriptionZh": "证书类型",
+          "default": "'by-nc-sa'"
+        }
+      ]
+    },
+    {
+      "name": "sponsor",
+      "type": "object",
+      "description": "Donate/sponsor configuration",
+      "descriptionZh": "打赏/赞助",
+      "children": [
+        {
+          "name": "enable",
+          "type": "boolean",
+          "description": "Enable sponsor",
+          "descriptionZh": "启用赞助",
+          "default": "true"
+        },
+        {
+          "name": "title",
+          "type": "string",
+          "description": "Donate button title",
+          "descriptionZh": "打赏按钮的 title 属性"
+        },
+        {
+          "name": "description",
+          "type": "string",
+          "description": "Donate content description",
+          "descriptionZh": "打赏的描述内容"
+        }
+      ]
+    },
+    {
+      "name": "excerpt",
+      "type": "object",
+      "description": "Excerpt configuration",
+      "descriptionZh": "全局摘要配置",
+      "children": [
+        {
+          "name": "type",
+          "type": "'html' | 'text'",
+          "description": "Default excerpt render type",
+          "descriptionZh": "默认摘要渲染类型",
+          "default": "'html'"
+        },
+        {
+          "name": "auto",
+          "type": "boolean",
+          "description": "Auto-generate excerpt from post content",
+          "descriptionZh": "自动从文章内容截取摘要",
+          "default": "false"
+        },
+        {
+          "name": "length",
+          "type": "number",
+          "description": "Maximum length of auto-generated excerpt",
+          "descriptionZh": "自动摘要的最大长度（字符数）",
+          "default": "200"
+        }
+      ]
+    },
+    {
+      "name": "cdn",
+      "type": "object",
+      "description": "CDN configuration for third-party plugins",
+      "descriptionZh": "第三方插件 CDN 配置",
+      "children": [
+        {
+          "name": "prefix",
+          "type": "string",
+          "description": "CDN prefix URL",
+          "descriptionZh": "CDN 前缀 URL",
+          "default": "'https://unpkg.com/'"
+        }
+      ]
+    },
+    {
+      "name": "mediumZoom",
+      "type": "object",
+      "description": "Image preview by medium-zoom",
+      "descriptionZh": "图片预览 (medium-zoom)",
+      "children": [
+        {
+          "name": "enable",
+          "type": "boolean",
+          "description": "Enable image preview",
+          "descriptionZh": "启用图片预览",
+          "default": "false"
+        }
+      ]
+    },
+    {
+      "name": "vanillaLazyload",
+      "type": "object",
+      "description": "Lazyload by vanilla-lazyload",
+      "descriptionZh": "图片懒加载 (vanilla-lazyload)",
+      "children": [
+        {
+          "name": "enable",
+          "type": "boolean",
+          "description": "Enable lazy loading",
+          "descriptionZh": "启用懒加载",
+          "default": "false"
+        }
+      ]
+    },
+    {
+      "name": "statistics",
+      "type": "object",
+      "description": "Statistics: reading time and word count",
+      "descriptionZh": "统计阅读时间和字数",
+      "children": [
+        {
+          "name": "enable",
+          "type": "boolean",
+          "description": "Enable statistics",
+          "descriptionZh": "启用统计",
+          "default": "false"
+        },
+        {
+          "name": "readTime",
+          "type": "object",
+          "description": "Read time configuration",
+          "descriptionZh": "阅读时间配置",
+          "children": [
+            {
+              "name": "speed",
+              "type": "object",
+              "description": "Reading speed",
+              "descriptionZh": "阅读速度",
+              "children": [
+                {
+                  "name": "cn",
+                  "type": "number",
+                  "description": "Chinese words per minute",
+                  "descriptionZh": "中文每分钟阅读字数",
+                  "default": "300"
+                },
+                {
+                  "name": "en",
+                  "type": "number",
+                  "description": "English words per minute",
+                  "descriptionZh": "英文每分钟阅读字数",
+                  "default": "100"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "encrypt",
+      "type": "object",
+      "description": "Encrypt article",
+      "descriptionZh": "加密文章",
+      "children": [
+        {
+          "name": "enable",
+          "type": "boolean",
+          "description": "Enable encryption",
+          "descriptionZh": "启用加密",
+          "default": "false"
+        },
+        {
+          "name": "algorithm",
+          "type": "string",
+          "description": "Encryption algorithm",
+          "descriptionZh": "加密算法",
+          "default": "'AES-CBC'"
+        }
+      ]
+    },
+    {
+      "name": "codeHeightLimit",
+      "type": "number",
+      "description": "Limit the height of code blocks in px",
+      "descriptionZh": "限制代码块的高度，单位是 px"
+    },
+    {
+      "name": "llms",
+      "type": "object",
+      "description": "llms.txt and raw Markdown file output",
+      "descriptionZh": "llms.txt 及原始 Markdown 文件输出",
+      "children": [
+        {
+          "name": "enable",
+          "type": "boolean",
+          "description": "Enable llms.txt and raw .md file output",
+          "descriptionZh": "是否开启 llms.txt 和 .md 原始文件输出",
+          "default": "false"
+        },
+        {
+          "name": "fullText",
+          "type": "boolean",
+          "description": "Whether to generate llms-full.txt",
+          "descriptionZh": "是否生成 llms-full.txt",
+          "default": "true"
+        },
+        {
+          "name": "files",
+          "type": "boolean",
+          "description": "Whether to generate individual .md files",
+          "descriptionZh": "是否为每篇文章生成独立的 .md 文件",
+          "default": "true"
+        },
+        {
+          "name": "prompt",
+          "type": "string",
+          "description": "Custom prompt text for llms.txt",
+          "descriptionZh": "自定义提示词",
+          "default": "''"
+        }
+      ]
+    }
+  ],
+  "valaxyConfig": [
+    {
+      "name": "theme",
+      "type": "string",
+      "description": "The name of theme",
+      "descriptionZh": "主题名称"
+    },
+    {
+      "name": "themeConfig",
+      "type": "object",
+      "description": "Theme-specific configuration",
+      "descriptionZh": "主题配置，请参考对应主题的相关文档"
+    }
+  ]
+}

@@ -16,6 +16,8 @@ export default defineConfig(() => {
   return {
     base: './',
 
+    publicDir: path.resolve(__dirname, 'public'),
+
     resolve: {
       alias: {
         '~/': __dirname,
@@ -79,6 +81,7 @@ export default defineConfig(() => {
         include: [/\.vue$/, /\.md$/],
       }),
       VueComponents({
+        dirs: [path.join(__dirname, 'components')],
         dts: path.join(__dirname, 'components.d.ts'),
       }),
       Unocss(unoConfig),
@@ -101,14 +104,13 @@ export default defineConfig(() => {
     optimizeDeps: {
       include: [
         'dayjs',
-        'primevue/datepicker',
+        'dayjs/locale/zh-cn',
+        'dayjs/plugin/relativeTime',
         '@vueuse/core',
       ],
       exclude: [
         'valaxy',
         '@valaxyjs/devtools',
-        'vite-hot-client',
-        'vite-dev-rpc',
       ],
     },
 

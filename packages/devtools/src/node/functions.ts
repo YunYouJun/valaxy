@@ -7,6 +7,7 @@ import fg from 'fast-glob'
 import fs from 'fs-extra'
 import matter from 'gray-matter'
 import pathe from 'pathe'
+import { DANGEROUS_FIELD_KEYS, readConfigs, writeConfigField } from './utils/config-rw'
 
 function ensurePrefix(prefix: string, str: string) {
   if (!str.startsWith(prefix))
@@ -222,6 +223,8 @@ export function getFunctions(server: ViteDevServer, devtoolsOptions: ValaxyDevto
     },
 
     async batchUpdateFrontmatter(filePaths: string[], operations: BatchFrontmatterOperation[]) {
+      const pagesDir = pathe.resolve(userRoot, 'pages')
+
       const result = {
         total: filePaths.length,
         updated: 0,
@@ -230,6 +233,13 @@ export function getFunctions(server: ViteDevServer, devtoolsOptions: ValaxyDevto
 
       for (const filePath of filePaths) {
         try {
+          // Validate file path is within userRoot/pages and is a .md file
+          const resolved = pathe.resolve(filePath)
+          if (!resolved.startsWith(pagesDir) || !resolved.endsWith('.md')) {
+            result.errors.push({ filePath, error: 'Invalid file path: must be within pages directory and end with .md' })
+            continue
+          }
+
           if (!await fs.pathExists(filePath)) {
             result.errors.push({ filePath, error: 'File not found' })
             continue
@@ -240,6 +250,10 @@ export function getFunctions(server: ViteDevServer, devtoolsOptions: ValaxyDevto
           let modified = false
 
           for (const op of operations) {
+            // Reject dangerous keys to prevent prototype pollution
+            if (DANGEROUS_FIELD_KEYS.has(op.key) || (op.newKey && DANGEROUS_FIELD_KEYS.has(op.newKey)))
+              continue
+
             switch (op.type) {
               case 'set':
                 matterFile.data[op.key] = op.value
@@ -273,6 +287,20 @@ export function getFunctions(server: ViteDevServer, devtoolsOptions: ValaxyDevto
       }
 
       return result
+    },
+
+    async getConfig() {
+      return readConfigs(userRoot)
+    },
+
+    async updateConfigField(configType, fieldPath, value) {
+      try {
+        await writeConfigField(userRoot, configType, fieldPath, value)
+        return { success: true }
+      }
+      catch (e: any) {
+        return { success: false, error: e.message || String(e) }
+      }
     },
   }
 }

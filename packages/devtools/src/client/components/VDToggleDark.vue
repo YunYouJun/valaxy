@@ -6,7 +6,7 @@ const { t } = useI18n()
 </script>
 
 <template>
-  <MenuBarBtn :title="t('button.toggle_dark')" @click="toggleDark()">
+  <VDMenuBarBtn :title="t('button.toggle_dark')" @click="toggleDark()">
     <div i="carbon-sun dark:carbon-moon" />
-  </MenuBarBtn>
+  </VDMenuBarBtn>
 </template>

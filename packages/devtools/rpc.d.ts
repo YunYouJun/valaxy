@@ -19,6 +19,22 @@ export interface BatchUpdateResult {
   errors: { filePath: string, error: string }[]
 }
 
+export interface ConfigData {
+  siteConfig: Record<string, any>
+  valaxyConfig: Record<string, any>
+  themeConfig: Record<string, any>
+  siteConfigExists: boolean
+  valaxyConfigExists: boolean
+  siteConfigPath: string
+  valaxyConfigPath: string
+}
+
+export interface ConfigUpdateRequest {
+  configType: 'site' | 'valaxy' | 'theme'
+  fieldPath: string
+  value: any
+}
+
 export interface ServerFunctions {
   // add: (a: number, b: number) => number
   /**
@@ -41,6 +57,14 @@ export interface ServerFunctions {
    * 批量修改文章的 frontmatter
    */
   batchUpdateFrontmatter: (filePaths: string[], operations: BatchFrontmatterOperation[]) => Promise<BatchUpdateResult>
+  /**
+   * 获取配置数据
+   */
+  getConfig: () => Promise<ConfigData>
+  /**
+   * 更新配置字段
+   */
+  updateConfigField: (configType: 'site' | 'valaxy' | 'theme', fieldPath: string, value: any) => Promise<{ success: boolean, error?: string }>
 }
 
 export interface ClientFunctions {

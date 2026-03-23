@@ -1,13 +1,10 @@
 import type { Plugin, ResolvedConfig, ViteDevServer } from 'vite'
-import type { ClientFunctions, ServerFunctions } from '../../rpc'
 import type { ValaxyDevtoolsOptions } from './types'
 import { colors } from 'consola/utils'
 import sirv from 'sirv'
-import { createRPCServer } from 'vite-dev-rpc'
 import { NAMESPACE } from '../config'
 import { DIR_CLIENT } from '../dir'
 import { registerApi } from './api'
-import { getFunctions } from './functions'
 
 export function ValaxyDevtools(options: ValaxyDevtoolsOptions = {}): Plugin {
   let config: ResolvedConfig
@@ -16,9 +13,6 @@ export function ValaxyDevtools(options: ValaxyDevtoolsOptions = {}): Plugin {
   function configureServer(server: ViteDevServer) {
     const _print = server.printUrls
     const base = (options.base ?? server.config.base) || '/'
-
-    const functions = getFunctions(server, options)
-    createRPCServer<ClientFunctions, ServerFunctions>(NAMESPACE, server.ws, functions)
 
     const devtoolsUrl = `${base}__valaxy_devtools__/`
     if (!isDevDevtools) {
@@ -51,7 +45,7 @@ export function ValaxyDevtools(options: ValaxyDevtoolsOptions = {}): Plugin {
     }
 
     // register api to vite.server
-    registerApi(server, config)
+    registerApi(server, config, options)
   }
 
   const plugin = <Plugin>{

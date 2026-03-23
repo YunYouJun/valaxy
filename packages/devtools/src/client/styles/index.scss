@@ -4,6 +4,11 @@
   .splitpanes__splitter {
     background-color: var(--c-divider);
   }
+
+  // Disable splitpanes transition to prevent panel deformation on page switch
+  .splitpanes__pane {
+    transition: none !important;
+  }
 }
 
 

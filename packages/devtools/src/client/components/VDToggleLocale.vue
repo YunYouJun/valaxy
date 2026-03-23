@@ -21,7 +21,7 @@ async function toggleLocales() {
 </script>
 
 <template>
-  <MenuBarBtn :title="t('button.toggle_langs')" style="color:var(--va-c-text)" @click="toggleLocales">
+  <VDMenuBarBtn :title="t('button.toggle_langs')" style="color:var(--va-c-text)" @click="toggleLocales">
     <div i-ri-translate class="transition transform" :class="locale === 'en' ? 'rotate-y-180' : ''" />
-  </MenuBarBtn>
+  </VDMenuBarBtn>
 </template>

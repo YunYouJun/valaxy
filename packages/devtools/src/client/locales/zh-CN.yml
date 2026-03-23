@@ -1,5 +1,4 @@
 button:
-  about: 关于
   back: 返回
   go: 确定
   home: 首页
@@ -34,6 +33,9 @@ frontmatter:
 batchEdit:
   title: 批量编辑 Frontmatter
   operations: 操作列表
+  op_set: 设置
+  op_delete: 删除
+  op_rename: 重命名
   field_key: 字段名
   field_value: 值
   new_key: 新字段名
@@ -46,5 +48,138 @@ batchEdit:
   current_frontmatter: 当前 Frontmatter
   post_title: 标题
   execute: 应用更改
+  no_posts: 未找到文章
+  empty_hint: 从左侧面板选择文章以开始操作
+  summary: '{ops} 项操作应用于 {posts} 篇文章'
+  confirm: '确认对 {posts} 篇文章执行 {ops} 项操作？'
+  confirm_yes: 确认
+  confirm_no: 取消
   result_success: '成功更新 {updated}/{total} 篇文章。'
   result_partial: '已更新 {updated}/{total} 篇文章，{errors} 篇出错。'
+
+categories:
+  title: 分类
+  all: 选择一个分类以查看文章
+  empty: 未找到分类
+  posts_count: '{count} 篇文章'
+
+tags:
+  title: 标签
+  all: 所有标签
+  selected: 已选
+  empty: 未找到标签
+
+dashboard:
+  title: 仪表盘
+  recent_posts: 最近文章
+  top_tags: 热门标签
+  top_categories: 热门分类
+  published_posts: 已发布
+  view_all: 查看全部
+  user_root: 用户目录
+  open_folder: 打开文件夹
+  open_in_editor: 编辑器打开
+  stats: 统计
+  total_posts: 文章总数
+  draft_posts: 草稿
+  total_categories: 分类数
+  total_tags: 标签数
+
+archives:
+  title: 归档
+  posts_count: '{count} 篇文章'
+
+nav:
+  dashboard: 仪表盘
+  posts: 文章
+  archives: 归档
+  categories: 分类
+  tags: 标签
+  collections: 合集
+  batch_edit: 批量编辑
+  config: 配置
+  settings: 设置
+  docs: 文档
+
+posts:
+  title: 文章
+  detail: 详情
+  empty_hint: 选择一篇文章查看详情
+  empty_hint_sub: 从左侧列表中选择
+
+devtools:
+  select_post_hint: 从左侧列表选择一篇文章以编辑 Frontmatter
+
+settings:
+  title: 设置
+  site_url: 站点地址
+  site_url_desc: 独立模式下点击文章跳转的目标地址
+  sort_order: 排序方式
+  sort_order_updated: 更新时间
+  sort_order_date: 创建时间
+  sort_order_title: 标题
+  list_density: 列表密度
+  density_compact: 紧凑
+  density_comfortable: 舒适
+  reset: 恢复默认
+
+footer:
+  documentation: 文档
+  github: GitHub
+
+config:
+  title: 配置
+  quick_edit: 快速编辑
+  all_options: 所有选项
+  loading: 正在加载配置...
+  no_data: 暂无配置数据
+  saved: 保存成功
+  save_failed: 保存失败
+  copy_snippet: 复制代码片段
+  open_in_editor: 在编辑器中打开
+  open_site_config: 打开 site.config.ts
+  open_valaxy_config: 打开 valaxy.config.ts
+  search_placeholder: 搜索配置项...
+  no_theme_config: 未找到主题配置字段。请编辑 valaxy.config.ts 添加 themeConfig。
+  tab_site: 站点信息
+  tab_author: 作者
+  tab_features: 功能
+  tab_build: 构建
+  tab_theme: 主题
+  field_title: 标题
+  field_subtitle: 副标题
+  field_description: 描述
+  field_url: 站点 URL
+  field_mode: 模式
+  field_lang: 语言
+  field_favicon: 图标
+  field_page_size: 每页文章数
+  field_author_name: 名称
+  field_author_email: 邮箱
+  field_author_link: 个人链接
+  field_author_avatar: 头像
+  field_author_intro: 简介
+  field_author_status: 状态
+  field_status_emoji: Emoji
+  field_status_message: 消息
+  field_search_enable: 启用搜索
+  field_search_provider: 搜索提供商
+  field_comment_enable: 启用评论
+  field_license_enabled: 显示协议
+  field_license_type: 协议类型
+  field_sponsor_enable: 启用赞助
+  field_last_updated: 显示最后更新时间
+  field_statistics_enable: 启用统计
+  field_medium_zoom: 启用图片预览
+  field_llms_enable: 启用 llms.txt
+  field_llms_full_text: 生成 llms-full.txt
+  field_theme: 主题
+  field_order_by: 文章排序
+  field_excerpt_auto: 自动摘要
+  field_excerpt_length: 摘要长度
+  group_search: 搜索
+  group_comment: 评论
+  group_license: 协议
+  group_sponsor: 赞助
+  group_excerpt: 摘要
+  group_llms: LLMs
