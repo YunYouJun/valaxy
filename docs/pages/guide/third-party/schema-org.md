@@ -1,7 +1,5 @@
 ---
-title:
-  en: Schema.org And OPG for SEO
-  zh-CN: Schema.org 和 OPG 用于 SEO
+title: Schema.org And OPG for SEO
 categories:
   - third
 top: 0
@@ -14,15 +12,15 @@ top: 0
 - [Schema.org](https://schema.org/)
 :::
 
-采用 [Schema.org](https://schema.org/) 标准，可以让搜索引擎更好地理解网站内容，从而提高网站在搜索结果中的排名。
+By adopting the [Schema.org](https://schema.org/) standard, search engines can better understand your website content, thereby improving your website's ranking in search results.
 
-基于 [@unhead/schema-org](https://unhead.unjs.io/docs/typescript/schema-org/guides/get-started/overview) 实现。
+Implemented based on [@unhead/schema-org](https://unhead.unjs.io/docs/typescript/schema-org/guides/get-started/overview).
 
-- Identity 采用了 Person (Personal Website or Blog)
+- Identity uses Person (Personal Website or Blog)
 
 > [Person | @unhead/schema.org](https://unhead.unjs.io/docs/typescript/schema-org/guides/recipes/identity#person)
 
 ## Validators
 
-- [Google 富媒体搜索结果测试](https://search.google.com/test/rich-results)
-- [架构标记验证器](https://validator.schema.org/)
+- [Google Rich Results Test](https://search.google.com/test/rich-results)
+- [Schema Markup Validator](https://validator.schema.org/)

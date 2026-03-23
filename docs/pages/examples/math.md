@@ -10,9 +10,9 @@ categories:
 ---
 
 ::: tip
-Valaxy 支持两种数学渲染引擎：[KaTeX](https://katex.org/)（默认，渲染快）和 [MathJax](https://www.mathjax.org/)（SVG 输出，无需外部 CSS/字体）。
+Valaxy supports two math rendering engines: [KaTeX](https://katex.org/) (default, fast rendering) and [MathJax](https://www.mathjax.org/) (SVG output, no external CSS/fonts needed).
 
-当前文档站使用 MathJax 渲染。
+The current documentation site uses MathJax for rendering.
 :::
 
 ## 行内公式
@@ -124,11 +124,11 @@ $$
 $$
 ```
 
-## MathJax 特有功能
+## MathJax-Specific Features
 
-MathJax 相比 KaTeX 支持更多 LaTeX 扩展。以下是一些 MathJax 的额外功能示例：
+MathJax supports more LaTeX extensions compared to KaTeX. Here are some examples of additional features available in MathJax:
 
-### 化学方程式
+### Chemical Equations
 
 $$
 \ce{CO2 + C -> 2 CO}

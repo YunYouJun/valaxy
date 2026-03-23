@@ -8,30 +8,30 @@ top: 50
 
 ::: tip
 
-Valaxy 与 Vite/Vue 的生态完全兼容，因此你在编写主题时，可以任意使用第三方的 `Vite`/`Vue` 插件。
+Valaxy is fully compatible with the Vite/Vue ecosystem, so you can freely use third-party `Vite`/`Vue` plugins when writing themes.
 
 - [Authoring a Plugin | Vite](https://vitejs.dev/guide/api-plugin.html#authoring-a-plugin)
 - [Writing a Plugin | Vue](https://vuejs.org/guide/reusability/plugins.html#writing-a-plugin)
 
 :::
 
-Valaxy 主题无需预编译，直接发布源文件即可。
+Valaxy themes don't need pre-compilation; you can directly publish the source files.
 
-撰写中...
+Work in progress...
 
-作为 Valaxy 作者，我可以很轻松的实现自己的主题。
-但也因此，我可能很难了解真正主题开发者的需求。
+As the author of Valaxy, I can easily implement my own themes.
+However, this also means I may have difficulty understanding the real needs of theme developers.
 
-因此，如果你有任何开发主题的相关问题，
-可前往 QQ 频道[「云乐坊」](https://pd.qq.com/s/grfe9jxoe) 或发起 [Discussions](https://github.com/YunYouJun/valaxy/discussions) 与我交流，我将会为您提供尽可能的帮助，并针对泛化的问题撰写文档。
+Therefore, if you have any questions about developing themes,
+please visit the QQ Channel ["Yun Le Fang"](https://pd.qq.com/s/grfe9jxoe) or start a [Discussion](https://github.com/YunYouJun/valaxy/discussions) to communicate with me. I will provide as much help as possible and write documentation for common issues.
 
-> 对了，由于目前的主题并不多，主题作者可以在[这里](/themes/gallery)发现一些来自云游君私人的奖励。
+> By the way, since there aren't many themes yet, theme authors can discover some personal rewards from YunYouJun [here](/themes/gallery).
 
-## 主题示例
+## Theme Examples
 
-- [valaxy-theme-starter](https://github.com/valaxyjs/valaxy-theme-starter): Valaxy 主题开发模版
-- [valaxy-theme-yun](https://github.com/YunYouJun/valaxy/tree/main/packages/valaxy-theme-yun): valaxy-theme-yun 一个更完善的主题示例
-- [valaxy-theme-press](https://github.com/YunYouJun/valaxy/tree/main/packages/valaxy-theme-press): valaxy-theme-press 当前文档主题示例
+- [valaxy-theme-starter](https://github.com/valaxyjs/valaxy-theme-starter): Valaxy theme development template
+- [valaxy-theme-yun](https://github.com/YunYouJun/valaxy/tree/main/packages/valaxy-theme-yun): valaxy-theme-yun, a more complete theme example
+- [valaxy-theme-press](https://github.com/YunYouJun/valaxy/tree/main/packages/valaxy-theme-press): valaxy-theme-press, the current documentation theme example
 
 ## 创建主题模板
 
@@ -44,7 +44,7 @@ Valaxy 主题无需预编译，直接发布源文件即可。
 :::
 
 ```bash
-# 使用 valaxy-theme-starter 模版
+# Use valaxy-theme-starter template
 pnpm create valaxy
 # choose Theme
 ```
@@ -55,48 +55,48 @@ pnpm create valaxy
 
 > 尽管它们看起来很多，但是大部分都是可选的，你可以根据主题的需求按需编写。
 
-- `App.vue`: 主题的入口文件，用于挂载全局的主题组件
-- `README.md`: 主题的说明文档（毫无疑问，这是必不可少的 :P）
-- `client`：主题所暴露给用户的客户端辅助函数
-  - `index.ts`: 主题的客户端辅助函数入口文件
-- `components`: 主题的组件
-  - `ValaxyMain.vue`: 主题的文章渲染组件
-  - `YunSidebar.vue`: 主题的侧边栏组件
-  - `YunSponsor.vue`: 主题的赞助组件
-  - `YunWaline.vue`: 第三方评论 Waline 适配组件
-- `composables`: 辅助的 Composition API
-  - `config.ts`: 主题的配置文件
-  - `helper.ts`: 主题的辅助函数
-  - `index.ts`: 主题的 Composition API 入口文件
-  - `post.ts`: 主题的文章相关的辅助函数
-- `docs`: 主题的文档（自由用你喜欢的结构组织并展示吧！）
-  > 出于定制化与 [DogFooding](https://zh.wikipedia.org/zh-sg/%E5%90%83%E8%87%AA%E5%B7%B1%E7%9A%84%E7%8B%97%E7%B2%AE) 的考虑，Valaxy 的文档采用自身制作，并制作了一个文档主题 [valaxy-theme-press](https://github.com/YunYouJun/valaxy/tree/main/packages/valaxy-theme-press)，如果你只是想要一个简单轻量的文档站点，[Vitepress](https://vitepress.vuejs.org/) 是个不错的选择。（[valaxy-theme-starter](https://github.com/valaxyjs/valaxy-theme-starter) 在未来也许会内置该示例模版。）
-  - `en-US`: 英文文档
-  - `zh-CN`: 中文文档
-- `features`: 主题特色功能，一些不依赖于 Vue Composition API 的功能（区别于 `composables`）
-  - `fireworks.ts`: 烟花点击效果
-- `layouts`: 主题的布局（扩展更多布局）
-  - `default.vue`: 默认布局
-  - `home.vue`: 首页布局
-  - `layout.vue`: 文章列表布局
-  - `post.vue`: 文章布局（放置于 `pages/posts/` 文件夹下的文章默认为 `post 布局）
-  - `tags.vue`: 标签布局
-- `locales`: 主题的多语言支持
-  - `en.yml`: 英文语言文件
-  - `zh-CN.yml`: 中文语言文件
-- `node_modules`: 主题的依赖（请勿提交至仓库）
-- `node`: 主题的 Node 端逻辑
-- `package.json`: 主题的相关信息与依赖
-- `pages`: 主题的默认页面（扩展更多页面）
-  - `index.vue`: 首页
-  - `page`: 普通页
-    - `[page].vue`: 文章列表页，动态路由，如 `/page/2`
-- `setup`: 主题的入口文件（可注册 Vue 插件等）
-  - `main.ts`: 主入口文件 `defineAppSetup`
-- `stores`: 主题的状态管理
-  - `app.ts`: 全局状态管理文件
-- `styles`: 主题的样式
-  - `index.ts`: 主题的样式入口文件
+- `App.vue`: Theme entry file for mounting global theme components
+- `README.md`: Theme documentation (undoubtedly essential :P)
+- `client`: Client-side helper functions exposed by the theme to users
+  - `index.ts`: Entry file for theme's client-side helper functions
+- `components`: Theme components
+  - `ValaxyMain.vue`: Theme's article rendering component
+  - `YunSidebar.vue`: Theme's sidebar component
+  - `YunSponsor.vue`: Theme's sponsor component
+  - `YunWaline.vue`: Third-party comment Waline adapter component
+- `composables`: Helper Composition API
+  - `config.ts`: Theme configuration file
+  - `helper.ts`: Theme helper functions
+  - `index.ts`: Theme Composition API entry file
+  - `post.ts`: Theme's post-related helper functions
+- `docs`: Theme documentation (organize and present with your favorite structure!)
+  > For customization and [Dogfooding](https://en.wikipedia.org/wiki/Eating_your_own_dog_food) purposes, Valaxy's documentation is built using itself with a documentation theme [valaxy-theme-press](https://github.com/YunYouJun/valaxy/tree/main/packages/valaxy-theme-press). If you just want a simple and lightweight documentation site, [Vitepress](https://vitepress.vuejs.org/) is a good choice. ([valaxy-theme-starter](https://github.com/valaxyjs/valaxy-theme-starter) may include this example template in the future.)
+  - `en-US`: English documentation
+  - `zh-CN`: Chinese documentation
+- `features`: Theme signature features, functions that don't depend on Vue Composition API (different from `composables`)
+  - `fireworks.ts`: Fireworks click effect
+- `layouts`: Theme layouts (extend more layouts)
+  - `default.vue`: Default layout
+  - `home.vue`: Home page layout
+  - `layout.vue`: Post list layout
+  - `post.vue`: Post layout (posts in `pages/posts/` folder default to `post` layout)
+  - `tags.vue`: Tags layout
+- `locales`: Theme multi-language support
+  - `en.yml`: English language file
+  - `zh-CN.yml`: Chinese language file
+- `node_modules`: Theme dependencies (do not commit to repository)
+- `node`: Theme's Node-side logic
+- `package.json`: Theme information and dependencies
+- `pages`: Theme's default pages (extend more pages)
+  - `index.vue`: Home page
+  - `page`: Regular page
+    - `[page].vue`: Post list page, dynamic route, e.g., `/page/2`
+- `setup`: Theme entry file (can register Vue plugins, etc.)
+  - `main.ts`: Main entry file `defineAppSetup`
+- `stores`: Theme state management
+  - `app.ts`: Global state management file
+- `styles`: Theme styles
+  - `index.ts`: Theme styles entry file
 - `tsconfig.json`: 主题的 TypeScript 配置
 - `types`: 主题的类型声明
   - `index.d.ts`: 主题的类型声明入口文件
@@ -543,21 +543,21 @@ import valaxyLogoPng from '../assets/images/valaxy-logo.png'
 </style>
 ```
 
-## Third Plugin
+## Third Party Plugin
 
-### 实现评论
+### Implement Comments
 
-作为博客，用户通常会有评论的需求。
+As a blog, users typically have commenting needs.
 
-而由于评论系统各不相同，如 Hexo 等主题开发者们通常需在主题侧重复实现多款评论系统。
-这显然是繁琐的。
+Due to the variety of comment systems, theme developers like Hexo often need to repeatedly implement multiple comment systems on the theme side.
+This is obviously tedious.
 
-Valaxy 决定通过插件中心化地提供各类封装好的评论组件和辅助函数。
+Valaxy decided to centrally provide various packaged comment components and helper functions through plugins.
 
-譬如主题开发者，可以借助 `valaxy-addon-waline` 来快速实现 [Waline](https://waline.js.org/) 评论系统的集成。
-而用户则可以使用相同的配置穿梭漫游于不同的主题之间。
+For example, theme developers can use `valaxy-addon-waline` to quickly integrate the [Waline](https://waline.js.org/) comment system.
+Users can use the same configuration to roam between different themes.
 
-> 集成参见 [valaxy-addon-waline](https://github.com/YunYouJun/valaxy/blob/main/packages/valaxy-addon-waline/README.md)。
+> For integration, see [valaxy-addon-waline](https://github.com/YunYouJun/valaxy/blob/main/packages/valaxy-addon-waline/README.md).
 
 
 ## Performance Optimization
@@ -586,14 +586,14 @@ export default defineTheme({
 })
 ```
 
-### 提醒特殊需求的用户安装第三方插件
+### Remind Users with Special Needs to Install Third-party Plugins
 
-如果您的主题适配了多个 `addon`，但用户并非都需要安装。
-如评论插件：
+If your theme adapts to multiple `addon`s, but not all users need to install them.
+Such as comment plugins:
 
 - `valaxy-addon-waline`
 - `valaxy-addon-twikoo`
 
-当用户没有主动安装对应 `addon` 时（即 `addon` 不存在的情况），则会默认重定向至一个空函数。
+When a user hasn't actively installed the corresponding `addon` (i.e., the `addon` doesn't exist), it will default to redirecting to an empty function.
 
-因此，如果某个插件不是必须的，请在主题文档中提醒想要使用该功能的用户安装对应插件。
+Therefore, if a plugin is not required, please remind users who want to use this feature to install the corresponding plugin in the theme documentation.

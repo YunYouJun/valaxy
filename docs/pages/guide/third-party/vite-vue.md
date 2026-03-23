@@ -1,16 +1,14 @@
 ---
-title:
-  en: Use Vite/Vue Plugin
-  zh-CN: 使用 Vite/Vue 插件
+title: Use Vite/Vue Plugin
 categories:
   - third
 ---
 
-Valaxy 兼容 Vite/Vue 插件，你可以参考以下示例进行使用。
+Valaxy is compatible with Vite/Vue plugins. You can refer to the following examples for usage.
 
-## 使用 Vite 插件
+## Using Vite Plugins
 
-### 使用 vite-plugin-pwa
+### Using vite-plugin-pwa
 
 ```ts [valaxy.config.ts]
 import type { ThemeConfig } from 'valaxy-theme-yun'
@@ -40,19 +38,19 @@ export default defineAppSetup(({ router, isClient }) => {
 })
 ```
 
-更多配置请参考 [vite-plugin-pwa](https://github.com/vite-pwa/vite-plugin-pwa)。
+For more configuration options, please refer to [vite-plugin-pwa](https://github.com/vite-pwa/vite-plugin-pwa).
 
-## 使用 Vue 插件
+## Using Vue Plugins
 
 ::: tip
 
-Valaxy 默认集成了 [`@vitejs/plugin-vue`](https://github.com/vitejs/vite-plugin-vue/tree/main/packages/plugin-vue) 插件，如果你自定义插件 `@vitejs/plugin-vue` 的配置，你可以通过 `vue` 配置项进行配置。
+Valaxy integrates [`@vitejs/plugin-vue`](https://github.com/vitejs/vite-plugin-vue/tree/main/packages/plugin-vue) by default. If you need to customize the `@vitejs/plugin-vue` configuration, you can use the `vue` config option.
 
-可参见 [扩展配置](/guide/config/extend.md#vitejs-plugin-vue)。
+See [Extend Config](/guide/config/extend.md#vitejs-plugin-vue) for details.
 
 :::
 
-譬如使用 Element Plus，你可以在 `setup/main.ts` 中添加以下配置：
+For example, to use Element Plus, you can add the following configuration in `setup/main.ts`:
 
 ```ts [setup/main.ts]
 import ElementPlus from 'element-plus'

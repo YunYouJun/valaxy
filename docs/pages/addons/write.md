@@ -1,44 +1,42 @@
 ---
-title:
-  en: Write an Addon
-  zh-CN: 编写一个插件
+title: Write an Addon
 categories:
   - addon
 end: false
 
 ---
 
-## 开始编写
+## Getting Started
 
 ::: tip
-**约定大于配置**
+**Convention over Configuration**
 
-- 插件：`Addon`，须以 `valaxy-addon-` 开头。
-- 插件与主题类似，但做的事情更少。
-- 一个站点只能使用一个主题，但可以使用多个插件。
-- Addon 无需预编译，直接发布源文件即可。
+- Addon: Must start with `valaxy-addon-`.
+- Addons are similar to themes, but do less.
+- A site can only use one theme, but can use multiple addons.
+- Addons do not need to be precompiled, just publish the source files directly.
 
 :::
 
-- `App.vue` 如果插件作者希望插件被使用时立刻全局挂载，可以将内容放置于 `valaxy-addon-<name>/App.vue` 中，并设置 `package.json` 中 `global: true`。
-- `components`: 放置于 `components` 文件夹下的组件将会被自动注册，但不会被挂载。用户可以手动加载使用。
+- `App.vue` If the addon author wants the addon to be globally mounted immediately when used, they can place the content in `valaxy-addon-<name>/App.vue` and set `global: true` in `package.json`.
+- `components`: Components placed in the `components` folder will be automatically registered, but not mounted. Users can manually load and use them.
 
-> 文档正在施工中，您可以参照 [插件橱窗](/addons/gallery) 一些已有的插件。
+> Documentation is under construction. You can refer to some existing addons in the [Addon Gallery](/addons/gallery).
 
-<!-- 用户如何配置 global -->
+<!-- How users configure global -->
 
-### 创建插件模板
+### Create Addon Template
 
 ```bash
 pnpm create valaxy
 # choose template addon
 ```
 
-### 使用生命周期钩子
+### Using Lifecycle Hooks
 
-如示例所示，插件可以使用 `valaxy.hook` 来挂载生命周期钩子。
-实现在构建前/后以及其他节点做一些事情。
+As shown in the example, addons can use `valaxy.hook` to mount lifecycle hooks.
+This allows you to do things before/after the build and at other points.
 
-> 请参考 [生命周期钩子](/guide/custom/hooks) 了解更多。
+> Please refer to [Lifecycle Hooks](/guide/custom/hooks) for more information.
 
 <<< @/../packages/valaxy-addon-test/node/index.ts {11-14} [valaxy-addon-test/node/index.ts]

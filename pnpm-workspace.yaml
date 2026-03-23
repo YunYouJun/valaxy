@@ -154,7 +154,7 @@ catalog:
   table: ^6.9.0
   tsup: ^8.5.1
   tsx: ^4.21.0
-  typedoc: ^0.28.17
+  typedoc: ^0.28.18
   typedoc-plugin-markdown: ^4.11.0
   typedoc-vitepress-theme: ^1.1.2
   unocss: 66.5.10
@@ -164,12 +164,12 @@ catalog:
   valaxy-addon-git-log: ^0.3.2
   vanilla-lazyload: ^19.1.3
 
-  vite-plugin-vue-devtools: ^8.1.0
+  vite-plugin-vue-devtools: ^8.1.1
   vite-plugin-vue-layouts-next: ^2.1.0
   vite-ssg: ^28.3.0
   vite-ssg-sitemap: ^0.10.0
   vitepress-plugin-group-icons: ^1.7.1
-  vitest: ^4.1.0
+  vitest: ^4.1.1
   vue-router: ^5.0.4
   vue-tsc: 2.2.0
   yargs: ^18.0.0
@@ -179,7 +179,7 @@ catalogs:
     '@iconify-json/carbon': ^1.2.19
     '@iconify-json/logos': ^1.2.10
     '@iconify-json/ri': ^1.2.10
-    '@iconify-json/simple-icons': ^1.2.74
+    '@iconify-json/simple-icons': ^1.2.75
     '@iconify-json/vscode-icons': ^1.2.45
     '@intlify/unplugin-vue-i18n': ^11.0.7
     '@unhead/addons': ^2.1.12
@@ -189,7 +189,7 @@ catalogs:
     typescript: ^5.9.3
     unbuild: ^3.6.1
     unhead: ^2.1.12
-    vite: ^8.0.1
+    vite: ^8.0.2
     vue-i18n: ^11.3.0
     zx: ^8.8.5
   frontend:

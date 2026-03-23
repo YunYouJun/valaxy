@@ -6,40 +6,40 @@ end: false
 ---
 
 ::: info
-与 `Hexo` 不同，`Valaxy` 在框架层面实现了一些 Markdown 扩展（如 Container、数学公式）等，而无需主题开发者再次实现。
+Unlike `Hexo`, `Valaxy` implements some Markdown extensions (such as Container, math formulas) at the framework level, without requiring theme developers to implement them again.
 
-这与 `VitePress` 许多功能类似，`Valaxy` 从 `VitePress` 中借鉴了许多，并复用了 [mdit-vue](https://github.com/mdit-vue/mdit-vue) 的插件。
-但也存在一些不同之处，Valaxy 默认使用 [KaTeX](https://katex.org/)（渲染速度快），同时也支持 [MathJax](https://www.mathjax.org/)（对齐 VitePress，SVG 输出无需外部 CSS/字体）。
+This is similar to many features of `VitePress`. `Valaxy` has borrowed a lot from `VitePress` and reuses plugins from [mdit-vue](https://github.com/mdit-vue/mdit-vue).
+However, there are some differences. Valaxy uses [KaTeX](https://katex.org/) by default (fast rendering speed), and also supports [MathJax](https://www.mathjax.org/) (aligned with VitePress, SVG output without external CSS/fonts).
 
-> **注意**：`features.katex` 与 `math` 请勿同时开启，两者使用不同的渲染引擎，同时启用可能导致公式重复渲染或样式冲突。启用 `math`（MathJax）时，`features.katex` 会被自动忽略。
+> **Note**: Do not enable `features.katex` and `math` at the same time. They use different rendering engines, and enabling both may cause duplicate rendering or style conflicts. When `math` (MathJax) is enabled, `features.katex` will be automatically ignored.
 
 ```ts [valaxy.config.ts]
 export default defineValaxyConfig({
-  // KaTeX（默认开启）
+  // KaTeX (enabled by default)
   features: { katex: true },
 
-  // 或切换到 MathJax（需先安装：pnpm add markdown-it-mathjax3）
+  // Or switch to MathJax (install first: pnpm add markdown-it-mathjax3)
   // math: true,
 })
 ```
 
-当然，你仍然可以在 Valaxy 中通过添加 MarkdownIt 插件来实现更多功能。
+Of course, you can still add MarkdownIt plugins in Valaxy to implement more features.
 :::
 
-## 在 Markdown 中使用 Vue
+## Using Vue in Markdown
 
-可以直接在 Markdown 文件中导入和使用 Vue 组件。
+You can directly import and use Vue components in Markdown files.
 
-例如在 `components` 目录下创建一个 Vue 组件 `CustomVueDemo.vue`：
+For example, create a Vue component `CustomVueDemo.vue` in the `components` directory:
 
 <<< @/components/CustomVueDemo.vue [components/CustomVueDemo.vue]
 
 ```md [pages/posts/xxx.md]
 ---
-title: 在 Markdown 中使用 Vue
+title: Using Vue in Markdown
 ---
 
-<!-- 在 markdown 中直接使用即可： -->
+<!-- Use it directly in markdown: -->
 <CustomVueDemo />
 ```
 
@@ -387,7 +387,7 @@ export default defineValaxyConfig({
 
 ## Add Code Block Title And Icons
 
-它基于 [vitepress-plugin-group-icons](https://github.com/yuyinws/vitepress-plugin-group-icons) 实现，内置了一些[常用图标](https://vp.yuy1n.io/features.html#built-in-icons)，你可以如下自定义更多图标。
+It is implemented based on [vitepress-plugin-group-icons](https://github.com/yuyinws/vitepress-plugin-group-icons), with some [built-in icons](https://vp.yuy1n.io/features.html#built-in-icons). You can customize more icons as follows.
 
 ```ts [valaxy.config.ts] {5-14}
 import { defineValaxyConfig } from 'valaxy'
@@ -408,7 +408,7 @@ export default defineValaxyConfig({
 })
 ```
 
-此时，使用以下语法：
+Now, use the following syntax:
 
 ````md
 ```ts [valaxy.config.ts]
@@ -423,7 +423,7 @@ ENV PATH /opt/conda/bin:$PATH
 ```
 ````
 
-我们将会得到带有 `valaxy.config.ts` 标题与 Valaxy 图标的代码块：
+We will get a code block with the `valaxy.config.ts` title and Valaxy icon:
 
 ```ts [valaxy.config.ts]
 import { defineValaxyConfig } from 'valaxy'
@@ -431,7 +431,7 @@ import { defineValaxyConfig } from 'valaxy'
 export default defineValaxyConfig({})
 ```
 
-还会得到带有 `sample.dockerfile` 标题与 Docker 图标的代码块：
+And we will also get a code block with the `sample.dockerfile` title and Docker icon:
 
 ```dockerfile [sample.dockerfile]
 FROM ubuntu

@@ -9,8 +9,8 @@ top: 8
 
 ## v0.21.0
 
-### 自行引入公共样式
+### Import Common Styles Yourself
 
-主题开发者需要自行引入公共样式 `valaxy/client/styles/common/index.scss`。
+Theme developers need to import the common styles `valaxy/client/styles/common/index.scss` themselves.
 
-参见 [引入默认样式](/themes/write#引入默认样式)。
+See [Import Default Styles](/themes/write#引入默认样式).

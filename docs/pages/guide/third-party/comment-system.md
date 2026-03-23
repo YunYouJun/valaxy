@@ -1,25 +1,23 @@
 ---
-title:
-  en: Third Comment System
-  zh-CN: 第三方评论系统
+title: Third Comment System
 categories:
   - third
 ---
 
-存在许多第三方评论系统，下面简要介绍下各评论系统集成方式。
+There are many third-party comment systems. Below is a brief introduction to how to integrate various comment systems.
 
-> [第三方评论系统之我见](https://www.yunyoujun.cn/posts/third-party-comment-system)
+> [My Views on Third-Party Comment Systems](https://www.yunyoujun.cn/posts/third-party-comment-system)
 
 ## Waline
 
-> [Waline](https://waline.js.org/) 是一个依赖服务端实现的评论系统，它可以托管在 Vercel 等平台上。
+> [Waline](https://waline.js.org/) is a server-side comment system that can be hosted on platforms like Vercel.
 
-使用 [valaxy-addon-waline](https://github.com/YunYouJun/valaxy/blob/main/packages/valaxy-addon-waline/README.md) 集成。
+Integrate using [valaxy-addon-waline](https://github.com/YunYouJun/valaxy/blob/main/packages/valaxy-addon-waline/README.md).
 
-> valaxy-addon-waline 是基于 Waline 的一个 Valaxy 插件。
-> 除此之外，我们推荐您可以使用 [kotodama](https://github.com/YunYouJun/kotodama) 进行评论管理，它是一个基于 Waline 服务端实现的评论管理系统。
+> valaxy-addon-waline is a Valaxy plugin based on Waline.
+> Additionally, we recommend using [kotodama](https://github.com/YunYouJun/kotodama) for comment management, which is a comment management system based on Waline's server-side implementation.
 
-### 安装
+### Installation
 
 ```bash
 npm i valaxy-addon-waline
@@ -33,15 +31,15 @@ import { addonWaline } from 'valaxy-addon-waline'
 export default defineValaxyConfig({
   // or write it in site.config.ts
   siteConfig: {
-    // 启用评论
+    // Enable comments
     comment: {
       enable: true
     },
   },
-  // 设置 valaxy-addon-waline 配置项
+  // Set valaxy-addon-waline configuration
   addons: [
     addonWaline({
-      // Waline 配置项，参考 https://waline.js.org/reference/client/props.html
+      // Waline configuration, see https://waline.js.org/reference/client/props.html
       serverURL: 'https://your-waline-url',
     }),
   ],
@@ -50,11 +48,11 @@ export default defineValaxyConfig({
 
 ## Utterances
 
-> [Utterances](https://utteranc.es/) 是一个基于 GitHub Issues 实现的评论系统。
+> [Utterances](https://utteranc.es/) is a comment system based on GitHub Issues.
 
-它可以直接通过挂载 JS 脚本集成。
+It can be integrated directly by mounting a JS script.
 
-在博客根目录下新建 `App.vue`，添加挂载脚本:
+Create `App.vue` in the blog root directory and add the mounting script:
 
 <<< @/../demo/yun/App.vue
 

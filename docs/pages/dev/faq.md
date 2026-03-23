@@ -7,14 +7,14 @@ end: false
 
 <details>
 
-<summary>已解决</summary>
+<summary>Resolved</summary>
 
-## `background-attachment: fixed` iOS 不支持
+## `background-attachment: fixed` not supported on iOS
 
 > iOS has an issue preventing background-attachment: fixed from being used with background-size: cover.
 > [The Fixed Background Attachment Hack | CSS Tricks](https://css-tricks.com/the-fixed-background-attachment-hack/)
 
-改为使用 `::before` 伪元素实现。
+Use `::before` pseudo-element instead.
 
 </details>
 
@@ -48,13 +48,13 @@ NODE_OPTIONS=--max-old-space-size=4096 pnpm build --ssg
 ```
 
 
-## 合并
+## Merge
 
-使用 `defu`。
+Use `defu`.
 
-但实测 `defu` faster than `@fastify/deepmerge`。
+Testing shows `defu` is faster than `@fastify/deepmerge`.
 
-合并单个配置：
+Merging a single config:
 
 - `defu`: 0.06ms
 - [`@fastify/deepmerge`](https://github.com/fastify/deepmerge): 0.256ms
