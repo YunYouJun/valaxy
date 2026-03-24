@@ -70,8 +70,6 @@ export async function createValaxyPlugin(options: ResolvedValaxyOptions, serverO
       configureServer(server) {
         if (options.configFile) {
           server.watcher.add(options.configFile)
-          // @TODO configDeps
-          // configDeps.forEach((file) => server.watcher.add(file))
         }
 
         server.watcher.add([
@@ -102,9 +100,6 @@ export async function createValaxyPlugin(options: ResolvedValaxyOptions, serverO
             // clientRoot: options.clientRoot,
           }))}`
         }
-
-        // TODO: custom dynamic css vars
-        // if (id === 'virtual:valaxy-css-vars') {}
 
         // root client
         if (id === '/@valaxyjs/AppVue')

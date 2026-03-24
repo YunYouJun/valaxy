@@ -20,7 +20,6 @@ hero:
       text: hero.actions.view-github
       link: https://github.com/YunYouJun/valaxy
 
-# todo, rewrite with valaxy
 features:
   - icon: i-logos:markdown
     title: features.markdown.title

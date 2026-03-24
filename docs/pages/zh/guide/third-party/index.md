@@ -65,7 +65,7 @@ export default defineSiteConfig({
   search: {
     enable: true,
     // 设置类型为 Fuse
-    type: 'fuse',
+    provider: 'fuse',
   },
 })
 ```

@@ -173,10 +173,6 @@ export interface SiteConfig {
      */
     enable: boolean
     /**
-     * @deprecated will be deprecated, use search.provider instead
-     */
-    type?: SiteConfig['search']['provider']
-    /**
      * Search Type
      * - algolia: Algolia Search
      * - engine: Engine Search, like Google/Baidu

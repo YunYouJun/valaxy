@@ -82,7 +82,7 @@ export default defineSiteConfig({
   social: [
     { name: 'GitHub', link: '...', icon: 'i-ri-github-line', color: '#333' },
   ],
-  search: { enable: true, type: 'fuse' }, // 'fuse' | 'algolia'
+  search: { enable: true, provider: 'fuse' }, // 'fuse' | 'algolia'
   comment: { enable: true },
   mediumZoom: { enable: true },
   vanillaLazyload: { enable: true },

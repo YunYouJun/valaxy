@@ -51,8 +51,3 @@ export function useTags() {
     return tagMap
   })
 }
-
-/**
- * @deprecated use `useTags` instead
- */
-export const useTag = useTags

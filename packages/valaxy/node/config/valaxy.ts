@@ -141,8 +141,9 @@ export async function resolveValaxyConfigFromRoot(root: string, options?: Resolv
  */
 export const mergeValaxyConfig = createDefu((obj: any, key, value) => {
   if (isFunction(obj[key]) && isFunction(value)) {
+    const original = obj[key]
     obj[key] = function (...args: any[]) {
-      obj[key].call(this, ...args)
+      original.call(this, ...args)
       value.call(this, ...args)
     }
     return true

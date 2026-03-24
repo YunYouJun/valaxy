@@ -170,8 +170,3 @@ export function removeItemFromCategory(categoryList: CategoryList, categoryName:
     categoryList.children.delete(categoryArr[0])
   }
 }
-
-/**
- * @deprecated use `useCategories` instead
- */
-export const useCategory = useCategories

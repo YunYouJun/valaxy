@@ -107,8 +107,8 @@ export default defineSiteConfig({
 
   search: {
     enable: true,
-    // type: 'algolia',
-    type: 'fuse',
+    // provider: 'algolia',
+    provider: 'fuse',
   },
 
   fuse: {

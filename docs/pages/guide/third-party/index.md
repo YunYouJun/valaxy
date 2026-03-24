@@ -29,8 +29,8 @@ import { defineSiteConfig } from 'valaxy'
 export default defineSiteConfig({
   search: {
     enable: true,
-    // Set type to 'fuse'
-    type: 'fuse',
+    // Set provider to 'fuse'
+    provider: 'fuse',
   },
 })
 ```

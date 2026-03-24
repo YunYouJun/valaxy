@@ -14,13 +14,12 @@ hero:
   actions:
     - theme: brand
       text: hero.actions.get-started
-      link: /guide/getting-started
+      link: /zh/guide/getting-started
       type: fly
     - theme: alt
       text: hero.actions.view-github
       link: https://github.com/YunYouJun/valaxy
 
-# todo, rewrite with valaxy
 features:
   - icon: i-logos:markdown
     title: features.markdown.title

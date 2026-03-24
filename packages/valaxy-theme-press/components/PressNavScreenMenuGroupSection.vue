@@ -3,7 +3,6 @@ import type { NavItemLink } from '../types'
 
 defineProps<{
   text?: string
-  // todo
   items: NavItemLink[]
 }>()
 </script>

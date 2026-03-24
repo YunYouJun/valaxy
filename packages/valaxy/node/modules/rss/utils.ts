@@ -168,23 +168,17 @@ export async function getPosts(params: {
     const { data, content, excerpt } = matter(raw, matterOptions)
     return { data, content, excerpt, path: i }
   })
-  const draftPosts: {
-    data: Record<string, any>
-    content: string
-    excerpt?: string
-    path: string
-  }[] = []
   const rawPosts = (await Promise.all(readFilePromises))
   // filter
+  const draftPosts: string[] = []
   const filteredPosts = rawPosts.filter((p) => {
     const { data } = p
     // skip encrypt post
     if (data.password)
       return false
-      // skip draft post
+    // skip draft post
     if (data.draft) {
-      // TODO: console draftPosts
-      draftPosts.push(p)
+      draftPosts.push(p.path)
       return false
     }
     // skip hidden post
@@ -192,6 +186,8 @@ export async function getPosts(params: {
       return false
     return true
   })
+  if (draftPosts.length)
+    consola.log(`[rss] Skipped ${draftPosts.length} draft post(s): ${draftPosts.join(', ')}`)
 
   // returned posts
   const posts: ExtendedItem[] = []
