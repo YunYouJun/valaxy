@@ -55,14 +55,12 @@ onMounted(() => {
   document.documentElement.style.setProperty('--vh', `${window.innerHeight * 0.01}px`)
   app.showLoading = false
 })
-
-const isDev = import.meta.env.DEV
 </script>
 
 <template>
   <TooltipProvider>
     <YunStratoApp v-if="yun.isStrato" />
-    <YunDebug v-if="isDev" />
+    <ValaxyDebug />
 
     <YunPageHeaderGradient />
     <YunNavMenu />

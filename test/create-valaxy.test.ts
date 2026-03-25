@@ -1,0 +1,142 @@
+import fs from 'node:fs'
+import path from 'node:path'
+import { describe, expect, it } from 'vitest'
+import { normalizeThemeName, replaceThemeDeps, replaceThemeInConfig } from '../packages/create-valaxy/src/scaffold'
+
+// ─── normalizeThemeName ──────────────────────────────────────────────
+
+describe('normalizeThemeName', () => {
+  it('strips valaxy-theme- prefix', () => {
+    expect(normalizeThemeName('valaxy-theme-starter')).toBe('starter')
+  })
+
+  it('returns short name unchanged', () => {
+    expect(normalizeThemeName('press')).toBe('press')
+  })
+
+  it('trims whitespace', () => {
+    expect(normalizeThemeName('  yun  ')).toBe('yun')
+  })
+
+  it('handles empty string', () => {
+    expect(normalizeThemeName('')).toBe('')
+  })
+})
+
+// ─── replaceThemeDeps ────────────────────────────────────────────────
+
+describe('replaceThemeDeps', () => {
+  const basePkg = {
+    name: 'my-blog',
+    dependencies: {
+      'valaxy': '0.28.0',
+      'valaxy-theme-yun': '0.28.0',
+    },
+  }
+
+  it('does not modify deps when theme is yun', () => {
+    const result = replaceThemeDeps(basePkg, 'yun')
+    expect(result.dependencies).toHaveProperty('valaxy-theme-yun')
+    expect(Object.keys(result.dependencies)).not.toContain('valaxy-theme-press')
+  })
+
+  it('replaces yun dep with selected theme', () => {
+    const result = replaceThemeDeps(basePkg, 'press')
+    expect(result.dependencies).not.toHaveProperty('valaxy-theme-yun')
+    expect(result.dependencies['valaxy-theme-press']).toBe('latest')
+    // valaxy core dep should remain
+    expect(result.dependencies.valaxy).toBe('0.28.0')
+  })
+
+  it('does not mutate the original object', () => {
+    const original = JSON.parse(JSON.stringify(basePkg))
+    replaceThemeDeps(basePkg, 'press')
+    expect(basePkg).toEqual(original)
+  })
+
+  it('does not throw when yun dep is absent', () => {
+    const pkgWithoutYun = {
+      name: 'my-blog',
+      dependencies: { valaxy: '0.28.0' },
+    }
+    const result = replaceThemeDeps(pkgWithoutYun, 'press')
+    expect(result.dependencies['valaxy-theme-press']).toBe('latest')
+  })
+})
+
+// ─── replaceThemeInConfig ────────────────────────────────────────────
+
+describe('replaceThemeInConfig', () => {
+  const sampleConfig = [
+    `import type { UserThemeConfig } from 'valaxy-theme-yun'`,
+    `import { defineValaxyConfig } from 'valaxy'`,
+    ``,
+    `export default defineValaxyConfig<UserThemeConfig>({`,
+    `  theme: 'yun',`,
+    `  themeConfig: {`,
+    `    banner: { enable: true },`,
+    `  },`,
+    `  unocss: { safelist: [] },`,
+    `})`,
+  ].join('\n')
+
+  it('returns content unchanged when theme is yun', () => {
+    expect(replaceThemeInConfig(sampleConfig, 'yun')).toBe(sampleConfig)
+  })
+
+  it('replaces theme name', () => {
+    const result = replaceThemeInConfig(sampleConfig, 'press')
+    expect(result).toContain(`theme: 'press'`)
+    expect(result).not.toContain(`theme: 'yun'`)
+  })
+
+  it('comments out import and updates package name', () => {
+    const result = replaceThemeInConfig(sampleConfig, 'press')
+    expect(result).toContain(`// import type { UserThemeConfig } from 'valaxy-theme-press'`)
+  })
+
+  it('removes generic type parameter', () => {
+    const result = replaceThemeInConfig(sampleConfig, 'press')
+    expect(result).toContain(`defineValaxyConfig({`)
+    expect(result).not.toContain(`defineValaxyConfig<UserThemeConfig>`)
+  })
+
+  it('clears themeConfig contents', () => {
+    const result = replaceThemeInConfig(sampleConfig, 'press')
+    expect(result).toContain(`themeConfig: {},`)
+  })
+
+  it('preserves unrelated config like unocss', () => {
+    const result = replaceThemeInConfig(sampleConfig, 'press')
+    expect(result).toContain(`unocss: { safelist: [] }`)
+  })
+
+  it('works with real template-blog/valaxy.config.ts', () => {
+    const templatePath = path.resolve(
+      __dirname,
+      '../packages/create-valaxy/template-blog/valaxy.config.ts',
+    )
+    const content = fs.readFileSync(templatePath, 'utf-8')
+    const result = replaceThemeInConfig(content, 'starter')
+
+    expect(result).toContain(`theme: 'starter'`)
+    expect(result).toContain(`// import type { UserThemeConfig } from 'valaxy-theme-starter'`)
+    expect(result).toContain(`defineValaxyConfig({`)
+    expect(result).toContain(`themeConfig: {},`)
+    expect(result).toContain(`unocss: { safelist }`)
+  })
+
+  it('snapshot: press theme config replacement', () => {
+    const result = replaceThemeInConfig(sampleConfig, 'press')
+    expect(result).toMatchInlineSnapshot(`
+      "// import type { UserThemeConfig } from 'valaxy-theme-press'
+      import { defineValaxyConfig } from 'valaxy'
+
+      export default defineValaxyConfig({
+        theme: 'press',
+        themeConfig: {},
+        unocss: { safelist: [] },
+      })"
+    `)
+  })
+})

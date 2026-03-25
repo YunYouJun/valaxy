@@ -6,6 +6,30 @@ export const renameFiles: Record<string, string> = {
   _npmrc: '.npmrc',
 }
 
+/**
+ * Built-in theme choices for Blog template
+ */
+export const BLOG_THEMES = [
+  {
+    name: 'yun',
+    display: 'Yun',
+    desc: 'A light & clean theme (default)',
+    color: colors.cyan,
+  },
+  {
+    name: 'press',
+    display: 'Press',
+    desc: 'A document-oriented theme',
+    color: colors.green,
+  },
+  {
+    name: 'custom',
+    display: 'Custom',
+    desc: 'Enter a custom theme name',
+    color: colors.yellow,
+  },
+]
+
 export const TEMPLATES = [
   {
     name: 'blog',

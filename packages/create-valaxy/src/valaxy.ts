@@ -10,7 +10,8 @@ import { execa } from 'execa'
 import minimist from 'minimist'
 import prompts from 'prompts'
 import { version } from '../package.json'
-import { renameFiles, TEMPLATE_CHOICES, TEMPLATES } from './config'
+import { BLOG_THEMES, renameFiles, TEMPLATE_CHOICES, TEMPLATES } from './config'
+import { normalizeThemeName, replaceThemeDeps, replaceThemeInConfig } from './scaffold'
 import { copy, emptyDir, formatTargetDir, isEmpty, isValidPackageName, pkgFromUserAgent, toValidPackageName } from './utils'
 
 const argv = minimist(process.argv.slice(2))
@@ -46,6 +47,9 @@ export async function init() {
   // get template
   let template = TEMPLATES[0]
 
+  // selected theme name for blog template (default: yun)
+  let selectedTheme = 'yun'
+
   if (!argYes) {
     const templateRes = await prompts({
       type:
@@ -67,6 +71,37 @@ export async function init() {
       }),
     })
     template = templateRes.template
+
+    // Theme selection for blog template
+    if (template.name === 'blog') {
+      const themeRes = await prompts({
+        type: 'select',
+        name: 'theme',
+        message: colors.reset('Select a theme:'),
+        initial: 0,
+        choices: BLOG_THEMES.map((t) => {
+          const tColor = t.color
+          return {
+            title: tColor(t.display) + colors.dim(` - ${t.desc}`),
+            value: t.name,
+          }
+        }),
+      })
+
+      if (themeRes.theme === 'custom') {
+        const customRes = await prompts({
+          type: 'text',
+          name: 'themeName',
+          message: colors.reset('Theme name (e.g. "starter" or "valaxy-theme-starter"):'),
+          initial: 'yun',
+        })
+        // Normalize: strip `valaxy-theme-` prefix if provided
+        selectedTheme = normalizeThemeName(customRes.themeName || 'yun')
+      }
+      else {
+        selectedTheme = themeRes.theme || 'yun'
+      }
+    }
 
     try {
       result = await prompts([
@@ -165,7 +200,22 @@ export async function init() {
     )
     pkg.name = projectName || getProjectName()
 
+    // Replace theme dependency in package.json for blog template
+    if (template.name === 'blog') {
+      const updated = replaceThemeDeps(pkg, selectedTheme)
+      Object.assign(pkg, updated)
+    }
+
     write('package.json', `${JSON.stringify(pkg, null, 2)}\n`)
+
+    // Replace theme references in valaxy.config.ts for blog template
+    if (template.name === 'blog') {
+      const configPath = path.join(root, 'valaxy.config.ts')
+      if (fs.existsSync(configPath)) {
+        const configContent = fs.readFileSync(configPath, 'utf-8')
+        fs.writeFileSync(configPath, replaceThemeInConfig(configContent, selectedTheme))
+      }
+    }
   }
 
   console.log(`  ${colors.dim('📁')} ${colors.dim(root)}`)

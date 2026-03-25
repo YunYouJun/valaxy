@@ -85,6 +85,16 @@ npm init valaxy
 
 跟随命令行提示完成创建！
 
+#### 选择主题 {#select-theme}
+
+在选择 Blog 类型后，你将看到主题选择提示：
+
+- **Yun**（默认）：轻盈简洁的博客主题
+- **Press**：面向文档的主题
+- **Custom**：输入自定义主题名（如 `starter` 或完整包名 `valaxy-theme-starter`）
+
+选择主题后，`create-valaxy` 会自动配置 `valaxy.config.ts` 中的 `theme` 字段和 `package.json` 中的主题依赖。
+
 > 默认使用主题 [valaxy-theme-yun](https://github.com/YunYouJun/valaxy/blob/main/packages/valaxy-theme-yun/)，当然您也可以安装使用任意其他主题。
 > 本文档同样是一个 Valaxy 主题 [valaxy-theme-press](https://github.com/YunYouJun/valaxy/blob/main/packages/valaxy-theme-press/)，它的灵感来自 [VitePress](https://vitepress.dev/)。
 

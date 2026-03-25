@@ -80,6 +80,16 @@ npm init valaxy
 
 Follow the prompt in the commandline to complete the process!
 
+#### Select a Theme
+
+After selecting the Blog type, you will be prompted to choose a theme:
+
+- **Yun** (default): A light & clean blog theme
+- **Press**: A document-oriented theme
+- **Custom**: Enter a custom theme name (e.g. `starter` or the full package name `valaxy-theme-starter`)
+
+After selection, `create-valaxy` will automatically configure the `theme` field in `valaxy.config.ts` and the theme dependency in `package.json`.
+
 > The default theme used is [valaxy-theme-yun](https://github.com/YunYouJun/valaxy/blob/main/packages/valaxy-theme-yun/), but you can also install any other themes.
 > This documentation is also a Valaxy theme: [valaxy-theme-press](https://github.com/YunYouJun/valaxy/blob/main/packages/valaxy-theme-press/). It is inspired by [VitePress](https://vitepress.dev/).
 

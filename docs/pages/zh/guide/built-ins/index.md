@@ -114,6 +114,36 @@ My Blog Content
 
 <CodePen class="h-300px" name="Margin Collapse" id="WqXGpo" user="YunYouJun" tab="html,result" />
 
+## 调试组件 {#debug-component}
+
+### `<ValaxyDebug />` {#valaxy-debug}
+
+Valaxy 内置了 `<ValaxyDebug />` 调试面板组件，**仅在开发模式下可用**（生产构建时会被完全移除，零开销）。
+
+该组件会在页面左下角显示一个可折叠的浮动面板，包含以下调试信息：
+
+- **Breakpoints**：当前视口命中的响应式断点（xs / sm / md / lg / xl / 2xl）
+- **Route**：当前路由信息（path、name、layout、query、params）
+- **Frontmatter**：当前页面的 frontmatter 数据（JSON 格式）
+- **Config**：站点配置摘要和主题配置
+
+#### 使用方式 {#debug-usage}
+
+在你的主题或布局中直接使用即可（无需引入，已全局注册）：
+
+```vue
+<template>
+  <div>
+    <!-- 你的页面内容 -->
+    <ValaxyDebug />
+  </div>
+</template>
+```
+
+::: tip
+`<ValaxyDebug />` 使用 `defineAsyncComponent` 异步加载，并通过 `import.meta.env.DEV` 守卫注册，因此**不会影响生产环境的打包体积**。
+:::
+
 ## 自定义 {#自定义}
 
 

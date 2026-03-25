@@ -108,8 +108,38 @@ My Blog Content
 
 <CodePen class="h-300px" name="Margin Collapse" id="WqXGpo" user="YunYouJun" tab="html,result" />
 
-## 自定义
+## Debug Component
+
+### `<ValaxyDebug />`
+
+Valaxy has a built-in `<ValaxyDebug />` debug panel component that is **only available in development mode** (completely removed in production builds, zero overhead).
+
+This component displays a collapsible floating panel in the bottom-left corner of the page, providing the following debug information:
+
+- **Breakpoints**: Currently active responsive breakpoints (xs / sm / md / lg / xl / 2xl)
+- **Route**: Current route information (path, name, layout, query, params)
+- **Frontmatter**: Current page frontmatter data (JSON format)
+- **Config**: Site configuration summary and theme configuration
+
+#### Usage
+
+Use it directly in your theme or layout (no import needed, it's globally registered):
+
+```vue
+<template>
+  <div>
+    <!-- your page content -->
+    <ValaxyDebug />
+  </div>
+</template>
+```
+
+::: tip
+`<ValaxyDebug />` is loaded asynchronously via `defineAsyncComponent` and guarded by `import.meta.env.DEV`, so it **has zero impact on production bundle size**.
+:::
+
+## Custom
 
 
-For more usage, please refer to [Custom Components](/guide/custom/components)。
+For more usage, please refer to [Custom Components](/guide/custom/components).
 

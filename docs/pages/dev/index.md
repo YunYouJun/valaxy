@@ -20,12 +20,6 @@ Quick example - fix a GitHub issue automatically:
 /fix-github-issue 628
 ```
 
-## Todo
-
-- [ ] create-valaxy
-  - select theme to init (default: valaxy-theme-yun)
-- [ ] Debug component.
-
 ## Dev
 
 You must use [pnpm](https://pnpm.io/). Because we use its workspace.
