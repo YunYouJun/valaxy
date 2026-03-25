@@ -74,6 +74,33 @@ export default defineAppSetup((ctx) => {
 > For a detailed example, please see [Google Analytics | Third Party Integration](/guide/third-party/#谷歌统计)。
 
 
+## Overriding App Component
+
+
+You can create an `App.vue` file in your site root to completely override the default app component. Theme developers can also provide `App.vue` in their theme root.
+
+The resolution priority is: **User** > **Theme** > **Core**.
+
+::: warning
+Overriding the app component will replace the default SEO setup (provided by `useValaxyApp()`) and the default `<router-view>`. You will need to handle these yourself.
+
+For most use cases, using `setup/main.ts` (see [Extending Client Context](#extending-client-context) above) is the recommended approach. Only use a full `App.vue` override when you need deep customization of the app shell.
+:::
+
+```vue [App.vue]
+<script setup lang="ts">
+import { useValaxyApp } from 'valaxy'
+
+// Call useValaxyApp() to preserve default SEO behavior
+useValaxyApp()
+</script>
+
+<template>
+  <router-view />
+</template>
+```
+
+
 ## I18n
 
 

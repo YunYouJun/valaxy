@@ -75,6 +75,33 @@ export default defineAppSetup((ctx) => {
 > 具体示例可参见 [谷歌统计｜第三方集成](/zh/guide/third-party/#谷歌统计)。
 
 
+## 覆盖 App 组件 {#overriding-app-component}
+
+
+你可以在站点根目录下创建 `App.vue` 文件来完全覆盖默认的应用组件。主题开发者也可以在主题根目录下提供 `App.vue`。
+
+覆盖优先级为：**用户** > **主题** > **核心**。
+
+::: warning
+覆盖 App 组件会替换掉默认的 SEO 设置（由 `useValaxyApp()` 提供）和默认的 `<router-view>`，你需要自行处理这些内容。
+
+大多数情况下，推荐使用 `setup/main.ts`（参见上方 [扩展 Client 上下文](#extending-client-context)）。仅在需要深度自定义应用外壳时才使用完整的 `App.vue` 覆盖。
+:::
+
+```vue [App.vue]
+<script setup lang="ts">
+import { useValaxyApp } from 'valaxy'
+
+// 调用 useValaxyApp() 以保留默认的 SEO 行为
+useValaxyApp()
+</script>
+
+<template>
+  <router-view />
+</template>
+```
+
+
 ## 多语言支持 {#i18n}
 
 

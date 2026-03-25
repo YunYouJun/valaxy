@@ -234,6 +234,12 @@ export interface ValaxyExtendConfig {
      * @default true
      */
     katex: boolean
+    /**
+     * @description:en-US Auto-extract the first image from markdown content for Open Graph fallback
+     * @description:zh-CN 自动从 Markdown 内容中提取第一张图片，作为 Open Graph 的回退图片
+     * @default true
+     */
+    extractFirstImage: boolean
   }
 
   /**

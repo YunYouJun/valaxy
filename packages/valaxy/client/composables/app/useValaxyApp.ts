@@ -1,12 +1,8 @@
 import { definePerson, defineWebPage, defineWebSite, useSchemaOrg } from '@unhead/schema-org/vue'
 import { useSeoMeta } from '@unhead/vue'
-
-// TODO: add docs to override ValaxyApp
 import { computed } from 'vue'
 import { useI18n } from 'vue-i18n'
-
 import { useRoute } from 'vue-router'
-
 import { useFrontmatter, useLocale, useValaxyHead, useValaxyI18n } from '../../composables'
 import { useTimezone } from '../../composables/global'
 // https://github.com/vueuse/head
@@ -16,7 +12,6 @@ import { useSiteConfig } from '../../config'
 
 export function useValaxyApp() {
   const siteConfig = useSiteConfig()
-  // todo, allow user config
   const fm = useFrontmatter()
 
   const { locale } = useI18n()
@@ -32,7 +27,6 @@ export function useValaxyApp() {
   }
 
   // seo
-  // todo: get first image url from markdown
   const siteUrl = computed(() => fm.value.url || siteConfig.value.url)
   const description = computed(() => $tO(fm.value.excerpt) || $tO(fm.value.description) || $t(siteConfig.value.description))
 
@@ -43,7 +37,7 @@ export function useValaxyApp() {
     ogLocaleAlternate: computed(() => siteConfig.value.languages.filter(l => l !== locale.value)),
     ogSiteName: computed(() => $t(siteConfig.value.title)),
     ogTitle: computed(() => $tO(fm.value.title) || $t(siteConfig.value.title)),
-    ogImage: computed(() => fm.value.ogImage || fm.value.cover || siteConfig.value.favicon),
+    ogImage: computed(() => fm.value.ogImage || fm.value.cover || fm.value.firstImage || siteConfig.value.favicon),
     ogType: 'website',
     ogUrl: siteUrl,
   })
