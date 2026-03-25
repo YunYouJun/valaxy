@@ -4,6 +4,7 @@ export * from './app'
 export * from './back'
 // for classify
 export * from './categories'
+export * from './category-utils'
 export * from './collections'
 
 // common

@@ -1,47 +1,11 @@
 import type { MaybeRef } from 'vue'
 import type { Post } from '../../types'
+import type { CategoryList } from './category-utils'
 import { computed, unref } from 'vue'
 import { useSiteStore } from '../stores'
 
-/**
- * 基础分类
- */
-export interface BaseCategory {
-  /**
-   * 分类下的文章数量
-   */
-  total: number
-}
-
-/**
- * @en
- * Category list
- *
- * @zh
- * 分类列表
- */
-export interface CategoryList {
-  /**
-   * category name
-   */
-  name: string
-  /**
-   * total posts
-   */
-  total: number
-  children: Map<string, Post | CategoryList>
-}
-export type Category = CategoryList
-export type Categories = Map<string, Post | CategoryList>
-
-/**
- * For theme development, you can use this function to determine whether the category is a category list.
- * @todo write unit test
- * @param category
- */
-export function isCategoryList(category: any): category is CategoryList {
-  return category.children
-}
+export type { BaseCategory, Categories, Category, CategoryList } from './category-utils'
+export { isCategoryList, removeItemFromCategory } from './category-utils'
 
 /**
  * get categories from posts
@@ -157,16 +121,4 @@ export function useCategories(category?: MaybeRef<string>, posts: Post[] = []) {
       return curCategoryList
     }
   })
-}
-
-/**
- * remove item from category
- * @param categoryList
- * @param categoryName
- */
-export function removeItemFromCategory(categoryList: CategoryList, categoryName: string) {
-  if (isCategoryList(categoryList)) {
-    const categoryArr = categoryName.split('/')
-    categoryList.children.delete(categoryArr[0])
-  }
 }
