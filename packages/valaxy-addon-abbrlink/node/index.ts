@@ -13,6 +13,11 @@ export const addonAbbrlink = defineValaxyAddon<Options>(options => ({
     node.hook('vue-router:extendRoute', (route) => {
       // route.meta.frontmatter is typed as Post (Partial<PostFrontMatter>)
       const fm = route.meta.frontmatter as Post | undefined
+
+      // skip drafts unless drafts option is enabled
+      if (fm?.draft && !options?.drafts)
+        return
+
       if (fm?.abbrlink) {
         route.addAlias([`/posts/${fm.abbrlink}`])
       }

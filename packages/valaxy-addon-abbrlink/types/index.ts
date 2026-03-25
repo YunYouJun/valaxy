@@ -16,9 +16,9 @@ export interface Options {
    */
   rep?: 'dec' | 'hex'
   /**
-   * @todo
-   *
    * Whether to generate abbrlink for drafts
+   *
+   * @default false
    */
   drafts?: boolean
   /**
