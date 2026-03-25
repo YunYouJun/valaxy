@@ -3,6 +3,8 @@ import { useData } from '../composables'
 
 const { page } = useData()
 
+const isDev = import.meta.env.DEV
+
 /**
  * Open the current page source file in editor (dev mode only)
  * Uses Vite's built-in `/__open-in-editor` endpoint
@@ -20,7 +22,7 @@ function openInEditor() {
 
 <template>
   <button
-    v-if="import.meta.env.DEV"
+    v-if="isDev"
     class="valaxy-open-in-editor"
     title="Open in Editor"
     @click="openInEditor"

@@ -49,7 +49,7 @@ export function useActiveAnchor(
 
   /**
    * 长目录自动滚动
-   * @TODO add e2e test
+   * @see e2e/theme-yun/outline.spec.ts
    */
   const checkActiveLinkInViewport = () => {
     const activeLink = prevActiveLink

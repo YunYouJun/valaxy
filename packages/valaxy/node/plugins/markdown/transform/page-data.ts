@@ -42,9 +42,8 @@ export async function generatePageData(code: string, id: string, options: Resolv
     filePath: id,
   }
 
-  // if (includeLastUpdatedData)
-  // TODO: add option
-  pageData.lastUpdated = await getGitTimestamp(id)
+  if (options.config.siteConfig.lastUpdated)
+    pageData.lastUpdated = await getGitTimestamp(id)
 
   return pageData
 }

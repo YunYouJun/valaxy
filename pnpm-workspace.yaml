@@ -26,9 +26,9 @@ catalog:
   '@antfu/utils': ^9.3.0
   '@clack/prompts': ^1.1.0
   '@ctrl/tinycolor': ^4.2.0
-  '@docsearch/css': ^4.6.0
-  '@docsearch/js': ^4.6.0
-  '@docsearch/sidepanel-js': ^4.6.0
+  '@docsearch/css': ^4.6.1
+  '@docsearch/js': ^4.6.1
+  '@docsearch/sidepanel-js': ^4.6.1
   '@explosions/fireworks': ^0.2.0
   '@larksuiteoapi/node-sdk': ^1.59.0
   '@mdit-vue/plugin-component': ^3.0.2

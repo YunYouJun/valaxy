@@ -1,5 +1,5 @@
-import type { Post } from '../../packages/valaxy/types/posts'
 import type { CategoryList } from '../../packages/valaxy/client/composables/category-utils'
+import type { Post } from '../../packages/valaxy/types/posts'
 import { describe, expect, it } from 'vitest'
 import { isCategoryList, removeItemFromCategory } from '../../packages/valaxy/client/composables/category-utils'
 

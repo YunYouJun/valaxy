@@ -101,8 +101,8 @@ export default defineValaxyConfig({
 
 ```toml [netlify.toml]
 [build]
-  command = "pnpm build"
-  publish = "dist"
+command = "pnpm build"
+publish = "dist"
 ```
 
 :::

@@ -71,14 +71,14 @@ catalogs:
       specifier: ^4.2.0
       version: 4.2.0
     '@docsearch/css':
-      specifier: ^4.6.0
-      version: 4.6.0
+      specifier: ^4.6.1
+      version: 4.6.1
     '@docsearch/js':
-      specifier: ^4.6.0
-      version: 4.6.0
+      specifier: ^4.6.1
+      version: 4.6.1
     '@docsearch/sidepanel-js':
-      specifier: ^4.6.0
-      version: 4.6.0
+      specifier: ^4.6.1
+      version: 4.6.1
     '@explosions/fireworks':
       specifier: ^0.2.0
       version: 0.2.0
@@ -1196,10 +1196,10 @@ importers:
     dependencies:
       '@docsearch/css':
         specifier: 'catalog:'
-        version: 4.6.0
+        version: 4.6.1
       '@docsearch/js':
         specifier: 'catalog:'
-        version: 4.6.0
+        version: 4.6.1
       valaxy:
         specifier: workspace:*
         version: link:../valaxy
@@ -1260,13 +1260,13 @@ importers:
     dependencies:
       '@docsearch/css':
         specifier: 'catalog:'
-        version: 4.6.0
+        version: 4.6.1
       '@docsearch/js':
         specifier: 'catalog:'
-        version: 4.6.0
+        version: 4.6.1
       '@docsearch/sidepanel-js':
         specifier: 'catalog:'
-        version: 4.6.0
+        version: 4.6.1
       reka-ui:
         specifier: catalog:frontend
         version: 2.9.2(vue@3.5.22(typescript@5.9.3))
@@ -1669,11 +1669,20 @@ packages:
   '@docsearch/css@4.6.0':
     resolution: {integrity: sha512-YlcAimkXclvqta47g47efzCM5CFxDwv2ClkDfEs/fC/Ak0OxPH2b3czwa4o8O1TRBf+ujFF2RiUwszz2fPVNJQ==}
 
+  '@docsearch/css@4.6.1':
+    resolution: {integrity: sha512-rA+ql4MLDgUpPs3YlVuqJt8GtujXzOFdYSV/OzCO4NxXKwLgASR+/nX7qFmnJCy3g0MVthEZS2IeZzJjYzWuGg==}
+
   '@docsearch/js@4.6.0':
     resolution: {integrity: sha512-9/rbgkm/BgTq46cwxIohvSAz3koOFjnPpg0mwkJItAfzKbQIj+310PvwtgUY1YITDuGCag6yOL50GW2DBkaaBw==}
 
+  '@docsearch/js@4.6.1':
+    resolution: {integrity: sha512-6EB/xuM7Nz5yi9yPcdv6aYtGbyOA54+WfVnBWKsb7Ms7XmLOiNgVCCDbKPt5iyS1Q9ityCyskbfl94Ty56Dwrw==}
+
   '@docsearch/sidepanel-js@4.6.0':
     resolution: {integrity: sha512-lFT5KLwlzUmpoGArCScNoK41l9a22JYsEPwBzMrz+/ILVR5Ax87UphCuiyDFQWEvEmbwzn/kJx5W/O5BUlN1Rw==}
+
+  '@docsearch/sidepanel-js@4.6.1':
+    resolution: {integrity: sha512-AKkml5lf1SoV6t7Ib22cEt/OoDmaMoni8vvvo0cY9XU7tV2jhVatHvzYTiTyoAuiejN2rjLX57cS8mXxdBZRTQ==}
 
   '@e18e/eslint-plugin@0.2.0':
     resolution: {integrity: sha512-mXgODVwhuDjTJ+UT+XSvmMmCidtGKfrV5nMIv1UtpWex2pYLsIM3RSpT8HWIMAebS9qANbXPKlSX4BE7ZvuCgA==}
@@ -9007,9 +9016,15 @@ snapshots:
 
   '@docsearch/css@4.6.0': {}
 
+  '@docsearch/css@4.6.1': {}
+
   '@docsearch/js@4.6.0': {}
 
+  '@docsearch/js@4.6.1': {}
+
   '@docsearch/sidepanel-js@4.6.0': {}
+
+  '@docsearch/sidepanel-js@4.6.1': {}
 
   '@e18e/eslint-plugin@0.2.0(eslint@10.1.0(jiti@2.6.1))':
     dependencies:
