@@ -3,8 +3,6 @@ import type { Post } from 'valaxy'
 import { useSiteConfig } from 'valaxy'
 import { useI18n } from 'vue-i18n'
 
-// @TODO: add edit by vscode directly when dev
-
 defineProps<{
   // FrontMatter
   frontmatter: Post
@@ -54,6 +52,8 @@ const siteConfig = useSiteConfig()
       </div>
 
       <YunWalineMeta />
+
+      <ValaxyOpenInEditor />
     </div>
   </div>
 </template>

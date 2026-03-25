@@ -8,7 +8,7 @@ date: 2025-11-02 13:34:07
 
 使用方式参考[添加代码块标题与图标](https://valaxy.site/guide/markdown#%E6%B7%BB%E5%8A%A0%E4%BB%A3%E7%A0%81%E5%9D%97%E6%A0%87%E9%A2%98%E4%B8%8E%E5%9B%BE%E6%A0%87)
 
-`vitepress-plugin-group-icons`的内置图标
+`vitepress-plugin-group-icons` 的内置图标。
 
 ```typescript [builtin.ts]
 const builtinIcons = {
@@ -80,7 +80,7 @@ npm install
 ```
 :::
 
-## Valaxy内置图标
+## Valaxy 内置图标
 
 ```typescript [preset.ts]
 const builtinCustomIcon = {
@@ -99,7 +99,7 @@ export default defineValaxyConfig<ThemeConfig>({
 
 ## 自定义图标
 
-部分代码块未配置图标，需手动添加图标，修改valaxy配置文件。
+部分代码块未配置图标，需手动添加图标，修改 `valaxy.config.ts`。
 
 参考`vitepress-plugin-group-icons`配置[Custom Icons](https://vp.yuy1n.io/features.html#custom-icons)
 

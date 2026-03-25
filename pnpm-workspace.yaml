@@ -107,7 +107,7 @@ catalog:
   jiti: ^2.6.1
   js-base64: ^3.7.8
   js-yaml: ^4.1.1
-  katex: ^0.16.40
+  katex: ^0.16.42
   lightgallery: 2.7.2
   lint-staged: ^16.4.0
   lru-cache: ^11.2.7
@@ -121,7 +121,7 @@ catalog:
   markdown-it-footnote: ^4.0.0
   markdown-it-image-figures: ^2.1.1
   markdown-it-mathjax3: ^5.2.0
-  markdown-it-table-of-contents: ^1.1.0
+  markdown-it-table-of-contents: ^1.2.0
   markdown-it-task-lists: ^2.1.1
   medium-zoom: ^1.1.0
   mermaid: ^11.13.0

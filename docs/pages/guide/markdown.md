@@ -387,6 +387,12 @@ export default defineValaxyConfig({
 
 ## Add Code Block Title And Icons
 
+::: tip
+
+More code block icon examples can be found [here](/examples/code-block-icons).
+
+:::
+
 It is implemented based on [vitepress-plugin-group-icons](https://github.com/yuyinws/vitepress-plugin-group-icons), with some [built-in icons](https://vp.yuy1n.io/features.html#built-in-icons). You can customize more icons as follows.
 
 ```ts [valaxy.config.ts] {5-14}

@@ -509,6 +509,11 @@ export default defineValaxyConfig({
 
 ## 添加代码块标题与图标 {#add-code-block-title-and-icons}
 
+::: tip
+
+有关更多代码块图标的示例可以在 [此处](/zh/examples/code-block-icons) 找到。
+
+:::
 
 它基于 [vitepress-plugin-group-icons](https://github.com/yuyinws/vitepress-plugin-group-icons) 实现，内置了一些[常用图标](https://vp.yuy1n.io/features.html#built-in-icons)，你可以如下自定义更多图标。
 

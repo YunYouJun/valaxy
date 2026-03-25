@@ -314,8 +314,8 @@ catalogs:
       specifier: ^4.1.1
       version: 4.1.1
     katex:
-      specifier: ^0.16.40
-      version: 0.16.40
+      specifier: ^0.16.42
+      version: 0.16.42
     lightgallery:
       specifier: 2.7.2
       version: 2.7.2
@@ -356,8 +356,8 @@ catalogs:
       specifier: ^5.2.0
       version: 5.2.0
     markdown-it-table-of-contents:
-      specifier: ^1.1.0
-      version: 1.1.0
+      specifier: ^1.2.0
+      version: 1.2.0
     markdown-it-task-lists:
       specifier: ^2.1.1
       version: 2.1.1
@@ -981,7 +981,7 @@ importers:
         version: 4.1.1
       katex:
         specifier: 'catalog:'
-        version: 0.16.40
+        version: 0.16.42
       lru-cache:
         specifier: 'catalog:'
         version: 11.2.7
@@ -1011,7 +1011,7 @@ importers:
         version: 2.1.1(markdown-it@14.1.1)
       markdown-it-table-of-contents:
         specifier: 'catalog:'
-        version: 1.1.0
+        version: 1.2.0
       markdown-it-task-lists:
         specifier: 'catalog:'
         version: 2.1.1
@@ -5957,8 +5957,8 @@ packages:
   jsonfile@6.2.0:
     resolution: {integrity: sha512-FGuPw30AdOIUTRMC2OMRtQV+jkVj2cfPqSeWXv1NEAJ1qZ5zb1X6z1mFhbfOB/iy3ssJCD+3KuZ8r8C3uVFlAg==}
 
-  katex@0.16.40:
-    resolution: {integrity: sha512-1DJcK/L05k1Y9Gf7wMcyuqFOL6BiY3vY0CFcAM/LPRN04NALxcl6u7lOWNsp3f/bCHWxigzQl6FbR95XJ4R84Q==}
+  katex@0.16.42:
+    resolution: {integrity: sha512-sZ4jqyEXfHTLEFK+qsFYToa3UZ0rtFcPGwKpyiRYh2NJn8obPWOQ+/u7ux0F6CAU/y78+Mksh1YkxTPXTh47TQ==}
     hasBin: true
 
   keyv@4.5.4:
@@ -6237,8 +6237,8 @@ packages:
   markdown-it-mathjax3@5.2.0:
     resolution: {integrity: sha512-R+XAy5/7vSGuhG9Z0/cJm6zKxOzStcScfSKVwoarh4nBra+v1KClvbALr/xFTEe9iQhwfQM4SJnO68LXL+btMA==}
 
-  markdown-it-table-of-contents@1.1.0:
-    resolution: {integrity: sha512-oeXSGohBTj+08uwdI2f/gaT3BiqNQoYR4gWEfDot3u+EBW0J+baLb+QwBnV065o0ugwJM1OiPSD3bUD8mwT/QQ==}
+  markdown-it-table-of-contents@1.2.0:
+    resolution: {integrity: sha512-8+8WYI9snTDMB/uGqVGze9YV6Pf4TtQmv79UUl/98ohxobxLayVdiE78zX2VLYKCtNm1ml2b+8dzI54UGesHlA==}
 
   markdown-it-task-lists@2.1.1:
     resolution: {integrity: sha512-TxFAc76Jnhb2OUu+n3yz9RMu4CwGfaT788br6HhEDlvWfdeJcLUsxk1Hgw2yJio0OXsxv7pyIPmvECY7bMbluA==}
@@ -13569,7 +13569,7 @@ snapshots:
     optionalDependencies:
       graceful-fs: 4.2.11
 
-  katex@0.16.40:
+  katex@0.16.42:
     dependencies:
       commander: 8.3.0
 
@@ -13826,7 +13826,7 @@ snapshots:
       '@se-oss/deasync': 1.0.1
       mathxyjax3: 0.8.3
 
-  markdown-it-table-of-contents@1.1.0: {}
+  markdown-it-table-of-contents@1.2.0: {}
 
   markdown-it-task-lists@2.1.1: {}
 
@@ -14025,7 +14025,7 @@ snapshots:
       dagre-d3-es: 7.0.14
       dayjs: 1.11.20
       dompurify: 3.3.1
-      katex: 0.16.40
+      katex: 0.16.42
       khroma: 2.1.0
       lodash-es: 4.17.23
       marked: 16.4.2
