@@ -2,6 +2,7 @@ import type { ResolvedValaxyOptions, ValaxyHooks, ValaxyNode } from '../types'
 
 import { createHooks } from 'hookable'
 import { version } from '../env'
+import { presetStatistics } from '../plugins/presets/statistics'
 
 export * from './class'
 
@@ -16,6 +17,11 @@ const buildHooks: (keyof ValaxyHooks)[] = [
  */
 export function createValaxyNode(options: ResolvedValaxyOptions) {
   const hooks = createHooks<ValaxyHooks>()
+
+  // Register built-in statistics hook (can be overridden by user/addon hooks)
+  hooks.hook('statistics', ({ route, options: statsOptions }) => {
+    presetStatistics({ route, options: statsOptions })
+  })
 
   if (typeof options.config.hooks === 'object') {
     Object.keys(options.config.hooks).forEach((name) => {

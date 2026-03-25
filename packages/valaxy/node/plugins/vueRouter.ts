@@ -12,7 +12,6 @@ import VueRouter from 'vue-router/vite'
 import { setupMarkdownPlugins } from './markdown'
 
 import { matterOptions } from './markdown/transform/matter'
-import { presetStatistics } from './presets/statistics'
 // Import vue-router RouteMeta augmentation
 import '../../types/vue-router.d'
 
@@ -148,8 +147,7 @@ export async function createRouterPlugin(valaxyApp: ValaxyNode) {
         const { data, excerpt, content } = matter(md, matterOptions)
         const mdFm = data as (Page | Post)
 
-        // todo, optimize it to cache or on demand
-        const lastUpdated = options.config.siteConfig.lastUpdated
+        const lastUpdated = valaxyConfig.siteConfig.lastUpdated
 
         // do not export password
         delete mdFm.password
@@ -205,8 +203,7 @@ export async function createRouterPlugin(valaxyApp: ValaxyNode) {
         ]
         const routerFM: Post = {
           ...mdFm,
-          // 主题有新的字段需要主动设置
-          // @TODO 添加文档和配置项，或者反过来允许用户自行优化
+          // Normalize tags: ensure always an array for consistent consumption
           tags: typeof mdFm.tags === 'string' ? [mdFm.tags] : mdFm.tags,
           // set default updated to date if not present
           updated: mdFm.updated ?? mdFm.date,
@@ -242,9 +239,8 @@ export async function createRouterPlugin(valaxyApp: ValaxyNode) {
           })
         }
 
-        // TODO: extract to hook call
         if (valaxyConfig.siteConfig.statistics.enable) {
-          presetStatistics({
+          await valaxyApp.hooks.callHook('statistics', {
             options: valaxyConfig.siteConfig.statistics,
             route,
           })

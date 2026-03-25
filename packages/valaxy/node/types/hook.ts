@@ -1,4 +1,5 @@
 import type { EditableTreeNode } from 'vue-router/unplugin'
+import type { SiteConfig } from '../../types'
 
 export type HookResult = Promise<void> | void
 
@@ -39,6 +40,12 @@ export interface ValaxyHooks {
 
   'build:before': () => HookResult
   'build:after': () => HookResult
+
+  /**
+   * Called to compute statistics (word count, reading time) for a markdown route.
+   * Default implementation uses `presetStatistics`; addons/themes can hook to override.
+   */
+  'statistics': (ctx: { route: EditableTreeNode, options: SiteConfig['statistics'] }) => HookResult
 
   /**
    * @experimental
