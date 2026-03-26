@@ -14,7 +14,7 @@ hero:
   actions:
     - theme: brand
       text: hero.actions.get-started
-      link: /zh/guide/getting-started
+      link: /guide/getting-started
       type: fly
     - theme: alt
       text: hero.actions.view-github
