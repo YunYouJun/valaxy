@@ -19,9 +19,8 @@ const router = useRouter()
 // Dynamically import addon to avoid hard dependency
 const algoliaConfig = ref<{ options?: AlgoliaSearchOptions }>()
 import('valaxy-addon-algolia').then(({ useAddonAlgoliaConfig }) => {
-  const config = useAddonAlgoliaConfig()
-  // Sync the reactive config
-  watch(config, val => algoliaConfig.value = val, { immediate: true })
+  // Direct assignment — the synchronous watcher below will react to this change
+  algoliaConfig.value = useAddonAlgoliaConfig().value
 }).catch(() => {
   console.warn('[valaxy-theme-press] valaxy-addon-algolia is not installed. Algolia search will not work.')
 })

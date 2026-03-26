@@ -25,9 +25,18 @@ export function getThemeTemplatePath(theme: string): string {
 
 /**
  * Check whether a theme-specific template directory exists.
+ *
+ * If the theme name is invalid (fails validation in getThemeTemplatePath),
+ * this function returns false instead of throwing, so callers can fall back
+ * to generic behavior without crashing.
  */
 export function hasThemeTemplate(theme: string): boolean {
-  return fs.existsSync(getThemeTemplatePath(theme))
+  try {
+    return fs.existsSync(getThemeTemplatePath(theme))
+  }
+  catch {
+    return false
+  }
 }
 
 /**
