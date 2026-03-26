@@ -1,12 +1,12 @@
 <script setup lang="ts">
 import type { DocSearchInstance, DocSearchProps } from '@docsearch/js'
 import type { SidepanelInstance, SidepanelProps } from '@docsearch/sidepanel-js'
-import type { AlgoliaSearchOptions } from 'valaxy-addon-algolia'
-import { useAddonAlgoliaConfig } from 'valaxy-addon-algolia'
-import { nextTick, onUnmounted, watch } from 'vue'
+import { nextTick, onUnmounted, ref, watch } from 'vue'
 import { useRouter } from 'vue-router'
 
 import '../styles/docsearch.css'
+
+type AlgoliaSearchOptions = import('valaxy-addon-algolia').AlgoliaSearchOptions
 
 const props = defineProps<{
   openRequest?: {
@@ -16,7 +16,16 @@ const props = defineProps<{
 }>()
 
 const router = useRouter()
-const algoliaConfig = useAddonAlgoliaConfig()
+
+// Dynamically import addon to avoid hard dependency
+const algoliaConfig = ref<{ options?: AlgoliaSearchOptions }>()
+import('valaxy-addon-algolia').then(({ useAddonAlgoliaConfig }) => {
+  const config = useAddonAlgoliaConfig()
+  // Sync the reactive config
+  watch(config, val => algoliaConfig.value = val, { immediate: true })
+}).catch(() => {
+  console.warn('[valaxy-theme-press] valaxy-addon-algolia is not installed. Algolia search will not work.')
+})
 
 let cleanup = () => {}
 let docsearchInstance: DocSearchInstance | undefined

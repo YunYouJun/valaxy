@@ -21,6 +21,14 @@
   },
   "main": "node/index.ts",
   "types": "types/index.d.ts",
+  "peerDependencies": {
+    "valaxy-addon-algolia": ">=0.2.0"
+  },
+  "peerDependenciesMeta": {
+    "valaxy-addon-algolia": {
+      "optional": true
+    }
+  },
   "dependencies": {
     "@docsearch/css": "catalog:",
     "@docsearch/js": "catalog:",
