@@ -3,7 +3,41 @@
  * Extracted for testability.
  */
 
+import fs from 'node:fs'
+import path from 'node:path'
+import { fileURLToPath } from 'node:url'
+
 const THEME_PREFIX = 'valaxy-theme-'
+
+const THEME_NAME_RE = /^[a-z\d\-_]+$/
+
+const __filename = fileURLToPath(import.meta.url)
+
+/**
+ * Resolve the path to a theme-specific template directory.
+ * Validates the theme name to prevent path traversal.
+ */
+export function getThemeTemplatePath(theme: string): string {
+  if (!THEME_NAME_RE.test(theme))
+    throw new Error(`Invalid theme name: "${theme}"`)
+  return path.resolve(__filename, '../..', `template-blog-${theme}`)
+}
+
+/**
+ * Check whether a theme-specific template directory exists.
+ *
+ * If the theme name is invalid (fails validation in getThemeTemplatePath),
+ * this function returns false instead of throwing, so callers can fall back
+ * to generic behavior without crashing.
+ */
+export function hasThemeTemplate(theme: string): boolean {
+  try {
+    return fs.existsSync(getThemeTemplatePath(theme))
+  }
+  catch {
+    return false
+  }
+}
 
 /**
  * Normalize a raw theme name: trim whitespace and strip `valaxy-theme-` prefix.

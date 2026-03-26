@@ -1,7 +1,7 @@
 import fs from 'node:fs'
 import path from 'node:path'
 import { describe, expect, it } from 'vitest'
-import { normalizeThemeName, replaceThemeDeps, replaceThemeInConfig } from '../packages/create-valaxy/src/scaffold'
+import { hasThemeTemplate, normalizeThemeName, replaceThemeDeps, replaceThemeInConfig } from '../packages/create-valaxy/src/scaffold'
 
 // ─── theme-press dependency check ────────────────────────────────────
 
@@ -151,5 +151,43 @@ describe('replaceThemeInConfig', () => {
         unocss: { safelist: [] },
       })"
     `)
+  })
+})
+
+// ─── hasThemeTemplate ────────────────────────────────────────────────
+
+describe('hasThemeTemplate', () => {
+  it('returns true for press theme', () => {
+    expect(hasThemeTemplate('press')).toBe(true)
+  })
+
+  it('returns false for yun theme', () => {
+    expect(hasThemeTemplate('yun')).toBe(false)
+  })
+
+  it('returns false for non-existent theme', () => {
+    expect(hasThemeTemplate('nonexistent')).toBe(false)
+  })
+})
+
+// ─── template-blog-press contents ────────────────────────────────────
+
+describe('template-blog-press', () => {
+  const templateDir = path.resolve(
+    __dirname,
+    '../packages/create-valaxy/template-blog-press',
+  )
+
+  it('contains pages/index.md', () => {
+    expect(fs.existsSync(path.join(templateDir, 'pages/index.md'))).toBe(true)
+  })
+
+  it('contains valaxy.config.ts with press theme', () => {
+    const content = fs.readFileSync(path.join(templateDir, 'valaxy.config.ts'), 'utf-8')
+    expect(content).toContain(`theme: 'press'`)
+  })
+
+  it('contains site.config.ts', () => {
+    expect(fs.existsSync(path.join(templateDir, 'site.config.ts'))).toBe(true)
   })
 })
