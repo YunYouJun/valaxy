@@ -1,12 +1,11 @@
 <script setup lang="ts">
 import type { DocSearchInstance, DocSearchProps } from '@docsearch/js'
 import type { SidepanelInstance, SidepanelProps } from '@docsearch/sidepanel-js'
+import type { AlgoliaSearchOptions } from '../types/algolia'
 import { nextTick, onUnmounted, ref, watch } from 'vue'
 import { useRouter } from 'vue-router'
 
 import '../styles/docsearch.css'
-
-type AlgoliaSearchOptions = import('valaxy-addon-algolia').AlgoliaSearchOptions
 
 const props = defineProps<{
   openRequest?: {

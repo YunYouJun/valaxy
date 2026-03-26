@@ -16,7 +16,7 @@ const showAskAi = ref(false)
 if (isAlgolia.value) {
   import('valaxy-addon-algolia').then(({ useAddonAlgoliaConfig }) => {
     const algoliaConfig = useAddonAlgoliaConfig()
-    const askAi = algoliaConfig.value?.options?.askAi
+    const askAi = (algoliaConfig.value?.options as Record<string, any>)?.askAi
     showAskAi.value = !!askAi
   }).catch(() => {})
 }
