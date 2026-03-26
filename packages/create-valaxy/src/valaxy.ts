@@ -11,7 +11,7 @@ import minimist from 'minimist'
 import prompts from 'prompts'
 import { version } from '../package.json'
 import { BLOG_THEMES, renameFiles, TEMPLATE_CHOICES, TEMPLATES } from './config'
-import { normalizeThemeName, replaceThemeDeps, replaceThemeInConfig } from './scaffold'
+import { getThemeTemplatePath, hasThemeTemplate, normalizeThemeName, replaceThemeDeps, replaceThemeInConfig } from './scaffold'
 import { copy, emptyDir, formatTargetDir, isEmpty, isValidPackageName, pkgFromUserAgent, toValidPackageName } from './utils'
 
 const argv = minimist(process.argv.slice(2))
@@ -210,10 +210,20 @@ export async function init() {
 
     // Replace theme references in valaxy.config.ts for blog template
     if (template.name === 'blog') {
-      const configPath = path.join(root, 'valaxy.config.ts')
-      if (fs.existsSync(configPath)) {
-        const configContent = fs.readFileSync(configPath, 'utf-8')
-        fs.writeFileSync(configPath, replaceThemeInConfig(configContent, selectedTheme))
+      if (hasThemeTemplate(selectedTheme)) {
+        // Overlay theme-specific template files (e.g. pages/index.md, valaxy.config.ts, site.config.ts)
+        const themeTemplateDir = getThemeTemplatePath(selectedTheme)
+        const overlayFiles = fs.readdirSync(themeTemplateDir)
+        for (const file of overlayFiles) {
+          copy(path.join(themeTemplateDir, file), path.join(root, file))
+        }
+      }
+      else {
+        const configPath = path.join(root, 'valaxy.config.ts')
+        if (fs.existsSync(configPath)) {
+          const configContent = fs.readFileSync(configPath, 'utf-8')
+          fs.writeFileSync(configPath, replaceThemeInConfig(configContent, selectedTheme))
+        }
       }
     }
   }

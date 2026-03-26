@@ -3,7 +3,27 @@
  * Extracted for testability.
  */
 
+import fs from 'node:fs'
+import path from 'node:path'
+import { fileURLToPath } from 'node:url'
+
 const THEME_PREFIX = 'valaxy-theme-'
+
+const __filename = fileURLToPath(import.meta.url)
+
+/**
+ * Resolve the path to a theme-specific template directory.
+ */
+export function getThemeTemplatePath(theme: string): string {
+  return path.resolve(__filename, '../..', `template-blog-${theme}`)
+}
+
+/**
+ * Check whether a theme-specific template directory exists.
+ */
+export function hasThemeTemplate(theme: string): boolean {
+  return fs.existsSync(getThemeTemplatePath(theme))
+}
 
 /**
  * Normalize a raw theme name: trim whitespace and strip `valaxy-theme-` prefix.
