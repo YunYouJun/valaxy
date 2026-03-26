@@ -3,6 +3,19 @@ import path from 'node:path'
 import { describe, expect, it } from 'vitest'
 import { normalizeThemeName, replaceThemeDeps, replaceThemeInConfig } from '../packages/create-valaxy/src/scaffold'
 
+// ─── theme-press dependency check ────────────────────────────────────
+
+describe('valaxy-theme-press dependencies', () => {
+  it('declares vitepress as a dependency', () => {
+    const pressPkgPath = path.resolve(
+      __dirname,
+      '../packages/valaxy-theme-press/package.json',
+    )
+    const pressPkg = JSON.parse(fs.readFileSync(pressPkgPath, 'utf-8'))
+    expect(pressPkg.dependencies).toHaveProperty('vitepress')
+  })
+})
+
 // ─── normalizeThemeName ──────────────────────────────────────────────
 
 describe('normalizeThemeName', () => {

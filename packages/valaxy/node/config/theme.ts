@@ -27,7 +27,6 @@ export async function resolveUserThemeConfig(options: {
     logger.info(`Resolve ${colors.cyan('themeConfig')} from ${colors.dim(themeConfigFile)}`) // updated code
 
   if (options?.themeRoot) {
-    // todo mount defaultThemeConfig
     const { config: defaultThemeConfig } = await resolveThemeConfigFromRoot(options.themeRoot)
     userThemeConfig = replaceArrMerge(userThemeConfig || {}, defaultThemeConfig)
   }
