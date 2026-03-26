@@ -1,4 +1,5 @@
 <script lang="ts" setup>
+import type { AlgoliaSearchOptions } from '../types/algolia'
 import { onKeyStroke } from '@vueuse/core'
 import { useSiteConfig } from 'valaxy'
 import { computed, defineAsyncComponent, onMounted, ref } from 'vue'
@@ -16,7 +17,7 @@ const showAskAi = ref(false)
 if (isAlgolia.value) {
   import('valaxy-addon-algolia').then(({ useAddonAlgoliaConfig }) => {
     const algoliaConfig = useAddonAlgoliaConfig()
-    const askAi = (algoliaConfig.value?.options as Record<string, any>)?.askAi
+    const askAi = (algoliaConfig.value?.options as AlgoliaSearchOptions | undefined)?.askAi
     showAskAi.value = !!askAi
   }).catch(() => {})
 }

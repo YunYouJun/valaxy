@@ -9,12 +9,17 @@ import { fileURLToPath } from 'node:url'
 
 const THEME_PREFIX = 'valaxy-theme-'
 
+const THEME_NAME_RE = /^[a-z\d\-_]+$/
+
 const __filename = fileURLToPath(import.meta.url)
 
 /**
  * Resolve the path to a theme-specific template directory.
+ * Validates the theme name to prevent path traversal.
  */
 export function getThemeTemplatePath(theme: string): string {
+  if (!THEME_NAME_RE.test(theme))
+    throw new Error(`Invalid theme name: "${theme}"`)
   return path.resolve(__filename, '../..', `template-blog-${theme}`)
 }
 

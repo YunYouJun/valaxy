@@ -11,4 +11,11 @@ export default defineValaxyConfig({
       message: 'Powered by <a href="https://valaxy.site">Valaxy</a>',
     },
   },
+  unocss: {
+    safelist: [
+      'i-ri-book-2-line',
+      'i-ri-flashlight-line',
+      'i-ri-palette-line',
+    ],
+  },
 })
