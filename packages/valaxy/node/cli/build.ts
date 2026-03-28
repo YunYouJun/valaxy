@@ -8,7 +8,7 @@ import { consola } from 'consola'
 import { colors } from 'consola/utils'
 import { mergeConfig } from 'vite'
 import { createValaxyNode } from '../app'
-import { build, postProcessForSSG, ssgBuild, ssgBuildLegacy } from '../build'
+import { build, fixViteSsgHtml, postProcessForSSG, ssgBuild, ssgBuildLegacy } from '../build'
 
 import { mergeViteConfigs } from '../common'
 import { callHookWithLog } from '../logger'
@@ -93,6 +93,7 @@ export async function execBuild({ ssg, ssgEngine, root, output, log }: { ssg: bo
         consola.info(`use ${colors.yellow('vite-ssg')} (legacy) to do ssg build...`)
         try {
           await ssgBuildLegacy(valaxyApp, viteConfig)
+          await fixViteSsgHtml(options)
           await postProcessForSSG(options)
         }
         catch (e) {

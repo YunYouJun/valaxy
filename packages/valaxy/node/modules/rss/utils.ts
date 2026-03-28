@@ -186,8 +186,11 @@ export async function getPosts(params: {
       return false
     return true
   })
-  if (draftPosts.length)
-    consola.log(`[rss] Skipped ${draftPosts.length} draft post(s): ${draftPosts.join(', ')}`)
+  if (draftPosts.length) {
+    consola.warn(`[rss] Skipped ${colors.yellow(String(draftPosts.length))} draft post(s):\n${
+      draftPosts.map(p => `  ${colors.dim('-')} ${colors.dim(p)}`).join('\n')
+    }`)
+  }
 
   // returned posts
   const posts: ExtendedItem[] = []

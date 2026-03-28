@@ -7,6 +7,8 @@ import { useRoute } from 'vue-router'
 import { useThemeConfig } from './composables'
 import { useYunAppStore } from './stores'
 
+const isDev = import.meta.env.DEV
+
 const appStore = useAppStore()
 
 // Use a safe default for SSR; real themeColor is applied after mount
@@ -60,7 +62,7 @@ onMounted(() => {
 <template>
   <TooltipProvider>
     <YunStratoApp v-if="yun.isStrato" />
-    <ValaxyDebug />
+    <ValaxyDebug v-if="isDev" />
 
     <YunPageHeaderGradient />
     <YunNavMenu />
