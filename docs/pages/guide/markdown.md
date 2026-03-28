@@ -708,6 +708,7 @@ More examples see: [Mermaid](/examples/mermaid)
 PlantUML is not built-in because it requires an external server. You can configure it yourself via `markdown.transforms`:
 
 ```ts [valaxy.config.ts]
+import { Buffer } from 'node:buffer'
 import { defineValaxyConfig } from 'valaxy'
 
 const PLANTUML_SERVER = 'https://www.plantuml.com/plantuml'

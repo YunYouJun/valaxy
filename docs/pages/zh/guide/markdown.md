@@ -832,6 +832,7 @@ More examples see: [Mermaid](/zh/examples/mermaid)
 PlantUML 未内置于核心，因为它需要外部服务器渲染。你可以通过 `markdown.transforms` 自行配置：
 
 ```ts [valaxy.config.ts]
+import { Buffer } from 'node:buffer'
 import { defineValaxyConfig } from 'valaxy'
 
 const PLANTUML_SERVER = 'https://www.plantuml.com/plantuml'

@@ -58,10 +58,6 @@ const EXCLUDE = [
   '@unocss/reset',
   'unocss',
 
-  // addon, todo add externals for addon
-  // main field error
-  'meting',
-
   // internal
   'valaxy',
   'virtual:valaxy-addons:empty',
@@ -83,6 +79,7 @@ const EXCLUDE = [
 
 export function createConfigPlugin(options: ResolvedValaxyOptions): Plugin {
   // const themeDeps = Object.keys((options.config.themeConfig.pkg.dependencies || {}))
+  const addonNames = options.addons.map(a => a.name)
   const addonDeps = options.addons.map(i => Object.keys(i.pkg.dependencies || {})).flat()
   const cdnModuleNames = options.mode === 'build'
     ? (options.config.cdn?.modules || []).map(m => m.name)
@@ -145,7 +142,7 @@ export function createConfigPlugin(options: ResolvedValaxyOptions): Plugin {
 
           // must need it
           include: includedDeps,
-          exclude: EXCLUDE,
+          exclude: uniq([...EXCLUDE, ...addonNames]),
         },
 
         server: {
