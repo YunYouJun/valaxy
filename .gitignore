@@ -26,6 +26,10 @@ components.d.ts
 # test
 valaxy-blog
 
+# env (may contain secrets like VALAXY_ENCRYPT_PASSWORD)
+.env
+.env.*
+
 # codebuddy
 .codebuddy/memory
 .claude/worktrees

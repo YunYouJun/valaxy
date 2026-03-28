@@ -1,6 +1,10 @@
 import type { PageData } from '../../../../types'
 import type { ResolvedValaxyOptions } from '../../../types'
+import process from 'node:process'
+import { consola } from 'consola'
 import { encryptContent } from '../../../utils/encrypt'
+
+let globalPasswordLoggedOnce = false
 
 export function createTransformEncrypt(options: ResolvedValaxyOptions) {
   // handle mainContent, encrypt
@@ -27,10 +31,23 @@ export function createTransformEncrypt(options: ResolvedValaxyOptions) {
         ].join('')
       }
 
+      // Resolve password: frontmatter password > global env password (when encrypt: true)
+      const globalPassword = process.env.VALAXY_ENCRYPT_PASSWORD
+      const password = frontmatter.password
+        || (frontmatter.encrypt === true && globalPassword)
+        || undefined
+
+      if (password && !frontmatter.password && globalPassword) {
+        if (!globalPasswordLoggedOnce) {
+          consola.info('Using global encrypt password from env `VALAXY_ENCRYPT_PASSWORD`')
+          globalPasswordLoggedOnce = true
+        }
+      }
+
       // partial encryption
       const encryptRegexp = /<!-- valaxy-encrypt-start:(?<password>\w+) -->(?<content>.*?)<!-- valaxy-encrypt-end -->/gs
       const encryptCommentRegexp = /((<!-- valaxy-encrypt-start:\w+ -->)|(<!-- valaxy-encrypt-end -->))/g
-      if (frontmatter.password) {
+      if (password) {
         code = code.replaceAll(encryptCommentRegexp, '')
       }
       else {
@@ -60,13 +77,13 @@ export function createTransformEncrypt(options: ResolvedValaxyOptions) {
       }
 
       // encrypt the entire article
-      if (frontmatter.password) {
+      if (password) {
         const templateStart = code.indexOf('<template>')
         const templateEnd = code.lastIndexOf('</template>')
         const content = code.slice(templateStart + 10, templateEnd)
 
         const encryptedContent = await encryptContent(content, {
-          password: frontmatter.password,
+          password,
           iv: encrypt.iv,
           salt: encrypt.salt,
         })

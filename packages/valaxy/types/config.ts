@@ -411,9 +411,14 @@ export interface SiteConfig {
     iv: Uint8Array
     salt: Uint8Array
     /**
-     * @description:zh-CN 全局加密密码 todo
+     * @description:en-US Global encryption password, read from env `VALAXY_ENCRYPT_PASSWORD`.
+     * When a post has `encrypt: true` in frontmatter but no `password`, this is used.
+     * Do NOT put passwords in config files — use `.env` or CI secrets.
+     * @description:zh-CN 全局加密密码，从环境变量 `VALAXY_ENCRYPT_PASSWORD` 读取。
+     * 当文章 frontmatter 设置了 `encrypt: true` 但未指定 `password` 时使用。
+     * 请勿在配置文件中设置密码——请使用 `.env` 文件或 CI secrets。
      */
-    // password: string
+    // password is read from process.env.VALAXY_ENCRYPT_PASSWORD at build time
   }
 
   /**
