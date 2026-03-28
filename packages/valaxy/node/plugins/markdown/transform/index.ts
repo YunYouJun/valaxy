@@ -101,8 +101,8 @@ export async function createMarkdownPlugin(
         // features
         code = transformMermaid(code)
         code = transformIncludes(code, id)
-        // TODO: PlantUML
-        // code = transformPlantUml(code, config.plantUmlServer)
+        // PlantUML is not built-in (requires external server).
+        // See https://valaxy.site/guide/markdown#plantuml
 
         // Run user's before transform if provided
         return userTransforms?.before?.(code, id) ?? code

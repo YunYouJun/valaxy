@@ -202,9 +202,6 @@ export async function getPosts(params: {
       if (!data.updated)
         data.updated = await getUpdatedTime(path)
     }
-
-    // todo i18n
-
     // render excerpt
     // default excerpt content length: 100
     const fullText = options.config.modules.rss.fullText

@@ -166,7 +166,6 @@ export function mergeCollapsedCollections(
 
 /**
  * get post list in 'pages/posts' folder
- * todo: use vue provide/inject to global
  */
 export function usePostList(params: {
   type?: string

@@ -703,6 +703,46 @@ graph TD;
 
 More examples see: [Mermaid](/examples/mermaid)
 
+### PlantUML
+
+PlantUML is not built-in because it requires an external server. You can configure it yourself via `markdown.transforms`:
+
+```ts [valaxy.config.ts]
+import { defineValaxyConfig } from 'valaxy'
+
+const PLANTUML_SERVER = 'https://www.plantuml.com/plantuml'
+
+export default defineValaxyConfig({
+  markdown: {
+    transforms: {
+      before(code) {
+        return code.replace(
+          /^```plantuml\n([\s\S]+?)\n```/gm,
+          (_, uml: string) => {
+            const encoded = Buffer.from(uml.trim()).toString('hex')
+            return `<img src="${PLANTUML_SERVER}/svg/~h${encoded}" loading="lazy" alt="PlantUML diagram">`
+          },
+        )
+      },
+    },
+  },
+})
+```
+
+Then use it in your markdown:
+
+````txt
+```plantuml
+Alice -> Bob: Hello
+Bob --> Alice: Hi!
+```
+````
+
+::: tip
+This uses the [official PlantUML server](https://www.plantuml.com/plantuml) by default. You can replace `PLANTUML_SERVER` with your own server address.
+
+For most use cases, [Mermaid](#mermaid) is recommended as it works out of the box without any external dependencies.
+:::
 
 ## Footnote
 

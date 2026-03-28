@@ -827,6 +827,47 @@ graph TD;
 
 More examples see: [Mermaid](/zh/examples/mermaid)
 
+### PlantUML
+
+PlantUML 未内置于核心，因为它需要外部服务器渲染。你可以通过 `markdown.transforms` 自行配置：
+
+```ts [valaxy.config.ts]
+import { defineValaxyConfig } from 'valaxy'
+
+const PLANTUML_SERVER = 'https://www.plantuml.com/plantuml'
+
+export default defineValaxyConfig({
+  markdown: {
+    transforms: {
+      before(code) {
+        return code.replace(
+          /^```plantuml\n([\s\S]+?)\n```/gm,
+          (_, uml: string) => {
+            const encoded = Buffer.from(uml.trim()).toString('hex')
+            return `<img src="${PLANTUML_SERVER}/svg/~h${encoded}" loading="lazy" alt="PlantUML diagram">`
+          },
+        )
+      },
+    },
+  },
+})
+```
+
+然后在 Markdown 中使用：
+
+````txt
+```plantuml
+Alice -> Bob: Hello
+Bob --> Alice: Hi!
+```
+````
+
+::: tip
+默认使用 [PlantUML 官方服务器](https://www.plantuml.com/plantuml)，你可以将 `PLANTUML_SERVER` 替换为自己的服务器地址。
+
+大多数场景下，推荐使用 [Mermaid](#mermaid)，它开箱即用，无需任何外部依赖。
+:::
+
 ## 脚注
 
 
