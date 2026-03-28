@@ -18,7 +18,7 @@ const postCollections = usePostCollections(computed(() => props.post.path || '')
 
 const gradientClasses = ref('bg-gradient-to-r gradient-text from-$va-c-primary to-$va-c-primary-lighter')
 const postTitleClass = computed(() => {
-  if (color) {
+  if (color.value) {
     return ''
   }
   return props.post.postTitleClass || gradientClasses.value

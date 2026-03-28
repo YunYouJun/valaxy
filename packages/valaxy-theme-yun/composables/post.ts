@@ -1,38 +1,37 @@
-import type { ComputedRef, StyleValue } from 'vue'
-import { computed } from 'vue'
+import type { ComputedRef, MaybeRefOrGetter, StyleValue } from 'vue'
+import { computed, toValue } from 'vue'
 import { useThemeConfig } from './config'
 
 /**
- * get type card property
- * todo: test reactive
+ * get type card property (reactive)
  */
-export function usePostProperty(type?: string): {
-  color: string
-  icon: string
-  styles: StyleValue | undefined | ComputedRef<StyleValue | undefined>
+export function usePostProperty(type?: MaybeRefOrGetter<string | undefined>): {
+  color: ComputedRef<string>
+  icon: ComputedRef<string>
+  styles: ComputedRef<StyleValue | undefined>
 } {
-  if (!type) {
-    return {
-      color: '',
-      icon: '',
-      styles: undefined,
-    }
-  }
-
   const themeConfig = useThemeConfig()
 
-  if (!(type in themeConfig.value.types))
-    type = 'link'
+  const resolvedType = computed(() => {
+    const t = toValue(type)
+    if (!t)
+      return undefined
+    return t in themeConfig.value.types ? t : 'link'
+  })
 
-  const color = themeConfig.value.types[type].color
-  const icon = themeConfig.value.types[type].icon
+  const color = computed(() => {
+    const t = resolvedType.value
+    return t ? themeConfig.value.types[t].color : ''
+  })
+
+  const icon = computed(() => {
+    const t = resolvedType.value
+    return t ? themeConfig.value.types[t].icon : ''
+  })
 
   const styles = computed<StyleValue | undefined>(() => {
-    return type
-      ? ({
-          '--card-c-primary': color,
-        })
-      : undefined
+    const c = color.value
+    return c ? { '--card-c-primary': c } : undefined
   })
 
   return {
