@@ -54,7 +54,7 @@ function selectPost(post: typeof sortedPosts.value[number]) {
 
 <template>
   <Splitpanes class="h-full">
-    <Pane min-size="20" size="35">
+    <Pane min-size="20" size="33">
       <div class="h-full flex flex-col">
         <div class="flex items-center gap-2 px-3 py-2 border-b border-gray-100 dark:border-gray-800">
           <div class="i-ri-archive-line op-60" />

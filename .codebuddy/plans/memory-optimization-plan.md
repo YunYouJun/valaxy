@@ -23,13 +23,10 @@
 
 ## 中等收益（各 ~5-30 MB）
 
-### TODO 3: vueRouter.ts 复用 MarkdownIt 或使用精简配置
+### ~~TODO 3: vueRouter.ts 复用 MarkdownIt 或使用精简配置~~ （不再计划）
 - **文件**: `packages/valaxy/node/plugins/vueRouter.ts:59-60`
 - **问题**: 创建第 3 个完整 MarkdownIt 实例（含所有插件），仅用于摘要渲染
-- **方案**: 
-  - A) 复用主插件的 MarkdownIt 实例（需导出引用）
-  - B) 创建精简版：只加载 container/emoji/footnote 等必要插件，跳过 anchor/toc/sfc/lineNumbers 等
-- **预估节省**: ~5-10 MB
+- **跳过原因**: 收益仅 ~5-10 MB，TODO 9 子进程隔离已节省 ~1300 MB，2GB 构建目标已达成。复用实例会引入跨模块耦合，性价比不足。
 
 ### ✅ TODO 4: 移除 `_viteConfig` 未使用参数
 - **文件**: `packages/valaxy/node/plugins/markdown/markdownToVue.ts`
@@ -86,7 +83,7 @@
 3. ✅ **TODO 1** → 高收益，独立修改
 4. ✅ **TODO 2** → 高收益，需在 TODO 1 之后
 5. ✅ **TODO 7** → 简单
-6. **TODO 3** → 中等复杂度（未实现）
+6. ~~**TODO 3**~~ → 跳过（收益不足，目标已达成）
 7. ✅ **TODO 5** → 复杂度最高（需处理 MiniSearch 增量更新）
 8. ✅ **TODO 8** → 简单但收益最小
 9. ✅ **TODO 9** → 关键突破：子进程隔离

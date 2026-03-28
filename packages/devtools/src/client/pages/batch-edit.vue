@@ -235,7 +235,7 @@ function getFmValue(post: ClientPageData, key: string): string {
 <template>
   <Splitpanes class="h-full">
     <!-- Left: Post Selection -->
-    <Pane min-size="20" size="30">
+    <Pane min-size="20" size="33">
       <div class="h-full flex flex-col">
         <div class="flex items-center gap-2 px-3 py-2 border-b border-gray-100 dark:border-gray-800">
           <h3 class="text-sm font-bold flex-1">

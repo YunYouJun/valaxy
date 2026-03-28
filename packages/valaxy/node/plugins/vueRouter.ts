@@ -199,6 +199,8 @@ export async function createRouterPlugin(valaxyApp: ValaxyNode) {
           'links',
           'photos',
           // @TODO defineBasicLoader for page
+          // Waiting for upstream API to stabilize
+          // https://github.com/YunYouJun/valaxy/issues/487
           // 'projects',
         ]
         const routerFM: Post = {

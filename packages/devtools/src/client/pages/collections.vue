@@ -13,7 +13,7 @@ function onSelectCollection(col: ClientCollectionData) {
 
 <template>
   <Splitpanes class="h-full">
-    <Pane min-size="20" size="30">
+    <Pane min-size="20" size="33">
       <div class="h-full overflow-auto">
         <div
           v-for="col in collectionList"
