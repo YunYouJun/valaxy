@@ -61,10 +61,13 @@
   .va-git-log-contributor {
     padding-left: 0;
     padding-top: 0;
+    margin-top: 0;
+    margin-bottom: 0;
 
     li,
     li+li {
       margin-top: 0;
+      margin-bottom: 0;
     }
 
     li {
@@ -74,6 +77,7 @@
     .va-contributor-avatar img {
       width: 32px;
       height: 32px;
+      margin: 0;
       object-fit: cover;
     }
   }
