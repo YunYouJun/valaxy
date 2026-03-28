@@ -269,7 +269,7 @@ export interface ThemeConfig extends DefaultTheme.Config {
        * 苏公网安备xxxxxxxx号
        * https://beian.mps.gov.cn/
        */
-      police: string
+      police?: string
     }
   }>
 

@@ -34,3 +34,9 @@ const isExternalLink = computed(() => {
     <slot />
   </RouterLink>
 </template>
+
+<style>
+.va-link {
+  cursor: pointer;
+}
+</style>
