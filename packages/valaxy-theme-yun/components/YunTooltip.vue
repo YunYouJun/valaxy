@@ -45,7 +45,7 @@ withDefaults(defineProps<{
   background: var(--va-c-bg);
   color: var(--va-c-text);
   padding: 0.25rem 0.75rem;
-  box-shadow: 0px 4px 6px -1px rgb(0 0 0 / 0.1), 0px 2px 4px -2px rgb(0 0 0 / 0.1);
+  box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
   border-radius: 4px;
   z-index: 100;
   user-select: none;
@@ -61,6 +61,7 @@ withDefaults(defineProps<{
     opacity: 0;
     transform: translateY(2px);
   }
+
   to {
     opacity: 1;
     transform: translateY(0);

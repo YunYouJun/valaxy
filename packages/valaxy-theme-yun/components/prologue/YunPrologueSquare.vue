@@ -113,6 +113,7 @@ const showContent = ref(false)
 
   &.enter-from {
     border-radius: 0%;
+
     // width: var(--total-char-height);
     // height: var(--total-char-height);
     transform: rotate(135deg) translateY(0%);
@@ -139,6 +140,7 @@ const showContent = ref(false)
 
     &.show {
       opacity: 1;
+
       // transform: translateY(calc(50% + var(--avatar-size) / 2));
     }
   }

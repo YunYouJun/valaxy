@@ -45,7 +45,7 @@ const classes = computed(() => {
 }
 
 /* Switch to horizontal three-column layout on large screens */
-@media (min-width: 1024px) {
+@media (width >= 1024px) {
   .yun-layout-wrapper__content {
     flex-direction: row;
     align-items: start;

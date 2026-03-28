@@ -20,7 +20,7 @@ const themeConfig = useThemeConfig()
 
 <style>
 /* Use CSS media query for mobile flex-wrap instead of JS isMobile to avoid hydration mismatch */
-@media (max-width: 768px) {
+@media (width <= 768px) {
   .yun-fullscreen-menu-list {
     flex-wrap: wrap;
   }

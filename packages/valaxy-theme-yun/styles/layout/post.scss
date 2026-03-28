@@ -21,7 +21,7 @@
 
   // Use md breakpoint (768px) instead of mobile (640px)
   // because 640~768px screens are still too narrow for side-by-side layout
-  @media screen and (max-width: 768px) {
+  @media screen and (width <= 768px) {
     .post-card-info {
       flex-direction: column;
     }

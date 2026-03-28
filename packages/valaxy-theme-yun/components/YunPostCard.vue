@@ -127,6 +127,7 @@ function guardedNavigate(e: Event, navigate: () => void) {
 .post-card-link {
   text-decoration: none;
   color: inherit;
+
   // max-w-$yun-post-card-max-width
   max-width: calc(var(--yun-post-card-max-width) + 2rem);
 

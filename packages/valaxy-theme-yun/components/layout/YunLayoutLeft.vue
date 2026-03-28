@@ -35,7 +35,7 @@ const sidebarExplicit = computed(() => {
   display: none;
 }
 
-@media (min-width: 1024px) {
+@media (width >= 1024px) {
   .yun-layout-left {
     display: flex;
     flex-direction: column;

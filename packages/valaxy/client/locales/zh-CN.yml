@@ -91,9 +91,12 @@ category:
 
 search:
   placeholder: 搜索...
+  loading: 加载中...
   empty: '找不到您查询的内容: {query}'
   hits_time: '找到 {hits} 条结果（用时 {time} 毫秒）'
   hits: '找到 {count} 条结果'
+  no_results: 未找到相关结果
+  no_results_hint: 请尝试调整搜索关键词
 
 symbol:
   comma: ，

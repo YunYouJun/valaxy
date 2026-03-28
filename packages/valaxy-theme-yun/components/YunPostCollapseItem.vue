@@ -84,7 +84,7 @@ const { $tO } = useValaxyI18n()
       left: 0;
       width: 0;
       height: 1px;
-      background-color: rgba(var(--va-c-primary-rgb), 0.3);
+      background-color: rgb(var(--va-c-primary-rgb), 0.3);
       transition: width 800ms map.get($cubic-bezier, 'ease-in');
     }
 
@@ -127,7 +127,7 @@ const { $tO } = useValaxyI18n()
       position: absolute;
       width: 2px;
       height: 0;
-      background: rgba(var(--va-c-primary-rgb), 0.3);
+      background: rgb(var(--va-c-primary-rgb), 0.3);
       transition: height 600ms map.get($cubic-bezier, 'ease-in');
     }
 

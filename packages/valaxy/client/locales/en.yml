@@ -92,9 +92,12 @@ category:
 
 search:
   placeholder: Searching...
+  loading: Loading...
   empty: 'We could not find any results for the search: {query}.'
   hits_time: '{hits} results found in {time} ms'
   hits: '{count} results found'
+  no_results: No results found
+  no_results_hint: Try adjusting your search terms
 
 symbol:
   comma: ', '

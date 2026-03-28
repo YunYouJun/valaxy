@@ -20,7 +20,7 @@ const slots = useSlots()
     :class="[
       disabled ? 'op-50 cursor-not-allowed' : '',
     ]"
-    style="--un-ring-color: rgba(99, 102, 241, 0.4)"
+    style="--un-ring-color: rgb(99 102 241 / 0.4)"
   >
     <span
       v-if="slots.prefix"
@@ -68,7 +68,7 @@ const slots = useSlots()
         : 'text-sm px-2.5 py-1.5',
       disabled ? 'op-50 cursor-not-allowed' : '',
     ]"
-    style="--un-ring-color: rgba(99, 102, 241, 0.4)"
+    style="--un-ring-color: rgb(99 102 241 / 0.4)"
   >
 </template>
 

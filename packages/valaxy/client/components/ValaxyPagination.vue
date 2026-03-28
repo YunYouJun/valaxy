@@ -74,7 +74,7 @@ function jumpTo(page: number) {
 
 <style lang="scss">
 :root {
-  --page-btn-bg-color: rgba(255, 255, 255, 0.5);
+  --page-btn-bg-color: rgb(255 255 255 / 0.5);
   --page-btn-hover-bg-color: var(--va-c-primary-lighter);
   --page-btn-active-bg-color: var(--va-c-primary-light);
 }

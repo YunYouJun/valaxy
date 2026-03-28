@@ -56,7 +56,7 @@ const control = usePrevNext()
   gap: 1rem;
 }
 
-@media (min-width: 640px) {
+@media (width >= 640px) {
   .prev-next {
     grid-template-columns: repeat(2, 1fr);
   }

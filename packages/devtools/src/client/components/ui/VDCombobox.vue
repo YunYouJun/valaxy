@@ -95,6 +95,6 @@ function onInputChange(event: Event) {
 <style scoped>
 .vd-combobox-input:focus {
   border-color: #6366f1;
-  box-shadow: 0 0 0 2px rgba(99, 102, 241, 0.4);
+  box-shadow: 0 0 0 2px rgb(99 102 241 / 0.4);
 }
 </style>

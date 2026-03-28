@@ -15,7 +15,7 @@ defineProps<{
   position: fixed;
   inset: 0;
   z-index: var(--pr-z-backdrop);
-  background: rgba(0, 0, 0, .6);
+  background: rgb(0 0 0 / .6);
   transition: opacity var(--va-transition-duration-moderate);
 
   .fade-enter-from,

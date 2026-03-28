@@ -26,11 +26,11 @@ catalog:
   '@antfu/utils': ^9.3.0
   '@clack/prompts': ^1.1.0
   '@ctrl/tinycolor': ^4.2.0
-  '@docsearch/css': ^4.6.1
-  '@docsearch/js': ^4.6.1
-  '@docsearch/sidepanel-js': ^4.6.1
+  '@docsearch/css': ^4.6.2
+  '@docsearch/js': ^4.6.2
+  '@docsearch/sidepanel-js': ^4.6.2
   '@explosions/fireworks': ^0.2.0
-  '@larksuiteoapi/node-sdk': ^1.59.0
+  '@larksuiteoapi/node-sdk': ^1.60.0
   '@mdit-vue/plugin-component': ^3.0.2
   '@mdit-vue/plugin-frontmatter': ^3.0.2
   '@mdit-vue/plugin-headers': ^3.0.2
@@ -73,7 +73,7 @@ catalog:
   '@vueuse/motion': ^3.0.3
   '@waline/client': 3.4.1
   animejs: ^4.3.6
-  axios: ^1.13.6
+  axios: ^1.14.0
   beasties: ^0.4.1
   bilibili-bangumi-component: ^0.4.0
   body-parser: ^2.2.2
@@ -107,7 +107,7 @@ catalog:
   jiti: ^2.6.1
   js-base64: ^3.7.8
   js-yaml: ^4.1.1
-  katex: ^0.16.42
+  katex: ^0.16.44
   lightgallery: 2.7.2
   lint-staged: ^16.4.0
   lru-cache: ^11.2.7
@@ -148,7 +148,7 @@ catalog:
   sirv: ^3.0.2
   splitpanes: ^4.0.4
   star-markdown-css: ^0.5.3
-  stylelint: ^17.5.0
+  stylelint: ^17.6.0
   stylelint-config-recommended-vue: ^1.6.1
   stylelint-config-standard-scss: ^17.0.0
   table: ^6.9.0
@@ -168,16 +168,16 @@ catalog:
   vite-plugin-vue-layouts-next: ^2.1.0
   vite-ssg: ^28.3.0
   vite-ssg-sitemap: ^0.10.0
-  vitepress-plugin-group-icons: ^1.7.1
-  vitest: ^4.1.1
+  vitepress-plugin-group-icons: ^1.7.3
+  vitest: ^4.1.2
   vue-router: ^5.0.4
   vue-tsc: 2.2.0
   yargs: ^18.0.0
 catalogs:
   build:
     '@iconify-json/ant-design': ^1.2.5
-    '@iconify-json/carbon': ^1.2.19
-    '@iconify-json/logos': ^1.2.10
+    '@iconify-json/carbon': ^1.2.20
+    '@iconify-json/logos': ^1.2.11
     '@iconify-json/ri': ^1.2.10
     '@iconify-json/simple-icons': ^1.2.75
     '@iconify-json/vscode-icons': ^1.2.45
@@ -189,7 +189,7 @@ catalogs:
     typescript: ^5.9.3
     unbuild: ^3.6.1
     unhead: ^2.1.12
-    vite: ^8.0.2
+    vite: ^8.0.3
     vue-i18n: ^11.3.0
     zx: ^8.8.5
   frontend:

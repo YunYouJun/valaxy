@@ -37,6 +37,11 @@ declare module '#valaxy/styles' {
   export default styles
 }
 
+declare module '@localSearchIndex' {
+  const index: Record<string, () => Promise<{ default: string }>>
+  export default index
+}
+
 // valaxy features
 declare module '#valaxy/blog/collections' {
   import type { CollectionConfig } from './types'

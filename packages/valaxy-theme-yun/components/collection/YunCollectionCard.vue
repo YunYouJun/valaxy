@@ -138,7 +138,6 @@ const hasMoreItems = computed(() => itemCount.value > 3)
     font-family: var(--va-font-serif);
     background: linear-gradient(135deg, var(--collection-accent), var(--collection-accent-light));
     background-clip: text;
-    -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     line-height: 1.4;
   }

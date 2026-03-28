@@ -52,27 +52,26 @@ html.dark {
  * - `text-3`: Used for subtle texts, such as "placeholders" or "caret icon".
  * -------------------------------------------------------------------------- */
 :root {
-  --va-c-text-1: rgba(60, 60, 67);
-  --va-c-text-2: rgba(60, 60, 67, 0.78);
-  --va-c-text-3: rgba(60, 60, 67, 0.56);
+  --va-c-text-1: rgb(60 60 67);
+  --va-c-text-2: rgb(60 60 67 / 0.78);
+  --va-c-text-3: rgb(60 60 67 / 0.56);
 }
 
 .dark {
-  --va-c-text-1: rgba(255, 255, 245, 0.86);
-  --va-c-text-2: rgba(235, 235, 245, 0.6);
-  --va-c-text-3: rgba(235, 235, 245, 0.38);
+  --va-c-text-1: rgb(255 255 245 / 0.86);
+  --va-c-text-2: rgb(235 235 245 / 0.6);
+  --va-c-text-3: rgb(235 235 245 / 0.38);
 }
 
 // bg
 :root {
-  --va-c-bg: #ffffff;
-  --va-c-bg-light: #ffffff;
+  --va-c-bg: #fff;
+  --va-c-bg-light: #fff;
   --va-c-bg-dark: #fafafa;
-  --va-c-bg-opacity: rgba(255, 255, 255, 0.8);
+  --va-c-bg-opacity: rgb(255 255 255 / 0.8);
   --va-c-bg-soft: #f9f9f9;
   --va-c-bg-alt: #f9f9f9;
   --va-c-bg-mute: #f1f1f1;
-
   --va-c-bg-elevated: #f9f9f9;
 }
 
@@ -80,11 +79,10 @@ html.dark {
   --va-c-bg: #1a1a1d;
   --va-c-bg-light: #202127;
   --va-c-bg-dark: #1a1a1a;
-  --va-c-bg-opacity: rgba(0, 0, 0, 0.8);
+  --va-c-bg-opacity: rgb(0 0 0 / 0.8);
   --va-c-bg-alt: #161618;
   --va-c-bg-soft: #202127;
   --va-c-bg-mute: #2f2f2f;
-
   --va-c-bg-elevated: #202127;
 }
 

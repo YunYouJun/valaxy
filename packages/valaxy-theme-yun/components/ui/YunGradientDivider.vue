@@ -4,14 +4,14 @@
 
 <style lang="scss">
 .yun-gradient-line {
-  --c-end: rgba(0 0 0 / 0);
-  --c-mid: rgba(0 0 0 / 1);
+  --c-end: rgb(0 0 0 / 0);
+  --c-mid: rgb(0 0 0 / 1);
 }
 
 .dark {
   .yun-gradient-line {
-    --c-end: rgba(255 255 255 / 0);
-    --c-mid: rgba(255 255 255 / 1);
+    --c-end: rgb(255 255 255 / 0);
+    --c-mid: rgb(255 255 255 / 1);
   }
 }
 

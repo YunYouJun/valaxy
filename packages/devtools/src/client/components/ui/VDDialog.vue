@@ -45,13 +45,16 @@ const open = defineModel<boolean>('open', { default: false })
 .animate-overlay-show {
   animation: overlayShow 150ms ease-out;
 }
+
 .animate-content-show {
   animation: contentShow 150ms ease-out;
 }
+
 @keyframes overlayShow {
   from { opacity: 0; }
   to { opacity: 1; }
 }
+
 @keyframes contentShow {
   from { opacity: 0; transform: translate(-50%, -48%) scale(0.96); }
   to { opacity: 1; transform: translate(-50%, -50%) scale(1); }

@@ -59,10 +59,8 @@ const resolvedItems = computed(() => {
 
     .items {
       border-left: 1px solid var(--va-c-divider);
-
       color: #666;
       font-size: 0.9em;
-
       padding-left: 16px;
 
       .item {

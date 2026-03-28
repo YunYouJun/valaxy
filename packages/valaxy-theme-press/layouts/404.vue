@@ -29,6 +29,6 @@ const { t } = useI18n()
 <style lang="scss" scoped>
 .not-found {
   font-size: 10rem;
-  text-shadow: 0 5px 10px rgba(0,0,0,.25), 0 20px 20px rgba(0,0,0,.15);
+  text-shadow: 0 5px 10px rgb(0 0 0 / .25), 0 20px 20px rgb(0 0 0 / .15);
 }
 </style>

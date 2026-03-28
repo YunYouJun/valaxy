@@ -42,11 +42,12 @@ defineProps<{
   }
 
   &.router-link-active {
-    background-color: rgba(var(--va-c-primary-rgb), 0.08);
+    background-color: rgb(var(--va-c-primary-rgb), 0.08);
 
     .icon-default {
       display: none;
     }
+
     .icon-active {
       display: block;
     }

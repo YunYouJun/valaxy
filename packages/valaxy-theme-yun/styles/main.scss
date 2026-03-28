@@ -11,6 +11,7 @@ $c-primary: #0078e7 !default;
 @use "./animations/index.scss" as *;
 @use "./common/button.scss" as *;
 @use "./common/markdown.scss" as *;
+
 // valaxy client styles
 @use 'valaxy/client/styles/components/code.scss' as *;
 @use 'valaxy/client/styles/components/code-group.scss' as *;

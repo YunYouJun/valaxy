@@ -34,7 +34,7 @@ const isLocked = useScrollLock(isClient ? document.body : null)
 /* stylelint-disable selector-class-pattern */
 .pr-NavScreen {
   position: fixed;
-  inset: calc(var(--pr-nav-height) + var(--pr-layout-top-height, 0px) + 1px) 0 0 0;
+  inset: calc(var(--pr-nav-height) + var(--pr-layout-top-height, 0px) + 1px) 0 0;
 
   /* rtl:ignore */
 

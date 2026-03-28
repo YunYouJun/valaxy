@@ -177,7 +177,7 @@ export interface SiteConfig {
      * - algolia: Algolia Search
      * - engine: Engine Search, like Google/Baidu
      * - fuse: Local Search by fuse.js
-     * - local(todo): Local Search by MiniSearch
+     * - local: Local Search by MiniSearch
      */
     provider: 'algolia' | 'engine' | 'fuse' | 'local'
   }

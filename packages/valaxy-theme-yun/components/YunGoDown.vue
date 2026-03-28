@@ -24,7 +24,7 @@ import { goDown } from '../utils'
   transition: color var(--va-transition-duration);
 
   &:hover {
-    color: rgba(var(--va-c-primary-rgb), 0.6);
+    color: rgb(var(--va-c-primary-rgb), 0.6);
   }
 }
 

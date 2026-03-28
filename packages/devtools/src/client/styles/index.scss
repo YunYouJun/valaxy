@@ -1,5 +1,5 @@
 .valaxy-devtools-container {
-  --c-divider: rgba(0, 0, 0, 0.15);
+  --c-divider: rgb(0 0 0 / 0.15);
 
   .splitpanes__splitter {
     background-color: var(--c-divider);
@@ -14,7 +14,7 @@
 
 .dark {
   .valaxy-devtools-container {
-    --c-divider: rgba(255, 255, 255, 0.1);
+    --c-divider: rgb(255 255 255 / 0.1);
   }
 }
 

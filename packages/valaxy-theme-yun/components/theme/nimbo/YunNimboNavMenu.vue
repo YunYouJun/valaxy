@@ -115,6 +115,7 @@ const app = useAppStore()
   // animation-range: 0 calc(30vh), exit;
   box-shadow: none;
   display: flex;
+
   // top: var(--rect-margin);
   // left: var(--rect-margin);
   // right: var(--rect-margin);
@@ -122,7 +123,6 @@ const app = useAppStore()
   top: 0;
   left: 0;
   right: 0;
-
   align-items: center;
   justify-content: space-between;
   height: var(--yun-nav-height, 50px);

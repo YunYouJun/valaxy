@@ -4,7 +4,6 @@
   --smc-font-sans: var(--va-font-sans);
   --smc-font-serif: var(--va-font-serif);
   --smc-font-mono: var(--va-font-mono);
-
   --c-toc-link: var(--va-c-text-light);
 }
 
@@ -16,7 +15,7 @@
 
 /* stylelint-disable-next-line no-duplicate-selectors */
 .markdown-body {
-  word-wrap: break-word;
+  overflow-wrap: break-word;
 
   a {
     color: var(--va-c-link);
@@ -108,18 +107,18 @@
       thead {
         th {
           text-align: left;
-          border: 1px solid rgba(var(--va-c-primary-rgb), 0.3);
-          background-color: rgba(var(--va-c-primary-rgb), 0.1);
+          border: 1px solid rgb(var(--va-c-primary-rgb), 0.3);
+          background-color: rgb(var(--va-c-primary-rgb), 0.1);
         }
       }
 
       td {
-        border: 1px solid rgba(var(--va-c-primary-rgb), 0.3);
+        border: 1px solid rgb(var(--va-c-primary-rgb), 0.3);
       }
 
       tr {
         &:hover {
-          background-color: rgba(var(--va-c-primary-rgb), 0.05);
+          background-color: rgb(var(--va-c-primary-rgb), 0.05);
         }
       }
     }
@@ -136,22 +135,19 @@
   .markdown-body {
     div[class*="language-"] {
       position: relative;
+
       // left: 50%;
       // right: 50%;
       // margin-left: -50vw !important;
       // margin-right: -50vw !important;
       // width: 100vw !important;
-      margin-top: 16px;
-      margin-bottom: 0;
-      margin-left: -24px;
-      margin-right: -24px;
+      margin: 16px -24px 0;
       height: auto;
     }
   }
 }
 
 @media (width <=639.9px) {
-
   .markdown-body .vp-code-group .tabs,
   .markdown-body .vp-code-group div[class*="language-"] {
     position: relative;

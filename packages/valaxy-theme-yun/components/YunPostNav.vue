@@ -45,8 +45,8 @@ const nextTitle = useLocaleTitle(next)
     transition: var(--va-transition-duration-moderate);
 
     &:hover {
-      background-color: rgba(var(--va-c-primary-rgb), 0.1);
-      box-shadow: 0 0 15px rgba(black, 0.1);
+      background-color: rgb(var(--va-c-primary-rgb), 0.1);
+      box-shadow: 0 0 15px rgb(black, 0.1);
     }
   }
 

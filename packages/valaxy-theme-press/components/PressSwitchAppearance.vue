@@ -40,7 +40,7 @@ const appStore = useAppStore()
   height: 18px;
   border-radius: 50%;
   background-color: #fff;
-  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.04), 0 1px 2px rgba(0, 0, 0, 0.06);
+  box-shadow: 0 1px 2px rgb(0 0 0 / 0.04), 0 1px 2px rgb(0 0 0 / 0.06);
   transition: background-color var(--va-transition-duration), transform var(--va-transition-duration);
 }
 
@@ -60,11 +60,11 @@ const appStore = useAppStore()
 .icon {
   width: 12px;
   height: 12px;
-  background-color: rgba(60, 60, 60, 0.7);
+  background-color: rgb(60 60 60 / 0.7);
 }
 
 .dark .icon {
-  background-color: rgba(255, 255, 255, 0.87);
+  background-color: rgb(255 255 255 / 0.87);
 }
 
 .dark .switch-appearance :deep(.check) {

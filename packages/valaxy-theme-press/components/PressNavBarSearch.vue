@@ -10,6 +10,7 @@ const siteConfig = useSiteConfig()
 
 const isAlgolia = computed(() => siteConfig.value.search.provider === 'algolia')
 const isFuse = computed(() => siteConfig.value.search.provider === 'fuse')
+const isLocal = computed(() => siteConfig.value.search.provider === 'local')
 
 // Whether to show the Ask AI button (requires askAi config in addon-algolia)
 const showAskAi = ref(false)
@@ -28,6 +29,10 @@ const PressAlgoliaSearch = isAlgolia.value
 
 const PressFuseSearch = isFuse.value
   ? defineAsyncComponent(() => import('./PressFuseSearch.vue'))
+  : () => null
+
+const PressLocalSearch = isLocal.value
+  ? defineAsyncComponent(() => import('./PressLocalSearch.vue'))
   : () => null
 
 // #region Algolia lazy loading
@@ -106,6 +111,17 @@ function loadAndOpen(target: OpenTarget) {
 
 // #endregion
 
+// Local search keyboard shortcut
+const localSearchRef = ref()
+if (isLocal.value) {
+  onKeyStroke('k', (event) => {
+    if (event.ctrlKey || event.metaKey) {
+      event.preventDefault()
+      localSearchRef.value?.toggleSearch()
+    }
+  })
+}
+
 function isEditingContent(event: KeyboardEvent): boolean {
   const element = event.target as HTMLElement
   const tagName = element.tagName
@@ -141,6 +157,9 @@ function isEditingContent(event: KeyboardEvent): boolean {
     </template>
     <template v-else-if="isFuse">
       <PressFuseSearch />
+    </template>
+    <template v-else-if="isLocal">
+      <PressLocalSearch ref="localSearchRef" />
     </template>
   </div>
 </template>

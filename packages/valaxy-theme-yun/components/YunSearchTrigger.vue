@@ -7,6 +7,7 @@ const siteConfig = useSiteConfig()
 
 const isAlgolia = computed(() => siteConfig.value.search.provider === 'algolia')
 const isFuse = computed(() => siteConfig.value.search.provider === 'fuse')
+const isLocal = computed(() => siteConfig.value.search.provider === 'local')
 
 const open = ref(false)
 
@@ -17,7 +18,7 @@ function togglePopup() {
 const algoliaRef = ref()
 onMounted(() => {
   // algolia has its own hotkey handling in YunAlgoliaSearch component
-  if (isFuse.value)
+  if (isFuse.value || isLocal.value)
     useHotKey('k', togglePopup)
 })
 
@@ -44,4 +45,5 @@ const YunAlgoliaSearch = isAlgolia.value
 
   <YunAlgoliaSearch v-if="isAlgolia" ref="algoliaRef" :open="open" @close="closeSearch" />
   <YunFuseSearch v-else-if="isFuse" :open="open" @close="closeSearch" />
+  <YunLocalSearch v-else-if="isLocal" :open="open" @close="closeSearch" />
 </template>

@@ -57,7 +57,6 @@ const asideEnabled = computed(() => fm.value.aside !== false)
   bottom: 0;
   z-index: var(--yun-z-aside);
   width: 0;
-  max-height: 100vh;
   transform: translateX(100%);
   transition: all var(--va-transition-duration-fast) map.get($cubic-bezier, 'ease-in-out');
   max-height: calc(100vh - var(--yun-margin-top));

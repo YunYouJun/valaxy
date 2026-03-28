@@ -28,11 +28,11 @@ const siteConfig = useSiteConfig()
 
 .site-author-avatar {
   img {
-    box-shadow: 0 0 10px rgba(black, 0.2);
+    box-shadow: 0 0 10px rgb(black, 0.2);
     transition: var(--va-transition-duration-moderate);
 
     &:hover {
-      box-shadow: 0 0 30px rgba(var(--va-c-primary-rgb), 0.2);
+      box-shadow: 0 0 30px rgb(var(--va-c-primary-rgb), 0.2);
     }
   }
 }

@@ -58,7 +58,7 @@ html:not(.dark) .vp-code-dark {
     white-space: pre;
     word-spacing: normal;
     word-break: normal;
-    word-wrap: normal;
+    overflow-wrap: normal;
     tab-size: 4;
     hyphens: none;
   }

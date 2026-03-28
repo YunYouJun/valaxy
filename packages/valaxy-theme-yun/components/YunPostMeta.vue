@@ -60,7 +60,7 @@ const siteConfig = useSiteConfig()
 
 <style>
 /* Use CSS media query for mobile layout instead of JS isMobile to avoid hydration mismatch */
-@media (max-width: 768px) {
+@media (width <= 768px) {
   .post-meta {
     flex-direction: column;
     gap: 0.5rem !important;

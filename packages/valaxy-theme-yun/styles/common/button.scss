@@ -15,10 +15,10 @@
   }
 
   &:hover {
-    background-color: rgba(var(--va-c-primary-rgb), 0.08);
+    background-color: rgb(var(--va-c-primary-rgb), 0.08);
   }
 
   &:active {
-    background-color: rgba(var(--va-c-primary-rgb), 0.16);
+    background-color: rgb(var(--va-c-primary-rgb), 0.16);
   }
 }

@@ -158,9 +158,8 @@ const { hasSidebar } = useSidebar()
   max-width: 320px;
   background-color: var(--va-c-bg);
   opacity: 0;
-  overflow-x: hidden;
+  overflow: hidden auto;
   overflow-y: auto;
-  overflow-y: overlay;
   transform: translateX(-100%);
   transition: opacity var(--va-transition-duration-moderate), transform var(--va-transition-duration) ease;
 

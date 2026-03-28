@@ -43,11 +43,11 @@ const homeLink = computed(() => hasLocales.value ? currentLocale.value.link : '/
 @use 'valaxy/client/styles/mixins/index.scss' as *;
 
 :root {
-  --pr-navbar-c-bg: rgba(255, 255, 255, 0.8);
+  --pr-navbar-c-bg: rgb(255 255 255 / 0.8);
 }
 
 .dark {
-  --pr-navbar-c-bg: rgba(24, 24, 24, 0.3);
+  --pr-navbar-c-bg: rgb(24 24 24 / 0.3);
 }
 
 .logo {
@@ -81,11 +81,11 @@ const homeLink = computed(() => hasLocales.value ? currentLocale.value.link : '/
 
   @supports not (backdrop-filter: saturate(50%) blur(8px)) {
     .pr-navbar.has-sidebar .content {
-      background: rgba(255, 255, 255, 0.95);
+      background: rgb(255 255 255 / 0.95);
     }
 
     .dark .pr-navbar.has-sidebar .content {
-      background: rgba(36, 36, 36, 0.95);
+      background: rgb(36 36 36 / 0.95);
     }
   }
 }
