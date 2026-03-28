@@ -14,6 +14,7 @@ import { valaxyPrefix, vLogger } from '../../logger'
 import { disposeMdItInstance, disposePreviewMdItInstance } from '../../plugins/markdown'
 import { disposeSharedHighlighter } from '../../plugins/markdown/highlighterCache'
 import { createServer } from '../../server'
+import { countPerformanceTime } from '../../utils/performance'
 
 export function printInfo(options: ResolvedValaxyOptions, port?: number, remote?: string | boolean) {
   const themeVersion = colors.blue(`v${options.config.themeConfig?.pkg?.version}`) || 'unknown'
@@ -63,10 +64,12 @@ export async function initServer(valaxyApp: ValaxyNode, viteConfig: InlineConfig
   const { options } = valaxyApp
 
   serverSpinner.start()
+  const mergeTimer = countPerformanceTime()
   const viteConfigs: InlineConfig = mergeConfig(
     await mergeViteConfigs(options, 'serve'),
     viteConfig,
   )
+  vLogger.debug(`mergeViteConfigs: ${mergeTimer()}`)
 
   try {
     GLOBAL_STATE.server = await createServer(valaxyApp, viteConfigs, {
@@ -96,7 +99,9 @@ export async function initServer(valaxyApp: ValaxyNode, viteConfig: InlineConfig
       },
     })
     const server = GLOBAL_STATE.server
+    const listenTimer = countPerformanceTime()
     await server.listen()
+    vLogger.debug(`server.listen: ${listenTimer()}`)
     serverSpinner.succeed(`${valaxyPrefix} ${colors.green('server ready.')}`)
     return server
   }

@@ -60,11 +60,19 @@ export async function processValaxyOptions(valaxyOptions: ResolvedValaxyOptions,
   const { clientRoot, themeRoot, userRoot } = valaxyOptions
 
   // resolve addon valaxyConfig
+  const parseAddonsTimer = countPerformanceTime()
   const addons = await parseAddons(valaxyConfig.addons || [], valaxyOptions.userRoot)
+  consola.debug(`  ├─ parseAddons: ${parseAddonsTimer()}`)
+
+  const resolveAddonsTimer = countPerformanceTime()
   const addonsValaxyConfig = await resolveAddonsConfig(addons, valaxyOptions)
+  consola.debug(`  ├─ resolveAddonsConfig: ${resolveAddonsTimer()}`)
+
+  const mergeTimer = countPerformanceTime()
   valaxyConfig = mergeValaxyConfig(valaxyConfig, addonsValaxyConfig)
 
   const rolldownOutputOptions = getRolldownOutputOptions(valaxyOptions)
+  consola.debug(`  ├─ mergeValaxyConfig + getRolldownOutputOptions: ${mergeTimer()}`)
 
   // Set rolldownOptions with codeSplitting (Vite 8 / Rolldown)
   const buildConfig = defaultValaxyConfig.vite!.build ??= {}
@@ -105,7 +113,9 @@ export async function processValaxyOptions(valaxyOptions: ResolvedValaxyOptions,
     external: external.filter(name => !addonNames.includes(name)),
   }
 
+  const siteConfigTimer = countPerformanceTime()
   await processSiteConfig(valaxyOptions)
+  consola.debug(`  └─ processSiteConfig: ${siteConfigTimer()}`)
 
   return valaxyOptions
 }
@@ -120,6 +130,7 @@ export async function resolveOptions(
   const userRoot = resolve(options.userRoot || process.cwd())
 
   consola.start(`Resolve ${colors.magenta('valaxy')} config ...`)
+  const configTimer = countPerformanceTime()
   const [resolvedValaxy, resolvedSite, resolvedTheme, pages] = await Promise.all([
     resolveValaxyConfig(options),
     resolveSiteConfig(options.userRoot),
@@ -131,6 +142,7 @@ export async function resolveOptions(
       ignore: ['**/node_modules'],
     }),
   ])
+  consola.debug(`Parallel config resolve: ${configTimer()}`)
 
   let { config: userValaxyConfig, configFile, theme } = resolvedValaxy
 
@@ -197,7 +209,9 @@ export async function resolveOptions(
   const themeValaxyConfig = await resolveThemeValaxyConfig(valaxyOptions)
   const valaxyConfig = mergeValaxyConfig(userValaxyConfig, themeValaxyConfig)
 
+  const processTimer = countPerformanceTime()
   valaxyOptions = await processValaxyOptions(valaxyOptions, valaxyConfig)
+  consola.debug(`processValaxyOptions: ${processTimer()}`)
 
   // ensure .valaxy folder to store temp files, like d.ts
   fs.ensureDirSync(valaxyOptions.tempDir)

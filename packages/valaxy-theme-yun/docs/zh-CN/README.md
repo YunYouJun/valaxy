@@ -1,5 +1,7 @@
 # valaxy-theme-yun 文档
 
+📖 完整文档请参见：[valaxy.site/themes/yun](https://valaxy.site/themes/yun)
+
 ## 配置
 
 ### 主题配置

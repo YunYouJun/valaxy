@@ -1,12 +1,14 @@
 import type { ValaxyAddonResolver, ValaxyAddons } from '../types'
 import process from 'node:process'
 import { normalizeRepositoryUrl } from '@valaxyjs/utils'
+import { consola } from 'consola'
 import { colors } from 'consola/utils'
 import defu from 'defu'
 import fs from 'fs-extra'
 import ora from 'ora'
 import { resolve } from 'pathe'
 import { logger } from '../logger'
+import { countPerformanceTime } from './performance'
 import { getModuleRoot } from './root'
 
 export interface ReadAddonModuleOptions {
@@ -24,13 +26,17 @@ export async function parseAddons(addons: ValaxyAddons, userRoot = process.cwd()
   if (Array.isArray(addons)) {
     for (const addon of addons) {
       if (typeof addon === 'string') {
+        const addonTimer = countPerformanceTime()
         const resolver = await readAddonModule(addon, { cwd: userRoot })
+        consola.debug(`    readAddonModule(${addon}): ${addonTimer()}`)
         if (resolver)
           mergeResolver(resolver)
         continue
       }
       if (typeof addon === 'object') {
+        const addonTimer = countPerformanceTime()
         const resolver = await readAddonModule(addon.name, { cwd: userRoot })
+        consola.debug(`    readAddonModule(${addon.name}): ${addonTimer()}`)
         if (!resolver)
           continue
         // Merge with user config, ensuring user's global setting takes precedence

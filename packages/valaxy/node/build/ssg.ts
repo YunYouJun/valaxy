@@ -143,6 +143,9 @@ export async function ssgBuild(
     },
     build: {
       sourcemap: false,
+      // Explicitly disable watch to prevent chokidar from opening too many
+      // file descriptors (EMFILE) on macOS in large monorepos.
+      watch: null,
     },
   }
 

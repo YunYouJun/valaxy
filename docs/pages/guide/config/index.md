@@ -63,7 +63,7 @@ export default defineValaxyConfig<ThemeConfig>({
 
 ## Site Config
 
-> 更多详细配置可参见 [types/config.ts](https://github.com/YunYouJun/valaxy/blob/main/packages/valaxy/types/config.ts)。
+> For more details, see [types/config.ts](https://github.com/YunYouJun/valaxy/blob/main/packages/valaxy/types/config.ts).
 
 ::: details packages/valaxy/types/config.ts SiteConfig
 
@@ -122,22 +122,21 @@ export default defineSiteConfig({
 ```
 
 
-### 作者信息
+### Author Info
 
-更多字段可参考上文类型或直接在编辑器提示中查看。
+More fields can be found in the type definitions above or via editor IntelliSense.
 
 ```ts [site.config.ts]
 import { defineSiteConfig } from 'valaxy'
 
 export default defineSiteConfig({
   author: {
-    name: '你的名字',
+    name: 'Your Name',
     /**
      * Your avatar
-     * 头像链接
      */
     avatar: 'https://xxx',
-    intro: '个人简介'
+    intro: 'A brief introduction'
   }
 })
 ```
@@ -304,28 +303,25 @@ sponsor: false
 ---
 ```
 
-### 阅读统计
+### Reading Statistics
 
-开启阅读统计，将会在每篇文章开头展示阅读统计信息。
+Enable reading statistics to display word count and reading time at the beginning of each post.
 
-> 需要主题进行适配，即展示 `frontmatter` 中的 `wordCount` 和 `readingTime` 字段。
+> Requires theme support, i.e., displaying `wordCount` and `readingTime` fields from `frontmatter`.
 
-- `wordCount`：字数统计
-- `readingTime`：阅读时长（分钟）
-  - 可以设置不同语言的阅读速度，默认 `cn` 为 300 字/分钟，`en` 为 200 字/分钟。
+- `wordCount`: Word count
+- `readingTime`: Reading time (minutes)
+  - You can set reading speed for different languages. Default: `cn` 300 words/min, `en` 200 words/min.
 
 ```ts [site.config.ts]
 import { defineSiteConfig } from 'valaxy'
 
 export default defineSiteConfig({
-  /**
-   * 开启阅读统计
-   */
   statistics: {
     enable: true,
     readTime: {
       /**
-       * 阅读速度
+       * Reading speed
        */
       speed: {
         cn: 300,
@@ -392,7 +388,7 @@ Set `password` in the Front Matter of the article:
 ```md {2}
 ---
 password: your_password
-password_hint: 自定义密码提示
+password_hint: Custom Password Hint
 ---
 ```
 
@@ -519,7 +515,7 @@ medium_zoom: true
 ### Lazyload Vanilla Lazyload
 
 
-Valaxy has built-in [vanilla-lazyload](https://github.com/verlok/vanilla-lazyload)。
+Valaxy has built-in [vanilla-lazyload](https://github.com/verlok/vanilla-lazyload).
 
 `vanillaLazyload` is disabled by default.
 Because Valaxy itself will add `loading="lazy"` to all images, which is a browser feature, but if you want to get more extensive compatibility, you can manually enable it.
@@ -528,15 +524,15 @@ Because Valaxy itself will add `loading="lazy"` to all images, which is a browse
 ```ts
 export default defineSiteConfig({
   vanillaLazyload: {
-    // 默认不开启
+    // Disabled by default
     enable: true,
   }
 })
 ```
 
-### 更多配置
+### More Configurations
 
-> 更多详细配置可参见 [types/config.ts](https://github.com/YunYouJun/valaxy/blob/main/packages/valaxy/types/config.ts)。
+> For more details, see [types/config.ts](https://github.com/YunYouJun/valaxy/blob/main/packages/valaxy/types/config.ts).
 
 ::: details packages/valaxy/types/config.ts SiteConfig
 
@@ -550,6 +546,8 @@ export default defineSiteConfig({
 
 Please refer to [Using Themes](/themes/use) and the theme you are using to configure it.
 
-## 扩展配置
+> [Theme Yun Config](/themes/yun)
 
-更多高阶配置请参见 [扩展配置](/guide/config/extend)。
+## Extended Config
+
+For more advanced configurations, see [Extended Config](/guide/config/extend).

@@ -12,7 +12,9 @@ import Components from 'unplugin-vue-components/vite'
 import Layouts from 'vite-plugin-vue-layouts-next'
 import { groupIconVitePlugin } from 'vitepress-plugin-group-icons'
 import { customElements } from '../constants'
+import { vLogger } from '../logger'
 import { scanCodeBlockTitles } from '../utils/groupIcons'
+import { countPerformanceTime } from '../utils/performance'
 import { createCdnPlugin } from './cdn'
 import { createConfigPlugin } from './extendConfig'
 import { createLlmsPlugin } from './llms'
@@ -38,6 +40,15 @@ export async function ViteValaxyPlugins(
   // createMarkdownPlugin (shiki highlighter) and createUnocssPlugin (jiti config
   // loading) are the two slowest — running them concurrently with the other
   // async factories cuts total startup time significantly.
+  const timers = {
+    markdown: countPerformanceTime(),
+    valaxy: countPerformanceTime(),
+    vue: countPerformanceTime(),
+    router: countPerformanceTime(),
+    unocss: countPerformanceTime(),
+    localSearch: countPerformanceTime(),
+    scanTitles: countPerformanceTime(),
+  }
   const [
     MarkdownPlugin,
     ValaxyPlugin,
@@ -47,8 +58,14 @@ export async function ViteValaxyPlugins(
     LocalSearchPlugin,
     scannedTitles,
   ] = await Promise.all([
-    createMarkdownPlugin(options),
-    createValaxyPlugin(options, serverOptions),
+    createMarkdownPlugin(options).then((r) => {
+      vLogger.debug(`  ├─ createMarkdownPlugin: ${timers.markdown()}`)
+      return r
+    }),
+    createValaxyPlugin(options, serverOptions).then((r) => {
+      vLogger.debug(`  ├─ createValaxyPlugin: ${timers.valaxy()}`)
+      return r
+    }),
     import('@vitejs/plugin-vue').then(r =>
       r.default({
         include: /\.(?:vue|md)$/,
@@ -68,11 +85,26 @@ export async function ViteValaxyPlugins(
           },
         },
       }),
-    ),
-    createRouterPlugin(valaxyApp),
-    createUnocssPlugin(options),
-    localSearchPlugin(options),
-    scanCodeBlockTitles(options),
+    ).then((r) => {
+      vLogger.debug(`  ├─ plugin-vue: ${timers.vue()}`)
+      return r
+    }),
+    createRouterPlugin(valaxyApp).then((r) => {
+      vLogger.debug(`  ├─ createRouterPlugin: ${timers.router()}`)
+      return r
+    }),
+    createUnocssPlugin(options).then((r) => {
+      vLogger.debug(`  ├─ createUnocssPlugin: ${timers.unocss()}`)
+      return r
+    }),
+    localSearchPlugin(options).then((r) => {
+      vLogger.debug(`  ├─ localSearchPlugin: ${timers.localSearch()}`)
+      return r
+    }),
+    scanCodeBlockTitles(options).then((r) => {
+      vLogger.debug(`  └─ scanCodeBlockTitles: ${timers.scanTitles()}`)
+      return r
+    }),
   ])
 
   /**

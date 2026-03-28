@@ -30,7 +30,7 @@ export default defineConfig({
 参见对应主题文档，配置 `themeConfig`。
 
 
-> [valaxy-theme-yun](https://github.com/YunYouJun/valaxy/blob/main/packages/valaxy-theme-yun/docs/README.md)
+> [主题 Yun 配置](/zh/themes/yun)
 
 ```ts [valaxy.config.ts]
 import { defineConfig } from 'valaxy'

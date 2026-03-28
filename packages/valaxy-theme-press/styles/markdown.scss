@@ -70,5 +70,11 @@
     li {
       margin-right: 0.5rem;
     }
+
+    .va-contributor-avatar img {
+      width: 32px;
+      height: 32px;
+      object-fit: cover;
+    }
   }
 }

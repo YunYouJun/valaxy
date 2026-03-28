@@ -8,6 +8,7 @@
     "build:spa": "valaxy build",
     "build:ssg": "valaxy build --ssg --log=info",
     "dev": "nodemon -w \"../packages/valaxy/dist/*.js\" --exec \"valaxy .\"",
+    "dev:debug": "nodemon -w \"../packages/valaxy/dist/*.js\" --exec \"valaxy . --log debug\"",
     "rss": "valaxy rss",
     "serve": "vite preview",
     "vitepress:dev": "vitepress dev",

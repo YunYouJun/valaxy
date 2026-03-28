@@ -50,7 +50,7 @@
     "devtools": "pnpm -C packages/devtools run dev",
     "devtools:client": "pnpm -C packages/devtools run dev:client",
     "docs": "pnpm -C docs run dev",
-    "docs:dev": "pnpm -C docs run dev",
+    "docs:dev": "pnpm -C docs run dev:debug",
     "docs:build": "pnpm -C docs run build",
     "docs:serve": "pnpm -C docs run serve",
     "docs:vitepress": "pnpm -C docs run vitepress:dev",

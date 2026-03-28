@@ -6,10 +6,16 @@ import ora from 'ora'
 
 export const logger = consola.create({})
 
+export function setLogLevel(level: number) {
+  consola.level = level
+  logger.level = level
+}
+
 export const valaxyPrefix = colors.magenta('[valaxy]')
 export const vLogger = {
   success: (...args: any) => logger.success(valaxyPrefix, ...args),
   info: (...args: any) => logger.info(valaxyPrefix, ...args),
+  debug: (...args: any) => logger.debug(valaxyPrefix, ...args),
   ready: (...args: any) => logger.ready(valaxyPrefix, ...args),
 }
 

@@ -9,6 +9,8 @@ import { convert } from 'html-to-text'
 import { MarkdownItAsync } from 'markdown-it-async'
 import { resolve } from 'pathe'
 import VueRouter from 'vue-router/vite'
+import { vLogger } from '../logger'
+import { countPerformanceTime } from '../utils/performance'
 import { setupMarkdownPlugins } from './markdown'
 
 import { matterOptions } from './markdown/transform/matter'
@@ -73,6 +75,11 @@ export async function createRouterPlugin(valaxyApp: ValaxyNode) {
     ],
     dts: resolve(options.tempDir, 'route-map.d.ts'),
 
+    // Disable file watching during build to prevent chokidar from opening
+    // too many file descriptors (EMFILE) in large monorepos.
+    // vue-router defaults to `watch: !process.env.CI`, which is true locally.
+    watch: options.mode !== 'build',
+
     ...valaxyConfig.router,
 
     /**
@@ -85,7 +92,7 @@ export async function createRouterPlugin(valaxyApp: ValaxyNode) {
         _lastFrontmatterRef = valaxyConfig.siteConfig.frontmatter
         _cachedFrontmatter = structuredClone(valaxyConfig.siteConfig.frontmatter)
       }
-      const defaultFrontmatter = structuredClone(_cachedFrontmatter) || {}
+      const defaultFrontmatter = structuredClone(_cachedFrontmatter)
       if (route.meta && route.meta.frontmatter) {
         // reset frontmatter, extendRoute will be trigger when save md file
         const { frontmatter: _, otherMeta } = route.meta
@@ -269,7 +276,10 @@ export async function createRouterPlugin(valaxyApp: ValaxyNode) {
         })
       }
 
+      const extendRouteTimer = countPerformanceTime()
       await valaxyApp.hooks.callHook('vue-router:extendRoute', route)
+      const extendDuration = extendRouteTimer()
+      vLogger.debug(`  extendRoute(${route.fullPath}): ${extendDuration}`)
       return valaxyConfig.router?.extendRoute?.(route)
     },
 

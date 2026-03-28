@@ -8,7 +8,9 @@ Theme-Yun<sup><em>(vue)</em></sup>
 
 ## Usage
 
-See [Docs](./docs/README.md).
+📖 Full documentation: [valaxy.site/themes/yun](https://valaxy.site/themes/yun)
+
+See also [local docs](./docs/README.md).
 
 ### Development
 

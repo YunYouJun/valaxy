@@ -151,6 +151,10 @@ export default defineValaxyConfig<PressTheme.Config>({
             text: 'nav.themes-gallery',
             link: '/themes/gallery',
           },
+          {
+            text: 'Theme Yun',
+            link: '/themes/yun',
+          },
         ],
       },
       {
@@ -271,6 +275,10 @@ export default defineValaxyConfig<PressTheme.Config>({
                 {
                   text: '主题橱窗',
                   link: '/zh/themes/gallery',
+                },
+                {
+                  text: '主题 Yun',
+                  link: '/zh/themes/yun',
                 },
               ],
             },

@@ -1,7 +1,9 @@
 import type { ValaxyAddon } from '../../types'
 import type { ResolvedValaxyOptions, ValaxyAddonResolver, ValaxyNodeConfig } from '../types'
 import path from 'node:path'
+import { consola } from 'consola'
 import fs from 'fs-extra'
+import { countPerformanceTime } from '../utils/performance'
 import { mergeValaxyConfig, resolveValaxyConfigFromRoot } from './valaxy'
 
 export function defineValaxyAddon<AddonOptions = object>(
@@ -19,6 +21,7 @@ export async function resolveAddonsConfig(addons: ValaxyAddonResolver[], options
   // Resolve all addon configs in parallel for faster startup
   const results = await Promise.all(
     addons.map(async (addon) => {
+      const addonTimer = countPerformanceTime()
       const addonConfigPath = path.resolve(addon.root, 'valaxy.config.ts')
       if (!await fs.exists(addonConfigPath))
         return null
@@ -27,6 +30,7 @@ export async function resolveAddonsConfig(addons: ValaxyAddonResolver[], options
       if (!config)
         return null
 
+      consola.debug(`    resolveAddonConfig(${addon.name}): ${addonTimer()}`)
       return { addon, config, configFile }
     }),
   )
