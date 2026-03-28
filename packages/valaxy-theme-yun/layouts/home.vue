@@ -62,6 +62,7 @@ const showNotice = computed(() => {
         }"
         :content="themeConfig.notice?.content"
       />
+      <div v-else-if="!isPage" class="mt-4" />
 
       <slot name="board" />
 
