@@ -47,7 +47,7 @@ const app = useAppStore()
       v-if="showMenu"
       class="yun-nav-menu z-$yun-z-nav-menu fixed bg-transparent"
       :class="{
-        play: playAnimation,
+        'shadow play': playAnimation,
       }"
     >
       <!--  -->
@@ -113,7 +113,6 @@ const app = useAppStore()
   // safari not support
   // animation-timeline: scroll();
   // animation-range: 0 calc(30vh), exit;
-  box-shadow: none;
   display: flex;
 
   // top: var(--rect-margin);
@@ -126,19 +125,14 @@ const app = useAppStore()
   align-items: center;
   justify-content: space-between;
   height: var(--yun-nav-height, 50px);
-  transition: all var(--va-transition-duration-moderate) map.get($cubic-bezier, 'ease-in');
+  transition: background-color var(--va-transition-duration-moderate) map.get($cubic-bezier, 'ease-in'),
+    backdrop-filter var(--va-transition-duration-moderate) map.get($cubic-bezier, 'ease-in'),
+    box-shadow var(--va-transition-duration-moderate) map.get($cubic-bezier, 'ease-in');
 
   &.play {
-    top: 0;
-    left: 0;
-    right: 0;
-    background-color: var(--va-c-bg);
-    border-color: rgb(0 0 0 / 0.1);
-
-    --un-shadow: var(--un-shadow-inset) 0 20px 25px -5px var(--un-shadow-color, rgb(0 0 0 / 0.1)), var(--un-shadow-inset) 0 8px 10px -6px var(--un-shadow-color, rgb(0 0 0 / 0.1));
-
-    box-shadow: var(--un-ring-offset-shadow), var(--un-ring-shadow),
-      var(--un-shadow);
+    background-color: var(--yun-nav-bg-color);
+    backdrop-filter: blur(var(--yun-nav-blur));
+    -webkit-backdrop-filter: blur(var(--yun-nav-blur));
   }
 
   .vt-hamburger-top, .vt-hamburger-middle, .vt-hamburger-bottom {

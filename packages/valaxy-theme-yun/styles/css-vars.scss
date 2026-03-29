@@ -9,6 +9,8 @@
   --yun-home-hero-name-background: linear-gradient(120deg, var(--va-c-text) 30%, black);
   --yun-home-hero-image-background-image: linear-gradient(-45deg, #bd34fe 50%, #47caff 50%);
   --yun-nav-height: 50px;
+  --yun-nav-bg-color: rgb(255 255 255 / 0.8);
+  --yun-nav-blur: 12px;
 }
 
 :root {
@@ -31,6 +33,7 @@ html.dark {
   --va-c-bg: #1a1a1d;
   --va-c-bg-soft: #121215;
   --yun-home-hero-name-background: linear-gradient(120deg, var(--va-c-primary) 30%, #41d1ff);
+  --yun-nav-bg-color: rgb(26 26 29 / 0.8);
 }
 
 // animation

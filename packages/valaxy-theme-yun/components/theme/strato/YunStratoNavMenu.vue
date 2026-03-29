@@ -87,3 +87,19 @@ const isHomePage = computed(() => route.meta.layout === 'home')
     </div>
   </Transition>
 </template>
+
+<style lang="scss" scoped>
+@use 'sass:map';
+@use 'valaxy-theme-yun/styles/vars.scss' as *;
+
+.yun-nav-menu {
+  height: var(--yun-nav-height, 50px);
+  transition: all var(--va-transition-duration-moderate) map.get($cubic-bezier, 'ease-in');
+
+  &.play {
+    background-color: var(--yun-nav-bg-color);
+    backdrop-filter: blur(var(--yun-nav-blur));
+    -webkit-backdrop-filter: blur(var(--yun-nav-blur));
+  }
+}
+</style>

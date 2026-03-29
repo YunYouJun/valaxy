@@ -19,7 +19,7 @@ const showNotice = computed(() => {
 
 <template>
   <YunLayoutWrapper :no-margin="!isPage">
-    <div class="w-full flex flex-col items-center pb-8">
+    <div class="w-full flex flex-col items-center pb-4">
       <template v-if="themeConfig.banner?.enable">
         <template v-if="!isPage">
           <div class="w-full">
