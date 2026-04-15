@@ -1,5 +1,6 @@
 <script lang="ts" setup>
 import type { LinkType } from '../types'
+import { computed } from 'vue'
 import { useRandomData } from '../composables'
 
 const props = defineProps<{
@@ -12,14 +13,40 @@ const props = defineProps<{
 }>()
 
 const { data } = useRandomData(props.links, props.random)
+
+/**
+ * When links source is a URL (string), data is fetched asynchronously on the
+ * client side only.  During SSG the list is empty, but after hydration the
+ * fetched items are injected into the DOM.  Wrapping the list in
+ * `<ClientOnly>` avoids a hydration-mismatch between the static (empty) HTML
+ * and the client-rendered (populated) list, which could cause `replaceChild`
+ * errors or the list not appearing at all.
+ *
+ * For static array data the mismatch risk is lower (SSR and client render
+ * the same initial order), so `<ClientOnly>` is not applied.
+ */
+const isUrlSource = computed(() => typeof props.links === 'string')
 </script>
 
 <template>
   <div class="yun-links">
-    <ul class="yun-link-items" flex="center wrap">
+    <!--
+      Use ClientOnly when links are fetched from a URL to prevent
+      hydration mismatch (SSG renders empty list, client fills it).
+    -->
+    <ClientOnly v-if="isUrlSource">
+      <ul class="yun-link-items" flex="center wrap">
+        <YunLinkItem
+          v-for="link, i in data"
+          :key="link.url"
+          :i="i" :link="link" :error-img="errorImg"
+        />
+      </ul>
+    </ClientOnly>
+    <ul v-else class="yun-link-items" flex="center wrap">
       <YunLinkItem
         v-for="link, i in data"
-        :key="i"
+        :key="link.url"
         :i="i" :link="link" :error-img="errorImg"
       />
     </ul>
