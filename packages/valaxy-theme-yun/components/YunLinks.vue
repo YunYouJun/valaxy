@@ -23,8 +23,7 @@ const { data } = useRandomData(props.links, props.random)
  * errors or the list not appearing at all.
  *
  * For static array data the mismatch risk is lower (SSR and client render
- * the same initial order), so `<ClientOnly>` is not strictly necessary —
- * but we apply it uniformly for simplicity and safety.
+ * the same initial order), so `<ClientOnly>` is not applied.
  */
 const isUrlSource = computed(() => typeof props.links === 'string')
 </script>
@@ -39,7 +38,7 @@ const isUrlSource = computed(() => typeof props.links === 'string')
       <ul class="yun-link-items" flex="center wrap">
         <YunLinkItem
           v-for="link, i in data"
-          :key="i"
+          :key="link.url"
           :i="i" :link="link" :error-img="errorImg"
         />
       </ul>
@@ -47,7 +46,7 @@ const isUrlSource = computed(() => typeof props.links === 'string')
     <ul v-else class="yun-link-items" flex="center wrap">
       <YunLinkItem
         v-for="link, i in data"
-        :key="i"
+        :key="link.url"
         :i="i" :link="link" :error-img="errorImg"
       />
     </ul>

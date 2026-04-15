@@ -16,11 +16,11 @@ const isUrlSource = computed(() => typeof props.girls === 'string')
   <div class="girls">
     <ClientOnly v-if="isUrlSource">
       <ul class="girl-items">
-        <YunGirlItem v-for="girl, i in data" :key="i" :i="i" :girl="girl" />
+        <YunGirlItem v-for="girl, i in data" :key="girl.url" :i="i" :girl="girl" />
       </ul>
     </ClientOnly>
     <ul v-else class="girl-items">
-      <YunGirlItem v-for="girl, i in data" :key="i" :i="i" :girl="girl" />
+      <YunGirlItem v-for="girl, i in data" :key="girl.url" :i="i" :girl="girl" />
     </ul>
   </div>
 </template>
