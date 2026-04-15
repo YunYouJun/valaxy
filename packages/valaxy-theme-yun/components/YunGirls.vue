@@ -1,5 +1,6 @@
 <script lang="ts" setup>
 import type { GirlType } from '../types'
+import { computed } from 'vue'
 import { useRandomData } from '../composables'
 
 const props = defineProps<{
@@ -8,11 +9,17 @@ const props = defineProps<{
 }>()
 
 const { data } = useRandomData(props.girls, props.random)
+const isUrlSource = computed(() => typeof props.girls === 'string')
 </script>
 
 <template>
   <div class="girls">
-    <ul class="girl-items">
+    <ClientOnly v-if="isUrlSource">
+      <ul class="girl-items">
+        <YunGirlItem v-for="girl, i in data" :key="i" :i="i" :girl="girl" />
+      </ul>
+    </ClientOnly>
+    <ul v-else class="girl-items">
       <YunGirlItem v-for="girl, i in data" :key="i" :i="i" :girl="girl" />
     </ul>
   </div>
