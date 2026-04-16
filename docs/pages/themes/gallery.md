@@ -79,6 +79,17 @@ themes:
       - blog
       - antfu
       - dark
+  - name: valaxy-theme-shuimo
+    icon: i-ri-quill-pen-line
+    repo: https://github.com/JobinJia/valaxy-theme-shuimo
+    desc: Chinese ink-wash (水墨) style theme for Valaxy
+    siteImage: https://raw.githubusercontent.com/JobinJia/valaxy-theme-shuimo/main/screenshots/preview-light.png
+    siteExampleUrl: 'https://jobinjia.com/'
+    tags:
+      - blog
+      - shuimo
+      - chinese
+      - ink-wash
 ---
 
 <ThemeGallery :themes="$frontmatter.themes" />
