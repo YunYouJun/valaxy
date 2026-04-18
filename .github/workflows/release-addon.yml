@@ -4,6 +4,12 @@ on:
   push:
     paths:
       - 'packages/valaxy-addon-*/package.json'
+  workflow_dispatch:
+    inputs:
+      addon:
+        description: 'Addon name (e.g. meting, waline)'
+        required: true
+        type: string
 
 permissions:
   contents: write
@@ -11,35 +17,53 @@ permissions:
 
 jobs:
   release-addon:
-    if: contains(github.event.head_commit.message, 'release(addon-')
+    if: >
+      github.event_name == 'workflow_dispatch' ||
+      contains(github.event.head_commit.message, 'release(addon-')
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
         with:
           fetch-depth: 0
 
-      - name: Install pnpm
-        uses: pnpm/action-setup@v4
-        with:
-          run_install: true
-
-      # after pnpm
       - name: Use Node.js LTS
         uses: actions/setup-node@v4
         with:
           node-version: 'lts/*'
           registry-url: https://registry.npmjs.org/
-          cache: pnpm
+
+      - name: Install pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          run_install: true
+
+      - name: Resolve addon name
+        id: addon
+        run: |
+          if [[ "${{ github.event_name }}" == "workflow_dispatch" ]]; then
+            ADDON_NAME="addon-${{ github.event.inputs.addon }}"
+          else
+            COMMIT_MSG="${{ github.event.head_commit.message }}"
+            # Extract addon name from: release(addon-xxx): ...
+            if [[ "$COMMIT_MSG" =~ release\((addon-[^)]+)\) ]]; then
+              ADDON_NAME="${BASH_REMATCH[1]}"
+            else
+              echo "::error::Commit message does not match release(addon-*) pattern"
+              exit 1
+            fi
+          fi
+          PACKAGE_DIR="packages/valaxy-${ADDON_NAME}"
+          if [[ ! -d "$PACKAGE_DIR" ]]; then
+            echo "::error::Package directory ${PACKAGE_DIR} not found"
+            exit 1
+          fi
+          echo "name=${ADDON_NAME}" >> "$GITHUB_OUTPUT"
+          echo "dir=${PACKAGE_DIR}" >> "$GITHUB_OUTPUT"
+          echo "📦 Publishing valaxy-${ADDON_NAME} from ${PACKAGE_DIR}"
 
       - name: Publish Addon
-        run: |
-          COMMIT_MSG="${{ github.event.head_commit.message }}"
-          PATTERN="release(addon-*): *"
-          if [[ $COMMIT_MSG == $PATTERN ]]; then
-            ADDON_NAME=$(echo $COMMIT_MSG | cut -d'(' -f2 | cut -d')' -f1)
-            cd packages/valaxy-$ADDON_NAME
-            pnpm publish
-          fi
+        working-directory: ${{ steps.addon.outputs.dir }}
+        run: pnpm publish --no-git-checks --access public
         env:
-          NODE_AUTH_TOKEN: ${{secrets.NPM_TOKEN}}
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
           NPM_CONFIG_PROVENANCE: true
