@@ -45,7 +45,8 @@ jobs:
           else
             COMMIT_MSG="${{ github.event.head_commit.message }}"
             # Extract addon name from: release(addon-xxx): ...
-            if [[ "$COMMIT_MSG" =~ release\((addon-[^)]+)\) ]]; then
+            PATTERN='release\((addon-[^)]+)\)'
+            if [[ "$COMMIT_MSG" =~ $PATTERN ]]; then
               ADDON_NAME="${BASH_REMATCH[1]}"
             else
               echo "::error::Commit message does not match release(addon-*) pattern"
