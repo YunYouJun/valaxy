@@ -38,7 +38,7 @@ catalog:
   '@mdit-vue/plugin-title': ^3.0.2
   '@mdit-vue/plugin-toc': ^3.0.2
   '@mdit-vue/shared': ^3.0.2
-  '@microsoft/api-extractor': ^7.58.2
+  '@microsoft/api-extractor': ^7.58.5
   '@playwright/test': ^1.59.1
   '@rollup/pluginutils': ^5.3.0
   '@shikijs/transformers': ^3.23.0
@@ -89,7 +89,7 @@ catalog:
   defu: ^6.1.7
   ejs: ^5.0.2
   escape-html: ^1.0.3
-  eslint: ^10.2.0
+  eslint: ^10.2.1
   execa: 9.0.2
   fast-glob: ^3.3.3
   feed: ^5.2.0
@@ -128,7 +128,7 @@ catalog:
   minimist: ^1.2.8
   minisearch: ^7.2.0
   mlly: ^1.8.2
-  nanoid: ^5.1.7
+  nanoid: ^5.1.9
   nodemon: ^3.1.14
   npm-run-all: 4.1.5
   nprogress: ^0.2.0

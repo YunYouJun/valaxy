@@ -1,4 +1,4 @@
-import type { MetingOptions } from '../node/index'
+import type { MetingOptions } from '../types'
 import { useRuntimeConfig } from 'valaxy'
 import { computed } from 'vue'
 

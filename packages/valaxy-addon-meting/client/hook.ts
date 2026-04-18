@@ -1,4 +1,4 @@
-import type { MetingOptions } from '../node/index'
+import type { MetingOptions } from '../types'
 import { onMounted } from 'vue'
 import { setupHiddenLyricHidingObserver } from './observer'
 import { animationIn, autoHidden, handleOptions, useAPlayerMiniSwitcherEventListener } from './utils'

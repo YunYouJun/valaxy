@@ -7,12 +7,21 @@ import { onMetingInit } from './hook'
 import { useMetingLoadObserver } from './observer'
 import { useAddonMeting } from './options'
 
+export { useAddonMeting } from './options'
+export { useMetingProps } from './useMetingProps'
+
+let initialized = false
+
 /**
  * use MetingJS and Aplayer
  * @see https://github.com/MoePlayer/APlayer
  * @see https://github.com/metowolf/MetingJS
  */
 export function useMeting() {
+  if (initialized)
+    return
+  initialized = true
+
   const siteConfig = useSiteConfig()
   const addonMeting = useAddonMeting()
   const cdnPrefix = computed(() => siteConfig.value.cdn.prefix)

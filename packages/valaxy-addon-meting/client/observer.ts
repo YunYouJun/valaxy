@@ -1,4 +1,4 @@
-import type { MetingOptions } from '../node/index'
+import type { MetingOptions } from '../types'
 import { onMounted, onUnmounted } from 'vue'
 import { onMetingLoad, onMetingLoadBefore } from './hook'
 

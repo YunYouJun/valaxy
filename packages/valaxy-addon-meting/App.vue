@@ -1,36 +1,25 @@
 <script lang="ts" setup>
+import type { MetingProps } from './types'
 import { useMeting, useVisible } from './client'
+import { useMetingProps } from './client/useMetingProps'
 
 const props = withDefaults(defineProps<{
   [key: string]: any
-} & Partial<MetingJsProps>>(), {
+} & Partial<MetingProps>>(), {
   id: '308168565',
   server: 'netease',
   type: 'playlist',
 })
 
-export interface MetingJsProps {
-  /**
-   * song id / playlist id / album id / search keyword
-   * @example 308168565
-   */
-  id: string
-  /**
-   * music platform
-   */
-  server: 'netease' | 'tencent' | 'kugou' | 'xiami' | 'baidu'
-  type: 'song' | 'playlist' | 'album' | 'search' | 'artist'
-}
-
 useMeting()
 const visible = useVisible()
+const metingProps = useMetingProps(props, { fixed: true })
 </script>
 
 <template>
   <!-- eslint-disable-next-line vue/component-name-in-template-casing -->
   <meting-js
     v-show="visible"
-    v-bind="props"
-    :fixed="true"
+    v-bind="metingProps"
   />
 </template>

@@ -1,4 +1,4 @@
-import type { MetingOptions } from '../node/index'
+import type { MetingOptions } from '../types'
 import { useEventListener } from '@vueuse/core'
 import { Hook } from './hook'
 
