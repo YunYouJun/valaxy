@@ -129,13 +129,19 @@ export function useMediumZoom() {
           if (!document.body.contains(element))
             continue
 
-          // Restore original medium-zoom styles so the close animation works correctly.
-          // medium-zoom will clear transform to '' itself after the transition ends.
+          // Restore original medium-zoom styles (without transition) so the element
+          // is back to the state medium-zoom expects for its close animation.
           applyWithoutTransformTransition(element, () => {
             element.style.transform = style.transform
             element.style.width = style.width
             element.style.height = style.height
           })
+
+          // medium-zoom sets `transform = ''` BEFORE dispatching the close event,
+          // but we just overwrote it above. Re-apply `''` to actually trigger the
+          // close transition; otherwise transitionend never fires and the cloned
+          // image element is never removed from the DOM.
+          element.style.transform = ''
         }
 
         savedStyles = []
