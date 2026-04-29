@@ -1,10 +1,10 @@
 import type { Post, SiteConfig } from 'valaxy'
 import type { ComputedRef } from 'vue'
 import type { CollectionConfig } from '../../types'
-import collections from '#valaxy/blog/collections'
 import { orderByMeta, useSiteConfig } from 'valaxy'
 import { computed } from 'vue'
 import { useI18n } from 'vue-i18n'
+import collections from '#valaxy/blog/collections'
 import { useRouterStore } from '../../stores'
 import { isLocaleKey, stripLocalePrefix, tObject } from '../../utils'
 

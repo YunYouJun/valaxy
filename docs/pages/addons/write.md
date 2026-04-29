@@ -40,3 +40,35 @@ This allows you to do things before/after the build and at other points.
 > Please refer to [Lifecycle Hooks](/guide/custom/hooks) for more information.
 
 <<< @/../packages/valaxy-addon-test/node/index.ts {11-14} [valaxy-addon-test/node/index.ts]
+
+### Reading Addon Options on the Client {#reading-addon-options}
+
+Addons typically accept user options via `defineAddon(options)` in `valaxy.config.ts`. These options are available at runtime through `useAddonConfig<T>(addonName)`.
+
+`useAddonConfig` is a generic, type-safe composable provided by `valaxy`. It replaces the boilerplate pattern of `useRuntimeConfig()` + `computed()` + manual type assertion.
+
+```ts [client/options.ts]
+import type { MyAddonOptions } from '../types'
+import { useAddonConfig } from 'valaxy'
+
+export function useMyAddonConfig() {
+  return useAddonConfig<MyAddonOptions>('valaxy-addon-my-addon')
+}
+```
+
+The return value is a `ComputedRef<ValaxyAddon<MyAddonOptions> | undefined>` — it is `undefined` when the addon is not installed. Access the options via `.value?.options`.
+
+```vue [components/MyComponent.vue]
+<script lang="ts" setup>
+import { useMyAddonConfig } from '../client/options'
+
+const addon = useMyAddonConfig()
+// addon.value?.options?.someField
+</script>
+```
+
+::: tip
+`useAddonConfig` must be called inside `<script setup>` or a Vue lifecycle hook (same constraint as any Vue composable).
+
+Theme components can also use `useAddonConfig` directly to read addon options without adding a hard dependency on the addon package. See [Using Addon Config in Themes](/themes/write#using-addon-config-in-themes).
+:::

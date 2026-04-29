@@ -1,9 +1,9 @@
 import type { ComputedRef, MaybeRef } from 'vue'
 import type { CollectionConfig } from '../types'
-import collections from '#valaxy/blog/collections'
-
 import { computed, unref } from 'vue'
+
 import { useRoute } from 'vue-router'
+import collections from '#valaxy/blog/collections'
 import { usePageList } from './post'
 
 export interface PostCollectionInfo {

@@ -1,13 +1,13 @@
 import type { MetingOptions } from '../types'
-import { useRuntimeConfig } from 'valaxy'
+import { useAddonConfig } from 'valaxy'
 import { computed } from 'vue'
 
 /**
  * get addon config
  */
 export function useAddonMeting() {
-  const runtimeConfig = useRuntimeConfig()
+  const addon = useAddonConfig<MetingOptions>('valaxy-addon-meting')
   return computed<MetingOptions>(() => {
-    return runtimeConfig.value.addons['valaxy-addon-meting'] as unknown as MetingOptions
+    return addon.value?.options ?? ({} as MetingOptions)
   })
 }

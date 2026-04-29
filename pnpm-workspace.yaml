@@ -21,16 +21,16 @@ overrides:
   vue: catalog:frontend
 
 catalog:
-  '@antfu/eslint-config': ^7.7.3
+  '@antfu/eslint-config': ^8.2.0
   '@antfu/install-pkg': ^1.1.0
   '@antfu/utils': ^9.3.0
   '@clack/prompts': ^1.2.0
   '@ctrl/tinycolor': ^4.2.0
-  '@docsearch/css': ^4.6.2
-  '@docsearch/js': ^4.6.2
-  '@docsearch/sidepanel-js': ^4.6.2
+  '@docsearch/css': ^4.6.3
+  '@docsearch/js': ^4.6.3
+  '@docsearch/sidepanel-js': ^4.6.3
   '@explosions/fireworks': ^0.2.0
-  '@larksuiteoapi/node-sdk': ^1.60.0
+  '@larksuiteoapi/node-sdk': ^1.62.1
   '@mdit-vue/plugin-component': ^3.0.2
   '@mdit-vue/plugin-frontmatter': ^3.0.2
   '@mdit-vue/plugin-headers': ^3.0.2
@@ -38,7 +38,7 @@ catalog:
   '@mdit-vue/plugin-title': ^3.0.2
   '@mdit-vue/plugin-toc': ^3.0.2
   '@mdit-vue/shared': ^3.0.2
-  '@microsoft/api-extractor': ^7.58.5
+  '@microsoft/api-extractor': ^7.58.7
   '@playwright/test': ^1.59.1
   '@rollup/pluginutils': ^5.3.0
   '@shikijs/transformers': ^3.23.0
@@ -73,7 +73,7 @@ catalog:
   '@vueuse/motion': ^3.0.3
   '@waline/client': 3.4.1
   animejs: ^4.3.6
-  axios: ^1.15.0
+  axios: ^1.15.2
   beasties: ^0.4.2
   bilibili-bangumi-component: ^0.4.0
   body-parser: ^2.2.2
@@ -92,7 +92,7 @@ catalog:
   eslint: ^10.2.1
   execa: 9.0.2
   fast-glob: ^3.3.3
-  feed: ^5.2.0
+  feed: ^5.2.1
   floating-vue: ^5.2.2
   fs-extra: ^11.3.4
   fuse.js: ^7.3.0
@@ -133,7 +133,7 @@ catalog:
   npm-run-all: 4.1.5
   nprogress: ^0.2.0
   open: 10.1.0
-  ora: ^9.3.0
+  ora: ^9.4.0
   p-map: ^7.0.4
   pascalcase: ^2.0.0
   pathe: ^2.0.3
@@ -148,7 +148,7 @@ catalog:
   sirv: ^3.0.2
   splitpanes: ^4.0.4
   star-markdown-css: ^0.5.3
-  stylelint: ^17.8.0
+  stylelint: ^17.9.1
   stylelint-config-recommended-vue: ^1.6.1
   stylelint-config-standard-scss: ^17.0.0
   table: ^6.9.0
@@ -169,8 +169,8 @@ catalog:
   vite-ssg: ^28.3.0
   vite-ssg-sitemap: ^0.10.0
   vitepress-plugin-group-icons: ^1.7.5
-  vitest: ^4.1.4
-  vue-router: ^5.0.4
+  vitest: ^4.1.5
+  vue-router: ^5.0.6
   vue-tsc: 2.2.0
   yargs: ^18.0.0
 catalogs:
@@ -179,9 +179,9 @@ catalogs:
     '@iconify-json/carbon': ^1.2.20
     '@iconify-json/logos': ^1.2.11
     '@iconify-json/ri': ^1.2.10
-    '@iconify-json/simple-icons': ^1.2.78
-    '@iconify-json/vscode-icons': ^1.2.45
-    '@intlify/unplugin-vue-i18n': ^11.0.7
+    '@iconify-json/simple-icons': ^1.2.80
+    '@iconify-json/vscode-icons': ^1.2.46
+    '@intlify/unplugin-vue-i18n': ^11.1.2
     '@unhead/addons': ^2.1.13
     '@unhead/schema-org': ^2.1.13
     '@unhead/vue': ^2.1.13
@@ -189,8 +189,8 @@ catalogs:
     typescript: ^5.9.3
     unbuild: ^3.6.1
     unhead: ^2.1.13
-    vite: ^8.0.8
-    vue-i18n: ^11.3.2
+    vite: ^8.0.10
+    vue-i18n: ^11.4.0
     zx: ^8.8.5
   frontend:
     reka-ui: ^2.9.6

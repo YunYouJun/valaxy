@@ -58,6 +58,6 @@ export function useTwikoo(options: ComputedRef<TwikooOptions | undefined>, versi
 
 export function useTwikooWithOptions(version = 'latest') {
   const addonTwikoo = useAddonTwikoo()
-  const options = computed(() => addonTwikoo.value.options)
+  const options = computed(() => addonTwikoo.value?.options)
   useTwikoo(options, version)
 }

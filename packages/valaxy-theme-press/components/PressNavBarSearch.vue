@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import type { AlgoliaSearchOptions } from '../types/algolia'
 import { onKeyStroke } from '@vueuse/core'
-import { useSiteConfig } from 'valaxy'
+import { useAddonConfig, useSiteConfig } from 'valaxy'
 import { computed, defineAsyncComponent, onMounted, ref } from 'vue'
 import PressNavBarAskAiButton from './PressNavBarAskAiButton.vue'
 import PressNavBarSearchButton from './PressNavBarSearchButton.vue'
@@ -13,15 +13,13 @@ const isFuse = computed(() => siteConfig.value.search.provider === 'fuse')
 const isLocal = computed(() => siteConfig.value.search.provider === 'local')
 
 // Whether to show the Ask AI button (requires askAi config in addon-algolia)
-const showAskAi = ref(false)
-
-if (isAlgolia.value) {
-  import('valaxy-addon-algolia').then(({ useAddonAlgoliaConfig }) => {
-    const algoliaConfig = useAddonAlgoliaConfig()
-    const askAi = (algoliaConfig.value?.options as AlgoliaSearchOptions | undefined)?.askAi
-    showAskAi.value = !!askAi
-  }).catch(() => {})
-}
+const algoliaAddonConfig = useAddonConfig<AlgoliaSearchOptions>('valaxy-addon-algolia')
+const showAskAi = computed(() => {
+  if (!isAlgolia.value)
+    return false
+  const askAi = algoliaAddonConfig.value?.options?.askAi
+  return !!askAi
+})
 
 const PressAlgoliaSearch = isAlgolia.value
   ? defineAsyncComponent(() => import('./PressAlgoliaSearch.vue'))
@@ -46,7 +44,7 @@ const loaded = ref(false)
 const actuallyLoaded = ref(false)
 
 // Preconnect to Algolia DSN on idle
-onMounted(async () => {
+onMounted(() => {
   if (!isAlgolia.value)
     return
 
@@ -54,28 +52,19 @@ onMounted(async () => {
   if (document.getElementById(id))
     return
 
-  // Dynamically import addon config to get appId for preconnect
-  try {
-    const { useAddonAlgoliaConfig } = await import('valaxy-addon-algolia')
-    const algoliaConfig = useAddonAlgoliaConfig()
-    const appId = algoliaConfig.value?.options?.appId
+  const appId = algoliaAddonConfig.value?.options?.appId
+  if (!appId)
+    return
 
-    if (!appId)
-      return
-
-    const rIC = window.requestIdleCallback || setTimeout
-    rIC(() => {
-      const preconnect = document.createElement('link')
-      preconnect.id = id
-      preconnect.rel = 'preconnect'
-      preconnect.href = `https://${appId}-dsn.algolia.net`
-      preconnect.crossOrigin = ''
-      document.head.appendChild(preconnect)
-    })
-  }
-  catch {
-    // valaxy-addon-algolia not installed, skip preconnect
-  }
+  const rIC = window.requestIdleCallback || setTimeout
+  rIC(() => {
+    const preconnect = document.createElement('link')
+    preconnect.id = id
+    preconnect.rel = 'preconnect'
+    preconnect.href = `https://${appId}-dsn.algolia.net`
+    preconnect.crossOrigin = ''
+    document.head.appendChild(preconnect)
+  })
 })
 
 // Keyboard shortcuts for Algolia

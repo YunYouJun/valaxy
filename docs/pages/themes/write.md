@@ -621,6 +621,22 @@ export default defineTheme({
 })
 ```
 
+### Using Addon Config in Themes {#using-addon-config-in-themes}
+
+When your theme integrates with optional addons (e.g., Algolia search, Waline comments), you can use `useAddonConfig` from `valaxy` to read addon options **without** adding a hard dependency on the addon package.
+
+```vue [components/ThemeSearch.vue]
+<script lang="ts" setup>
+import type { AlgoliaSearchOptions } from '../types/algolia'
+import { useAddonConfig } from 'valaxy'
+
+const algolia = useAddonConfig<AlgoliaSearchOptions>('valaxy-addon-algolia')
+// algolia.value is undefined when the addon is not installed
+</script>
+```
+
+This avoids the previous pattern of using dynamic `import('valaxy-addon-xxx')` with `.then()` / `.catch()`, which was error-prone and not reactive.
+
 ### Remind Users with Special Needs to Install Third-party Plugins
 
 If your theme adapts to multiple `addon`s, but not all users need to install them.

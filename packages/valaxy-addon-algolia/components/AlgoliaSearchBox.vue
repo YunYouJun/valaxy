@@ -21,8 +21,8 @@ watch(locale, update)
 async function update() {
   await nextTick()
   const options = {
-    ...algolia.value.options!,
-    ...algolia.value.options?.locales?.[locale.value],
+    ...algolia.value!.options!,
+    ...algolia.value!.options?.locales?.[locale.value],
   }
 
   // now only lang:en

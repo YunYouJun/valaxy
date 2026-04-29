@@ -629,6 +629,22 @@ export default defineTheme({
 })
 ```
 
+### 在主题中使用插件配置 {#using-addon-config-in-themes}
+
+当你的主题集成了可选插件（如 Algolia 搜索、Waline 评论）时，可以使用 `valaxy` 提供的 `useAddonConfig` 读取插件选项，而**无需**对插件包产生硬依赖。
+
+```vue [components/ThemeSearch.vue]
+<script lang="ts" setup>
+import type { AlgoliaSearchOptions } from '../types/algolia'
+import { useAddonConfig } from 'valaxy'
+
+const algolia = useAddonConfig<AlgoliaSearchOptions>('valaxy-addon-algolia')
+// 插件未安装时 algolia.value 为 undefined
+</script>
+```
+
+这避免了以往使用动态 `import('valaxy-addon-xxx')` + `.then()` / `.catch()` 的方式，后者容易出错且不具备响应式。
+
 ### 提醒特殊需求的用户安装第三方插件 {#remind-users-with-special-needs-to-install-third-party-plugins}
 
 如果您的主题适配了多个 `addon`，但用户并非都需要安装。

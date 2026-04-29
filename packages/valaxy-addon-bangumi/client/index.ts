@@ -1,15 +1,14 @@
-import type { ValaxyAddon } from 'valaxy'
 import type { BangumiOptions } from '../types'
-import { useRuntimeConfig } from 'valaxy'
+import { useAddonConfig } from 'valaxy'
 import { computed } from 'vue'
 
 /**
  * get addon config
  */
 export function useAddonBangumi() {
-  const runtimeConfig = useRuntimeConfig()
+  const addon = useAddonConfig<BangumiOptions>('valaxy-addon-bangumi')
   return computed<BangumiOptions>(() => {
-    const options = (runtimeConfig.value.addons['valaxy-addon-bangumi'] as ValaxyAddon<BangumiOptions>).options
+    const options = addon.value?.options
     if (!options) {
       console.warn('`valaxy-addon-bangumi` options not found')
       return { api: '' }

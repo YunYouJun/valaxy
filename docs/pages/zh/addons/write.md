@@ -41,3 +41,35 @@ pnpm create valaxy
 
 <<< @/../packages/valaxy-addon-test/node/index.ts {11-14} [valaxy-addon-test/node/index.ts]
 
+### 在客户端读取插件选项 {#reading-addon-options}
+
+插件通常通过 `valaxy.config.ts` 中的 `defineAddon(options)` 接受用户选项。在客户端运行时，可以通过 `useAddonConfig<T>(addonName)` 获取这些选项。
+
+`useAddonConfig` 是 `valaxy` 提供的通用类型安全 composable，替代了以往 `useRuntimeConfig()` + `computed()` + 手动类型断言的模板代码。
+
+```ts [client/options.ts]
+import type { MyAddonOptions } from '../types'
+import { useAddonConfig } from 'valaxy'
+
+export function useMyAddonConfig() {
+  return useAddonConfig<MyAddonOptions>('valaxy-addon-my-addon')
+}
+```
+
+返回值类型为 `ComputedRef<ValaxyAddon<MyAddonOptions> | undefined>` —— 当插件未安装时为 `undefined`。通过 `.value?.options` 访问选项。
+
+```vue [components/MyComponent.vue]
+<script lang="ts" setup>
+import { useMyAddonConfig } from '../client/options'
+
+const addon = useMyAddonConfig()
+// addon.value?.options?.someField
+</script>
+```
+
+::: tip
+`useAddonConfig` 必须在 `<script setup>` 或 Vue 生命周期钩子内调用（与其他 Vue composable 约束相同）。
+
+主题组件也可以直接使用 `useAddonConfig` 读取插件选项，无需对插件包产生硬依赖。参见[在主题中使用插件配置](/zh/themes/write#using-addon-config-in-themes)。
+:::
+

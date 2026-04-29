@@ -4,7 +4,7 @@ import type { ComputedRef, InjectionKey } from 'vue'
 // fix build caused by pnpm
 // This is likely not portable. A type annotation is necessary.
 // https://github.com/microsoft/TypeScript/issues/42873
-import type { DefaultTheme, ValaxyConfig } from '../types'
+import type { DefaultTheme, ValaxyAddon, ValaxyConfig } from '../types'
 import type { ValaxyData } from './app/data'
 import { computed, hasInjectionContext, inject, readonly, shallowRef } from 'vue'
 
@@ -101,4 +101,37 @@ export function useThemeConfig<ThemeConfig = DefaultTheme.Config>() {
 export function useRuntimeConfig() {
   const config = useValaxyConfig()
   return computed(() => config!.value.runtimeConfig)
+}
+
+/**
+ * Get addon config from runtime config.
+ *
+ * A generic, type-safe shortcut that every addon and theme can use instead of
+ * manually calling `useRuntimeConfig()` + `computed(...)` + type assertion.
+ *
+ * Must be called inside `<script setup>` or a Vue lifecycle hook (same
+ * constraint as `useRuntimeConfig()`).
+ *
+ * @example
+ * ```ts
+ * // Inside an addon — replaces the boilerplate `useAddonXxxConfig()` pattern
+ * import type { MyOptions } from '../types'
+ * const config = useAddonConfig<MyOptions>('valaxy-addon-xxx')
+ * config.value?.options // MyOptions | undefined
+ * ```
+ *
+ * @example
+ * ```ts
+ * // Inside a theme component — no dynamic import needed
+ * const algolia = useAddonConfig<AlgoliaSearchOptions>('valaxy-addon-algolia')
+ * if (algolia.value) { /* addon is installed and configured *\/ }
+ * ```
+ *
+ * @public
+ */
+export function useAddonConfig<AddonOptions = Record<string, any>>(addonName: string) {
+  const runtimeConfig = useRuntimeConfig()
+  return computed(() =>
+    runtimeConfig.value.addons[addonName] as ValaxyAddon<AddonOptions> | undefined,
+  )
 }
