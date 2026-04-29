@@ -118,6 +118,15 @@ addons:
     tags:
       - cms
       - feishu
+  - name: valaxy-addon-food-map
+    author: CacheTide
+    icon: i-ri-map-pin-line
+    repo: https://github.com/CacheTide/valaxy-addon-food-map
+    desc: Build food maps from Markdown FrontMatter with shared JSON aggregation.
+    desc_zh: 从 Markdown FrontMatter 和共享 JSON 生成美食地图。
+    tags:
+      - food
+      - map
 ---
 
 <AddonGallery :addons="$frontmatter.addons" />
