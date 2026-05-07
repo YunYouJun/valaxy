@@ -13,12 +13,9 @@ import ClientOnly from './components/ClientOnly'
 
 import setupMain from './setup/main'
 import { setupValaxyDevTools } from './utils/dev'
-/**
- * user styles
- * virtual module
- */
-import '#valaxy/styles'
+// uno.css 先于 #valaxy/styles 加载，使主题/用户样式可以覆盖 utility
 import 'uno.css'
+import '#valaxy/styles'
 
 const valaxyConfig = initValaxyConfig()
 

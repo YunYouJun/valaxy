@@ -36,12 +36,7 @@ export const templateStyles: VirtualModuleTemplate = {
       }
     }
 
-    // reset styles, load css before app
-    // import '@unocss/reset/tailwind.css'
-    // https://unocss.dev/guide/style-reset#tailwind-compat
-    // minus the background color override for buttons to avoid conflicts with UI frameworks
-    imports.unshift(`import "${await resolveImportUrl('@unocss/reset/tailwind-compat.css')}"`)
-
+    // reset 由 presetWind4 自带的 preflight 提供，无需再额外引入 @unocss/reset/tailwind-compat.css
     return imports.join('\n')
   },
 }
