@@ -2,7 +2,7 @@
 import type { AlgoliaSearchOptions } from '../types/algolia'
 import { onKeyStroke } from '@vueuse/core'
 import { useAddonConfig, useSiteConfig } from 'valaxy'
-import { computed, defineAsyncComponent, onMounted, ref } from 'vue'
+import { computed, defineAsyncComponent, hydrateOnInteraction, onMounted, ref } from 'vue'
 import PressNavBarAskAiButton from './PressNavBarAskAiButton.vue'
 import PressNavBarSearchButton from './PressNavBarSearchButton.vue'
 
@@ -25,13 +25,25 @@ const PressAlgoliaSearch = isAlgolia.value
   ? defineAsyncComponent(() => import('./PressAlgoliaSearch.vue'))
   : () => null
 
-const PressFuseSearch = isFuse.value
-  ? defineAsyncComponent(() => import('./PressFuseSearch.vue'))
-  : () => null
+/**
+ * Use lazy hydration (Vue 3.5+) to avoid hydration mismatch.
+ *
+ * `defineAsyncComponent` without a hydration strategy causes mismatch because
+ * the SSR bundle resolves async components synchronously (real DOM), while the
+ * client hasn't loaded the chunk yet during hydration (comment placeholder).
+ *
+ * `hydrateOnInteraction` keeps code-splitting benefits and defers hydration
+ * until the user actually interacts with the search button.
+ */
+const PressFuseSearch = defineAsyncComponent({
+  loader: () => import('./PressFuseSearch.vue'),
+  hydrate: hydrateOnInteraction(['click', 'focusin']),
+})
 
-const PressLocalSearch = isLocal.value
-  ? defineAsyncComponent(() => import('./PressLocalSearch.vue'))
-  : () => null
+const PressLocalSearch = defineAsyncComponent({
+  loader: () => import('./PressLocalSearch.vue'),
+  hydrate: hydrateOnInteraction(['click', 'focusin']),
+})
 
 // #region Algolia lazy loading
 
