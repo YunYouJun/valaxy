@@ -1,5 +1,6 @@
 <script lang="ts" setup>
-import { isEmptyAddon } from 'valaxy'
+import type { Ref } from 'vue'
+import { getAddonModule, isEmptyAddon } from 'valaxy'
 import * as addonAlgolia from 'valaxy-addon-algolia'
 import { onMounted, onUnmounted } from 'vue'
 
@@ -10,7 +11,13 @@ defineProps<{
 if (isEmptyAddon(addonAlgolia))
   throw new Error('Algolia addon is not installed')
 
-const { loaded, load, dispatchEvent } = addonAlgolia.useAddonAlgolia()
+const { loaded, load, dispatchEvent } = getAddonModule<{
+  useAddonAlgolia: () => {
+    loaded: Ref<boolean>
+    load: () => void
+    dispatchEvent: () => void
+  }
+}>(addonAlgolia).useAddonAlgolia()
 
 defineExpose({
   loaded,
