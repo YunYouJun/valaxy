@@ -79,6 +79,20 @@ export async function processValaxyOptions(valaxyOptions: ResolvedValaxyOptions,
   buildConfig.rolldownOptions = {
     ...buildConfig.rolldownOptions,
     output: rolldownOutputOptions,
+    // Silence IMPORT_IS_UNDEFINED warnings from the empty-addon fallback.
+    // When a theme imports `valaxy-addon-*` that the user hasn't installed,
+    // the alias points to client/addons/index.ts (an empty stub). Theme
+    // components guard the access at runtime with isEmptyAddon(), so the
+    // static "import will be undefined" warning is a false positive.
+    onLog(level, log, defaultHandler) {
+      if (
+        log.code === 'IMPORT_IS_UNDEFINED'
+        && /[/\\]client[/\\]addons[/\\]index\.ts/.test(log.message ?? '')
+      ) {
+        return
+      }
+      defaultHandler(level, log)
+    },
   }
 
   const config = replaceArrMerge(valaxyConfig, defaultValaxyConfig)
