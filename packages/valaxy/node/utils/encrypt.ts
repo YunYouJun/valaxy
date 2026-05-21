@@ -37,14 +37,19 @@ function getCryptoDeriveKey(keyMaterial: CryptoKey | webcrypto.CryptoKey, salt: 
  * Convert a byte array to a binary string without using spread,
  * which would otherwise overflow the call stack on long content.
  *
+ * `CHUNK_SIZE` of 32 KiB stays well under every mainstream JS engine's
+ * argument-count limit for `Function.prototype.apply` (V8 / JSC /
+ * SpiderMonkey all accept ≥65535 args), and is the same value used by
+ * `base64-js`, MDN's btoa example, and most binary-string utilities.
+ *
  * @see https://github.com/YunYouJun/valaxy/issues/699
  */
 function bytesToBinaryString(bytes: Uint8Array) {
   const CHUNK_SIZE = 0x8000
-  let result = ''
+  const chunks: string[] = []
   for (let i = 0; i < bytes.length; i += CHUNK_SIZE)
-    result += String.fromCharCode.apply(null, bytes.subarray(i, i + CHUNK_SIZE) as unknown as number[])
-  return result
+    chunks.push(String.fromCharCode.apply(null, bytes.subarray(i, i + CHUNK_SIZE) as unknown as number[]))
+  return chunks.join('')
 }
 
 /**
