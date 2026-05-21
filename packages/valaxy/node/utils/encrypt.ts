@@ -34,6 +34,20 @@ function getCryptoDeriveKey(keyMaterial: CryptoKey | webcrypto.CryptoKey, salt: 
 }
 
 /**
+ * Convert a byte array to a binary string without using spread,
+ * which would otherwise overflow the call stack on long content.
+ *
+ * @see https://github.com/YunYouJun/valaxy/issues/699
+ */
+function bytesToBinaryString(bytes: Uint8Array) {
+  const CHUNK_SIZE = 0x8000
+  let result = ''
+  for (let i = 0; i < bytes.length; i += CHUNK_SIZE)
+    result += String.fromCharCode.apply(null, bytes.subarray(i, i + CHUNK_SIZE) as unknown as number[])
+  return result
+}
+
+/**
  * @see https://github.com/mdn/dom-examples/blob/main/web-crypto/encrypt-decrypt/aes-cbc.js
  * @param content
  */
@@ -56,5 +70,5 @@ export async function encryptContent(content: string, options: {
     enc.encode(content),
   )
 
-  return String.fromCharCode(...new Uint8Array(ciphertextData))
+  return bytesToBinaryString(new Uint8Array(ciphertextData))
 }
