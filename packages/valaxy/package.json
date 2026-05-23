@@ -67,6 +67,10 @@
     "preview-https": "serve dist",
     "release:beta": "bumpp --no-tag --no-commit --no-push && pnpm publish --no-git-checks --tag beta"
   },
+  "peerDependencies": {
+    "vue": "^3.5.0",
+    "vue-router": "^5.0.0"
+  },
   "dependencies": {
     "@antfu/install-pkg": "catalog:",
     "@antfu/utils": "catalog:",

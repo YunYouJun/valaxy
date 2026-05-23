@@ -16,6 +16,31 @@ describe('valaxy-theme-press dependencies', () => {
   })
 })
 
+// ─── valaxy peerDependencies check ───────────────────────────────────
+
+describe('valaxy peerDependencies', () => {
+  const valaxyPkgPath = path.resolve(
+    __dirname,
+    '../packages/valaxy/package.json',
+  )
+  const valaxyPkg = JSON.parse(fs.readFileSync(valaxyPkgPath, 'utf-8'))
+
+  // The markdown transform injects `import { useRoute, useRouter } from 'vue-router'`
+  // (and vue imports) into every page. These imports are resolved from the user's
+  // project root, so vue and vue-router must surface at `<project>/node_modules/`.
+  // Declaring them as peerDependencies makes pnpm 8+/npm 7+/bun auto-install them
+  // there (via `auto-install-peers`), removing the dependency on `shamefully-hoist`
+  // which broke under Rolldown (Vite 8) with newer pnpm releases.
+  // See: https://github.com/YunYouJun/valaxy/issues/701
+  it('declares vue as a peerDependency', () => {
+    expect(valaxyPkg.peerDependencies).toHaveProperty('vue')
+  })
+
+  it('declares vue-router as a peerDependency', () => {
+    expect(valaxyPkg.peerDependencies).toHaveProperty('vue-router')
+  })
+})
+
 // ─── normalizeThemeName ──────────────────────────────────────────────
 
 describe('normalizeThemeName', () => {
