@@ -1099,15 +1099,9 @@ importers:
       vitepress-plugin-group-icons:
         specifier: 'catalog:'
         version: 1.7.5(vite@8.0.11(@types/node@25.2.0)(esbuild@0.27.2)(jiti@2.7.0)(sass@1.99.0)(terser@5.46.0)(tsx@4.21.0)(yaml@2.8.4))
-      vue:
-        specifier: 3.5.22
-        version: 3.5.22(typescript@5.9.3)
       vue-i18n:
         specifier: catalog:build
         version: 11.4.2(vue@3.5.22(typescript@5.9.3))
-      vue-router:
-        specifier: 'catalog:'
-        version: 5.0.6(@vue/compiler-sfc@3.5.27)(pinia@3.0.4(typescript@5.9.3)(vue@3.5.22(typescript@5.9.3)))(vue@3.5.22(typescript@5.9.3))
       yargs:
         specifier: 'catalog:'
         version: 18.0.0
@@ -1181,6 +1175,12 @@ importers:
       unbuild:
         specifier: catalog:build
         version: 3.6.1(sass@1.99.0)(typescript@5.9.3)(vue-tsc@2.2.0(typescript@5.9.3))(vue@3.5.22(typescript@5.9.3))
+      vue:
+        specifier: 3.5.22
+        version: 3.5.22(typescript@5.9.3)
+      vue-router:
+        specifier: 'catalog:'
+        version: 5.0.6(@vue/compiler-sfc@3.5.27)(pinia@3.0.4(typescript@5.9.3)(vue@3.5.22(typescript@5.9.3)))(vue@3.5.22(typescript@5.9.3))
 
   packages/valaxy-addon-abbrlink:
     dependencies:

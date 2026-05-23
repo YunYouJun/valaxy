@@ -149,9 +149,7 @@
     "vite-ssg": "catalog:",
     "vite-ssg-sitemap": "catalog:",
     "vitepress-plugin-group-icons": "catalog:",
-    "vue": "catalog:frontend",
     "vue-i18n": "catalog:build",
-    "vue-router": "catalog:",
     "yargs": "catalog:"
   },
   "devDependencies": {
@@ -177,6 +175,8 @@
     "https-localhost": "catalog:",
     "nanoid": "catalog:",
     "rollup-plugin-visualizer": "catalog:",
-    "unbuild": "catalog:build"
+    "unbuild": "catalog:build",
+    "vue": "catalog:frontend",
+    "vue-router": "catalog:"
   }
 }

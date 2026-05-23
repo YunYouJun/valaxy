@@ -32,12 +32,24 @@ describe('valaxy peerDependencies', () => {
   // there (via `auto-install-peers`), removing the dependency on `shamefully-hoist`
   // which broke under Rolldown (Vite 8) with newer pnpm releases.
   // See: https://github.com/YunYouJun/valaxy/issues/701
-  it('declares vue as a peerDependency', () => {
-    expect(valaxyPkg.peerDependencies).toHaveProperty('vue')
+  it('declares the expected peerDependency ranges', () => {
+    expect(valaxyPkg.peerDependencies).toEqual({
+      'vue': '^3.5.0',
+      'vue-router': '^5.0.0',
+    })
   })
 
-  it('declares vue-router as a peerDependency', () => {
-    expect(valaxyPkg.peerDependencies).toHaveProperty('vue-router')
+  // Avoid double-install / multiple-Vue-instance pitfalls: peers must NOT also
+  // appear under `dependencies`. They live in `devDependencies` so local
+  // workspace development still resolves them.
+  it('does not also list peers under dependencies', () => {
+    expect(valaxyPkg.dependencies).not.toHaveProperty('vue')
+    expect(valaxyPkg.dependencies).not.toHaveProperty('vue-router')
+  })
+
+  it('lists peers under devDependencies for local workspace builds', () => {
+    expect(valaxyPkg.devDependencies).toHaveProperty('vue')
+    expect(valaxyPkg.devDependencies).toHaveProperty('vue-router')
   })
 })
 
