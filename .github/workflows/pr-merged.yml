@@ -16,7 +16,7 @@ jobs:
     steps:
       - name: reply yun approved image
         if: github.event.pull_request.merged == true
-        uses: actions/github-script@v6
+        uses: actions/github-script@v8
         with:
           script: |
             github.rest.issues.createComment({
