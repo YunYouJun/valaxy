@@ -79,6 +79,17 @@ themes:
       - blog
       - antfu
       - dark
+  - name: valaxy-theme-lolimeow
+    icon: i-ri-magic-line
+    repo: https://github.com/Yoyo-514/valaxy-theme-lolimeow
+    desc: A soft anime-style blog theme
+    siteImage: https://raw.githubusercontent.com/Yoyo-514/valaxy-theme-lolimeow/main/public/images/example.png
+    siteExampleUrl: 'https://lolimeow.yoyo514.top/'
+    tags:
+      - blog
+      - anime
+      - lolimeow
+      - light
 ---
 ::: tip
 
