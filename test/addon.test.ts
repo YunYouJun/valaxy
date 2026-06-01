@@ -71,3 +71,33 @@ describe('addon alias', () => {
     expect(subpathIdx).toBeLessThan(bareIdx)
   })
 })
+
+describe('vue/vue-router alias', () => {
+  // The markdown transform injects `import { provide, shallowRef } from 'vue'`
+  // and `import { useRoute, useRouter } from 'vue-router'` into every user page.
+  // Pinning the bare specifiers to valaxy's own resolved copy keeps those imports
+  // resolvable regardless of the user's package manager / hoisting layout, avoiding
+  // the runtime "Failed to resolve module specifier vue-router" error.
+  // See: https://github.com/YunYouJun/valaxy/issues/704 (and #701)
+  it('pins bare `vue` and `vue-router` to valaxy\'s resolved copy', async () => {
+    const options = await resolveOptions({ userRoot: fixtureFolder.userRoot })
+    const aliases = await getAlias(options) as Alias[]
+
+    const matchExact = (spec: string) =>
+      aliases.find(a => a.find instanceof RegExp && a.find.source === `^${spec}$`)
+
+    const vueAlias = matchExact('vue')
+    const vueRouterAlias = matchExact('vue-router')
+
+    expect(vueRouterAlias).toBeDefined()
+    expect(vueRouterAlias!.replacement).toContain('vue-router')
+    // exact match only — subpath imports must keep resolving normally
+    expect((vueRouterAlias!.find as RegExp).test('vue-router')).toBe(true)
+    expect((vueRouterAlias!.find as RegExp).test('vue-router/vite')).toBe(false)
+    expect((vueRouterAlias!.find as RegExp).test('vue-router/auto-routes')).toBe(false)
+
+    expect(vueAlias).toBeDefined()
+    expect((vueAlias!.find as RegExp).test('vue')).toBe(true)
+    expect((vueAlias!.find as RegExp).test('vue/server-renderer')).toBe(false)
+  })
+})

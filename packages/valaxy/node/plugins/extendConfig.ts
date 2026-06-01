@@ -133,7 +133,7 @@ export function createConfigPlugin(options: ResolvedValaxyOptions): Plugin {
         define: mergedDefine,
         resolve: {
           alias: await getAlias(options),
-          dedupe: ['vue'],
+          dedupe: ['vue', 'vue-router'],
         },
 
         optimizeDeps: {
@@ -219,6 +219,33 @@ export async function getAlias(options: ResolvedValaxyOptions): Promise<AliasOpt
     alias.push(
       { find: /^vue$/, replacement: await resolveImportPath('vue/dist/vue.esm-bundler.js', true) },
     )
+  }
+
+  // Pin the bare `vue` and `vue-router` specifiers to valaxy's own resolved copy.
+  //
+  // The markdown transform injects `import { provide, shallowRef } from 'vue'`
+  // and `import { useRoute, useRouter } from 'vue-router'` into every user page.
+  // Those imports are resolved relative to the page file under the user's project
+  // root. Under pnpm's default (strict, non-hoisted) layout vue/vue-router are not
+  // surfaced there, so Rolldown may externalize them — leaving a bare
+  // `import … from "vue-router"` in the page chunk that the browser cannot resolve
+  // at runtime ("Failed to resolve module specifier vue-router"). Aliasing to
+  // valaxy's copy makes these imports resolve regardless of the user's package
+  // manager / hoisting, and guarantees a single instance.
+  //
+  // Exact-match regex so subpath imports (`vue-router/vite`, `vue-router/auto-routes`,
+  // `vue-router/experimental`, `vue/server-renderer`, …) keep resolving normally.
+  // `vue` is skipped when `browserTemplateCompilation` already aliased it above.
+  // Resolution is best-effort: if it fails we leave Vite's default resolution untouched.
+  // See: https://github.com/YunYouJun/valaxy/issues/704 (and #701)
+  const vueRouterPath = await resolveImportPath('vue-router')
+  if (vueRouterPath)
+    alias.push({ find: /^vue-router$/, replacement: vueRouterPath })
+
+  if (!options.config.vue?.browserTemplateCompilation) {
+    const vuePath = await resolveImportPath('vue')
+    if (vuePath)
+      alias.push({ find: /^vue$/, replacement: vuePath })
   }
 
   options.addons.forEach((addon) => {
