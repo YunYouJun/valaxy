@@ -221,32 +221,28 @@ export async function getAlias(options: ResolvedValaxyOptions): Promise<AliasOpt
     )
   }
 
-  // Pin the bare `vue` and `vue-router` specifiers to valaxy's own resolved copy.
+  // Pin the bare `vue-router` specifier to valaxy's own copy.
   //
-  // The markdown transform injects `import { provide, shallowRef } from 'vue'`
-  // and `import { useRoute, useRouter } from 'vue-router'` into every user page.
-  // Those imports are resolved relative to the page file under the user's project
-  // root. Under pnpm's default (strict, non-hoisted) layout vue/vue-router are not
-  // surfaced there, so Rolldown may externalize them — leaving a bare
-  // `import … from "vue-router"` in the page chunk that the browser cannot resolve
-  // at runtime ("Failed to resolve module specifier vue-router"). Aliasing to
-  // valaxy's copy makes these imports resolve regardless of the user's package
+  // The markdown transform injects `import { useRoute, useRouter } from 'vue-router'`
+  // into every user page. That import is resolved relative to the page file under
+  // the user's project root. Under pnpm's default (strict, non-hoisted) layout
+  // vue-router is not surfaced there, so Rolldown may externalize it — leaving a
+  // bare `import … from "vue-router"` in the page chunk that the browser cannot
+  // resolve at runtime ("Failed to resolve module specifier vue-router"). Aliasing
+  // to valaxy's copy makes the import resolve regardless of the user's package
   // manager / hoisting, and guarantees a single instance.
   //
+  // Alias to the package *directory* (not a built file) so Vite still applies the
+  // correct browser/node export conditions per build environment — pointing at a
+  // specific build (e.g. `vue-router.node.mjs`) would break client hydration.
   // Exact-match regex so subpath imports (`vue-router/vite`, `vue-router/auto-routes`,
-  // `vue-router/experimental`, `vue/server-renderer`, …) keep resolving normally.
-  // `vue` is skipped when `browserTemplateCompilation` already aliased it above.
+  // `vue-router/experimental`) keep resolving normally.
   // Resolution is best-effort: if it fails we leave Vite's default resolution untouched.
+  // `vue` is intentionally left to Vite's default resolution + `dedupe` below.
   // See: https://github.com/YunYouJun/valaxy/issues/704 (and #701)
-  const vueRouterPath = await resolveImportPath('vue-router')
-  if (vueRouterPath)
-    alias.push({ find: /^vue-router$/, replacement: vueRouterPath })
-
-  if (!options.config.vue?.browserTemplateCompilation) {
-    const vuePath = await resolveImportPath('vue')
-    if (vuePath)
-      alias.push({ find: /^vue$/, replacement: vuePath })
-  }
+  const vueRouterPkg = await resolveImportPath('vue-router/package.json')
+  if (vueRouterPkg)
+    alias.push({ find: /^vue-router$/, replacement: dirname(vueRouterPkg) })
 
   options.addons.forEach((addon) => {
     alias.push({
