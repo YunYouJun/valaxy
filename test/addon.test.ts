@@ -1,4 +1,5 @@
 import type { Alias } from 'vite'
+import { isAbsolute } from 'node:path'
 import process from 'node:process'
 import { describe, expect, it } from 'vitest'
 import { resolveOptions } from '../packages/valaxy/node'
@@ -88,6 +89,9 @@ describe('vue-router alias', () => {
     )
 
     expect(vueRouterAlias).toBeDefined()
+    // must be a real resolved absolute path, NOT the bare specifier left unpinned
+    expect(vueRouterAlias!.replacement).not.toBe('vue-router')
+    expect(isAbsolute(vueRouterAlias!.replacement as string)).toBe(true)
     // points at the package directory (not a specific built file like vue-router.node.mjs)
     expect(vueRouterAlias!.replacement).toMatch(/[/\\]vue-router$/)
     // exact match only — subpath imports must keep resolving normally

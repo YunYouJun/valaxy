@@ -64,6 +64,23 @@ export function defaultIncludedRoutes(paths: string[]): string[] {
   return paths.filter(i => !i.includes(':') && !i.includes('*'))
 }
 
+/**
+ * SSR options for the built-in SSG server build.
+ *
+ * `noExternal: true` bundles ALL dependencies into the server bundle. The engine
+ * writes that bundle to `<outDir>/.vite-ssg-temp/entry-ssr.mjs` and loads it via a
+ * native `import()`; any externalized bare import would then be resolved by Node
+ * relative to the temp dir. Under pnpm's default (strict, non-hoisted) layout, deep
+ * transitive deps (e.g. `@vue/runtime-dom`, `@intlify/core-base`) are not surfaced
+ * at `<project>/node_modules/`, so those imports fail with `ERR_MODULE_NOT_FOUND`.
+ * A selective `noExternal` list doesn't help — a bundled package still externalizes
+ * its own transitive deps. Bundling everything makes the server bundle self-contained.
+ * See: https://github.com/YunYouJun/valaxy/issues/704 (same pnpm root cause)
+ */
+export function getSsgSsrConfig(): InlineConfig['ssr'] {
+  return { noExternal: true }
+}
+
 export interface ValaxySSGOptions {
   concurrency?: number
   onBeforePageRender?: (route: string, html: string) => Promise<string | void> | string | void
@@ -130,7 +147,6 @@ export async function ssgBuild(
     }
   }
 
-  const cdnModuleNames = (options.config.cdn?.modules || []).map((m: any) => m.name)
   const configOutDir = (viteConfig.build?.outDir as string) || 'dist'
   const outDir = isAbsolute(configOutDir) ? configOutDir : resolve(options.userRoot, configOutDir)
   const ssgTemp = resolve(outDir, '.vite-ssg-temp')
@@ -138,9 +154,9 @@ export async function ssgBuild(
   const defaultConfig: InlineConfig = {
     ...defaultViteConfig,
     plugins: await ViteValaxyPlugins(valaxyApp),
-    ssr: {
-      noExternal: ['workbox-window', /vue-i18n/, '@vue/devtools-api', ...cdnModuleNames],
-    },
+    // `ssr.noExternal` only affects the server build (step 2) — the client build
+    // ignores it. See `getSsgSsrConfig` for why everything is bundled.
+    ssr: getSsgSsrConfig(),
     build: {
       sourcemap: false,
       // Explicitly disable watch to prevent chokidar from opening too many
