@@ -243,7 +243,9 @@ export async function getAlias(options: ResolvedValaxyOptions): Promise<AliasOpt
   // specific build (e.g. `vue-router.node.mjs`) would break client hydration.
   // Exact-match regex so subpath imports (`vue-router/vite`, `vue-router/auto-routes`,
   // `vue-router/experimental`) keep resolving normally.
-  // Resolution is best-effort: if it fails we leave Vite's default resolution untouched.
+  // Resolution is best-effort: if vue-router can't be resolved, `resolveImportPath`
+  // logs a warning and returns undefined, and we skip adding the alias (Vite then
+  // falls back to its default resolution).
   // `vue` is intentionally left to Vite's default resolution + `dedupe` below.
   // See: https://github.com/YunYouJun/valaxy/issues/704 (and #701)
   const vueRouterPkg = await resolveImportPath('vue-router/package.json')
