@@ -75,7 +75,10 @@ export function defaultIncludedRoutes(paths: string[]): string[] {
  * at `<project>/node_modules/`, so those imports fail with `ERR_MODULE_NOT_FOUND`.
  * A selective `noExternal` list doesn't help — a bundled package still externalizes
  * its own transitive deps. Bundling everything makes the server bundle self-contained.
- * See: https://github.com/YunYouJun/valaxy/issues/704 (same pnpm root cause)
+ *
+ * This is a distinct failure mode from the browser-side bare-import error in #704
+ * (https://github.com/YunYouJun/valaxy/issues/704), but shares the same root cause:
+ * pnpm's strict (non-hoisted) `node_modules` layout.
  */
 export function getSsgSsrConfig(): InlineConfig['ssr'] {
   return { noExternal: true }
