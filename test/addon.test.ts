@@ -1,4 +1,5 @@
 import type { Alias } from 'vite'
+import { isAbsolute } from 'node:path'
 import process from 'node:process'
 import { describe, expect, it } from 'vitest'
 import { resolveOptions } from '../packages/valaxy/node'
@@ -69,5 +70,33 @@ describe('addon alias', () => {
     const subpathIdx = aliases.indexOf(generalSubpathAlias!)
     const bareIdx = aliases.indexOf(bareImportAlias!)
     expect(subpathIdx).toBeLessThan(bareIdx)
+  })
+})
+
+describe('vue-router alias', () => {
+  // The markdown transform injects `import { useRoute, useRouter } from 'vue-router'`
+  // into every user page. Pinning the bare specifier to valaxy's own copy keeps it
+  // resolvable regardless of the user's package manager / hoisting layout, avoiding
+  // the runtime "Failed to resolve module specifier vue-router" error. The alias
+  // targets the package directory so Vite still picks the correct browser/node build.
+  // See: https://github.com/YunYouJun/valaxy/issues/704 (and #701)
+  it('pins bare `vue-router` to valaxy\'s package directory', async () => {
+    const options = await resolveOptions({ userRoot: fixtureFolder.userRoot })
+    const aliases = await getAlias(options) as Alias[]
+
+    const vueRouterAlias = aliases.find(
+      a => a.find instanceof RegExp && a.find.source === '^vue-router$',
+    )
+
+    expect(vueRouterAlias).toBeDefined()
+    // must be a real resolved absolute path, NOT the bare specifier left unpinned
+    expect(vueRouterAlias!.replacement).not.toBe('vue-router')
+    expect(isAbsolute(vueRouterAlias!.replacement as string)).toBe(true)
+    // points at the package directory (not a specific built file like vue-router.node.mjs)
+    expect(vueRouterAlias!.replacement).toMatch(/[/\\]vue-router$/)
+    // exact match only — subpath imports must keep resolving normally
+    expect((vueRouterAlias!.find as RegExp).test('vue-router')).toBe(true)
+    expect((vueRouterAlias!.find as RegExp).test('vue-router/vite')).toBe(false)
+    expect((vueRouterAlias!.find as RegExp).test('vue-router/auto-routes')).toBe(false)
   })
 })

@@ -1,5 +1,21 @@
 import { describe, expect, it } from 'vitest'
-import { defaultIncludedRoutes, routesToPaths } from '../../packages/valaxy/node/build/ssg'
+import { defaultIncludedRoutes, getSsgSsrConfig, routesToPaths } from '../../packages/valaxy/node/build/ssg'
+
+describe('getSsgSsrConfig', () => {
+  // Regression guard for the SSG server-bundle ERR_MODULE_NOT_FOUND failure under
+  // pnpm's strict (non-hoisted) layout — the same root cause as, but a distinct
+  // failure mode from, the browser-side bare-import error in #704.
+  // The built-in SSG server bundle is loaded via native `import()` from a temp
+  // dir; externalized transitive deps (e.g. `@vue/runtime-dom`, `@intlify/core-base`)
+  // can't be resolved there. Bundling everything (`noExternal: true`) keeps the
+  // server bundle self-contained. A selective list would reintroduce the bug, so
+  // lock the invariant here.
+  it('bundles all deps into the SSR server build (noExternal: true)', () => {
+    const ssr = getSsgSsrConfig()
+    expect(ssr).toBeDefined()
+    expect(ssr!.noExternal).toBe(true)
+  })
+})
 
 describe('routesToPaths', () => {
   it('returns ["/"] for null/undefined routes', () => {
