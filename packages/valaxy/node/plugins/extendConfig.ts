@@ -133,7 +133,13 @@ export function createConfigPlugin(options: ResolvedValaxyOptions): Plugin {
         define: mergedDefine,
         resolve: {
           alias: await getAlias(options),
-          dedupe: ['vue', 'vue-router'],
+          // Dedupe the shared singletons that valaxy owns (it calls `createApp`,
+          // `createRouter`, `createPinia`, `createI18n`) but themes/addons also
+          // import. A second physical copy — e.g. resolved from a theme/addon that
+          // doesn't surface valaxy's copy under pnpm — would mean `useI18n()` /
+          // stores read a different instance than the one valaxy registered,
+          // breaking translations / state. Forcing a single instance avoids that.
+          dedupe: ['vue', 'vue-router', 'vue-i18n', 'pinia'],
         },
 
         optimizeDeps: {
