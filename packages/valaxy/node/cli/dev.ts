@@ -172,8 +172,11 @@ export function registerDevCommand(cli: Argv) {
         bindShortcuts(server, createDevServer)
       }
       await createDevServer()
-      // Keep the process alive — yargs 18 exits after async handlers resolve
-      await new Promise(() => {})
+
+      // Block forever so the command handler never settles (yargs 18 force-exits once it
+      // does). The vite dev server keeps the event loop alive and installs its own
+      // SIGTERM/stdin-`end` shutdown handlers, so we don't add our own here.
+      await new Promise<never>(() => {})
     },
   )
 }

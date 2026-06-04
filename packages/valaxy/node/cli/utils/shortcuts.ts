@@ -67,16 +67,19 @@ export const SHORTCUTS: CLIShortcut[] = [
  * bind shortcut for terminal
  */
 export function bindShortcuts(server: ViteDevServer, createDevServer: CreateDevServer) {
-  if (!server.httpServer || process.env.CI) {
-    console.log('restart server to enable shortcuts', server.httpServer, process.stdin.isTTY, process.env.CI)
+  // Shortcuts require a raw-mode TTY, so skip non-interactive environments
+  // (CI, piped stdin, docker without `-it`, pm2/nohup, background jobs).
+  // Beyond being useless there, `process.stdin.resume()` on a non-TTY stdin puts it into
+  // flowing mode and lets it reach EOF — which triggers vite's `process.stdin.on('end')`
+  // handler (registered in `server.listen()` unless `CI==='true'`) to close the server and
+  // exit. That is what made `valaxy dev` exit immediately in non-TTY environments.
+  if (!server.httpServer || !process.stdin.isTTY || process.env.CI)
     return
-  }
 
   process.stdin.resume()
   process.stdin.setEncoding('utf8')
   readline.emitKeypressEvents(process.stdin)
-  if (process.stdin.isTTY)
-    process.stdin.setRawMode(true)
+  process.stdin.setRawMode(true)
 
   async function onKeyPress(str: any, key: any) {
     if (key.ctrl && key.name === 'c') {
