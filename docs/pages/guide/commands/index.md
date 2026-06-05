@@ -113,7 +113,7 @@ Since it does not rely on JSDOM, per-page rendering has minimal memory overhead,
 ### Which to Choose
 
 - **The default Valaxy SSG engine is recommended** — lower memory usage, faster, no extra dependencies, and works under pnpm
-- The legacy `vite-ssg` engine is **deprecated** and **broken under pnpm** ([#706](https://github.com/YunYouJun/valaxy/issues/706)); avoid it. If you depend on Critical CSS (beasties), open an issue so it can be supported on the default engine
+- The legacy `vite-ssg` engine is **deprecated** and **broken under pnpm** ([#706](https://github.com/YunYouJun/valaxy/issues/706)); avoid it. It will be removed in a future release — if you depend on it (e.g. Critical CSS via beasties, or SSR behavior covered in [SSR Compatibility](../ssr-compat)), please comment on [#706](https://github.com/YunYouJun/valaxy/issues/706) so your case can be supported on the default engine first
 
 
 ### Posts

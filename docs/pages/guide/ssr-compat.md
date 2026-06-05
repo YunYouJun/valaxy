@@ -9,6 +9,12 @@ top: 2
 
 Valaxy builds your site using SSG (Static Site Generation), which renders pages to HTML at build time via Vue's server-side rendering (SSR). This means components run in a Node.js environment during the build, where browser APIs like `window`, `document`, and `navigator` are not available.
 
+::: warning Migrating off the legacy `vite-ssg` engine
+The deprecated `vite-ssg` engine (see [#706](https://github.com/YunYouJun/valaxy/issues/706)) rendered through **JSDOM**, which silently provided `window`, `document`, and `navigator` during SSR. Code that touched these globals at render time appeared to "work" under the legacy engine — but the default Valaxy engine renders pure strings with **no** DOM, so the same code now throws or hydrates incorrectly.
+
+Before switching to (or relying on) the default engine, guard every browser-only access with the patterns below. If you maintain a theme or addon that genuinely needs a DOM during SSR, please comment on [#706](https://github.com/YunYouJun/valaxy/issues/706) so it can be addressed before the legacy engine is removed.
+:::
+
 ### Why Hydration Mismatches Happen
 
 After SSG generates static HTML, Vue "hydrates" it in the browser — attaching event listeners and making it interactive. If the HTML rendered on the server differs from what the client renders, you get a **hydration mismatch** warning.

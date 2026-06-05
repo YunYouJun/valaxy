@@ -9,6 +9,12 @@ top: 2
 
 Valaxy 使用 SSG（静态站点生成）构建你的站点，它在构建时通过 Vue 的服务端渲染（SSR）将页面渲染为 HTML。这意味着组件在构建期间运行在 Node.js 环境中，此时像 `window`、`document` 和 `navigator` 这样的浏览器 API 是不可用的。
 
+::: warning 从旧版 `vite-ssg` 引擎迁移
+已弃用的 `vite-ssg` 引擎（见 [#706](https://github.com/YunYouJun/valaxy/issues/706)）通过 **JSDOM** 渲染，它在 SSR 期间默默提供了 `window`、`document` 和 `navigator`。那些在渲染时访问这些全局对象的代码，在旧版引擎下看似"能正常工作"——但默认的 Valaxy 引擎以纯字符串渲染、**没有** DOM，因此同样的代码现在会抛错或导致水合错误。
+
+在切换到（或依赖）默认引擎前，请用下文的方式守护所有仅浏览器的访问。如果你维护的主题或 addon 确实需要在 SSR 期间使用 DOM，请在 [#706](https://github.com/YunYouJun/valaxy/issues/706) 留言，以便在移除旧版引擎前妥善处理。
+:::
+
 ### 为什么会发生水合不匹配
 
 在 SSG 生成静态 HTML 后，Vue 会在浏览器中"水合"它——附加事件监听器并使其具有交互性。如果服务器渲染的 HTML 与客户端渲染的内容不同，你会收到**水合不匹配**警告。
