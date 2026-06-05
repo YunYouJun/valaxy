@@ -90,7 +90,12 @@ export async function execBuild({ ssg, ssgEngine, root, output, log }: { ssg: bo
   try {
     if (ssg) {
       if (resolvedSsgEngine === 'vite-ssg') {
-        consola.info(`use ${colors.yellow('vite-ssg')} (legacy) to do ssg build...`)
+        consola.warn(
+          `The ${colors.yellow('vite-ssg')} (legacy) SSG engine is ${colors.red('deprecated')} `
+          + `and is ${colors.red('broken under pnpm')} (@unhead/vue SSR head-context split: pages render without a ${colors.cyan('<head>')}).\n`
+          + `  Remove ${colors.cyan('--ssg-engine vite-ssg')} / ${colors.cyan('build.ssg.engine')} to use the default ${colors.green('valaxy')} engine instead.\n`
+          + `  Details: ${colors.underline('https://github.com/YunYouJun/valaxy/issues/706')} — it will be removed in a future release.`,
+        )
         try {
           await ssgBuildLegacy(valaxyApp, viteConfig)
           await fixViteSsgHtml(options)
@@ -148,7 +153,7 @@ export function registerBuildCommand(cli: Argv) {
       .option('ssg-engine', {
         type: 'string',
         choices: ['valaxy', 'vite-ssg'],
-        describe: 'SSG engine to use, overrides `build.ssg.engine` in config (default: valaxy)',
+        describe: 'SSG engine to use, overrides `build.ssg.engine` in config (default: valaxy; `vite-ssg` is deprecated, see #706)',
       })
       .option('output', {
         alias: 'o',

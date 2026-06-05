@@ -76,13 +76,17 @@ pnpm add -g valaxy
 - `valaxy rss`: Generate RSS
 - `valaxy build`: Use Vite to build SPA app by default
 - `valaxy build --ssg`: Build static pages (Memory-friendly, recommended), uses the built-in Valaxy SSG engine by default
-- `valaxy build --ssg --ssg-engine vite-ssg`: Build with the legacy vite-ssg engine
+- `valaxy build --ssg --ssg-engine vite-ssg`: Build with the legacy vite-ssg engine (**deprecated**, see [#706](https://github.com/YunYouJun/valaxy/issues/706))
 
 
 ## SSG Engines
 
 
 Valaxy provides two SSG (Static Site Generation) engines for generating static pages. Use the `--ssg-engine` flag to choose:
+
+::: warning Legacy `vite-ssg` engine is deprecated
+The legacy `vite-ssg` engine is **broken under pnpm**'s default (non-hoisted) layout — every `useHead()` call throws during SSR and pages render without a `<head>`. Use the default `valaxy` engine. The legacy engine will be removed in a future release. See [#706](https://github.com/YunYouJun/valaxy/issues/706).
+:::
 
 | | Valaxy SSG (default) | vite-ssg (legacy) |
 | --- | --- | --- |
@@ -108,8 +112,8 @@ Since it does not rely on JSDOM, per-page rendering has minimal memory overhead,
 
 ### Which to Choose
 
-- **The default Valaxy SSG engine is recommended** — lower memory usage, faster, no extra dependencies
-- If you rely on Critical CSS (beasties) or encounter compatibility issues with the new engine, fall back to `--ssg-engine vite-ssg`
+- **The default Valaxy SSG engine is recommended** — lower memory usage, faster, no extra dependencies, and works under pnpm
+- The legacy `vite-ssg` engine is **deprecated** and **broken under pnpm** ([#706](https://github.com/YunYouJun/valaxy/issues/706)); avoid it. If you depend on Critical CSS (beasties), open an issue so it can be supported on the default engine
 
 
 ### Posts

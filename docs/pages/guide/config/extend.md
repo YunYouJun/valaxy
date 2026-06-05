@@ -124,6 +124,10 @@ export default defineValaxyConfig({
 
 ### SSG Options
 
+::: warning Legacy `vite-ssg` only
+The options below apply only to the legacy `vite-ssg` engine, which is **deprecated** and **broken under pnpm** (see [#706](https://github.com/YunYouJun/valaxy/issues/706)). The default built-in Valaxy SSG engine does not use `vite.ssgOptions`.
+:::
+
 Valaxy uses [vite-ssg](https://github.com/antfu-collective/vite-ssg) for Static Site Generation.
 You can customize SSG behavior via `vite.ssgOptions`.
 

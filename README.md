@@ -50,7 +50,7 @@ For an example, you can see [demo/yun](./demo/yun/) folder.
 - 🗒 Extended Markdown Frontmatter
 - 🗂 File based routing via [vue-router](https://router.vuejs.org/file-based-routing/)
 - 📦 Components auto importing via [unplugin-vue-components](https://github.com/antfu/unplugin-vue-components)
-- 🖨 Static-site generation (SSG) via [vite-ssg](https://github.com/antfu/vite-ssg) (SPA is OK!)
+- 🖨 Static-site generation (SSG) via the built-in Valaxy SSG engine (SPA is OK!)
 - 🕸 RSS & Sitemap
 - 🎨 Free to use Tailwind CSS via [UnoCSS](https://github.com/antfu/unocss)
 - 🌍 [CSS i18n in One Page](https://valaxy.site/guide/i18n)

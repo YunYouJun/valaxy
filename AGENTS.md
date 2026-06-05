@@ -1,6 +1,6 @@
-# CLAUDE.md
+# AGENTS.md
 
-This file provides guidance to Claude Code (https://claude.com/code) when working with code in this repository.
+This file provides guidance to Codex (https://Codex.com/code) when working with code in this repository.
 
 ## Project Overview
 
@@ -192,7 +192,7 @@ Uses `markdown-it` with custom plugins:
 
 **SSG (Static Site Generation):**
 - Default engine: built-in Valaxy SSG (Vue SSR + pure string rendering, no JSDOM)
-- Legacy engine: `vite-ssg` (JSDOM-based, selectable via `--ssg-engine vite-ssg`) — **deprecated & broken under pnpm** (@unhead/vue SSR head-context, see #706); slated for removal. Always use the default engine.
+- Legacy engine: `vite-ssg` (JSDOM-based, selectable via `--ssg-engine vite-ssg`)
 - Filters draft posts in production
 - Supports pagination
 - Generates sitemap and redirects
