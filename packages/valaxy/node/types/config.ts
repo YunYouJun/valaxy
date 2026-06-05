@@ -321,10 +321,6 @@ export interface ValaxyExtendConfig {
    * @see https://unocss.dev/guide/presets
    */
   unocssPresets?: {
-    /**
-     * @deprecated use wind4 instead
-     */
-    uno?: Parameters<typeof presetWind4>[0]
     attributify?: Parameters<typeof presetAttributify>[0]
     icons?: Parameters<typeof presetIcons>[0]
     typography?: Parameters<typeof presetTypography>[0]
