@@ -4,7 +4,7 @@ This file provides guidance to Claude Code (https://claude.com/code) when workin
 
 ## Project Overview
 
-Valaxy is a Next Generation Static Blog Framework built with Vue 3, Vite 5, and pnpm workspaces. It's a monorepo containing the core framework, themes, addons, documentation, and demo sites.
+Valaxy is a Next Generation Static Blog Framework built with Vue 3, Vite 8 (Rolldown), and pnpm workspaces. It's a monorepo containing the core framework, themes, addons, documentation, and demo sites.
 
 **Key Links:**
 - Documentation: https://valaxy.site

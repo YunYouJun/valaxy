@@ -45,7 +45,7 @@ pnpm create valaxy
 
 ## 功能
 
-- ⚡️ [Vue 3](https://github.com/vuejs/vue-next), [Vite 5](https://github.com/vitejs/vite), [pnpm](https://pnpm.js.org/), [ESBuild](https://github.com/evanw/esbuild) - 快速
+- ⚡️ [Vue 3](https://github.com/vuejs/vue-next), [Vite 8](https://github.com/vitejs/vite), [pnpm](https://pnpm.js.org/), [Rolldown](https://github.com/rolldown/rolldown) - 快速
 - 🔥 配置 & Markdown 文件热更新
 - 🔧 `valaxy.config.ts` 的所有配置项皆有类型提示
 - 🗒 扩展 Markdown Frontmatter
