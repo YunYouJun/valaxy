@@ -38,7 +38,10 @@ test.describe('Theme Yun', () => {
   })
 
   test('search', async ({ page }) => {
-    // Use networkidle to ensure Vue hydration is complete before interacting
+    // NOTE: networkidle does NOT guarantee hydration is complete — the client
+    // mount in main.ts runs after an async chain. This test is safe because it
+    // clicks a button (Playwright auto-waits for actionability); keyboard-driven
+    // tests must use `waitForHydration` instead. See e2e/utils/hydration.ts.
     await page.goto('/', { waitUntil: 'networkidle' })
     const searchBtn = page.locator('.yun-search-btn')
     await searchBtn.waitFor({ state: 'visible' })

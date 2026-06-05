@@ -1,5 +1,6 @@
 import { expect, test } from '@playwright/test'
 import { env } from '../env'
+import { waitForHydration } from '../utils'
 
 test.use({
   baseURL: env.docs,
@@ -15,6 +16,9 @@ test.describe('docs search', () => {
     })
 
     await page.goto('/', { waitUntil: 'networkidle' })
+    // Ensure the Vue app has mounted (async mount chain in main.ts can finish
+    // after networkidle), so the search component's listeners are registered.
+    await waitForHydration(page)
 
     // Search button should be visible
     const searchBtn = page.locator('.PressSearchButton')
@@ -37,6 +41,11 @@ test.describe('docs search', () => {
 
   test('Cmd/Ctrl+K opens search', async ({ page }) => {
     await page.goto('/', { waitUntil: 'networkidle' })
+    // The Cmd/Ctrl+K handler is an `onKeyStroke` registered during the search
+    // component's setup, which only runs after `app.mount()`. Wait for the app
+    // to finish mounting/hydrating before pressing, otherwise the keystroke is
+    // lost (root cause of the previous flakiness).
+    await waitForHydration(page)
 
     // Trigger Cmd+K (macOS) or Ctrl+K (Windows/Linux)
     const modifier = process.platform === 'darwin' ? 'Meta' : 'Control'
