@@ -75,17 +75,6 @@ export interface ValaxyNode {
 
 export interface ValaxyExtendConfig {
   /**
-   * Don't fail builds due to dead links.
-   *
-   * @default false
-   * @deprecated use `build.ignoreDeadLinks` instead
-   */
-  ignoreDeadLinks?:
-    | boolean
-    | 'localhostLinks'
-    | (string | RegExp | ((link: string) => boolean))[]
-
-  /**
    * options for `valaxy build`
    */
   build: {
