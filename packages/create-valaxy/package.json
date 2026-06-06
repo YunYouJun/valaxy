@@ -8,12 +8,19 @@
     "name": "YunYouJun",
     "url": "https://www.yunyoujun.cn"
   },
+  "license": "MIT",
   "funding": "https://github.com/sponsors/YunYouJun",
   "homepage": "https://valaxy.site",
   "repository": {
     "type": "git",
-    "url": "https://github.com/YunYouJun/valaxy/tree/main/packages/create-valaxy"
+    "url": "git+https://github.com/YunYouJun/valaxy.git",
+    "directory": "packages/create-valaxy"
   },
+  "keywords": [
+    "valaxy",
+    "create-valaxy",
+    "scaffolding"
+  ],
   "main": "bin/index.mjs",
   "bin": {
     "create-valaxy": "bin/index.mjs"

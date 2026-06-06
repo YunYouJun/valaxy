@@ -32,4 +32,5 @@ valaxy-blog
 
 # codebuddy
 .codebuddy/memory
+packages/**/.codebuddy/
 .claude/worktrees

@@ -2,6 +2,7 @@
   "name": "valaxy-theme-yun",
   "type": "module",
   "version": "0.28.10",
+  "description": "Default theme (Yun) for Valaxy — a Vite & Vue powered static blog generator",
   "author": {
     "email": "me@yunyoujun.cn",
     "name": "YunYouJun",
@@ -11,8 +12,15 @@
   "homepage": "https://yun.valaxy.site",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/YunYouJun/valaxy/tree/main/packages/valaxy-theme-yun.git"
+    "url": "git+https://github.com/YunYouJun/valaxy.git",
+    "directory": "packages/valaxy-theme-yun"
   },
+  "keywords": [
+    "valaxy",
+    "valaxy-theme",
+    "theme",
+    "blog"
+  ],
   "exports": {
     "./client": "./client/index.ts",
     "./theme": "./types/index.d.ts",

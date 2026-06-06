@@ -2,9 +2,17 @@
   "name": "@valaxyjs/devtools",
   "type": "module",
   "version": "0.28.10",
+  "description": "DevTools for Valaxy",
+  "license": "MIT",
   "repository": {
-    "url": "https://github.com/YunYouJun/valaxy"
+    "type": "git",
+    "url": "git+https://github.com/YunYouJun/valaxy.git",
+    "directory": "packages/devtools"
   },
+  "keywords": [
+    "valaxy",
+    "devtools"
+  ],
   "exports": {
     ".": {
       "types": "./dist/index.d.ts",

@@ -1,0 +1,8 @@
+# dev / tooling files — themes publish their source, so only exclude non-runtime junk
+.codebuddy
+bump.config.ts
+docs
+tsconfig.json
+*.tsbuildinfo
+*.log
+.DS_Store

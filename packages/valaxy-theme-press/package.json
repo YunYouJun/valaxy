@@ -1,20 +1,28 @@
 {
   "name": "valaxy-theme-press",
   "version": "0.28.10",
-  "description": "Docs Theme for Valaxy",
+  "description": "Docs (VitePress-like) theme for Valaxy",
   "author": {
     "email": "me@yunyoujun.cn",
     "name": "YunYouJun",
     "url": "https://www.yunyoujun.cn"
   },
+  "license": "MIT",
   "maintainers": [
     "YunYouJun"
   ],
   "homepage": "https://press.valaxy.site",
   "repository": {
     "type": "git",
-    "url": "https://github.com/YunYouJun/valaxy/tree/main/packages/valaxy-theme-press"
+    "url": "git+https://github.com/YunYouJun/valaxy.git",
+    "directory": "packages/valaxy-theme-press"
   },
+  "keywords": [
+    "valaxy",
+    "valaxy-theme",
+    "theme",
+    "docs"
+  ],
   "exports": {
     ".": "./index.ts",
     "./*": "./*"
