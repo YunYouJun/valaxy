@@ -70,20 +70,30 @@ Valaxy provides a quick integration plug-in: [valaxy-addon-algolia](https://gith
 ## Music Player
 
 
-> Implementd based on [Aplayer](https://github.com/DIYgod/APlayer) and [MetingJS](https://github.com/metowolf/MetingJS)
+> Provided by the [valaxy-addon-meting](https://github.com/YunYouJun/valaxy/tree/main/packages/valaxy-addon-meting) addon, based on [APlayer](https://github.com/DIYgod/APlayer) and [MetingJS](https://github.com/metowolf/MetingJS).
 
-For example, add a song from Netease Cloud in an article:
+::: warning Migrated to an addon
+The legacy core `aplayer: true` frontmatter switch was **removed in v1.0**. The music player now lives in the `valaxy-addon-meting` addon — add it to your config to use it.
+:::
 
-Enable it in the FrontMatter of the article:
+Install and enable the addon:
 
-```md
----
-aplayer: true
----
+```ts
+// valaxy.config.ts
+import { defineConfig } from 'valaxy'
+import { addonMeting } from 'valaxy-addon-meting'
+
+export default defineConfig({
+  addons: [
+    addonMeting({
+      // set `global: true` for a fixed player shown on every page
+      global: false,
+    }),
+  ],
+})
 ```
 
-
-Add the component to the article:
+Then drop a `<meting-js>` element anywhere in an article (e.g. a song from NetEase Cloud Music):
 
 ```html
 <meting-js
@@ -94,6 +104,7 @@ Add the component to the article:
 </meting-js>
 ```
 
+> Tip: the `aplayer: true` frontmatter is still honored by the addon to toggle the global fixed player on a per-page basis. See the [addon README](https://github.com/YunYouJun/valaxy/tree/main/packages/valaxy-addon-meting) for all options.
 
 Here is a demo:
 

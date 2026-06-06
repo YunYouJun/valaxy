@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import type { Post } from 'valaxy'
-import { onContentUpdated, runContentUpdated, useAplayer, useCodePen, useCollapseCode, useCopyCode, useMediumZoom, wrapTable } from 'valaxy'
+import { onContentUpdated, runContentUpdated, useCodePen, useCollapseCode, useCopyCode, useMediumZoom, wrapTable } from 'valaxy'
 import { onMounted, onUpdated, ref } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { useCodeGroups } from '../composables/codeGroups'
@@ -27,9 +27,6 @@ onUpdated(() => {
 })
 
 // widgets
-if (props.frontmatter.aplayer)
-  useAplayer()
-
 if (props.frontmatter.codepen)
   useCodePen()
 

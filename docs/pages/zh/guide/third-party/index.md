@@ -105,20 +105,30 @@ Valaxy 提供了一个快速集成插件 [valaxy-addon-algolia](https://github.c
 ## 音乐播放器 {#music-player}
 
 
-> 基于 [Aplayer](https://github.com/DIYgod/APlayer) 与 [MetingJS](https://github.com/metowolf/MetingJS) 实现
+> 由 [valaxy-addon-meting](https://github.com/YunYouJun/valaxy/tree/main/packages/valaxy-addon-meting) 插件提供，基于 [APlayer](https://github.com/DIYgod/APlayer) 与 [MetingJS](https://github.com/metowolf/MetingJS) 实现。
 
-譬如在文章中引入网易云某首歌曲（ID 为歌曲 ID）：
+::: warning 已迁移为插件
+旧版核心的 `aplayer: true` frontmatter 开关已在 **v1.0 中移除**。音乐播放器现由 `valaxy-addon-meting` 插件提供——将其加入配置即可使用。
+:::
 
-在文章头部添加：
+安装并启用插件：
 
+```ts
+// valaxy.config.ts
+import { defineConfig } from 'valaxy'
+import { addonMeting } from 'valaxy-addon-meting'
 
-```md
----
-aplayer: true
----
+export default defineConfig({
+  addons: [
+    addonMeting({
+      // 设为 `global: true` 可在每个页面显示固定播放器
+      global: false,
+    }),
+  ],
+})
 ```
 
-在文中引入：
+随后在文章中任意位置放入 `<meting-js>` 元素（例如网易云某首歌曲，`id` 为歌曲 ID）：
 
 
 ```html
@@ -129,6 +139,8 @@ aplayer: true
  theme="#C20C0C">
 </meting-js>
 ```
+
+> 提示：`aplayer: true` frontmatter 仍被插件支持，用于按页切换全局固定播放器的显隐。完整选项见 [插件 README](https://github.com/YunYouJun/valaxy/tree/main/packages/valaxy-addon-meting)。
 
 效果如下：
 
