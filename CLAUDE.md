@@ -191,13 +191,12 @@ Uses `markdown-it` with custom plugins:
 5. Output cached for route generation
 
 **SSG (Static Site Generation):**
-- Default engine: built-in Valaxy SSG (Vue SSR + pure string rendering, no JSDOM)
-- Legacy engine: `vite-ssg` (JSDOM-based, selectable via `--ssg-engine vite-ssg`) — **deprecated & broken under pnpm** (@unhead/vue SSR head-context, see #706); slated for removal. Always use the default engine.
+- Single built-in Valaxy SSG engine (Vue SSR + pure string rendering, no JSDOM). The legacy JSDOM-based `vite-ssg` engine was **removed in v1.0** (broken under pnpm, see #706); there is no `--ssg-engine` flag.
+- Flash-of-unstyled-content handled by the FOUC guard (not Critical CSS inlining)
 - Filters draft posts in production
 - Supports pagination
 - Generates sitemap and redirects
-- **Minimum heap (Valaxy SSG): ~4 GB** (`--max-old-space-size=4096`). Vite 8 (Rolldown) uses more memory during chunk generation; the SSG engine auto-respawns with sufficient heap.
-- **Minimum heap (vite-ssg): ~4 GB** (`--max-old-space-size=4096`). JSDOM + beasties CSS processing; auto-adjusts concurrency (1-16) based on heap limit.
+- **Minimum heap: ~4 GB** (`--max-old-space-size=4096`). Vite 8 (Rolldown) uses more memory during chunk generation; the SSG engine auto-respawns with sufficient heap.
 
 ## Theme Development
 

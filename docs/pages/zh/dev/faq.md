@@ -22,9 +22,9 @@ end: false
 
 
 
-SSG 构建（`valaxy build --ssg`）时，[vite-ssg](https://github.com/antfu-collective/vite-ssg) 在同一进程中依次执行 client 构建、server 构建、页面渲染。构建阶段的 Vite resolved config 和插件系统会驻留内存，导致渲染阶段可用堆空间有限。
+SSG 构建（`valaxy build --ssg`）时，内置的 Valaxy SSG 引擎在同一进程中依次执行 client 构建、server 构建、页面渲染。构建阶段的 Vite resolved config 和插件系统会驻留内存，导致渲染阶段可用堆空间有限。
 
-**最低内存要求：`--max-old-space-size=2304`（约 2.3 GB）**
+**最低内存要求：`--max-old-space-size=4096`（约 4 GB）**——引擎会在需要时自动以此堆重启。
 
 ```bash
 # 复现测试
@@ -32,16 +32,11 @@ pnpm test:space        # demo/yun
 pnpm test:space:docs   # docs
 ```
 
-Valaxy 会根据 V8 的 `heap_size_limit` 自动调整 SSG 行为：
+当堆限制低于 ~4 GB 时，SSG 引擎会自动以 `--max-old-space-size=4096`（以及在可用时
+加上 `--expose-gc`）重启构建进程，使渲染阶段有足够余量。页面渲染默认并发数为 20
+（可通过 `vite.ssgOptions.concurrency` 配置）。
 
-| 堆限制 | beasties (Critical CSS) | HTML minify | 并发数 |
-|--------|------------------------|-------------|--------|
-| ≤ 2.5 GB | 禁用 | 禁用 | 1 |
-| ≤ 3.1 GB | 启用 | 启用 | 2 |
-| ≤ 4.2 GB | 启用 | 启用 | 4 |
-| > 4.2 GB | 启用 | 启用 | 8+ |
-
-如果你在 CI 环境中遇到 OOM，可以通过设置 `NODE_OPTIONS` 增大堆限制：
+如果你仍在 CI 环境中遇到 OOM，可以通过设置 `NODE_OPTIONS` 增大堆限制：
 
 ```bash
 NODE_OPTIONS=--max-old-space-size=4096 pnpm build --ssg

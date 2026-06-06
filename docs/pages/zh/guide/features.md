@@ -128,7 +128,7 @@ export default {
 
 ### SSG {#ssg}
 
-基于 [vite-ssg](https://github.com/antfu/vite-ssg) 实现
+基于 Valaxy 内置 SSG 引擎（Vue SSR + 纯字符串渲染，无 JSDOM）实现
 
 
 ```bash

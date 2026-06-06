@@ -75,45 +75,27 @@ pnpm add -g valaxy
 - `valaxy .`: Start Valaxy. The default directory is current directory. (`.` is optional)
 - `valaxy rss`: Generate RSS
 - `valaxy build`: Use Vite to build SPA app by default
-- `valaxy build --ssg`: Build static pages (Memory-friendly, recommended), uses the built-in Valaxy SSG engine by default
-- `valaxy build --ssg --ssg-engine vite-ssg`: Build with the legacy vite-ssg engine (**deprecated**, see [#706](https://github.com/YunYouJun/valaxy/issues/706))
+- `valaxy build --ssg`: Build static pages (Memory-friendly, recommended), uses the built-in Valaxy SSG engine
 
 
-## SSG Engines
+## SSG Engine
 
 
-Valaxy provides two SSG (Static Site Generation) engines for generating static pages. Use the `--ssg-engine` flag to choose:
+Valaxy uses a built-in SSG (Static Site Generation) engine (Vue SSR + pure string rendering, no JSDOM) to generate static pages with `valaxy build --ssg`.
 
-::: warning Legacy `vite-ssg` engine is deprecated
-The legacy `vite-ssg` engine is **broken under pnpm**'s default (non-hoisted) layout — every `useHead()` call throws during SSR and pages render without a `<head>`. Use the default `valaxy` engine. The legacy engine will be removed in a future release. See [#706](https://github.com/YunYouJun/valaxy/issues/706).
+::: tip
+The legacy JSDOM-based `vite-ssg` engine was **removed in v1.0** (it was broken under pnpm; see [#706](https://github.com/YunYouJun/valaxy/issues/706)). There is now a single engine — no `--ssg-engine` flag needed.
 :::
-
-| | Valaxy SSG (default) | vite-ssg (legacy) |
-| --- | --- | --- |
-| Command | `valaxy build --ssg` | `valaxy build --ssg --ssg-engine vite-ssg` |
-| Rendering | Vue SSR + pure string operations | JSDOM browser emulation |
-| Min heap memory | **~2 GB** | ~2.3 GB |
-| Memory cost | No JSDOM overhead; lightweight strings per page | JSDOM instance per page (~30-50 MB) + beasties CSS |
-| Critical CSS | Not supported (no DOM) | Supported (via beasties) |
-| Concurrency | Default 20 | Dynamically adjusted by heap (1-16) |
-| Dependencies | None extra | Requires `vite-ssg`, `jsdom` |
 
 ### How It Works
 
-**Valaxy SSG Engine** (default) runs in three phases:
+The Valaxy SSG engine runs in three phases:
 
 1. **Client Build** — Vite builds client assets (with `ssrManifest` enabled)
 2. **Server Build** — Builds the SSR entry (`entry-ssr.ts`), producing a render function executable in Node.js
 3. **Render** — Loads the SSR entry, iterates over routes, calls Vue's `renderToString` for HTML, injects `<head>` tags / preload links / initial state via pure string replacement, and writes to disk
 
-Since it does not rely on JSDOM, per-page rendering has minimal memory overhead, enabling higher concurrency (default 20) and faster, more stable builds.
-
-**vite-ssg Engine** (legacy) works similarly but uses JSDOM to emulate a full browser DOM during rendering, incurring significant memory overhead. It supports beasties for Critical CSS inlining.
-
-### Which to Choose
-
-- **The default Valaxy SSG engine is recommended** — lower memory usage, faster, no extra dependencies, and works under pnpm
-- The legacy `vite-ssg` engine is **deprecated** and **broken under pnpm** ([#706](https://github.com/YunYouJun/valaxy/issues/706)); avoid it. It will be removed in a future release — if you depend on it (e.g. Critical CSS via beasties, or SSR behavior covered in [SSR Compatibility](../ssr-compat)), please comment on [#706](https://github.com/YunYouJun/valaxy/issues/706) so your case can be supported on the default engine first
+Since it does not rely on JSDOM, per-page rendering has minimal memory overhead, enabling high concurrency (default 20) and fast, stable builds. Flash-of-unstyled-content is handled by the [FOUC guard](./config/extend) rather than Critical CSS inlining.
 
 
 ### Posts

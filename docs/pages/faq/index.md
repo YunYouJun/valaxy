@@ -29,20 +29,12 @@ if (isClient) {
 
 Valaxy builds `xxx.md` as `/xxx.html` by default.
 
-If you prefer to build them as `/xxx/index.html`, you can modify the configuration of `vite-ssg`.
+If you prefer directory-style output (`/xxx/index.html`), structure the page as a
+directory index — put the content in `pages/xxx/index.md` instead of `pages/xxx.md`.
+A route ending in `/` is written as `<route>/index.html`.
 
-Set it in `vite.config.ts` under the user directory as follows:
-
-```ts [vite.config.ts]
-import { defineConfig } from 'vite'
-
-export default defineConfig({
-  // ...
-  ssgOptions: {
-    dirStyle: 'nested',
-  }
-})
-```
+> The old `vite-ssg` `dirStyle` option was removed together with the legacy engine
+> in v1.0 (see [#706](https://github.com/YunYouJun/valaxy/issues/706)).
 
 
 ## After deploying to Github Pages, some pages cannot be accessed or the JS path cannot be found

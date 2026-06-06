@@ -135,7 +135,7 @@ Supports SPA and SSG.
 ### SSG
 
 
-Uses the built-in Valaxy SSG engine by default. (The legacy [vite-ssg](https://github.com/antfu/vite-ssg) engine is deprecated, see [#706](https://github.com/YunYouJun/valaxy/issues/706).)
+Uses the built-in Valaxy SSG engine (Vue SSR + pure string rendering, no JSDOM).
 
 ```bash
 # SSG

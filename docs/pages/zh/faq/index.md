@@ -28,23 +28,10 @@ if (isClient) {
 
 Valaxy 默认将 `xxx.md` 构建为 `/xxx.html`。
 
-如果您更希望默认构建为 `/xxx/index.html` 的形式。
+如果你更希望构建为 `/xxx/index.html` 的目录形式，请将页面组织为目录索引——把内容放在
+`pages/xxx/index.md`（而非 `pages/xxx.md`）。以 `/` 结尾的路由会写入 `<route>/index.html`。
 
-可以修改 `vite-ssg` 的配置。
-
-在用户目录下的 `vite.config.ts` 中设置：
-
-
-```ts [vite.config.ts]
-import { defineConfig } from 'vite'
-
-export default defineConfig({
-  // ...
-  ssgOptions: {
-    dirStyle: 'nested',
-  }
-})
-```
+> 旧版 `vite-ssg` 的 `dirStyle` 选项已随传统引擎在 v1.0 中移除（见 [#706](https://github.com/YunYouJun/valaxy/issues/706)）。
 
 ## 部署到 Github Pages 后部分页面无法访问或 JS 路径找不到 {#after-deploying-to-github-pages-some-pages-cannot-be-accessed-or-the-js-path-cannot-be-found}
 

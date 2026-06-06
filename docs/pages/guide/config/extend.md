@@ -71,7 +71,7 @@ When enabled, Valaxy generates static HTML for pagination pages (e.g., `/page/1`
 
 #### foucGuard
 
-FOUC (Flash of Unstyled Content) guard. Inlines `body { opacity: 0 !important }` in `<head>` and uses JS to monitor all stylesheets (including async ones loaded by beasties) until they finish loading, then removes the hidden style tag to reveal the page with a smooth fade-in.
+FOUC (Flash of Unstyled Content) guard. Inlines `body { opacity: 0 !important }` in `<head>` and uses JS to monitor all stylesheets until they finish loading, then removes the hidden style tag to reveal the page with a smooth fade-in.
 
 - `enabled` (default `true`): enable/disable the guard
 - `maxDuration` (default `5000`): max wait time (ms) before force-showing the page. Set to `0` to disable the timeout fallback
@@ -124,70 +124,43 @@ export default defineValaxyConfig({
 
 ### SSG Options
 
-::: warning Legacy `vite-ssg` only
-The options below apply only to the legacy `vite-ssg` engine, which is **deprecated** and **broken under pnpm** (see [#706](https://github.com/YunYouJun/valaxy/issues/706)). The default built-in Valaxy SSG engine does not use `vite.ssgOptions`.
-:::
+Customize the built-in Valaxy SSG engine via `vite.ssgOptions`. Valaxy auto-generates the sitemap after the build; your callbacks run after it.
 
-Valaxy uses [vite-ssg](https://github.com/antfu-collective/vite-ssg) for Static Site Generation.
-You can customize SSG behavior via `vite.ssgOptions`.
+Supported options:
 
-Valaxy sets the following SSG defaults. User values override them:
+- `concurrency` — number of pages rendered in parallel (default `20`)
+- `includedRoutes(paths, routes)` — return the list of routes to render
+- `includeAllRoutes` — also render dynamic routes
+- `onBeforePageRender(route, html)` — transform the HTML template before a page renders
+- `onPageRendered(route, html)` — transform a page's HTML after it renders
+- `onFinished()` — runs after all pages are written (Valaxy's sitemap generation runs first)
 
-- `script`: `'async'` — script loading mode
-- `formatting`: `'minify'` — HTML output formatting (auto-degrades to `'none'` under low memory)
-- `beastiesOptions.preload`: `'media'` — non-critical CSS preload strategy ([see beasties](https://github.com/danielroe/beasties#preload))
-- `concurrency` — concurrent page rendering count (auto-adjusted based on available heap memory)
-- `onFinished` — auto-generates sitemap after build (always runs; user callback runs after it)
-
-See [ViteSSGOptions](https://github.com/antfu-collective/vite-ssg) for the full parameter list.
- warning
-
-**SSG build minimum memory requirement: ~2.3 GB**
-
-vite-ssg runs Vite build and page rendering in the same Node.js process, and memory from the build phase cannot be fully reclaimed. Valaxy auto-adjusts based on V8 heap limits: when heap ≤ 2.5 GB, Critical CSS (beasties) and HTML minify are disabled to save memory.
-
-If you encounter `JavaScript heap out of memory` errors, increase the heap limit:
+**SSG build minimum memory: ~4 GB.** Vite 8 (Rolldown) uses more memory during chunk generation; the engine auto-respawns with a sufficient heap. If you still hit `JavaScript heap out of memory`, raise the limit manually:
 
 ```bash
 NODE_OPTIONS=--max-old-space-size=4096 pnpm build --ssg
 ```
 
 See [Dev FAQ - JavaScript heap out of memory](/dev/faq#javascript-heap-out-of-memory) for details.
+
 ```ts [valaxy.config.ts]
 import { defineValaxyConfig } from 'valaxy'
 
 export default defineValaxyConfig({
   vite: {
     ssgOptions: {
-      // 输出目录风格: 'flat' | 'nested'
-      // flat: /foo → /foo.html
-      // nested: /foo → /foo/index.html
-      dirStyle: 'nested',
+      // Number of pages rendered in parallel
+      // concurrency: 20,
 
-      // 关键 CSS 内联 (beasties) 配置
-      // 设为 false 可完全禁用
-      beastiesOptions: {
-        preload: 'media',
-      },
-
-      // 构建完成后的回调（Valaxy 的 sitemap 生成始终会先执行）
-      async onFinished() {
-        console.log('SSG build finished!')
-      },
-
-      // 自定义要生成的路由
+      // Customize which routes to generate
       // includedRoutes(paths, routes) {
       //   return paths.filter(p => !p.includes(':'))
       // },
 
-      // 脚本加载模式: 'sync' | 'async' | 'defer' | 'async defer'
-      // script: 'async',
-
-      // HTML 格式化: 'none' | 'minify' | 'prettify'
-      // formatting: 'minify',
-
-      // SSG 并发数
-      // concurrency: 20,
+      // Callback after the build finishes (Valaxy's sitemap runs first)
+      async onFinished() {
+        console.log('SSG build finished!')
+      },
     },
   },
 })

@@ -74,8 +74,7 @@ pnpm add -g valaxy
 - `valaxy .`: 启动 Valaxy，默认目录为当前目录（`.` 可不写）
 - `valaxy rss`: 自动生成 RSS
 - `valaxy build`: 默认采用 Vite 构建 SPA 应用
-- `valaxy build --ssg`: 构建静态页面站点（内存友好，推荐），默认使用 Valaxy 内置 SSG 引擎
-- `valaxy build --ssg --ssg-engine vite-ssg`: 使用传统 vite-ssg 引擎构建（**已弃用**，见 [#706](https://github.com/YunYouJun/valaxy/issues/706)）
+- `valaxy build --ssg`: 构建静态页面站点（内存友好，推荐），使用 Valaxy 内置 SSG 引擎
 
 
 
@@ -83,38 +82,21 @@ pnpm add -g valaxy
 
 
 
-Valaxy 提供了两种 SSG（Static Site Generation）引擎用于生成静态页面。可通过 `--ssg-engine` 参数选择：
+Valaxy 使用内置的 SSG（Static Site Generation）引擎（Vue SSR + 纯字符串渲染，无 JSDOM），通过 `valaxy build --ssg` 生成静态页面。
 
-::: warning 传统 `vite-ssg` 引擎已弃用
-传统 `vite-ssg` 引擎在 pnpm 默认（非提升）布局下**已损坏**——SSR 阶段每次 `useHead()` 调用都会抛错，页面无法渲染 `<head>`。请使用默认的 `valaxy` 引擎。该传统引擎将在未来版本中移除。详见 [#706](https://github.com/YunYouJun/valaxy/issues/706)。
+::: tip
+基于 JSDOM 的传统 `vite-ssg` 引擎已在 **v1.0 中移除**（它在 pnpm 下损坏，详见 [#706](https://github.com/YunYouJun/valaxy/issues/706)）。现在只有单一引擎，无需 `--ssg-engine` 参数。
 :::
-
-| | Valaxy SSG（默认） | vite-ssg（传统） |
-| --- | --- | --- |
-| 命令 | `valaxy build --ssg` | `valaxy build --ssg --ssg-engine vite-ssg` |
-| 渲染方式 | Vue SSR + 纯字符串拼接 | JSDOM 模拟浏览器环境 |
-| 最低堆内存 | **~2 GB** | ~2.3 GB |
-| 内存占用原因 | 无 JSDOM 开销，每页渲染仅产生轻量字符串 | 每页创建 JSDOM 实例（~30-50 MB）+ beasties CSS 处理 |
-| Critical CSS | 不支持（无 DOM 环境） | 支持（通过 beasties） |
-| 并发渲染 | 默认 20 并发 | 根据堆内存动态调整（1-16 并发） |
-| 依赖 | 无额外依赖 | 需要 `vite-ssg`、`jsdom` |
 
 ### 工作原理 {#how-it-works}
 
-**Valaxy SSG 引擎**（默认）分为三个阶段：
+Valaxy SSG 引擎分为三个阶段：
 
 1. **Client Build** — 使用 Vite 构建客户端产物（启用 `ssrManifest`）
 2. **Server Build** — 构建 SSR 入口（`entry-ssr.ts`），生成可在 Node.js 中执行的渲染函数
 3. **Render** — 加载 SSR 入口，遍历路由，调用 Vue 的 `renderToString` 生成 HTML，通过纯字符串替换注入 `<head>` 标签、preload 链接和初始状态，写入磁盘
 
-由于不依赖 JSDOM，每页渲染的内存开销极低，因此可以使用更高的并发数（默认 20），整体构建速度更快且更稳定。
-
-**vite-ssg 引擎**（传统）的工作方式类似，但在渲染阶段使用 JSDOM 模拟完整的浏览器 DOM 环境，这会带来显著的内存开销，且支持 beasties 进行 Critical CSS 内联。
-
-### 如何选择 {#which-to-choose}
-
-- **推荐使用默认的 Valaxy SSG 引擎**，它内存占用更低、速度更快、无额外依赖，且在 pnpm 下可正常工作
-- 传统 `vite-ssg` 引擎**已弃用**且**在 pnpm 下损坏**（[#706](https://github.com/YunYouJun/valaxy/issues/706)），请勿使用。它将在未来版本中移除——如果你依赖它（例如通过 beasties 的 Critical CSS，或 [SSR 兼容性](../ssr-compat) 中涉及的 SSR 行为），请在 [#706](https://github.com/YunYouJun/valaxy/issues/706) 留言，以便先在默认引擎上支持你的场景
+由于不依赖 JSDOM，每页渲染的内存开销极低，因此可以使用更高的并发数（默认 20），整体构建速度更快且更稳定。首屏无样式闪烁由 [FOUC guard](./config/extend) 处理，而非 Critical CSS 内联。
 
 
 

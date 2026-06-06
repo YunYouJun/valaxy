@@ -71,7 +71,7 @@ export default defineValaxyConfig<ThemeConfig>({
 
 #### foucGuard {#foucguard}
 
-FOUC（Flash of Unstyled Content）防护配置。通过在 `<head>` 中内联 `body { opacity: 0 !important }` 隐藏页面，并通过 JS 监测所有样式表（包括 beasties 异步加载的样式表）加载完成后，移除该隐藏样式标签以显示页面，防止首屏样式闪烁和样式分批渲染的问题。
+FOUC（Flash of Unstyled Content）防护配置。通过在 `<head>` 中内联 `body { opacity: 0 !important }` 隐藏页面，并通过 JS 监测所有样式表加载完成后，移除该隐藏样式标签以显示页面，防止首屏样式闪烁和样式分批渲染的问题。
 
 - `enabled`（默认 `true`）：是否启用 FOUC 防护
 - `maxDuration`（默认 `5000`）：最大等待时间（毫秒），作为 CSS 加载失败时的安全兜底。设为 `0` 可禁用超时兜底
@@ -124,66 +124,43 @@ export default defineValaxyConfig({
 
 ### SSG Options {#ssg-options}
 
-Valaxy 使用 [vite-ssg](https://github.com/antfu-collective/vite-ssg) 进行静态站点生成。
-你可以通过 `vite.ssgOptions` 自定义 SSG 行为。
+通过 `vite.ssgOptions` 自定义内置的 Valaxy SSG 引擎。Valaxy 会在构建后自动生成 sitemap，你的回调会在其后运行。
 
-Valaxy 默认设置了以下 SSG 选项，用户配置会覆盖这些默认值：
+支持的选项：
 
-- `script`: `'async'` — 脚本加载模式
-- `formatting`: `'minify'` — HTML 输出格式（低内存时自动降级为 `'none'`）
-- `beastiesOptions.preload`: `'media'` — 非关键 CSS 预加载策略（[详见 beasties](https://github.com/danielroe/beasties#preload)）
-- `concurrency` — 并发渲染页面数（根据可用堆内存自动调整）
-- `onFinished` — 构建完成后自动生成 sitemap（始终执行，用户回调会在其后运行）
+- `concurrency` — 并发渲染的页面数（默认 `20`）
+- `includedRoutes(paths, routes)` — 返回需要渲染的路由列表
+- `includeAllRoutes` — 同时渲染动态路由
+- `onBeforePageRender(route, html)` — 页面渲染前转换 HTML 模板
+- `onPageRendered(route, html)` — 页面渲染后转换其 HTML
+- `onFinished()` — 所有页面写入后运行（Valaxy 的 sitemap 生成先执行）
 
-完整参数列表请参见 [ViteSSGOptions](https://github.com/antfu-collective/vite-ssg)。
- warning
-
-**SSG 构建最低内存要求：~2.3 GB**
-
-vite-ssg 在同一 Node.js 进程中执行 Vite 构建和页面渲染，构建阶段的内存无法完全释放。Valaxy 会根据 V8 堆限制自动调整：堆 ≤ 2.5 GB 时禁用 Critical CSS（beasties）和 HTML minify 以节省内存。
-
-如果遇到 `JavaScript heap out of memory` 错误，请增大堆限制：
+**SSG 构建最低内存：~4 GB。** Vite 8（Rolldown）在 chunk 生成阶段占用更多内存，引擎会自动以足够的堆重启。若仍遇到 `JavaScript heap out of memory`，请手动增大限制：
 
 ```bash
 NODE_OPTIONS=--max-old-space-size=4096 pnpm build --ssg
 ```
 
 详见 [开发 FAQ - JavaScript heap out of memory](/zh/dev/faq#javascript-heap-out-of-memory)。
+
 ```ts [valaxy.config.ts]
 import { defineValaxyConfig } from 'valaxy'
 
 export default defineValaxyConfig({
   vite: {
     ssgOptions: {
-      // 输出目录风格: 'flat' | 'nested'
-      // flat: /foo → /foo.html
-      // nested: /foo → /foo/index.html
-      dirStyle: 'nested',
-
-      // 关键 CSS 内联 (beasties) 配置
-      // 设为 false 可完全禁用
-      beastiesOptions: {
-        preload: 'media',
-      },
-
-      // 构建完成后的回调（Valaxy 的 sitemap 生成始终会先执行）
-      async onFinished() {
-        console.log('SSG build finished!')
-      },
+      // 并发渲染的页面数
+      // concurrency: 20,
 
       // 自定义要生成的路由
       // includedRoutes(paths, routes) {
       //   return paths.filter(p => !p.includes(':'))
       // },
 
-      // 脚本加载模式: 'sync' | 'async' | 'defer' | 'async defer'
-      // script: 'async',
-
-      // HTML 格式化: 'none' | 'minify' | 'prettify'
-      // formatting: 'minify',
-
-      // SSG 并发数
-      // concurrency: 20,
+      // 构建完成后的回调（Valaxy 的 sitemap 生成始终会先执行）
+      async onFinished() {
+        console.log('SSG build finished!')
+      },
     },
   },
 })

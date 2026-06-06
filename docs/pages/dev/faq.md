@@ -22,9 +22,9 @@ Use `::before` pseudo-element instead.
 ## JavaScript heap out of memory
 
 
-During SSG build (`valaxy build --ssg`), [vite-ssg](https://github.com/antfu-collective/vite-ssg) runs client build, server build, and page rendering in the same process. The Vite resolved config and plugin system from the build phase remain in memory, leaving limited heap space for the rendering phase.
+During SSG build (`valaxy build --ssg`), the built-in Valaxy SSG engine runs client build, server build, and page rendering in the same process. The Vite resolved config and plugin system from the build phase remain in memory, leaving limited heap space for the rendering phase.
 
-**Minimum memory requirement: `--max-old-space-size=2304` (~2.3 GB)**
+**Minimum memory requirement: `--max-old-space-size=4096` (~4 GB)** — the engine auto-respawns with this heap when needed.
 
 ```bash
 # Reproduce tests
@@ -32,16 +32,12 @@ pnpm test:space        # demo/yun
 pnpm test:space:docs   # docs
 ```
 
-Valaxy automatically adjusts SSG behavior based on V8's `heap_size_limit`:
+When the heap limit is below ~4 GB, the SSG engine automatically respawns the
+build process with `--max-old-space-size=4096` (and `--expose-gc` when available)
+so rendering has enough headroom. Page rendering runs at a default concurrency of
+20 (configurable via `vite.ssgOptions.concurrency`).
 
-| Heap Limit | beasties (Critical CSS) | HTML minify | Concurrency |
-|------------|------------------------|-------------|-------------|
-| ≤ 2.5 GB | Disabled | Disabled | 1 |
-| ≤ 3.1 GB | Enabled | Enabled | 2 |
-| ≤ 4.2 GB | Enabled | Enabled | 4 |
-| > 4.2 GB | Enabled | Enabled | 8+ |
-
-If you encounter OOM in CI environments, increase the heap limit via `NODE_OPTIONS`:
+If you still encounter OOM in CI environments, raise the heap limit via `NODE_OPTIONS`:
 
 ```bash
 NODE_OPTIONS=--max-old-space-size=4096 pnpm build --ssg

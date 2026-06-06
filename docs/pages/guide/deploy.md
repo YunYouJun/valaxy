@@ -34,7 +34,7 @@ npm run build
 
 Run the `build` command to build, and the `dist` directory contains the built content.
 
-SSG build (default Valaxy SSG engine) requires at least ~2 GB of heap memory; the legacy vite-ssg engine requires ~2.3 GB. If you encounter `JavaScript heap out of memory`, set:
+SSG build requires a sufficient heap (~4 GB; the engine auto-respawns with enough memory). If you still encounter `JavaScript heap out of memory`, set:
 
 ```bash
 NODE_OPTIONS=--max-old-space-size=4096 pnpm build
