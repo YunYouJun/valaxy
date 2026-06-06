@@ -5,10 +5,9 @@ import path from 'node:path'
 import process from 'node:process'
 import { consola } from 'consola'
 
-import { colors } from 'consola/utils'
 import { mergeConfig } from 'vite'
 import { createValaxyNode } from '../app'
-import { build, fixViteSsgHtml, postProcessForSSG, ssgBuild, ssgBuildLegacy } from '../build'
+import { build, postProcessForSSG, ssgBuild } from '../build'
 
 import { mergeViteConfigs } from '../common'
 import { callHookWithLog } from '../logger'
@@ -27,7 +26,7 @@ import { printInfo } from './utils/cli'
 /**
  * valaxy build
  */
-export async function execBuild({ ssg, ssgEngine, root, output, log }: { ssg: boolean, ssgEngine?: string, root: string, output: string, log: string }) {
+export async function execBuild({ ssg, root, output, log }: { ssg: boolean, root: string, output: string, log: string }) {
   setEnvProd()
 
   if (!(await isPagesDirExist(root)))
@@ -37,9 +36,6 @@ export async function execBuild({ ssg, ssgEngine, root, output, log }: { ssg: bo
   const options = await resolveOptions({ userRoot }, 'build')
   setTimezone(options.config.siteConfig.timezone)
   printInfo(options)
-
-  // CLI flag takes priority, then config file, then default
-  const resolvedSsgEngine = ssgEngine ?? options.config.build?.ssg?.engine ?? 'valaxy'
 
   const valaxyApp = createValaxyNode(options)
   // GLOBAL_STATE.valaxyApp = valaxyApp
@@ -89,35 +85,16 @@ export async function execBuild({ ssg, ssgEngine, root, output, log }: { ssg: bo
   consola.box('🌠 Start building...')
   try {
     if (ssg) {
-      if (resolvedSsgEngine === 'vite-ssg') {
-        consola.warn(
-          `The ${colors.yellow('vite-ssg')} (legacy) SSG engine is ${colors.red('deprecated')} `
-          + `and is ${colors.red('broken under pnpm')} (@unhead/vue SSR head-context split: pages render without a ${colors.cyan('<head>')}).\n`
-          + `  Remove ${colors.cyan('--ssg-engine vite-ssg')} / ${colors.cyan('build.ssg.engine')} to use the default ${colors.green('valaxy')} engine instead.\n`
-          + `  It will be removed in a future release — if you rely on it, please comment on ${colors.underline('https://github.com/YunYouJun/valaxy/issues/706')} so your case can be addressed first.`,
-        )
-        try {
-          await ssgBuildLegacy(valaxyApp, viteConfig)
-          await fixViteSsgHtml(options)
-          await postProcessForSSG(options)
-        }
-        catch (e) {
-          consola.error('[vite-ssg] An internal error occurred.')
-          console.log(e)
-        }
+      consola.info('use valaxy SSG engine to build...')
+      try {
+        const userSsgOptions = (viteConfig as any).ssgOptions || {}
+        delete (viteConfig as any).ssgOptions
+        await ssgBuild(valaxyApp, viteConfig, userSsgOptions)
+        await postProcessForSSG(options)
       }
-      else {
-        consola.info(`use ${colors.yellow('valaxy')} SSG engine to build...`)
-        try {
-          const userSsgOptions = (viteConfig as any).ssgOptions || {}
-          delete (viteConfig as any).ssgOptions
-          await ssgBuild(valaxyApp, viteConfig, userSsgOptions)
-          await postProcessForSSG(options)
-        }
-        catch (e) {
-          consola.error('[valaxy-ssg] An internal error occurred.')
-          console.log(e)
-        }
+      catch (e) {
+        consola.error('[valaxy-ssg] An internal error occurred.')
+        console.log(e)
       }
     }
     else {
@@ -145,15 +122,8 @@ export function registerBuildCommand(cli: Argv) {
       .option('ssg', {
         alias: 's',
         type: 'boolean',
-        // https://github.com/antfu/vite-ssg/pull/219
-        // to be true, when vite-ssg export build
         default: false,
         describe: 'static site generate',
-      })
-      .option('ssg-engine', {
-        type: 'string',
-        choices: ['valaxy', 'vite-ssg'],
-        describe: 'SSG engine to use, overrides `build.ssg.engine` in config (default: valaxy; `vite-ssg` is deprecated, see #706)',
       })
       .option('output', {
         alias: 'o',
@@ -169,8 +139,8 @@ export function registerBuildCommand(cli: Argv) {
       })
       .strict()
       .help(),
-    async ({ ssg, ssgEngine, root, output, log }) => {
-      await execBuild({ ssg, ssgEngine, root, output, log })
+    async ({ ssg, root, output, log }) => {
+      await execBuild({ ssg, root, output, log })
     },
   )
 }

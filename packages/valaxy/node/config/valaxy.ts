@@ -23,9 +23,6 @@ export const defaultValaxyConfig: ValaxyNodeConfig = {
 
   build: {
     ssgForPagination: false,
-    ssg: {
-      engine: 'valaxy',
-    },
     foucGuard: {
       enabled: true,
       maxDuration: 5000,
@@ -74,13 +71,12 @@ export const defaultValaxyConfig: ValaxyNodeConfig = {
        * Disable CSS code splitting to prevent layout shift (CLS) on first load.
        *
        * When enabled (default), Vite splits CSS into per-chunk files (e.g. `app.xxx.css`)
-       * that are loaded asynchronously. During SSG, beasties inlines only critical CSS and
-       * defers the rest via `media="print"`, causing the full layout CSS to arrive late
-       * and trigger a visible reflow/repaint.
+       * that are loaded asynchronously, causing the full layout CSS to arrive late and
+       * trigger a visible reflow/repaint.
        *
-       * With `cssCodeSplit: false`, all CSS is bundled into a single file, allowing
-       * beasties to extract critical styles more effectively and the FOUC guard
-       * (`build.foucGuard`) to reliably detect when all styles are ready.
+       * With `cssCodeSplit: false`, all CSS is bundled into a single file, so the FOUC
+       * guard (`build.foucGuard`) can reliably detect when all styles are ready and
+       * reveal the page without a flash of unstyled content.
        */
       cssCodeSplit: false,
     },

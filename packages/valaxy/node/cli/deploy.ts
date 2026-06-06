@@ -44,7 +44,7 @@ export function registerDeployCommand(cli: Argv) {
       }
 
       if (shouldBuild) {
-        await execBuild({ ssg: true, ssgEngine: 'valaxy', root, output, log: 'info' })
+        await execBuild({ ssg: true, root, output, log: 'info' })
       }
 
       // Lazy resolve options only when needed for config reading

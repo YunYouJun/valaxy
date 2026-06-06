@@ -27,10 +27,12 @@ test.describe('docs search', () => {
     // Click search button
     await searchBtn.click()
 
-    // DocSearch modal should appear (Algolia DocSearch creates .DocSearch-Modal)
-    // Wait up to 5 seconds for the modal to appear
+    // DocSearch modal should appear (Algolia DocSearch creates .DocSearch-Modal).
+    // The modal is an async-loaded component; under full-suite parallel load the
+    // dev server compiles its chunk on demand, so allow a generous budget — the
+    // modal's appearance is the only signal there is no deterministic event for.
     const modal = page.locator('.DocSearch-Modal')
-    await expect(modal).toBeVisible({ timeout: 5000 })
+    await expect(modal).toBeVisible({ timeout: 15000 })
 
     // The "not installed" warning should NOT appear
     const algoliaNotInstalled = warnings.some(w =>
@@ -51,8 +53,11 @@ test.describe('docs search', () => {
     const modifier = process.platform === 'darwin' ? 'Meta' : 'Control'
     await page.keyboard.press(`${modifier}+k`)
 
-    // DocSearch modal should appear
+    // DocSearch modal should appear. Generous budget: the modal is an
+    // async-loaded component compiled on demand by the dev server, which can be
+    // slow under full-suite parallel load (this is render/compile latency, not
+    // the listener race that `waitForHydration` above already resolves).
     const modal = page.locator('.DocSearch-Modal')
-    await expect(modal).toBeVisible({ timeout: 5000 })
+    await expect(modal).toBeVisible({ timeout: 15000 })
   })
 })

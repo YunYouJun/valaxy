@@ -135,9 +135,8 @@ export async function ViteValaxyPlugins(
       // In SSG builds, layout components must be imported synchronously so that
       // the client-side hydration tree matches the server-rendered HTML. Without
       // this, non-default layouts (post, home, etc.) are lazy-loaded and haven't
-      // resolved when hydration starts, causing a mismatch. The old vite-ssg
-      // library handled this by setting VITE_SSG=true; the built-in SSG engine
-      // needs an explicit importMode override instead.
+      // resolved when hydration starts, causing a mismatch. The built-in SSG
+      // engine needs an explicit importMode override to force synchronous imports.
       ...(options.mode === 'build' ? { importMode: () => 'sync' as const } : {}),
 
       ...valaxyConfig.layouts,
@@ -229,15 +228,14 @@ export async function ViteValaxyPlugins(
   plugins.push(groupIconPlugin)
 
   // Release heavy resources after Vite builds complete.
-  // Both the new Valaxy SSG engine and the legacy vite-ssg run two consecutive
-  // builds (client + server). This plugin disposes Shiki, MarkdownIt, and other
-  // heavy resources after the 2nd build. The new SSG engine also does its own
-  // disposal in build/ssg.ts (redundant but harmless); the plugin hook clearing
-  // below is specifically needed for the legacy vite-ssg path where its function
-  // scope keeps closures alive.
+  // The Valaxy SSG engine runs two consecutive builds (client + server). This
+  // plugin disposes Shiki, MarkdownIt, and other heavy resources after the 2nd
+  // build. The SSG engine also does its own disposal in build/ssg.ts (redundant
+  // but harmless); the plugin hook clearing below frees closures the build
+  // pipeline keeps alive.
   if (options.mode === 'build') {
     let buildCount = 0
-    // Both SSG engines run two consecutive viteBuild() calls (client + server)
+    // The SSG engine runs two consecutive viteBuild() calls (client + server)
     // sharing the same plugin instances. Release heavy resources after the 2nd
     // closeBundle. Note: buildCount is scoped per ViteValaxyPlugins() call, so
     // separate build sequences (e.g. tests calling ViteValaxyPlugins again) each
@@ -263,10 +261,10 @@ export async function ViteValaxyPlugins(
 
           // Break closure chains by clearing heavy plugin hooks from the
           // resolved Vite config. After the server build completes, these
-          // hooks will never be called again — both the new Valaxy SSG
-          // engine and legacy vite-ssg only do page rendering from here.
-          // This allows V8 to reclaim the large closures (Shiki grammar
-          // data, UnoCSS engine, Rolldown module graph references, etc.)
+          // hooks will never be called again — the Valaxy SSG engine only
+          // does page rendering from here. This allows V8 to reclaim the
+          // large closures (Shiki grammar data, UnoCSS engine, Rolldown
+          // module graph references, etc.)
           // that are otherwise kept alive by function scope holding `config`.
           if (resolvedConfig?.plugins) {
             const hookKeys = [

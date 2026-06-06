@@ -1,10 +1,10 @@
 /**
  * FOUC (Flash of Unstyled Content) guard — inline `<head>` snippets.
  *
- * Hides body via `opacity: 0 !important` (immune to beasties-inlined CSS),
- * then removes the guard `<style id="valaxy-fouc">` once all stylesheets
- * have loaded. Uses MutationObserver to detect async stylesheet changes
- * (e.g. beasties `media="print"` → `media="all"`).
+ * Hides body via `opacity: 0 !important`, then removes the guard
+ * `<style id="valaxy-fouc">` once all stylesheets have loaded. Uses a
+ * MutationObserver to detect async stylesheet changes
+ * (e.g. `media="print"` → `media="all"`).
  *
  * @see build.foucGuard in ValaxyExtendConfig
  */
