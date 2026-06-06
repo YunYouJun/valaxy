@@ -156,11 +156,6 @@ export interface PageFrontMatter extends BaseFrontMatter {
    */
   icon: string
   /**
-   * title color
-   * @deprecated Please use `pageTitleClass` | `postTitleClass` instead
-   */
-  color: string
-  /**
    * display comment
    */
   comment: boolean
