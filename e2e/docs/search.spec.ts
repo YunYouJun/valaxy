@@ -15,9 +15,10 @@ test.describe('docs search', () => {
         warnings.push(msg.text())
     })
 
-    await page.goto('/', { waitUntil: 'networkidle' })
-    // Ensure the Vue app has mounted (async mount chain in main.ts can finish
-    // after networkidle), so the search component's listeners are registered.
+    await page.goto('/', { waitUntil: 'domcontentloaded' })
+    // Ensure the Vue app has mounted (the async mount chain in main.ts is the
+    // real readiness signal, not the network going idle), so the search
+    // component's listeners are registered. See e2e/utils/hydration.ts.
     await waitForHydration(page)
 
     // Search button should be visible
@@ -42,7 +43,7 @@ test.describe('docs search', () => {
   })
 
   test('Cmd/Ctrl+K opens search', async ({ page }) => {
-    await page.goto('/', { waitUntil: 'networkidle' })
+    await page.goto('/', { waitUntil: 'domcontentloaded' })
     // The Cmd/Ctrl+K handler is an `onKeyStroke` registered during the search
     // component's setup, which only runs after `app.mount()`. Wait for the app
     // to finish mounting/hydrating before pressing, otherwise the keystroke is
