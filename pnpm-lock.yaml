@@ -844,9 +844,15 @@ importers:
       '@unocss/reset':
         specifier: 'catalog:'
         version: 66.7.2
+      '@vitejs/plugin-vue':
+        specifier: 'catalog:'
+        version: 6.0.6(vite@8.0.11(@types/node@25.2.0)(esbuild@0.27.2)(jiti@2.7.0)(sass@1.99.0)(terser@5.46.0)(tsx@4.21.0)(yaml@2.8.4))(vue@3.5.22(typescript@5.9.3))
       gray-matter:
         specifier: 'catalog:'
         version: 4.0.3
+      pinia:
+        specifier: 'catalog:'
+        version: 3.0.4(typescript@5.9.3)(vue@3.5.22(typescript@5.9.3))
       reka-ui:
         specifier: catalog:frontend
         version: 2.9.7(vue@3.5.22(typescript@5.9.3))
@@ -859,12 +865,27 @@ importers:
       unbuild:
         specifier: catalog:build
         version: 3.6.1(sass@1.99.0)(typescript@5.9.3)(vue-tsc@2.2.0(typescript@5.9.3))(vue@3.5.22(typescript@5.9.3))
+      unocss:
+        specifier: 'catalog:'
+        version: 66.7.2(vite@8.0.11(@types/node@25.2.0)(esbuild@0.27.2)(jiti@2.7.0)(sass@1.99.0)(terser@5.46.0)(tsx@4.21.0)(yaml@2.8.4))
+      unplugin-vue-components:
+        specifier: 'catalog:'
+        version: 28.0.0(@babel/parser@7.29.0)(@nuxt/kit@3.21.0(magicast@0.5.2))(rollup@4.57.1)(vue@3.5.22(typescript@5.9.3))
       vite:
         specifier: ^8.0.11
         version: 8.0.11(@types/node@25.2.0)(esbuild@0.27.2)(jiti@2.7.0)(sass@1.99.0)(terser@5.46.0)(tsx@4.21.0)(yaml@2.8.4)
+      vite-plugin-vue-devtools:
+        specifier: 'catalog:'
+        version: 8.1.1(@nuxt/kit@3.21.0(magicast@0.5.2))(vite@8.0.11(@types/node@25.2.0)(esbuild@0.27.2)(jiti@2.7.0)(sass@1.99.0)(terser@5.46.0)(tsx@4.21.0)(yaml@2.8.4))(vue@3.5.22(typescript@5.9.3))
+      vue:
+        specifier: 3.5.22
+        version: 3.5.22(typescript@5.9.3)
       vue-i18n:
         specifier: catalog:build
         version: 11.4.2(vue@3.5.22(typescript@5.9.3))
+      vue-router:
+        specifier: 'catalog:'
+        version: 5.0.6(@vue/compiler-sfc@3.5.27)(pinia@3.0.4(typescript@5.9.3)(vue@3.5.22(typescript@5.9.3)))(vue@3.5.22(typescript@5.9.3))
 
   packages/valaxy:
     dependencies:
@@ -11307,7 +11328,7 @@ snapshots:
       '@vue/shared': 3.5.22
       estree-walker: 2.0.2
       magic-string: 0.30.21
-      postcss: 8.5.9
+      postcss: 8.5.14
       source-map-js: 1.2.1
 
   '@vue/compiler-sfc@3.5.27':

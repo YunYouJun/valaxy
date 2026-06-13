@@ -197,7 +197,7 @@ server {
 ::: details Dockerfile
 
 ```Dockerfile [Dockerfile]
-FROM node:22-alpine as build-stage
+FROM node:22.12-alpine as build-stage
 
 WORKDIR /app
 RUN corepack enable
