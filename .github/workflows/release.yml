@@ -32,7 +32,15 @@ jobs:
 
       - run: pnpm run build:all
       # https://docs.github.com/en/actions/publishing-packages/publishing-nodejs-packages
-      - run: npm run ci:publish
+      # Prerelease tags (v1.0.0-rc.1 etc.) publish under the `next` dist-tag so
+      # they never clobber `latest` for `npm i valaxy`; stable tags use `latest`.
+      - name: Publish to npm
+        run: |
+          if [[ "$GITHUB_REF_NAME" == *-* ]]; then
+            pnpm -r publish --access public --no-git-checks --tag next
+          else
+            pnpm -r publish --access public --no-git-checks
+          fi
         env:
           NODE_AUTH_TOKEN: ${{secrets.NPM_TOKEN}}
           NPM_CONFIG_PROVENANCE: true
