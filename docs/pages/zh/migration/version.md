@@ -9,6 +9,10 @@ top: 8
 
 v1.0.0 是首个稳定版本，包含若干破坏性变更，主要是移除长期已弃用的选项。大多数博客无需改动；若你使用过下列功能，请对照检查。
 
+### Node.js：最低版本升至 `>=22.12.0` {#nodejs-version}
+
+Valaxy 现在要求 Node.js `>=22.12.0`（此前为 `^18 || >=20`）。这是由 `unplugin-vue-markdown@32`（要求 Node `>=22`）与 Vite 8（`^20.19.0 || >=22.12.0`）共同决定的——在 Node 22 分支上最低需要 `22.12.0`。**不再支持 Node 18 与 20。** 更新前请先升级本地、CI 与部署环境的 Node 版本（见 [#710](https://github.com/YunYouJun/valaxy/pull/710)）。
+
 ### SSG：移除传统 `vite-ssg` 引擎 {#ssg-remove-vite-ssg}
 
 基于 JSDOM 的 `vite-ssg` SSG 引擎已被移除（它在 pnpm 下损坏，详见 [#706](https://github.com/YunYouJun/valaxy/issues/706)）。现在只有单一的内置 Valaxy SSG 引擎。

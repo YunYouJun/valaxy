@@ -11,6 +11,10 @@ top: 8
 
 v1.0.0 is the first stable release. It contains several breaking changes, mostly removals of long-deprecated options. Most blogs need no changes; review the items below if you used these features.
 
+### Node.js: minimum version is now `>=22.12.0`
+
+Valaxy now requires Node.js `>=22.12.0` (previously `^18 || >=20`). This comes from `unplugin-vue-markdown@32` (which requires Node `>=22`) combined with Vite 8 (`^20.19.0 || >=22.12.0`) — on the Node 22 line the minimum is `22.12.0`. **Node 18 and 20 are no longer supported.** Upgrade your local, CI, and deploy environments before updating (see [#710](https://github.com/YunYouJun/valaxy/pull/710)).
+
 ### SSG: legacy `vite-ssg` engine removed
 
 The JSDOM-based `vite-ssg` SSG engine has been removed (it was broken under pnpm; see [#706](https://github.com/YunYouJun/valaxy/issues/706)). There is now a single built-in Valaxy SSG engine.
