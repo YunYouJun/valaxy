@@ -180,7 +180,7 @@ Refer to the Nginx section for the `nginx.conf` configuration and place it in th
 ::: details Dockerfile
 
 ```Dockerfile [Dockerfile]
-FROM node:20-alpine as build-stage
+FROM node:22-alpine as build-stage
 
 WORKDIR /app
 RUN corepack enable

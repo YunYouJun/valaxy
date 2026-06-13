@@ -49,7 +49,7 @@ top: 100
 
 ::: danger 兼容
 
-由于 Vite@7 要求 [Node.js](https://nodejs.org/en/) 的版本为 `^20.19.0 || >=22.12.0`，Valaxy 同样需要你将 Node.js 升级至 `20.19.0` 版本之后。
+由于 Vite 8 与 `unplugin-vue-markdown@32` 不再支持 Node 18/20，Valaxy 要求 [Node.js](https://nodejs.org/en/) 的版本为 `>=22.12.0`，请将 Node.js 升级至 `22.12.0` 或更高版本。
 
 :::
 

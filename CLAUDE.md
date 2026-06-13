@@ -272,7 +272,7 @@ The dev server supports hot reload for:
 - Styles
 
 ### Node Version
-Requires Node.js 18+ or 20+
+Requires Node.js >= 22.12 (Vite 8 + unplugin-vue-markdown@32; Node 18/20 dropped in v1.0)
 
 ## Testing Strategy
 

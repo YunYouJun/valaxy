@@ -59,6 +59,7 @@
     "@types/body-parser": "catalog:",
     "@types/splitpanes": "catalog:",
     "@types/wicg-file-system-access": "catalog:",
+    "@unocss/reset": "catalog:",
     "gray-matter": "catalog:",
     "reka-ui": "catalog:frontend",
     "splitpanes": "catalog:",
