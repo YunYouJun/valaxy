@@ -43,7 +43,7 @@ You can use [StackBlitz](https://stackblitz.com/edit/valaxy) to try Valaxy onlin
 
 ::: danger Compatibility Note
 
-Vite@7 requires [Node.js](https://nodejs.org/en/) version `^20.19.0 || >=22.12.0`. Valaxy also requires you to upgrade Node.js after version `20.19.0`.
+Valaxy requires [Node.js](https://nodejs.org/en/) `>=22.12.0`. This comes from `unplugin-vue-markdown@32` (which requires Node `>=22`) combined with Vite 8 (which requires `^20.19.0 || >=22.12.0`) — so on the Node 22 line the minimum is `22.12.0`. Please upgrade Node.js to `22.12.0` or later.
 
 :::
 

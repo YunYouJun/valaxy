@@ -59,12 +59,20 @@
     "@types/body-parser": "catalog:",
     "@types/splitpanes": "catalog:",
     "@types/wicg-file-system-access": "catalog:",
+    "@unocss/reset": "catalog:",
+    "@vitejs/plugin-vue": "catalog:",
     "gray-matter": "catalog:",
+    "pinia": "catalog:",
     "reka-ui": "catalog:frontend",
     "splitpanes": "catalog:",
     "typescript": "catalog:build",
     "unbuild": "catalog:build",
+    "unocss": "catalog:",
+    "unplugin-vue-components": "catalog:",
     "vite": "catalog:build",
-    "vue-i18n": "catalog:build"
+    "vite-plugin-vue-devtools": "catalog:",
+    "vue": "catalog:frontend",
+    "vue-i18n": "catalog:build",
+    "vue-router": "catalog:"
   }
 }
