@@ -57,11 +57,16 @@ describe('valaxy-theme-yun YunAdBoard (#711)', () => {
     const errorSpy = vi.spyOn(console, 'error').mockImplementation((...args) => logs.push(args.join(' ')))
     const warnSpy = vi.spyOn(console, 'warn').mockImplementation((...args) => logs.push(args.join(' ')))
 
-    expect(() => createSSRApp(component).mount(container)).not.toThrow()
-
-    errorSpy.mockRestore()
-    warnSpy.mockRestore()
-    expect(logs.filter(log => log.includes('Hydration'))).toEqual([])
+    // `finally` guarantees the console spies are restored even when an assertion
+    // throws (e.g. on a regression), so the mocks never leak into later tests.
+    try {
+      expect(() => createSSRApp(component).mount(container)).not.toThrow()
+      expect(logs.filter(log => log.includes('Hydration'))).toEqual([])
+    }
+    finally {
+      errorSpy.mockRestore()
+      warnSpy.mockRestore()
+    }
   })
 
   it('regression guard: a raw <template /> placeholder serializes as a <template> element', async () => {
