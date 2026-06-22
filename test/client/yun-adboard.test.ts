@@ -3,11 +3,11 @@ import { readFileSync } from 'node:fs'
 import { dirname, resolve } from 'node:path'
 import { fileURLToPath } from 'node:url'
 import { describe, expect, it, vi } from 'vitest'
+// Namespace imports: the whole `vue` / `vue/server-renderer` modules are handed to
+// the compiled render functions (see `compileSfc`), so we call members off them too.
 import * as Vue from 'vue'
-import { createSSRApp } from 'vue'
 import { compileTemplate, parse } from 'vue/compiler-sfc'
 import * as serverRenderer from 'vue/server-renderer'
-import { renderToString } from 'vue/server-renderer'
 
 const componentPath = resolve(
   dirname(fileURLToPath(import.meta.url)),
@@ -37,7 +37,7 @@ function compileSfc(source: string) {
 describe('valaxy-theme-yun YunAdBoard (#711)', () => {
   it('renders an empty placeholder without a raw <template> element', async () => {
     const component = compileSfc(readFileSync(componentPath, 'utf-8'))
-    const html = await renderToString(createSSRApp(component))
+    const html = await serverRenderer.renderToString(Vue.createSSRApp(component))
 
     // A serialized `<template>` element in the SSR output is exactly what breaks
     // hydration (`Failed to execute 'replaceChild' on 'Node'`) in #711.
@@ -48,7 +48,7 @@ describe('valaxy-theme-yun YunAdBoard (#711)', () => {
 
   it('hydrates the SSR output without a mismatch', async () => {
     const component = compileSfc(readFileSync(componentPath, 'utf-8'))
-    const html = await renderToString(createSSRApp(component))
+    const html = await serverRenderer.renderToString(Vue.createSSRApp(component))
 
     const container = document.createElement('div')
     container.innerHTML = html
@@ -60,7 +60,7 @@ describe('valaxy-theme-yun YunAdBoard (#711)', () => {
     // `finally` guarantees the console spies are restored even when an assertion
     // throws (e.g. on a regression), so the mocks never leak into later tests.
     try {
-      expect(() => createSSRApp(component).mount(container)).not.toThrow()
+      expect(() => Vue.createSSRApp(component).mount(container)).not.toThrow()
       expect(logs.filter(log => log.includes('Hydration'))).toEqual([])
     }
     finally {
@@ -72,7 +72,7 @@ describe('valaxy-theme-yun YunAdBoard (#711)', () => {
   it('regression guard: a raw <template /> placeholder serializes as a <template> element', async () => {
     // Documents the broken form replaced in #711 — keep YunAdBoard from regressing to it.
     const broken = compileSfc('<template>\n  <template />\n</template>')
-    const html = await renderToString(createSSRApp(broken))
+    const html = await serverRenderer.renderToString(Vue.createSSRApp(broken))
     expect(html).toContain('<template>')
   })
 })
