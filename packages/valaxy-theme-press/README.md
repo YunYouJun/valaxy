@@ -1,15 +1,35 @@
 # valaxy-theme-press
 
-This is a theme for [valaxy docs](https://valaxy.site/).
+Documentation theme for [Valaxy](https://valaxy.site).
 
-Inspired by [vitepress](https://vitepress.dev).
+It is inspired by [VitePress](https://vitepress.dev), and it powers the Valaxy documentation site.
 
-我开发此主题以编写 Valaxy 的初期文档，同时以便发现 valaxy 编写主题中的痛点。
-它增加了 VitePress 此前默认所没有的一些功能，KaTeX、文章分类、单页 CSS i18n + Vue i18n、Vue Router、Pinia 状态管理，组件自动注册等。
+## Install
 
-- [预览](https://press.valaxy.site)
+```bash
+pnpm add valaxy-theme-press
+```
+
+```ts
+import type { PressTheme } from 'valaxy-theme-press'
+import { defineValaxyConfig } from 'valaxy'
+
+export default defineValaxyConfig<PressTheme.Config>({
+  theme: 'press',
+  themeConfig: {
+    logo: '/favicon.svg',
+  },
+})
+```
+
+## Links
+
+- [Documentation](https://valaxy.site/themes/press)
+- [中文文档](https://valaxy.site/zh/themes/press)
+- [Preview](https://press.valaxy.site)
+- [Source](https://github.com/YunYouJun/valaxy/tree/main/packages/valaxy-theme-press)
 
 ## Reference
 
-- [vitepress](https://vitepress.vuejs.org/)
+- [vitepress](https://vitepress.dev/)
 - [nextjs](https://nextjs.org/)

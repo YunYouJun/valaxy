@@ -7,6 +7,7 @@ const props = withDefaults(defineProps<{
     icon: string
     name: string
     repo: string
+    docsUrl?: string
     desc: string
     siteImage: string
     siteExampleUrl?: string
@@ -65,6 +66,9 @@ const filteredThemes = computed(() => {
 
             <a mr-2 class="text-blue-600!" :href="theme.siteExampleUrl" target="_blank" alt="NPM Package">
               <div i-ri-slideshow-2-line />
+            </a>
+            <a v-if="theme.docsUrl" mr-2 class="text-green-600!" :href="theme.docsUrl" aria-label="Theme documentation">
+              <div i-ri-book-open-line />
             </a>
           </div>
           <div class="my-1 op-80">

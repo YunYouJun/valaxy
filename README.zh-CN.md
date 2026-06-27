@@ -20,6 +20,7 @@
 
 - [English](./README.md) | **简体中文**
 - [English Docs](https://valaxy.site/?lang=en) | [中文文档](https://valaxy.site/?lang=zh-CN)
+- [主题 Press 文档](https://valaxy.site/zh/themes/press) | [主题 Press 预览](https://press.valaxy.site)
 - [Demo](https://yun.valaxy.site): <small>with [valaxy-theme-yun](./packages/valaxy-theme-yun/)</small>
 
 ## 使用

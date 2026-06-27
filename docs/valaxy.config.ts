@@ -140,6 +140,14 @@ export default defineValaxyConfig<PressTheme.Config>({
         text: 'nav.theme',
         items: [
           {
+            text: 'Theme Press',
+            link: '/themes/press',
+          },
+          {
+            text: 'Theme Yun',
+            link: '/themes/yun',
+          },
+          {
             text: 'nav.use-a-theme',
             link: '/themes/use',
           },
@@ -150,10 +158,6 @@ export default defineValaxyConfig<PressTheme.Config>({
           {
             text: 'nav.themes-gallery',
             link: '/themes/gallery',
-          },
-          {
-            text: 'Theme Yun',
-            link: '/themes/yun',
           },
         ],
       },
@@ -265,6 +269,14 @@ export default defineValaxyConfig<PressTheme.Config>({
               text: '主题',
               items: [
                 {
+                  text: '主题 Press',
+                  link: '/zh/themes/press',
+                },
+                {
+                  text: '主题 Yun',
+                  link: '/zh/themes/yun',
+                },
+                {
                   text: '使用主题',
                   link: '/zh/themes/use',
                 },
@@ -275,10 +287,6 @@ export default defineValaxyConfig<PressTheme.Config>({
                 {
                   text: '主题橱窗',
                   link: '/zh/themes/gallery',
-                },
-                {
-                  text: '主题 Yun',
-                  link: '/zh/themes/yun',
                 },
               ],
             },

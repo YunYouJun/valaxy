@@ -17,6 +17,7 @@ themes:
   - name: valaxy-theme-press
     icon: i-ri-book-line
     repo: https://github.com/YunYouJun/valaxy/tree/main/packages/valaxy-theme-press
+    docsUrl: /themes/press
     desc: Docs Theme for Valaxy
     siteImage: https://s2.loli.net/2023/05/05/1DyEudpohIl47cP.png
     siteExampleUrl: 'https://valaxy.site/'
