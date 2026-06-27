@@ -58,6 +58,9 @@ const renderGroups = computed(() => {
   })
 })
 
+// Keep explicit sidebar groups aligned with VitePress: group title at level-1, links at level-2.
+const sidebarGroupDepth = 1
+
 /**
  * Build categories from locale-filtered pages.
  * Fully reactive: recomputes when route/locale changes.
@@ -164,7 +167,7 @@ function getSidebarItemKey(item: PressTheme.SidebarEntry, index: number): string
           p="t-2"
           border="t t-$pr-c-divider-light"
           :item="group.groupItem"
-          :depth="0"
+          :depth="sidebarGroupDepth"
         />
         <template v-else>
           <template v-for="(item, index) in group.items" :key="getSidebarItemKey(item, index)">

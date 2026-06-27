@@ -38,7 +38,7 @@ export function isActive(
   if (matchPath === undefined)
     return false
 
-  currentPath = normalize(`/${currentPath}`)
+  currentPath = normalize(currentPath.startsWith('/') ? currentPath : `/${currentPath}`)
 
   if (asRegex)
     return new RegExp(matchPath).test(currentPath)
