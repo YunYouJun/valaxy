@@ -29,7 +29,7 @@ if (isClient) {
 Valaxy 默认将 `xxx.md` 构建为 `/xxx.html`。
 
 如果你更希望构建为 `/xxx/index.html` 的目录形式，请将页面组织为目录索引——把内容放在
-`pages/xxx/index.md`（而非 `pages/xxx.md`）。以 `/` 结尾的路由会写入 `<route>/index.html`。
+`pages/xxx/index.md`（而非 `pages/xxx.md`）。以 `/` 结尾的路由会写入 `route-path/index.html`。
 
 > 旧版 `vite-ssg` 的 `dirStyle` 选项已随传统引擎在 v1.0 中移除（见 [#706](https://github.com/YunYouJun/valaxy/issues/706)）。
 
@@ -51,4 +51,3 @@ Github Pages 默认使用 Jekyll 来构建静态站点，而 Jekyll 默认不会
 |-- public
 |   |-- .nojekyll
 ```
-

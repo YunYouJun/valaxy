@@ -31,7 +31,7 @@ Valaxy builds `xxx.md` as `/xxx.html` by default.
 
 If you prefer directory-style output (`/xxx/index.html`), structure the page as a
 directory index — put the content in `pages/xxx/index.md` instead of `pages/xxx.md`.
-A route ending in `/` is written as `<route>/index.html`.
+A route ending in `/` is written as `route-path/index.html`.
 
 > The old `vite-ssg` `dirStyle` option was removed together with the legacy engine
 > in v1.0 (see [#706](https://github.com/YunYouJun/valaxy/issues/706)).
