@@ -4,8 +4,6 @@ export * from '../composables'
 export * from './home.d'
 
 export namespace PressTheme {
-  export type Sidebar = any
-
   export interface Footer {
     message?: string
     copyright?: string
