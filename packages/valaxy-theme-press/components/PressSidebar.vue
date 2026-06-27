@@ -160,8 +160,14 @@ function getSidebarItemKey(item: PressTheme.SidebarEntry, index: number): string
     class="press-sidebar shadow-lg" :class="{ open }"
     @click.stop
   >
-    <div text="left" m="2">
-      <ul v-for="group in renderGroups" :key="group.key" class="category-list">
+    <nav
+      id="pr-sidebar-nav"
+      class="press-sidebar-nav"
+      aria-label="Sidebar Navigation"
+      text="left"
+      m="2"
+    >
+      <ul v-for="group in renderGroups" :key="group.key" class="press-sidebar-list category-list">
         <PressSidebarItem
           v-if="group.groupItem"
           p="t-2"
@@ -186,7 +192,7 @@ function getSidebarItemKey(item: PressTheme.SidebarEntry, index: number): string
           </template>
         </template>
       </ul>
-    </div>
+    </nav>
   </aside>
 </template>
 
@@ -235,6 +241,12 @@ function getSidebarItemKey(item: PressTheme.SidebarEntry, index: number): string
   }
 }
 
+.press-sidebar-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
 .category-list {
   &:first-child {
     .category-list-item {
@@ -266,7 +278,7 @@ function getSidebarItemKey(item: PressTheme.SidebarEntry, index: number): string
   }
 }
 
-.category-list+.category-list {
+.press-sidebar-list+.press-sidebar-list {
   margin-top: 1rem;
 }
 </style>

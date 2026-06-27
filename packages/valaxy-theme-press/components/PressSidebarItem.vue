@@ -19,8 +19,6 @@ const {
   toggle,
 } = useSidebarControl(computed(() => props.item))
 
-const sectionTag = computed(() => (hasChildren.value ? 'section' : `div`))
-
 const linkTag = computed(() => (isLink.value ? 'a' : 'div'))
 
 const textTag = computed(() => {
@@ -32,6 +30,12 @@ const textTag = computed(() => {
 })
 
 const itemRole = computed(() => (isLink.value ? undefined : 'button'))
+
+const rawText = computed(() => props.item.text || '')
+
+const childItems = computed(() => props.item.items || [])
+
+const hasChildItems = computed(() => childItems.value.length > 0)
 
 const classes = computed(() => [
   [`level-${props.depth}`],
@@ -55,21 +59,26 @@ function onCaretClick() {
 
 const { t } = useI18n()
 
-const htmlText = computed(() => t(props.item.text || ''))
+const htmlText = computed(() => {
+  return t(rawText.value) || rawText.value
+})
+
+function getChildItemKey(item: DefaultTheme.SidebarItem, index: number): string | number {
+  return item.text || item.link || index
+}
 </script>
 
 <template>
-  <component
-    :is="sectionTag"
-    class="VPSidebarItem" :class="classes"
+  <li
+    class="VPSidebarItem press-sidebar-item-node" :class="classes"
   >
     <div
-      v-if="item.text"
+      v-if="rawText"
       class="press-sidebar-item item"
       :role="itemRole"
-      :tabindex="item.items && 0"
+      :tabindex="hasChildItems ? 0 : undefined"
       v-on="
-        item.items
+        hasChildItems
           ? { click: onItemInteraction, keydown: onItemInteraction }
           : {}
       "
@@ -77,21 +86,23 @@ const htmlText = computed(() => t(props.item.text || ''))
       <div class="indicator" />
 
       <AppLink
-        v-if="item.link"
+        v-if="props.item.link"
         :tag="linkTag"
         class="link"
-        :href="item.link"
-        :rel="item.rel"
-        :target="item.target"
+        :href="props.item.link"
+        :rel="props.item.rel"
+        :target="props.item.target"
       >
-        <!-- eslint-disable-next-line vue/no-v-text-v-html-on-component -->
-        <component :is="textTag" class="text ml-1" v-html="htmlText" />
+        <component :is="textTag" class="text ml-1">
+          <span v-html="htmlText" />
+        </component>
       </AppLink>
-      <!-- eslint-disable-next-line vue/no-v-text-v-html-on-component -->
-      <component :is="textTag" v-else class="text ml-1" v-html="htmlText" />
+      <component :is="textTag" v-else class="text ml-1">
+        <span v-html="htmlText" />
+      </component>
 
       <button
-        v-if="item.collapsed != null && item.items"
+        v-if="props.item.collapsed != null && hasChildItems"
         tabindex="0" role="button" aria-label="toggle section"
         class="caret folder-action inline-flex cursor-pointer"
         @click="onCaretClick" @keydown.enter="onCaretClick"
@@ -101,20 +112,27 @@ const htmlText = computed(() => t(props.item.text || ''))
       </button>
     </div>
 
-    <div v-if="item.items && item.items.length" class="items">
+    <ul v-if="hasChildItems" class="items press-sidebar-item-list">
       <template v-if="depth < 5">
         <PressSidebarItem
-          v-for="i in item.items"
-          :key="i.text"
+          v-for="(i, index) in childItems"
+          :key="getChildItemKey(i, index)"
           :item="i"
           :depth="depth + 1"
         />
       </template>
-    </div>
-  </component>
+    </ul>
+  </li>
 </template>
 
 <style scoped>
+.press-sidebar-item-node,
+.press-sidebar-item-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
 /* .VPSidebarItem.level-0 {
   padding-bottom: 24px;
 } */
