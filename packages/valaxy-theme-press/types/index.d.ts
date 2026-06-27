@@ -30,9 +30,10 @@ export namespace PressTheme {
     text?: string
   }
 
-  export type Sidebar = SidebarItem[] | SidebarMulti
+  export type SidebarEntry = string | SidebarItem
+  export type Sidebar = SidebarEntry[] | SidebarMulti
   export interface SidebarMulti {
-    [path: string]: SidebarItem[] | { items: SidebarItem[], base: string }
+    [path: string]: SidebarEntry[] | { items: SidebarEntry[], base: string }
   }
   export interface SidebarItem {
     /**

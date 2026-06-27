@@ -241,7 +241,7 @@ export default defineValaxyConfig<PressTheme.Config>({
 `docFooterText` 可以自定义上一页/下一页导航中展示的标题：
 
 ```ts
-{
+const item = {
   text: '配置',
   link: '/guide/config',
   docFooterText: '配置 Valaxy',

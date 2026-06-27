@@ -241,7 +241,7 @@ export default defineValaxyConfig<PressTheme.Config>({
 `docFooterText` customizes the label shown in previous/next page navigation:
 
 ```ts
-{
+const item = {
   text: 'Configuration',
   link: '/guide/config',
   docFooterText: 'Configure Valaxy',

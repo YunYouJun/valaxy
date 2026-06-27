@@ -121,7 +121,7 @@ function getSidebarItems(
 
   if (Array.isArray(sidebar)) {
     // Sidebar arrays may contain strings (category names) — filter to objects only
-    const items = sidebar.filter((item): item is PressTheme.SidebarItem => typeof item !== 'string')
+    const items = sidebar.filter(isSidebarItem)
     return addBase(items)
   }
 
@@ -141,11 +141,15 @@ function getSidebarItems(
 
   const matched = sidebar[dir]
   if (Array.isArray(matched)) {
-    const items = matched.filter((item): item is PressTheme.SidebarItem => typeof item !== 'string')
+    const items = matched.filter(isSidebarItem)
     return addBase(items)
   }
 
-  return addBase(matched.items, matched.base)
+  return addBase(matched.items.filter(isSidebarItem), matched.base)
+}
+
+function isSidebarItem(item: PressTheme.SidebarEntry): item is PressTheme.SidebarItem {
+  return typeof item !== 'string'
 }
 
 function ensureStartingSlash(path: string): string {
