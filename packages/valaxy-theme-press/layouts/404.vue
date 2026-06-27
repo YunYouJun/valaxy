@@ -1,11 +1,11 @@
 <script lang="ts" setup>
-import type { NotFoundLocale } from '../components/PressNotFoundLocaleToggle.vue'
 import { useBack } from 'valaxy'
-import { computed, shallowRef } from 'vue'
+import { computed } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { useRoute } from 'vue-router'
-import PressNotFoundLocaleToggle from '../components/PressNotFoundLocaleToggle.vue'
 import PressNotFoundVisual from '../components/PressNotFoundVisual.vue'
+
+type NotFoundLocale = 'en' | 'zh'
 
 const route = useRoute()
 const { locale } = useI18n()
@@ -32,18 +32,13 @@ const messages = {
   },
 } as const
 
-const activeLocale = shallowRef<NotFoundLocale>(
-  route.path.startsWith('/zh') || locale.value.startsWith('zh') ? 'zh' : 'en',
+const currentLocale = computed<NotFoundLocale>(
+  () => locale.value.startsWith('zh') || route.path.startsWith('/zh') ? 'zh' : 'en',
 )
 
-const languageOptions: { label: string, value: NotFoundLocale }[] = [
-  { label: '中文', value: 'zh' },
-  { label: 'EN', value: 'en' },
-]
-
-const content = computed(() => messages[activeLocale.value])
+const content = computed(() => messages[currentLocale.value])
 const currentPath = computed(() => route.fullPath || route.path)
-const homeLink = computed(() => activeLocale.value === 'zh' ? '/zh/' : '/')
+const homeLink = computed(() => currentLocale.value === 'zh' ? '/zh/' : '/')
 </script>
 
 <template>
@@ -59,8 +54,6 @@ const homeLink = computed(() => activeLocale.value === 'zh' ? '/zh/' : '/')
               <span i-ri-compass-3-line aria-hidden="true" />
               {{ content.eyebrow }}
             </p>
-
-            <PressNotFoundLocaleToggle v-model="activeLocale" :options="languageOptions" />
           </div>
 
           <h1 id="not-found-title" class="not-found-title">
@@ -90,21 +83,27 @@ const homeLink = computed(() => activeLocale.value === 'zh' ? '/zh/' : '/')
         </div>
       </section>
     </main>
-
-    <PressFooter />
   </div>
 </template>
 
 <style lang="scss" scoped>
+.not-found-layout {
+  min-height: 100svh;
+  overflow: hidden;
+}
+
 .not-found-shell {
-  min-height: calc(100svh - var(--pr-nav-height));
+  min-height: 100svh;
+  box-sizing: border-box;
   display: grid;
   place-items: center;
-  padding: calc(var(--pr-nav-height) + clamp(24px, 5vw, 56px)) clamp(18px, 5vw, 72px) clamp(40px, 6vw, 80px);
+  overflow: hidden;
+  padding: calc(var(--pr-nav-height) + clamp(16px, 3vw, 28px)) clamp(18px, 5vw, 72px) clamp(20px, 4vw, 40px);
 }
 
 .not-found-panel {
   width: min(100%, 1040px);
+  max-height: calc(100svh - var(--pr-nav-height) - clamp(36px, 7vw, 68px));
   display: grid;
   grid-template-columns: minmax(280px, .9fr) minmax(0, 1fr);
   align-items: center;
@@ -118,9 +117,7 @@ const homeLink = computed(() => activeLocale.value === 'zh' ? '/zh/' : '/')
 .not-found-toolbar {
   display: flex;
   align-items: center;
-  justify-content: space-between;
-  gap: 16px;
-  margin-bottom: 20px;
+  margin-bottom: 18px;
 }
 
 .not-found-eyebrow {
@@ -144,18 +141,18 @@ const homeLink = computed(() => activeLocale.value === 'zh' ? '/zh/' : '/')
 
 .not-found-description {
   max-width: 42rem;
-  margin: 20px 0 0;
+  margin: 18px 0 0;
   color: var(--vp-c-text-2);
   font-size: clamp(1rem, 2vw, 1.125rem);
-  line-height: 1.8;
+  line-height: 1.7;
 }
 
 .not-found-path {
   display: grid;
   gap: 8px;
   max-width: 100%;
-  margin: 24px 0 0;
-  padding: 14px 16px;
+  margin: 20px 0 0;
+  padding: 12px 16px;
   border: 1px solid var(--vp-c-divider);
   border-radius: 8px;
   background: color-mix(in srgb, var(--vp-c-bg-soft) 72%, transparent);
@@ -175,7 +172,7 @@ const homeLink = computed(() => activeLocale.value === 'zh' ? '/zh/' : '/')
   display: flex;
   flex-wrap: wrap;
   gap: 12px;
-  margin-top: 28px;
+  margin-top: 22px;
 }
 
 .not-found-action {
@@ -211,35 +208,49 @@ const homeLink = computed(() => activeLocale.value === 'zh' ? '/zh/' : '/')
 }
 
 @media (max-width: 767px) {
+  .not-found-layout {
+    height: 100svh;
+    display: flex;
+    flex-direction: column;
+  }
+
   .not-found-shell {
-    min-height: auto;
-    padding: clamp(20px, 6vw, 32px) clamp(18px, 5vw, 24px) clamp(36px, 8vw, 48px);
+    flex: 1;
+    min-height: 0;
+    padding: clamp(8px, 2.4svh, 16px) clamp(18px, 5vw, 24px) clamp(12px, 3svh, 20px);
   }
 
   .not-found-panel {
+    max-height: 100%;
     grid-template-columns: 1fr;
-    gap: 10px;
+    align-content: center;
+    gap: clamp(8px, 1.6svh, 14px);
   }
 
   .not-found-toolbar {
-    align-items: flex-start;
-    flex-direction: column;
-    gap: 12px;
-    margin-bottom: 16px;
+    margin-bottom: clamp(8px, 1.8svh, 14px);
   }
 
   .not-found-title {
-    max-width: 11ch;
-    font-size: clamp(2rem, 10vw, 3.25rem);
+    max-width: 13ch;
+    font-size: clamp(1.75rem, 8.5vw, 2.75rem);
+    line-height: 1;
   }
 
   .not-found-description {
-    margin-top: 14px;
-    line-height: 1.7;
+    margin-top: clamp(8px, 1.6svh, 12px);
+    font-size: clamp(.88rem, 3.8vw, 1rem);
+    line-height: 1.55;
   }
 
   .not-found-path {
-    margin-top: 18px;
+    gap: 6px;
+    margin-top: clamp(10px, 1.8svh, 14px);
+    padding: 10px 14px;
+  }
+
+  .not-found-path code {
+    font-size: 13px;
   }
 
   .not-found-actions,
@@ -248,7 +259,22 @@ const homeLink = computed(() => activeLocale.value === 'zh' ? '/zh/' : '/')
   }
 
   .not-found-actions {
-    margin-top: 18px;
+    gap: 8px;
+    margin-top: clamp(10px, 2svh, 16px);
+  }
+
+  .not-found-action {
+    min-height: 38px;
+  }
+}
+
+@media (max-width: 767px) and (max-height: 700px) {
+  .not-found-path {
+    display: none;
+  }
+
+  .not-found-description {
+    max-width: 34rem;
   }
 }
 </style>

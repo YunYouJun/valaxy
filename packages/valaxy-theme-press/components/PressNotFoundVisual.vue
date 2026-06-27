@@ -120,19 +120,33 @@ withDefaults(defineProps<{
 
 @media (max-width: 767px) {
   .not-found-visual {
-    min-height: 205px;
+    min-height: clamp(132px, 24svh, 205px);
   }
 
   .not-found-orbit {
-    width: min(76vw, 245px);
+    width: min(56vw, 200px, 28svh);
   }
 
   .not-found-code {
-    font-size: clamp(5.25rem, 27vw, 7rem);
+    font-size: clamp(4.5rem, 22vw, 6.25rem);
   }
 
   .not-found-signal {
     right: 0;
+  }
+}
+
+@media (max-width: 767px) and (max-height: 700px) {
+  .not-found-visual {
+    min-height: clamp(104px, 21svh, 150px);
+  }
+
+  .not-found-orbit {
+    width: min(46vw, 160px, 24svh);
+  }
+
+  .not-found-signal {
+    display: none;
   }
 }
 
