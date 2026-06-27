@@ -10,8 +10,9 @@ on:
       - main
 
 jobs:
-  lint:
+  validate:
     runs-on: ubuntu-latest
+
     steps:
       - uses: actions/checkout@v5
       - uses: pnpm/action-setup@v4
@@ -23,25 +24,13 @@ jobs:
       - name: Install
         run: pnpm install
 
-      - name: Lint
-        run: pnpm run lint
+      - parallel:
+          - name: Lint
+            run: pnpm run lint
 
-  typecheck:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v5
-      - uses: pnpm/action-setup@v4
-      - uses: actions/setup-node@v5
-        with:
-          node-version: lts/*
-          cache: pnpm
-
-      - name: Install
-        run: pnpm install
-
-      - name: Typecheck
-        # build to check dist types
-        run: pnpm run build && pnpm run typecheck
+          - name: Typecheck
+            # build to check dist types
+            run: pnpm run build && pnpm run typecheck
 
   # check windows build
   build:
