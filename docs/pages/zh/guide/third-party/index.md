@@ -10,22 +10,60 @@ aplayer: true
 ## 搜索 {#search}
 
 
+### 本地搜索（MiniSearch） {#local-search-minisearch}
+
+
+Valaxy 内置了基于 [MiniSearch](https://lucaong.github.io/minisearch/) 的本地搜索。它不依赖外部服务，适合作为文档站的默认本地搜索方案。
+
+搜索索引会在 Valaxy dev/build 时生成。
+
+```ts [site.config.ts]
+import { defineSiteConfig } from 'valaxy'
+
+export default defineSiteConfig({
+  search: {
+    enable: true,
+    provider: 'local',
+  },
+})
+```
+
+如果某个页面不希望进入本地搜索索引，可以在页面 frontmatter 中设置 `search: false`。
+
+
 ### 本地搜索（基于 fuse.js） {#local-search-based-on-fusejs}
 
 
-Valaxy 内置了基于 [fuse.js](https://fusejs.io/) 的离线搜索（须预先通过 `valaxy fuse` 构建生成本地缓存）。
+Valaxy 也支持基于 [fuse.js](https://fusejs.io/) 的离线搜索。需要 Fuse 特定匹配选项，或已经依赖 `valaxy-fuse-list.json` 时，可以继续使用它。
 
-> `valaxy fuse` 默认将 `fuse` 生成在 `public` 目录下，并在 `.gitignore` 中添加 `public/valaxy-fuse-list.json` 忽略。
-> 在执行 `valaxy build` 之前，会自动执行 `valaxy fuse`。
+> `valaxy fuse` 默认会在 `public` 目录下生成 `valaxy-fuse-list.json`。
+> 当 `search.provider` 为 `fuse` 时，执行 `valaxy build` 会自动执行 `valaxy fuse`。
+
+
+#### 使用 {#setup}
+
+
+```ts [site.config.ts]
+import { defineSiteConfig } from 'valaxy'
+
+export default defineSiteConfig({
+  search: {
+    enable: true,
+    provider: 'fuse',
+  },
+})
+```
 
 如果你想要使用全文搜索，可参考 [Options | fuse.js](https://www.fusejs.io/api/options.html) 进行设置。
 譬如：
 
 ```ts [site.config.ts]
+import { defineSiteConfig } from 'valaxy'
+
 export default defineSiteConfig({
   search: {
     enable: true,
-    type: 'fuse',
+    provider: 'fuse',
   },
   fuse: {
     /**
@@ -52,25 +90,7 @@ export default defineSiteConfig({
 })
 ```
 
-
-
-#### 使用 {#setup}
-
-
-
-```ts [site.config.ts]
-import { defineSiteConfig } from 'valaxy'
-
-export default defineSiteConfig({
-  search: {
-    enable: true,
-    // 设置类型为 Fuse
-    provider: 'fuse',
-  },
-})
-```
-
-- 在你的 `package.json` 中添加 fuse 生成脚本
+- 你也可以在 `package.json` 中显式添加 fuse 生成脚本
 
 
 ```json {7,9} [package.json]
@@ -195,4 +215,3 @@ export const install: UserModule = ({ isClient, app, router }) => {
 
 
 More info see [vue-gtag-next](https://github.com/MatteoGabriele/vue-gtag-next).
-
