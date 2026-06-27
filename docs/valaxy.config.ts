@@ -29,6 +29,128 @@ const safelist = [
   'i-simple-icons-claude',
 ]
 
+const defaultSidebar: PressTheme.SidebarEntry[] = [
+  'getting-started',
+  'guide',
+  {
+    text: 'category.config',
+    collapsed: false,
+    items: [
+      {
+        text: 'toc.base-config',
+        link: '/guide/config/',
+      },
+      {
+        text: 'toc.extend-config',
+        link: '/guide/config/extend',
+      },
+      {
+        text: 'toc.unocss-options',
+        link: '/guide/config/unocss-options',
+      },
+    ],
+  },
+  'migration',
+  'built-ins',
+  'third',
+  'custom',
+  'examples',
+  'theme',
+  'addon',
+  'dev',
+  {
+    text: 'nav.dev-notes',
+    link: '/posts/',
+  },
+]
+
+const themePressSidebar: PressTheme.SidebarEntry[] = [
+  {
+    text: 'Theme Press',
+    items: [
+      { text: 'Overview', link: '/themes/press' },
+      { text: 'Config Reference', link: '/themes/press/config' },
+      { text: 'Navigation And Sidebar', link: '/themes/press/sidebar-nav' },
+      { text: 'Search And i18n', link: '/themes/press/search-i18n' },
+      { text: 'Migrating From VitePress', link: '/themes/press/migration' },
+    ],
+  },
+]
+
+const themeYunSidebar: PressTheme.SidebarEntry[] = [
+  {
+    text: 'Theme Yun',
+    items: [
+      { text: 'Overview', link: '/themes/yun' },
+      { text: 'Config Reference', link: '/themes/yun/config' },
+      { text: 'Layout And Visuals', link: '/themes/yun/layout' },
+      { text: 'Widgets And Pages', link: '/themes/yun/widgets' },
+      { text: 'Customization', link: '/themes/yun/customization' },
+    ],
+  },
+]
+
+const zhDefaultSidebar: PressTheme.SidebarEntry[] = [
+  'getting-started',
+  'guide',
+  {
+    text: '配置',
+    collapsed: false,
+    items: [
+      {
+        text: '基础配置',
+        link: '/zh/guide/config/',
+      },
+      {
+        text: '扩展配置',
+        link: '/zh/guide/config/extend',
+      },
+      {
+        text: 'UnoCSS 配置',
+        link: '/zh/guide/config/unocss-options',
+      },
+    ],
+  },
+  'migration',
+  'built-ins',
+  'third',
+  'custom',
+  'examples',
+  'theme',
+  'addon',
+  'dev',
+  {
+    text: '开发笔记',
+    link: '/zh/posts/',
+  },
+]
+
+const zhThemePressSidebar: PressTheme.SidebarEntry[] = [
+  {
+    text: '主题 Press',
+    items: [
+      { text: '概览', link: '/zh/themes/press' },
+      { text: '配置参考', link: '/zh/themes/press/config' },
+      { text: '导航栏与侧边栏', link: '/zh/themes/press/sidebar-nav' },
+      { text: '搜索与多语言', link: '/zh/themes/press/search-i18n' },
+      { text: '从 VitePress 迁移', link: '/zh/themes/press/migration' },
+    ],
+  },
+]
+
+const zhThemeYunSidebar: PressTheme.SidebarEntry[] = [
+  {
+    text: '主题 Yun',
+    items: [
+      { text: '概览', link: '/zh/themes/yun' },
+      { text: '配置参考', link: '/zh/themes/yun/config' },
+      { text: '布局与视觉', link: '/zh/themes/yun/layout' },
+      { text: '功能组件与页面', link: '/zh/themes/yun/widgets' },
+      { text: '自定义', link: '/zh/themes/yun/customization' },
+    ],
+  },
+]
+
 export default defineValaxyConfig<PressTheme.Config>({
   siteConfig: {
     title: 'VALAXY',
@@ -77,40 +199,11 @@ export default defineValaxyConfig<PressTheme.Config>({
   theme: 'press',
   themeConfig: {
     logo: '/favicon.svg',
-    sidebar: [
-      'getting-started',
-      'guide',
-      {
-        text: 'category.config',
-        collapsed: false,
-        items: [
-          {
-            text: 'toc.base-config',
-            link: '/guide/config/',
-          },
-          {
-            text: 'toc.extend-config',
-            link: '/guide/config/extend',
-          },
-          {
-            text: 'toc.unocss-options',
-            link: '/guide/config/unocss-options',
-          },
-        ],
-      },
-      'migration',
-      'built-ins',
-      'third',
-      'custom',
-      'examples',
-      'theme',
-      'addon',
-      'dev',
-      {
-        text: 'nav.dev-notes',
-        link: '/posts/',
-      },
-    ],
+    sidebar: {
+      '/themes/press': themePressSidebar,
+      '/themes/yun': themeYunSidebar,
+      '/': defaultSidebar,
+    },
     socialLinks: [
       { icon: 'i-ri-github-line', link: 'https://github.com/YunYouJun/valaxy' },
     ],
@@ -354,40 +447,11 @@ export default defineValaxyConfig<PressTheme.Config>({
               ],
             },
           ],
-          sidebar: [
-            'getting-started',
-            'guide',
-            {
-              text: '配置',
-              collapsed: false,
-              items: [
-                {
-                  text: '基础配置',
-                  link: '/zh/guide/config/',
-                },
-                {
-                  text: '扩展配置',
-                  link: '/zh/guide/config/extend',
-                },
-                {
-                  text: 'UnoCSS 配置',
-                  link: '/zh/guide/config/unocss-options',
-                },
-              ],
-            },
-            'migration',
-            'built-ins',
-            'third',
-            'custom',
-            'examples',
-            'theme',
-            'addon',
-            'dev',
-            {
-              text: '开发笔记',
-              link: '/zh/posts/',
-            },
-          ],
+          sidebar: {
+            '/zh/themes/press': zhThemePressSidebar,
+            '/zh/themes/yun': zhThemeYunSidebar,
+            '/zh/': zhDefaultSidebar,
+          },
         },
       },
     },

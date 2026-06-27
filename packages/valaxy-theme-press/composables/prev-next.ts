@@ -4,6 +4,7 @@ import { isCategoryList, removeItemFromCategory, useFrontmatter, usePageList, us
 import { computed } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { useRoute } from 'vue-router'
+import { getSidebar } from '../utils/sidebar'
 import { useLocaleConfig } from './locale'
 import { normalize } from './sidebar'
 
@@ -109,74 +110,6 @@ function getCategoryLinks(categoryTree: CategoryList, categoryName: string, reso
   return links
 }
 
-/**
- * Resolve sidebar items for the current route path from the theme config.
- */
-function getSidebarItems(
-  sidebar: PressTheme.Sidebar | undefined,
-  path: string,
-): PressTheme.SidebarItem[] {
-  if (!sidebar)
-    return []
-
-  if (Array.isArray(sidebar)) {
-    // Sidebar arrays may contain strings (category names) — filter to objects only
-    const items = sidebar.filter(isSidebarItem)
-    return addBase(items)
-  }
-
-  // SidebarMulti: find the longest matching prefix
-  path = ensureStartingSlash(path)
-  const dir = Object.keys(sidebar)
-    .sort((a, b) => b.split('/').length - a.split('/').length)
-    .find((dir) => {
-      const normalizedDir = ensureStartingSlash(dir)
-      // Ensure boundary match: dir must end with '/' or path must have '/' after dir
-      const dirWithSlash = normalizedDir.endsWith('/') ? normalizedDir : `${normalizedDir}/`
-      return path.startsWith(dirWithSlash) || path === normalizedDir
-    })
-
-  if (!dir)
-    return []
-
-  const matched = sidebar[dir]
-  if (Array.isArray(matched)) {
-    const items = matched.filter(isSidebarItem)
-    return addBase(items)
-  }
-
-  return addBase(matched.items.filter(isSidebarItem), matched.base)
-}
-
-function isSidebarItem(item: PressTheme.SidebarEntry): item is PressTheme.SidebarItem {
-  return typeof item !== 'string'
-}
-
-function ensureStartingSlash(path: string): string {
-  return path.startsWith('/') ? path : `/${path}`
-}
-
-/**
- * Join base and link with exactly one `/` separator.
- */
-function joinPath(base: string, link: string): string {
-  const normalizedBase = base.endsWith('/') ? base.slice(0, -1) : base
-  const normalizedLink = link.startsWith('/') ? link : `/${link}`
-  return normalizedBase + normalizedLink
-}
-
-function addBase(items: PressTheme.SidebarItem[], base?: string): PressTheme.SidebarItem[] {
-  return items.map((item) => {
-    const result = { ...item }
-    const itemBase = result.base || base
-    if (itemBase && result.link)
-      result.link = joinPath(itemBase, result.link)
-    if (result.items)
-      result.items = addBase(result.items, itemBase)
-    return result
-  })
-}
-
 interface FlatLink {
   text: string
   link: string
@@ -255,29 +188,17 @@ export function usePrevNext() {
   })
 
   return computed(() => {
-    const sidebar = localeConfig.value.sidebar
-    let candidates: FlatLink[]
+    const categoryTree = buildCategoryTree(localePages.value)
+    const sidebarItems = getSidebar(localeConfig.value.sidebar, route.path)
+    const candidates: FlatLink[] = []
 
-    if (Array.isArray(sidebar)) {
-      // Build category tree from locale-filtered pages
-      const categoryTree = buildCategoryTree(localePages.value)
-
-      // Walk sidebar items in order, expanding string categories into page links
-      candidates = []
-      for (const item of sidebar) {
-        if (typeof item === 'string') {
-          // Expand category name into its page links
-          candidates.push(...getCategoryLinks(categoryTree, item, resolveTitle))
-        }
-        else {
-          // Object sidebar item — flatten as before
-          candidates.push(...getFlatLinks(addBase([item]), t))
-        }
+    for (const item of sidebarItems) {
+      if (typeof item === 'string') {
+        candidates.push(...getCategoryLinks(categoryTree, item, resolveTitle))
+        continue
       }
-    }
-    else {
-      // SidebarMulti — only object items, use original logic
-      candidates = getFlatLinks(getSidebarItems(sidebar, route.path), t)
+
+      candidates.push(...getFlatLinks([item], t))
     }
 
     const index = candidates.findIndex(link =>
