@@ -191,6 +191,9 @@ export default defineValaxyConfig<PressTheme.Config>({
     addonGitLog({
       contributor: {
         strategy: 'prebuilt',
+        // Seed GitHub username resolution from a small, committed cache so
+        // builds make near-zero GitHub API calls (no rate-limit / token needed).
+        githubCache: 'git-log-contributors.json',
       },
       repositoryUrl: 'https://github.com/YunYouJun/valaxy.git',
     }),
