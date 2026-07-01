@@ -18,6 +18,7 @@ const props = withDefaults(defineProps<{
   collapsable?: boolean
 }>(), {
   collapsable: true,
+  level: 0,
 })
 
 const collapsed = ref(props.collapsable)
@@ -40,7 +41,7 @@ function getCategoryItemKey(categoryItem: CategoryChild, index: number): string 
   <li
     v-if="category.total"
     class="press-category-item"
-    :class="{ collapsed }"
+    :class="[`level-${props.level}`, { collapsed }]"
   >
     <div
       p="t-2"
@@ -75,7 +76,13 @@ function getCategoryItemKey(categoryItem: CategoryChild, index: number): string 
           </RouterLink>
         </li>
 
-        <PressCategory v-else :category="categoryItem" :display-category="displayCategory" :collapsable="collapsed" />
+        <PressCategory
+          v-else
+          :category="categoryItem"
+          :display-category="displayCategory"
+          :collapsable="collapsed"
+          :level="props.level + 1"
+        />
       </template>
     </ul>
   </li>
@@ -90,7 +97,11 @@ function getCategoryItemKey(categoryItem: CategoryChild, index: number): string 
   padding: 0;
 }
 
-.press-category-list {
+.press-category-item.level-1 > .press-category-list,
+.press-category-item.level-2 > .press-category-list,
+.press-category-item.level-3 > .press-category-list,
+.press-category-item.level-4 > .press-category-list,
+.press-category-item.level-5 > .press-category-list {
   border-left: 1px solid var(--vp-c-divider);
   padding-left: 16px;
 }
