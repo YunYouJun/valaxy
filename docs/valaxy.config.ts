@@ -119,13 +119,6 @@ const themeYunSidebar: PressTheme.SidebarEntry[] = [
   },
 ]
 
-const themeOverviewSidebar: PressTheme.SidebarEntry[] = [
-  {
-    text: 'nav.theme',
-    items: themeOverviewItems,
-  },
-]
-
 const zhThemePressChildItems: PressTheme.SidebarItem[] = [
   { text: '配置参考', link: '/zh/themes/press/config' },
   { text: '导航栏与侧边栏', link: '/zh/themes/press/sidebar-nav' },
@@ -216,13 +209,6 @@ const zhThemeYunSidebar: PressTheme.SidebarEntry[] = [
   },
 ]
 
-const zhThemeOverviewSidebar: PressTheme.SidebarEntry[] = [
-  {
-    text: '主题',
-    items: zhThemeOverviewItems,
-  },
-]
-
 export default defineValaxyConfig<PressTheme.Config>({
   siteConfig: {
     title: 'VALAXY',
@@ -277,7 +263,6 @@ export default defineValaxyConfig<PressTheme.Config>({
     sidebar: {
       '/themes/press': themePressSidebar,
       '/themes/yun': themeYunSidebar,
-      '/themes/': themeOverviewSidebar,
       '/': defaultSidebar,
     },
     socialLinks: [
@@ -526,7 +511,6 @@ export default defineValaxyConfig<PressTheme.Config>({
           sidebar: {
             '/zh/themes/press': zhThemePressSidebar,
             '/zh/themes/yun': zhThemeYunSidebar,
-            '/zh/themes/': zhThemeOverviewSidebar,
             '/zh/': zhDefaultSidebar,
           },
         },
