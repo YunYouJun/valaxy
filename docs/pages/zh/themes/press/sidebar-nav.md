@@ -82,6 +82,8 @@ export default defineValaxyConfig<PressTheme.Config>({
 })
 ```
 
+子目录应该嵌套在任意 `SidebarItem` 的 `items` 中。省略 `collapsed` 时，Press 会把子项渲染为始终展开的缩进列表；只有需要显示可折叠箭头时，才配置 `collapsed: true` 或 `collapsed: false`。
+
 `docFooterText` 可以自定义上一页/下一页导航中展示的标题：
 
 ```ts

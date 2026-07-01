@@ -29,13 +29,13 @@ const textTag = computed(() => {
       : `h${props.depth + 2}`
 })
 
-const itemRole = computed(() => (isLink.value ? undefined : 'button'))
-
 const rawText = computed(() => props.item.text || '')
 
 const childItems = computed(() => props.item.items || [])
 
 const hasChildItems = computed(() => childItems.value.length > 0)
+
+const hasCaret = computed(() => collapsible.value && hasChildItems.value)
 
 const classes = computed(() => [
   [`level-${props.depth}`],
@@ -46,15 +46,13 @@ const classes = computed(() => [
   { 'has-active': hasActiveLink.value },
 ])
 
+const itemRole = computed(() => (hasCaret.value && !isLink.value ? 'button' : undefined))
+
 function onItemInteraction(e: MouseEvent | Event) {
   if ('key' in e && e.key !== 'Enter')
     return
 
   !props.item.link && toggle()
-}
-
-function onCaretClick() {
-  props.item.link && toggle()
 }
 
 const { t } = useI18n()
@@ -76,9 +74,9 @@ function getChildItemKey(item: DefaultTheme.SidebarItem, index: number): string 
       v-if="rawText"
       class="press-sidebar-item item"
       :role="itemRole"
-      :tabindex="hasChildItems ? 0 : undefined"
+      :tabindex="hasCaret && !props.item.link ? 0 : undefined"
       v-on="
-        hasChildItems
+        hasCaret && !props.item.link
           ? { click: onItemInteraction, keydown: onItemInteraction }
           : {}
       "
@@ -102,13 +100,14 @@ function getChildItemKey(item: DefaultTheme.SidebarItem, index: number): string 
       </component>
 
       <button
-        v-if="props.item.collapsed != null && hasChildItems"
-        tabindex="0" role="button" aria-label="toggle section"
-        class="caret folder-action inline-flex cursor-pointer"
-        @click="onCaretClick" @keydown.enter="onCaretClick"
+        v-if="hasCaret"
+        type="button"
+        aria-label="toggle section"
+        :aria-expanded="!collapsed"
+        class="caret"
+        @click.stop="toggle"
       >
-        <div v-if="collapsed" i-ri-folder-add-line />
-        <div v-else i-ri-folder-reduce-line />
+        <span class="caret-icon" :class="{ open: !collapsed }" i-ri-arrow-right-s-line aria-hidden="true" />
       </button>
     </div>
 

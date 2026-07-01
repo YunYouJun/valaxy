@@ -269,6 +269,16 @@ function getSidebarItemKey(item: PressTheme.SidebarEntry, index: number): string
     flex-shrink: 0;
   }
 
+  .caret-icon {
+    width: 18px;
+    height: 18px;
+    transition: transform var(--va-transition-duration);
+
+    &.open {
+      transform: rotate(90deg);
+    }
+  }
+
   &:hover .caret {
     color: var(--vp-c-text-2);
   }

@@ -82,6 +82,8 @@ export default defineValaxyConfig<PressTheme.Config>({
 })
 ```
 
+Nested directories should be represented by nested `items` on any `SidebarItem`. If `collapsed` is omitted, Press renders the children as an always-expanded indented list. Add `collapsed: true` or `collapsed: false` only when that group should expose a collapsible caret.
+
 `docFooterText` customizes the label shown in previous/next page navigation:
 
 ```ts

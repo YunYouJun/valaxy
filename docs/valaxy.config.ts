@@ -29,6 +29,38 @@ const safelist = [
   'i-simple-icons-claude',
 ]
 
+const themePressChildItems: PressTheme.SidebarItem[] = [
+  { text: 'Config Reference', link: '/themes/press/config' },
+  { text: 'Navigation And Sidebar', link: '/themes/press/sidebar-nav' },
+  { text: 'Search And i18n', link: '/themes/press/search-i18n' },
+  { text: 'Migrating From VitePress', link: '/themes/press/migration' },
+]
+
+const themeYunChildItems: PressTheme.SidebarItem[] = [
+  { text: 'Config Reference', link: '/themes/yun/config' },
+  { text: 'Layout And Visuals', link: '/themes/yun/layout' },
+  { text: 'Widgets And Pages', link: '/themes/yun/widgets' },
+  { text: 'Customization', link: '/themes/yun/customization' },
+]
+
+const themeOverviewItems: PressTheme.SidebarItem[] = [
+  { text: 'nav.use-a-theme', link: '/themes/use' },
+  { text: 'nav.write-a-theme', link: '/themes/write' },
+  {
+    text: 'Theme Press',
+    link: '/themes/press',
+    collapsed: true,
+    items: themePressChildItems,
+  },
+  {
+    text: 'Theme Yun',
+    link: '/themes/yun',
+    collapsed: true,
+    items: themeYunChildItems,
+  },
+  { text: 'nav.themes-gallery', link: '/themes/gallery' },
+]
+
 const defaultSidebar: PressTheme.SidebarEntry[] = [
   'getting-started',
   'guide',
@@ -55,7 +87,10 @@ const defaultSidebar: PressTheme.SidebarEntry[] = [
   'third',
   'custom',
   'examples',
-  'theme',
+  {
+    text: 'nav.theme',
+    items: themeOverviewItems,
+  },
   'addon',
   'dev',
   {
@@ -69,10 +104,7 @@ const themePressSidebar: PressTheme.SidebarEntry[] = [
     text: 'Theme Press',
     items: [
       { text: 'Overview', link: '/themes/press' },
-      { text: 'Config Reference', link: '/themes/press/config' },
-      { text: 'Navigation And Sidebar', link: '/themes/press/sidebar-nav' },
-      { text: 'Search And i18n', link: '/themes/press/search-i18n' },
-      { text: 'Migrating From VitePress', link: '/themes/press/migration' },
+      ...themePressChildItems,
     ],
   },
 ]
@@ -82,12 +114,48 @@ const themeYunSidebar: PressTheme.SidebarEntry[] = [
     text: 'Theme Yun',
     items: [
       { text: 'Overview', link: '/themes/yun' },
-      { text: 'Config Reference', link: '/themes/yun/config' },
-      { text: 'Layout And Visuals', link: '/themes/yun/layout' },
-      { text: 'Widgets And Pages', link: '/themes/yun/widgets' },
-      { text: 'Customization', link: '/themes/yun/customization' },
+      ...themeYunChildItems,
     ],
   },
+]
+
+const themeOverviewSidebar: PressTheme.SidebarEntry[] = [
+  {
+    text: 'nav.theme',
+    items: themeOverviewItems,
+  },
+]
+
+const zhThemePressChildItems: PressTheme.SidebarItem[] = [
+  { text: '配置参考', link: '/zh/themes/press/config' },
+  { text: '导航栏与侧边栏', link: '/zh/themes/press/sidebar-nav' },
+  { text: '搜索与多语言', link: '/zh/themes/press/search-i18n' },
+  { text: '从 VitePress 迁移', link: '/zh/themes/press/migration' },
+]
+
+const zhThemeYunChildItems: PressTheme.SidebarItem[] = [
+  { text: '配置参考', link: '/zh/themes/yun/config' },
+  { text: '布局与视觉', link: '/zh/themes/yun/layout' },
+  { text: '功能组件与页面', link: '/zh/themes/yun/widgets' },
+  { text: '自定义', link: '/zh/themes/yun/customization' },
+]
+
+const zhThemeOverviewItems: PressTheme.SidebarItem[] = [
+  { text: '使用主题', link: '/zh/themes/use' },
+  { text: '编写主题', link: '/zh/themes/write' },
+  {
+    text: '主题 Press',
+    link: '/zh/themes/press',
+    collapsed: true,
+    items: zhThemePressChildItems,
+  },
+  {
+    text: '主题 Yun',
+    link: '/zh/themes/yun',
+    collapsed: true,
+    items: zhThemeYunChildItems,
+  },
+  { text: '主题橱窗', link: '/zh/themes/gallery' },
 ]
 
 const zhDefaultSidebar: PressTheme.SidebarEntry[] = [
@@ -116,7 +184,10 @@ const zhDefaultSidebar: PressTheme.SidebarEntry[] = [
   'third',
   'custom',
   'examples',
-  'theme',
+  {
+    text: '主题',
+    items: zhThemeOverviewItems,
+  },
   'addon',
   'dev',
   {
@@ -130,10 +201,7 @@ const zhThemePressSidebar: PressTheme.SidebarEntry[] = [
     text: '主题 Press',
     items: [
       { text: '概览', link: '/zh/themes/press' },
-      { text: '配置参考', link: '/zh/themes/press/config' },
-      { text: '导航栏与侧边栏', link: '/zh/themes/press/sidebar-nav' },
-      { text: '搜索与多语言', link: '/zh/themes/press/search-i18n' },
-      { text: '从 VitePress 迁移', link: '/zh/themes/press/migration' },
+      ...zhThemePressChildItems,
     ],
   },
 ]
@@ -143,11 +211,15 @@ const zhThemeYunSidebar: PressTheme.SidebarEntry[] = [
     text: '主题 Yun',
     items: [
       { text: '概览', link: '/zh/themes/yun' },
-      { text: '配置参考', link: '/zh/themes/yun/config' },
-      { text: '布局与视觉', link: '/zh/themes/yun/layout' },
-      { text: '功能组件与页面', link: '/zh/themes/yun/widgets' },
-      { text: '自定义', link: '/zh/themes/yun/customization' },
+      ...zhThemeYunChildItems,
     ],
+  },
+]
+
+const zhThemeOverviewSidebar: PressTheme.SidebarEntry[] = [
+  {
+    text: '主题',
+    items: zhThemeOverviewItems,
   },
 ]
 
@@ -205,6 +277,7 @@ export default defineValaxyConfig<PressTheme.Config>({
     sidebar: {
       '/themes/press': themePressSidebar,
       '/themes/yun': themeYunSidebar,
+      '/themes/': themeOverviewSidebar,
       '/': defaultSidebar,
     },
     socialLinks: [
@@ -453,6 +526,7 @@ export default defineValaxyConfig<PressTheme.Config>({
           sidebar: {
             '/zh/themes/press': zhThemePressSidebar,
             '/zh/themes/yun': zhThemeYunSidebar,
+            '/zh/themes/': zhThemeOverviewSidebar,
             '/zh/': zhDefaultSidebar,
           },
         },

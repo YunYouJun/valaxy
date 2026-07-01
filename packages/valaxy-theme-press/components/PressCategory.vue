@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import type { Category, CategoryList } from 'valaxy'
 import { isCategoryList, useValaxyI18n } from 'valaxy'
-import { ref } from 'vue'
+import { computed, ref } from 'vue'
 import { useI18n } from 'vue-i18n'
 
 type CategoryChild = CategoryList['children'] extends Map<string, infer T> ? T : never
@@ -20,9 +20,14 @@ const props = withDefaults(defineProps<{
   collapsable: true,
 })
 
-const collapsable = ref(props.collapsable)
+const collapsed = ref(props.collapsable)
+const hasChildren = computed(() => props.category.children.size > 0)
 const { t } = useI18n()
 const { $tO } = useValaxyI18n()
+
+function toggle() {
+  collapsed.value = !collapsed.value
+}
 
 function getCategoryItemKey(categoryItem: CategoryChild, index: number): string | number {
   return isCategoryList(categoryItem)
@@ -35,30 +40,31 @@ function getCategoryItemKey(categoryItem: CategoryChild, index: number): string 
   <li
     v-if="category.total"
     class="press-category-item"
+    :class="{ collapsed }"
   >
     <div
       p="t-2"
       w="full" border="t t-$pr-c-divider-light"
       class="press-sidebar-item category-list-item inline-flex items-center justify-between"
       text-14px
-      tabindex="0"
     >
       <span class="category-name" font="bold" m="l-1" @click="displayCategory ? displayCategory(category.name) : null">
         {{ category.name === 'Uncategorized' ? t('category.uncategorized') : t(`category.${category.name}`) }}
         <!-- <sup font="normal">[{{ category.total }}]</sup> -->
       </span>
       <button
-        tabindex="0" role="button" aria-label="toggle section"
-        class="caret folder-action inline-flex cursor-pointer"
-        text-base
-        @click="collapsable = !collapsable"
+        v-if="hasChildren"
+        type="button"
+        aria-label="toggle section"
+        :aria-expanded="!collapsed"
+        class="caret"
+        @click.stop="toggle"
       >
-        <div v-if="collapsable" i-ri-folder-add-line />
-        <div v-else i-ri-folder-reduce-line />
+        <span class="caret-icon" :class="{ open: !collapsed }" i-ri-arrow-right-s-line aria-hidden="true" />
       </button>
     </div>
 
-    <ul v-if="!collapsable" class="press-category-list">
+    <ul v-if="hasChildren && !collapsed" class="items press-category-list press-sidebar-category-list">
       <template v-for="(categoryItem, i) in category.children.values()" :key="getCategoryItemKey(categoryItem, i)">
         <li v-if="!isCategoryList(categoryItem)" class="post-list-item">
           <RouterLink
@@ -69,7 +75,7 @@ function getCategoryItemKey(categoryItem: CategoryChild, index: number): string 
           </RouterLink>
         </li>
 
-        <PressCategory v-else :category="categoryItem" :display-category="displayCategory" :collapsable="collapsable" />
+        <PressCategory v-else :category="categoryItem" :display-category="displayCategory" :collapsable="collapsed" />
       </template>
     </ul>
   </li>
@@ -82,6 +88,11 @@ function getCategoryItemKey(categoryItem: CategoryChild, index: number): string 
   list-style: none;
   margin: 0;
   padding: 0;
+}
+
+.press-category-list {
+  border-left: 1px solid var(--vp-c-divider);
+  padding-left: 16px;
 }
 
 .post-list-item {
