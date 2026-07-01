@@ -58,8 +58,8 @@ const renderGroups = computed(() => {
   })
 })
 
-// Keep explicit sidebar groups aligned with VitePress: group title at level-1, links at level-2.
-const sidebarGroupDepth = 1
+// Explicit groups and generated categories share the same root visual depth.
+const sidebarGroupDepth = 0
 
 /**
  * Build categories from locale-filtered pages.
