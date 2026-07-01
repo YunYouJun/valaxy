@@ -287,8 +287,4 @@ function getSidebarItemKey(item: PressTheme.SidebarEntry, index: number): string
     color: var(--vp-c-text-1);
   }
 }
-
-.press-sidebar-list+.press-sidebar-list {
-  margin-top: 1rem;
-}
 </style>

@@ -97,6 +97,14 @@ function getCategoryItemKey(categoryItem: CategoryChild, index: number): string 
   padding: 0;
 }
 
+.press-category-item.level-0 {
+  padding-bottom: 24px;
+}
+
+.press-category-item.collapsed.level-0 {
+  padding-bottom: 10px;
+}
+
 .press-category-item.level-1 > .press-category-list,
 .press-category-item.level-2 > .press-category-list,
 .press-category-item.level-3 > .press-category-list,

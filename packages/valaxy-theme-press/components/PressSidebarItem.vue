@@ -132,9 +132,9 @@ function getChildItemKey(item: DefaultTheme.SidebarItem, index: number): string 
   padding: 0;
 }
 
-/* .VPSidebarItem.level-0 {
+.VPSidebarItem.level-0 {
   padding-bottom: 24px;
-} */
+}
 
 .VPSidebarItem.collapsed.level-0 {
   padding-bottom: 10px;
