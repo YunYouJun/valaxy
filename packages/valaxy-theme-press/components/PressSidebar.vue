@@ -152,6 +152,13 @@ function getSidebarItemKey(item: PressTheme.SidebarEntry, index: number): string
     return item
   return item.text || item.link || index
 }
+
+function getSidebarRootItemClasses(groupIndex: number, itemIndex = 0) {
+  return [
+    'press-sidebar-root-item',
+    { 'is-separated': groupIndex > 0 || itemIndex > 0 },
+  ]
+}
 </script>
 
 <template>
@@ -167,11 +174,10 @@ function getSidebarItemKey(item: PressTheme.SidebarEntry, index: number): string
       text="left"
       m="2"
     >
-      <ul v-for="group in renderGroups" :key="group.key" class="press-sidebar-list category-list">
+      <ul v-for="(group, groupIndex) in renderGroups" :key="group.key" class="press-sidebar-list category-list">
         <PressSidebarItem
           v-if="group.groupItem"
-          p="t-2"
-          border="t t-$pr-c-divider-light"
+          :class="getSidebarRootItemClasses(groupIndex)"
           :item="group.groupItem"
           :depth="sidebarGroupDepth"
         />
@@ -179,13 +185,13 @@ function getSidebarItemKey(item: PressTheme.SidebarEntry, index: number): string
           <template v-for="(item, index) in group.items" :key="getSidebarItemKey(item, index)">
             <PressCategoryByName
               v-if="typeof item === 'string'"
+              :class="getSidebarRootItemClasses(groupIndex, index)"
               :categories="categories"
               :item="item"
             />
             <PressSidebarItem
               v-else
-              p="t-2"
-              border="t t-$pr-c-divider-light"
+              :class="getSidebarRootItemClasses(groupIndex, index)"
               :item="item"
               :depth="0"
             />
@@ -245,6 +251,18 @@ function getSidebarItemKey(item: PressTheme.SidebarEntry, index: number): string
   list-style: none;
   margin: 0;
   padding: 0;
+}
+
+.press-sidebar-root-item.is-separated {
+  border-top: 1px solid var(--pr-c-divider-light);
+}
+
+.press-sidebar-root-item > .press-sidebar-item {
+  padding-top: 0.5rem;
+}
+
+.press-sidebar-root-item > .category-list-item {
+  border-top: 0;
 }
 
 .category-list {
