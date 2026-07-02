@@ -107,6 +107,15 @@ addons:
     tags:
       - emoji
       - sticker
+  - name: valaxy-addon-feishu
+    author: YunYouJun
+    icon: i-ri-file-cloud-line
+    repo: https://github.com/YunYouJun/valaxy/tree/main/packages/valaxy-addon-feishu
+    desc: Fetch content from Feishu/Lark documents. (Experimental)
+    desc_zh: 从飞书/Lark 文档获取内容（实验性）
+    tags:
+      - cms
+      - feishu
   - name: valaxy-addon-food-map
     author: CacheTide
     icon: i-ri-map-pin-line
@@ -114,9 +123,8 @@ addons:
     desc: Build food maps from Markdown FrontMatter with shared JSON aggregation.
     desc_zh: 从 Markdown FrontMatter 和共享 JSON 生成美食地图。
     tags:
-      - map
       - food
+      - map
 ---
 
 <AddonGallery :addons="$frontmatter.addons" />
-
