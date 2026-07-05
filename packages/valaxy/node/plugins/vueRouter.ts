@@ -1,4 +1,3 @@
-import type { RouteMeta } from 'vue-router'
 import type { ExcerptType, Page, Post } from '../../types'
 import type { ValaxyNode } from '../types'
 
@@ -95,8 +94,8 @@ export async function createRouterPlugin(valaxyApp: ValaxyNode) {
       const defaultFrontmatter = structuredClone(_cachedFrontmatter)
       if (route.meta && route.meta.frontmatter) {
         // reset frontmatter, extendRoute will be trigger when save md file
-        const { frontmatter: _, otherMeta } = route.meta
-        route.meta = otherMeta as RouteMeta
+        const { frontmatter: _, ...otherMeta } = route.meta
+        route.meta = otherMeta as typeof route.meta
       }
       /**
        * merge deeply
@@ -265,7 +264,7 @@ export async function createRouterPlugin(valaxyApp: ValaxyNode) {
         valaxyConfig.extendMd?.(ctx)
 
         // read excerpt from route.meta in case extendMd modified it
-        const finalExcerpt = (route.meta as RouteMeta & { excerpt?: string }).excerpt ?? resolvedExcerpt
+        const finalExcerpt = route.meta.excerpt ?? resolvedExcerpt
 
         await valaxyApp.hooks.callHook('md:afterRender', {
           route,
