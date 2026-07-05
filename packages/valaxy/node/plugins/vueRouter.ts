@@ -94,7 +94,7 @@ export async function createRouterPlugin(valaxyApp: ValaxyNode) {
       const defaultFrontmatter = structuredClone(_cachedFrontmatter)
       if (route.meta && route.meta.frontmatter) {
         // reset frontmatter, extendRoute will be trigger when save md file
-        const { frontmatter: _, ...otherMeta } = route.meta
+        const { frontmatter: _, otherMeta } = route.meta
         route.meta = otherMeta as typeof route.meta
       }
       /**
