@@ -11,7 +11,8 @@
     "waline"
   ],
   "exports": {
-    "./*": "./*"
+    "./*": "./*",
+    ".": "./index.ts"
   },
   "main": "index.ts",
   "types": "index.d.ts",
