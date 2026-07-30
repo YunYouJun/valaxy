@@ -32,11 +32,13 @@ jobs:
 
       - run: pnpm run build:all
       # https://docs.github.com/en/actions/publishing-packages/publishing-nodejs-packages
-      # Prerelease tags (v1.0.0-rc.1 etc.) publish under the `next` dist-tag so
-      # they never clobber `latest` for `npm i valaxy`; stable tags use `latest`.
+      # v1 release candidates are the default install channel while v1 is being
+      # finalized. Other prereleases continue to use `next`.
       - name: Publish to npm
         run: |
-          if [[ "$GITHUB_REF_NAME" == *-* ]]; then
+          if [[ "$GITHUB_REF_NAME" == v1.0.0-rc.* ]]; then
+            pnpm -r publish --access public --no-git-checks --tag latest
+          elif [[ "$GITHUB_REF_NAME" == *-* ]]; then
             pnpm -r publish --access public --no-git-checks --tag next
           else
             pnpm -r publish --access public --no-git-checks
