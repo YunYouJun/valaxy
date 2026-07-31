@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import type { Post } from 'valaxy'
-import { onContentUpdated, runContentUpdated, useCodePen, useCollapseCode, useCopyCode, useMediumZoom, wrapTable } from 'valaxy'
+import { onContentUpdated, runContentUpdated, setIframeAspectRatios, useCodePen, useCollapseCode, useCopyCode, useMediumZoom, wrapTable } from 'valaxy'
 import { onMounted, onUpdated, ref } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { useCodeGroups } from '../composables/codeGroups'
@@ -13,9 +13,14 @@ const props = defineProps<{
 
 const { t } = useI18n()
 
-const contentRef = ref()
+const contentRef = ref<HTMLElement>()
 onContentUpdated(() => {
-  wrapTable(contentRef.value)
+  const content = contentRef.value
+  if (!content)
+    return
+
+  wrapTable(content)
+  setIframeAspectRatios(content)
 })
 
 onMounted(() => {
@@ -41,8 +46,8 @@ useVanillaLazyLoad()
 </script>
 
 <template>
-  <article v-if="$slots.default" :class="frontmatter.markdownClass || 'markdown-body'">
-    <slot ref="contentRef" @vue:updated="runContentUpdated" />
+  <article v-if="$slots.default" ref="contentRef" :class="frontmatter.markdownClass || 'markdown-body'">
+    <slot @vue:updated="runContentUpdated" />
 
     <div v-if="frontmatter.url" text="center">
       <a
@@ -74,5 +79,13 @@ useVanillaLazyLoad()
 .medium-zoom-overlay,
 .medium-zoom-image--opened {
   z-index: 999;
+}
+
+// Keep dimensioned embeds proportional when their width is constrained by the
+// article. :where() deliberately leaves explicit author styles in control.
+:where(iframe[data-va-responsive-iframe]) {
+  max-width: 100%;
+  height: auto;
+  aspect-ratio: var(--va-iframe-aspect-ratio);
 }
 </style>
