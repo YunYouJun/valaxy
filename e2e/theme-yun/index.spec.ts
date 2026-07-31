@@ -25,6 +25,51 @@ test.describe('Theme Yun', () => {
     await expect(page.locator('.post-title-link').nth(0)).toHaveText('Hello, Valaxy!')
   })
 
+  test('post card keeps decorative and empty areas clickable', async ({ page }) => {
+    await page.goto('/')
+
+    // The theme allows custom link cursors, but the card must still fall back to
+    // the native pointer when the optional CSS variable is not configured.
+    await page.addStyleTag({
+      content: `
+        :root { --cursor-pointer: initial !important; }
+        a { cursor: revert !important; }
+      `,
+    })
+
+    const card = page.locator('.post-card-wrapper').first()
+    await card.scrollIntoViewIfNeeded()
+    const expectedHref = await card.locator('.post-card-overlay').getAttribute('href')
+    const targets = [
+      card.locator('.post-card-body > [class~="absolute"][class~="bottom-0"]'),
+      card.locator('.yun-card-actions'),
+    ]
+
+    for (const target of targets) {
+      const box = await target.boundingBox()
+      expect(box).not.toBeNull()
+
+      const point = {
+        x: box!.x + box!.width / 2,
+        y: box!.y + box!.height / 2,
+      }
+      await page.mouse.move(point.x, point.y)
+
+      const hit = await page.evaluate(({ x, y }) => {
+        const element = document.elementFromPoint(x, y)
+        const link = element?.closest('a')
+
+        return {
+          cursor: element ? getComputedStyle(element).cursor : '',
+          href: link?.getAttribute('href') ?? null,
+        }
+      }, point)
+
+      expect(hit.cursor).toBe('pointer')
+      expect(hit.href).toBe(expectedHref)
+    }
+  })
+
   test('enter post', async ({ page }) => {
     await page.goto('/')
     await page.click('.post-title-link')

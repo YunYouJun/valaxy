@@ -129,16 +129,13 @@ const postTitleClass = computed(() => {
   }
 }
 
-// Interactive elements (title, tags, categories, external link) float above the overlay
+// Interactive elements float above the overlay while empty action-bar space
+// remains part of the card's main click target.
 .post-title-link,
-.yun-card-actions,
+.yun-card-actions a,
 .post-link-btn {
   position: relative;
   z-index: 2;
-}
-
-.post-card-link :hover {
-  cursor: var(--cursor-pointer), pointer;
 }
 
 .post-card-excerpt-content {
