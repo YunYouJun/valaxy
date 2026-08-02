@@ -95,9 +95,12 @@ export default defineConfig({
     },
     {
       command: 'pnpm -C demo/yun run serve',
-      // url: 'http://localhost:4860',
-      // use dist
       url: 'http://localhost:4173',
+      reuseExistingServer: !process.env.CI,
+    },
+    {
+      command: 'pnpm -C demo/yun run dev',
+      url: 'http://localhost:4860',
       reuseExistingServer: !process.env.CI,
     },
     // valaxy-blog is an optional local checkout used by create-valaxy tests

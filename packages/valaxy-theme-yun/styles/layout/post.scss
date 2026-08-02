@@ -109,12 +109,16 @@
   color: var(--va-c-text);
 }
 
+.post-tags {
+  --yun-tag-hover-color: white;
+}
+
 .post-tag {
   white-space: nowrap;
   color: var(--yun-tag-color);
   transition: color var(--va-transition-duration-fast);
 
   &:hover {
-    color: var(--va-c-primary);
+    color: var(--yun-tag-hover-color, var(--va-c-primary));
   }
 }

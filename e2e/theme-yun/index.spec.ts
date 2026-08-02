@@ -1,4 +1,5 @@
 import { expect, test } from '@playwright/test'
+import { env } from '../env'
 import { setup } from '../utils'
 
 setup('theme-yun')
@@ -23,6 +24,37 @@ test.describe('Theme Yun', () => {
   test('post list', async ({ page }) => {
     await page.goto('/')
     await expect(page.locator('.post-title-link').nth(0)).toHaveText('Hello, Valaxy!')
+  })
+
+  test('post tag hover colors are stable in dev and build', async ({ page }) => {
+    for (const [mode, baseURL] of [
+      ['dev', env['theme-yun-dev']],
+      ['build', env['theme-yun']],
+    ] as const) {
+      await test.step(mode, async () => {
+        await page.goto(baseURL)
+
+        const tag = page.locator('.post-tags .post-tag').first()
+        await tag.hover()
+
+        await expect(tag).toHaveCSS('color', 'rgb(255, 255, 255)')
+
+        await page.goto(`${baseURL}/tags/`)
+
+        const layoutTag = page.locator('.post-tag').first()
+        const primaryColor = await layoutTag.evaluate((el) => {
+          const probe = document.createElement('span')
+          probe.style.color = 'var(--va-c-primary)'
+          el.append(probe)
+          const color = getComputedStyle(probe).color
+          probe.remove()
+          return color
+        })
+        await layoutTag.hover()
+
+        await expect(layoutTag).toHaveCSS('color', primaryColor)
+      })
+    }
   })
 
   test('post card keeps decorative and empty areas clickable', async ({ page }) => {
