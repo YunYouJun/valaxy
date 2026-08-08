@@ -57,7 +57,7 @@ const filteredThemes = computed(() => {
               <div i-ri-npmjs-line />
             </a>
 
-            <a class="theme-gallery-card-link text-blue-600!" :href="theme.siteExampleUrl" target="_blank" rel="noopener" aria-label="Theme demo">
+            <a v-if="theme.siteExampleUrl" class="theme-gallery-card-link text-blue-600!" :href="theme.siteExampleUrl" target="_blank" rel="noopener" aria-label="Theme demo">
               <div i-ri-slideshow-2-line />
             </a>
             <a v-if="theme.docsUrl" class="theme-gallery-card-link text-green-600!" :href="theme.docsUrl" aria-label="Theme documentation">

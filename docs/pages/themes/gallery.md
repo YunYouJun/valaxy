@@ -47,7 +47,6 @@ themes:
     repo: https://github.com/hairyf/valaxy-theme-hairy
     desc: Hairy theme for valaxy
     siteImage: https://raw.githubusercontent.com/hairyf/valaxy-theme-hairy/main/public/preview.png
-    siteExampleUrl: 'https://www.hairy.blog/'
     tags:
       - hairy
       - blog
