@@ -156,7 +156,7 @@ export async function ssgBuild(
 
   const defaultConfig: InlineConfig = {
     ...defaultViteConfig,
-    plugins: await ViteValaxyPlugins(valaxyApp),
+    plugins: await ViteValaxyPlugins(valaxyApp, {}, viteConfig),
     // `ssr.noExternal` only affects the server build (step 2) — the client build
     // ignores it. See `getSsgSsrConfig` for why everything is bundled.
     ssr: getSsgSsrConfig(),

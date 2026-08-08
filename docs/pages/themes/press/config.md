@@ -36,6 +36,9 @@ hero:
   name: Acme
   text: Build faster with Acme
   tagline: Everything you need to install, configure, and extend Acme.
+  image:
+    src: /logo.png
+    alt: Acme Logo
   actions:
     - theme: brand
       text: Get Started
@@ -54,6 +57,10 @@ features:
     details: Use Vue components directly in Markdown.
 ---
 ```
+
+`hero.image` follows VitePress's `ThemeableImage` format. It accepts a string, a `{ src, alt }` object, or a `{ light, dark, alt }` object. Press does not inject a default Valaxy logo: when `hero.image` is omitted, the home page has no hero image. Root-absolute image paths are adjusted using the configured Vite `base`.
+
+The `fly` action uses `siteConfig.favicon` for its hover icon instead of a theme-hardcoded asset.
 
 Internal action links are adjusted automatically when `i18nRouting` is enabled.
 

@@ -28,7 +28,7 @@ export async function createServer(
 
   // serverSpinner.text = getServerInfoText('init vite plugins ..')
   const pluginsTimer = countPerformanceTime()
-  const plugins = await ViteValaxyPlugins(valaxyApp, serverOptions)
+  const plugins = await ViteValaxyPlugins(valaxyApp, serverOptions, viteConfig)
   vLogger.debug(`ViteValaxyPlugins: ${pluginsTimer()}`)
 
   // dynamic import to avoid bundle it in build

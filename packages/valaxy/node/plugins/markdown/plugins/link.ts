@@ -5,6 +5,7 @@
 // 2. normalize internal links to end with `.html`
 
 import type MarkdownIt from 'markdown-it'
+import type { MarkdownBaseResolver } from '../base'
 import type { MarkdownEnv } from '../env'
 import { URL } from 'node:url'
 import { EXTERNAL_URL_RE } from '../../../../shared'
@@ -12,7 +13,7 @@ import { PATHNAME_PROTOCOL_RE } from '../../../constants'
 
 const indexRE = /(^|.*\/)index.md(.*)$/i
 
-export function linkPlugin(md: MarkdownIt, externalAttrs: Record<string, string>, base: string) {
+export function linkPlugin(md: MarkdownIt, externalAttrs: Record<string, string>, resolveBase: MarkdownBaseResolver) {
   md.renderer.rules.link_open = (
     tokens,
     idx,
@@ -33,16 +34,23 @@ export function linkPlugin(md: MarkdownIt, externalAttrs: Record<string, string>
 
         hrefAttr[1] = url.replace(PATHNAME_PROTOCOL_RE, '')
       }
-      else if (
-        // internal anchor links
-        !url.startsWith('#')
-        // mail links
-        && !url.startsWith('mailto:')
-        // links to files (other than html/md)
-        // eslint-disable-next-line regexp/no-unused-capturing-group
-        && !/\.(?!html|md)\w+($|\?)/i.test(url)
-      ) {
-        normalizeHref(hrefAttr, env)
+      else {
+        if (
+          // internal anchor links
+          !url.startsWith('#')
+          // mail links
+          && !url.startsWith('mailto:')
+          // links to files (other than html/md)
+          // eslint-disable-next-line regexp/no-unused-capturing-group
+          && !/\.(?!html|md)\w+($|[?#])/i.test(url)
+        ) {
+          normalizeHref(hrefAttr, env)
+        }
+
+        // Append Vite's resolved base to every root-absolute Markdown link,
+        // including links to public files such as PDFs.
+        if (hrefAttr[1].startsWith('/'))
+          hrefAttr[1] = `${resolveBase()}${hrefAttr[1]}`.replace(/\/+/g, '/')
       }
 
       // encode vite-specific replace strings in case they appear in URLs
@@ -91,10 +99,6 @@ export function linkPlugin(md: MarkdownIt, externalAttrs: Record<string, string>
 
     // export it for existence check
     pushLink(url.replace(/\.html$/, ''), env)
-
-    // append base to internal (non-relative) urls
-    if (url.startsWith('/'))
-      url = `${base}${url}`.replace(/\/+/g, '/')
 
     // markdown-it encodes the uri
     hrefAttr[1] = decodeURI(url)

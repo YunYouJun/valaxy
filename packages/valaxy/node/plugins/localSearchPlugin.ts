@@ -5,6 +5,7 @@
 
 import type { Plugin, ViteDevServer } from 'vite'
 import type { ResolvedValaxyOptions } from '../types'
+import type { MarkdownBase } from './markdown/base'
 import type { MarkdownEnv } from './markdown/env'
 import path from 'node:path'
 import process from 'node:process'
@@ -30,6 +31,7 @@ interface IndexObject {
 
 export async function localSearchPlugin(
   options: ResolvedValaxyOptions,
+  base?: MarkdownBase,
 ): Promise<Plugin> {
   const siteConfig = options.config.siteConfig
 
@@ -55,7 +57,7 @@ export async function localSearchPlugin(
   // Note: other plugins (markdownToVue) may strip the .md extension from entries,
   // but scanForBuild reads files from disk using the current page list.
   const originalPages = options.pages
-  const md = await createLightMarkdownRenderer(options)
+  const md = await createLightMarkdownRenderer(options, base)
 
   async function render(file: string) {
     if (!fs.existsSync(file))

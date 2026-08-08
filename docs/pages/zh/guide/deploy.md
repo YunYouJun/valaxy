@@ -36,6 +36,51 @@ SSG 构建需要足够的堆内存（~4 GB；引擎会自动以足够内存重�
 NODE_OPTIONS=--max-old-space-size=4096 pnpm build
 ```
 
+## 部署到子路径 {#deploy-under-base-path}
+
+当站点部署在域名的子路径下时，请配置 Vite 的 `base`，并保留开头和结尾的 `/`。`siteConfig.url` 表示站点的规范 URL，不能代替资源路径的 `base`。例如，GitHub Pages 项目站点 `https://user.github.io/repo/` 应配置为：
+
+```ts [valaxy.config.ts]
+import { defineValaxyConfig } from 'valaxy'
+
+export default defineValaxyConfig({
+  siteConfig: {
+    url: 'https://user.github.io/repo/',
+  },
+  vite: {
+    base: '/repo/',
+  },
+})
+```
+
+从 Valaxy v1.0.0-rc.4 开始，这部分行为默认与 VitePress 对齐，不需要额外开启兼容开关。Vite 最终解析出的 `base` 会共享给页面、摘要/路由和本地搜索使用的 Markdown 渲染器。
+
+Markdown 中的根绝对链接和静态资源会自动适配 `base`：
+
+```md
+[指南](/guide/)
+![Logo](/logo.png)
+[下载 PDF](/manual.pdf)
+```
+
+Vue 组件或主题配置中的动态 URL 请使用 `withBase()`：
+
+```vue
+<script setup lang="ts">
+import { withBase } from 'valaxy'
+
+const logo = '/logo.png'
+</script>
+
+<template>
+  <img :src="withBase(logo)" alt="Logo">
+</template>
+```
+
+Markdown 页面与文件链接会直接补上 `base`；Markdown 图片则会进入 Vue/Vite 静态资源处理链路，由它在最终产物中为根绝对 public 资源应用 `base`。
+
+外部 URL 和相对路径不会被修改。原生 HTML `<a>` 链接也保持原样，以便显式链接到 `base` 之外的位置；原生 HTML 图片仍可能由 Vue/Vite 转换。
+
 
 
 ## 第三方部署 {#third-party-deployment}
@@ -59,12 +104,7 @@ NODE_OPTIONS=--max-old-space-size=4096 pnpm build
 ::: tip
 
 
-当您使用 GitHub Pages 托管时，请确保您的仓库名为 `你的用户名.github.io`。
-
-这是因为当存在同名目录时，GitHub Pages 会默认为您分配 `你的用户名.github.io` 作为你的个人域名。
-
-> 尽管您也可以将其重命名为其他名称，并设置自定义域名等。（更多的进阶操作，可自行搜索。）  
-> 但作为新手，我更推荐您遵循默认规则，以避免意想不到的错误。
+名为 `你的用户名.github.io` 的仓库会部署在根路径 `/`，无需额外设置 `base`。其他仓库名也可以作为项目站点部署，请按照上文配置 `base: '/仓库名/'`。
 
 
 
@@ -236,4 +276,3 @@ Valaxy 与 VitePress 同样是静态站点。你也可以参考 [VitePress 部�
 
 
 :::
-

@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import { useSiteConfig, withBase } from 'valaxy'
+import { computed } from 'vue'
 import { useI18n } from 'vue-i18n'
 
 defineProps<{
@@ -8,6 +10,10 @@ defineProps<{
 }>()
 
 const { t } = useI18n()
+const siteConfig = useSiteConfig()
+const iconStyle = computed(() => ({
+  maskImage: `url("${withBase(siteConfig.value.favicon)}")`,
+}))
 </script>
 
 <template>
@@ -19,7 +25,7 @@ const { t } = useI18n()
   >
     <div class="flex justify-center items-center">
       <div class="svg-wrapper">
-        <div class="icon" />
+        <div class="icon" :style="iconStyle" />
       </div>
       <span>
         {{ t(text) }}
@@ -48,8 +54,6 @@ const { t } = useI18n()
     transform-origin: center center;
     transition: all var(--va-transition-duration) ease-in-out;
 
-    // mask
-    mask-image: url('/favicon.svg');
     mask-size: 100% 100%;
     background-color: white;
     width: 1.2em;
