@@ -1,5 +1,5 @@
 <template>
-  <div class="inline-flex items-center lt-lg:hidden">
+  <div class="inline-flex items-center">
     <PressSwitchAppearance />
   </div>
 </template>

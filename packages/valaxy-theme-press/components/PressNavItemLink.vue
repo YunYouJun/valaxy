@@ -30,6 +30,7 @@ const { t } = useI18n()
 .press-nav-item-link{
   font-size: 14px;
   font-weight: 500;
+  white-space: nowrap;
   color: var(--pr-nav-text);
   transition: color var(--va-transition-duration);
 

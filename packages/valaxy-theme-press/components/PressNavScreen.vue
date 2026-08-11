@@ -68,7 +68,7 @@ const isLocked = useScrollLock(isClient ? document.body : null)
   transform: translateY(-8px);
 }
 
-@media (width >= 768px) {
+@media (width >= 1024px) {
   .pr-NavScreen {
     display: none;
   }

@@ -2,6 +2,8 @@
 
 [![npm](https://img.shields.io/npm/v/valaxy-addon-meting)](https://www.npmjs.com/package/valaxy-addon-meting)
 
+**English** | [简体中文](https://valaxy.site/zh/addons/official/meting)
+
 Global music player based on [APlayer](https://github.com/DIYgod/APlayer) and [MetingJS](https://github.com/metowolf/MetingJS).
 
 ## Usage

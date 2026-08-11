@@ -185,4 +185,12 @@ function isEditingContent(event: KeyboardEvent): boolean {
     padding-left: 32px;
   }
 }
+
+@media (768px <= width < 1280px) {
+  .VPNavBarSearch {
+    flex-grow: 0;
+    gap: 0;
+    padding-left: 8px;
+  }
+}
 </style>

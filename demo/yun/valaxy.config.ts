@@ -5,6 +5,7 @@ import { addonAbbrlink } from 'valaxy-addon-abbrlink'
 import { addonAlgolia } from 'valaxy-addon-algolia'
 import { addonBangumi } from 'valaxy-addon-bangumi'
 import { addonComponents } from 'valaxy-addon-components'
+import { addonGirls } from 'valaxy-addon-girls'
 import { addonLightGallery } from 'valaxy-addon-lightgallery'
 import { addonTest } from 'valaxy-addon-test'
 
@@ -93,6 +94,7 @@ export default defineValaxyConfig<ThemeConfig>({
       customCss: '.bbc-bangumi-title a { color: red; }',
     }),
     addonComponents(),
+    addonGirls(),
 
     // comments
     // addonWaline({

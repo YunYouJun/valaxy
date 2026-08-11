@@ -1,81 +1,16 @@
 <script setup lang="ts">
+import type { GirlReasonMode } from 'valaxy-addon-girls'
 import type { GirlType } from '../types'
-import { yunSpringVariants } from '../composables/animation'
-import { onImgError } from '../utils'
+import ValaxyGirlCard from 'valaxy-addon-girls/components/ValaxyGirlCard.vue'
 
-const props = defineProps<{
-  i: number
+defineProps<{
   girl: GirlType
+  i: number
+  reasonMode?: GirlReasonMode
 }>()
-
-const motionVariants = yunSpringVariants({ i: props.i })
 </script>
 
 <template>
-  <li v-motion="motionVariants" class="girl-item">
-    <a
-      class="girl-item-link"
-      :href="girl.url || `https://zh.moegirl.org/${girl.name}`"
-      :title="girl.reason" alt="portrait" target="_blank" rel="noopener"
-    >
-      <figure class="girl-info">
-        <img class="girl-avatar" loading="lazy" :src="girl.avatar" :alt="girl.name" :onError="onImgError">
-        <figcaption class="girl-name" :title="(i + 1).toString()">{{ girl.name }}</figcaption>
-        <figcaption class="girl-from">{{ girl.from }}</figcaption>
-      </figure>
-    </a>
-  </li>
+  <!-- @deprecated Use ValaxyGirlCard from valaxy-addon-girls. -->
+  <ValaxyGirlCard :girl="girl" :index="i" :reason-mode="reasonMode" />
 </template>
-
-<style lang="scss">
-.girl-item {
-  display: inline-flex;
-  text-align: center;
-  justify-content: center;
-  width: 8rem;
-  margin: 1rem;
-
-  .girl {
-    &-info {
-      width: 100%;
-      padding: 0;
-      margin: 0;
-    }
-
-    &-avatar {
-      object-fit: cover;
-      object-position: center top;
-      width: 4rem;
-      height: 4rem;
-      border-radius: 50%;
-      padding: 0.2rem;
-      background-color: #fff;
-      box-shadow: 0 0 1rem rgb(0 0 0 / 0.12);
-      transition: var(--va-transition-duration-moderate);
-
-      &:hover {
-        box-shadow: 0 0 2rem rgb(0 0 0 / 0.12);
-      }
-    }
-
-    &-name {
-      font-size: 0.9rem;
-    }
-
-    &-from {
-      font-size: 12px;
-      font-family: var(--va-font-serif);
-      font-weight: bold;
-      color: var(--va-c-text-light);
-
-      &::before {
-        content: '「';
-      }
-
-      &::after {
-        content: '」';
-      }
-    }
-  }
-}
-</style>

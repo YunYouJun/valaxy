@@ -1,0 +1,48 @@
+{
+  "name": "valaxy-addon-girls",
+  "type": "module",
+  "version": "0.1.0",
+  "description": "A theme-independent character gallery addon for Valaxy",
+  "author": {
+    "name": "YunYouJun",
+    "url": "https://www.yunyoujun.cn"
+  },
+  "license": "MIT",
+  "homepage": "https://github.com/YunYouJun/valaxy/tree/main/packages/valaxy-addon-girls",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/YunYouJun/valaxy.git",
+    "directory": "packages/valaxy-addon-girls"
+  },
+  "keywords": [
+    "valaxy",
+    "addon",
+    "girls",
+    "characters",
+    "gallery"
+  ],
+  "exports": {
+    ".": "./index.ts",
+    "./client": "./client/index.ts",
+    "./components/*": "./components/*",
+    "./types": "./types/index.ts",
+    "./*": "./*"
+  },
+  "main": "index.ts",
+  "module": "index.ts",
+  "types": "index.d.ts",
+  "scripts": {
+    "test": "vitest run"
+  },
+  "peerDependencies": {
+    "valaxy": ">=1.0.0-rc.2",
+    "vue": "^3.5.0",
+    "vue-i18n": "^11.0.0"
+  },
+  "devDependencies": {
+    "valaxy": "workspace:*",
+    "vitest": "catalog:",
+    "vue": "catalog:frontend",
+    "vue-i18n": "catalog:build"
+  }
+}

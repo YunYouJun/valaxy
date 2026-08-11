@@ -40,7 +40,8 @@
     "@vueuse/motion": "catalog:",
     "animejs": "catalog:",
     "gsap": "catalog:",
-    "reka-ui": "catalog:frontend"
+    "reka-ui": "catalog:frontend",
+    "valaxy-addon-girls": "workspace:*"
   },
   "devDependencies": {
     "@types/animejs": "catalog:",

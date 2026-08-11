@@ -68,6 +68,7 @@
     "test:e2e": "pnpm run e2e",
     "test:space": "cross-env NODE_OPTIONS=--max-old-space-size=2304 pnpm -C demo/yun run build:ssg",
     "test:space:docs": "cross-env NODE_OPTIONS=--max-old-space-size=2048 pnpm -C docs run build",
+    "validate:addons": "tsx scripts/validate-addon-docs.ts",
     "prepare": "husky install"
   },
   "dependencies": {

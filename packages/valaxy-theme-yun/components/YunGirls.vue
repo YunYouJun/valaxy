@@ -1,43 +1,40 @@
 <script lang="ts" setup>
-import type { GirlType } from '../types'
-import { computed } from 'vue'
-import { useRandomData } from '../composables'
+import type { GirlReasonMode, GirlsLayout, GirlsMotionMode, GirlsRenderMode, GirlsSource } from 'valaxy-addon-girls'
+import ValaxyGirls from 'valaxy-addon-girls/components/ValaxyGirls.vue'
 
-const props = defineProps<{
-  girls: GirlType[] | string
+defineProps<{
+  autoLoad?: boolean
+  batchSize?: number
+  girls: GirlsSource
+  initialCount?: number
+  layout?: GirlsLayout
+  motion?: GirlsMotionMode
   random?: boolean
+  reasonMode?: GirlReasonMode
+  renderMode?: GirlsRenderMode
+  switchable?: boolean
 }>()
 
-const { data } = useRandomData(props.girls, props.random)
-const isUrlSource = computed(() => typeof props.girls === 'string')
+const emit = defineEmits<{
+  'layoutChange': [layout: GirlsLayout]
+  'update:layout': [layout: GirlsLayout]
+}>()
 </script>
 
 <template>
-  <div class="girls">
-    <ClientOnly v-if="isUrlSource">
-      <ul class="girl-items">
-        <YunGirlItem v-for="girl, i in data" :key="girl.url" :i="i" :girl="girl" />
-      </ul>
-    </ClientOnly>
-    <ul v-else class="girl-items">
-      <YunGirlItem v-for="girl, i in data" :key="girl.url" :i="i" :girl="girl" />
-    </ul>
-  </div>
+  <!-- @deprecated Use ValaxyGirls from valaxy-addon-girls. -->
+  <ValaxyGirls
+    :auto-load="autoLoad"
+    :batch-size="batchSize"
+    :girls="girls"
+    :initial-count="initialCount"
+    :layout="layout"
+    :motion="motion"
+    :random="random"
+    :reason-mode="reasonMode"
+    :render-mode="renderMode"
+    :switchable="switchable"
+    @layout-change="emit('layoutChange', $event)"
+    @update:layout="emit('update:layout', $event)"
+  />
 </template>
-
-<style lang="scss">
-.girls {
-  text-align: center;
-
-  .girl-items {
-    display: flex;
-    justify-content: center;
-    flex-wrap: wrap;
-    padding-left: 0;
-  }
-}
-
-.girls-number {
-  color: white;
-}
-</style>

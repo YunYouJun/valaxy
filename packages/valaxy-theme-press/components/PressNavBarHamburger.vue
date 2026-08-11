@@ -37,7 +37,7 @@ defineEmits<{
   height: var(--pr-nav-height);
 }
 
-@media (width >= 768px) {
+@media (width >= 1024px) {
   .pr-NavBarHamburger {
     display: none;
   }
