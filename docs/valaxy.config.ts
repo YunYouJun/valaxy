@@ -3,17 +3,23 @@ import process from 'node:process'
 import { defineValaxyConfig } from 'valaxy'
 import { addonAlgolia } from 'valaxy-addon-algolia'
 import { addonComponents } from 'valaxy-addon-components'
+import { addonGirls } from 'valaxy-addon-girls'
 import { addonGitLog } from 'valaxy-addon-git-log'
 import { addonMeting } from 'valaxy-addon-meting'
 
 import { localIconLoader } from 'vitepress-plugin-group-icons'
 
 import pkg from '../packages/valaxy/package.json'
+import { addons, getAddonDocsPath, officialAddons } from './data/addons'
+import { themes } from './data/themes'
 
 const COMMIT_ID = process.env.CF_PAGES_COMMIT_SHA || process.env.COMMIT_REF
 const commitRef = COMMIT_ID?.slice(0, 8) || 'dev'
 
 const safelist = [
+  ...addons.map(addon => addon.icon),
+  ...themes.map(theme => theme.icon),
+
   'i-ri-home-line',
 
   'i-ri-github-line',
@@ -25,6 +31,11 @@ const safelist = [
   'i-ri-arrow-down-s-line',
   'i-ri-link',
   'i-ri-external-link-line',
+  'i-ri-arrow-right-up-line',
+  'i-ri-bubble-chart-line',
+  'i-ri-heart-3-line',
+  'i-ri-layout-grid-line',
+  'i-ri-planet-line',
   'i-simple-icons-openai',
   'i-simple-icons-claude',
 ]
@@ -61,6 +72,26 @@ const themeOverviewItems: PressTheme.SidebarItem[] = [
   { text: 'nav.themes-gallery', link: '/themes/gallery' },
 ]
 
+const officialAddonLinks = [
+  { text: 'Overview', link: '/addons/official' },
+  ...officialAddons.map(addon => ({
+    text: addon.name,
+    link: getAddonDocsPath(addon, 'en')!,
+  })),
+]
+
+const addonOverviewItems: PressTheme.SidebarItem[] = [
+  { text: 'nav.why-need-addons', link: '/addons/why' },
+  { text: 'nav.use-an-addon', link: '/addons/use' },
+  { text: 'nav.write-an-addon', link: '/addons/write' },
+  { text: 'nav.addons-gallery', link: '/addons/gallery' },
+  {
+    text: 'Official Addons',
+    collapsed: false,
+    items: officialAddonLinks,
+  },
+]
+
 const defaultSidebar: PressTheme.SidebarEntry[] = [
   'getting-started',
   'guide',
@@ -91,7 +122,10 @@ const defaultSidebar: PressTheme.SidebarEntry[] = [
     text: 'nav.theme',
     items: themeOverviewItems,
   },
-  'addon',
+  {
+    text: 'nav.addon',
+    items: addonOverviewItems,
+  },
   'dev',
   {
     text: 'nav.dev-notes',
@@ -151,6 +185,26 @@ const zhThemeOverviewItems: PressTheme.SidebarItem[] = [
   { text: '主题橱窗', link: '/zh/themes/gallery' },
 ]
 
+const zhOfficialAddonLinks = [
+  { text: '概览', link: '/zh/addons/official' },
+  ...officialAddons.map(addon => ({
+    text: addon.name,
+    link: getAddonDocsPath(addon, 'zh-CN')!,
+  })),
+]
+
+const zhAddonOverviewItems: PressTheme.SidebarItem[] = [
+  { text: '为什么需要插件？', link: '/zh/addons/why' },
+  { text: '使用插件', link: '/zh/addons/use' },
+  { text: '编写插件', link: '/zh/addons/write' },
+  { text: '插件橱窗', link: '/zh/addons/gallery' },
+  {
+    text: '官方插件',
+    collapsed: false,
+    items: zhOfficialAddonLinks,
+  },
+]
+
 const zhDefaultSidebar: PressTheme.SidebarEntry[] = [
   'getting-started',
   'guide',
@@ -181,7 +235,10 @@ const zhDefaultSidebar: PressTheme.SidebarEntry[] = [
     text: '主题',
     items: zhThemeOverviewItems,
   },
-  'addon',
+  {
+    text: '插件',
+    items: zhAddonOverviewItems,
+  },
   'dev',
   {
     text: '开发笔记',
@@ -243,6 +300,7 @@ export default defineValaxyConfig<PressTheme.Config>({
       indexName: 'valaxysite',
     }),
     addonComponents(),
+    addonGirls(),
     addonMeting({
       global: false,
     }),
@@ -333,6 +391,10 @@ export default defineValaxyConfig<PressTheme.Config>({
           {
             text: 'nav.addons-gallery',
             link: '/addons/gallery',
+          },
+          {
+            text: 'Official Addons',
+            items: officialAddonLinks,
           },
         ],
       },
@@ -462,6 +524,10 @@ export default defineValaxyConfig<PressTheme.Config>({
                 {
                   text: '插件橱窗',
                   link: '/zh/addons/gallery',
+                },
+                {
+                  text: '官方插件',
+                  items: zhOfficialAddonLinks,
                 },
               ],
             },

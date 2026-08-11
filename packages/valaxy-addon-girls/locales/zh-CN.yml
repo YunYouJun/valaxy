@@ -1,0 +1,17 @@
+addon:
+  girls:
+    label: 角色收藏
+    loading: 正在加载角色名单
+    error: 名单暂时没有加载成功，请稍后再试。
+    retry: 重新加载
+    empty: 暂无角色
+    profile: 查看 {name} 的角色资料
+    select: 查看 {name}
+    expand: 展开其余 {count} 位
+    more: 再显示 {count} 位
+    scroll: 继续向下滚动，将自动显示 {count} 位
+    layout:
+      label: 选择角色名册布局
+      grid: 紧凑卡片
+      bubbles: 圆球星团
+      orbit: 心轨星座

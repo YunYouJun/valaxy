@@ -2,51 +2,45 @@
 
 [![NPM version](https://img.shields.io/npm/v/valaxy-addon-twikoo?color=0078E7)](https://www.npmjs.com/package/valaxy-addon-twikoo)
 
-valaxy-addon-twikoo 是基于 [Twikoo](https://github.com/imaegoo/twikoo) 的一个 Valaxy 插件。
+**English** | [简体中文](https://valaxy.site/zh/addons/official/twikoo)
 
-主题开发者可以通过将其作为依赖使用，以快速集成 Twikoo 评论组件。
+Integrate the [Twikoo](https://github.com/imaegoo/twikoo) comment system with Valaxy sites and themes.
 
-## Usage
+## Installation
 
 ```bash
-npm i valaxy-addon-twikoo
+pnpm add valaxy-addon-twikoo
 ```
 
-### 主题使用者
+## Site configuration
 
-用户启用 Twikoo评论。
+Enable comments and load the addon in `valaxy.config.ts`:
 
 ```ts
 import { defineValaxyConfig } from 'valaxy'
 import { addonTwikoo } from 'valaxy-addon-twikoo'
 
 export default defineValaxyConfig({
-  // or write it in site.config.ts
   siteConfig: {
-    // 启用评论
     comment: {
-      enable: true
+      enable: true,
     },
   },
-  // 设置 valaxy-addon-twikoo 配置项
   addons: [
-    addonTwikoo({ }),
+    addonTwikoo(),
   ],
 })
 ```
 
-### 主题开发者
+## Theme integration
 
-> 如果您只是使用者而非开发者，可以忽略该部分内容。
+> Skip this section when you use a theme that already integrates Twikoo.
 
-新建 `YunTwikoo.vue`，并参考 [valaxy-theme-yun/components/ValaxyMain.vue](https://github.com/YunYouJun/valaxy/blob/main/packages/valaxy-theme-yun/components/ValaxyMain.vue) 进行主题集成适配。
+Create a theme component such as `YunTwikoo.vue`. See [`ValaxyMain.vue`](https://github.com/YunYouJun/valaxy/blob/main/packages/valaxy-theme-yun/components/ValaxyMain.vue) for an integration example.
 
 ```vue
-<!-- YunTwikoo.vue -->
 <script lang="ts" setup>
 import { useTwikooWithOptions } from 'valaxy-addon-twikoo'
-
-// twikoo loading style patch
 import 'valaxy-addon-twikoo/client/styles/index.scss'
 
 useTwikooWithOptions()
@@ -55,8 +49,4 @@ useTwikooWithOptions()
 <template>
   <div id="tcomment" w="full" />
 </template>
-
-<style lang="scss">
-// custom twikoo style
-</style>
 ```

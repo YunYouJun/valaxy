@@ -4,7 +4,7 @@
 
 [![NPM version](https://img.shields.io/npm/v/valaxy-addon-components?color=0078E7)](https://www.npmjs.com/package/valaxy-addon-components)
 
-- **English** | [简体中文](./README.zh-CN.md)
+- **English** | [简体中文](https://valaxy.site/zh/addons/official/components)
 
 ## Installation
 
@@ -12,8 +12,7 @@
 pnpm add valaxy-addon-components
 ```
 
-<details>
-<summary>Common Components</summary><br>
+### Common Components
 
 You can enable common components of the plugin as follows. For a full list of common components, see [Common Components](#common-components).
 
@@ -28,10 +27,7 @@ export default defineValaxyConfig({
 })
 ```
 
-<br></details>
-
-<details>
-<summary>Theme Components</summary><br>
+### Theme Components
 
 You can also extend `unplugin-vue-components` using the plugin's `ValaxyThemesResolver` to introduce third-party themes. Here is an example using the [Yun](https://github.com/YunYouJun/valaxy/tree/main/packages/valaxy-theme-yun) theme:
 
@@ -58,8 +54,6 @@ export default defineValaxyConfig({
   "YunCollectionItem": "collection/YunCollectionItem.vue"
 }
 ```
-
-<br></details>
 
 ## Usage
 

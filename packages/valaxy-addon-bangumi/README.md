@@ -1,71 +1,73 @@
 # valaxy-addon-bangumi
 
-关联 issue [[功能建议] 追番列表](https://github.com/YunYouJun/valaxy/issues/296)
+**English** | [简体中文](https://valaxy.site/zh/addons/official/bangumi)
 
-依赖 [bilibili-bangumi-component](https://github.com/yixiaojiu/bilibili-bangumi-component)，需要部署后端服务，可参考 [bilibili-bangumi 使用](https://github.com/yixiaojiu/bilibili-bangumi-component/blob/main/docs/backend.md)进行搭建，也可以先用这个 `https://yi_xiao_jiu-bangumi.web.val.run`，可能会挂。
+Display Bilibili and Bangumi watch lists in Valaxy through the `ValaxyBangumi` component.
 
-## 如何集成
+The addon uses [bilibili-bangumi-component](https://github.com/yixiaojiu/bilibili-bangumi-component) and requires a backend service. Follow its [backend guide](https://github.com/yixiaojiu/bilibili-bangumi-component/blob/main/docs/backend.md) to deploy one.
+
+## Installation
 
 ```bash
-npm i valaxy-addon-bangumi
+pnpm add valaxy-addon-bangumi
 ```
 
-`valaxy-addon-bangumi` 暴露了 `ValaxyBangumi` 组件
-
-使用示例：
+## Configuration
 
 ```ts [valaxy.config.ts]
-import { defineConfig } from 'valaxy'
+import { defineValaxyConfig } from 'valaxy'
 import { addonBangumi } from 'valaxy-addon-bangumi'
 
-export default defineConfig({
+export default defineValaxyConfig({
   addons: [
     addonBangumi({
-      api: 'https://yi_xiao_jiu-bangumi.web.val.run',
+      api: 'https://your-bangumi-api.example.com',
       bilibiliUid: '1579790',
       bgmEnabled: false,
     }),
-  ]
+  ],
 })
 ```
 
+Use the registered component in Markdown:
+
 ```md
 ---
-title: Bangumi 追番列表
+title: Bangumi watch list
 keywords: Bangumi
-description: Bangumi 追番列表
+description: My Bangumi watch list
 ---
 
 <ValaxyBangumi />
 ```
 
-## 样式覆盖
+## Style overrides
 
-bilibili-bangumi-component 使用 WebComponent 实现，而 Shadow DOM 具有隔离性，外部样式样式无法覆盖内部样式，可以通过下面的方式覆盖：
+`bilibili-bangumi-component` is implemented as a Web Component. Because Shadow DOM isolates its styles, pass `customCss` through the addon options:
 
 ```ts [valaxy.config.ts]
-import { defineConfig } from 'valaxy'
+import { defineValaxyConfig } from 'valaxy'
 import { addonBangumi } from 'valaxy-addon-bangumi'
 
-export default defineConfig({
+export default defineValaxyConfig({
   addons: [
     addonBangumi({
-      customCss: '.bbc-bangumi-title a { color: red; }'
+      customCss: '.bbc-bangumi-title a { color: red; }',
     }),
-  ]
+  ],
 })
 ```
 
 ## API
 
-| 字段           | 描述                                                 | 类型    | 默认值 |
-|:--------------:|:----------------------------------------------------:|:------:|:------:|
-| api                | 后端 api 地址                                     |  string | - |
-| bilibiliUid       | Bilibili 的 uid，在后端中引入 uid 的 env 后可以不设置 |  string | - |
-| bgmUid            | Bangumi 的 uid，在后端中引入 uid 的 env 后可以不设置  |  string | - |
-| bilibiliEnabled   | 是否展示 Bilibili                                 |  boolean | true |
-| bgmEnabled        | 是否展示 Bangumi                                  |  boolean | true |
-| pageSize          | 分页大小                                          |  number | 15 |
-| customEnabled     | 是否启用自定义数据源                                |  boolean | false |
-| customLabel       | 自定义数据源的展示标签名                             |  string | "'自定义'" |
-| customCss          | 自定义 css                                        | string | - |
+| Field | Description | Type | Default |
+| --- | --- | --- | --- |
+| `api` | Backend API URL | `string` | — |
+| `bilibiliUid` | Bilibili UID; optional when the backend supplies it through environment variables | `string` | — |
+| `bgmUid` | Bangumi UID; optional when the backend supplies it through environment variables | `string` | — |
+| `bilibiliEnabled` | Display Bilibili entries | `boolean` | `true` |
+| `bgmEnabled` | Display Bangumi entries | `boolean` | `true` |
+| `pageSize` | Number of entries per page | `number` | `15` |
+| `customEnabled` | Enable a custom data source | `boolean` | `false` |
+| `customLabel` | Label for the custom data source | `string` | `'Custom'` |
+| `customCss` | CSS injected into the Web Component | `string` | — |

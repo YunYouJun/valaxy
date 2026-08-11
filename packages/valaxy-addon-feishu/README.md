@@ -1,5 +1,9 @@
 # valaxy-addon-feishu
 
+[![NPM version](https://img.shields.io/npm/v/valaxy-addon-feishu?color=0078E7)](https://www.npmjs.com/package/valaxy-addon-feishu)
+
+**English** | [简体中文](https://valaxy.site/zh/addons/official/feishu)
+
 > **Experimental** — This addon and its API may change in future releases.
 
 Feishu/Lark CMS integration for Valaxy via [Content Loaders](https://valaxy.site/guide/third-party/cms).

@@ -5,7 +5,7 @@ export default antfu(
     ignores: [
       'cache',
       'dist',
-      'public',
+      '**/public',
       'packages/valaxy/index.d.ts',
       // generated
       'api/typedoc',

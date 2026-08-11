@@ -2,7 +2,7 @@
 
 [![NPM version](https://img.shields.io/npm/v/valaxy-addon-lightgallery?color=0078E7)](https://www.npmjs.com/package/valaxy-addon-lightgallery)
 
-- [English](./README.md) | **简体中文**
+- [English](https://valaxy.site/addons/official/lightgallery) | **简体中文**
 
 valaxy-addon-lightgallery 基于 [lightgallery](https://github.com/sachinchoolur/lightGallery) 提供画廊预览效果。
 

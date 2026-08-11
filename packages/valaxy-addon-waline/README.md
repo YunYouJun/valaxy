@@ -2,35 +2,32 @@
 
 [![NPM version](https://img.shields.io/npm/v/valaxy-addon-waline?color=0078E7)](https://www.npmjs.com/package/valaxy-addon-waline)
 
-valaxy-addon-waline 是基于 Waline 的一个 Valaxy 插件。
+**English** | [简体中文](https://valaxy.site/zh/addons/official/waline)
 
-主题开发者可以通过将其作为依赖使用，以快速集成 Waline 评论组件。
+Integrate the [Waline](https://waline.js.org/) comment system with Valaxy sites and themes.
 
-> 除此之外，我们推荐您可以使用 [kotodama](https://github.com/YunYouJun/kotodama) 进行评论管理，它是一个基于 Waline 服务端实现的评论管理系统。
+For comment administration, you can also use [Kotodama](https://github.com/YunYouJun/kotodama), a management interface built for Waline servers.
 
-## 如何集成
+## Installation
 
 ```bash
-npm i valaxy-addon-waline
+pnpm add valaxy-addon-waline
 ```
 
-### 主题使用者
+## Site configuration
 
-用户启用 Waline 评论。
+Enable comments and load the addon in `valaxy.config.ts`:
 
 ```ts
 import { defineValaxyConfig } from 'valaxy'
 import { addonWaline } from 'valaxy-addon-waline'
 
 export default defineValaxyConfig({
-  // or write it in site.config.ts
   siteConfig: {
-    // 启用评论
     comment: {
-      enable: true
+      enable: true,
     },
   },
-  // 设置 valaxy-addon-waline 配置项
   addons: [
     addonWaline({
       serverURL: 'https://your-waline-url',
@@ -39,12 +36,11 @@ export default defineValaxyConfig({
 })
 ```
 
-### 主题开发者
+## Theme integration
 
-当用户启用 `valaxy-addon-waline` 插件时，`<WalineClient />` 组件将会被自动注册。
+When the addon is enabled, it registers the `<WalineClient />` component automatically:
 
 ```vue
-<!-- YunWaline -->
 <script lang="ts" setup>
 import { useAddonWaline } from 'valaxy-addon-waline'
 
@@ -58,6 +54,6 @@ const addon = useAddonWaline()
 
 ## FAQ
 
-### C() is not defined
+### `C()` is not defined
 
-`@waline/client@3.4.2` 有问题，锁定 `3.4.1`。
+`@waline/client@3.4.2` has a known issue. Pin it to `3.4.1`.

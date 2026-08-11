@@ -1,0 +1,17 @@
+addon:
+  girls:
+    label: Character gallery
+    loading: Loading character list
+    error: The list could not be loaded. Please try again later.
+    retry: Retry
+    empty: No characters yet
+    profile: View {name}'s profile
+    select: Show {name}
+    expand: Show {count} more characters
+    more: Load {count} more characters
+    scroll: Scroll to automatically show {count} more characters
+    layout:
+      label: Choose character gallery layout
+      grid: Compact grid
+      bubbles: Packed bubbles
+      orbit: Heart orbit

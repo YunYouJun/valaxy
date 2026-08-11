@@ -1,5 +1,40 @@
 gallery:
   tip: search
+  search: Search addons
+  filter: Filter addons
+  all: All
+  official: Official
+  community: Community
+  officialBadge: Official
+  results: Showing {count} of {total} addons
+  noResults: No addons found
+  noResultsHint: Try another keyword or clear the current filters.
+  clearFilters: Clear filters
+  docs: Documentation
+  npm: NPM package
+  repo: GitHub repository
+  tags: Filter by tag
+
+themeGallery:
+  search: Search themes
+  searchPlaceholder: Search by name, description, or tag
+  filter: Filter themes
+  all: All
+  official: Official
+  community: Community
+  officialBadge: Official
+  results: Showing {count} of {total} themes
+  noResults: No themes found
+  noResultsHint: Try another keyword or clear the current filters.
+  clearFilters: Clear filters
+  docs: Documentation
+  npm: NPM package
+  demo: Live demo
+  repo: GitHub repository
+  preview: Open live preview
+  screenshot: screenshot
+  imageUnavailable: Preview image unavailable
+  tags: Filter by tag
 
 nav:
   config: Config

@@ -2,7 +2,7 @@
 
 [![NPM version](https://img.shields.io/npm/v/valaxy-addon-lightgallery?color=0078E7)](https://www.npmjs.com/package/valaxy-addon-lightgallery)
 
-- **English** | [简体中文](./README.zh-CN.md)
+- **English** | [简体中文](https://valaxy.site/zh/addons/official/lightgallery)
 
 valaxy-addon-lightgallery provides a gallery preview effect based on [lightgallery](https://github.com/sachinchoolur/lightGallery).
 

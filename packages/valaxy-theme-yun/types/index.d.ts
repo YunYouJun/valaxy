@@ -334,15 +334,9 @@ export interface NavItemGroup {
 export type NavItem = NavItemLink
 
 /**
- * girl
+ * @deprecated Use `GirlEntry` from `valaxy-addon-girls`.
  */
-export interface GirlType {
-  name: string
-  url: string
-  avatar: string
-  from?: string
-  reason?: string
-}
+export type GirlType = import('valaxy-addon-girls').GirlEntry
 
 export * from '../composables'
 export * from './projects'

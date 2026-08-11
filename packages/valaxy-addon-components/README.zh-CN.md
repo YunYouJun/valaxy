@@ -1,10 +1,10 @@
 # valaxy-addon-components
 
-**valaxy-addon-components** 是一个为 Valaxy 提供通用 Vue 组件的插件
+**valaxy-addon-components** 是一个为 Valaxy 提供通用 Vue 组件的插件。
 
-[![NPM version](https://img.shields.io/npm/v/valaxy-addon-waline?color=0078E7)](https://www.npmjs.com/package/valaxy-addon-waline)
+[![NPM version](https://img.shields.io/npm/v/valaxy-addon-components?color=0078E7)](https://www.npmjs.com/package/valaxy-addon-components)
 
-- [English](./README.md) | **简体中文**
+- [English](https://valaxy.site/addons/official/components) | **简体中文**
 
 ## 安装
 
@@ -12,8 +12,7 @@
 pnpm add valaxy-addon-components
 ```
 
-<details>
-<summary>通用组件</summary><br>
+### 通用组件
 
 可以通过以下方式启用插件的通用组件，关于通用组件的完整列表，请参见 [通用组件](#通用组件)
 
@@ -28,10 +27,7 @@ export default defineValaxyConfig({
 })
 ```
 
-<br></details>
-
-<details>
-<summary>主题组件</summary><br>
+### 主题组件
 
 还可以通过插件 `ValaxyThemesResolver` 功能扩展 `unplugin-vue-components`，实现引入第三方主题。以下以 [Yun](https://github.com/YunYouJun/valaxy/tree/main/packages/valaxy-theme-yun) 主题为例：
 
@@ -58,8 +54,6 @@ export default defineValaxyConfig({
   "YunCollectionItem": "collection/YunCollectionItem.vue"
 }
 ```
-
-<br></details>
 
 ## 使用
 
