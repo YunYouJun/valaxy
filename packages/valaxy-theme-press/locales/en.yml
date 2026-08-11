@@ -2,6 +2,10 @@ valaxy_theme_press: Valaxy Theme Press
 
 theme:
   outlineTitle: On this page
+  outlineButtonLabel: Contents
+  outlineAriaLabel: Table of contents for the current page
+  outlineTriggerLabel: 'Page navigation: section {current} of {total}, {progress}% read'
+  closeOutline: Close page navigation
 
 doc_footer:
   prev: Previous page

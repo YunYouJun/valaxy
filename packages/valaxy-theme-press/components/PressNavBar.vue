@@ -21,17 +21,17 @@ const homeLink = computed(() => hasLocales.value ? currentLocale.value.link : '/
 <template>
   <div class="pr-navbar flex justify-between items-center pl-4 pr-2" :class="{ 'has-sidebar': hasSidebar }">
     <RouterLink
-      class="text-xl flex justify-center items-center font-black gradient-text from-purple-800 to-blue-500 bg-gradient-to-r"
+      class="pr-navbar-brand text-xl flex justify-center items-center font-black gradient-text from-purple-800 to-blue-500 bg-gradient-to-r"
       :to="homeLink" :aria-label="siteConfig.title"
     >
       <img v-if="localeConfig.logo" class="logo" :src="localeConfig.logo" alt="LOGO">
-      <span class="inline-flex">{{ siteConfig.title }}</span>
+      <span class="pr-navbar-title inline-flex">{{ siteConfig.title }}</span>
     </RouterLink>
-    <div class="self-stretch flex justify-center items-center text-sm leading-5">
+    <div class="pr-navbar-actions self-stretch flex justify-center items-center text-sm leading-5">
       <PressNavBarSearch p="x-2" />
       <PressNavBarMenu p="x-2" />
       <PressNavBarTranslations p="x-2" />
-      <PressNavBarAppearance p="x-2" />
+      <PressNavBarAppearance p="x-1" />
       <PressNavBarSocialLinks p="x-2" />
 
       <PressNavBarHamburger :active="isScreenOpen" @click="$emit('toggleScreen')" />
@@ -56,6 +56,16 @@ const homeLink = computed(() => hasLocales.value ? currentLocale.value.link : '/
   margin-right: 8px;
 }
 
+@media (width <= 360px) {
+  .pr-navbar .pr-navbar-title {
+    display: none;
+  }
+
+  .pr-navbar .logo {
+    margin-right: 0;
+  }
+}
+
 .pr-navbar {
   position: relative;
   border-bottom: 1px solid var(--pr-c-divider-light);
@@ -66,6 +76,19 @@ const homeLink = computed(() => hasLocales.value ? currentLocale.value.link : '/
   z-index: var(--pr-z-nav);
 }
 
+.pr-navbar-brand,
+.pr-navbar-actions > * {
+  flex-shrink: 0;
+}
+
+.pr-navbar-brand {
+  white-space: nowrap;
+}
+
+.pr-navbar-actions {
+  min-width: 0;
+}
+
 @include screen('md') {
   .pr-navbar {
     padding: 0 32px;
@@ -73,18 +96,16 @@ const homeLink = computed(() => hasLocales.value ? currentLocale.value.link : '/
 }
 
 @include screen('md') {
-  .pr-navbar.has-sidebar .content {
-    margin-right: -32px;
-    padding-right: 32px;
+  .pr-navbar {
     backdrop-filter: saturate(50%) blur(8px);
   }
 
   @supports not (backdrop-filter: saturate(50%) blur(8px)) {
-    .pr-navbar.has-sidebar .content {
+    .pr-navbar {
       background: rgb(255 255 255 / 0.95);
     }
 
-    .dark .pr-navbar.has-sidebar .content {
+    .dark .pr-navbar {
       background: rgb(36 36 36 / 0.95);
     }
   }

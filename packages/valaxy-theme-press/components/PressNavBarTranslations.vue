@@ -1,5 +1,5 @@
 <template>
-  <div class="flex items-center lt-lg:hidden" h="full">
+  <div class="flex items-center" h="full">
     <PressToggleLocale />
   </div>
 </template>

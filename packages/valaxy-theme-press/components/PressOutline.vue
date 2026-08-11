@@ -6,6 +6,14 @@ import {
 import { ref } from 'vue'
 import { useI18n } from 'vue-i18n'
 
+defineProps<{
+  closable?: boolean
+}>()
+
+defineEmits<{
+  (e: 'close'): void
+}>()
+
 const { t } = useI18n()
 
 const container = ref()
@@ -18,17 +26,24 @@ useActiveAnchor(container, marker)
 <template>
   <div v-show="headers.length" ref="container">
     <div class="content">
-      <div class="outline-title">
-        {{ t('theme.outlineTitle') }}
+      <div class="outline-heading" :class="{ closable }">
+        <div class="outline-title">
+          {{ t('theme.outlineTitle') }}
+        </div>
+        <button
+          v-if="closable"
+          type="button"
+          class="outline-close"
+          :aria-label="t('theme.closeOutline')"
+          @click="$emit('close')"
+        >
+          <span i-ri-close-line aria-hidden="true" />
+        </button>
       </div>
 
       <div ref="marker" class="outline-marker" />
 
-      <nav aria-labelledby="doc-outline-aria-label">
-        <span id="doc-outline-aria-label" class="visually-hidden">
-          Table of Contents for current page
-        </span>
-
+      <nav :aria-label="t('theme.outlineAriaLabel')">
         <PressOutlineItem
           class="va-toc relative z-1 css-i18n-toc"
           :headers="headers"
@@ -55,7 +70,7 @@ useActiveAnchor(container, marker)
   font-size: 14px;
   text-align: left;
   border-left: 1px solid var(--pr-aside-divider);
-  width: var(--va-aside-width + 16px);
+  width: calc(100% - 16px);
 }
 
 .outline-marker {
@@ -80,6 +95,43 @@ useActiveAnchor(container, marker)
   color: var(--pr-c-text-1);
 }
 
+.outline-heading {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  &.closable {
+    min-height: 44px;
+  }
+}
+
+.outline-close {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex: none;
+  border-radius: 8px;
+  width: 44px;
+  height: 44px;
+  color: var(--pr-c-text-2);
+  transition: background-color var(--va-transition-duration), color var(--va-transition-duration);
+
+  &:hover {
+    color: var(--pr-c-text-1);
+    background-color: var(--va-c-bg-mute);
+  }
+
+  &:focus-visible {
+    outline: 2px solid var(--va-c-brand);
+    outline-offset: -2px;
+  }
+
+  > span {
+    width: 18px;
+    height: 18px;
+  }
+}
+
 .outline-link {
   display: block;
   line-height: 28px;
@@ -97,13 +149,10 @@ useActiveAnchor(container, marker)
   transition: color var(--va-transition-duration);
 }
 
-.visually-hidden {
-  position: absolute;
-  width: 1px;
-  height: 1px;
-  white-space: nowrap;
-  clip: rect(0 0 0 0);
-  clip-path: inset(50%);
-  overflow: hidden;
+@media (hover: none) {
+  .outline-close:hover {
+    color: var(--pr-c-text-2);
+    background-color: transparent;
+  }
 }
 </style>

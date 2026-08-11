@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import type { MenuItem } from 'valaxy'
+import { onClickOutside } from '@vueuse/core'
 import { onContentUpdated } from 'valaxy'
 import { nextTick, ref } from 'vue'
 
@@ -12,31 +13,31 @@ const props = defineProps<{
 
 const open = ref(false)
 const vh = ref(0)
+const dropdown = ref<HTMLDivElement>()
 const items = ref<HTMLDivElement>()
 
-onContentUpdated(() => {
+function close() {
   open.value = false
-})
+}
+
+onClickOutside(dropdown, close)
+onContentUpdated(close)
 
 function toggle() {
   open.value = !open.value
   vh.value = window.innerHeight + Math.min(window.scrollY - props.navHeight, 0)
 }
 
-function onItemClick(e: Event) {
-  if ((e.target as HTMLElement).classList.contains('outline-link')) {
-    // disable animation on hash navigation when page jumps
-    if (items.value)
-      items.value.style.transition = 'none'
+function onItemClick() {
+  // disable animation on hash navigation when page jumps
+  if (items.value)
+    items.value.style.transition = 'none'
 
-    nextTick(() => {
-      open.value = false
-    })
-  }
+  nextTick(close)
 }
 
 function scrollToTop() {
-  open.value = false
+  close()
   window.scrollTo({ top: 0, left: 0, behavior: 'smooth' })
 }
 
@@ -44,20 +45,32 @@ const { t } = useI18n()
 </script>
 
 <template>
-  <div class="VPLocalNavOutlineDropdown" :style="{ '--vp-vh': `${vh}px` }">
-    <button v-if="headers.length > 0" :class="{ open }" @click="toggle">
+  <div
+    ref="dropdown"
+    class="VPLocalNavOutlineDropdown"
+    :style="{ '--vp-vh': `${vh}px` }"
+    @keydown.esc="close"
+  >
+    <button
+      v-if="headers.length > 0"
+      type="button"
+      :class="{ open }"
+      :aria-expanded="open"
+      aria-controls="press-local-outline"
+      @click="toggle"
+    >
       {{ t('theme.outlineTitle') }}
-      <div i-ri-arrow-right-s-line class="icon" />
+      <span i-ri-arrow-right-s-line class="icon" aria-hidden="true" />
     </button>
-    <button v-else @click="scrollToTop">
+    <button v-else type="button" @click="scrollToTop">
       {{ t('sidebar.return_top') }}
     </button>
     <Transition name="flyout">
       <div
         v-if="open"
+        id="press-local-outline"
         ref="items"
         class="items"
-        @click="onItemClick"
       >
         <div class="header">
           <a class="top-link" href="#" @click="scrollToTop">
@@ -65,7 +78,7 @@ const { t } = useI18n()
           </a>
         </div>
         <div class="py-2 bg-$vp-c-bg-soft">
-          <PressOutlineItem :headers="headers" />
+          <PressOutlineItem :headers="headers" :on-click="onItemClick" />
         </div>
       </div>
     </Transition>

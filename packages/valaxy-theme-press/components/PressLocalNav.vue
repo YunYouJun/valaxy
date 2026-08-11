@@ -31,6 +31,7 @@ const { headers } = useOutline()
 <template>
   <div v-if="hasSidebar" class="press-local-nav">
     <button
+      type="button"
       class="menu"
       :aria-expanded="open"
       aria-controls="pr-sidebar-nav"

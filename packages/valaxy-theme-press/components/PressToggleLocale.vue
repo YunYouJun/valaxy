@@ -1,4 +1,5 @@
 <script lang="ts" setup>
+import { onClickOutside } from '@vueuse/core'
 import { useLocale } from 'valaxy'
 import { ref } from 'vue'
 import { useI18n } from 'vue-i18n'
@@ -8,19 +9,22 @@ const { t, locale } = useI18n()
 const { toggleLocales } = useLocale()
 const { hasLocales, availableLocales, currentLocale, currentLocaleKey, getLocalePath } = useLocaleConfig()
 
+const localeMenu = ref<HTMLElement>()
 const open = ref(false)
+
+onClickOutside(localeMenu, () => open.value = false)
 </script>
 
 <template>
   <!-- Flyout mode: reuse PressNavItemGroup dropdown pattern -->
   <div
     v-if="hasLocales"
+    ref="localeMenu"
     class="flex relative group"
     h="full"
     :aria-expanded="open"
     aria-haspopup="true"
-    @mouseenter="open = true"
-    @mouseleave="open = false"
+    @keydown.esc="open = false"
   >
     <button
       type="button"
@@ -43,6 +47,7 @@ const open = ref(false)
             class="menu-item"
             p="x-3"
             :to="getLocalePath(loc.key)"
+            @click="open = false"
           >
             {{ loc.label }}
           </AppLink>

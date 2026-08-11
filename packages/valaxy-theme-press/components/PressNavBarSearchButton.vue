@@ -35,6 +35,7 @@ defineProps<{
 </template>
 
 <style>
+/* stylelint-disable selector-class-pattern */
 .PressSearchButton {
   display: flex;
   align-items: center;
@@ -145,6 +146,27 @@ defineProps<{
     padding: 4px 6px;
     border: 1px solid var(--va-c-divider);
     border-radius: 4px;
+  }
+}
+
+@media (768px <= width < 1280px) {
+  .PressSearchButton {
+    justify-content: center;
+    padding: 8px;
+    width: 40px;
+    height: 40px;
+  }
+
+  .PressSearchButton-icon svg {
+    top: 0;
+    margin-right: 0;
+    width: 16px;
+    height: 16px;
+  }
+
+  .PressSearchButton-text,
+  .PressSearchButton-keys {
+    display: none;
   }
 }
 

@@ -25,16 +25,8 @@ const classes = computed(() => ({
   </nav>
 </template>
 
-<style lang="scss">
-@use 'valaxy/client/styles/mixins/index.scss' as *;
-
+<style>
 .press-nav {
   z-index: var(--pr-z-nav);
-}
-
-@include screen('md') {
-  .press-nav {
-    backdrop-filter: saturate(50%) blur(8px);
-  }
 }
 </style>

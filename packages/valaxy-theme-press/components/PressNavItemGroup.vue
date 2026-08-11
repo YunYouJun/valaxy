@@ -53,6 +53,7 @@ const { t } = useI18n()
   color: var(--pr-nav-text);
   font-weight: 500;
   font-size: 14px;
+  white-space: nowrap;
 }
 
 .group[aria-expanded="true"] .button {
