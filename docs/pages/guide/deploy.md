@@ -40,6 +40,51 @@ SSG build requires a sufficient heap (~4 GB; the engine auto-respawns with enoug
 NODE_OPTIONS=--max-old-space-size=4096 pnpm build
 ```
 
+## Deploying under a base path
+
+When the site is served below the domain root, configure Vite's `base` with both leading and trailing slashes. `siteConfig.url` is the canonical site URL; it does not replace the asset base. For example, a GitHub Pages project site at `https://user.github.io/repo/` uses:
+
+```ts [valaxy.config.ts]
+import { defineValaxyConfig } from 'valaxy'
+
+export default defineValaxyConfig({
+  siteConfig: {
+    url: 'https://user.github.io/repo/',
+  },
+  vite: {
+    base: '/repo/',
+  },
+})
+```
+
+Starting with Valaxy v1.0.0-rc.4, this behavior is aligned with VitePress and is enabled by default; there is no separate compatibility switch. The final `base` resolved by Vite is shared by the page, excerpt/router, and local-search Markdown renderers.
+
+Root-absolute links and static assets written in Markdown are adjusted automatically:
+
+```md
+[Guide](/guide/)
+![Logo](/logo.png)
+[Download PDF](/manual.pdf)
+```
+
+For dynamic URLs in Vue components or theme configuration, use `withBase()`:
+
+```vue
+<script setup lang="ts">
+import { withBase } from 'valaxy'
+
+const logo = '/logo.png'
+</script>
+
+<template>
+  <img :src="withBase(logo)" alt="Logo">
+</template>
+```
+
+Markdown page and file links receive `base` directly. Markdown images are normalized for Vue/Vite's asset pipeline, which applies the final `base` to root-absolute public resources in the generated output.
+
+External URLs and relative paths are left unchanged. Raw HTML `<a>` links are also left unchanged so you can deliberately link outside the configured base. Raw HTML images can still be transformed by Vue/Vite.
+
 
 ## Third Party Deployment
 
@@ -60,12 +105,7 @@ If the deployment fails, we recommend that you first check for potential build e
 ::: tip
 
 
-When you use GitHub Pages for hosting, make sure your repository name is `your-username.github.io`.
-
-This is because when there is a directory with the same name, GitHub Pages will default to assigning `your-username.github.io` as your personal domain.
-
-> Although you can rename it to other names and set custom domains, etc. (For more advanced operations, you can search by yourself.)  
-> But as a beginner, I recommend you follow the default rules to avoid unexpected errors.
+Repositories named `your-username.github.io` are served from `/` and do not need a custom `base`. Other repository names are supported as project sites; configure `base: '/repository-name/'` as described above.
 
 
 :::

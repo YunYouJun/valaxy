@@ -2,6 +2,7 @@ import type { Header } from '@valaxyjs/utils'
 
 import type { MarkdownItAsync } from 'markdown-it-async'
 import type { ResolvedValaxyOptions } from '../../types'
+import type { MarkdownBase } from './base'
 import { createMarkdownItAsync } from 'markdown-it-async'
 import { logger } from '../../logger'
 
@@ -25,7 +26,7 @@ export function disposePreviewMdItInstance() {
   _disposeHighlighter = undefined
 }
 
-export async function createMarkdownRenderer(options?: ResolvedValaxyOptions): Promise<MarkdownItAsync> {
+export async function createMarkdownRenderer(options?: ResolvedValaxyOptions, base?: MarkdownBase): Promise<MarkdownItAsync> {
   const mdOptions = options?.config.markdown || {}
   const theme = mdOptions.theme ?? defaultCodeTheme
 
@@ -44,7 +45,7 @@ export async function createMarkdownRenderer(options?: ResolvedValaxyOptions): P
 
   md.linkify.set({ fuzzyLink: false })
 
-  await setupMarkdownPlugins(md, options)
+  await setupMarkdownPlugins(md, options, base)
   return md
 }
 
@@ -53,7 +54,7 @@ export async function createMarkdownRenderer(options?: ResolvedValaxyOptions): P
  * Used by localSearchPlugin where HTML output is stripped anyway,
  * saving ~20-50 MB of Shiki theme/grammar data.
  */
-export async function createLightMarkdownRenderer(options?: ResolvedValaxyOptions): Promise<MarkdownItAsync> {
+export async function createLightMarkdownRenderer(options?: ResolvedValaxyOptions, base?: MarkdownBase): Promise<MarkdownItAsync> {
   const mdOptions = options?.config.markdown || {}
 
   // Define highlight separately to avoid circular type inference
@@ -76,6 +77,6 @@ export async function createLightMarkdownRenderer(options?: ResolvedValaxyOption
 
   md.linkify.set({ fuzzyLink: false })
 
-  await setupMarkdownPlugins(md, options)
+  await setupMarkdownPlugins(md, options, base)
   return md
 }

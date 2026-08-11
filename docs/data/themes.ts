@@ -88,7 +88,6 @@ export const themes = [
       'zh-CN': '由 Hairy 打造的简洁个人博客主题。',
     },
     siteImage: 'https://raw.githubusercontent.com/hairyf/valaxy-theme-hairy/main/public/preview.png',
-    siteExampleUrl: 'https://www.hairy.blog/',
     tags: ['hairy', 'blog'],
   },
   {

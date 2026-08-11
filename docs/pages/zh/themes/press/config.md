@@ -36,6 +36,9 @@ hero:
   name: Acme
   text: 使用 Acme 更快构建
   tagline: 安装、配置与扩展 Acme 所需的一切。
+  image:
+    src: /logo.png
+    alt: Acme Logo
   actions:
     - theme: brand
       text: 快速开始
@@ -54,6 +57,10 @@ features:
     details: 可以直接在 Markdown 中使用 Vue 组件。
 ---
 ```
+
+`hero.image` 与 VitePress 的 `ThemeableImage` 格式一致，支持字符串、`{ src, alt }` 对象，以及 `{ light, dark, alt }` 对象。Press 不再注入默认的 Valaxy Logo；未配置 `hero.image` 时，首页不会显示主视觉图片。根绝对图片路径会自动适配 Vite 的 `base`。
+
+`fly` 类型按钮的悬停图标读取 `siteConfig.favicon`，不再使用主题内硬编码资源。
 
 当 `i18nRouting` 启用时，首页按钮中的内部链接会自动补齐当前语言前缀。
 

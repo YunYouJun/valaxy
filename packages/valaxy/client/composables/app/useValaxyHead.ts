@@ -4,6 +4,7 @@ import pkg from '../../../package.json' with { type: 'json' }
 
 import { useFrontmatter, useValaxyI18n } from '../../composables'
 import { useSiteConfig } from '../../config'
+import { withBase } from '../../utils'
 
 export function useValaxyHead() {
   const { $t, $tO, locale } = useValaxyI18n()
@@ -24,7 +25,7 @@ export function useValaxyHead() {
     link: [
       {
         rel: 'icon',
-        href: siteConfig.value.favicon,
+        href: withBase(siteConfig.value.favicon),
         type: siteConfig.value.favicon?.endsWith('svg') ? 'image/svg+xml' : 'image/png',
       },
     ],

@@ -1,4 +1,4 @@
-import type { PluginOption } from 'vite'
+import type { InlineConfig, Plugin, PluginOption } from 'vite'
 
 import type { ValaxyNode, ValaxyServerOptions } from '../types'
 import VueI18n from '@intlify/unplugin-vue-i18n/vite'
@@ -21,6 +21,7 @@ import { createLlmsPlugin } from './llms'
 import { localSearchPlugin } from './localSearchPlugin'
 
 import { createMarkdownPlugin, disposeMdItInstance, disposePreviewMdItInstance } from './markdown'
+import { createMarkdownBaseContext } from './markdown/base'
 import { disposeSharedHighlighter } from './markdown/highlighterCache'
 import { clearMarkdownCache } from './markdown/markdownToVue'
 import { createClientSetupPlugin } from './setupClient'
@@ -32,9 +33,21 @@ import { createRouterPlugin } from './vueRouter'
 export async function ViteValaxyPlugins(
   valaxyApp: ValaxyNode,
   serverOptions: ValaxyServerOptions = {},
+  viteConfig: InlineConfig = {},
 ): Promise<(PluginOption | PluginOption[])[]> {
   const { options } = valaxyApp
   const { roots, config: valaxyConfig } = options
+  const markdownBase = createMarkdownBaseContext(viteConfig.base || valaxyConfig.vite?.base || '/')
+
+  const MarkdownBasePlugin: Plugin = {
+    name: 'valaxy:markdown-base',
+    enforce: 'pre',
+    configResolved(config) {
+      // Use the final Vite value so base contributed by vite.config.ts or a
+      // plugin is shared by every Markdown renderer.
+      markdownBase.value = config.base
+    },
+  }
 
   // Parallelise heavy async plugin initialisations.
   // createMarkdownPlugin (shiki highlighter) and createUnocssPlugin (jiti config
@@ -58,7 +71,7 @@ export async function ViteValaxyPlugins(
     LocalSearchPlugin,
     scannedTitles,
   ] = await Promise.all([
-    createMarkdownPlugin(options).then((r) => {
+    createMarkdownPlugin(options, markdownBase).then((r) => {
       vLogger.debug(`  ├─ createMarkdownPlugin: ${timers.markdown()}`)
       return r
     }),
@@ -89,7 +102,7 @@ export async function ViteValaxyPlugins(
       vLogger.debug(`  ├─ plugin-vue: ${timers.vue()}`)
       return r
     }),
-    createRouterPlugin(valaxyApp).then((r) => {
+    createRouterPlugin(valaxyApp, markdownBase).then((r) => {
       vLogger.debug(`  ├─ createRouterPlugin: ${timers.router()}`)
       return r
     }),
@@ -97,7 +110,7 @@ export async function ViteValaxyPlugins(
       vLogger.debug(`  ├─ createUnocssPlugin: ${timers.unocss()}`)
       return r
     }),
-    localSearchPlugin(options).then((r) => {
+    localSearchPlugin(options, markdownBase).then((r) => {
       vLogger.debug(`  ├─ localSearchPlugin: ${timers.localSearch()}`)
       return r
     }),
@@ -114,6 +127,7 @@ export async function ViteValaxyPlugins(
     .map(root => `${root}/components`), ...['src/components', 'components']]
 
   const plugins: (PluginOption | PluginOption[])[] = [
+    MarkdownBasePlugin,
     createCdnPlugin(options),
     createLlmsPlugin(options),
 

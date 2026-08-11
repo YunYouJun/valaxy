@@ -1,5 +1,6 @@
 import type { ExcerptType, Page, Post } from '../../types'
 import type { ValaxyNode } from '../types'
+import type { MarkdownBase } from './markdown/base'
 
 import fs from 'fs-extra'
 
@@ -52,12 +53,12 @@ export function generateAutoExcerptMd(content: string, length: number): string {
  * @see https://router.vuejs.org/file-based-routing/
  * @param valaxyApp
  */
-export async function createRouterPlugin(valaxyApp: ValaxyNode) {
+export async function createRouterPlugin(valaxyApp: ValaxyNode, base?: MarkdownBase) {
   const { options } = valaxyApp
   const { roots, config: valaxyConfig } = options
 
   const mdIt = new MarkdownItAsync({ html: true })
-  await setupMarkdownPlugins(mdIt, options)
+  await setupMarkdownPlugins(mdIt, options, base)
 
   // Cache the deep-cloned default frontmatter to avoid re-cloning on every route.
   // Only re-clone when the reference changes (e.g. HMR config reload).

@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { useSidebar, useSiteConfig } from 'valaxy'
+import { useSidebar, useSiteConfig, withBase } from 'valaxy'
 import { computed } from 'vue'
 import { useLocaleConfig } from '../composables'
 
@@ -24,7 +24,7 @@ const homeLink = computed(() => hasLocales.value ? currentLocale.value.link : '/
       class="pr-navbar-brand text-xl flex justify-center items-center font-black gradient-text from-purple-800 to-blue-500 bg-gradient-to-r"
       :to="homeLink" :aria-label="siteConfig.title"
     >
-      <img v-if="localeConfig.logo" class="logo" :src="localeConfig.logo" alt="LOGO">
+      <img v-if="localeConfig.logo" class="logo" :src="withBase(localeConfig.logo)" alt="LOGO">
       <span class="pr-navbar-title inline-flex">{{ siteConfig.title }}</span>
     </RouterLink>
     <div class="pr-navbar-actions self-stretch flex justify-center items-center text-sm leading-5">

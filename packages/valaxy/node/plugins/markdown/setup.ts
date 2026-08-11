@@ -9,6 +9,7 @@ import type Token from 'markdown-it/lib/token.mjs'
 import type { UserSiteConfig } from '../../../types'
 
 import type { ResolvedValaxyOptions } from '../../types'
+import type { MarkdownBase } from './base'
 import type { ThemeOptions } from './types'
 
 import {
@@ -32,7 +33,9 @@ import TaskLists from 'markdown-it-task-lists'
 import { groupIconMdPlugin } from 'vitepress-plugin-group-icons'
 import { isKatexPluginNeeded, isMathJaxEnabled } from '../../config/valaxy'
 
+import { createMarkdownBaseResolver } from './base'
 import { isPromiseLike } from './plugins/async-utils'
+import { imagePlugin } from './plugins/image'
 import { linkPlugin } from './plugins/link'
 import { containerPlugin } from './plugins/markdown-it/container'
 import { footnoteTooltipPlugin } from './plugins/markdown-it/footnoteTooltip'
@@ -49,11 +52,12 @@ export async function setupMarkdownPlugins(
   md: MarkdownItAsync,
   options?: ResolvedValaxyOptions,
   // isExcerpt = false,
-  base = '/',
+  base: MarkdownBase = options?.config.vite?.base || '/',
 ) {
   const mdOptions = options?.config.markdown || {}
   const theme = mdOptions.theme ?? defaultCodeTheme
   const siteConfig: UserSiteConfig = options?.config.siteConfig || {}
+  const resolveBase = createMarkdownBaseResolver(base)
 
   if (mdOptions.preConfig)
     mdOptions.preConfig(md)
@@ -80,8 +84,9 @@ export async function setupMarkdownPlugins(
         rel: 'noreferrer',
         ...mdOptions.externalLinks,
       },
-      base,
+      resolveBase,
     )
+    .use(imagePlugin)
 
   // ref vitepress
   md.use(lineNumberPlugin, mdOptions.lineNumbers)

@@ -3,6 +3,7 @@ import type { MarkdownItAsync } from 'markdown-it-async'
 
 import type { Plugin } from 'vite'
 import type { ResolvedValaxyOptions } from '../../../types'
+import type { MarkdownBase } from '../base'
 import Markdown from 'unplugin-vue-markdown/vite'
 import { Valaxy } from '../../../app/class'
 import { logger } from '../../../logger'
@@ -26,6 +27,7 @@ export function disposeMdItInstance() {
 
 export async function createMarkdownPlugin(
   options: ResolvedValaxyOptions,
+  base?: MarkdownBase,
 ): Promise<Plugin> {
   const mdOptions = options?.config.markdown || {}
   const theme = mdOptions.theme ?? defaultCodeTheme
@@ -76,7 +78,7 @@ export async function createMarkdownPlugin(
       mdIt.linkify.set({ fuzzyLink: false })
 
       // setup mdIt
-      await setupMarkdownPlugins(mdIt as unknown as MarkdownItAsync, options)
+      await setupMarkdownPlugins(mdIt as unknown as MarkdownItAsync, options, base)
 
       options?.config.markdown?.markdownItSetup?.(mdIt)
 
