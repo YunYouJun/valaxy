@@ -31,6 +31,20 @@
   "main": "index.ts",
   "module": "index.ts",
   "types": "index.d.ts",
+  "files": [
+    "*.d.ts",
+    "*.ts",
+    "README.md",
+    "README.zh-CN.md",
+    "client",
+    "components",
+    "locales",
+    "node",
+    "types"
+  ],
+  "publishConfig": {
+    "access": "public"
+  },
   "scripts": {
     "test": "vitest run"
   },
