@@ -54,7 +54,7 @@ const app = useAppStore()
       <div class="inline-flex justify-start items-center flex-1">
         <ValaxyHamburger
           :active="yunApp.fullscreenMenu.isOpen"
-          class="menu-btn sidebar-toggle leading-4 size-12 lg:hidden"
+          class="menu-btn sidebar-toggle leading-4 size-12 lg:hidden!"
           inline-flex cursor="pointer"
           hover="bg-white/80 dark:bg-black/80"
           z="$yun-z-menu-btn"

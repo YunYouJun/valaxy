@@ -38,11 +38,11 @@ const isHomePage = computed(() => route.meta.layout === 'home')
 </script>
 
 <template>
-  <div class="fixed left-0 top-0" z="$yun-z-left-sidebar-menu">
+  <div class="fixed left-0 top-0 h-$yun-nav-height flex items-center" z="$yun-z-left-sidebar-menu">
     <ValaxyHamburger
       v-if="isHomePage"
       :active="yunApp.leftSidebar.isOpen"
-      class="menu-btn sidebar-toggle leading-4 size-12 fixed"
+      class="menu-btn sidebar-toggle leading-4 size-12"
       inline-flex cursor="pointer"
       hover="bg-white/80 dark:bg-black/80"
       @click="yunApp.leftSidebar.toggle()"
@@ -50,7 +50,7 @@ const isHomePage = computed(() => route.meta.layout === 'home')
     <template v-else>
       <ValaxyHamburger
         :active="yunApp.leftSidebar.isOpen"
-        class="menu-btn sidebar-toggle leading-4 size-12 fixed md:hidden"
+        class="menu-btn sidebar-toggle leading-4 size-12 md:hidden!"
         inline-flex cursor="pointer"
         hover="bg-white/80 dark:bg-black/80"
         @click="yunApp.leftSidebar.toggle()"
