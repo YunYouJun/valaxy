@@ -1,7 +1,7 @@
 import type { HeadConfig, PageData } from '../../../../types'
 import type { ResolvedValaxyOptions } from '../../../types'
+import type { MarkdownTransformContext } from '../types'
 import path from 'pathe'
-import { Valaxy } from '../../../app'
 import { getGitTimestamp } from '../../../utils'
 
 function getHeadMetaContent(head: HeadConfig[], name: string): string | undefined {
@@ -42,12 +42,14 @@ function extractFirstImage(code: string): string | undefined {
   return undefined
 }
 
-export async function generatePageData(code: string, id: string, options: ResolvedValaxyOptions) {
-  const fileInfo = Valaxy.state.idMap.get(id)
+export async function generatePageData(code: string, context: MarkdownTransformContext, options: ResolvedValaxyOptions) {
+  const { id, fileInfo } = context
   const relativePath = path.relative(options.userRoot, id)
 
   // copy new object
-  const fm = JSON.parse(JSON.stringify(fileInfo?.frontmatter))
+  const fm = fileInfo?.frontmatter
+    ? JSON.parse(JSON.stringify(fileInfo.frontmatter))
+    : {}
 
   // Auto-extract the first image from markdown if ogImage and cover are not set
   if (options.config.features?.extractFirstImage !== false && !fm.ogImage && !fm.cover) {

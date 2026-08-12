@@ -156,7 +156,7 @@ export async function ssgBuild(
 
   const defaultConfig: InlineConfig = {
     ...defaultViteConfig,
-    plugins: await ViteValaxyPlugins(valaxyApp, {}, viteConfig),
+    plugins: await ViteValaxyPlugins(valaxyApp, {}, viteConfig, 2),
     // `ssr.noExternal` only affects the server build (step 2) — the client build
     // ignores it. See `getSsgSsrConfig` for why everything is bundled.
     ssr: getSsgSsrConfig(),
@@ -198,7 +198,7 @@ export async function ssgBuild(
 
     // === Step 3: Release build resources ===
     // The `valaxy:memory-release` plugin in preset.ts already disposes
-    // Shiki, MarkdownIt, and clears caches after the 2nd closeBundle.
+    // pipeline state, the Markdown cache, and Shiki after the 2nd closeBundle.
     // We only need to trigger GC here.
     consola.info('Releasing build resources...')
     tryGC()

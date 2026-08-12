@@ -21,7 +21,16 @@ import type {
 // import type { lazyloadOptions } from './plugins/markdown-it/lazyload'
 
 import type { PageData } from '../../../types'
+import type { ValaxyFileInfo } from '../../app/state'
 import type { BlockItem, Blocks, ContainerOptions } from './plugins/markdown-it/container'
+
+/**
+ * Immutable per-file snapshot passed through the Markdown compile pipeline.
+ */
+export interface MarkdownTransformContext {
+  readonly id: string
+  readonly fileInfo?: Readonly<ValaxyFileInfo>
+}
 
 export type ThemeOptions
   = | ThemeRegistration

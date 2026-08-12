@@ -2,6 +2,7 @@ import type MarkdownIt from 'markdown-it'
 import type { MarkdownItAsync } from 'markdown-it-async'
 
 import type { Plugin } from 'vite'
+import type { StateManager } from '../../../app/state'
 import type { ResolvedValaxyOptions } from '../../../types'
 import type { MarkdownBase } from '../base'
 import Markdown from 'unplugin-vue-markdown/vite'
@@ -18,16 +19,14 @@ export * from './matter'
 
 export type MarkdownRenderer = MarkdownItAsync
 
-let _disposeHighlighter: (() => void) | undefined
-
 export function disposeMdItInstance() {
-  _disposeHighlighter?.()
-  _disposeHighlighter = undefined
+  Valaxy.state.dispose()
 }
 
 export async function createMarkdownPlugin(
   options: ResolvedValaxyOptions,
   base?: MarkdownBase,
+  state: StateManager = Valaxy.state,
 ): Promise<Plugin> {
   const mdOptions = options?.config.markdown || {}
   const theme = mdOptions.theme ?? defaultCodeTheme
@@ -39,7 +38,7 @@ export async function createMarkdownPlugin(
     ? [mdOptions.highlight, () => {}]
     : await getSharedHighlighter(theme, mdOptions, logger)
 
-  _disposeHighlighter = dispose
+  state.onDispose(dispose)
 
   // Extract user transforms so they can be composed with internal transforms
   // instead of being overwritten by `...mdOptions` spread.
@@ -84,14 +83,14 @@ export async function createMarkdownPlugin(
 
       // get env
       function initEnv(md: MarkdownIt) {
-        md.core.ruler.push('valaxy_md_env', (state) => {
+        md.core.ruler.push('valaxy_md_env', (mdState) => {
           // record to map
-          Valaxy.state.idMap.set(state.env.id, {
-            id: state.env.id,
-            title: state.env.title,
-            links: state.env.links,
-            headers: state.env.headers,
-            frontmatter: state.env.frontmatter,
+          state.set({
+            id: mdState.env.id,
+            title: mdState.env.title,
+            links: mdState.env.links,
+            headers: mdState.env.headers,
+            frontmatter: mdState.env.frontmatter,
           })
         })
       }

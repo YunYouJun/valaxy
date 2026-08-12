@@ -1,5 +1,8 @@
 import type { PageData } from '../../../types'
+import type { StateManager, ValaxyFileInfo } from '../../app/state'
 import type { ResolvedValaxyOptions } from '../../types'
+import type { MarkdownTransformContext } from './types'
+import { createHash } from 'node:crypto'
 import _debug from 'debug'
 // copy from vitepress
 import { LRUCache } from 'lru-cache'
@@ -15,13 +18,38 @@ import { createTransformMarkdown } from './transform/markdown'
 import { generatePageData } from './transform/page-data'
 
 const debug = _debug('valaxy:md')
-const cache = new LRUCache<string, MarkdownCompileResult>({ max: 128 })
+// A weak key prevents finished build contexts from being retained by this module.
+const caches = new WeakMap<StateManager, LRUCache<string, MarkdownCompileResult>>()
+
+function getMarkdownCache(state: StateManager) {
+  let cache = caches.get(state)
+  if (!cache) {
+    cache = new LRUCache<string, MarkdownCompileResult>({ max: 128 })
+    caches.set(state, cache)
+  }
+  return cache
+}
+
+function createCacheKey(code: string, id: string, fileInfo?: ValaxyFileInfo) {
+  return createHash('sha256')
+    .update(id)
+    .update('\0')
+    .update(code)
+    .update('\0')
+    .update(JSON.stringify(fileInfo) || '')
+    .digest('base64url')
+}
 
 /**
  * Clear the markdown render cache to free memory after build completes.
  */
-export function clearMarkdownCache() {
-  cache.clear()
+export function clearMarkdownCache(state: StateManager = Valaxy.state) {
+  caches.get(state)?.clear()
+  caches.delete(state)
+}
+
+export function getMarkdownCacheSize(state: StateManager) {
+  return caches.get(state)?.size ?? 0
 }
 
 export function generateSlots() {
@@ -72,6 +100,7 @@ export interface MarkdownCompileResult {
  */
 export async function createMarkdownToVueRenderFn(
   options: ResolvedValaxyOptions,
+  state: StateManager = Valaxy.state,
 ) {
   // for dead link detection
   options.pages = options.pages.map(p => p.replace(/\.md$/, '').replace(/\/index$/, ''))
@@ -85,20 +114,22 @@ export async function createMarkdownToVueRenderFn(
   const srcDir = options.userRoot
 
   const isBuild = options.mode === 'build'
+  const cache = isBuild ? getMarkdownCache(state) : undefined
 
-  return async (
+  const compile = async (
     code: string,
-    id: string,
+    context: MarkdownTransformContext,
   ): Promise<MarkdownCompileResult> => {
+    const { id, fileInfo } = context
     const file = id
     const relativePath = path.relative(srcDir, file)
-    const deadLinks = scanDeadLinks(code, id)
+    const deadLinks = scanDeadLinks(code, context)
 
     // only compute cacheKey in build mode
     let cacheKey: string | undefined
     if (isBuild) {
-      cacheKey = JSON.stringify({ code, id })
-      const cached = cache.get(cacheKey)
+      cacheKey = createCacheKey(code, id, fileInfo)
+      const cached = cache!.get(cacheKey)
       if (cached) {
         debug(`[cache hit] ${relativePath}`)
         return cached
@@ -109,13 +140,13 @@ export async function createMarkdownToVueRenderFn(
     // pageData fm.encryptedContent
     // avoid async problems
     // posts transform is parallel
-    const pageData = await generatePageData(code, id, options)
+    const pageData = await generatePageData(code, context, options)
 
     code = transformHexoTags(code, id)
     const data = resolveTransformIncludes(code, id, options)
     const includes = data.includes
     code = data.code
-    code = transformCodeBlock(code, id)
+    code = transformCodeBlock(code, context)
 
     // run it before vue and after md parse
     code = await transformEncrypt(code, id, pageData)
@@ -135,10 +166,19 @@ export async function createMarkdownToVueRenderFn(
       includes,
     }
     if (isBuild)
-      cache.set(cacheKey!, result)
+      cache!.set(cacheKey!, result)
 
-    // clear
-    Valaxy.state.idMap.delete(id)
     return result
+  }
+
+  return async (code: string, id: string): Promise<MarkdownCompileResult> => {
+    // Take an immutable snapshot before the first await. A newer HMR transform
+    // for the same id can then record its own environment without being mixed
+    // into, or deleted by, this compilation.
+    const context: MarkdownTransformContext = {
+      id,
+      fileInfo: state.take(id),
+    }
+    return compile(code, context)
   }
 }

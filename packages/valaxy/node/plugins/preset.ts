@@ -11,6 +11,7 @@ import Components from 'unplugin-vue-components/vite'
 
 import Layouts from 'vite-plugin-vue-layouts-next'
 import { groupIconVitePlugin } from 'vitepress-plugin-group-icons'
+import { StateManager } from '../app/state'
 import { customElements } from '../constants'
 import { vLogger } from '../logger'
 import { scanCodeBlockTitles } from '../utils/groupIcons'
@@ -20,9 +21,8 @@ import { createConfigPlugin } from './extendConfig'
 import { createLlmsPlugin } from './llms'
 import { localSearchPlugin } from './localSearchPlugin'
 
-import { createMarkdownPlugin, disposeMdItInstance, disposePreviewMdItInstance } from './markdown'
+import { createMarkdownPlugin } from './markdown'
 import { createMarkdownBaseContext } from './markdown/base'
-import { disposeSharedHighlighter } from './markdown/highlighterCache'
 import { clearMarkdownCache } from './markdown/markdownToVue'
 import { createClientSetupPlugin } from './setupClient'
 
@@ -30,12 +30,88 @@ import { createUnocssPlugin } from './unocss'
 import { createValaxyPlugin } from './valaxy'
 import { createRouterPlugin } from './vueRouter'
 
+export function createMemoryReleasePlugin(state: StateManager, releaseThreshold = 1): Plugin {
+  let buildCount = 0
+  let resourcesReleased = false
+  let resolvedConfig: any = null
+
+  const releaseResources = () => {
+    if (resourcesReleased)
+      return
+    resourcesReleased = true
+    state.dispose()
+    clearMarkdownCache(state)
+  }
+
+  return {
+    name: 'valaxy:memory-release',
+    enforce: 'post',
+    configResolved(config) {
+      resolvedConfig = config
+    },
+    buildEnd(error) {
+      // closeBundle is not guaranteed after a failed build.
+      // Watch-mode errors are recoverable and later rebuilds still need these
+      // resources and hooks.
+      if (error && !this.meta?.watchMode)
+        releaseResources()
+    },
+    closeBundle() {
+      // Vite closes each watch result, not only the watcher itself.
+      if (this.meta?.watchMode)
+        return
+
+      buildCount++
+      if (buildCount < releaseThreshold)
+        return
+
+      releaseResources()
+
+      // Break closure chains after the final build in this pipeline.
+      if (resolvedConfig?.plugins) {
+        const hookKeys = [
+          'transform',
+          'load',
+          'resolveId',
+          'buildStart',
+          'buildEnd',
+          'renderStart',
+          'renderChunk',
+          'generateBundle',
+          'writeBundle',
+          'moduleParsed',
+          'resolveDynamicImport',
+          'configResolved',
+          'configureServer',
+          'handleHotUpdate',
+        ]
+        for (const plugin of resolvedConfig.plugins) {
+          if (plugin && typeof plugin === 'object') {
+            for (const key of hookKeys) {
+              if (key in plugin)
+                plugin[key] = undefined
+            }
+          }
+        }
+        resolvedConfig = null
+      }
+
+      if (typeof globalThis.gc === 'function')
+        globalThis.gc()
+    },
+  }
+}
+
 export async function ViteValaxyPlugins(
   valaxyApp: ValaxyNode,
   serverOptions: ValaxyServerOptions = {},
   viteConfig: InlineConfig = {},
+  expectedBuilds = 1,
 ): Promise<(PluginOption | PluginOption[])[]> {
   const { options } = valaxyApp
+  // Plugin pipelines can be created concurrently from the same Valaxy app.
+  // Keep transient Markdown state scoped to this pipeline, not the app.
+  const state = new StateManager()
   const { roots, config: valaxyConfig } = options
   const markdownBase = createMarkdownBaseContext(viteConfig.base || valaxyConfig.vite?.base || '/')
 
@@ -71,11 +147,11 @@ export async function ViteValaxyPlugins(
     LocalSearchPlugin,
     scannedTitles,
   ] = await Promise.all([
-    createMarkdownPlugin(options, markdownBase).then((r) => {
+    createMarkdownPlugin(options, markdownBase, state).then((r) => {
       vLogger.debug(`  ├─ createMarkdownPlugin: ${timers.markdown()}`)
       return r
     }),
-    createValaxyPlugin(options, serverOptions).then((r) => {
+    createValaxyPlugin(options, serverOptions, state).then((r) => {
       vLogger.debug(`  ├─ createValaxyPlugin: ${timers.valaxy()}`)
       return r
     }),
@@ -243,76 +319,11 @@ export async function ViteValaxyPlugins(
 
   // Release heavy resources after Vite builds complete.
   // The Valaxy SSG engine runs two consecutive builds (client + server). This
-  // plugin disposes Shiki, MarkdownIt, and other heavy resources after the 2nd
-  // build. The SSG engine also does its own disposal in build/ssg.ts (redundant
-  // but harmless); the plugin hook clearing below frees closures the build
-  // pipeline keeps alive.
+  // plugin disposes the pipeline state, Markdown cache, and Shiki highlighter
+  // after the 2nd build. Hook clearing then frees closures the build pipeline
+  // keeps alive.
   if (options.mode === 'build') {
-    let buildCount = 0
-    // The SSG engine runs two consecutive viteBuild() calls (client + server)
-    // sharing the same plugin instances. Release heavy resources after the 2nd
-    // closeBundle. Note: buildCount is scoped per ViteValaxyPlugins() call, so
-    // separate build sequences (e.g. tests calling ViteValaxyPlugins again) each
-    // get their own counter.
-    //
-    // We cannot release Shiki/MarkdownIt after the 1st build (client) because
-    // the server build still needs to transform markdown files.
-    const releaseThreshold = 2
-    let resolvedConfig: any = null
-    plugins.push({
-      name: 'valaxy:memory-release',
-      enforce: 'post',
-      configResolved(config) {
-        resolvedConfig = config
-      },
-      closeBundle() {
-        buildCount++
-        if (buildCount >= releaseThreshold) {
-          disposeSharedHighlighter()
-          disposeMdItInstance()
-          disposePreviewMdItInstance()
-          clearMarkdownCache()
-
-          // Break closure chains by clearing heavy plugin hooks from the
-          // resolved Vite config. After the server build completes, these
-          // hooks will never be called again — the Valaxy SSG engine only
-          // does page rendering from here. This allows V8 to reclaim the
-          // large closures (Shiki grammar data, UnoCSS engine, Rolldown
-          // module graph references, etc.)
-          // that are otherwise kept alive by function scope holding `config`.
-          if (resolvedConfig?.plugins) {
-            const hookKeys = [
-              'transform',
-              'load',
-              'resolveId',
-              'buildStart',
-              'buildEnd',
-              'renderStart',
-              'renderChunk',
-              'generateBundle',
-              'writeBundle',
-              'moduleParsed',
-              'resolveDynamicImport',
-              'configResolved',
-              'configureServer',
-              'handleHotUpdate',
-            ]
-            for (const p of resolvedConfig.plugins) {
-              if (p && typeof p === 'object') {
-                for (const key of hookKeys) {
-                  if (key in p)
-                    (p as any)[key] = undefined
-                }
-              }
-            }
-            resolvedConfig = null
-          }
-
-          if (typeof globalThis.gc === 'function')
-            globalThis.gc()
-        }
-      },
-    })
+    plugins.push(createMemoryReleasePlugin(state, expectedBuilds))
   }
 
   return plugins

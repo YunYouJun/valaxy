@@ -5,6 +5,7 @@ import { version } from '../env'
 import { presetStatistics } from '../plugins/presets/statistics'
 
 export * from './class'
+export * from './state'
 
 const buildHooks: (keyof ValaxyHooks)[] = [
   'build:before',

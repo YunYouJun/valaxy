@@ -9,6 +9,7 @@ export class Valaxy {
 
   /**
    * file state
+   * @deprecated Pass a build-scoped `StateManager` to plugin factories.
    */
   public static state = new StateManager()
 

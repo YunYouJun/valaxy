@@ -4,11 +4,13 @@
 
 import type { Plugin } from 'vite'
 import type { DefaultTheme, PageDataPayload, Pkg, SiteConfig } from '../../../types'
+import type { StateManager } from '../../app/state'
 import type { ResolvedValaxyOptions, ValaxyNodeConfig, ValaxyServerOptions } from '../../types'
 import { consola } from 'consola'
 import { colors } from 'consola/utils'
 import fs from 'fs-extra'
 import { join, relative, resolve } from 'pathe'
+import { Valaxy } from '../../app'
 import { defaultSiteConfig, mergeValaxyConfig, resolveSiteConfig, resolveUserThemeConfig } from '../../config'
 import { replaceArrMerge } from '../../config/merge'
 import { vLogger } from '../../logger'
@@ -47,7 +49,11 @@ function generateAppVue(root: string) {
  * @param options
  * @param serverOptions
  */
-export async function createValaxyPlugin(options: ResolvedValaxyOptions, serverOptions: ValaxyServerOptions = {}): Promise<Plugin[]> {
+export async function createValaxyPlugin(
+  options: ResolvedValaxyOptions,
+  serverOptions: ValaxyServerOptions = {},
+  state: StateManager = Valaxy.state,
+): Promise<Plugin[]> {
   let { config: valaxyConfig } = options
 
   const valaxyPrefix = '/@valaxy'
@@ -64,6 +70,7 @@ export async function createValaxyPlugin(options: ResolvedValaxyOptions, serverO
       async configResolved(_resolvedConfig) {
         markdownToVue = await createMarkdownToVueRenderFn(
           options,
+          state,
         )
       },
 
@@ -222,6 +229,22 @@ export async function createValaxyPlugin(options: ResolvedValaxyOptions, serverO
           vLogger.success(`${colors.yellow('[HMR]')} ${file} ${colors.dim(`updated in ${endCount()}`)}`)
           ctx.read = () => code
         }
+      },
+    },
+
+    {
+      name: 'valaxy:state-cleanup',
+      enforce: 'post',
+      buildEnd() {
+        // Catch environments recorded before a later transform aborted.
+        state.clear()
+      },
+      closeBundle() {
+        // Build pipelines release after their final client/server bundle so
+        // that SSG can reuse heavy resources. A dev pipeline has no later
+        // bundle, so release its highlighter when the server closes.
+        if (options.mode === 'dev')
+          state.dispose()
       },
     },
 

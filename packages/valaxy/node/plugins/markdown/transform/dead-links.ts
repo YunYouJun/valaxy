@@ -1,10 +1,9 @@
 import type { ResolvedValaxyOptions } from '../../../types'
-import type { MarkdownCompileResult } from '../types'
+import type { MarkdownCompileResult, MarkdownTransformContext } from '../types'
 import { slash } from '@antfu/utils'
 import fs from 'fs-extra'
 import path from 'pathe'
 import { EXTERNAL_URL_RE } from '../../../../shared'
-import { Valaxy } from '../../../app'
 import { treatAsHtml } from '../utils'
 
 export function createScanDeadLinks(options: ResolvedValaxyOptions) {
@@ -12,8 +11,8 @@ export function createScanDeadLinks(options: ResolvedValaxyOptions) {
   const { ignoreDeadLinks } = options.config.build
   const publicDir = options.config.vite?.publicDir || 'public'
 
-  return (code: string, id: string) => {
-    const fileInfo = Valaxy.state.idMap.get(id)
+  return (code: string, context: MarkdownTransformContext) => {
+    const { id, fileInfo } = context
     const { links = [] } = fileInfo || {}
     const fileOrig = id
     const file = id
