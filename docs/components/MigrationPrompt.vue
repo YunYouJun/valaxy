@@ -1,6 +1,5 @@
 <script lang="ts" setup>
-import { useClipboard } from '@vueuse/core'
-import { computed, ref } from 'vue'
+import { computed, shallowRef } from 'vue'
 import { useI18n } from 'vue-i18n'
 
 const { t, locale } = useI18n()
@@ -15,7 +14,7 @@ const frameworks = [
   { id: 'other', name: () => t('migration.prompt.other') },
 ]
 
-const selected = ref('hexo')
+const selected = shallowRef('hexo')
 
 const isZh = computed(() => locale.value === 'zh-CN')
 
@@ -136,22 +135,24 @@ const currentPrompt = computed(() => {
   const p = prompts[selected.value]
   return isZh.value ? p.zh : p.en
 })
-
-const { copy, copied } = useClipboard()
-
-function handleCopy() {
-  copy(currentPrompt.value)
-}
 </script>
 
 <template>
   <div class="migration-prompt" my-4>
-    <div class="framework-selector" flex="~ wrap gap-2" mb-3>
+    <div
+      class="framework-selector"
+      role="group"
+      flex="~ wrap gap-2"
+      mb-3
+      :aria-label="t('migration.prompt.frameworkLabel')"
+    >
       <button
         v-for="fw in frameworks"
         :key="fw.id"
+        type="button"
         class="framework-btn"
         :class="{ active: selected === fw.id }"
+        :aria-pressed="selected === fw.id"
         px-3 py-1.5 rounded-md text-sm cursor-pointer
         border="~ solid $va-c-divider"
         transition="colors duration-200"
@@ -161,31 +162,11 @@ function handleCopy() {
       </button>
     </div>
 
-    <div class="prompt-box" relative>
-      <pre
-        class="prompt-content"
-        p-4 rounded-lg text-sm leading-relaxed
-        overflow-x-auto
-        border="~ solid $va-c-divider"
-        bg="$va-c-bg-soft"
-      >{{ currentPrompt }}</pre>
-
-      <button
-        class="copy-btn"
-        absolute top-2 right-2
-        px-3 py-1.5 rounded-md text-xs cursor-pointer
-        flex="~ items-center gap-1"
-        border="~ solid $va-c-divider"
-        bg="$va-c-bg"
-        transition="colors duration-200"
-        hover="border-$va-c-primary color-$va-c-primary"
-        @click="handleCopy"
-      >
-        <span v-if="copied" i-ri-check-line />
-        <span v-else i-ri-file-copy-line />
-        {{ copied ? t('migration.prompt.copied') : t('migration.prompt.copy') }}
-      </button>
-    </div>
+    <PromptCopy
+      :prompt="currentPrompt"
+      :copy-label="t('migration.prompt.copy')"
+      :copied-label="t('migration.prompt.copied')"
+    />
   </div>
 </template>
 
@@ -197,18 +178,19 @@ function handleCopy() {
 
 .framework-btn:hover {
   border-color: var(--va-c-primary);
-  color: var(--va-c-primary);
+  color: var(--va-c-text);
 }
 
 .framework-btn.active {
   border-color: var(--va-c-primary);
-  background: var(--va-c-primary);
-  color: white;
+  background: var(--va-c-bg-soft);
+  box-shadow: inset 0 0 0 1px var(--va-c-primary);
+  color: var(--va-c-text);
+  font-weight: 600;
 }
 
-.prompt-content {
-  white-space: pre-wrap;
-  word-break: break-word;
-  margin: 0;
+.framework-btn:focus-visible {
+  outline: 2px solid var(--va-c-primary);
+  outline-offset: 2px;
 }
 </style>

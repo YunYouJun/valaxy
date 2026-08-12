@@ -33,6 +33,18 @@ please visit the QQ Channel ["Yun Le Fun"](https://pd.qq.com/s/grfe9jxoe) or sta
 - [valaxy-theme-yun](https://github.com/YunYouJun/valaxy/tree/main/packages/valaxy-theme-yun): valaxy-theme-yun, a more complete theme example
 - [valaxy-theme-press](https://github.com/YunYouJun/valaxy/tree/main/packages/valaxy-theme-press): valaxy-theme-press, the current documentation theme example
 
+## Generate a Theme with AI
+
+Fill in the theme name and a short design brief, then copy the generated prompt into your AI coding assistant. The prompt deliberately limits the task to a minimal theme package, asks the assistant to verify APIs against the installed Valaxy version, and includes implementation and validation checkpoints.
+
+<ThemePrompt />
+
+::: tip
+
+For more accurate results, install [Valaxy Skills](/guide/work-with-ai#agent-skills) first and run the assistant inside a repository that already contains Valaxy or the [theme starter](https://github.com/valaxyjs/valaxy-theme-starter). Review generated code and its dependency changes before publishing a theme.
+
+:::
+
 ## Creating a Theme Template
 
 ::: tip

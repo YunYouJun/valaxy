@@ -47,6 +47,10 @@ Create a Valaxy blog site with:
 
 The agent will automatically reference Valaxy Skills knowledge to correctly configure `site.config.ts` and `valaxy.config.ts`, use the appropriate APIs (such as `defineSiteConfig`, `defineValaxyConfig`), and follow Valaxy best practices.
 
+#### Using an Agent to Develop a Valaxy Theme
+
+Use the [AI theme prompt generator](/themes/write#generate-a-theme-with-ai) to describe a theme and copy a version-aware implementation checklist into your coding assistant. The generated prompt covers the minimum theme structure, configuration, styles, component conventions, and validation without assuming unsupported APIs.
+
 
 ## CLAUDE.md
 
@@ -112,4 +116,3 @@ You can also generate llms.txt files separately:
 ```bash
 npx valaxy llms
 ```
-

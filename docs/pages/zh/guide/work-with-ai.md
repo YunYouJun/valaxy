@@ -49,6 +49,10 @@ npx skills add YunYouJun/valaxy
 
 Agent 将自动引用 Valaxy Skills 中的知识来正确配置 `site.config.ts` 和 `valaxy.config.ts`，使用合适的 API（如 `defineSiteConfig`、`defineValaxyConfig`），并遵循 Valaxy 的最佳实践。
 
+#### 使用 Agent 开发 Valaxy 主题 {#using-an-agent-to-develop-a-valaxy-theme}
+
+使用 [AI 主题提示词生成器](/zh/themes/write#generate-a-theme-with-ai)描述主题，并将包含版本核对要求的实现清单复制到编程助手中。生成的提示词覆盖最小主题结构、配置、样式、组件约定和验证步骤，同时不会假定当前版本不存在的 API。
+
 
 
 
@@ -118,6 +122,5 @@ export default defineSiteConfig({
 ```bash
 npx valaxy llms
 ```
-
 
 

@@ -33,6 +33,18 @@ Valaxy 主题无需预编译，直接发布源文件即可。
 - [valaxy-theme-yun](https://github.com/YunYouJun/valaxy/tree/main/packages/valaxy-theme-yun): valaxy-theme-yun 一个更完善的主题示例
 - [valaxy-theme-press](https://github.com/YunYouJun/valaxy/tree/main/packages/valaxy-theme-press): valaxy-theme-press 当前文档主题示例
 
+## 使用 AI 生成主题 {#generate-a-theme-with-ai}
+
+填写主题名称与简短的设计说明，然后将生成的提示词复制到 AI 编程助手中。提示词会把任务限制在最小主题包内，要求助手根据当前安装的 Valaxy 版本核对 API，并提供实现与验证检查点。
+
+<ThemePrompt />
+
+::: tip
+
+为了获得更准确的结果，建议先安装 [Valaxy Skills](/zh/guide/work-with-ai#agent-skills)，并在已经包含 Valaxy 或[主题 starter](https://github.com/valaxyjs/valaxy-theme-starter) 的仓库内运行助手。发布主题前，请人工审查生成的代码与依赖变更。
+
+:::
+
 ## 创建主题模板 {#creating-a-theme-template}
 
 ::: tip
@@ -656,4 +668,3 @@ const algolia = useAddonConfig<AlgoliaSearchOptions>('valaxy-addon-algolia')
 当用户没有主动安装对应 `addon` 时（即 `addon` 不存在的情况），则会默认重定向至一个空函数。
 
 因此，如果某个插件不是必须的，请在主题文档中提醒想要使用该功能的用户安装对应插件。
-

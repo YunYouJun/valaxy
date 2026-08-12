@@ -142,6 +142,17 @@ migration:
     copy: Copy
     copied: Copied
     other: Other
+    frameworkLabel: Source framework
+
+themePrompt:
+  name: Theme name
+  namePlaceholder: aurora
+  visualDirection: Visual direction
+  visualDirectionPlaceholder: e.g. editorial, warm colors, serif headings
+  features: Required pages and features
+  featuresPlaceholder: e.g. home hero, post list, article TOC, responsive navigation
+  copy: Copy theme prompt
+  copied: Theme prompt copied
 
 post:
   contributors: Contributors

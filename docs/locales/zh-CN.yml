@@ -142,6 +142,17 @@ migration:
     copy: 复制
     copied: 已复制
     other: 其他
+    frameworkLabel: 原始框架
+
+themePrompt:
+  name: 主题名称
+  namePlaceholder: aurora
+  visualDirection: 视觉方向
+  visualDirectionPlaceholder: 例如编辑风、暖色系、衬线标题字体
+  features: 所需页面与功能
+  featuresPlaceholder: 例如首页主视觉、文章列表、文章目录、响应式导航
+  copy: 复制主题提示词
+  copied: 主题提示词已复制
 
 post:
   contributors: 贡献者
