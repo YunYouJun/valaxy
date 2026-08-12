@@ -22,15 +22,15 @@ jobs:
       contains(github.event.head_commit.message, 'release(addon-')
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v5
+      - uses: actions/checkout@v7
         with:
           fetch-depth: 0
 
       - name: Install pnpm
-        uses: pnpm/action-setup@v4
+        uses: pnpm/action-setup@v6
 
       - name: Use Node.js LTS
-        uses: actions/setup-node@v5
+        uses: actions/setup-node@v7
         with:
           node-version: 'lts/*'
           registry-url: https://registry.npmjs.org/
@@ -40,11 +40,14 @@ jobs:
 
       - name: Resolve addon name
         id: addon
+        env:
+          ADDON_INPUT: ${{ github.event.inputs.addon }}
+          COMMIT_MSG: ${{ github.event.head_commit.message }}
+          EVENT_NAME: ${{ github.event_name }}
         run: |
-          if [[ "${{ github.event_name }}" == "workflow_dispatch" ]]; then
-            ADDON_NAME="addon-${{ github.event.inputs.addon }}"
+          if [[ "$EVENT_NAME" == "workflow_dispatch" ]]; then
+            ADDON_NAME="addon-$ADDON_INPUT"
           else
-            COMMIT_MSG="${{ github.event.head_commit.message }}"
             # Extract addon name from: release(addon-xxx): ...
             PATTERN='release\((addon-[^)]+)\)'
             if [[ "$COMMIT_MSG" =~ $PATTERN ]]; then
