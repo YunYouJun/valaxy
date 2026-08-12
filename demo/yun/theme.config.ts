@@ -65,6 +65,25 @@ export default defineThemeConfig({
     },
   ],
 
+  sidebar: {
+    '/yun/': [
+      {
+        text: 'Theme Yun',
+        items: [
+          { text: 'Overview', link: '/yun/' },
+        ],
+      },
+    ],
+    '/examples/': [
+      {
+        text: 'Examples',
+        items: [
+          { text: 'Sites', link: '/examples/sites' },
+        ],
+      },
+    ],
+  },
+
   footer: {
     since: 2016,
     beian: {

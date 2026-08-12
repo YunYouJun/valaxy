@@ -2,7 +2,33 @@ import type { DefaultTheme } from 'valaxy/types'
 
 export namespace YunTheme {
   export type Config = ThemeConfig
-  export type Sidebar = any
+
+  export type Sidebar = SidebarItem[] | SidebarMulti
+
+  export interface SidebarMulti {
+    [path: string]: SidebarItem[] | {
+      items: SidebarItem[]
+      base?: string
+    }
+  }
+
+  export interface SidebarItem {
+    /** Text displayed for the link or group. */
+    text: string
+    /** Link target. Groups may omit it. */
+    link?: string
+    /** Nested navigation items. */
+    items?: SidebarItem[]
+    /**
+     * Enables collapsing when defined. `true` starts collapsed and `false`
+     * starts expanded.
+     */
+    collapsed?: boolean
+    /** Base path inherited by this item and its children. */
+    base?: string
+    rel?: string
+    target?: string
+  }
 
   export interface Banner {
     /**
@@ -206,7 +232,8 @@ export interface ThemeConfig extends DefaultTheme.Config {
    */
   pages: PageProps[]
 
-  sidebar: YunTheme.Sidebar
+  /** Navigation rendered by the `docs` layout. */
+  sidebar: YunTheme.Sidebar | null
 
   /**
    * footer

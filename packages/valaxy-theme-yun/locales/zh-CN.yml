@@ -1,4 +1,6 @@
 valaxy_theme_yun: Valaxy 主题 云
 
 theme:
+  docsSidebar: 文档导航
   outlineTitle: 本页
+  toggleSection: 展开或收起{title}

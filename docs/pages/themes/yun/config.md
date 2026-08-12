@@ -109,6 +109,9 @@ export default defineValaxyConfig<ThemeConfig>({
 
 ## Sidebar {#sidebar}
 
+The `docs` layout renders this navigation on the left. You can provide one
+sidebar for every document or use path prefixes to define multiple sidebars.
+
 ```ts [valaxy.config.ts]
 import type { ThemeConfig } from 'valaxy-theme-yun'
 import { defineValaxyConfig } from 'valaxy'
@@ -116,11 +119,32 @@ import { defineValaxyConfig } from 'valaxy'
 export default defineValaxyConfig<ThemeConfig>({
   themeConfig: {
     sidebar: {
-      // sidebar config
+      '/guide/': {
+        base: '/guide/',
+        items: [
+          {
+            text: 'Guide',
+            items: [
+              { text: 'Getting Started', link: 'getting-started' },
+              { text: 'Configuration', link: 'config' },
+            ],
+          },
+          {
+            text: 'Advanced',
+            collapsed: true,
+            items: [
+              { text: 'Deployment', link: 'deployment' },
+            ],
+          },
+        ],
+      },
     },
   },
 })
 ```
+
+Set `layout: docs` in a page's frontmatter to use it. Groups become collapsible
+when `collapsed` is present; `true` starts collapsed and `false` starts open.
 
 ## Footer {#footer}
 

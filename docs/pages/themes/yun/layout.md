@@ -4,6 +4,21 @@ categories:
   - theme
 ---
 
+## Documentation Layout {#documentation-layout}
+
+Use the `docs` layout for guide-like pages. It removes blog-only navigation and
+comments, renders the configured documentation sidebar, and keeps the page
+outline on the right.
+
+```md
+---
+title: Getting Started
+layout: docs
+---
+```
+
+Configure its navigation with [`themeConfig.sidebar`](/themes/yun/config#sidebar).
+
 ## Banner {#banner}
 
 The homepage banner with staggered text animation.

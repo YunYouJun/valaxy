@@ -110,6 +110,9 @@ export default defineValaxyConfig<ThemeConfig>({
 
 ## 侧边栏 {#sidebar}
 
+`docs` 布局会在页面左侧渲染这组导航。你可以为所有文档提供一份侧边栏，
+也可以按路径前缀配置多份侧边栏。
+
 ```ts [valaxy.config.ts]
 import type { ThemeConfig } from 'valaxy-theme-yun'
 import { defineValaxyConfig } from 'valaxy'
@@ -117,11 +120,32 @@ import { defineValaxyConfig } from 'valaxy'
 export default defineValaxyConfig<ThemeConfig>({
   themeConfig: {
     sidebar: {
-      // 侧边栏配置
+      '/guide/': {
+        base: '/guide/',
+        items: [
+          {
+            text: '指南',
+            items: [
+              { text: '快速开始', link: 'getting-started' },
+              { text: '配置', link: 'config' },
+            ],
+          },
+          {
+            text: '进阶',
+            collapsed: true,
+            items: [
+              { text: '部署', link: 'deployment' },
+            ],
+          },
+        ],
+      },
     },
   },
 })
 ```
+
+在页面 frontmatter 中设置 `layout: docs` 即可启用。配置了 `collapsed` 的分组
+可以折叠；`true` 表示初始收起，`false` 表示初始展开。
 
 ## 页脚 {#footer}
 

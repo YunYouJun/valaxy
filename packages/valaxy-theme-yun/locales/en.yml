@@ -1,4 +1,6 @@
 valaxy_theme_yun: Valaxy Theme Yun
 
 theme:
+  docsSidebar: Documentation navigation
   outlineTitle: On this page
+  toggleSection: Toggle {title}
