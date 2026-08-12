@@ -16,6 +16,7 @@ Commands:
   valaxy build [root]  build your blog to static content
   valaxy rss [root]    generate rss feed
   valaxy new <title>   Draft a new post
+  valaxy debug         Display debug information for your Valaxy project
 
 Positionals:
   root  root folder of your source files                 [string] [default: "."]
@@ -76,6 +77,7 @@ pnpm add -g valaxy
 - `valaxy rss`: Generate RSS
 - `valaxy build`: Use Vite to build SPA app by default
 - `valaxy build --ssg`: Build static pages (Memory-friendly, recommended), uses the built-in Valaxy SSG engine
+- `valaxy debug --plain`: Print environment and project information that can be pasted into an issue
 
 
 ## SSG Engine
@@ -144,4 +146,3 @@ You can also install `pnpm add -D gh-pages` and configure shortcut scripts in `p
   }
 }
 ```
-

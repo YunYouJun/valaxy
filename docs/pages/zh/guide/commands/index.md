@@ -16,6 +16,7 @@ Commands:
   valaxy build [root]  build your blog to static content
   valaxy rss [root]    generate rss feed
   valaxy new <title>   Draft a new post
+  valaxy debug         Display debug information for your Valaxy project
 
 Positionals:
   root  root folder of your source files                 [string] [default: "."]
@@ -75,6 +76,7 @@ pnpm add -g valaxy
 - `valaxy rss`: 自动生成 RSS
 - `valaxy build`: 默认采用 Vite 构建 SPA 应用
 - `valaxy build --ssg`: 构建静态页面站点（内存友好，推荐），使用 Valaxy 内置 SSG 引擎
+- `valaxy debug --plain`: 输出可粘贴到 Issue 的环境与项目信息
 
 
 
@@ -150,6 +152,5 @@ Valaxy SSG 引擎分为三个阶段：
   }
 }
 ```
-
 
 
