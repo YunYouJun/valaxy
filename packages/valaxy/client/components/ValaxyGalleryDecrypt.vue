@@ -65,7 +65,7 @@ defineExpose({
     </div>
     <div v-else>
       <slot :photos="photos" />
-      <div w-full text-center mt-8>
+      <div class="decrypt-action mb-8 sm:mb-0" w-full text-center mt-8>
         <button m-auto class="btn" font-bold @click="encryptAgain">
           Encrypt Again
         </button>

@@ -103,7 +103,7 @@ const hasWarning = computed(() => isClient && location.protocol !== 'https:')
     </div>
     <div v-else>
       <ValaxyDeprecatedContent :html="decryptedContent" />
-      <div w-full text-center mt-8>
+      <div class="decrypt-action mb-8 sm:mb-0" w-full text-center mt-8>
         <button m-auto class="btn" font-bold @click="encryptAgain">
           Encrypt Again
         </button>
