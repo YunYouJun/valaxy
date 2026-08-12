@@ -24,6 +24,46 @@ graph TD;
 ```
 ````
 
+## Mindmap
+
+For a lightweight mind map, Mermaid already works without an additional Valaxy addon. Use Markmap instead when you specifically need to turn a longer Markdown outline into an interactive, collapsible map.
+
+```mermaid
+mindmap
+  root((Valaxy blog))
+    Content
+      Posts
+      Pages
+      Assets
+    Extensions
+      Components
+      Themes
+      Addons
+    Delivery
+      SSG build
+      RSS
+      Deployment
+```
+
+````txt
+```mermaid
+mindmap
+  root((Valaxy blog))
+    Content
+      Posts
+      Pages
+      Assets
+    Extensions
+      Components
+      Themes
+      Addons
+    Delivery
+      SSG build
+      RSS
+      Deployment
+```
+````
+
 ## Sequence diagram
 
 ```mermaid

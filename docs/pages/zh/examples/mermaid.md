@@ -24,6 +24,46 @@ graph TD;
 ```
 ````
 
+## 思维导图 {#mindmap}
+
+轻量的思维导图可以直接使用 Mermaid，不需要额外安装 Valaxy addon。如果需要将较长的 Markdown 大纲转换为可交互、可折叠的地图，再考虑 Markmap。
+
+```mermaid
+mindmap
+  root((Valaxy 博客))
+    内容
+      文章
+      页面
+      资源
+    扩展
+      组件
+      主题
+      插件
+    交付
+      SSG 构建
+      RSS
+      部署
+```
+
+````txt
+```mermaid
+mindmap
+  root((Valaxy 博客))
+    内容
+      文章
+      页面
+      资源
+    扩展
+      组件
+      主题
+      插件
+    交付
+      SSG 构建
+      RSS
+      部署
+```
+````
+
 ## Sequence diagram {#sequence-diagram}
 
 ```mermaid
