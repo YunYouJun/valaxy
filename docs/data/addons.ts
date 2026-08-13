@@ -226,6 +226,18 @@ export const addons = [
     },
     tags: ['food', 'map'],
   },
+  {
+    name: 'valaxy-addon-giscus',
+    author: 'CNskarin',
+    icon: 'i-ri-chat-3-line',
+    repo: 'https://github.com/CNskarin/valaxy-addon-giscus',
+    kind: 'community',
+    description: {
+      'en': 'Giscus comment system for Valaxy, powered by GitHub Discussions.',
+      'zh-CN': '为 Valaxy 集成 Giscus 评论系统（GitHub Discussions 驱动）。',
+    },
+    tags: ['comment', 'giscus'],
+  },
 ] satisfies readonly ValaxyAddon[]
 
 export const officialAddons = addons.filter(addon => addon.kind === 'official')
