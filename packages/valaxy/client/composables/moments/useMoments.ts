@@ -1,4 +1,4 @@
-import type { MomentRouteInput } from '../types'
+import type { MomentRouteInput } from '../../../types/moments'
 import { useRouterStore } from 'valaxy'
 import { computed } from 'vue'
 import { normalizeMomentRoutes } from './data'

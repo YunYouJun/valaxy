@@ -54,6 +54,7 @@ export function getMarkdownCacheSize(state: StateManager) {
 
 export function generateSlots() {
   const slots = [
+    'main',
     'main-header',
     'main-header-after',
     'main-nav',

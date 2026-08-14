@@ -15,6 +15,7 @@ export * from './features'
 export * from './helper'
 export * from './layout'
 export * from './locale'
+export * from './moments'
 
 export * from './outline'
 export * from './post'

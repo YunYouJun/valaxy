@@ -1,6 +1,6 @@
 import { computed, onMounted, ref } from 'vue'
 
-export const MOMENT_LIKES_STORAGE_KEY = 'valaxy-addon-moments:likes'
+export const MOMENT_LIKES_STORAGE_KEY = 'valaxy:moments:likes'
 
 export interface MomentLikeStorage {
   getItem: (key: string) => string | null

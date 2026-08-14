@@ -6,9 +6,14 @@ export interface MomentsAuthor {
 export interface MomentsOptions {
   author?: MomentsAuthor
   batchSize?: number
-  description?: string
   initialCount?: number
-  title?: string
+}
+
+/** Options read from the `moments` field of `pages/moments/index.md`. */
+export interface MomentsPageFrontmatter {
+  description?: string | Record<string, string>
+  moments?: MomentsOptions
+  title?: string | Record<string, string>
 }
 
 export interface MomentImage {

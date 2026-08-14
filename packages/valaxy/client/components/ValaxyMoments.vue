@@ -1,35 +1,43 @@
 <script setup lang="ts">
-import type { MomentsAuthor } from '../types'
-import { useMediumZoom, useSiteConfig, useValaxyI18n } from 'valaxy'
-import { computed, nextTick, onBeforeUnmount, onMounted } from 'vue'
+import type { MomentsAuthor, MomentsPageFrontmatter } from '../../types/moments'
+import { useFrontmatter, useMediumZoom, useSiteConfig, useValaxyI18n } from 'valaxy'
+import { computed, nextTick, onBeforeUnmount, onMounted, useId } from 'vue'
 import { useI18n } from 'vue-i18n'
-import { getMomentMonth, getMomentMonthAnchorTargets, groupMomentsByYear, partitionPinnedMoments, useMoments, useMomentsConfig, useMomentsProgressiveCount } from '../client'
+import { getMomentMonth, getMomentMonthAnchorTargets, groupMomentsByYear, partitionPinnedMoments, useMoments, useMomentsProgressiveCount } from '../composables/moments'
 import ValaxyMomentCard from './ValaxyMomentCard.vue'
 
-const props = withDefaults(defineProps<{
+const props = defineProps<{
   batchSize?: number
   description?: string
   initialCount?: number
   title?: string
-}>(), {})
+}>()
 
 const { t } = useI18n()
 const { $t, $tO } = useValaxyI18n()
-const addon = useMomentsConfig()
+const frontmatter = useFrontmatter<MomentsPageFrontmatter>()
 const siteConfig = useSiteConfig()
 const moments = useMoments()
 useMediumZoom()
 
-const title = computed(() => props.title ?? addon.value?.options?.title ?? 'Moments')
-const description = computed(() => props.description ?? addon.value?.options?.description)
-const initialCount = computed(() => props.initialCount ?? addon.value?.options?.initialCount ?? 10)
-const batchSize = computed(() => props.batchSize ?? addon.value?.options?.batchSize ?? 10)
+function localizeText(value?: string | Record<string, string>) {
+  if (!value)
+    return ''
+  const localized = $tO(value)
+  return typeof localized === 'string' ? $t(localized) : ''
+}
+
+const options = computed(() => frontmatter.value.moments)
+const titleId = `valaxy-moments-title-${useId()}`
+const title = computed(() => localizeText(props.title ?? frontmatter.value.title) || 'Moments')
+const description = computed(() => localizeText(props.description ?? frontmatter.value.description))
+const initialCount = computed(() => props.initialCount ?? options.value?.initialCount ?? 10)
+const batchSize = computed(() => props.batchSize ?? options.value?.batchSize ?? 10)
 const author = computed<MomentsAuthor>(() => {
-  const rawName = addon.value?.options?.author?.name || siteConfig.value.author.name
-  const localizedName = $tO(rawName as string | Record<string, string>)
+  const rawName = options.value?.author?.name || siteConfig.value.author.name
   return {
-    avatar: addon.value?.options?.author?.avatar || siteConfig.value.author.avatar,
-    name: typeof localizedName === 'string' ? $t(localizedName) : '',
+    avatar: options.value?.author?.avatar || siteConfig.value.author.avatar,
+    name: localizeText(rawName),
   }
 })
 
@@ -65,10 +73,10 @@ onBeforeUnmount(() => window.removeEventListener('valaxy-moments:navigate', navi
 </script>
 
 <template>
-  <section class="valaxy-moments" aria-labelledby="valaxy-moments-title">
+  <section class="valaxy-moments" :aria-labelledby="titleId">
     <slot name="header" :description="description" :title="title">
       <header class="valaxy-moments-heading">
-        <h1 id="valaxy-moments-title">
+        <h1 :id="titleId">
           {{ title }}
         </h1>
         <p v-if="description">
@@ -105,7 +113,7 @@ onBeforeUnmount(() => window.removeEventListener('valaxy-moments:navigate', navi
     </div>
 
     <p v-else class="valaxy-moments-empty">
-      {{ t('addon.moments.empty', 'No moments yet.') }}
+      {{ t('moments.empty', 'No moments yet.') }}
     </p>
 
     <button
@@ -114,7 +122,7 @@ onBeforeUnmount(() => window.removeEventListener('valaxy-moments:navigate', navi
       type="button"
       @click="showMore"
     >
-      {{ t('addon.moments.more', { count: remainingCount }) }}
+      {{ t('moments.more', { count: remainingCount }) }}
     </button>
   </section>
 </template>

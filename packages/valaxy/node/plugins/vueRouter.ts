@@ -241,6 +241,15 @@ export async function createRouterPlugin(valaxyApp: ValaxyNode, base?: MarkdownB
           excerpt: resolvedExcerpt,
         })
 
+        if (
+          route.fullPath.startsWith('/moments/')
+          && route.fullPath !== '/moments/'
+        ) {
+          route.addToMeta({
+            momentContent: await mdIt.renderAsync(content),
+          })
+        }
+
         // set layout
         if (data.layout) {
           route.addToMeta({

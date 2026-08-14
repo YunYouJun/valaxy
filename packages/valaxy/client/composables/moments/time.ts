@@ -1,4 +1,4 @@
-import type { MomentEntry } from '../types'
+import type { MomentEntry } from '../../../types/moments'
 
 export interface MomentMonthGroup {
   anchor: string

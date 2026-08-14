@@ -1,4 +1,4 @@
-import type { MomentEntry, MomentFrontmatter, MomentImage, MomentImageInput, MomentRouteInput } from '../types'
+import type { MomentEntry, MomentFrontmatter, MomentImage, MomentRouteInput } from '../../../types/moments'
 
 const MAX_MOMENT_IMAGES = 9
 
@@ -12,7 +12,7 @@ export function normalizeMomentImages(images: unknown): MomentImage[] {
   if (!Array.isArray(images))
     return []
 
-  return images.flatMap((image: MomentImageInput | unknown) => {
+  return images.flatMap((image: unknown) => {
     if (typeof image === 'string') {
       const src = image.trim()
       return src ? [{ src }] : []

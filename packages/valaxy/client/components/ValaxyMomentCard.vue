@@ -1,8 +1,8 @@
 <script setup lang="ts">
-import type { MomentEntry, MomentsAuthor } from '../types'
+import type { MomentEntry, MomentsAuthor } from '../../types/moments'
 import { computed, nextTick, onBeforeUnmount, onMounted, ref, useId, watch } from 'vue'
 import { useI18n } from 'vue-i18n'
-import { useMomentLike } from '../client'
+import { useMomentLike } from '../composables/moments'
 
 const props = defineProps<{
   author: MomentsAuthor
@@ -89,7 +89,7 @@ const imageGridClass = computed(() => `valaxy-moment-images-${props.moment.image
       <img
         v-if="author.avatar"
         :src="author.avatar"
-        :alt="`${author.name || t('addon.moments.author', 'Author')} avatar`"
+        :alt="`${author.name || t('moments.author', 'Author')} avatar`"
         class="valaxy-moment-avatar"
         decoding="async"
         height="48"
@@ -101,13 +101,13 @@ const imageGridClass = computed(() => `valaxy-moment-images-${props.moment.image
       </span>
 
       <div class="valaxy-moment-identity">
-        <strong>{{ author.name || t('addon.moments.author', 'Author') }}</strong>
+        <strong>{{ author.name || t('moments.author', 'Author') }}</strong>
         <time :datetime="new Date(moment.date).toISOString()">{{ formattedDate }}</time>
       </div>
 
-      <span v-if="moment.top && moment.top > 0" class="valaxy-moment-pinned" :title="t('addon.moments.pinned', 'Pinned')">
+      <span v-if="moment.top && moment.top > 0" class="valaxy-moment-pinned" :title="t('moments.pinned', 'Pinned')">
         <span class="valaxy-moment-pinned-icon i-ri-pushpin-line" aria-hidden="true" />
-        <span class="sr-only">{{ t('addon.moments.pinned', 'Pinned') }}</span>
+        <span class="sr-only">{{ t('moments.pinned', 'Pinned') }}</span>
       </span>
     </header>
 
@@ -133,7 +133,7 @@ const imageGridClass = computed(() => `valaxy-moment-images-${props.moment.image
       :aria-expanded="expanded"
       @click="expanded = !expanded"
     >
-      <span>{{ t(expanded ? 'addon.moments.collapse' : 'addon.moments.expand') }}</span>
+      <span>{{ t(expanded ? 'moments.collapse' : 'moments.expand') }}</span>
       <span
         class="valaxy-moment-toggle-icon"
         :class="expanded ? 'i-ri-arrow-up-s-line' : 'i-ri-arrow-down-s-line'"
@@ -145,14 +145,14 @@ const imageGridClass = computed(() => `valaxy-moment-images-${props.moment.image
       v-if="moment.images.length"
       class="valaxy-moment-images markdown-body"
       :class="imageGridClass"
-      :aria-label="t('addon.moments.images', { count: moment.images.length })"
+      :aria-label="t('moments.images', { count: moment.images.length })"
     >
       <img
         v-for="(image, index) in moment.images"
         :key="`${image.src}-${index}`"
         :src="image.src"
         class="valaxy-moment-image"
-        :alt="image.alt || t('addon.moments.image', { index: index + 1 })"
+        :alt="image.alt || t('moments.image', { index: index + 1 })"
         :height="image.height"
         :width="image.width"
         decoding="async"
@@ -169,7 +169,7 @@ const imageGridClass = computed(() => `valaxy-moment-images-${props.moment.image
         class="valaxy-moment-like"
         :class="{ liked }"
         type="button"
-        :aria-label="t(liked ? 'addon.moments.unlike' : 'addon.moments.like')"
+        :aria-label="t(liked ? 'moments.unlike' : 'moments.like')"
         :aria-pressed="liked"
         :disabled="!hydrated"
         @click="toggle"
@@ -359,7 +359,6 @@ const imageGridClass = computed(() => `valaxy-moment-images-${props.moment.image
 .valaxy-moment-footer {
   display: flex;
   align-items: center;
-  justify-content: space-between;
   margin-top: 0.9rem;
 }
 

@@ -35,15 +35,15 @@ export default defineThemeConfig({
 
   pages: [
     {
+      name: '小随想',
+      url: '/moments/',
+      icon: 'i-ri-chat-1-line',
+    },
+    {
       name: '项目列表',
       url: '/projects',
       icon: 'i-ri-gallery-view',
       color: 'var(--va-c-text)',
-    },
-    {
-      name: '小随想',
-      url: '/moments/',
-      icon: 'i-ri-chat-1-line',
     },
     {
       name: '相册',

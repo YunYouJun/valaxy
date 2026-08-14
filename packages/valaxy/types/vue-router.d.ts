@@ -22,6 +22,10 @@ declare module 'vue-router' {
      */
     excerpt?: string
     /**
+     * Rendered Markdown for an entry under `/moments/`.
+     */
+    momentContent?: string
+    /**
      * Layout name
      */
     layout?: string
