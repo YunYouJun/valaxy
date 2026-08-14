@@ -1,9 +1,9 @@
 import type { MomentEntry } from '../packages/valaxy/types/moments'
 import { describe, expect, it } from 'vitest'
-import { nextTick, shallowRef } from 'vue'
+import { nextTick, ref, shallowRef } from 'vue'
 import { normalizeMomentImages, normalizeMomentRoutes } from '../packages/valaxy/client/composables/moments/data'
 import { getMomentMonthAnchorTargets, groupMomentsByYear, partitionPinnedMoments } from '../packages/valaxy/client/composables/moments/time'
-import { MOMENT_LIKES_STORAGE_KEY, readMomentLiked, writeMomentLiked } from '../packages/valaxy/client/composables/moments/useMomentLike'
+import { createMomentLikesStore, MOMENT_LIKES_STORAGE_KEY, normalizeMomentLikeCount, readMomentLiked, writeMomentLiked } from '../packages/valaxy/client/composables/moments/useMomentLike'
 import { useMomentsProgressiveCount } from '../packages/valaxy/client/composables/moments/useProgressiveCount'
 
 function moment(path: string, date: string) {
@@ -133,6 +133,48 @@ describe('moment likes', () => {
       setItem: () => {},
     }
     expect(readMomentLiked(storage, '/moments/a')).toBe(false)
+  })
+
+  it('normalizes public counts to non-negative integers', () => {
+    expect(normalizeMomentLikeCount(3.9)).toBe(3)
+    expect(normalizeMomentLikeCount('-2')).toBe(0)
+    expect(normalizeMomentLikeCount('bad')).toBe(0)
+  })
+
+  it('loads public counts in one request and posts path-based actions', async () => {
+    const requests: Array<{ body?: string, method?: string, url: string }> = []
+    const fetcher = (async (input: URL | RequestInfo, init?: RequestInit) => {
+      const url = String(input)
+      requests.push({ body: init?.body as string | undefined, method: init?.method, url })
+      if (init?.method === 'POST')
+        return new Response(JSON.stringify({ count: 8 }), { status: 200 })
+
+      return new Response(JSON.stringify({
+        '/moments/a': 5,
+        '/moments/b': -1,
+      }), { status: 200 })
+    }) as typeof fetch
+    const store = createMomentLikesStore(ref(true), ref('/api/moment-likes'), fetcher)
+
+    expect(await store.load(['/moments/a', '/moments/b'])).toBe(true)
+    expect(store.counts).toMatchObject({ '/moments/a': 5, '/moments/b': 0 })
+    expect(new URL(requests[0].url).searchParams.get('ids')).toBe('/moments/a,/moments/b')
+
+    expect(await store.request('/moments/a', 'like')).toBe(8)
+    expect(JSON.parse(requests[1].body!)).toEqual({
+      action: 'like',
+      momentId: '/moments/a',
+    })
+  })
+
+  it('keeps zero counts when the public API is unavailable', async () => {
+    const fetcher = (async () => {
+      throw new Error('offline')
+    }) as typeof fetch
+    const store = createMomentLikesStore(ref(true), ref('/api/moment-likes'), fetcher)
+
+    expect(await store.load(['/moments/a'])).toBe(false)
+    expect(store.counts['/moments/a']).toBe(0)
   })
 })
 

@@ -10,7 +10,7 @@ const props = defineProps<{
 }>()
 
 const { t } = useI18n()
-const { count: likeCount, hydrated, liked, toggle } = useMomentLike(props.moment.path)
+const { count: likeCount, enabled: likesEnabled, hydrated, liked, pending, toggle } = useMomentLike(props.moment.path)
 const contentElement = ref<HTMLElement>()
 const cardElement = ref<HTMLElement>()
 const zoomSourceImages = new Set<HTMLImageElement>()
@@ -166,12 +166,13 @@ const imageGridClass = computed(() => `valaxy-moment-images-${props.moment.image
         <span>{{ moment.location }}</span>
       </span>
       <button
+        v-if="likesEnabled"
         class="valaxy-moment-like"
         :class="{ liked }"
         type="button"
         :aria-label="t(liked ? 'moments.unlike' : 'moments.like')"
         :aria-pressed="liked"
-        :disabled="!hydrated"
+        :disabled="!hydrated || pending"
         @click="toggle"
       >
         <span :class="liked ? 'i-ri-heart-3-fill' : 'i-ri-heart-3-line'" aria-hidden="true" />

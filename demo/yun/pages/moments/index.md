@@ -6,4 +6,7 @@ toc: false
 moments:
   initialCount: 10
   batchSize: 10
+  likes:
+    enabled: true
+    endpoint: /api/moment-likes
 ---

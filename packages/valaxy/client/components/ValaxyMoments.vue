@@ -1,9 +1,9 @@
 <script setup lang="ts">
 import type { MomentsAuthor, MomentsPageFrontmatter } from '../../types/moments'
 import { useFrontmatter, useMediumZoom, useSiteConfig, useValaxyI18n } from 'valaxy'
-import { computed, nextTick, onBeforeUnmount, onMounted, useId } from 'vue'
+import { computed, nextTick, onBeforeUnmount, onMounted, useId, watch } from 'vue'
 import { useI18n } from 'vue-i18n'
-import { getMomentMonth, getMomentMonthAnchorTargets, groupMomentsByYear, partitionPinnedMoments, useMoments, useMomentsProgressiveCount } from '../composables/moments'
+import { createMomentLikesStore, DEFAULT_MOMENT_LIKES_ENDPOINT, getMomentMonth, getMomentMonthAnchorTargets, groupMomentsByYear, partitionPinnedMoments, provideMomentLikes, useMoments, useMomentsProgressiveCount } from '../composables/moments'
 import ValaxyMomentCard from './ValaxyMomentCard.vue'
 
 const props = defineProps<{
@@ -28,6 +28,10 @@ function localizeText(value?: string | Record<string, string>) {
 }
 
 const options = computed(() => frontmatter.value.moments)
+const likesEnabled = computed(() => options.value?.likes?.enabled ?? false)
+const likesEndpoint = computed(() => options.value?.likes?.endpoint?.trim() || DEFAULT_MOMENT_LIKES_ENDPOINT)
+const momentLikes = createMomentLikesStore(likesEnabled, likesEndpoint)
+provideMomentLikes(momentLikes)
 const titleId = `valaxy-moments-title-${useId()}`
 const title = computed(() => localizeText(props.title ?? frontmatter.value.title) || 'Moments')
 const description = computed(() => localizeText(props.description ?? frontmatter.value.description))
@@ -68,8 +72,27 @@ async function navigateToMonth(event: Event) {
   document.getElementById(anchor)?.scrollIntoView({ behavior: 'smooth', block: 'start' })
 }
 
-onMounted(() => window.addEventListener('valaxy-moments:navigate', navigateToMonth))
-onBeforeUnmount(() => window.removeEventListener('valaxy-moments:navigate', navigateToMonth))
+function loadMomentLikes() {
+  return momentLikes.load(moments.value.map(moment => moment.path))
+}
+
+let mounted = false
+onMounted(() => {
+  mounted = true
+  window.addEventListener('valaxy-moments:navigate', navigateToMonth)
+  void loadMomentLikes()
+})
+onBeforeUnmount(() => {
+  mounted = false
+  window.removeEventListener('valaxy-moments:navigate', navigateToMonth)
+})
+watch(
+  () => `${likesEnabled.value}:${likesEndpoint.value}:${moments.value.map(moment => moment.path).join(',')}`,
+  () => {
+    if (mounted)
+      void loadMomentLikes()
+  },
+)
 </script>
 
 <template>
