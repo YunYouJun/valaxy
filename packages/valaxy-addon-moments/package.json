@@ -1,0 +1,66 @@
+{
+  "name": "valaxy-addon-moments",
+  "type": "module",
+  "version": "0.1.0",
+  "description": "A Markdown moments timeline addon for Valaxy",
+  "author": "Yuumi",
+  "license": "MIT",
+  "homepage": "https://github.com/valaxyjs/valaxy-addon-moments",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/valaxyjs/valaxy-addon-moments.git",
+    "directory": "packages/valaxy-addon-moments"
+  },
+  "bugs": {
+    "url": "https://github.com/valaxyjs/valaxy-addon-moments/issues"
+  },
+  "keywords": [
+    "valaxy",
+    "addon",
+    "moments",
+    "microblog",
+    "timeline"
+  ],
+  "exports": {
+    ".": "./index.ts",
+    "./client": "./client/index.ts",
+    "./components/*": "./components/*",
+    "./types": "./types/index.ts",
+    "./*": "./*"
+  },
+  "main": "index.ts",
+  "module": "index.ts",
+  "types": "index.d.ts",
+  "directories": {
+    "test": "test"
+  },
+  "files": [
+    "*.d.ts",
+    "*.ts",
+    "README.md",
+    "README.zh-CN.md",
+    "client",
+    "components",
+    "locales",
+    "node",
+    "pages",
+    "types"
+  ],
+  "scripts": {
+    "test": "vitest run"
+  },
+  "peerDependencies": {
+    "valaxy": ">=1.0.0-rc.5",
+    "vue": "^3.5.0",
+    "vue-i18n": "^11.0.0"
+  },
+  "devDependencies": {
+    "valaxy": "workspace:*",
+    "vitest": "catalog:",
+    "vue": "catalog:frontend",
+    "vue-i18n": "catalog:build"
+  },
+  "publishConfig": {
+    "access": "public"
+  }
+}
