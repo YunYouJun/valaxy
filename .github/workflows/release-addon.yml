@@ -2,6 +2,8 @@ name: Release Addon
 
 on:
   push:
+    branches:
+      - main
     paths:
       - 'packages/valaxy-addon-*/package.json'
   workflow_dispatch:
@@ -12,8 +14,8 @@ on:
         type: string
 
 permissions:
-  contents: write
-  id-token: write
+  actions: write
+  contents: read
 
 jobs:
   release-addon:
@@ -26,18 +28,6 @@ jobs:
         with:
           fetch-depth: 0
 
-      - name: Install pnpm
-        uses: pnpm/action-setup@v6
-
-      - name: Use Node.js LTS
-        uses: actions/setup-node@v7
-        with:
-          node-version: 'lts/*'
-          registry-url: https://registry.npmjs.org/
-
-      - name: Install dependencies
-        run: pnpm install --frozen-lockfile
-
       - name: Resolve addon name
         id: addon
         env:
@@ -46,6 +36,10 @@ jobs:
           EVENT_NAME: ${{ github.event_name }}
         run: |
           if [[ "$EVENT_NAME" == "workflow_dispatch" ]]; then
+            if [[ ! "$ADDON_INPUT" =~ ^[a-z0-9]+([a-z0-9-]*[a-z0-9])?$ ]]; then
+              echo "::error::Invalid addon name: $ADDON_INPUT"
+              exit 1
+            fi
             ADDON_NAME="addon-$ADDON_INPUT"
           else
             # Extract addon name from: release(addon-xxx): ...
@@ -63,12 +57,14 @@ jobs:
             exit 1
           fi
           echo "name=${ADDON_NAME}" >> "$GITHUB_OUTPUT"
+          echo "addon=${ADDON_NAME#addon-}" >> "$GITHUB_OUTPUT"
           echo "dir=${PACKAGE_DIR}" >> "$GITHUB_OUTPUT"
-          echo "📦 Publishing valaxy-${ADDON_NAME} from ${PACKAGE_DIR}"
+          echo "📦 Dispatching valaxy-${ADDON_NAME} from ${PACKAGE_DIR}"
 
-      - name: Publish Addon
-        working-directory: ${{ steps.addon.outputs.dir }}
-        run: pnpm publish --no-git-checks --access public
+      # npm permits only one trusted publisher per package. Dispatch the sole
+      # OIDC-enabled publishing workflow instead of publishing from this file.
+      - name: Dispatch trusted release workflow
         env:
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
-          NPM_CONFIG_PROVENANCE: true
+          GH_TOKEN: ${{ github.token }}
+          ADDON_NAME: ${{ steps.addon.outputs.addon }}
+        run: gh workflow run release.yml --ref "$GITHUB_REF_NAME" -f addon="$ADDON_NAME"

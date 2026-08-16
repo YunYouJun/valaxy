@@ -4,6 +4,12 @@ on:
   push:
     tags:
       - 'v*'
+  workflow_dispatch:
+    inputs:
+      addon:
+        description: 'Addon name (e.g. meting, waline)'
+        required: true
+        type: string
 
 permissions:
   contents: write
@@ -12,6 +18,7 @@ permissions:
 jobs:
   release:
     runs-on: ubuntu-latest
+    environment: npm
     steps:
       - uses: actions/checkout@v7
         with:
@@ -19,22 +26,49 @@ jobs:
 
       - name: Install pnpm
         uses: pnpm/action-setup@v6
-        with:
-          run_install: true
 
-      # after pnpm
-      - name: Use Node.js LTS
+      - name: Use Node.js 24
         uses: actions/setup-node@v7
         with:
-          node-version: 'lts/*'
+          node-version: '24'
           registry-url: https://registry.npmjs.org/
-          cache: pnpm
+          package-manager-cache: false
 
-      - run: pnpm run build:all
+      - run: pnpm install --frozen-lockfile
+
+      - name: Resolve addon name
+        if: github.event_name == 'workflow_dispatch'
+        id: addon
+        env:
+          ADDON_INPUT: ${{ inputs.addon }}
+        run: |
+          if [[ ! "$ADDON_INPUT" =~ ^[a-z0-9]+([a-z0-9-]*[a-z0-9])?$ ]]; then
+            echo "::error::Invalid addon name: $ADDON_INPUT"
+            exit 1
+          fi
+          PACKAGE_DIR="packages/valaxy-addon-${ADDON_INPUT}"
+          if [[ ! -d "$PACKAGE_DIR" ]]; then
+            echo "::error::Package directory ${PACKAGE_DIR} not found"
+            exit 1
+          fi
+          echo "dir=${PACKAGE_DIR}" >> "$GITHUB_OUTPUT"
+          echo "📦 Publishing valaxy-addon-${ADDON_INPUT} from ${PACKAGE_DIR}"
+
+      - if: github.event_name == 'push'
+        run: pnpm run build:all
+
+      - name: Publish addon to npm
+        if: github.event_name == 'workflow_dispatch'
+        working-directory: ${{ steps.addon.outputs.dir }}
+        run: pnpm publish --access public --no-git-checks
+        env:
+          PNPM_CONFIG_BAIL: 'false'
+
       # https://docs.github.com/en/actions/publishing-packages/publishing-nodejs-packages
       # v1 release candidates are the default install channel while v1 is being
       # finalized. Other prereleases continue to use `next`.
-      - name: Publish to npm
+      - name: Publish release to npm
+        if: github.event_name == 'push'
         run: |
           if [[ "$GITHUB_REF_NAME" == v1.0.0-rc.* ]]; then
             pnpm -r publish --access public --no-git-checks --tag latest
@@ -44,10 +78,9 @@ jobs:
             pnpm -r publish --access public --no-git-checks
           fi
         env:
-          NODE_AUTH_TOKEN: ${{secrets.NPM_TOKEN}}
-          NPM_CONFIG_PROVENANCE: true
           PNPM_CONFIG_BAIL: 'false'
 
-      - run: npx changelogithub
+      - if: github.event_name == 'push'
+        run: npx changelogithub
         env:
           GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
