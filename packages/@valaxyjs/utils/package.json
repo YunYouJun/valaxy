@@ -1,7 +1,7 @@
 {
   "name": "@valaxyjs/utils",
   "type": "module",
-  "version": "1.0.0-rc.5",
+  "version": "1.0.0-rc.6",
   "description": "A utility library for Valaxy",
   "author": {
     "name": "Valaxy",
