@@ -2,16 +2,29 @@ name: Release
 
 on:
   push:
+    branches:
+      - main
     tags:
       - 'v*'
+    paths:
+      - 'packages/valaxy-addon-*/package.json'
+  workflow_dispatch:
+    inputs:
+      addon:
+        description: 'Addon name (e.g. meting, waline)'
+        required: true
+        type: string
 
-permissions:
-  contents: write
-  id-token: write
+permissions: {}
 
 jobs:
   release:
+    if: startsWith(github.ref, 'refs/tags/')
     runs-on: ubuntu-latest
+    environment: npm
+    permissions:
+      contents: write
+      id-token: write
     steps:
       - uses: actions/checkout@v7
         with:
@@ -19,22 +32,22 @@ jobs:
 
       - name: Install pnpm
         uses: pnpm/action-setup@v6
-        with:
-          run_install: true
 
-      # after pnpm
       - name: Use Node.js LTS
         uses: actions/setup-node@v7
         with:
           node-version: 'lts/*'
           registry-url: https://registry.npmjs.org/
-          cache: pnpm
+          package-manager-cache: false
+
+      - run: pnpm install --frozen-lockfile
 
       - run: pnpm run build:all
+
       # https://docs.github.com/en/actions/publishing-packages/publishing-nodejs-packages
       # v1 release candidates are the default install channel while v1 is being
       # finalized. Other prereleases continue to use `next`.
-      - name: Publish to npm
+      - name: Publish release to npm
         run: |
           if [[ "$GITHUB_REF_NAME" == v1.0.0-rc.* ]]; then
             pnpm -r publish --access public --no-git-checks --tag latest
@@ -44,10 +57,71 @@ jobs:
             pnpm -r publish --access public --no-git-checks
           fi
         env:
-          NODE_AUTH_TOKEN: ${{secrets.NPM_TOKEN}}
-          NPM_CONFIG_PROVENANCE: true
           PNPM_CONFIG_BAIL: 'false'
 
       - run: npx changelogithub
         env:
           GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
+
+  release-addon:
+    if: >
+      github.event_name == 'workflow_dispatch' ||
+      contains(github.event.head_commit.message, 'release(addon-')
+    runs-on: ubuntu-latest
+    environment: npm
+    permissions:
+      contents: read
+      id-token: write
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          fetch-depth: 0
+
+      - name: Install pnpm
+        uses: pnpm/action-setup@v6
+
+      - name: Use Node.js LTS
+        uses: actions/setup-node@v7
+        with:
+          node-version: 'lts/*'
+          registry-url: https://registry.npmjs.org/
+          package-manager-cache: false
+
+      - run: pnpm install --frozen-lockfile
+
+      - name: Resolve addon name
+        id: addon
+        env:
+          ADDON_INPUT: ${{ inputs.addon }}
+          COMMIT_MSG: ${{ github.event.head_commit.message }}
+          EVENT_NAME: ${{ github.event_name }}
+        run: |
+          if [[ "$EVENT_NAME" == "workflow_dispatch" ]]; then
+            if [[ ! "$ADDON_INPUT" =~ ^[a-z0-9]+([a-z0-9-]*[a-z0-9])?$ ]]; then
+              echo "::error::Invalid addon name: $ADDON_INPUT"
+              exit 1
+            fi
+            ADDON_NAME="addon-$ADDON_INPUT"
+          else
+            # Extract addon name from: release(addon-xxx): ...
+            PATTERN='release\((addon-[^)]+)\)'
+            if [[ "$COMMIT_MSG" =~ $PATTERN ]]; then
+              ADDON_NAME="${BASH_REMATCH[1]}"
+            else
+              echo "::error::Commit message does not match release(addon-*) pattern"
+              exit 1
+            fi
+          fi
+          PACKAGE_DIR="packages/valaxy-${ADDON_NAME}"
+          if [[ ! -d "$PACKAGE_DIR" ]]; then
+            echo "::error::Package directory ${PACKAGE_DIR} not found"
+            exit 1
+          fi
+          echo "dir=${PACKAGE_DIR}" >> "$GITHUB_OUTPUT"
+          echo "📦 Publishing valaxy-${ADDON_NAME} from ${PACKAGE_DIR}"
+
+      - name: Publish addon to npm
+        working-directory: ${{ steps.addon.outputs.dir }}
+        run: pnpm publish --access public --no-git-checks
+        env:
+          PNPM_CONFIG_BAIL: 'false'
