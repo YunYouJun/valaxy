@@ -66,20 +66,6 @@ post:
     license_title: Copyright Notice
     license_content: 'All articles in this blog are licensed under {0} unless otherwise stated.'
 
-moments:
-  author: Author
-  collapse: Collapse
-  empty: No moments yet.
-  expand: Expand
-  image: Moment image {index}
-  images: '{count} attached images'
-  like: Like this moment
-  more: Load more ({count})
-  month: month
-  pinned: Pinned
-  timeline: Timeline
-  unlike: Unlike this moment
-
 # page:
 #   totally: Totally
 #   tags: tags

@@ -30,6 +30,7 @@ describe('md:afterRender hook', async () => {
       excerpt: '<p>test excerpt</p>',
       content: '# Test\n\ntest content',
       path: '/test.md',
+      renderMarkdown: async source => source,
     }
 
     valaxyNode.hooks.callHook('md:afterRender', ctx)
@@ -65,6 +66,7 @@ describe('md:afterRender hook', async () => {
       excerpt: '',
       content: 'addon content',
       path: '/addon-test.md',
+      renderMarkdown: async source => source,
     }
 
     valaxyNode.hooks.callHook('md:afterRender', ctx)
@@ -98,6 +100,7 @@ describe('md:afterRender hook', async () => {
       excerpt: '',
       content: '',
       path: '',
+      renderMarkdown: async source => source,
     })
     expect(mdHookFn).toHaveBeenCalledOnce()
   })

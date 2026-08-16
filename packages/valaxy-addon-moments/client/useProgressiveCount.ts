@@ -1,7 +1,7 @@
 import type { MaybeRefOrGetter } from 'vue'
 import { computed, readonly, shallowRef, toValue, watch } from 'vue'
 
-function normalizeCount(value: number, fallback: number) {
+function normalizeProgressiveCount(value: number, fallback: number) {
   return Number.isFinite(value) ? Math.max(1, Math.floor(value)) : fallback
 }
 
@@ -12,8 +12,8 @@ export function useMomentsProgressiveCount(
 ) {
   const visibleCount = shallowRef(0)
   const totalCount = computed(() => Math.max(0, Math.floor(toValue(total))))
-  const normalizedInitialCount = computed(() => normalizeCount(toValue(initialCount), 10))
-  const normalizedBatchSize = computed(() => normalizeCount(toValue(batchSize), 10))
+  const normalizedInitialCount = computed(() => normalizeProgressiveCount(toValue(initialCount), 10))
+  const normalizedBatchSize = computed(() => normalizeProgressiveCount(toValue(batchSize), 10))
   const remainingCount = computed(() => Math.max(0, totalCount.value - visibleCount.value))
 
   watch(

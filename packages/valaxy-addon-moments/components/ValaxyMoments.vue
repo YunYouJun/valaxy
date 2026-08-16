@@ -1,9 +1,9 @@
 <script setup lang="ts">
-import type { MomentsAuthor, MomentsPageFrontmatter } from '../../types/moments'
-import { useFrontmatter, useMediumZoom, useSiteConfig, useValaxyI18n } from 'valaxy'
-import { computed, nextTick, onBeforeUnmount, onMounted, useId, watch } from 'vue'
+import type { MomentsAuthor, MomentsPageFrontmatter } from '../types'
+import { useFrontmatter, useSiteConfig, useValaxyI18n } from 'valaxy'
+import { computed, nextTick, onBeforeUnmount, onMounted, useId } from 'vue'
 import { useI18n } from 'vue-i18n'
-import { createMomentLikesStore, DEFAULT_MOMENT_LIKES_ENDPOINT, getMomentMonth, getMomentMonthAnchorTargets, groupMomentsByYear, partitionPinnedMoments, provideMomentLikes, useMoments, useMomentsProgressiveCount } from '../composables/moments'
+import { getMomentMonth, getMomentMonthAnchorTargets, groupMomentsByYear, partitionPinnedMoments, useMoments, useMomentsConfig, useMomentsProgressiveCount } from '../client'
 import ValaxyMomentCard from './ValaxyMomentCard.vue'
 
 const props = defineProps<{
@@ -13,12 +13,16 @@ const props = defineProps<{
   title?: string
 }>()
 
+defineSlots<{
+  header?: (props: { description: string, title: string, titleId: string }) => unknown
+}>()
+
 const { t } = useI18n()
 const { $t, $tO } = useValaxyI18n()
 const frontmatter = useFrontmatter<MomentsPageFrontmatter>()
 const siteConfig = useSiteConfig()
 const moments = useMoments()
-useMediumZoom()
+const addon = useMomentsConfig()
 
 function localizeText(value?: string | Record<string, string>) {
   if (!value)
@@ -28,19 +32,16 @@ function localizeText(value?: string | Record<string, string>) {
 }
 
 const options = computed(() => frontmatter.value.moments)
-const likesEnabled = computed(() => options.value?.likes?.enabled ?? false)
-const likesEndpoint = computed(() => options.value?.likes?.endpoint?.trim() || DEFAULT_MOMENT_LIKES_ENDPOINT)
-const momentLikes = createMomentLikesStore(likesEnabled, likesEndpoint)
-provideMomentLikes(momentLikes)
 const titleId = `valaxy-moments-title-${useId()}`
-const title = computed(() => localizeText(props.title ?? frontmatter.value.title) || 'Moments')
-const description = computed(() => localizeText(props.description ?? frontmatter.value.description))
-const initialCount = computed(() => props.initialCount ?? options.value?.initialCount ?? 10)
-const batchSize = computed(() => props.batchSize ?? options.value?.batchSize ?? 10)
+const title = computed(() => localizeText(props.title ?? frontmatter.value.title ?? addon.value?.options?.title) || 'Moments')
+const description = computed(() => localizeText(props.description ?? frontmatter.value.description ?? addon.value?.options?.description))
+const initialCount = computed(() => props.initialCount ?? options.value?.initialCount ?? addon.value?.options?.initialCount ?? 10)
+const batchSize = computed(() => props.batchSize ?? options.value?.batchSize ?? addon.value?.options?.batchSize ?? 10)
+const timezone = computed(() => siteConfig.value.timezone || 'UTC')
 const author = computed<MomentsAuthor>(() => {
-  const rawName = options.value?.author?.name || siteConfig.value.author.name
+  const rawName = options.value?.author?.name || addon.value?.options?.author?.name || siteConfig.value.author.name
   return {
-    avatar: options.value?.author?.avatar || siteConfig.value.author.avatar,
+    avatar: options.value?.author?.avatar || addon.value?.options?.author?.avatar || siteConfig.value.author.avatar,
     name: localizeText(rawName),
   }
 })
@@ -53,11 +54,11 @@ const { remainingCount, showMore, visibleCount } = useMomentsProgressiveCount(
 const visibleMoments = computed(() => moments.value.slice(0, visibleCount.value))
 const partitionedMoments = computed(() => partitionPinnedMoments(visibleMoments.value))
 const pinnedMoments = computed(() => partitionedMoments.value.pinned)
-const groupedMoments = computed(() => groupMomentsByYear(partitionedMoments.value.regular))
-const monthAnchorTargets = computed(() => getMomentMonthAnchorTargets(moments.value))
+const groupedMoments = computed(() => groupMomentsByYear(partitionedMoments.value.regular, timezone.value))
+const monthAnchorTargets = computed(() => getMomentMonthAnchorTargets(moments.value, timezone.value))
 
 function getMonthAnchorId(moment: (typeof moments.value)[number]) {
-  const anchor = getMomentMonth(moment.date).anchor
+  const anchor = getMomentMonth(moment.date, timezone.value).anchor
   return monthAnchorTargets.value.get(anchor) === moment.path ? anchor : undefined
 }
 
@@ -72,32 +73,17 @@ async function navigateToMonth(event: Event) {
   document.getElementById(anchor)?.scrollIntoView({ behavior: 'smooth', block: 'start' })
 }
 
-function loadMomentLikes() {
-  return momentLikes.load(moments.value.map(moment => moment.path))
-}
-
-let mounted = false
 onMounted(() => {
-  mounted = true
   window.addEventListener('valaxy-moments:navigate', navigateToMonth)
-  void loadMomentLikes()
 })
 onBeforeUnmount(() => {
-  mounted = false
   window.removeEventListener('valaxy-moments:navigate', navigateToMonth)
 })
-watch(
-  () => `${likesEnabled.value}:${likesEndpoint.value}:${moments.value.map(moment => moment.path).join(',')}`,
-  () => {
-    if (mounted)
-      void loadMomentLikes()
-  },
-)
 </script>
 
 <template>
   <section class="valaxy-moments" :aria-labelledby="titleId">
-    <slot name="header" :description="description" :title="title">
+    <slot name="header" :description="description" :title="title" :title-id="titleId">
       <header class="valaxy-moments-heading">
         <h1 :id="titleId">
           {{ title }}
@@ -115,6 +101,7 @@ watch(
             :id="getMonthAnchorId(moment)"
             :author="author"
             :moment="moment"
+            :timezone="timezone"
           />
         </div>
       </div>
@@ -130,13 +117,14 @@ watch(
             :key="moment.path"
             :author="author"
             :moment="moment"
+            :timezone="timezone"
           />
         </section>
       </template>
     </div>
 
     <p v-else class="valaxy-moments-empty">
-      {{ t('moments.empty', 'No moments yet.') }}
+      {{ t('addon.moments.empty', 'No moments yet.') }}
     </p>
 
     <button
@@ -145,7 +133,7 @@ watch(
       type="button"
       @click="showMore"
     >
-      {{ t('moments.more', { count: remainingCount }) }}
+      {{ t('addon.moments.more', { count: remainingCount }) }}
     </button>
   </section>
 </template>

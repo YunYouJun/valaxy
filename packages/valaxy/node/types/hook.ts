@@ -18,6 +18,11 @@ export interface MdAfterRenderContext {
    */
   content: string
   path: string
+  /**
+   * Render Markdown with the same configured renderer and resolved Vite base
+   * used by route processing.
+   */
+  renderMarkdown: (source: string, env?: Record<string, unknown>) => Promise<string>
 }
 
 export interface ValaxyHooks {
@@ -32,7 +37,8 @@ export interface ValaxyHooks {
   /**
    * Called after a markdown page has been loaded and its frontmatter/excerpt resolved.
    * Fires for all `.md` routes (posts, pages, collections, etc.).
-   * Provides access to the route, raw markdown content, resolved excerpt, frontmatter data, and file path.
+   * Provides access to the route, raw markdown content, resolved excerpt, frontmatter data,
+   * file path, and the configured Markdown renderer.
    * Useful for addons that need to inspect or extend page metadata (e.g., auto-generating excerpts).
    * @see valaxy/node/plugins/vueRouter.ts extendRoute
    */

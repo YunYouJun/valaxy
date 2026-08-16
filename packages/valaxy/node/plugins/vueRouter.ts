@@ -1,3 +1,4 @@
+import type { MarkdownItAsync } from 'markdown-it-async'
 import type { ExcerptType, Page, Post } from '../../types'
 import type { ValaxyNode } from '../types'
 import type { MarkdownBase } from './markdown/base'
@@ -6,12 +7,11 @@ import fs from 'fs-extra'
 
 import matter from 'gray-matter'
 import { convert } from 'html-to-text'
-import { MarkdownItAsync } from 'markdown-it-async'
 import { resolve } from 'pathe'
 import VueRouter from 'vue-router/vite'
 import { vLogger } from '../logger'
 import { countPerformanceTime } from '../utils/performance'
-import { setupMarkdownPlugins } from './markdown'
+import { createMarkdownRenderer } from './markdown'
 
 import { matterOptions } from './markdown/transform/matter'
 // Import vue-router RouteMeta augmentation
@@ -57,8 +57,7 @@ export async function createRouterPlugin(valaxyApp: ValaxyNode, base?: MarkdownB
   const { options } = valaxyApp
   const { roots, config: valaxyConfig } = options
 
-  const mdIt = new MarkdownItAsync({ html: true })
-  await setupMarkdownPlugins(mdIt, options, base)
+  const mdIt = await createMarkdownRenderer(options, base)
 
   // Cache the deep-cloned default frontmatter to avoid re-cloning on every route.
   // Only re-clone when the reference changes (e.g. HMR config reload).
@@ -241,15 +240,6 @@ export async function createRouterPlugin(valaxyApp: ValaxyNode, base?: MarkdownB
           excerpt: resolvedExcerpt,
         })
 
-        if (
-          route.fullPath.startsWith('/moments/')
-          && route.fullPath !== '/moments/'
-        ) {
-          route.addToMeta({
-            momentContent: await mdIt.renderAsync(content),
-          })
-        }
-
         // set layout
         if (data.layout) {
           route.addToMeta({
@@ -282,6 +272,7 @@ export async function createRouterPlugin(valaxyApp: ValaxyNode, base?: MarkdownB
           excerpt: finalExcerpt,
           content,
           path,
+          renderMarkdown: (source, env) => mdIt.renderAsync(source, env),
         })
       }
 

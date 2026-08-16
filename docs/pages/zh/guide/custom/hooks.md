@@ -24,7 +24,7 @@ Valaxy 提供了钩子系统，以便你可以对生命周期的各个阶段进�
 | `config:init` |  | 在 Vite 配置初始化（根据 Valaxy Options 进行初始化）之后执行。|
 | `vue-router:extendRoute` | `route: EditableTreeNode` | 在扩展每个路由时执行（`.md` 页面的 frontmatter/excerpt 处理完成之后）。|
 | `vue-router:beforeWriteFiles` | `root: EditableTreeNode` | 在路由文件写入之前执行。|
-| `md:afterRender` | `ctx: MdAfterRenderContext` | 在 Markdown 页面加载并解析 frontmatter/excerpt 之后执行。适用于需要检查或扩展页面元数据的插件。|
+| `md:afterRender` | `ctx: MdAfterRenderContext` | 在 Markdown 页面加载并解析 frontmatter/excerpt 之后执行；插件可通过 `ctx.renderMarkdown` 复用已配置的渲染器和最终 Vite base。|
 | `build:before` |  | 在构建开始之前执行。仅在 `valaxy build` 时触发。|
 | `build:after` |  | 在构建完成之后执行。仅在 `valaxy build` 时触发。|
 | `content:before-load` | | `@experimental` 在所有 Content Loader 开始获取之前触发。|
@@ -53,4 +53,3 @@ export default defineAppSetup(({ app, router, routes }) => {
   // 安装 Vue 插件、注册全局组件等
 })
 ```
-

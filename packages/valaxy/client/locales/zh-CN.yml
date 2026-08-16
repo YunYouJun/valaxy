@@ -66,20 +66,6 @@ post:
     license_title: 版权声明
     license_content: '本博客所有文章除特别声明外，均默认采用 {0} 许可协议。'
 
-moments:
-  author: 作者
-  collapse: 收起
-  empty: 还没有发布动态。
-  expand: 展开
-  image: 动态图片 {index}
-  images: 共 {count} 张图片
-  like: 点赞
-  more: 加载更多（剩余 {count} 条）
-  month: 月
-  pinned: 置顶
-  timeline: 时间线
-  unlike: 取消点赞
-
 # page:
 #   totally: 共有
 #   tags: 标签

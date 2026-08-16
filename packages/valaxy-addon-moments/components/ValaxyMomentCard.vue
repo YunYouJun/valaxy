@@ -1,23 +1,28 @@
 <script setup lang="ts">
-import type { MomentEntry, MomentsAuthor } from '../../types/moments'
-import { computed, nextTick, onBeforeUnmount, onMounted, ref, useId, watch } from 'vue'
+import type { MomentEntry, MomentsAuthor } from '../types'
+import { useMediumZoom } from 'valaxy'
+import { computed, nextTick, onBeforeUnmount, onMounted, shallowRef, useId, useTemplateRef, watch } from 'vue'
 import { useI18n } from 'vue-i18n'
-import { useMomentLike } from '../composables/moments'
+import { formatMomentDate, isPinnedMoment, toMomentDateTime } from '../client/time'
 
 const props = defineProps<{
   author: MomentsAuthor
   moment: MomentEntry
+  timezone: string
 }>()
 
 const { t } = useI18n()
-const { count: likeCount, enabled: likesEnabled, hydrated, liked, pending, toggle } = useMomentLike(props.moment.path)
-const contentElement = ref<HTMLElement>()
-const cardElement = ref<HTMLElement>()
+const contentElement = useTemplateRef<HTMLElement>('contentElement')
+const cardElement = useTemplateRef<HTMLElement>('cardElement')
 const zoomSourceImages = new Set<HTMLImageElement>()
 const contentId = `valaxy-moment-content-${useId()}`
-const expanded = ref(false)
-const hasOverflowingContent = ref(false)
+const expanded = shallowRef(false)
+const hasOverflowingContent = shallowRef(false)
 let resizeObserver: ResizeObserver | undefined
+
+const { enabled: zoomEnabled } = useMediumZoom(
+  () => cardElement.value?.querySelectorAll<HTMLImageElement>('.markdown-body img'),
+)
 
 function checkContentOverflow() {
   const element = contentElement.value
@@ -76,10 +81,8 @@ watch(() => props.moment.content, async () => {
 })
 
 const authorInitial = computed(() => props.author.name?.trim().charAt(0).toUpperCase() || '?')
-const formattedDate = computed(() => new Intl.DateTimeFormat(undefined, {
-  dateStyle: 'medium',
-  timeStyle: 'short',
-}).format(new Date(props.moment.date)))
+const dateTime = computed(() => toMomentDateTime(props.moment.date, props.timezone).toISOString())
+const formattedDate = computed(() => formatMomentDate(props.moment.date, props.timezone))
 const imageGridClass = computed(() => `valaxy-moment-images-${props.moment.images.length}`)
 </script>
 
@@ -89,7 +92,7 @@ const imageGridClass = computed(() => `valaxy-moment-images-${props.moment.image
       <img
         v-if="author.avatar"
         :src="author.avatar"
-        :alt="`${author.name || t('moments.author', 'Author')} avatar`"
+        :alt="`${author.name || t('addon.moments.author', 'Author')} avatar`"
         class="valaxy-moment-avatar"
         decoding="async"
         height="48"
@@ -101,13 +104,13 @@ const imageGridClass = computed(() => `valaxy-moment-images-${props.moment.image
       </span>
 
       <div class="valaxy-moment-identity">
-        <strong>{{ author.name || t('moments.author', 'Author') }}</strong>
-        <time :datetime="new Date(moment.date).toISOString()">{{ formattedDate }}</time>
+        <strong>{{ author.name || t('addon.moments.author', 'Author') }}</strong>
+        <time :datetime="dateTime">{{ formattedDate }}</time>
       </div>
 
-      <span v-if="moment.top && moment.top > 0" class="valaxy-moment-pinned" :title="t('moments.pinned', 'Pinned')">
+      <span v-if="isPinnedMoment(moment)" class="valaxy-moment-pinned" :title="t('addon.moments.pinned', 'Pinned')">
         <span class="valaxy-moment-pinned-icon i-ri-pushpin-line" aria-hidden="true" />
-        <span class="sr-only">{{ t('moments.pinned', 'Pinned') }}</span>
+        <span class="sr-only">{{ t('addon.moments.pinned', 'Pinned') }}</span>
       </span>
     </header>
 
@@ -133,7 +136,7 @@ const imageGridClass = computed(() => `valaxy-moment-images-${props.moment.image
       :aria-expanded="expanded"
       @click="expanded = !expanded"
     >
-      <span>{{ t(expanded ? 'moments.collapse' : 'moments.expand') }}</span>
+      <span>{{ t(expanded ? 'addon.moments.collapse' : 'addon.moments.expand') }}</span>
       <span
         class="valaxy-moment-toggle-icon"
         :class="expanded ? 'i-ri-arrow-up-s-line' : 'i-ri-arrow-down-s-line'"
@@ -144,15 +147,15 @@ const imageGridClass = computed(() => `valaxy-moment-images-${props.moment.image
     <div
       v-if="moment.images.length"
       class="valaxy-moment-images markdown-body"
-      :class="imageGridClass"
-      :aria-label="t('moments.images', { count: moment.images.length })"
+      :class="[imageGridClass, { 'is-zoomable': zoomEnabled }]"
+      :aria-label="t('addon.moments.images', { count: moment.images.length })"
     >
       <img
         v-for="(image, index) in moment.images"
         :key="`${image.src}-${index}`"
         :src="image.src"
         class="valaxy-moment-image"
-        :alt="image.alt || t('moments.image', { index: index + 1 })"
+        :alt="image.alt || t('addon.moments.image', { index: index + 1 })"
         :height="image.height"
         :width="image.width"
         decoding="async"
@@ -160,24 +163,11 @@ const imageGridClass = computed(() => `valaxy-moment-images-${props.moment.image
       >
     </div>
 
-    <footer class="valaxy-moment-footer">
-      <span v-if="moment.location" class="valaxy-moment-location">
+    <footer v-if="moment.location" class="valaxy-moment-footer">
+      <span class="valaxy-moment-location">
         <span class="i-ri-map-pin-2-line" aria-hidden="true" />
         <span>{{ moment.location }}</span>
       </span>
-      <button
-        v-if="likesEnabled"
-        class="valaxy-moment-like"
-        :class="{ liked }"
-        type="button"
-        :aria-label="t(liked ? 'moments.unlike' : 'moments.like')"
-        :aria-pressed="liked"
-        :disabled="!hydrated || pending"
-        @click="toggle"
-      >
-        <span :class="liked ? 'i-ri-heart-3-fill' : 'i-ri-heart-3-line'" aria-hidden="true" />
-        <span>{{ likeCount }}</span>
-      </button>
     </footer>
   </article>
 </template>
@@ -332,8 +322,11 @@ const imageGridClass = computed(() => `valaxy-moment-images-${props.moment.image
   width: 100%;
   aspect-ratio: 1;
   object-fit: cover;
-  cursor: zoom-in;
   border-radius: 0.5rem;
+}
+
+.valaxy-moment-images.is-zoomable img {
+  cursor: zoom-in;
 }
 
 .valaxy-moment-images-1 img {
@@ -363,36 +356,10 @@ const imageGridClass = computed(() => `valaxy-moment-images-${props.moment.image
   margin-top: 0.9rem;
 }
 
-.valaxy-moment-location,
-.valaxy-moment-like {
+.valaxy-moment-location {
   display: inline-flex;
   gap: 0.3rem;
   align-items: center;
-}
-
-.valaxy-moment-like {
-  padding: 0.3rem 0.55rem;
-  margin-left: auto;
-  color: var(--va-c-text-2, #74777d);
-  font: inherit;
-  background: transparent;
-  border: 0;
-  border-radius: 999px;
-  cursor: pointer;
-}
-
-.valaxy-moment-like.liked {
-  color: #ef476f;
-}
-
-.valaxy-moment-like:disabled {
-  cursor: default;
-  opacity: 0.65;
-}
-
-.valaxy-moment-like:focus-visible {
-  outline: 2px solid currentcolor;
-  outline-offset: 2px;
 }
 
 .sr-only {

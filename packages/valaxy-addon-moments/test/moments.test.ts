@@ -1,10 +1,10 @@
-import type { MomentEntry } from '../packages/valaxy/types/moments'
+import type { MomentEntry } from '../types'
 import { describe, expect, it } from 'vitest'
-import { nextTick, ref, shallowRef } from 'vue'
-import { normalizeMomentImages, normalizeMomentRoutes } from '../packages/valaxy/client/composables/moments/data'
-import { getMomentMonthAnchorTargets, groupMomentsByYear, partitionPinnedMoments } from '../packages/valaxy/client/composables/moments/time'
-import { createMomentLikesStore, MOMENT_LIKES_STORAGE_KEY, normalizeMomentLikeCount, readMomentLiked, writeMomentLiked } from '../packages/valaxy/client/composables/moments/useMomentLike'
-import { useMomentsProgressiveCount } from '../packages/valaxy/client/composables/moments/useProgressiveCount'
+import { nextTick, shallowRef } from 'vue'
+import { normalizeMomentImages, normalizeMomentRoutes } from '../client/data'
+import { formatMomentDate, getMomentMonth, getMomentMonthAnchorTargets, groupMomentsByYear, partitionPinnedMoments } from '../client/time'
+import { useMomentsProgressiveCount } from '../client/useProgressiveCount'
+import { shouldExcludeMoment } from '../node'
 
 function moment(path: string, date: string) {
   return { path, date, content: '', images: [] } as MomentEntry
@@ -66,6 +66,15 @@ describe('normalizeMomentRoutes', () => {
 })
 
 describe('groupMomentsByYear', () => {
+  it('uses the configured timezone consistently for naive and absolute dates', () => {
+    expect(getMomentMonth('2026-01-01', 'America/Los_Angeles').anchor).toBe('moments-2026-01')
+    expect(getMomentMonth('2026-01-01', 'Asia/Shanghai').anchor).toBe('moments-2026-01')
+
+    expect(getMomentMonth('2026-01-01T00:30:00Z', 'America/Los_Angeles').anchor).toBe('moments-2025-12')
+    expect(getMomentMonth('2026-01-01T00:30:00Z', 'Asia/Shanghai').anchor).toBe('moments-2026-01')
+    expect(formatMomentDate('2026-01-01 08:30', 'Asia/Shanghai')).toBe('2026-01-01 08:30')
+  })
+
   it('groups entries into descending years and months', () => {
     const groups = groupMomentsByYear([
       moment('/moments/c', '2026-08-13'),
@@ -111,70 +120,12 @@ describe('groupMomentsByYear', () => {
   })
 })
 
-describe('moment likes', () => {
-  it('persists and removes one local like per path', () => {
-    const values = new Map<string, string>()
-    const storage = {
-      getItem: (key: string) => values.get(key) ?? null,
-      setItem: (key: string, value: string) => values.set(key, value),
-    }
-
-    writeMomentLiked(storage, '/moments/a', true)
-    expect(readMomentLiked(storage, '/moments/a')).toBe(true)
-    expect(JSON.parse(values.get(MOMENT_LIKES_STORAGE_KEY)!)).toEqual({ '/moments/a': true })
-
-    writeMomentLiked(storage, '/moments/a', false)
-    expect(readMomentLiked(storage, '/moments/a')).toBe(false)
-  })
-
-  it('recovers from malformed storage', () => {
-    const storage = {
-      getItem: () => '{bad',
-      setItem: () => {},
-    }
-    expect(readMomentLiked(storage, '/moments/a')).toBe(false)
-  })
-
-  it('normalizes public counts to non-negative integers', () => {
-    expect(normalizeMomentLikeCount(3.9)).toBe(3)
-    expect(normalizeMomentLikeCount('-2')).toBe(0)
-    expect(normalizeMomentLikeCount('bad')).toBe(0)
-  })
-
-  it('loads public counts in one request and posts path-based actions', async () => {
-    const requests: Array<{ body?: string, method?: string, url: string }> = []
-    const fetcher = (async (input: URL | RequestInfo, init?: RequestInit) => {
-      const url = String(input)
-      requests.push({ body: init?.body as string | undefined, method: init?.method, url })
-      if (init?.method === 'POST')
-        return new Response(JSON.stringify({ count: 8 }), { status: 200 })
-
-      return new Response(JSON.stringify({
-        '/moments/a': 5,
-        '/moments/b': -1,
-      }), { status: 200 })
-    }) as typeof fetch
-    const store = createMomentLikesStore(ref(true), ref('/api/moment-likes'), fetcher)
-
-    expect(await store.load(['/moments/a', '/moments/b'])).toBe(true)
-    expect(store.counts).toMatchObject({ '/moments/a': 5, '/moments/b': 0 })
-    expect(new URL(requests[0].url).searchParams.get('ids')).toBe('/moments/a,/moments/b')
-
-    expect(await store.request('/moments/a', 'like')).toBe(8)
-    expect(JSON.parse(requests[1].body!)).toEqual({
-      action: 'like',
-      momentId: '/moments/a',
-    })
-  })
-
-  it('keeps zero counts when the public API is unavailable', async () => {
-    const fetcher = (async () => {
-      throw new Error('offline')
-    }) as typeof fetch
-    const store = createMomentLikesStore(ref(true), ref('/api/moment-likes'), fetcher)
-
-    expect(await store.load(['/moments/a'])).toBe(false)
-    expect(store.counts['/moments/a']).toBe(0)
+describe('production filtering', () => {
+  it('removes draft and hidden moment routes only from production builds', () => {
+    expect(shouldExcludeMoment({ draft: true }, 'build')).toBe(true)
+    expect(shouldExcludeMoment({ hide: 'index' }, 'build')).toBe(true)
+    expect(shouldExcludeMoment({ draft: true }, 'dev')).toBe(false)
+    expect(shouldExcludeMoment({}, 'build')).toBe(false)
   })
 })
 

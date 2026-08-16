@@ -3,18 +3,12 @@ export interface MomentsAuthor {
   name?: string
 }
 
-export interface MomentsLikesOptions {
-  /** Enable the like button and remote public counts. @default false */
-  enabled?: boolean
-  /** HTTP endpoint implementing the moment likes API. @default '/api/moment-likes' */
-  endpoint?: string
-}
-
 export interface MomentsOptions {
   author?: MomentsAuthor
   batchSize?: number
+  description?: string | Record<string, string>
   initialCount?: number
-  likes?: MomentsLikesOptions
+  title?: string | Record<string, string>
 }
 
 /** Options read from the `moments` field of `pages/moments/index.md`. */

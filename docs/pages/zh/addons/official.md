@@ -15,6 +15,7 @@ categories:
 - [valaxy-addon-girls](/zh/addons/girls)
 - [valaxy-addon-lightgallery](/zh/addons/official/lightgallery)
 - [valaxy-addon-meting](/zh/addons/official/meting)
+- [valaxy-addon-moments](/zh/addons/official/moments)
 - [valaxy-addon-twikoo](/zh/addons/official/twikoo)
 - [valaxy-addon-waline](/zh/addons/official/waline)
 

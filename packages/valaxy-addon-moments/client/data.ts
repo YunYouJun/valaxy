@@ -1,4 +1,5 @@
-import type { MomentEntry, MomentFrontmatter, MomentImage, MomentRouteInput } from '../../../types/moments'
+import type { MomentEntry, MomentFrontmatter, MomentImage, MomentRouteInput } from '../types'
+import { getMomentPinPriority, getMomentTimestamp, isMomentDateValid } from './time'
 
 const MAX_MOMENT_IMAGES = 9
 
@@ -35,22 +36,13 @@ export function normalizeMomentImages(images: unknown): MomentImage[] {
   }).slice(0, MAX_MOMENT_IMAGES)
 }
 
-function getTimestamp(value: string | Date) {
-  const timestamp = value instanceof Date ? value.getTime() : new Date(value).getTime()
-  return Number.isFinite(timestamp) ? timestamp : 0
-}
-
-function hasValidDate(value: unknown): value is string | Date {
-  return (typeof value === 'string' || value instanceof Date) && getTimestamp(value) > 0
-}
-
 function isHidden(frontmatter: Partial<MomentFrontmatter>, isDev: boolean) {
   return !isDev && (Boolean(frontmatter.draft) || Boolean(frontmatter.hide))
 }
 
 export function normalizeMomentRoutes(
   routes: MomentRouteInput[],
-  options: { isDev?: boolean } = {},
+  options: { isDev?: boolean, timezone?: string } = {},
 ): MomentEntry[] {
   const isDev = options.isDev ?? false
 
@@ -63,7 +55,7 @@ export function normalizeMomentRoutes(
       || route.path === '/moments'
       || !route.path.startsWith('/moments/')
       || route.aliasOf
-      || !hasValidDate(frontmatter?.date)
+      || !isMomentDateValid(frontmatter?.date, options.timezone)
       || typeof content !== 'string'
       || isHidden(frontmatter, isDev)
     ) {
@@ -78,11 +70,11 @@ export function normalizeMomentRoutes(
       path: route.path,
     } as MomentEntry]
   }).sort((a, b) => {
-    const topDifference = (b.top || 0) - (a.top || 0)
+    const topDifference = getMomentPinPriority(b) - getMomentPinPriority(a)
     if (topDifference)
       return topDifference
 
-    const dateDifference = getTimestamp(b.date) - getTimestamp(a.date)
+    const dateDifference = getMomentTimestamp(b.date, options.timezone) - getMomentTimestamp(a.date, options.timezone)
     return dateDifference || a.path.localeCompare(b.path)
   })
 }

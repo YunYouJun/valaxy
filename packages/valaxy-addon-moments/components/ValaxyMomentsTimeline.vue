@@ -1,11 +1,14 @@
 <script setup lang="ts">
+import { useSiteConfig } from 'valaxy'
 import { computed } from 'vue'
 import { useI18n } from 'vue-i18n'
-import { groupMomentsByYear, useMoments } from '../composables/moments'
+import { groupMomentsByYear, useMoments } from '../client'
 
 const { t } = useI18n()
 const moments = useMoments()
-const years = computed(() => groupMomentsByYear(moments.value))
+const siteConfig = useSiteConfig()
+const timezone = computed(() => siteConfig.value.timezone || 'UTC')
+const years = computed(() => groupMomentsByYear(moments.value, timezone.value))
 
 function navigate(anchor: string) {
   if (typeof window === 'undefined')
@@ -16,10 +19,10 @@ function navigate(anchor: string) {
 
 <template>
   <div class="valaxy-moments-timeline">
-    <slot name="title" :title="t('moments.timeline')">
-      <h2>{{ t('moments.timeline') }}</h2>
+    <slot name="title" :title="t('addon.moments.timeline')">
+      <h2>{{ t('addon.moments.timeline') }}</h2>
     </slot>
-    <nav :aria-label="t('moments.timeline')">
+    <nav :aria-label="t('addon.moments.timeline')">
       <section v-for="year in years" :key="year.year">
         <strong>{{ year.year }}</strong>
         <button
@@ -28,7 +31,7 @@ function navigate(anchor: string) {
           type="button"
           @click="navigate(month.anchor)"
         >
-          <span>{{ month.label }} {{ t('moments.month') }}</span>
+          <span>{{ month.label }} {{ t('addon.moments.month') }}</span>
           <small>{{ month.moments.length }}</small>
         </button>
       </section>

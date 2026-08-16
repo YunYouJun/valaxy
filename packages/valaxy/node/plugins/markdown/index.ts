@@ -46,6 +46,9 @@ export async function createMarkdownRenderer(options?: ResolvedValaxyOptions, ba
   md.linkify.set({ fuzzyLink: false })
 
   await setupMarkdownPlugins(md, options, base)
+  await mdOptions.markdownItSetup?.(
+    md as unknown as Parameters<NonNullable<typeof mdOptions.markdownItSetup>>[0],
+  )
   return md
 }
 
