@@ -25,6 +25,7 @@ export default defineThemeConfig({
 
   nav: [
     { text: 'menu.posts', link: '/posts/', icon: 'i-ri-article-line' },
+    { text: '小随想', link: '/moments/', icon: 'i-ri-chat-1-line' },
     { text: '项目列表', link: '/projects', icon: 'i-ri-gallery-view' },
     { text: '相册', link: '/albums', icon: 'i-ri-image-line' },
     { text: '友情链接', link: '/links/', icon: 'i-ri-link' },
@@ -33,6 +34,11 @@ export default defineThemeConfig({
   ],
 
   pages: [
+    {
+      name: '小随想',
+      url: '/moments/',
+      icon: 'i-ri-chat-1-line',
+    },
     {
       name: '项目列表',
       url: '/projects',

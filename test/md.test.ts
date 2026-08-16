@@ -2,6 +2,7 @@
 import vue from '@vitejs/plugin-vue'
 import { build } from 'vite'
 import { describe, expect, it } from 'vitest'
+import { resolveOptions } from '../packages/valaxy/node'
 import { createMarkdownRenderer } from '../packages/valaxy/node/plugins/markdown'
 import { createMarkdownBaseContext } from '../packages/valaxy/node/plugins/markdown/base'
 import { fixtureFolder } from './shared'
@@ -21,6 +22,20 @@ describe('md parse', async () => {
     const content = md.render('::: en\nContent\n:::')
     const result = '<div lang="en">\n<p>Content</p>\n</div>'
     expect(content.trim()).toEqual(result)
+  })
+})
+
+describe('standalone markdown renderer configuration', () => {
+  it('applies the user markdownItSetup hook', async () => {
+    const options = await resolveOptions({ userRoot: fixtureFolder.userRoot })
+    options.config.markdown = {
+      markdownItSetup(md) {
+        md.renderer.rules.paragraph_open = () => '<p data-custom-renderer="true">'
+      },
+    }
+    const md = await createMarkdownRenderer(options)
+
+    expect(await md.renderAsync('Configured renderer')).toContain('<p data-custom-renderer="true">')
   })
 })
 

@@ -129,6 +129,19 @@ export const addons = [
     tags: ['music'],
   },
   {
+    name: 'valaxy-addon-moments',
+    author: 'Yuumi',
+    icon: 'i-ri-chat-1-line',
+    repo: 'https://github.com/YunYouJun/valaxy/tree/main/packages/valaxy-addon-moments',
+    kind: 'official',
+    docsPath: '/addons/official/moments',
+    description: {
+      'en': 'Publish a Markdown microblog with a progressive timeline.',
+      'zh-CN': '通过 Markdown 发布带渐进时间线的小动态。',
+    },
+    tags: ['markdown', 'microblog', 'timeline'],
+  },
+  {
     name: 'valaxy-addon-twikoo',
     author: 'YunYouJun',
     icon: 'i-ri-message-3-line',

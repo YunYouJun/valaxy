@@ -1,6 +1,8 @@
+import type { Zoom, ZoomSelector } from 'medium-zoom'
+import type { MaybeRefOrGetter } from 'vue'
 import mediumZoom from 'medium-zoom'
 import { useSiteConfig } from 'valaxy'
-import { onMounted } from 'vue'
+import { computed, onBeforeUnmount, onMounted, toValue } from 'vue'
 
 interface ZoomRectLike {
   left: number
@@ -97,55 +99,70 @@ function freezeOpenedImage(element: HTMLElement): SavedZoomImageStyle | null {
 /**
  * @description image preview by medium-zoom
  */
-export function useMediumZoom() {
+export function useMediumZoom(selector?: MaybeRefOrGetter<ZoomSelector | null | undefined>) {
   const siteConfig = useSiteConfig()
-  const mediumZoomConfig = siteConfig.value.mediumZoom
+  const enabled = computed(() => siteConfig.value.mediumZoom.enable)
+  let savedStyles: SavedZoomImageStyle[] = []
+  let zoom: Zoom | undefined
 
-  if (mediumZoomConfig.enable) {
-    onMounted(() => {
-      const zoom = mediumZoom(
-        mediumZoomConfig.selector || '.markdown-body img',
-        {
-          background: 'var(--medium-zoom-c-bg, rgba(0, 0, 0, 0.8))',
-          ...mediumZoomConfig.options,
-        },
-      )
+  function restoreSavedStyles() {
+    if (!savedStyles.length)
+      return
 
-      let savedStyles: SavedZoomImageStyle[] = []
+    for (const style of savedStyles) {
+      const { element } = style
+      if (!document.body.contains(element))
+        continue
 
-      zoom.on('opened', () => {
-        savedStyles = Array
-          .from(document.querySelectorAll<HTMLElement>('.medium-zoom-image--opened'))
-          .map(freezeOpenedImage)
-          .filter((style): style is SavedZoomImageStyle => style !== null)
+      applyWithoutTransformTransition(element, () => {
+        element.style.transform = style.transform
+        element.style.width = style.width
+        element.style.height = style.height
       })
 
-      zoom.on('close', () => {
-        if (!savedStyles.length)
-          return
+      // medium-zoom clears transform before emitting close. Restore that state
+      // after replacing the frozen dimensions so its transition can finish.
+      element.style.transform = ''
+    }
 
-        for (const style of savedStyles) {
-          const { element } = style
-          if (!document.body.contains(element))
-            continue
+    savedStyles = []
+  }
 
-          // Restore original medium-zoom styles (without transition) so the element
-          // is back to the state medium-zoom expects for its close animation.
-          applyWithoutTransformTransition(element, () => {
-            element.style.transform = style.transform
-            element.style.width = style.width
-            element.style.height = style.height
-          })
+  function handleOpened() {
+    savedStyles = Array
+      .from(document.querySelectorAll<HTMLElement>('.medium-zoom-image--opened'))
+      .map(freezeOpenedImage)
+      .filter((style): style is SavedZoomImageStyle => style !== null)
+  }
 
-          // medium-zoom sets `transform = ''` BEFORE dispatching the close event,
-          // but we just overwrote it above. Re-apply `''` to actually trigger the
-          // close transition; otherwise transitionend never fires and the cloned
-          // image element is never removed from the DOM.
-          element.style.transform = ''
-        }
+  onMounted(() => {
+    if (!enabled.value)
+      return
 
-        savedStyles = []
-      })
+    const mediumZoomConfig = siteConfig.value.mediumZoom
+    const target = selector === undefined
+      ? mediumZoomConfig.selector || '.markdown-body img'
+      : toValue(selector)
+    if (!target)
+      return
+
+    zoom = mediumZoom(target, {
+      background: 'var(--medium-zoom-c-bg, rgba(0, 0, 0, 0.8))',
+      ...mediumZoomConfig.options,
     })
+    zoom.on('opened', handleOpened)
+    zoom.on('close', restoreSavedStyles)
+  })
+
+  onBeforeUnmount(() => {
+    restoreSavedStyles()
+    zoom?.off('opened', handleOpened)
+    zoom?.off('close', restoreSavedStyles)
+    zoom?.detach()
+    zoom = undefined
+  })
+
+  return {
+    enabled,
   }
 }

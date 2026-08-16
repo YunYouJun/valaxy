@@ -4,6 +4,7 @@ import { dirname, join } from 'node:path'
 import process from 'node:process'
 import { fileURLToPath } from 'node:url'
 import { addons, getAddonDocsPath, officialAddons } from '../docs/data/addons'
+import { hasMarkdownInclude } from './utils/markdown-include'
 
 const repoRoot = join(dirname(fileURLToPath(import.meta.url)), '..')
 const errors: string[] = []
@@ -48,10 +49,10 @@ async function validateOfficialAddon(addon: ValaxyAddon) {
       readFile(chinesePage, 'utf8'),
     ])
 
-    if (!englishSource.includes(`/packages/${addon.name}/README.md{3,}`))
+    if (!hasMarkdownInclude(englishSource, `@/../packages/${addon.name}/README.md`))
       errors.push(`${addon.name} English docs page does not include README.md`)
 
-    if (!chineseSource.includes(`/packages/${addon.name}/README.zh-CN.md{3,}`))
+    if (!hasMarkdownInclude(chineseSource, `@/../packages/${addon.name}/README.zh-CN.md`))
       errors.push(`${addon.name} Chinese docs page does not include README.zh-CN.md`)
   }
   catch {

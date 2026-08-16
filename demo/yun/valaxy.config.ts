@@ -7,6 +7,7 @@ import { addonBangumi } from 'valaxy-addon-bangumi'
 import { addonComponents } from 'valaxy-addon-components'
 import { addonGirls } from 'valaxy-addon-girls'
 import { addonLightGallery } from 'valaxy-addon-lightgallery'
+import { addonMoments } from 'valaxy-addon-moments'
 import { addonTest } from 'valaxy-addon-test'
 
 import { localIconLoader } from 'vitepress-plugin-group-icons'
@@ -95,6 +96,12 @@ export default defineValaxyConfig<ThemeConfig>({
     }),
     addonComponents(),
     addonGirls(),
+    addonMoments({
+      batchSize: 2,
+      description: '记录生活里的小事',
+      initialCount: 2,
+      title: '小随想',
+    }),
 
     // comments
     // addonWaline({

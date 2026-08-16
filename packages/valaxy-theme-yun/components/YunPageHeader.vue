@@ -7,12 +7,14 @@ defineProps<{
   color?: string
   icon?: string
   title?: string
+  titleId?: string
 }>()
 </script>
 
 <template>
   <header class="post-header">
     <h1
+      :id="titleId"
       class="post-title flex-center" p="2" text="2xl center"
       font="serif black"
       :style="`color:${color}`"

@@ -15,6 +15,7 @@ Each package page below includes its package README at build time. The README re
 - [valaxy-addon-girls](/addons/girls)
 - [valaxy-addon-lightgallery](/addons/official/lightgallery)
 - [valaxy-addon-meting](/addons/official/meting)
+- [valaxy-addon-moments](/addons/official/moments)
 - [valaxy-addon-twikoo](/addons/official/twikoo)
 - [valaxy-addon-waline](/addons/official/waline)
 
