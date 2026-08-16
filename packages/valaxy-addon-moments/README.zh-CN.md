@@ -15,6 +15,10 @@
 
 时间线通过 HTML 展示站点作者可信的 Markdown。依赖 Vue SFC 编译的自定义组件、加密内容等能力应放在普通独立页面中。
 
+## 主题兼容性
+
+插件负责动态发现、渲染、样式和默认 `/moments/` 页面，因此基础列表可用于任意 Valaxy 主题。`valaxy-theme-yun` 会自动提供带侧边时间线的增强 `moments` 布局；其他主题可以提供自己的布局，并按设计需要放置 `ValaxyMomentsTimeline`。
+
 ## 安装
 
 ```bash

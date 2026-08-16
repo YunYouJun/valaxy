@@ -15,6 +15,10 @@ A theme-independent Markdown moments timeline addon for [Valaxy](https://valaxy.
 
 The aggregated timeline renders trusted author Markdown as HTML. Vue components, encrypted content, and other transforms that require Vue SFC compilation should remain on normal standalone pages.
 
+## Theme compatibility
+
+The addon owns moment discovery, rendering, styles, and the default `/moments/` page, so its basic list works with any Valaxy theme. `valaxy-theme-yun` adds an enhanced `moments` layout with a sidebar timeline automatically. Other themes can provide their own layout and place `ValaxyMomentsTimeline` where it best fits their design.
+
 ## Install
 
 ```bash

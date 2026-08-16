@@ -4,4 +4,4 @@ description: 构建时直接引用 valaxy-addon-moments 中文 README 的官方�
 categories: [addon]
 ---
 
-<!--@include: @/../packages/valaxy-addon-moments/README.zh-CN.md{3,}-->
+<!--@include: @/../packages/valaxy-addon-moments/README.zh-CN.md{5,}-->
