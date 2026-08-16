@@ -75,9 +75,47 @@ Likes are disabled by default. When enabled, the addon batches public count
 requests, updates the button optimistically, and rolls the UI back when the API
 fails. The browser writes its local liked state only after a successful update.
 
-The endpoint is provider-independent. It must support `GET
-/api/moments-like?ids=id1,id2` and `POST /api/moments-like` with `{ momentId,
-action }`. The EdgeOne KV example lives in
+### Likes endpoint contract
+
+The endpoint is provider-independent. A successful response must have a 2xx
+status and a JSON body matching the following contract.
+
+`GET /api/moments-like?ids=id1,id2` returns a map from every requested moment ID
+to its public count:
+
+```json
+{
+  "id1": 12,
+  "id2": 5
+}
+```
+
+Missing or invalid values in an otherwise valid GET map are displayed as `0`.
+Finite counts are floored to integers and negative counts are clamped to `0`.
+
+`POST /api/moments-like` accepts one of these JSON bodies:
+
+```json
+{ "momentId": "id1", "action": "like" }
+```
+
+```json
+{ "momentId": "id1", "action": "unlike" }
+```
+
+It returns the updated public count:
+
+```json
+{ "count": 13 }
+```
+
+The POST `count` must be a finite numeric value. A missing or invalid `count`,
+an empty or malformed JSON body (including a `204` response), or any non-2xx
+status is treated as a request failure. The client then rolls back the
+optimistic update and does not change `localStorage`. A failed GET leaves the
+moments page usable without replacing its current counts.
+
+The EdgeOne KV example lives in
 [`demo/yun/edge-functions`](../../demo/yun/edge-functions). Other providers may
 implement the same contract with their own serverless storage. This lightweight
 design does not provide user identity, abuse prevention, or transactionally

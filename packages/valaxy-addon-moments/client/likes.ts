@@ -10,6 +10,17 @@ export function normalizeMomentLikeCount(value: unknown) {
   return Number.isFinite(count) ? Math.max(0, Math.floor(count)) : 0
 }
 
+function parseMomentLikeCount(value: unknown) {
+  if (typeof value !== 'number' && (typeof value !== 'string' || !value.trim()))
+    throw new TypeError('Invalid moment like count')
+
+  const count = typeof value === 'number' ? value : Number(value)
+  if (!Number.isFinite(count))
+    throw new TypeError('Invalid moment like count')
+
+  return normalizeMomentLikeCount(count)
+}
+
 function uniqueMomentIds(ids: readonly string[]) {
   return [...new Set(ids.filter(Boolean))]
 }
@@ -23,6 +34,7 @@ export async function fetchMomentLikeCounts(
   endpoint: string,
   ids: readonly string[],
   fetcher: typeof fetch = fetch,
+  signal?: AbortSignal,
 ) {
   const uniqueIds = uniqueMomentIds(ids)
   const counts: Record<string, number> = Object.fromEntries(uniqueIds.map(id => [id, 0]))
@@ -32,6 +44,7 @@ export async function fetchMomentLikeCounts(
     const response = await fetcher(withMomentIds(endpoint, batch), {
       headers: { Accept: 'application/json' },
       method: 'GET',
+      signal,
     })
     if (!response.ok)
       throw new Error(`Unable to load moments like (${response.status})`)
@@ -68,7 +81,7 @@ export async function submitMomentLike(
   if (!data || typeof data !== 'object' || Array.isArray(data) || !('count' in data))
     throw new TypeError('Invalid moment like response')
 
-  return normalizeMomentLikeCount((data as Record<string, unknown>).count)
+  return parseMomentLikeCount((data as Record<string, unknown>).count)
 }
 
 export function readLikedMomentIds(

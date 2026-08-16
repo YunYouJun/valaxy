@@ -72,6 +72,14 @@ describe('moments like', () => {
     expect(JSON.parse(requestBody)).toEqual({ action: 'like', momentId: '/moments/a' })
   })
 
+  it('rejects an invalid POST count while clamping a negative count to zero', async () => {
+    const respondWith = (body: unknown): typeof fetch => async () => new Response(JSON.stringify(body))
+
+    await expect(submitMomentLike('/api/moments-like', '/moments/a', 'like', respondWith({ count: 'invalid' }))).rejects.toThrow(TypeError)
+    await expect(submitMomentLike('/api/moments-like', '/moments/a', 'like', respondWith({}))).rejects.toThrow(TypeError)
+    await expect(submitMomentLike('/api/moments-like', '/moments/a', 'like', respondWith({ count: -2 }))).resolves.toBe(0)
+  })
+
   it('stores only valid locally liked moment paths', () => {
     let stored = JSON.stringify(['/moments/b', '/posts/not-a-moment', 1])
     const storage = {

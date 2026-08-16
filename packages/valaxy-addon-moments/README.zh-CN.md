@@ -67,7 +67,40 @@ moments:
 
 点赞默认关闭。启用后，插件会批量读取公共点赞数，并在点击时乐观更新按钮。接口请求失败会回滚界面，只有请求成功后才会保存当前浏览器的点赞状态。
 
-点赞接口不绑定托管平台。接口需要支持 `GET /api/moments-like?ids=id1,id2`，以及接收 `{ momentId, action }` 的 `POST /api/moments-like`。仓库在 [`demo/yun/edge-functions`](../../demo/yun/edge-functions) 中提供了 EdgeOne KV 示例，其他平台可以使用自己的函数和存储实现相同接口。这个轻量方案不包含用户身份、防刷或严格事务计数。
+### 点赞接口契约
+
+点赞接口不绑定托管平台。成功响应必须返回 2xx 状态码，并提供符合以下契约的 JSON 响应体。
+
+`GET /api/moments-like?ids=id1,id2` 返回从每个请求 moment ID 到公共点赞数的映射：
+
+```json
+{
+  "id1": 12,
+  "id2": 5
+}
+```
+
+如果 GET 返回了合法映射，但某个值缺失或无效，客户端会将该项显示为 `0`。有限计数会向下取整，负数会限制为 `0`。
+
+`POST /api/moments-like` 接收以下两种 JSON 请求体之一：
+
+```json
+{ "momentId": "id1", "action": "like" }
+```
+
+```json
+{ "momentId": "id1", "action": "unlike" }
+```
+
+接口返回更新后的公共点赞数：
+
+```json
+{ "count": 13 }
+```
+
+POST 响应中的 `count` 必须是可转换为有限数字的值。`count` 缺失或无效、JSON 响应体为空或格式错误（包括 `204` 响应），以及任何非 2xx 状态都会被视为请求失败。客户端会回滚乐观更新，并且不会修改 `localStorage`。GET 请求失败不会影响 moments 页面，也不会替换当前计数。
+
+仓库在 [`demo/yun/edge-functions`](../../demo/yun/edge-functions) 中提供了 EdgeOne KV 示例，其他平台可以使用自己的函数和存储实现相同接口。这个轻量方案不包含用户身份、防刷或严格事务计数。
 
 ## 编写动态
 

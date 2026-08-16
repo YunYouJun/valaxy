@@ -1,5 +1,5 @@
 import type { MaybeRefOrGetter } from 'vue'
-import { onMounted, readonly, shallowRef, toValue, watch } from 'vue'
+import { onBeforeUnmount, onMounted, readonly, shallowRef, toValue, watch } from 'vue'
 import { fetchMomentLikeCounts, readLikedMomentIds, submitMomentLike, writeLikedMomentIds } from './likes'
 
 export interface UseMomentsLikeOptions {
@@ -15,30 +15,54 @@ export function useMomentsLike(options: UseMomentsLikeOptions) {
   let confirmedLikedIds = new Set<string>()
   let mounted = false
   let refreshVersion = 0
+  let refreshController: AbortController | undefined
+  const mutationRevisions = new Map<string, number>()
 
   function replaceSet(target: typeof likedIds, value: Set<string>) {
     target.value = value
   }
 
+  function markMutation(momentId: string) {
+    mutationRevisions.set(momentId, (mutationRevisions.get(momentId) ?? 0) + 1)
+  }
+
   async function refresh() {
     const version = ++refreshVersion
+    refreshController?.abort()
+    refreshController = undefined
     if (!mounted || !toValue(options.enabled))
       return
 
     const endpoint = toValue(options.endpoint).trim()
-    const ids = toValue(options.momentIds)
+    const ids = [...toValue(options.momentIds)]
     if (!endpoint || !ids.length) {
       counts.value = {}
       return
     }
 
+    const controller = new AbortController()
+    const revisions = new Map(ids.map(id => [id, mutationRevisions.get(id) ?? 0]))
+    refreshController = controller
+
     try {
-      const nextCounts = await fetchMomentLikeCounts(endpoint, ids)
-      if (version === refreshVersion)
-        counts.value = nextCounts
+      const nextCounts = await fetchMomentLikeCounts(endpoint, ids, fetch, controller.signal)
+      if (version !== refreshVersion || controller.signal.aborted || !mounted)
+        return
+
+      const mergedCounts = { ...counts.value }
+      for (const [momentId, count] of Object.entries(nextCounts)) {
+        const revisionUnchanged = (mutationRevisions.get(momentId) ?? 0) === revisions.get(momentId)
+        if (revisionUnchanged && !pendingIds.value.has(momentId))
+          mergedCounts[momentId] = count
+      }
+      counts.value = mergedCounts
     }
     catch {
       // The moments page remains usable when the optional likes API is unavailable.
+    }
+    finally {
+      if (refreshController === controller)
+        refreshController = undefined
     }
   }
 
@@ -54,7 +78,7 @@ export function useMomentsLike(options: UseMomentsLikeOptions) {
     const previousCount = counts.value[momentId] ?? 0
     const action = wasLiked ? 'unlike' : 'like'
 
-    refreshVersion++
+    markMutation(momentId)
     replaceSet(pendingIds, new Set(pendingIds.value).add(momentId))
 
     const optimisticLikedIds = new Set(likedIds.value)
@@ -70,6 +94,7 @@ export function useMomentsLike(options: UseMomentsLikeOptions) {
 
     try {
       const count = await submitMomentLike(endpoint, momentId, action)
+      markMutation(momentId)
       counts.value = { ...counts.value, [momentId]: count }
       confirmedLikedIds = new Set(confirmedLikedIds)
       if (wasLiked)
@@ -79,6 +104,7 @@ export function useMomentsLike(options: UseMomentsLikeOptions) {
       writeLikedMomentIds(window.localStorage, confirmedLikedIds)
     }
     catch {
+      markMutation(momentId)
       const rolledBackLikedIds = new Set(likedIds.value)
       if (wasLiked)
         rolledBackLikedIds.add(momentId)
@@ -108,6 +134,13 @@ export function useMomentsLike(options: UseMomentsLikeOptions) {
     confirmedLikedIds = readLikedMomentIds(window.localStorage)
     likedIds.value = new Set(confirmedLikedIds)
     void refresh()
+  })
+
+  onBeforeUnmount(() => {
+    mounted = false
+    refreshVersion++
+    refreshController?.abort()
+    refreshController = undefined
   })
 
   return {
