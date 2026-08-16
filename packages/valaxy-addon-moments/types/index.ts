@@ -11,10 +11,12 @@ export interface MomentsOptions {
   title?: string | Record<string, string>
 }
 
+export type MomentsPageOptions = Pick<MomentsOptions, 'author' | 'batchSize' | 'initialCount'>
+
 /** Options read from the `moments` field of `pages/moments/index.md`. */
 export interface MomentsPageFrontmatter {
   description?: string | Record<string, string>
-  moments?: MomentsOptions
+  moments?: MomentsPageOptions
   title?: string | Record<string, string>
 }
 

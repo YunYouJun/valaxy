@@ -1,10 +1,11 @@
-import type { MomentEntry } from '../types'
-import { describe, expect, it } from 'vitest'
+import type { MomentEntry, MomentsOptions, MomentsPageFrontmatter } from '../types'
+import { describe, expect, expectTypeOf, it } from 'vitest'
 import { nextTick, shallowRef } from 'vue'
+import { createMarkdownRenderer } from '../../valaxy/node/plugins/markdown'
 import { normalizeMomentImages, normalizeMomentRoutes } from '../client/data'
 import { formatMomentDate, getMomentMonth, getMomentMonthAnchorTargets, groupMomentsByYear, partitionPinnedMoments } from '../client/time'
 import { useMomentsProgressiveCount } from '../client/useProgressiveCount'
-import { shouldExcludeMoment } from '../node'
+import { renderMomentMarkdown, shouldExcludeMoment } from '../node'
 
 function moment(path: string, date: string) {
   return { path, date, content: '', images: [] } as MomentEntry
@@ -29,6 +30,14 @@ describe('normalizeMomentImages', () => {
 
     expect(normalized).toHaveLength(9)
     expect(normalized.map(image => image.src)).toEqual(images.slice(0, 9))
+  })
+})
+
+describe('moments page frontmatter', () => {
+  it('keeps title and description at the page frontmatter level', () => {
+    type PageMomentsOptions = NonNullable<MomentsPageFrontmatter['moments']>
+
+    expectTypeOf<PageMomentsOptions>().toEqualTypeOf<Pick<MomentsOptions, 'author' | 'batchSize' | 'initialCount'>>()
   })
 })
 
@@ -126,6 +135,27 @@ describe('production filtering', () => {
     expect(shouldExcludeMoment({ hide: 'index' }, 'build')).toBe(true)
     expect(shouldExcludeMoment({ draft: true }, 'dev')).toBe(false)
     expect(shouldExcludeMoment({}, 'build')).toBe(false)
+  })
+})
+
+describe('renderMomentMarkdown', () => {
+  it('keeps heading and footnote fragment identifiers unique across aggregated moments', async () => {
+    const markdown = await createMarkdownRenderer()
+    const source = '## Notes\n\nText[^1]\n\n[Timeline](#moments-2026-08)\n\n[^1]: Footnote'
+    const renderMarkdown = (content: string, env?: Record<string, unknown>) => markdown.renderAsync(content, env)
+    const [first, second] = await Promise.all([
+      renderMomentMarkdown({ content: source, path: '/content/a.md', renderMarkdown, routePath: '/moments/a' }),
+      renderMomentMarkdown({ content: source, path: '/content/b.md', renderMarkdown, routePath: '/moments/b' }),
+    ])
+    const aggregate = first + second
+    const ids = [...aggregate.matchAll(/\sid="([^"]+)"/g)].map(match => match[1])
+    const fragmentTargets = [...aggregate.matchAll(/\shref="#([^"]+)"/g)].map(match => match[1])
+
+    expect(new Set(ids).size).toBe(ids.length)
+    expect(first).not.toBe(second)
+    expect(aggregate).not.toContain('<ValaxyFootnote')
+    expect(fragmentTargets.filter(target => target !== 'moments-2026-08').every(target => ids.includes(target))).toBe(true)
+    expect(first).toContain('href="#moments-2026-08"')
   })
 })
 
