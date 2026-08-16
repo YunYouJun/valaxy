@@ -14,7 +14,7 @@ describe('npm release workflows', () => {
   it('publishes through the single OIDC-enabled release workflow', () => {
     expect(releaseWorkflow).toContain('id-token: write')
     expect(releaseWorkflow).toContain('environment: npm')
-    expect(releaseWorkflow).toContain("node-version: '24'")
+    expect(releaseWorkflow).toContain('node-version: \'24\'')
     expect(releaseWorkflow).toContain('package-manager-cache: false')
     expect(releaseWorkflow).toContain('pnpm install --frozen-lockfile')
     expect(releaseWorkflow).not.toMatch(/NPM_TOKEN|NODE_AUTH_TOKEN/)
