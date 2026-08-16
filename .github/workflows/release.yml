@@ -46,7 +46,7 @@ jobs:
         env:
           NODE_AUTH_TOKEN: ${{secrets.NPM_TOKEN}}
           NPM_CONFIG_PROVENANCE: true
-        continue-on-error: true
+          PNPM_CONFIG_BAIL: 'false'
 
       - run: npx changelogithub
         env:
