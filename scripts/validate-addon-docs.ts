@@ -48,10 +48,10 @@ async function validateOfficialAddon(addon: ValaxyAddon) {
       readFile(chinesePage, 'utf8'),
     ])
 
-    if (!englishSource.includes(`/packages/${addon.name}/README.md{3,}`))
+    if (!englishSource.includes(`/packages/${addon.name}/README.md`))
       errors.push(`${addon.name} English docs page does not include README.md`)
 
-    if (!chineseSource.includes(`/packages/${addon.name}/README.zh-CN.md{3,}`))
+    if (!chineseSource.includes(`/packages/${addon.name}/README.zh-CN.md`))
       errors.push(`${addon.name} Chinese docs page does not include README.zh-CN.md`)
   }
   catch {
