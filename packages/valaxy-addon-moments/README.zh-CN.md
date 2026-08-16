@@ -12,6 +12,7 @@
 - 在生成生产路由前删除草稿和隐藏动态。
 - 使用站点配置的时区；未配置时固定使用 UTC，避免 SSG 与 hydration 结果不一致。
 - 聚合正文使用 Valaxy 配置的 Markdown-it 渲染器及代码高亮。
+- 可通过自定义 HTTP 接口读取公共点赞数，`localStorage` 只保存当前浏览器是否点过赞。
 
 时间线通过 HTML 展示站点作者可信的 Markdown。依赖 Vue SFC 编译的自定义组件、加密内容等能力应放在普通独立页面中。
 
@@ -36,12 +37,18 @@ export default defineValaxyConfig({
       description: '记录生活里的小事',
       initialCount: 10,
       batchSize: 10,
+      likes: {
+        enabled: true,
+        endpoint: '/api/moments-like',
+      },
     }),
   ],
 })
 ```
 
-插件会自动提供 `/moments/`。站点也可以用 `pages/moments/index.md` 覆盖入口：
+插件会自动提供 `/moments/`，推荐直接在 `addonMoments()` 中完成设置。普通站点不需要创建 `pages/moments/index.md`。
+
+站点仍可用 `pages/moments/index.md` 覆盖默认入口，适合需要编写入口页 Markdown 或单独设置 Frontmatter 的情况。页面中填写的 `moments` 选项优先于 `addonMoments()` 中的同名选项。
 
 ```md
 ---
@@ -50,8 +57,17 @@ description: 记录生活里的小事
 moments:
   initialCount: 10
   batchSize: 10
+  likes:
+    enabled: true
+    endpoint: /api/moments-like
 ---
 ```
+
+由于插件本身已经提供同一路由，当前路由扫描器可能在构建时显示同路由提示。用户目录中的入口页仍会按 Valaxy 的文件优先级生效。没有自定义入口内容时，直接使用 `addonMoments()` 配置即可。
+
+点赞默认关闭。启用后，插件会批量读取公共点赞数，并在点击时乐观更新按钮。接口请求失败会回滚界面，只有请求成功后才会保存当前浏览器的点赞状态。
+
+点赞接口不绑定托管平台。接口需要支持 `GET /api/moments-like?ids=id1,id2`，以及接收 `{ momentId, action }` 的 `POST /api/moments-like`。仓库在 [`demo/yun/edge-functions`](../../demo/yun/edge-functions) 中提供了 EdgeOne KV 示例，其他平台可以使用自己的函数和存储实现相同接口。这个轻量方案不包含用户身份、防刷或严格事务计数。
 
 ## 编写动态
 

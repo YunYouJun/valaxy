@@ -1,5 +1,7 @@
 export * from './data'
+export * from './likes'
 export * from './options'
 export * from './time'
 export * from './useMoments'
+export * from './useMomentsLike'
 export * from './useProgressiveCount'

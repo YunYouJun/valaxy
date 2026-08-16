@@ -5,10 +5,23 @@ import { computed, nextTick, onBeforeUnmount, onMounted, shallowRef, useId, useT
 import { useI18n } from 'vue-i18n'
 import { formatMomentDate, isPinnedMoment, toMomentDateTime } from '../client/time'
 
-const props = defineProps<{
+const props = withDefaults(defineProps<{
   author: MomentsAuthor
+  likeCount?: number
+  likePending?: boolean
+  liked?: boolean
+  likesEnabled?: boolean
   moment: MomentEntry
   timezone: string
+}>(), {
+  likeCount: 0,
+  likePending: false,
+  liked: false,
+  likesEnabled: false,
+})
+
+const emit = defineEmits<{
+  toggleLike: []
 }>()
 
 const { t } = useI18n()
@@ -163,11 +176,28 @@ const imageGridClass = computed(() => `valaxy-moment-images-${props.moment.image
       >
     </div>
 
-    <footer v-if="moment.location" class="valaxy-moment-footer">
-      <span class="valaxy-moment-location">
+    <footer v-if="moment.location || likesEnabled" class="valaxy-moment-footer">
+      <span v-if="moment.location" class="valaxy-moment-location">
         <span class="i-ri-map-pin-2-line" aria-hidden="true" />
         <span>{{ moment.location }}</span>
       </span>
+      <button
+        v-if="likesEnabled"
+        class="valaxy-moment-like"
+        :class="{ 'is-liked': liked }"
+        type="button"
+        :aria-label="t(liked ? 'addon.moments.unlike' : 'addon.moments.like')"
+        :aria-pressed="liked"
+        :disabled="likePending"
+        @click="emit('toggleLike')"
+      >
+        <span
+          class="valaxy-moment-like-icon"
+          :class="liked ? 'i-ri-heart-3-fill' : 'i-ri-heart-3-line'"
+          aria-hidden="true"
+        />
+        <span>{{ likeCount }}</span>
+      </button>
     </footer>
   </article>
 </template>
@@ -353,6 +383,8 @@ const imageGridClass = computed(() => `valaxy-moment-images-${props.moment.image
 .valaxy-moment-footer {
   display: flex;
   align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
   margin-top: 0.9rem;
 }
 
@@ -360,6 +392,56 @@ const imageGridClass = computed(() => `valaxy-moment-images-${props.moment.image
   display: inline-flex;
   gap: 0.3rem;
   align-items: center;
+}
+
+.valaxy-moment-like {
+  display: inline-flex;
+  gap: 0.3rem;
+  align-items: center;
+  min-width: 2.5rem;
+  padding: 0.25rem 0.5rem;
+  margin-left: auto;
+  color: var(--va-c-text-2, #74777d);
+  font: inherit;
+  font-size: 0.84rem;
+  background: transparent;
+  border: 0;
+  border-radius: 999px;
+  cursor: pointer;
+}
+
+.valaxy-moment-like:hover,
+.valaxy-moment-like.is-liked {
+  color: var(--va-c-danger, #ef476f);
+  background: color-mix(in srgb, currentcolor 8%, transparent);
+}
+
+.valaxy-moment-like:focus-visible {
+  outline: 2px solid currentcolor;
+  outline-offset: 2px;
+}
+
+.valaxy-moment-like:disabled {
+  cursor: wait;
+  opacity: 0.7;
+}
+
+.valaxy-moment-like-icon {
+  display: block;
+  flex: 0 0 auto;
+  font-size: 1.15rem;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .valaxy-moment-like.is-liked .valaxy-moment-like-icon {
+    animation: valaxy-moment-like-pop 220ms ease-out;
+  }
+}
+
+@keyframes valaxy-moment-like-pop {
+  50% {
+    transform: scale(1.25);
+  }
 }
 
 .sr-only {

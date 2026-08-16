@@ -6,7 +6,9 @@ addon:
     expand: Expand
     image: Moment image {index}
     images: '{count} attached images'
+    like: Like this moment
     more: Load more ({count})
     month: month
     pinned: Pinned
     timeline: Timeline
+    unlike: Unlike this moment

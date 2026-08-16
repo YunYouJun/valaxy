@@ -128,6 +128,7 @@ export const addonMoments = defineValaxyAddon<MomentsOptions>((options = {}) => 
             ...(options.author === undefined ? {} : { author: options.author }),
             ...(options.initialCount === undefined ? {} : { initialCount: options.initialCount }),
             ...(options.batchSize === undefined ? {} : { batchSize: options.batchSize }),
+            ...(options.likes === undefined ? {} : { likes: options.likes }),
             ...pageOptions,
           },
         },
