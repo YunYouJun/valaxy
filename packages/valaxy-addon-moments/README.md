@@ -12,6 +12,7 @@ A theme-independent Markdown moments timeline addon for [Valaxy](https://valaxy.
 - Deletes draft and hidden moment routes before production route files are generated.
 - Uses the site's configured timezone, or UTC when no timezone is configured, so SSG and hydration remain deterministic.
 - Uses Valaxy's configured Markdown-it renderer and syntax highlighting for aggregated content.
+- Optionally reads shared like counts from a configurable HTTP endpoint while keeping only the current browser's liked state in `localStorage`.
 
 The aggregated timeline renders trusted author Markdown as HTML. Vue components, encrypted content, and other transforms that require Vue SFC compilation should remain on normal standalone pages.
 
@@ -36,12 +37,27 @@ export default defineValaxyConfig({
       description: 'Small things worth remembering',
       initialCount: 10,
       batchSize: 10,
+      likes: {
+        enabled: true,
+        endpoint: '/api/moments-like',
+      },
     }),
   ],
 })
 ```
 
-The addon provides `/moments/` automatically. A site may override it with `pages/moments/index.md`:
+`initialCount` controls how many moments are rendered on the initial visit, and
+`batchSize` controls how many additional moments each **Load more** action
+reveals. Both default to `10`. These options only control progressive rendering;
+when likes are enabled, public counts are fetched for all moments independently
+in batches of up to 100 IDs.
+
+The addon provides `/moments/` automatically. Configure it through
+`addonMoments()` for normal use; no `pages/moments/index.md` file is required.
+
+A site may still override the default entry with `pages/moments/index.md` when
+it needs entry-page Markdown or page-specific frontmatter. Values under the
+page's `moments` field take precedence over matching `addonMoments()` options.
 
 ```md
 ---
@@ -50,8 +66,66 @@ description: Small things worth remembering
 moments:
   initialCount: 10
   batchSize: 10
+  likes:
+    enabled: true
+    endpoint: /api/moments-like
 ---
 ```
+
+Because the addon already supplies the same route, the current route scanner
+may print a duplicate-route notice during a build. Valaxy's file priority still
+selects the entry from the user directory. Prefer `addonMoments()` when no
+custom entry content is needed.
+
+Likes are disabled by default. When enabled, the addon batches public count
+requests, updates the button optimistically, and rolls the UI back when the API
+fails. The browser writes its local liked state only after a successful update.
+
+### Likes endpoint contract
+
+The endpoint is provider-independent. A successful response must have a 2xx
+status and a JSON body matching the following contract.
+
+`GET /api/moments-like?ids=id1,id2` returns a map from every requested moment ID
+to its public count:
+
+```json
+{
+  "id1": 12,
+  "id2": 5
+}
+```
+
+Missing or invalid values in an otherwise valid GET map are displayed as `0`.
+Finite counts are floored to integers and negative counts are clamped to `0`.
+
+`POST /api/moments-like` accepts one of these JSON bodies:
+
+```json
+{ "momentId": "id1", "action": "like" }
+```
+
+```json
+{ "momentId": "id1", "action": "unlike" }
+```
+
+It returns the updated public count:
+
+```json
+{ "count": 13 }
+```
+
+The POST `count` must be a finite numeric value. A missing or invalid `count`,
+an empty or malformed JSON body (including a `204` response), or any non-2xx
+status is treated as a request failure. The client then rolls back the
+optimistic update and does not change `localStorage`. A failed GET leaves the
+moments page usable without replacing its current counts.
+
+The EdgeOne KV example lives in
+[`demo/yun/edge-functions`](../../demo/yun/edge-functions). Other providers may
+implement the same contract with their own serverless storage. This lightweight
+design does not provide user identity, abuse prevention, or transactionally
+exact counters.
 
 ## Write a moment
 

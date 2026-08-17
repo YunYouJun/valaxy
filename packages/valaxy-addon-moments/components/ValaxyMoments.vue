@@ -3,7 +3,7 @@ import type { MomentsAuthor, MomentsPageFrontmatter } from '../types'
 import { useFrontmatter, useSiteConfig, useValaxyI18n } from 'valaxy'
 import { computed, nextTick, onBeforeUnmount, onMounted, useId } from 'vue'
 import { useI18n } from 'vue-i18n'
-import { getMomentMonth, getMomentMonthAnchorTargets, groupMomentsByYear, partitionPinnedMoments, useMoments, useMomentsConfig, useMomentsProgressiveCount } from '../client'
+import { DEFAULT_MOMENTS_LIKE_ENDPOINT, getMomentMonth, getMomentMonthAnchorTargets, groupMomentsByYear, partitionPinnedMoments, useMoments, useMomentsConfig, useMomentsLike, useMomentsProgressiveCount } from '../client'
 import ValaxyMomentCard from './ValaxyMomentCard.vue'
 
 const props = defineProps<{
@@ -37,6 +37,8 @@ const title = computed(() => localizeText(props.title ?? frontmatter.value.title
 const description = computed(() => localizeText(props.description ?? frontmatter.value.description ?? addon.value?.options?.description))
 const initialCount = computed(() => props.initialCount ?? options.value?.initialCount ?? addon.value?.options?.initialCount ?? 10)
 const batchSize = computed(() => props.batchSize ?? options.value?.batchSize ?? addon.value?.options?.batchSize ?? 10)
+const likesEnabled = computed(() => options.value?.likes?.enabled ?? addon.value?.options?.likes?.enabled ?? false)
+const likesEndpoint = computed(() => options.value?.likes?.endpoint ?? addon.value?.options?.likes?.endpoint ?? DEFAULT_MOMENTS_LIKE_ENDPOINT)
 const timezone = computed(() => siteConfig.value.timezone || 'UTC')
 const author = computed<MomentsAuthor>(() => {
   const rawName = options.value?.author?.name || addon.value?.options?.author?.name || siteConfig.value.author.name
@@ -56,6 +58,11 @@ const partitionedMoments = computed(() => partitionPinnedMoments(visibleMoments.
 const pinnedMoments = computed(() => partitionedMoments.value.pinned)
 const groupedMoments = computed(() => groupMomentsByYear(partitionedMoments.value.regular, timezone.value))
 const monthAnchorTargets = computed(() => getMomentMonthAnchorTargets(moments.value, timezone.value))
+const { counts: likeCounts, isLiked, isPending: isLikePending, toggle: toggleLike } = useMomentsLike({
+  enabled: likesEnabled,
+  endpoint: likesEndpoint,
+  momentIds: () => moments.value.map(moment => moment.path),
+})
 
 function getMonthAnchorId(moment: (typeof moments.value)[number]) {
   const anchor = getMomentMonth(moment.date, timezone.value).anchor
@@ -100,8 +107,13 @@ onBeforeUnmount(() => {
           <ValaxyMomentCard
             :id="getMonthAnchorId(moment)"
             :author="author"
+            :like-count="likeCounts[moment.path] ?? 0"
+            :like-pending="isLikePending(moment.path)"
+            :liked="isLiked(moment.path)"
+            :likes-enabled="likesEnabled"
             :moment="moment"
             :timezone="timezone"
+            @toggle-like="toggleLike(moment.path)"
           />
         </div>
       </div>
@@ -116,8 +128,13 @@ onBeforeUnmount(() => {
             :id="getMonthAnchorId(moment)"
             :key="moment.path"
             :author="author"
+            :like-count="likeCounts[moment.path] ?? 0"
+            :like-pending="isLikePending(moment.path)"
+            :liked="isLiked(moment.path)"
+            :likes-enabled="likesEnabled"
             :moment="moment"
             :timezone="timezone"
+            @toggle-like="toggleLike(moment.path)"
           />
         </section>
       </template>

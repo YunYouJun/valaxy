@@ -3,15 +3,25 @@ export interface MomentsAuthor {
   name?: string
 }
 
+export interface MomentsLikeOptions {
+  /** Enable the shared like count UI. @default false */
+  enabled?: boolean
+  /** HTTP endpoint implementing the moments like API. @default '/api/moments-like' */
+  endpoint?: string
+}
+
 export interface MomentsOptions {
   author?: MomentsAuthor
+  /** Number of additional moments revealed per "Load more" action. @default 10 */
   batchSize?: number
   description?: string | Record<string, string>
+  /** Number of moments rendered initially. @default 10 */
   initialCount?: number
+  likes?: MomentsLikeOptions
   title?: string | Record<string, string>
 }
 
-export type MomentsPageOptions = Pick<MomentsOptions, 'author' | 'batchSize' | 'initialCount'>
+export type MomentsPageOptions = Pick<MomentsOptions, 'author' | 'batchSize' | 'initialCount' | 'likes'>
 
 /** Options read from the `moments` field of `pages/moments/index.md`. */
 export interface MomentsPageFrontmatter {

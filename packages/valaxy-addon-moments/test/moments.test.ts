@@ -3,6 +3,7 @@ import { describe, expect, expectTypeOf, it } from 'vitest'
 import { nextTick, shallowRef } from 'vue'
 import { createMarkdownRenderer } from '../../valaxy/node/plugins/markdown'
 import { normalizeMomentImages, normalizeMomentRoutes } from '../client/data'
+import { fetchMomentLikeCounts, readLikedMomentIds, submitMomentLike, writeLikedMomentIds } from '../client/likes'
 import { formatMomentDate, getMomentMonth, getMomentMonthAnchorTargets, groupMomentsByYear, partitionPinnedMoments } from '../client/time'
 import { useMomentsProgressiveCount } from '../client/useProgressiveCount'
 import { renderMomentMarkdown, shouldExcludeMoment } from '../node'
@@ -37,7 +38,58 @@ describe('moments page frontmatter', () => {
   it('keeps title and description at the page frontmatter level', () => {
     type PageMomentsOptions = NonNullable<MomentsPageFrontmatter['moments']>
 
-    expectTypeOf<PageMomentsOptions>().toEqualTypeOf<Pick<MomentsOptions, 'author' | 'batchSize' | 'initialCount'>>()
+    expectTypeOf<PageMomentsOptions>().toEqualTypeOf<Pick<MomentsOptions, 'author' | 'batchSize' | 'initialCount' | 'likes'>>()
+  })
+})
+
+describe('moments like', () => {
+  it('loads public counts for multiple moments in one request and normalizes values', async () => {
+    const requests: string[] = []
+    const fetcher: typeof fetch = async (input) => {
+      requests.push(String(input))
+      return new Response(JSON.stringify({
+        '/moments/a': 12,
+        '/moments/b': -3,
+      }))
+    }
+
+    await expect(fetchMomentLikeCounts('/api/moments-like', ['/moments/a', '/moments/b'], fetcher)).resolves.toEqual({
+      '/moments/a': 12,
+      '/moments/b': 0,
+    })
+    expect(requests).toHaveLength(1)
+    expect(requests[0]).toContain('ids=%2Fmoments%2Fa,%2Fmoments%2Fb')
+  })
+
+  it('posts a like action and uses the server count', async () => {
+    let requestBody = ''
+    const fetcher: typeof fetch = async (_input, init) => {
+      requestBody = String(init?.body)
+      return new Response(JSON.stringify({ count: 8 }))
+    }
+
+    await expect(submitMomentLike('/api/moments-like', '/moments/a', 'like', fetcher)).resolves.toBe(8)
+    expect(JSON.parse(requestBody)).toEqual({ action: 'like', momentId: '/moments/a' })
+  })
+
+  it('rejects an invalid POST count while clamping a negative count to zero', async () => {
+    const respondWith = (body: unknown): typeof fetch => async () => new Response(JSON.stringify(body))
+
+    await expect(submitMomentLike('/api/moments-like', '/moments/a', 'like', respondWith({ count: 'invalid' }))).rejects.toThrow(TypeError)
+    await expect(submitMomentLike('/api/moments-like', '/moments/a', 'like', respondWith({}))).rejects.toThrow(TypeError)
+    await expect(submitMomentLike('/api/moments-like', '/moments/a', 'like', respondWith({ count: -2 }))).resolves.toBe(0)
+  })
+
+  it('stores only valid locally liked moment paths', () => {
+    let stored = JSON.stringify(['/moments/b', '/posts/not-a-moment', 1])
+    const storage = {
+      getItem: () => stored,
+      setItem: (_key: string, value: string) => stored = value,
+    }
+
+    expect([...readLikedMomentIds(storage)]).toEqual(['/moments/b'])
+    writeLikedMomentIds(storage, new Set(['/moments/b', '/moments/a']))
+    expect(JSON.parse(stored)).toEqual(['/moments/a', '/moments/b'])
   })
 })
 

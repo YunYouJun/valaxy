@@ -12,6 +12,7 @@
 - 在生成生产路由前删除草稿和隐藏动态。
 - 使用站点配置的时区；未配置时固定使用 UTC，避免 SSG 与 hydration 结果不一致。
 - 聚合正文使用 Valaxy 配置的 Markdown-it 渲染器及代码高亮。
+- 可通过自定义 HTTP 接口读取公共点赞数，`localStorage` 只保存当前浏览器是否点过赞。
 
 时间线通过 HTML 展示站点作者可信的 Markdown。依赖 Vue SFC 编译的自定义组件、加密内容等能力应放在普通独立页面中。
 
@@ -36,12 +37,20 @@ export default defineValaxyConfig({
       description: '记录生活里的小事',
       initialCount: 10,
       batchSize: 10,
+      likes: {
+        enabled: true,
+        endpoint: '/api/moments-like',
+      },
     }),
   ],
 })
 ```
 
-插件会自动提供 `/moments/`。站点也可以用 `pages/moments/index.md` 覆盖入口：
+`initialCount` 控制首次访问时渲染的动态数量，`batchSize` 控制每次点击“加载更多”时追加的动态数量，两者默认值均为 `10`。它们只控制渐进渲染；启用点赞后，客户端仍会独立获取全部动态的公共点赞数，每批最多请求 100 个 ID。
+
+插件会自动提供 `/moments/`，推荐直接在 `addonMoments()` 中完成设置。普通站点不需要创建 `pages/moments/index.md`。
+
+站点仍可用 `pages/moments/index.md` 覆盖默认入口，适合需要编写入口页 Markdown 或单独设置 Frontmatter 的情况。页面中填写的 `moments` 选项优先于 `addonMoments()` 中的同名选项。
 
 ```md
 ---
@@ -50,8 +59,50 @@ description: 记录生活里的小事
 moments:
   initialCount: 10
   batchSize: 10
+  likes:
+    enabled: true
+    endpoint: /api/moments-like
 ---
 ```
+
+由于插件本身已经提供同一路由，当前路由扫描器可能在构建时显示同路由提示。用户目录中的入口页仍会按 Valaxy 的文件优先级生效。没有自定义入口内容时，直接使用 `addonMoments()` 配置即可。
+
+点赞默认关闭。启用后，插件会批量读取公共点赞数，并在点击时乐观更新按钮。接口请求失败会回滚界面，只有请求成功后才会保存当前浏览器的点赞状态。
+
+### 点赞接口契约
+
+点赞接口不绑定托管平台。成功响应必须返回 2xx 状态码，并提供符合以下契约的 JSON 响应体。
+
+`GET /api/moments-like?ids=id1,id2` 返回从每个请求 moment ID 到公共点赞数的映射：
+
+```json
+{
+  "id1": 12,
+  "id2": 5
+}
+```
+
+如果 GET 返回了合法映射，但某个值缺失或无效，客户端会将该项显示为 `0`。有限计数会向下取整，负数会限制为 `0`。
+
+`POST /api/moments-like` 接收以下两种 JSON 请求体之一：
+
+```json
+{ "momentId": "id1", "action": "like" }
+```
+
+```json
+{ "momentId": "id1", "action": "unlike" }
+```
+
+接口返回更新后的公共点赞数：
+
+```json
+{ "count": 13 }
+```
+
+POST 响应中的 `count` 必须是可转换为有限数字的值。`count` 缺失或无效、JSON 响应体为空或格式错误（包括 `204` 响应），以及任何非 2xx 状态都会被视为请求失败。客户端会回滚乐观更新，并且不会修改 `localStorage`。GET 请求失败不会影响 moments 页面，也不会替换当前计数。
+
+仓库在 [`demo/yun/edge-functions`](../../demo/yun/edge-functions) 中提供了 EdgeOne KV 示例，其他平台可以使用自己的函数和存储实现相同接口。这个轻量方案不包含用户身份、防刷或严格事务计数。
 
 ## 编写动态
 
