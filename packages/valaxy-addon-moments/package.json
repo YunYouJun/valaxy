@@ -1,7 +1,7 @@
 {
   "name": "valaxy-addon-moments",
   "type": "module",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "A Markdown moments timeline addon for Valaxy",
   "author": "Yuumi",
   "license": "MIT",
