@@ -46,6 +46,8 @@ export default defineValaxyConfig({
 })
 ```
 
+`initialCount` 控制首次访问时渲染的动态数量，`batchSize` 控制每次点击“加载更多”时追加的动态数量，两者默认值均为 `10`。它们只控制渐进渲染；启用点赞后，客户端仍会独立获取全部动态的公共点赞数，每批最多请求 100 个 ID。
+
 插件会自动提供 `/moments/`，推荐直接在 `addonMoments()` 中完成设置。普通站点不需要创建 `pages/moments/index.md`。
 
 站点仍可用 `pages/moments/index.md` 覆盖默认入口，适合需要编写入口页 Markdown 或单独设置 Frontmatter 的情况。页面中填写的 `moments` 选项优先于 `addonMoments()` 中的同名选项。

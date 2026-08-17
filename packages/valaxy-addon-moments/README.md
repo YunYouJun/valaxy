@@ -46,6 +46,12 @@ export default defineValaxyConfig({
 })
 ```
 
+`initialCount` controls how many moments are rendered on the initial visit, and
+`batchSize` controls how many additional moments each **Load more** action
+reveals. Both default to `10`. These options only control progressive rendering;
+when likes are enabled, public counts are fetched for all moments independently
+in batches of up to 100 IDs.
+
 The addon provides `/moments/` automatically. Configure it through
 `addonMoments()` for normal use; no `pages/moments/index.md` file is required.
 

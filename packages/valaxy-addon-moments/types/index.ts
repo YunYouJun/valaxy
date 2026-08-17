@@ -12,8 +12,10 @@ export interface MomentsLikeOptions {
 
 export interface MomentsOptions {
   author?: MomentsAuthor
+  /** Number of additional moments revealed per "Load more" action. @default 10 */
   batchSize?: number
   description?: string | Record<string, string>
+  /** Number of moments rendered initially. @default 10 */
   initialCount?: number
   likes?: MomentsLikeOptions
   title?: string | Record<string, string>

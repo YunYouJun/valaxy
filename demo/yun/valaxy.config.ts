@@ -99,8 +99,8 @@ export default defineValaxyConfig<ThemeConfig>({
     addonMoments({
       title: '小随想',
       description: '记录生活里的小事',
-      initialCount: 10,
-      batchSize: 10,
+      initialCount: 5,
+      batchSize: 5,
       likes: {
         enabled: true,
         endpoint: '/api/moments-like',
