@@ -78,7 +78,7 @@ function isMomentEntry(path: string) {
 }
 
 export function shouldExcludeMoment(data: Readonly<Record<string, unknown>>, mode: 'build' | 'dev') {
-  return mode === 'build' && (Boolean(data.draft) || Boolean(data.hide))
+  return mode === 'build' && Boolean(data.draft)
 }
 
 export const addonMoments = defineValaxyAddon<MomentsOptions>((options = {}) => ({

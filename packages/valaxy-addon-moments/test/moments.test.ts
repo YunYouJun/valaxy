@@ -108,7 +108,10 @@ describe('normalizeMomentRoutes', () => {
 
     expect(normalizeMomentRoutes(routes)).toHaveLength(1)
     expect(normalizeMomentRoutes(routes)[0].path).toBe('/moments/ok')
-    expect(normalizeMomentRoutes(routes, { isDev: true }).map(item => item.path)).toContain('/moments/draft')
+    expect(normalizeMomentRoutes(routes, { isDev: true }).map(item => item.path)).toEqual(expect.arrayContaining([
+      '/moments/draft',
+      '/moments/hidden',
+    ]))
   })
 
   it('sorts by pin priority, date, and stable path', () => {
@@ -182,9 +185,11 @@ describe('groupMomentsByYear', () => {
 })
 
 describe('production filtering', () => {
-  it('removes draft and hidden moment routes only from production builds', () => {
+  it('removes only draft routes from production builds', () => {
     expect(shouldExcludeMoment({ draft: true }, 'build')).toBe(true)
-    expect(shouldExcludeMoment({ hide: 'index' }, 'build')).toBe(true)
+    expect(shouldExcludeMoment({ hide: true }, 'build')).toBe(false)
+    expect(shouldExcludeMoment({ hide: 'all' }, 'build')).toBe(false)
+    expect(shouldExcludeMoment({ hide: 'index' }, 'build')).toBe(false)
     expect(shouldExcludeMoment({ draft: true }, 'dev')).toBe(false)
     expect(shouldExcludeMoment({}, 'build')).toBe(false)
   })

@@ -16,6 +16,7 @@ Commands:
   valaxy build [root]  build your blog to static content
   valaxy rss [root]    generate rss feed
   valaxy new <title>   Draft a new post
+  valaxy moments [title]  Draft a new moment
   valaxy debug         Display debug information for your Valaxy project
 
 Positionals:
@@ -48,6 +49,7 @@ Options:
     "build:spa": "valaxy build",
     "build:ssg": "valaxy build --ssg",
     "dev": "valaxy dev",
+    "moments": "valaxy moments",
     "new": "valaxy new",
     "rss": "valaxy rss"
   }
@@ -76,6 +78,7 @@ pnpm add -g valaxy
 - `valaxy rss`: 自动生成 RSS
 - `valaxy build`: 默认采用 Vite 构建 SPA 应用
 - `valaxy build --ssg`: 构建静态页面站点（内存友好，推荐），使用 Valaxy 内置 SSG 引擎
+- `valaxy moments [title]`: 在 `pages/moments` 下新建动态（动态时间线需要安装 `valaxy-addon-moments`）
 - `valaxy debug --plain`: 输出可粘贴到 Issue 的环境与项目信息
 
 
@@ -118,6 +121,15 @@ Valaxy SSG 引擎分为三个阶段：
 
 
 - [自定义文章模板](/zh/guide/custom/templates)
+
+### 动态 {#moments}
+
+> 需要安装并启用 [`valaxy-addon-moments`](/zh/addons/official/moments)，生成的文件才会显示在动态时间线中。
+
+- `valaxy moments sunset` 会创建 `pages/moments/YYYY-MM-DD-sunset.md`。
+- `valaxy moments` 会创建 `pages/moments/YYYY-MM-DD-1.md`。同一天继续创建无标题动态时，编号依次使用 `-2`、`-3`。
+
+命令不会覆盖已有文件。有标题动态的文件名发生冲突时，也会自动追加递增编号。
 
 ## FAQ {#faq}
 

@@ -17,6 +17,7 @@ import { registerDebugCommand } from './debug'
 import { registerDeployCommand } from './deploy'
 import { registerDevCommand } from './dev'
 // commands
+import { registerMomentsCommand } from './moments'
 import { registerNewCommand } from './new'
 
 export * from './dev'
@@ -31,6 +32,7 @@ export const cli = yargs(hideBin(process.argv))
 registerDevCommand(cli)
 registerBuildCommand(cli)
 registerNewCommand(cli)
+registerMomentsCommand(cli)
 registerCleanCommand(cli)
 registerDeployCommand(cli)
 registerDebugCommand(cli)

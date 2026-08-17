@@ -16,6 +16,7 @@ Commands:
   valaxy build [root]  build your blog to static content
   valaxy rss [root]    generate rss feed
   valaxy new <title>   Draft a new post
+  valaxy moments [title]  Draft a new moment
   valaxy debug         Display debug information for your Valaxy project
 
 Positionals:
@@ -48,6 +49,7 @@ You can configure shortcut scripts in `package.json`. (**Suggested**)
     "build:spa": "valaxy build",
     "build:ssg": "valaxy build --ssg",
     "dev": "valaxy dev",
+    "moments": "valaxy moments",
     "new": "valaxy new",
     "rss": "valaxy rss"
   }
@@ -77,6 +79,7 @@ pnpm add -g valaxy
 - `valaxy rss`: Generate RSS
 - `valaxy build`: Use Vite to build SPA app by default
 - `valaxy build --ssg`: Build static pages (Memory-friendly, recommended), uses the built-in Valaxy SSG engine
+- `valaxy moments [title]`: Create a moment under `pages/moments` (requires `valaxy-addon-moments` for the moments timeline)
 - `valaxy debug --plain`: Print environment and project information that can be pasted into an issue
 
 
@@ -112,6 +115,15 @@ and update the date.
 > an issue at [GitHub Issues](https://github.com/YunYouJun/valaxy/issues)!
 
 - [自定义文章模板](/guide/custom/templates)
+
+### Moments
+
+> Install and enable [`valaxy-addon-moments`](/addons/official/moments) to display the generated files in a moments timeline.
+
+- `valaxy moments sunset` creates `pages/moments/YYYY-MM-DD-sunset.md`.
+- `valaxy moments` creates `pages/moments/YYYY-MM-DD-1.md`. Further untitled moments created on the same day use `-2`, `-3`, and so on.
+
+Existing files are never overwritten. Titled moments also receive an incrementing suffix when their generated filename already exists.
 
 ## FAQ
 
