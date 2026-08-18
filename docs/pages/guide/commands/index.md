@@ -113,6 +113,32 @@ and update the date.
 
 - [自定义文章模板](/guide/custom/templates)
 
+### Addon Commands
+
+Enabled addons may provide commands below a package-derived namespace. For example, after configuring `valaxy-addon-moments` with `addonMoments()`:
+
+```bash
+valaxy moments new [title]
+valaxy moments --help
+```
+
+Addon commands are resolved from the current project only when invoked, so the global `valaxy --help` output lists core commands only. An addon cannot override a core command or another enabled addon's command.
+
+Addon authors register subcommands with the experimental `extendCli` hook returned by `defineValaxyAddon`. Valaxy derives the root namespace from the package name and passes a CLI already scoped below it:
+
+```ts
+export const addonMoments = defineValaxyAddon(() => ({
+  name: 'valaxy-addon-moments',
+  extendCli(cli, { userRoot }) {
+    cli.command('new [title]', 'Draft a new moment', () => {}, ({ title }) => {
+      // Create the moment below userRoot.
+    })
+  },
+}))
+```
+
+CLI hooks require the recommended factory/object addon configuration, such as `addonMoments()`. String addon entries do not carry Node hooks.
+
 ## FAQ
 
 

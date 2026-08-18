@@ -119,6 +119,32 @@ Valaxy SSG 引擎分为三个阶段：
 
 - [自定义文章模板](/zh/guide/custom/templates)
 
+### 插件命令 {#addon-commands}
+
+已启用的插件可以在根据包名生成的命名空间下提供命令。例如，通过 `addonMoments()` 配置 `valaxy-addon-moments` 后：
+
+```bash
+valaxy moments new [title]
+valaxy moments --help
+```
+
+插件命令仅在调用时从当前项目解析，因此全局 `valaxy --help` 只展示核心命令。插件不能覆盖核心命令，也不能与另一个已启用插件的命令重名。
+
+插件作者可通过 `defineValaxyAddon` 返回值中实验性的 `extendCli` 钩子注册子命令。Valaxy 会根据包名生成根命名空间，并传入已经限制在该命名空间下的 CLI：
+
+```ts
+export const addonMoments = defineValaxyAddon(() => ({
+  name: 'valaxy-addon-moments',
+  extendCli(cli, { userRoot }) {
+    cli.command('new [title]', 'Draft a new moment', () => {}, ({ title }) => {
+      // 在 userRoot 下创建动态。
+    })
+  },
+}))
+```
+
+CLI 钩子要求使用推荐的工厂/对象形式配置插件，例如 `addonMoments()`；字符串插件配置不携带 Node 钩子。
+
 ## FAQ {#faq}
 
 ### 控制台开发时日志太少，构建时日志太多？ {#more-logs-when-developing-and-less-when-building}
@@ -152,5 +178,3 @@ Valaxy SSG 引擎分为三个阶段：
   }
 }
 ```
-
-
