@@ -9,7 +9,7 @@
     <code flex="inline" gap="3" class="inline-flex text-xl! px-4! w-280px" justify-center>
       <span>pnpm</span>
       <span>create</span>
-      <span text="purple">valaxy</span>
+      <span text="purple-700 dark:purple-300">valaxy</span>
     </code>
 
     <span text="4xl">WORK IN PROGRESS</span>

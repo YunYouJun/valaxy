@@ -3,6 +3,8 @@ layout: home
 
 title: Valaxy
 titleTemplate: '%s - Next Generation Static Blog Framework'
+description: Valaxy is a next-generation static blog framework powered by Vue, Vite, and TypeScript.
+ogImage: https://valaxy.site/valaxy-logo.png
 
 hero:
   name: VALAXY
@@ -11,6 +13,8 @@ hero:
   image:
     src: /valaxy-logo.png
     alt: Valaxy Logo
+    width: 420
+    height: 386
   actions:
     - theme: brand
       text: hero.actions.get-started

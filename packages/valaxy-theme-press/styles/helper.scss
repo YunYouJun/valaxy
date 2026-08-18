@@ -13,6 +13,11 @@
   -webkit-text-fill-color: transparent;
 }
 
+button:enabled,
+[role="button"]:enabled {
+  cursor: pointer;
+}
+
 .sese-btn {
   position: relative;
   z-index: 0;

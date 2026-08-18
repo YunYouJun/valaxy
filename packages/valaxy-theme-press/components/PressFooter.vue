@@ -48,6 +48,11 @@ const { hasSidebar } = useSidebar()
   color: var(--va-c-text-lighter);
 }
 
+.press-footer :deep(a) {
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
 .message   { order: 2; }
 .copyright { order: 1; }
 </style>

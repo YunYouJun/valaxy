@@ -5,10 +5,11 @@ import { useI18n } from 'vue-i18n'
 import { useRoute } from 'vue-router'
 import { useFrontmatter, useLocale, useValaxyHead, useValaxyI18n } from '../../composables'
 import { useTimezone } from '../../composables/global'
+import { useSiteConfig } from '../../config'
+import { resolveSiteUrl } from '../../utils'
 // https://github.com/vueuse/head
 // you can use this to manipulate the document head in any components,
 // they will be rendered correctly in the html results with vite-ssg
-import { useSiteConfig } from '../../config'
 
 export function useValaxyApp() {
   const siteConfig = useSiteConfig()
@@ -27,8 +28,16 @@ export function useValaxyApp() {
   }
 
   // seo
-  const siteUrl = computed(() => fm.value.url || siteConfig.value.url)
+  const siteUrl = computed(() => resolveSiteUrl(
+    siteConfig.value.url,
+    fm.value.url || route.path,
+  ))
   const description = computed(() => $tO(fm.value.excerpt) || $tO(fm.value.description) || $t(siteConfig.value.description))
+  const ogImage = computed(() => resolveSiteUrl(
+    siteConfig.value.url,
+    fm.value.ogImage || fm.value.cover || fm.value.firstImage || siteConfig.value.favicon,
+  ))
+  const seoTitle = computed(() => $tO(fm.value.title) || $t(siteConfig.value.title))
 
   useSeoMeta({
     description,
@@ -36,10 +45,15 @@ export function useValaxyApp() {
     ogLocale: computed(() => locale.value || fm.value.lang || siteConfig.value.lang || 'en'),
     ogLocaleAlternate: computed(() => siteConfig.value.languages.filter(l => l !== locale.value)),
     ogSiteName: computed(() => $t(siteConfig.value.title)),
-    ogTitle: computed(() => $tO(fm.value.title) || $t(siteConfig.value.title)),
-    ogImage: computed(() => fm.value.ogImage || fm.value.cover || fm.value.firstImage || siteConfig.value.favicon),
+    ogTitle: seoTitle,
+    ogImage,
+    ogImageAlt: seoTitle,
     ogType: 'website',
     ogUrl: siteUrl,
+    twitterCard: 'summary_large_image',
+    twitterDescription: description,
+    twitterImage: ogImage,
+    twitterTitle: seoTitle,
   })
 
   // for SEO
@@ -48,7 +62,7 @@ export function useValaxyApp() {
     // Personal Website or Blog
     definePerson({
       name: $t(siteConfig.value.author.name),
-      url: siteUrl.value,
+      url: siteConfig.value.url,
       image: $t(siteConfig.value.author.avatar),
       sameAs: siteConfig.value.social.map(s => s.link),
     }),

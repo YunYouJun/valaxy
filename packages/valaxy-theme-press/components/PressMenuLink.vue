@@ -1,24 +1,28 @@
 <script lang="ts" setup>
 import type { NavItemLink } from '../types'
+import { NavigationMenuLink } from 'reka-ui'
 import { useI18n } from 'vue-i18n'
+import { useRoute } from 'vue-router'
 
 defineProps<{
   item: NavItemLink
 }>()
 
 const { t } = useI18n()
+const route = useRoute()
 </script>
 
 <template>
   <div class="menu-link w-full">
-    <AppLink
-      v-if="'link' in item"
-      class="menu-item"
-      p="x-3"
-      :to="item.link"
-    >
-      {{ item.text.includes(".") ? t(item.text) : item.text }}
-    </AppLink>
+    <NavigationMenuLink :active="route.path === item.link" as-child>
+      <AppLink
+        class="menu-item"
+        p="x-3"
+        :to="item.link"
+      >
+        {{ item.text.includes(".") ? t(item.text) : item.text }}
+      </AppLink>
+    </NavigationMenuLink>
   </div>
 </template>
 

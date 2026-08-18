@@ -16,3 +16,14 @@ export function withBase(path: string): string {
     ? path
     : joinPath(import.meta.env.BASE_URL, path)
 }
+
+/**
+ * Resolve an internal path against the configured canonical site URL.
+ * Root-absolute paths remain relative to a site URL's deployment subpath.
+ */
+export function resolveSiteUrl(siteUrl: string, path: string): string {
+  if (!path || EXTERNAL_URL_RE.test(path) || !/^https?:\/\//.test(siteUrl))
+    return path
+
+  return new URL(path.replace(/^\/+/, ''), `${siteUrl.replace(/\/+$/, '')}/`).href
+}

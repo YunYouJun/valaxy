@@ -97,6 +97,7 @@ const actions = computed(() => {
   position: relative;
   z-index: 1;
   margin: auto;
+  width: auto;
   object-fit: contain;
 }
 </style>

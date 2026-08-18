@@ -1,17 +1,27 @@
 import { useHead } from '@unhead/vue'
 import { computed, onMounted } from 'vue'
+import { useRoute } from 'vue-router'
 import pkg from '../../../package.json' with { type: 'json' }
 
 import { useFrontmatter, useValaxyI18n } from '../../composables'
 import { useSiteConfig } from '../../config'
-import { withBase } from '../../utils'
+import { resolveSiteUrl, withBase } from '../../utils'
 
 export function useValaxyHead() {
   const { $t, $tO, locale } = useValaxyI18n()
 
   const fm = useFrontmatter()
+  const route = useRoute()
   const siteConfig = useSiteConfig()
   const $title = computed(() => $tO(fm.value.title))
+  const canonicalUrl = computed(() => {
+    const siteUrl = siteConfig.value.url
+    if (!/^https?:\/\//.test(siteUrl))
+      return ''
+
+    const pagePath = fm.value.url || route.path
+    return resolveSiteUrl(siteUrl, pagePath)
+  })
 
   useHead({
     htmlAttrs: {
@@ -48,6 +58,10 @@ export function useValaxyHead() {
       },
     },
   })
+
+  useHead(computed(() => canonicalUrl.value
+    ? { link: [{ rel: 'canonical', href: canonicalUrl.value }] }
+    : {}))
 
   // Add mac detection class on client side only, after hydration
   // to avoid SSR/client mismatch on the <html> element

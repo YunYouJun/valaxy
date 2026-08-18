@@ -12,6 +12,7 @@ export namespace PressTheme {
   export interface SocialLink {
     icon: string
     link: string
+    ariaLabel?: string
   }
 
   export interface EditLink {

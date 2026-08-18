@@ -1,14 +1,28 @@
 <script lang="ts" setup>
-defineProps<{
+const props = defineProps<{
   icon: string
   link: string
+  ariaLabel?: string
 }>()
+
+function getAccessibleLabel() {
+  if (props.ariaLabel)
+    return props.ariaLabel
+
+  try {
+    return new URL(props.link).hostname
+  }
+  catch {
+    return 'Social link'
+  }
+}
 </script>
 
 <template>
   <a
     class="pr-social-link"
     :href="link"
+    :aria-label="getAccessibleLabel()"
     target="_blank"
     rel="noopener"
   >

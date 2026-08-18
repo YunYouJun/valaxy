@@ -9,10 +9,11 @@ defineProps<{
 <template>
   <div class="pr-social-links">
     <PressSocialLink
-      v-for="{ link, icon } in links"
+      v-for="{ link, icon, ariaLabel } in links"
       :key="link"
       :icon="icon"
       :link="link"
+      :aria-label="ariaLabel"
     />
   </div>
 </template>

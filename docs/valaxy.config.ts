@@ -270,7 +270,7 @@ export default defineValaxyConfig<PressTheme.Config>({
   siteConfig: {
     title: 'VALAXY',
     url: 'https://valaxy.site',
-    description: 'Valaxy Site Docs',
+    description: 'Valaxy is a next-generation static blog framework powered by Vue, Vite, and TypeScript.',
 
     search: {
       enable: true,
@@ -324,7 +324,7 @@ export default defineValaxyConfig<PressTheme.Config>({
       '/': defaultSidebar,
     },
     socialLinks: [
-      { icon: 'i-ri-github-line', link: 'https://github.com/YunYouJun/valaxy' },
+      { icon: 'i-ri-github-line', link: 'https://github.com/YunYouJun/valaxy', ariaLabel: 'Valaxy on GitHub' },
     ],
     nav: [
       {
