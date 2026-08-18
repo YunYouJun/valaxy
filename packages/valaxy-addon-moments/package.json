@@ -52,7 +52,10 @@
     "vue-i18n": "^11.0.0"
   },
   "dependencies": {
-    "dayjs": "catalog:"
+    "consola": "catalog:build",
+    "dayjs": "catalog:",
+    "fs-extra": "catalog:",
+    "yargs": "catalog:"
   },
   "devDependencies": {
     "valaxy": "workspace:*",

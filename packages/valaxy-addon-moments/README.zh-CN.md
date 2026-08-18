@@ -2,17 +2,23 @@
 
 **简体中文** | [English](./README.md)
 
-适用于 [Valaxy](https://valaxy.site) 的 Markdown 动态时间线插件。通过 `pages/moments` 目录发布短动态、照片和日常记录。
+一个与主题解耦的 [Valaxy](https://valaxy.site) Markdown 小动态时间线插件。
 
-## 功能特性
+## 功能
 
-- 使用 Markdown 编写动态，无需数据库。
-- 支持日期、标题、地点、置顶优先级和最多九张图片。
-- 支持按年、月浏览和渐进加载。
-- 在生产构建中删除草稿路由。
-- 隐藏动态不会出现在生产时间线中，但仍可通过链接直接访问。
-- 提供适用于任意 Valaxy 主题的基础时间线。
-- 可选的公共点赞数功能。
+- 通过 `pages/moments/*.md` 发布动态，无需数据库。
+- 支持作者、日期、标题、位置、置顶、长内容展开和最多九张图片。
+- 按年月分组，支持渐进渲染与时间线导航。
+- 在生成生产路由前删除草稿动态，并从生产时间线中隐藏指定动态。
+- 使用站点配置的时区；未配置时固定使用 UTC，避免 SSG 与 hydration 结果不一致。
+- 聚合正文使用 Valaxy 配置的 Markdown-it 渲染器及代码高亮。
+- 可通过自定义 HTTP 接口读取公共点赞数，`localStorage` 只保存当前浏览器是否点过赞。
+
+时间线通过 HTML 展示站点作者可信的 Markdown。依赖 Vue SFC 编译的自定义组件、加密内容等能力应放在普通独立页面中。
+
+## 主题兼容性
+
+插件负责动态发现、渲染、样式和默认 `/moments/` 页面，因此基础列表可用于任意 Valaxy 主题。`valaxy-theme-yun` 会自动提供带侧边时间线的增强 `moments` 布局；其他主题可以提供自己的布局，并按设计需要放置 `ValaxyMomentsTimeline`。
 
 ## 安装
 
@@ -20,53 +26,98 @@
 pnpm add valaxy-addon-moments
 ```
 
-在 `valaxy.config.ts` 中配置插件：
-
-```ts
+```ts [valaxy.config.ts]
 import { defineValaxyConfig } from 'valaxy'
 import { addonMoments } from 'valaxy-addon-moments'
 
 export default defineValaxyConfig({
   addons: [
     addonMoments({
-      title: '小动态',
-      description: '值得记录的日常',
+      title: '小随想',
+      description: '记录生活里的小事',
+      initialCount: 10,
+      batchSize: 10,
+      likes: {
+        enabled: true,
+        endpoint: '/api/moments-like',
+      },
     }),
   ],
 })
 ```
 
-启动或构建站点后，可通过 `/moments/` 访问动态页面，无需额外创建 `pages/moments/index.md`。
+`initialCount` 控制首次访问时渲染的动态数量，`batchSize` 控制每次点击“加载更多”时追加的动态数量，两者默认值均为 `10`。它们只控制渐进渲染；启用点赞后，客户端仍会独立获取全部动态的公共点赞数，每批最多请求 100 个 ID。
 
-## 配置选项
+插件会自动提供 `/moments/`，推荐直接在 `addonMoments()` 中完成设置。普通站点不需要创建 `pages/moments/index.md`。
 
-所有选项均为可选：
+站点仍可用 `pages/moments/index.md` 覆盖默认入口，适合需要编写入口页 Markdown 或单独设置 Frontmatter 的情况。页面中填写的 `moments` 选项优先于 `addonMoments()` 中的同名选项。
 
-| 选项               | 说明                                 | 默认值                |
-| ------------------ | ------------------------------------ | --------------------- |
-| `title`          | 页面标题                             | `Moments`           |
-| `description`    | 页面描述                             | 无                    |
-| `author.name`    | 动态卡片中显示的作者名称             | 站点作者名称          |
-| `author.avatar`  | 动态卡片中显示的作者头像             | 站点作者头像          |
-| `initialCount`   | 首次访问时显示的动态数量             | `10`                |
-| `batchSize`      | 每次点击“加载更多”后增加的动态数量 | `10`                |
-| `likes.enabled`  | 是否显示公共点赞按钮和点赞数         | `false`             |
-| `likes.endpoint` | 点赞服务地址                         | `/api/moments-like` |
+```md
+---
+title: 小随想
+description: 记录生活里的小事
+moments:
+  initialCount: 10
+  batchSize: 10
+  likes:
+    enabled: true
+    endpoint: /api/moments-like
+---
+```
 
-多语言站点可为 `title` 和 `description` 传入语言映射对象。
+由于插件本身已经提供同一路由，当前路由扫描器可能在构建时显示同路由提示。用户目录中的入口页仍会按 Valaxy 的文件优先级生效。没有自定义入口内容时，直接使用 `addonMoments()` 配置即可。
+
+点赞默认关闭。启用后，插件会批量读取公共点赞数，并在点击时乐观更新按钮。接口请求失败会回滚界面，只有请求成功后才会保存当前浏览器的点赞状态。
+
+### 点赞接口契约
+
+点赞接口不绑定托管平台。成功响应必须返回 2xx 状态码，并提供符合以下契约的 JSON 响应体。
+
+`GET /api/moments-like?ids=id1,id2` 返回从每个请求 moment ID 到公共点赞数的映射：
+
+```json
+{
+  "id1": 12,
+  "id2": 5
+}
+```
+
+如果 GET 返回了合法映射，但某个值缺失或无效，客户端会将该项显示为 `0`。有限计数会向下取整，负数会限制为 `0`。
+
+`POST /api/moments-like` 接收以下两种 JSON 请求体之一：
+
+```json
+{ "momentId": "id1", "action": "like" }
+```
+
+```json
+{ "momentId": "id1", "action": "unlike" }
+```
+
+接口返回更新后的公共点赞数：
+
+```json
+{ "count": 13 }
+```
+
+POST 响应中的 `count` 必须是可转换为有限数字的值。`count` 缺失或无效、JSON 响应体为空或格式错误（包括 `204` 响应），以及任何非 2xx 状态都会被视为请求失败。客户端会回滚乐观更新，并且不会修改 `localStorage`。GET 请求失败不会影响 moments 页面，也不会替换当前计数。
+
+仓库在 [`demo/yun/edge-functions`](../../demo/yun/edge-functions) 中提供了 EdgeOne KV 示例，其他平台可以使用自己的函数和存储实现相同接口。这个轻量方案不包含用户身份、防刷或严格事务计数。
 
 ## 创建动态
 
-Valaxy CLI 支持创建有标题或无标题的动态：
+在 Valaxy 项目根目录运行插件命令：
 
 ```bash
-pnpm valaxy moments sunset
-pnpm valaxy moments
+pnpm valaxy moments new sunset
+pnpm valaxy moments new
 ```
 
-第一条命令会创建 `pages/moments/YYYY-MM-DD-sunset.md`。第二条命令会创建 `pages/moments/YYYY-MM-DD-1.md`。目标文件已存在时，命令会自动递增编号且不会覆盖原文件。
+第一条命令创建 `pages/moments/YYYY-MM-DD-sunset.md`，第二条创建 `pages/moments/YYYY-MM-DD-1.md`。命令不会覆盖已有文件；发生冲突时会递增数字后缀。
 
-编辑生成的文件，并在 Frontmatter 下方填写正文：
+只有通过 `addonMoments()` 配置并启用插件后，该命令才可用。Valaxy 的全局 `--help` 只展示核心命令；插件命令帮助请使用 `valaxy moments --help`。
+
+你也可以手动创建动态。例如，新建 `pages/moments/2026-08-13-sunset.md`：
 
 ```md
 ---
@@ -80,69 +131,17 @@ images:
 下班时遇到了很好看的晚霞。
 ```
 
-也可以直接在 `pages/moments` 中创建 Markdown 文件。`date` 为必填字段。
+`date` 为必填项。`top` 数值越大越靠前。生产构建会删除 `draft: true` 的路由；任意真值 `hide` 只会让动态不出现在时间线中，直接访问路由仍然可用。
 
-### Frontmatter 字段
+图片既可写字符串，也可写 `{ src, alt, width, height }` 对象，只展示前九张有效图片。图片缩放需要启用 Valaxy 的 `siteConfig.mediumZoom`；渐进加载出的卡片会在挂载时自动绑定缩放。
 
-| 字段         | 说明                                                                                       |
-| ------------ | ------------------------------------------------------------------------------------------ |
-| `date`     | 发布日期和时间，必填。                                                                     |
-| `title`    | 显示在正文上方的可选标题。                                                                 |
-| `location` | 显示在动态卡片中的地点。                                                                   |
-| `images`   | 图片地址列表，或由`{ src, alt, width, height }` 组成的对象列表。最多显示前九张有效图片。 |
-| `top`      | 置顶优先级，正数越大排序越靠前。                                                           |
-| `draft`    | 设为`true` 时从生产构建中删除动态路由。                                                  |
-| `hide`     | 设为任意真值时不显示在生产时间线中，直接访问链接仍然可用。                                 |
+## 开发验证
 
-动态正文支持 Valaxy 的 Markdown 渲染和代码高亮。Vue 组件与加密内容不会在聚合动态卡片中渲染，此类内容应使用独立页面。
-
-如需图片缩放，请启用 Valaxy 的 `siteConfig.mediumZoom`。
-
-## 主题兼容性
-
-基础动态列表可配合任意 Valaxy 主题使用。`valaxy-theme-yun` 会自动提供带侧边时间线导航的增强布局。其他主题可提供自定义的 `moments` 布局，或按需使用 `ValaxyMomentsTimeline` 组件。
-
-## 自定义动态入口页
-
-一般情况下，建议通过 `addonMoments()` 配置动态页面。如需添加自定义 Markdown 内容或页面级 Frontmatter，可创建 `pages/moments/index.md`：
-
-```md
----
-title: 动态
-description: 值得记录的日常
-moments:
-  initialCount: 20
-  batchSize: 10
----
-
-动态页面介绍。
+```bash
+pnpm --filter valaxy-addon-moments test
+pnpm lint
+pnpm typecheck
 ```
-
-页面 Frontmatter 中 `moments` 下的选项会覆盖 `addonMoments()` 中的同名选项。
-
-## 点赞功能
-
-点赞功能默认关闭。部署兼容的点赞服务后，可通过以下配置启用：
-
-```ts
-addonMoments({
-  likes: {
-    enabled: true,
-    endpoint: '/api/moments-like',
-  },
-})
-```
-
-可根据使用的托管平台和存储服务进行调整。不需要公共点赞数时，无需部署后端服务。此处展示使用 EdgeOne KV 存储的配置方法。
-
-### EdgeOne KV 存储
-
-如果您的 valaxy 项目托管在 EdgeOne 中，可以使用 EdgeOne Maker 中的 [KV 存储](https://console.cloud.tencent.com/edgeone/makers?tab=storage&sub=kv) 功能：
-
-1. 创建 KV 命名空间（此处命名无限制）
-2. 托管项目 - KV 存储 - KV 命名空间管理 - 绑定命名空间 - 变量名称填入 `moments_like`
-
-仓库中的 [`demo/yun/edge-functions`](../../demo/yun/edge-functions) 提供了 EdgeOne KV 示例，将文件放入仓库，`addonMoments()` 中的 `likes.endpoint` 填入文件位置后即可使用点赞功能。
 
 ## License
 

@@ -37,7 +37,7 @@ export function normalizeMomentImages(images: unknown): MomentImage[] {
 }
 
 function isHiddenFromTimeline(frontmatter: Partial<MomentFrontmatter>, isDev: boolean) {
-  return !isDev && (Boolean(frontmatter.draft) || Boolean(frontmatter.hide))
+  return !isDev && (frontmatter.draft === true || Boolean(frontmatter.hide))
 }
 
 export function normalizeMomentRoutes(

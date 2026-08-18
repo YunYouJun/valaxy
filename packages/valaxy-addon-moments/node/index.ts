@@ -2,6 +2,9 @@ import type { MomentsOptions } from '../types'
 import { createHash } from 'node:crypto'
 import { defineValaxyAddon } from 'valaxy'
 import pkg from '../package.json'
+import { registerMomentsCli } from './cli'
+
+export * from './cli'
 
 type RenderMarkdown = (source: string, env?: Record<string, unknown>) => Promise<string>
 
@@ -78,13 +81,17 @@ function isMomentEntry(path: string) {
 }
 
 export function shouldExcludeMoment(data: Readonly<Record<string, unknown>>, mode: 'build' | 'dev') {
-  return mode === 'build' && Boolean(data.draft)
+  return mode === 'build' && data.draft === true
 }
 
 export const addonMoments = defineValaxyAddon<MomentsOptions>((options = {}) => ({
   name: pkg.name,
   enable: true,
   options,
+
+  extendCli(cli, { userRoot }) {
+    registerMomentsCli(cli, { root: userRoot })
+  },
 
   setup(node) {
     node.hook('md:afterRender', async ({ content, data, path, renderMarkdown, route }) => {

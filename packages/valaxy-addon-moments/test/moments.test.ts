@@ -1,12 +1,29 @@
 import type { MomentEntry, MomentsOptions, MomentsPageFrontmatter } from '../types'
-import { describe, expect, expectTypeOf, it } from 'vitest'
+import { mkdtemp, readFile, rm } from 'node:fs/promises'
+import { tmpdir } from 'node:os'
+import { basename, join } from 'node:path'
+import dayjs from 'dayjs'
+import { afterEach, describe, expect, expectTypeOf, it } from 'vitest'
 import { nextTick, shallowRef } from 'vue'
+import yargs from 'yargs'
 import { createMarkdownRenderer } from '../../valaxy/node/plugins/markdown'
 import { normalizeMomentImages, normalizeMomentRoutes } from '../client/data'
 import { fetchMomentLikeCounts, readLikedMomentIds, submitMomentLike, writeLikedMomentIds } from '../client/likes'
 import { formatMomentDate, getMomentMonth, getMomentMonthAnchorTargets, groupMomentsByYear, partitionPinnedMoments } from '../client/time'
 import { useMomentsProgressiveCount } from '../client/useProgressiveCount'
-import { renderMomentMarkdown, shouldExcludeMoment } from '../node'
+import { createMoment, registerMomentsCli, renderMomentMarkdown, shouldExcludeMoment } from '../node'
+
+const tempRoots: string[] = []
+
+async function createTempRoot() {
+  const root = await mkdtemp(join(tmpdir(), 'valaxy-moments-'))
+  tempRoots.push(root)
+  return root
+}
+
+afterEach(async () => {
+  await Promise.all(tempRoots.splice(0).map(root => rm(root, { force: true, recursive: true })))
+})
 
 function moment(path: string, date: string) {
   return { path, date, content: '', images: [] } as MomentEntry
@@ -185,13 +202,63 @@ describe('groupMomentsByYear', () => {
 })
 
 describe('production filtering', () => {
-  it('removes only draft routes from production builds', () => {
+  it('removes only explicit draft routes from production builds', () => {
     expect(shouldExcludeMoment({ draft: true }, 'build')).toBe(true)
+    expect(shouldExcludeMoment({ draft: 'false' }, 'build')).toBe(false)
     expect(shouldExcludeMoment({ hide: true }, 'build')).toBe(false)
-    expect(shouldExcludeMoment({ hide: 'all' }, 'build')).toBe(false)
     expect(shouldExcludeMoment({ hide: 'index' }, 'build')).toBe(false)
     expect(shouldExcludeMoment({ draft: true }, 'dev')).toBe(false)
     expect(shouldExcludeMoment({}, 'build')).toBe(false)
+  })
+})
+
+describe('moments CLI', () => {
+  it('creates titled and untitled moments without overwriting collisions', async () => {
+    const root = await createTempRoot()
+    const now = dayjs('2026-08-13T18:30:00')
+
+    const titled = await createMoment({ now, root, title: 'sunset' })
+    const titledCollision = await createMoment({ now, root, title: 'sunset' })
+    const untitled = await createMoment({ now, root })
+    const untitledCollision = await createMoment({ now, root })
+
+    expect([
+      basename(titled),
+      basename(titledCollision),
+      basename(untitled),
+      basename(untitledCollision),
+    ]).toEqual([
+      '2026-08-13-sunset.md',
+      '2026-08-13-sunset-1.md',
+      '2026-08-13-1.md',
+      '2026-08-13-2.md',
+    ])
+    await expect(readFile(titled, 'utf-8')).resolves.toContain('date: 2026-08-13 18:30')
+  })
+
+  it('rejects titles that could escape or produce unsafe file names', async () => {
+    const root = await createTempRoot()
+
+    await expect(createMoment({ root, title: '../outside' })).rejects.toThrow('unsafe in a file name')
+    await expect(createMoment({ root, title: 'nested/file' })).rejects.toThrow('unsafe in a file name')
+    await expect(createMoment({ root, title: 'bad\\file' })).rejects.toThrow('unsafe in a file name')
+  })
+
+  it('registers only the explicit new subcommand', async () => {
+    const root = await createTempRoot()
+    const calls: Array<{ root?: string, title?: string }> = []
+    const cli = yargs(['new', 'sunset']).exitProcess(false)
+
+    registerMomentsCli(cli, {
+      root,
+      create: async (params) => {
+        calls.push(params || {})
+        return 'created.md'
+      },
+    })
+    await cli.parseAsync()
+
+    expect(calls).toEqual([{ root, title: 'sunset' }])
   })
 })
 
