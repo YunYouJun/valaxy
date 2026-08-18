@@ -1,7 +1,7 @@
 {
   "name": "@valaxyjs/devtools",
   "type": "module",
-  "version": "1.0.0-rc.6",
+  "version": "1.0.0-rc.7",
   "description": "DevTools for Valaxy",
   "license": "MIT",
   "repository": {

@@ -1,7 +1,7 @@
 {
   "name": "valaxy-theme-yun",
   "type": "module",
-  "version": "1.0.0-rc.6",
+  "version": "1.0.0-rc.7",
   "description": "Default theme (Yun) for Valaxy — a Vite & Vue powered static blog generator",
   "author": {
     "email": "me@yunyoujun.cn",
