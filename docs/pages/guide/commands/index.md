@@ -16,7 +16,6 @@ Commands:
   valaxy build [root]  build your blog to static content
   valaxy rss [root]    generate rss feed
   valaxy new <title>   Draft a new post
-  valaxy moments [title]  Draft a new moment
   valaxy debug         Display debug information for your Valaxy project
 
 Positionals:
@@ -49,7 +48,6 @@ You can configure shortcut scripts in `package.json`. (**Suggested**)
     "build:spa": "valaxy build",
     "build:ssg": "valaxy build --ssg",
     "dev": "valaxy dev",
-    "moments": "valaxy moments",
     "new": "valaxy new",
     "rss": "valaxy rss"
   }
@@ -79,7 +77,6 @@ pnpm add -g valaxy
 - `valaxy rss`: Generate RSS
 - `valaxy build`: Use Vite to build SPA app by default
 - `valaxy build --ssg`: Build static pages (Memory-friendly, recommended), uses the built-in Valaxy SSG engine
-- `valaxy moments [title]`: Create a moment under `pages/moments` (requires `valaxy-addon-moments` for the moments timeline)
 - `valaxy debug --plain`: Print environment and project information that can be pasted into an issue
 
 
@@ -116,14 +113,31 @@ and update the date.
 
 - [自定义文章模板](/guide/custom/templates)
 
-### Moments
+### Addon Commands
 
-> Install and enable [`valaxy-addon-moments`](/addons/official/moments) to display the generated files in a moments timeline.
+Enabled addons may provide commands below a package-derived namespace. For example, after configuring `valaxy-addon-moments` with `addonMoments()`:
 
-- `valaxy moments sunset` creates `pages/moments/YYYY-MM-DD-sunset.md`.
-- `valaxy moments` creates `pages/moments/YYYY-MM-DD-1.md`. Further untitled moments created on the same day use `-2`, `-3`, and so on.
+```bash
+valaxy moments new [title]
+valaxy moments --help
+```
 
-Existing files are never overwritten. Titled moments also receive an incrementing suffix when their generated filename already exists.
+Addon commands are resolved from the current project only when invoked, so the global `valaxy --help` output lists core commands only. An addon cannot override a core command or another enabled addon's command.
+
+Addon authors register subcommands with the experimental `extendCli` hook returned by `defineValaxyAddon`. Valaxy derives the root namespace from the package name and passes a CLI already scoped below it:
+
+```ts
+export const addonMoments = defineValaxyAddon(() => ({
+  name: 'valaxy-addon-moments',
+  extendCli(cli, { userRoot }) {
+    cli.command('new [title]', 'Draft a new moment', () => {}, ({ title }) => {
+      // Create the moment below userRoot.
+    })
+  },
+}))
+```
+
+CLI hooks require the recommended factory/object addon configuration, such as `addonMoments()`. String addon entries do not carry Node hooks.
 
 ## FAQ
 

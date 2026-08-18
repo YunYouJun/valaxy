@@ -16,7 +16,6 @@ Commands:
   valaxy build [root]  build your blog to static content
   valaxy rss [root]    generate rss feed
   valaxy new <title>   Draft a new post
-  valaxy moments [title]  Draft a new moment
   valaxy debug         Display debug information for your Valaxy project
 
 Positionals:
@@ -49,7 +48,6 @@ Options:
     "build:spa": "valaxy build",
     "build:ssg": "valaxy build --ssg",
     "dev": "valaxy dev",
-    "moments": "valaxy moments",
     "new": "valaxy new",
     "rss": "valaxy rss"
   }
@@ -78,7 +76,6 @@ pnpm add -g valaxy
 - `valaxy rss`: 自动生成 RSS
 - `valaxy build`: 默认采用 Vite 构建 SPA 应用
 - `valaxy build --ssg`: 构建静态页面站点（内存友好，推荐），使用 Valaxy 内置 SSG 引擎
-- `valaxy moments [title]`: 在 `pages/moments` 下新建动态（动态时间线需要安装 `valaxy-addon-moments`）
 - `valaxy debug --plain`: 输出可粘贴到 Issue 的环境与项目信息
 
 
@@ -122,14 +119,31 @@ Valaxy SSG 引擎分为三个阶段：
 
 - [自定义文章模板](/zh/guide/custom/templates)
 
-### 动态 {#moments}
+### 插件命令 {#addon-commands}
 
-> 需要安装并启用 [`valaxy-addon-moments`](/zh/addons/official/moments)，生成的文件才会显示在动态时间线中。
+已启用的插件可以在根据包名生成的命名空间下提供命令。例如，通过 `addonMoments()` 配置 `valaxy-addon-moments` 后：
 
-- `valaxy moments sunset` 会创建 `pages/moments/YYYY-MM-DD-sunset.md`。
-- `valaxy moments` 会创建 `pages/moments/YYYY-MM-DD-1.md`。同一天继续创建无标题动态时，编号依次使用 `-2`、`-3`。
+```bash
+valaxy moments new [title]
+valaxy moments --help
+```
 
-命令不会覆盖已有文件。有标题动态的文件名发生冲突时，也会自动追加递增编号。
+插件命令仅在调用时从当前项目解析，因此全局 `valaxy --help` 只展示核心命令。插件不能覆盖核心命令，也不能与另一个已启用插件的命令重名。
+
+插件作者可通过 `defineValaxyAddon` 返回值中实验性的 `extendCli` 钩子注册子命令。Valaxy 会根据包名生成根命名空间，并传入已经限制在该命名空间下的 CLI：
+
+```ts
+export const addonMoments = defineValaxyAddon(() => ({
+  name: 'valaxy-addon-moments',
+  extendCli(cli, { userRoot }) {
+    cli.command('new [title]', 'Draft a new moment', () => {}, ({ title }) => {
+      // 在 userRoot 下创建动态。
+    })
+  },
+}))
+```
+
+CLI 钩子要求使用推荐的工厂/对象形式配置插件，例如 `addonMoments()`；字符串插件配置不携带 Node 钩子。
 
 ## FAQ {#faq}
 
@@ -164,5 +178,3 @@ Valaxy SSG 引擎分为三个阶段：
   }
 }
 ```
-
-
