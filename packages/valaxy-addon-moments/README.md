@@ -2,23 +2,17 @@
 
 [简体中文](./README.zh-CN.md) | **English**
 
-A theme-independent Markdown moments timeline addon for [Valaxy](https://valaxy.site).
+A Markdown moments timeline addon for [Valaxy](https://valaxy.site). Publish short updates, photos, and everyday notes from the `pages/moments` directory.
 
 ## Features
 
-- Publishes entries from `pages/moments/*.md` without a database.
-- Supports author, date, title, location, pinning, long-content expansion, and up to nine images.
-- Groups entries by year and month with progressive rendering and timeline navigation.
-- Deletes draft moment routes before production route files are generated and omits hidden moments from the production timeline.
-- Uses the site's configured timezone, or UTC when no timezone is configured, so SSG and hydration remain deterministic.
-- Uses Valaxy's configured Markdown-it renderer and syntax highlighting for aggregated content.
-- Optionally reads shared like counts from a configurable HTTP endpoint while keeping only the current browser's liked state in `localStorage`.
-
-The aggregated timeline renders trusted author Markdown as HTML. Vue components, encrypted content, and other transforms that require Vue SFC compilation should remain on normal standalone pages.
-
-## Theme compatibility
-
-The addon owns moment discovery, rendering, styles, and the default `/moments/` page, so its basic list works with any Valaxy theme. `valaxy-theme-yun` adds an enhanced `moments` layout with a sidebar timeline automatically. Other themes can provide their own layout and place `ValaxyMomentsTimeline` where it best fits their design.
+- Write moments in Markdown without a database.
+- Add a date, title, location, pin priority, and up to nine images.
+- Browse moments by year and month with progressive loading.
+- Remove draft routes from production builds.
+- Keep hidden moments accessible by direct URL while omitting them from the production timeline.
+- Use the built-in timeline with any Valaxy theme.
+- Optionally display public like counts.
 
 ## Install
 
@@ -26,7 +20,9 @@ The addon owns moment discovery, rendering, styles, and the default `/moments/` 
 pnpm add valaxy-addon-moments
 ```
 
-```ts [valaxy.config.ts]
+Configure the addon in `valaxy.config.ts`:
+
+```ts
 import { defineValaxyConfig } from 'valaxy'
 import { addonMoments } from 'valaxy-addon-moments'
 
@@ -34,113 +30,43 @@ export default defineValaxyConfig({
   addons: [
     addonMoments({
       title: 'Moments',
-      description: 'Small things worth remembering',
-      initialCount: 10,
-      batchSize: 10,
-      likes: {
-        enabled: true,
-        endpoint: '/api/moments-like',
-      },
+      description: 'Everyday moments worth remembering',
     }),
   ],
 })
 ```
 
-`initialCount` controls how many moments are rendered on the initial visit, and
-`batchSize` controls how many additional moments each **Load more** action
-reveals. Both default to `10`. These options only control progressive rendering;
-when likes are enabled, public counts are fetched for all moments independently
-in batches of up to 100 IDs.
+After starting or building the site, visit `/moments/` to view the timeline. You do not need to create an additional `pages/moments/index.md` file.
 
-The addon provides `/moments/` automatically. Configure it through
-`addonMoments()` for normal use; no `pages/moments/index.md` file is required.
+## Configuration
 
-A site may still override the default entry with `pages/moments/index.md` when
-it needs entry-page Markdown or page-specific frontmatter. Values under the
-page's `moments` field take precedence over matching `addonMoments()` options.
+All options are optional:
 
-```md
----
-title: Moments
-description: Small things worth remembering
-moments:
-  initialCount: 10
-  batchSize: 10
-  likes:
-    enabled: true
-    endpoint: /api/moments-like
----
-```
+| Option | Description | Default |
+| --- | --- | --- |
+| `title` | Page title | `Moments` |
+| `description` | Page description | None |
+| `author.name` | Author name displayed on moment cards | Site author name |
+| `author.avatar` | Author avatar displayed on moment cards | Site author avatar |
+| `initialCount` | Number of moments shown on the first visit | `10` |
+| `batchSize` | Number of moments added by each **Load more** action | `10` |
+| `likes.enabled` | Whether to display public like buttons and counts | `false` |
+| `likes.endpoint` | Likes service endpoint | `/api/moments-like` |
 
-Because the addon already supplies the same route, the current route scanner
-may print a duplicate-route notice during a build. Valaxy's file priority still
-selects the entry from the user directory. Prefer `addonMoments()` when no
-custom entry content is needed.
-
-Likes are disabled by default. When enabled, the addon batches public count
-requests, updates the button optimistically, and rolls the UI back when the API
-fails. The browser writes its local liked state only after a successful update.
-
-### Likes endpoint contract
-
-The endpoint is provider-independent. A successful response must have a 2xx
-status and a JSON body matching the following contract.
-
-`GET /api/moments-like?ids=id1,id2` returns a map from every requested moment ID
-to its public count:
-
-```json
-{
-  "id1": 12,
-  "id2": 5
-}
-```
-
-Missing or invalid values in an otherwise valid GET map are displayed as `0`.
-Finite counts are floored to integers and negative counts are clamped to `0`.
-
-`POST /api/moments-like` accepts one of these JSON bodies:
-
-```json
-{ "momentId": "id1", "action": "like" }
-```
-
-```json
-{ "momentId": "id1", "action": "unlike" }
-```
-
-It returns the updated public count:
-
-```json
-{ "count": 13 }
-```
-
-The POST `count` must be a finite numeric value. A missing or invalid `count`,
-an empty or malformed JSON body (including a `204` response), or any non-2xx
-status is treated as a request failure. The client then rolls back the
-optimistic update and does not change `localStorage`. A failed GET leaves the
-moments page usable without replacing its current counts.
-
-The EdgeOne KV example lives in
-[`demo/yun/edge-functions`](../../demo/yun/edge-functions). Other providers may
-implement the same contract with their own serverless storage. This lightweight
-design does not provide user identity, abuse prevention, or transactionally
-exact counters.
+For multilingual sites, `title` and `description` also accept locale maps.
 
 ## Create a moment
 
-Run the addon command from the Valaxy project root:
+The Valaxy CLI can create moments with or without a title:
 
 ```bash
-pnpm valaxy moments new sunset
-pnpm valaxy moments new
+pnpm valaxy moments sunset
+pnpm valaxy moments
 ```
 
-The first command creates `pages/moments/YYYY-MM-DD-sunset.md`. The second creates `pages/moments/YYYY-MM-DD-1.md`. Existing files are never overwritten; a numeric suffix is incremented when necessary.
+The first command creates `pages/moments/YYYY-MM-DD-sunset.md`. The second creates `pages/moments/YYYY-MM-DD-1.md`. If the target file already exists, the command increments the number without overwriting the existing file.
 
-The command is available only when `addonMoments()` is configured and enabled. Valaxy's global `--help` output lists only core commands; use `valaxy moments --help` for addon command help.
-
-You can also create a moment manually. For example, create `pages/moments/2026-08-13-sunset.md`:
+Edit the generated file and write the moment below its frontmatter:
 
 ```md
 ---
@@ -151,20 +77,72 @@ images:
     alt: Sunset sky
 ---
 
-A beautiful sky after work.
+A beautiful sunset on the way home from work.
 ```
 
-`date` is required. `top` uses a larger-number-first priority. In production, `draft: true` removes the route, while a truthy `hide` omits the moment from the timeline but keeps its direct route available.
+You can also create Markdown files directly in `pages/moments`. The `date` field is required.
 
-Image input accepts either strings or `{ src, alt, width, height }` objects. Only the first nine valid images are displayed. To enable image zoom, enable Valaxy's `siteConfig.mediumZoom`; images added by progressive rendering are attached when their card mounts.
+### Frontmatter fields
 
-## Development
+| Field | Description |
+| --- | --- |
+| `date` | Publication date and time. Required. |
+| `title` | Optional title displayed above the content. |
+| `location` | Location displayed on the moment card. |
+| `images` | A list of image URLs or `{ src, alt, width, height }` objects. Only the first nine valid images are displayed. |
+| `top` | Pin priority. Larger positive numbers appear first. |
+| `draft` | Set to `true` to remove the moment route from production builds. |
+| `hide` | Use a truthy value to omit the moment from the production timeline. Its direct URL remains available. |
 
-```bash
-pnpm --filter valaxy-addon-moments test
-pnpm lint
-pnpm typecheck
+Moment content supports Valaxy's Markdown rendering and syntax highlighting. Vue components and encrypted content are not rendered inside aggregated moment cards and should be placed on standalone pages.
+
+To enable image zoom, turn on Valaxy's `siteConfig.mediumZoom` option.
+
+## Theme compatibility
+
+The default moments list works with any Valaxy theme. `valaxy-theme-yun` automatically provides an enhanced layout with sidebar timeline navigation. Other themes can provide a custom `moments` layout or use the `ValaxyMomentsTimeline` component where needed.
+
+## Customize the moments page
+
+In most cases, configure the moments page through `addonMoments()`. To add custom Markdown content or page-specific frontmatter, create `pages/moments/index.md`:
+
+```md
+---
+title: Moments
+description: Everyday moments worth remembering
+moments:
+  initialCount: 20
+  batchSize: 10
+---
+
+Introduction to the moments page.
 ```
+
+Options under `moments` in the page frontmatter override matching options passed to `addonMoments()`.
+
+## Likes
+
+Likes are disabled by default. After deploying a compatible likes service, enable it with the following configuration:
+
+```ts
+addonMoments({
+  likes: {
+    enabled: true,
+    endpoint: '/api/moments-like',
+  },
+})
+```
+
+Adapt the setup to your hosting platform and storage provider. No backend service is required when public like counts are disabled. The following instructions use EdgeOne KV for storage.
+
+### EdgeOne KV storage
+
+If your Valaxy project is hosted on EdgeOne, you can use [KV Storage](https://console.cloud.tencent.com/edgeone/makers?tab=storage&sub=kv) in EdgeOne Maker:
+
+1. Create a KV namespace. The namespace can use any name.
+2. Open **Hosting Project → KV Storage → KV Namespace Management → Bind Namespace**, then set the variable name to `moments_like`.
+
+An EdgeOne KV example is available in [`demo/yun/edge-functions`](../../demo/yun/edge-functions). Add the files to your repository and set `likes.endpoint` in `addonMoments()` to the deployed file path to enable likes.
 
 ## License
 
