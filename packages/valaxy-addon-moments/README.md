@@ -9,7 +9,7 @@ A theme-independent Markdown moments timeline addon for [Valaxy](https://valaxy.
 - Publishes entries from `pages/moments/*.md` without a database.
 - Supports author, date, title, location, pinning, long-content expansion, and up to nine images.
 - Groups entries by year and month with progressive rendering and timeline navigation.
-- Deletes draft and hidden moment routes before production route files are generated.
+- Deletes draft moment routes before production route files are generated and omits hidden moments from the production timeline.
 - Uses the site's configured timezone, or UTC when no timezone is configured, so SSG and hydration remain deterministic.
 - Uses Valaxy's configured Markdown-it renderer and syntax highlighting for aggregated content.
 - Optionally reads shared like counts from a configurable HTTP endpoint while keeping only the current browser's liked state in `localStorage`.
@@ -127,9 +127,20 @@ implement the same contract with their own serverless storage. This lightweight
 design does not provide user identity, abuse prevention, or transactionally
 exact counters.
 
-## Write a moment
+## Create a moment
 
-Create `pages/moments/2026-08-13-sunset.md`:
+Run the addon command from the Valaxy project root:
+
+```bash
+pnpm valaxy moments new sunset
+pnpm valaxy moments new
+```
+
+The first command creates `pages/moments/YYYY-MM-DD-sunset.md`. The second creates `pages/moments/YYYY-MM-DD-1.md`. Existing files are never overwritten; a numeric suffix is incremented when necessary.
+
+The command is available only when `addonMoments()` is configured and enabled. Valaxy's global `--help` output lists only core commands; use `valaxy moments --help` for addon command help.
+
+You can also create a moment manually. For example, create `pages/moments/2026-08-13-sunset.md`:
 
 ```md
 ---
@@ -143,7 +154,7 @@ images:
 A beautiful sky after work.
 ```
 
-`date` is required. `top` uses a larger-number-first priority. In production, entries with `draft: true` or any truthy `hide` value are removed from the generated route tree.
+`date` is required. `top` uses a larger-number-first priority. In production, `draft: true` removes the route, while a truthy `hide` omits the moment from the timeline but keeps its direct route available.
 
 Image input accepts either strings or `{ src, alt, width, height }` objects. Only the first nine valid images are displayed. To enable image zoom, enable Valaxy's `siteConfig.mediumZoom`; images added by progressive rendering are attached when their card mounts.
 

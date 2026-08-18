@@ -41,7 +41,9 @@ export type MomentImageInput = string | MomentImage
 
 export interface MomentFrontmatter {
   date: string | Date
+  /** Remove the moment route from production builds. */
   draft?: boolean
+  /** Hide the moment from the production timeline while keeping its route accessible. */
   hide?: boolean | 'all' | 'index'
   images?: MomentImageInput[]
   location?: string

@@ -1276,9 +1276,18 @@ importers:
 
   packages/valaxy-addon-moments:
     dependencies:
+      consola:
+        specifier: catalog:build
+        version: 3.4.2
       dayjs:
         specifier: 'catalog:'
         version: 1.11.21
+      fs-extra:
+        specifier: 'catalog:'
+        version: 11.3.6
+      yargs:
+        specifier: 'catalog:'
+        version: 18.0.0
     devDependencies:
       valaxy:
         specifier: workspace:*

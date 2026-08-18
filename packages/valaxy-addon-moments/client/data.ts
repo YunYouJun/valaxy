@@ -36,8 +36,8 @@ export function normalizeMomentImages(images: unknown): MomentImage[] {
   }).slice(0, MAX_MOMENT_IMAGES)
 }
 
-function isHidden(frontmatter: Partial<MomentFrontmatter>, isDev: boolean) {
-  return !isDev && (Boolean(frontmatter.draft) || Boolean(frontmatter.hide))
+function isHiddenFromTimeline(frontmatter: Partial<MomentFrontmatter>, isDev: boolean) {
+  return !isDev && (frontmatter.draft === true || Boolean(frontmatter.hide))
 }
 
 export function normalizeMomentRoutes(
@@ -57,7 +57,7 @@ export function normalizeMomentRoutes(
       || route.aliasOf
       || !isMomentDateValid(frontmatter?.date, options.timezone)
       || typeof content !== 'string'
-      || isHidden(frontmatter, isDev)
+      || isHiddenFromTimeline(frontmatter, isDev)
     ) {
       return []
     }

@@ -1,7 +1,7 @@
 {
   "name": "valaxy-addon-moments",
   "type": "module",
-  "version": "0.1.2",
+  "version": "0.1.3",
   "description": "A Markdown moments timeline addon for Valaxy",
   "author": "Yuumi",
   "license": "MIT",
@@ -52,7 +52,10 @@
     "vue-i18n": "^11.0.0"
   },
   "dependencies": {
-    "dayjs": "catalog:"
+    "consola": "catalog:build",
+    "dayjs": "catalog:",
+    "fs-extra": "catalog:",
+    "yargs": "catalog:"
   },
   "devDependencies": {
     "valaxy": "workspace:*",

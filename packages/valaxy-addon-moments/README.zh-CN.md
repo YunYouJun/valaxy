@@ -9,7 +9,7 @@
 - 通过 `pages/moments/*.md` 发布动态，无需数据库。
 - 支持作者、日期、标题、位置、置顶、长内容展开和最多九张图片。
 - 按年月分组，支持渐进渲染与时间线导航。
-- 在生成生产路由前删除草稿和隐藏动态。
+- 在生成生产路由前删除草稿动态，并从生产时间线中隐藏指定动态。
 - 使用站点配置的时区；未配置时固定使用 UTC，避免 SSG 与 hydration 结果不一致。
 - 聚合正文使用 Valaxy 配置的 Markdown-it 渲染器及代码高亮。
 - 可通过自定义 HTTP 接口读取公共点赞数，`localStorage` 只保存当前浏览器是否点过赞。
@@ -104,9 +104,20 @@ POST 响应中的 `count` 必须是可转换为有限数字的值。`count` 缺�
 
 仓库在 [`demo/yun/edge-functions`](../../demo/yun/edge-functions) 中提供了 EdgeOne KV 示例，其他平台可以使用自己的函数和存储实现相同接口。这个轻量方案不包含用户身份、防刷或严格事务计数。
 
-## 编写动态
+## 创建动态
 
-新建 `pages/moments/2026-08-13-sunset.md`：
+在 Valaxy 项目根目录运行插件命令：
+
+```bash
+pnpm valaxy moments new sunset
+pnpm valaxy moments new
+```
+
+第一条命令创建 `pages/moments/YYYY-MM-DD-sunset.md`，第二条创建 `pages/moments/YYYY-MM-DD-1.md`。命令不会覆盖已有文件；发生冲突时会递增数字后缀。
+
+只有通过 `addonMoments()` 配置并启用插件后，该命令才可用。Valaxy 的全局 `--help` 只展示核心命令；插件命令帮助请使用 `valaxy moments --help`。
+
+你也可以手动创建动态。例如，新建 `pages/moments/2026-08-13-sunset.md`：
 
 ```md
 ---
@@ -120,7 +131,7 @@ images:
 下班时遇到了很好看的晚霞。
 ```
 
-`date` 为必填项。`top` 数值越大越靠前。生产构建会从生成路由树中删除 `draft: true` 或任意真值 `hide` 的动态。
+`date` 为必填项。`top` 数值越大越靠前。生产构建会删除 `draft: true` 的路由；任意真值 `hide` 只会让动态不出现在时间线中，直接访问路由仍然可用。
 
 图片既可写字符串，也可写 `{ src, alt, width, height }` 对象，只展示前九张有效图片。图片缩放需要启用 Valaxy 的 `siteConfig.mediumZoom`；渐进加载出的卡片会在挂载时自动绑定缩放。
 
