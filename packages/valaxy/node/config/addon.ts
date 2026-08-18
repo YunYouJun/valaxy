@@ -1,5 +1,4 @@
-import type { ValaxyAddon } from '../../types'
-import type { ResolvedValaxyOptions, ValaxyAddonResolver, ValaxyNodeConfig } from '../types'
+import type { ResolvedValaxyOptions, ValaxyAddonResolver, ValaxyNodeAddon, ValaxyNodeConfig } from '../types'
 import path from 'node:path'
 import { consola } from 'consola'
 import fs from 'fs-extra'
@@ -7,9 +6,7 @@ import { countPerformanceTime } from '../utils/performance'
 import { mergeValaxyConfig, resolveValaxyConfigFromRoot } from './valaxy'
 
 export function defineValaxyAddon<AddonOptions = object>(
-  addonFunc: (addonOptions?: AddonOptions, valaxyOptions?: ResolvedValaxyOptions) => ValaxyAddon & {
-    setup?: ValaxyAddonResolver['setup']
-  },
+  addonFunc: (addonOptions?: AddonOptions, valaxyOptions?: ResolvedValaxyOptions) => ValaxyNodeAddon,
 ) {
   return addonFunc
 }
