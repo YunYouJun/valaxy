@@ -6,6 +6,7 @@ import { consola } from 'consola'
 import { colors } from 'consola/utils'
 import dayjs from 'dayjs'
 import fs from 'fs-extra'
+import pkg from '../package.json'
 
 const INVALID_FILENAME_CHARS = '<>:"/\\|?*'
 
@@ -101,6 +102,7 @@ export function registerMomentsCli(
   cli: Argv<object>,
   { create = createMoment, root }: RegisterMomentsCliOptions,
 ) {
+  cli.version(pkg.version)
   cli.command(
     'new [title]',
     'Draft a new moment',

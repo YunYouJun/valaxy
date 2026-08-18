@@ -3,7 +3,7 @@ import { mkdtemp, readFile, rm } from 'node:fs/promises'
 import { tmpdir } from 'node:os'
 import { basename, join } from 'node:path'
 import dayjs from 'dayjs'
-import { afterEach, describe, expect, expectTypeOf, it } from 'vitest'
+import { afterEach, describe, expect, expectTypeOf, it, vi } from 'vitest'
 import { nextTick, shallowRef } from 'vue'
 import yargs from 'yargs'
 import { createMarkdownRenderer } from '../../valaxy/node/plugins/markdown'
@@ -12,6 +12,7 @@ import { fetchMomentLikeCounts, readLikedMomentIds, submitMomentLike, writeLiked
 import { formatMomentDate, getMomentMonth, getMomentMonthAnchorTargets, groupMomentsByYear, partitionPinnedMoments } from '../client/time'
 import { useMomentsProgressiveCount } from '../client/useProgressiveCount'
 import { createMoment, registerMomentsCli, renderMomentMarkdown, shouldExcludeMoment } from '../node'
+import pkg from '../package.json'
 
 const tempRoots: string[] = []
 
@@ -213,6 +214,27 @@ describe('production filtering', () => {
 })
 
 describe('moments CLI', () => {
+  it('reports the addon package version', async () => {
+    const output: string[] = []
+    const log = vi.spyOn(console, 'log').mockImplementation(message => output.push(String(message)))
+    const cli = yargs(['-v'])
+      .scriptName('valaxy moments')
+      .version('1.0.0')
+      .alias('v', 'version')
+      .exitProcess(false)
+
+    registerMomentsCli(cli, { root: await createTempRoot() })
+
+    try {
+      await cli.parseAsync()
+    }
+    finally {
+      log.mockRestore()
+    }
+
+    expect(output).toEqual([pkg.version])
+  })
+
   it('creates titled and untitled moments without overwriting collisions', async () => {
     const root = await createTempRoot()
     const now = dayjs('2026-08-13T18:30:00')

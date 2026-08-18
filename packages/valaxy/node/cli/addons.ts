@@ -122,9 +122,6 @@ export function getRequestedCommand(argv: string[]) {
 }
 
 export function shouldResolveAddonCli(argv: string[]) {
-  if (argv.some(arg => arg === '--version' || arg === '-v'))
-    return false
-
   const command = getRequestedCommand(argv)
   if (!command || CORE_CLI_COMMANDS.has(command))
     return false

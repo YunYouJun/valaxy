@@ -60,11 +60,13 @@ For multilingual sites, `title` and `description` also accept locale maps.
 The Valaxy CLI can create moments with or without a title:
 
 ```bash
-pnpm valaxy moments sunset
-pnpm valaxy moments
+pnpm valaxy moments new sunset
+pnpm valaxy moments new
 ```
 
 The first command creates `pages/moments/YYYY-MM-DD-sunset.md`. The second creates `pages/moments/YYYY-MM-DD-1.md`. If the target file already exists, the command increments the number without overwriting the existing file.
+
+Run these commands from the root of a Valaxy site where `addonMoments()` is configured and enabled.
 
 Edit the generated file and write the moment below its frontmatter:
 
@@ -96,7 +98,15 @@ You can also create Markdown files directly in `pages/moments`. The `date` field
 
 Moment content supports Valaxy's Markdown rendering and syntax highlighting. Vue components and encrypted content are not rendered inside aggregated moment cards and should be placed on standalone pages.
 
-To enable image zoom, turn on Valaxy's `siteConfig.mediumZoom` option.
+To enable image zoom, configure `mediumZoom` in `site.config.ts`:
+
+```ts
+import { defineSiteConfig } from 'valaxy'
+
+export default defineSiteConfig({
+  mediumZoom: { enable: true },
+})
+```
 
 ## Theme compatibility
 
@@ -142,7 +152,7 @@ If your Valaxy project is hosted on EdgeOne, you can use [KV Storage](https://co
 1. Create a KV namespace. The namespace can use any name.
 2. Open **Hosting Project → KV Storage → KV Namespace Management → Bind Namespace**, then set the variable name to `moments_like`.
 
-An EdgeOne KV example is available in [`demo/yun/edge-functions`](../../demo/yun/edge-functions). Add the files to your repository and set `likes.endpoint` in `addonMoments()` to the deployed file path to enable likes.
+An EdgeOne KV example is available in [`demo/yun/edge-functions`](../../demo/yun/edge-functions). Copy the `edge-functions` directory to the root of your Valaxy project. After deployment, set `likes.endpoint` in `addonMoments()` to the URL path exposed by the function, such as `/api/moments-like`, rather than a local file-system path.
 
 ## License
 

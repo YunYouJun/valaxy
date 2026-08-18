@@ -29,6 +29,7 @@ async function writeFixtureConfig(root: string) {
         name: 'valaxy-addon-fixture',
         enable: true,
         extendCli(cli, { userRoot }) {
+          cli.version('9.8.7')
           cli.command('ping', 'Write a marker', () => {}, async () => {
             await writeFile(join(userRoot, 'addon-cli-marker.txt'), 'pong')
           })
@@ -70,8 +71,10 @@ describe('addon CLI namespace', () => {
 
   it('only resolves addons for a non-core, non-path command', () => {
     expect(shouldResolveAddonCli(['moments', 'new'])).toBe(true)
+    expect(shouldResolveAddonCli(['moments', '-v'])).toBe(true)
     expect(shouldResolveAddonCli(['build'])).toBe(false)
     expect(shouldResolveAddonCli(['--help'])).toBe(false)
+    expect(shouldResolveAddonCli(['-v'])).toBe(false)
     expect(shouldResolveAddonCli(['--port', '3000'])).toBe(false)
     expect(shouldResolveAddonCli(['./moments'])).toBe(false)
   })
@@ -94,6 +97,23 @@ describe('addon CLI dispatch', () => {
     await cli.exitProcess(false).parseAsync()
 
     await expect(readFile(join(root, 'addon-cli-marker.txt'), 'utf-8')).resolves.toBe('pong')
+  })
+
+  it('lets an addon report its version inside its namespace', async () => {
+    const root = await createTempRoot()
+    await writeFixtureConfig(root)
+    const output: string[] = []
+    const log = vi.spyOn(console, 'log').mockImplementation(message => output.push(String(message)))
+
+    try {
+      const cli = await createCli(['fixture', '-v'], { userRoot: root })
+      await cli.exitProcess(false).parseAsync()
+    }
+    finally {
+      log.mockRestore()
+    }
+
+    expect(output).toEqual(['9.8.7'])
   })
 
   it('shows namespace help when no addon subcommand is provided', async () => {
