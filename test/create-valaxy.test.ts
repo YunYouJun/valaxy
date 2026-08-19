@@ -34,7 +34,7 @@ describe('valaxy peerDependencies', () => {
   // See: https://github.com/YunYouJun/valaxy/issues/701
   it('declares the expected peerDependency ranges', () => {
     expect(valaxyPkg.peerDependencies).toEqual({
-      'vue': '^3.5.0',
+      'vue': '^3.5.41',
       'vue-router': '^5.0.0',
     })
   })
