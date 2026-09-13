@@ -73,7 +73,7 @@ test.describe('Theme Yun', () => {
     await card.scrollIntoViewIfNeeded()
     const expectedHref = await card.locator('.post-card-overlay').getAttribute('href')
     const targets = [
-      card.locator('.post-card-body > [class~="absolute"][class~="bottom-0"]'),
+      card.locator('.post-card-body'),
       card.locator('.yun-card-actions'),
     ]
 
@@ -83,7 +83,7 @@ test.describe('Theme Yun', () => {
 
       const point = {
         x: box!.x + box!.width / 2,
-        y: box!.y + box!.height / 2,
+        y: box!.y + box!.height - 2,
       }
       await page.mouse.move(point.x, point.y)
 
@@ -123,8 +123,10 @@ test.describe('Theme Yun', () => {
     const searchBtn = page.locator('.yun-search-btn')
     await searchBtn.waitFor({ state: 'visible' })
     await searchBtn.click()
-    await expect(page.locator('.yun-search-input')).toHaveCount(1)
-    await searchBtn.click()
-    await expect(page.locator('.yun-search-input')).toHaveCount(0)
+    const dialog = page.getByRole('dialog')
+    await expect(dialog.getByRole('searchbox')).toBeFocused()
+    await dialog.getByRole('button', { name: /关闭搜索|Close search/ }).click()
+    await expect(dialog).not.toBeVisible()
+    await expect(searchBtn).toBeFocused()
   })
 })
