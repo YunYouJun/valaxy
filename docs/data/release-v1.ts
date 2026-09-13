@@ -7,7 +7,7 @@ export const releaseIsPreview = releaseVersion.includes('-')
 export const releaseCopies = {
   zh: {
     lang: 'zh-CN',
-    nav: { home: '返回首页', highlights: '亮点', examples: '示例', docs: '文档', locale: 'EN', skip: '跳至主要内容', appearance: '深色模式' },
+    nav: { skip: '跳至主要内容' },
     hero: { title: ['为书写而生。', '向自由而进。'], description: '用 Markdown 记录，用 Vue 创造。', primary: '开始创作', secondary: '查看 1.0 更新', note: '从第一篇文章，到属于你的整个世界。', hello: '你好，世界。', story: '把日常写成故事，让灵感自由生长。', preview: '博客效果示意' },
     writing: { title: ['从一行文字，', '到你的整个世界。'], description: '在熟悉的 Markdown 中书写，需要时加入一个 Vue 组件。文字、交互与想象，在同一篇文章里相遇。', modes: ['Markdown', 'Vue 组件'], source: '源文件', preview: '实时示例', hello: '你好，世界。', story: '这是我的第一篇文章。', count: '点击次数', reset: '重置', hint: '试着点击，让文字动起来。', link: '探索 Markdown 扩展' },
     themes: { title: ['同样的内容。', '不同的你。'], description: 'Yun，安放你的日常；Press，让知识井然有序。再用自己的组件、布局与样式，写下个性。', yun: 'Yun · 轻盈的个人博客', press: 'Press · 清晰的文档空间', live: '打开实际示例', caption: '来自当前仓库的主题预览', more: '探索主题与自定义', altYun: 'Yun 主题本地示例截图', altPress: 'Press 主题本地文档截图' },
@@ -20,7 +20,7 @@ export const releaseCopies = {
   },
   en: {
     lang: 'en',
-    nav: { home: 'Back to home', highlights: 'Highlights', examples: 'Examples', docs: 'Docs', locale: '中文', skip: 'Skip to content', appearance: 'Dark mode' },
+    nav: { skip: 'Skip to content' },
     hero: { title: ['Made for words.', 'Built for freedom.'], description: 'Write with Markdown. Create with Vue.', primary: 'Start creating', secondary: 'Explore 1.0', note: 'From your first post to a world of your own.', hello: 'Hello, world.', story: 'Turn everyday moments into stories. Give ideas room to grow.', preview: 'Illustrative blog preview' },
     writing: { title: ['From a line of text.', 'To a world of your own.'], description: 'Write in familiar Markdown. Add a Vue component when you need one. Words, interaction, and imagination come together in the same post.', modes: ['Markdown', 'Vue component'], source: 'Source', preview: 'Live example', hello: 'Hello, world.', story: 'This is my first post.', count: 'Clicks', reset: 'Reset', hint: 'Give it a click. Bring your words to life.', link: 'Explore Markdown extensions' },
     themes: { title: ['The same words.', 'A different you.'], description: 'Yun for everyday stories. Press for organized knowledge. Make either your own with custom components, layouts, and styles.', yun: 'Yun · A personal blog', press: 'Press · A space for knowledge', live: 'Open live example', caption: 'Theme previews from the current repository', more: 'Explore themes and customization', altYun: 'Local Yun theme demo screenshot', altPress: 'Local Press documentation screenshot' },

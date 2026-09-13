@@ -14,7 +14,6 @@
 
 // Keep the documentation and release wordmarks visually consistent.
 .pr-navbar-title,
-.release-brand-name,
 h1.gradient-text {
   background-image: linear-gradient(90deg, #7c3aed, #3b82f6, #7c3aed);
   background-size: 200% 100%;
@@ -23,13 +22,11 @@ h1.gradient-text {
   color: transparent;
 }
 
-.pr-navbar-brand:hover,
-.release-page .release-brand:hover {
+.pr-navbar-brand:hover {
   text-decoration: none;
 }
 
 .pr-navbar-brand:is(:hover, :focus-visible) .pr-navbar-title,
-.release-brand:is(:hover, :focus-visible) .release-brand-name,
 h1.gradient-text:hover {
   animation: valaxy-brand-flow 2.4s linear infinite;
 }
@@ -42,7 +39,6 @@ h1.gradient-text:hover {
 
 @media (prefers-reduced-motion: reduce) {
   .pr-navbar-brand:is(:hover, :focus-visible) .pr-navbar-title,
-  .release-brand:is(:hover, :focus-visible) .release-brand-name,
   h1.gradient-text:hover {
     animation: none;
   }
@@ -54,7 +50,6 @@ h1.gradient-text:hover {
   --release-text: #1d1d1f;
   --release-surface: #fff;
   --release-inset: #fafafa;
-  --release-nav: rgb(255 255 255 / 0.85);
   --release-border: #e1e3e8;
   --release-link: #0071e3;
   --release-code: #356699;
@@ -188,7 +183,6 @@ h1.gradient-text:hover {
   --release-soft: #111216;
   --release-surface: #1c1e25;
   --release-inset: #17191f;
-  --release-nav: rgb(8 9 12 / 0.85);
   --release-muted: #a9acb7;
   --release-line: #34363f;
   --release-border: #34363f;

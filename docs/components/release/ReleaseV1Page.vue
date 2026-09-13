@@ -2,7 +2,6 @@
 import type { ReleaseLocale } from '../../data/release-v1'
 import { computed } from 'vue'
 import { releaseCopies } from '../../data/release-v1'
-import ReleaseV1Appearance from './ReleaseV1Appearance.vue'
 import ReleaseV1Closing from './ReleaseV1Closing.vue'
 import ReleaseV1Features from './ReleaseV1Features.vue'
 import ReleaseV1Hero from './ReleaseV1Hero.vue'
@@ -18,25 +17,6 @@ const prefix = computed(() => props.locale === 'zh' ? '/zh' : '')
 <template>
   <div class="release-page" :lang="copy.lang">
     <a class="release-skip" href="#release-main">{{ copy.nav.skip }}</a>
-    <header class="release-nav">
-      <div class="release-nav-inner">
-        <RouterLink class="release-brand" :to="`${prefix}/`" :aria-label="copy.nav.home">
-          <img src="/valaxy-logo.png" alt="" width="24" height="24">
-          <span class="release-brand-name">Valaxy</span><span class="release-brand-version">1.0</span>
-        </RouterLink>
-        <nav class="release-links" aria-label="Valaxy 1.0">
-          <a class="release-nav-extra" href="#highlights">{{ copy.nav.highlights }}</a>
-          <a href="#examples">{{ copy.nav.examples }}</a>
-          <RouterLink :to="`${prefix}/guide/getting-started`">
-            {{ copy.nav.docs }}
-          </RouterLink>
-          <RouterLink :to="locale === 'zh' ? '/release/' : '/zh/release/'" :hreflang="locale === 'zh' ? 'en' : 'zh-CN'" rel="alternate">
-            {{ copy.nav.locale }}
-          </RouterLink>
-          <ReleaseV1Appearance :label="copy.nav.appearance" />
-        </nav>
-      </div>
-    </header>
     <main id="release-main">
       <ReleaseV1Hero :copy="copy.hero" :prefix="prefix" />
       <div class="release-soft">
@@ -55,55 +35,11 @@ const prefix = computed(() => props.locale === 'zh' ? '/zh' : '')
 </template>
 
 <style scoped>
-.release-nav {
-  position: sticky;
-  top: 0;
-  z-index: 20;
-  background: var(--release-nav);
-  border-bottom: 1px solid var(--release-line);
-  backdrop-filter: blur(20px);
-}
-
-.release-nav-inner {
-  max-width: 1120px;
-  margin: auto;
-  height: 64px;
-  padding: 0 28px;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-}
-
-.release-brand {
-  display: flex;
-  align-items: center;
-  gap: 9px;
-  font-size: 21px;
-  font-weight: 650;
-  letter-spacing: -0.6px;
-}
-
-.release-brand-version {
-  color: var(--release-muted);
-  font-weight: 400;
-}
-
-.release-brand img {
-  object-fit: contain;
-}
-
-.release-links {
-  display: flex;
-  align-items: center;
-  gap: 28px;
-  font-size: 12px;
-}
-
 .release-skip {
   position: fixed;
   top: 8px;
   left: 8px;
-  z-index: 30;
+  z-index: calc(var(--pr-z-nav) + 1);
   padding: 12px;
   background: var(--release-bg);
   transform: translateY(-160%);
@@ -129,23 +65,6 @@ const prefix = computed(() => props.locale === 'zh' ? '/zh' : '')
 }
 
 @media (width <= 600px) {
-  .release-nav-inner {
-    height: 56px;
-    padding-inline: 20px;
-  }
-
-  .release-links {
-    gap: 12px;
-  }
-
-  .release-nav-extra {
-    display: none;
-  }
-
-  .release-brand {
-    font-size: 18px;
-  }
-
   .release-footer {
     flex-direction: column;
     gap: 8px;
