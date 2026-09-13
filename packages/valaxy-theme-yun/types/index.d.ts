@@ -30,6 +30,16 @@ export namespace YunTheme {
     target?: string
   }
 
+  /** Homepage grid decoration. Pointer effects are opt-in. */
+  export interface BannerGrid {
+    /** Show the grid. @default true */
+    enable?: boolean
+    /** Fade the grid toward the edges. @default false */
+    fade?: boolean
+    /** Highlight grid lines near a mouse pointer. @default false */
+    interactive?: boolean
+  }
+
   export interface Banner {
     /**
      * 是否启用
@@ -56,6 +66,12 @@ export namespace YunTheme {
      * site-name class
      */
     siteNameClass?: string
+
+    /** Grid appearance for the nimbo homepage. */
+    grid?: BannerGrid
+
+    /** Nimbo introduction layout. Grouped uses compact introduction dividers. @default 'classic' */
+    prologue?: 'classic' | 'grouped'
 
     /**
      * @nimbo
@@ -139,6 +155,20 @@ export interface ThemeConfig extends DefaultTheme.Config {
    * 首页标语
    */
   banner: YunTheme.Banner
+
+  /** Post list presentation; per-post title classes take precedence. */
+  postCard?: {
+    /** Show the bottom excerpt gradient. @default true */
+    excerptGradient?: boolean
+    /** Title classes. Set to an empty string for a solid color. */
+    titleClass?: string
+  }
+
+  /** Navigation material. */
+  navbar?: {
+    /** Apply glass after scrolling, or also at the top. @default 'scroll' */
+    glass?: 'scroll' | 'always'
+  }
   // /**
   //  * prologue
   //  * 开场白

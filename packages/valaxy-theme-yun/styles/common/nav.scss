@@ -1,0 +1,31 @@
+// Shared by nimbo and strato; keep the glass outside the search popup's ancestors.
+.yun-nav-menu {
+  &::before {
+    box-sizing: border-box;
+    border-bottom: 1px solid transparent;
+    content: '';
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    pointer-events: none;
+    transition: background-color var(--va-transition-duration-moderate);
+  }
+
+  &.play,
+  &.is-glass {
+    &::before {
+      border-bottom-color: var(--yun-nav-border-color, transparent);
+      background-color: var(--yun-nav-bg-color);
+      /* stylelint-disable-next-line property-no-vendor-prefix */
+      -webkit-backdrop-filter: blur(var(--yun-nav-blur));
+      backdrop-filter: blur(var(--yun-nav-blur));
+    }
+  }
+}
+
+@supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
+  .yun-nav-menu.play::before,
+  .yun-nav-menu.is-glass::before {
+    background-color: var(--yun-nav-solid);
+  }
+}

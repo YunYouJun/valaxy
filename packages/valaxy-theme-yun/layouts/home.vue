@@ -23,33 +23,34 @@ const showNotice = computed(() => {
       <template v-if="themeConfig.banner?.enable">
         <template v-if="!isPage">
           <div class="w-full">
-            <ClientOnly>
-              <YunBanner />
-              <template #fallback>
-                <div id="yun-banner-placeholder" class="w-full h-[var(--banner-container-height,100vh)]" />
-              </template>
-            </ClientOnly>
-            <Transition
-              v-if="yun.isNimbo && yun.bannerAnimationDone"
-              enter-from-class="scale-60"
-              enter-to-class="scale-100"
-              enter-active-class="transition-300 transition-cubic-bezier-ease-in-out"
-              appear
-            >
-              <div class="absolute top-0 left-5 right-5 bottom-0 flex-center">
-                <Transition
-                  enter-from-class="op-0"
-                  enter-to-class="op-100"
-                  enter-active-class="transition-800"
-                  appear
-                >
-                  <YunPrologueSquare class="z-1" />
-                </Transition>
-              </div>
-            </Transition>
+            <YunPrologue :grid="yun.isNimbo ? themeConfig.banner.grid : { enable: false }">
+              <ClientOnly>
+                <YunBanner />
+                <template #fallback>
+                  <div id="yun-banner-placeholder" class="w-full h-[var(--banner-container-height,100vh)]" />
+                </template>
+              </ClientOnly>
+              <Transition
+                v-if="yun.isNimbo && yun.bannerAnimationDone"
+                enter-from-class="scale-60"
+                enter-to-class="scale-100"
+                enter-active-class="transition-300 transition-cubic-bezier-ease-in-out"
+                appear
+              >
+                <div class="absolute top-0 left-5 right-5 bottom-0 flex-center">
+                  <Transition
+                    enter-from-class="op-0"
+                    enter-to-class="op-100"
+                    enter-active-class="transition-800"
+                    appear
+                  >
+                    <YunPrologueSquare class="z-1" />
+                  </Transition>
+                </div>
+              </Transition>
+            </YunPrologue>
             <YunSay v-if="themeConfig.say?.enable" w="full" />
           </div>
-          <YunPrologue v-if="yun.isNimbo" class="absolute left-0 top-0 right-0 bottom-0" />
         </template>
       </template>
       <div v-else class="h-$yun-nav-height" />

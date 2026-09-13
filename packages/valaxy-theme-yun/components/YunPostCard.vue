@@ -3,12 +3,13 @@ import type { Post } from 'valaxy'
 import { usePostCollections, useValaxyI18n } from 'valaxy'
 import { computed, ref } from 'vue'
 import { useI18n } from 'vue-i18n'
-import { usePostProperty } from '../composables'
+import { usePostProperty, useThemeConfig } from '../composables'
 
 const props = defineProps<{
   post: Post
 }>()
 
+const themeConfig = useThemeConfig()
 const { t } = useI18n()
 const { $tO } = useValaxyI18n()
 
@@ -21,7 +22,7 @@ const postTitleClass = computed(() => {
   if (color.value) {
     return ''
   }
-  return props.post.postTitleClass || gradientClasses.value
+  return props.post.postTitleClass ?? themeConfig.value.postCard?.titleClass ?? gradientClasses.value
 })
 </script>
 
@@ -57,20 +58,20 @@ const postTitleClass = computed(() => {
             <template v-if="post.excerpt">
               <div
                 v-if="post.excerpt_type === 'html'"
-                class="post-card-excerpt-content markdown-body" op="90" text="left" w="full" p="x-6 y-2"
+                class="post-card-excerpt-content markdown-body" text="left" w="full" p="x-6 y-2"
               >
                 <ValaxyDynamicComponent :template-str="post.excerpt" />
               </div>
               <div
                 v-else
-                class="post-card-excerpt-content markdown-body" op="90" text="left" w="full" p="x-6 y-2"
+                class="post-card-excerpt-content markdown-body" text="left" w="full" p="x-6 y-2"
                 v-html="post.excerpt"
               />
             </template>
             <div v-else m="b-5" />
           </div>
 
-          <YunExcerptBottomGradient v-if="post.excerpt" />
+          <YunExcerptBottomGradient v-if="post.excerpt && themeConfig.postCard?.excerptGradient !== false" />
 
           <a
             v-if="post.url" :href="post.url" class="post-link-btn shadow hover:shadow-md" rounded target="_blank"
@@ -123,8 +124,8 @@ const postTitleClass = computed(() => {
   z-index: 1;
 
   &:focus-visible {
-    outline: 2px solid var(--va-c-primary);
-    outline-offset: 2px;
+    outline: 2px solid var(--yun-focus-color);
+    outline-offset: -3px;
     border-radius: var(--va-card-border-radius, 0.5rem);
   }
 }
@@ -140,10 +141,22 @@ const postTitleClass = computed(() => {
 
 .post-card-excerpt-content {
   font-size: 0.875rem;
-  line-height: 1.7;
+  line-height: var(--yun-post-excerpt-line-height, 1.7);
+  color: var(--yun-post-excerpt-color, inherit);
+  opacity: var(--yun-post-excerpt-opacity, 0.9);
 }
 
 .yun-card-actions {
-  border-top: 1px solid rgb(122 122 122 / 0.08);
+  border-top: 1px solid var(--yun-surface-line);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .yun-card.post-card-wrapper {
+    transition: none;
+
+    &:hover {
+      scale: 1;
+    }
+  }
 }
 </style>

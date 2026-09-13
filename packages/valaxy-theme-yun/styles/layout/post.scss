@@ -41,8 +41,8 @@
 .post-title-link {
   position: relative;
   padding: 0.7rem 1.2rem;
-  color: var(--card-c-primary, var(--va-c-link));
-  font-weight: 900;
+  color: var(--card-c-primary, var(--yun-post-title-color, var(--va-c-link)));
+  font-weight: var(--yun-post-title-font-weight, 900);
 
   .icon {
     width: 1.6rem;
@@ -74,6 +74,10 @@
     bottom: 0;
     border-width: 0 2px 2px 0;
     transform: translate3d(-10px, -10px, 0);
+  }
+
+  &:hover {
+    color: var(--yun-post-title-hover-color, var(--card-c-primary, var(--yun-post-title-color, var(--va-c-link))));
   }
 
   &:hover::before,
@@ -120,5 +124,29 @@
 
   &:hover {
     color: var(--yun-tag-hover-color, var(--va-c-primary));
+  }
+}
+
+.post-card-title,
+.post-header .post-title {
+  font-family: var(--yun-post-title-font-family, var(--va-font-serif));
+  font-weight: var(--yun-post-title-font-weight, 900);
+  letter-spacing: var(--yun-post-title-letter-spacing, normal);
+  line-height: var(--yun-post-title-line-height, 1.5);
+}
+
+.post-header .post-title > span {
+  line-height: inherit;
+}
+
+.post-meta {
+  color: var(--yun-post-meta-color, inherit);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .post-title-link::before,
+  .post-title-link::after {
+    transition: none;
+    transform: none;
   }
 }

@@ -26,7 +26,7 @@ const bannerStyles = computed<CSSProperties>(() => {
     'justify-content': 'space-between',
   }
   if (yun.isStrato)
-    styles.borderBottom = `1px solid var(--banner-line-color)`
+    styles.borderBottom = `1px solid var(--yun-banner-divider-color, var(--banner-line-color))`
 
   return styles
 })
@@ -58,7 +58,7 @@ onMounted(async () => {
 </script>
 
 <template>
-  <div id="yun-banner" border="b-1px b-solid b-$banner-line-color" :style="bannerStyles">
+  <div id="yun-banner" border="b-1px b-solid" :style="bannerStyles">
     <div class="banner-line-container">
       <div
         class="banner-line vertical-line-top"
@@ -93,6 +93,10 @@ onMounted(async () => {
 <style lang="scss">
 @use "../styles/widgets/banner.scss" as *;
 @use "../styles/modules/prologue.scss" as *;
+
+#yun-banner {
+  border-bottom-color: var(--yun-banner-divider-color, var(--banner-line-color));
+}
 
 :root {
   // banner

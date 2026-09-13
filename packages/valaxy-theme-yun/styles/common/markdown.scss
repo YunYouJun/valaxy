@@ -16,6 +16,7 @@
 /* stylelint-disable-next-line no-duplicate-selectors */
 .markdown-body {
   overflow-wrap: break-word;
+  line-height: var(--yun-prose-line-height, 1.8);
 
   a {
     color: var(--va-c-link);

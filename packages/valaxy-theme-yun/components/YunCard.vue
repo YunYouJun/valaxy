@@ -4,7 +4,7 @@ defineProps<{ cover?: string }>()
 
 <template>
   <div
-    class="yun-card flex-center rounded-2 overflow-hidden" flex="col"
+    class="yun-card flex-center overflow-hidden" flex="col"
     min-h="100px"
     bg="$va-c-bg-light"
   >
@@ -23,3 +23,9 @@ defineProps<{ cover?: string }>()
     </div>
   </div>
 </template>
+
+<style scoped>
+.yun-card {
+  border-radius: var(--va-card-border-radius, 0.5rem);
+}
+</style>

@@ -22,3 +22,10 @@
     background-color: rgb(var(--va-c-primary-rgb), 0.16);
   }
 }
+
+.yun-icon-btn:focus-visible,
+.yun-nav-menu a:focus-visible,
+.yun-main .markdown-body a:focus-visible {
+  outline: 2px solid var(--yun-focus-color);
+  outline-offset: 3px;
+}

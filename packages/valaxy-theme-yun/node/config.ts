@@ -17,6 +17,18 @@ export const defaultThemeConfig: ThemeConfig = {
   banner: {
     enable: true,
     title: '云游君的小站',
+    grid: {
+      enable: true,
+      fade: false,
+      interactive: false,
+    },
+  },
+
+  postCard: {
+    excerptGradient: true,
+  },
+  navbar: {
+    glass: 'scroll',
   },
 
   bg_image: {

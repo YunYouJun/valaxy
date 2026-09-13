@@ -28,7 +28,7 @@ const props = withDefaults(defineProps<{
   height: 1px;
   width: 0%;
   left: 0;
-  background-color: var(--va-c-text);
+  background-color: var(--yun-prologue-divider-color, var(--va-c-text));
   transition: width 1s map.get($cubic-bezier, 'ease-in');
 
   &.enter {

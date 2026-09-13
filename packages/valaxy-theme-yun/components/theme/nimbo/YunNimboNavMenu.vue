@@ -48,6 +48,7 @@ const app = useAppStore()
       class="yun-nav-menu z-$yun-z-nav-menu fixed bg-transparent"
       :class="{
         'shadow play': playAnimation,
+        'is-glass': themeConfig.navbar?.glass === 'always',
       }"
     >
       <!--  -->
@@ -128,12 +129,6 @@ const app = useAppStore()
   transition: background-color var(--va-transition-duration-moderate) map.get($cubic-bezier, 'ease-in'),
     backdrop-filter var(--va-transition-duration-moderate) map.get($cubic-bezier, 'ease-in'),
     box-shadow var(--va-transition-duration-moderate) map.get($cubic-bezier, 'ease-in');
-
-  &.play {
-    background-color: var(--yun-nav-bg-color);
-    backdrop-filter: blur(var(--yun-nav-blur));
-    -webkit-backdrop-filter: blur(var(--yun-nav-blur));
-  }
 
   .vt-hamburger-top, .vt-hamburger-middle, .vt-hamburger-bottom {
     background-color: var(--va-c-text);

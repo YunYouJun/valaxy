@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref } from 'vue'
+import { computed, ref } from 'vue'
 import { useI18n } from 'vue-i18n'
 
 import { useThemeConfig } from '../../composables'
@@ -8,12 +8,14 @@ const themeConfig = useThemeConfig()
 const { t } = useI18n()
 
 const showContent = ref(false)
+const grouped = computed(() => themeConfig.value.banner?.prologue === 'grouped')
 </script>
 
 <template>
   <div
     flex="~ col"
     class="yun-square-container items-center justify-center text-center max-w-2xl"
+    :class="{ 'is-grouped': grouped }"
   >
     <slot />
 
@@ -59,25 +61,25 @@ const showContent = ref(false)
         <YunAuthorName class="mt-3" />
         <YunAuthorIntro />
 
-        <div class="py-4 md:py-5 lg:pt-6">
+        <div :class="grouped ? 'prologue-divider' : 'py-4 md:py-5 lg:pt-6'">
           <YunAnimLineDraw :active="showContent" />
         </div>
         <div
           flex="~ col"
-          class="gap-2 items-center justify-center"
+          class="prologue-introduction gap-2 items-center justify-center"
         >
           <YunSiteTitle />
           <YunSiteSubtitle />
           <YunSiteDescription />
         </div>
-        <div class="scale-x--100 py-4 md:py-5 lg:pb-6">
+        <div class="scale-x--100" :class="grouped ? 'prologue-divider' : 'py-4 md:py-5 lg:pb-6'">
           <YunAnimLineDraw :active="showContent" />
         </div>
 
-        <YunSocialLinks />
+        <YunSocialLinks class="prologue-social" />
 
         <div
-          class="mt-4 flex-center w-72 md:w-150 m-auto gap-2"
+          class="prologue-navigation mt-4 flex-center w-72 md:w-150 m-auto gap-2"
           flex="~ wrap"
         >
           <YunSiteLinkItem
@@ -143,6 +145,20 @@ const showContent = ref(false)
 
       // transform: translateY(calc(50% + var(--avatar-size) / 2));
     }
+  }
+}
+
+.yun-square-container.is-grouped {
+  .prologue-divider {
+    position: relative;
+    width: min(var(--yun-prologue-divider-width, 320px), calc(100% - 32px));
+    height: 1px;
+    margin: 20px auto;
+    mask-image: linear-gradient(to right, transparent, black 20%, black 80%, transparent);
+  }
+
+  .prologue-navigation {
+    margin-top: 32px;
   }
 }
 </style>

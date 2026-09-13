@@ -2,13 +2,13 @@
 import { useAppStore, useSiteConfig } from 'valaxy'
 import { computed, onMounted, ref, watch } from 'vue'
 import { useRoute } from 'vue-router'
+import { useThemeConfig } from '../../../composables'
 import { useYunAppStore } from '../../../stores'
-// import { useThemeConfig } from '../composables'
 
 // const app = useAppStore()
 const yunApp = useYunAppStore()
 const siteConfig = useSiteConfig()
-// const themeConfig = useThemeConfig()
+const themeConfig = useThemeConfig()
 
 // Always render the menu to avoid SSG hydration mismatch.
 const showMenu = ref(true)
@@ -66,7 +66,8 @@ const isHomePage = computed(() => route.meta.layout === 'home')
       v-if="showMenu"
       class="yun-nav-menu z-$yun-z-nav-menu fixed w-full flex justify-between items-center top-0"
       :class="{
-        play: playAnimation,
+        'play': playAnimation,
+        'is-glass': themeConfig.navbar?.glass === 'always',
       }"
     >
       <!--  -->
@@ -96,10 +97,5 @@ const isHomePage = computed(() => route.meta.layout === 'home')
   height: var(--yun-nav-height, 50px);
   transition: all var(--va-transition-duration-moderate) map.get($cubic-bezier, 'ease-in');
 
-  &.play {
-    background-color: var(--yun-nav-bg-color);
-    backdrop-filter: blur(var(--yun-nav-blur));
-    -webkit-backdrop-filter: blur(var(--yun-nav-blur));
-  }
 }
 </style>

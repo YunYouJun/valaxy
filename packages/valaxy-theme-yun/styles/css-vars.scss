@@ -11,6 +11,13 @@
   --yun-nav-height: 50px;
   --yun-nav-bg-color: rgb(255 255 255 / 0.8);
   --yun-nav-blur: 12px;
+  --yun-nav-solid: #fff;
+  --yun-surface-line: rgb(122 122 122 / 0.08);
+  --yun-focus-color: var(--va-c-link);
+  --yun-grid-size: 40px;
+  --yun-grid-color: rgb(30 50 70 / 0.06);
+  --yun-grid-highlight-color: rgb(var(--va-c-primary-rgb), 0.3);
+  --yun-grid-highlight-radius: 220px;
 }
 
 :root {
@@ -34,6 +41,9 @@ html.dark {
   --va-c-bg-soft: #121215;
   --yun-home-hero-name-background: linear-gradient(120deg, var(--va-c-primary) 30%, #41d1ff);
   --yun-nav-bg-color: rgb(26 26 29 / 0.8);
+  --yun-nav-solid: #1a1a1d;
+  --yun-grid-color: rgb(255 255 255 / 0.07);
+  --yun-grid-highlight-color: color-mix(in srgb, var(--va-c-link) 45%, transparent);
 }
 
 // animation

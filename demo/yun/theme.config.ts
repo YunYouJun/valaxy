@@ -8,8 +8,12 @@ export default defineThemeConfig({
   // },
   // bg_image: {},
 
+  postCard: { excerptGradient: false },
+  navbar: { glass: 'always' },
+
   banner: {
     enable: true,
+    grid: { enable: true, fade: true, interactive: true },
     // title: '云游君的小站',
     title: {
       'zh-CN': '云游君的小站',
