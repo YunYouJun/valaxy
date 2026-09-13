@@ -3,22 +3,21 @@ import type { HeadersPluginOptions } from '@mdit-vue/plugin-headers'
 import type { SfcPluginOptions } from '@mdit-vue/plugin-sfc'
 import type { TocPluginOptions } from '@mdit-vue/plugin-toc'
 
-import type MarkdownIt from 'markdown-it'
-import type { MarkdownItAsync } from 'markdown-it-async'
-import type Token from 'markdown-it/lib/token.mjs'
 import type { UserSiteConfig } from '../../../types'
 
 import type { ResolvedValaxyOptions } from '../../types'
 import type { MarkdownBase } from './base'
-import type { ThemeOptions } from './types'
+import type { MarkdownRenderer } from './renderer'
+import type {
+  MarkdownAnchorOptions,
+  MarkdownAnchorPermalinkGenerator,
+  MarkdownAnchorPermalinkOptions,
+  ThemeOptions,
+} from './types'
 
-import {
-  headersPlugin,
-} from '@mdit-vue/plugin-headers'
 import { sfcPlugin } from '@mdit-vue/plugin-sfc'
-import { titlePlugin } from '@mdit-vue/plugin-title'
 import { tocPlugin } from '@mdit-vue/plugin-toc'
-import { slugify } from '@mdit-vue/shared'
+import { resolveHeadersFromTokens, resolveTitleFromToken, slugify } from '@mdit-vue/shared'
 
 import { cssI18nContainer } from 'css-i18n'
 import anchorPlugin from 'markdown-it-anchor'
@@ -34,7 +33,7 @@ import { groupIconMdPlugin } from 'vitepress-plugin-group-icons'
 import { isKatexPluginNeeded, isMathJaxEnabled } from '../../config/valaxy'
 
 import { createMarkdownBaseResolver } from './base'
-import { isPromiseLike } from './plugins/async-utils'
+import { isPromiseLike, mapRenderResult } from './plugins/async-utils'
 import { imagePlugin } from './plugins/image'
 import { linkPlugin } from './plugins/link'
 import { containerPlugin } from './plugins/markdown-it/container'
@@ -48,15 +47,70 @@ import { snippetPlugin } from './plugins/markdown-it/snippet'
 
 export const defaultCodeTheme = { light: 'github-light', dark: 'github-dark' } as const as ThemeOptions
 
+// These plugins only use markdown-it's stable structural plugin interface.
+// Their published declarations target markdown-it, while Valaxy's runtime uses
+// the compatible MarkdownExit implementation for async rendering.
+const sfcPluginCompat = sfcPlugin as unknown as (md: MarkdownRenderer, options: SfcPluginOptions) => void
+const tocPluginCompat = tocPlugin as unknown as (md: MarkdownRenderer, options: TocPluginOptions) => void
+const emojiPluginCompat = emojiPlugin as unknown as (md: MarkdownRenderer) => void
+const footnotePluginCompat = footnotePlugin as unknown as (md: MarkdownRenderer) => void
+const anchorPluginCompat = anchorPlugin as unknown as {
+  (md: MarkdownRenderer, options?: MarkdownAnchorOptions): void
+  permalink: {
+    linkInsideHeader: (options?: MarkdownAnchorPermalinkOptions) => MarkdownAnchorPermalinkGenerator
+  }
+}
+
+export function setupMarkdownPageMetadata(md: MarkdownRenderer, options?: ResolvedValaxyOptions) {
+  const mdOptions = options?.config.markdown || {}
+  const headersOptions: HeadersPluginOptions = typeof mdOptions.headers === 'boolean'
+    ? {}
+    : mdOptions.headers || {}
+  const {
+    level = [2, 3, 4, 5, 6],
+    shouldAllowNested = false,
+    slugify: headersSlugify = slugify,
+    format,
+  } = headersOptions
+
+  // The @mdit-vue headers and title plugins monkey-patch renderer.render().
+  // markdown-exit honors sync renderer wrappers by routing renderAsync() back
+  // through render(), where an async fence/highlighter rule cannot be awaited.
+  // Extract the same metadata in the core pipeline instead. Callers register
+  // this rule after user plugins so it observes the final parsed token stream.
+  md.core.ruler.push('valaxy_page_metadata', (state) => {
+    type HeadersTokens = Parameters<typeof resolveHeadersFromTokens>[0]
+    type TitleToken = Parameters<typeof resolveTitleFromToken>[0]
+    const tokens = state.tokens as unknown as HeadersTokens
+
+    state.env.headers = resolveHeadersFromTokens(tokens, {
+      level,
+      shouldAllowHtml: false,
+      shouldAllowNested,
+      shouldEscapeText: false,
+      slugify: headersSlugify,
+      format,
+    })
+
+    const titleTokenIndex = state.tokens.findIndex(token => token.tag === 'h1')
+    state.env.title = titleTokenIndex > -1
+      ? resolveTitleFromToken(state.tokens[titleTokenIndex + 1] as unknown as TitleToken, {
+          shouldAllowHtml: false,
+          shouldEscapeText: false,
+        })
+      : ''
+  })
+}
+
 export async function setupMarkdownPlugins(
-  md: MarkdownItAsync,
+  md: MarkdownRenderer,
   options?: ResolvedValaxyOptions,
   // isExcerpt = false,
   base: MarkdownBase = options?.config.vite?.base || '/',
 ) {
   const mdOptions = options?.config.markdown || {}
-  const theme = mdOptions.theme ?? defaultCodeTheme
   const siteConfig: UserSiteConfig = options?.config.siteConfig || {}
+  const languages = siteConfig.languages?.filter((language): language is string => Boolean(language))
   const resolveBase = createMarkdownBaseResolver(base)
 
   if (mdOptions.preConfig)
@@ -64,10 +118,10 @@ export async function setupMarkdownPlugins(
 
   // custom plugins
   md.use(highlightLinePlugin)
-    .use(preWrapperPlugin, { theme, siteConfig })
-    .use(snippetPlugin, options?.userRoot)
+    .use(preWrapperPlugin, { siteConfig })
+    .use(snippetPlugin, options?.userRoot ?? '')
     .use(containerPlugin, {
-      languages: siteConfig.languages,
+      languages,
       ...mdOptions?.container,
       blocks: {
         ...mdOptions.blocks,
@@ -75,7 +129,7 @@ export async function setupMarkdownPlugins(
       },
     })
     .use(cssI18nContainer, {
-      languages: options?.config.siteConfig.languages,
+      languages,
     })
     .use(
       linkPlugin,
@@ -96,12 +150,12 @@ export async function setupMarkdownPlugins(
   if (!mdOptions.attrs?.disable)
     md.use(attrsPlugin, mdOptions.attrs)
 
-  md.use(emojiPlugin)
-    .use(footnotePlugin)
+  md.use(emojiPluginCompat)
+    .use(footnotePluginCompat)
     .use(footnoteTooltipPlugin)
 
   // if (!isExcerpt) {
-  md.use(anchorPlugin, {
+  md.use(anchorPluginCompat, {
     slugify,
     getTokensText: (tokens) => {
       return tokens
@@ -109,11 +163,11 @@ export async function setupMarkdownPlugins(
         .map(t => t.content)
         .join('')
     },
-    permalink: anchorPlugin.permalink.linkInsideHeader({
+    permalink: anchorPluginCompat.permalink.linkInsideHeader({
       symbol: '&ZeroWidthSpace;',
       renderAttrs: (slug, state) => {
         // Find `heading_open` with the id identical to slug
-        const idx = state.tokens.findIndex((token: Token) => {
+        const idx = state.tokens.findIndex((token) => {
           const attrs = token.attrs
           const id = attrs?.find(attr => attr[0] === 'id')
           return id && slug === id[1]
@@ -130,16 +184,10 @@ export async function setupMarkdownPlugins(
   // }
 
   md
-    .use(headersPlugin, {
-      level: [2, 3, 4, 5, 6],
-      slugify,
-      ...(typeof mdOptions.headers === 'boolean' ? undefined : mdOptions.headers),
-    } as HeadersPluginOptions)
-    .use(sfcPlugin, {
+    .use(sfcPluginCompat, {
       ...mdOptions.sfc,
     } as SfcPluginOptions)
-    .use(titlePlugin)
-    .use(tocPlugin, {
+    .use(tocPluginCompat, {
       slugify,
       ...mdOptions.toc,
     } as TocPluginOptions)
@@ -155,15 +203,17 @@ export async function setupMarkdownPlugins(
       // Add v-pre to prevent Vue from processing MathJax SVG output
       const origMathInline = md.renderer.rules.math_inline!
       md.renderer.rules.math_inline = function (...args) {
-        return origMathInline
-          .apply(this, args)
-          .replace(/^<mjx-container /, '<mjx-container v-pre ')
+        return mapRenderResult(
+          origMathInline.apply(this, args),
+          html => html.replace(/^<mjx-container /, '<mjx-container v-pre '),
+        )
       }
       const origMathBlock = md.renderer.rules.math_block!
       md.renderer.rules.math_block = function (...args) {
-        return origMathBlock
-          .apply(this, args)
-          .replace(/^<mjx-container /, '<mjx-container v-pre tabindex="0" ')
+        return mapRenderResult(
+          origMathBlock.apply(this, args),
+          html => html.replace(/^<mjx-container /, '<mjx-container v-pre tabindex="0" '),
+        )
       }
     }
     catch {
@@ -256,5 +306,5 @@ export async function setupMarkdownPlugins(
   if (mdOptions.config)
     mdOptions.config(md)
 
-  return md as MarkdownIt
+  return md
 }

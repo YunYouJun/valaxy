@@ -1,6 +1,6 @@
 {
   "name": "valaxy-theme-press",
-  "version": "1.0.0-rc.7",
+  "version": "1.0.0-rc.9",
   "description": "Docs (VitePress-like) theme for Valaxy",
   "author": {
     "email": "me@yunyoujun.cn",
@@ -33,6 +33,7 @@
     "@docsearch/css": "catalog:",
     "@docsearch/js": "catalog:",
     "@docsearch/sidepanel-js": "catalog:",
+    "markdown-exit": "catalog:",
     "reka-ui": "catalog:frontend",
     "vitepress": "catalog:frontend"
   },

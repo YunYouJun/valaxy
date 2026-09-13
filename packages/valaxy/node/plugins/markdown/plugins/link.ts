@@ -4,35 +4,35 @@
 // 1. adding target="_blank" to external links
 // 2. normalize internal links to end with `.html`
 
-import type MarkdownIt from 'markdown-it'
 import type { MarkdownBaseResolver } from '../base'
 import type { MarkdownEnv } from '../env'
+import type { MarkdownRenderer } from '../renderer'
 import { URL } from 'node:url'
 import { EXTERNAL_URL_RE } from '../../../../shared'
 import { PATHNAME_PROTOCOL_RE } from '../../../constants'
 
 const indexRE = /(^|.*\/)index.md(.*)$/i
 
-export function linkPlugin(md: MarkdownIt, externalAttrs: Record<string, string>, resolveBase: MarkdownBaseResolver) {
+export function linkPlugin(md: MarkdownRenderer, externalAttrs: Record<string, string>, resolveBase: MarkdownBaseResolver) {
   md.renderer.rules.link_open = (
     tokens,
     idx,
     options,
-    env: MarkdownEnv,
+    env,
     self,
   ) => {
     const token = tokens[idx]
     const hrefIndex = token.attrIndex('href')
     if (hrefIndex >= 0) {
       const hrefAttr = token.attrs![hrefIndex]
-      const url = hrefAttr[1]
+      let url = String(hrefAttr[1])
       const isExternal = EXTERNAL_URL_RE.test(url)
       if (isExternal) {
         Object.entries(externalAttrs).forEach(([key, val]) => {
           token.attrSet(key, val)
         })
 
-        hrefAttr[1] = url.replace(PATHNAME_PROTOCOL_RE, '')
+        url = url.replace(PATHNAME_PROTOCOL_RE, '')
       }
       else {
         if (
@@ -44,28 +44,26 @@ export function linkPlugin(md: MarkdownIt, externalAttrs: Record<string, string>
           // eslint-disable-next-line regexp/no-unused-capturing-group
           && !/\.(?!html|md)\w+($|[?#])/i.test(url)
         ) {
-          normalizeHref(hrefAttr, env)
+          url = normalizeHref(url, (env ?? {}) as MarkdownEnv)
         }
 
         // Append Vite's resolved base to every root-absolute Markdown link,
         // including links to public files such as PDFs.
-        if (hrefAttr[1].startsWith('/'))
-          hrefAttr[1] = `${resolveBase()}${hrefAttr[1]}`.replace(/\/+/g, '/')
+        if (url.startsWith('/'))
+          url = `${resolveBase()}${url}`.replace(/\/+/g, '/')
       }
 
       // encode vite-specific replace strings in case they appear in URLs
       // this also excludes them from build-time replacements (which injects
       // <wbr/> and will break URLs)
-      hrefAttr[1] = hrefAttr[1]
+      hrefAttr[1] = url
         .replace(/\bimport\.meta/g, 'import%2Emeta')
         .replace(/\bprocess\.env/g, 'process%2Eenv')
     }
     return self.renderToken(tokens, idx, options)
   }
 
-  function normalizeHref(hrefAttr: [string, string], env: MarkdownEnv) {
-    let url = hrefAttr[1]
-
+  function normalizeHref(url: string, env: MarkdownEnv): string {
     const indexMatch = url.match(indexRE)
     if (indexMatch) {
       const [, path, hash] = indexMatch
@@ -101,7 +99,7 @@ export function linkPlugin(md: MarkdownIt, externalAttrs: Record<string, string>
     pushLink(url.replace(/\.html$/, ''), env)
 
     // markdown-it encodes the uri
-    hrefAttr[1] = decodeURI(url)
+    return decodeURI(url)
   }
 
   function pushLink(link: string, env: MarkdownEnv) {

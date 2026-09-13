@@ -1,7 +1,7 @@
-import type { MarkdownItAsync } from 'markdown-it-async'
 import type { ExcerptType, Page, Post } from '../../types'
 import type { ValaxyNode } from '../types'
 import type { MarkdownBase } from './markdown/base'
+import type { MarkdownRenderer } from './markdown/renderer'
 
 import fs from 'fs-extra'
 
@@ -22,7 +22,7 @@ import '../../types/vue-router.d'
  * @param excerpt
  * @param type
  */
-export async function getExcerptByType(excerpt = '', type: ExcerptType = 'html', mdIt: MarkdownItAsync) {
+export async function getExcerptByType(excerpt = '', type: ExcerptType = 'html', mdIt: MarkdownRenderer) {
   switch (type) {
     case 'ai':
     case 'md':

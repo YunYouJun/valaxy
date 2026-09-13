@@ -163,6 +163,83 @@ describe('build state', () => {
     expect(state.get(id)?.frontmatter.title).toBe('Context markdown')
   })
 
+  it('transforms fenced code blocks with an async highlighter', async () => {
+    const options = createCompileOptions()
+    options.config.markdown!.highlight = async code => `<pre class="async-highlight"><code>${code}</code></pre>`
+    const state = new StateManager()
+    const id = '/project/pages/async-code-block.md'
+    const plugin = await createMarkdownPlugin(options, undefined, state)
+
+    const result = await (plugin.transform as (
+      this: { error: (error: unknown) => never },
+      code: string,
+      id: string,
+    ) => Promise<{ code: string }>).call(
+      { error: (error: unknown) => { throw error } },
+      '# Async page\n\n## Section\n\n```ts\nconst answer = 42\n```',
+      id,
+    )
+
+    expect(result.code).toContain('<pre class="async-highlight">')
+    expect(result.code).not.toContain('[object Promise]')
+    expect(state.get(id)?.title).toBe('Async page')
+    expect(state.get(id)?.headers).toMatchObject([{ title: 'Section', link: '#section' }])
+  })
+
+  it('extracts page metadata after user MarkdownIt core rules', async () => {
+    const options = createCompileOptions()
+    options.config.markdown!.markdownSetup = (md) => {
+      md.core.ruler.push('test_transform_heading', (markdownState) => {
+        const inline = markdownState.tokens.find(token => token.type === 'inline' && token.content === 'Original title')
+        if (!inline)
+          throw new Error('Expected heading token')
+        inline.content = 'Transformed title'
+        inline.children![0].content = 'Transformed title'
+      })
+    }
+    const state = new StateManager()
+    const id = '/project/pages/transformed-title.md'
+    const plugin = await createMarkdownPlugin(options, undefined, state)
+
+    await (plugin.transform as (
+      this: { error: (error: unknown) => never },
+      code: string,
+      id: string,
+    ) => Promise<{ code: string }>).call(
+      { error: (error: unknown) => { throw error } },
+      '# Original title',
+      id,
+    )
+
+    expect(state.get(id)?.title).toBe('Transformed title')
+  })
+
+  it('awaits async user renderer rules in the page compiler', async () => {
+    const options = createCompileOptions()
+    options.config.markdown!.markdownSetup = (md) => {
+      md.renderer.rules.paragraph_open = async () => {
+        await Promise.resolve()
+        return '<p data-async-renderer="true">'
+      }
+    }
+    const state = new StateManager()
+    const id = '/project/pages/async-renderer.md'
+    const plugin = await createMarkdownPlugin(options, undefined, state)
+
+    const result = await (plugin.transform as (
+      this: { error: (error: unknown) => never },
+      code: string,
+      id: string,
+    ) => Promise<{ code: string }>).call(
+      { error: (error: unknown) => { throw error } },
+      'Async renderer',
+      id,
+    )
+
+    expect(result.code).toContain('<p data-async-renderer="true">')
+    expect(result.code).not.toContain('[object Promise]')
+  })
+
   it('releases orphaned environments at the end of a build cycle', async () => {
     const state = new StateManager()
     const plugins = await createValaxyPlugin(createCompileOptions(), {}, state)

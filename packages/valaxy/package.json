@@ -1,7 +1,7 @@
 {
   "name": "valaxy",
   "type": "module",
-  "version": "1.0.0-rc.7",
+  "version": "1.0.0-rc.9",
   "description": "📄 Vite & Vue powered static blog generator.",
   "author": {
     "email": "me@yunyoujun.cn",
@@ -68,7 +68,7 @@
     "release:beta": "bumpp --no-tag --no-commit --no-push && pnpm publish --no-git-checks --tag beta"
   },
   "peerDependencies": {
-    "vue": "^3.5.0",
+    "vue": "^3.5.41",
     "vue-router": "^5.0.0"
   },
   "dependencies": {
@@ -110,9 +110,9 @@
     "js-yaml": "catalog:",
     "katex": "catalog:",
     "lru-cache": "catalog:",
+    "markdown-exit": "catalog:",
     "markdown-it": "catalog:",
     "markdown-it-anchor": "catalog:",
-    "markdown-it-async": "catalog:",
     "markdown-it-attrs": "catalog:",
     "markdown-it-container": "catalog:",
     "markdown-it-emoji": "catalog:",
@@ -163,8 +163,6 @@
     "@types/gh-pages": "catalog:",
     "@types/html-to-text": "catalog:",
     "@types/js-yaml": "catalog:",
-    "@types/markdown-it": "catalog:",
-    "@types/markdown-it-footnote": "catalog:",
     "@types/nprogress": "catalog:",
     "@types/pascalcase": "catalog:",
     "@types/qrcode": "catalog:",

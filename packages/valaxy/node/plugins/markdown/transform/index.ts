@@ -1,23 +1,21 @@
-import type MarkdownIt from 'markdown-it'
-import type { MarkdownItAsync } from 'markdown-it-async'
-
 import type { Plugin } from 'vite'
 import type { StateManager } from '../../../app/state'
 import type { ResolvedValaxyOptions } from '../../../types'
 import type { MarkdownBase } from '../base'
+import type { MarkdownEnv } from '../env'
+import type { MarkdownRenderer } from '../renderer'
 import Markdown from 'unplugin-vue-markdown/vite'
 import { Valaxy } from '../../../app/class'
 import { logger } from '../../../logger'
 import { getSharedHighlighter } from '../highlighterCache'
-import { defaultCodeTheme, setupMarkdownPlugins } from '../setup'
+import { defaultCodeTheme, setupMarkdownPageMetadata, setupMarkdownPlugins } from '../setup'
 import { createTransformIncludes } from './include'
 import { matterOptions } from './matter'
 import { transformMermaid } from './mermaid'
 import { sanitizeCommentedSfcBlocks } from './sanitize-comment'
 
+export type { MarkdownRenderer } from '../renderer'
 export * from './matter'
-
-export type MarkdownRenderer = MarkdownItAsync
 
 export function disposeMdItInstance() {
   Valaxy.state.dispose()
@@ -40,9 +38,15 @@ export async function createMarkdownPlugin(
 
   state.onDispose(dispose)
 
-  // Extract user transforms so they can be composed with internal transforms
-  // instead of being overwritten by `...mdOptions` spread.
-  const { transforms: userTransforms, ...restMdOptions } = mdOptions
+  // Extract user hooks so they can be composed with internal setup and
+  // transforms instead of overwriting them through the options spread.
+  const {
+    transforms: userTransforms,
+    markdownSetup: userMarkdownSetup,
+    markdownItSetup: userMarkdownItSetup,
+    ...restMdOptions
+  } = mdOptions
+  const setupUserMarkdown = userMarkdownSetup ?? userMarkdownItSetup
 
   return Markdown({
     include: [/\.md$/],
@@ -73,28 +77,32 @@ export async function createMarkdownPlugin(
       ...mdOptions?.markdownItOptions,
     },
 
-    async markdownItSetup(mdIt) {
+    async markdownSetup(mdIt) {
       mdIt.linkify.set({ fuzzyLink: false })
 
       // setup mdIt
-      await setupMarkdownPlugins(mdIt as unknown as MarkdownItAsync, options, base)
+      await setupMarkdownPlugins(mdIt, options, base)
 
-      options?.config.markdown?.markdownItSetup?.(mdIt)
+      await setupUserMarkdown?.(mdIt)
+      setupMarkdownPageMetadata(mdIt, options)
 
       // get env
-      function initEnv(md: MarkdownIt) {
+      function initEnv(md: MarkdownRenderer) {
         md.core.ruler.push('valaxy_md_env', (mdState) => {
+          const env = mdState.env as MarkdownEnv
+          if (!env.id)
+            return
           // record to map
           state.set({
-            id: mdState.env.id,
-            title: mdState.env.title,
-            links: mdState.env.links,
-            headers: mdState.env.headers,
-            frontmatter: mdState.env.frontmatter,
+            id: env.id,
+            title: env.title ?? '',
+            links: env.links ?? [],
+            headers: env.headers ?? [],
+            frontmatter: env.frontmatter ?? {},
           })
         })
       }
-      mdIt.use(initEnv as any)
+      mdIt.use(initEnv)
     },
 
     transforms: {

@@ -1,10 +1,10 @@
 // Modified from https://github.com/egoist/markdown-it-highlight-lines
 
-import type MarkdownIt from 'markdown-it'
+import type { MarkdownRenderer } from '../../renderer'
 
 const RE = /\{([\d,-]+)\}/
 
-export function highlightLinePlugin(md: MarkdownIt) {
+export function highlightLinePlugin(md: MarkdownRenderer) {
   const fence = md.renderer.rules.fence!
   md.renderer.rules.fence = (...args) => {
     const [tokens, idx] = args

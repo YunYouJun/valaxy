@@ -1,7 +1,7 @@
 // markdown-it plugin for generating line numbers.
 // It depends on preWrapper plugin.
 
-import type MarkdownIt from 'markdown-it'
+import type { MarkdownRenderer } from '../../renderer'
 import { isPromiseLike } from '../async-utils'
 
 function processLineNumbers(rawCode: string, startLineNumber: number): string {
@@ -22,7 +22,7 @@ function processLineNumbers(rawCode: string, startLineNumber: number): string {
     .replace(/"(language-[^"]*)"/, '"$1 line-numbers-mode"')
 }
 
-export function lineNumberPlugin(md: MarkdownIt, enable = false) {
+export function lineNumberPlugin(md: MarkdownRenderer, enable = false) {
   const fence = md.renderer.rules.fence!
   // markdown-exit's fence rule may return Promise<string> for async highlight.
   // Type-assert because markdown-it's RenderRule type doesn't account for this.

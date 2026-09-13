@@ -34,9 +34,11 @@ export interface MarkdownEnv {
    * The title that extracted by `@mdit-vue/plugin-title`
    */
   title?: string
-  path: string
-  relativePath: string
+  id?: string
+  path?: string
+  relativePath?: string
   links?: string[]
+  includes?: string[]
   realPath?: string
 
   cleanUrls?: CleanUrlsMode

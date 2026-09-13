@@ -10,3 +10,13 @@
 export function isPromiseLike(v: unknown): v is PromiseLike<unknown> {
   return typeof v === 'object' && v !== null && typeof (v as any).then === 'function'
 }
+
+/** Apply a synchronous HTML transform without discarding an async render rule. */
+export function mapRenderResult(
+  result: string | Promise<string>,
+  transform: (html: string) => string,
+): string | Promise<string> {
+  return isPromiseLike(result)
+    ? Promise.resolve(result).then(transform)
+    : transform(result)
+}

@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import { isClient, useScrollLock } from '@vueuse/core'
-import MarkdownIt from 'markdown-it'
+import { createMarkdownExit } from 'markdown-exit'
 import { useFuseSearch } from 'valaxy'
 import { nextTick, ref, watch } from 'vue'
 import { useI18n } from 'vue-i18n'
@@ -11,7 +11,7 @@ const props = defineProps<{
 
 const emit = defineEmits(['close'])
 
-const md = new MarkdownIt({
+const md = createMarkdownExit({
   html: true,
   linkify: true,
 })

@@ -11,7 +11,7 @@ import { Feed } from 'feed'
 
 import fs from 'fs-extra'
 import matter from 'gray-matter'
-import MarkdownIt from 'markdown-it'
+import { createMarkdownExit } from 'markdown-exit'
 
 import { getBorderCharacters, table } from 'table'
 import { tObject } from '../../../shared'
@@ -22,7 +22,7 @@ import { getCreatedTime, getUpdatedTime } from '../../utils/date'
 // Extend Item type to include optional updated field for Atom feed
 type ExtendedItem = Item & { updated?: Date }
 
-const markdown = MarkdownIt({
+const markdown = createMarkdownExit({
   html: true,
   breaks: true,
   linkify: true,

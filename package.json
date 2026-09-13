@@ -1,7 +1,7 @@
 {
   "name": "@valaxyjs/monorepo",
   "type": "module",
-  "version": "1.0.0-rc.7",
+  "version": "1.0.0-rc.9",
   "private": true,
   "packageManager": "pnpm@10.34.4",
   "description": "📄 Vite & Vue powered static blog generator.",
@@ -91,9 +91,6 @@
     "@playwright/test": "catalog:",
     "@types/debug": "catalog:",
     "@types/fs-extra": "catalog:",
-    "@types/markdown-it-attrs": "catalog:",
-    "@types/markdown-it-container": "catalog:",
-    "@types/markdown-it-emoji": "catalog:",
     "@types/node": "catalog:",
     "@types/prompts": "catalog:",
     "bumpp": "catalog:",

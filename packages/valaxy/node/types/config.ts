@@ -9,7 +9,6 @@ import type Components from 'unplugin-vue-components/vite'
 import type Markdown from 'unplugin-vue-markdown/vite'
 import type { UserConfig as ViteUserConfig } from 'vite'
 import type Layouts from 'vite-plugin-vue-layouts-next'
-import type { groupIconVitePlugin } from 'vitepress-plugin-group-icons'
 import type { EditableTreeNode } from 'vue-router/unplugin'
 import type Router from 'vue-router/vite'
 import type { DefaultTheme, PartialDeep, ValaxyConfig } from '../../types'
@@ -54,6 +53,13 @@ export interface CdnModule {
    * @example ['ref', 'computed', 'watch', 'createApp']
    */
   exports?: string[]
+}
+
+export type GroupIconValue = string | { dark: string, light: string }
+
+export interface GroupIconOptions {
+  customIcon?: Record<string, GroupIconValue>
+  defaultLabels?: string[]
 }
 
 export type ValaxyNodeConfig<ThemeConfig = DefaultTheme.Config> = ValaxyConfig<ThemeConfig> & ValaxyExtendConfig
@@ -278,7 +284,7 @@ export interface ValaxyExtendConfig {
   /**
    * @see https://github.com/yuyinws/vitepress-plugin-group-icons
    */
-  groupIcons?: Partial<NonNullable<Parameters<typeof groupIconVitePlugin>[0]>>
+  groupIcons?: GroupIconOptions
   /**
    * unocss presets
    * @see https://unocss.dev/guide/presets

@@ -1,26 +1,33 @@
 // ref vitepress
 // src/node/markdown/plugins/containers.ts
 
-import type { MarkdownItAsync } from 'markdown-it-async'
-import type Token from 'markdown-it/lib/token.mjs'
+import type { Token } from 'markdown-exit'
 
+import type { MarkdownRenderer } from '../../renderer'
 import container from 'markdown-it-container'
 import {
   extractTitle,
 } from './preWrapper'
 
+type ContainerPlugin = (
+  md: MarkdownRenderer,
+  name: string,
+  options?: { render: (tokens: Token[], idx: number) => string },
+) => void
+const containerCompat = container as unknown as ContainerPlugin
+
 type ContainerArgs = [
-  typeof container,
+  typeof containerCompat,
   string,
   {
     render: (tokens: Token[], idx: number) => string
   },
 ]
 
-function createContainer(key: string, block: BlockItem = {}, md: MarkdownItAsync): ContainerArgs {
+function createContainer(key: string, block: BlockItem = {}, md: MarkdownRenderer): ContainerArgs {
   const classes = key
   return [
-    container,
+    containerCompat,
     classes,
     {
       render(tokens, idx) {
@@ -87,7 +94,7 @@ const defaultBlocksOptions: Blocks = {
   },
 }
 
-export function containerPlugin(md: MarkdownItAsync, containerOptions: ContainerOptions = {}) {
+export function containerPlugin(md: MarkdownRenderer, containerOptions: ContainerOptions = {}) {
   const blockKeys = new Set(Object.keys({ ...defaultBlocksOptions, ...containerOptions.blocks }))
   blockKeys.forEach((optionKey) => {
     const key = optionKey as keyof Blocks
@@ -97,18 +104,18 @@ export function containerPlugin(md: MarkdownItAsync, containerOptions: Container
   })
 
   // explicitly escape Vue syntax
-  md.use(container, 'v-pre', {
+  md.use(containerCompat, 'v-pre', {
     render: (tokens: Token[], idx: number) =>
       tokens[idx].nesting === 1 ? `<div v-pre>\n` : `</div>\n`,
   })
-  md.use(container, 'raw', {
+  md.use(containerCompat, 'raw', {
     render: (tokens: Token[], idx: number) =>
       tokens[idx].nesting === 1 ? `<div class="vp-raw">\n` : `</div>\n`,
   })
 
   const languages = containerOptions.languages || ['zh-CN', 'en']
   languages.forEach((lang) => {
-    md.use(container, lang, {
+    md.use(containerCompat, lang, {
       render: (tokens: Token[], idx: number) =>
         tokens[idx].nesting === 1 ? `<div lang="${lang}">\n` : '</div>\n',
     })
@@ -117,9 +124,9 @@ export function containerPlugin(md: MarkdownItAsync, containerOptions: Container
   md.use(...createCodeGroup(md))
 }
 
-function createCodeGroup(md: MarkdownItAsync): ContainerArgs {
+function createCodeGroup(md: MarkdownRenderer): ContainerArgs {
   return [
-    container,
+    containerCompat,
     'code-group',
     {
       render(tokens, idx) {
