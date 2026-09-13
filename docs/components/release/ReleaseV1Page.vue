@@ -21,7 +21,8 @@ const prefix = computed(() => props.locale === 'zh' ? '/zh' : '')
     <header class="release-nav">
       <div class="release-nav-inner">
         <RouterLink class="release-brand" :to="`${prefix}/`" :aria-label="copy.nav.home">
-          <img src="/valaxy-logo.png" alt="" width="24" height="24"> Valaxy <span>1.0</span>
+          <img src="/valaxy-logo.png" alt="" width="24" height="24">
+          <span class="release-brand-name">Valaxy</span><span class="release-brand-version">1.0</span>
         </RouterLink>
         <nav class="release-links" aria-label="Valaxy 1.0">
           <a class="release-nav-extra" href="#highlights">{{ copy.nav.highlights }}</a>
@@ -82,7 +83,7 @@ const prefix = computed(() => props.locale === 'zh' ? '/zh' : '')
   letter-spacing: -0.6px;
 }
 
-.release-brand span {
+.release-brand-version {
   color: var(--release-muted);
   font-weight: 400;
 }

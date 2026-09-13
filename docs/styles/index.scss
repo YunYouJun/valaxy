@@ -12,6 +12,42 @@
   animation: fly 0.8s ease-in-out infinite alternate;
 }
 
+// Keep the documentation and release wordmarks visually consistent.
+.pr-navbar-title,
+.release-brand-name,
+h1.gradient-text {
+  background-image: linear-gradient(90deg, #7c3aed, #3b82f6, #7c3aed);
+  background-size: 200% 100%;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: transparent;
+}
+
+.pr-navbar-brand:hover,
+.release-page .release-brand:hover {
+  text-decoration: none;
+}
+
+.pr-navbar-brand:is(:hover, :focus-visible) .pr-navbar-title,
+.release-brand:is(:hover, :focus-visible) .release-brand-name,
+h1.gradient-text:hover {
+  animation: valaxy-brand-flow 2.4s linear infinite;
+}
+
+@keyframes valaxy-brand-flow {
+  to {
+    background-position: 200% center;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .pr-navbar-brand:is(:hover, :focus-visible) .pr-navbar-title,
+  .release-brand:is(:hover, :focus-visible) .release-brand-name,
+  h1.gradient-text:hover {
+    animation: none;
+  }
+}
+
 // Shared campaign tokens stay scoped to the standalone release surface.
 .release-page {
   --release-bg: #fff;
@@ -211,4 +247,3 @@
     scroll-behavior: auto !important;
   }
 }
-
