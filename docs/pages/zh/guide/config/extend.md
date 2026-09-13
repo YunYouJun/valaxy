@@ -48,7 +48,14 @@ export default defineValaxyConfig<ThemeConfig>({
 
   vite: {
     // https://vite-pwa-org.netlify.app/
-    plugins: [VitePWA()],
+    plugins: [
+      VitePWA({
+        workbox: {
+          // SSG 页面需要各自的 HTML，禁用 SPA 首页回退。
+          navigateFallback: null,
+        },
+      }),
+    ],
   },
 
   unocss: {
@@ -60,6 +67,8 @@ export default defineValaxyConfig<ThemeConfig>({
   ],
 })
 ```
+
+PWA 的 SSG 配置及已有 Service Worker 的更新、注销方式见 [使用 vite-plugin-pwa](/zh/guide/third-party/vite-vue#使用-vite-plugin-pwa)。
 
 ### Build {#build}
 

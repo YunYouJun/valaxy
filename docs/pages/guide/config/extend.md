@@ -48,7 +48,14 @@ export default defineValaxyConfig<ThemeConfig>({
 
   vite: {
     // https://vite-pwa-org.netlify.app/
-    plugins: [VitePWA()],
+    plugins: [
+      VitePWA({
+        workbox: {
+          // SSG pages need their own HTML; disable the SPA fallback.
+          navigateFallback: null,
+        },
+      }),
+    ],
   },
 
   unocss: {
@@ -60,6 +67,8 @@ export default defineValaxyConfig<ThemeConfig>({
   ],
 })
 ```
+
+See [Using vite-plugin-pwa](/guide/third-party/vite-vue#using-vite-plugin-pwa) for SSG configuration and updating or removing an existing service worker.
 
 ### Build
 
