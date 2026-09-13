@@ -21,13 +21,12 @@ function onClick() {
 
 <template>
   <button
-    class="yun-search-btn yun-icon-btn popup-trigger rounded-none! size-12 inline-flex justify-center items-center"
-    text="xl $va-c-text"
+    class="yun-search-btn yun-icon-btn yun-search-action popup-trigger"
     :title="t('menu.search')"
     @click="onClick"
   >
-    <div v-if="!open" i-ri-search-line op-80 hover="op-100" />
-    <div v-else text="!2xl" i-ri-close-line />
+    <div v-if="!open" i-ri-search-line aria-hidden="true" />
+    <div v-else i-ri-close-line aria-hidden="true" />
   </button>
 </template>
 

@@ -1,6 +1,4 @@
 <script setup lang="ts">
-// 播放完销毁 css 动画
-import { sleep } from 'valaxy'
 import { onMounted, ref } from 'vue'
 
 const props = defineProps<{
@@ -8,71 +6,71 @@ const props = defineProps<{
   duration: number
 }>()
 
-const destroy = ref(true)
-onMounted(async () => {
-  await sleep(props.delay)
-  destroy.value = false
-  await sleep(props.duration)
-  destroy.value = true
-})
+const active = ref(false)
+onMounted(() => active.value = true)
 </script>
 
 <template>
   <div
-    v-if="!destroy"
-    class="line-burst-effects absolute"
+    v-if="active"
+    class="line-burst-effects"
+    :style="{ '--burst-delay': `${props.delay}ms`, '--burst-duration': `${props.duration}ms` }"
+    aria-hidden="true"
+    @animationend="active = false"
   >
-    <div v-for="i in 8" :key="i" class="line">
-      <div>
-        <span />
-      </div>
+    <div v-for="i in 8" :key="i" class="burst-ray" :style="{ '--ray-angle': `${i * 45}deg` }">
+      <span />
     </div>
   </div>
 </template>
 
-<style lang="scss">
+<style lang="scss" scoped>
 .line-burst-effects {
-  .line {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+
+  .burst-ray {
     position: absolute;
-    top: 0;
-    left: calc(50% - 2px);
-    width: 4px;
-    height: 100%;
+    inset: 0;
+    transform: rotate(var(--ray-angle));
   }
 
-  @for $i from 1 through 8 {
-    .line:nth-child(#{$i}) {
-      transform: rotate($i * 45deg);
-
-      div {
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 20%;
-        overflow: hidden;
-      }
-
-      span {
-        display: block;
-        background-color: white;
-        content: '';
-        width: 100%;
-        height: 100%;
-        transform: translateY(100%);
-        animation: line-burst 0.8s forwards;
-      }
-    }
+  span {
+    position: absolute;
+    top: -5px;
+    left: calc(50% - 0.625px);
+    width: 1.25px;
+    height: 7px;
+    border-radius: 1px;
+    background: var(--yun-avatar-burst-color, var(--va-c-primary));
+    animation: line-burst var(--burst-duration) ease-out var(--burst-delay) both;
   }
 }
 
 @keyframes line-burst {
   0% {
-    transform: translateY(100%);
+    opacity: 0;
+    transform: translateY(0);
+  }
+
+  25% {
+    opacity: 0.35;
   }
 
   100% {
-    transform: translateY(-100%);
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .line-burst-effects {
+    display: none;
+  }
+
+  .line-burst-effects span {
+    animation: none;
   }
 }
 </style>

@@ -90,8 +90,8 @@ function excerpt(text: string = '') {
               ref="searchInput" v-model="input" type="search" autocomplete="off"
               :placeholder="zh ? '搜索文章…' : 'Search articles…'" :aria-label="zh ? '搜索文章' : 'Search articles'"
             >
-            <DialogClose class="yun-search-dismiss" :aria-label="zh ? '关闭搜索' : 'Close search'">
-              <span class="i-ri-close-line" aria-hidden="true" />
+            <DialogClose class="yun-search-dismiss yun-icon-btn yun-search-action" :aria-label="zh ? '关闭搜索' : 'Close search'">
+              <div class="i-ri-close-line" aria-hidden="true" />
             </DialogClose>
           </div>
           <div class="yun-search-status" role="status" aria-live="polite">
@@ -303,26 +303,8 @@ function excerpt(text: string = '') {
 
 .yun-search-dismiss {
   position: absolute;
-  top: max(12px, env(safe-area-inset-top));
-  right: max(16px, env(safe-area-inset-right));
-  display: grid;
-  place-items: center;
-  width: 44px;
-  height: 44px;
-  border: 0;
-  border-radius: 50%;
-  background: transparent;
-  color: var(--search-muted);
-
-  &:hover {
-    background: var(--search-selection);
-    color: var(--va-c-text);
-  }
-
-  span {
-    width: 28px;
-    height: 28px;
-  }
+  top: calc((var(--yun-nav-height, 50px) - 3rem) / 2);
+  right: 0;
 }
 
 .yun-search-status {

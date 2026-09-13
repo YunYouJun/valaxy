@@ -29,3 +29,17 @@
   outline: 2px solid var(--yun-focus-color);
   outline-offset: 3px;
 }
+
+// Opening and closing search occupy the same navigation button slot.
+.yun-search-action {
+  border-radius: 0;
+  color: var(--va-c-text);
+
+  > div {
+    opacity: 0.8;
+  }
+
+  &:hover > div {
+    opacity: 1;
+  }
+}

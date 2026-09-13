@@ -34,17 +34,17 @@ const grouped = computed(() => themeConfig.value.banner?.prologue === 'grouped')
       >
         <div
           flex="~ col"
-          class="yun-square square-rotate z-1 bg-white/80"
+          class="yun-square square-rotate z-1"
         >
           <LineBurstEffects
-            class="absolute top-0 left-0 right-0 bottom-0 size-full scale-200"
+            class="size-full"
             :delay="200"
-            :duration="400"
+            :duration="500"
           />
           <Transition
             enter-from-class="op-0"
             enter-to-class="op-100"
-            enter-active-class="transition-400 delay-400"
+            enter-active-class="transition-400 delay-200"
             appear
           >
             <YunAuthorAvatar />
@@ -102,11 +102,12 @@ const grouped = computed(() => themeConfig.value.banner?.prologue === 'grouped')
 
 <style lang="scss" scoped>
 // use scoped for css injection
-@use 'sass:map';
-@use 'valaxy-theme-yun/styles/vars.scss' as *;
 
 .yun-square {
-  transition: all 0.8s map.get($cubic-bezier, 'ease-in');
+  --yun-avatar-burst-color: color-mix(in srgb, var(--va-c-primary) 65%, var(--va-c-text));
+
+  background: var(--va-c-bg-soft);
+  transition: opacity 640ms var(--yun-reveal-ease), transform 640ms var(--yun-reveal-ease);
   border-radius: 50%;
   transform: rotate(0deg) translateY(0%);
   width: var(--avatar-size);
@@ -114,17 +115,18 @@ const grouped = computed(() => themeConfig.value.banner?.prologue === 'grouped')
   box-shadow: 0 5px 100px rgb(0 0 0 / 0.15);
 
   &.enter-from {
-    border-radius: 0%;
+    opacity: 0;
 
     // width: var(--total-char-height);
     // height: var(--total-char-height);
-    transform: rotate(135deg) translateY(0%);
+    transform: translateY(20px) rotate(-6deg);
     box-shadow: none;
   }
 }
 
 .yun-square-container {
   --avatar-size: 100px;
+  --yun-reveal-ease: cubic-bezier(0.22, 1, 0.36, 1);
 
   .info-with-avatar {
     position: relative;
@@ -136,16 +138,29 @@ const grouped = computed(() => themeConfig.value.banner?.prologue === 'grouped')
 
   .info {
     position: relative;
-    opacity: 0;
-    transform: translateY(0);
-    transition: all 0.8s map.get($cubic-bezier, 'ease-in');
+    visibility: hidden;
+
+    > * {
+      opacity: 0;
+      transform: translateY(18px);
+      transition: opacity 640ms var(--yun-reveal-ease), transform 720ms var(--yun-reveal-ease);
+      transition-delay: var(--yun-reveal-delay, 0ms);
+    }
+
+    .prologue-introduction { --yun-reveal-delay: 70ms; }
+    .prologue-social { --yun-reveal-delay: 140ms; }
+    .prologue-navigation { --yun-reveal-delay: 210ms; }
 
     &.show {
-      opacity: 1;
+      visibility: visible;
 
-      // transform: translateY(calc(50% + var(--avatar-size) / 2));
+      > * {
+        opacity: 1;
+        transform: none;
+      }
     }
   }
+
 }
 
 .yun-square-container.is-grouped {
@@ -159,6 +174,26 @@ const grouped = computed(() => themeConfig.value.banner?.prologue === 'grouped')
 
   .prologue-navigation {
     margin-top: 32px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .yun-square,
+  .yun-square.enter-from {
+    transform: none;
+    border-radius: 50%;
+    transition: opacity 150ms ease;
+  }
+
+  .yun-square :deep(.yun-author-avatar) {
+    transition-delay: 0ms;
+    transition-duration: 150ms;
+  }
+
+  .info-with-avatar,
+  .yun-square-container .info > * {
+    transform: none;
+    transition: opacity 150ms ease;
   }
 }
 </style>
