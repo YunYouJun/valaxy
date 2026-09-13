@@ -31,7 +31,7 @@ const { hasLocales, availableLocales, currentLocale, currentLocaleKey, getLocale
       </button>
     </DropdownMenuTrigger>
 
-    <DropdownMenuPortal>
+    <DropdownMenuPortal to="#valaxy-teleports">
       <DropdownMenuContent
         class="press-locale-menu-content"
         align="center"

@@ -172,3 +172,19 @@ Avoid using `v-if` with reactive viewport values for responsive layouts — this
 - Never access `window`, `document`, or `navigator` at the top level of a `<script setup>` block — move it into `onMounted`.
 - If a library provides a server-safe build (e.g., `import lib from 'lib/dist/ssr'`), prefer that over wrapping with `<ClientOnly>`.
 - Use `import.meta.env.SSR` for conditional side effects in composables.
+
+## Teleport overlays
+
+Valaxy provides a dedicated `#valaxy-teleports` container outside the application root in both development and SSG. Themes and addons should target it for dialogs and menus:
+
+```vue
+<Teleport to="#valaxy-teleports">
+  <div v-if="open" role="dialog">Dialog content</div>
+</Teleport>
+```
+
+Pass `to="#valaxy-teleports"` to Reka UI components such as `DropdownMenuPortal` and `TooltipPortal` as well. The framework HTML template owns this container; do not recreate it inside the Vue application. SSG injects rendered portal content and hydration anchors inside it.
+
+Legacy `to="body"` portals retain compatibility handling, but new code should use the dedicated container to avoid mixing with application DOM. See [Vue SSR Teleports](https://vuejs.org/guide/scaling-up/ssr.html#teleports). Third-party overlays created only after client mounting do not participate in SSR Teleport hydration.
+
+For production regression checks, run `pnpm docs:build` followed by `pnpm e2e:ssg`. These tests use the production preview and cover repeated route changes and overlay opening/closing on desktop and mobile.

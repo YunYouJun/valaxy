@@ -144,7 +144,7 @@ function onSelect(key: string) {
           <div i-ri-arrow-down-s-line />
         </button>
       </DropdownMenuTrigger>
-      <DropdownMenuPortal>
+      <DropdownMenuPortal to="#valaxy-teleports">
         <DropdownMenuContent class="press-dropdown-menu-content" :side-offset="4" align="end">
           <template v-for="(item, index) in menuItems" :key="`${item.key}-${index}`">
             <DropdownMenuSeparator v-if="item.key.startsWith('separator')" class="press-dropdown-menu-separator" />

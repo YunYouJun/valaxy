@@ -172,3 +172,19 @@ if (!import.meta.env.SSR) {
 - 永远不要在 `<script setup>` 块的顶层访问 `window`、`document` 或 `navigator`——将其移到 `onMounted` 中。
 - 如果库提供服务端安全的构建版本（例如 `import lib from 'lib/dist/ssr'`），优先使用它而不是用 `<ClientOnly>` 包裹。
 - 在 composables 中使用 `import.meta.env.SSR` 来处理条件副作用。
+
+## Teleport 弹层
+
+Valaxy 在应用根节点外提供独立的 `#valaxy-teleports` 容器，开发模式与 SSG 均可使用。主题和插件的弹窗、菜单应指定此目标：
+
+```vue
+<Teleport to="#valaxy-teleports">
+  <div v-if="open" role="dialog">弹窗内容</div>
+</Teleport>
+```
+
+Reka UI 的 `DropdownMenuPortal`、`TooltipPortal` 等组件同样传入 `to="#valaxy-teleports"`。容器由框架 HTML 模板提供，不要在 Vue 应用内部重复创建。SSG 会将服务端生成的弹层内容和水合占位节点注入容器内部。
+
+旧插件的 `to="body"` 保留兼容处理，但新代码应使用独立容器，避免与应用 DOM 混合；参见 [Vue SSR Teleports](https://cn.vuejs.org/guide/scaling-up/ssr.html#teleports)。只在客户端挂载后创建 DOM 的第三方弹窗不参与 SSR Teleport 水合。
+
+生产回归检查：先运行 `pnpm docs:build`，再运行 `pnpm e2e:ssg`。测试使用生产预览，覆盖桌面和手机上的连续路由切换与弹层开关。

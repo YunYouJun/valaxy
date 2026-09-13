@@ -44,7 +44,7 @@ defineSlots<{
     <DropdownMenuTrigger as-child>
       <slot name="trigger" />
     </DropdownMenuTrigger>
-    <DropdownMenuPortal>
+    <DropdownMenuPortal to="#valaxy-teleports">
       <DropdownMenuContent class="yun-dropdown-menu-content" :side-offset="sideOffset" :align="align">
         <template v-for="(item, index) in items" :key="`${item.key}-${index}`">
           <DropdownMenuSeparator v-if="item.key === 'separator'" class="yun-dropdown-menu-separator" />

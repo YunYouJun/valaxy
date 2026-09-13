@@ -64,7 +64,13 @@ export async function renderPage(opts: RenderPageOptions) {
   // Handle teleported content
   if (result.teleports) {
     for (const [target, content] of Object.entries(result.teleports)) {
-      if (target === 'head') {
+      if (target === '#valaxy-teleports') {
+        const container = '<div id="valaxy-teleports"></div>'
+        if (!html.includes(container))
+          throw new Error('Missing #valaxy-teleports container in the HTML template')
+        html = html.replace(container, () => `<div id="valaxy-teleports">${content}</div>`)
+      }
+      else if (target === 'head') {
         html = html.replace('</head>', `${content}\n</head>`)
       }
       else if (target === 'body') {

@@ -55,7 +55,7 @@ function getResultKey(title: string | Record<string, string>): string {
 </script>
 
 <template>
-  <Teleport to="body">
+  <Teleport to="#valaxy-teleports">
     <Transition
       name="modal"
       @enter="isLocked = true"

@@ -22,7 +22,7 @@ withDefaults(defineProps<{
     <TooltipTrigger as-child>
       <slot />
     </TooltipTrigger>
-    <TooltipPortal>
+    <TooltipPortal to="#valaxy-teleports">
       <TooltipContent
         class="yun-tooltip"
         :side="side"

@@ -4,6 +4,34 @@ import { join } from 'node:path'
 import { describe, expect, it } from 'vitest'
 import { renderPage, renderPreloadLinks, routeToFileName, serializeState } from '../../packages/valaxy/node/build/render'
 
+it('injects shared portal content inside its dedicated container', async () => {
+  const outDir = await mkdtemp(join(tmpdir(), 'valaxy-portals-'))
+  const content = '<!--teleport start anchor--><div role="dialog">$&</div><!--teleport anchor-->'
+  const options = {
+    route: '/',
+    template: '<html><head></head><body><div id="app"></div><div id="valaxy-teleports"></div></body></html>',
+    outDir,
+    ssrManifest: {},
+    render: async () => ({
+      html: '<main>App</main>',
+      head: undefined,
+      initialState: {},
+      teleports: { '#valaxy-teleports': content },
+    }),
+  }
+  try {
+    await renderPage(options)
+    const html = await readFile(join(outDir, 'index.html'), 'utf-8')
+    expect(html).toContain(`<div id="app"><main>App</main></div><div id="valaxy-teleports">${content}</div>`)
+    await expect(renderPage({ ...options, template: '<body><div id="app"></div></body>' }))
+      .rejects
+      .toThrow('Missing #valaxy-teleports container')
+  }
+  finally {
+    await rm(outDir, { recursive: true, force: true })
+  }
+})
+
 it('places body teleport anchors before the app for disabled teleport hydration', async () => {
   const outDir = await mkdtemp(join(tmpdir(), 'valaxy-teleport-'))
   const anchors = '<!--teleport start anchor--><!--teleport anchor-->'

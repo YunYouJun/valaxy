@@ -30,7 +30,7 @@ watch(() => props.open, (val) => {
 </script>
 
 <template>
-  <Teleport to="body">
+  <Teleport to="#valaxy-teleports">
     <Transition
       name="modal"
       @enter="isLocked = true"
