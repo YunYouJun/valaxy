@@ -1,5 +1,32 @@
+import { mkdtemp, readFile, rm } from 'node:fs/promises'
+import { tmpdir } from 'node:os'
+import { join } from 'node:path'
 import { describe, expect, it } from 'vitest'
-import { renderPreloadLinks, routeToFileName, serializeState } from '../../packages/valaxy/node/build/render'
+import { renderPage, renderPreloadLinks, routeToFileName, serializeState } from '../../packages/valaxy/node/build/render'
+
+it('places body teleport anchors before the app for disabled teleport hydration', async () => {
+  const outDir = await mkdtemp(join(tmpdir(), 'valaxy-teleport-'))
+  const anchors = '<!--teleport start anchor--><!--teleport anchor-->'
+  try {
+    await renderPage({
+      route: '/',
+      template: '<html><head></head><body class="test"><div id="app"></div></body></html>',
+      outDir,
+      ssrManifest: {},
+      render: async () => ({
+        html: '<main>Release</main>',
+        head: undefined,
+        initialState: {},
+        teleports: { body: anchors },
+      }),
+    })
+    const html = await readFile(join(outDir, 'index.html'), 'utf-8')
+    expect(html).toContain(`<body class="test">${anchors}<div id="app"><main>Release</main></div>`)
+  }
+  finally {
+    await rm(outDir, { recursive: true, force: true })
+  }
+})
 
 describe('routeToFileName', () => {
   it('converts root / to index.html', () => {

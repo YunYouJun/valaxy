@@ -68,7 +68,9 @@ export async function renderPage(opts: RenderPageOptions) {
         html = html.replace('</head>', `${content}\n</head>`)
       }
       else if (target === 'body') {
-        html = html.replace('</body>', `${content}\n</body>`)
+        // Disabled Teleports hydrate from the target's first child. Keep their
+        // anchors before #app so unmounting a portal cannot remove the app root.
+        html = html.replace(/<body\b[^>]*>/, match => `${match}${content}`)
       }
       else {
         // Custom teleport targets (e.g. #modal-root) can't be resolved
