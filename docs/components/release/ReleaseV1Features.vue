@@ -2,7 +2,11 @@
 import type { ReleaseCopy } from '../../data/release-v1'
 
 defineProps<{ copy: ReleaseCopy['engine'], prefix: string }>()
-const stages = ['Markdown', 'Vue SSR', 'HTML']
+const stages = [
+  { name: 'Markdown', icon: 'i-logos-markdown?mask' },
+  { name: 'Vue SSR', icon: 'i-logos-vue' },
+  { name: 'HTML', icon: 'i-vscode-icons-file-type-html' },
+]
 </script>
 
 <template>
@@ -17,9 +21,9 @@ const stages = ['Markdown', 'Vue SSR', 'HTML']
           </p>
         </div>
         <ol class="engine-pipeline">
-          <li v-for="(stage, index) in stages" :key="stage">
-            <span class="pipeline-symbol" :class="{ 'vue-symbol': index === 1 }" aria-hidden="true">{{ ['↓', 'V', '⟨/⟩'][index] }}</span>
-            <strong>{{ stage }}</strong><span>{{ copy.pipeline[index] }}</span>
+          <li v-for="(stage, index) in stages" :key="stage.name">
+            <span class="pipeline-symbol" aria-hidden="true"><span :class="stage.icon" /></span>
+            <strong>{{ stage.name }}</strong><span>{{ copy.pipeline[index] }}</span>
           </li>
         </ol>
       </div>
@@ -97,13 +101,11 @@ const stages = ['Markdown', 'Vue SSR', 'HTML']
   display: grid;
   place-items: center;
   font-size: 55px;
-  font-weight: 300;
   color: #b5b5be;
 }
 
-.pipeline-symbol.vue-symbol {
-  color: #42b883;
-  font-weight: 800;
+.pipeline-symbol > span {
+  display: block;
 }
 
 .engine-pipeline strong {
