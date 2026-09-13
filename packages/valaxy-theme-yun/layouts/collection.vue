@@ -1,24 +1,7 @@
 <script setup lang="ts">
-import { useCollection } from 'valaxy'
-import { computed } from 'vue'
-import { useRoute } from 'vue-router'
+import { useYunCollection } from '../composables/collection'
 
-const { collection } = useCollection()
-const route = useRoute()
-
-const currentItemIndex = computed(() => {
-  if (!collection.value?.items)
-    return -1
-  const slug = route.path.split('/').pop()
-  return collection.value.items.findIndex((item) => {
-    if (item.key === slug)
-      return true
-    // Match internal link items against current route path
-    if (item.link && !(/^https?:\/\//).test(item.link) && item.link === route.path)
-      return true
-    return false
-  })
-})
+const { collection, currentIndex: currentItemIndex } = useYunCollection()
 </script>
 
 <template>
@@ -35,10 +18,11 @@ const currentItemIndex = computed(() => {
             :collection="collection"
             :current-index="currentItemIndex"
           />
-          <YunMainHeaderAfter />
+          <YunMainHeaderAfter v-if="currentItemIndex >= 0" />
+          <YunCollectionMobile />
         </template>
         <template #main-content-after>
-          <YunMainContentAfter />
+          <YunMainContentAfter v-if="currentItemIndex >= 0" />
         </template>
         <template #aside-custom>
           <slot name="aside-custom" />

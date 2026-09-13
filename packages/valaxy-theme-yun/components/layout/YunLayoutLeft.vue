@@ -1,8 +1,10 @@
 <script setup lang="ts">
 import { useFrontmatter } from 'valaxy'
 import { computed } from 'vue'
+import { useYunCollection } from '../../composables/collection'
 
 const fm = useFrontmatter()
+const { collection } = useYunCollection()
 
 /**
  * When frontmatter.sidebar is explicitly set to false, the sidebar is not rendered.
@@ -21,8 +23,11 @@ const sidebarExplicit = computed(() => {
     class="yun-layout-left gap-4 sticky top-$yun-margin-top w-80"
   >
     <slot>
-      <YunSidebarCard />
-      <YunAdBoard />
+      <YunCollectionSidebar v-if="collection" />
+      <template v-else>
+        <YunSidebarCard />
+        <YunAdBoard />
+      </template>
     </slot>
   </div>
 </template>

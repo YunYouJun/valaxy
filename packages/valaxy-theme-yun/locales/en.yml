@@ -1,6 +1,8 @@
 valaxy_theme_yun: Valaxy Theme Yun
 
 theme:
+  switchCollection: Switch collection
+  collectionContents: Collection contents
   docsSidebar: Documentation navigation
   outlineTitle: On this page
   toggleSection: Toggle {title}

@@ -153,6 +153,15 @@ export default defineCollection({
 })
 ```
 
+
+### Collection navigation in Yun
+
+Collection pages and existing posts referenced by `items.link` share a directory. When the site has multiple collections, a selector navigates to the selected collection home. A single collection needs no selector. On mobile, readers can expand the directory below the article header.
+
+Linked posts keep their original URLs and use collection order for previous/next navigation. Unrelated posts keep the profile sidebar. If a post belongs to multiple collections, the first membership in configuration order is used.
+
+Keep the `pages/collections/index.md` overview page: the directory links back to it.
+
 ## Implementing Layouts (Theme Developers)
 
 [valaxy-theme-yun](https://github.com/YunYouJun/valaxy/tree/main/packages/valaxy-theme-yun) supports the `collections` layout since `v0.25.9`.

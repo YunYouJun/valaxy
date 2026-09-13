@@ -3,7 +3,9 @@ import { defineArticle, useSchemaOrg } from '@unhead/schema-org/vue'
 
 import dayjs from 'dayjs'
 import { useFrontmatter, useSiteConfig, useValaxyI18n } from 'valaxy'
+import { useYunCollection } from '../composables/collection'
 
+const { collection, currentIndex } = useYunCollection()
 const siteConfig = useSiteConfig()
 const frontmatter = useFrontmatter()
 
@@ -39,10 +41,15 @@ useSchemaOrg(
       <component :is="Component">
         <template #main-header-after>
           <YunMainHeaderAfter />
+          <YunCollectionMobile />
         </template>
 
         <template #main-content-after>
           <YunMainContentAfter />
+        </template>
+
+        <template v-if="collection" #main-nav>
+          <YunCollectionPrevNext :collection="collection" :current-index="currentIndex" />
         </template>
 
         <template #aside-custom>

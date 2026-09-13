@@ -153,6 +153,15 @@ export default defineCollection({
 })
 ```
 
+
+### Yun 主题的合集导航
+
+合集页与通过 `items.link` 引用的普通文章共用合集目录。站点有多个合集时，目录顶部显示切换框，选择后进入对应合集首页；只有一个合集时不显示切换框。手机端在文章标题区提供可展开的合集目录。
+
+合集中的普通文章保留原 URL，并使用合集顺序进行上下篇导航；未归属合集的文章仍使用个人侧栏。同一文章属于多个合集时，默认使用配置顺序中的首个合集。
+
+请保留 `pages/collections/index.md` 总览页，目录底部的合集链接会跳转到这里。
+
 ## 实现布局（主题开发者） {#实现布局}
 
 [valaxy-theme-yun](https://github.com/YunYouJun/valaxy/tree/main/packages/valaxy-theme-yun) 自 `v0.25.9` 起支持 `collections` 布局。
