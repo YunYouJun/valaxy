@@ -50,6 +50,9 @@ export const defaultCodeTheme = { light: 'github-light', dark: 'github-dark' } a
 // These plugins only use markdown-it's stable structural plugin interface.
 // Their published declarations target markdown-it, while Valaxy's runtime uses
 // the compatible MarkdownExit implementation for async rendering.
+const cssI18nContainerCompat = cssI18nContainer as unknown as (md: MarkdownRenderer, options: Parameters<typeof cssI18nContainer>[1]) => void
+const attrsPluginCompat = attrsPlugin as unknown as (md: MarkdownRenderer, options: Parameters<typeof attrsPlugin>[1]) => void
+const groupIconMdPluginCompat = groupIconMdPlugin as unknown as (md: MarkdownRenderer, options: Parameters<typeof groupIconMdPlugin>[1]) => void
 const sfcPluginCompat = sfcPlugin as unknown as (md: MarkdownRenderer, options: SfcPluginOptions) => void
 const tocPluginCompat = tocPlugin as unknown as (md: MarkdownRenderer, options: TocPluginOptions) => void
 const emojiPluginCompat = emojiPlugin as unknown as (md: MarkdownRenderer) => void
@@ -128,7 +131,7 @@ export async function setupMarkdownPlugins(
         ...mdOptions.container?.blocks,
       },
     })
-    .use(cssI18nContainer, {
+    .use(cssI18nContainerCompat, {
       languages,
     })
     .use(
@@ -148,7 +151,7 @@ export async function setupMarkdownPlugins(
   // conflict with {% %}
   // 3rd party plugins
   if (!mdOptions.attrs?.disable)
-    md.use(attrsPlugin, mdOptions.attrs)
+    md.use(attrsPluginCompat, mdOptions.attrs)
 
   md.use(emojiPluginCompat)
     .use(footnotePluginCompat)
@@ -258,7 +261,7 @@ export async function setupMarkdownPlugins(
   // Save the fence rule before groupIconMdPlugin wraps it
   const fenceBeforeGroupIcon = md.renderer.rules.fence!
 
-  md.use(groupIconMdPlugin, {
+  md.use(groupIconMdPluginCompat, {
     titleBar: { includeSnippet: true },
   })
 

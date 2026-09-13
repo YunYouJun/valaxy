@@ -6,7 +6,7 @@ import type { SfcPluginOptions } from '@mdit-vue/plugin-sfc'
 import type { TocPluginOptions } from '@mdit-vue/plugin-toc'
 import type { KatexOptions } from 'katex'
 
-import type { StateCore, Token } from 'markdown-it'
+import type { StateCore, Token } from 'markdown-exit'
 
 import type {
   BuiltinTheme,

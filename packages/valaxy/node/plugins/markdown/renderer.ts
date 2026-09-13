@@ -1,5 +1,4 @@
-import type { MarkdownExit } from 'markdown-exit'
-import type { MarkdownItOptions } from 'markdown-it'
+import type { MarkdownExit, MarkdownExitOptions } from 'markdown-exit'
 import { createMarkdownExit } from 'markdown-exit'
 
 /**
@@ -9,7 +8,7 @@ import { createMarkdownExit } from 'markdown-exit'
  * search, and RSS share the same async rendering semantics.
  */
 export type MarkdownRenderer = MarkdownExit
-export interface MarkdownRendererOptions extends Omit<MarkdownItOptions, 'highlight'> {
+export interface MarkdownRendererOptions extends Omit<MarkdownExitOptions, 'highlight'> {
   highlight?: ((str: string, lang: string, attrs: string) => string | Promise<string>) | null
 }
 
