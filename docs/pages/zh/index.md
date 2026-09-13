@@ -59,6 +59,6 @@ features:
     details: features.electron.details
 ---
 
-<WorkInProgress />
+<ValaxyQuickStart />
 
 <ValaxySponsors />
