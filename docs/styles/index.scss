@@ -12,5 +12,203 @@
   animation: fly 0.8s ease-in-out infinite alternate;
 }
 
-// override
+// Shared campaign tokens stay scoped to the standalone release surface.
+.release-page {
+  --release-bg: #fff;
+  --release-text: #1d1d1f;
+  --release-surface: #fff;
+  --release-inset: #fafafa;
+  --release-nav: rgb(255 255 255 / 0.85);
+  --release-border: #e1e3e8;
+  --release-link: #0071e3;
+  --release-code: #356699;
+  --release-switch: #f0f0f3;
+  --release-title-gradient: linear-gradient(105deg, #0071e3, #5751ef 75%, #854bfa);
+  --release-version-gradient: linear-gradient(110deg, #b5d9fa, #b6b4f2 70%, #dcc8ff);
+  --release-art-gradient: linear-gradient(125deg, #dce9f8, #eef 55%, #e5d9fa);
+  --release-art-text: #7273ac;
+  --release-soft: #f5f5f7;
+  --release-muted: #6e6e73;
+  --release-line: #d2d2d740;
+
+  min-height: 100svh;
+  color: var(--release-text);
+  color-scheme: light;
+  background: var(--release-bg);
+  font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "PingFang SC", "Microsoft YaHei", sans-serif;
+  -webkit-font-smoothing: antialiased;
+
+  * {
+    box-sizing: border-box;
+  }
+
+  a {
+    color: inherit;
+    text-decoration: none;
+  }
+
+  button {
+    cursor: pointer;
+    font: inherit;
+  }
+
+  a:hover {
+    text-decoration: underline;
+    text-underline-offset: 4px;
+  }
+
+  :focus-visible {
+    outline: 3px solid #0071e3;
+    outline-offset: 5px;
+  }
+
+  section, main {
+    scroll-margin-top: 88px;
+  }
+
+  pre, code {
+    font-family: SFMono-Regular, Consolas, monospace;
+  }
+
+  .release-width {
+    max-width: 1180px;
+    margin-inline: auto;
+    padding-inline: 40px;
+  }
+
+  .release-heading {
+    font-size: clamp(34px, 3.5vw, 50px);
+    font-weight: 650;
+    line-height: 1.17;
+    letter-spacing: -0.045em;
+    margin: 0;
+    text-wrap: balance;
+  }
+
+  .release-heading > span {
+    display: block;
+  }
+
+  .release-description {
+    color: var(--release-muted);
+    font-size: 17px;
+    line-height: 1.85;
+    margin-top: 24px;
+  }
+
+  .release-gradient {
+    color: transparent;
+    background: var(--release-title-gradient);
+    background-clip: text;
+  }
+
+  .release-button {
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    padding: 13px 25px;
+    border-radius: 999px;
+    background: #0071e3;
+    color: white;
+    font-size: 15px;
+    line-height: 1.3;
+    transition: background 160ms;
+  }
+
+  .release-button:hover {
+    background: #0077ed;
+    text-decoration: none;
+  }
+
+  .release-text-link {
+    color: var(--release-link);
+    font-size: 15px;
+  }
+
+  .release-switch {
+    display: inline-flex;
+    border-radius: 999px;
+    background: var(--release-switch);
+    padding: 3px;
+  }
+
+  .release-switch button {
+    border-radius: 999px;
+    padding: 7px 18px;
+    color: var(--release-muted);
+    font-size: 12px;
+  }
+
+  .release-switch button[aria-pressed="true"] {
+    background: #0071e3;
+    color: white;
+  }
+}
+
+// Use Valaxy's root class so the initial color script and the app store agree.
+.dark .release-page {
+  --release-bg: #08090c;
+  --release-text: #f5f5f7;
+  --release-soft: #111216;
+  --release-surface: #1c1e25;
+  --release-inset: #17191f;
+  --release-nav: rgb(8 9 12 / 0.85);
+  --release-muted: #a9acb7;
+  --release-line: #34363f;
+  --release-border: #34363f;
+  --release-link: #80bfff;
+  --release-code: #a2c9f5;
+  --release-switch: #2b2d36;
+  --release-title-gradient: linear-gradient(105deg, #7abcff, #b1a3ff 75%, #d3acff);
+  --release-version-gradient: linear-gradient(110deg, #203d6b, #393477 70%, #613c80);
+  --release-art-gradient: linear-gradient(125deg, #25384c, #2d2e4d 55%, #413151);
+  --release-art-text: #c2bce9;
+
+  color-scheme: dark;
+}
+
+// Content remains visible in SSR and browsers without scroll-driven animations.
+@supports (animation-timeline: view()) {
+  @media (prefers-reduced-motion: no-preference) {
+    .release-page .release-reveal {
+      animation: release-enter linear both;
+      animation-timeline: view();
+      animation-range: entry 0% entry 22%;
+    }
+  }
+}
+
+@keyframes release-enter {
+  from {
+    opacity: 0.4;
+    transform: translateY(35px);
+  }
+
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@media (width <= 600px) {
+  .release-page .release-width {
+    padding-inline: 24px;
+  }
+
+  .release-page .release-description {
+    font-size: 15px;
+  }
+
+  .release-page .release-switch button {
+    padding: 7px 14px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .release-page *, .release-page *::before, .release-page *::after {
+    animation: none !important;
+    transition: none !important;
+    scroll-behavior: auto !important;
+  }
+}
 

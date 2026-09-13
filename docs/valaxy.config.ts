@@ -32,6 +32,11 @@ const safelist = [
   'i-ri-link',
   'i-ri-external-link-line',
   'i-ri-arrow-right-up-line',
+  'i-ri-arrow-right-line',
+  'i-ri-code-box-line',
+  'i-ri-layout-masonry-line',
+  'i-ri-puzzle-2-line',
+  'i-ri-rocket-2-line',
   'i-ri-bubble-chart-line',
   'i-ri-heart-3-line',
   'i-ri-layout-grid-line',
@@ -435,6 +440,10 @@ export default defineValaxyConfig<PressTheme.Config>({
         text: pkg.version,
         items: [
           {
+            text: 'Valaxy 1.0',
+            link: '/release/',
+          },
+          {
             text: 'Release Notes',
             link: 'https://github.com/YunYouJun/valaxy/releases',
           },
@@ -567,6 +576,10 @@ export default defineValaxyConfig<PressTheme.Config>({
             {
               text: pkg.version,
               items: [
+                {
+                  text: 'Valaxy 1.0',
+                  link: '/zh/release/',
+                },
                 {
                   text: 'Release Notes',
                   link: 'https://github.com/YunYouJun/valaxy/releases',
