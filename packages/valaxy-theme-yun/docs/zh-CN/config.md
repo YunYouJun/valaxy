@@ -138,3 +138,65 @@ import './vars.scss'
   --yun-sidebar-bg-img: url("https://cdn.yunyoujun.cn/img/bg/alpha-stars-timing-1.webp");
 }
 ```
+
+
+## 首页网格与文章外观
+
+Nimbo 首页网格支持渐隐与鼠标局部提亮，交互默认关闭。网格只覆盖首屏，装饰层不拦截链接；触屏和开启「减少动态效果」时保留静态网格。
+
+```ts [theme.config.ts]
+import { defineThemeConfig } from 'valaxy-theme-yun'
+
+export default defineThemeConfig({
+  banner: {
+    grid: { enable: true, fade: true, interactive: true },
+    prologue: 'grouped', // 可选：收紧介绍分组，保留简介上下两条柔和短线
+  },
+  postCard: {
+    excerptGradient: false,
+    titleClass: '', // 使用纯色标题；单篇文章的 postTitleClass 优先
+  },
+  navbar: { glass: 'always' },
+})
+```
+
+默认值：网格开启，`fade` / `interactive` 为 `false`；摘要渐隐开启；导航 `glass: 'scroll'`，滚动后显示磨砂。`grid.enable: false` 可关闭网格，Strato 不显示网格。标题方形动画和文章卡片缩放保留，减少动态效果时停用位移动画。
+
+通过 `styles/index.scss` 设置变量即可定制，不需要覆盖组件选择器：
+
+| 变量 | 默认值 / 用途 |
+| --- | --- |
+| `--yun-prologue-divider-color` | 首页简介上下横线，默认正文颜色；不影响绘制动画 |
+| `--yun-banner-divider-color` | 首屏底部分隔线，默认 `--banner-line-color`；不影响开场竖线 |
+| `--yun-prologue-divider-width` | grouped 排布的简介横线宽度，默认 `320px`，小屏自动缩小，两端渐隐 |
+| `--yun-grid-center-opacity` | 渐隐网格的中心透明度，默认 `1`；降低后内容区域更安静 |
+| `--yun-grid-size` | `40px`，网格间距 |
+| `--yun-grid-color` | 随明暗模式变化的静态线条颜色 |
+| `--yun-grid-highlight-color` | 使用主题色的局部提亮颜色 |
+| `--yun-grid-highlight-radius` | `220px`，提亮半径 |
+| `--yun-nav-bg-color` / `--yun-nav-solid` | 磨砂底色 / 不支持模糊时的实色底 |
+| `--yun-nav-blur` | `12px`，模糊强度 |
+| `--yun-nav-border-color` | `transparent`，导航底部分隔线 |
+| `--va-card-border-radius` | `0.5rem`，文章卡片圆角 |
+| `--yun-post-title-font-family` / `--yun-post-title-font-weight` | 主题衬线字体 / `900` |
+| `--yun-post-title-color` / `--yun-post-title-hover-color` | 纯色标题 / hover 颜色；文章类型颜色优先作为默认色 |
+| `--yun-post-title-letter-spacing` / `--yun-post-title-line-height` | `normal` / `1.5` |
+| `--yun-post-meta-color` | 元信息颜色，默认继承 |
+| `--yun-post-excerpt-color` / `--yun-post-excerpt-opacity` | 摘要颜色 / `0.9` |
+| `--yun-post-excerpt-line-height` / `--yun-prose-line-height` | 摘要 `1.7` / 正文 `1.8` |
+| `--yun-surface-line` | 文章卡片操作区分隔线 |
+| `--yun-focus-color` | 键盘焦点颜色，默认链接色 |
+| `--yun-say-color` / `--yun-say-font-weight` / `--yun-say-border-color` | 语录文字颜色、字重与分隔线颜色 |
+
+不同明暗配色可分别放在 `:root` 与 `html.dark` 下。主题不统一清除卡片边框或阴影；自定义组件仍可保留自己的材质。若之前用 `.pointer-events-none` 等工具类隐藏摘要遮罩，请改用 `postCard.excerptGradient: false` 并删除旧覆盖。
+
+`banner.prologue` 默认 `classic`，保留原有介绍区横线；`grouped` 使用更紧凑的介绍布局，并保留简介上下两条窄幅分隔线，社交链接与页面导航通过留白分组。两种排布均保留开场动画。
+
+
+## 本地 Fuse 搜索
+
+`siteConfig.search.provider: 'fuse'` 使用全屏磨砂搜索，保留宽胶囊输入框与衬线文字。结果以淡实线分隔，摘要最多两行。列表底部在仍有结果可滚动时显示 56px 渐变，滚到底或结果不足一屏时取消渐变，保证末条结果完整可读。
+
+弹层基于 Reka UI Dialog：提供无障碍标题和说明、自动聚焦、Tab 焦点循环、Esc 关闭与焦点返回。搜索支持方向键选择和 Enter 跳转，并包含加载失败重试、减少动态效果及减少透明度适配。
+
+搜索结果不展示内部索引或 Score。`refIndex` 是原数据索引，不是相关性分数；真正的 Fuse `score` 需要启用 `includeScore`，只建议用于排查搜索排序，不应解释为匹配百分比。
