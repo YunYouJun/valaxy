@@ -34,3 +34,6 @@ valaxy-blog
 .codebuddy/memory
 packages/**/.codebuddy/
 .claude/worktrees
+# Production browser regression artifacts
+playwright-report-ssg/
+test-results-ssg/

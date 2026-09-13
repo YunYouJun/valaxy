@@ -47,6 +47,21 @@ jobs:
       - name: Build Demo Dist
         run: pnpm run build:demo
 
+      - name: Build Docs SSG
+        run: pnpm run docs:build
+
+      - name: Test production navigation and portals
+        run: pnpm run e2e:ssg
+
+      - uses: actions/upload-artifact@v7
+        if: always()
+        with:
+          name: playwright-ssg-report
+          path: |
+            playwright-report-ssg/
+            test-results-ssg/
+          retention-days: 30
+
       - name: Run Playwright tests
         run: pnpm exec playwright test
 

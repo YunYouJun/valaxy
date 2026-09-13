@@ -55,6 +55,7 @@
     "docs:serve": "pnpm -C docs run serve",
     "docs:vitepress": "pnpm -C docs run vitepress:dev",
     "e2e": "playwright test",
+    "e2e:ssg": "playwright test --config playwright.ssg.config.ts",
     "e2e:ui": "playwright test --ui",
     "e2e:report": "playwright show-report",
     "link:dev": "pnpm -C packages/valaxy link --global",
