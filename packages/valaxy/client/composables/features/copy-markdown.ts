@@ -1,10 +1,11 @@
 import { isClient, useClipboard } from '@vueuse/core'
 import { computed, ref, watchEffect } from 'vue'
 import { useRoute } from 'vue-router'
+import { useSiteConfig } from '../../config'
 
 /**
  * Composable for copying raw Markdown content of the current post.
- * Requires `siteConfig.llms.files: true` to have .md files available at build output.
+ * Requires `siteConfig.llms.enable: true` and `siteConfig.llms.files: true` to have .md files available at build output.
  *
  * The `available` ref is initially `false` and becomes `true` after a HEAD request
  * confirms the `.md` file exists. This allows themes to conditionally render
@@ -26,6 +27,7 @@ import { useRoute } from 'vue-router'
  */
 export function useCopyMarkdown() {
   const route = useRoute()
+  const siteConfig = useSiteConfig()
   const copied = ref(false)
   const loading = ref(false)
   const available = ref(false)
@@ -39,14 +41,26 @@ export function useCopyMarkdown() {
     return `${p}.md`
   })
 
-  // Probe the .md file to detect availability (siteConfig.llms.files enabled at build time)
+  // Only probe when raw Markdown output is enabled.
   if (isClient) {
-    watchEffect(() => {
+    watchEffect((onCleanup) => {
       available.value = false
       error.value = null
-      fetch(mdUrl.value, { method: 'HEAD' })
-        .then((res) => { available.value = res.ok })
-        .catch(() => { available.value = false })
+      if (!siteConfig.value.llms.enable || !siteConfig.value.llms.files)
+        return
+
+      const controller = new AbortController()
+      onCleanup(() => controller.abort())
+
+      fetch(mdUrl.value, { method: 'HEAD', signal: controller.signal })
+        .then((res) => {
+          if (!controller.signal.aborted)
+            available.value = res.ok
+        })
+        .catch(() => {
+          if (!controller.signal.aborted)
+            available.value = false
+        })
     })
   }
 
