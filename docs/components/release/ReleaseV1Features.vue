@@ -22,7 +22,10 @@ const stages = [
         </div>
         <ol class="engine-pipeline">
           <li v-for="(stage, index) in stages" :key="stage.name">
-            <span class="pipeline-symbol" aria-hidden="true"><span :class="stage.icon" /></span>
+            <span class="pipeline-symbol" aria-hidden="true">
+              <span :class="stage.icon" />
+              <span v-if="index < stages.length - 1" class="pipeline-arrow i-ri-arrow-right-line" />
+            </span>
             <strong>{{ stage.name }}</strong><span>{{ copy.pipeline[index] }}</span>
           </li>
         </ol>
@@ -73,11 +76,14 @@ const stages = [
 }
 
 .engine-pipeline {
-  display: flex;
+  --pipeline-gap: 28px;
+
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
   list-style: none;
-  justify-content: space-between;
   padding: 0;
-  gap: 28px;
+  gap: var(--pipeline-gap);
+  text-align: center;
 }
 
 .engine-pipeline li {
@@ -85,20 +91,14 @@ const stages = [
   flex-direction: column;
   align-items: center;
   gap: 14px;
-  position: relative;
-}
-
-.engine-pipeline li:not(:last-child)::after {
-  content: '→';
-  position: absolute;
-  left: calc(100% + 10px);
-  top: 32px;
-  color: #737379;
 }
 
 .pipeline-symbol {
+  position: relative;
+  width: 100%;
   height: 80px;
   display: grid;
+  grid-template-columns: minmax(0, 1fr);
   place-items: center;
   font-size: 55px;
   color: #b5b5be;
@@ -106,6 +106,16 @@ const stages = [
 
 .pipeline-symbol > span {
   display: block;
+  max-width: 100%;
+}
+
+.pipeline-arrow {
+  position: absolute;
+  left: calc(100% + var(--pipeline-gap) / 2);
+  top: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 16px;
+  color: #737379;
 }
 
 .engine-pipeline strong {
@@ -231,11 +241,7 @@ const stages = [
   }
 
   .engine-pipeline {
-    gap: 20px;
-  }
-
-  .engine-pipeline li:not(:last-child)::after {
-    left: calc(100% + 5px);
+    --pipeline-gap: 20px;
   }
 
   .engine-pipeline li > span:last-child {
