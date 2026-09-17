@@ -47,6 +47,10 @@
 
 .vp-doc {
   .markdown-body {
+    code:not(pre > code) {
+      overflow-wrap: anywhere;
+    }
+
     a {
       text-decoration: inherit;
       transition: all var(--va-transition-duration-moderate);

@@ -230,6 +230,7 @@ onContentUpdated(() => {
 
 .aside-curtain {
   position: fixed;
+  right: 0;
   bottom: 0;
   z-index: 10;
   width: 100%;
