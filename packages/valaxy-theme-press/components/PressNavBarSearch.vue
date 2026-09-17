@@ -18,7 +18,7 @@ const showAskAi = computed(() => {
   if (!isAlgolia.value)
     return false
   const askAi = algoliaAddonConfig.value?.options?.askAi
-  return !!askAi
+  return typeof askAi === 'string' ? !!askAi : !!askAi?.agentId
 })
 
 const PressAlgoliaSearch = isAlgolia.value

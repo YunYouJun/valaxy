@@ -3,7 +3,7 @@ import type { InlineConfig, Plugin, PluginOption } from 'vite'
 import type { ValaxyNode, ValaxyServerOptions } from '../types'
 import VueI18n from '@intlify/unplugin-vue-i18n/vite'
 
-import UnheadVite from '@unhead/addons/vite'
+import { Unhead as UnheadVite } from '@unhead/bundler/vite'
 
 import { consola } from 'consola'
 import { resolve } from 'pathe'

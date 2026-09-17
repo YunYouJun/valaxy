@@ -1,5 +1,5 @@
 import type matter from 'gray-matter'
-import yaml, { CORE_SCHEMA } from 'js-yaml'
+import { CORE_SCHEMA, dump, load } from 'js-yaml'
 import { EXCERPT_SEPARATOR } from '../../../constants'
 
 type GrayMatterOptions = matter.GrayMatterOption<string, GrayMatterOptions>
@@ -12,8 +12,8 @@ export const matterOptions: GrayMatterOptions = {
   engines: {
     yaml: {
       // Use the CORE_SCHEMA with more basic support to manually handle time (#409)
-      parse: (str: string) => yaml.load(str, { schema: CORE_SCHEMA }) as object,
-      stringify: (data: any) => yaml.dump(data),
+      parse: (str: string) => load(str, { schema: CORE_SCHEMA }) as object,
+      stringify: (data: any) => dump(data),
     },
   },
 }

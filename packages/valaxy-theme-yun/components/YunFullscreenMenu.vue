@@ -1,16 +1,13 @@
 <script setup lang="ts">
-import { ref } from 'vue'
 import { useYunAppStore } from '../stores'
 
 const yunApp = useYunAppStore()
-const fullscreenMenuRef = ref<HTMLElement>()
 </script>
 
 <template>
   <Transition name="slide-left">
     <div
       v-if="yunApp.fullscreenMenu.isOpen"
-      ref="fullscreenMenuRef"
       p="t-12 md:t-20"
       class="yun-fullscreen-menu fixed left-0 right-0 bottom-0 top-0 bg-$va-c-bg-soft z-$yun-z-fullscreen-menu overflow-auto max-w-md shadow-2xl"
     >

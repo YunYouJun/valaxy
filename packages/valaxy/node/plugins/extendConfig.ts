@@ -8,6 +8,15 @@ import { getIndexHtml } from '../common'
 import { isKatexPluginNeeded } from '../config/valaxy'
 import { isInstalledGlobally, resolveImportPath, toAtFS } from '../utils'
 
+const DEVTOOLS_SEARCH_SHORTCUT_GUARD = `window.addEventListener('keydown', function (event) {
+  if (event.key.toLowerCase() !== 'k' || (!event.ctrlKey && !event.metaKey)) return
+  const searchTrigger = document.querySelector('[data-valaxy-search-trigger]')
+  if (!searchTrigger) return
+  event.preventDefault()
+  event.stopImmediatePropagation()
+  searchTrigger.click()
+}, { capture: true })`
+
 /**
  * dependencies used by client
  */
@@ -173,12 +182,14 @@ export function createConfigPlugin(options: ResolvedValaxyOptions): Plugin {
       return injection
     },
 
-    async transformIndexHtml(html) {
+    async transformIndexHtml(html, ctx) {
       // console.log(toAtFS(options.clientRoot))
       html = await getIndexHtml(options, html)
       return {
         html,
-        tags: [],
+        tags: ctx.server && options.config.devtools
+          ? [{ tag: 'script', children: DEVTOOLS_SEARCH_SHORTCUT_GUARD, injectTo: 'head-prepend' }]
+          : [],
       }
     },
   }

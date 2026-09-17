@@ -10,6 +10,7 @@ const siteConfig = useSiteConfig()
 const frontmatter = useFrontmatter()
 
 const { $t, $tO } = useValaxyI18n()
+const image = frontmatter.value.image || frontmatter.value.cover
 const article: Parameters<typeof defineArticle>[0] = {
   '@type': 'BlogPosting',
   'headline': $tO(frontmatter.value.title),
@@ -22,11 +23,8 @@ const article: Parameters<typeof defineArticle>[0] = {
   ],
   'datePublished': dayjs(frontmatter.value.date || '').toDate(),
   'dateModified': dayjs(frontmatter.value.updated || '').toDate(),
+  ...(image ? { image } : {}),
 }
-
-const image = frontmatter.value.image || frontmatter.value.cover
-if (image)
-  article.image = image
 
 useSchemaOrg(
   defineArticle(article),

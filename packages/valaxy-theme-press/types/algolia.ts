@@ -9,8 +9,8 @@
 export interface AlgoliaSearchOptions extends DocSearchProps {
   locales?: Record<string, Partial<DocSearchProps>>
   /**
-   * Configuration or assistant id to enable Ask AI mode.
-   * Pass a string (assistant id) or a full config object.
+   * Configuration or published Agent Studio agent ID to enable Ask AI mode.
+   * Pass a string (agent ID) or a full config object.
    * Omit to disable the Ask AI button entirely.
    */
   askAi?: AlgoliaAskAiOptions | string
@@ -23,11 +23,20 @@ export interface AlgoliaSearchOptions extends DocSearchProps {
 }
 
 export interface AlgoliaAskAiOptions {
-  assistantId: string
+  agentId: string
   appId?: string
   apiKey?: string
   indexName?: string
   suggestedQuestions?: boolean
+  /** Agent Studio search indices; defaults to indexName or the main search index. */
+  indices?: string[]
+  /** Agent Studio search overrides, keyed by index name. */
+  searchParameters?: Record<string, {
+    filters?: string
+    attributesToRetrieve?: string[]
+    restrictSearchableAttributes?: string[]
+    distinct?: boolean | number | string
+  }>
   sidePanel?: boolean | AlgoliaSidepanelOptions
 }
 

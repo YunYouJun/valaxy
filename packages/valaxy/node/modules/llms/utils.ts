@@ -4,7 +4,7 @@ import path from 'node:path'
 import { consola } from 'consola'
 import { colors } from 'consola/utils'
 import fs from 'fs-extra'
-import yaml from 'js-yaml'
+import * as yaml from 'js-yaml'
 import { tObject } from '../../../shared'
 import { SENSITIVE_FRONTMATTER_KEYS } from '../../../shared/constants'
 import { loadLocalesYml, nodeT } from '../../../shared/node/i18n'
@@ -303,7 +303,6 @@ export function formatMetadataHeader(post: LlmsPost): string {
 
   const yamlStr = yaml.dump(fm, {
     lineWidth: -1,
-    noCompatMode: true,
   }).trimEnd()
 
   return `---\n${yamlStr}\n---\n\n`

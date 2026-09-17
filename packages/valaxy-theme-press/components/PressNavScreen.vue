@@ -1,12 +1,10 @@
 <script setup lang="ts">
 import { isClient, useScrollLock } from '@vueuse/core'
-import { ref } from 'vue'
 
 defineProps<{
   open: boolean
 }>()
 
-const screen = ref<HTMLElement>()
 const isLocked = useScrollLock(isClient ? document.body : null)
 </script>
 
@@ -16,7 +14,7 @@ const isLocked = useScrollLock(isClient ? document.body : null)
     @enter="isLocked = true"
     @after-leave="isLocked = false"
   >
-    <div v-if="open" ref="screen" class="pr-NavScreen">
+    <div v-if="open" class="pr-NavScreen">
       <div class="container" flex="~ col">
         <slot name="nav-screen-content-before" />
         <PressNavScreenMenu class="menu" />

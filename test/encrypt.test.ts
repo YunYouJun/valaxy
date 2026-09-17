@@ -17,7 +17,7 @@ function getCryptoDeriveKey(keyMaterial: webcrypto.CryptoKey, salt: Uint8Array) 
   return webcrypto.subtle.deriveKey(
     {
       name: 'PBKDF2',
-      salt,
+      salt: Uint8Array.from(salt),
       iterations: 100000,
       hash: 'SHA-256',
     },
@@ -32,7 +32,7 @@ async function decrypt(pw: string, ciphertext: string, iv: Uint8Array, salt: Uin
   const keyMaterial = await getKeyMaterial(pw)
   const key = await getCryptoDeriveKey(keyMaterial, salt)
   const data = Uint8Array.from(ciphertext, c => c.charCodeAt(0))
-  const decrypted = await webcrypto.subtle.decrypt({ name: 'AES-CBC', iv }, key, data)
+  const decrypted = await webcrypto.subtle.decrypt({ name: 'AES-CBC', iv: Uint8Array.from(iv) }, key, data)
   return new TextDecoder().decode(decrypted)
 }
 

@@ -1,7 +1,9 @@
 <script setup lang="ts">
+import { useValaxyI18n } from 'valaxy'
 import { useYunAppStore } from '../stores'
 
 const yun = useYunAppStore()
+const { $t } = useValaxyI18n()
 </script>
 
 <template>

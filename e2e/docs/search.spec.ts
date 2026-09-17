@@ -44,10 +44,8 @@ test.describe('docs search', () => {
 
   test('Cmd/Ctrl+K opens search', async ({ page }) => {
     await page.goto('/', { waitUntil: 'domcontentloaded' })
-    // The Cmd/Ctrl+K handler is an `onKeyStroke` registered during the search
-    // component's setup, which only runs after `app.mount()`. Wait for the app
-    // to finish mounting/hydrating before pressing, otherwise the keystroke is
-    // lost (root cause of the previous flakiness).
+    // Wait until the search trigger exists before pressing the shortcut. The
+    // early DevTools conflict guard deliberately ignores pages without one.
     await waitForHydration(page)
 
     // Trigger Cmd+K (macOS) or Ctrl+K (Windows/Linux)
@@ -60,5 +58,9 @@ test.describe('docs search', () => {
     // the listener race that `waitForHydration` above already resolves).
     const modal = page.locator('.DocSearch-Modal')
     await expect(modal).toBeVisible({ timeout: 15000 })
+
+    // Vite DevTools also defaults to Mod+K. Valaxy's early shortcut guard
+    // must keep its command palette closed when a site search is available.
+    await expect(page.getByPlaceholder('Type a command...')).toBeHidden()
   })
 })

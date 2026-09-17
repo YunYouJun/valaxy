@@ -79,7 +79,7 @@
     "@intlify/unplugin-vue-i18n": "catalog:build",
     "@shikijs/transformers": "catalog:",
     "@types/katex": "catalog:",
-    "@unhead/addons": "catalog:build",
+    "@unhead/bundler": "catalog:build",
     "@unhead/schema-org": "catalog:build",
     "@unhead/vue": "catalog:build",
     "@valaxyjs/devtools": "workspace:*",

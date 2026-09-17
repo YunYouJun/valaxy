@@ -1,6 +1,15 @@
 import fs from 'fs-extra'
 import matter from 'gray-matter'
-import { JSON_SCHEMA } from 'js-yaml'
+import { dump, JSON_SCHEMA, load } from 'js-yaml'
+
+const matterOptions = {
+  engines: {
+    yaml: {
+      parse: (source: string) => load(source, { schema: JSON_SCHEMA }) as object,
+      stringify: (data: object) => dump(data, { schema: JSON_SCHEMA }),
+    },
+  },
+}
 
 /**
  * migration
@@ -10,7 +19,7 @@ import { JSON_SCHEMA } from 'js-yaml'
 export async function migration(path: string, frontmatter: { [key: string]: string }, validateFrontmatter: (data: Record<string, unknown>) => void = () => {}) {
   if (fs.existsSync(path)) {
     const rawMd = await fs.readFile(path, 'utf-8')
-    const matterFile = matter(rawMd, { schema: JSON_SCHEMA } as any)
+    const matterFile = matter(rawMd, matterOptions)
     let mod = false
     for (const key in frontmatter) {
       if (key in matterFile.data) {

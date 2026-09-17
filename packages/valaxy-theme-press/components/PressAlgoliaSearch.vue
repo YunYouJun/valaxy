@@ -1,9 +1,10 @@
 <script setup lang="ts">
-import type { DocSearchInstance, DocSearchProps } from '@docsearch/js'
+import type { DocSearchProps as DocSearchAIProps, DocSearchInstance } from '@docsearch/js'
+import type { DocSearchProps } from '@docsearch/js/docsearch'
 import type { SidepanelInstance, SidepanelProps } from '@docsearch/sidepanel-js'
 import type { AlgoliaSearchOptions } from '../types/algolia'
 import { useAddonConfig } from 'valaxy'
-import { nextTick, onUnmounted, watch } from 'vue'
+import { nextTick, onMounted, onUnmounted, watch } from 'vue'
 import { useRouter } from 'vue-router'
 
 import '../styles/docsearch.css'
@@ -19,27 +20,32 @@ const router = useRouter()
 
 const algoliaConfig = useAddonConfig<AlgoliaSearchOptions>('valaxy-addon-algolia')
 
-let cleanup = () => {}
 let docsearchInstance: DocSearchInstance | undefined
 let sidepanelInstance: SidepanelInstance | undefined
 let openOnReady: 'search' | 'askAi' | null = null
 let initializeCount = 0
-let docsearchLoader: Promise<typeof import('@docsearch/js')> | undefined
+let docsearchLoader: Promise<typeof import('@docsearch/js/docsearch')> | undefined
+let docsearchAiLoader: Promise<typeof import('@docsearch/js')> | undefined
 let sidepanelLoader: Promise<typeof import('@docsearch/sidepanel-js')> | undefined
 let lastFocusedElement: HTMLElement | null = null
 let skipEventDocsearch = false
 let skipEventSidepanel = false
 
-watch(
+onMounted(() => watch(
   () => algoliaConfig.value?.options,
   (options) => {
     if (options)
       update(options)
   },
   { immediate: true },
-)
+))
 
-onUnmounted(cleanup)
+onUnmounted(() => {
+  ++initializeCount
+  cleanup()
+  openOnReady = null
+  lastFocusedElement = null
+})
 
 watch(
   () => props.openRequest?.nonce,
@@ -84,11 +90,14 @@ watch(
 )
 
 async function update(options: AlgoliaSearchOptions) {
+  const currentInitialize = ++initializeCount
   await nextTick()
+  if (currentInitialize !== initializeCount)
+    return
 
-  // Normalize askAi: string -> { assistantId }
+  // Normalize askAi: string -> { agentId }
   const askAi = typeof options.askAi === 'string'
-    ? { assistantId: options.askAi }
+    ? { agentId: options.askAi }
     : options.askAi || undefined
 
   const appId = options.appId ?? askAi?.appId
@@ -109,15 +118,22 @@ async function initialize(userOptions: AlgoliaSearchOptions) {
   // Always tear down previous instances first
   cleanup()
 
-  const { askAi: _askAi, locales: _locales, mode: _mode, ...docSearchUserOptions } = userOptions
-  // Normalize askAi: string -> { assistantId }
-  const askAi = typeof _askAi === 'string'
-    ? { assistantId: _askAi }
+  const {
+    askAi: _askAi,
+    locales: _locales,
+    mode: _mode,
+    indexName,
+    searchParameters,
+    translations,
+    ...docSearchUserOptions
+  } = userOptions
+  // Normalize askAi: string -> { agentId }
+  const normalizedAskAi = typeof _askAi === 'string'
+    ? { agentId: _askAi }
     : _askAi || undefined
-
-  const { default: docsearch } = await loadDocsearch()
-  if (currentInitialize !== initializeCount)
-    return
+  const askAi = normalizedAskAi?.agentId ? normalizedAskAi : undefined
+  if (normalizedAskAi && !askAi)
+    console.warn('[valaxy-theme-press] Ask AI requires a published Agent Studio agentId. Migrate the legacy assistant in the Algolia dashboard.')
 
   // Initialize sidepanel if askAi.sidePanel is configured
   if (askAi?.sidePanel) {
@@ -130,10 +146,11 @@ async function initialize(userOptions: AlgoliaSearchOptions) {
     sidepanelInstance = sidepanel({
       ...sidePanelConfig,
       container: '#press-docsearch-sidepanel',
-      indexName: askAi.indexName ?? docSearchUserOptions.indexName,
       appId: askAi.appId ?? docSearchUserOptions.appId,
       apiKey: askAi.apiKey ?? docSearchUserOptions.apiKey,
-      assistantId: askAi.assistantId,
+      agentId: askAi.agentId,
+      indices: askAi.indices ?? [askAi.indexName ?? indexName],
+      searchParameters: askAi.searchParameters,
       onOpen: focusInput,
       onClose: onClose.bind(null, 'sidepanel'),
       onReady: () => {
@@ -149,8 +166,13 @@ async function initialize(userOptions: AlgoliaSearchOptions) {
   }
 
   const options: DocSearchProps = {
-    ...docSearchUserOptions as DocSearchProps,
+    ...docSearchUserOptions as Omit<DocSearchProps, 'container' | 'indices'>,
     container: '#press-docsearch',
+    indices: [{
+      name: indexName,
+      searchParameters: searchParameters as Exclude<DocSearchProps['indices'][number], string>['searchParameters'],
+    }],
+    translations: normalizeTranslations(translations),
     navigator: {
       navigate(item) {
         const { pathname, hash } = new URL(item.itemUrl, location.origin)
@@ -162,13 +184,6 @@ async function initialize(userOptions: AlgoliaSearchOptions) {
         ...item,
         url: getRelativePath(item.url),
       })),
-    // When sidepanel is enabled, intercept Ask AI events to open it instead
-    ...(sidepanelInstance && {
-      interceptAskAiEvent: (initialMessage: any) => {
-        onBeforeOpen('sidepanel', () => sidepanelInstance?.open(initialMessage))
-        return true
-      },
-    }),
     onOpen: focusInput,
     onClose: onClose.bind(null, 'docsearch'),
     onReady: () => {
@@ -187,16 +202,43 @@ async function initialize(userOptions: AlgoliaSearchOptions) {
     },
   }
 
-  docsearchInstance = docsearch(options)
+  if (askAi) {
+    const { default: docsearchAi } = await loadDocsearchAi()
+    if (currentInitialize !== initializeCount)
+      return
 
-  cleanup = () => {
-    docsearchInstance?.destroy()
-    sidepanelInstance?.destroy()
-    docsearchInstance = undefined
-    sidepanelInstance = undefined
-    openOnReady = null
-    lastFocusedElement = null
+    const aiOptions: DocSearchAIProps = {
+      ...options,
+      askAi: {
+        agentId: askAi.agentId,
+        appId: askAi.appId,
+        apiKey: askAi.apiKey,
+        indices: askAi.indices ?? [askAi.indexName ?? indexName],
+        searchParameters: askAi.searchParameters,
+        suggestedQuestions: askAi.suggestedQuestions,
+      },
+      ...(sidepanelInstance && {
+        interceptAskAiEvent: (initialMessage) => {
+          onBeforeOpen('sidepanel', () => sidepanelInstance?.open(initialMessage))
+          return true
+        },
+      }),
+    }
+    docsearchInstance = docsearchAi(aiOptions)
   }
+  else {
+    const { default: docsearch } = await loadDocsearch()
+    if (currentInitialize !== initializeCount)
+      return
+    docsearchInstance = docsearch(options)
+  }
+}
+
+function cleanup() {
+  docsearchInstance?.destroy()
+  sidepanelInstance?.destroy()
+  docsearchInstance = undefined
+  sidepanelInstance = undefined
 }
 
 function focusInput() {
@@ -253,14 +295,46 @@ function onClose(target: 'docsearch' | 'sidepanel') {
 
 function loadDocsearch() {
   if (!docsearchLoader)
-    docsearchLoader = import('@docsearch/js')
+    docsearchLoader = import('@docsearch/js/docsearch')
   return docsearchLoader
+}
+
+function loadDocsearchAi() {
+  if (!docsearchAiLoader)
+    docsearchAiLoader = import('@docsearch/js')
+  return docsearchAiLoader
 }
 
 function loadSidepanel() {
   if (!sidepanelLoader)
     sidepanelLoader = import('@docsearch/sidepanel-js')
   return sidepanelLoader
+}
+
+function normalizeTranslations(translations: AlgoliaSearchOptions['translations']): DocSearchProps['translations'] {
+  if (!translations)
+    return undefined
+
+  const modal = translations.modal as Record<string, any> | undefined
+  const searchBox = modal?.searchBox as Record<string, string> | undefined
+  const footer = modal?.footer as Record<string, string> | undefined
+  const { searchBox: _searchBox, footer: _footer, ...screenTranslations } = modal ?? {}
+  return {
+    button: translations.button,
+    modal: {
+      ...screenTranslations,
+      searchBox: searchBox && {
+        clearButtonTitle: searchBox.resetButtonTitle,
+        clearButtonAriaLabel: searchBox.resetButtonAriaLabel,
+        closeButtonText: searchBox.cancelButtonText,
+        closeButtonAriaLabel: searchBox.cancelButtonAriaLabel,
+      },
+      footer: footer && {
+        ...footer,
+        poweredByText: footer.searchByText,
+      },
+    },
+  }
 }
 
 function getRelativePath(url: string) {

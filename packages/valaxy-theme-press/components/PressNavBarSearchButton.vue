@@ -10,6 +10,7 @@ defineProps<{
   <button
     type="button"
     class="PressSearchButton"
+    data-valaxy-search-trigger
     :aria-label="ariaLabel || 'Search'"
     :aria-keyshortcuts="ariaKeyshortcuts"
   >

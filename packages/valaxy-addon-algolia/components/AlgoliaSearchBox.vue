@@ -1,7 +1,8 @@
 <script setup lang="ts">
+import type { DocSearchProps as DocSearchAIProps } from '@docsearch/js'
+import type { DocSearchInstance, DocSearchProps } from '@docsearch/js/docsearch'
 import type { AlgoliaSearchOptions } from '../types'
-import docsearch from '@docsearch/js'
-import { nextTick, onMounted, watch } from 'vue'
+import { nextTick, onMounted, onUnmounted, watch } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { useRouter } from 'vue-router'
 import { useAddonAlgoliaConfig } from '../client'
@@ -13,13 +14,28 @@ const algolia = useAddonAlgoliaConfig()
 
 const { locale } = useI18n()
 
-type DocSearchProps = Parameters<typeof docsearch>[0]
+type DocSearchIndex = Exclude<DocSearchProps['indices'][number], string>
 
-onMounted(update)
-watch(locale, update)
+let docsearchInstance: DocSearchInstance | undefined
+let initializeCount = 0
+
+onMounted(() => watch([locale, () => algolia.value?.options], update, { immediate: true, deep: true }))
+onUnmounted(() => {
+  ++initializeCount
+  docsearchInstance?.destroy()
+})
 
 async function update() {
+  const currentInitialize = ++initializeCount
   await nextTick()
+  if (currentInitialize !== initializeCount)
+    return
+
+  docsearchInstance?.destroy()
+  docsearchInstance = undefined
+  if (!algolia.value?.options)
+    return
+
   const options = {
     ...algolia.value!.options!,
     ...algolia.value!.options?.locales?.[locale.value],
@@ -35,20 +51,30 @@ async function update() {
   //   `lang:${lang.value}`,
   // ]
 
-  initialize({
+  await initialize({
     ...options,
     searchParameters: {
       ...options.searchParameters,
       // facetFilters,
     },
-  })
+  }, currentInitialize)
 }
 
-function initialize(userOptions: AlgoliaSearchOptions) {
-  // note: multi-lang search support is removed since the theme
-  // doesn't support multiple locales as of now.
-  const options = { ...userOptions, ...{
+async function initialize(userOptions: AlgoliaSearchOptions, currentInitialize: number) {
+  const { askAi: rawAskAi, locales: _locales, mode: _mode, indexName, searchParameters, translations, ...restOptions } = userOptions
+  const normalizedAskAi = typeof rawAskAi === 'string' ? { agentId: rawAskAi } : rawAskAi
+  const askAi = normalizedAskAi?.agentId ? normalizedAskAi : undefined
+  if (normalizedAskAi && !askAi)
+    console.warn('[valaxy-addon-algolia] Ask AI requires a published Agent Studio agentId. Migrate the legacy assistant in the Algolia dashboard.')
+
+  const options: DocSearchProps = {
+    ...restOptions,
     container: '#docsearch',
+    indices: [{
+      name: indexName,
+      searchParameters: searchParameters as DocSearchIndex['searchParameters'],
+    }],
+    translations: normalizeTranslations(translations),
 
     navigator: {
       navigate({ itemUrl }) {
@@ -62,9 +88,55 @@ function initialize(userOptions: AlgoliaSearchOptions) {
         } }
       })
     },
-  } } as DocSearchProps
+  }
 
-  docsearch(options)
+  if (askAi) {
+    const { default: docsearchAi } = await import('@docsearch/js')
+    if (currentInitialize !== initializeCount)
+      return
+
+    const aiOptions: DocSearchAIProps = {
+      ...options,
+      askAi: {
+        agentId: askAi.agentId,
+        appId: askAi.appId,
+        apiKey: askAi.apiKey,
+        indices: askAi.indices ?? [askAi.indexName ?? indexName],
+        searchParameters: askAi.searchParameters,
+        suggestedQuestions: askAi.suggestedQuestions,
+      },
+    }
+    docsearchInstance = docsearchAi(aiOptions)
+  }
+  else {
+    const { default: docsearch } = await import('@docsearch/js/docsearch')
+    if (currentInitialize !== initializeCount)
+      return
+    docsearchInstance = docsearch(options)
+  }
+}
+
+function normalizeTranslations(translations: AlgoliaSearchOptions['translations']): DocSearchProps['translations'] {
+  if (!translations)
+    return undefined
+
+  const { searchBox, footer, ...screenTranslations } = translations.modal ?? {}
+  return {
+    button: translations.button,
+    modal: {
+      ...screenTranslations,
+      searchBox: searchBox && {
+        clearButtonTitle: searchBox.resetButtonTitle,
+        clearButtonAriaLabel: searchBox.resetButtonAriaLabel,
+        closeButtonText: searchBox.cancelButtonText,
+        closeButtonAriaLabel: searchBox.cancelButtonAriaLabel,
+      },
+      footer: footer && {
+        ...footer,
+        poweredByText: footer.searchByText,
+      },
+    },
+  }
 }
 
 function getRelativePath(url: string) {

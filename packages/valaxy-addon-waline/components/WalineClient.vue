@@ -1,11 +1,10 @@
 <script lang="ts" setup>
+import type { WalineInitOptions } from '@waline/client'
 import type { WalineOptions } from '../types'
-import { commentCount, pageviewCount } from '@waline/client'
-// @ts-expect-error vue waline component type
-import { Waline } from '@waline/client/component'
+import { commentCount, init, pageviewCount } from '@waline/client'
 import { useAppStore } from 'valaxy'
 
-import { computed, onMounted } from 'vue'
+import { computed, onMounted, onUnmounted, useTemplateRef, watch } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { useRoute } from 'vue-router'
 
@@ -21,7 +20,32 @@ const appStore = useAppStore()
 const route = useRoute()
 const { locale } = useI18n()
 const path = computed(() => props.options.path || route.path.replace(/\/$/, ''))
-const emoji = computed(() => getEmojis(props.options.cdn, props.options.types, props.options.emoji))
+type WalineEmoji = Exclude<WalineInitOptions['emoji'], boolean | undefined>
+
+const emoji = computed<WalineEmoji>(() => getEmojis(
+  props.options.cdn,
+  props.options.types,
+  props.options.emoji,
+) as WalineEmoji)
+const walineRef = useTemplateRef<HTMLElement>('waline')
+let walineInstance: ReturnType<typeof init> | undefined
+
+function getWalineOptions() {
+  const {
+    cdn: _cdn,
+    types: _types,
+    comment: _comment,
+    pageview: _pageview,
+    ...options
+  } = props.options
+  return {
+    ...options,
+    path: path.value,
+    lang: locale.value,
+    dark: appStore.isDark,
+    emoji: emoji.value,
+  }
+}
 
 onMounted(() => {
   const { pageview, comment } = props.options
@@ -41,18 +65,24 @@ onMounted(() => {
       selector: typeof comment === 'string' ? comment : undefined,
     })
   }
+
+  walineInstance = init({
+    ...getWalineOptions(),
+    el: walineRef.value,
+  })
 })
+
+watch(
+  [() => props.options, path, locale, () => appStore.isDark, emoji],
+  () => walineInstance?.update(getWalineOptions()),
+  { deep: true },
+)
+
+onUnmounted(() => walineInstance?.destroy())
 </script>
 
 <template>
-  <Waline
-    v-bind="options"
-    :server-u-r-l="options.serverURL"
-    :lang="locale"
-    :path="path"
-    :dark="appStore.isDark"
-    :emoji="emoji"
-  />
+  <div ref="waline" />
 </template>
 
 <style>

@@ -44,7 +44,6 @@
     "valaxy-addon-girls": "workspace:*"
   },
   "devDependencies": {
-    "@types/animejs": "catalog:",
     "valaxy": "workspace:*",
     "valaxy-addon-waline": "workspace:*"
   }

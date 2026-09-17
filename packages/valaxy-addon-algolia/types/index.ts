@@ -7,8 +7,8 @@
 export interface AlgoliaSearchOptions extends DocSearchProps {
   locales?: Record<string, Partial<DocSearchProps>>
   /**
-   * Configuration or assistant id to enable Ask AI mode.
-   * Pass a string (assistant id) or a full config object.
+   * Configuration or published Agent Studio agent ID to enable Ask AI mode.
+   * Pass a string (agent ID) or a full config object.
    * Omit to disable the Ask AI button entirely.
    *
    * @see https://vitepress.dev/reference/default-theme-search#ask-ai
@@ -29,9 +29,9 @@ export interface AlgoliaSearchOptions extends DocSearchProps {
 
 export interface AlgoliaAskAiOptions {
   /**
-   * The assistant ID to use for the Ask AI feature.
+   * The published Agent Studio agent ID. Legacy Ask AI assistant IDs are not supported.
    */
-  assistantId: string
+  agentId: string
   /**
    * Algolia application ID for Ask AI (defaults to the main `appId`).
    */
@@ -50,6 +50,15 @@ export interface AlgoliaAskAiOptions {
    * @default false
    */
   suggestedQuestions?: boolean
+  /** Agent Studio search indices; defaults to indexName or the main search index. */
+  indices?: string[]
+  /** Agent Studio search overrides, keyed by index name. */
+  searchParameters?: Record<string, {
+    filters?: string
+    attributesToRetrieve?: string[]
+    restrictSearchableAttributes?: string[]
+    distinct?: boolean | number | string
+  }>
   /**
    * Ask AI side panel configuration.
    * Set to `true` for default configuration, or pass a custom config object.

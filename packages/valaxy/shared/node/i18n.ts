@@ -1,5 +1,5 @@
 import fs from 'fs-extra'
-import yaml from 'js-yaml'
+import * as yaml from 'js-yaml'
 import { isLocaleKey, stripLocalePrefix } from '../utils/i18n'
 
 export const NODE_I18N: {

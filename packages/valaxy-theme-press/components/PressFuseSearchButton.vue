@@ -12,6 +12,7 @@ const { t } = useI18n()
 <template>
   <button
     class="press-search-btn"
+    data-valaxy-search-trigger
     :class="{ 'press-search-btn--active': open }"
     :title="t('menu.search')"
     @click="emit('toggle')"

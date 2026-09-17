@@ -14,8 +14,8 @@ const emit = defineEmits<{
   saved: []
 }>()
 
-async function onSelect(value: string) {
-  if (value === props.modelValue)
+async function onSelect(value: string | undefined) {
+  if (value === undefined || value === props.modelValue)
     return
   await saveConfigField(props.configType, props.field, value)
   emit('saved')
