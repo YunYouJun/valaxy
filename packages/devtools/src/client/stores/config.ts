@@ -1,4 +1,4 @@
-import type { ConfigData } from '../../../rpc'
+import type { ConfigData } from '../../shared/rpc'
 import { ref } from 'vue'
 import { rpc } from '../rpc'
 

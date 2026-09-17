@@ -1,8 +1,11 @@
 <script lang="ts" setup>
+import { useMediaQuery } from '@vueuse/core'
 import { Pane, Splitpanes } from 'splitpanes'
 import { computed } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { clientPageData, postList } from '../stores/app'
+
+const narrow = useMediaQuery('(max-width: 640px)')
 
 const { t, locale } = useI18n()
 
@@ -53,10 +56,10 @@ function selectPost(post: typeof sortedPosts.value[number]) {
 </script>
 
 <template>
-  <Splitpanes class="h-full">
+  <Splitpanes :horizontal="narrow" class="h-full">
     <Pane min-size="20" size="33">
       <div class="h-full flex flex-col">
-        <div class="flex items-center gap-2 px-3 py-2 border-b border-gray-100 dark:border-gray-800">
+        <div class="flex items-center gap-2 px-3 py-2 border-b border-mute">
           <div class="i-ri-archive-line op-60" />
           <h3 class="text-sm font-bold flex-1">
             {{ t('archives.title') }}
@@ -70,14 +73,14 @@ function selectPost(post: typeof sortedPosts.value[number]) {
           <div class="flex flex-col">
             <div v-for="yearGroup in groupedPosts" :key="yearGroup.year" class="mb-5">
               <!-- Year -->
-              <h2 class="text-base font-bold text-gray-800 dark:text-gray-200 mb-2 flex items-center gap-2">
-                <div class="w-2.5 h-2.5 rounded-full bg-indigo-500 shrink-0" />
+              <h2 class="text-base font-bold color-base mb-2 flex items-center gap-2">
+                <div class="w-2.5 h-2.5 rounded-full bg-primary-500 shrink-0" />
                 {{ yearGroup.year }}
               </h2>
 
-              <div v-for="monthGroup in yearGroup.months" :key="monthGroup.month" class="ml-1.25 border-l-2 border-gray-200 dark:border-gray-700 pl-4 mb-3">
+              <div v-for="monthGroup in yearGroup.months" :key="monthGroup.month" class="ml-1.25 border-l-2 border-base pl-4 mb-3">
                 <!-- Month -->
-                <h3 class="text-xs font-semibold text-gray-500 dark:text-gray-400 mb-1.5">
+                <h3 class="text-xs font-semibold color-muted mb-1.5">
                   {{ formatMonth(monthGroup.month) }}
                 </h3>
 
@@ -88,15 +91,15 @@ function selectPost(post: typeof sortedPosts.value[number]) {
                     :key="post.routePath"
                     class="flex items-center gap-2 py-1 px-2 rounded cursor-pointer transition-colors group"
                     :class="clientPageData?.routePath === post.routePath
-                      ? 'bg-indigo-50 dark:bg-indigo-900/20 text-indigo-600 dark:text-indigo-400'
-                      : 'hover:bg-gray-50 dark:hover:bg-gray-800'"
+                      ? 'bg-active  color-active '
+                      : 'hover:bg-hover '"
                     @click="selectPost(post)"
                   >
                     <div
                       class="w-1.5 h-1.5 rounded-full shrink-0 transition-colors"
                       :class="clientPageData?.routePath === post.routePath
-                        ? 'bg-indigo-500'
-                        : 'bg-gray-300 dark:bg-gray-600 group-hover:bg-indigo-400'"
+                        ? 'bg-primary-500'
+                        : 'bg-sunken  group-hover:bg-primary-400'"
                     />
                     <span class="text-sm truncate flex-1">
                       {{ post.frontmatter.title || post.routePath }}
@@ -120,7 +123,7 @@ function selectPost(post: typeof sortedPosts.value[number]) {
     </Pane>
     <Pane>
       <div class="h-full flex flex-col">
-        <div class="flex items-center gap-2 px-3 py-2 border-b border-gray-100 dark:border-gray-800">
+        <div class="flex items-center gap-2 px-3 py-2 border-b border-mute">
           <h3 class="text-sm font-bold flex-1">
             {{ t('posts.detail') }}
           </h3>

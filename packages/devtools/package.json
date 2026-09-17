@@ -19,6 +19,22 @@
       "default": "./dist/index.mjs"
     },
     "./rpc": "./rpc.d.ts",
+    "./definition": {
+      "types": "./dist/node/definition.d.ts",
+      "default": "./dist/node/definition.mjs"
+    },
+    "./page": {
+      "types": "./dist/page.d.ts",
+      "default": "./dist/page.mjs"
+    },
+    "./plugin": {
+      "types": "./dist/plugin.d.ts",
+      "default": "./dist/plugin.mjs"
+    },
+    "./client-api": {
+      "types": "./dist/client-api.d.ts",
+      "default": "./dist/client-api.mjs"
+    },
     "./client": "./dist/client",
     "./*": "./*"
   },
@@ -31,37 +47,41 @@
   ],
   "scripts": {
     "clean": "rimraf dist",
-    "build": "rimraf dist && pnpm run build:client && npm run build:node",
+    "build": "rimraf dist && pnpm run build:client && pnpm run build:node",
     "build:client": "vite build src/client",
     "build:node": "unbuild",
-    "dev": "pnpm run stub && pnpm run dev:client",
+    "dev": "pnpm run dev:client",
     "dev:client": "vite dev src/client --port 5001",
     "watch:client": "vite build src/client --watch",
-    "stub": "unbuild --stub",
-    "prepublishOnly": "npm run build",
+    "prepublishOnly": "pnpm run build",
     "release": "bumpp && pnpm publish"
   },
   "dependencies": {
-    "@rollup/pluginutils": "catalog:",
-    "axios": "catalog:",
-    "body-parser": "catalog:",
-    "cors": "catalog:",
+    "@devframes/service-shiki": "catalog:",
+    "@valaxyjs/utils": "workspace:*",
+    "@vitejs/devtools-kit": "catalog:",
+    "consola": "catalog:build",
+    "dayjs": "catalog:",
+    "devframe": "catalog:",
+    "fast-glob": "catalog:",
     "fs-extra": "catalog:",
-    "http-proxy-middleware": "catalog:",
+    "gray-matter": "catalog:",
     "js-yaml": "catalog:",
     "magicast": "catalog:",
     "pathe": "catalog:",
-    "sirv": "catalog:"
+    "valibot": "catalog:"
   },
   "devDependencies": {
+    "@antfu/design": "catalog:",
+    "@iconify-json/ph": "catalog:build",
     "@iconify-json/ri": "catalog:build",
     "@intlify/unplugin-vue-i18n": "catalog:build",
-    "@types/body-parser": "catalog:",
     "@types/splitpanes": "catalog:",
     "@types/wicg-file-system-access": "catalog:",
     "@unocss/reset": "catalog:",
+    "@vitejs/devtools": "catalog:",
     "@vitejs/plugin-vue": "catalog:",
-    "gray-matter": "catalog:",
+    "colorjs.io": "catalog:build",
     "pinia": "catalog:",
     "reka-ui": "catalog:frontend",
     "splitpanes": "catalog:",

@@ -9,7 +9,7 @@ const { t } = useI18n()
     <a
       href="https://valaxy.site"
       target="_blank"
-      class="inline-flex items-center gap-1 text-sm text-indigo-500 hover:text-indigo-600 transition-colors"
+      class="inline-flex items-center gap-1 text-sm color-active hover:color-active transition-colors"
     >
       <div class="i-ri:book-line" />
       {{ t('footer.documentation') }}
@@ -17,7 +17,7 @@ const { t } = useI18n()
     <a
       href="https://github.com/YunYouJun/valaxy"
       target="_blank"
-      class="inline-flex items-center gap-1 text-sm text-gray-500 hover:text-gray-700 dark:hover:text-gray-300 transition-colors"
+      class="inline-flex items-center gap-1 text-sm color-muted hover:color-base transition-colors"
     >
       <div class="i-ri:github-line" />
       {{ t('footer.github') }}

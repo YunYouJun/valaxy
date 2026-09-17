@@ -34,8 +34,6 @@ const clientDeps = [
   'vue-router',
 
   'vue-i18n',
-  // dev
-  '@vue/devtools-api',
 
   // will may be addons
   'fuse.js',

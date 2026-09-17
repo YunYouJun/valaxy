@@ -504,6 +504,8 @@ export interface Pkg {
 }
 
 export interface ValaxyConfig<ThemeConfig = DefaultTheme.Config> {
+  /** Enable development tools and the page inspection bridge. */
+  devtools?: boolean
   /**
    * @en Site **info** config. This affects info displayed on the site, and is independent of themes.
    * @zh 站点**信息**配置，这部分内容面向站点展示，且在不同主题中也是通用的格式

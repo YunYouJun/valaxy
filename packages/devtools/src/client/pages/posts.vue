@@ -1,14 +1,33 @@
 <script lang="ts" setup>
+import FormSegmentedControl from '@antfu/design/components/Form/FormSegmentedControl.vue'
+import { useMediaQuery } from '@vueuse/core'
 import { Pane, Splitpanes } from 'splitpanes'
 import { computed, onMounted, ref, watch } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { useRoute } from 'vue-router'
 import { rpc } from '../rpc'
-import { postList } from '../stores/app'
+import { clientPageData, postList } from '../stores/app'
 import { isStaticMode } from '../utils'
+
+const narrow = useMediaQuery('(max-width: 640px)')
 
 const { t } = useI18n()
 const route = useRoute()
+
+// Apply a dashboard/deep-link selection once, after its post data is available.
+// Later watcher refreshes must not replace a post the user selected manually.
+let appliedPath: string | undefined
+watch([() => route.query.path, () => postList.value.posts], ([path, posts]) => {
+  if (typeof path !== 'string') {
+    appliedPath = undefined
+    return
+  }
+  const post = posts.find(post => post.routePath === path)
+  if (post && path !== appliedPath) {
+    clientPageData.value = post
+    appliedPath = path
+  }
+}, { immediate: true })
 
 const searchQuery = ref('')
 const draftFilter = ref<'all' | 'draft' | 'published'>('all')
@@ -140,17 +159,17 @@ onMounted(async () => {
 </script>
 
 <template>
-  <Splitpanes class="h-full">
+  <Splitpanes :horizontal="narrow" class="h-full">
     <Pane min-size="20" size="33">
       <div class="h-full flex flex-col">
-        <div class="flex items-center gap-2 px-3 py-2 border-b border-gray-100 dark:border-gray-800">
+        <div class="flex items-center gap-2 px-3 py-2 border-b border-mute">
           <h3 class="text-sm font-bold flex-1">
             {{ t('posts.title') }}
           </h3>
           <span class="text-xs op-50 tabular-nums">{{ filteredCount }}/{{ postList.posts.length }}</span>
           <VDTooltip :content="t('posts.new_post')">
             <button
-              class="inline-flex items-center justify-center w-6 h-6 rounded hover:bg-gray-100 dark:hover:bg-gray-800 text-gray-400 hover:text-indigo-500 transition-colors"
+              class="inline-flex items-center justify-center w-6 h-6 rounded hover:bg-hover color-faint hover:color-active transition-colors"
               @click="showCreateInput = !showCreateInput"
             >
               <div class="i-ri:add-line" />
@@ -159,7 +178,7 @@ onMounted(async () => {
         </div>
 
         <!-- Create Post Input -->
-        <div v-if="showCreateInput" class="px-3 py-2 border-b border-gray-100 dark:border-gray-800 flex flex-col gap-1.5">
+        <div v-if="showCreateInput" class="px-3 py-2 border-b border-mute flex flex-col gap-1.5">
           <div class="flex items-center gap-1.5">
             <VDInput
               v-model="newPostTitle"
@@ -207,26 +226,19 @@ onMounted(async () => {
         </div>
 
         <!-- Search & Filter -->
-        <div class="px-3 py-2 border-b border-gray-100 dark:border-gray-800 flex flex-col gap-1.5">
+        <div class="px-3 py-2 border-b border-mute flex flex-col gap-1.5">
           <VDInput
             v-model="searchQuery"
             :placeholder="t('posts.search_placeholder')"
             size="sm"
             class="w-full"
           />
-          <div class="flex gap-1">
-            <button
-              v-for="filter in (['all', 'published', 'draft'] as const)"
-              :key="filter"
-              class="px-2 py-0.5 text-xs rounded-md border transition-colors"
-              :class="draftFilter === filter
-                ? 'bg-indigo-50 dark:bg-indigo-900/30 border-indigo-200 dark:border-indigo-800 text-indigo-600 dark:text-indigo-400'
-                : 'border-gray-200 dark:border-gray-700 text-gray-500 dark:text-gray-400 hover:bg-gray-50 dark:hover:bg-gray-800'"
-              @click="draftFilter = filter"
-            >
-              {{ t(`posts.filter_${filter}`) }}
-            </button>
-          </div>
+          <FormSegmentedControl
+            :model-value="draftFilter"
+            :aria-label="t('posts.title')"
+            :options="(['all', 'published', 'draft'] as const).map(value => ({ value, label: t(`posts.filter_${value}`) }))"
+            @update:model-value="value => { if (value === 'all' || value === 'published' || value === 'draft') draftFilter = value }"
+          />
         </div>
 
         <VDPostList class="flex-1" :search-query="searchQuery" :draft-filter="draftFilter" />
@@ -234,7 +246,7 @@ onMounted(async () => {
     </Pane>
     <Pane>
       <div class="h-full flex flex-col">
-        <div class="flex items-center gap-2 px-3 py-2 border-b border-gray-100 dark:border-gray-800">
+        <div class="flex items-center gap-2 px-3 py-2 border-b border-mute">
           <h3 class="text-sm font-bold flex-1">
             {{ t('posts.detail') }}
           </h3>

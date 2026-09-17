@@ -1,5 +1,6 @@
 <script lang="ts" setup>
 import { computed, ref } from 'vue'
+import { identityColor } from '../../utils/colors'
 
 const props = withDefaults(defineProps<{
   placeholder?: string
@@ -69,12 +70,13 @@ function selectSuggestion(s: string) {
       <span
         v-for="(cat, index) in normalizedCategories"
         :key="cat"
-        class="inline-flex items-center gap-0.5 rounded-full text-xs cursor-default transition bg-green-50 dark:bg-green-900/20 text-green-600 dark:text-green-400 px-2 py-1"
+        class="badge vd-accent vd-tint cursor-default transition"
+        :style="identityColor(cat)"
       >
         <div class="i-ri:folder-2-line text-2.5 op-70" />
         {{ cat }}
         <button
-          class="inline-flex items-center justify-center w-3.5 h-3.5 ml-0.5 rounded-full hover:bg-green-200 dark:hover:bg-green-800 transition-colors cursor-pointer"
+          class="inline-flex items-center justify-center w-3.5 h-3.5 ml-0.5 rounded-full hover:bg-hover transition-colors cursor-pointer"
           @click.stop="removeCategory(index)"
         >
           <div class="i-ri:close-line text-2.5" />
@@ -94,12 +96,12 @@ function selectSuggestion(s: string) {
       />
       <div
         v-if="showSuggestions && filteredSuggestions.length > 0"
-        class="absolute z-10 left-0 right-0 top-full mt-0.5 max-h-32 overflow-auto border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-900 rounded-md shadow-lg"
+        class="absolute z-dropdown left-0 right-0 top-full mt-0.5 max-h-32 overflow-auto border border-base bg-base rounded-md shadow-lg"
       >
         <button
           v-for="s in filteredSuggestions"
           :key="s"
-          class="w-full text-left px-2 py-1 text-xs text-gray-700 dark:text-gray-200 hover:bg-green-50 dark:hover:bg-green-900/30 hover:text-green-600 dark:hover:text-green-400 cursor-pointer transition-colors flex items-center gap-1"
+          class="w-full text-left px-2 py-1 text-xs color-base hover:bg-hover hover:color-active cursor-pointer transition-colors flex items-center gap-1"
           @mousedown.prevent="selectSuggestion(s)"
         >
           <div class="i-ri:folder-2-line text-2.5 op-50" />

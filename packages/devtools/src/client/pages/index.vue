@@ -1,12 +1,16 @@
 <script lang="ts" setup>
+import FeedbackEmptyState from '@antfu/design/components/Feedback/FeedbackEmptyState.vue'
+import LayoutCard from '@antfu/design/components/Layout/LayoutCard.vue'
 import { computed } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { useRouter } from 'vue-router'
+import { tObject } from '../../../../valaxy/shared'
 import VDFooter from '../components/VDFooter.vue'
 import { clientOptions, postList } from '../stores/app'
 import { openInEditor } from '../utils'
+import { identityColor } from '../utils/colors'
 
-const { t } = useI18n()
+const { t, locale } = useI18n()
 const router = useRouter()
 
 function openUserRootInEditor() {
@@ -108,200 +112,96 @@ function formatDate(date: string | number | Date | undefined) {
   return `${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`
 }
 
-function goToPost(routePath: string) {
-  router.push({ path: '/posts', query: { path: routePath } })
-}
-
-function goToPosts() {
-  router.push('/posts')
-}
-
-function goToPublishedPosts() {
-  router.push({ path: '/posts', query: { draft: 'false' } })
-}
-
-function goToDraftPosts() {
-  router.push({ path: '/posts', query: { draft: 'true' } })
-}
-
-function goToCategories() {
-  router.push('/categories')
-}
-
-function goToTags() {
-  router.push('/tags')
-}
+const metrics = computed(() => [
+  { label: 'dashboard.total_posts', value: stats.value.totalPosts, to: '/posts', icon: 'i-ph:article', hue: 250 },
+  { label: 'dashboard.published_posts', value: stats.value.publishedPosts, to: '/posts?draft=false', icon: 'i-ph:check-circle', hue: 155 },
+  { label: 'dashboard.draft_posts', value: stats.value.draftPosts, to: '/posts?draft=true', icon: 'i-ph:pencil-simple', hue: 65 },
+  { label: 'dashboard.total_categories', value: stats.value.totalCategories, to: '/categories', icon: 'i-ph:folders', hue: 205 },
+  { label: 'dashboard.total_tags', value: stats.value.totalTags, to: '/tags', icon: 'i-ph:hash', hue: 290 },
+])
 </script>
 
 <template>
-  <div class="h-full overflow-auto">
-    <div class="p-6 flex flex-col gap-6 max-w-3xl mx-auto">
-      <!-- Header -->
-      <div class="text-center">
-        <h1 class="text-xl font-bold text-gray-900 dark:text-gray-100">
-          Valaxy DevTools
-        </h1>
-        <p class="text-sm op-50 mt-1">
+  <div class="h-full overflow-auto bg-secondary">
+    <div class="p-4 sm:p-6 flex flex-col gap-5 max-w-5xl mx-auto">
+      <div>
+        <h1 class="text-lg font-medium color-base">
           {{ t('dashboard.title') }}
-        </p>
-      </div>
-
-      <!-- User Root -->
-      <div class="border border-gray-200 dark:border-gray-700 rounded-lg p-3">
-        <div class="flex items-center justify-between mb-1">
-          <div class="text-xs op-50">
-            {{ t('dashboard.user_root') }}
-          </div>
-          <div v-if="clientOptions.userRoot" class="flex items-center gap-2">
-            <button
-              class="inline-flex items-center gap-1 px-2 py-1 text-xs text-indigo-500 hover:text-indigo-600 hover:bg-indigo-50 dark:hover:bg-indigo-900/20 rounded transition-colors"
-              :title="t('dashboard.open_in_editor')"
-              @click="openUserRootInEditor"
-            >
-              <div class="i-ri:code-box-line" />
-              {{ t('dashboard.open_in_editor') }}
-            </button>
-          </div>
-        </div>
-        <code class="text-sm font-mono text-gray-700 dark:text-gray-300">
-          {{ clientOptions.userRoot || '—' }}
-        </code>
-      </div>
-
-      <!-- Statistics Cards -->
-      <div class="grid grid-cols-5 gap-3">
-        <div
-          class="border border-gray-200 dark:border-gray-700 rounded-lg p-3 text-center cursor-pointer hover:bg-gray-50 dark:hover:bg-gray-800 hover:border-indigo-300 dark:hover:border-indigo-600 transition-colors"
-          @click="goToPosts"
-        >
-          <div class="text-2xl font-bold text-indigo-500">
-            {{ stats.totalPosts }}
-          </div>
-          <div class="text-xs op-50 mt-1">
-            {{ t('dashboard.total_posts') }}
-          </div>
-        </div>
-        <div
-          class="border border-gray-200 dark:border-gray-700 rounded-lg p-3 text-center cursor-pointer hover:bg-gray-50 dark:hover:bg-gray-800 hover:border-emerald-300 dark:hover:border-emerald-600 transition-colors"
-          @click="goToPublishedPosts"
-        >
-          <div class="text-2xl font-bold text-emerald-500">
-            {{ stats.publishedPosts }}
-          </div>
-          <div class="text-xs op-50 mt-1">
-            {{ t('dashboard.published_posts') }}
-          </div>
-        </div>
-        <div
-          class="border border-gray-200 dark:border-gray-700 rounded-lg p-3 text-center cursor-pointer hover:bg-gray-50 dark:hover:bg-gray-800 hover:border-amber-300 dark:hover:border-amber-600 transition-colors"
-          @click="goToDraftPosts"
-        >
-          <div class="text-2xl font-bold text-amber-500">
-            {{ stats.draftPosts }}
-          </div>
-          <div class="text-xs op-50 mt-1">
-            {{ t('dashboard.draft_posts') }}
-          </div>
-        </div>
-        <div
-          class="border border-gray-200 dark:border-gray-700 rounded-lg p-3 text-center cursor-pointer hover:bg-gray-50 dark:hover:bg-gray-800 hover:border-green-300 dark:hover:border-green-600 transition-colors"
-          @click="goToCategories"
-        >
-          <div class="text-2xl font-bold text-green-500">
-            {{ stats.totalCategories }}
-          </div>
-          <div class="text-xs op-50 mt-1">
-            {{ t('dashboard.total_categories') }}
-          </div>
-        </div>
-        <div
-          class="border border-gray-200 dark:border-gray-700 rounded-lg p-3 text-center cursor-pointer hover:bg-gray-50 dark:hover:bg-gray-800 hover:border-blue-300 dark:hover:border-blue-600 transition-colors"
-          @click="goToTags"
-        >
-          <div class="text-2xl font-bold text-blue-500">
-            {{ stats.totalTags }}
-          </div>
-          <div class="text-xs op-50 mt-1">
-            {{ t('dashboard.total_tags') }}
-          </div>
+        </h1>
+        <div class="mt-2 flex items-center gap-2 min-w-0 text-xs color-muted">
+          <span class="i-ph:folder-simple shrink-0" aria-hidden="true" />
+          <code class="truncate flex-1" :title="clientOptions.userRoot">{{ clientOptions.userRoot || '—' }}</code>
+          <VDButton v-if="clientOptions.userRoot" variant="ghost" icon="i-ph:arrow-square-out" :title="t('dashboard.open_in_editor')" :aria-label="t('dashboard.open_in_editor')" @click="openUserRootInEditor" />
         </div>
       </div>
 
-      <!-- Recent Posts & Tags/Categories -->
-      <div class="grid grid-cols-2 gap-4">
-        <!-- Recent Posts -->
-        <div class="border border-gray-200 dark:border-gray-700 rounded-lg p-4">
-          <div class="flex items-center justify-between mb-3">
-            <h2 class="text-sm font-bold text-gray-700 dark:text-gray-300 flex items-center gap-1">
-              <div class="i-ri:article-line op-60" />
+      <div class="grid grid-cols-2 sm:grid-cols-5 gap-2">
+        <LayoutCard
+          v-for="metric in metrics"
+          :key="metric.label"
+          as="button"
+          type="button"
+          class="text-left transition hover:bg-hover focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary-500/40"
+          @click="router.push(metric.to)"
+        >
+          <div class="flex items-center justify-between gap-2 text-xs color-muted">
+            {{ t(metric.label) }}
+            <span class="vd-accent vd-tint rounded p-1.5 inline-flex" :style="{ '--vd-hue': metric.hue }" aria-hidden="true"><span :class="metric.icon" /></span>
+          </div>
+          <div class="text-2xl font-mono tabular-nums vd-accent mt-3" :style="{ '--vd-hue': metric.hue }">
+            {{ metric.value }}
+          </div>
+        </LayoutCard>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+        <LayoutCard class="md:col-span-2" :padding="false">
+          <div class="px-4 py-3 border-b border-base flex items-center justify-between gap-2">
+            <h2 class="text-sm font-medium">
               {{ t('dashboard.recent_posts') }}
             </h2>
-            <RouterLink to="/posts" class="text-xs text-indigo-500 hover:text-indigo-600 transition-colors">
-              {{ t('dashboard.view_all') }}
+            <RouterLink to="/posts" class="btn-text text-xs color-muted">
+              {{ t('dashboard.view_all') }} <span class="i-ph:arrow-right" aria-hidden="true" />
             </RouterLink>
           </div>
-          <ul class="flex flex-col gap-1.5">
-            <li
-              v-for="post in recentPosts"
-              :key="post.routePath"
-              class="flex items-center justify-between gap-2 text-sm py-1 px-2 rounded cursor-pointer hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors"
-              @click="goToPost(post.routePath)"
-            >
-              <span class="truncate text-gray-700 dark:text-gray-300">{{ post.frontmatter.title || post.routePath }}</span>
-              <span class="text-xs op-40 tabular-nums shrink-0">{{ formatDate(post.frontmatter.date) }}</span>
-            </li>
-            <li v-if="recentPosts.length === 0" class="text-xs op-40 text-center py-2">
-              —
+          <ul class="p-2">
+            <li v-for="post in recentPosts" :key="post.routePath">
+              <RouterLink :to="{ path: '/posts', query: { path: post.routePath } }" class="flex items-center gap-3 rounded px-2 py-3 text-sm transition hover:bg-hover focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary-500/40">
+                <span class="i-ph:file-text color-faint shrink-0" aria-hidden="true" />
+                <span class="truncate flex-1">{{ tObject(post.frontmatter.title || '', locale) || post.routePath }}</span>
+                <span class="text-xs font-mono color-faint tabular-nums shrink-0">{{ formatDate(post.frontmatter.date) }}</span>
+              </RouterLink>
             </li>
           </ul>
-        </div>
-
-        <!-- Tags & Categories -->
+          <FeedbackEmptyState v-if="!recentPosts.length" :title="t('batchEdit.no_posts')" icon="i-ph:article" />
+        </LayoutCard>
         <div class="flex flex-col gap-4">
-          <!-- Top Tags -->
-          <div class="border border-gray-200 dark:border-gray-700 rounded-lg p-4">
-            <h2 class="text-sm font-bold text-gray-700 dark:text-gray-300 flex items-center gap-1 mb-3">
-              <div class="i-ri:price-tag-3-line op-60" />
+          <LayoutCard>
+            <h2 class="text-sm font-medium mb-3">
               {{ t('dashboard.top_tags') }}
             </h2>
             <div class="flex flex-wrap gap-1.5">
-              <RouterLink
-                v-for="tag in topTags"
-                :key="tag.name"
-                :to="{ path: '/tags', query: { tag: tag.name } }"
-                class="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-xs bg-blue-50 dark:bg-blue-900/20 text-blue-600 dark:text-blue-400 hover:bg-blue-100 dark:hover:bg-blue-900/40 transition-colors cursor-pointer"
-              >
-                <div class="i-ri:hashtag text-2.5" />
-                {{ tag.name }}
+              <RouterLink v-for="tag in topTags" :key="tag.name" :to="{ path: '/tags', query: { tag: tag.name } }" class="badge vd-accent vd-tint hover:opacity-80 transition" :style="identityColor(tag.name)">
+                <span class="i-ph:hash" aria-hidden="true" />{{ tag.name }}
+                <span class="font-mono color-faint">{{ tag.count }}</span>
               </RouterLink>
-              <span v-if="topTags.length === 0" class="text-xs op-40">—</span>
+              <span v-if="!topTags.length" class="color-faint text-xs">{{ t('tags.empty') }}</span>
             </div>
-          </div>
-
-          <!-- Top Categories -->
-          <div class="border border-gray-200 dark:border-gray-700 rounded-lg p-4">
-            <h2 class="text-sm font-bold text-gray-700 dark:text-gray-300 flex items-center gap-1 mb-3">
-              <div class="i-ri:folder-2-line op-60" />
+          </LayoutCard>
+          <LayoutCard>
+            <h2 class="text-sm font-medium mb-3">
               {{ t('dashboard.top_categories') }}
             </h2>
-            <div class="flex flex-wrap gap-1.5">
-              <RouterLink
-                v-for="cat in topCategories"
-                :key="cat.name"
-                :to="{ path: '/categories', query: { category: cat.name } }"
-                class="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-xs bg-green-50 dark:bg-green-900/20 text-green-600 dark:text-green-400 hover:bg-green-100 dark:hover:bg-green-900/40 transition-colors cursor-pointer"
-              >
-                <div class="i-ri:folder-2-line text-2.5" />
-                {{ cat.name }}
-                <span class="op-60">({{ cat.count }})</span>
+            <div class="flex flex-col gap-1">
+              <RouterLink v-for="cat in topCategories" :key="cat.name" :to="{ path: '/categories', query: { category: cat.name } }" class="flex items-center gap-2 rounded px-2 py-1.5 text-sm color-muted hover:bg-hover transition">
+                <span class="i-ph:folder-simple shrink-0 vd-accent" :style="identityColor(cat.name)" aria-hidden="true" /><span class="truncate flex-1">{{ cat.name }}</span>
+                <span class="font-mono color-faint text-xs">{{ cat.count }}</span>
               </RouterLink>
-              <span v-if="topCategories.length === 0" class="text-xs op-40">—</span>
+              <span v-if="!topCategories.length" class="color-faint text-xs">{{ t('categories.empty') }}</span>
             </div>
-          </div>
+          </LayoutCard>
         </div>
       </div>
-
-      <!-- Footer -->
       <VDFooter />
     </div>
   </div>

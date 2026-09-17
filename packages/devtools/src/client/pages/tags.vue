@@ -1,8 +1,12 @@
 <script lang="ts" setup>
+import { useMediaQuery } from '@vueuse/core'
 import { Pane, Splitpanes } from 'splitpanes'
 import { computed, ref } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { postList } from '../stores/app'
+import { identityColor } from '../utils/colors'
+
+const narrow = useMediaQuery('(max-width: 640px)')
 
 const { t } = useI18n()
 
@@ -59,21 +63,21 @@ const filteredPosts = computed(() => {
 </script>
 
 <template>
-  <Splitpanes class="h-full">
+  <Splitpanes :horizontal="narrow" class="h-full">
     <Pane min-size="20" size="33">
       <div class="h-full flex flex-col">
-        <div class="flex items-center gap-2 px-3 py-2 border-b border-gray-100 dark:border-gray-800">
+        <div class="flex items-center gap-2 px-3 py-2 border-b border-mute">
           <h3 class="text-sm font-bold flex-1">
             {{ t('tags.title') }}
           </h3>
           <span class="text-xs op-50 tabular-nums">{{ allTags.length }}</span>
         </div>
 
-        <div v-if="selectedTags.size > 0" class="flex items-center gap-1 px-3 py-1.5 border-b border-gray-100 dark:border-gray-800 flex-wrap">
+        <div v-if="selectedTags.size > 0" class="flex items-center gap-1 px-3 py-1.5 border-b border-mute flex-wrap">
           <span class="text-xs op-50">{{ t('tags.selected') }}:</span>
           <span
             v-for="tag in selectedTags" :key="tag"
-            class="inline-flex items-center gap-0.5 text-xs bg-indigo-50 text-indigo-600 dark:bg-indigo-900/30 dark:text-indigo-400 px-1.5 py-0.5 rounded"
+            class="inline-flex items-center gap-0.5 text-xs bg-active color-active px-1.5 py-0.5 rounded"
           >
             {{ tag }}
             <button class="i-ri:close-line text-xs op-50 hover:op-100 cursor-pointer" @click="toggleTag(tag)" />
@@ -88,9 +92,11 @@ const filteredPosts = computed(() => {
             <button
               v-for="tag in allTags" :key="tag.name"
               class="inline-flex items-center gap-1 px-2 py-1 rounded-md text-xs cursor-pointer transition-colors border"
+              :style="identityColor(tag.name)"
+              :aria-pressed="isTagSelected(tag.name)"
               :class="isTagSelected(tag.name)
-                ? 'bg-indigo-50 border-indigo-300 text-indigo-600 dark:bg-indigo-900/30 dark:border-indigo-700 dark:text-indigo-400'
-                : 'border-gray-200 dark:border-gray-700 text-gray-600 dark:text-gray-400 hover:border-gray-300 dark:hover:border-gray-600'
+                ? 'bg-active border-active color-active   '
+                : 'border-transparent vd-accent vd-tint hover:opacity-80'
               "
               @click="toggleTag(tag.name)"
             >
@@ -107,7 +113,7 @@ const filteredPosts = computed(() => {
 
     <Pane>
       <div class="h-full overflow-auto">
-        <div class="px-3 py-2 border-b border-gray-100 dark:border-gray-800">
+        <div class="px-3 py-2 border-b border-mute">
           <h3 class="text-sm font-bold">
             {{ selectedTags.size > 0 ? t('tags.selected') : t('tags.all') }}
           </h3>

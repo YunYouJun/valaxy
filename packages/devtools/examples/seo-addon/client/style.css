@@ -1,0 +1,71 @@
+@import '@antfu/design/styles.css';
+
+:root {
+  color-scheme: light dark;
+  font: 14px/1.5 system-ui, sans-serif;
+  color: light-dark(#303540, #e1e5ed);
+  background: light-dark(#f8f9fb, #17191e);
+}
+
+body {
+  margin: 0;
+}
+
+main {
+  max-width: 900px;
+  margin: auto;
+  padding: 24px;
+}
+
+header {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+h1 {
+  margin: 0;
+  font-size: 22px;
+  font-weight: 600;
+}
+
+p {
+  color: light-dark(#646b78, #a7adba);
+}
+
+.mark {
+  color: light-dark(#7050ad, #bb9be9);
+  font-size: 36px;
+}
+
+ul {
+  padding: 0;
+  display: grid;
+  gap: 10px;
+}
+
+li {
+  list-style: none;
+  padding: 16px;
+  border: 1px solid light-dark(#dfe2e8, #393d48);
+  border-radius: 8px;
+  background: light-dark(white, #202329);
+}
+
+li strong, li span {
+  display: block;
+  overflow-wrap: anywhere;
+}
+
+li span {
+  margin-top: 8px;
+  font-size: 13px;
+}
+
+.ready {
+  color: light-dark(#236446, #8bccaa);
+}
+
+.missing {
+  color: light-dark(#87570a, #e4c076);
+}

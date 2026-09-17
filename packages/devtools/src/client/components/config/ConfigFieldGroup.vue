@@ -8,8 +8,8 @@ defineProps<{
 <template>
   <div class="config-field-group">
     <div class="flex items-center gap-2 mb-3">
-      <div v-if="icon" :class="icon" class="text-base text-indigo-500" />
-      <h4 class="text-sm font-bold text-gray-700 dark:text-gray-200">
+      <div v-if="icon" :class="icon" class="text-base color-active" />
+      <h4 class="text-sm font-bold color-base">
         {{ title }}
       </h4>
     </div>

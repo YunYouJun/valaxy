@@ -2,19 +2,25 @@
 import type { Post } from 'valaxy'
 
 import dayjs from 'dayjs'
-import { computed, ref, toRaw } from 'vue'
+import { computed, onUnmounted, ref, toRaw, toRefs } from 'vue'
 
 import { useI18n } from 'vue-i18n'
 import { rpc } from '../rpc'
-import { clientPageData, postList } from '../stores/app'
+import { clientPageData, extensions, postList } from '../stores/app'
+import { getPostDraft, resetPostDraft } from '../stores/drafts'
 
 const props = defineProps<{
+  filePath: string
   frontmatter: Post
 }>()
 const { t } = useI18n()
 
-const newFm = ref<Post>(props.frontmatter)
-const isSaving = ref(false)
+const draft = getPostDraft(props.filePath, props.frontmatter)
+const { frontmatter: newFm, isSaving } = toRefs(draft)
+const externalChanges = computed(() => !isSaving.value && JSON.stringify(props.frontmatter) !== draft.baseline)
+function reloadFrontmatter() {
+  resetPostDraft(draft, props.frontmatter)
+}
 const saveMessage = ref<{ severity: 'success' | 'error', text: string } | null>(null)
 let clearTimer: ReturnType<typeof setTimeout> | undefined
 
@@ -25,11 +31,18 @@ async function saveNewFm() {
   saveMessage.value = null
   if (clearTimer)
     clearTimeout(clearTimer)
+  const filePath = props.filePath
+  const frontmatter = structuredClone(toRaw(newFm.value))
   try {
     await rpc.updateFrontmatter({
-      filePath: clientPageData.value!.filePath,
-      frontmatter: toRaw(newFm.value),
+      filePath,
+      frontmatter,
     })
+    postList.value = await rpc.getPostList()
+    const saved = postList.value.posts.find(post => post.filePath === filePath)
+    if (saved && clientPageData.value?.filePath === filePath)
+      clientPageData.value = saved
+    draft.baseline = JSON.stringify(saved?.frontmatter ?? frontmatter)
     saveMessage.value = { severity: 'success', text: t('frontmatter.save_success') }
   }
   catch (e: any) {
@@ -43,8 +56,15 @@ async function saveNewFm() {
   }
 }
 
-const date = ref(dayjs(clientPageData.value?.frontmatter.date).toDate())
-const updated = ref(dayjs(clientPageData.value?.frontmatter.updated).toDate())
+function dateField(key: 'date' | 'updated') {
+  return computed({
+    get: () => dayjs(newFm.value[key]).toDate(),
+    set: value => newFm.value[key] = dayjs(value).format('YYYY-MM-DD HH:mm:ss'),
+  })
+}
+const date = dateField('date')
+const updated = dateField('updated')
+onUnmounted(() => clearTimeout(clearTimer))
 
 const showPassword = ref(false)
 
@@ -99,7 +119,7 @@ interface FieldGroup {
 }
 
 const fieldGroups = computed<FieldGroup[]>(() => {
-  const fm = props.frontmatter
+  const fm = newFm.value
   if (!fm)
     return []
 
@@ -110,7 +130,10 @@ const fieldGroups = computed<FieldGroup[]>(() => {
   const security: [string, unknown][] = []
   const other: [string, unknown][] = []
 
+  const extensionKeys = new Set(extensions.value.plugins.flatMap(plugin => plugin.fields.map(field => field.key)))
   for (const [key, value] of entries) {
+    if (extensionKeys.has(key))
+      continue
     if (metaFields.has(key))
       meta.push([key, value])
     else if (tagCatFields.has(key))
@@ -143,7 +166,7 @@ const fieldGroups = computed<FieldGroup[]>(() => {
     <!-- Empty state hint -->
     <div
       v-if="!clientPageData?.routePath || clientPageData.routePath === '/'"
-      class="flex flex-col items-center justify-center py-12 text-center text-gray-400 dark:text-gray-500"
+      class="flex flex-col items-center justify-center py-12 text-center color-faint"
     >
       <div class="i-ri:file-list-3-line text-4xl mb-3 op-30" />
       <p class="text-sm">
@@ -161,14 +184,21 @@ const fieldGroups = computed<FieldGroup[]>(() => {
       />
     </div>
 
+    <VDMessage v-if="externalChanges" severity="warn" class="mb-3">
+      {{ t('connection.external_changes') }}
+      <button class="underline ml-2" @click="reloadFrontmatter">
+        {{ t('connection.reload') }}
+      </button>
+    </VDMessage>
+
     <!-- Grouped fields -->
     <div v-if="frontmatter" class="flex flex-col gap-4">
       <fieldset
         v-for="group in fieldGroups"
         :key="group.key"
-        class="border border-gray-200 dark:border-gray-700 rounded-lg p-3"
+        class="border border-base rounded-lg p-3"
       >
-        <legend class="flex items-center gap-1.5 px-2 text-xs font-semibold text-gray-500 dark:text-gray-400">
+        <legend class="flex items-center gap-1.5 px-2 text-xs font-semibold color-muted">
           <div :class="group.icon" />
           {{ group.label }}
         </legend>
@@ -177,18 +207,18 @@ const fieldGroups = computed<FieldGroup[]>(() => {
           <li
             v-for="([key, value]) in group.fields"
             :key="key"
-            class="flex gap-2 text-sm min-h-8"
+            class="flex flex-col sm:flex-row gap-1 sm:gap-2 text-sm min-h-8"
           >
-            <div class="w-32 flex items-center h-8">
-              <strong>{{ t(`frontmatter.${key}`, key as string) }}</strong>
+            <div class="sm:w-28 sm:shrink-0 flex items-center min-h-6">
+              <strong :id="`frontmatter-${key}`" class="font-normal color-muted">{{ t(`frontmatter.${key}`, key as string) }}</strong>
             </div>
 
-            <div v-if="clientPageData" class="inline-flex items-center w-full min-h-8">
+            <div v-if="clientPageData" class="inline-flex items-center w-full min-w-0 min-h-8">
               <div v-if="key === 'tags'" class="w-full">
-                <VDFmTagsEditor v-model="clientPageData.frontmatter.tags" :suggestions="allTagSuggestions" />
+                <VDFmTagsEditor v-model="newFm.tags" :suggestions="allTagSuggestions" />
               </div>
               <template v-else-if="key === 'categories'">
-                <VDFmCategoriesEditor v-model="(clientPageData.frontmatter as any).categories" :suggestions="allCategorySuggestions" />
+                <VDFmCategoriesEditor v-model="(newFm as any).categories" :suggestions="allCategorySuggestions" />
               </template>
               <template v-else-if="key === 'encryptedContent'">
                 [Encrypted]
@@ -202,32 +232,32 @@ const fieldGroups = computed<FieldGroup[]>(() => {
                 </a>
               </template>
               <template v-else-if="key === 'date'">
-                <VDDatePicker v-model="date" show-time />
+                <VDDatePicker v-model="date" :aria-labelledby="`frontmatter-${key}`" show-time />
               </template>
               <template v-else-if="key === 'updated'">
-                <VDDatePicker v-model="updated" show-time />
+                <VDDatePicker v-model="updated" :aria-labelledby="`frontmatter-${key}`" show-time />
               </template>
 
               <template v-else-if="key === 'excerpt'">
-                <VDTextarea v-model="clientPageData.frontmatter.excerpt" :rows="4" auto-resize />
+                <VDTextarea v-model="newFm.excerpt" :aria-labelledby="`frontmatter-${key}`" :rows="4" auto-resize />
               </template>
               <template v-else-if="key === 'excerpt_type'">
-                <VDFmExcerptType v-model:excerpt-type="clientPageData.frontmatter.excerpt_type" />
+                <VDFmExcerptType v-model:excerpt-type="newFm.excerpt_type" />
               </template>
               <template v-else-if="key === 'pageTitleClass'">
-                <code class="px-2 py-1 bg-gray-1 rounded text-xs">
+                <code class="px-2 py-1 bg-secondary rounded text-xs">
                   {{ value }}
                 </code>
               </template>
               <template v-else-if="key === 'password'">
                 <div class="flex items-center gap-1">
                   <VDInput
-                    v-model="clientPageData.frontmatter.password"
+                    v-model="newFm.password"
                     :type="showPassword ? 'text' : 'password'"
                     size="sm"
                   />
                   <button
-                    class="inline-flex items-center justify-center w-7 h-7 rounded hover:bg-gray-100 dark:hover:bg-gray-800 cursor-pointer transition-colors"
+                    class="inline-flex items-center justify-center w-7 h-7 rounded hover:bg-hover cursor-pointer transition-colors"
                     @click="showPassword = !showPassword"
                   >
                     <div :class="showPassword ? 'i-ri:eye-off-line' : 'i-ri:eye-line'" class="text-sm op-50" />
@@ -235,19 +265,21 @@ const fieldGroups = computed<FieldGroup[]>(() => {
                 </div>
               </template>
               <template v-else-if="typeof value === 'boolean'">
-                <VDCheckbox v-model="clientPageData.frontmatter[key]" />
+                <VDCheckbox v-model="newFm[key]" :aria-labelledby="`frontmatter-${key}`" />
               </template>
               <template v-else-if="typeof value === 'number'">
-                <VDNumberField v-model="clientPageData.frontmatter[key]" />
+                <VDNumberField v-model="newFm[key]" :aria-labelledby="`frontmatter-${key}`" />
               </template>
               <template v-else>
-                <VDInput v-model="clientPageData.frontmatter[key]" size="sm" class="w-full" />
+                <VDInput v-model="newFm[key]" :aria-labelledby="`frontmatter-${key}`" size="sm" class="w-full" />
               </template>
             </div>
           </li>
         </ul>
       </fieldset>
     </div>
+
+    <VDPluginEditor v-if="clientPageData" v-model="newFm" />
 
     <div v-if="Object.keys(frontmatter).length" class="px-2">
       <VDMessage v-if="saveMessage" :severity="saveMessage.severity" closable class="mb-2">

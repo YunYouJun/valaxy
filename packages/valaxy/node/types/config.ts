@@ -307,8 +307,8 @@ export interface ValaxyExtendConfig {
   }
   /**
    * @experimental
-   * Enable Vue Devtools & Valaxy Devtools
-   * @see https://devtools-next.vuejs.org/
+   * Enable Vite DevTools, Valaxy DevTools and Vue DevTools
+   * @see https://devtools.vite.dev/
    */
   devtools?: boolean
   /**

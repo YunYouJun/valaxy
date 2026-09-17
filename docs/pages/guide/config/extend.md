@@ -240,7 +240,32 @@ export default defineValaxyConfig({
 
 ### DevTools
 
-Set `devtools: false` to disable DevTools.
+During development, Valaxy enables [Vite DevTools](https://devtools.vite.dev/) and adds a **Valaxy** panel to its floating dock. Open that panel to manage posts, collections, and source configuration. The first connection asks for the one-time code printed in your terminal.
+
+[Vue DevTools](https://devtools.vuejs.org/) remains available for inspecting Vue components and state. Vite DevTools hosts the framework tools; Vue DevTools handles Vue runtime debugging. Valaxy no longer adds its panel as a custom Vue DevTools tab.
+
+You can also open `<base>__valaxy_devtools__/` directly, for example `/__valaxy_devtools__/` or `/blog/__valaxy_devtools__/`. File operations work in the standalone page; current-page highlighting requires an embedded panel or a same-origin opener.
+
+Set `devtools: false` in `valaxy.config.ts` to disable the development tools and page bridge. Production builds do not include them. MCP is disabled by default.
+
+#### Addon DevTools panels
+
+The native **Valaxy** Dock group contains the main panel and addon tools. Enabled addons can register independent panels, editor fields and draft checks through a lazy Node-side entry:
+
+```ts [valaxy.config.ts]
+import { defineValaxyConfig } from 'valaxy'
+
+export default defineValaxyConfig({
+  addons: [{
+    name: 'valaxy-addon-example',
+    devtools: () => import('valaxy-addon-example/devtools'),
+  }],
+})
+```
+
+This is experimental API v1. Define contributions with `@valaxyjs/devtools/plugin` and share posts, configuration and change notifications through `@valaxyjs/devtools/client-api`. Editor fields are written only on explicit save; checks receive the unsaved draft. Disabled addons, disabled DevTools and production builds do not load the entry.
+
+See the repository's [DevTools README](https://github.com/YunYouJun/valaxy/tree/main/packages/devtools#addon-extensions-experimental-api-v1) for the full API and runnable SEO example. Restart the dev server after changing plugin registration.
 
 ### Addons
 

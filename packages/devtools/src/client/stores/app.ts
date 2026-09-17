@@ -1,5 +1,8 @@
+import type { ValaxyDevtoolsManifest } from '../../shared/extensions'
 import type { ClientCollectionData, ClientOptions, ClientPageData, ClientPostList } from '../types'
 import { ref, watch } from 'vue'
+
+export const extensions = ref<ValaxyDevtoolsManifest>({ apiVersion: 1, plugins: [] })
 
 export const isDevtoolsVisible = ref(false)
 /**
@@ -17,6 +20,8 @@ export const collectionList = ref<ClientCollectionData[]>([])
 
 export const curPost = ref('')
 export const clientPageData = ref<ClientPageData>()
+/** Live site context, independent of the article selected in the editor. */
+export const inspectedPage = ref<ClientPageData>()
 
 // --- Settings ---
 
@@ -28,7 +33,7 @@ export interface DevtoolsSettings {
 }
 
 export const defaultSettings: DevtoolsSettings = {
-  siteUrl: 'http://localhost:4859',
+  siteUrl: '',
   sortOrder: 'updated',
   sortDirection: 'desc',
   listDensity: 'comfortable',

@@ -240,7 +240,32 @@ export default defineValaxyConfig({
 
 ### DevTools {#devtools}
 
-设置 `devtools: false` 以关闭 DevTools。
+开发模式默认启用 [Vite DevTools](https://devtools.vite.dev/)，从悬浮 Dock 中打开 **Valaxy** 面板即可管理文章、合集和源配置。首次连接需输入开发服务器终端中显示的一次性验证码。
+
+[Vue DevTools](https://devtools.vuejs.org/) 继续用于查看 Vue 组件和状态。Vite DevTools 提供框架工具入口，Vue DevTools 负责 Vue 运行时调试；Valaxy 面板不再作为 Vue DevTools 的自定义 Tab 嵌入。
+
+也可以直接打开 `<base>__valaxy_devtools__/`，例如 `/__valaxy_devtools__/` 或 `/blog/__valaxy_devtools__/`。独立页面可以管理文件；当前文章高亮需要内嵌面板或同源 opener 提供页面上下文。
+
+在 `valaxy.config.ts` 中设置 `devtools: false` 可关闭开发工具与页面通信。生产构建不包含这些工具，MCP 默认关闭。
+
+#### Addon 扩展面板 {#devtools-addons}
+
+Vite DevTools 的 **Valaxy** Dock 分组承载主面板和 addon 面板。启用的 addon 可以通过 Node 侧 `devtools` 懒加载入口注册独立面板、文章编辑字段和草稿检查：
+
+```ts [valaxy.config.ts]
+import { defineValaxyConfig } from 'valaxy'
+
+export default defineValaxyConfig({
+  addons: [{
+    name: 'valaxy-addon-example',
+    devtools: () => import('valaxy-addon-example/devtools'),
+  }],
+})
+```
+
+这是实验性的 v1 接口。插件使用 `@valaxyjs/devtools/plugin` 定义贡献，面板通过 `@valaxyjs/devtools/client-api` 共享文章、配置与文件变化通知。声明式编辑字段在显式保存时写入，检查操作读取尚未保存的草稿。关闭 addon 或 DevTools、执行生产构建时不会加载该入口。
+
+完整接口与可运行的 SEO 示例见仓库的 [DevTools README](https://github.com/YunYouJun/valaxy/tree/main/packages/devtools#addon-extensions-experimental-api-v1)。修改插件注册后需要重启开发服务器。
 
 ### 插件 Addons {#addons}
 

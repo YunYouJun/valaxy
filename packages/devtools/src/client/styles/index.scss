@@ -1,20 +1,23 @@
+/* stylelint-disable selector-class-pattern -- Splitpanes owns these BEM selectors. */
 .valaxy-devtools-container {
-  --c-divider: rgb(0 0 0 / 0.15);
-
   .splitpanes__splitter {
-    background-color: var(--c-divider);
+    background-color: #9992;
   }
 
-  // Disable splitpanes transition to prevent panel deformation on page switch
+  .splitpanes--vertical > .splitpanes__splitter {
+    min-width: 1px;
+  }
+
+  .splitpanes--horizontal > .splitpanes__splitter {
+    min-height: 1px;
+  }
+
+  .splitpanes__splitter:hover {
+    background-color: var(--colors-primary-400);
+  }
+
+  // Disable splitpanes transition to prevent panel deformation on page switch.
   .splitpanes__pane {
     transition: none !important;
   }
 }
-
-
-.dark {
-  .valaxy-devtools-container {
-    --c-divider: rgb(255 255 255 / 0.1);
-  }
-}
-

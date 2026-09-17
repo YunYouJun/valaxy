@@ -23,7 +23,7 @@ defineProps<{
         <TooltipContent
           :side="side || 'bottom'"
           :side-offset="4"
-          class="z-50 bg-gray-800 dark:bg-gray-200 text-white dark:text-gray-900 text-xs px-2 py-1 rounded shadow-lg select-none"
+          class="z-tooltip bg-tooltip color-base border border-base text-xs px-2 py-1 rounded shadow-lg select-none"
         >
           {{ content }}
         </TooltipContent>

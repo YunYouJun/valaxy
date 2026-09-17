@@ -47,6 +47,11 @@ export async function createServer(
       vueDevtools.default(),
       valaxyDevtools.default({
         userRoot: options.userRoot,
+        plugins: options.addons.filter(addon => addon.enable && addon.devtools).map(addon => async () => addon.devtools!({
+          userRoot: options.userRoot,
+          addonRoot: addon.root,
+          options: addon.options,
+        })),
       }),
     )
     vLogger.debug(`devtools plugins: ${devtoolsTimer()}`)
@@ -54,7 +59,9 @@ export async function createServer(
 
   // serverSpinner.text = getServerInfoText('merge vite config ...')
   const mergedViteConfig = mergeViteConfig(
-    viteConfig,
+    mergeViteConfig({
+      devtools: enableDevtools ? { apply: 'serve', mcp: false } : false,
+    }, viteConfig),
     {
       plugins: vitePlugins,
     },

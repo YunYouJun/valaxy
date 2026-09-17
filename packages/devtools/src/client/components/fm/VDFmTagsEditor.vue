@@ -60,6 +60,7 @@ function selectSuggestion(s: string) {
       <VDTag
         v-for="(tag, index) in tags"
         :key="tag"
+        :value="tag"
         removable
         @remove="removeTag(index)"
       >
@@ -79,12 +80,12 @@ function selectSuggestion(s: string) {
       />
       <div
         v-if="showSuggestions && filteredSuggestions.length > 0"
-        class="absolute z-10 left-0 right-0 top-full mt-0.5 max-h-32 overflow-auto border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-900 rounded-md shadow-lg"
+        class="absolute z-dropdown left-0 right-0 top-full mt-0.5 max-h-32 overflow-auto border border-base bg-base rounded-md shadow-lg"
       >
         <button
           v-for="s in filteredSuggestions"
           :key="s"
-          class="w-full text-left px-2 py-1 text-xs text-gray-700 dark:text-gray-200 hover:bg-indigo-50 dark:hover:bg-indigo-900/30 hover:text-indigo-600 dark:hover:text-indigo-400 cursor-pointer transition-colors"
+          class="w-full text-left px-2 py-1 text-xs color-base hover:bg-active hover:color-active cursor-pointer transition-colors"
           @mousedown.prevent="selectSuggestion(s)"
         >
           # {{ s }}

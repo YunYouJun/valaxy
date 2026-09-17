@@ -1,9 +1,13 @@
 <script lang="ts" setup>
 import type { ClientPageData } from '../types'
+import { useMediaQuery } from '@vueuse/core'
 import { Pane, Splitpanes } from 'splitpanes'
 import { computed, ref } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { postList } from '../stores/app'
+import { identityColor } from '../utils/colors'
+
+const narrow = useMediaQuery('(max-width: 640px)')
 
 const { t } = useI18n()
 
@@ -111,10 +115,10 @@ function getCategoryLabel() {
 </script>
 
 <template>
-  <Splitpanes class="h-full">
+  <Splitpanes :horizontal="narrow" class="h-full">
     <Pane min-size="20" size="33">
       <div class="h-full flex flex-col">
-        <div class="flex items-center gap-2 px-3 py-2 border-b border-gray-100 dark:border-gray-800">
+        <div class="flex items-center gap-2 px-3 py-2 border-b border-mute">
           <h3 class="text-sm font-bold flex-1">
             {{ t('categories.title') }}
           </h3>
@@ -128,11 +132,11 @@ function getCategoryLabel() {
             >
               <!-- Root level category -->
               <div
-                class="flex items-center gap-2 px-3 py-1.5 text-sm cursor-pointer border-b border-gray-50 dark:border-gray-800/50 transition-colors"
-                :class="isSelected([name]) ? 'bg-indigo-50/50 dark:bg-indigo-900/10 text-indigo-600 dark:text-indigo-400' : 'hover:bg-gray-50 dark:hover:bg-gray-800/50'"
+                class="flex items-center gap-2 px-3 py-1.5 text-sm cursor-pointer border-b border-mute transition-colors"
+                :class="isSelected([name]) ? 'bg-active  color-active ' : 'hover:bg-hover '"
                 @click="selectCategory([name])"
               >
-                <div class="i-ri:folder-2-line text-sm op-50" />
+                <div class="i-ri:folder-2-line text-sm vd-accent" :style="identityColor(name)" />
                 <span class="flex-1 truncate">{{ name }}</span>
                 <span class="text-xs op-40 tabular-nums">{{ node.count }}</span>
               </div>
@@ -141,11 +145,11 @@ function getCategoryLabel() {
               <div
                 v-for="[childName, childNode] in node.children"
                 :key="childName"
-                class="flex items-center gap-2 pl-8 pr-3 py-1.5 text-sm cursor-pointer border-b border-gray-50 dark:border-gray-800/50 transition-colors"
-                :class="isSelected([name, childName]) ? 'bg-indigo-50/50 dark:bg-indigo-900/10 text-indigo-600 dark:text-indigo-400' : 'hover:bg-gray-50 dark:hover:bg-gray-800/50'"
+                class="flex items-center gap-2 pl-8 pr-3 py-1.5 text-sm cursor-pointer border-b border-mute transition-colors"
+                :class="isSelected([name, childName]) ? 'bg-active  color-active ' : 'hover:bg-hover '"
                 @click="selectCategory([name, childName])"
               >
-                <div class="i-ri:folder-line text-sm op-40" />
+                <div class="i-ri:folder-line text-sm vd-accent" :style="identityColor(childName)" />
                 <span class="flex-1 truncate">{{ childName }}</span>
                 <span class="text-xs op-40 tabular-nums">{{ childNode.count }}</span>
               </div>
@@ -161,7 +165,7 @@ function getCategoryLabel() {
 
     <Pane>
       <div v-if="selectedCategory.length > 0" class="h-full overflow-auto">
-        <div class="px-3 py-2 border-b border-gray-100 dark:border-gray-800">
+        <div class="px-3 py-2 border-b border-mute">
           <h3 class="text-sm font-bold">
             {{ getCategoryLabel() }}
           </h3>

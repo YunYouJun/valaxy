@@ -6,13 +6,46 @@ body,
   padding: 0;
 }
 
-html {
-  background: white;
+:root {
+  font-family: 'DM Sans', Inter, ui-sans-serif, system-ui, sans-serif;
+  font-size: 16px;
+
+  --devframe-primary: #6b84fd;
+
+  /* Follow the public Hub branding color with the design preset's OKLCH steps. */
+  --colors-primary: var(--devframe-primary);
+  --colors-primary-50: oklch(from var(--devframe-primary) 97% calc(c * 0.6) h);
+  --colors-primary-100: oklch(from var(--devframe-primary) 94% calc(c * 0.6) h);
+  --colors-primary-200: oklch(from var(--devframe-primary) 87% c h);
+  --colors-primary-300: oklch(from var(--devframe-primary) 78% c h);
+  --colors-primary-400: oklch(from var(--devframe-primary) 68% c h);
+  --colors-primary-500: oklch(from var(--devframe-primary) 58% c h);
+  --colors-primary-600: oklch(from var(--devframe-primary) 50% c h);
+  --colors-primary-700: oklch(from var(--devframe-primary) 42% c h);
+  --colors-primary-800: oklch(from var(--devframe-primary) 35% c h);
+  --colors-primary-900: oklch(from var(--devframe-primary) 28% c h);
+  --colors-primary-950: oklch(from var(--devframe-primary) 18% calc(c * 0.6) h);
+}
+
+body {
+  font-size: 14px;
 }
 
 html.dark {
-  background: #121212;
   color-scheme: dark;
+}
+
+button,
+a,
+input,
+textarea {
+  -webkit-tap-highlight-color: transparent;
+}
+
+button:focus-visible,
+a:focus-visible {
+  outline: 2px solid var(--colors-primary-500);
+  outline-offset: 2px;
 }
 
 #nprogress {
@@ -20,12 +53,37 @@ html.dark {
 }
 
 #nprogress .bar {
-  background: rgb(13, 148, 136);
-  opacity: 0.75;
+  background: var(--colors-primary-500);
   position: fixed;
-  z-index: 1031;
+  z-index: 50;
   top: 0;
   left: 0;
   width: 100%;
   height: 2px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* Colored accents carry category identity and publication state. */
+.vd-accent {
+  color: oklch(46% 0.12 var(--vd-hue, 250));
+}
+
+.vd-tint {
+  background-color: oklch(94% 0.035 var(--vd-hue, 250));
+}
+
+.dark .vd-accent {
+  color: oklch(80% 0.11 var(--vd-hue, 250));
+}
+
+.dark .vd-tint {
+  background-color: oklch(27% 0.04 var(--vd-hue, 250));
 }

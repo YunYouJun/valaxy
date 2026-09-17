@@ -59,18 +59,18 @@ function onInputChange(event: Event) {
       <ComboboxInput
         :placeholder="placeholder"
         :display-value="displayValue"
-        class="vd-combobox-input border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-900 text-gray-700 dark:text-gray-200 rounded-md text-xs px-2 py-1 pr-5 outline-none transition-colors duration-150 w-full"
+        class="vd-combobox-input border border-base bg-base color-base rounded-md text-xs px-2 py-1 pr-5 outline-none transition-colors duration-150 w-full"
         :class="[disabled ? 'op-50 cursor-not-allowed' : '']"
         @input="onInputChange"
       />
-      <ComboboxTrigger class="absolute right-1 inline-flex items-center justify-center text-gray-400 hover:text-gray-600 dark:hover:text-gray-300 cursor-pointer">
+      <ComboboxTrigger class="absolute right-1 inline-flex items-center justify-center color-faint hover:color-muted cursor-pointer">
         <div class="i-ri:arrow-down-s-line text-xs" />
       </ComboboxTrigger>
     </ComboboxAnchor>
 
     <ComboboxPortal>
       <ComboboxContent
-        class="z-50 bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-700 rounded-lg shadow-lg overflow-hidden max-h-48"
+        class="z-dropdown bg-base border border-base rounded-lg shadow-lg overflow-hidden max-h-48"
         position="popper"
         :side-offset="4"
       >
@@ -82,7 +82,7 @@ function onInputChange(event: Event) {
             v-for="opt in options"
             :key="opt"
             :value="opt"
-            class="flex items-center px-2 py-1.5 text-xs rounded cursor-pointer outline-none text-gray-700 dark:text-gray-200 data-[highlighted]:bg-indigo-50 dark:data-[highlighted]:bg-indigo-900/30 data-[highlighted]:text-indigo-600 dark:data-[highlighted]:text-indigo-400"
+            class="flex items-center px-2 py-1.5 text-xs rounded cursor-pointer outline-none color-base data-[highlighted]:bg-active data-[highlighted]:color-active"
           >
             <span class="font-mono">{{ opt }}</span>
           </ComboboxItem>
@@ -94,7 +94,7 @@ function onInputChange(event: Event) {
 
 <style scoped>
 .vd-combobox-input:focus {
-  border-color: #6366f1;
-  box-shadow: 0 0 0 2px rgb(99 102 241 / 0.4);
+  border-color: var(--colors-primary-500);
+  box-shadow: 0 0 0 2px color-mix(in oklab, var(--colors-primary-500), transparent 60%);
 }
 </style>

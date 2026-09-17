@@ -1,6 +1,7 @@
 import fs from 'fs-extra'
 import { generateCode, parseModule } from 'magicast'
 import pathe from 'pathe'
+import { resolveInsideRoot } from './paths'
 
 export const DANGEROUS_FIELD_KEYS = new Set(['__proto__', 'constructor', 'prototype'])
 
@@ -233,6 +234,7 @@ export async function writeConfigField(
     : VALAXY_CONFIG_TEMPLATE
 
   assertInsideRoot(userRoot, targetFile)
+  await resolveInsideRoot(userRoot, targetFile)
 
   // Ensure file exists
   if (!await fs.pathExists(targetFile)) {

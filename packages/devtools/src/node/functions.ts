@@ -1,14 +1,15 @@
-import type { ViteDevServer } from 'vite'
-import type { BatchFrontmatterOperation, ServerFunctions } from '../../rpc'
+import type { BatchFrontmatterOperation, ServerFunctions } from '../shared/rpc'
 import type { ValaxyDevtoolsOptions } from './types'
 import process from 'node:process'
 import dayjs from 'dayjs'
+import { launchEditor } from 'devframe/utils/launch-editor'
 import fg from 'fast-glob'
 import fs from 'fs-extra'
 import matter from 'gray-matter'
 import pathe from 'pathe'
 import { DANGEROUS_FIELD_KEYS, readConfigs, writeConfigField } from './utils/config-rw'
 import { migration } from './utils/migration'
+import { resolveInsideRoot, resolvePageFile } from './utils/paths'
 
 function ensurePrefix(prefix: string, str: string) {
   if (!str.startsWith(prefix))
@@ -66,11 +67,8 @@ function extractConfigItems(content: string): { key?: string, title?: string, li
   return items
 }
 
-export function getFunctions(server: ViteDevServer, devtoolsOptions: ValaxyDevtoolsOptions): ServerFunctions {
-  const userRoot = (devtoolsOptions.userRoot || process.cwd()).replace(/\\/g, '/')
-  // const userRoot = GLOBAL_STATE.valaxyApp?.options.userRoot || process.cwd()
-  // const userRoot = process.cwd()
-  // const userRoot = server.config.root
+export function getFunctions(devtoolsOptions: ValaxyDevtoolsOptions, validateFrontmatter: (data: Record<string, unknown>) => void = () => {}): ServerFunctions {
+  const userRoot = pathe.resolve(devtoolsOptions.userRoot || process.cwd())
 
   function getRoutePath(filePath: string) {
     const relativePath = pathe.relative(pathe.resolve(userRoot, 'pages'), filePath).slice(0, -'.md'.length)
@@ -78,9 +76,14 @@ export function getFunctions(server: ViteDevServer, devtoolsOptions: ValaxyDevto
   }
 
   return {
+    async openInEditor({ file, line = 0, column = 0 }) {
+      const resolved = await resolveInsideRoot(userRoot, file)
+      launchEditor(`${resolved}:${line}:${column}`, process.env.EDITOR)
+    },
     async getOptions() {
       return {
         userRoot,
+        siteUrl: devtoolsOptions.siteUrl?.(),
       }
     },
 
@@ -110,9 +113,9 @@ export function getFunctions(server: ViteDevServer, devtoolsOptions: ValaxyDevto
     },
 
     async getPageData(pagePath: string) {
-      const relativePath = pagePath.startsWith('/') ? pagePath.slice(1) : pagePath
-      const file = pathe.resolve(userRoot, relativePath)
-      const { data } = matter(file)
+      const relativePath = pagePath.startsWith('/pages/') ? pagePath.slice(1) : pagePath
+      const file = await resolvePageFile(userRoot, relativePath)
+      const { data } = matter(await fs.readFile(file, 'utf-8'))
 
       return {
         routePath: getRoutePath(file),
@@ -123,13 +126,13 @@ export function getFunctions(server: ViteDevServer, devtoolsOptions: ValaxyDevto
 
     async updateFrontmatter(req) {
       const { filePath, frontmatter: newFm } = req
-      // Validate file path is within userRoot/pages and is a .md file
-      const pagesDir = pathe.resolve(userRoot, 'pages')
-      const resolved = pathe.resolve(filePath)
-      const rel = pathe.relative(pagesDir, resolved)
-      if (rel.startsWith('..') || pathe.isAbsolute(rel) || !resolved.endsWith('.md'))
-        throw new Error('Invalid file path: must be within pages directory and end with .md')
+      const resolved = await resolvePageFile(userRoot, filePath)
+      for (const key of Object.keys(newFm)) {
+        if (DANGEROUS_FIELD_KEYS.has(key))
+          throw new Error('Invalid frontmatter field')
+      }
 
+      validateFrontmatter(newFm)
       if (!fs.existsSync(resolved))
         throw new Error(`File not found: ${resolved}`)
       const rawMd = await fs.readFile(resolved, 'utf-8')
@@ -243,8 +246,6 @@ export function getFunctions(server: ViteDevServer, devtoolsOptions: ValaxyDevto
     },
 
     async batchUpdateFrontmatter(filePaths: string[], operations: BatchFrontmatterOperation[]) {
-      const pagesDir = pathe.resolve(userRoot, 'pages')
-
       const result = {
         total: filePaths.length,
         updated: 0,
@@ -253,13 +254,7 @@ export function getFunctions(server: ViteDevServer, devtoolsOptions: ValaxyDevto
 
       for (const filePath of filePaths) {
         try {
-          // Validate file path is within userRoot/pages and is a .md file
-          const resolved = pathe.resolve(filePath)
-          const rel = pathe.relative(pagesDir, resolved)
-          if (rel.startsWith('..') || pathe.isAbsolute(rel) || !resolved.endsWith('.md')) {
-            result.errors.push({ filePath, error: 'Invalid file path: must be within pages directory and end with .md' })
-            continue
-          }
+          const resolved = await resolvePageFile(userRoot, filePath)
 
           if (!await fs.pathExists(resolved)) {
             result.errors.push({ filePath, error: 'File not found' })
@@ -272,7 +267,7 @@ export function getFunctions(server: ViteDevServer, devtoolsOptions: ValaxyDevto
 
           for (const op of operations) {
             // Reject dangerous keys to prevent prototype pollution
-            if (DANGEROUS_FIELD_KEYS.has(op.key) || (op.newKey && DANGEROUS_FIELD_KEYS.has(op.newKey)))
+            if (DANGEROUS_FIELD_KEYS.has(op.key) || (op.type === 'rename' && DANGEROUS_FIELD_KEYS.has(op.newKey)))
               continue
 
             switch (op.type) {
@@ -297,6 +292,7 @@ export function getFunctions(server: ViteDevServer, devtoolsOptions: ValaxyDevto
           }
 
           if (modified) {
+            validateFrontmatter(matterFile.data)
             const newMd = matter.stringify(matterFile.content, matterFile.data)
             await fs.writeFile(resolved, newMd)
             result.updated++
@@ -325,7 +321,12 @@ export function getFunctions(server: ViteDevServer, devtoolsOptions: ValaxyDevto
     },
 
     async runMigration(filePaths, frontmatter) {
-      const workers = filePaths.map(path => migration(path, frontmatter))
+      for (const [key, value] of Object.entries(frontmatter)) {
+        if (DANGEROUS_FIELD_KEYS.has(key) || DANGEROUS_FIELD_KEYS.has(value))
+          throw new Error('Invalid migration field')
+      }
+      const paths = await Promise.all(filePaths.map(path => resolvePageFile(userRoot, path)))
+      const workers = paths.map(path => migration(path, frontmatter, validateFrontmatter))
       await Promise.all(workers)
       return { success: true }
     },
@@ -357,19 +358,9 @@ export function getFunctions(server: ViteDevServer, devtoolsOptions: ValaxyDevto
           filePath = pathe.resolve(postsDir, `${slug}.md`)
         }
 
+        await resolvePageFile(userRoot, filePath)
         // Ensure parent directory exists
         await fs.ensureDir(pathe.dirname(filePath))
-
-        // Ensure unique filename
-        if (await fs.pathExists(filePath)) {
-          const ext = pathe.extname(filePath)
-          const base = filePath.slice(0, -ext.length)
-          let counter = 1
-          while (await fs.pathExists(filePath)) {
-            filePath = `${base}-${counter}${ext}`
-            counter++
-          }
-        }
 
         const now = dayjs().format('YYYY-MM-DD HH:mm:ss')
         const frontmatter: Record<string, unknown> = {
@@ -384,7 +375,21 @@ export function getFunctions(server: ViteDevServer, devtoolsOptions: ValaxyDevto
           frontmatter.categories = categories
 
         const content = matter.stringify('\n', frontmatter)
-        await fs.writeFile(filePath, content, 'utf-8')
+        // Exclusive creation also handles concurrent requests and symlinked suffixes.
+        const ext = pathe.extname(filePath)
+        const base = filePath.slice(0, -ext.length)
+        let counter = 0
+        while (true) {
+          try {
+            await fs.writeFile(filePath, content, { encoding: 'utf-8', flag: 'wx' })
+            break
+          }
+          catch (error) {
+            if ((error as NodeJS.ErrnoException).code !== 'EEXIST')
+              throw error
+            filePath = `${base}-${++counter}${ext}`
+          }
+        }
 
         return { success: true, filePath }
       }

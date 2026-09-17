@@ -7,7 +7,7 @@ import { computed } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { tObject } from '../../../../valaxy/shared'
 import { activePath } from '../composables/app'
-import { clientPageData, settings } from '../stores/app'
+import { clientOptions, clientPageData, settings } from '../stores/app'
 import { openInEditor } from '../utils'
 
 const props = defineProps<{
@@ -23,7 +23,7 @@ function onClickPost(post: ClientPageData) {
 }
 
 function openPostInBrowser(post: ClientPageData) {
-  const baseUrl = settings.value.siteUrl.replace(/\/$/, '')
+  const baseUrl = (settings.value.siteUrl || clientOptions.value.siteUrl || window.location.origin).replace(/\/$/, '')
   window.open(`${baseUrl}${post.routePath}`, '_blank')
 }
 
@@ -63,11 +63,12 @@ const tags = computed(() => {
 
 <template>
   <li
-    class="group border-b border-gray-50 dark:border-gray-800/50 cursor-pointer transition-colors px-3"
+    class="group border-b border-mute cursor-pointer transition-colors px-3"
     :class="[
-      active ? 'bg-indigo-50/50 dark:bg-indigo-900/10 border-l-2 border-l-indigo-500' : 'hover:bg-gray-50 dark:hover:bg-gray-800/50 border-l-2 border-l-transparent',
+      active ? 'bg-active  border-l-2 border-l-primary-500' : 'hover:bg-hover  border-l-2 border-l-transparent',
       isCompact ? 'py-1' : 'py-2',
     ]"
+    :data-active="active || undefined"
     @click="onClickPost(post)"
   >
     <!-- Line 1: Title + badges + actions -->
@@ -80,7 +81,9 @@ const tags = computed(() => {
       >
         <div i-vscode-icons:file-type-vscode />
       </button>
-      <span class="flex-1 text-sm font-medium truncate">{{ title }}</span>
+      <button class="flex-1 text-left text-sm font-medium truncate rounded" :aria-pressed="active" @click.stop="onClickPost(post)">
+        {{ title }}
+      </button>
       <span
         v-if="post.frontmatter.draft"
         class="text-[10px] px-1.5 py-0.5 rounded bg-amber-100 text-amber-700 dark:bg-amber-900/30 dark:text-amber-400 flex-shrink-0"

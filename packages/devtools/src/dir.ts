@@ -1,10 +1,7 @@
 import { dirname, resolve } from 'node:path'
 import { fileURLToPath } from 'node:url'
 
-export const DIR_DIST = typeof __dirname !== 'undefined'
-  ? __dirname
-  : dirname(fileURLToPath(import.meta.url))
+const packageRoot = dirname(fileURLToPath(import.meta.resolve('@valaxyjs/devtools/package.json')))
 
-const DEVTOOLS_CLIENT_FOLDER = resolve(DIR_DIST, '../dist/client')
-
-export const DIR_CLIENT = DEVTOOLS_CLIENT_FOLDER
+export const DIR_DIST = resolve(packageRoot, 'dist')
+export const DIR_CLIENT = resolve(DIR_DIST, 'client')

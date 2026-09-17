@@ -1,6 +1,7 @@
 <script lang="ts" setup>
-import type { BatchFrontmatterOperation } from '../../../rpc'
+import type { BatchFrontmatterOperation } from '../../shared/rpc'
 import type { ClientPageData } from '../types'
+import { useMediaQuery } from '@vueuse/core'
 
 import { Pane, Splitpanes } from 'splitpanes'
 
@@ -10,6 +11,8 @@ import { tObject } from '../../../../valaxy/shared'
 
 import { rpc } from '../rpc'
 import { postList } from '../stores/app'
+
+const narrow = useMediaQuery('(max-width: 640px)')
 
 const { t, locale } = useI18n()
 
@@ -159,12 +162,14 @@ function requestExecute() {
 async function executeBatch() {
   confirmDialogOpen.value = false
 
-  const batchOps: BatchFrontmatterOperation[] = validOps.value.map(op => ({
-    type: op.type,
-    key: op.key.trim(),
-    value: op.type === 'set' ? parseValue(op.value) : undefined,
-    newKey: op.type === 'rename' ? op.newKey.trim() : undefined,
-  }))
+  const batchOps: BatchFrontmatterOperation[] = validOps.value.map((op) => {
+    const key = op.key.trim()
+    if (op.type === 'set')
+      return { type: 'set', key, value: parseValue(op.value) }
+    if (op.type === 'rename')
+      return { type: 'rename', key, newKey: op.newKey.trim() }
+    return { type: 'delete', key }
+  })
 
   isSubmitting.value = true
   resultMessage.value = null
@@ -233,11 +238,11 @@ function getFmValue(post: ClientPageData, key: string): string {
 </script>
 
 <template>
-  <Splitpanes class="h-full">
+  <Splitpanes :horizontal="narrow" class="h-full">
     <!-- Left: Post Selection -->
     <Pane min-size="20" size="33">
       <div class="h-full flex flex-col">
-        <div class="flex items-center gap-2 px-3 py-2 border-b border-gray-100 dark:border-gray-800">
+        <div class="flex items-center gap-2 px-3 py-2 border-b border-mute">
           <h3 class="text-sm font-bold flex-1">
             {{ t('batchEdit.select_posts') }}
           </h3>
@@ -254,13 +259,15 @@ function getFmValue(post: ClientPageData, key: string): string {
         <ul v-if="postList.posts.length > 0" class="flex-1 overflow-auto" flex="~ col gap-0">
           <li
             v-for="post in postList.posts" :key="post.filePath"
-            class="flex items-center gap-2 text-sm cursor-pointer px-3 py-1.5 border-b border-gray-50 dark:border-gray-800/50 transition-colors"
-            :class="isChecked(post.filePath) ? 'bg-blue-50/50 dark:bg-blue-900/10' : 'hover:bg-gray-50 dark:hover:bg-gray-800/50'"
+            class="flex items-center gap-2 text-sm cursor-pointer px-3 py-1.5 border-b border-mute transition-colors"
+            :class="isChecked(post.filePath) ? 'bg-active' : 'hover:bg-hover '"
             @click="togglePost(post.filePath)"
           >
             <VDCheckbox
               :model-value="isChecked(post.filePath)"
-              class="pointer-events-none"
+              :aria-label="resolveTitle(post)"
+              @click.stop
+              @update:model-value="togglePost(post.filePath)"
             />
             <span class="truncate text-xs">{{ resolveTitle(post) }}</span>
           </li>
@@ -283,10 +290,10 @@ function getFmValue(post: ClientPageData, key: string): string {
             <span class="text-xs op-40">{{ operations.length }}</span>
           </div>
 
-          <div class="border border-gray-200 rounded-lg dark:border-gray-700 divide-y divide-gray-100 dark:divide-gray-800">
+          <div class="border border-base rounded-lg divide-y divide-[#9992]">
             <div
               v-for="(op, index) in operations" :key="index"
-              class="flex gap-2 items-center px-3 py-2"
+              class="flex flex-wrap gap-2 items-center px-3 py-2"
             >
               <span class="text-xs op-30 w-4 text-right tabular-nums">{{ index + 1 }}</span>
               <VDSelect
@@ -324,7 +331,7 @@ function getFmValue(post: ClientPageData, key: string): string {
 
               <button
                 v-if="operations.length > 1"
-                class="inline-flex items-center justify-center w-7 h-7 rounded op-40 hover:op-100 hover:bg-gray-100 dark:hover:bg-gray-800 cursor-pointer transition-colors"
+                class="inline-flex items-center justify-center w-7 h-7 rounded op-40 hover:op-100 hover:bg-hover cursor-pointer transition-colors"
                 @click="removeOperation(index)"
               >
                 <div class="i-ri:close-line text-sm" />
@@ -399,17 +406,17 @@ function getFmValue(post: ClientPageData, key: string): string {
             {{ t('batchEdit.show_preview') }}
           </h3>
 
-          <div class="overflow-auto border border-gray-200 rounded-lg dark:border-gray-700 max-h-[calc(100vh-24rem)]">
+          <div class="overflow-auto border border-base rounded-lg max-h-[calc(100vh-24rem)]">
             <!-- Preview Table -->
             <table v-if="previewVisible" class="text-xs w-full border-collapse">
               <thead>
-                <tr class="bg-gray-50 dark:bg-gray-800/80">
-                  <th class="border-b border-r border-gray-200 px-2 py-1.5 dark:border-gray-700 sticky left-0 bg-gray-50 dark:bg-gray-800/80 z-1 text-left font-semibold">
+                <tr class="bg-secondary">
+                  <th class="border-b border-r border-base px-2 py-1.5 sticky left-0 bg-secondary z-nav text-left font-semibold">
                     {{ t('batchEdit.post_title') }}
                   </th>
                   <th
                     v-for="key in allFrontmatterKeys" :key="key"
-                    class="border-b border-r border-gray-200 last:border-r-0 px-2 py-1.5 dark:border-gray-700 whitespace-nowrap text-left font-semibold"
+                    class="border-b border-r border-base last:border-r-0 px-2 py-1.5 whitespace-nowrap text-left font-semibold"
                   >
                     {{ key }}
                   </th>
@@ -418,14 +425,14 @@ function getFmValue(post: ClientPageData, key: string): string {
               <tbody>
                 <tr
                   v-for="item in previewData" :key="item.filePath"
-                  class="hover:bg-gray-50/50 dark:hover:bg-gray-800/30 transition-colors"
+                  class="hover:bg-hover transition-colors"
                 >
-                  <td class="border-b border-r border-gray-200 px-2 py-1 dark:border-gray-700 sticky left-0 bg-white dark:bg-gray-900 z-1 font-medium whitespace-nowrap">
+                  <td class="border-b border-r border-base px-2 py-1 sticky left-0 bg-base z-nav font-medium whitespace-nowrap">
                     {{ item.title }}
                   </td>
                   <td
                     v-for="key in allFrontmatterKeys" :key="key"
-                    class="border-b border-r border-gray-200 last:border-r-0 px-2 py-1 dark:border-gray-700 max-w-40 truncate font-mono"
+                    class="border-b border-r border-base last:border-r-0 px-2 py-1 max-w-40 truncate font-mono"
                   >
                     {{ displayFmValue(item.frontmatter[key]) }}
                   </td>
@@ -436,13 +443,13 @@ function getFmValue(post: ClientPageData, key: string): string {
             <!-- Current Frontmatter Table -->
             <table v-else class="text-xs w-full border-collapse">
               <thead>
-                <tr class="bg-gray-50 dark:bg-gray-800/80">
-                  <th class="border-b border-r border-gray-200 px-2 py-1.5 dark:border-gray-700 sticky left-0 bg-gray-50 dark:bg-gray-800/80 z-1 text-left font-semibold">
+                <tr class="bg-secondary">
+                  <th class="border-b border-r border-base px-2 py-1.5 sticky left-0 bg-secondary z-nav text-left font-semibold">
                     {{ t('batchEdit.post_title') }}
                   </th>
                   <th
                     v-for="key in allFrontmatterKeys" :key="key"
-                    class="border-b border-r border-gray-200 last:border-r-0 px-2 py-1.5 dark:border-gray-700 whitespace-nowrap text-left font-semibold"
+                    class="border-b border-r border-base last:border-r-0 px-2 py-1.5 whitespace-nowrap text-left font-semibold"
                   >
                     {{ key }}
                   </th>
@@ -451,14 +458,14 @@ function getFmValue(post: ClientPageData, key: string): string {
               <tbody>
                 <tr
                   v-for="post in postList.posts.filter(p => checkedPosts.includes(p.filePath))" :key="post.filePath"
-                  class="hover:bg-gray-50/50 dark:hover:bg-gray-800/30 transition-colors"
+                  class="hover:bg-hover transition-colors"
                 >
-                  <td class="border-b border-r border-gray-200 px-2 py-1 dark:border-gray-700 sticky left-0 bg-white dark:bg-gray-900 z-1 font-medium whitespace-nowrap">
+                  <td class="border-b border-r border-base px-2 py-1 sticky left-0 bg-base z-nav font-medium whitespace-nowrap">
                     {{ resolveTitle(post) }}
                   </td>
                   <td
                     v-for="key in allFrontmatterKeys" :key="key"
-                    class="border-b border-r border-gray-200 last:border-r-0 px-2 py-1 dark:border-gray-700 max-w-40 truncate font-mono"
+                    class="border-b border-r border-base last:border-r-0 px-2 py-1 max-w-40 truncate font-mono"
                   >
                     {{ getFmValue(post, key) }}
                   </td>

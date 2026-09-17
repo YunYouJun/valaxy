@@ -7,7 +7,7 @@ import { JSON_SCHEMA } from 'js-yaml'
  * @param path
  * @param frontmatter
  */
-export async function migration(path: string, frontmatter: { [key: string]: string }) {
+export async function migration(path: string, frontmatter: { [key: string]: string }, validateFrontmatter: (data: Record<string, unknown>) => void = () => {}) {
   if (fs.existsSync(path)) {
     const rawMd = await fs.readFile(path, 'utf-8')
     const matterFile = matter(rawMd, { schema: JSON_SCHEMA } as any)
@@ -20,6 +20,7 @@ export async function migration(path: string, frontmatter: { [key: string]: stri
       }
     }
     if (mod) {
+      validateFrontmatter(matterFile.data)
       const newMd = matter.stringify(matterFile.content, matterFile.data)
       await fs.writeFile(path, newMd)
     }

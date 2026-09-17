@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import ActionButton from '@antfu/design/components/Action/ActionButton.vue'
+
 defineProps<{
   variant?: 'default' | 'secondary' | 'warn' | 'ghost'
   size?: 'sm' | 'md'
@@ -11,33 +13,17 @@ defineProps<{
 </script>
 
 <template>
-  <component
-    :is="tag || 'button'"
-    class="vd-btn inline-flex items-center justify-center gap-1.5 font-medium transition-colors duration-150 cursor-pointer select-none whitespace-nowrap"
-    :class="[
-      // Size
-      size === 'sm' || !size
-        ? 'text-xs px-2 py-1 rounded-md'
-        : 'text-sm px-3 py-1.5 rounded-md',
-
-      // Variant
-      variant === 'secondary'
-        ? 'bg-gray-100 text-gray-700 hover:bg-gray-200 dark:bg-gray-800 dark:text-gray-200 dark:hover:bg-gray-700'
-        : variant === 'warn'
-          ? 'bg-amber-500 text-white hover:bg-amber-600 dark:bg-amber-600 dark:hover:bg-amber-500'
-          : variant === 'ghost'
-            ? 'bg-transparent text-gray-600 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-800'
-            : 'bg-indigo-500 text-white hover:bg-indigo-600 dark:bg-indigo-600 dark:hover:bg-indigo-500',
-
-      // State
-      (disabled || loading) ? 'op-50 pointer-events-none' : '',
-    ]"
+  <ActionButton
+    :as="tag || 'button'"
+    :type="tag === 'a' ? undefined : 'button'"
+    :variant="variant === 'ghost' ? 'text' : variant === 'secondary' || variant === 'warn' ? 'action' : 'primary'"
+    :size="size || 'sm'"
     :disabled="disabled || loading"
+    :loading="loading"
+    :icon="icon"
+    class="justify-center whitespace-nowrap"
+    :class="variant === 'warn' ? 'text-warning-700 dark:text-warning-300 border-warning-600/20' : ''"
   >
-    <div v-if="loading" class="i-ri:loader-4-line animate-spin text-sm" />
-    <div v-else-if="icon" :class="icon" class="text-sm" />
-    <span v-if="label || $slots.default">
-      <slot>{{ label }}</slot>
-    </span>
-  </component>
+    <slot>{{ label }}</slot>
+  </ActionButton>
 </template>

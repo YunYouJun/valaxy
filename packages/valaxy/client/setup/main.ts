@@ -27,7 +27,7 @@ export default function setupMain(ctx: ValaxySSGContext, config: ComputedRef<Val
   installNprogress(ctx)
   installFloatingVue(ctx, config)
 
-  if (import.meta.env.DEV && ctx.isClient) {
+  if (import.meta.env.DEV && ctx.isClient && config.value.devtools) {
     import('../modules/devtools').then(({ install: installDevtools }) => {
       setTimeout(() => {
         installDevtools(ctx)

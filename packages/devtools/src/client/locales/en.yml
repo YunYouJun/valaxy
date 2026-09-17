@@ -1,4 +1,5 @@
 button:
+  close: Close
   back: Back
   go: GO
   home: Home
@@ -71,6 +72,8 @@ archives:
   posts_count: '{count} post(s)'
 
 nav:
+  debug: Page Debug
+  navigation: Navigation
   dashboard: Dashboard
   posts: Posts
   archives: Archives
@@ -201,3 +204,36 @@ config:
   group_general: General
   group_excerpt: Excerpt
   group_llms: LLMs
+
+connection:
+  connecting: Connecting to Valaxy…
+  disconnected: Connection lost. Reconnect to continue.
+  error: Unable to connect to Valaxy.
+  authorize: Enter the one-time code shown in your dev server terminal.
+  code: One-time code
+  connect: Connect
+  request_code: Show code in terminal
+  invalid_code: Invalid or expired code. Request a new code.
+  retry: Reconnect
+  external_changes: This file changed on disk. Your unsaved edits have been kept.
+  reload: Reload from disk
+
+extensions:
+  title: Addons
+  panels_hint: Open an addon panel here, or select it in the Valaxy Dock group.
+  contributions: '{fields} editor fields · {actions} checks'
+  add_field: Add field
+  remove_field: Remove field
+  draft_changed: The draft changed while the check was running. Run the check again.
+
+debug:
+  live: Live
+  description: Read-only diagnostics and runtime configuration for the page you are browsing.
+  viewport: Site viewport & breakpoints
+  route: Current route
+  site_config: Site runtime config
+  theme_config: Theme runtime config
+  matched: matched
+  unmatched: not matched
+  no_page: No page diagnostics available
+  connect_hint: Open Valaxy DevTools from the running site, or open a separate window with a connection to that page.

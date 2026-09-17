@@ -1,10 +1,13 @@
 <script lang="ts" setup>
+import { useMediaQuery } from '@vueuse/core'
 import { Pane, Splitpanes } from 'splitpanes'
 import { computed, ref } from 'vue'
 import { useI18n } from 'vue-i18n'
 import configMeta from '../config-meta.json'
 import { configData, configLoading, configSaveMessage, fetchConfig } from '../stores/config'
 import { openInEditor } from '../utils/api'
+
+const narrow = useMediaQuery('(max-width: 640px)')
 
 const { t, locale } = useI18n()
 
@@ -159,19 +162,19 @@ const quickTabs = computed(() => [
   </div>
 
   <!-- Main two-pane layout -->
-  <Splitpanes v-else class="h-full">
+  <Splitpanes v-else :horizontal="narrow" class="h-full">
     <!-- Left Pane: Quick Edit -->
     <Pane min-size="30" size="45">
       <div class="h-full flex flex-col">
         <!-- Left header -->
-        <div class="flex items-center gap-2 px-3 py-2 border-b border-gray-100 dark:border-gray-800">
+        <div class="flex items-center gap-2 px-3 py-2 border-b border-mute">
           <h3 class="text-sm font-bold flex-1">
             {{ t('config.quick_edit') }}
           </h3>
           <div class="flex items-center gap-1">
             <VDTooltip :content="t('config.open_site_config')">
               <button
-                class="inline-flex items-center gap-1 px-1.5 py-0.5 text-xs rounded hover:bg-gray-100 dark:hover:bg-gray-800 text-gray-400 transition-colors"
+                class="inline-flex items-center gap-1 px-1.5 py-0.5 text-xs rounded hover:bg-hover color-faint transition-colors"
                 @click="openConfigFile('site')"
               >
                 <div class="i-ri:file-text-line text-xs" />
@@ -180,7 +183,7 @@ const quickTabs = computed(() => [
             </VDTooltip>
             <VDTooltip :content="t('config.open_valaxy_config')">
               <button
-                class="inline-flex items-center gap-1 px-1.5 py-0.5 text-xs rounded hover:bg-gray-100 dark:hover:bg-gray-800 text-gray-400 transition-colors"
+                class="inline-flex items-center gap-1 px-1.5 py-0.5 text-xs rounded hover:bg-hover color-faint transition-colors"
                 @click="openConfigFile('valaxy')"
               >
                 <div class="i-ri:file-text-line text-xs" />
@@ -188,7 +191,7 @@ const quickTabs = computed(() => [
               </button>
             </VDTooltip>
             <button
-              class="inline-flex items-center justify-center w-6 h-6 text-xs rounded hover:bg-gray-100 dark:hover:bg-gray-800 text-gray-400 transition-colors"
+              class="inline-flex items-center justify-center w-6 h-6 text-xs rounded hover:bg-hover color-faint transition-colors"
               :disabled="configLoading"
               @click="fetchConfig"
             >
@@ -210,8 +213,8 @@ const quickTabs = computed(() => [
             v-for="tab in quickTabs" :key="tab.value"
             class="inline-flex items-center gap-1 px-2 py-1 text-xs rounded-md border transition-colors"
             :class="quickTab === tab.value
-              ? 'bg-indigo-50 dark:bg-indigo-900/30 border-indigo-200 dark:border-indigo-800 text-indigo-600 dark:text-indigo-400'
-              : 'border-gray-200 dark:border-gray-700 text-gray-500 dark:text-gray-400 hover:bg-gray-50 dark:hover:bg-gray-800'"
+              ? 'bg-active  border-active  color-active '
+              : 'border-base  color-muted  hover:bg-hover '"
             @click="quickTab = tab.value as any"
           >
             <div :class="tab.icon" class="text-xs" />
@@ -560,7 +563,7 @@ const quickTabs = computed(() => [
               />
               <div v-else class="flex flex-col gap-1.5">
                 <label class="text-sm font-medium">{{ key }}</label>
-                <code class="px-2 py-1 bg-gray-1 dark:bg-dark rounded text-xs break-all">
+                <code class="px-2 py-1 bg-secondary rounded text-xs break-all">
                   {{ JSON.stringify(value) }}
                 </code>
               </div>
@@ -574,7 +577,7 @@ const quickTabs = computed(() => [
     <Pane>
       <div class="h-full flex flex-col">
         <!-- Right header -->
-        <div class="flex items-center gap-2 px-3 py-2 border-b border-gray-100 dark:border-gray-800">
+        <div class="flex items-center gap-2 px-3 py-2 border-b border-mute">
           <h3 class="text-sm font-bold flex-1">
             {{ t('config.all_options') }}
           </h3>
@@ -597,10 +600,10 @@ const quickTabs = computed(() => [
             <div
               v-for="section in ['SiteConfig', 'ValaxyConfig']"
               :key="section"
-              class="border border-gray-200 dark:border-gray-700 rounded-lg overflow-hidden"
+              class="border border-base rounded-lg overflow-hidden"
             >
               <button
-                class="w-full flex items-center gap-2 px-3 py-1.5 text-xs font-bold bg-gray-50 dark:bg-gray-800 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors text-left"
+                class="w-full flex items-center gap-2 px-3 py-1.5 text-xs font-bold bg-secondary hover:bg-hover transition-colors text-left"
                 @click="toggleSection(section)"
               >
                 <div
@@ -613,16 +616,16 @@ const quickTabs = computed(() => [
                 </span>
               </button>
 
-              <div v-if="!collapsedSections.has(section)" class="divide-y divide-gray-100 dark:divide-gray-800">
+              <div v-if="!collapsedSections.has(section)" class="divide-y divide-[#9992]">
                 <div
                   v-for="field in filteredFields.filter(f => f.section === section)"
                   :key="field.path"
-                  class="px-3 py-1.5 hover:bg-gray-50 dark:hover:bg-gray-800/50 transition-colors"
+                  class="px-3 py-1.5 hover:bg-hover transition-colors"
                 >
                   <div class="flex items-start gap-1.5">
                     <div class="flex-1 min-w-0">
                       <div class="flex items-center gap-1.5 flex-wrap">
-                        <code class="text-xs font-mono text-indigo-600 dark:text-indigo-400">
+                        <code class="text-xs font-mono color-active">
                           {{ field.path }}
                         </code>
                         <span class="text-xs op-40">({{ field.type }})</span>
@@ -634,7 +637,7 @@ const quickTabs = computed(() => [
                         {{ getDescription(field) }}
                       </p>
                       <div v-if="field.value !== undefined" class="mt-0.5">
-                        <code class="text-xs bg-gray-100 dark:bg-gray-800 px-1 py-0.5 rounded break-all">
+                        <code class="text-xs bg-sunken px-1 py-0.5 rounded break-all">
                           {{ typeof field.value === 'object' ? JSON.stringify(field.value) : String(field.value) }}
                         </code>
                       </div>
@@ -643,7 +646,7 @@ const quickTabs = computed(() => [
                     <div class="flex items-center gap-0.5 flex-shrink-0">
                       <VDTooltip :content="t('config.copy_snippet')">
                         <button
-                          class="inline-flex items-center justify-center w-5 h-5 rounded hover:bg-gray-200 dark:hover:bg-gray-700 text-gray-400 hover:text-gray-600 dark:hover:text-gray-200 transition-colors"
+                          class="inline-flex items-center justify-center w-5 h-5 rounded hover:bg-hover color-faint hover:color-muted transition-colors"
                           @click="copySnippet(field)"
                         >
                           <div class="i-ri:clipboard-line text-xs" />
@@ -651,7 +654,7 @@ const quickTabs = computed(() => [
                       </VDTooltip>
                       <VDTooltip :content="t('config.open_in_editor')">
                         <button
-                          class="inline-flex items-center justify-center w-5 h-5 rounded hover:bg-gray-200 dark:hover:bg-gray-700 text-gray-400 hover:text-gray-600 dark:hover:text-gray-200 transition-colors"
+                          class="inline-flex items-center justify-center w-5 h-5 rounded hover:bg-hover color-faint hover:color-muted transition-colors"
                           @click="openConfigFile(field.configType)"
                         >
                           <div class="i-ri:edit-line text-xs" />
@@ -666,10 +669,10 @@ const quickTabs = computed(() => [
             <!-- Theme Config section -->
             <div
               v-if="themeConfigEntries.length > 0"
-              class="border border-gray-200 dark:border-gray-700 rounded-lg overflow-hidden"
+              class="border border-base rounded-lg overflow-hidden"
             >
               <button
-                class="w-full flex items-center gap-2 px-3 py-1.5 text-xs font-bold bg-gray-50 dark:bg-gray-800 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors text-left"
+                class="w-full flex items-center gap-2 px-3 py-1.5 text-xs font-bold bg-secondary hover:bg-hover transition-colors text-left"
                 @click="toggleSection('ThemeConfig')"
               >
                 <div
@@ -682,29 +685,29 @@ const quickTabs = computed(() => [
                 </span>
               </button>
 
-              <div v-if="!collapsedSections.has('ThemeConfig')" class="divide-y divide-gray-100 dark:divide-gray-800">
+              <div v-if="!collapsedSections.has('ThemeConfig')" class="divide-y divide-[#9992]">
                 <div
                   v-for="[key, value] in themeConfigEntries"
                   :key="key"
-                  class="px-3 py-1.5 hover:bg-gray-50 dark:hover:bg-gray-800/50 transition-colors"
+                  class="px-3 py-1.5 hover:bg-hover transition-colors"
                 >
                   <div class="flex items-start gap-1.5">
                     <div class="flex-1 min-w-0">
                       <div class="flex items-center gap-1.5">
-                        <code class="text-xs font-mono text-indigo-600 dark:text-indigo-400">
+                        <code class="text-xs font-mono color-active">
                           themeConfig.{{ key }}
                         </code>
                         <span class="text-xs op-40">({{ typeof value }})</span>
                       </div>
                       <div class="mt-0.5">
-                        <code class="text-xs bg-gray-100 dark:bg-gray-800 px-1 py-0.5 rounded break-all">
+                        <code class="text-xs bg-sunken px-1 py-0.5 rounded break-all">
                           {{ typeof value === 'object' ? JSON.stringify(value) : String(value) }}
                         </code>
                       </div>
                     </div>
                     <VDTooltip :content="t('config.open_in_editor')">
                       <button
-                        class="inline-flex items-center justify-center w-5 h-5 rounded hover:bg-gray-200 dark:hover:bg-gray-700 text-gray-400 hover:text-gray-600 dark:hover:text-gray-200 transition-colors"
+                        class="inline-flex items-center justify-center w-5 h-5 rounded hover:bg-hover color-faint hover:color-muted transition-colors"
                         @click="openConfigFile('valaxy')"
                       >
                         <div class="i-ri:edit-line text-xs" />

@@ -22,6 +22,8 @@ import {
 } from 'reka-ui'
 import { computed } from 'vue'
 
+defineOptions({ inheritAttrs: false })
+
 const props = defineProps<{
   modelValue?: Date
   showTime?: boolean
@@ -58,15 +60,16 @@ function onDateChange(val: DateValue | undefined) {
 <template>
   <PopoverRoot>
     <PopoverTrigger
-      class="inline-flex items-center gap-1.5 border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-900 rounded-md text-xs px-2 py-1 cursor-pointer hover:border-gray-300 dark:hover:border-gray-600 transition-colors"
+      v-bind="$attrs"
+      class="inline-flex items-center gap-1.5 border border-base bg-base rounded-md text-xs px-2 py-1 cursor-pointer hover:border-base transition-colors"
     >
       <div class="i-ri:calendar-line text-sm op-50" />
-      <span class="text-gray-700 dark:text-gray-200">{{ displayValue || 'Select date' }}</span>
+      <span class="color-base">{{ displayValue || 'Select date' }}</span>
     </PopoverTrigger>
 
     <PopoverPortal>
       <PopoverContent
-        class="z-50 bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-700 rounded-lg shadow-lg p-3"
+        class="z-dropdown bg-base border border-base rounded-lg shadow-lg p-3"
         :side-offset="4"
       >
         <DatePickerRoot
@@ -75,13 +78,13 @@ function onDateChange(val: DateValue | undefined) {
           <DatePickerCalendar v-slot="{ grid, weekDays }">
             <DatePickerHeader class="flex items-center justify-between mb-2">
               <DatePickerPrev
-                class="inline-flex items-center justify-center w-6 h-6 rounded hover:bg-gray-100 dark:hover:bg-gray-800 cursor-pointer"
+                class="inline-flex items-center justify-center w-6 h-6 rounded hover:bg-hover cursor-pointer"
               >
                 <div class="i-ri:arrow-left-s-line" />
               </DatePickerPrev>
-              <DatePickerHeading class="text-sm font-medium text-gray-700 dark:text-gray-200" />
+              <DatePickerHeading class="text-sm font-medium color-base" />
               <DatePickerNext
-                class="inline-flex items-center justify-center w-6 h-6 rounded hover:bg-gray-100 dark:hover:bg-gray-800 cursor-pointer"
+                class="inline-flex items-center justify-center w-6 h-6 rounded hover:bg-hover cursor-pointer"
               >
                 <div class="i-ri:arrow-right-s-line" />
               </DatePickerNext>
@@ -93,7 +96,7 @@ function onDateChange(val: DateValue | undefined) {
                   <DatePickerHeadCell
                     v-for="day in weekDays"
                     :key="day"
-                    class="w-8 h-8 text-xs text-gray-400 flex items-center justify-center"
+                    class="w-8 h-8 text-xs color-faint flex items-center justify-center"
                   >
                     {{ day }}
                   </DatePickerHeadCell>
@@ -113,7 +116,7 @@ function onDateChange(val: DateValue | undefined) {
                     <DatePickerCellTrigger
                       :day="weekDate"
                       :month="grid[0].value"
-                      class="w-8 h-8 text-xs rounded flex items-center justify-center cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-800 data-[selected]:bg-indigo-500 data-[selected]:text-white transition-colors"
+                      class="w-8 h-8 text-xs rounded flex items-center justify-center cursor-pointer hover:bg-hover data-[selected]:bg-primary-500 data-[selected]:text-white transition-colors"
                     >
                       {{ weekDate.day }}
                     </DatePickerCellTrigger>

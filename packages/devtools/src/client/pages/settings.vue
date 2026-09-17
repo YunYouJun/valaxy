@@ -28,7 +28,7 @@ function resetSettings() {
 
 <template>
   <div class="h-full overflow-auto">
-    <div class="flex items-center gap-2 px-3 py-2 border-b border-gray-100 dark:border-gray-800">
+    <div class="flex items-center gap-2 px-3 py-2 border-b border-mute">
       <h3 class="text-sm font-bold flex-1">
         {{ t('settings.title') }}
       </h3>
@@ -74,7 +74,7 @@ function resetSettings() {
       </div>
 
       <!-- Reset -->
-      <div class="border-t border-gray-100 dark:border-gray-800 pt-4">
+      <div class="border-t border-mute pt-4">
         <VDButton
           variant="secondary"
           size="sm"

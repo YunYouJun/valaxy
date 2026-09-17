@@ -1,3 +1,4 @@
+import type { ValaxyDevtoolsAddon } from '@valaxyjs/devtools/plugin'
 import type { Argv } from 'yargs'
 import type { DefaultTheme, ValaxyAddon } from '../../types'
 import type { ValaxyNode, ValaxyNodeConfig } from './config'
@@ -25,11 +26,15 @@ export interface ValaxyAddonResolver {
   configFile?: string
   pkg: Record<string, any>
 
+  /** Loaded only when development tools are enabled. */
+  devtools?: ValaxyDevtoolsAddon
   extendCli?: ValaxyAddonExtendCli
   setup?: (node: ValaxyNode) => void
 }
 
 export type ValaxyNodeAddon = ValaxyAddon & {
+  /** Loaded only when development tools are enabled. */
+  devtools?: ValaxyDevtoolsAddon
   extendCli?: ValaxyAddonExtendCli
   setup?: ValaxyAddonResolver['setup']
 }

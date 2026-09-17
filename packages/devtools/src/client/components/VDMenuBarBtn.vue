@@ -5,10 +5,7 @@ defineProps<{
 </script>
 
 <template>
-  <component
-    :is="tag || 'button'"
-    class="bg-gray-50 dark:bg-dark-800 inline-flex justify-center items-center size-8 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-200"
-  >
+  <component :is="tag || 'button'" :type="tag === 'a' ? undefined : 'button'" class="btn-icon-compact shrink-0 color-muted">
     <slot />
   </component>
 </template>

@@ -1,34 +1,10 @@
-import type { Router } from 'vue-router'
-import { nextTick } from 'vue'
-import { activePath, devtoolsRouter, frontmatter, pageData } from '../composables/app'
-import { clientPageData } from '../stores/app'
-import { getWindowProperty } from './get'
+import { onValaxyPageChanged } from '../../client-api'
+import { activePath } from '../composables/app'
+import { inspectedPage } from '../stores/app'
 
-/**
- * run in onMounted
- */
 export function initDevtoolsClient() {
-  const __VUE_DEVTOOLS_ROUTER__ = getWindowProperty('__VUE_DEVTOOLS_ROUTER__') as Router
-  devtoolsRouter.value = __VUE_DEVTOOLS_ROUTER__
-
-  devtoolsRouter.value?.beforeEach?.((to) => {
-    activePath.value = to.path
+  return onValaxyPageChanged((page) => {
+    activePath.value = page?.routePath || ''
+    inspectedPage.value = page
   })
-
-  devtoolsRouter.value.afterEach?.(async () => {
-    await nextTick()
-    // get target post $frontmatter
-    frontmatter.value = getWindowProperty('$frontmatter')
-    pageData.value = getWindowProperty('$pageData')
-  })
-
-  // init $frontmatter and $pageData
-  frontmatter.value = getWindowProperty('$frontmatter')
-  pageData.value = getWindowProperty('$pageData')
-  activePath.value = devtoolsRouter.value?.currentRoute.value.path || ''
-  clientPageData.value = {
-    frontmatter: frontmatter.value || {},
-    filePath: pageData.value?.filePath || '',
-    routePath: devtoolsRouter.value?.currentRoute.value.path || '',
-  }
 }

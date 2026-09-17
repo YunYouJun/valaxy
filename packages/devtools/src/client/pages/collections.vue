@@ -1,8 +1,11 @@
 <script lang="ts" setup>
 import type { ClientCollectionData } from '../types'
+import { useMediaQuery } from '@vueuse/core'
 import { Pane, Splitpanes } from 'splitpanes'
 import { ref } from 'vue'
 import { collectionList } from '../stores/app'
+
+const narrow = useMediaQuery('(max-width: 640px)')
 
 const selectedCollection = ref<ClientCollectionData | null>(null)
 
@@ -12,14 +15,14 @@ function onSelectCollection(col: ClientCollectionData) {
 </script>
 
 <template>
-  <Splitpanes class="h-full">
+  <Splitpanes :horizontal="narrow" class="h-full">
     <Pane min-size="20" size="33">
       <div class="h-full overflow-auto">
         <div
           v-for="col in collectionList"
           :key="col.key"
-          class="cursor-pointer p-3 border-b border-gray-100 dark:border-gray-800 hover:bg-gray-50 dark:hover:bg-gray-800 transition"
-          :class="{ 'bg-gray-100 dark:bg-gray-700': selectedCollection?.key === col.key }"
+          class="cursor-pointer p-3 border-b border-mute hover:bg-hover transition"
+          :class="{ 'bg-sunken ': selectedCollection?.key === col.key }"
           @click="onSelectCollection(col)"
         >
           <div class="font-bold text-sm">
@@ -55,7 +58,7 @@ function onSelectCollection(col: ClientCollectionData) {
             <div class="text-xs mt-2">
               <span
                 class="px-1.5 py-0.5 rounded"
-                :class="selectedCollection.collapse ? 'bg-blue-100 text-blue-600 dark:bg-blue-900 dark:text-blue-300' : 'bg-gray-100 text-gray-600 dark:bg-gray-700 dark:text-gray-300'"
+                :class="selectedCollection.collapse ? 'bg-active color-active' : 'bg-sunken color-muted  '"
               >
                 {{ selectedCollection.collapse ? 'collapsed' : 'expanded' }}
               </span>
@@ -67,11 +70,11 @@ function onSelectCollection(col: ClientCollectionData) {
           Items ({{ selectedCollection.items.length }})
         </h3>
 
-        <div class="border border-gray-200 rounded dark:border-gray-700">
+        <div class="border border-base rounded">
           <div
             v-for="(item, idx) in selectedCollection.items"
             :key="item.key || item.link"
-            class="flex items-center gap-2 px-3 py-2 text-sm border-b border-gray-200 last:border-b-0 dark:border-gray-700"
+            class="flex items-center gap-2 px-3 py-2 text-sm border-b border-base last:border-b-0"
           >
             <span class="op-40 text-xs w-6 text-right">{{ idx + 1 }}</span>
             <span class="flex-1">{{ item.title }}</span>
@@ -80,7 +83,7 @@ function onSelectCollection(col: ClientCollectionData) {
               :href="item.link"
               target="_blank"
               rel="noopener noreferrer"
-              class="text-xs text-blue-500 font-mono inline-flex items-center gap-0.5"
+              class="text-xs color-active font-mono inline-flex items-center gap-0.5"
             >
               {{ item.link }}
               <span class="i-ri-external-link-line text-xs" />

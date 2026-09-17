@@ -1,4 +1,5 @@
 button:
+  close: 关闭
   back: 返回
   go: 确定
   home: 首页
@@ -92,6 +93,8 @@ archives:
   posts_count: '{count} 篇文章'
 
 nav:
+  debug: 页面调试
+  navigation: 导航
   dashboard: 仪表盘
   posts: 文章
   archives: 归档
@@ -201,3 +204,36 @@ config:
   group_general: 通用
   group_excerpt: 摘要
   group_llms: LLMs
+
+connection:
+  connecting: 正在连接 Valaxy…
+  disconnected: 连接已断开，请重新连接。
+  error: 无法连接 Valaxy。
+  authorize: 请输入开发服务器终端中显示的一次性验证码。
+  code: 一次性验证码
+  connect: 连接
+  request_code: 在终端显示验证码
+  invalid_code: 验证码无效或已过期，请重新获取。
+  retry: 重新连接
+  external_changes: 文件已在外部修改，当前未保存的编辑已保留。
+  reload: 重新读取文件
+
+extensions:
+  title: 扩展
+  panels_hint: 在此打开 addon 面板，或从 Valaxy Dock 分组进入。
+  contributions: '{fields} 个编辑字段 · {actions} 项检查'
+  add_field: 添加字段
+  remove_field: 移除字段
+  draft_changed: 检查期间草稿已更改，请重新检查。
+
+debug:
+  live: 实时
+  description: 跟随当前浏览页面，查看只读调试信息与运行时配置。
+  viewport: 站点视口与断点
+  route: 当前路由
+  site_config: 站点运行时配置
+  theme_config: 主题运行时配置
+  matched: 已匹配
+  unmatched: 未匹配
+  no_page: 暂无页面调试数据
+  connect_hint: 请从正在运行的站点打开 Valaxy DevTools，或从站点打开具有页面连接的独立窗口。
