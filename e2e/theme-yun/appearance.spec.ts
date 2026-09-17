@@ -80,7 +80,12 @@ test('touch devices keep a static grid without horizontal overflow', async ({ br
 })
 
 test('excerpt option, navigation glass and original post interactions work together', async ({ page }) => {
+  // A late quote response shifts the cards underneath the pointer.
+  await page.route('https://v1.hitokoto.cn/**', route => route.fulfill({
+    json: { hitokoto: 'A stable quote for the hover test.', from_who: 'Valaxy', from: 'E2E' },
+  }))
   await page.goto('/', { waitUntil: 'domcontentloaded' })
+  await expect(page.locator('.say-content')).toHaveText('A stable quote for the hover test.')
   const card = page.locator('.post-card-wrapper').first()
   await expect(page.locator('.yun-excerpt-bottom-gradient')).toHaveCount(0)
   await expect(page.locator('.yun-nav-menu')).toHaveClass(/is-glass/)
