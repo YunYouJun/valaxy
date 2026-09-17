@@ -380,6 +380,19 @@ export function getFunctions(devtoolsOptions: ValaxyDevtoolsOptions, validateFro
         const base = filePath.slice(0, -ext.length)
         let counter = 0
         while (true) {
+          const entryExists = await fs.lstat(filePath).then(
+            () => true,
+            (error: NodeJS.ErrnoException) => {
+              if (error.code === 'ENOENT')
+                return false
+              throw error
+            },
+          )
+          if (entryExists) {
+            filePath = `${base}-${++counter}${ext}`
+            continue
+          }
+
           try {
             await fs.writeFile(filePath, content, { encoding: 'utf-8', flag: 'wx' })
             break

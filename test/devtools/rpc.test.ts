@@ -5,6 +5,7 @@ import { join } from 'node:path'
 import { createHostContext } from 'devframe/node'
 import fs from 'fs-extra'
 import matter from 'gray-matter'
+import pathe from 'pathe'
 import { createServer } from 'vite'
 import { afterEach, beforeEach, describe, expect, it } from 'vitest'
 import { createValaxyDevframe } from '../../packages/devtools/src/node/definition'
@@ -40,7 +41,7 @@ afterEach(async () => {
 
 describe('valaxy Devframe RPC', () => {
   it('reads actual Markdown, preserves dates, and resolves the site URL', async () => {
-    expect(await ctx.rpc.invokeLocal('valaxy:get-options')).toEqual({ userRoot: site, siteUrl: 'http://localhost:5173/blog/' })
+    expect(await ctx.rpc.invokeLocal('valaxy:get-options')).toEqual({ userRoot: pathe.resolve(site), siteUrl: 'http://localhost:5173/blog/' })
     const page = await ctx.rpc.invokeLocal('valaxy:get-page-data', '/pages/posts/hello.md')
     expect(page).toMatchObject({ routePath: '/posts/hello', frontmatter: { title: 'Hello', date: new Date('2026-01-01T00:00:00.000Z') } })
     expect((await ctx.rpc.invokeLocal('valaxy:get-post-list')).posts).toEqual([page])
@@ -49,8 +50,8 @@ describe('valaxy Devframe RPC', () => {
   it('creates Chinese posts, chooses unique names, and rejects malformed RPC input', async () => {
     const first = await ctx.rpc.invokeLocal('valaxy:create-post', { title: '你好 Valaxy', tags: ['blog'] })
     const second = await ctx.rpc.invokeLocal('valaxy:create-post', { title: '你好 Valaxy' })
-    expect(first.filePath).toBe(join(site, 'pages/posts/你好-valaxy.md'))
-    expect(second.filePath).toBe(join(site, 'pages/posts/你好-valaxy-1.md'))
+    expect(first.filePath).toBe(pathe.resolve(site, 'pages/posts/你好-valaxy.md'))
+    expect(second.filePath).toBe(pathe.resolve(site, 'pages/posts/你好-valaxy-1.md'))
     expect(matter(await readFile(first.filePath!, 'utf8')).data).toMatchObject({ draft: true, tags: ['blog'] })
     const concurrent = await Promise.all([
       ctx.rpc.invokeLocal('valaxy:create-post', { title: 'Concurrent' }),
@@ -114,7 +115,7 @@ describe('valaxy Devframe RPC', () => {
     await symlink(outside, join(site, 'site.config.ts'))
     expect(await ctx.rpc.invokeLocal('valaxy:update-config-field', 'site', 'title', 'Oops')).toMatchObject({ success: false })
     await symlink(join(root, 'new-outside.md'), join(site, 'pages/posts/hello-1.md'))
-    expect(await ctx.rpc.invokeLocal('valaxy:create-post', { title: 'Hello' })).toMatchObject({ success: true, filePath: join(site, 'pages/posts/hello-2.md') })
+    expect(await ctx.rpc.invokeLocal('valaxy:create-post', { title: 'Hello' })).toMatchObject({ success: true, filePath: pathe.resolve(site, 'pages/posts/hello-2.md') })
     expect(await fs.pathExists(join(root, 'new-outside.md'))).toBe(false)
     expect(await readFile(outside, 'utf8')).toBe('untouched')
   })
