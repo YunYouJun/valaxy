@@ -53,7 +53,6 @@ const iconStyle = computed(() => ({
   .icon {
     transform-origin: center center;
     transition: all var(--va-transition-duration) ease-in-out;
-
     mask-size: 100% 100%;
     background-color: white;
     width: 1.2em;

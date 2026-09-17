@@ -41,7 +41,7 @@ withDefaults(defineProps<{
 .yun-tooltip {
   max-width: 12.5rem;
   white-space: pre-line;
-  word-break: break-word;
+  overflow-wrap: anywhere;
   background: var(--va-c-bg);
   color: var(--va-c-text);
   padding: 0.25rem 0.75rem;

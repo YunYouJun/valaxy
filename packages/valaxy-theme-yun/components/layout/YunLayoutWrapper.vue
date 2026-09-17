@@ -23,7 +23,7 @@ const classes = computed(() => {
 <template>
   <div class="min-h-screen flex flex-col">
     <div
-      class="yun-layout-wrapper__content"
+      class="yun-layout-wrapper-content yun-layout-wrapper__content"
       :class="noMargin ? '' : classes"
     >
       <slot />
@@ -33,7 +33,7 @@ const classes = computed(() => {
 </template>
 
 <style>
-.yun-layout-wrapper__content {
+.yun-layout-wrapper-content {
   display: flex;
   flex-grow: 1;
   flex-direction: column;
@@ -46,7 +46,7 @@ const classes = computed(() => {
 
 /* Switch to horizontal three-column layout on large screens */
 @media (width >= 1024px) {
-  .yun-layout-wrapper__content {
+  .yun-layout-wrapper-content {
     flex-direction: row;
     align-items: start;
   }

@@ -118,7 +118,7 @@ withDefaults(defineProps<{
     0 14px 34px rgb(0 0 0 / .18);
 }
 
-@media (max-width: 767px) {
+@media (width <= 767px) {
   .not-found-visual {
     min-height: clamp(132px, 24svh, 205px);
   }
@@ -136,7 +136,7 @@ withDefaults(defineProps<{
   }
 }
 
-@media (max-width: 767px) and (max-height: 700px) {
+@media (width <= 767px) and (height <= 700px) {
   .not-found-visual {
     min-height: clamp(104px, 21svh, 150px);
   }

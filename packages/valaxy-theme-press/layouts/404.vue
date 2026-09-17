@@ -207,7 +207,7 @@ const homeLink = computed(() => currentLocale.value === 'zh' ? '/zh/' : '/')
   color: var(--vp-c-text-1);
 }
 
-@media (max-width: 767px) {
+@media (width <= 767px) {
   .not-found-layout {
     height: 100svh;
     display: flex;
@@ -268,7 +268,7 @@ const homeLink = computed(() => currentLocale.value === 'zh' ? '/zh/' : '/')
   }
 }
 
-@media (max-width: 767px) and (max-height: 700px) {
+@media (width <= 767px) and (height <= 700px) {
   .not-found-path {
     display: none;
   }

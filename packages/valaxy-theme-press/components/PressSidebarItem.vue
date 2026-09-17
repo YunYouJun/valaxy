@@ -132,11 +132,11 @@ function getChildItemKey(item: DefaultTheme.SidebarItem, index: number): string 
   padding: 0;
 }
 
-.VPSidebarItem.level-0 {
+.press-sidebar-item-node.level-0 {
   padding-bottom: 24px;
 }
 
-.VPSidebarItem.collapsed.level-0 {
+.press-sidebar-item-node.collapsed.level-0 {
   padding-bottom: 10px;
 }
 
@@ -146,7 +146,7 @@ function getChildItemKey(item: DefaultTheme.SidebarItem, index: number): string 
   width: 100%;
 }
 
-.VPSidebarItem.collapsible > .item {
+.press-sidebar-item-node.collapsible > .item {
   cursor: pointer;
 }
 
@@ -160,10 +160,10 @@ function getChildItemKey(item: DefaultTheme.SidebarItem, index: number): string 
   transition: background-color var(--va-transition-duration);
 }
 
-.VPSidebarItem.level-2.is-active > .item > .indicator,
-.VPSidebarItem.level-3.is-active > .item > .indicator,
-.VPSidebarItem.level-4.is-active > .item > .indicator,
-.VPSidebarItem.level-5.is-active > .item > .indicator {
+.press-sidebar-item-node.level-2.is-active > .item > .indicator,
+.press-sidebar-item-node.level-3.is-active > .item > .indicator,
+.press-sidebar-item-node.level-4.is-active > .item > .indicator,
+.press-sidebar-item-node.level-5.is-active > .item > .indicator {
   background-color: var(--vp-c-brand-1);
 }
 
@@ -181,63 +181,63 @@ function getChildItemKey(item: DefaultTheme.SidebarItem, index: number): string 
   transition: color var(--va-transition-duration);
 }
 
-.VPSidebarItem.level-0 .text {
+.press-sidebar-item-node.level-0 .text {
   font-weight: 700;
   color: var(--vp-c-text-1);
 }
 
-.VPSidebarItem.level-1 .text,
-.VPSidebarItem.level-2 .text,
-.VPSidebarItem.level-3 .text,
-.VPSidebarItem.level-4 .text,
-.VPSidebarItem.level-5 .text {
+.press-sidebar-item-node.level-1 .text,
+.press-sidebar-item-node.level-2 .text,
+.press-sidebar-item-node.level-3 .text,
+.press-sidebar-item-node.level-4 .text,
+.press-sidebar-item-node.level-5 .text {
   font-weight: 500;
   color: var(--vp-c-text-2);
 }
 
-.VPSidebarItem.level-0.is-link > .item > .link:hover .text,
-.VPSidebarItem.level-1.is-link > .item > .link:hover .text,
-.VPSidebarItem.level-2.is-link > .item > .link:hover .text,
-.VPSidebarItem.level-3.is-link > .item > .link:hover .text,
-.VPSidebarItem.level-4.is-link > .item > .link:hover .text,
-.VPSidebarItem.level-5.is-link > .item > .link:hover .text {
+.press-sidebar-item-node.level-0.is-link > .item > .link:hover .text,
+.press-sidebar-item-node.level-1.is-link > .item > .link:hover .text,
+.press-sidebar-item-node.level-2.is-link > .item > .link:hover .text,
+.press-sidebar-item-node.level-3.is-link > .item > .link:hover .text,
+.press-sidebar-item-node.level-4.is-link > .item > .link:hover .text,
+.press-sidebar-item-node.level-5.is-link > .item > .link:hover .text {
   color: var(--vp-c-brand-1);
 }
 
-.VPSidebarItem.level-0.has-active > .item > .text,
-.VPSidebarItem.level-1.has-active > .item > .text,
-.VPSidebarItem.level-2.has-active > .item > .text,
-.VPSidebarItem.level-3.has-active > .item > .text,
-.VPSidebarItem.level-4.has-active > .item > .text,
-.VPSidebarItem.level-5.has-active > .item > .text,
-.VPSidebarItem.level-0.has-active > .item > .link > .text,
-.VPSidebarItem.level-1.has-active > .item > .link > .text,
-.VPSidebarItem.level-2.has-active > .item > .link > .text,
-.VPSidebarItem.level-3.has-active > .item > .link > .text,
-.VPSidebarItem.level-4.has-active > .item > .link > .text,
-.VPSidebarItem.level-5.has-active > .item > .link > .text {
+.press-sidebar-item-node.level-0.has-active > .item > .text,
+.press-sidebar-item-node.level-1.has-active > .item > .text,
+.press-sidebar-item-node.level-2.has-active > .item > .text,
+.press-sidebar-item-node.level-3.has-active > .item > .text,
+.press-sidebar-item-node.level-4.has-active > .item > .text,
+.press-sidebar-item-node.level-5.has-active > .item > .text,
+.press-sidebar-item-node.level-0.has-active > .item > .link > .text,
+.press-sidebar-item-node.level-1.has-active > .item > .link > .text,
+.press-sidebar-item-node.level-2.has-active > .item > .link > .text,
+.press-sidebar-item-node.level-3.has-active > .item > .link > .text,
+.press-sidebar-item-node.level-4.has-active > .item > .link > .text,
+.press-sidebar-item-node.level-5.has-active > .item > .link > .text {
   color: var(--vp-c-text-1);
 }
 
-.VPSidebarItem.level-0.is-active > .item .link > .text,
-.VPSidebarItem.level-1.is-active > .item .link > .text,
-.VPSidebarItem.level-2.is-active > .item .link > .text,
-.VPSidebarItem.level-3.is-active > .item .link > .text,
-.VPSidebarItem.level-4.is-active > .item .link > .text,
-.VPSidebarItem.level-5.is-active > .item .link > .text {
+.press-sidebar-item-node.level-0.is-active > .item .link > .text,
+.press-sidebar-item-node.level-1.is-active > .item .link > .text,
+.press-sidebar-item-node.level-2.is-active > .item .link > .text,
+.press-sidebar-item-node.level-3.is-active > .item .link > .text,
+.press-sidebar-item-node.level-4.is-active > .item .link > .text,
+.press-sidebar-item-node.level-5.is-active > .item .link > .text {
   color: var(--vp-c-brand-1);
 }
 
-.VPSidebarItem.level-1 .items,
-.VPSidebarItem.level-2 .items,
-.VPSidebarItem.level-3 .items,
-.VPSidebarItem.level-4 .items,
-.VPSidebarItem.level-5 .items {
+.press-sidebar-item-node.level-1 .items,
+.press-sidebar-item-node.level-2 .items,
+.press-sidebar-item-node.level-3 .items,
+.press-sidebar-item-node.level-4 .items,
+.press-sidebar-item-node.level-5 .items {
   border-left: 1px solid var(--vp-c-divider);
   padding-left: 16px;
 }
 
-.VPSidebarItem.collapsed .items {
+.press-sidebar-item-node.collapsed .items {
   display: none;
 }
 </style>

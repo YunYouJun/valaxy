@@ -71,11 +71,13 @@ html.theme-reveal::view-transition-old(root) {
   animation: none;
   mix-blend-mode: normal;
 }
+
 html.theme-reveal::view-transition-new(root) {
   z-index: 2;
   animation: theme-reveal-circle 450ms ease-out both;
   mix-blend-mode: normal;
 }
+
 @keyframes theme-reveal-circle {
   from { clip-path: circle(0 at var(--theme-reveal-x) var(--theme-reveal-y)); }
   to { clip-path: circle(var(--theme-reveal-radius) at var(--theme-reveal-x) var(--theme-reveal-y)); }
