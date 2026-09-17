@@ -11,5 +11,8 @@
     "addon",
     "components"
   ],
-  "main": "index.ts"
+  "main": "index.ts",
+  "dependencies": {
+    "local-pkg": "catalog:"
+  }
 }
