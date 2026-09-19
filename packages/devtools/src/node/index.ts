@@ -3,6 +3,7 @@ import type { Plugin, ViteDevServer } from 'vite'
 import type { ValaxyDevtoolsOptions } from './types'
 import { createPluginFromDevframe } from '@vitejs/devtools-kit/node'
 import { initDevframe } from 'devframe/initiate'
+import { buildOtpAuthUrl } from 'devframe/node/auth'
 import { serveStaticNodeMiddleware } from 'devframe/utils/serve-static'
 import { NAMESPACE } from '../config'
 import { DEVTOOLS_FRAME_ID, resolveDevtoolsBase, resolveDevtoolsLogo } from '../shared/constants'
@@ -27,6 +28,15 @@ export function ValaxyDevtools(options: ValaxyDevtoolsOptions = {}): Plugin {
   return {
     name: NAMESPACE,
     apply: 'serve',
+    api: {
+      /** Pair a local host through Devframe's expiring fragment-based link. */
+      getStandaloneOpenUrl(origin: string) {
+        const url = new URL(origin)
+        if (!standalone || url.protocol !== 'http:' || url.hostname !== '127.0.0.1')
+          return undefined
+        return buildOtpAuthUrl(new URL(standalone.base, url).href)
+      },
+    },
     devtools: {
       capabilities: { build: false },
       async setup(ctx) {

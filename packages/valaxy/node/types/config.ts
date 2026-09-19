@@ -312,6 +312,15 @@ export interface ValaxyExtendConfig {
    */
   devtools?: boolean
   /**
+   * Enable the local, read-only MCP endpoint during development.
+   * @zh 开启开发环境的本地只读 MCP 服务，默认关闭。
+   * @default false
+   */
+  mcp?: boolean | {
+    /** Include drafts in MCP results. Password-protected pages remain excluded. */
+    includeDrafts?: boolean
+  }
+  /**
    * @en config for markdown (include markdown-it plugins)
    * @zh markdown 相关配置
    * {@link MarkdownOptions}

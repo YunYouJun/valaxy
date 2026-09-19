@@ -6,6 +6,7 @@ export default defineBuildConfig({
   entries: [
     './src/index',
     './src/node/definition',
+    './src/node/mcp',
     './src/shared/rpc',
     './src/page',
     './src/plugin',

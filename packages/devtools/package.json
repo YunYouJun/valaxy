@@ -23,6 +23,10 @@
       "types": "./dist/node/definition.d.ts",
       "default": "./dist/node/definition.mjs"
     },
+    "./mcp": {
+      "types": "./dist/node/mcp.d.ts",
+      "default": "./dist/node/mcp.mjs"
+    },
     "./page": {
       "types": "./dist/page.d.ts",
       "default": "./dist/page.mjs"
@@ -57,6 +61,7 @@
     "release": "bumpp && pnpm publish"
   },
   "dependencies": {
+    "@devframes/agentic": "catalog:",
     "@devframes/service-shiki": "catalog:",
     "@valaxyjs/utils": "workspace:*",
     "@vitejs/devtools-kit": "catalog:",
@@ -66,6 +71,7 @@
     "fast-glob": "catalog:",
     "fs-extra": "catalog:",
     "gray-matter": "catalog:",
+    "h3": "catalog:",
     "js-yaml": "catalog:",
     "magicast": "catalog:",
     "pathe": "catalog:",

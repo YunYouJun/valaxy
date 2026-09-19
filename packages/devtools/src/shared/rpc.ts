@@ -103,7 +103,17 @@ export interface UpdateFrontmatterRequest {
   frontmatter: Record<string, any>
 }
 
+/** Markdown body and its optimistic concurrency token. */
+export interface PostContent {
+  content: string
+  revision: string
+}
+
 export interface ServerFunctions {
+  /** Read an article body within the project's pages directory. */
+  getPostContent: (filePath: string) => Promise<PostContent>
+  /** Save the body while preserving current frontmatter and rejecting stale edits. */
+  updatePostContent: (req: { filePath: string, content: string, revision: string }) => Promise<PostContent>
   openInEditor: (options: { file: string, line?: number, column?: number }) => Promise<void>
   // add: (a: number, b: number) => number
   /**

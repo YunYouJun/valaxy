@@ -38,6 +38,14 @@ Install `@vitejs/devtools` alongside Vite when enabling the native host. If Vite
 
 RPC reads source configuration, not Valaxy's fully merged runtime config. Markdown operations validate paths within the site and keep the Markdown body. A Vite watcher refreshes file lists; an editor draft is retained when the file changes externally, with an explicit reload action.
 
+## MCP content tools
+
+Set `mcp: true` in `valaxy.config.ts` to enable the built-in, local read-only MCP endpoint at `<base>__valaxy_mcp`. This is independent of the `devtools` panel setting and runs only during development. The terminal prints the connection URL and required `Origin` header. Dependencies are included; no extra MCP package installation is needed.
+
+The isolated endpoint exposes `valaxy_list_posts`, `valaxy_search_pages`, `valaxy_read_page`, `valaxy_list_collections`, `valaxy_inspect_page`, and `valaxy_check_page`. Inspection and checks use Valaxy's route pipeline to report resolved article state and actionable diagnostics. The same operations are available through `valaxy inspect/check --file pages/posts/hello.md --json` and `createContentService()` from `valaxy/node`. It does not expose management RPCs, addon tools, shared state, or source configuration. Drafts are excluded unless `mcp: { includeDrafts: true }` is configured; hidden and protected pages remain excluded. Use `mcp: false` and restart to disable it.
+
+For a custom Vite host, add `ValaxyMcp({ userRoot })` from `@valaxyjs/devtools/mcp` to `plugins`. This standalone form exposes the four source-reading tools; supplying the optional `content` provider adds framework inspection/checking. Valaxy wires this provider automatically. Do not enable the Vite DevTools host's MCP option to expose these content tools; they use a separate context and endpoint. See [Work with AI](https://valaxy.site/guide/work-with-ai#mcp) for client configuration, scope, and limits.
+
 ## Development
 
 The UI uses the same [`@antfu/design`](https://github.com/antfu/design) components, styles, and UnoCSS preset as Devframe Hub UI. The preset is scoped to the DevTools SPA; blog/theme styles are unaffected. Buttons, selects, checkboxes, textareas, dialogs, cards, and feedback use the public components. Native inputs and the remaining Reka controls preserve Valaxy's datalist, numeric, and date behavior while using the same semantic tokens.

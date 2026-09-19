@@ -1,3 +1,13 @@
+content:
+  editor: Article editor
+  title: Markdown content
+  save: Save content
+  saved: Content saved
+  reload: Reload from disk
+  discard: Discard unsaved content and reload?
+  discard_action: Discard and reload
+  unsaved: Unsaved content changes
+
 button:
   close: Close
   back: Back

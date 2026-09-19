@@ -1,22 +1,30 @@
 import type { DevframeConnectionStatus, DevframeRpcClient } from 'devframe/client'
 import type {} from '../node/definition'
 import type { ServerFunctions } from '../shared/rpc'
-import { connectDevframe } from 'devframe/client'
+import { connectDevframe, consumeOtpFromUrl } from 'devframe/client'
 import { ref } from 'vue'
 
 export const connectionStatus = ref<DevframeConnectionStatus>('connecting')
 export const connectionError = ref('')
 let client: DevframeRpcClient | undefined
 let pending: Promise<DevframeRpcClient> | undefined
+// Capture before Vue's hash router interprets the authentication fragment.
+let initialCode = consumeOtpFromUrl()
 
 export function getClient(): Promise<DevframeRpcClient> {
   return pending ??= connectDevframe({
     // The development SPA is served at /; Kit iframes inherit their connection.
     baseURL: import.meta.env.DEV ? '/__valaxy_devtools__/' : './',
     simpleAuth: false,
+    otpParam: false,
     webmcp: false,
     callTimeout: 30_000,
-  }).then((connected) => {
+  }).then(async (connected) => {
+    if (initialCode) {
+      const code = initialCode
+      initialCode = undefined
+      await connected.requestTrustWithCode(code)
+    }
     client = connected
     // `ui` is an optional Hub-provider config; standalone Devframe has none.
     const ui = Reflect.get(connected.connectionMeta.configs || {}, 'ui')
@@ -48,6 +56,8 @@ export async function reconnect() {
 }
 
 export const rpc: ServerFunctions = {
+  getPostContent: async filePath => (await getClient()).call('valaxy:get-post-content', filePath),
+  updatePostContent: async req => (await getClient()).call('valaxy:update-post-content', req),
   getOptions: async () => (await getClient()).call('valaxy:get-options'),
   getPostList: async () => (await getClient()).call('valaxy:get-post-list'),
   getCollectionList: async () => (await getClient()).call('valaxy:get-collection-list'),

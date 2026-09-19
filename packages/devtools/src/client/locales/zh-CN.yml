@@ -1,3 +1,13 @@
+content:
+  editor: 文章编辑
+  title: Markdown 正文
+  save: 保存正文
+  saved: 正文已保存
+  reload: 从磁盘重新加载
+  discard: 丢弃未保存的正文修改并重新加载？
+  discard_action: 丢弃并加载
+  unsaved: 正文有未保存的修改
+
 button:
   close: 关闭
   back: 返回

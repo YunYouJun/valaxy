@@ -9,7 +9,9 @@ import matter from 'gray-matter'
 import pathe from 'pathe'
 import { DANGEROUS_FIELD_KEYS, readConfigs, writeConfigField } from './utils/config-rw'
 import { migration } from './utils/migration'
+import { updatePageFile } from './utils/page-write'
 import { resolveInsideRoot, resolvePageFile } from './utils/paths'
+import { readPostContent, writePostContent } from './utils/post-content'
 
 function ensurePrefix(prefix: string, str: string) {
   if (!str.startsWith(prefix))
@@ -76,6 +78,8 @@ export function getFunctions(devtoolsOptions: ValaxyDevtoolsOptions, validateFro
   }
 
   return {
+    getPostContent: filePath => readPostContent(userRoot, filePath),
+    updatePostContent: req => writePostContent(userRoot, req.filePath, req.content, req.revision),
     async openInEditor({ file, line = 0, column = 0 }) {
       const resolved = await resolveInsideRoot(userRoot, file)
       launchEditor(`${resolved}:${line}:${column}`, process.env.EDITOR)
@@ -135,12 +139,10 @@ export function getFunctions(devtoolsOptions: ValaxyDevtoolsOptions, validateFro
       validateFrontmatter(newFm)
       if (!fs.existsSync(resolved))
         throw new Error(`File not found: ${resolved}`)
-      const rawMd = await fs.readFile(resolved, 'utf-8')
-      const matterFile = matter(rawMd)
-      matterFile.data = newFm
-      const newMd = matter.stringify(matterFile.content, matterFile.data)
-      await fs.writeFile(resolved, newMd)
-      return { success: true }
+      return updatePageFile(resolved, (rawMd) => {
+        const matterFile = matter(rawMd)
+        return { content: matter.stringify(matterFile.content, newFm), result: { success: true } }
+      })
     },
 
     async getCollectionList() {

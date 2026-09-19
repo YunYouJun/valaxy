@@ -86,6 +86,7 @@ export const defaultValaxyConfig: ValaxyNodeConfig = {
   },
 
   devtools: true,
+  mcp: false,
 }
 
 /**

@@ -1,4 +1,4 @@
-import type { InlineConfig } from 'vite'
+import type { InlineConfig, ViteDevServer } from 'vite'
 import type { ValaxyNode, ValaxyServerOptions } from './types'
 
 import process from 'node:process'
@@ -36,6 +36,30 @@ export async function createServer(
   const vitePlugins = [
     ...plugins,
   ]
+  let server: ViteDevServer
+  if (options.config.mcp) {
+    const { ValaxyMcp } = await import('@valaxyjs/devtools/mcp')
+    let content: ReturnType<typeof import('./content')['createContentService']> | undefined
+    const getContent = async () => {
+      const { createContentService } = await import('./content')
+      return content ||= createContentService(valaxyApp, {
+        publicOnly: true,
+        includeDrafts: typeof options.config.mcp === 'object' && options.config.mcp.includeDrafts,
+        base: server.config.base,
+        publicDir: server.config.publicDir || false,
+      })
+    }
+    vitePlugins.push(ValaxyMcp({
+      userRoot: options.userRoot,
+      frontmatterDefaults: options.config.siteConfig?.frontmatter,
+      content: {
+        inspectPage: async path => (await getContent()).inspectPage(path),
+        checkPage: async path => (await getContent()).checkPage(path),
+        dispose: async () => content?.dispose(),
+      },
+      ...typeof options.config.mcp === 'object' ? options.config.mcp : {},
+    }))
+  }
   if (enableDevtools) {
     // only enable when dev — import both in parallel
     const devtoolsTimer = countPerformanceTime()
@@ -68,7 +92,7 @@ export async function createServer(
   )
   // serverSpinner.text = getServerInfoText('create vite server ...')
   const viteServerTimer = countPerformanceTime()
-  const server = await createViteServer(mergedViteConfig)
+  server = await createViteServer(mergedViteConfig)
   vLogger.debug(`createViteServer: ${viteServerTimer()}`)
   return server
 }

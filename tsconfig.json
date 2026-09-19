@@ -12,6 +12,7 @@
       "@valaxyjs/devtools/plugin": ["packages/devtools/src/plugin.ts"],
       "@valaxyjs/devtools/client-api": ["packages/devtools/src/client-api.ts"],
       "@valaxyjs/devtools/page": ["packages/devtools/src/page.ts"],
+      "@valaxyjs/devtools/mcp": ["packages/devtools/src/node/mcp.ts"],
       "@valaxyjs/*": ["packages/@valaxyjs/*/src/index.ts"],
       "valaxy": ["./packages/valaxy/index.ts"],
       "valaxy/client/*": ["packages/valaxy/client/*"],

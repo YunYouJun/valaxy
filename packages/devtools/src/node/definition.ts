@@ -18,9 +18,19 @@ const fields = v.record(v.string(), v.unknown())
 const filePaths = v.array(v.string())
 const pageData = v.object({ routePath: v.string(), filePath: v.string(), frontmatter: fields })
 const success = v.object({ success: v.boolean() })
+const postContent = v.object({ content: v.string(), revision: v.string() })
 
 export function createRpcFunctions(functions: ServerFunctions) {
   return [
+    defineRpcFunction({ name: 'get-post-content', type: 'query', jsonSerializable: true, args: [v.string()], returns: postContent, handler: functions.getPostContent }),
+    defineRpcFunction({
+      name: 'update-post-content',
+      type: 'action',
+      jsonSerializable: true,
+      args: [v.object({ filePath: v.string(), content: v.pipe(v.string(), v.maxLength(2_000_000)), revision: v.string() })],
+      returns: postContent,
+      handler: functions.updatePostContent,
+    }),
     defineRpcFunction({ name: 'get-options', type: 'query', jsonSerializable: true, handler: functions.getOptions }),
     defineRpcFunction({ name: 'get-post-list', type: 'query', jsonSerializable: true, handler: functions.getPostList }),
     defineRpcFunction({ name: 'get-page-data', type: 'query', jsonSerializable: true, args: [v.string()], returns: pageData, handler: functions.getPageData }),
