@@ -1,3 +1,4 @@
+import type { Options } from 'vue-router/unplugin'
 import type { ExcerptType, Page, Post } from '../../types'
 import type { ValaxyNode } from '../types'
 import type { MarkdownBase } from './markdown/base'
@@ -54,17 +55,22 @@ export function generateAutoExcerptMd(content: string, length: number): string {
  * @param valaxyApp
  */
 export async function createRouterPlugin(valaxyApp: ValaxyNode, base?: MarkdownBase) {
+  return VueRouter(await createRouterOptions(valaxyApp, base))
+}
+
+/** Share the actual route resolution pipeline with content inspection. */
+export async function createRouterOptions(valaxyApp: ValaxyNode, base?: MarkdownBase, parseMatter = (source: string) => matter(source, matterOptions), onDispose?: (dispose: () => void) => void): Promise<Options> {
   const { options } = valaxyApp
   const { roots, config: valaxyConfig } = options
 
-  const mdIt = await createMarkdownRenderer(options, base)
+  const mdIt = await createMarkdownRenderer(options, base, onDispose)
 
   // Cache the deep-cloned default frontmatter to avoid re-cloning on every route.
   // Only re-clone when the reference changes (e.g. HMR config reload).
   let _lastFrontmatterRef = valaxyConfig.siteConfig.frontmatter
   let _cachedFrontmatter = structuredClone(valaxyConfig.siteConfig.frontmatter)
 
-  return VueRouter({
+  return {
     extensions: ['.vue', '.md'],
     routesFolder: [
       ...roots.map(root => `${root}/pages`),
@@ -150,7 +156,7 @@ export async function createRouterPlugin(valaxyApp: ValaxyNode, base?: MarkdownB
       const path = route.components.get('default') || ''
       if (path.endsWith('.md')) {
         const md = await fs.readFile(path, 'utf-8')
-        const { data, excerpt, content } = matter(md, matterOptions)
+        const { data, excerpt, content } = parseMatter(md)
         const mdFm = data as (Page | Post)
 
         const lastUpdated = valaxyConfig.siteConfig.lastUpdated
@@ -286,5 +292,5 @@ export async function createRouterPlugin(valaxyApp: ValaxyNode, base?: MarkdownB
     async beforeWriteFiles(root) {
       await valaxyApp.hooks.callHook('vue-router:beforeWriteFiles', root)
     },
-  })
+  }
 }

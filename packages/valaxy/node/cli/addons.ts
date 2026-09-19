@@ -10,6 +10,7 @@ const ADDON_COMMAND_RE = /^[a-z0-9][a-z0-9-]*$/
 export const CORE_CLI_COMMANDS = new Set([
   'addon',
   'build',
+  'check',
   'clean',
   'completion',
   'debug',
@@ -17,6 +18,7 @@ export const CORE_CLI_COMMANDS = new Set([
   'dev',
   'fuse',
   'help',
+  'inspect',
   'llms',
   'new',
   'rss',

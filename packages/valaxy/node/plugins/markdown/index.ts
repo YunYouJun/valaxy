@@ -27,7 +27,7 @@ export function disposePreviewMdItInstance() {
   _disposeHighlighter = undefined
 }
 
-export async function createMarkdownRenderer(options?: ResolvedValaxyOptions, base?: MarkdownBase): Promise<MarkdownRenderer> {
+export async function createMarkdownRenderer(options?: ResolvedValaxyOptions, base?: MarkdownBase, onDispose?: (dispose: () => void) => void): Promise<MarkdownRenderer> {
   const mdOptions = options?.config.markdown || {}
   const theme = mdOptions.theme ?? defaultCodeTheme
 
@@ -35,7 +35,10 @@ export async function createMarkdownRenderer(options?: ResolvedValaxyOptions, ba
     ? [mdOptions.highlight, () => {}]
     : await getSharedHighlighter(theme, mdOptions, logger)
 
-  _disposeHighlighter = dispose
+  if (onDispose)
+    onDispose(dispose)
+  else
+    _disposeHighlighter = dispose
 
   const md = createMarkdownEngine({
     html: true,

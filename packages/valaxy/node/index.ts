@@ -1,11 +1,13 @@
 import './declare'
 
+export { createValaxyNode } from './app'
 export * from './app/state'
 export * from './build'
 export * from './cli'
 export * from './common'
 export * from './config'
 export * from './constants'
+export * from './content'
 // global env
 export * from './env'
 export * from './options'

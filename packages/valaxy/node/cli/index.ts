@@ -14,13 +14,18 @@ import { rssModule } from '../modules/rss'
 import { registerAddonCliExtensions, resolveAddonCliExtensions, shouldResolveAddonCli } from './addons'
 import { registerBuildCommand } from './build'
 import { registerCleanCommand } from './clean'
+import { registerContentCommands } from './content'
 import { registerDebugCommand } from './debug'
 import { registerDeployCommand } from './deploy'
 import { registerDevCommand } from './dev'
 // commands
 import { registerNewCommand } from './new'
 
+export { execBuild } from './build'
 export * from './dev'
+
+/** Programmatic lifecycle contract supported by Valaxy Desktop. */
+export const desktopRuntimeVersion = 1
 
 const modules: ValaxyModule[] = [
   fuseModule,
@@ -47,6 +52,7 @@ function createCoreCli(argv: string[]) {
   registerCleanCommand(cli)
   registerDeployCommand(cli)
   registerDebugCommand(cli)
+  registerContentCommands(cli)
 
   modules.forEach((module) => {
     module.extendCli?.(cli)
