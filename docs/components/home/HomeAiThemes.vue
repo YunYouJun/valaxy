@@ -11,6 +11,7 @@ const copy = computed(() => props.lang === 'zh'
       prompt: '生成主题提示词',
       source: '查看示例源码',
       guide: '使用这款主题',
+      preview: '在线预览',
       alt: 'Arknights 主题真实预览：边境手记首页、精选文章和归档筛选',
       caption: 'AK UI × VALAXY · 原创风格示例',
       steps: ['描述想法', '生成与定制', '预览与验证'],
@@ -23,6 +24,7 @@ const copy = computed(() => props.lang === 'zh'
       prompt: 'Build a theme prompt',
       source: 'Explore the example',
       guide: 'Use this theme',
+      preview: 'Live preview',
       alt: 'Arknights theme preview showing its homepage, featured article and archive filters',
       caption: 'AK UI × VALAXY · ORIGINAL THEME EXAMPLE',
       steps: ['Describe', 'Build and customize', 'Preview and verify'],
@@ -58,6 +60,7 @@ const prefix = computed(() => props.lang === 'zh' ? '/zh' : '')
       </figure>
       <h3>{{ copy.example }}</h3>
       <p>{{ copy.exampleText }}</p>
+      <a class="ai-themes-preview" href="https://arknights.valaxy.site/">{{ copy.preview }} <span aria-hidden="true">↗</span></a>
       <RouterLink class="ai-themes-guide" :to="`${prefix}/themes/arknights`">
         {{ copy.guide }} <span aria-hidden="true">↗</span>
       </RouterLink>
@@ -121,7 +124,7 @@ const prefix = computed(() => props.lang === 'zh' ? '/zh' : '')
   font: 11px var(--pr-font-mono, var(--va-font-mono));
 }
 
-.ai-themes-guide {
+.ai-themes-guide, .ai-themes-preview {
   margin-right: 24px;
 }
 
