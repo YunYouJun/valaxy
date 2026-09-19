@@ -1,0 +1,48 @@
+{
+  "name": "@valaxyjs/desktop",
+  "type": "module",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Valaxy 桌面工作台",
+  "author": "YunYouJun",
+  "license": "MIT",
+  "main": "dist/main/index.js",
+  "scripts": {
+    "dev": "pnpm run build && electron .",
+    "build": "tsx scripts/build.ts",
+    "prepare:runtime": "tsx scripts/prepare-runtime.ts",
+    "typecheck": "vue-tsc --noEmit -p tsconfig.json",
+    "pack": "pnpm run prepare:runtime && pnpm run build && electron-builder --dir --publish never",
+    "dist": "pnpm run prepare:runtime && pnpm run build && electron-builder --publish never",
+    "test:e2e": "pnpm run build && playwright test -c playwright.config.ts"
+  },
+  "devDependencies": {
+    "@playwright/test": "catalog:",
+    "@types/js-yaml": "catalog:",
+    "@types/node": "catalog:",
+    "@vitejs/plugin-vue": "catalog:",
+    "electron": "catalog:",
+    "electron-builder": "catalog:",
+    "js-yaml": "catalog:",
+    "pnpm": "catalog:",
+    "tsup": "catalog:",
+    "tsx": "catalog:",
+    "typescript": "catalog:build",
+    "vite": "catalog:build",
+    "vue": "catalog:frontend",
+    "vue-tsc": "catalog:"
+  },
+  "build": {
+    "appId": "site.valaxy.desktop",
+    "productName": "Valaxy Desktop",
+    "directories": { "output": "release" },
+    "files": ["dist/**/*"],
+    "extraResources": [{ "from": "resources", "to": "desktop" }],
+    "asar": true,
+    "asarUnpack": ["dist/main/worker.js"],
+    "beforeBuild": "./scripts/before-build.cjs",
+    "mac": { "category": "public.app-category.developer-tools", "target": ["dmg"] },
+    "win": { "target": ["nsis"] },
+    "linux": { "category": "Development", "target": ["AppImage"] }
+  }
+}

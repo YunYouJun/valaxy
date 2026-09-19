@@ -29,6 +29,7 @@ overrides:
   vue: catalog:frontend
 
 onlyBuiltDependencies:
+  - electron
   - vue-demi
   - esbuild
 
@@ -39,6 +40,7 @@ catalog:
   '@antfu/utils': ^9.3.0
   '@clack/prompts': ^1.8.1
   '@ctrl/tinycolor': ^4.2.1
+  '@devframes/agentic': 1.0.0
   '@devframes/service-shiki': 1.0.0
   '@docsearch/css': ^5.1.0
   '@docsearch/js': ^5.1.0
@@ -97,6 +99,8 @@ catalog:
   defu: ^6.1.7
   devframe: 1.0.0
   ejs: ^6.0.1
+  electron: 44.4.3
+  electron-builder: 26.15.3
   escape-html: ^1.0.3
   eslint: ^10.10.0
   execa: 10.0.1
@@ -108,6 +112,7 @@ catalog:
   gh-pages: ^6.3.0
   gray-matter: ^4.0.3
   gsap: ^3.15.0
+  h3: 2.0.1-rc.32
   hookable: ^6.1.2
   html-to-text: ^10.0.1
   https-localhost: ^4.7.2
@@ -148,6 +153,7 @@ catalog:
   pascalcase: ^2.0.0
   pathe: ^2.0.3
   pinia: ^4.0.3
+  pnpm: 10.33.0
   postcss: ^8.5.28
   postcss-html: ^2.0.0
   prompts: ^2.4.2

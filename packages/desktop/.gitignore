@@ -1,0 +1,4 @@
+release/
+resources/
+test-results/
+playwright-report/

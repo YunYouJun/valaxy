@@ -1,0 +1,51 @@
+name: Desktop preview packages
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  desktop:
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [macos-latest, windows-latest, ubuntu-latest]
+    runs-on: ${{ matrix.os }}
+    timeout-minutes: 40
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24.18.0
+          cache: pnpm
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm build
+      - run: pnpm -C packages/desktop prepare:runtime
+      - run: pnpm -C packages/desktop typecheck
+      - run: pnpm exec vitest run test/desktop test/devtools
+      - name: Electron end-to-end (Linux)
+        if: runner.os == 'Linux'
+        run: xvfb-run --auto-servernum pnpm -C packages/desktop test:e2e
+      - name: Electron end-to-end (macOS and Windows)
+        if: runner.os != 'Linux'
+        run: pnpm -C packages/desktop test:e2e
+      - name: Build unsigned preview installer
+        run: pnpm -C packages/desktop exec electron-builder --publish never
+        env:
+          CSC_IDENTITY_AUTO_DISCOVERY: 'false'
+      - uses: actions/upload-artifact@v4
+        with:
+          name: valaxy-desktop-${{ matrix.os }}
+          if-no-files-found: error
+          path: |
+            packages/desktop/release/*.dmg
+            packages/desktop/release/*.exe
+            packages/desktop/release/*.AppImage
+      - uses: actions/upload-artifact@v4
+        if: failure()
+        with:
+          name: desktop-test-results-${{ matrix.os }}
+          path: packages/desktop/test-results

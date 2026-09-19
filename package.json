@@ -21,6 +21,9 @@
     "node": ">=22.12.0"
   },
   "scripts": {
+    "desktop:dev": "pnpm -C packages/desktop run dev",
+    "desktop:build": "pnpm -C packages/desktop run build",
+    "desktop:pack": "pnpm -C packages/desktop run pack",
     "api:dev": "pnpm -C api run dev",
     "api:build": "pnpm -C api run build",
     "api:preview": "pnpm -C api run preview",

@@ -2,7 +2,6 @@ import type { InlineConfig, LogLevel } from 'vite'
 import type { Argv } from 'yargs'
 import type { ValaxyModule } from '../modules'
 import path from 'node:path'
-import process from 'node:process'
 import { consola } from 'consola'
 
 import { mergeConfig } from 'vite'
@@ -26,14 +25,17 @@ import { printInfo } from './utils/cli'
 /**
  * valaxy build
  */
-export async function execBuild({ ssg, root, output, log }: { ssg: boolean, root: string, output: string, log: string }) {
+export async function execBuild({ ssg, root, output, log, siteUrl }: { ssg: boolean, root: string, output: string, log: string, siteUrl?: string }) {
   setEnvProd()
 
   if (!(await isPagesDirExist(root)))
-    process.exit(0)
+    throw new Error(`Pages directory not found: ${root}`)
 
   const userRoot = path.resolve(root)
   const options = await resolveOptions({ userRoot }, 'build')
+  // Desktop publishing knows the assigned URL after the Pages project is created.
+  if (siteUrl)
+    options.config.siteConfig.url = siteUrl
   setTimezone(options.config.siteConfig.timezone)
   printInfo(options)
 
@@ -86,24 +88,15 @@ export async function execBuild({ ssg, root, output, log }: { ssg: boolean, root
   try {
     if (ssg) {
       consola.info('use valaxy SSG engine to build...')
-      try {
-        const userSsgOptions = (viteConfig as any).ssgOptions || {}
-        delete (viteConfig as any).ssgOptions
-        await ssgBuild(valaxyApp, viteConfig, userSsgOptions)
-        await postProcessForSSG(options)
-      }
-      catch (e) {
-        consola.error('[valaxy-ssg] An internal error occurred.')
-        console.log(e)
-      }
+      const userSsgOptions = (viteConfig as any).ssgOptions || {}
+      delete (viteConfig as any).ssgOptions
+      await ssgBuild(valaxyApp, viteConfig, userSsgOptions)
+      await postProcessForSSG(options)
     }
     else {
       consola.info('use vite do spa build...')
       await build(valaxyApp, viteConfig)
     }
-  }
-  catch (e) {
-    console.log(e)
   }
   finally {
   // await fs.unlink(indexPath)

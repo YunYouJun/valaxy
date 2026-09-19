@@ -26,12 +26,15 @@ export async function startValaxyDev({
   remote,
   log,
   open,
+  vite = {},
 }: {
   root?: string
   port?: number
   remote?: boolean
   log?: LogLevel
   open?: boolean
+  /** Final host overrides for programmatic callers such as Valaxy Desktop. */
+  vite?: InlineConfig
 }) {
   const totalTimer = countPerformanceTime()
   setEnv()
@@ -122,7 +125,7 @@ export async function startValaxyDev({
     logLevel: log as LogLevel,
   }, resolvedOptions.config.vite || {})
 
-  const server = await initServer(valaxyApp, viteConfig)
+  const server = await initServer(valaxyApp, mergeConfig(viteConfig, vite))
   vLogger.info(`total startup: ${totalTimer()}`)
   printInfo(resolvedOptions, port, remote)
 
