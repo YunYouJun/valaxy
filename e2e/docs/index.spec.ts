@@ -12,13 +12,8 @@ test.beforeEach(async ({ page }) => {
 
 test.describe('enter docs', () => {
   test('get started', async ({ page }) => {
-    // Wait for the get started button to be visible before clicking
-    await page.waitForSelector('.sese-btn', { state: 'visible' })
-    // Click the get started button
-    await page.click('.sese-btn')
-    // wait page load
-    await page.waitForURL('/guide/getting-started')
-    // Expect a new url
+    await page.getByRole('link', { name: 'Get Started', exact: true }).click()
+    await expect(page).toHaveURL(/\/guide\/getting-started\/?$/)
     await expect(page.locator('h1')).toHaveText('Getting Started')
   })
 

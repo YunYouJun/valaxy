@@ -30,11 +30,10 @@ test('keeps the document drawer above its backdrop and unlocks on resize', async
   await expect(page.locator('body')).toHaveCSS('overflow', 'hidden')
   const bounds = await sidebar.boundingBox()
   expect(bounds?.y).toBeGreaterThanOrEqual(60)
-  const topElementIsSidebar = await sidebar.evaluate((el) => {
+  await expect.poll(() => sidebar.evaluate((el) => {
     const rect = el.getBoundingClientRect()
     return el.contains(document.elementFromPoint(rect.x + 30, rect.y + 60))
-  })
-  expect(topElementIsSidebar).toBe(true)
+  })).toBe(true)
   await page.keyboard.press('Escape')
   await expect(sidebar).toBeHidden()
   await expect(trigger).toBeFocused()

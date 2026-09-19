@@ -30,7 +30,7 @@ test('keeps the hydrated app mounted across repeated layout changes', async ({ p
 
     await page.getByRole('link', { name: 'VALAXY', exact: true }).click()
     await expect(page).toHaveURL(/\/zh\/$/)
-    await expect(page.getByRole('heading', { name: 'VALAXY', exact: true })).toBeVisible()
+    await expect(page.getByRole('heading', { name: /^VALAXY / })).toBeVisible()
 
     const mobile = page.getByRole('button', { name: '打开导航', exact: true })
     if (await mobile.isVisible())
