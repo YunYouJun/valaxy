@@ -32,7 +32,7 @@ test('keeps the hydrated app mounted across repeated layout changes', async ({ p
     await expect(page).toHaveURL(/\/zh\/$/)
     await expect(page.getByRole('heading', { name: 'VALAXY', exact: true })).toBeVisible()
 
-    const mobile = page.getByRole('button', { name: 'mobile navigation' })
+    const mobile = page.getByRole('button', { name: '打开导航', exact: true })
     if (await mobile.isVisible())
       await mobile.click()
     await page.getByRole('button', { name: pkg.version, exact: true }).click()
@@ -43,7 +43,7 @@ test('keeps the hydrated app mounted across repeated layout changes', async ({ p
 })
 
 test('opens and closes hydrated portals before leaving the layout', async ({ page }) => {
-  const mobile = page.getByRole('button', { name: 'mobile navigation' })
+  const mobile = page.getByRole('button', { name: '打开导航', exact: true })
   if (await mobile.isVisible())
     await mobile.click()
   for (let i = 0; i < 2; i++) {
@@ -53,8 +53,9 @@ test('opens and closes hydrated portals before leaving the layout', async ({ pag
     await page.keyboard.press('Escape')
     await expect(menu).toBeHidden()
   }
-  if (await mobile.isVisible())
-    await mobile.click()
+  const closeMobile = page.getByRole('button', { name: '关闭导航', exact: true })
+  if (await closeMobile.isVisible())
+    await closeMobile.click()
 
   // DocSearch is mounted on the client and does not participate in Vue SSR.
   for (let i = 0; i < 2; i++) {

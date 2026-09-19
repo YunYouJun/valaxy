@@ -2,14 +2,18 @@
 layout: home
 
 title: Valaxy
-titleTemplate: '%s - Next Generation Static Blog Framework'
-description: Valaxy is a next-generation static blog framework powered by Vue, Vite, and TypeScript.
+titleTemplate: '%s - A blog framework for your voice'
+description: A blog framework for your voice, powered by Vue, Vite, and TypeScript.
 ogImage: https://valaxy.site/valaxy-logo.png
 
 hero:
+  layout: split
+  visual: orbit
+  imageCaption: V + Galaxy
+  command: pnpm create valaxy
   name: VALAXY
-  text: Next Generation Static Blog Framework
-  tagline: Simple, powerful, and performant. Meet the modern BLOG framework you've always wanted.
+  text: A blog framework for your voice
+  tagline: Powered by Vue and Vite. Write in Markdown, customize every detail, and make it yours.
   image:
     src: /valaxy-logo.png
     alt: Valaxy Logo
@@ -24,45 +28,46 @@ hero:
       text: hero.actions.view-github
       link: https://github.com/YunYouJun/valaxy
 
+featuresTitle: From a spark to your own universe.
+featuresDescription: Start with your first post. Make every detail your own.
+
 features:
   - icon: i-logos:markdown
     title: features.markdown.title
-    details: features.markdown.details
+    details: homeFeatures.ready.details
   - icon: i-logos:vitejs
     title: features.vite.title
-    details: features.vite.details
-  - icon: i-vscode-icons:file-type-vueconfig
+    details: homeFeatures.preview.details
+  - icon: i-logos:vue
     title: features.vue.title
-    details: features.vue.details
+    details: homeFeatures.custom.details
   - icon: i-logos:unocss
     title: features.unocss.title
     details: features.unocss.details
-  - icon: i-logos:vueuse
-    title: features.vueuse.title
-    details: features.vueuse.details
-  - icon: i-logos:github-actions
-    title: features.actions.title
-    details: features.actions.details
-  - icon: i-vscode-icons:file-type-locale
-    title: features.i18n.title
-    details: features.i18n.details
   - icon: i-logos:typescript-icon
     title: features.typescript.title
     details: features.typescript.details
-  - icon: i-logos:visual-studio-code
-    title: features.vscode.title
-    details: features.vscode.details
-  - icon: i-vscode-icons:folder-type-theme
-    title: features.theme.title
-    details: features.theme.details
+  - icon: i-logos:vueuse
+    title: features.vueuse.title
+    details: features.vueuse.details
+  - icon: i-ri-tools-line
+    title: homeFeatures.devtools.title
+    details: homeFeatures.devtools.details
   - icon: i-vscode-icons:folder-type-plugin
-    title: features.addon.title
-    details: features.addon.details
-  - icon: i-logos:electron
-    title: features.electron.title
-    details: features.electron.details
+    title: homeFeatures.extend.title
+    details: homeFeatures.extend.details
+  - icon: i-logos:github-actions
+    title: homeFeatures.own.title
+    details: homeFeatures.own.details
+  - icon: i-vscode-icons:file-type-locale
+    title: features.i18n.title
+    details: features.i18n.details
+  - icon: i-ri-sparkling-line
+    title: homeFeatures.ai.title
+    details: homeFeatures.ai.details
+  - icon: i-ri-accessibility-line
+    title: homeFeatures.accessibility.title
+    details: homeFeatures.accessibility.details
 ---
-
-<ValaxyQuickStart />
 
 <ValaxySponsors />

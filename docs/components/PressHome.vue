@@ -3,6 +3,8 @@ import ThemePressHome from 'valaxy-theme-press/components/PressHome.vue'
 import { computed } from 'vue'
 import { useRoute } from 'vue-router'
 import HomeAiThemes from './home/HomeAiThemes.vue'
+import HomeDevtools from './home/HomeDevtools.vue'
+import HomeEcosystem from './home/HomeEcosystem.vue'
 
 const route = useRoute()
 const lang = computed(() => route.path.startsWith('/zh/') ? 'zh' : 'en')
@@ -11,6 +13,8 @@ const lang = computed(() => route.path.startsWith('/zh/') ? 'zh' : 'en')
 <template>
   <ThemePressHome>
     <template #home-features-after>
+      <HomeEcosystem :lang="lang" />
+      <HomeDevtools :lang="lang" />
       <HomeAiThemes :lang="lang" />
     </template>
   </ThemePressHome>

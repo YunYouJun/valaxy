@@ -8,6 +8,21 @@ export const releaseCopies = {
   zh: {
     lang: 'zh-CN',
     nav: { skip: '跳至主要内容' },
+    devtools: {
+      title: ['专注创作。', '其余，一目了然。'],
+      description: '从文章整理到站点配置，Valaxy DevTools 把日常打理博客的工具，放进一个直观的面板。让创作，更从容。',
+      link: '探索 Valaxy DevTools',
+      preview: '文章管理 · 当前版本实机预览',
+      alt: 'Valaxy DevTools 文章管理面板，左侧浏览文章，右侧编辑标题、日期、分类与标签',
+      image: '/release/devtools-zh-preview.webp',
+      darkImage: '/release/devtools-zh-dark-preview.webp',
+      features: [
+        { title: '文章，井然有序。', text: '搜索文章、筛选草稿，直观编辑标题、分类与标签。让每一篇内容，都各得其所。' },
+        { title: '配置，直观可见。', text: '在可视化面板中调整站点与框架配置，保存回本地源文件。熟悉的配置，多一种打开方式。' },
+        { title: '调试，紧随页面。', text: '查看当前页面的路由、Frontmatter 与响应式断点。页面切换，调试信息随之更新。' },
+      ],
+      note: '随开发模式开启，在 Vite DevTools 中打开。生产构建不包含开发工具。',
+    },
     hero: { title: ['为书写而生。', '向自由而进。'], description: '用 Markdown 记录，用 Vue 创造。', primary: '开始创作', secondary: '查看 1.0 更新', note: '从第一篇文章，到属于你的整个世界。', hello: '你好，世界。', story: '把日常写成故事，让灵感自由生长。', preview: '博客效果示意' },
     writing: { title: ['从一行文字，', '到你的整个世界。'], description: '在熟悉的 Markdown 中书写，需要时加入一个 Vue 组件。文字、交互与想象，在同一篇文章里相遇。', modes: ['Markdown', 'Vue 组件'], source: '源文件', preview: '实时示例', hello: '你好，世界。', story: '这是我的第一篇文章。', count: '点击次数', reset: '重置', hint: '试着点击，让文字动起来。', link: '探索 Markdown 扩展' },
     themes: { title: ['同样的内容。', '不同的你。'], description: 'Yun，安放你的日常；Press，让知识井然有序。再用自己的组件、布局与样式，写下个性。', yun: 'Yun · 轻盈的个人博客', press: 'Press · 清晰的文档空间', live: '打开实际示例', caption: '来自当前仓库的主题预览', more: '探索主题与自定义', altYun: 'Yun 主题本地示例截图', altPress: 'Press 主题本地文档截图' },
@@ -21,6 +36,21 @@ export const releaseCopies = {
   en: {
     lang: 'en',
     nav: { skip: 'Skip to content' },
+    devtools: {
+      title: ['Keep creating.', 'See the whole picture.'],
+      description: 'From organizing posts to configuring your site, Valaxy DevTools brings your everyday blog tools into one clear panel. More room to focus on your next idea.',
+      link: 'Explore Valaxy DevTools',
+      preview: 'Post management · Preview from the current version',
+      alt: 'Valaxy DevTools with a post list on the left and title, date, category, and tag fields on the right',
+      image: '/release/devtools-en-preview.webp',
+      darkImage: '/release/devtools-en-dark-preview.webp',
+      features: [
+        { title: 'Every post in its place.', text: 'Search posts, filter drafts, and edit titles, categories, and tags visually. Keep your growing collection of stories organized.' },
+        { title: 'Your settings, in sight.', text: 'Adjust site and framework settings in a visual panel, then save them to your local source files. A new way into familiar configuration.' },
+        { title: 'Debug as you browse.', text: 'Inspect the current page’s route, frontmatter, and responsive breakpoints. As you navigate, the details follow along.' },
+      ],
+      note: 'Available in development through Vite DevTools. Excluded from production builds.',
+    },
     hero: { title: ['Made for words.', 'Built for freedom.'], description: 'Write with Markdown. Create with Vue.', primary: 'Start creating', secondary: 'Explore 1.0', note: 'From your first post to a world of your own.', hello: 'Hello, world.', story: 'Turn everyday moments into stories. Give ideas room to grow.', preview: 'Illustrative blog preview' },
     writing: { title: ['From a line of text.', 'To a world of your own.'], description: 'Write in familiar Markdown. Add a Vue component when you need one. Words, interaction, and imagination come together in the same post.', modes: ['Markdown', 'Vue component'], source: 'Source', preview: 'Live example', hello: 'Hello, world.', story: 'This is my first post.', count: 'Clicks', reset: 'Reset', hint: 'Give it a click. Bring your words to life.', link: 'Explore Markdown extensions' },
     themes: { title: ['The same words.', 'A different you.'], description: 'Yun for everyday stories. Press for organized knowledge. Make either your own with custom components, layouts, and styles.', yun: 'Yun · A personal blog', press: 'Press · A space for knowledge', live: 'Open live example', caption: 'Theme previews from the current repository', more: 'Explore themes and customization', altYun: 'Local Yun theme demo screenshot', altPress: 'Local Press documentation screenshot' },

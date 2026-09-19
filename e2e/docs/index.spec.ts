@@ -28,6 +28,6 @@ test.describe('enter docs', () => {
 
   test('has title', async ({ page }) => {
     // Expect a title "to contain" a substring.
-    await expect(page).toHaveTitle('Valaxy - Next Generation Static Blog Framework')
+    await expect(page).toHaveTitle('Valaxy - A blog framework for your voice')
   })
 })

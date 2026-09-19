@@ -183,3 +183,29 @@ themePrompt:
 
 post:
   contributors: 贡献者
+
+homeFeatures:
+  ready:
+    title: 开箱即用
+    details: 从现成主题开始，文章列表、分类、标签与归档已就绪。用 Markdown 写下第一篇文章。
+  preview:
+    title: 即改即见
+    details: 修改文章、配置与组件，预览随之更新。让写作和定制都拥有流畅的反馈。
+  custom:
+    title: 随心定制
+    details: 从一个页脚到整个布局，通过同名 Vue 组件逐步定制，把主题变成你的模样。
+  devtools:
+    title: 可视化管理
+    details: 内置 Valaxy DevTools，搜索文章、编辑元信息、调整配置，在直观的面板里管理博客。
+  extend:
+    title: 按需扩展
+    details: 通过插件添加评论、搜索与相册。结合 Vue、Vite 与 UnoCSS，继续拓展你的想法。
+  own:
+    title: 内容自持，自由部署
+    details: 文章以本地文件保存，生成的静态站点可部署到你选择的平台。内容与代码由你管理。
+  ai:
+    title: AI 协作友好
+    details: 用提示词与主题 Skill 将设计想法实现为主题。按需开启 MCP 查询和检查文章，或生成 AI 可读内容。
+  accessibility:
+    title: 无障碍细节
+    details: Press 主题支持键盘导航与清晰的焦点提示；首页动画可暂停，并尊重减少动态效果偏好。

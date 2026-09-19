@@ -183,3 +183,29 @@ themePrompt:
 
 post:
   contributors: Contributors
+
+homeFeatures:
+  ready:
+    title: Ready to write
+    details: Start with a ready-made theme, post lists, categories, tags, and archives. Write your first post in Markdown.
+  preview:
+    title: See changes as you go
+    details: Preview updates to posts, settings, and components as you work. Keep writing and customization flowing.
+  custom:
+    title: Make every detail yours
+    details: From a footer to an entire layout, override Vue components by name and shape your theme one piece at a time.
+  devtools:
+    title: Manage visually
+    details: Search posts, edit metadata, and adjust settings in the built-in Valaxy DevTools panel.
+  extend:
+    title: Extend as you need
+    details: Add comments, search, and galleries with addons. Build on Vue, Vite, and UnoCSS to take your ideas further.
+  own:
+    title: Own your content
+    details: Keep posts in local files and deploy your generated static site to the host you choose. Your content and code stay with you.
+  ai:
+    title: Work with AI
+    details: Turn a design brief into a theme with prompts and the theme Skill. Enable MCP to inspect and check articles, or publish AI-readable content.
+  accessibility:
+    title: Accessibility details
+    details: Navigate the Press theme with a keyboard and visible focus indicators. Pause homepage animations, with reduced-motion preferences respected.

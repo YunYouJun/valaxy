@@ -3,6 +3,7 @@ import type { ReleaseLocale } from '../../data/release-v1'
 import { computed } from 'vue'
 import { releaseCopies } from '../../data/release-v1'
 import ReleaseV1Closing from './ReleaseV1Closing.vue'
+import ReleaseV1Devtools from './ReleaseV1Devtools.vue'
 import ReleaseV1Features from './ReleaseV1Features.vue'
 import ReleaseV1Hero from './ReleaseV1Hero.vue'
 import ReleaseV1Themes from './ReleaseV1Themes.vue'
@@ -23,6 +24,7 @@ const prefix = computed(() => props.locale === 'zh' ? '/zh' : '')
         <ReleaseV1Writing :copy="copy.writing" :prefix="prefix" />
         <ReleaseV1Themes :copy="copy.themes" :prefix="prefix" />
       </div>
+      <ReleaseV1Devtools :copy="copy.devtools" :prefix="prefix" />
       <ReleaseV1Features :copy="copy.engine" :prefix="prefix" />
       <ReleaseV1Closing :copy="copy.closing" :prefix="prefix" />
     </main>
