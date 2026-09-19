@@ -246,7 +246,9 @@ During development, Valaxy enables [Vite DevTools](https://devtools.vite.dev/) a
 
 You can also open `<base>__valaxy_devtools__/` directly, for example `/__valaxy_devtools__/` or `/blog/__valaxy_devtools__/`. File operations work in the standalone page; current-page highlighting requires an embedded panel or a same-origin opener.
 
-Set `devtools: false` in `valaxy.config.ts` to disable the development tools and page bridge. Production builds do not include them. MCP is disabled by default.
+Set `devtools: false` in `valaxy.config.ts` to disable the development tools and page bridge. Production builds do not include them.
+
+**MCP is disabled by default**. Set `mcp: true` in `valaxy.config.ts` to independently enable local read-only tools for listing posts, searching and reading Markdown, and browsing collection directories. This setting is independent of `devtools`: disabling the panel does not stop an enabled MCP server; use `mcp: false` to disable MCP. The built-in panel still disables WebMCP. See [MCP: disabled by default, opt-in integration](/guide/work-with-ai#mcp) for configuration and client connection examples.
 
 #### Addon DevTools panels
 

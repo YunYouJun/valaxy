@@ -246,7 +246,9 @@ export default defineValaxyConfig({
 
 也可以直接打开 `<base>__valaxy_devtools__/`，例如 `/__valaxy_devtools__/` 或 `/blog/__valaxy_devtools__/`。独立页面可以管理文件；当前文章高亮需要内嵌面板或同源 opener 提供页面上下文。
 
-在 `valaxy.config.ts` 中设置 `devtools: false` 可关闭开发工具与页面通信。生产构建不包含这些工具，MCP 默认关闭。
+在 `valaxy.config.ts` 中设置 `devtools: false` 可关闭开发工具与页面通信。生产构建不包含这些工具。
+
+**MCP 默认关闭**。在 `valaxy.config.ts` 中设置 `mcp: true` 可独立开启本地只读 MCP 服务，查询文章、搜索和阅读 Markdown、浏览合集目录。该开关与 `devtools` 独立，关闭面板不会关闭已开启的 MCP；关闭 MCP 请设置 `mcp: false`。内置面板仍关闭 WebMCP。配置示例和客户端连接方式见 [MCP：默认关闭，按需接入](/zh/guide/work-with-ai#mcp)。
 
 #### Addon 扩展面板 {#devtools-addons}
 
@@ -407,4 +409,3 @@ export default defineValaxyConfig({
   },
 })
 ```
-
