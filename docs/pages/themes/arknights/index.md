@@ -7,6 +7,7 @@ categories: Themes
 
 **valaxy-theme-arknights** is a working AI theme authoring example for Valaxy. It applies AK UI at `system` intensity: cool paper and graphite surfaces, yellow actions, original industrial geometry and an archive driven by real posts. Article layouts keep a comfortable measure and clear hierarchy.
 
+- [Live preview](https://arknights.valaxy.site/) · [npm package](https://www.npmjs.com/package/valaxy-theme-arknights)
 - [Source and updates](https://github.com/valaxyjs/valaxy-theme-arknights)
 - [中文使用文档](/zh/themes/arknights)
 - [AI design brief and theme Skill](/themes/write#generate-a-theme-with-ai)
@@ -26,7 +27,7 @@ pnpm install
 pnpm dev
 ```
 
-`theme/` contains the distributable theme source; `demo/` is its consuming blog. This is currently a source example, **not an npm release**. Use the source or archive installation below instead of `pnpm add valaxy-theme-arknights`.
+`theme/` contains the distributable theme source; `demo/` is its consuming blog. The theme is published on npm; existing Valaxy blogs can install it directly as shown below.
 
 ## Configure your blog
 
@@ -91,7 +92,17 @@ Create `demo/pages/about.md` for `/about/`. Supported layouts are `home`, `post`
 
 ## Use in an existing blog
 
-In the theme workspace:
+In a blog using Valaxy 1.x, run:
+
+```bash
+pnpm add valaxy-theme-arknights
+```
+
+Set `theme: 'arknights'` in `valaxy.config.ts` to use your own articles and site settings. See [npm versions](https://www.npmjs.com/package/valaxy-theme-arknights).
+
+### Install a locally customized version
+
+If you edited the theme source, pack it in the theme workspace:
 
 ```bash
 pnpm check
@@ -101,7 +112,7 @@ pnpm pack:theme
 Then install the generated archive in your existing Valaxy blog, replacing the path:
 
 ```bash
-pnpm add /absolute/path/to/artifacts/valaxy-theme-arknights-0.1.0.tgz
+pnpm add /absolute/path/to/artifacts/valaxy-theme-arknights-0.1.1.tgz
 ```
 
 Set `theme: 'arknights'` in that blog's `valaxy.config.ts`. Keep your own `site.config.ts` and `pages/`. The archive includes components, layouts, styles and types, and installs AK UI as a runtime dependency. No link to a developer checkout is needed.
@@ -127,7 +138,9 @@ $env:VITE_BASE = '/my-blog/'
 pnpm build
 ```
 
-The repository's manual Pages workflow uses `/valaxy-theme-arknights/`; update it when copying the repository. Deployment and npm publication are separate operations, not automatic effects of theme generation.
+The official example deploys automatically to [arknights.valaxy.site](https://arknights.valaxy.site/) through Cloudflare Pages. Pushing `main` updates the preview; version tags publish npm through OIDC. See [publishing and deployment details](https://github.com/valaxyjs/valaxy-theme-arknights/blob/main/docs/releasing.md).
+
+The alternative manual GitHub Pages workflow uses `/valaxy-theme-arknights/`; update it when copying the repository. Deployment and npm publication are separate operations, not automatic effects of theme generation.
 
 ## Iterate with the updated AK UI Skill
 

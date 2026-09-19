@@ -63,6 +63,8 @@ pnpm dev
 
 ### 示例：AK UI × Arknights
 
+[在线预览](https://arknights.valaxy.site/) · [npm 安装](https://www.npmjs.com/package/valaxy-theme-arknights)
+
 [Arknights 主题](https://github.com/valaxyjs/valaxy-theme-arknights) 将 [AK UI](https://ak-ui.yyj.moe/) 的工业几何、石墨色与黄色行动色应用到个人博客，包含真实文章列表、标题与标签筛选、文章目录、深浅色和移动端布局。
 
 [使用这款主题](/zh/themes/arknights)：从源码试用、安装到现有博客、主题配置，到 SSG 与子路径部署。更新后的示例使用 AK UI 1.1 的移动菜单控制器，并验证键盘焦点、无 JavaScript 导航和减少动态效果。

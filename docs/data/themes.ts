@@ -58,6 +58,7 @@ export const themes = [
     repo: 'https://github.com/valaxyjs/valaxy-theme-arknights',
     kind: 'official',
     docsPath: '/themes/arknights',
+    siteExampleUrl: 'https://arknights.valaxy.site/',
     description: {
       'en': 'An original AK UI inspired blog theme and AI theme authoring example.',
       'zh-CN': '基于 AK UI 的原创博客主题，也是 AI 主题开发的完整示例。',

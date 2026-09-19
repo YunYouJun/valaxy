@@ -7,6 +7,7 @@ categories: 主题
 
 **valaxy-theme-arknights** 是 Valaxy 的 AI 主题开发示例，采用 AK UI 的 `system` 设计强度：冷白与石墨色阅读面、黄色行动色、原创工业几何，以及来自真实文章的档案列表。正文保持清晰的行宽和层级。
 
+- [在线预览](https://arknights.valaxy.site/) · [npm 包](https://www.npmjs.com/package/valaxy-theme-arknights)
 - [主题源码与更新记录](https://github.com/valaxyjs/valaxy-theme-arknights)
 - [英文使用文档](/themes/arknights)
 - [AI 主题设计简报与 Skill](/zh/themes/write#generate-a-theme-with-ai)
@@ -26,7 +27,7 @@ pnpm install
 pnpm dev
 ```
 
-`theme/` 是可分发的主题源码，`demo/` 是使用它的博客。主题目前是源码示例，**尚未发布 npm**；请使用这里的源码或打包方式，不要直接运行 `pnpm add valaxy-theme-arknights`。
+`theme/` 是可分发的主题源码，`demo/` 是使用它的博客。主题已发布到 npm；已有 Valaxy 博客可以直接安装，方法见下方。
 
 ## 修改站点与主题配置
 
@@ -91,7 +92,17 @@ top: 1
 
 ## 安装到已有博客
 
-在主题工作区打包：
+在使用 Valaxy 1.x 的博客目录运行：
+
+```bash
+pnpm add valaxy-theme-arknights
+```
+
+在 `valaxy.config.ts` 设置 `theme: 'arknights'`，即可使用自己的文章和站点配置。查看 [npm 版本](https://www.npmjs.com/package/valaxy-theme-arknights)。
+
+### 安装本地定制版本
+
+如果修改了主题源码，在主题工作区打包：
 
 ```bash
 pnpm check
@@ -101,7 +112,7 @@ pnpm pack:theme
 然后在已有 Valaxy 博客中安装生成的文件（将路径替换为实际位置）：
 
 ```bash
-pnpm add /absolute/path/to/artifacts/valaxy-theme-arknights-0.1.0.tgz
+pnpm add /absolute/path/to/artifacts/valaxy-theme-arknights-0.1.1.tgz
 ```
 
 在博客的 `valaxy.config.ts` 设置 `theme: 'arknights'`，并保留自己的 `site.config.ts` 与 `pages/`。归档包含组件、布局、类型与样式，AK UI 作为主题运行时依赖自动安装；博客无需关联开发者本机工作区。
@@ -127,7 +138,9 @@ $env:VITE_BASE = '/my-blog/'
 pnpm build
 ```
 
-仓库的手动 GitHub Pages 工作流使用 `/valaxy-theme-arknights/`；复制仓库后应改成自己的路径。部署和 npm 发布是独立操作，生成主题不会自动执行它们。
+官方示例通过 Cloudflare Pages 自动部署到 [arknights.valaxy.site](https://arknights.valaxy.site/)。推送 `main` 更新预览；版本标签通过 OIDC 发布 npm。详见[发布与部署说明](https://github.com/valaxyjs/valaxy-theme-arknights/blob/main/docs/releasing.md)。
+
+备用的手动 GitHub Pages 工作流使用 `/valaxy-theme-arknights/`；复制仓库后应改成自己的路径。部署和 npm 发布是独立操作，生成主题不会自动执行它们。
 
 ## 用新版 AK UI Skill 继续定制
 

@@ -63,6 +63,8 @@ The template separates the distributable `theme/` package from its `demo/` consu
 
 ### Example: AK UI × Arknights
 
+[Live preview](https://arknights.valaxy.site/) · [npm package](https://www.npmjs.com/package/valaxy-theme-arknights)
+
 The [Arknights theme](https://github.com/valaxyjs/valaxy-theme-arknights) adapts [AK UI](https://ak-ui.yyj.moe/)'s industrial geometry, graphite surfaces and yellow actions to a personal blog. It includes real posts, title and tag filters, an article outline, light/dark modes and mobile layouts.
 
 [Use this theme](/themes/arknights): run the source example, install it in an existing blog, configure it and deploy an SSG build under a subdirectory. The updated example uses AK UI 1.1 mobile-menu controllers and verifies keyboard focus, no-JavaScript navigation and reduced motion.
