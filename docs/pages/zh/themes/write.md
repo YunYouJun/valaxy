@@ -15,17 +15,11 @@ Valaxy 与 Vite/Vue 的生态完全兼容，因此你在编写主题时，可以
 
 :::
 
-Valaxy 主题无需预编译，直接发布源文件即可。
+Valaxy 主题可以直接发布源文件，无需预编译。建议从主题模板开始，并参考下方的主题示例、目录结构和扩展 API 完成开发。也可以使用[主题 AI 生成工具](#generate-a-theme-with-ai)准备设计简报，辅助创建主题。
 
-撰写中...
+如果在开发过程中遇到问题，或希望交流主题开发需求，欢迎前往 QQ 频道[「云乐坊」](https://pd.qq.com/s/grfe9jxoe)或发起 [GitHub Discussion](https://github.com/YunYouJun/valaxy/discussions)；缺陷报告和具体的功能建议可以提交 [Issue](https://github.com/YunYouJun/valaxy/issues)。我们会持续整理常见问题并完善文档。
 
-作为 Valaxy 作者，我可以很轻松的实现自己的主题。
-但也因此，我可能很难了解真正主题开发者的需求。
-
-因此，如果你有任何开发主题的相关问题，
-可前往 QQ 频道[「云乐坊」](https://pd.qq.com/s/grfe9jxoe) 或发起 [Discussions](https://github.com/YunYouJun/valaxy/discussions) 与我交流，我将会为您提供尽可能的帮助，并针对泛化的问题撰写文档。
-
-> 对了，由于目前的主题并不多，主题作者可以在[这里](/zh/themes/gallery)发现一些来自云游君私人的奖励。
+更多 Valaxy 相关的主题、插件及其他生态项目，可在 [valaxyjs GitHub 组织](https://github.com/valaxyjs)中查找。
 
 ## 主题示例 {#theme-examples}
 
@@ -35,15 +29,53 @@ Valaxy 主题无需预编译，直接发布源文件即可。
 
 ## 使用 AI 生成主题 {#generate-a-theme-with-ai}
 
-填写主题名称与简短的设计说明，然后将生成的提示词复制到 AI 编程助手中。提示词会把任务限制在最小主题包内，要求助手根据当前安装的 Valaxy 版本核对 API，并提供实现与验证检查点。
+把视觉想法变成一个可运行、可继续维护的主题。推荐安装主题 Skill，再用下面的生成器准备这一次的设计简报，交给你选择的 AI 编程助手。
+
+这个页面生成提示词，不会调用模型或上传你的项目。你可以搭配自己选择的编程助手使用。
 
 <ThemePrompt />
 
-::: tip
+### Skill 与提示词如何选择 {#skill-and-prompt}
 
-为了获得更准确的结果，建议先安装 [Valaxy Skills](/zh/guide/work-with-ai#agent-skills)，并在已经包含 Valaxy 或[主题 starter](https://github.com/valaxyjs/valaxy-theme-starter) 的仓库内运行助手。发布主题前，请人工审查生成的代码与依赖变更。
+推荐 **Skill + 设计简报**。Skill 是可复用的开发手册，负责框架 API、主题结构、SSR、无障碍和验证；设计简报说明这次要做什么，包括主题名称、视觉方向、工作区和功能。后续改版可以继续使用同一个 Skill，只补充新的需求。
 
-:::
+生成器默认输出精简的「设计简报 + Skill」，不会重复整套工程规范。尚未安装 Skill，或助手不支持 Skill 时，切换到「完整提示词」即可独立使用。两种输出共享你填写的需求，切换不会清空表单。
+
+### 安装主题开发 Skill {#theme-skill}
+
+```bash
+pnpm dlx skills add YunYouJun/valaxy --skill valaxy-theme
+```
+
+[主题 Skill](https://github.com/YunYouJun/valaxy/tree/main/skills/valaxy-theme) 提供框架约定、样式接入、静态构建和打包验证流程。它与负责站点配置、内容及 MCP 的 [Valaxy Skill](/zh/guide/work-with-ai#agent-skills) 可以一起使用。
+
+### 从官方模板开始
+
+```bash
+pnpm dlx degit valaxyjs/valaxy-theme-starter valaxy-theme-my-blog
+cd valaxy-theme-my-blog
+pnpm theme:init my-blog --owner your-github-name
+pnpm install
+pnpm dev
+```
+
+模板将可发布的 `theme/` 和消费它的 `demo/` 分开。初始化命令统一修改包引用、主题名称和组件前缀；`pnpm lint` 与 `pnpm typecheck` 可独立运行（全新工作区先构建生成类型），`pnpm check` 一次完成检查，`pnpm pack:theme` 生成可安装的主题归档。
+
+### 示例：AK UI × Arknights
+
+[Arknights 主题](https://github.com/valaxyjs/valaxy-theme-arknights) 将 [AK UI](https://ak-ui.yyj.moe/) 的工业几何、石墨色与黄色行动色应用到个人博客，包含真实文章列表、标题与标签筛选、文章目录、深浅色和移动端布局。
+
+[使用这款主题](/zh/themes/arknights)：从源码试用、安装到现有博客、主题配置，到 SSG 与子路径部署。更新后的示例使用 AK UI 1.1 的移动菜单控制器，并验证键盘焦点、无 JavaScript 导航和减少动态效果。
+
+![Arknights 主题首页：边境手记、精选文章和可筛选归档](/themes/arknights-preview.webp)
+
+选择上面的 **AK UI / Arknights** 预设即可生成同类设计任务。AK UI 以 CSS Core 接入，主题中的页面与交互由 Vue 组件实现；正文仍是普通 Markdown。可额外安装其设计 Skill：
+
+```bash
+pnpm dlx skills add YunYouJun/ak-ui --skill ak-ui
+```
+
+该主题是独立、非官方的原创风格示例，不包含游戏素材。生成后仍需检查设计、依赖与阅读体验；发布 npm 包和部署站点由你决定。
 
 ## 创建主题模板 {#creating-a-theme-template}
 

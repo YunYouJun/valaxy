@@ -145,6 +145,13 @@ migration:
     frameworkLabel: Source framework
 
 themePrompt:
+  presets: Start with a brief
+  workspace: Workspace
+  newWorkspace: Create from the official starter
+  existingWorkspace: Customize an existing theme
+  designSystem: Design foundation
+  customDesign: Custom style
+  workflow: Give the prompt to your coding assistant to prepare the starter, implement, build and verify the theme. This page creates a development brief; it does not call a model.
   name: Theme name
   namePlaceholder: aurora
   visualDirection: Visual direction
@@ -152,7 +159,27 @@ themePrompt:
   features: Required pages and features
   featuresPlaceholder: e.g. home hero, post list, article TOC, responsive navigation
   copy: Copy theme prompt
-  copied: Theme prompt copied
+  title: A theme that starts with you.
+  subtitle: 'Choose a direction, add your ideas, and bring your coding assistant.'
+  editorialDescription: Serif type · Whitespace · Long reads
+  arknightsDescription: Industrial geometry · Signal yellow
+  nameHint: 'Lowercase letters, digits and hyphens; up to 60 characters.'
+  invalidName: 'Start with a lowercase letter; use only lowercase letters, digits and hyphens, up to 60 characters.'
+  output: For your coding assistant
+  outputMode: Output format
+  skillMode: 'Design brief + Skill'
+  standaloneMode: Standalone prompt
+  recommended: Recommended
+  skillHelp: Skill installed? Share this design brief; the Skill supplies the development workflow.
+  standaloneHelp: 'Use without a Skill. Includes your design, framework conventions and verification steps.'
+  installSkill: Install the theme Skill
+  preview: Generated content preview
+  empty: Choose a preset or describe your design to see your brief here.
+  copyBrief: Copy design brief
+  copyFailed: Copy failed. Select the content above and copy it manually.
+  ready: Copy into your coding assistant in the theme workspace.
+  required: 'Add a theme name, visual direction and features to copy.'
+  copied: Copied
 
 post:
   contributors: Contributors

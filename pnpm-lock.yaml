@@ -772,6 +772,9 @@ importers:
 
   docs:
     dependencies:
+      reka-ui:
+        specifier: catalog:frontend
+        version: 2.10.4(vue@3.5.43(typescript@5.9.3))
       valaxy:
         specifier: link:../packages/valaxy
         version: link:../packages/valaxy

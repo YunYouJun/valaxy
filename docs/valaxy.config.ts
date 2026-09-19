@@ -74,6 +74,7 @@ const themeOverviewItems: PressTheme.SidebarItem[] = [
     collapsed: true,
     items: themeYunChildItems,
   },
+  { text: 'Arknights · AI example', link: '/themes/arknights' },
   { text: 'nav.themes-gallery', link: '/themes/gallery' },
 ]
 
@@ -187,6 +188,7 @@ const zhThemeOverviewItems: PressTheme.SidebarItem[] = [
     collapsed: true,
     items: zhThemeYunChildItems,
   },
+  { text: 'Arknights · AI 示例', link: '/zh/themes/arknights' },
   { text: '主题橱窗', link: '/zh/themes/gallery' },
 ]
 

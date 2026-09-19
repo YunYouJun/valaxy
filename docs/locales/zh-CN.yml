@@ -145,6 +145,13 @@ migration:
     frameworkLabel: 原始框架
 
 themePrompt:
+  presets: 从示例开始
+  workspace: 工作区
+  newWorkspace: 从官方模板创建主题
+  existingWorkspace: 修改现有主题
+  designSystem: 设计基础
+  customDesign: 自定义风格
+  workflow: 复制后交给 AI 编程助手执行：准备模板、实现主题、构建预览并验证。此页面生成开发提示词，不会直接调用模型。
   name: 主题名称
   namePlaceholder: aurora
   visualDirection: 视觉方向
@@ -152,7 +159,27 @@ themePrompt:
   features: 所需页面与功能
   featuresPlaceholder: 例如首页主视觉、文章列表、文章目录、响应式导航
   copy: 复制主题提示词
-  copied: 主题提示词已复制
+  title: 从一个想法，开始你的主题。
+  subtitle: 选一个方向，写下需求，交给你喜欢的 AI 编程助手。
+  editorialDescription: 衬线标题 · 留白 · 长文阅读
+  arknightsDescription: 工业几何 · 信号黄 · 档案布局
+  nameHint: 小写字母、数字和短横线，最多 60 个字符。
+  invalidName: 请输入有效名称：以小写字母开头，仅含字母、数字和短横线，最多 60 个字符。
+  output: 交给 AI 的内容
+  outputMode: 输出方式
+  skillMode: '设计简报 + Skill'
+  standaloneMode: 完整提示词
+  recommended: 推荐
+  skillHelp: 已安装 Skill？只需传递这次的设计需求，开发规范由 Skill 提供。
+  standaloneHelp: 未安装 Skill 时使用，包含设计需求、框架约定与验证步骤。
+  installSkill: 安装主题 Skill
+  preview: 生成内容预览
+  empty: 选一个示例，或写下你的设计，简报会在这里出现。
+  copyBrief: 复制设计简报
+  copyFailed: 复制失败，请选中上方内容手动复制。
+  ready: 复制后，在主题工作区交给 AI 编程助手。
+  required: 填写主题名称、视觉方向和所需功能后即可复制。
+  copied: 已复制
 
 post:
   contributors: 贡献者

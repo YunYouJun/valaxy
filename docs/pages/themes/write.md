@@ -15,17 +15,11 @@ Valaxy is fully compatible with the Vite/Vue ecosystem, so you can freely use th
 
 :::
 
-Valaxy themes don't need pre-compilation; you can directly publish the source files.
+Valaxy themes can be published as source files without pre-compilation. Start with the theme template, then use the examples, directory structure, and extension APIs below to guide development. You can also use the [AI theme generator](#generate-a-theme-with-ai) to prepare a design brief and help create a theme.
 
-Work in progress...
+If you have questions or want to discuss theme development needs, join the ["Yun Le Fun" QQ channel](https://pd.qq.com/s/grfe9jxoe) or start a [GitHub Discussion](https://github.com/YunYouJun/valaxy/discussions). For bug reports and specific feature requests, open an [Issue](https://github.com/YunYouJun/valaxy/issues). We will continue to document answers to common questions.
 
-As the author of Valaxy, I can easily implement my own themes.
-However, this also means I may have difficulty understanding the real needs of theme developers.
-
-Therefore, if you have any questions about developing themes,
-please visit the QQ Channel ["Yun Le Fun"](https://pd.qq.com/s/grfe9jxoe) or start a [Discussion](https://github.com/YunYouJun/valaxy/discussions) to communicate with me. I will provide as much help as possible and write documentation for common issues.
-
-> By the way, since there aren't many themes yet, theme authors can discover some personal rewards from YunYouJun [here](/themes/gallery).
+Explore more Valaxy themes, plugins, and related projects in the [valaxyjs GitHub organization](https://github.com/valaxyjs).
 
 ## Theme Examples
 
@@ -33,17 +27,55 @@ please visit the QQ Channel ["Yun Le Fun"](https://pd.qq.com/s/grfe9jxoe) or sta
 - [valaxy-theme-yun](https://github.com/YunYouJun/valaxy/tree/main/packages/valaxy-theme-yun): valaxy-theme-yun, a more complete theme example
 - [valaxy-theme-press](https://github.com/YunYouJun/valaxy/tree/main/packages/valaxy-theme-press): valaxy-theme-press, the current documentation theme example
 
-## Generate a Theme with AI
+## Generate a Theme with AI {#generate-a-theme-with-ai}
 
-Fill in the theme name and a short design brief, then copy the generated prompt into your AI coding assistant. The prompt deliberately limits the task to a minimal theme package, asks the assistant to verify APIs against the installed Valaxy version, and includes implementation and validation checkpoints.
+Turn a visual idea into a runnable, maintainable theme. Install the theme Skill, then use the generator to prepare this design brief for your preferred coding assistant.
+
+This page generates a prompt. It does not call a model or upload your project; use it with your preferred coding assistant.
 
 <ThemePrompt />
 
-::: tip
+### Skill or prompt? {#skill-and-prompt}
 
-For more accurate results, install [Valaxy Skills](/guide/work-with-ai#agent-skills) first and run the assistant inside a repository that already contains Valaxy or the [theme starter](https://github.com/valaxyjs/valaxy-theme-starter). Review generated code and its dependency changes before publishing a theme.
+Use **Skill + design brief** for ongoing theme development. The Skill supplies reusable framework contracts, SSR, accessibility and verification guidance. Your brief describes this task: theme name, visual direction, workspace and features. Keep using the same Skill for later iterations and provide only the new requirements.
 
-:::
+The generator defaults to **Design brief + Skill**, without repeating the engineering manual. Choose **Standalone prompt** if the Skill is not installed or your assistant does not support Skills. Both formats preserve the same design input; switching does not reset the form.
+
+### Install the theme authoring Skill {#theme-skill}
+
+```bash
+pnpm dlx skills add YunYouJun/valaxy --skill valaxy-theme
+```
+
+The [theme Skill](https://github.com/YunYouJun/valaxy/tree/main/skills/valaxy-theme) covers framework contracts, styles, static builds and package verification. Use it alongside the [Valaxy Skill](/guide/work-with-ai#agent-skills) for site configuration, content and MCP.
+
+### Start from the official template
+
+```bash
+pnpm dlx degit valaxyjs/valaxy-theme-starter valaxy-theme-my-blog
+cd valaxy-theme-my-blog
+pnpm theme:init my-blog --owner your-github-name
+pnpm install
+pnpm dev
+```
+
+The template separates the distributable `theme/` package from its `demo/` consumer. The initializer updates package references, the theme name and component prefixes together. `pnpm lint` and `pnpm typecheck` are available independently (build first to generate types in a fresh workspace); `pnpm check` runs all checks; `pnpm pack:theme` creates an installable archive.
+
+### Example: AK UI × Arknights
+
+The [Arknights theme](https://github.com/valaxyjs/valaxy-theme-arknights) adapts [AK UI](https://ak-ui.yyj.moe/)'s industrial geometry, graphite surfaces and yellow actions to a personal blog. It includes real posts, title and tag filters, an article outline, light/dark modes and mobile layouts.
+
+[Use this theme](/themes/arknights): run the source example, install it in an existing blog, configure it and deploy an SSG build under a subdirectory. The updated example uses AK UI 1.1 mobile-menu controllers and verifies keyboard focus, no-JavaScript navigation and reduced motion.
+
+![Arknights homepage with a featured article and filterable archive](/themes/arknights-preview.webp)
+
+Choose the **AK UI / Arknights** preset above to create a similar design brief. AK UI supplies CSS Core; Vue components implement the pages and interactions. Posts remain ordinary Markdown. You can also install its design Skill:
+
+```bash
+pnpm dlx skills add YunYouJun/ak-ui --skill ak-ui
+```
+
+This is an independent, unofficial theme with original graphics and no game assets. Review the design, dependencies and reading experience after generation. Publishing the npm package or deploying a site remains your decision.
 
 ## Creating a Theme Template
 

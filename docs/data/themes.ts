@@ -53,6 +53,19 @@ export const themes = [
     tags: ['docs', 'press'],
   },
   {
+    name: 'valaxy-theme-arknights',
+    icon: 'i-ri-triangle-line',
+    repo: 'https://github.com/valaxyjs/valaxy-theme-arknights',
+    kind: 'official',
+    docsPath: '/themes/arknights',
+    description: {
+      'en': 'An original AK UI inspired blog theme and AI theme authoring example.',
+      'zh-CN': '基于 AK UI 的原创博客主题，也是 AI 主题开发的完整示例。',
+    },
+    siteImage: '/themes/arknights-preview.webp',
+    tags: ['blog', 'ak-ui', 'arknights', 'ai'],
+  },
+  {
     name: 'valaxy-theme-starter',
     icon: 'i-ri-seedling-line',
     repo: 'https://github.com/valaxyjs/valaxy-theme-starter',

@@ -107,5 +107,7 @@ When displaying repository URLs from package.json, import and use `normalizeRepo
 
 ## References
 
+- **Generate or redesign a theme from a brief**: use the dedicated `valaxy-theme` skill from this repository (`pnpm dlx skills add YunYouJun/valaxy --skill valaxy-theme`). It covers a runnable theme/demo, UI-library integration and verification.
+
 - **Framework architecture, virtual modules, composables, components**: Read [references/architecture.md](references/architecture.md)
 - **Theme/addon development, post frontmatter, addon gallery**: Read [references/theme-addon-dev.md](references/theme-addon-dev.md)

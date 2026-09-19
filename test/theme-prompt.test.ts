@@ -1,7 +1,8 @@
 import fs from 'node:fs'
 import path from 'node:path'
 import { describe, expect, it } from 'vitest'
-import { createThemePrompt } from '../docs/data/theme-prompt'
+import { getThemePreset } from '../docs/data/theme-presets'
+import { createThemeBrief, createThemePrompt, normalizeThemeName } from '../docs/data/theme-prompt'
 
 describe('ai theme prompt', () => {
   it('normalizes the package name and includes the user brief', () => {
@@ -30,7 +31,7 @@ describe('ai theme prompt', () => {
     expect(prompt).toContain('valaxy-theme-[name]')
     expect(prompt).toContain(directory)
     expect(prompt).toContain('layouts/')
-    expect(prompt).toContain('styles/index.scss')
+    expect(prompt).toContain('styles/index.ts')
     expect(prompt).toContain(themeApi)
     expect(prompt).toContain(setupApi)
     expect(prompt).toContain('ValaxyMd')
@@ -70,5 +71,57 @@ describe('prompt controls accessibility', () => {
     expect(source).toContain(':aria-label=')
     expect(source).toContain(':aria-pressed=')
     expect(source).toContain('type="button"')
+  })
+})
+
+describe('theme authoring workflow', () => {
+  it.each(['../escape', 'my theme', 'x; rm -rf .', '$(whoami)', 'a`pwd`', 'ATheme', '-foo', 'a'.repeat(61)])('rejects an unsafe package suffix: %s', (name) => {
+    expect(normalizeThemeName(name)).toBe('')
+    expect(createThemePrompt('en', { name, features: '', visualDirection: '', workspace: 'starter' })).toContain('valaxy-theme-[name]')
+  })
+
+  it.each(['en', 'zh'] as const)('creates a complete AK UI brief in %s', (locale) => {
+    const preset = getThemePreset('arknights', locale)
+    const prompt = createThemePrompt(locale, preset)
+    expect(preset.name).toBe('arknights')
+    expect(prompt).toContain('pnpm dlx degit valaxyjs/valaxy-theme-starter valaxy-theme-arknights')
+    expect(prompt).toContain('@yunyoujun/ak-ui/style.css')
+    expect(prompt).toContain('valaxy build --ssg')
+    expect(prompt).toContain('theme/')
+    expect(prompt).toContain('demo/')
+  })
+
+  it('does not scaffold over an existing theme or add AK UI to a custom brief', () => {
+    const prompt = createThemePrompt('en', { ...getThemePreset('editorial', 'en'), workspace: 'existing' })
+    expect(prompt).not.toContain('pnpm dlx degit')
+    expect(prompt).not.toContain('@yunyoujun/ak-ui/style.css')
+  })
+})
+
+describe('skill brief and standalone prompt', () => {
+  it.each(['en', 'zh'] as const)('preserves the same editable design in both %s formats', (locale) => {
+    const options = { ...getThemePreset('arknights', locale), name: 'my-archive', visualDirection: 'Blue ink / 蓝色墨水', features: 'Accessible search / 无障碍搜索' }
+    const brief = createThemeBrief(locale, options)
+    const standalone = createThemePrompt(locale, options)
+    for (const output of [brief, standalone]) {
+      expect(output).toContain('valaxy-theme-my-archive')
+      expect(output).toContain(options.visualDirection)
+      expect(output).toContain(options.features)
+      expect(output).toContain('AK UI')
+    }
+    expect(brief).toContain('valaxy-theme Skill')
+    expect(brief).not.toContain('defineTheme()')
+    expect(brief.length).toBeLessThan(standalone.length / 2)
+    expect(standalone).toContain('defineTheme()')
+    expect(standalone).toContain('valaxy build --ssg')
+  })
+
+  it.each([createThemeBrief, createThemePrompt])('keeps an existing custom theme independent of starter commands and AK UI', (generate) => {
+    const options = { ...getThemePreset('editorial', 'en'), workspace: 'existing' as const }
+    const output = generate('en', options)
+    expect(output).not.toContain('pnpm dlx degit')
+    expect(output).not.toContain('pnpm theme:init')
+    expect(output).not.toContain('ak-ui')
+    expect(output).toContain('package names')
   })
 })

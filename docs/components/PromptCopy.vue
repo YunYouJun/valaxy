@@ -5,6 +5,7 @@ const props = defineProps<{
   prompt: string
   copyLabel: string
   copiedLabel: string
+  disabled?: boolean
 }>()
 
 const { copy, copied } = useClipboard()
@@ -35,6 +36,7 @@ function handleCopy() {
       transition="colors duration-200"
       hover="border-$va-c-primary color-$va-c-primary"
       :aria-label="copied ? copiedLabel : copyLabel"
+      :disabled="disabled"
       @click="handleCopy"
     >
       <span v-if="copied" aria-hidden="true" i-ri-check-line />
@@ -67,5 +69,10 @@ function handleCopy() {
 .copy-btn:focus-visible {
   outline: 2px solid var(--va-c-primary);
   outline-offset: 2px;
+}
+
+.copy-btn:disabled {
+  cursor: not-allowed;
+  opacity: 0.5;
 }
 </style>

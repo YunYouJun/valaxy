@@ -64,7 +64,7 @@ export default defineTheme({
 ```ts
 // setup/main.ts
 import { defineAppSetup } from 'valaxy'
-import './styles/index.scss'
+import '../styles/index.scss'
 
 export default defineAppSetup(({ app, router, head, isClient }) => {
   // Register Vue plugins, global components, etc.
@@ -93,7 +93,9 @@ Layouts are auto-assigned by route path:
 
 ### Starter Template
 
-Reference: https://github.com/YunYouJun/valaxy-theme-starter
+Reference: https://github.com/valaxyjs/valaxy-theme-starter
+
+For generation from a visual brief, install the repository's `valaxy-theme` skill. The starter separates the `theme/` source package from its `demo/` consumer; initialize their package references together and validate the actual SSG build before publishing.
 
 ## Addon Development
 
