@@ -21,7 +21,7 @@ const homeLink = computed(() => hasLocales.value ? currentLocale.value.link : '/
 <template>
   <div class="pr-navbar flex justify-between items-center pl-4 pr-2" :class="{ 'has-sidebar': hasSidebar }">
     <RouterLink
-      class="pr-navbar-brand text-xl flex justify-center items-center font-black gradient-text from-purple-800 to-blue-500 bg-gradient-to-r"
+      class="pr-navbar-brand text-xl flex justify-center items-center"
       :to="homeLink" :aria-label="siteConfig.title"
     >
       <img v-if="localeConfig.logo" class="logo" :src="withBase(localeConfig.logo)" alt="LOGO">
@@ -43,26 +43,20 @@ const homeLink = computed(() => hasLocales.value ? currentLocale.value.link : '/
 @use 'valaxy/client/styles/mixins/index.scss' as *;
 
 :root {
-  --pr-navbar-c-bg: rgb(255 255 255 / 0.8);
+  --pr-navbar-c-bg: var(--pr-c-bg);
 }
 
-.dark {
-  --pr-navbar-c-bg: rgb(24 24 24 / 0.3);
-}
-
-.logo {
-  width: 32px;
-  height: 32px;
+.pr-navbar .logo {
+  width: 28px;
+  height: 28px;
+  object-fit: contain;
+  transform: translateY(var(--pr-logo-offset-y, -2px));
   margin-right: 8px;
 }
 
 @media (width <= 360px) {
   .pr-navbar .pr-navbar-title {
-    display: none;
-  }
-
-  .pr-navbar .logo {
-    margin-right: 0;
+    font-size: 18px;
   }
 }
 
@@ -83,6 +77,14 @@ const homeLink = computed(() => hasLocales.value ? currentLocale.value.link : '/
 
 .pr-navbar-brand {
   white-space: nowrap;
+  font-family: var(--pr-font-display);
+  font-weight: 650;
+  letter-spacing: -0.035em;
+  color: var(--pr-c-text-1);
+}
+
+.pr-navbar-title {
+  line-height: 1;
 }
 
 .pr-navbar-actions {
@@ -91,23 +93,29 @@ const homeLink = computed(() => hasLocales.value ? currentLocale.value.link : '/
 
 @include screen('md') {
   .pr-navbar {
-    padding: 0 32px;
+    padding: 0 max(32px, calc((100vw - var(--pr-home-max-width)) / 2 + 24px));
   }
 }
 
-@include screen('md') {
-  .pr-navbar {
-    backdrop-filter: saturate(50%) blur(8px);
+// Keep the solid surface unless both the tint and backdrop blur are supported.
+@supports (background-color: color-mix(in srgb, white 96%, transparent)) and ((backdrop-filter: blur(12px)) or (-webkit-backdrop-filter: blur(12px))) {
+  :root {
+    --pr-navbar-c-bg: color-mix(in srgb, var(--pr-c-bg) 96%, transparent);
   }
 
-  @supports not (backdrop-filter: saturate(50%) blur(8px)) {
-    .pr-navbar {
-      background: rgb(255 255 255 / 0.95);
-    }
+  .pr-navbar {
+    /* stylelint-disable-next-line property-no-vendor-prefix -- Support older WebKit webviews. */
+    -webkit-backdrop-filter: blur(12px);
+    backdrop-filter: blur(12px);
+  }
+}
 
-    .dark .pr-navbar {
-      background: rgb(36 36 36 / 0.95);
-    }
+@media (prefers-reduced-transparency: reduce) {
+  .pr-navbar {
+    background-color: var(--pr-c-bg);
+    /* stylelint-disable-next-line property-no-vendor-prefix -- Also disable the WebKit fallback. */
+    -webkit-backdrop-filter: none;
+    backdrop-filter: none;
   }
 }
 

@@ -5,3 +5,18 @@
   display: flex;
   flex-direction: column;
 }
+
+.press-layout {
+  --vp-c-brand-1: var(--pr-c-brand);
+  --vp-c-brand-2: var(--va-c-primary);
+  --vp-c-brand-3: var(--va-c-primary);
+  --vp-c-brand-soft: var(--pr-c-brand-soft);
+
+  color: var(--pr-c-text-1);
+  font-family: var(--pr-font-body);
+
+  :where(a, button, [tabindex="0"]):focus-visible {
+    outline: 2px solid var(--pr-c-brand);
+    outline-offset: 4px;
+  }
+}

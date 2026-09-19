@@ -100,7 +100,23 @@ const addonOverviewItems: PressTheme.SidebarItem[] = [
 
 const defaultSidebar: PressTheme.SidebarEntry[] = [
   'getting-started',
-  'guide',
+  {
+    text: 'category.guide',
+    collapsed: false,
+    items: [
+      { text: 'Commands', link: '/guide/commands/' },
+      { text: 'Layout', link: '/guide/layout' },
+      { text: 'Page', link: '/guide/page' },
+      { text: 'Post', link: '/guide/post' },
+      { text: 'Markdown Extensions', link: '/guide/markdown' },
+      { text: 'Components', link: '/guide/built-ins/' },
+      { text: 'i18n', link: '/guide/i18n' },
+      { text: 'Work with AI', link: '/guide/work-with-ai' },
+      { text: 'SSR Compatibility', link: '/guide/ssr-compat' },
+      { text: 'Best Practices', link: '/guide/best-pratice' },
+      { text: 'FAQ', link: '/faq/' },
+    ],
+  },
   {
     text: 'category.config',
     collapsed: false,
@@ -214,7 +230,23 @@ const zhAddonOverviewItems: PressTheme.SidebarItem[] = [
 
 const zhDefaultSidebar: PressTheme.SidebarEntry[] = [
   'getting-started',
-  'guide',
+  {
+    text: '指南',
+    collapsed: false,
+    items: [
+      { text: '命令行', link: '/zh/guide/commands/' },
+      { text: '布局', link: '/zh/guide/layout' },
+      { text: '页面', link: '/zh/guide/page' },
+      { text: '文章', link: '/zh/guide/post' },
+      { text: 'Markdown 扩展', link: '/zh/guide/markdown' },
+      { text: '组件', link: '/zh/guide/built-ins/' },
+      { text: '国际化', link: '/zh/guide/i18n' },
+      { text: '与 AI 协作', link: '/zh/guide/work-with-ai' },
+      { text: 'SSR 兼容性', link: '/zh/guide/ssr-compat' },
+      { text: '最佳实践', link: '/zh/guide/best-pratice' },
+      { text: '常见问题', link: '/zh/faq/' },
+    ],
+  },
   {
     text: '配置',
     collapsed: false,

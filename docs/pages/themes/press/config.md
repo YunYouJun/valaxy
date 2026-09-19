@@ -64,6 +64,52 @@ The `fly` action uses `siteConfig.favicon` for its hover icon instead of a theme
 
 Internal action links are adjusted automatically when `i18nRouting` is enabled.
 
+
+### Home layout and orbital visual {#home-visual}
+
+The home page uses a split layout by default, with the heading and actions on the left and `hero.image` on the right. Without an image, it automatically centers the content. Set `hero.layout: center` to explicitly choose the centered layout.
+
+The optional `orbit` visual takes inspiration from Valaxy's “V + Galaxy” identity, surrounding your logo with orbital paths and moving lights. It always uses the configured `hero.image`.
+
+```yaml
+hero:
+  name: VALAXY
+  text: Next Generation Static Blog Framework
+  tagline: Simple, powerful, and performant.
+  layout: split
+  visual: orbit
+  animation: true
+  image:
+    src: /valaxy-logo.png
+    alt: Valaxy Logo
+  imageCaption: V + Galaxy
+  command: pnpm create valaxy
+  actions:
+    - theme: brand
+      text: Get started
+      link: /guide/getting-started
+
+featuresTitle: From a spark to your own universe.
+featuresDescription: Focus on your words. Make it yours.
+```
+
+| Option | Default | Description |
+| --- | --- | --- |
+| `hero.layout` | `split` | `split` or `center`; content is centered automatically without an image. |
+| `hero.visual` | `image` | `image` for a simple image, or `orbit` for the orbital visual. Requires `hero.image`. |
+| `hero.animation` | `true` | Set to `false` for static orbital artwork. |
+| `hero.eyebrow` | — | Short label above the heading. |
+| `hero.imageCaption` | — | Caption below the visual. |
+| `hero.command` | — | Copyable quick-start command. Omit to hide. |
+| `featuresTitle` | — | Optional feature section heading. |
+| `featuresDescription` | — | Optional feature section description. |
+
+The CSS animation requires no video or WebGL. It supports manual pausing, pauses outside the viewport, and respects `prefers-reduced-motion`. Light and dark image variants continue to work with `{ light, dark, alt }`.
+
+Existing `hero` and `features` configurations require no migration. `PressHome` retains the `home-hero-before`, `home-hero-after`, `home-features-before`, `home-features-after`, and default slots. Override `PressHomeOrbit.vue` or `PressHomeCommand.vue` for custom visuals or command UI.
+
+Customize the design with `--pr-home-max-width`, `--pr-font-display`, `--pr-c-accent`, `--pr-c-orbit-glow`, and `--pr-c-orbit-line`. The primary color still follows `themeConfig.colors.primary`.
+
 ## Footer And Edit Link {#footer-edit-link}
 
 The edit link appears at the bottom of article pages. `:path` is replaced with the current page relative path.

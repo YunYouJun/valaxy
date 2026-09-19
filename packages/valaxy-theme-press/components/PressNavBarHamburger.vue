@@ -1,4 +1,6 @@
 <script lang="ts" setup>
+import { useI18n } from 'vue-i18n'
+
 defineProps<{
   active: boolean
 }>()
@@ -6,6 +8,8 @@ defineProps<{
 defineEmits<{
   (e: 'click'): void
 }>()
+
+const { t } = useI18n()
 </script>
 
 <template>
@@ -13,12 +17,13 @@ defineEmits<{
     type="button"
     class="pr-NavBarHamburger"
     :class="{ active }"
-    aria-label="mobile navigation"
+    :aria-label="t(active ? 'nav.close' : 'nav.open')"
+    aria-haspopup="dialog"
     :aria-expanded="active"
     aria-controls="pr-NavScreen"
     @click="$emit('click')"
   >
-    <span class="container">
+    <span class="container" aria-hidden="true">
       <span class="top" />
       <span class="middle" />
       <span class="bottom" />

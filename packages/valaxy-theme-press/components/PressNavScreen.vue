@@ -1,94 +1,85 @@
 <script setup lang="ts">
-import { isClient, useScrollLock } from '@vueuse/core'
+import { useI18n } from 'vue-i18n'
 
 defineProps<{
   open: boolean
 }>()
 
-const isLocked = useScrollLock(isClient ? document.body : null)
+const { t } = useI18n()
 </script>
 
 <template>
-  <Transition
-    name="fade"
-    @enter="isLocked = true"
-    @after-leave="isLocked = false"
-  >
-    <div v-if="open" class="pr-NavScreen">
-      <div class="container" flex="~ col">
-        <slot name="nav-screen-content-before" />
-        <PressNavScreenMenu class="menu" />
+  <div v-show="open" id="pr-NavScreen" class="pr-NavScreen" :inert="!open">
+    <div class="screen-content">
+      <p class="screen-heading">
+        {{ t('nav.site') }}
+      </p>
+      <slot name="nav-screen-content-before" />
+      <PressNavScreenMenu class="menu" />
+      <div class="screen-preferences">
         <PressNavScreenTranslations class="translations" />
         <PressNavScreenAppearance class="appearance" />
-        <PressNavScreenSocialLinks class="social-links" />
-
-        <slot name="nav-screen-content-after" />
       </div>
+      <PressNavScreenSocialLinks class="social-links" />
+      <slot name="nav-screen-content-after" />
     </div>
-  </Transition>
+  </div>
 </template>
 
 <style scoped>
 /* stylelint-disable selector-class-pattern */
 .pr-NavScreen {
   position: fixed;
-  inset: calc(var(--pr-nav-height) + var(--pr-layout-top-height, 0px) + 1px) 0 0;
-
-  /* rtl:ignore */
-
-  /* rtl:ignore */
-  padding: 0 32px;
-  width: 100%;
-  background-color: var(--pr-nav-screen-bg-color);
+  inset: var(--pr-nav-height) 0 0;
   z-index: var(--pr-z-nav-screen);
+  padding: 0 max(24px, env(safe-area-inset-right)) 0 max(24px, env(safe-area-inset-left));
   overflow-y: auto;
-  transition: background-color var(--va-transition-duration-moderate);
-  pointer-events: auto;
+  overscroll-behavior: contain;
+  background-color: var(--pr-c-bg);
 }
 
-.pr-NavScreen.fade-enter-active,
-.pr-NavScreen.fade-leave-active {
-  transition: opacity var(--va-transition-duration);
-}
-
-.pr-NavScreen.fade-enter-active .container,
-.pr-NavScreen.fade-leave-active .container {
-  transition: transform var(--va-transition-duration) ease;
-}
-
-.pr-NavScreen.fade-enter-from,
-.pr-NavScreen.fade-leave-to {
-  opacity: 0;
-}
-
-.pr-NavScreen.fade-enter-from .container,
-.pr-NavScreen.fade-leave-to .container {
-  transform: translateY(-8px);
-}
-
-@media (width >= 1024px) {
-  .pr-NavScreen {
-    display: none;
-  }
-}
-
-.container {
+.screen-content {
+  display: flex;
+  flex-direction: column;
   margin: 0 auto;
-  padding: 24px 0 96px;
-  max-width: 288px;
+  padding: 20px 0 max(24px, env(safe-area-inset-bottom));
+  max-width: 560px;
 }
 
-.menu + .translations,
-.menu + .appearance,
-.translations + .appearance {
+.screen-heading {
+  margin: 0;
+  padding-bottom: 12px;
+  color: var(--pr-c-text-2);
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+}
+
+.screen-preferences {
+  display: flex;
+  align-items: stretch;
+  gap: 12px;
   margin-top: 24px;
 }
 
-.menu + .social-links {
-  margin-top: 16px;
+.translations {
+  flex-shrink: 0;
+  min-width: 52px;
+  border: 1px solid var(--pr-c-divider-light);
+  border-radius: 12px;
+  background-color: var(--va-c-bg-soft);
 }
 
-.appearance + .social-links {
-  margin-top: 16px;
+.translations :deep(button) {
+  justify-content: center;
+  width: 100%;
+  min-height: 48px;
+}
+
+.appearance { min-width: 0; }
+.social-links { margin-top: 20px; }
+
+@media (width >= 1024px) {
+  .pr-NavScreen { display: none; }
 }
 </style>

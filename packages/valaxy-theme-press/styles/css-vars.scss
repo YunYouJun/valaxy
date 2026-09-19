@@ -1,15 +1,26 @@
 :root {
+  --pr-home-max-width: 1320px;
+  --pr-font-display: "Avenir Next", "Segoe UI", "PingFang SC", "Microsoft YaHei", sans-serif;
+  --pr-font-body: var(--va-font-sans);
+  --pr-font-mono: var(--va-font-mono);
+  --pr-c-brand: color-mix(in srgb, var(--va-c-primary) 85%, #172554);
+  --pr-c-accent: #8546ef;
+  --pr-button-brand-bg: linear-gradient(120deg, color-mix(in srgb, var(--va-c-primary) 65%, #6750d8), #7547d9);
+  --pr-c-brand-soft: color-mix(in srgb, var(--va-c-primary) 8%, transparent);
+  --pr-c-surface: color-mix(in srgb, var(--va-c-bg) 97%, #6876a0);
+  --pr-c-orbit-glow: rgb(120 91 238 / 0.16);
+  --pr-c-orbit-line: rgb(115 100 206 / 0.25);
   --pr-c-indigo-lighter: #c9def1;
   --pr-c-bg: var(--va-c-bg);
   --pr-c-text-code: #374562;
-  --pr-c-text-1: #213547;
-  --pr-c-text-2: rgb(60 60 60 / 0.7);
+  --pr-c-text-1: #202331;
+  --pr-c-text-2: #626777;
 
   // aside
   --pr-aside-text-1: var(--pr-c-text-1);
   --pr-aside-text-2: rgb(60 60 60 / 0.702);
   --pr-aside-divider: rgb(60 60 60 / 0.122);
-  --pr-c-divider-light: rgb(60 60 60 / 0.12);
+  --pr-c-divider-light: rgb(104 112 141 / 0.18);
 
   // nav
   --pr-nav-height: var(--pr-nav-height-mobile);
@@ -33,6 +44,12 @@
 }
 
 .dark {
+  --pr-c-brand: color-mix(in srgb, var(--va-c-primary) 65%, #c9d8ff);
+  --pr-c-surface: color-mix(in srgb, var(--va-c-bg) 94%, #a1a6c7);
+  --pr-c-brand-soft: color-mix(in srgb, var(--va-c-primary) 14%, transparent);
+  --pr-c-divider-light: rgb(171 179 209 / 0.16);
+  --pr-c-orbit-glow: rgb(116 72 229 / 0.23);
+  --pr-c-orbit-line: rgb(162 144 249 / 0.27);
   --pr-c-text-code: var(--pr-c-indigo-lighter);
   --pr-c-text-1: #ffffffde;
   --pr-c-text-2: rgb(235 235 235 / 0.6);

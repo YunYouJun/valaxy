@@ -23,8 +23,8 @@ const { t } = useI18n()
 .pr-nav-screen-menu-group-link {
   display: block;
   margin-left: 12px;
-  line-height: 32px;
-  font-size: 14px;
+  line-height: 40px;
+  font-size: 15px;
   font-weight: 400;
   color: var(--pr-c-text-1);
   transition: color var(--va-transition-duration);

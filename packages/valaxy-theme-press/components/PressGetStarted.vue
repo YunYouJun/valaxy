@@ -18,7 +18,7 @@ const iconStyle = computed(() => ({
 
 <template>
   <PressButton
-    class="overflow-hidden"
+    class="press-get-started"
     :theme="theme"
     :link="link"
     :text="text"
@@ -34,60 +34,28 @@ const iconStyle = computed(() => ({
   </PressButton>
 </template>
 
-<style lang="scss">
-// @see https://freecodez.com/post/h1s1z8j
-.sese-btn {
-  span {
-    display: block;
-    margin-left: 0.3em;
-    transition: all var(--va-transition-duration) ease-in-out;
-  }
-
-  .svg-wrapper {
-    position: absolute;
-    display: inline-flex;
-    justify-content: center;
-    align-items: center;
-  }
-
-  .icon {
-    transform-origin: center center;
-    transition: all var(--va-transition-duration) ease-in-out;
-    mask-size: 100% 100%;
-    background-color: white;
-    width: 1.2em;
-    height: 1.2em;
-    transform: translateX(-1.2em) rotate(0) scale(1);
-    opacity: 0;
-  }
-
-  &:hover .svg-wrapper {
-    animation: fly 0.6s ease-in-out infinite alternate;
-  }
-
-  &:hover .icon {
-    display: inline-flex;
-    transform: translateX(0) rotate(0deg) scale(1.1);
-    opacity: 1;
-  }
-
-  &:hover span {
-    transform: translateX(5.5em);
-    opacity: 0;
-  }
-
-  &:active {
-    transform: scale(0.95);
-  }
+<style scoped>
+.press-get-started .svg-wrapper {
+  display: inline-flex;
+  margin-right: 8px;
 }
 
-@keyframes fly {
-  from {
-    transform: translateY(0.1em);
-  }
+.press-get-started .icon {
+  width: 18px;
+  height: 18px;
+  mask-size: contain;
+  mask-repeat: no-repeat;
+  mask-position: center;
+  background-color: currentcolor;
+  transition: transform 0.25s;
+}
 
-  to {
-    transform: translateY(-0.1em);
-  }
+.press-get-started:hover .icon {
+  transform: translateY(-3px);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .press-get-started .icon { transition: none; }
+  .press-get-started:hover .icon { transform: none; }
 }
 </style>

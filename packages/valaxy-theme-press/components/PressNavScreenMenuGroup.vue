@@ -30,7 +30,7 @@ function toggle() {
       @click="toggle"
     >
       <span class="button-text">{{ t(text) }}</span>
-      <div i-ri-add-line class="button-icon" />
+      <div class="button-icon" :class="isOpen ? 'i-ri-subtract-line' : 'i-ri-add-line'" aria-hidden="true" />
     </button>
 
     <div :id="groupId" class="items">
@@ -55,8 +55,8 @@ function toggle() {
 
 <style scoped>
 .pr-nav-screen-menu-group {
-  border-bottom: 1px solid var(--pr-c-divider);
-  height: 48px;
+  border-bottom: 1px solid var(--pr-c-divider-light);
+  height: 52px;
   overflow: hidden;
   transition: border-color var(--va-transition-duration-moderate);
 }
@@ -79,20 +79,15 @@ function toggle() {
   color: var(--pr-c-brand);
 }
 
-.pr-nav-screen-menu-group.open .button-icon {
-  /* rtl:ignore */
-  transform: rotate(45deg);
-}
-
 .button {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 12px 4px 11px 0;
+  padding: 14px 4px 13px 0;
   width: 100%;
   line-height: 24px;
-  font-size: 14px;
-  font-weight: 500;
+  font-size: 16px;
+  font-weight: 600;
   color: var(--pr-c-text-1);
   transition: color var(--va-transition-duration);
 }
@@ -102,10 +97,10 @@ function toggle() {
 }
 
 .button-icon {
-  width: 14px;
-  height: 14px;
+  width: 20px;
+  height: 20px;
   fill: var(--pr-c-text-2);
-  transition: fill var(--va-transition-duration-moderate), transform var(--va-transition-duration);
+  transition: fill var(--va-transition-duration-moderate);
 }
 
 .group:first-child {

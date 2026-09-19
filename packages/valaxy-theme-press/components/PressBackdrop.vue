@@ -13,22 +13,22 @@ defineProps<{
 <style scoped lang="scss">
 .press-backdrop {
   position: fixed;
-  inset: 0;
+  inset: var(--pr-nav-height) 0 0;
   z-index: var(--pr-z-backdrop);
-  background: rgb(0 0 0 / .6);
+  background: rgb(16 20 36 / 0.4);
   transition: opacity var(--va-transition-duration-moderate);
 
-  .fade-enter-from,
-  .fade-leave-to {
+  &.fade-enter-from,
+  &.fade-leave-to {
     opacity: 0;
   }
 
-  .fade-leave-active {
+  &.fade-leave-active {
     transition-duration: var(--va-transition-duration);
   }
 }
 
-@media (width >= 1280px) {
+@media (width >= 960px) {
   .press-backdrop {
     display: none;
   }

@@ -1,7 +1,7 @@
 valaxy_theme_press: Valaxy 主题 Press
 
 theme:
-  outlineTitle: 页面导航
+  outlineTitle: 本页目录
   outlineButtonLabel: 目录
   outlineAriaLabel: 当前页面目录
   outlineTriggerLabel: 页面导航：第 {current} 节，共 {total} 节，已阅读 {progress}%
@@ -13,3 +13,16 @@ doc_footer:
 
 tooltip:
   edit_this_page: 编辑本页
+
+home:
+  copyCommand: 复制命令
+  copied: 已复制
+  copyFailed: 复制失败，请选中命令手动复制。
+  pauseAnimation: 暂停动画
+  resumeAnimation: 播放动画
+
+nav:
+  documentation: 文档导航
+  site: 站点导航
+  open: 打开导航
+  close: 关闭导航

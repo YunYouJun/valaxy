@@ -13,7 +13,7 @@ test('uses the screen menu before tablet navigation can wrap', async ({ page }) 
 
   const navbar = page.locator('.pr-navbar')
   const menu = page.locator('.pr-nav-bar-menu')
-  const hamburger = page.getByRole('button', { name: 'mobile navigation' })
+  const hamburger = page.getByRole('button', { name: '打开导航', exact: true })
 
   await expect(menu).toBeHidden()
   await expect(hamburger).toBeVisible()
@@ -33,7 +33,7 @@ test('keeps the English desktop menu on one line at 1024px', async ({ page }) =>
   await page.waitForLoadState('networkidle')
 
   await expect(page.locator('.pr-nav-bar-menu')).toBeVisible()
-  await expect(page.getByRole('button', { name: 'mobile navigation' })).toBeHidden()
+  await expect(page.getByRole('button', { name: 'Open navigation', exact: true })).toBeHidden()
   await expect(page.locator('.PressSearchButton-text')).toBeHidden()
 
   const layout = await page.locator('.pr-navbar').evaluate((navbar) => {

@@ -18,15 +18,16 @@ const { t } = useI18n()
   display: flex;
   justify-content: space-between;
   align-items: center;
-  border-radius: 8px;
+  border: 1px solid var(--pr-c-divider-light);
+  border-radius: 12px;
   padding: 12px 14px 12px 16px;
   background-color: var(--va-c-bg-soft);
 }
 
 .text {
   line-height: 24px;
-  font-size: 12px;
+  font-size: 14px;
   font-weight: 500;
-  color: var(--va-c-text-2);
+  color: var(--pr-c-text-2);
 }
 </style>

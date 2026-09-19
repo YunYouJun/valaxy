@@ -1,15 +1,32 @@
 <script lang="ts" setup>
 import type { CategoryList, Post } from 'valaxy'
 import type { PressTheme } from '../types'
+import { useMediaQuery } from '@vueuse/core'
+import { FocusScope } from 'reka-ui'
 import { removeItemFromCategory, usePageList, useSidebar } from 'valaxy'
-import { computed } from 'vue'
+import { computed, nextTick, ref, watch } from 'vue'
+import { useI18n } from 'vue-i18n'
 import { useRoute } from 'vue-router'
 import { useLocaleConfig } from '../composables'
 import { getSidebar, getSidebarGroups, isSidebarItem } from '../utils/sidebar'
 
-defineProps<{
+const props = defineProps<{
   open: boolean
 }>()
+
+const emit = defineEmits<{ (e: 'close'): void }>()
+const { t } = useI18n()
+const isCompact = useMediaQuery('(max-width: 959px)', { ssrWidth: 1280 })
+const closeButton = ref<HTMLButtonElement>()
+watch(() => props.open, (open) => {
+  if (open && isCompact.value)
+    nextTick(() => closeButton.value?.focus({ preventScroll: true }))
+})
+
+function onSidebarClick(event: MouseEvent) {
+  if ((event.target as HTMLElement).closest('a'))
+    emit('close')
+}
 
 const pages = usePageList()
 const route = useRoute()
@@ -162,49 +179,66 @@ function getSidebarRootItemClasses(groupIndex: number, itemIndex = 0) {
 </script>
 
 <template>
-  <aside
+  <FocusScope
     v-if="shouldShowSidebar"
-    class="press-sidebar shadow-lg" :class="{ open }"
-    @click.stop
+    as-child
+    :present="open && isCompact"
+    :trapped="open && isCompact"
+    :loop="open && isCompact"
+    @mount-auto-focus.prevent
+    @unmount-auto-focus.prevent
   >
-    <nav
-      id="pr-sidebar-nav"
-      class="press-sidebar-nav"
-      aria-label="Sidebar Navigation"
-      text="left"
-      m="2"
+    <aside
+      class="press-sidebar" :class="{ open }"
+      :role="isCompact ? 'dialog' : undefined"
+      :aria-modal="isCompact && open ? true : undefined"
+      :aria-label="t('nav.documentation')"
+      :inert="isCompact && !open"
+      @click="onSidebarClick"
     >
-      <ul v-for="(group, groupIndex) in renderGroups" :key="group.key" class="press-sidebar-list category-list">
-        <PressSidebarItem
-          v-if="group.groupItem"
-          :class="getSidebarRootItemClasses(groupIndex)"
-          :item="group.groupItem"
-          :depth="sidebarGroupDepth"
-        />
-        <template v-else>
-          <template v-for="(item, index) in group.items" :key="getSidebarItemKey(item, index)">
-            <PressCategoryByName
-              v-if="typeof item === 'string'"
-              :class="getSidebarRootItemClasses(groupIndex, index)"
-              :categories="categories"
-              :item="item"
-            />
-            <PressSidebarItem
-              v-else
-              :class="getSidebarRootItemClasses(groupIndex, index)"
-              :item="item"
-              :depth="0"
-            />
+      <div class="sidebar-heading">
+        <span>{{ t('nav.documentation') }}</span>
+        <button ref="closeButton" type="button" class="sidebar-close" :aria-label="t('nav.close')" @click="$emit('close')">
+          <span i-ri-close-line aria-hidden="true" />
+        </button>
+      </div>
+      <nav
+        id="pr-sidebar-nav"
+        class="press-sidebar-nav"
+        aria-label="Sidebar Navigation"
+        text="left"
+        m="2"
+      >
+        <ul v-for="(group, groupIndex) in renderGroups" :key="group.key" class="press-sidebar-list category-list">
+          <PressSidebarItem
+            v-if="group.groupItem"
+            :class="getSidebarRootItemClasses(groupIndex)"
+            :item="group.groupItem"
+            :depth="sidebarGroupDepth"
+          />
+          <template v-else>
+            <template v-for="(item, index) in group.items" :key="getSidebarItemKey(item, index)">
+              <PressCategoryByName
+                v-if="typeof item === 'string'"
+                :class="getSidebarRootItemClasses(groupIndex, index)"
+                :categories="categories"
+                :item="item"
+              />
+              <PressSidebarItem
+                v-else
+                :class="getSidebarRootItemClasses(groupIndex, index)"
+                :item="item"
+                :depth="0"
+              />
+            </template>
           </template>
-        </template>
-      </ul>
-    </nav>
-  </aside>
+        </ul>
+      </nav>
+    </aside>
+  </FocusScope>
 </template>
 
 <style lang="scss">
-@use 'valaxy/client/styles/mixins/index.scss' as *;
-
 .press-sidebar {
   position: fixed;
   bottom: 0;
@@ -217,11 +251,15 @@ function getSidebarRootItemClasses(groupIndex: number, itemIndex = 0) {
   background-color: var(--va-c-bg);
   opacity: 0;
   overflow: hidden auto;
-  overflow-y: auto;
+  overscroll-behavior: contain;
+  visibility: hidden;
+  border-right: 1px solid var(--pr-c-divider-light);
+  box-shadow: 12px 0 40px rgb(0 0 0 / 0.12);
   transform: translateX(-100%);
   transition: opacity var(--va-transition-duration-moderate), transform var(--va-transition-duration) ease;
 
   &.open {
+    visibility: visible;
     opacity: 1;
     transform: translateX(0);
     transition: opacity var(--va-transition-duration),
@@ -229,22 +267,53 @@ function getSidebarRootItemClasses(groupIndex: number, itemIndex = 0) {
   }
 }
 
-@include screen('md') {
+@media (width >= 960px) {
   .press-sidebar {
     z-index: 1;
+    visibility: visible;
     width: var(--va-sidebar-width);
     max-width: 100%;
-    background-color: var(--va-c-bg-alt);
+    background-color: var(--pr-c-surface);
+    border-right: 1px solid var(--pr-c-divider-light);
     opacity: 1;
     box-shadow: none;
     transform: translateX(0);
   }
 }
 
-@include mobile {
-  .press-sidebar {
-    top: 0;
-  }
+.sidebar-heading {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 12px;
+  padding: 0 4px 12px 8px;
+  border-bottom: 1px solid var(--pr-c-divider-light);
+  color: var(--pr-c-text-2);
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+}
+
+.sidebar-close {
+  display: grid;
+  place-items: center;
+  width: 36px;
+  height: 36px;
+  border: 1px solid var(--pr-c-divider-light);
+  border-radius: 8px;
+  font-size: 18px;
+  color: var(--pr-c-text-1);
+}
+
+.sidebar-close:hover { background: var(--pr-c-brand-soft); }
+
+@media (width >= 960px) {
+  .sidebar-heading { display: none; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .press-sidebar,
+  .press-sidebar.open { transition: none; }
 }
 
 .press-sidebar-list {

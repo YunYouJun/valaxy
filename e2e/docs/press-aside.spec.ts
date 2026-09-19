@@ -1,37 +1,108 @@
 import { expect, test } from '@playwright/test'
 import { env } from '../env'
 
-test.use({
-  baseURL: env.docs,
-  colorScheme: 'dark',
-  deviceScaleFactor: 2,
-  viewport: { width: 817, height: 649 },
+test.use({ baseURL: env.docs, viewport: { width: 817, height: 649 } })
+
+test('uses a local outline below the desktop breakpoint', async ({ page }) => {
+  await page.goto('/zh/guide/getting-started')
+  const trigger = page.getByRole('button', { name: '本页目录', exact: true })
+  await expect(trigger).toBeVisible()
+  await expect(page.locator('.toc-btn')).toHaveCount(0)
+  await trigger.click()
+  const outline = page.locator('#press-local-outline')
+  await expect(outline).toBeVisible()
+  await expect(page.locator('.press-backdrop')).toHaveCount(0)
+  await outline.getByRole('link', { name: '在本地创建', exact: true }).click()
+  await expect(outline).toBeHidden()
+  await expect(page).toHaveURL(/#locally$/)
+  await trigger.click()
+  await page.keyboard.press('Escape')
+  await expect(outline).toBeHidden()
+  await expect(trigger).toBeFocused()
 })
 
-test('closes the reading progress border after a rapid scroll burst', async ({ page }) => {
-  await page.goto('/zh/guide/why')
-  await page.waitForLoadState('networkidle')
-
-  const trigger = page.locator('.toc-btn')
-  const progress = trigger.locator('.toc-progress-value:not(.toc-progress-complete)')
-  const complete = trigger.locator('.toc-progress-complete')
-
-  await expect(trigger).toBeVisible()
-  await page.evaluate(() => {
-    const scrollContainer = document.scrollingElement || document.documentElement
-    const scrollableHeight = scrollContainer.scrollHeight - scrollContainer.clientHeight
-    scrollContainer.scrollTop = scrollableHeight * 0.9
-    window.dispatchEvent(new Event('scroll'))
+test('keeps the document drawer above its backdrop and unlocks on resize', async ({ page }) => {
+  await page.goto('/zh/guide/getting-started')
+  const trigger = page.locator('.press-local-nav .menu')
+  await trigger.click()
+  const sidebar = page.getByRole('dialog', { name: '文档导航' })
+  await expect(sidebar).toBeVisible()
+  await expect(page.locator('body')).toHaveCSS('overflow', 'hidden')
+  const bounds = await sidebar.boundingBox()
+  expect(bounds?.y).toBeGreaterThanOrEqual(60)
+  const topElementIsSidebar = await sidebar.evaluate((el) => {
+    const rect = el.getBoundingClientRect()
+    return el.contains(document.elementFromPoint(rect.x + 30, rect.y + 60))
   })
-  await page.waitForTimeout(10)
-  await page.evaluate(() => {
-    const scrollContainer = document.scrollingElement || document.documentElement
-    scrollContainer.scrollTop = scrollContainer.scrollHeight - scrollContainer.clientHeight
-    window.dispatchEvent(new Event('scroll'))
-  })
-  await page.waitForTimeout(200)
-  await expect(trigger).toHaveAttribute('aria-label', /100%/)
-  await expect(progress).toBeHidden()
-  await expect(complete).toBeVisible()
-  await expect(complete).not.toHaveAttribute('stroke-dasharray')
+  expect(topElementIsSidebar).toBe(true)
+  await page.keyboard.press('Escape')
+  await expect(sidebar).toBeHidden()
+  await expect(trigger).toBeFocused()
+  await trigger.click()
+  await page.setViewportSize({ width: 1440, height: 900 })
+  await expect(page.locator('.press-backdrop')).toHaveCount(0)
+  await expect(page.locator('body')).not.toHaveCSS('overflow', 'hidden')
+  await expect(page.locator('.press-aside')).toBeVisible()
+})
+
+test('switches mobile panels without leaving a backdrop or scroll lock behind', async ({ page }) => {
+  await page.setViewportSize({ width: 390, height: 844 })
+  await page.goto('/zh/guide/getting-started')
+  await page.locator('.press-local-nav .menu').click()
+  await page.getByRole('button', { name: '打开导航', exact: true }).click()
+  await expect(page.locator('.press-sidebar')).not.toHaveClass(/open/)
+  await expect(page.locator('.press-backdrop')).toHaveCount(0)
+  const menu = page.getByRole('dialog', { name: '站点导航' })
+  await expect(menu).toBeVisible()
+  const close = menu.getByRole('button', { name: '关闭导航', exact: true })
+  await expect(close).toHaveCount(1)
+  await expect(close).toBeFocused()
+  await expect(menu.locator('.pr-navbar')).toBeVisible()
+  await expect(page.locator('.screen-close')).toHaveCount(0)
+  await close.click()
+  await expect(menu).toBeHidden()
+  await expect(page.getByRole('button', { name: '打开导航', exact: true })).toBeFocused()
+  await expect(page.locator('body')).not.toHaveCSS('overflow', 'hidden')
+})
+
+test('keeps keyboard navigation within the complete mobile menu and closes on Escape', async ({ page }) => {
+  await page.setViewportSize({ width: 390, height: 844 })
+  await page.goto('/zh/guide/getting-started')
+  const trigger = page.getByRole('button', { name: '打开导航', exact: true })
+  await trigger.click()
+  const menu = page.getByRole('dialog', { name: '站点导航' })
+  const close = menu.getByRole('button', { name: '关闭导航', exact: true })
+  await expect(close).toBeFocused()
+  await page.keyboard.press('Tab')
+  await expect(menu.getByRole('button', { name: '指南', exact: true })).toBeFocused()
+  await page.keyboard.press('Shift+Tab')
+  await expect(close).toBeFocused()
+
+  const lastLink = menu.getByRole('link', { name: 'Valaxy on GitHub', exact: true })
+  await lastLink.focus()
+  await page.keyboard.press('Tab')
+  await expect(menu.getByRole('link', { name: 'VALAXY', exact: true })).toBeFocused()
+  await page.keyboard.press('Shift+Tab')
+  await expect(lastLink).toBeFocused()
+  const language = menu.getByRole('button', { name: '切换语言', exact: true })
+  await language.click()
+  const languageMenu = page.locator('#valaxy-teleports [role="menu"]')
+  await expect(languageMenu).toBeVisible()
+  await page.keyboard.press('Escape')
+  await expect(languageMenu).toBeHidden()
+  await expect(menu).toBeVisible()
+  await expect(language).toBeFocused()
+  await page.keyboard.press('Escape')
+  await expect(menu).toBeHidden()
+  await expect(trigger).toBeFocused()
+  await expect(page.locator('body')).not.toHaveCSS('overflow', 'hidden')
+})
+
+test('keeps the monochrome Markdown logo visible in dark mode', async ({ page }) => {
+  await page.addInitScript(() => localStorage.setItem('vueuse-color-scheme', 'dark'))
+  await page.goto('/zh/')
+  await expect(page.locator('.hero-text')).toHaveText('为表达而生的\n博客框架')
+  await expect(page.locator('html')).toHaveCSS('filter', 'none')
+  await expect(page.locator('.press-feature [class~="i-logos:markdown"]')).toHaveCSS('filter', 'invert(1)')
+  await expect(page.locator('.ecosystem-node [class~="i-logos:markdown"]')).toHaveCSS('filter', 'invert(1)')
 })

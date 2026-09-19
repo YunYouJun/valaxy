@@ -13,3 +13,16 @@ doc_footer:
 
 tooltip:
   edit_this_page: Edit this page
+
+home:
+  copyCommand: Copy command
+  copied: Copied
+  copyFailed: Copy failed. Select and copy the command.
+  pauseAnimation: Pause animation
+  resumeAnimation: Resume animation
+
+nav:
+  documentation: Documentation navigation
+  site: Site navigation
+  open: Open navigation
+  close: Close navigation

@@ -144,6 +144,7 @@ function getChildItemKey(item: DefaultTheme.SidebarItem, index: number): string 
   position: relative;
   display: flex;
   width: 100%;
+  border-radius: 6px;
 }
 
 .press-sidebar-item-node.collapsible > .item {
@@ -239,5 +240,13 @@ function getChildItemKey(item: DefaultTheme.SidebarItem, index: number): string 
 
 .press-sidebar-item-node.collapsed .items {
   display: none;
+}
+
+.press-sidebar-item-node.is-active > .item {
+  background: var(--pr-c-brand-soft);
+}
+
+.press-sidebar-item-node.is-active > .item .link > .text {
+  color: var(--pr-c-brand);
 }
 </style>

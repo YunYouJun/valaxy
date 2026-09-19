@@ -1,4 +1,4 @@
-<script lang="ts" setup>
+<script setup lang="ts">
 import type { Feature } from '../types'
 import { computed } from 'vue'
 
@@ -6,21 +6,45 @@ const props = defineProps<{
   features: Feature[]
 }>()
 
-const grid = computed(() => {
-  const length = props.features.length
-  if (length <= 3)
-    return `grid-cols-1 sm:grid-cols-2 md:grid-cols-${length}`
-  else
-    return 'grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4'
+const columns = computed(() => {
+  const count = props.features.length
+  if (count === 4)
+    return 2
+  return count === 8 ? 4 : Math.min(count, 3)
 })
 </script>
 
 <template>
-  <div class="press-features">
-    <div class="m-auto grid gap-4 max-w-$pr-layout-max-width" p="x-6" :class="[grid]">
-      <div v-for="feature in features" :key="feature.title" class="inline-grid">
-        <PressFeature :feature="feature" />
-      </div>
+  <div v-if="features.length" class="press-features" :style="{ '--pr-feature-columns': columns }">
+    <div v-for="feature in features" :key="feature.title" class="press-feature-cell">
+      <PressFeature :feature="feature" />
     </div>
   </div>
 </template>
+
+<style scoped>
+.press-features {
+  display: grid;
+  grid-template-columns: repeat(var(--pr-feature-columns), minmax(0, 1fr));
+  gap: 1px;
+  background: var(--pr-c-divider-light);
+  border-block: 1px solid var(--pr-c-divider-light);
+}
+
+.press-feature-cell {
+  min-width: 0;
+  background: var(--pr-c-bg);
+}
+
+@media (width <= 959px) {
+  .press-features {
+    grid-template-columns: repeat(min(var(--pr-feature-columns), 2), minmax(0, 1fr));
+  }
+}
+
+@media (width <= 639px) {
+  .press-features {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+</style>

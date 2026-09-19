@@ -1,7 +1,6 @@
 <script lang="ts" setup>
-import { useOutline, useSidebar } from 'valaxy'
-
-import { onMounted, ref } from 'vue'
+import { useFrontmatter, useLayout, useOutline, useSidebar } from 'valaxy'
+import { computed } from 'vue'
 import { useI18n } from 'vue-i18n'
 
 defineProps<{
@@ -13,110 +12,74 @@ defineEmits<{
 }>()
 
 const { hasSidebar } = useSidebar()
-
-const { t } = useI18n()
-
-const navHeight = ref(0)
-onMounted(() => {
-  navHeight.value = Number.parseInt(
-    getComputedStyle(document.documentElement).getPropertyValue(
-      '--pr-nav-height',
-    ),
-  )
-})
-
 const { headers } = useOutline()
+const frontmatter = useFrontmatter()
+const layout = useLayout()
+const { t } = useI18n()
+const hasDocumentMenu = computed(() => hasSidebar.value && layout.value !== 'post')
+const hasOutline = computed(() => layout.value !== 'home' && frontmatter.value.toc !== false && headers.value.length > 0)
 </script>
 
 <template>
-  <div v-if="hasSidebar" class="press-local-nav">
+  <div v-if="hasDocumentMenu || hasOutline" class="press-local-nav" :class="{ 'has-sidebar': hasDocumentMenu }">
     <button
+      v-if="hasDocumentMenu"
       type="button"
       class="menu"
       :aria-expanded="open"
       aria-controls="pr-sidebar-nav"
       @click="$emit('openMenu')"
     >
-      <div i-ri-align-left class="menu-icon" />
-      <span class="menu-text">
-        {{ t('menu.title') }}
-      </span>
+      <span i-ri-align-left class="menu-icon" aria-hidden="true" />
+      <span>{{ t('menu.title') }}</span>
     </button>
-
-    <PressLocalNavOutlineDropdown :headers="headers" :nav-height="navHeight" />
+    <PressLocalNavOutlineDropdown v-if="hasOutline" :headers="headers" />
   </div>
 </template>
 
-<style scoped lang="scss">
-@use 'valaxy/client/styles/mixins/index.scss' as *;
-
+<style scoped>
 .press-local-nav {
   position: sticky;
-  top: 0;
-  left: 0;
+  top: var(--pr-nav-height);
   z-index: var(--pr-z-local-nav);
   display: flex;
   justify-content: space-between;
   align-items: center;
+  min-height: 48px;
   border-bottom: 1px solid var(--pr-c-divider-light);
-  width: 100%;
-  background-color: var(--va-c-bg);
-  transition: border-color var(--va-transition-duration-moderate);
-}
-
-@include screen('md') {
-  .press-local-nav {
-    display: none;
-  }
+  background-color: var(--pr-c-bg);
 }
 
 .menu {
-  display: flex;
+  display: inline-flex;
   align-items: center;
-  padding: 12px 24px 11px;
-  line-height: 24px;
-  font-size: 12px;
+  gap: 8px;
+  padding: 12px 24px;
+  min-height: 48px;
+  font-size: 13px;
   font-weight: 500;
-  color: var(--va-c-text-light);
-  transition: color var(--va-transition-duration-moderate);
+  color: var(--pr-c-text-2);
 }
 
-.menu:hover {
-  color: var(--va-c-text);
-  transition: color var(--va-transition-duration);
-}
-
-@include screen('md') {
-  .menu {
-    padding: 0 32px;
-  }
+.menu:hover,
+.menu[aria-expanded='true'] {
+  color: var(--pr-c-brand);
 }
 
 .menu-icon {
-  margin-right: 8px;
-  width: 16px;
-  height: 16px;
-  fill: currentcolor;
+  width: 18px;
+  height: 18px;
 }
 
-.top-link {
-  display: block;
-  padding: 12px 24px 11px;
-  line-height: 24px;
-  font-size: 12px;
-  font-weight: 500;
-  color: var(--pr-c-text-2);
-  transition: color var(--va-transition-duration-moderate);
-}
-
-.top-link:hover {
-  color: var(--pr-c-text-1);
-  transition: color var(--va-transition-duration);
-}
-
-@include screen('md') {
-  .top-link {
-    padding: 12px 32px 11px;
+@media (width >= 960px) {
+  .press-local-nav.has-sidebar {
+    margin-left: var(--va-sidebar-width);
   }
+
+  .menu { display: none; }
+}
+
+@media (width >= 1280px) {
+  .press-local-nav { display: none; }
 }
 </style>

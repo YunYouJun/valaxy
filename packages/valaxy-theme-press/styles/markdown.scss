@@ -86,3 +86,36 @@
     }
   }
 }
+
+// Keep the familiar documentation structure with a calmer reading rhythm.
+.press-main.has-sidebar .vp-doc {
+  color: var(--pr-c-text-1);
+  line-height: 1.85;
+
+  h1, h2, h3, h4 {
+    font-family: var(--pr-font-display);
+    color: var(--pr-c-text-1);
+    letter-spacing: -0.025em;
+  }
+
+  h1 {
+    font-size: clamp(30px, 3vw, 40px);
+    line-height: 1.3;
+    font-weight: 600;
+  }
+
+  h2 {
+    border-top-color: var(--pr-c-divider-light);
+    padding-top: 28px;
+    margin-top: 48px;
+    font-weight: 600;
+  }
+
+  p, li {
+    line-height: 1.85;
+  }
+
+  a {
+    text-underline-offset: 4px;
+  }
+}

@@ -64,6 +64,52 @@ features:
 
 当 `i18nRouting` 启用时，首页按钮中的内部链接会自动补齐当前语言前缀。
 
+
+### 首页布局与轨道动效 {#home-visual}
+
+首页默认采用分栏布局：左侧展示标题和入口，右侧展示 `hero.image`。未设置图片时自动使用居中布局，也可以通过 `hero.layout: center` 显式选择居中布局。
+
+可选的 `orbit` 主视觉以 Valaxy 的「V + Galaxy」为灵感，让轨道与光点环绕你的 Logo。它始终使用 `hero.image`，不会替换成主题内置图标。
+
+```yaml
+hero:
+  name: VALAXY
+  text: 下一代静态博客框架
+  tagline: 简洁、强大、高性能。
+  layout: split
+  visual: orbit
+  animation: true
+  image:
+    src: /valaxy-logo.png
+    alt: Valaxy Logo
+  imageCaption: V + Galaxy
+  command: pnpm create valaxy
+  actions:
+    - theme: brand
+      text: 快速上手
+      link: /guide/getting-started
+
+featuresTitle: 从一个想法，到你的宇宙。
+featuresDescription: 专注写作，自由定制。其余的，交给 Valaxy。
+```
+
+| 配置 | 默认值 | 说明 |
+| --- | --- | --- |
+| `hero.layout` | `split` | `split` 为分栏，`center` 为居中；无图片时自动居中。 |
+| `hero.visual` | `image` | `image` 为普通图片，`orbit` 为轨道主视觉，需要设置 `hero.image`。 |
+| `hero.animation` | `true` | 控制轨道动效；`false` 显示静态轨道。 |
+| `hero.eyebrow` | — | 标题上方的简短说明。 |
+| `hero.imageCaption` | — | 图片下方的说明。 |
+| `hero.command` | — | 可复制的命令行文本；不设置则隐藏。 |
+| `featuresTitle` | — | 功能区标题。 |
+| `featuresDescription` | — | 功能区说明。 |
+
+轨道动效使用 CSS，不依赖视频或 WebGL。它支持手动暂停，离开视口时暂停，并遵循系统的「减少动态效果」偏好。浅色与深色图片仍可通过 `{ light, dark, alt }` 配置。
+
+已有 `hero`、`features` 配置无需迁移。`PressHome` 保留 `home-hero-before`、`home-hero-after`、`home-features-before`、`home-features-after` 和默认插槽；也可以通过同名组件覆盖 `PressHomeOrbit.vue` 或 `PressHomeCommand.vue`。
+
+主题样式可使用 `--pr-home-max-width`、`--pr-font-display`、`--pr-c-accent`、`--pr-c-orbit-glow` 和 `--pr-c-orbit-line` 定制。主色继续读取 `themeConfig.colors.primary`。
+
 ## 页脚与编辑链接 {#footer-edit-link}
 
 编辑链接会显示在文章页底部。`pattern` 中的 `:path` 会被替换为当前页面的相对路径。

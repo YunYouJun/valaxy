@@ -1,37 +1,22 @@
-import { ref, watch } from 'vue'
-import { useRoute } from 'vue-router'
+import { computed } from 'vue'
+import { usePressAppStore } from '../stores'
 
 export function useNav() {
-  const isScreenOpen = ref(false)
+  const press = usePressAppStore()
+  const isScreenOpen = computed(() => press.activePanel === 'menu')
 
   function openScreen() {
-    isScreenOpen.value = true
-    window.addEventListener('resize', closeScreenOnTabletWindow)
+    press.activePanel = 'menu'
   }
 
   function closeScreen() {
-    isScreenOpen.value = false
-    window.removeEventListener('resize', closeScreenOnTabletWindow)
+    if (isScreenOpen.value)
+      press.closePanel()
   }
 
   function toggleScreen() {
-    isScreenOpen.value ? closeScreen() : openScreen()
+    press.togglePanel('menu')
   }
 
-  /**
-   * Close screen when the user resizes the window wider than tablet size.
-   */
-  function closeScreenOnTabletWindow() {
-    window.outerWidth >= 768 && closeScreen()
-  }
-
-  const route = useRoute()
-  watch(() => route.path, closeScreen)
-
-  return {
-    isScreenOpen,
-    openScreen,
-    closeScreen,
-    toggleScreen,
-  }
+  return { isScreenOpen, openScreen, closeScreen, toggleScreen }
 }

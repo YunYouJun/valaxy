@@ -1,11 +1,33 @@
-import { useToggle } from '@vueuse/core'
 import { acceptHMRUpdate, defineStore } from 'pinia'
+import { computed, ref } from 'vue'
+
+type NavigationPanel = 'menu' | 'sidebar' | 'outline'
 
 export const usePressAppStore = defineStore('press-app', () => {
-  // 右侧边栏
-  const [isRightSidebarOpen, toggleRightSidebar] = useToggle()
+  const activePanel = ref<NavigationPanel | null>(null)
+
+  function closePanel() {
+    activePanel.value = null
+  }
+
+  function togglePanel(panel: NavigationPanel) {
+    activePanel.value = activePanel.value === panel ? null : panel
+  }
+
+  // Keep the existing outline control available to theme extensions.
+  const isRightSidebarOpen = computed(() => activePanel.value === 'outline')
+  function toggleRightSidebar(value = !isRightSidebarOpen.value) {
+    if (value)
+      activePanel.value = 'outline'
+    else if (isRightSidebarOpen.value)
+      closePanel()
+    return isRightSidebarOpen.value
+  }
 
   return {
+    activePanel,
+    closePanel,
+    togglePanel,
     rightSidebar: {
       isOpen: isRightSidebarOpen,
       toggle: toggleRightSidebar,

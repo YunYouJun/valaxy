@@ -99,10 +99,9 @@ onContentUpdated(() => {
 <style lang="scss" scoped>
 @use 'valaxy/client/styles/mixins/index.scss' as *;
 
-@include screen('md') {
+@media (width >= 960px) {
   .press-main {
     &.has-sidebar {
-      padding-top: var(--pr-nav-height);
       padding-left: var(--va-sidebar-width);
     }
   }

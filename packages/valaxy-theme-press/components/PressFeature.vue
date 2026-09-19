@@ -11,7 +11,7 @@ const { t } = useI18n()
 
 <template>
   <article class="press-feature">
-    <div v-if="feature.icon" class="icon">
+    <div v-if="feature.icon" class="icon" aria-hidden="true">
       <template v-if="feature.icon.startsWith('i-')">
         <div :class="feature.icon" />
       </template>
@@ -30,41 +30,53 @@ const { t } = useI18n()
 
 <style scoped>
 .press-feature {
-  border: 1px solid var(--va-c-bg-soft);
-  border-radius: 12px;
-  padding: 24px;
   height: 100%;
-  background-color: var(--va-c-bg-soft);
+  padding: 40px 36px;
+  transition: background-color 0.2s;
+}
+
+.press-feature:hover {
+  background: var(--pr-c-brand-soft);
 }
 
 .icon {
   display: flex;
-  justify-content: center;
   align-items: center;
-  margin-bottom: 20px;
-  border-radius: 6px;
-  background-color: var(--vp-c-default-soft);
-  width: 48px;
-  height: 48px;
-  font-size: 24px;
-  transition: background-color var(--va-transition-duration);
+  height: 32px;
+  margin-bottom: 24px;
+  font-size: 32px;
+  color: var(--pr-c-brand);
 }
 
-.dark .icon {
-  background-color: var(--va-c-bg);
+/* The Markdown logo is monochrome; preserve the colors of other brand icons. */
+:global(.dark .press-feature .icon [class~='i-logos:markdown']) {
+  filter: invert(1);
 }
 
 .title {
-  line-height: 24px;
-  font-size: 16px;
+  margin: 0;
+  font-family: var(--pr-font-display);
+  font-size: 19px;
   font-weight: 600;
+  line-height: 1.5;
+  letter-spacing: normal;
+  text-wrap: balance;
 }
 
 .details {
-  padding-top: 8px;
-  line-height: 24px;
-  font-size: 14px;
-  font-weight: 500;
-  color: var(--va-c-text-lighter);
+  margin: 14px 0 0;
+  font-size: 15px;
+  line-height: 1.8;
+  text-wrap: pretty;
+  color: var(--pr-c-text-2);
+}
+
+@media (width <= 639px) {
+  .press-feature { padding: 32px 24px; }
+  .icon { margin-bottom: 20px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .press-feature { transition: none; }
 }
 </style>

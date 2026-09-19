@@ -18,11 +18,11 @@ const closeScreen = inject('close-screen') as () => void
 <style scoped>
 .pr-nav-screen-menu-link {
   display: block;
-  border-bottom: 1px solid var(--pr-c-divider);
-  padding: 12px 0 11px;
+  border-bottom: 1px solid var(--pr-c-divider-light);
+  padding: 14px 0 13px;
   line-height: 24px;
-  font-size: 14px;
-  font-weight: 500;
+  font-size: 16px;
+  font-weight: 600;
   color: var(--pr-c-text-1);
   transition: border-color var(--va-transition-duration), color var(--va-transition-duration);
 }
