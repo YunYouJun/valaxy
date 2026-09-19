@@ -3,8 +3,6 @@ title: Arknights Theme
 categories: Themes
 ---
 
-# Arknights Theme
-
 **valaxy-theme-arknights** is a working AI theme authoring example for Valaxy. It applies AK UI at `system` intensity: cool paper and graphite surfaces, yellow actions, original industrial geometry and an archive driven by real posts. Article layouts keep a comfortable measure and clear hierarchy.
 
 - [Live preview](https://arknights.valaxy.site/) · [npm package](https://www.npmjs.com/package/valaxy-theme-arknights)

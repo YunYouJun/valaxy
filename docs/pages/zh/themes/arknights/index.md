@@ -3,8 +3,6 @@ title: Arknights 主题
 categories: 主题
 ---
 
-# Arknights 主题
-
 **valaxy-theme-arknights** 是 Valaxy 的 AI 主题开发示例，采用 AK UI 的 `system` 设计强度：冷白与石墨色阅读面、黄色行动色、原创工业几何，以及来自真实文章的档案列表。正文保持清晰的行宽和层级。
 
 - [在线预览](https://arknights.valaxy.site/) · [npm 包](https://www.npmjs.com/package/valaxy-theme-arknights)
