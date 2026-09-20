@@ -8,9 +8,6 @@ public/atom.xml
 public/feed.xml
 public/feed.json
 
-# api docs
-pages/api/**/*.md
-
 # valaxy fuse
 public/valaxy-fuse-list.json
 public/git-log.json

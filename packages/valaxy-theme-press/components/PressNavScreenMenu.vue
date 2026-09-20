@@ -15,7 +15,7 @@ const { localeConfig } = useLocaleConfig()
       <PressNavScreenMenuGroup
         v-else
         :text="item.text || ''"
-        :items="item.items"
+        :items="item.items || []"
       />
     </template>
   </nav>

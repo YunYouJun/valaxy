@@ -1,0 +1,60 @@
+// API declarations need a denser rhythm than narrative guides. Scope every
+// rule to API pages so themes and authored Markdown keep their own typography.
+.press-main.press-api-document {
+  .content { min-width: 0; }
+
+  .markdown-body {
+    min-width: 0;
+
+    > h1 {
+      font-family: var(--pr-font-mono);
+      font-size: clamp(24px, 2.4vw, 34px);
+      line-height: 1.35;
+      overflow-wrap: anywhere;
+    }
+
+    // The generated source stamp is metadata, rather than a quoted paragraph.
+    > h1 + blockquote {
+      margin: 1rem 0 1.75rem;
+      padding: 0.625rem 0.875rem;
+      border-left: 2px solid var(--pr-c-brand);
+      background: var(--pr-c-surface);
+      font-size: 0.75rem;
+      color: var(--pr-c-text-2);
+      overflow-wrap: anywhere;
+
+      p { margin: 0; }
+    }
+
+    > h2 {
+      margin-top: 2.5rem;
+      padding-top: 1.25rem;
+      font-size: 1.375rem;
+    }
+
+    > h3 { font-size: 1.0625rem; }
+    > h4 { font-size: 0.9375rem; }
+
+    > h3, > h4 { overflow-wrap: anywhere; }
+
+    pre {
+      font-size: 0.8125rem;
+      line-height: 1.7;
+      max-width: 100%;
+    }
+
+    table {
+      display: block;
+      width: 100%;
+      max-width: 100%;
+      overflow-x: auto;
+      font-size: 0.8125rem;
+      overscroll-behavior-x: contain;
+    }
+
+    th { white-space: nowrap; text-align: left; }
+    td { min-width: 8rem; vertical-align: top; }
+    td:first-child { min-width: 10rem; }
+    td code { font-size: 0.8125rem; }
+  }
+}

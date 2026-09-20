@@ -9,6 +9,7 @@ export default antfu(
       'packages/valaxy/index.d.ts',
       // generated
       'api/typedoc',
+      '**/.valaxy/**',
     ],
     rules: {
       'no-dupe-keys': 'off',

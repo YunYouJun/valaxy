@@ -66,9 +66,7 @@ jobs:
       - name: Build:demo
         run: pnpm run build:demo
 
-      - name: Build API docs
-        if: runner.os == 'Linux'
-        run: pnpm run api:build
+      # Unified API + docs SSG is built and checked in playwright.yml.
 
   test:
     runs-on: ${{ matrix.os }}

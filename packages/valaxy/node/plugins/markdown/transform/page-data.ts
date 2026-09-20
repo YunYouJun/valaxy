@@ -69,7 +69,7 @@ export async function generatePageData(code: string, context: MarkdownTransformC
     filePath: id,
   }
 
-  if (options.config.siteConfig.lastUpdated)
+  if (options.config.siteConfig.lastUpdated && fm.lastUpdated !== false)
     pageData.lastUpdated = await getGitTimestamp(id)
 
   return pageData

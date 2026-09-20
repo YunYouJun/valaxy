@@ -92,7 +92,7 @@ The addon converts Feishu document blocks to Markdown:
 | Callout | Blockquote with emoji |
 | Equation | `$...$` inline math |
 
-Inline formatting: **bold**, *italic*, ~~strikethrough~~, `inline_code`, [links](url).
+Inline formatting: **bold**, *italic*, ~~strikethrough~~, `inline_code`, `[links](url)`.
 
 ## How It Works
 

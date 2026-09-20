@@ -1,0 +1,9 @@
+{
+  "extends": "../tsconfig.json",
+  "include": [
+    "../packages/valaxy/client/**/*.ts",
+    "../packages/valaxy/node/**/*.ts",
+    "../packages/valaxy/types/**/*.ts",
+    "../packages/**/*.d.ts"
+  ]
+}

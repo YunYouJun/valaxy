@@ -23,6 +23,7 @@
     "valaxy-addon-girls": "workspace:*",
     "valaxy-addon-git-log": "catalog:",
     "valaxy-addon-meting": "workspace:*",
+    "valaxy-addon-typedoc": "workspace:*",
     "valaxy-theme-press": "link:../packages/valaxy-theme-press"
   },
   "devDependencies": {

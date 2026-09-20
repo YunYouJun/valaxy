@@ -8,6 +8,7 @@ import matter from 'gray-matter'
 import { loadLocalesYml } from '../../shared/node/i18n'
 import { formatMetadataHeader, generateLlmsFullTxt, generateLlmsTxt, resolveText, stripSensitiveFrontmatter } from '../modules/llms/utils'
 import { filePathToUrlPath, filterPublicPosts, getSiteUrl, readPostFiles, scanPageFiles } from '../modules/utils'
+import { resolvePageFile } from '../utils/pageSources'
 import { matterOptions } from './markdown/transform/matter'
 
 /**
@@ -136,24 +137,9 @@ async function collectPosts(options: ResolvedValaxyOptions, lang: string): Promi
  * Returns `null` if not found or post is draft/hidden/encrypted.
  */
 async function resolveRawMd(url: string, options: ResolvedValaxyOptions): Promise<string | null> {
-  const pagesDir = path.resolve(options.userRoot, 'pages')
-  // Strip leading slash and resolve against pagesDir
-  const safePath = path.resolve(pagesDir, url.slice(1))
-  // Prevent path traversal: resolved path must stay within pagesDir
-  if (!safePath.startsWith(pagesDir + path.sep))
-    return null
-
-  // url is e.g. `/posts/hello.md` → try `pages/posts/hello.md`
-  const directPath = safePath
-  // Also try index form: `/posts/hello.md` → `pages/posts/hello/index.md`
-  const stem = safePath.slice(0, -'.md'.length)
-  const indexPath = path.join(stem, 'index.md')
-
-  let filePath: string | null = null
-  if (await fs.pathExists(directPath))
-    filePath = directPath
-  else if (await fs.pathExists(indexPath))
-    filePath = indexPath
+  const page = url.slice(1)
+  const filePath = resolvePageFile(page, options.userRoot)
+    || resolvePageFile(`${page.slice(0, -3)}/index.md`, options.userRoot)
 
   if (!filePath)
     return null

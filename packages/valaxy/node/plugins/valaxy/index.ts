@@ -16,6 +16,7 @@ import { replaceArrMerge } from '../../config/merge'
 import { vLogger } from '../../logger'
 import { processValaxyOptions, resolveOptions, resolveThemeValaxyConfig } from '../../options'
 import { toAtFS } from '../../utils'
+import { getPagePath } from '../../utils/pageSources'
 import { countPerformanceTime } from '../../utils/performance'
 import { templates } from '../../virtual'
 import { createMarkdownToVueRenderFn } from '../markdown/markdownToVue'
@@ -214,7 +215,7 @@ export async function createValaxyPlugin(
           // overwrite src so vue plugin can handle the HMR
           const { code, pageData } = await markdownToVue(content, file)
 
-          const path = `/${relative(`${options.userRoot}/pages`, file)}`
+          const path = `/${getPagePath(file, options.userRoot) || relative(`${options.userRoot}/pages`, file)}`
           const payload: PageDataPayload = {
             path,
             pageData,

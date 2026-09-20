@@ -2,12 +2,13 @@
 import { $ } from 'zx'
 
 async function main() {
-  await $`pnpm i`
+  await $`pnpm install --frozen-lockfile`
   // get full history
   await $`git fetch --unshallow || true`
   $.env.NODE_OPTIONS = '--max-old-space-size=4096'
-  await $`npm run build`
-  await $`npm run build:docs`
+  await $`pnpm run build`
+  await $`node scripts/measure-docs-build.mjs test-results/docs-build docs:build`
+  await $`pnpm run verify:api`
 }
 
 main()

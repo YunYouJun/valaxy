@@ -10,7 +10,6 @@ import {
   ref,
   watch,
   watchEffect,
-  watchPostEffect,
 } from 'vue'
 import { useRoute } from 'vue-router'
 
@@ -129,7 +128,7 @@ export function useSidebarControl(
     isActiveLink.value = route.path === item.value.link
   }
 
-  watch([route, item, hashRef], updateIsActiveLink)
+  watch([() => route.path, item, hashRef], updateIsActiveLink, { immediate: true })
   onMounted(updateIsActiveLink)
 
   const hasActiveLink = computed(() => {
@@ -145,13 +144,12 @@ export function useSidebarControl(
     return !!(item.value.items && item.value.items.length)
   })
 
-  watchEffect(() => {
-    collapsed.value = !!(collapsible.value && item.value.collapsed)
-  })
-
-  watchPostEffect(() => {
-    ;(isActiveLink.value || hasActiveLink.value) && (collapsed.value = false)
-  })
+  // Open the active branch during SSR too, so lazy children hydrate in place.
+  // Sidebar resolution recreates item objects on navigation. Handle defaults and
+  // active state together so a later prop update cannot close the active branch.
+  watch([item, isActiveLink, hasActiveLink, () => route.path], ([entry, active, hasActive]) => {
+    collapsed.value = !(active || hasActive) && !!entry.collapsed
+  }, { immediate: true })
 
   function toggle() {
     if (collapsible.value)

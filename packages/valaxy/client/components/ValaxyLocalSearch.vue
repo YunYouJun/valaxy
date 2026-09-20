@@ -26,7 +26,7 @@ watch(() => props.open, (val) => {
   else {
     query.value = ''
   }
-})
+}, { immediate: true })
 
 watch(results, () => {
   selectedIndex.value = 0

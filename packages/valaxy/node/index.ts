@@ -10,6 +10,7 @@ export * from './constants'
 export * from './content'
 // global env
 export * from './env'
+export { loadAllContent } from './modules/content'
 export * from './options'
 export * from './plugins'
 export * from './server'

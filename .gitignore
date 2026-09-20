@@ -8,6 +8,7 @@ yarn.lock
 .DS_Store
 .vite-ssg-dist
 .vite-ssg-temp
+.valaxy/
 *.local
 dist
 dist-ssr

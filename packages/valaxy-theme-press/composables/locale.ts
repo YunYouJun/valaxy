@@ -1,6 +1,7 @@
 import type { PressTheme } from '../types'
 import { useLocale } from 'valaxy'
-import { computed, watch } from 'vue'
+import { computed, onMounted, shallowRef, watch } from 'vue'
+import { useI18n } from 'vue-i18n'
 import { useRoute } from 'vue-router'
 import { useThemeConfig } from './config'
 
@@ -23,11 +24,23 @@ function normalizeLink(link: string): string {
 export function useLocaleConfig() {
   const themeConfig = useThemeConfig()
   const route = useRoute()
+  const { locale } = useI18n()
+  const { lang, toggleLocale } = useLocale()
+  const mounted = shallowRef(false)
+  const shared = computed(() => route.meta.frontmatter?.sharedLocale === true)
+  onMounted(() => {
+    mounted.value = true
+    if (shared.value)
+      toggleLocale(lang.value)
+  })
 
   const currentLocaleKey = computed(() => {
     const locales = themeConfig.value.locales
     if (!locales)
       return 'root'
+
+    if (shared.value && mounted.value)
+      return Object.keys(locales).find(key => locales[key].lang === locale.value) || 'root'
 
     const path = route.path
     let matchedKey = 'root'
@@ -96,6 +109,8 @@ export function useLocaleConfig() {
   })
 
   function getLocalePath(targetKey: string): string {
+    if (shared.value)
+      return route.fullPath
     const locales = themeConfig.value.locales
     if (!locales)
       return '/'
@@ -133,9 +148,14 @@ export function useLocaleConfig() {
 
   // Sync vue-i18n locale with route-based locale so that UI strings
   // (banner, nav labels, features, etc.) follow the current locale.
-  const { toggleLocale } = useLocale()
+  function selectLocale(key: string) {
+    const language = themeConfig.value.locales?.[key]?.lang
+    if (shared.value && language)
+      toggleLocale(language)
+  }
+
   watch(currentLocale, (loc) => {
-    if (loc.lang)
+    if (!shared.value && loc.lang)
       toggleLocale(loc.lang)
   }, { immediate: true })
 
@@ -147,5 +167,6 @@ export function useLocaleConfig() {
     currentLocaleKey,
     availableLocales,
     getLocalePath,
+    selectLocale,
   }
 }

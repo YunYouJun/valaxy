@@ -28,6 +28,8 @@ export interface Photo {
 }
 
 export interface BaseFrontMatter extends Record<string, any> {
+  /** Canonical URL or site-relative path, independent of the current route alias. */
+  canonical?: string
   /**
    * Title
    * @description 文章标题

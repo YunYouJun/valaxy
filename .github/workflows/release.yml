@@ -49,12 +49,15 @@ jobs:
       # finalized. Other prereleases continue to use `next`.
       - name: Publish release to npm
         run: |
+          # Addons have independent versions and their own release job. Publish
+          # the coordinated core packages first, before any new addon depends on them.
+          PACKAGES=(--filter @valaxyjs/utils --filter @valaxyjs/devtools --filter create-valaxy --filter valaxy --filter valaxy-theme-press --filter valaxy-theme-yun)
           if [[ "$GITHUB_REF_NAME" == v1.0.0-rc.* ]]; then
-            pnpm -r publish --access public --no-git-checks --tag latest
+            pnpm -r "${PACKAGES[@]}" publish --access public --no-git-checks --tag latest
           elif [[ "$GITHUB_REF_NAME" == *-* ]]; then
-            pnpm -r publish --access public --no-git-checks --tag next
+            pnpm -r "${PACKAGES[@]}" publish --access public --no-git-checks --tag next
           else
-            pnpm -r publish --access public --no-git-checks
+            pnpm -r "${PACKAGES[@]}" publish --access public --no-git-checks
           fi
         env:
           PNPM_CONFIG_BAIL: 'false'

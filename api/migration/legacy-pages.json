@@ -1,0 +1,3623 @@
+{
+  "sourceRevision": "302d89e0f427d0a942700dd35377511fddf7acf8",
+  "pages": [
+    {
+      "path": "/notes/app-bundle-size.html",
+      "anchors": [
+        "包体积优化",
+        "data-loaders-vue-routers",
+        "manualchunks",
+        "date-fns-vs-dayjs"
+      ]
+    },
+    {
+      "path": "/notes/index.html",
+      "anchors": [
+        "优化笔记"
+      ]
+    },
+    {
+      "path": "/notes/shiki-performance.html",
+      "anchors": [
+        "shiki-高亮耗时问题",
+        "shiki-v3"
+      ]
+    },
+    {
+      "path": "/typedoc/client/dayjs/classes/Dayjs.html",
+      "anchors": [
+        "class-dayjs",
+        "constructors",
+        "constructor",
+        "parameters",
+        "config",
+        "returns",
+        "methods",
+        "add",
+        "parameters-1",
+        "value",
+        "unit",
+        "returns-1",
+        "clone",
+        "returns-2",
+        "date",
+        "call-signature",
+        "returns-3",
+        "call-signature-1",
+        "parameters-2",
+        "value-1",
+        "returns-4",
+        "day",
+        "call-signature-2",
+        "returns-5",
+        "call-signature-3",
+        "parameters-3",
+        "value-2",
+        "returns-6",
+        "daysinmonth",
+        "returns-7",
+        "diff",
+        "parameters-4",
+        "date-1",
+        "unit-1",
+        "float",
+        "returns-8",
+        "endof",
+        "parameters-5",
+        "unit-2",
+        "returns-9",
+        "format",
+        "parameters-6",
+        "template",
+        "returns-10",
+        "from",
+        "parameters-7",
+        "compared",
+        "withoutsuffix",
+        "returns-11",
+        "fromnow",
+        "parameters-8",
+        "withoutsuffix-1",
+        "returns-12",
+        "get",
+        "parameters-9",
+        "unit-3",
+        "returns-13",
+        "hour",
+        "call-signature-4",
+        "returns-14",
+        "call-signature-5",
+        "parameters-10",
+        "value-3",
+        "returns-15",
+        "isafter",
+        "parameters-11",
+        "date-2",
+        "unit-4",
+        "returns-16",
+        "isbefore",
+        "parameters-12",
+        "date-3",
+        "unit-5",
+        "returns-17",
+        "issame",
+        "parameters-13",
+        "date-4",
+        "unit-6",
+        "returns-18",
+        "isutc",
+        "returns-19",
+        "isvalid",
+        "returns-20",
+        "local",
+        "returns-21",
+        "locale",
+        "call-signature-6",
+        "returns-22",
+        "call-signature-7",
+        "parameters-14",
+        "preset",
+        "object",
+        "returns-23",
+        "millisecond",
+        "call-signature-8",
+        "returns-24",
+        "call-signature-9",
+        "parameters-15",
+        "value-4",
+        "returns-25",
+        "minute",
+        "call-signature-10",
+        "returns-26",
+        "call-signature-11",
+        "parameters-16",
+        "value-5",
+        "returns-27",
+        "month",
+        "call-signature-12",
+        "returns-28",
+        "call-signature-13",
+        "parameters-17",
+        "value-6",
+        "returns-29",
+        "offsetname",
+        "parameters-18",
+        "type",
+        "returns-30",
+        "second",
+        "call-signature-14",
+        "returns-31",
+        "call-signature-15",
+        "parameters-19",
+        "value-7",
+        "returns-32",
+        "set",
+        "parameters-20",
+        "unit-7",
+        "value-8",
+        "returns-33",
+        "startof",
+        "parameters-21",
+        "unit-8",
+        "returns-34",
+        "subtract",
+        "parameters-22",
+        "value-9",
+        "unit-9",
+        "returns-35",
+        "to",
+        "parameters-23",
+        "compared-1",
+        "withoutsuffix-2",
+        "returns-36",
+        "todate",
+        "returns-37",
+        "toisostring",
+        "returns-38",
+        "tojson",
+        "returns-39",
+        "tonow",
+        "parameters-24",
+        "withoutsuffix-3",
+        "returns-40",
+        "tostring",
+        "returns-41",
+        "tz",
+        "parameters-25",
+        "timezone",
+        "keeplocaltime",
+        "returns-42",
+        "unix",
+        "returns-43",
+        "utc",
+        "parameters-26",
+        "keeplocaltime-1",
+        "returns-44",
+        "utcoffset",
+        "call-signature-16",
+        "returns-45",
+        "call-signature-17",
+        "parameters-27",
+        "offset",
+        "keeplocaltime-2",
+        "returns-46",
+        "valueof",
+        "returns-47",
+        "year",
+        "call-signature-18",
+        "returns-48",
+        "call-signature-19",
+        "parameters-28",
+        "value-10",
+        "returns-49"
+      ]
+    },
+    {
+      "path": "/typedoc/client/dayjs/functions/extend.html",
+      "anchors": [
+        "function-extend",
+        "type-parameters",
+        "t",
+        "parameters",
+        "plugin",
+        "option",
+        "returns"
+      ]
+    },
+    {
+      "path": "/typedoc/client/dayjs/functions/isDayjs.html",
+      "anchors": [
+        "function-isdayjs",
+        "parameters",
+        "d",
+        "returns"
+      ]
+    },
+    {
+      "path": "/typedoc/client/dayjs/functions/locale.html",
+      "anchors": [
+        "function-locale",
+        "parameters",
+        "preset",
+        "object",
+        "islocal",
+        "returns"
+      ]
+    },
+    {
+      "path": "/typedoc/client/dayjs/functions/unix.html",
+      "anchors": [
+        "function-unix",
+        "parameters",
+        "t",
+        "returns"
+      ]
+    },
+    {
+      "path": "/typedoc/client/dayjs/functions/utc.html",
+      "anchors": [
+        "function-utc",
+        "parameters",
+        "config",
+        "format",
+        "strict",
+        "returns"
+      ]
+    },
+    {
+      "path": "/typedoc/client/dayjs/index.html",
+      "anchors": [
+        "dayjs",
+        "classes",
+        "interfaces",
+        "type-aliases",
+        "variables",
+        "functions"
+      ]
+    },
+    {
+      "path": "/typedoc/client/dayjs/interfaces/ConfigTypeMap.html",
+      "anchors": [
+        "interface-configtypemap",
+        "properties",
+        "default"
+      ]
+    },
+    {
+      "path": "/typedoc/client/dayjs/interfaces/DayjsTimezone.html",
+      "anchors": [
+        "interface-dayjstimezone",
+        "call-signature",
+        "parameters",
+        "date",
+        "timezone",
+        "returns",
+        "call-signature-1",
+        "parameters-1",
+        "date-1",
+        "format",
+        "timezone-1",
+        "returns-1",
+        "methods",
+        "guess",
+        "returns-2",
+        "setdefault",
+        "parameters-2",
+        "timezone-2",
+        "returns-3"
+      ]
+    },
+    {
+      "path": "/typedoc/client/dayjs/interfaces/FormatObject.html",
+      "anchors": [
+        "interface-formatobject",
+        "properties",
+        "format",
+        "locale",
+        "utc"
+      ]
+    },
+    {
+      "path": "/typedoc/client/dayjs/type-aliases/ConfigType.html",
+      "anchors": [
+        "type-alias-configtype"
+      ]
+    },
+    {
+      "path": "/typedoc/client/dayjs/type-aliases/ManipulateType.html",
+      "anchors": [
+        "type-alias-manipulatetype"
+      ]
+    },
+    {
+      "path": "/typedoc/client/dayjs/type-aliases/OpUnitType.html",
+      "anchors": [
+        "type-alias-opunittype"
+      ]
+    },
+    {
+      "path": "/typedoc/client/dayjs/type-aliases/OptionType.html",
+      "anchors": [
+        "type-alias-optiontype"
+      ]
+    },
+    {
+      "path": "/typedoc/client/dayjs/type-aliases/PluginFunc.html",
+      "anchors": [
+        "type-alias-pluginfunc-t",
+        "type-parameters",
+        "t",
+        "parameters",
+        "option",
+        "c",
+        "d",
+        "returns"
+      ]
+    },
+    {
+      "path": "/typedoc/client/dayjs/type-aliases/QUnitType.html",
+      "anchors": [
+        "type-alias-qunittype"
+      ]
+    },
+    {
+      "path": "/typedoc/client/dayjs/type-aliases/UnitType.html",
+      "anchors": [
+        "type-alias-unittype"
+      ]
+    },
+    {
+      "path": "/typedoc/client/dayjs/type-aliases/UnitTypeLong.html",
+      "anchors": [
+        "type-alias-unittypelong"
+      ]
+    },
+    {
+      "path": "/typedoc/client/dayjs/type-aliases/UnitTypeLongPlural.html",
+      "anchors": [
+        "type-alias-unittypelongplural"
+      ]
+    },
+    {
+      "path": "/typedoc/client/dayjs/type-aliases/UnitTypeShort.html",
+      "anchors": [
+        "type-alias-unittypeshort"
+      ]
+    },
+    {
+      "path": "/typedoc/client/dayjs/variables/Ls.html",
+      "anchors": [
+        "variable-ls",
+        "index-signature"
+      ]
+    },
+    {
+      "path": "/typedoc/client/dayjs/variables/tz.html",
+      "anchors": [
+        "variable-tz"
+      ]
+    },
+    {
+      "path": "/typedoc/client/functions/addToParent.html",
+      "anchors": [
+        "function-addtoparent",
+        "parameters",
+        "currindex",
+        "headers",
+        "levelsrange",
+        "returns"
+      ]
+    },
+    {
+      "path": "/typedoc/client/functions/asAny.html",
+      "anchors": [
+        "function-asany",
+        "parameters",
+        "component",
+        "returns"
+      ]
+    },
+    {
+      "path": "/typedoc/client/functions/buildTree.html",
+      "anchors": [
+        "function-buildtree",
+        "parameters",
+        "data",
+        "min",
+        "max",
+        "returns"
+      ]
+    },
+    {
+      "path": "/typedoc/client/functions/computeZoomRectStyle.html",
+      "anchors": [
+        "function-computezoomrectstyle",
+        "parameters",
+        "visualrect",
+        "layoutoffset",
+        "scrolloffset",
+        "x",
+        "y",
+        "returns",
+        "see"
+      ]
+    },
+    {
+      "path": "/typedoc/client/functions/dayjs.html",
+      "anchors": [
+        "function-dayjs",
+        "call-signature",
+        "parameters",
+        "date",
+        "returns",
+        "call-signature-1",
+        "parameters-1",
+        "date-1",
+        "format",
+        "strict",
+        "returns-1",
+        "call-signature-2",
+        "parameters-2",
+        "date-2",
+        "format-1",
+        "locale",
+        "strict-1",
+        "returns-2"
+      ]
+    },
+    {
+      "path": "/typedoc/client/functions/defineAppSetup.html",
+      "anchors": [
+        "function-defineappsetup",
+        "parameters",
+        "fn",
+        "returns",
+        "en",
+        "zh"
+      ]
+    },
+    {
+      "path": "/typedoc/client/functions/defineClientComponent.html",
+      "anchors": [
+        "function-defineclientcomponent",
+        "parameters",
+        "loader",
+        "args",
+        "cb",
+        "returns"
+      ]
+    },
+    {
+      "path": "/typedoc/client/functions/defineCollection.html",
+      "anchors": [
+        "function-definecollection",
+        "parameters",
+        "config",
+        "returns",
+        "description"
+      ]
+    },
+    {
+      "path": "/typedoc/client/functions/defineMermaidSetup.html",
+      "anchors": [
+        "function-definemermaidsetup",
+        "parameters",
+        "fn",
+        "returns"
+      ]
+    },
+    {
+      "path": "/typedoc/client/functions/filterAndSortPosts.html",
+      "anchors": [
+        "function-filterandsortposts",
+        "parameters",
+        "pages",
+        "siteconfig",
+        "params",
+        "type",
+        "returns"
+      ]
+    },
+    {
+      "path": "/typedoc/client/functions/formatDate.html",
+      "anchors": [
+        "function-formatdate",
+        "parameters",
+        "date",
+        "options",
+        "template",
+        "timezone",
+        "returns"
+      ]
+    },
+    {
+      "path": "/typedoc/client/functions/getAddonDocsPath.html",
+      "anchors": [
+        "function-getaddondocspath",
+        "parameters",
+        "addon",
+        "locale",
+        "returns"
+      ]
+    },
+    {
+      "path": "/typedoc/client/functions/getAddonModule.html",
+      "anchors": [
+        "function-getaddonmodule",
+        "type-parameters",
+        "t",
+        "parameters",
+        "addon",
+        "returns",
+        "example"
+      ]
+    },
+    {
+      "path": "/typedoc/client/functions/getHeaders.html",
+      "anchors": [
+        "function-getheaders",
+        "parameters",
+        "options",
+        "returns"
+      ]
+    },
+    {
+      "path": "/typedoc/client/functions/getLocaleMessageValue.html",
+      "anchors": [
+        "function-getlocalemessagevalue",
+        "parameters",
+        "messages",
+        "key",
+        "returns"
+      ]
+    },
+    {
+      "path": "/typedoc/client/functions/hasLocaleMessage.html",
+      "anchors": [
+        "function-haslocalemessage",
+        "parameters",
+        "messages",
+        "key",
+        "returns"
+      ]
+    },
+    {
+      "path": "/typedoc/client/functions/initContext.html",
+      "anchors": [
+        "function-initcontext",
+        "returns"
+      ]
+    },
+    {
+      "path": "/typedoc/client/functions/initValaxyConfig.html",
+      "anchors": [
+        "function-initvalaxyconfig",
+        "returns"
+      ]
+    },
+    {
+      "path": "/typedoc/client/functions/isCategoryList.html",
+      "anchors": [
+        "function-iscategorylist",
+        "parameters",
+        "category",
+        "returns"
+      ]
+    },
+    {
+      "path": "/typedoc/client/functions/isEmptyAddon.html",
+      "anchors": [
+        "function-isemptyaddon",
+        "parameters",
+        "addon",
+        "returns"
+      ]
+    },
+    {
+      "path": "/typedoc/client/functions/isLocaleKey.html",
+      "anchors": [
+        "function-islocalekey",
+        "parameters",
+        "value",
+        "returns"
+      ]
+    },
+    {
+      "path": "/typedoc/client/functions/localizeAddon.html",
+      "anchors": [
+        "function-localizeaddon",
+        "parameters",
+        "addon",
+        "locale",
+        "returns"
+      ]
+    },
+    {
+      "path": "/typedoc/client/functions/mergeCollapsedCollections.html",
+      "anchors": [
+        "function-mergecollapsedcollections",
+        "parameters",
+        "posts",
+        "allpages",
+        "collectionconfigs",
+        "siteconfig",
+        "returns"
+      ]
+    },
+    {
+      "path": "/typedoc/client/functions/normalizeAddonLocale.html",
+      "anchors": [
+        "function-normalizeaddonlocale",
+        "parameters",
+        "locale",
+        "returns"
+      ]
+    },
+    {
+      "path": "/typedoc/client/functions/normalizeRepositoryUrl.html",
+      "anchors": [
+        "function-normalizerepositoryurl",
+        "parameters",
+        "url",
+        "returns",
+        "example"
+      ]
+    },
+    {
+      "path": "/typedoc/client/functions/onClickHref.html",
+      "anchors": [
+        "function-onclickhref",
+        "parameters",
+        "router",
+        "returns",
+        "description"
+      ]
+    },
+    {
+      "path": "/typedoc/client/functions/onContentUpdated.html",
+      "anchors": [
+        "function-oncontentupdated",
+        "parameters",
+        "fn",
+        "returns"
+      ]
+    },
+    {
+      "path": "/typedoc/client/functions/orderByMeta.html",
+      "anchors": [
+        "function-orderbymeta",
+        "parameters",
+        "posts",
+        "orderby",
+        "desc",
+        "returns"
+      ]
+    },
+    {
+      "path": "/typedoc/client/functions/parseRangeString.html",
+      "anchors": [
+        "function-parserangestring",
+        "parameters",
+        "total",
+        "rangestr",
+        "returns"
+      ]
+    },
+    {
+      "path": "/typedoc/client/functions/random.html",
+      "anchors": [
+        "function-random",
+        "parameters",
+        "min",
+        "max",
+        "returns"
+      ]
+    },
+    {
+      "path": "/typedoc/client/functions/removeItemFromCategory.html",
+      "anchors": [
+        "function-removeitemfromcategory",
+        "parameters",
+        "categorylist",
+        "categoryname",
+        "returns"
+      ]
+    },
+    {
+      "path": "/typedoc/client/functions/resolveCollectionItemHref.html",
+      "anchors": [
+        "function-resolvecollectionitemhref",
+        "parameters",
+        "collectionkey",
+        "item",
+        "key",
+        "link",
+        "returns",
+        "href",
+        "isexternal"
+      ]
+    },
+    {
+      "path": "/typedoc/client/functions/resolveHeaders.html",
+      "anchors": [
+        "function-resolveheaders",
+        "parameters",
+        "headers",
+        "range",
+        "returns"
+      ]
+    },
+    {
+      "path": "/typedoc/client/functions/resolveSiteUrl.html",
+      "anchors": [
+        "function-resolvesiteurl",
+        "parameters",
+        "siteurl",
+        "path",
+        "returns"
+      ]
+    },
+    {
+      "path": "/typedoc/client/functions/resolveTaxonomyLocaleKey.html",
+      "anchors": [
+        "function-resolvetaxonomylocalekey",
+        "parameters",
+        "namespace",
+        "rawvalue",
+        "returns",
+        "isexplicitlocalekey",
+        "localekey"
+      ]
+    },
+    {
+      "path": "/typedoc/client/functions/runCbs.html",
+      "anchors": [
+        "function-runcbs",
+        "returns"
+      ]
+    },
+    {
+      "path": "/typedoc/client/functions/scrollTo.html",
+      "anchors": [
+        "function-scrollto",
+        "parameters",
+        "el",
+        "hash",
+        "options",
+        "returns"
+      ]
+    },
+    {
+      "path": "/typedoc/client/functions/serializeHeader.html",
+      "anchors": [
+        "function-serializeheader",
+        "parameters",
+        "h",
+        "returns"
+      ]
+    },
+    {
+      "path": "/typedoc/client/functions/setIframeAspectRatios.html",
+      "anchors": [
+        "function-setiframeaspectratios",
+        "parameters",
+        "container",
+        "returns"
+      ]
+    },
+    {
+      "path": "/typedoc/client/functions/sleep.html",
+      "anchors": [
+        "function-sleep",
+        "parameters",
+        "ms",
+        "returns"
+      ]
+    },
+    {
+      "path": "/typedoc/client/functions/sortByDate.html",
+      "anchors": [
+        "function-sortbydate",
+        "parameters",
+        "posts",
+        "desc",
+        "returns"
+      ]
+    },
+    {
+      "path": "/typedoc/client/functions/sortByUpdated.html",
+      "anchors": [
+        "function-sortbyupdated",
+        "parameters",
+        "posts",
+        "desc",
+        "returns"
+      ]
+    },
+    {
+      "path": "/typedoc/client/functions/stripLocalePrefix.html",
+      "anchors": [
+        "function-striplocaleprefix",
+        "parameters",
+        "value",
+        "returns"
+      ]
+    },
+    {
+      "path": "/typedoc/client/functions/tObject.html",
+      "anchors": [
+        "function-tobject",
+        "type-parameters",
+        "t",
+        "parameters",
+        "data",
+        "lang",
+        "returns"
+      ]
+    },
+    {
+      "path": "/typedoc/client/functions/throttleAndDebounce.html",
+      "anchors": [
+        "function-throttleanddebounce",
+        "parameters",
+        "fn",
+        "delay",
+        "returns"
+      ]
+    },
+    {
+      "path": "/typedoc/client/functions/useActiveAnchor.html",
+      "anchors": [
+        "function-useactiveanchor",
+        "parameters",
+        "container",
+        "marker",
+        "returns"
+      ]
+    },
+    {
+      "path": "/typedoc/client/functions/useAddonConfig.html",
+      "anchors": [
+        "function-useaddonconfig",
+        "type-parameters",
+        "addonoptions",
+        "parameters",
+        "addonname",
+        "returns",
+        "examples"
+      ]
+    },
+    {
+      "path": "/typedoc/client/functions/useBack.html",
+      "anchors": [
+        "function-useback",
+        "returns",
+        "back",
+        "returns-1"
+      ]
+    },
+    {
+      "path": "/typedoc/client/functions/useBackToTop.html",
+      "anchors": [
+        "function-usebacktotop",
+        "parameters",
+        "options",
+        "offset",
+        "returns",
+        "description"
+      ]
+    },
+    {
+      "path": "/typedoc/client/functions/useCategories.html",
+      "anchors": [
+        "function-usecategories",
+        "parameters",
+        "category",
+        "posts",
+        "returns"
+      ]
+    },
+    {
+      "path": "/typedoc/client/functions/useCodePen.html",
+      "anchors": [
+        "function-usecodepen",
+        "returns",
+        "deprecated"
+      ]
+    },
+    {
+      "path": "/typedoc/client/functions/useCollapseCode.html",
+      "anchors": [
+        "function-usecollapsecode",
+        "returns"
+      ]
+    },
+    {
+      "path": "/typedoc/client/functions/useCollection.html",
+      "anchors": [
+        "function-usecollection",
+        "returns",
+        "collection"
+      ]
+    },
+    {
+      "path": "/typedoc/client/functions/useCollectionPosts.html",
+      "anchors": [
+        "function-usecollectionposts",
+        "parameters",
+        "collectionkey",
+        "returns"
+      ]
+    },
+    {
+      "path": "/typedoc/client/functions/useCollections.html",
+      "anchors": [
+        "function-usecollections",
+        "returns",
+        "collections",
+        "example"
+      ]
+    },
+    {
+      "path": "/typedoc/client/functions/useConfig.html",
+      "anchors": [
+        "function-useconfig",
+        "type-parameters",
+        "themeconfig",
+        "returns"
+      ]
+    },
+    {
+      "path": "/typedoc/client/functions/useCopyCode.html",
+      "anchors": [
+        "function-usecopycode",
+        "returns"
+      ]
+    },
+    {
+      "path": "/typedoc/client/functions/useCopyMarkdown.html",
+      "anchors": [
+        "function-usecopymarkdown",
+        "returns",
+        "available",
+        "copied",
+        "copy",
+        "returns-1",
+        "error",
+        "loading",
+        "mdurl",
+        "example"
+      ]
+    },
+    {
+      "path": "/typedoc/client/functions/useData.html",
+      "anchors": [
+        "function-usedata",
+        "type-parameters",
+        "fm",
+        "returns"
+      ]
+    },
+    {
+      "path": "/typedoc/client/functions/useDecrypt.html",
+      "anchors": [
+        "function-usedecrypt",
+        "returns",
+        "decrypt",
+        "parameters",
+        "password",
+        "ciphertext",
+        "returns-1"
+      ]
+    },
+    {
+      "path": "/typedoc/client/functions/useEncryptedContent.html",
+      "anchors": [
+        "function-useencryptedcontent",
+        "returns"
+      ]
+    },
+    {
+      "path": "/typedoc/client/functions/useEncryptedPhotos.html",
+      "anchors": [
+        "function-useencryptedphotos",
+        "returns"
+      ]
+    },
+    {
+      "path": "/typedoc/client/functions/useFrontmatter.html",
+      "anchors": [
+        "function-usefrontmatter",
+        "type-parameters",
+        "fm",
+        "returns",
+        "example"
+      ]
+    },
+    {
+      "path": "/typedoc/client/functions/useFullUrl.html",
+      "anchors": [
+        "function-usefullurl",
+        "returns"
+      ]
+    },
+    {
+      "path": "/typedoc/client/functions/useFuseSearch.html",
+      "anchors": [
+        "function-usefusesearch",
+        "type-parameters",
+        "t",
+        "parameters",
+        "search",
+        "options",
+        "returns",
+        "fetchfuselistdata",
+        "parameters-1",
+        "path",
+        "returns-1",
+        "fuse",
+        "results"
+      ]
+    },
+    {
+      "path": "/typedoc/client/functions/useInvisibleElement.html",
+      "anchors": [
+        "function-useinvisibleelement",
+        "parameters",
+        "target",
+        "returns",
+        "show",
+        "returns-1"
+      ]
+    },
+    {
+      "path": "/typedoc/client/functions/useLayout.html",
+      "anchors": [
+        "function-uselayout",
+        "parameters",
+        "layout",
+        "returns"
+      ]
+    },
+    {
+      "path": "/typedoc/client/functions/useLocalSearch.html",
+      "anchors": [
+        "function-uselocalsearch",
+        "parameters",
+        "query",
+        "returns",
+        "load",
+        "parameters-1",
+        "locale",
+        "returns-1",
+        "loading",
+        "results"
+      ]
+    },
+    {
+      "path": "/typedoc/client/functions/useLocale.html",
+      "anchors": [
+        "function-uselocale",
+        "returns",
+        "lang",
+        "togglelocale",
+        "parameters",
+        "newlocale",
+        "returns-1",
+        "togglelocales",
+        "returns-2"
+      ]
+    },
+    {
+      "path": "/typedoc/client/functions/useLocaleTitle.html",
+      "anchors": [
+        "function-uselocaletitle",
+        "parameters",
+        "fm",
+        "returns"
+      ]
+    },
+    {
+      "path": "/typedoc/client/functions/useMediumZoom.html",
+      "anchors": [
+        "function-usemediumzoom",
+        "parameters",
+        "selector",
+        "returns",
+        "enabled",
+        "description"
+      ]
+    },
+    {
+      "path": "/typedoc/client/functions/useMobile.html",
+      "anchors": [
+        "function-usemobile",
+        "returns"
+      ]
+    },
+    {
+      "path": "/typedoc/client/functions/useOutline.html",
+      "anchors": [
+        "function-useoutline",
+        "returns",
+        "handleclick",
+        "parameters",
+        "namedparameters",
+        "returns-1",
+        "headers"
+      ]
+    },
+    {
+      "path": "/typedoc/client/functions/usePageList.html",
+      "anchors": [
+        "function-usepagelist",
+        "returns"
+      ]
+    },
+    {
+      "path": "/typedoc/client/functions/usePagination.html",
+      "anchors": [
+        "function-usepagination",
+        "parameters",
+        "options",
+        "pagesize",
+        "total",
+        "returns",
+        "curpage",
+        "getto",
+        "parameters-1",
+        "i",
+        "returns-1",
+        "nextto",
+        "prevto",
+        "shownext",
+        "showpage",
+        "parameters-2",
+        "i-1",
+        "returns-2",
+        "showprev",
+        "surlen",
+        "totalpages"
+      ]
+    },
+    {
+      "path": "/typedoc/client/functions/usePartiallyEncryptedContents.html",
+      "anchors": [
+        "function-usepartiallyencryptedcontents",
+        "returns"
+      ]
+    },
+    {
+      "path": "/typedoc/client/functions/usePostCollections.html",
+      "anchors": [
+        "function-usepostcollections",
+        "parameters",
+        "postpath",
+        "returns"
+      ]
+    },
+    {
+      "path": "/typedoc/client/functions/usePostList.html",
+      "anchors": [
+        "function-usepostlist",
+        "parameters",
+        "params",
+        "type",
+        "returns"
+      ]
+    },
+    {
+      "path": "/typedoc/client/functions/usePostListWithCollections.html",
+      "anchors": [
+        "function-usepostlistwithcollections",
+        "parameters",
+        "params",
+        "type",
+        "returns"
+      ]
+    },
+    {
+      "path": "/typedoc/client/functions/usePostTitle.html",
+      "anchors": [
+        "function-useposttitle",
+        "parameters",
+        "post",
+        "returns"
+      ]
+    },
+    {
+      "path": "/typedoc/client/functions/usePrevNext.html",
+      "anchors": [
+        "function-useprevnext",
+        "parameters",
+        "path",
+        "returns"
+      ]
+    },
+    {
+      "path": "/typedoc/client/functions/useRuntimeConfig.html",
+      "anchors": [
+        "function-useruntimeconfig",
+        "returns"
+      ]
+    },
+    {
+      "path": "/typedoc/client/functions/useScreenSize.html",
+      "anchors": [
+        "function-usescreensize",
+        "returns",
+        "is2xl",
+        "islg",
+        "ismd",
+        "issm",
+        "isxl",
+        "isxs"
+      ]
+    },
+    {
+      "path": "/typedoc/client/functions/useSidebar.html",
+      "anchors": [
+        "function-usesidebar",
+        "returns",
+        "close",
+        "returns-1",
+        "hassidebar",
+        "isopen",
+        "open",
+        "returns-2",
+        "toggle",
+        "returns-3",
+        "inner"
+      ]
+    },
+    {
+      "path": "/typedoc/client/functions/useSiteConfig.html",
+      "anchors": [
+        "function-usesiteconfig",
+        "type-parameters",
+        "themeconfig",
+        "returns"
+      ]
+    },
+    {
+      "path": "/typedoc/client/functions/useTags.html",
+      "anchors": [
+        "function-usetags",
+        "returns"
+      ]
+    },
+    {
+      "path": "/typedoc/client/functions/useValaxyApp.html",
+      "anchors": [
+        "function-usevalaxyapp",
+        "returns"
+      ]
+    },
+    {
+      "path": "/typedoc/client/functions/useValaxyConfig.html",
+      "anchors": [
+        "function-usevalaxyconfig",
+        "type-parameters",
+        "themeconfig",
+        "returns"
+      ]
+    },
+    {
+      "path": "/typedoc/client/functions/useValaxyDark.html",
+      "anchors": [
+        "function-usevalaxydark",
+        "parameters",
+        "options",
+        "circletransition",
+        "themecolor",
+        "themecolor-dark",
+        "themecolor-light",
+        "usedarkoptions",
+        "returns",
+        "isdark",
+        "themecolor-1",
+        "toggledark",
+        "parameters-1",
+        "value",
+        "returns-1",
+        "toggledarkwithtransition",
+        "parameters-2",
+        "event",
+        "options-1",
+        "duration",
+        "easing",
+        "returns-2"
+      ]
+    },
+    {
+      "path": "/typedoc/client/functions/useValaxyHead.html",
+      "anchors": [
+        "function-usevalaxyhead",
+        "returns"
+      ]
+    },
+    {
+      "path": "/typedoc/client/functions/useValaxyI18n.html",
+      "anchors": [
+        "function-usevalaxyi18n",
+        "returns",
+        "t",
+        "parameters",
+        "key",
+        "returns-1",
+        "tcategory",
+        "parameters-1",
+        "key-1",
+        "returns-2",
+        "to",
+        "type-parameters",
+        "t-1",
+        "parameters-2",
+        "data",
+        "returns-3",
+        "ttag",
+        "parameters-3",
+        "key-2",
+        "returns-4",
+        "tterm",
+        "parameters-4",
+        "namespace",
+        "key-3",
+        "returns-5",
+        "en",
+        "zh",
+        "locale"
+      ]
+    },
+    {
+      "path": "/typedoc/client/functions/withBase.html",
+      "anchors": [
+        "function-withbase",
+        "parameters",
+        "path",
+        "returns"
+      ]
+    },
+    {
+      "path": "/typedoc/client/functions/wrap.html",
+      "anchors": [
+        "function-wrap",
+        "parameters",
+        "el",
+        "classname",
+        "returns"
+      ]
+    },
+    {
+      "path": "/typedoc/client/functions/wrapTable.html",
+      "anchors": [
+        "function-wraptable",
+        "parameters",
+        "container",
+        "returns"
+      ]
+    },
+    {
+      "path": "/typedoc/client/index.html",
+      "anchors": [
+        "client",
+        "modules",
+        "interfaces",
+        "type-aliases",
+        "variables",
+        "functions"
+      ]
+    },
+    {
+      "path": "/typedoc/client/interfaces/AddonCatalogEntry.html",
+      "anchors": [
+        "interface-addoncatalogentry",
+        "properties",
+        "author",
+        "description",
+        "docspath",
+        "icon",
+        "kind",
+        "name",
+        "repo",
+        "tags"
+      ]
+    },
+    {
+      "path": "/typedoc/client/interfaces/BaseCategory.html",
+      "anchors": [
+        "interface-basecategory",
+        "properties",
+        "total"
+      ]
+    },
+    {
+      "path": "/typedoc/client/interfaces/CategoryList.html",
+      "anchors": [
+        "interface-categorylist",
+        "en",
+        "zh",
+        "properties",
+        "children",
+        "name",
+        "total"
+      ]
+    },
+    {
+      "path": "/typedoc/client/interfaces/CollectionConfig.html",
+      "anchors": [
+        "interface-collectionconfig",
+        "properties",
+        "categories",
+        "collapse",
+        "en",
+        "zh",
+        "default",
+        "cover",
+        "description",
+        "items",
+        "key",
+        "link",
+        "en-1",
+        "zh-1",
+        "title",
+        "key-1",
+        "name",
+        "en-2",
+        "zh-2",
+        "path",
+        "tags",
+        "title-1"
+      ]
+    },
+    {
+      "path": "/typedoc/client/interfaces/GetHeadersOptions.html",
+      "anchors": [
+        "interface-getheadersoptions",
+        "properties",
+        "filter",
+        "parameters",
+        "el",
+        "returns",
+        "range",
+        "selector"
+      ]
+    },
+    {
+      "path": "/typedoc/client/interfaces/Header.html",
+      "anchors": [
+        "interface-header",
+        "properties",
+        "lang",
+        "level",
+        "link",
+        "slug",
+        "title"
+      ]
+    },
+    {
+      "path": "/typedoc/client/interfaces/LocalSearchResult.html",
+      "anchors": [
+        "interface-localsearchresult",
+        "properties",
+        "id",
+        "score",
+        "terms",
+        "title",
+        "titles"
+      ]
+    },
+    {
+      "path": "/typedoc/client/interfaces/LocalizedAddonText.html",
+      "anchors": [
+        "interface-localizedaddontext",
+        "properties",
+        "en",
+        "zh-cn"
+      ]
+    },
+    {
+      "path": "/typedoc/client/interfaces/LocalizedValaxyAddon.html",
+      "anchors": [
+        "interface-localizedvalaxyaddon",
+        "extends",
+        "properties",
+        "author",
+        "description",
+        "docs",
+        "icon",
+        "inherited-from",
+        "kind",
+        "inherited-from-1",
+        "name",
+        "inherited-from-2",
+        "repo",
+        "inherited-from-3",
+        "tags",
+        "inherited-from-4"
+      ]
+    },
+    {
+      "path": "/typedoc/client/interfaces/PostCollectionInfo.html",
+      "anchors": [
+        "interface-postcollectioninfo",
+        "properties",
+        "collection",
+        "itemindex"
+      ]
+    },
+    {
+      "path": "/typedoc/client/interfaces/ScrollToOptions.html",
+      "anchors": [
+        "interface-scrolltooptions",
+        "en",
+        "zh",
+        "properties",
+        "smooth",
+        "en-1",
+        "zh-1",
+        "targetpadding"
+      ]
+    },
+    {
+      "path": "/typedoc/client/interfaces/ValaxySSGContext.html",
+      "anchors": [
+        "interface-valaxyssgcontext",
+        "en",
+        "zh",
+        "properties",
+        "app",
+        "head",
+        "initialstate",
+        "isclient",
+        "onssrapprendered",
+        "parameters",
+        "cb",
+        "returns",
+        "routepath",
+        "router",
+        "routes",
+        "triggeronssrapprendered",
+        "returns-1"
+      ]
+    },
+    {
+      "path": "/typedoc/client/type-aliases/AddonKind.html",
+      "anchors": [
+        "type-alias-addonkind"
+      ]
+    },
+    {
+      "path": "/typedoc/client/type-aliases/AddonLocale.html",
+      "anchors": [
+        "type-alias-addonlocale"
+      ]
+    },
+    {
+      "path": "/typedoc/client/type-aliases/AppContext.html",
+      "anchors": [
+        "type-alias-appcontext",
+        "see",
+        "en",
+        "zh"
+      ]
+    },
+    {
+      "path": "/typedoc/client/type-aliases/AppSetup.html",
+      "anchors": [
+        "type-alias-appsetup",
+        "parameters",
+        "ctx",
+        "returns"
+      ]
+    },
+    {
+      "path": "/typedoc/client/type-aliases/Categories.html",
+      "anchors": [
+        "type-alias-categories"
+      ]
+    },
+    {
+      "path": "/typedoc/client/type-aliases/Category.html",
+      "anchors": [
+        "type-alias-category"
+      ]
+    },
+    {
+      "path": "/typedoc/client/type-aliases/MenuItem.html",
+      "anchors": [
+        "type-alias-menuitem",
+        "type-declaration",
+        "children",
+        "element",
+        "en",
+        "zh"
+      ]
+    },
+    {
+      "path": "/typedoc/client/type-aliases/MermaidOptions.html",
+      "anchors": [
+        "type-alias-mermaidoptions",
+        "see"
+      ]
+    },
+    {
+      "path": "/typedoc/client/type-aliases/MermaidSetup.html",
+      "anchors": [
+        "type-alias-mermaidsetup",
+        "returns"
+      ]
+    },
+    {
+      "path": "/typedoc/client/type-aliases/Tags.html",
+      "anchors": [
+        "type-alias-tags",
+        "en",
+        "zh"
+      ]
+    },
+    {
+      "path": "/typedoc/client/type-aliases/TaxonomyNamespace.html",
+      "anchors": [
+        "type-alias-taxonomynamespace"
+      ]
+    },
+    {
+      "path": "/typedoc/client/type-aliases/UserModule.html",
+      "anchors": [
+        "type-alias-usermodule",
+        "parameters",
+        "ctx",
+        "returns"
+      ]
+    },
+    {
+      "path": "/typedoc/client/variables/EXTERNAL_URL_RE.html",
+      "anchors": [
+        "variable-external-url-re"
+      ]
+    },
+    {
+      "path": "/typedoc/client/variables/LOCALE_PREFIX.html",
+      "anchors": [
+        "variable-locale-prefix"
+      ]
+    },
+    {
+      "path": "/typedoc/client/variables/SENSITIVE_FRONTMATTER_KEYS.html",
+      "anchors": [
+        "variable-sensitive-frontmatter-keys"
+      ]
+    },
+    {
+      "path": "/typedoc/client/variables/addons.html",
+      "anchors": [
+        "variable-addons"
+      ]
+    },
+    {
+      "path": "/typedoc/client/variables/cdnPrefix.html",
+      "anchors": [
+        "variable-cdnprefix"
+      ]
+    },
+    {
+      "path": "/typedoc/client/variables/contentUpdatedCallbacks.html",
+      "anchors": [
+        "variable-contentupdatedcallbacks",
+        "returns"
+      ]
+    },
+    {
+      "path": "/typedoc/client/variables/dataSymbol.html",
+      "anchors": [
+        "variable-datasymbol"
+      ]
+    },
+    {
+      "path": "/typedoc/client/variables/emptyAddonName.html",
+      "anchors": [
+        "variable-emptyaddonname"
+      ]
+    },
+    {
+      "path": "/typedoc/client/variables/name.html",
+      "anchors": [
+        "variable-name"
+      ]
+    },
+    {
+      "path": "/typedoc/client/variables/officialAddons.html",
+      "anchors": [
+        "variable-officialaddons"
+      ]
+    },
+    {
+      "path": "/typedoc/client/variables/resolvedHeaders.html",
+      "anchors": [
+        "variable-resolvedheaders",
+        "type-declaration",
+        "element",
+        "link",
+        "ref"
+      ]
+    },
+    {
+      "path": "/typedoc/client/variables/runContentUpdated.html",
+      "anchors": [
+        "variable-runcontentupdated",
+        "returns"
+      ]
+    },
+    {
+      "path": "/typedoc/client/variables/useAppStore.html",
+      "anchors": [
+        "variable-useappstore",
+        "example"
+      ]
+    },
+    {
+      "path": "/typedoc/client/variables/useRouterStore.html",
+      "anchors": [
+        "variable-userouterstore"
+      ]
+    },
+    {
+      "path": "/typedoc/client/variables/useSiteStore.html",
+      "anchors": [
+        "variable-usesitestore"
+      ]
+    },
+    {
+      "path": "/typedoc/client/variables/valaxyConfigRef.html",
+      "anchors": [
+        "variable-valaxyconfigref"
+      ]
+    },
+    {
+      "path": "/typedoc/client/variables/valaxyConfigSymbol.html",
+      "anchors": [
+        "variable-valaxyconfigsymbol"
+      ]
+    },
+    {
+      "path": "/typedoc/client/variables/valaxyContextRef.html",
+      "anchors": [
+        "variable-valaxycontextref"
+      ]
+    },
+    {
+      "path": "/typedoc/index.html",
+      "anchors": [
+        "valaxy",
+        "modules"
+      ]
+    },
+    {
+      "path": "/typedoc/node/classes/StateManager.html",
+      "anchors": [
+        "class-statemanager",
+        "constructors",
+        "constructor",
+        "returns",
+        "properties",
+        "idmap",
+        "zh",
+        "accessors",
+        "size",
+        "get-signature",
+        "returns-1",
+        "methods",
+        "clear",
+        "returns-2",
+        "delete",
+        "parameters",
+        "id",
+        "returns-3",
+        "dispose",
+        "returns-4",
+        "get",
+        "parameters-1",
+        "id-1",
+        "returns-5",
+        "ondispose",
+        "parameters-2",
+        "dispose-1",
+        "returns-6",
+        "set",
+        "parameters-3",
+        "fileinfo",
+        "returns-7",
+        "take",
+        "parameters-4",
+        "id-2",
+        "returns-8"
+      ]
+    },
+    {
+      "path": "/typedoc/node/functions/$t.html",
+      "anchors": [
+        "function-t",
+        "parameters",
+        "key",
+        "returns",
+        "see"
+      ]
+    },
+    {
+      "path": "/typedoc/node/functions/ViteValaxyPlugins.html",
+      "anchors": [
+        "function-vitevalaxyplugins",
+        "parameters",
+        "valaxyapp",
+        "serveroptions",
+        "viteconfig",
+        "expectedbuilds",
+        "returns"
+      ]
+    },
+    {
+      "path": "/typedoc/node/functions/build.html",
+      "anchors": [
+        "function-build",
+        "parameters",
+        "valaxyapp",
+        "viteconfig",
+        "returns"
+      ]
+    },
+    {
+      "path": "/typedoc/node/functions/createCli.html",
+      "anchors": [
+        "function-createcli",
+        "parameters",
+        "argv",
+        "options",
+        "returns"
+      ]
+    },
+    {
+      "path": "/typedoc/node/functions/createContentService.html",
+      "anchors": [
+        "function-createcontentservice",
+        "parameters",
+        "app",
+        "settings",
+        "returns",
+        "checkpage",
+        "parameters-1",
+        "path",
+        "returns-1",
+        "dispose",
+        "returns-2",
+        "inspectpage",
+        "parameters-2",
+        "path-1",
+        "returns-3"
+      ]
+    },
+    {
+      "path": "/typedoc/node/functions/createMemoryReleasePlugin.html",
+      "anchors": [
+        "function-creatememoryreleaseplugin",
+        "parameters",
+        "state",
+        "releasethreshold",
+        "returns"
+      ]
+    },
+    {
+      "path": "/typedoc/node/functions/createServer.html",
+      "anchors": [
+        "function-createserver",
+        "parameters",
+        "valaxyapp",
+        "viteconfig",
+        "serveroptions",
+        "returns"
+      ]
+    },
+    {
+      "path": "/typedoc/node/functions/createValaxyNode.html",
+      "anchors": [
+        "function-createvalaxynode",
+        "parameters",
+        "options",
+        "returns"
+      ]
+    },
+    {
+      "path": "/typedoc/node/functions/defineContentLoader.html",
+      "anchors": [
+        "function-definecontentloader",
+        "parameters",
+        "loader",
+        "returns",
+        "see"
+      ]
+    },
+    {
+      "path": "/typedoc/node/functions/defineSiteConfig.html",
+      "anchors": [
+        "function-definesiteconfig",
+        "parameters",
+        "config",
+        "returns"
+      ]
+    },
+    {
+      "path": "/typedoc/node/functions/defineUnoSetup.html",
+      "anchors": [
+        "function-defineunosetup",
+        "parameters",
+        "fn",
+        "returns"
+      ]
+    },
+    {
+      "path": "/typedoc/node/functions/defineValaxyAddon.html",
+      "anchors": [
+        "function-definevalaxyaddon",
+        "type-parameters",
+        "addonoptions",
+        "parameters",
+        "addonfunc",
+        "returns"
+      ]
+    },
+    {
+      "path": "/typedoc/node/functions/defineValaxyConfig.html",
+      "anchors": [
+        "function-definevalaxyconfig",
+        "type-parameters",
+        "themeconfig",
+        "parameters",
+        "config",
+        "returns"
+      ]
+    },
+    {
+      "path": "/typedoc/node/functions/defineValaxyTheme.html",
+      "anchors": [
+        "function-definevalaxytheme",
+        "type-parameters",
+        "themeconfig",
+        "parameters",
+        "theme",
+        "returns"
+      ]
+    },
+    {
+      "path": "/typedoc/node/functions/encryptContent.html",
+      "anchors": [
+        "function-encryptcontent",
+        "parameters",
+        "content",
+        "options",
+        "iv",
+        "password",
+        "salt",
+        "returns",
+        "see"
+      ]
+    },
+    {
+      "path": "/typedoc/node/functions/execBuild.html",
+      "anchors": [
+        "function-execbuild",
+        "parameters",
+        "namedparameters",
+        "log",
+        "output",
+        "root",
+        "siteurl",
+        "ssg",
+        "returns"
+      ]
+    },
+    {
+      "path": "/typedoc/node/functions/generateClientRedirects.html",
+      "anchors": [
+        "function-generateclientredirects",
+        "parameters",
+        "options",
+        "returns"
+      ]
+    },
+    {
+      "path": "/typedoc/node/functions/getGitTimestamp.html",
+      "anchors": [
+        "function-getgittimestamp",
+        "parameters",
+        "file",
+        "type",
+        "returns"
+      ]
+    },
+    {
+      "path": "/typedoc/node/functions/getServerInfoText.html",
+      "anchors": [
+        "function-getserverinfotext",
+        "parameters",
+        "msg",
+        "returns"
+      ]
+    },
+    {
+      "path": "/typedoc/node/functions/isExternal.html",
+      "anchors": [
+        "function-isexternal",
+        "parameters",
+        "str",
+        "returns"
+      ]
+    },
+    {
+      "path": "/typedoc/node/functions/isKatexEnabled.html",
+      "anchors": [
+        "function-iskatexenabled",
+        "parameters",
+        "config",
+        "returns"
+      ]
+    },
+    {
+      "path": "/typedoc/node/functions/isKatexPluginNeeded.html",
+      "anchors": [
+        "function-iskatexpluginneeded",
+        "parameters",
+        "config",
+        "returns"
+      ]
+    },
+    {
+      "path": "/typedoc/node/functions/isMathJaxEnabled.html",
+      "anchors": [
+        "function-ismathjaxenabled",
+        "parameters",
+        "config",
+        "returns"
+      ]
+    },
+    {
+      "path": "/typedoc/node/functions/isPath.html",
+      "anchors": [
+        "function-ispath",
+        "parameters",
+        "name",
+        "returns"
+      ]
+    },
+    {
+      "path": "/typedoc/node/functions/loadConfigFromFile.html",
+      "anchors": [
+        "function-loadconfigfromfile",
+        "type-parameters",
+        "t",
+        "parameters",
+        "name",
+        "options",
+        "returns"
+      ]
+    },
+    {
+      "path": "/typedoc/node/functions/postProcessForSSG.html",
+      "anchors": [
+        "function-postprocessforssg",
+        "parameters",
+        "options",
+        "returns"
+      ]
+    },
+    {
+      "path": "/typedoc/node/functions/processValaxyOptions.html",
+      "anchors": [
+        "function-processvalaxyoptions",
+        "parameters",
+        "valaxyoptions",
+        "valaxyconfig",
+        "returns"
+      ]
+    },
+    {
+      "path": "/typedoc/node/functions/registerDevCommand.html",
+      "anchors": [
+        "function-registerdevcommand",
+        "parameters",
+        "cli",
+        "returns"
+      ]
+    },
+    {
+      "path": "/typedoc/node/functions/resolveAddonsConfig.html",
+      "anchors": [
+        "function-resolveaddonsconfig",
+        "parameters",
+        "addons",
+        "options",
+        "returns"
+      ]
+    },
+    {
+      "path": "/typedoc/node/functions/resolveImportPath.html",
+      "anchors": [
+        "function-resolveimportpath",
+        "call-signature",
+        "parameters",
+        "importname",
+        "ensure",
+        "returns",
+        "call-signature-1",
+        "parameters-1",
+        "importname-1",
+        "ensure-1",
+        "returns-1"
+      ]
+    },
+    {
+      "path": "/typedoc/node/functions/resolveImportUrl.html",
+      "anchors": [
+        "function-resolveimporturl",
+        "parameters",
+        "id",
+        "returns"
+      ]
+    },
+    {
+      "path": "/typedoc/node/functions/resolveOptions.html",
+      "anchors": [
+        "function-resolveoptions",
+        "parameters",
+        "options",
+        "mode",
+        "returns"
+      ]
+    },
+    {
+      "path": "/typedoc/node/functions/resolveSiteConfig.html",
+      "anchors": [
+        "function-resolvesiteconfig",
+        "parameters",
+        "root",
+        "returns"
+      ]
+    },
+    {
+      "path": "/typedoc/node/functions/resolveSiteConfigFromRoot.html",
+      "anchors": [
+        "function-resolvesiteconfigfromroot",
+        "parameters",
+        "root",
+        "returns"
+      ]
+    },
+    {
+      "path": "/typedoc/node/functions/resolveThemeConfigFromRoot.html",
+      "anchors": [
+        "function-resolvethemeconfigfromroot",
+        "parameters",
+        "root",
+        "returns"
+      ]
+    },
+    {
+      "path": "/typedoc/node/functions/resolveThemeValaxyConfig.html",
+      "anchors": [
+        "function-resolvethemevalaxyconfig",
+        "parameters",
+        "options",
+        "returns"
+      ]
+    },
+    {
+      "path": "/typedoc/node/functions/resolveUserThemeConfig.html",
+      "anchors": [
+        "function-resolveuserthemeconfig",
+        "parameters",
+        "options",
+        "themeroot",
+        "userroot",
+        "returns"
+      ]
+    },
+    {
+      "path": "/typedoc/node/functions/resolveValaxyConfig.html",
+      "anchors": [
+        "function-resolvevalaxyconfig",
+        "parameters",
+        "options",
+        "returns"
+      ]
+    },
+    {
+      "path": "/typedoc/node/functions/resolveValaxyConfigFromRoot.html",
+      "anchors": [
+        "function-resolvevalaxyconfigfromroot",
+        "parameters",
+        "root",
+        "options",
+        "returns"
+      ]
+    },
+    {
+      "path": "/typedoc/node/functions/run.html",
+      "anchors": [
+        "function-run",
+        "parameters",
+        "argv",
+        "options",
+        "returns"
+      ]
+    },
+    {
+      "path": "/typedoc/node/functions/ssgBuild.html",
+      "anchors": [
+        "function-ssgbuild",
+        "parameters",
+        "valaxyapp",
+        "viteconfig",
+        "userssgoptions",
+        "returns"
+      ]
+    },
+    {
+      "path": "/typedoc/node/functions/startValaxyDev.html",
+      "anchors": [
+        "function-startvalaxydev",
+        "parameters",
+        "namedparameters",
+        "log",
+        "open",
+        "port",
+        "remote",
+        "root",
+        "vite",
+        "returns"
+      ]
+    },
+    {
+      "path": "/typedoc/node/functions/toAtFS.html",
+      "anchors": [
+        "function-toatfs",
+        "parameters",
+        "path",
+        "returns"
+      ]
+    },
+    {
+      "path": "/typedoc/node/functions/transformObject.html",
+      "anchors": [
+        "function-transformobject",
+        "parameters",
+        "obj",
+        "returns"
+      ]
+    },
+    {
+      "path": "/typedoc/node/index.html",
+      "anchors": [
+        "node",
+        "classes",
+        "interfaces",
+        "type-aliases",
+        "variables",
+        "functions"
+      ]
+    },
+    {
+      "path": "/typedoc/node/interfaces/CdnModule.html",
+      "anchors": [
+        "interface-cdnmodule",
+        "properties",
+        "css",
+        "example",
+        "exports",
+        "example-1",
+        "global",
+        "example-2",
+        "name",
+        "example-3",
+        "url",
+        "example-4"
+      ]
+    },
+    {
+      "path": "/typedoc/node/interfaces/ContentCheckResult.html",
+      "anchors": [
+        "interface-contentcheckresult",
+        "properties",
+        "diagnostics",
+        "ok",
+        "page",
+        "path",
+        "totaldiagnostics"
+      ]
+    },
+    {
+      "path": "/typedoc/node/interfaces/ContentDiagnostic.html",
+      "anchors": [
+        "interface-contentdiagnostic",
+        "properties",
+        "code",
+        "hint",
+        "line",
+        "message",
+        "severity"
+      ]
+    },
+    {
+      "path": "/typedoc/node/interfaces/ContentItem.html",
+      "anchors": [
+        "interface-contentitem",
+        "properties",
+        "content",
+        "digest",
+        "path"
+      ]
+    },
+    {
+      "path": "/typedoc/node/interfaces/ContentLoader.html",
+      "anchors": [
+        "interface-contentloader",
+        "properties",
+        "devpollinterval",
+        "load",
+        "parameters",
+        "ctx",
+        "returns",
+        "name",
+        "transform",
+        "parameters-1",
+        "item",
+        "returns-1"
+      ]
+    },
+    {
+      "path": "/typedoc/node/interfaces/ContentLoaderContext.html",
+      "anchors": [
+        "interface-contentloadercontext",
+        "properties",
+        "cachedir",
+        "mode",
+        "node"
+      ]
+    },
+    {
+      "path": "/typedoc/node/interfaces/ContentPageInfo.html",
+      "anchors": [
+        "interface-contentpageinfo",
+        "properties",
+        "draft",
+        "hidden",
+        "includedinproductionroutes",
+        "metadata",
+        "path",
+        "routes",
+        "aliases",
+        "layout",
+        "path-1",
+        "previewpath"
+      ]
+    },
+    {
+      "path": "/typedoc/node/interfaces/ContentServiceOptions.html",
+      "anchors": [
+        "interface-contentserviceoptions",
+        "properties",
+        "base",
+        "includedrafts",
+        "publicdir",
+        "publiconly"
+      ]
+    },
+    {
+      "path": "/typedoc/node/interfaces/CreateCliOptions.html",
+      "anchors": [
+        "interface-createclioptions",
+        "properties",
+        "userroot"
+      ]
+    },
+    {
+      "path": "/typedoc/node/interfaces/GroupIconOptions.html",
+      "anchors": [
+        "interface-groupiconoptions",
+        "properties",
+        "customicon",
+        "defaultlabels"
+      ]
+    },
+    {
+      "path": "/typedoc/node/interfaces/LoadConfigFromFileOptions.html",
+      "anchors": [
+        "interface-loadconfigfromfileoptions",
+        "properties",
+        "cwd",
+        "valaxyoptions"
+      ]
+    },
+    {
+      "path": "/typedoc/node/interfaces/MdAfterRenderContext.html",
+      "anchors": [
+        "interface-mdafterrendercontext",
+        "properties",
+        "content",
+        "data",
+        "excerpt",
+        "path",
+        "rendermarkdown",
+        "parameters",
+        "source",
+        "env",
+        "returns",
+        "route"
+      ]
+    },
+    {
+      "path": "/typedoc/node/interfaces/ResolvedConfig.html",
+      "anchors": [
+        "interface-resolvedconfig-t",
+        "type-parameters",
+        "t",
+        "properties",
+        "config",
+        "configfile"
+      ]
+    },
+    {
+      "path": "/typedoc/node/interfaces/ResolvedValaxyOptions.html",
+      "anchors": [
+        "interface-resolvedvalaxyoptions-themeconfig",
+        "type-parameters",
+        "themeconfig",
+        "properties",
+        "addonroots",
+        "addons",
+        "clientroot",
+        "default",
+        "config",
+        "type-declaration",
+        "runtimeconfig",
+        "configfile",
+        "env",
+        "type-declaration-1",
+        "links",
+        "mode",
+        "pages",
+        "pkgroot",
+        "redirects",
+        "roots",
+        "siteconfigfile",
+        "tempdir",
+        "theme",
+        "themeconfigfile",
+        "themeroot",
+        "userroot",
+        "default-1"
+      ]
+    },
+    {
+      "path": "/typedoc/node/interfaces/ValaxyAddonCliContext.html",
+      "anchors": [
+        "interface-valaxyaddonclicontext",
+        "properties",
+        "userroot"
+      ]
+    },
+    {
+      "path": "/typedoc/node/interfaces/ValaxyAddonResolver.html",
+      "anchors": [
+        "interface-valaxyaddonresolver",
+        "properties",
+        "configfile",
+        "devtools",
+        "enable",
+        "extendcli",
+        "global",
+        "name",
+        "options",
+        "pkg",
+        "props",
+        "root",
+        "setup",
+        "parameters",
+        "node",
+        "returns"
+      ]
+    },
+    {
+      "path": "/typedoc/node/interfaces/ValaxyEntryOptions.html",
+      "anchors": [
+        "interface-valaxyentryoptions",
+        "properties",
+        "theme",
+        "userroot"
+      ]
+    },
+    {
+      "path": "/typedoc/node/interfaces/ValaxyExtendConfig.html",
+      "anchors": [
+        "interface-valaxyextendconfig",
+        "properties",
+        "addons",
+        "en",
+        "zh",
+        "see",
+        "example",
+        "build",
+        "foucguard",
+        "en-1",
+        "zh-1",
+        "foucguard-enabled",
+        "en-2",
+        "zh-2",
+        "default",
+        "foucguard-maxduration",
+        "en-3",
+        "zh-3",
+        "default-1",
+        "ignoredeadlinks",
+        "zh-4",
+        "default-2",
+        "ssgforpagination",
+        "en-4",
+        "zh-5",
+        "default-3",
+        "taxonomyi18n",
+        "en-5",
+        "zh-6",
+        "taxonomyi18n-level",
+        "en-6",
+        "zh-7",
+        "default-4",
+        "cdn",
+        "modules",
+        "default-5",
+        "see-1",
+        "components",
+        "see-2",
+        "default-6",
+        "deploy",
+        "type",
+        "zh-8",
+        "en-7",
+        "devtools",
+        "see-3",
+        "extendmd",
+        "parameters",
+        "ctx",
+        "content",
+        "data",
+        "excerpt",
+        "path",
+        "route",
+        "returns",
+        "en-8",
+        "zh-9",
+        "features",
+        "extractfirstimage",
+        "default-7",
+        "katex",
+        "see-4",
+        "default-8",
+        "fuse",
+        "extendkeys",
+        "default-9",
+        "groupicons",
+        "see-5",
+        "hooks",
+        "en-9",
+        "zh-10",
+        "see-6",
+        "layouts",
+        "see-7",
+        "loaders",
+        "see-8",
+        "markdown",
+        "en-10",
+        "zh-11",
+        "math",
+        "see-9",
+        "default-10",
+        "mcp",
+        "union-members",
+        "type-literal",
+        "includedrafts",
+        "zh-12",
+        "default-11",
+        "modules-1",
+        "rss",
+        "rss-enable",
+        "rss-extractimagepathsfromhtml",
+        "zh-13",
+        "en-11",
+        "default-12",
+        "rss-fulltext",
+        "zh-14",
+        "en-12",
+        "default-13",
+        "router",
+        "see-10",
+        "unocss",
+        "see-11",
+        "unocsspresets",
+        "attributify",
+        "icons",
+        "typography",
+        "wind4",
+        "see-12",
+        "visualizer",
+        "see-13",
+        "vite",
+        "see-14",
+        "vue",
+        "type-declaration",
+        "browsertemplatecompilation",
+        "valaxy",
+        "see-15",
+        "default-14",
+        "description",
+        "iscustomelement",
+        "parameters-1",
+        "tag",
+        "returns-1",
+        "valaxy-1",
+        "see-16"
+      ]
+    },
+    {
+      "path": "/typedoc/node/interfaces/ValaxyFileInfo.html",
+      "anchors": [
+        "interface-valaxyfileinfo",
+        "properties",
+        "frontmatter",
+        "headers",
+        "id",
+        "links",
+        "title"
+      ]
+    },
+    {
+      "path": "/typedoc/node/interfaces/ValaxyHooks.html",
+      "anchors": [
+        "interface-valaxyhooks",
+        "properties",
+        "build-after",
+        "returns",
+        "build-before",
+        "returns-1",
+        "config-init",
+        "returns-2",
+        "content-before-load",
+        "returns-3",
+        "see",
+        "content-loaded",
+        "returns-4",
+        "see-1",
+        "md-afterrender",
+        "parameters",
+        "ctx",
+        "returns-5",
+        "see-2",
+        "options-resolved",
+        "returns-6",
+        "statistics",
+        "parameters-1",
+        "ctx-1",
+        "options",
+        "options-enable",
+        "options-readtime",
+        "options-readtime-speed",
+        "options-readtime-speed-cn",
+        "options-readtime-speed-en",
+        "route",
+        "returns-7",
+        "vue-router-beforewritefiles",
+        "parameters-2",
+        "root",
+        "returns-8",
+        "vue-router-extendroute",
+        "parameters-3",
+        "route-1",
+        "returns-9",
+        "see-3"
+      ]
+    },
+    {
+      "path": "/typedoc/node/interfaces/ValaxyNode.html",
+      "anchors": [
+        "interface-valaxynode",
+        "properties",
+        "hook",
+        "type-parameters",
+        "namet",
+        "parameters",
+        "name",
+        "function",
+        "options",
+        "allowdeprecated",
+        "returns",
+        "hooks",
+        "options-1",
+        "version"
+      ]
+    },
+    {
+      "path": "/typedoc/node/interfaces/ValaxyServerOptions.html",
+      "anchors": [
+        "interface-valaxyserveroptions",
+        "properties",
+        "onconfigreload",
+        "parameters",
+        "newconfig",
+        "config",
+        "force",
+        "returns"
+      ]
+    },
+    {
+      "path": "/typedoc/node/type-aliases/GroupIconValue.html",
+      "anchors": [
+        "type-alias-groupiconvalue"
+      ]
+    },
+    {
+      "path": "/typedoc/node/type-aliases/HookResult.html",
+      "anchors": [
+        "type-alias-hookresult"
+      ]
+    },
+    {
+      "path": "/typedoc/node/type-aliases/UnoSetup.html",
+      "anchors": [
+        "type-alias-unosetup",
+        "returns"
+      ]
+    },
+    {
+      "path": "/typedoc/node/type-aliases/UserInputConfig.html",
+      "anchors": [
+        "type-alias-userinputconfig"
+      ]
+    },
+    {
+      "path": "/typedoc/node/type-aliases/UserValaxyNodeConfig.html",
+      "anchors": [
+        "type-alias-uservalaxynodeconfig-themeconfig",
+        "type-parameters",
+        "themeconfig"
+      ]
+    },
+    {
+      "path": "/typedoc/node/type-aliases/ValaxyAddonExport.html",
+      "anchors": [
+        "type-alias-valaxyaddonexport-themeconfig",
+        "type-parameters",
+        "themeconfig"
+      ]
+    },
+    {
+      "path": "/typedoc/node/type-aliases/ValaxyAddonExtendCli.html",
+      "anchors": [
+        "type-alias-valaxyaddonextendcli",
+        "parameters",
+        "cli",
+        "context",
+        "returns"
+      ]
+    },
+    {
+      "path": "/typedoc/node/type-aliases/ValaxyAddonFn.html",
+      "anchors": [
+        "type-alias-valaxyaddonfn-themeconfig",
+        "type-parameters",
+        "themeconfig",
+        "parameters",
+        "addonoptions",
+        "valaxyoptions",
+        "returns"
+      ]
+    },
+    {
+      "path": "/typedoc/node/type-aliases/ValaxyAddonLike.html",
+      "anchors": [
+        "type-alias-valaxyaddonlike"
+      ]
+    },
+    {
+      "path": "/typedoc/node/type-aliases/ValaxyAddons.html",
+      "anchors": [
+        "type-alias-valaxyaddons"
+      ]
+    },
+    {
+      "path": "/typedoc/node/type-aliases/ValaxyApp.html",
+      "anchors": [
+        "type-alias-valaxyapp"
+      ]
+    },
+    {
+      "path": "/typedoc/node/type-aliases/ValaxyConfigExport.html",
+      "anchors": [
+        "type-alias-valaxyconfigexport-themeconfig",
+        "type-parameters",
+        "themeconfig"
+      ]
+    },
+    {
+      "path": "/typedoc/node/type-aliases/ValaxyConfigExtendKey.html",
+      "anchors": [
+        "type-alias-valaxyconfigextendkey"
+      ]
+    },
+    {
+      "path": "/typedoc/node/type-aliases/ValaxyConfigFn.html",
+      "anchors": [
+        "type-alias-valaxyconfigfn-themeconfig",
+        "type-parameters",
+        "themeconfig",
+        "parameters",
+        "options",
+        "returns"
+      ]
+    },
+    {
+      "path": "/typedoc/node/type-aliases/ValaxyNodeAddon.html",
+      "anchors": [
+        "type-alias-valaxynodeaddon",
+        "type-declaration",
+        "devtools",
+        "extendcli",
+        "setup"
+      ]
+    },
+    {
+      "path": "/typedoc/node/type-aliases/ValaxyNodeConfig.html",
+      "anchors": [
+        "type-alias-valaxynodeconfig-themeconfig",
+        "type-parameters",
+        "themeconfig"
+      ]
+    },
+    {
+      "path": "/typedoc/node/type-aliases/ValaxyPickConfig.html",
+      "anchors": [
+        "type-alias-valaxypickconfig"
+      ]
+    },
+    {
+      "path": "/typedoc/node/type-aliases/ValaxyTheme.html",
+      "anchors": [
+        "type-alias-valaxytheme-themeconfig",
+        "type-declaration",
+        "themeconfig",
+        "type-parameters",
+        "themeconfig-1"
+      ]
+    },
+    {
+      "path": "/typedoc/node/variables/ALL_ROUTE.html",
+      "anchors": [
+        "variable-all-route"
+      ]
+    },
+    {
+      "path": "/typedoc/node/variables/EXCERPT_SEPARATOR.html",
+      "anchors": [
+        "variable-excerpt-separator"
+      ]
+    },
+    {
+      "path": "/typedoc/node/variables/GLOBAL_STATE.html",
+      "anchors": [
+        "variable-global-state",
+        "type-declaration",
+        "server",
+        "valaxyapp"
+      ]
+    },
+    {
+      "path": "/typedoc/node/variables/PATHNAME_PROTOCOL_RE.html",
+      "anchors": [
+        "variable-pathname-protocol-re"
+      ]
+    },
+    {
+      "path": "/typedoc/node/variables/customElements.html",
+      "anchors": [
+        "variable-customelements"
+      ]
+    },
+    {
+      "path": "/typedoc/node/variables/defaultSiteConfig.html",
+      "anchors": [
+        "variable-defaultsiteconfig"
+      ]
+    },
+    {
+      "path": "/typedoc/node/variables/defaultValaxyConfig.html",
+      "anchors": [
+        "variable-defaultvalaxyconfig"
+      ]
+    },
+    {
+      "path": "/typedoc/node/variables/defaultViteConfig.html",
+      "anchors": [
+        "variable-defaultviteconfig",
+        "see"
+      ]
+    },
+    {
+      "path": "/typedoc/node/variables/defineAddon.html",
+      "anchors": [
+        "variable-defineaddon",
+        "type-parameters",
+        "addonoptions",
+        "parameters",
+        "addonfunc",
+        "returns"
+      ]
+    },
+    {
+      "path": "/typedoc/node/variables/defineConfig.html",
+      "anchors": [
+        "variable-defineconfig",
+        "type-parameters",
+        "themeconfig",
+        "parameters",
+        "config",
+        "returns"
+      ]
+    },
+    {
+      "path": "/typedoc/node/variables/defineTheme.html",
+      "anchors": [
+        "variable-definetheme",
+        "type-parameters",
+        "themeconfig",
+        "parameters",
+        "theme",
+        "returns"
+      ]
+    },
+    {
+      "path": "/typedoc/node/variables/desktopRuntimeVersion.html",
+      "anchors": [
+        "variable-desktopruntimeversion"
+      ]
+    },
+    {
+      "path": "/typedoc/node/variables/isInstalledGlobally.html",
+      "anchors": [
+        "variable-isinstalledglobally",
+        "type-declaration",
+        "value"
+      ]
+    },
+    {
+      "path": "/typedoc/node/variables/mergeValaxyConfig.html",
+      "anchors": [
+        "variable-mergevalaxyconfig"
+      ]
+    },
+    {
+      "path": "/typedoc/node/variables/version.html",
+      "anchors": [
+        "variable-version"
+      ]
+    },
+    {
+      "path": "/typedoc/types/index.html",
+      "anchors": [
+        "types",
+        "namespaces",
+        "interfaces",
+        "type-aliases"
+      ]
+    },
+    {
+      "path": "/typedoc/types/interfaces/Album.html",
+      "anchors": [
+        "interface-album",
+        "properties",
+        "caption",
+        "cover",
+        "desc",
+        "url"
+      ]
+    },
+    {
+      "path": "/typedoc/types/interfaces/BaseFrontMatter.html",
+      "anchors": [
+        "interface-basefrontmatter",
+        "extends",
+        "extended-by",
+        "indexable",
+        "properties",
+        "date",
+        "title",
+        "description",
+        "updated"
+      ]
+    },
+    {
+      "path": "/typedoc/types/interfaces/FuseListItem.html",
+      "anchors": [
+        "interface-fuselistitem",
+        "extends",
+        "indexable",
+        "properties",
+        "author",
+        "categories",
+        "content",
+        "excerpt",
+        "link",
+        "tags",
+        "title"
+      ]
+    },
+    {
+      "path": "/typedoc/types/interfaces/PageData.html",
+      "anchors": [
+        "interface-pagedata",
+        "properties",
+        "description",
+        "filepath",
+        "frontmatter",
+        "headers",
+        "lastupdated",
+        "relativepath",
+        "title",
+        "titletemplate"
+      ]
+    },
+    {
+      "path": "/typedoc/types/interfaces/PageDataPayload.html",
+      "anchors": [
+        "interface-pagedatapayload",
+        "properties",
+        "pagedata",
+        "path"
+      ]
+    },
+    {
+      "path": "/typedoc/types/interfaces/PageFrontMatter.html",
+      "anchors": [
+        "interface-pagefrontmatter",
+        "extends",
+        "extended-by",
+        "indexable",
+        "properties",
+        "abbrlink",
+        "albums",
+        "aside",
+        "description",
+        "author",
+        "description-1",
+        "codeheightlimit",
+        "codepen",
+        "url",
+        "collections",
+        "comment",
+        "copyright",
+        "description-2",
+        "cover",
+        "description-3",
+        "date",
+        "inherited-from",
+        "encrypt",
+        "encryptedcontent",
+        "en",
+        "description-4",
+        "encryptedphotos",
+        "end",
+        "description-5",
+        "from",
+        "gallery-password",
+        "icon",
+        "description-6",
+        "image",
+        "katex",
+        "url-1",
+        "lang",
+        "markdownclass",
+        "default",
+        "medium-zoom",
+        "url-2",
+        "ogimage",
+        "pagetitleclass",
+        "partiallyencryptedcontents",
+        "password",
+        "password-hint",
+        "path",
+        "description-7",
+        "photos",
+        "sidebar",
+        "description-8",
+        "sponsor",
+        "description-9",
+        "title",
+        "description-10",
+        "inherited-from-1",
+        "toc",
+        "description-11",
+        "updated",
+        "inherited-from-2"
+      ]
+    },
+    {
+      "path": "/typedoc/types/interfaces/Photo.html",
+      "anchors": [
+        "interface-photo",
+        "properties",
+        "caption",
+        "desc",
+        "src"
+      ]
+    },
+    {
+      "path": "/typedoc/types/interfaces/Pkg.html",
+      "anchors": [
+        "interface-pkg",
+        "indexable",
+        "properties",
+        "homepage",
+        "name",
+        "version"
+      ]
+    },
+    {
+      "path": "/typedoc/types/interfaces/PostFrontMatter.html",
+      "anchors": [
+        "interface-postfrontmatter",
+        "extends",
+        "indexable",
+        "properties",
+        "abbrlink",
+        "inherited-from",
+        "albums",
+        "inherited-from-1",
+        "aside",
+        "description",
+        "inherited-from-2",
+        "author",
+        "description-1",
+        "inherited-from-3",
+        "categories",
+        "codeheightlimit",
+        "inherited-from-4",
+        "codepen",
+        "url",
+        "inherited-from-5",
+        "collections",
+        "inherited-from-6",
+        "comment",
+        "inherited-from-7",
+        "copyright",
+        "description-2",
+        "inherited-from-8",
+        "cover",
+        "description-3",
+        "inherited-from-9",
+        "date",
+        "inherited-from-10",
+        "draft",
+        "encrypt",
+        "inherited-from-11",
+        "encryptedcontent",
+        "en",
+        "description-4",
+        "inherited-from-12",
+        "encryptedphotos",
+        "inherited-from-13",
+        "end",
+        "description-5",
+        "inherited-from-14",
+        "excerpt",
+        "description-6",
+        "excerpt-type",
+        "description-7",
+        "default",
+        "from",
+        "inherited-from-15",
+        "gallery-password",
+        "inherited-from-16",
+        "hide",
+        "description-8",
+        "icon",
+        "description-9",
+        "inherited-from-17",
+        "image",
+        "inherited-from-18",
+        "katex",
+        "url-1",
+        "inherited-from-19",
+        "lang",
+        "inherited-from-20",
+        "markdownclass",
+        "default-1",
+        "inherited-from-21",
+        "medium-zoom",
+        "url-2",
+        "inherited-from-22",
+        "nav",
+        "ogimage",
+        "inherited-from-23",
+        "pagetitleclass",
+        "inherited-from-24",
+        "partiallyencryptedcontents",
+        "inherited-from-25",
+        "password",
+        "inherited-from-26",
+        "password-hint",
+        "inherited-from-27",
+        "path",
+        "description-10",
+        "inherited-from-28",
+        "photos",
+        "inherited-from-29",
+        "posttitleclass",
+        "sidebar",
+        "description-11",
+        "inherited-from-30",
+        "sponsor",
+        "description-12",
+        "inherited-from-31",
+        "tags",
+        "time-warning",
+        "en-1",
+        "zh",
+        "example",
+        "title",
+        "description-13",
+        "inherited-from-32",
+        "toc",
+        "description-14",
+        "inherited-from-33",
+        "top",
+        "type",
+        "updated",
+        "inherited-from-34",
+        "url-3",
+        "en-2",
+        "zh-1"
+      ]
+    },
+    {
+      "path": "/typedoc/types/interfaces/RedirectItem.html",
+      "anchors": [
+        "interface-redirectitem",
+        "properties",
+        "from",
+        "to"
+      ]
+    },
+    {
+      "path": "/typedoc/types/interfaces/RedirectRule.html",
+      "anchors": [
+        "interface-redirectrule",
+        "properties",
+        "from",
+        "to"
+      ]
+    },
+    {
+      "path": "/typedoc/types/interfaces/RuntimeConfig.html",
+      "anchors": [
+        "interface-runtimeconfig",
+        "properties",
+        "addons",
+        "redirects",
+        "redirectroutes",
+        "usevuerouter"
+      ]
+    },
+    {
+      "path": "/typedoc/types/interfaces/SiteConfig.html",
+      "anchors": [
+        "interface-siteconfig",
+        "properties",
+        "author",
+        "avatar",
+        "email",
+        "intro",
+        "zh",
+        "link",
+        "name",
+        "description",
+        "status",
+        "description-1",
+        "status-emoji",
+        "description-2",
+        "status-message",
+        "description-3",
+        "description-4",
+        "cdn",
+        "prefix",
+        "default",
+        "default-1",
+        "codeheightlimit",
+        "comment",
+        "enable",
+        "description-5",
+        "encrypt",
+        "algorithm",
+        "default-2",
+        "enable-1",
+        "iv",
+        "salt",
+        "description-6",
+        "excerpt",
+        "auto",
+        "default-3",
+        "length",
+        "default-4",
+        "type",
+        "default-5",
+        "favicon",
+        "feed",
+        "favicon-1",
+        "name-1",
+        "default-6",
+        "floatingvue",
+        "see",
+        "frontmatter",
+        "fuse",
+        "datapath",
+        "default-7",
+        "description-7",
+        "options",
+        "type-declaration",
+        "keys",
+        "default-8",
+        "see-1",
+        "see-2",
+        "pattern",
+        "default-9",
+        "see-3",
+        "description-8",
+        "lang",
+        "description-9",
+        "default-10",
+        "languages",
+        "description-10",
+        "en",
+        "zh-1",
+        "default-11",
+        "see-4",
+        "lastupdated",
+        "default-12",
+        "license",
+        "enabled",
+        "description-11",
+        "default-13",
+        "language",
+        "description-12",
+        "default-14",
+        "type-1",
+        "description-13",
+        "default-15",
+        "description-14",
+        "default-16",
+        "llms",
+        "enable-2",
+        "zh-2",
+        "en-1",
+        "default-17",
+        "files",
+        "zh-3",
+        "en-2",
+        "default-18",
+        "fulltext",
+        "zh-4",
+        "en-3",
+        "default-19",
+        "include",
+        "zh-5",
+        "en-4",
+        "default-20",
+        "prompt",
+        "zh-6",
+        "en-5",
+        "default-21",
+        "zh-7",
+        "en-6",
+        "see-5",
+        "mediumzoom",
+        "enable-3",
+        "zh-8",
+        "options-1",
+        "zh-9",
+        "see-6",
+        "selector",
+        "default-22",
+        "url",
+        "mode",
+        "default-23",
+        "orderby",
+        "default-24",
+        "pagesize",
+        "default-25",
+        "redirects",
+        "rules",
+        "usevuerouter",
+        "search",
+        "enable-4",
+        "zh-10",
+        "provider",
+        "en-7",
+        "zh-11",
+        "social",
+        "sponsor",
+        "description-15",
+        "description-16",
+        "default-26",
+        "enable-5",
+        "methods",
+        "zh-12",
+        "title",
+        "description-17",
+        "default-27",
+        "description-18",
+        "statistics",
+        "enable-6",
+        "readtime",
+        "readtime-speed",
+        "readtime-speed-cn",
+        "description-19",
+        "default-28",
+        "readtime-speed-en",
+        "description-20",
+        "default-29",
+        "description-21",
+        "subtitle",
+        "timezone",
+        "see-7",
+        "default-30",
+        "title-1",
+        "description-22",
+        "url-1",
+        "vanillalazyload",
+        "enable-7",
+        "options-2",
+        "see-8"
+      ]
+    },
+    {
+      "path": "/typedoc/types/interfaces/SocialLink.html",
+      "anchors": [
+        "interface-sociallink",
+        "zh",
+        "properties",
+        "color",
+        "zh-1",
+        "icon",
+        "link",
+        "name"
+      ]
+    },
+    {
+      "path": "/typedoc/types/interfaces/ValaxyAddon.html",
+      "anchors": [
+        "interface-valaxyaddon-addonoptions",
+        "type-parameters",
+        "addonoptions",
+        "properties",
+        "enable",
+        "default",
+        "global",
+        "name",
+        "options",
+        "props"
+      ]
+    },
+    {
+      "path": "/typedoc/types/interfaces/ValaxyConfig.html",
+      "anchors": [
+        "interface-valaxyconfig-themeconfig",
+        "type-parameters",
+        "themeconfig",
+        "properties",
+        "devtools",
+        "runtimeconfig",
+        "en",
+        "zh",
+        "siteconfig",
+        "en-1",
+        "zh-1",
+        "see",
+        "theme",
+        "description",
+        "see-1",
+        "themeconfig-1",
+        "type-declaration",
+        "pkg",
+        "zh-2",
+        "description-1",
+        "see-2"
+      ]
+    },
+    {
+      "path": "/typedoc/types/namespaces/DefaultTheme/index.html",
+      "anchors": [
+        "defaulttheme",
+        "interfaces"
+      ]
+    },
+    {
+      "path": "/typedoc/types/namespaces/DefaultTheme/interfaces/Config.html",
+      "anchors": [
+        "interface-config",
+        "properties",
+        "outline",
+        "default",
+        "valaxydarkoptions",
+        "circletransition",
+        "zh",
+        "themecolor",
+        "zh-1",
+        "themecolor-dark",
+        "zh-2",
+        "themecolor-light",
+        "zh-3",
+        "usedarkoptions",
+        "see",
+        "url",
+        "zh-4"
+      ]
+    },
+    {
+      "path": "/typedoc/types/type-aliases/CleanUrlsMode.html",
+      "anchors": [
+        "type-alias-cleanurlsmode"
+      ]
+    },
+    {
+      "path": "/typedoc/types/type-aliases/ExcerptType.html",
+      "anchors": [
+        "type-alias-excerpttype"
+      ]
+    },
+    {
+      "path": "/typedoc/types/type-aliases/HeadConfig.html",
+      "anchors": [
+        "type-alias-headconfig"
+      ]
+    },
+    {
+      "path": "/typedoc/types/type-aliases/Page.html",
+      "anchors": [
+        "type-alias-page"
+      ]
+    },
+    {
+      "path": "/typedoc/types/type-aliases/PartialDeep.html",
+      "anchors": [
+        "type-alias-partialdeep-t",
+        "type-parameters",
+        "t"
+      ]
+    },
+    {
+      "path": "/typedoc/types/type-aliases/Post.html",
+      "anchors": [
+        "type-alias-post"
+      ]
+    },
+    {
+      "path": "/typedoc/types/type-aliases/UserSiteConfig.html",
+      "anchors": [
+        "type-alias-usersiteconfig"
+      ]
+    },
+    {
+      "path": "/typedoc/types/type-aliases/UserValaxyConfig.html",
+      "anchors": [
+        "type-alias-uservalaxyconfig-themeconfig",
+        "type-parameters",
+        "themeconfig",
+        "description"
+      ]
+    }
+  ]
+}

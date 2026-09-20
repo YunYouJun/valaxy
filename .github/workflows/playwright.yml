@@ -47,11 +47,17 @@ jobs:
       - name: Test addon marketplace with isolated package installation
         run: pnpm run test:devtools
 
+      - name: Test TypeDoc addon from packed release artifacts
+        run: node scripts/check-typedoc-package.mjs
+
       - name: Build Demo Dist
         run: pnpm run build:demo
 
       - name: Build Docs SSG
-        run: pnpm run docs:build
+        run: node scripts/measure-docs-build.mjs test-results/docs-build docs:build
+
+      - name: Verify API links and legacy redirects
+        run: pnpm run verify:api
 
       - name: Test production navigation and portals
         run: pnpm run e2e:ssg
@@ -63,6 +69,8 @@ jobs:
           path: |
             playwright-report-ssg/
             test-results-ssg/
+            test-results/docs-build/
+            test-results/typedoc-package/
           retention-days: 30
 
       - name: Run Playwright tests

@@ -71,6 +71,7 @@ export const themes = [
     icon: 'i-ri-seedling-line',
     repo: 'https://github.com/valaxyjs/valaxy-theme-starter',
     kind: 'official',
+    docsPath: '/themes/starter',
     description: {
       'en': 'The official starter template for creating a Valaxy theme.',
       'zh-CN': '用于创建 Valaxy 主题的官方起始模板。',

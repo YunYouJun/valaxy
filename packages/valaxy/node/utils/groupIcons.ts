@@ -2,7 +2,7 @@ import type { ResolvedValaxyOptions } from '../types'
 import { readFile } from 'node:fs/promises'
 import _debug from 'debug'
 import pMap from 'p-map'
-import { resolve } from 'pathe'
+import { resolvePageFile } from './pageSources'
 
 const debug = _debug('valaxy:group-icons')
 
@@ -33,14 +33,16 @@ const codeBlockTitleRE = /^[ \t]{0,3}`{3}[^\n[]*\[((?:[^[\]]|\[[^[\]]*\])*)\]/gm
  * we ensure icon CSS is always generated regardless of transform hook behavior.
  */
 export async function scanCodeBlockTitles(options: ResolvedValaxyOptions): Promise<string[]> {
-  const pagesDir = resolve(options.userRoot, 'pages')
   const titles = new Set<string>()
 
   await pMap(
     options.pages,
     async (page) => {
       try {
-        const content = await readFile(resolve(pagesDir, page), 'utf-8')
+        const file = resolvePageFile(page, options.userRoot)
+        if (!file)
+          return
+        const content = await readFile(file, 'utf-8')
         extractCodeBlockTitles(content, titles)
       }
       catch (error) {

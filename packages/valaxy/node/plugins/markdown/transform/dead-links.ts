@@ -4,6 +4,7 @@ import { slash } from '@antfu/utils'
 import fs from 'fs-extra'
 import path from 'pathe'
 import { EXTERNAL_URL_RE } from '../../../../shared'
+import { getPagePath, pagePathToRoute } from '../../../utils/pageSources'
 import { treatAsHtml } from '../utils'
 
 export function createScanDeadLinks(options: ResolvedValaxyOptions) {
@@ -16,6 +17,8 @@ export function createScanDeadLinks(options: ResolvedValaxyOptions) {
     const { links = [] } = fileInfo || {}
     const fileOrig = id
     const file = id
+    const logicalFile = getPagePath(file, options.userRoot) || path.relative(srcDir, file)
+    const routes = new Set(options.pages.map(pagePathToRoute))
 
     // validate data.links
     const deadLinks: MarkdownCompileResult['deadLinks'] = []
@@ -61,12 +64,12 @@ export function createScanDeadLinks(options: ResolvedValaxyOptions) {
           slash(
             url.startsWith('/')
               ? url.slice(1)
-              : path.relative(srcDir, path.resolve(dir, url)),
+              : path.normalize(path.join(path.dirname(logicalFile), url)),
           ),
         // /index => /
-        ).replace(/\/index$/, '')
+        ).replace(/(^|\/)index$/, '')
         if (
-          !options.pages.includes(resolved)
+          !routes.has(resolved)
           && !fs.existsSync(path.resolve(dir, publicDir, `${resolved}.html`))
           && !shouldIgnoreDeadLink(url)
         ) {

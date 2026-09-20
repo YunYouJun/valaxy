@@ -97,7 +97,7 @@ The Valaxy SSG engine runs in three phases:
 2. **Server Build** — Builds the SSR entry (`entry-ssr.ts`), producing a render function executable in Node.js
 3. **Render** — Loads the SSR entry, iterates over routes, calls Vue's `renderToString` for HTML, injects `<head>` tags / preload links / initial state via pure string replacement, and writes to disk
 
-Since it does not rely on JSDOM, per-page rendering has minimal memory overhead, enabling high concurrency (default 20) and fast, stable builds. Flash-of-unstyled-content is handled by the [FOUC guard](./config/extend) rather than Critical CSS inlining.
+Since it does not rely on JSDOM, per-page rendering has minimal memory overhead, enabling high concurrency (default 20) and fast, stable builds. Flash-of-unstyled-content is handled by the [FOUC guard](../config/extend) rather than Critical CSS inlining.
 
 
 ### Posts

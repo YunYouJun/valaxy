@@ -19,7 +19,7 @@ export function useValaxyHead() {
     if (!/^https?:\/\//.test(siteUrl))
       return ''
 
-    const pagePath = fm.value.url || route.path
+    const pagePath = fm.value.canonical || fm.value.url || route.path
     return resolveSiteUrl(siteUrl, pagePath)
   })
 

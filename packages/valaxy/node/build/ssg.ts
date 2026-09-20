@@ -14,6 +14,7 @@ import { mergeConfig as mergeViteConfig, build as viteBuild } from 'vite'
 import generateSitemap from 'vite-ssg-sitemap'
 import { defaultViteConfig } from '../constants'
 import { ViteValaxyPlugins } from '../plugins/preset'
+import { profileBuildPhase } from '../utils/buildProfile'
 import { clearBundleCache } from './bundle'
 import { renderPage } from './render'
 
@@ -156,7 +157,7 @@ export async function ssgBuild(
 
   const defaultConfig: InlineConfig = {
     ...defaultViteConfig,
-    plugins: await ViteValaxyPlugins(valaxyApp, {}, viteConfig, 2),
+    plugins: await profileBuildPhase('plugins', () => ViteValaxyPlugins(valaxyApp, {}, viteConfig, 2)),
     // `ssr.noExternal` only affects the server build (step 2) — the client build
     // ignores it. See `getSsgSsrConfig` for why everything is bundled.
     ssr: getSsgSsrConfig(),
@@ -173,19 +174,21 @@ export async function ssgBuild(
   try {
     // === Step 1: Client Build (with SSR manifest) ===
     consola.info('Building client bundle...')
-    await viteBuild(mergeViteConfig(inlineConfig, {
+    await profileBuildPhase('client-bundle', () => viteBuild(mergeViteConfig(inlineConfig, {
       build: {
         ssrManifest: true,
         outDir,
       },
-    }))
+    })))
 
     // === Step 2: Server Build ===
     consola.info('Building server bundle...')
-    await viteBuild(mergeViteConfig(inlineConfig, {
+    await profileBuildPhase('server-bundle', () => viteBuild(mergeViteConfig(inlineConfig, {
       build: {
         ssr: resolve(options.clientRoot, 'entry-ssr.ts'),
         outDir: ssgTemp,
+        // This temporary bundle is executed locally, never served to browsers.
+        reportCompressedSize: false,
         minify: false,
         cssCodeSplit: false,
         rolldownOptions: {
@@ -194,7 +197,7 @@ export async function ssgBuild(
           },
         },
       },
-    }))
+    })))
 
     // === Step 3: Release build resources ===
     // The `valaxy:memory-release` plugin in preset.ts already disposes
@@ -205,7 +208,7 @@ export async function ssgBuild(
 
     // === Step 4: Load SSR entry and discover routes ===
     const entryPath = resolve(ssgTemp, 'entry-ssr.mjs')
-    const { render, routes } = await import(pathToFileURL(entryPath).href) as {
+    const { render, routes } = await profileBuildPhase('server-load', () => import(pathToFileURL(entryPath).href)) as {
       render: (route: string) => Promise<RenderResult>
       routes: any[]
     }
@@ -240,7 +243,7 @@ export async function ssgBuild(
     const concurrency = userSsgOptions.concurrency ?? 20
     consola.info(`Rendering ${colors.yellow(routePaths.length)} pages (concurrency: ${colors.yellow(concurrency)})...`)
 
-    await pMap(
+    await profileBuildPhase('render-pages', () => pMap(
       routePaths,
       route => renderPage({
         render,
@@ -252,7 +255,7 @@ export async function ssgBuild(
         onPageRendered: userSsgOptions.onPageRendered,
       }),
       { concurrency },
-    )
+    ))
 
     consola.success(`${routePaths.length} pages rendered.`)
   }

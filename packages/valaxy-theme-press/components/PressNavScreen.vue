@@ -10,7 +10,7 @@ const { t } = useI18n()
 
 <template>
   <div v-show="open" id="pr-NavScreen" class="pr-NavScreen" :inert="!open">
-    <div class="screen-content">
+    <div v-if="open" class="screen-content">
       <p class="screen-heading">
         {{ t('nav.site') }}
       </p>

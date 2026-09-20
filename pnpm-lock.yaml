@@ -534,6 +534,9 @@ catalogs:
     mermaid:
       specifier: ^12.0.0
       version: 12.0.0
+    minimatch:
+      specifier: ^10.2.4
+      version: 10.2.5
     minimist:
       specifier: ^1.2.8
       version: 1.2.8
@@ -958,6 +961,9 @@ importers:
       valaxy-addon-meting:
         specifier: workspace:*
         version: link:../packages/valaxy-addon-meting
+      valaxy-addon-typedoc:
+        specifier: workspace:*
+        version: link:../packages/valaxy-addon-typedoc
       valaxy-theme-press:
         specifier: link:../packages/valaxy-theme-press
         version: link:../packages/valaxy-theme-press
@@ -1546,6 +1552,31 @@ importers:
   packages/valaxy-addon-test: {}
 
   packages/valaxy-addon-twikoo:
+    devDependencies:
+      valaxy:
+        specifier: workspace:*
+        version: link:../valaxy
+
+  packages/valaxy-addon-typedoc:
+    dependencies:
+      fast-glob:
+        specifier: 'catalog:'
+        version: 3.3.3
+      fs-extra:
+        specifier: 'catalog:'
+        version: 11.4.0
+      minimatch:
+        specifier: 'catalog:'
+        version: 10.2.5
+      typedoc:
+        specifier: 'catalog:'
+        version: 0.28.20(typescript@5.9.3)
+      typedoc-plugin-markdown:
+        specifier: 'catalog:'
+        version: 4.13.1(typedoc@0.28.20(typescript@5.9.3))
+      typescript:
+        specifier: catalog:build
+        version: 5.9.3
     devDependencies:
       valaxy:
         specifier: workspace:*

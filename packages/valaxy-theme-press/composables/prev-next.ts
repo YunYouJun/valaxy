@@ -114,23 +114,24 @@ interface FlatLink {
   text: string
   link: string
   docFooterText?: string
+  translate?: boolean
 }
 
 /**
  * Recursively flatten sidebar items into a flat list of links.
- * Translates text via the provided `t` function (vue-i18n) so that
- * i18n message keys used in sidebar config are resolved for the footer.
+ * Keep message keys until the visible previous/next links are selected.
  */
-function getFlatLinks(items: PressTheme.SidebarItem[], t: (key: string) => string): FlatLink[] {
+function getFlatLinks(items: PressTheme.SidebarItem[]): FlatLink[] {
   const links: FlatLink[] = []
 
   function extract(items: PressTheme.SidebarItem[]) {
     for (const item of items) {
       if (item.text && item.link) {
         links.push({
-          text: t(item.text),
+          text: item.text,
           link: item.link,
-          docFooterText: item.docFooterText ? t(item.docFooterText) : undefined,
+          docFooterText: item.docFooterText,
+          translate: true,
         })
       }
       if (item.items)
@@ -188,17 +189,21 @@ export function usePrevNext() {
   })
 
   return computed(() => {
-    const categoryTree = buildCategoryTree(localePages.value)
+    if (frontmatter.value.nav === false)
+      return { prev: undefined, next: undefined }
+
+    let categoryTree: CategoryList | undefined
     const sidebarItems = getSidebar(localeConfig.value.sidebar, route.path)
     const candidates: FlatLink[] = []
 
     for (const item of sidebarItems) {
       if (typeof item === 'string') {
+        categoryTree ??= buildCategoryTree(localePages.value)
         candidates.push(...getCategoryLinks(categoryTree, item, resolveTitle))
         continue
       }
 
-      candidates.push(...getFlatLinks([item], t))
+      candidates.push(...getFlatLinks([item]))
     }
 
     const index = candidates.findIndex(link =>
@@ -211,7 +216,7 @@ export function usePrevNext() {
     if (index > 0) {
       const link = candidates[index - 1]
       prev = {
-        text: link.docFooterText || link.text,
+        text: link.translate ? t(link.docFooterText || link.text) : link.text,
         link: link.link,
       }
     }
@@ -219,15 +224,9 @@ export function usePrevNext() {
     if (index !== -1 && index < candidates.length - 1) {
       const link = candidates[index + 1]
       next = {
-        text: link.docFooterText || link.text,
+        text: link.translate ? t(link.docFooterText || link.text) : link.text,
         link: link.link,
       }
-    }
-
-    // Allow frontmatter to disable navigation
-    if (frontmatter.value.nav === false) {
-      prev = undefined
-      next = undefined
     }
 
     return { prev, next }

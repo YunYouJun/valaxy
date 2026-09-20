@@ -36,7 +36,7 @@ try {
   await page.goto(url)
   await page.getByRole('link', { name: '插件', exact: true }).click()
   await expect(page.getByRole('heading', { name: '插件中心' })).toBeVisible()
-  await expect(page.locator('[data-addon]')).toHaveCount(18)
+  await expect(page.locator('[data-addon]')).toHaveCount(addons.length)
   await expect(page).toHaveTitle('Valaxy DevTools')
   await expect(page.locator('vite-error-overlay')).toHaveCount(0)
   for (const addon of addons) {

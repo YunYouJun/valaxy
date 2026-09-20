@@ -70,6 +70,12 @@ export interface MarkdownAnchorOptions {
  */
 export interface MarkdownOptions extends MarkdownRendererOptions {
   /**
+   * Cache repeated highlighted code blocks (up to 8 MiB per highlighter).
+   * Enabled for built-in transforms. Custom codeTransformers/shikiSetup must
+   * opt in only when their output depends solely on the code, language and attrs.
+   */
+  highlightCache?: boolean
+  /**
    * Setup markdown-it instance before applying plugins
    */
   preConfig?: (md: MarkdownRenderer) => void

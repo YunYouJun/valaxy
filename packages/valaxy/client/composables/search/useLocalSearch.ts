@@ -13,7 +13,7 @@ export interface LocalSearchResult {
 export function useLocalSearch(query: Ref<string>) {
   const results = shallowRef<LocalSearchResult[]>([])
   const loading = ref(false)
-  let miniSearch: MiniSearch | null = null
+  const miniSearch = shallowRef<MiniSearch | null>(null)
 
   async function load(locale = 'root') {
     loading.value = true
@@ -25,9 +25,9 @@ export function useLocalSearch(query: Ref<string>) {
         return
       }
       const mod = await loader()
-      const data: string = JSON.parse(mod.default)
+      const data: string = mod.default
       const { default: MiniSearchCtor } = await import('minisearch')
-      miniSearch = MiniSearchCtor.loadJSON(data, {
+      miniSearch.value = MiniSearchCtor.loadJSON(data, {
         fields: ['title', 'titles', 'text'],
         storeFields: ['title', 'titles'],
       })
@@ -38,11 +38,11 @@ export function useLocalSearch(query: Ref<string>) {
   }
 
   watchEffect(() => {
-    if (!miniSearch || !query.value.trim()) {
+    if (!miniSearch.value || !query.value.trim()) {
       results.value = []
       return
     }
-    results.value = miniSearch.search(query.value, {
+    results.value = miniSearch.value.search(query.value, {
       prefix: true,
       fuzzy: 0.2,
       boost: { title: 4, text: 2, titles: 1 },

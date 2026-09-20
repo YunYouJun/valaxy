@@ -25,7 +25,11 @@ export interface ContentLoaderContext {
 
 export interface ContentLoader {
   name: string
+  /** Validate the complete output before writing; fail production builds on errors. */
+  strict?: boolean
   load: (ctx: ContentLoaderContext) => Promise<ContentItem[]> | ContentItem[]
+  /** Publish associated metadata only after content has been validated and written. */
+  onLoaded?: (ctx: ContentLoaderContext) => void | Promise<void>
   /**
    * Polling interval (ms) for dev mode.
    * undefined = no polling

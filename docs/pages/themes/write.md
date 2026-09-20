@@ -652,7 +652,7 @@ To improve the loading performance of subsequent pages, Vite bundles ESM depende
 If your theme depends on some large ESM packages, you can pre-build these dependencies by adding the `optimizeDeps` option.
 
 > `dayjs` has been pre-built by default, you don't need to add it again.
-> [Why use dayjs instead of date-fns?](https://api.valaxy.site/notes/app-bundle-size.html#date-fns-vs-dayjs?)
+> [Why use dayjs instead of date-fns?](/dev/notes/app-bundle-size#date-fns-vs-dayjs?)
 
 
 ```ts [valaxy.config.ts]
