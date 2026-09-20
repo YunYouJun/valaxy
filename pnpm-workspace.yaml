@@ -58,6 +58,7 @@ catalog:
   '@clack/prompts': ^1.8.1
   '@ctrl/tinycolor': ^4.2.1
   '@devframes/agentic': 1.0.0
+  '@devframes/service-open': 1.0.0
   '@devframes/service-shiki': 1.0.0
   '@docsearch/css': ^5.1.1
   '@docsearch/js': ^5.1.1

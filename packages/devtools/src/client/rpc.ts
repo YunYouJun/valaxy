@@ -68,7 +68,6 @@ export const rpc: ServerFunctions = {
   updateConfigField: async (type, path, value) => (await getClient()).call('valaxy:update-config-field', type, path, value),
   runMigration: async (paths, frontmatter) => (await getClient()).call('valaxy:run-migration', paths, frontmatter),
   createPost: async options => (await getClient()).call('valaxy:create-post', options),
-  openInEditor: async options => (await getClient()).call('valaxy:open-in-editor', options),
 }
 
 if (import.meta.hot)

@@ -247,3 +247,60 @@ debug:
   unmatched: not matched
   no_page: No page diagnostics available
   connect_hint: Open Valaxy DevTools from the running site, or open a separate window with a connection to that page.
+
+addons:
+  title: Addon marketplace
+  description: Discover Valaxy addons and manage this project’s dependencies. Installed packages and enabled addons are shown separately.
+  view: Addon view
+  discover: Discover
+  installed: Installed
+  search: 'Search names, descriptions or tags…'
+  source: Source
+  all_sources: All sources
+  official: Official
+  community: Community
+  category: Category
+  all_categories: All categories
+  local_addon: Project addon
+  no_description: No description available.
+  enabled: Enabled
+  not_installed: Not installed
+  details: Details
+  running: Applying changes…
+  succeeded: Changes applied
+  failed: Operation failed
+  installed_hint: Package installed. Follow its documentation to configure options and add it to valaxy.config. Restart the preview after configuration.
+  removed_hint: Dependency removed. Restart the preview to refresh the running addons. Check any components or styles you previously added to your content.
+  logs: Execution log
+  repository: Repository
+  documentation: Documentation
+  loading_package: Loading npm package details…
+  retry: Retry
+  latest: Latest version
+  license: License
+  install_note: Package actions use pnpm with lifecycle scripts disabled. Check the addon documentation and peer dependency requirements before installing. Installation does not enable an addon automatically.
+  inherited_hint: This addon is provided by a theme or another dependency. Manage it from that dependency’s configuration.
+  review: Review changes
+  install_changes: This will add the exact version to this project and update its dependency lockfile.
+  remove_changes: This will remove the dependency and the static configuration references shown below. Blog content is kept.
+  wrap_code: Wrap lines
+  config_changes: Configuration changes
+  before: Before
+  after: After
+  open_config: Open configuration in editor
+  cancel: Close
+  confirm_remove: Confirm removal
+  confirm_install: Confirm installation
+  remove: Review removal
+  install: Review installation
+  refresh: Refresh
+  results: '{count} addons'
+  empty_installed: No addons are installed in this project yet.
+  no_results: No addons match these filters.
+  panels: Extension panels
+
+editor:
+  choose: Choose editor
+  default: 'Default: {name}'
+  automatic: Auto-detect
+  hint: Choose an installed editor. This browser remembers your choice for all open-file actions.

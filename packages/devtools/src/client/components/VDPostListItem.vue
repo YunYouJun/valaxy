@@ -7,6 +7,7 @@ import { computed } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { tObject } from '../../../../valaxy/shared'
 import { activePath } from '../composables/app'
+import { activeEditorPresentation } from '../composables/editor'
 import { clientOptions, clientPageData, settings } from '../stores/app'
 import { openInEditor } from '../utils'
 
@@ -79,7 +80,7 @@ const tags = computed(() => {
         title="Open in editor"
         @click.stop="openInEditor({ file: post.filePath, line: 2 })"
       >
-        <div i-vscode-icons:file-type-vscode />
+        <div :class="activeEditorPresentation?.icon || 'i-ph:code'" />
       </button>
       <button class="flex-1 text-left text-sm font-medium truncate rounded" :aria-pressed="active" @click.stop="onClickPost(post)">
         {{ title }}

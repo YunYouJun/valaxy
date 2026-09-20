@@ -1,4 +1,5 @@
-import { connectionError, rpc } from '../rpc'
+import { openFileInEditor } from '../composables/editor'
+import { connectionError } from '../rpc'
 
 export interface OpenInEditorOptions {
   file?: string
@@ -7,10 +8,10 @@ export interface OpenInEditorOptions {
 }
 
 export async function openInEditor(options: OpenInEditorOptions = {}) {
-  const { file, line = 0, column = 0 } = options
+  const { file, line, column } = options
   if (file) {
     try {
-      await rpc.openInEditor({ file, line, column })
+      await openFileInEditor({ path: file, line, column })
     }
     catch (error) {
       connectionError.value = String(error)

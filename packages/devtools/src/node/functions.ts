@@ -2,15 +2,15 @@ import type { BatchFrontmatterOperation, ServerFunctions } from '../shared/rpc'
 import type { ValaxyDevtoolsOptions } from './types'
 import process from 'node:process'
 import dayjs from 'dayjs'
-import { launchEditor } from 'devframe/utils/launch-editor'
 import fg from 'fast-glob'
 import fs from 'fs-extra'
 import matter from 'gray-matter'
 import pathe from 'pathe'
+import { getEditorOptions } from './editor'
 import { DANGEROUS_FIELD_KEYS, readConfigs, writeConfigField } from './utils/config-rw'
 import { migration } from './utils/migration'
 import { updatePageFile } from './utils/page-write'
-import { resolveInsideRoot, resolvePageFile } from './utils/paths'
+import { resolvePageFile } from './utils/paths'
 import { readPostContent, writePostContent } from './utils/post-content'
 
 function ensurePrefix(prefix: string, str: string) {
@@ -80,14 +80,11 @@ export function getFunctions(devtoolsOptions: ValaxyDevtoolsOptions, validateFro
   return {
     getPostContent: filePath => readPostContent(userRoot, filePath),
     updatePostContent: req => writePostContent(userRoot, req.filePath, req.content, req.revision),
-    async openInEditor({ file, line = 0, column = 0 }) {
-      const resolved = await resolveInsideRoot(userRoot, file)
-      launchEditor(`${resolved}:${line}:${column}`, process.env.EDITOR)
-    },
     async getOptions() {
       return {
         userRoot,
         siteUrl: devtoolsOptions.siteUrl?.(),
+        ...getEditorOptions(),
       }
     },
 

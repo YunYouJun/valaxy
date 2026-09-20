@@ -1,3 +1,4 @@
+import type { KnownEditor } from 'devframe/utils/launch-editor'
 import type { Post } from 'valaxy'
 import type { ValaxyPageDebug } from './debug'
 
@@ -8,6 +9,8 @@ export interface BlogWindow {
 export interface ClientOptions {
   userRoot: string
   siteUrl?: string
+  editor?: KnownEditor
+  editors?: KnownEditor[]
 }
 
 export interface ClientPostList {
@@ -114,7 +117,6 @@ export interface ServerFunctions {
   getPostContent: (filePath: string) => Promise<PostContent>
   /** Save the body while preserving current frontmatter and rejecting stale edits. */
   updatePostContent: (req: { filePath: string, content: string, revision: string }) => Promise<PostContent>
-  openInEditor: (options: { file: string, line?: number, column?: number }) => Promise<void>
   // add: (a: number, b: number) => number
   /**
    * 获取基础配置

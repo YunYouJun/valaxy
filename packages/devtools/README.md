@@ -16,7 +16,19 @@ Unsaved frontmatter drafts are retained per file when switching pages, posts, or
 
 **Page Debug** replaces the Yun theme's default floating Valaxy Debug widget. It shows the site's viewport and matching breakpoints, current route/query/params, live frontmatter, and the runtime site summary and theme configuration. It follows the browser page rather than the article selected for editing. These read-only snapshots arrive over the local page channel; the current page is not shared across browser tabs. Direct opens without a parent/opener show an empty state. The existing **Config** page still edits source files. The legacy `ValaxyDebug` component remains available for themes that explicitly mount it.
 
-JSON inspection uses the official [`@devframes/service-shiki`](https://devfra.me/add-ons/services/shiki) service, declared by the Valaxy Devframe for both native Vite DevTools and standalone hosts. Code is sent to the local development server for highlighting and caching; Shiki grammars and themes stay out of the DevTools client bundle. `VDCodeBlock` renders the service's escaped HTML with Vitesse light/dark colors following the shared theme preference. Pending or unavailable highlighting falls back to current plain text; outdated responses cannot replace newer page data.
+JSON inspection and addon command/configuration previews use the official [`@devframes/service-shiki`](https://devfra.me/add-ons/services/shiki) service, declared by the Valaxy Devframe for both native Vite DevTools and standalone hosts. Code is sent to the local development server for highlighting and caching; Shiki grammars and themes stay out of the DevTools client bundle. `VDCodeBlock` renders the service's escaped HTML with Vitesse light/dark colors following the shared theme preference. Shell commands and TypeScript/JavaScript configurations request their grammars on demand. Pending or unavailable highlighting falls back to current plain text; outdated responses cannot replace newer page data.
+
+Opening configuration, articles and the project folder uses the official [`@devframes/service-open`](https://devfra.me/add-ons/services/open) service. The addon details panel shows the current editor icon and lets you choose an editor for all open-file actions; the preference stays in this browser. The default comes from a supported `LAUNCH_EDITOR`, `VISUAL` or `EDITOR` command (in that order); otherwise the service auto-detects an editor and the UI shows a neutral icon. The menu lists supported commands, not detected installations. The service validates editor commands and restricts paths to the host workspace and configured blog root, including symlink checks. Successful dispatch does not guarantee that the editor is installed.
+
+## Addon marketplace
+
+The **Addons** page is always available and shares its official/community catalog with the documentation site. Catalog cards use the same icons as the documentation gallery, bundled by UnoCSS from the shared catalog; addons outside the catalog use a generic puzzle icon. It displays direct installed dependencies and enabled addons independently of extension-panel registration, with search, source/tag filters and package/documentation links.
+
+Details provide npm, repository and documentation links with icons. Configuration previews preserve original newlines and indentation, show before/after side by side on wide screens, and offer a line-wrapping toggle without changing the reviewed source.
+
+Authenticated package actions use pnpm and require a server-generated preview before execution. Installation pins the reviewed registry version and does not enable the addon automatically. Removal previews supported static configuration edits and rejects remaining imports, dynamic declarations and indirect dependencies. Existing content is preserved. Package/config/lockfile changes invalidate an old preview; duplicate confirmations reuse the same job, workspace jobs are serialized, and logs are bounded. Failed removals restore configuration only when it is still unchanged and the dependency remains declared.
+
+Other package managers remain browse-only. Lifecycle scripts are disabled; new addon options and any required scripts must be reviewed using the addon documentation. Restart the preview after changing addon configuration. Jobs run in the development server process, so after restarting that process, inspect the refreshed dependencies before retrying an interrupted operation.
 
 ## Vite integration
 
@@ -68,6 +80,7 @@ Use the terminal code to authorize the development SPA. There is no separate RES
 pnpm exec vitest run test/devtools
 pnpm run typecheck
 pnpm run build:devtools
+pnpm run test:devtools # real registry/pnpm operations in a temporary project
 ```
 
 ## Addon extensions (experimental API v1)

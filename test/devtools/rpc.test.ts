@@ -40,8 +40,14 @@ afterEach(async () => {
 })
 
 describe('valaxy Devframe RPC', () => {
+  it('exposes addon inventory and validates management requests before execution', async () => {
+    expect(await ctx.rpc.invokeLocal('valaxy:get-addons')).toMatchObject({ installed: [], packageManager: null })
+    await expect(ctx.rpc.invokeLocal('valaxy:prepare-addon-operation', 'install', '../outside')).rejects.toThrow()
+    await expect(ctx.rpc.invokeLocal('valaxy:apply-addon-operation', 'not-a-preview-id')).rejects.toThrow()
+  })
+
   it('reads actual Markdown, preserves dates, and resolves the site URL', async () => {
-    expect(await ctx.rpc.invokeLocal('valaxy:get-options')).toEqual({ userRoot: pathe.resolve(site), siteUrl: 'http://localhost:5173/blog/' })
+    expect(await ctx.rpc.invokeLocal('valaxy:get-options')).toMatchObject({ userRoot: pathe.resolve(site), siteUrl: 'http://localhost:5173/blog/' })
     const page = await ctx.rpc.invokeLocal('valaxy:get-page-data', '/pages/posts/hello.md')
     expect(page).toMatchObject({ routePath: '/posts/hello', frontmatter: { title: 'Hello', date: new Date('2026-01-01T00:00:00.000Z') } })
     expect((await ctx.rpc.invokeLocal('valaxy:get-post-list')).posts).toEqual([page])
@@ -111,7 +117,6 @@ describe('valaxy Devframe RPC', () => {
       await expect(ctx.rpc.invokeLocal('valaxy:run-migration', [file], { title: 'name' })).rejects.toThrow()
     }
     expect(await ctx.rpc.invokeLocal('valaxy:create-post', { title: 'Escape', path: '../../../outside' })).toMatchObject({ success: false })
-    await expect(ctx.rpc.invokeLocal('valaxy:open-in-editor', { file: outside })).rejects.toThrow()
     await symlink(outside, join(site, 'site.config.ts'))
     expect(await ctx.rpc.invokeLocal('valaxy:update-config-field', 'site', 'title', 'Oops')).toMatchObject({ success: false })
     await symlink(join(root, 'new-outside.md'), join(site, 'pages/posts/hello-1.md'))

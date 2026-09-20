@@ -1,4 +1,5 @@
 import type { ValaxyDevtoolsPlugin } from '../plugin'
+import type { InstalledAddon } from '../shared/addons'
 
 export interface ValaxyDevtoolsOptions {
   userRoot?: string
@@ -7,4 +8,6 @@ export interface ValaxyDevtoolsOptions {
   base?: string
   /** Actual site URL, resolved after the Vite server starts listening. */
   siteUrl?: () => string
+  /** All enabled addons, including those without a DevTools extension. */
+  getAddons?: () => Pick<InstalledAddon, 'name' | 'version'>[]
 }

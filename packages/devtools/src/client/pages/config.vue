@@ -3,6 +3,7 @@ import { useMediaQuery } from '@vueuse/core'
 import { Pane, Splitpanes } from 'splitpanes'
 import { computed, ref } from 'vue'
 import { useI18n } from 'vue-i18n'
+import { activeEditorPresentation } from '../composables/editor'
 import configMeta from '../config-meta.json'
 import { configData, configLoading, configSaveMessage, fetchConfig } from '../stores/config'
 import { openInEditor } from '../utils/api'
@@ -177,7 +178,7 @@ const quickTabs = computed(() => [
                 class="inline-flex items-center gap-1 px-1.5 py-0.5 text-xs rounded hover:bg-hover color-faint transition-colors"
                 @click="openConfigFile('site')"
               >
-                <div class="i-ri:file-text-line text-xs" />
+                <div :class="activeEditorPresentation?.icon || 'i-ph:code'" class="text-xs" />
                 site
               </button>
             </VDTooltip>
@@ -186,7 +187,7 @@ const quickTabs = computed(() => [
                 class="inline-flex items-center gap-1 px-1.5 py-0.5 text-xs rounded hover:bg-hover color-faint transition-colors"
                 @click="openConfigFile('valaxy')"
               >
-                <div class="i-ri:file-text-line text-xs" />
+                <div :class="activeEditorPresentation?.icon || 'i-ph:code'" class="text-xs" />
                 valaxy
               </button>
             </VDTooltip>
@@ -657,7 +658,7 @@ const quickTabs = computed(() => [
                           class="inline-flex items-center justify-center w-5 h-5 rounded hover:bg-hover color-faint hover:color-muted transition-colors"
                           @click="openConfigFile(field.configType)"
                         >
-                          <div class="i-ri:edit-line text-xs" />
+                          <div :class="activeEditorPresentation?.icon || 'i-ph:code'" class="text-xs" />
                         </button>
                       </VDTooltip>
                     </div>
@@ -710,7 +711,7 @@ const quickTabs = computed(() => [
                         class="inline-flex items-center justify-center w-5 h-5 rounded hover:bg-hover color-faint hover:color-muted transition-colors"
                         @click="openConfigFile('valaxy')"
                       >
-                        <div class="i-ri:edit-line text-xs" />
+                        <div :class="activeEditorPresentation?.icon || 'i-ph:code'" class="text-xs" />
                       </button>
                     </VDTooltip>
                   </div>
