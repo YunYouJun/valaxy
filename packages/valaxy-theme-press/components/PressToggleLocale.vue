@@ -13,7 +13,7 @@ import { useLocaleConfig } from '../composables'
 
 const { t, locale } = useI18n()
 const { toggleLocales } = useLocale()
-const { hasLocales, availableLocales, currentLocale, currentLocaleKey, getLocalePath } = useLocaleConfig()
+const { hasLocales, availableLocales, currentLocale, currentLocaleKey, getLocalePath, selectLocale } = useLocaleConfig()
 </script>
 
 <template>
@@ -50,6 +50,7 @@ const { hasLocales, availableLocales, currentLocale, currentLocaleKey, getLocale
               class="press-locale-menu-link"
               p="x-3"
               :to="getLocalePath(loc.key)"
+              @click="selectLocale(loc.key)"
             >
               {{ loc.label }}
             </AppLink>

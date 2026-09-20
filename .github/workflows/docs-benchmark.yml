@@ -1,0 +1,68 @@
+name: Documentation build benchmark
+
+on:
+  pull_request:
+    paths:
+      - .github/workflows/docs-benchmark.yml
+  workflow_dispatch:
+    inputs:
+      baseline_ref:
+        description: Pre-migration commit or tag (must still build the standalone API)
+        required: true
+      max_cold_ratio:
+        description: Maximum merged cold median / original sequential median (10% noise allowance)
+        default: '1.10'
+        required: true
+      max_rss_mib:
+        description: Maximum sampled process-tree RSS on this 16 GiB public Linux runner
+        default: '6144'
+        required: true
+
+permissions:
+  contents: read
+
+jobs:
+  benchmark:
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          path: candidate
+          fetch-depth: 0
+      - uses: actions/checkout@v7
+        with:
+          ref: ${{ inputs.baseline_ref || github.event.pull_request.base.sha }}
+          path: baseline
+          fetch-depth: 0
+      - uses: pnpm/action-setup@v6
+        with:
+          package_json_file: candidate/package.json
+      - uses: actions/setup-node@v7
+        with:
+          node-version: lts/*
+          cache: pnpm
+          cache-dependency-path: |
+            candidate/pnpm-lock.yaml
+            baseline/pnpm-lock.yaml
+      - name: Install and build baseline
+        working-directory: baseline
+        run: pnpm install --frozen-lockfile && pnpm run build
+      - name: Install and build candidate
+        working-directory: candidate
+        run: pnpm install --frozen-lockfile && pnpm run build
+      - name: Compare three interleaved cold and warm builds
+        working-directory: candidate
+        run: node scripts/benchmark-docs-build.mjs ../baseline ../docs-benchmark 3
+        env:
+          DOCS_MAX_COLD_RATIO: ${{ inputs.max_cold_ratio || '1.10' }}
+          DOCS_MAX_RSS_MIB: ${{ inputs.max_rss_mib || '6144' }}
+      - name: Verify candidate API outputs
+        working-directory: candidate
+        run: pnpm run verify:api
+      - uses: actions/upload-artifact@v7
+        if: always()
+        with:
+          name: docs-benchmark
+          path: docs-benchmark/
+          retention-days: 30

@@ -4,6 +4,7 @@ import path from 'node:path'
 import fg from 'fast-glob'
 import matter from 'gray-matter'
 import { matterOptions } from '../plugins/markdown/transform/matter'
+import { discoverPageFiles, getPagePath } from '../utils/pageSources'
 
 export interface RawPost {
   data: Record<string, any>
@@ -30,9 +31,7 @@ export async function scanPostFiles(userRoot: string, globPattern = '**/*.md'): 
  * @param include Glob patterns relative to `pages/` directory, e.g. `['posts\/**\/*.md', 'guide\/**\/*.md']`
  */
 export async function scanPageFiles(userRoot: string, include: string[]): Promise<string[]> {
-  const pagesPattern = fg.convertPathToPattern(path.join(userRoot, 'pages'))
-  const patterns = include.map(p => `${pagesPattern}/${p}`)
-  return fg(patterns)
+  return [...(await discoverPageFiles(userRoot, include)).values()]
 }
 
 /**
@@ -67,7 +66,7 @@ export function filterPublicPosts(posts: RawPost[]): RawPost[] {
  * @param userRoot User root directory
  */
 export function filePathToUrlPath(filePath: string, userRoot: string): string {
-  const relativePath = path.relative(path.join(userRoot, 'pages'), filePath)
+  const relativePath = getPagePath(filePath, userRoot) || path.relative(path.join(userRoot, 'pages'), filePath)
   const normalized = `/${relativePath.replace(/\\/g, '/')}`
 
   if (normalized.endsWith('/index.md'))

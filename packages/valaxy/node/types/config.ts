@@ -202,7 +202,7 @@ export interface ValaxyExtendConfig {
      * - `true` (default): all pages render KaTeX, unless `frontmatter.katex: false`
      * - `false`: no pages render KaTeX by default, but individual pages can opt-in via `frontmatter.katex: true`
      *
-     * @see [Example | Valaxy](https://valaxy.site/examples/katex)
+     * @see [Example | Valaxy](https://valaxy.site/examples/math)
      * @see https://katex.org/
      * @default true
      */

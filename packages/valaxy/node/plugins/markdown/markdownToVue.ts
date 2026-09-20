@@ -2,6 +2,7 @@ import type { PageData } from '../../../types'
 import type { StateManager, ValaxyFileInfo } from '../../app/state'
 import type { ResolvedValaxyOptions } from '../../types'
 import type { MarkdownTransformContext } from './types'
+import { Buffer } from 'node:buffer'
 import { createHash } from 'node:crypto'
 import _debug from 'debug'
 // copy from vitepress
@@ -24,7 +25,13 @@ const caches = new WeakMap<StateManager, LRUCache<string, MarkdownCompileResult>
 function getMarkdownCache(state: StateManager) {
   let cache = caches.get(state)
   if (!cache) {
-    cache = new LRUCache<string, MarkdownCompileResult>({ max: 128 })
+    // Reference sites exceed 128 pages easily. Bound memory by bytes so both
+    // SSG bundles can reuse small pages without retaining unbounded documents.
+    cache = new LRUCache<string, MarkdownCompileResult>({
+      max: 2048,
+      maxSize: 32 * 1024 * 1024,
+      sizeCalculation: result => Buffer.byteLength(result.code) + Buffer.byteLength(JSON.stringify(result.pageData)),
+    })
     caches.set(state, cache)
   }
   return cache
@@ -103,9 +110,6 @@ export async function createMarkdownToVueRenderFn(
   options: ResolvedValaxyOptions,
   state: StateManager = Valaxy.state,
 ) {
-  // for dead link detection
-  options.pages = options.pages.map(p => p.replace(/\.md$/, '').replace(/\/index$/, ''))
-
   const transformCodeBlock = createTransformCodeBlock(options)
   const transformMarkdown = createTransformMarkdown(options)
   const transformEncrypt = createTransformEncrypt(options)

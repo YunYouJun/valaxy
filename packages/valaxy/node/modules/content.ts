@@ -3,8 +3,10 @@ import { createHash } from 'node:crypto'
 import { consola } from 'consola'
 import { colors } from 'consola/utils'
 import fs from 'fs-extra'
-import { dirname, isAbsolute, normalize, resolve } from 'pathe'
+import { isAbsolute, normalize, resolve } from 'pathe'
 import { defineValaxyModule } from '.'
+import { publishContentTransaction, recoverContentTransaction } from '../utils/contentTransaction'
+import { discoverPageFiles, pagePathToRoute } from '../utils/pageSources'
 
 interface ManifestEntry {
   digest: string
@@ -30,10 +32,6 @@ async function readManifest(manifestPath: string): Promise<Manifest> {
   }
 }
 
-async function writeManifest(manifestPath: string, manifest: Manifest): Promise<void> {
-  await fs.writeJson(manifestPath, manifest, { spaces: 2 })
-}
-
 /**
  * Load content from all loaders and write .md files to cache directory.
  * Uses digest-based incremental caching to skip unchanged files.
@@ -50,46 +48,57 @@ export async function loadAllContent(
     consola.start(`[content-loader] Loading content from ${loaderLabel}...`)
 
     const manifestPath = getManifestPath(ctx.cacheDir, loader.name)
+    const transaction = `${manifestPath}.transaction`
+    await recoverContentTransaction(transaction)
     const prevManifest = await readManifest(manifestPath)
     const nextManifest: Manifest = {}
 
-    let items: ContentItem[]
+    const items: ContentItem[] = []
+    const routePaths = new Set<string>()
     try {
-      items = await loader.load(ctx)
+      for (const original of await loader.load(ctx)) {
+        let item: ContentItem
+        try {
+          item = loader.transform ? await loader.transform(original) : original
+          const normalizedPath = normalize(item.path)
+          const route = pagePathToRoute(normalizedPath).replace(/\/$/, '')
+          if (isAbsolute(normalizedPath) || normalizedPath.startsWith('..') || item.path.includes('\\') || !normalizedPath.endsWith('.md'))
+            throw new Error(`Invalid content path: ${item.path}`)
+          if (routePaths.has(route))
+            throw new Error(`Duplicate content route: ${item.path}`)
+          for (const candidate of [normalizedPath, `${route}.md`, route ? `${route}/index.md` : 'index.md']) {
+            if (!prevManifest[candidate] && await fs.pathExists(resolve(pagesDir, candidate)))
+              throw new Error(`Content path is owned by another loader: ${item.path}`)
+          }
+          if (ctx.node.options.userRoot) {
+            const userPages = resolve(ctx.node.options.userRoot, 'pages')
+            if (await fs.pathExists(resolve(userPages, `${route}.md`)) || await fs.pathExists(resolve(userPages, route, 'index.md')))
+              throw new Error(`Content route conflicts with a user page: ${item.path}`)
+          }
+          routePaths.add(route)
+          items.push({ ...item, path: normalizedPath })
+        }
+        catch (error) {
+          if (loader.strict)
+            throw error
+          consola.warn(`[content-loader] Skipping ${original.path}:`, error)
+        }
+      }
     }
-    catch (e) {
-      consola.error(`[content-loader] Failed to load content from ${loaderLabel}:`, e)
+    catch (error) {
+      consola.error(`[content-loader] Failed to load content from ${loaderLabel}:`, error)
+      if (loader.strict && ctx.mode === 'build')
+        throw error
       continue
     }
 
     let written = 0
     let cached = 0
+    const changes: { path: string, content?: string }[] = []
 
-    for (let item of items) {
-      if (loader.transform) {
-        try {
-          item = await loader.transform(item)
-        }
-        catch (e) {
-          consola.error(`[content-loader] Failed to transform ${colors.dim(item.path)}:`, e)
-          continue
-        }
-      }
-
-      // Validate item.path: reject absolute paths, '..' traversal, and non-.md files
-      const normalizedPath = normalize(item.path)
-      if (isAbsolute(normalizedPath) || normalizedPath.startsWith('..') || !normalizedPath.endsWith('.md')) {
-        consola.warn(`[content-loader] Skipping invalid path: ${colors.dim(item.path)}`)
-        continue
-      }
-
+    for (const item of items) {
+      const normalizedPath = item.path
       const filePath = resolve(pagesDir, normalizedPath)
-      // Ensure resolved path stays within pagesDir
-      if (!filePath.startsWith(pagesDir)) {
-        consola.warn(`[content-loader] Skipping path escaping cache directory: ${colors.dim(item.path)}`)
-        continue
-      }
-
       const digest = item.digest || computeDigest(item.content)
 
       // Use normalizedPath as manifest key to handle non-canonical inputs (e.g. ./posts/a.md)
@@ -101,8 +110,7 @@ export async function loadAllContent(
         continue
       }
 
-      await fs.ensureDir(dirname(filePath))
-      await fs.writeFile(filePath, item.content, 'utf-8')
+      changes.push({ path: filePath, content: item.content })
       written++
     }
 
@@ -111,18 +119,32 @@ export async function loadAllContent(
     for (const key of staleKeys) {
       const stalePath = resolve(pagesDir, normalize(key))
       if (stalePath.startsWith(pagesDir) && await fs.pathExists(stalePath)) {
-        await fs.remove(stalePath)
-        consola.info(`[content-loader] Removed stale: ${colors.dim(key)}`)
+        changes.push({ path: stalePath })
       }
     }
 
-    await writeManifest(manifestPath, nextManifest)
+    changes.push({ path: manifestPath, content: JSON.stringify(nextManifest, null, 2) })
+    try {
+      await publishContentTransaction(transaction, changes)
+    }
+    catch (error) {
+      consola.error(`[content-loader] Failed to publish ${loaderLabel}; previous content restored:`, error)
+      if (loader.strict && ctx.mode === 'build')
+        throw error
+      continue
+    }
+    await loader.onLoaded?.(ctx)
 
     consola.success(
       `[content-loader] ${loaderLabel}: ${colors.green(String(written))} written, `
       + `${colors.dim(String(cached))} cached, `
       + `${colors.dim(String(staleKeys.length))} removed`,
     )
+  }
+
+  if (ctx.node.options.userRoot && ctx.node.options.pages) {
+    const pages = [...(await discoverPageFiles(ctx.node.options.userRoot)).keys()].sort()
+    ctx.node.options.pages.splice(0, ctx.node.options.pages.length, ...pages)
   }
 }
 

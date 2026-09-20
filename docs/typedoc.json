@@ -1,0 +1,19 @@
+{
+  "$schema": "https://typedoc.org/schema.json",
+  "tsconfig": "./tsconfig.typedoc.json",
+  "entryPoints": [
+    "../packages/valaxy/client",
+    "../packages/valaxy/node",
+    "../packages/valaxy/types"
+  ],
+  "categorizeByGroup": true,
+  "cleanOutputDir": true,
+  "githubPages": false,
+  "excludePrivate": true,
+  "excludeProtected": true,
+  "excludeInternal": true,
+  "readme": "none",
+  "hideBreadcrumbs": true,
+  "indexFormat": "table",
+  "useCodeBlocks": true
+}

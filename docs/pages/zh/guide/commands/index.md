@@ -98,7 +98,7 @@ Valaxy SSG 引擎分为三个阶段：
 2. **Server Build** — 构建 SSR 入口（`entry-ssr.ts`），生成可在 Node.js 中执行的渲染函数
 3. **Render** — 加载 SSR 入口，遍历路由，调用 Vue 的 `renderToString` 生成 HTML，通过纯字符串替换注入 `<head>` 标签、preload 链接和初始状态，写入磁盘
 
-由于不依赖 JSDOM，每页渲染的内存开销极低，因此可以使用更高的并发数（默认 20），整体构建速度更快且更稳定。首屏无样式闪烁由 [FOUC guard](./config/extend) 处理，而非 Critical CSS 内联。
+由于不依赖 JSDOM，每页渲染的内存开销极低，因此可以使用更高的并发数（默认 20），整体构建速度更快且更稳定。首屏无样式闪烁由 [FOUC guard](../config/extend) 处理，而非 Critical CSS 内联。
 
 
 

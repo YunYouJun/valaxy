@@ -1,5 +1,8 @@
 import { expect, test } from '@playwright/test'
 
+// Both language cases use the system clipboard, shared across browser contexts.
+test.describe.configure({ mode: 'default' })
+
 for (const language of [
   { path: '/zh/themes/write', brief: '复制设计简报', full: '完整提示词', workspace: '工作区', existing: '修改现有主题', design: '设计基础', name: '主题名称', visual: '视觉方向', features: '所需页面与功能' },
   { path: '/themes/write', brief: 'Copy design brief', full: 'Standalone prompt', workspace: 'Workspace', existing: 'Customize an existing theme', design: 'Design foundation', name: 'Theme name', visual: 'Visual direction', features: 'Required pages and features' },

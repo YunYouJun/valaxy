@@ -1,5 +1,5 @@
 import type { Plugin } from 'vite'
-import type { StateManager } from '../../../app/state'
+import type { StateManager, ValaxyFileInfo } from '../../../app/state'
 import type { ResolvedValaxyOptions } from '../../../types'
 import type { MarkdownBase } from '../base'
 import type { MarkdownEnv } from '../env'
@@ -8,6 +8,7 @@ import Markdown from 'unplugin-vue-markdown/vite'
 import { Valaxy } from '../../../app/class'
 import { logger } from '../../../logger'
 import { getSharedHighlighter } from '../highlighterCache'
+import { cacheMarkdownRender } from '../renderCache'
 import { defaultCodeTheme, setupMarkdownPageMetadata, setupMarkdownPlugins } from '../setup'
 import { createTransformIncludes } from './include'
 import { matterOptions } from './matter'
@@ -86,23 +87,32 @@ export async function createMarkdownPlugin(
       await setupUserMarkdown?.(mdIt)
       setupMarkdownPageMetadata(mdIt, options)
 
+      const environments = new WeakMap<MarkdownEnv, ValaxyFileInfo>()
+      const recordEnvironment = (env: MarkdownEnv) => {
+        if (!env.id)
+          return
+        const fileInfo = {
+          id: env.id,
+          title: env.title ?? '',
+          // Link renderer rules append after the core metadata rule runs.
+          // Share the same array so first-pass dead-link validation sees them.
+          links: env.links ?? (env.links = []),
+          headers: env.headers ?? [],
+          frontmatter: env.frontmatter ?? {},
+        }
+        environments.set(env, fileInfo)
+        state.set(fileInfo)
+      }
+
       // get env
       function initEnv(md: MarkdownRenderer) {
         md.core.ruler.push('valaxy_md_env', (mdState) => {
-          const env = mdState.env as MarkdownEnv
-          if (!env.id)
-            return
-          // record to map
-          state.set({
-            id: env.id,
-            title: env.title ?? '',
-            links: env.links ?? [],
-            headers: env.headers ?? [],
-            frontmatter: env.frontmatter ?? {},
-          })
+          recordEnvironment(mdState.env as MarkdownEnv)
         })
       }
       mdIt.use(initEnv)
+      if (options.mode === 'build')
+        cacheMarkdownRender(mdIt, state, base || options.config.vite?.base || '/', env => environments.get(env))
     },
 
     transforms: {

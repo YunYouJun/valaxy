@@ -6,6 +6,7 @@ import { addonComponents } from 'valaxy-addon-components'
 import { addonGirls } from 'valaxy-addon-girls'
 import { addonGitLog } from 'valaxy-addon-git-log'
 import { addonMeting } from 'valaxy-addon-meting'
+import { addonTypeDoc } from 'valaxy-addon-typedoc'
 
 import { localIconLoader } from 'vitepress-plugin-group-icons'
 
@@ -333,6 +334,11 @@ export default defineValaxyConfig<PressTheme.Config>({
   },
 
   addons: [
+    addonTypeDoc({
+      options: './typedoc.json',
+      watch: ['../packages/valaxy/{client,node,types}/**/*.{ts,tsx,vue,json}', '../packages/@valaxyjs/utils/src/**/*.ts', '../tsconfig.json', '../pnpm-lock.yaml'],
+      excludeIndex: true,
+    }),
     addonAlgolia({
       appId: '7MV77DWO4A',
       apiKey: '9b9438ca112ab7c044c985c2daa1190b',
@@ -385,7 +391,7 @@ export default defineValaxyConfig<PressTheme.Config>({
       },
       {
         text: 'API',
-        link: 'https://api.valaxy.site/',
+        link: '/api/',
       },
       {
         text: 'nav.theme',
@@ -522,7 +528,7 @@ export default defineValaxyConfig<PressTheme.Config>({
             },
             {
               text: 'API',
-              link: 'https://api.valaxy.site/',
+              link: '/zh/api/',
             },
             {
               text: '主题',
@@ -641,6 +647,8 @@ export default defineValaxyConfig<PressTheme.Config>({
   math: true,
 
   markdown: {
+    // The postprocessor below is pure, so repeated API signatures can be reused.
+    highlightCache: true,
     blocks: {
       tip: {
         icon: 'i-carbon-thumbs-up',

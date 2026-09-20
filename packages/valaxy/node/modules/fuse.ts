@@ -15,6 +15,7 @@ import { commonOptions } from '../cli/options'
 import { resolveOptions } from '../options'
 import { matterOptions } from '../plugins/markdown/transform/matter'
 import { setEnvProd } from '../utils/env'
+import { discoverPageFiles, getPagePath } from '../utils/pageSources'
 
 export const isWindows = os.platform() === 'win32'
 
@@ -29,6 +30,13 @@ export async function generateFuseList(options: ResolvedValaxyOptions) {
   // adapt for windows path
   const finalPattern = isWindows ? fg.convertPathToPattern(pattern) : pattern
   const files = await fg(finalPattern)
+  const fusePattern = options.config.siteConfig.fuse.pattern || 'pages/**/*.md'
+  if (fusePattern.startsWith('pages/')) {
+    for (const file of (await discoverPageFiles(options.userRoot, [fusePattern.slice(6)])).values()) {
+      if (!files.includes(file))
+        files.push(file)
+    }
+  }
   if (files.length > 0) {
     consola.success(`Found ${colors.dim(files.length.toString())} markdown files for fuse search.`)
   }
@@ -61,7 +69,7 @@ export async function generateFuseList(options: ResolvedValaxyOptions) {
     const extendKeys = options.config.fuse?.extendKeys || []
 
     // adapt for nested folders, like /posts/2021/01/01/index.md
-    const relativeLink = path.join(options.config.vite?.base || '/', path.relative(path.resolve(options.userRoot, 'pages'), i)).replace(/\\/g, '/')
+    const relativeLink = path.join(options.config.vite?.base || '/', getPagePath(i, options.userRoot) || path.relative(path.resolve(options.userRoot, 'pages'), i)).replace(/\\/g, '/')
     const link = i.endsWith('index.md')
       ? relativeLink.replace(/\/index\.md$/, '')
       : relativeLink.replace(/\.md$/, '')

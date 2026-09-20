@@ -43,18 +43,19 @@ onContentUpdated(() => {
   <main
     class="press-main flex" :class="{
       'has-sidebar': hasSidebar && layout !== 'post',
+      'press-api-document': frontmatter.api === true,
     }"
   >
     <div
       w="full" flex="~" :class="{
         'px-6 md:pl-12': hasSidebar,
-        'has-aside': !isHome,
+        'has-aside': !isHome && frontmatter.aside !== false,
       }" p="t-4"
       class="relative"
     >
       <div class="container" flex="~ grow" justify="between">
         <slot name="main">
-          <div class="vp-doc content" w="full" :class="{ 'm-auto': !hasSidebar }" flex="~ col grow" p="lt-md:0">
+          <div class="vp-doc content" w="full" :class="{ 'm-auto': !hasSidebar, 'no-aside': frontmatter.aside === false }" flex="~ col grow" p="lt-md:0">
             <slot name="main-header" />
             <slot name="main-header-after" />
 
@@ -62,7 +63,7 @@ onContentUpdated(() => {
               <slot name="main-content-before" />
 
               <ValaxyMd class="mx-auto w-full max-w-4xl" :frontmatter="frontmatter">
-                <div v-if="hasSidebar && !isHome && $title" flex items-center justify-between gap-2>
+                <div v-if="hasSidebar && !isHome && $title && frontmatter.pageTitle !== false" flex items-center justify-between gap-2>
                   <h1 :id="$title" tabindex="-1" class="!mt-0">
                     {{ $title }}
                     <a class="header-anchor" :href="`#${$title}`" aria-hidden="true" />
@@ -89,7 +90,7 @@ onContentUpdated(() => {
         </slot>
 
         <slot name="aside">
-          <PressAside v-if="!isHome" />
+          <PressAside v-if="!isHome && frontmatter.aside !== false" />
         </slot>
       </div>
     </div>

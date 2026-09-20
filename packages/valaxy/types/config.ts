@@ -509,7 +509,7 @@ export interface ValaxyConfig<ThemeConfig = DefaultTheme.Config> {
   /**
    * @en Site **info** config. This affects info displayed on the site, and is independent of themes.
    * @zh 站点**信息**配置，这部分内容面向站点展示，且在不同主题中也是通用的格式
-   * @see [站点配置 | Valaxy](https://valaxy.site/guide/config#%E7%AB%99%E7%82%B9%E9%85%8D%E7%BD%AE)
+   * @see [站点配置 | Valaxy](https://valaxy.site/zh/guide/config#site-config)
    * @see [Site Config | Valaxy](https://valaxy.site/guide/config#site-config)
    */
   siteConfig: SiteConfig

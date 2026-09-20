@@ -152,7 +152,7 @@ If your Valaxy project is hosted on EdgeOne, you can use [KV Storage](https://co
 1. Create a KV namespace. The namespace can use any name.
 2. Open **Hosting Project → KV Storage → KV Namespace Management → Bind Namespace**, then set the variable name to `moments_like`.
 
-An EdgeOne KV example is available in [`demo/yun/edge-functions`](../../demo/yun/edge-functions). Copy the `edge-functions` directory to the root of your Valaxy project. After deployment, set `likes.endpoint` in `addonMoments()` to the URL path exposed by the function, such as `/api/moments-like`, rather than a local file-system path.
+An EdgeOne KV example is available in [`demo/yun/edge-functions`](https://github.com/YunYouJun/valaxy/tree/main/demo/yun/edge-functions). Copy the `edge-functions` directory to the root of your Valaxy project. After deployment, set `likes.endpoint` in `addonMoments()` to the URL path exposed by the function, such as `/api/moments-like`, rather than a local file-system path.
 
 ## License
 

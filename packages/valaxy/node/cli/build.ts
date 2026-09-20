@@ -18,6 +18,7 @@ import { llmsModule } from '../modules/llms'
 import { rssModule } from '../modules/rss'
 import { validateTaxonomyI18n } from '../modules/taxonomy-i18n'
 import { resolveOptions } from '../options'
+import { profileBuildPhase } from '../utils/buildProfile'
 import { isPagesDirExist, setEnvProd, setTimezone } from '../utils/env'
 import { commonOptions } from './options'
 import { printInfo } from './utils/cli'
@@ -32,7 +33,7 @@ export async function execBuild({ ssg, root, output, log, siteUrl }: { ssg: bool
     throw new Error(`Pages directory not found: ${root}`)
 
   const userRoot = path.resolve(root)
-  const options = await resolveOptions({ userRoot }, 'build')
+  const options = await profileBuildPhase('resolve-options', () => resolveOptions({ userRoot }, 'build'))
   // Desktop publishing knows the assigned URL after the Pages project is created.
   if (siteUrl)
     options.config.siteConfig.url = siteUrl
@@ -81,7 +82,7 @@ export async function execBuild({ ssg, root, output, log, siteUrl }: { ssg: bool
   await callHookWithLog('config:init', valaxyApp)
 
   // before build
-  await callHookWithLog('build:before', valaxyApp)
+  await profileBuildPhase('build-before', () => callHookWithLog('build:before', valaxyApp))
   await validateTaxonomyI18n(options)
 
   consola.box('🌠 Start building...')
@@ -103,7 +104,7 @@ export async function execBuild({ ssg, root, output, log, siteUrl }: { ssg: bool
     // await fs.copyFile(templatePath, indexPath)
 
     // after build
-    await callHookWithLog('build:after', valaxyApp)
+    await profileBuildPhase('build-after', () => callHookWithLog('build:after', valaxyApp))
   }
 }
 

@@ -2,6 +2,19 @@ import type { AddonCatalogEntry } from '../types/addons'
 
 export const addons = [
   {
+    name: 'valaxy-addon-typedoc',
+    author: 'YunYouJun',
+    icon: 'i-ri-code-box-line',
+    repo: 'https://github.com/YunYouJun/valaxy/tree/main/packages/valaxy-addon-typedoc',
+    kind: 'official',
+    docsPath: '/addons/official/typedoc',
+    description: {
+      'en': 'Generate cached TypeScript API references inside Valaxy documentation.',
+      'zh-CN': '在 Valaxy 文档站内生成带缓存的 TypeScript API 参考。',
+    },
+    tags: ['docs', 'api', 'typedoc'],
+  },
+  {
     name: 'valaxy-addon-abbrlink',
     author: 'YunYouJun',
     icon: 'i-ri-links-line',

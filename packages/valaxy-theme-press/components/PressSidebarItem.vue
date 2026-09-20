@@ -2,6 +2,7 @@
 import type { DefaultTheme } from 'vitepress/theme'
 import { computed } from 'vue'
 import { useI18n } from 'vue-i18n'
+import { useRoute } from 'vue-router'
 import { useSidebarControl } from '../composables/sidebar'
 
 const props = defineProps<{
@@ -56,6 +57,7 @@ function onItemInteraction(e: MouseEvent | Event) {
 }
 
 const { t } = useI18n()
+const route = useRoute()
 
 const htmlText = computed(() => {
   return t(rawText.value) || rawText.value
@@ -111,14 +113,30 @@ function getChildItemKey(item: DefaultTheme.SidebarItem, index: number): string 
       </button>
     </div>
 
-    <ul v-if="hasChildItems" class="items press-sidebar-item-list">
+    <ul v-if="hasChildItems && !collapsed" class="items press-sidebar-item-list">
       <template v-if="depth < 5">
-        <PressSidebarItem
-          v-for="(i, index) in childItems"
-          :key="getChildItemKey(i, index)"
-          :item="i"
-          :depth="depth + 1"
-        />
+        <template v-for="(i, index) in childItems" :key="getChildItemKey(i, index)">
+          <!-- Leaves have no collapse state. Render them directly instead of
+               constructing a recursive component and its watchers per symbol. -->
+          <li
+            v-if="!i.items?.length && i.collapsed == null"
+            class="VPSidebarItem press-sidebar-item-node"
+            :class="[`level-${depth + 1}`, { 'is-link': !!i.link, 'is-active': route.path === i.link, 'has-active': route.path === i.link }]"
+          >
+            <div v-if="i.text" class="press-sidebar-item item">
+              <div class="indicator" />
+              <AppLink v-if="i.link" class="link" :href="i.link" :rel="i.rel" :target="i.target">
+                <p class="text ml-1">
+                  <span v-html="t(i.text) || i.text" />
+                </p>
+              </AppLink>
+              <p v-else class="text ml-1">
+                <span v-html="t(i.text) || i.text" />
+              </p>
+            </div>
+          </li>
+          <PressSidebarItem v-else :item="i" :depth="depth + 1" />
+        </template>
       </template>
     </ul>
   </li>

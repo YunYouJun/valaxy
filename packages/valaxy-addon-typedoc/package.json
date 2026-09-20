@@ -1,0 +1,22 @@
+{
+  "name": "valaxy-addon-typedoc",
+  "type": "module",
+  "version": "0.1.0",
+  "description": "Cached TypeDoc reference pages for Valaxy documentation sites",
+  "license": "MIT",
+  "repository": { "type": "git", "url": "git+https://github.com/YunYouJun/valaxy.git", "directory": "packages/valaxy-addon-typedoc" },
+  "exports": { ".": "./index.ts", "./node": "./node/index.ts", "./package.json": "./package.json" },
+  "files": ["README.md", "README.zh-CN.md", "index.ts", "node"],
+  "engines": { "node": ">=22.12.0" },
+  "peerDependencies": { "valaxy": ">=1.0.0-rc.13 <2" },
+  "dependencies": {
+    "fast-glob": "catalog:",
+    "fs-extra": "catalog:",
+    "minimatch": "catalog:",
+    "typedoc": "catalog:",
+    "typedoc-plugin-markdown": "catalog:",
+    "typescript": "catalog:build"
+  },
+  "devDependencies": { "valaxy": "workspace:*" },
+  "publishConfig": { "access": "public" }
+}

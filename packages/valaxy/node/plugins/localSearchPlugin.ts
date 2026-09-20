@@ -12,9 +12,12 @@ import process from 'node:process'
 import { slash } from '@antfu/utils'
 import _debug from 'debug'
 import fs from 'fs-extra'
+import matter from 'gray-matter'
 import MiniSearch from 'minisearch'
 import pMap from 'p-map'
+import { discoverPageFiles, getPagePath, resolvePageFile } from '../utils/pageSources'
 import { createLightMarkdownRenderer } from './markdown'
+import { matterOptions } from './markdown/transform/matter'
 import { processIncludes } from './markdown/utils/processInclude'
 
 const debug = _debug('valaxy:local-search')
@@ -52,27 +55,23 @@ export async function localSearchPlugin(
   }
 
   const srcDir = path.resolve(options.userRoot, 'pages')
-  // Use a live reference to options.pages so that newly added .md files during
-  // development are included when scanForBuild() performs a full index rebuild.
-  // Note: other plugins (markdownToVue) may strip the .md extension from entries,
-  // but scanForBuild reads files from disk using the current page list.
-  const originalPages = options.pages
   const md = await createLightMarkdownRenderer(options, base)
 
   async function render(file: string) {
     if (!fs.existsSync(file))
-      return ''
-    const relativePath = slash(path.relative(srcDir, file))
+      return { html: '', shared: false }
+    const relativePath = getPagePath(file, options.userRoot) || slash(path.relative(srcDir, file))
     const env: MarkdownEnv = { path: file, relativePath }
     const mdRaw = await fs.promises.readFile(file, 'utf-8')
-    const mdSrc = processIncludes(srcDir, mdRaw, file)
+    const { data: fm, content } = matter(mdRaw, matterOptions)
+    const mdSrc = processIncludes(srcDir, content, file)
     const html = await md.renderAsync(mdSrc, env)
-    return env.frontmatter?.search === false ? '' : html
+    return { html: fm?.search === false || fm?.draft || fm?.hide || fm?.password ? '' : html, shared: fm?.sharedLocale === true }
   }
 
   const indexByLocales = new Map<string, MiniSearch<IndexObject>>()
   // Track which document IDs belong to each page file for incremental HMR updates
-  const fileToDocIds = new Map<string, { locale: string, ids: string[] }>()
+  const fileToDocIds = new Map<string, { locales: string[], ids: string[] }>()
 
   function getIndexByLocale(locale: string) {
     let index = indexByLocales.get(locale)
@@ -111,7 +110,7 @@ export async function localSearchPlugin(
   }
 
   function getDocId(file: string) {
-    const relFile = slash(path.relative(srcDir, file))
+    const relFile = getPagePath(file, options.userRoot) || slash(path.relative(srcDir, file))
     let id = slash(path.join('/', relFile))
     id = id.replace(/(^|\/)index\.md$/, '$1')
     id = id.replace(/\.md$/, '.html')
@@ -128,12 +127,13 @@ export async function localSearchPlugin(
   }
 
   async function indexFile(page: string) {
-    const file = path.join(srcDir, page)
+    const file = resolvePageFile(page, options.userRoot)
+    if (!file)
+      return
     const fileId = getDocId(file)
-    const locale = getLocaleForPath(page)
-    const index = getIndexByLocale(locale)
-
-    const html = await render(file)
+    const { html, shared } = await render(file)
+    const locales = shared ? [...new Set(['root', ...siteConfig.languages || []])] : [getLocaleForPath(page)]
+    const indexes = locales.map(getIndexByLocale)
     const sections = splitPageIntoSections(html)
     const docIds: string[] = []
     for (const section of sections) {
@@ -142,14 +142,16 @@ export async function localSearchPlugin(
       const { anchor, text, titles } = section
       const id = anchor ? [fileId, anchor].join('#') : fileId
       docIds.push(id)
-      index.add({
+      const record = {
         id,
         text,
         title: titles.at(-1)!,
         titles: titles.slice(0, -1),
-      })
+      }
+      for (const index of indexes)
+        index.add(record)
     }
-    fileToDocIds.set(page, { locale, ids: docIds })
+    fileToDocIds.set(page, { locales, ids: docIds })
   }
 
   /**
@@ -159,8 +161,10 @@ export async function localSearchPlugin(
     const entry = fileToDocIds.get(page)
     if (!entry)
       return true
-    const index = indexByLocales.get(entry.locale)
-    if (index) {
+    for (const locale of entry.locales) {
+      const index = indexByLocales.get(locale)
+      if (!index)
+        continue
       for (const id of entry.ids) {
         try {
           index.discard(id)
@@ -179,10 +183,30 @@ export async function localSearchPlugin(
     debug('Indexing files for search...')
     indexByLocales.clear()
     fileToDocIds.clear()
-    await pMap(originalPages, indexFile, {
+    await pMap([...(await discoverPageFiles(options.userRoot)).keys()], indexFile, {
       concurrency: 10,
     })
     debug('Indexing finished..., %d locales', indexByLocales.size)
+  }
+
+  let pendingUpdate = Promise.resolve()
+  const changedPages = new Set<string>()
+  let timer: ReturnType<typeof setTimeout> | undefined
+  function flushUpdates() {
+    clearTimeout(timer)
+    const pages = [...changedPages]
+    changedPages.clear()
+    pendingUpdate = pendingUpdate.catch(error => server?.config.logger.error(String(error))).then(async () => {
+      for (const page of pages) {
+        if (!discardFile(page)) {
+          await scanForBuild()
+          break
+        }
+        await indexFile(page)
+      }
+      onIndexUpdated()
+    })
+    return pendingUpdate
   }
 
   return {
@@ -200,6 +224,21 @@ export async function localSearchPlugin(
 
     async configureServer(_server) {
       server = _server
+      const onPageChange = (file: string) => {
+        const page = getPagePath(file, options.userRoot)
+        if (file.endsWith('.md') && page) {
+          changedPages.add(page)
+          clearTimeout(timer)
+          timer = setTimeout(() => {
+            void flushUpdates().catch(error => server?.config.logger.error(String(error)))
+          }, 100)
+        }
+      }
+      server.watcher.on('add', onPageChange).on('unlink', onPageChange)
+      server.httpServer?.once('close', () => {
+        clearTimeout(timer)
+        server?.watcher.off('add', onPageChange).off('unlink', onPageChange)
+      })
       await scanForBuild()
       onIndexUpdated()
     },
@@ -236,19 +275,10 @@ export async function localSearchPlugin(
 
     async handleHotUpdate({ file }) {
       if (file.endsWith('.md')) {
-        const relPath = slash(path.relative(srcDir, file))
+        const relPath = getPagePath(file, options.userRoot) || slash(path.relative(srcDir, file))
         if (!relPath.startsWith('..')) {
-          // Incremental update: discard old entries and re-index only the changed file.
-          // If discard fails, fall back to a full rebuild to avoid stale index state.
-          if (discardFile(relPath)) {
-            await indexFile(relPath)
-            debug('Updated index for %s', relPath)
-          }
-          else {
-            debug('Discard failed for %s, rebuilding full index', relPath)
-            await scanForBuild()
-          }
-          onIndexUpdated()
+          changedPages.add(relPath)
+          await flushUpdates()
         }
       }
     },

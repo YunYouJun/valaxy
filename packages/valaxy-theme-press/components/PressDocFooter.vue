@@ -10,7 +10,7 @@ const control = usePrevNext()
 <template>
   <div class="press-doc-footer">
     <div flex justify="between" items="center" text="sm">
-      <a flex items="center" class="decoration-none!" :href="editLink.url" target="_blank" rel="noopener noreferrer">
+      <a v-if="editLink.url" flex items="center" class="decoration-none!" :href="editLink.url" target="_blank" rel="noopener noreferrer">
         <div i-ri-external-link-line />
         <span ml-1>{{ editLink.text || t('tooltip.edit_this_page') }}</span>
       </a>

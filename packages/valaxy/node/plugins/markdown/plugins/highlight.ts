@@ -2,6 +2,8 @@ import type { TransformerCompactLineOption } from '@shikijs/transformers'
 import type { ShikiTransformer } from 'shiki'
 import type { Logger } from 'vite'
 import type { MarkdownOptions, ThemeOptions } from '../types'
+import { Buffer } from 'node:buffer'
+import { createHash } from 'node:crypto'
 import {
   transformerCompactLineOptions,
   transformerNotationDiff,
@@ -10,6 +12,7 @@ import {
   transformerNotationHighlight,
 } from '@shikijs/transformers'
 import { colors } from 'consola/utils'
+import { LRUCache } from 'lru-cache'
 // ref vitepress
 import { customAlphabet } from 'nanoid'
 import {
@@ -110,8 +113,22 @@ export async function highlight(
   const lineNoRE = /:(no-)?line-numbers(=\d*)?$/
   const mustacheRE = /\{\{.*?\}\}/g
 
+  // Re-exported API signatures often occur in several pages. Only the built-in
+  // pure transforms are cached by default; custom hooks must explicitly opt in.
+  const cache = (options.highlightCache ?? (!userTransformers.length && !options.shikiSetup))
+    ? new LRUCache<string, string>({
+        max: 1024,
+        maxSize: 8 * 1024 * 1024,
+        sizeCalculation: value => Buffer.byteLength(value),
+      })
+    : undefined
+
   return [
     async (str: string, lang: string, attrs: string) => {
+      const key = cache && createHash('sha256').update(JSON.stringify([str, lang, attrs])).digest('base64url')
+      const cached = key ? cache?.get(key) : undefined
+      if (cached !== undefined)
+        return cached
       const vPre = vueRE.test(lang) ? '' : 'v-pre'
       lang
         = lang
@@ -206,8 +223,14 @@ export async function highlight(
           : { theme }),
       })
 
-      return restoreMustache(highlighted)
+      const result = restoreMustache(highlighted)
+      if (key)
+        cache?.set(key, result)
+      return result
     },
-    highlighter.dispose,
+    () => {
+      cache?.clear()
+      highlighter.dispose()
+    },
   ]
 }

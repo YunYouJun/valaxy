@@ -152,7 +152,7 @@ addonMoments({
 1. 创建 KV 命名空间（此处命名无限制）
 2. 托管项目 - KV 存储 - KV 命名空间管理 - 绑定命名空间 - 变量名称填入 `moments_like`
 
-仓库中的 [`demo/yun/edge-functions`](../../demo/yun/edge-functions) 提供了 EdgeOne KV 示例。请将 `edge-functions` 目录复制到 Valaxy 项目根目录；部署后，将 `addonMoments()` 中的 `likes.endpoint` 配置为函数对外提供的 URL 路径，例如 `/api/moments-like`，而不是本地文件系统路径。
+仓库中的 [`demo/yun/edge-functions`](https://github.com/YunYouJun/valaxy/tree/main/demo/yun/edge-functions) 提供了 EdgeOne KV 示例。请将 `edge-functions` 目录复制到 Valaxy 项目根目录；部署后，将 `addonMoments()` 中的 `likes.endpoint` 配置为函数对外提供的 URL 路径，例如 `/api/moments-like`，而不是本地文件系统路径。
 
 ## License
 

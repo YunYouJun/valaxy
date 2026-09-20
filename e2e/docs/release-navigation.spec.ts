@@ -42,12 +42,14 @@ test('keeps the hydrated app mounted across repeated layout changes', async ({ p
   }
 })
 
-test('opens and closes hydrated portals before leaving the layout', async ({ page }) => {
+test('opens and closes locale menus and search before leaving the layout', async ({ page }) => {
   const mobile = page.getByRole('button', { name: '打开导航', exact: true })
-  if (await mobile.isVisible())
+  const isMobile = await mobile.isVisible()
+  if (isMobile)
     await mobile.click()
   for (let i = 0; i < 2; i++) {
-    await page.getByRole('button', { name: '切换语言', exact: true }).click()
+    const trigger = page.getByRole('button', { name: '切换语言', exact: true })
+    await trigger.click()
     const menu = page.locator('#valaxy-teleports [role="menu"]')
     await expect(menu).toBeVisible()
     await page.keyboard.press('Escape')
