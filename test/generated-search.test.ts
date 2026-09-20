@@ -22,15 +22,15 @@ it('indexes generated shared pages in each locale and updates additions/deletion
     const load = plugin.load as (id: string) => Promise<string>
     expect(await load('/@localSearchIndex')).toContain('@localSearchIndexzh')
     const chinese = await load('/@localSearchIndexzh')
-    expect(chinese).toContain('/api/read.html#read')
+    expect(chinese).toContain('/api/read#read')
     expect(chinese).not.toContain('HiddenToken')
     const added = resolve(root, '.valaxy/content/pages/api/write.md')
     await fs.outputFile(added, '---\nsharedLocale: true\n---\n# write\n\nWrite a value.')
     watcher.emit('add', added)
-    await vi.waitFor(async () => expect(await load('/@localSearchIndexzh')).toContain('/api/write.html#write'))
+    await vi.waitFor(async () => expect(await load('/@localSearchIndexzh')).toContain('/api/write#write'))
     await fs.remove(file)
     watcher.emit('unlink', file)
-    await vi.waitFor(async () => expect(await load('/@localSearchIndexzh')).not.toContain('/api/read.html#read'))
+    await vi.waitFor(async () => expect(await load('/@localSearchIndexzh')).not.toContain('/api/read#read'))
     server.httpServer!.emit('close')
     expect(watcher.listenerCount('add')).toBe(0)
   }

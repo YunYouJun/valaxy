@@ -113,7 +113,7 @@ export async function localSearchPlugin(
     const relFile = getPagePath(file, options.userRoot) || slash(path.relative(srcDir, file))
     let id = slash(path.join('/', relFile))
     id = id.replace(/(^|\/)index\.md$/, '$1')
-    id = id.replace(/\.md$/, '.html')
+    id = id.replace(/\.md$/, '')
     return id
   }
 

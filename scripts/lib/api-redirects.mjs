@@ -8,6 +8,10 @@ export function apiRedirects(legacy) {
     ['/index.html', 'https://valaxy.site/api/'],
     ['/README', 'https://valaxy.site/api/'],
     ['/README.html', 'https://valaxy.site/api/'],
+    ['/typedoc', 'https://valaxy.site/api/'],
+    ['/typedoc/', 'https://valaxy.site/api/'],
+    ['/typedoc.html', 'https://valaxy.site/api/'],
+    ['/typedoc/index.html', 'https://valaxy.site/api/'],
   ])
   for (const { path } of legacy.pages) {
     const target = apiDestination(path)
