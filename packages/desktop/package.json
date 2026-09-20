@@ -64,6 +64,7 @@
       ]
     },
     "linux": {
+      "executableName": "valaxy-desktop",
       "category": "Development",
       "target": [
         "AppImage"
