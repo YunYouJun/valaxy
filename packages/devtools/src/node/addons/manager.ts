@@ -186,7 +186,7 @@ async function assertNoOtherReferences(root: string, name: string, configFile?: 
   const reference = new RegExp(`['"\x60]${escaped}(?:/[^'"\x60\\n]*)?['"\x60]`)
   const remaining: string[] = []
   for (const file of files) {
-    if (file !== configFile && reference.test(await fs.readFile(await resolveInsideRoot(root, file), 'utf8')))
+    if (pathe.normalize(file) !== configFile && reference.test(await fs.readFile(await resolveInsideRoot(root, file), 'utf8')))
       remaining.push(pathe.relative(root, file))
   }
   if (remaining.length)
@@ -198,7 +198,7 @@ export function createAddonManager(options: ValaxyDevtoolsOptions, dependencies:
   const fetchPackage = dependencies.fetchPackage || fetchAddonPackage
   const run = dependencies.run || runAddonPackageManager
   async function context() {
-    const root = await fs.realpath(rootPath)
+    const root = pathe.normalize(await fs.realpath(rootPath))
     let state = states.get(root)
     if (!state) {
       state = { plans: new Map(), jobs: new Map() }

@@ -187,6 +187,29 @@ describe('addon inventory and package operations', () => {
     expect((await settle(manager)).log.length).toBe(20_000)
   })
 
+  it('serializes the workspace root and a child project against their shared lockfile', async () => {
+    await writeFile(join(root, 'pnpm-workspace.yaml'), 'packages:\n  - child\n')
+    const child = join(root, 'child')
+    await fs.outputJSON(join(child, 'package.json'), { name: 'child', private: true })
+    let finish!: () => void
+    const waiting = new Promise<void>((resolve) => {
+      finish = resolve
+    })
+    const manager = createManager(vi.fn(async () => {
+      await waiting
+      throw new Error('Expected failure')
+    }))
+    const sibling = createAddonManager({ userRoot: child }, { fetchPackage: async packageName => ({ name: packageName, version: '1.2.3', description: '', peerDependencies: {} }) })
+    const parentPlan = await manager.prepare('install', name)
+    const childPlan = await sibling.prepare('install', name)
+    expect(parentPlan.command).toContain('--workspace-root')
+    expect(childPlan.command).not.toContain('--workspace-root')
+    await manager.apply(parentPlan.id)
+    await expect(sibling.apply(childPlan.id)).rejects.toThrow(/already running/)
+    finish()
+    await settle(manager)
+  })
+
   it('checks other source imports before preview and again before execution', async () => {
     await addInstalled()
     const run = vi.fn(async () => {})
