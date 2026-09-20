@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import type { ApiIndexGroup } from '../utils/api-index'
-import { computed, shallowRef, useId } from 'vue'
+import { computed, onMounted, shallowRef, useId } from 'vue'
 import { filterApiGroups } from '../utils/api-index'
 
 const props = withDefaults(defineProps<{
@@ -20,6 +20,8 @@ const props = withDefaults(defineProps<{
   resultsText: 'APIs',
 })
 const query = shallowRef('')
+const ready = shallowRef(false)
+onMounted(() => ready.value = true)
 const module = shallowRef('')
 const inputId = useId()
 const modules = computed(() => [...new Set(props.groups.map(group => group.module).filter((name): name is string => !!name))])
@@ -41,15 +43,15 @@ function clear() {
       <label :for="inputId" class="api-filter-label">{{ label }}</label>
       <div class="api-search-field">
         <span class="api-search-icon" aria-hidden="true">⌕</span>
-        <input :id="inputId" v-model="query" type="search" class="api-filter-input" :placeholder="placeholder" autocomplete="off" spellcheck="false">
+        <input :id="inputId" v-model="query" :disabled="!ready" type="search" class="api-filter-input" :placeholder="placeholder" autocomplete="off" spellcheck="false">
       </div>
       <span class="api-result-count" role="status" aria-live="polite">{{ count }} {{ resultsText }}</span>
     </div>
     <div v-if="modules.length > 1" class="api-module-filter" role="group" :aria-label="allText">
-      <button type="button" :aria-pressed="!module" @click="module = ''">
+      <button type="button" :disabled="!ready" :aria-pressed="!module" @click="module = ''">
         {{ allText }}
       </button>
-      <button v-for="name in modules" :key="name" type="button" :aria-pressed="module === name" @click="module = name">
+      <button v-for="name in modules" :key="name" type="button" :disabled="!ready" :aria-pressed="module === name" @click="module = name">
         {{ name }}
       </button>
     </div>
