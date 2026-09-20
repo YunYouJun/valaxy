@@ -293,7 +293,7 @@ DOCS_MAX_COLD_RATIO=1.10 DOCS_MAX_RSS_MIB=6144 \
 
 **本地发布前准备通过；目标 CI 和生产切换尚未执行。** 合并前运行三轮 CI 性能工作流，门槛失败时继续优化。通过后依次预览发布、发布新核心/Press 与 addon、上线主站、重建 Algolia、启用旧域名逐页 301，最后退役旧内容构建。旧站产物与域名切换回退材料继续保留。
 
-### 发布顺序与尚未执行事项
+### 当时的发布顺序与待办（已由下方执行记录更新）
 
 1. 审阅并合并核心/Press、addon、主站和 Starter 的变更；完成上述目标 CI 性能验收及包发布顺序。
 2. 发布主站预览，复核当前旧站 sitemap 与已保存的旧页快照，确认没有新增遗漏。
@@ -301,7 +301,7 @@ DOCS_MAX_COLD_RATIO=1.10 DOCS_MAX_RSS_MIB=6144 \
 4. 按 [旧域名切换说明](../../api/migration/README.md) 部署逐页 301，验证真实状态码、查询参数、锚点及回退。
 5. 稳定后移除旧 API 内容 workspace、旧构建脚本和专用依赖；永久保留旧域名与重定向映射。
 
-本次本地实施未修改 DNS、线上托管或 Algolia 管理配置，也未发布 npm 包。旧 API 内容仍保留用于切换前对照与回退。
+以上是本地准备阶段的状态；后续实际发布与切换结果见下方记录。
 
 ## 第三轮：发布执行与 API 阅读体验（2026-09-21）
 
@@ -312,3 +312,19 @@ DOCS_MAX_COLD_RATIO=1.10 DOCS_MAX_RSS_MIB=6144 \
 - 发布候选设为 Valaxy / Press 等核心包 `1.0.0-rc.13`，TypeDoc addon `0.1.0`。核心 tag 发布限于统一版本的六个包，独立 addon 随后发布。
 - 在隔离 worktree `codex/api-docs-release` 推进，未包含其他任务的 VS Code 文档与语言菜单修改。GitHub PR 将触发 Linux 三轮性能对比及跨平台 CI；本轮本地机器负载波动较大，不把单次优化前后耗时当作最终性能结论。
 - 已核对 Cloudflare Pages 主站 `valaxy` 与旧站 `valaxy-api`。Algolia 现有抓取因 2026-09-07 记录数下降超过 10% 而暂停；新站上线后需重新抓取并检查，不能直接强制应用旧暂存索引。
+
+## Production cutover (2026-09-21)
+
+The unified API reference is live at <https://valaxy.site/api/>. It keeps the client, node and types entries, one source version/revision, shared API content, locale-preserving navigation and source links. Starter now owns its Press documentation at <https://starter.valaxy.site/docs/> alongside the theme demo at `/`.
+
+Final migration candidate CI benchmark [35531738307](https://github.com/YunYouJun/valaxy/actions/runs/35531738307) used three interleaved rounds on the same Linux runner against `4cb2a1e`. Median old docs + API sequential wall time was **60.152 s**; merged cold build was **61.867 s (+2.85%)**; merged warm build was **54.118 s (-10.03%)**. Sampled process-tree peak RSS was **5,612.3 MiB (5.48 GiB)** against the **6,144 MiB** budget. The old parallel critical-path estimate was **40.89 s**; actual parallel deployment was not measured. These CI numbers supersede the earlier local performance conclusion.
+
+The migration was merged in [#737](https://github.com/YunYouJun/valaxy/pull/737), with the six coordinated packages released as `1.0.0-rc.13`. Live Starter testing then exposed local-search IDs ending in `.html`, which did not match the extensionless Vue routes. [#738](https://github.com/YunYouJun/valaxy/pull/738) fixes that mismatch and extends the isolated packed-consumer browser check to real navigation for authored and generated pages under `/docs/`, released as `1.0.0-rc.14` by [workflow 35534479283](https://github.com/YunYouJun/valaxy/actions/runs/35534479283).
+
+Algolia now crawls `https://valaxy.site/sitemap.xml`, limits headings/content to `main article`, includes API tables and code signatures, and gives API records `lang: ['en', 'zh-CN']`. The clean crawl successfully processed **490 pages**, with **19 ignored URLs**, and published approximately **6,770 records**. The reduction from 12,847 records removed duplicate navigation entries. Actual production queries for `defineSiteConfig`, `loadAllContent`, `ValaxyConfig` and Chinese theme content passed; no sidebar-navigation anchor appeared. The complete previous index and settings are retained as `valaxysite-before-api-cleanup-20260921` and can be copied back through Manage index → Duplicate → existing index.
+
+The final old-site crawl covered 578 HTML URLs. The site did not expose a sitemap; the audit followed its actual reachable links. It identified the newly exported `loadAllContent`, which is now included in the preserved snapshot. The mapper contains **603 HTTP 301 rules** covering 292 legacy content pages, extensionless variants and old index aliases. All preview rules passed real HTTP status/Location/query checks, and a browser followed a legacy function link to the correct main-site `#parameters` section.
+
+Production `api.valaxy.site` now serves the same 603 verified 301 rules; query forwarding passed for every rule and a browser retained the new `loadAllContent#returns` anchor. The old host skips dependency installation and executes only the built-in Node redirect generator. Standalone API sources, workspace membership and dedicated TypeDoc/VitePress bridge dependency were removed after these checks. Press retains its own VitePress style/type dependency. Historical sources and deployment rollback references remain available in [the cutover guide](../../api/migration/README.md).
+
+The independent `valaxy-addon-typedoc@0.1.0` package has passed tarball-consumer checks; its first npm publication still awaits the account owner’s additional npm publish verification. Main-site deployment consumes the workspace addon and is already live.

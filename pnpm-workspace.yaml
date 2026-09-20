@@ -28,7 +28,6 @@ publicHoistPattern:
 shellEmulator: true
 
 packages:
-  - api
   - docs
   - demo/*
   - demo/custom/valaxy-theme-custom
@@ -192,7 +191,6 @@ catalog:
   tsx: ^4.23.13
   typedoc: ^0.28.20
   typedoc-plugin-markdown: ^4.13.1
-  typedoc-vitepress-theme: ^1.1.4
   unocss: 66.10.5
   # Pinned to 28.0.0: 28.1.0+ breaks component override order (clientRoot/themeRoot), see #505
   unplugin-vue-components: 28.0.0
@@ -226,8 +224,6 @@ catalogs:
     '@unhead/vue': ^3.4.1
     colorjs.io: ^0.6.1
     consola: ^3.4.2
-    # Match the minifier used by VitePress 2 when building with Vite 8 (Rolldown).
-    oxc-minify: ^0.150.0
     typescript: ^5.9.3
     unbuild: ^3.6.1
     unhead: ^3.4.1
