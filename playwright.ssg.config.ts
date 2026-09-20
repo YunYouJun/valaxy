@@ -3,7 +3,7 @@ import { defineConfig, devices } from '@playwright/test'
 
 export default defineConfig({
   testDir: './e2e/docs',
-  testMatch: ['release-navigation.spec.ts', 'api-reference.spec.ts'],
+  testMatch: ['release-navigation.spec.ts', 'api-reference.spec.ts', 'api-hydration.ssg.spec.ts'],
   forbidOnly: !!process.env.CI,
   retries: process.env.CI ? 1 : 0,
   workers: 1,
