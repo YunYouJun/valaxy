@@ -12,6 +12,15 @@ peerDependencyRules:
     - react
     - react-dom
 
+# Keep the desktop's bundled pnpm from shadowing the repository package manager.
+hoistPattern:
+  - '*'
+  - '!pnpm'
+
+publicHoistPattern:
+  - '*'
+  - '!pnpm'
+
 shellEmulator: true
 
 packages:
