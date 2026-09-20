@@ -138,7 +138,7 @@ try {
   expect(remaining).toContain('keep me')
   await page.setViewportSize({ width: 390, height: 844 })
   await page.getByRole('button', { name: '插件橱窗', exact: true }).click()
-  await expect(page.locator('[data-addon]')).toHaveCount(18)
+  await expect(page.locator('[data-addon]')).toHaveCount(addons.length)
   expect(await page.evaluate(() => document.documentElement.scrollWidth <= window.innerWidth)).toBe(true)
   await page.screenshot({ path: join(artifacts, 'marketplace-mobile.png'), fullPage: true, animations: 'disabled' })
   expect(browserErrors).toEqual([])
