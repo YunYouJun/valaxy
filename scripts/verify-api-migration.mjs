@@ -2,6 +2,7 @@ import assert from 'node:assert/strict'
 import { access, mkdir, readdir, readFile, writeFile } from 'node:fs/promises'
 import { resolve } from 'node:path'
 import { JSDOM } from 'jsdom'
+import { apiDestination, apiRedirects, formatApiRedirects } from './lib/api-redirects.mjs'
 
 const root = resolve('docs/dist')
 const legacy = JSON.parse(await readFile('api/migration/legacy-pages.json', 'utf8'))
@@ -34,18 +35,9 @@ async function readPage(path) {
   }
 }
 
-function destination(path) {
-  return path.replace(/^\/typedoc(?=\/)/, '/api').replace(/^\/notes(?=\/)/, '/dev/notes').replace(/\/index\.html$/, '/').replace(/\.html$/, '')
-}
-
-const redirects = new Map([
-  ['/', 'https://valaxy.site/api/'],
-  ['/index.html', 'https://valaxy.site/api/'],
-  ['/README', 'https://valaxy.site/api/'],
-  ['/README.html', 'https://valaxy.site/api/'],
-])
+const redirects = apiRedirects(legacy)
 for (const { path, anchors } of legacy.pages) {
-  const target = destination(path)
+  const target = apiDestination(path)
   const page = await readPage(target)
   if (!page) {
     errors.push(`Missing migration target: ${path} → ${target}`)
@@ -55,11 +47,6 @@ for (const { path, anchors } of legacy.pages) {
     if (!page.ids.has(anchor))
       errors.push(`Lost legacy anchor: ${path}#${anchor} → ${target}`)
   }
-  const variants = [path, path.replace(/\.html$/, '')]
-  if (path.endsWith('/index.html'))
-    variants.push(path.replace(/index\.html$/, ''), path.replace(/\/index\.html$/, ''))
-  for (const from of variants)
-    redirects.set(from, `https://valaxy.site${target}`)
 }
 
 let linkCount = 0
@@ -95,6 +82,6 @@ assert.equal(errors.length, 0, errors.slice(0, 50).join('\n'))
 // Publish this directory ONLY as the old domain's static redirects project.
 const output = resolve('api/migration/dist')
 await mkdir(output, { recursive: true })
-await writeFile(resolve(output, '_redirects'), `${[...redirects].map(([from, to]) => `${from} ${to} 301`).join('\n')}\n`)
+await writeFile(resolve(output, '_redirects'), formatApiRedirects(redirects))
 await writeFile(resolve(output, 'index.html'), '<!doctype html><title>Valaxy API moved</title><a href="https://valaxy.site/api/">Valaxy API documentation</a>\n')
 console.log(`Verified ${htmlFiles.length} API pages, ${linkCount} internal links, ${legacy.pages.length} legacy pages; prepared ${redirects.size} HTTP 301 rules.`)
