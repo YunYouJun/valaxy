@@ -21,9 +21,6 @@
     "node": ">=22.12.0"
   },
   "scripts": {
-    "api:dev": "pnpm -C api run dev",
-    "api:build": "pnpm -C api run build",
-    "api:preview": "pnpm -C api run preview",
     "verify:api": "node scripts/verify-api-migration.mjs",
     "build:all": "pnpm -r --filter \"./packages/**\" run build",
     "build": "pnpm run build:@valaxyjs/utils && pnpm run build:valaxy && pnpm run build:devtools",
