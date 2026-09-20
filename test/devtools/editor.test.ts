@@ -4,7 +4,9 @@ import { EventEmitter } from 'node:events'
 import { mkdir, mkdtemp, rm, symlink, writeFile } from 'node:fs/promises'
 import { tmpdir } from 'node:os'
 import { join } from 'node:path'
+import process from 'node:process'
 import { createHostContext } from 'devframe/node'
+import { normalize } from 'pathe'
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 import { createValaxyDevframe } from '../../packages/devtools/src/node/definition'
 import { getEditorOptions } from '../../packages/devtools/src/node/editor'
@@ -14,9 +16,20 @@ let site: string
 let ctx: DevframeNodeContext
 const child = new EventEmitter() as ReturnType<typeof childProcess.spawn>
 
+function expectLaunch(editor: string, target: string) {
+  if (process.platform === 'win32') {
+    expect(childProcess.exec).toHaveBeenLastCalledWith(expect.stringContaining(editor), { stdio: 'inherit', shell: true })
+    expect(vi.mocked(childProcess.exec).mock.lastCall?.[0]).toContain(target)
+  }
+  else {
+    expect(childProcess.spawn).toHaveBeenLastCalledWith(editor, expect.arrayContaining([target]), { stdio: 'inherit' })
+  }
+}
+
 beforeEach(async () => {
   // Exercise the real service and transport validation, stopping only OS launch.
   vi.spyOn(childProcess, 'spawn').mockReturnValue(child)
+  vi.spyOn(childProcess, 'exec').mockReturnValue(child)
   vi.stubEnv('LAUNCH_EDITOR', 'code')
   root = await mkdtemp(join(tmpdir(), 'valaxy-editor-'))
   site = join(root, 'blog')
@@ -56,12 +69,12 @@ describe('devTools Open service', () => {
     const options = await ctx.rpc.invokeLocal('valaxy:get-options')
     expect(options.editor).toBe('code')
     expect(options.editors).toContain('cursor')
-    const path = join(site, 'valaxy.config.ts')
+    const path = normalize(join(site, 'valaxy.config.ts'))
     await ctx.rpc.invokeLocal('devframes:service:open:open-in-editor', { path, line: 3, column: 2 })
-    expect(childProcess.spawn).toHaveBeenLastCalledWith('code', expect.arrayContaining(['-g', `${path}:3:2`]), { stdio: 'inherit' })
+    expectLaunch('code', `${path}:3:2`)
     child.emit('exit', 0)
     await ctx.rpc.invokeLocal('devframes:service:open:open-in-editor', { path, editor: 'cursor' })
-    expect(childProcess.spawn).toHaveBeenLastCalledWith('cursor', expect.arrayContaining([path]), { stdio: 'inherit' })
+    expectLaunch('cursor', path)
   })
 
   it('rejects arbitrary commands and paths outside both permitted roots before launch', async () => {
@@ -73,6 +86,7 @@ describe('devTools Open service', () => {
     // @ts-expect-error exercise the service's runtime editor allowlist
     await expect(ctx.rpc.invokeLocal('devframes:service:open:open-in-editor', { path: join(site, 'valaxy.config.ts'), editor: 'arbitrary-command' })).rejects.toThrow()
     expect(childProcess.spawn).not.toHaveBeenCalled()
+    expect(childProcess.exec).not.toHaveBeenCalled()
   })
 
   it('uses environment precedence without guessing icons for custom or absent commands', () => {
