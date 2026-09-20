@@ -71,6 +71,7 @@ export async function createServer(
       vueDevtools.default(),
       valaxyDevtools.default({
         userRoot: options.userRoot,
+        getAddons: () => valaxyApp.options.addons.map(addon => ({ name: addon.name, version: addon.pkg.version })),
         plugins: options.addons.filter(addon => addon.enable && addon.devtools).map(addon => async () => addon.devtools!({
           userRoot: options.userRoot,
           addonRoot: addon.root,

@@ -40,6 +40,12 @@ afterEach(async () => {
 })
 
 describe('valaxy Devframe RPC', () => {
+  it('exposes addon inventory and validates management requests before execution', async () => {
+    expect(await ctx.rpc.invokeLocal('valaxy:get-addons')).toMatchObject({ installed: [], packageManager: null })
+    await expect(ctx.rpc.invokeLocal('valaxy:prepare-addon-operation', 'install', '../outside')).rejects.toThrow()
+    await expect(ctx.rpc.invokeLocal('valaxy:apply-addon-operation', 'not-a-preview-id')).rejects.toThrow()
+  })
+
   it('reads actual Markdown, preserves dates, and resolves the site URL', async () => {
     expect(await ctx.rpc.invokeLocal('valaxy:get-options')).toEqual({ userRoot: pathe.resolve(site), siteUrl: 'http://localhost:5173/blog/' })
     const page = await ctx.rpc.invokeLocal('valaxy:get-page-data', '/pages/posts/hello.md')

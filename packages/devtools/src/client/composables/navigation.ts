@@ -5,7 +5,6 @@ import { useI18n } from 'vue-i18n'
 import { useRoute } from 'vue-router'
 import { DEVTOOLS_FRAME_ID } from '../../shared/constants'
 import { connectionError, connectionStatus, getClient } from '../rpc'
-import { extensions } from '../stores/app'
 
 // @unocss-include
 const pages = [
@@ -58,7 +57,6 @@ export function useValaxyNavigation() {
   const { t } = useI18n()
   const route = useRoute()
   const entries = computed(() => pages
-    .filter(page => page.id !== 'addons' || extensions.value.plugins.length)
     .map(page => ({ ...page, title: t(page.label) })))
   const current = computed(() => entries.value.find(page => page.path === route.path))
   const items = computed(() => entries.value.map(page => ({

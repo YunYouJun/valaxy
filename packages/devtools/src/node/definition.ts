@@ -11,6 +11,7 @@ import pkg from '../../package.json'
 import { DIR_CLIENT } from '../dir'
 import { DEVTOOLS_ID, resolveDevtoolsBase, resolveDevtoolsLogo } from '../shared/constants'
 import { RESOURCES_STATE } from '../shared/state'
+import { createAddonManager } from './addons/manager'
 import { createDataApi, createManifest, resolveDevtoolsPlugins, setupExtensions, validateEditorFields } from './extensions'
 import { getFunctions } from './functions'
 
@@ -140,6 +141,8 @@ export function createValaxyDevframe(options: ValaxyDevtoolsOptions = {}) {
       const scoped = ctx.scope(DEVTOOLS_ID)
       for (const fn of createRpcFunctions(functions))
         scoped.rpc.register(fn)
+      for (const fn of createAddonRpc(createAddonManager(options)))
+        scoped.rpc.register(fn)
       const manifest = createManifest(plugins, options.base)
       for (const fn of createExtensionRpc(manifest, plugins, data))
         scoped.rpc.register(fn)
@@ -153,6 +156,23 @@ export function createValaxyDevframe(options: ValaxyDevtoolsOptions = {}) {
     },
   })
   return Object.assign(definition, { dispose })
+}
+
+function createAddonRpc(manager: ReturnType<typeof createAddonManager>) {
+  const name = v.pipe(v.string(), v.maxLength(214), v.regex(/^valaxy-addon-[a-z0-9][a-z0-9._-]*$/))
+  const plan = v.object({ id: v.string(), action: v.picklist(['install', 'remove']), name: v.string(), version: v.optional(v.string()), command: v.string(), configFile: v.optional(v.string()), configBefore: v.optional(v.string()), configAfter: v.optional(v.string()) })
+  const operation = v.object({ ...plan.entries, status: v.picklist(['running', 'succeeded', 'failed']), log: v.string(), error: v.optional(v.string()) })
+  const details = v.object({ name: v.string(), version: v.string(), description: v.string(), homepage: v.optional(v.string()), repository: v.optional(v.string()), license: v.optional(v.string()), peerDependencies: v.record(v.string(), v.string()) })
+  return [
+    defineRpcFunction({ name: 'get-addons', type: 'query', jsonSerializable: true, handler: manager.inventory }),
+    defineRpcFunction({ name: 'get-addon-package', type: 'query', jsonSerializable: true, args: [name], returns: details, handler: manager.details }),
+    defineRpcFunction({ name: 'prepare-addon-operation', type: 'action', jsonSerializable: true, args: [v.picklist(['install', 'remove']), name], returns: plan, handler: manager.prepare }),
+    defineRpcFunction({ name: 'apply-addon-operation', type: 'action', jsonSerializable: true, args: [v.pipe(v.string(), v.uuid())], returns: operation, handler: manager.apply }),
+  ] as const
+}
+
+declare module 'devframe' {
+  interface DevframeRpcServerFunctions extends RpcDefinitionsToFunctionsWithNamespace<'valaxy', ReturnType<typeof createAddonRpc>> {}
 }
 
 function createExtensionRpc(manifest: ReturnType<typeof createManifest>, plugins: ValaxyDevtoolsPlugin[], data: ValaxyDevtoolsData) {

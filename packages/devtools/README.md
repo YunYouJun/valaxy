@@ -18,6 +18,14 @@ Unsaved frontmatter drafts are retained per file when switching pages, posts, or
 
 JSON inspection uses the official [`@devframes/service-shiki`](https://devfra.me/add-ons/services/shiki) service, declared by the Valaxy Devframe for both native Vite DevTools and standalone hosts. Code is sent to the local development server for highlighting and caching; Shiki grammars and themes stay out of the DevTools client bundle. `VDCodeBlock` renders the service's escaped HTML with Vitesse light/dark colors following the shared theme preference. Pending or unavailable highlighting falls back to current plain text; outdated responses cannot replace newer page data.
 
+## Addon marketplace
+
+The **Addons** page is always available and shares its official/community catalog with the documentation site. It displays direct installed dependencies and enabled addons independently of extension-panel registration, with search, source/tag filters and package/documentation links.
+
+Authenticated package actions use pnpm and require a server-generated preview before execution. Installation pins the reviewed registry version and does not enable the addon automatically. Removal previews supported static configuration edits and rejects remaining imports, dynamic declarations and indirect dependencies. Existing content is preserved. Package/config/lockfile changes invalidate an old preview; duplicate confirmations reuse the same job, workspace jobs are serialized, and logs are bounded. Failed removals restore configuration only when it is still unchanged and the dependency remains declared.
+
+Other package managers remain browse-only. Lifecycle scripts are disabled; new addon options and any required scripts must be reviewed using the addon documentation. Restart the preview after changing addon configuration. Jobs run in the development server process, so after restarting that process, inspect the refreshed dependencies before retrying an interrupted operation.
+
 ## Vite integration
 
 Requires Vite 8.3+. Valaxy configures this automatically. For other hosts:
@@ -68,6 +76,7 @@ Use the terminal code to authorize the development SPA. There is no separate RES
 pnpm exec vitest run test/devtools
 pnpm run typecheck
 pnpm run build:devtools
+pnpm run test:devtools # real registry/pnpm operations in a temporary project
 ```
 
 ## Addon extensions (experimental API v1)

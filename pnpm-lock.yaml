@@ -1020,6 +1020,9 @@ importers:
       consola:
         specifier: catalog:build
         version: 3.4.2
+      cross-spawn:
+        specifier: 'catalog:'
+        version: 7.0.6
       dayjs:
         specifier: 'catalog:'
         version: 1.11.23
@@ -1063,6 +1066,9 @@ importers:
       '@intlify/unplugin-vue-i18n':
         specifier: catalog:build
         version: 11.2.5(eslint@10.11.0(jiti@2.7.0)(supports-color@10.2.2))(rollup@4.57.1)(supports-color@10.2.2)(typescript@5.9.3)(vite@8.3.0)(vue-i18n@11.4.12(vue@3.5.43(typescript@5.9.3)))(vue@3.5.43(typescript@5.9.3))
+      '@types/cross-spawn':
+        specifier: 'catalog:'
+        version: 6.0.6
       '@types/splitpanes':
         specifier: 'catalog:'
         version: 2.2.6(typescript@5.9.3)
@@ -11588,7 +11594,7 @@ snapshots:
 
   '@types/cross-spawn@6.0.6':
     dependencies:
-      '@types/node': 26.6.1
+      '@types/node': 26.6.2
 
   '@types/d3-array@3.2.2': {}
 

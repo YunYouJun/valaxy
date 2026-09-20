@@ -13,14 +13,14 @@ export async function watchResources(server: ViteDevServer, ctx: DevframeNodeCon
   let timer: ReturnType<typeof setTimeout> | undefined
   const changed = (_event: string, file: string) => {
     const relative = pathe.relative(root, file)
-    if (!relative.startsWith('pages/') && !['site.config.ts', 'valaxy.config.ts'].includes(relative))
+    if (!relative.startsWith('pages/') && !['site.config.ts', 'valaxy.config.ts', 'valaxy.config.mts', 'valaxy.config.js', 'valaxy.config.mjs', 'package.json', 'pnpm-lock.yaml'].includes(relative))
       return
     clearTimeout(timer)
     timer = setTimeout(() => state.mutate((value) => {
       value.revision++
     }), 100)
   }
-  server.watcher.add([pathe.join(root, 'pages'), pathe.join(root, 'site.config.ts'), pathe.join(root, 'valaxy.config.ts')])
+  server.watcher.add(['pages', 'site.config.ts', 'valaxy.config.ts', 'valaxy.config.mts', 'valaxy.config.js', 'valaxy.config.mjs', 'package.json', 'pnpm-lock.yaml'].map(file => pathe.join(root, file)))
   server.watcher.on('all', changed)
   return () => {
     clearTimeout(timer)
