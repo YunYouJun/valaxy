@@ -24,7 +24,7 @@ import { registerNewCommand } from './new'
 export { execBuild } from './build'
 export * from './dev'
 
-/** Programmatic lifecycle contract supported by Valaxy Desktop. */
+/** Programmatic lifecycle contract supported by desktop hosts. */
 export const desktopRuntimeVersion = 1
 
 const modules: ValaxyModule[] = [

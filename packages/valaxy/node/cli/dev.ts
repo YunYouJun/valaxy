@@ -33,7 +33,7 @@ export async function startValaxyDev({
   remote?: boolean
   log?: LogLevel
   open?: boolean
-  /** Final host overrides for programmatic callers such as Valaxy Desktop. */
+  /** Final host overrides for programmatic callers such as desktop hosts. */
   vite?: InlineConfig
 }) {
   const totalTimer = countPerformanceTime()

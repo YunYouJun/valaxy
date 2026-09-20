@@ -18,14 +18,12 @@ peerDependencyRules:
     - react-dom
 
 strictPeerDependencies: false
-# Keep the desktop's bundled pnpm from shadowing the repository package manager.
+
 hoistPattern:
   - '*'
-  - '!pnpm'
 
 publicHoistPattern:
   - '*'
-  - '!pnpm'
 
 shellEmulator: true
 
@@ -48,9 +46,7 @@ overrides:
 
 allowBuilds:
   '@parcel/watcher': false
-  electron: true
   esbuild: true
-  pnpm: true
   protobufjs: false
   vue-demi: true
 
@@ -120,8 +116,6 @@ catalog:
   defu: ^6.1.7
   devframe: 1.0.0
   ejs: ^6.0.1
-  electron: 44.4.3
-  electron-builder: 26.15.3
   escape-html: ^1.0.3
   eslint: ^10.11.0
   execa: 10.0.1
@@ -174,7 +168,6 @@ catalog:
   pascalcase: ^2.0.0
   pathe: ^2.0.3
   pinia: ^4.0.3
-  pnpm: 12.5.1
   postcss: ^8.5.28
   postcss-html: ^2.0.0
   prompts: ^2.4.2

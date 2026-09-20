@@ -9,10 +9,6 @@ export default antfu(
       'packages/valaxy/index.d.ts',
       // generated
       'api/typedoc',
-      'packages/desktop/resources/**',
-      'packages/desktop/release/**',
-      'packages/desktop/test-results/**',
-      'packages/desktop/playwright-report/**',
     ],
     rules: {
       'no-dupe-keys': 'off',
