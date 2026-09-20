@@ -4,14 +4,17 @@ import type { ValaxyDevtoolsData } from '../shared/extensions'
 import type { ServerFunctions } from '../shared/rpc'
 import type { ResourceState } from '../shared/state'
 import type { ValaxyDevtoolsOptions } from './types'
+import process from 'node:process'
 import { normalizeRepositoryUrl } from '@valaxyjs/utils'
 import { defineDevframe, defineRpcFunction } from 'devframe'
+import { resolve } from 'pathe'
 import * as v from 'valibot'
 import pkg from '../../package.json'
 import { DIR_CLIENT } from '../dir'
 import { DEVTOOLS_ID, resolveDevtoolsBase, resolveDevtoolsLogo } from '../shared/constants'
 import { RESOURCES_STATE } from '../shared/state'
 import { createAddonManager } from './addons/manager'
+import { getEditorOptions } from './editor'
 import { createDataApi, createManifest, resolveDevtoolsPlugins, setupExtensions, validateEditorFields } from './extensions'
 import { getFunctions } from './functions'
 
@@ -81,13 +84,6 @@ export function createRpcFunctions(functions: ServerFunctions) {
       returns: success,
       handler: functions.runMigration,
     }),
-    defineRpcFunction({
-      name: 'open-in-editor',
-      type: 'action',
-      args: [v.object({ file: v.string(), line: v.optional(v.pipe(v.number(), v.integer(), v.minValue(0))), column: v.optional(v.pipe(v.number(), v.integer(), v.minValue(0))) })],
-      returns: v.void(),
-      handler: functions.openInEditor,
-    }),
   ] as const
 }
 
@@ -126,7 +122,10 @@ export function createValaxyDevframe(options: ValaxyDevtoolsOptions = {}) {
     basePath: resolveDevtoolsBase(options.base),
     clientAssets: DIR_CLIENT,
     capabilities: { dev: true, build: false },
-    services: [{ package: '@devframes/service-shiki', options: { langs: ['json'] } }],
+    services: [
+      { package: '@devframes/service-shiki', options: { langs: ['json'] } },
+      { package: '@devframes/service-open', options: { editor: getEditorOptions().editor, roots: [resolve(options.userRoot || process.cwd())] } },
+    ],
     async setup(ctx) {
       await ctx.rpc.sharedState.get<ResourceState>(RESOURCES_STATE, { initialValue: { revision: 0 } })
       plugins = await resolveDevtoolsPlugins(options)

@@ -7,7 +7,7 @@ import { connectionStatus } from '../../rpc'
 import { extensions } from '../../stores/app'
 
 const { t } = useI18n()
-const { cards, inventory, loading, error, selected, details, detailError, detailLoading, plan, actionError, pending, running, refresh, select, loadDetails, prepare, apply, openConfig } = useAddonManager()
+const { cards, inventory, loading, error, selected, details, detailError, detailLoading, plan, actionError, pending, running, refresh, select, loadDetails, prepare, apply } = useAddonManager()
 const query = shallowRef('')
 const view = shallowRef('discover')
 const kind = shallowRef('all')
@@ -81,8 +81,8 @@ const canManage = computed(() => inventory.value.packageManager === 'pnpm' && co
       </section>
       <VDAddonDialog
         v-if="currentSelection" :addon="currentSelection" :details="details" :plan="plan" :error="actionError" :detail-error="detailError" :detail-loading="detailLoading"
-        :pending="pending" :running="running" :can-manage="canManage" :has-config="!!inventory.configFile"
-        @close="select()" @retry="loadDetails" @prepare="prepare" @apply="apply" @open-config="openConfig"
+        :pending="pending" :running="running" :can-manage="canManage" :config-file="inventory.configFile"
+        @close="select()" @retry="loadDetails" @prepare="prepare" @apply="apply"
       />
     </div>
   </main>

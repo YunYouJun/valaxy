@@ -6,6 +6,7 @@ import { useI18n } from 'vue-i18n'
 import { useRouter } from 'vue-router'
 import { tObject } from '../../../../valaxy/shared'
 import VDFooter from '../components/VDFooter.vue'
+import { activeEditorPresentation } from '../composables/editor'
 import { clientOptions, postList } from '../stores/app'
 import { openInEditor } from '../utils'
 import { identityColor } from '../utils/colors'
@@ -131,7 +132,7 @@ const metrics = computed(() => [
         <div class="mt-2 flex items-center gap-2 min-w-0 text-xs color-muted">
           <span class="i-ph:folder-simple shrink-0" aria-hidden="true" />
           <code class="truncate flex-1" :title="clientOptions.userRoot">{{ clientOptions.userRoot || '—' }}</code>
-          <VDButton v-if="clientOptions.userRoot" variant="ghost" icon="i-ph:arrow-square-out" :title="t('dashboard.open_in_editor')" :aria-label="t('dashboard.open_in_editor')" @click="openUserRootInEditor" />
+          <VDButton v-if="clientOptions.userRoot" variant="ghost" :icon="activeEditorPresentation?.icon || 'i-ph:code'" :title="t('dashboard.open_in_editor')" :aria-label="t('dashboard.open_in_editor')" @click="openUserRootInEditor" />
         </div>
       </div>
 

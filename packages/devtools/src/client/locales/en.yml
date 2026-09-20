@@ -283,6 +283,7 @@ addons:
   review: Review changes
   install_changes: This will add the exact version to this project and update its dependency lockfile.
   remove_changes: This will remove the dependency and the static configuration references shown below. Blog content is kept.
+  wrap_code: Wrap lines
   config_changes: Configuration changes
   before: Before
   after: After
@@ -297,3 +298,9 @@ addons:
   empty_installed: No addons are installed in this project yet.
   no_results: No addons match these filters.
   panels: Extension panels
+
+editor:
+  choose: Choose editor
+  default: 'Default: {name}'
+  automatic: Auto-detect
+  hint: Choose an installed editor. This browser remembers your choice for all open-file actions.

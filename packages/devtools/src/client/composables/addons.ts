@@ -3,7 +3,7 @@ import type { AddonInventory, AddonOperationPlan, AddonPackageDetails, Installed
 import { addons, localizeAddon } from '@valaxyjs/utils'
 import { computed, onUnmounted, shallowRef, watch } from 'vue'
 import { useI18n } from 'vue-i18n'
-import { connectionStatus, getClient, rpc } from '../rpc'
+import { connectionStatus, getClient } from '../rpc'
 
 export interface AddonCard extends Partial<LocalizedValaxyAddon> {
   name: string
@@ -135,17 +135,6 @@ export function useAddonManager() {
     }
   }
 
-  async function openConfig() {
-    if (!inventory.value.configFile)
-      return
-    try {
-      await rpc.openInEditor({ file: inventory.value.configFile })
-    }
-    catch (cause) {
-      actionError.value = String(cause)
-    }
-  }
-
   watch(connectionStatus, () => void refresh(), { immediate: true })
   onUnmounted(() => {
     disposed = true
@@ -153,5 +142,5 @@ export function useAddonManager() {
     detailVersion++
     clearTimeout(timer)
   })
-  return { cards, inventory, loading, error, selected, details, detailError, detailLoading, plan, actionError, pending, running, refresh, select, loadDetails, prepare, apply, openConfig }
+  return { cards, inventory, loading, error, selected, details, detailError, detailLoading, plan, actionError, pending, running, refresh, select, loadDetails, prepare, apply }
 }

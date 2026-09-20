@@ -1,3 +1,4 @@
+import type { KnownEditor } from 'devframe/utils/launch-editor'
 import type { ValaxyDevtoolsManifest } from '../../shared/extensions'
 import type { ClientCollectionData, ClientOptions, ClientPageData, ClientPostList } from '../types'
 import { ref, watch } from 'vue'
@@ -26,6 +27,7 @@ export const inspectedPage = ref<ClientPageData>()
 // --- Settings ---
 
 export interface DevtoolsSettings {
+  editor: KnownEditor | ''
   siteUrl: string
   sortOrder: 'updated' | 'date' | 'title'
   sortDirection: 'desc' | 'asc'
@@ -33,6 +35,7 @@ export interface DevtoolsSettings {
 }
 
 export const defaultSettings: DevtoolsSettings = {
+  editor: '',
   siteUrl: '',
   sortOrder: 'updated',
   sortDirection: 'desc',

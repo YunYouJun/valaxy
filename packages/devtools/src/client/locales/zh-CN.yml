@@ -283,6 +283,7 @@ addons:
   review: 检查变更
   install_changes: 将向当前项目添加此固定版本，并更新依赖锁文件。
   remove_changes: 将移除此依赖及下方展示的静态配置引用，博客内容保留。
+  wrap_code: 自动换行
   config_changes: 配置变更
   before: 修改前
   after: 修改后
@@ -297,3 +298,9 @@ addons:
   empty_installed: 当前项目尚未安装插件。
   no_results: 没有符合筛选条件的插件。
   panels: 插件扩展面板
+
+editor:
+  choose: 选择编辑器
+  default: '默认：{name}'
+  automatic: 自动检测
+  hint: 选择已安装的编辑器；此偏好适用于所有打开文件入口，并在当前浏览器中记住。
