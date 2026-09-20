@@ -1,9 +1,11 @@
 import { presetAnthonyDesign } from '@antfu/design/unocss'
 import { defineConfig, presetAttributify, presetIcons, presetWind4, transformerDirectives, transformerVariantGroup } from 'unocss'
+import { safelist } from '../safelist'
 
 // The same component and token preset as Devframe Hub UI. This SPA owns its
 // document, so Wind4 variables work here without the Hub's shadow-root adapter.
 export default defineConfig({
+  safelist,
   presets: [
     presetAnthonyDesign({ primary: '#6b84fd' }),
     presetWind4(),

@@ -1,9 +1,11 @@
 <script setup lang="ts">
 import type { AddonOperationPlan, AddonPackageDetails } from '../../../shared/addons'
 import type { AddonCard } from '../../composables/addons'
+import { computed } from 'vue'
 import { useI18n } from 'vue-i18n'
+import VDCodeBlock from '../VDCodeBlock.vue'
 
-defineProps<{
+const props = defineProps<{
   addon: AddonCard
   details?: AddonPackageDetails
   plan?: AddonOperationPlan
@@ -23,6 +25,7 @@ defineEmits<{
   openConfig: []
 }>()
 const { t } = useI18n()
+const configLanguage = computed(() => /\.[cm]?js$/i.test(props.plan?.configFile || '') ? 'js' : 'ts')
 </script>
 
 <template>
@@ -75,7 +78,7 @@ const { t } = useI18n()
           {{ t('addons.review') }}
         </h3>
         <p>{{ t(plan.action === 'install' ? 'addons.install_changes' : 'addons.remove_changes') }}</p>
-        <code class="block whitespace-pre-wrap break-all text-xs">{{ plan.command }}</code>
+        <VDCodeBlock :code="plan.command" lang="shellscript" compact class="rounded bg-secondary" />
         <details v-if="plan.configFile">
           <summary class="cursor-pointer">
             {{ t('addons.config_changes') }}
@@ -86,11 +89,11 @@ const { t } = useI18n()
           <h4 class="text-xs font-medium">
             {{ t('addons.before') }}
           </h4>
-          <pre class="text-xs max-h-40 overflow-auto p-2 bg-secondary my-2">{{ plan.configBefore }}</pre>
+          <VDCodeBlock :code="plan.configBefore ?? ''" :lang="configLanguage" compact class="rounded bg-secondary my-2" />
           <h4 class="text-xs font-medium">
             {{ t('addons.after') }}
           </h4>
-          <pre class="text-xs max-h-40 overflow-auto p-2 bg-secondary my-2">{{ plan.configAfter }}</pre>
+          <VDCodeBlock :code="plan.configAfter ?? ''" :lang="configLanguage" compact class="rounded bg-secondary my-2" />
         </details>
       </div>
       <p v-if="error" role="alert" class="text-red-600 break-words">

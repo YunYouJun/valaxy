@@ -1063,6 +1063,9 @@ importers:
       '@iconify-json/ri':
         specifier: catalog:build
         version: 1.2.10
+      '@iconify-json/simple-icons':
+        specifier: catalog:build
+        version: 1.2.96
       '@intlify/unplugin-vue-i18n':
         specifier: catalog:build
         version: 11.2.5(eslint@10.11.0(jiti@2.7.0)(supports-color@10.2.2))(rollup@4.57.1)(supports-color@10.2.2)(typescript@5.9.3)(vite@8.3.0)(vue-i18n@11.4.12(vue@3.5.43(typescript@5.9.3)))(vue@3.5.43(typescript@5.9.3))

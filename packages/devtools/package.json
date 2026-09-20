@@ -82,6 +82,7 @@
     "@antfu/design": "catalog:",
     "@iconify-json/ph": "catalog:build",
     "@iconify-json/ri": "catalog:build",
+    "@iconify-json/simple-icons": "catalog:build",
     "@intlify/unplugin-vue-i18n": "catalog:build",
     "@types/cross-spawn": "catalog:",
     "@types/splitpanes": "catalog:",

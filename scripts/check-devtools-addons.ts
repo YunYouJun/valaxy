@@ -5,12 +5,13 @@ import process from 'node:process'
 import { chromium, expect } from '@playwright/test'
 import fs from 'fs-extra'
 import { createServer } from 'vite'
+import { addons } from '../packages/@valaxyjs/utils/src/constants/addons'
 import { ValaxyDevtools } from '../packages/devtools/src/node'
 
 // Exercise the actual authenticated client, RPC transport, registry and pnpm in
 // an isolated project. Existing blogs and the monorepo lockfile are never edited.
 const root = await mkdtemp(join(tmpdir(), 'valaxy-addon-browser-'))
-const artifacts = resolve('test-results/devtools-addons')
+const artifacts = resolve(process.env.VALAXY_DEVTOOLS_ARTIFACTS || 'test-results/devtools-addons')
 await fs.ensureDir(artifacts)
 await fs.writeJSON(join(root, 'package.json'), { name: 'addon-browser-fixture', private: true, packageManager: 'pnpm@12.5.1' })
 await writeFile(join(root, 'valaxy.config.ts'), 'export default { theme: \'yun\', addons: [] }\n')
@@ -19,8 +20,10 @@ const plugin = ValaxyDevtools({ userRoot: root })
 const server = await createServer({ root, configFile: false, devtools: false, logLevel: 'error', plugins: [plugin], server: { host: '127.0.0.1', port: 0 } })
 const browser = await chromium.launch({ channel: process.env.PLAYWRIGHT_CHANNEL || undefined })
 const page = await browser.newPage({ viewport: { width: 1280, height: 900 } })
+await page.emulateMedia({ colorScheme: 'light' })
 const browserErrors: string[] = []
 page.on('pageerror', error => browserErrors.push(error.message))
+page.on('console', message => message.type() === 'error' && browserErrors.push(message.text()))
 
 try {
   await server.listen()
@@ -32,6 +35,14 @@ try {
   await page.getByRole('link', { name: '插件', exact: true }).click()
   await expect(page.getByRole('heading', { name: '插件中心' })).toBeVisible()
   await expect(page.locator('[data-addon]')).toHaveCount(18)
+  await expect(page).toHaveTitle('Valaxy DevTools')
+  await expect(page.locator('vite-error-overlay')).toHaveCount(0)
+  for (const addon of addons) {
+    const icon = page.locator(`[data-addon="${addon.name}"] [aria-hidden="true"]`).first()
+    expect(await icon.getAttribute('class')).toContain(addon.icon)
+    await expect(icon).toHaveCSS('mask-image', /url\(/)
+    expect((await icon.boundingBox())?.width).toBeGreaterThan(0)
+  }
   await page.screenshot({ path: join(artifacts, 'marketplace.png'), fullPage: true, animations: 'disabled' })
   await page.getByRole('button', { name: /^已安装/ }).click()
   await expect(page.getByText('当前项目尚未安装插件。')).toBeVisible()
@@ -42,6 +53,9 @@ try {
   const dialog = page.getByRole('dialog')
   await dialog.getByRole('button', { name: '安装插件', exact: true }).click()
   await expect(dialog.getByText('检查变更', { exact: true })).toBeVisible({ timeout: 20_000 })
+  await expect(dialog.locator('.shiki')).toHaveCount(1)
+  await expect(dialog.locator('.shiki')).toContainText('pnpm add')
+  await page.screenshot({ path: join(artifacts, 'install-preview.png'), fullPage: true, animations: 'disabled' })
   expect((await fs.readJSON(join(root, 'package.json'))).dependencies).toBeUndefined()
   await dialog.getByRole('button', { name: '确认安装', exact: true }).click()
   await expect(page.getByRole('status').filter({ hasText: '操作完成' })).toBeVisible({ timeout: 180_000 })
@@ -60,7 +74,16 @@ try {
   await expect(dialog.getByText('配置变更', { exact: true })).toBeVisible()
   expect(await readFile(join(root, 'valaxy.config.ts'), 'utf8')).toBe(configured)
   await dialog.getByText('配置变更', { exact: true }).click()
+  await expect(dialog.locator('details .shiki')).toHaveCount(2)
+  expect((await dialog.locator('details .shiki').first().textContent())?.trim()).toBe(configured.trim())
   await page.screenshot({ path: join(artifacts, 'remove-preview.png'), fullPage: true, animations: 'disabled' })
+  const token = dialog.locator('details .shiki span[style*="--shiki-dark:"]').first()
+  const lightColor = await token.evaluate(element => getComputedStyle(element).color)
+  await page.emulateMedia({ colorScheme: 'dark' })
+  await expect(page.locator('html')).toHaveClass(/dark/)
+  await expect.poll(() => token.evaluate(element => getComputedStyle(element).color)).not.toBe(lightColor)
+  await page.screenshot({ path: join(artifacts, 'remove-preview-dark.png'), fullPage: true, animations: 'disabled' })
+  await page.emulateMedia({ colorScheme: 'light' })
   await dialog.getByRole('button', { name: '确认移除', exact: true }).click()
   await expect(page.getByRole('status').filter({ hasText: '操作完成' })).toBeVisible({ timeout: 180_000 })
   await expect(page.getByText('当前项目尚未安装插件。')).toBeVisible()
@@ -74,7 +97,7 @@ try {
   expect(await page.evaluate(() => document.documentElement.scrollWidth <= window.innerWidth)).toBe(true)
   await page.screenshot({ path: join(artifacts, 'marketplace-mobile.png'), fullPage: true, animations: 'disabled' })
   expect(browserErrors).toEqual([])
-  console.log('DevTools addon browser checks passed: discovery, installation, reload, configuration preview, removal and mobile layout.')
+  console.log('DevTools addon browser checks passed: catalog icons, installation, reload, Shiki previews in light/dark themes, removal and mobile layout.')
 }
 catch (error) {
   await page.screenshot({ path: join(artifacts, 'failure.png'), fullPage: true, animations: 'disabled' }).catch(() => {})

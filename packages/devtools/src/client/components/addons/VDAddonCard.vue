@@ -12,7 +12,7 @@ const { t } = useI18n()
 <template>
   <LayoutCard class="flex flex-col gap-3 min-w-0" :data-addon="addon.name">
     <div class="flex items-start gap-3">
-      <span class="i-ph:puzzle-piece text-2xl shrink-0 mt-1 vd-accent" :style="identityColor(addon.name)" aria-hidden="true" />
+      <span :class="addon.icon || 'i-ph:puzzle-piece'" class="text-2xl shrink-0 mt-1 vd-accent" :style="identityColor(addon.name)" aria-hidden="true" />
       <div class="min-w-0 flex-1">
         <h2 class="font-medium break-words">
           {{ addon.name }}
