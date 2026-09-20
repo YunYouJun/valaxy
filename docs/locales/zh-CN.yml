@@ -124,8 +124,8 @@ features:
     title: 插件 - 无限的可能性
     details: 完全兼容 Vite/Vue 插件外，你还可通过 Addon 进一步封装简化配置或扩展功能（包括组件）
   electron:
-    title: Electron - 客户端应用
-    details: 在未来我们还将推出面向非开发者的客户端，让你从开发、部署到发布更加便捷，敬请期待……
+    title: 云栈 - 写作客户端
+    details: 云栈统一 Web 与桌面写作入口，第一方支持 Valaxy。桌面目前为开发预览，手机端随后推进。
 
 tooltip:
   edit_this_page: 在 GitHub 上编辑此页

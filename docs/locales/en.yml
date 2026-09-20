@@ -124,8 +124,8 @@ features:
     title: Addons - Infinite Possibilities
     details: Fully compatible with Vite/Vue plugins. You can further encapsulate and simplify configurations or extend functionality (including components) through addons.
   electron:
-    title: Electron - Desktop Applications
-    details: In the future, we will also release a client application for non-developers, making development, deployment, and publishing more convenient. Stay tuned...
+    title: Yunle CMS - Writing Client
+    details: Yunle CMS brings Web and desktop writing together with first-party Valaxy support. Desktop is a development preview; mobile will follow.
 
 tooltip:
   edit_this_page: Edit this page on GitHub
