@@ -1,6 +1,6 @@
 import type { ViteDevServer } from 'vite'
 import type { ValaxyMcpOptions } from '../../packages/devtools/src/node/mcp'
-import { mkdir, mkdtemp, readFile, rm, symlink, writeFile } from 'node:fs/promises'
+import { mkdir, mkdtemp, readFile, realpath, rm, symlink, writeFile } from 'node:fs/promises'
 import { tmpdir } from 'node:os'
 import { join } from 'node:path'
 import { createServer } from 'vite'
@@ -12,7 +12,9 @@ let site: string
 let server: ViteDevServer | undefined
 
 beforeEach(async () => {
-  root = await mkdtemp(join(tmpdir(), 'valaxy-mcp-'))
+  // Expand Windows 8.3 temp paths before Vite watches them: libuv aborts when
+  // filesystem events contain a long path that differs from the watched path.
+  root = await realpath(await mkdtemp(join(tmpdir(), 'valaxy-mcp-')))
   site = join(root, 'site')
   await mkdir(join(site, 'pages/posts'), { recursive: true })
   await mkdir(join(site, 'pages/collections/course'), { recursive: true })
