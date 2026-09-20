@@ -23,6 +23,6 @@ CMS 接收提交：`YunLeFun/cms@5d4126f392734f742fc8abe5455707d909dfdf7c`，分
 
 ## 验收边界
 
-CMS 完整发布检查通过（111 文件、599 单测）；registry 资源路径下源码／macOS arm64 打包应用各 4 项 Electron E2E 通过，覆盖无系统 Node 建站、正文／字段、DevTools、真实主题与 SSG、旧历史接续、重启恢复和信任隔离。另在接收提交的独立干净检出完成冻结安装、registry 资源准备、源码 4 项 E2E、未签名 DMG 生成，以及打包应用 4 项 E2E（52.5 秒）。CMS 三平台 CI 已配置，但远端 Actions 首跑与 Windows/Linux 实跑仍待完成，不能视作正式三平台发行。
+CMS 完整发布检查通过（111 文件、599 单测）；registry 资源路径下源码／macOS arm64 打包应用各 4 项 Electron E2E 通过，覆盖无系统 Node 建站、正文／字段、DevTools、真实主题与 SSG、旧历史接续、重启恢复和信任隔离。另在接收提交的独立干净检出完成冻结安装、registry 资源准备、源码 4 项 E2E、未签名 DMG 生成，以及打包应用 4 项 E2E（52.5 秒）。CMS 的 macOS／Windows／Linux 远端 CI 均已实跑通过：源码／打包应用 E2E、未签名 DMG／NSIS／AppImage 生成与上传。结果见 [macOS](https://github.com/YunLeFun/cms/actions/runs/35505692275/job/106065047903)、[Windows](https://github.com/YunLeFun/cms/actions/runs/35505692275/job/106065047880) 和 [Linux](https://github.com/YunLeFun/cms/actions/runs/35506290139/job/106066556826) 验收。沙箱保留，但新设备安装、签名与升级仍未验收，不能视作正式三平台发行。
 
 云同步、手机、图片／目录检索、本地 Git、完整配置适配、真实账号发布、签名公证和升级验证保留在 CMS P0–P7 主任务表；删除重复宿主不代表整个任务表已经完成。
