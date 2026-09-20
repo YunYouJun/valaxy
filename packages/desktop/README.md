@@ -17,7 +17,7 @@ pnpm -C packages/desktop prepare:runtime
 pnpm desktop:dev
 ```
 
-`prepare:runtime` 下载并校验当前平台的 Node.js 24.18.0，复制 pnpm 10.33.0，安装固定版本 Wrangler 4.135.0，并打包工作区中的 Valaxy、DevTools、工具包、Yun 主题和主题依赖。修改这些包后，需要重新运行 `pnpm build` 和 `prepare:runtime`。
+`prepare:runtime` 下载并校验当前平台的 Node.js 24.18.0，复制 pnpm 12.5.1 原生可执行文件及其运行资源，安装固定版本 Wrangler 4.135.0，并打包工作区中的 Valaxy、DevTools、工具包、Yun 主题和主题依赖。修改这些包后，需要重新运行 `pnpm build` 和 `prepare:runtime`。
 
 安装后的应用使用内置 Node 和 pnpm，用户无需预装开发环境。首次创建博客仍需要联网下载依赖。博客保存在用户选择的本地目录，内置框架包复制到 `.valaxy/desktop-packages`，通过 `file:` 依赖和 pnpm overrides 引用，并继承仓库经过验证的依赖兼容版本；迁移到公开版本时需同时修改两处声明。
 

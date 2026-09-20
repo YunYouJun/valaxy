@@ -1,6 +1,11 @@
+ignoreWorkspaceRootCheck: true
 catalogMode: manual
 cleanupUnusedCatalogs: true
+
 minimumReleaseAgeExcludePrune: true
+minimumReleaseAgeExclude:
+  - js-base64@3.9.4
+
 trustPolicy: no-downgrade
 autoInstallPeers: false
 
@@ -12,6 +17,7 @@ peerDependencyRules:
     - react
     - react-dom
 
+strictPeerDependencies: false
 # Keep the desktop's bundled pnpm from shadowing the repository package manager.
 hoistPattern:
   - '*'
@@ -34,13 +40,19 @@ packages:
 
 overrides:
   # Keep core toolchain versions consistent across workspace peer resolutions
+  chokidar: 5.0.0
+  semver: '7'
   unocss: 66.10.5
+  vite: catalog:build
   vue: catalog:frontend
 
-onlyBuiltDependencies:
-  - electron
-  - vue-demi
-  - esbuild
+allowBuilds:
+  '@parcel/watcher': false
+  electron: true
+  esbuild: true
+  pnpm: true
+  protobufjs: false
+  vue-demi: true
 
 catalog:
   '@antfu/design': 0.5.2
@@ -51,9 +63,9 @@ catalog:
   '@ctrl/tinycolor': ^4.2.1
   '@devframes/agentic': 1.0.0
   '@devframes/service-shiki': 1.0.0
-  '@docsearch/css': ^5.1.0
-  '@docsearch/js': ^5.1.0
-  '@docsearch/sidepanel-js': ^5.1.0
+  '@docsearch/css': ^5.1.1
+  '@docsearch/js': ^5.1.1
+  '@docsearch/sidepanel-js': ^5.1.1
   '@explosions/fireworks': ^0.2.0
   '@larksuiteoapi/node-sdk': ^1.74.0
   '@mdit-vue/plugin-component': ^3.0.2
@@ -75,7 +87,7 @@ catalog:
   '@types/js-yaml': ^4.0.9
   '@types/katex': ^0.16.8
   '@types/minimist': ^1.2.5
-  '@types/node': ^26.6.1
+  '@types/node': ^26.6.2
   '@types/nprogress': ^0.2.3
   '@types/pascalcase': ^1.0.3
   '@types/prompts': ^2.4.9
@@ -111,7 +123,7 @@ catalog:
   electron: 44.4.3
   electron-builder: 26.15.3
   escape-html: ^1.0.3
-  eslint: ^10.10.0
+  eslint: ^10.11.0
   execa: 10.0.1
   fast-glob: ^3.3.3
   feed: ^6.0.0
@@ -127,14 +139,14 @@ catalog:
   https-localhost: ^4.7.2
   husky: ^9.1.7
   jiti: ^2.7.0
-  js-base64: ^3.9.3
+  js-base64: ^3.9.4
   js-yaml: ^5.4.2
   jsdom: ^30.1.0
   katex: ^0.18.7
   lightgallery: 2.9.0
   lint-staged: ^17.5.1
   local-pkg: ^1.2.1
-  lru-cache: ^11.5.2
+  lru-cache: ^11.5.3
   magicast: ^0.5.5
   markdown-exit: ^1.3.0
   markdown-it: ^15.0.2
@@ -162,7 +174,7 @@ catalog:
   pascalcase: ^2.0.0
   pathe: ^2.0.3
   pinia: ^4.0.3
-  pnpm: 10.33.0
+  pnpm: 12.5.1
   postcss: ^8.5.28
   postcss-html: ^2.0.0
   prompts: ^2.4.2
@@ -184,12 +196,12 @@ catalog:
   tsup: ^8.5.1
   tsx: ^4.23.13
   typedoc: ^0.28.20
-  typedoc-plugin-markdown: ^4.13.0
+  typedoc-plugin-markdown: ^4.13.1
   typedoc-vitepress-theme: ^1.1.4
   unocss: 66.10.5
   # Pinned to 28.0.0: 28.1.0+ breaks component override order (clientRoot/themeRoot), see #505
   unplugin-vue-components: 28.0.0
-  unplugin-vue-markdown: ^32.0.0
+  unplugin-vue-markdown: ^32.1.1
   valaxy-addon-artalk: ^0.1.4
   valaxy-addon-git-log: ^0.7.0
   valibot: 1.5.0
@@ -212,7 +224,7 @@ catalogs:
     '@iconify-json/ph': ^1.2.2
     '@iconify-json/ri': ^1.2.10
     '@iconify-json/simple-icons': ^1.2.96
-    '@iconify-json/vscode-icons': ^1.2.77
+    '@iconify-json/vscode-icons': ^1.2.78
     '@intlify/unplugin-vue-i18n': ^11.2.5
     '@unhead/bundler': ^3.4.1
     '@unhead/schema-org': ^3.4.1
@@ -220,7 +232,7 @@ catalogs:
     colorjs.io: ^0.6.1
     consola: ^3.4.2
     # Match the minifier used by VitePress 2 when building with Vite 8 (Rolldown).
-    oxc-minify: ^0.98.0
+    oxc-minify: ^0.150.0
     typescript: ^5.9.3
     unbuild: ^3.6.1
     unhead: ^3.4.1
@@ -229,5 +241,5 @@ catalogs:
     zx: ^8.8.5
   frontend:
     reka-ui: ^2.10.4
-    vitepress: ^2.0.0-alpha.17
+    vitepress: ^2.0.0-alpha.20
     vue: ^3.5.43

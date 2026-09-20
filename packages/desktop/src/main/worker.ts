@@ -6,15 +6,10 @@ import { join } from 'node:path'
 import process from 'node:process'
 import { pathToFileURL } from 'node:url'
 
-const [mode, root, pnpmCli, siteUrl] = process.argv.slice(2)
+const [mode, root, siteUrl] = process.argv.slice(2)
 const send = (message: RuntimeMessage) => process.send?.(message)
 
 async function main() {
-  if (mode === 'install') {
-    process.argv = [process.execPath, pnpmCli, 'install', '--config.manage-package-manager-versions=false']
-    await import(pathToFileURL(pnpmCli).href)
-    return
-  }
   // Resolve the project's own Valaxy, themes, and addons, never the app's copies.
   const require = createRequire(join(root, 'package.json'))
   const valaxy = await import(pathToFileURL(require.resolve('valaxy')).href)

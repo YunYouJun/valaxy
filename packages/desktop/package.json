@@ -35,14 +35,39 @@
   "build": {
     "appId": "site.valaxy.desktop",
     "productName": "Valaxy Desktop",
-    "directories": { "output": "release" },
-    "files": ["dist/**/*"],
-    "extraResources": [{ "from": "resources", "to": "desktop" }],
+    "directories": {
+      "output": "release"
+    },
+    "files": [
+      "dist/**/*"
+    ],
+    "extraResources": [
+      {
+        "from": "resources",
+        "to": "desktop"
+      }
+    ],
     "asar": true,
-    "asarUnpack": ["dist/main/worker.js"],
+    "asarUnpack": [
+      "dist/main/worker.js"
+    ],
     "beforeBuild": "./scripts/before-build.cjs",
-    "mac": { "category": "public.app-category.developer-tools", "target": ["dmg"] },
-    "win": { "target": ["nsis"] },
-    "linux": { "category": "Development", "target": ["AppImage"] }
+    "mac": {
+      "category": "public.app-category.developer-tools",
+      "target": [
+        "dmg"
+      ]
+    },
+    "win": {
+      "target": [
+        "nsis"
+      ]
+    },
+    "linux": {
+      "category": "Development",
+      "target": [
+        "AppImage"
+      ]
+    }
   }
 }

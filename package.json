@@ -3,7 +3,7 @@
   "type": "module",
   "version": "1.0.0-rc.12",
   "private": true,
-  "packageManager": "pnpm@10.34.4",
+  "packageManager": "pnpm@12.5.1",
   "description": "📄 Vite & Vue powered static blog generator.",
   "author": {
     "email": "me@yunyoujun.cn",
@@ -61,7 +61,7 @@
     "e2e:ssg": "playwright test --config playwright.ssg.config.ts",
     "e2e:ui": "playwright test --ui",
     "e2e:report": "playwright show-report",
-    "link:dev": "pnpm -C packages/valaxy link --global",
+    "link:dev": "pnpm add --global ./packages/valaxy",
     "lint": "eslint .",
     "stylelint": "stylelint --fix \"**/*.{scss,vue}\"",
     "preinstall": "npx only-allow pnpm",
@@ -126,12 +126,6 @@
     "vitest": "catalog:",
     "vue-tsc": "catalog:",
     "zx": "catalog:build"
-  },
-  "resolutions": {
-    "chokidar": "5.0.0",
-    "semver": "7",
-    "vite": "catalog:build",
-    "vue": "catalog:frontend"
   },
   "lint-staged": {
     "{packages,demo,scripts}/**/*.{js,ts,vue,json,yml}": [

@@ -1,6 +1,6 @@
 import type { IpcMainInvokeEvent } from 'electron'
 import type { CreateBlogOptions } from '../shared/types'
-import { fork } from 'node:child_process'
+import { fork, spawn } from 'node:child_process'
 import { mkdir, readFile, writeFile } from 'node:fs/promises'
 import { dirname, join } from 'node:path'
 import process from 'node:process'
@@ -15,6 +15,7 @@ import { WranglerClient } from './wrangler'
 const directory = dirname(fileURLToPath(import.meta.url))
 const resources = app.isPackaged ? join(process.resourcesPath, 'desktop') : join(directory, '../../resources')
 const nodePath = join(resources, 'runtime', process.platform === 'win32' ? 'node.exe' : 'node')
+const pnpmPath = join(resources, 'pnpm', process.platform === 'win32' ? 'pnpm.exe' : 'pnpm')
 const workerPath = app.isPackaged ? join(process.resourcesPath, 'app.asar.unpacked/dist/main/worker.js') : join(directory, 'worker.js')
 const rendererUrl = pathToFileURL(join(directory, '../renderer/index.html')).href
 let window: BrowserWindow | undefined
@@ -22,11 +23,8 @@ let quitting = false
 let selecting = false
 let publishTimer: ReturnType<typeof setTimeout> | undefined
 const runtime = new DesktopRuntime((mode, root, siteUrl) => {
-  const child = fork(workerPath, [mode, root, join(resources, 'pnpm/bin/pnpm.cjs'), siteUrl || ''], {
+  const options = {
     cwd: root,
-    execPath: nodePath,
-    stdio: ['ignore', 'pipe', 'pipe', 'ipc'],
-    execArgv: ['--max-old-space-size=4096'],
     env: {
       ...process.env,
       FORCE_COLOR: '0',
@@ -34,9 +32,19 @@ const runtime = new DesktopRuntime((mode, root, siteUrl) => {
       NODE_OPTIONS: undefined,
       PATH: `${dirname(nodePath)}${process.platform === 'win32' ? ';' : ':'}${process.env.PATH || ''}`,
     },
-  })
+  }
+  const child = mode === 'install'
+    ? spawn(pnpmPath, ['install', '--config.pm-on-fail=ignore'], { ...options, stdio: ['ignore', 'pipe', 'pipe'] })
+    : fork(workerPath, [mode, root, siteUrl || ''], {
+        ...options,
+        execPath: nodePath,
+        stdio: ['ignore', 'pipe', 'pipe', 'ipc'],
+        execArgv: ['--max-old-space-size=4096'],
+      })
   return Object.assign(child, { postMessage: (message: unknown) => {
-    if (child.connected)
+    if (mode === 'install' && message === 'stop')
+      child.kill()
+    else if (child.connected)
       child.send(message as string)
   } })
 }, () => {

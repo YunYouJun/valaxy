@@ -46,6 +46,7 @@ await rm(unpacked, { recursive: true, force: true })
 await rm(archive)
 
 const pnpmRoot = await realpath(resolve('node_modules/pnpm'))
+const pnpmExecutable = join(pnpmRoot, isWindows ? 'pnpm.exe' : 'pnpm')
 await rm(join(destination, 'pnpm'), { recursive: true, force: true })
 await cp(pnpmRoot, join(destination, 'pnpm'), { recursive: true, dereference: true })
 const packages: Record<string, string> = {}
@@ -55,7 +56,7 @@ for (const directory of ['@valaxyjs/utils', 'devtools', 'valaxy', 'valaxy-addon-
   const root = resolve('..', directory)
   const manifest = JSON.parse(await readFile(join(root, 'package.json'), 'utf8'))
   const filename = `${manifest.name.replace('@', '').replace('/', '-')}.tgz`
-  await exec(process.execPath, [join(pnpmRoot, 'bin/pnpm.cjs'), '-C', root, 'pack', '--out', join(destination, 'packages', filename)])
+  await exec(pnpmExecutable, ['-C', root, 'pack', '--out', join(destination, 'packages', filename)])
   packages[manifest.name] = filename
 }
 await writeFile(join(destination, 'packages.json'), JSON.stringify(packages, null, 2))
@@ -66,5 +67,6 @@ await writeFile(join(destination, 'runtime.json'), JSON.stringify({ node: versio
 const cloudflare = join(destination, 'cloudflare')
 await mkdir(cloudflare, { recursive: true })
 await writeFile(join(cloudflare, 'package.json'), JSON.stringify({ private: true, dependencies: { wrangler: '4.135.0' } }))
-await exec(process.execPath, [join(pnpmRoot, 'bin/pnpm.cjs'), 'install', '--dir', cloudflare, '--ignore-workspace', '--ignore-scripts', '--config.node-linker=hoisted', '--config.manage-package-manager-versions=false'], { maxBuffer: 10_000_000 })
+await writeFile(join(cloudflare, 'pnpm-workspace.yaml'), 'packages: []\nnodeLinker: hoisted\n')
+await exec(pnpmExecutable, ['install', '--dir', cloudflare, '--ignore-workspace', '--ignore-scripts', '--config.pm-on-fail=ignore'], { maxBuffer: 10_000_000 })
 console.log(`Prepared verified Node ${version}, pnpm, and ${Object.keys(packages).length} local packages for ${platform}.`)

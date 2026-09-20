@@ -30,11 +30,11 @@ export async function createBlog(parent: string, options: CreateBlogOptions, res
     version: '0.0.0',
     private: true,
     type: 'module',
-    packageManager: 'pnpm@10.33.0',
+    packageManager: 'pnpm@12.5.1',
     scripts: { dev: 'valaxy', build: 'valaxy build --ssg' },
     dependencies: { 'valaxy': overrides.valaxy, 'valaxy-theme-yun': overrides['valaxy-theme-yun'] },
   }, null, 2))
-  await writeFile(join(root, 'pnpm-workspace.yaml'), `packages: []\nautoInstallPeers: true\nonlyBuiltDependencies:\n  - esbuild\n  - vue-demi\noverrides:\n${Object.entries(overrides).map(([name, file]) => `  ${JSON.stringify(name)}: ${JSON.stringify(file)}`).join('\n')}\n`)
+  await writeFile(join(root, 'pnpm-workspace.yaml'), `packages: []\nautoInstallPeers: true\nallowBuilds:\n  '@parcel/watcher': false\n  esbuild: true\n  vue-demi: true\noverrides:\n${Object.entries(overrides).map(([name, file]) => `  ${JSON.stringify(name)}: ${JSON.stringify(file)}`).join('\n')}\n`)
   await writeFile(join(root, 'valaxy.config.ts'), `import { defineValaxyConfig } from 'valaxy'\n\nexport default defineValaxyConfig({\n  theme: 'yun',\n  themeConfig: { banner: { enable: true, title: ${JSON.stringify(options.title)} } },\n})\n`)
   await writeFile(join(root, 'site.config.ts'), `import { defineSiteConfig } from 'valaxy'\n\nexport default defineSiteConfig(${JSON.stringify({
     url: 'https://example.com/',
