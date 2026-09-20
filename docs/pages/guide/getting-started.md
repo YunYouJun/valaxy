@@ -231,6 +231,7 @@ In most cases, you only need to work in the `pages` folder.
 
 
 - `.vscode`: recommend some useful plugins & settings, you can preview icon/i18n/class...
+  - Optionally install the [Valaxy VS Code extension](/ecosystem/vscode) for a post list and local site preview. See its documentation for setup, settings, and compatibility notes.
 - `.github`: GitHub Actions to auto build & deploy to GitHub Pages
 - `netlify.toml`: for [netlify](https://www.netlify.com/)
 - `vercel.json`: for [vercel](https://vercel.com/)
