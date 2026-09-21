@@ -90,8 +90,34 @@ onMounted(() => {
 </template>
 
 <style scoped>
-.content-editor { display: flex; flex-direction: column; gap: 12px; padding: 12px; }
-.content-toolbar { display: flex; align-items: center; justify-content: space-between; font-size: 12px; }
-.content-input { width: 100%; min-height: 420px; resize: vertical; padding: 14px; font: 13px/1.8 ui-monospace, monospace; color: inherit; background: transparent; border: 1px solid color-mix(in srgb, currentColor 20%, transparent); border-radius: 6px; }
-.content-input:focus { outline: 2px solid var(--devframe-primary, #3674bd); outline-offset: 2px; }
+.content-editor {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding: 12px;
+}
+
+.content-toolbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 12px;
+}
+
+.content-input {
+  width: 100%;
+  min-height: 420px;
+  resize: vertical;
+  padding: 14px;
+  font: 13px/1.8 ui-monospace, monospace;
+  color: inherit;
+  background: transparent;
+  border: 1px solid color-mix(in srgb, currentcolor 20%, transparent);
+  border-radius: 6px;
+}
+
+.content-input:focus {
+  outline: 2px solid var(--devframe-primary, #3674bd);
+  outline-offset: 2px;
+}
 </style>

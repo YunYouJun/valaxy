@@ -52,8 +52,16 @@
       overscroll-behavior-x: contain;
     }
 
-    th { white-space: nowrap; text-align: left; }
-    td { min-width: 8rem; vertical-align: top; }
+    th {
+      white-space: nowrap;
+      text-align: left;
+    }
+
+    td {
+      min-width: 8rem;
+      vertical-align: top;
+    }
+
     td:first-child { min-width: 10rem; }
     td code { font-size: 0.8125rem; }
   }

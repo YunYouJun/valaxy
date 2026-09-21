@@ -37,7 +37,7 @@
   --docsearch-focus-color: var(--va-c-primary);
   --docsearch-subtle-color: var(--va-c-divider);
   --docsearch-dropdown-menu-background: var(--va-c-bg);
-  --docsearch-soft-primary-color: var(--va-c-primary-soft, rgba(0, 61, 255, 0.1));
+  --docsearch-soft-primary-color: var(--va-c-primary-soft, rgb(0 61 255 / 0.1));
   --docsearch-soft-muted-color: var(--va-c-bg-soft);
   --docsearch-sidepanel-accent-muted: var(--va-c-text-3, var(--va-c-text-2));
   --docsearch-sidepanel-text-base: var(--va-c-text-1);
@@ -64,7 +64,7 @@
 }
 
 .DocSearch-Logo [class^='cls-'] {
-  fill: currentColor;
+  fill: currentcolor;
 }
 
 .DocSearch-Menu-content {
@@ -72,7 +72,7 @@
   padding: 6px;
   border: 1px solid var(--va-c-divider);
   border-radius: 6px;
-  box-shadow: var(--va-shadow-2, 0 4px 12px rgba(0, 0, 0, 0.06));
+  box-shadow: var(--va-shadow-2, 0 4px 12px rgb(0 0 0 / 0.06));
 }
 
 .DocSearch-Menu-item {

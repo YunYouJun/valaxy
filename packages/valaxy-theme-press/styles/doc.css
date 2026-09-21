@@ -1,25 +1,23 @@
 /*! Adapted from VitePress 2.0.0-alpha.20 (MIT). See ../THIRD-PARTY-NOTICES.md. */
+
 /**
  * Anchors
  * -------------------------------------------------------------------------- */
 
 .press-doc [id] {
   scroll-margin-top: calc(
-    2.9375rem + var(--press-layout-top-height, 0px) +
-      var(--press-extra-scroll-margin, 1.5rem)
+    2.9375rem + var(--press-layout-top-height, 0px) + var(--press-extra-scroll-margin, 1.5rem)
   );
 
-  @media (min-width: 60rem) {
+  @media (width >= 60rem) {
     scroll-margin-top: calc(
-      var(--press-nav-height) + 2.9375rem + var(--press-layout-top-height, 0px) +
-        var(--press-extra-scroll-margin, 1.5rem)
+      var(--press-nav-height) + 2.9375rem + var(--press-layout-top-height, 0px) + var(--press-extra-scroll-margin, 1.5rem)
     );
   }
 
-  @media (min-width: 80rem) {
+  @media (width >= 80rem) {
     scroll-margin-top: calc(
-      var(--press-nav-height) + var(--press-layout-top-height, 0px) +
-        var(--press-extra-scroll-margin, 1.5rem)
+      var(--press-nav-height) + var(--press-layout-top-height, 0px) + var(--press-extra-scroll-margin, 1.5rem)
     );
   }
 }
@@ -41,7 +39,7 @@
 
 .press-doc h1 {
   letter-spacing: -0.02em;
-  line-height: 1.4285714;
+  line-height: 1.4286;
   font-size: 1.75rem;
 }
 
@@ -50,8 +48,9 @@
   border-top: 1px solid var(--press-c-divider);
   padding-top: 1.5rem;
   letter-spacing: -0.02em;
-  line-height: 1.3333333;
+  line-height: 1.3333;
   font-size: 1.5rem;
+
   /* since it already has a top padding of 1.5rem, we don't need extra scroll margin */
   --press-extra-scroll-margin: 0px;
 }
@@ -66,7 +65,7 @@
 .press-doc h4 {
   margin: 1.5rem 0 0;
   letter-spacing: -0.01em;
-  line-height: 1.3333333;
+  line-height: 1.3333;
   font-size: 1.125rem;
 }
 
@@ -84,7 +83,7 @@
     opacity 0.25s;
 }
 
-.press-doc .header-anchor:before {
+.press-doc .header-anchor::before {
   content: var(--press-header-anchor-symbol);
 }
 
@@ -103,7 +102,7 @@
   opacity: 1;
 }
 
-@media (min-width: 48rem) {
+@media (width >= 48rem) {
   .press-doc h1 {
     letter-spacing: -0.02em;
     line-height: 1.25;
@@ -278,7 +277,7 @@
 
 .press-doc .custom-block p {
   margin: 0.5rem 0;
-  line-height: 1.7142857;
+  line-height: 1.7143;
 }
 
 .press-doc .custom-block p:first-child {
@@ -353,7 +352,7 @@
   transition: background-color 0.5s;
 }
 
-@media (min-width: 40rem) {
+@media (width >= 40rem) {
   .press-doc div[class*='language-'],
   .vp-block {
     border-radius: 0.5rem;
@@ -361,7 +360,7 @@
   }
 }
 
-@media not all and (min-width: 40rem) {
+@media not all and (width >= 40rem) {
   .press-doc li div[class*='language-'] {
     border-radius: 0.5rem 0 0 0.5rem;
   }
@@ -375,8 +374,6 @@
 
 .press-doc [class*='language-'] pre,
 .press-doc [class*='language-'] code {
-  -moz-tab-size: 4;
-  -o-tab-size: 4;
   tab-size: 4;
 }
 
@@ -387,7 +384,8 @@
   padding: 1.25rem 0;
   background: transparent;
   overflow-x: auto;
-  /*rtl:ignore*/
+
+  /* rtl:ignore */
   text-align: left;
 }
 
@@ -472,7 +470,7 @@
 }
 
 .press-doc div[class*='language-'].line-numbers-mode {
-  /*rtl:ignore*/
+  /* rtl:ignore */
   padding-left: 2rem;
 }
 
@@ -480,10 +478,12 @@
   position: absolute;
   top: 0;
   bottom: 0;
-  /*rtl:ignore*/
+
+  /* rtl:ignore */
   left: 0;
   z-index: 3;
-  /*rtl:ignore*/
+
+  /* rtl:ignore */
   border-right: 1px solid var(--press-code-block-divider-color);
   padding-top: 1.25rem;
   width: 2rem;
@@ -498,11 +498,12 @@
 }
 
 .press-doc [class*='language-'] > button.copy {
-  /*rtl:ignore*/
+  /* rtl:ignore */
   direction: ltr;
   position: absolute;
   top: 0.75rem;
-  /*rtl:ignore*/
+
+  /* rtl:ignore */
   right: 0.75rem;
   z-index: 3;
   border: 1px solid var(--press-code-copy-code-border-color);
@@ -535,7 +536,7 @@
 
 .press-doc [class*='language-'] > button.copy.copied,
 .press-doc [class*='language-'] > button.copy:hover.copied {
-  /*rtl:ignore*/
+  /* rtl:ignore */
   border-radius: 0 0.25rem 0.25rem 0;
   background-color: var(--press-code-copy-code-hover-bg);
   background-image: var(--va-icon-copied);
@@ -545,15 +546,18 @@
 .press-doc [class*='language-'] > button.copy:hover.copied::before {
   position: relative;
   top: -1px;
-  /*rtl:ignore*/
+
+  /* rtl:ignore */
   transform: translateX(calc(-100% - 1px));
   display: flex;
   justify-content: center;
   align-items: center;
   border: 1px solid var(--press-code-copy-code-hover-border-color);
-  /*rtl:ignore*/
+
+  /* rtl:ignore */
   border-right: 0;
-  /*rtl:ignore*/
+
+  /* rtl:ignore */
   border-radius: 0.25rem 0 0 0.25rem;
   padding: 0 0.625rem;
   width: fit-content;
@@ -570,7 +574,8 @@
 .press-doc [class*='language-'] > span.lang {
   position: absolute;
   top: 0.125rem;
-  /*rtl:ignore*/
+
+  /* rtl:ignore */
   right: 0.5rem;
   z-index: 2;
   font-size: 0.75rem;
@@ -596,10 +601,13 @@
   display: inline;
   margin-left: 0.25rem;
   padding-left: 0.6875rem;
-  background: currentColor;
+  background: currentcolor;
   color: var(--press-c-text-3);
   flex-shrink: 0;
+
   --icon: url("data:image/svg+xml, %3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' %3E%3Cpath d='M0 0h24v24H0V0z' fill='none' /%3E%3Cpath d='M9 5v2h6.59L4 18.59 5.41 20 17 8.41V15h2V5H9z' /%3E%3C/svg%3E");
+
+  /* stylelint-disable property-no-vendor-prefix -- Preserve icon masks in older WebKit webviews. */
   -webkit-mask-image: var(--icon);
   mask-image: var(--icon);
   -webkit-mask-position: center;
@@ -608,7 +616,9 @@
   mask-repeat: no-repeat;
   -webkit-mask-size: 100% 100%;
   mask-size: 100% 100%;
-  /*rtl:raw:transform: scaleX(-1);*/
+  /* stylelint-enable property-no-vendor-prefix */
+
+  /* rtl:raw:transform: scaleX(-1); */
   vertical-align: middle;
   font-size: 0.5625rem;
 }
@@ -620,5 +630,5 @@
 /* prettier-ignore */
 .external-link-icon-enabled :is(.press-doc a[href*='://'], .press-doc a[target='_blank']):not(:is(.no-icon, svg a, :has(img, svg)))::after {
   content: '\2060';
-  color: currentColor;
+  color: currentcolor;
 }
