@@ -12,7 +12,7 @@ const { hasLocales, availableLocales, currentLocale, currentLocaleKey, getLocale
 
 <template>
   <div class="pr-nav-bar-translations" h="full">
-    <NavigationMenuRoot v-if="hasLocales" :delay-duration="0" h="full">
+    <NavigationMenuRoot v-if="hasLocales" :delay-duration="0" class="flex" h="full">
       <NavigationMenuList class="pr-nav-bar-menu-list">
         <PressNavItemGroup :item="{ items: [] }" :aria-label="t('button.toggle_langs')">
           <template #trigger>
