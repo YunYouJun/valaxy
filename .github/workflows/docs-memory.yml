@@ -10,6 +10,7 @@ on:
       - packages/valaxy-addon-typedoc/**
       - docs/**
       - scripts/measure-docs-build.mjs
+      - scripts/build-cf-docs.ts
       - scripts/verify-api-migration.mjs
       - package.json
       - pnpm-lock.yaml
@@ -28,6 +29,11 @@ jobs:
       options: --memory=4g --memory-swap=4g
     env:
       NODE_OPTIONS: --max-old-space-size=2048
+      # The runner-owned checkout is bind-mounted into a root-owned container.
+      # Carry the exact trusted path through pnpm and its Git subprocesses.
+      GIT_CONFIG_COUNT: '1'
+      GIT_CONFIG_KEY_0: safe.directory
+      GIT_CONFIG_VALUE_0: ${{ github.workspace }}
     steps:
       - uses: actions/checkout@v7
       - uses: pnpm/action-setup@v6

@@ -327,7 +327,7 @@ The final old-site crawl covered 578 HTML URLs. The site did not expose a sitema
 
 Production `api.valaxy.site` now serves the same 603 verified 301 rules; query forwarding passed for every rule and a browser retained the new `loadAllContent#returns` anchor. The old host skips dependency installation and executes only the built-in Node redirect generator. Standalone API sources, workspace membership and dedicated TypeDoc/VitePress bridge dependency were removed after these checks. Press retains its own VitePress style/type dependency. Historical sources and deployment rollback references remain available in [the cutover guide](../../api/migration/README.md).
 
-The independent `valaxy-addon-typedoc@0.1.0` package has passed tarball-consumer checks; its first npm publication still awaits the account owner’s additional npm publish verification. Main-site deployment consumes the workspace addon and is already live.
+The independent `valaxy-addon-typedoc@0.1.0` package passed tarball-consumer checks and was published on 2026-09-21 after npm verification. The registry confirms version `0.1.0` and its downloadable tarball. Main-site deployment consumes the workspace addon and is already live.
 
 ## 4 GiB build follow-up (2026-09-21)
 
