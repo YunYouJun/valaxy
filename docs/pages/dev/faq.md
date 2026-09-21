@@ -26,16 +26,16 @@ SSG builds the client bundle, server bundle, and HTML pages in one process. It r
 A heap limit covers only V8-managed memory. Native bundler allocations, buffers, child processes, and the container's file cache also consume memory. Setting a 4 GiB heap does **not** make a build fit in a 4 GiB container. Start with a smaller heap and measure the complete build:
 
 ```bash
-NODE_OPTIONS=--max-old-space-size=2048 pnpm build --ssg
+NODE_OPTIONS=--max-old-space-size=1536 pnpm build --ssg
 ```
 
 If V8 reports `JavaScript heap out of memory`, increase the heap only when the host has room. If the container kills the process, reduce total memory use or increase the container budget. Rendering concurrency can be configured with `vite.ssgOptions.concurrency` (default `20`).
 
-The documentation memory workflow verifies cold and warm builds, including the full API reference, with a hard 4 GiB container limit, no swap, and a 2 GiB heap. This is a regression check for this site's current content and dependencies; larger sites should measure their own requirements.
+The documentation memory workflow verifies cold and warm builds, including the full API reference, with a hard 4 GiB container limit, no swap, and a 1.5 GiB heap. This is a regression check for this site's current content and dependencies; larger sites should measure their own requirements.
 
 ```bash
 pnpm test:space        # demo/yun with a 2304 MiB heap
-pnpm test:space:docs   # docs with a 2048 MiB heap
+pnpm test:space:docs   # docs with a 1536 MiB heap
 ```
 
 

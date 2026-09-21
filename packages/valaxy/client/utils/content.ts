@@ -1,4 +1,4 @@
-import { onMounted, onUnmounted } from 'vue'
+import { onUnmounted } from 'vue'
 
 // eslint-disable-next-line import/no-mutable-exports
 export let contentUpdatedCallbacks: (() => any)[] = []
@@ -8,10 +8,12 @@ export let contentUpdatedCallbacks: (() => any)[] = []
  * in the DOM.
  */
 export function onContentUpdated(fn: () => any) {
-  // These callbacks operate on the DOM. Register only after mounting: SSR
-  // never unmounts components, so registering during setup retains every
-  // rendered page (including its router) in this module-level array.
-  onMounted(() => contentUpdatedCallbacks.push(fn))
+  // SSR never unmounts components, so this module-level array would retain
+  // every rendered page and its router. In the browser, register during setup
+  // so parent listeners exist when child content first mounts.
+  if (import.meta.env.SSR)
+    return
+  contentUpdatedCallbacks.push(fn)
   onUnmounted(() => {
     contentUpdatedCallbacks = contentUpdatedCallbacks.filter(f => f !== fn)
   })

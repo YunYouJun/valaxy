@@ -30,10 +30,10 @@ npm run build
 
 执行 `build` 命令构建，`dist` 文件夹为构建后的内容。
 
-SSG 会遵守 Node 的堆内存限制。在总内存为 4 GiB 的构建环境中，可先将堆设为 2 GiB，为打包器和其他进程留出空间：
+SSG 会遵守 Node 的堆内存限制。在总内存为 4 GiB 的构建环境中，可先将堆设为 1.5 GiB，为打包器和其他进程留出空间：
 
 ```bash
-NODE_OPTIONS=--max-old-space-size=2048 pnpm build
+NODE_OPTIONS=--max-old-space-size=1536 pnpm build
 ```
 
 ## 部署到子路径 {#deploy-under-base-path}

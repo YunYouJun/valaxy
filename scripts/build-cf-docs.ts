@@ -9,7 +9,7 @@ async function main() {
   // Core declaration generation needs more heap than documentation rendering.
   $.env.NODE_OPTIONS = '--max-old-space-size=3072'
   await $`pnpm run build`
-  $.env.NODE_OPTIONS = '--max-old-space-size=2048'
+  $.env.NODE_OPTIONS = '--max-old-space-size=1536'
   await $`node scripts/measure-docs-build.mjs test-results/docs-build docs:build`
   await $`pnpm run verify:api`
 }

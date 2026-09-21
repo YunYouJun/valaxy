@@ -28,7 +28,7 @@ jobs:
       # Hard cgroup limit for the entire process tree; no swap headroom.
       options: --memory=4g --memory-swap=4g
     env:
-      NODE_OPTIONS: --max-old-space-size=2048
+      NODE_OPTIONS: --max-old-space-size=1536
       # The runner-owned checkout is bind-mounted into a root-owned container.
       # Carry the exact trusted path through pnpm and its Git subprocesses.
       GIT_CONFIG_COUNT: '1'

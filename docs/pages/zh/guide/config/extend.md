@@ -144,10 +144,10 @@ export default defineValaxyConfig({
 - `onPageRendered(route, html)` — 页面渲染后转换其 HTML
 - `onFinished()` — 所有页面写入后运行（Valaxy 的 sitemap 生成先执行）
 
-**堆上限不等于构建总内存上限。** SSG 遵守 Node 默认堆和显式限制，不再自动以更大的堆重启。总内存为 4 GiB 时，可先使用 2 GiB 堆并实测完整构建：
+**堆上限不等于构建总内存上限。** SSG 遵守 Node 默认堆和显式限制，不再自动以更大的堆重启。总内存为 4 GiB 时，可先使用 1.5 GiB 堆并实测完整构建：
 
 ```bash
-NODE_OPTIONS=--max-old-space-size=2048 pnpm build --ssg
+NODE_OPTIONS=--max-old-space-size=1536 pnpm build --ssg
 ```
 
 详见 [开发 FAQ - JavaScript heap out of memory](/zh/dev/faq#javascript-heap-out-of-memory)。

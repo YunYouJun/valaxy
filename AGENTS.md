@@ -196,7 +196,7 @@ Uses `markdown-it` with custom plugins:
 - Filters draft posts in production
 - Supports pagination
 - Generates sitemap and redirects
-- **Memory budgets:** SSG respects Node's default heap and explicit `NODE_OPTIONS` limits. Heap is only part of total build memory (Rolldown, buffers, child processes, and file cache also count). The documentation memory workflow checks cold/warm builds inside a 4 GiB, no-swap container with a 2 GiB heap.
+- **Memory budgets:** SSG respects Node's default heap and explicit `NODE_OPTIONS` limits. Heap is only part of total build memory (Rolldown, buffers, child processes, and file cache also count). The documentation memory workflow checks cold/warm builds inside a 4 GiB, no-swap container with a 1.5 GiB heap.
 
 ## Theme Development
 
