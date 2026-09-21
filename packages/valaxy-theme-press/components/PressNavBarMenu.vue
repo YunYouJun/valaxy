@@ -1,16 +1,14 @@
 <script lang="ts" setup>
-import { NavigationMenuList, NavigationMenuRoot } from 'reka-ui'
+import { NavigationMenuList } from 'reka-ui'
 import { useLocaleConfig } from '../composables'
 
 const { localeConfig } = useLocaleConfig()
 </script>
 
 <template>
-  <NavigationMenuRoot
-    as="div"
+  <div
     class="pr-nav-bar-menu"
     h="full"
-    :delay-duration="0"
   >
     <NavigationMenuList class="pr-nav-bar-menu-list">
       <template v-for="item in localeConfig.nav" :key="item.text">
@@ -18,7 +16,7 @@ const { localeConfig } = useLocaleConfig()
         <PressNavItemGroup v-else class="px-2" :item="item" />
       </template>
     </NavigationMenuList>
-  </NavigationMenuRoot>
+  </div>
 </template>
 
 <style>

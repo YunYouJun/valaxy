@@ -1,4 +1,5 @@
 <script lang="ts" setup>
+import { NavigationMenuRoot } from 'reka-ui'
 import { useSidebar, useSiteConfig, withBase } from 'valaxy'
 import { computed } from 'vue'
 import { useLocaleConfig } from '../composables'
@@ -27,7 +28,12 @@ const homeLink = computed(() => hasLocales.value ? currentLocale.value.link : '/
       <img v-if="localeConfig.logo" class="logo" :src="withBase(localeConfig.logo)" alt="LOGO">
       <span class="pr-navbar-title inline-flex">{{ siteConfig.title }}</span>
     </RouterLink>
-    <div class="pr-navbar-actions self-stretch flex justify-center items-center text-sm leading-5">
+    <!-- Share one active item and pointer-leave timer across all desktop menus. -->
+    <NavigationMenuRoot
+      as="div"
+      class="pr-navbar-actions self-stretch flex justify-center items-center text-sm leading-5"
+      :delay-duration="0"
+    >
       <PressNavBarSearch p="x-2" />
       <PressNavBarMenu p="x-2" />
       <PressNavBarTranslations p="x-2" />
@@ -35,7 +41,7 @@ const homeLink = computed(() => hasLocales.value ? currentLocale.value.link : '/
       <PressNavBarSocialLinks p="x-2" />
 
       <PressNavBarHamburger :active="isScreenOpen" @click="$emit('toggleScreen')" />
-    </div>
+    </NavigationMenuRoot>
   </div>
 </template>
 

@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { NavigationMenuList, NavigationMenuRoot } from 'reka-ui'
+import { NavigationMenuList } from 'reka-ui'
 import { useI18n } from 'vue-i18n'
 import { useLocaleConfig } from '../composables'
 import PressMenuLink from './PressMenuLink.vue'
@@ -12,7 +12,7 @@ const { hasLocales, availableLocales, currentLocale, currentLocaleKey, getLocale
 
 <template>
   <div class="pr-nav-bar-translations" h="full">
-    <NavigationMenuRoot v-if="hasLocales" :delay-duration="0" class="flex" h="full">
+    <div v-if="hasLocales" class="flex" h="full">
       <NavigationMenuList class="pr-nav-bar-menu-list">
         <PressNavItemGroup :item="{ items: [] }" :aria-label="t('button.toggle_langs')">
           <template #trigger>
@@ -30,7 +30,7 @@ const { hasLocales, availableLocales, currentLocale, currentLocaleKey, getLocale
           </template>
         </PressNavItemGroup>
       </NavigationMenuList>
-    </NavigationMenuRoot>
+    </div>
     <PressToggleLocale v-else />
   </div>
 </template>
