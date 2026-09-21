@@ -153,12 +153,13 @@ describe('native editor protocol', () => {
     }
     await start()
     await write('pages/posts/new.md', '---\ntitle: New\n---')
-    await expect.poll(async () => (await lookup('pages/posts/new.md')).data.status).toBe('resolved')
+    // The router enables Chokidar's awaitWriteFinish (2 seconds on Linux/Windows).
+    await expect.poll(async () => (await lookup('pages/posts/new.md')).data.status, { timeout: 5000 }).toBe('resolved')
     await write('pages/posts/new.md', '---\ntitle: Updated\n---')
-    await expect.poll(async () => (await lookup('pages/posts/new.md')).data.routes[0]?.path).toBe('/updated')
+    await expect.poll(async () => (await lookup('pages/posts/new.md')).data.routes[0]?.path, { timeout: 5000 }).toBe('/updated')
     await rm(join(root, 'pages/posts/new.md'))
-    await expect.poll(async () => (await lookup('pages/posts/new.md')).data.status).toBe('not-found')
-  })
+    await expect.poll(async () => (await lookup('pages/posts/new.md')).data.status, { timeout: 5000 }).toBe('not-found')
+  }, 15000)
 
   it('rejects browser requests, traversal, symlink escapes and another workspace', async () => {
     app.options.config.router = { watch: false }
@@ -235,6 +236,6 @@ describe('native editor protocol', () => {
     finally {
       finish()
     }
-    await expect.poll(async () => (await lookup('pages/posts/hello.md')).data.routes[0]?.path).toBe('/latest')
-  })
+    await expect.poll(async () => (await lookup('pages/posts/hello.md')).data.routes[0]?.path, { timeout: 5000 }).toBe('/latest')
+  }, 10000)
 })
