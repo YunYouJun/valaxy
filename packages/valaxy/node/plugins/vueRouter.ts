@@ -1,5 +1,6 @@
 import type { Options } from 'vue-router/unplugin'
 import type { ExcerptType, Page, Post } from '../../types'
+import type { EditorRoutes } from '../editor/routes'
 import type { ValaxyNode } from '../types'
 import type { MarkdownBase } from './markdown/base'
 import type { MarkdownRenderer } from './markdown/renderer'
@@ -54,8 +55,24 @@ export function generateAutoExcerptMd(content: string, length: number): string {
  * @see https://router.vuejs.org/file-based-routing/
  * @param valaxyApp
  */
-export async function createRouterPlugin(valaxyApp: ValaxyNode, base?: MarkdownBase) {
-  return VueRouter(await createRouterOptions(valaxyApp, base))
+export async function createRouterPlugin(valaxyApp: ValaxyNode, base?: MarkdownBase, editorRoutes?: EditorRoutes) {
+  const options = await createRouterOptions(valaxyApp, base)
+  return VueRouter({
+    ...options,
+    async extendRoute(route) {
+      const finish = [...route.components.values()].map(file => editorRoutes?.begin(file))
+      try {
+        await options.extendRoute?.(route)
+      }
+      finally {
+        finish.forEach(done => done?.())
+      }
+    },
+    async beforeWriteFiles(root) {
+      await options.beforeWriteFiles?.(root)
+      await editorRoutes?.update(root)
+    },
+  })
 }
 
 /** Share the actual route resolution pipeline with content inspection. */
@@ -291,6 +308,7 @@ export async function createRouterOptions(valaxyApp: ValaxyNode, base?: Markdown
 
     async beforeWriteFiles(root) {
       await valaxyApp.hooks.callHook('vue-router:beforeWriteFiles', root)
+      await valaxyConfig.router?.beforeWriteFiles?.(root)
     },
   }
 }

@@ -16,6 +16,7 @@ export function ValaxyDevtools(options: ValaxyDevtoolsOptions = {}): Plugin {
   let stopWatching: (() => void) | undefined
   let standalone: DevframeInstance | undefined
   let definition: ReturnType<typeof createValaxyDevframe> | undefined
+  let openPath: string | undefined
 
   function resolveOptions(server?: ViteDevServer, base = '/') {
     return {
@@ -29,6 +30,8 @@ export function ValaxyDevtools(options: ValaxyDevtoolsOptions = {}): Plugin {
     name: NAMESPACE,
     apply: 'serve',
     api: {
+      /** Public browser entry; authentication remains owned by Devframe. */
+      getOpenPath: () => openPath,
       /** Pair a local host through Devframe's expiring fragment-based link. */
       getStandaloneOpenUrl(origin: string) {
         const url = new URL(origin)
@@ -54,6 +57,7 @@ export function ValaxyDevtools(options: ValaxyDevtoolsOptions = {}): Plugin {
         })
         ctx.docks.register({ id: 'valaxy:tools', type: 'group', title: 'Valaxy', icon: resolveDevtoolsLogo(resolved.base), category: 'framework', defaultChildId: 'valaxy' })
         await plugin.devtools!.setup(ctx)
+        openPath = resolveDevtoolsBase(resolved.base)
         const manifest = await ctx.rpc.invokeLocal('valaxy:get-extensions')
         for (const extension of manifest.plugins) {
           for (const panel of extension.panels)
@@ -93,9 +97,11 @@ export function ValaxyDevtools(options: ValaxyDevtoolsOptions = {}): Plugin {
         mcp: false,
       })
       server.middlewares.use(standalone.nodeMiddleware)
+      openPath = standalone.base
       stopWatching = await watchResources(server, await standalone.context, resolved)
     },
     async closeBundle() {
+      openPath = undefined
       stopWatching?.()
       stopWatching = undefined
       try {
