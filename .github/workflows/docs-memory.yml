@@ -9,6 +9,9 @@ on:
       - packages/valaxy-theme-press/**
       - packages/valaxy-addon-typedoc/**
       - docs/**
+      - scripts/measure-docs-build.mjs
+      - scripts/verify-api-migration.mjs
+      - package.json
       - pnpm-lock.yaml
   workflow_dispatch:
 
@@ -34,6 +37,10 @@ jobs:
           test "$(cat /sys/fs/cgroup/memory.swap.max)" = 0
       - name: Install and build core
         run: pnpm install --frozen-lockfile && pnpm run build
+        env:
+          # DevTools declaration generation needs more heap than site rendering.
+          # The same 4 GiB cgroup limit still applies to this step.
+          NODE_OPTIONS: --max-old-space-size=3072
       - name: Cold build with full API generation
         run: |
           rm -f docs/.valaxy/content/typedoc--api-/cache.json
@@ -43,7 +50,10 @@ jobs:
       - name: Warm build with cached API generation
         run: |
           node scripts/measure-docs-build.mjs test-results/docs-memory/warm docs:build
-          ! grep -q '\[typedoc\] Generated' test-results/docs-memory/warm/docs-build.log
+          if grep -q '\[typedoc\] Generated' test-results/docs-memory/warm/docs-build.log; then
+            echo 'Expected a TypeDoc cache hit in the warm build'
+            exit 1
+          fi
           pnpm run verify:api
       - name: Record kernel memory counters
         if: always()
@@ -54,7 +64,7 @@ jobs:
           cat /sys/fs/cgroup/memory.events > test-results/docs-memory/memory.events
           cat /sys/fs/cgroup/memory.swap.max > test-results/docs-memory/memory.swap.max
           cat test-results/docs-memory/memory.events
-          test "$(awk '$1 == "oom_kill" { print $2 }' /sys/fs/cgroup/memory.events)" = 0
+          awk '$1 == "oom" || $1 == "oom_kill" { if ($2 != 0) exit 1 }' /sys/fs/cgroup/memory.events
       - uses: actions/upload-artifact@v7
         if: always()
         with:
