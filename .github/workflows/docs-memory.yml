@@ -29,13 +29,12 @@ jobs:
       options: --memory=4g --memory-swap=4g
     env:
       NODE_OPTIONS: --max-old-space-size=1536
-      # The runner-owned checkout is bind-mounted into a root-owned container.
-      # Carry the exact trusted path through pnpm and its Git subprocesses.
-      GIT_CONFIG_COUNT: '1'
-      GIT_CONFIG_KEY_0: safe.directory
-      GIT_CONFIG_VALUE_0: ${{ github.workspace }}
     steps:
       - uses: actions/checkout@v7
+      - name: Trust the mounted checkout
+        # Use the container path and system config so child tools with a
+        # different HOME still read Git metadata from this checkout.
+        run: git config --system --add safe.directory "$(pwd)"
       - uses: pnpm/action-setup@v6
       - name: Verify hard memory limit
         run: |
