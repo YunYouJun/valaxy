@@ -30,10 +30,10 @@ npm run build
 
 执行 `build` 命令构建，`dist` 文件夹为构建后的内容。
 
-SSG 构建需要足够的堆内存（~4 GB；引擎会自动以足够内存重启）。若仍遇到 `JavaScript heap out of memory` 错误，请设置：
+SSG 会遵守 Node 的堆内存限制。在总内存为 4 GiB 的构建环境中，可先将堆设为 1.5 GiB，为打包器和其他进程留出空间：
 
 ```bash
-NODE_OPTIONS=--max-old-space-size=4096 pnpm build
+NODE_OPTIONS=--max-old-space-size=1536 pnpm build
 ```
 
 ## 部署到子路径 {#deploy-under-base-path}

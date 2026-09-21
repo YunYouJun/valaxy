@@ -144,10 +144,10 @@ Supported options:
 - `onPageRendered(route, html)` — transform a page's HTML after it renders
 - `onFinished()` — runs after all pages are written (Valaxy's sitemap generation runs first)
 
-**SSG build minimum memory: ~4 GB.** Vite 8 (Rolldown) uses more memory during chunk generation; the engine auto-respawns with a sufficient heap. If you still hit `JavaScript heap out of memory`, raise the limit manually:
+**Heap limits do not cap total build memory.** SSG respects Node's default heap and explicit limits; it does not restart with a larger heap. For a 4 GiB environment, start with a 1.5 GiB heap and measure the full build:
 
 ```bash
-NODE_OPTIONS=--max-old-space-size=4096 pnpm build --ssg
+NODE_OPTIONS=--max-old-space-size=1536 pnpm build --ssg
 ```
 
 See [Dev FAQ - JavaScript heap out of memory](/dev/faq#javascript-heap-out-of-memory) for details.

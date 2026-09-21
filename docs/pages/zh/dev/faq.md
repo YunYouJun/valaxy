@@ -20,28 +20,22 @@ end: false
 
 ## JavaScript heap out of memory {#javascript-heap-out-of-memory}
 
+SSG 在同一进程中完成客户端打包、服务端打包和 HTML 页面渲染。引擎遵守 Node 默认堆和显式 `NODE_OPTIONS` 限制，不再自动提高限制。
 
-
-SSG 构建（`valaxy build --ssg`）时，内置的 Valaxy SSG 引擎在同一进程中依次执行 client 构建、server 构建、页面渲染。构建阶段的 Vite resolved config 和插件系统会驻留内存，导致渲染阶段可用堆空间有限。
-
-**最低内存要求：`--max-old-space-size=4096`（约 4 GB）**——引擎会在需要时自动以此堆重启。
+堆上限只覆盖 V8 管理的内存。打包器原生内存、缓冲区、子进程和容器文件缓存也会占用内存。将堆设为 4 GiB，**不代表**构建能放进 4 GiB 容器。应先留出余量，再实测完整构建：
 
 ```bash
-# 复现测试
-pnpm test:space        # demo/yun
-pnpm test:space:docs   # docs
+NODE_OPTIONS=--max-old-space-size=1536 pnpm build --ssg
 ```
 
-当堆限制低于 ~4 GB 时，SSG 引擎会自动以 `--max-old-space-size=4096`（以及在可用时
-加上 `--expose-gc`）重启构建进程，使渲染阶段有足够余量。页面渲染默认并发数为 20
-（可通过 `vite.ssgOptions.concurrency` 配置）。
+如果 V8 报 `JavaScript heap out of memory`，只有在宿主内存有余量时才提高堆限制。如果是容器杀死进程，应降低总内存占用或增加容器预算。页面渲染并发可通过 `vite.ssgOptions.concurrency` 配置，默认 `20`。
 
-如果你仍在 CI 环境中遇到 OOM，可以通过设置 `NODE_OPTIONS` 增大堆限制：
+文档内存工作流会在 4 GiB 硬上限、无 swap、1.5 GiB 堆的容器中验证冷构建和暖构建，保留完整 API 文档。该检查覆盖本站当前内容和依赖；更大的站点应单独测量需求。
 
 ```bash
-NODE_OPTIONS=--max-old-space-size=4096 pnpm build --ssg
+pnpm test:space        # demo/yun，堆上限 2304 MiB
+pnpm test:space:docs   # docs，堆上限 1536 MiB
 ```
-
 
 
 ## 合并 {#合并}

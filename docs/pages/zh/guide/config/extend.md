@@ -144,10 +144,10 @@ export default defineValaxyConfig({
 - `onPageRendered(route, html)` — 页面渲染后转换其 HTML
 - `onFinished()` — 所有页面写入后运行（Valaxy 的 sitemap 生成先执行）
 
-**SSG 构建最低内存：~4 GB。** Vite 8（Rolldown）在 chunk 生成阶段占用更多内存，引擎会自动以足够的堆重启。若仍遇到 `JavaScript heap out of memory`，请手动增大限制：
+**堆上限不等于构建总内存上限。** SSG 遵守 Node 默认堆和显式限制，不再自动以更大的堆重启。总内存为 4 GiB 时，可先使用 1.5 GiB 堆并实测完整构建：
 
 ```bash
-NODE_OPTIONS=--max-old-space-size=4096 pnpm build --ssg
+NODE_OPTIONS=--max-old-space-size=1536 pnpm build --ssg
 ```
 
 详见 [开发 FAQ - JavaScript heap out of memory](/zh/dev/faq#javascript-heap-out-of-memory)。

@@ -327,4 +327,15 @@ The final old-site crawl covered 578 HTML URLs. The site did not expose a sitema
 
 Production `api.valaxy.site` now serves the same 603 verified 301 rules; query forwarding passed for every rule and a browser retained the new `loadAllContent#returns` anchor. The old host skips dependency installation and executes only the built-in Node redirect generator. Standalone API sources, workspace membership and dedicated TypeDoc/VitePress bridge dependency were removed after these checks. Press retains its own VitePress style/type dependency. Historical sources and deployment rollback references remain available in [the cutover guide](../../api/migration/README.md).
 
-The independent `valaxy-addon-typedoc@0.1.0` package has passed tarball-consumer checks; its first npm publication still awaits the account owner’s additional npm publish verification. Main-site deployment consumes the workspace addon and is already live.
+The independent `valaxy-addon-typedoc@0.1.0` package passed tarball-consumer checks and was published on 2026-09-21 after npm verification. The registry confirms version `0.1.0` and its downloadable tarball. Main-site deployment consumes the workspace addon and is already live.
+
+## 4 GiB build follow-up (2026-09-21)
+
+- A heap snapshot isolated SSR retention to `contentUpdatedCallbacks`: DOM update callbacks registered during setup held every page router because SSR does not invoke component unmount hooks. A standalone 469-page render retained about 1.49 GiB of live heap even after explicit GC.
+- Skip registration in SSR while preserving immediate browser setup registration. Regressions cover SSR retention, callback execution/cleanup, and parent listeners receiving the initial child content update.
+- Remove the SSG heap-increasing respawn. `NODE_OPTIONS=--max-old-space-size=2048` now remains a real 2 GiB heap budget; it does not cap native allocations or total container memory.
+- Full local cold builds with the fix completed in 35.06 s and 34.81 s, with sampled process-tree peaks of 3940.06 and 3960.98 MiB. These macOS measurements are not a hard-limit guarantee or a timing comparison against the earlier Linux benchmark.
+- `.github/workflows/docs-memory.yml` checks full cold/warm builds and API links inside a 4 GiB Linux cgroup with swap disabled. Kernel OOM counters and sampled phase reports are uploaded for review. CI results are linked from PR #740.
+- Prepare coordinated `1.0.0-rc.15` packages so installed consumers receive the SSR retention fix and explicit memory-budget support.
+
+The Linux hard-limit run with a 2 GiB heap still hit cgroup OOM during server bundling, despite passing locally. The constrained documentation configuration therefore uses a 1536 MiB heap to reserve more room for native allocations; core/DevTools declaration generation uses a separate 3072 MiB heap, under the same 4 GiB total cap. The Cloudflare build script applies these stage-specific budgets.

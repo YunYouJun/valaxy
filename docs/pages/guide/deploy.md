@@ -34,10 +34,10 @@ npm run build
 
 Run the `build` command to build, and the `dist` directory contains the built content.
 
-SSG build requires a sufficient heap (~4 GB; the engine auto-respawns with enough memory). If you still encounter `JavaScript heap out of memory`, set:
+SSG respects Node's heap limit. For a 4 GiB build environment, start with a 1.5 GiB heap to leave room for the bundler and other processes:
 
 ```bash
-NODE_OPTIONS=--max-old-space-size=4096 pnpm build
+NODE_OPTIONS=--max-old-space-size=1536 pnpm build
 ```
 
 ## Deploying under a base path

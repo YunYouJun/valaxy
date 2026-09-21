@@ -1,12 +1,9 @@
 import type { InlineConfig } from 'vite'
 import type { ValaxyNode } from '../types'
 import type { RenderResult } from './render'
-import { execFileSync } from 'node:child_process'
 import { readFile, rm } from 'node:fs/promises'
 import { isAbsolute, resolve } from 'node:path'
-import process from 'node:process'
 import { pathToFileURL } from 'node:url'
-import v8 from 'node:v8'
 import { consola } from 'consola'
 import { colors } from 'consola/utils'
 import pMap from 'p-map'
@@ -24,10 +21,6 @@ import { renderPage } from './render'
 function tryGC() {
   if (typeof globalThis.gc === 'function')
     globalThis.gc()
-}
-
-function getHeapLimitMB(): number {
-  return v8.getHeapStatistics().heap_size_limit / 1024 / 1024
 }
 
 /**
@@ -101,56 +94,8 @@ export async function ssgBuild(
 ) {
   const { options } = valaxyApp
 
-  // === Process respawn for --expose-gc and sufficient heap ===
-  if (!process.env.__VALAXY_SSG_NO_RESPAWN__) {
-    const needGC = typeof globalThis.gc !== 'function'
-    const currentHeapMB = getHeapLimitMB()
-    // Vite 8 (Rolldown) + large projects (many addons, dual Shiki themes, etc.)
-    // can easily exceed 2 GB during chunk generation. Require at least 4 GB.
-    const minRequiredMB = 4096
-    const needMoreHeap = currentHeapMB < minRequiredMB
-    // Only respawn for --expose-gc if heap is also constrained.
-    // On memory-rich machines, tryGC() being a no-op is acceptable.
-    const needRespawn = needMoreHeap || (needGC && currentHeapMB < minRequiredMB)
-
-    if (needRespawn) {
-      const extraNodeArgs: string[] = []
-      if (needGC)
-        extraNodeArgs.push('--expose-gc')
-      if (needMoreHeap)
-        extraNodeArgs.push(`--max-old-space-size=${minRequiredMB}`)
-
-      consola.info(`Restarting SSG build with ${extraNodeArgs.join(' ')} (current heap: ${Math.round(currentHeapMB)} MB)...`)
-
-      const filteredExecArgv = needMoreHeap
-        ? process.execArgv.filter(arg => !arg.startsWith('--max-old-space-size') && !arg.startsWith('--max_old_space_size'))
-        : process.execArgv
-      const nodeArgs = [...extraNodeArgs, ...filteredExecArgv, ...process.argv.slice(1)]
-
-      try {
-        execFileSync(process.execPath, nodeArgs, {
-          cwd: process.cwd(),
-          stdio: 'inherit',
-          env: { ...process.env, __VALAXY_SSG_NO_RESPAWN__: '1' },
-          timeout: 30 * 60 * 1000,
-        })
-        // Parent process returns after successful respawn. Any in-process
-        // JavaScript callbacks (e.g. userSsgOptions.onFinished) will only
-        // run in the child process, not here.
-        return
-      }
-      catch (e: any) {
-        if (e.signal) {
-          throw new Error(`SSG build was killed by signal ${e.signal}${e.signal === 'SIGTERM' ? ' (possible timeout)' : ''}`, { cause: e })
-        }
-        if (e.status != null && e.status !== 0) {
-          throw new Error(`SSG build failed (exit code: ${e.status})`, { cause: e })
-        }
-        throw e
-      }
-    }
-  }
-
+  // Keep Node's heap budget (including NODE_OPTIONS and container-aware
+  // defaults). Raising it here can exceed the host's total memory limit.
   const configOutDir = (viteConfig.build?.outDir as string) || 'dist'
   const outDir = isAbsolute(configOutDir) ? configOutDir : resolve(options.userRoot, configOutDir)
   const ssgTemp = resolve(outDir, '.vite-ssg-temp')
