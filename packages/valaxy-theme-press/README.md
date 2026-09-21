@@ -33,3 +33,12 @@ export default defineValaxyConfig<PressTheme.Config>({
 
 - [vitepress](https://vitepress.dev/)
 - [nextjs](https://nextjs.org/)
+
+## Native theme styles
+
+Press ships its own documentation styles and `PressTheme.SidebarItem` type; it does
+not require the `vitepress` package. Theme CSS uses `--press-*` variables and
+`.press-doc`. When updating custom styles, replace `--vp-*` and `.vp-doc` with
+these names. Valaxy’s shared Markdown code-group classes remain supported.
+See [third-party notices](./THIRD-PARTY-NOTICES.md) for the adapted styles’ source
+and license.

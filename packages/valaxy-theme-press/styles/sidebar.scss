@@ -1,0 +1,25 @@
+// Shared by explicit sidebar entries and generated category links.
+.press-sidebar-link {
+  display: flex;
+  align-items: center;
+  flex-grow: 1;
+  min-width: 0;
+  min-height: 32px;
+  padding: 4px 8px;
+  border-radius: 6px;
+  color: var(--pr-c-text-2);
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 24px;
+  overflow-wrap: anywhere;
+  transition: color var(--va-transition-duration), background-color var(--va-transition-duration);
+
+  &:hover {
+    color: var(--pr-c-brand);
+  }
+
+  &.is-active {
+    color: var(--pr-c-brand);
+    background-color: var(--pr-c-brand-soft);
+  }
+}

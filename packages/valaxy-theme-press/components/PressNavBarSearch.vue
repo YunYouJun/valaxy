@@ -137,7 +137,7 @@ function isEditingContent(event: KeyboardEvent): boolean {
 </script>
 
 <template>
-  <div v-if="siteConfig.search.enable" class="VPNavBarSearch">
+  <div v-if="siteConfig.search.enable" class="press-nav-bar-search">
     <template v-if="isAlgolia">
       <PressNavBarSearchButton
         aria-keyshortcuts="/ control+k meta+k"
@@ -167,13 +167,13 @@ function isEditingContent(event: KeyboardEvent): boolean {
 
 <style>
 /* stylelint-disable selector-class-pattern */
-.VPNavBarSearch {
+.press-nav-bar-search {
   display: flex;
   align-items: center;
 }
 
 @media (width >= 768px) {
-  .VPNavBarSearch {
+  .press-nav-bar-search {
     gap: 8px;
     flex-grow: 1;
     padding-left: 24px;
@@ -181,13 +181,13 @@ function isEditingContent(event: KeyboardEvent): boolean {
 }
 
 @media (width >= 960px) {
-  .VPNavBarSearch {
+  .press-nav-bar-search {
     padding-left: 32px;
   }
 }
 
 @media (768px <= width < 1280px) {
-  .VPNavBarSearch {
+  .press-nav-bar-search {
     flex-grow: 0;
     gap: 0;
     padding-left: 8px;

@@ -34,8 +34,7 @@
     "@docsearch/js": "catalog:",
     "@docsearch/sidepanel-js": "catalog:",
     "markdown-exit": "catalog:",
-    "reka-ui": "catalog:frontend",
-    "vitepress": "catalog:frontend"
+    "reka-ui": "catalog:frontend"
   },
   "devDependencies": {
     "valaxy": "workspace:*"

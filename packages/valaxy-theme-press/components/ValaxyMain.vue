@@ -55,7 +55,7 @@ onContentUpdated(() => {
     >
       <div class="container" flex="~ grow" justify="between">
         <slot name="main">
-          <div class="vp-doc content" w="full" :class="{ 'm-auto': !hasSidebar, 'no-aside': frontmatter.aside === false }" flex="~ col grow" p="lt-md:0">
+          <div class="press-doc content" w="full" :class="{ 'm-auto': !hasSidebar, 'no-aside': frontmatter.aside === false }" flex="~ col grow" p="lt-md:0">
             <slot name="main-header" />
             <slot name="main-header-after" />
 

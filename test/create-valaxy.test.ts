@@ -6,13 +6,15 @@ import { hasThemeTemplate, normalizeThemeName, replaceThemeDeps, replaceThemeInC
 // ─── theme-press dependency check ────────────────────────────────────
 
 describe('valaxy-theme-press dependencies', () => {
-  it('declares vitepress as a dependency', () => {
+  it('ships documentation styles without a vitepress dependency', () => {
     const pressPkgPath = path.resolve(
       __dirname,
       '../packages/valaxy-theme-press/package.json',
     )
     const pressPkg = JSON.parse(fs.readFileSync(pressPkgPath, 'utf-8'))
-    expect(pressPkg.dependencies).toHaveProperty('vitepress')
+    expect(pressPkg.dependencies).not.toHaveProperty('vitepress')
+    for (const file of ['tokens.css', 'code.css', 'code-group.css', 'doc.css'])
+      expect(fs.existsSync(path.resolve(path.dirname(pressPkgPath), 'styles', file))).toBe(true)
   })
 })
 

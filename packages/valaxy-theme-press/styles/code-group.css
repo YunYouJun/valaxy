@@ -1,0 +1,86 @@
+/*! Adapted from VitePress 2.0.0-alpha.20 (MIT). See ../THIRD-PARTY-NOTICES.md. */
+.vp-code-group {
+  margin-top: 1rem;
+}
+
+.vp-code-group .tabs {
+  position: relative;
+  display: flex;
+  margin-right: -1.5rem;
+  margin-left: -1.5rem;
+  padding: 0 0.75rem;
+  background-color: var(--press-code-tab-bg);
+  overflow-x: auto;
+  overflow-y: hidden;
+  box-shadow: inset 0 -1px var(--press-code-tab-divider);
+}
+
+@media (min-width: 40rem) {
+  .vp-code-group .tabs {
+    margin-right: 0;
+    margin-left: 0;
+    border-radius: 0.5rem 0.5rem 0 0;
+  }
+}
+
+.vp-code-group .tabs input {
+  position: fixed;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.vp-code-group .tabs label {
+  position: relative;
+  display: inline-block;
+  border-bottom: 1px solid transparent;
+  padding: 0 0.75rem;
+  line-height: 3.4285714;
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: var(--press-code-tab-text-color);
+  white-space: nowrap;
+  cursor: pointer;
+  transition: color 0.25s;
+}
+
+.vp-code-group .tabs label::after {
+  position: absolute;
+  right: 0.5rem;
+  bottom: -1px;
+  left: 0.5rem;
+  z-index: 1;
+  height: 2px;
+  border-radius: 2px;
+  content: '';
+  background-color: transparent;
+  transition: background-color 0.25s;
+}
+
+.vp-code-group label:hover {
+  color: var(--press-code-tab-hover-text-color);
+}
+
+.vp-code-group input:checked + label {
+  color: var(--press-code-tab-active-text-color);
+}
+
+.vp-code-group input:checked + label::after {
+  background-color: var(--press-code-tab-active-bar-color);
+}
+
+.vp-code-group div[class*='language-'],
+.vp-block {
+  display: none;
+  margin-top: 0 !important;
+  border-top-left-radius: 0 !important;
+  border-top-right-radius: 0 !important;
+}
+
+.vp-code-group div[class*='language-'].active,
+.vp-block.active {
+  display: block;
+}
+
+.vp-block {
+  padding: 1.25rem 1.5rem;
+}

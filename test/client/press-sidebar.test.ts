@@ -19,6 +19,14 @@ describe('valaxy-theme-press sidebar active matching', () => {
       },
     ])).toBe(true)
   })
+
+  it('treats directory, index and extension variants as the same active page', () => {
+    expect(isActive('/guide/', '/guide')).toBe(true)
+    expect(isActive('/guide', '/guide/index.html')).toBe(true)
+    expect(isActive('/guide?from=nav', '/guide.html')).toBe(true)
+    expect(isActive('/', '/index.html')).toBe(true)
+    expect(isActive('/guide/details', '/guide')).toBe(false)
+  })
 })
 
 describe('valaxy-theme-press sidebar resolving', () => {

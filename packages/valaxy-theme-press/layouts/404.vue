@@ -125,7 +125,7 @@ const homeLink = computed(() => currentLocale.value === 'zh' ? '/zh/' : '/')
   align-items: center;
   gap: 8px;
   margin: 0;
-  color: var(--vp-c-brand-1);
+  color: var(--press-c-brand-1);
   font-size: 14px;
   font-weight: 700;
 }
@@ -133,7 +133,7 @@ const homeLink = computed(() => currentLocale.value === 'zh' ? '/zh/' : '/')
 .not-found-title {
   max-width: 12ch;
   margin: 0;
-  color: var(--vp-c-text-1);
+  color: var(--press-c-text-1);
   font-size: clamp(2.25rem, 6vw, 4.75rem);
   line-height: .98;
   letter-spacing: 0;
@@ -142,7 +142,7 @@ const homeLink = computed(() => currentLocale.value === 'zh' ? '/zh/' : '/')
 .not-found-description {
   max-width: 42rem;
   margin: 18px 0 0;
-  color: var(--vp-c-text-2);
+  color: var(--press-c-text-2);
   font-size: clamp(1rem, 2vw, 1.125rem);
   line-height: 1.7;
 }
@@ -153,10 +153,10 @@ const homeLink = computed(() => currentLocale.value === 'zh' ? '/zh/' : '/')
   max-width: 100%;
   margin: 20px 0 0;
   padding: 12px 16px;
-  border: 1px solid var(--vp-c-divider);
+  border: 1px solid var(--press-c-divider);
   border-radius: 8px;
-  background: color-mix(in srgb, var(--vp-c-bg-soft) 72%, transparent);
-  color: var(--vp-c-text-2);
+  background: color-mix(in srgb, var(--press-c-bg-soft) 72%, transparent);
+  color: var(--press-c-text-2);
   font-size: 13px;
 }
 
@@ -164,7 +164,7 @@ const homeLink = computed(() => currentLocale.value === 'zh' ? '/zh/' : '/')
   display: block;
   max-width: 100%;
   overflow-wrap: anywhere;
-  color: var(--vp-c-text-1);
+  color: var(--press-c-text-1);
   font-size: 14px;
 }
 
@@ -196,15 +196,15 @@ const homeLink = computed(() => currentLocale.value === 'zh' ? '/zh/' : '/')
 }
 
 .not-found-action.primary {
-  background: var(--vp-c-brand-1);
-  color: var(--vp-c-white);
-  box-shadow: 0 12px 28px color-mix(in srgb, var(--vp-c-brand-1) 24%, transparent);
+  background: var(--press-c-brand-1);
+  color: var(--press-c-white);
+  box-shadow: 0 12px 28px color-mix(in srgb, var(--press-c-brand-1) 24%, transparent);
 }
 
 .not-found-action.secondary {
-  border-color: var(--vp-c-divider);
-  background: var(--vp-c-bg);
-  color: var(--vp-c-text-1);
+  border-color: var(--press-c-divider);
+  background: var(--press-c-bg);
+  color: var(--press-c-text-1);
 }
 
 @media (width <= 767px) {

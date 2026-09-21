@@ -1,0 +1,143 @@
+/*! Adapted from VitePress 2.0.0-alpha.20 (MIT). See ../THIRD-PARTY-NOTICES.md. */
+
+:root {
+  --press-c-white: #ffffff;
+}
+
+:root {
+  --press-c-gray-soft: rgba(142, 150, 170, 0.14);
+
+  --press-c-indigo-1: #3451b2;
+  --press-c-indigo-2: #3a5ccc;
+
+  --press-c-green-1: #18794e;
+  --press-c-green-soft: rgba(16, 185, 129, 0.14);
+  --press-c-yellow-soft: rgba(234, 179, 8, 0.14);
+  --press-c-orange-soft: rgba(249, 115, 22, 0.14);
+
+  --press-c-red-1: #b8272c;
+  --press-c-red-soft: rgba(244, 63, 94, 0.14);
+}
+
+.dark {
+  --press-c-gray-soft: rgba(101, 117, 133, 0.16);
+
+  --press-c-indigo-1: #a8b1ff;
+  --press-c-indigo-2: #5c73e7;
+
+  --press-c-green-1: #3dd68c;
+  --press-c-green-soft: rgba(16, 185, 129, 0.16);
+  --press-c-yellow-soft: rgba(234, 179, 8, 0.16);
+  --press-c-orange-soft: rgba(249, 115, 22, 0.16);
+
+  --press-c-red-1: #f66f81;
+  --press-c-red-soft: rgba(244, 63, 94, 0.16);
+}
+
+:root {
+  --press-c-bg: #ffffff;
+  --press-c-bg-alt: #f6f6f7;
+  --press-c-bg-soft: #f6f6f7;
+}
+
+.dark {
+  --press-c-bg: #1b1b1f;
+  --press-c-bg-alt: #161618;
+  --press-c-bg-soft: #202127;
+}
+
+:root {
+  --press-c-divider: #e2e2e3;
+  --press-c-gutter: #e2e2e3;
+}
+
+.dark {
+  --press-c-divider: #2e2e32;
+  --press-c-gutter: #000000;
+}
+
+:root {
+  --press-c-text-1: #3c3c43;
+  --press-c-text-2: #67676c;
+  --press-c-text-3: #929295;
+}
+
+.dark {
+  --press-c-text-1: #dfdfd6;
+  --press-c-text-2: #98989f;
+  --press-c-text-3: #6a6a71;
+}
+
+:root {
+  --press-c-default-soft: var(--press-c-gray-soft);
+
+  --press-c-brand-1: var(--press-c-indigo-1);
+  --press-c-brand-2: var(--press-c-indigo-2);
+  --press-c-brand: var(--press-c-brand-1);
+
+  --press-c-success-1: var(--press-c-green-1);
+  --press-c-success-soft: var(--press-c-green-soft);
+  --press-c-warning-soft: var(--press-c-yellow-soft);
+
+  --press-c-danger-1: var(--press-c-red-1);
+  --press-c-danger-soft: var(--press-c-red-soft);
+}
+
+:root {
+  --press-font-family-mono:
+    ui-monospace, 'Menlo', 'Monaco', 'Consolas', 'Liberation Mono',
+    'Courier New', monospace;
+}
+
+:root {
+  --press-header-anchor-symbol: '#';
+}
+
+:root {
+  --press-code-line-height: 1.7;
+  --press-code-font-size: 0.875em;
+  --press-code-color: var(--press-c-brand-1);
+  --press-code-link-color: var(--press-c-brand-1);
+  --press-code-link-hover-color: var(--press-c-brand-2);
+  --press-code-bg: var(--press-c-default-soft);
+
+  --press-code-block-color: var(--press-c-text-2);
+  --press-code-block-bg: var(--press-c-bg-alt);
+  --press-code-block-divider-color: var(--press-c-gutter);
+
+  --press-code-lang-color: var(--press-c-text-2);
+
+  --press-code-line-highlight-color: var(--press-c-default-soft);
+  --press-code-line-number-color: var(--press-c-text-2);
+
+  --press-code-line-diff-add-color: var(--press-c-success-soft);
+  --press-code-line-diff-add-symbol-color: var(--press-c-success-1);
+
+  --press-code-line-diff-remove-color: var(--press-c-danger-soft);
+  --press-code-line-diff-remove-symbol-color: var(--press-c-danger-1);
+
+  --press-code-line-warning-color: var(--press-c-warning-soft);
+  --press-code-line-error-color: var(--press-c-danger-soft);
+
+  --press-code-copy-code-border-color: var(--press-c-divider);
+  --press-code-copy-code-bg: var(--press-c-bg-soft);
+  --press-code-copy-code-hover-border-color: var(--press-c-divider);
+  --press-code-copy-code-hover-bg: var(--press-c-bg);
+  --press-code-copy-code-active-text: var(--press-c-text-2);
+
+  --press-code-tab-divider: var(--press-code-block-divider-color);
+  --press-code-tab-text-color: var(--press-c-text-2);
+  --press-code-tab-bg: var(--press-code-block-bg);
+  --press-code-tab-hover-text-color: var(--press-c-text-1);
+  --press-code-tab-active-text-color: var(--press-c-text-1);
+  --press-code-tab-active-bar-color: var(--press-c-brand-1);
+}
+
+:root {
+  --press-nav-height: 4rem;
+}
+
+.hide-nav {
+  --press-nav-height: 0px;
+}
+

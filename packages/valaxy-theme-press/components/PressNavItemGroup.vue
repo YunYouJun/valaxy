@@ -7,6 +7,7 @@ import PressNavItemGroupChild from './PressNavItemGroupChild.vue'
 
 defineProps<{
   item: NavItemWithChildren
+  ariaLabel?: string
 }>()
 
 const { t } = useI18n()
@@ -20,22 +21,27 @@ const { t } = useI18n()
     <NavigationMenuTrigger
       class="button flex items-center bg-transparent"
       h="full"
+      :aria-label="ariaLabel"
     >
-      <span v-if="item.text" class="text">
-        {{ item.text.includes(".") ? t(item.text) : item.text }}
-      </span>
+      <slot name="trigger">
+        <span v-if="item.text" class="text">
+          {{ item.text.includes(".") ? t(item.text) : item.text }}
+        </span>
+      </slot>
       <div i-ri-arrow-drop-down-line />
     </NavigationMenuTrigger>
 
     <NavigationMenuContent class="press-nav-menu-content grow" flex="~ col" items="start">
-      <template v-for="itemLink in item.items" :key="JSON.stringify(itemLink)">
-        <PressMenuLink v-if="'link' in itemLink" :item="itemLink" />
-        <PressNavItemGroupChild
-          v-else
-          :text="itemLink.text"
-          :items="itemLink.items"
-        />
-      </template>
+      <slot>
+        <template v-for="itemLink in item.items" :key="JSON.stringify(itemLink)">
+          <PressMenuLink v-if="'link' in itemLink" :item="itemLink" />
+          <PressNavItemGroupChild
+            v-else
+            :text="itemLink.text"
+            :items="itemLink.items"
+          />
+        </template>
+      </slot>
     </NavigationMenuContent>
   </NavigationMenuItem>
 </template>

@@ -1,4 +1,3 @@
-import type { DefaultTheme } from 'vitepress/theme'
 import type { ComputedRef, Ref } from 'vue'
 import type { PressTheme } from '../types'
 
@@ -26,7 +25,7 @@ export interface SidebarControl {
 export const HASH_RE = /#.*$/
 export const EXT_RE = /(index)?\.(md|html)$/
 export function normalize(path: string): string {
-  return decodeURI(path).replace(HASH_RE, '').replace(EXT_RE, '')
+  return decodeURI(path).replace(/[?#].*$/, '').replace(EXT_RE, '').replace(/\/$/, '') || '/'
 }
 
 export function isActive(
@@ -110,7 +109,7 @@ export function containsActiveLink(
 }
 
 export function useSidebarControl(
-  item: ComputedRef<DefaultTheme.SidebarItem>,
+  item: ComputedRef<PressTheme.SidebarItem>,
 ): SidebarControl {
   const collapsed = ref(false)
 
@@ -125,7 +124,7 @@ export function useSidebarControl(
   const isActiveLink = ref(false)
   const route = useRoute()
   const updateIsActiveLink = () => {
-    isActiveLink.value = route.path === item.value.link
+    isActiveLink.value = isActive(route.path, item.value.link)
   }
 
   watch([() => route.path, item, hashRef], updateIsActiveLink, { immediate: true })
