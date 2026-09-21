@@ -22,6 +22,7 @@
   --docsearch-searchbox-background: var(--va-c-bg-alt);
   --docsearch-searchbox-focus-background: transparent;
   --docsearch-hit-background: var(--va-c-bg);
+  --docsearch-hit-focus-background: var(--docsearch-soft-primary-color);
   --docsearch-hit-color: var(--va-c-text-1);
   --docsearch-hit-active-color: var(--va-c-white);
   --docsearch-hit-shadow: none;
@@ -52,6 +53,10 @@
   padding: 4px;
   border: 1px solid var(--docsearch-subtle-color);
   border-radius: 4px;
+}
+
+.DocSearch-Dropdown-Container .DocSearch-Hits-padded {
+  padding-inline-start: 0;
 }
 
 .DocSearch-Hit a:focus-visible {
