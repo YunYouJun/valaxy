@@ -13,6 +13,8 @@ import Layouts from 'vite-plugin-vue-layouts-next'
 import { groupIconVitePlugin } from 'vitepress-plugin-group-icons'
 import { StateManager } from '../app/state'
 import { customElements } from '../constants'
+import { editorPlugin } from '../editor/plugin'
+import { EditorRoutes } from '../editor/routes'
 import { vLogger } from '../logger'
 import { scanCodeBlockTitles } from '../utils/groupIcons'
 import { countPerformanceTime } from '../utils/performance'
@@ -112,6 +114,7 @@ export async function ViteValaxyPlugins(
   // Plugin pipelines can be created concurrently from the same Valaxy app.
   // Keep transient Markdown state scoped to this pipeline, not the app.
   const state = new StateManager()
+  const editorRoutes = options.mode === 'dev' ? new EditorRoutes() : undefined
   const { roots, config: valaxyConfig } = options
   const markdownBase = createMarkdownBaseContext(viteConfig.base || valaxyConfig.vite?.base || '/')
 
@@ -178,7 +181,7 @@ export async function ViteValaxyPlugins(
       vLogger.debug(`  ├─ plugin-vue: ${timers.vue()}`)
       return r
     }),
-    createRouterPlugin(valaxyApp, markdownBase).then((r) => {
+    createRouterPlugin(valaxyApp, markdownBase, editorRoutes).then((r) => {
       vLogger.debug(`  ├─ createRouterPlugin: ${timers.router()}`)
       return r
     }),
@@ -204,6 +207,7 @@ export async function ViteValaxyPlugins(
 
   const plugins: (PluginOption | PluginOption[])[] = [
     MarkdownBasePlugin,
+    ...(editorRoutes ? [editorPlugin(options, editorRoutes)] : []),
     createCdnPlugin(options),
     createLlmsPlugin(options),
 
