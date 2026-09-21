@@ -4,9 +4,10 @@
 
 ## Build and verification
 
-- Main site: `pnpm build && pnpm docs:build && pnpm verify:api` checks generated links, canonical URLs and every preserved legacy anchor.
-- Old domain: `node scripts/build-api-redirects.mjs` writes `api/migration/dist/_redirects` without installing dependencies or running TypeDoc.
-- Cloudflare Pages project `valaxy-api`: build command `node scripts/build-api-redirects.mjs`, output `api/migration/dist`, and `SKIP_DEPENDENCY_INSTALL=true` in both production and preview.
+- Main site: `pnpm build && pnpm docs:build && pnpm verify:api` checks generated links and canonical URLs without producing deployment artifacts.
+- Compatibility audit: `pnpm verify:api --legacy-redirects` additionally checks every preserved legacy anchor and writes `deploy/api-redirects/dist/_redirects`.
+- Old domain: `node scripts/build-api-redirects.mjs` writes the same redirect artifact without installing dependencies or running TypeDoc.
+- Cloudflare Pages project `valaxy-api`: build command `node scripts/build-api-redirects.mjs`, output `deploy/api-redirects/dist`, and `SKIP_DEPENDENCY_INSTALL=true` in both production and preview.
 - Preview any mapping change first. Verify HTTP 301 and `Location`, query forwarding and a real browser navigation with a fragment before deploying production. Fragments are not sent to the server, so target IDs must remain compatible.
 
 The snapshot covers 292 legacy pages and 2,168 anchors. The mapper produces 603 rules, including extensionless and old index aliases. The final live crawl followed 578 HTML URLs; the old site had no sitemap. It includes `loadAllContent`, added by the migration release. Both preview and production were checked against the actual host on 2026-09-21.

@@ -53,12 +53,12 @@ const { t } = useI18n()
   width: 2.75rem;
   height: 2.75rem;
   cursor: pointer;
-  color: var(--vp-c-text-2);
+  color: var(--press-c-text-2);
   transition: all var(--va-transition-duration-fast) cubic-bezier(0.4, 0, 0.2, 1);
   outline: none;
 
   &:hover {
-    color: var(--vp-c-text-1);
+    color: var(--press-c-text-1);
   }
 
   &:active {
@@ -66,12 +66,12 @@ const { t } = useI18n()
   }
 
   &:focus-visible {
-    outline: 2px solid var(--vp-c-brand);
+    outline: 2px solid var(--press-c-brand);
     outline-offset: 2px;
   }
 
   &--active {
-    color: var(--vp-c-brand);
+    color: var(--press-c-brand);
   }
 }
 

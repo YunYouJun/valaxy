@@ -170,10 +170,10 @@ function getSidebarItemKey(item: PressTheme.SidebarEntry, index: number): string
   return item.text || item.link || index
 }
 
-function getSidebarRootItemClasses(groupIndex: number, itemIndex = 0) {
+function getSidebarRootItemClasses(groupIndex: number, itemIndex = 0, isSection = true) {
   return [
     'press-sidebar-root-item',
-    { 'is-separated': groupIndex > 0 || itemIndex > 0 },
+    { 'is-separated': isSection && (groupIndex > 0 || itemIndex > 0) },
   ]
 }
 </script>
@@ -226,7 +226,7 @@ function getSidebarRootItemClasses(groupIndex: number, itemIndex = 0) {
               />
               <PressSidebarItem
                 v-else
-                :class="getSidebarRootItemClasses(groupIndex, index)"
+                :class="getSidebarRootItemClasses(groupIndex, index, !!item.items?.length)"
                 :item="item"
                 :depth="0"
               />
@@ -323,10 +323,12 @@ function getSidebarRootItemClasses(groupIndex: number, itemIndex = 0) {
 }
 
 .press-sidebar-root-item.is-separated {
+  margin-top: 16px;
+  padding-top: 12px;
   border-top: 1px solid var(--pr-c-divider-light);
 }
 
-.press-sidebar-root-item > .press-sidebar-item {
+.press-sidebar-item {
   padding-top: 0.5rem;
 }
 
@@ -347,10 +349,10 @@ function getSidebarRootItemClasses(groupIndex: number, itemIndex = 0) {
     display: flex;
     justify-content: center;
     align-items: center;
-    margin-right: -7px;
+    margin-right: 0;
     width: 32px;
     height: 32px;
-    color: var(--vp-c-text-3);
+    color: var(--pr-c-text-2);
     cursor: pointer;
     transition: color var(--va-transition-duration);
     flex-shrink: 0;
@@ -367,11 +369,11 @@ function getSidebarRootItemClasses(groupIndex: number, itemIndex = 0) {
   }
 
   &:hover .caret {
-    color: var(--vp-c-text-2);
+    color: var(--pr-c-text-1);
   }
 
   &:hover .caret:hover {
-    color: var(--vp-c-text-1);
+    color: var(--pr-c-text-1);
   }
 }
 </style>

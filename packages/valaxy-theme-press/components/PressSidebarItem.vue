@@ -1,12 +1,12 @@
 <script setup lang="ts">
-import type { DefaultTheme } from 'vitepress/theme'
+import type { PressTheme } from '../types'
 import { computed } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { useRoute } from 'vue-router'
-import { useSidebarControl } from '../composables/sidebar'
+import { isActive, useSidebarControl } from '../composables/sidebar'
 
 const props = defineProps<{
-  item: DefaultTheme.SidebarItem
+  item: PressTheme.SidebarItem
   depth: number
 }>()
 
@@ -43,6 +43,7 @@ const classes = computed(() => [
   { collapsible: collapsible.value },
   { collapsed: collapsed.value },
   { 'is-link': isLink.value },
+  { 'has-children': hasChildren.value },
   { 'is-active': isActiveLink.value },
   { 'has-active': hasActiveLink.value },
 ])
@@ -63,14 +64,14 @@ const htmlText = computed(() => {
   return t(rawText.value) || rawText.value
 })
 
-function getChildItemKey(item: DefaultTheme.SidebarItem, index: number): string | number {
+function getChildItemKey(item: PressTheme.SidebarItem, index: number): string | number {
   return item.text || item.link || index
 }
 </script>
 
 <template>
   <li
-    class="VPSidebarItem press-sidebar-item-node" :class="classes"
+    class="press-sidebar-item-node" :class="classes"
   >
     <div
       v-if="rawText"
@@ -83,21 +84,21 @@ function getChildItemKey(item: DefaultTheme.SidebarItem, index: number): string 
           : {}
       "
     >
-      <div class="indicator" />
-
       <AppLink
         v-if="props.item.link"
         :tag="linkTag"
-        class="link"
+        class="link press-sidebar-link"
+        :class="{ 'is-active': isActiveLink }"
+        :aria-current="isActiveLink ? 'page' : undefined"
         :href="props.item.link"
         :rel="props.item.rel"
         :target="props.item.target"
       >
-        <component :is="textTag" class="text ml-1">
+        <component :is="textTag" class="text">
           <span v-html="htmlText" />
         </component>
       </AppLink>
-      <component :is="textTag" v-else class="text ml-1">
+      <component :is="textTag" v-else class="text">
         <span v-html="htmlText" />
       </component>
 
@@ -121,16 +122,23 @@ function getChildItemKey(item: DefaultTheme.SidebarItem, index: number): string 
           <li
             v-if="!i.items?.length && i.collapsed == null"
             class="VPSidebarItem press-sidebar-item-node"
-            :class="[`level-${depth + 1}`, { 'is-link': !!i.link, 'is-active': route.path === i.link, 'has-active': route.path === i.link }]"
+            :class="[`level-${depth + 1}`, { 'is-link': !!i.link, 'is-active': isActive(route.path, i.link), 'has-active': isActive(route.path, i.link) }]"
           >
             <div v-if="i.text" class="press-sidebar-item item">
-              <div class="indicator" />
-              <AppLink v-if="i.link" class="link" :href="i.link" :rel="i.rel" :target="i.target">
-                <p class="text ml-1">
+              <AppLink
+                v-if="i.link"
+                class="link press-sidebar-link"
+                :class="{ 'is-active': isActive(route.path, i.link) }"
+                :aria-current="isActive(route.path, i.link) ? 'page' : undefined"
+                :href="i.link"
+                :rel="i.rel"
+                :target="i.target"
+              >
+                <p class="text">
                   <span v-html="t(i.text) || i.text" />
                 </p>
               </AppLink>
-              <p v-else class="text ml-1">
+              <p v-else class="text">
                 <span v-html="t(i.text) || i.text" />
               </p>
             </div>
@@ -150,121 +158,42 @@ function getChildItemKey(item: DefaultTheme.SidebarItem, index: number): string 
   padding: 0;
 }
 
-.press-sidebar-item-node.level-0 {
-  padding-bottom: 24px;
-}
-
-.press-sidebar-item-node.collapsed.level-0 {
-  padding-bottom: 10px;
-}
-
 .item {
   position: relative;
   display: flex;
+  align-items: center;
   width: 100%;
-  border-radius: 6px;
 }
 
 .press-sidebar-item-node.collapsible > .item {
   cursor: pointer;
 }
 
-.indicator {
-  position: absolute;
-  top: 6px;
-  bottom: 6px;
-  left: -17px;
-  width: 2px;
-  border-radius: 2px;
-  transition: background-color var(--va-transition-duration);
-}
-
-.press-sidebar-item-node.level-2.is-active > .item > .indicator,
-.press-sidebar-item-node.level-3.is-active > .item > .indicator,
-.press-sidebar-item-node.level-4.is-active > .item > .indicator,
-.press-sidebar-item-node.level-5.is-active > .item > .indicator {
-  background-color: var(--vp-c-brand-1);
-}
-
-.link {
-  display: flex;
-  align-items: center;
-  flex-grow: 1;
-}
-
 .text {
-  flex-grow: 1;
-  padding: 4px 0;
-  line-height: 24px;
+  margin: 0;
+  min-width: 0;
+  overflow-wrap: anywhere;
   font-size: 14px;
-  transition: color var(--va-transition-duration);
+  line-height: 24px;
 }
 
-.press-sidebar-item-node.level-0 .text {
-  font-weight: 700;
-  color: var(--vp-c-text-1);
+.item > .text {
+  flex-grow: 1;
+  padding: 4px 8px;
+  color: var(--pr-c-text-1);
 }
 
-.press-sidebar-item-node.level-1 .text,
-.press-sidebar-item-node.level-2 .text,
-.press-sidebar-item-node.level-3 .text,
-.press-sidebar-item-node.level-4 .text,
-.press-sidebar-item-node.level-5 .text {
-  font-weight: 500;
-  color: var(--vp-c-text-2);
+.press-sidebar-item-node.has-children > .item .text {
+  font-weight: 600;
 }
 
-.press-sidebar-item-node.level-0.is-link > .item > .link:hover .text,
-.press-sidebar-item-node.level-1.is-link > .item > .link:hover .text,
-.press-sidebar-item-node.level-2.is-link > .item > .link:hover .text,
-.press-sidebar-item-node.level-3.is-link > .item > .link:hover .text,
-.press-sidebar-item-node.level-4.is-link > .item > .link:hover .text,
-.press-sidebar-item-node.level-5.is-link > .item > .link:hover .text {
-  color: var(--vp-c-brand-1);
+.press-sidebar-item-node.has-children > .items {
+  margin-top: 4px;
 }
 
-.press-sidebar-item-node.level-0.has-active > .item > .text,
-.press-sidebar-item-node.level-1.has-active > .item > .text,
-.press-sidebar-item-node.level-2.has-active > .item > .text,
-.press-sidebar-item-node.level-3.has-active > .item > .text,
-.press-sidebar-item-node.level-4.has-active > .item > .text,
-.press-sidebar-item-node.level-5.has-active > .item > .text,
-.press-sidebar-item-node.level-0.has-active > .item > .link > .text,
-.press-sidebar-item-node.level-1.has-active > .item > .link > .text,
-.press-sidebar-item-node.level-2.has-active > .item > .link > .text,
-.press-sidebar-item-node.level-3.has-active > .item > .link > .text,
-.press-sidebar-item-node.level-4.has-active > .item > .link > .text,
-.press-sidebar-item-node.level-5.has-active > .item > .link > .text {
-  color: var(--vp-c-text-1);
-}
-
-.press-sidebar-item-node.level-0.is-active > .item .link > .text,
-.press-sidebar-item-node.level-1.is-active > .item .link > .text,
-.press-sidebar-item-node.level-2.is-active > .item .link > .text,
-.press-sidebar-item-node.level-3.is-active > .item .link > .text,
-.press-sidebar-item-node.level-4.is-active > .item .link > .text,
-.press-sidebar-item-node.level-5.is-active > .item .link > .text {
-  color: var(--vp-c-brand-1);
-}
-
-.press-sidebar-item-node.level-1 .items,
-.press-sidebar-item-node.level-2 .items,
-.press-sidebar-item-node.level-3 .items,
-.press-sidebar-item-node.level-4 .items,
-.press-sidebar-item-node.level-5 .items {
-  border-left: 1px solid var(--vp-c-divider);
-  padding-left: 16px;
-}
-
-.press-sidebar-item-node.collapsed .items {
-  display: none;
-}
-
-.press-sidebar-item-node.is-active > .item {
-  background: var(--pr-c-brand-soft);
-}
-
-.press-sidebar-item-node.is-active > .item .link > .text {
-  color: var(--pr-c-brand);
+.press-sidebar-item-node:not(.level-0) > .items {
+  margin-left: 8px;
+  padding-left: 12px;
+  border-left: 1px solid var(--pr-c-divider-light);
 }
 </style>

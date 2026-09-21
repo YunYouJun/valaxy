@@ -232,5 +232,4 @@ catalogs:
     zx: ^8.8.5
   frontend:
     reka-ui: ^2.10.4
-    vitepress: ^2.0.0-alpha.20
     vue: ^3.5.43

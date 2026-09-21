@@ -1,11 +1,14 @@
 import assert from 'node:assert/strict'
 import { access, mkdir, readdir, readFile, writeFile } from 'node:fs/promises'
 import { resolve } from 'node:path'
+import process from 'node:process'
 import { JSDOM } from 'jsdom'
 import { apiDestination, apiRedirects, formatApiRedirects } from './lib/api-redirects.mjs'
 
 const root = resolve('docs/dist')
-const legacy = JSON.parse(await readFile('api/migration/legacy-pages.json', 'utf8'))
+const legacy = process.argv.includes('--legacy-redirects')
+  ? JSON.parse(await readFile('deploy/api-redirects/legacy-pages.json', 'utf8'))
+  : undefined
 const pages = new Map()
 const errors = []
 
@@ -35,8 +38,8 @@ async function readPage(path) {
   }
 }
 
-const redirects = apiRedirects(legacy)
-for (const { path, anchors } of legacy.pages) {
+const redirects = legacy ? apiRedirects(legacy) : undefined
+for (const { path, anchors } of legacy?.pages || []) {
   const target = apiDestination(path)
   const page = await readPage(target)
   if (!page) {
@@ -52,6 +55,8 @@ for (const { path, anchors } of legacy.pages) {
 let linkCount = 0
 const canonicalByPage = new Map()
 const htmlFiles = (await readdir(root, { recursive: true })).filter(file => file.endsWith('.html') && (file.startsWith('api/') || file === 'api.html' || file === 'zh/api.html'))
+for (const path of ['/api/', '/zh/api/', '/api/client/', '/api/node/', '/api/types/'])
+  assert(await readPage(path), `Missing required API entry: ${path}. Run pnpm docs:build first.`)
 for (const file of htmlFiles) {
   const path = `/${file.replace(/index\.html$/, '').replace(/\.html$/, '')}`
   const page = await readPage(path)
@@ -79,9 +84,12 @@ for (const file of htmlFiles) {
 }
 
 assert.equal(errors.length, 0, errors.slice(0, 50).join('\n'))
-// Publish this directory ONLY as the old domain's static redirects project.
-const output = resolve('api/migration/dist')
-await mkdir(output, { recursive: true })
-await writeFile(resolve(output, '_redirects'), formatApiRedirects(redirects))
-await writeFile(resolve(output, 'index.html'), '<!doctype html><title>Valaxy API moved</title><a href="https://valaxy.site/api/">Valaxy API documentation</a>\n')
-console.log(`Verified ${htmlFiles.length} API pages, ${linkCount} internal links, ${legacy.pages.length} legacy pages; prepared ${redirects.size} HTTP 301 rules.`)
+console.log(`Verified ${htmlFiles.length} API pages and ${linkCount} internal links.`)
+if (legacy && redirects) {
+  // Optional artifact: publish ONLY as the old domain's static redirects project.
+  const output = resolve('deploy/api-redirects/dist')
+  await mkdir(output, { recursive: true })
+  await writeFile(resolve(output, '_redirects'), formatApiRedirects(redirects))
+  await writeFile(resolve(output, 'index.html'), '<!doctype html><title>Valaxy API moved</title><a href="https://valaxy.site/api/">Valaxy API documentation</a>\n')
+  console.log(`Verified ${legacy.pages.length} legacy pages; prepared ${redirects.size} HTTP 301 rules.`)
+}

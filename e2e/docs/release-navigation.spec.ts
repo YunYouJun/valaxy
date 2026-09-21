@@ -49,8 +49,19 @@ test('opens and closes locale menus and search before leaving the layout', async
     await mobile.click()
   for (let i = 0; i < 2; i++) {
     const trigger = page.getByRole('button', { name: '切换语言', exact: true })
-    await trigger.click()
-    const menu = page.locator('#valaxy-teleports [role="menu"]')
+    if (isMobile) {
+      await trigger.click()
+    }
+    else {
+      // Desktop uses a hover-enabled NavigationMenu. Keyboard activation avoids
+      // a synthetic hover followed by a click immediately toggling it closed.
+      await page.mouse.move(0, 400)
+      await trigger.focus()
+      await page.keyboard.press('Enter')
+    }
+    const menu = page.locator(isMobile
+      ? '#valaxy-teleports [role="menu"]'
+      : '.pr-nav-bar-translations .press-nav-menu-content')
     await expect(menu).toBeVisible()
     await page.keyboard.press('Escape')
     await expect(menu).toBeHidden()

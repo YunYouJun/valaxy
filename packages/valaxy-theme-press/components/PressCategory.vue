@@ -44,12 +44,10 @@ function getCategoryItemKey(categoryItem: CategoryChild, index: number): string 
     :class="[`level-${props.level}`, { collapsed }]"
   >
     <div
-      p="t-2"
-      w="full" border="t t-$pr-c-divider-light"
       class="press-sidebar-item category-list-item inline-flex items-center justify-between"
       text-14px
     >
-      <span class="category-name" font="bold" m="l-1" @click="displayCategory ? displayCategory(category.name) : null">
+      <span class="category-name" @click="displayCategory ? displayCategory(category.name) : null">
         {{ category.name === 'Uncategorized' ? t('category.uncategorized') : t(`category.${category.name}`) }}
         <!-- <sup font="normal">[{{ category.total }}]</sup> -->
       </span>
@@ -70,9 +68,10 @@ function getCategoryItemKey(categoryItem: CategoryChild, index: number): string 
         <li v-if="!isCategoryList(categoryItem)" class="post-list-item">
           <RouterLink
             v-if="categoryItem.title" :to="categoryItem.path || ''"
-            class="inline-flex items-center"
+            class="press-sidebar-link"
+            exact-active-class="is-active"
           >
-            <span class="text ml-1" text="sm">{{ $tO(categoryItem.title) }}</span>
+            <span class="text">{{ $tO(categoryItem.title) }}</span>
           </RouterLink>
         </li>
 
@@ -88,7 +87,7 @@ function getCategoryItemKey(categoryItem: CategoryChild, index: number): string 
   </li>
 </template>
 
-<style lang="scss">
+<style scoped>
 .press-category-item,
 .press-category-list,
 .post-list-item {
@@ -97,39 +96,29 @@ function getCategoryItemKey(categoryItem: CategoryChild, index: number): string 
   padding: 0;
 }
 
-.press-category-item.level-0 {
-  padding-bottom: 24px;
+.category-list-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  min-height: 32px;
 }
 
-.press-category-item.collapsed.level-0 {
-  padding-bottom: 10px;
+.category-name {
+  padding: 4px 8px;
+  color: var(--pr-c-text-1);
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 24px;
 }
 
-.press-category-item.level-1 > .press-category-list,
-.press-category-item.level-2 > .press-category-list,
-.press-category-item.level-3 > .press-category-list,
-.press-category-item.level-4 > .press-category-list,
-.press-category-item.level-5 > .press-category-list {
-  border-left: 1px solid var(--vp-c-divider);
-  padding-left: 16px;
+.press-category-list {
+  margin-top: 4px;
 }
 
-.post-list-item {
-  // align with vitepress
-  a {
-    // color: var(--va-c-text-light);
-    color: var(--vp-c-text-2);
-    transition: all var(--va-transition-duration-fast);
-
-    &:hover {
-      // color: var(--va-c-primary);
-      color: var(--vp-c-brand-1);
-    }
-
-    &.router-link-exact-active {
-      // color: var(--va-c-primary);
-      color: var(--vp-c-brand-1);
-    }
-  }
+.press-category-item:not(.level-0) > .press-category-list {
+  margin-left: 8px;
+  padding-left: 12px;
+  border-left: 1px solid var(--pr-c-divider-light);
 }
 </style>

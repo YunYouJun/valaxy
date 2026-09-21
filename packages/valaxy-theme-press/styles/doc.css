@@ -1,0 +1,624 @@
+/*! Adapted from VitePress 2.0.0-alpha.20 (MIT). See ../THIRD-PARTY-NOTICES.md. */
+/**
+ * Anchors
+ * -------------------------------------------------------------------------- */
+
+.press-doc [id] {
+  scroll-margin-top: calc(
+    2.9375rem + var(--press-layout-top-height, 0px) +
+      var(--press-extra-scroll-margin, 1.5rem)
+  );
+
+  @media (min-width: 60rem) {
+    scroll-margin-top: calc(
+      var(--press-nav-height) + 2.9375rem + var(--press-layout-top-height, 0px) +
+        var(--press-extra-scroll-margin, 1.5rem)
+    );
+  }
+
+  @media (min-width: 80rem) {
+    scroll-margin-top: calc(
+      var(--press-nav-height) + var(--press-layout-top-height, 0px) +
+        var(--press-extra-scroll-margin, 1.5rem)
+    );
+  }
+}
+
+/**
+ * Headings
+ * -------------------------------------------------------------------------- */
+
+.press-doc h1,
+.press-doc h2,
+.press-doc h3,
+.press-doc h4,
+.press-doc h5,
+.press-doc h6 {
+  position: relative;
+  font-weight: 600;
+  outline: none;
+}
+
+.press-doc h1 {
+  letter-spacing: -0.02em;
+  line-height: 1.4285714;
+  font-size: 1.75rem;
+}
+
+.press-doc h2 {
+  margin: 3rem 0 1rem;
+  border-top: 1px solid var(--press-c-divider);
+  padding-top: 1.5rem;
+  letter-spacing: -0.02em;
+  line-height: 1.3333333;
+  font-size: 1.5rem;
+  /* since it already has a top padding of 1.5rem, we don't need extra scroll margin */
+  --press-extra-scroll-margin: 0px;
+}
+
+.press-doc h3 {
+  margin: 2rem 0 0;
+  letter-spacing: -0.01em;
+  line-height: 1.4;
+  font-size: 1.25rem;
+}
+
+.press-doc h4 {
+  margin: 1.5rem 0 0;
+  letter-spacing: -0.01em;
+  line-height: 1.3333333;
+  font-size: 1.125rem;
+}
+
+.press-doc .header-anchor {
+  position: absolute;
+  top: 0;
+  left: 0;
+  margin-left: -0.87em;
+  font-weight: 500;
+  user-select: none;
+  opacity: 0;
+  text-decoration: none;
+  transition:
+    color 0.25s,
+    opacity 0.25s;
+}
+
+.press-doc .header-anchor:before {
+  content: var(--press-header-anchor-symbol);
+}
+
+.press-doc h1:hover .header-anchor,
+.press-doc h1 .header-anchor:focus,
+.press-doc h2:hover .header-anchor,
+.press-doc h2 .header-anchor:focus,
+.press-doc h3:hover .header-anchor,
+.press-doc h3 .header-anchor:focus,
+.press-doc h4:hover .header-anchor,
+.press-doc h4 .header-anchor:focus,
+.press-doc h5:hover .header-anchor,
+.press-doc h5 .header-anchor:focus,
+.press-doc h6:hover .header-anchor,
+.press-doc h6 .header-anchor:focus {
+  opacity: 1;
+}
+
+@media (min-width: 48rem) {
+  .press-doc h1 {
+    letter-spacing: -0.02em;
+    line-height: 1.25;
+    font-size: 2rem;
+  }
+}
+
+.press-doc h2 .header-anchor {
+  top: 1.5rem;
+}
+
+/**
+ * Paragraph and inline elements
+ * -------------------------------------------------------------------------- */
+
+.press-doc p,
+.press-doc img,
+.press-doc summary {
+  margin: 1rem 0;
+}
+
+.press-doc p {
+  line-height: 1.75;
+}
+
+.press-doc blockquote {
+  margin: 1rem 0;
+  border-left: 2px solid var(--press-c-divider);
+  padding-left: 1rem;
+  transition: border-color 0.5s;
+  color: var(--press-c-text-2);
+}
+
+.press-doc blockquote > p {
+  margin: 0;
+  font-size: 1rem;
+  transition: color 0.5s;
+}
+
+.press-doc a {
+  font-weight: 500;
+  color: var(--press-c-brand-1);
+  text-decoration: underline;
+  text-underline-offset: 0.125rem;
+  transition:
+    color 0.25s,
+    opacity 0.25s;
+}
+
+.press-doc a:hover {
+  color: var(--press-c-brand-2);
+}
+
+.press-doc strong {
+  font-weight: 600;
+}
+
+/**
+ * Lists
+ * -------------------------------------------------------------------------- */
+
+.press-doc ul,
+.press-doc ol {
+  padding-left: 1.25rem;
+  margin: 1rem 0;
+}
+
+.press-doc ul {
+  list-style: disc;
+}
+
+.press-doc ol {
+  list-style: decimal;
+}
+
+.press-doc li + li {
+  margin-top: 0.5rem;
+}
+
+.press-doc li > ol,
+.press-doc li > ul {
+  margin: 0.5rem 0 0;
+}
+
+.press-doc li > p:first-child {
+  margin-top: 0;
+}
+
+.press-doc li > p:last-child {
+  margin-bottom: 0;
+}
+
+.press-doc li.task-list-item {
+  list-style: none;
+}
+
+.press-doc .task-list-item-checkbox {
+  margin: 0 0.25rem 0.125rem -1.25rem;
+  vertical-align: middle;
+  accent-color: var(--press-c-brand-1);
+}
+
+/**
+ * Footnotes
+ * -------------------------------------------------------------------------- */
+
+.press-doc .footnote-ref a,
+.press-doc .footnote-backref {
+  text-decoration: none;
+}
+
+.press-doc .footnotes {
+  font-size: 0.875rem;
+}
+
+/**
+ * Table
+ * -------------------------------------------------------------------------- */
+
+.press-doc table {
+  display: block;
+  border-collapse: collapse;
+  margin: 1.25rem 0;
+  overflow-x: auto;
+}
+
+.press-doc tr {
+  background-color: var(--press-c-bg);
+  border-top: 1px solid var(--press-c-divider);
+  transition: background-color 0.5s;
+}
+
+.press-doc tr:nth-child(2n) {
+  background-color: var(--press-c-bg-soft);
+}
+
+.press-doc th,
+.press-doc td {
+  border: 1px solid var(--press-c-divider);
+  padding: 0.5rem 1rem;
+}
+
+.press-doc th {
+  text-align: left;
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: var(--press-c-text-2);
+  background-color: var(--press-c-bg-soft);
+}
+
+.press-doc td {
+  font-size: 0.875rem;
+}
+
+/**
+ * Decorational elements
+ * -------------------------------------------------------------------------- */
+
+.press-doc hr {
+  margin: 1rem 0;
+  border: none;
+  border-top: 1px solid var(--press-c-divider);
+}
+
+/**
+ * Custom Block
+ * -------------------------------------------------------------------------- */
+
+.press-doc .custom-block {
+  margin: 1rem 0;
+}
+
+.press-doc .custom-block p {
+  margin: 0.5rem 0;
+  line-height: 1.7142857;
+}
+
+.press-doc .custom-block p:first-child {
+  margin: 0;
+}
+
+.press-doc .custom-block div[class*='language-'] {
+  margin: 0.5rem 0 !important;
+  border-radius: 0.5rem;
+}
+
+.press-doc .custom-block div[class*='language-'] code {
+  font-weight: 400;
+  background-color: transparent;
+}
+
+.press-doc .custom-block .vp-code-group,
+.press-doc .custom-block [class*='vp-code-block'] {
+  margin-top: 0.5rem;
+}
+
+.press-doc .custom-block .vp-code-group .tabs {
+  margin: 0;
+  border-radius: 0.5rem 0.5rem 0 0;
+}
+
+.press-doc .custom-block .vp-code-group div[class*='language-'],
+.press-doc .custom-block [class*='vp-code-block'] div[class*='language-'] {
+  margin-top: 0 !important;
+}
+
+/**
+ * Code
+ * -------------------------------------------------------------------------- */
+
+/* inline code */
+.press-doc :not(pre, h1, h2, h3, h4, h5, h6) > code {
+  font-size: var(--press-code-font-size);
+  color: var(--press-code-color);
+}
+
+.press-doc :not(pre) > code {
+  border-radius: 0.25rem;
+  padding: 0.1875rem 0.375rem;
+  background-color: var(--press-code-bg);
+  transition:
+    color 0.25s,
+    background-color 0.5s;
+}
+
+.press-doc a > code {
+  color: var(--press-code-link-color);
+}
+
+.press-doc a:hover > code {
+  color: var(--press-code-link-hover-color);
+}
+
+.press-doc h1 > code,
+.press-doc h2 > code,
+.press-doc h3 > code,
+.press-doc h4 > code {
+  font-size: 0.9em;
+}
+
+.press-doc div[class*='language-'],
+.vp-block {
+  position: relative;
+  margin: 1rem -1.5rem;
+  background-color: var(--press-code-block-bg);
+  overflow-x: auto;
+  transition: background-color 0.5s;
+}
+
+@media (min-width: 40rem) {
+  .press-doc div[class*='language-'],
+  .vp-block {
+    border-radius: 0.5rem;
+    margin: 1rem 0;
+  }
+}
+
+@media not all and (min-width: 40rem) {
+  .press-doc li div[class*='language-'] {
+    border-radius: 0.5rem 0 0 0.5rem;
+  }
+}
+
+.press-doc div[class*='language-'] + div[class*='language-'],
+.press-doc div[class$='-api'] + div[class*='language-'],
+.press-doc div[class*='language-'] + div[class$='-api'] > div[class*='language-'] {
+  margin-top: -0.5rem;
+}
+
+.press-doc [class*='language-'] pre,
+.press-doc [class*='language-'] code {
+  -moz-tab-size: 4;
+  -o-tab-size: 4;
+  tab-size: 4;
+}
+
+.press-doc [class*='language-'] pre {
+  position: relative;
+  z-index: 1;
+  margin: 0;
+  padding: 1.25rem 0;
+  background: transparent;
+  overflow-x: auto;
+  /*rtl:ignore*/
+  text-align: left;
+}
+
+.press-doc [class*='language-'] code {
+  display: block;
+  padding: 0 1.5rem;
+  width: fit-content;
+  min-width: 100%;
+  line-height: var(--press-code-line-height);
+  font-size: var(--press-code-font-size);
+  color: var(--press-code-block-color);
+  transition: color 0.5s;
+}
+
+.press-doc [class*='language-'] code .highlighted {
+  background-color: var(--press-code-line-highlight-color);
+  transition: background-color 0.5s;
+  margin: 0 -1.5rem;
+  padding: 0 1.5rem;
+  width: calc(100% + 2 * 1.5rem);
+  display: inline-block;
+}
+
+.press-doc [class*='language-'] code .highlighted.error {
+  background-color: var(--press-code-line-error-color);
+}
+
+.press-doc [class*='language-'] code .highlighted.warning {
+  background-color: var(--press-code-line-warning-color);
+}
+
+.press-doc [class*='language-'] code .diff {
+  transition: background-color 0.5s;
+  margin: 0 -1.5rem;
+  padding: 0 1.5rem;
+  width: calc(100% + 2 * 1.5rem);
+  display: inline-block;
+}
+
+.press-doc [class*='language-'] code .diff::before {
+  position: absolute;
+  left: 0.625rem;
+}
+
+.press-doc [class*='language-'] .has-focused-lines .line:not(.has-focus) {
+  filter: blur(0.095rem);
+  opacity: 0.4;
+  transition:
+    filter 0.35s,
+    opacity 0.35s;
+}
+
+.press-doc [class*='language-'] .has-focused-lines .line:not(.has-focus) {
+  opacity: 0.7;
+  transition:
+    filter 0.35s,
+    opacity 0.35s;
+}
+
+.press-doc [class*='language-']:hover .has-focused-lines .line:not(.has-focus) {
+  filter: blur(0);
+  opacity: 1;
+}
+
+.press-doc [class*='language-'] code .diff.remove {
+  background-color: var(--press-code-line-diff-remove-color);
+  opacity: 0.7;
+}
+
+.press-doc [class*='language-'] code .diff.remove::before {
+  content: '-';
+  color: var(--press-code-line-diff-remove-symbol-color);
+}
+
+.press-doc [class*='language-'] code .diff.add {
+  background-color: var(--press-code-line-diff-add-color);
+}
+
+.press-doc [class*='language-'] code .diff.add::before {
+  content: '+';
+  color: var(--press-code-line-diff-add-symbol-color);
+}
+
+.press-doc div[class*='language-'].line-numbers-mode {
+  /*rtl:ignore*/
+  padding-left: 2rem;
+}
+
+.press-doc .line-numbers-wrapper {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  /*rtl:ignore*/
+  left: 0;
+  z-index: 3;
+  /*rtl:ignore*/
+  border-right: 1px solid var(--press-code-block-divider-color);
+  padding-top: 1.25rem;
+  width: 2rem;
+  text-align: center;
+  font-family: var(--press-font-family-mono);
+  line-height: var(--press-code-line-height);
+  font-size: var(--press-code-font-size);
+  color: var(--press-code-line-number-color);
+  transition:
+    border-color 0.5s,
+    color 0.5s;
+}
+
+.press-doc [class*='language-'] > button.copy {
+  /*rtl:ignore*/
+  direction: ltr;
+  position: absolute;
+  top: 0.75rem;
+  /*rtl:ignore*/
+  right: 0.75rem;
+  z-index: 3;
+  border: 1px solid var(--press-code-copy-code-border-color);
+  border-radius: 0.25rem;
+  width: 2.5rem;
+  height: 2.5rem;
+  background-color: var(--press-code-copy-code-bg);
+  opacity: 0;
+  cursor: pointer;
+  background-image: var(--va-icon-copy);
+  background-position: 50%;
+  background-size: 1.25rem;
+  background-repeat: no-repeat;
+  transition:
+    border-color 0.25s,
+    background-color 0.25s,
+    opacity 0.25s;
+}
+
+.press-doc [class*='language-']:hover > button.copy,
+.press-doc [class*='language-'] > button.copy:focus {
+  opacity: 1;
+}
+
+.press-doc [class*='language-'] > button.copy:hover,
+.press-doc [class*='language-'] > button.copy.copied {
+  border-color: var(--press-code-copy-code-hover-border-color);
+  background-color: var(--press-code-copy-code-hover-bg);
+}
+
+.press-doc [class*='language-'] > button.copy.copied,
+.press-doc [class*='language-'] > button.copy:hover.copied {
+  /*rtl:ignore*/
+  border-radius: 0 0.25rem 0.25rem 0;
+  background-color: var(--press-code-copy-code-hover-bg);
+  background-image: var(--va-icon-copied);
+}
+
+.press-doc [class*='language-'] > button.copy.copied::before,
+.press-doc [class*='language-'] > button.copy:hover.copied::before {
+  position: relative;
+  top: -1px;
+  /*rtl:ignore*/
+  transform: translateX(calc(-100% - 1px));
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: 1px solid var(--press-code-copy-code-hover-border-color);
+  /*rtl:ignore*/
+  border-right: 0;
+  /*rtl:ignore*/
+  border-radius: 0.25rem 0 0 0.25rem;
+  padding: 0 0.625rem;
+  width: fit-content;
+  height: 2.5rem;
+  text-align: center;
+  font-size: 0.75rem;
+  font-weight: 500;
+  color: var(--press-code-copy-code-active-text);
+  background-color: var(--press-code-copy-code-hover-bg);
+  white-space: nowrap;
+  content: attr(data-copied);
+}
+
+.press-doc [class*='language-'] > span.lang {
+  position: absolute;
+  top: 0.125rem;
+  /*rtl:ignore*/
+  right: 0.5rem;
+  z-index: 2;
+  font-size: 0.75rem;
+  font-weight: 500;
+  user-select: none;
+  color: var(--press-code-lang-color);
+  transition:
+    color 0.4s,
+    opacity 0.4s;
+}
+
+.press-doc [class*='language-']:hover > button.copy + span.lang,
+.press-doc [class*='language-'] > button.copy:focus + span.lang {
+  opacity: 0;
+}
+
+/**
+ * External links
+ * -------------------------------------------------------------------------- */
+
+/* prettier-ignore */
+:is(.press-external-link-icon, .press-doc a[href*='://'], .press-doc a[target='_blank']):not(:is(.no-icon, svg a, :has(img, svg)))::after {
+  display: inline;
+  margin-left: 0.25rem;
+  padding-left: 0.6875rem;
+  background: currentColor;
+  color: var(--press-c-text-3);
+  flex-shrink: 0;
+  --icon: url("data:image/svg+xml, %3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' %3E%3Cpath d='M0 0h24v24H0V0z' fill='none' /%3E%3Cpath d='M9 5v2h6.59L4 18.59 5.41 20 17 8.41V15h2V5H9z' /%3E%3C/svg%3E");
+  -webkit-mask-image: var(--icon);
+  mask-image: var(--icon);
+  -webkit-mask-position: center;
+  mask-position: center;
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+  -webkit-mask-size: 100% 100%;
+  mask-size: 100% 100%;
+  /*rtl:raw:transform: scaleX(-1);*/
+  vertical-align: middle;
+  font-size: 0.5625rem;
+}
+
+.press-external-link-icon::after {
+  content: '\2060';
+}
+
+/* prettier-ignore */
+.external-link-icon-enabled :is(.press-doc a[href*='://'], .press-doc a[target='_blank']):not(:is(.no-icon, svg a, :has(img, svg)))::after {
+  content: '\2060';
+  color: currentColor;
+}

@@ -31,7 +31,7 @@ defineProps<{
     line-height: 28px;
     font-size: 14px;
     font-weight: 600;
-    color: rgb(60 60 60 / 0.33);
+    color: var(--pr-c-text-2);
     white-space: nowrap;
     transition: color var(--va-transition-duration);
   }
