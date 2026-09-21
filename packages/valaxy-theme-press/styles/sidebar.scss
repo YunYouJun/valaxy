@@ -1,4 +1,81 @@
-// Shared by explicit sidebar entries and generated category links.
+// Shared by explicit sidebar entries and generated categories.
+.press-sidebar-item {
+  position: relative;
+  display: flex;
+  align-items: center;
+  width: 100%;
+  min-height: 32px;
+  margin: 0;
+  font-size: 14px;
+}
+
+.press-sidebar-group-toggle {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  min-width: 0;
+  min-height: 32px;
+  padding: 0;
+  border-radius: 6px;
+  color: var(--pr-c-text-1);
+  text-align: left;
+  cursor: pointer;
+  transition: color var(--va-transition-duration);
+}
+
+.press-sidebar-group-label {
+  flex: 1;
+  min-width: 0;
+  padding: 4px 8px;
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 24px;
+  overflow-wrap: anywhere;
+}
+
+.press-sidebar-item .caret {
+  display: flex;
+  flex: 0 0 32px;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  border-radius: 6px;
+  color: var(--pr-c-text-2);
+  transition: color var(--va-transition-duration);
+}
+
+.press-sidebar-item .caret-icon {
+  width: 18px;
+  height: 18px;
+  transition: transform var(--va-transition-duration);
+
+  &.open {
+    transform: rotate(90deg);
+  }
+}
+
+.press-sidebar-group-toggle:hover,
+.press-sidebar-group-toggle:focus-visible,
+.press-sidebar-item > button:hover,
+.press-sidebar-item > button:focus-visible {
+  color: var(--pr-c-brand);
+}
+
+.press-sidebar-group-toggle:hover .caret,
+.press-sidebar-group-toggle:focus-visible .caret {
+  color: inherit;
+}
+
+.press-sidebar-item button {
+  cursor: pointer;
+
+  &:focus-visible {
+    outline: 2px solid var(--pr-c-brand);
+    outline-offset: -2px;
+  }
+}
+
 .press-sidebar-link {
   display: flex;
   align-items: center;
@@ -12,14 +89,25 @@
   font-weight: 500;
   line-height: 24px;
   overflow-wrap: anywhere;
-  transition: color var(--va-transition-duration), background-color var(--va-transition-duration);
+  transition: color var(--va-transition-duration);
 
-  &:hover {
+  &:hover,
+  &:focus-visible,
+  &.is-active {
     color: var(--pr-c-brand);
   }
 
-  &.is-active {
-    color: var(--pr-c-brand);
-    background-color: var(--pr-c-brand-soft);
+  &:focus-visible {
+    outline: 2px solid var(--pr-c-brand);
+    outline-offset: -2px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .press-sidebar-group-toggle,
+  .press-sidebar-link,
+  .press-sidebar-item .caret,
+  .press-sidebar-item .caret-icon {
+    transition: none;
   }
 }

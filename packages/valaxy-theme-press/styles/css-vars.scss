@@ -16,6 +16,10 @@
   --pr-c-text-1: #202331;
   --pr-c-text-2: #626777;
 
+  // sidebar
+  --pr-sidebar-bg: var(--va-c-bg);
+  --pr-sidebar-divider: color-mix(in srgb, var(--pr-c-text-1) 12%, transparent);
+
   // aside
   --pr-aside-text-1: var(--pr-c-text-1);
   --pr-aside-text-2: rgb(60 60 60 / 0.702);

@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import type { Category, CategoryList } from 'valaxy'
 import { isCategoryList, useValaxyI18n } from 'valaxy'
-import { computed, ref } from 'vue'
+import { computed, ref, useId } from 'vue'
 import { useI18n } from 'vue-i18n'
 
 type CategoryChild = CategoryList['children'] extends Map<string, infer T> ? T : never
@@ -25,6 +25,12 @@ const collapsed = ref(props.collapsable)
 const hasChildren = computed(() => props.category.children.size > 0)
 const { t } = useI18n()
 const { $tO } = useValaxyI18n()
+const categoryLabel = computed(() => props.category.name === 'Uncategorized'
+  ? t('category.uncategorized')
+  : t(`category.${props.category.name}`))
+const isGroupToggle = computed(() => hasChildren.value && !props.displayCategory)
+const headingTag = computed(() => props.level < 5 ? `h${props.level + 2}` : 'p')
+const textId = useId()
 
 function toggle() {
   collapsed.value = !collapsed.value
@@ -43,25 +49,43 @@ function getCategoryItemKey(categoryItem: CategoryChild, index: number): string 
     class="press-category-item"
     :class="[`level-${props.level}`, { collapsed }]"
   >
-    <div
-      class="press-sidebar-item category-list-item inline-flex items-center justify-between"
-      text-14px
+    <component
+      :is="isGroupToggle ? headingTag : 'div'"
+      class="press-sidebar-item category-list-item"
     >
-      <span class="category-name" @click="displayCategory ? displayCategory(category.name) : null">
-        {{ category.name === 'Uncategorized' ? t('category.uncategorized') : t(`category.${category.name}`) }}
-        <!-- <sup font="normal">[{{ category.total }}]</sup> -->
-      </span>
       <button
-        v-if="hasChildren"
+        v-if="isGroupToggle"
         type="button"
-        aria-label="toggle section"
+        class="press-sidebar-group-toggle"
+        :aria-expanded="!collapsed"
+        @click="toggle"
+      >
+        <span class="press-sidebar-group-label">{{ categoryLabel }}</span>
+        <span class="caret" aria-hidden="true">
+          <span class="caret-icon" :class="{ open: !collapsed }" i-ri-arrow-right-s-line />
+        </span>
+      </button>
+      <button
+        v-else-if="displayCategory"
+        :id="textId"
+        type="button"
+        class="category-name"
+        @click="displayCategory(category.name)"
+      >
+        {{ categoryLabel }}
+      </button>
+      <span v-else :id="textId" class="category-name">{{ categoryLabel }}</span>
+      <button
+        v-if="hasChildren && !isGroupToggle"
+        type="button"
+        :aria-labelledby="textId"
         :aria-expanded="!collapsed"
         class="caret"
         @click.stop="toggle"
       >
         <span class="caret-icon" :class="{ open: !collapsed }" i-ri-arrow-right-s-line aria-hidden="true" />
       </button>
-    </div>
+    </component>
 
     <ul v-if="hasChildren && !collapsed" class="items press-category-list press-sidebar-category-list">
       <template v-for="(categoryItem, i) in category.children.values()" :key="getCategoryItemKey(categoryItem, i)">
@@ -96,20 +120,16 @@ function getCategoryItemKey(categoryItem: CategoryChild, index: number): string 
   padding: 0;
 }
 
-.category-list-item {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  width: 100%;
-  min-height: 32px;
-}
-
 .category-name {
+  flex: 1;
+  min-width: 0;
   padding: 4px 8px;
   color: var(--pr-c-text-1);
   font-size: 14px;
   font-weight: 600;
   line-height: 24px;
+  text-align: left;
+  overflow-wrap: anywhere;
 }
 
 .press-category-list {
@@ -119,6 +139,6 @@ function getCategoryItemKey(categoryItem: CategoryChild, index: number): string 
 .press-category-item:not(.level-0) > .press-category-list {
   margin-left: 8px;
   padding-left: 12px;
-  border-left: 1px solid var(--pr-c-divider-light);
+  border-left: 1px solid var(--pr-sidebar-divider);
 }
 </style>

@@ -64,6 +64,35 @@ test('switches mobile panels without leaving a backdrop or scroll lock behind', 
   await expect(page.locator('body')).not.toHaveCSS('overflow', 'hidden')
 })
 
+test('closes the compact document drawer without a separate close button', async ({ page }) => {
+  await page.setViewportSize({ width: 390, height: 844 })
+  await page.goto('/guide/commands')
+  const trigger = page.locator('.press-local-nav .menu')
+  const sidebar = page.getByRole('dialog', { name: 'Documentation navigation' })
+
+  for (const dismissal of ['backdrop', 'escape', 'link']) {
+    await trigger.click()
+    await expect(sidebar).toBeVisible()
+    await expect(sidebar.getByRole('button', { name: 'Close navigation' })).toHaveCount(0)
+    await expect(sidebar.getByRole('button', { name: 'Getting Started', exact: true })).toBeFocused()
+    await expect(page.locator('body')).toHaveCSS('overflow', 'hidden')
+
+    if (dismissal === 'backdrop')
+      await page.locator('.press-backdrop').click({ position: { x: 374, y: 120 } })
+    else if (dismissal === 'escape')
+      await page.keyboard.press('Escape')
+    else
+      await sidebar.getByRole('link', { name: 'Getting Started', exact: true }).click()
+
+    await expect(sidebar).toBeHidden()
+    await expect(page.locator('.press-backdrop')).toHaveCount(0)
+    await expect(page.locator('body')).not.toHaveCSS('overflow', 'hidden')
+    await expect(trigger).toBeFocused()
+  }
+
+  await expect(page).toHaveURL(/\/guide\/getting-started$/)
+})
+
 test('keeps keyboard navigation within the complete mobile menu and closes on Escape', async ({ page }) => {
   await page.setViewportSize({ width: 390, height: 844 })
   await page.goto('/zh/guide/getting-started')

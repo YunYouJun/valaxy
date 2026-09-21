@@ -4,7 +4,7 @@ import type { PressTheme } from '../types'
 import { useMediaQuery } from '@vueuse/core'
 import { FocusScope } from 'reka-ui'
 import { removeItemFromCategory, usePageList, useSidebar } from 'valaxy'
-import { computed, nextTick, ref, watch } from 'vue'
+import { computed, nextTick, useTemplateRef, watch } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { useRoute } from 'vue-router'
 import { useLocaleConfig } from '../composables'
@@ -17,10 +17,15 @@ const props = defineProps<{
 const emit = defineEmits<{ (e: 'close'): void }>()
 const { t } = useI18n()
 const isCompact = useMediaQuery('(max-width: 959px)', { ssrWidth: 1280 })
-const closeButton = ref<HTMLButtonElement>()
+const sidebarElement = useTemplateRef<HTMLElement>('sidebarElement')
 watch(() => props.open, (open) => {
-  if (open && isCompact.value)
-    nextTick(() => closeButton.value?.focus({ preventScroll: true }))
+  if (open && isCompact.value) {
+    nextTick(() => {
+      const sidebar = sidebarElement.value
+      const target = sidebar?.querySelector<HTMLElement>('a[href], button') || sidebar
+      target?.focus({ preventScroll: true })
+    })
+  }
 })
 
 function onSidebarClick(event: MouseEvent) {
@@ -189,19 +194,15 @@ function getSidebarRootItemClasses(groupIndex: number, itemIndex = 0, isSection 
     @unmount-auto-focus.prevent
   >
     <aside
+      ref="sidebarElement"
       class="press-sidebar" :class="{ open }"
       :role="isCompact ? 'dialog' : undefined"
       :aria-modal="isCompact && open ? true : undefined"
       :aria-label="t('nav.documentation')"
       :inert="isCompact && !open"
+      :tabindex="isCompact ? -1 : undefined"
       @click="onSidebarClick"
     >
-      <div class="sidebar-heading">
-        <span>{{ t('nav.documentation') }}</span>
-        <button ref="closeButton" type="button" class="sidebar-close" :aria-label="t('nav.close')" @click="$emit('close')">
-          <span i-ri-close-line aria-hidden="true" />
-        </button>
-      </div>
       <nav
         id="pr-sidebar-nav"
         class="press-sidebar-nav"
@@ -248,12 +249,12 @@ function getSidebarRootItemClasses(groupIndex: number, itemIndex = 0, isSection 
   z-index: var(--pr-z-sidebar);
   width: calc(100vw - 64px);
   max-width: 320px;
-  background-color: var(--va-c-bg);
+  background-color: var(--pr-sidebar-bg);
   opacity: 0;
   overflow: hidden auto;
   overscroll-behavior: contain;
   visibility: hidden;
-  border-right: 1px solid var(--pr-c-divider-light);
+  border-right: 1px solid var(--pr-sidebar-divider);
   box-shadow: 12px 0 40px rgb(0 0 0 / 0.12);
   transform: translateX(-100%);
   transition: opacity var(--va-transition-duration-moderate), transform var(--va-transition-duration) ease;
@@ -273,42 +274,10 @@ function getSidebarRootItemClasses(groupIndex: number, itemIndex = 0, isSection 
     visibility: visible;
     width: var(--va-sidebar-width);
     max-width: 100%;
-    background-color: var(--pr-c-surface);
-    border-right: 1px solid var(--pr-c-divider-light);
     opacity: 1;
     box-shadow: none;
     transform: translateX(0);
   }
-}
-
-.sidebar-heading {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  margin-bottom: 12px;
-  padding: 0 4px 12px 8px;
-  border-bottom: 1px solid var(--pr-c-divider-light);
-  color: var(--pr-c-text-2);
-  font-size: 12px;
-  font-weight: 600;
-  letter-spacing: 0.06em;
-}
-
-.sidebar-close {
-  display: grid;
-  place-items: center;
-  width: 36px;
-  height: 36px;
-  border: 1px solid var(--pr-c-divider-light);
-  border-radius: 8px;
-  font-size: 18px;
-  color: var(--pr-c-text-1);
-}
-
-.sidebar-close:hover { background: var(--pr-c-brand-soft); }
-
-@media (width >= 960px) {
-  .sidebar-heading { display: none; }
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -325,55 +294,6 @@ function getSidebarRootItemClasses(groupIndex: number, itemIndex = 0, isSection 
 .press-sidebar-root-item.is-separated {
   margin-top: 16px;
   padding-top: 12px;
-  border-top: 1px solid var(--pr-c-divider-light);
-}
-
-.press-sidebar-item {
-  padding-top: 0.5rem;
-}
-
-.press-sidebar-root-item > .category-list-item {
-  border-top: 0;
-}
-
-.category-list {
-  &:first-child {
-    .category-list-item {
-      border-top: 0;
-    }
-  }
-}
-
-.press-sidebar-item {
-  .caret {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    margin-right: 0;
-    width: 32px;
-    height: 32px;
-    color: var(--pr-c-text-2);
-    cursor: pointer;
-    transition: color var(--va-transition-duration);
-    flex-shrink: 0;
-  }
-
-  .caret-icon {
-    width: 18px;
-    height: 18px;
-    transition: transform var(--va-transition-duration);
-
-    &.open {
-      transform: rotate(90deg);
-    }
-  }
-
-  &:hover .caret {
-    color: var(--pr-c-text-1);
-  }
-
-  &:hover .caret:hover {
-    color: var(--pr-c-text-1);
-  }
+  border-top: 1px solid var(--pr-sidebar-divider);
 }
 </style>

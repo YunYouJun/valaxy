@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import type { PressTheme } from '../types'
-import { computed } from 'vue'
+import { computed, useId } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { useRoute } from 'vue-router'
 import { isActive, useSidebarControl } from '../composables/sidebar'
@@ -37,6 +37,8 @@ const childItems = computed(() => props.item.items || [])
 const hasChildItems = computed(() => childItems.value.length > 0)
 
 const hasCaret = computed(() => collapsible.value && hasChildItems.value)
+const isGroupToggle = computed(() => hasCaret.value && !isLink.value)
+const textId = useId()
 
 const classes = computed(() => [
   [`level-${props.depth}`],
@@ -47,15 +49,6 @@ const classes = computed(() => [
   { 'is-active': isActiveLink.value },
   { 'has-active': hasActiveLink.value },
 ])
-
-const itemRole = computed(() => (hasCaret.value && !isLink.value ? 'button' : undefined))
-
-function onItemInteraction(e: MouseEvent | Event) {
-  if ('key' in e && e.key !== 'Enter')
-    return
-
-  !props.item.link && toggle()
-}
 
 const { t } = useI18n()
 const route = useRoute()
@@ -73,19 +66,25 @@ function getChildItemKey(item: PressTheme.SidebarItem, index: number): string | 
   <li
     class="press-sidebar-item-node" :class="classes"
   >
-    <div
+    <component
+      :is="isGroupToggle ? textTag : 'div'"
       v-if="rawText"
       class="press-sidebar-item item"
-      :role="itemRole"
-      :tabindex="hasCaret && !props.item.link ? 0 : undefined"
-      v-on="
-        hasCaret && !props.item.link
-          ? { click: onItemInteraction, keydown: onItemInteraction }
-          : {}
-      "
     >
+      <button
+        v-if="isGroupToggle"
+        type="button"
+        class="press-sidebar-group-toggle"
+        :aria-expanded="!collapsed"
+        @click="toggle"
+      >
+        <span class="text press-sidebar-group-label" v-html="htmlText" />
+        <span class="caret" aria-hidden="true">
+          <span class="caret-icon" :class="{ open: !collapsed }" i-ri-arrow-right-s-line />
+        </span>
+      </button>
       <AppLink
-        v-if="props.item.link"
+        v-else-if="props.item.link"
         :tag="linkTag"
         class="link press-sidebar-link"
         :class="{ 'is-active': isActiveLink }"
@@ -94,7 +93,7 @@ function getChildItemKey(item: PressTheme.SidebarItem, index: number): string | 
         :rel="props.item.rel"
         :target="props.item.target"
       >
-        <component :is="textTag" class="text">
+        <component :is="textTag" :id="textId" class="text">
           <span v-html="htmlText" />
         </component>
       </AppLink>
@@ -103,16 +102,16 @@ function getChildItemKey(item: PressTheme.SidebarItem, index: number): string | 
       </component>
 
       <button
-        v-if="hasCaret"
+        v-if="hasCaret && !isGroupToggle"
         type="button"
-        aria-label="toggle section"
+        :aria-labelledby="textId"
         :aria-expanded="!collapsed"
         class="caret"
         @click.stop="toggle"
       >
         <span class="caret-icon" :class="{ open: !collapsed }" i-ri-arrow-right-s-line aria-hidden="true" />
       </button>
-    </div>
+    </component>
 
     <ul v-if="hasChildItems && !collapsed" class="items press-sidebar-item-list">
       <template v-if="depth < 5">
@@ -158,17 +157,6 @@ function getChildItemKey(item: PressTheme.SidebarItem, index: number): string | 
   padding: 0;
 }
 
-.item {
-  position: relative;
-  display: flex;
-  align-items: center;
-  width: 100%;
-}
-
-.press-sidebar-item-node.collapsible > .item {
-  cursor: pointer;
-}
-
 .text {
   margin: 0;
   min-width: 0;
@@ -183,7 +171,7 @@ function getChildItemKey(item: PressTheme.SidebarItem, index: number): string | 
   color: var(--pr-c-text-1);
 }
 
-.press-sidebar-item-node.has-children > .item .text {
+.press-sidebar-item-node.has-children > .item > .text {
   font-weight: 600;
 }
 
@@ -194,6 +182,6 @@ function getChildItemKey(item: PressTheme.SidebarItem, index: number): string | 
 .press-sidebar-item-node:not(.level-0) > .items {
   margin-left: 8px;
   padding-left: 12px;
-  border-left: 1px solid var(--pr-c-divider-light);
+  border-left: 1px solid var(--pr-sidebar-divider);
 }
 </style>
