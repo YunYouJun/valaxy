@@ -153,7 +153,7 @@ describe('native editor protocol', () => {
     }
     await start()
     await write('pages/posts/new.md', '---\ntitle: New\n---')
-    // The router enables Chokidar's awaitWriteFinish (2 seconds on Linux/Windows).
+    // The router enables Chokidar's awaitWriteFinish (2 seconds) when CI is set.
     await expect.poll(async () => (await lookup('pages/posts/new.md')).data.status, { timeout: 5000 }).toBe('resolved')
     await write('pages/posts/new.md', '---\ntitle: Updated\n---')
     await expect.poll(async () => (await lookup('pages/posts/new.md')).data.routes[0]?.path, { timeout: 5000 }).toBe('/updated')
