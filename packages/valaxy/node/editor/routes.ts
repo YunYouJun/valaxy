@@ -14,6 +14,7 @@ export class EditorRoutes {
   private sources = new Map<string, string>()
   private changed = new Map<string, { revision: number, running: boolean }>()
   private revision = 0
+  private snapshotGeneration = 0
 
   begin(file: string) {
     const key = resolve(file)
@@ -25,6 +26,7 @@ export class EditorRoutes {
   }
 
   async update(tree: EditableTreeNode) {
+    const generation = ++this.snapshotGeneration
     const completed = [...this.changed].filter(([, change]) => !change.running)
     const routes = new Map<string, EditorRoute[]>()
     const entries: { file: string, route: EditorRoute }[] = []
@@ -40,6 +42,10 @@ export class EditorRoutes {
       }
       catch {}
     }))
+    // Router callbacks may overlap; only the latest snapshot may publish or
+    // clear pending revisions after asynchronous source canonicalization.
+    if (generation !== this.snapshotGeneration)
+      return
     for (const { file, route } of entries) {
       const key = sources.get(file)
       if (!key)
