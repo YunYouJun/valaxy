@@ -11,7 +11,7 @@ const control = usePrevNext()
   <div class="press-doc-footer">
     <div flex justify="between" items="center" text="sm">
       <a v-if="editLink.url" flex items="center" class="decoration-none!" :href="editLink.url" target="_blank" rel="noopener noreferrer">
-        <div i-ri-external-link-line />
+        <div i-ri-edit-box-line />
         <span ml-1>{{ editLink.text || t('tooltip.edit_this_page') }}</span>
       </a>
       <PressDocFooterLastUpdated />
