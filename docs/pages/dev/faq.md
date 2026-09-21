@@ -21,26 +21,21 @@ Use `::before` pseudo-element instead.
 
 ## JavaScript heap out of memory
 
+SSG builds the client bundle, server bundle, and HTML pages in one process. It respects Node's default heap and explicit `NODE_OPTIONS` limits; it does not raise them automatically.
 
-During SSG build (`valaxy build --ssg`), the built-in Valaxy SSG engine runs client build, server build, and page rendering in the same process. The Vite resolved config and plugin system from the build phase remain in memory, leaving limited heap space for the rendering phase.
-
-**Minimum memory requirement: `--max-old-space-size=4096` (~4 GB)** — the engine auto-respawns with this heap when needed.
+A heap limit covers only V8-managed memory. Native bundler allocations, buffers, child processes, and the container's file cache also consume memory. Setting a 4 GiB heap does **not** make a build fit in a 4 GiB container. Start with a smaller heap and measure the complete build:
 
 ```bash
-# Reproduce tests
-pnpm test:space        # demo/yun
-pnpm test:space:docs   # docs
+NODE_OPTIONS=--max-old-space-size=2048 pnpm build --ssg
 ```
 
-When the heap limit is below ~4 GB, the SSG engine automatically respawns the
-build process with `--max-old-space-size=4096` (and `--expose-gc` when available)
-so rendering has enough headroom. Page rendering runs at a default concurrency of
-20 (configurable via `vite.ssgOptions.concurrency`).
+If V8 reports `JavaScript heap out of memory`, increase the heap only when the host has room. If the container kills the process, reduce total memory use or increase the container budget. Rendering concurrency can be configured with `vite.ssgOptions.concurrency` (default `20`).
 
-If you still encounter OOM in CI environments, raise the heap limit via `NODE_OPTIONS`:
+The documentation memory workflow verifies cold and warm builds, including the full API reference, with a hard 4 GiB container limit, no swap, and a 2 GiB heap. This is a regression check for this site's current content and dependencies; larger sites should measure their own requirements.
 
 ```bash
-NODE_OPTIONS=--max-old-space-size=4096 pnpm build --ssg
+pnpm test:space        # demo/yun with a 2304 MiB heap
+pnpm test:space:docs   # docs with a 2048 MiB heap
 ```
 
 

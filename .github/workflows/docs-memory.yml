@@ -1,0 +1,63 @@
+name: Documentation 4 GiB build
+
+on:
+  pull_request:
+    paths:
+      - .github/workflows/docs-memory.yml
+      - packages/valaxy/client/**
+      - packages/valaxy/node/**
+      - packages/valaxy-theme-press/**
+      - packages/valaxy-addon-typedoc/**
+      - docs/**
+      - pnpm-lock.yaml
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  memory:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    container:
+      image: node:24-bookworm
+      # Hard cgroup limit for the entire process tree; no swap headroom.
+      options: --memory=4g --memory-swap=4g
+    env:
+      NODE_OPTIONS: --max-old-space-size=2048
+    steps:
+      - uses: actions/checkout@v7
+      - uses: pnpm/action-setup@v6
+      - name: Verify hard memory limit
+        run: |
+          test "$(cat /sys/fs/cgroup/memory.max)" = 4294967296
+          test "$(cat /sys/fs/cgroup/memory.swap.max)" = 0
+      - name: Install and build core
+        run: pnpm install --frozen-lockfile && pnpm run build
+      - name: Cold build with full API generation
+        run: |
+          rm -f docs/.valaxy/content/typedoc--api-/cache.json
+          node scripts/measure-docs-build.mjs test-results/docs-memory/cold docs:build
+          grep -q '\[typedoc\] Generated' test-results/docs-memory/cold/docs-build.log
+          pnpm run verify:api
+      - name: Warm build with cached API generation
+        run: |
+          node scripts/measure-docs-build.mjs test-results/docs-memory/warm docs:build
+          ! grep -q '\[typedoc\] Generated' test-results/docs-memory/warm/docs-build.log
+          pnpm run verify:api
+      - name: Record kernel memory counters
+        if: always()
+        run: |
+          mkdir -p test-results/docs-memory
+          cat /sys/fs/cgroup/memory.max > test-results/docs-memory/memory.max
+          cat /sys/fs/cgroup/memory.peak > test-results/docs-memory/memory.peak
+          cat /sys/fs/cgroup/memory.events > test-results/docs-memory/memory.events
+          cat /sys/fs/cgroup/memory.swap.max > test-results/docs-memory/memory.swap.max
+          cat test-results/docs-memory/memory.events
+          test "$(awk '$1 == "oom_kill" { print $2 }' /sys/fs/cgroup/memory.events)" = 0
+      - uses: actions/upload-artifact@v7
+        if: always()
+        with:
+          name: docs-memory
+          path: test-results/docs-memory/
+          retention-days: 30

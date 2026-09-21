@@ -196,7 +196,7 @@ Uses `markdown-it` with custom plugins:
 - Filters draft posts in production
 - Supports pagination
 - Generates sitemap and redirects
-- **Minimum heap: ~4 GB** (`--max-old-space-size=4096`). Vite 8 (Rolldown) uses more memory during chunk generation; the SSG engine auto-respawns with sufficient heap.
+- **Memory budgets:** SSG respects Node's default heap and explicit `NODE_OPTIONS` limits. Heap is only part of total build memory (Rolldown, buffers, child processes, and file cache also count). The documentation memory workflow checks cold/warm builds inside a 4 GiB, no-swap container with a 2 GiB heap.
 
 ## Theme Development
 
