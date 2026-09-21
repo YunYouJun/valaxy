@@ -56,7 +56,7 @@ jobs:
       - name: Build Docs SSG
         run: node scripts/measure-docs-build.mjs test-results/docs-build docs:build
 
-      - name: Verify API links and legacy redirects
+      - name: Verify unified API links
         run: pnpm run verify:api
 
       - name: Test production navigation and portals

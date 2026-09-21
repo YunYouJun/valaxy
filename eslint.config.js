@@ -8,7 +8,6 @@ export default antfu(
       '**/public',
       'packages/valaxy/index.d.ts',
       // generated
-      'api/typedoc',
       '**/.valaxy/**',
     ],
     rules: {
@@ -28,7 +27,6 @@ export default antfu(
       'docs/pages/**/*.md',
       'packages/create-valaxy/template-blog/pages/**/*.md',
       'packages/valaxy-theme-yun/docs/**/*.md',
-      'api/**/*.md',
     ],
     rules: {
       // Valaxy markdown files use YAML frontmatter with `#` comments

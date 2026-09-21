@@ -234,7 +234,7 @@ docs/
 ### 本地验证与兼容性
 
 - 主仓库完成核心包构建、ESLint、Vue/TypeScript 检查、496 项单元测试及 8 项桌面/移动端 Playwright；具体命令为 `pnpm build`、`pnpm lint`、`pnpm exec vue-tsc --noEmit --skipLibCheck`、`pnpm exec vitest run`、`pnpm docs:build`、`pnpm e2e:ssg`。
-- `pnpm verify:api` 验证 296 个 HTML 输出（包括目录别名）、4,527 条内部链接，以及旧站快照 291 页、2,163 个锚点；生成 600 条逐页 HTTP 301 规则。规则文件位于 `api/migration/dist/_redirects`，这不等于生产服务器已经返回 301。
+- `pnpm verify:api` 验证统一官网的 API HTML 输出与内部链接；`pnpm verify:api --legacy-redirects` 额外验证旧站快照并生成逐页 HTTP 301 规则。规则文件位于 `deploy/api-redirects/dist/_redirects`。
 - `pnpm validate:addons` 验证 19 个 addon、12 个中英文文档路由及仓库 URL；addon 打包确认包含 worker、链接转换和双语 README。
 - Starter 完成 lint、初始化测试、demo/docs SSG、类型检查、组合产物与主题打包。验证组合预览的 `/docs/` 路径、搜索与桌面/移动端页面，不能仅用工作区构建代替浏览器检查。
 - Addon 依赖本次新增的核心能力，发布要求 `valaxy >=1.0.0-rc.13 <2`。先发布包含这些变更的 Valaxy/Press，再发布 addon 并升级 Starter；版本号若调整，应同步更新 peer 范围。当前已发布的 rc.12 不能无补丁消费全部新能力。
@@ -298,7 +298,7 @@ DOCS_MAX_COLD_RATIO=1.10 DOCS_MAX_RSS_MIB=6144 \
 1. 审阅并合并核心/Press、addon、主站和 Starter 的变更；完成上述目标 CI 性能验收及包发布顺序。
 2. 发布主站预览，复核当前旧站 sitemap 与已保存的旧页快照，确认没有新增遗漏。
 3. 发布主站 `/api/`，在 Algolia 配置抓取主站共用正文并重新索引，实际验证中英文查询。
-4. 按 [旧域名切换说明](../../api/migration/README.md) 部署逐页 301，验证真实状态码、查询参数、锚点及回退。
+4. 按 [旧域名切换说明](../../deploy/api-redirects/README.md) 部署逐页 301，验证真实状态码、查询参数、锚点及回退。
 5. 稳定后移除旧 API 内容 workspace、旧构建脚本和专用依赖；永久保留旧域名与重定向映射。
 
 以上是本地准备阶段的状态；后续实际发布与切换结果见下方记录。
@@ -325,7 +325,7 @@ Algolia now crawls `https://valaxy.site/sitemap.xml`, limits headings/content to
 
 The final old-site crawl covered 578 HTML URLs. The site did not expose a sitemap; the audit followed its actual reachable links. It identified the newly exported `loadAllContent`, which is now included in the preserved snapshot. The mapper contains **603 HTTP 301 rules** covering 292 legacy content pages, extensionless variants and old index aliases. All preview rules passed real HTTP status/Location/query checks, and a browser followed a legacy function link to the correct main-site `#parameters` section.
 
-Production `api.valaxy.site` now serves the same 603 verified 301 rules; query forwarding passed for every rule and a browser retained the new `loadAllContent#returns` anchor. The old host skips dependency installation and executes only the built-in Node redirect generator. Standalone API sources, workspace membership and dedicated TypeDoc/VitePress bridge dependency were removed after these checks. Press retains its own VitePress style/type dependency. Historical sources and deployment rollback references remain available in [the cutover guide](../../api/migration/README.md).
+Production `api.valaxy.site` now serves the same 603 verified 301 rules; query forwarding passed for every rule and a browser retained the new `loadAllContent#returns` anchor. The old host skips dependency installation and executes only the built-in Node redirect generator. Standalone API sources, workspace membership and dedicated TypeDoc/VitePress bridge dependency were removed after these checks. Press now ships its adapted documentation styles and sidebar types directly, without a VitePress runtime dependency. Historical sources and deployment rollback references remain available in [the cutover guide](../../deploy/api-redirects/README.md).
 
 The independent `valaxy-addon-typedoc@0.1.0` package passed tarball-consumer checks and was published on 2026-09-21 after npm verification. The registry confirms version `0.1.0` and its downloadable tarball. Main-site deployment consumes the workspace addon and is already live.
 
