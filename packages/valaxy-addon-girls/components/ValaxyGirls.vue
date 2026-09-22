@@ -155,7 +155,7 @@ function selectGirl(index: number) {
 <style scoped>
 .valaxy-girls {
   --valaxy-girls-soft: color-mix(in srgb, var(--va-c-primary) 8%, var(--va-c-bg-soft));
-  --valaxy-girls-sky: #70c5e8;
+  --valaxy-girls-sky: var(--va-c-primary);
   --valaxy-girls-sky-deep: color-mix(in srgb, var(--valaxy-girls-sky) 68%, var(--va-c-text-1));
   --valaxy-girls-blush: #ff8fba;
   --valaxy-girls-ink: var(--va-c-text-1);
@@ -197,7 +197,7 @@ function selectGirl(index: number) {
   list-style: none;
   background: var(--valaxy-girls-paper);
   border: 1px solid var(--valaxy-girls-line);
-  border-radius: 0.65rem;
+  border-radius: var(--va-card-border-radius, 0.5rem);
 }
 
 .valaxy-girls-skeleton-portrait,

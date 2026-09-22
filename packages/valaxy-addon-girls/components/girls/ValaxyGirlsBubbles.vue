@@ -10,6 +10,7 @@ interface BubbleItemStyle extends CSSProperties {
   '--valaxy-girl-bubble-delay': string
   '--valaxy-girl-bubble-layer': number
   '--valaxy-girl-bubble-size': string
+  '--valaxy-girl-orb-label-anchor': string
 }
 
 const props = defineProps<GirlsLayoutProps>()
@@ -31,6 +32,8 @@ const bubbleItems = computed(() => {
         '--valaxy-girl-bubble-delay': `${point.delay}ms`,
         '--valaxy-girl-bubble-layer': props.girls.length - index,
         '--valaxy-girl-bubble-size': `${point.diameter}%`,
+        // Point edge labels inward; transparent labels still contribute to scroll overflow.
+        '--valaxy-girl-orb-label-anchor': point.x < 33 ? '0%' : point.x > 67 ? '100%' : '50%',
         'left': `${point.x}%`,
         'top': `${point.y}%`,
       } satisfies BubbleItemStyle,

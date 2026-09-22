@@ -52,8 +52,8 @@ const layoutOptions = computed(() => GIRLS_LAYOUTS.map(layout => ({
   padding: 0.2rem;
   background: color-mix(in srgb, var(--valaxy-girls-paper) 92%, transparent);
   border: 1px solid var(--valaxy-girls-line);
-  border-radius: 0.6rem;
-  box-shadow: 0 0.3rem 0.9rem rgb(31 46 64 / 0.08);
+  border-radius: 0.5rem;
+  box-shadow: 0 0.3rem 0.9rem rgb(31 46 64 / 0.04);
   backdrop-filter: blur(0.7rem);
 }
 
@@ -88,6 +88,13 @@ const layoutOptions = computed(() => GIRLS_LAYOUTS.map(layout => ({
 .valaxy-girls-layout-button:focus-visible {
   outline: 2px solid var(--valaxy-girls-sky);
   outline-offset: 2px;
+}
+
+@media (pointer: coarse) {
+  .valaxy-girls-layout-button {
+    width: 2.75rem;
+    height: 2.75rem;
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {

@@ -177,7 +177,7 @@ function handleImageError() {
   position: absolute;
   z-index: 6;
   top: calc(100% + 0.45rem);
-  left: 50%;
+  left: var(--valaxy-girl-orb-label-anchor, 50%);
   display: grid;
   width: max-content;
   max-width: min(11rem, 42vw);
@@ -187,11 +187,11 @@ function handleImageError() {
   border: 1px solid var(--valaxy-girls-line);
   border-radius: 0.5rem;
   box-shadow: 0 0.25rem 0.7rem rgb(31 46 64 / 0.12);
-  font-size: 0.64rem;
+  font-size: 0.75rem;
   line-height: 1.2;
   opacity: 0;
   pointer-events: none;
-  transform: translate(-50%, -0.2rem);
+  transform: translate(calc(-1 * var(--valaxy-girl-orb-label-anchor, 50%)), -0.2rem);
   transition:
     opacity 160ms ease,
     transform 160ms ease;
@@ -213,13 +213,13 @@ function handleImageError() {
 .valaxy-girl-orb-label-from {
   margin-top: 0.16rem;
   color: var(--valaxy-girls-muted);
-  font-size: 0.56rem;
+  font-size: 0.6875rem;
 }
 
 .valaxy-girl-orb:hover .valaxy-girl-orb-label,
 .valaxy-girl-orb:focus-visible .valaxy-girl-orb-label {
   opacity: 1;
-  transform: translate(-50%, 0);
+  transform: translate(calc(-1 * var(--valaxy-girl-orb-label-anchor, 50%)), 0);
 }
 
 @media (prefers-reduced-motion: reduce) {
