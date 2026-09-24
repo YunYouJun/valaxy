@@ -16,6 +16,7 @@ export const defaultThemeConfig: ThemeConfig = {
   },
   banner: {
     enable: true,
+    navStyle: 'plain',
     title: '云游君的小站',
     grid: {
       enable: true,

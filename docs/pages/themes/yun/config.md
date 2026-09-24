@@ -105,7 +105,38 @@ export default defineValaxyConfig<ThemeConfig>({
 | `name` | `string` | Page name |
 | `url` | `string` | Page URL |
 | `icon` | `string` | Icon name, see [Icônes](https://icones.js.org/) |
-| `color` | `string` | Icon color (CSS value), default `var(--va-c-text)` |
+| `color` | `string` | Legacy link color; used for the icon in mobile homepage navigation |
+| `iconColor` | `string` | Independent icon color (CSS value). Overrides `color` without changing the label |
+
+### Mobile homepage navigation {#home-navigation}
+
+Choose a Nimbo mobile navigation style with `banner.navStyle`. The desktop arrangement stays the same.
+
+| Value | Appearance |
+| --- | --- |
+| `plain` (default) | Colored icons and text with more open space |
+| `glass` | Neutral glass capsules with subtle edge reflections |
+| `panel` | All links grouped inside one frosted panel |
+| `tiles` | A soft, matching color surface behind each icon |
+
+Mobile links use two aligned columns with touch targets at least 48px high. The default `plain` style has a transparent background, subtle hover and press feedback, and a visible keyboard focus outline.
+
+Set a different `iconColor` for each page while keeping mobile labels in the theme foreground color. The built-in Posts icon follows `colors.primary`.
+
+```ts [theme.config.ts]
+import { defineThemeConfig } from 'valaxy-theme-yun'
+
+export default defineThemeConfig({
+  banner: { navStyle: 'plain' },
+  pages: [
+    { name: 'Moments', url: '/moments/', icon: 'i-ri-chat-1-line', iconColor: '#009B81' },
+    { name: 'Projects', url: '/projects', icon: 'i-ri-gallery-view', iconColor: '#C47B16' },
+    { name: 'Albums', url: '/albums', icon: 'i-ri-image-line', iconColor: '#8863D7' },
+  ],
+})
+```
+
+Visit `/examples/navigation` in the Yun demo to compare all four styles, light and dark modes, and icon colors.
 
 ## Sidebar {#sidebar}
 

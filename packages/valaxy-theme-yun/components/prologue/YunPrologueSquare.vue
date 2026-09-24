@@ -1,11 +1,9 @@
 <script setup lang="ts">
 import { computed, ref } from 'vue'
-import { useI18n } from 'vue-i18n'
 
 import { useThemeConfig } from '../../composables'
 
 const themeConfig = useThemeConfig()
-const { t } = useI18n()
 
 const showContent = ref(false)
 const grouped = computed(() => themeConfig.value.banner?.prologue === 'grouped')
@@ -78,23 +76,9 @@ const grouped = computed(() => themeConfig.value.banner?.prologue === 'grouped')
 
         <YunSocialLinks class="prologue-social" />
 
-        <div
-          class="prologue-navigation mt-4 flex-center w-72 md:w-150 m-auto gap-2"
-          flex="~ wrap"
-        >
-          <YunSiteLinkItem
-            :page="{
-              name: t('menu.posts'),
-              icon: 'i-ri-article-line',
-              url: '/posts/',
-            }"
-          />
+        <YunPrologueNavigation>
           <slot />
-          <YunSiteLinkItem
-            v-for="item, i in themeConfig.pages"
-            :key="i" :page="item"
-          />
-        </div>
+        </YunPrologueNavigation>
       </div>
     </div>
   </div>

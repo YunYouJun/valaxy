@@ -106,7 +106,38 @@ export default defineValaxyConfig<ThemeConfig>({
 | `name` | `string` | 页面名称 |
 | `url` | `string` | 页面链接 |
 | `icon` | `string` | 图标名称，参见 [Icônes](https://icones.js.org/) |
-| `color` | `string` | 图标颜色（CSS 值），默认 `var(--va-c-text)` |
+| `color` | `string` | 原有链接颜色；移动端首页导航将此颜色用于图标 |
+| `iconColor` | `string` | 独立图标颜色（CSS 值），优先于 `color`，不改变文字颜色 |
+
+### 首页移动导航 {#home-navigation}
+
+Nimbo 首页支持通过 `banner.navStyle` 选择移动端导航样式，桌面排布不受影响：
+
+| 值 | 效果 |
+| --- | --- |
+| `plain`（默认） | 彩色图标与文字，保留更多留白 |
+| `glass` | 中性玻璃胶囊与边缘反光 |
+| `panel` | 将入口收拢在一块磨砂面板中 |
+| `tiles` | 为每个图标添加同色的淡彩底座 |
+
+移动端导航采用两列对齐，每项触控区域至少 48px 高。默认的 `plain` 样式使用透明背景，悬停和按下时提供轻微反馈，键盘聚焦时显示清晰的轮廓。
+
+每个页面可以使用不同的 `iconColor`。移动端文字保持主题前景色，图标不需要共用主题色；内置「博客文章」入口跟随 `colors.primary`。
+
+```ts [theme.config.ts]
+import { defineThemeConfig } from 'valaxy-theme-yun'
+
+export default defineThemeConfig({
+  banner: { navStyle: 'plain' },
+  pages: [
+    { name: '小随想', url: '/moments/', icon: 'i-ri-chat-1-line', iconColor: '#009B81' },
+    { name: '项目列表', url: '/projects', icon: 'i-ri-gallery-view', iconColor: '#C47B16' },
+    { name: '相册', url: '/albums', icon: 'i-ri-image-line', iconColor: '#8863D7' },
+  ],
+})
+```
+
+Yun demo 的 `/examples/navigation` 页面可对比四种样式、明暗模式和图标配色。
 
 ## 侧边栏 {#sidebar}
 

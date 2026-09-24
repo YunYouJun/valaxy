@@ -13,6 +13,7 @@ export default defineThemeConfig({
 
   banner: {
     enable: true,
+    navStyle: 'plain',
     grid: { enable: true, fade: true, interactive: true },
     // title: '云游君的小站',
     title: {
@@ -42,35 +43,41 @@ export default defineThemeConfig({
       name: '小随想',
       url: '/moments/',
       icon: 'i-ri-chat-1-line',
+      iconColor: '#009B81',
     },
     {
       name: '项目列表',
       url: '/projects',
       icon: 'i-ri-gallery-view',
+      iconColor: '#C47B16',
       color: 'var(--va-c-text)',
     },
     {
       name: '相册',
       url: '/albums',
       icon: 'i-ri-image-line',
+      iconColor: '#8863D7',
       color: 'var(--va-c-text)',
     },
     {
       name: '友情链接',
       url: '/links/',
       icon: 'i-ri-link',
+      iconColor: '#168DAF',
       // color: 'dodgerblue',
     },
     {
       name: '老婆列表',
       url: '/girls/',
       icon: 'i-ri-women-line',
+      iconColor: '#CC5A93',
       // color: 'hotpink',
     },
     {
       name: '赞助者们',
       url: '/sponsors/',
       icon: 'i-ri-heart-line',
+      iconColor: '#DC5765',
       color: 'red',
     },
   ],

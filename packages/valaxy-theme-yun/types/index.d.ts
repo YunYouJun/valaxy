@@ -40,6 +40,8 @@ export namespace YunTheme {
     interactive?: boolean
   }
 
+  export type HomeNavStyle = 'glass' | 'plain' | 'panel' | 'tiles'
+
   export interface Banner {
     /**
      * 是否启用
@@ -72,6 +74,9 @@ export namespace YunTheme {
 
     /** Nimbo introduction layout. Grouped uses compact introduction dividers. @default 'classic' */
     prologue?: 'classic' | 'grouped'
+
+    /** Mobile homepage navigation appearance. @default 'plain' */
+    navStyle?: HomeNavStyle
 
     /**
      * @nimbo
@@ -110,11 +115,13 @@ export interface PageProps {
    */
   icon: string
   /**
-   * @description:en-US Color of icon
-   * @description:zh-CN 图标颜色
+   * @description:en-US Legacy link color; used for the icon in mobile homepage navigation
+   * @description:zh-CN 原有链接颜色；移动端首页导航将此颜色用于图标
    * @default 'var(--va-c-text)'
    */
   color?: string
+  /** Icon-only color. Takes priority over color without changing the label. */
+  iconColor?: string
 }
 
 /**

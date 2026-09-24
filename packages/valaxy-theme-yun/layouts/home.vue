@@ -23,7 +23,7 @@ const showNotice = computed(() => {
       <template v-if="themeConfig.banner?.enable">
         <template v-if="!isPage">
           <div class="w-full">
-            <YunPrologue :grid="yun.isNimbo ? themeConfig.banner.grid : { enable: false }">
+            <YunPrologue :class="{ 'yun-home-prologue': yun.isNimbo }" :grid="yun.isNimbo ? themeConfig.banner.grid : { enable: false }">
               <ClientOnly>
                 <YunBanner />
                 <template #fallback>
@@ -37,7 +37,7 @@ const showNotice = computed(() => {
                 enter-active-class="transition-300 transition-cubic-bezier-ease-in-out"
                 appear
               >
-                <div class="absolute top-0 left-5 right-5 bottom-0 flex-center">
+                <div class="yun-home-prologue-content absolute top-0 left-5 right-5 bottom-0 flex-center">
                   <Transition
                     enter-from-class="op-0"
                     enter-to-class="op-100"
@@ -73,3 +73,26 @@ const showNotice = computed(() => {
     </div>
   </YunLayoutWrapper>
 </template>
+
+<style scoped>
+@media (width <= 768px) {
+  .yun-home-prologue {
+    display: grid;
+  }
+
+  .yun-home-prologue :deep(#yun-banner),
+  .yun-home-prologue :deep(#yun-banner-placeholder) {
+    grid-area: 1 / 1;
+    height: 100%;
+  }
+
+  .yun-home-prologue-content {
+    grid-area: 1 / 1;
+    position: relative;
+    inset: auto;
+    box-sizing: border-box;
+    min-height: var(--banner-container-height, calc(100 * var(--vh)));
+    padding: calc(var(--yun-nav-height) + 20px) 20px 36px;
+  }
+}
+</style>
