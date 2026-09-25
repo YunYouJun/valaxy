@@ -10,6 +10,10 @@ const { collections } = useCollections()
 const { t } = useI18n()
 const router = useRouter()
 const choices = computed(() => collections.value.filter(item => item.key))
+const collectionOptions = computed(() => choices.value.map(choice => ({
+  value: choice.key!,
+  label: choice.title || choice.name || choice.key!,
+})))
 const resolvedItems = computed(() => (collection.value?.items || []).map(item => ({
   ...item,
   ...resolveCollectionItemHref(collection.value!.key!, item),
@@ -27,14 +31,10 @@ const selectedKey = computed({
 <template>
   <YunCard v-if="collection" class="yun-collection-sidebar p-4">
     <nav class="yun-sidebar-item w-full" :aria-label="t('theme.collectionContents')">
-      <label v-if="choices.length > 1" class="collection-switcher">
+      <div v-if="choices.length > 1" class="collection-switcher">
         <span>{{ t('theme.switchCollection') }}</span>
-        <select v-model="selectedKey">
-          <option v-for="choice in choices" :key="choice.key" :value="choice.key">
-            {{ choice.title || choice.name || choice.key }}
-          </option>
-        </select>
-      </label>
+        <YunSelect v-model="selectedKey" :options="collectionOptions" :aria-label="t('theme.switchCollection')" block />
+      </div>
       <RouterLink :to="`/collections/${collection.key}/`" class="title">
         {{ collection.title || collection.name || collection.key }}
       </RouterLink>
@@ -69,18 +69,6 @@ const selectedKey = computed({
   font-size: 12px;
 }
 
-.collection-switcher select {
-  width: 100%;
-  min-height: 40px;
-  padding: 8px;
-  border: 1px solid var(--va-c-divider);
-  border-radius: 6px;
-  color: var(--va-c-text);
-  background: var(--va-c-bg);
-  font: inherit;
-  font-size: 14px;
-}
-
 .title {
   font-weight: 600;
 }
@@ -113,8 +101,7 @@ const selectedKey = computed({
   color: var(--va-c-primary);
 }
 
-a:focus-visible,
-select:focus-visible {
+a:focus-visible {
   outline: 2px solid var(--va-c-primary);
   outline-offset: 3px;
 }

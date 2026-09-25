@@ -16,7 +16,7 @@ const activeComment = ref(commentSystems.value[0])
   <YunCard w="full" p="4" class="comment yun-comment sm:p-6 lg:px-12 xl:px-16">
     <ClientOnly>
       <div v-if="commentSystems.length > 1" class="flex justify-end w-full mb-2">
-        <YunSelect v-model="activeComment" :options="commentSystems" />
+        <YunSelect v-model="activeComment" :options="commentSystems" compact />
       </div>
       <YunWaline v-if="activeComment === 'waline'" />
       <YunTwikoo v-if="activeComment === 'twikoo'" />

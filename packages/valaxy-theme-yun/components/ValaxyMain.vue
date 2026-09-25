@@ -119,4 +119,10 @@ onContentUpdated(() => {
     }
   }
 }
+
+@media (width < 768px) {
+  .yun-main > .content > .yun-card:first-child {
+    border-radius: 0;
+  }
+}
 </style>

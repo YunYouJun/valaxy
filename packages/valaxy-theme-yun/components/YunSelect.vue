@@ -1,58 +1,171 @@
-<script setup lang='ts'>
-import { useEventListener } from '@vueuse/core'
-import { ref } from 'vue'
+<script setup lang="ts">
+import {
+  SelectContent,
+  SelectItem,
+  SelectItemIndicator,
+  SelectItemText,
+  SelectPortal,
+  SelectRoot,
+  SelectTrigger,
+  SelectValue,
+  SelectViewport,
+} from 'reka-ui'
+import { computed } from 'vue'
 
-defineProps<{
-  options: string[]
+export interface YunSelectOption {
+  value: string
+  label: string
+}
+
+const props = defineProps<{
+  options: Array<string | YunSelectOption>
+  ariaLabel?: string
+  placeholder?: string
+  block?: boolean
+  compact?: boolean
 }>()
 
-const activeValue = defineModel()
-const optionVisible = ref(false)
-
-useEventListener('click', () => {
-  optionVisible.value = false
-})
-
-function toggleOptionVisible(e: MouseEvent) {
-  e.preventDefault()
-  e.stopImmediatePropagation()
-  e.stopPropagation()
-  optionVisible.value = !optionVisible.value
-}
+const model = defineModel<string>()
+const normalizedOptions = computed(() => props.options.map(option => typeof option === 'string'
+  ? { value: option, label: option }
+  : option))
+const selectedLabel = computed(() => normalizedOptions.value.find(option => option.value === model.value)?.label)
 </script>
 
 <template>
-  <div class="relative h-8 w-30 text-$va-c-text-2 z-$yun-z-select" @mousedown.stop>
-    <button
-      class="flex h-full w-full px-2 items-center justify-between rounded transition"
-      border="~ gray op-30"
-      :class="optionVisible ? 'border-$va-c-primary' : ''"
-      @click="toggleOptionVisible"
+  <SelectRoot v-model="model">
+    <SelectTrigger
+      class="yun-select-trigger"
+      :class="{ 'is-block': block, 'is-compact': compact }"
+      :aria-label="ariaLabel"
     >
-      <span case-capital op-90>{{ activeValue }}</span>
-      <div inline-flex i-ri-arrow-down-s-line />
-    </button>
-    <Transition>
-      <ul
-        v-show="optionVisible"
-        class="shadow-lg select-options absolute translate-y-1 left-0 top-full w-full bg-$va-c-bg-light overflow-hidden rounded-1"
-      >
-        <li
-          v-for="option in options"
-          :key="option"
-          class="cursor-pointer list-none px-2 hover:bg-$va-c-primary-light hover:text-white case-capital"
-          :class="{ 'bg-$va-c-primary text-white': activeValue === option }"
-          @click="activeValue = option"
-        >
-          {{ option }}
-        </li>
-      </ul>
-    </Transition>
-  </div>
+      <SelectValue :placeholder="placeholder" class="yun-select-value">
+        {{ selectedLabel }}
+      </SelectValue>
+      <span i-ri-arrow-down-s-line class="yun-select-chevron" aria-hidden="true" />
+    </SelectTrigger>
+
+    <SelectPortal to="#valaxy-teleports">
+      <SelectContent class="yun-select-content" position="popper" align="start" :side-offset="6">
+        <SelectViewport class="yun-select-viewport">
+          <SelectItem
+            v-for="option in normalizedOptions"
+            :key="option.value"
+            class="yun-select-item"
+            :value="option.value"
+          >
+            <SelectItemText>{{ option.label }}</SelectItemText>
+            <SelectItemIndicator class="yun-select-indicator">
+              <span i-ri-check-line aria-hidden="true" />
+            </SelectItemIndicator>
+          </SelectItem>
+        </SelectViewport>
+      </SelectContent>
+    </SelectPortal>
+  </SelectRoot>
 </template>
 
-<style lang="scss" scoped>
-.select-options {
-  margin: 0;
+<style>
+.yun-select-trigger {
+  display: inline-flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+  width: 7.5rem;
+  min-height: 44px;
+  padding: 0.5rem 0.75rem;
+  border: 1px solid var(--va-c-divider);
+  border-radius: 0.5rem;
+  color: var(--va-c-text);
+  background: var(--va-c-bg-soft);
+  font: inherit;
+  font-size: 14px;
+  cursor: pointer;
+}
+
+.yun-select-trigger.is-block {
+  width: 100%;
+}
+
+.yun-select-trigger.is-compact {
+  min-height: 32px;
+  padding: 0.25rem 0.5rem;
+}
+
+.yun-select-trigger:hover,
+.yun-select-trigger[data-state='open'] {
+  border-color: var(--va-c-primary);
+}
+
+.yun-select-trigger:focus-visible {
+  outline: 2px solid var(--yun-focus-color);
+  outline-offset: 2px;
+}
+
+.yun-select-value {
+  overflow: hidden;
+  min-width: 0;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.yun-select-chevron {
+  flex: none;
+  font-size: 18px;
+  transition: transform var(--va-transition-duration-fast);
+}
+
+.yun-select-trigger[data-state='open'] .yun-select-chevron {
+  transform: rotate(180deg);
+}
+
+.yun-select-content {
+  z-index: var(--yun-z-left-sidebar);
+  min-width: var(--reka-select-trigger-width);
+  max-width: calc(100vw - 2rem);
+  max-height: min(18rem, var(--reka-select-content-available-height));
+  overflow: hidden;
+  border: 1px solid var(--va-c-divider);
+  border-radius: 0.5rem;
+  background: var(--va-c-bg);
+  box-shadow: 0 8px 24px rgb(0 0 0 / 0.16);
+}
+
+.yun-select-viewport {
+  padding: 0.25rem;
+}
+
+.yun-select-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+  min-height: 40px;
+  padding: 0.5rem 0.625rem;
+  border-radius: 0.25rem;
+  color: var(--va-c-text);
+  cursor: pointer;
+  font-size: 14px;
+  outline: none;
+}
+
+.yun-select-item[data-highlighted] {
+  color: var(--va-c-primary);
+  background: var(--va-c-bg-soft);
+}
+
+.yun-select-item[data-state='checked'] {
+  font-weight: 600;
+}
+
+.yun-select-indicator {
+  display: inline-flex;
+  color: var(--va-c-primary);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .yun-select-chevron {
+    transition: none;
+  }
 }
 </style>

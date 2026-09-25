@@ -25,7 +25,7 @@ watch(isDesktop, (desktop) => {
 })
 
 useEventListener('keydown', (event: KeyboardEvent) => {
-  if (event.key === 'Escape' && isOpen.value)
+  if (event.key === 'Escape' && isOpen.value && !(event.target instanceof Element && event.target.closest('.yun-select-content')))
     close(true)
 })
 
