@@ -3,6 +3,7 @@ valaxy_theme_yun: Valaxy 主题 云
 theme:
   backToTop: 回到顶部
   switchCollection: 切换合集
+  collectionHome: 合集首页
   collectionContents: 合集目录
   collectionMenu: 合集目录
   docsSidebar: 文档导航

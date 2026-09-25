@@ -36,7 +36,7 @@ const selectedKey = computed({
         <YunSelect v-model="selectedKey" :options="collectionOptions" :aria-label="t('theme.switchCollection')" block />
       </div>
       <RouterLink :to="`/collections/${collection.key}/`" class="title">
-        {{ collection.title || collection.name || collection.key }}
+        {{ choices.length > 1 ? t('theme.collectionHome') : (collection.title || collection.name || collection.key) }}
       </RouterLink>
       <ol class="items">
         <li v-for="item in resolvedItems" :key="item.href" class="item">
@@ -104,5 +104,17 @@ const selectedKey = computed({
 a:focus-visible {
   outline: 2px solid var(--va-c-primary);
   outline-offset: 3px;
+}
+
+@media (width < 1024px) {
+  .title {
+    display: inline-flex;
+    align-items: center;
+    min-height: 44px;
+  }
+
+  .item a {
+    min-height: 44px;
+  }
 }
 </style>

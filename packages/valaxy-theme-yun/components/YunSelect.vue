@@ -128,7 +128,7 @@ const selectedLabel = computed(() => normalizedOptions.value.find(option => opti
   border: 1px solid var(--va-c-divider);
   border-radius: 0.5rem;
   background: var(--va-c-bg);
-  box-shadow: 0 8px 24px rgb(0 0 0 / 0.16);
+  box-shadow: 0 4px 12px rgb(0 0 0 / 0.08);
 }
 
 .yun-select-viewport {
@@ -140,7 +140,7 @@ const selectedLabel = computed(() => normalizedOptions.value.find(option => opti
   align-items: center;
   justify-content: space-between;
   gap: 0.5rem;
-  min-height: 40px;
+  min-height: 44px;
   padding: 0.5rem 0.625rem;
   border-radius: 0.25rem;
   color: var(--va-c-text);

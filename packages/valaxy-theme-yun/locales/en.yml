@@ -3,6 +3,7 @@ valaxy_theme_yun: Valaxy Theme Yun
 theme:
   backToTop: Back to top
   switchCollection: Switch collection
+  collectionHome: Collection home
   collectionContents: Collection contents
   collectionMenu: Collection
   docsSidebar: Documentation navigation
