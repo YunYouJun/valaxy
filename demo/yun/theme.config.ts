@@ -96,6 +96,7 @@ export default defineThemeConfig({
         text: 'Examples',
         items: [
           { text: 'Sites', link: '/examples/sites' },
+          { text: 'Code height limit', link: '/examples/code-height-limit' },
         ],
       },
     ],

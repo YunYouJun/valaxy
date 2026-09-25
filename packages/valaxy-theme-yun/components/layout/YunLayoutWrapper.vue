@@ -1,18 +1,39 @@
 <script setup lang="ts">
+import { useFrontmatter, useOutline } from 'valaxy'
 import { computed } from 'vue'
 import { useYunAppStore } from '../../stores'
 
 // common layout
 
-withDefaults(defineProps<{
+const props = withDefaults(defineProps<{
   footer?: boolean
   noMargin?: boolean
+  outlineNav?: boolean
+  localMenu?: boolean
+  localMenuOpen?: boolean
+  localMenuControls?: string
+  localMenuLabel?: string
 }>(), {
   footer: true,
   noMargin: false,
+  outlineNav: false,
+  localMenu: false,
+  localMenuOpen: false,
+  localMenuControls: 'yun-docs-sidebar',
 })
 
+const emit = defineEmits<{
+  toggleLocalMenu: []
+}>()
+
 const yun = useYunAppStore()
+const frontmatter = useFrontmatter()
+const { headers } = useOutline()
+const hasLocalOutline = computed(() => props.outlineNav
+  && frontmatter.value.aside !== false
+  && frontmatter.value.toc !== false
+  && frontmatter.value.outline !== false
+  && headers.value.length > 0)
 const classes = computed(() => {
   if (yun.isNimbo)
     return 'mt-12 md:mt-24'
@@ -22,9 +43,20 @@ const classes = computed(() => {
 
 <template>
   <div class="min-h-screen flex flex-col">
+    <YunLocalOutlineNav
+      v-if="hasLocalOutline || localMenu"
+      :outline-open="yun.rightSidebar.isOpen"
+      :show-outline="hasLocalOutline"
+      :show-menu="localMenu"
+      :menu-open="localMenuOpen"
+      :menu-controls="localMenuControls"
+      :menu-label="localMenuLabel"
+      @toggle-outline="yun.rightSidebar.toggle()"
+      @toggle-menu="emit('toggleLocalMenu')"
+    />
     <div
       class="yun-layout-wrapper-content yun-layout-wrapper__content"
-      :class="noMargin ? '' : classes"
+      :class="[noMargin ? '' : classes, { 'has-local-outline': hasLocalOutline, 'has-local-menu': localMenu }]"
     >
       <slot />
     </div>
@@ -49,6 +81,19 @@ const classes = computed(() => {
   .yun-layout-wrapper-content {
     flex-direction: row;
     align-items: start;
+  }
+}
+
+@media (width < 1024px) {
+  .yun-layout-wrapper-content.has-local-outline,
+  .yun-layout-wrapper-content.has-local-menu {
+    margin-top: 0;
+  }
+}
+
+@media (width >= 1024px) and (width < 1280px) {
+  .yun-layout-wrapper-content.has-local-outline {
+    margin-top: 0;
   }
 }
 </style>

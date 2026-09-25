@@ -3,9 +3,9 @@
 </script>
 
 <template>
-  <YunLayoutWrapper>
+  <YunLayoutWrapper outline-nav>
     <YunLayoutLeft />
     <RouterView />
-    <YunLayoutRight />
+    <YunLayoutRight :floating-trigger="false" />
   </YunLayoutWrapper>
 </template>

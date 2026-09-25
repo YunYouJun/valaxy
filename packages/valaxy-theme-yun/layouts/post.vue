@@ -32,7 +32,7 @@ useSchemaOrg(
 </script>
 
 <template>
-  <YunLayoutWrapper>
+  <YunLayoutWrapper outline-nav>
     <YunLayoutLeft />
 
     <RouterView v-slot="{ Component }">
@@ -56,6 +56,6 @@ useSchemaOrg(
       </component>
     </RouterView>
 
-    <YunLayoutRight />
+    <YunLayoutRight :floating-trigger="false" />
   </YunLayoutWrapper>
 </template>

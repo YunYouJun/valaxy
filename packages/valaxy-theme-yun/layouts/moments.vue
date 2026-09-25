@@ -42,16 +42,19 @@ const { $t } = useValaxyI18n()
     </main>
 
     <button
+      type="button"
       class="xl:hidden toc-btn shadow-md fixed yun-icon-btn z-20 bg-$va-c-bg-soft"
       opacity="75" right="4" bottom="19"
       :aria-label="$t('addon.moments.timeline')"
+      :aria-expanded="yun.rightSidebar.isOpen"
+      aria-controls="yun-page-outline"
       @click="yun.rightSidebar.toggle()"
     >
       <div i-ri-time-line />
     </button>
 
     <YunOverlay :show="yun.rightSidebar.isOpen" @click="yun.rightSidebar.toggle()" />
-    <YunAside>
+    <YunAside :mobile-title="$t('addon.moments.timeline')">
       <ValaxyMomentsTimeline>
         <template #title="{ title }">
           <h2

@@ -5,5 +5,8 @@ theme:
   switchCollection: 切换合集
   collectionContents: 合集目录
   docsSidebar: 文档导航
+  docsMenu: 文档
+  closeMenu: 关闭菜单
   outlineTitle: 本页
+  closeOutline: 关闭目录
   toggleSection: 展开或收起{title}

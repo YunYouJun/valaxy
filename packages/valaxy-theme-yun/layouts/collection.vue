@@ -5,7 +5,7 @@ const { collection, currentIndex: currentItemIndex } = useYunCollection()
 </script>
 
 <template>
-  <YunLayoutWrapper>
+  <YunLayoutWrapper outline-nav>
     <YunLayoutLeft>
       <YunCollectionSidebar />
     </YunLayoutLeft>
@@ -38,6 +38,6 @@ const { collection, currentIndex: currentItemIndex } = useYunCollection()
       </component>
     </RouterView>
 
-    <YunLayoutRight />
+    <YunLayoutRight :floating-trigger="false" />
   </YunLayoutWrapper>
 </template>

@@ -26,7 +26,7 @@ const pageIcon = computed(() => {
 </script>
 
 <template>
-  <YunLayoutWrapper>
+  <YunLayoutWrapper outline-nav>
     <YunLayoutLeft />
 
     <RouterView v-slot="{ Component }">
@@ -46,6 +46,6 @@ const pageIcon = computed(() => {
       </component>
     </RouterView>
 
-    <YunLayoutRight />
+    <YunLayoutRight :floating-trigger="false" />
   </YunLayoutWrapper>
 </template>

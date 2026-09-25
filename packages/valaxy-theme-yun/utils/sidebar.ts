@@ -35,6 +35,15 @@ export function isYunDocsSidebarLinkActive(currentPath: string, link?: string): 
   return normalizePath(currentPath) === normalizePath(link)
 }
 
+/** Show the sidebar only when it offers a destination beyond the current document. */
+export function hasYunDocsSidebarNavigation(
+  items: YunTheme.SidebarItem[],
+  currentPath: string,
+): boolean {
+  return items.some(item => Boolean(item.link && !isYunDocsSidebarLinkActive(currentPath, item.link))
+    || Boolean(item.items && hasYunDocsSidebarNavigation(item.items, currentPath)))
+}
+
 /** Check whether an item or one of its descendants is active. */
 export function containsYunDocsSidebarActiveLink(
   currentPath: string,

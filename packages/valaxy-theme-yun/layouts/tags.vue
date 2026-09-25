@@ -61,7 +61,7 @@ const tagArr = computed(() => [...tags.value].sort())
 </script>
 
 <template>
-  <YunLayoutWrapper>
+  <YunLayoutWrapper outline-nav>
     <YunLayoutLeft />
 
     <RouterView v-slot="{ Component }">
@@ -108,6 +108,6 @@ const tagArr = computed(() => [...tags.value].sort())
       </component>
     </RouterView>
 
-    <YunLayoutRight />
+    <YunLayoutRight :floating-trigger="false" />
   </YunLayoutWrapper>
 </template>

@@ -2,6 +2,7 @@
 title:
   zh-CN: 代码块高度限制
   en: Code height limit
+layout: docs
 toc: true
 categories:
   - examples

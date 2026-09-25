@@ -6,12 +6,20 @@ import {
 import { ref } from 'vue'
 import { useI18n } from 'vue-i18n'
 
+const emit = defineEmits<{
+  select: []
+}>()
 const { t } = useI18n()
 const containerRef = ref()
 const marker = ref()
 
 const { headers, handleClick } = useOutline()
 useActiveAnchor(containerRef, marker)
+
+function onItemClick(event: MouseEvent) {
+  handleClick(event)
+  emit('select')
+}
 </script>
 
 <template>
@@ -23,15 +31,11 @@ useActiveAnchor(containerRef, marker)
 
       <div ref="marker" class="outline-marker" />
 
-      <nav aria-labelledby="doc-outline-aria-label">
-        <span id="doc-outline-aria-label" class="visually-hidden">
-          Table of Contents for current page
-        </span>
-
+      <nav :aria-label="t('sidebar.toc')">
         <YunOutlineItem
           class="va-toc relative z-1 css-i18n-toc"
           :headers="headers"
-          :on-click="handleClick"
+          :on-click="onItemClick"
           root
         />
       </nav>
@@ -86,14 +90,5 @@ useActiveAnchor(containerRef, marker)
 .outline-link.active {
   color: var(--va-c-brand);
   transition: color var(--va-transition-duration);
-}
-
-.visually-hidden {
-  position: absolute;
-  width: 1px;
-  height: 1px;
-  white-space: nowrap;
-  clip-path: inset(50%);
-  overflow: hidden;
 }
 </style>

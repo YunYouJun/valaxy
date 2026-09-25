@@ -5,5 +5,8 @@ theme:
   switchCollection: Switch collection
   collectionContents: Collection contents
   docsSidebar: Documentation navigation
+  docsMenu: Docs
+  closeMenu: Close menu
   outlineTitle: On this page
+  closeOutline: Close contents
   toggleSection: Toggle {title}

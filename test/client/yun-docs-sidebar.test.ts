@@ -2,6 +2,7 @@ import type { YunTheme } from '../../packages/valaxy-theme-yun/types'
 import { describe, expect, it } from 'vitest'
 import {
   containsYunDocsSidebarActiveLink,
+  hasYunDocsSidebarNavigation,
   isYunDocsSidebarLinkActive,
   resolveYunDocsSidebar,
 } from '../../packages/valaxy-theme-yun/utils/sidebar'
@@ -53,5 +54,19 @@ describe('valaxy-theme-yun docs sidebar', () => {
 
     expect(isYunDocsSidebarLinkActive('/guide/start', '/guide/start.md')).toBe(true)
     expect(containsYunDocsSidebarActiveLink('/guide/start', item)).toBe(true)
+  })
+
+  it('hides a sidebar containing only the current page and keeps other destinations', () => {
+    const sidebar: YunTheme.Sidebar = {
+      '/guide/': [{ text: 'Guide', items: [{ text: 'Overview', link: '/guide/' }] }],
+    }
+    const items = resolveYunDocsSidebar(sidebar, '/guide/')
+
+    expect(hasYunDocsSidebarNavigation(items, '/guide/')).toBe(false)
+    expect(hasYunDocsSidebarNavigation(items, '/guide/next')).toBe(true)
+    expect(hasYunDocsSidebarNavigation([
+      ...items,
+      { text: 'Next', link: '/guide/next' },
+    ], '/guide/')).toBe(true)
   })
 })
