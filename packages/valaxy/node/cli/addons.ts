@@ -9,6 +9,7 @@ const ADDON_COMMAND_RE = /^[a-z0-9][a-z0-9-]*$/
 /** Root commands that addons may not shadow. */
 export const CORE_CLI_COMMANDS = new Set([
   'addon',
+  'app',
   'build',
   'check',
   'clean',

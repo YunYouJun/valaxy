@@ -18,6 +18,20 @@ The preview can open or create local Valaxy blogs, edit Markdown and fields with
 
 Media management, a dedicated metadata table and directory tree, per-article preview routes, local Git operations and complete configuration adaptation remain on the CMS roadmap. Real-account desktop publishing and signed distribution require further verification.
 
+## Open from a terminal
+
+With the desktop app and the separate `@yunlefun/cms-cli` installed:
+
+```bash
+yunzhan app .
+yunzhan app /path/to/blog
+yunzhan doctor
+```
+
+This repository adds `valaxy app [path]` as an optional thin forwarder to the installed `yunzhan` command. It never loads project config or addon commands, and does not add Electron to Valaxy. The already published `1.0.0-rc.15` does not include this command; use a version containing this change. Until the CMS CLI is published, install the local tarball provided by the CMS repository instead of unrelated similarly named packages.
+
+Missing applications are not downloaded automatically. Opening permits static editing only; installation, preview and builds still require explicit desktop trust. Running tasks prevent project switching.
+
 ## Earlier prototypes
 
 [valaxy-admin](https://github.com/valaxyjs/valaxy-admin) is the retired Tauri prototype, retained for historical reference. The Electron prototype formerly developed in this repository is also superseded by the CMS desktop client. This consolidation does not imply that every prototype interaction has a direct replacement today.

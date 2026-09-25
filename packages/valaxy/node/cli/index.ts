@@ -12,6 +12,7 @@ import { llmsModule } from '../modules/llms'
 import { rssModule } from '../modules/rss'
 
 import { registerAddonCliExtensions, resolveAddonCliExtensions, shouldResolveAddonCli } from './addons'
+import { registerAppCommand } from './app'
 import { registerBuildCommand } from './build'
 import { registerCleanCommand } from './clean'
 import { registerContentCommands } from './content'
@@ -47,6 +48,7 @@ function createCoreCli(argv: string[]) {
     .alias('v', 'version')
 
   registerDevCommand(cli)
+  registerAppCommand(cli)
   registerBuildCommand(cli)
   registerNewCommand(cli)
   registerCleanCommand(cli)

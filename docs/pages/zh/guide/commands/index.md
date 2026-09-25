@@ -70,6 +70,10 @@ pnpm add -g valaxy
 
 ## 常用命令 {#useful-commands}
 
+### 桌面客户端
+
+`valaxy app [path]` 转交给独立安装的 `yunzhan app [path]`，不加载项目配置。此源码改动尚未包含在已发布的 `1.0.0-rc.15` 中。预览状态和本地安装方法见 [客户端](/zh/ecosystem/client)。
+
 
 
 - `valaxy .`: 启动 Valaxy，默认目录为当前目录（`.` 可不写）

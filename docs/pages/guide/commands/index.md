@@ -72,6 +72,10 @@ pnpm add -g valaxy
 
 ## Useful Commands
 
+### Desktop app
+
+`valaxy app [path]` forwards to the separately installed `yunzhan app [path]` without loading project configuration. This source change is not yet in published `1.0.0-rc.15`. See [Client](/ecosystem/client) for preview availability and local installation details.
+
 
 - `valaxy .`: Start Valaxy. The default directory is current directory. (`.` is optional)
 - `valaxy rss`: Generate RSS
