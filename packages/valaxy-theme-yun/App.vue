@@ -2,7 +2,7 @@
 import { useHead } from '@unhead/vue'
 import { TooltipProvider } from 'reka-ui'
 import { useAppStore } from 'valaxy'
-import { computed, onMounted, watch } from 'vue'
+import { computed, onBeforeUnmount, onMounted, watch } from 'vue'
 import { useRoute } from 'vue-router'
 import { useThemeConfig } from './composables'
 import { useYunAppStore } from './stores'
@@ -50,11 +50,17 @@ watch(
   { immediate: true },
 )
 
-onMounted(() => {
-  // for mobile vh
+function updateViewportHeight() {
   document.documentElement.style.setProperty('--vh', `${window.innerHeight * 0.01}px`)
+}
+
+onMounted(() => {
+  // The viewport can be zero when an iframe mounts inside a hidden panel.
+  updateViewportHeight()
+  window.addEventListener('resize', updateViewportHeight)
   app.showLoading = false
 })
+onBeforeUnmount(() => window.removeEventListener('resize', updateViewportHeight))
 </script>
 
 <template>
