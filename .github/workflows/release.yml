@@ -11,7 +11,7 @@ on:
   workflow_dispatch:
     inputs:
       addon:
-        description: 'Addon name (e.g. meting, waline)'
+        description: 'Addon name (e.g. meting, waline) or theme-yun'
         required: true
         type: string
 
@@ -92,14 +92,16 @@ jobs:
 
       - run: pnpm install --frozen-lockfile
 
-      - name: Resolve addon name
+      - name: Resolve package name
         id: addon
         env:
           ADDON_INPUT: ${{ inputs.addon }}
           COMMIT_MSG: ${{ github.event.head_commit.message }}
           EVENT_NAME: ${{ github.event_name }}
         run: |
-          if [[ "$EVENT_NAME" == "workflow_dispatch" ]]; then
+          if [[ "$EVENT_NAME" == "workflow_dispatch" && "$ADDON_INPUT" == "theme-yun" ]]; then
+            PACKAGE_DIR="packages/valaxy-theme-yun"
+          elif [[ "$EVENT_NAME" == "workflow_dispatch" ]]; then
             if [[ ! "$ADDON_INPUT" =~ ^[a-z0-9]+([a-z0-9-]*[a-z0-9])?$ ]]; then
               echo "::error::Invalid addon name: $ADDON_INPUT"
               exit 1
@@ -115,7 +117,9 @@ jobs:
               exit 1
             fi
           fi
-          PACKAGE_DIR="packages/valaxy-${ADDON_NAME}"
+          if [[ -z "${PACKAGE_DIR:-}" ]]; then
+            PACKAGE_DIR="packages/valaxy-${ADDON_NAME}"
+          fi
           if [[ ! -d "$PACKAGE_DIR" ]]; then
             echo "::error::Package directory ${PACKAGE_DIR} not found"
             exit 1
@@ -123,7 +127,7 @@ jobs:
           echo "dir=${PACKAGE_DIR}" >> "$GITHUB_OUTPUT"
           echo "📦 Publishing valaxy-${ADDON_NAME} from ${PACKAGE_DIR}"
 
-      - name: Publish addon to npm
+      - name: Publish package to npm
         working-directory: ${{ steps.addon.outputs.dir }}
         run: pnpm publish --access public --no-git-checks
         env:
