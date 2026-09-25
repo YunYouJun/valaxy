@@ -3,9 +3,13 @@ import { defineArticle, useSchemaOrg } from '@unhead/schema-org/vue'
 
 import dayjs from 'dayjs'
 import { useFrontmatter, useSiteConfig, useValaxyI18n } from 'valaxy'
+import { useI18n } from 'vue-i18n'
 import { useYunCollection } from '../composables/collection'
+import { useYunLocalMenu } from '../composables/localMenu'
 
 const { collection, currentIndex } = useYunCollection()
+const { menuOpen, toggleMenu } = useYunLocalMenu()
+const { t } = useI18n()
 const siteConfig = useSiteConfig()
 const frontmatter = useFrontmatter()
 
@@ -32,14 +36,22 @@ useSchemaOrg(
 </script>
 
 <template>
-  <YunLayoutWrapper outline-nav>
+  <YunLayoutWrapper
+    outline-nav
+    :local-menu="!!collection"
+    :local-menu-open="menuOpen"
+    :local-menu-label="t('theme.collectionMenu')"
+    local-menu-controls="yun-collection-menu"
+    local-menu-kind="collection"
+    @toggle-local-menu="toggleMenu"
+  >
     <YunLayoutLeft />
+    <YunCollectionMobile v-model:open="menuOpen" />
 
     <RouterView v-slot="{ Component }">
       <component :is="Component">
         <template #main-header-after>
           <YunMainHeaderAfter />
-          <YunCollectionMobile />
         </template>
 
         <template #main-content-after>

@@ -1,14 +1,27 @@
 <script setup lang="ts">
+import { useI18n } from 'vue-i18n'
 import { useYunCollection } from '../composables/collection'
+import { useYunLocalMenu } from '../composables/localMenu'
 
 const { collection, currentIndex: currentItemIndex } = useYunCollection()
+const { menuOpen, toggleMenu } = useYunLocalMenu()
+const { t } = useI18n()
 </script>
 
 <template>
-  <YunLayoutWrapper outline-nav>
+  <YunLayoutWrapper
+    outline-nav
+    :local-menu="!!collection"
+    :local-menu-open="menuOpen"
+    :local-menu-label="t('theme.collectionMenu')"
+    local-menu-controls="yun-collection-menu"
+    local-menu-kind="collection"
+    @toggle-local-menu="toggleMenu"
+  >
     <YunLayoutLeft>
       <YunCollectionSidebar />
     </YunLayoutLeft>
+    <YunCollectionMobile v-model:open="menuOpen" />
 
     <RouterView v-slot="{ Component }">
       <component :is="Component">
@@ -19,7 +32,6 @@ const { collection, currentIndex: currentItemIndex } = useYunCollection()
             :current-index="currentItemIndex"
           />
           <YunMainHeaderAfter v-if="currentItemIndex >= 0" />
-          <YunCollectionMobile />
         </template>
         <template #main-content-after>
           <YunMainContentAfter v-if="currentItemIndex >= 0" />

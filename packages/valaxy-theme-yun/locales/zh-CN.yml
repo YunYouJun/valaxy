@@ -4,6 +4,7 @@ theme:
   backToTop: 回到顶部
   switchCollection: 切换合集
   collectionContents: 合集目录
+  collectionMenu: 合集目录
   docsSidebar: 文档导航
   docsMenu: 文档
   closeMenu: 关闭菜单

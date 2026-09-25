@@ -13,6 +13,7 @@ const props = withDefaults(defineProps<{
   localMenuOpen?: boolean
   localMenuControls?: string
   localMenuLabel?: string
+  localMenuKind?: 'docs' | 'collection'
 }>(), {
   footer: true,
   noMargin: false,
@@ -20,6 +21,7 @@ const props = withDefaults(defineProps<{
   localMenu: false,
   localMenuOpen: false,
   localMenuControls: 'yun-docs-sidebar',
+  localMenuKind: 'docs',
 })
 
 const emit = defineEmits<{
@@ -51,6 +53,7 @@ const classes = computed(() => {
       :menu-open="localMenuOpen"
       :menu-controls="localMenuControls"
       :menu-label="localMenuLabel"
+      :menu-kind="localMenuKind"
       @toggle-outline="yun.rightSidebar.toggle()"
       @toggle-menu="emit('toggleLocalMenu')"
     />

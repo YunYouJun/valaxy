@@ -1,31 +1,19 @@
 <script setup lang="ts">
-import { computed, shallowRef, watch } from 'vue'
+import { computed } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { useRoute } from 'vue-router'
 import { useThemeConfig } from '../composables'
-import { useYunAppStore } from '../stores'
+import { useYunLocalMenu } from '../composables/localMenu'
 import { hasYunDocsSidebarNavigation, resolveYunDocsSidebar } from '../utils/sidebar'
 
 const route = useRoute()
 const { t } = useI18n()
 const themeConfig = useThemeConfig()
-const yun = useYunAppStore()
-const menuOpen = shallowRef(false)
+const { menuOpen, toggleMenu } = useYunLocalMenu()
 const hasMenu = computed(() => hasYunDocsSidebarNavigation(
   resolveYunDocsSidebar(themeConfig.value.sidebar, route.path),
   route.path,
 ))
-
-function toggleMenu() {
-  if (!menuOpen.value && yun.rightSidebar.isOpen)
-    yun.rightSidebar.toggle()
-  menuOpen.value = !menuOpen.value
-}
-
-watch(() => yun.rightSidebar.isOpen, (open) => {
-  if (open)
-    menuOpen.value = false
-})
 </script>
 
 <template>

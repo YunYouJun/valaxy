@@ -8,6 +8,7 @@ defineProps<{
   menuOpen?: boolean
   menuControls?: string
   menuLabel?: string
+  menuKind?: 'docs' | 'collection'
 }>()
 
 defineEmits<{
@@ -28,7 +29,8 @@ const { t } = useI18n()
       :aria-controls="menuControls"
       @click="$emit('toggleMenu')"
     >
-      <span i-ri-side-bar-line class="yun-local-nav-icon" aria-hidden="true" />
+      <span v-if="menuKind === 'collection'" i-ri-list-check class="yun-local-nav-icon" aria-hidden="true" />
+      <span v-else i-ri-side-bar-line class="yun-local-nav-icon" aria-hidden="true" />
       {{ menuLabel || t('menu.title') }}
     </button>
     <button

@@ -4,6 +4,7 @@ theme:
   backToTop: Back to top
   switchCollection: Switch collection
   collectionContents: Collection contents
+  collectionMenu: Collection
   docsSidebar: Documentation navigation
   docsMenu: Docs
   closeMenu: Close menu
