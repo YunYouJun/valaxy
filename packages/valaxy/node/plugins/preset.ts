@@ -1,6 +1,7 @@
 import type { InlineConfig, Plugin, PluginOption } from 'vite'
 
 import type { ValaxyNode, ValaxyServerOptions } from '../types'
+import { readFileSync, realpathSync, statSync } from 'node:fs'
 import VueI18n from '@intlify/unplugin-vue-i18n/vite'
 
 import { Unhead as UnheadVite } from '@unhead/bundler/vite'
@@ -163,6 +164,17 @@ export async function ViteValaxyPlugins(
         include: /\.(?:vue|md)$/,
         exclude: [],
         ...valaxyConfig.vue,
+        script: {
+          ...valaxyConfig.vue?.script,
+          // Imported prop types need filesystem access even when TypeScript
+          // does not expose ts.sys (e.g. TypeScript 7).
+          fs: valaxyConfig.vue?.script?.fs ?? {
+            // Directories must not resolve as files for imports like '../types'.
+            fileExists: file => statSync(file, { throwIfNoEntry: false })?.isFile() ?? false,
+            readFile: file => readFileSync(file, 'utf-8'),
+            realpath: realpathSync,
+          },
+        },
         template: {
           ...valaxyConfig.vue?.template,
           compilerOptions: {
