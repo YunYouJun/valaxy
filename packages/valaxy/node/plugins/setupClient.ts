@@ -4,11 +4,18 @@ import { existsSync } from 'node:fs'
 import { join, resolve } from 'node:path'
 import { slash, uniq } from '@antfu/utils'
 import { toAtFS } from '../utils'
+import { warnMermaidMigration } from '../utils/mermaidMigration'
 
 /**
  * setup client for defineAppSetup
  */
-export function createClientSetupPlugin({ clientRoot, themeRoot, userRoot }: ResolvedValaxyOptions): PluginOption {
+export function createClientSetupPlugin(options: ResolvedValaxyOptions): PluginOption {
+  const { clientRoot, themeRoot, userRoot } = options
+  if (!options.addons.some(addon => addon.name === 'valaxy-addon-mermaid' && addon.enable)) {
+    const legacySetup = [themeRoot, userRoot].map(root => join(root, 'setup/mermaid.ts')).find(existsSync)
+    if (legacySetup)
+      warnMermaidMigration(options, legacySetup)
+  }
   const setupEntry = slash(resolve(clientRoot, 'setup'))
 
   return {

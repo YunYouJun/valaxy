@@ -891,6 +891,9 @@ importers:
       valaxy-addon-lightgallery:
         specifier: workspace:*
         version: link:../../packages/valaxy-addon-lightgallery
+      valaxy-addon-mermaid:
+        specifier: workspace:*
+        version: link:../../packages/valaxy-addon-mermaid
       valaxy-addon-meting:
         specifier: workspace:*
         version: link:../../packages/valaxy-addon-meting
@@ -931,6 +934,9 @@ importers:
       valaxy-addon-git-log:
         specifier: 'catalog:'
         version: 0.7.0(supports-color@10.2.2)(valaxy@packages+valaxy)
+      valaxy-addon-mermaid:
+        specifier: workspace:*
+        version: link:../packages/valaxy-addon-mermaid
       valaxy-addon-meting:
         specifier: workspace:*
         version: link:../packages/valaxy-addon-meting
@@ -1261,9 +1267,6 @@ importers:
       medium-zoom:
         specifier: 'catalog:'
         version: 1.1.0
-      mermaid:
-        specifier: 'catalog:'
-        version: 12.0.0
       minisearch:
         specifier: 'catalog:'
         version: 7.2.0
@@ -1488,6 +1491,22 @@ importers:
       valaxy:
         specifier: workspace:*
         version: link:../valaxy
+
+  packages/valaxy-addon-mermaid:
+    dependencies:
+      js-base64:
+        specifier: 'catalog:'
+        version: 3.9.4
+      mermaid:
+        specifier: 'catalog:'
+        version: 12.0.0
+    devDependencies:
+      valaxy:
+        specifier: workspace:*
+        version: link:../valaxy
+      vue:
+        specifier: ^3.5.43
+        version: 3.5.43(typescript@5.9.3)
 
   packages/valaxy-addon-meting: {}
 
@@ -15368,7 +15387,7 @@ snapshots:
   mermaid@12.0.0:
     dependencies:
       '@braintree/sanitize-url': 7.1.2
-      '@iconify/utils': 3.1.4
+      '@iconify/utils': 3.1.7
       '@mermaid-js/parser': 2.0.0
       '@types/d3': 7.4.3
       '@upsetjs/venn.js': 2.0.0

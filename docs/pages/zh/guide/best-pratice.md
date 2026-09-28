@@ -73,12 +73,12 @@ Valaxy 使用 SSR 生成页面。如果第三方库会访问 `window`、`documen
 
 | 需求 | 推荐方式 |
 | --- | --- |
-| 已支持的 Markdown 语法，例如图表 | 优先使用内置能力，例如 [Mermaid](/zh/guide/markdown#mermaid) |
+| 已支持的 Markdown 语法，例如图表 | 使用相应的官方插件，例如 [Mermaid](/zh/addons/official/mermaid) |
 | 仅在一个博客使用的库或挂件 | 在 `components/` 中创建本地组件 |
 | 多个博客共用的通用组件 | 发布组件包，或贡献到 `valaxy-addon-components` |
 | 需要 Markdown 转换、构建钩子、共享配置或自动注册组件 | [编写插件](/zh/addons/write) |
 
-简单的思维导图可以直接使用内置的 [Mermaid 思维导图示例](/zh/examples/mermaid#mindmap)。使用 Markmap 时，建议先通过 `markmap-lib` 与 `markmap-view` 编写本地 `Markmap.vue` 组件，并仅在客户端初始化。当它还需要提供 `markmap` 代码围栏、统一的主题与工具栏配置、资源处理和 SSR 安全的生命周期时，再独立为 addon 才有明显收益。在此之前，addon 会增加安装和维护成本，却不能显著减少用户代码。
+安装 `valaxy-addon-mermaid` 后，可使用 [Mermaid 思维导图示例](/zh/examples/mermaid#mindmap)。使用 Markmap 时，建议先通过 `markmap-lib` 与 `markmap-view` 编写本地 `Markmap.vue` 组件，并仅在客户端初始化。当它还需要提供 `markmap` 代码围栏、统一的主题与工具栏配置、资源处理和 SSR 安全的生命周期时，再独立为 addon 才有明显收益。在此之前，addon 会增加安装和维护成本，却不能显著减少用户代码。
 
 ## 部署前验证 {#verify-before-deployment}
 

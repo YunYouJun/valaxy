@@ -1,0 +1,28 @@
+{
+  "name": "valaxy-addon-mermaid",
+  "type": "module",
+  "version": "0.1.0",
+  "description": "On-demand Mermaid diagrams and an accessible zoom viewer for Valaxy",
+  "license": "MIT",
+  "homepage": "https://github.com/YunYouJun/valaxy/tree/main/packages/valaxy-addon-mermaid",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/YunYouJun/valaxy.git",
+    "directory": "packages/valaxy-addon-mermaid"
+  },
+  "keywords": ["valaxy", "addon", "mermaid", "diagram"],
+  "main": "index.ts",
+  "files": ["README.md", "README.zh-CN.md", "client", "components", "index.ts", "node", "shared", "valaxy.config.ts"],
+  "peerDependencies": {
+    "valaxy": ">=1.0.0-rc.16",
+    "vue": "^3.5.0"
+  },
+  "dependencies": {
+    "js-base64": "catalog:",
+    "mermaid": "catalog:"
+  },
+  "devDependencies": {
+    "valaxy": "workspace:*",
+    "vue": "catalog:frontend"
+  }
+}

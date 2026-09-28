@@ -805,7 +805,22 @@ Can be created using `.foorc.json`.
 
 ## Mermaid
 
-Based on [mermaid](https://mermaid.js.org/), you can use it in your markdown file directly.
+Mermaid 已迁移到官方可选插件 `valaxy-addon-mermaid`。使用图表的站点需要安装并启用；不使用的站点无需安装。原有 Markdown 代码块保持不变。 [Mermaid addon](/zh/addons/official/mermaid)
+
+```bash
+pnpm add valaxy-addon-mermaid
+```
+
+```ts
+// valaxy.config.ts
+import { defineValaxyConfig } from 'valaxy'
+import { addonMermaid } from 'valaxy-addon-mermaid'
+
+export default defineValaxyConfig({
+  addons: [addonMermaid()],
+})
+```
+
 
 ```mermaid
 graph TD;
@@ -866,7 +881,7 @@ Bob --> Alice: Hi!
 ::: tip
 默认使用 [PlantUML 官方服务器](https://www.plantuml.com/plantuml)，你可以将 `PLANTUML_SERVER` 替换为自己的服务器地址。
 
-大多数场景下，推荐使用 [Mermaid](#mermaid)，它开箱即用，无需任何外部依赖。
+大多数场景下，可使用 [Mermaid](#mermaid)：安装并启用官方插件后，在浏览器本地渲染图表，无需外部服务。
 :::
 
 ## 脚注

@@ -73,12 +73,12 @@ Valaxy generates pages with SSR. If a library accesses `window`, `document`, or 
 
 | Need | Recommended integration |
 | --- | --- |
-| A supported Markdown syntax such as diagrams | Use the built-in feature first, such as [Mermaid](/guide/markdown#mermaid) |
+| A supported Markdown syntax such as diagrams | Use the official addon, such as [Mermaid](/addons/official/mermaid) |
 | A library or widget used by one blog | Create a local component in `components/` |
 | A reusable component shared by several blogs | Publish a component package or contribute it to `valaxy-addon-components` |
 | Markdown transforms, build hooks, shared configuration, or automatic component registration | [Write an addon](/addons/write) |
 
-For a simple mind map, use the built-in [Mermaid mindmap example](/examples/mermaid#mindmap). Start a Markmap integration as a local `Markmap.vue` component using `markmap-lib` and `markmap-view`, initialized on the client. A dedicated addon becomes worthwhile when it also provides a fenced `markmap` Markdown syntax, shared theme and toolbar options, asset handling, and an SSR-safe lifecycle. Until then, an addon adds installation and maintenance cost without reducing much user code.
+For a simple mind map, install `valaxy-addon-mermaid` and use the [Mermaid mindmap example](/examples/mermaid#mindmap). Start a Markmap integration as a local `Markmap.vue` component using `markmap-lib` and `markmap-view`, initialized on the client. A dedicated addon becomes worthwhile when it also provides a fenced `markmap` Markdown syntax, shared theme and toolbar options, asset handling, and an SSR-safe lifecycle. Until then, an addon adds installation and maintenance cost without reducing much user code.
 
 ## Verify Before Deployment
 

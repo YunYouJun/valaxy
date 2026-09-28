@@ -12,7 +12,6 @@ import { cacheMarkdownRender } from '../renderCache'
 import { defaultCodeTheme, setupMarkdownPageMetadata, setupMarkdownPlugins } from '../setup'
 import { createTransformIncludes } from './include'
 import { matterOptions } from './matter'
-import { transformMermaid } from './mermaid'
 import { sanitizeCommentedSfcBlocks } from './sanitize-comment'
 
 export type { MarkdownRenderer } from '../renderer'
@@ -118,7 +117,6 @@ export async function createMarkdownPlugin(
     transforms: {
       before(code, id) {
         // features
-        code = transformMermaid(code)
         code = transformIncludes(code, id)
         // PlantUML is not built-in (requires external server).
         // See https://valaxy.site/guide/markdown#plantuml

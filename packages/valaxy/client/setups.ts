@@ -1,7 +1,6 @@
 import type { Awaitable } from '@antfu/utils'
 import type { App } from 'vue'
 import type { Router, RouteRecordRaw } from 'vue-router'
-import type { MermaidOptions } from './types'
 
 /**
  * @en
@@ -35,9 +34,6 @@ export type AppContext = ValaxySSGContext
 
 export type AppSetup = (ctx: AppContext) => Awaitable<void>
 
-// client
-export type MermaidSetup = () => Partial<MermaidOptions> | void
-
 /**
  * @en
  * Define the setup function for the client application.
@@ -49,6 +45,7 @@ export function defineAppSetup(fn: AppSetup) {
   return fn
 }
 
-export function defineMermaidSetup(fn: MermaidSetup) {
+/** @deprecated Import defineMermaidSetup from valaxy-addon-mermaid instead. */
+export function defineMermaidSetup<T extends object>(fn: () => T | void) {
   return fn
 }

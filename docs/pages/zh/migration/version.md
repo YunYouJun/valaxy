@@ -9,6 +9,28 @@ top: 8
 
 v1.0.0 是首个稳定版本，包含若干破坏性变更，主要是移除长期已弃用的选项。大多数博客无需改动；若你使用过下列功能，请对照检查。
 
+### Mermaid → `valaxy-addon-mermaid`
+
+从 Valaxy **1.0.0-rc.16** 起，Mermaid 已迁移到官方可选插件 `valaxy-addon-mermaid`。使用图表的站点需要安装并启用；不使用的站点无需安装。原有 Markdown 代码块保持不变。
+
+```bash
+pnpm add valaxy@latest valaxy-addon-mermaid
+```
+
+```ts
+// valaxy.config.ts
+import { defineValaxyConfig } from 'valaxy'
+import { addonMermaid } from 'valaxy-addon-mermaid'
+
+export default defineValaxyConfig({
+  addons: [addonMermaid()],
+})
+```
+
+未启用时，Valaxy 检测到实际 Mermaid 代码块或旧 `setup/mermaid.ts` 会提示安装和配置方法，并保留源码显示。旧 setup 文件可继续使用，建议将 `defineMermaidSetup`、`MermaidOptions` 和 `MermaidSetup` 改从 addon 导入。
+
+[Mermaid addon](/zh/addons/official/mermaid)
+
 ### Node.js：最低版本升至 `>=22.12.0` {#nodejs-version}
 
 Valaxy 现在要求 Node.js `>=22.12.0`（此前为 `^18 || >=20`）。这是由 `unplugin-vue-markdown@32`（要求 Node `>=22`）与 Vite 8（`^20.19.0 || >=22.12.0`）共同决定的——在 Node 22 分支上最低需要 `22.12.0`。**不再支持 Node 18 与 20。** 更新前请先升级本地、CI 与部署环境的 Node 版本（见 [#710](https://github.com/YunYouJun/valaxy/pull/710)）。
