@@ -57,6 +57,7 @@ for (const colorScheme of ['light', 'dark'] as const) {
       await page.goto('/examples/mermaid')
       const diagram = page.locator('.diagram-card').first()
       await expect(diagram).toHaveAttribute('aria-busy', 'false')
+      await expect(page.locator('meta[name="viewport"]')).toHaveAttribute('content', 'width=device-width, initial-scale=1')
       if (colorScheme === 'dark')
         await expect(diagram).toHaveClass(/diagram-dark/)
       else
