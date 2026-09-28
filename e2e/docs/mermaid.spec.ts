@@ -15,9 +15,11 @@ for (const route of ['/examples/mermaid', '/zh/examples/mermaid']) {
     await expect(page.locator('vite-error-overlay')).toHaveCount(0)
 
     const expand = diagram.locator('.diagram-expand')
+    await expect(expand).toHaveText(route.startsWith('/zh/') ? '放大查看' : 'Expand diagram')
     await expand.click()
     const dialog = diagram.locator('dialog')
     await expect(dialog).toBeVisible()
+    await expect(dialog).toHaveAccessibleName(route.startsWith('/zh/') ? '图表预览' : 'Diagram preview')
     // Opening moves the original SVG; it must not duplicate IDs or lose links.
     await expect(diagram.locator('.diagram-preview .diagram-svg')).toHaveCount(0)
     await expect(dialog.locator('.diagram-svg svg')).toBeVisible()
