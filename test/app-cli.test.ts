@@ -26,7 +26,7 @@ describe('optional desktop CLI forwarding', () => {
     await openDesktopApp()
     expect(spawn).toHaveBeenLastCalledWith('yunzhan', ['app', process.cwd()], { stdio: 'inherit' })
     await openDesktopApp('./中文 博客', '/Applications/云栈.app')
-    expect(spawn).toHaveBeenLastCalledWith('yunzhan', ['app', resolve('./中文 博客'), '--app', '/Applications/云栈.app'], { stdio: 'inherit' })
+    expect(spawn).toHaveBeenLastCalledWith('yunzhan', ['app', resolve('./中文 博客'), '--app', resolve('/Applications/云栈.app')], { stdio: 'inherit' })
   })
 
   it('reports missing CLI and nonzero child exit without auto-installing', async () => {
