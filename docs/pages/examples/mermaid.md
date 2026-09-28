@@ -4,6 +4,9 @@ title: Mermaid
 
 - [Mermaid](https://mermaid.js.org/) - Diagramming and charting tool
 
+
+Mermaid has moved to the optional official `valaxy-addon-mermaid` package. Install and enable it only if your site uses diagrams. Existing Markdown fences remain unchanged. [Mermaid addon](/addons/official/mermaid)
+
 ## Flowchart
 
 ```mermaid
@@ -26,7 +29,7 @@ graph TD;
 
 ## Mindmap
 
-For a lightweight mind map, Mermaid already works without an additional Valaxy addon. Use Markmap instead when you specifically need to turn a longer Markdown outline into an interactive, collapsible map.
+For a lightweight mind map, enable `valaxy-addon-mermaid` and use Mermaid directly. Use Markmap instead when you specifically need to turn a longer Markdown outline into an interactive, collapsible map.
 
 ```mermaid
 mindmap

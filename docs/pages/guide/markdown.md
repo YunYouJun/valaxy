@@ -681,7 +681,22 @@ Freedom to control your layout!
 
 ## Mermaid
 
-Based on [mermaid](https://mermaid.js.org/), you can use it in your markdown file directly.
+Mermaid has moved to the optional official `valaxy-addon-mermaid` package. Install and enable it only if your site uses diagrams. Existing Markdown fences remain unchanged. [Mermaid addon](/addons/official/mermaid)
+
+```bash
+pnpm add valaxy-addon-mermaid
+```
+
+```ts
+// valaxy.config.ts
+import { defineValaxyConfig } from 'valaxy'
+import { addonMermaid } from 'valaxy-addon-mermaid'
+
+export default defineValaxyConfig({
+  addons: [addonMermaid()],
+})
+```
+
 
 ```mermaid
 graph TD;
@@ -742,7 +757,7 @@ Bob --> Alice: Hi!
 ::: tip
 This uses the [official PlantUML server](https://www.plantuml.com/plantuml) by default. You can replace `PLANTUML_SERVER` with your own server address.
 
-For most use cases, [Mermaid](#mermaid) is recommended as it works out of the box without any external dependencies.
+For most use cases, [Mermaid](#mermaid) renders diagrams locally in the browser after enabling the official addon, without an external rendering server.
 :::
 
 ## Footnote

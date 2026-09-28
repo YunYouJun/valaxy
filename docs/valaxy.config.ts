@@ -5,6 +5,7 @@ import { addonAlgolia } from 'valaxy-addon-algolia'
 import { addonComponents } from 'valaxy-addon-components'
 import { addonGirls } from 'valaxy-addon-girls'
 import { addonGitLog } from 'valaxy-addon-git-log'
+import { addonMermaid } from 'valaxy-addon-mermaid'
 import { addonMeting } from 'valaxy-addon-meting'
 import { addonTypeDoc } from 'valaxy-addon-typedoc'
 
@@ -345,6 +346,7 @@ export default defineValaxyConfig<PressTheme.Config>({
       indexName: 'valaxysite',
     }),
     addonComponents(),
+    addonMermaid(),
     addonGirls(),
     addonMeting({
       global: false,

@@ -11,6 +11,28 @@ top: 8
 
 v1.0.0 is the first stable release. It contains several breaking changes, mostly removals of long-deprecated options. Most blogs need no changes; review the items below if you used these features.
 
+### Mermaid → `valaxy-addon-mermaid`
+
+Starting with Valaxy **1.0.0-rc.16**, Mermaid has moved to the optional official `valaxy-addon-mermaid` package. Install and enable it only if your site uses diagrams. Existing Markdown fences remain unchanged.
+
+```bash
+pnpm add valaxy@latest valaxy-addon-mermaid
+```
+
+```ts
+// valaxy.config.ts
+import { defineValaxyConfig } from 'valaxy'
+import { addonMermaid } from 'valaxy-addon-mermaid'
+
+export default defineValaxyConfig({
+  addons: [addonMermaid()],
+})
+```
+
+Without the addon, actual Mermaid fences or legacy `setup/mermaid.ts` trigger an actionable migration notice. Fences stay readable as source. Existing setup files continue to work after enabling the addon; import `defineMermaidSetup`, `MermaidOptions`, and `MermaidSetup` from the addon.
+
+[Mermaid addon](/addons/official/mermaid)
+
 ### Node.js: minimum version is now `>=22.12.0`
 
 Valaxy now requires Node.js `>=22.12.0` (previously `^18 || >=20`). This comes from `unplugin-vue-markdown@32` (which requires Node `>=22`) combined with Vite 8 (`^20.19.0 || >=22.12.0`) — on the Node 22 line the minimum is `22.12.0`. **Node 18 and 20 are no longer supported.** Upgrade your local, CI, and deploy environments before updating (see [#710](https://github.com/YunYouJun/valaxy/pull/710)).

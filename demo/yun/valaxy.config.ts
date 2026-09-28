@@ -7,6 +7,7 @@ import { addonBangumi } from 'valaxy-addon-bangumi'
 import { addonComponents } from 'valaxy-addon-components'
 import { addonGirls } from 'valaxy-addon-girls'
 import { addonLightGallery } from 'valaxy-addon-lightgallery'
+import { addonMermaid } from 'valaxy-addon-mermaid'
 import { addonMoments } from 'valaxy-addon-moments'
 import { addonTest } from 'valaxy-addon-test'
 
@@ -95,6 +96,7 @@ export default defineValaxyConfig<ThemeConfig>({
       customCss: '.bbc-bangumi-title a { color: red; }',
     }),
     addonComponents(),
+    addonMermaid(),
     addonGirls(),
     addonMoments({
       title: '小随想',

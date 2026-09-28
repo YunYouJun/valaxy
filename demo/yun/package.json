@@ -33,6 +33,7 @@
     "valaxy-addon-components": "workspace:*",
     "valaxy-addon-girls": "workspace:*",
     "valaxy-addon-lightgallery": "workspace:*",
+    "valaxy-addon-mermaid": "workspace:*",
     "valaxy-addon-meting": "workspace:*",
     "valaxy-addon-twikoo": "workspace:*",
     "valaxy-addon-waline": "workspace:*",

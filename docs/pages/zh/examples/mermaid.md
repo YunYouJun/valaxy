@@ -4,6 +4,9 @@ title: Mermaid
 
 - [Mermaid](https://mermaid.js.org/) - Diagramming and charting tool
 
+
+Mermaid 已迁移到官方可选插件 `valaxy-addon-mermaid`。使用图表的站点需要安装并启用；不使用的站点无需安装。原有 Markdown 代码块保持不变。 [Mermaid addon](/zh/addons/official/mermaid)
+
 ## Flowchart {#flowchart}
 
 ```mermaid
@@ -26,7 +29,7 @@ graph TD;
 
 ## 思维导图 {#mindmap}
 
-轻量的思维导图可以直接使用 Mermaid，不需要额外安装 Valaxy addon。如果需要将较长的 Markdown 大纲转换为可交互、可折叠的地图，再考虑 Markmap。
+安装并启用 `valaxy-addon-mermaid` 后，轻量的思维导图可以直接使用 Mermaid。如果需要将较长的 Markdown 大纲转换为可交互、可折叠的地图，再考虑 Markmap。
 
 ```mermaid
 mindmap

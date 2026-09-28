@@ -106,6 +106,19 @@ export const addons = [
     tags: ['image'],
   },
   {
+    name: 'valaxy-addon-mermaid',
+    author: 'YunYouJun',
+    icon: 'i-ri-node-tree',
+    repo: 'https://github.com/YunYouJun/valaxy/tree/main/packages/valaxy-addon-mermaid',
+    kind: 'official',
+    docsPath: '/addons/official/mermaid',
+    description: {
+      'en': 'On-demand Mermaid diagrams with theme support and a zoom viewer.',
+      'zh-CN': '按需安装 Mermaid 图表，支持主题适配与放大查看。',
+    },
+    tags: ['diagram', 'mermaid'],
+  },
+  {
     name: 'valaxy-addon-meting',
     author: ['YunYouJun', 'yixiaojiu'],
     icon: 'i-ri-disc-line',
