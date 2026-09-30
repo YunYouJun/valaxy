@@ -328,7 +328,6 @@ export function createAddonManager(options: ValaxyDevtoolsOptions, dependencies:
         operation.status = 'succeeded'
       }
       catch (error) {
-        operation.status = 'failed'
         operation.error = error instanceof Error ? error.message : String(error)
         if (configChanged && operation.configFile) {
           try {
@@ -346,6 +345,8 @@ export function createAddonManager(options: ValaxyDevtoolsOptions, dependencies:
             log(`\n${String(rollbackError)}\n`)
           }
         }
+        // A terminal status must include the result of configuration rollback.
+        operation.status = 'failed'
       }
       finally {
         busyWorkspaces.delete(current.workspace)
