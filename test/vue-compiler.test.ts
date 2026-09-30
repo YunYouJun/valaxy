@@ -2,6 +2,7 @@ import type { Options } from '@vitejs/plugin-vue'
 import { readFileSync } from 'node:fs'
 import { createRequire } from 'node:module'
 import { fileURLToPath, pathToFileURL } from 'node:url'
+import { normalize } from 'pathe'
 import { beforeAll, describe, expect, it, vi } from 'vitest'
 import { createValaxyNode, resolveOptions, ViteValaxyPlugins } from '../packages/valaxy/node'
 import { fixtureFolder } from './shared'
@@ -30,7 +31,8 @@ describe('vue imported prop types', () => {
   })
 
   it.each(['App.vue', 'components/MetingJs.vue'])('compiles Meting %s without ts.sys', (entry) => {
-    const filename = fileURLToPath(new URL(`../packages/valaxy-addon-meting/${entry}`, import.meta.url))
+    // The browser compiler uses POSIX paths, just like Vite's normalized IDs.
+    const filename = normalize(fileURLToPath(new URL(`../packages/valaxy-addon-meting/${entry}`, import.meta.url)))
     const { descriptor } = compiler.parse(readFileSync(filename, 'utf8'), { filename })
     const result = compiler.compileScript(descriptor, { ...vueOptions.script, id: entry })
 
