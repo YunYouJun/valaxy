@@ -5,6 +5,7 @@ import fs from 'fs-extra'
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 import { removeAddonFromConfig } from '../../packages/devtools/src/node/addons/config'
 import { createAddonManager, fetchAddonPackage } from '../../packages/devtools/src/node/addons/manager'
+import * as pageWrite from '../../packages/devtools/src/node/utils/page-write'
 
 let root: string
 const name = 'valaxy-addon-waline'
@@ -169,6 +170,54 @@ describe('addon inventory and package operations', () => {
     await concurrent.apply((await concurrent.prepare('remove', name)).id)
     expect((await settle(concurrent)).log).toContain('edited externally')
     expect(await readFile(join(root, 'valaxy.config.ts'), 'utf8')).toBe(edited)
+  })
+
+  it('keeps the operation running until failed configuration rollback finishes', async () => {
+    await addInstalled()
+    await writeFile(join(root, 'valaxy.config.ts'), config)
+    let startRollback!: () => void
+    let releaseRollback!: () => void
+    let finishRollback!: () => void
+    const started = new Promise<void>((resolve) => {
+      startRollback = resolve
+    })
+    const released = new Promise<void>((resolve) => {
+      releaseRollback = resolve
+    })
+    const finished = new Promise<void>((resolve) => {
+      finishRollback = resolve
+    })
+    const updatePageFile = pageWrite.updatePageFile
+    let writes = 0
+    const write = vi.spyOn(pageWrite, 'updatePageFile').mockImplementation(async <T>(file: string, update: (raw: string) => { content: string, result: T }) => {
+      if (++writes !== 2)
+        return updatePageFile(file, update)
+      startRollback()
+      await released
+      try {
+        return await updatePageFile(file, update)
+      }
+      finally {
+        finishRollback()
+      }
+    })
+    const manager = createManager(vi.fn(async () => {
+      throw new Error('Network unavailable')
+    }))
+    try {
+      await manager.apply((await manager.prepare('remove', name)).id)
+      await started
+      expect((await manager.inventory()).operation?.status).toBe('running')
+      await expect(manager.prepare('install', 'valaxy-addon-meting')).rejects.toThrow(/already running/)
+    }
+    finally {
+      releaseRollback()
+      await finished
+      await settle(manager)
+      write.mockRestore()
+    }
+    expect((await manager.inventory()).operation?.status).toBe('failed')
+    expect(await readFile(join(root, 'valaxy.config.ts'), 'utf8')).toBe(config)
   })
 
   it('keeps only a bounded log and serializes operations in one workspace', async () => {
