@@ -11,7 +11,7 @@ on:
   workflow_dispatch:
     inputs:
       addon:
-        description: 'Addon name (e.g. meting, waline) or theme-yun'
+        description: Addon name or theme-yun; for meting use Release Addon
         required: true
         type: string
 
@@ -90,8 +90,6 @@ jobs:
           registry-url: https://registry.npmjs.org/
           package-manager-cache: false
 
-      - run: pnpm install --frozen-lockfile
-
       - name: Resolve package name
         id: addon
         env:
@@ -124,8 +122,14 @@ jobs:
             echo "::error::Package directory ${PACKAGE_DIR} not found"
             exit 1
           fi
+          if [[ "$PACKAGE_DIR" == "packages/valaxy-addon-meting" ]]; then
+            echo "::error::Meting must use the Release Addon workflow (release-addon.yml)."
+            exit 1
+          fi
           echo "dir=${PACKAGE_DIR}" >> "$GITHUB_OUTPUT"
           echo "📦 Publishing valaxy-${ADDON_NAME} from ${PACKAGE_DIR}"
+
+      - run: pnpm install --frozen-lockfile
 
       - name: Publish package to npm
         working-directory: ${{ steps.addon.outputs.dir }}

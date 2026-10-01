@@ -1,3 +1,4 @@
+import { spawnSync } from 'node:child_process'
 import { readdirSync, readFileSync } from 'node:fs'
 import { load } from 'js-yaml'
 import { describe, expect, it } from 'vitest'
@@ -59,5 +60,33 @@ describe('npm release workflows', () => {
       'working-directory': expect.stringMatching(addonDirectory),
       'run': 'pnpm publish --access public --no-git-checks',
     }))
+  })
+
+  it('validates addon inputs before installing dependencies', () => {
+    const steps = release.jobs['release-addon'].steps
+    const resolverIndex = steps.findIndex(step => step.id === 'addon')
+    expect(resolverIndex).toBeGreaterThanOrEqual(0)
+    expect(steps.findIndex(step => step.run === 'pnpm install --frozen-lockfile')).toBeGreaterThan(resolverIndex)
+  })
+
+  it.skipIf(process.platform === 'win32').each([
+    ['workflow_dispatch', 'meting', ''],
+    ['push', '', 'release(addon-meting): publish'],
+  ])('rejects Meting in release.yml for %s', (event, addon, commit) => {
+    const run = release.jobs['release-addon'].steps.find(step => step.id === 'addon')!.run!
+    const result = spawnSync('bash', ['-e', '-c', run], {
+      cwd: new URL('../', import.meta.url),
+      encoding: 'utf8',
+      env: {
+        ...process.env,
+        EVENT_NAME: event,
+        ADDON_INPUT: addon,
+        COMMIT_MSG: commit,
+        GITHUB_OUTPUT: '/dev/null',
+      },
+    })
+    expect(result.error).toBeUndefined()
+    expect(result.status).toBe(1)
+    expect(result.stdout).toContain('::error::Meting must use the Release Addon workflow (release-addon.yml).')
   })
 })
