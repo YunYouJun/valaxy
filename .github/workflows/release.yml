@@ -1,6 +1,4 @@
 name: Release
-run-name: >-
-  ${{ github.event_name == 'workflow_dispatch' && format('Publish {0} via release.yml', inputs.addon) || format('Release {0}', github.ref_name) }}
 
 on:
   push:
@@ -13,7 +11,7 @@ on:
   workflow_dispatch:
     inputs:
       addon:
-        description: theme-yun or addon trusted for release.yml; meting uses Release Addon
+        description: Addon name or theme-yun; for meting use Release Addon
         required: true
         type: string
 
@@ -125,25 +123,16 @@ jobs:
             exit 1
           fi
           if [[ "$PACKAGE_DIR" == "packages/valaxy-addon-meting" ]]; then
-            echo "::error::Meting uses release-addon.yml. Select Release Addon with addon=meting, or run: gh workflow run release-addon.yml --ref main -f addon=meting"
+            echo "::error::Meting must use the Release Addon workflow (release-addon.yml)."
             exit 1
           fi
           echo "dir=${PACKAGE_DIR}" >> "$GITHUB_OUTPUT"
-          echo "📦 Publishing from ${PACKAGE_DIR} via release.yml (environment: npm)"
+          echo "📦 Publishing valaxy-${ADDON_NAME} from ${PACKAGE_DIR}"
 
       - run: pnpm install --frozen-lockfile
 
       - name: Publish package to npm
         working-directory: ${{ steps.addon.outputs.dir }}
-        run: |
-          PACKAGE_LABEL=$(node -p "const p = require('./package.json'); p.name + '@' + p.version")
-          if pnpm publish --access public --no-git-checks; then
-            echo "Published ${PACKAGE_LABEL} via release.yml (environment: npm)." >> "$GITHUB_STEP_SUMMARY"
-          else
-            PUBLISH_STATUS=$?
-            echo "::error::Failed to publish ${PACKAGE_LABEL}. For OIDC authentication errors, check npm's trusted publisher for YunYouJun/valaxy, workflow release.yml, environment npm. Meting uses Release Addon instead."
-            echo "Failed to publish ${PACKAGE_LABEL} via release.yml (environment: npm). See the publish log above for the cause." >> "$GITHUB_STEP_SUMMARY"
-            exit "$PUBLISH_STATUS"
-          fi
+        run: pnpm publish --access public --no-git-checks
         env:
           PNPM_CONFIG_BAIL: 'false'
