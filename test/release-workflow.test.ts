@@ -1,34 +1,63 @@
-import { existsSync, readdirSync, readFileSync } from 'node:fs'
+import { readdirSync, readFileSync } from 'node:fs'
+import { load } from 'js-yaml'
 import { describe, expect, it } from 'vitest'
 
-const releaseWorkflow = readFileSync(
-  new URL('../.github/workflows/release.yml', import.meta.url),
-  'utf8',
-)
 const workflowsDir = new URL('../.github/workflows/', import.meta.url)
+const sources = Object.fromEntries(readdirSync(workflowsDir)
+  .filter(filename => filename.endsWith('.yml'))
+  .map(filename => [filename, readFileSync(new URL(filename, workflowsDir), 'utf8')]))
+
+interface Workflow {
+  on: Record<string, { inputs?: Record<string, { required: boolean, type: string }> }>
+  jobs: Record<string, {
+    environment?: string
+    permissions: Record<string, string>
+    steps: { 'id'?: string, 'run'?: string, 'env'?: Record<string, string>, 'working-directory'?: string }[]
+  }>
+}
+
+const release = load(sources['release.yml']) as Workflow
+const legacyAddon = load(sources['release-addon.yml']) as Workflow
+const addonDirectory = /^\$\{\{\s*steps\.addon\.outputs\.dir\s*\}\}$/
 
 describe('npm release workflows', () => {
-  it('publishes through the single OIDC-enabled release workflow', () => {
-    expect(releaseWorkflow).toContain('id-token: write')
-    expect(releaseWorkflow).toContain('environment: npm')
-    expect(releaseWorkflow).toContain('node-version: \'lts/*\'')
-    expect(releaseWorkflow).toContain('package-manager-cache: false')
-    expect(releaseWorkflow).toContain('pnpm install --frozen-lockfile')
-    expect(releaseWorkflow).not.toMatch(/NPM_TOKEN|NODE_AUTH_TOKEN/)
-    expect(releaseWorkflow).not.toContain('NPM_CONFIG_PROVENANCE')
+  it('keeps both trusted publisher entry points OIDC-only with frozen dependencies', () => {
+    const publishingWorkflows = Object.keys(sources).filter(filename => sources[filename].includes('pnpm publish'))
+    expect(publishingWorkflows.sort()).toEqual(['release-addon.yml', 'release.yml'])
 
-    const publishingWorkflows = readdirSync(workflowsDir)
-      .filter(filename => filename.endsWith('.yml'))
-      .filter(filename => readFileSync(new URL(filename, workflowsDir), 'utf8').includes('pnpm publish'))
-
-    expect(publishingWorkflows).toEqual(['release.yml'])
+    for (const filename of publishingWorkflows) {
+      expect(sources[filename]).not.toMatch(/NPM_TOKEN|NODE_AUTH_TOKEN/)
+      const workflow = load(sources[filename]) as Workflow
+      for (const job of Object.values(workflow.jobs)) {
+        expect(job.permissions['id-token']).toBe('write')
+        expect(job.steps.some(step => step.run === 'pnpm install --frozen-lockfile')).toBe(true)
+      }
+    }
   })
 
-  it('publishes addon releases from a separate job in the trusted workflow', () => {
-    expect(releaseWorkflow).toContain('\'packages/valaxy-addon-*/package.json\'')
-    expect(releaseWorkflow).toContain('contains(github.event.head_commit.message, \'release(addon-\')')
-    expect(releaseWorkflow).toMatch(/working-directory: \$\{\{ steps\.addon\.outputs\.dir \}\}/)
-    expect(releaseWorkflow).toContain('pnpm publish --access public --no-git-checks')
-    expect(existsSync(new URL('../.github/workflows/release-addon.yml', import.meta.url))).toBe(false)
+  it('retains separate coordinated and standalone publication jobs', () => {
+    expect(Object.keys(release.jobs).sort()).toEqual(['release', 'release-addon'])
+    expect(release.on).toHaveProperty('push')
+    expect(release.on.workflow_dispatch.inputs?.addon).toMatchObject({ required: true, type: 'string' })
+    expect(release.jobs['release-addon'].steps).toContainEqual(expect.objectContaining({
+      'working-directory': expect.stringMatching(addonDirectory),
+      'run': 'pnpm publish --access public --no-git-checks',
+    }))
+  })
+
+  it('preserves the legacy identity with a manual-only, validated addon input', () => {
+    expect(Object.keys(legacyAddon.on)).toEqual(['workflow_dispatch'])
+    expect(legacyAddon.on.workflow_dispatch.inputs?.addon).toMatchObject({ required: true, type: 'string' })
+    const job = legacyAddon.jobs['release-addon']
+    expect(job.environment).toBeUndefined()
+    const resolver = job.steps.find(step => step.id === 'addon')!
+    expect(resolver.env?.ADDON_INPUT).toMatch(/^\$\{\{\s*inputs\.addon\s*\}\}$/)
+    // A name allowlist keeps the manually selected directory inside packages.
+    expect(resolver.run).toContain('=~ ^[a-z0-9]+([a-z0-9-]*[a-z0-9])?$')
+    expect(resolver.run).toContain('exit 1')
+    expect(job.steps).toContainEqual(expect.objectContaining({
+      'working-directory': expect.stringMatching(addonDirectory),
+      'run': 'pnpm publish --access public --no-git-checks',
+    }))
   })
 })

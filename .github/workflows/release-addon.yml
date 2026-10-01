@@ -1,0 +1,51 @@
+# Keep this path for packages whose npm trusted publisher names release-addon.yml.
+name: Release Addon
+
+on:
+  workflow_dispatch:
+    inputs:
+      addon:
+        description: 'Addon name (e.g. meting, waline)'
+        required: true
+        type: string
+
+permissions: {}
+
+jobs:
+  release-addon:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      id-token: write
+    steps:
+      - uses: actions/checkout@v7
+
+      - uses: pnpm/action-setup@v6
+
+      - uses: actions/setup-node@v7
+        with:
+          node-version: 'lts/*'
+          registry-url: https://registry.npmjs.org/
+          package-manager-cache: false
+
+      - run: pnpm install --frozen-lockfile
+
+      - name: Resolve addon name
+        id: addon
+        env:
+          ADDON_INPUT: ${{ inputs.addon }}
+        run: |
+          if [[ ! "$ADDON_INPUT" =~ ^[a-z0-9]+([a-z0-9-]*[a-z0-9])?$ ]]; then
+            echo "::error::Invalid addon name: $ADDON_INPUT"
+            exit 1
+          fi
+          PACKAGE_DIR="packages/valaxy-addon-$ADDON_INPUT"
+          if [[ ! -d "$PACKAGE_DIR" ]]; then
+            echo "::error::Package directory ${PACKAGE_DIR} not found"
+            exit 1
+          fi
+          echo "dir=${PACKAGE_DIR}" >> "$GITHUB_OUTPUT"
+
+      - name: Publish addon to npm
+        working-directory: ${{ steps.addon.outputs.dir }}
+        run: pnpm publish --access public --no-git-checks
