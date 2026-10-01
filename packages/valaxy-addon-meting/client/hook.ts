@@ -15,23 +15,27 @@ export function onMetingInit({ options }: MetingOptions) {
   })
 }
 
-export function onMetingLoadBefore({ options }: MetingOptions) {
+export function onMetingLoadBefore({ options }: MetingOptions, body?: HTMLElement) {
   handleOptions(options, {
-    animationIn: () => animationIn(Hook.metingLoadBefore),
+    animationIn: () => animationIn(Hook.metingLoadBefore, body),
   })
 }
 
-export function onMetingLoad({ options }: MetingOptions) {
-  let stopEventListeners: (() => void) | undefined
+export function onMetingLoad({ options }: MetingOptions, body?: HTMLElement) {
+  const cleanups: (() => void)[] = []
   handleOptions(options, {
-    lyricHidden: () => setupHiddenLyricHidingObserver(),
+    lyricHidden: () => {
+      cleanups.push(setupHiddenLyricHidingObserver(body?.closest<HTMLElement>('.aplayer') ?? document.body))
+    },
     animationIn: () => {
-      animationIn(Hook.metingLoad)
+      animationIn(Hook.metingLoad, body)
     },
     autoHidden: () => {
-      stopEventListeners = useAPlayerMiniSwitcherEventListener()
-      autoHidden(Hook.metingLoad)
+      const stopEventListeners = useAPlayerMiniSwitcherEventListener(body)
+      if (stopEventListeners)
+        cleanups.push(stopEventListeners)
+      autoHidden(Hook.metingLoad, body)
     },
   })
-  return stopEventListeners
+  return () => cleanups.forEach(cleanup => cleanup())
 }

@@ -17,8 +17,7 @@ export function handleOptions(options: MetingOptions['options'], rules: Rules) {
 /**
  * APlayer mini switcher
  */
-export function useAPlayerMiniSwitcherEventListener() {
-  const aplayerFixedElement = document.querySelector<HTMLElement>('.aplayer.aplayer-fixed .aplayer-body')
+export function useAPlayerMiniSwitcherEventListener(aplayerFixedElement = document.querySelector<HTMLElement>('.aplayer.aplayer-fixed .aplayer-body')) {
   if (!aplayerFixedElement)
     return
 
@@ -39,8 +38,7 @@ export function useAPlayerMiniSwitcherEventListener() {
   }
 }
 
-export function animationIn(action: string) {
-  const aplayerBody = document.querySelector<HTMLElement>('.aplayer.aplayer-fixed .aplayer-body')
+export function animationIn(action: string, aplayerBody = document.querySelector<HTMLElement>('.aplayer.aplayer-fixed .aplayer-body')) {
   if (!aplayerBody)
     return
 
@@ -53,10 +51,9 @@ export function animationIn(action: string) {
   }
 }
 
-export function autoHidden(action: string) {
+export function autoHidden(action: string, body = document.querySelector<HTMLElement>('.aplayer.aplayer-fixed .aplayer-body')) {
   if (action !== Hook.metingLoad)
     return
-  const aplayerNarrowElement = document.querySelector<HTMLElement>('.aplayer.aplayer-fixed.aplayer-narrow .aplayer-body')
-  if (aplayerNarrowElement)
-    aplayerNarrowElement.style.left = '-66px'
+  if (body?.closest('.aplayer-narrow'))
+    body.style.left = '-66px'
 }

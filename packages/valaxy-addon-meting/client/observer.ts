@@ -1,17 +1,18 @@
+import type { Ref } from 'vue'
 import type { MetingOptions } from '../types'
 import { onMounted, onUnmounted } from 'vue'
 import { onMetingLoad, onMetingLoadBefore } from './hook'
 
-export function setupHiddenLyricHidingObserver() {
+export function setupHiddenLyricHidingObserver(root: HTMLElement = document.body) {
   // This condition needs to be executed before onMounted
   const observer = new MutationObserver((mutations) => {
-    const lrcElement = document.querySelector('.aplayer-lrc .aplayer-lrc-contents .aplayer-lrc-current') as HTMLElement
-    const lrcButton = document.querySelector('.aplayer-icon-lrc') as HTMLElement
+    const lrcElement = root.querySelector<HTMLElement>('.aplayer-lrc .aplayer-lrc-contents .aplayer-lrc-current')
+    const lrcButton = root.querySelector<HTMLElement>('.aplayer-icon-lrc')
     function removelrc() {
       if (lrcElement) {
         lrcElement.style.display = 'none'
         if (lrcElement.textContent !== 'Loading') {
-          lrcButton.click()
+          lrcButton?.click()
           lrcElement.style.display = ''
           observer?.disconnect()
         }
@@ -21,10 +22,11 @@ export function setupHiddenLyricHidingObserver() {
       removelrc()
     })
   })
-  observer.observe(document.body, { childList: true, subtree: true })
+  observer.observe(root, { childList: true, subtree: true })
+  return () => observer.disconnect()
 }
 
-export function useMetingLoadObserver(addon: MetingOptions) {
+export function useMetingLoadObserver(addon: MetingOptions, target?: Readonly<Ref<HTMLElement | null | undefined>>) {
   let hasExecuted = false
   let observer: MutationObserver | undefined
   let timeout: number | undefined
@@ -32,8 +34,13 @@ export function useMetingLoadObserver(addon: MetingOptions) {
   let stopEventListeners: (() => void) | undefined
 
   onMounted(() => {
+    const root = target ? target.value : document.body
+    if (!root)
+      return
+
     function load() {
-      if (hasExecuted || !document.querySelector('.aplayer.aplayer-fixed .aplayer-body'))
+      const body = root!.querySelector<HTMLElement>('.aplayer.aplayer-fixed .aplayer-body')
+      if (hasExecuted || !body)
         return
 
       hasExecuted = true
@@ -41,16 +48,16 @@ export function useMetingLoadObserver(addon: MetingOptions) {
       observer = undefined
       timeout = window.setTimeout(() => {
         timeout = undefined
-        onMetingLoadBefore(addon)
+        onMetingLoadBefore(addon, body)
         frame = requestAnimationFrame(() => {
           frame = undefined
-          stopEventListeners = onMetingLoad(addon)
+          stopEventListeners = onMetingLoad(addon, body)
         })
       }, 0)
     }
 
     observer = new MutationObserver(load)
-    observer.observe(document.body, { childList: true, subtree: true })
+    observer.observe(root, { childList: true, subtree: true })
     load()
   })
 

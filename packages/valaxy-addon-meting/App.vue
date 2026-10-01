@@ -1,5 +1,6 @@
 <script lang="ts" setup>
 import type { MetingProps } from './types'
+import { ref } from 'vue'
 import { useMeting, useVisible } from './client'
 import { useMetingProps } from './client/useMetingProps'
 
@@ -17,7 +18,8 @@ const props = withDefaults(defineProps<{
   'list-folded': undefined,
 })
 
-useMeting()
+const meting = ref<HTMLElement>()
+useMeting(meting)
 const visible = useVisible()
 const metingProps = useMetingProps(props, { fixed: true })
 </script>
@@ -26,6 +28,7 @@ const metingProps = useMetingProps(props, { fixed: true })
   <!-- eslint-disable-next-line vue/component-name-in-template-casing -->
   <meting-js
     v-show="visible"
+    ref="meting"
     v-bind="metingProps"
   />
 </template>
