@@ -1,5 +1,5 @@
 .aplayer.aplayer-fixed.aplayer-narrow {
-  & .aplayer-body {
+  & .aplayer-body:not([data-valaxy-meting-loaded]) {
     display: none;
     left: -100px;
   }

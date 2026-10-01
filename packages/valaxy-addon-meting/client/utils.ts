@@ -17,44 +17,43 @@ export function handleOptions(options: MetingOptions['options'], rules: Rules) {
 /**
  * APlayer mini switcher
  */
-export function useAPlayerMiniSwitcherEventListener() {
-  const aplayerFixedElement = document.querySelector('.aplayer.aplayer-fixed .aplayer-body') as HTMLElement
-  const aplayerIconButton = document.querySelector('.aplayer-body .aplayer-miniswitcher .aplayer-icon') as HTMLElement
-  let aplayerNarrow = true
+export function useAPlayerMiniSwitcherEventListener(aplayerFixedElement = document.querySelector<HTMLElement>('.aplayer.aplayer-fixed .aplayer-body')) {
+  if (!aplayerFixedElement)
+    return
 
-  function toggleAplayerVisibility() {
-    aplayerNarrow = !aplayerNarrow
-  }
-
-  function hiddenAplayer() {
-    if (aplayerNarrow)
+  const hiddenAplayer = () => {
+    if (aplayerFixedElement.closest('.aplayer-narrow'))
       aplayerFixedElement.style.left = '-66px'
   }
 
-  function showAplayer() {
+  const showAplayer = () => {
     aplayerFixedElement.style.left = '0'
   }
 
-  useEventListener(aplayerFixedElement, 'mouseenter', showAplayer)
-  useEventListener(aplayerFixedElement, 'mouseleave', hiddenAplayer)
-  useEventListener(aplayerIconButton, 'click', toggleAplayerVisibility)
+  const stopMouseenter = useEventListener(aplayerFixedElement, 'mouseenter', showAplayer)
+  const stopMouseleave = useEventListener(aplayerFixedElement, 'mouseleave', hiddenAplayer)
+  return () => {
+    stopMouseenter()
+    stopMouseleave()
+  }
 }
 
-function handleAplayerAction(action: string, leftValue: string) {
-  const aplayerNarrowElement = document.querySelector('.aplayer.aplayer-fixed.aplayer-narrow .aplayer-body') as HTMLElement
-  if (!aplayerNarrowElement)
+export function animationIn(action: string, aplayerBody = document.querySelector<HTMLElement>('.aplayer.aplayer-fixed .aplayer-body')) {
+  if (!aplayerBody)
     return
 
-  if (action === Hook.metingLoadBefore)
-    aplayerNarrowElement.style.display = 'initial'
-  else if (action === Hook.metingLoad)
-    aplayerNarrowElement.style.left = leftValue
+  if (action === Hook.metingLoadBefore) {
+    aplayerBody.style.display = 'initial'
+  }
+  else if (action === Hook.metingLoad) {
+    aplayerBody.style.left = '0'
+    aplayerBody.setAttribute('data-valaxy-meting-loaded', '')
+  }
 }
 
-export function animationIn(action: string) {
-  handleAplayerAction(action, '0')
-}
-
-export function autoHidden(action: string) {
-  handleAplayerAction(action, '-66px')
+export function autoHidden(action: string, body = document.querySelector<HTMLElement>('.aplayer.aplayer-fixed .aplayer-body')) {
+  if (action !== Hook.metingLoad)
+    return
+  if (body?.closest('.aplayer-narrow'))
+    body.style.left = '-66px'
 }

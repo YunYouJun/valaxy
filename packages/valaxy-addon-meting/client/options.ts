@@ -6,8 +6,8 @@ import { computed } from 'vue'
  * get addon config
  */
 export function useAddonMeting() {
-  const addon = useAddonConfig<MetingOptions>('valaxy-addon-meting')
+  const addon = useAddonConfig<MetingOptions['options']>('valaxy-addon-meting')
   return computed<MetingOptions>(() => {
-    return addon.value?.options ?? ({} as MetingOptions)
+    return addon.value ?? {}
   })
 }
