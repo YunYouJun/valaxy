@@ -52,7 +52,7 @@ interface Frontmatter {
   aplayer?: boolean
 }
 
-export function useVisible() {
+export function useVisible(defaultVisible?: boolean) {
   const route = useRoute()
   const addonMeting = useAddonMeting()
   const frontmatter = useFrontmatter<Frontmatter>()
@@ -60,7 +60,7 @@ export function useVisible() {
   const visible = ref(true)
 
   watch(() => route.path, () => {
-    visible.value = frontmatter.value?.aplayer ?? addonMeting.value?.global ?? true
+    visible.value = frontmatter.value?.aplayer ?? defaultVisible ?? addonMeting.value?.global ?? true
   }, { immediate: true })
 
   return visible

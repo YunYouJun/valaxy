@@ -14,6 +14,12 @@ export function useMetingProps(componentProps: Partial<MetingProps>, defaults?: 
   return computed<MetingProps>(() => ({
     ...defaults,
     ...addonMeting.value?.props,
-    ...componentProps,
+    ...Object.fromEntries(
+      Object.entries(componentProps)
+        .filter(([, value]) => value !== undefined)
+        // Vue camelizes declared prop names; HTML attributes must retain the
+        // separators so MetingJS can recover e.g. listFolded and lrcType.
+        .map(([key, value]) => [key.replace(/[A-Z]/g, letter => `-${letter.toLowerCase()}`), value]),
+    ),
   }))
 }

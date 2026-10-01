@@ -26,35 +26,41 @@ export function setupHiddenLyricHidingObserver() {
 
 export function useMetingLoadObserver(addon: MetingOptions) {
   let hasExecuted = false
-  let observer: MutationObserver | null
+  let observer: MutationObserver | undefined
+  let timeout: number | undefined
+  let frame: number | undefined
+  let stopEventListeners: (() => void) | undefined
 
   onMounted(() => {
-    observer = new MutationObserver((mutations) => {
-      function load() {
-        if (hasExecuted)
-          return
-        const aplayerNarrowElement = document.querySelector('.aplayer.aplayer-fixed.aplayer-narrow .aplayer-body') as HTMLElement
-        if (aplayerNarrowElement) {
-          hasExecuted = true
-          setTimeout(() => {
-            onMetingLoadBefore(addon)
-            requestAnimationFrame(() => {
-              onMetingLoad(addon)
-              observer?.disconnect()
-              observer = null
-            })
-          }, 0)
-        }
-      }
-      mutations.forEach((_mutation) => {
-        load()
-      })
-    })
+    function load() {
+      if (hasExecuted || !document.querySelector('.aplayer.aplayer-fixed .aplayer-body'))
+        return
+
+      hasExecuted = true
+      observer?.disconnect()
+      observer = undefined
+      timeout = window.setTimeout(() => {
+        timeout = undefined
+        onMetingLoadBefore(addon)
+        frame = requestAnimationFrame(() => {
+          frame = undefined
+          stopEventListeners = onMetingLoad(addon)
+        })
+      }, 0)
+    }
+
+    observer = new MutationObserver(load)
     observer.observe(document.body, { childList: true, subtree: true })
+    load()
   })
 
   onUnmounted(() => {
     observer?.disconnect()
-    observer = null
+    observer = undefined
+    if (timeout !== undefined)
+      clearTimeout(timeout)
+    if (frame !== undefined)
+      cancelAnimationFrame(frame)
+    stopEventListeners?.()
   })
 }

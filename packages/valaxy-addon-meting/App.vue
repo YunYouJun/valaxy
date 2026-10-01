@@ -6,9 +6,15 @@ import { useMetingProps } from './client/useMetingProps'
 const props = withDefaults(defineProps<{
   [key: string]: any
 } & Partial<MetingProps>>(), {
-  id: '308168565',
-  server: 'netease',
-  type: 'playlist',
+  'id': '308168565',
+  'server': 'netease',
+  'type': 'playlist',
+  // Omitted Boolean props must not override MetingJS/APlayer defaults.
+  'fixed': undefined,
+  'mini': undefined,
+  'autoplay': undefined,
+  'mutex': undefined,
+  'list-folded': undefined,
 })
 
 useMeting()

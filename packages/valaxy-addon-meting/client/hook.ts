@@ -22,14 +22,16 @@ export function onMetingLoadBefore({ options }: MetingOptions) {
 }
 
 export function onMetingLoad({ options }: MetingOptions) {
+  let stopEventListeners: (() => void) | undefined
   handleOptions(options, {
     lyricHidden: () => setupHiddenLyricHidingObserver(),
     animationIn: () => {
       animationIn(Hook.metingLoad)
     },
     autoHidden: () => {
-      useAPlayerMiniSwitcherEventListener()
+      stopEventListeners = useAPlayerMiniSwitcherEventListener()
       autoHidden(Hook.metingLoad)
     },
   })
+  return stopEventListeners
 }
