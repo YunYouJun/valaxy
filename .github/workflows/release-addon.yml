@@ -1,11 +1,12 @@
 # Keep this path for packages whose npm trusted publisher names release-addon.yml.
 name: Release Addon
+run-name: Publish addon ${{ inputs.addon }} via release-addon.yml
 
 on:
   workflow_dispatch:
     inputs:
       addon:
-        description: 'Addon name (e.g. meting, waline)'
+        description: Addon trusted for release-addon.yml (e.g. meting); omit the valaxy-addon- prefix
         required: true
         type: string
 
@@ -28,8 +29,6 @@ jobs:
           registry-url: https://registry.npmjs.org/
           package-manager-cache: false
 
-      - run: pnpm install --frozen-lockfile
-
       - name: Resolve addon name
         id: addon
         env:
@@ -46,6 +45,17 @@ jobs:
           fi
           echo "dir=${PACKAGE_DIR}" >> "$GITHUB_OUTPUT"
 
+      - run: pnpm install --frozen-lockfile
+
       - name: Publish addon to npm
         working-directory: ${{ steps.addon.outputs.dir }}
-        run: pnpm publish --access public --no-git-checks
+        run: |
+          PACKAGE_LABEL=$(node -p "const p = require('./package.json'); p.name + '@' + p.version")
+          if pnpm publish --access public --no-git-checks; then
+            echo "Published ${PACKAGE_LABEL} via release-addon.yml (no environment)." >> "$GITHUB_STEP_SUMMARY"
+          else
+            PUBLISH_STATUS=$?
+            echo "::error::Failed to publish ${PACKAGE_LABEL}. For OIDC authentication errors, check npm's trusted publisher for YunYouJun/valaxy, workflow release-addon.yml, with no environment."
+            echo "Failed to publish ${PACKAGE_LABEL} via release-addon.yml (no environment). See the publish log above for the cause." >> "$GITHUB_STEP_SUMMARY"
+            exit "$PUBLISH_STATUS"
+          fi
