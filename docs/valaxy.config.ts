@@ -594,11 +594,11 @@ export default defineValaxyConfig<PressTheme.Config>({
                   link: '/zh/ecosystem/vscode',
                 },
                 {
-                  text: '客户端应用',
+                  text: '客户端（公开预览）',
                   link: '/zh/ecosystem/client',
                 },
                 {
-                  text: '下载客户端',
+                  text: '下载预览版客户端',
                   link: 'https://cms.yunle.fun/download',
                 },
                 {

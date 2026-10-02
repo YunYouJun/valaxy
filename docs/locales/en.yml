@@ -57,8 +57,8 @@ nav:
   ecosystem: Ecosystem
 
   vscode: VSCode Extension
-  client: Client
-  download-client: Download Client
+  client: Client (Public Preview)
+  download-client: Download Preview Client
   news: Newsletters
   community: Community
   dev: Join Dev
@@ -89,7 +89,6 @@ hero:
   actions:
     get-started: Get Started
     view-github: View Github
-    download-client: Download Client
 
 features:
   markdown:
@@ -126,8 +125,8 @@ features:
     title: Addons - Infinite Possibilities
     details: Fully compatible with Vite/Vue plugins. You can further encapsulate and simplify configurations or extend functionality (including components) through addons.
   electron:
-    title: Yunzhan - Writing Client
-    details: Write with Valaxy on your Mac. The signed desktop app for Apple Silicon is available; mobile is planned.
+    title: Yunzhan - Writing Client (Public Preview)
+    details: Try local Valaxy writing on Apple Silicon Macs. The signed preview app is available; desktop cloud sync and other platforms are still in development.
 
 tooltip:
   edit_this_page: Edit this page on GitHub

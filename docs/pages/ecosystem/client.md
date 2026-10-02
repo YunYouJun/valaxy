@@ -8,11 +8,13 @@ categories:
 
 The Valaxy writing client is provided by **[Yunzhan (云栈)](https://cms.yunle.fun)**. CMS provides one shared editor for Web and desktop, with mobile planned next. Valaxy continues to maintain its framework, CLI, themes and DevTools independently; using CMS is optional.
 
-## Availability
+## Public preview
 
-**[Download the desktop app](https://cms.yunle.fun/download)** · [Open the Web app](https://cms.yunle.fun)
+**[Download the preview app](https://cms.yunle.fun/download)** · [Open the Web app](https://cms.yunle.fun)
 
-Yunzhan 0.1.1 is available for macOS Apple Silicon (M series), with Developer ID signing, Apple notarization and native installation and upgrade verification. The download page shows the latest stable release and supported platforms. Open the DMG and drag Yunzhan into Applications; Node.js does not need to be installed separately.
+Yunzhan is in **public preview (Beta)**. No invitation is needed. Version 0.1.1 is available for macOS Apple Silicon (M series), with Developer ID signing, Apple notarization and native installation and upgrade verification. These checks confirm the installer and update path; the app's features and interfaces may still change. Back up important content before trying it, and report problems through [support](https://support.yunle.fun/).
+
+The download page shows the latest public installer and supported platforms. Open the DMG and drag Yunzhan into Applications; Node.js does not need to be installed separately.
 
 macOS 13.5 or later is required. Public installers for Intel Mac, Windows and Linux are not available yet. Desktop cloud sync is still in development; use the Web app for cloud editing and publishing. Mobile is planned.
 

@@ -6,11 +6,13 @@ categories:
 
 Valaxy 的写作客户端统一由 **[云栈 CMS](https://cms.yunle.fun)** 承接。Web 和桌面复用一套编辑器，手机端随后推进。Valaxy 继续独立维护框架、CLI、主题与 DevTools，使用 Valaxy 不要求接入云栈。
 
-## 当前状态
+## 公开预览
 
-**[下载云栈桌面版](https://cms.yunle.fun/download)** · [打开网页版](https://cms.yunle.fun)
+**[下载云栈预览版](https://cms.yunle.fun/download)** · [打开网页版](https://cms.yunle.fun)
 
-云栈 0.1.1 已正式发布 macOS Apple Silicon（M 系列）安装包，完成 Developer ID 签名、Apple 公证及原生安装和升级验收。下载页自动显示最新正式版本和可用平台；打开 DMG 后，将云栈拖入“应用程序”即可，无需预先安装 Node.js。
+云栈目前处于 **公开预览（Beta）**，无需内测资格即可下载。0.1.1 已提供 macOS Apple Silicon（M 系列）安装包，并完成 Developer ID 签名、Apple 公证及原生安装和升级验收。这些检查验证了安装与更新流程，应用功能和接口仍可能调整。试用前请备份重要内容，遇到问题可通过 [支持入口](https://support.yunle.fun/) 反馈。
+
+下载页自动显示最新公开安装包和可用平台；打开 DMG 后，将云栈拖入“应用程序”即可，无需预先安装 Node.js。
 
 当前要求 macOS 13.5 及以上；Intel Mac、Windows 和 Linux 暂无公开安装包。桌面云同步仍在开发，云端编辑与发布可使用网页版；手机 App 随后推进。
 

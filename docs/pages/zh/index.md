@@ -25,9 +25,6 @@ hero:
     - theme: alt
       text: hero.actions.view-github
       link: https://github.com/YunYouJun/valaxy
-    - theme: alt
-      text: hero.actions.download-client
-      link: https://cms.yunle.fun/download
 
 featuresTitle: 从一个想法，到你的宇宙。
 featuresDescription: 开箱即用，写下第一篇；自由定制，做出自己的模样。
