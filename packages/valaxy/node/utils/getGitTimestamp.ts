@@ -6,14 +6,16 @@ export function getGitTimestamp(file: string, type: 'created' | 'updated' = 'upd
     if (type === 'updated')
       params.push('-1')
     params.push('--pretty="%ci"', file)
-    if (type === 'created')
-      params.push('|', 'tail', '-1')
 
     const child = spawn('git', params)
     let output = ''
     child.stdout.on('data', d => (output += String(d)))
     child.on('close', () => {
-      resolve(+new Date(output))
+      // `spawn` does not run a shell, so the oldest commit cannot be picked by
+      // piping the log into `tail -1`. Pick it from the output instead.
+      const timestamps = output.trim().split('\n').filter(Boolean)
+      const timestamp = type === 'created' ? timestamps[timestamps.length - 1] : timestamps[0]
+      resolve(+new Date(timestamp || ''))
     })
     child.on('error', () => {
       resolve(0)
