@@ -27,6 +27,9 @@ hero:
     - theme: alt
       text: hero.actions.view-github
       link: https://github.com/YunYouJun/valaxy
+    - theme: alt
+      text: hero.actions.download-client
+      link: https://cms.yunle.fun/download
 
 featuresTitle: From a spark to your own universe.
 featuresDescription: Start with your first post. Make every detail your own.

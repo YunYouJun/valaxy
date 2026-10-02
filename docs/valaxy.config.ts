@@ -457,6 +457,10 @@ export default defineValaxyConfig<PressTheme.Config>({
             link: '/ecosystem/client',
           },
           {
+            text: 'nav.download-client',
+            link: 'https://cms.yunle.fun/download',
+          },
+          {
             text: 'nav.news',
             link: '/ecosystem/news',
           },
@@ -592,6 +596,10 @@ export default defineValaxyConfig<PressTheme.Config>({
                 {
                   text: '客户端应用',
                   link: '/zh/ecosystem/client',
+                },
+                {
+                  text: '下载客户端',
+                  link: 'https://cms.yunle.fun/download',
                 },
                 {
                   text: '新闻',

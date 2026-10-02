@@ -74,7 +74,7 @@ pnpm add -g valaxy
 
 ### Desktop app
 
-`valaxy app [path]` forwards to the separately installed `yunzhan app [path]` without loading project configuration. This source change is not yet in published `1.0.0-rc.15`. See [Client](/ecosystem/client) for preview availability and local installation details.
+`valaxy app [path]` forwards to the separately installed `yunzhan app [path]` without loading project configuration. Available in `1.0.0-rc.16` and later. [Download the desktop app](https://cms.yunle.fun/download) and see [Client](/ecosystem/client) for separate CLI setup.
 
 
 - `valaxy .`: Start Valaxy. The default directory is current directory. (`.` is optional)
