@@ -11,7 +11,7 @@ export async function openDesktopApp(path = '.', appPath?: string): Promise<void
     const child = spawn('yunzhan', args, { stdio: 'inherit' })
     child.once('error', (error: NodeJS.ErrnoException) => {
       reject(error.code === 'ENOENT'
-        ? new Error('YunZhan CLI was not found. Install the YunZhan desktop app and @yunlefun/cms-cli first, then retry. Nothing was downloaded or installed automatically.')
+        ? new Error('YunZhan CLI was not found. Download the YunZhan desktop app from https://cms.yunle.fun/download. See https://valaxy.site/ecosystem/client for separate YunZhan CLI setup, then retry. Nothing was downloaded or installed automatically.')
         : error)
     })
     child.once('exit', (code, signal) => {
