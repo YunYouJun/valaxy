@@ -57,8 +57,7 @@ nav:
   ecosystem: 生态
 
   vscode: VSCode 插件
-  client: 客户端（公开预览）
-  download-client: 下载预览版客户端
+  client: 云栈客户端（公开预览）
   news: 新闻
   community: 社区
   dev: 参与开发
