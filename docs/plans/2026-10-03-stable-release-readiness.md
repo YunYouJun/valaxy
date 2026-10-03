@@ -41,6 +41,9 @@ Local logs and artifacts use the `20261003` suffix:
 - `/tmp/valaxy-pr753-mermaid-unit-20261003.log`
 - `/tmp/valaxy-pr753-mermaid-ssg-e2e-final-20261003.log`
 - `/tmp/valaxy-pr753-docs-build-20261003.log`
+- `/tmp/valaxy-pr753-consumer-yun-final-20261003.log`
+- `/tmp/valaxy-pr753-consumer-press-final-20261003.log`
+- `/tmp/valaxy-pr753-packed-20261003/`
 - `/tmp/valaxy-stable-closeout-audit-final-20261003.json`
 - `/tmp/valaxy-closeout-consumer-audit-20261003.json`
 - `/tmp/valaxy-stable-closeout-unit-20261003.log`
