@@ -170,7 +170,18 @@ export async function ViteValaxyPlugins(
           // does not expose ts.sys (e.g. TypeScript 7).
           fs: valaxyConfig.vue?.script?.fs ?? {
             // Directories must not resolve as files for imports like '../types'.
-            fileExists: file => statSync(file, { throwIfNoEntry: false })?.isFile() ?? false,
+            fileExists: (file) => {
+              try {
+                return statSync(file, { throwIfNoEntry: false })?.isFile() ?? false
+              }
+              catch (error) {
+                // Node 22 still throws ENOTDIR for a child path of a file.
+                const code = (error as NodeJS.ErrnoException).code
+                if (code === 'ENOENT' || code === 'ENOTDIR')
+                  return false
+                throw error
+              }
+            },
             readFile: file => readFileSync(file, 'utf-8'),
             realpath: realpathSync,
           },
