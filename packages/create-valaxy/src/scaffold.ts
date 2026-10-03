@@ -54,7 +54,8 @@ export function normalizeThemeName(raw: string): string {
  * Returns a new object — the original is not mutated.
  *
  * - If selectedTheme is 'yun', the pkg is returned as-is (shallow clone).
- * - Otherwise, `valaxy-theme-yun` is removed and `valaxy-theme-<selectedTheme>` is added with version `'latest'`.
+ * - The coordinated Press theme uses the scaffold's Valaxy version.
+ * - Third-party themes use `latest`.
  */
 export function replaceThemeDeps(
   pkg: Record<string, any>,
@@ -68,7 +69,9 @@ export function replaceThemeDeps(
   if (result.dependencies?.['valaxy-theme-yun']) {
     delete result.dependencies['valaxy-theme-yun']
   }
-  result.dependencies[`valaxy-theme-${selectedTheme}`] = 'latest'
+  result.dependencies[`valaxy-theme-${selectedTheme}`] = selectedTheme === 'press'
+    ? (result.dependencies.valaxy || 'latest')
+    : 'latest'
 
   return result
 }

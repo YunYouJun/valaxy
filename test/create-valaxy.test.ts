@@ -95,9 +95,19 @@ describe('replaceThemeDeps', () => {
   it('replaces yun dep with selected theme', () => {
     const result = replaceThemeDeps(basePkg, 'press')
     expect(result.dependencies).not.toHaveProperty('valaxy-theme-yun')
-    expect(result.dependencies['valaxy-theme-press']).toBe('latest')
+    expect(result.dependencies['valaxy-theme-press']).toBe('0.28.0')
     // valaxy core dep should remain
     expect(result.dependencies.valaxy).toBe('0.28.0')
+  })
+
+  it('keeps the coordinated Press theme on the prepared stable version', () => {
+    const result = replaceThemeDeps({ dependencies: { valaxy: '1.0.0' } }, 'press')
+    expect(result.dependencies['valaxy-theme-press']).toBe('1.0.0')
+  })
+
+  it('keeps third-party themes on their independently published channel', () => {
+    const result = replaceThemeDeps(basePkg, 'starter')
+    expect(result.dependencies['valaxy-theme-starter']).toBe('latest')
   })
 
   it('does not mutate the original object', () => {
@@ -112,7 +122,7 @@ describe('replaceThemeDeps', () => {
       dependencies: { valaxy: '0.28.0' },
     }
     const result = replaceThemeDeps(pkgWithoutYun, 'press')
-    expect(result.dependencies['valaxy-theme-press']).toBe('latest')
+    expect(result.dependencies['valaxy-theme-press']).toBe('0.28.0')
   })
 })
 

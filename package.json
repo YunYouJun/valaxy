@@ -69,7 +69,8 @@
     "test:space": "cross-env NODE_OPTIONS=--max-old-space-size=2304 pnpm -C demo/yun run build:ssg",
     "test:space:docs": "cross-env NODE_OPTIONS=--max-old-space-size=1536 pnpm -C docs run build",
     "validate:addons": "tsx scripts/validate-addon-docs.ts",
-    "prepare": "husky install"
+    "prepare": "husky install",
+    "check:release": "tsx scripts/check-release.ts && pnpm lint && pnpm build:all && pnpm typecheck && pnpm test --run && pnpm audit --prod --audit-level high"
   },
   "dependencies": {
     "@valaxyjs/devtools": "workspace:*",
