@@ -175,7 +175,9 @@ Set `siteConfig.orderBy` to control the sorting method of the article list.
 - `date`: Sort by the date of the article (default)
 - `updated`: Sort by the last update time of the article
 
-When `lastUpdated` is enabled, the last update time of the file will be automatically injected for articles that do not have `updated` set.
+When `lastUpdated` is enabled, articles without `updated` use the file's latest Git commit time, falling back to its filesystem modification time when Git history is unavailable. Articles without `date` use the file's earliest Git commit time when available. Explicit frontmatter dates are preserved.
+
+Git dates require complete commit history. When deploying with GitHub Actions, set `fetch-depth: 0` for `actions/checkout`; shallow clones cannot recover article dates outside the fetched history. Uncommitted local edits do not change Git dates.
 
 
 ```ts [site.config.ts]

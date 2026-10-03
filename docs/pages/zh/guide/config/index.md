@@ -176,7 +176,9 @@ export default defineSiteConfig({
 - `date`: 按照文章的日期排序（默认）
 - `updated`: 按照文章的最后更新时间排序
 
-当 `lastUpdated` 开启时，将会为未设置 `updated` 的文章自动注入文件的最后更新时间。
+当 `lastUpdated` 开启时，未设置 `updated` 的文章会优先使用文件最近一次 Git 提交的时间，没有可用的 Git 历史时回退到文件的修改时间。未设置 `date` 时，会优先使用文件最早一次 Git 提交的时间。显式设置的 frontmatter 日期会保留。
+
+Git 日期需要完整的提交历史。使用 GitHub Actions 部署时，请为 `actions/checkout` 设置 `fetch-depth: 0`；浅克隆无法恢复克隆范围之外的文章日期。尚未提交的本地修改不会改变 Git 日期。
 
 
 
@@ -569,4 +571,3 @@ export default defineSiteConfig({
 ## 扩展配置 {#扩展配置}
 
 更多高阶配置请参见 [扩展配置](/zh/guide/config/extend)。
-
