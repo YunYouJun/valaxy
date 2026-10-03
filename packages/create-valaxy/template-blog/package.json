@@ -15,8 +15,8 @@
     "serve": "vite preview"
   },
   "dependencies": {
-    "valaxy": "1.0.0-rc.16",
-    "valaxy-theme-yun": "1.0.0-rc.16",
+    "valaxy": "1.0.0",
+    "valaxy-theme-yun": "1.0.0",
     "vue": "^3.5.41",
     "vue-router": "^5.0.0"
   },
