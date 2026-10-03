@@ -1,7 +1,7 @@
 {
   "name": "valaxy-addon-mermaid",
   "type": "module",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "On-demand Mermaid diagrams and an accessible zoom viewer for Valaxy",
   "license": "MIT",
   "homepage": "https://github.com/YunYouJun/valaxy/tree/main/packages/valaxy-addon-mermaid",

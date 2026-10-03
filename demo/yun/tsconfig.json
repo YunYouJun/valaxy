@@ -9,8 +9,7 @@
     "resolveJsonModule": true,
     "types": [
       "vite/client",
-      "valaxy/client",
-      "vite-plugin-vue-layouts-next/client"
+      "valaxy/client"
     ],
     "strict": true,
     "strictNullChecks": true,

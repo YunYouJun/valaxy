@@ -2,10 +2,10 @@ import type { TaxonomyNamespace } from '../../shared/utils'
 import type { ResolvedValaxyOptions } from '../types'
 import { consola } from 'consola'
 import { colors } from 'consola/utils'
-import fg from 'fast-glob'
 import fs from 'fs-extra'
 import * as yaml from 'js-yaml'
 import { relative, resolve } from 'pathe'
+import { glob } from 'tinyglobby'
 import { hasLocaleMessage, resolveTaxonomyLocaleKey } from '../../shared/utils'
 import { replaceArrMerge } from '../config/merge'
 import { readPostFiles, scanPageFiles } from './utils'
@@ -56,7 +56,7 @@ async function collectPageFiles(options: ResolvedValaxyOptions): Promise<string[
   if (!await fs.pathExists(contentDir))
     return userPageFiles
 
-  const contentPages = await fg(['**/*.md'], {
+  const contentPages = await glob(['**/*.md'], {
     cwd: contentDir,
     ignore: ['**/node_modules'],
   })

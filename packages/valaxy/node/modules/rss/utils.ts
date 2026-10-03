@@ -6,14 +6,14 @@ import { ensurePrefix } from '@antfu/utils'
 import { consola } from 'consola'
 import { colors } from 'consola/utils'
 import dayjs from 'dayjs'
-import fg from 'fast-glob'
 import { Feed } from 'feed'
-
 import fs from 'fs-extra'
+
 import matter from 'gray-matter'
 import { createMarkdownExit } from 'markdown-exit'
-
 import { getBorderCharacters, table } from 'table'
+
+import { glob } from 'tinyglobby'
 import { tObject } from '../../../shared'
 import { matterOptions } from '../../plugins/markdown/transform/matter'
 import { isExternal } from '../../utils'
@@ -126,7 +126,7 @@ export async function build(options: ResolvedValaxyOptions) {
   const DOMAIN = siteConfig.url.slice(0, -1)
 
   // generate
-  const files = await fg(`${options.userRoot}/pages/posts/**/*.md`)
+  const files = await glob('pages/posts/**/*.md', { cwd: options.userRoot, absolute: true })
   const posts = await getPosts({
     author,
     files,

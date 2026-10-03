@@ -1,7 +1,7 @@
 {
   "name": "@valaxyjs/devtools",
   "type": "module",
-  "version": "1.0.0-rc.16",
+  "version": "1.0.0",
   "description": "DevTools for Valaxy",
   "license": "MIT",
   "repository": {
@@ -70,13 +70,13 @@
     "cross-spawn": "catalog:",
     "dayjs": "catalog:",
     "devframe": "catalog:",
-    "fast-glob": "catalog:",
     "fs-extra": "catalog:",
     "gray-matter": "catalog:",
     "h3": "catalog:",
     "js-yaml": "catalog:",
     "magicast": "catalog:",
     "pathe": "catalog:",
+    "tinyglobby": "catalog:",
     "valibot": "catalog:"
   },
   "devDependencies": {
@@ -85,7 +85,6 @@
     "@iconify-json/ri": "catalog:build",
     "@iconify-json/simple-icons": "catalog:build",
     "@iconify-json/vscode-icons": "catalog:build",
-    "@intlify/unplugin-vue-i18n": "catalog:build",
     "@types/cross-spawn": "catalog:",
     "@types/splitpanes": "catalog:",
     "@types/wicg-file-system-access": "catalog:",

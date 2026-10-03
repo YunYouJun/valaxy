@@ -1,7 +1,7 @@
 {
   "name": "@valaxyjs/monorepo",
   "type": "module",
-  "version": "1.0.0-rc.16",
+  "version": "1.0.0",
   "private": true,
   "packageManager": "pnpm@12.5.1",
   "description": "📄 Vite & Vue powered static blog generator.",
@@ -116,7 +116,6 @@
     "stylelint-config-recommended-scss": "catalog:",
     "stylelint-config-recommended-vue": "catalog:",
     "stylelint-config-standard-scss": "catalog:",
-    "tsup": "catalog:",
     "tsx": "catalog:",
     "typescript": "catalog:build",
     "unbuild": "catalog:build",

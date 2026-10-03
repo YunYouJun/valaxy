@@ -4,9 +4,9 @@ import { createHash, randomUUID } from 'node:crypto'
 import process from 'node:process'
 import { addons, normalizeRepositoryUrl } from '@valaxyjs/utils'
 import spawn from 'cross-spawn'
-import fg from 'fast-glob'
 import fs from 'fs-extra'
 import pathe from 'pathe'
+import { glob } from 'tinyglobby'
 import { updatePageFile } from '../utils/page-write'
 import { resolveInsideRoot } from '../utils/paths'
 import { removeAddonFromConfig } from './config'
@@ -179,7 +179,7 @@ async function installedPackage(root: string, name: string) {
 }
 
 async function assertNoOtherReferences(root: string, name: string, configFile?: string) {
-  const files = await fg('**/*.{ts,mts,cts,js,mjs,cjs,jsx,tsx,vue}', { cwd: root, absolute: true, followSymbolicLinks: false, ignore: ['**/node_modules/**', '**/dist/**', '**/.valaxy/**', '**/.output/**', '**/.nuxt/**'] })
+  const files = await glob('**/*.{ts,mts,cts,js,mjs,cjs,jsx,tsx,vue}', { cwd: root, absolute: true, followSymbolicLinks: false, ignore: ['**/node_modules/**', '**/dist/**', '**/.valaxy/**', '**/.output/**', '**/.nuxt/**'] })
   if (files.length > 5000)
     throw new Error('This project is too large to check automatically. Remove the addon using your editor and package manager.')
   const escaped = name.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')

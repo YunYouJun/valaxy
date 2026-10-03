@@ -1,8 +1,8 @@
 import type { ResolvedValaxyOptions } from '../types'
 import { readFile } from 'node:fs/promises'
 import path from 'node:path'
-import fg from 'fast-glob'
 import matter from 'gray-matter'
+import { glob } from 'tinyglobby'
 import { matterOptions } from '../plugins/markdown/transform/matter'
 import { discoverPageFiles, getPagePath } from '../utils/pageSources'
 
@@ -17,11 +17,11 @@ export interface RawPost {
 /**
  * Scan markdown files from `pages/posts/` directory.
  *
- * Uses `fg.convertPathToPattern` for Windows path compatibility.
+ * Keep the filesystem root out of the glob so literal special characters and
+ * Windows separators are handled by cwd.
  */
 export async function scanPostFiles(userRoot: string, globPattern = '**/*.md'): Promise<string[]> {
-  const pattern = fg.convertPathToPattern(path.join(userRoot, 'pages/posts'))
-  return fg(`${pattern}/${globPattern}`)
+  return glob(globPattern, { cwd: path.join(userRoot, 'pages/posts'), absolute: true })
 }
 
 /**

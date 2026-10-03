@@ -2,6 +2,7 @@ import type { Ref } from 'vue'
 import type { Post } from '../types'
 
 import './shims.d'
+import '../vendor/layouts/client'
 // Import vue-router RouteMeta augmentation
 import '../types/vue-router.d'
 

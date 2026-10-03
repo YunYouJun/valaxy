@@ -2,10 +2,10 @@ import type { BatchFrontmatterOperation, ServerFunctions } from '../shared/rpc'
 import type { ValaxyDevtoolsOptions } from './types'
 import process from 'node:process'
 import dayjs from 'dayjs'
-import fg from 'fast-glob'
 import fs from 'fs-extra'
 import matter from 'gray-matter'
 import pathe from 'pathe'
+import { glob } from 'tinyglobby'
 import { getEditorOptions } from './editor'
 import { DANGEROUS_FIELD_KEYS, readConfigs, writeConfigField } from './utils/config-rw'
 import { migration } from './utils/migration'
@@ -89,7 +89,7 @@ export function getFunctions(devtoolsOptions: ValaxyDevtoolsOptions, validateFro
     },
 
     async getPostList() {
-      const files = await fg(`${userRoot}/pages/posts/**/*.md`)
+      const files = await glob('pages/posts/**/*.md', { cwd: userRoot, absolute: true })
 
       const posts = []
       for await (const file of files) {
@@ -165,7 +165,7 @@ export function getFunctions(devtoolsOptions: ValaxyDevtoolsOptions, validateFro
         const collapse = extractBooleanField(indexContent, 'collapse', true)
 
         // Read all .md files in the directory
-        const mdFiles = await fg(`${collectionsRoot}/${dir}/*.md`)
+        const mdFiles = await glob('*.md', { cwd: pathe.join(collectionsRoot, dir), absolute: true })
         const items = []
         for (const file of mdFiles) {
           const basename = pathe.basename(file, '.md')

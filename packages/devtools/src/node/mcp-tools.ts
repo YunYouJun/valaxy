@@ -2,9 +2,9 @@ import type { DevframeAgentHost } from 'devframe'
 import type { ValaxyMcpOptions } from './mcp'
 import { readFile, realpath, stat } from 'node:fs/promises'
 import process from 'node:process'
-import fg from 'fast-glob'
 import matter from 'gray-matter'
 import pathe from 'pathe'
+import { glob } from 'tinyglobby'
 import * as v from 'valibot'
 import { resolvePageFile } from './utils/paths'
 
@@ -87,7 +87,7 @@ export function registerValaxyMcpTools(agent: DevframeAgentHost, options: Valaxy
   }
 
   async function* scan(pattern: string, query = '') {
-    const files = await fg(pattern, { cwd: pages, followSymbolicLinks: false, onlyFiles: true })
+    const files = await glob(pattern, { cwd: pages, followSymbolicLinks: false, onlyFiles: true })
     const needle = query.toLowerCase()
     for (const file of files.sort()) {
       try {

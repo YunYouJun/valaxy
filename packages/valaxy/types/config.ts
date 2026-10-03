@@ -196,10 +196,10 @@ export interface SiteConfig {
      */
     dataPath: string
     /**
-     * fast-glob pattern to match Fuse List Data
+     * Glob pattern (tinyglobby) to match Fuse List Data
      * @default `pages\/**\/*.md`
      * ```ts
-     * await fg(`${userRoot}/pages/posts/**\/*.md`)
+     * await glob(`${userRoot}/pages/posts/**\/*.md`)
      * ```
      */
     pattern?: string
