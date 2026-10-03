@@ -10,6 +10,8 @@ The public npm version is still `1.0.0-rc.16`. This document prepares a stable r
 - `check:release` validates package, scaffold and tag versions, then runs lint, all package and demo builds, type checking, units and the production High/Critical dependency audit. The tag workflow repeats these checks before npm publication.
 - The Press scaffold now selects the same version as Valaxy. Independently versioned third-party themes continue to use their own latest channel. The blog scaffold explicitly installs the core Vue peers, so it also works when pnpm peer auto-installation is disabled; preparation keeps those ranges synchronized.
 
+- The fresh Press scaffold now has a valid example site URL. Its first SSG build previously failed in sitemap generation because the hostname was empty; replace the example URL with the deployed URL before publishing.
+
 ## Publication sequence
 
 ```sh
