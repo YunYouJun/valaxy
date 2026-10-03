@@ -12,6 +12,7 @@ import { convert } from 'html-to-text'
 import { resolve } from 'pathe'
 import VueRouter from 'vue-router/vite'
 import { vLogger } from '../logger'
+import { getCreatedTime, getUpdatedTime } from '../utils/date'
 import { countPerformanceTime } from '../utils/performance'
 import { createMarkdownRenderer } from './markdown'
 
@@ -186,12 +187,12 @@ export async function createRouterOptions(valaxyApp: ValaxyNode, base?: Markdown
         }
 
         if (!mdFm.date)
-          mdFm.date = (await fs.stat(path)).mtime
+          mdFm.date = new Date(await getCreatedTime(path))
 
         // format
         if (lastUpdated) {
           if (!mdFm.updated)
-            mdFm.updated = (await fs.stat(path)).ctime
+            mdFm.updated = new Date(await getUpdatedTime(path))
         }
 
         if (mdFm.from) {
