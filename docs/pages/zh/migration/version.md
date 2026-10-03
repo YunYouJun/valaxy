@@ -57,7 +57,7 @@ export default defineValaxyConfig({
 })
 ```
 
-Markdown 中 `<meting-js>` 的用法不变。参见 [音乐播放器](/zh/guide/third-party#music-player)。
+行内播放器请使用插件提供的 `<MetingJs>` Vue 组件，它会加载所需脚本。原生 `<meting-js>` 标签只会在页面已经加载 MetingJS 时工作，例如启用 `addonMeting({ global: true })` 的全局播放器后。参见 [音乐播放器](/zh/guide/third-party#music-player)。
 
 ### 配置与 frontmatter 移除 {#config-frontmatter-removals}
 
@@ -76,4 +76,3 @@ Markdown 中 `<meting-js>` 的用法不变。参见 [音乐播放器](/zh/guide/
 主题开发者需要自行引入公共样式 `valaxy/client/styles/common/index.scss`。
 
 参见 [引入默认样式](/zh/themes/write#引入默认样式)。
-

@@ -42,7 +42,7 @@ async function main() {
     consola.info('Committing changes...')
     console.log()
     await $`git add -A`
-    await $`git commit -m "release: v${newVersion}"`
+    await $`git commit -m "chore(release): publish v${newVersion}"`
     await $`git tag v${newVersion}`
 
     console.log()
