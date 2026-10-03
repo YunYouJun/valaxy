@@ -32,8 +32,8 @@ function pnpm(...args: string[]) {
 
 async function main() {
   assertClean()
-  const current = await checkReleaseVersions(process.cwd())
   if (args.publish) {
+    const current = await checkReleaseVersions(process.cwd())
     if (args.prepare || args.dry || args.version || args._.length)
       throw new Error('--publish tags the committed version; it cannot also prepare a version')
     if (git('branch', '--show-current') !== 'main')

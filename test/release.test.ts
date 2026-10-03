@@ -62,6 +62,15 @@ describe('release preparation and publication', () => {
     expect(git('ls-remote', 'origin', 'refs/heads/main')).toContain(head)
   }, 30000)
 
+  it('refreshes stale scaffold versions as part of preparation', async () => {
+    await json('packages/create-valaxy/template-blog/package.json', { dependencies: { 'valaxy': '0.28.11', 'valaxy-theme-yun': '0.28.11' } })
+    git('add', '.')
+    git('-c', 'commit.gpgSign=false', 'commit', '-m', 'test(release): seed stale scaffold')
+    const result = release('--prepare', '1.0.0')
+    expect(result.status, result.stdout + result.stderr).toBe(0)
+    expect(await checkReleaseVersions(root)).toBe('1.0.0')
+  }, 30000)
+
   it('rejects dirty input without changing any version or staging unrelated files', async () => {
     await writeFile(join(root, 'unrelated.txt'), 'keep me')
     const result = release('--prepare', '1.0.0')
