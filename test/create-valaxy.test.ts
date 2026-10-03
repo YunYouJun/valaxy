@@ -55,6 +55,15 @@ describe('valaxy peerDependencies', () => {
   })
 })
 
+describe('blog scaffold peer dependencies', () => {
+  it('installs the same required Vue peers as Valaxy for projects disabling auto-install', () => {
+    const core = JSON.parse(fs.readFileSync(path.resolve(__dirname, '../packages/valaxy/package.json'), 'utf8'))
+    const template = JSON.parse(fs.readFileSync(path.resolve(__dirname, '../packages/create-valaxy/template-blog/package.json'), 'utf8'))
+    for (const [name, range] of Object.entries(core.peerDependencies))
+      expect(template.dependencies[name]).toBe(range)
+  })
+})
+
 // ─── normalizeThemeName ──────────────────────────────────────────────
 
 describe('normalizeThemeName', () => {
@@ -95,9 +104,19 @@ describe('replaceThemeDeps', () => {
   it('replaces yun dep with selected theme', () => {
     const result = replaceThemeDeps(basePkg, 'press')
     expect(result.dependencies).not.toHaveProperty('valaxy-theme-yun')
-    expect(result.dependencies['valaxy-theme-press']).toBe('latest')
+    expect(result.dependencies['valaxy-theme-press']).toBe('0.28.0')
     // valaxy core dep should remain
     expect(result.dependencies.valaxy).toBe('0.28.0')
+  })
+
+  it('keeps the coordinated Press theme on the prepared stable version', () => {
+    const result = replaceThemeDeps({ dependencies: { valaxy: '1.0.0' } }, 'press')
+    expect(result.dependencies['valaxy-theme-press']).toBe('1.0.0')
+  })
+
+  it('keeps third-party themes on their independently published channel', () => {
+    const result = replaceThemeDeps(basePkg, 'starter')
+    expect(result.dependencies['valaxy-theme-starter']).toBe('latest')
   })
 
   it('does not mutate the original object', () => {
@@ -112,7 +131,7 @@ describe('replaceThemeDeps', () => {
       dependencies: { valaxy: '0.28.0' },
     }
     const result = replaceThemeDeps(pkgWithoutYun, 'press')
-    expect(result.dependencies['valaxy-theme-press']).toBe('latest')
+    expect(result.dependencies['valaxy-theme-press']).toBe('0.28.0')
   })
 })
 
