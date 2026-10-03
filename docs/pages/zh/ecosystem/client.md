@@ -14,7 +14,7 @@ Valaxy 的写作客户端统一由 **[云栈 CMS](https://cms.yunle.fun)** 承�
 
 下载页自动显示最新公开安装包和可用平台；打开 DMG 后，将云栈拖入“应用程序”即可，无需预先安装 Node.js。
 
-当前要求 macOS 13.5 及以上；Intel Mac、Windows 和 Linux 暂无公开安装包。桌面云同步仍在开发，云端编辑与发布可使用网页版；手机 App 随后推进。
+当前要求 macOS 13.5 及以上；Intel Mac、Windows 和 Linux 暂无公开安装包。桌面云同步尚未随公开安装包发布，云端编辑与发布可使用网页版；手机 App 随后推进。
 
 ## 桌面写作
 

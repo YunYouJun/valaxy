@@ -16,7 +16,7 @@ Yunzhan is in **public preview (Beta)**. No invitation is needed. Version 0.1.1 
 
 The download page shows the latest public installer and supported platforms. Open the DMG and drag Yunzhan into Applications; Node.js does not need to be installed separately.
 
-macOS 13.5 or later is required. Public installers for Intel Mac, Windows and Linux are not available yet. Desktop cloud sync is still in development; use the Web app for cloud editing and publishing. Mobile is planned.
+macOS 13.5 or later is required. Public installers for Intel Mac, Windows and Linux are not available yet. Desktop cloud sync has not shipped in the public installer yet; use the Web app for cloud editing and publishing. Mobile is planned.
 
 ## Desktop writing
 
