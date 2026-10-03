@@ -9,7 +9,8 @@ upstream license. Other runtime dependencies remain explicit in Valaxy's manifes
 Changes relative to the recorded distributions:
 
 - `@intlify/unplugin-vue-i18n@11.2.5`: replace its async file scanner with
-  `tinyglobby.glob`. Keep the stable message compiler and SFC transforms.
+  `tinyglobby.glob`, requesting absolute locale paths for Windows cross-drive
+  projects. Keep the stable message compiler and SFC transforms.
 - `vite-plugin-vue-layouts-next@3.2.0`: replace async/sync scanners with
   `tinyglobby.glob`/`globSync`; resolve directory globs against Vite's root;
   import the included browser runtime through `valaxy/vendor/layouts/runtime.mjs`.

@@ -409,7 +409,7 @@ function resourcePlugin({
         if (INTLIFY_BUNDLE_IMPORT_ID === getVirtualId(id, meta.framework) && include) {
           let resourcePaths = [];
           for (const inc of include) {
-            resourcePaths = [...resourcePaths, ...await fg(inc)];
+            resourcePaths = [...resourcePaths, ...await fg(inc, { absolute: true })];
           }
           resourcePaths = resourcePaths.filter((el, pos) => resourcePaths.indexOf(el) === pos);
           const code = await generateBundleResources(resourcePaths, isProduction, {
