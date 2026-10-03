@@ -6,9 +6,9 @@ import { createRequire } from 'node:module'
 import { dirname, relative, resolve, sep } from 'node:path'
 import process from 'node:process'
 import { fileURLToPath } from 'node:url'
-import fg from 'fast-glob'
 import fs from 'fs-extra'
 import { minimatch } from 'minimatch'
+import { glob } from 'tinyglobby'
 import { resolveSymbolAnchors } from './links'
 
 interface NavigationItem {
@@ -46,7 +46,7 @@ export function createTypeDocLoader(settings: TypeDocAddonOptions, userRoot: str
   let runs = 0
 
   async function sourceFiles() {
-    const sources = await fg(settings.watch, { cwd: userRoot, absolute: true, onlyFiles: true, ignore: ['**/.valaxy/**', '**/dist/**'] })
+    const sources = await glob(settings.watch, { cwd: userRoot, absolute: true, onlyFiles: true, ignore: ['**/.valaxy/**', '**/dist/**'] })
     return [...new Set([optionsFile, ...sources, ...dependencies])].sort()
   }
 
@@ -138,7 +138,7 @@ export function createTypeDocLoader(settings: TypeDocAddonOptions, userRoot: str
       const result = await fs.readJson(resultFile) as { files: string[], version?: string }
       dependencies = result.files
       source.version = result.version
-      const paths = await fg('**/*.md', { cwd: output })
+      const paths = await glob('**/*.md', { cwd: output })
       if (!paths.length)
         throw new Error('[typedoc] Refusing to publish empty API documentation.')
       const sources = new Map(await Promise.all(paths.map(async page => [page, await fs.readFile(resolve(output, page), 'utf8')] as const)))

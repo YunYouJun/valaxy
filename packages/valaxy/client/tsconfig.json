@@ -6,9 +6,7 @@
       "valaxy": ["./index.d.ts"]
     },
     "types": [
-      "vite/client",
-      "vite-plugin-vue-layouts-next/client",
-      "@intlify/unplugin-vue-i18n/messages"
+      "vite/client"
     ]
   },
   "include": ["."]

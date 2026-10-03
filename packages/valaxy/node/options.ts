@@ -5,9 +5,9 @@ import { ensureSuffix, uniq } from '@antfu/utils'
 import { consola } from 'consola'
 import { colors } from 'consola/utils'
 import _debug from 'debug'
-import fg from 'fast-glob'
 import fs from 'fs-extra'
 import { resolve } from 'pathe'
+import { glob } from 'tinyglobby'
 import { getRolldownOutputOptions } from './build/bundle'
 import {
   defaultValaxyConfig,
@@ -151,7 +151,7 @@ export async function resolveOptions(
     // resolveThemeConfig(options),
     resolveThemeConfigFromRoot(options.userRoot),
 
-    fg(['**.md'], {
+    glob(['**/*.md'], {
       cwd: resolve(userRoot, 'pages'),
       ignore: ['**/node_modules'],
     }),
@@ -172,7 +172,7 @@ export async function resolveOptions(
   userValaxyConfig = replaceArrMerge({ siteConfig }, { themeConfig }, userValaxyConfig) as ValaxyNodeConfig
 
   // pages
-  // Important: fast-glob doesn't guarantee order of the returned files.
+  // Important: Globbing doesn't guarantee order of the returned files.
   // We must sort the pages so the input list to rollup is stable across
   // builds - otherwise different input order could result in different exports
   // order in shared chunks which in turns invalidates the hash of every chunk!
@@ -182,7 +182,7 @@ export async function resolveOptions(
   // Include content loader pages from cache directory
   const contentDir = resolve(userRoot, '.valaxy', 'content', 'pages')
   if (await fs.pathExists(contentDir)) {
-    const contentPages = await fg(['**.md'], { cwd: contentDir, ignore: ['**/node_modules'] })
+    const contentPages = await glob(['**/*.md'], { cwd: contentDir, ignore: ['**/node_modules'] })
     pages.push(...contentPages)
   }
 

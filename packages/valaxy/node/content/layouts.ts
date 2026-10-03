@@ -1,8 +1,8 @@
 import type { ResolvedConfig } from 'vite'
 import type { ResolvedValaxyOptions } from '../types'
 import { join } from 'pathe'
-import Layouts from 'vite-plugin-vue-layouts-next'
 import { babelParse } from 'vue/compiler-sfc'
+import Layouts from '../../vendor/layouts/index.mjs'
 
 /** Read the layout plugin's generated registry without importing any components. */
 export async function resolveContentLayouts(options: ResolvedValaxyOptions): Promise<Set<string>> {

@@ -1,13 +1,13 @@
 import type { UserConfig } from 'vite'
 
 import path from 'node:path'
-import VueI18n from '@intlify/unplugin-vue-i18n/vite'
 import Vue from '@vitejs/plugin-vue'
 import Unocss from 'unocss/vite'
 import VueComponents from 'unplugin-vue-components/vite'
 import { defineConfig } from 'vite'
 import VueDevtools from 'vite-plugin-vue-devtools'
 import VueRouter from 'vue-router/vite'
+import VueI18n from '../../../valaxy/node/plugins/i18n'
 
 import { ValaxyDevtools } from '../node'
 

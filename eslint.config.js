@@ -7,6 +7,8 @@ export default antfu(
       'dist',
       '**/public',
       'packages/valaxy/index.d.ts',
+      // Reviewed upstream distribution snapshots; see vendor/README.md.
+      'packages/valaxy/vendor',
       // generated
       '**/.valaxy/**',
     ],

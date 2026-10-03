@@ -71,6 +71,16 @@ Use the addon's `<MetingJs>` Vue component for inline players; it loads the requ
 
 If a theme or addon relied on the old engine's JSDOM (which silently provided `window` / `document` / `navigator` during SSR), guard those accesses — the current engine renders pure strings with no DOM. See [SSR Compatibility](/guide/ssr-compat).
 
+### Build plugin types
+
+Valaxy now ships the layout and locale compiler integrations itself to remove the
+vulnerable brace-parser dependency. Their virtual module types are included by
+`valaxy/client`. In an existing `tsconfig.json`, remove
+`vite-plugin-vue-layouts-next/client` and `@intlify/unplugin-vue-i18n/messages`
+from `compilerOptions.types`; keep `vite/client` and `valaxy/client`.
+Layout options, locale files, SFC `<i18n>` blocks and component overrides continue
+to work. New scaffolds already use this configuration.
+
 ## v0.21.0
 
 ### Import Common Styles Yourself

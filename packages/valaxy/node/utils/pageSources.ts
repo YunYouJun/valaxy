@@ -1,6 +1,6 @@
 import { existsSync } from 'node:fs'
-import fg from 'fast-glob'
 import { isAbsolute, relative, resolve } from 'pathe'
+import { glob } from 'tinyglobby'
 
 /** Physical content roots in the same precedence order used by page consumers. */
 export function getPageRoots(userRoot: string) {
@@ -35,7 +35,7 @@ export function pagePathToRoute(page: string) {
 export async function discoverPageFiles(userRoot: string, include = ['**/*.md']) {
   const pages = new Map<string, string>()
   for (const root of getPageRoots(userRoot)) {
-    const files = await fg(include, { cwd: root, ignore: ['**/node_modules/**'], onlyFiles: true })
+    const files = await glob(include, { cwd: root, ignore: ['**/node_modules/**'], onlyFiles: true })
     for (const page of files.sort()) {
       if (!pages.has(page))
         pages.set(page, resolve(root, page))

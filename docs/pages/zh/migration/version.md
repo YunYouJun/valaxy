@@ -69,6 +69,14 @@ export default defineValaxyConfig({
 
 如果某个主题或插件依赖旧引擎的 JSDOM（它在 SSR 期间默默提供 `window` / `document` / `navigator`），请守护这些访问——当前引擎以纯字符串渲染、没有 DOM。参见 [SSR 兼容性](/zh/guide/ssr-compat)。
 
+### 构建插件类型 {#build-plugin-types}
+
+Valaxy 现在自行提供布局和多语言编译集成，以移除存在漏洞的花括号解析依赖。
+虚拟模块类型已由 `valaxy/client` 提供。升级已有项目时，请从 `tsconfig.json` 的
+`compilerOptions.types` 移除 `vite-plugin-vue-layouts-next/client` 和
+`@intlify/unplugin-vue-i18n/messages`，保留 `vite/client` 与 `valaxy/client`。
+布局选项、语言文件、SFC `<i18n>` 块和组件覆盖继续可用；新建项目已采用此配置。
+
 ## v0.21.0 {#v0210}
 
 ### 自行引入公共样式 {#自行引入公共样式}

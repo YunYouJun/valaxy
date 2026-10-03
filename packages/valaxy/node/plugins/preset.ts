@@ -2,16 +2,15 @@ import type { InlineConfig, Plugin, PluginOption } from 'vite'
 
 import type { ValaxyNode, ValaxyServerOptions } from '../types'
 import { readFileSync, realpathSync, statSync } from 'node:fs'
-import VueI18n from '@intlify/unplugin-vue-i18n/vite'
-
 import { Unhead as UnheadVite } from '@unhead/bundler/vite'
 
 import { consola } from 'consola'
-import { resolve } from 'pathe'
-import Components from 'unplugin-vue-components/vite'
 
-import Layouts from 'vite-plugin-vue-layouts-next'
+import { resolve } from 'pathe'
 import { groupIconVitePlugin } from 'vitepress-plugin-group-icons'
+import Components from '../../vendor/components/index.mjs'
+
+import Layouts from '../../vendor/layouts/index.mjs'
 import { StateManager } from '../app/state'
 import { customElements } from '../constants'
 import { editorPlugin } from '../editor/plugin'
@@ -21,6 +20,7 @@ import { scanCodeBlockTitles } from '../utils/groupIcons'
 import { countPerformanceTime } from '../utils/performance'
 import { createCdnPlugin } from './cdn'
 import { createConfigPlugin } from './extendConfig'
+import VueI18n from './i18n'
 import { createLlmsPlugin } from './llms'
 import { localSearchPlugin } from './localSearchPlugin'
 
@@ -225,8 +225,11 @@ export async function ViteValaxyPlugins(
   /**
    * for unplugin-vue-components
    */
-  const componentsDirs = [...roots
-    .map(root => `${root}/components`), ...['src/components', 'components']]
+  // Vite's root is the core client directory. Resolve user component directories
+  // explicitly so relative defaults cannot scan core again after the user root.
+  const componentsDirs = roots.flatMap(root => root === options.userRoot
+    ? [resolve(root, 'src/components'), resolve(root, 'components')]
+    : [resolve(root, 'components')])
 
   const plugins: (PluginOption | PluginOption[])[] = [
     MarkdownBasePlugin,

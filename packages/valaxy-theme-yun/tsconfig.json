@@ -11,8 +11,7 @@
     "resolveJsonModule": true,
     "types": [
       "valaxy/client",
-      "vite/client",
-      "vite-plugin-vue-layouts-next/client"
+      "vite/client"
     ],
     "allowJs": true,
     "strict": true,

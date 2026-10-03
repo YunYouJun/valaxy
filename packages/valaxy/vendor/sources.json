@@ -1,0 +1,46 @@
+[
+  {
+    "package": "@intlify/unplugin-vue-i18n",
+    "version": "11.2.5",
+    "repository": {
+      "type": "git",
+      "url": "git+https://github.com/intlify/bundle-tools.git",
+      "directory": "packages/unplugin-vue-i18n"
+    },
+    "files": {
+      "lib/index.mjs": "0b9279529baf89e0c027a9d4db94dd69fef9d357e457606db3ccf6e178e21268",
+      "lib/types.d.ts": "d1315ab34c1eb6588ba2fd8a040146f940fb37d1c5ba72e19daa2f46e9615190",
+      "LICENSE": "5332a7645b0acec33bef55f24b5c16ffaa60c097e2aade91a7945c2f12607636"
+    }
+  },
+  {
+    "package": "vite-plugin-vue-layouts-next",
+    "version": "3.2.0",
+    "repository": {
+      "type": "git",
+      "url": "git+https://github.com/loicduong/vite-plugin-vue-layouts-next.git"
+    },
+    "files": {
+      "dist/index.mjs": "edab37ca837b9261f651e567af175942934b161726a45ca9b22a291c1a1be465",
+      "dist/index.d.mts": "d622d03bc14a55d033fb4c164b8ce7256a9c042a328b0bd42849483359d9e915",
+      "dist/runtime.mjs": "70d6c6164ab2e3211e393b3044c03aa96c10b3cf0dee90da38881c8a4e33b454",
+      "dist/runtime.d.mts": "450f7f97295a601a412358e2fa2e57828b86611e8bc01e9b135a1dea4b0f8b7f",
+      "dist/layoutName-DVkP7Qpo.mjs": "80eaa8258117a0f35a86855a5c749c6090da04df13169675715ab6ffce908e88",
+      "client.d.ts": "5faf3587eae88f0a014a6ddc5693376fe7a153bb36bbabf622e65dda4e9f1422",
+      "LICENSE": "3b66548ac8a2385a8756e574acdcff245cebb4dfae4ab277183dd3ce276e1330"
+    }
+  },
+  {
+    "package": "unplugin-vue-components",
+    "version": "32.1.0",
+    "repository": {
+      "type": "git",
+      "url": "https://github.com/unplugin/unplugin-vue-components.git"
+    },
+    "files": {
+      "dist/src-S1kwY0Q8.mjs": "7a0313f935b521e894fff06be5562879413e540200f73130d58a72e6d2f8fb96",
+      "dist/utils-BfjsfvcK.mjs": "9a0cf863353840aaa7a674eb3a8d4c3e65436f26501858e5d44990d51106a2cf",
+      "LICENSE": "bf9acc7e3e0dcfdda78e688a949339c18d09023ba2fd35963c8ff4a6364c699b"
+    }
+  }
+]

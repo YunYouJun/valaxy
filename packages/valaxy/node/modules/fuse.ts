@@ -5,10 +5,10 @@ import os from 'node:os'
 import path from 'node:path'
 import { consola } from 'consola'
 import { colors } from 'consola/utils'
-import fg from 'fast-glob'
 import fs from 'fs-extra'
-
 import matter from 'gray-matter'
+
+import { glob } from 'tinyglobby'
 import { defineValaxyModule } from '.'
 import { loadLocalesYml, nodeT } from '../../shared/node/i18n'
 import { commonOptions } from '../cli/options'
@@ -26,10 +26,8 @@ export const isWindows = os.platform() === 'win32'
 export async function generateFuseList(options: ResolvedValaxyOptions) {
   consola.start(`Generate List for Fuse Search by (${colors.cyan('fuse.js')}) ...`)
   // generate
-  const pattern = path.resolve(options.userRoot, options.config.siteConfig.fuse.pattern || 'pages/**/*.md')
-  // adapt for windows path
-  const finalPattern = isWindows ? fg.convertPathToPattern(pattern) : pattern
-  const files = await fg(finalPattern)
+  const pattern = options.config.siteConfig.fuse.pattern || 'pages/**/*.md'
+  const files = await glob(pattern.replace(/\\/g, '/'), { cwd: options.userRoot, absolute: true })
   const fusePattern = options.config.siteConfig.fuse.pattern || 'pages/**/*.md'
   if (fusePattern.startsWith('pages/')) {
     for (const file of (await discoverPageFiles(options.userRoot, [fusePattern.slice(6)])).values()) {
@@ -41,7 +39,7 @@ export async function generateFuseList(options: ResolvedValaxyOptions) {
     consola.success(`Found ${colors.dim(files.length.toString())} markdown files for fuse search.`)
   }
   else {
-    consola.warn(`No markdown files found for fuse search. Please check your fuse pattern: ${colors.dim(finalPattern)}`)
+    consola.warn(`No markdown files found for fuse search. Please check your fuse pattern: ${colors.dim(pattern)}`)
   }
 
   // load to locale

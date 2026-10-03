@@ -29,8 +29,6 @@
       "vitest",
       "vite/client",
       "valaxy/client",
-      "vite-plugin-vue-layouts-next/client",
-      "@intlify/unplugin-vue-i18n/messages",
       "@types/wicg-file-system-access"
     ],
     "allowJs": true,
