@@ -272,7 +272,7 @@ The dev server supports hot reload for:
 - Styles
 
 ### Node Version
-Requires Node.js 18+ or 20+
+Requires Node.js 22.12.0 or newer, matching the package engines and CI build/test matrix.
 
 ## Testing Strategy
 

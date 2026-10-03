@@ -1,19 +1,73 @@
+import { execFile } from 'node:child_process'
 import { mkdtemp, readFile, rm, writeFile } from 'node:fs/promises'
+import { createServer as createHttpServer } from 'node:http'
 import { tmpdir } from 'node:os'
 import { join, resolve } from 'node:path'
 import process from 'node:process'
+import { promisify } from 'node:util'
 import { chromium, expect } from '@playwright/test'
 import fs from 'fs-extra'
 import { createServer } from 'vite'
 import { addons } from '../packages/@valaxyjs/utils/src/constants/addons'
 import { ValaxyDevtools } from '../packages/devtools/src/node'
 
-// Exercise the actual authenticated client, RPC transport, registry and pnpm in
-// an isolated project. Existing blogs and the monorepo lockfile are never edited.
+// Exercise the actual authenticated client, RPC transport and pnpm against a
+// loopback registry fixture. Public registry availability is not a UI assertion.
 const root = await mkdtemp(join(tmpdir(), 'valaxy-addon-browser-'))
 const artifacts = resolve(process.env.VALAXY_DEVTOOLS_ARTIFACTS || 'test-results/devtools-addons')
 await fs.ensureDir(artifacts)
+const addonName = 'valaxy-addon-abbrlink'
+const addonVersion = '1.2.3'
+const registryRoot = join(root, '.registry-fixture')
+const packageRoot = join(registryRoot, 'package')
+const lifecycleMarker = join(root, 'lifecycle-script-ran')
+await fs.ensureDir(packageRoot)
+await fs.writeJSON(join(packageRoot, 'package.json'), {
+  name: addonName,
+  version: addonVersion,
+  type: 'module',
+  main: 'index.js',
+  scripts: { install: 'node install.cjs' },
+})
+await writeFile(join(packageRoot, 'install.cjs'), `require('node:fs').writeFileSync(${JSON.stringify(lifecycleMarker)}, 'unexpected')\n`)
+await writeFile(join(packageRoot, 'index.js'), 'export const addonAbbrlink = () => ({ name: \'valaxy-addon-abbrlink\' })\n')
+const tarball = join(registryRoot, 'addon.tgz')
+await promisify(execFile)('tar', ['-czf', tarball, '-C', registryRoot, 'package'])
+const tarballContent = await readFile(tarball)
+const registryRequests: string[] = []
+const registry = createHttpServer((request, response) => {
+  registryRequests.push(request.url || '')
+  if (request.url === `/${addonName}/latest`) {
+    response.writeHead(200, { 'content-type': 'application/json' })
+    response.end(JSON.stringify({ name: addonName, version: addonVersion, description: 'Isolated installation fixture', peerDependencies: {} }))
+  }
+  else if (request.url === '/addon.tgz') {
+    response.writeHead(200, { 'content-type': 'application/octet-stream' })
+    response.end(tarballContent)
+  }
+  else {
+    response.writeHead(404)
+    response.end()
+  }
+})
+await new Promise<void>(resolve => registry.listen(0, '127.0.0.1', resolve))
+const registryAddress = registry.address()
+if (!registryAddress || typeof registryAddress === 'string')
+  throw new Error('Registry fixture did not provide a loopback port.')
+const registryOrigin = `http://127.0.0.1:${registryAddress.port}`
+const originalFetch = globalThis.fetch
+// Keep production metadata validation and redirect rules; replace only this
+// fixture's upstream endpoint, and let real pnpm download the local tarball.
+globalThis.fetch = (input, init) => {
+  const url = input instanceof Request ? input.url : String(input)
+  if (url === `https://registry.npmjs.org/${addonName}/latest`)
+    return originalFetch(`${registryOrigin}/${addonName}/latest`, init)
+  if (new URL(url).hostname === 'registry.npmjs.org')
+    throw new Error(`Unexpected public registry request in isolated fixture: ${url}`)
+  return originalFetch(input, init)
+}
 await fs.writeJSON(join(root, 'package.json'), { name: 'addon-browser-fixture', private: true, packageManager: 'pnpm@12.5.1' })
+await writeFile(join(root, 'pnpm-workspace.yaml'), `autoInstallPeers: false\noverrides:\n  ${addonName}: ${registryOrigin}/addon.tgz\n`)
 await writeFile(join(root, 'valaxy.config.ts'), 'export default { theme: \'yun\', addons: [] }\n')
 await fs.ensureDir(join(root, 'pages/posts'))
 // Keep the displayed default deterministic without launching an application.
@@ -76,8 +130,12 @@ try {
   await dialog.getByRole('button', { name: '确认安装', exact: true }).click()
   await expect(page.getByRole('status').filter({ hasText: '操作完成' })).toBeVisible({ timeout: 180_000 })
   const pkg = await fs.readJSON(join(root, 'package.json'))
-  expect(pkg.dependencies['valaxy-addon-abbrlink']).toMatch(/^\d+\.\d+\.\d+/)
+  expect(pkg.dependencies[addonName]).toBe(addonVersion)
   expect(await fs.pathExists(join(root, 'pnpm-lock.yaml'))).toBe(true)
+  expect((await fs.readJSON(join(root, 'node_modules', addonName, 'package.json'))).version).toBe(addonVersion)
+  expect(registryRequests).toContain(`/${addonName}/latest`)
+  expect(registryRequests).toContain('/addon.tgz')
+  expect(await fs.pathExists(lifecycleMarker)).toBe(false)
   await page.getByRole('button', { name: /^已安装/ }).click()
   await expect(page.locator('[data-addon]')).toHaveCount(1)
   await page.reload()
@@ -149,7 +207,9 @@ catch (error) {
   throw error
 }
 finally {
+  globalThis.fetch = originalFetch
   await browser.close()
   await server.close()
+  await new Promise<void>((resolve, reject) => registry.close(error => error ? reject(error) : resolve()))
   await rm(root, { recursive: true, force: true })
 }
