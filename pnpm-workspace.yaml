@@ -56,9 +56,9 @@ catalog:
   '@antfu/utils': ^9.3.0
   '@clack/prompts': ^1.8.1
   '@ctrl/tinycolor': ^4.2.1
-  '@devframes/agentic': 1.0.0
-  '@devframes/service-open': 1.0.0
-  '@devframes/service-shiki': 1.0.0
+  '@devframes/agentic': 1.2.0
+  '@devframes/service-open': 1.2.0
+  '@devframes/service-shiki': 1.2.0
   '@docsearch/css': ^5.1.1
   '@docsearch/js': ^5.1.1
   '@docsearch/sidepanel-js': ^5.1.1
@@ -114,7 +114,7 @@ catalog:
   debug: ^4.4.3
   define-config-ts: ^0.2.0
   defu: ^6.1.7
-  devframe: 1.0.0
+  devframe: 1.2.0
   ejs: ^6.0.1
   escape-html: ^1.0.3
   eslint: ^10.11.0
