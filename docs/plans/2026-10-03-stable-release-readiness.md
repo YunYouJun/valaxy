@@ -11,6 +11,7 @@ The candidate remains **1.0.0-rc.16**. This preparation does not publish 1.0.0, 
 - Handle missing child paths in the Vue compiler filesystem on Node 22, where `statSync` still throws `ENOTDIR` despite `throwIfNoEntry: false`. Other filesystem errors continue to surface.
 - Derive English and Chinese release SEO descriptions from the actual prerelease/stable version state. Release commits use Conventional Commits.
 - Correct the Meting migration instructions: inline players use `<MetingJs>` to load scripts. Raw `<meting-js>` tags require MetingJS to have already loaded, such as through a global player.
+- Make the addon marketplace browser check independent of npm registry rate limits. A loopback metadata endpoint and tarball exercise the existing metadata validator, authenticated RPC, real pnpm install/remove and source-preserving previews. Fixture overrides live in pnpm 12 workspace settings; production registry settings and package-manager arguments stay intact. The check verifies the exact installed version and proves lifecycle scripts did not run.
 
 ## Local verification
 
@@ -22,6 +23,7 @@ The candidate remains **1.0.0-rc.16**. This preparation does not publish 1.0.0, 
 - All six coordinated packages were packed with actual catalog and workspace resolution. An isolated consumer installs these tarballs, both themes, the packed Mermaid addon and published Meting 0.2.1. Yun and Press SSG builds pass.
 - Browser verification confirms Yun article/tag navigation and Press article navigation, Mermaid rendering and zoom in both themes, and Meting initialization using a synthetic local API response. This checks the addon integration, not an external music service or audio playback.
 - After the Mermaid 12.1.0 update, eight Mermaid unit regressions and four production SSG browser tests pass, covering English/Chinese rendering, keyboard zoom and narrow touch layouts in both color schemes. The temporary SSG runner uses the existing Mermaid suite's desktop project and 10-second assertion budget; the original five-second generic SSG budget and inherited mobile project were unsuitable for these tests. Documentation SSG passes again at **3860.7 MiB** peak process-tree RSS. A fresh independent consumer uses pnpm 12 workspace settings for coordinated package overrides and retains only the braces advisory.
+- The first hosted E2E attempt received npm HTTP 429 before its install preview. The loopback fixture passes the full existing marketplace browser check locally, including actual tarball download and installation, persisted settings, removal previews, dark mode and mobile layout. No assertion was removed or timeout raised.
 - A separate project first installs and builds published **0.28.11**, then upgrades to the packed candidate and migrates `ignoreDeadLinks` to `build.ignoreDeadLinks`. Both Markdown files retain identical SHA-256 hashes, and the old article route is generated on Node 22.12.0. This is a synthetic migration fixture, not a claim that every third-party theme is compatible.
 
 ## Remaining release decisions
@@ -44,6 +46,8 @@ Local logs and artifacts use the `20261003` suffix:
 - `/tmp/valaxy-pr753-consumer-yun-final-20261003.log`
 - `/tmp/valaxy-pr753-consumer-press-final-20261003.log`
 - `/tmp/valaxy-pr753-packed-20261003/`
+- `/tmp/valaxy-pr753-addon-marketplace-final-20261003.log`
+- `/tmp/valaxy-pr753-addon-fixture-typecheck-20261003.log`
 - `/tmp/valaxy-stable-closeout-audit-final-20261003.json`
 - `/tmp/valaxy-closeout-consumer-audit-20261003.json`
 - `/tmp/valaxy-stable-closeout-unit-20261003.log`
