@@ -11,6 +11,7 @@ import { createValaxyDevframe } from './definition'
 import { watchResources } from './watch'
 
 export { createValaxyDevframe } from './definition'
+export type { ValaxyDevtoolsOptions } from './types'
 
 export function ValaxyDevtools(options: ValaxyDevtoolsOptions = {}): Plugin {
   let stopWatching: (() => void) | undefined

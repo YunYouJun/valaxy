@@ -42,7 +42,8 @@ jobs:
 
       - run: pnpm install --frozen-lockfile
 
-      - run: pnpm run build:all
+      - name: Verify coordinated release before publishing
+        run: pnpm run check:release
 
       # https://docs.github.com/en/actions/publishing-packages/publishing-nodejs-packages
       # v1 release candidates are the default install channel while v1 is being

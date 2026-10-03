@@ -272,7 +272,7 @@ The dev server supports hot reload for:
 - Styles
 
 ### Node Version
-Requires Node.js 18+ or 20+
+Requires Node.js 22.12.0 or newer, matching the package engines and CI build/test matrix.
 
 ## Testing Strategy
 
@@ -290,7 +290,11 @@ The project supports:
 ## Release Process
 
 ```bash
-pnpm release  # Uses bumpp to version and release
+pnpm release --prepare 1.0.0  # Prepare coordinated versions and lockfile for review
+pnpm check:release          # Versions, lint, builds, types, tests and production audit
+pnpm release --publish      # Tag the checked, committed version from current main
 ```
+
+Preparation does not commit, tag or push. Merge the reviewed version changes first. Publication requires a clean `main` matching `origin/main` and pushes only the exact release tag. The tag workflow repeats `check:release` before npm publication. Production High/Critical advisories block this check.
 
 Releases are automated via `.github/workflows/release.yml`

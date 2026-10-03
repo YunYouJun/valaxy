@@ -59,7 +59,7 @@ export default defineValaxyConfig({
 })
 ```
 
-`<meting-js>` usage in Markdown is otherwise unchanged. See [Music Player](/guide/third-party#music-player).
+Use the addon's `<MetingJs>` Vue component for inline players; it loads the required scripts. A raw `<meting-js>` tag works only after the page has loaded MetingJS, for example through `addonMeting({ global: true })`. See [Music Player](/guide/third-party#music-player).
 
 ### Config & frontmatter removals
 

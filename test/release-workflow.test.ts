@@ -62,6 +62,14 @@ describe('npm release workflows', () => {
     }))
   })
 
+  it('checks versions, quality and audit before coordinated publication', () => {
+    const steps = release.jobs.release.steps
+    const check = steps.findIndex(step => step.run === 'pnpm run check:release')
+    const publish = steps.findIndex(step => step.run?.includes('PACKAGES=('))
+    expect(check).toBeGreaterThan(steps.findIndex(step => step.run === 'pnpm install --frozen-lockfile'))
+    expect(publish).toBeGreaterThan(check)
+  })
+
   it('validates addon inputs before installing dependencies', () => {
     const steps = release.jobs['release-addon'].steps
     const resolverIndex = steps.findIndex(step => step.id === 'addon')

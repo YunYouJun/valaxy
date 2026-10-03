@@ -57,7 +57,7 @@ nav:
   ecosystem: Ecosystem
 
   vscode: VSCode Extension
-  client: Client
+  client: Yunzhan Client (Public Preview)
   news: Newsletters
   community: Community
   dev: Join Dev
@@ -124,8 +124,8 @@ features:
     title: Addons - Infinite Possibilities
     details: Fully compatible with Vite/Vue plugins. You can further encapsulate and simplify configurations or extend functionality (including components) through addons.
   electron:
-    title: Yunle CMS - Writing Client
-    details: Yunle CMS brings Web and desktop writing together with first-party Valaxy support. Desktop is a development preview; mobile will follow.
+    title: Yunzhan - Writing Client (Public Preview)
+    details: Try local Valaxy writing on Apple Silicon Macs. The signed preview app is available; desktop cloud sync and other platforms are still in development.
 
 tooltip:
   edit_this_page: Edit this page on GitHub

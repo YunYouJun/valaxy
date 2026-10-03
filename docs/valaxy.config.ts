@@ -590,7 +590,7 @@ export default defineValaxyConfig<PressTheme.Config>({
                   link: '/zh/ecosystem/vscode',
                 },
                 {
-                  text: '客户端应用',
+                  text: '云栈客户端（公开预览）',
                   link: '/zh/ecosystem/client',
                 },
                 {

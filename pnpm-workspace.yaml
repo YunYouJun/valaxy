@@ -5,6 +5,9 @@ cleanupUnusedCatalogs: true
 minimumReleaseAgeExcludePrune: true
 minimumReleaseAgeExclude:
   - js-base64@3.9.4
+  # Reviewed upstream security release: removes vulnerable lodash-es parser copies.
+  - '@mermaid-js/parser@2.0.1'
+  - mermaid@12.1.0
 
 trustPolicy: no-downgrade
 autoInstallPeers: false
@@ -56,9 +59,9 @@ catalog:
   '@antfu/utils': ^9.3.0
   '@clack/prompts': ^1.8.1
   '@ctrl/tinycolor': ^4.2.1
-  '@devframes/agentic': 1.0.0
-  '@devframes/service-open': 1.0.0
-  '@devframes/service-shiki': 1.0.0
+  '@devframes/agentic': 1.2.0
+  '@devframes/service-open': 1.2.0
+  '@devframes/service-shiki': 1.2.0
   '@docsearch/css': ^5.1.1
   '@docsearch/js': ^5.1.1
   '@docsearch/sidepanel-js': ^5.1.1
@@ -114,7 +117,7 @@ catalog:
   debug: ^4.4.3
   define-config-ts: ^0.2.0
   defu: ^6.1.7
-  devframe: 1.0.0
+  devframe: 1.2.0
   ejs: ^6.0.1
   escape-html: ^1.0.3
   eslint: ^10.11.0
@@ -154,7 +157,7 @@ catalog:
   markdown-it-table-of-contents: ^1.2.0
   markdown-it-task-lists: ^2.1.1
   medium-zoom: ^1.1.0
-  mermaid: ^12.0.0
+  mermaid: ^12.1.0
   minimatch: ^10.2.4
   minimist: ^1.2.8
   minisearch: ^7.2.0

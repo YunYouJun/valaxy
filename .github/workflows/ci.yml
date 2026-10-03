@@ -40,7 +40,7 @@ jobs:
 
     strategy:
       matrix:
-        node-version: [lts/*]
+        node-version: [22.12.0, lts/*]
         os: [ubuntu-latest, windows-latest]
       fail-fast: false
 
@@ -75,7 +75,7 @@ jobs:
 
     strategy:
       matrix:
-        node-version: [lts/*]
+        node-version: [22.12.0, lts/*]
         os: [ubuntu-latest, windows-latest]
       fail-fast: false
 
