@@ -1,4 +1,5 @@
 import type { ValaxyNode } from '../packages/valaxy/node/types'
+import { execFileSync } from 'node:child_process'
 import { mkdtemp, rm } from 'node:fs/promises'
 import { tmpdir } from 'node:os'
 import { resolve } from 'node:path'
@@ -23,6 +24,11 @@ it('generates real references, caches unchanged sources and invalidates edited d
     await fs.writeJson(resolve(root, 'compiler-settings.json'), { compilerOptions: { target: 'ESNext', types: [], strict: true } })
     await fs.writeJson(resolve(root, 'tsconfig.json'), { extends: './compiler-settings.json', include: ['src'] })
     await fs.writeJson(resolve(root, 'typedoc.json'), { entryPoints: ['./src/index.ts'], tsconfig: './tsconfig.json' })
+    await fs.writeFile(resolve(root, '.gitignore'), '.valaxy/\n')
+    const git = (args: string[]) => execFileSync('git', args, { cwd: root, stdio: 'ignore' })
+    git(['init'])
+    git(['add', '.'])
+    git(['-c', 'user.name=Valaxy Test', '-c', 'user.email=test@example.com', '-c', 'commit.gpgsign=false', 'commit', '-m', 'test(typedoc): add API fixture'])
     const node = { options: { userRoot: root, config: { themeConfig: { sidebar: { '/guide/': [] } } } } } as unknown as ValaxyNode
     const ctx = { node, mode: 'build' as const, cacheDir: resolve(root, '.valaxy/content') }
     const loader = createTypeDocLoader({ options: './typedoc.json', watch: ['src/**/*.ts'] }, root)
@@ -30,6 +36,10 @@ it('generates real references, caches unchanged sources and invalidates edited d
     expect(first.some(page => page.path === 'api/functions/read.md' && page.content.includes('Read a value.'))).toBe(true)
     expect(await loader.load(ctx)).toEqual(first)
     expect(loader.generationCount()).toBe(1)
+    await fs.writeJson(resolve(root, 'contributors.json'), { generated: true })
+    expect(await loader.load(ctx)).toEqual(first)
+    expect(loader.generationCount()).toBe(1)
+    expect(first[0].content).toContain('"dirty":false')
     expect(loader.isSource(resolve(root, 'src/new.ts'))).toBe(true)
     expect(loader.isSource(resolve(root, 'pages/guide.md'))).toBe(false)
     expect(loader.isSource(resolve(root, '.valaxy/content/cache.json'))).toBe(false)
@@ -43,6 +53,7 @@ it('generates real references, caches unchanged sources and invalidates edited d
     expect(changed.some(page => page.path === 'api/functions/write.md')).toBe(true)
     expect(changed.some(page => page.path === 'api/functions/read.md')).toBe(false)
     expect(loader.generationCount()).toBe(3)
+    expect(changed[0].content).toContain('"dirty":true')
     await loader.onLoaded?.(ctx)
     expect(node.options.config.themeConfig).toHaveProperty('sidebar./api/')
     expect(node.options.config.themeConfig).toHaveProperty('sidebar./guide/')
