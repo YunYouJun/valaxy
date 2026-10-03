@@ -72,7 +72,7 @@ pnpm add -g valaxy
 
 ### 桌面客户端
 
-`valaxy app [path]` 转交给独立安装的 `yunzhan app [path]`，不加载项目配置。此源码改动尚未包含在已发布的 `1.0.0-rc.15` 中。预览状态和本地安装方法见 [客户端](/zh/ecosystem/client)。
+`valaxy app [path]` 转交给独立安装的 `yunzhan app [path]`，不加载项目配置。从 `1.0.0-rc.16` 起提供此命令。[下载云栈桌面版](https://cms.yunle.fun/download)，CLI 安装方法见 [客户端](/zh/ecosystem/client)。
 
 
 

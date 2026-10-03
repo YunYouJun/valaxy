@@ -57,7 +57,7 @@ nav:
   ecosystem: 生态
 
   vscode: VSCode 插件
-  client: 客户端应用
+  client: 云栈客户端（公开预览）
   news: 新闻
   community: 社区
   dev: 参与开发
@@ -124,8 +124,8 @@ features:
     title: 插件 - 无限的可能性
     details: 完全兼容 Vite/Vue 插件外，你还可通过 Addon 进一步封装简化配置或扩展功能（包括组件）
   electron:
-    title: 云栈 - 写作客户端
-    details: 云栈统一 Web 与桌面写作入口，第一方支持 Valaxy。桌面目前为开发预览，手机端随后推进。
+    title: 云栈 - 写作客户端（公开预览）
+    details: 在 Apple Silicon Mac 上体验本地 Valaxy 写作。签名预览版已开放下载，桌面云同步与其他平台仍在开发。
 
 tooltip:
   edit_this_page: 在 GitHub 上编辑此页
