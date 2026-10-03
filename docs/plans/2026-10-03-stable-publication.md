@@ -7,8 +7,8 @@ The public npm version is still `1.0.0-rc.16`. This document prepares a stable r
 - Version preparation updates the six coordinated packages, the blog scaffold and the pnpm lockfile without staging unrelated work, committing, tagging or pushing.
 - A separate `pnpm release --publish` operates only on a clean, reviewed `main` matching `origin/main`. It checks the exact version, rejects an existing tag and pushes only that tag with the reviewed commit in one atomic operation.
 - Errors now exit unsuccessfully. Both pnpm's JavaScript CLI and pnpm 12's native executable are supported.
-- `check:release` validates package, scaffold and tag versions, then runs lint, all package builds, type checking, units and the production High/Critical dependency audit. The tag workflow repeats these checks before npm publication.
-- The Press scaffold now selects the same version as Valaxy. Independently versioned third-party themes continue to use their own latest channel.
+- `check:release` validates package, scaffold and tag versions, then runs lint, all package and demo builds, type checking, units and the production High/Critical dependency audit. The tag workflow repeats these checks before npm publication.
+- The Press scaffold now selects the same version as Valaxy. Independently versioned third-party themes continue to use their own latest channel. The blog scaffold explicitly installs the core Vue peers, so it also works when pnpm peer auto-installation is disabled; preparation keeps those ranges synchronized.
 
 ## Publication sequence
 

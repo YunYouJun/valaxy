@@ -55,6 +55,15 @@ describe('valaxy peerDependencies', () => {
   })
 })
 
+describe('blog scaffold peer dependencies', () => {
+  it('installs the same required Vue peers as Valaxy for projects disabling auto-install', () => {
+    const core = JSON.parse(fs.readFileSync(path.resolve(__dirname, '../packages/valaxy/package.json'), 'utf8'))
+    const template = JSON.parse(fs.readFileSync(path.resolve(__dirname, '../packages/create-valaxy/template-blog/package.json'), 'utf8'))
+    for (const [name, range] of Object.entries(core.peerDependencies))
+      expect(template.dependencies[name]).toBe(range)
+  })
+})
+
 // ─── normalizeThemeName ──────────────────────────────────────────────
 
 describe('normalizeThemeName', () => {

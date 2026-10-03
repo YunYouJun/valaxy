@@ -38,6 +38,10 @@ export async function updateTemplateVersions(version: string) {
         }
       }
     }
+    // Generated pages import these peers from the user's project root.
+    // Keep scaffolds working when peer auto-installation is disabled.
+    const core = JSON.parse(await readFile('packages/valaxy/package.json', 'utf-8'))
+    pkg.dependencies = { ...pkg.dependencies, ...core.peerDependencies }
     await writeFile(pkgPath, `${JSON.stringify(pkg, null, 2)}\n`)
   }
 }

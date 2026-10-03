@@ -29,6 +29,11 @@ export async function checkReleaseVersions(root: string, tag?: string): Promise<
   const names = new Set(manifests.slice(1).map(({ pkg }) => pkg.name))
   for (const template of templates) {
     const pkg = JSON.parse(await readFile(resolve(root, template, 'package.json'), 'utf8'))
+    const core = manifests.find(({ pkg }) => pkg.name === 'valaxy')!.pkg
+    for (const [name, range] of Object.entries(core.peerDependencies || {})) {
+      if (pkg.dependencies?.[name] !== range)
+        throw new Error(`${template} requires ${name}@${pkg.dependencies?.[name]}; expected peer range ${range}`)
+    }
     for (const deps of [pkg.dependencies, pkg.devDependencies]) {
       for (const [name, range] of Object.entries(deps || {})) {
         if (names.has(name) && range !== version)
