@@ -1,5 +1,13 @@
 # Shiki 高亮耗时问题
 
+::: warning 旧版实现记录 · 2026-10-04 按 Valaxy 1.0 核对
+本文保留早期高亮性能排查过程。按需加载语言的思路仍适用；下方的 `synckit` worker、`loadLanguageSync` 和修改 `getLanguage` 的方案已不适用于 Valaxy 1.0。
+
+1.0 使用异步 Markdown 渲染，等待 `highlighter.loadLanguage()`，并在相同配置下复用高亮实例；无需复制同步 worker 方案。文中的 M1 Pro 启动耗时是当时的单机观察，不是当前版本基准。
+
+当前实现可参考 [1.0 高亮代码](https://github.com/YunYouJun/valaxy/blob/v1.0.0/packages/valaxy/node/plugins/markdown/plugins/highlight.ts)和[高亮实例管理](https://github.com/YunYouJun/valaxy/blob/v1.0.0/packages/valaxy/node/plugins/markdown/highlighterCache.ts)。使用方法见 [Markdown 指南](/zh/guide/markdown)。
+:::
+
 Valaxy 使用 Shiki 实现代码高亮。
 
 使用 `Object.keys(bundledLanguages)` 加载全部语言时将使得冷启动时间更久（在 M1 Pro 下增加了约 3s）。

@@ -1,5 +1,6 @@
 ---
 title: Math 渲染引擎评估与加载策略
+excerpt: 回顾 KaTeX 与 MathJax 的选型评估，并补充 Valaxy 1.0 的样式加载、单篇配置与 SSG 更正。
 date: 2026-02-23
 tags:
   - performance
@@ -7,7 +8,19 @@ tags:
   - mathjax
   - dev-notes
 end: false
+updated: 2026-10-04
 ---
+
+::: warning 历史评估 · 2026-10-04 按 Valaxy 1.0 核对
+本文保留 **2026-02-23** 的选型评估。配置示例仍有参考价值，使用 Valaxy 1.0 时需要结合以下更正：
+
+- Critical CSS 内联已移除。SSG 不代表 CSS 全部内联或没有样式请求；当前使用构建资源与 FOUC guard 处理样式。
+- `features.katex: false` 关闭默认 KaTeX 渲染，单篇仍可通过 `katex: true` 开启。因此，未启用 MathJax 时，KaTeX 插件和样式仍会保留以支持单篇覆盖。
+- `math: true` 启用 MathJax，并优先于 KaTeX。Valaxy 也已为 KaTeX 注册化学公式所需的 mhchem 扩展。
+- 下文的体积和性能数据属于当时的观察，不是 1.0 的实测结果或性能承诺。请结合当前依赖版本，以及站点实际生成的 HTML、样式和字体测量。
+
+当前用法见[数学配置](/zh/guide/markdown#math-formulas)、[公式示例](/zh/examples/math)与 [SSG 迁移说明](/zh/migration/version#ssg-remove-vite-ssg)。
+:::
 
 ## 背景 {#背景}
 
@@ -43,7 +56,7 @@ Valaxy 需要支持 Markdown 中的数学公式渲染。此前仅支持 KaTeX，
 |------|-------|----------|
 | LaTeX 覆盖度 | 大部分常用命令 | 更全面，支持更多扩展 |
 | 交换图/XyJax | 不支持 | 支持（通过 XyJax-v3） |
-| `\ce{}` 化学 | 需要额外扩展 | 内置支持 |
+| `\ce{}` 化学 | Valaxy 已注册 mhchem 扩展 | 内置支持 |
 | `\cancel`/`\xcancel` | 支持 | 支持 |
 | 自定义宏 | 支持 | 支持（更灵活） |
 | 可访问性 | MathML 输出 | MathML + SVG |
@@ -82,7 +95,7 @@ export default defineValaxyConfig({
   math: true,
 })
 
-// 禁用所有数学渲染
+// 默认不渲染公式；单篇仍可通过 frontmatter.katex: true 开启
 export default defineValaxyConfig({
   features: { katex: false },
 })
@@ -104,7 +117,7 @@ export default defineValaxyConfig({
 
 #### 方案 A：全局条件加载（当前方案） {#方案-a全局条件加载当前方案}
 
-在 `virtual/styles.ts` 中，当 math engine 为 `katex` 时全局引入 `katex.min.css` + `katex.scss`。
+在 `virtual/styles.ts` 中，未启用 MathJax 时全局引入 `katex.min.css` + `katex.scss`，以支持默认渲染和单篇 `katex` 覆盖。
 
 #### 方案 B：按需加载 {#方案-b按需加载}
 
@@ -151,7 +164,7 @@ const hasBlockMath = /\$\$[\s\S]+?\$\$/.test(content)
 
 - `katex.min.css` 原始 ~25KB，但 gzip 后仅 **~1.2KB**（大量重复的 `@font-face` 声明压缩率极高）
 - 字体文件由浏览器**天然按需加载**——只有页面实际渲染了对应 `@font-face` 的元素才会下载字体，不使用 KaTeX 的页面**不会下载任何字体文件**
-- 全局加载的真实代价仅为 **1.2KB gzip CSS**，无额外网络请求
+- 当时记录的 CSS 压缩体积约为 **1.2KB gzip**，不含字体和其他资源。当前请求数量与体积应以实际构建产物为准。
 
 ### KaTeX 加载结论 {#katex-加载结论}
 
@@ -160,7 +173,7 @@ const hasBlockMath = /\$\$[\s\S]+?\$\$/.test(content)
 1. 1.2KB 的 CSS 开销对首屏性能影响可忽略不计
 2. 按需加载引入的工程复杂度、FOUC 风险、正则维护成本远超其收益
 3. 博客场景下技术文章普遍使用数学公式，按需加载的实际收益有限
-4. SSG 场景下 CSS 内联到 HTML 中，不存在额外请求
+4. 样式统一交给构建产物加载；**Valaxy 1.0 已移除 Critical CSS 内联**，不能再以 SSG 推断没有额外 CSS 请求。
 
 **如果需要零 CSS 开销**，推荐切换到 MathJax `math: true`，从架构层面彻底消除外部 CSS/字体依赖。
 

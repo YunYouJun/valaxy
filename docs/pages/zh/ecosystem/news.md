@@ -17,7 +17,7 @@ Valaxy 1.0 是首个稳定版本，继续围绕 Markdown 写作、Vue 组件扩�
 
 升级前请先确认 Node.js 版本不低于 **22.12.0**，并阅读迁移指南中的配置与插件调整。
 
-[浏览 1.0 发布专题](/zh/release/) · [升级指南](/zh/migration/version#v100) · [1.0.0 发布记录](https://github.com/YunYouJun/valaxy/releases/tag/v1.0.0)
+[阅读 1.0 深度介绍](/zh/posts/valaxy-1-0) · [浏览 1.0 发布专题](/zh/release/) · [升级指南](/zh/migration/version#v100) · [1.0.0 发布记录](https://github.com/YunYouJun/valaxy/releases/tag/v1.0.0)
 
 ## 2026-10-04 · 写作工具与插件近况 {#ecosystem-roundup}
 

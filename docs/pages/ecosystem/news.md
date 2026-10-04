@@ -17,7 +17,7 @@ Valaxy 1.0 is the first stable release, building on Markdown writing, Vue compon
 
 Before upgrading, ensure that your Node.js version is **22.12.0 or later** and review the configuration and addon changes in the migration guide.
 
-[Explore Valaxy 1.0](/release/) · [Migration guide](/migration/version#v1-0-0) · [1.0.0 release notes](https://github.com/YunYouJun/valaxy/releases/tag/v1.0.0)
+[Read the 1.0 deep dive](/posts/valaxy-1-0) · [Explore Valaxy 1.0](/release/) · [Migration guide](/migration/version#v1-0-0) · [1.0.0 release notes](https://github.com/YunYouJun/valaxy/releases/tag/v1.0.0)
 
 ## 2026-10-04 · Writing tools and addon roundup {#ecosystem-roundup}
 

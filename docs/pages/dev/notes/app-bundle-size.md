@@ -1,5 +1,15 @@
 # 包体积优化
 
+::: warning 旧版优化探索 · 2026-10-04 按 Valaxy 1.0 核对
+本文保留早期分包与数据加载方案的探索，未记录完整的测量环境，不能据此确定某个精确的适用小版本。下方代码不作为 Valaxy 1.0 的配置模板。
+
+- `defineBasicLoader` 与 `node/templates/loader.vue` 的片段属于历史探索；1.0 没有该模板，不能将它视为当前文章数据加载实现。
+- `getRollupOptions` / `manualChunks` 的片段已由 Vite 8 + Rolldown 路径替代。当前框架使用 `getRolldownOutputOptions` 与 `codeSplitting`，见 [1.0 分包实现](https://github.com/YunYouJun/valaxy/blob/v1.0.0/packages/valaxy/node/build/bundle.ts)。
+- date-fns / dayjs 的 30 KB 与 21 KB 是当时站点的构建观察；依赖版本、导入方式和打包器都会影响结果，不应据此判断当前库的模块支持或普遍体积优劣。
+
+当前升级要求见[版本迁移](/zh/migration/version)，构建背景见 [1.0 深度介绍](/zh/posts/valaxy-1-0#build)。
+:::
+
 ## Data Loaders (Vue Routers)
 
 - [Data Loaders](https://uvr.esm.is/data-loaders/)
