@@ -58,10 +58,11 @@ nav:
 
   vscode: VSCode 插件
   client: 云栈客户端（公开预览）
-  news: 新闻
+  news: 项目动态
   community: 社区
   dev: 参与开发
   dev-notes: 开发笔记
+  blog: 博客
 
   examples:
     site: 示例站点

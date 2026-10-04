@@ -7,7 +7,16 @@ end: false
 
 ## Documentation Guidelines
 
-Valaxy is preparing for the 1.0 release, and we look forward to your participation in writing and translating documentation.
+We welcome contributions to Valaxy's documentation, translations, and blog.
+
+### Where to publish
+
+- **[Project updates](/ecosystem/news)**: Dated summaries of major releases and ecosystem milestones, newest first. Link to the relevant article or documentation for details. Routine patch changes belong in [GitHub Releases](https://github.com/YunYouJun/valaxy/releases).
+- **[Blog](/posts/)**: Feature articles, design decisions, and development notes. Add articles under `docs/pages/posts/`, with Chinese counterparts under `docs/pages/zh/posts/`. Include a title, publication date, tags, and a short introduction before `<!-- more -->`.
+- **[Release showcase](/release/)**: The visual introduction to a major version. Link to it from project updates instead of duplicating its content.
+- **Guides and [migration documentation](/migration/version)**: Maintain current usage instructions and upgrade steps here. Blog posts can explain the context and link to these instructions.
+
+Keep the existing `/ecosystem/news` and `/posts/` URLs when updating navigation labels. Historical articles retain their original publication dates; add a dated note when their advice no longer applies.
 
 ## Documentation Organization
 

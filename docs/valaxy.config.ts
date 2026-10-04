@@ -152,7 +152,7 @@ const defaultSidebar: PressTheme.SidebarEntry[] = [
   },
   'dev',
   {
-    text: 'nav.dev-notes',
+    text: 'nav.blog',
     link: '/posts/',
   },
 ]
@@ -282,7 +282,7 @@ const zhDefaultSidebar: PressTheme.SidebarEntry[] = [
   },
   'dev',
   {
-    text: '开发笔记',
+    text: '博客',
     link: '/zh/posts/',
   },
 ]
@@ -469,7 +469,7 @@ export default defineValaxyConfig<PressTheme.Config>({
             link: '/dev',
           },
           {
-            text: 'nav.dev-notes',
+            text: 'nav.blog',
             link: '/posts/',
           },
           {
@@ -594,7 +594,7 @@ export default defineValaxyConfig<PressTheme.Config>({
                   link: '/zh/ecosystem/client',
                 },
                 {
-                  text: '新闻',
+                  text: '项目动态',
                   link: '/zh/ecosystem/news',
                 },
                 {
@@ -606,7 +606,7 @@ export default defineValaxyConfig<PressTheme.Config>({
                   link: '/zh/dev',
                 },
                 {
-                  text: '开发笔记',
+                  text: '博客',
                   link: '/zh/posts/',
                 },
                 {
