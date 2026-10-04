@@ -13,7 +13,7 @@ categories:
 
 ## Installation
 
-Version **0.1.0** is available as a [VSIX on GitHub Releases](https://github.com/valaxyjs/valaxy-vscode/releases/tag/v0.1.0). It requires **VS Code 1.85 or later**. Until Marketplace publishing is complete, install that VSIX via **Extensions → Install from VSIX…** to use the features described below.
+Version **0.1.0** is available on [Visual Studio Marketplace](https://marketplace.visualstudio.com/items?itemName=yunyoujun.valaxy) and as a [VSIX on GitHub Releases](https://github.com/valaxyjs/valaxy-vscode/releases/tag/v0.1.0). It requires **VS Code 1.85 or later**. Install or update it from Marketplace, or install the downloaded VSIX via **Extensions → Install from VSIX…**.
 
 Search for `Valaxy` in the VS Code Extensions view and select the extension published by **YunYouJun** (extension ID: `yunyoujun.valaxy`). You can also install it from a terminal if the `code` command is available:
 

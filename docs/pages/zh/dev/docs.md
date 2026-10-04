@@ -7,7 +7,16 @@ end: false
 
 ## 文档编写规范 {#docs-writing}
 
-Valaxy 正在为 1.0 的发布做准备，我们很期待您参与文档的撰写与翻译。
+欢迎参与 Valaxy 文档、翻译和博客文章的撰写。
+
+### 内容放在哪里 {#content-placement}
+
+- **[项目动态](/zh/ecosystem/news)**：按日期倒序记录重要版本和生态进展，每条保留简短摘要，链接到文章或文档了解详情。常规补丁变更保留在 [GitHub Releases](https://github.com/YunYouJun/valaxy/releases)。
+- **[博客](/zh/posts/)**：收录功能解读、设计取舍与开发笔记。英文文章放在 `docs/pages/posts/`，中文对应文章放在 `docs/pages/zh/posts/`。包含标题、发布日期、标签，并在 `<!-- more -->` 前提供简短导语。
+- **[发布专题](/zh/release/)**：集中展示大版本亮点。项目动态链接到专题，避免重复维护整篇介绍。
+- **使用指南与[迁移文档](/zh/migration/version)**：持续维护当前有效的使用方法和升级步骤。博客可解释背景，再链接到对应指南。
+
+调整导航名称时保留现有 `/ecosystem/news`、`/posts/` 及其中文路径。历史文章保留原始发布日期；其中的建议过时时，补充带日期的说明。
 
 ## 文档组织方式 {#文档组织方式}
 
@@ -94,4 +103,3 @@ pnpm docs:build
 ```
 
 访问 `http://localhost:4859` 查看文档效果，使用右上角的语言切换按钮测试中英文切换。
-
