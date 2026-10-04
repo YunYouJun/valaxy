@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-defineProps<{ cover?: string }>()
+defineProps<{ cover?: string, coverComponent?: string, coverProps?: Record<string, unknown> }>()
 </script>
 
 <template>
@@ -8,7 +8,7 @@ defineProps<{ cover?: string }>()
     min-h="100px"
     bg="$va-c-bg-light"
   >
-    <YunCover :src="cover" />
+    <YunCover :src="cover" :component="coverComponent" :component-props="coverProps" />
 
     <div v-if="$slots.header" class="yun-card-header">
       <header>

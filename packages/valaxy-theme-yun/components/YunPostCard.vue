@@ -12,6 +12,7 @@ const props = defineProps<{
 const themeConfig = useThemeConfig()
 const { t } = useI18n()
 const { $tO } = useValaxyI18n()
+const hasCover = computed(() => Boolean(props.post.cover || props.post.coverComponent))
 
 const { icon, styles, color } = usePostProperty(props.post.type)
 
@@ -31,19 +32,20 @@ const postTitleClass = computed(() => {
     <YunCard
       class="post-card-wrapper w-full hover:scale-102 hover:z-1"
       mx="4"
-      :class="post.cover ? 'post-card-image' : 'post-card'"
+      :class="hasCover ? 'post-card-image' : 'post-card'"
       overflow="hidden" v-bind="styles ? { style: styles } : {}"
     >
       <!-- Overlay link covers the entire card -->
       <AppLink class="post-card-overlay" :to="post.path || ''" :aria-label="$tO(post.title)" tabindex="0" />
 
       <div class="flex flex-1 of-hidden justify-start items-start post-card-info" w="full">
-        <img
-          v-if="post.cover" :src="post.cover" :alt="t('post.cover')" width="320" height="180"
-          class="post-card-cover cover object-cover object-center md:shadow" loading="lazy"
-        >
+        <YunCover
+          v-if="hasCover" :src="post.cover" :alt="t('post.cover')"
+          :component="post.coverComponent" :component-props="post.coverProps" context="card"
+          class="post-card-cover cover md:shadow"
+        />
 
-        <div class="post-card-body flex flex-col items-center relative" :class="post.cover && 'post-card-body-with-cover'" w="full">
+        <div class="post-card-body flex flex-col items-center relative" :class="hasCover && 'post-card-body-with-cover'" w="full">
           <AppLink class="post-title-link" :to="post.path || ''" m="t-3" :class="postTitleClass" tabindex="-1">
             <div class="post-card-title flex-center title text-2xl" text="center" font="serif black">
               <div v-if="post.type" class="inline-flex" m="r-1" :class="icon" />
@@ -128,6 +130,11 @@ const postTitleClass = computed(() => {
     outline-offset: -3px;
     border-radius: var(--va-card-border-radius, 0.5rem);
   }
+}
+
+// Component covers own their interactions; the rest of the card remains a link.
+.post-card-cover .valaxy-cover-content {
+  z-index: 2;
 }
 
 // Interactive elements float above the overlay while empty action-bar space

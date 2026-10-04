@@ -43,6 +43,73 @@ hide: true
   - `index`: When set to `index`, it will be hidden only in the front page. It will still be displayed in archives. (You can use this for some notes unnecessary for the front page, but good for the archive for reference sometimes)
 
 
+## Image and Vue Component Covers {#cover}
+
+Yun supports both image covers and interactive Vue covers in post cards and article headers. **A component cover does not require an image.** It can draw its entire scene with inline SVG, CSS or Canvas.
+
+### A cover drawn with Vue and SVG {#vue-svg-cover}
+
+This example draws the sky, clouds, orbits and constellation with inline SVG. Click the button to draw the constellation and start the motion; click again to pause. No generated image, image URL or animation dependency is used.
+
+<HelloValaxyCover />
+
+1. Create `components/covers/HelloValaxyCover.vue` in your blog. The default blog scaffold already includes it. Copy the complete component below to use it in an existing blog.
+2. Select the component in a post's frontmatter. `cover` is optional:
+
+```yaml
+---
+title: Hello, Valaxy!
+coverComponent: HelloValaxyCover
+coverProps:
+  subtitle: Your words, a new constellation.
+---
+```
+
+::: details Complete Vue + SVG component
+
+<<< @/../packages/create-valaxy/template-blog/components/covers/HelloValaxyCover.vue
+
+:::
+
+- `coverComponent` is the PascalCase component name derived from its filename, not a path or template string.
+- Use only serializable values in `coverProps`: strings, numbers, booleans, arrays and plain objects.
+- The container supplies `context` (`card` or `page`) and optional `src` (the original `cover` URL). These reserved props override values in `coverProps`. A purely graphical component can ignore `src`.
+- Components load on demand and participate in static generation. The SVG remains visible before JavaScript starts; interaction starts after hydration.
+- A component cover owns its interactive area. The title and the rest of the post card still open the article.
+
+Components can also live in `src/components/covers/` or a theme/addon's `components/covers/`. Matching names follow the normal root override order. Use unique filenames within each cover directory tree.
+
+### Reuse the component in Markdown {#cover-in-markdown}
+
+Markdown supports the same component with independent props and state:
+
+```md
+<HelloValaxyCover subtitle="The same component, inside your story." />
+```
+
+The example defaults to `context="body"` when used directly. Each card, header and body instance keeps its own toggle state. Yun integrates component covers; other themes can use the core `<ValaxyCover :src="cover" :component="coverComponent" :component-props="coverProps" />` renderer. Vue components in article content work across themes; see [Using Vue in Markdown](/guide/markdown#using-vue-in-markdown).
+
+### Animation and rendering {#cover-animation}
+
+The example uses Vue state and CSS transitions/keyframes to animate SVG. It needs only Vue. Its animation starts on click, pauses outside the viewport or in a hidden tab, and respects `prefers-reduced-motion` while keeping the toggle functional.
+
+Use `useId()` for SVG gradient/mask IDs so several instances can appear on one page. Keep initial coordinates deterministic; do not call `Math.random()` or read `window` during setup. Put browser APIs such as `IntersectionObserver` in `onMounted`, and disconnect them on unmount. Canvas/WebGL libraries that need the DOM can be wrapped in `<ClientOnly>` with an SVG fallback.
+
+Motion is optional. Yun already provides `@vueuse/motion`; alternatively, install `motion-v` in your blog (`pnpm add motion-v`) for its `<motion.path>` API and SVG path drawing. These are separate libraries; their APIs are not interchangeable. See [Motion for Vue: SVG line drawing](https://motion.dev/docs/vue-animation#svg-line-drawing). Import the library in your cover component, and preserve the same visibility, reduced-motion and SSR behavior.
+
+### Optional images and social previews {#cover-image}
+
+For an image-only cover, use `cover: /images/my-cover.jpg`. For a component cover, the same optional field supplies an image fallback if the component is missing or fails. Without it, there is no image fallback. A separate `ogImage` can be provided for social sharing:
+
+```yaml
+coverComponent: HelloValaxyCover
+# Both are optional; use your own image files if needed.
+# cover: /images/cover-fallback.jpg
+# ogImage: /images/share-preview.png
+```
+
+Valaxy does not capture the Vue component as a social image. Social previews use `ogImage`, then `cover`, then the first article image or the site's favicon. Neither image field is required to render the SVG cover. Image-based components can use `withBase(src)` for subpath deployments.
+
 ## Excerpt
 
 

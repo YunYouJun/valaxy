@@ -1,16 +1,16 @@
-<script lang="ts" setup>
-defineProps<{
+<script setup lang="ts">
+withDefaults(defineProps<{
   src?: string
-}>()
+  component?: string
+  componentProps?: Record<string, unknown>
+  alt?: string
+  context?: 'card' | 'page'
+}>(), { context: 'page' })
 </script>
 
 <template>
-  <img
-    v-if="src"
-    width="640" height="360"
-    class="yun-cover object-cover select-none" h="64 md:sm" w="full"
-    :src="src"
-    loading="lazy"
-    alt=""
-  >
+  <ValaxyCover
+    class="yun-cover" :class="context === 'page' && 'h-64 md:h-sm'"
+    :src="src" :component="component" :component-props="componentProps" :alt="alt" :context="context"
+  />
 </template>

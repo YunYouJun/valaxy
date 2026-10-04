@@ -108,9 +108,16 @@ export interface PageFrontMatter extends BaseFrontMatter {
 
   /**
    * cover
-   * @description 封面图片
+   * @description 封面图片（使用组件封面时可省略）
    */
-  cover: string
+  cover?: string
+  /**
+   * @description:en-US Vue component name from components/covers/, rendered by supporting themes. An image cover is optional.
+   * @description:zh-CN components/covers/ 下的 Vue 组件名，由支持的主题渲染。图片 cover 可省略。
+   */
+  coverComponent?: string
+  /** JSON-serializable props passed to the cover component. */
+  coverProps?: Record<string, unknown>
   /**
    * @description:en-US Open Graph image for SEO
    * @description:zh-CN Open Graph 图片，用于 SEO

@@ -1,4 +1,11 @@
 // vite hmr data
+declare module 'virtual:valaxy-cover-components' {
+  import type { Component } from 'vue'
+
+  const components: ReadonlyMap<string, Component>
+  export default components
+}
+
 declare module '/@valaxyjs/config' {
   const config: string
   export default config
