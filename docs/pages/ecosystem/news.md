@@ -12,7 +12,7 @@ Major releases and ecosystem updates appear here. Read the [blog](/posts/) for f
 Valaxy 1.0 is the first stable release, building on Markdown writing, Vue components, and static publishing.
 
 - **Build and rendering**: Vite 8 and Rolldown power the build, with one built-in SSG engine. Pages, excerpts, search, and RSS share async Markdown rendering.
-- **Visual management**: DevTools provides article, configuration, and addon management. An optional local MCP content service supports editing with AI tools.
+- **Visual management**: DevTools provides article, configuration, and addon management. An optional local, read-only MCP service lets AI tools query, read, and inspect content.
 - **Optional addons**: Mermaid diagrams and the Meting music player are provided by dedicated addons that sites can enable as needed.
 
 Before upgrading, ensure that your Node.js version is **22.12.0 or later** and review the configuration and addon changes in the migration guide.
