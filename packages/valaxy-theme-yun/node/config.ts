@@ -1,4 +1,5 @@
 import type { ThemeConfig, UserThemeConfig } from '../types'
+import { $t } from 'valaxy'
 
 /**
  * Default Config
@@ -61,7 +62,7 @@ export const defaultThemeConfig: ThemeConfig = {
   },
 
   nav: [
-    { text: '$locale:menu.posts', link: '/posts/', icon: 'i-ri-article-line' },
+    { text: $t('menu.posts'), link: '/posts/', icon: 'i-ri-article-line' },
   ],
   pages: [],
 
