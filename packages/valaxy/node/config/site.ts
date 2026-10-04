@@ -89,6 +89,10 @@ export const defaultSiteConfig: SiteConfig = {
 
   floatingVue: floatingVueOptions,
 
+  footnote: {
+    preview: 'reka',
+  },
+
   statistics: {
     enable: false,
     readTime: {
@@ -128,6 +132,17 @@ export const defaultSiteConfig: SiteConfig = {
  */
 export function defineSiteConfig(config: UserSiteConfig) {
   return config
+}
+
+/** Resolve before merging defaults so explicit legacy settings stay effective. */
+export function resolveFootnoteConfig(config: UserSiteConfig = {}): SiteConfig['footnote'] {
+  const preview = config.footnote?.preview
+  if (config.floatingVue != null) {
+    consola.warn(preview === 'reka'
+      ? '[Valaxy] siteConfig.floatingVue only configures legacy Floating Vue APIs; Reka footnotes use .va-footnote-popover styles.'
+      : '[Valaxy] siteConfig.floatingVue is deprecated for footnotes. Keeping the legacy preview; migrate with footnote: { preview: \'reka\' }. See https://valaxy.site/guide/markdown#footnote-preview')
+  }
+  return { preview: preview ?? (config.floatingVue != null ? 'floating-vue' : 'reka') }
 }
 
 /**

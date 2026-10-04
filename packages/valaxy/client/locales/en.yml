@@ -36,6 +36,8 @@ sidebar:
   return_top: Return to top
 
 post:
+  footnote_preview: Preview footnote
+  footnote_close: Close footnote preview
   decrypt: DECRYPT
   posted: 'Posted on '
   edited: 'Edited on '

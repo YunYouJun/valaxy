@@ -15,8 +15,7 @@ export function transformFootnoteTooltip(code: string, _id: string) {
     return itemContent
   // eslint-disable-next-line regexp/no-super-linear-backtracking
   }).replace(/<ValaxyFootnoteRef href="#(.*?)".*?>(.*?)<\/ValaxyFootnoteRef>/gs, (_, href: string, content: string) => {
-    // We attach a Floating Vue Tooltip
-    // return `<span v-tooltip='${JSON.stringify({ content: footnoteContentMap.get(href), html: true })}'>${content}</span>`
+    // Keep the public component and slots independent of the preview implementation.
     return `<ValaxyFootnoteTooltip>${content}<template #popper>${footnoteContentMap.get(href)}</template></ValaxyFootnoteTooltip>`
   })
 }
