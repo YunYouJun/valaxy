@@ -1,10 +1,9 @@
-import type {} from '@devframes/service-shiki'
 import type { MaybeRefOrGetter } from 'vue'
-import { ref, toValue, watch } from 'vue'
+import { shallowRef, toValue, watch } from 'vue'
 import { connectionStatus, getClient } from '../rpc'
 
 export function useCodeHighlight(code: MaybeRefOrGetter<string>, lang: MaybeRefOrGetter<string> = 'text') {
-  const html = ref('')
+  const html = shallowRef('')
 
   watch([() => toValue(code), () => toValue(lang), connectionStatus], async ([code, lang, status], _, onCleanup) => {
     // Never show the previous page's code while a fresh highlight is pending.
@@ -20,10 +19,7 @@ export function useCodeHighlight(code: MaybeRefOrGetter<string>, lang: MaybeRefO
       const client = await getClient()
       if (!active)
         return
-      const shiki = client.services.get('@devframes/service-shiki')
-      if (!shiki)
-        return
-      const result = await shiki.rpc.call('highlight', { code, lang })
+      const result = await client.call('valaxy:service:shiki:highlight', { code, lang })
       if (active)
         html.value = result.html
     }

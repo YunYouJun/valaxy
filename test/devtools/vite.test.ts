@@ -1,4 +1,5 @@
 import type { ViteDevToolsNodeContext } from '@vitejs/devtools-kit'
+import type { DevframeServiceDefinition } from 'devframe/types'
 import type { ValaxyDevtoolsOptions } from '../../packages/devtools/src/node/types'
 import childProcess from 'node:child_process'
 import { EventEmitter } from 'node:events'
@@ -15,6 +16,11 @@ import { resolveConfig } from 'vite'
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 import ValaxyDevtools from '../../packages/devtools/src/node'
 import { defineValaxyDevtoolsPlugin } from '../../packages/devtools/src/plugin'
+
+vi.mock('@devframes/service-shiki', async (importOriginal) => {
+  const original = await importOriginal<typeof import('@devframes/service-shiki')>()
+  return { ...original, createShikiService: vi.fn(original.createShikiService) }
+})
 
 let root: string
 let site: string
@@ -59,7 +65,7 @@ async function start(options: ValaxyDevtoolsOptions = {}) {
 }
 
 describe('vite hosted DevTools services', () => {
-  it('reuses the host open service and keeps its policy and per-call editor selection', async () => {
+  it('keeps Valaxy editor settings separate from existing host services', async () => {
     const installed = ctx.services.install(createOpenService({ editor: 'zed', roots: [site] }))
     const shiki = ctx.services.install(createShikiService())
     await ctx.services.ready()
@@ -76,7 +82,7 @@ describe('vite hosted DevTools services', () => {
     const path = normalize(join(site, 'valaxy.config.ts'))
     const options = await ctx.rpc.invokeLocal('valaxy:get-options')
     expect(options.editor).toBe('code')
-    await ctx.rpc.invokeLocal('devframes:service:open:open-in-editor', { path, editor: options.editor })
+    await ctx.rpc.invokeLocal('valaxy:service:open:open-in-editor', { path, editor: options.editor })
     if (process.platform === 'win32')
       expect(exec).toHaveBeenLastCalledWith(expect.stringContaining('code'), expect.anything())
     else
@@ -91,14 +97,16 @@ describe('vite hosted DevTools services', () => {
     await expect(ctx.rpc.invokeLocal('devframes:service:open:open-in-editor', { path: join(root, 'outside.ts') })).rejects.toThrow()
   })
 
-  it('installs missing services once before extensions run', async () => {
+  it('initializes private RPCs before extensions without installing shared services', async () => {
     const install = vi.spyOn(ctx.services, 'install')
-    const setup = vi.fn(() => {
-      expect(ctx.services.has('@devframes/service-open')).toBe(true)
-      expect(ctx.services.has('@devframes/service-shiki')).toBe(true)
+    const setup = vi.fn(async () => {
+      const result = await ctx.rpc.invokeLocal('valaxy:service:shiki:highlight', { code: '<script>', lang: 'text' })
+      expect(result.html).toMatch(/(?:&lt;|&#(?:60|x3c);)script/i)
+      expect(result.html).not.toContain('<script>')
+      expect(result.html).toContain('--shiki-dark')
     })
     await start({ plugins: [defineValaxyDevtoolsPlugin({ apiVersion: 1, id: 'test', name: 'Test', setup })] })
-    expect(install.mock.calls.map(([input]) => input.package)).toEqual(['@devframes/service-shiki', '@devframes/service-open'])
+    expect(install).not.toHaveBeenCalled()
     expect(setup).toHaveBeenCalledOnce()
   })
 
@@ -111,18 +119,66 @@ describe('vite hosted DevTools services', () => {
       path: join(site, 'valaxy.config.ts'),
       editor: 'code',
     })).rejects.toThrow(/outside the workspace root/)
+    const child = new EventEmitter() as ReturnType<typeof childProcess.spawn>
+    const spawn = vi.spyOn(childProcess, 'spawn').mockReturnValue(child)
+    const exec = vi.spyOn(childProcess, 'exec').mockReturnValue(child)
+    await ctx.rpc.invokeLocal('valaxy:service:open:open-in-editor', { path: join(site, 'valaxy.config.ts') })
+    expect(process.platform === 'win32' ? exec : spawn).toHaveBeenCalledOnce()
+    child.emit('exit', 0)
   })
 
-  it('awaits its own installation promises after the host ready barrier', async () => {
+  it('does not compete with host services still installing after the initial barrier', async () => {
     await ctx.services.ready()
+    const release = Promise.withResolvers<void>()
+    const definitions: DevframeServiceDefinition[] = [createOpenService(), createShikiService()]
+    const started = definitions.map(() => Promise.withResolvers<void>())
+    const pending = definitions.map((definition, index) => ctx.services.install({
+      ...definition,
+      async setup(context, options) {
+        started[index]!.resolve()
+        await release.promise
+        return definition.setup(context, options)
+      },
+    }))
+    await Promise.all(started.map(signal => signal.promise))
+    const install = vi.spyOn(ctx.services, 'install')
+    const completed = Promise.allSettled(pending)
+    try {
+      await start()
+      expect(install).not.toHaveBeenCalled()
+      const result = await ctx.rpc.invokeLocal('valaxy:service:shiki:highlight', { code: '{"ready": true}', lang: 'json' })
+      expect(result.html).toContain('ready')
+    }
+    finally {
+      release.resolve()
+      await completed
+    }
+    expect((await completed).every(result => result.status === 'fulfilled')).toBe(true)
+  })
+
+  it('allows host services to install after Valaxy without RPC collisions', async () => {
+    await start()
+    const open = ctx.services.install(createOpenService())
+    const shiki = ctx.services.install(createShikiService())
+    await ctx.services.ready()
+    await Promise.all([open, shiki])
+    for (const method of ['valaxy:service:shiki:highlight', 'devframes:service:shiki:highlight'] as const) {
+      const result = await ctx.rpc.invokeLocal(method, { code: 'const answer = 42', lang: 'typescript' })
+      expect(result.html).toContain('answer')
+    }
+  })
+
+  it('awaits its implementations before starting extensions', async () => {
     const started = Promise.withResolvers<void>()
     const release = Promise.withResolvers<void>()
-    const install = ctx.services.install.bind(ctx.services)
-    vi.spyOn(ctx.services, 'install').mockImplementation(async (input, options) => {
-      const service = await install(input, options)
-      started.resolve()
-      await release.promise
-      return service
+    const shiki = createShikiService()
+    vi.mocked(createShikiService).mockReturnValueOnce({
+      ...shiki,
+      async setup(context, options) {
+        started.resolve()
+        await release.promise
+        return shiki.setup(context, options)
+      },
     })
     const setup = vi.fn()
     const starting = start({ plugins: [defineValaxyDevtoolsPlugin({ apiVersion: 1, id: 'test', name: 'Test', setup })] })
@@ -138,38 +194,12 @@ describe('vite hosted DevTools services', () => {
     expect(setup).toHaveBeenCalledOnce()
   })
 
-  it('waits for the host initial service batch before checking for missing services', async () => {
-    const started = Promise.withResolvers<void>()
-    const release = Promise.withResolvers<void>()
-    const open = createOpenService({ editor: 'zed', roots: [site] })
-    const installed = ctx.services.install({
-      ...open,
-      async setup(context, options) {
-        started.resolve()
-        await release.promise
-        return open.setup(context, options)
-      },
+  it('propagates initialization failures before starting extensions', async () => {
+    const error = new Error('Service initialization failed')
+    vi.mocked(createShikiService).mockReturnValueOnce({
+      ...createShikiService(),
+      setup() { throw error },
     })
-    const ready = ctx.services.ready()
-    await started.promise
-    const install = vi.spyOn(ctx.services, 'install')
-    const starting = start()
-    const completed = Promise.allSettled([ready, installed, starting])
-    try {
-      await setImmediate()
-      expect(install).not.toHaveBeenCalled()
-    }
-    finally {
-      release.resolve()
-      await completed
-    }
-    expect((await completed).every(result => result.status === 'fulfilled')).toBe(true)
-    expect(install.mock.calls.map(([input]) => input.package)).toEqual(['@devframes/service-shiki'])
-  })
-
-  it('propagates installation failures before starting extensions', async () => {
-    const error = new Error('Service installation failed')
-    vi.spyOn(ctx.services, 'install').mockRejectedValue(error)
     const setup = vi.fn()
     await expect(start({ plugins: [defineValaxyDevtoolsPlugin({ apiVersion: 1, id: 'test', name: 'Test', setup })] })).rejects.toBe(error)
     expect(setup).not.toHaveBeenCalled()

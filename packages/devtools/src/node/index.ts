@@ -47,16 +47,7 @@ export function ValaxyDevtools(options: ValaxyDevtoolsOptions = {}): Plugin {
         const resolved = resolveOptions(ctx.viteServer, ctx.viteConfig.base)
         const frame = createValaxyDevframe(resolved)
         definition = frame
-        // Shared services belong to the host. Existing Open roots/defaults must
-        // stay intact; the client passes its selected editor on each request.
-        // Finish the host's initial batch before checking for missing services.
-        await ctx.services.ready()
-        const installations = (frame.services || [])
-          .filter(service => !ctx.services.has(service.package))
-          .map(service => ctx.services.install(service, { resolveFrom: frame.importMetaUrl }))
-        // Later installs are not covered by that initial ready() promise.
-        await Promise.all(installations)
-        const plugin = createPluginFromDevframe({ ...frame, services: [] }, {
+        const plugin = createPluginFromDevframe(frame, {
           base: resolveDevtoolsBase(resolved.base),
           dock: {
             category: 'framework',

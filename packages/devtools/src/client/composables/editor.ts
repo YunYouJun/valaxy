@@ -20,8 +20,5 @@ export const activeEditorPresentation = computed(() => getEditorPresentation(act
 export const defaultEditorPresentation = computed(() => getEditorPresentation(clientOptions.value.editor))
 
 export async function openFileInEditor(input: Omit<OpenInEditorInput, 'editor'>) {
-  const service = (await getClient()).services.get('@devframes/service-open')
-  if (!service)
-    throw new Error('The Devframe Open service is unavailable. Reconnect to the development server.')
-  await service.rpc.call('open-in-editor', { ...input, editor: activeEditor.value })
+  await (await getClient()).call('valaxy:service:open:open-in-editor', { ...input, editor: activeEditor.value })
 }
