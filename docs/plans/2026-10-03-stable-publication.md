@@ -53,12 +53,47 @@ generated contributor metadata no longer forces a second API generation. Git
 paths are resolved from the selected project, including nested projects and
 Windows temporary directories. Related source edits still invalidate the cache.
 
-The development-only Stylelint/gh-pages graph still contains braces 3.0.3 and
+The development-only Stylelint/gh-pages graph still resolves braces 3.0.3.
+The 2026-10-04 preflight applies the upstream depth-guard patch locally, with
+regressions resolving both actual dependency chains. See
+[`patches/README.md`](../../patches/README.md) for the exact upstream commit,
+scope and removal condition. The upstream stable version still has no published
+fix, so the version-based full workspace audit continues to report
 [GHSA-vfj7-8cjw-p6xm](https://github.com/advisories/GHSA-vfj7-8cjw-p6xm).
-Its upstream stable version still has no fix. This remains visible in the full
-workspace audit; only the published production graph is clean. An unused tsup
-dependency was removed to eliminate its vulnerable esbuild copy. No development
-audit findings are suppressed.
+No audit finding is suppressed or version renamed. The published production
+graph remains clean; this repository patch does not repair a user's separately
+installed `gh-pages`. An unused tsup dependency was previously removed to
+eliminate its vulnerable esbuild copy.
+
+## 2026-10-04 发布前复核
+
+- 修复 `create-valaxy my-blog` 在交互选择主题后丢失目标目录的问题；保留被跳过提示的
+  `--template` 参数，支持绝对目录及用户输入的包名。
+- 非交互模式拒绝未知模板或覆盖非空目录；CLI 异常返回非零退出码。
+- 模板直接声明 Vite 开发依赖，使 `vite/client` 类型和 `vite preview` 命令在严格
+  pnpm 安装中可用，无需依赖公开提升的间接依赖。
+- 新增 8 项脚手架进程测试，以及 21 项开发依赖安全与 Stylelint 集成回归。
+- 完整 `pnpm check:release` 通过：版本一致性、lint、所有包及 Demo 构建、类型检查、
+  **83 个测试文件 / 630 项测试**，以及零告警生产依赖审计。
+- 六个联动包、Mermaid `0.1.1` 和 TypeDoc `0.1.1` 已实际打包检查，依赖声明没有
+  遗留 `catalog:` 或 `workspace:`。打包后的 CLI 已验证 Yun 非交互创建、Press
+  指定目录并跳过模板提示的交互创建。
+- 两种新项目均在 `autoInstallPeers: false`、`publicHoistPattern: []` 的独立安装中
+  通过 Node 22.12.0 SSG、类型检查及 Vite 命令验证；Yun 生成 16 页、Press 生成
+  14 页。两个新项目的完整依赖审计均为零告警。
+
+验证日志：`/tmp/valaxy-prepublish-check-release-final-20261004.log`，以及
+`/tmp/valaxy-prepublish-{yun,press}-final-{build,types,audit}-20261004.*`。
+发布前应先审核合并这些修复；该记录不代表已经创建标签或发布 npm 包。
+
+发布顺序：
+
+1. 从与 `origin/main` 一致的干净 `main` 执行 `pnpm release --publish`。
+2. 等待标签 Release 工作流完成，核验六个联动包的版本和 `latest` 均为 `1.0.0`。
+3. 分别运行 `release.yml` 的手动入口，参数 `addon=mermaid`、`addon=typedoc`，
+   发布独立的 `0.1.1`。Meting 已发布 `0.2.1`，如需另发必须使用其独立入口
+   `release-addon.yml`。
+4. 用公开 registry 创建并验证 Yun / Press 项目，再公布正式版。
 
 ## Draft announcement
 

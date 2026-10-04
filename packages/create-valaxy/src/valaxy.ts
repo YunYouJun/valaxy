@@ -44,8 +44,10 @@ export async function init() {
     'projectName' | 'overwrite' | 'packageName'
   >
 
-  // get template
-  let template = TEMPLATES[0]
+  const requestedTemplate = TEMPLATES.find(template => template.name === argTemplate)
+  if (argYes && argTemplate && !requestedTemplate)
+    throw new Error(`Unknown template: ${argTemplate}. Choose ${TEMPLATE_CHOICES.join(', ')}.`)
+  let template = requestedTemplate || TEMPLATES[0]
 
   // selected theme name for blog template (default: yun)
   let selectedTheme = 'yun'
@@ -70,7 +72,10 @@ export async function init() {
         }
       }),
     })
-    template = templateRes.template
+    // A skipped prompt has no answer; retain the template selected by --template.
+    if (!requestedTemplate && !templateRes.template)
+      return
+    template = templateRes.template || template
 
     // Theme selection for blog template
     if (template.name === 'blog') {
@@ -161,9 +166,13 @@ export async function init() {
     }
   }
 
-  const { projectName, overwrite } = result
-  const dirName = template.prefix ? template.prefix + projectName : projectName
-  const root = path.join(cwd, dirName)
+  // Positional directories skip the project-name prompt.
+  const { projectName = targetDir, overwrite, packageName } = result
+  const dirName = argTargetDir || (template.prefix ? template.prefix + projectName : projectName)
+  const root = path.resolve(cwd, dirName)
+
+  if (argYes && fs.existsSync(root) && !isEmpty(root))
+    throw new Error(`Target directory "${dirName}" is not empty. Run without --yes to confirm overwriting.`)
 
   if (overwrite)
     emptyDir(root)
@@ -198,7 +207,7 @@ export async function init() {
     const pkg = JSON.parse(
       fs.readFileSync(path.join(templateDir, `package.json`), 'utf-8'),
     )
-    pkg.name = projectName || getProjectName()
+    pkg.name = packageName || toValidPackageName(path.basename(root))
 
     // Replace theme dependency in package.json for blog template
     if (template.name === 'blog') {

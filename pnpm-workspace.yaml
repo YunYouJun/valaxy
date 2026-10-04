@@ -46,6 +46,9 @@ overrides:
   vite: catalog:build
   vue: catalog:frontend
 
+patchedDependencies:
+  braces@3.0.3: patches/braces@3.0.3.patch
+
 allowBuilds:
   '@parcel/watcher': false
   esbuild: true
