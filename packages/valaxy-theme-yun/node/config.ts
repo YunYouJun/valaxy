@@ -61,7 +61,7 @@ export const defaultThemeConfig: ThemeConfig = {
   },
 
   nav: [
-    { text: 'menu.posts', link: '/posts/', icon: 'i-ri-article-line' },
+    { text: '$locale:menu.posts', link: '/posts/', icon: 'i-ri-article-line' },
   ],
   pages: [],
 
