@@ -20,11 +20,14 @@ import type { Page } from '@playwright/test'
  *    making `page.goto` itself time out. This is a documented Playwright
  *    anti-pattern.
  *
- * Vue's runtime-dom sets the `data-v-app` attribute on the mount container
- * synchronously right after `app.mount()` returns (for both client render and
- * hydration). Waiting for it is a deterministic "app is interactive" signal —
+ * Vue records `__vue_app__` on the container after both mounting and hydration.
+ * The `data-v-app` attribute only exists for createApp, not createSSRApp.
+ * Waiting for the app marker is a deterministic "app is interactive" signal —
  * no arbitrary timeouts, no dependence on the network ever going quiet.
  */
 export async function waitForHydration(page: Page, selector = '#app'): Promise<void> {
-  await page.locator(`${selector}[data-v-app]`).waitFor({ state: 'attached' })
+  await page.waitForFunction((selector) => {
+    const container = document.querySelector(selector)
+    return container && '__vue_app__' in container
+  }, selector)
 }
