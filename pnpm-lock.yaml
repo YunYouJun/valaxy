@@ -1357,6 +1357,9 @@ importers:
       qrcode:
         specifier: 'catalog:'
         version: 1.5.4
+      reka-ui:
+        specifier: catalog:frontend
+        version: 2.10.5(vue@3.5.43(typescript@5.9.3))
       resolve-global:
         specifier: 'catalog:'
         version: 2.0.0

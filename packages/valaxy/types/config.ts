@@ -361,7 +361,18 @@ export interface SiteConfig {
   }
 
   /**
-   * Floating Vue configuration for floating footnote tooltips.
+   * Footnote preview implementation. Existing Floating Vue configuration
+   * selects the legacy implementation unless preview is explicitly set.
+   */
+  footnote: {
+    /** @default 'reka' */
+    preview: 'reka' | 'floating-vue'
+  }
+
+  /**
+   * Legacy Floating Vue configuration, also used by global v-tooltip.
+   * @deprecated For footnotes, migrate to footnote.preview: 'reka' and style
+   * .va-footnote-popover. Global Floating Vue APIs remain available during migration.
    * @see https://floating-vue.starpad.dev/guide/config
    */
   floatingVue: any // FloatingVueConfig is an alias of any, consult the documentation for actual type

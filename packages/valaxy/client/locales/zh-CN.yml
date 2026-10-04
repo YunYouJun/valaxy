@@ -36,6 +36,8 @@ sidebar:
   return_top: 返回顶部
 
 post:
+  footnote_preview: 预览脚注
+  footnote_close: 关闭脚注预览
   decrypt: 解密
   posted: 发表于
   edited: 更新于
