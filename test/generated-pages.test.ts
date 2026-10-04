@@ -36,6 +36,21 @@ describe('generated page consumers', () => {
     expect(resolvePageFile('../secret.md', ctx.node.options.userRoot)).toBeUndefined()
   })
 
+  it('accepts Vue page links while still reporting missing routes', async () => {
+    const ctx = await fixture()
+    const { userRoot } = ctx.node.options
+    for (const page of ['release/index.vue', 'zh/release/index.vue', 'about.vue'])
+      await fs.outputFile(resolve(userRoot, 'pages', page), '<template>Page</template>')
+
+    const scan = createScanDeadLinks(ctx.node.options)
+    const id = resolve(userRoot, 'pages/api/index.md')
+    const links = ['/release/', '/release', '/zh/release/', '/about', '../release/#features', '/missing']
+
+    expect(scan('', { id, fileInfo: { links } } as any)).toEqual([
+      { url: '/missing', file: 'api/index.md' },
+    ])
+  })
+
   it('preserves the previous complete output when a strict transform fails', async () => {
     const ctx = await fixture()
     const first = [{ path: 'api/a.md', content: 'previous' }, { path: 'api/b.md', content: 'keep' }]
