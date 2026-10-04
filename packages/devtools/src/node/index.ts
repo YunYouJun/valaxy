@@ -45,8 +45,9 @@ export function ValaxyDevtools(options: ValaxyDevtoolsOptions = {}): Plugin {
       capabilities: { build: false },
       async setup(ctx) {
         const resolved = resolveOptions(ctx.viteServer, ctx.viteConfig.base)
-        definition = createValaxyDevframe(resolved)
-        const plugin = createPluginFromDevframe(definition, {
+        const frame = createValaxyDevframe(resolved)
+        definition = frame
+        const plugin = createPluginFromDevframe(frame, {
           base: resolveDevtoolsBase(resolved.base),
           dock: {
             category: 'framework',

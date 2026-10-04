@@ -9,15 +9,13 @@ vi.mock('../../packages/devtools/src/client/rpc', async () => {
 })
 
 const highlight = vi.fn<(name: string, input: { code: string, lang: string }) => Promise<{ html: string }>>()
-const getService = vi.fn<() => { rpc: { call: typeof highlight } } | undefined>()
 let scope: ReturnType<typeof effectScope>
 
 beforeEach(() => {
   scope = effectScope()
   connectionStatus.value = 'connected'
   highlight.mockReset()
-  getService.mockReset().mockReturnValue({ rpc: { call: highlight } })
-  vi.mocked(getClient).mockReset().mockResolvedValue({ services: { get: getService } } as unknown as Awaited<ReturnType<typeof getClient>>)
+  vi.mocked(getClient).mockReset().mockResolvedValue({ call: highlight } as unknown as Awaited<ReturnType<typeof getClient>>)
 })
 
 afterEach(() => scope.stop())
@@ -29,7 +27,7 @@ async function flush() {
 }
 
 describe('devframe code highlighting', () => {
-  it('uses the shared service and ignores late results for an older page', async () => {
+  it('uses Valaxy\'s RPC and ignores late results for an older page', async () => {
     let finishOld!: (value: { html: string }) => void
     highlight.mockReturnValueOnce(new Promise((resolve) => {
       finishOld = resolve
@@ -41,8 +39,7 @@ describe('devframe code highlighting', () => {
     expect(html.value).toBe('')
     code.value = 'new'
     await flush()
-    expect(getService).toHaveBeenCalledWith('@devframes/service-shiki')
-    expect(highlight).toHaveBeenLastCalledWith('highlight', { code: 'new', lang: 'json' })
+    expect(highlight).toHaveBeenLastCalledWith('valaxy:service:shiki:highlight', { code: 'new', lang: 'json' })
     expect(html.value).toBe('<pre>new</pre>')
     finishOld({ html: '<pre>old</pre>' })
     await flush()
@@ -61,11 +58,11 @@ describe('devframe code highlighting', () => {
   })
 
   it('retries after reconnection and tolerates hosts without the service', async () => {
-    getService.mockReturnValueOnce(undefined)
+    highlight.mockRejectedValueOnce(new Error('RPC unavailable'))
     const html = scope.run(() => useCodeHighlight('{}', 'json'))!
     await flush()
     expect(html.value).toBe('')
-    expect(highlight).not.toHaveBeenCalled()
+    expect(highlight).toHaveBeenCalledOnce()
     connectionStatus.value = 'connecting'
     await flush()
     highlight.mockResolvedValueOnce({ html: '<pre>{}</pre>' })

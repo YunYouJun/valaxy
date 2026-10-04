@@ -16,9 +16,9 @@ Unsaved frontmatter drafts are retained per file when switching pages, posts, or
 
 **Page Debug** replaces the Yun theme's default floating Valaxy Debug widget. It shows the site's viewport and matching breakpoints, current route/query/params, live frontmatter, and the runtime site summary and theme configuration. It follows the browser page rather than the article selected for editing. These read-only snapshots arrive over the local page channel; the current page is not shared across browser tabs. Direct opens without a parent/opener show an empty state. The existing **Config** page still edits source files. The legacy `ValaxyDebug` component remains available for themes that explicitly mount it.
 
-JSON inspection and addon command/configuration previews use the official [`@devframes/service-shiki`](https://devfra.me/add-ons/services/shiki) service, declared by the Valaxy Devframe for both native Vite DevTools and standalone hosts. Code is sent to the local development server for highlighting and caching; Shiki grammars and themes stay out of the DevTools client bundle. `VDCodeBlock` renders the service's escaped HTML with Vitesse light/dark colors following the shared theme preference. Shell commands and TypeScript/JavaScript configurations request their grammars on demand. Pending or unavailable highlighting falls back to current plain text; outdated responses cannot replace newer page data.
+JSON inspection and addon command/configuration previews reuse the official [`@devframes/service-shiki`](https://devfra.me/add-ons/services/shiki) implementation under Valaxy's own RPC namespace. Code is sent to the local development server for highlighting and caching; Shiki grammars and themes stay out of the DevTools client bundle. `VDCodeBlock` renders the service's escaped HTML with Vitesse light/dark colors following the shared theme preference. Shell commands and TypeScript/JavaScript configurations request their grammars on demand. Pending or unavailable highlighting falls back to current plain text; outdated responses cannot replace newer page data.
 
-Opening configuration, articles and the project folder uses the official [`@devframes/service-open`](https://devfra.me/add-ons/services/open) service. The addon details panel shows the current editor icon and lets you choose an editor for all open-file actions; the preference stays in this browser. The default comes from a supported `LAUNCH_EDITOR`, `VISUAL` or `EDITOR` command (in that order); otherwise the service auto-detects an editor and the UI shows a neutral icon. The menu lists supported commands, not detected installations. The service validates editor commands and restricts paths to the host workspace and configured blog root, including symlink checks. Successful dispatch does not guarantee that the editor is installed.
+Opening configuration, articles and the project folder reuses the official [`@devframes/service-open`](https://devfra.me/add-ons/services/open) implementation. The addon details panel shows the current editor icon and lets you choose an editor for all open-file actions; the preference stays in this browser. The default comes from a supported `LAUNCH_EDITOR`, `VISUAL` or `EDITOR` command (in that order); otherwise the service auto-detects an editor and the UI shows a neutral icon. The menu lists supported commands, not detected installations. The implementation validates editor commands and enforces Valaxy's directory policy, including symlink checks. That policy includes the host workspace and configured blog root. Successful dispatch does not guarantee that the editor is installed.
 
 ## Addon marketplace
 
@@ -45,6 +45,21 @@ export default defineConfig({
 ```
 
 Install `@vitejs/devtools` alongside Vite when enabling the native host. If Vite DevTools is disabled, the plugin serves the same authenticated Devframe directly at `<base>__valaxy_devtools__/` without a dock. Do not register an additional Valaxy Devframe in that process.
+
+The Valaxy frame initializes its Open and Shiki implementations through their
+public `setup` functions with `ctx.scope('valaxy:service:open')` and
+`ctx.scope('valaxy:service:shiki')`. It awaits initialization before starting
+extensions. The client calls those RPCs directly in both native and standalone
+mode, without installing or looking up shared host services.
+
+Vite Messages and other tools retain their own service configuration. A blog
+outside the host workspace is permitted by Valaxy's Open implementation without
+extending the host's Open roots. Host services can initialize before, during, or
+after Valaxy without competing for the same RPC names. The namespaces separate
+registration and configuration; authentication still belongs to the same host.
+Shiki results are cached per instance, while its underlying singleton highlighter
+is reused by the implementation. This integration needs no Devframe or Vite
+DevTools patch and does not modify other plugins' lifecycle methods.
 
 `createValaxyDevframe` is exported from `@valaxyjs/devtools/definition` for other Devframe hosts. `@valaxyjs/devtools/page` exports `createValaxyPageBridge(router, { getDebug? })` for page context; the optional callback provides a `ValaxyPageDebug` snapshot. Call `sync()` when non-route diagnostics change and `close()` on teardown. Valaxy registers this automatically, including resize/config updates and cleanup. `@valaxyjs/devtools/rpc` retains the public operation types.
 

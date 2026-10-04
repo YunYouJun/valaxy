@@ -1,22 +1,22 @@
+import type { OpenServiceApi } from '@devframes/service-open'
+import type { ShikiServiceApi } from '@devframes/service-shiki'
 import type { RpcDefinitionsToFunctionsWithNamespace } from 'devframe/rpc'
 import type { ValaxyDevtoolsPlugin } from '../plugin'
 import type { ValaxyDevtoolsData } from '../shared/extensions'
 import type { ServerFunctions } from '../shared/rpc'
 import type { ResourceState } from '../shared/state'
 import type { ValaxyDevtoolsOptions } from './types'
-import process from 'node:process'
 import { normalizeRepositoryUrl } from '@valaxyjs/utils'
 import { defineDevframe, defineRpcFunction } from 'devframe'
-import { resolve } from 'pathe'
 import * as v from 'valibot'
 import pkg from '../../package.json'
 import { DIR_CLIENT } from '../dir'
 import { DEVTOOLS_ID, resolveDevtoolsBase, resolveDevtoolsLogo } from '../shared/constants'
 import { RESOURCES_STATE } from '../shared/state'
 import { createAddonManager } from './addons/manager'
-import { getEditorOptions } from './editor'
 import { createDataApi, createManifest, resolveDevtoolsPlugins, setupExtensions, validateEditorFields } from './extensions'
 import { getFunctions } from './functions'
+import { setupValaxyServices } from './services'
 
 const fields = v.record(v.string(), v.unknown())
 const filePaths = v.array(v.string())
@@ -88,7 +88,13 @@ export function createRpcFunctions(functions: ServerFunctions) {
 }
 
 declare module 'devframe' {
-  interface DevframeRpcServerFunctions extends RpcDefinitionsToFunctionsWithNamespace<'valaxy', ReturnType<typeof createRpcFunctions>> {}
+  interface DevframeRpcServerFunctions extends RpcDefinitionsToFunctionsWithNamespace<'valaxy', ReturnType<typeof createRpcFunctions>> {
+    'valaxy:service:open:open-in-editor': OpenServiceApi['openInEditor']
+    'valaxy:service:open:open-in-finder': OpenServiceApi['openInFinder']
+    'valaxy:service:shiki:highlight': ShikiServiceApi['highlight']
+    'valaxy:service:shiki:code-to-hast': ShikiServiceApi['codeToHast']
+    'valaxy:service:shiki:code-to-tokens': ShikiServiceApi['codeToTokens']
+  }
 }
 
 export function createValaxyDevframe(options: ValaxyDevtoolsOptions = {}) {
@@ -122,11 +128,8 @@ export function createValaxyDevframe(options: ValaxyDevtoolsOptions = {}) {
     basePath: resolveDevtoolsBase(options.base),
     clientAssets: DIR_CLIENT,
     capabilities: { dev: true, build: false },
-    services: [
-      { package: '@devframes/service-shiki', options: { langs: ['json'] } },
-      { package: '@devframes/service-open', options: { editor: getEditorOptions().editor, roots: [resolve(options.userRoot || process.cwd())] } },
-    ],
     async setup(ctx) {
+      await setupValaxyServices(ctx, options)
       await ctx.rpc.sharedState.get<ResourceState>(RESOURCES_STATE, { initialValue: { revision: 0 } })
       plugins = await resolveDevtoolsPlugins(options)
       const functions = getFunctions(options, data => validateEditorFields(plugins, data))

@@ -48,11 +48,6 @@ beforeEach(async () => {
     },
   })
   const definition = createValaxyDevframe({ userRoot: site })
-  const service = definition.services!.find(service => service.package === '@devframes/service-open')!
-  const installed = ctx.services.install(service, { resolveFrom: definition.importMetaUrl })
-  // This fixture implements the adapter's pre-setup service barrier.
-  await ctx.services.ready()
-  await installed
   await definition.setup(ctx, { flags: {} })
 })
 
@@ -70,10 +65,10 @@ describe('devTools Open service', () => {
     expect(options.editor).toBe('code')
     expect(options.editors).toContain('cursor')
     const path = normalize(join(site, 'valaxy.config.ts'))
-    await ctx.rpc.invokeLocal('devframes:service:open:open-in-editor', { path, line: 3, column: 2 })
+    await ctx.rpc.invokeLocal('valaxy:service:open:open-in-editor', { path, line: 3, column: 2 })
     expectLaunch('code', `${path}:3:2`)
     child.emit('exit', 0)
-    await ctx.rpc.invokeLocal('devframes:service:open:open-in-editor', { path, editor: 'cursor' })
+    await ctx.rpc.invokeLocal('valaxy:service:open:open-in-editor', { path, editor: 'cursor' })
     expectLaunch('cursor', path)
   })
 
@@ -82,9 +77,9 @@ describe('devTools Open service', () => {
     await writeFile(outside, 'untouched')
     await symlink(outside, join(site, 'escape.ts'))
     for (const path of [outside, '../outside.ts', join(site, 'escape.ts')])
-      await expect(ctx.rpc.invokeLocal('devframes:service:open:open-in-editor', { path })).rejects.toThrow()
+      await expect(ctx.rpc.invokeLocal('valaxy:service:open:open-in-editor', { path })).rejects.toThrow()
     // @ts-expect-error exercise the service's runtime editor allowlist
-    await expect(ctx.rpc.invokeLocal('devframes:service:open:open-in-editor', { path: join(site, 'valaxy.config.ts'), editor: 'arbitrary-command' })).rejects.toThrow()
+    await expect(ctx.rpc.invokeLocal('valaxy:service:open:open-in-editor', { path: join(site, 'valaxy.config.ts'), editor: 'arbitrary-command' })).rejects.toThrow()
     expect(childProcess.spawn).not.toHaveBeenCalled()
     expect(childProcess.exec).not.toHaveBeenCalled()
   })
