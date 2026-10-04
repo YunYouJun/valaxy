@@ -723,6 +723,9 @@ overrides:
   vite: ^8.3.0
   vue: ^3.5.43
 
+patchedDependencies:
+  braces@3.0.3: e01768bc37cdeebb9a747f1095daec71e804c5b0f765222c48de491656308e10
+
 importers:
 
   .:
@@ -11809,7 +11812,7 @@ snapshots:
     dependencies:
       balanced-match: 4.0.4
 
-  braces@3.0.3:
+  braces@3.0.3(patch_hash=e01768bc37cdeebb9a747f1095daec71e804c5b0f765222c48de491656308e10):
     dependencies:
       fill-range: 7.1.1
 
@@ -14688,7 +14691,7 @@ snapshots:
 
   micromatch@4.0.8:
     dependencies:
-      braces: 3.0.3
+      braces: 3.0.3(patch_hash=e01768bc37cdeebb9a747f1095daec71e804c5b0f765222c48de491656308e10)
       picomatch: 2.3.2
 
   mime-db@1.52.0: {}
