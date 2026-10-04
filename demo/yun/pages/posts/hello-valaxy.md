@@ -1,5 +1,7 @@
 ---
-cover: https://cdn.yunyoujun.cn/img/bg/girl-in-water-tank.webp
+coverComponent: HelloValaxyCover
+coverProps:
+  subtitle: Your words, a new constellation.
 title: Hello, Valaxy!
 date: 2022-03-22
 updated: 2022-03-23 19:00:00
@@ -33,6 +35,12 @@ Valaxy 的目标是成为新一代的静态博客框架/生成器。
 :::
 
 More info see [valaxy.site](https://valaxy.site).
+
+## A Vue component in your post
+
+This cover is drawn entirely with Vue and inline SVG, without image assets. Click to draw the constellation and start the orbit; click again to pause. This instance has its own state.
+
+<HelloValaxyCover subtitle="The same component, inside your story." />
 
 ```ts [valaxy.config.ts]
 /**

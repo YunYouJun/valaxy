@@ -19,6 +19,7 @@ import { vLogger } from '../logger'
 import { scanCodeBlockTitles } from '../utils/groupIcons'
 import { countPerformanceTime } from '../utils/performance'
 import { createCdnPlugin } from './cdn'
+import { createCoverComponentsPlugin } from './coverComponents'
 import { createConfigPlugin } from './extendConfig'
 import VueI18n from './i18n'
 import { createLlmsPlugin } from './llms'
@@ -242,6 +243,7 @@ export async function ViteValaxyPlugins(
     vuePlugin,
     createConfigPlugin(options),
     createClientSetupPlugin(options),
+    createCoverComponentsPlugin(componentsDirs),
 
     UnheadVite(),
 

@@ -8,7 +8,11 @@ test.describe('TOC', () => {
     await page.goto('/posts/hello-valaxy')
 
     await expect(page.locator('.yun-aside')).toHaveCount(1)
-    await expect(page.locator('.yun-aside .va-toc-item')).toHaveCount(2)
+    await expect(page.locator('.yun-aside .va-toc-item')).toHaveText([
+      'What is Valaxy?',
+      '什么是 Valaxy?',
+      'A Vue component in your post',
+    ])
 
     const vaTocItem = page.locator('.yun-aside .va-toc-item').nth(0)
     await expect(vaTocItem).toHaveAttribute('lang', 'en')

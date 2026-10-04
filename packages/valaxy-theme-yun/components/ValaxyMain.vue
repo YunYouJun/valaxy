@@ -48,7 +48,10 @@ onContentUpdated(() => {
         flex="~ col grow"
         p="lt-md:0"
       >
-        <YunCard :cover="frontmatter.cover" m="0" v-bind="styles ? { style: styles } : {}">
+        <YunCard
+          :cover="frontmatter.cover" :cover-component="frontmatter.coverComponent" :cover-props="frontmatter.coverProps"
+          m="0" v-bind="styles ? { style: styles } : {}"
+        >
           <YunPostActions />
           <div class="mt-8 mb-4">
             <slot name="main-header">
