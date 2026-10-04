@@ -52,7 +52,7 @@ onUnmounted(() => {
     ref="root" class="hello-valaxy-cover" :data-context="context"
     :class="{ illuminated, playing: illuminated && inView && pageVisible, compact: context === 'card' }"
   >
-    <svg ref="svg" class="hello-valaxy-sky" viewBox="0 0 960 540" preserveAspectRatio="xMidYMid slice" aria-hidden="true" focusable="false">
+    <svg ref="svg" class="hello-valaxy-sky" viewBox="0 0 960 540" preserveAspectRatio="xMinYMid slice" aria-hidden="true" focusable="false">
       <defs>
         <linearGradient :id="`${id}-sky`" x2="0.8" y2="1">
           <stop stop-color="#102751" />

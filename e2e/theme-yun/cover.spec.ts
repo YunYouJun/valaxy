@@ -5,6 +5,7 @@ import { waitForHydration } from '../utils/hydration'
 setup('theme-yun')
 
 test('keeps component-cover interactions separate from card navigation', async ({ page }) => {
+  await page.setViewportSize({ width: 855, height: 927 })
   await page.goto('/')
   await waitForHydration(page)
   const card = page.locator('.post-card-wrapper').filter({ has: page.locator('.hello-valaxy-cover') }).first()
@@ -12,6 +13,12 @@ test('keeps component-cover interactions separate from card navigation', async (
   const button = cover.getByRole('button')
   await expect(cover).toHaveAttribute('data-context', 'card')
   await expect(card.locator('img')).toHaveCount(0)
+  const coverBounds = await cover.boundingBox()
+  for (const text of await cover.locator('svg text').all()) {
+    const bounds = await text.boundingBox()
+    expect(bounds!.x).toBeGreaterThanOrEqual(coverBounds!.x)
+    expect(bounds!.x + bounds!.width).toBeLessThanOrEqual(coverBounds!.x + coverBounds!.width)
+  }
   await button.click()
   await expect(button).toHaveAttribute('aria-pressed', 'true')
   await expect(cover.locator('.hello-valaxy-constellation')).toHaveCSS('stroke-dashoffset', '0px')
@@ -54,6 +61,12 @@ test('fits component covers on mobile with reduced motion', async ({ page }) => 
   await page.goto('/posts/hello-valaxy')
   await waitForHydration(page)
   const cover = page.locator('.hello-valaxy-cover[data-context="page"]')
+  const coverBounds = await cover.boundingBox()
+  for (const text of await cover.locator('svg text').all()) {
+    const bounds = await text.boundingBox()
+    expect(bounds!.x).toBeGreaterThanOrEqual(coverBounds!.x)
+    expect(bounds!.x + bounds!.width).toBeLessThanOrEqual(coverBounds!.x + coverBounds!.width)
+  }
   await cover.getByRole('button').click()
   await expect(cover.locator('.hello-valaxy-orbit')).toHaveCSS('animation-name', 'none')
   await expect(cover.locator('.hello-valaxy-constellation')).toHaveCSS('transition-duration', '0s')
