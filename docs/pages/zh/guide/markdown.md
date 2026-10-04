@@ -919,9 +919,25 @@ Bob --> Alice: Hi!
 ### 脚注预览
 
 
-借助 [`Floating Vue`](https://floating-vue.starpad.dev/), 添加的脚注链接在鼠标悬停时会显示脚注内容。你可以在本页面的脚注链接上试一试！
+脚注默认使用 [Reka UI Popover](https://reka-ui.com/docs/components/popover) 提供非模态预览，支持链接和多段 Markdown 内容。鼠标悬停在脚注编号上即可预览，点击编号仍会跳转到文末脚注。触屏和键盘用户可以通过编号旁的 **⋯** 按钮打开预览，按 Escape 或关闭按钮退出。
 
-如果你想要自定义脚注的样式，可以参考 [Floating Vue 文档](https://floating-vue.starpad.dev/guide/config) 中的 `config` 设置 `site.config.ts` 中的 `floatingVue`，你也可以修改组件 `ValaxyFootnoteTooltip` 来达到这一点。
+你可以查看[脚注预览示例](/examples/footnotes)。即使禁用 JavaScript，文末脚注及其锚点链接仍然可用。
+
+主题可以通过 `.va-footnote-popover`、`.va-footnote-preview`、`.va-footnote-arrow` 自定义外观，并使用 Valaxy 的颜色变量（`--va-c-bg`、`--va-c-text`、`--va-c-primary`）。也可以覆盖 `ValaxyFootnoteTooltip` 组件，其默认插槽和 `#popper` 插槽保持不变。
+
+#### 从 Floating Vue 迁移
+
+过渡期仍保留全局 `v-tooltip` 指令、Floating Vue 组件、样式和 `siteConfig.floatingVue` 配置。站点或主题显式设置了 `floatingVue` 时，会自动沿用旧版脚注预览并输出迁移提示，避免已有设置静默失效。
+
+准备迁移时，在 `site.config.ts` 中显式选择 Reka：
+
+```ts
+export default defineSiteConfig({
+  footnote: { preview: 'reka' },
+})
+```
+
+`floatingVue` 配置和 `.v-popper__*` 样式不会作用于 Reka 预览。请将脚注样式迁移到上述类名，需要自定义行为时覆盖 `ValaxyFootnoteTooltip`。其他旧提示仍可继续使用 `floatingVue` 配置；如果需要临时回退脚注实现，可以设置 `footnote: { preview: 'floating-vue' }`。
 
 
 ## 自定义
@@ -940,4 +956,3 @@ Bob --> Alice: Hi!
 markdownClass: 'markdown-body custom-markdown-class'
 ---
 ```
-

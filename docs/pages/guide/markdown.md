@@ -795,9 +795,25 @@ Use `^[content]` to create convenient inline footnotes^[like this!].
 ### Footnote Preview
 
 
-With [`Floating Vue`](https://floating-vue.starpad.dev/), the added footnote links will display the footnote content when hovering over them. You can try it with the footnote links on this page!
+Footnotes use a non-modal [Reka UI Popover](https://reka-ui.com/docs/components/popover) by default. Hover over a footnote number to preview its Markdown content, including links. Clicking the number still jumps to the footnote. Use the adjacent **⋯** button to open the preview on touch devices or with the keyboard; press Escape or the close button to dismiss it.
 
-If you want to customize the style of the footnote, you can refer to `config` in the [Floating Vue documentation](https://floating-vue.starpad.dev/guide/config) and change the `floatingVue` option in `site.config.ts` accordingly. You can also modify the `ValaxyFootnoteTooltip` component to achieve this.
+Try the [footnote preview example](/examples/footnotes). The footnotes at the end of the article remain available without JavaScript.
+
+Themes can style `.va-footnote-popover`, `.va-footnote-preview`, and `.va-footnote-arrow` using Valaxy's color variables (`--va-c-bg`, `--va-c-text`, `--va-c-primary`). You can also override `ValaxyFootnoteTooltip`; its default slot and `#popper` slot remain unchanged.
+
+#### Migrating from Floating Vue
+
+During this migration, the global `v-tooltip` directive, Floating Vue components, stylesheet, and `siteConfig.floatingVue` remain available. Sites or themes with explicit `floatingVue` settings automatically keep the legacy footnote preview and receive a migration warning, so those settings do not silently stop working.
+
+To opt into Reka, set this in `site.config.ts`:
+
+```ts
+export default defineSiteConfig({
+  footnote: { preview: 'reka' },
+})
+```
+
+`floatingVue` options and `.v-popper__*` styles do not configure the Reka preview. Move footnote styling to the classes above; override `ValaxyFootnoteTooltip` for custom behavior. You may keep `floatingVue` settings for other legacy tooltips. To roll back the footnote implementation during the transition, set `footnote: { preview: 'floating-vue' }`.
 
 
 ## Custom

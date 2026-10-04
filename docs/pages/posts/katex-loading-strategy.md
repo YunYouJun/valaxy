@@ -1,5 +1,6 @@
 ---
-title: Math 渲染引擎评估与加载策略
+title: Math rendering engines and loading strategies
+excerpt: A historical KaTeX and MathJax evaluation, updated with Valaxy 1.0 notes on style loading, per-page configuration, and SSG.
 date: 2026-02-23
 tags:
   - performance
@@ -7,7 +8,19 @@ tags:
   - mathjax
   - dev-notes
 end: false
+updated: 2026-10-04
 ---
+
+::: warning Historical evaluation — reviewed against Valaxy 1.0 on 2026-10-04
+This article preserves the **2026-02-23** engine evaluation. Its configuration examples remain relevant, with these updates for Valaxy 1.0:
+
+- Critical CSS inlining has been removed. SSG does not imply inline CSS or zero stylesheet requests; styling uses build assets and the FOUC guard.
+- `features.katex: false` disables KaTeX rendering by default, but an individual page can enable it with `katex: true`. Unless MathJax is enabled, the KaTeX plugin and styles remain available for that override.
+- `math: true` selects MathJax and takes precedence over KaTeX. Valaxy also registers KaTeX's mhchem extension for chemical notation.
+- Sizes and performance comparisons below are historical observations, not measurements or guarantees for 1.0. Measure the current dependency versions and your site's HTML, styles, and fonts together.
+
+See [math configuration](/guide/markdown#math-formulas), [examples](/examples/math), and the [SSG migration guide](/migration/version).
+:::
 
 ## 背景
 
@@ -43,7 +56,7 @@ Valaxy 需要支持 Markdown 中的数学公式渲染。此前仅支持 KaTeX，
 |------|-------|----------|
 | LaTeX 覆盖度 | 大部分常用命令 | 更全面，支持更多扩展 |
 | 交换图/XyJax | 不支持 | 支持（通过 XyJax-v3） |
-| `\ce{}` 化学 | 需要额外扩展 | 内置支持 |
+| `\ce{}` 化学 | Valaxy 已注册 mhchem 扩展 | 内置支持 |
 | `\cancel`/`\xcancel` | 支持 | 支持 |
 | 自定义宏 | 支持 | 支持（更灵活） |
 | 可访问性 | MathML 输出 | MathML + SVG |
@@ -82,7 +95,7 @@ export default defineValaxyConfig({
   math: true,
 })
 
-// 禁用所有数学渲染
+// 默认不渲染公式；单篇仍可通过 frontmatter.katex: true 开启
 export default defineValaxyConfig({
   features: { katex: false },
 })
@@ -104,7 +117,7 @@ export default defineValaxyConfig({
 
 #### 方案 A：全局条件加载（当前方案）
 
-在 `virtual/styles.ts` 中，当 math engine 为 `katex` 时全局引入 `katex.min.css` + `katex.scss`。
+在 `virtual/styles.ts` 中，未启用 MathJax 时全局引入 `katex.min.css` + `katex.scss`，以支持默认渲染和单篇 `katex` 覆盖。
 
 #### 方案 B：按需加载
 
@@ -151,7 +164,7 @@ const hasBlockMath = /\$\$[\s\S]+?\$\$/.test(content)
 
 - `katex.min.css` 原始 ~25KB，但 gzip 后仅 **~1.2KB**（大量重复的 `@font-face` 声明压缩率极高）
 - 字体文件由浏览器**天然按需加载**——只有页面实际渲染了对应 `@font-face` 的元素才会下载字体，不使用 KaTeX 的页面**不会下载任何字体文件**
-- 全局加载的真实代价仅为 **1.2KB gzip CSS**，无额外网络请求
+- 当时记录的 CSS 压缩体积约为 **1.2KB gzip**，不含字体和其他资源。当前请求数量与体积应以实际构建产物为准。
 
 ### KaTeX 加载结论
 
@@ -160,7 +173,7 @@ const hasBlockMath = /\$\$[\s\S]+?\$\$/.test(content)
 1. 1.2KB 的 CSS 开销对首屏性能影响可忽略不计
 2. 按需加载引入的工程复杂度、FOUC 风险、正则维护成本远超其收益
 3. 博客场景下技术文章普遍使用数学公式，按需加载的实际收益有限
-4. SSG 场景下 CSS 内联到 HTML 中，不存在额外请求
+4. 样式统一交给构建产物加载；**Valaxy 1.0 已移除 Critical CSS 内联**，不能再以 SSG 推断没有额外 CSS 请求。
 
 **如果需要零 CSS 开销**，推荐切换到 MathJax `math: true`，从架构层面彻底消除外部 CSS/字体依赖。
 

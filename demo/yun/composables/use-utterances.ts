@@ -1,6 +1,6 @@
 import { isClient } from '@vueuse/core'
-import { useAppStore } from 'valaxy'
-import { nextTick, onMounted, ref, watch } from 'vue'
+import { onContentUpdated, useAppStore } from 'valaxy'
+import { nextTick, onBeforeUnmount, watch } from 'vue'
 import { useRoute } from 'vue-router'
 
 const utterancesClientSrc = 'https://utteranc.es/client.js'
@@ -21,55 +21,69 @@ export function useUtterances(options: {
   const app = useAppStore()
   const route = useRoute()
 
-  const utterScriptRef = ref<HTMLScriptElement>()
+  let script: HTMLScriptElement | undefined
+  let mountedContainer: Element | null = null
+  let mountedKey = ''
+  let contentPath: string | undefined
+  let disposed = false
+
+  function cleanup() {
+    script?.remove()
+    mountedContainer?.querySelector('.utterances')?.remove()
+    script = undefined
+    mountedContainer = null
+    mountedKey = ''
+  }
+
   /**
    * mount utterances
    * @see https://utteranc.es/
    */
   function createUtterancesScript() {
-    if (utterScriptRef.value) {
-      utterScriptRef.value.remove()
-    }
-
-    utterScriptRef.value = document.createElement('script')
-
-    utterScriptRef.value.src = utterancesClientSrc
-    utterScriptRef.value.async = true
-    utterScriptRef.value.crossOrigin = 'anonymous'
-
-    utterScriptRef.value.setAttribute('repo', options.repo)
-    utterScriptRef.value.setAttribute('issue-term', options.issueTerm)
-    utterScriptRef.value.setAttribute('label', options.label)
-
-    utterScriptRef.value.setAttribute('theme', app.isDark ? 'github-dark' : 'github-light')
-
+    if (disposed || contentPath !== route.path)
+      return
     const commentContainer = document.querySelector('.comment')
+    const key = `${route.path}:${app.isDark}`
+    // Content updates (for example a language change) must not reload the same iframe.
+    if (commentContainer === mountedContainer && key === mountedKey)
+      return
 
-    if (commentContainer) {
-      // 如果旧元素存在，移除旧元素
-      const utterancesContainer = commentContainer.querySelector('.utterances')
-      if (utterancesContainer)
-        commentContainer.removeChild(utterancesContainer)
+    cleanup()
+    if (!commentContainer)
+      return
 
-      commentContainer.appendChild(utterScriptRef.value)
-    }
+    script = document.createElement('script')
+    script.src = utterancesClientSrc
+    script.async = true
+    script.crossOrigin = 'anonymous'
+    script.setAttribute('repo', options.repo)
+    script.setAttribute('issue-term', options.issueTerm)
+    script.setAttribute('label', options.label)
+    script.setAttribute('theme', app.isDark ? 'github-dark' : 'github-light')
+    commentContainer.appendChild(script)
+    mountedContainer = commentContainer
+    mountedKey = key
   }
 
-  // watch dark mode for theme
-  watch(() => app.isDark, () => {
-    createUtterancesScript()
+  function scheduleMount() {
+    nextTick(createUtterancesScript)
+  }
+
+  // UserApp can mount before the async route hydrates. Wait for its Markdown
+  // content, then finish that render before inserting third-party DOM.
+  onContentUpdated(() => {
+    contentPath = route.path
+    scheduleMount()
   })
 
-  watch(
-    () => route.path,
-    () => {
-      nextTick(() => {
-        createUtterancesScript()
-      })
-    },
-  )
+  watch(() => app.isDark, scheduleMount, { flush: 'post' })
+  watch(() => route.path, () => {
+    contentPath = undefined
+    cleanup()
+  })
 
-  onMounted(() => {
-    createUtterancesScript()
+  onBeforeUnmount(() => {
+    disposed = true
+    cleanup()
   })
 }

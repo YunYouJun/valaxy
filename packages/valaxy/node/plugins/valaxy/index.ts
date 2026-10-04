@@ -3,7 +3,7 @@
  */
 
 import type { Plugin } from 'vite'
-import type { DefaultTheme, PageDataPayload, Pkg, SiteConfig } from '../../../types'
+import type { DefaultTheme, PageDataPayload, Pkg } from '../../../types'
 import type { StateManager } from '../../app/state'
 import type { ResolvedValaxyOptions, ValaxyNodeConfig, ValaxyServerOptions } from '../../types'
 import { consola } from 'consola'
@@ -11,10 +11,9 @@ import { colors } from 'consola/utils'
 import fs from 'fs-extra'
 import { join, relative, resolve } from 'pathe'
 import { Valaxy } from '../../app'
-import { defaultSiteConfig, mergeValaxyConfig, resolveSiteConfig, resolveUserThemeConfig } from '../../config'
-import { replaceArrMerge } from '../../config/merge'
+import { resolveUserThemeConfig } from '../../config'
 import { vLogger } from '../../logger'
-import { processValaxyOptions, resolveOptions, resolveThemeValaxyConfig } from '../../options'
+import { resolveOptions } from '../../options'
 import { toAtFS } from '../../utils'
 import { getPagePath } from '../../utils/pageSources'
 import { countPerformanceTime } from '../../utils/performance'
@@ -174,19 +173,13 @@ export async function createValaxyPlugin(
           return moduleEntries
         }
 
-        const configFiles = [options.configFile]
+        const configFiles = [options.configFile, options.siteConfigFile, resolve(options.themeRoot, 'valaxy.config.ts')]
 
-        // handle valaxy.config.ts hmr
+        // Re-resolve raw layers so adding/removing legacy footnote settings
+        // never mistakes merged defaults for explicit Floating Vue configuration.
         if (configFiles.includes(file)) {
           const { config } = await resolveOptions({ userRoot: options.userRoot })
           return reloadConfigAndEntries(config)
-        }
-
-        // siteConfig
-        if (file === options.siteConfigFile) {
-          const { siteConfig } = await resolveSiteConfig(options.userRoot)
-          valaxyConfig.siteConfig = replaceArrMerge<SiteConfig, [SiteConfig]>(siteConfig as SiteConfig, defaultSiteConfig)
-          return reloadConfigAndEntries(valaxyConfig)
         }
 
         // themeConfig
@@ -197,13 +190,6 @@ export async function createValaxyPlugin(
           themeConfig.pkg = pkg
           valaxyConfig.themeConfig = themeConfig as (DefaultTheme.Config & { pkg: Pkg })
           return reloadConfigAndEntries(valaxyConfig)
-        }
-
-        if (file === resolve(options.themeRoot, 'valaxy.config.ts')) {
-          const themeValaxyConfig = await resolveThemeValaxyConfig(options)
-          const valaxyConfig = mergeValaxyConfig(options.config, themeValaxyConfig)
-          const { config } = await processValaxyOptions(options, valaxyConfig)
-          return reloadConfigAndEntries(config)
         }
 
         // send headers

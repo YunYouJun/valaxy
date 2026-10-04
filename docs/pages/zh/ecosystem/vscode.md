@@ -13,7 +13,7 @@ categories:
 
 ## 安装 {#安装}
 
-**0.1.0** 的 VSIX 安装包可从 [GitHub Releases](https://github.com/valaxyjs/valaxy-vscode/releases/tag/v0.1.0) 下载，要求 **VS Code 1.85 或更高版本**。Marketplace 发布完成前，请通过扩展面板的 **Install from VSIX…（从 VSIX 安装）** 安装此版本，以使用下文介绍的功能。
+**0.1.0** 已发布至 [Visual Studio Marketplace](https://marketplace.visualstudio.com/items?itemName=yunyoujun.valaxy)，也可从 [GitHub Releases](https://github.com/valaxyjs/valaxy-vscode/releases/tag/v0.1.0) 下载 VSIX 安装包，要求 **VS Code 1.85 或更高版本**。可直接从 Marketplace 安装或更新，也可通过扩展面板的 **Install from VSIX…（从 VSIX 安装）** 安装下载的 VSIX。
 
 在 VS Code 扩展面板中搜索 `Valaxy`，选择发布者为 **YunYouJun** 的扩展（扩展 ID：`yunyoujun.valaxy`）。如果已配置 `code` 命令，也可以在终端安装：
 

@@ -1,7 +1,7 @@
 import type { Page } from '@playwright/test'
 
 /**
- * Wait until the Valaxy Vue app has finished mounting / hydrating.
+ * Wait until the root Valaxy Vue app has finished mounting / hydrating.
  *
  * Prefer `page.goto(url, { waitUntil: 'domcontentloaded' })` followed by
  * `waitForHydration(page)` over `waitUntil: 'networkidle'`:
@@ -22,8 +22,9 @@ import type { Page } from '@playwright/test'
  *
  * Vue records `__vue_app__` on the container after both mounting and hydration.
  * The `data-v-app` attribute only exists for createApp, not createSSRApp.
- * Waiting for the app marker is a deterministic "app is interactive" signal —
- * no arbitrary timeouts, no dependence on the network ever going quiet.
+ * This signals that the root is interactive without depending on network idle.
+ * Async route components can hydrate later; tests should also assert their
+ * expected interactive behavior before checking route-specific results.
  */
 export async function waitForHydration(page: Page, selector = '#app'): Promise<void> {
   await page.waitForFunction((selector) => {

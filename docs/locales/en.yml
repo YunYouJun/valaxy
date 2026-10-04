@@ -58,10 +58,11 @@ nav:
 
   vscode: VSCode Extension
   client: Yunzhan Client (Public Preview)
-  news: Newsletters
+  news: Project Updates
   community: Community
   dev: Join Dev
   dev-notes: Dev Notes
+  blog: Blog
 
   examples:
     site: Example Sites

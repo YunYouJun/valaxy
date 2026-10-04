@@ -7,7 +7,9 @@ import { useI18n } from 'vue-i18n'
 import collections from '#valaxy/blog/collections'
 import { useRouterStore } from '../../stores'
 import { isLocaleKey, stripLocalePrefix, tObject } from '../../utils'
+import { filterAndSortPosts } from './filter'
 
+export { filterAndSortPosts } from './filter'
 export * from './usePagination'
 export * from './usePrevNext'
 
@@ -52,40 +54,6 @@ export function usePageList() {
 
     return routes
   })
-}
-
-/**
- * Pure function to filter and sort posts from page list
- * Can be used in both composables and stores without inject() issues
- */
-export function filterAndSortPosts(
-  pages: Post[],
-  siteConfig: SiteConfig,
-  params: { type?: string } = {},
-): Post[] {
-  // Filter posts
-  const routes = pages
-    .filter(i =>
-      i.path?.startsWith('/posts')
-      && !i.path?.endsWith('.html')
-      && i.date
-      && (import.meta.env.DEV || !i.draft) // filter draft posts in production (SSG safety net)
-      && (!params.type || i.type === params.type)
-      && (!i.hide || i.hide === 'index'), // hide `hide: all` posts
-    )
-
-  function sortBySiteConfigOrderBy(posts: Post[]) {
-    const orderBy = siteConfig.orderBy
-    return orderByMeta(posts, orderBy)
-  }
-
-  /**
-   * 置顶
-   */
-  const topPosts = sortBySiteConfigOrderBy(routes.filter(i => i.top)).sort((a, b) => b.top! - a.top!)
-  const otherPosts = sortBySiteConfigOrderBy(routes.filter(i => !i.top))
-
-  return [...topPosts, ...otherPosts]
 }
 
 /**

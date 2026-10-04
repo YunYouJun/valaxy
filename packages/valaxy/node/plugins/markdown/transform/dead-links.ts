@@ -4,7 +4,7 @@ import { slash } from '@antfu/utils'
 import fs from 'fs-extra'
 import path from 'pathe'
 import { EXTERNAL_URL_RE } from '../../../../shared'
-import { getPagePath, pagePathToRoute } from '../../../utils/pageSources'
+import { getPagePath, pagePathToRoute, resolvePageFile } from '../../../utils/pageSources'
 import { treatAsHtml } from '../utils'
 
 export function createScanDeadLinks(options: ResolvedValaxyOptions) {
@@ -70,6 +70,10 @@ export function createScanDeadLinks(options: ResolvedValaxyOptions) {
         ).replace(/(^|\/)index$/, '')
         if (
           !routes.has(resolved)
+          // The content inventory contains Markdown only; Vue pages also
+          // provide valid routes, including directory index pages.
+          && !resolvePageFile(`${resolved}.vue`, options.userRoot)
+          && !resolvePageFile(path.join(resolved, 'index.vue'), options.userRoot)
           && !fs.existsSync(path.resolve(dir, publicDir, `${resolved}.html`))
           && !shouldIgnoreDeadLink(url)
         ) {

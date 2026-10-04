@@ -1,13 +1,13 @@
 ---
-title: Footnotes Tooltip
-comment: true
+title: Footnote previews
+comment: false
 ---
 
-This is a footnote[^1] example.
+Plain text footnote[^1].
 
 This footnote contains a link[^2].
 
-[^1]: <span class="inline-block" lang="zh-CN">中文</span><span class="inline-block" lang="en">English</span>
+[^1]: A plain text footnote.
 
 [^2]: Read the [preview target](#preview-target).
 
