@@ -108,7 +108,42 @@ coverComponent: HelloValaxyCover
 # ogImage: /images/share-preview.png
 ```
 
-Valaxy does not capture the Vue component as a social image. Social previews use `ogImage`, then `cover`, then the first article image or the site's favicon. Neither image field is required to render the SVG cover. Image-based components can use `withBase(src)` for subpath deployments.
+Valaxy does not automatically capture Vue components during a build. Use the export below to save a static social image. Social previews use `ogImage`, then `cover`, then the first article image or the site's favicon. Neither image field is required to render the SVG cover. Image-based components can use `withBase(src)` for subpath deployments.
+
+### Export a social image from the same SVG {#cover-export}
+
+Click **Export PNG** below the live example to download a **1200 × 630** PNG. The sky, constellation, clouds and text come from the displayed SVG. CSS animation is frozen at its current frame; HTML buttons are excluded and the toggle state stays unchanged.
+
+Place the downloaded `hello-valaxy-og.png` in your blog's `public/images/` directory and set:
+
+```yaml
+ogImage: /images/hello-valaxy-og.png
+```
+
+Export again after changing the component or its text. No image generation service, upload or additional build dependency is needed.
+
+To add your own export control, pass a mounted SVG element to `<ValaxySvgExport>`. The example cover exposes it with `defineExpose({ svg })`:
+
+```vue
+<script setup lang="ts">
+import { useTemplateRef } from 'vue'
+
+const cover = useTemplateRef<{ svg: SVGSVGElement | null }>('cover')
+</script>
+
+<template>
+  <HelloValaxyCover ref="cover" />
+  <ValaxySvgExport :svg="cover?.svg" filename="hello-valaxy-og.png" />
+</template>
+```
+
+Alternatively, `import { svgToPng } from 'valaxy'` and call `await svgToPng(svg, { width: 1200, height: 630 })` to get a PNG Blob for your own download flow. Resizing follows the SVG's `viewBox` and `preserveAspectRatio`; this example slightly crops the top and bottom edges.
+
+Export supports self-contained SVG. Embed image resources as data URLs and prefer system fonts. HTML/`foreignObject`, SMIL animation and automatic external font embedding are unsupported. Trigger export after mounting in a browser, never during SSR setup.
+
+### Troubleshooting component covers {#cover-diagnostics}
+
+In development, unknown component names show a hint in the cover area and console pointing to `components/covers/`. Loading or rendering failures identify the component and retain the original error in the console. An optional image `cover` remains as a fallback. These developer diagnostics are hidden in production.
 
 ## Excerpt
 

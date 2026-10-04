@@ -38,17 +38,30 @@ it('renders graphical covers without images and with unique, deterministic SVG d
   expect(html.match(/<svg /g)).toHaveLength(2)
   expect(html).not.toContain('<img')
   const ids = [...html.matchAll(/id="([^"]+)"/g)].map(match => match[1])
-  expect(ids).toHaveLength(4)
-  expect(new Set(ids).size).toBe(4)
+  expect(ids).toHaveLength(6)
+  expect(new Set(ids).size).toBe(6)
   expect(await renderToString(page())).toBe(html)
 })
 
 it('keeps an image fallback and deployment base when a component is missing', async () => {
+  const warnings = vi.spyOn(console, 'warn').mockImplementation(() => {})
   const html = await renderToString(createSSRApp(ValaxyCover, { src: '/sky.png', component: 'Missing', alt: 'Sky' }))
   expect(html).toContain('src="/blog/sky.png"')
   expect(html).toContain('alt="Sky"')
   expect(html).not.toContain('valaxy-cover-content')
   expect(html).not.toContain('<Missing')
+  expect(html).toContain('valaxy-cover-diagnostic')
+  expect(warnings).toHaveBeenCalledWith(expect.stringContaining('Unknown component "Missing"'))
+  expect(warnings).toHaveBeenCalledWith(expect.stringContaining('components/covers/'))
+})
+
+it('does not expose development diagnostics in production', async () => {
+  vi.stubEnv('DEV', false)
+  const warnings = vi.spyOn(console, 'warn').mockImplementation(() => {})
+  const html = await renderToString(createSSRApp(ValaxyCover, { src: '/sky.png', component: 'Missing' }))
+  expect(html).toContain('src="/blog/sky.png"')
+  expect(html).not.toContain('valaxy-cover-diagnostic')
+  expect(warnings).not.toHaveBeenCalled()
 })
 
 it('server renders lazy components and hydrates their props and interaction', async () => {
@@ -81,6 +94,7 @@ it('server renders lazy components and hydrates their props and interaction', as
 })
 
 it('retains the image on import failure and recovers when navigating to another cover', async () => {
+  const warnings = vi.spyOn(console, 'warn').mockImplementation(() => {})
   covers.set('Broken', defineAsyncComponent(async () => {
     throw new Error('offline')
   }))
@@ -92,9 +106,12 @@ it('retains the image on import failure and recovers when navigating to another 
   try {
     await vi.waitFor(() => expect(container.querySelector('.valaxy-cover-content')).toBeNull())
     expect(container.querySelector('img')!.getAttribute('src')).toBe('/blog/sky.png')
+    expect(container.querySelector('[role="status"]')!.textContent).toContain('Broken')
+    expect(warnings).toHaveBeenCalledWith(expect.stringContaining('Error in "Broken"'), expect.objectContaining({ message: 'offline' }))
     name.value = 'Working'
     await nextTick()
     expect(container.querySelector('button')!.textContent).toBe('Works: 0')
+    expect(container.querySelector('[role="status"]')).toBeNull()
   }
   finally {
     app.unmount()

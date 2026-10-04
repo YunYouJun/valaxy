@@ -53,7 +53,7 @@ Yun 的文章卡片和文章头部都支持图片封面与可交互的 Vue 组�
 
 下面的天空、云层、轨道和星座全部由内联 SVG 绘制。点击按钮会连起星座并启动动画，再次点击暂停。不使用生成图片、图片地址或额外动画依赖。
 
-<HelloValaxyCover subtitle="让文字，连成新的星座。" />
+<HelloValaxyCover subtitle="让文字，连成新的星座。" export-label="导出 PNG 分享图" />
 
 1. 在博客中创建 `components/covers/HelloValaxyCover.vue`。默认博客脚手架已包含该组件；已有博客可复制下面的完整代码。
 2. 在文章 Front Matter 中指定组件即可，`cover` 图片可省略：
@@ -110,7 +110,42 @@ coverComponent: HelloValaxyCover
 # ogImage: /images/share-preview.png
 ```
 
-Valaxy 不会自动把 Vue 组件截图作为分享图。分享预览按 `ogImage`、`cover`、正文首图、站点 favicon 的顺序取值。SVG 组件封面的显示不依赖这两个图片字段。需要加载图片的组件可以用 `withBase(src)` 适配子路径部署。
+Valaxy 不会在构建时自动截图 Vue 组件。你可以用下方的导出功能保存静态分享图。分享预览按 `ogImage`、`cover`、正文首图、站点 favicon 的顺序取值。SVG 组件封面的显示不依赖这两个图片字段。需要加载图片的组件可以用 `withBase(src)` 适配子路径部署。
+
+### 从同一份 SVG 导出分享图 {#cover-export}
+
+点击上方示例的「导出 PNG 分享图」即可下载 **1200 × 630** 的 PNG。背景、星座、云层和文字都来自正在展示的 SVG，CSS 动画会定格为导出时的画面；HTML 按钮不进入图片，也不会改变当前开关状态。
+
+将下载的 `hello-valaxy-og.png` 放入博客的 `public/images/`，然后设置：
+
+```yaml
+ogImage: /images/hello-valaxy-og.png
+```
+
+修改组件或文案后重新导出即可。无需生图服务、上传或额外构建依赖。
+
+自定义导出入口可以使用 `<ValaxySvgExport>`，传入已挂载的 SVG 元素。示例封面通过 `defineExpose({ svg })` 暴露它：
+
+```vue
+<script setup lang="ts">
+import { useTemplateRef } from 'vue'
+
+const cover = useTemplateRef<{ svg: SVGSVGElement | null }>('cover')
+</script>
+
+<template>
+  <HelloValaxyCover ref="cover" />
+  <ValaxySvgExport :svg="cover?.svg" filename="hello-valaxy-og.png" label="导出 PNG 分享图" />
+</template>
+```
+
+也可以 `import { svgToPng } from 'valaxy'`，调用 `await svgToPng(svg, { width: 1200, height: 630 })` 获取 PNG Blob，自行处理保存。尺寸变化遵循 SVG 的 `viewBox` 和 `preserveAspectRatio`；本例会略微裁切上下边缘。
+
+导出针对自包含 SVG：图片资源需内嵌为 data URL，文字建议使用系统字体；不支持 HTML/`foreignObject`、SMIL 动画，也不会自动嵌入外部字体。请在浏览器挂载后触发导出，不能在 SSR setup 中调用。
+
+### 排查组件封面 {#cover-diagnostics}
+
+开发模式下，组件名不存在会在封面区域和控制台提示检查 `components/covers/` 中的文件名；组件加载或渲染失败会显示组件名，并在控制台保留原始错误。设置了 `cover` 时仍保留图片回退。生产环境不展示这些开发提示。
 
 ## 摘要 {#excerpt}
 

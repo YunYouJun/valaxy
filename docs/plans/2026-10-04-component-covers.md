@@ -9,10 +9,14 @@ The core owns discovery and fallback rendering. Yun connects that renderer to ar
 The demo and blog scaffold draw every visual with inline SVG: a navy-to-sky background, layered cloud paths, orbital geometry, and a V-shaped constellation. No generated raster assets or image requests are used. The single component owns drawing and interaction; the generic cover renderer owns placement. Documentation renders the actual scaffold component and includes its complete source.
 
 - Palette: midnight `#102751`, sky `#225d93`, cloud `#b4e4e9`, starlight `#c4f6ff`.
-- Typography: the site's serif display face and regular body text, aligned at the lower left. The constellation occupies the upper right, remaining visible in a compact card.
+- Typography: SVG-native serif display text and sans-serif subtitle, aligned at the lower left. The constellation occupies the upper right, remaining visible in a compact card.
 - Interaction: a keyboard-accessible toggle draws the constellation and starts the orbit/cloud motion; toggling off pauses it.
 - Performance: animation pauses outside the viewport or when the tab is hidden. Observers and listeners are cleaned up on unmount.
 - Accessibility: reduced-motion disables movement/transitions while preserving the toggle. Decorative SVG is hidden from assistive technology.
 - Rendering: fixed coordinates and Vue `useId()` keep SSR deterministic and SVG definitions unique across instances. Each instance owns its toggle state.
 
 Vue and CSS are sufficient for this example. Animation libraries remain optional component dependencies, rather than a requirement of the cover API.
+
+## Diagnostics and social export
+
+Development-only cover diagnostics identify missing components and preserve original errors while retaining image fallbacks. Production UI stays unchanged. `svgToPng` freezes a mounted self-contained SVG with its computed presentation styles into a browser-generated PNG; `ValaxySvgExport` owns download/error state. The example exposes its SVG element, and the docs wrapper supplies the export control. Text is part of the same SVG so it appears in the 1200 × 630 social image. Export does not run during SSR or add build dependencies; authors save the PNG under public/images and set ogImage.

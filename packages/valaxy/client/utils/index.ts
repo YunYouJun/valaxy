@@ -6,6 +6,7 @@ export * from './helper'
 export * from './iframe'
 export * from './path'
 export * from './router'
+export * from './svg'
 export * from './time'
 export * from './types'
 

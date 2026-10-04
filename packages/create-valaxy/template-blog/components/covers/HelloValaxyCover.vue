@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { onMounted, onUnmounted, shallowRef, useId } from 'vue'
+import { onMounted, onUnmounted, shallowRef, useId, useTemplateRef } from 'vue'
 
 withDefaults(defineProps<{
   context?: 'card' | 'page' | 'body'
@@ -11,6 +11,8 @@ withDefaults(defineProps<{
 
 const id = useId()
 const root = shallowRef<HTMLElement>()
+const svg = useTemplateRef<SVGSVGElement>('svg')
+defineExpose({ svg })
 const illuminated = shallowRef(false)
 const inView = shallowRef(false)
 const pageVisible = shallowRef(true)
@@ -50,7 +52,7 @@ onUnmounted(() => {
     ref="root" class="hello-valaxy-cover" :data-context="context"
     :class="{ illuminated, playing: illuminated && inView && pageVisible, compact: context === 'card' }"
   >
-    <svg class="hello-valaxy-sky" viewBox="0 0 960 540" preserveAspectRatio="xMidYMid slice" aria-hidden="true" focusable="false">
+    <svg ref="svg" class="hello-valaxy-sky" viewBox="0 0 960 540" preserveAspectRatio="xMidYMid slice" aria-hidden="true" focusable="false">
       <defs>
         <linearGradient :id="`${id}-sky`" x2="0.8" y2="1">
           <stop stop-color="#102751" />
@@ -61,6 +63,10 @@ onUnmounted(() => {
           <stop stop-color="#95e5ed" stop-opacity="0.3" />
           <stop offset="1" stop-color="#95e5ed" stop-opacity="0" />
         </radialGradient>
+        <linearGradient :id="`${id}-caption`">
+          <stop stop-color="#091b3b" stop-opacity="0.65" />
+          <stop offset="0.8" stop-color="#091b3b" stop-opacity="0" />
+        </linearGradient>
       </defs>
       <path d="M0 0H960V540H0Z" :fill="`url(#${id}-sky)`" />
       <circle cx="670" cy="210" r="250" :fill="`url(#${id}-halo)`" />
@@ -90,12 +96,14 @@ onUnmounted(() => {
         <path d="M-40 460Q30 366 110 420Q148 340 242 408Q304 369 374 433Q440 347 528 408Q605 350 690 425Q790 335 886 410Q954 385 1000 443V570H-40Z" fill="#6faecb" opacity="0.35" />
         <path d="M-40 494Q60 416 148 474Q223 403 326 473Q405 428 473 487Q565 391 660 466Q748 412 835 474Q920 404 1000 478V570H-40Z" fill="#b4e4e9" opacity="0.4" />
       </g>
+      <path d="M0 0H960V540H0Z" :fill="`url(#${id}-caption)`" />
+      <g fill="#f4fbff">
+        <text x="60" y="342" :style="{ fontFamily: 'Georgia, serif', fontSize: context === 'card' ? '74px' : '64px', fontWeight: 800 }">Hello, Valaxy!</text>
+        <text x="60" y="388" :style="{ fontFamily: 'sans-serif', fontSize: context === 'card' ? '28px' : '22px' }">{{ subtitle }}</text>
+      </g>
     </svg>
     <div class="hello-valaxy-caption">
-      <div class="hello-valaxy-title">
-        Hello, Valaxy!
-      </div>
-      <p>{{ subtitle }}</p>
+      <span class="hello-valaxy-description">Hello, Valaxy! {{ subtitle }}</span>
       <button type="button" :aria-pressed="illuminated" @click="illuminated = !illuminated">
         {{ illuminated ? 'Stars are shining' : 'Light up the stars' }}
       </button>
@@ -137,20 +145,15 @@ onUnmounted(() => {
   align-items: flex-start;
   justify-content: flex-end;
   padding: clamp(1rem, 4vw, 2.5rem);
-  background: linear-gradient(90deg, rgb(9 27 59 / 0.65), transparent 80%);
+  pointer-events: none;
 }
 
-.hello-valaxy-title {
-  font-family: var(--va-font-serif, serif);
-  font-size: clamp(1.6rem, 4vw, 2.8rem);
-  font-weight: 800;
-  line-height: 1.2;
-}
-
-.hello-valaxy-caption p {
-  margin: 0.4rem 0 0.9rem;
-  font-size: 0.9rem;
-  line-height: 1.5;
+.hello-valaxy-description {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
 }
 
 .hello-valaxy-caption button {
@@ -162,6 +165,7 @@ onUnmounted(() => {
   font: inherit;
   font-size: 0.8rem;
   cursor: pointer;
+  pointer-events: auto;
 }
 
 .hello-valaxy-caption button:focus-visible {
@@ -207,15 +211,6 @@ onUnmounted(() => {
 
 .compact .hello-valaxy-caption {
   padding: 1rem;
-}
-
-.compact .hello-valaxy-title {
-  font-size: 1.6rem;
-}
-
-.compact .hello-valaxy-caption p {
-  font-size: 0.75rem;
-  margin-bottom: 0.6rem;
 }
 
 @keyframes hello-valaxy-orbit {
