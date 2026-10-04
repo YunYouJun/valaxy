@@ -1,28 +1,9 @@
+import type { SiteConfig } from '../../packages/valaxy/types'
 import type { Post } from '../../packages/valaxy/types/posts'
-import { describe, expect, it } from 'vitest'
-import { orderByMeta } from '../../packages/valaxy/client/utils/time'
+import { describe, expect, it, vi } from 'vitest'
+import { filterAndSortPosts } from '../../packages/valaxy/client/composables/post/filter'
 
-/**
- * Inline version of filterAndSortPosts for testing without virtual module deps.
- * Mirrors the logic in packages/valaxy/client/composables/post/index.ts
- */
-function filterAndSortPosts(
-  pages: Post[],
-  orderBy: 'date' | 'updated' = 'date',
-): Post[] {
-  const routes = pages
-    .filter(i =>
-      i.path?.startsWith('/posts')
-      && !i.path?.endsWith('.html')
-      && i.date
-      && (!i.hide || i.hide === 'index'),
-    )
-
-  const topPosts = orderByMeta(routes.filter(i => i.top), orderBy).sort((a, b) => b.top! - a.top!)
-  const otherPosts = orderByMeta(routes.filter(i => !i.top), orderBy)
-
-  return [...topPosts, ...otherPosts]
-}
+const siteConfig = { orderBy: 'date' } as SiteConfig
 
 /**
  * Inline version of usePageList sorting for testing.
@@ -83,7 +64,7 @@ describe('filterAndSortPosts top sorting', () => {
       makePost({ path: '/posts/c', title: 'Another', date: '2024-01-02' }),
     ]
 
-    const result = filterAndSortPosts(pages)
+    const result = filterAndSortPosts(pages, siteConfig)
     expect(result[0].title).toBe('Pinned')
   })
 
@@ -94,7 +75,7 @@ describe('filterAndSortPosts top sorting', () => {
       makePost({ path: '/posts/c', title: 'Top 5', date: '2024-01-03', top: 5 }),
     ]
 
-    const result = filterAndSortPosts(pages)
+    const result = filterAndSortPosts(pages, siteConfig)
     expect(result.map(p => p.title)).toEqual(['Top 10', 'Top 5', 'Top 1'])
   })
 
@@ -105,19 +86,59 @@ describe('filterAndSortPosts top sorting', () => {
       makePost({ path: '/posts/c', title: 'Mid', date: '2024-01-02' }),
     ]
 
-    const result = filterAndSortPosts(pages)
+    const result = filterAndSortPosts(pages, siteConfig)
     expect(result.map(p => p.title)).toEqual(['New', 'Mid', 'Old'])
   })
 
   it('should only include posts under /posts path', () => {
     const pages: Post[] = [
       makePost({ path: '/posts/a', title: 'Post', date: '2024-01-01' }),
+      makePost({ path: '/posts-archive/a', title: 'Not a post', date: '2024-01-01' }),
       makePost({ path: '/about', title: 'About', date: '2024-01-01' }),
       makePost({ path: '/guide/intro', title: 'Guide', date: '2024-01-01' }),
     ]
 
-    const result = filterAndSortPosts(pages)
+    const result = filterAndSortPosts(pages, siteConfig)
     expect(result).toHaveLength(1)
     expect(result[0].title).toBe('Post')
+  })
+})
+
+describe('localized post filtering', () => {
+  it('filters by locale while preserving pinned order, updated order, visibility and type', () => {
+    const pages: Post[] = [
+      { path: '/posts/english', date: '2026-10-04', type: 'release' },
+      { path: '/zh/posts/pinned', date: '2022-04-09', top: 1, type: 'release' },
+      { path: '/zh/posts/new', date: '2026-10-04', type: 'release' },
+      { path: '/zh/posts/updated', date: '2022-04-09', updated: '2026-10-05', type: 'release', hide: 'index' },
+      { path: '/zh/posts/hidden', date: '2026-10-04', hide: 'all', type: 'release' },
+      { path: '/zh/posts/no-date', type: 'release' },
+      { path: '/zh/posts/alias.html', date: '2026-10-04', type: 'release' },
+      { path: '/zh/posts/note', date: '2026-10-04', type: 'note' },
+      { path: '/zh/posts-archive/old', date: '2026-10-04', type: 'release' },
+    ]
+    const result = filterAndSortPosts(pages, { ...siteConfig, orderBy: 'updated' }, {
+      pathPrefix: '/zh/posts/',
+      type: 'release',
+    })
+    expect(result.map(post => post.path)).toEqual([
+      '/zh/posts/pinned',
+      '/zh/posts/updated',
+      '/zh/posts/new',
+    ])
+  })
+
+  it('excludes draft translations in production', () => {
+    vi.stubEnv('DEV', false)
+    try {
+      const posts = filterAndSortPosts([
+        { path: '/zh/posts/published', date: '2026-10-04' },
+        { path: '/zh/posts/draft', date: '2026-10-04', draft: true },
+      ], siteConfig, { pathPrefix: '/zh/posts' })
+      expect(posts.map(post => post.path)).toEqual(['/zh/posts/published'])
+    }
+    finally {
+      vi.unstubAllEnvs()
+    }
   })
 })
