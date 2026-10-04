@@ -18,7 +18,7 @@ Unsaved frontmatter drafts are retained per file when switching pages, posts, or
 
 JSON inspection and addon command/configuration previews use the official [`@devframes/service-shiki`](https://devfra.me/add-ons/services/shiki) service, declared by the Valaxy Devframe for both native Vite DevTools and standalone hosts. Code is sent to the local development server for highlighting and caching; Shiki grammars and themes stay out of the DevTools client bundle. `VDCodeBlock` renders the service's escaped HTML with Vitesse light/dark colors following the shared theme preference. Shell commands and TypeScript/JavaScript configurations request their grammars on demand. Pending or unavailable highlighting falls back to current plain text; outdated responses cannot replace newer page data.
 
-Opening configuration, articles and the project folder uses the official [`@devframes/service-open`](https://devfra.me/add-ons/services/open) service. The addon details panel shows the current editor icon and lets you choose an editor for all open-file actions; the preference stays in this browser. The default comes from a supported `LAUNCH_EDITOR`, `VISUAL` or `EDITOR` command (in that order); otherwise the service auto-detects an editor and the UI shows a neutral icon. The menu lists supported commands, not detected installations. The service validates editor commands and restricts paths to the host workspace and configured blog root, including symlink checks. Successful dispatch does not guarantee that the editor is installed.
+Opening configuration, articles and the project folder uses the official [`@devframes/service-open`](https://devfra.me/add-ons/services/open) service. The addon details panel shows the current editor icon and lets you choose an editor for all open-file actions; the preference stays in this browser. The default comes from a supported `LAUNCH_EDITOR`, `VISUAL` or `EDITOR` command (in that order); otherwise the service auto-detects an editor and the UI shows a neutral icon. The menu lists supported commands, not detected installations. The service validates editor commands and enforces its host-owned directory policy, including symlink checks. When Valaxy creates the service, that policy includes the host workspace and configured blog root. Successful dispatch does not guarantee that the editor is installed.
 
 ## Addon marketplace
 
@@ -45,6 +45,21 @@ export default defineConfig({
 ```
 
 Install `@vitejs/devtools` alongside Vite when enabling the native host. If Vite DevTools is disabled, the plugin serves the same authenticated Devframe directly at `<base>__valaxy_devtools__/` without a dock. Do not register an additional Valaxy Devframe in that process.
+
+The Vite adapter waits for the host's initial service batch, reuses services
+already provided by the host, and installs only missing services. It waits for
+those installations before starting Valaxy and
+its extensions. Existing service configuration stays owned by the host: the
+client sends its chosen editor with each open request, and Shiki loads requested
+languages on demand. This avoids registering the same service again after the
+host has finished merging configuration.
+
+For an existing Open service, `userRoot` does not extend its allowed directories.
+Keep the blog inside the host workspace, or declare the extra root in the host's
+Open service before it initializes. Standalone mode and declarative
+`createValaxyDevframe` hosts continue to receive Valaxy's editor and blog-root
+options. The adapter does not change other plugins' initialization order or
+repair the host's handling of their services.
 
 `createValaxyDevframe` is exported from `@valaxyjs/devtools/definition` for other Devframe hosts. `@valaxyjs/devtools/page` exports `createValaxyPageBridge(router, { getDebug? })` for page context; the optional callback provides a `ValaxyPageDebug` snapshot. Call `sync()` when non-route diagnostics change and `close()` on teardown. Valaxy registers this automatically, including resize/config updates and cleanup. `@valaxyjs/devtools/rpc` retains the public operation types.
 
