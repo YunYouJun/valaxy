@@ -80,14 +80,29 @@ function stop(child: ChildProcess) {
   if (pending)
     return pending
   const done = (async () => {
+    if (process.platform === 'win32') {
+      if (processRunning(child)) {
+        // pnpm.cmd runs under cmd.exe. Stop its tree before killing the parent,
+        // otherwise the development server can be orphaned.
+        await new Promise<void>((resolve, reject) => {
+          const task = spawn('taskkill', ['/PID', String(child.pid), '/T', '/F'], { stdio: 'ignore' })
+          task.once('error', reject)
+          task.once('exit', (code) => {
+            if (code === 0 || !processRunning(child))
+              resolve()
+            else
+              reject(new Error(`Failed to stop onboarding process tree ${child.pid} (${code})`))
+          })
+        })
+      }
+      children.delete(child)
+      return
+    }
     const signal = (value: NodeJS.Signals) => {
       if (!processRunning(child))
         return
       try {
-        if (process.platform !== 'win32')
-          process.kill(-child.pid!, value)
-        else
-          child.kill(value)
+        process.kill(-child.pid!, value)
       }
       catch (error) {
         if ((error as NodeJS.ErrnoException).code !== 'ESRCH')

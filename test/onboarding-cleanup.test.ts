@@ -1,7 +1,7 @@
 import { spawn } from 'node:child_process'
 import { chmod, mkdtemp, readFile, rm, writeFile } from 'node:fs/promises'
 import { tmpdir } from 'node:os'
-import { join, resolve } from 'node:path'
+import { delimiter, join, resolve } from 'node:path'
 import process from 'node:process'
 import { expect, it } from 'vitest'
 
@@ -17,7 +17,11 @@ function alive(pid: number) {
 
 // Exercise the actual runner's signal handling without packing or installing.
 // The stand-in command owns a descendant that refuses graceful termination.
-it.skipIf(process.platform === 'win32').each(['SIGINT', 'SIGTERM', 'timeout'] as const)('cleans up detached commands after %s', async (signal) => {
+it.each(['SIGINT', 'SIGTERM', 'timeout'] as const)('cleans up command trees after %s', async (signal, { skip }) => {
+  // Windows has no POSIX signal delivery; its timeout still exercises the real
+  // pnpm.cmd process tree through the same cleanup used after normal acceptance.
+  if (process.platform === 'win32' && signal !== 'timeout')
+    skip()
   const root = await mkdtemp(join(tmpdir(), 'valaxy-onboarding-cleanup-'))
   const marker = join(root, 'pids.json')
   const pnpm = join(root, 'pnpm')
@@ -41,13 +45,15 @@ it.skipIf(process.platform === 'win32').each(['SIGINT', 'SIGTERM', 'timeout'] as
     setInterval(() => {}, 1000)
   `)
   await chmod(pnpm, 0o755)
+  if (process.platform === 'win32')
+    await writeFile(join(root, 'pnpm.cmd'), `@"${process.execPath}" "${pnpm}" %*\r\n`)
   const runner = spawn(process.execPath, [
     '--import',
     'tsx',
     ...signal === 'timeout' ? ['--import', clock] : [],
     resolve('scripts/check-onboarding.ts'),
   ], {
-    env: { ...process.env, PATH: `${root}:${process.env.PATH}`, VALAXY_ONBOARDING_ARTIFACTS: root },
+    env: { ...process.env, PATH: `${root}${delimiter}${process.env.PATH}`, VALAXY_ONBOARDING_ARTIFACTS: root },
     stdio: 'ignore',
   })
   let pids: number[] = []
