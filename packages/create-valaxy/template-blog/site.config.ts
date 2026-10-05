@@ -3,6 +3,7 @@ import { defineSiteConfig } from 'valaxy'
 export default defineSiteConfig({
   url: 'https://valaxy.site/',
   lang: 'zh-CN',
+  timezone: 'Asia/Shanghai',
   title: 'Valaxy Theme Yun',
   author: {
     name: '云游君',

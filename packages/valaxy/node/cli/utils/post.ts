@@ -60,7 +60,7 @@ async function genLayoutTemplate({
   if (!template)
     template = defaultPostTemplate
 
-  // 24h format
-  const dateFormat = 'YYYY-MM-DD HH:mm:ss'
+  // Keep the publication instant unambiguous across build/visitor timezones.
+  const dateFormat = 'YYYY-MM-DDTHH:mm:ssZ'
   return ejs.render(template, { title, layout, date: date ? dayjs().format(dateFormat) : '' })
 }

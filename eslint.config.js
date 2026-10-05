@@ -58,4 +58,11 @@ export default antfu(
       'pnpm/json-enforce-catalog': 'off',
     },
   },
+  {
+    files: ['packages/create-valaxy/package.json'],
+    rules: {
+      // pnpm applies `files` patterns in order: exclusions must follow includes.
+      'jsonc/sort-array-values': 'off',
+    },
+  },
 )

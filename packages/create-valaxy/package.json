@@ -28,7 +28,19 @@
   "files": [
     "bin",
     "dist",
-    "template-*/**/*"
+    "template-*/**/*",
+    "!template-*/*.log",
+    "!template-*/.env*",
+    "!template-*/.valaxy/**",
+    "!template-*/.vite-ssg-dist/**",
+    "!template-*/.vite-ssg-temp/**",
+    "!template-*/dist-ssr/**",
+    "!template-*/dist/**",
+    "!template-*/node_modules/**",
+    "!template-*/public/atom.xml",
+    "!template-*/public/feed.json",
+    "!template-*/public/feed.xml",
+    "!template-*/public/valaxy-fuse-list.json"
   ],
   "engines": {
     "node": ">=22.12.0"

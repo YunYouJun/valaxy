@@ -35,133 +35,143 @@ You can use [StackBlitz](https://stackblitz.com/edit/valaxy) to try Valaxy onlin
 > This is an extremely simple project. You only need the following files to rapidly build your own blog!
 >
 > - `pages` folder: storing the pages/posts
-> - `valaxy.config.ts`: Valaxy's configuration file
+> - `site.config.ts`: site information
+> - `valaxy.config.ts`: theme and framework configuration
 > - `package.json`: dependencies
 
 ### Locally
 
+::: danger Version compatibility
 
-::: danger Compatibility Note
-
-Valaxy requires [Node.js](https://nodejs.org/en/) `>=22.12.0`. This comes from `unplugin-vue-markdown@32` (which requires Node `>=22`) combined with Vite 8 (which requires `^20.19.0 || >=22.12.0`) — so on the Node 22 line the minimum is `22.12.0`. Please upgrade Node.js to `22.12.0` or later.
-
-:::
-
-::: tip
-
-If you are a Windows user, I strongly recommend using a Unix-like shell (such as [Git Bash](https://git-scm.com/downloads) or [WSL](https://docs.microsoft.com/en-us/windows/wsl/install) rather than CMD / PowerShell.
+Valaxy requires [Node.js](https://nodejs.org/) **`>=22.12.0`**. This guide uses [pnpm](https://pnpm.io/installation) **`>=10.26.0`** to support the template's `allowBuilds` dependency build permissions. Upgrade older versions before creating your project.
 
 :::
 
+Check your installed versions:
 
-> Since `npm init` caches your previously downloaded version, I would recommend using `pnpm` to create templates.
-> Install [pnpm](https://pnpm.io/)：`npm i -g pnpm`
-
-::: code-group
-
-```bash [pnpm]
-pnpm create valaxy
+```bash
+node --version
+pnpm --version
 ```
 
-```bash [bun]
-bun create valaxy
+Run this in the directory where you want to create your blog:
+
+```bash
+pnpm create valaxy@latest
 ```
 
-```bash [npm]
-npm init valaxy
-```
+Choose these answers in order:
 
-:::
+1. `Select a type:` → **Blog**.
+2. `Select a theme:` → **Yun**, the default blog theme used in this guide.
+3. `Project name:` → **valaxy-blog**, or another directory that does not exist yet.
+4. `Install and start it now?` → **No**, then install and start manually below. If you choose Yes, select pnpm and continue with “Write your first post” once the server starts.
 
-::: details You will be greeted with a few simple questions.
+::: details Example CLI prompts
 <CreateValaxyTooltip />
 :::
 
-
-Follow the prompt in the commandline to complete the process!
-
 #### Select a Theme
 
-After selecting the Blog type, you will be prompted to choose a theme:
+- **Yun**: The default blog theme, used throughout this guide.
+- **Press**: A documentation theme.
+- **Custom**: Enter a theme name such as `starter` or `valaxy-theme-starter`.
 
-- **Yun** (default): A light & clean blog theme
-- **Press**: A document-oriented theme
-- **Custom**: Enter a custom theme name (e.g. `starter` or the full package name `valaxy-theme-starter`)
-
-After selection, `create-valaxy` will automatically configure the `theme` field in `valaxy.config.ts` and the theme dependency in `package.json`.
-
-> The default theme used is [valaxy-theme-yun](https://github.com/YunYouJun/valaxy/blob/main/packages/valaxy-theme-yun/), but you can also install any other themes.
-> This documentation is also a Valaxy theme: [valaxy-theme-press](https://github.com/YunYouJun/valaxy/blob/main/packages/valaxy-theme-press/). It is inspired by [VitePress](https://vitepress.dev/).
+The scaffolder configures the theme dependency and `valaxy.config.ts`. Press also has its own home page and configuration templates. Refer to the selected theme's documentation for its options.
 
 ## Usage
 
+Enter the new project, install dependencies, and start the development server:
 
-> Enter the folder for the Valaxy project you just created, and execute the following commands.
-> For example: `cd valaxy-blog`.
-
-Install the dependencies:
-
-::: code-group
-
-```bash [pnpm]
-# install
-pnpm i
-```
-
-```bash [bun]
-# install
-bun install
-```
-
-```bash [npm]
-# install
-npm i
-```
-
-:::
-
-
-Start a preview:
-
-::: code-group
-
-```bash [pnpm]
-# start
+```bash
+cd valaxy-blog
+pnpm install
 pnpm dev
 ```
 
-```bash [bun]
-# start
-bun dev
-```
+Keep the generated `pnpm-workspace.yaml`: it contains dependency installation settings, including build script permissions. [pnpm 11 and later stop installation when dependency scripts have not been reviewed](https://pnpm.io/blog/releases/11.0). The template configures its current dependencies, so the initial install does not require an extra `approve-builds` step.
 
-```bash [npm]
-# start
-npm run dev
-```
+::: details Example output after a successful startup {open}
+This example follows the actual output of the default Yun template, omitting timings and network addresses. Use the versions, project path, and port shown in your terminal.
 
+<StartValaxyTooltip />
 :::
 
+Open the address printed after `Preview`, usually `http://localhost:4859/`. If that port is occupied, Valaxy chooses another available port, so use the terminal's address. The home page should show **Hello, Valaxy!**; click its title to open the example post.
 
-See `http://localhost:4859/`, have fun!
+`pnpm dev` keeps running. Leave this terminal open while editing the project. To run another command, open a second terminal in the same project directory. Stop the server with `Ctrl+C`.
 
-- See [Config](/guide/config/) and [Custom Extensions](/guide/custom/extend) for the general configuration for Valaxy blogs.
-- For configuring Valaxy themes, please see the documentation for the corresponding themes. (Docs for Valaxy Theme Yun is still work in progress)
+### Write your first post {#first-post}
 
-### Config
+Create `pages/posts/first-post.md` with this content:
 
+```md
+---
+title: My first post
+date: 2026-10-05
+tags:
+  - Notes
+---
 
-Modify `valaxy.config.ts` to custom your blog.
+## Hello, Valaxy
 
-See [Config](/guide/config/) for basic configuration.
+This is my first post.
+```
 
-Documentation is being improved!
+Use your publication date. The block between `---` markers contains post metadata; the rest is Markdown content. Saving the file updates the home page's post list. Open `/posts/first-post` to read it. The example post has `top: 1`, so it stays above the new post.
 
+Alternatively, run `pnpm exec valaxy new first-post` in the project directory to generate a post file, then edit it. If the file already exists, the command creates a numbered filename; check the path printed in the terminal.
+
+### Configure your site {#config}
+
+Edit the corresponding fields in **`site.config.ts`** to set your site title, author, and description. For example:
+
+```ts
+import { defineSiteConfig } from 'valaxy'
+
+export default defineSiteConfig({
+  url: 'https://example.com/',
+  lang: 'en',
+  timezone: 'UTC',
+  title: 'My blog',
+  author: {
+    name: 'Alex',
+  },
+  description: 'Notes on life and technology.',
+})
+```
+
+`url` is your production address, used for post links, the sitemap, and RSS. Replace `https://example.com/` with your own address before deployment. It does not change the development server address. After saving, check the browser title, sidebar site name, and post author.
+
+Keep `timezone`, or set it to your site's timezone, such as `Asia/Shanghai`. An explicit timezone keeps displayed post times consistent between the build server and visitors. `valaxy new` includes a timezone offset in its timestamps. When writing dates manually, use `YYYY-MM-DD` as above, or include an offset for a precise time, such as `2026-10-05T14:30:00+08:00`.
+
+**`valaxy.config.ts`** contains theme and framework options. The large text on the Yun home page is configured separately through `themeConfig.banner.title`. Change it to your preferred text. The template's social links, sponsorship details, and footer registration information are also examples; replace or disable them before deployment.
+
+See [Site configuration](/guide/config/) and [Custom extensions](/guide/custom/extend) for more options.
+
+### Your first production build {#first-build}
+
+Stop the development server, then run these commands in your project:
+
+```bash
+pnpm build
+pnpm serve
+```
+
+The template's `build` script runs `valaxy build --ssg`, prerendering pages into **`dist/`**. Wait for the build to exit successfully before running `pnpm serve`. It previews the generated output, usually at `http://localhost:4173/`; use the address printed in the terminal.
+
+Check that:
+
+- The home page shows your site name and links to your new post.
+- Opening `/posts/first-post` directly shows the article, including after a refresh.
+- `dist/index.html` and `dist/posts/first-post.html` contain the corresponding page content.
+- `dist/sitemap.xml` and `dist/atom.xml` use the site address from `site.config.ts`.
+
+`pnpm serve` does not rebuild your site. Run `pnpm build` again after editing. Follow the [deployment guide](/guide/deploy) to upload the output to a static host.
 
 ## Deployment
 
-
-See [Deployment](/guide/deploy) for deployment guide.
+Deploy the generated `dist/` directory to a static host. See the [deployment guide](/guide/deploy) for the steps.
 
 ## Upgrading
 
@@ -221,7 +231,7 @@ In most cases, you only need to work in the `pages` folder.
 
 - `pages`: your all pages
   - `posts`: write your posts here, will be counted as posts
-- `styles`: override theme styles, `index.scss`/`vars.csss`/`index.css` will be loaded automatically
+- `styles`: override theme styles, `index.scss`/`css-vars.scss`/`index.css` will be loaded automatically
 - `components`: custom your vue components (will be loaded automatically)
 - `layouts`: custom layouts (use it by `layout: xxx` in md)
 - `locales`: custom i18n
@@ -247,4 +257,3 @@ If you want to develop a theme and released, you can refer to [valaxy-theme-star
 
 
 If you have questions or need help, you can go to the [Discord](https://discord.gg/nd3mPkU5j8) and [Discussions](https://github.com/YunYouJun/valaxy/discussions) to ask for help.
-

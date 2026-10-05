@@ -1,0 +1,16 @@
+$ pnpm dev
+
+✔ Resolve userValaxyConfig from /path/to/valaxy-blog/valaxy.config.ts
+✔ Resolve siteConfig from /path/to/valaxy-blog/site.config.ts
+✔ Resolve valaxy.config.ts from theme(yun)
+✔ Resolve addons from /path/to/valaxy-blog
+✔ [valaxy] server ready.
+
+  🌌 Valaxy  {{valaxyVersion}}
+
+  🪐 theme   > yun ({{themeVersion}})
+  📁 /path/to/valaxy-blog
+
+  Preview    > http://localhost:4859/
+
+  shortcuts  > restart | open | qr | edit

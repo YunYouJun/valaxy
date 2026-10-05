@@ -3,7 +3,6 @@ import { initTheme } from './theme'
 
 export const renameFiles: Record<string, string> = {
   _gitignore: '.gitignore',
-  _npmrc: '.npmrc',
 }
 
 /**

@@ -29,7 +29,15 @@ function ThemeVitePlugin(options: ResolvedValaxyOptions<ThemeConfig>): Plugin {
             '@vueuse/motion',
             'reka-ui',
           ],
-          exclude: ['@docsearch/js'],
+          // These optional imports resolve to Valaxy's empty addon module when
+          // disabled. Optimizing that fallback on the first post navigation
+          // reloads the page before the router can finish navigating.
+          exclude: [
+            '@docsearch/js',
+            'valaxy-addon-artalk',
+            'valaxy-addon-twikoo',
+            'valaxy-addon-waline',
+          ],
         },
       }
     },

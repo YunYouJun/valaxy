@@ -38,7 +38,8 @@ top: 100
 > 这是一个极简项目，您仅需以下几个文件，就可以快速搭建好你的博客！
 >
 > - `pages` 文件夹：存放页面/文章
-> - `valaxy.config.ts` Valaxy 配置文件
+> - `site.config.ts` 站点信息
+> - `valaxy.config.ts` 主题和框架配置
 > - `package.json` 记录依赖
 
 
@@ -46,121 +47,137 @@ top: 100
 
 ### 在本地创建 {#locally}
 
+::: danger 版本兼容
 
-::: danger 兼容
-
-Valaxy 要求 [Node.js](https://nodejs.org/en/) 的版本为 `>=22.12.0`。这是由 `unplugin-vue-markdown@32`（要求 Node `>=22`）与 Vite 8（要求 `^20.19.0 || >=22.12.0`）共同决定的——在 Node 22 分支上最低需要 `22.12.0`。请将 Node.js 升级至 `22.12.0` 或更高版本。
-
-:::
-
-::: tip
-
-如果您是 Windows 用户，我们**强烈建议**您使用类 Unix 的 Shell（如 [Git Bash](https://git-scm.com/downloads) 或 [WSL](https://docs.microsoft.com/en-us/windows/wsl/install)），而非 CMD / PowerShell.
+Valaxy 要求 [Node.js](https://nodejs.org/) **`>=22.12.0`**。本指南使用 [pnpm](https://pnpm.io/installation) **`>=10.26.0`**，以支持模板中的 `allowBuilds` 依赖构建权限配置。版本不满足要求时，请先升级再创建项目。
 
 :::
 
-如果您想要在本地创建，只需要执行以下命令：
+先检查本地版本：
 
-
-
-> 由于 `npm init` 会缓存您此前下载的版本，我更推荐您使用 `pnpm` 来创建模版。
-> [安装 pnpm](https://pnpm.io/installation)
-
-
-::: code-group
-
-```bash [pnpm]
-pnpm create valaxy
+```bash
+node --version
+pnpm --version
 ```
 
-```bash [npm]
-npm init valaxy
+在准备存放博客的目录中执行：
+
+```bash
+pnpm create valaxy@latest
 ```
 
-:::
+依次选择：
 
-::: details You will be greeted with a few simple questions.
+1. `Select a type:` → **Blog**。
+2. `Select a theme:` → **Yun**（本文使用的默认博客主题）。
+3. `Project name:` → **valaxy-blog**，或一个尚不存在的目录名。
+4. `Install and start it now?` → **No**，然后按下文手动安装和启动。如果选择 Yes，请选择 pnpm，并在自动启动后直接进入“写第一篇文章”。
+
+::: details 命令行提示示例
 <CreateValaxyTooltip />
 :::
 
-跟随命令行提示完成创建！
-
 #### 选择主题 {#select-theme}
 
-在选择 Blog 类型后，你将看到主题选择提示：
+- **Yun**：默认博客主题，本文后续步骤以它为例。
+- **Press**：面向文档的主题。
+- **Custom**：输入自定义主题名，例如 `starter` 或 `valaxy-theme-starter`。
 
-- **Yun**（默认）：轻盈简洁的博客主题
-- **Press**：面向文档的主题
-- **Custom**：输入自定义主题名（如 `starter` 或完整包名 `valaxy-theme-starter`）
-
-选择主题后，`create-valaxy` 会自动配置 `valaxy.config.ts` 中的 `theme` 字段和 `package.json` 中的主题依赖。
-
-> 默认使用主题 [valaxy-theme-yun](https://github.com/YunYouJun/valaxy/blob/main/packages/valaxy-theme-yun/)，当然您也可以安装使用任意其他主题。
-> 本文档同样是一个 Valaxy 主题 [valaxy-theme-press](https://github.com/YunYouJun/valaxy/blob/main/packages/valaxy-theme-press/)，它的灵感来自 [VitePress](https://vitepress.dev/)。
-
-
+脚手架会配置主题依赖和 `valaxy.config.ts`；Press 还会使用自己的首页和配置模板。其他主题的配置请参考对应主题文档。
 
 ## 使用 {#usage}
 
-> 进入你创建好后的文件夹目录后，执行以下命令。
-> 譬如：`cd valaxy-blog`。
+进入刚创建的项目，安装依赖并启动开发服务器：
 
-安装依赖：
-
-
-::: code-group
-
-```bash [pnpm]
-# install
-pnpm i
-```
-
-```bash [npm]
-# install
-npm i
-```
-
-:::
-
-启动预览：
-
-
-::: code-group
-
-```bash [pnpm]
-# start
+```bash
+cd valaxy-blog
+pnpm install
 pnpm dev
 ```
 
-```bash [npm]
-# start
-npm run dev
-```
+保留生成的 `pnpm-workspace.yaml`：它包含模板所需的依赖安装配置，包括构建脚本权限。[pnpm 11 及以上版本默认会因未审核的依赖脚本而中止安装](https://pnpm.io/blog/releases/11.0)；模板已配置当前依赖，首次安装无需额外执行 `approve-builds`。
 
+::: details 启动成功后的终端输出示例 {open}
+以下按默认 Yun 模板的实际输出整理，省略了耗时和网卡地址。版本号、项目路径和端口以你的终端为准。
+
+<StartValaxyTooltip />
 :::
 
-博客创建完毕，查看本地 `http://localhost:4859/`，玩的开心！
+打开终端中 `Preview` 后的地址，默认是 `http://localhost:4859/`。端口被占用时会自动选择其他可用端口，因此以终端输出为准。首页应能看到示例文章 **Hello, Valaxy!**，点击标题可进入文章页。
 
-- Valaxy 博客通用的配置可参见 [配置](/zh/guide/config/) 与 [自定义扩展](/zh/guide/custom/extend)。
-- Valaxy 主题独有配置请参见对应主题文档。（Valaxy Theme Yun 主题文档编写中……）
+`pnpm dev` 会持续运行。保持这个终端打开，在编辑器中修改项目；需要运行其他命令时，另开终端并进入同一个项目目录。按 `Ctrl+C` 可停止服务器。
 
+### 写第一篇文章 {#first-post}
 
+新建 `pages/posts/first-post.md`，写入：
 
-### 配置 {#config}
+```md
+---
+title: 我的第一篇文章
+date: 2026-10-05
+tags:
+  - 日常
+---
 
+## 你好，Valaxy
 
-修改 `valaxy.config.ts` 来自定义你的博客吧。
+这是我的第一篇文章。
+```
 
-基础配置可参见 [配置](/zh/guide/config/)。
+将日期改为你的发布日期。文件顶部的 `---` 区域是文章元数据，其后是 Markdown 正文。保存后首页的文章列表会更新；打开 `/posts/first-post` 可以查看正文。示例文章设置了 `top: 1`，因此仍会排在新文章前面。
 
-文档正在不断完善中！
+也可以在项目目录运行 `pnpm exec valaxy new first-post` 生成文章文件，再编辑内容。文章文件已存在时，这条命令会创建带编号的新文件，请查看命令输出中的路径。
 
+### 配置站点 {#config}
+
+修改 **`site.config.ts`** 中对应的字段，设置站点标题、作者和描述。例如：
+
+```ts
+import { defineSiteConfig } from 'valaxy'
+
+export default defineSiteConfig({
+  url: 'https://example.com/',
+  lang: 'zh-CN',
+  timezone: 'Asia/Shanghai',
+  title: '我的博客',
+  author: {
+    name: '小明',
+  },
+  description: '记录生活与技术。',
+})
+```
+
+`url` 是正式部署地址，用于文章链接、站点地图和 RSS；上线前请将 `https://example.com/` 替换为你自己的网址。它不会改变开发服务器地址。保存后，检查浏览器标题、侧边栏站点名称和文章作者是否更新。
+
+保留 `timezone`，或改成你的站点时区（如 `UTC`）。明确时区可让构建环境和不同时区的访客看到一致的文章时间。`valaxy new` 生成的时间包含时区偏移；手写日期时可以使用上面的 `YYYY-MM-DD`，需要精确时间则使用带偏移的格式，例如 `2026-10-05T14:30:00+08:00`。
+
+**`valaxy.config.ts`** 用于主题和框架选项。Yun 模板中的首页大字单独由 `themeConfig.banner.title` 控制，将它改成你希望显示的文字即可。模板中的社交链接、赞助信息和页脚备案信息也是示例，上线前请修改或关闭。
+
+更多选项参见 [站点配置](/zh/guide/config/) 和 [自定义扩展](/zh/guide/custom/extend)。
+
+### 首次生产构建 {#first-build}
+
+完成编辑后，停止开发服务器，在项目目录运行：
+
+```bash
+pnpm build
+pnpm serve
+```
+
+模板中的 `build` 执行 `valaxy build --ssg`，预渲染页面到 **`dist/`**。等待命令成功退出后再运行 `pnpm serve`；它预览刚刚生成的构建产物，默认地址为 `http://localhost:4173/`，实际地址以终端为准。
+
+检查以下结果：
+
+- 首页显示新站点名称，并能点击进入新文章。
+- 直接打开 `/posts/first-post`，正文正常显示；刷新后仍能访问。
+- `dist/index.html` 和 `dist/posts/first-post.html` 已生成，包含对应页面内容。
+- `dist/sitemap.xml` 与 `dist/atom.xml` 使用你在 `site.config.ts` 设置的站点地址。
+
+`pnpm serve` 不会重新构建。后续修改需要再次执行 `pnpm build`。构建产物可按 [部署指南](/zh/guide/deploy) 部署到静态托管服务。
 
 ## 部署 {#deployment}
 
-部署可参见 [部署｜指南](/zh/guide/deploy)。
-
-
+将构建生成的 `dist/` 部署到静态托管服务，具体步骤参见 [部署指南](/zh/guide/deploy)。
 
 ## 升级 {#upgrading}
 
@@ -244,4 +261,3 @@ pnpm up --latest -i
 
 
 如果你有疑问或者需要帮助，可以到 [Discord](https://discord.gg/nd3mPkU5j8) 和 [GitHub Discussions](https://github.com/YunYouJun/valaxy/discussions) 社区来寻求帮助。
-

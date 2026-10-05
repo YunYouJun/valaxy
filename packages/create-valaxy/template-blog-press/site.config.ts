@@ -4,6 +4,7 @@ export default defineSiteConfig({
   // Replace with your deployed site URL before publishing.
   url: 'https://example.com/',
   lang: 'en',
+  timezone: 'UTC',
   title: 'My Site',
   description: 'My documentation site powered by Valaxy.',
   search: {

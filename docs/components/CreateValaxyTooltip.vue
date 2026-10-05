@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import pkg from '../../package.json'
+import pkg from '../../packages/create-valaxy/package.json'
 </script>
 
 <template>
@@ -12,35 +12,23 @@ import pkg from '../../package.json'
     <span text-green>Theme <span op="70">- For Theme Developers</span></span>
     <span text-yellow>Addon <span op="70">- For Addon Developers</span></span>
 
+<span text-cyan>?</span> Select a theme:
+<span text-cyan>❯   Yun <span op="70">- A light &amp; clean theme (default)</span></span> <span text-purple>【Press Enter】</span>
+    <span text-green>Press <span op="70">- A document-oriented theme</span></span>
+    <span text-yellow>Custom <span op="70">- Enter a custom theme name</span></span>
+
 <span text-cyan>?</span> Project name: <span op="70">› valaxy-blog</span> <span text-purple>【Press Enter】</span>
   📁 <span op="70">/root/repos/valaxy-blog</span>
 
   <span op="70">Scaffolding project in</span> valaxy-blog <span op="70">...</span>
   <span text-green>Done.</span>
 
-<span text-cyan>?</span> Install and start it now? <span op="70">› (Y/n)</span> <span text-purple>Press Y</span>
+<span text-cyan>?</span> Install and start it now? <span op="70">› (Y/n)</span> <span text-purple>【Press N, Enter】</span>
 
-<span text-cyan>?</span> Choose the agent <span op="70">› - Use arrow-keys. Return to submit.</span>
-    npm
-    yarn
-<span text-cyan>❯   pnpm </span><span text-purple>【Press Enter】</span>
-<!-- Done in 20.5s. --></pre>
-    <!-- > valaxy-blog@0.0.0 dev /root/repos/valaxy-blog
-> valaxy
+  start it later by:
 
-✔ Resolve valaxyConfig from /root/repos/valaxy-blog/valaxy.config.ts
-✔ Resolve siteConfig from /root/repos/valaxy-blog/site.config.ts
-✔ Resolve valaxy.config.ts from theme(yun)
-✔ Resolve addons from /root/repos/valaxy-blog
-
-  🌌 Valaxy  v0.15.5
-
-  🪐 theme   > yun
-  📁 /root/repos/valaxy-blog
-
-  Preview    > http://localhost:4860/
-  Network    > http://172.19.185.146:4860/
-
-  shortcuts  > restart | open | qr | edit -->
+  cd valaxy-blog
+  pnpm install
+  pnpm run dev</pre>
   </div>
 </template>

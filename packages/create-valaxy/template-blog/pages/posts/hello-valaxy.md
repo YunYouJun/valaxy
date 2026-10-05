@@ -24,4 +24,6 @@ Components in `components/` can be used directly in Markdown. This cover uses Vu
 
 ## Usage
 
-Modify `valaxy.config.ts` to custom your blog.
+Edit `site.config.ts` for your site title, author, description, and production URL. Edit `valaxy.config.ts` for theme and framework options.
+
+Add Markdown posts to `pages/posts/`, then run `pnpm build` to generate your site in `dist/`. Preview the result with `pnpm serve`.
