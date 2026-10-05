@@ -17,7 +17,7 @@ function alive(pid: number) {
 
 // Exercise the actual runner's signal handling without packing or installing.
 // The stand-in command owns a descendant that refuses graceful termination.
-it.each(['SIGINT', 'SIGTERM', 'timeout'] as const)('cleans up command trees after %s', async (signal, { skip }) => {
+it.for(['SIGINT', 'SIGTERM', 'timeout'] as const)('cleans up command trees after %s', { timeout: 25_000 }, async (signal, { skip }) => {
   // Windows has no POSIX signal delivery; its timeout still exercises the real
   // pnpm.cmd process tree through the same cleanup used after normal acceptance.
   if (process.platform === 'win32' && signal !== 'timeout')
@@ -81,4 +81,4 @@ it.each(['SIGINT', 'SIGTERM', 'timeout'] as const)('cleans up command trees afte
       await rm(record.root, { recursive: true, force: true })
     await rm(root, { recursive: true, force: true })
   }
-}, 25_000)
+})
