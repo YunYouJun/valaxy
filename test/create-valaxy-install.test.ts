@@ -1,16 +1,13 @@
 import type { Buffer } from 'node:buffer'
-import { execFile } from 'node:child_process'
 import { mkdir, mkdtemp, readFile, rm, writeFile } from 'node:fs/promises'
 import { createServer } from 'node:http'
 import { tmpdir } from 'node:os'
 import { join, resolve } from 'node:path'
-import { promisify } from 'node:util'
+import { execa } from 'execa'
 import { expect, it } from 'vitest'
 
-const exec = promisify(execFile)
-
 it('installs with strict build approval using only the starter permissions', async () => {
-  const root = await mkdtemp(join(tmpdir(), 'valaxy-install-'))
+  const root = await mkdtemp(join(tmpdir(), 'valaxy install-'))
   const dependencies: Record<string, string> = {}
   const archives = new Map<string, Buffer>()
   let origin: string
@@ -47,7 +44,7 @@ it('installs with strict build approval using only the starter permissions', asy
       }))
       await writeFile(join(dir, 'install.cjs'), `require('node:fs').writeFileSync(${JSON.stringify(join(root, `${name.replace(/[@/]/g, '-')}.built`))}, 'built')`)
       const archive = join(dir, 'fixture.tgz')
-      await exec('pnpm', ['pack', '--out', archive], { cwd: dir, timeout: 30_000 })
+      await execa('pnpm', ['pack', '--out', archive], { cwd: dir, timeout: 30_000 })
       archives.set(name, await readFile(archive))
       dependencies[name] = '1.0.0'
     }
@@ -56,7 +53,7 @@ it('installs with strict build approval using only the starter permissions', asy
     if (!address || typeof address === 'string')
       throw new Error('Registry did not start')
     origin = `http://127.0.0.1:${address.port}`
-    const install = () => exec('pnpm', ['install', '--registry', origin], { cwd: root, timeout: 30_000 })
+    const install = () => execa('pnpm', ['install', '--registry', origin], { cwd: root, timeout: 30_000 })
     await writeFile(join(root, 'package.json'), JSON.stringify({ name: 'install-fixture', private: true, dependencies }))
     // Reproduce the original failure even on pnpm 10, where this is opt-in.
     await writeFile(join(root, 'pnpm-workspace.yaml'), 'strictDepBuilds: true\n')

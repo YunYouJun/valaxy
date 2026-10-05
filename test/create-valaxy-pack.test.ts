@@ -1,12 +1,12 @@
-import { spawnSync } from 'node:child_process'
 import { cp, mkdir, mkdtemp, readFile, rm, writeFile } from 'node:fs/promises'
 import { tmpdir } from 'node:os'
 import { dirname, join, resolve } from 'node:path'
+import { execa } from 'execa'
 import { expect, it } from 'vitest'
 import manifest from '../packages/create-valaxy/package.json'
 
 it('packs starter sources without local builds, caches, feeds or environment files', async () => {
-  const root = await mkdtemp(join(tmpdir(), 'valaxy-pack-'))
+  const root = await mkdtemp(join(tmpdir(), 'valaxy pack-'))
   const generated = [
     'dist/index.html',
     'dist-ssr/index.js',
@@ -39,8 +39,7 @@ it('packs starter sources without local builds, caches, feeds or environment fil
     }
     await mkdir(join(root, 'dist'))
     await writeFile(join(root, 'dist/index.mjs'), '// built CLI')
-    const result = spawnSync('pnpm', ['pack', '--json'], { cwd: root, encoding: 'utf8', timeout: 30_000 })
-    expect(result.status, result.stdout + result.stderr).toBe(0)
+    const result = await execa('pnpm', ['pack', '--json'], { cwd: root, timeout: 30_000 })
     const packed = JSON.parse(result.stdout)
     const files: string[] = (Array.isArray(packed) ? packed[0] : packed).files.map((file: { path: string }) => file.path)
     for (const template of ['template-blog', 'template-blog-press']) {

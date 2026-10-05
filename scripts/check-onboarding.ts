@@ -1,5 +1,4 @@
 import type { ChildProcess } from 'node:child_process'
-import { spawn } from 'node:child_process'
 import { createWriteStream } from 'node:fs'
 import { appendFile, mkdir, mkdtemp, readdir, readFile, realpath, writeFile } from 'node:fs/promises'
 import { createServer } from 'node:net'
@@ -9,6 +8,7 @@ import process from 'node:process'
 import { setTimeout as delay } from 'node:timers/promises'
 import { fileURLToPath } from 'node:url'
 import { chromium, expect as playwrightExpect } from '@playwright/test'
+import spawn from 'cross-spawn'
 import { formatOnboardingStartup } from './utils/onboarding-output'
 
 const expect = playwrightExpect.configure({ timeout: 30_000 })
