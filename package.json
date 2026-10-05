@@ -102,6 +102,7 @@
     "bumpp": "catalog:",
     "cross-env": "catalog:",
     "eslint": "catalog:",
+    "execa": "catalog:",
     "https-localhost": "catalog:",
     "husky": "catalog:",
     "jsdom": "catalog:",

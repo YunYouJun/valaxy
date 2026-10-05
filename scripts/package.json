@@ -1,6 +1,8 @@
 {
   "type": "module",
   "devDependencies": {
+    "@types/cross-spawn": "catalog:",
+    "cross-spawn": "catalog:",
     "zx": "catalog:build"
   }
 }
