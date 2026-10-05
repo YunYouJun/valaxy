@@ -12,12 +12,14 @@ end: false
 
 ## AI-Assisted Development
 
-Valaxy supports AI-assisted development workflows. See [AI-Assisted Development](./ai) for details.
+Valaxy currently uses Codex for AI-assisted development, with project instructions in the root `AGENTS.md`. See [AI-Assisted Development](./ai) for setup, task examples, and verification workflows.
 
-Quick example - fix a GitHub issue automatically:
+Describe a task in natural language:
 
-```bash
-/fix-github-issue 628
+```text
+Read AGENTS.md, then reproduce and fix this issue: <issue URL>.
+Add regression tests for behavior defects, run relevant checks,
+and explain the cause, changes, and verification results.
 ```
 
 ## Dev

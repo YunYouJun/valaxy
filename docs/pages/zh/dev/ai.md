@@ -4,121 +4,127 @@ categories:
   - dev
 ---
 
-Valaxy 通过 [Claude Code](https://claude.com/code) 支持 AI 辅助开发工作流，使项目贡献变得更加简单。
+Valaxy 目前使用 **Codex** 辅助开发核心框架、主题、插件与文档。本页介绍如何让 Codex 理解仓库约定、完成范围明确的修改，并交付可以复现的验证结果。
 
+本文面向 **Valaxy 仓库贡献者**。如果你只是想创建博客、写文章或修改站点配置，请先阅读 [快速开始](/zh/guide/getting-started)。
 
-## 环境配置 {#setup}
+## 准备开发环境 {#setup}
 
-
-仓库在 `.claude/commands/` 目录中包含了自定义的 Claude Code 命令，用于简化常见的开发任务。
-
-
-## 可用命令 {#available-commands}
-
-
-### 修复 GitHub Issues {#fix-github-issues}
-
-
-自动分析并修复 GitHub issues：
-
+准备 Node.js `>=22.12.0`，并使用根目录 `package.json` 的 `packageManager` 指定的 pnpm 版本。Valaxy 是 pnpm workspace，所有仓库命令都在项目根目录执行：
 
 ```bash
-/fix-github-issue 1234
+git clone https://github.com/YunYouJun/valaxy.git
+cd valaxy
+pnpm install
+pnpm build
 ```
 
-此命令将会：
+`pnpm build` 按顺序构建共享工具、核心框架和 DevTools，首次运行文档或示例站点前需要完成这一步。
 
-1. 使用 GitHub CLI 获取 issue 详情
-2. 分析问题描述
-3. 搜索相关代码文件
-4. 实现必要的修改
-5. 运行测试验证修复
-6. 确保代码质量（代码检查、类型检查）
-7. 创建描述性的提交
-8. 推送更改并创建 Pull Request
-
-**示例：**
+在 Codex 中打开这个仓库目录并开始任务。使用终端时，先按 [Codex CLI 官方文档](https://learn.chatgpt.com/docs/codex/cli)完成安装与登录，再在仓库根目录执行：
 
 ```bash
-/fix-github-issue 628
+codex
 ```
 
-这将自动修复 issue #628，包括：
-- 读取 issue 描述
-- 找到受影响的组件
-- 实现修复
-- 运行测试
-- 创建带有适当描述的 PR
+可以先发送一个只读任务，确认工作目录和项目约定：
 
-
-## CLAUDE.md {#claudemd}
-
-仓库根目录包含 `CLAUDE.md` 文件，提供：
-
-- 基本开发命令
-- 架构概览
-- 关键模式和约定
-- 项目特定说明
-
-该文件帮助 Claude Code 理解代码库结构和开发工作流。
-
-
-## 最佳实践 {#best-practices}
-
-
-使用 AI 辅助开发时：
-
-1. **审查更改**：提交前务必审查 AI 做出的更改
-2. **充分测试**：确保测试通过并手动验证关键更改
-3. **理解代码**：不要只是接受更改 - 理解更改了什么以及为什么
-4. **迭代优化**：与 AI 迭代协作以优化解决方案
-5. **遵循约定**：AI 会遵循现有代码模式，但要验证一致性
-
-
-## 创建自定义命令 {#creating-custom-commands}
-
-
-你可以为常见任务创建自定义命令：
-
-1. 在 `.claude/commands/` 中创建新文件
-2. 使用描述性命名（例如 `add-feature.md`）
-3. 编写 Claude Code 要遵循的指令
-
-**示例命令结构：**
-
-```markdown
-请实现新功能：$ARGUMENTS。
-
-遵循以下步骤：
-1. 分析需求
-2. 设计解决方案
-3. 实现代码
-4. 编写测试
-5. 更新文档
+```text
+请读取 AGENTS.md 和 package.json，概述仓库结构、包管理器、构建与测试命令。
+先查看当前 Git 状态，说明已有改动；这一步只做阅读，不修改文件。
 ```
 
+## 项目约定：AGENTS.md {#agents-md}
 
-## 提示 {#tips}
+根目录的 [AGENTS.md](https://github.com/YunYouJun/valaxy/blob/main/AGENTS.md) 是 Codex 在本仓库中的开发指南，包含包结构、配置与路由流程、构建顺序、测试命令和发布流程。
 
+Codex 会读取适用的 `AGENTS.md` 指令；全局和目录级指令的发现与优先级见 [官方说明](https://learn.chatgpt.com/docs/agent-configuration/agents-md)。一次任务的目标、修改范围和验收标准仍应在对话里写清楚。
 
-- 使用 `/help` 查看所有可用命令
-- AI 可以访问完整的代码库上下文
-- 命令可以通过 `$ARGUMENTS` 接受参数
-- AI 会遵循 `CLAUDE.md` 和现有代码的模式
-- 可以使用 GitHub CLI (`gh`) 进行 GitHub 操作
+维护项目约定时，把可复用的规则写进 `AGENTS.md`，具体命令与根目录 `package.json` 保持一致。任务中的临时路径、某次报错和检查结果则放在对应的任务记录中。
 
+## 用自然语言描述任务 {#available-commands}
 
-## 局限性 {#limitations}
+一个可执行的任务应包含：**目标、相关上下文、修改范围和验收标准**。提供具体文件、问题链接、复现步骤、日志或截图，让 Codex 从这些证据开始定位。
 
+### 修复 GitHub Issue {#fix-github-issues}
 
-- AI 建议应由人工审查
-- 复杂的架构决策可能需要人工规划
-- 安全敏感的更改需要额外审查
-- 部署前务必在本地环境测试
+将下面的占位内容替换成实际问题：
 
+```text
+请修复这个 Valaxy issue：<issue URL>。
 
----
+先读取 AGENTS.md、issue 描述和讨论，按其中的步骤复现问题。
+定位原因后做范围明确的修复，并为行为缺陷添加能证明修复有效的回归测试。
+保留工作区已有改动，运行受影响部分的测试和相关仓库检查。
 
-**注意**：AI 辅助开发是提高生产力的工具，而非替代人工判断。务必审查和理解所做的更改。
+交付：原因说明、改动摘要、验证命令与结果，以及仍未解决的问题。
+本轮保留本地改动，不提交、不推送、不创建 PR。
+```
 
+如果任务环境没有 GitHub 访问能力，直接粘贴问题描述、复现步骤和相关日志。需要提交、推送或创建 PR 时，在任务中明确要求，并说明目标分支。
 
+### 修改文档或主题 {#docs-and-themes}
+
+```text
+请更新 docs/pages/zh/guide/getting-started.md 及对应英文文档。
+先对照 create-valaxy 和模板的实际实现，修正过时说明。
+保留仍然有效的信息，确保示例命令、配置文件名和输出一致。
+启动文档预览，检查中英文页面、代码块和站内链接，并运行相关检查。
+```
+
+主题任务还应说明目标主题、参考效果和需要验证的页面。例如，修改 Yun 首页后，检查桌面和移动端布局，并确认文章导航与生产构建仍然正常。
+
+### 验证完整使用流程 {#verify-workflow}
+
+跨越脚手架、依赖安装和构建的任务，需要从干净项目验证：
+
+```text
+验证 Valaxy 从创建博客到首次生产构建的完整体验。
+使用当前仓库打包产物，在独立临时目录创建博客，按快速开始完成安装、启动、
+添加文章、修改站点配置和生产构建。
+记录无法照做、说明过时和运行失败的问题，修复后重新生成干净项目复验。
+检查首页、文章页、构建产物，并交付可复现的验收记录。不发布版本。
+```
+
+仓库已有对应验收入口：
+
+```bash
+# 首次运行前安装测试浏览器
+pnpm exec playwright install chromium
+pnpm test:onboarding
+```
+
+它会构建并打包当前仓库产物，在临时目录完成博客全流程，保存日志、截图和 `test-results/onboarding/record.json`。只有全部验收通过才更新快速开始中的启动日志示例；失败结果应保留并如实说明。
+
+## 按改动范围选择检查 {#best-practices}
+
+| 改动范围 | 常用检查 |
+| --- | --- |
+| 工具函数、Markdown 或配置行为 | 先运行相关测试文件，例如 `pnpm exec vitest run test/create-valaxy.test.ts`；需要完整单元测试时运行 `pnpm test --run` |
+| TypeScript / Vue 代码 | `pnpm lint`、`pnpm typecheck`，以及受影响功能的测试 |
+| 核心包或 CLI | `pnpm build`，再运行相关示例或 CLI 命令 |
+| 文档 | `pnpm docs:dev` 预览；检查中英文对应页面、链接和代码示例，运行 `pnpm docs:build` 验证静态产物 |
+| Yun 主题 | `pnpm demo` 预览、`pnpm demo:build` 构建，按修改范围验证桌面和移动端 |
+| 脚手架或首次使用流程 | `pnpm test:onboarding`，从打包产物验证依赖安装、启动与生产构建 |
+
+根据修改选择必要的检查。完成任务时列出实际执行的命令、通过或失败的结果，以及未执行的检查；有失败时保留日志和复现步骤。
+
+## 复用项目技能 {#creating-custom-commands}
+
+仓库维护了两份技能文档，可在任务中明确要求 Codex 阅读：
+
+- [skills/valaxy/SKILL.md](https://github.com/YunYouJun/valaxy/blob/main/skills/valaxy/SKILL.md)：博客配置、文章、框架、主题与插件开发。
+- [skills/valaxy-theme/SKILL.md](https://github.com/YunYouJun/valaxy/blob/main/skills/valaxy-theme/SKILL.md)：从需求生成或改造主题，并验证可运行的主题与示例站点。
+
+例如：
+
+```text
+先阅读 skills/valaxy-theme/SKILL.md，再根据以下需求改造主题：……
+验收时提供可运行的示例，检查首页、文章页和移动端，并说明如何预览。
+```
+
+## 其他 AI 工具 {#claudemd}
+
+仓库仍保留 `CLAUDE.md` 和 `.claude/commands/fix-github-issue.md`，供 Claude Code 工作流使用。旧文档中的 `/fix-github-issue` 来自该命令文件，**不是 Codex 内置命令**。
+
+使用其他工具时，同样可以明确要求它阅读 `AGENTS.md` 和相关技能文档，并核对当前代码与 `package.json`。本页的任务示例也可以直接作为普通提示词使用。

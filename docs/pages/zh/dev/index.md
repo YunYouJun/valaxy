@@ -8,14 +8,15 @@ end: false
 - `create-valaxy`
 - `create-valaxy-theme`
 
-## AI-Assisted Development {#ai-assisted-development}
+## AI 辅助开发 {#ai-assisted-development}
 
-Valaxy supports AI-assisted development workflows. See [AI-Assisted Development](./ai) for details.
+Valaxy 目前使用 Codex 辅助开发，以根目录 `AGENTS.md` 记录项目约定。环境准备、任务示例与验收方法见 [AI 辅助开发](./ai)。
 
-Quick example - fix a GitHub issue automatically:
+可以直接用自然语言描述任务：
 
-```bash
-/fix-github-issue 628
+```text
+读取 AGENTS.md，复现并修复这个 issue：<issue URL>。
+为行为缺陷添加回归测试，运行相关检查，并说明修改原因和验证结果。
 ```
 
 ## Dev {#dev}
@@ -67,4 +68,3 @@ If you only want to develop client.
 
 - Docs: `pnpm docs:dev`
 - Demo(theme-yun): `pnpm demo`
-
