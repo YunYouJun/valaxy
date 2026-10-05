@@ -3,6 +3,7 @@ import { chmod, mkdtemp, readFile, rm, writeFile } from 'node:fs/promises'
 import { tmpdir } from 'node:os'
 import { delimiter, join, resolve } from 'node:path'
 import process from 'node:process'
+import { pathToFileURL } from 'node:url'
 import { expect, it } from 'vitest'
 
 function alive(pid: number) {
@@ -50,7 +51,7 @@ it.for(['SIGINT', 'SIGTERM', 'timeout'] as const)('cleans up command trees after
   const runner = spawn(process.execPath, [
     '--import',
     'tsx',
-    ...signal === 'timeout' ? ['--import', clock] : [],
+    ...signal === 'timeout' ? ['--import', pathToFileURL(clock).href] : [],
     resolve('scripts/check-onboarding.ts'),
   ], {
     env: { ...process.env, PATH: `${root}${delimiter}${process.env.PATH}`, VALAXY_ONBOARDING_ARTIFACTS: root },
