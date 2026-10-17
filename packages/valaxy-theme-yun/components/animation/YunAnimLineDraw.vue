@@ -20,16 +20,13 @@ const props = withDefaults(defineProps<{
 </template>
 
 <style lang="scss" scoped>
-@use 'sass:map';
-@use 'valaxy-theme-yun/styles/vars.scss' as *;
-
 .line {
   position: absolute;
   height: 1px;
   width: 0%;
   left: 0;
   background-color: var(--yun-prologue-divider-color, var(--va-c-text));
-  transition: width 1s map.get($cubic-bezier, 'ease-in');
+  transition: width 1s var(--yun-ease-in);
 
   &.enter {
     width: 100%;

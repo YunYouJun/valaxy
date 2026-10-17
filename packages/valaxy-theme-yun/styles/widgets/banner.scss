@@ -1,6 +1,3 @@
-@use 'sass:map';
-@use '../vars.scss' as *;
-
 $banner-animation-duration: 1s;
 $char-animation-duration: 0.4s;
 
@@ -55,7 +52,7 @@ $char-animation-duration: 0.4s;
     animation-name: extend-line;
     animation-duration: var(--line-animation-duration);
     animation-fill-mode: forwards;
-    animation-timing-function: map.get($cubic-bezier, "ease-in");
+    animation-timing-function: var(--yun-ease-in);
     animation-iteration-count: 1;
   }
 
@@ -71,7 +68,7 @@ $char-animation-duration: 0.4s;
 
     // reverse
     animation-direction: reverse;
-    animation-timing-function: map.get($cubic-bezier, "ease-in-out");
+    animation-timing-function: var(--yun-ease-in-out);
     animation-iteration-count: 1;
   }
 }
@@ -92,7 +89,8 @@ $char-animation-duration: 0.4s;
   font-size: var(--banner-char-size, 1rem);
   background-color: var(--banner-char-bg-color);
   line-height: 1;
-  transition: all var(--va-transition-duration) ease-in-out;
+  transition: color var(--va-transition-duration) ease-in-out,
+    background-color var(--va-transition-duration) ease-in-out;
   transition-delay: 0s;
 
   &:hover {

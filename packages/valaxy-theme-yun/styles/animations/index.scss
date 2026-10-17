@@ -1,20 +1,17 @@
-// cubic-bezier(0.18, 0.66, 0.05, 0.96)
-// cubic-bezier(0.77, 0, 0.17, 1.02)
-
-@use 'sass:map';
-@use '../vars.scss' as *;
+// easing tokens --yun-ease-in / --yun-ease-in-out are generated in styles/css-vars.scss
+// from the $cubic-bezier map in styles/vars.scss
 
 .transition-cubic-bezier-ease-in {
-  transition-timing-function: map.get($cubic-bezier, 'ease-in');
+  transition-timing-function: var(--yun-ease-in);
 }
 
 .transition-cubic-bezier-ease-in-out {
-  transition-timing-function: map.get($cubic-bezier, 'ease-in-out');
+  transition-timing-function: var(--yun-ease-in-out);
 }
 
 .v-enter-active,
 .v-leave-active {
-  transition: opacity var(--va-transition-duration-fast) map.get($cubic-bezier, 'ease-in');
+  transition: opacity var(--va-transition-duration-fast) var(--yun-ease-in);
 }
 
 .v-enter-from,
@@ -44,6 +41,8 @@
 }
 
 // title-effects
+// hover 时在左上 / 右下出现直角角标，按元素的矩形边界定位：用在圆角元素上角标会悬在圆角外，
+// 此时再加 `.yun-title-effects-rounded`，让角标继承对应角的圆角（圆角半径 ≤ 角标边长 10px 时完全贴合）
 .yun-title-effects {
   position: relative;
   
@@ -55,7 +54,8 @@
     height: 10px;
     opacity: 0;
     border: 2px solid;
-    transition: var(--va-transition-duration);
+    transition-property: opacity, transform;
+    transition-duration: var(--va-transition-duration);
     transition-timing-function: cubic-bezier(0.17, 0.67, 0.05, 1.29);
   }
 
@@ -77,6 +77,16 @@
   &:hover::after {
     opacity: 1;
     transform: translate3d(0, 0, 0);
+  }
+}
+
+.yun-title-effects-rounded {
+  &::before {
+    border-top-left-radius: inherit;
+  }
+
+  &::after {
+    border-bottom-right-radius: inherit;
   }
 }
 

@@ -106,8 +106,6 @@ const app = useAppStore()
 </template>
 
 <style lang="scss" scoped>
-@use 'sass:map';
-@use 'valaxy-theme-yun/styles/vars.scss' as *;
 @use "valaxy/client/styles/mixins/index.scss" as *;
 
 .yun-nav-menu {
@@ -126,9 +124,9 @@ const app = useAppStore()
   align-items: center;
   justify-content: space-between;
   height: var(--yun-nav-height, 50px);
-  transition: background-color var(--va-transition-duration-moderate) map.get($cubic-bezier, 'ease-in'),
-    backdrop-filter var(--va-transition-duration-moderate) map.get($cubic-bezier, 'ease-in'),
-    box-shadow var(--va-transition-duration-moderate) map.get($cubic-bezier, 'ease-in');
+  transition: background-color var(--va-transition-duration-moderate) var(--yun-ease-in),
+    backdrop-filter var(--va-transition-duration-moderate) var(--yun-ease-in),
+    box-shadow var(--va-transition-duration-moderate) var(--yun-ease-in);
 
   .vt-hamburger-top, .vt-hamburger-middle, .vt-hamburger-bottom {
     background-color: var(--va-c-text);
