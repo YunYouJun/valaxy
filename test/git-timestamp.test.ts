@@ -108,6 +108,19 @@ describe('date utils', () => {
     expect(+new Date(await getUpdatedTime(file))).toBe(+stat.mtime)
   })
 
+  it('falls back to now when the file has been deleted', async () => {
+    // e.g. a page deleted right after being edited in dev
+    const file = join(repoDir, 'deleted.md')
+    const before = Date.now()
+    const created = +new Date(await getCreatedTime(file))
+    const updated = +new Date(await getUpdatedTime(file))
+    const after = Date.now()
+    for (const time of [created, updated]) {
+      expect(time).toBeGreaterThanOrEqual(before)
+      expect(time).toBeLessThanOrEqual(after)
+    }
+  })
+
   it('preserves filesystem fallback outside Git repositories', async () => {
     const directory = mkdtempSync(join(tmpdir(), 'valaxy-no-git-'))
     try {

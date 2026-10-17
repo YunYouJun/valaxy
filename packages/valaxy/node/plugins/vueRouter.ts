@@ -172,8 +172,15 @@ export async function createRouterOptions(valaxyApp: ValaxyNode, base?: Markdown
 
       // find page path
       const path = route.components.get('default') || ''
-      if (path.endsWith('.md')) {
-        const md = await fs.readFile(path, 'utf-8')
+      // the page may be deleted right after being edited in dev
+      const md = path.endsWith('.md')
+        ? await fs.readFile(path, 'utf-8').catch((e: NodeJS.ErrnoException) => {
+            if (e.code === 'ENOENT' || e.code === 'ENOTDIR')
+              return undefined
+            throw e
+          })
+        : undefined
+      if (md !== undefined) {
         const { data, excerpt, content } = parseMatter(md)
         const mdFm = data as (Page | Post)
 
