@@ -150,6 +150,23 @@ describe('route metadata dates', () => {
     expect(post.updated).toEqual(stat.mtime)
   })
 
+  it('skips markdown frontmatter for a page that has been deleted', async () => {
+    // e.g. a page deleted right after being edited in dev
+    const route = {
+      fullPath: '/posts/deleted',
+      children: [],
+      components: new Map([['default', join(root, 'pages/posts/deleted.md')]]),
+      meta: {} as Record<string, unknown>,
+      addToMeta(meta: Record<string, unknown>) {
+        Object.assign(this.meta, meta)
+      },
+    }
+    const router = await createRouterOptions(app)
+    await expect(router.extendRoute!(route as unknown as Parameters<NonNullable<typeof router.extendRoute>>[0])).resolves.toBeUndefined()
+    expect(route.meta.excerpt).toBeUndefined()
+    expect(app.hooks.callHook).toHaveBeenCalledWith('vue-router:extendRoute', route)
+  })
+
   it('keeps updated equal to date when lastUpdated is disabled', async () => {
     git(['init'])
     const file = 'pages/posts/disabled.md'
