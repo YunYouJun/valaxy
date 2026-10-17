@@ -81,16 +81,16 @@
 }
 
 // 系统开启「减少动态效果」时的全局兜底
-// 用极短时长而非 `animation: none`：forwards 动画（如 banner 字块从透明渐显）仍会停在终态，animationend 也照常触发
+// 清零时长而非 `animation: none`：forwards 动画（如 banner 字块从透明渐显）仍会停在终态，animationend 也照常触发
 @media (prefers-reduced-motion: reduce) {
   *,
   *::before,
   *::after {
     animation-delay: 0s !important;
-    animation-duration: 0.01ms !important;
+    animation-duration: 0s !important;
     animation-iteration-count: 1 !important;
     transition-delay: 0s !important;
-    transition-duration: 0.01ms !important;
+    transition-duration: 0s !important;
     scroll-behavior: auto !important;
   }
 }
