@@ -1,6 +1,9 @@
 import { webcrypto } from 'node:crypto'
+import postcss from 'postcss'
+import { createGenerator, presetAttributify, presetWind4 } from 'unocss'
 import { describe, expect, it } from 'vitest'
 import { encryptContent } from '../packages/valaxy/node/utils/encrypt'
+import { transformObject } from '../packages/valaxy/node/utils/helper'
 
 function getKeyMaterial(password: string) {
   const enc = new TextEncoder()
@@ -31,7 +34,7 @@ function getCryptoDeriveKey(keyMaterial: webcrypto.CryptoKey, salt: Uint8Array) 
 async function decrypt(pw: string, ciphertext: string, iv: Uint8Array, salt: Uint8Array) {
   const keyMaterial = await getKeyMaterial(pw)
   const key = await getCryptoDeriveKey(keyMaterial, salt)
-  const data = Uint8Array.from(ciphertext, c => c.charCodeAt(0))
+  const data = Uint8Array.from(atob(ciphertext), c => c.charCodeAt(0))
   const decrypted = await webcrypto.subtle.decrypt({ name: 'AES-CBC', iv: Uint8Array.from(iv) }, key, data)
   return new TextDecoder().decode(decrypted)
 }
@@ -54,5 +57,26 @@ describe('encryptContent', () => {
     const cipher = await encryptContent(content, { password: testPw, iv, salt })
     expect(typeof cipher).toBe('string')
     expect(await decrypt(testPw, cipher, iv, salt)).toBe(content)
+  })
+
+  // Ciphertext is embedded in the page module that UnoCSS scans. Random binary
+  // bytes used to form arbitrary-value utilities such as `p-["*(.]`, whose CSS
+  // failed postcss parsing at random (salt/iv change on every build).
+  it('emits base64 that UnoCSS cannot read as utilities', async () => {
+    const uno = await createGenerator({ presets: [presetWind4(), presetAttributify()] })
+    const content = Array.from({ length: 2000 }, (_, i) => `<p class="p-${i}">${i}</p>`).join('')
+    for (let i = 0; i < 20; i++) {
+      const cipher = await encryptContent(content, {
+        password: testPw,
+        iv: webcrypto.getRandomValues(new Uint8Array(16)),
+        salt: webcrypto.getRandomValues(new Uint8Array(16)),
+      })
+      expect(cipher).toMatch(/^[A-Z0-9+/]+=*$/i)
+
+      const code = `const $encryptedContent = ${transformObject(cipher)}`
+      const { css, matched } = await uno.generate(code, { preflights: false })
+      expect([...matched]).toEqual([])
+      expect(() => postcss.parse(css)).not.toThrow()
+    }
   })
 })

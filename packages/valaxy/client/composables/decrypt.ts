@@ -51,7 +51,8 @@ export function useDecrypt() {
       const keyMaterial = await getKeyMaterial(password)
       const key = await getCryptoDeriveKey(keyMaterial, salt)
 
-      const ciphertextData = Uint8Array.from(ciphertext, c => c.charCodeAt(0))
+      // ciphertext is base64, see `encryptContent` in node/utils/encrypt.ts
+      const ciphertextData = Uint8Array.from(atob(ciphertext), c => c.charCodeAt(0))
 
       const decrypted = await window.crypto.subtle.decrypt(
         {
