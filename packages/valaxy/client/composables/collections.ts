@@ -4,6 +4,7 @@ import { computed, unref } from 'vue'
 
 import { useRoute } from 'vue-router'
 import collections from '#valaxy/blog/collections'
+import { decodePath } from '../utils/path'
 import { usePageList } from './post'
 
 export interface PostCollectionInfo {
@@ -42,8 +43,9 @@ export function useCollections() {
 export function useCollection() {
   const route = useRoute()
   const collectionId = computed(() => {
-    if (route.path.startsWith('/collections/')) {
-      return route.path.split('/')[2] // 获取集合 ID
+    const path = decodePath(route.path)
+    if (path.startsWith('/collections/')) {
+      return path.split('/')[2] // 获取集合 ID
     }
     return ''
   })
@@ -70,10 +72,12 @@ export function useCollectionPosts(collectionKey: MaybeRef<string>) {
     if (!key)
       return []
 
+    // page paths are percent-encoded, collection and item keys are raw
     const prefix = `/collections/${key}/`
-    const pages = pageList.value.filter(
-      p => p.path?.startsWith(prefix) && p.path !== prefix && !p.path.endsWith('/'),
-    )
+    const pages = pageList.value.filter((p) => {
+      const path = p.path ? decodePath(p.path) : ''
+      return path.startsWith(prefix) && path !== prefix && !path.endsWith('/')
+    })
 
     // Sort by collection items order if available
     const col = collections.value.find(c => c.key === key)
@@ -84,8 +88,8 @@ export function useCollectionPosts(collectionKey: MaybeRef<string>) {
           .map((item, idx) => [item.key, idx]),
       )
       return pages.toSorted((a, b) => {
-        const aSlug = a.path?.split('/').pop() || ''
-        const bSlug = b.path?.split('/').pop() || ''
+        const aSlug = decodePath(a.path || '').split('/').pop() || ''
+        const bSlug = decodePath(b.path || '').split('/').pop() || ''
         const aIdx = orderMap.get(aSlug) ?? Infinity
         const bIdx = orderMap.get(bSlug) ?? Infinity
         if (aIdx === bIdx)
@@ -105,7 +109,7 @@ export function useCollectionPosts(collectionKey: MaybeRef<string>) {
  */
 export function usePostCollections(postPath: MaybeRef<string>): ComputedRef<PostCollectionInfo[]> {
   return computed(() => {
-    const path = stripTrailingSlash(unref(postPath))
+    const path = stripTrailingSlash(decodePath(unref(postPath)))
     if (!path)
       return []
 
@@ -121,7 +125,7 @@ export function usePostCollections(postPath: MaybeRef<string>): ComputedRef<Post
           break
         }
         // Match internal link items (non-http)
-        if (item.link && !/^https?:\/\//.test(item.link) && stripTrailingSlash(item.link) === path) {
+        if (item.link && !/^https?:\/\//.test(item.link) && stripTrailingSlash(decodePath(item.link)) === path) {
           result.push({ collection: col, itemIndex: i })
           break
         }

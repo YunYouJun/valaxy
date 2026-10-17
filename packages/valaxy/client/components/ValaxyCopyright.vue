@@ -3,6 +3,7 @@ import { useValaxyI18n } from 'valaxy'
 import { computed } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { useSiteConfig } from '../config'
+import { decodePath } from '../utils/path'
 
 withDefaults(defineProps<{
   url?: string
@@ -40,7 +41,7 @@ const licenseHtml = computed(() => {
         {{ t('post.copyright.link') + t('symbol.colon') }}
       </strong>
       <a :href="url" target="_blank" :title="t('post.copyright.link')">
-        {{ decodeURI(url) }}
+        {{ decodePath(url) }}
       </a>
     </li>
     <li class="post-copyright-license">

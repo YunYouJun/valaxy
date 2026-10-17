@@ -13,10 +13,10 @@ export function resolveYunDocsSidebar(
   if (!sidebar)
     return []
 
-  const normalizedPath = ensureStartingSlash(path)
+  const normalizedPath = ensureStartingSlash(decodePath(path))
   const matchedPrefix = Object.keys(sidebar)
     .sort((a, b) => ensureStartingSlash(b).length - ensureStartingSlash(a).length)
-    .find(prefix => normalizedPath.startsWith(ensureStartingSlash(prefix)))
+    .find(prefix => normalizedPath.startsWith(ensureStartingSlash(decodePath(prefix))))
 
   if (!matchedPrefix)
     return []
@@ -57,8 +57,18 @@ function ensureStartingSlash(path: string): string {
   return path.startsWith('/') ? path : `/${path}`
 }
 
+function decodePath(path: string): string {
+  try {
+    return decodeURI(path)
+  }
+  catch {
+    return path
+  }
+}
+
+/** `route.path` is percent-encoded while config links are usually raw (`/指南/`). */
 function normalizePath(path: string): string {
-  const normalized = ensureStartingSlash(path)
+  const normalized = ensureStartingSlash(decodePath(path))
     .replace(/#.*$/, '')
     .replace(/(?:index)?\.(?:md|html)$/, '')
     .replace(/\/+$/, '')

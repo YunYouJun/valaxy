@@ -12,10 +12,10 @@ import type { ComputedRef } from 'vue'
 import type { Router } from 'vue-router'
 import type { PageDataPayload } from '../../types'
 import type { ValaxySSGContext } from '../setups'
-import { ensureSuffix } from '@antfu/utils'
 import { useStorage } from '@vueuse/core'
 import { nextTick, watch } from 'vue'
 import { createI18n } from 'vue-i18n'
+import { isSamePagePath } from '../utils/path'
 
 // @ts-expect-error virtual
 import valaxyMessages from '/@valaxyjs/locales'
@@ -37,10 +37,7 @@ import valaxyMessages from '/@valaxyjs/locales'
 // import en from '../../../../../demo/yun/locales/en.yml'
 
 function shouldHotReload(payload: PageDataPayload): boolean {
-  const payloadPath = payload.path.replace(/(?:(^|\/)index)?\.md$/, '$1')
-  const locationPath = location.pathname
-    .replace(/(?:(^|\/)index)?\.html$/, '')
-  return ensureSuffix('/', encodeURI(payloadPath)) === ensureSuffix('/', encodeURI(locationPath))
+  return isSamePagePath(payload.path, location.pathname, import.meta.env.BASE_URL)
 }
 
 // init i18n, by valaxy config
