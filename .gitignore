@@ -38,3 +38,5 @@ packages/**/.codebuddy/
 # Production browser regression artifacts
 playwright-report-ssg/
 test-results-ssg/
+# written and removed by e2e/theme-yun/hmr.spec.ts
+demo/yun/pages/test/hmr-temp.md

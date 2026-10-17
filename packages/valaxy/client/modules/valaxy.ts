@@ -86,13 +86,25 @@ export async function install({ app, router }: ValaxySSGContext, config: Compute
 function handleHMR(router: Router): void {
   // update route.data on HMR updates of active page
   if (import.meta.hot) {
+    let lastPayload: PageDataPayload | undefined
+
     import.meta.hot.on('valaxy:pageData', (payload: PageDataPayload) => {
       if (shouldHotReload(payload)) {
+        lastPayload = payload
         window.$pageData = payload.pageData
 
         // console.log(payload.pageData.headers)
         Object.assign(router.currentRoute.value.meta, payload.pageData)
       }
+    })
+
+    // The routes HMR in `main.ts` re-navigates to the current page with a fresh
+    // `meta`, which may happen after the payload above was applied.
+    router.afterEach((to) => {
+      if (lastPayload && shouldHotReload(lastPayload))
+        Object.assign(to.meta, lastPayload.pageData)
+      else
+        lastPayload = undefined
     })
   }
 }
