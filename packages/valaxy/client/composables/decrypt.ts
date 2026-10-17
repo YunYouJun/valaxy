@@ -36,6 +36,12 @@ function getCryptoDeriveKey(keyMaterial: CryptoKey, salt: BufferSource) {
   )
 }
 
+/**
+ * Decrypt ciphertext produced by `encryptContent` (valaxy/node).
+ *
+ * `ciphertext` must be base64. Earlier versions passed a binary string (one
+ * char per byte), which no longer decrypts.
+ */
 export function useDecrypt() {
   const siteConfig = useSiteConfig()
 

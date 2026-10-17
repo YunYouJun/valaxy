@@ -44,6 +44,9 @@ function getCryptoDeriveKey(keyMaterial: CryptoKey | webcrypto.CryptoKey, salt: 
  * build at random because salt/iv change on every build. Base64 has none of
  * those characters, and it is smaller once JSON-escaped.
  *
+ * Breaking change: before this, the return value was a binary string (one char
+ * per byte). Code that decodes it outside `useDecrypt` must now `atob` it first.
+ *
  * @see https://github.com/mdn/dom-examples/blob/main/web-crypto/encrypt-decrypt/aes-cbc.js
  * @param content
  */

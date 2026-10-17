@@ -866,6 +866,9 @@ importers:
       unbuild:
         specifier: catalog:build
         version: 3.6.1(sass@1.105.1)(typescript@5.9.3)(vue-tsc@3.3.11(typescript@5.9.3))(vue@3.5.43(typescript@5.9.3))
+      unocss:
+        specifier: 66.10.5
+        version: 66.10.5(@devframes/agentic@1.2.0)(cac@7.0.0)(rolldown@1.2.12)(rollup@4.63.6)(srvx@1.0.5)(vite@8.3.2)
       vitest:
         specifier: 'catalog:'
         version: 5.0.3(@types/node@26.6.4)(@vitest/ui@5.0.3)(jsdom@30.1.1)(vite@8.3.2)

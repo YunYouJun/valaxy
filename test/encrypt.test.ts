@@ -1,3 +1,4 @@
+import { Buffer } from 'node:buffer'
 import { webcrypto } from 'node:crypto'
 import postcss from 'postcss'
 import { createGenerator, presetAttributify, presetWind4 } from 'unocss'
@@ -59,24 +60,30 @@ describe('encryptContent', () => {
     expect(await decrypt(testPw, cipher, iv, salt)).toBe(content)
   })
 
-  // Ciphertext is embedded in the page module that UnoCSS scans. Random binary
-  // bytes used to form arbitrary-value utilities such as `p-["*(.]`, whose CSS
-  // failed postcss parsing at random (salt/iv change on every build).
+  // Ciphertext is embedded in the page module that UnoCSS scans. With these
+  // fixed inputs the old binary-string encoding contained `b="$KX…(Y"`, which
+  // UnoCSS turned into `border-color: color-mix(in …(Y, …)` and postcss
+  // rejected ("Unclosed bracket"). Salt/iv used to differ between builds, so
+  // the build failed at random.
   it('emits base64 that UnoCSS cannot read as utilities', async () => {
-    const uno = await createGenerator({ presets: [presetWind4(), presetAttributify()] })
-    const content = Array.from({ length: 2000 }, (_, i) => `<p class="p-${i}">${i}</p>`).join('')
-    for (let i = 0; i < 20; i++) {
-      const cipher = await encryptContent(content, {
-        password: testPw,
-        iv: webcrypto.getRandomValues(new Uint8Array(16)),
-        salt: webcrypto.getRandomValues(new Uint8Array(16)),
-      })
-      expect(cipher).toMatch(/^[A-Z0-9+/]+=*$/i)
+    const fromHex = (hex: string) => Uint8Array.from(Buffer.from(hex, 'hex'))
+    const password = 'valaxy'
+    const iv = fromHex('00736552c9a4931d838ba865286f20a5')
+    const salt = fromHex('63479ad69a090b258277ec8fba6f9941')
+    const content = '<p>valaxy</p>'.repeat(300)
 
-      const code = `const $encryptedContent = ${transformObject(cipher)}`
-      const { css, matched } = await uno.generate(code, { preflights: false })
-      expect([...matched]).toEqual([])
-      expect(() => postcss.parse(css)).not.toThrow()
-    }
+    const cipher = await encryptContent(content, { password, iv, salt })
+    expect(cipher).toMatch(/^[A-Z0-9+/]+=*$/i)
+    expect(await decrypt(password, cipher, iv, salt)).toBe(content)
+
+    const uno = await createGenerator({ presets: [presetWind4(), presetAttributify()] })
+    const embed = (ciphertext: string) => `const $encryptedContent = ${transformObject(ciphertext)}`
+    const { matched } = await uno.generate(embed(cipher), { preflights: false })
+    expect([...matched]).toEqual([])
+
+    // Guard that the fixture still reproduces the old failure: `atob` gives
+    // back the binary string the old encoding emitted.
+    const legacy = await uno.generate(embed(atob(cipher)), { preflights: false })
+    expect(() => postcss.parse(legacy.css)).toThrow(/Unclosed bracket/)
   })
 })
