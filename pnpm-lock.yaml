@@ -631,8 +631,8 @@ catalogs:
       specifier: ^4.1.2
       version: 4.1.2
     star-markdown-css:
-      specifier: ^0.5.3
-      version: 0.5.3
+      specifier: ^0.6.1
+      version: 0.6.1
     stylelint:
       specifier: ^17.15.0
       version: 17.16.0
@@ -1374,7 +1374,7 @@ importers:
         version: 4.5.0
       star-markdown-css:
         specifier: 'catalog:'
-        version: 0.5.3
+        version: 0.6.1
       table:
         specifier: 'catalog:'
         version: 6.9.0
@@ -7951,8 +7951,8 @@ packages:
     engines: {node: '>=20.16.0'}
     hasBin: true
 
-  star-markdown-css@0.5.3:
-    resolution: {integrity: sha512-ewlx4ge1i6B2jopgOJbhgTbshNFI8HEH5vD2itxDh3qKYz+a9+H2EJC1pyPapDeJEOm0DRpHiAvBOSB/H1RMvA==}
+  star-markdown-css@0.6.1:
+    resolution: {integrity: sha512-x2BtWfYcDMq+DV7g+dHkfHqsPIwPo4FX/p9YMxg7CHcsGCdCeukQKFOxEKTkw4+z+kwzpDNxZ1ci/Xr2i0b7cQ==}
 
   statuses@2.0.2:
     resolution: {integrity: sha512-DvEy55V3DB7uknRo+4iOGT5fP1slR8wQohVdknigZPMpMstaKJQWhwiYBACJE3Ul2pTnATihhBYnRhZQHGBiRw==}
@@ -15927,7 +15927,7 @@ snapshots:
 
   srvx@1.0.5: {}
 
-  star-markdown-css@0.5.3: {}
+  star-markdown-css@0.6.1: {}
 
   statuses@2.0.2: {}
 
