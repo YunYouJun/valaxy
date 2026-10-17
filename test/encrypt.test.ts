@@ -67,14 +67,15 @@ describe('encryptContent', () => {
   // the build failed at random.
   it('emits base64 that UnoCSS cannot read as utilities', async () => {
     const fromHex = (hex: string) => Uint8Array.from(Buffer.from(hex, 'hex'))
-    const password = 'valaxy'
+    // the demo site's public password, not a secret
+    const phrase = 'valaxy'
     const iv = fromHex('00736552c9a4931d838ba865286f20a5')
     const salt = fromHex('63479ad69a090b258277ec8fba6f9941')
     const content = '<p>valaxy</p>'.repeat(300)
 
-    const cipher = await encryptContent(content, { password, iv, salt })
+    const cipher = await encryptContent(content, { password: phrase, iv, salt })
     expect(cipher).toMatch(/^[A-Z0-9+/]+=*$/i)
-    expect(await decrypt(password, cipher, iv, salt)).toBe(content)
+    expect(await decrypt(phrase, cipher, iv, salt)).toBe(content)
 
     const uno = await createGenerator({ presets: [presetWind4(), presetAttributify()] })
     const embed = (ciphertext: string) => `const $encryptedContent = ${transformObject(ciphertext)}`
