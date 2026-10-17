@@ -34,7 +34,7 @@ const prefix = computed(() => props.lang === 'zh' ? '/zh' : '')
 
 <template>
   <section class="home-ai-themes" aria-labelledby="home-ai-themes-title">
-    <div class="ai-themes-copy">
+    <div class="ai-themes-copy press-reveal">
       <p class="ai-themes-eyebrow">
         AI + YOUR CREATIVITY
       </p>
@@ -53,7 +53,7 @@ const prefix = computed(() => props.lang === 'zh' ? '/zh' : '')
         {{ copy.prompt }} <span aria-hidden="true">↗</span>
       </RouterLink>
     </div>
-    <div class="ai-themes-example">
+    <div class="ai-themes-example press-reveal">
       <figure>
         <img src="/themes/arknights-preview.webp" width="1440" height="1120" :alt="copy.alt" loading="lazy" decoding="async">
         <figcaption>{{ copy.caption }}</figcaption>

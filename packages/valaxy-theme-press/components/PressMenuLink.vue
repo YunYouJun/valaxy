@@ -38,8 +38,8 @@ const route = useRoute()
     font-weight: 500;
     white-space: nowrap;
     transition:
-      background-color 0.25s,
-      color 0.25s;
+      background-color var(--va-transition-duration),
+      color var(--va-transition-duration);
 
     &:hover {
       background-color: #f1f1f1;

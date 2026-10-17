@@ -30,13 +30,30 @@ const { t } = useI18n()
 
 <style scoped>
 .press-feature {
+  position: relative;
   height: 100%;
   padding: 40px 36px;
-  transition: background-color 0.2s;
+  transition: background-color var(--va-transition-duration);
+}
+
+/* A brand line draws across the top edge on hover. */
+.press-feature::before {
+  content: '';
+  position: absolute;
+  inset: 0 0 auto;
+  height: 2px;
+  background: var(--pr-button-brand-bg);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform var(--va-transition-duration-moderate) var(--pr-ease-out);
 }
 
 .press-feature:hover {
   background: var(--pr-c-brand-soft);
+}
+
+.press-feature:hover::before {
+  transform: scaleX(1);
 }
 
 .icon {
@@ -46,6 +63,11 @@ const { t } = useI18n()
   margin-bottom: 24px;
   font-size: 32px;
   color: var(--pr-c-brand);
+  transition: transform var(--va-transition-duration-moderate) var(--pr-ease-out);
+}
+
+.press-feature:hover .icon {
+  transform: translateY(-3px);
 }
 
 /* The Markdown logo is monochrome; preserve the colors of other brand icons. */
@@ -71,12 +93,36 @@ const { t } = useI18n()
   color: var(--pr-c-text-2);
 }
 
+/* Single-column phones: put the icon beside the title to keep long lists short. */
 @media (width <= 639px) {
-  .press-feature { padding: 32px 24px; }
-  .icon { margin-bottom: 20px; }
+  .press-feature {
+    padding: 24px;
+  }
+
+  .press-feature:has(> .icon) {
+    display: grid;
+    grid-template-columns: auto minmax(0, 1fr);
+    align-items: center;
+    column-gap: 14px;
+  }
+
+  .icon {
+    height: 28px;
+    margin-bottom: 0;
+    font-size: 28px;
+  }
+
+  .details {
+    grid-column: 1 / -1;
+    margin-top: 10px;
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .press-feature { transition: none; }
+  .press-feature,
+  .press-feature::before,
+  .icon { transition: none; }
+
+  .press-feature:hover .icon { transform: none; }
 }
 </style>

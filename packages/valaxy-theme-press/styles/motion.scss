@@ -1,0 +1,28 @@
+// Entrance and scroll-reveal motion.
+// Pure CSS: content is fully visible without JS, and nothing moves when the
+// visitor prefers reduced motion or the browser lacks scroll-driven animations.
+
+// Start at 0.01 instead of 0 so animated text stays an LCP candidate.
+@keyframes press-enter {
+  from {
+    opacity: 0.01;
+    transform: translateY(var(--pr-enter-distance));
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  // One-shot entrance; set --pr-enter-order to stagger siblings.
+  .press-enter {
+    animation: press-enter var(--pr-duration-enter) var(--pr-ease-out) both;
+    animation-delay: calc(var(--pr-enter-order, 0) * 70ms);
+  }
+
+  @supports (animation-timeline: view()) {
+    // Rises in as it enters the viewport; already-visible content is unaffected.
+    .press-reveal {
+      animation: press-enter var(--pr-ease-out) both;
+      animation-timeline: view();
+      animation-range: entry 0% entry 240px;
+    }
+  }
+}

@@ -82,7 +82,7 @@ useActiveAnchor(container, marker)
   width: 1px;
   height: 18px;
   background-color: var(--va-c-brand);
-  transition: top var(--va-transition-duration) cubic-bezier(0, 1, 0.5, 1), background-color var(--va-transition-duration-moderate), opacity var(--va-transition-duration);
+  transition: top var(--va-transition-duration) var(--pr-ease-out-expo), background-color var(--va-transition-duration-moderate), opacity var(--va-transition-duration);
   border-top-right-radius: 2px;
   border-bottom-right-radius: 2px;
 }

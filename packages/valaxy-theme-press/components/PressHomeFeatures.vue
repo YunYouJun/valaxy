@@ -6,7 +6,7 @@ const fm = useFrontmatter()
 
 <template>
   <section v-if="fm.features?.length" class="press-home-features">
-    <div v-if="fm.featuresTitle || fm.featuresDescription" class="features-heading">
+    <div v-if="fm.featuresTitle || fm.featuresDescription" class="features-heading press-reveal">
       <h2 v-if="fm.featuresTitle" class="features-title">
         {{ fm.featuresTitle }}
       </h2>

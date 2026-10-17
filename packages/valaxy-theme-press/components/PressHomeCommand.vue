@@ -24,7 +24,7 @@ async function copyCommand() {
 </script>
 
 <template>
-  <div class="press-home-command">
+  <div class="press-home-command" :class="{ 'is-copied': copied }">
     <span class="command-prompt" aria-hidden="true">$</span>
     <code class="command-text">{{ command }}</code>
     <button
@@ -60,6 +60,11 @@ async function copyCommand() {
   border-radius: 8px;
   background: var(--pr-c-surface);
   font-size: 13px;
+  transition: border-color var(--va-transition-duration);
+}
+
+.is-copied {
+  border-color: color-mix(in srgb, var(--pr-c-brand) 45%, transparent);
 }
 
 .command-prompt,
@@ -92,6 +97,23 @@ async function copyCommand() {
 .command-copy:hover {
   color: var(--pr-c-brand);
   background: var(--pr-c-brand-soft);
+}
+
+.is-copied .command-copy {
+  color: var(--pr-c-brand);
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .is-copied .command-copy svg {
+    animation: press-copy-pop var(--va-transition-duration-moderate) var(--pr-ease-out);
+  }
+}
+
+@keyframes press-copy-pop {
+  from {
+    opacity: 0.4;
+    transform: scale(0.6);
+  }
 }
 
 .command-status {

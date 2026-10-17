@@ -222,7 +222,7 @@ function onSelect(key: string) {
   padding: 4px;
   box-shadow: 0 4px 12px rgb(0 0 0 / 0.08);
   z-index: 100;
-  animation: press-dropdown-fade-in 0.15s ease;
+  animation: press-dropdown-fade-in var(--va-transition-duration-fast) var(--pr-ease-out);
 }
 
 @keyframes press-dropdown-fade-in {

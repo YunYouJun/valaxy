@@ -95,7 +95,7 @@ function scrollToTop() {
 .icon {
   width: 16px;
   height: 16px;
-  transition: transform 0.2s;
+  transition: transform var(--va-transition-duration) var(--pr-ease-out);
 }
 
 [aria-expanded='true'] > .icon {
@@ -124,7 +124,7 @@ function scrollToTop() {
 
 .flyout-enter-active,
 .flyout-leave-active {
-  transition: opacity 0.15s, transform 0.15s;
+  transition: opacity var(--va-transition-duration-fast), transform var(--va-transition-duration-fast) var(--pr-ease-out);
 }
 
 .flyout-enter-from,

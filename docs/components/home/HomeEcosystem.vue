@@ -55,7 +55,7 @@ const playing = computed(() => visible.value && documentVisibility.value === 'vi
 
 <template>
   <section class="home-ecosystem" aria-labelledby="home-ecosystem-title">
-    <div class="ecosystem-copy">
+    <div class="ecosystem-copy press-reveal">
       <p class="ecosystem-eyebrow">
         VUE + VITE
       </p>
@@ -95,7 +95,7 @@ const playing = computed(() => visible.value && documentVisibility.value === 'vi
     </div>
 
     <figure ref="scene" class="ecosystem-visual" :class="{ 'is-playing': playing }" :aria-label="copy.diagram">
-      <div class="ecosystem-map">
+      <div class="ecosystem-map press-reveal">
         <svg class="ecosystem-connections" viewBox="0 0 500 400" preserveAspectRatio="none" fill="none" aria-hidden="true">
           <path v-for="integration in integrations" :key="integration.name" class="connection-track" :d="integration.path" />
           <path

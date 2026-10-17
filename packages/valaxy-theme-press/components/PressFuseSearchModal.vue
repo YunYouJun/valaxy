@@ -201,7 +201,7 @@ function getResultKey(title: string | Record<string, string>): string {
   border-radius: 12px;
   border: 2px solid var(--press-c-divider);
   box-shadow: 0 4px 20px rgb(0 0 0 / 0.1);
-  transition: all var(--va-transition-duration-fast) ease;
+  transition: border-color var(--va-transition-duration-fast), box-shadow var(--va-transition-duration-fast);
 
   &:focus-within {
     border-color: var(--press-c-brand);
@@ -247,7 +247,7 @@ function getResultKey(title: string | Record<string, string>): string {
   border: none;
   cursor: pointer;
   border-radius: 8px;
-  transition: all var(--va-transition-duration-fast) ease;
+  transition: color var(--va-transition-duration-fast), background-color var(--va-transition-duration-fast);
   flex-shrink: 0;
 
   &:hover {
@@ -297,8 +297,8 @@ function getResultKey(title: string | Record<string, string>): string {
   padding: 1rem 1.25rem;
   color: var(--press-c-text-1);
   text-decoration: none;
-  transition: all var(--va-transition-duration-fast) ease;
-  animation: slide-in-up 0.3s ease forwards;
+  transition: color var(--va-transition-duration-fast), background-color var(--va-transition-duration-fast);
+  animation: slide-in-up var(--va-transition-duration) var(--pr-ease-out) forwards;
   opacity: 0;
   transform: translateY(10px);
 
@@ -383,7 +383,7 @@ function getResultKey(title: string | Record<string, string>): string {
   color: var(--press-c-text-3);
   margin-left: 0.75rem;
   flex-shrink: 0;
-  transition: all var(--va-transition-duration-fast) ease;
+  transition: color var(--va-transition-duration-fast), transform var(--va-transition-duration-fast) var(--pr-ease-out);
 }
 
 .press-result-item:hover .press-result-arrow {
@@ -449,7 +449,7 @@ function getResultKey(title: string | Record<string, string>): string {
 
 .modal-enter-active,
 .modal-leave-active {
-  transition: all var(--va-transition-duration) cubic-bezier(0.4, 0, 0.2, 1);
+  transition: opacity var(--va-transition-duration) var(--pr-ease-standard), transform var(--va-transition-duration) var(--pr-ease-standard);
 }
 
 .modal-enter-from {

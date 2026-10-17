@@ -54,7 +54,7 @@ const { t } = useI18n()
   height: 2.75rem;
   cursor: pointer;
   color: var(--press-c-text-2);
-  transition: all var(--va-transition-duration-fast) cubic-bezier(0.4, 0, 0.2, 1);
+  transition: color var(--va-transition-duration-fast) var(--pr-ease-standard), transform var(--va-transition-duration-fast) var(--pr-ease-standard);
   outline: none;
 
   &:hover {
@@ -87,7 +87,7 @@ const { t } = useI18n()
 .press-search-btn-icon {
   width: 1.25rem;
   height: 1.25rem;
-  transition: all var(--va-transition-duration-fast) cubic-bezier(0.4, 0, 0.2, 1);
+  transition: opacity var(--va-transition-duration-fast) var(--pr-ease-standard), transform var(--va-transition-duration-fast) var(--pr-ease-standard);
   opacity: 0.8;
 
   .press-search-btn:hover & {
@@ -96,7 +96,7 @@ const { t } = useI18n()
 
   &--close {
     transform: rotate(0deg);
-    transition: all var(--va-transition-duration-fast) cubic-bezier(0.4, 0, 0.2, 1);
+    transition: opacity var(--va-transition-duration-fast) var(--pr-ease-standard), transform var(--va-transition-duration-fast) var(--pr-ease-standard);
 
     .press-search-btn:hover & {
       transform: rotate(90deg);

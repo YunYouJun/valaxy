@@ -264,7 +264,7 @@ function getSidebarRootItemClasses(groupIndex: number, itemIndex = 0, isSection 
     opacity: 1;
     transform: translateX(0);
     transition: opacity var(--va-transition-duration),
-                transform var(--va-transition-duration-moderate) cubic-bezier(0.19, 1, 0.22, 1);
+                transform var(--va-transition-duration-moderate) var(--pr-ease-out-expo);
   }
 }
 
