@@ -1,3 +1,4 @@
+import { Buffer } from 'node:buffer'
 import { webcrypto } from 'node:crypto'
 
 /**
@@ -34,25 +35,18 @@ function getCryptoDeriveKey(keyMaterial: CryptoKey | webcrypto.CryptoKey, salt: 
 }
 
 /**
- * Convert a byte array to a binary string without using spread,
- * which would otherwise overflow the call stack on long content.
+ * Encrypt content and return the ciphertext as base64.
  *
- * `CHUNK_SIZE` of 32 KiB stays well under every mainstream JS engine's
- * argument-count limit for `Function.prototype.apply` (V8 / JSC /
- * SpiderMonkey all accept ≥65535 args), and is the same value used by
- * `base64-js`, MDN's btoa example, and most binary-string utilities.
+ * The ciphertext is embedded in the compiled page module, which UnoCSS scans
+ * for utilities. A raw binary string (`String.fromCharCode` per byte) carries
+ * quotes, brackets, `$`, `*` and backslashes, so random bytes could form
+ * tokens like `p-["*(.]` that UnoCSS turns into unparsable CSS, failing the
+ * build at random because salt/iv change on every build. Base64 has none of
+ * those characters, and it is smaller once JSON-escaped.
  *
- * @see https://github.com/YunYouJun/valaxy/issues/699
- */
-function bytesToBinaryString(bytes: Uint8Array) {
-  const CHUNK_SIZE = 0x8000
-  const chunks: string[] = []
-  for (let i = 0; i < bytes.length; i += CHUNK_SIZE)
-    chunks.push(String.fromCharCode.apply(null, bytes.subarray(i, i + CHUNK_SIZE) as unknown as number[]))
-  return chunks.join('')
-}
-
-/**
+ * Breaking change: before this, the return value was a binary string (one char
+ * per byte). Code that decodes it outside `useDecrypt` must now `atob` it first.
+ *
  * @see https://github.com/mdn/dom-examples/blob/main/web-crypto/encrypt-decrypt/aes-cbc.js
  * @param content
  */
@@ -75,5 +69,5 @@ export async function encryptContent(content: string, options: {
     enc.encode(content),
   )
 
-  return bytesToBinaryString(new Uint8Array(ciphertextData))
+  return Buffer.from(ciphertextData).toString('base64')
 }

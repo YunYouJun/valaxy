@@ -36,6 +36,12 @@ function getCryptoDeriveKey(keyMaterial: CryptoKey, salt: BufferSource) {
   )
 }
 
+/**
+ * Decrypt ciphertext produced by `encryptContent` (valaxy/node).
+ *
+ * `ciphertext` must be base64. Earlier versions passed a binary string (one
+ * char per byte), which no longer decrypts.
+ */
 export function useDecrypt() {
   const siteConfig = useSiteConfig()
 
@@ -51,7 +57,8 @@ export function useDecrypt() {
       const keyMaterial = await getKeyMaterial(password)
       const key = await getCryptoDeriveKey(keyMaterial, salt)
 
-      const ciphertextData = Uint8Array.from(ciphertext, c => c.charCodeAt(0))
+      // ciphertext is base64, see `encryptContent` in node/utils/encrypt.ts
+      const ciphertextData = Uint8Array.from(atob(ciphertext), c => c.charCodeAt(0))
 
       const decrypted = await window.crypto.subtle.decrypt(
         {
