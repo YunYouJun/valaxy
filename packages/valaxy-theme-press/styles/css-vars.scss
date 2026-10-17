@@ -3,13 +3,30 @@
   --pr-font-display: "Avenir Next", "Segoe UI", "PingFang SC", "Microsoft YaHei", sans-serif;
   --pr-font-body: var(--va-font-sans);
   --pr-font-mono: var(--va-font-mono);
+
+  // brand: every brand tint derives from --va-c-primary (themeConfig.colors.primary)
   --pr-c-brand: color-mix(in srgb, var(--va-c-primary) 85%, #172554);
-  --pr-c-accent: #8546ef;
-  --pr-button-brand-bg: linear-gradient(120deg, color-mix(in srgb, var(--va-c-primary) 65%, #6750d8), #7547d9);
+  --pr-c-brand-hover: color-mix(in srgb, var(--va-c-primary) 70%, #172554);
   --pr-c-brand-soft: color-mix(in srgb, var(--va-c-primary) 8%, transparent);
+  --pr-c-accent: color-mix(in srgb, var(--va-c-primary) 70%, #fff);
+
+  // same stops in light and dark so white button text keeps >= 4.5:1
+  --pr-button-brand-bg: linear-gradient(
+    120deg,
+    color-mix(in srgb, var(--va-c-primary) 85%, #172554),
+    color-mix(in srgb, var(--va-c-primary) 62%, #172554)
+  );
+  --pr-button-brand-shadow: color-mix(in srgb, var(--va-c-primary) 16%, transparent);
+  --pr-button-brand-shadow-hover: color-mix(in srgb, var(--va-c-primary) 32%, transparent);
   --pr-c-surface: color-mix(in srgb, var(--va-c-bg) 97%, #6876a0);
-  --pr-c-orbit-glow: rgb(120 91 238 / 0.16);
-  --pr-c-orbit-line: rgb(115 100 206 / 0.25);
+  --pr-c-orbit-glow: color-mix(in srgb, var(--va-c-primary) 16%, transparent);
+  --pr-c-orbit-line: color-mix(in srgb, var(--va-c-primary) 25%, transparent);
+
+  // core custom blocks and code tabs read --va-c-brand-*, which default to indigo
+  --va-c-brand-1: var(--pr-c-brand);
+  --va-c-brand-2: var(--pr-c-brand-hover);
+  --va-c-brand-3: var(--pr-c-brand-hover);
+  --va-c-brand-soft: var(--pr-c-brand-soft);
   --pr-c-indigo-lighter: #c9def1;
   --pr-c-bg: var(--va-c-bg);
   --pr-c-text-code: #374562;
@@ -55,12 +72,15 @@
 }
 
 .dark {
-  --pr-c-brand: color-mix(in srgb, var(--va-c-primary) 65%, #c9d8ff);
+  // lighter tint keeps links and inline code >= 4.5:1 on dark surfaces
+  --pr-c-brand: color-mix(in srgb, var(--va-c-primary) 50%, #dde4ff);
+  --pr-c-brand-hover: color-mix(in srgb, var(--va-c-primary) 35%, #eef1ff);
   --pr-c-surface: color-mix(in srgb, var(--va-c-bg) 94%, #a1a6c7);
   --pr-c-brand-soft: color-mix(in srgb, var(--va-c-primary) 14%, transparent);
   --pr-c-divider-light: rgb(171 179 209 / 0.16);
-  --pr-c-orbit-glow: rgb(116 72 229 / 0.23);
-  --pr-c-orbit-line: rgb(162 144 249 / 0.27);
+  --pr-c-accent: color-mix(in srgb, var(--va-c-primary) 55%, #fff);
+  --pr-c-orbit-glow: color-mix(in srgb, var(--va-c-primary) 24%, transparent);
+  --pr-c-orbit-line: color-mix(in srgb, var(--pr-c-brand) 32%, transparent);
   --pr-c-text-code: var(--pr-c-indigo-lighter);
   --pr-c-text-1: #ffffffde;
   --pr-c-text-2: rgb(235 235 235 / 0.6);

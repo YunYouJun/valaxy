@@ -10,10 +10,8 @@
 }
 
 .press-layout {
-  --press-c-brand-1: var(--pr-c-brand);
-  --press-c-brand-2: var(--va-c-primary);
-  --press-c-brand-3: var(--va-c-primary);
-  --press-c-brand-soft: var(--pr-c-brand-soft);
+  // core sets --va-c-link on html.dark, so override it on the layout element
+  --va-c-link: var(--pr-c-brand);
 
   color: var(--pr-c-text-1);
   font-family: var(--pr-font-body);

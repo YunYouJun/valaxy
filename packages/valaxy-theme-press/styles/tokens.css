@@ -64,8 +64,13 @@
 
 :root {
   --press-c-default-soft: var(--press-c-gray-soft);
-  --press-c-brand-1: var(--press-c-indigo-1);
-  --press-c-brand-2: var(--press-c-indigo-2);
+
+  /* Valaxy: brand follows --va-c-primary everywhere, including teleported
+     overlays (search modals) that render outside .press-layout. */
+  --press-c-brand-1: var(--pr-c-brand);
+  --press-c-brand-2: var(--pr-c-brand-hover);
+  --press-c-brand-3: var(--pr-c-brand-hover);
+  --press-c-brand-soft: var(--pr-c-brand-soft);
   --press-c-brand: var(--press-c-brand-1);
   --press-c-success-1: var(--press-c-green-1);
   --press-c-success-soft: var(--press-c-green-soft);
