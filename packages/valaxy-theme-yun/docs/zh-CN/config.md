@@ -166,8 +166,8 @@ export default defineThemeConfig({
 
 | 变量 | 默认值 / 用途 |
 | --- | --- |
-| `--yun-prologue-divider-color` | 首页简介上下横线，默认正文颜色；不影响绘制动画 |
-| `--yun-banner-divider-color` | 首屏底部分隔线，默认 `--banner-line-color`；不影响开场竖线 |
+| `--yun-prologue-divider-color` | 首页简介上下横线，亮色默认正文颜色，暗色默认 `rgb(255 255 255 / 0.35)`；不影响绘制动画 |
+| `--yun-banner-divider-color` | 首屏底部分隔线，亮色默认 `--banner-line-color`，暗色默认 `rgb(255 255 255 / 0.2)`；不影响开场竖线 |
 | `--yun-prologue-divider-width` | grouped 排布的简介横线宽度，默认 `320px`，小屏自动缩小，两端渐隐 |
 | `--yun-grid-center-opacity` | 渐隐网格的中心透明度，默认 `1`；降低后内容区域更安静 |
 | `--yun-grid-size` | `40px`，网格间距 |
@@ -186,7 +186,7 @@ export default defineThemeConfig({
 | `--yun-post-excerpt-line-height` / `--yun-prose-line-height` | 摘要 `1.7` / 正文 `1.8` |
 | `--yun-surface-line` | 文章卡片操作区分隔线 |
 | `--yun-focus-color` | 键盘焦点颜色，默认链接色 |
-| `--yun-say-color` / `--yun-say-font-weight` / `--yun-say-border-color` | 语录文字颜色、字重与分隔线颜色 |
+| `--yun-say-color` / `--yun-say-font-weight` / `--yun-say-border-color` | 语录文字颜色、字重与分隔线颜色；分隔线暗色默认 `rgb(255 255 255 / 0.2)` |
 
 不同明暗配色可分别放在 `:root` 与 `html.dark` 下。主题不统一清除卡片边框或阴影；自定义组件仍可保留自己的材质。若之前用 `.pointer-events-none` 等工具类隐藏摘要遮罩，请改用 `postCard.excerptGradient: false` 并删除旧覆盖。
 

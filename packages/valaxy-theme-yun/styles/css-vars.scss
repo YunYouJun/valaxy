@@ -62,6 +62,11 @@ html.dark {
   --banner-char-color: white;
   --banner-char-bg-color: rgb(0 0 0 / 0.5);
   --banner-char-hover-color: black;
+
+  // soften horizontal dividers on dark backgrounds; the banner's opening lines stay white
+  --yun-prologue-divider-color: rgb(255 255 255 / 0.35);
+  --yun-banner-divider-color: rgb(255 255 255 / 0.2);
+  --yun-say-border-color: rgb(255 255 255 / 0.2);
 }
 
 // animation
