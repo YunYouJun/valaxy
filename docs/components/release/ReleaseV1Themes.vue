@@ -39,11 +39,53 @@ const ORBITS = [
   { rx: 0.36, period: 52 },
   { rx: 0.47, period: 76 },
 ]
-const FLATTEN = 0.42
+/**
+ * The orbital plane is seen from above at an angle; `flatten` is the sine of
+ * that elevation. Dragging vertically tilts the instrument; hovering leans it.
+ */
+const BASE_FLATTEN = 0.42
+const tilt = shallowRef(BASE_FLATTEN)
+const lean = shallowRef(0)
+const flatten = computed(() => Math.min(0.72, Math.max(0.22, tilt.value + lean.value)))
+/** Planets ride on posts above the plane; the sun sits on a taller column. */
+const PLANET_HEIGHT = 7
+const SUN_HEIGHT = 9
 /** The instrument is drawn in a 100 × 64 box. */
 const VIEW_H = 64
 const CY = VIEW_H / 2
 const TICKS = Array.from({ length: 72 }, (_, i) => i * 5)
+
+/** Screen height of something standing `height` units above the plane. */
+function lift(height: number) {
+  return height * Math.sqrt(1 - flatten.value ** 2)
+}
+
+const sunY = computed(() => CY - lift(SUN_HEIGHT))
+
+/** Orbits split at the sun: the far half is drawn behind it, the near half in front. */
+const rings = computed(() => ORBITS.map((orbit) => {
+  const rx = orbit.rx * 100
+  const ry = rx * flatten.value
+  return {
+    back: `M${50 - rx} ${CY}A${rx} ${ry} 0 0 1 ${50 + rx} ${CY}`,
+    front: `M${50 + rx} ${CY}A${rx} ${ry} 0 0 1 ${50 - rx} ${CY}`,
+  }
+}))
+
+const ticks = computed(() => TICKS.map((deg) => {
+  const a = (deg / 180) * Math.PI
+  const major = deg % 30 === 0
+  const outer = major ? 51.5 : 50.4
+  return {
+    deg,
+    major,
+    back: Math.sin(a) < 0,
+    x1: 50 + Math.cos(a) * 49,
+    y1: CY + Math.sin(a) * 49 * flatten.value,
+    x2: 50 + Math.cos(a) * outer,
+    y2: CY + Math.sin(a) * outer * flatten.value,
+  }
+}))
 
 const section = useTemplateRef<HTMLElement>('section')
 const selectedId = shallowRef<Kind>('yun')
@@ -88,44 +130,68 @@ onMounted(sync)
 onBeforeUnmount(() => cancelAnimationFrame(frame))
 watch([visible, documentVisibility, reducedMotion, held], sync)
 
-let dragX: number | null = null
+let drag: { x: number, y: number } | null = null
 let dragged = false
 
 function onPointerDown(event: PointerEvent) {
-  dragX = event.clientX
+  drag = { x: event.clientX, y: event.clientY }
   dragged = false
 }
 
 function onPointerMove(event: PointerEvent) {
-  if (dragX === null || !orrery.value)
+  const el = orrery.value
+  if (!el)
     return
-  const dx = event.clientX - dragX
-  if (!dragged && Math.abs(dx) < 4)
+  if (!drag) {
+    // A mouse hovering above or below the middle leans the instrument a little.
+    if (event.pointerType === 'mouse' && reducedMotion.value !== 'reduce') {
+      const box = el.getBoundingClientRect()
+      lean.value = ((event.clientY - box.top) / box.height - 0.5) * 0.08
+    }
+    return
+  }
+  const dx = event.clientX - drag.x
+  const dy = event.clientY - drag.y
+  if (!dragged && Math.hypot(dx, dy) < 4)
     return
   if (!dragged)
-    orrery.value.setPointerCapture(event.pointerId)
+    el.setPointerCapture(event.pointerId)
   dragged = true
-  dragX = event.clientX
-  // One instrument width of drag turns the inner orbit about once.
-  elapsed.value += (dx / orrery.value.clientWidth) * ORBITS[0].period
+  drag = { x: event.clientX, y: event.clientY }
+  // One instrument width of drag turns the inner orbit about once; dragging
+  // down looks at the instrument from higher up.
+  elapsed.value += (dx / el.clientWidth) * ORBITS[0].period
+  tilt.value = Math.min(0.72, Math.max(0.22, tilt.value + (dy / el.clientHeight) * 0.6))
 }
 
 function onPointerUp() {
-  dragX = null
+  drag = null
+}
+
+function onPointerLeave() {
+  held.value = false
+  lean.value = 0
+  onPointerUp()
 }
 
 function place(planet: typeof planets[number]) {
   const orbit = ORBITS[planet.orbit]
   const angle = (planet.phase + elapsed.value / orbit.period) * Math.PI * 2
   const depth = (Math.sin(angle) + 1) / 2
-  return {
-    x: 50 + Math.cos(angle) * orbit.rx * 100,
-    y: CY + Math.sin(angle) * orbit.rx * 100 * FLATTEN,
-    depth,
-  }
+  // Where the post meets the plane, and the globe on top of it.
+  const px = 50 + Math.cos(angle) * orbit.rx * 100
+  const py = CY + Math.sin(angle) * orbit.rx * 100 * flatten.value
+  const y = py - lift(PLANET_HEIGHT)
+  // Light comes from the sun, so each globe's far side is in shadow.
+  const dx = px - 50
+  const dy = y - sunY.value
+  const length = Math.hypot(dx, dy) || 1
+  return { x: px, y, px, py, depth, light: { x: dx / length, y: dy / length } }
 }
 
 const placed = computed(() => planets.map(planet => ({ planet, ...place(planet) })))
+const behind = computed(() => placed.value.filter(item => item.depth <= 0.5))
+const inFront = computed(() => placed.value.filter(item => item.depth > 0.5))
 
 /** Reveal the chosen theme as a circle opening from its planet. */
 async function choose(planet: typeof planets[number], event: MouseEvent) {
@@ -197,7 +263,7 @@ async function choose(planet: typeof planets[number], event: MouseEvent) {
       role="group"
       :aria-label="copy.orrery"
       @pointerenter="held = true"
-      @pointerleave="held = false; onPointerUp()"
+      @pointerleave="onPointerLeave"
       @focusin="held = true"
       @focusout="held = false"
       @pointerdown="onPointerDown"
@@ -205,31 +271,32 @@ async function choose(planet: typeof planets[number], event: MouseEvent) {
       @pointerup="onPointerUp"
       @pointercancel="onPointerUp"
     >
-      <!-- The instrument: engraved orbits, a degree scale, and the brass arms. -->
-      <svg class="orrery-frame" :viewBox="`0 0 100 ${VIEW_H}`" preserveAspectRatio="none" aria-hidden="true">
-        <ellipse
-          v-for="(orbit, index) in ORBITS"
-          :key="index"
-          cx="50" :cy="CY" :rx="orbit.rx * 100" :ry="orbit.rx * 100 * FLATTEN"
-          class="orbit"
-        />
-        <line
-          v-for="deg in TICKS"
-          :key="deg"
-          class="tick"
-          :class="{ 'is-major': deg % 30 === 0 }"
-          :x1="50 + Math.cos(deg / 57.2958) * 49" :y1="CY + Math.sin(deg / 57.2958) * 49 * FLATTEN"
-          :x2="50 + Math.cos(deg / 57.2958) * (deg % 30 === 0 ? 51.5 : 50.4)" :y2="CY + Math.sin(deg / 57.2958) * (deg % 30 === 0 ? 51.5 : 50.4) * FLATTEN"
-        />
-        <g v-for="item in placed" :key="item.planet.id">
-          <line class="arm" x1="50" :y1="CY" :x2="item.x" :y2="item.y" :opacity="0.35 + item.depth * 0.5" />
-          <circle class="arm-pivot" :cx="item.x" :cy="item.y" r="0.5" />
+      <!-- Behind the sun: the far halves of the orbits and scale, and the far planets' mounts. -->
+      <svg class="orrery-frame is-back" :viewBox="`0 0 100 ${VIEW_H}`" preserveAspectRatio="none" aria-hidden="true">
+        <path v-for="(ring, index) in rings" :key="index" class="orbit" :d="ring.back" />
+        <line v-for="t in ticks.filter(t => t.back)" :key="t.deg" class="tick" :class="{ 'is-major': t.major }" :x1="t.x1" :y1="t.y1" :x2="t.x2" :y2="t.y2" />
+        <g v-for="item in behind" :key="item.planet.id">
+          <ellipse class="cast" :cx="item.px" :cy="item.py" rx="2.6" :ry="2.6 * flatten" />
+          <line class="arm" x1="50" :y1="CY" :x2="item.px" :y2="item.py" />
+          <line class="post" :x1="item.px" :y1="item.py" :x2="item.x" :y2="item.y" />
         </g>
+        <line class="post is-column" x1="50" :y1="CY" x2="50" :y2="sunY" />
       </svg>
 
-      <span class="orrery-sun">
+      <span class="orrery-sun" :style="{ top: `${(sunY / VIEW_H) * 100}%` }">
         <img src="/favicon.svg" alt="" width="40" height="40">
       </span>
+
+      <!-- In front of the sun: the near halves, and the near planets' mounts. -->
+      <svg class="orrery-frame is-front" :viewBox="`0 0 100 ${VIEW_H}`" preserveAspectRatio="none" aria-hidden="true">
+        <path v-for="(ring, index) in rings" :key="index" class="orbit" :d="ring.front" />
+        <line v-for="t in ticks.filter(t => !t.back)" :key="t.deg" class="tick" :class="{ 'is-major': t.major }" :x1="t.x1" :y1="t.y1" :x2="t.x2" :y2="t.y2" />
+        <g v-for="item in inFront" :key="item.planet.id">
+          <ellipse class="cast" :cx="item.px" :cy="item.py" rx="2.6" :ry="2.6 * flatten" />
+          <line class="arm" x1="50" :y1="CY" :x2="item.px" :y2="item.py" />
+          <line class="post" :x1="item.px" :y1="item.py" :x2="item.x" :y2="item.y" />
+        </g>
+      </svg>
 
       <button
         v-for="item in placed"
@@ -247,7 +314,7 @@ async function choose(planet: typeof planets[number], event: MouseEvent) {
         @click="choose(item.planet, $event)"
       >
         <span class="planet-body">
-          <ReleaseV1Planet :kind="item.planet.kind" v-bind="item.planet.skin" />
+          <ReleaseV1Planet :kind="item.planet.kind" v-bind="item.planet.skin" :spin="elapsed" :light="item.light" />
         </span>
         <span class="planet-name">{{ item.planet.label }}</span>
       </button>
@@ -340,6 +407,7 @@ async function choose(planet: typeof planets[number], event: MouseEvent) {
   cursor: grabbing;
 }
 
+/* Depth order: far half and far planets, the sun, then near half and near planets. */
 .orrery-frame {
   position: absolute;
   inset: 0;
@@ -348,9 +416,19 @@ async function choose(planet: typeof planets[number], event: MouseEvent) {
   overflow: visible;
 }
 
+.orrery-frame.is-back {
+  z-index: 0;
+}
+
+.orrery-frame.is-front {
+  z-index: 3;
+  pointer-events: none;
+}
+
 .orbit,
 .tick,
-.arm {
+.arm,
+.post {
   fill: none;
   stroke: var(--skin-ink);
   vector-effect: non-scaling-stroke;
@@ -373,15 +451,26 @@ async function choose(planet: typeof planets[number], event: MouseEvent) {
   stroke-width: 1;
 }
 
-.arm-pivot {
-  fill: var(--skin-accent);
+.post {
+  stroke: var(--skin-accent);
+  stroke-width: 1.5;
+}
+
+.post.is-column {
+  stroke-width: 2.5;
+}
+
+/* Each globe's shadow falls on the orbital plane, straight below it. */
+.cast {
+  fill: var(--skin-ink);
+  fill-opacity: 0.14;
 }
 
 .orrery-sun {
   position: absolute;
   top: 50%;
   left: 50%;
-  z-index: 3;
+  z-index: 2;
   display: grid;
   place-items: center;
   width: 80px;
