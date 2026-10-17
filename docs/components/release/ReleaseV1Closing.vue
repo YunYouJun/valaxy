@@ -1,11 +1,31 @@
 <script setup lang="ts">
 import type { ReleaseCopy } from '../../data/release-v1'
-import { ref } from 'vue'
+import { useElementVisibility } from '@vueuse/core'
+import { ref, useTemplateRef } from 'vue'
 import { releaseIsPreview, releaseVersion } from '../../data/release-v1'
 
 defineProps<{ copy: ReleaseCopy['closing'], prefix: string }>()
 const command = 'pnpm create valaxy'
 const copyState = ref<'idle' | 'copied' | 'failed'>('idle')
+/**
+ * A three-armed spiral of stars behind the closing line (V + Galaxy).
+ * Positions are deterministic so SSR and hydration render the same SVG.
+ */
+const stars = Array.from({ length: 96 }, (_, i) => {
+  const t = i / 96
+  const jitter = Math.sin(i * 12.9898) * 43758.5453 % 1
+  const angle = (i % 3) * (Math.PI * 2 / 3) + t * Math.PI * 2.6 + jitter * 0.35
+  const radius = 30 + t * 270 + jitter * 18
+  return {
+    x: +(Math.cos(angle) * radius).toFixed(1),
+    y: +(Math.sin(angle) * radius).toFixed(1),
+    r: +(0.8 + Math.abs(jitter) * 1.8 * (1 - t * 0.5)).toFixed(2),
+    o: +(0.35 + (1 - t) * 0.55).toFixed(2),
+  }
+})
+const galaxy = useTemplateRef<SVGElement>('galaxy')
+const galaxyVisible = useElementVisibility(galaxy)
+
 async function copyCommand() {
   try {
     await navigator.clipboard.writeText(command)
@@ -19,6 +39,36 @@ async function copyCommand() {
 
 <template>
   <section class="closing-section release-width release-reveal" aria-labelledby="closing-title">
+    <svg
+      ref="galaxy"
+      class="closing-galaxy"
+      :class="{ 'is-playing': galaxyVisible }"
+      viewBox="-320 -160 640 320"
+      aria-hidden="true"
+    >
+      <defs>
+        <radialGradient id="closing-galaxy-core">
+          <stop offset="0" stop-color="#ede9fe" stop-opacity="0.8" />
+          <stop offset="0.3" stop-color="#a78bfa" stop-opacity="0.45" />
+          <stop offset="1" stop-color="#7c3aed" stop-opacity="0" />
+        </radialGradient>
+      </defs>
+      <!-- Flatten the spinning disk so it reads as a galaxy seen at an angle. -->
+      <g transform="scale(1 0.42)">
+        <g class="galaxy-spin">
+          <circle r="48" fill="url(#closing-galaxy-core)" />
+          <!-- Zero-length round strokes stay circular however the disk is flattened. -->
+          <path
+            v-for="(star, index) in stars"
+            :key="index"
+            class="galaxy-star"
+            :d="`M${star.x} ${star.y}h0`"
+            :stroke-width="star.r * 2"
+            :opacity="star.o"
+          />
+        </g>
+      </g>
+    </svg>
     <h2 id="closing-title" class="release-heading">
       <span>{{ copy.title[0] }}</span><span class="release-gradient">{{ copy.title[1] }}</span>
     </h2>
@@ -44,8 +94,54 @@ async function copyCommand() {
 
 <style scoped>
 .closing-section {
+  position: relative;
+  isolation: isolate;
   padding-block: 100px 90px;
   text-align: center;
+}
+
+.closing-galaxy {
+  position: absolute;
+  top: 150px;
+  left: 50%;
+  z-index: -1;
+  width: min(1040px, 140%);
+  translate: -50% 0;
+  color: var(--release-accent);
+  fill: currentcolor;
+  pointer-events: none;
+  mask-image: radial-gradient(closest-side, #000 55%, transparent);
+}
+
+.galaxy-star {
+  fill: none;
+  stroke: currentcolor;
+  stroke-linecap: round;
+  vector-effect: non-scaling-stroke;
+}
+
+/* The galaxy is centered on the user-space origin. */
+.galaxy-spin {
+  transform-origin: 0 0;
+}
+
+.dark .closing-galaxy {
+  color: #c4b5fd;
+}
+
+/* Slow enough to read as ambient; it only turns while on screen. */
+@media (prefers-reduced-motion: no-preference) {
+  .galaxy-spin {
+    animation: closing-galaxy-spin 140s linear infinite paused;
+  }
+
+  .is-playing .galaxy-spin {
+    animation-play-state: running;
+  }
+}
+
+@keyframes closing-galaxy-spin {
+  to { rotate: 360deg; }
 }
 
 .closing-section .release-heading {

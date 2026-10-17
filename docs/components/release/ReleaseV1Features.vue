@@ -1,7 +1,13 @@
 <script setup lang="ts">
 import type { ReleaseCopy } from '../../data/release-v1'
+import { useElementVisibility } from '@vueuse/core'
+import { useTemplateRef } from 'vue'
 
 defineProps<{ copy: ReleaseCopy['engine'], prefix: string }>()
+
+// The build signal only loops while the pipeline is on screen.
+const pipeline = useTemplateRef<HTMLElement>('pipeline')
+const pipelineVisible = useElementVisibility(pipeline)
 const stages = [
   { name: 'Markdown', icon: 'i-logos-markdown?mask' },
   { name: 'Vue SSR', icon: 'i-logos-vue' },
@@ -20,8 +26,8 @@ const stages = [
             {{ copy.description }}
           </p>
         </div>
-        <ol class="engine-pipeline">
-          <li v-for="(stage, index) in stages" :key="stage.name">
+        <ol ref="pipeline" class="engine-pipeline" :class="{ 'is-playing': pipelineVisible }">
+          <li v-for="(stage, index) in stages" :key="stage.name" :style="{ '--i': index }">
             <span class="pipeline-symbol" aria-hidden="true">
               <span :class="stage.icon" />
               <span v-if="index < stages.length - 1" class="pipeline-arrow i-ri-arrow-right-line" />
@@ -118,6 +124,44 @@ const stages = [
   color: #737379;
 }
 
+/* A build signal travels Markdown → Vue SSR → HTML, one stage every 1.2s. */
+@media (prefers-reduced-motion: no-preference) {
+  .pipeline-symbol > span:first-child {
+    animation: pipeline-beat 3.6s var(--release-ease) calc(var(--i) * 1.2s) infinite paused;
+  }
+
+  .pipeline-arrow {
+    animation: pipeline-flow 3.6s var(--release-ease) calc(var(--i) * 1.2s + 0.6s) infinite paused;
+  }
+
+  .is-playing :is(.pipeline-symbol > span:first-child, .pipeline-arrow) {
+    animation-play-state: running;
+  }
+}
+
+@keyframes pipeline-beat {
+  0%, 30%, 100% {
+    scale: 1;
+  }
+
+  12% {
+    scale: 1.12;
+    color: #c4b5fd;
+    filter: drop-shadow(0 0 18px rgb(167 139 250 / 0.55));
+  }
+}
+
+@keyframes pipeline-flow {
+  0%, 40%, 100% {
+    translate: 0;
+  }
+
+  20% {
+    translate: 8px;
+    color: #c4b5fd;
+  }
+}
+
 .engine-pipeline strong {
   font-size: 16px;
 }
@@ -155,7 +199,7 @@ const stages = [
 }
 
 .engine-section a {
-  color: #74b6fb;
+  color: #c4b5fd;
   font-size: 13px;
   display: inline-block;
   margin-top: 24px;
