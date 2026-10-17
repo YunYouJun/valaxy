@@ -45,8 +45,6 @@ const sponsorBtnTitle = computed(() => {
 </template>
 
 <style lang="scss">
-@use 'sass:map';
-@use 'valaxy-theme-yun/styles/vars.scss' as *;
 @use "valaxy/client/styles/mixins/index.scss" as *;
 
 .sponsor-button {
@@ -78,7 +76,8 @@ const sponsorBtnTitle = computed(() => {
   overflow: hidden;
   height: 0;
   opacity: 0;
-  transition: all var(--va-transition-duration) map.get($cubic-bezier, 'ease-in-out');
+  transition: height var(--va-transition-duration) var(--yun-ease-in-out),
+    opacity var(--va-transition-duration) var(--yun-ease-in-out);
 
   &.show {
     height: var(--height);

@@ -99,23 +99,8 @@ onMounted(async () => {
 @use "../styles/widgets/banner.scss" as *;
 @use "../styles/modules/prologue.scss" as *;
 
+// --banner-* color tokens live in styles/css-vars.scss
 #yun-banner {
   border-bottom-color: var(--yun-banner-divider-color, var(--banner-line-color));
-}
-
-:root {
-  // banner
-  --banner-line-color: black;
-  --banner-char-color: black;
-  --banner-char-bg-color: rgb(255 255 255 / 0.5);
-  --banner-char-hover-color: white;
-}
-
-.dark {
-  // banner
-  --banner-line-color: white;
-  --banner-char-color: white;
-  --banner-char-bg-color: rgb(0 0 0 / 0.5);
-  --banner-char-hover-color: black;
 }
 </style>

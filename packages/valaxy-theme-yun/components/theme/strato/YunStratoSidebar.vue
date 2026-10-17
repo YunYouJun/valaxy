@@ -58,9 +58,6 @@ const showOverview = ref(false)
 </template>
 
 <style lang="scss">
-@use 'sass:map';
-@use 'valaxy-theme-yun/styles/vars.scss' as *;
-
 #yun-left-sidebar {
   width: calc(100vw - 64px);
   max-width: var(--va-sidebar-width);
@@ -69,7 +66,7 @@ const showOverview = ref(false)
   transform: translateX(-100%);
   transition: box-shadow var(--va-transition-duration),
     background-color var(--va-transition-duration), opacity var(--va-transition-duration),
-    transform var(--va-transition-duration) map.get($cubic-bezier, 'ease-in-out') !important;
+    transform var(--va-transition-duration) var(--yun-ease-in-out) !important;
 
   &.open {
     transform: translateX(0);

@@ -91,9 +91,7 @@ function onKeydown(event: KeyboardEvent) {
 </template>
 
 <style lang="scss">
-@use 'sass:map';
 @use 'valaxy/client/styles/mixins/index.scss' as *;
-@use 'valaxy-theme-yun/styles/vars.scss' as *;
 
 .yun-aside {
   // Below xl: fixed overlay panel, hidden by default
@@ -107,7 +105,7 @@ function onKeydown(event: KeyboardEvent) {
   max-height: 100dvh;
   visibility: hidden;
   transform: translateX(100%);
-  transition: transform var(--va-transition-duration-fast) map.get($cubic-bezier, 'ease-in-out'), visibility 0s linear var(--va-transition-duration-fast);
+  transition: transform var(--va-transition-duration-fast) var(--yun-ease-in-out), visibility 0s linear var(--va-transition-duration-fast);
   border-radius: 16px 0 0 16px;
   box-shadow: -12px 0 40px rgb(0 0 0 / 0.12);
 
@@ -130,7 +128,7 @@ function onKeydown(event: KeyboardEvent) {
   &.open {
     visibility: visible;
     transform: translateX(0);
-    transition: transform var(--va-transition-duration-fast) map.get($cubic-bezier, 'ease-in-out'), visibility 0s;
+    transition: transform var(--va-transition-duration-fast) var(--yun-ease-in-out), visibility 0s;
   }
 }
 

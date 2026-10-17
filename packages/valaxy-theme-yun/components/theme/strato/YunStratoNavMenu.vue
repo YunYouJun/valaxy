@@ -90,12 +90,8 @@ const isHomePage = computed(() => route.meta.layout === 'home')
 </template>
 
 <style lang="scss" scoped>
-@use 'sass:map';
-@use 'valaxy-theme-yun/styles/vars.scss' as *;
-
+// glass background and its transition live on ::before in styles/common/nav.scss
 .yun-nav-menu {
   height: var(--yun-nav-height, 50px);
-  transition: all var(--va-transition-duration-moderate) map.get($cubic-bezier, 'ease-in');
-
 }
 </style>

@@ -22,9 +22,7 @@ onMounted(() => {
 </template>
 
 <style lang="scss">
-@use 'sass:map';
 @use 'valaxy/client/styles/mixins/index.scss' as *;
-@use 'valaxy-theme-yun/styles/vars.scss' as *;
 
 @include screen('md') {
   .yun-ae-frame {
@@ -98,7 +96,7 @@ onMounted(() => {
 
   .tl, .tr, .bl, .br {
     position: absolute;
-    transition: transform var(--va-transition-duration-slow) map.get($cubic-bezier, 'ease-in');
+    transition: transform var(--va-transition-duration-slow) var(--yun-ease-in);
   }
 
   .tl {

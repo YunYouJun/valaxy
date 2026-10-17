@@ -24,12 +24,21 @@
   @include set-css-var-from-map($common);
   @include set-css-var-from-map($z-index, "z");
 
+  // easing: --yun-ease-in / --yun-ease-in-out, generated from the $cubic-bezier map
+  @include set-css-var-from-map($cubic-bezier);
+
   // z-index
   --va-z-overlay: var(--yun-z-backdrop);
 }
 
 :root {
   @include set-css-var-from-map($light);
+
+  // banner
+  --banner-line-color: black;
+  --banner-char-color: black;
+  --banner-char-bg-color: rgb(255 255 255 / 0.5);
+  --banner-char-hover-color: white;
 }
 
 html.dark {
@@ -44,6 +53,21 @@ html.dark {
   --yun-nav-solid: #1a1a1d;
   --yun-grid-color: rgb(255 255 255 / 0.07);
   --yun-grid-highlight-color: color-mix(in srgb, var(--va-c-link) 45%, transparent);
+}
+
+// banner tokens are global so pages without YunBanner (404, etc.) can use them;
+// `.dark` keeps the same specificity they had in YunBanner.vue
+.dark {
+  --banner-line-color: white;
+  --banner-char-color: white;
+  --banner-char-bg-color: rgb(0 0 0 / 0.5);
+  --banner-char-hover-color: black;
+
+  // soften horizontal dividers on dark backgrounds (values match www.yunyoujun.cn);
+  // the banner's opening lines stay white
+  --yun-prologue-divider-color: rgb(255 255 255 / 0.14);
+  --yun-banner-divider-color: rgb(255 255 255 / 0.09);
+  --yun-say-border-color: rgb(255 255 255 / 0.09);
 }
 
 // animation

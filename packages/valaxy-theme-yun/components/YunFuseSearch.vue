@@ -151,7 +151,7 @@ function excerpt(text: string = '') {
   text-align: center;
   margin: 0;
   z-index: var(--yun-z-search-popup);
-  transition: var(--va-transition-duration-fast);
+  transition: opacity var(--va-transition-duration-fast);
   background-color: var(--va-c-bg-opacity);
 }
 
@@ -168,7 +168,7 @@ function excerpt(text: string = '') {
   font-family: var(--va-font-serif);
   font-weight: 900;
   text-align: center;
-  transition: all var(--va-transition-duration-fast);
+  transition: border-color var(--va-transition-duration-fast);
 
   &:focus {
     border-color: var(--va-c-text);

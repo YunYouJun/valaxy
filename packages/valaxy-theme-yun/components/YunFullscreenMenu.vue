@@ -35,16 +35,13 @@ const yunApp = useYunAppStore()
 </template>
 
 <style lang="scss">
-@use 'sass:map';
-@use 'valaxy-theme-yun/styles/vars.scss' as *;
-
 .slide-left-enter-active,
 .slide-left-leave-active,
 .slide-down-enter-active,
 .slide-down-leave-active {
   opacity: 1;
-  transition: transform var(--va-transition-duration) map.get($cubic-bezier, 'ease-in-out'),
-    opacity var(--va-transition-duration-fast) map.get($cubic-bezier, 'ease-in-out');
+  transition: transform var(--va-transition-duration) var(--yun-ease-in-out),
+    opacity var(--va-transition-duration-fast) var(--yun-ease-in-out);
   transform: translateY(0);
 }
 

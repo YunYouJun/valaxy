@@ -58,9 +58,6 @@ const { $tO } = useValaxyI18n()
 </template>
 
 <style lang="scss">
-@use 'sass:map';
-@use 'valaxy-theme-yun/styles/vars.scss' as *;
-
 .post-collapse {
   .post-header {
     &::before {
@@ -85,7 +82,7 @@ const { $tO } = useValaxyI18n()
       width: 0;
       height: 1px;
       background-color: rgb(var(--va-c-primary-rgb), 0.3);
-      transition: width 800ms map.get($cubic-bezier, 'ease-in');
+      transition: width 800ms var(--yun-ease-in);
     }
 
     &.show {
@@ -128,7 +125,7 @@ const { $tO } = useValaxyI18n()
       width: 2px;
       height: 0;
       background: rgb(var(--va-c-primary-rgb), 0.3);
-      transition: height 600ms map.get($cubic-bezier, 'ease-in');
+      transition: height 600ms var(--yun-ease-in);
     }
 
     &.show {
