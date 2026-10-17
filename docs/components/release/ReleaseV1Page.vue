@@ -8,6 +8,14 @@ import ReleaseV1Features from './ReleaseV1Features.vue'
 import ReleaseV1Hero from './ReleaseV1Hero.vue'
 import ReleaseV1Themes from './ReleaseV1Themes.vue'
 import ReleaseV1Writing from './ReleaseV1Writing.vue'
+// Faces from the writing community, self-hosted: LXGW WenKai for Chinese,
+// Literata for long-form Latin text, Maple Mono for Markdown source.
+import 'lxgw-wenkai-screen-webfont/lxgwwenkaigbscreen.css'
+import '@fontsource/literata/400.css'
+import '@fontsource/literata/400-italic.css'
+import '@fontsource/literata/600.css'
+import '@fontsource/maple-mono/400.css'
+import '@fontsource/maple-mono/600.css'
 
 defineOptions({ inheritAttrs: false })
 const props = defineProps<{ locale: ReleaseLocale }>()

@@ -487,7 +487,7 @@ export default defineValaxyConfig<PressTheme.Config>({
         items: [
           {
             text: 'Valaxy 1.0',
-            link: '/release/',
+            link: '/release/v1/',
           },
           {
             text: 'Release Notes',
@@ -624,7 +624,7 @@ export default defineValaxyConfig<PressTheme.Config>({
               items: [
                 {
                   text: 'Valaxy 1.0',
-                  link: '/zh/release/',
+                  link: '/zh/release/v1/',
                 },
                 {
                   text: 'Release Notes',

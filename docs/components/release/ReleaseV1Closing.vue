@@ -38,7 +38,7 @@ async function copyCommand() {
 </script>
 
 <template>
-  <section class="closing-section release-width release-reveal" aria-labelledby="closing-title">
+  <section class="closing-section" aria-labelledby="closing-title">
     <svg
       ref="galaxy"
       class="closing-galaxy"
@@ -48,9 +48,9 @@ async function copyCommand() {
     >
       <defs>
         <radialGradient id="closing-galaxy-core">
-          <stop offset="0" stop-color="#ede9fe" stop-opacity="0.8" />
-          <stop offset="0.3" stop-color="#a78bfa" stop-opacity="0.45" />
-          <stop offset="1" stop-color="#7c3aed" stop-opacity="0" />
+          <stop offset="0" stop-color="#ffffff" stop-opacity="0.85" />
+          <stop offset="0.3" stop-color="#9fd3ff" stop-opacity="0.45" />
+          <stop offset="1" stop-color="#123c9c" stop-opacity="0" />
         </radialGradient>
       </defs>
       <!-- Flatten the spinning disk so it reads as a galaxy seen at an angle. -->
@@ -70,7 +70,7 @@ async function copyCommand() {
       </g>
     </svg>
     <h2 id="closing-title" class="release-heading">
-      <span>{{ copy.title[0] }}</span><span class="release-gradient">{{ copy.title[1] }}</span>
+      <span>{{ copy.title[0] }}</span><span>{{ copy.title[1] }}</span>
     </h2>
     <p class="release-description">
       {{ copy.description }}
@@ -87,17 +87,36 @@ async function copyCommand() {
       {{ copy.action }}
     </RouterLink>
     <p class="release-status">
-      {{ releaseIsPreview ? copy.preview : copy.stable }} · <span :aria-label="copy.status">{{ releaseVersion }}</span><br>Node.js ≥22.12.0
+      <span>{{ releaseIsPreview ? copy.preview : copy.stable }}</span>
+      <span :aria-label="copy.status">{{ releaseVersion }}</span>
+      <span>Node.js ≥ 22.12.0</span>
     </p>
   </section>
 </template>
 
 <style scoped>
+/* The page closes on the same night plate it opened with. */
 .closing-section {
   position: relative;
   isolation: isolate;
-  padding-block: 100px 90px;
+  overflow: hidden;
+  padding: 120px 24px 110px;
+  color: #fff;
+  background: var(--release-plate);
   text-align: center;
+}
+
+.closing-section .release-description {
+  color: rgb(255 255 255 / 0.72);
+}
+
+.closing-section .release-button {
+  color: #0a1a4f;
+  background: #eef3ff;
+}
+
+.closing-section .release-button:hover {
+  background: #fff;
 }
 
 .closing-galaxy {
@@ -107,7 +126,7 @@ async function copyCommand() {
   z-index: -1;
   width: min(1040px, 140%);
   translate: -50% 0;
-  color: var(--release-accent);
+  color: rgb(255 255 255 / 0.9);
   fill: currentcolor;
   pointer-events: none;
   mask-image: radial-gradient(closest-side, #000 55%, transparent);
@@ -123,10 +142,6 @@ async function copyCommand() {
 /* The galaxy is centered on the user-space origin. */
 .galaxy-spin {
   transform-origin: 0 0;
-}
-
-.dark .closing-galaxy {
-  color: #c4b5fd;
 }
 
 /* Slow enough to read as ambient; it only turns while on screen. */
@@ -155,27 +170,28 @@ async function copyCommand() {
 .closing-command {
   margin: 38px auto 0;
   max-width: 440px;
-  border-radius: 12px;
-  background: #24262b;
-  color: white;
+  border: 1px solid rgb(255 255 255 / 0.22);
+  border-radius: 4px;
+  background: rgb(4 12 40 / 0.5);
+  color: #fff;
   padding: 18px 20px;
   display: flex;
   align-items: center;
   gap: 12px;
-  box-shadow: 0 12px 28px #1d1d1f12;
 }
 
 .closing-command > span {
-  color: #7ac3b3;
+  color: #9fd3ff;
 }
 
 .closing-command code {
+  font-family: "Maple Mono", ui-monospace, monospace;
   font-size: 15px;
   user-select: all;
 }
 
 .closing-command button {
-  color: #c7c7cf;
+  color: rgb(255 255 255 / 0.72);
   font-size: 23px;
   margin-left: auto;
   min-width: 40px;
@@ -183,17 +199,21 @@ async function copyCommand() {
 }
 
 .copy-feedback {
-  font-size: 12px;
-  color: var(--release-muted);
+  font-size: 13px;
+  color: #9fd3ff;
   min-height: 30px;
   margin-top: 8px;
 }
 
 .release-status {
-  color: var(--release-muted);
-  font-size: 12px;
+  color: rgb(255 255 255 / 0.6);
+  font-size: 13px;
   line-height: 1.9;
   margin-top: 25px;
+}
+
+.release-status span {
+  display: block;
 }
 
 @media (width <= 600px) {

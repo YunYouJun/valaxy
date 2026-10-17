@@ -92,4 +92,4 @@ pnpm exec valaxy check --file pages/posts/hello.md --json
 
 主题开发者尤其需要检查生产构建。路由直达、手机布局、弹层和交互组件都应在静态预览中确认；运行时表现不能仅从配置文件推断。
 
-逐项操作请使用[完整迁移指南](/zh/migration/version#v100)。如果是第一次使用 Valaxy，可以从[快速开始](/zh/guide/getting-started)创建站点，或先浏览 [1.0 发布专题](/zh/release/)，看看 Markdown、主题与 DevTools 如何配合。
+逐项操作请使用[完整迁移指南](/zh/migration/version#v100)。如果是第一次使用 Valaxy，可以从[快速开始](/zh/guide/getting-started)创建站点，或先浏览 [1.0 发布专题](/zh/release/v1/)，看看 Markdown、主题与 DevTools 如何配合。
