@@ -45,10 +45,15 @@ onMounted(async () => {
   // This is needed when navigating back from post to home (SPA navigation)
   yun.bannerAnimationDone = false
 
-  await sleep(500)
+  // 减少动态效果时不再等待动画时序，直接进入终态
+  const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches
+
+  if (!reducedMotion)
+    await sleep(500)
   lineStatus.value = 'active'
   if (yun.isNimbo) {
-    await sleep(themeConfig.value.banner?.duration || 500)
+    if (!reducedMotion)
+      await sleep(themeConfig.value.banner?.duration || 500)
     lineStatus.value = 'exit'
 
     animationStatus.value = 'prologue'
