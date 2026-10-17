@@ -45,11 +45,11 @@ const { t } = useI18n()
   color: #fff;
   background: var(--pr-button-brand-bg);
   border-color: transparent;
-  box-shadow: 0 3px 8px rgb(77 65 169 / 0.12);
+  box-shadow: 0 3px 8px var(--pr-button-brand-shadow);
 }
 
 .is-brand:hover {
-  box-shadow: 0 4px 20px rgb(100 77 214 / 0.28);
+  box-shadow: 0 4px 20px var(--pr-button-brand-shadow-hover);
 }
 
 .is-alt {

@@ -365,6 +365,10 @@ export default defineValaxyConfig<PressTheme.Config>({
   theme: 'press',
   themeConfig: {
     logo: '/favicon.svg',
+    colors: {
+      // logo purple; theme-press derives its whole brand palette from it
+      primary: '#7c3aed',
+    },
     sidebar: {
       '/themes/press': themePressSidebar,
       '/themes/yun': themeYunSidebar,
