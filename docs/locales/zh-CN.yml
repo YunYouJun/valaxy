@@ -88,7 +88,7 @@ banner:
 hero:
   actions:
     get-started: 快速上手
-    view-github: 查看 Github
+    view-github: 查看 GitHub
 
 features:
   markdown:
@@ -210,3 +210,11 @@ homeFeatures:
   accessibility:
     title: 无障碍细节
     details: Press 主题支持键盘导航与清晰的焦点提示；首页动画可暂停，并尊重减少动态效果偏好。
+  unocss:
+    title: 用 UnoCSS 自由书写样式
+  typescript:
+    title: TypeScript 类型安全
+  vueuse:
+    title: VueUse 组合式工具
+  i18n:
+    title: 天生支持多语言

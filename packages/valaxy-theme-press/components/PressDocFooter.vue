@@ -68,7 +68,7 @@ const control = usePrevNext()
   border-radius: 8px;
   padding: 0.75rem 1rem;
   width: 100%;
-  transition: border-color 0.25s;
+  transition: border-color var(--va-transition-duration);
   text-decoration: none;
 }
 
@@ -94,6 +94,6 @@ const control = usePrevNext()
   font-weight: 500;
   line-height: 20px;
   color: var(--va-c-primary);
-  transition: color 0.25s;
+  transition: color var(--va-transition-duration);
 }
 </style>

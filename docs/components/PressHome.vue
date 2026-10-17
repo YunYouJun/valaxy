@@ -5,6 +5,7 @@ import { useRoute } from 'vue-router'
 import HomeAiThemes from './home/HomeAiThemes.vue'
 import HomeDevtools from './home/HomeDevtools.vue'
 import HomeEcosystem from './home/HomeEcosystem.vue'
+import ValaxySponsors from './ValaxySponsors.vue'
 
 const route = useRoute()
 const lang = computed(() => route.path.startsWith('/zh/') ? 'zh' : 'en')
@@ -16,6 +17,7 @@ const lang = computed(() => route.path.startsWith('/zh/') ? 'zh' : 'en')
       <HomeEcosystem :lang="lang" />
       <HomeDevtools :lang="lang" />
       <HomeAiThemes :lang="lang" />
+      <ValaxySponsors />
     </template>
   </ThemePressHome>
 </template>

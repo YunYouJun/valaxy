@@ -41,7 +41,7 @@ const featureIcons = ['i-ri-article-line', 'i-ri-equalizer-line', 'i-ri-bug-line
 
 <template>
   <section id="home-devtools" class="home-devtools" aria-labelledby="home-devtools-title">
-    <div class="devtools-heading">
+    <div class="devtools-heading press-reveal">
       <div>
         <p class="devtools-eyebrow">
           VALAXY DEVTOOLS
@@ -58,7 +58,7 @@ const featureIcons = ['i-ri-article-line', 'i-ri-equalizer-line', 'i-ri-bug-line
       </RouterLink>
     </div>
     <div class="devtools-content">
-      <div class="devtools-features">
+      <div class="devtools-features press-reveal">
         <article v-for="(feature, index) in copy.features" :key="feature.title" class="devtools-feature">
           <span class="feature-icon" :class="featureIcons[index]" aria-hidden="true" />
           <h3 class="feature-title">
@@ -73,7 +73,7 @@ const featureIcons = ['i-ri-article-line', 'i-ri-equalizer-line', 'i-ri-bug-line
         </p>
       </div>
       <figure class="devtools-preview">
-        <div class="devtools-window">
+        <div class="devtools-window press-reveal">
           <div class="devtools-toolbar" aria-hidden="true">
             <span class="window-dots"><i /><i /><i /></span>
             <span>Valaxy DevTools</span>

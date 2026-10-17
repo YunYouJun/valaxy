@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import type { ThemeableImage } from '../types'
-import { useElementVisibility } from '@vueuse/core'
+import { useDocumentVisibility, useElementVisibility } from '@vueuse/core'
 import { computed, shallowRef, useTemplateRef } from 'vue'
 import { useI18n } from 'vue-i18n'
 
@@ -14,8 +14,9 @@ const props = withDefaults(defineProps<{
 const { t } = useI18n()
 const scene = useTemplateRef<HTMLElement>('scene')
 const isVisible = useElementVisibility(scene)
+const documentVisibility = useDocumentVisibility()
 const paused = shallowRef(false)
-const playing = computed(() => props.animated && isVisible.value && !paused.value)
+const playing = computed(() => props.animated && isVisible.value && documentVisibility.value === 'visible' && !paused.value)
 </script>
 
 <template>

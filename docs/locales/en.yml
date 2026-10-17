@@ -88,7 +88,7 @@ banner:
 hero:
   actions:
     get-started: Get Started
-    view-github: View Github
+    view-github: View GitHub
 
 features:
   markdown:
@@ -210,3 +210,11 @@ homeFeatures:
   accessibility:
     title: Accessibility details
     details: Navigate the Press theme with a keyboard and visible focus indicators. Pause homepage animations, with reduced-motion preferences respected.
+  unocss:
+    title: Style freely with UnoCSS
+  typescript:
+    title: Type-safe with TypeScript
+  vueuse:
+    title: Composables from VueUse
+  i18n:
+    title: Multilingual by design

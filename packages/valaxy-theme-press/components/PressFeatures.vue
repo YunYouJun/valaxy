@@ -15,7 +15,7 @@ const columns = computed(() => {
 </script>
 
 <template>
-  <div v-if="features.length" class="press-features" :style="{ '--pr-feature-columns': columns }">
+  <div v-if="features.length" class="press-features press-reveal" :style="{ '--pr-feature-columns': columns }">
     <div v-for="feature in features" :key="feature.title" class="press-feature-cell">
       <PressFeature :feature="feature" />
     </div>

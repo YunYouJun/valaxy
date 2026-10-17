@@ -20,7 +20,7 @@
     display: inline-block;
     text-decoration: none;
     border-bottom: 1px solid transparent;
-    transition: all var(--va-transition-duration-moderate);
+    transition: color var(--va-transition-duration-moderate), border-color var(--va-transition-duration-moderate);
   }
 
   code:not(pre > code) {
@@ -53,7 +53,7 @@
 
     a {
       text-decoration: inherit;
-      transition: all var(--va-transition-duration-moderate);
+      transition: color var(--va-transition-duration-moderate), border-color var(--va-transition-duration-moderate);
 
       &:hover {
         text-decoration: underline;

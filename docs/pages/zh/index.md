@@ -31,22 +31,22 @@ featuresDescription: 开箱即用，写下第一篇；自由定制，做出自�
 
 features:
   - icon: i-logos:markdown
-    title: features.markdown.title
+    title: homeFeatures.ready.title
     details: homeFeatures.ready.details
   - icon: i-logos:vitejs
-    title: features.vite.title
+    title: homeFeatures.preview.title
     details: homeFeatures.preview.details
   - icon: i-logos:vue
-    title: features.vue.title
+    title: homeFeatures.custom.title
     details: homeFeatures.custom.details
   - icon: i-logos:unocss
-    title: features.unocss.title
+    title: homeFeatures.unocss.title
     details: features.unocss.details
   - icon: i-logos:typescript-icon
-    title: features.typescript.title
+    title: homeFeatures.typescript.title
     details: features.typescript.details
   - icon: i-logos:vueuse
-    title: features.vueuse.title
+    title: homeFeatures.vueuse.title
     details: features.vueuse.details
   - icon: i-ri-tools-line
     title: homeFeatures.devtools.title
@@ -58,7 +58,7 @@ features:
     title: homeFeatures.own.title
     details: homeFeatures.own.details
   - icon: i-vscode-icons:file-type-locale
-    title: features.i18n.title
+    title: homeFeatures.i18n.title
     details: features.i18n.details
   - icon: i-ri-sparkling-line
     title: homeFeatures.ai.title
@@ -67,5 +67,3 @@ features:
     title: homeFeatures.accessibility.title
     details: homeFeatures.accessibility.details
 ---
-
-<ValaxySponsors />

@@ -30,7 +30,15 @@ const { t } = useI18n()
   font-weight: 600;
   line-height: 24px;
   text-decoration: none;
-  transition: background-color 0.2s, border-color 0.2s, box-shadow 0.2s;
+  transition:
+    background-color var(--va-transition-duration),
+    border-color var(--va-transition-duration),
+    box-shadow var(--va-transition-duration),
+    transform var(--va-transition-duration-fast) var(--pr-ease-out);
+}
+
+.press-button:active {
+  transform: scale(0.98);
 }
 
 .is-brand {
@@ -56,5 +64,6 @@ const { t } = useI18n()
 
 @media (prefers-reduced-motion: reduce) {
   .press-button { transition: none; }
+  .press-button:active { transform: none; }
 }
 </style>

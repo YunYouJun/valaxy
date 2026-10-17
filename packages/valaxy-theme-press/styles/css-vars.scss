@@ -16,6 +16,13 @@
   --pr-c-text-1: #202331;
   --pr-c-text-2: #626777;
 
+  // motion: durations come from --va-transition-duration(-fast|-moderate)
+  --pr-ease-standard: cubic-bezier(0.4, 0, 0.2, 1);
+  --pr-ease-out: cubic-bezier(0.22, 1, 0.36, 1);
+  --pr-ease-out-expo: cubic-bezier(0.19, 1, 0.22, 1);
+  --pr-duration-enter: 0.6s;
+  --pr-enter-distance: 16px;
+
   // sidebar
   --pr-sidebar-bg: var(--va-c-bg);
   --pr-sidebar-divider: color-mix(in srgb, var(--pr-c-text-1) 12%, transparent);

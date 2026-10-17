@@ -2,6 +2,7 @@
 @use "./markdown";
 @use "./api";
 @use "./sidebar";
+@use "./motion";
 
 .layout {
   display: flex;

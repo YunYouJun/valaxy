@@ -41,17 +41,17 @@ const actions = computed(() => {
     }"
   >
     <div class="hero-copy">
-      <p v-if="hero.eyebrow" class="hero-eyebrow">
+      <p v-if="hero.eyebrow" class="hero-eyebrow press-enter">
         {{ hero.eyebrow }}
       </p>
-      <h1 class="hero-heading">
+      <h1 class="hero-heading press-enter" :style="{ '--pr-enter-order': 1 }">
         <span v-if="hero.name" class="hero-name" :class="{ 'is-title': !hero.text }">{{ hero.name }}</span>
         <span v-if="hero.text" class="hero-text">{{ hero.text }}</span>
       </h1>
-      <p v-if="hero.tagline" class="hero-tagline">
+      <p v-if="hero.tagline" class="hero-tagline press-enter" :style="{ '--pr-enter-order': 2 }">
         {{ hero.tagline }}
       </p>
-      <div v-if="actions.length" class="hero-actions">
+      <div v-if="actions.length" class="hero-actions press-enter" :style="{ '--pr-enter-order': 3 }">
         <template v-for="action in actions" :key="action.link">
           <PressGetStarted
             v-if="action.type === 'fly'"
@@ -67,7 +67,7 @@ const actions = computed(() => {
           />
         </template>
       </div>
-      <PressHomeCommand v-if="hero.command" :command="hero.command" />
+      <PressHomeCommand v-if="hero.command" class="press-enter" :style="{ '--pr-enter-order': 4 }" :command="hero.command" />
     </div>
 
     <div v-if="hero.image" class="hero-visual">
@@ -228,6 +228,20 @@ const actions = computed(() => {
 
 .is-centered.has-image .hero-copy {
   padding-top: 32px;
+}
+
+/* The orbit settles in behind the copy; the divider border stays still. */
+@media (prefers-reduced-motion: no-preference) {
+  .hero-visual > :first-child {
+    animation: press-hero-visual-in 0.9s var(--pr-ease-out) 0.12s both;
+  }
+}
+
+@keyframes press-hero-visual-in {
+  from {
+    opacity: 0.01;
+    transform: scale(0.96);
+  }
 }
 
 @media (width <= 959px) {

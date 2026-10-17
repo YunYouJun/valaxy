@@ -47,7 +47,7 @@ const iconStyle = computed(() => ({
   mask-repeat: no-repeat;
   mask-position: center;
   background-color: currentcolor;
-  transition: transform 0.25s;
+  transition: transform var(--va-transition-duration) var(--pr-ease-out);
 }
 
 .press-get-started:hover .icon {
