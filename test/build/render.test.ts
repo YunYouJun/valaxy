@@ -80,6 +80,15 @@ describe('routeToFileName', () => {
   it('handles deeply nested paths with trailing slash', () => {
     expect(routeToFileName('/a/b/c/')).toBe('a/b/c/index.html')
   })
+
+  it('decodes percent-encoded (non-ASCII) segments', () => {
+    expect(routeToFileName('/posts/%E4%B8%AD%E6%96%87Post')).toBe('posts/中文Post.html')
+    expect(routeToFileName('/a%20b/%E4%B8%AD/')).toBe('a b/中/index.html')
+  })
+
+  it('keeps malformed percent sequences as-is', () => {
+    expect(routeToFileName('/100%/x')).toBe('100%/x.html')
+  })
 })
 
 describe('serializeState', () => {

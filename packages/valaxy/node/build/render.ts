@@ -152,11 +152,26 @@ export function serializeState(state: Record<string, any>): string {
   return `<script>window.__INITIAL_STATE__='${serialised}'</script>`
 }
 
+function decodePathSegment(segment: string): string {
+  try {
+    return decodeURIComponent(segment)
+  }
+  catch {
+    return segment
+  }
+}
+
 /**
  * Convert a route path to a file name.
  * e.g. `/` → `index.html`, `/about` → `about.html`, `/posts/` → `posts/index.html`
+ *
+ * Route paths are percent-encoded (`/posts/%E4%B8%AD`), but static servers decode
+ * the request path before looking up the file, so the file name must be decoded
+ * (`posts/中.html`).
  */
 export function routeToFileName(route: string): string {
+  route = route.split('/').map(decodePathSegment).join('/')
+
   if (route.endsWith('/'))
     return `${route}index.html`.slice(1)
 

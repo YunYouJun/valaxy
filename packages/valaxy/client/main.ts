@@ -25,12 +25,9 @@ const { redirectRoutes, useVueRouter } = valaxyConfig.value.runtimeConfig.redire
 if (useVueRouter)
   routes.push(...redirectRoutes)
 
-// fix chinese path
-routes.forEach((i) => {
-  i?.children?.forEach((j: { path: string }) => {
-    j.path = encodeURI(j.path)
-  })
-})
+// Non-ASCII file names (e.g. `pages/posts/中文.md`) need no extra handling here:
+// `vue-router/vite` already percent-encodes static path segments, and encoding
+// them again makes the route unreachable from its real URL.
 
 /**
  * Flatten nested routes so that `setupLayouts` can wrap every leaf route.
