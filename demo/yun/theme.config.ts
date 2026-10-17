@@ -23,6 +23,10 @@ export default defineThemeConfig({
     siteNameClass: 'bg-gradient-to-r gradient-text from-#1e3c72 to-dark dark:from-#66a6ff dark:to-blue-500',
   },
 
+  notFound: {
+    issueLink: 'https://github.com/YunYouJun/valaxy/issues/new',
+  },
+
   notice: {
     enable: true,
     content: '公告测试',

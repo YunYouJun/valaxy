@@ -366,6 +366,24 @@ export interface ThemeConfig extends DefaultTheme.Config {
    * @zh 编辑链接配置，用于「在 GitHub 中打开」等功能
    */
   editLink?: EditLink
+
+  /**
+   * @en 404 page
+   * @zh 404 页面
+   */
+  notFound?: NotFound
+}
+
+export interface NotFound {
+  /**
+   * @en Issue link for reporting broken links. The report button is hidden when unset.
+   * Use `:path` as placeholder for the encoded missing path; otherwise GitHub-style
+   * `title` and `body` query params are appended.
+   * @zh 反馈失效链接的 issue 地址，未配置时不显示反馈按钮。
+   * 可使用 `:path` 作为（已编码的）当前路径占位符；否则会追加 GitHub 风格的 `title` 与 `body` 参数。
+   * @example 'https://github.com/user/repo/issues/new'
+   */
+  issueLink?: string
 }
 
 export type UserThemeConfig = Partial<ThemeConfig>

@@ -12,3 +12,11 @@ theme:
   outlineTitle: On this page
   closeOutline: Close contents
   toggleSection: Toggle {title}
+
+not_found:
+  title: Page not found
+  report: Broken link? Report it
+  issue_body: |-
+    Page not found: {path}
+
+    Where did you come from (optional):

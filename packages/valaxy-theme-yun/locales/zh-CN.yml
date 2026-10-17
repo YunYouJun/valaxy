@@ -12,3 +12,11 @@ theme:
   outlineTitle: 本页
   closeOutline: 关闭目录
   toggleSection: 展开或收起{title}
+
+not_found:
+  title: 页面不存在
+  report: 链接失效了？反馈一下
+  issue_body: |-
+    页面不存在：{path}
+
+    从哪里点进来的（可选）：
