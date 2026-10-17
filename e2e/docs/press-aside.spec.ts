@@ -21,6 +21,29 @@ test('uses a local outline below the desktop breakpoint', async ({ page }) => {
   await expect(trigger).toBeFocused()
 })
 
+test('highlights the section being read in the desktop outline', async ({ page }) => {
+  await page.setViewportSize({ width: 1440, height: 900 })
+  await page.goto('/guide/getting-started')
+  const outline = page.locator('#press-page-outline')
+  const marker = outline.locator('.outline-marker')
+  await expect(outline).toBeVisible()
+  await expect(outline.locator('a.active')).toHaveCount(0)
+
+  await page.locator('h2#usage').evaluate((el) => {
+    window.scrollTo(0, el.getBoundingClientRect().top + window.scrollY - 100)
+  })
+  await expect(outline.locator('a.active')).toHaveText('Usage')
+  await expect(marker).toHaveCSS('opacity', '1')
+
+  await outline.getByRole('link', { name: 'Deployment', exact: true }).click()
+  await expect(page).toHaveURL(/#deployment$/)
+  await expect(outline.locator('a.active')).toHaveText('Deployment')
+
+  await page.evaluate(() => window.scrollTo(0, 0))
+  await expect(outline.locator('a.active')).toHaveCount(0)
+  await expect(marker).toHaveCSS('opacity', '0')
+})
+
 test('keeps the document drawer above its backdrop and unlocks on resize', async ({ page }) => {
   await page.goto('/zh/guide/getting-started')
   const trigger = page.locator('.press-local-nav .menu')

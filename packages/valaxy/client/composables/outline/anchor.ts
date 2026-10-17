@@ -24,6 +24,25 @@ function getAbsoluteTop(element: HTMLElement): number {
   return offsetTop
 }
 
+function safeDecode(value: string): string {
+  try {
+    return decodeURIComponent(value)
+  }
+  catch {
+    return value
+  }
+}
+
+/**
+ * Themes render outline links either as plain `#id` anchors or as RouterLinks
+ * whose href includes the page path, so compare decoded hashes instead of hrefs.
+ */
+function findLinkByHash(container: HTMLElement, hash: string): HTMLAnchorElement | null {
+  const target = safeDecode(hash)
+  return [...container.querySelectorAll<HTMLAnchorElement>('a[href*="#"]')]
+    .find(link => safeDecode(link.hash) === target) ?? null
+}
+
 export function useActiveAnchor(
   container: Ref<HTMLElement>,
   marker: Ref<HTMLElement>,
@@ -118,14 +137,7 @@ export function useActiveAnchor(
     if (prevActiveLink)
       prevActiveLink.classList.remove('active')
 
-    if (hash == null) {
-      prevActiveLink = null
-    }
-    else {
-      prevActiveLink = container.value.querySelector(
-        `a[href="${decodeURIComponent(hash)}"]`,
-      )
-    }
+    prevActiveLink = hash ? findLinkByHash(container.value, hash) : null
 
     const activeLink = prevActiveLink
     checkActiveLinkInViewport()
