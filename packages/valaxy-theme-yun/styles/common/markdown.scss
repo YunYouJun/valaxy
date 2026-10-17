@@ -46,12 +46,6 @@
     }
   }
 
-  img {
-    margin: 0.5rem auto;
-    height: auto;
-    max-width: min(92%, 800px);
-  }
-
   p {
     overflow: unset;
   }
@@ -124,6 +118,14 @@
       }
     }
   }
+}
+
+// 元素级特异性 (0,0,1)，让 markdown 中图片上的工具类（如 `m-0`、`rounded-full`）可以覆盖
+// uno.css 先于主题样式加载，同为 (0,0,1) 的 preflight `img {}` 仍会被这里覆盖
+:where(.markdown-body) img {
+  margin: 0.5rem auto;
+  height: auto;
+  max-width: min(92%, 800px);
 }
 
 @media (width <=767.9px) {

@@ -8,6 +8,8 @@ minimumReleaseAgeExclude:
   # Reviewed upstream security release: removes vulnerable lodash-es parser copies.
   - '@mermaid-js/parser@2.0.1'
   - mermaid@12.1.0
+  # First-party release (YunYouJun/star-markdown-css#4), published via trusted publishing with provenance.
+  - star-markdown-css@0.6.1
 
 trustPolicy: no-downgrade
 autoInstallPeers: false
@@ -196,7 +198,7 @@ catalog:
   sass: ^1.104.1
   shiki: ^4.4.3
   splitpanes: ^4.1.2
-  star-markdown-css: ^0.5.3
+  star-markdown-css: ^0.6.1
   stylelint: ^17.15.0
   stylelint-config-html: ^2.0.0
   stylelint-config-recommended: ^18.0.0
