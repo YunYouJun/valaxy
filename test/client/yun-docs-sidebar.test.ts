@@ -56,6 +56,18 @@ describe('valaxy-theme-yun docs sidebar', () => {
     expect(containsYunDocsSidebarActiveLink('/guide/start', item)).toBe(true)
   })
 
+  it('matches raw non-ASCII links against the percent-encoded route path', () => {
+    const sidebar: YunTheme.Sidebar = {
+      '/指南/': [{ text: '开始', link: '/指南/开始' }],
+    }
+    const encodedPath = encodeURI('/指南/开始')
+    const items = resolveYunDocsSidebar(sidebar, encodedPath)
+
+    expect(items).toEqual([{ text: '开始', link: '/指南/开始' }])
+    expect(isYunDocsSidebarLinkActive(encodedPath, '/指南/开始')).toBe(true)
+    expect(isYunDocsSidebarLinkActive('/100%', '/100%')).toBe(true)
+  })
+
   it('hides a sidebar containing only the current page and keeps other destinations', () => {
     const sidebar: YunTheme.Sidebar = {
       '/guide/': [{ text: 'Guide', items: [{ text: 'Overview', link: '/guide/' }] }],
