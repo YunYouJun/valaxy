@@ -25,11 +25,11 @@
     "valaxy-theme-press": "link:../packages/valaxy-theme-press"
   },
   "devDependencies": {
-    "@fontsource/literata": "5.3.0",
-    "@fontsource/maple-mono": "5.3.0",
+    "@fontsource/literata": "catalog:",
+    "@fontsource/maple-mono": "catalog:",
     "@iconify-json/carbon": "catalog:build",
     "@iconify-json/simple-icons": "catalog:build",
-    "lxgw-wenkai-screen-webfont": "1.7.0",
+    "lxgw-wenkai-screen-webfont": "catalog:",
     "markdown-it-mathjax3": "catalog:",
     "nodemon": "catalog:",
     "vite": "catalog:build"
