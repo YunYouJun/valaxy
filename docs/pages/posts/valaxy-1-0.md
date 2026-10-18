@@ -92,4 +92,4 @@ Before upgrading, save your project and lockfile, and ensure that local and depl
 
 Theme developers should check a production build, including direct route access, mobile layouts, overlays, and interactive components. Configuration alone cannot establish their runtime behavior.
 
-Use the [complete migration guide](/migration/version#v1-0-0) for individual steps. If you are new to Valaxy, follow [Getting Started](/guide/getting-started), or explore the [1.0 release showcase](/release/) to see how Markdown, themes, and DevTools work together.
+Use the [complete migration guide](/migration/version#v1-0-0) for individual steps. If you are new to Valaxy, follow [Getting Started](/guide/getting-started), or explore the [1.0 release showcase](/release/v1/) to see how Markdown, themes, and DevTools work together.

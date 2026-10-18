@@ -13,28 +13,20 @@ const featureIcons = ['i-ri-article-line', 'i-ri-equalizer-line', 'i-ri-bug-line
 
 <template>
   <section id="devtools" class="devtools-section release-width" aria-labelledby="devtools-title">
-    <div class="devtools-intro release-reveal">
-      <p class="devtools-eyebrow">
-        Valaxy DevTools
-      </p>
+    <div class="devtools-intro">
       <h2 id="devtools-title" class="release-heading">
-        <span v-for="(line, index) in copy.title" :key="line" :class="{ 'release-gradient': index === 1 }">{{ line }}</span>
+        <span v-for="line in copy.title" :key="line">{{ line }}</span>
       </h2>
       <p class="release-description">
         {{ copy.description }}
       </p>
       <RouterLink class="release-text-link devtools-link" :to="`${prefix}/guide/config/extend#devtools`">
-        {{ copy.link }} ›
+        {{ copy.link }}
       </RouterLink>
     </div>
-    <figure class="devtools-preview release-reveal">
+    <figure class="devtools-preview">
       <div class="devtools-stage">
         <div class="devtools-window">
-          <div class="devtools-toolbar" aria-hidden="true">
-            <span class="devtools-window-dots"><i /><i /><i /></span>
-            <span>Valaxy DevTools</span>
-            <span class="devtools-local">localhost</span>
-          </div>
           <img class="devtools-image-light" :src="copy.image" :alt="copy.alt" width="1320" height="650" loading="lazy" decoding="async">
           <img class="devtools-image-dark" :src="copy.darkImage" :alt="copy.alt" width="1320" height="650" loading="lazy" decoding="async">
         </div>
@@ -43,7 +35,7 @@ const featureIcons = ['i-ri-article-line', 'i-ri-equalizer-line', 'i-ri-bug-line
         {{ copy.preview }}
       </figcaption>
     </figure>
-    <div class="devtools-features release-reveal">
+    <div class="devtools-features">
       <article v-for="(feature, index) in copy.features" :key="feature.title" class="devtools-feature">
         <span class="devtools-feature-icon" :class="featureIcons[index]" aria-hidden="true" />
         <h3 class="devtools-feature-title">
@@ -66,17 +58,7 @@ const featureIcons = ['i-ri-article-line', 'i-ri-equalizer-line', 'i-ri-bug-line
 }
 
 .devtools-intro {
-  max-width: 660px;
-  margin-inline: auto;
-  text-align: center;
-}
-
-.devtools-eyebrow {
-  margin-bottom: 22px;
-  color: var(--release-muted);
-  font-size: 17px;
-  font-weight: 600;
-  letter-spacing: -0.02em;
+  max-width: 640px;
 }
 
 .devtools-link {
@@ -88,47 +70,20 @@ const featureIcons = ['i-ri-article-line', 'i-ri-equalizer-line', 'i-ri-bug-line
   margin: 56px 0 0;
 }
 
+/* The screenshot is mounted on a sheet of the night plate, like a print. */
 .devtools-stage {
-  padding: 44px 44px 0;
+  padding: 40px 40px 0;
   overflow: hidden;
-  border-radius: 24px;
-  background: var(--release-art-gradient);
+  border-radius: 6px;
+  background: var(--release-plate);
 }
 
 .devtools-window {
   overflow: hidden;
   border: 1px solid var(--release-border);
   border-bottom: 0;
-  border-radius: 12px 12px 0 0;
+  border-radius: 4px 4px 0 0;
   background: var(--release-surface);
-  box-shadow: 0 16px 60px #1d1d1f1a;
-}
-
-.devtools-toolbar {
-  display: grid;
-  grid-template-columns: 1fr auto 1fr;
-  gap: 12px;
-  align-items: center;
-  padding: 14px 18px;
-  border-bottom: 1px solid var(--release-border);
-  color: var(--release-muted);
-  font-size: 11px;
-}
-
-.devtools-window-dots {
-  display: flex;
-  gap: 6px;
-}
-
-.devtools-window-dots i {
-  width: 8px;
-  height: 8px;
-  border-radius: 50%;
-  background: var(--release-border);
-}
-
-.devtools-local {
-  text-align: right;
 }
 
 .devtools-window img {
@@ -152,8 +107,7 @@ const featureIcons = ['i-ri-article-line', 'i-ri-equalizer-line', 'i-ri-bug-line
 .devtools-caption {
   margin-top: 20px;
   color: var(--release-muted);
-  font-size: 12px;
-  text-align: center;
+  font-size: 13px;
 }
 
 .devtools-features {
@@ -198,16 +152,6 @@ const featureIcons = ['i-ri-article-line', 'i-ri-equalizer-line', 'i-ri-bug-line
 
   .devtools-stage {
     padding: 20px 16px 0;
-    border-radius: 16px;
-  }
-
-  .devtools-toolbar {
-    padding: 10px;
-    font-size: 10px;
-  }
-
-  .devtools-local {
-    visibility: hidden;
   }
 
   .devtools-features {

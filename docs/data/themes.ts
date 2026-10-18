@@ -153,7 +153,7 @@ export const themes = [
       'en': 'A Chinese ink-wash style theme for Valaxy.',
       'zh-CN': '一款具有中国水墨风格的 Valaxy 主题。',
     },
-    siteImage: 'https://raw.githubusercontent.com/JobinJia/valaxy-theme-shuimo/main/screenshots/preview-light.png',
+    siteImage: 'https://raw.githubusercontent.com/JobinJia/valaxy-theme-shuimo/main/screenshots/home.png',
     siteExampleUrl: 'https://jobinjia.com/',
     tags: ['blog', 'shuimo', 'chinese', 'ink-wash'],
   },

@@ -1,7 +1,13 @@
 <script setup lang="ts">
 import type { ReleaseCopy } from '../../data/release-v1'
+import { useElementVisibility } from '@vueuse/core'
+import { useTemplateRef } from 'vue'
 
 defineProps<{ copy: ReleaseCopy['engine'], prefix: string }>()
+
+// The build signal only loops while the pipeline is on screen.
+const pipeline = useTemplateRef<HTMLElement>('pipeline')
+const pipelineVisible = useElementVisibility(pipeline)
 const stages = [
   { name: 'Markdown', icon: 'i-logos-markdown?mask' },
   { name: 'Vue SSR', icon: 'i-logos-vue' },
@@ -12,7 +18,7 @@ const stages = [
 <template>
   <section id="highlights" class="engine-section" aria-labelledby="engine-title">
     <div class="release-width">
-      <div class="engine-top release-reveal">
+      <div class="engine-top">
         <div>
           <h2 id="engine-title" class="release-heading">
             <span v-for="line in copy.title" :key="line">{{ line }}</span>
@@ -20,8 +26,8 @@ const stages = [
             {{ copy.description }}
           </p>
         </div>
-        <ol class="engine-pipeline">
-          <li v-for="(stage, index) in stages" :key="stage.name">
+        <ol ref="pipeline" class="engine-pipeline" :class="{ 'is-playing': pipelineVisible }">
+          <li v-for="(stage, index) in stages" :key="stage.name" :style="{ '--i': index }">
             <span class="pipeline-symbol" aria-hidden="true">
               <span :class="stage.icon" />
               <span v-if="index < stages.length - 1" class="pipeline-arrow i-ri-arrow-right-line" />
@@ -30,17 +36,17 @@ const stages = [
           </li>
         </ol>
       </div>
-      <div class="engine-features release-reveal">
+      <div class="engine-features">
         <article v-for="feature in copy.features" :key="feature.title">
           <h3>{{ feature.title }}</h3><p>{{ feature.text }}</p><RouterLink :to="`${prefix}${feature.href}`">
-            {{ feature.action }} ›
+            {{ feature.action }}
           </RouterLink>
         </article>
       </div>
-      <div class="engine-addons release-reveal">
+      <div class="engine-addons">
         <div>
           <h3>{{ copy.addonsTitle }}</h3><p>{{ copy.addonsText }}</p><RouterLink :to="`${prefix}/addons/official`">
-            {{ copy.addonsAction }} ›
+            {{ copy.addonsAction }}
           </RouterLink>
         </div>
         <div class="addon-names" aria-label="Addons">
@@ -49,7 +55,7 @@ const stages = [
       </div>
       <div class="engine-migration">
         <RouterLink :to="`${prefix}/migration/version#${prefix ? 'v100' : 'v1-0-0'}`">
-          {{ copy.migration }} ↗
+          {{ copy.migration }}
         </RouterLink><p>{{ copy.requirements }}</p>
       </div>
     </div>
@@ -59,8 +65,8 @@ const stages = [
 <style scoped>
 .engine-section {
   padding-block: 120px 60px;
-  background: #101012;
-  color: #f5f5f7;
+  background: #0a1a4f;
+  color: #fff;
 }
 
 .engine-top {
@@ -71,7 +77,7 @@ const stages = [
 }
 
 .engine-top .release-description {
-  color: #a1a1a6;
+  color: rgb(255 255 255 / 0.68);
   max-width: 480px;
 }
 
@@ -101,7 +107,7 @@ const stages = [
   grid-template-columns: minmax(0, 1fr);
   place-items: center;
   font-size: 55px;
-  color: #b5b5be;
+  color: rgb(255 255 255 / 0.85);
 }
 
 .pipeline-symbol > span {
@@ -115,7 +121,45 @@ const stages = [
   top: 50%;
   transform: translate(-50%, -50%);
   font-size: 16px;
-  color: #737379;
+  color: rgb(255 255 255 / 0.45);
+}
+
+/* A build signal travels Markdown → Vue SSR → HTML, one stage every 1.2s. */
+@media (prefers-reduced-motion: no-preference) {
+  .pipeline-symbol > span:first-child {
+    animation: pipeline-beat 3.6s var(--release-ease) calc(var(--i) * 1.2s) infinite paused;
+  }
+
+  .pipeline-arrow {
+    animation: pipeline-flow 3.6s var(--release-ease) calc(var(--i) * 1.2s + 0.6s) infinite paused;
+  }
+
+  .is-playing :is(.pipeline-symbol > span:first-child, .pipeline-arrow) {
+    animation-play-state: running;
+  }
+}
+
+@keyframes pipeline-beat {
+  0%, 30%, 100% {
+    scale: 1;
+  }
+
+  12% {
+    scale: 1.12;
+    color: #9fd3ff;
+    filter: drop-shadow(0 0 18px rgb(159 211 255 / 0.55));
+  }
+}
+
+@keyframes pipeline-flow {
+  0%, 40%, 100% {
+    translate: 0;
+  }
+
+  20% {
+    translate: 8px;
+    color: #9fd3ff;
+  }
 }
 
 .engine-pipeline strong {
@@ -124,7 +168,7 @@ const stages = [
 
 .engine-pipeline li > span:last-child {
   font-size: 12px;
-  color: #a1a1a6;
+  color: rgb(255 255 255 / 0.68);
 }
 
 .engine-features {
@@ -133,11 +177,11 @@ const stages = [
   gap: 36px;
   margin-top: 72px;
   padding-top: 36px;
-  border-top: 1px solid #353538;
+  border-top: 1px solid rgb(255 255 255 / 0.16);
 }
 
 .engine-features article + article {
-  border-left: 1px solid #353538;
+  border-left: 1px solid rgb(255 255 255 / 0.16);
   padding-left: 36px;
 }
 
@@ -150,12 +194,12 @@ const stages = [
 .engine-features p, .engine-addons p {
   font-size: 14px;
   line-height: 1.9;
-  color: #a1a1a6;
+  color: rgb(255 255 255 / 0.68);
   margin-top: 16px;
 }
 
 .engine-section a {
-  color: #74b6fb;
+  color: #9fd3ff;
   font-size: 13px;
   display: inline-block;
   margin-top: 24px;
@@ -166,7 +210,7 @@ const stages = [
   grid-template-columns: 1.1fr 1fr;
   align-items: center;
   gap: 80px;
-  border-top: 1px solid #353538;
+  border-top: 1px solid rgb(255 255 255 / 0.16);
   margin-top: 64px;
   padding-top: 40px;
 }
@@ -177,11 +221,11 @@ const stages = [
   gap: 14px 24px;
   font-size: 22px;
   font-weight: 550;
-  color: #c9c9d0;
+  color: rgb(255 255 255 / 0.85);
 }
 
 .addon-names span:nth-child(2n) {
-  color: #898993;
+  color: rgb(255 255 255 / 0.5);
 }
 
 .engine-migration {
@@ -191,7 +235,7 @@ const stages = [
 
 .engine-migration p {
   font-size: 11px;
-  color: #a1a1a6;
+  color: rgb(255 255 255 / 0.68);
   margin-top: 16px;
   line-height: 1.8;
 }
@@ -233,7 +277,7 @@ const stages = [
   .engine-features article + article {
     padding: 30px 0 0;
     border-left: 0;
-    border-top: 1px solid #353538;
+    border-top: 1px solid rgb(255 255 255 / 0.16);
   }
 
   .engine-pipeline strong {

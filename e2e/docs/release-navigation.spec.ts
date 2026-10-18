@@ -12,7 +12,7 @@ test.beforeEach(async ({ page }) => {
     if (['warning', 'error'].includes(message.type()) && /hydration/i.test(message.text()))
       errors.push(message.text())
   })
-  await page.goto('/zh/release/')
+  await page.goto('/zh/release/v1/')
   // Vue marks the mounted container for both SPA and SSR hydration.
   await expect.poll(() => page.locator('#app').evaluate(el => !!(el as HTMLElement & { __vue_app__?: unknown }).__vue_app__)).toBe(true)
 })
@@ -37,7 +37,7 @@ test('keeps the hydrated app mounted across repeated layout changes', async ({ p
       await mobile.click()
     await page.getByRole('button', { name: pkg.version, exact: true }).click()
     await page.getByRole('link', { name: 'Valaxy 1.0', exact: true }).click()
-    await expect(page).toHaveURL(/\/zh\/release\/$/)
+    await expect(page).toHaveURL(/\/zh\/release\/v1\/$/)
     await expect(page.locator('#release-title')).toBeVisible()
   }
 })

@@ -1,22 +1,9 @@
 <script setup lang="ts">
-import { useHead } from '@unhead/vue'
-import ReleaseV1Page from '../../../components/release/ReleaseV1Page.vue'
-import { releaseIsPreview } from '../../../data/release-v1'
-
-useHead({
-  title: 'Valaxy 1.0 — 为书写而生，向自由而进',
-  htmlAttrs: { lang: 'zh-CN' },
-  meta: [
-    { name: 'description', content: releaseIsPreview ? '认识 Valaxy 1.0：由 Vue 与 Markdown 驱动的静态博客框架 1.0 发布预览。' : '认识 Valaxy 1.0 正式版：由 Vue 与 Markdown 驱动的静态博客框架。' },
-    { property: 'og:title', content: 'Valaxy 1.0 — 为书写而生，向自由而进' },
-    { property: 'og:description', content: releaseIsPreview ? '从 Markdown 到主题、DevTools 与内置 SSG，探索 Valaxy 1.0 发布预览。' : '从 Markdown 到主题、DevTools 与内置 SSG，探索 Valaxy 1.0 正式版。' },
-    { property: 'og:image', content: 'https://valaxy.site/valaxy-logo.png' },
-  ],
-})
+import ReleaseLatest from '../../../components/release/ReleaseLatest.vue'
 </script>
 
 <template>
-  <ReleaseV1Page locale="zh" />
+  <ReleaseLatest to="/zh/release/v1/" label="前往 Valaxy 1.0 发布页" />
 </template>
 
 <route lang="yaml">
