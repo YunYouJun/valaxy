@@ -11,6 +11,8 @@ export default antfu(
       'packages/valaxy/vendor',
       // generated
       '**/.valaxy/**',
+      // Local HyperFrames video projects (kept off git; checked with `hyperframes lint`).
+      'promo',
     ],
     rules: {
       'no-dupe-keys': 'off',

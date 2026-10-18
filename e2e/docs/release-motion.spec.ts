@@ -18,6 +18,16 @@ test('opens on the plate with the nav laid over it, then a solid nav past it', a
   await expect(page.locator('.release-nav')).not.toHaveClass(/is-over-plate/)
 })
 
+test('shows the release film on its cover without loading a player', async ({ page }) => {
+  await page.goto('/zh/release/v1/')
+  const film = page.locator('#film')
+  await expect(film).toContainText('Valaxy 1.0 宣传片')
+  await expect(film.locator('img')).toHaveAttribute('src', '/release/v1/promo-poster.webp')
+  // Until the video-site id is set the cover says so; either way no third-party player is loaded.
+  await expect(film.locator('iframe')).toHaveCount(0)
+  await expect(film).toContainText('即将上线')
+})
+
 test('sends a line into the galaxy and turns it into a postcard', async ({ page }) => {
   await page.goto('/zh/release/v1/')
   await page.getByLabel('写一句话，放进星系').fill('今天也写了一篇博客')

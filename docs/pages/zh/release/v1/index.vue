@@ -10,7 +10,7 @@ useHead({
     { name: 'description', content: releaseIsPreview ? '认识 Valaxy 1.0：由 Vue 与 Markdown 驱动的静态博客框架 1.0 发布预览。' : '认识 Valaxy 1.0 正式版：由 Vue 与 Markdown 驱动的静态博客框架。' },
     { property: 'og:title', content: 'Valaxy 1.0 — 为书写而生，向自由而进' },
     { property: 'og:description', content: releaseIsPreview ? '从 Markdown 到主题、DevTools 与内置 SSG，探索 Valaxy 1.0 发布预览。' : '从 Markdown 到主题、DevTools 与内置 SSG，探索 Valaxy 1.0 正式版。' },
-    { property: 'og:image', content: 'https://valaxy.site/valaxy-logo.png' },
+    { property: 'og:image', content: 'https://valaxy.site/release/v1/promo-cover.jpg' },
   ],
 })
 </script>

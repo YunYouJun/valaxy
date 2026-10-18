@@ -10,7 +10,7 @@ useHead({
     { name: 'description', content: releaseIsPreview ? 'Meet Valaxy 1.0, the release preview of the Vue and Markdown powered static blog framework.' : 'Meet Valaxy 1.0, the stable release of the Vue and Markdown powered static blog framework.' },
     { property: 'og:title', content: 'Valaxy 1.0 — Made for words. Built for freedom.' },
     { property: 'og:description', content: 'Explore the next chapter of Valaxy: Markdown, Vue, themes, DevTools, and a focused SSG engine.' },
-    { property: 'og:image', content: 'https://valaxy.site/valaxy-logo.png' },
+    { property: 'og:image', content: 'https://valaxy.site/release/v1/promo-cover.jpg' },
   ],
 })
 </script>

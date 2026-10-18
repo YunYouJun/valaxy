@@ -5,6 +5,7 @@ import { releaseCopies } from '../../data/release-v1'
 import ReleaseV1Closing from './ReleaseV1Closing.vue'
 import ReleaseV1Devtools from './ReleaseV1Devtools.vue'
 import ReleaseV1Features from './ReleaseV1Features.vue'
+import ReleaseV1Film from './ReleaseV1Film.vue'
 import ReleaseV1Hero from './ReleaseV1Hero.vue'
 import ReleaseV1Themes from './ReleaseV1Themes.vue'
 import ReleaseV1Writing from './ReleaseV1Writing.vue'
@@ -28,6 +29,7 @@ const prefix = computed(() => props.locale === 'zh' ? '/zh' : '')
     <a class="release-skip" href="#release-main">{{ copy.nav.skip }}</a>
     <main id="release-main">
       <ReleaseV1Hero :copy="copy.hero" :prefix="prefix" />
+      <ReleaseV1Film :copy="copy.film" />
       <div class="release-soft">
         <ReleaseV1Writing :copy="copy.writing" :prefix="prefix" />
         <ReleaseV1Themes :copy="copy.themes" :prefix="prefix" />
