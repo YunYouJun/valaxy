@@ -3,7 +3,7 @@ import childProcess from 'node:child_process'
 import { EventEmitter } from 'node:events'
 import { mkdir, mkdtemp, rm, symlink, writeFile } from 'node:fs/promises'
 import { tmpdir } from 'node:os'
-import { join } from 'node:path'
+import { join, win32 } from 'node:path'
 import process from 'node:process'
 import { createHostContext } from 'devframe/node'
 import { normalize } from 'pathe'
@@ -19,7 +19,8 @@ const child = new EventEmitter() as ReturnType<typeof childProcess.spawn>
 function expectLaunch(editor: string, target: string) {
   if (process.platform === 'win32') {
     expect(childProcess.exec).toHaveBeenLastCalledWith(expect.stringContaining(editor), { stdio: 'inherit', shell: true })
-    expect(vi.mocked(childProcess.exec).mock.lastCall?.[0]).toContain(target)
+    // launch-editor >= 2.14.2 resolves the file, so cmd.exe receives native backslash paths
+    expect(vi.mocked(childProcess.exec).mock.lastCall?.[0]).toContain(win32.normalize(target))
   }
   else {
     expect(childProcess.spawn).toHaveBeenLastCalledWith(editor, expect.arrayContaining([target]), { stdio: 'inherit' })
