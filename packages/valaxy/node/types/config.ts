@@ -11,8 +11,8 @@ import type { UserConfig as ViteUserConfig } from 'vite'
 import type { EditableTreeNode } from 'vue-router/unplugin'
 import type Router from 'vue-router/vite'
 import type { DefaultTheme, PartialDeep, ValaxyConfig } from '../../types'
-import type Layouts from '../../vendor/layouts/index.mjs'
 import type { createValaxyNode } from '../app'
+import type { LayoutsOptions } from '../plugins/layouts'
 import type { MarkdownOptions } from '../plugins/markdown/types'
 
 import type { ValaxyAddons } from './addon'
@@ -265,9 +265,10 @@ export interface ValaxyExtendConfig {
    */
   components?: Parameters<typeof Components>[0]
   /**
-   * @see https://github.com/loicduong/vite-plugin-vue-layouts-next
+   * Layout system options, compatible with vite-plugin-vue-layouts-next.
+   * @see https://valaxy.site/guide/custom/extend#automatic-layout-registration
    */
-  layouts?: Parameters<typeof Layouts>[0]
+  layouts?: Partial<LayoutsOptions>
   /**
    * @see https://router.vuejs.org/file-based-routing/
    */

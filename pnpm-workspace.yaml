@@ -47,7 +47,7 @@ overrides:
   # Keep core toolchain versions consistent across workspace peer resolutions
   chokidar: 5.0.0
   semver: '7'
-  unocss: 66.10.5
+  unocss: ^66.11.0
   vite: catalog:build
   vue: catalog:frontend
 
@@ -61,15 +61,15 @@ allowBuilds:
   vue-demi: true
 
 catalog:
-  '@antfu/design': 0.5.2
+  '@antfu/design': 0.6.0
   '@antfu/eslint-config': ^9.5.1
   '@antfu/install-pkg': ^2.1.0
   '@antfu/utils': ^9.3.0
   '@clack/prompts': ^1.8.1
   '@ctrl/tinycolor': ^4.2.1
-  '@devframes/agentic': 1.2.0
-  '@devframes/service-open': 1.2.0
-  '@devframes/service-shiki': 1.2.0
+  '@devframes/agentic': 1.2.5
+  '@devframes/service-open': 1.2.5
+  '@devframes/service-shiki': 1.2.5
   '@docsearch/css': ^5.1.1
   '@docsearch/js': ^5.1.1
   '@docsearch/sidepanel-js': ^5.1.1
@@ -104,12 +104,12 @@ catalog:
   '@types/splitpanes': ^2.2.6
   '@types/wicg-file-system-access': ^2023.10.7
   '@types/yargs': ^17.0.35
-  # Kept in lockstep with the pinned `unocss` (devtools client imports @unocss/reset/tailwind.css)
-  '@unocss/reset': 66.10.5
-  '@vitejs/devtools': 0.7.5
-  '@vitejs/devtools-kit': 0.7.5
-  '@vitejs/devtools-vite': 0.7.5
-  '@vitejs/devtools-vitest': 0.7.5
+  # Kept in lockstep with `unocss` (devtools client imports @unocss/reset/tailwind.css)
+  '@unocss/reset': ^66.11.0
+  '@vitejs/devtools': 0.8.0
+  '@vitejs/devtools-kit': 0.8.0
+  '@vitejs/devtools-vite': 0.8.0
+  '@vitejs/devtools-vitest': 0.8.0
   '@vitejs/plugin-vue': ^6.0.9
   '@vitest/ui': ^5.0.1
   '@vueuse/core': ^15.0.0
@@ -128,7 +128,7 @@ catalog:
   debug: ^4.4.3
   define-config-ts: ^0.2.0
   defu: ^6.1.7
-  devframe: 1.2.0
+  devframe: 1.2.5
   ejs: ^6.0.1
   escape-html: ^1.0.3
   eslint: ^10.11.0
@@ -140,7 +140,7 @@ catalog:
   gh-pages: ^6.3.0
   gray-matter: ^4.0.3
   gsap: ^3.15.0
-  h3: 2.0.1-rc.32
+  h3: ^2.0.5
   hookable: ^6.1.2
   html-to-text: ^10.0.1
   https-localhost: ^4.7.2
@@ -208,7 +208,7 @@ catalog:
   tsx: ^4.23.13
   typedoc: ^0.28.20
   typedoc-plugin-markdown: ^4.13.1
-  unocss: 66.10.5
+  unocss: ^66.11.0
   unplugin: ^3.0.0
   unplugin-utils: ^0.3.1
   unplugin-vue-components: 32.1.0

@@ -24,7 +24,7 @@ const valaxyConfig = initValaxyConfig()
  *
  * `vue-router/vite` (file-based routing) generates nested route trees for subdirectories
  * (e.g. `pages/zh/guide/foo.md` → `{ path: '/zh', children: [{ path: 'guide', children: … }] }`).
- * `vite-plugin-vue-layouts-next`' `setupLayouts` only wraps **top-level** routes,
+ * `setupLayouts` (`virtual:generated-layouts`) only wraps **top-level** routes,
  * so nested children would miss the layout wrapper entirely.
  *
  * This function extracts every leaf (component-bearing or redirect) route into a flat
