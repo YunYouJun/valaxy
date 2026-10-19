@@ -186,7 +186,7 @@ export function resolveLayoutsDirs(layoutsDirs: string | string[], root: string)
   const dirs: string[] = []
   for (const dir of Array.isArray(layoutsDirs) ? layoutsDirs : [layoutsDirs]) {
     if (dir.includes('**')) {
-      const matches = globSync(dir, { cwd: root, onlyDirectories: true, absolute: true })
+      const matches = globSync(dir, { cwd: root, onlyDirectories: true, absolute: true, expandDirectories: false })
       dirs.push(...matches.sort().map(match => normalize(match).replace(/\/$/, '')))
     }
     else {

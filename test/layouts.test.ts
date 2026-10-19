@@ -6,7 +6,7 @@ import { createSSRApp, defineComponent, h } from 'vue'
 import { createMemoryHistory, createRouter, RouterView } from 'vue-router'
 import { renderToString } from 'vue/server-renderer'
 import { createGetRoutes, createLayoutWrapper, createSetupLayouts, lazyLayout } from '../packages/valaxy/client/utils/layouts'
-import { generateLayoutsCode, normalizeLayoutName, resolveLayoutsOptions, scanLayouts } from '../packages/valaxy/node/plugins/layouts'
+import { generateLayoutsCode, normalizeLayoutName, resolveLayoutsDirs, resolveLayoutsOptions, scanLayouts } from '../packages/valaxy/node/plugins/layouts'
 
 const tmpRoots: string[] = []
 
@@ -81,6 +81,20 @@ describe('scanLayouts', () => {
     expect(resolveLayoutsOptions({ roots: [site], userRoot: site, mode: 'dev' }).importMode('post')).toBe('async')
     expect(resolveLayoutsOptions({ roots: [site], userRoot: site, mode: 'dev' }, { layoutsDirs: 'nested/**/layouts' }).dirs)
       .toEqual([`${site}/nested/a/layouts`])
+  })
+
+  it('expands `**` layoutsDirs to layouts directories only, not their subdirectories', async () => {
+    const root = await fixture([
+      'src/layouts/default.vue',
+      'src/modules/admin/layouts/admin.vue',
+      'src/modules/admin/layouts/drafts/wip.vue',
+    ])
+    const dirs = resolveLayoutsDirs('src/**/layouts', root)
+    expect(dirs).toEqual([`${root}/src/layouts`, `${root}/src/modules/admin/layouts`])
+
+    const layouts = await scanLayouts({ dirs, extensions: ['vue'], exclude: [] })
+    expect([...layouts.keys()].sort()).toEqual(['admin', 'default', 'drafts-wip'])
+    expect(layouts.has('wip')).toBe(false)
   })
 })
 
