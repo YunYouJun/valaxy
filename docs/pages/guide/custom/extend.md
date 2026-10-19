@@ -21,7 +21,7 @@ If you want some reference, you can refer to [valaxy-theme-yun](https://github.c
 ## Automatic Layout Registration
 
 
-Valaxy provides custom layouts based on [vite-plugin-vue-layouts-next](https://github.com/loicduong/vite-plugin-vue-layouts-next).
+Valaxy has a built-in layout system, compatible with [vite-plugin-vue-layouts-next](https://github.com/loicduong/vite-plugin-vue-layouts-next).
 
 Create a `layouts` file, and write Vue components as layouts.
 
@@ -35,7 +35,11 @@ layout: album
 ```
 
 
-Likewise, when there are layouts with the same name, the order to use is `user directory` -> `theme directory` -> `Valaxy directory`.
+Likewise, when there are layouts with the same name, the order to use is `user directory` -> `addon directory` -> `theme directory` -> `Valaxy directory`.
+
+File names are normalized to kebab-case names, e.g. `layouts/MyPost.vue` is `my-post`. Use `layout: false` to render a page without a layout.
+
+The `layouts` option in `valaxy.config.ts` accepts `layoutsDirs`, `extensions`, `exclude`, `defaultLayout`, `fallbackLayout`, `importMode` and `inheritDefaultLayout`. Relative `layoutsDirs` are resolved from the site root, and setting it replaces the default `layouts` directories of every root.
 
 
 ## Customizing index.html

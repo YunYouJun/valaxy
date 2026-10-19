@@ -10,7 +10,6 @@ import { resolve } from 'pathe'
 import { groupIconVitePlugin } from 'vitepress-plugin-group-icons'
 import Components from '../../vendor/components/index.mjs'
 
-import Layouts from '../../vendor/layouts/index.mjs'
 import { StateManager } from '../app/state'
 import { customElements } from '../constants'
 import { editorPlugin } from '../editor/plugin'
@@ -22,6 +21,7 @@ import { createCdnPlugin } from './cdn'
 import { createCoverComponentsPlugin } from './coverComponents'
 import { createConfigPlugin } from './extendConfig'
 import VueI18n from './i18n'
+import { createLayoutsPlugin } from './layouts'
 import { createLlmsPlugin } from './llms'
 import { localSearchPlugin } from './localSearchPlugin'
 
@@ -250,19 +250,7 @@ export async function ViteValaxyPlugins(
     // https://router.vuejs.org/file-based-routing/
     RouterPlugin,
 
-    // https://github.com/loicduong/vite-plugin-vue-layouts-next
-    Layouts({
-      layoutsDirs: roots.map(root => `${root}/layouts`),
-
-      // In SSG builds, layout components must be imported synchronously so that
-      // the client-side hydration tree matches the server-rendered HTML. Without
-      // this, non-default layouts (post, home, etc.) are lazy-loaded and haven't
-      // resolved when hydration starts, causing a mismatch. The built-in SSG
-      // engine needs an explicit importMode override to force synchronous imports.
-      ...(options.mode === 'build' ? { importMode: () => 'sync' as const } : {}),
-
-      ...valaxyConfig.layouts,
-    }),
+    createLayoutsPlugin(options),
 
     // https://github.com/antfu/unplugin-vue-components
     Components({

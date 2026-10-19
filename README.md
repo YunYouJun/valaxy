@@ -56,7 +56,7 @@ For an example, you can see [demo/yun](./demo/yun/) folder.
 - 🎨 Free to use Tailwind CSS via [UnoCSS](https://github.com/antfu/unocss)
 - 🌍 [CSS i18n in One Page](https://valaxy.site/guide/i18n)
 - 🔍 [Use icons from any icon sets with classes](https://github.com/antfu/unocss/tree/main/packages/preset-icons) - [Icônes](https://icones.netlify.app/)
-- 👔 Extended Theme with [Layout system](https://github.com/loicduong/vite-plugin-vue-layouts-next)
+- 👔 Extended Theme with [Layout system](https://valaxy.site/guide/custom/extend#automatic-layout-registration)
 - ⚙️ Unit Testing with [Vitest](https://github.com/vitest-dev/vitest)
 - ☁️ Deploy zero-config
   - [Netlify](https://www.netlify.com/) with `netlify.toml`
