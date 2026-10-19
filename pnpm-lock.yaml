@@ -670,8 +670,8 @@ catalogs:
       specifier: ^0.1.4
       version: 0.1.4
     valaxy-addon-git-log:
-      specifier: ^0.7.0
-      version: 0.7.0
+      specifier: ^0.7.1
+      version: 0.7.1
     valibot:
       specifier: 1.5.0
       version: 1.5.0
@@ -957,7 +957,7 @@ importers:
         version: link:../packages/valaxy-addon-girls
       valaxy-addon-git-log:
         specifier: 'catalog:'
-        version: 0.7.0(supports-color@10.2.2)(valaxy@packages+valaxy)
+        version: 0.7.1(supports-color@10.2.2)(valaxy@packages+valaxy)
       valaxy-addon-mermaid:
         specifier: workspace:*
         version: link:../packages/valaxy-addon-mermaid
@@ -3745,8 +3745,8 @@ packages:
   '@simple-git/args-pathspec@1.0.4':
     resolution: {integrity: sha512-EtMX6XjRWSastG2SdkmSQByPtJ9dx/NIjnHbpQPCYt62j4RmSx5rgLTGpw0YCjF5h191gZOmBfheOT23cRSFdw==}
 
-  '@simple-git/argv-parser@1.1.1':
-    resolution: {integrity: sha512-Q9lBcfQ+VQCpQqGJFHe5yooOS5hGdLFFbJ5R+R5aDsnkPCahtn1hSkMcORX65J2Z5lxSkD0lQorMsncuBQxYUw==}
+  '@simple-git/argv-parser@2.0.1':
+    resolution: {integrity: sha512-M++IaVWrN+vYalilOHfwvT2IL3wYZtVEBQpmX6DLSOJLtxbZ+SUeIDE3IiPogzhPACLajwtxfa5rp+ZX1FczzQ==}
 
   '@sindresorhus/base62@1.0.0':
     resolution: {integrity: sha512-TeheYy0ILzBEI/CO55CP6zJCSdSWeRtGnHy8U8dWSUH4I68iqTsy7HkMktR4xakThc9jotkPQUXT4ITdbV7cHA==}
@@ -8023,8 +8023,8 @@ packages:
     resolution: {integrity: sha512-bzyZ1e88w9O1iNJbKnOlvYTrWPDl46O1bG0D3XInv+9tkPrxrN8jUUTiFlDkkmKWgn1M6CfIA13SuGqOa9Korw==}
     engines: {node: '>=14'}
 
-  simple-git@3.36.0:
-    resolution: {integrity: sha512-cGQjLjK8bxJw4QuYT7gxHw3/IouVESbhahSsHrX97MzCL1gu2u7oy38W6L2ZIGECEfIBG4BabsWDPjBxJENv9Q==}
+  simple-git@4.0.2:
+    resolution: {integrity: sha512-l0sIsv9VrPwovKELFDBOj/lhmIcbMvxBk2B+hRhsMM4/VL3gKtuZvYnBNixVo+N/0HnqQx2cBdLvxnAbygHpqA==}
 
   simple-update-notifier@2.0.0:
     resolution: {integrity: sha512-a2B9Y0KlNXl9u/vsW6sTIu9vGEpfKu2wRV6l1H3XEas/0gUIzGzBoP/IouTcUQbm9JWZLH3COxyn03TYlFax6w==}
@@ -8637,8 +8637,8 @@ packages:
     peerDependencies:
       valaxy: ^0.28.0
 
-  valaxy-addon-git-log@0.7.0:
-    resolution: {integrity: sha512-JXrUl/AXOuQD2doh8hf9lMnsyvtgK77wa4Yrxa48gkj2GcK2isFAaleRhANniIIya0eHmpQElDD8tzsmDm9Mjg==}
+  valaxy-addon-git-log@0.7.1:
+    resolution: {integrity: sha512-UFaPtHceK/PgbkG4OmEzaE3VCz07yLhkoASbJnHNpWI02YhKbJ//iRE7QGq7trqIqi4eo/txp7p3FAlk4HjaeA==}
     peerDependencies:
       valaxy: '>=0.22'
 
@@ -10058,7 +10058,7 @@ snapshots:
       unplugin: 2.3.11
       vue: 3.5.43(typescript@5.9.3)
     optionalDependencies:
-      vite: 8.3.2(@types/node@26.6.4)(@vitejs/devtools@0.7.5)(esbuild@0.28.2)(jiti@2.7.0)(sass@1.105.1)(tsx@4.23.15)(yaml@2.9.1)
+      vite: 8.3.2(@types/node@26.6.4)(@vitejs/devtools@0.8.0)(esbuild@0.28.2)(jiti@2.7.0)(sass@1.105.1)(tsx@4.23.15)(yaml@2.9.1)
       vue-i18n: 11.4.12(vue@3.5.43(typescript@5.9.3))
     transitivePeerDependencies:
       - rollup
@@ -10874,7 +10874,7 @@ snapshots:
 
   '@simple-git/args-pathspec@1.0.4': {}
 
-  '@simple-git/argv-parser@1.1.1':
+  '@simple-git/argv-parser@2.0.1':
     dependencies:
       '@simple-git/args-pathspec': 1.0.4
 
@@ -16109,12 +16109,12 @@ snapshots:
 
   signal-exit@4.1.0: {}
 
-  simple-git@3.36.0(supports-color@10.2.2):
+  simple-git@4.0.2(supports-color@10.2.2):
     dependencies:
       '@kwsites/file-exists': 1.1.1(supports-color@10.2.2)
       '@kwsites/promise-deferred': 1.1.1
       '@simple-git/args-pathspec': 1.0.4
-      '@simple-git/argv-parser': 1.1.1
+      '@simple-git/argv-parser': 2.0.1
       debug: 4.4.3(supports-color@10.2.2)
     transitivePeerDependencies:
       - supports-color
@@ -16853,7 +16853,6 @@ snapshots:
       acorn: 8.18.0
       picomatch: 4.0.7
       webpack-virtual-modules: 0.6.2
-    optional: true
 
   unplugin@3.4.0(esbuild@0.28.2)(rolldown@1.2.12)(rollup@4.63.6)(vite@8.3.2):
     dependencies:
@@ -16899,13 +16898,13 @@ snapshots:
     transitivePeerDependencies:
       - typescript
 
-  valaxy-addon-git-log@0.7.0(supports-color@10.2.2)(valaxy@packages+valaxy):
+  valaxy-addon-git-log@0.7.1(supports-color@10.2.2)(valaxy@packages+valaxy):
     dependencies:
       '@octokit/rest': 22.0.1
       fs-extra: 11.4.1
       gravatar: 1.8.2
       md5: 2.3.0
-      simple-git: 3.36.0(supports-color@10.2.2)
+      simple-git: 4.0.2(supports-color@10.2.2)
       valaxy: link:packages/valaxy
     transitivePeerDependencies:
       - supports-color

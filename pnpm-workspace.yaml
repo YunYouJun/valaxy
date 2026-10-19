@@ -12,6 +12,8 @@ minimumReleaseAgeExclude:
   - star-markdown-css@0.6.1
   # Upstream tinyglobby scanner that replaces the vendored i18n snapshot (intlify/bundle-tools 11.2.7).
   - '@intlify/bundle-utils@11.2.7'
+  # First-party security release (valaxyjs/valaxy-addon-git-log v0.7.1: simple-git 4), published via trusted publishing with provenance.
+  - valaxy-addon-git-log@0.7.1
   - '@intlify/unplugin-vue-i18n@11.2.7'
 
 trustPolicy: no-downgrade
@@ -214,7 +216,7 @@ catalog:
   unplugin-vue-components: 32.1.0
   unplugin-vue-markdown: ^32.1.1
   valaxy-addon-artalk: ^0.1.4
-  valaxy-addon-git-log: ^0.7.0
+  valaxy-addon-git-log: ^0.7.1
   valibot: 1.5.0
   vanilla-lazyload: ^19.1.3
 
