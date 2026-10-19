@@ -10,6 +10,9 @@ minimumReleaseAgeExclude:
   - mermaid@12.1.0
   # First-party release (YunYouJun/star-markdown-css#4), published via trusted publishing with provenance.
   - star-markdown-css@0.6.1
+  # Upstream tinyglobby scanner that replaces the vendored i18n snapshot (intlify/bundle-tools 11.2.7).
+  - '@intlify/bundle-utils@11.2.7'
+  - '@intlify/unplugin-vue-i18n@11.2.7'
 
 trustPolicy: no-downgrade
 autoInstallPeers: false
@@ -70,13 +73,9 @@ catalog:
   '@docsearch/css': ^5.1.1
   '@docsearch/js': ^5.1.1
   '@docsearch/sidepanel-js': ^5.1.1
-  '@eslint-community/eslint-utils': ^4.4.0
   '@explosions/fireworks': ^0.2.0
   '@fontsource/literata': 5.3.0
   '@fontsource/maple-mono': 5.3.0
-  '@intlify/bundle-utils': 11.2.5
-  '@intlify/shared': ~11.4.2
-  '@intlify/vue-i18n-extensions': ^8.0.0
   '@larksuiteoapi/node-sdk': ^1.74.0
   '@mdit-vue/plugin-component': ^3.0.2
   '@mdit-vue/plugin-frontmatter': ^3.0.2
@@ -87,7 +86,6 @@ catalog:
   '@mdit-vue/shared': ^3.0.2
   '@microsoft/api-extractor': ^7.59.1
   '@playwright/test': ^1.63.0
-  '@rollup/pluginutils': ^5.1.0
   '@shikijs/transformers': ^4.4.3
   '@types/cross-spawn': ^6.0.6
   '@types/debug': ^4.1.13
@@ -106,8 +104,6 @@ catalog:
   '@types/splitpanes': ^2.2.6
   '@types/wicg-file-system-access': ^2023.10.7
   '@types/yargs': ^17.0.35
-  '@typescript-eslint/scope-manager': ^8.13.0
-  '@typescript-eslint/typescript-estree': ^8.13.0
   # Kept in lockstep with the pinned `unocss` (devtools client imports @unocss/reset/tailwind.css)
   '@unocss/reset': 66.10.5
   '@vitejs/devtools': 0.7.5
@@ -188,7 +184,6 @@ catalog:
   p-map: ^7.0.8
   pascalcase: ^2.0.0
   pathe: ^2.0.3
-  picocolors: ^1.0.0
   picomatch: ^4.0.4
   pinia: ^4.0.3
   postcss: ^8.5.28
@@ -240,6 +235,7 @@ catalogs:
     '@iconify-json/ri': ^1.2.10
     '@iconify-json/simple-icons': ^1.2.96
     '@iconify-json/vscode-icons': ^1.2.78
+    '@intlify/unplugin-vue-i18n': 11.2.7
     '@unhead/bundler': ^3.4.1
     '@unhead/schema-org': ^3.4.1
     '@unhead/vue': ^3.4.1

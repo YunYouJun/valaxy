@@ -1,19 +1,5 @@
 [
   {
-    "package": "@intlify/unplugin-vue-i18n",
-    "version": "11.2.5",
-    "repository": {
-      "type": "git",
-      "url": "git+https://github.com/intlify/bundle-tools.git",
-      "directory": "packages/unplugin-vue-i18n"
-    },
-    "files": {
-      "lib/index.mjs": "0b9279529baf89e0c027a9d4db94dd69fef9d357e457606db3ccf6e178e21268",
-      "lib/types.d.ts": "d1315ab34c1eb6588ba2fd8a040146f940fb37d1c5ba72e19daa2f46e9615190",
-      "LICENSE": "5332a7645b0acec33bef55f24b5c16ffaa60c097e2aade91a7945c2f12607636"
-    }
-  },
-  {
     "package": "vite-plugin-vue-layouts-next",
     "version": "3.2.0",
     "repository": {
