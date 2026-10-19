@@ -157,7 +157,7 @@ catalog:
   local-pkg: ^1.2.1
   lru-cache: ^11.5.3
   lxgw-wenkai-screen-webfont: 1.7.0
-  magic-string: ^0.30.21
+  magic-string: ^1.4.3
   magicast: ^0.5.5
   markdown-exit: ^1.3.0
   markdown-it: ^15.0.2
