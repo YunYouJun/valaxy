@@ -56,8 +56,9 @@ beforeEach(async () => {
 afterEach(async () => {
   await server?.close()
   server = undefined
+  // Windows can still be flushing generated files into `.valaxy` after close (ENOTEMPTY)
   if (root)
-    await rm(root, { force: true, recursive: true })
+    await rm(root, { force: true, recursive: true, maxRetries: 5, retryDelay: 100 })
 })
 
 async function start(devtools?: 'native' | 'standalone', router = true) {
