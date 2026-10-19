@@ -59,16 +59,17 @@ describe('published build plugin compatibility', () => {
     const root = await fixture()
     // Names deliberately oppose the configured priority order.
     const roots = ['z-core', 'y-theme', 'x-addon', 'a-user'].map(dir => join(root, dir).replace(/\\/g, '/'))
-    const [core, theme] = await Promise.all([
+    await Promise.all([
       write(roots[0], 'layouts/default.vue', '<template><slot /></template>'),
       write(roots[1], 'layouts/Post.vue', '<template><slot /></template>'),
     ])
     const plugin = createLayoutsPlugin({ roots, userRoot: roots[3], clientRoot: roots[0], mode: 'dev', config: {} } as any)
     const server = await createServer({ configFile: false, root, plugins: [plugin], server: { watch: null } })
     servers.push(server)
+    // Vite may rewrite `/@fs/<abs>` imports under its root to root-relative URLs, so match path suffixes.
     const registry = async () => (await server.transformRequest('virtual:generated-layouts'))!.code
 
-    expect(await registry()).toContain(`"post": lazyLayout(() => import("/@fs${theme.startsWith('/') ? '' : '/'}${theme}"))`)
+    expect(await registry()).toMatch(/"post": lazyLayout\(\(\) => import\("[^"]*\/y-theme\/layouts\/Post\.vue"\)\)/)
     const user = await write(roots[3], 'layouts/post/index.vue', '<template><slot /></template>')
     server.watcher.emit('add', user)
     expect(await registry()).toContain(`/a-user/layouts/post/index.vue`)
@@ -76,7 +77,7 @@ describe('published build plugin compatibility', () => {
     await rm(user)
     server.watcher.emit('unlink', user)
     expect(await registry()).toContain('/y-theme/layouts/Post.vue')
-    expect(await registry()).toContain(`import __layout_0 from "/@fs${core.startsWith('/') ? '' : '/'}${core}"`)
+    expect(await registry()).toMatch(/import __layout_0 from "[^"]*\/z-core\/layouts\/default\.vue"/)
   })
 
   it('scans literal project roots and keeps brace patterns and exclusions', async () => {
