@@ -22,7 +22,7 @@ Valaxy 以约定大于配置的方式提供了强大的扩展功能，如果你�
 ## 自动布局注册 {#automatic-layout-registration}
 
 
-基于 [vite-plugin-vue-layouts-next](https://github.com/loicduong/vite-plugin-vue-layouts-next)，Valaxy 提供了布局功能。
+Valaxy 内置了布局功能，兼容 [vite-plugin-vue-layouts-next](https://github.com/loicduong/vite-plugin-vue-layouts-next)。
 
 新建 `layouts` 文件，书写 Vue 组件作为布局。
 
@@ -36,7 +36,11 @@ layout: album
 ---
 ```
 
-同样，当存在同名布局时，覆盖顺序为 `用户目录` -> `主题目录` -> `Valaxy 客户端目录`。
+同样，当存在同名布局时，覆盖顺序为 `用户目录` -> `插件目录` -> `主题目录` -> `Valaxy 客户端目录`。
+
+文件名会被转换为 kebab-case 布局名，如 `layouts/MyPost.vue` 对应 `my-post`。使用 `layout: false` 可以不使用任何布局渲染页面。
+
+`valaxy.config.ts` 中的 `layouts` 选项支持 `layoutsDirs`、`extensions`、`exclude`、`defaultLayout`、`fallbackLayout`、`importMode` 与 `inheritDefaultLayout`。相对路径的 `layoutsDirs` 基于站点根目录解析，设置后将替换所有根目录默认的 `layouts` 目录。
 
 
 ## 自定义 index.html {#customizing-indexhtml}
