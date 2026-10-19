@@ -1,4 +1,3 @@
-import unplugin from '../../vendor/i18n/index.mjs'
+import VueI18n from '@intlify/unplugin-vue-i18n/vite'
 
-// Stable upstream compiler with the file scanner replaced by tinyglobby.
-export default unplugin.vite
+export default VueI18n
