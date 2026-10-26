@@ -1,5 +1,6 @@
 <script lang="ts" setup>
 import { inject } from 'vue'
+import { useI18n } from 'vue-i18n'
 
 defineProps<{
   text: string
@@ -7,11 +8,12 @@ defineProps<{
 }>()
 
 const closeScreen = inject('close-screen') as () => void
+const { t } = useI18n()
 </script>
 
 <template>
   <AppLink class="pr-nav-screen-menu-link" :href="link" @click="closeScreen">
-    {{ text }}
+    {{ t(text) }}
   </AppLink>
 </template>
 
