@@ -1,5 +1,6 @@
 import { readFile, writeFile } from 'node:fs/promises'
 import { resolve } from 'node:path'
+import process from 'node:process'
 
 // Cloudflare Pages serves a top-level 404.html with HTTP 404 for unknown paths.
 // Without that file it treats the site as an SPA and returns the homepage with 200.
