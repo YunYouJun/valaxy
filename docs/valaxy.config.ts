@@ -106,6 +106,7 @@ const defaultSidebar: PressTheme.SidebarEntry[] = [
     text: 'category.guide',
     collapsed: false,
     items: [
+      { text: 'How to Choose', link: '/guide/choose' },
       { text: 'Commands', link: '/guide/commands/' },
       { text: 'Layout', link: '/guide/layout' },
       { text: 'Page', link: '/guide/page' },
@@ -236,6 +237,7 @@ const zhDefaultSidebar: PressTheme.SidebarEntry[] = [
     text: '指南',
     collapsed: false,
     items: [
+      { text: '如何选择', link: '/zh/guide/choose' },
       { text: '命令行', link: '/zh/guide/commands/' },
       { text: '布局', link: '/zh/guide/layout' },
       { text: '页面', link: '/zh/guide/page' },
@@ -386,6 +388,10 @@ export default defineValaxyConfig<PressTheme.Config>({
             link: '/guide/getting-started',
           },
           {
+            text: 'How to Choose',
+            link: '/guide/choose',
+          },
+          {
             text: 'nav.migrate-from-other',
             link: '/migration/',
           },
@@ -521,6 +527,10 @@ export default defineValaxyConfig<PressTheme.Config>({
                 {
                   text: '起步',
                   link: '/zh/guide/getting-started',
+                },
+                {
+                  text: '如何选择',
+                  link: '/zh/guide/choose',
                 },
                 {
                   text: '从其他框架迁移',

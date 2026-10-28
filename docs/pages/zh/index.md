@@ -2,7 +2,8 @@
 layout: home
 
 title: Valaxy
-titleTemplate: '%s - 为表达而生的博客框架'
+titleTemplate: '%s - 为表达而生的静态博客框架'
+description: 为表达而生的静态博客框架，基于 Vue、Vite 与 TypeScript。
 
 hero:
   layout: split
@@ -12,7 +13,7 @@ hero:
   name: VALAXY
   text: |-
     为表达而生的
-    博客框架
+    静态博客框架
   tagline: 基于 Vue 与 Vite，用 Markdown 专注写作，自由定制属于你的博客。
   image:
     src: /valaxy-logo.png
