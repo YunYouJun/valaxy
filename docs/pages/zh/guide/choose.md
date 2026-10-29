@@ -1,9 +1,12 @@
 ---
-title: 如何选择
-description: Valaxy 为一个 Vue 博客提供的能力，以及 Hexo、VitePress、Hugo、Astro 仍适合的情况。
+title: 静态博客框架怎么选：Valaxy、Hexo、VitePress、Hugo、Astro 对比
+description: 静态博客框架怎么选：Valaxy 为一个 Vue 博客提供的能力，以及 Hexo、VitePress、Hugo、Astro 仍适合的情况。
+ogImage: /images/choose-og.png
 categories:
   - guide
 ---
+
+静态博客框架把 Markdown 文章发布成带列表、标签、归档和主题的站点。这一页比较 Valaxy、Hexo、VitePress、Hugo 和 Astro。
 
 **数据截至：**2026-10-28。表格只做定性比较，不记录构建耗时。
 
@@ -98,3 +101,5 @@ Valaxy 这一列来自本仓库的[为什么选 Valaxy](/zh/guide/why)、[开始
 ### 什么时候不该选 Valaxy？
 
 看[什么时候不选 Valaxy](#when-not-valaxy)。短的说法：只在主题锁定时留在 Hexo，库手册用 VitePress，要点是 Go 工具链时用 Hugo，一个站点要混用多种 UI 框架时用 Astro。
+
+<ChooseFaqJsonLd lang="zh" />

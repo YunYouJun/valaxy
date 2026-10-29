@@ -1,9 +1,12 @@
 ---
-title: How to Choose
-description: Capabilities Valaxy gives a Vue blog, and when Hexo, VitePress, Hugo, or Astro fit instead.
+title: 'How to choose a static blog framework: Valaxy, Hexo, VitePress, Hugo, and Astro'
+description: 'How to choose a static blog framework: what Valaxy gives a Vue blog, and when Hexo, VitePress, Hugo, or Astro fit instead.'
+ogImage: /images/choose-og.png
 categories:
   - guide
 ---
+
+A static blog framework publishes Markdown posts as a site with lists, tags, archives, and a theme. This page compares Valaxy with Hexo, VitePress, Hugo, and Astro.
 
 **Data as of:** 2026-10-28. Cells are qualitative. This page does not record build times.
 
@@ -98,3 +101,5 @@ This docs site keeps a full Chinese tree at `/zh/` beside the English pages. Sit
 ### When should I not choose Valaxy?
 
 Use the list in [When not Valaxy](#when-not-valaxy). The short version: stay on Hexo only for theme lock-in, use VitePress for a library manual, Hugo when the Go toolchain is the point, and Astro when one site mixes UI frameworks.
+
+<ChooseFaqJsonLd lang="en" />

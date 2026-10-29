@@ -42,7 +42,7 @@ Next Generation Static Blog Framework/Generator
 
 It seems hard to understand the advantages of Valaxy.
 
-I will compare Valaxy with the existing Hexo (popular static blog framework) and vitepress / vuepress (popular static site generator), and explain the advantages of Valaxy.
+I will compare Valaxy with the existing Hexo (popular static blog framework) and vitepress / vuepress (popular static site generator), and explain the advantages of Valaxy. For the side-by-side choice, see [How to choose a static blog framework](/guide/choose).
 
 ```ts
 import type { UserConfig } from 'valaxy'
