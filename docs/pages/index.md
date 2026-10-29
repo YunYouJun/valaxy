@@ -2,8 +2,8 @@
 layout: home
 
 title: Valaxy
-titleTemplate: '%s - A blog framework for your voice'
-description: A blog framework for your voice, powered by Vue, Vite, and TypeScript.
+titleTemplate: '%s - A static blog framework for your voice'
+description: A static blog framework for your voice, powered by Vue, Vite, and TypeScript.
 ogImage: https://valaxy.site/valaxy-logo.png
 
 hero:
@@ -12,7 +12,7 @@ hero:
   imageCaption: V + Galaxy
   command: pnpm create valaxy
   name: VALAXY
-  text: A blog framework for your voice
+  text: A static blog framework for your voice
   tagline: Powered by Vue and Vite. Write in Markdown, customize every detail, and make it yours.
   image:
     src: /valaxy-logo.png

@@ -152,7 +152,7 @@ test('keeps keyboard navigation within the complete mobile menu and closes on Es
 test('keeps the monochrome Markdown logo visible in dark mode', async ({ page }) => {
   await page.addInitScript(() => localStorage.setItem('vueuse-color-scheme', 'dark'))
   await page.goto('/zh/')
-  await expect(page.locator('.hero-text')).toHaveText('为表达而生的\n博客框架')
+  await expect(page.locator('.hero-text')).toHaveText('为表达而生的\n静态博客框架')
   await expect(page.locator('html')).toHaveCSS('filter', 'none')
   await expect(page.locator('.press-feature [class~="i-logos:markdown"]')).toHaveCSS('filter', 'invert(1)')
   await expect(page.locator('.ecosystem-node [class~="i-logos:markdown"]')).toHaveCSS('filter', 'invert(1)')
