@@ -2,7 +2,7 @@
 import type { ChooseFacetId, ChooseFrameworkId } from '../data/choose-compare'
 import { computed, nextTick, shallowRef, useId } from 'vue'
 import { RouterLink } from 'vue-router'
-import { chooseCompare } from '../data/choose-compare'
+import { chooseCompare, chooseFrameworkMark } from '../data/choose-compare'
 
 const props = defineProps<{
   lang: 'en' | 'zh'
@@ -30,6 +30,10 @@ function tabDomId(id: string) {
 
 function panelDomId(id: string) {
   return `${uid}-panel-${id}`
+}
+
+function accentStyle(id: ChooseFrameworkId) {
+  return { '--choose-accent': chooseFrameworkMark[id].color }
 }
 
 function parts(text: string) {
@@ -95,11 +99,13 @@ function onTabsKeydown(event: KeyboardEvent) {
         role="tab"
         class="choose-compare-chip"
         :class="{ 'is-active': focus === fw.id }"
+        :style="accentStyle(fw.id)"
         :aria-selected="focus === fw.id"
         :aria-controls="panelDomId(fw.id)"
         :tabindex="focus === fw.id ? 0 : -1"
         @click="focus = fw.id"
       >
+        <span class="choose-compare-glyph" :class="chooseFrameworkMark[fw.id].icon" aria-hidden="true" />
         {{ fw.name }}
       </button>
     </div>
@@ -129,9 +135,10 @@ function onTabsKeydown(event: KeyboardEvent) {
       role="tabpanel"
       :aria-labelledby="tabDomId(active.id)"
       class="choose-compare-card"
-      :class="{ 'is-home': active.id === 'valaxy' }"
+      :style="accentStyle(active.id)"
     >
       <h3 class="choose-compare-card-title">
+        <span class="choose-compare-glyph" :class="chooseFrameworkMark[active.id].icon" aria-hidden="true" />
         <RouterLink v-if="!active.external" :to="active.href">
           {{ active.name }}
         </RouterLink>
@@ -170,9 +177,13 @@ function onTabsKeydown(event: KeyboardEvent) {
         type="button"
         class="choose-compare-line"
         :class="{ 'is-home': fw.id === 'valaxy' }"
+        :style="accentStyle(fw.id)"
         @click="focus = fw.id"
       >
-        <span class="choose-compare-line-name">{{ fw.name }}</span>
+        <span class="choose-compare-line-name">
+          <span class="choose-compare-glyph" :class="chooseFrameworkMark[fw.id].icon" aria-hidden="true" />
+          {{ fw.name }}
+        </span>
         <span class="choose-compare-value">
           <template v-for="(part, index) in parts(fw.points[activeFacet.id])" :key="index">
             <code v-if="part.code">{{ part.code }}</code>
@@ -213,10 +224,21 @@ function onTabsKeydown(event: KeyboardEvent) {
 
 .choose-compare-chip,
 .choose-compare-facet {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
   flex: 0 0 auto;
   border-radius: 999px;
   padding: 0.35rem 0.8rem;
   font-weight: 600;
+}
+
+.choose-compare-glyph {
+  display: inline-block;
+  width: 1rem;
+  height: 1rem;
+  flex: 0 0 auto;
+  color: var(--choose-accent);
 }
 
 .choose-compare-facet {
@@ -227,8 +249,8 @@ function onTabsKeydown(event: KeyboardEvent) {
 
 .choose-compare-chip.is-active,
 .choose-compare-facet.is-active {
-  border-color: var(--pr-c-brand);
-  background: var(--pr-c-brand-soft);
+  border-color: var(--choose-accent, var(--pr-c-brand));
+  background: color-mix(in srgb, var(--choose-accent, var(--pr-c-brand)) 14%, var(--pr-c-bg));
   color: var(--pr-c-text-1);
 }
 
@@ -249,13 +271,15 @@ function onTabsKeydown(event: KeyboardEvent) {
 
 .choose-compare-line {
   display: grid;
-  grid-template-columns: 6.5rem minmax(0, 1fr);
+  grid-template-columns: 8rem minmax(0, 1fr);
   gap: 0.35rem 0.85rem;
-  align-items: baseline;
+  align-items: center;
   width: 100%;
   border-width: 0 0 1px;
   border-radius: 0;
-  padding: 0.75rem 0.9rem;
+  padding: 0.7rem 0.9rem;
+  background: var(--pr-c-bg);
+  box-shadow: inset 3px 0 0 var(--choose-accent);
   color: var(--pr-c-text-1);
   text-align: left;
 }
@@ -265,15 +289,20 @@ function onTabsKeydown(event: KeyboardEvent) {
 }
 
 .choose-compare-line.is-home {
-  background: var(--pr-c-brand-soft);
+  background: color-mix(in srgb, var(--choose-accent) 10%, var(--pr-c-bg));
+}
+
+.choose-compare-line:hover {
+  background: color-mix(in srgb, var(--choose-accent) 8%, var(--pr-c-bg));
 }
 
 .choose-compare-line-name {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  min-width: 0;
+  color: var(--pr-c-text-1);
   font-weight: 700;
-}
-
-.choose-compare-line:hover .choose-compare-line-name {
-  color: var(--pr-c-brand);
 }
 
 .choose-compare code {
@@ -284,24 +313,30 @@ function onTabsKeydown(event: KeyboardEvent) {
 }
 
 .choose-compare-card {
-  border: 1px solid var(--pr-c-divider-light);
+  border: 1px solid color-mix(in srgb, var(--choose-accent) 42%, var(--pr-c-divider-light));
   border-radius: 1rem;
   padding: 1rem 1.05rem 1.1rem;
   background:
-    linear-gradient(180deg, var(--pr-c-brand-soft), transparent 4.25rem),
+    linear-gradient(180deg, color-mix(in srgb, var(--choose-accent) 14%, transparent), transparent 4.25rem),
     var(--pr-c-bg);
-}
-
-.choose-compare-card.is-home {
-  border-color: color-mix(in srgb, var(--pr-c-brand) 55%, var(--pr-c-divider-light));
+  box-shadow: inset 3px 0 0 var(--choose-accent);
 }
 
 .choose-compare-card-title {
+  display: flex;
+  align-items: center;
+  gap: 0.45rem;
   margin: 0;
+  color: var(--pr-c-text-1);
   font-size: 1.25rem;
   font-weight: 700;
   letter-spacing: -0.01em;
   line-height: 1.3;
+}
+
+.choose-compare-card-title .choose-compare-glyph {
+  width: 1.35rem;
+  height: 1.35rem;
 }
 
 .choose-compare-fit {

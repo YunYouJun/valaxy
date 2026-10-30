@@ -1,5 +1,18 @@
 export type ChooseFrameworkId = 'valaxy' | 'hexo' | 'vitepress' | 'hugo' | 'astro'
 
+/**
+ * Square marks and brand accents.
+ * Hexo, VitePress, Hugo, and Astro use the Simple Icons hex.
+ * Valaxy uses the docs primary and the existing logo.
+ */
+export const chooseFrameworkMark = {
+  valaxy: { icon: 'i-valaxy-logo', color: '#7C3AED' },
+  hexo: { icon: 'i-simple-icons-hexo', color: '#0E83CD' },
+  vitepress: { icon: 'i-simple-icons-vitepress', color: '#5C73E7' },
+  hugo: { icon: 'i-simple-icons-hugo', color: '#FF4088' },
+  astro: { icon: 'i-simple-icons-astro', color: '#BC52EE' },
+} as const satisfies Record<ChooseFrameworkId, { icon: string, color: string }>
+
 export type ChooseFacetId = 'fit' | 'stack' | 'build' | 'learn' | 'themes' | 'zh' | 'deploy'
 
 export interface ChooseCompareFacet {
