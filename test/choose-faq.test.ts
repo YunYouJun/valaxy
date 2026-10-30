@@ -13,8 +13,14 @@ function read(relativePath: string) {
   return fs.readFileSync(path.join(root, relativePath), 'utf8')
 }
 
+/** LF and CRLF copies. Windows CI used to check these files out as CRLF. */
+function bothNewlines(markdown: string) {
+  const lf = markdown.replace(/\r\n/g, '\n')
+  return [lf, lf.replace(/\n/g, '\r\n')]
+}
+
 function body(markdown: string) {
-  return markdown.replace(/^---[\s\S]*?---\n/, '')
+  return markdown.replace(/^---[\s\S]*?---\r?\n/, '').replace(/\r\n/g, '\n')
 }
 
 function firstParagraph(markdown: string) {
@@ -22,8 +28,8 @@ function firstParagraph(markdown: string) {
 }
 
 function frontmatter(markdown: string) {
-  const match = markdown.match(/^---\n([\s\S]*?)\n---/)
-  return match?.[1] ?? ''
+  const match = markdown.match(/^---\r?\n([\s\S]*?)\r?\n---/)
+  return (match?.[1] ?? '').replace(/\r\n/g, '\n')
 }
 
 /** Visible FAQ text: link labels, without Markdown syntax. */
@@ -62,17 +68,21 @@ describe('choose page SEO', () => {
   const zh = read('docs/pages/zh/guide/choose.md')
 
   it('puts the head keyword in the title, description, and first paragraph', () => {
-    expect(frontmatter(en)).toContain('title: \'How to choose a static blog framework:')
-    expect(frontmatter(en)).toContain('description: \'How to choose a static blog framework:')
-    expect(firstParagraph(en).match(/static blog framework/g)).toEqual(['static blog framework'])
+    for (const page of bothNewlines(en)) {
+      expect(frontmatter(page)).toContain('title: \'How to choose a static blog framework:')
+      expect(frontmatter(page)).toContain('description: \'How to choose a static blog framework:')
+      expect(firstParagraph(page).match(/static blog framework/g)).toEqual(['static blog framework'])
+    }
 
-    expect(frontmatter(zh)).toContain('title: 静态博客框架怎么选：')
-    expect(frontmatter(zh)).toContain('description: 静态博客框架怎么选：')
-    expect(firstParagraph(zh).match(/静态博客框架/g)).toEqual(['静态博客框架'])
+    for (const page of bothNewlines(zh)) {
+      expect(frontmatter(page)).toContain('title: 静态博客框架怎么选：')
+      expect(frontmatter(page)).toContain('description: 静态博客框架怎么选：')
+      expect(firstParagraph(page).match(/静态博客框架/g)).toEqual(['静态博客框架'])
+    }
   })
 
   it('uses a 1200×630 social image instead of the favicon', () => {
-    for (const page of [en, zh]) {
+    for (const page of [...bothNewlines(en), ...bothNewlines(zh)]) {
       expect(frontmatter(page)).toContain('ogImage: /images/choose-og.png')
       expect(page).not.toContain('favicon.svg')
     }

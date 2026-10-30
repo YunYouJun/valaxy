@@ -1,0 +1,2 @@
+# Store text as LF and check it out as LF, including when core.autocrlf is true.
+* text=auto eol=lf
