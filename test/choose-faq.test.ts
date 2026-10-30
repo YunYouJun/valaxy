@@ -89,6 +89,22 @@ describe('choose page SEO', () => {
     expect(pngSize('docs/public/images/choose-og.png')).toEqual({ width: 1200, height: 630 })
   })
 
+  it('keeps the as-of note in a tip and the comparison interactive', () => {
+    expect(en).toMatch(/::: tip\r?\nData as of 2026-10-28\. Qualitative only\. Build times are not recorded\./)
+    expect(en).not.toContain('**Data as of:**')
+    expect(en).toContain('<ChooseCompare lang="en" />')
+    expect(en).not.toContain('| Framework |')
+    expect(en).toContain('## Decision tree')
+    expect(en).toContain('## When not Valaxy {#when-not-valaxy}')
+
+    expect(zh).toMatch(/::: tip\r?\n数据截至 2026-10-28。只做定性比较，不记录构建耗时。/)
+    expect(zh).not.toContain('**数据截至：**')
+    expect(zh).toContain('<ChooseCompare lang="zh" />')
+    expect(zh).not.toContain('| 框架 |')
+    expect(zh).toContain('## 决策树')
+    expect(zh).toContain('## 什么时候不选 Valaxy {#when-not-valaxy}')
+  })
+
   it('links the home landing and why pages to the choose pages', () => {
     const home = read('docs/components/PressHome.vue')
     expect(home).toContain('href: \'/guide/choose\'')
