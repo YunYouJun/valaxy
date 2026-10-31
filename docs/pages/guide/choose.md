@@ -38,13 +38,29 @@ Taken from [Why Valaxy](/guide/why), [Getting Started](/guide/getting-started), 
 
 ## Decision tree
 
-What are you publishing?
+::: details What are you publishing?
 
-- **A personal or technical blog on Vue**, or a move off Hexo when a new theme is acceptable. Choose Valaxy. [Get started](/guide/getting-started). From Hexo, [Migration](/migration/). Use [Yun](/themes/yun). Use [Press](/themes/press) when that Valaxy site should read as docs and still have posts, tags, and addons.
-- **One Hexo theme or plugin is the product**, and you will not replace it. Stay on Hexo. That is theme lock-in.
-- **Documentation for a library or product**, with no blog post model. Choose VitePress. To keep the docs on Valaxy, use [Press](/themes/press).
-- **A Go toolchain** matters more than Vue components. Choose Hugo. This page does not claim Valaxy builds faster.
-- **Pages mix UI frameworks**, or each page should load as its own document. Choose Astro.
+### A Vue blog, or a Hexo move with a new theme?
+
+Choose [Valaxy](/guide/getting-started). From Hexo, follow [Migration](/migration/) and use [Yun](/themes/yun). Use [Press](/themes/press) when that site should read as docs.
+
+### Staying on one Hexo theme or plugin?
+
+Stay on Hexo.
+
+### A library manual, and not a blog?
+
+Choose [VitePress](https://vitepress.dev/). [Press](/themes/press) keeps a docs-shaped site on Valaxy.
+
+### Go, rather than Vue?
+
+Choose [Hugo](https://gohugo.io/). This page does not claim Valaxy builds faster.
+
+### Several UI frameworks on one site?
+
+Choose [Astro](https://astro.build/).
+
+:::
 
 ## When not Valaxy {#when-not-valaxy}
 

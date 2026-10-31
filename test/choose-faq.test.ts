@@ -6,6 +6,7 @@ import { createSSRApp } from 'vue'
 import { renderToString } from 'vue/server-renderer'
 import ChooseFaqJsonLd from '../docs/components/ChooseFaqJsonLd.vue'
 import { chooseFaq } from '../docs/data/choose-faq'
+import { createMarkdownRenderer } from '../packages/valaxy/node/plugins/markdown'
 
 const root = path.resolve(__dirname, '..')
 
@@ -94,14 +95,20 @@ describe('choose page SEO', () => {
     expect(en).not.toContain('**Data as of:**')
     expect(en).toContain('<ChooseCompare lang="en" />')
     expect(en).not.toContain('| Framework |')
-    expect(en).toContain('## Decision tree')
+    expect(en).toMatch(/## Decision tree\r?\n\r?\n::: details What are you publishing\?\r?\n/)
+    expect(en).toContain('### A Vue blog, or a Hexo move with a new theme?')
+    expect(en).toContain('### Several UI frameworks on one site?')
+    expect(en).not.toContain('**A personal or technical blog on Vue**')
     expect(en).toContain('## When not Valaxy {#when-not-valaxy}')
 
     expect(zh).toMatch(/::: tip\r?\n数据截至 2026-10-28。只做定性比较，不记录构建耗时。/)
     expect(zh).not.toContain('**数据截至：**')
     expect(zh).toContain('<ChooseCompare lang="zh" />')
     expect(zh).not.toContain('| 框架 |')
-    expect(zh).toContain('## 决策树')
+    expect(zh).toMatch(/## 决策树\r?\n\r?\n::: details 你要发布什么？\r?\n/)
+    expect(zh).toContain('### 用 Vue 写博客，或者离开 Hexo 时可以换主题？')
+    expect(zh).toContain('### 一个站点要混用多种 UI 框架？')
+    expect(zh).not.toContain('**用 Vue 写的个人或技术博客**')
     expect(zh).toContain('## 什么时候不选 Valaxy {#when-not-valaxy}')
   })
 
@@ -114,6 +121,21 @@ describe('choose page SEO', () => {
 
     expect(read('docs/pages/guide/why.md')).toContain('](/guide/choose)')
     expect(read('docs/pages/zh/guide/why.md')).toContain('](/zh/guide/choose)')
+  })
+
+  it('folds the decision tree and keeps its questions in the HTML', async () => {
+    const md = await createMarkdownRenderer()
+
+    const enTree = md.render(body(en).slice(body(en).indexOf('## Decision tree'), body(en).indexOf('## When not Valaxy')))
+    expect(enTree).toMatch(/<details\s+class="details custom-block"><summary>What are you publishing\?<\/summary>/)
+    expect(enTree).not.toMatch(/<details[^>]*\sopen/)
+    expect(enTree).toContain('id="a-vue-blog-or-a-hexo-move-with-a-new-theme"')
+    expect(enTree).toContain('Choose <a href="/guide/getting-started">Valaxy</a>')
+
+    const zhTree = md.render(body(zh).slice(body(zh).indexOf('## 决策树'), body(zh).indexOf('## 什么时候不选 Valaxy')))
+    expect(zhTree).toMatch(/<details\s+class="details custom-block"><summary>你要发布什么？<\/summary>/)
+    expect(zhTree).not.toMatch(/<details[^>]*\sopen/)
+    expect(zhTree).toContain('选 <a href="/zh/guide/getting-started">Valaxy</a>')
   })
 
   it('keeps FAQPage copy aligned with the visible FAQ', () => {

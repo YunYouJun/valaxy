@@ -38,13 +38,29 @@ pnpm create valaxy
 
 ## 决策树
 
-你要发布什么？
+::: details 你要发布什么？
 
-- **用 Vue 写的个人或技术博客**，或者可以接受新主题时离开 Hexo。选 Valaxy。[开始](/zh/guide/getting-started)。来自 Hexo 时按[迁移](/zh/migration/)。博客用 [Yun](/zh/themes/yun)。这份 Valaxy 站点要像文档、并且要文章、标签和插件时，用 [Press](/zh/themes/press)。
-- **某一个 Hexo 主题或插件就是产品**，并且你不会替换它。留在 Hexo。这是主题锁定。
-- **库或产品的文档**，并且不需要博客文章模型。选 VitePress。文档要留在 Valaxy 上时，用 [Press](/zh/themes/press)。
-- **Go 工具链**比 Vue 组件更重要。选 Hugo。本页不声称 Valaxy 构建更快。
-- **页面要混用多种 UI 框架**，或者每一页都应作为独立文档加载。选 Astro。
+### 用 Vue 写博客，或者离开 Hexo 时可以换主题？
+
+选 [Valaxy](/zh/guide/getting-started)。来自 Hexo 时按[迁移](/zh/migration/)，并用 [Yun](/zh/themes/yun)。这份站点要像文档时用 [Press](/zh/themes/press)。
+
+### 某一个 Hexo 主题或插件就是产品？
+
+留在 Hexo。
+
+### 库或产品手册，而不是博客？
+
+选 [VitePress](https://vitepress.dev/)。文档形态留在 Valaxy 上时用 [Press](/zh/themes/press)。
+
+### 要 Go，而不是 Vue？
+
+选 [Hugo](https://gohugo.io/)。本页不声称 Valaxy 构建更快。
+
+### 一个站点要混用多种 UI 框架？
+
+选 [Astro](https://astro.build/)。
+
+:::
 
 ## 什么时候不选 Valaxy {#when-not-valaxy}
 

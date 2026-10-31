@@ -32,6 +32,14 @@ export interface ChooseCompareCopy {
   all: string
   groupLabel: string
   facetGroup: string
+  /** Closed summary for the facet chips. The active facet label is appended. */
+  facetSummary: string
+  /** Closed summary for the non-fit rows on a framework card. */
+  moreRows: string
+  /** Closed summary that reveals the other frameworks' one-line fit. */
+  othersSummary: string
+  linesLabel: string
+  recommended: string
   external: string
   facets: ChooseCompareFacet[]
   frameworks: ChooseCompareFramework[]
@@ -42,6 +50,11 @@ export const chooseCompare = {
     all: 'All',
     groupLabel: 'Compare frameworks',
     facetGroup: 'Comparison row',
+    facetSummary: 'Compare by:',
+    moreRows: 'Stack, build, themes, and the rest',
+    othersSummary: 'Compare the other frameworks',
+    linesLabel: 'Choose a framework',
+    recommended: 'Recommended',
     external: 'opens in a new tab',
     facets: [
       { id: 'fit', label: 'Best for' },
@@ -133,6 +146,11 @@ export const chooseCompare = {
     all: '全部',
     groupLabel: '对比这些框架',
     facetGroup: '比较的项目',
+    facetSummary: '比较项：',
+    moreRows: '技术栈、构建、主题和其他项',
+    othersSummary: '对比其他框架',
+    linesLabel: '选择框架',
+    recommended: '推荐',
     external: '在新标签页打开',
     facets: [
       { id: 'fit', label: '适合' },
