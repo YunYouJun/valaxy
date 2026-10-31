@@ -54,7 +54,7 @@ Valaxy 的目标是成为新一代的静态博客框架/生成器。
 
 一味地讲述 Valaxy 的优点似乎有些难以理解。
 
-我将会把 Valaxy 与现有的 Hexo（流行的静态博客框架）与 VitePress/VuePress（流行的静态站点生成器）进行对比，并阐述 Valaxy 的优势。
+我将会把 Valaxy 与现有的 Hexo（流行的静态博客框架）与 VitePress/VuePress（流行的静态站点生成器）进行对比，并阐述 Valaxy 的优势。并排怎么选，见[静态博客框架怎么选](/zh/guide/choose)。
 
 
 

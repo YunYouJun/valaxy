@@ -45,6 +45,10 @@ const safelist = [
   'i-ri-planet-line',
   'i-simple-icons-openai',
   'i-simple-icons-claude',
+  'i-simple-icons-hexo',
+  'i-simple-icons-vitepress',
+  'i-simple-icons-hugo',
+  'i-simple-icons-astro',
 ]
 
 const themePressChildItems: PressTheme.SidebarItem[] = [
