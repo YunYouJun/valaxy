@@ -3,12 +3,8 @@
 </h1>
 
 <p align="center">
-🌌 下一代静态博客框架 (Beta).
+🌌 为表达而生的静态博客框架
 </p>
-
-<pre align="center">
-🧪 开发中
-</pre>
 
 <p align="center">
 <a href="https://www.npmjs.com/package/valaxy" rel="nofollow"><img src="https://img.shields.io/npm/v/valaxy?color=0078E7" alt="NPM version"></a>
@@ -19,7 +15,7 @@
 </p>
 
 - [English](./README.md) | **简体中文**
-- [English Docs](https://valaxy.site/?lang=en) | [中文文档](https://valaxy.site/?lang=zh-CN)
+- [English Docs](https://valaxy.site/) | [中文文档](https://valaxy.site/zh/)
 - [主题 Press 文档](https://valaxy.site/zh/themes/press) | [主题 Press 预览](https://press.valaxy.site)
 - [Demo](https://yun.valaxy.site): <small>with [valaxy-theme-yun](./packages/valaxy-theme-yun/)</small>
 
@@ -65,6 +61,12 @@ pnpm create valaxy
 - ♻️ 使用任意 Vite 插件
   - 📲 可以通过 [vite-plugin-pwa](https://github.com/antfu/vite-plugin-pwa) 使用 PWA
 - ...
+
+### AI 就绪
+
+- [Agent Skills](https://valaxy.site/zh/guide/work-with-ai#agent-skills) — `npx skills add YunYouJun/valaxy`
+- [本地只读 MCP](https://valaxy.site/zh/guide/work-with-ai#mcp) — `mcp: true`
+- [llms.txt / Markdown 输出](https://valaxy.site/zh/guide/work-with-ai#llmstxt) — `llms.enable`
 
 ## 开发
 

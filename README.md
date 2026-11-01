@@ -3,12 +3,8 @@
 </h1>
 
 <p align="center">
-🌌 Next Generation Static Blog Framework (Beta).
+🌌 A static blog framework for your voice.
 </p>
-
-<pre align="center">
-🧪 Working in Progress
-</pre>
 
 <p align="center">
 <a href="https://www.npmjs.com/package/valaxy" rel="nofollow"><img src="https://img.shields.io/npm/v/valaxy?color=0078E7" alt="NPM version"></a>
@@ -18,7 +14,7 @@
 </p>
 
 - **English** | [简体中文](./README.zh-CN.md)
-- [English Docs](https://valaxy.site/) | [中文文档](https://valaxy.site/zh/) | [Docs for Beta](https://beta.valaxy.site)
+- [English Docs](https://valaxy.site/) | [中文文档](https://valaxy.site/zh/)
 - [Theme Press Docs](https://valaxy.site/themes/press) | [Theme Press Preview](https://press.valaxy.site)
 - [Demo](https://yun.valaxy.site): <small>with [valaxy-theme-yun](./packages/valaxy-theme-yun/)</small>
 
@@ -64,6 +60,12 @@ For an example, you can see [demo/yun](./demo/yun/) folder.
 - ♻️ Use any vite plugins
   - 📲 You can implement PWA by [vite-plugin-pwa](https://github.com/antfu/vite-plugin-pwa)
 - ...
+
+### AI-ready
+
+- [Agent Skills](https://valaxy.site/guide/work-with-ai#agent-skills) — `npx skills add YunYouJun/valaxy`
+- [Local read-only MCP](https://valaxy.site/guide/work-with-ai#mcp) — `mcp: true`
+- [llms.txt / Markdown output](https://valaxy.site/guide/work-with-ai#llms-txt) — `llms.enable`
 
 ## Dev
 

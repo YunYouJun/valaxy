@@ -282,10 +282,9 @@ Requires Node.js >= 22.12 (Vite 8 + unplugin-vue-markdown@32; Node 18/20 dropped
 
 ## Deployment
 
-The project supports:
-- Netlify (via `netlify.toml`)
-- GitHub Pages (via `.github/workflows/gh-pages.yml`)
-- Other static hosts (build output in `dist/`)
+The official site [valaxy.site](https://valaxy.site) is hosted on Cloudflare Pages (project name `valaxy`). Build the docs with `pnpm docs:build`; the static output is `docs/dist`. This repository does not contain `.github/workflows/gh-pages.yml`.
+
+User sites created with `pnpm create valaxy` still include host configs in the scaffold (`packages/create-valaxy/template-blog/netlify.toml` and `packages/create-valaxy/template-blog/.github/workflows/gh-pages.yml`). The repository root `netlify.toml` publishes the Yun demo at `demo/yun/dist`, not the documentation site. Other static hosts can serve a site's `dist/` output. See [Deployment](https://valaxy.site/guide/deploy).
 
 ## Release Process
 
