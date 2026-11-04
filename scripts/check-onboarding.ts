@@ -238,7 +238,7 @@ try {
   const devUrl = `http://localhost:${devPort}`
   await waitForServer(devUrl, dev.child)
   await page.goto(devUrl, { waitUntil: 'networkidle' })
-  await expect(page).toHaveTitle('Valaxy Theme Yun')
+  await expect(page).toHaveTitle('My Blog')
   await expect(page.getByRole('link', { name: 'Hello, Valaxy!', exact: true }).first()).toBeVisible()
   await page.screenshot({ path: join(artifacts, 'dev-initial.png'), fullPage: true })
   if (process.argv.includes('--check-unpaired')) {
@@ -280,10 +280,13 @@ try {
     ['posts/first-post.html', '这是我的第一篇文章。'],
     ['posts/hello-valaxy.html', 'Hello, Valaxy!'],
     ['posts/cli-post.html', 'cli-post'],
-    ['sitemap.xml', 'https://example.com/posts/first-post'],
-    ['atom.xml', 'https://example.com/posts/first-post'],
   ]) {
     expect(await readFile(join(project, 'dist', file), 'utf8')).toContain(text)
+  }
+  for (const file of ['sitemap.xml', 'atom.xml', 'llms.txt']) {
+    const content = await readFile(join(project, 'dist', file), 'utf8')
+    expect(content).toContain('https://example.com/posts/first-post')
+    expect(content).not.toContain('valaxy.site')
   }
   const previewPort = await freePort()
   const preview = start(['serve', '--host', '127.0.0.1', '--port', String(previewPort)], project, 'preview')

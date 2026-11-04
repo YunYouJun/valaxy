@@ -54,6 +54,7 @@ it('packs starter sources without local builds, caches, feeds or environment fil
       'template-blog/.github/workflows/gh-pages.yml',
       'template-blog/.vscode/settings.json',
       'template-blog/pages/posts/hello-valaxy.md',
+      'template-blog/AGENTS.md',
       'template-blog/components/covers/HelloValaxyCover.vue',
       'template-blog/public/favicon.svg',
       'template-blog-press/pages/index.md',

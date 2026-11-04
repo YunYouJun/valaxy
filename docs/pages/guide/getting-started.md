@@ -136,16 +136,25 @@ export default defineSiteConfig({
   title: 'My blog',
   author: {
     name: 'Alex',
+    avatar: '/favicon.svg',
+    email: 'you@example.com',
+    link: 'https://example.com/',
   },
   description: 'Notes on life and technology.',
+  // Publishes post Markdown. Set enable: false to turn this off.
+  llms: {
+    enable: true,
+  },
 })
 ```
 
-`url` is your production address, used for post links, the sitemap, and RSS. Replace `https://example.com/` with your own address before deployment. It does not change the development server address. After saving, check the browser title, sidebar site name, and post author.
+`url` is your production address, used for post links, the sitemap, RSS, and `llms.txt`. The new project uses `https://example.com/`. Replace it with your own address before deployment. It does not change the development server address. After saving, check the browser title, sidebar site name, and post author.
+
+New projects set `llms.enable: true`, so `pnpm build` writes `dist/llms.txt` and publishes post Markdown. Set `llms.enable: false` in `site.config.ts` to turn that off. The framework default stays off, so a site created before this template change does not start publishing those files until you enable them. The project also includes `AGENTS.md` for coding agents. See [Work with AI](/guide/work-with-ai).
 
 Keep `timezone`, or set it to your site's timezone, such as `Asia/Shanghai`. An explicit timezone keeps displayed post times consistent between the build server and visitors. `valaxy new` includes a timezone offset in its timestamps. When writing dates manually, use `YYYY-MM-DD` as above, or include an offset for a precise time, such as `2026-10-05T14:30:00+08:00`.
 
-**`valaxy.config.ts`** contains theme and framework options. The large text on the Yun home page is configured separately through `themeConfig.banner.title`. Change it to your preferred text. The template's social links, sponsorship details, and footer registration information are also examples; replace or disable them before deployment.
+**`valaxy.config.ts`** contains theme and framework options. The large text on the Yun home page is configured separately through `themeConfig.banner.title` (the template uses `我的小站`). Change it to your preferred text. Social links, the sponsor block, and footer ICP registration are placeholders; sponsor QR codes and ICP start disabled. The local MCP server stays commented out.
 
 See [Site configuration](/guide/config/) and [Custom extensions](/guide/custom/extend) for more options.
 
@@ -166,6 +175,7 @@ Check that:
 - Opening `/posts/first-post` directly shows the article, including after a refresh.
 - `dist/index.html` and `dist/posts/first-post.html` contain the corresponding page content.
 - `dist/sitemap.xml` and `dist/atom.xml` use the site address from `site.config.ts`.
+- `dist/llms.txt` exists while `llms.enable` is `true`, and its post links use that same site address.
 
 `pnpm serve` does not rebuild your site. Run `pnpm build` again after editing. Follow the [deployment guide](/guide/deploy) to upload the output to a static host.
 
@@ -240,6 +250,7 @@ In most cases, you only need to work in the `pages` folder.
 ### Others
 
 
+- `AGENTS.md`: notes for coding agents working in this site
 - `.vscode`: recommend some useful plugins & settings, you can preview icon/i18n/class...
   - Optionally install the [Valaxy VS Code extension](/ecosystem/vscode) for a post list and local site preview. See its documentation for setup, settings, and compatibility notes.
 - `.github`: GitHub Actions to auto build & deploy to GitHub Pages

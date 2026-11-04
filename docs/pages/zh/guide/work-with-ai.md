@@ -10,7 +10,7 @@ Valaxy 提供 Agent Skills、主题提示词和可选的 AI 可读内容输出�
 | --- | --- | --- |
 | Agent Skills | 按需安装 | 为编程助手提供 Valaxy 开发知识 |
 | 主题提示词 | 按需使用 | 生成主题开发提示词并复制到编程助手 |
-| `llms.txt` 与 Markdown 输出 | 默认关闭 | 在 `site.config.ts` 中启用 `llms.enable` |
+| `llms.txt` 与 Markdown 输出 | 框架默认关闭，已有站点保持关闭。`pnpm create valaxy` 创建的新项目设置 `llms.enable: true` | 在 `site.config.ts` 中设置 `llms.enable`。设为 `false` 可停止发布文章 Markdown |
 | DevTools 管理面板 | 开发模式默认启用 | 在浏览器中管理文章和配置 |
 | MCP | 默认关闭 | 设置 `mcp: true`，连接内置的本地只读工具 |
 | WebMCP | 关闭 | 内置面板暂不向浏览器 Agent 开放工具 |
@@ -205,7 +205,7 @@ Valaxy 仓库内置了 [CLAUDE.md](https://github.com/YunYouJun/valaxy/blob/main
 ## llms.txt {#llmstxt}
 
 
-Valaxy 内置了 [llms.txt](https://llmstxt.org/) 支持，可以为你的博客生成 AI 可读的纯文本内容，默认关闭。
+Valaxy 内置了 [llms.txt](https://llmstxt.org/) 支持，可以为你的博客生成 AI 可读的纯文本内容。框架默认关闭（`llms.enable: false`），已有站点在你主动开启前不会发布这些文件。使用 `pnpm create valaxy` 创建的新项目会在 `site.config.ts` 中设置 `llms.enable: true`，并附带面向作者的 `AGENTS.md`。设为 `llms.enable: false` 即可关闭。开启后，文章 Markdown 会随站点一起发布。
 
 这些输出随站点部署后可供访问，不会创建本地工具连接，也不会授予 Agent 修改文章或配置的权限。
 

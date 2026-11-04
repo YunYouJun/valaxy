@@ -45,6 +45,15 @@ describe('create-valaxy CLI', () => {
       devDependencies: { vite: template.devDependencies.vite },
     })
     expect(await readFile(join(root, 'my-blog/valaxy.config.ts'), 'utf8')).toContain(`theme: '${theme}'`)
+    const project = join(root, 'my-blog')
+    expect(await readFile(join(project, 'AGENTS.md'), 'utf8')).toContain('llms.enable: false')
+    const site = await readFile(join(project, 'site.config.ts'), 'utf8')
+    expect(site).toMatch(/llms:\s*\{[^}]*enable:\s*true/)
+    expect(site).toContain('https://example.com/')
+    expect(site).not.toContain('valaxy.site')
+    const config = await readFile(join(project, 'valaxy.config.ts'), 'utf8')
+    expect(config).toContain('https://valaxy.site/guide/work-with-ai#mcp')
+    expect(config).not.toMatch(/^\s*mcp:\s*true/m)
   })
 
   it('retains the template flag when its prompt is skipped', async () => {
@@ -63,6 +72,11 @@ describe('create-valaxy CLI', () => {
     const result = await scaffold([join(root, 'absolute-blog'), '--yes'])
     expect(result.status, result.stdout + result.stderr).toBe(0)
     expect((await manifest('absolute-blog')).dependencies).toHaveProperty('valaxy-theme-yun')
+    const project = join(root, 'absolute-blog')
+    expect(await readFile(join(project, 'AGENTS.md'), 'utf8')).toContain('pnpm build')
+    expect(await readFile(join(project, 'site.config.ts'), 'utf8')).toMatch(/llms:\s*\{[^}]*enable:\s*true/)
+    expect(await readFile(join(project, 'valaxy.config.ts'), 'utf8')).toContain('我的小站')
+    await expect(readFile(join(project, 'public/.npmignore'), 'utf8')).rejects.toThrow()
   })
 
   it('honors the addon template flag in noninteractive mode', async () => {

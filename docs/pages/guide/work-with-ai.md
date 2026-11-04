@@ -10,7 +10,7 @@ Valaxy provides Agent Skills, theme prompts, and optional AI-readable content ou
 | --- | --- | --- |
 | Agent Skills | Install on demand | Provide Valaxy development knowledge to a coding assistant |
 | Theme prompts | Use on demand | Generate a theme prompt and copy it into a coding assistant |
-| `llms.txt` and Markdown output | Disabled | Enable `llms.enable` in `site.config.ts` |
+| `llms.txt` and Markdown output | Off in the framework, so existing sites stay off. New projects from `pnpm create valaxy` set `llms.enable: true` | Set `llms.enable` in `site.config.ts`. Use `false` to stop publishing post Markdown |
 | DevTools management panel | Enabled during development | Manage posts and configuration in the browser |
 | MCP | Disabled | Set `mcp: true` and connect to the built-in local read-only tools |
 | WebMCP | Disabled | The built-in panel does not expose tools to browser agents |
@@ -199,7 +199,7 @@ If you use Claude Code or other AI tools that support `CLAUDE.md` to develop Val
 ## llms.txt
 
 
-Valaxy has built-in [llms.txt](https://llmstxt.org/) support to generate AI-readable plain text content for your blog. It is disabled by default.
+Valaxy has built-in [llms.txt](https://llmstxt.org/) support to generate AI-readable plain text content for your blog. The framework default is off (`llms.enable: false`), so an existing site does not publish these files until you opt in. A project created with `pnpm create valaxy` sets `llms.enable: true` in `site.config.ts` and includes an author-facing `AGENTS.md`. Set `llms.enable: false` to turn it off. Enabling it publishes post Markdown with the site.
 
 These files become accessible when deployed with your site. They do not establish a local tool connection or grant agents permission to modify posts or configuration.
 

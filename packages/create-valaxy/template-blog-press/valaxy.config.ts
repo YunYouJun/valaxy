@@ -1,6 +1,11 @@
 import { defineValaxyConfig } from 'valaxy'
 
 export default defineValaxyConfig({
+  // Local read-only MCP stays off. Uncomment to enable it while running `pnpm dev`.
+  // Production builds do not include the server.
+  // https://valaxy.site/guide/work-with-ai#mcp
+  // mcp: true,
+
   theme: 'press',
   themeConfig: {
     nav: [

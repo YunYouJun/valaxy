@@ -14,33 +14,36 @@ export default defineValaxyConfig<UserThemeConfig>({
 
   theme: 'yun',
 
+  // Local read-only MCP stays off. Uncomment to enable it while running `pnpm dev`.
+  // Production builds do not include the server.
+  // https://valaxy.site/guide/work-with-ai#mcp
+  // mcp: true,
+
   themeConfig: {
     banner: {
       enable: true,
-      title: '云游君的小站',
+      title: '我的小站',
     },
 
     pages: [
       {
-        name: '我的小伙伴们',
+        name: '友情链接',
         url: '/links/',
-        icon: 'i-ri-genderless-line',
+        icon: 'i-ri-link',
         color: 'dodgerblue',
-      },
-      {
-        name: '喜欢的女孩子',
-        url: '/girls/',
-        icon: 'i-ri-women-line',
-        color: 'hotpink',
       },
     ],
 
     footer: {
-      since: 2016,
+      // since: 2026,
+      // Theme default links this icon to a personal sponsor page. Point it at your site.
+      icon: {
+        url: 'https://example.com/',
+        title: 'My Blog',
+      },
       beian: {
-        enable: true,
-        icp: '苏ICP备17038157号',
-        police: '苏公网安备xxxxxx号',
+        enable: false,
+        // icp: '京ICP备xxxxxxxx号',
       },
     },
   },
