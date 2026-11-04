@@ -241,9 +241,27 @@ export default defineSiteConfig({
     prompt: '',
     // 要包含的文件 glob 模式（相对于 pages/ 目录，默认 ['posts/**/*.md']）
     include: ['posts/**/*.md'],
+    // 可选。不填则保持原来的索引：按路径第一段分组，组内按日期排序。
+    // exclude: ['secret/**/*.md'],
+    // sectionOrder: ['Guide', 'Posts'],
+    // locales: ['zh'],
+    // featured: { title: 'Guides', paths: ['/guide/getting-started'] },
+    // collapse: [{ match: 'api/**/*.md', title: 'API Reference', href: '/api/' }],
   },
 })
 ```
+
+### 索引结构 {#index-shape}
+
+页面按顶级目录分组（`## Posts`、`## Guide`）。下面这些字段都是可选的。只设置 `enable: true` 时分组方式不变，`llms.enable` 的默认值仍然是 `false`。
+
+- `sectionOrder`：分组标题的先后顺序。没写上的分组按原来的顺序排在后面。匹配时忽略大小写。
+- `exclude`：相对于 `pages/` 的 glob，语法与 `include` 相同。命中的页面不会进入 `llms.txt` 和 `llms-full.txt`。`files` 为 true 时仍会写出单独的 `.md` 文件。
+- `locales`：表示语言而不是栏目的 URL 前缀。设置 `locales: ['zh']` 后，`/zh/guide/why` 归入 `Guide (zh)`，而不是把所有中文页面放进一个 `Zh` 分组。没有前缀的页面仍是 `Guide`。
+- `featured`：按给定顺序置顶到一个分组（`title` 默认 `Docs`）。这些页面不会在后面重复出现。`/guide/why` 和 `/guide/why.md` 指向同一页。
+- `collapse`：把匹配某个 glob 的页面收成索引里的一条链接，并且不写入 `llms-full.txt`。单独的 `.md` 文件仍会生成。`href` 以 `/` 结尾时保持目录地址，因此可以用 `/api/` 代表整份 API 参考。设置了 `locales` 时，`/zh/api/` 会归入 `Api (zh)`，也可以用 `section` 自己指定分组。
+
+`llms-full.txt` 会内联所有已包含、且没有被 `exclude` 或 `collapse` 去掉的页面。生成出来的 API 树通常是体积变大的原因。双语文档站点在去掉 API 之后，正文本身仍可能远大于 100 KB，因为这些文字就是语料。只需要某一页时，从索引打开对应的 `.md` 地址即可。
 
 ### CLI 命令 {#cli-command}
 

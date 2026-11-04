@@ -1,8 +1,10 @@
 import type { ResolvedValaxyOptions } from '../packages/valaxy/node'
+import type { LlmsPost } from '../packages/valaxy/node/modules/llms/utils'
 import { resolve } from 'node:path'
 import fs from 'fs-extra'
 import { afterEach, beforeEach, describe, expect, it } from 'vitest'
-import { build } from '../packages/valaxy/node/modules/llms/utils'
+import { defaultSiteConfig } from '../packages/valaxy/node/config/site'
+import { build, generateLlmsFullTxt, generateLlmsTxt } from '../packages/valaxy/node/modules/llms/utils'
 import { filePathToUrlPath, filterPublicPosts, removeTrailingSlash } from '../packages/valaxy/node/modules/utils'
 
 const mockUserRoot = resolve(__dirname, 'fixtures/llms')
@@ -17,6 +19,11 @@ function createMockOptions(overrides: Partial<{
   files: boolean
   prompt: string
   include: string[]
+  exclude: string[]
+  locales: string[]
+  sectionOrder: string[]
+  featured: { title?: string, paths: string[] }
+  collapse: Array<{ match: string, title: string, href: string, description?: string, section?: string }>
 }> = {}): ResolvedValaxyOptions {
   return {
     userRoot: mockUserRoot,
@@ -32,6 +39,11 @@ function createMockOptions(overrides: Partial<{
           files: overrides.files ?? true,
           prompt: overrides.prompt ?? '',
           include: overrides.include,
+          exclude: overrides.exclude,
+          locales: overrides.locales,
+          sectionOrder: overrides.sectionOrder,
+          featured: overrides.featured,
+          collapse: overrides.collapse,
         },
       },
       modules: {
@@ -448,6 +460,423 @@ Learn how to create and use plugins.`,
       expect(fullTxt).toContain('Follow these steps to get started.')
       expect(fullTxt).toContain('## Plugins Guide')
     })
+  })
+
+  describe('exclude and collapse', () => {
+    async function writeApiPages() {
+      await fs.ensureDir(resolve(mockUserRoot, 'pages/api/client'))
+      await fs.writeFile(
+        resolve(mockUserRoot, 'pages/api/index.md'),
+        `---
+title: API Reference
+---
+# API Reference
+
+Overview of the API.`,
+        'utf-8',
+      )
+      await fs.writeFile(
+        resolve(mockUserRoot, 'pages/api/client/symbol.md'),
+        `---
+title: Symbol Page
+---
+SYMBOL_BODY`,
+        'utf-8',
+      )
+    }
+
+    it('omits excluded pages from the index and full text but still writes markdown', async () => {
+      await writeApiPages()
+      await build(createMockOptions({ include: ['**/*.md'], exclude: ['/api/**/*.md'] }))
+
+      const llmsTxt = await fs.readFile(resolve(mockUserRoot, 'dist/llms.txt'), 'utf-8')
+      const fullTxt = await fs.readFile(resolve(mockUserRoot, 'dist/llms-full.txt'), 'utf-8')
+      const symbolMd = await fs.readFile(resolve(mockUserRoot, 'dist/api/client/symbol.md'), 'utf-8')
+
+      expect(llmsTxt).toContain('Hello World')
+      expect(llmsTxt).not.toContain('Symbol Page')
+      expect(llmsTxt).not.toContain('API Reference')
+      expect(fullTxt).not.toContain('SYMBOL_BODY')
+      expect(fullTxt).toContain('This is my first post.')
+      expect(symbolMd).toContain('SYMBOL_BODY')
+    })
+
+    it.each(['exclude', 'collapse'] as const)('matches %s globs against original index filenames', async (selection) => {
+      await writeApiPages()
+      await build(createMockOptions({
+        include: ['**/*.md'],
+        ...(selection === 'exclude'
+          ? { exclude: ['**/index.md'] }
+          : { collapse: [{ match: '**/index.md', title: 'Directory indexes', href: '/indexes/' }] }),
+      }))
+
+      const llmsTxt = await fs.readFile(resolve(mockUserRoot, 'dist/llms.txt'), 'utf-8')
+      const fullTxt = await fs.readFile(resolve(mockUserRoot, 'dist/llms-full.txt'), 'utf-8')
+
+      expect(llmsTxt).toContain('[Hello World]')
+      expect(llmsTxt).toContain('[Symbol Page]')
+      expect(llmsTxt).not.toContain('[API Reference]')
+      expect(fullTxt).toContain('This is my first post.')
+      expect(fullTxt).toContain('SYMBOL_BODY')
+      expect(fullTxt).not.toContain('Overview of the API.')
+      expect(await fs.pathExists(resolve(mockUserRoot, 'dist/api.md'))).toBe(true)
+    })
+
+    it.each(['exclude', 'collapse'] as const)('does not match %s globs against invented source aliases', async (selection) => {
+      await writeApiPages()
+      const patterns = ['api.md', 'posts/hello/index.md']
+      await build(createMockOptions({
+        include: ['**/*.md'],
+        ...(selection === 'exclude'
+          ? { exclude: patterns }
+          : { collapse: patterns.map(match => ({ match, title: 'Alias', href: '/alias/' })) }),
+      }))
+
+      const llmsTxt = await fs.readFile(resolve(mockUserRoot, 'dist/llms.txt'), 'utf-8')
+      const fullTxt = await fs.readFile(resolve(mockUserRoot, 'dist/llms-full.txt'), 'utf-8')
+
+      expect(llmsTxt).toContain('[Hello World]')
+      expect(llmsTxt).toContain('[API Reference]')
+      expect(llmsTxt).not.toContain('[Alias]')
+      expect(fullTxt).toContain('This is my first post.')
+      expect(fullTxt).toContain('Overview of the API.')
+    })
+
+    it.each(['!api/index.md', '!./api/index.md', '!/api/index.md'])('subtracts the %s exception from excluded pages', async (exception) => {
+      await writeApiPages()
+      await build(createMockOptions({ include: ['**/*.md'], exclude: ['api/**/*.md', exception] }))
+
+      const llmsTxt = await fs.readFile(resolve(mockUserRoot, 'dist/llms.txt'), 'utf-8')
+      const fullTxt = await fs.readFile(resolve(mockUserRoot, 'dist/llms-full.txt'), 'utf-8')
+
+      expect(llmsTxt).toContain('[Hello World]')
+      expect(llmsTxt).toContain('[API Reference]')
+      expect(llmsTxt).not.toContain('[Symbol Page]')
+      expect(fullTxt).toContain('This is my first post.')
+      expect(fullTxt).toContain('Overview of the API.')
+      expect(fullTxt).not.toContain('SYMBOL_BODY')
+    })
+
+    it('does not exclude pages when there are only negative patterns', async () => {
+      await build(createMockOptions({ exclude: ['!posts/hello.md'] }))
+
+      const llmsTxt = await fs.readFile(resolve(mockUserRoot, 'dist/llms.txt'), 'utf-8')
+      const fullTxt = await fs.readFile(resolve(mockUserRoot, 'dist/llms-full.txt'), 'utf-8')
+
+      expect(llmsTxt).toContain('[Hello World]')
+      expect(llmsTxt).toContain('[Second Post]')
+      expect(fullTxt).toContain('This is my first post.')
+      expect(fullTxt).toContain('Content of second post.')
+    })
+
+    it('treats a leading negative extglob as a positive selection pattern', async () => {
+      await writeApiPages()
+      await build(createMockOptions({ include: ['**/*.md'], exclude: ['!(posts)/**/*.md'] }))
+
+      const llmsTxt = await fs.readFile(resolve(mockUserRoot, 'dist/llms.txt'), 'utf-8')
+      const fullTxt = await fs.readFile(resolve(mockUserRoot, 'dist/llms-full.txt'), 'utf-8')
+
+      expect(llmsTxt).toContain('[Hello World]')
+      expect(llmsTxt).not.toContain('[API Reference]')
+      expect(fullTxt).toContain('This is my first post.')
+      expect(fullTxt).not.toContain('SYMBOL_BODY')
+    })
+
+    it('matches generated content using its pages-relative source path', async () => {
+      await fs.outputFile(resolve(mockUserRoot, '.valaxy/content/pages/api/index.md'), '---\ntitle: Generated Index\n---\nGENERATED_INDEX')
+      await fs.outputFile(resolve(mockUserRoot, '.valaxy/content/pages/api/symbol.md'), '---\ntitle: Generated Symbol\n---\nGENERATED_SYMBOL')
+      await build(createMockOptions({ include: ['**/*.md'], exclude: ['**/index.md'] }))
+
+      const llmsTxt = await fs.readFile(resolve(mockUserRoot, 'dist/llms.txt'), 'utf-8')
+      const fullTxt = await fs.readFile(resolve(mockUserRoot, 'dist/llms-full.txt'), 'utf-8')
+
+      expect(llmsTxt).toContain('[Generated Symbol]')
+      expect(llmsTxt).not.toContain('[Generated Index]')
+      expect(fullTxt).toContain('GENERATED_SYMBOL')
+      expect(fullTxt).not.toContain('GENERATED_INDEX')
+    })
+
+    it('collapses a directory to one index link and keeps the markdown files', async () => {
+      await writeApiPages()
+      await build(createMockOptions({
+        include: ['**/*.md'],
+        collapse: [{
+          match: 'api/**/*.md',
+          title: 'API Reference',
+          href: '/api/',
+          description: 'Generated reference',
+        }],
+      }))
+
+      const llmsTxt = await fs.readFile(resolve(mockUserRoot, 'dist/llms.txt'), 'utf-8')
+      const fullTxt = await fs.readFile(resolve(mockUserRoot, 'dist/llms-full.txt'), 'utf-8')
+
+      expect(llmsTxt).toContain('[API Reference](https://example.com/api/): Generated reference')
+      expect(llmsTxt).not.toContain('Symbol Page')
+      expect(llmsTxt.match(/\[API Reference\]/g)).toHaveLength(1)
+      expect(llmsTxt).toMatch(/^## Api$/m)
+      expect(fullTxt).not.toContain('SYMBOL_BODY')
+      expect(fullTxt).not.toContain('Overview of the API.')
+      expect(await fs.pathExists(resolve(mockUserRoot, 'dist/api/client/symbol.md'))).toBe(true)
+      expect(await fs.pathExists(resolve(mockUserRoot, 'dist/api.md'))).toBe(true)
+    })
+
+    it('groups locale prefixes and honors section order during build', async () => {
+      await fs.ensureDir(resolve(mockUserRoot, 'pages/guide'))
+      await fs.ensureDir(resolve(mockUserRoot, 'pages/zh/guide'))
+      await fs.writeFile(
+        resolve(mockUserRoot, 'pages/guide/why.md'),
+        `---
+title: Why Valaxy
+date: 2020-01-01
+---
+Why English.`,
+        'utf-8',
+      )
+      await fs.writeFile(
+        resolve(mockUserRoot, 'pages/zh/guide/why.md'),
+        `---
+title: 为什么选 Valaxy
+date: 2024-06-01
+---
+Why Chinese.`,
+        'utf-8',
+      )
+
+      await build(createMockOptions({
+        include: ['**/*.md'],
+        locales: ['zh'],
+        sectionOrder: ['Guide', 'Guide (zh)'],
+      }))
+
+      const llmsTxt = await fs.readFile(resolve(mockUserRoot, 'dist/llms.txt'), 'utf-8')
+      const guide = llmsTxt.search(/^## Guide$/m)
+      const guideZh = llmsTxt.search(/^## Guide \(zh\)$/m)
+
+      expect(guide).toBeGreaterThanOrEqual(0)
+      expect(guideZh).toBeGreaterThan(guide)
+      expect(llmsTxt).not.toMatch(/^## Zh$/m)
+      expect(llmsTxt).toContain('[为什么选 Valaxy](https://example.com/zh/guide/why.md)')
+    })
+  })
+})
+
+function llmsPost(partial: Partial<LlmsPost> & Pick<LlmsPost, 'title' | 'urlPath' | 'sourcePath'>): LlmsPost {
+  return {
+    description: '',
+    date: new Date(0),
+    content: '',
+    rawFrontmatter: {},
+    ...partial,
+  }
+}
+
+describe('llms index structure', () => {
+  const posts: LlmsPost[] = [
+    llmsPost({
+      title: 'Newer Post',
+      urlPath: '/posts/new',
+      sourcePath: 'posts/new.md',
+      date: new Date('2024-05-01'),
+      description: 'A new post',
+      content: 'Post body.',
+    }),
+    llmsPost({
+      title: 'Getting Started',
+      urlPath: '/guide/getting-started',
+      sourcePath: 'guide/getting-started.md',
+      date: new Date('2024-01-01'),
+      description: 'Start here',
+      content: 'Start body.',
+    }),
+    llmsPost({
+      title: '为什么选 Valaxy',
+      urlPath: '/zh/guide/why',
+      sourcePath: 'zh/guide/why.md',
+      date: new Date('2024-04-01'),
+      content: 'Chinese why.',
+    }),
+    llmsPost({
+      title: 'Why Valaxy',
+      urlPath: '/guide/why',
+      sourcePath: 'guide/why.md',
+      date: new Date('2024-02-01'),
+      content: 'English why.',
+    }),
+    llmsPost({
+      title: 'Symbol Page',
+      urlPath: '/api/client/symbol',
+      sourcePath: 'api/client/symbol.md',
+      content: 'SYMBOL_BODY',
+    }),
+    llmsPost({
+      title: 'API Overview',
+      urlPath: '/api',
+      sourcePath: 'api/index.md',
+      content: 'API overview.',
+    }),
+    llmsPost({
+      title: 'API 参考',
+      urlPath: '/zh/api',
+      sourcePath: 'zh/api/index.md',
+      content: 'Chinese API overview.',
+    }),
+  ]
+
+  function render(overrides: Partial<Parameters<typeof generateLlmsTxt>[0]> = {}) {
+    return generateLlmsTxt({
+      title: 'Test Blog',
+      description: 'A test blog',
+      prompt: '',
+      posts,
+      siteUrl: 'https://example.com',
+      ...overrides,
+    })
+  }
+
+  it('keeps llms disabled unless a site turns it on', () => {
+    expect(defaultSiteConfig.llms.enable).toBe(false)
+  })
+
+  it('keeps a language prefix as its own section when locales are unset', () => {
+    const llmsTxt = render()
+
+    expect(llmsTxt).toMatch(/^## Zh$/m)
+    expect(llmsTxt).toMatch(/^## Posts$/m)
+    expect(llmsTxt).not.toMatch(/^## Guide \(zh\)$/m)
+    expect(llmsTxt.indexOf('## Posts')).toBeLessThan(llmsTxt.indexOf('## Guide'))
+  })
+
+  it('splits locale prefixes into language sections and orders those sections', () => {
+    const llmsTxt = render({
+      locales: ['zh'],
+      sectionOrder: ['guide', 'Guide (zh)', 'Posts'],
+    })
+    const guide = llmsTxt.search(/^## Guide$/m)
+    const guideZh = llmsTxt.search(/^## Guide \(zh\)$/m)
+    const postSection = llmsTxt.search(/^## Posts$/m)
+
+    expect(llmsTxt).not.toMatch(/^## Zh$/m)
+    expect(guide).toBeGreaterThanOrEqual(0)
+    expect(guide).toBeLessThan(guideZh)
+    expect(guideZh).toBeLessThan(postSection)
+    expect(llmsTxt).toContain('[为什么选 Valaxy](https://example.com/zh/guide/why.md)')
+    expect(llmsTxt).toContain('[Why Valaxy](https://example.com/guide/why.md)')
+  })
+
+  it('keeps sections that are missing from sectionOrder', () => {
+    const llmsTxt = render({
+      locales: ['zh'],
+      sectionOrder: ['Guide'],
+    })
+
+    expect(llmsTxt.search(/^## Guide$/m)).toBeLessThan(llmsTxt.search(/^## Posts$/m))
+    expect(llmsTxt).toMatch(/^## Guide \(zh\)$/m)
+  })
+
+  it('pins featured pages first and does not repeat them', () => {
+    const llmsTxt = render({
+      locales: ['zh'],
+      featured: {
+        title: 'Guides',
+        paths: ['/guide/getting-started', 'guide/why.md', '/zh/guide/why/'],
+      },
+    })
+    const titles = [...llmsTxt.matchAll(/^- \[(.+?)\]/gm)].map(match => match[1])
+
+    expect(llmsTxt).toMatch(/^## Guides$/m)
+    expect(titles.slice(0, 3)).toEqual(['Getting Started', 'Why Valaxy', '为什么选 Valaxy'])
+    expect(llmsTxt.match(/\[Getting Started\]/g)).toHaveLength(1)
+    expect(llmsTxt.match(/\[Why Valaxy\]/g)).toHaveLength(1)
+    expect(llmsTxt.indexOf('## Guides')).toBeLessThan(llmsTxt.indexOf('## Posts'))
+  })
+
+  it.each(['Guides', 'guides'])('keeps featured pages first when sectionOrder lists %s after another section', (heading) => {
+    const llmsTxt = render({
+      featured: { title: 'Guides', paths: ['/guide/getting-started'] },
+      sectionOrder: ['Posts', heading],
+    })
+
+    expect([...llmsTxt.matchAll(/^## (.+)$/gm)].map(match => match[1]).slice(0, 2)).toEqual(['Guides', 'Posts'])
+    expect(llmsTxt.match(/^## Guides$/gm)).toHaveLength(1)
+    expect(llmsTxt.match(/\[Getting Started\]/g)).toHaveLength(1)
+  })
+
+  it.each([undefined, 'Guide'])('keeps featured pages ahead of collapsed links in the %s section', (title) => {
+    const llmsTxt = render({
+      featured: { title, paths: ['/guide/getting-started', '/guide/why'] },
+      collapse: [{ match: 'api/**/*.md', title: 'API Reference', href: '/docs/', section: title }],
+    })
+    const titles = [...llmsTxt.matchAll(/^- \[(.+?)\]/gm)].map(match => match[1])
+
+    expect(titles.slice(0, 3)).toEqual(['Getting Started', 'Why Valaxy', 'API Reference'])
+    expect(llmsTxt.match(/\[Getting Started\]/g)).toHaveLength(1)
+    expect(llmsTxt.match(/\[Why Valaxy\]/g)).toHaveLength(1)
+  })
+
+  it('collapses matching pages to one directory link per locale', () => {
+    const llmsTxt = render({
+      locales: ['zh'],
+      collapse: [
+        {
+          match: 'api/**/*.md',
+          title: 'API Reference',
+          href: '/api/',
+          description: 'Generated reference',
+        },
+        {
+          match: 'zh/api/**/*.md',
+          title: 'API 参考',
+          href: '/zh/api/',
+          description: '中文入口',
+        },
+      ],
+    })
+    const fullTxt = generateLlmsFullTxt({
+      title: 'Test Blog',
+      description: '',
+      prompt: '',
+      posts,
+      collapse: [
+        { match: 'api/**/*.md', title: 'API Reference', href: '/api/' },
+        { match: 'zh/api/**/*.md', title: 'API 参考', href: '/zh/api/' },
+      ],
+    })
+
+    expect(llmsTxt).toContain('[API Reference](https://example.com/api/): Generated reference')
+    expect(llmsTxt).toContain('[API 参考](https://example.com/zh/api/): 中文入口')
+    expect(llmsTxt).toMatch(/^## Api$/m)
+    expect(llmsTxt).toMatch(/^## Api \(zh\)$/m)
+    expect(llmsTxt).not.toContain('Symbol Page')
+    expect(llmsTxt).not.toContain('API Overview')
+    expect(fullTxt).not.toContain('SYMBOL_BODY')
+    expect(fullTxt).not.toContain('Chinese API overview.')
+    expect(fullTxt).toContain('Start body.')
+  })
+
+  it('omits excluded pages from the index and full text', () => {
+    const llmsTxt = render({ exclude: ['api/**/*.md', 'zh/api/**/*.md'] })
+    const fullTxt = generateLlmsFullTxt({
+      title: 'Test Blog',
+      description: '',
+      prompt: '',
+      posts,
+      exclude: ['api/**/*.md', 'zh/api/**/*.md'],
+    })
+
+    expect(llmsTxt).not.toContain('Symbol Page')
+    expect(llmsTxt).not.toContain('/zh/api')
+    expect(llmsTxt).toContain('Getting Started')
+    expect(fullTxt).not.toContain('SYMBOL_BODY')
+    expect(fullTxt).toContain('English why.')
+  })
+
+  it('prefixes every line of a multiline prompt', () => {
+    const llmsTxt = render({
+      prompt: 'Prefer the guides.\n\n- Getting Started: https://example.com/guide/getting-started.md',
+    })
+
+    expect(llmsTxt).toContain('> A test blog\n>\n> Prefer the guides.\n>\n> - Getting Started: https://example.com/guide/getting-started.md')
   })
 })
 

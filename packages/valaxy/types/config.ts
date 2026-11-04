@@ -480,6 +480,41 @@ export interface SiteConfig {
      * @default ['posts\/**\/*.md']
      */
     include?: string[]
+    /**
+     * @zh 从 `llms.txt` 和 `llms-full.txt` 排除的 glob（相对于 `pages/`，语法与 `include` 相同）。
+     * `files` 仍会写出对应的 `.md` 文件。
+     * 不设置时不做排除，因此只开启 `enable` 的站点保持原有输出。
+     * @en Glob patterns, relative to `pages/` and using the same syntax as `include`, omitted from `llms.txt` and `llms-full.txt`.
+     * Individual `.md` files are still written when `files` is true.
+     * Unset means nothing is excluded, so sites that only enable llms keep their previous output.
+     */
+    exclude?: string[]
+    /**
+     * @zh `llms.txt` 分组标题的顺序，例如 `['Guide', 'Posts']`。未列出的分组按原顺序排在后面。匹配时忽略大小写。
+     * @en Section headings in `llms.txt`, first to last, for example `['Guide', 'Posts']`. Headings you omit keep their original order after these. Matching ignores case.
+     */
+    sectionOrder?: string[]
+    /**
+     * @zh 作为语言而不是栏目的 URL 前缀，例如 `['zh']`。
+     * `/zh/guide/why` 会归入 `Guide (zh)`，而不是把所有中文页放进一个 `Zh` 分组。
+     * 不设置时仍用路径的第一段作为分组名。
+     * @en URL prefixes that are languages rather than sections, for example `['zh']`.
+     * `/zh/guide/why` is grouped as `Guide (zh)` instead of placing every Chinese page in one `Zh` section.
+     * Unset keeps the first path segment as the section name.
+     */
+    locales?: string[]
+    /**
+     * @zh 在 `llms.txt` 开头置顶的页面。
+     * @en Pages pinned to the start of `llms.txt`.
+     */
+    featured?: LlmsFeatured
+    /**
+     * @zh 把一批页面折叠成 `llms.txt` 中的一条链接，并从不写入 `llms-full.txt`。
+     * 对应的 `.md` 文件仍会生成。适合把 API 参考收成一个 `/api/` 入口。
+     * @en Replace a set of pages with one `llms.txt` link and omit them from `llms-full.txt`.
+     * The `.md` files are still generated. Use this to collapse an API reference to a single `/api/` entry.
+     */
+    collapse?: LlmsCollapse[]
   }
 
   /**
@@ -490,6 +525,54 @@ export interface SiteConfig {
     useVueRouter?: boolean
     rules?: RedirectRule[]
   }
+}
+
+/**
+ * One `llms.txt` link that stands in for every page matching `match`.
+ */
+export interface LlmsCollapse {
+  /**
+   * @zh 相对于 `pages/` 的 glob，语法与 `include` 相同，例如 `api/**\/*.md`。
+   * @en Glob relative to `pages/`, same syntax as `include`, for example `api/**\/*.md`.
+   */
+  match: string
+  /**
+   * @zh 索引里这条链接的标题
+   * @en Title of the index link
+   */
+  title: string
+  /**
+   * @zh 链接路径。以 `/` 结尾时保持目录地址（如 `/api/`）；否则像普通条目一样补上 `.md`。
+   * @en Link path. A trailing slash stays a directory URL (for example `/api/`). Other paths gain a `.md` suffix, like normal entries.
+   */
+  href: string
+  /**
+   * @zh 可选描述，写在链接后面
+   * @en Optional description appended after the link
+   */
+  description?: string
+  /**
+   * @zh 可选分组标题。默认由 `href` 推断：`/api/` 为 `Api`；设置 `locales: ['zh']` 时 `/zh/api/` 为 `Api (zh)`。
+   * @en Optional section heading. Defaults from `href`: `/api/` becomes `Api`, and `/zh/api/` becomes `Api (zh)` when `locales` includes `zh`.
+   */
+  section?: string
+}
+
+/**
+ * Pages lifted to the front of `llms.txt`.
+ */
+export interface LlmsFeatured {
+  /**
+   * @zh 置顶分组的标题
+   * @en Heading for the leading section
+   * @default 'Docs'
+   */
+  title?: string
+  /**
+   * @zh 按此顺序置顶的站点路径，例如 `/guide/getting-started`。这些页面不会在后面的分组里再次出现。
+   * @en Site paths pinned first, in this order, for example `/guide/getting-started`. They are not repeated in later sections.
+   */
+  paths: string[]
 }
 
 export type PartialDeep<T> = {

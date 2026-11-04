@@ -6,9 +6,9 @@ import path from 'node:path'
 import fs from 'fs-extra'
 import matter from 'gray-matter'
 import { loadLocalesYml } from '../../shared/node/i18n'
-import { formatMetadataHeader, generateLlmsFullTxt, generateLlmsTxt, resolveText, stripSensitiveFrontmatter } from '../modules/llms/utils'
-import { filePathToUrlPath, filterPublicPosts, getSiteUrl, readPostFiles, scanPageFiles } from '../modules/utils'
-import { resolvePageFile } from '../utils/pageSources'
+import { formatMetadataHeader, generateLlmsFullTxt, generateLlmsTxt, loadLlmsPosts, resolveText, stripSensitiveFrontmatter } from '../modules/llms/utils'
+import { getSiteUrl } from '../modules/utils'
+import { getPagePath, resolvePageFile } from '../utils/pageSources'
 import { matterOptions } from './markdown/transform/matter'
 
 /**
@@ -66,68 +66,39 @@ export function createLlmsPlugin(options: ResolvedValaxyOptions): Plugin | null 
   }
 }
 
+/** Fields shared by the dev-server index and full-text responses. */
+function llmsDocumentInput(options: ResolvedValaxyOptions, posts: LlmsPost[]) {
+  const siteConfig = options.config.siteConfig
+  const lang = siteConfig.lang || 'en'
+  const llms = siteConfig.llms
+  return {
+    title: resolveText(siteConfig.title, lang) || 'Valaxy Blog',
+    description: resolveText(siteConfig.description, lang),
+    prompt: llms.prompt,
+    posts,
+    siteUrl: getSiteUrl(options),
+    exclude: llms.exclude,
+    locales: llms.locales,
+    sectionOrder: llms.sectionOrder,
+    featured: llms.featured,
+    collapse: llms.collapse,
+  }
+}
+
 /**
  * Generate llms.txt index content from current posts.
  */
 async function buildLlmsTxt(options: ResolvedValaxyOptions): Promise<string> {
-  const { config } = options
-  const siteConfig = config.siteConfig
-  const lang = siteConfig.lang || 'en'
-  const siteUrl = getSiteUrl(options)
-
-  const posts = await collectPosts(options, lang)
-  const title = resolveText(siteConfig.title, lang) || 'Valaxy Blog'
-  const description = resolveText(siteConfig.description, lang)
-
-  return generateLlmsTxt({
-    title,
-    description,
-    prompt: siteConfig.llms.prompt,
-    posts,
-    siteUrl,
-  })
+  const posts = await loadLlmsPosts(options)
+  return generateLlmsTxt(llmsDocumentInput(options, posts))
 }
 
 /**
  * Generate llms-full.txt content from current posts.
  */
 async function buildLlmsFullTxt(options: ResolvedValaxyOptions): Promise<string> {
-  const { config } = options
-  const siteConfig = config.siteConfig
-  const lang = siteConfig.lang || 'en'
-
-  const posts = await collectPosts(options, lang)
-  const title = resolveText(siteConfig.title, lang) || 'Valaxy Blog'
-  const description = resolveText(siteConfig.description, lang)
-
-  return generateLlmsFullTxt({
-    title,
-    description,
-    prompt: siteConfig.llms.prompt,
-    posts,
-  })
-}
-
-/**
- * Scan, read, filter, and sort posts into LlmsPost[].
- */
-async function collectPosts(options: ResolvedValaxyOptions, lang: string): Promise<LlmsPost[]> {
-  const include = options.config.siteConfig.llms.include || ['posts/**/*.md']
-  const files = await scanPageFiles(options.userRoot, include)
-  const rawPosts = await readPostFiles(files)
-  const publicPosts = filterPublicPosts(rawPosts)
-
-  const posts = publicPosts.map<LlmsPost>(({ data, content, filePath }) => ({
-    title: resolveText(data.title, lang) || path.basename(filePath, '.md'),
-    description: resolveText(data.description, lang) || '',
-    date: data.date ? new Date(data.date) : new Date(0),
-    urlPath: filePathToUrlPath(filePath, options.userRoot),
-    content,
-    rawFrontmatter: stripSensitiveFrontmatter(data),
-  }))
-
-  posts.sort((a, b) => +b.date - +a.date)
-  return posts
+  const posts = await loadLlmsPosts(options)
+  return generateLlmsFullTxt(llmsDocumentInput(options, posts))
 }
 
 /**
@@ -160,6 +131,7 @@ async function resolveRawMd(url: string, options: ResolvedValaxyOptions): Promis
     description: resolveText(data.description, lang) || '',
     date: data.date ? new Date(data.date) : new Date(0),
     urlPath,
+    sourcePath: getPagePath(filePath, options.userRoot)!,
     content,
     rawFrontmatter: cleanedFrontmatter,
   }

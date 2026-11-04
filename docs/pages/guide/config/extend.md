@@ -325,10 +325,15 @@ Themes can use the `useCopyMarkdown()` composable to add a "Copy Markdown" butto
 - `enable`: Whether to enable the LLMS module. Default is `false`, disabled.
 - `files`: Whether to generate individual `.md` files for each page. Default is `true`.
 - `fullText`: Whether to generate `llms-full.txt` (with all page content inlined). Default is `true`.
-- `prompt`: Custom prompt text, added to the `llms.txt` description section. Default is `''`.
+- `prompt`: Custom prompt text, added to the `llms.txt` description section. Default is `''`. Multiple lines are each prefixed with `>`.
 - `include`: Glob patterns for markdown files to include (relative to `pages/` directory). Default is `['posts/**/*.md']` to only include posts. Set to `['**/*.md']` to include all markdown files under `pages/`. You can also specify multiple directories, e.g. `['posts/**/*.md', 'guide/**/*.md']`.
+- `exclude`: Glob patterns, relative to `pages/` and using the same syntax as `include`, omitted from `llms.txt` and `llms-full.txt`. `.md` files are still written when `files` is true.
+- `sectionOrder`: Section headings to emit first. Other headings keep their original order. Matching ignores case.
+- `locales`: Language prefixes in the URL. `locales: ['zh']` groups `/zh/guide/why` as `Guide (zh)` instead of one `Zh` section. Unset, the first path segment is still the section name.
+- `featured`: Paths pinned under one leading heading (`title` defaults to `Docs`). They are not repeated later.
+- `collapse`: Replace pages matching a glob with one index link and omit them from `llms-full.txt`. A `href` of `/api/` stays that directory URL.
 
-Pages in `llms.txt` are automatically grouped by their top-level directory (e.g. `## Posts`, `## Guide`, etc.).
+Pages in `llms.txt` are grouped by their top-level directory (e.g. `## Posts`, `## Guide`) unless `locales`, `sectionOrder`, `featured`, or `collapse` say otherwise. Sites that only set `enable: true` keep the original grouping. See [Work with AI](/guide/work-with-ai#llms-txt) for a longer explanation, including why `llms-full.txt` can stay large after an API tree is collapsed.
 
 ```ts [site.config.ts]
 export default defineSiteConfig({
@@ -345,6 +350,12 @@ export default defineSiteConfig({
 
     // Include specific directories
     // include: ['posts/**/*.md', 'guide/**/*.md'],
+
+    // exclude: ['secret/**/*.md'],
+    // sectionOrder: ['Guide', 'Posts'],
+    // locales: ['zh'],
+    // featured: { title: 'Guides', paths: ['/guide/getting-started'] },
+    // collapse: [{ match: 'api/**/*.md', title: 'API Reference', href: '/api/' }],
   },
 })
 ```
