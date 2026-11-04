@@ -37,4 +37,4 @@ Use [Press](/themes/press) for a docs-shaped site that still has Valaxy's posts,
 
 ## Where Hexo still fits
 
-Stay on Hexo when one Hexo theme or plugin is the product and replacing it is unacceptable. Move when you want Vue, Vite hot reload, and typed `valaxy.config.ts` / `site.config.ts`, and a new theme is acceptable. [Why Valaxy](/guide/why) and [How to choose](/guide/choose) cover that trade-off.
+Valaxy also aims to be a modern alternative to Hexo: the blog workflow stays familiar (posts, tags, a theme, and a [migration path](/migration/)), with Vite and Vue 3, hot reload, typed config, component overrides, SSG then SPA navigation, and the AI surface of Skills, MCP, and `llms.txt` ([Work with AI](/guide/work-with-ai)). Stay when one Hexo theme or plugin is the product and replacing it is unacceptable. [Why Valaxy](/guide/why) and [How to choose](/guide/choose) cover that trade-off.

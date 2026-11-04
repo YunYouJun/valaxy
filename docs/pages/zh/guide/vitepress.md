@@ -37,4 +37,4 @@ Valaxy 把日期、标签和分类放在文章 front matter 里，由主题渲�
 
 ## Hexo 仍然适合的地方
 
-某一个 Hexo 主题或插件就是产品，并且不能替换时，留在 Hexo。想要 Vue、Vite 热更新，以及带类型的 `valaxy.config.ts` / `site.config.ts`，并且可以接受新主题时，再迁。这个取舍写在[为什么选 Valaxy](/zh/guide/why)和[怎么选](/zh/guide/choose)。
+Valaxy 也以成为 Hexo 的现代替代为目标：博客工作流仍然熟悉（文章、标签、主题，以及[迁移路径](/zh/migration/)），同时提供 Vite 与 Vue 3、热更新、带类型的配置、组件覆盖、先 SSG 再站内跳转，以及 Skills、MCP 和 `llms.txt`（[与 AI 协作](/zh/guide/work-with-ai)）。某一个 Hexo 主题或插件就是产品，并且不能替换时，留在 Hexo。这个取舍写在[为什么选 Valaxy](/zh/guide/why)和[怎么选](/zh/guide/choose)。
