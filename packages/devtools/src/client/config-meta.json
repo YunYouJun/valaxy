@@ -434,6 +434,36 @@
           "description": "Custom prompt text for llms.txt",
           "descriptionZh": "自定义提示词",
           "default": "''"
+        },
+        {
+          "name": "exclude",
+          "type": "string[]",
+          "description": "Globs omitted from llms.txt and llms-full.txt. .md files are still written.",
+          "descriptionZh": "从 llms.txt 和 llms-full.txt 排除的 glob，仍会写出 .md 文件"
+        },
+        {
+          "name": "sectionOrder",
+          "type": "string[]",
+          "description": "Section headings to emit first in llms.txt",
+          "descriptionZh": "llms.txt 中优先输出的分组标题"
+        },
+        {
+          "name": "locales",
+          "type": "string[]",
+          "description": "URL prefixes treated as languages when grouping llms.txt",
+          "descriptionZh": "分组时视为语言前缀的 URL 片段"
+        },
+        {
+          "name": "featured",
+          "type": "LlmsFeatured",
+          "description": "Pages pinned to the start of llms.txt",
+          "descriptionZh": "置顶到 llms.txt 开头的页面"
+        },
+        {
+          "name": "collapse",
+          "type": "LlmsCollapse[]",
+          "description": "Replace matching pages with one llms.txt link and omit them from llms-full.txt",
+          "descriptionZh": "把匹配页面收成一条 llms.txt 链接，并且不写入 llms-full.txt"
         }
       ]
     }

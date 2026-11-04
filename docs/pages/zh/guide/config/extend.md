@@ -325,10 +325,15 @@ Valaxy 内置了 LLMS 模块，遵循 [llms.txt 标准](https://llmstxt.org/)，
 - `enable`: 是否启用 LLMS 模块。默认 `false`，关闭。
 - `files`: 是否为每个页面生成独立的 `.md` 文件。默认 `true`。
 - `fullText`: 是否生成 `llms-full.txt`（包含所有页面完整内容）。默认 `true`。
-- `prompt`: 自定义提示词，添加到 `llms.txt` 的描述部分。默认 `''`。
+- `prompt`: 自定义提示词，添加到 `llms.txt` 的描述部分。默认 `''`。多行内容会逐行加上 `>`。
 - `include`: 要包含的 Markdown 文件 glob 模式（相对于 `pages/` 目录）。默认 `['posts/**/*.md']` 仅包含 posts 目录。设为 `['**/*.md']` 可包含所有 `pages/` 下的 Markdown 文件，也可指定多个目录如 `['posts/**/*.md', 'guide/**/*.md']`。
+- `exclude`: 相对于 `pages/` 的 glob，语法与 `include` 相同。命中的页面不进入 `llms.txt` 和 `llms-full.txt`。`files` 为 true 时仍会写出 `.md` 文件。
+- `sectionOrder`: 优先输出的分组标题。其余分组保持原来的顺序。匹配时忽略大小写。
+- `locales`: URL 里的语言前缀。`locales: ['zh']` 会把 `/zh/guide/why` 分到 `Guide (zh)`，而不是一个 `Zh` 分组。不设置时，分组名仍然是路径第一段。
+- `featured`: 置顶到一个分组的路径（`title` 默认 `Docs`）。这些页面不会在后面重复。
+- `collapse`: 把匹配 glob 的页面收成一条索引链接，并且不写入 `llms-full.txt`。`href` 为 `/api/` 时保留这个目录地址。
 
-`llms.txt` 中的页面会按顶级目录自动分组（如 `## Posts`、`## Guide` 等）。
+`llms.txt` 默认按顶级目录分组（如 `## Posts`、`## Guide`）。设置 `locales`、`sectionOrder`、`featured` 或 `collapse` 后才会改变。只开启 `enable: true` 的站点保持原来的分组。更完整的说明，以及为什么收起 API 之后 `llms-full.txt` 仍可能很大，见[与 AI 协作](/zh/guide/work-with-ai#llmstxt)。
 
 ```ts [site.config.ts]
 export default defineSiteConfig({
@@ -345,6 +350,12 @@ export default defineSiteConfig({
 
     // Include specific directories
     // include: ['posts/**/*.md', 'guide/**/*.md'],
+
+    // exclude: ['secret/**/*.md'],
+    // sectionOrder: ['Guide', 'Posts'],
+    // locales: ['zh'],
+    // featured: { title: 'Guides', paths: ['/guide/getting-started'] },
+    // collapse: [{ match: 'api/**/*.md', title: 'API Reference', href: '/api/' }],
   },
 })
 ```

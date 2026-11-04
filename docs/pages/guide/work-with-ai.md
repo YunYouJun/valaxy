@@ -196,7 +196,7 @@ This file contains:
 If you use Claude Code or other AI tools that support `CLAUDE.md` to develop Valaxy, it will automatically read this file for more accurate context understanding.
 
 
-## llms.txt
+## llms.txt {#llms-txt}
 
 
 Valaxy has built-in [llms.txt](https://llmstxt.org/) support to generate AI-readable plain text content for your blog. It is disabled by default.
@@ -235,9 +235,27 @@ export default defineSiteConfig({
     prompt: '',
     // Glob patterns for files to include (relative to pages/, default: ['posts/**/*.md'])
     include: ['posts/**/*.md'],
+    // Optional. Omit them to keep the previous index: first path segment, date order.
+    // exclude: ['secret/**/*.md'],
+    // sectionOrder: ['Guide', 'Posts'],
+    // locales: ['zh'],
+    // featured: { title: 'Guides', paths: ['/guide/getting-started'] },
+    // collapse: [{ match: 'api/**/*.md', title: 'API Reference', href: '/api/' }],
   },
 })
 ```
+
+### Index shape
+
+Pages are grouped by their top-level directory (`## Posts`, `## Guide`). The fields below are optional. A site that only sets `enable: true` keeps that grouping, and `llms.enable` still defaults to `false`.
+
+- `sectionOrder`: section headings, first to last. Headings you leave out stay after these, in their original order. Matching ignores case.
+- `exclude`: glob patterns relative to `pages/`, same syntax as `include`. Matching pages are left out of `llms.txt` and `llms-full.txt`. Individual `.md` files are still written when `files` is true.
+- `locales`: URL prefixes that are languages, not sections. With `locales: ['zh']`, `/zh/guide/why` is `Guide (zh)` instead of one `Zh` group for every Chinese page. Unprefixed pages stay `Guide`.
+- `featured`: paths pinned, in order, under one leading heading (`title` defaults to `Docs`). Those pages are not repeated later. `/guide/why` and `/guide/why.md` match the same page.
+- `collapse`: replace every page matching a glob with one index link, and leave those pages out of `llms-full.txt`. `.md` files are still written. A `href` ending in `/` stays a directory URL, so `/api/` can stand for a whole API reference. With `locales`, `/zh/api/` is grouped as `Api (zh)` unless you set `section`.
+
+`llms-full.txt` inlines every included page that is not excluded or collapsed. Generated API trees are the usual reason it grows past what you want to paste into a prompt. The prose of a large bilingual docs site can still be well over 100 KB after the API is removed, because that text is the corpus. Use the index to open one `.md` URL when you only need one page.
 
 ### CLI Command
 
