@@ -142,16 +142,25 @@ export default defineSiteConfig({
   title: '我的博客',
   author: {
     name: '小明',
+    avatar: '/favicon.svg',
+    email: 'you@example.com',
+    link: 'https://example.com/',
   },
   description: '记录生活与技术。',
+  // 会发布文章 Markdown。设为 false 可关闭。
+  llms: {
+    enable: true,
+  },
 })
 ```
 
-`url` 是正式部署地址，用于文章链接、站点地图和 RSS；上线前请将 `https://example.com/` 替换为你自己的网址。它不会改变开发服务器地址。保存后，检查浏览器标题、侧边栏站点名称和文章作者是否更新。
+`url` 是正式部署地址，用于文章链接、站点地图、RSS 和 `llms.txt`。新项目使用 `https://example.com/`，上线前请替换为你自己的网址。它不会改变开发服务器地址。保存后，检查浏览器标题、侧边栏站点名称和文章作者是否更新。
+
+新项目设置了 `llms.enable: true`，因此 `pnpm build` 会生成 `dist/llms.txt`，并发布文章 Markdown。在 `site.config.ts` 中设置 `llms.enable: false` 即可关闭。框架默认仍然关闭，所以这次模板改动之前创建的站点不会自动开始发布这些文件。项目还包含给编程助手使用的 `AGENTS.md`。参见[与 AI 协作](/zh/guide/work-with-ai)。
 
 保留 `timezone`，或改成你的站点时区（如 `UTC`）。明确时区可让构建环境和不同时区的访客看到一致的文章时间。`valaxy new` 生成的时间包含时区偏移；手写日期时可以使用上面的 `YYYY-MM-DD`，需要精确时间则使用带偏移的格式，例如 `2026-10-05T14:30:00+08:00`。
 
-**`valaxy.config.ts`** 用于主题和框架选项。Yun 模板中的首页大字单独由 `themeConfig.banner.title` 控制，将它改成你希望显示的文字即可。模板中的社交链接、赞助信息和页脚备案信息也是示例，上线前请修改或关闭。
+**`valaxy.config.ts`** 用于主题和框架选项。Yun 模板中的首页大字单独由 `themeConfig.banner.title` 控制，模板里是 `我的小站`，将它改成你希望显示的文字即可。社交链接、赞助信息和页脚备案是占位内容；赞助二维码和 ICP 备案默认关闭。本地 MCP 服务保持注释。
 
 更多选项参见 [站点配置](/zh/guide/config/) 和 [自定义扩展](/zh/guide/custom/extend)。
 
@@ -172,6 +181,7 @@ pnpm serve
 - 直接打开 `/posts/first-post`，正文正常显示；刷新后仍能访问。
 - `dist/index.html` 和 `dist/posts/first-post.html` 已生成，包含对应页面内容。
 - `dist/sitemap.xml` 与 `dist/atom.xml` 使用你在 `site.config.ts` 设置的站点地址。
+- 当 `llms.enable` 为 `true` 时会生成 `dist/llms.txt`，其中的文章链接使用同一站点地址。
 
 `pnpm serve` 不会重新构建。后续修改需要再次执行 `pnpm build`。构建产物可按 [部署指南](/zh/guide/deploy) 部署到静态托管服务。
 
@@ -241,6 +251,7 @@ pnpm up --latest -i
 
 
 
+- `AGENTS.md`: 给在本站点中工作的编程助手的说明
 - `.vscode`: 推荐安装一些有用的 VSCode 插件，这样你可以直接预览一些图标、国际化、辅助的 CSS Class 等
   - 可选安装 [Valaxy VS Code 扩展](/zh/ecosystem/vscode)，在编辑器中查看文章列表和本地站点预览。安装步骤、配置和兼容性说明请参阅扩展文档。
 - `.github`: 使用 GitHub Actions 自动构建并部署到 GitHub Pages

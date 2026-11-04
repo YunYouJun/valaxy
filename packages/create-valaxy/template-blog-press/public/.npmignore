@@ -1,0 +1,5 @@
+# Generated feed and search files. See template-blog/public/.npmignore.
+atom.xml
+feed.xml
+feed.json
+valaxy-fuse-list.json

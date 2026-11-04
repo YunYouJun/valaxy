@@ -15,6 +15,10 @@ export function isEmpty(path: string) {
 }
 
 export function copy(src: string, dest: string) {
+  // Packaging ignore for the published scaffolder. It is not part of a new site.
+  if (path.basename(src) === '.npmignore')
+    return
+
   const stat = fs.statSync(src)
   if (stat.isDirectory())
     copyDir(src, dest)

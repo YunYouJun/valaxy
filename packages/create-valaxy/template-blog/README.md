@@ -28,11 +28,13 @@ Use your publication date. Save the file, then open `/posts/first-post` or click
 
 ### Config
 
-Edit `site.config.ts` for `title`, `author.name`, `description`, `lang`, and your production `url`. The URL is used in post links, RSS, and the sitemap; replace the example before deployment.
+Edit `site.config.ts` for `title`, `author.name`, `description`, `lang`, and your production `url`. The URL is used in post links, RSS, the sitemap, and `llms.txt`; replace `https://example.com/` before deployment.
 
 Keep an explicit `timezone` (the Yun template uses `Asia/Shanghai`) so the build server and visitors display the same post times. For precise publication times, use an offset such as `2026-10-05T14:30:00+08:00`; `valaxy new` generates this format automatically.
 
-Edit `valaxy.config.ts` for theme and framework options. Yun's large home page text uses `themeConfig.banner.title`. Replace or disable the template's example social links, sponsorship details, and footer registration information before deployment.
+The template sets `llms.enable: true`, so `pnpm build` writes `dist/llms.txt` and publishes post Markdown. Set `llms.enable: false` to turn that off. Social links, the sponsor block, and footer ICP registration are placeholders; sponsor and ICP start disabled.
+
+Edit `valaxy.config.ts` for theme and framework options. Yun's large home page text uses `themeConfig.banner.title`. `AGENTS.md` gives coding agents the same project notes. MCP stays commented out.
 
 ### Build and preview
 
@@ -68,6 +70,7 @@ In most cases, you only need to work in the `pages` folder.
 
 ### Other
 
+- `AGENTS.md`: notes for coding agents working in this site
 - `.vscode`: recommend some useful plugins & settings, you can preview icon/i18n/class...
 - `.github`: GitHub Actions to auto build & deploy to GitHub Pages
 - `netlify.toml`: for [netlify](https://www.netlify.com/)

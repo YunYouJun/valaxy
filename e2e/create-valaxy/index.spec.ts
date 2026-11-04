@@ -22,8 +22,8 @@ test.describe('Create Valaxy Demo', () => {
 
   test('banner', async ({ page }) => {
     await page.waitForSelector('#yun-banner')
-    await expect(page.locator('.char-box')).toHaveCount(6)
-    await expect(page.locator('.char-box').nth(0)).toHaveText('云')
+    await expect(page.locator('.char-box')).toHaveCount(4)
+    await expect(page.locator('.char-box').nth(0)).toHaveText('我')
   })
 
   // new version yun deprecated sidebar

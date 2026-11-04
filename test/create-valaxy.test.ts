@@ -248,4 +248,74 @@ describe('template-blog-press', () => {
   it('contains site.config.ts', () => {
     expect(fs.existsSync(path.join(templateDir, 'site.config.ts'))).toBe(true)
   })
+
+  it('enables llms.txt and leaves MCP commented out', () => {
+    const site = fs.readFileSync(path.join(templateDir, 'site.config.ts'), 'utf-8')
+    const config = fs.readFileSync(path.join(templateDir, 'valaxy.config.ts'), 'utf-8')
+    expect(site).toMatch(/llms:\s*\{[^}]*enable:\s*true/)
+    expect(site).toContain('https://example.com/')
+    expect(site).not.toContain('valaxy.site')
+    expect(config).toContain('https://valaxy.site/guide/work-with-ai#mcp')
+    expect(config).not.toMatch(/^\s*mcp:\s*true/m)
+  })
+})
+
+describe('ai-ready blog scaffold', () => {
+  const blogDir = path.resolve(__dirname, '../packages/create-valaxy/template-blog')
+  const pressDir = path.resolve(__dirname, '../packages/create-valaxy/template-blog-press')
+  const personalBranding = [
+    '云游君',
+    '苏ICP备17038157',
+    'yunyoujun.cn',
+    'cdn.yunyoujun',
+    'me@yunyoujun',
+    'sponsors/YunYouJun',
+  ]
+
+  function textFiles(dir: string): string[] {
+    return fs.readdirSync(dir, { withFileTypes: true }).flatMap((entry) => {
+      const fullPath = path.join(dir, entry.name)
+      if (entry.isDirectory())
+        return textFiles(fullPath)
+      if (entry.name === 'extensions.json' || /\.(?:png|jpe?g|gif|webp|ico)$/i.test(entry.name))
+        return []
+      return [fullPath]
+    })
+  }
+
+  it('ships an author-facing AGENTS.md from the blog template', () => {
+    const agents = fs.readFileSync(path.join(blogDir, 'AGENTS.md'), 'utf-8')
+    expect(agents).toContain('llms.enable: false')
+    expect(agents).toContain('https://valaxy.site/guide/work-with-ai#mcp')
+    expect(fs.existsSync(path.join(pressDir, 'AGENTS.md'))).toBe(false)
+  })
+
+  it('enables llms.txt without personal site URLs', () => {
+    const site = fs.readFileSync(path.join(blogDir, 'site.config.ts'), 'utf-8')
+    expect(site).toMatch(/llms:\s*\{[^}]*enable:\s*true/)
+    expect(site).toContain('https://example.com/')
+    expect(site).toContain('llms.enable: false')
+    expect(site).not.toContain('valaxy.site')
+  })
+
+  it('keeps MCP opt-in in the Yun template', () => {
+    const config = fs.readFileSync(path.join(blogDir, 'valaxy.config.ts'), 'utf-8')
+    expect(config).toContain('title: \'我的小站\'')
+    expect(config).toContain('https://valaxy.site/guide/work-with-ai#mcp')
+    expect(config).not.toMatch(/^\s*mcp:\s*true/m)
+    expect(config).toContain('enable: false')
+  })
+
+  it('does not ship personal branding in either blog template', () => {
+    for (const file of [...textFiles(blogDir), ...textFiles(pressDir)]) {
+      const content = fs.readFileSync(file, 'utf-8')
+      for (const marker of personalBranding)
+        expect(content, file).not.toContain(marker)
+    }
+  })
+
+  it('keeps the framework llms default off for existing sites', () => {
+    const source = fs.readFileSync(path.resolve(__dirname, '../packages/valaxy/node/config/site.ts'), 'utf-8')
+    expect(source).toMatch(/llms:\s*\{[^}]*enable:\s*false/)
+  })
 })

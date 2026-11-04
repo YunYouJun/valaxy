@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { useSiteConfig } from 'valaxy'
+import { useSiteConfig, withBase } from 'valaxy'
 
 const siteConfig = useSiteConfig()
 </script>
@@ -9,7 +9,7 @@ const siteConfig = useSiteConfig()
     <div class="absolute size-full avatar-bg bg-image-$yun-home-hero-image-background-image filter-blur-2xl op-30" />
     <img
       class="rounded-full size-full bg-white dark:bg-white/20 p-1 m-0 absolute"
-      :src="siteConfig.author.avatar"
+      :src="withBase(siteConfig.author.avatar)"
       alt="avatar"
     >
     <span

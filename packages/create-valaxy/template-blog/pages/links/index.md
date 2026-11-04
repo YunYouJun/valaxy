@@ -1,9 +1,15 @@
 ---
-title: 我的小伙伴们
+title: 友情链接
 keywords: 链接
-description: 云游的小伙伴们
-links: https://friends.yunyoujun.cn/links.json
-random: true
+description: 示例友情链接
+links:
+  - url: https://example.com/
+    avatar: /favicon.svg
+    name: Example
+    blog: Example Blog
+    desc: Replace this card with a site you want to recommend.
+    color: "#0078e7"
+random: false
 ---
 
 <YunLinks :links="frontmatter.links" :random="frontmatter.random" />

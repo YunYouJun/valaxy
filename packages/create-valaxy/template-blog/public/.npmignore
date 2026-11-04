@@ -1,0 +1,7 @@
+# Generated feed and search files. pnpm 12 does not apply a negated
+# `files` pattern two directories deep, so this nested ignore keeps them
+# out of the create-valaxy tarball.
+atom.xml
+feed.xml
+feed.json
+valaxy-fuse-list.json
