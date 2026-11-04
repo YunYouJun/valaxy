@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import type { LinkType } from '../types'
+import { withBase } from 'valaxy'
 import { onImgError } from '../utils'
 
 const props = defineProps<{
@@ -36,7 +37,7 @@ function getLinkLabel(link: LinkType) {
             alt=""
             decoding="async"
             loading="lazy"
-            :src="link.avatar"
+            :src="withBase(link.avatar)"
             @error="onError"
           >
         </div>
