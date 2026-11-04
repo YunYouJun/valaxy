@@ -7,8 +7,10 @@ categories:
 
 Yes, with caveats. [VitePress](https://vitepress.dev/guide/what-is-vitepress) can host a blog. Its own docs list blogs beside documentation, and point to the Vue.js blog as the example: a custom theme, and an index generated from local Markdown. The default theme is for technical documentation. A typical blog's post list, tag pages, archives, RSS feed, and blog theme are not included, so you build and maintain them. [Valaxy](/guide/getting-started) is a Vue blog framework that includes them. [Hexo](https://hexo.io/) is a blog framework too: a site from `hexo init` includes the post index, tags, categories, archives, and a blog theme, and the feed is a separate official plugin. This page is qualitative. Hugo and Astro are in [How to choose a static blog framework](/guide/choose).
 
+Valaxy was started when blogging was not yet a first-class VitePress use case. Compared with VitePress, it still ships more blog features out of the box, and more complete AI support for a blog: experimental Agent Skills, an opt-in MCP server, and `llms.txt` ([Work with AI](/guide/work-with-ai)). VitePress 2.0 is still an alpha ([releases](https://github.com/vuejs/vitepress/releases)). On 2026-11-05, npm `latest` is 1.6.4 and `next` is `2.0.0-alpha.21`. That alpha line started with `2.0.0-alpha.1` on 2025-01-22.
+
 ::: tip
-Checked against the VitePress and Hexo docs on 2026-11-05 (Asia/Shanghai). Qualitative only.
+Checked against the VitePress and Hexo docs, and the npm `vitepress` dist-tags, on 2026-11-05 (Asia/Shanghai). Qualitative only.
 :::
 
 ## What a typical blog still has to add

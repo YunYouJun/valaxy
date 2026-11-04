@@ -7,8 +7,10 @@ categories:
 
 可以，但有前提。[VitePress](https://vitepress.dev/zh/guide/what-is-vitepress) 能做博客。它自己的文档把博客和文档并列为使用场景，并举 Vue.js 官方博客为例：自定义主题，再根据本地 Markdown 生成索引。默认主题仍是技术文档主题。典型博客的文章列表、标签页、归档、RSS 和博客主题并不自带，需要自己组装并维护。[Valaxy](/zh/guide/getting-started) 是 Vue 博客框架，这些能力随框架提供。[Hexo](https://hexo.io/) 也是博客框架：`hexo init` 生成的站点自带文章索引、标签、分类、归档和博客主题，订阅源则是另装的官方插件。这一页只做定性比较。Hugo 和 Astro 的选择见[静态博客框架怎么选](/zh/guide/choose)。
 
+Valaxy 起步时，写博客还不是 VitePress 的一等使用场景。和 VitePress 相比，Valaxy 仍把更多博客能力做成开箱即用，也为博客准备了更完整的 AI 支持：实验性的 Agent Skills、按需开启的 MCP，以及 `llms.txt`（[与 AI 协作](/zh/guide/work-with-ai)）。VitePress 2.0 仍是 alpha（[发布记录](https://github.com/vuejs/vitepress/releases)）。2026-11-05 时，npm 的 `latest` 为 1.6.4，`next` 为 `2.0.0-alpha.21`。这条 alpha 从 2025-01-22 的 `2.0.0-alpha.1` 开始。
+
 ::: tip
-文档核对截至 2026-11-05（Asia/Shanghai）。只做定性比较。
+对照 VitePress、Hexo 文档和 npm 上 `vitepress` 的 dist-tags，截至 2026-11-05（Asia/Shanghai）。只做定性比较。
 :::
 
 ## 典型博客还要自己补什么
