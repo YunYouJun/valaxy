@@ -400,7 +400,7 @@ export default defineValaxyConfig<PressTheme.Config>({
           match: 'zh/api/**/*.md',
           title: 'API 参考',
           href: '/zh/api/',
-          description: '生成的 API 参考。各符号页面仍以 Markdown 发布在 /api/ 下。',
+          description: '生成的 API 参考。各符号页面仍以 Markdown 发布在 /zh/api/ 下。',
         },
       ],
     },

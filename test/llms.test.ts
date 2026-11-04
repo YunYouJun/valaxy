@@ -791,6 +791,17 @@ describe('llms index structure', () => {
     expect(llmsTxt.indexOf('## Guides')).toBeLessThan(llmsTxt.indexOf('## Posts'))
   })
 
+  it.each(['Guides', 'guides'])('keeps featured pages first when sectionOrder lists %s after another section', (heading) => {
+    const llmsTxt = render({
+      featured: { title: 'Guides', paths: ['/guide/getting-started'] },
+      sectionOrder: ['Posts', heading],
+    })
+
+    expect([...llmsTxt.matchAll(/^## (.+)$/gm)].map(match => match[1]).slice(0, 2)).toEqual(['Guides', 'Posts'])
+    expect(llmsTxt.match(/^## Guides$/gm)).toHaveLength(1)
+    expect(llmsTxt.match(/\[Getting Started\]/g)).toHaveLength(1)
+  })
+
   it.each([undefined, 'Guide'])('keeps featured pages ahead of collapsed links in the %s section', (title) => {
     const llmsTxt = render({
       featured: { title, paths: ['/guide/getting-started', '/guide/why'] },

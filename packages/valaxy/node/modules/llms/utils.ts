@@ -431,7 +431,7 @@ function orderSections(
   const used = new Set<string>()
   const ordered: [string, LlmsIndexEntry[]][] = []
 
-  if (featuredTitle && !sectionOrder.some(name => name.toLowerCase() === featuredTitle.toLowerCase())) {
+  if (featuredTitle) {
     const found = byName.get(featuredTitle.toLowerCase())
     if (found) {
       ordered.push([found[0], found[1]])
