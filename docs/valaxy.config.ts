@@ -111,6 +111,7 @@ const defaultSidebar: PressTheme.SidebarEntry[] = [
     collapsed: false,
     items: [
       { text: 'How to Choose', link: '/guide/choose' },
+      { text: 'VitePress as a blog', link: '/guide/vitepress' },
       { text: 'Commands', link: '/guide/commands/' },
       { text: 'Layout', link: '/guide/layout' },
       { text: 'Page', link: '/guide/page' },
@@ -242,6 +243,7 @@ const zhDefaultSidebar: PressTheme.SidebarEntry[] = [
     collapsed: false,
     items: [
       { text: '如何选择', link: '/zh/guide/choose' },
+      { text: 'VitePress 能做博客吗', link: '/zh/guide/vitepress' },
       { text: '命令行', link: '/zh/guide/commands/' },
       { text: '布局', link: '/zh/guide/layout' },
       { text: '页面', link: '/zh/guide/page' },

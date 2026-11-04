@@ -108,6 +108,8 @@ GitHub 为其提供了原生支持是一大优势，但我打算类似使用 Git
 VitePress 是一个很棒的静态站点生成器，它为文档打造，但缺少一些针对博客的定制便捷功能。
 如：RSS、文件自动路由（vue-router）、插件（挂件）机制、文章列表/分类/标签钩子、自定义覆盖布局、覆盖组件、单页切换的 i18n、KaTeX 等。
 
+「它能不能当博客」，以及和 Valaxy、Hexo 的差别，见[VitePress 能做博客吗？](/zh/guide/vitepress)。
+
 
 
 ### [iles](https://github.com/ElMassimo/iles) {#ileshttpsgithubcomelmassimoiles}
