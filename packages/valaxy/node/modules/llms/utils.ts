@@ -11,6 +11,7 @@ import { tObject } from '../../../shared'
 import { SENSITIVE_FRONTMATTER_KEYS } from '../../../shared/constants'
 import { loadLocalesYml, nodeT } from '../../../shared/node/i18n'
 import { isLocaleKey } from '../../../shared/utils'
+import { getPagePath } from '../../utils/pageSources'
 import { filePathToUrlPath, filterPublicPosts, getSiteUrl, readPostFiles, scanPageFiles } from '../utils'
 
 export interface LlmsPost {
@@ -19,6 +20,8 @@ export interface LlmsPost {
   date: Date
   /** URL path relative to site root, e.g. '/posts/hello' */
   urlPath: string
+  /** Original path relative to pages/, e.g. 'posts/hello/index.md' */
+  sourcePath: string
   /** Raw markdown content (without frontmatter) */
   content: string
   /** Original frontmatter data (with sensitive fields removed) */
@@ -78,6 +81,7 @@ export async function loadLlmsPosts(options: ResolvedValaxyOptions): Promise<Llm
     description: resolveText(data.description, lang) || '',
     date: data.date ? new Date(data.date) : new Date(0),
     urlPath: filePathToUrlPath(filePath, options.userRoot),
+    sourcePath: getPagePath(filePath, options.userRoot)!,
     content,
     rawFrontmatter: stripSensitiveFrontmatter(data),
   }))
@@ -207,20 +211,24 @@ function normalizeLlmsPath(input: string): string {
   return value || '/'
 }
 
-/** Page-relative paths a glob may refer to for this URL. */
-function pageGlobCandidates(urlPath: string): string[] {
-  const relativePath = normalizeLlmsPath(urlPath).replace(/^\//, '')
-  if (!relativePath)
-    return ['index.md']
-  return [`${relativePath}.md`, `${relativePath}/index.md`]
-}
-
 function createGlobMatcher(patterns: string[] | undefined) {
-  const normalized = (patterns || []).map(normalizeGlobPattern).filter(Boolean)
-  if (normalized.length === 0)
-    return () => false
-  const isMatch = picomatch(normalized, { dot: true, windows: false })
-  return (urlPath: string) => pageGlobCandidates(urlPath).some(candidate => isMatch(candidate))
+  const positive: string[] = []
+  const negative: string[] = []
+  for (const value of patterns || []) {
+    const pattern = value.trim()
+    // Match tinyglobby: !(...) is an extglob, while a leading ! removes matches.
+    if (pattern.startsWith('!') && !pattern.startsWith('!(')) {
+      const exception = pattern.slice(1)
+      if (!exception.startsWith('!') || exception.startsWith('!('))
+        negative.push(normalizeGlobPattern(exception))
+    }
+    else {
+      positive.push(normalizeGlobPattern(pattern))
+    }
+  }
+  const isMatch = picomatch(positive.filter(Boolean), { windows: false })
+  const isIgnored = picomatch(negative.filter(Boolean), { windows: false })
+  return (sourcePath: string) => isMatch(sourcePath) && !isIgnored(sourcePath)
 }
 
 function capitalizeSection(segment: string): string {
@@ -291,9 +299,9 @@ function planLlmsPages(posts: LlmsPost[], config: LlmsSelection = {}): { visible
   const visible: LlmsPost[] = []
 
   for (const post of posts) {
-    if (excluded(post.urlPath))
+    if (excluded(post.sourcePath))
       continue
-    const ruleIndex = matchers.findIndex(match => match(post.urlPath))
+    const ruleIndex = matchers.findIndex(match => match(post.sourcePath))
     if (ruleIndex >= 0) {
       matched.add(ruleIndex)
       continue
@@ -402,7 +410,7 @@ function groupLlmsEntries(params: {
   for (const [section, links] of collapsed) {
     const entries = sections.get(section)
     if (entries)
-      entries.unshift(...links)
+      entries.splice(section === featuredTitle ? featuredPosts.length : 0, 0, ...links)
     else
       sections.set(section, links)
   }

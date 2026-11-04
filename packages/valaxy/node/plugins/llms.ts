@@ -8,7 +8,7 @@ import matter from 'gray-matter'
 import { loadLocalesYml } from '../../shared/node/i18n'
 import { formatMetadataHeader, generateLlmsFullTxt, generateLlmsTxt, loadLlmsPosts, resolveText, stripSensitiveFrontmatter } from '../modules/llms/utils'
 import { getSiteUrl } from '../modules/utils'
-import { resolvePageFile } from '../utils/pageSources'
+import { getPagePath, resolvePageFile } from '../utils/pageSources'
 import { matterOptions } from './markdown/transform/matter'
 
 /**
@@ -131,6 +131,7 @@ async function resolveRawMd(url: string, options: ResolvedValaxyOptions): Promis
     description: resolveText(data.description, lang) || '',
     date: data.date ? new Date(data.date) : new Date(0),
     urlPath,
+    sourcePath: getPagePath(filePath, options.userRoot)!,
     content,
     rawFrontmatter: cleanedFrontmatter,
   }

@@ -501,6 +501,101 @@ SYMBOL_BODY`,
       expect(symbolMd).toContain('SYMBOL_BODY')
     })
 
+    it.each(['exclude', 'collapse'] as const)('matches %s globs against original index filenames', async (selection) => {
+      await writeApiPages()
+      await build(createMockOptions({
+        include: ['**/*.md'],
+        ...(selection === 'exclude'
+          ? { exclude: ['**/index.md'] }
+          : { collapse: [{ match: '**/index.md', title: 'Directory indexes', href: '/indexes/' }] }),
+      }))
+
+      const llmsTxt = await fs.readFile(resolve(mockUserRoot, 'dist/llms.txt'), 'utf-8')
+      const fullTxt = await fs.readFile(resolve(mockUserRoot, 'dist/llms-full.txt'), 'utf-8')
+
+      expect(llmsTxt).toContain('[Hello World]')
+      expect(llmsTxt).toContain('[Symbol Page]')
+      expect(llmsTxt).not.toContain('[API Reference]')
+      expect(fullTxt).toContain('This is my first post.')
+      expect(fullTxt).toContain('SYMBOL_BODY')
+      expect(fullTxt).not.toContain('Overview of the API.')
+      expect(await fs.pathExists(resolve(mockUserRoot, 'dist/api.md'))).toBe(true)
+    })
+
+    it.each(['exclude', 'collapse'] as const)('does not match %s globs against invented source aliases', async (selection) => {
+      await writeApiPages()
+      const patterns = ['api.md', 'posts/hello/index.md']
+      await build(createMockOptions({
+        include: ['**/*.md'],
+        ...(selection === 'exclude'
+          ? { exclude: patterns }
+          : { collapse: patterns.map(match => ({ match, title: 'Alias', href: '/alias/' })) }),
+      }))
+
+      const llmsTxt = await fs.readFile(resolve(mockUserRoot, 'dist/llms.txt'), 'utf-8')
+      const fullTxt = await fs.readFile(resolve(mockUserRoot, 'dist/llms-full.txt'), 'utf-8')
+
+      expect(llmsTxt).toContain('[Hello World]')
+      expect(llmsTxt).toContain('[API Reference]')
+      expect(llmsTxt).not.toContain('[Alias]')
+      expect(fullTxt).toContain('This is my first post.')
+      expect(fullTxt).toContain('Overview of the API.')
+    })
+
+    it.each(['!api/index.md', '!./api/index.md', '!/api/index.md'])('subtracts the %s exception from excluded pages', async (exception) => {
+      await writeApiPages()
+      await build(createMockOptions({ include: ['**/*.md'], exclude: ['api/**/*.md', exception] }))
+
+      const llmsTxt = await fs.readFile(resolve(mockUserRoot, 'dist/llms.txt'), 'utf-8')
+      const fullTxt = await fs.readFile(resolve(mockUserRoot, 'dist/llms-full.txt'), 'utf-8')
+
+      expect(llmsTxt).toContain('[Hello World]')
+      expect(llmsTxt).toContain('[API Reference]')
+      expect(llmsTxt).not.toContain('[Symbol Page]')
+      expect(fullTxt).toContain('This is my first post.')
+      expect(fullTxt).toContain('Overview of the API.')
+      expect(fullTxt).not.toContain('SYMBOL_BODY')
+    })
+
+    it('does not exclude pages when there are only negative patterns', async () => {
+      await build(createMockOptions({ exclude: ['!posts/hello.md'] }))
+
+      const llmsTxt = await fs.readFile(resolve(mockUserRoot, 'dist/llms.txt'), 'utf-8')
+      const fullTxt = await fs.readFile(resolve(mockUserRoot, 'dist/llms-full.txt'), 'utf-8')
+
+      expect(llmsTxt).toContain('[Hello World]')
+      expect(llmsTxt).toContain('[Second Post]')
+      expect(fullTxt).toContain('This is my first post.')
+      expect(fullTxt).toContain('Content of second post.')
+    })
+
+    it('treats a leading negative extglob as a positive selection pattern', async () => {
+      await writeApiPages()
+      await build(createMockOptions({ include: ['**/*.md'], exclude: ['!(posts)/**/*.md'] }))
+
+      const llmsTxt = await fs.readFile(resolve(mockUserRoot, 'dist/llms.txt'), 'utf-8')
+      const fullTxt = await fs.readFile(resolve(mockUserRoot, 'dist/llms-full.txt'), 'utf-8')
+
+      expect(llmsTxt).toContain('[Hello World]')
+      expect(llmsTxt).not.toContain('[API Reference]')
+      expect(fullTxt).toContain('This is my first post.')
+      expect(fullTxt).not.toContain('SYMBOL_BODY')
+    })
+
+    it('matches generated content using its pages-relative source path', async () => {
+      await fs.outputFile(resolve(mockUserRoot, '.valaxy/content/pages/api/index.md'), '---\ntitle: Generated Index\n---\nGENERATED_INDEX')
+      await fs.outputFile(resolve(mockUserRoot, '.valaxy/content/pages/api/symbol.md'), '---\ntitle: Generated Symbol\n---\nGENERATED_SYMBOL')
+      await build(createMockOptions({ include: ['**/*.md'], exclude: ['**/index.md'] }))
+
+      const llmsTxt = await fs.readFile(resolve(mockUserRoot, 'dist/llms.txt'), 'utf-8')
+      const fullTxt = await fs.readFile(resolve(mockUserRoot, 'dist/llms-full.txt'), 'utf-8')
+
+      expect(llmsTxt).toContain('[Generated Symbol]')
+      expect(llmsTxt).not.toContain('[Generated Index]')
+      expect(fullTxt).toContain('GENERATED_SYMBOL')
+      expect(fullTxt).not.toContain('GENERATED_INDEX')
+    })
+
     it('collapses a directory to one index link and keeps the markdown files', async () => {
       await writeApiPages()
       await build(createMockOptions({
@@ -566,7 +661,7 @@ Why Chinese.`,
   })
 })
 
-function llmsPost(partial: Partial<LlmsPost> & Pick<LlmsPost, 'title' | 'urlPath'>): LlmsPost {
+function llmsPost(partial: Partial<LlmsPost> & Pick<LlmsPost, 'title' | 'urlPath' | 'sourcePath'>): LlmsPost {
   return {
     description: '',
     date: new Date(0),
@@ -581,6 +676,7 @@ describe('llms index structure', () => {
     llmsPost({
       title: 'Newer Post',
       urlPath: '/posts/new',
+      sourcePath: 'posts/new.md',
       date: new Date('2024-05-01'),
       description: 'A new post',
       content: 'Post body.',
@@ -588,6 +684,7 @@ describe('llms index structure', () => {
     llmsPost({
       title: 'Getting Started',
       urlPath: '/guide/getting-started',
+      sourcePath: 'guide/getting-started.md',
       date: new Date('2024-01-01'),
       description: 'Start here',
       content: 'Start body.',
@@ -595,28 +692,33 @@ describe('llms index structure', () => {
     llmsPost({
       title: '为什么选 Valaxy',
       urlPath: '/zh/guide/why',
+      sourcePath: 'zh/guide/why.md',
       date: new Date('2024-04-01'),
       content: 'Chinese why.',
     }),
     llmsPost({
       title: 'Why Valaxy',
       urlPath: '/guide/why',
+      sourcePath: 'guide/why.md',
       date: new Date('2024-02-01'),
       content: 'English why.',
     }),
     llmsPost({
       title: 'Symbol Page',
       urlPath: '/api/client/symbol',
+      sourcePath: 'api/client/symbol.md',
       content: 'SYMBOL_BODY',
     }),
     llmsPost({
       title: 'API Overview',
       urlPath: '/api',
+      sourcePath: 'api/index.md',
       content: 'API overview.',
     }),
     llmsPost({
       title: 'API 参考',
       urlPath: '/zh/api',
+      sourcePath: 'zh/api/index.md',
       content: 'Chinese API overview.',
     }),
   ]
@@ -687,6 +789,18 @@ describe('llms index structure', () => {
     expect(llmsTxt.match(/\[Getting Started\]/g)).toHaveLength(1)
     expect(llmsTxt.match(/\[Why Valaxy\]/g)).toHaveLength(1)
     expect(llmsTxt.indexOf('## Guides')).toBeLessThan(llmsTxt.indexOf('## Posts'))
+  })
+
+  it.each([undefined, 'Guide'])('keeps featured pages ahead of collapsed links in the %s section', (title) => {
+    const llmsTxt = render({
+      featured: { title, paths: ['/guide/getting-started', '/guide/why'] },
+      collapse: [{ match: 'api/**/*.md', title: 'API Reference', href: '/docs/', section: title }],
+    })
+    const titles = [...llmsTxt.matchAll(/^- \[(.+?)\]/gm)].map(match => match[1])
+
+    expect(titles.slice(0, 3)).toEqual(['Getting Started', 'Why Valaxy', 'API Reference'])
+    expect(llmsTxt.match(/\[Getting Started\]/g)).toHaveLength(1)
+    expect(llmsTxt.match(/\[Why Valaxy\]/g)).toHaveLength(1)
   })
 
   it('collapses matching pages to one directory link per locale', () => {
