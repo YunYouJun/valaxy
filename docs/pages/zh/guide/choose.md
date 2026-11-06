@@ -8,6 +8,8 @@ categories:
 
 静态博客框架把 Markdown 文章发布成带列表、标签、归档和主题的站点。这一页比较 Valaxy、Hexo、VitePress、Hugo 和 Astro。
 
+VitePress 本身能不能当博客，见[VitePress 能做博客吗？](/zh/guide/vitepress)。
+
 ::: tip
 数据截至 2026-10-28。只做定性比较，不记录构建耗时。
 :::

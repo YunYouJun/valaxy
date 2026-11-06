@@ -8,6 +8,8 @@ categories:
 
 A static blog framework publishes Markdown posts as a site with lists, tags, archives, and a theme. This page compares Valaxy with Hexo, VitePress, Hugo, and Astro.
 
+For whether VitePress itself can be a blog, see [Can VitePress be used as a blog?](/guide/vitepress).
+
 ::: tip
 Data as of 2026-10-28. Qualitative only. Build times are not recorded.
 :::

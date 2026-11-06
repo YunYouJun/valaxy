@@ -88,6 +88,8 @@ Jekyll is a bit of a veteran, but again I don't use Ruby, and it doesn't seem to
 
 VitePress is a great static site generator, which is built for documentation, but lacks some convenient customization features for blogs, such as RSS, file automatic routing (vue-router), plugin (widget) mechanism, article list/category/tag hooks, custom override layout, override components, single-page switching i18n, KaTeX, etc.
 
+For whether VitePress can be a blog, and how that compares with Valaxy and Hexo, see [Can VitePress be used as a blog?](/guide/vitepress).
+
 
 ### [iles](https://github.com/ElMassimo/iles)
 
