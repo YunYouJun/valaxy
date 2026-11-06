@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import { NavigationMenuRoot } from 'reka-ui'
-import { useSidebar, useSiteConfig, withBase } from 'valaxy'
+import { useSidebar, useSiteConfig, useValaxyI18n, withBase } from 'valaxy'
 import { computed } from 'vue'
 import { useLocaleConfig } from '../composables'
 
@@ -15,6 +15,7 @@ defineEmits<{
 const { hasSidebar } = useSidebar()
 
 const siteConfig = useSiteConfig()
+const { $t } = useValaxyI18n()
 const { localeConfig, currentLocale, hasLocales } = useLocaleConfig()
 const homeLink = computed(() => hasLocales.value ? currentLocale.value.link : '/')
 </script>
@@ -23,10 +24,10 @@ const homeLink = computed(() => hasLocales.value ? currentLocale.value.link : '/
   <div class="pr-navbar flex justify-between items-center pl-4 pr-2" :class="{ 'has-sidebar': hasSidebar }">
     <RouterLink
       class="pr-navbar-brand text-xl flex justify-center items-center"
-      :to="homeLink" :aria-label="siteConfig.title"
+      :to="homeLink" :aria-label="$t(siteConfig.title)"
     >
       <img v-if="localeConfig.logo" class="logo" :src="withBase(localeConfig.logo)" alt="LOGO">
-      <span class="pr-navbar-title inline-flex">{{ siteConfig.title }}</span>
+      <span class="pr-navbar-title inline-flex">{{ $t(siteConfig.title) }}</span>
     </RouterLink>
     <!-- Share one active item and pointer-leave timer across all desktop menus. -->
     <NavigationMenuRoot
