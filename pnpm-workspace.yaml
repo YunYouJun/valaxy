@@ -10,11 +10,8 @@ minimumReleaseAgeExclude:
   - mermaid@12.1.0
   # First-party release (YunYouJun/star-markdown-css#4), published via trusted publishing with provenance.
   - star-markdown-css@0.6.1
-  # Upstream tinyglobby scanner that replaces the vendored i18n snapshot (intlify/bundle-tools 11.2.7).
-  - '@intlify/bundle-utils@11.2.7'
   # First-party security release (valaxyjs/valaxy-addon-git-log v0.7.1: simple-git 4), published via trusted publishing with provenance.
   - valaxy-addon-git-log@0.7.1
-  - '@intlify/unplugin-vue-i18n@11.2.7'
 
 trustPolicy: no-downgrade
 autoInstallPeers: false
@@ -150,7 +147,8 @@ catalog:
   jiti: ^2.7.0
   js-base64: ^3.9.4
   js-yaml: ^5.4.2
-  jsdom: ^30.1.0
+  # Keep the test DOM compatible with the minimum supported Node.js 22.12.
+  jsdom: ^27.4.0
   katex: ^0.18.7
   lightgallery: 2.9.0
   lint-staged: ^17.5.1
@@ -160,7 +158,7 @@ catalog:
   magic-string: ^1.4.3
   magicast: ^0.5.5
   markdown-exit: ^1.3.0
-  markdown-it: ^15.0.2
+  markdown-it: ^15.0.3
   markdown-it-anchor: ^10.0.0
   markdown-it-attrs: ^5.0.1
   markdown-it-container: ^4.0.0
@@ -237,7 +235,7 @@ catalogs:
     '@iconify-json/ri': ^1.2.10
     '@iconify-json/simple-icons': ^1.2.96
     '@iconify-json/vscode-icons': ^1.2.78
-    '@intlify/unplugin-vue-i18n': 11.2.7
+    '@intlify/unplugin-vue-i18n': 11.2.8
     '@unhead/bundler': ^3.4.1
     '@unhead/schema-org': ^3.4.1
     '@unhead/vue': ^3.4.1
@@ -246,8 +244,8 @@ catalogs:
     typescript: ^5.9.3
     unbuild: ^3.6.1
     unhead: ^3.4.1
-    vite: ^8.3.0
-    vue-i18n: ^11.4.12
+    vite: ^8.3.6
+    vue-i18n: ^11.4.18
     zx: ^8.8.5
   frontend:
     reka-ui: ^2.10.4
