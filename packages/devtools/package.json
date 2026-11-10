@@ -61,6 +61,7 @@
     "release": "bumpp && pnpm publish"
   },
   "dependencies": {
+    "@11ty/gray-matter": "catalog:",
     "@devframes/agentic": "catalog:",
     "@devframes/service-open": "catalog:",
     "@devframes/service-shiki": "catalog:",
@@ -71,7 +72,6 @@
     "dayjs": "catalog:",
     "devframe": "catalog:",
     "fs-extra": "catalog:",
-    "gray-matter": "catalog:",
     "h3": "catalog:",
     "js-yaml": "catalog:",
     "magicast": "catalog:",

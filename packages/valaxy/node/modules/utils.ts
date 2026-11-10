@@ -1,7 +1,7 @@
 import type { ResolvedValaxyOptions } from '../types'
 import { readFile } from 'node:fs/promises'
 import path from 'node:path'
-import matter from 'gray-matter'
+import matter from '@11ty/gray-matter'
 import { glob } from 'tinyglobby'
 import { matterOptions } from '../plugins/markdown/transform/matter'
 import { discoverPageFiles, getPagePath } from '../utils/pageSources'

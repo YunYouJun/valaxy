@@ -5,9 +5,9 @@ import type { ValaxyNode } from '../types'
 import type { MarkdownBase } from './markdown/base'
 import type { MarkdownRenderer } from './markdown/renderer'
 
-import fs from 'fs-extra'
+import matter from '@11ty/gray-matter'
 
-import matter from 'gray-matter'
+import fs from 'fs-extra'
 import { convert } from 'html-to-text'
 import { resolve } from 'pathe'
 import VueRouter from 'vue-router/vite'

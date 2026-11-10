@@ -1,5 +1,5 @@
+import matter from '@11ty/gray-matter'
 import fs from 'fs-extra'
-import matter from 'gray-matter'
 import { dump, JSON_SCHEMA, load } from 'js-yaml'
 
 const matterOptions = {

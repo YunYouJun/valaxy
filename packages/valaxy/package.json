@@ -73,6 +73,7 @@
     "vue-router": "^5.0.0"
   },
   "dependencies": {
+    "@11ty/gray-matter": "catalog:",
     "@antfu/install-pkg": "catalog:",
     "@antfu/utils": "catalog:",
     "@clack/prompts": "catalog:",
@@ -103,7 +104,6 @@
     "floating-vue": "catalog:",
     "fs-extra": "catalog:",
     "fuse.js": "catalog:",
-    "gray-matter": "catalog:",
     "hookable": "catalog:",
     "html-to-text": "catalog:",
     "jiti": "catalog:",

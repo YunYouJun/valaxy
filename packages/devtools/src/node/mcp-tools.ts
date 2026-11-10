@@ -2,16 +2,18 @@ import type { DevframeAgentHost } from 'devframe'
 import type { ValaxyMcpOptions } from './mcp'
 import { readFile, realpath, stat } from 'node:fs/promises'
 import process from 'node:process'
-import matter from 'gray-matter'
+import matter from '@11ty/gray-matter'
 import pathe from 'pathe'
 import { glob } from 'tinyglobby'
 import * as v from 'valibot'
+import { devtoolsMatterOptions } from './utils/matter'
 import { resolvePageFile } from './utils/paths'
 
 const MAX_FILE_BYTES = 1024 * 1024
 const matterOptions = {
   engines: {
-    // gray-matter enables an eval-based JavaScript engine by default.
+    ...devtoolsMatterOptions.engines,
+    // Reject executable frontmatter even if a caller swaps the YAML engine.
     javascript: () => { throw new Error('Executable frontmatter is not supported by MCP') },
   },
 }
