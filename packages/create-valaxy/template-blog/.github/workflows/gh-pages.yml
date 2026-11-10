@@ -8,35 +8,61 @@ on:
       - main
       - master
       - valaxy
+  workflow_dispatch:
+
+# Publish the built site with GitHub Pages. The workflow token can read
+# the repository and upload the artifact.
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+# One deployment at a time. Let an in-progress production deploy finish.
+concurrency:
+  group: pages
+  cancel-in-progress: false
 
 jobs:
   build:
-    runs-on: ${{ matrix.os }}
-
-    strategy:
-      matrix:
-        node-version: [lts/*]
-        os: [ubuntu-latest]
-      fail-fast: false
-
+    runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
-
-      - name: Use Node.js ${{ matrix.node-version }}
-        uses: actions/setup-node@v2
+      - uses: actions/checkout@v7
         with:
-          node-version: ${{ matrix.node-version }}
-          registry-url: https://registry.npmjs.org/
+          # Git dates for posts need the full history.
+          # 文章的 Git 日期需要完整提交历史。
+          fetch-depth: 0
 
-      - name: 📦 Install Dependencies
-        run: npm i
+      # Read the exact pnpm version from package.json's packageManager field.
+      - uses: pnpm/action-setup@v6
 
-      - name: 🌌 Build Valaxy Blog
-        run: npm run build
-
-      - name: 🪤 Deploy to GitHub Pages
-        uses: peaceiris/actions-gh-pages@v3
+      - name: Use Node.js LTS
+        uses: actions/setup-node@v7
         with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: ./dist
-          force_orphan: true
+          node-version: lts/*
+
+      - name: Setup Pages
+        uses: actions/configure-pages@v6
+
+      - name: Install dependencies
+        # The scaffold ships package.json without a lockfile.
+        run: pnpm install
+
+      - name: Build
+        run: pnpm run build
+
+      - name: Upload Pages artifact
+        uses: actions/upload-pages-artifact@v5
+        with:
+          path: dist
+          include-hidden-files: true
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v5

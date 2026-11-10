@@ -117,12 +117,12 @@ Repositories named `your-username.github.io` are served from `/` and do not need
 
 When you use `pnpm create valaxy` to create a template project, it contains the file [`.github/workflows/gh-pages.yml`](https://github.com/YunYouJun/valaxy/blob/main/packages/create-valaxy/template-blog/.github/workflows/gh-pages.yml) for the CI workflow of GitHub Actions.
 
-- Select the Github repository, go to `Settings`-> `Action` -> `General` -> `Workflow permissions`, and select `read and write permissions`.
-- Push to your GitHub repository, and go to `Settings` -> `Pages`. Select `gh-pages` branch.
+- Push the project to your GitHub repository.
+- Open `Settings` -> `Pages` and choose `GitHub Actions` as the Pages source.
 
-> `gh-pages` has been automatically deployed by `.github/workflows/gh-pages.yml`.
+The workflow uses Node.js LTS and the pnpm version pinned in `package.json`'s `packageManager` field, runs `pnpm run build`, and publishes the `dist` directory with GitHub's Pages actions, including hidden resources such as `.well-known/`. The workflow token only needs `contents: read`, `pages: write`, and `id-token: write`. After choosing the source, re-run the workflow if the first run did not publish the site.
 
-> Please note that the 'on.push.branches' in' gh-pages.yml' should be modified to the branch where your source code is located, and the default is 'main'.
+> Change `on.push.branches` in `gh-pages.yml` to the branch where your source code lives. The default includes `main`.
 
 
 ### Netlify

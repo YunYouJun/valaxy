@@ -41,6 +41,7 @@ describe('create-valaxy CLI', () => {
     expect(result.status, result.stdout + result.stderr).toBe(0)
     expect(await manifest('my-blog')).toMatchObject({
       name: 'my-blog',
+      packageManager: template.packageManager,
       dependencies: { [`valaxy-theme-${theme}`]: template.dependencies.valaxy },
       devDependencies: { vite: template.devDependencies.vite },
     })
@@ -83,7 +84,10 @@ describe('create-valaxy CLI', () => {
     const result = await scaffold(['my-addon', '--template', 'addon', '--yes'])
     expect(result.status, result.stdout + result.stderr).toBe(0)
     expect(await readFile(join(root, 'my-addon/index.ts'), 'utf8')).toContain('export')
-    expect((await manifest('my-addon')).name).toBe('my-addon')
+    expect(await manifest('my-addon')).toMatchObject({
+      name: 'my-addon',
+      packageManager: template.packageManager,
+    })
   })
 
   it('exits unsuccessfully for an invalid noninteractive template', async () => {
