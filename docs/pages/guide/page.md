@@ -9,6 +9,12 @@ categories:
 
 You can custom page by front-matter.
 
+Frontmatter uses the YAML 1.2 core schema in both blog rendering and DevTools.
+Dates such as `2026-01-01` and words such as `yes`, `no`, `on`, and `off` remain
+strings; use `true` or `false` for booleans. The `<<` key is literal and does not
+merge mappings. DevTools preserves these types when reading, editing, and migrating
+frontmatter, rather than converting dates to JavaScript `Date` values.
+
 ::: tip
 
 

@@ -706,11 +706,11 @@ catalogs:
 
 overrides:
   chokidar: 5.0.0
+  gray-matter: npm:@11ty/gray-matter@^3.0.0
   semver: '7'
   unocss: ^66.11.0
   vite: ^8.3.6
   vue: ^3.5.43
-  gray-matter: npm:@11ty/gray-matter@^3.0.0
 
 patchedDependencies:
   braces@3.0.3: e01768bc37cdeebb9a747f1095daec71e804c5b0f765222c48de491656308e10
@@ -1376,9 +1376,6 @@ importers:
       unplugin-vue-components:
         specifier: 'catalog:'
         version: 32.1.0(@nuxt/kit@3.21.11(magicast@0.5.5))(esbuild@0.28.2)(rolldown@1.2.12)(rollup@4.63.6)(vite@8.3.6)(vue@3.5.43(typescript@5.9.3))
-      unplugin-vue-markdown:
-        specifier: 'catalog:'
-        version: 32.1.1(esbuild@0.28.2)(rolldown@1.2.12)(rollup@4.63.6)(vite@8.3.6)
       vanilla-lazyload:
         specifier: 'catalog:'
         version: 19.1.3
@@ -1464,6 +1461,9 @@ importers:
       unbuild:
         specifier: catalog:build
         version: 3.6.1(sass@1.105.1)(typescript@5.9.3)(vue-tsc@3.3.11(typescript@5.9.3))(vue@3.5.43(typescript@5.9.3))
+      unplugin-vue-markdown:
+        specifier: 'catalog:'
+        version: 32.1.1(esbuild@0.28.2)(rolldown@1.2.12)(rollup@4.63.6)(vite@8.3.6)
       vue:
         specifier: ^3.5.43
         version: 3.5.43(typescript@5.9.3)

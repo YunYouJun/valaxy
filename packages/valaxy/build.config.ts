@@ -19,10 +19,6 @@ export default defineBuildConfig({
 
     ...Object.keys(pkg.dependencies || {}),
 
-    // The redirect installer must stay a real file so import.meta.url points
-    // at vendor/, where redirect-gray-matter.mjs lives.
-    'valaxy/vendor/ensure-gray-matter.mjs',
-
     // dynamic install
     'gh-pages',
     'rollup-plugin-visualizer',
@@ -33,14 +29,32 @@ export default defineBuildConfig({
 
   rollup: {
     inlineDependencies: [
+      'unplugin-vue-markdown',
+      '@mdit-vue/plugin-component',
+      '@mdit-vue/plugin-frontmatter',
       '@mdit-vue/plugin-headers',
       '@mdit-vue/plugin-sfc',
       '@mdit-vue/plugin-title',
       '@mdit-vue/plugin-toc',
       '@mdit-vue/shared',
       '@mdit-vue/types',
+      'gray-matter',
       'nanoid',
     ],
+  },
+
+  hooks: {
+    'rollup:options': (_, options) => {
+      // Bundle the Markdown adapter so published installs use the maintained
+      // parser too, without workspace overrides or global Node loader hooks.
+      options.plugins = [{
+        name: 'valaxy-frontmatter',
+        resolveId(id: string) {
+          if (id === 'gray-matter')
+            return { id: '@11ty/gray-matter', external: true }
+        },
+      }, options.plugins].flat()
+    },
   },
 
   failOnWarn: false,

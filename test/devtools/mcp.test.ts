@@ -103,7 +103,7 @@ describe('valaxy MCP over Streamable HTTP', () => {
   it('paginates metadata without returning raw frontmatter or absolute paths', async () => {
     const url = await start()
     const first = await call(url, 'valaxy_list_posts', { limit: 1 })
-    expect(first.structuredContent).toMatchObject({ total: 2, nextOffset: 1, items: [{ path: 'pages/posts/hello.md', title: 'Hello', date: '2026-01-01T00:00:00.000Z', tags: ['Vue'] }] })
+    expect(first.structuredContent).toMatchObject({ total: 2, nextOffset: 1, items: [{ path: 'pages/posts/hello.md', title: 'Hello', date: '2026-01-01', tags: ['Vue'] }] })
     const second = await call(url, 'valaxy_list_posts', { limit: 1, offset: first.structuredContent.nextOffset })
     expect(second.structuredContent).toMatchObject({ nextOffset: null, items: [{ title: '第二篇' }] })
     expect(JSON.stringify(first)).not.toContain(site)
