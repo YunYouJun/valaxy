@@ -84,3 +84,51 @@ it.each([true, 'hidden', 'inline'].flatMap(sourcemap => [false, true].map(transf
     await rm(root, { recursive: true, force: true })
   }
 }, 30_000)
+
+it('redacts Windows aliases after the bundler converts callback backslashes to forward slashes', async () => {
+  const root = 'D:/a/valaxy/valaxy/test/fixture'
+  const id = `${root}/private.md`
+  const state = new StateManager()
+  const options = {
+    userRoot: root,
+    pages: [],
+    mode: 'build',
+    config: {
+      build: { ignoreDeadLinks: false },
+      features: {},
+      markdown: { highlight: (code: string) => code },
+      siteConfig: { encrypt: { enable: false }, lastUpdated: false },
+    },
+  } as unknown as ResolvedValaxyOptions
+  const plugins = await createValaxyPlugin(options, {}, state)
+  const loader = plugins.find(plugin => plugin.name === 'valaxy:loader')!
+  const privacy = plugins.find(plugin => plugin.name === 'valaxy:private-sourcemaps')!
+  try {
+    state.set({ id, title: '', headers: [], links: [], frontmatter: { encrypt: true } })
+    await (loader.configResolved as any)({})
+    await (loader.transform as any).call({ addWatchFile() {} }, '<template>Private body</template>', id)
+    const output = (privacy.outputOptions as any)({
+      dir: `${root}/dist`,
+      sourcemapPathTransform: (source: string) => `app:///${source}`,
+    })
+    // Windows callbacks use native paths. Rolldown's emitted source paths use
+    // forward slashes, so the alias captured in the callback is not byte-identical.
+    const mapPath = 'D:\\a\\valaxy\\valaxy\\test\\fixture\\dist\\assets\\entry.js.map'
+    const privateAlias = output.sourcemapPathTransform('..\\..\\private.md', mapPath)
+    const publicAlias = output.sourcemapPathTransform('..\\..\\public.md', mapPath)
+    expect(privateAlias).toBe('app:///..\\..\\private.md')
+    const map = {
+      version: 3,
+      sources: [privateAlias.replaceAll('\\', '/'), publicAlias.replaceAll('\\', '/')],
+      sourcesContent: ['PRIVATE_WINDOWS_BODY', 'PUBLIC_WINDOWS_BODY'],
+      names: [],
+      mappings: 'AAAA',
+    }
+    const asset = { type: 'asset', fileName: 'assets/entry.js.map', source: JSON.stringify(map) }
+    ;(privacy.generateBundle as any).handler({ dir: `${root}/dist` }, { 'assets/entry.js.map': asset })
+    expect(JSON.parse(asset.source).sourcesContent).toEqual([null, 'PUBLIC_WINDOWS_BODY'])
+  }
+  finally {
+    state.dispose()
+  }
+})

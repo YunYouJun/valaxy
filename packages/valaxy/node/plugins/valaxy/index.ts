@@ -239,8 +239,10 @@ export async function createValaxyPlugin(
           ...output,
           sourcemapPathTransform(source, sourcemapPath) {
             const transformed = transformPath(source, sourcemapPath)
+            // Windows callbacks may return native separators while the bundler
+            // emits forward slashes. Normalize only separators, not URL syntax.
             if (protectedMarkdown.has(resolve(dirname(sourcemapPath), source.split('?')[0])))
-              protectedSourceAliases.add(transformed)
+              protectedSourceAliases.add(transformed.replaceAll('\\', '/'))
             return transformed
           },
         }
@@ -258,7 +260,7 @@ export async function createValaxyPlugin(
           const sanitize = (map: { sources?: string[], sourcesContent?: (string | null)[], sourceRoot?: string }, fileName: string) => {
             map.sourcesContent?.forEach((_content, index, contents) => {
               const source = map.sources?.[index]
-              if (source && (protectedSourceAliases.has(source) || protectedMarkdown.has(resolve(outputDir, dirname(fileName), map.sourceRoot || '', source.split('?')[0]))))
+              if (source && (protectedSourceAliases.has(source.replaceAll('\\', '/')) || protectedMarkdown.has(resolve(outputDir, dirname(fileName), map.sourceRoot || '', source.split('?')[0]))))
                 contents[index] = null
             })
           }
