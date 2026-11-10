@@ -260,6 +260,58 @@ describe('template-blog-press', () => {
   })
 })
 
+describe('blog scaffold GitHub Pages workflow', () => {
+  const blogDir = path.resolve(__dirname, '../packages/create-valaxy/template-blog')
+  const workflowPath = path.join(blogDir, '.github/workflows/gh-pages.yml')
+
+  it('builds with pnpm and deploys through GitHub Pages actions', () => {
+    const pkg = JSON.parse(fs.readFileSync(path.join(blogDir, 'package.json'), 'utf-8'))
+    const workflow = fs.readFileSync(workflowPath, 'utf-8')
+
+    expect(pkg.engines.node).toBe('>=22.12.0')
+    expect(pkg.scripts.build).toBe('valaxy build --ssg')
+    expect(fs.existsSync(path.join(blogDir, 'pnpm-lock.yaml'))).toBe(false)
+
+    expect(workflow).toContain('actions/checkout@v7')
+    expect(workflow).toContain('pnpm/action-setup@v6')
+    expect(workflow).toContain('version: \'>=10.26.0\'')
+    expect(workflow).toContain('actions/setup-node@v7')
+    expect(workflow).toContain('node-version-file: package.json')
+    expect(workflow).toContain('actions/configure-pages@v6')
+    expect(workflow).toContain('actions/upload-pages-artifact@v5')
+    expect(workflow).toContain('actions/deploy-pages@v5')
+    expect(workflow).toContain('path: dist')
+    expect(workflow).toMatch(/^ {8}run: pnpm install$/m)
+    expect(workflow).toContain('run: pnpm run build')
+    expect(workflow).toContain('contents: read')
+    expect(workflow).toContain('pages: write')
+    expect(workflow).toContain('id-token: write')
+    expect(workflow).toContain('name: github-pages')
+    expect(workflow).toMatch(/concurrency:[\s\S]*?group: pages/)
+    expect(workflow).toContain('fetch-depth: 0')
+    expect(workflow).not.toContain('frozen-lockfile')
+    expect(workflow).not.toMatch(/(?<![a-z])npm\b/)
+    expect(workflow).not.toContain('peaceiris')
+    expect(workflow).not.toContain('force_orphan')
+    expect(workflow).not.toContain('actions/checkout@v2')
+    expect(workflow).not.toContain('actions/setup-node@v2')
+  })
+
+  it('documents GitHub Actions as the Pages source in English and Chinese', () => {
+    const english = fs.readFileSync(path.resolve(__dirname, '../docs/pages/guide/deploy.md'), 'utf-8')
+    const chinese = fs.readFileSync(path.resolve(__dirname, '../docs/pages/zh/guide/deploy.md'), 'utf-8')
+
+    expect(english).toContain('choose `GitHub Actions` as the Pages source')
+    expect(chinese).toContain('将 Pages 的源选择为 `GitHub Actions`')
+    for (const page of [english, chinese]) {
+      expect(page).not.toContain('read and write permissions')
+      expect(page).not.toContain('force_orphan')
+      expect(page).not.toContain('gh-pages` branch')
+      expect(page).not.toContain('`gh-pages` 分支')
+    }
+  })
+})
+
 describe('ai-ready blog scaffold', () => {
   const blogDir = path.resolve(__dirname, '../packages/create-valaxy/template-blog')
   const pressDir = path.resolve(__dirname, '../packages/create-valaxy/template-blog-press')

@@ -116,12 +116,12 @@ Markdown 页面与文件链接会直接补上 `base`；Markdown 图片则会进�
 
 在使用 `pnpm create valaxy` 创建模版项目时，已内置文件[`.github/workflows/gh-pages.yml`](https://github.com/YunYouJun/valaxy/blob/main/packages/create-valaxy/template-blog/.github/workflows/gh-pages.yml) 以实现 GitHub Actions 的自动部署工作流。
 
-- 选择 Github Repo，打开 `Settings`-> `Action` -> `General` -> `Workflow permissions`，选择 `read and write permissions`。
-- 上传至 GitHub Repo，打开 `Settings` -> `Pages`，选择 `gh-pages` 分支。
+- 将项目推送到 GitHub 仓库。
+- 打开 `Settings` -> `Pages`，将 Pages 的源选择为 `GitHub Actions`。
 
-> `gh-pages` 已由 `.github/workflows/gh-pages.yml` 自动部署。
+工作流使用 pnpm 安装依赖并执行 `pnpm run build`，再通过 GitHub 官方的 Pages Actions 发布 `dist` 目录。工作流令牌只需要 `contents: read`、`pages: write` 和 `id-token: write`。选择源之后，如果第一次运行没有发布站点，请重新运行该工作流。
 
-> 注意修改 `gh-pages.yml` 中的 `on.push.branches` 为你源代码所在的分支，默认为 `main`。
+> 注意修改 `gh-pages.yml` 中的 `on.push.branches` 为你源代码所在的分支，默认包含 `main`。
 
 
 
