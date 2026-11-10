@@ -20,6 +20,8 @@ test('post url with trailing slash renders the post in dev and build', async ({ 
       await expect(page.locator('h1.post-title')).toHaveText('Hello, Valaxy!')
       await expect(page.locator('.markdown-body').first()).toBeVisible()
       await expect(page.locator('.not-found')).toHaveCount(0)
+      await expect(page.locator('link[rel="canonical"]')).toHaveAttribute('href', 'https://yun.valaxy.site/posts/hello-valaxy')
+      await expect(page.locator('meta[property="og:url"]')).toHaveAttribute('content', 'https://yun.valaxy.site/posts/hello-valaxy')
     })
   }
 })

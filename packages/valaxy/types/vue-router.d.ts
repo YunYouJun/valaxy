@@ -22,6 +22,10 @@ declare module 'vue-router' {
      */
     excerpt?: string
     /**
+     * Plain-text summary used when the page has no frontmatter description.
+     */
+    seoDescription?: string
+    /**
      * Layout name
      */
     layout?: string

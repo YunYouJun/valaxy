@@ -3,10 +3,11 @@ import { useSeoMeta } from '@unhead/vue'
 import { computed } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { useRoute } from 'vue-router'
+import { publicAuthor } from '../../../shared/seo'
 import { useFrontmatter, useLocale, useValaxyHead, useValaxyI18n } from '../../composables'
 import { useTimezone } from '../../composables/global'
 import { useSiteConfig } from '../../config'
-import { resolveSiteUrl } from '../../utils'
+import { usePageSeo } from './usePageSeo'
 // https://github.com/vueuse/head
 // you can use this to manipulate the document head in any components,
 // they will be rendered correctly in the html results with vite-ssg
@@ -18,8 +19,6 @@ export function useValaxyApp() {
   const { locale } = useI18n()
   const { $t, $tO } = useValaxyI18n()
 
-  const title = computed(() => $tO(fm.value.title))
-
   const route = useRoute()
   const { toggleLocale } = useLocale()
   // if lang exist, toggle the locale
@@ -28,16 +27,12 @@ export function useValaxyApp() {
   }
 
   // seo
-  const siteUrl = computed(() => resolveSiteUrl(
-    siteConfig.value.url,
-    fm.value.url || route.path,
-  ))
-  const description = computed(() => $tO(fm.value.excerpt) || $tO(fm.value.description) || $t(siteConfig.value.description))
-  const ogImage = computed(() => resolveSiteUrl(
-    siteConfig.value.url,
-    fm.value.ogImage || fm.value.cover || fm.value.firstImage || siteConfig.value.favicon,
-  ))
+  const { description, pageUrl, image, type } = usePageSeo()
   const seoTitle = computed(() => $tO(fm.value.title) || $t(siteConfig.value.title))
+  const author = publicAuthor(siteConfig.value.author)
+  const personUrl = author.link && /^https?:\/\//.test(author.link)
+    ? author.link
+    : (/^https?:\/\//.test(siteConfig.value.url) ? siteConfig.value.url : undefined)
 
   useSeoMeta({
     description,
@@ -46,32 +41,37 @@ export function useValaxyApp() {
     ogLocaleAlternate: computed(() => siteConfig.value.languages.filter(l => l !== locale.value)),
     ogSiteName: computed(() => $t(siteConfig.value.title)),
     ogTitle: seoTitle,
-    ogImage,
-    ogImageAlt: seoTitle,
-    ogType: 'website',
-    ogUrl: siteUrl,
-    twitterCard: 'summary_large_image',
+    ogImage: image,
+    ogImageAlt: image.value ? seoTitle : undefined,
+    ogType: type,
+    ogUrl: pageUrl,
+    twitterCard: computed(() => image.value ? 'summary_large_image' : 'summary'),
     twitterDescription: description,
-    twitterImage: ogImage,
+    twitterImage: image,
     twitterTitle: seoTitle,
   })
 
   // for SEO
   useSchemaOrg([
     // https://unhead.unjs.io/docs/schema-org/guides/recipes/identity
-    // Personal Website or Blog
+    // Personal Website or Blog. url is the author's link, or the site when that link is unset.
     definePerson({
       name: $t(siteConfig.value.author.name),
-      url: siteConfig.value.url,
+      ...(personUrl ? { url: personUrl } : {}),
       image: $t(siteConfig.value.author.avatar),
-      sameAs: siteConfig.value.social.map(s => s.link),
+      sameAs: siteConfig.value.social.map(s => s.link).filter(Boolean),
     }),
     defineWebSite({
-      name: title.value,
+      name: $t(siteConfig.value.title),
+      description: $t(siteConfig.value.description),
+    }),
+    defineWebPage({
+      name: seoTitle,
+      description,
+      url: pageUrl,
       datePublished: computed(() => fm.value.date),
       dateModified: computed(() => fm.value.updated),
     }),
-    defineWebPage(),
   ])
 
   useTimezone()

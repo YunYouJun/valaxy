@@ -80,6 +80,10 @@ password: valaxy
 ```
 
 
+### Files that are not pages {#unpublished}
+
+`README.md` under `pages/`, and files or folders whose names start with `_` (including `pages/_drafts/`), are not routes. See [Drafts](/guide/post#drafts).
+
 ### Other
 
 

@@ -22,6 +22,10 @@ export interface Header {
    */
   link: string
   /**
+   * Nested headings in the Markdown outline.
+   */
+  children?: Header[]
+  /**
    * i18n
    */
   lang?: string

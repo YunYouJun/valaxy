@@ -1,27 +1,20 @@
 import { useHead } from '@unhead/vue'
 import { computed, onMounted } from 'vue'
-import { useRoute } from 'vue-router'
 import pkg from '../../../package.json' with { type: 'json' }
 
 import { useFrontmatter, useValaxyI18n } from '../../composables'
 import { useSiteConfig } from '../../config'
-import { resolveSiteUrl, withBase } from '../../utils'
+import { withBase } from '../../utils'
+import { usePageSeo } from './usePageSeo'
 
 export function useValaxyHead() {
   const { $t, $tO, locale } = useValaxyI18n()
 
   const fm = useFrontmatter()
-  const route = useRoute()
   const siteConfig = useSiteConfig()
+  const { description, pageUrl } = usePageSeo()
   const $title = computed(() => $tO(fm.value.title))
-  const canonicalUrl = computed(() => {
-    const siteUrl = siteConfig.value.url
-    if (!/^https?:\/\//.test(siteUrl))
-      return ''
-
-    const pagePath = fm.value.canonical || fm.value.url || route.path
-    return resolveSiteUrl(siteUrl, pagePath)
-  })
+  const canonicalUrl = computed(() => /^https?:\/\//.test(siteConfig.value.url) ? pageUrl.value : '')
 
   useHead({
     htmlAttrs: {
@@ -43,7 +36,7 @@ export function useValaxyHead() {
       computed(() => {
         return {
           name: 'description',
-          content: $tO(fm.value.description) || $t(siteConfig.value.description),
+          content: description.value,
         }
       }),
       {

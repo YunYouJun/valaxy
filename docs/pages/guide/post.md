@@ -43,6 +43,48 @@ hide: true
   - `index`: When set to `index`, it will be hidden only in the front page. It will still be displayed in archives. (You can use this for some notes unnecessary for the front page, but good for the archive for reference sometimes)
 
 
+## Drafts {#drafts}
+
+`draft: true` keeps a page on the dev server and leaves it out of production HTML, JavaScript, the sitemap, RSS feed, search indexes, and `llms.txt`.
+
+```md
+---
+title: Still editing
+draft: true
+---
+```
+
+`pages/_drafts/` and any file or folder whose name starts with `_` are not routes. `pages/README.md` (and `README.md` in a subfolder) is not a route either. The files stay in the repository. Set the matching flag when a site needs to publish one of those paths:
+
+```ts
+import { defineSiteConfig } from 'valaxy'
+
+export default defineSiteConfig({
+  publishing: {
+    drafts: true,
+    underscore: true,
+    readme: true,
+  },
+})
+```
+
+The example enables all three flags. They default to `false`; enable only the categories you intend to publish.
+
+`publishing.drafts` publishes `draft: true` pages in production. `publishing.underscore` publishes underscore paths, including `pages/_drafts`. `publishing.readme` publishes README pages. Development always previews `draft: true`; underscore paths and README pages stay unrouted until the flag is on.
+
+`pages/404.md` is still built as `404.html` for hosts that serve it for unknown URLs. `/404` is omitted from the sitemap.
+
+## Descriptions and share cards {#share}
+
+The meta description, Open Graph description, and Twitter description prefer frontmatter `description`. Otherwise, Valaxy generates a plain-text summary from a custom `excerpt`, the public content before `<!-- more -->`, or the opening public paragraphs, in that order. If no summary is available, it uses the site description.
+
+Automatic summaries omit fenced code, images, headings, and container markers. Public prose inside ordinary containers, such as `::: tip` and language containers, is retained. The text is trimmed to `excerpt.length` (200 characters by default). Encrypted sections are excluded from automatic summaries and content-image extraction. Entirely encrypted pages do not get an automatic body summary or first image. Search indexes, RSS, `llms-full.txt`, and Markdown exports also omit encrypted body content; build source maps do not embed the original protected page. Explicit `description`, `ogImage`, and `cover` fields are still public, so do not put private information in them.
+
+Posts use `og:type` `article`; other pages use `website`. Share images are selected from `ogImage`, then `cover`, then the automatically extracted first content image, skipping component names and unsafe URL schemes. Content-image extraction supports Markdown images and HTML `<img>` tags and can be disabled with `features.extractFirstImage: false`. The site favicon is not an automatic fallback.
+
+Relative images such as `images/cover.png`, `cover.png`, and `./cover.png` are processed by Vite when they match a local file beside the Markdown source. Share tags use the emitted, fetchable asset URL, including for nested `index.md` pages. Relative URLs without a matching source file still resolve from the page directory. `/images/cover.png` resolves from the site's deployment root, preserving a deployment subpath. Query strings and fragments are preserved. An empty `author.email` or `author.link` is omitted from RSS and JSON-LD instead of being filled with a framework address.
+
+
 ## Image and Vue Component Covers {#cover}
 
 Yun supports both image covers and interactive Vue covers in post cards and article headers. **A component cover does not require an image.** It can draw its entire scene with inline SVG, CSS or Canvas.
@@ -108,7 +150,7 @@ coverComponent: HelloValaxyCover
 # ogImage: /images/share-preview.png
 ```
 
-Valaxy does not automatically capture Vue components during a build. Use the export below to save a static social image. Social previews use `ogImage`, then `cover`, then the first article image or the site's favicon. Neither image field is required to render the SVG cover. Image-based components can use `withBase(src)` for subpath deployments.
+Valaxy does not automatically capture Vue components during a build. Use the export below to save a static social image. Social previews use `ogImage`, then `cover`, then the automatically extracted first public content image. The site's favicon is not an automatic fallback. Neither image field is required to render the SVG cover. Image-based components can use `withBase(src)` for subpath deployments.
 
 ### Export a social image from the same SVG {#cover-export}
 

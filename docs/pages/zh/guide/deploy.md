@@ -83,6 +83,14 @@ Markdown 页面与文件链接会直接补上 `base`；Markdown 图片则会进�
 
 
 
+## 页面地址 {#urls}
+
+`pages/posts/hello.md` 会写成 `dist/posts/hello.html`。规范地址不带末尾斜杠：`/posts/hello`。构建会在 sitemap 生成之后，把同一份 HTML 复制到 `dist/posts/hello/index.html`，这样会按目录索引查找的静态托管也能用 `/posts/hello/` 打开同一页。sitemap 只记录规范地址一次。页面里的 canonical 指向不带末尾斜杠的地址。
+
+`pages/about/index.md` 对应目录地址 `/about/`（在会把目录索引映射到短地址的托管上，`/about` 同样可用）。`pages/404.md` 会构建为 `404.html`，供托管商对未知路径返回。`/404` 不会进入 sitemap。
+
+开发服务器里，同一条路由也接受末尾斜杠。多出来的 `index.html` 是为了静态部署之后这条地址仍然可用，包括那些在客户端路由运行之前就用 `404.html` 响应未知路径的托管。
+
 ## 第三方部署 {#third-party-deployment}
 
 

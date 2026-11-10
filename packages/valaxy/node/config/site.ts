@@ -17,8 +17,9 @@ export const defaultSiteConfig: SiteConfig = {
   subtitle: 'Next Generation Static Blog Framework.',
   author: {
     avatar: 'https://valaxy.site/valaxy-logo.png',
-    email: 'i@valaxy.site',
-    link: 'https://valaxy.site',
+    // Empty so a site that only sets a name does not publish Valaxy's address.
+    email: '',
+    link: '',
     name: 'VALAXY Developer',
     status: {
       emoji: '🌌',
@@ -66,6 +67,12 @@ export const defaultSiteConfig: SiteConfig = {
     type: 'html',
     auto: false,
     length: 200,
+  },
+
+  publishing: {
+    drafts: false,
+    underscore: false,
+    readme: false,
   },
 
   frontmatter: {

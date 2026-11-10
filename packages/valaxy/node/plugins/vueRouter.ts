@@ -1,4 +1,4 @@
-import type { Options } from 'vue-router/unplugin'
+import type { EditableTreeNode, Options } from 'vue-router/unplugin'
 import type { ExcerptType, Page, Post } from '../../types'
 import type { EditorRoutes } from '../editor/routes'
 import type { ValaxyNode } from '../types'
@@ -11,6 +11,9 @@ import fs from 'fs-extra'
 import { convert } from 'html-to-text'
 import { resolve } from 'pathe'
 import VueRouter from 'vue-router/vite'
+import { isReadmePage, isUnpublishedPage, mergePageExcludes, relativePagePath } from '../../shared'
+import { plainSeoDescription, stripEncryptedContent } from '../../shared/seo'
+import { EXCERPT_SEPARATOR } from '../constants'
 import { vLogger } from '../logger'
 import { getCreatedTime, getUpdatedTime } from '../utils/date'
 import { countPerformanceTime } from '../utils/performance'
@@ -105,20 +108,41 @@ export async function createRouterOptions(valaxyApp: ValaxyNode, base?: Markdown
 
     ...valaxyConfig.router,
 
+    // Defaults stay in front of a user exclude list. `publishing` turns a class back on.
+    exclude: mergePageExcludes(valaxyConfig.siteConfig.publishing, valaxyConfig.router?.exclude),
+
     /**
      * @experimental See https://github.com/posva/unplugin-vue-router/issues/43 (now part of vue-router)
      * we need get frontmatter before route, so write it in extendRoute
      */
     async extendRoute(route) {
+      const publishing = valaxyConfig.siteConfig.publishing
+      const component = route.components?.get?.('default') || ''
+      const relative = component
+        ? relativePagePath(component, options.userRoot) || relativePagePath(component)
+        : undefined
+      const privateSegment = route.fullPath.split('/').some(segment => segment.startsWith('_'))
+      const readmeMarkdown = isReadmePage(component)
+      if (
+        (relative && isUnpublishedPage(relative, publishing))
+        || (!publishing?.underscore && privateSegment)
+        || (!publishing?.readme && readmeMarkdown)
+      ) {
+        route.delete?.()
+        return
+      }
+
       // Re-clone only when the frontmatter config reference changes (e.g. HMR)
       if (valaxyConfig.siteConfig.frontmatter !== _lastFrontmatterRef) {
         _lastFrontmatterRef = valaxyConfig.siteConfig.frontmatter
         _cachedFrontmatter = structuredClone(valaxyConfig.siteConfig.frontmatter)
       }
       const defaultFrontmatter = structuredClone(_cachedFrontmatter)
+      const defaultPassword = defaultFrontmatter.password
+      delete defaultFrontmatter.password
       if (route.meta && route.meta.frontmatter) {
         // reset frontmatter, extendRoute will be trigger when save md file
-        const { frontmatter: _, ...otherMeta } = route.meta
+        const { frontmatter: _, seoDescription: _seoDescription, ...otherMeta } = route.meta
         route.meta = otherMeta as typeof route.meta
       }
       /**
@@ -185,6 +209,14 @@ export async function createRouterOptions(valaxyApp: ValaxyNode, base?: Markdown
         const mdFm = data as (Page | Post)
 
         const lastUpdated = valaxyConfig.siteConfig.lastUpdated
+
+        // Keep the protection flag before removing the password from public metadata.
+        const encrypted = Boolean(mdFm.password === undefined ? defaultPassword : mdFm.password)
+          || (mdFm.encrypt ?? defaultFrontmatter.encrypt) === true
+        const publicContent = encrypted ? '' : stripEncryptedContent(content)
+        const publicExcerpt = publicContent.includes(EXCERPT_SEPARATOR)
+          ? publicContent.split(EXCERPT_SEPARATOR)[0]
+          : ''
 
         // do not export password
         delete mdFm.password
@@ -256,19 +288,34 @@ export async function createRouterOptions(valaxyApp: ValaxyNode, base?: Markdown
          *
          * 不会与 vue-router loader 自动合并
          */
-        let resolvedExcerpt = mdFm.excerpt || (excerpt ? await getExcerptByType(excerpt, mdFm.excerpt_type || defaultFrontmatter.excerpt_type || valaxyConfig.siteConfig.excerpt.type, mdIt) : '')
+        const manualExcerpt = typeof mdFm.excerpt === 'string' ? stripEncryptedContent(mdFm.excerpt) : mdFm.excerpt
+        let resolvedExcerpt = manualExcerpt || (publicExcerpt ? await getExcerptByType(publicExcerpt, mdFm.excerpt_type || defaultFrontmatter.excerpt_type || valaxyConfig.siteConfig.excerpt.type, mdIt) : '')
+
+        const explicitDescription = mdFm.description
+        const hasExplicitDescription = typeof explicitDescription === 'string'
+          ? explicitDescription.trim().length > 0
+          : explicitDescription != null && typeof explicitDescription === 'object'
+        const seoSource = encrypted
+          ? ''
+          : (typeof mdFm.excerpt === 'string' && mdFm.excerpt.trim()
+              ? mdFm.excerpt
+              : (publicExcerpt || publicContent))
+        const seoDescription = hasExplicitDescription
+          ? ''
+          : plainSeoDescription(seoSource, valaxyConfig.siteConfig.excerpt?.length || 200)
 
         // auto excerpt: generate from content if no manual excerpt
         if (!resolvedExcerpt && valaxyConfig.siteConfig.excerpt.auto) {
           const autoExcerptLength = valaxyConfig.siteConfig.excerpt.length
           const excerptType = mdFm.excerpt_type || defaultFrontmatter.excerpt_type || valaxyConfig.siteConfig.excerpt.type
-          const autoExcerptMd = generateAutoExcerptMd(content, autoExcerptLength)
+          const autoExcerptMd = generateAutoExcerptMd(publicContent, autoExcerptLength)
           resolvedExcerpt = await getExcerptByType(autoExcerptMd, excerptType, mdIt)
         }
 
         route.addToMeta({
           frontmatter: routerFM,
           excerpt: resolvedExcerpt,
+          ...(seoDescription ? { seoDescription } : {}),
         })
 
         // set layout
@@ -317,6 +364,31 @@ export async function createRouterOptions(valaxyApp: ValaxyNode, base?: Markdown
     async beforeWriteFiles(root) {
       await valaxyApp.hooks.callHook('vue-router:beforeWriteFiles', root)
       await valaxyConfig.router?.beforeWriteFiles?.(root)
+
+      // Remove draft imports and metadata before the router generates its module.
+      // Runtime filtering alone still ships the draft component in a JS chunk.
+      // Run after user hooks so their final metadata and inserted routes are honored.
+      if (options.mode === 'build' && !valaxyConfig.siteConfig.publishing?.drafts) {
+        const prune = (parent: EditableTreeNode) => {
+          for (const route of parent.children) {
+            prune(route)
+            if (!(route.meta.frontmatter as Page | undefined)?.draft)
+              continue
+
+            if (route.children.length) {
+              // Preserve published descendants, just as flattenRoutes does at runtime.
+              // Clearing components also prevents definePage imports for this node.
+              route.components.clear()
+              route.meta = {}
+              route.name = false
+            }
+            else {
+              route.delete()
+            }
+          }
+        }
+        prune(root)
+      }
     },
   }
 }

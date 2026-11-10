@@ -15,6 +15,9 @@ import { getBorderCharacters, table } from 'table'
 
 import { glob } from 'tinyglobby'
 import { tObject } from '../../../shared'
+import { isUnpublishedPage, relativePagePath } from '../../../shared/page-policy'
+import { plainSeoDescription, publicAuthor, stripEncryptedContent } from '../../../shared/seo'
+import { EXCERPT_SEPARATOR } from '../../constants'
 import { matterOptions } from '../../plugins/markdown/transform/matter'
 import { isExternal } from '../../utils'
 import { getCreatedTime, getUpdatedTime } from '../../utils/date'
@@ -95,11 +98,7 @@ export async function build(options: ResolvedValaxyOptions) {
   // url has been ensured '/'
   const siteUrl = siteConfig.url
 
-  const author: Author = {
-    name: siteConfig.author?.name,
-    email: siteConfig.author?.email,
-    link: siteConfig.author?.link,
-  }
+  const author: Author = publicAuthor(siteConfig.author)
 
   const ccVersion = (siteConfig.license?.type === 'zero') ? '1.0' : '4.0'
   const feedNameMap: Record<string, string> = {
@@ -166,7 +165,8 @@ export async function getPosts(params: {
   const readFilePromises = files.map(async (i) => {
     const raw = await readFile(i, 'utf-8')
     const { data, content, excerpt } = matter(raw, matterOptions)
-    return { data, content, excerpt, path: i }
+    const frontmatter: Record<string, any> = { ...siteConfig.frontmatter, ...data }
+    return { data: frontmatter, content, excerpt, path: i }
   })
   const rawPosts = (await Promise.all(readFilePromises))
   // filter
@@ -174,10 +174,13 @@ export async function getPosts(params: {
   const filteredPosts = rawPosts.filter((p) => {
     const { data } = p
     // skip encrypt post
-    if (data.password)
+    if (data.password || data.encrypt === true)
       return false
-    // skip draft post
-    if (data.draft) {
+    const relative = relativePagePath(p.path, options.userRoot)
+    if (relative && isUnpublishedPage(relative, siteConfig.publishing))
+      return false
+    // skip draft post unless the site opts in
+    if (data.draft && !siteConfig.publishing?.drafts) {
       draftPosts.push(p.path)
       return false
     }
@@ -195,7 +198,9 @@ export async function getPosts(params: {
   // returned posts
   const posts: ExtendedItem[] = []
   for (const rawPost of filteredPosts) {
-    const { data, path, content, excerpt } = rawPost
+    const { data, path } = rawPost
+    const content = stripEncryptedContent(rawPost.content)
+    const excerpt = content.includes(EXCERPT_SEPARATOR) ? content.split(EXCERPT_SEPARATOR)[0] : ''
     if (!data.date)
       data.date = await getCreatedTime(path)
     if (siteConfig.lastUpdated) {
@@ -270,7 +275,7 @@ export async function getPosts(params: {
     const item: ExtendedItem = {
       ...data,
       title: tObject(data.title, lang),
-      description: tObject(data.description, lang),
+      description: tObject(data.description, lang) || plainSeoDescription(excerpt || content, siteConfig.excerpt?.length || 200),
       date: new Date(data.date), // RSS pubDate / JSON date_published
       published: new Date(data.date), // Atom published (first publish time)
       content: html + tip,

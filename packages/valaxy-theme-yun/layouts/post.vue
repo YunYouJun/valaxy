@@ -2,8 +2,9 @@
 import { defineArticle, useSchemaOrg } from '@unhead/schema-org/vue'
 
 import dayjs from 'dayjs'
-import { useFrontmatter, useSiteConfig, useValaxyI18n } from 'valaxy'
+import { pickShareImage, resolveCanonicalPath, resolveShareImage, resolveSiteUrl, useFrontmatter, useSiteConfig, useValaxyI18n } from 'valaxy'
 import { useI18n } from 'vue-i18n'
+import { useRoute } from 'vue-router'
 import { useYunCollection } from '../composables/collection'
 import { useYunLocalMenu } from '../composables/localMenu'
 
@@ -12,22 +13,31 @@ const { menuOpen, toggleMenu } = useYunLocalMenu()
 const { t } = useI18n()
 const siteConfig = useSiteConfig()
 const frontmatter = useFrontmatter()
+const route = useRoute()
 
 const { $t, $tO } = useValaxyI18n()
-const image = frontmatter.value.image || frontmatter.value.cover
+const authorLink = siteConfig.value.author.link?.trim()
+const description = $tO(frontmatter.value.description) || route.meta.seoDescription || ''
+const frontmatterImage = typeof frontmatter.value.image === 'string' ? frontmatter.value.image : undefined
+const image = pickShareImage([frontmatter.value.ogImage, frontmatterImage, frontmatter.value.cover])
+const pagePath = resolveCanonicalPath(route)
+const pageUrl = /^https?:\/\//.test(siteConfig.value.url)
+  ? resolveSiteUrl(siteConfig.value.url, frontmatter.value.canonical || pagePath)
+  : ''
 const article: Parameters<typeof defineArticle>[0] = {
   '@type': 'BlogPosting',
   'headline': $tO(frontmatter.value.title),
-  'description': $tO(frontmatter.value.description),
+  ...(description ? { description } : {}),
   'author': [
     {
       name: $t(siteConfig.value.author.name),
-      url: siteConfig.value.author.link,
+      ...(authorLink ? { url: authorLink } : {}),
     },
   ],
   'datePublished': dayjs(frontmatter.value.date || '').toDate(),
   'dateModified': dayjs(frontmatter.value.updated || '').toDate(),
-  ...(image ? { image } : {}),
+  ...(pageUrl ? { url: pageUrl } : {}),
+  ...(image ? { image: resolveShareImage(siteConfig.value.url, pagePath, image) } : {}),
 }
 
 useSchemaOrg(

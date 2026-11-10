@@ -5,6 +5,7 @@ import { readFile, realpath, stat } from 'node:fs/promises'
 import matter from '@11ty/gray-matter'
 import { dirname, isAbsolute, relative, resolve } from 'pathe'
 import { createRoutesContext, resolveOptions } from 'vue-router/unplugin'
+import { isUnpublishedPage } from '../../shared/page-policy'
 import { createMarkdownEngine } from '../plugins/markdown/renderer'
 import { matterOptions } from '../plugins/markdown/transform/matter'
 import { createRouterOptions } from '../plugins/vueRouter'
@@ -67,8 +68,13 @@ export function createContentService(app: ValaxyNode, settings: ContentServiceOp
   let disposed = false
   const parser = createMarkdownEngine()
 
-  function visible(data: Record<string, unknown>) {
-    if (settings.publicOnly && (data.password || data.encrypt || data.gallery_password || data.hide || (data.draft && !settings.includeDrafts)))
+  function unpublished(pagePath: string) {
+    return isUnpublishedPage(pagePath.replace(/^pages\//, ''), config.siteConfig.publishing)
+  }
+
+  function visible(pagePath: string, data: Record<string, unknown>) {
+    const keptPrivate = unpublished(pagePath) || Boolean(data.draft)
+    if (settings.publicOnly && (data.password || data.encrypt || data.gallery_password || data.hide || (keptPrivate && !settings.includeDrafts)))
       throw new Error('Page unavailable under the MCP visibility policy.')
   }
 
@@ -127,7 +133,7 @@ export function createContentService(app: ValaxyNode, settings: ContentServiceOp
   function project(path: string, file: string, routes: RouteInfo[], data: Record<string, unknown>): ContentPageInfo {
     const matches = routes.filter(route => route.files.includes(file))
     for (const route of matches)
-      visible(route.frontmatter)
+      visible(path, route.frontmatter)
     const resolved = matches[0]?.frontmatter || data
     const draft = Boolean(resolved.draft)
     const base = settings.base ?? config.vite?.base ?? '/'
@@ -160,7 +166,7 @@ export function createContentService(app: ValaxyNode, settings: ContentServiceOp
       const { raw, file } = await read(path)
       const { data } = parseMatter(raw)
       const merged = { ...config.siteConfig.frontmatter, ...data }
-      visible(merged)
+      visible(path, merged)
       const routes = await scanRoutes()
       return project(path, file, routes, merged)
     })
@@ -181,7 +187,7 @@ export function createContentService(app: ValaxyNode, settings: ContentServiceOp
         return result()
       }
       const { data, content } = parsed
-      visible({ ...config.siteConfig.frontmatter, ...data })
+      visible(path, { ...config.siteConfig.frontmatter, ...data })
       const fieldLine = (key: string) => raw.split('\n').findIndex(line => line.startsWith(`${key}:`)) + 1 || 1
       for (const key of ['title', 'description', 'layout']) {
         if (data[key] !== undefined && typeof data[key] !== 'string' && !(key === 'layout' && data[key] === false))
@@ -212,7 +218,7 @@ export function createContentService(app: ValaxyNode, settings: ContentServiceOp
         return result()
       }
       const page = project(path, file, routes, data)
-      if (!page.routes.length)
+      if (!page.routes.length && !unpublished(path))
         add('route-missing', 'error', 'This file does not appear in the resolved route tree.', 'Check router exclusions, page overrides and route hooks.')
       const routePaths = new Map<string, Set<RouteInfo>>()
       for (const route of routes) {

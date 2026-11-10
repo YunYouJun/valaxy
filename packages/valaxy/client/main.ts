@@ -5,6 +5,7 @@ import { setupLayouts } from 'virtual:generated-layouts'
 import { createSSRApp, createApp as vueCreateApp } from 'vue'
 import { createMemoryHistory, createRouter, createWebHistory } from 'vue-router'
 import { routes as autoRoutes, handleHotUpdate } from 'vue-router/auto-routes'
+import { omitProductionDraftRoutes } from '../shared/page-policy'
 
 // import App from '/@valaxyjs/App.vue'
 import App from './App.vue'
@@ -60,12 +61,7 @@ function flattenRoutes(routes: any[]): any[] {
 
 // filter children recursive
 function filterDraft(routes: any[]) {
-  return routes.filter((i) => {
-    if (i.children)
-      i.children = filterDraft(i.children)
-
-    return !i.meta?.frontmatter?.draft
-  })
+  return omitProductionDraftRoutes(routes, valaxyConfig.value.siteConfig.publishing?.drafts)
 }
 
 /**
