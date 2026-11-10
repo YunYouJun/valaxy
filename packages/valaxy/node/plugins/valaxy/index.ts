@@ -6,10 +6,11 @@ import type { Plugin } from 'vite'
 import type { DefaultTheme, PageDataPayload, Pkg } from '../../../types'
 import type { StateManager } from '../../app/state'
 import type { ResolvedValaxyOptions, ValaxyNodeConfig, ValaxyServerOptions } from '../../types'
+import { Buffer } from 'node:buffer'
 import { consola } from 'consola'
 import { colors } from 'consola/utils'
 import fs from 'fs-extra'
-import { join, relative, resolve } from 'pathe'
+import { dirname, join, relative, resolve } from 'pathe'
 import { Valaxy } from '../../app'
 import { resolveUserThemeConfig } from '../../config'
 import { vLogger } from '../../logger'
@@ -59,6 +60,8 @@ export async function createValaxyPlugin(
   const valaxyPrefix = '/@valaxy'
 
   let hasDeadLinks = false
+  const protectedMarkdown = new Set<string>()
+  const protectedSourceAliases = new Set<string>()
 
   let markdownToVue: Awaited<ReturnType<typeof createMarkdownToVueRenderFn>>
 
@@ -129,7 +132,7 @@ export async function createValaxyPlugin(
       async transform(code, id) {
         if (id.endsWith('.md')) {
           // transform .md files into vueSrc so plugin-vue can handle it
-          const { code: newCode, deadLinks, includes } = await markdownToVue(code, id)
+          const { code: newCode, deadLinks, includes, hasPrivateSource } = await markdownToVue(code, id)
 
           if (deadLinks.length) {
             hasDeadLinks = true
@@ -143,6 +146,12 @@ export async function createValaxyPlugin(
             })
           }
 
+          // The compiler captures this before encryption metadata is removed.
+          // Keep it separate from state, which buildEnd clears.
+          if (hasPrivateSource) {
+            protectedMarkdown.add(resolve(id))
+            includes.forEach(file => protectedMarkdown.add(resolve(file)))
+          }
           return newCode
         }
       },
@@ -216,6 +225,60 @@ export async function createValaxyPlugin(
           vLogger.success(`${colors.yellow('[HMR]')} ${file} ${colors.dim(`updated in ${endCount()}`)}`)
           ctx.read = () => code
         }
+      },
+    },
+
+    {
+      name: 'valaxy:private-sourcemaps',
+      enforce: 'post',
+      outputOptions(output) {
+        const transformPath = output.sourcemapPathTransform
+        if (!transformPath)
+          return
+        return {
+          ...output,
+          sourcemapPathTransform(source, sourcemapPath) {
+            const transformed = transformPath(source, sourcemapPath)
+            if (protectedMarkdown.has(resolve(dirname(sourcemapPath), source.split('?')[0])))
+              protectedSourceAliases.add(transformed)
+            return transformed
+          },
+        }
+      },
+      generateBundle: {
+        order: 'post',
+        handler(outputOptions, bundle) {
+          if (!protectedMarkdown.size)
+            return
+
+          // Rolldown restores original sourcesContent even when a transform
+          // returns an empty map. Sanitize the final maps, including inline maps
+          // already serialized into chunks, without disabling public mappings.
+          const outputDir = outputOptions.dir || dirname(outputOptions.file || '.')
+          const sanitize = (map: { sources?: string[], sourcesContent?: (string | null)[], sourceRoot?: string }, fileName: string) => {
+            map.sourcesContent?.forEach((_content, index, contents) => {
+              const source = map.sources?.[index]
+              if (source && (protectedSourceAliases.has(source) || protectedMarkdown.has(resolve(outputDir, dirname(fileName), map.sourceRoot || '', source.split('?')[0]))))
+                contents[index] = null
+            })
+          }
+          for (const output of Object.values(bundle)) {
+            if (output.type === 'asset' && output.fileName.endsWith('.map')) {
+              const map = JSON.parse(typeof output.source === 'string' ? output.source : Buffer.from(output.source).toString())
+              sanitize(map, output.fileName)
+              output.source = JSON.stringify(map)
+            }
+            else if (output.type === 'chunk') {
+              if (output.map)
+                sanitize(output.map, output.fileName)
+              output.code = output.code.replace(/(\/\/[#@] sourceMappingURL=data:application\/json[^,]*;base64,)(\S+)/g, (_match, prefix, encoded) => {
+                const map = JSON.parse(Buffer.from(encoded, 'base64').toString())
+                sanitize(map, output.fileName)
+                return prefix + Buffer.from(JSON.stringify(map)).toString('base64')
+              })
+            }
+          }
+        },
       },
     },
 

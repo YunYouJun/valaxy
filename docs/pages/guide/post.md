@@ -45,7 +45,7 @@ hide: true
 
 ## Drafts {#drafts}
 
-`draft: true` keeps a page on the dev server and leaves it out of the production HTML, sitemap, RSS feed, and `llms.txt`.
+`draft: true` keeps a page on the dev server and leaves it out of production HTML, JavaScript, the sitemap, RSS feed, search indexes, and `llms.txt`.
 
 ```md
 ---
@@ -78,11 +78,11 @@ The example enables all three flags. They default to `false`; enable only the ca
 
 The meta description, Open Graph description, and Twitter description prefer frontmatter `description`. Otherwise, Valaxy generates a plain-text summary from a custom `excerpt`, the public content before `<!-- more -->`, or the opening public paragraphs, in that order. If no summary is available, it uses the site description.
 
-Automatic summaries omit fenced code, images, headings, and container markers. Public prose inside ordinary containers, such as `::: tip` and language containers, is retained. The text is trimmed to `excerpt.length` (200 characters by default). Encrypted sections are excluded from automatic summaries and content-image extraction. Entirely encrypted pages do not get an automatic body summary or first image. Explicit `description`, `ogImage`, and `cover` fields are still public, so do not put private information in them.
+Automatic summaries omit fenced code, images, headings, and container markers. Public prose inside ordinary containers, such as `::: tip` and language containers, is retained. The text is trimmed to `excerpt.length` (200 characters by default). Encrypted sections are excluded from automatic summaries and content-image extraction. Entirely encrypted pages do not get an automatic body summary or first image. Search indexes, RSS, `llms-full.txt`, and Markdown exports also omit encrypted body content; build source maps do not embed the original protected page. Explicit `description`, `ogImage`, and `cover` fields are still public, so do not put private information in them.
 
 Posts use `og:type` `article`; other pages use `website`. Share images are selected from `ogImage`, then `cover`, then the automatically extracted first content image, skipping component names and unsafe URL schemes. Content-image extraction supports Markdown images and HTML `<img>` tags and can be disabled with `features.extractFirstImage: false`. The site favicon is not an automatic fallback.
 
-Relative images such as `images/cover.png`, `cover.png`, and `./cover.png` resolve from the page directory. `/images/cover.png` resolves from the site's deployment root, preserving a deployment subpath. Query strings and fragments are preserved. An empty `author.email` or `author.link` is omitted from RSS and JSON-LD instead of being filled with a framework address.
+Relative images such as `images/cover.png`, `cover.png`, and `./cover.png` are processed by Vite when they match a local file beside the Markdown source. Share tags use the emitted, fetchable asset URL, including for nested `index.md` pages. Relative URLs without a matching source file still resolve from the page directory. `/images/cover.png` resolves from the site's deployment root, preserving a deployment subpath. Query strings and fragments are preserved. An empty `author.email` or `author.link` is omitted from RSS and JSON-LD instead of being filled with a framework address.
 
 
 ## Image and Vue Component Covers {#cover}

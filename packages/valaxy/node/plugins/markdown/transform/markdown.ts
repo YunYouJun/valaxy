@@ -3,6 +3,7 @@ import type { ResolvedValaxyOptions } from '../../../types'
 
 import { transformObject } from '../../../utils'
 import { getValaxyMain } from '../../markdown/markdownToVue'
+import { resolvePageImageImports } from './page-data'
 
 function genProvideCode(name: string, data: any) {
   return [
@@ -14,16 +15,19 @@ function genProvideCode(name: string, data: any) {
 
 const encryptedKeys = ['encryptedContent', 'partiallyEncryptedContents', 'encryptedPhotos']
 
-export function injectPageDataCode(pageData: PageData) {
+export function injectPageDataCode(pageData: PageData, id?: string) {
+  const images = id ? resolvePageImageImports(pageData.frontmatter, id) : { imports: [], assignments: [] }
   // Generate static page data that will be embedded in the component
   const staticPageData = transformObject(pageData)
 
   const vueContextImports = [
     `import { provide, shallowRef } from 'vue'`,
     `import { useRoute, useRouter } from 'vue-router'`,
+    ...images.imports,
 
     // Use static page data instead of data loader
     `const pageData = shallowRef(${staticPageData})`,
+    ...images.assignments,
     'const router = useRouter()',
     'const route = useRoute()',
     // $frontmatter contain runtime added data, will be deleted (for example, $frontmatter.partiallyEncryptedContents)
@@ -49,7 +53,7 @@ export function createTransformMarkdown(options: ResolvedValaxyOptions) {
       // do not build path in production
       delete pageData.filePath
     }
-    const dataCode = injectPageDataCode(pageData)
+    const dataCode = injectPageDataCode(pageData, id)
     const imports = [
       ...dataCode,
       isDev ? `globalThis.$pageData = pageData` : '',

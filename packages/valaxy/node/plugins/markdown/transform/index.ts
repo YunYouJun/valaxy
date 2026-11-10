@@ -42,6 +42,7 @@ export async function createMarkdownPlugin(
   // transforms instead of overwriting them through the options spread.
   const {
     transforms: userTransforms,
+    frontmatterPreprocess: userFrontmatterPreprocess,
     markdownSetup: userMarkdownSetup,
     markdownItSetup: userMarkdownItSetup,
     ...restMdOptions
@@ -55,6 +56,23 @@ export async function createMarkdownPlugin(
 
     frontmatter: true,
     exportFrontmatter: false,
+    frontmatterPreprocess(frontmatter, markdownOptions, id, defaultHeadProcess) {
+      // unplugin emits its own exposed frontmatter in addition to Valaxy's
+      // pageData. Do not serialize gallery credentials/photos into that copy.
+      // Keep the parser environment unchanged for the encryption transform.
+      const publicFrontmatter = { ...frontmatter }
+      if (options.config.siteConfig.encrypt?.enable) {
+        delete publicFrontmatter.password
+        if (publicFrontmatter.gallery_password) {
+          delete publicFrontmatter.gallery_password
+          delete publicFrontmatter.photos
+        }
+      }
+      return userFrontmatterPreprocess?.(publicFrontmatter, markdownOptions, id, defaultHeadProcess) ?? {
+        head: defaultHeadProcess(publicFrontmatter, markdownOptions),
+        frontmatter: publicFrontmatter,
+      }
+    },
     frontmatterOptions: {
       // Disable excerpt rendering in @mdit-vue/plugin-frontmatter because it
       // uses sync md.render() which throws with async highlight (markdown-exit:

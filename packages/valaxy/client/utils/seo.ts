@@ -8,8 +8,13 @@ import { resolveSiteUrl } from './path'
 export function resolveShareImage(siteUrl: string, pagePath: string, src: string): string {
   if (!src || EXTERNAL_URL_RE.test(src) || !/^https?:\/\//.test(siteUrl))
     return src
-  if (src.startsWith('/'))
+  if (src.startsWith('/')) {
+    // Vite asset imports already include the deployment base.
+    const base = new URL(siteUrl).pathname.replace(/\/+$/, '')
+    if (base && src.startsWith(`${base}/`))
+      return new URL(src, siteUrl).href
     return resolveSiteUrl(siteUrl, src)
+  }
 
   const directory = pagePath.endsWith('/') ? pagePath : pagePath.replace(/[^/]*$/, '')
   const basePath = directory.startsWith('/') ? directory : `/${directory}`

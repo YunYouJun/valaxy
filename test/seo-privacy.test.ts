@@ -163,6 +163,15 @@ describe('route SEO privacy', () => {
     expect(page.frontmatter.firstImage).toBeUndefined()
   })
 
+  it.each(['password', 'encrypt', 'draft', 'hide'])('applies inherited %s to RSS and honors explicit overrides', async (flag) => {
+    app.options.config.siteConfig.frontmatter = { [flag]: flag === 'password' ? 'test' : true }
+    await writeRoute('---\ntitle: Protected\ndate: 2024-01-01\n---\nPrivateBody')
+    const params = { author: { name: 'Author' }, files: [join(root, 'pages/posts/private.md')], DOMAIN: 'https://example.com' }
+    expect(await getPosts(params, app.options)).toEqual([])
+    await writeRoute(`---\ntitle: Public override\ndate: 2024-01-01\n${flag}: false\n---\nPublic body.`)
+    expect((await getPosts(params, app.options))?.[0].description).toBe('Public body.')
+  })
+
   it.each([false, true])('does not include private body text anywhere in RSS (fullText: %s)', async (fullText) => {
     app.options.config.modules = { ...app.options.config.modules, rss: { ...app.options.config.modules.rss, fullText } }
     await writeRoute(`---\ntitle: Public\ndate: 2024-01-01\n---\nPublic opening.\n\n${privateBlock}`)

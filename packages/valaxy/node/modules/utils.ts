@@ -39,23 +39,23 @@ export async function scanPageFiles(userRoot: string, include: string[]): Promis
 /**
  * Read and parse frontmatter from markdown files.
  */
-export async function readPostFiles(files: string[]): Promise<RawPost[]> {
+export async function readPostFiles(files: string[], defaults: Record<string, any> = {}): Promise<RawPost[]> {
   return Promise.all(files.map(async (filePath) => {
     const raw = await readFile(filePath, 'utf-8')
     const { data, content, excerpt } = matter(raw, matterOptions)
-    return { data, content, excerpt, filePath }
+    return { data: { ...defaults, ...data }, content, excerpt, filePath }
   }))
 }
 
 /**
  * Filter out posts that should not be publicly visible:
- * - `password` (encrypted)
+ * - `password` or `encrypt: true` (encrypted)
  * - `draft`
  * - `hide` (any truthy value)
  */
 export function filterPublicPosts(posts: RawPost[], publishing?: PagePublishing, userRoot?: string): RawPost[] {
   return posts.filter(({ data, filePath }) => {
-    if (data.password || data.hide)
+    if (data.password || data.encrypt === true || data.hide)
       return false
     if (data.draft && !publishing?.drafts)
       return false

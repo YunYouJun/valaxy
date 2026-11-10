@@ -7,6 +7,7 @@ import matter from '@11ty/gray-matter'
 import fs from 'fs-extra'
 import { loadLocalesYml } from '../../shared/node/i18n'
 import { isUnpublishedPage, relativePagePath } from '../../shared/page-policy'
+import { stripEncryptedContent } from '../../shared/seo'
 import { formatMetadataHeader, generateLlmsFullTxt, generateLlmsTxt, loadLlmsPosts, resolveText, stripSensitiveFrontmatter } from '../modules/llms/utils'
 import { getSiteUrl } from '../modules/utils'
 import { getPagePath, resolvePageFile } from '../utils/pageSources'
@@ -117,12 +118,14 @@ async function resolveRawMd(url: string, options: ResolvedValaxyOptions): Promis
     return null
 
   const raw = await fs.readFile(filePath, 'utf-8')
-  const { data, content } = matter(raw, matterOptions)
+  const parsed = matter(raw, matterOptions)
+  const data = { ...options.config.siteConfig.frontmatter, ...parsed.data }
+  const content = stripEncryptedContent(parsed.content)
 
   const publishing = options.config.siteConfig.publishing
   const relative = relativePagePath(filePath, options.userRoot)
   // Filter out draft/hidden/encrypted posts and unpublished paths.
-  if (data.password || data.hide || (data.draft && !publishing?.drafts))
+  if (data.password || data.encrypt === true || data.hide || (data.draft && !publishing?.drafts))
     return null
   if (relative && isUnpublishedPage(relative, publishing))
     return null
@@ -132,8 +135,8 @@ async function resolveRawMd(url: string, options: ResolvedValaxyOptions): Promis
   const urlPath = url.replace(/\.md$/, '')
   const cleanedFrontmatter = stripSensitiveFrontmatter(data)
   const post: LlmsPost = {
-    title: resolveText(data.title, lang) || path.basename(filePath, '.md'),
-    description: resolveText(data.description, lang) || '',
+    title: resolveText(data.title || '', lang) || path.basename(filePath, '.md'),
+    description: resolveText(data.description || '', lang) || '',
     date: data.date ? new Date(data.date) : new Date(0),
     urlPath,
     sourcePath: getPagePath(filePath, options.userRoot)!,

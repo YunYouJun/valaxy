@@ -10,9 +10,12 @@ import fs from 'fs-extra'
 
 import { glob } from 'tinyglobby'
 import { defineValaxyModule } from '.'
+import { SENSITIVE_FRONTMATTER_KEYS } from '../../shared/constants'
 import { loadLocalesYml, nodeT } from '../../shared/node/i18n'
 import { isUnpublishedPage, relativePagePath } from '../../shared/page-policy'
+import { stripEncryptedContent } from '../../shared/seo'
 import { commonOptions } from '../cli/options'
+import { EXCERPT_SEPARATOR } from '../constants'
 import { resolveOptions } from '../options'
 import { matterOptions } from '../plugins/markdown/transform/matter'
 import { setEnvProd } from '../utils/env'
@@ -50,8 +53,13 @@ export async function generateFuseList(options: ResolvedValaxyOptions) {
   const posts: FuseListItem[] = []
   for await (const i of files) {
     const raw = fs.readFileSync(i, 'utf-8')
-    const { data, excerpt, content } = matter(raw, matterOptions)
-    const fmData = data as PostFrontMatter
+    const { data, content: rawContent } = matter(raw, matterOptions)
+    const fmData = { ...options.config.siteConfig.frontmatter, ...data } as PostFrontMatter
+    // Strip complete private blocks before looking for the excerpt separator, which
+    // may itself occur inside an encrypted block.
+    const content = stripEncryptedContent(rawContent)
+    const separator = content.indexOf(EXCERPT_SEPARATOR)
+    const excerpt = separator < 0 ? '' : content.slice(0, separator)
 
     const relative = relativePagePath(i, options.userRoot)
     if (relative && isUnpublishedPage(relative, options.config.siteConfig.publishing))
@@ -66,7 +74,7 @@ export async function generateFuseList(options: ResolvedValaxyOptions) {
       continue
 
     // skip encrypt post
-    if (fmData.password)
+    if (fmData.password || fmData.encrypt === true)
       continue
 
     const extendKeys = options.config.fuse?.extendKeys || []
@@ -95,7 +103,10 @@ export async function generateFuseList(options: ResolvedValaxyOptions) {
     }
 
     extendKeys.forEach((key) => {
-      fuseListItem[key] = fmData[key] || ''
+      if (SENSITIVE_FRONTMATTER_KEYS.has(key) || (key === 'photos' && 'gallery_password' in fmData))
+        return
+      const value = fmData[key] || ''
+      fuseListItem[key] = typeof value === 'string' ? stripEncryptedContent(value) : value
     })
 
     posts.push(fuseListItem)

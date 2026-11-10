@@ -10,6 +10,7 @@ import picomatch from 'picomatch'
 import { tObject } from '../../../shared'
 import { SENSITIVE_FRONTMATTER_KEYS } from '../../../shared/constants'
 import { loadLocalesYml, nodeT } from '../../../shared/node/i18n'
+import { stripEncryptedContent } from '../../../shared/seo'
 import { isLocaleKey } from '../../../shared/utils'
 import { getPagePath } from '../../utils/pageSources'
 import { filePathToUrlPath, filterPublicPosts, getSiteUrl, readPostFiles, scanPageFiles } from '../utils'
@@ -73,7 +74,7 @@ export async function loadLlmsPosts(options: ResolvedValaxyOptions): Promise<Llm
 
   const include = llmsConfig.include || ['posts/**/*.md']
   const files = await scanPageFiles(options.userRoot, include)
-  const rawPosts = await readPostFiles(files)
+  const rawPosts = await readPostFiles(files, siteConfig.frontmatter)
   const publicPosts = filterPublicPosts(rawPosts, siteConfig.publishing, options.userRoot)
 
   const posts = publicPosts.map<LlmsPost>(({ data, content, filePath }) => ({
@@ -82,7 +83,7 @@ export async function loadLlmsPosts(options: ResolvedValaxyOptions): Promise<Llm
     date: data.date ? new Date(data.date) : new Date(0),
     urlPath: filePathToUrlPath(filePath, options.userRoot),
     sourcePath: getPagePath(filePath, options.userRoot)!,
-    content,
+    content: stripEncryptedContent(content),
     rawFrontmatter: stripSensitiveFrontmatter(data),
   }))
 

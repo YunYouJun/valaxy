@@ -165,7 +165,8 @@ export async function getPosts(params: {
   const readFilePromises = files.map(async (i) => {
     const raw = await readFile(i, 'utf-8')
     const { data, content, excerpt } = matter(raw, matterOptions)
-    return { data, content, excerpt, path: i }
+    const frontmatter: Record<string, any> = { ...siteConfig.frontmatter, ...data }
+    return { data: frontmatter, content, excerpt, path: i }
   })
   const rawPosts = (await Promise.all(readFilePromises))
   // filter

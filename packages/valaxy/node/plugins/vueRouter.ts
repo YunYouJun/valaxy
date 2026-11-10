@@ -1,4 +1,4 @@
-import type { Options } from 'vue-router/unplugin'
+import type { EditableTreeNode, Options } from 'vue-router/unplugin'
 import type { ExcerptType, Page, Post } from '../../types'
 import type { EditorRoutes } from '../editor/routes'
 import type { ValaxyNode } from '../types'
@@ -364,6 +364,31 @@ export async function createRouterOptions(valaxyApp: ValaxyNode, base?: Markdown
     async beforeWriteFiles(root) {
       await valaxyApp.hooks.callHook('vue-router:beforeWriteFiles', root)
       await valaxyConfig.router?.beforeWriteFiles?.(root)
+
+      // Remove draft imports and metadata before the router generates its module.
+      // Runtime filtering alone still ships the draft component in a JS chunk.
+      // Run after user hooks so their final metadata and inserted routes are honored.
+      if (options.mode === 'build' && !valaxyConfig.siteConfig.publishing?.drafts) {
+        const prune = (parent: EditableTreeNode) => {
+          for (const route of parent.children) {
+            prune(route)
+            if (!(route.meta.frontmatter as Page | undefined)?.draft)
+              continue
+
+            if (route.children.length) {
+              // Preserve published descendants, just as flattenRoutes does at runtime.
+              // Clearing components also prevents definePage imports for this node.
+              route.components.clear()
+              route.meta = {}
+              route.name = false
+            }
+            else {
+              route.delete()
+            }
+          }
+        }
+        prune(root)
+      }
     },
   }
 }

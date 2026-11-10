@@ -42,7 +42,11 @@ export function pickShareImage(candidates: Array<string | undefined | null>): st
     const value = candidate?.trim()
     if (!value || Array.from(value).some(char => char.charCodeAt(0) < 32 || char.charCodeAt(0) === 127))
       continue
-    const url = value.match(/^<?([^\s>]+)>?/)?.[1]
+    // Spaces may be part of a quoted HTML src or a real filename. Only remove
+    // an actual trailing Markdown title, rather than truncating at whitespace.
+    const url = value.startsWith('<')
+      ? value.match(/^<([^>]+)>/)?.[1]
+      : value.replace(/\s+(?:"[^"]*"|'[^']*'|\([^)]*\))$/, '')
     if (!url || url.includes('\\'))
       continue
 
@@ -124,17 +128,30 @@ export function plainSeoDescription(markdown: string, maxLength = 200): string {
 }
 
 function stripInlineMarkdown(line: string): string {
-  return line
+  // Code spans and escaped punctuation are literal text, not emphasis delimiters.
+  const literals: string[] = []
+  const protect = (value: string) => `\u0000${literals.push(value) - 1}\u0000`
+  let text = line
+    .replace(/(`+)(.*?)\1/g, (_, _fence, code: string) => protect(code))
+    .replace(/\\([\\`*_~[\]{}()#+\-.!|>])/g, (_, char: string) => protect(char))
     .replace(/\[([^\]]+)\]\([^)]*\)/g, '$1')
     .replace(/\[([^\]]+)\]\[[^\]]*\]/g, '$1')
-    .replace(/`([^`]+)`/g, '$1')
-    .replace(/(\*\*|__)(.*?)\1/g, '$2')
-    .replace(/(\*|_)(.*?)\1/g, '$2')
-    .replace(/~~(.*?)~~/g, '$1')
+
+  // Underscores inside identifiers are not Markdown emphasis; spaces around a
+  // star (e.g. "2 * 3 * 4") do not form an emphasis pair either.
+  for (let depth = 0; depth < 3; depth++) {
+    text = text
+      .replace(/(?<![\p{L}\p{N}_])(_{1,3})(?=\S)(.+?\S|\S)\1(?![\p{L}\p{N}_])/gu, '$2')
+      .replace(/(?<!\*)(\*{1,3})(?=\S)(.+?\S|\S)\1(?!\*)/g, '$2')
+      .replace(/~~(?=\S)(.+?\S|\S)~~/g, '$1')
+  }
+
+  return text
     .replace(/^>\s?/, '')
     .replace(/^[-*+]\s+/, '')
     .replace(/^\d+\.\s+/, '')
     .replace(/\|/g, ' ')
+    .replace(/\0(\d+)\0/g, (_, index: string) => literals[Number(index)])
 }
 
 /**
@@ -147,6 +164,14 @@ export function extractMarkdownImage(code: string): string | undefined {
   const markdown = withoutFence.match(/!\[[^\]]*\]\(\s*<?([^\s)>]+)>?/)
   if (markdown)
     return markdown[1]
-  const html = withoutFence.match(/<img\s[^>]*?\bsrc=["']([^"']+)["']/i)
-  return html?.[1]
+  const html = withoutFence.match(/<img\s[^>]*?\bsrc=(?:"([^"]+)"|'([^']+)')/i)
+  // Markdown's rendered attributes escape URL query separators (and quotes).
+  // Decode once: an original literal &amp; remains &amp;, not a second ampersand.
+  return (html?.[1] || html?.[2])?.replace(/&(amp|lt|gt|quot|apos|#(?:x[\da-f]+|\d+));/gi, (entity, name: string) => {
+    if (name.startsWith('#')) {
+      const value = name[1].toLowerCase() === 'x' ? Number.parseInt(name.slice(2), 16) : Number.parseInt(name.slice(1), 10)
+      return value > 0 && value <= 0x10FFFF ? String.fromCodePoint(value) : entity
+    }
+    return ({ amp: '&', lt: '<', gt: '>', quot: '"', apos: '\'' } as Record<string, string>)[name.toLowerCase()]
+  })
 }

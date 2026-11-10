@@ -101,6 +101,7 @@ export interface MarkdownCompileResult {
   pageData: PageData
   deadLinks: { url: string, file: string }[]
   includes: string[]
+  hasPrivateSource: boolean
 }
 
 /**
@@ -153,6 +154,13 @@ export async function createMarkdownToVueRenderFn(
     code = data.code
     code = transformCodeBlock(code, context)
 
+    // Preserve this before encryption and script injection remove credentials
+    // and encrypted fields from pageData. Includes have already been expanded.
+    const hasPrivateSource = !!(pageData.frontmatter.password
+      || pageData.frontmatter.encrypt
+      || pageData.frontmatter.gallery_password
+      || code.includes('valaxy-encrypt-start:'))
+
     // run it before vue and after md parse
     code = await transformEncrypt(code, id, pageData)
 
@@ -169,6 +177,7 @@ export async function createMarkdownToVueRenderFn(
       pageData,
       deadLinks,
       includes,
+      hasPrivateSource,
     }
     if (isBuild)
       cache!.set(cacheKey!, result)

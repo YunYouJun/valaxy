@@ -27,6 +27,7 @@ export function usePostTitle(post: ComputedRef<Post>) {
  * get all page in 'pages' folder
  */
 export function usePageList() {
+  const siteConfig = useSiteConfig()
   const routerStore = useRouterStore()
   const router = routerStore.router
 
@@ -40,9 +41,9 @@ export function usePageList() {
       .filter(i => i.name)
       .filter(i => i.meta)
       .filter(i => i.meta!.frontmatter)
-      // In production, draft routes are already removed before registration (see main.ts filterDraft).
+      // Keep this safety net consistent with the router publishing policy.
       // In dev, they remain in the router so they can be previewed.
-      .filter(i => import.meta.env.DEV || !i.meta!.frontmatter!.draft)
+      .filter(i => import.meta.env.DEV || siteConfig.value.publishing?.drafts || !i.meta!.frontmatter!.draft)
       .filter(i => i.path && !excludePages.includes(i.path))
       .map((i) => {
         return { path: i.path, excerpt: i.meta!.excerpt, ...i.meta!.frontmatter || {} } as Post
