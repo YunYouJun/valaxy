@@ -61,12 +61,14 @@ import { defineSiteConfig } from 'valaxy'
 
 export default defineSiteConfig({
   publishing: {
-    drafts: false,
-    underscore: false,
-    readme: false,
+    drafts: true,
+    underscore: true,
+    readme: true,
   },
 })
 ```
+
+The example enables all three flags. They default to `false`; enable only the categories you intend to publish.
 
 `publishing.drafts` publishes `draft: true` pages in production. `publishing.underscore` publishes underscore paths, including `pages/_drafts`. `publishing.readme` publishes README pages. Development always previews `draft: true`; underscore paths and README pages stay unrouted until the flag is on.
 
@@ -74,9 +76,13 @@ export default defineSiteConfig({
 
 ## Descriptions and share cards {#share}
 
-When a page has no frontmatter `description`, Valaxy writes a plain-text excerpt into the meta description, Open Graph description, and Twitter description. The excerpt is the text before `<!-- more -->` when that marker exists, otherwise the first paragraphs. Fenced code, images, and headings are left out, and the text is trimmed to `excerpt.length` (200 characters by default).
+The meta description, Open Graph description, and Twitter description prefer frontmatter `description`. Otherwise, Valaxy generates a plain-text summary from a custom `excerpt`, the public content before `<!-- more -->`, or the opening public paragraphs, in that order. If no summary is available, it uses the site description.
 
-Posts use `og:type` `article`. Other pages use `website`. The share image is `ogImage`, then `cover`, then the first Markdown image. The site favicon is not used as that image. An empty `author.email` or `author.link` is omitted from RSS and JSON-LD instead of being filled with a framework address.
+Automatic summaries omit fenced code, images, headings, and container markers. Public prose inside ordinary containers, such as `::: tip` and language containers, is retained. The text is trimmed to `excerpt.length` (200 characters by default). Encrypted sections are excluded from automatic summaries and content-image extraction. Entirely encrypted pages do not get an automatic body summary or first image. Explicit `description`, `ogImage`, and `cover` fields are still public, so do not put private information in them.
+
+Posts use `og:type` `article`; other pages use `website`. Share images are selected from `ogImage`, then `cover`, then the automatically extracted first content image, skipping component names and unsafe URL schemes. Content-image extraction supports Markdown images and HTML `<img>` tags and can be disabled with `features.extractFirstImage: false`. The site favicon is not an automatic fallback.
+
+Relative images such as `images/cover.png`, `cover.png`, and `./cover.png` resolve from the page directory. `/images/cover.png` resolves from the site's deployment root, preserving a deployment subpath. Query strings and fragments are preserved. An empty `author.email` or `author.link` is omitted from RSS and JSON-LD instead of being filled with a framework address.
 
 
 ## Image and Vue Component Covers {#cover}
@@ -144,7 +150,7 @@ coverComponent: HelloValaxyCover
 # ogImage: /images/share-preview.png
 ```
 
-Valaxy does not automatically capture Vue components during a build. Use the export below to save a static social image. Social previews use `ogImage`, then `cover`, then the first article image or the site's favicon. Neither image field is required to render the SVG cover. Image-based components can use `withBase(src)` for subpath deployments.
+Valaxy does not automatically capture Vue components during a build. Use the export below to save a static social image. Social previews use `ogImage`, then `cover`, then the automatically extracted first public content image. The site's favicon is not an automatic fallback. Neither image field is required to render the SVG cover. Image-based components can use `withBase(src)` for subpath deployments.
 
 ### Export a social image from the same SVG {#cover-export}
 

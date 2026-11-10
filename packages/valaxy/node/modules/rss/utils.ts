@@ -16,7 +16,8 @@ import { getBorderCharacters, table } from 'table'
 import { glob } from 'tinyglobby'
 import { tObject } from '../../../shared'
 import { isUnpublishedPage, relativePagePath } from '../../../shared/page-policy'
-import { plainSeoDescription, publicAuthor } from '../../../shared/seo'
+import { plainSeoDescription, publicAuthor, stripEncryptedContent } from '../../../shared/seo'
+import { EXCERPT_SEPARATOR } from '../../constants'
 import { matterOptions } from '../../plugins/markdown/transform/matter'
 import { isExternal } from '../../utils'
 import { getCreatedTime, getUpdatedTime } from '../../utils/date'
@@ -172,7 +173,7 @@ export async function getPosts(params: {
   const filteredPosts = rawPosts.filter((p) => {
     const { data } = p
     // skip encrypt post
-    if (data.password)
+    if (data.password || data.encrypt === true)
       return false
     const relative = relativePagePath(p.path, options.userRoot)
     if (relative && isUnpublishedPage(relative, siteConfig.publishing))
@@ -196,7 +197,9 @@ export async function getPosts(params: {
   // returned posts
   const posts: ExtendedItem[] = []
   for (const rawPost of filteredPosts) {
-    const { data, path, content, excerpt } = rawPost
+    const { data, path } = rawPost
+    const content = stripEncryptedContent(rawPost.content)
+    const excerpt = content.includes(EXCERPT_SEPARATOR) ? content.split(EXCERPT_SEPARATOR)[0] : ''
     if (!data.date)
       data.date = await getCreatedTime(path)
     if (siteConfig.lastUpdated) {

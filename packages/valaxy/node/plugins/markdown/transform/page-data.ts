@@ -43,7 +43,7 @@ export async function generatePageData(code: string, context: MarkdownTransformC
     : {}
 
   // Auto-extract the first image from markdown if ogImage and cover are not set
-  if (options.config.features?.extractFirstImage !== false && !fm.ogImage && !fm.cover) {
+  if (options.config.features?.extractFirstImage !== false && !fm.password && fm.encrypt !== true && !fm.ogImage && !fm.cover) {
     const firstImage = extractFirstImage(code)
     if (firstImage)
       fm.firstImage = firstImage

@@ -3,7 +3,7 @@ import { resolveSiteUrl } from './path'
 
 /**
  * Resolve a share image against the page when it is relative, and against the
- * site origin when it is root-absolute. Absolute URLs are unchanged.
+ * site deployment path when it is root-absolute. Absolute URLs are unchanged.
  */
 export function resolveShareImage(siteUrl: string, pagePath: string, src: string): string {
   if (!src || EXTERNAL_URL_RE.test(src) || !/^https?:\/\//.test(siteUrl))
@@ -14,7 +14,8 @@ export function resolveShareImage(siteUrl: string, pagePath: string, src: string
   const directory = pagePath.endsWith('/') ? pagePath : pagePath.replace(/[^/]*$/, '')
   const basePath = directory.startsWith('/') ? directory : `/${directory}`
   try {
-    return resolveSiteUrl(siteUrl, new URL(src, `http://valaxy.local${basePath}`).pathname)
+    const resolved = new URL(src, `http://valaxy.local${basePath}`)
+    return resolveSiteUrl(siteUrl, `${resolved.pathname}${resolved.search}${resolved.hash}`)
   }
   catch {
     return src

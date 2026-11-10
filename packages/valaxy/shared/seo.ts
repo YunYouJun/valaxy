@@ -31,7 +31,7 @@ export function openGraphType(path: string, layout?: string | false): 'article' 
   return /^\/posts\/.+/.test(normalized) ? 'article' : 'website'
 }
 
-const SHARE_IMAGE = /^(?:https?:\/\/|[/.])/i
+const SHARE_IMAGE = /\.(?:avif|bmp|gif|ico|jpe?g|png|svg|webp)$/i
 
 /**
  * First usable share image. The site favicon is not a candidate: it is often an SVG
@@ -40,12 +40,36 @@ const SHARE_IMAGE = /^(?:https?:\/\/|[/.])/i
 export function pickShareImage(candidates: Array<string | undefined | null>): string | undefined {
   for (const candidate of candidates) {
     const value = candidate?.trim()
-    if (!value || !SHARE_IMAGE.test(value))
+    if (!value || Array.from(value).some(char => char.charCodeAt(0) < 32 || char.charCodeAt(0) === 127))
       continue
     const url = value.match(/^<?([^\s>]+)>?/)?.[1]
-    if (url)
+    if (!url || url.includes('\\'))
+      continue
+
+    const pathname = url.split(/[?#]/)[0]
+    // Components are not image resources; URL schemes must be HTTP(S).
+    if (/\.vue$/i.test(pathname) || (/^[a-z][a-z\d+.-]*:/i.test(url) && !/^https?:\/\//i.test(url)))
+      continue
+    if (/^(?:https?:)?\/\//i.test(url)) {
+      try {
+        if (new URL(url, 'https://valaxy.local').hostname)
+          return url
+      }
+      catch {}
+      continue
+    }
+    // A path is unambiguous; a bare filename needs a known image extension
+    // so PascalCase cover component names do not become broken share URLs.
+    if (/^(?:\/|\.\.?\/)/.test(url) || pathname.includes('/') || SHARE_IMAGE.test(pathname))
       return url
   }
+}
+
+/** Remove private blocks before extracting any public text or image metadata. */
+export function stripEncryptedContent(markdown: string): string {
+  // Match the encryptor's exact closing marker; a lookalike must not expose the remaining block.
+  // Also discard an unterminated block, e.g. an excerpt cut inside encrypted text.
+  return markdown.replace(/<!--\s*valaxy-encrypt-start:[\s\S]*?(?:<!-- valaxy-encrypt-end -->|$)/g, '\n')
 }
 
 /**
@@ -58,7 +82,7 @@ export function plainSeoDescription(markdown: string, maxLength = 200): string {
   if (!markdown || maxLength <= 0)
     return ''
 
-  let text = markdown.replace(/\r\n/g, '\n')
+  let text = stripEncryptedContent(markdown).replace(/\r\n/g, '\n')
   text = text.replace(/```[\s\S]*?```/g, '\n')
   text = text.replace(/~~~[\s\S]*?~~~/g, '\n')
   text = text.replace(/```[\s\S]*$/g, '\n')
@@ -117,7 +141,7 @@ function stripInlineMarkdown(line: string): string {
  * First content image, ignoring fenced code and the optional markdown title.
  */
 export function extractMarkdownImage(code: string): string | undefined {
-  const withoutFence = code
+  const withoutFence = stripEncryptedContent(code)
     .replace(/```[\s\S]*?```/g, '')
     .replace(/~~~[\s\S]*?~~~/g, '')
   const markdown = withoutFence.match(/!\[[^\]]*\]\(\s*<?([^\s)>]+)>?/)

@@ -11,8 +11,9 @@ import fs from 'fs-extra'
 import { convert } from 'html-to-text'
 import { resolve } from 'pathe'
 import VueRouter from 'vue-router/vite'
-import { isUnpublishedPage, mergePageExcludes, relativePagePath } from '../../shared'
-import { plainSeoDescription } from '../../shared/seo'
+import { isReadmePage, isUnpublishedPage, mergePageExcludes, relativePagePath } from '../../shared'
+import { plainSeoDescription, stripEncryptedContent } from '../../shared/seo'
+import { EXCERPT_SEPARATOR } from '../constants'
 import { vLogger } from '../logger'
 import { getCreatedTime, getUpdatedTime } from '../utils/date'
 import { countPerformanceTime } from '../utils/performance'
@@ -121,7 +122,7 @@ export async function createRouterOptions(valaxyApp: ValaxyNode, base?: Markdown
         ? relativePagePath(component, options.userRoot) || relativePagePath(component)
         : undefined
       const privateSegment = route.fullPath.split('/').some(segment => segment.startsWith('_'))
-      const readmeMarkdown = /readme\.md$/i.test(component) || (relative ? /readme\.md$/i.test(relative) : false)
+      const readmeMarkdown = isReadmePage(component)
       if (
         (relative && isUnpublishedPage(relative, publishing))
         || (!publishing?.underscore && privateSegment)
@@ -137,9 +138,11 @@ export async function createRouterOptions(valaxyApp: ValaxyNode, base?: Markdown
         _cachedFrontmatter = structuredClone(valaxyConfig.siteConfig.frontmatter)
       }
       const defaultFrontmatter = structuredClone(_cachedFrontmatter)
+      const defaultPassword = defaultFrontmatter.password
+      delete defaultFrontmatter.password
       if (route.meta && route.meta.frontmatter) {
         // reset frontmatter, extendRoute will be trigger when save md file
-        const { frontmatter: _, ...otherMeta } = route.meta
+        const { frontmatter: _, seoDescription: _seoDescription, ...otherMeta } = route.meta
         route.meta = otherMeta as typeof route.meta
       }
       /**
@@ -206,6 +209,14 @@ export async function createRouterOptions(valaxyApp: ValaxyNode, base?: Markdown
         const mdFm = data as (Page | Post)
 
         const lastUpdated = valaxyConfig.siteConfig.lastUpdated
+
+        // Keep the protection flag before removing the password from public metadata.
+        const encrypted = Boolean(mdFm.password === undefined ? defaultPassword : mdFm.password)
+          || (mdFm.encrypt ?? defaultFrontmatter.encrypt) === true
+        const publicContent = encrypted ? '' : stripEncryptedContent(content)
+        const publicExcerpt = publicContent.includes(EXCERPT_SEPARATOR)
+          ? publicContent.split(EXCERPT_SEPARATOR)[0]
+          : ''
 
         // do not export password
         delete mdFm.password
@@ -277,15 +288,18 @@ export async function createRouterOptions(valaxyApp: ValaxyNode, base?: Markdown
          *
          * 不会与 vue-router loader 自动合并
          */
-        let resolvedExcerpt = mdFm.excerpt || (excerpt ? await getExcerptByType(excerpt, mdFm.excerpt_type || defaultFrontmatter.excerpt_type || valaxyConfig.siteConfig.excerpt.type, mdIt) : '')
+        const manualExcerpt = typeof mdFm.excerpt === 'string' ? stripEncryptedContent(mdFm.excerpt) : mdFm.excerpt
+        let resolvedExcerpt = manualExcerpt || (publicExcerpt ? await getExcerptByType(publicExcerpt, mdFm.excerpt_type || defaultFrontmatter.excerpt_type || valaxyConfig.siteConfig.excerpt.type, mdIt) : '')
 
         const explicitDescription = mdFm.description
         const hasExplicitDescription = typeof explicitDescription === 'string'
           ? explicitDescription.trim().length > 0
           : explicitDescription != null && typeof explicitDescription === 'object'
-        const seoSource = typeof mdFm.excerpt === 'string' && mdFm.excerpt.trim()
-          ? mdFm.excerpt
-          : (excerpt || content)
+        const seoSource = encrypted
+          ? ''
+          : (typeof mdFm.excerpt === 'string' && mdFm.excerpt.trim()
+              ? mdFm.excerpt
+              : (publicExcerpt || publicContent))
         const seoDescription = hasExplicitDescription
           ? ''
           : plainSeoDescription(seoSource, valaxyConfig.siteConfig.excerpt?.length || 200)
@@ -294,7 +308,7 @@ export async function createRouterOptions(valaxyApp: ValaxyNode, base?: Markdown
         if (!resolvedExcerpt && valaxyConfig.siteConfig.excerpt.auto) {
           const autoExcerptLength = valaxyConfig.siteConfig.excerpt.length
           const excerptType = mdFm.excerpt_type || defaultFrontmatter.excerpt_type || valaxyConfig.siteConfig.excerpt.type
-          const autoExcerptMd = generateAutoExcerptMd(content, autoExcerptLength)
+          const autoExcerptMd = generateAutoExcerptMd(publicContent, autoExcerptLength)
           resolvedExcerpt = await getExcerptByType(autoExcerptMd, excerptType, mdIt)
         }
 

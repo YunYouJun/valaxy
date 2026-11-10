@@ -63,12 +63,14 @@ import { defineSiteConfig } from 'valaxy'
 
 export default defineSiteConfig({
   publishing: {
-    drafts: false,
-    underscore: false,
-    readme: false,
+    drafts: true,
+    underscore: true,
+    readme: true,
   },
 })
 ```
+
+以上示例打开了全部三项；它们默认为 `false`，请只打开需要发布的类别。
 
 `publishing.drafts` 会在生产环境发布 `draft: true` 的页面。`publishing.underscore` 会发布下划线路径，包括 `pages/_drafts`。`publishing.readme` 会发布 README 页面。开发模式始终预览 `draft: true`；下划线路径和 README 在打开开关之前不会注册路由。
 
@@ -76,9 +78,13 @@ export default defineSiteConfig({
 
 ## 描述与分享卡片 {#share}
 
-页面没有 frontmatter `description` 时，Valaxy 会用一段纯文本摘要填写 meta description、Open Graph 和 Twitter 的描述。有 `<!-- more -->` 时取标记之前的文字，否则取开头的段落。围栏代码、图片和标题不会进入这段文字，长度截到 `excerpt.length`（默认 200 个字符）。
+页面的 meta description、Open Graph 和 Twitter 描述优先使用 frontmatter `description`。未设置时，依次使用自定义 `excerpt`、`<!-- more -->` 前的公开内容、正文开头的公开段落生成纯文本摘要；没有可用摘要时回退到站点描述。
 
-文章的 `og:type` 是 `article`，其他页面是 `website`。分享图按 `ogImage`、`cover`、文中第一张 Markdown 图片的顺序选取，不会用站点 favicon 充数。`author.email` 或 `author.link` 留空时，RSS 和 JSON-LD 会省去该字段，而不会填入框架自己的地址。
+自动摘要会去掉围栏代码、图片、标题和容器标记，普通 `::: tip`、语言等容器里的公开正文仍会保留。摘要长度由 `excerpt.length` 控制（默认 200 个字符）。局部加密内容不会用于自动摘要或正文首图；整篇加密的文章不会从正文自动生成摘要或首图。显式填写的 `description`、`ogImage` 和 `cover` 仍是公开的，请勿在这些字段中放入私密信息。
+
+文章的 `og:type` 是 `article`，其他页面是 `website`。分享图按 `ogImage`、`cover`、自动提取的正文首图顺序选取，跳过组件名和不安全的 URL 协议。正文首图支持 Markdown 图片及 HTML `<img>`，可通过 `features.extractFirstImage: false` 关闭自动提取。不会自动使用站点 favicon。
+
+`images/cover.png`、`cover.png` 和 `./cover.png` 等相对图片地址按页面所在目录解析；`/images/cover.png` 按站点部署根路径解析，保留部署子路径。查询参数和片段标识也会保留。`author.email` 或 `author.link` 留空时，RSS 和 JSON-LD 会省去该字段，而不会填入框架自己的地址。
 
 
 ## 图片与 Vue 组件封面 {#cover}
@@ -146,7 +152,7 @@ coverComponent: HelloValaxyCover
 # ogImage: /images/share-preview.png
 ```
 
-Valaxy 不会在构建时自动截图 Vue 组件。你可以用下方的导出功能保存静态分享图。分享预览按 `ogImage`、`cover`、正文首图、站点 favicon 的顺序取值。SVG 组件封面的显示不依赖这两个图片字段。需要加载图片的组件可以用 `withBase(src)` 适配子路径部署。
+Valaxy 不会在构建时自动截图 Vue 组件。你可以用下方的导出功能保存静态分享图。分享预览按 `ogImage`、`cover`、自动提取的公开正文首图的顺序取值，不会自动使用站点 favicon。SVG 组件封面的显示不依赖这两个图片字段。需要加载图片的组件可以用 `withBase(src)` 适配子路径部署。
 
 ### 从同一份 SVG 导出分享图 {#cover-export}
 

@@ -15,6 +15,8 @@ import _debug from 'debug'
 import fs from 'fs-extra'
 import MiniSearch from 'minisearch'
 import pMap from 'p-map'
+import { isUnpublishedPage } from '../../shared/page-policy'
+import { stripEncryptedContent } from '../../shared/seo'
 import { discoverPageFiles, getPagePath, resolvePageFile } from '../utils/pageSources'
 import { createLightMarkdownRenderer } from './markdown'
 import { matterOptions } from './markdown/transform/matter'
@@ -61,12 +63,18 @@ export async function localSearchPlugin(
     if (!fs.existsSync(file))
       return { html: '', shared: false }
     const relativePath = getPagePath(file, options.userRoot) || slash(path.relative(srcDir, file))
+    if (isUnpublishedPage(relativePath, siteConfig.publishing))
+      return { html: '', shared: false }
     const env: MarkdownEnv = { path: file, relativePath }
     const mdRaw = await fs.promises.readFile(file, 'utf-8')
-    const { data: fm, content } = matter(mdRaw, matterOptions)
-    const mdSrc = processIncludes(srcDir, content, file)
+    const { data, content } = matter(mdRaw, matterOptions)
+    const fm = { ...siteConfig.frontmatter, ...data }
+    if (fm.search === false || (fm.draft && !siteConfig.publishing?.drafts) || fm.hide || fm.password || fm.encrypt === true)
+      return { html: '', shared: false }
+    // Strip before expanding includes, and again afterward for encrypted included content.
+    const mdSrc = stripEncryptedContent(processIncludes(srcDir, stripEncryptedContent(content), file))
     const html = await md.renderAsync(mdSrc, env)
-    return { html: fm?.search === false || fm?.draft || fm?.hide || fm?.password ? '' : html, shared: fm?.sharedLocale === true }
+    return { html, shared: fm.sharedLocale === true }
   }
 
   const indexByLocales = new Map<string, MiniSearch<IndexObject>>()
@@ -157,7 +165,7 @@ export async function localSearchPlugin(
   /**
    * Remove all indexed entries for a given page file.
    */
-  function discardFile(page: string): boolean {
+  async function discardFile(page: string): Promise<boolean> {
     const entry = fileToDocIds.get(page)
     if (!entry)
       return true
@@ -175,6 +183,8 @@ export async function localSearchPlugin(
         }
       }
     }
+    // Discard is lazy: vacuum before exposing the index so private terms do not linger.
+    await Promise.all(entry.locales.map(locale => indexByLocales.get(locale)?.vacuum()))
     fileToDocIds.delete(page)
     return true
   }
@@ -198,7 +208,7 @@ export async function localSearchPlugin(
     changedPages.clear()
     pendingUpdate = pendingUpdate.catch(error => server?.config.logger.error(String(error))).then(async () => {
       for (const page of pages) {
-        if (!discardFile(page)) {
+        if (!await discardFile(page)) {
           await scanForBuild()
           break
         }

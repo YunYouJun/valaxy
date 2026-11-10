@@ -135,7 +135,7 @@ const hidden = true
   })
 
   it('picks a real image and skips bare names', () => {
-    expect(pickShareImage([undefined, 'favicon.svg', 'HelloCover', '/images/cover.png'])).toBe('/images/cover.png')
+    expect(pickShareImage([undefined, 'CoverComponent', 'HelloCover', '/images/cover.png'])).toBe('/images/cover.png')
     expect(pickShareImage(['https://cdn.example/a.jpg "title"'])).toBe('https://cdn.example/a.jpg')
   })
 
@@ -266,11 +266,15 @@ describe('router publishing', () => {
 
     const draft = await extend('/_drafts/secret', join(options.userRoot, 'pages/_drafts/secret.md'))
     const readme = await extend('/README', join(options.userRoot, 'pages/README.md'))
+    const guide = await extend('/posts/my-readme', join(options.userRoot, 'pages/posts/my-readme.md'))
+    const vueReadme = await extend('/README', join(options.userRoot, 'pages/README.vue'))
     const post = await extend('/posts/hello', join(options.userRoot, 'pages/posts/hello.vue'))
 
     expect(draft.delete).toHaveBeenCalledOnce()
     expect(draft.addToMeta).not.toHaveBeenCalled()
     expect(readme.delete).toHaveBeenCalledOnce()
     expect(post.delete).not.toHaveBeenCalled()
+    expect(guide.delete).not.toHaveBeenCalled()
+    expect(vueReadme.delete).not.toHaveBeenCalled()
   })
 })
