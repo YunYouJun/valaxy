@@ -4,7 +4,7 @@ import type { ResolvedValaxyOptions } from '../../../types'
 import type { MarkdownBase } from '../base'
 import type { MarkdownEnv } from '../env'
 import type { MarkdownRenderer } from '../renderer'
-import { ensureGrayMatterRedirect } from 'valaxy/vendor/ensure-gray-matter.mjs'
+import Markdown from 'unplugin-vue-markdown/vite'
 import { Valaxy } from '../../../app/class'
 import { logger } from '../../../logger'
 import { getSharedHighlighter } from '../highlighterCache'
@@ -26,8 +26,6 @@ export async function createMarkdownPlugin(
   base?: MarkdownBase,
   state: StateManager = Valaxy.state,
 ): Promise<Plugin> {
-  await ensureGrayMatterRedirect()
-  const { default: Markdown } = await import('unplugin-vue-markdown/vite')
   const mdOptions = options?.config.markdown || {}
   const theme = mdOptions.theme ?? defaultCodeTheme
 
