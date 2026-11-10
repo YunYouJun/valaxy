@@ -45,6 +45,10 @@ packages:
 overrides:
   # Keep core toolchain versions consistent across workspace peer resolutions
   chokidar: 5.0.0
+  # gray-matter@4 calls js-yaml safeLoad while the module is loading. js-yaml 5
+  # removed that export, so a hoisted or overridden js-yaml 5 crashes import.
+  # @mdit-vue/plugin-frontmatter still requests gray-matter by name.
+  gray-matter: npm:@11ty/gray-matter@^3.0.0
   semver: '7'
   unocss: ^66.11.0
   vite: catalog:build
@@ -60,6 +64,7 @@ allowBuilds:
   vue-demi: true
 
 catalog:
+  '@11ty/gray-matter': ^3.0.0
   '@antfu/design': 0.6.0
   '@antfu/eslint-config': ^9.5.1
   '@antfu/install-pkg': ^2.1.0
@@ -137,7 +142,6 @@ catalog:
   fs-extra: ^11.4.0
   fuse.js: ^7.5.0
   gh-pages: ^6.3.0
-  gray-matter: ^4.0.3
   gsap: ^3.15.0
   h3: ^2.0.5
   hookable: ^6.1.2

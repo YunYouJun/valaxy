@@ -219,6 +219,9 @@ catalogs:
       specifier: ^8.8.5
       version: 8.8.5
   default:
+    '@11ty/gray-matter':
+      specifier: ^3.0.0
+      version: 3.0.0
     '@antfu/design':
       specifier: 0.6.0
       version: 0.6.0
@@ -444,9 +447,6 @@ catalogs:
     gh-pages:
       specifier: ^6.3.0
       version: 6.3.0
-    gray-matter:
-      specifier: ^4.0.3
-      version: 4.0.3
     gsap:
       specifier: ^3.15.0
       version: 3.15.0
@@ -710,6 +710,7 @@ overrides:
   unocss: ^66.11.0
   vite: ^8.3.6
   vue: ^3.5.43
+  gray-matter: npm:@11ty/gray-matter@^3.0.0
 
 patchedDependencies:
   braces@3.0.3: e01768bc37cdeebb9a747f1095daec71e804c5b0f765222c48de491656308e10
@@ -1023,6 +1024,9 @@ importers:
 
   packages/devtools:
     dependencies:
+      '@11ty/gray-matter':
+        specifier: 'catalog:'
+        version: 3.0.0
       '@devframes/agentic':
         specifier: 'catalog:'
         version: 1.2.5(crossws@0.4.12(srvx@1.0.5))(devframe@1.2.5)
@@ -1053,9 +1057,6 @@ importers:
       fs-extra:
         specifier: 'catalog:'
         version: 11.4.1
-      gray-matter:
-        specifier: 'catalog:'
-        version: 4.0.3
       h3:
         specifier: 'catalog:'
         version: 2.0.5(crossws@0.4.12(srvx@1.0.5))
@@ -1150,6 +1151,9 @@ importers:
 
   packages/valaxy:
     dependencies:
+      '@11ty/gray-matter':
+        specifier: 'catalog:'
+        version: 3.0.0
       '@antfu/install-pkg':
         specifier: 'catalog:'
         version: 2.1.0
@@ -1240,9 +1244,6 @@ importers:
       fuse.js:
         specifier: 'catalog:'
         version: 7.5.0
-      gray-matter:
-        specifier: 'catalog:'
-        version: 4.0.3
       hookable:
         specifier: 'catalog:'
         version: 6.1.2
@@ -1704,6 +1705,10 @@ importers:
         version: 8.8.5
 
 packages:
+
+  '@11ty/gray-matter@3.0.0':
+    resolution: {integrity: sha512-mi6KB36DZCpCfCb9XP3NtDDNXe1N0jKtuFj9mTCZNy5H7vTabODyMgFmmOiGIGJKt+i8mJqEb/REtK+JTEzlpQ==}
+    engines: {node: '>=11'}
 
   '@acemir/cssom@0.9.32':
     resolution: {integrity: sha512-OijrAUu7rrJhSIoHNg6LMPS5e344nwUHA+1EFYYjrh64D+GmytUsfBQjci45TjT+rd5Spsp8B5xsZDT+TgyXXQ==}
@@ -5775,11 +5780,6 @@ packages:
     resolution: {integrity: sha512-oruZaFkjorTpF32kDSI5/75ViwGeZginGGy2NoOSg3Q9bnwlnmDm4HLnkl0RE3n+njDXR037aY1+x58Z/zFdwQ==}
     engines: {node: ^12.22.0 || ^14.17.0 || >=16.0.0}
 
-  esprima@4.0.1:
-    resolution: {integrity: sha512-eGuFFw7Upda+g4p+QHvnW0RyTX/SVeJBDM/gCtMARO0cLuT2HcEKnTPvhjV6aGeqrCB/sbNop0Kszm0jsaWU4A==}
-    engines: {node: '>=4'}
-    hasBin: true
-
   esquery@1.7.0:
     resolution: {integrity: sha512-Ap6G0WQwcU/LHsvLwON1fAQX9Zp0A2Y6Y/cJBl9r/JbW90Zyg4/zbG6zzKa2OTALELarYHmKu0GhpM5EO+7T0g==}
     engines: {node: '>=0.10'}
@@ -6118,10 +6118,6 @@ packages:
     resolution: {integrity: sha512-GdRwLM3oYpFQKy47MKuluw9hZ2gaCtiKPbDGdcDEuYDKlc8eNnW27KYL9LVbIDzEsx88WtDWQm2ClBcsgBnj6w==}
     engines: {node: '>=10'}
     hasBin: true
-
-  gray-matter@4.0.3:
-    resolution: {integrity: sha512-5v6yZd4JK3eMI3FqqCouswVqwugaA9r4dNZB1wwcmrD02QkV5H0y7XBQW8QwQqEaZY1pM9aqORSORhJRdNK44Q==}
-    engines: {node: '>=6.0'}
 
   gsap@3.15.0:
     resolution: {integrity: sha512-dMW4CWBTUK1AEEDeZc1g4xpPGIrSf9fJF960qbTZmN/QwZIWY5wgliS6JWl9/25fpTGJrMRtSjGtOmPnfjZB+A==}
@@ -6548,10 +6544,6 @@ packages:
 
   js-tokens@9.0.1:
     resolution: {integrity: sha512-mxa9E9ITFOt0ban3j6L5MpjwegGz6lBQmM1IJkWeBZGcMxto50+eWdjC/52xDbS2vy0k7vIMK0Fe2wfL9OQSpQ==}
-
-  js-yaml@3.15.2:
-    resolution: {integrity: sha512-6EuL879VkRA+1Cz578mKMiKvjPNEuk6+r1JaFzoSWejZmtf7xWbIyw1e3KkxlkzTIt9Taw6JBhEppG7utc1P+w==}
-    hasBin: true
 
   js-yaml@4.3.2:
     resolution: {integrity: sha512-SFNOvSJ+Dgf/9An904Yx+CgSlIPCkIpao4qo51lpee25TIRejdH3rhR4EZMGoNx3/TP3O+wzWuiTFl4sqbltzA==}
@@ -8291,10 +8283,6 @@ packages:
     resolution: {integrity: sha512-yDPMNjp4WyfYBkHnjIRLfca1i6KMyGCtsVgoKe/z1+6vukgaENdgGBZt+ZmKPc4gavvEZ5OgHfHdrazhgNyG7w==}
     engines: {node: '>=12'}
 
-  strip-bom-string@1.0.0:
-    resolution: {integrity: sha512-uCC2VHvQRYu+lMh4My/sFNmF2klFymLX1wHJeXnbEJERpV/ZsVuonzerjfrGpIGF7LBVa1O7i9kjiWvJiFck8g==}
-    engines: {node: '>=0.10.0'}
-
   strip-bom@3.0.0:
     resolution: {integrity: sha512-vavAMRXOgBVNF6nyEEmL3DBK19iRpDcoIwW+swQ+CbGiu7lju6t+JklA1MHweoWtadgt4ISVUsXLyDq34ddcwA==}
     engines: {node: '>=4'}
@@ -9167,6 +9155,11 @@ packages:
     hasBin: true
 
 snapshots:
+
+  '@11ty/gray-matter@3.0.0':
+    dependencies:
+      js-yaml: 5.4.2
+      section-matter: 1.0.0
 
   '@acemir/cssom@0.9.32': {}
 
@@ -10323,7 +10316,7 @@ snapshots:
     dependencies:
       '@mdit-vue/types': 3.0.2
       '@types/markdown-it': 14.2.0
-      gray-matter: 4.0.3
+      gray-matter: '@11ty/gray-matter@3.0.0'
       markdown-it: 14.3.3
 
   '@mdit-vue/plugin-headers@3.0.2':
@@ -13686,8 +13679,6 @@ snapshots:
       acorn-jsx: 5.3.2(acorn@8.18.0)
       eslint-visitor-keys: 3.4.3
 
-  esprima@4.0.1: {}
-
   esquery@1.7.0:
     dependencies:
       estraverse: 5.3.0
@@ -14135,13 +14126,6 @@ snapshots:
       querystring: 0.2.0
       yargs: 15.4.1
 
-  gray-matter@4.0.3:
-    dependencies:
-      js-yaml: 3.15.2
-      kind-of: 6.0.3
-      section-matter: 1.0.0
-      strip-bom-string: 1.0.0
-
   gsap@3.15.0: {}
 
   h3@2.0.5(crossws@0.4.12(srvx@1.0.5)):
@@ -14576,11 +14560,6 @@ snapshots:
   js-tokens@4.0.0: {}
 
   js-tokens@9.0.1: {}
-
-  js-yaml@3.15.2:
-    dependencies:
-      argparse: 1.0.10
-      esprima: 4.0.1
 
   js-yaml@4.3.2:
     dependencies:
@@ -16736,8 +16715,6 @@ snapshots:
   strip-ansi@7.2.0:
     dependencies:
       ansi-regex: 6.4.0
-
-  strip-bom-string@1.0.0: {}
 
   strip-bom@3.0.0: {}
 

@@ -1,4 +1,4 @@
-import type matter from 'gray-matter'
+import type matter from '@11ty/gray-matter'
 import { CORE_SCHEMA, dump, load } from 'js-yaml'
 import { EXCERPT_SEPARATOR } from '../../../constants'
 

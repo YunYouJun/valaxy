@@ -1,13 +1,14 @@
 import type { BatchFrontmatterOperation, ServerFunctions } from '../shared/rpc'
 import type { ValaxyDevtoolsOptions } from './types'
 import process from 'node:process'
+import matter from '@11ty/gray-matter'
 import dayjs from 'dayjs'
 import fs from 'fs-extra'
-import matter from 'gray-matter'
 import pathe from 'pathe'
 import { glob } from 'tinyglobby'
 import { getEditorOptions } from './editor'
 import { DANGEROUS_FIELD_KEYS, readConfigs, writeConfigField } from './utils/config-rw'
+import { devtoolsMatterOptions } from './utils/matter'
 import { migration } from './utils/migration'
 import { updatePageFile } from './utils/page-write'
 import { resolvePageFile } from './utils/paths'
@@ -94,7 +95,7 @@ export function getFunctions(devtoolsOptions: ValaxyDevtoolsOptions, validateFro
       const posts = []
       for await (const file of files) {
         const md = await fs.readFile(file, 'utf-8')
-        const { data } = matter(md)
+        const { data } = matter(md, devtoolsMatterOptions)
         posts.push({
           routePath: getRoutePath(file),
           frontmatter: data,
@@ -116,7 +117,7 @@ export function getFunctions(devtoolsOptions: ValaxyDevtoolsOptions, validateFro
     async getPageData(pagePath: string) {
       const relativePath = pagePath.startsWith('/pages/') ? pagePath.slice(1) : pagePath
       const file = await resolvePageFile(userRoot, relativePath)
-      const { data } = matter(await fs.readFile(file, 'utf-8'))
+      const { data } = matter(await fs.readFile(file, 'utf-8'), devtoolsMatterOptions)
 
       return {
         routePath: getRoutePath(file),
@@ -137,8 +138,8 @@ export function getFunctions(devtoolsOptions: ValaxyDevtoolsOptions, validateFro
       if (!fs.existsSync(resolved))
         throw new Error(`File not found: ${resolved}`)
       return updatePageFile(resolved, (rawMd) => {
-        const matterFile = matter(rawMd)
-        return { content: matter.stringify(matterFile.content, newFm), result: { success: true } }
+        const matterFile = matter(rawMd, devtoolsMatterOptions)
+        return { content: matter.stringify(matterFile.content, newFm, devtoolsMatterOptions), result: { success: true } }
       })
     },
 
@@ -172,7 +173,7 @@ export function getFunctions(devtoolsOptions: ValaxyDevtoolsOptions, validateFro
           if (basename === 'index')
             continue
           const md = await fs.readFile(file, 'utf-8')
-          const { data } = matter(md)
+          const { data } = matter(md, devtoolsMatterOptions)
           items.push({
             title: data.title || basename,
             key: basename,
@@ -261,7 +262,7 @@ export function getFunctions(devtoolsOptions: ValaxyDevtoolsOptions, validateFro
           }
 
           const rawMd = await fs.readFile(resolved, 'utf-8')
-          const matterFile = matter(rawMd)
+          const matterFile = matter(rawMd, devtoolsMatterOptions)
           let modified = false
 
           for (const op of operations) {
@@ -292,7 +293,7 @@ export function getFunctions(devtoolsOptions: ValaxyDevtoolsOptions, validateFro
 
           if (modified) {
             validateFrontmatter(matterFile.data)
-            const newMd = matter.stringify(matterFile.content, matterFile.data)
+            const newMd = matter.stringify(matterFile.content, matterFile.data, devtoolsMatterOptions)
             await fs.writeFile(resolved, newMd)
             result.updated++
           }
@@ -373,7 +374,7 @@ export function getFunctions(devtoolsOptions: ValaxyDevtoolsOptions, validateFro
         if (categories && categories.length > 0)
           frontmatter.categories = categories
 
-        const content = matter.stringify('\n', frontmatter)
+        const content = matter.stringify('\n', frontmatter, devtoolsMatterOptions)
         // Exclusive creation also handles concurrent requests and symlinked suffixes.
         const ext = pathe.extname(filePath)
         const base = filePath.slice(0, -ext.length)
