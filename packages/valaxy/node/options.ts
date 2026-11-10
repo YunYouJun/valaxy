@@ -8,6 +8,7 @@ import _debug from 'debug'
 import fs from 'fs-extra'
 import { resolve } from 'pathe'
 import { glob } from 'tinyglobby'
+import { isUnpublishedPage } from '../shared/page-policy'
 import { getRolldownOutputOptions } from './build/bundle'
 import {
   defaultValaxyConfig,
@@ -210,7 +211,7 @@ export async function resolveOptions(
     configFile: configFile || '',
     siteConfigFile: siteConfigFile || '',
     themeConfigFile: themeConfigFile || '',
-    pages: pages.sort(),
+    pages: pages.sort().filter(page => !isUnpublishedPage(page, userValaxyConfig?.siteConfig?.publishing)),
     addons: [],
     redirects,
     env: {

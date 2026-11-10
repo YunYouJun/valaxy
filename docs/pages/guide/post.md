@@ -43,6 +43,42 @@ hide: true
   - `index`: When set to `index`, it will be hidden only in the front page. It will still be displayed in archives. (You can use this for some notes unnecessary for the front page, but good for the archive for reference sometimes)
 
 
+## Drafts {#drafts}
+
+`draft: true` keeps a page on the dev server and leaves it out of the production HTML, sitemap, RSS feed, and `llms.txt`.
+
+```md
+---
+title: Still editing
+draft: true
+---
+```
+
+`pages/_drafts/` and any file or folder whose name starts with `_` are not routes. `pages/README.md` (and `README.md` in a subfolder) is not a route either. The files stay in the repository. Set the matching flag when a site needs to publish one of those paths:
+
+```ts
+import { defineSiteConfig } from 'valaxy'
+
+export default defineSiteConfig({
+  publishing: {
+    drafts: false,
+    underscore: false,
+    readme: false,
+  },
+})
+```
+
+`publishing.drafts` publishes `draft: true` pages in production. `publishing.underscore` publishes underscore paths, including `pages/_drafts`. `publishing.readme` publishes README pages. Development always previews `draft: true`; underscore paths and README pages stay unrouted until the flag is on.
+
+`pages/404.md` is still built as `404.html` for hosts that serve it for unknown URLs. `/404` is omitted from the sitemap.
+
+## Descriptions and share cards {#share}
+
+When a page has no frontmatter `description`, Valaxy writes a plain-text excerpt into the meta description, Open Graph description, and Twitter description. The excerpt is the text before `<!-- more -->` when that marker exists, otherwise the first paragraphs. Fenced code, images, and headings are left out, and the text is trimmed to `excerpt.length` (200 characters by default).
+
+Posts use `og:type` `article`. Other pages use `website`. The share image is `ogImage`, then `cover`, then the first Markdown image. The site favicon is not used as that image. An empty `author.email` or `author.link` is omitted from RSS and JSON-LD instead of being filled with a framework address.
+
+
 ## Image and Vue Component Covers {#cover}
 
 Yun supports both image covers and interactive Vue covers in post cards and article headers. **A component cover does not require an image.** It can draw its entire scene with inline SVG, CSS or Canvas.

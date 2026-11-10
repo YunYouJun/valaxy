@@ -15,6 +15,8 @@ import { getBorderCharacters, table } from 'table'
 
 import { glob } from 'tinyglobby'
 import { tObject } from '../../../shared'
+import { isUnpublishedPage, relativePagePath } from '../../../shared/page-policy'
+import { plainSeoDescription, publicAuthor } from '../../../shared/seo'
 import { matterOptions } from '../../plugins/markdown/transform/matter'
 import { isExternal } from '../../utils'
 import { getCreatedTime, getUpdatedTime } from '../../utils/date'
@@ -95,11 +97,7 @@ export async function build(options: ResolvedValaxyOptions) {
   // url has been ensured '/'
   const siteUrl = siteConfig.url
 
-  const author: Author = {
-    name: siteConfig.author?.name,
-    email: siteConfig.author?.email,
-    link: siteConfig.author?.link,
-  }
+  const author: Author = publicAuthor(siteConfig.author)
 
   const ccVersion = (siteConfig.license?.type === 'zero') ? '1.0' : '4.0'
   const feedNameMap: Record<string, string> = {
@@ -176,8 +174,11 @@ export async function getPosts(params: {
     // skip encrypt post
     if (data.password)
       return false
-    // skip draft post
-    if (data.draft) {
+    const relative = relativePagePath(p.path, options.userRoot)
+    if (relative && isUnpublishedPage(relative, siteConfig.publishing))
+      return false
+    // skip draft post unless the site opts in
+    if (data.draft && !siteConfig.publishing?.drafts) {
       draftPosts.push(p.path)
       return false
     }
@@ -270,7 +271,7 @@ export async function getPosts(params: {
     const item: ExtendedItem = {
       ...data,
       title: tObject(data.title, lang),
-      description: tObject(data.description, lang),
+      description: tObject(data.description, lang) || plainSeoDescription(excerpt || content, siteConfig.excerpt?.length || 200),
       date: new Date(data.date), // RSS pubDate / JSON date_published
       published: new Date(data.date), // Atom published (first publish time)
       content: html + tip,

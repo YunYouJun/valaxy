@@ -20,6 +20,10 @@ Implemented based on [@unhead/schema-org](https://unhead.unjs.io/docs/typescript
 
 > [Person | @unhead/schema.org](https://unhead.unjs.io/docs/typescript/schema-org/guides/recipes/identity#person)
 
+The person URL is `author.link` when that is an absolute URL. Otherwise it is the site `url`. An empty `author.email` or `author.link` is omitted from RSS and from the article author. Valaxy does not substitute its own email or site.
+
+`WebSite.name` is the site title. `WebPage.url` is the current page. A post's Open Graph type is `article`; other pages use `website`. Share text uses frontmatter `description`, or a plain excerpt when that field is empty. See [Descriptions and share cards](/guide/post#share).
+
 ## Validators
 
 - [Google Rich Results Test](https://search.google.com/test/rich-results)

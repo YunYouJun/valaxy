@@ -81,6 +81,10 @@ password: valaxy
 ---
 ```
 
+### 不会成为页面的文件 {#unpublished}
+
+`pages/` 下的 `README.md`，以及名称以 `_` 开头的文件或目录（包括 `pages/_drafts/`），不会成为路由。见[草稿](/zh/guide/post#drafts)。
+
 ### 其它 {#other}
 
 

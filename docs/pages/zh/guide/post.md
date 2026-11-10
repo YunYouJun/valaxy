@@ -45,6 +45,42 @@ hide: true
   - `index`: 设置为 `index` 时，将只在首页隐藏，归档中仍然展示。（譬如放一些没有必要放在首页的笔记，并在归档中方便自己查看。）
 
 
+## 草稿 {#drafts}
+
+`draft: true` 的页面可以在开发服务器里预览。生产构建的 HTML、sitemap、RSS 和 `llms.txt` 不包含它。
+
+```md
+---
+title: 还在写
+draft: true
+---
+```
+
+`pages/_drafts/`，以及名称以 `_` 开头的文件或目录，不会成为路由。`pages/README.md`（以及子目录里的 `README.md`）也不会。这些文件可以留在仓库里。站点确实要发布其中某一类路径时，打开对应开关：
+
+```ts
+import { defineSiteConfig } from 'valaxy'
+
+export default defineSiteConfig({
+  publishing: {
+    drafts: false,
+    underscore: false,
+    readme: false,
+  },
+})
+```
+
+`publishing.drafts` 会在生产环境发布 `draft: true` 的页面。`publishing.underscore` 会发布下划线路径，包括 `pages/_drafts`。`publishing.readme` 会发布 README 页面。开发模式始终预览 `draft: true`；下划线路径和 README 在打开开关之前不会注册路由。
+
+`pages/404.md` 仍会构建为 `404.html`，供托管商对未知地址返回。`/404` 不会写入 sitemap。
+
+## 描述与分享卡片 {#share}
+
+页面没有 frontmatter `description` 时，Valaxy 会用一段纯文本摘要填写 meta description、Open Graph 和 Twitter 的描述。有 `<!-- more -->` 时取标记之前的文字，否则取开头的段落。围栏代码、图片和标题不会进入这段文字，长度截到 `excerpt.length`（默认 200 个字符）。
+
+文章的 `og:type` 是 `article`，其他页面是 `website`。分享图按 `ogImage`、`cover`、文中第一张 Markdown 图片的顺序选取，不会用站点 favicon 充数。`author.email` 或 `author.link` 留空时，RSS 和 JSON-LD 会省去该字段，而不会填入框架自己的地址。
+
+
 ## 图片与 Vue 组件封面 {#cover}
 
 Yun 的文章卡片和文章头部都支持图片封面与可交互的 Vue 组件封面。**组件封面不需要图片**，可以完全使用内联 SVG、CSS 或 Canvas 绘制。

@@ -74,7 +74,7 @@ export async function loadLlmsPosts(options: ResolvedValaxyOptions): Promise<Llm
   const include = llmsConfig.include || ['posts/**/*.md']
   const files = await scanPageFiles(options.userRoot, include)
   const rawPosts = await readPostFiles(files)
-  const publicPosts = filterPublicPosts(rawPosts)
+  const publicPosts = filterPublicPosts(rawPosts, siteConfig.publishing, options.userRoot)
 
   const posts = publicPosts.map<LlmsPost>(({ data, content, filePath }) => ({
     title: resolveText(data.title, lang) || path.basename(filePath, '.md'),

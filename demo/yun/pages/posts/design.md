@@ -9,14 +9,11 @@ tags:
 ## 特点 {lang="zh-CN"}
 
 ::: zh-CN
-与 Hexo 相比，没有 `_drafts` 文件夹。（当然自己新建也完全没问题……）
+草稿可以留在仓库里，同时不进入公开站点。
 
-当在 drafts 文件夹下编写博文时，我不得不在它和 posts 文件夹下来回移动，以预览最终效果。
+在 frontmatter 中添加 `draft: true` 后，开发服务器仍然可以预览这篇文章。生产构建、sitemap、RSS 和 `llms.txt` 会跳过它。需要发布时，去掉这一行即可。
 
-Valaxy 认为这完全没有必要，您只需在 `frontmatter` 中添加 `draft: true` 属性，即可将其设置为草稿。
-草稿状态的文章在构建以及生成 RSS 时会被过滤，但你仍然可以在开发时预览它。
-
-当需要发布时，注释掉它即可。
+也可以把稿件放在 `pages/_drafts/`，或其他以 `_` 开头的目录中。这些文件不会变成路由。`pages/README.md` 同样不会发布。站点若确实要公开某一类路径，在 `site.config.ts` 中设置 `publishing.underscore` 或 `publishing.readme`。
 
 譬如：
 :::
@@ -24,14 +21,11 @@ Valaxy 认为这完全没有必要，您只需在 `frontmatter` 中添加 `draft
 ## Features {lang="en"}
 
 ::: en
-Compared with Hexo, There is no `_drafts` folder. (Of course, it is no problem to create the folder……)
+A draft can stay in the repository and stay off the public site.
 
-When writing a blog post under the drafts folder, I had to move back and forth under it and the posts folder to preview the final effect.
+Add `draft: true` to the frontmatter and the dev server can still preview the page. Production builds, the sitemap, RSS, and `llms.txt` skip it. Remove that line when the page is ready.
 
-Valaxy doesn't think this is necessary at all. You can set it as draft by adding the 'draft: true' attribute to 'frontmatter'.
-Articles with status draft are filtered when building and generating RSS, but you can still preview it at development time.
-
-When you need to publish, just comment it out.
+You can also keep pages in `pages/_drafts/`, or in any directory whose name starts with `_`. Those files are not routes. `pages/README.md` is not published either. Set `publishing.underscore` or `publishing.readme` in `site.config.ts` when a site needs one of those URLs.
 
 For example:
 :::
@@ -43,11 +37,9 @@ draft: true
 ```
 
 ::: zh-CN
-也许你可能认为放在对应文件夹下适合快速查找拥有哪些草稿，但是你通过编辑器的全局搜索 `draft: true` 同样可以快速做到。
-并且你还能知道你之前打算把它发布在哪个文件夹（路径）下。
+`draft: true` 适合仍想在开发时打开预览的文章。以 `_` 开头的目录适合整组稿件，默认连开发服务器也不会为它们注册路由。
 :::
 
 ::: en
-You may think that putting it in the corresponding folder is suitable for quickly finding which drafts you have, but you can also do it quickly through the editor's global search 'draft: true'.
-And you can also know which folder (path) you planned to publish it in.
+`draft: true` fits a page you still want to open while developing. A directory whose name starts with `_` fits a whole set of drafts; the dev server does not register routes for it unless you opt in.
 :::

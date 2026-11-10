@@ -86,6 +86,14 @@ Markdown page and file links receive `base` directly. Markdown images are normal
 External URLs and relative paths are left unchanged. Raw HTML `<a>` links are also left unchanged so you can deliberately link outside the configured base. Raw HTML images can still be transformed by Vue/Vite.
 
 
+## Page URLs {#urls}
+
+A page such as `pages/posts/hello.md` is written to `dist/posts/hello.html`. Its canonical URL has no trailing slash: `/posts/hello`. The build then copies that HTML to `dist/posts/hello/index.html`, so `/posts/hello/` returns the same page on a static host that looks up a directory index. The copy is made after the sitemap, which lists the canonical URL once. The page's canonical link points at the URL without a trailing slash.
+
+`pages/about/index.md` is the directory URL `/about/` (and `/about` on hosts that map a directory index to the shorter path). `pages/404.md` is built as `404.html` for hosts that serve that file for unknown paths. `/404` is left out of the sitemap.
+
+In development, the router also accepts a trailing slash on the same route. The extra `index.html` is what makes that URL work after a static deploy, including hosts that answer unknown paths with `404.html` before any client-side router runs.
+
 ## Third Party Deployment
 
 ::: tip

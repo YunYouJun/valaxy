@@ -6,6 +6,7 @@ import path from 'node:path'
 import matter from '@11ty/gray-matter'
 import fs from 'fs-extra'
 import { loadLocalesYml } from '../../shared/node/i18n'
+import { isUnpublishedPage, relativePagePath } from '../../shared/page-policy'
 import { formatMetadataHeader, generateLlmsFullTxt, generateLlmsTxt, loadLlmsPosts, resolveText, stripSensitiveFrontmatter } from '../modules/llms/utils'
 import { getSiteUrl } from '../modules/utils'
 import { getPagePath, resolvePageFile } from '../utils/pageSources'
@@ -118,8 +119,12 @@ async function resolveRawMd(url: string, options: ResolvedValaxyOptions): Promis
   const raw = await fs.readFile(filePath, 'utf-8')
   const { data, content } = matter(raw, matterOptions)
 
-  // Filter out draft/hidden/encrypted posts
-  if (data.password || data.draft || data.hide)
+  const publishing = options.config.siteConfig.publishing
+  const relative = relativePagePath(filePath, options.userRoot)
+  // Filter out draft/hidden/encrypted posts and unpublished paths.
+  if (data.password || data.hide || (data.draft && !publishing?.drafts))
+    return null
+  if (relative && isUnpublishedPage(relative, publishing))
     return null
 
   // Build a LlmsPost object for metadata header generation

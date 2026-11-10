@@ -11,6 +11,7 @@ import fs from 'fs-extra'
 import { glob } from 'tinyglobby'
 import { defineValaxyModule } from '.'
 import { loadLocalesYml, nodeT } from '../../shared/node/i18n'
+import { isUnpublishedPage, relativePagePath } from '../../shared/page-policy'
 import { commonOptions } from '../cli/options'
 import { resolveOptions } from '../options'
 import { matterOptions } from '../plugins/markdown/transform/matter'
@@ -52,7 +53,11 @@ export async function generateFuseList(options: ResolvedValaxyOptions) {
     const { data, excerpt, content } = matter(raw, matterOptions)
     const fmData = data as PostFrontMatter
 
-    if (fmData.draft) {
+    const relative = relativePagePath(i, options.userRoot)
+    if (relative && isUnpublishedPage(relative, options.config.siteConfig.publishing))
+      continue
+
+    if (fmData.draft && !options.config.siteConfig.publishing?.drafts) {
       consola.warn(`Ignore draft post: ${colors.dim(i)}`)
       continue
     }

@@ -2,6 +2,7 @@ import type { HeadConfig, PageData } from '../../../../types'
 import type { ResolvedValaxyOptions } from '../../../types'
 import type { MarkdownTransformContext } from '../types'
 import path from 'pathe'
+import { extractMarkdownImage } from '../../../../shared/seo'
 import { getGitTimestamp } from '../../../utils'
 
 function getHeadMetaContent(head: HeadConfig[], name: string): string | undefined {
@@ -26,20 +27,10 @@ function inferDescription(frontmatter: Record<string, any>) {
 
 /**
  * Extract the first image URL from markdown content.
- * Matches ![alt](url) and <img src="url"> patterns.
+ * Matches ![alt](url) and <img src="url">, skipping fenced code and markdown titles.
  */
 function extractFirstImage(code: string): string | undefined {
-  // Match ![...](url)
-  const mdImageMatch = code.match(/!\[.*?\]\((.+?)\)/)
-  if (mdImageMatch)
-    return mdImageMatch[1]
-
-  // Match <img src="url"> or <img src='url'>
-  const htmlImageMatch = code.match(/<img\s[^>]*?src=["'](.+?)["']/)
-  if (htmlImageMatch)
-    return htmlImageMatch[1]
-
-  return undefined
+  return extractMarkdownImage(code)
 }
 
 export async function generatePageData(code: string, context: MarkdownTransformContext, options: ResolvedValaxyOptions) {

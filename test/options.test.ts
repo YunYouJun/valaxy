@@ -24,7 +24,7 @@ describe('resolved Valaxy Options', async () => {
     expect(siteConfig.author).toEqual({
       name: 'Site.Config',
       email: '',
-      link: 'https://valaxy.site',
+      link: '',
       avatar: 'https://valaxy.site/valaxy-logo.png',
       status: {
         emoji: '🌌',

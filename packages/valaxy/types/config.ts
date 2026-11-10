@@ -101,7 +101,15 @@ export interface SiteConfig {
      * @description 你的名字
      */
     name: string
+    /**
+     * @description:en-US Public email. Omitted from RSS and JSON-LD when empty. Valaxy does not fill this in.
+     * @description:zh-CN 公开邮箱。留空时不会写入 RSS 和 JSON-LD，框架不会代填。
+     */
     email: string
+    /**
+     * @description:en-US Author URL. Omitted from RSS and JSON-LD when empty. Valaxy does not fill this in.
+     * @description:zh-CN 作者链接。留空时不会写入 RSS 和 JSON-LD，框架不会代填。
+     */
     link: string
     avatar: string
     /**
@@ -246,6 +254,32 @@ export interface SiteConfig {
      * @default 200
      */
     length: number
+  }
+
+  /**
+   * Which source files are published.
+   * @description:en-US Controls drafts, underscore paths, and README pages. Development still previews `draft: true`.
+   * @description:zh-CN 控制草稿、下划线路径和 README 页面。开发模式仍会预览 `draft: true`。
+   */
+  publishing: {
+    /**
+     * @description:en-US Include `draft: true` pages in production HTML, the sitemap, RSS, and llms output.
+     * @description:zh-CN 在生产 HTML、sitemap、RSS 和 llms 中包含 `draft: true` 的页面。
+     * @default false
+     */
+    drafts: boolean
+    /**
+     * @description:en-US Publish files and directories under `pages/` whose names start with `_`, including `pages/_drafts`.
+     * @description:zh-CN 发布 `pages/` 下名称以 `_` 开头的文件和目录，包括 `pages/_drafts`。
+     * @default false
+     */
+    underscore: boolean
+    /**
+     * @description:en-US Publish `README.md` files under `pages/` as routes.
+     * @description:zh-CN 将 `pages/` 下的 `README.md` 发布为路由。
+     * @default false
+     */
+    readme: boolean
   }
 
   /**

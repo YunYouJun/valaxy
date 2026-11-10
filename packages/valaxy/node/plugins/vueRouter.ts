@@ -11,6 +11,8 @@ import fs from 'fs-extra'
 import { convert } from 'html-to-text'
 import { resolve } from 'pathe'
 import VueRouter from 'vue-router/vite'
+import { isUnpublishedPage, mergePageExcludes, relativePagePath } from '../../shared'
+import { plainSeoDescription } from '../../shared/seo'
 import { vLogger } from '../logger'
 import { getCreatedTime, getUpdatedTime } from '../utils/date'
 import { countPerformanceTime } from '../utils/performance'
@@ -105,11 +107,30 @@ export async function createRouterOptions(valaxyApp: ValaxyNode, base?: Markdown
 
     ...valaxyConfig.router,
 
+    // Defaults stay in front of a user exclude list. `publishing` turns a class back on.
+    exclude: mergePageExcludes(valaxyConfig.siteConfig.publishing, valaxyConfig.router?.exclude),
+
     /**
      * @experimental See https://github.com/posva/unplugin-vue-router/issues/43 (now part of vue-router)
      * we need get frontmatter before route, so write it in extendRoute
      */
     async extendRoute(route) {
+      const publishing = valaxyConfig.siteConfig.publishing
+      const component = route.components?.get?.('default') || ''
+      const relative = component
+        ? relativePagePath(component, options.userRoot) || relativePagePath(component)
+        : undefined
+      const privateSegment = route.fullPath.split('/').some(segment => segment.startsWith('_'))
+      const readmeMarkdown = /readme\.md$/i.test(component) || (relative ? /readme\.md$/i.test(relative) : false)
+      if (
+        (relative && isUnpublishedPage(relative, publishing))
+        || (!publishing?.underscore && privateSegment)
+        || (!publishing?.readme && readmeMarkdown)
+      ) {
+        route.delete?.()
+        return
+      }
+
       // Re-clone only when the frontmatter config reference changes (e.g. HMR)
       if (valaxyConfig.siteConfig.frontmatter !== _lastFrontmatterRef) {
         _lastFrontmatterRef = valaxyConfig.siteConfig.frontmatter
@@ -258,6 +279,17 @@ export async function createRouterOptions(valaxyApp: ValaxyNode, base?: Markdown
          */
         let resolvedExcerpt = mdFm.excerpt || (excerpt ? await getExcerptByType(excerpt, mdFm.excerpt_type || defaultFrontmatter.excerpt_type || valaxyConfig.siteConfig.excerpt.type, mdIt) : '')
 
+        const explicitDescription = mdFm.description
+        const hasExplicitDescription = typeof explicitDescription === 'string'
+          ? explicitDescription.trim().length > 0
+          : explicitDescription != null && typeof explicitDescription === 'object'
+        const seoSource = typeof mdFm.excerpt === 'string' && mdFm.excerpt.trim()
+          ? mdFm.excerpt
+          : (excerpt || content)
+        const seoDescription = hasExplicitDescription
+          ? ''
+          : plainSeoDescription(seoSource, valaxyConfig.siteConfig.excerpt?.length || 200)
+
         // auto excerpt: generate from content if no manual excerpt
         if (!resolvedExcerpt && valaxyConfig.siteConfig.excerpt.auto) {
           const autoExcerptLength = valaxyConfig.siteConfig.excerpt.length
@@ -269,6 +301,7 @@ export async function createRouterOptions(valaxyApp: ValaxyNode, base?: Markdown
         route.addToMeta({
           frontmatter: routerFM,
           excerpt: resolvedExcerpt,
+          ...(seoDescription ? { seoDescription } : {}),
         })
 
         // set layout

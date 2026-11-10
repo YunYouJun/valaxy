@@ -1,5 +1,5 @@
 import type { Unhead } from 'unhead/server'
-import { mkdir, writeFile } from 'node:fs/promises'
+import { access, constants, copyFile, mkdir, writeFile } from 'node:fs/promises'
 import { dirname, resolve } from 'node:path'
 import { renderSSRHead } from '@unhead/vue/server'
 
@@ -179,4 +179,52 @@ export function routeToFileName(route: string): string {
     return route.slice(1)
 
   return `${route}.html`.slice(1)
+}
+
+/**
+ * `posts/hello.html` also needs `posts/hello/index.html` so `/posts/hello/`
+ * resolves on static hosts that map a trailing slash to a directory index.
+ * Directory routes (`/posts/` → `posts/index.html`) already have that file.
+ */
+export function trailingSlashAlias(route: string): string | undefined {
+  if (!route || route === '/' || route.endsWith('/'))
+    return
+
+  const file = routeToFileName(route)
+  if (!file.endsWith('.html') || file.endsWith('/index.html'))
+    return
+
+  return `${file.slice(0, -'.html'.length)}/index.html`
+}
+
+async function fileExists(file: string) {
+  try {
+    await access(file, constants.F_OK)
+    return true
+  }
+  catch {
+    return false
+  }
+}
+
+/**
+ * Copy each extensionless page onto its trailing-slash path.
+ * Call this after sitemap generation so the sitemap keeps one URL per page.
+ * The copied HTML already contains the canonical link without a trailing slash.
+ */
+export async function writeTrailingSlashAliases(outDir: string, routes: string[]) {
+  const outputs = new Set(routes.map(routeToFileName))
+  await Promise.all(routes.map(async (route) => {
+    const alias = trailingSlashAlias(route)
+    if (!alias || outputs.has(alias))
+      return
+
+    const from = resolve(outDir, routeToFileName(route))
+    const to = resolve(outDir, alias)
+    if (!await fileExists(from) || await fileExists(to))
+      return
+
+    await mkdir(dirname(to), { recursive: true })
+    await copyFile(from, to)
+  }))
 }

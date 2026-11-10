@@ -1,8 +1,10 @@
+import type { PagePublishing } from '../../shared/page-policy'
 import type { ResolvedValaxyOptions } from '../types'
 import { readFile } from 'node:fs/promises'
 import path from 'node:path'
 import matter from '@11ty/gray-matter'
 import { glob } from 'tinyglobby'
+import { isUnpublishedPage, relativePagePath } from '../../shared/page-policy'
 import { matterOptions } from '../plugins/markdown/transform/matter'
 import { discoverPageFiles, getPagePath } from '../utils/pageSources'
 
@@ -51,8 +53,17 @@ export async function readPostFiles(files: string[]): Promise<RawPost[]> {
  * - `draft`
  * - `hide` (any truthy value)
  */
-export function filterPublicPosts(posts: RawPost[]): RawPost[] {
-  return posts.filter(({ data }) => !data.password && !data.draft && !data.hide)
+export function filterPublicPosts(posts: RawPost[], publishing?: PagePublishing, userRoot?: string): RawPost[] {
+  return posts.filter(({ data, filePath }) => {
+    if (data.password || data.hide)
+      return false
+    if (data.draft && !publishing?.drafts)
+      return false
+    const relative = relativePagePath(filePath, userRoot)
+    if (relative && isUnpublishedPage(relative, publishing))
+      return false
+    return true
+  })
 }
 
 /**
