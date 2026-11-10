@@ -1,5 +1,16 @@
+import type { RouteLocationNormalizedLoaded } from 'vue-router'
 import { EXTERNAL_URL_RE } from '../../shared'
 import { resolveSiteUrl } from './path'
+
+/** Keep URL parameters while using the matched route's trailing-slash convention. */
+export function resolveCanonicalPath(route: Pick<RouteLocationNormalizedLoaded, 'path' | 'matched'>): string {
+  const matchedPath = route.matched.at(-1)?.path
+  if (!matchedPath || route.path === '/')
+    return route.path
+
+  const path = route.path.replace(/\/+$/, '')
+  return matchedPath.endsWith('/') ? `${path}/` : path
+}
 
 /**
  * Resolve a share image against the page when it is relative, and against the

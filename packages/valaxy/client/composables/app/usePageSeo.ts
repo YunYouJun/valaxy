@@ -3,7 +3,7 @@ import { useRoute } from 'vue-router'
 import { openGraphType, pickShareImage } from '../../../shared/seo'
 import { useSiteConfig } from '../../config'
 import { resolveSiteUrl } from '../../utils/path'
-import { resolveShareImage } from '../../utils/seo'
+import { resolveCanonicalPath, resolveShareImage } from '../../utils/seo'
 import { useFrontmatter } from '../common'
 import { useValaxyI18n } from '../locale'
 
@@ -27,11 +27,12 @@ export function usePageSeo() {
       || asText($t(siteConfig.value.description))
   })
 
-  const pagePath = computed(() => fm.value.canonical || route.path)
+  const routePath = computed(() => resolveCanonicalPath(route))
+  const pagePath = computed(() => fm.value.canonical || routePath.value)
   const pageUrl = computed(() => resolveSiteUrl(siteConfig.value.url, pagePath.value))
   const image = computed(() => {
     const src = pickShareImage([fm.value.ogImage, fm.value.cover, fm.value.firstImage])
-    return src ? resolveShareImage(siteConfig.value.url, route.path, src) : undefined
+    return src ? resolveShareImage(siteConfig.value.url, routePath.value, src) : undefined
   })
   const type = computed(() => openGraphType(route.path, route.meta.layout))
 
