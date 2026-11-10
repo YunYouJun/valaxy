@@ -8,6 +8,11 @@ categories:
 
 你可以使用 front-matter 定制页面属性。
 
+博客渲染和 DevTools 均使用 YAML 1.2 core schema。`2026-01-01` 等日期以及
+`yes`、`no`、`on`、`off` 均保持字符串，布尔值请使用 `true` 或 `false`。
+`<<` 作为普通键处理，不会合并映射。DevTools 在读取、编辑和迁移 Frontmatter 时
+保留这些类型，不再将日期转换为 JavaScript `Date` 对象。
+
 
 ::: tip
 

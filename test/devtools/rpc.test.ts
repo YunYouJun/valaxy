@@ -49,7 +49,7 @@ describe('valaxy Devframe RPC', () => {
   it('reads actual Markdown, preserves dates, and resolves the site URL', async () => {
     expect(await ctx.rpc.invokeLocal('valaxy:get-options')).toMatchObject({ userRoot: pathe.resolve(site), siteUrl: 'http://localhost:5173/blog/' })
     const page = await ctx.rpc.invokeLocal('valaxy:get-page-data', '/pages/posts/hello.md')
-    expect(page).toMatchObject({ routePath: '/posts/hello', frontmatter: { title: 'Hello', date: new Date('2026-01-01T00:00:00.000Z') } })
+    expect(page).toMatchObject({ routePath: '/posts/hello', frontmatter: { title: 'Hello', date: '2026-01-01' } })
     expect((await ctx.rpc.invokeLocal('valaxy:get-post-list')).posts).toEqual([page])
   })
 
@@ -68,6 +68,24 @@ describe('valaxy Devframe RPC', () => {
     await expect(ctx.rpc.invokeLocal('valaxy:create-post', { title: '' })).rejects.toThrow()
     // @ts-expect-error exercise the runtime schema across the RPC boundary
     await expect(ctx.rpc.invokeLocal('valaxy:batch-update-frontmatter', [first.filePath!], [{ type: 'rename', key: 'title' }])).rejects.toThrow()
+  })
+
+  it('preserves YAML 1.2 scalar values through reads, edits and migration', async () => {
+    const file = join(site, 'pages/posts/hello.md')
+    await writeFile(file, '---\ntitle: no\ndate: 2026-01-01\non: off\ntags: [yes, no, on, off]\nmerged:\n  <<: { a: 1 }\n  b: 2\n---\n\nBody\n')
+    const page = await ctx.rpc.invokeLocal('valaxy:get-page-data', file)
+    expect(page.frontmatter).toEqual({
+      title: 'no',
+      date: '2026-01-01',
+      on: 'off',
+      tags: ['yes', 'no', 'on', 'off'],
+      merged: { '<<': { a: 1 }, 'b': 2 },
+    })
+    await ctx.rpc.invokeLocal('valaxy:update-frontmatter', { filePath: file, frontmatter: page.frontmatter })
+    await ctx.rpc.invokeLocal('valaxy:batch-update-frontmatter', [file], [{ type: 'set', key: 'draft', value: false }])
+    await ctx.rpc.invokeLocal('valaxy:run-migration', [file], { on: 'switch' })
+    const { on, ...rest } = page.frontmatter
+    expect(matter(await readFile(file, 'utf8')).data).toEqual({ ...rest, switch: on, draft: false })
   })
 
   it('saves, batch edits and migrates frontmatter while keeping Markdown content', async () => {

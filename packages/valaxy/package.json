@@ -148,7 +148,6 @@
     "unplugin": "catalog:",
     "unplugin-utils": "catalog:",
     "unplugin-vue-components": "catalog:",
-    "unplugin-vue-markdown": "catalog:",
     "vanilla-lazyload": "catalog:",
     "vite": "catalog:build",
     "vite-plugin-vue-devtools": "catalog:",
@@ -179,6 +178,7 @@
     "nanoid": "catalog:",
     "rollup-plugin-visualizer": "catalog:",
     "unbuild": "catalog:build",
+    "unplugin-vue-markdown": "catalog:",
     "vue": "catalog:frontend",
     "vue-router": "catalog:"
   }

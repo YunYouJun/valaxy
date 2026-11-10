@@ -28,7 +28,7 @@ which keep that plugin's options, layout-name normalization and runtime behavior
 `@intlify/unplugin-vue-i18n` was vendored at 11.2.5 until upstream 11.2.7 adopted
 `tinyglobby` with absolute paths; Valaxy now depends on the npm release directly.
 
-`ensure-gray-matter.mjs` and `redirect-gray-matter.mjs` are not upstream snapshots.
-They redirect `@mdit-vue/plugin-frontmatter`'s `gray-matter` import to
-`@11ty/gray-matter` before that module is evaluated, so a hoisted js-yaml 5 does
-not crash on `yaml.safeLoad`.
+The Markdown adapter is bundled from `unplugin-vue-markdown` during Valaxy's
+build. Its frontmatter plugin's `gray-matter` import resolves to
+`@11ty/gray-matter` at build time, so published packages need no Node loader hook
+or consumer override. The workspace override serves source development and tests.
