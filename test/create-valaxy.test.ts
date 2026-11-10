@@ -1,5 +1,6 @@
 import fs from 'node:fs'
 import path from 'node:path'
+import { load } from 'js-yaml'
 import { describe, expect, it } from 'vitest'
 import { hasThemeTemplate, normalizeThemeName, replaceThemeDeps, replaceThemeInConfig } from '../packages/create-valaxy/src/scaffold'
 
@@ -260,6 +261,16 @@ describe('template-blog-press', () => {
   })
 })
 
+describe('scaffold package manager', () => {
+  it.each(['blog', 'addon'])('pins the repository pnpm version in the %s template', (template) => {
+    const root = JSON.parse(fs.readFileSync(path.resolve(__dirname, '../package.json'), 'utf-8'))
+    const pkg = JSON.parse(fs.readFileSync(path.resolve(__dirname, `../packages/create-valaxy/template-${template}/package.json`), 'utf-8'))
+
+    expect(pkg.packageManager).toMatch(/^pnpm@\d+\.\d+\.\d+$/)
+    expect(pkg.packageManager).toBe(root.packageManager)
+  })
+})
+
 describe('blog scaffold GitHub Pages workflow', () => {
   const blogDir = path.resolve(__dirname, '../packages/create-valaxy/template-blog')
   const workflowPath = path.join(blogDir, '.github/workflows/gh-pages.yml')
@@ -274,9 +285,8 @@ describe('blog scaffold GitHub Pages workflow', () => {
 
     expect(workflow).toContain('actions/checkout@v7')
     expect(workflow).toContain('pnpm/action-setup@v6')
-    expect(workflow).toContain('version: \'>=10.26.0\'')
     expect(workflow).toContain('actions/setup-node@v7')
-    expect(workflow).toContain('node-version-file: package.json')
+    expect(workflow).toContain('node-version: lts/*')
     expect(workflow).toContain('actions/configure-pages@v6')
     expect(workflow).toContain('actions/upload-pages-artifact@v5')
     expect(workflow).toContain('actions/deploy-pages@v5')
@@ -295,6 +305,22 @@ describe('blog scaffold GitHub Pages workflow', () => {
     expect(workflow).not.toContain('force_orphan')
     expect(workflow).not.toContain('actions/checkout@v2')
     expect(workflow).not.toContain('actions/setup-node@v2')
+  })
+
+  it('reads the pinned pnpm version and uploads hidden resources from dist', () => {
+    const workflow = load(fs.readFileSync(workflowPath, 'utf-8')) as {
+      jobs: { build: { steps: { uses?: string, with?: Record<string, unknown> }[] } }
+    }
+    const steps = workflow.jobs.build.steps
+    const setup = steps.find(step => step.uses === 'pnpm/action-setup@v6')
+
+    expect(setup).toBeDefined()
+    expect(setup?.with?.version).toBeUndefined()
+    expect(setup?.with?.package_json_file).toBeUndefined()
+    expect(steps).toContainEqual(expect.objectContaining({
+      uses: 'actions/upload-pages-artifact@v5',
+      with: { 'path': 'dist', 'include-hidden-files': true },
+    }))
   })
 
   it('documents GitHub Actions as the Pages source in English and Chinese', () => {

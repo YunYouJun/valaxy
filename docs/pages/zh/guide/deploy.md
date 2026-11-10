@@ -119,7 +119,7 @@ Markdown 页面与文件链接会直接补上 `base`；Markdown 图片则会进�
 - 将项目推送到 GitHub 仓库。
 - 打开 `Settings` -> `Pages`，将 Pages 的源选择为 `GitHub Actions`。
 
-工作流使用 pnpm 安装依赖并执行 `pnpm run build`，再通过 GitHub 官方的 Pages Actions 发布 `dist` 目录。工作流令牌只需要 `contents: read`、`pages: write` 和 `id-token: write`。选择源之后，如果第一次运行没有发布站点，请重新运行该工作流。
+工作流使用 Node.js LTS 和 `package.json` 的 `packageManager` 字段固定的 pnpm 版本，安装依赖并执行 `pnpm run build`，再通过 GitHub 官方的 Pages Actions 发布 `dist` 目录，包括 `.well-known/` 等隐藏资源。工作流令牌只需要 `contents: read`、`pages: write` 和 `id-token: write`。选择源之后，如果第一次运行没有发布站点，请重新运行该工作流。
 
 > 注意修改 `gh-pages.yml` 中的 `on.push.branches` 为你源代码所在的分支，默认包含 `main`。
 

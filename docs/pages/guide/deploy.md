@@ -120,7 +120,7 @@ When you use `pnpm create valaxy` to create a template project, it contains the 
 - Push the project to your GitHub repository.
 - Open `Settings` -> `Pages` and choose `GitHub Actions` as the Pages source.
 
-The workflow installs dependencies with pnpm, runs `pnpm run build`, and publishes the `dist` directory with GitHub's Pages actions. The workflow token only needs `contents: read`, `pages: write`, and `id-token: write`. After choosing the source, re-run the workflow if the first run did not publish the site.
+The workflow uses Node.js LTS and the pnpm version pinned in `package.json`'s `packageManager` field, runs `pnpm run build`, and publishes the `dist` directory with GitHub's Pages actions, including hidden resources such as `.well-known/`. The workflow token only needs `contents: read`, `pages: write`, and `id-token: write`. After choosing the source, re-run the workflow if the first run did not publish the site.
 
 > Change `on.push.branches` in `gh-pages.yml` to the branch where your source code lives. The default includes `main`.
 

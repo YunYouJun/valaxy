@@ -4,7 +4,7 @@ Instructions for coding agents working in this Valaxy blog. This is a user site,
 
 ## Commands
 
-Use Node.js `>=22.12.0` and pnpm `>=10.26.0`. Keep `pnpm-workspace.yaml`; it records dependency build permissions.
+Use Node.js `>=22.12.0` and the pnpm version pinned in `package.json`'s `packageManager` field. The deployment workflow uses Node.js LTS. Keep `pnpm-workspace.yaml`; it records dependency build permissions.
 
 ```bash
 pnpm install

@@ -1,6 +1,6 @@
 # My Valaxy blog
 
-Follow the [Getting Started guide](https://valaxy.site/guide/getting-started) ([中文](https://valaxy.site/zh/guide/getting-started)). Requires Node.js `>=22.12.0` and pnpm `>=10.26.0`. Keep `pnpm-workspace.yaml`, which includes dependency build script permissions for installation.
+Follow the [Getting Started guide](https://valaxy.site/guide/getting-started) ([中文](https://valaxy.site/zh/guide/getting-started)). Requires Node.js `>=22.12.0`; use the pnpm version pinned in `package.json`'s `packageManager` field. The deployment workflow uses Node.js LTS. Keep `pnpm-workspace.yaml`, which includes dependency build script permissions for installation.
 
 ## Usage
 
