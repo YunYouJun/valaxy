@@ -18,8 +18,12 @@ function fromFrontmatterPlugin(parentURL = '') {
  * `@mdit-vue/plugin-frontmatter` imports `gray-matter` while its module is
  * evaluated. gray-matter 4 then calls `yaml.safeLoad.bind`, which throws when
  * js-yaml 5 is the resolved copy. Redirect only that import to the fork.
+ *
+ * Synchronous on purpose: `module.registerHooks()` calls `nextResolve`
+ * synchronously, while `module.register()` may return a promise. Returning
+ * `nextResolve()` directly works for both.
  */
-export async function resolve(specifier, context, nextResolve) {
+export function resolve(specifier, context, nextResolve) {
   if (specifier === 'gray-matter' && fromFrontmatterPlugin(context.parentURL))
     return { url: replacement, shortCircuit: true }
   return nextResolve(specifier, context)
