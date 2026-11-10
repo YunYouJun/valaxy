@@ -1,3 +1,4 @@
+import type { Header } from '@valaxyjs/utils'
 import type { HeadConfig, PageData } from '../../../../types'
 import type { ResolvedValaxyOptions } from '../../../types'
 import type { MarkdownTransformContext } from '../types'
@@ -34,6 +35,17 @@ function extractFirstImage(code: string): string | undefined {
   return extractMarkdownImage(code)
 }
 
+function filterPublicHeaders(headers: Header[], publicHeadingIds: Set<string>): Header[] {
+  return headers.flatMap((header) => {
+    const children = header.children ? filterPublicHeaders(header.children, publicHeadingIds) : []
+    // Public headings can follow an encrypted parent without closing its outline
+    // level. Promote those children instead of discarding the entire subtree.
+    if (!publicHeadingIds.has(header.slug))
+      return children
+    return [{ ...header, ...(header.children ? { children } : {}) }]
+  })
+}
+
 export async function generatePageData(code: string, context: MarkdownTransformContext, options: ResolvedValaxyOptions) {
   const { id, fileInfo } = context
   const relativePath = path.relative(options.userRoot, id)
@@ -55,7 +67,7 @@ export async function generatePageData(code: string, context: MarkdownTransformC
   const publicCode = stripEncryptedContent(code)
   const hasPrivateContent = isPrivate || publicCode !== code
   const publicHeadingIds = new Set(Array.from(publicCode.matchAll(/<h[1-6]\s[^>]*\bid=["']([^"']+)["'][^>]*>/g), match => match[1]))
-  const publicHeaders = (fileInfo?.headers || []).filter(header => publicHeadingIds.has(header.slug))
+  const publicHeaders = filterPublicHeaders(fileInfo?.headers || [], publicHeadingIds)
   const firstHeading = code.match(/<h1\b[^>]*>[\s\S]*?<\/h1>/)?.[0]
   const hasPublicTitle = !isPrivate && (!hasPrivateContent || (firstHeading && publicCode.includes(firstHeading)))
   const pageData: PageData = {

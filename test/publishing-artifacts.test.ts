@@ -16,6 +16,8 @@ const sentinels = {
   encrypted: 'ENCRYPTARTIFACTPRIVATE876',
   partial: 'PARTIALARTIFACTPRIVATE876',
   partialTail: 'PARTIALTAILPRIVATE876',
+  nestedHeading: 'NESTEDHEADINGPRIVATE876',
+  nestedChild: 'NESTEDCHILDPRIVATE876',
   underscore: 'UNDERSCOREARTIFACTPRIVATE876',
   readme: 'READMEARTIFACTPRIVATE876',
 }
@@ -92,6 +94,7 @@ const posts = usePostList()
       await write('pages/posts/password.md', `---\ntitle: Password protected\npassword: fixture-password\ndate: 2024-01-01\n---\n# ${sentinels.password}\n\n${sentinels.password}`)
       await write('pages/posts/encrypted.md', `---\ntitle: Environment protected\nencrypt: true\ndate: 2024-01-01\n---\n# ${sentinels.encrypted}\n\n${sentinels.encrypted}`)
       await write('pages/posts/partial.md', `---\ntitle: Partial public page\ndate: 2024-01-01\n---\n## Public heading\n\nPUBLICPARTIALVISIBLE876\n\n<!-- valaxy-encrypt-start:fixture -->\n## ${sentinels.partial}\n\n${sentinels.partial}\n<!-- more -->\n<!--valaxy-encrypt-end-->\n${sentinels.partialTail}\n<!-- valaxy-encrypt-end -->\n\nPublic ending.`)
+      await write('pages/posts/nested-partial.md', `---\ntitle: Nested partial page\ndate: 2024-01-01\n---\n## Public parent\n\n<!-- valaxy-encrypt-start:fixture -->\n### ${sentinels.nestedHeading}\n\n#### ${sentinels.nestedChild}\n\nPrivate nested body.\n<!-- valaxy-encrypt-end -->\n\n##### Public descendant\n\nPublic descendant body.\n\n### Public sibling`)
 
       for (const publishDrafts of [false, true]) {
         await buildFixture(root, publishDrafts, publishDrafts ? 'local' : 'fuse')
@@ -121,6 +124,9 @@ const posts = usePostList()
         }
         const partial = await readFile(join(dist, 'posts/partial.html'), 'utf8')
         expect(partial).toContain('public-heading')
+        const nestedPartial = await readFile(join(dist, 'posts/nested-partial.html'), 'utf8')
+        expect(nestedPartial).toContain('public-descendant')
+        expect(nestedPartial).toContain('public-sibling')
         const regular = await readFile(join(dist, 'posts/public.html'), 'utf8')
         expect(metadata(regular, 'description')).toContain('snake_case_name with 2 * 3 * 4')
         for (const [page, suffix] of [['posts/public.html', '?size=2&height=3#view'], ['posts/imgdir.html', ''], ['posts/spaced-image.html', ''], ['posts/explicit-image.html', '?width=80&height=40#view']]) {

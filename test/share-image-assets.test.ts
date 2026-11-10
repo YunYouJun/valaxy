@@ -90,12 +90,29 @@ describe('bundled share images', () => {
 
   it('preserves public TOC entries when a private parent heading is removed', async () => {
     const id = '/pages/posts/partial.md'
+    const publicChild = { level: 3, title: 'Public', slug: 'public', link: '#public', children: [] }
+    const headers = [{ level: 2, title: 'Secret', slug: 'secret', link: '#secret', children: [publicChild] }]
     const page = await generatePageData('<!-- valaxy-encrypt-start:test --><h2 id="secret">Secret</h2><!-- valaxy-encrypt-end --><h3 id="public">Public</h3>', {
       id,
-      fileInfo: { id, title: 'Secret', headers: [{ level: 2, title: 'Secret', slug: 'secret', link: '#secret' }, { level: 3, title: 'Public', slug: 'public', link: '#public' }], links: [], frontmatter: { title: 'Public title' } },
+      fileInfo: { id, title: 'Secret', headers, links: [], frontmatter: { title: 'Public title' } },
     }, { userRoot: '/pages', config: { features: {}, siteConfig: { lastUpdated: false } } } as ResolvedValaxyOptions)
     expect(page.title).toBe('Public title')
-    expect(page.headers).toEqual([{ level: 3, title: 'Public', slug: 'public', link: '#public' }])
+    expect(page.headers).toEqual([publicChild])
+  })
+
+  it('removes private descendants while preserving public descendants and the original header tree', async () => {
+    const id = '/pages/posts/partial.md'
+    const publicChild = { level: 4, title: 'Public child', slug: 'public-child', link: '#public-child', children: [] }
+    const privateChild = { level: 3, title: 'Secret', slug: 'secret', link: '#secret', children: [publicChild] }
+    const publicSibling = { level: 3, title: 'Public sibling', slug: 'public-sibling', link: '#public-sibling', children: [] }
+    const parent = { level: 2, title: 'Public parent', slug: 'public-parent', link: '#public-parent', children: [privateChild, publicSibling] }
+    const page = await generatePageData('<h2 id="public-parent">Public parent</h2><!-- valaxy-encrypt-start:test --><h3 id="secret">Secret</h3><!-- valaxy-encrypt-end --><h4 id="public-child">Public child</h4><h3 id="public-sibling">Public sibling</h3>', {
+      id,
+      fileInfo: { id, title: '', headers: [parent], links: [], frontmatter: {} },
+    }, { userRoot: '/pages', config: { features: {}, siteConfig: { lastUpdated: false } } } as ResolvedValaxyOptions)
+    expect(page.headers).toEqual([{ ...parent, children: [publicChild, publicSibling] }])
+    expect(JSON.stringify(page.headers)).not.toContain('Secret')
+    expect(parent.children).toEqual([privateChild, publicSibling])
   })
 
   it('leaves public, remote, component, and legacy missing-file candidates unchanged', () => {
