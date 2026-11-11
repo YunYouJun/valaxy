@@ -15,12 +15,10 @@ vi.mock('../../packages/valaxy/client/utils', () => ({
 }))
 vi.mock('../../packages/valaxy/client/stores', () => ({
   useRouterStore: () => ({
-    router: {
-      getRoutes: () => [
-        { name: 'public', path: '/posts/public', meta: { frontmatter: { date: '2024-01-01' } } },
-        { name: 'draft', path: '/posts/draft', meta: { frontmatter: { date: '2024-01-02', draft: true } } },
-      ],
-    },
+    routes: [
+      { name: 'public', path: '/posts/public', meta: { frontmatter: { date: '2024-01-01' } } },
+      { name: 'draft', path: '/posts/draft', meta: { frontmatter: { date: '2024-01-02', draft: true } } },
+    ],
   }),
 }))
 afterEach(() => {

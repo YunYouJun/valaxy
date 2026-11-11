@@ -13,6 +13,7 @@ import { initData } from './app/data'
 import ClientOnly from './components/ClientOnly'
 
 import setupMain from './setup/main'
+import { useRouterStore } from './stores/router'
 import { setupValaxyDevTools } from './utils/dev'
 // uno.css 先于 #valaxy/styles 加载，使主题/用户样式可以覆盖 utility
 import 'uno.css'
@@ -125,6 +126,9 @@ export function createValaxyApp(options: CreateValaxyAppOptions = {}): ValaxySSG
       router.clearRoutes()
       for (const route of resolveRoutes(newRoutes))
         router.addRoute(route)
+      // Notify every list consumer, including pages that have never been
+      // visited (and therefore have no mounted Markdown component to update).
+      app.runWithContext(() => useRouterStore().refreshRoutes())
     })
   }
 

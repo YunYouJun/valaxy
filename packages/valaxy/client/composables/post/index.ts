@@ -29,11 +29,10 @@ export function usePostTitle(post: ComputedRef<Post>) {
 export function usePageList() {
   const siteConfig = useSiteConfig()
   const routerStore = useRouterStore()
-  const router = routerStore.router
 
   return computed<Post[]>(() => {
     const excludePages = ['/:..all', '/:all(.*)*', '/', '/:path(.*)']
-    const routes = router.getRoutes()
+    const routes = routerStore.routes
       // Exclude alias routes (e.g. abbrlink) to avoid duplicate entries
       // router.getRoutes() returns alias routes as separate RouteRecordNormalized
       // entries with aliasOf pointing to the original record
