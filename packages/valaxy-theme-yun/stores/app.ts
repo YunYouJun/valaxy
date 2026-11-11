@@ -1,6 +1,6 @@
-import { isClient, useScroll, useToggle } from '@vueuse/core'
+import { useToggle } from '@vueuse/core'
 import { acceptHMRUpdate, defineStore } from 'pinia'
-import { useScreenSize } from 'valaxy'
+import { useScreenSize, useWindowScrollY } from 'valaxy'
 import { computed, ref } from 'vue'
 import { useThemeConfig } from '../composables'
 
@@ -38,7 +38,7 @@ export const useYunAppStore = defineStore('yun-app', () => {
       isOpen: isFullscreenMenuOpen,
       toggle: toggleFullscreenMenu,
     },
-    scrollY: isClient ? useScroll(window).y : 0,
+    scrollY: useWindowScrollY(),
 
     isStrato,
     isNimbo,

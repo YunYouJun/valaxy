@@ -1,5 +1,13 @@
+<script setup lang="ts">
+import { useElementVisibility } from '@vueuse/core'
+import { useTemplateRef } from 'vue'
+
+const cloud = useTemplateRef<HTMLElement>('cloud')
+const inView = useElementVisibility(cloud)
+</script>
+
 <template>
-  <div class="yun-cloud">
+  <div ref="cloud" class="yun-cloud" :class="{ 'is-in-view': inView }">
     <svg class="waves" viewBox="0 24 150 28" preserveAspectRatio="none" shape-rendering="auto">
       <defs>
         <path id="gentle-wave" d="M-160 44c30 0 58-18 88-18s 58 18 88 18 58-18 88-18 58 18 88 18 v44h-352z" fill="var(--yun-c-cloud)" />
@@ -37,6 +45,7 @@
   .parallax {
     > use {
       animation: move-forever 25s cubic-bezier(0.55, 0.5, 0.45, 0.5) infinite;
+      animation-play-state: paused;
     }
 
     > use:nth-child(1) {
@@ -61,6 +70,10 @@
       animation-delay: -5s;
       animation-duration: 20s;
     }
+  }
+
+  &.is-in-view .parallax > use {
+    animation-play-state: running;
   }
 }
 

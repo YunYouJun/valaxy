@@ -15,3 +15,20 @@ test('keeps the footer usable when visitor statistics fail to load', async ({ pa
   await expect(page.locator('#busuanzi_value_site_uv')).toHaveCount(0)
   expect(errors).toEqual([])
 })
+
+test('plays the cloud animation only when the footer is in view', async ({ page }) => {
+  await page.goto('/', { waitUntil: 'domcontentloaded' })
+  const cloud = page.locator('.yun-cloud')
+  const wave = cloud.locator('.parallax > use').first()
+
+  await expect(cloud).not.toBeInViewport()
+  await expect(wave).toHaveCSS('animation-play-state', 'paused')
+
+  await cloud.scrollIntoViewIfNeeded()
+  await expect(cloud).toBeInViewport()
+  await expect(wave).toHaveCSS('animation-play-state', 'running')
+
+  await page.evaluate(() => window.scrollTo({ top: 0, behavior: 'instant' }))
+  await expect(cloud).not.toBeInViewport()
+  await expect(wave).toHaveCSS('animation-play-state', 'paused')
+})

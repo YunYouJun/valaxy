@@ -12,6 +12,12 @@ dayjs.extend(utc)
 // https://day.js.org/docs/en/timezone/set-default-timezone
 export { dayjs }
 
+/** Convert a date using the same timezone rules as formatDate. */
+export function toZonedDayjs(date?: string | number | Date, timezone?: string) {
+  const input = typeof date === 'string' ? new Date(date) : date
+  return dayjs.tz(dayjs.utc(input), timezone)
+}
+
 /**
  * format the date (dayjs)
  * with default timezone
@@ -21,10 +27,7 @@ export function formatDate(date?: string | number | Date, options: {
   timezone?: string
   // keepLocalTime?: boolean
 } = {}) {
-  if (typeof date === 'string') {
-    date = new Date(date)
-  }
-  return dayjs.tz(dayjs.utc(date), options.timezone).format(options.template || 'YYYY-MM-DD')
+  return toZonedDayjs(date, options.timezone).format(options.template || 'YYYY-MM-DD')
 }
 
 /**

@@ -1,5 +1,22 @@
-import { isClient, useWindowScroll } from '@vueuse/core'
-import { computed, ref } from 'vue'
+import { createSharedComposable, isClient, useEventListener, useRafFn, useResizeObserver, useWindowSize } from '@vueuse/core'
+import { computed, shallowRef } from 'vue'
+
+/** Track only the vertical offset, without measuring scroll boundaries. */
+export const useWindowScrollY = createSharedComposable(() => {
+  const y = shallowRef(0)
+
+  if (isClient) {
+    const update = () => {
+      y.value = window.scrollY
+    }
+
+    useEventListener('scroll', update, { passive: true })
+    // Pick up restored scroll positions outside the hydration task.
+    useRafFn(update, { once: true })
+  }
+
+  return computed(() => y.value)
+})
 
 /**
  * You can use href="#" to back to top
@@ -15,14 +32,21 @@ export function useBackToTop(options: {
 }) {
   if (!isClient) {
     return {
-      percentage: ref(0),
-      show: ref(false),
+      percentage: shallowRef(0),
+      show: shallowRef(false),
     }
   }
 
-  const { y } = useWindowScroll()
+  const y = useWindowScrollY()
+  const documentHeight = shallowRef(0)
+  const { height: viewportHeight } = useWindowSize()
+  // Read the document height after layout and reuse it between size changes.
+  useResizeObserver([document.body, document.documentElement], () => {
+    documentHeight.value = document.scrollingElement?.scrollHeight ?? 0
+  })
   const percentage = computed(() => {
-    return y.value / (document.body.scrollHeight - window.innerHeight)
+    const scrollRange = documentHeight.value - viewportHeight.value
+    return scrollRange > 0 ? y.value / scrollRange : 0
   })
 
   const show = computed(() => y.value > options.offset)

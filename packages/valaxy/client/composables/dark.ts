@@ -21,7 +21,14 @@ export function useValaxyDark(options: {
     dark?: string
   }
 } = {}) {
-  const isDark = useDark(options.useDarkOptions)
+  const isDark = useDark(options.useDarkOptions ?? {
+    onChanged(dark, applyMode, mode) {
+      // The document may already have the right theme before Vue starts.
+      // Skip VueUse's transition suppression and style flush in that case.
+      if (typeof document !== 'undefined' && document.documentElement.classList.contains('dark') !== dark)
+        applyMode(mode)
+    },
+  })
   const toggleDark = useToggle(isDark)
 
   const themeColor = computed(() => isDark.value

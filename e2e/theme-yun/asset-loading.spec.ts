@@ -20,9 +20,6 @@ test('loads KaTeX fonts only when navigating to math', async ({ page }) => {
 
   // Search uses router navigation: the already loaded global CSS must also
   // style math when the initial page has never requested a KaTeX font.
-  // The home entrance animation remounts the navigation; wait for its end
-  // before opening the search dialog so that the click is not discarded.
-  await expect(page.locator('.yun-home-prologue-content')).toBeVisible()
   await page.locator('.yun-search-btn').click()
   const dialog = page.getByRole('dialog')
   await dialog.getByRole('searchbox').fill('KaTeX')
