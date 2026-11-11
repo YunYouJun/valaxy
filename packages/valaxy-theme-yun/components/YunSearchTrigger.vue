@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import { useSiteConfig } from 'valaxy'
-import { computed, defineAsyncComponent, onMounted, ref } from 'vue'
+import { computed, defineAsyncComponent, onMounted, ref, watch } from 'vue'
 import { useHotKey } from '../composables'
 
 const siteConfig = useSiteConfig()
@@ -10,6 +10,12 @@ const isFuse = computed(() => siteConfig.value.search.provider === 'fuse')
 const isLocal = computed(() => siteConfig.value.search.provider === 'local')
 
 const open = ref(false)
+// Keep the dialog mounted after its first use to preserve the query and index.
+const searchLoaded = ref(false)
+watch(open, (value) => {
+  if (value)
+    searchLoaded.value = true
+})
 
 function togglePopup() {
   open.value = !open.value
@@ -44,6 +50,6 @@ const YunAlgoliaSearch = isAlgolia.value
   <YunSearchBtn :open="open && !isAlgolia" @open="openSearch" @close="closeSearch" />
 
   <YunAlgoliaSearch v-if="isAlgolia" ref="algoliaRef" :open="open" @close="closeSearch" />
-  <YunFuseSearch v-else-if="isFuse" :open="open" @close="closeSearch" />
+  <YunFuseSearch v-else-if="isFuse && searchLoaded" :open="open" @close="closeSearch" />
   <YunLocalSearch v-else-if="isLocal" :open="open" @close="closeSearch" />
 </template>

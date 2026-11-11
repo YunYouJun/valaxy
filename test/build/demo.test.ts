@@ -31,7 +31,7 @@ describe('built asset loading', () => {
   it('emits optional theme features as separate chunks without preloading them on home', async () => {
     const html = await fs.readFile(resolve(demoYunDistFolder, 'index.html'), 'utf8')
     const assets = await fs.readdir(resolve(demoYunDistFolder, 'assets'))
-    for (const feature of ['YunAlgoliaSearch', 'YunFireworks', 'scroll']) {
+    for (const feature of ['YunAlgoliaSearch', 'YunFireworks', 'YunFuseSearch', 'scroll']) {
       const chunk = assets.find(file => file.startsWith(`${feature}.`) && file.endsWith('.js'))
       expect(chunk, `${feature} should retain its dynamic import boundary`).toBeDefined()
       expect(html).not.toContain(chunk!)
