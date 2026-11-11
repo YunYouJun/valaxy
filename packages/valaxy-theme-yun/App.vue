@@ -1,8 +1,9 @@
 <script lang="ts" setup>
 import { useHead } from '@unhead/vue'
+import { useEventListener } from '@vueuse/core'
 import { TooltipProvider } from 'reka-ui'
 import { useAppStore } from 'valaxy'
-import { computed, onBeforeUnmount, onMounted, watch } from 'vue'
+import { computed, onBeforeUnmount, onMounted, shallowRef, watch } from 'vue'
 import { useRoute } from 'vue-router'
 import { useThemeConfig } from './composables'
 import { useYunAppStore } from './stores'
@@ -13,13 +14,21 @@ const appStore = useAppStore()
 // to avoid hydration mismatch when user prefers dark mode.
 const safeThemeColor = computed(() => appStore.themeColor)
 
-useHead({
-  link: [
-    {
-      rel: 'stylesheet',
-      href: 'https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@900&display=swap',
-    },
-  ],
+const loadSerifFont = shallowRef(false)
+function loadFonts() {
+  loadSerifFont.value = true
+}
+
+// Use the fallback font for first paint, then load the optional web font.
+useEventListener('load', loadFonts, { once: true })
+
+useHead(() => ({
+  link: loadSerifFont.value
+    ? [{
+        rel: 'stylesheet',
+        href: 'https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@900&display=swap',
+      }]
+    : [],
 
   meta: [
     {
@@ -31,7 +40,7 @@ useHead({
       content: safeThemeColor,
     },
   ],
-})
+}))
 
 const themeConfig = useThemeConfig()
 
@@ -55,6 +64,9 @@ function updateViewportHeight() {
 }
 
 onMounted(() => {
+  if (document.readyState === 'complete')
+    loadFonts()
+
   // The viewport can be zero when an iframe mounts inside a hidden panel.
   updateViewportHeight()
   window.addEventListener('resize', updateViewportHeight)

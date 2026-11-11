@@ -4,6 +4,32 @@ import { waitForHydration } from '../utils/hydration'
 
 setup('theme-yun')
 
+test('shows the home page before the optional serif font stylesheet loads', async ({ page }) => {
+  let releaseFont!: () => void
+  const fontGate = new Promise<void>((resolve) => {
+    releaseFont = resolve
+  })
+  const fontUrl = 'https://fonts.googleapis.com/css2?**'
+  await page.route('https://**/*', route => route.abort())
+  await page.route(fontUrl, async (route) => {
+    await fontGate
+    await route.fulfill({ contentType: 'text/css', body: ':root { --test-serif-font-loaded: yes }' })
+  })
+  try {
+    const fontRequested = page.waitForRequest(fontUrl)
+    await page.goto('/', { waitUntil: 'commit' })
+    await fontRequested
+    await expect.poll(
+      () => page.evaluate(() => performance.getEntriesByName('first-contentful-paint').length),
+      { timeout: 2000 },
+    ).toBeGreaterThan(0)
+
+    releaseFont()
+    await expect(page.locator('html')).toHaveCSS('--test-serif-font-loaded', 'yes')
+  }
+  finally { releaseFont() }
+})
+
 test('loads KaTeX fonts only when navigating to math', async ({ page }) => {
   const fonts: string[] = []
   const errors: string[] = []
