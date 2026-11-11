@@ -4,7 +4,7 @@ import type { ResolvedValaxyOptions } from '../../../types'
 import type { MarkdownTransformContext } from '../types'
 import { existsSync } from 'node:fs'
 import path from 'pathe'
-import { extractMarkdownImage, pickShareImage, stripEncryptedContent } from '../../../../shared/seo'
+import { extractMarkdownImage, pickPageShareImage, pickShareImage, stripEncryptedContent } from '../../../../shared/seo'
 import { getGitTimestamp } from '../../../utils'
 
 function getHeadMetaContent(head: HeadConfig[], name: string): string | undefined {
@@ -55,8 +55,8 @@ export async function generatePageData(code: string, context: MarkdownTransformC
     ? JSON.parse(JSON.stringify(fileInfo.frontmatter))
     : {}
 
-  // Auto-extract the first image from markdown if ogImage and cover are not set
-  if (options.config.features?.extractFirstImage !== false && !fm.password && fm.encrypt !== true && !fm.ogImage && !fm.cover) {
+  // Only infer a public image when no usable explicit share image is available.
+  if (options.config.features?.extractFirstImage !== false && !fm.password && fm.encrypt !== true && !pickPageShareImage(fm)) {
     const firstImage = extractFirstImage(code)
     if (firstImage)
       fm.firstImage = firstImage
@@ -91,7 +91,7 @@ export async function generatePageData(code: string, context: MarkdownTransformC
 export function resolvePageImageImports(frontmatter: Record<string, any>, id: string) {
   const imports: string[] = []
   const assignments: string[] = []
-  for (const key of ['ogImage', 'cover', 'firstImage']) {
+  for (const key of ['ogImage', 'image', 'cover', 'firstImage']) {
     const src = pickShareImage([frontmatter[key]])
     if (!src || src.startsWith('/') || /^[a-z][\w+.-]*:/i.test(src))
       continue

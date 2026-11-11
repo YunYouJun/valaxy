@@ -1,6 +1,6 @@
 import { computed } from 'vue'
 import { useRoute } from 'vue-router'
-import { openGraphType, pickShareImage } from '../../../shared/seo'
+import { openGraphType, pickPageShareImage } from '../../../shared/seo'
 import { useSiteConfig } from '../../config'
 import { resolveSiteUrl } from '../../utils/path'
 import { resolveCanonicalPath, resolveShareImage } from '../../utils/seo'
@@ -31,7 +31,7 @@ export function usePageSeo() {
   const pagePath = computed(() => fm.value.canonical || routePath.value)
   const pageUrl = computed(() => resolveSiteUrl(siteConfig.value.url, pagePath.value))
   const image = computed(() => {
-    const src = pickShareImage([fm.value.ogImage, fm.value.cover, fm.value.firstImage])
+    const src = pickPageShareImage(fm.value)
     return src ? resolveShareImage(siteConfig.value.url, routePath.value, src) : undefined
   })
   const type = computed(() => openGraphType(route.path, route.meta.layout))

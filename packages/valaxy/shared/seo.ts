@@ -37,9 +37,9 @@ const SHARE_IMAGE = /\.(?:avif|bmp|gif|ico|jpe?g|png|svg|webp)$/i
  * First usable share image. The site favicon is not a candidate: it is often an SVG
  * and is the same for every page.
  */
-export function pickShareImage(candidates: Array<string | undefined | null>): string | undefined {
+export function pickShareImage(candidates: unknown[]): string | undefined {
   for (const candidate of candidates) {
-    const value = candidate?.trim()
+    const value = typeof candidate === 'string' ? candidate.trim() : ''
     if (!value || Array.from(value).some(char => char.charCodeAt(0) < 32 || char.charCodeAt(0) === 127))
       continue
     // Spaces may be part of a quoted HTML src or a real filename. Only remove
@@ -67,6 +67,11 @@ export function pickShareImage(candidates: Array<string | undefined | null>): st
     if (/^(?:\/|\.\.?\/)/.test(url) || pathname.includes('/') || SHARE_IMAGE.test(pathname))
       return url
   }
+}
+
+/** Keep explicit legacy `image` ahead of the cover, as Yun's article schema did. */
+export function pickPageShareImage(frontmatter: { ogImage?: unknown, image?: unknown, cover?: unknown, firstImage?: unknown }): string | undefined {
+  return pickShareImage([frontmatter.ogImage, frontmatter.image, frontmatter.cover, frontmatter.firstImage])
 }
 
 /** Remove private blocks before extracting any public text or image metadata. */

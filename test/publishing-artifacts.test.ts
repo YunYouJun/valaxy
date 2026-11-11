@@ -42,6 +42,14 @@ async function buildFixture(root: string, publishDrafts: boolean, provider: 'fus
       title: 'Publishing fixture', url: 'https://example.com/blog/', lang: 'en',
       description: 'Public site description',
       author: { name: 'Author' },
+      social: [
+        { name: 'Profile', link: 'https://social.example/@author', icon: 'i-ri-user-line', color: 'gray' },
+        { name: 'Duplicate', link: ' https://social.example/@author ', icon: 'i-ri-user-line', color: 'gray' },
+        { name: 'About', link: '/about', icon: 'i-ri-user-line', color: 'gray' },
+        { name: 'RSS', link: '/atom.xml', icon: 'i-ri-rss-line', color: 'gray' },
+        { name: 'Mail', link: 'mailto:author@example.com', icon: 'i-ri-mail-line', color: 'gray' },
+        { name: 'Subscribe', link: '/subscribe', sameAs: false, icon: 'i-ri-rss-line', color: 'gray' },
+      ],
       encrypt: { enable: true },
       publishing: { drafts: ${publishDrafts} },
       search: { provider: '${provider}' },
@@ -67,6 +75,20 @@ function metadata(html: string, property: string) {
   return html.match(new RegExp(`<meta (?:property|name)="${property}" content="([^"]*)"`))?.[1].replace(/&amp;/g, '&')
 }
 
+function schemaGraph(html: string): Record<string, any>[] {
+  const json = html.match(/<script[^>]+type="application\/ld\+json"[^>]*>([\s\S]*?)<\/script>/)?.[1]
+  expect(json).toBeTruthy()
+  return JSON.parse(json!)['@graph']
+}
+
+function articleImage(html: string) {
+  const graph = schemaGraph(html)
+  const article = graph.find(node => [node['@type']].flat().includes('BlogPosting'))
+  expect(article).toBeDefined()
+  const image = article?.image
+  return graph.find(node => node['@id'] === image?.['@id'])?.url
+}
+
 describe('production publishing artifacts', () => {
   it('keeps private text out of every output and publishes draft lists only when opted in', async () => {
     const root = await mkdtemp(join(repository, 'test/fixtures/.publishing-build-'))
@@ -86,6 +108,13 @@ const posts = usePostList()
       await write('pages/posts/imgdir/index.md', '---\ntitle: Nested image\ndate: 2024-01-01\n---\nNested public image.\n\n![first](./a.svg)')
       await write('pages/posts/imgdir/a.svg', '<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20"><circle fill="blue" cx="10" cy="10" r="10"/></svg>')
       await write('pages/posts/explicit-image.md', '---\ntitle: Explicit image\ndate: 2024-01-01\nogImage: ./my%20pic.svg?width=80&height=40#view\n---\nExplicit public image.')
+      await write('pages/posts/cover-image.md', '---\ntitle: Cover image\ndate: 2024-01-01\ncover: ./pic.svg?size=2#cover\n---\nCover image.')
+      await write('public/legacy.svg', '<svg xmlns="http://www.w3.org/2000/svg"/>')
+      await write('pages/posts/legacy-image.md', '---\ntitle: Legacy image\ndate: 2024-01-01\nimage: /legacy.svg?size=2#legacy\ncover: /ignored.png\n---\nLegacy image.')
+      await write('pages/posts/image-priority.md', '---\ntitle: Image priority\ndate: 2024-01-01\nogImage: ./pic.svg#og\nimage: /ignored-legacy.png\ncover: /ignored-cover.png\n---\n![ignored](./my%20pic.svg)')
+      await write('pages/posts/invalid-image.md', '---\ntitle: Invalid image\ndate: 2024-01-01\nogImage: "javascript:alert(1)"\ncover: HelloCover\n---\n![public](./pic.svg)')
+      await write('pages/posts/no-image.md', '---\ntitle: No image\ndate: 2024-01-01\ncover: HelloCover\n---\nNo image.')
+      await write('pages/posts/manual-summary.md', '---\ntitle: Manual summary\ndate: 2024-01-01\ndescription: " "\nexcerpt: "Manual **public** [summary](/about)."\n---\nDifferent body opening.')
       await write('pages/posts/draft.md', `---\ntitle: ${sentinels.draft}\ndraft: true\ndate: 2024-01-01\n---\n${sentinels.draft}`)
       await write('pages/posts/draft-parent.md', `---\ntitle: ${sentinels.parentDraft}\ndraft: true\ndate: 2024-01-01\n---\n${sentinels.parentDraft}`)
       await write('pages/posts/draft-parent/child.md', '---\ntitle: Public child\ndraft: false\ndate: 2024-01-01\n---\nPUBLICCHILDVISIBLE876')
@@ -93,7 +122,7 @@ const posts = usePostList()
       await write('pages/README.md', sentinels.readme)
       await write('pages/posts/password.md', `---\ntitle: Password protected\npassword: fixture-password\ndate: 2024-01-01\n---\n# ${sentinels.password}\n\n${sentinels.password}`)
       await write('pages/posts/encrypted.md', `---\ntitle: Environment protected\nencrypt: true\ndate: 2024-01-01\n---\n# ${sentinels.encrypted}\n\n${sentinels.encrypted}`)
-      await write('pages/posts/partial.md', `---\ntitle: Partial public page\ndate: 2024-01-01\n---\n## Public heading\n\nPUBLICPARTIALVISIBLE876\n\n<!-- valaxy-encrypt-start:fixture -->\n## ${sentinels.partial}\n\n${sentinels.partial}\n<!-- more -->\n<!--valaxy-encrypt-end-->\n${sentinels.partialTail}\n<!-- valaxy-encrypt-end -->\n\nPublic ending.`)
+      await write('pages/posts/partial.md', `---\ntitle: Partial public page\ndate: 2024-01-01\n---\n## Public heading\n\nPUBLICPARTIALVISIBLE876\n\n<!-- valaxy-encrypt-start:fixture -->\n## ${sentinels.partial}\n\n${sentinels.partial}\n![private](/${sentinels.partial}.png)\n<!-- more -->\n<!--valaxy-encrypt-end-->\n${sentinels.partialTail}\n<!-- valaxy-encrypt-end -->\n\nPublic ending.\n![public](./pic.svg#partial)`)
       await write('pages/posts/nested-partial.md', `---\ntitle: Nested partial page\ndate: 2024-01-01\n---\n## Public parent\n\n<!-- valaxy-encrypt-start:fixture -->\n### ${sentinels.nestedHeading}\n\n#### ${sentinels.nestedChild}\n\nPrivate nested body.\n<!-- valaxy-encrypt-end -->\n\n##### Public descendant\n\nPublic descendant body.\n\n### Public sibling`)
 
       for (const publishDrafts of [false, true]) {
@@ -129,7 +158,25 @@ const posts = usePostList()
         expect(nestedPartial).toContain('public-sibling')
         const regular = await readFile(join(dist, 'posts/public.html'), 'utf8')
         expect(metadata(regular, 'description')).toContain('snake_case_name with 2 * 3 * 4')
-        for (const [page, suffix] of [['posts/public.html', '?size=2&height=3#view'], ['posts/imgdir.html', ''], ['posts/spaced-image.html', ''], ['posts/explicit-image.html', '?width=80&height=40#view']]) {
+        const identity = schemaGraph(regular).find(node => node['@id'].endsWith('#identity'))
+        expect(identity?.sameAs).toEqual(['https://social.example/@author', 'https://example.com/blog/about'])
+        expect(regular).toContain('href="/atom.xml"')
+        expect(regular).toContain('href="mailto:author@example.com"')
+        expect(regular).toContain('href="/subscribe"')
+        const feed = JSON.parse(await readFile(join(dist, 'feed.json'), 'utf8'))
+        expect(feed.items.find((item: any) => item.title === 'Manual summary').summary).toBe('Manual public summary.')
+        for (const file of ['atom.xml', 'feed.xml']) {
+          expect(await readFile(join(dist, file), 'utf8')).toContain('Manual public summary.')
+        }
+        const legacy = await readFile(join(dist, 'posts/legacy-image.html'), 'utf8')
+        expect(metadata(legacy, 'og:image')).toBe('https://example.com/blog/legacy.svg?size=2#legacy')
+        expect(articleImage(legacy)).toBe(metadata(legacy, 'og:image'))
+        for (const page of ['posts/no-image.html', 'posts/password.html', 'posts/encrypted.html']) {
+          const html = await readFile(join(dist, page), 'utf8')
+          expect(metadata(html, 'og:image'), page).toBeUndefined()
+          expect(articleImage(html), page).toBeUndefined()
+        }
+        for (const [page, suffix] of [['posts/public.html', '?size=2&height=3#view'], ['posts/imgdir.html', ''], ['posts/spaced-image.html', ''], ['posts/explicit-image.html', '?width=80&height=40#view'], ['posts/cover-image.html', '?size=2#cover'], ['posts/image-priority.html', '#og'], ['posts/invalid-image.html', ''], ['posts/partial.html', '#partial']]) {
           const html = await readFile(join(dist, page), 'utf8')
           const image = metadata(html, 'og:image')
           expect(image, page).toMatch(/^https:\/\/example\.com\/blog\/assets\/[^?#]+\.svg/)
@@ -137,6 +184,7 @@ const posts = usePostList()
           const url = new URL(image!)
           expect(await fs.pathExists(join(dist, decodeURIComponent(url.pathname).replace('/blog/', ''))), image).toBe(true)
           expect(metadata(html, 'twitter:image')).toBe(image)
+          expect(articleImage(html), page).toBe(image)
         }
       }
     }

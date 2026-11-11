@@ -9,6 +9,7 @@ import { resolveShareImage } from '../packages/valaxy/client/utils/seo'
 import { StateManager } from '../packages/valaxy/node/app/state'
 import { createMarkdownPlugin } from '../packages/valaxy/node/plugins/markdown/transform'
 import { generatePageData, resolvePageImageImports } from '../packages/valaxy/node/plugins/markdown/transform/page-data'
+import { pickPageShareImage } from '../packages/valaxy/shared/seo'
 
 const roots: string[] = []
 afterEach(async () => {
@@ -29,6 +30,8 @@ describe('bundled share images', () => {
       { path: 'posts/imgdir/index.md', frontmatter: {}, suffix: '?width=1200&height=630#preview' },
       { path: 'posts/explicit.md', frontmatter: { ogImage: './pic.svg?width=1200&height=630#preview' }, suffix: '?width=1200&height=630#preview' },
       { path: 'posts/cover.md', frontmatter: { cover: './pic.svg' }, suffix: '' },
+      { path: 'posts/legacy.md', frontmatter: { image: './pic.svg?size=2#legacy', cover: '/ignored.svg' }, suffix: '?size=2#legacy' },
+      { path: 'posts/invalid.md', frontmatter: { ogImage: 'javascript:alert(1)', cover: 'HelloCover' }, suffix: '' },
       { path: 'posts/spaces.md', frontmatter: {}, suffix: '', filename: 'my pic.svg', source: './my%20pic.svg' },
       { path: 'posts/explicit-spaces.md', frontmatter: { ogImage: './my%20pic.svg' }, suffix: '', filename: 'my pic.svg', source: './my%20pic.svg' },
     ]
@@ -68,7 +71,7 @@ describe('bundled share images', () => {
     const result = await import(/* @vite-ignore */ pathToFileURL(join(root, 'dist/images.mjs')).href)
     for (const [index, fixture] of fixtures.entries()) {
       const fm = result[`page${index}`]
-      const image = fm.ogImage || fm.cover || fm.firstImage
+      const image = pickPageShareImage(fm)!
       expect(image).toMatch(/^\/blog\/assets\/[^?#]+\.svg/)
       expect(image.endsWith(fixture.suffix)).toBe(true)
       const canonical = resolveShareImage('https://example.com/blog/', `/${fixture.path.replace(/(?:\/index)?\.md$/, '')}`, image)

@@ -2,7 +2,7 @@
 import { defineArticle, useSchemaOrg } from '@unhead/schema-org/vue'
 
 import dayjs from 'dayjs'
-import { pickShareImage, resolveCanonicalPath, resolveShareImage, resolveSiteUrl, useFrontmatter, useSiteConfig, useValaxyI18n } from 'valaxy'
+import { resolveCanonicalPath, resolveSiteUrl, useFrontmatter, usePageSeo, useSiteConfig, useValaxyI18n } from 'valaxy'
 import { useI18n } from 'vue-i18n'
 import { useRoute } from 'vue-router'
 import { useYunCollection } from '../composables/collection'
@@ -18,8 +18,7 @@ const route = useRoute()
 const { $t, $tO } = useValaxyI18n()
 const authorLink = siteConfig.value.author.link?.trim()
 const description = $tO(frontmatter.value.description) || route.meta.seoDescription || ''
-const frontmatterImage = typeof frontmatter.value.image === 'string' ? frontmatter.value.image : undefined
-const image = pickShareImage([frontmatter.value.ogImage, frontmatterImage, frontmatter.value.cover])
+const { image } = usePageSeo()
 const pagePath = resolveCanonicalPath(route)
 const pageUrl = /^https?:\/\//.test(siteConfig.value.url)
   ? resolveSiteUrl(siteConfig.value.url, frontmatter.value.canonical || pagePath)
@@ -37,7 +36,7 @@ const article: Parameters<typeof defineArticle>[0] = {
   'datePublished': dayjs(frontmatter.value.date || '').toDate(),
   'dateModified': dayjs(frontmatter.value.updated || '').toDate(),
   ...(pageUrl ? { url: pageUrl } : {}),
-  ...(image ? { image: resolveShareImage(siteConfig.value.url, pagePath, image) } : {}),
+  image,
 }
 
 useSchemaOrg(

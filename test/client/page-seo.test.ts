@@ -12,7 +12,7 @@ const router = createRouter({
   ],
 })
 const route = reactive({ ...router.currentRoute.value })
-const frontmatter = ref<Record<string, string>>({})
+const frontmatter = ref<Record<string, unknown>>({})
 const siteConfig = ref({ url: 'https://example.com/blog/', description: 'Site description' })
 
 vi.mock('vue-router', async importOriginal => ({
@@ -28,6 +28,32 @@ vi.mock('../../packages/valaxy/client/composables/locale', () => ({
 const { usePageSeo } = await import('../../packages/valaxy/client/composables/app/usePageSeo')
 
 describe('page SEO route URLs', () => {
+  it.each([
+    [{ ogImage: '/og.png', image: '/legacy.png', cover: '/cover.png', firstImage: '/body.png' }, '/og.png'],
+    [{ image: '/legacy.png', cover: '/cover.png', firstImage: '/body.png' }, '/legacy.png'],
+    [{ cover: '/cover.png', firstImage: '/body.png' }, '/cover.png'],
+    [{ ogImage: 'javascript:alert(1)', image: { url: '/object.png' }, cover: 'HelloCover', firstImage: '/body.png' }, '/body.png'],
+    [{ firstImage: '/blog/assets/body.hash.svg?width=2&height=3#view' }, '/assets/body.hash.svg?width=2&height=3#view'],
+    [{ ogImage: 'data:image/png;base64,AAAA', cover: './HelloCover.vue' }, undefined],
+    [{}, undefined],
+  ])('uses the shared image priority for %j', (fm, expected) => {
+    Object.assign(route, router.resolve('/posts/hello/'))
+    frontmatter.value = fm
+    const { image } = usePageSeo()
+    expect(image.value).toBe(expected ? `https://example.com/blog${expected}` : undefined)
+  })
+
+  it('updates the shared image when navigating between posts', () => {
+    Object.assign(route, router.resolve('/posts/hello'))
+    frontmatter.value = { firstImage: '/body.png' }
+    const { image } = usePageSeo()
+    expect(image.value).toBe('https://example.com/blog/body.png')
+    frontmatter.value = { ogImage: 'https://cdn.example.com/og.png?q=1#view' }
+    expect(image.value).toBe('https://cdn.example.com/og.png?q=1#view')
+    frontmatter.value = {}
+    expect(image.value).toBeUndefined()
+  })
+
   it.each([
     ['/', '/'],
     ['/posts/hello/', '/posts/hello'],

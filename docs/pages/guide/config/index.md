@@ -213,6 +213,8 @@ export default defineSiteConfig({
 
 ### Social Icons
 
+`social` also supplies the author’s JSON-LD `sameAs`. Only valid HTTP(S) URLs are retained. Relative profile links resolve against `siteConfig.url`, including its deployment subpath; empty values and duplicates are removed, preserving query strings and fragments. Mail links, common feed files (such as `atom.xml`, `feed.json`, `.atom`, and `.rss`), and the site feeds configured by `feed.name` are excluded. Set `sameAs: false` for group invitations, custom subscriptions, or other navigation links that do not identify the author. Social navigation is unaffected. Filtering does not guess from platform domains, icons, or account names.
+
 
 ```ts
 export interface SocialLink {
@@ -221,6 +223,7 @@ export interface SocialLink {
    */
   name: string
   link: string
+  sameAs?: boolean
   /**
    * Icon name
    * https://icones.js.org/
@@ -245,6 +248,7 @@ export default defineSiteConfig({
     },
     {
       name: 'QQ 群 1050458482',
+      sameAs: false,
       link: 'https://qm.qq.com/cgi-bin/qm/qr?k=kZJzggTTCf4SpvEQ8lXWoi5ZjhAx0ILZ&jump_from=webapi',
       icon: 'i-ri-qq-line',
       color: '#12B7F5',

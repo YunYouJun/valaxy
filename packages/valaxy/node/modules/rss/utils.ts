@@ -201,6 +201,9 @@ export async function getPosts(params: {
     const { data, path } = rawPost
     const content = stripEncryptedContent(rawPost.content)
     const excerpt = content.includes(EXCERPT_SEPARATOR) ? content.split(EXCERPT_SEPARATOR)[0] : ''
+    const description = tObject(data.description, lang)
+    const manualExcerpt = tObject(data.excerpt, lang)
+    const summaryLength = siteConfig.excerpt?.length || 200
     if (!data.date)
       data.date = await getCreatedTime(path)
     if (siteConfig.lastUpdated) {
@@ -275,7 +278,10 @@ export async function getPosts(params: {
     const item: ExtendedItem = {
       ...data,
       title: tObject(data.title, lang),
-      description: tObject(data.description, lang) || plainSeoDescription(excerpt || content, siteConfig.excerpt?.length || 200),
+      description: typeof description === 'string' && description.trim()
+        ? description
+        : plainSeoDescription(typeof manualExcerpt === 'string' ? manualExcerpt : '', summaryLength)
+          || plainSeoDescription(excerpt || content, summaryLength),
       date: new Date(data.date), // RSS pubDate / JSON date_published
       published: new Date(data.date), // Atom published (first publish time)
       content: html + tip,
