@@ -68,6 +68,39 @@ import YunFooter from 'valaxy-theme-yun/components/YunFooter.vue'
 
 ### More Examples
 
+### Browser Template Compilation
+
+Valaxy uses Vue's runtime-only build by default. HTML excerpts (`excerpt_type: html`)
+and decrypted content load the template compiler when they are rendered. Pages
+without dynamic templates do not download it. Server-rendered excerpts remain
+visible while the compiler loads during hydration.
+
+Use `ValaxyDynamicComponent` to render a template string with this behavior:
+
+```vue
+<template>
+  <ValaxyDynamicComponent :template-str="html" :data="{ frontmatter }" />
+</template>
+```
+
+The `rendered` event fires after the compiled component mounts, for work that
+depends on its DOM. As with Vue templates generally, only compile trusted content
+authored for your site.
+
+If your own components use Vue's `template` option or call `compile()` from `vue`
+directly, enable the eager compiler for compatibility:
+
+```ts [valaxy.config.ts]
+export default defineValaxyConfig({
+  vue: {
+    // 'lazy' (default): built-in dynamic templates load the compiler on demand.
+    // true: include the compiler in the initial bundle.
+    // false: disable browser compilation, including dynamic excerpts/decryption.
+    browserTemplateCompilation: true,
+  },
+})
+```
+
 ### Insert Busuanzi Statistics
 
 > [Busuanzi Statistics](http://ibruce.info/2015/04/04/busuanzi/)

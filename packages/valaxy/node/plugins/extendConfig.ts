@@ -95,6 +95,12 @@ export function createConfigPlugin(options: ResolvedValaxyOptions): Plugin {
   const katexEnabled = isKatexPluginNeeded(options.config)
 
   const depsToInclude = [...clientDeps]
+  // Pre-bundle both Vue entries together in dev so the first dynamic template
+  // does not trigger dependency re-optimization and a full-page reload. This
+  // only prepares the module on the server; the browser still loads it lazily.
+  if (options.config.vue?.browserTemplateCompilation !== false)
+    depsToInclude.push('vue/dist/vue.esm-bundler.js')
+
   if (!katexEnabled) {
     const katexIdx = depsToInclude.indexOf('katex')
     if (katexIdx !== -1)
@@ -230,9 +236,16 @@ export async function getAlias(options: ResolvedValaxyOptions): Promise<AliasOpt
     { find: `valaxy-theme-${options.theme}`, replacement: `${toAtFS(resolve(options.themeRoot))}/client/index.ts` },
   ]
 
-  if (options.config.vue?.browserTemplateCompilation) {
+  if (options.config.vue?.browserTemplateCompilation === true) {
     alias.push(
       { find: /^vue$/, replacement: await resolveImportPath('vue/dist/vue.esm-bundler.js', true) },
+    )
+  }
+  else if (options.config.vue?.browserTemplateCompilation === false) {
+    // Keep the explicit opt-out: even the lazy template component must not
+    // pull the compiler into builds that disable browser compilation.
+    alias.push(
+      { find: 'vue/dist/vue.esm-bundler.js', replacement: await resolveImportPath('vue/dist/vue.runtime.esm-bundler.js', true) },
     )
   }
 

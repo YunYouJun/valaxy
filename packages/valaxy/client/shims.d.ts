@@ -1,4 +1,8 @@
 // vite hmr data
+declare module 'vue/dist/vue.esm-bundler.js' {
+  export { compile } from 'vue'
+}
+
 declare module 'virtual:valaxy-cover-components' {
   import type { Component } from 'vue'
 

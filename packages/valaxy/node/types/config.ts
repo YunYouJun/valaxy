@@ -246,17 +246,15 @@ export interface ValaxyExtendConfig {
     /**
      * @valaxy
      * @see https://cn.vuejs.org/guide/scaling-up/tooling#note-on-in-browser-template-compilation
-     * enable
+     * Browser template compilation:
+     * - 'lazy': load the compiler when rendering HTML excerpts or decrypted content.
+     * - true: include the compiler eagerly, also supporting arbitrary Vue `template` options.
+     * - false: disable browser compilation (HTML excerpts and decrypted templates require it).
      *
-     * for runtime compile vue, encrypt and decrypt
-     * for excerpt_type: html (runtime render)
-     *
-     * @default true
-     *
-     * browserTemplateCompilation
-     * @description 支持浏览器内的模板编译
+     * @default 'lazy'
+     * @description 浏览器模板编译模式，默认按需加载
      */
-    browserTemplateCompilation?: boolean
+    browserTemplateCompilation?: boolean | 'lazy'
   }
   /**
    * @see https://github.com/unplugin/unplugin-vue-components

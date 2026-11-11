@@ -1,41 +1,20 @@
 <script setup lang="ts">
-import type { Component } from 'vue'
-import { compile, computed, defineComponent } from 'vue'
+import { defineAsyncComponent } from 'vue'
 
-const props = withDefaults(
-  defineProps<{
-    templateStr: string
-    data?: Record<string, any>
-  }>(),
-  {
-    data: () => ({}),
-  },
-)
+defineProps<{
+  templateStr: string
+  data?: Record<string, any>
+}>()
+const emit = defineEmits<{ rendered: [] }>()
 
-// Separate compile from component creation — compile() is expensive and
-// should only re-run when the template string itself changes.
-const compiledRender = computed(() => {
-  if (!props.templateStr)
-    return null
-  return compile(props.templateStr)
-})
-
-// defineComponent creates a proper component instance so that compile()'s
-// render function can access data properties through the instance context.
-// Avoids defineAsyncComponent which causes "missing template" warnings in SSG.
-const dynamicComponent = computed<Component | null>(() => {
-  const render = compiledRender.value
-  if (!render)
-    return null
-  return defineComponent({
-    data: () => ({ ...props.data }),
-    render,
-  })
-})
+// Vue's async component boundary also preserves server-rendered content while
+// the compiler loads during hydration, without requiring a parent Suspense.
+const ValaxyRuntimeTemplate = defineAsyncComponent(() => import('../runtime/ValaxyRuntimeTemplate.vue'))
 </script>
 
 <template>
-  <div v-if="dynamicComponent">
-    <component :is="dynamicComponent" />
-  </div>
+  <ValaxyRuntimeTemplate
+    v-if="templateStr" :template-str="templateStr" :data="data"
+    @rendered="emit('rendered')"
+  />
 </template>

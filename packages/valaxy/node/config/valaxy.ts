@@ -82,7 +82,7 @@ export const defaultValaxyConfig: ValaxyNodeConfig = {
     },
   },
   vue: {
-    browserTemplateCompilation: true,
+    browserTemplateCompilation: 'lazy',
   },
 
   devtools: true,

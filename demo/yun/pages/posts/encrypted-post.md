@@ -34,27 +34,15 @@ window.crypto
 
 ```vue
 <script lang="ts" setup>
-const ValaxyDeprecatedContent = defineComponent({
-  name: 'ValaxyDeprecatedContent',
-  props: {
-    html: String,
-  },
-  render() {
-    const content = `<div>${this.html}</div>`
-    return h({
-      setup: () => {
-        const fm = useFrontmatter()
-        return {
-          frontmatter: fm,
-        }
-      },
-      template: content,
-    })
-  },
-})
+const frontmatter = useFrontmatter()
 </script>
 
-<ValaxyDeprecatedContent :html="decryptedContent" />
+<template>
+  <ValaxyDynamicComponent
+    :template-str="decryptedContent" :data="{ frontmatter }"
+    @rendered="runContentUpdated"
+  />
+</template>
 ```
 
 ## FAQ
@@ -63,18 +51,15 @@ const ValaxyDeprecatedContent = defineComponent({
 Component provided template option but runtime compilation is not supported in this build of Vue. Configure your bundler to alias "vue" to "vue/dist/vue.esm-bundler.js".
 ```
 
-添加 alias：
+如果自定义组件直接使用 Vue 的 `template` 选项或 `compile()`，可启用完整编译模式：
 
 ```ts
-// for runtime compile vue, encrypt and decrypt
-// type cast
-if (options.config.siteConfig.encrypt.enable) {
-  alias.push(
-    { find: /^vue$/, replacement: resolveImportPath('vue/dist/vue.esm-bundler.js', true) },
-  )
-}
+export default defineValaxyConfig({
+  vue: {
+    browserTemplateCompilation: true,
+  },
+})
 ```
 
-After `v0.25.6`, use `options.config.vue.browserTemplateCompilation = true` to disable runtime compile vue.
-
-- `excerpt_type: html` also need this option to work properly.
+默认值为 `'lazy'`，解密内容与 `excerpt_type: html` 摘要会按需加载编译器，无需启用完整模式。
+设为 `false` 会关闭浏览器模板编译，动态摘要和解密模板也将无法渲染。

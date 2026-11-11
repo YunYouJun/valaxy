@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import { isClient } from '@vueuse/core'
 import { runContentUpdated, useDecrypt, useFrontmatter } from 'valaxy'
-import { computed, defineComponent, h, ref } from 'vue'
+import { computed, ref } from 'vue'
 
 const props = withDefaults(defineProps<{
   encryptedContent: string
@@ -16,6 +16,7 @@ const decryptedContent = ref('')
 const hasError = ref(false)
 
 const { decrypt } = useDecrypt()
+const frontmatter = useFrontmatter()
 async function decryptContent() {
   const ciphertext = props.encryptedContent
   if (!ciphertext)
@@ -23,10 +24,6 @@ async function decryptContent() {
   try {
     const result = await decrypt(password.value, ciphertext)
     decryptedContent.value = result || ''
-
-    setTimeout(() => {
-      runContentUpdated()
-    }, 16)
   }
   catch (e) {
     hasError.value = true
@@ -42,25 +39,6 @@ function encryptAgain() {
     runContentUpdated()
   }, 16)
 }
-
-const ValaxyDeprecatedContent = defineComponent({
-  name: 'ValaxyDeprecatedContent',
-  props: {
-    html: String,
-  },
-  render() {
-    const content = `<div>${this.html}</div>`
-    return h({
-      setup: () => {
-        const fm = useFrontmatter()
-        return {
-          frontmatter: fm,
-        }
-      },
-      template: content,
-    })
-  },
-})
 
 const hasWarning = computed(() => isClient && location.protocol !== 'https:')
 </script>
@@ -102,7 +80,10 @@ const hasWarning = computed(() => isClient && location.protocol !== 'https:')
       </div>
     </div>
     <div v-else>
-      <ValaxyDeprecatedContent :html="decryptedContent" />
+      <ValaxyDynamicComponent
+        :template-str="decryptedContent" :data="{ frontmatter }"
+        @rendered="runContentUpdated"
+      />
       <div class="decrypt-action mb-8 sm:mb-0" w-full text-center mt-8>
         <button m-auto class="btn" font-bold @click="encryptAgain">
           Encrypt Again
