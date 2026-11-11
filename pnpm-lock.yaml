@@ -435,9 +435,6 @@ catalogs:
     feed:
       specifier: ^6.0.0
       version: 6.0.0
-    floating-vue:
-      specifier: ^5.4.0
-      version: 5.4.0
     fs-extra:
       specifier: ^11.4.0
       version: 11.4.1
@@ -1235,9 +1232,6 @@ importers:
       feed:
         specifier: 'catalog:'
         version: 6.0.0
-      floating-vue:
-        specifier: 'catalog:'
-        version: 5.4.0(@nuxt/kit@3.21.11(magicast@0.5.5))(vue@3.5.43(typescript@5.9.3))
       fs-extra:
         specifier: 'catalog:'
         version: 11.4.1
@@ -5931,15 +5925,6 @@ packages:
 
   flatted@3.4.4:
     resolution: {integrity: sha512-5+ybhBZANEJxaH3X5evAFatUxLfEHSr7n6kYJ+1Qd0mUqr4eu9gIf6GDbWHf8RJijHrjjO8G+la14SlL2SeS1Q==}
-
-  floating-vue@5.4.0:
-    resolution: {integrity: sha512-hb5y5N8sXs9Dy4iZfWBKLzf3FkUkqhbkQREhRulAEvIihMlSGxc/7pXGrIDetoqXm/RRHNVjvN6lql9IhMM+tQ==}
-    peerDependencies:
-      '@nuxt/kit': ^3.2.0 || ^4.0.0 || ^5.0.0-0
-      vue: ^3.5.43
-    peerDependenciesMeta:
-      '@nuxt/kit':
-        optional: true
 
   follow-redirects@1.16.2:
     resolution: {integrity: sha512-/kVP2U8z596Ia0gwFrwyIeo74ta5aVmSeU1FfAUMAmcEP5EP7zydmag3SLiN64NaRKef3lxsq7i/g7ltJQDGow==}
@@ -13921,13 +13906,6 @@ snapshots:
       hookified: 1.15.1
 
   flatted@3.4.4: {}
-
-  floating-vue@5.4.0(@nuxt/kit@3.21.11(magicast@0.5.5))(vue@3.5.43(typescript@5.9.3)):
-    dependencies:
-      '@floating-ui/dom': 1.8.0
-      vue: 3.5.43(typescript@5.9.3)
-    optionalDependencies:
-      '@nuxt/kit': 3.21.11(magicast@0.5.5)
 
   follow-redirects@1.16.2(debug@4.4.3(supports-color@10.2.2)):
     optionalDependencies:

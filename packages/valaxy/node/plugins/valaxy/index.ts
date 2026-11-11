@@ -184,8 +184,7 @@ export async function createValaxyPlugin(
 
         const configFiles = [options.configFile, options.siteConfigFile, resolve(options.themeRoot, 'valaxy.config.ts')]
 
-        // Re-resolve raw layers so adding/removing legacy footnote settings
-        // never mistakes merged defaults for explicit Floating Vue configuration.
+        // Re-resolve all config layers so removing an override restores the inherited value.
         if (configFiles.includes(file)) {
           const { config } = await resolveOptions({ userRoot: options.userRoot })
           return reloadConfigAndEntries(config)

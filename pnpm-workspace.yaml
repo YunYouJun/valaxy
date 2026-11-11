@@ -138,7 +138,6 @@ catalog:
   eslint: ^10.11.0
   execa: 10.0.1
   feed: ^6.0.0
-  floating-vue: ^5.4.0
   fs-extra: ^11.4.0
   fuse.js: ^7.5.0
   gh-pages: ^6.3.0

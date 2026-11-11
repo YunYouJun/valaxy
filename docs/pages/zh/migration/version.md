@@ -5,6 +5,10 @@ categories:
 top: 8
 ---
 
+## 脚注预览与提示 {#footnote-previews-and-tooltips}
+
+脚注预览现在统一使用 Reka UI。升级时请从站点配置中移除 `footnote.preview` 和 `floatingVue`。如果自定义内容仍使用 `v-tooltip`，请参考[从 Floating Vue 迁移](/zh/guide/markdown#从-floating-vue-迁移)，按需替换或显式注册。
+
 ## v1.0.0 {#v100}
 
 v1.0.0 是首个稳定版本，包含若干破坏性变更，主要是移除长期已弃用的选项。大多数博客无需改动；若你使用过下列功能，请对照检查。

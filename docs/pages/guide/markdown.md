@@ -795,7 +795,7 @@ Use `^[content]` to create convenient inline footnotes^[like this!].
 ### Footnote Preview
 
 
-Footnotes use a non-modal [Reka UI Popover](https://reka-ui.com/docs/components/popover) by default. Hover over a footnote number to preview its Markdown content, including links. Clicking the number still jumps to the footnote. Use the adjacent **⋯** button to open the preview on touch devices or with the keyboard; press Escape or the close button to dismiss it.
+Footnotes use a non-modal [Reka UI Popover](https://reka-ui.com/docs/components/popover). Hover over a footnote number to preview its Markdown content, including links. Clicking the number still jumps to the footnote. Use the adjacent **⋯** button to open the preview on touch devices or with the keyboard; press Escape or the close button to dismiss it.
 
 Try the [footnote preview example](/examples/footnotes). The footnotes at the end of the article remain available without JavaScript.
 
@@ -803,17 +803,19 @@ Themes can style `.va-footnote-popover`, `.va-footnote-preview`, and `.va-footno
 
 #### Migrating from Floating Vue
 
-During this migration, the global `v-tooltip` directive, Floating Vue components, stylesheet, and `siteConfig.floatingVue` remain available. Sites or themes with explicit `floatingVue` settings automatically keep the legacy footnote preview and receive a migration warning, so those settings do not silently stop working.
+Remove `footnote.preview` and `floatingVue` from your site configuration. Footnotes always use Reka UI. Replace any `.v-popper__*` styles targeting footnotes with the classes above.
 
-To opt into Reka, set this in `site.config.ts`:
+For custom tooltips, use [Reka UI Tooltip](https://reka-ui.com/docs/components/tooltip) or `YunTooltip` in the Yun theme. If a site still uses `v-tooltip` or other Floating Vue APIs, install `floating-vue` with `pnpm add floating-vue` and register it in the site's [client setup](/guide/custom/extend#extending-client-context):
 
-```ts
-export default defineSiteConfig({
-  footnote: { preview: 'reka' },
+```ts [setup/main.ts]
+import FloatingVue from 'floating-vue'
+import { defineAppSetup } from 'valaxy'
+import 'floating-vue/dist/style.css'
+
+export default defineAppSetup(({ app }) => {
+  app.use(FloatingVue, { /* your former siteConfig.floatingVue options */ })
 })
 ```
-
-`floatingVue` options and `.v-popper__*` styles do not configure the Reka preview. Move footnote styling to the classes above; override `ValaxyFootnoteTooltip` for custom behavior. You may keep `floatingVue` settings for other legacy tooltips. To roll back the footnote implementation during the transition, set `footnote: { preview: 'floating-vue' }`.
 
 
 ## Custom

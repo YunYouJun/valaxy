@@ -16,5 +16,3 @@ This footnote contains a link[^2].
 ## Preview target
 
 Footnote links and preview links retain their normal navigation.
-
-<button v-tooltip="'Legacy global tooltip'" type="button">Legacy tooltip</button>

@@ -7,6 +7,10 @@ categories:
 top: 8
 ---
 
+## Footnote previews and tooltips
+
+Footnote previews now always use Reka UI. Remove `footnote.preview` and `floatingVue` from your site configuration. If your own content still uses `v-tooltip`, see [Migrating from Floating Vue](/guide/markdown#migrating-from-floating-vue) for the replacement or explicit registration.
+
 ## v1.0.0
 
 v1.0.0 is the first stable release. It contains several breaking changes, mostly removals of long-deprecated options. Most blogs need no changes; review the items below if you used these features.

@@ -3,12 +3,12 @@ import { expect, it, vi } from 'vitest'
 import { createSSRApp, h, nextTick } from 'vue'
 import { createI18n } from 'vue-i18n'
 import { renderToString } from 'vue/server-renderer'
-import FootnotePopover from '../../packages/valaxy/client/components/footnote/FootnotePopover.vue'
+import ValaxyFootnoteTooltip from '../../packages/valaxy/client/components/ValaxyFootnoteTooltip.vue'
 
 it('hydrates multiple previews without replacing footnote anchors or duplicating IDs', async () => {
   function createApp() {
     return createSSRApp({
-      render: () => [1, 2].map(id => h(FootnotePopover, {}, {
+      render: () => [1, 2].map(id => h(ValaxyFootnoteTooltip, {}, {
         default: () => h('sup', h('a', { href: `#fn${id}`, id: `fnref${id}` }, `[${id}]`)),
         popper: () => h('p', ['Footnote ', h('a', { href: 'https://valaxy.site' }, 'link')]),
       })),

@@ -52,12 +52,6 @@ export function testFootnotePreviews(path: string) {
     await expect(page).toHaveURL(/#preview-target$/)
   })
 
-  test('retains the global Floating Vue directive during migration', async ({ page, isMobile }) => {
-    test.skip(isMobile, 'Legacy tooltip uses hover')
-    await page.getByRole('button', { name: 'Legacy tooltip', exact: true }).hover()
-    await expect(page.locator('.v-popper__popper')).toContainText('Legacy global tooltip')
-  })
-
   test('supports keyboard focus, Escape, and the original anchor jump', async ({ page }) => {
     const trigger = page.locator('.va-footnote-preview').nth(1)
     await trigger.focus()

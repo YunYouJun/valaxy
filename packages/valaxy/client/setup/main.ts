@@ -9,7 +9,6 @@ import type { ValaxySSGContext } from '../setups'
 
 import { consola } from 'consola'
 import { registerGlobalComponents } from '../modules/components'
-import { install as installFloatingVue } from '../modules/floating-vue'
 import { install as installNprogress } from '../modules/nprogress'
 import { install as installPinia } from '../modules/pinia'
 import { install as installUnhead } from '../modules/unhead'
@@ -25,7 +24,6 @@ export default function setupMain(ctx: ValaxySSGContext, config: ComputedRef<Val
   installUnhead(ctx)
   installPinia(ctx)
   installNprogress(ctx)
-  installFloatingVue(ctx, config)
 
   if (import.meta.env.DEV && ctx.isClient && config.value.devtools) {
     import('../modules/devtools').then(({ install: installDevtools }) => {

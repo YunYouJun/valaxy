@@ -19,7 +19,7 @@ import {
   resolveValaxyConfigFromRoot,
 } from './config'
 import { replaceArrMerge } from './config/merge'
-import { resolveFootnoteConfig, resolveSiteConfig } from './config/site'
+import { resolveSiteConfig } from './config/site'
 import { resolveImportPath } from './utils'
 import { parseAddons } from './utils/addons'
 import { collectRedirects } from './utils/clientRedirects'
@@ -97,7 +97,6 @@ export async function processValaxyOptions(valaxyOptions: ResolvedValaxyOptions,
   }
 
   const config = replaceArrMerge(valaxyConfig, defaultValaxyConfig)
-  config.siteConfig.footnote = resolveFootnoteConfig(valaxyConfig.siteConfig)
   valaxyOptions.config = {
     ...config,
     runtimeConfig: {
