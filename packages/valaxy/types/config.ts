@@ -20,6 +20,11 @@ export interface SocialLink {
   name: string
   link: string
   /**
+   * @description:en-US Set false for navigation links that do not identify the author (e.g. groups or custom subscriptions).
+   * @description:zh-CN 非作者身份主页（如群聊、自定义订阅入口）设为 false，仅从 JSON-LD sameAs 中排除，不影响导航。
+   */
+  sameAs?: boolean
+  /**
    * 图标名称
    * https://icones.js.org/
    */

@@ -7,6 +7,7 @@ import { publicAuthor } from '../../../shared/seo'
 import { useFrontmatter, useLocale, useValaxyHead, useValaxyI18n } from '../../composables'
 import { useTimezone } from '../../composables/global'
 import { useSiteConfig } from '../../config'
+import { resolveSocialSameAs } from '../../utils/seo'
 import { usePageSeo } from './usePageSeo'
 // https://github.com/vueuse/head
 // you can use this to manipulate the document head in any components,
@@ -59,7 +60,7 @@ export function useValaxyApp() {
       name: $t(siteConfig.value.author.name),
       ...(personUrl ? { url: personUrl } : {}),
       image: $t(siteConfig.value.author.avatar),
-      sameAs: siteConfig.value.social.map(s => s.link).filter(Boolean),
+      sameAs: resolveSocialSameAs(siteConfig.value.url, siteConfig.value.social, siteConfig.value.feed?.name),
     }),
     defineWebSite({
       name: $t(siteConfig.value.title),

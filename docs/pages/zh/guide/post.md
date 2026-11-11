@@ -80,11 +80,15 @@ export default defineSiteConfig({
 
 页面的 meta description、Open Graph 和 Twitter 描述优先使用 frontmatter `description`。未设置时，依次使用自定义 `excerpt`、`<!-- more -->` 前的公开内容、正文开头的公开段落生成纯文本摘要；没有可用摘要时回退到站点描述。
 
-自动摘要会去掉围栏代码、图片、标题和容器标记，普通 `::: tip`、语言等容器里的公开正文仍会保留。摘要长度由 `excerpt.length` 控制（默认 200 个字符）。局部加密内容不会用于自动摘要或正文首图；整篇加密的文章不会从正文自动生成摘要或首图。搜索索引、RSS、`llms-full.txt` 和 Markdown 导出同样排除加密正文；构建 sourcemap 不嵌入受保护页面的原文。显式填写的 `description`、`ogImage` 和 `cover` 仍是公开的，请勿在这些字段中放入私密信息。
+RSS、Atom 和 JSON Feed 的摘要优先使用站点语言下非空的 `description`，其次将自定义 `excerpt` 转为纯文本，最后使用公开正文（存在 `<!-- more -->` 时取其之前的内容）。空值和非文本值会继续回退。自动生成的摘要遵循 `excerpt.length`，显式描述保持原样；整篇加密文章不会进入 feed。
 
-文章的 `og:type` 是 `article`，其他页面是 `website`。分享图按 `ogImage`、`cover`、自动提取的正文首图顺序选取，跳过组件名和不安全的 URL 协议。正文首图支持 Markdown 图片及 HTML `<img>`，可通过 `features.extractFirstImage: false` 关闭自动提取。不会自动使用站点 favicon。
+自动摘要会去掉围栏代码、图片、标题和容器标记，普通 `::: tip`、语言等容器里的公开正文仍会保留。摘要长度由 `excerpt.length` 控制（默认 200 个字符）。局部加密内容不会用于自动摘要或正文首图；整篇加密的文章不会从正文自动生成摘要或首图。搜索索引、RSS、`llms-full.txt` 和 Markdown 导出同样排除加密正文；构建 sourcemap 不嵌入受保护页面的原文。显式填写的 `description`、`ogImage`、`image` 和 `cover` 仍是公开的，请勿在这些字段中放入私密信息。
+
+文章的 `og:type` 是 `article`，其他页面是 `website`。分享图按 `ogImage`、历史字符串字段 `image`、`cover`、自动提取的正文首图顺序选取，跳过组件名和不安全的 URL 协议。正文首图支持 Markdown 图片及 HTML `<img>`，可通过 `features.extractFirstImage: false` 关闭自动提取。Yun 文章 JSON-LD 使用与 Open Graph、Twitter 相同的图片。不会自动使用站点 favicon。
 
 `images/cover.png`、`cover.png` 和 `./cover.png` 等相对地址如果对应 Markdown 源文件旁的本地图片，会经 Vite 生成可抓取的构建资源，分享标签使用实际资源 URL；嵌套 `index.md` 也按源文件目录解析。没有对应本地文件的相对 URL 仍按页面所在目录解析。`/images/cover.png` 按站点部署根路径解析，保留部署子路径。查询参数和片段标识也会保留。`author.email` 或 `author.link` 留空时，RSS 和 JSON-LD 会省去该字段，而不会填入框架自己的地址。
+
+历史 `image` 字段也用于 RSS 的图片附件，现有 feed URL 处理仍要求绝对 HTTP(S) URL 或站点根路径。仅用于分享的源文件相对图片请使用 `ogImage`。
 
 
 ## 图片与 Vue 组件封面 {#cover}
@@ -152,7 +156,7 @@ coverComponent: HelloValaxyCover
 # ogImage: /images/share-preview.png
 ```
 
-Valaxy 不会在构建时自动截图 Vue 组件。你可以用下方的导出功能保存静态分享图。分享预览按 `ogImage`、`cover`、自动提取的公开正文首图的顺序取值，不会自动使用站点 favicon。SVG 组件封面的显示不依赖这两个图片字段。需要加载图片的组件可以用 `withBase(src)` 适配子路径部署。
+Valaxy 不会在构建时自动截图 Vue 组件。你可以用下方的导出功能保存静态分享图。分享预览按 `ogImage`、历史字符串字段 `image`、`cover`、自动提取的公开正文首图的顺序取值，不会自动使用站点 favicon。SVG 组件封面的显示不依赖这两个图片字段。需要加载图片的组件可以用 `withBase(src)` 适配子路径部署。
 
 ### 从同一份 SVG 导出分享图 {#cover-export}
 
