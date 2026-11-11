@@ -77,10 +77,20 @@ describe('scanLayouts', () => {
     const site = `${base}/site`
     const options = resolveLayoutsOptions({ roots: [site], userRoot: site, mode: 'build' }, { layoutsDirs: 'custom', exclude: ['**/Draft.vue'] })
     expect([...(await scanLayouts(options)).keys()]).toEqual(['my-post'])
-    expect(options.importMode('my-post')).toBe('sync')
+    expect(options.importMode('my-post')).toBe('async')
     expect(resolveLayoutsOptions({ roots: [site], userRoot: site, mode: 'dev' }).importMode('post')).toBe('async')
     expect(resolveLayoutsOptions({ roots: [site], userRoot: site, mode: 'dev' }, { layoutsDirs: 'nested/**/layouts' }).dirs)
       .toEqual([`${site}/nested/a/layouts`])
+  })
+
+  it.each(['dev', 'build'] as const)('loads named layouts on demand in %s and preserves importMode overrides', (mode) => {
+    const context = { roots: ['/site'], userRoot: '/site', mode }
+    const options = resolveLayoutsOptions(context)
+    expect(options.importMode('default')).toBe('sync')
+    expect(options.importMode('home')).toBe('async')
+    expect(options.importMode('post')).toBe('async')
+    const eager = resolveLayoutsOptions(context, { importMode: () => 'sync' })
+    expect(eager.importMode('post')).toBe('sync')
   })
 
   it('expands `**` layoutsDirs to layouts directories only, not their subdirectories', async () => {

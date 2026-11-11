@@ -42,6 +42,8 @@ layout: album
 
 `valaxy.config.ts` 中的 `layouts` 选项支持 `layoutsDirs`、`extensions`、`exclude`、`defaultLayout`、`fallbackLayout`、`importMode` 与 `inheritDefaultLayout`。相对路径的 `layoutsDirs` 基于站点根目录解析，设置后将替换所有根目录默认的 `layouts` 目录。
 
+名为 `default` 的布局同步导入，其他布局在开发和生产环境中均按需加载。Valaxy 会先等待当前布局加载完成，再渲染页面或水合静态 HTML。如需同步导入所有布局，可以设置 `layouts: { importMode: () => 'sync' }`。
+
 
 ## 自定义 index.html {#customizing-indexhtml}
 

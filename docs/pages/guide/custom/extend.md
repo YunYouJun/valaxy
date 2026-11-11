@@ -41,6 +41,8 @@ File names are normalized to kebab-case names, e.g. `layouts/MyPost.vue` is `my-
 
 The `layouts` option in `valaxy.config.ts` accepts `layoutsDirs`, `extensions`, `exclude`, `defaultLayout`, `fallbackLayout`, `importMode` and `inheritDefaultLayout`. Relative `layoutsDirs` are resolved from the site root, and setting it replaces the default `layouts` directories of every root.
 
+Layouts named `default` are imported synchronously; other layouts are loaded on demand in both development and production. Valaxy waits for the active layout before rendering a page or hydrating its static HTML. To eagerly import every layout, set `layouts: { importMode: () => 'sync' }`.
+
 
 ## Customizing index.html
 

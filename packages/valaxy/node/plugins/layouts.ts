@@ -8,7 +8,6 @@
  */
 import type { Plugin } from 'vite'
 import type { ResolvedValaxyOptions } from '../types'
-import process from 'node:process'
 import { isAbsolute, normalize, relative, resolve } from 'pathe'
 import { glob, globSync } from 'tinyglobby'
 import { toAtFS } from '../utils/resolve'
@@ -45,8 +44,8 @@ export interface LayoutsOptions {
   fallbackLayout?: string
   /**
    * `sync` bundles a layout into the main chunk, `async` lazy-loads it.
-   * Defaults to `sync` for every layout in builds (SSG hydration needs it),
-   * otherwise `sync` for `default` and `async` for the rest.
+   * Defaults to `sync` for `default` and `async` for the rest, including builds.
+   * Navigation guards preload the active layout before rendering or hydration.
    */
   importMode: (name: string) => LayoutImportMode
   /**
@@ -66,8 +65,6 @@ export const LAYOUTS_MODULE_ID = 'virtual:generated-layouts'
 const RESOLVED_LAYOUTS_MODULE_ID = `\0${LAYOUTS_MODULE_ID}`
 
 export function defaultImportMode(name: string): LayoutImportMode {
-  if (process.env.VITE_SSG)
-    return 'sync'
   return name === 'default' ? 'sync' : 'async'
 }
 
@@ -205,11 +202,9 @@ export function resolveLayoutsOptions(
     extensions: ['vue'],
     exclude: [],
     defaultLayout: 'default',
-    // In SSG builds, layout components must be imported synchronously so that
-    // the client-side hydration tree matches the server-rendered HTML. Lazy
-    // non-default layouts (post, home, etc.) would not have resolved when
-    // hydration starts, causing a mismatch.
-    importMode: options.mode === 'build' ? () => 'sync' : defaultImportMode,
+    // LayoutWrapper waits for the active layout in its navigation guards,
+    // before router.isReady() allows SSR or client hydration to begin.
+    importMode: defaultImportMode,
     inheritDefaultLayout: true,
   }
   for (const [key, value] of Object.entries(userOptions)) {
