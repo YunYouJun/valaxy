@@ -19,6 +19,26 @@ describe('check dist', async () => {
   })
 })
 
+describe('built asset loading', () => {
+  it.each(['index.html', 'posts/katex.html'])('does not preload the shared KaTeX font catalog in %s', async (file) => {
+    const html = await fs.readFile(resolve(demoYunDistFolder, file), 'utf8')
+    const preloads = html.match(/<link\s[^>]*rel="preload"[^>]*>/g) || []
+    expect(preloads.filter(link => link.includes('KaTeX_'))).toEqual([])
+    if (file === 'posts/katex.html')
+      expect(html).toContain('class="katex"')
+  })
+
+  it('emits optional theme features as separate chunks without preloading them on home', async () => {
+    const html = await fs.readFile(resolve(demoYunDistFolder, 'index.html'), 'utf8')
+    const assets = await fs.readdir(resolve(demoYunDistFolder, 'assets'))
+    for (const feature of ['YunAlgoliaSearch', 'YunFireworks', 'scroll']) {
+      const chunk = assets.find(file => file.startsWith(`${feature}.`) && file.endsWith('.js'))
+      expect(chunk, `${feature} should retain its dynamic import boundary`).toBeDefined()
+      expect(html).not.toContain(chunk!)
+    }
+  })
+})
+
 describe('built public SEO', () => {
   it('does not expose whole-page encrypted content in HTML metadata', async () => {
     const html = await fs.readFile(resolve(demoYunDistFolder, 'posts/encrypted-post.html'), 'utf8')

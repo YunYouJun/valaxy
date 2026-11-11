@@ -1,0 +1,38 @@
+import { expect, test } from '@playwright/test'
+import { setup } from '../utils'
+import { waitForHydration } from '../utils/hydration'
+
+setup('theme-yun')
+
+test('loads KaTeX fonts only when navigating to math', async ({ page }) => {
+  const fonts: string[] = []
+  const errors: string[] = []
+  page.on('request', (request) => {
+    if (/KaTeX_.*\.woff2?$/.test(request.url()))
+      fonts.push(request.url())
+  })
+  page.on('pageerror', error => errors.push(error.message))
+  await page.goto('/')
+  await waitForHydration(page)
+  await expect(page.locator('.katex')).toHaveCount(0)
+  expect(fonts).toEqual([])
+  await expect(page.locator('link[rel="preload"][href*="KaTeX_"]')).toHaveCount(0)
+
+  // Search uses router navigation: the already loaded global CSS must also
+  // style math when the initial page has never requested a KaTeX font.
+  // The home entrance animation remounts the navigation; wait for its end
+  // before opening the search dialog so that the click is not discarded.
+  await expect(page.locator('.yun-home-prologue-content')).toBeVisible()
+  await page.locator('.yun-search-btn').click()
+  const dialog = page.getByRole('dialog')
+  await dialog.getByRole('searchbox').fill('KaTeX')
+  await dialog.locator('a[href="/posts/katex"]').first().click()
+  await expect(page).toHaveURL(/\/posts\/katex$/)
+  await expect(page.locator('.katex').first()).toBeVisible()
+  await page.evaluate(() => document.fonts.ready)
+  expect(fonts.length).toBeGreaterThan(0)
+  expect(fonts.every(url => url.endsWith('.woff2'))).toBe(true)
+  expect(await page.evaluate(() => document.fonts.check('16px KaTeX_Main'))).toBe(true)
+  await expect(page.locator('link[rel="preload"][href*="KaTeX_"]')).toHaveCount(0)
+  expect(errors).toEqual([])
+})

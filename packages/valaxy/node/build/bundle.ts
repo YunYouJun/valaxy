@@ -1,5 +1,4 @@
 import type { OutputOptions } from 'rolldown'
-import type { ResolvedValaxyOptions } from '../types'
 
 // https://github.com/sindresorhus/escape-string-regexp/blob/ba9a4473850cb367936417e97f1f2191b7cc67dd/index.js
 export function escapeRegExp(str: string) {
@@ -20,13 +19,8 @@ export function clearBundleCache() {
  * Migrated from Rollup's manualChunks to Rolldown's codeSplitting API.
  * @see https://rolldown.rs/in-depth/manual-code-splitting
  */
-export function getRolldownOutputOptions(options: ResolvedValaxyOptions): OutputOptions {
+export function getRolldownOutputOptions(): OutputOptions {
   const assetsDir = 'assets'
-
-  // Escape theme root for regex matching
-  const escapedThemeRoot = escapeRegExp(
-    options.themeRoot.replace(/\\/g, '/'),
-  )
 
   const outputOptions: OutputOptions = {
     assetFileNames: `${assetsDir}/[name].[hash].[ext]`,
@@ -80,12 +74,8 @@ export function getRolldownOutputOptions(options: ResolvedValaxyOptions): Output
           priority: 20,
         },
 
-        // Theme code → theme chunk
-        {
-          name: 'theme',
-          test: new RegExp(escapedThemeRoot),
-          priority: 10,
-        },
+        // Leave theme modules to automatic splitting so dynamic imports keep
+        // their boundaries (search providers, comments and optional effects).
       ],
     },
   }

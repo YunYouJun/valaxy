@@ -123,6 +123,11 @@ export function renderPreloadLinks(modules: Set<string> | undefined, manifest: R
         links.push(`<link rel="stylesheet" href="${file}">`)
       }
       else if (file.endsWith('.woff') || file.endsWith('.woff2')) {
+        // The shared KaTeX stylesheet lists every font family and format in
+        // the SSR manifest, even on pages without math. Let CSS select only
+        // the fonts actually used, including in excerpts and after navigation.
+        if (/(?:^|\/)KaTeX_[^/]+$/.test(file))
+          continue
         links.push(`<link rel="preload" href="${file}" as="font" type="font/${file.endsWith('.woff2') ? 'woff2' : 'woff'}" crossorigin>`)
       }
       else if (file.endsWith('.gif') || file.endsWith('.jpg') || file.endsWith('.jpeg') || file.endsWith('.png') || file.endsWith('.webp') || file.endsWith('.svg') || file.endsWith('.avif')) {

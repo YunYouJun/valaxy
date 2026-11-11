@@ -1,17 +1,12 @@
 import { isClient } from '@vueuse/core'
-import { gsap } from 'gsap'
-// gsap/ScrollToPlugin is ESM, but gsap not include 'type:module' in package.json
-// use cjs for vite-ssg, optimizeDeps for ESM
-import ScrollToPlugin from 'gsap/dist/ScrollToPlugin'
 
-gsap.registerPlugin(ScrollToPlugin)
-
-export function goDown() {
+export async function goDown() {
   if (!isClient)
     return
 
   const banner = document.getElementById('yun-banner')
   if (banner) {
+    const { gsap } = await import('./scroll')
     // nav menu height
     const offset = 50
 
@@ -28,10 +23,11 @@ export function goDown() {
 /**
  * back to top
  */
-export function backToTop() {
+export async function backToTop() {
   if (!isClient)
     return
 
+  const { gsap } = await import('./scroll')
   gsap.to(window, {
     duration: 1,
     scrollTo: {

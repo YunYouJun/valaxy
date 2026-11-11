@@ -72,7 +72,7 @@ export async function processValaxyOptions(valaxyOptions: ResolvedValaxyOptions,
   const mergeTimer = countPerformanceTime()
   valaxyConfig = mergeValaxyConfig(valaxyConfig, addonsValaxyConfig)
 
-  const rolldownOutputOptions = getRolldownOutputOptions(valaxyOptions)
+  const rolldownOutputOptions = getRolldownOutputOptions()
   consola.debug(`  ├─ mergeValaxyConfig + getRolldownOutputOptions: ${mergeTimer()}`)
 
   // Set rolldownOptions with codeSplitting (Vite 8 / Rolldown)

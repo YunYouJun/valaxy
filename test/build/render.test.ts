@@ -173,6 +173,20 @@ describe('renderPreloadLinks', () => {
     expect(result).toContain('type="font/woff"')
   })
 
+  it('lets CSS request KaTeX fonts instead of preloading every family and format', () => {
+    const manifest = { math: [
+      '/blog/assets/KaTeX_Main-Regular.abc.woff2',
+      '/blog/assets/KaTeX_Main-Regular.def.woff',
+      'https://cdn.example.com/KaTeX_Math-Italic.ghi.woff2',
+      '/blog/assets/math.css',
+      '/blog/assets/site-font.woff2',
+    ] }
+    const result = renderPreloadLinks(new Set(['math']), manifest)
+    expect(result).not.toContain('KaTeX_')
+    expect(result).toContain('rel="stylesheet" href="/blog/assets/math.css"')
+    expect(result).toContain('href="/blog/assets/site-font.woff2" as="font"')
+  })
+
   it('generates image preload for image extensions', () => {
     for (const ext of ['gif', 'jpg', 'jpeg', 'png', 'webp', 'svg', 'avif']) {
       const manifest = { m: [`/img/pic.${ext}`] }

@@ -1,14 +1,6 @@
-<script lang="ts" setup>
-import { getAddonModule, isEmptyAddon } from 'valaxy'
-import * as addonTwikoo from 'valaxy-addon-twikoo'
-import 'valaxy-addon-twikoo/client/styles/index.scss'
+<script lang="ts">
+import { defineAsyncComponent } from 'vue'
 
-if (!isEmptyAddon(addonTwikoo))
-  getAddonModule<{ useTwikooWithOptions: () => void }>(addonTwikoo).useTwikooWithOptions()
+// Keep the public component auto-imported so site/addon overrides still win.
+export default defineAsyncComponent(() => import('../../client/components/YunTwikoo.vue'))
 </script>
-
-<template>
-  <div>
-    <div id="tcomment" w="full" />
-  </div>
-</template>

@@ -1,17 +1,6 @@
-<script lang="ts" setup>
-import { isEmptyAddon } from 'valaxy'
-import * as addonWaline from 'valaxy-addon-waline'
+<script lang="ts">
+import { defineAsyncComponent } from 'vue'
 
-if (isEmptyAddon(addonWaline))
-  throw new Error('Please install valaxy-addon-waline')
-
-const addon = addonWaline.useAddonWaline()
+// Keep the public component auto-imported so site/addon overrides still win.
+export default defineAsyncComponent(() => import('../../client/components/YunWaline.vue'))
 </script>
-
-<template>
-  <WalineClient
-    w="full" :options="addon?.options || {
-      serverURL: '',
-    }"
-  />
-</template>

@@ -1,12 +1,6 @@
-<script lang="ts" setup>
-import { getAddonModule, isEmptyAddon } from 'valaxy'
-import * as addonArtalk from 'valaxy-addon-artalk'
-import 'valaxy-addon-artalk/client/styles/index.scss'
+<script lang="ts">
+import { defineAsyncComponent } from 'vue'
 
-if (!isEmptyAddon(addonArtalk))
-  getAddonModule<{ useArtalkWithOptions: () => void }>(addonArtalk).useArtalkWithOptions?.()
+// Keep the public component auto-imported so site/addon overrides still win.
+export default defineAsyncComponent(() => import('../../client/components/YunArtalk.vue'))
 </script>
-
-<template>
-  <ArtalkClient />
-</template>

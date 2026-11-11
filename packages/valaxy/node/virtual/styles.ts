@@ -15,7 +15,8 @@ export const templateStyles: VirtualModuleTemplate = {
     const imports: string[] = []
 
     // KaTeX CSS: needed when KaTeX plugin is registered (not MathJax)
-    // Always load when plugin is registered so that per-page frontmatter.katex works
+    // Keep this global for per-page frontmatter.katex, excerpts and SPA navigation.
+    // Font downloads are demand-driven; renderPreloadLinks skips KaTeX fonts.
     if (isKatexPluginNeeded(config)) {
       imports.push(`import "${await resolveImportUrl('katex/dist/katex.min.css')}"`)
       imports.push(`import "${resolveUrlOfClient('styles/third/katex.scss')}"`)
