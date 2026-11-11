@@ -7,7 +7,7 @@
 
 import type { CSSProperties } from 'vue'
 import { sleep } from 'valaxy'
-import { computed, onMounted, ref } from 'vue'
+import { computed, onBeforeUnmount, onMounted, ref } from 'vue'
 import { useThemeConfig } from '../composables'
 import { useYunBanner } from '../composables/useYunBanner'
 import { useYunAppStore } from '../stores'
@@ -39,10 +39,9 @@ const lineStatusClass = computed(() => {
 })
 
 const animationStatus = ref('banner')
+let disposed = false
 
 onMounted(async () => {
-  // Reset banner animation state to ensure prologue waits for banner
-  // This is needed when navigating back from post to home (SPA navigation)
   yun.bannerAnimationDone = false
 
   // 减少动态效果时不再等待动画时序，直接进入终态
@@ -50,15 +49,24 @@ onMounted(async () => {
 
   if (!reducedMotion)
     await sleep(500)
+  if (disposed)
+    return
   lineStatus.value = 'active'
   if (yun.isNimbo) {
     if (!reducedMotion)
       await sleep(themeConfig.value.banner?.duration || 500)
+    if (disposed)
+      return
     lineStatus.value = 'exit'
 
     animationStatus.value = 'prologue'
     yun.bannerAnimationDone = true
   }
+})
+
+onBeforeUnmount(() => {
+  disposed = true
+  yun.bannerAnimationDone = false
 })
 </script>
 
@@ -76,6 +84,7 @@ onMounted(async () => {
         v-if="animationStatus === 'banner'"
         :title="bannerTitle"
         :chars="chars"
+        aria-hidden="true"
       />
     </template>
     <template v-if="yun.isStrato">

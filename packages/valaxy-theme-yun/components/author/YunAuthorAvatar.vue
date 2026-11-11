@@ -11,6 +11,7 @@ const siteConfig = useSiteConfig()
       class="rounded-full size-full bg-white dark:bg-white/20 p-1 m-0 absolute"
       :src="withBase(siteConfig.author.avatar)"
       alt="avatar"
+      fetchpriority="high"
     >
     <span
       v-if="siteConfig.author.status.emoji"

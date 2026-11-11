@@ -30,24 +30,13 @@ const showNotice = computed(() => {
                   <div id="yun-banner-placeholder" class="w-full h-[var(--banner-container-height,100vh)]" />
                 </template>
               </ClientOnly>
-              <Transition
-                v-if="yun.isNimbo && yun.bannerAnimationDone"
-                enter-from-class="scale-60"
-                enter-to-class="scale-100"
-                enter-active-class="transition-300 transition-cubic-bezier-ease-in-out"
-                appear
+              <div
+                v-if="yun.isNimbo"
+                class="yun-home-prologue-content absolute top-0 left-5 right-5 bottom-0 flex-center"
+                :class="{ 'is-intro-complete': yun.bannerAnimationDone }"
               >
-                <div class="yun-home-prologue-content absolute top-0 left-5 right-5 bottom-0 flex-center">
-                  <Transition
-                    enter-from-class="op-0"
-                    enter-to-class="op-100"
-                    enter-active-class="transition-800"
-                    appear
-                  >
-                    <YunPrologueSquare class="z-1" />
-                  </Transition>
-                </div>
-              </Transition>
+                <YunPrologueSquare class="z-1" :intro-complete="yun.bannerAnimationDone" />
+              </div>
             </YunPrologue>
             <YunSay v-if="themeConfig.say?.enable" w="full" />
           </div>
@@ -75,23 +64,56 @@ const showNotice = computed(() => {
 </template>
 
 <style scoped>
-@media (width <= 768px) {
-  .yun-home-prologue {
-    display: grid;
+@media (width > 768px) {
+  .yun-home-prologue-content {
+    visibility: hidden;
+    opacity: 0;
+    scale: 0.6;
+    transition: opacity 800ms var(--yun-ease-in-out), scale 300ms var(--yun-ease-in-out);
   }
 
+  .yun-home-prologue-content.is-intro-complete {
+    visibility: visible;
+    opacity: 1;
+    scale: 1;
+  }
+}
+
+@media (width <= 768px) {
   .yun-home-prologue :deep(#yun-banner),
   .yun-home-prologue :deep(#yun-banner-placeholder) {
-    grid-area: 1 / 1;
+    position: absolute;
+    inset: 0;
     height: 100%;
+    pointer-events: none;
+  }
+
+  .yun-home-prologue :deep(#yun-banner .go-down) {
+    pointer-events: auto;
+  }
+
+  /* Keep the original animation in the gutter outside the content padding. */
+  .yun-home-prologue :deep(#yun-banner .banner-line-container),
+  .yun-home-prologue :deep(#yun-banner .banner-char-container) {
+    align-self: flex-start;
+    width: 20px;
+    overflow: hidden;
+    opacity: 0.55;
+  }
+
+  .yun-home-prologue :deep(#yun-banner .banner-char-container) {
+    --banner-empty-border-size: 0px;
+  }
+
+  .yun-home-prologue :deep(#yun-banner .char) {
+    font-size: 0.75rem;
   }
 
   .yun-home-prologue-content {
-    grid-area: 1 / 1;
     position: relative;
     inset: auto;
     box-sizing: border-box;
-    min-height: var(--banner-container-height, calc(100 * var(--vh)));
+    min-height: var(--banner-container-height, calc(100 * var(--vh, 1dvh)));
     padding: calc(var(--yun-nav-height) + 20px) 20px 36px;
   }
 }
