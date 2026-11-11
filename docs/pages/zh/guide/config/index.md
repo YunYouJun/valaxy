@@ -215,7 +215,7 @@ export default defineSiteConfig({
 
 ### 社交图标 {#social-icons}
 
-`social` 也用于作者 JSON-LD 的 `sameAs`。仅保留合法 HTTP(S) URL；相对主页链接按 `siteConfig.url`（含部署子路径）解析，去空并去重，保留查询参数和片段。邮件、常见 feed 文件（如 `atom.xml`、`feed.json`、`.atom`、`.rss`）及 `feed.name` 指定的本站 feed 会被排除。对于群聊、自定义订阅入口等非身份主页，设置 `sameAs: false`；这不会影响社交导航。筛选不依据平台域名、图标或用户名猜测链接用途。
+`social` 也用于作者 JSON-LD 的 `sameAs`。仅保留合法 HTTP(S) URL。若 `siteConfig.url` 为 `https://example.com/blog/`，`./about` 解析为 `https://example.com/blog/about`，`/about` 解析为 `https://example.com/about`。去空并去重，保留查询参数和片段。邮件、常见 feed 文件（如 `atom.xml`、`feed.json`、`.atom`、`.rss`）及 `feed.name` 指定的本站 feed 会被排除。对于群聊、自定义订阅入口等非身份主页，设置 `sameAs: false`；这不会影响社交导航。筛选不依据平台域名、图标或用户名猜测链接用途。
 
 
 

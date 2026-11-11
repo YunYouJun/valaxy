@@ -213,7 +213,7 @@ export default defineSiteConfig({
 
 ### Social Icons
 
-`social` also supplies the author’s JSON-LD `sameAs`. Only valid HTTP(S) URLs are retained. Relative profile links resolve against `siteConfig.url`, including its deployment subpath; empty values and duplicates are removed, preserving query strings and fragments. Mail links, common feed files (such as `atom.xml`, `feed.json`, `.atom`, and `.rss`), and the site feeds configured by `feed.name` are excluded. Set `sameAs: false` for group invitations, custom subscriptions, or other navigation links that do not identify the author. Social navigation is unaffected. Filtering does not guess from platform domains, icons, or account names.
+`social` also supplies the author’s JSON-LD `sameAs`. Only valid HTTP(S) URLs are retained. With `siteConfig.url: 'https://example.com/blog/'`, `./about` resolves to `https://example.com/blog/about`, and `/about` resolves to `https://example.com/about`. Empty values and duplicates are removed, preserving query strings and fragments. Mail links, common feed files (such as `atom.xml`, `feed.json`, `.atom`, and `.rss`), and the site feeds configured by `feed.name` are excluded. Set `sameAs: false` for group invitations, custom subscriptions, or other navigation links that do not identify the author. Social navigation is unaffected. Filtering does not guess from platform domains, icons, or account names.
 
 
 ```ts

@@ -45,7 +45,7 @@ async function buildFixture(root: string, publishDrafts: boolean, provider: 'fus
       social: [
         { name: 'Profile', link: 'https://social.example/@author', icon: 'i-ri-user-line', color: 'gray' },
         { name: 'Duplicate', link: ' https://social.example/@author ', icon: 'i-ri-user-line', color: 'gray' },
-        { name: 'About', link: '/about', icon: 'i-ri-user-line', color: 'gray' },
+        { name: 'About', link: '/blog/about', icon: 'i-ri-user-line', color: 'gray' },
         { name: 'RSS', link: '/atom.xml', icon: 'i-ri-rss-line', color: 'gray' },
         { name: 'Mail', link: 'mailto:author@example.com', icon: 'i-ri-mail-line', color: 'gray' },
         { name: 'Subscribe', link: '/subscribe', sameAs: false, icon: 'i-ri-rss-line', color: 'gray' },
@@ -160,6 +160,7 @@ const posts = usePostList()
         expect(metadata(regular, 'description')).toContain('snake_case_name with 2 * 3 * 4')
         const identity = schemaGraph(regular).find(node => node['@id'].endsWith('#identity'))
         expect(identity?.sameAs).toEqual(['https://social.example/@author', 'https://example.com/blog/about'])
+        expect(regular).toContain('href="/blog/about"')
         expect(regular).toContain('href="/atom.xml"')
         expect(regular).toContain('href="mailto:author@example.com"')
         expect(regular).toContain('href="/subscribe"')

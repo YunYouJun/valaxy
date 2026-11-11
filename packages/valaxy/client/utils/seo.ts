@@ -58,7 +58,8 @@ export function resolveSocialSameAs(siteUrl: string, social: Pick<SocialLink, 'l
       continue
 
     try {
-      const resolved = resolveSiteUrl(siteUrl, value)
+      // Keep root-relative links pointing to the same destination as social anchors.
+      const resolved = value.startsWith('/') ? value : resolveSiteUrl(siteUrl, value)
       const url = /^https?:\/\//i.test(resolved) ? new URL(resolved) : new URL(resolved, siteUrl)
       if (!['http:', 'https:'].includes(url.protocol) || !url.hostname || url.username || url.password)
         continue
