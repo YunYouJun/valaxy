@@ -35,7 +35,7 @@ async function posts(frontmatter: Record<string, unknown>, content = 'Public ope
   return getPosts({ author: { name: 'Author' }, files: [path], DOMAIN: 'https://example.com' }, options)
 }
 
-describe('rSS summary fallback', () => {
+describe('summary fallback for RSS', () => {
   it.each([
     [{ description: 'Explicit description.', excerpt: 'Manual excerpt.' }, 'Explicit description.'],
     [{ excerpt: 'A **manual** [summary](/about) with `snake_case`.' }, 'A manual summary with snake_case.'],
