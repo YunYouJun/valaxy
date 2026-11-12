@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { useAppStore, useSiteConfig } from 'valaxy'
 import { computed } from 'vue'
+import { useI18n } from 'vue-i18n'
 import { useRoute } from 'vue-router'
 import { useThemeConfig } from '../../../composables'
 import { useYunAppStore } from '../../../stores'
@@ -9,6 +10,7 @@ import { useYunAppStore } from '../../../stores'
 const yunApp = useYunAppStore()
 const siteConfig = useSiteConfig()
 const themeConfig = useThemeConfig()
+const { t } = useI18n()
 
 const route = useRoute()
 const playAnimation = computed(() => yunApp.scrollY > 10)
@@ -36,7 +38,7 @@ const isHomePage = computed(() => route.meta.layout === 'home')
         hover="bg-white/80 dark:bg-black/80"
         @click="yunApp.leftSidebar.toggle()"
       />
-      <YunNavMenuItem class="hidden md:inline-flex" icon="i-ri-home-4-line" to="/" />
+      <YunNavMenuItem class="hidden md:inline-flex" icon="i-ri-home-4-line" to="/" :label="t('menu.home')" />
     </template>
   </div>
 

@@ -1,19 +1,22 @@
 <script lang="ts" setup>
 import type { Post } from 'valaxy'
 import { useValaxyI18n } from 'valaxy'
+import { computed } from 'vue'
 
-defineProps<{
-  categories: Post['categories']
+const props = defineProps<{
+  categories?: Post['categories']
 }>()
 
 const { $tCategory } = useValaxyI18n()
+const categoryPath = computed(() => Array.isArray(props.categories) ? props.categories.join('/') : props.categories)
 </script>
 
 <template>
   <RouterLink
+    v-if="categoryPath?.trim()"
     :to="{
       path: '/categories',
-      query: { category: Array.isArray(categories) ? categories.join('/') : categories },
+      query: { category: categoryPath },
     }"
     class="transition post-category inline-flex-center text-xs border-$va-c-divider"
     px-2 h="7"

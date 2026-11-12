@@ -1,11 +1,13 @@
 <script setup lang="ts">
 import { useAppStore, useSiteConfig, useValaxyI18n } from 'valaxy'
 import { computed } from 'vue'
+import { useI18n } from 'vue-i18n'
 import { useRoute } from 'vue-router'
 import { useThemeConfig } from '../../../composables'
 import { useYunAppStore } from '../../../stores'
 
 const { $t } = useValaxyI18n()
+const { t } = useI18n()
 
 // const app = useAppStore()
 const yunApp = useYunAppStore()
@@ -37,14 +39,14 @@ const app = useAppStore()
         z="$yun-z-menu-btn"
         @click="yunApp.fullscreenMenu.toggle()"
       />
-      <YunNavMenuItem icon="i-ri-home-4-line" to="/" />
+      <YunNavMenuItem icon="i-ri-home-4-line" to="/" :label="t('menu.home')" />
       <div class="hidden lg:contents">
         <YunNavMenuItem
           v-for="item, i in themeConfig.nav"
           :key="i"
           :icon="item.icon"
           :to="item.link"
-          :title="$t(item.text)"
+          :label="$t(item.text)"
         />
       </div>
     </div>

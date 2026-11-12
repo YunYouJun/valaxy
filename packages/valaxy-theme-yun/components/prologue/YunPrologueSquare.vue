@@ -74,6 +74,7 @@ const grouped = computed(() => themeConfig.value.banner?.prologue === 'grouped')
 .yun-square {
   --yun-avatar-burst-color: color-mix(in srgb, var(--va-c-primary) 65%, var(--va-c-text));
 
+  position: relative;
   background: var(--va-c-bg-soft);
   border-radius: 50%;
   width: var(--avatar-size);

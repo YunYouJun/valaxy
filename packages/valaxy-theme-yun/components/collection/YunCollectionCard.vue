@@ -15,6 +15,7 @@ const { $tO } = useValaxyI18n()
 const cover = computed(() => props.post.cover || props.collection.cover)
 const title = computed(() => props.post.title || props.collection.title)
 const itemCount = computed(() => props.collection.items?.length ?? 0)
+const categories = computed(() => props.post.categories?.length ? props.post.categories : props.collection.categories)
 
 /**
  * Preview up to 3 items from the collection
@@ -86,7 +87,7 @@ const hasMoreItems = computed(() => itemCount.value > 3)
 
       <div w="full" class="yun-card-actions flex justify-between p-4" min-h="10" text="sm">
         <div class="post-categories inline-flex" flex="wrap 1" items="center">
-          <YunPostCategories v-if="post.categories || collection.categories" m="l-1" :categories="(post.categories || collection.categories)!" />
+          <YunPostCategories m="l-1" :categories="categories" />
         </div>
         <YunPostTags v-if="post.tags || collection.tags" m="1" :tags="(post.tags || collection.tags)!" />
       </div>
@@ -98,6 +99,7 @@ const hasMoreItems = computed(() => itemCount.value > 3)
 .collection-card {
   --collection-accent: var(--va-c-primary);
   --collection-accent-light: var(--va-c-primary-lighter, var(--va-c-primary));
+  --collection-accent-text: color-mix(in srgb, var(--va-c-text-1) 80%, var(--collection-accent));
 
   border-left: 3px solid var(--collection-accent);
   transition: border-color var(--va-transition-duration), box-shadow var(--va-transition-duration), scale var(--va-transition-duration);
@@ -111,6 +113,7 @@ const hasMoreItems = computed(() => itemCount.value > 3)
 .collection-card-body {
   padding: 0.75rem 1rem;
   gap: 0.35rem;
+  color: var(--va-c-text-2);
 }
 
 .collection-card-badge {
@@ -122,8 +125,7 @@ const hasMoreItems = computed(() => itemCount.value > 3)
   font-weight: 600;
   text-transform: uppercase;
   letter-spacing: 0.05em;
-  color: var(--collection-accent);
-  opacity: 0.55;
+  color: var(--collection-accent-text);
 }
 
 .collection-card-title {
@@ -136,9 +138,7 @@ const hasMoreItems = computed(() => itemCount.value > 3)
     font-size: 1.25rem;
     font-weight: 800;
     font-family: var(--va-font-serif);
-    background: linear-gradient(135deg, var(--collection-accent), var(--collection-accent-light));
-    background-clip: text;
-    -webkit-text-fill-color: transparent;
+    color: var(--collection-accent-text);
     line-height: 1.4;
   }
 }
@@ -146,14 +146,11 @@ const hasMoreItems = computed(() => itemCount.value > 3)
 .collection-card-count {
   font-size: 0.8rem;
   font-weight: 600;
-  color: var(--collection-accent);
-  opacity: 0.5;
 }
 
 .collection-card-desc {
   align-self: flex-start;
   font-size: 0.8rem;
-  opacity: 0.6;
   line-height: 1.5;
   display: -webkit-box;
   -webkit-line-clamp: 2;
@@ -175,13 +172,7 @@ const hasMoreItems = computed(() => itemCount.value > 3)
   align-items: center;
   gap: 0.3rem;
   font-size: 0.75rem;
-  opacity: 0.5;
   line-height: 1.6;
-  transition: opacity var(--va-transition-duration-fast);
-
-  .collection-card:hover & {
-    opacity: 0.7;
-  }
 }
 
 .collection-card-item-dot {
@@ -195,8 +186,6 @@ const hasMoreItems = computed(() => itemCount.value > 3)
 
 .collection-card-item-more {
   letter-spacing: 0.1em;
-  color: var(--collection-accent);
-  opacity: 0.4;
 }
 
 .collection-card-empty {
@@ -205,7 +194,6 @@ const hasMoreItems = computed(() => itemCount.value > 3)
   align-items: center;
   gap: 0.35rem;
   font-size: 0.75rem;
-  opacity: 0.35;
   margin-top: 0.2rem;
   font-style: italic;
 }

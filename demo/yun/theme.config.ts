@@ -1,3 +1,4 @@
+import { $t } from 'valaxy'
 import { defineThemeConfig } from 'valaxy-theme-yun'
 
 export default defineThemeConfig({
@@ -33,7 +34,7 @@ export default defineThemeConfig({
   },
 
   nav: [
-    { text: 'menu.posts', link: '/posts/', icon: 'i-ri-article-line' },
+    { text: $t('menu.posts'), link: '/posts/', icon: 'i-ri-article-line' },
     { text: '小随想', link: '/moments/', icon: 'i-ri-chat-1-line' },
     { text: '项目列表', link: '/projects', icon: 'i-ri-gallery-view' },
     { text: '相册', link: '/albums', icon: 'i-ri-image-line' },
