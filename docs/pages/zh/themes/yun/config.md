@@ -46,6 +46,14 @@ export default defineValaxyConfig<ThemeConfig>({
 })
 ```
 
+## 宋体字体 {#serif-font}
+
+`themeConfig.serifFont` 控制 Yun 何时请求 Google Fonts 的 Noto Serif SC 字体样式表：
+
+- `'all'`（默认）：页面加载完成后请求。
+- `'except-home'`：首页布局不请求。适合首页使用系统字体或自托管字体子集的站点。
+- `'off'`：所有页面都不请求。未提供自定义字体时，使用主题配置的系统回退字体。
+
 ## 导航栏 {#nav}
 
 页面顶部的导航栏。
