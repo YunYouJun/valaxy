@@ -52,6 +52,9 @@ jobs:
       - name: Test TypeDoc addon from packed release artifacts
         run: node scripts/check-typedoc-package.mjs
 
+      - name: Test Fuse search from packed release artifacts
+        run: node scripts/check-fuse-package.mjs
+
       - name: Build Demo Dist
         run: pnpm run build:demo
 

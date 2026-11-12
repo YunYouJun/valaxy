@@ -2,7 +2,7 @@ import type { Alias, AliasOptions, InlineConfig, Plugin } from 'vite'
 import type { ResolvedValaxyOptions } from '../types'
 import { dirname, join, resolve } from 'node:path'
 import { uniq } from '@antfu/utils'
-import { searchForWorkspaceRoot } from 'vite'
+import { normalizePath, searchForWorkspaceRoot } from 'vite'
 import { escapeRegExp } from '../build/bundle'
 import { getIndexHtml } from '../common'
 import { isKatexPluginNeeded } from '../config/valaxy'
@@ -93,6 +93,7 @@ export function createConfigPlugin(options: ResolvedValaxyOptions): Plugin {
     : []
 
   const katexEnabled = isKatexPluginNeeded(options.config)
+  const searchRoot = normalizePath(resolve(options.clientRoot, 'composables/search'))
 
   const depsToInclude = [...clientDeps]
   // Pre-bundle both Vue entries together in dev so the first dynamic template
@@ -186,6 +187,17 @@ export function createConfigPlugin(options: ResolvedValaxyOptions): Plugin {
       // For `define`, we manually merge above (valaxy defaults + user overrides)
       // so users can override feature flags in their vite.config.ts.
       return injection
+    },
+
+    transform: {
+      filter: { id: new RegExp(`^${escapeRegExp(searchRoot)}/[^/]+\\.ts$`) },
+      handler() {
+        // Packaged builds can miss the nested search package's sideEffects
+        // flag. Preserve it so the public client barrel does not pull Fuse in
+        // before the async search component needs it.
+        if (options.mode === 'build')
+          return { moduleSideEffects: false }
+      },
     },
 
     async transformIndexHtml(html, ctx) {
