@@ -2,17 +2,15 @@
  * FOUC (Flash of Unstyled Content) guard — inline `<head>` snippets.
  *
  * Hides body via `opacity: 0 !important`, then removes the guard
- * `<style id="valaxy-fouc">` once all stylesheets have loaded. Uses a
- * MutationObserver to detect async stylesheet changes
- * (e.g. `media="print"` → `media="all"`).
+ * `<style id="valaxy-fouc">` once the parser has finished the head and
+ * its enabled stylesheets have loaded.
  *
  * @see build.foucGuard in ValaxyExtendConfig
  */
 
 export function foucGuardHtml(maxDuration: number) {
   return [
-    `<style id="valaxy-fouc">body{opacity:0!important}</style>`,
-    `<style>body{transition:opacity .15s ease}</style>`,
+    `<style id="valaxy-fouc">body{margin:0;opacity:0!important}</style>`,
     `<noscript><style>body{opacity:1!important}</style></noscript>`,
     `<script>(${foucGuardScript.toString()})(${maxDuration})</script>`,
   ].join('')
@@ -26,31 +24,40 @@ export function foucGuardHtml(maxDuration: number) {
 /* eslint-disable no-var, vars-on-top, antfu/if-newline */
 function foucGuardScript(maxDuration: number) {
   var done = 0
+  var observer = new MutationObserver(check)
+  var timer = maxDuration ? setTimeout(reveal, maxDuration) : undefined
 
   function reveal() {
     if (done) return
     done = 1
+    observer.disconnect()
+    clearTimeout(timer)
+    document.removeEventListener('load', check, true)
+    removeEventListener('load', reveal)
     var s = document.getElementById('valaxy-fouc')
     if (s) s.remove()
   }
 
   function check() {
-    var links: NodeListOf<HTMLLinkElement> = document.querySelectorAll('link[rel="stylesheet"]')
+    // The parser can run this observer before it reaches the stylesheet tags.
+    if (!document.body) return
+    var links: NodeListOf<HTMLLinkElement> = document.head.querySelectorAll('link[rel~="stylesheet"]')
     for (var i = 0; i < links.length; i++) {
-      if (!links[i].sheet) return
+      var link = links[i]
+      if (!link.disabled && !link.sheet) return
     }
     reveal()
   }
 
-  new MutationObserver(check).observe(document.head, {
+  observer.observe(document.documentElement, { childList: true })
+  observer.observe(document.head, {
     childList: true,
+    subtree: true,
     attributes: true,
-    attributeFilter: ['media', 'rel'],
+    attributeFilter: ['media', 'rel', 'disabled'],
   })
 
+  document.addEventListener('load', check, true)
   addEventListener('load', reveal)
-
-  if (maxDuration)
-    setTimeout(reveal, maxDuration)
 }
 /* eslint-enable no-var, vars-on-top, antfu/if-newline */
