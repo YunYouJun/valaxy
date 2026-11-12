@@ -45,6 +45,14 @@ export default defineValaxyConfig<ThemeConfig>({
 })
 ```
 
+## Serif Font {#serif-font}
+
+`themeConfig.serifFont` controls when Yun requests its Noto Serif SC stylesheet from Google Fonts:
+
+- `'all'` (default): Load it after the page finishes loading.
+- `'except-home'`: Skip it on the home layout. Use this if the home page uses system fonts or a local subset.
+- `'off'`: Never load it. The theme uses its system font fallbacks unless you provide your own font.
+
 ## Navigation {#nav}
 
 Top navigation bar items.

@@ -19,7 +19,7 @@ const showNotice = computed(() => {
 
 <template>
   <YunLayoutWrapper :no-margin="!isPage">
-    <div class="w-full flex flex-col items-center pb-4">
+    <div class="yun-home-layout w-full flex flex-col items-center pb-4">
       <template v-if="themeConfig.banner?.enable">
         <template v-if="!isPage">
           <div class="w-full">
@@ -33,7 +33,6 @@ const showNotice = computed(() => {
               <div
                 v-if="yun.isNimbo"
                 class="yun-home-prologue-content absolute top-0 left-5 right-5 bottom-0 flex-center"
-                :class="{ 'is-intro-complete': yun.bannerAnimationDone }"
               >
                 <YunPrologueSquare class="z-1" :intro-complete="yun.bannerAnimationDone" />
               </div>
@@ -64,21 +63,6 @@ const showNotice = computed(() => {
 </template>
 
 <style scoped>
-@media (width > 768px) {
-  .yun-home-prologue-content {
-    visibility: hidden;
-    opacity: 0;
-    scale: 0.6;
-    transition: opacity 800ms var(--yun-ease-in-out), scale 300ms var(--yun-ease-in-out);
-  }
-
-  .yun-home-prologue-content.is-intro-complete {
-    visibility: visible;
-    opacity: 1;
-    scale: 1;
-  }
-}
-
 @media (width <= 768px) {
   .yun-home-prologue :deep(#yun-banner),
   .yun-home-prologue :deep(#yun-banner-placeholder) {

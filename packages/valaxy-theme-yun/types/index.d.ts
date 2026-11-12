@@ -163,6 +163,9 @@ export interface ThemeConfig extends DefaultTheme.Config {
    */
   banner: YunTheme.Banner
 
+  /** Where to load the optional Noto Serif SC web font. @default 'all' */
+  serifFont?: 'all' | 'except-home' | 'off'
+
   /** Post list presentation; per-post title classes take precedence. */
   postCard?: {
     /** Show the bottom excerpt gradient. @default true */

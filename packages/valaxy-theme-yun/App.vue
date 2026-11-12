@@ -9,12 +9,18 @@ import { useThemeConfig } from './composables'
 import { useYunAppStore } from './stores'
 
 const appStore = useAppStore()
+const themeConfig = useThemeConfig()
+const route = useRoute()
 
 // Use a safe default for SSR; real themeColor is applied after mount
 // to avoid hydration mismatch when user prefers dark mode.
 const safeThemeColor = computed(() => appStore.themeColor)
 
 const loadSerifFont = shallowRef(false)
+const showSerifFont = computed(() => {
+  const scope = themeConfig.value.serifFont
+  return loadSerifFont.value && scope !== 'off' && (scope !== 'except-home' || route.meta.layout !== 'home')
+})
 function loadFonts() {
   loadSerifFont.value = true
 }
@@ -23,7 +29,7 @@ function loadFonts() {
 useEventListener('load', loadFonts, { once: true })
 
 useHead(() => ({
-  link: loadSerifFont.value
+  link: showSerifFont.value
     ? [{
         rel: 'stylesheet',
         href: 'https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@900&display=swap',
@@ -42,11 +48,8 @@ useHead(() => ({
   ],
 }))
 
-const themeConfig = useThemeConfig()
-
 const app = useAppStore()
 const yun = useYunAppStore()
-const route = useRoute()
 
 watch(
   () => route.meta.layout,

@@ -18,7 +18,7 @@ const grouped = computed(() => themeConfig.value.banner?.prologue === 'grouped')
   <div
     flex="~ col"
     class="yun-square-container items-center justify-center text-center max-w-2xl"
-    :class="{ 'is-grouped': grouped, 'is-intro-complete': props.introComplete }"
+    :class="{ 'is-grouped': grouped }"
   >
     <slot />
 
@@ -84,39 +84,9 @@ const grouped = computed(() => themeConfig.value.banner?.prologue === 'grouped')
 
 .yun-square-container {
   --avatar-size: 100px;
-  --yun-reveal-ease: cubic-bezier(0.22, 1, 0.36, 1);
 
   .info {
     position: relative;
-  }
-}
-
-@media (width > 768px) {
-  .yun-square-container {
-    .yun-square {
-      transition: opacity 640ms var(--yun-reveal-ease), transform 640ms var(--yun-reveal-ease);
-    }
-
-    .info > * {
-      transition: opacity 640ms var(--yun-reveal-ease), transform 720ms var(--yun-reveal-ease);
-      transition-delay: calc(300ms + var(--yun-reveal-delay, 0ms));
-    }
-
-    .prologue-introduction { --yun-reveal-delay: 70ms; }
-    .prologue-social { --yun-reveal-delay: 140ms; }
-    .prologue-navigation { --yun-reveal-delay: 210ms; }
-
-    &:not(.is-intro-complete) {
-      .yun-square {
-        opacity: 0;
-        transform: translateY(20px) rotate(-6deg);
-      }
-
-      .info > * {
-        opacity: 0;
-        transform: translateY(18px);
-      }
-    }
   }
 }
 
