@@ -7,9 +7,15 @@ categories:
 top: 8
 ---
 
-## Footnote previews and tooltips
+## v1.3.0 {#v130}
+
+### Footnote previews and tooltips {#footnote-previews-and-tooltips}
 
 Footnote previews now always use Reka UI. Remove `footnote.preview` and `floatingVue` from your site configuration. If your own content still uses `v-tooltip`, see [Migrating from Floating Vue](/guide/markdown#migrating-from-floating-vue) for the replacement or explicit registration.
+
+### Browser template compilation
+
+`vue.browserTemplateCompilation` now defaults to `'lazy'`: HTML excerpts and decrypted templates load the compiler when needed. Use [`ValaxyDynamicComponent`](/guide/custom/components#browser-template-compilation) for your own template strings, or set `vue.browserTemplateCompilation: true` in `valaxy.config.ts` if your code uses Vue's `template` option or calls `compile()` directly in the browser. Set it to `false` only if the site does not need browser template compilation.
 
 ## v1.0.0
 
