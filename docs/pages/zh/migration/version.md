@@ -5,9 +5,15 @@ categories:
 top: 8
 ---
 
-## 脚注预览与提示 {#footnote-previews-and-tooltips}
+## v1.3.0 {#v130}
+
+### 脚注预览与提示 {#footnote-previews-and-tooltips}
 
 脚注预览现在统一使用 Reka UI。升级时请从站点配置中移除 `footnote.preview` 和 `floatingVue`。如果自定义内容仍使用 `v-tooltip`，请参考[从 Floating Vue 迁移](/zh/guide/markdown#从-floating-vue-迁移)，按需替换或显式注册。
+
+### 浏览器端模板编译 {#browser-template-compilation}
+
+`vue.browserTemplateCompilation` 现在默认为 `'lazy'`，HTML 摘要和解密模板在需要时才加载编译器。自定义模板字符串可用 [`ValaxyDynamicComponent`](/guide/custom/components#browser-template-compilation)。如果代码在浏览器里使用 Vue 的 `template` 选项或直接调用 `compile()`，请在 `valaxy.config.ts` 中设为 `true`。站点完全不需要在浏览器中编译模板时，可以设为 `false`。
 
 ## v1.0.0 {#v100}
 

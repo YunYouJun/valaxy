@@ -63,8 +63,20 @@ jobs:
         env:
           PNPM_CONFIG_BAIL: 'false'
 
-      - run: npx changelogithub
+      - name: Publish GitHub release notes
+        run: |
+          notes="docs/releases/$GITHUB_REF_NAME.md"
+          if [[ -f "$notes" ]]; then
+            flags=()
+            if [[ "$GITHUB_REF_NAME" == *-* ]]; then
+              flags+=(--prerelease)
+            fi
+            gh release create "$GITHUB_REF_NAME" --verify-tag --title "$GITHUB_REF_NAME" --notes-file "$notes" "${flags[@]}"
+          else
+            npx changelogithub
+          fi
         env:
+          GH_TOKEN: ${{secrets.GITHUB_TOKEN}}
           GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
 
   release-addon:
