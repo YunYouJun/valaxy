@@ -7,13 +7,18 @@
 
 import type { CSSProperties } from 'vue'
 import { sleep } from 'valaxy'
-import { computed, onBeforeUnmount, onMounted, ref } from 'vue'
+import { computed, nextTick, onBeforeUnmount, onMounted, shallowRef, useTemplateRef } from 'vue'
 import { useThemeConfig } from '../composables'
 import { useYunBanner } from '../composables/useYunBanner'
 import { useYunAppStore } from '../stores'
 
+const props = defineProps<{
+  shouldPlayIntro?: () => boolean
+}>()
+
 const yun = useYunAppStore()
 const themeConfig = useThemeConfig()
+const banner = useTemplateRef<HTMLElement>('banner')
 
 // height of top/bottom line
 
@@ -31,37 +36,49 @@ const bannerStyles = computed<CSSProperties>(() => {
   return styles
 })
 
-const lineStatus = ref<
+const lineStatus = shallowRef<
   'enter' | 'active' | 'exit' | ''
->('enter')
-const lineStatusClass = computed(() => {
-  return lineStatus.value
-})
+>('')
 
-const animationStatus = ref('banner')
+const showIntroTitle = shallowRef(false)
 let disposed = false
 
 onMounted(async () => {
   yun.bannerAnimationDone = false
 
-  // 减少动态效果时不再等待动画时序，直接进入终态
   const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches
+  if (yun.isNimbo && (reducedMotion || props.shouldPlayIntro?.() === false)) {
+    yun.bannerAnimationDone = true
+    return
+  }
 
+  lineStatus.value = reducedMotion ? 'active' : 'enter'
+  showIntroTitle.value = yun.isNimbo
   if (!reducedMotion)
     await sleep(500)
   if (disposed)
     return
   lineStatus.value = 'active'
-  if (yun.isNimbo) {
-    if (!reducedMotion)
-      await sleep(themeConfig.value.banner?.duration || 500)
-    if (disposed)
-      return
-    lineStatus.value = 'exit'
+  if (!yun.isNimbo)
+    return
 
-    animationStatus.value = 'prologue'
-    yun.bannerAnimationDone = true
-  }
+  await sleep(themeConfig.value.banner?.duration || 500)
+  if (disposed)
+    return
+
+  lineStatus.value = 'exit'
+  await nextTick()
+
+  // The title fades while the lines retract. The profile waits for all three.
+  const art = Array.from(banner.value?.querySelectorAll('.banner-line.exit, .yun-banner-intro-title.is-intro-exiting') ?? [])
+  const exits = art.flatMap(part => part.getAnimations())
+  await Promise.allSettled(exits.map(animation => animation.finished))
+  if (disposed)
+    return
+
+  showIntroTitle.value = false
+  lineStatus.value = ''
+  yun.bannerAnimationDone = true
 })
 
 onBeforeUnmount(() => {
@@ -71,17 +88,19 @@ onBeforeUnmount(() => {
 </script>
 
 <template>
-  <div id="yun-banner" border="b-1px b-solid" :style="bannerStyles">
+  <div id="yun-banner" ref="banner" border="b-1px b-solid" :class="{ 'is-intro-playing': yun.isNimbo && lineStatus !== '' }" :style="bannerStyles">
     <div class="banner-line-container">
       <div
         class="banner-line vertical-line-top"
-        :class="lineStatusClass"
+        :class="lineStatus"
       />
     </div>
 
     <template v-if="yun.isNimbo">
       <YunBannerCharContainer
-        v-if="animationStatus === 'banner'"
+        v-if="showIntroTitle"
+        class="yun-banner-intro-title"
+        :class="{ 'is-intro-exiting': lineStatus === 'exit' }"
         :title="bannerTitle"
         :chars="chars"
         aria-hidden="true"
@@ -97,7 +116,7 @@ onBeforeUnmount(() => {
     <div class="banner-line-container bottom">
       <div
         class="banner-line vertical-line-bottom"
-        :class="lineStatusClass"
+        :class="lineStatus"
       />
     </div>
     <YunGoDown />
@@ -111,5 +130,15 @@ onBeforeUnmount(() => {
 // --banner-* color tokens live in styles/css-vars.scss
 #yun-banner {
   border-bottom-color: var(--yun-banner-divider-color, var(--banner-line-color));
+}
+
+.yun-banner-intro-title.is-intro-exiting {
+  pointer-events: none;
+  animation: yun-banner-title-exit 150ms ease-out both;
+}
+
+@keyframes yun-banner-title-exit {
+  from { opacity: 1; }
+  to { opacity: 0; }
 }
 </style>

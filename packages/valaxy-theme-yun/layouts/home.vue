@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { computed } from 'vue'
+import { computed, useTemplateRef } from 'vue'
 import { useRoute } from 'vue-router'
 import { useThemeConfig } from '../composables'
 import { useYunAppStore } from '../stores'
@@ -8,6 +8,16 @@ const yun = useYunAppStore()
 
 const route = useRoute()
 const themeConfig = useThemeConfig()
+const prologueContent = useTemplateRef<HTMLElement>('prologueContent')
+
+function shouldPlayIntro() {
+  if (!window.matchMedia('(width > 768px)').matches)
+    return true
+
+  // If the CSS fallback has already shown the content, keep it on screen.
+  const content = prologueContent.value
+  return content !== null && getComputedStyle(content).visibility === 'hidden'
+}
 
 const isPage = computed(() => route.path.startsWith('/page'))
 
@@ -25,14 +35,16 @@ const showNotice = computed(() => {
           <div class="w-full">
             <YunPrologue :class="{ 'yun-home-prologue': yun.isNimbo }" :grid="yun.isNimbo ? themeConfig.banner.grid : { enable: false }">
               <ClientOnly>
-                <YunBanner />
+                <YunBanner :should-play-intro="shouldPlayIntro" />
                 <template #fallback>
                   <div id="yun-banner-placeholder" class="w-full h-[var(--banner-container-height,100vh)]" />
                 </template>
               </ClientOnly>
               <div
                 v-if="yun.isNimbo"
+                ref="prologueContent"
                 class="yun-home-prologue-content absolute top-0 left-5 right-5 bottom-0 flex-center"
+                :class="{ 'is-intro-complete': yun.bannerAnimationDone }"
               >
                 <YunPrologueSquare class="z-1" :intro-complete="yun.bannerAnimationDone" />
               </div>
@@ -63,6 +75,35 @@ const showNotice = computed(() => {
 </template>
 
 <style scoped>
+@media (width > 768px) and (prefers-reduced-motion: no-preference) and (scripting: enabled) {
+  .yun-home-prologue-content {
+    transition: opacity 300ms ease-out, transform 300ms ease-out;
+  }
+
+  .yun-home-prologue-content:not(.is-intro-complete) {
+    animation: yun-home-intro-fallback 1200ms step-end;
+  }
+
+  .yun-home-prologue :deep(#yun-banner.is-intro-playing) ~ .yun-home-prologue-content {
+    animation: none;
+    visibility: hidden;
+    opacity: 0;
+    transform: translateY(5px);
+  }
+}
+
+@keyframes yun-home-intro-fallback {
+  from {
+    visibility: hidden;
+    opacity: 0;
+  }
+
+  to {
+    visibility: visible;
+    opacity: 1;
+  }
+}
+
 @media (width <= 768px) {
   .yun-home-prologue :deep(#yun-banner),
   .yun-home-prologue :deep(#yun-banner-placeholder) {
