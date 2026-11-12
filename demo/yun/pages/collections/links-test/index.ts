@@ -3,7 +3,7 @@ import { defineCollection } from 'valaxy'
 export default defineCollection({
   key: 'links-test',
   title: '合集链接测试',
-  cover: 'https://cover.sli.dev',
+  cover: '/images/collections/links-test.webp',
   description: 'Collection for testing external links and internal links',
   items: [
     { title: '第一章 开始', key: '1' },

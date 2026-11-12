@@ -17,7 +17,7 @@ export default defineSiteConfig({
   url: 'https://yun.valaxy.site/',
 
   author: {
-    avatar: 'https://www.yunyoujun.cn/images/avatar.jpg',
+    avatar: '/images/avatar.webp',
     name: $t('siteConfig.author.name'),
   },
 

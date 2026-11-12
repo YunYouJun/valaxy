@@ -3,7 +3,7 @@ import { defineCollection } from 'valaxy'
 export default defineCollection({
   key: 'love-and-peace',
   title: '爱与和平',
-  cover: 'https://cover.sli.dev',
+  cover: '/images/collections/love-and-peace.webp',
   description: 'The story of love and peace',
   items: [
     { title: '第一章 我的爱究竟来自何处', key: '1' },
