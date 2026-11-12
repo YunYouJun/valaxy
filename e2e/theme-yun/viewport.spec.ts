@@ -1,19 +1,8 @@
-import type { Page } from '@playwright/test'
 import { expect, test } from '@playwright/test'
 import { env } from '../env'
 
-const homeViewports = {
-  mobile: { width: 412, height: 823 },
-  desktop: { width: 1350, height: 940 },
-}
-
-for (const [device, viewport] of Object.entries(homeViewports)) {
-  test(`shows the ${device} home content before the banner animation can start`, async ({ page }) => {
-    await checkHomeBeforeIntro(page, viewport, device === 'mobile')
-  })
-}
-
-async function checkHomeBeforeIntro(page: Page, viewport: { width: number, height: number }, mobile: boolean) {
+test('shows the mobile home content before the banner animation can start', async ({ page }) => {
+  const viewport = { width: 412, height: 823 }
   await page.setViewportSize(viewport)
   await page.route('https://v1.hitokoto.cn/**', route => route.abort())
   const errors: string[] = []
@@ -54,11 +43,9 @@ async function checkHomeBeforeIntro(page: Page, viewport: { width: number, heigh
 
     const animation = prologue.locator('#yun-banner .banner-char-container')
     await expect(animation).toBeVisible()
-    if (mobile) {
-      const artBox = await animation.boundingBox()
-      const linkBox = await postsLink.boundingBox()
-      expect(artBox!.x + artBox!.width).toBeLessThanOrEqual(linkBox!.x)
-    }
+    const artBox = await animation.boundingBox()
+    const linkBox = await postsLink.boundingBox()
+    expect(artBox!.x + artBox!.width).toBeLessThanOrEqual(linkBox!.x)
     expect(await initialAvatar!.evaluate(el => el === document.querySelector('.yun-home-prologue-content img[alt="avatar"]'))).toBe(true)
     expect(Math.abs(await getPostTop() - initialPostTop)).toBeLessThan(3)
     await postsLink.click()
@@ -66,7 +53,85 @@ async function checkHomeBeforeIntro(page: Page, viewport: { width: number, heigh
     expect(errors).toEqual([])
   }
   finally { releaseEntry() }
+})
+
+for (const width of [769, 1350]) {
+  test(`reveals the desktop profile at ${width}px only after the centered intro retracts`, async ({ page }) => {
+    await page.setViewportSize({ width, height: 940 })
+    await page.goto(env['theme-yun'], { waitUntil: 'commit' })
+
+    const content = page.locator('.yun-home-prologue-content')
+    const banner = page.locator('#yun-banner')
+    const title = banner.locator('.banner-char-container')
+    await expect(title).toBeVisible()
+    await expect(content).toHaveCSS('visibility', 'hidden')
+    const centerOffset = await banner.evaluate((el) => {
+      const bounds = el.getBoundingClientRect()
+      const line = el.querySelector('.vertical-line-top')!.getBoundingClientRect()
+      return Math.abs((bounds.left + bounds.right) / 2 - (line.left + line.right) / 2)
+    })
+    expect(centerOffset).toBeLessThan(1)
+
+    // Let the title fade and lower line retract while the upper line is paused.
+    await page.waitForFunction(() => {
+      const topLine = document.querySelector('#yun-banner .vertical-line-top.exit')?.getAnimations()[0]
+      const titleFade = document.querySelector('#yun-banner .yun-banner-intro-title.is-intro-exiting')?.getAnimations()[0]
+      if (!topLine || !titleFade)
+        return false
+      topLine.pause()
+      topLine.currentTime = 0
+      return true
+    })
+    await banner.locator('.vertical-line-bottom.exit').evaluate(async (line) => {
+      await Promise.all(line.getAnimations().map(animation => animation.finished))
+    })
+    await expect(title).toHaveCSS('opacity', '0')
+    await expect(content).toHaveCSS('visibility', 'hidden')
+
+    await banner.locator('.vertical-line-top.exit').evaluate((line) => {
+      line.getAnimations().forEach(animation => animation.finish())
+    })
+    await expect(title).not.toBeAttached()
+    await expect(content).toHaveCSS('opacity', '1')
+    await expect(content.getByRole('img', { name: 'avatar' })).toBeVisible()
+    await expect(content.locator('.site-description')).toBeVisible()
+  })
 }
+
+test('keeps the desktop profile visible if the entry script arrives after the fallback', async ({ page }) => {
+  await page.setViewportSize({ width: 1350, height: 940 })
+  const entry = Promise.withResolvers<void>()
+  await page.route('**/assets/index.*.js', async (route) => {
+    await entry.promise
+    await route.continue()
+  })
+
+  try {
+    await page.goto(env['theme-yun'], { waitUntil: 'commit' })
+    const content = page.locator('.yun-home-prologue-content')
+    await expect(page.locator('#yun-banner-placeholder')).toBeAttached()
+    await expect(content.locator('.site-name')).toBeVisible()
+    await expect(content).toHaveCSS('opacity', '1')
+
+    entry.resolve()
+    await expect(content).toHaveClass(/is-intro-complete/)
+    await expect(page.locator('#yun-banner .banner-char-container')).not.toBeAttached()
+    await expect(content).toHaveCSS('opacity', '1')
+  }
+  finally {
+    entry.resolve()
+  }
+})
+
+test('shows the desktop profile directly with reduced motion', async ({ page }) => {
+  await page.setViewportSize({ width: 1350, height: 940 })
+  await page.emulateMedia({ reducedMotion: 'reduce' })
+  await page.goto(env['theme-yun'], { waitUntil: 'commit' })
+  const content = page.locator('.yun-home-prologue-content')
+  await expect(content.locator('.site-description')).toBeVisible()
+  await expect(content).toHaveClass(/is-intro-complete/)
+  await expect(page.locator('#yun-banner .banner-char-container')).not.toBeAttached()
+})
 
 test('restores the home banner height when a hidden iframe becomes visible', async ({ page }) => {
   const hostUrl = `${env['theme-yun-dev']}/__hidden-iframe-host`
