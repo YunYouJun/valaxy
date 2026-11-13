@@ -2,6 +2,8 @@ import type { Unhead } from 'unhead/server'
 import { access, constants, copyFile, mkdir, writeFile } from 'node:fs/promises'
 import { dirname, resolve } from 'node:path'
 import { renderSSRHead } from '@unhead/vue/server'
+import { Parser } from 'htmlparser2'
+import { isNotFoundPagePath } from '../../shared/page-policy'
 
 export interface RenderResult {
   html: string
@@ -55,7 +57,7 @@ export async function renderPage(opts: RenderPageOptions) {
     html = html.replace(/<body[^>]*>/, `<body ${headPayload.bodyAttrs}>`)
 
   html = html
-    .replace('</head>', `${preloadLinks}${headPayload.headTags}\n</head>`)
+    .replace('</head>', () => `${preloadLinks}${headPayload.headTags}\n</head>`)
     .replace(
       '<div id="app"></div>',
       `${headPayload.bodyTagsOpen || ''}<div id="app">${result.html}</div>${stateScript}${headPayload.bodyTags || ''}`,
@@ -95,6 +97,44 @@ export async function renderPage(opts: RenderPageOptions) {
   const filePath = resolve(opts.outDir, fileName)
   await mkdir(dirname(filePath), { recursive: true })
   await writeFile(filePath, html, 'utf-8')
+
+  return { route: opts.route, ...readCanonicalLink(html) }
+}
+
+/** Read the final head, including changes made by onPageRendered. */
+function readCanonicalLink(html: string) {
+  let canonical: string | undefined
+  let baseHref: string | undefined
+  let inHead = false
+  let templateDepth = 0
+  const parser = new Parser({
+    onopentag(tag, attrs) {
+      if (tag === 'body') {
+        parser.pause()
+        return
+      }
+      if (tag === 'head')
+        inHead = true
+      if (!inHead)
+        return
+      if (tag === 'template')
+        templateDepth++
+      if (templateDepth)
+        return
+      if (tag === 'base')
+        baseHref ??= attrs.href
+      if (tag === 'link' && attrs.rel?.toLowerCase().split(/\s+/).includes('canonical'))
+        canonical ??= attrs.href
+    },
+    onclosetag(tag) {
+      if (tag === 'template' && templateDepth)
+        templateDepth--
+      if (tag === 'head')
+        parser.pause()
+    },
+  })
+  parser.end(html)
+  return { canonical, baseHref }
 }
 
 /**
@@ -192,7 +232,7 @@ export function routeToFileName(route: string): string {
  * Directory routes (`/posts/` → `posts/index.html`) already have that file.
  */
 export function trailingSlashAlias(route: string): string | undefined {
-  if (!route || route === '/' || route.endsWith('/'))
+  if (!route || route.endsWith('/') || isNotFoundPagePath(route))
     return
 
   const file = routeToFileName(route)
@@ -214,8 +254,8 @@ async function fileExists(file: string) {
 
 /**
  * Copy each extensionless page onto its trailing-slash path.
- * Call this after sitemap generation so the sitemap keeps one URL per page.
- * The copied HTML already contains the canonical link without a trailing slash.
+ * Skip not-found documents so hosts can use `404.html` as an error response
+ * without also getting a normal directory index for `/404/`.
  */
 export async function writeTrailingSlashAliases(outDir: string, routes: string[]) {
   const outputs = new Set(routes.map(routeToFileName))

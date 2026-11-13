@@ -223,7 +223,7 @@ Supported extensions: emoji, TOC (`[[toc]]`), code highlighting with line number
 - Powered by `vite-ssg` with `ViteSSG`
 - Filters `draft: true` posts in production
 - Supports pagination (`build: { ssgForPagination: true }`)
-- Generates sitemap via `vite-ssg-sitemap`
+- Generates a sitemap from the rendered routes
 - Critical CSS inlined via `beasties`
 - FOUC guard: `body { opacity: 0 }` until CSS loads (`build.foucGuard`)
 

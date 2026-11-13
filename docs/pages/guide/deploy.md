@@ -88,11 +88,17 @@ External URLs and relative paths are left unchanged. Raw HTML `<a>` links are al
 
 ## Page URLs {#urls}
 
-A page such as `pages/posts/hello.md` is written to `dist/posts/hello.html`. Its canonical URL has no trailing slash: `/posts/hello`. The build then copies that HTML to `dist/posts/hello/index.html`, so `/posts/hello/` returns the same page on a static host that looks up a directory index. The copy is made after the sitemap, which lists the canonical URL once. The page's canonical link points at the URL without a trailing slash.
+A page such as `pages/posts/hello.md` is written to `dist/posts/hello.html`. Its canonical URL has no trailing slash: `/posts/hello`. The build also copies that HTML to `dist/posts/hello/index.html`, so `/posts/hello/` returns the same page on a static host that looks up a directory index. The sitemap lists the rendered route once.
 
-`pages/about/index.md` is the directory URL `/about/` (and `/about` on hosts that map a directory index to the shorter path). `pages/404.md` is built as `404.html` for hosts that serve that file for unknown paths. `/404` is left out of the sitemap.
+`pages/about/index.md` is the directory URL `/about/` (and `/about` on hosts that map a directory index to the shorter path). The sitemap uses `/about/` when both spellings exist.
 
-In development, the router also accepts a trailing slash on the same route. The extra `index.html` is what makes that URL work after a static deploy, including hosts that answer unknown paths with `404.html` before any client-side router runs.
+`pages/404.md` is built as `404.html` for hosts that serve it for unknown paths. Valaxy leaves it out of the sitemap and skips the `404/index.html` copy. If your host maps `/404` or `/404/` directly to `404.html`, configure the host to return status 404 for those requests.
+
+The sitemap uses the absolute `siteConfig.url`, including its deployment subpath. Add `public/robots.txt` to supply your own crawler rules and sitemap link.
+
+Valaxy generates the sitemap from its rendered routes. The previous generator, `vite-ssg-sitemap`, scanned the output directory and could turn both `about.html` and `about/index.html` into duplicate `/about` entries. Reading the canonical link from each rendered page lets Valaxy publish the same URL in the HTML and sitemap while keeping both files for static hosts.
+
+Set `canonical` in a page's frontmatter to use a different URL for its canonical link and sitemap entry. A site-relative value such as `/posts/original` is resolved under `siteConfig.url`. If the canonical URL points to another site, the page keeps that link and is omitted from this site's sitemap.
 
 ## Third Party Deployment
 
@@ -184,19 +190,19 @@ server {
     listen 80;
     server_name _;
     index index.html;
+    root /usr/share/nginx/html;
+
+    error_page 404 /404.html;
+
+    location = /404 { return 404; }
+    location = /404/ { return 404; }
 
     location / {
-        # content location
-        # root /app;
-        root /usr/share/nginx/html;
-
         # exact matches -> reverse clean urls -> folders -> not found
         try_files $uri $uri.html $uri/ =404;
 
-        # non existent pages
-        error_page 404 /404.html;
-
         # a folder without index.html raises 403 in this setup
+        error_page 404 /404.html;
         error_page 403 /404.html;
 
         # adjust caching headers

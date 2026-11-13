@@ -35,7 +35,16 @@ async function buildFixture(root: string, publishDrafts: boolean, provider: 'fus
   await fs.outputFile(join(root, 'valaxy.config.ts'), `export default {
     theme: 'yun',
     features: { katex: false },
-    vite: { base: '/blog/', build: { sourcemap: true } },
+    vite: {
+      base: '/blog/',
+      build: { sourcemap: true },
+      ssgOptions: {
+        onPageRendered(route, html) {
+          if (route === '/posts/no-image')
+            return html.replace(/<link rel="canonical"[^>]*>/, '<base href="/blog/edits/"><link href="from-hook?a=1&amp;b=2" rel="canonical">')
+        },
+      },
+    },
     modules: { rss: { enable: true, fullText: true, extractImagePathsFromHTML: false } },
     loaders: [{ name: 'privacy', load: () => [{ path: 'posts/generated-draft.md', content: ${JSON.stringify(generatedDraft)} }] }],
     siteConfig: {
@@ -107,14 +116,15 @@ const posts = usePostList()
       await write('pages/posts/spaced-image.md', '---\ntitle: Spaced image\ndate: 2024-01-01\n---\nPublic spaced image.\n\n![first](./my%20pic.svg)')
       await write('pages/posts/imgdir/index.md', '---\ntitle: Nested image\ndate: 2024-01-01\n---\nNested public image.\n\n![first](./a.svg)')
       await write('pages/posts/imgdir/a.svg', '<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20"><circle fill="blue" cx="10" cy="10" r="10"/></svg>')
-      await write('pages/posts/explicit-image.md', '---\ntitle: Explicit image\ndate: 2024-01-01\nogImage: ./my%20pic.svg?width=80&height=40#view\n---\nExplicit public image.')
-      await write('pages/posts/cover-image.md', '---\ntitle: Cover image\ndate: 2024-01-01\ncover: ./pic.svg?size=2#cover\n---\nCover image.')
+      await write('pages/404.md', '---\nlayout: 404\ncanonical: /error-page\n---\nNot found.')
+      await write('pages/posts/explicit-image.md', '---\ntitle: Explicit image\ndate: 2024-01-01\ncanonical: /posts/中文?one=1&two=2\nogImage: ./my%20pic.svg?width=80&height=40#view\n---\nExplicit public image.')
+      await write('pages/posts/cover-image.md', '---\ntitle: Cover image\ndate: 2024-01-01\ncanonical: "https://example.com/blog/posts/%E4%B8%AD%E6%96%87?one=1&two=2"\ncover: ./pic.svg?size=2#cover\n---\nCover image.')
       await write('public/legacy.svg', '<svg xmlns="http://www.w3.org/2000/svg"/>')
       await write('pages/posts/legacy-image.md', '---\ntitle: Legacy image\ndate: 2024-01-01\nimage: /legacy.svg?size=2#legacy\ncover: /ignored.png\n---\nLegacy image.')
       await write('pages/posts/image-priority.md', '---\ntitle: Image priority\ndate: 2024-01-01\nogImage: ./pic.svg#og\nimage: /ignored-legacy.png\ncover: /ignored-cover.png\n---\n![ignored](./my%20pic.svg)')
       await write('pages/posts/invalid-image.md', '---\ntitle: Invalid image\ndate: 2024-01-01\nogImage: "javascript:alert(1)"\ncover: HelloCover\n---\n![public](./pic.svg)')
       await write('pages/posts/no-image.md', '---\ntitle: No image\ndate: 2024-01-01\ncover: HelloCover\n---\nNo image.')
-      await write('pages/posts/manual-summary.md', '---\ntitle: Manual summary\ndate: 2024-01-01\ndescription: " "\nexcerpt: "Manual **public** [summary](/about)."\n---\nDifferent body opening.')
+      await write('pages/posts/manual-summary.md', '---\ntitle: Manual summary\ndate: 2024-01-01\ncanonical: https://elsewhere.example/summary\ndescription: " "\nexcerpt: "Manual **public** [summary](/about)."\n---\nDifferent body opening.')
       await write('pages/posts/draft.md', `---\ntitle: ${sentinels.draft}\ndraft: true\ndate: 2024-01-01\n---\n${sentinels.draft}`)
       await write('pages/posts/draft-parent.md', `---\ntitle: ${sentinels.parentDraft}\ndraft: true\ndate: 2024-01-01\n---\n${sentinels.parentDraft}`)
       await write('pages/posts/draft-parent/child.md', '---\ntitle: Public child\ndraft: false\ndate: 2024-01-01\n---\nPUBLICCHILDVISIBLE876')
@@ -144,6 +154,29 @@ const posts = usePostList()
         expect(await fs.pathExists(join(dist, 'posts/draft-parent/child.html'))).toBe(true)
         expect(await fs.pathExists(join(dist, 'posts/draft.html'))).toBe(publishDrafts)
         expect(await fs.pathExists(join(dist, 'posts/generated-draft.html'))).toBe(publishDrafts)
+        expect(await fs.pathExists(join(dist, '404.html'))).toBe(true)
+        expect(await fs.pathExists(join(dist, '404/index.html'))).toBe(false)
+        const sitemap = await readFile(join(dist, 'sitemap.xml'), 'utf8')
+        expect(sitemap.match(/<loc>[^<]*\/imgdir\/?<\/loc>/g)).toEqual(['<loc>https://example.com/blog/posts/imgdir/</loc>'])
+        expect(sitemap).not.toMatch(/<loc>[^<]*\/404(?:\.html|\/)?<\/loc>/)
+        expect(sitemap).not.toContain('/error-page')
+        const urls = Array.from(sitemap.matchAll(/<loc>([^<]*)<\/loc>/g), match => match[1].replaceAll('&amp;', '&'))
+        const canonical = 'https://example.com/blog/posts/%E4%B8%AD%E6%96%87?one=1&two=2'
+        expect(sitemap).toContain('<loc>https://example.com/blog/posts/%E4%B8%AD%E6%96%87?one=1&amp;two=2</loc>')
+        expect(urls.filter(url => url === canonical)).toEqual([canonical])
+        for (const name of ['explicit-image', 'cover-image']) {
+          const html = await readFile(join(dist, `posts/${name}.html`), 'utf8')
+          expect(html.match(/<link rel="canonical" href="([^"]*)"/)?.[1].replaceAll('&amp;', '&')).toBe(canonical)
+          expect(urls).not.toContain(`https://example.com/blog/posts/${name}`)
+        }
+        const external = await readFile(join(dist, 'posts/manual-summary.html'), 'utf8')
+        expect(external).toContain('<link rel="canonical" href="https://elsewhere.example/summary">')
+        expect(urls).not.toContain('https://elsewhere.example/summary')
+        expect(urls).not.toContain('https://example.com/blog/posts/manual-summary')
+        const hook = await readFile(join(dist, 'posts/no-image.html'), 'utf8')
+        expect(hook).toContain('<base href="/blog/edits/"><link href="from-hook?a=1&amp;b=2" rel="canonical">')
+        expect(urls).toContain('https://example.com/blog/edits/from-hook?a=1&b=2')
+        expect(urls).not.toContain('https://example.com/blog/posts/no-image')
         const index = await readFile(join(dist, 'index.html'), 'utf8')
         for (const id of ['pages', 'posts']) {
           const list = index.match(new RegExp(`<p id="${id}">([^<]*)</p>`))?.[1]

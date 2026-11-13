@@ -1,4 +1,4 @@
-import { readFile, writeFile } from 'node:fs/promises'
+import { readFile } from 'node:fs/promises'
 import { resolve } from 'node:path'
 import process from 'node:process'
 
@@ -27,18 +27,12 @@ if (!notFound.includes('This page drifted out of orbit.')) {
   process.exit(1)
 }
 
-// The file must exist for Cloudflare, but /404 is a real asset and would be
-// listed in the generated sitemap as an ordinary URL. Drop that entry.
+// The file must exist for Cloudflare without being advertised as a public URL.
 const sitemapPath = resolve(root, 'sitemap.xml')
 const sitemap = await readFile(sitemapPath, 'utf8')
-const notFoundLoc = 'https://valaxy.site/404</loc>'
-if (sitemap.includes(notFoundLoc)) {
-  const stripped = sitemap.replace(/<url><loc>https:\/\/valaxy\.site\/404<\/loc>[\s\S]*?<\/url>/g, '')
-  if (stripped.includes(notFoundLoc)) {
-    console.error('Failed to remove /404 from docs/dist/sitemap.xml.')
-    process.exit(1)
-  }
-  await writeFile(sitemapPath, stripped)
+if (/<loc>https:\/\/valaxy\.site\/404(?:\/|\.html)?<\/loc>/.test(sitemap)) {
+  console.error('The docs sitemap lists the 404 page.')
+  process.exit(1)
 }
 
 console.log('docs/dist/404.html is present for Cloudflare Pages custom 404s.')

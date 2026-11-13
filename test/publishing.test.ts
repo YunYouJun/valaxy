@@ -13,7 +13,6 @@ import { createRouterOptions } from '../packages/valaxy/node/plugins/vueRouter'
 import {
   isUnpublishedPage,
   mergePageExcludes,
-  notFoundSitemapPaths,
   omitProductionDraftRoutes,
 } from '../packages/valaxy/shared/page-policy'
 import {
@@ -62,10 +61,6 @@ describe('unpublished pages', () => {
     expect(omitProductionDraftRoutes([
       { meta: { frontmatter: { draft: true } } },
     ], true)).toHaveLength(1)
-  })
-
-  it('omits not-found pages from the sitemap and keeps similarly named posts', () => {
-    expect(notFoundSitemapPaths(['/', '/404', '/zh/404/', '/posts/404-notes'])).toEqual(['/404', '/zh/404'])
   })
 
   it('filters draft files and underscore files out of public collections', () => {
@@ -170,16 +165,19 @@ describe('trailing slash output', () => {
     expect(trailingSlashAlias('/')).toBeUndefined()
   })
 
-  it('copies the page after the canonical file exists and does not replace a real index', async () => {
+  it('copies regular pages without replacing a real index or publishing a /404/ alias', async () => {
     const outDir = await mkdtemp(join(tmpdir(), 'valaxy-slash-'))
     try {
       await mkdir(join(outDir, 'about'), { recursive: true })
       await mkdir(join(outDir, 'posts'), { recursive: true })
       await writeFile(join(outDir, 'posts/hello.html'), '<link rel="canonical" href="https://example.com/posts/hello">')
       await writeFile(join(outDir, 'about/index.html'), 'real about')
-      await writeTrailingSlashAliases(outDir, ['/posts/hello', '/about/'])
+      await writeFile(join(outDir, '404.html'), 'not found')
+      await writeTrailingSlashAliases(outDir, ['/posts/hello', '/about/', '/404'])
       expect(await readFile(join(outDir, 'posts/hello/index.html'), 'utf8')).toContain('/posts/hello')
       expect(await readFile(join(outDir, 'about/index.html'), 'utf8')).toBe('real about')
+      expect(await readFile(join(outDir, '404.html'), 'utf8')).toBe('not found')
+      await expect(readFile(join(outDir, '404/index.html'), 'utf8')).rejects.toMatchObject({ code: 'ENOENT' })
     }
     finally {
       await rm(outDir, { recursive: true, force: true })

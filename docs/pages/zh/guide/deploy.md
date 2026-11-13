@@ -85,11 +85,17 @@ Markdown 页面与文件链接会直接补上 `base`；Markdown 图片则会进�
 
 ## 页面地址 {#urls}
 
-`pages/posts/hello.md` 会写成 `dist/posts/hello.html`。规范地址不带末尾斜杠：`/posts/hello`。构建会在 sitemap 生成之后，把同一份 HTML 复制到 `dist/posts/hello/index.html`，这样会按目录索引查找的静态托管也能用 `/posts/hello/` 打开同一页。sitemap 只记录规范地址一次。页面里的 canonical 指向不带末尾斜杠的地址。
+`pages/posts/hello.md` 会写成 `dist/posts/hello.html`，规范地址是 `/posts/hello`。构建还会把同一份 HTML 复制到 `dist/posts/hello/index.html`，让按目录索引查找的静态托管也能通过 `/posts/hello/` 打开同一页。
 
-`pages/about/index.md` 对应目录地址 `/about/`（在会把目录索引映射到短地址的托管上，`/about` 同样可用）。`pages/404.md` 会构建为 `404.html`，供托管商对未知路径返回。`/404` 不会进入 sitemap。
+`pages/about/index.md` 对应目录地址 `/about/`（在会把目录索引映射到短地址的托管上，`/about` 同样可用）。两个地址同时存在时，sitemap 使用 `/about/`。
 
-开发服务器里，同一条路由也接受末尾斜杠。多出来的 `index.html` 是为了静态部署之后这条地址仍然可用，包括那些在客户端路由运行之前就用 `404.html` 响应未知路径的托管。
+`pages/404.md` 会构建为 `404.html`，供托管平台响应未知路径。Valaxy 不会把它列入 sitemap，也不会复制成 `404/index.html`。如果托管平台把 `/404` 或 `/404/` 直接映射到 `404.html`，请在托管层为这些请求配置 HTTP 404 状态码。
+
+sitemap 使用 `siteConfig.url` 指定的绝对地址，并保留部署子路径。可以添加 `public/robots.txt` 来自定义抓取规则和 sitemap 链接。
+
+Valaxy 现在根据实际渲染的路由生成 sitemap。以前的 `vite-ssg-sitemap` 会扫描输出目录，可能把 `about.html` 和 `about/index.html` 都转换成 `/about`，于是同一个网址会被列两次。现在直接读取每个渲染页面的 canonical 标签，既能让 sitemap 与页面声明的网址一致，也能保留静态托管所需的两份 HTML。
+
+可以在页面的 frontmatter 里用 `canonical` 同时指定页面的规范链接和 sitemap 条目。`/posts/original` 这样的站点相对地址会拼到 `siteConfig.url` 下。如果 canonical 指向其他站点，页面仍保留这个链接，但不会列入本站 sitemap。
 
 ## 第三方部署 {#third-party-deployment}
 
