@@ -678,9 +678,6 @@ catalogs:
     vite-plugin-vue-devtools:
       specifier: ^8.2.1
       version: 8.2.1
-    vite-ssg-sitemap:
-      specifier: ^0.10.0
-      version: 0.10.0
     vitepress-plugin-group-icons:
       specifier: ^1.7.6
       version: 1.7.6
@@ -1379,9 +1376,6 @@ importers:
       vite-plugin-vue-devtools:
         specifier: 'catalog:'
         version: 8.2.1(@nuxt/kit@3.21.11(magicast@0.5.5))(supports-color@5.5.0)(vite@8.3.6)(vue@3.5.43(typescript@5.9.3))
-      vite-ssg-sitemap:
-        specifier: 'catalog:'
-        version: 0.10.0
       vitepress-plugin-group-icons:
         specifier: 'catalog:'
         version: 1.7.6(vite@8.3.6)
@@ -8797,9 +8791,6 @@ packages:
     resolution: {integrity: sha512-OpyITJLgZNibxlrik1EmRtvXHDjLRxNPsWkGFTERZs2LgMEdG4W0WoFt5GIgp3a3jRou+eJR8U1zOBk/XQgEbw==}
     peerDependencies:
       vite: ^8.3.6
-
-  vite-ssg-sitemap@0.10.0:
-    resolution: {integrity: sha512-OIja4fqUMcvWl5+bxQARe3LgzWTd8U/dWHWgrqiC7vv3AmTn0YnhMNUAimQ0M/0Aa9myEIAGLV0yKlYbKP8BJQ==}
 
   vite@8.3.6:
     resolution: {integrity: sha512-UI7dK29NnS54Fk+mmo7o+jI6U8Fp7hDl+X5Q1k45WH+d4dSlbLVUETGQ+hfkNgvLQGyoElPj837nZyv4MBc0VA==}
@@ -17405,8 +17396,6 @@ snapshots:
       vite: 8.3.6(@types/node@26.6.4)(@vitejs/devtools@0.8.0)(esbuild@0.28.2)(jiti@2.7.0)(sass@1.105.1)(tsx@4.23.15)(yaml@2.9.1)
     transitivePeerDependencies:
       - supports-color
-
-  vite-ssg-sitemap@0.10.0: {}
 
   vite@8.3.6(@types/node@26.6.4)(@vitejs/devtools@0.8.0)(esbuild@0.28.2)(jiti@2.7.0)(sass@1.105.1)(tsx@4.23.15)(yaml@2.9.1):
     dependencies:

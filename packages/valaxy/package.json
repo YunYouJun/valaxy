@@ -150,7 +150,6 @@
     "vanilla-lazyload": "catalog:",
     "vite": "catalog:build",
     "vite-plugin-vue-devtools": "catalog:",
-    "vite-ssg-sitemap": "catalog:",
     "vitepress-plugin-group-icons": "catalog:",
     "vue-i18n": "catalog:build",
     "yargs": "catalog:"

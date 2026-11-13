@@ -8,13 +8,12 @@ import { consola } from 'consola'
 import { colors } from 'consola/utils'
 import pMap from 'p-map'
 import { mergeConfig as mergeViteConfig, build as viteBuild } from 'vite'
-import generateSitemap from 'vite-ssg-sitemap'
-import { notFoundSitemapPaths } from '../../shared/page-policy'
 import { defaultViteConfig } from '../constants'
 import { ViteValaxyPlugins } from '../plugins/preset'
 import { profileBuildPhase } from '../utils/buildProfile'
 import { clearBundleCache } from './bundle'
 import { renderPage, writeTrailingSlashAliases } from './render'
+import { writeSitemap } from './sitemap'
 
 /**
  * Attempt to trigger garbage collection if `--expose-gc` is enabled.
@@ -212,15 +211,8 @@ export async function ssgBuild(
   }
 
   // === Step 8: Sitemap, trailing-slash aliases, and user callbacks ===
-  // Scan HTML before copying `/posts/hello` to `/posts/hello/index.html`,
-  // so the sitemap lists the canonical URL once. Not-found pages stay built
-  // for hosts that serve `404.html`, and stay out of the sitemap.
   clearBundleCache()
-  generateSitemap({
-    hostname: options.config.siteConfig.url,
-    outDir,
-    exclude: notFoundSitemapPaths(routePaths),
-  })
+  await writeSitemap(outDir, options.config.siteConfig.url, routePaths)
   await writeTrailingSlashAliases(outDir, routePaths)
 
   if (userSsgOptions.onFinished)

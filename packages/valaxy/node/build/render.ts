@@ -2,6 +2,7 @@ import type { Unhead } from 'unhead/server'
 import { access, constants, copyFile, mkdir, writeFile } from 'node:fs/promises'
 import { dirname, resolve } from 'node:path'
 import { renderSSRHead } from '@unhead/vue/server'
+import { isNotFoundPagePath } from '../../shared/page-policy'
 
 export interface RenderResult {
   html: string
@@ -192,7 +193,7 @@ export function routeToFileName(route: string): string {
  * Directory routes (`/posts/` → `posts/index.html`) already have that file.
  */
 export function trailingSlashAlias(route: string): string | undefined {
-  if (!route || route === '/' || route.endsWith('/'))
+  if (!route || route.endsWith('/') || isNotFoundPagePath(route))
     return
 
   const file = routeToFileName(route)
@@ -214,8 +215,8 @@ async function fileExists(file: string) {
 
 /**
  * Copy each extensionless page onto its trailing-slash path.
- * Call this after sitemap generation so the sitemap keeps one URL per page.
- * The copied HTML already contains the canonical link without a trailing slash.
+ * Skip not-found documents so hosts can use `404.html` as an error response
+ * without also getting a normal directory index for `/404/`.
  */
 export async function writeTrailingSlashAliases(outDir: string, routes: string[]) {
   const outputs = new Set(routes.map(routeToFileName))

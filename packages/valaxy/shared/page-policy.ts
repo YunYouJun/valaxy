@@ -111,13 +111,7 @@ export function omitProductionDraftRoutes<T extends DraftRoute>(routes: T[], inc
   })
 }
 
-/** Sitemap paths for generated not-found pages, such as `/404`. */
-export function notFoundSitemapPaths(routes: string[]): string[] {
-  const paths = new Set<string>()
-  for (const route of routes) {
-    const path = route.length > 1 && route.endsWith('/') ? route.slice(0, -1) : route
-    if (path === '/404' || path.endsWith('/404'))
-      paths.add(path)
-  }
-  return [...paths]
+/** Paths reserved for a site's not-found document. */
+export function isNotFoundPagePath(path: string): boolean {
+  return /\/404(?:\.html|\/(?:index\.html)?)?$/.test(path)
 }
