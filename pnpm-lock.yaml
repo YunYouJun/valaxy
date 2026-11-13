@@ -456,6 +456,9 @@ catalogs:
     html-to-text:
       specifier: ^10.0.1
       version: 10.0.1
+    htmlparser2:
+      specifier: ^10.1.0
+      version: 10.1.0
     https-localhost:
       specifier: ^4.7.2
       version: 4.7.2
@@ -1241,6 +1244,9 @@ importers:
       html-to-text:
         specifier: 'catalog:'
         version: 10.0.1
+      htmlparser2:
+        specifier: 'catalog:'
+        version: 10.1.0
       jiti:
         specifier: 'catalog:'
         version: 2.7.0

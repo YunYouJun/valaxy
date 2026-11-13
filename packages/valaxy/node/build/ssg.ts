@@ -100,6 +100,7 @@ export async function ssgBuild(
   const outDir = isAbsolute(configOutDir) ? configOutDir : resolve(options.userRoot, configOutDir)
   const ssgTemp = resolve(outDir, '.vite-ssg-temp')
   let routePaths: string[] = []
+  let renderedPages: Awaited<ReturnType<typeof renderPage>>[]
 
   const defaultConfig: InlineConfig = {
     ...defaultViteConfig,
@@ -188,7 +189,7 @@ export async function ssgBuild(
     const concurrency = userSsgOptions.concurrency ?? 20
     consola.info(`Rendering ${colors.yellow(routePaths.length)} pages (concurrency: ${colors.yellow(concurrency)})...`)
 
-    await profileBuildPhase('render-pages', () => pMap(
+    renderedPages = await profileBuildPhase('render-pages', () => pMap(
       routePaths,
       route => renderPage({
         render,
@@ -212,7 +213,7 @@ export async function ssgBuild(
 
   // === Step 8: Sitemap, trailing-slash aliases, and user callbacks ===
   clearBundleCache()
-  await writeSitemap(outDir, options.config.siteConfig.url, routePaths)
+  await writeSitemap(outDir, options.config.siteConfig.url, renderedPages)
   await writeTrailingSlashAliases(outDir, routePaths)
 
   if (userSsgOptions.onFinished)

@@ -145,6 +145,7 @@ catalog:
   h3: ^2.0.5
   hookable: ^6.1.2
   html-to-text: ^10.0.1
+  htmlparser2: ^10.1.0
   https-localhost: ^4.7.2
   husky: ^9.1.7
   jiti: ^2.7.0

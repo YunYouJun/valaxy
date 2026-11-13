@@ -23,7 +23,7 @@ describe('sitemap generation', () => {
         '/404',
         '/404.html',
         '/zh/404/',
-      ])
+      ].map(route => ({ route })))
 
       const sitemap = await readFile(join(outDir, 'sitemap.xml'), 'utf8')
       expect([...sitemap.matchAll(/<loc>(.*?)<\/loc>/g)].map(match => match[1])).toEqual([
@@ -44,7 +44,7 @@ describe('sitemap generation', () => {
   it('writes the sitemap link to the default robots.txt', async () => {
     const outDir = await mkdtemp(join(tmpdir(), 'valaxy-sitemap-'))
     try {
-      await writeSitemap(outDir, 'https://example.com/blog/', ['/'])
+      await writeSitemap(outDir, 'https://example.com/blog/', [{ route: '/' }])
       expect(await readFile(join(outDir, 'robots.txt'), 'utf8')).toContain('Sitemap: https://example.com/blog/sitemap.xml')
     }
     finally {

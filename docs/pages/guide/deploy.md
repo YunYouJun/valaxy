@@ -96,6 +96,8 @@ A page such as `pages/posts/hello.md` is written to `dist/posts/hello.html`. Its
 
 The sitemap uses the absolute `siteConfig.url`, including its deployment subpath. Add `public/robots.txt` to supply your own crawler rules and sitemap link.
 
+Set `canonical` in a page's frontmatter to use a different URL for its canonical link and sitemap entry. A site-relative value such as `/posts/original` is resolved under `siteConfig.url`. If the canonical URL points to another site, the page keeps that link and is omitted from this site's sitemap.
+
 ## Third Party Deployment
 
 ::: tip
