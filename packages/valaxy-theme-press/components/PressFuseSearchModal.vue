@@ -14,12 +14,15 @@ function formatExcerpt(text = ''): string {
   const literals: string[] = []
   const protect = (value: string) => `\u0000${literals.push(value) - 1}\u0000`
   let cleaned = text
-    .replace(/<!--[\s\S]*?(?:-->|$)/g, ' ')
-    .replace(/```[\s\S]*?```|~~~[\s\S]*?~~~/g, ' ')
+    .replace(/^[ \t]*```[\s\S]+?^[ \t]*```/gm, ' ')
+    .replace(/^[ \t]*~~~[\s\S]+?^[ \t]*~~~/gm, ' ')
     .replace(/(?<!`)(`+)(?!`)([^\n]+?)(?<!`)\1(?!`)/g, (_, _fence, code: string) => protect(code))
     .replace(/\\([\\`*_~[\]{}()#+\-.!|>])/g, (_, char: string) => protect(char))
+    .replace(/<!--[\s\S]*?(?:-->|$)/g, ' ')
     .replace(/!\[[^\]]*\]\([^)]*\)/g, ' ')
     .replace(/\[([^\]]+)\]\([^)]*\)/g, '$1')
+    .replace(/<((?:https?:\/\/|mailto:)[^>\s]+)>/gi, '$1')
+    .replace(/<([^\s<>@]+@[^\s<>@.]+(?:\.[^\s<>@.]+)+)>/g, '$1')
     .replace(/<[^>]*>/g, ' ')
     .replace(/^[ \t]*#{1,6}[ \t]+/gm, '')
     .replace(/^[ \t]*>[ \t]?/gm, '')

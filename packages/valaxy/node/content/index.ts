@@ -240,6 +240,17 @@ export function createContentService(app: ValaxyNode, settings: ContentServiceOp
         }
       }
 
+      const isPost = page.routes.some(route => route.path.startsWith('/posts/') || route.layout === 'post')
+      if (isPost && !page.draft && (data.description === undefined || (typeof data.description === 'string' && !data.description.trim()))) {
+        add(
+          'missing-description',
+          'warning',
+          'Post is missing a frontmatter description.',
+          'Add a concise description in frontmatter for SEO, RSS, and social sharing.',
+          data.description !== undefined ? fieldLine('description') : 1,
+        )
+      }
+
       try {
         const layoutNames = await resolveContentLayouts(app.options)
         for (const layout of new Set(page.routes.map(route => route.layout))) {

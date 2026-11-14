@@ -229,7 +229,7 @@ export async function createRouterOptions(valaxyApp: ValaxyNode, base?: Markdown
           delete mdFm.photos
         }
 
-        const gitTimestampCache = getGitTimestampCache(options)
+        const gitTimestampCache = options.mode === 'build' ? getGitTimestampCache(options) : undefined
         if (!mdFm.date)
           mdFm.date = new Date(await getCreatedTime(path, gitTimestampCache))
 
