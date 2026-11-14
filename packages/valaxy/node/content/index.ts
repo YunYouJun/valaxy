@@ -9,6 +9,7 @@ import { isUnpublishedPage } from '../../shared/page-policy'
 import { createMarkdownEngine } from '../plugins/markdown/renderer'
 import { matterOptions } from '../plugins/markdown/transform/matter'
 import { createRouterOptions } from '../plugins/vueRouter'
+import { clearGitTimestampCache, getGitTimestampCache } from '../utils/getGitTimestamp'
 import { resolveContentLayouts } from './layouts'
 
 export * from './types'
@@ -103,6 +104,7 @@ export function createContentService(app: ValaxyNode, settings: ContentServiceOp
     const options = await routerOptions
     const routes: RouteInfo[] = []
     routerApp.options.redirects.length = 0
+    clearGitTimestampCache(getGitTimestampCache(routerApp.options))
     const context = createRoutesContext(resolveOptions({
       ...options,
       root: userRoot,
@@ -236,6 +238,17 @@ export function createContentService(app: ValaxyNode, settings: ContentServiceOp
           if ((routePaths.get(key)?.size || 0) > 1)
             add('route-collision', 'error', `The route or alias ${key} is used by multiple pages.`, 'Choose a unique route path or alias in your route hooks.')
         }
+      }
+
+      const isPost = page.routes.some(route => route.path.startsWith('/posts/') || route.layout === 'post')
+      if (isPost && !page.draft && (data.description === undefined || (typeof data.description === 'string' && !data.description.trim()))) {
+        add(
+          'missing-description',
+          'warning',
+          'Post is missing a frontmatter description.',
+          'Add a concise description in frontmatter for SEO, RSS, and social sharing.',
+          data.description !== undefined ? fieldLine('description') : 1,
+        )
       }
 
       try {

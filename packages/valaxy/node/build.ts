@@ -33,7 +33,7 @@ export async function postProcessForSSG(options: ResolvedValaxyOptions) {
 
 export async function generateClientRedirects(options: ResolvedValaxyOptions) {
   consola.info('generate client redirects...')
-  const outputPath = resolve(options.userRoot, 'dist')
+  const outputPath = options.outDir || resolve(options.userRoot, 'dist')
   const redirectRules = collectRedirects(options.redirects)
 
   const task = redirectRules.map(async (rule) => {

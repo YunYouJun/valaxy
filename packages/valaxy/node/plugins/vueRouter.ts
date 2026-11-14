@@ -16,6 +16,7 @@ import { plainSeoDescription, stripEncryptedContent } from '../../shared/seo'
 import { EXCERPT_SEPARATOR } from '../constants'
 import { vLogger } from '../logger'
 import { getCreatedTime, getUpdatedTime } from '../utils/date'
+import { clearGitTimestampCache, getGitTimestampCache } from '../utils/getGitTimestamp'
 import { countPerformanceTime } from '../utils/performance'
 import { createMarkdownRenderer } from './markdown'
 
@@ -83,6 +84,9 @@ export async function createRouterPlugin(valaxyApp: ValaxyNode, base?: MarkdownB
 export async function createRouterOptions(valaxyApp: ValaxyNode, base?: MarkdownBase, parseMatter = (source: string) => matter(source, matterOptions), onDispose?: (dispose: () => void) => void): Promise<Options> {
   const { options } = valaxyApp
   const { roots, config: valaxyConfig } = options
+
+  // Clear any cached timestamps from an earlier pipeline sharing this options object.
+  clearGitTimestampCache(getGitTimestampCache(options))
 
   const mdIt = await createMarkdownRenderer(options, base, onDispose)
 
@@ -225,13 +229,14 @@ export async function createRouterOptions(valaxyApp: ValaxyNode, base?: Markdown
           delete mdFm.photos
         }
 
+        const gitTimestampCache = options.mode === 'build' ? getGitTimestampCache(options) : undefined
         if (!mdFm.date)
-          mdFm.date = new Date(await getCreatedTime(path))
+          mdFm.date = new Date(await getCreatedTime(path, gitTimestampCache))
 
         // format
         if (lastUpdated) {
           if (!mdFm.updated)
-            mdFm.updated = new Date(await getUpdatedTime(path))
+            mdFm.updated = new Date(await getUpdatedTime(path, gitTimestampCache))
         }
 
         if (mdFm.from) {
