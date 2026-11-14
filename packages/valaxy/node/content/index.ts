@@ -9,6 +9,7 @@ import { isUnpublishedPage } from '../../shared/page-policy'
 import { createMarkdownEngine } from '../plugins/markdown/renderer'
 import { matterOptions } from '../plugins/markdown/transform/matter'
 import { createRouterOptions } from '../plugins/vueRouter'
+import { clearGitTimestampCache, getGitTimestampCache } from '../utils/getGitTimestamp'
 import { resolveContentLayouts } from './layouts'
 
 export * from './types'
@@ -103,6 +104,7 @@ export function createContentService(app: ValaxyNode, settings: ContentServiceOp
     const options = await routerOptions
     const routes: RouteInfo[] = []
     routerApp.options.redirects.length = 0
+    clearGitTimestampCache(getGitTimestampCache(routerApp.options))
     const context = createRoutesContext(resolveOptions({
       ...options,
       root: userRoot,

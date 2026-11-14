@@ -11,12 +11,28 @@ const props = defineProps<{
 const emit = defineEmits(['close'])
 
 function formatExcerpt(text = ''): string {
-  return text
-    .replace(/<!--[\s\S]*?(?:-->|$)/g, '')
-    .replace(/!\[[^\]]*\]\([^)]*\)/g, '')
+  const literals: string[] = []
+  const protect = (value: string) => `\u0000${literals.push(value) - 1}\u0000`
+  let cleaned = text
+    .replace(/<!--[\s\S]*?(?:-->|$)/g, ' ')
+    .replace(/```[\s\S]*?```|~~~[\s\S]*?~~~/g, ' ')
+    .replace(/(`+)([^\n`]*)\1/g, (_, _fence, code: string) => protect(code))
+    .replace(/\\([\\`*_~[\]{}()#+\-.!|>])/g, (_, char: string) => protect(char))
+    .replace(/!\[[^\]]*\]\([^)]*\)/g, ' ')
     .replace(/\[([^\]]+)\]\([^)]*\)/g, '$1')
-    .replace(/<[^>]*>/g, '')
-    .replace(/[#*>`_]/g, '')
+    .replace(/<[^>]*>/g, ' ')
+    .replace(/^[ \t]*#{1,6}[ \t]+/gm, '')
+    .replace(/^[ \t]*>[ \t]?/gm, '')
+
+  for (let depth = 0; depth < 3; depth++) {
+    cleaned = cleaned
+      .replace(/(?<![\p{L}\p{N}_])(_{1,3})(?=\S)(.+?\S|\S)\1(?![\p{L}\p{N}_])/gu, '$2')
+      .replace(/(?<!\*)(\*{1,3})(?=\S)(.+?\S|\S)\1(?!\*)/g, '$2')
+      .replace(/~~(?=\S)(.+?\S|\S)~~/g, '$1')
+  }
+
+  return cleaned
+    .replace(/\0(\d+)\0/g, (_, index: string) => literals[Number(index)])
     .replace(/\s+/g, ' ')
     .trim()
 }
