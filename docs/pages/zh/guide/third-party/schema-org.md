@@ -20,7 +20,7 @@ top: 0
 
 > [Person | @unhead/schema.org](https://unhead.unjs.io/docs/typescript/schema-org/guides/recipes/identity#person)
 
-人物的 `url` 在 `author.link` 为绝对地址时使用该链接，否则使用站点 `url`。`author.email` 或 `author.link` 留空时，不会写入 RSS，也不会写进文章作者。框架不会改用自己的邮箱或站点。
+人物的 `url` 在 `author.link` 为绝对地址时使用该链接，否则使用站点 `url`。填写的 `author.email` 会公开在 RSS 和作者的结构化数据中。框架不会提供默认邮箱。
 
 `WebSite.name` 是站点标题。`WebPage.url` 是当前页面。文章的 Open Graph 类型是 `article`，其他页面是 `website`。分享文案使用 frontmatter `description`；该字段为空时使用纯文本摘要。见[描述与分享卡片](/zh/guide/post#share)。
 

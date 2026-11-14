@@ -17,6 +17,7 @@ const route = useRoute()
 
 const { $t, $tO } = useValaxyI18n()
 const authorLink = siteConfig.value.author.link?.trim()
+const authorEmail = siteConfig.value.author.email?.trim()
 const description = $tO(frontmatter.value.description) || route.meta.seoDescription || ''
 const { image } = usePageSeo()
 const pagePath = resolveCanonicalPath(route)
@@ -31,6 +32,7 @@ const article: Parameters<typeof defineArticle>[0] = {
     {
       name: $t(siteConfig.value.author.name),
       ...(authorLink ? { url: authorLink } : {}),
+      ...(authorEmail ? { email: authorEmail } : {}),
     },
   ],
   'datePublished': dayjs(frontmatter.value.date || '').toDate(),

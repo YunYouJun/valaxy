@@ -58,6 +58,7 @@ export function useValaxyApp() {
     // Personal Website or Blog. url is the author's link, or the site when that link is unset.
     definePerson({
       name: $t(siteConfig.value.author.name),
+      ...(author.email ? { email: author.email } : {}),
       ...(personUrl ? { url: personUrl } : {}),
       image: $t(siteConfig.value.author.avatar),
       sameAs: resolveSocialSameAs(siteConfig.value.url, siteConfig.value.social, siteConfig.value.feed?.name),

@@ -106,8 +106,7 @@ export async function createValaxyPlugin(
 
         if (id === '/@valaxyjs/context') {
           return `export default ${JSON.stringify(JSON.stringify({
-            userRoot: options.userRoot,
-            // clientRoot: options.clientRoot,
+            userRoot: options.mode === 'dev' ? options.userRoot : '',
           }))}`
         }
 
