@@ -1,6 +1,5 @@
 <script lang="ts" setup>
 import { isClient, useScrollLock } from '@vueuse/core'
-import { createMarkdownExit } from 'markdown-exit'
 import { useFuseSearch } from 'valaxy'
 import { nextTick, ref, watch } from 'vue'
 import { useI18n } from 'vue-i18n'
@@ -11,10 +10,16 @@ const props = defineProps<{
 
 const emit = defineEmits(['close'])
 
-const md = createMarkdownExit({
-  html: true,
-  linkify: true,
-})
+function formatExcerpt(text = ''): string {
+  return text
+    .replace(/<!--[\s\S]*?(?:-->|$)/g, '')
+    .replace(/!\[[^\]]*\]\([^)]*\)/g, '')
+    .replace(/\[([^\]]+)\]\([^)]*\)/g, '$1')
+    .replace(/<[^>]*>/g, '')
+    .replace(/[#*>`_]/g, '')
+    .replace(/\s+/g, ' ')
+    .trim()
+}
 
 const input = ref('')
 const isLocked = useScrollLock(isClient ? document.documentElement : null)
@@ -113,7 +118,9 @@ function getResultKey(title: string | Record<string, string>): string {
                     <h3 class="press-result-title">
                       {{ getResultTitle(result.item.title) }}
                     </h3>
-                    <p class="press-result-excerpt markdown-body" v-html="md.render(result.item.excerpt || '')" />
+                    <p class="press-result-excerpt">
+                      {{ formatExcerpt(result.item.excerpt) }}
+                    </p>
                     <div class="press-result-meta">
                       <span class="press-result-link">
                         {{ result.item.link }}

@@ -56,6 +56,37 @@ it('places body teleport anchors before the app for disabled teleport hydration'
   }
 })
 
+it('preserves replacement patterns like $$ and $\' in rendered html and teleports', async () => {
+  const outDir = await mkdtemp(join(tmpdir(), 'valaxy-dollar-'))
+  const mathHtml = '<main><p>$$x + y$$ and $&amp; and $\'</p></main>'
+  const headTeleport = '<meta name="snippet" content="$&$$$\'">'
+  const customTeleport = '<div>$$custom$&$\'</div>'
+  try {
+    await renderPage({
+      route: '/',
+      template: '<html><head></head><body><div id="app"></div></body></html>',
+      outDir,
+      ssrManifest: {},
+      render: async () => ({
+        html: mathHtml,
+        head: undefined,
+        initialState: { formula: '$$a^2$$' },
+        teleports: {
+          'head': headTeleport,
+          '#modal-root': customTeleport,
+        },
+      }),
+    })
+    const html = await readFile(join(outDir, 'index.html'), 'utf-8')
+    expect(html).toContain(`<div id="app">${mathHtml}</div>`)
+    expect(html).toContain(`${headTeleport}\n</head>`)
+    expect(html).toContain(`${customTeleport}\n</body>`)
+  }
+  finally {
+    await rm(outDir, { recursive: true, force: true })
+  }
+})
+
 describe('routeToFileName', () => {
   it('converts root / to index.html', () => {
     expect(routeToFileName('/')).toBe('index.html')

@@ -1,10 +1,33 @@
 import { basename, dirname, resolve as resolvePath } from 'node:path'
+import process from 'node:process'
 import { spawn } from 'cross-spawn'
+
+const gitTimestampCache = new Map<string, Promise<number>>()
+
+/** Clear cached Git timestamps for a specific file or all files. */
+export function clearGitTimestampCache(file?: string) {
+  if (!file) {
+    gitTimestampCache.clear()
+    return
+  }
+  const filePath = resolvePath(file)
+  const prefixCreated = `created:${filePath}:`
+  const prefixUpdated = `updated:${filePath}:`
+  for (const key of gitTimestampCache.keys()) {
+    if (key.startsWith(prefixCreated) || key.startsWith(prefixUpdated))
+      gitTimestampCache.delete(key)
+  }
+}
 
 /** Read commit timestamps from the file's repository, following renames. */
 export function getGitTimestamp(file: string, type: 'created' | 'updated' = 'updated') {
   const filePath = resolvePath(file)
-  return new Promise<number>((resolve) => {
+  const cacheKey = `${type}:${filePath}:${process.env.PATH ?? ''}`
+  const cached = gitTimestampCache.get(cacheKey)
+  if (cached)
+    return cached
+
+  const pending = new Promise<number>((resolve) => {
     const params = ['--literal-pathspecs', 'log', '--follow', '--no-show-signature', '--format=%ct']
     if (type === 'updated')
       params.push('-1')
@@ -28,4 +51,7 @@ export function getGitTimestamp(file: string, type: 'created' | 'updated' = 'upd
       resolve(0)
     })
   })
+
+  gitTimestampCache.set(cacheKey, pending)
+  return pending
 }

@@ -16,6 +16,7 @@ import { resolveUserThemeConfig } from '../../config'
 import { vLogger } from '../../logger'
 import { resolveOptions } from '../../options'
 import { toAtFS } from '../../utils'
+import { clearGitTimestampCache } from '../../utils/getGitTimestamp'
 import { getPagePath } from '../../utils/pageSources'
 import { countPerformanceTime } from '../../utils/performance'
 import { templates } from '../../virtual'
@@ -201,6 +202,7 @@ export async function createValaxyPlugin(
 
         // send headers
         if (file.endsWith('.md')) {
+          clearGitTimestampCache(file)
           const endCount = countPerformanceTime()
 
           const content = await read()
