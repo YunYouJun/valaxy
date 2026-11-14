@@ -21,6 +21,9 @@ const sentinels = {
   underscore: 'UNDERSCOREARTIFACTPRIVATE876',
   readme: 'READMEARTIFACTPRIVATE876',
 }
+const addonDir = 'build-only-addon876'
+const addonName = `./${addonDir}`
+const authorEmail = 'author@publishing.example'
 
 async function outputFiles(root: string): Promise<string[]> {
   const entries = await readdir(root, { withFileTypes: true })
@@ -30,11 +33,12 @@ async function outputFiles(root: string): Promise<string[]> {
   return files.flat()
 }
 
-async function buildFixture(root: string, publishDrafts: boolean, provider: 'fuse' | 'local') {
+async function buildFixture(root: string, publishDrafts: boolean) {
   const generatedDraft = `---\ntitle: ${sentinels.generatedDraft}\ndraft: true\ndate: 2024-01-01\n---\n${sentinels.generatedDraft}`
   await fs.outputFile(join(root, 'valaxy.config.ts'), `export default {
     theme: 'yun',
     features: { katex: false },
+    addons: [{ name: '${addonName}', options: { greeting: 'Hello from the addon' } }],
     vite: {
       base: '/blog/',
       build: { sourcemap: true },
@@ -50,7 +54,7 @@ async function buildFixture(root: string, publishDrafts: boolean, provider: 'fus
     siteConfig: {
       title: 'Publishing fixture', url: 'https://example.com/blog/', lang: 'en',
       description: 'Public site description',
-      author: { name: 'Author' },
+      author: { name: 'Author', email: ${JSON.stringify(publishDrafts ? ` ${authorEmail} ` : '')} },
       social: [
         { name: 'Profile', link: 'https://social.example/@author', icon: 'i-ri-user-line', color: 'gray' },
         { name: 'Duplicate', link: ' https://social.example/@author ', icon: 'i-ri-user-line', color: 'gray' },
@@ -61,7 +65,7 @@ async function buildFixture(root: string, publishDrafts: boolean, provider: 'fus
       ],
       encrypt: { enable: true },
       publishing: { drafts: ${publishDrafts} },
-      search: { provider: '${provider}' },
+      search: { provider: '${publishDrafts ? 'local' : 'fuse'}' },
       fuse: { options: { keys: ['title', 'excerpt', 'content'] } },
       llms: { enable: true, fullText: true, files: true },
     },
@@ -104,12 +108,15 @@ describe('production publishing artifacts', () => {
     const write = (file: string, text: string) => fs.outputFile(join(root, file), text)
     try {
       await write('package.json', '{"type":"module","private":true}')
-      await write('pages/index.vue', `<script setup>
-import { usePageList, usePostList } from 'valaxy'
+      await write(`${addonDir}/package.json`, JSON.stringify({ name: 'valaxy-addon-publishing-fixture', version: '1.0.0', description: 'BUILDONLYADDPKG876' }))
+      await write(`${addonDir}/valaxy.config.ts`, 'export default {}')
+      await write('pages/inspect.vue', `<script setup>
+import { useAddonConfig, usePageList, usePostList } from 'valaxy'
+const addon = useAddonConfig('${addonName}')
 const pages = usePageList()
 const posts = usePostList()
 </script>
-<template><div><p id="pages">{{ pages.map(page => page.title).join('|') }}</p><p id="posts">{{ posts.map(post => post.title).join('|') }}</p></div></template>`)
+<template><div><p id="addon">{{ addon?.options.greeting }}</p><p id="pages">{{ pages.map(page => page.title).join('|') }}</p><p id="posts">{{ posts.map(post => post.title).join('|') }}</p></div></template>`)
       await write('pages/posts/public.md', '---\ntitle: Public article\ndate: 2024-01-01\n---\nPUBLICARTIFACTVISIBLE876 and snake_case_name with 2 * 3 * 4.\n\n![first](./pic.svg?size=2&height=3#view)')
       await write('pages/posts/pic.svg', '<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20"><path fill="red" d="M0 0h20v20H0z"/></svg>')
       await write('pages/posts/my pic.svg', '<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20"><circle fill="green" cx="10" cy="10" r="10"/></svg>')
@@ -136,7 +143,7 @@ const posts = usePostList()
       await write('pages/posts/nested-partial.md', `---\ntitle: Nested partial page\ndate: 2024-01-01\n---\n## Public parent\n\n<!-- valaxy-encrypt-start:fixture -->\n### ${sentinels.nestedHeading}\n\n#### ${sentinels.nestedChild}\n\nPrivate nested body.\n<!-- valaxy-encrypt-end -->\n\n##### Public descendant\n\nPublic descendant body.\n\n### Public sibling`)
 
       for (const publishDrafts of [false, true]) {
-        await buildFixture(root, publishDrafts, publishDrafts ? 'local' : 'fuse')
+        await buildFixture(root, publishDrafts)
         const dist = join(root, 'dist')
         const files = await outputFiles(dist)
         const artifacts = await Promise.all(files
@@ -150,6 +157,11 @@ const posts = usePostList()
             expect.soft(artifacts.filter(item => item.content.toLowerCase().includes(sentinel.toLowerCase())).map(item => item.file), `Leaked ${kind}`).toEqual([])
         }
         expect.soft(artifacts.filter(item => item.content.includes('fixture-password')).map(item => item.file), 'Password in published output').toEqual([])
+        const scripts = artifacts.filter(item => /\.m?js$/.test(item.file))
+        const configChunk = scripts.find(item => item.content.includes('Hello from the addon'))
+        expect(configChunk?.content).toBeDefined()
+        expect(configChunk?.content).not.toContain(root.split(/[\\/]/).pop()!)
+        expect(scripts.filter(item => item.content.includes('BUILDONLYADDPKG876')).map(item => item.file)).toEqual([])
         expect(output).toContain('PUBLICARTIFACTVISIBLE876')
         expect(await fs.pathExists(join(dist, 'posts/draft-parent/child.html'))).toBe(true)
         expect(await fs.pathExists(join(dist, 'posts/draft.html'))).toBe(publishDrafts)
@@ -177,9 +189,10 @@ const posts = usePostList()
         expect(hook).toContain('<base href="/blog/edits/"><link href="from-hook?a=1&amp;b=2" rel="canonical">')
         expect(urls).toContain('https://example.com/blog/edits/from-hook?a=1&b=2')
         expect(urls).not.toContain('https://example.com/blog/posts/no-image')
-        const index = await readFile(join(dist, 'index.html'), 'utf8')
+        const inspect = await readFile(join(dist, 'inspect.html'), 'utf8')
+        expect(inspect).toContain('<p id="addon">Hello from the addon</p>')
         for (const id of ['pages', 'posts']) {
-          const list = index.match(new RegExp(`<p id="${id}">([^<]*)</p>`))?.[1]
+          const list = inspect.match(new RegExp(`<p id="${id}">([^<]*)</p>`))?.[1]
           expect(list).toContain('Public article')
           expect(list?.includes(sentinels.draft)).toBe(publishDrafts)
           expect(list?.includes(sentinels.generatedDraft)).toBe(publishDrafts)
@@ -191,8 +204,14 @@ const posts = usePostList()
         expect(nestedPartial).toContain('public-sibling')
         const regular = await readFile(join(dist, 'posts/public.html'), 'utf8')
         expect(metadata(regular, 'description')).toContain('snake_case_name with 2 * 3 * 4')
-        const identity = schemaGraph(regular).find(node => node['@id'].endsWith('#identity'))
+        const graph = schemaGraph(regular)
+        const identity = graph.find(node => node['@id'].endsWith('#identity'))
         expect(identity?.sameAs).toEqual(['https://social.example/@author', 'https://example.com/blog/about'])
+        const article = graph.find(node => [node['@type']].flat().includes('BlogPosting'))
+        const author = graph.find(node => node['@id'] === article?.author?.['@id'])
+        expect(author?.name).toBe('Author')
+        expect(identity?.email).toBe(publishDrafts ? authorEmail : undefined)
+        expect(author?.email).toBe(publishDrafts ? authorEmail : undefined)
         expect(regular).toContain('href="/blog/about"')
         expect(regular).toContain('href="/atom.xml"')
         expect(regular).toContain('href="mailto:author@example.com"')

@@ -23,6 +23,7 @@ function parse<T = any>(data: string): T {
 }
 
 interface ValaxyContext {
+  /** Absolute project directory in development; empty in production. */
   userRoot: string
 }
 
