@@ -2,28 +2,42 @@ import { basename, dirname, resolve as resolvePath } from 'node:path'
 import process from 'node:process'
 import { spawn } from 'cross-spawn'
 
-const gitTimestampCache = new Map<string, Promise<number>>()
+const pipelineCaches = new WeakMap<object, Map<string, Promise<number>>>()
 
-/** Clear cached Git timestamps for a specific file or all files. */
-export function clearGitTimestampCache(file?: string) {
+/** Return a pipeline-scoped Git timestamp cache keyed by an options/app object. */
+export function getGitTimestampCache(scope: object): Map<string, Promise<number>> {
+  let cache = pipelineCaches.get(scope)
+  if (!cache) {
+    cache = new Map()
+    pipelineCaches.set(scope, cache)
+  }
+  return cache
+}
+
+/** Clear cached Git timestamps for a specific file or all files in a pipeline cache. */
+export function clearGitTimestampCache(cache: Map<string, Promise<number>>, file?: string) {
   if (!file) {
-    gitTimestampCache.clear()
+    cache.clear()
     return
   }
   const filePath = resolvePath(file)
   const prefixCreated = `created:${filePath}:`
   const prefixUpdated = `updated:${filePath}:`
-  for (const key of gitTimestampCache.keys()) {
+  for (const key of cache.keys()) {
     if (key.startsWith(prefixCreated) || key.startsWith(prefixUpdated))
-      gitTimestampCache.delete(key)
+      cache.delete(key)
   }
 }
 
 /** Read commit timestamps from the file's repository, following renames. */
-export function getGitTimestamp(file: string, type: 'created' | 'updated' = 'updated') {
+export function getGitTimestamp(
+  file: string,
+  type: 'created' | 'updated' = 'updated',
+  cache?: Map<string, Promise<number>>,
+) {
   const filePath = resolvePath(file)
   const cacheKey = `${type}:${filePath}:${process.env.PATH ?? ''}`
-  const cached = gitTimestampCache.get(cacheKey)
+  const cached = cache?.get(cacheKey)
   if (cached)
     return cached
 
@@ -52,6 +66,6 @@ export function getGitTimestamp(file: string, type: 'created' | 'updated' = 'upd
     })
   })
 
-  gitTimestampCache.set(cacheKey, pending)
+  cache?.set(cacheKey, pending)
   return pending
 }

@@ -13,6 +13,7 @@ import fs from 'fs-extra'
 import { createMarkdownExit } from 'markdown-exit'
 import pMap from 'p-map'
 import { getBorderCharacters, table } from 'table'
+import { glob } from 'tinyglobby'
 
 import { tObject } from '../../../shared'
 import { isUnpublishedPage, relativePagePath } from '../../../shared/page-policy'
@@ -21,6 +22,7 @@ import { EXCERPT_SEPARATOR } from '../../constants'
 import { matterOptions } from '../../plugins/markdown/transform/matter'
 import { isExternal } from '../../utils'
 import { getCreatedTime, getUpdatedTime } from '../../utils/date'
+import { getGitTimestampCache } from '../../utils/getGitTimestamp'
 import { discoverPageFiles, getPagePath, pagePathToRoute } from '../../utils/pageSources'
 
 // Extend Item type to include optional updated field for Atom feed
@@ -125,8 +127,10 @@ export async function build(options: ResolvedValaxyOptions) {
 
   const DOMAIN = siteConfig.url.slice(0, -1)
 
-  // generate
-  const files = [...(await discoverPageFiles(options.userRoot, ['posts/**/*.md'])).values()]
+  // generate: only include generated loader content when content loaders are active
+  const files = options.config.loaders?.length
+    ? [...(await discoverPageFiles(options.userRoot, ['posts/**/*.md'])).values()]
+    : await glob('pages/posts/**/*.md', { cwd: options.userRoot, absolute: true, onlyFiles: true })
   const posts = await getPosts({
     author,
     files,
@@ -196,6 +200,7 @@ export async function getPosts(params: {
   }
 
   // returned posts
+  const gitTimestampCache = getGitTimestampCache(options)
   const posts: ExtendedItem[] = []
   for (const rawPost of filteredPosts) {
     const { data, path } = rawPost
@@ -205,10 +210,10 @@ export async function getPosts(params: {
     const manualExcerpt = tObject(data.excerpt, lang)
     const summaryLength = siteConfig.excerpt?.length || 200
     if (!data.date)
-      data.date = await getCreatedTime(path)
+      data.date = await getCreatedTime(path, gitTimestampCache)
     if (siteConfig.lastUpdated) {
       if (!data.updated)
-        data.updated = await getUpdatedTime(path)
+        data.updated = await getUpdatedTime(path, gitTimestampCache)
     }
     // render excerpt
     // default excerpt content length: 100

@@ -16,6 +16,7 @@ import { plainSeoDescription, stripEncryptedContent } from '../../shared/seo'
 import { EXCERPT_SEPARATOR } from '../constants'
 import { vLogger } from '../logger'
 import { getCreatedTime, getUpdatedTime } from '../utils/date'
+import { getGitTimestampCache } from '../utils/getGitTimestamp'
 import { countPerformanceTime } from '../utils/performance'
 import { createMarkdownRenderer } from './markdown'
 
@@ -225,13 +226,14 @@ export async function createRouterOptions(valaxyApp: ValaxyNode, base?: Markdown
           delete mdFm.photos
         }
 
+        const gitTimestampCache = getGitTimestampCache(options)
         if (!mdFm.date)
-          mdFm.date = new Date(await getCreatedTime(path))
+          mdFm.date = new Date(await getCreatedTime(path, gitTimestampCache))
 
         // format
         if (lastUpdated) {
           if (!mdFm.updated)
-            mdFm.updated = new Date(await getUpdatedTime(path))
+            mdFm.updated = new Date(await getUpdatedTime(path, gitTimestampCache))
         }
 
         if (mdFm.from) {
