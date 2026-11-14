@@ -16,7 +16,7 @@ import { plainSeoDescription, stripEncryptedContent } from '../../shared/seo'
 import { EXCERPT_SEPARATOR } from '../constants'
 import { vLogger } from '../logger'
 import { getCreatedTime, getUpdatedTime } from '../utils/date'
-import { getGitTimestampCache } from '../utils/getGitTimestamp'
+import { clearGitTimestampCache, getGitTimestampCache } from '../utils/getGitTimestamp'
 import { countPerformanceTime } from '../utils/performance'
 import { createMarkdownRenderer } from './markdown'
 
@@ -84,6 +84,9 @@ export async function createRouterPlugin(valaxyApp: ValaxyNode, base?: MarkdownB
 export async function createRouterOptions(valaxyApp: ValaxyNode, base?: MarkdownBase, parseMatter = (source: string) => matter(source, matterOptions), onDispose?: (dispose: () => void) => void): Promise<Options> {
   const { options } = valaxyApp
   const { roots, config: valaxyConfig } = options
+
+  // Clear any cached timestamps from an earlier pipeline sharing this options object.
+  clearGitTimestampCache(getGitTimestampCache(options))
 
   const mdIt = await createMarkdownRenderer(options, base, onDispose)
 

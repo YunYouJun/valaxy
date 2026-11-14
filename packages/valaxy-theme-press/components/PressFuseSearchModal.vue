@@ -16,7 +16,7 @@ function formatExcerpt(text = ''): string {
   let cleaned = text
     .replace(/<!--[\s\S]*?(?:-->|$)/g, ' ')
     .replace(/```[\s\S]*?```|~~~[\s\S]*?~~~/g, ' ')
-    .replace(/(`+)([^\n`]*)\1/g, (_, _fence, code: string) => protect(code))
+    .replace(/(?<!`)(`+)(?!`)([^\n]+?)(?<!`)\1(?!`)/g, (_, _fence, code: string) => protect(code))
     .replace(/\\([\\`*_~[\]{}()#+\-.!|>])/g, (_, char: string) => protect(char))
     .replace(/!\[[^\]]*\]\([^)]*\)/g, ' ')
     .replace(/\[([^\]]+)\]\([^)]*\)/g, '$1')

@@ -1,7 +1,7 @@
 import type { Author, FeedOptions, Item } from 'feed'
 import type { ResolvedValaxyOptions } from '../../types'
 import { readFile } from 'node:fs/promises'
-import { basename, join, relative, resolve } from 'node:path'
+import { basename, dirname, join, relative, resolve } from 'node:path'
 import matter from '@11ty/gray-matter'
 import { ensurePrefix } from '@antfu/utils'
 import { consola } from 'consola'
@@ -347,12 +347,14 @@ export async function writeFeed(feedOptions: FeedOptions, posts: ExtendedItem[],
     else if (type === 'json')
       data = feed.json1()
 
+    await fs.ensureDir(dirname(distFeedPath))
     await fs.writeFile(distFeedPath, data, 'utf-8')
     consola.debug(`[${colors.cyan(type)}] dist: ${colors.dim(distFeedPath)}`)
     tableData.push([colors.cyan(type), colors.yellow(outLabel), colors.dim(distFeedPath)])
 
     const publicFeedPath = resolve(publicFolder, feedNameMap[type])
     const publicRelativeFile = join('public', feedNameMap[type])
+    await fs.ensureDir(dirname(publicFeedPath))
     await fs.writeFile(publicFeedPath, data, 'utf-8')
     consola.debug(`[${colors.cyan(type)}] public: ${colors.dim(publicFeedPath)}`)
     tableData.push(['', colors.green('public'), colors.dim(publicFeedPath)])
