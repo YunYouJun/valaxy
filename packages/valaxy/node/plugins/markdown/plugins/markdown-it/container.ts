@@ -124,6 +124,38 @@ export function containerPlugin(md: MarkdownRenderer, containerOptions: Containe
   md.use(...createCodeGroup(md))
 }
 
+const NAMED_HTML_ENTITIES: Record<string, string> = {
+  amp: '&',
+  lt: '<',
+  gt: '>',
+  quot: '"',
+  apos: '\'',
+  nbsp: '\u00A0',
+  copy: '©',
+  reg: '®',
+  trade: '™',
+  mdash: '—',
+  ndash: '–',
+  hellip: '…',
+}
+
+function decodeHtmlEntities(input: string): string {
+  return input.replace(/&(?:#(\d+)|#x([0-9a-f]+)|([a-z][a-z0-9]+));/gi, (match, dec?: string, hex?: string, named?: string) => {
+    if (dec !== undefined || hex !== undefined) {
+      const code = Number.parseInt(dec ?? hex!, dec !== undefined ? 10 : 16)
+      if (!Number.isFinite(code) || code <= 0 || code > 0x10FFFF || (code >= 0xD800 && code <= 0xDFFF))
+        return '\uFFFD'
+      return String.fromCodePoint(code)
+    }
+    if (named) {
+      const resolved = NAMED_HTML_ENTITIES[named.toLowerCase()]
+      if (resolved !== undefined)
+        return resolved
+    }
+    return match
+  })
+}
+
 function createCodeGroup(md: MarkdownRenderer): ContainerArgs {
   return [
     containerCompat,
@@ -154,7 +186,8 @@ function createCodeGroup(md: MarkdownRenderer): ContainerArgs {
               )
 
               if (title) {
-                const escapedTitle = md.utils.escapeHtml(title)
+                const rawTitle = isHtml ? decodeHtmlEntities(title) : title
+                const escapedTitle = md.utils.escapeHtml(rawTitle)
                 tabs += `<input type="radio" name="group-${idx}" id="tab-${i}" ${checked}/>`
                 tabs += `<label v-pre data-title="${escapedTitle}" for="tab-${i}">${escapedTitle}</label>`
 

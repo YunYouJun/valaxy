@@ -36,20 +36,30 @@ describe('batch 1 client runtime safety & cleanup', () => {
     activeCleanups = []
   })
 
-  it('onClickHref deduplicates window listeners per router and cleans up on teardown', async () => {
+  it('onClickHref ref-counts window listeners per router and cleans up only when the last consumer unmounts', async () => {
     const addSpy = vi.spyOn(window, 'addEventListener')
     const removeSpy = vi.spyOn(window, 'removeEventListener')
     const router = { push: vi.fn() } as unknown as Router
 
     const cleanup1 = onClickHref(router)
     const cleanup2 = onClickHref(router)
-    activeCleanups.push(cleanup1)
+    activeCleanups.push(cleanup1, cleanup2)
 
-    expect(cleanup2).toBe(cleanup1)
+    expect(cleanup2).not.toBe(cleanup1)
     expect(addSpy.mock.calls.filter(([type]) => type === 'click')).toHaveLength(1)
 
+    // Calling cleanup1 (even multiple times) must keep the listener active for cleanup2
     cleanup1()
+    cleanup1()
+    expect(removeSpy.mock.calls.filter(([type]) => type === 'click')).toHaveLength(0)
+
+    cleanup2()
     expect(removeSpy.mock.calls.filter(([type]) => type === 'click')).toHaveLength(1)
+
+    // Subsequent registration attaches a fresh listener cleanly
+    const cleanup3 = onClickHref(router)
+    activeCleanups.push(cleanup3)
+    expect(addSpy.mock.calls.filter(([type]) => type === 'click')).toHaveLength(2)
   })
 
   it('useCopyCode ref-counts window listeners and falls back to execCommand when clipboard rejects', async () => {

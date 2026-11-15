@@ -64,7 +64,12 @@ export function scrollTo(el: HTMLElement, hash: string, options: Partial<ScrollT
   }
 }
 
-const activeClickHandlers = new WeakMap<Router, () => void>()
+interface ClickHandlerEntry {
+  refCount: number
+  detach: () => void
+}
+
+const activeClickHandlers = new WeakMap<Router, ClickHandlerEntry>()
 
 function safeDecodeHash(hash: string): string {
   try {
@@ -77,61 +82,76 @@ function safeDecodeHash(hash: string): string {
 
 /**
  * @description Intercept same-page inbound anchor clicks and handle offset positions for jump links on the same page
- * @description:zh-CN 拦截点击事件，处理同一页面下跳转链接的偏移位置（按 router 实例幂等，并返回清理函数）
+ * @description:zh-CN 拦截点击事件，处理同一页面下跳转链接的偏移位置（按 router 实例引用计数共享监听，并返回独立的幂等清理函数）
  * @param router Vue Router
  */
 export function onClickHref(router: Router): () => void {
   if (typeof window === 'undefined')
     return () => {}
 
-  const existing = activeClickHandlers.get(router)
-  if (existing)
-    return existing
+  let entry = activeClickHandlers.get(router)
+  if (!entry) {
+    const handleClick = async (e: MouseEvent) => {
+      const targetEl = e.target instanceof Element
+        ? e.target
+        : (e.target as Node | null)?.parentElement
+      const link = targetEl?.closest('a')
+      if (!link)
+        return
 
-  const handleClick = async (e: MouseEvent) => {
-    const targetEl = e.target instanceof Element
-      ? e.target
-      : (e.target as Node | null)?.parentElement
-    const link = targetEl?.closest('a')
-    if (!link)
-      return
+      const { protocol, hostname, pathname, hash, target } = link
+      const currentUrl = window.location
+      const extMatch = pathname.match(/\.\w+$/)
+      // only intercept inbound links
+      if (
+        !e.ctrlKey
+        && !e.shiftKey
+        && !e.altKey
+        && !e.metaKey
+        && target !== '_blank'
+        && protocol === currentUrl.protocol
+        && hostname === currentUrl.hostname
+        && !(extMatch && extMatch[0] !== '.html')
+      ) {
+        if (pathname === currentUrl.pathname) {
+          e.preventDefault()
+          // scroll between hash anchors in the same page
+          if (hash && hash !== currentUrl.hash) {
+            await router.push({ hash: safeDecodeHash(hash) })
 
-    const { protocol, hostname, pathname, hash, target } = link
-    const currentUrl = window.location
-    const extMatch = pathname.match(/\.\w+$/)
-    // only intercept inbound links
-    if (
-      !e.ctrlKey
-      && !e.shiftKey
-      && !e.altKey
-      && !e.metaKey
-      && target !== '_blank'
-      && protocol === currentUrl.protocol
-      && hostname === currentUrl.hostname
-      && !(extMatch && extMatch[0] !== '.html')
-    ) {
-      if (pathname === currentUrl.pathname) {
-        e.preventDefault()
-        // scroll between hash anchors in the same page
-        if (hash && hash !== currentUrl.hash) {
-          await router.push({ hash: safeDecodeHash(hash) })
-
-          // use smooth scroll when clicking on header anchor links
-          scrollTo(link, hash, {
-            smooth: link.classList.contains('header-anchor'),
-          })
+            // use smooth scroll when clicking on header anchor links
+            scrollTo(link, hash, {
+              smooth: link.classList.contains('header-anchor'),
+            })
+          }
         }
       }
     }
+
+    window.addEventListener('click', handleClick, { capture: true })
+
+    const createdEntry: ClickHandlerEntry = {
+      refCount: 0,
+      detach: () => {
+        window.removeEventListener('click', handleClick, { capture: true })
+        if (activeClickHandlers.get(router) === createdEntry)
+          activeClickHandlers.delete(router)
+      },
+    }
+    entry = createdEntry
+    activeClickHandlers.set(router, entry)
   }
 
-  window.addEventListener('click', handleClick, { capture: true })
+  const currentEntry = entry
+  currentEntry.refCount += 1
+  let cleaned = false
 
-  const cleanup = () => {
-    window.removeEventListener('click', handleClick, { capture: true })
-    if (activeClickHandlers.get(router) === cleanup)
-      activeClickHandlers.delete(router)
+  return () => {
+    if (cleaned)
+      return
+    cleaned = true
+    currentEntry.refCount -= 1
+    if (currentEntry.refCount <= 0)
+      currentEntry.detach()
   }
-  activeClickHandlers.set(router, cleanup)
-  return cleanup
 }
