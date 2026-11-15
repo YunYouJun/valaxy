@@ -2,7 +2,6 @@ import type { PageData } from '../../../../types'
 import type { ResolvedValaxyOptions } from '../../../types'
 import process from 'node:process'
 import { consola } from 'consola'
-import { parseCache, parse as parseSfc } from 'vue/compiler-sfc'
 import { escapeHtml } from '../../../../shared'
 import { encryptContent } from '../../../utils/encrypt'
 
@@ -80,6 +79,8 @@ export function createTransformEncrypt(options: ResolvedValaxyOptions) {
 
       // encrypt the entire article
       if (password) {
+        // Load vue/compiler-sfc on demand so unencrypted builds do not pull it into startup/SSR memory.
+        const { parse: parseSfc, parseCache } = await import('vue/compiler-sfc')
         const parsed = parseSfc(code, { filename: id, sourceMap: false })
         const templateLoc = parsed.descriptor.template
           ? { start: parsed.descriptor.template.loc.start.offset, end: parsed.descriptor.template.loc.end.offset }
