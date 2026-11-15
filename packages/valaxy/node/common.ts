@@ -1,6 +1,6 @@
 import type { ConfigEnv, InlineConfig } from 'vite'
 import type { ResolvedValaxyOptions } from './types'
-import { join } from 'node:path'
+import { join, resolve } from 'node:path'
 import { uniq } from '@antfu/utils'
 import fs from 'fs-extra'
 import { loadConfigFromFile, mergeConfig } from 'vite'
@@ -16,6 +16,7 @@ export async function mergeViteConfigs(
   { userRoot, themeRoot }: ResolvedValaxyOptions,
   command: 'serve' | 'build',
   mode: string = command === 'build' ? 'production' : 'development',
+  excludeFiles: string[] = [],
 ) {
   const configEnv: ConfigEnv = {
     mode,
@@ -23,8 +24,11 @@ export async function mergeViteConfigs(
   }
 
   let resolvedConfig: InlineConfig = {}
+  const excluded = new Set(excludeFiles.map(file => resolve(file)))
   // let vite default config file be clientRoot/vite.config.ts
-  const files = uniq([themeRoot, userRoot]).map(i => join(i, 'vite.config.ts'))
+  const files = uniq([themeRoot, userRoot])
+    .map(i => join(i, 'vite.config.ts'))
+    .filter(file => !excluded.has(resolve(file)))
 
   const loadViteConfigPromiseArr = files.map(async (file) => {
     if (!await fs.exists(file))

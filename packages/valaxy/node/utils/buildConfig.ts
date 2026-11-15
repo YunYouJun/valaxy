@@ -75,19 +75,42 @@ export async function resolveEffectiveViteConfig(
     ?? options.config.vite?.mode
     ?? (command === 'build' ? 'production' : 'development')
 
-  const baseViteConfig = await mergeViteConfigs(options, command, mode)
-
   const explicitConfigFile = callerViteConfig.configFile !== undefined
     ? callerViteConfig.configFile
     : (options.config.vite as InlineConfig | undefined)?.configFile
+
+  const resolvedExplicitConfigFile = typeof explicitConfigFile === 'string'
+    ? resolve(options.userRoot, explicitConfigFile)
+    : undefined
+
+  // Skip loading standard theme/user vite.config.ts here if Vite will load that same
+  // file via explicit configFile, so plugins are never registered twice.
+  const baseViteConfig = await mergeViteConfigs(
+    options,
+    command,
+    mode,
+    resolvedExplicitConfigFile ? [resolvedExplicitConfigFile] : [],
+  )
+
   let explicitFileConfig: InlineConfig = {}
   if (typeof explicitConfigFile === 'string') {
-    const loaded = await loadConfigFromFile({ command, mode }, explicitConfigFile, options.userRoot)
+    const loaded = await loadConfigFromFile(
+      { command, mode, isSsrBuild: false },
+      explicitConfigFile,
+      options.userRoot,
+    )
     if (loaded?.config)
       explicitFileConfig = loaded.config
   }
 
   const merged = mergeConfig(
+    mergeConfig(baseViteConfig, options.config.vite || {}),
+    callerViteConfig,
+  )
+
+  // Include explicit file config when computing canonical build paths (outDir/publicDir/base),
+  // while leaving Vite to load explicit configFile itself so isSsrBuild branching works per pass.
+  const mergedForPaths = mergeConfig(
     mergeConfig(
       mergeConfig(baseViteConfig, options.config.vite || {}),
       explicitFileConfig,
@@ -95,15 +118,15 @@ export async function resolveEffectiveViteConfig(
     callerViteConfig,
   )
 
-  const paths = resolveBuildPaths(options, merged, explicitOutDir)
+  const paths = resolveBuildPaths(options, mergedForPaths, explicitOutDir)
   options.outDir = paths.outDir
   options.publicDir = paths.publicDir
   options.base = paths.base
 
   const viteConfig = mergeConfig(merged, {
-    // Disable Vite's configFile loading since theme/user and explicit configs were
-    // already loaded with the effective mode above.
-    configFile: false,
+    // Preserve explicit configFile so Vite evaluates SSR-aware config functions per pass;
+    // otherwise disable auto-discovery since mergeViteConfigs already loaded theme/user configs.
+    configFile: resolvedExplicitConfigFile ?? false,
     publicDir: paths.publicDir,
     build: {
       outDir: paths.outDir,

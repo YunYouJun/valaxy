@@ -148,12 +148,25 @@ describe('batch 2 effective config, root containment & module outputs', () => {
     expect(resStaging.base).toBe('/staging/')
     expect(resStaging.outDir).toBe(resolve(modeRoot, 'out-staging'))
 
+    const customConfigPath = resolve(modeRoot, 'custom.vite.config.ts')
     const resExplicitCfg = await resolveEffectiveViteConfig(makeBaseOptions(modeRoot), 'build', {
-      configFile: resolve(modeRoot, 'custom.vite.config.ts'),
+      configFile: customConfigPath,
     })
     expect(resExplicitCfg.outDir).toBe(resolve(modeRoot, 'chosen-output'))
     expect((resExplicitCfg.viteConfig.build as any).outDir).toBe(resolve(modeRoot, 'chosen-output'))
-    expect(resExplicitCfg.viteConfig.configFile).toBe(false)
+    expect(resExplicitCfg.viteConfig.configFile).toBe(customConfigPath)
+
+    // 6. Passing standard userRoot/vite.config.ts as explicit configFile does not duplicate its plugins
+    await fs.outputFile(
+      resolve(modeRoot, 'vite.config.ts'),
+      'export default ({ isSsrBuild }) => ({ plugins: [{ name: isSsrBuild ? "ssr-plugin" : "client-plugin" }] })\n',
+    )
+    const stdConfigPath = resolve(modeRoot, 'vite.config.ts')
+    const resStdExplicit = await resolveEffectiveViteConfig(makeBaseOptions(modeRoot), 'build', {
+      configFile: stdConfigPath,
+    })
+    expect(resStdExplicit.viteConfig.configFile).toBe(stdConfigPath)
+    expect(resStdExplicit.viteConfig.plugins).toBeUndefined()
   })
 
   it('preserves publicDir: false and resolves relative publicDir against userRoot in extendConfig', async () => {
