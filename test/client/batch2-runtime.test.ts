@@ -153,7 +153,29 @@ describe('batch 2 client runtime, hydration & cleanup', () => {
     document.body.innerHTML = ''
     resetDocSearchInitState()
 
-    // 4. Disposing scope cancels pending timer cleanly
+    // 4. Re-entrant synchronous dispatchEvent from hotkey listener never recurses or overflows
+    dispatchSpy.mockClear()
+    const scopeReentrant = effectScope()
+    const algoliaReentrant = scopeReentrant.run(() => useAddonAlgolia())!
+    let hotkeyCalls = 0
+    const handleSearchHotKey = (event: KeyboardEvent) => {
+      if (event.key?.toLowerCase() === 'k' && (event.metaKey || event.ctrlKey)) {
+        hotkeyCalls += 1
+        algoliaReentrant.load()
+        window.removeEventListener('keydown', handleSearchHotKey)
+      }
+    }
+    window.addEventListener('keydown', handleSearchHotKey)
+    algoliaReentrant.load()
+    algoliaReentrant.dispatchEvent()
+    expect(hotkeyCalls).toBe(1)
+    expect(dispatchSpy).toHaveBeenCalledTimes(1)
+    expect(vi.getTimerCount()).toBe(1)
+    window.removeEventListener('keydown', handleSearchHotKey)
+    scopeReentrant.stop()
+    expect(vi.getTimerCount()).toBe(0)
+
+    // 5. Disposing scope cancels pending timer cleanly
     dispatchSpy.mockClear()
     const scope3 = effectScope()
     const algolia3 = scope3.run(() => useAddonAlgolia())!

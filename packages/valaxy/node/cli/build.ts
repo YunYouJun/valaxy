@@ -38,21 +38,6 @@ export async function execBuild({ ssg, root, output, log, siteUrl }: { ssg: bool
     options.config.siteConfig.url = siteUrl
   setTimezone(options.config.siteConfig.timezone)
 
-  const { viteConfig } = await resolveEffectiveViteConfig(
-    options,
-    'build',
-    {
-      // avoid load userRoot/vite.config.ts repeatedly
-      configFile: path.resolve(options.clientRoot, 'vite.config.ts'),
-      build: {
-        // make out dir empty, https://vitejs.dev/config/#build-emptyoutdir
-        emptyOutDir: true,
-      },
-      logLevel: log as LogLevel,
-    } as InlineConfig,
-    output,
-  )
-
   printInfo(options)
 
   const valaxyApp = createValaxyNode(options)
@@ -80,6 +65,23 @@ export async function execBuild({ ssg, root, output, log, siteUrl }: { ssg: bool
 
   // init config
   await callHookWithLog('config:init', valaxyApp)
+
+  // Resolve Vite config and canonical build paths after addon setup, options:resolved,
+  // and config:init so addon/hook Vite mutations are preserved before output hooks run.
+  const { viteConfig } = await resolveEffectiveViteConfig(
+    options,
+    'build',
+    {
+      // avoid load userRoot/vite.config.ts repeatedly
+      configFile: path.resolve(options.clientRoot, 'vite.config.ts'),
+      build: {
+        // make out dir empty, https://vitejs.dev/config/#build-emptyoutdir
+        emptyOutDir: true,
+      },
+      logLevel: log as LogLevel,
+    } as InlineConfig,
+    output,
+  )
 
   // before build
   await profileBuildPhase('build-before', () => callHookWithLog('build:before', valaxyApp))

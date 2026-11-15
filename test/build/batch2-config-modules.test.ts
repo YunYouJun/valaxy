@@ -24,6 +24,7 @@ vi.mock('vite', async () => {
   }
 })
 const { build: runSpaBuild } = await import('../../packages/valaxy/node/build')
+const { execBuild } = await import('../../packages/valaxy/node/cli/build')
 
 const tempRoots: string[] = []
 
@@ -205,6 +206,48 @@ describe('batch 2 effective config, root containment & module outputs', () => {
     expect(viteMock.buildCalls).toHaveLength(1)
     const passedPlugins = (viteMock.buildCalls[0].plugins || []).flat(Infinity)
     expect(passedPlugins).toContain(customPlugin)
+  })
+
+  it('preserves Vite config injected by addon.setup() and options:resolved hooks during execBuild()', async () => {
+    const userRoot = await createProject('valaxy-b2-execbuild-')
+    await fs.outputFile(resolve(userRoot, 'pages/index.md'), '---\ntitle: Home\n---\nHello')
+    await fs.outputFile(
+      resolve(userRoot, 'valaxy.config.ts'),
+      `export default {
+  theme: 'yun',
+  addons: [{
+    name: 'test-setup-addon',
+    setup(node) {
+      node.options.config.vite = {
+        ...node.options.config.vite,
+        plugins: [...(node.options.config.vite?.plugins || []), { name: 'addon-setup-plugin' }],
+        define: { ...node.options.config.vite?.define, __FROM_ADDON_SETUP__: JSON.stringify('ok') },
+      }
+      node.hook('options:resolved', () => {
+        node.options.config.vite = {
+          ...node.options.config.vite,
+          plugins: [...(node.options.config.vite?.plugins || []), { name: 'options-resolved-plugin' }],
+          define: { ...node.options.config.vite?.define, __FROM_OPTIONS_RESOLVED__: JSON.stringify('ok') },
+        }
+      })
+    },
+  }],
+}
+`,
+    )
+
+    await execBuild({ ssg: false, root: userRoot, output: 'addon-out', log: 'silent' })
+
+    expect(viteMock.buildCalls).toHaveLength(1)
+    const finalConfig = viteMock.buildCalls[0]
+    const pluginNames = (finalConfig.plugins || []).flat(Infinity).map((p: any) => p?.name).filter(Boolean)
+    expect(pluginNames).toContain('addon-setup-plugin')
+    expect(pluginNames).toContain('options-resolved-plugin')
+    expect(finalConfig.define).toMatchObject({
+      __FROM_ADDON_SETUP__: '"ok"',
+      __FROM_OPTIONS_RESOLVED__: '"ok"',
+    })
+    expect(finalConfig.build?.outDir).toBe(resolve(userRoot, 'addon-out'))
   })
 
   it('writes fuse index to nested outDir paths when publicDir is false and preserves URL/relative bases', async () => {

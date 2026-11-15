@@ -37,9 +37,9 @@ onMounted(() => {
       || (!isEditingContent(event) && event.key === '/')
     ) {
       event.preventDefault()
-      load()
       // eslint-disable-next-line ts/no-use-before-define
       remove()
+      load()
     }
   }
 

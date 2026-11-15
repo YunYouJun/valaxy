@@ -135,24 +135,15 @@ export function useAddonAlgolia() {
   }
 
   function load() {
-    if (!isClient)
+    if (!isClient || loaded.value)
       return
 
-    const isFirstLoad = !loaded.value
-    if (isFirstLoad)
-      loaded.value = true
-
+    loaded.value = true
     pollAttempts = 0
     clearPollTimer()
 
-    if (docSearchInitState.ready || !isFirstLoad) {
-      if (docSearchInitState.initializing)
-        waitForInitThenPoll()
-      else
-        poll()
-      return
-    }
-
+    // Always defer initial polling so synchronous dispatchEvent() callers
+    // (e.g. YunSearchTrigger.openSearch) cannot recursively re-enter hotkey listeners.
     pollTimer = setTimeout(() => {
       pollTimer = undefined
       if (docSearchInitState.initializing)
