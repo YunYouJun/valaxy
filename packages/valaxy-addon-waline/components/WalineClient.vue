@@ -2,18 +2,64 @@
 import type { WalineInitOptions } from '@waline/client'
 import type { WalineOptions } from '../types'
 import { commentCount, init, pageviewCount } from '@waline/client'
-import { useAppStore } from 'valaxy'
+import walineStyleUrl from '@waline/client/waline.css?url'
 
+import { useAppStore } from 'valaxy'
 import { computed, onMounted, onUnmounted, useTemplateRef, watch } from 'vue'
 import { useI18n } from 'vue-i18n'
-import { useRoute } from 'vue-router'
 
+import { useRoute } from 'vue-router'
 import { getEmojis } from '../utils'
-import '@waline/client/style'
 
 const props = defineProps<{
   options: WalineOptions
 }>()
+
+const WALINE_STYLE_ATTR = 'data-valaxy-waline-style'
+
+function ensureWalineStyle(): Promise<void> {
+  if (typeof document === 'undefined' || !walineStyleUrl)
+    return Promise.resolve()
+
+  const existing = document.head.querySelector<HTMLLinkElement>(`link[${WALINE_STYLE_ATTR}]`)
+  let hrefChanged = false
+  if (existing) {
+    if (existing.getAttribute('href') === walineStyleUrl) {
+      if (existing.sheet || existing.dataset.valaxySettled === 'true')
+        return Promise.resolve()
+    }
+    else {
+      hrefChanged = true
+      existing.href = walineStyleUrl
+      delete existing.dataset.valaxySettled
+    }
+  }
+
+  const link = existing ?? document.createElement('link')
+  if (!existing) {
+    link.rel = 'stylesheet'
+    link.href = walineStyleUrl
+    link.setAttribute(WALINE_STYLE_ATTR, '')
+    // Insert before theme/site stylesheets so :root overrides keep precedence.
+    const firstStyle = document.head.querySelector('link[rel="stylesheet"], style')
+    document.head.insertBefore(link, firstStyle)
+  }
+
+  return new Promise<void>((resolve) => {
+    const done = () => {
+      link.removeEventListener('load', done)
+      link.removeEventListener('error', done)
+      link.dataset.valaxySettled = 'true'
+      resolve()
+    }
+    if (!hrefChanged && link.sheet) {
+      done()
+      return
+    }
+    link.addEventListener('load', done, { once: true })
+    link.addEventListener('error', done, { once: true })
+  })
+}
 
 const appStore = useAppStore()
 
@@ -29,6 +75,7 @@ const emoji = computed<WalineEmoji>(() => getEmojis(
 ) as WalineEmoji)
 const walineRef = useTemplateRef<HTMLElement>('waline')
 let walineInstance: ReturnType<typeof init> | undefined
+let unmounted = false
 
 function getWalineOptions() {
   const {
@@ -47,7 +94,8 @@ function getWalineOptions() {
   }
 }
 
-onMounted(() => {
+onMounted(async () => {
+  const styleReady = ensureWalineStyle()
   const { pageview, comment } = props.options
 
   if (pageview) {
@@ -66,6 +114,10 @@ onMounted(() => {
     })
   }
 
+  await styleReady
+  if (unmounted || !walineRef.value)
+    return
+
   walineInstance = init({
     ...getWalineOptions(),
     el: walineRef.value,
@@ -78,7 +130,10 @@ watch(
   { deep: true },
 )
 
-onUnmounted(() => walineInstance?.destroy())
+onUnmounted(() => {
+  unmounted = true
+  walineInstance?.destroy()
+})
 </script>
 
 <template>
