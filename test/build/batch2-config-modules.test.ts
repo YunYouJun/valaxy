@@ -1,5 +1,4 @@
 import type { ResolvedValaxyOptions } from '../../packages/valaxy/node/types'
-import { realpathSync } from 'node:fs'
 import { mkdtemp, rm } from 'node:fs/promises'
 import { tmpdir } from 'node:os'
 import { resolve } from 'node:path'
@@ -155,31 +154,35 @@ describe('batch 2 effective config, root containment & module outputs', () => {
     })
     expect(resExplicitCfg.outDir).toBe(resolve(modeRoot, 'chosen-output'))
     expect((resExplicitCfg.viteConfig.build as any).outDir).toBe(resolve(modeRoot, 'chosen-output'))
-    expect(resExplicitCfg.viteConfig.configFile).toBe(customConfigPath)
+    expect(resExplicitCfg.viteConfig.configFile).toBe(false)
 
-    // 6. Passing standard userRoot/vite.config.ts as explicit configFile does not duplicate its plugins
-    //    and preserves SSR-aware evaluation across client and server SSG passes.
+    // 6. Passing standard userRoot/vite.config.ts as explicit configFile does not duplicate plugins,
+    //    preserves user-over-theme precedence, evaluates SSR per pass, and keeps client outDir on options.
     await fs.outputFile(
       resolve(modeRoot, 'vite.config.ts'),
-      'export default ({ isSsrBuild }) => ({ define: { __SSR_TARGET__: JSON.stringify(isSsrBuild ? "server" : "client") }, plugins: [{ name: isSsrBuild ? "ssr-plugin" : "client-plugin" }] })\n',
+      'export default ({ isSsrBuild }) => ({ define: { __SSR_TARGET__: JSON.stringify(isSsrBuild ? "server" : "client") }, build: { outDir: isSsrBuild ? "server-out" : "client-out" }, plugins: [{ name: isSsrBuild ? "ssr-plugin" : "client-plugin" }] })\n',
     )
     const stdConfigPath = resolve(modeRoot, 'vite.config.ts')
     const resStdExplicit = await resolveEffectiveViteConfig(makeBaseOptions(modeRoot), 'build', {
       configFile: stdConfigPath,
     })
-    expect(resStdExplicit.viteConfig.configFile).toBe(stdConfigPath)
-    expect(resStdExplicit.viteConfig.plugins).toBeUndefined()
+    expect(resStdExplicit.viteConfig.configFile).toBe(false)
+    expect((resStdExplicit.viteConfig.plugins || []).map((p: any) => p?.name)).toEqual(['client-plugin'])
 
     const ssgOptions = makeBaseOptions(modeRoot)
     await expect(runSsgBuild({ options: ssgOptions } as any)).rejects.toThrow()
     expect(viteMock.buildCalls).toHaveLength(2)
     expect(viteMock.buildCalls[0].define?.__SSR_TARGET__).toBe('"client"')
     expect(viteMock.buildCalls[1].define?.__SSR_TARGET__).toBe('"server"')
+    expect(ssgOptions.outDir).toBe(resolve(modeRoot, 'client-out'))
 
-    // 7. Cwd-relative explicit configFile resolves relative to cwd, and options.config.vite overrides file base
+    // 7. Cwd-relative explicit configFile resolves relative to cwd, user beats theme, and options.config.vite beats file base
     const workspaceRoot = await createProject('valaxy-b2-cwd-')
+    const themeOverrideRoot = resolve(workspaceRoot, 'theme')
     const siteRoot = resolve(workspaceRoot, 'site')
     await fs.ensureDir(resolve(siteRoot, 'pages'))
+    await fs.outputFile(resolve(themeOverrideRoot, 'vite.config.ts'), 'export default { base: "/theme/" }\n')
+    await fs.outputFile(resolve(siteRoot, 'vite.config.ts'), 'export default { base: "/blog/", plugins: [{ name: "user-plugin" }] }\n')
     await fs.outputFile(
       resolve(siteRoot, 'custom.vite.ts'),
       'export default { base: "/file/", build: { outDir: "file-out" } }\n',
@@ -187,6 +190,15 @@ describe('batch 2 effective config, root containment & module outputs', () => {
     const prevCwd = process.cwd()
     process.chdir(workspaceRoot)
     try {
+      const optUserBeatsTheme = makeBaseOptions(siteRoot, { themeRoot: themeOverrideRoot })
+      const resUserBeatsTheme = await resolveEffectiveViteConfig(optUserBeatsTheme, 'build', {
+        configFile: 'site/vite.config.ts',
+      })
+      expect(resUserBeatsTheme.base).toBe('/blog/')
+      expect(optUserBeatsTheme.base).toBe('/blog/')
+      expect(resUserBeatsTheme.viteConfig.base).toBe('/blog/')
+      expect((resUserBeatsTheme.viteConfig.plugins || []).map((p: any) => p?.name)).toEqual(['user-plugin'])
+
       const optPrecedence = makeBaseOptions(siteRoot, {
         config: {
           siteConfig: { ...defaultSiteConfig },
@@ -196,7 +208,7 @@ describe('batch 2 effective config, root containment & module outputs', () => {
       const resCwd = await resolveEffectiveViteConfig(optPrecedence, 'build', {
         configFile: 'site/custom.vite.ts',
       })
-      expect(realpathSync(resCwd.viteConfig.configFile as string)).toBe(realpathSync(resolve(workspaceRoot, 'site/custom.vite.ts')))
+      expect(resCwd.viteConfig.configFile).toBe(false)
       expect(resCwd.outDir).toBe(resolve(siteRoot, 'file-out'))
       expect(resCwd.base).toBe('/site/')
       expect(optPrecedence.base).toBe('/site/')

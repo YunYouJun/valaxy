@@ -20,14 +20,14 @@ function normalizeConfigPath(file: string) {
 }
 
 /**
- * merge vite.config.ts (user & theme)
+ * merge vite.config.ts (user & theme, plus any explicit config file)
  * @internal
  */
 export async function mergeViteConfigs(
   { userRoot, themeRoot }: ResolvedValaxyOptions,
   command: 'serve' | 'build',
   mode: string = command === 'build' ? 'production' : 'development',
-  excludeFiles: string[] = [],
+  extraFiles: string[] = [],
   isSsrBuild?: boolean,
 ) {
   const configEnv: ConfigEnv = {
@@ -37,11 +37,17 @@ export async function mergeViteConfigs(
   }
 
   let resolvedConfig: InlineConfig = {}
-  const excluded = new Set(excludeFiles.map(normalizeConfigPath))
-  // let vite default config file be clientRoot/vite.config.ts
-  const files = uniq([themeRoot, userRoot])
-    .map(i => join(i, 'vite.config.ts'))
-    .filter(file => !excluded.has(normalizeConfigPath(file)))
+  const seen = new Set<string>()
+  const files = [
+    ...uniq([themeRoot, userRoot]).map(i => join(i, 'vite.config.ts')),
+    ...extraFiles,
+  ].filter((file) => {
+    const key = normalizeConfigPath(file)
+    if (seen.has(key))
+      return false
+    seen.add(key)
+    return true
+  })
 
   const loadViteConfigPromiseArr = files.map(async (file) => {
     if (!await fs.exists(file))
