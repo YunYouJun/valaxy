@@ -1,5 +1,5 @@
 import type { ResolvedValaxyOptions } from '../../packages/valaxy/node/types'
-import { mkdtemp, rm } from 'node:fs/promises'
+import { mkdtemp } from 'node:fs/promises'
 import { tmpdir } from 'node:os'
 import { resolve } from 'node:path'
 import fs from 'fs-extra'
@@ -78,7 +78,7 @@ function makeBaseOptions(userRoot: string, overrides: Partial<ResolvedValaxyOpti
 
 afterEach(async () => {
   viteMock.buildCalls = []
-  await Promise.all(tempRoots.splice(0).map(dir => rm(dir, { recursive: true, force: true })))
+  await Promise.all(tempRoots.splice(0).map(dir => fs.remove(dir)))
 })
 
 describe('batch 2 effective config, root containment & module outputs', () => {
@@ -231,6 +231,16 @@ describe('batch 2 effective config, root containment & module outputs', () => {
         configFile: resolve(mjsRoot, 'missing.vite.ts'),
       }),
     ).rejects.toThrow()
+
+    // 9. Respects configFile: false without evaluating discovered theme/user configs
+    await fs.outputFile(
+      resolve(mjsRoot, 'vite.config.mjs'),
+      'throw new Error("should not load a disabled config"); export default {}\n',
+    )
+    const resDisabled = await resolveEffectiveViteConfig(makeBaseOptions(mjsRoot), 'build', {
+      configFile: false,
+    })
+    expect(resDisabled.viteConfig.configFile).toBe(false)
   })
 
   it('preserves publicDir: false and resolves relative publicDir against userRoot in extendConfig', async () => {

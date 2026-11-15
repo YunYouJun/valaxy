@@ -78,13 +78,16 @@ export async function resolveEffectiveViteConfig(
 
   // Evaluate theme/user/explicit config files once per pass using the effective mode & isSsrBuild,
   // preserving theme < user < explicit < options.config.vite < callerViteConfig precedence.
-  const baseViteConfig = await mergeViteConfigs(
-    options,
-    command,
-    mode,
-    resolvedExplicitConfigFile ? [resolvedExplicitConfigFile] : [],
-    isSsrBuild,
-  )
+  // Respect configFile: false by skipping config-file loading altogether.
+  const baseViteConfig = explicitConfigFile === false
+    ? {}
+    : await mergeViteConfigs(
+        options,
+        command,
+        mode,
+        resolvedExplicitConfigFile ? [resolvedExplicitConfigFile] : [],
+        isSsrBuild,
+      )
 
   const merged = mergeConfig(
     mergeConfig(baseViteConfig, options.config.vite || {}),
