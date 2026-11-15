@@ -2,6 +2,7 @@ import type { PageData } from '../../../../types'
 import type { ResolvedValaxyOptions } from '../../../types'
 import process from 'node:process'
 import { consola } from 'consola'
+import { parse as parseSfc } from 'vue/compiler-sfc'
 import { escapeHtml } from '../../../../shared'
 import { encryptContent } from '../../../utils/encrypt'
 
@@ -79,10 +80,12 @@ export function createTransformEncrypt(options: ResolvedValaxyOptions) {
 
       // encrypt the entire article
       if (password) {
-        const templateStart = code.indexOf('<template>')
-        const templateEnd = code.lastIndexOf('</template>')
-        if (templateStart !== -1 && templateEnd >= templateStart + 10) {
-          const content = code.slice(templateStart + 10, templateEnd)
+        const { descriptor } = parseSfc(code, { filename: id })
+        const patches: { start: number, end: number, text: string }[] = []
+
+        if (descriptor.template) {
+          const { start, end } = descriptor.template.loc
+          const content = code.slice(start.offset, end.offset)
 
           const encryptedContent = await encryptContent(content, {
             password,
@@ -92,27 +95,31 @@ export function createTransformEncrypt(options: ResolvedValaxyOptions) {
           frontmatter.encryptedContent = encryptedContent
           frontmatter.encrypt = true
           delete frontmatter.password
-          // replace content in <template></template> using explicit bounds
-          const encryptedContentStr = '$encryptedContent'
-          code = `${code.slice(0, templateStart + 10)}${getValaxyDecryptTemplate({
-            encryptedContent: encryptedContentStr,
-            hint: frontmatter.password_hint,
-          })}${code.slice(templateEnd)}`
+
+          patches.push({
+            start: start.offset,
+            end: end.offset,
+            text: getValaxyDecryptTemplate({
+              encryptedContent: '$encryptedContent',
+              hint: frontmatter.password_hint,
+            }),
+          })
         }
         else {
           delete frontmatter.password
         }
 
-        // remove export / secrets in <script setup>
-        const scriptSetupMatches = [...code.matchAll(/<script\s[^>]*>/g)]
-          .filter(match => /\ssetup(?:\s|>)/.test(match[0]))
-        const lastScriptSetup = scriptSetupMatches.at(-1)
-        if (lastScriptSetup && lastScriptSetup.index !== undefined) {
-          const contentStart = lastScriptSetup.index + lastScriptSetup[0].length
-          const scriptSetupEnd = code.indexOf('</script>', contentStart)
-          if (scriptSetupEnd !== -1)
-            code = `${code.slice(0, contentStart)}${code.slice(scriptSetupEnd)}`
+        // Remove export / secrets from the real top-level `<script setup>` SFC block only.
+        if (descriptor.scriptSetup) {
+          patches.push({
+            start: descriptor.scriptSetup.loc.start.offset,
+            end: descriptor.scriptSetup.loc.end.offset,
+            text: '',
+          })
         }
+
+        for (const patch of patches.sort((a, b) => b.start - a.start))
+          code = `${code.slice(0, patch.start)}${patch.text}${code.slice(patch.end)}`
       }
       if (frontmatter.gallery_password) {
         const encryptedPhotos = await encryptContent(JSON.stringify(frontmatter.photos), {

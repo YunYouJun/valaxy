@@ -5,6 +5,7 @@ import { tmpdir } from 'node:os'
 import { join } from 'node:path'
 import MarkdownIt from 'markdown-it'
 import { describe, expect, it } from 'vitest'
+import { parse as parseSfc } from 'vue/compiler-sfc'
 import { containerPlugin } from '../packages/valaxy/node/plugins/markdown/plugins/markdown-it/container'
 import { createTransformEncrypt } from '../packages/valaxy/node/plugins/markdown/transform/encrypt'
 import { writeRedirectFiles } from '../packages/valaxy/node/utils/clientRedirects'
@@ -86,6 +87,44 @@ describe('createTransformEncrypt', () => {
     expect(output).not.toContain('top-secret')
     expect(output).toContain('<script setup lang="ts"></script>')
     expect(output).toContain('<script>export const meta = 1</script>')
+  })
+
+  it('strips only the top-level script setup block even when script-setup tags appear inside frontmatter strings or comments', async () => {
+    const transform = createTransformEncrypt({
+      config: {
+        siteConfig: {
+          encrypt: {
+            enable: true,
+            iv: new Uint8Array(16),
+            salt: new Uint8Array(16),
+          },
+        },
+      },
+    } as ResolvedValaxyOptions)
+
+    const pageData = {
+      frontmatter: {
+        password: 'secret',
+        password_hint: 'Use <script setup lang="ts">',
+      },
+    } as unknown as PageData
+
+    const input = [
+      '<template><div class="secret">Private body</div></template>',
+      '<script setup>',
+      'const frontmatter = {"description":"Use <script setup lang=\\"ts\\">"}',
+      'window.privateData = "PRIVATE_SENTINEL"',
+      '// <script setup lang="ts">',
+      '</script>',
+    ].join('\n')
+
+    const output = await transform(input, '/posts/tricky-setup.md', pageData)
+    const { descriptor, errors } = parseSfc(output, { filename: 'tricky-setup.vue' })
+
+    expect(errors).toEqual([])
+    expect(output).toContain('hint="Use &lt;script setup lang=&quot;ts&quot;&gt;"')
+    expect(output).not.toContain('PRIVATE_SENTINEL')
+    expect(descriptor.scriptSetup?.content ?? '').toBe('')
   })
 })
 
