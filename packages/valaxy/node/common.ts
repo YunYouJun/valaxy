@@ -4,6 +4,7 @@ import { join } from 'node:path'
 import { uniq } from '@antfu/utils'
 import fs from 'fs-extra'
 import { loadConfigFromFile, mergeConfig } from 'vite'
+import { escapeHtml, sanitizeUrl, serializeInlineJsString } from '../shared'
 import { foucGuardHtml } from './scripts/fouc-guard'
 import { toAtFS } from './utils'
 
@@ -49,8 +50,11 @@ export async function getIndexHtml({ clientRoot, themeRoot, userRoot, config }: 
   let head = ''
   let body = ''
 
-  if (config.siteConfig.favicon)
-    head += `<link rel="icon" href="${config.siteConfig.favicon}">`
+  if (config.siteConfig.favicon) {
+    const safeFavicon = sanitizeUrl(config.siteConfig.favicon, '', { allowDataImage: true })
+    if (safeFavicon)
+      head += `<link rel="icon" href="${escapeHtml(safeFavicon)}">`
+  }
 
   const roots = [userRoot, themeRoot]
 
@@ -91,7 +95,7 @@ export async function getIndexHtml({ clientRoot, themeRoot, userRoot, config }: 
   if (config.siteConfig.lang) {
     head += `
     <script>
-    const locale = localStorage.getItem('valaxy-locale') || '${config.siteConfig.lang}';
+    const locale = localStorage.getItem('valaxy-locale') || ${serializeInlineJsString(config.siteConfig.lang)};
     document.documentElement.setAttribute('lang', locale);
     </script>
     `
@@ -109,9 +113,9 @@ export async function getIndexHtml({ clientRoot, themeRoot, userRoot, config }: 
   }
 
   main = main
-    .replace('__ENTRY__', toAtFS(join(clientRoot, 'main.ts')))
-    .replace('<!-- head -->', head)
-    .replace('<!-- body -->', body)
+    .replace('__ENTRY__', () => toAtFS(join(clientRoot, 'main.ts')))
+    .replace('<!-- head -->', () => head)
+    .replace('<!-- body -->', () => body)
 
   return main
 }

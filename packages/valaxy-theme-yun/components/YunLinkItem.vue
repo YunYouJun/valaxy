@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import type { LinkType } from '../types'
-import { withBase } from 'valaxy'
+import { sanitizeUrl, withBase } from 'valaxy'
 import { onImgError } from '../utils'
 
 const props = defineProps<{
@@ -26,7 +26,7 @@ function getLinkLabel(link: LinkType) {
   >
     <a
       class="yun-link-url"
-      :href="link.url" :title="link.name"
+      :href="sanitizeUrl(link.url)" :title="link.name"
       :aria-label="getLinkLabel(link)"
       rel="friend noopener noreferrer" target="_blank"
     >

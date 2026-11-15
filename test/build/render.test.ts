@@ -1,6 +1,7 @@
 import { mkdtemp, readFile, rm } from 'node:fs/promises'
 import { tmpdir } from 'node:os'
 import { join } from 'node:path'
+import vm from 'node:vm'
 import { describe, expect, it } from 'vitest'
 import { renderPage, renderPreloadLinks, routeToFileName, serializeState } from '../../packages/valaxy/node/build/render'
 
@@ -158,6 +159,24 @@ describe('serializeState', () => {
     const result = serializeState({ text: 'a\u2028b\u2029c' })
     expect(result).toContain('\\u2028')
     expect(result).toContain('\\u2029')
+  })
+
+  it('round-trips quotes, backslashes, newlines, tabs, and literal unicode escapes without breaking JSON.parse', () => {
+    const state = {
+      quoted: 'He said "hello" & \'bye\'',
+      backslash: 'C:\\Users\\test\\file',
+      multiline: 'line1\nline2\tindent',
+      tag: '</script><script>alert(1)</script>',
+      literalEscape: 'raw \\u003c and \\n sequence',
+      unicodeSep: 'a\u2028b\u2029c',
+    }
+    const html = serializeState(state)
+    const scriptBody = html.match(/^<script>([\s\S]*)<\/script>$/)?.[1]
+    expect(scriptBody).toBeTruthy()
+
+    const sandbox: { window: Record<string, any> } = { window: {} }
+    vm.runInNewContext(scriptBody!, sandbox)
+    expect(JSON.parse(sandbox.window.__INITIAL_STATE__)).toEqual(state)
   })
 })
 

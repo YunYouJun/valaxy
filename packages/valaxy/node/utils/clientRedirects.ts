@@ -1,5 +1,6 @@
 import type { RedirectItem, RedirectRule } from '../../types'
 import fs from 'fs-extra'
+import { escapeHtml, sanitizeUrl, serializeInlineJsString } from '../../shared'
 
 function handleRoute(route: string) {
   if (route === '/')
@@ -35,17 +36,21 @@ export function collectRedirects(redirectRules?: RedirectRule[]): RedirectItem[]
 }
 
 export async function writeRedirectFiles(route: string, filePath: string) {
+  const safeRoute = sanitizeUrl(route, '/')
+  const escapedRoute = escapeHtml(safeRoute)
+  const jsRoute = serializeInlineJsString(safeRoute)
+
   await fs.ensureFile(filePath)
   await fs.writeFile(filePath, `
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta http-equiv="refresh" content="0; url=${route}">
-  <link rel="canonical" href="${route}">
+  <meta http-equiv="refresh" content="0; url=${escapedRoute}">
+  <link rel="canonical" href="${escapedRoute}">
 </head>
   <script>
-    window.location.href = '${route}' + window.location.search + window.location.hash
+    window.location.href = ${jsRoute} + window.location.search + window.location.hash
   </script>
 </html>
   `)

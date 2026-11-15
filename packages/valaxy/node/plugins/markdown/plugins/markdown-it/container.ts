@@ -154,8 +154,9 @@ function createCodeGroup(md: MarkdownRenderer): ContainerArgs {
               )
 
               if (title) {
+                const escapedTitle = md.utils.escapeHtml(title)
                 tabs += `<input type="radio" name="group-${idx}" id="tab-${i}" ${checked}/>`
-                tabs += `<label data-title="${md.utils.escapeHtml(title)}" for="tab-${i}">${title}</label>`
+                tabs += `<label v-pre data-title="${escapedTitle}" for="tab-${i}">${escapedTitle}</label>`
 
                 if (checked && !isHtml)
                   tokens[i].info += ' active'

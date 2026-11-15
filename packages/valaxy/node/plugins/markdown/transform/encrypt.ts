@@ -2,6 +2,7 @@ import type { PageData } from '../../../../types'
 import type { ResolvedValaxyOptions } from '../../../types'
 import process from 'node:process'
 import { consola } from 'consola'
+import { escapeHtml } from '../../../../shared'
 import { encryptContent } from '../../../utils/encrypt'
 
 let globalPasswordLoggedOnce = false
@@ -26,7 +27,7 @@ export function createTransformEncrypt(options: ResolvedValaxyOptions) {
       }) {
         return [
           '<ClientOnly>',
-          `<ValaxyDecrypt :encrypted-content="${options.encryptedContent}" hint="${options.hint || ''}" />`,
+          `<ValaxyDecrypt :encrypted-content="${options.encryptedContent}" hint="${escapeHtml(options.hint || '')}" />`,
           '</ClientOnly>',
         ].join('')
       }
@@ -80,29 +81,38 @@ export function createTransformEncrypt(options: ResolvedValaxyOptions) {
       if (password) {
         const templateStart = code.indexOf('<template>')
         const templateEnd = code.lastIndexOf('</template>')
-        const content = code.slice(templateStart + 10, templateEnd)
+        if (templateStart !== -1 && templateEnd >= templateStart + 10) {
+          const content = code.slice(templateStart + 10, templateEnd)
 
-        const encryptedContent = await encryptContent(content, {
-          password,
-          iv: encrypt.iv,
-          salt: encrypt.salt,
-        })
-        frontmatter.encryptedContent = encryptedContent
-        frontmatter.encrypt = true
-        delete frontmatter.password
-        // replace content in <template></template> to empty
-        const encryptedContentStr = '$encryptedContent'
-        code = code.replace(content, getValaxyDecryptTemplate({
-          encryptedContent: encryptedContentStr,
-          hint: frontmatter.password_hint,
-        }))
+          const encryptedContent = await encryptContent(content, {
+            password,
+            iv: encrypt.iv,
+            salt: encrypt.salt,
+          })
+          frontmatter.encryptedContent = encryptedContent
+          frontmatter.encrypt = true
+          delete frontmatter.password
+          // replace content in <template></template> using explicit bounds
+          const encryptedContentStr = '$encryptedContent'
+          code = `${code.slice(0, templateStart + 10)}${getValaxyDecryptTemplate({
+            encryptedContent: encryptedContentStr,
+            hint: frontmatter.password_hint,
+          })}${code.slice(templateEnd)}`
+        }
+        else {
+          delete frontmatter.password
+        }
 
-        // remove export
-        const scriptSetupStart = code.lastIndexOf('<script setup>')
-        const scriptSetupEnd = code.lastIndexOf('</script>')
-        const scriptSetupContent = code.slice(scriptSetupStart + 14, scriptSetupEnd)
-        // hide password in script setup
-        code = code.replace(scriptSetupContent, '')
+        // remove export / secrets in <script setup>
+        const scriptSetupMatches = [...code.matchAll(/<script\s[^>]*>/g)]
+          .filter(match => /\ssetup(?:\s|>)/.test(match[0]))
+        const lastScriptSetup = scriptSetupMatches.at(-1)
+        if (lastScriptSetup && lastScriptSetup.index !== undefined) {
+          const contentStart = lastScriptSetup.index + lastScriptSetup[0].length
+          const scriptSetupEnd = code.indexOf('</script>', contentStart)
+          if (scriptSetupEnd !== -1)
+            code = `${code.slice(0, contentStart)}${code.slice(scriptSetupEnd)}`
+        }
       }
       if (frontmatter.gallery_password) {
         const encryptedPhotos = await encryptContent(JSON.stringify(frontmatter.photos), {
