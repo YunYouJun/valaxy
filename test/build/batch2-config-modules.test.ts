@@ -128,6 +128,32 @@ describe('batch 2 effective config, root containment & module outputs', () => {
     expect(first.outDir).toBe(resolve(userRoot, 'first-output'))
     expect(second.outDir).toBe(resolve(userRoot, 'second-output'))
     expect((second.viteConfig.build as any).outDir).toBe(resolve(userRoot, 'second-output'))
+
+    // 5. Mode-dependent vite.config.ts receives 'production' by default or explicit caller mode,
+    //    and explicit configFile build.outDir is loaded before freezing canonical paths.
+    const modeRoot = await createProject('valaxy-b2-mode-')
+    await fs.outputFile(
+      resolve(modeRoot, 'vite.config.ts'),
+      'export default ({ mode }) => ({ base: "/" + mode + "/", build: { outDir: "out-" + mode } })\n',
+    )
+    await fs.outputFile(
+      resolve(modeRoot, 'custom.vite.config.ts'),
+      'export default { build: { outDir: "chosen-output" } }\n',
+    )
+    const resProd = await resolveEffectiveViteConfig(makeBaseOptions(modeRoot), 'build')
+    expect(resProd.base).toBe('/production/')
+    expect(resProd.outDir).toBe(resolve(modeRoot, 'out-production'))
+
+    const resStaging = await resolveEffectiveViteConfig(makeBaseOptions(modeRoot), 'build', { mode: 'staging' })
+    expect(resStaging.base).toBe('/staging/')
+    expect(resStaging.outDir).toBe(resolve(modeRoot, 'out-staging'))
+
+    const resExplicitCfg = await resolveEffectiveViteConfig(makeBaseOptions(modeRoot), 'build', {
+      configFile: resolve(modeRoot, 'custom.vite.config.ts'),
+    })
+    expect(resExplicitCfg.outDir).toBe(resolve(modeRoot, 'chosen-output'))
+    expect((resExplicitCfg.viteConfig.build as any).outDir).toBe(resolve(modeRoot, 'chosen-output'))
+    expect(resExplicitCfg.viteConfig.configFile).toBe(false)
   })
 
   it('preserves publicDir: false and resolves relative publicDir against userRoot in extendConfig', async () => {

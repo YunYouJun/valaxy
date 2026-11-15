@@ -1,7 +1,7 @@
 import type { InlineConfig } from 'vite'
 import type { ResolvedValaxyOptions } from '../types'
 import { resolve } from 'node:path'
-import { mergeConfig } from 'vite'
+import { loadConfigFromFile, mergeConfig } from 'vite'
 import { mergeViteConfigs } from '../common'
 
 export interface ResolvedBuildPaths {
@@ -71,9 +71,27 @@ export async function resolveEffectiveViteConfig(
     return { viteConfig: callerViteConfig, ...paths }
   }
 
-  const baseViteConfig = await mergeViteConfigs(options, command)
+  const mode = callerViteConfig.mode
+    ?? options.config.vite?.mode
+    ?? (command === 'build' ? 'production' : 'development')
+
+  const baseViteConfig = await mergeViteConfigs(options, command, mode)
+
+  const explicitConfigFile = callerViteConfig.configFile !== undefined
+    ? callerViteConfig.configFile
+    : (options.config.vite as InlineConfig | undefined)?.configFile
+  let explicitFileConfig: InlineConfig = {}
+  if (typeof explicitConfigFile === 'string') {
+    const loaded = await loadConfigFromFile({ command, mode }, explicitConfigFile, options.userRoot)
+    if (loaded?.config)
+      explicitFileConfig = loaded.config
+  }
+
   const merged = mergeConfig(
-    mergeConfig(baseViteConfig, options.config.vite || {}),
+    mergeConfig(
+      mergeConfig(baseViteConfig, options.config.vite || {}),
+      explicitFileConfig,
+    ),
     callerViteConfig,
   )
 
@@ -83,9 +101,9 @@ export async function resolveEffectiveViteConfig(
   options.base = paths.base
 
   const viteConfig = mergeConfig(merged, {
-    // Disable Vite's automatic cwd configFile discovery since mergeViteConfigs already loaded
-    // themeRoot/userRoot vite.config.ts (unless the caller explicitly specified configFile).
-    configFile: merged.configFile ?? false,
+    // Disable Vite's configFile loading since theme/user and explicit configs were
+    // already loaded with the effective mode above.
+    configFile: false,
     publicDir: paths.publicDir,
     build: {
       outDir: paths.outDir,

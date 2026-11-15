@@ -12,9 +12,13 @@ import { toAtFS } from './utils'
  * merge vite.config.ts (user & theme)
  * @internal
  */
-export async function mergeViteConfigs({ userRoot, themeRoot }: ResolvedValaxyOptions, command: 'serve' | 'build') {
+export async function mergeViteConfigs(
+  { userRoot, themeRoot }: ResolvedValaxyOptions,
+  command: 'serve' | 'build',
+  mode: string = command === 'build' ? 'production' : 'development',
+) {
   const configEnv: ConfigEnv = {
-    mode: 'development',
+    mode,
     command,
   }
 
