@@ -14,8 +14,6 @@ export interface EffectiveViteConfigResult extends ResolvedBuildPaths {
   viteConfig: InlineConfig
 }
 
-const resolvedConfigsWeakSet = new WeakSet<InlineConfig>()
-
 /**
  * Resolve Vite's `publicDir` relative to `userRoot`, preserving `false` when disabled.
  */
@@ -62,15 +60,8 @@ export async function resolveEffectiveViteConfig(
   command: 'serve' | 'build',
   callerViteConfig: InlineConfig = {},
   explicitOutDir?: string,
+  isSsrBuild?: boolean,
 ): Promise<EffectiveViteConfigResult> {
-  if (resolvedConfigsWeakSet.has(callerViteConfig)) {
-    const paths = resolveBuildPaths(options, callerViteConfig, explicitOutDir)
-    options.outDir = paths.outDir
-    options.publicDir = paths.publicDir
-    options.base = paths.base
-    return { viteConfig: callerViteConfig, ...paths }
-  }
-
   const mode = callerViteConfig.mode
     ?? options.config.vite?.mode
     ?? (command === 'build' ? 'production' : 'development')
@@ -79,8 +70,9 @@ export async function resolveEffectiveViteConfig(
     ? callerViteConfig.configFile
     : (options.config.vite as InlineConfig | undefined)?.configFile
 
+  // Match Vite's own cwd-relative resolution for explicit configFile strings.
   const resolvedExplicitConfigFile = typeof explicitConfigFile === 'string'
-    ? resolve(options.userRoot, explicitConfigFile)
+    ? resolve(explicitConfigFile)
     : undefined
 
   // Skip loading standard theme/user vite.config.ts here if Vite will load that same
@@ -90,14 +82,14 @@ export async function resolveEffectiveViteConfig(
     command,
     mode,
     resolvedExplicitConfigFile ? [resolvedExplicitConfigFile] : [],
+    isSsrBuild,
   )
 
   let explicitFileConfig: InlineConfig = {}
-  if (typeof explicitConfigFile === 'string') {
+  if (resolvedExplicitConfigFile) {
     const loaded = await loadConfigFromFile(
-      { command, mode, isSsrBuild: false },
-      explicitConfigFile,
-      options.userRoot,
+      { command, mode, isSsrBuild: isSsrBuild ?? false },
+      resolvedExplicitConfigFile,
     )
     if (loaded?.config)
       explicitFileConfig = loaded.config
@@ -108,12 +100,12 @@ export async function resolveEffectiveViteConfig(
     callerViteConfig,
   )
 
-  // Include explicit file config when computing canonical build paths (outDir/publicDir/base),
-  // while leaving Vite to load explicit configFile itself so isSsrBuild branching works per pass.
+  // Compute canonical build paths using Vite's precedence:
+  // discovered/explicit file configs -> options.config.vite -> callerViteConfig.
   const mergedForPaths = mergeConfig(
     mergeConfig(
-      mergeConfig(baseViteConfig, options.config.vite || {}),
-      explicitFileConfig,
+      mergeConfig(baseViteConfig, explicitFileConfig),
+      options.config.vite || {},
     ),
     callerViteConfig,
   )
@@ -132,8 +124,6 @@ export async function resolveEffectiveViteConfig(
       outDir: paths.outDir,
     },
   } as InlineConfig)
-
-  resolvedConfigsWeakSet.add(viteConfig)
 
   return {
     viteConfig,

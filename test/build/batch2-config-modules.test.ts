@@ -1,4 +1,5 @@
 import type { ResolvedValaxyOptions } from '../../packages/valaxy/node/types'
+import { realpathSync } from 'node:fs'
 import { mkdtemp, rm } from 'node:fs/promises'
 import { tmpdir } from 'node:os'
 import { resolve } from 'node:path'
@@ -23,7 +24,7 @@ vi.mock('vite', async () => {
     }),
   }
 })
-const { build: runSpaBuild } = await import('../../packages/valaxy/node/build')
+const { build: runSpaBuild, ssgBuild: runSsgBuild } = await import('../../packages/valaxy/node/build')
 const { execBuild } = await import('../../packages/valaxy/node/cli/build')
 
 const tempRoots: string[] = []
@@ -157,9 +158,10 @@ describe('batch 2 effective config, root containment & module outputs', () => {
     expect(resExplicitCfg.viteConfig.configFile).toBe(customConfigPath)
 
     // 6. Passing standard userRoot/vite.config.ts as explicit configFile does not duplicate its plugins
+    //    and preserves SSR-aware evaluation across client and server SSG passes.
     await fs.outputFile(
       resolve(modeRoot, 'vite.config.ts'),
-      'export default ({ isSsrBuild }) => ({ plugins: [{ name: isSsrBuild ? "ssr-plugin" : "client-plugin" }] })\n',
+      'export default ({ isSsrBuild }) => ({ define: { __SSR_TARGET__: JSON.stringify(isSsrBuild ? "server" : "client") }, plugins: [{ name: isSsrBuild ? "ssr-plugin" : "client-plugin" }] })\n',
     )
     const stdConfigPath = resolve(modeRoot, 'vite.config.ts')
     const resStdExplicit = await resolveEffectiveViteConfig(makeBaseOptions(modeRoot), 'build', {
@@ -167,6 +169,41 @@ describe('batch 2 effective config, root containment & module outputs', () => {
     })
     expect(resStdExplicit.viteConfig.configFile).toBe(stdConfigPath)
     expect(resStdExplicit.viteConfig.plugins).toBeUndefined()
+
+    const ssgOptions = makeBaseOptions(modeRoot)
+    await expect(runSsgBuild({ options: ssgOptions } as any)).rejects.toThrow()
+    expect(viteMock.buildCalls).toHaveLength(2)
+    expect(viteMock.buildCalls[0].define?.__SSR_TARGET__).toBe('"client"')
+    expect(viteMock.buildCalls[1].define?.__SSR_TARGET__).toBe('"server"')
+
+    // 7. Cwd-relative explicit configFile resolves relative to cwd, and options.config.vite overrides file base
+    const workspaceRoot = await createProject('valaxy-b2-cwd-')
+    const siteRoot = resolve(workspaceRoot, 'site')
+    await fs.ensureDir(resolve(siteRoot, 'pages'))
+    await fs.outputFile(
+      resolve(siteRoot, 'custom.vite.ts'),
+      'export default { base: "/file/", build: { outDir: "file-out" } }\n',
+    )
+    const prevCwd = process.cwd()
+    process.chdir(workspaceRoot)
+    try {
+      const optPrecedence = makeBaseOptions(siteRoot, {
+        config: {
+          siteConfig: { ...defaultSiteConfig },
+          vite: { base: '/site/' },
+        } as any,
+      })
+      const resCwd = await resolveEffectiveViteConfig(optPrecedence, 'build', {
+        configFile: 'site/custom.vite.ts',
+      })
+      expect(realpathSync(resCwd.viteConfig.configFile as string)).toBe(realpathSync(resolve(workspaceRoot, 'site/custom.vite.ts')))
+      expect(resCwd.outDir).toBe(resolve(siteRoot, 'file-out'))
+      expect(resCwd.base).toBe('/site/')
+      expect(optPrecedence.base).toBe('/site/')
+    }
+    finally {
+      process.chdir(prevCwd)
+    }
   })
 
   it('preserves publicDir: false and resolves relative publicDir against userRoot in extendConfig', async () => {

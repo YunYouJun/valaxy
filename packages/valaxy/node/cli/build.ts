@@ -68,18 +68,18 @@ export async function execBuild({ ssg, root, output, log, siteUrl }: { ssg: bool
 
   // Resolve Vite config and canonical build paths after addon setup, options:resolved,
   // and config:init so addon/hook Vite mutations are preserved before output hooks run.
+  const rawViteConfig: InlineConfig = {
+    build: {
+      // make out dir empty, https://vitejs.dev/config/#build-emptyoutdir
+      emptyOutDir: true,
+      ...(output !== undefined ? { outDir: path.resolve(options.userRoot, output) } : {}),
+    },
+    logLevel: log as LogLevel,
+  }
   const { viteConfig } = await resolveEffectiveViteConfig(
     options,
     'build',
-    {
-      // avoid load userRoot/vite.config.ts repeatedly
-      configFile: path.resolve(options.clientRoot, 'vite.config.ts'),
-      build: {
-        // make out dir empty, https://vitejs.dev/config/#build-emptyoutdir
-        emptyOutDir: true,
-      },
-      logLevel: log as LogLevel,
-    } as InlineConfig,
+    rawViteConfig,
     output,
   )
 
@@ -92,13 +92,12 @@ export async function execBuild({ ssg, root, output, log, siteUrl }: { ssg: bool
     if (ssg) {
       consola.info('use valaxy SSG engine to build...')
       const userSsgOptions = (viteConfig as any).ssgOptions || {}
-      delete (viteConfig as any).ssgOptions
-      await ssgBuild(valaxyApp, viteConfig, userSsgOptions)
+      await ssgBuild(valaxyApp, rawViteConfig, userSsgOptions)
       await postProcessForSSG(options)
     }
     else {
       consola.info('use vite do spa build...')
-      await build(valaxyApp, viteConfig)
+      await build(valaxyApp, rawViteConfig)
     }
   }
   finally {

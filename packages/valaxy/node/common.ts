@@ -1,5 +1,6 @@
 import type { ConfigEnv, InlineConfig } from 'vite'
 import type { ResolvedValaxyOptions } from './types'
+import { realpathSync } from 'node:fs'
 import { join, resolve } from 'node:path'
 import { uniq } from '@antfu/utils'
 import fs from 'fs-extra'
@@ -7,6 +8,16 @@ import { loadConfigFromFile, mergeConfig } from 'vite'
 import { escapeHtml, sanitizeUrl, serializeInlineJsString } from '../shared'
 import { foucGuardHtml } from './scripts/fouc-guard'
 import { toAtFS } from './utils'
+
+function normalizeConfigPath(file: string) {
+  const abs = resolve(file)
+  try {
+    return realpathSync(abs)
+  }
+  catch {
+    return abs
+  }
+}
 
 /**
  * merge vite.config.ts (user & theme)
@@ -17,18 +28,20 @@ export async function mergeViteConfigs(
   command: 'serve' | 'build',
   mode: string = command === 'build' ? 'production' : 'development',
   excludeFiles: string[] = [],
+  isSsrBuild?: boolean,
 ) {
   const configEnv: ConfigEnv = {
     mode,
     command,
+    ...(isSsrBuild !== undefined ? { isSsrBuild } : {}),
   }
 
   let resolvedConfig: InlineConfig = {}
-  const excluded = new Set(excludeFiles.map(file => resolve(file)))
+  const excluded = new Set(excludeFiles.map(normalizeConfigPath))
   // let vite default config file be clientRoot/vite.config.ts
   const files = uniq([themeRoot, userRoot])
     .map(i => join(i, 'vite.config.ts'))
-    .filter(file => !excluded.has(resolve(file)))
+    .filter(file => !excluded.has(normalizeConfigPath(file)))
 
   const loadViteConfigPromiseArr = files.map(async (file) => {
     if (!await fs.exists(file))
