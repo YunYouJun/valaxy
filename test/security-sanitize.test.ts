@@ -5,6 +5,7 @@ import { tmpdir } from 'node:os'
 import { join } from 'node:path'
 import MarkdownIt from 'markdown-it'
 import { describe, expect, it } from 'vitest'
+import { parse as parseSfc, parseCache as sfcParseCache } from 'vue/compiler-sfc'
 import { containerPlugin } from '../packages/valaxy/node/plugins/markdown/plugins/markdown-it/container'
 import { createTransformEncrypt } from '../packages/valaxy/node/plugins/markdown/transform/encrypt'
 import { writeRedirectFiles } from '../packages/valaxy/node/utils/clientRedirects'
@@ -87,6 +88,46 @@ describe('createTransformEncrypt', () => {
     expect(output).toContain('<script setup lang="ts"></script>')
     expect(output).toContain('<script>export const meta = 1</script>')
   })
+
+  it('strips only the top-level script setup block even when script-setup tags appear inside frontmatter strings or comments', async () => {
+    const transform = createTransformEncrypt({
+      config: {
+        siteConfig: {
+          encrypt: {
+            enable: true,
+            iv: new Uint8Array(16),
+            salt: new Uint8Array(16),
+          },
+        },
+      },
+    } as ResolvedValaxyOptions)
+
+    const pageData = {
+      frontmatter: {
+        password: 'secret',
+        password_hint: 'Use <script setup lang="ts">',
+      },
+    } as unknown as PageData
+
+    const input = [
+      '<template><div class="secret">Private body</div></template>',
+      '<script setup>',
+      'const frontmatter = {"description":"Use <script setup lang=\\"ts\\">"}',
+      'window.privateData = "PRIVATE_SENTINEL"',
+      '// <script setup lang="ts">',
+      '</script>',
+    ].join('\n')
+
+    const cacheSizeBefore = sfcParseCache.size
+    const output = await transform(input, '/posts/tricky-setup.md', pageData)
+    expect(sfcParseCache.size).toBe(cacheSizeBefore)
+    const { descriptor, errors } = parseSfc(output, { filename: 'tricky-setup.vue' })
+
+    expect(errors).toEqual([])
+    expect(output).toContain('hint="Use &lt;script setup lang=&quot;ts&quot;&gt;"')
+    expect(output).not.toContain('PRIVATE_SENTINEL')
+    expect(descriptor.scriptSetup?.content ?? '').toBe('')
+  })
 })
 
 describe('containerPlugin code-group tab titles', () => {
@@ -106,5 +147,28 @@ describe('containerPlugin code-group tab titles', () => {
 
     expect(html).toContain('<label v-pre data-title="&lt;img onerror=alert(1)&gt; {{ count }}"')
     expect(html).toContain('>&lt;img onerror=alert(1)&gt; {{ count }}</label>')
+  })
+
+  it('decodes HTML entities in html_block data-title before re-escaping so entities are not double-escaped', () => {
+    const md = new MarkdownIt({ html: true })
+    md.use((instance) => {
+      containerPlugin(instance as any)
+    })
+
+    const html = md.render([
+      '::: code-group',
+      '<div class="language-ts" data-title="A &amp; B &#x27;C&#39; &quot;D&quot;"><pre><code>const a = 1</code></pre></div>',
+      '',
+      '<div class="language-ts" data-title="&lt;img onerror=alert(1)&gt;"><pre><code>const b = 2</code></pre></div>',
+      '',
+      '<div class="language-ts" data-title="&constructor; &Amp;"><pre><code>const c = 3</code></pre></div>',
+      ':::',
+    ].join('\n'))
+
+    expect(html).toContain('<label v-pre data-title="A &amp; B \'C\' &quot;D&quot;" for="tab-1">A &amp; B \'C\' &quot;D&quot;</label>')
+    expect(html).toContain('<label v-pre data-title="&lt;img onerror=alert(1)&gt;" for="tab-2">&lt;img onerror=alert(1)&gt;</label>')
+    expect(html).toContain('<label v-pre data-title="&amp;constructor; &amp;Amp;" for="tab-3">&amp;constructor; &amp;Amp;</label>')
+    expect(html).not.toContain('&amp;amp;')
+    expect(html).not.toContain('function Object()')
   })
 })

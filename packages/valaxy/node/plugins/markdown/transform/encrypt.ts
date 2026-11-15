@@ -79,10 +79,28 @@ export function createTransformEncrypt(options: ResolvedValaxyOptions) {
 
       // encrypt the entire article
       if (password) {
-        const templateStart = code.indexOf('<template>')
-        const templateEnd = code.lastIndexOf('</template>')
-        if (templateStart !== -1 && templateEnd >= templateStart + 10) {
-          const content = code.slice(templateStart + 10, templateEnd)
+        // Load vue/compiler-sfc on demand so unencrypted builds do not pull it into startup/SSR memory.
+        const { parse: parseSfc, parseCache } = await import('vue/compiler-sfc')
+        const parsed = parseSfc(code, { filename: id, sourceMap: false })
+        const templateLoc = parsed.descriptor.template
+          ? { start: parsed.descriptor.template.loc.start.offset, end: parsed.descriptor.template.loc.end.offset }
+          : null
+        const scriptSetupLoc = parsed.descriptor.scriptSetup
+          ? { start: parsed.descriptor.scriptSetup.loc.start.offset, end: parsed.descriptor.scriptSetup.loc.end.offset }
+          : null
+
+        // Evict the transient pre-encryption AST/source immediately so Vue's global parseCache stays bounded.
+        for (const [key, entry] of parseCache) {
+          if (entry === parsed) {
+            parseCache.delete(key)
+            break
+          }
+        }
+
+        const patches: { start: number, end: number, text: string }[] = []
+
+        if (templateLoc) {
+          const content = code.slice(templateLoc.start, templateLoc.end)
 
           const encryptedContent = await encryptContent(content, {
             password,
@@ -92,27 +110,31 @@ export function createTransformEncrypt(options: ResolvedValaxyOptions) {
           frontmatter.encryptedContent = encryptedContent
           frontmatter.encrypt = true
           delete frontmatter.password
-          // replace content in <template></template> using explicit bounds
-          const encryptedContentStr = '$encryptedContent'
-          code = `${code.slice(0, templateStart + 10)}${getValaxyDecryptTemplate({
-            encryptedContent: encryptedContentStr,
-            hint: frontmatter.password_hint,
-          })}${code.slice(templateEnd)}`
+
+          patches.push({
+            start: templateLoc.start,
+            end: templateLoc.end,
+            text: getValaxyDecryptTemplate({
+              encryptedContent: '$encryptedContent',
+              hint: frontmatter.password_hint,
+            }),
+          })
         }
         else {
           delete frontmatter.password
         }
 
-        // remove export / secrets in <script setup>
-        const scriptSetupMatches = [...code.matchAll(/<script\s[^>]*>/g)]
-          .filter(match => /\ssetup(?:\s|>)/.test(match[0]))
-        const lastScriptSetup = scriptSetupMatches.at(-1)
-        if (lastScriptSetup && lastScriptSetup.index !== undefined) {
-          const contentStart = lastScriptSetup.index + lastScriptSetup[0].length
-          const scriptSetupEnd = code.indexOf('</script>', contentStart)
-          if (scriptSetupEnd !== -1)
-            code = `${code.slice(0, contentStart)}${code.slice(scriptSetupEnd)}`
+        // Remove export / secrets from the real top-level `<script setup>` SFC block only.
+        if (scriptSetupLoc) {
+          patches.push({
+            start: scriptSetupLoc.start,
+            end: scriptSetupLoc.end,
+            text: '',
+          })
         }
+
+        for (const patch of patches.sort((a, b) => b.start - a.start))
+          code = `${code.slice(0, patch.start)}${patch.text}${code.slice(patch.end)}`
       }
       if (frontmatter.gallery_password) {
         const encryptedPhotos = await encryptContent(JSON.stringify(frontmatter.photos), {
