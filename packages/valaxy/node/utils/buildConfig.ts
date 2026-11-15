@@ -100,6 +100,13 @@ export async function resolveEffectiveViteConfig(
     ? callerViteConfig.configFile
     : (options.config.vite as InlineConfig | undefined)?.configFile
 
+  const configLoader = callerViteConfig.configLoader
+    ?? (options.config.vite as InlineConfig | undefined)?.configLoader
+  const logLevel = callerViteConfig.logLevel
+    ?? (options.config.vite as InlineConfig | undefined)?.logLevel
+  const customLogger = callerViteConfig.customLogger
+    ?? (options.config.vite as InlineConfig | undefined)?.customLogger
+
   // Match Vite's own cwd-relative resolution for explicit configFile strings.
   const resolvedExplicitConfigFile = typeof explicitConfigFile === 'string'
     ? resolve(explicitConfigFile)
@@ -116,6 +123,9 @@ export async function resolveEffectiveViteConfig(
         mode,
         resolvedExplicitConfigFile ? [resolvedExplicitConfigFile] : [],
         isSsrBuild,
+        configLoader,
+        logLevel,
+        customLogger,
       )
 
   const merged = mergeConfig(

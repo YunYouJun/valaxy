@@ -104,15 +104,7 @@ export async function ssgBuild(
     undefined,
     false,
   )
-  const { viteConfig: effectiveServerViteConfig } = await resolveEffectiveViteConfig(
-    options,
-    'build',
-    viteConfig,
-    undefined,
-    true,
-  )
   delete (effectiveClientViteConfig as any).ssgOptions
-  delete (effectiveServerViteConfig as any).ssgOptions
 
   const ssgTemp = resolve(outDir, '.vite-ssg-temp')
   let routePaths: string[] = []
@@ -133,7 +125,6 @@ export async function ssgBuild(
   }
 
   const clientInlineConfig: InlineConfig = mergeViteConfig(defaultConfig, effectiveClientViteConfig)
-  const serverInlineConfig: InlineConfig = mergeViteConfig(defaultConfig, effectiveServerViteConfig)
 
   try {
     // === Step 1: Client Build (with SSR manifest) ===
@@ -144,6 +135,18 @@ export async function ssgBuild(
         outDir,
       },
     })))
+
+    // Resolve server Vite config after client build completes so config files
+    // branching on `isSsrBuild` can read client-generated manifests.
+    const { viteConfig: effectiveServerViteConfig } = await resolveEffectiveViteConfig(
+      options,
+      'build',
+      viteConfig,
+      undefined,
+      true,
+    )
+    delete (effectiveServerViteConfig as any).ssgOptions
+    const serverInlineConfig: InlineConfig = mergeViteConfig(defaultConfig, effectiveServerViteConfig)
 
     // === Step 2: Server Build ===
     consola.info('Building server bundle...')

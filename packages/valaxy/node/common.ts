@@ -46,6 +46,9 @@ export async function mergeViteConfigs(
   mode: string = command === 'build' ? 'production' : 'development',
   extraFiles: string[] = [],
   isSsrBuild?: boolean,
+  configLoader?: InlineConfig['configLoader'],
+  logLevel?: InlineConfig['logLevel'],
+  customLogger?: InlineConfig['customLogger'],
 ) {
   const configEnv: ConfigEnv = {
     mode,
@@ -69,7 +72,7 @@ export async function mergeViteConfigs(
 
   // Explicit extraFiles must reject if missing rather than falling back silently.
   const viteConfigs = await Promise.all(
-    files.map(file => loadConfigFromFile(configEnv, file)),
+    files.map(file => loadConfigFromFile(configEnv, file, undefined, logLevel, customLogger, configLoader)),
   )
 
   for (const viteConfig of viteConfigs) {

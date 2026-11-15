@@ -294,7 +294,7 @@ function hrefToUrl(siteUrl: string, href: string): string {
     return trimmed
   const directory = trimmed.endsWith('/')
   const urlPath = trimmed.startsWith('/') ? trimmed : `/${trimmed}`
-  const target = directory || urlPath.endsWith('.md') ? urlPath : `${normalizeLlmsPath(urlPath)}.md`
+  const target = directory || urlPath.endsWith('.md') ? urlPath : urlPathToMarkdownPath(urlPath).href
   return siteUrl ? `${siteUrl}${target}` : target
 }
 

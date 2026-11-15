@@ -12,13 +12,22 @@ import { resolveEffectiveViteConfig } from '../../packages/valaxy/node/utils/bui
 import { discoverPageFiles } from '../../packages/valaxy/node/utils/pageSources'
 import { joinBaseUrl } from '../../packages/valaxy/shared/utils/uri'
 
-const viteMock = vi.hoisted(() => ({ buildCalls: [] as any[] }))
+const viteMock = vi.hoisted(() => ({
+  buildCalls: [] as any[],
+  loadCalls: [] as any[],
+  onBuild: undefined as undefined | ((config: any) => Promise<void> | void),
+}))
 vi.mock('vite', async () => {
   const actual = await vi.importActual<typeof import('vite')>('vite')
   return {
     ...actual,
+    loadConfigFromFile: vi.fn(async (...args: Parameters<typeof actual.loadConfigFromFile>) => {
+      viteMock.loadCalls.push(args)
+      return actual.loadConfigFromFile(...args)
+    }),
     build: vi.fn(async (config: any) => {
       viteMock.buildCalls.push(config)
+      await viteMock.onBuild?.(config)
       return config
     }),
   }
@@ -78,6 +87,8 @@ function makeBaseOptions(userRoot: string, overrides: Partial<ResolvedValaxyOpti
 
 afterEach(async () => {
   viteMock.buildCalls = []
+  viteMock.loadCalls = []
+  viteMock.onBuild = undefined
   await Promise.all(tempRoots.splice(0).map(dir => fs.remove(dir)))
 })
 
@@ -432,6 +443,73 @@ export default ({ isSsrBuild }) => {
     await expect(execBuild({ ssg: true, root: userRoot, log: 'silent' })).rejects.toThrow()
     expect((globalThis as any).__valaxyClosureTestCalls).toBe(2)
     delete (globalThis as any).__valaxyClosureTestCalls
+  })
+
+  it('defers SSR config evaluation until after client build and forwards configLoader', async () => {
+    const userRoot = await createProject('valaxy-b2-ssr-order-')
+    const customConfig = resolve(userRoot, 'custom.vite.config.mjs')
+    const clientManifest = resolve(userRoot, 'dist/client-generated.json')
+
+    await fs.outputFile(
+      customConfig,
+      `import { readFileSync } from 'node:fs'
+export default ({ isSsrBuild }) => {
+  if (isSsrBuild)
+    return { define: { __CLIENT_MANIFEST__: readFileSync(${JSON.stringify(clientManifest)}, 'utf8') } }
+  return { define: { __CLIENT_MANIFEST__: '"client"' } }
+}
+`,
+    )
+
+    viteMock.onBuild = async (config) => {
+      if (!config.build?.ssr)
+        await fs.outputFile(clientManifest, JSON.stringify({ ready: true }))
+    }
+
+    const options = makeBaseOptions(userRoot)
+    await expect(runSsgBuild(
+      { options } as any,
+      { configFile: customConfig, configLoader: 'runner' },
+    )).rejects.toThrow()
+
+    expect(viteMock.buildCalls).toHaveLength(2)
+    expect(viteMock.buildCalls[1].define.__CLIENT_MANIFEST__).toBe(JSON.stringify({ ready: true }))
+    expect(viteMock.loadCalls.some(call => call[1] === customConfig && call[5] === 'runner')).toBe(true)
+  })
+
+  it('maps extensionless LLMS collapse targets such as /index to collision-free markdown files', async () => {
+    const userRoot = await createProject('valaxy-b2-llms-collapse-')
+    await fs.outputFile(resolve(userRoot, 'pages/index.md'), '---\ntitle: Home\n---\nHome content')
+    await fs.outputFile(resolve(userRoot, 'pages/index/index.md'), '---\ntitle: Index Topic\n---\nIndex topic')
+    await fs.outputFile(resolve(userRoot, 'pages/posts/hello.md'), '---\ntitle: Hello\n---\nPost body')
+
+    const options = makeBaseOptions(userRoot, {
+      config: {
+        siteConfig: {
+          ...defaultSiteConfig,
+          url: 'https://example.com/',
+          llms: {
+            ...defaultSiteConfig.llms,
+            enable: true,
+            include: ['**/*.md'],
+            collapse: [{
+              match: 'posts/**/*.md',
+              title: 'Posts Index',
+              href: '/index',
+              section: 'Docs',
+            }],
+          },
+        },
+        vite: {},
+      } as any,
+    })
+
+    await buildLlms(options)
+
+    const llmsTxt = await fs.readFile(resolve(userRoot, 'dist/llms.txt'), 'utf-8')
+    expect(llmsTxt).toContain('[Posts Index](https://example.com/index/index.md)')
+    expect(await fs.pathExists(resolve(userRoot, 'dist/index/index.md'))).toBe(true)
+    expect(await fs.pathExists(resolve(userRoot, 'dist/index.md'))).toBe(true)
   })
 
   it('writes fuse index to nested outDir paths when publicDir is false and preserves URL/relative bases', async () => {
