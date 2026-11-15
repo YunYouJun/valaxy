@@ -5,7 +5,7 @@ import { tmpdir } from 'node:os'
 import { join } from 'node:path'
 import MarkdownIt from 'markdown-it'
 import { describe, expect, it } from 'vitest'
-import { parse as parseSfc } from 'vue/compiler-sfc'
+import { parse as parseSfc, parseCache as sfcParseCache } from 'vue/compiler-sfc'
 import { containerPlugin } from '../packages/valaxy/node/plugins/markdown/plugins/markdown-it/container'
 import { createTransformEncrypt } from '../packages/valaxy/node/plugins/markdown/transform/encrypt'
 import { writeRedirectFiles } from '../packages/valaxy/node/utils/clientRedirects'
@@ -118,7 +118,9 @@ describe('createTransformEncrypt', () => {
       '</script>',
     ].join('\n')
 
+    const cacheSizeBefore = sfcParseCache.size
     const output = await transform(input, '/posts/tricky-setup.md', pageData)
+    expect(sfcParseCache.size).toBe(cacheSizeBefore)
     const { descriptor, errors } = parseSfc(output, { filename: 'tricky-setup.vue' })
 
     expect(errors).toEqual([])

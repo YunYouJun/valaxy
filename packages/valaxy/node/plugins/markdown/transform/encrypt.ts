@@ -2,7 +2,7 @@ import type { PageData } from '../../../../types'
 import type { ResolvedValaxyOptions } from '../../../types'
 import process from 'node:process'
 import { consola } from 'consola'
-import { parse as parseSfc } from 'vue/compiler-sfc'
+import { parseCache, parse as parseSfc } from 'vue/compiler-sfc'
 import { escapeHtml } from '../../../../shared'
 import { encryptContent } from '../../../utils/encrypt'
 
@@ -80,12 +80,26 @@ export function createTransformEncrypt(options: ResolvedValaxyOptions) {
 
       // encrypt the entire article
       if (password) {
-        const { descriptor } = parseSfc(code, { filename: id, sourceMap: false })
+        const parsed = parseSfc(code, { filename: id, sourceMap: false })
+        const templateLoc = parsed.descriptor.template
+          ? { start: parsed.descriptor.template.loc.start.offset, end: parsed.descriptor.template.loc.end.offset }
+          : null
+        const scriptSetupLoc = parsed.descriptor.scriptSetup
+          ? { start: parsed.descriptor.scriptSetup.loc.start.offset, end: parsed.descriptor.scriptSetup.loc.end.offset }
+          : null
+
+        // Evict the transient pre-encryption AST/source immediately so Vue's global parseCache stays bounded.
+        for (const [key, entry] of parseCache) {
+          if (entry === parsed) {
+            parseCache.delete(key)
+            break
+          }
+        }
+
         const patches: { start: number, end: number, text: string }[] = []
 
-        if (descriptor.template) {
-          const { start, end } = descriptor.template.loc
-          const content = code.slice(start.offset, end.offset)
+        if (templateLoc) {
+          const content = code.slice(templateLoc.start, templateLoc.end)
 
           const encryptedContent = await encryptContent(content, {
             password,
@@ -97,8 +111,8 @@ export function createTransformEncrypt(options: ResolvedValaxyOptions) {
           delete frontmatter.password
 
           patches.push({
-            start: start.offset,
-            end: end.offset,
+            start: templateLoc.start,
+            end: templateLoc.end,
             text: getValaxyDecryptTemplate({
               encryptedContent: '$encryptedContent',
               hint: frontmatter.password_hint,
@@ -110,10 +124,10 @@ export function createTransformEncrypt(options: ResolvedValaxyOptions) {
         }
 
         // Remove export / secrets from the real top-level `<script setup>` SFC block only.
-        if (descriptor.scriptSetup) {
+        if (scriptSetupLoc) {
           patches.push({
-            start: descriptor.scriptSetup.loc.start.offset,
-            end: descriptor.scriptSetup.loc.end.offset,
+            start: scriptSetupLoc.start,
+            end: scriptSetupLoc.end,
             text: '',
           })
         }
