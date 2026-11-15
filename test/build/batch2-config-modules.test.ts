@@ -119,6 +119,15 @@ describe('batch 2 effective config, root containment & module outputs', () => {
     const res3 = await resolveEffectiveViteConfig(optFromCli, 'build', {}, 'cli-out')
     expect(res3.outDir).toBe(resolve(userRoot, 'cli-out'))
     expect((res3.viteConfig.build as any).outDir).toBe(resolve(userRoot, 'cli-out'))
+    expect(res3.viteConfig.configFile).toBe(false)
+
+    // 4. Subsequent programmatic build overrides previous cached outDir on the same options
+    const optReuse = makeBaseOptions(userRoot)
+    const first = await resolveEffectiveViteConfig(optReuse, 'build', { build: { outDir: 'first-output' } })
+    const second = await resolveEffectiveViteConfig(optReuse, 'build', { build: { outDir: 'second-output' } })
+    expect(first.outDir).toBe(resolve(userRoot, 'first-output'))
+    expect(second.outDir).toBe(resolve(userRoot, 'second-output'))
+    expect((second.viteConfig.build as any).outDir).toBe(resolve(userRoot, 'second-output'))
   })
 
   it('preserves publicDir: false and resolves relative publicDir against userRoot in extendConfig', async () => {

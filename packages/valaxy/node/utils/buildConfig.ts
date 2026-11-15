@@ -34,8 +34,8 @@ export function resolveBuildPaths(
   explicitOutDir?: string,
 ): ResolvedBuildPaths {
   const rawOutDir = explicitOutDir
-    ?? options.outDir
     ?? viteConfig?.build?.outDir
+    ?? options.outDir
     ?? options.config?.vite?.build?.outDir
     ?? 'dist'
 
@@ -83,6 +83,9 @@ export async function resolveEffectiveViteConfig(
   options.base = paths.base
 
   const viteConfig = mergeConfig(merged, {
+    // Disable Vite's automatic cwd configFile discovery since mergeViteConfigs already loaded
+    // themeRoot/userRoot vite.config.ts (unless the caller explicitly specified configFile).
+    configFile: merged.configFile ?? false,
     publicDir: paths.publicDir,
     build: {
       outDir: paths.outDir,
