@@ -1,7 +1,7 @@
 import type { Author, FeedOptions, Item } from 'feed'
 import type { ResolvedValaxyOptions } from '../../types'
 import { readFile } from 'node:fs/promises'
-import { dirname, join, relative, resolve } from 'node:path'
+import { basename, dirname, join, relative, resolve } from 'node:path'
 import matter from '@11ty/gray-matter'
 import { ensurePrefix } from '@antfu/utils'
 import { consola } from 'consola'
@@ -11,9 +11,10 @@ import { Feed } from 'feed'
 
 import fs from 'fs-extra'
 import { createMarkdownExit } from 'markdown-exit'
+import pMap from 'p-map'
 import { getBorderCharacters, table } from 'table'
-
 import { glob } from 'tinyglobby'
+
 import { tObject } from '../../../shared'
 import { isUnpublishedPage, relativePagePath } from '../../../shared/page-policy'
 import { plainSeoDescription, publicAuthor, stripEncryptedContent } from '../../../shared/seo'
@@ -21,6 +22,8 @@ import { EXCERPT_SEPARATOR } from '../../constants'
 import { matterOptions } from '../../plugins/markdown/transform/matter'
 import { isExternal } from '../../utils'
 import { getCreatedTime, getUpdatedTime } from '../../utils/date'
+import { getGitTimestampCache } from '../../utils/getGitTimestamp'
+import { discoverPageFiles, getPagePath, pagePathToRoute } from '../../utils/pageSources'
 
 // Extend Item type to include optional updated field for Atom feed
 type ExtendedItem = Item & { updated?: Date }
@@ -124,8 +127,10 @@ export async function build(options: ResolvedValaxyOptions) {
 
   const DOMAIN = siteConfig.url.slice(0, -1)
 
-  // generate
-  const files = await glob('pages/posts/**/*.md', { cwd: options.userRoot, absolute: true })
+  // generate: only include generated loader content when content loaders are active
+  const files = options.config.loaders?.length
+    ? [...(await discoverPageFiles(options.userRoot, ['posts/**/*.md'])).values()]
+    : await glob('pages/posts/**/*.md', { cwd: options.userRoot, absolute: true, onlyFiles: true })
   const posts = await getPosts({
     author,
     files,
@@ -161,14 +166,13 @@ export async function getPosts(params: {
 
   const { files, author, DOMAIN } = params
 
-  // read file & matter
-  const readFilePromises = files.map(async (i) => {
+  // read file & matter with bounded concurrency
+  const rawPosts = await pMap(files, async (i) => {
     const raw = await readFile(i, 'utf-8')
     const { data, content, excerpt } = matter(raw, matterOptions)
     const frontmatter: Record<string, any> = { ...siteConfig.frontmatter, ...data }
     return { data: frontmatter, content, excerpt, path: i }
-  })
-  const rawPosts = (await Promise.all(readFilePromises))
+  }, { concurrency: 20 })
   // filter
   const draftPosts: string[] = []
   const filteredPosts = rawPosts.filter((p) => {
@@ -196,6 +200,7 @@ export async function getPosts(params: {
   }
 
   // returned posts
+  const gitTimestampCache = getGitTimestampCache(options)
   const posts: ExtendedItem[] = []
   for (const rawPost of filteredPosts) {
     const { data, path } = rawPost
@@ -205,10 +210,10 @@ export async function getPosts(params: {
     const manualExcerpt = tObject(data.excerpt, lang)
     const summaryLength = siteConfig.excerpt?.length || 200
     if (!data.date)
-      data.date = await getCreatedTime(path)
+      data.date = await getCreatedTime(path, gitTimestampCache)
     if (siteConfig.lastUpdated) {
       if (!data.updated)
-        data.updated = await getUpdatedTime(path)
+        data.updated = await getUpdatedTime(path, gitTimestampCache)
     }
     // render excerpt
     // default excerpt content length: 100
@@ -216,9 +221,8 @@ export async function getPosts(params: {
     const rssContent = fullText ? content : (excerpt || content.slice(0, 100))
 
     // Use relative path to correctly handle cross-platform file paths
-    const relativePath = relative(join(options.userRoot, 'pages'), path)
-    // Convert Windows backslashes to forward slashes for URL
-    const urlPath = relativePath.replace(/\\/g, '/').replace(/\.md$/, '')
+    const relativePath = getPagePath(path, options.userRoot) || relative(join(options.userRoot, 'pages'), path).replace(/\\/g, '/')
+    const urlPath = pagePathToRoute(relativePath)
     const link = `${DOMAIN}/${urlPath}`
 
     // Extract image paths from built HTML if enabled
@@ -226,16 +230,14 @@ export async function getPosts(params: {
     let imageMap = new Map<string, string>()
 
     if (extractImages) {
+      const outDir = options.outDir || resolve(options.userRoot, 'dist')
       // Try to load the built HTML file to get actual asset paths
       // Handle both /posts/xxx/index.md -> /posts/xxx.html and /posts/xxx.md -> /posts/xxx.html
-      let htmlPath = resolve(options.userRoot, 'dist', `${urlPath}.html`)
-      if (urlPath.endsWith('/index')) {
-        // For pages/posts/xxx/index.md, try posts/xxx.html first
-        const withoutIndex = urlPath.slice(0, -6) // Remove '/index'
-        const alternativePath = resolve(options.userRoot, 'dist', `${withoutIndex}.html`)
-        if (await fs.exists(alternativePath)) {
-          htmlPath = alternativePath
-        }
+      let htmlPath = resolve(outDir, `${urlPath}.html`)
+      if (!await fs.exists(htmlPath) && relativePath.endsWith('/index.md')) {
+        const withIndexHtml = resolve(outDir, `${urlPath}/index.html`)
+        if (await fs.exists(withIndexHtml))
+          htmlPath = withIndexHtml
       }
       imageMap = await extractImagePathsFromHTML(htmlPath, DOMAIN)
     }
@@ -257,7 +259,8 @@ export async function getPosts(params: {
         return `src="${DOMAIN}${src}"`
       }
       // Handle relative paths (./ or direct filename)
-      const postDirUrl = `${DOMAIN}/${urlPath.split('/').slice(0, -1).join('/')}`
+      const postDir = relativePath.replace(/\\/g, '/').split('/').slice(0, -1).join('/')
+      const postDirUrl = postDir ? `${DOMAIN}/${postDir}` : DOMAIN
       const cleanSrc = src.startsWith('./') ? src.slice(2) : src
       return `src="${postDirUrl}/${cleanSrc}"`
     })
@@ -318,9 +321,11 @@ export async function writeFeed(feedOptions: FeedOptions, posts: ExtendedItem[],
   // Feed.addItem accepts Item, ExtendedItem is compatible
   posts.forEach(item => feed.addItem(item))
 
-  await fs.ensureDir(dirname(`./dist/${feedNameMap.atom}`))
-  const path = resolve(options.userRoot, './dist')
+  const path = options.outDir || resolve(options.userRoot, 'dist')
+  await fs.ensureDir(path)
   const publicFolder = resolve(options.userRoot, 'public')
+  await fs.ensureDir(publicFolder)
+  const outLabel = basename(path) || 'dist'
 
   const { config } = options
   const siteConfig = config.siteConfig
@@ -342,12 +347,14 @@ export async function writeFeed(feedOptions: FeedOptions, posts: ExtendedItem[],
     else if (type === 'json')
       data = feed.json1()
 
+    await fs.ensureDir(dirname(distFeedPath))
     await fs.writeFile(distFeedPath, data, 'utf-8')
     consola.debug(`[${colors.cyan(type)}] dist: ${colors.dim(distFeedPath)}`)
-    tableData.push([colors.cyan(type), colors.yellow('dist'), colors.dim(distFeedPath)])
+    tableData.push([colors.cyan(type), colors.yellow(outLabel), colors.dim(distFeedPath)])
 
     const publicFeedPath = resolve(publicFolder, feedNameMap[type])
     const publicRelativeFile = join('public', feedNameMap[type])
+    await fs.ensureDir(dirname(publicFeedPath))
     await fs.writeFile(publicFeedPath, data, 'utf-8')
     consola.debug(`[${colors.cyan(type)}] public: ${colors.dim(publicFeedPath)}`)
     tableData.push(['', colors.green('public'), colors.dim(publicFeedPath)])

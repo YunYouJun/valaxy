@@ -38,6 +38,10 @@ export interface ResolvedValaxyOptions<ThemeConfig = DefaultTheme.Config> {
    */
   userRoot: string
   /**
+   * Build output directory (resolved during build)
+   */
+  outDir?: string
+  /**
    * Theme root path
    */
   themeRoot: string

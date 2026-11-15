@@ -34,6 +34,7 @@ export async function execBuild({ ssg, root, output, log, siteUrl }: { ssg: bool
 
   const userRoot = path.resolve(root)
   const options = await profileBuildPhase('resolve-options', () => resolveOptions({ userRoot }, 'build'))
+  options.outDir = path.resolve(options.userRoot, output)
   // Desktop publishing knows the assigned URL after the Pages project is created.
   if (siteUrl)
     options.config.siteConfig.url = siteUrl

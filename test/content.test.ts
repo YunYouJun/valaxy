@@ -115,7 +115,7 @@ describe('framework-aware article inspection', () => {
     await write('pages/posts/next.md', '---\ntitle: Next\n---\nNext')
     await write('public/photo.png', 'image')
     await write('pages/posts/local.png', 'image')
-    await write(path, '---\ntitle: Hello\n---\n[Next](/blog/posts/next) [source](./next.md) ![public](/photo.png) ![local](./local.png)\n\n[external](https://example.invalid/) [anchor](#section)\n\n`![ignored](missing.png)`\n')
+    await write(path, '---\ntitle: Hello\ndescription: Summary\n---\n[Next](/blog/posts/next) [source](./next.md) ![public](/photo.png) ![local](./local.png)\n\n[external](https://example.invalid/) [anchor](#section)\n\n`![ignored](missing.png)`\n')
     const result = await createContentService(app).checkPage(path)
     expect(result.ok).toBe(true)
     expect(result.diagnostics).toEqual([])
@@ -170,7 +170,7 @@ describe('framework-aware article inspection', () => {
 
   it('uses the real layout registry including normalized names and exclusions', async () => {
     await write('custom-layouts/MyPost.vue', '<template><slot /></template>')
-    await write(path, '---\ntitle: Hello\nlayout: my-post\n---\nBody')
+    await write(path, '---\ntitle: Hello\ndescription: Summary\nlayout: my-post\n---\nBody')
     app.options.config.layouts = { layoutsDirs: 'custom-layouts' }
     const service = createContentService(app)
     expect((await service.checkPage(path)).diagnostics).toEqual([])
@@ -185,15 +185,41 @@ describe('framework-aware article inspection', () => {
     await write('pages/posts/100%.md', '---\ntitle: Percent\n---\nBody')
     await write('pages/posts/draft.md', '---\ntitle: Draft\ndraft: true\n---\nBody')
     await write('public/posts/file.pdf', 'PDF')
-    await write(path, '---\ntitle: Hello\n---\n[Chinese](/posts/%E4%B8%AD%E6%96%87) [Percent](/posts/100%25) [Draft](./draft.md) [PDF](./file.pdf)')
+    await write(path, '---\ntitle: Hello\ndescription: Summary\n---\n[Chinese](/posts/%E4%B8%AD%E6%96%87) [Percent](/posts/100%25) [Draft](./draft.md) [PDF](./file.pdf)')
     const result = await createContentService(app).checkPage(path)
     expect(result.diagnostics).toEqual([expect.objectContaining({ code: 'link-to-draft' })])
   })
 
   it('bounds diagnostic responses while retaining the complete diagnostic count', async () => {
-    await write(path, `---\ntitle: Hello\n---\n${Array.from({ length: 105 }, (_, i) => `![missing](./missing-${i}.png)`).join('\n\n')}`)
+    await write(path, `---\ntitle: Hello\ndescription: Summary\n---\n${Array.from({ length: 105 }, (_, i) => `![missing](./missing-${i}.png)`).join('\n\n')}`)
     const result = await createContentService(app).checkPage(path)
     expect(result.totalDiagnostics).toBe(105)
     expect(result.diagnostics).toHaveLength(100)
+  })
+
+  it('warns when a published post is missing a frontmatter description', async () => {
+    const service = createContentService(app)
+
+    await write(path, '---\ntitle: Hello\n---\nBody')
+    const missing = await service.checkPage(path)
+    expect(missing.ok).toBe(true)
+    expect(missing.diagnostics).toEqual([
+      expect.objectContaining({ code: 'missing-description', severity: 'warning', line: 1 }),
+    ])
+
+    await write(path, '---\ntitle: Hello\ndescription: "   "\n---\nBody')
+    const blank = await service.checkPage(path)
+    expect(blank.ok).toBe(true)
+    expect(blank.diagnostics).toEqual([
+      expect.objectContaining({ code: 'missing-description', severity: 'warning', line: 3 }),
+    ])
+
+    await write(path, '---\ntitle: Draft\ndraft: true\n---\nBody')
+    expect((await service.checkPage(path)).diagnostics).toEqual([])
+
+    await write('pages/about.md', '---\ntitle: About\n---\nBody')
+    expect((await service.checkPage('pages/about.md')).diagnostics).not.toContainEqual(
+      expect.objectContaining({ code: 'missing-description' }),
+    )
   })
 })

@@ -51,16 +51,16 @@ export async function renderPage(opts: RenderPageOptions) {
   let html = template
 
   if (headPayload.htmlAttrs)
-    html = html.replace(/<html[^>]*>/, `<html ${headPayload.htmlAttrs}>`)
+    html = html.replace(/<html[^>]*>/, () => `<html ${headPayload.htmlAttrs}>`)
 
   if (headPayload.bodyAttrs)
-    html = html.replace(/<body[^>]*>/, `<body ${headPayload.bodyAttrs}>`)
+    html = html.replace(/<body[^>]*>/, () => `<body ${headPayload.bodyAttrs}>`)
 
   html = html
     .replace('</head>', () => `${preloadLinks}${headPayload.headTags}\n</head>`)
     .replace(
       '<div id="app"></div>',
-      `${headPayload.bodyTagsOpen || ''}<div id="app">${result.html}</div>${stateScript}${headPayload.bodyTags || ''}`,
+      () => `${headPayload.bodyTagsOpen || ''}<div id="app">${result.html}</div>${stateScript}${headPayload.bodyTags || ''}`,
     )
 
   // Handle teleported content
@@ -73,7 +73,7 @@ export async function renderPage(opts: RenderPageOptions) {
         html = html.replace(container, () => `<div id="valaxy-teleports">${content}</div>`)
       }
       else if (target === 'head') {
-        html = html.replace('</head>', `${content}\n</head>`)
+        html = html.replace('</head>', () => `${content}\n</head>`)
       }
       else if (target === 'body') {
         // Disabled Teleports hydrate from the target's first child. Keep their
@@ -83,7 +83,7 @@ export async function renderPage(opts: RenderPageOptions) {
       else {
         // Custom teleport targets (e.g. #modal-root) can't be resolved
         // without a DOM. Fall back to injecting at end of <body>.
-        html = html.replace('</body>', `${content}\n</body>`)
+        html = html.replace('</body>', () => `${content}\n</body>`)
       }
     }
   }

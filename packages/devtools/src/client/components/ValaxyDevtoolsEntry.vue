@@ -43,15 +43,12 @@ function toggleDevtoolsVisible() {
 </template>
 
 <style lang="scss" scoped>
-@use 'sass:map';
-@use 'valaxy-theme-yun/styles/vars.scss' as *;
-
 .valaxy-devtools-entry {
   position: fixed;
 }
 
 .valaxy-devtools-container {
-  animation-timing-function: map.get($cubic-bezier, "ease-in");
+  animation-timing-function: cubic-bezier(0.4, 0, 1, 1);
   width: min(80vw, -48px + 100vw);
   height: min(60vh, -48px + 100vh);
   transform: translate(0, 0);

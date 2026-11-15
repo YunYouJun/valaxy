@@ -51,8 +51,8 @@ export async function generateFuseList(options: ResolvedValaxyOptions) {
 
   const globalAuthor = nodeT(options.config.siteConfig.author.name, options.config.siteConfig.lang || 'en')
   const posts: FuseListItem[] = []
-  for await (const i of files) {
-    const raw = fs.readFileSync(i, 'utf-8')
+  for (const i of files) {
+    const raw = await fs.readFile(i, 'utf-8')
     const { data, content: rawContent } = matter(raw, matterOptions)
     const fmData = { ...options.config.siteConfig.frontmatter, ...data } as PostFrontMatter
     // Strip complete private blocks before looking for the excerpt separator, which

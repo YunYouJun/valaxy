@@ -2,18 +2,120 @@
 import type { WalineInitOptions } from '@waline/client'
 import type { WalineOptions } from '../types'
 import { commentCount, init, pageviewCount } from '@waline/client'
-import { useAppStore } from 'valaxy'
+import walineStyleUrl from '@waline/client/waline.css?url'
 
+import { useAppStore } from 'valaxy'
 import { computed, onMounted, onUnmounted, useTemplateRef, watch } from 'vue'
 import { useI18n } from 'vue-i18n'
-import { useRoute } from 'vue-router'
 
+import { useRoute } from 'vue-router'
 import { getEmojis } from '../utils'
-import '@waline/client/style'
 
 const props = defineProps<{
   options: WalineOptions
 }>()
+
+const WALINE_STYLE_ATTR = 'data-valaxy-waline-style'
+const STYLE_LOAD_TIMEOUT_MS = 5000
+
+function matchesStyleHref(link: HTMLLinkElement, url: string, resolvedUrl?: string): boolean {
+  if (link.getAttribute('href') === url)
+    return true
+  return resolvedUrl ? link.href === resolvedUrl : false
+}
+
+function applyCspNonce(link: HTMLLinkElement): void {
+  if (link.nonce || link.getAttribute('nonce'))
+    return
+  const cspNonceMeta = document.querySelector<HTMLMetaElement>('meta[property="csp-nonce"]')
+  const cspNonce = cspNonceMeta?.nonce || cspNonceMeta?.getAttribute('nonce')
+  if (cspNonce) {
+    link.setAttribute('nonce', cspNonce)
+    link.nonce = cspNonce
+  }
+}
+
+function positionBeforeSiteStyles(link: HTMLLinkElement): void {
+  const firstStyle = document.head.querySelector('link[rel="stylesheet"], style')
+  const isAfterFirstStyle = Boolean(
+    firstStyle
+    && firstStyle !== link
+    && (firstStyle.compareDocumentPosition(link) & Node.DOCUMENT_POSITION_FOLLOWING),
+  )
+  if (!link.isConnected || isAfterFirstStyle)
+    document.head.insertBefore(link, firstStyle)
+}
+
+function ensureWalineStyle(): Promise<void> {
+  if (typeof document === 'undefined' || !walineStyleUrl)
+    return Promise.resolve()
+
+  let resolvedUrl: string | undefined
+  try {
+    resolvedUrl = new URL(walineStyleUrl, document.baseURI).href
+  }
+  catch {}
+
+  const managed = document.head.querySelector<HTMLLinkElement>(`link[${WALINE_STYLE_ATTR}]`)
+  const discovered = managed
+    ?? Array.from(document.head.querySelectorAll<HTMLLinkElement>('link[rel="stylesheet"]'))
+      .find(candidate => matchesStyleHref(candidate, walineStyleUrl, resolvedUrl))
+
+  // An unmanaged link (e.g. from SSG preload) with null `.sheet` may have already
+  // failed before mount and missed its `error` event. Reuse it when loaded; otherwise
+  // replace it with a fresh managed link so load/error listeners settle reliably.
+  const canReuseUnmanaged = Boolean(discovered && !managed && discovered.sheet)
+  const existing = managed ?? (canReuseUnmanaged ? discovered : undefined)
+
+  const link = existing ?? document.createElement('link')
+  const hrefChanged = Boolean(existing) && !matchesStyleHref(link, walineStyleUrl, resolvedUrl)
+
+  if (!existing) {
+    link.rel = 'stylesheet'
+    link.href = walineStyleUrl
+  }
+  else if (hrefChanged) {
+    link.href = walineStyleUrl
+    delete link.dataset.valaxySettled
+  }
+
+  link.setAttribute(WALINE_STYLE_ATTR, '')
+  applyCspNonce(link)
+
+  if (!hrefChanged && (link.sheet || link.dataset.valaxySettled === 'true')) {
+    link.dataset.valaxySettled = 'true'
+    // Insert or move before theme/site stylesheets so :root overrides keep precedence,
+    // including when SSG preload links already emitted this stylesheet after theme CSS.
+    positionBeforeSiteStyles(link)
+    return Promise.resolve()
+  }
+
+  return new Promise<void>((resolve) => {
+    let settled = false
+    let fallbackTimer: ReturnType<typeof setTimeout> | undefined
+
+    const done = () => {
+      if (settled)
+        return
+      settled = true
+      if (fallbackTimer !== undefined)
+        clearTimeout(fallbackTimer)
+      link.removeEventListener('load', done)
+      link.removeEventListener('error', done)
+      link.dataset.valaxySettled = 'true'
+      resolve()
+    }
+
+    // Attach listeners before inserting into DOM so cached/immediate outcomes are never missed.
+    link.addEventListener('load', done, { once: true })
+    link.addEventListener('error', done, { once: true })
+    fallbackTimer = setTimeout(done, STYLE_LOAD_TIMEOUT_MS)
+
+    positionBeforeSiteStyles(link)
+    if (!managed && !canReuseUnmanaged && discovered && discovered !== link)
+      discovered.remove()
+  })
+}
 
 const appStore = useAppStore()
 
@@ -29,6 +131,7 @@ const emoji = computed<WalineEmoji>(() => getEmojis(
 ) as WalineEmoji)
 const walineRef = useTemplateRef<HTMLElement>('waline')
 let walineInstance: ReturnType<typeof init> | undefined
+let unmounted = false
 
 function getWalineOptions() {
   const {
@@ -47,7 +150,8 @@ function getWalineOptions() {
   }
 }
 
-onMounted(() => {
+onMounted(async () => {
+  const styleReady = ensureWalineStyle()
   const { pageview, comment } = props.options
 
   if (pageview) {
@@ -66,6 +170,10 @@ onMounted(() => {
     })
   }
 
+  await styleReady
+  if (unmounted || !walineRef.value)
+    return
+
   walineInstance = init({
     ...getWalineOptions(),
     el: walineRef.value,
@@ -78,7 +186,10 @@ watch(
   { deep: true },
 )
 
-onUnmounted(() => walineInstance?.destroy())
+onUnmounted(() => {
+  unmounted = true
+  walineInstance?.destroy()
+})
 </script>
 
 <template>
