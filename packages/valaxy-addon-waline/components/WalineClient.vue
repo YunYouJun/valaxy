@@ -17,33 +17,56 @@ const props = defineProps<{
 
 const WALINE_STYLE_ATTR = 'data-valaxy-waline-style'
 
+function matchesStyleHref(link: HTMLLinkElement, url: string, resolvedUrl?: string): boolean {
+  if (link.getAttribute('href') === url)
+    return true
+  return resolvedUrl ? link.href === resolvedUrl : false
+}
+
+function positionBeforeSiteStyles(link: HTMLLinkElement): void {
+  const firstStyle = document.head.querySelector('link[rel="stylesheet"], style')
+  const isAfterFirstStyle = Boolean(
+    firstStyle
+    && firstStyle !== link
+    && (firstStyle.compareDocumentPosition(link) & Node.DOCUMENT_POSITION_FOLLOWING),
+  )
+  if (!link.isConnected || isAfterFirstStyle)
+    document.head.insertBefore(link, firstStyle)
+}
+
 function ensureWalineStyle(): Promise<void> {
   if (typeof document === 'undefined' || !walineStyleUrl)
     return Promise.resolve()
 
-  const existing = document.head.querySelector<HTMLLinkElement>(`link[${WALINE_STYLE_ATTR}]`)
-  let hrefChanged = false
-  if (existing) {
-    if (existing.getAttribute('href') === walineStyleUrl) {
-      if (existing.sheet || existing.dataset.valaxySettled === 'true')
-        return Promise.resolve()
-    }
-    else {
-      hrefChanged = true
-      existing.href = walineStyleUrl
-      delete existing.dataset.valaxySettled
-    }
+  let resolvedUrl: string | undefined
+  try {
+    resolvedUrl = new URL(walineStyleUrl, document.baseURI).href
   }
+  catch {}
+
+  const existing = document.head.querySelector<HTMLLinkElement>(`link[${WALINE_STYLE_ATTR}]`)
+    ?? Array.from(document.head.querySelectorAll<HTMLLinkElement>('link[rel="stylesheet"]'))
+      .find(candidate => matchesStyleHref(candidate, walineStyleUrl, resolvedUrl))
 
   const link = existing ?? document.createElement('link')
+  const hrefChanged = Boolean(existing) && !matchesStyleHref(link, walineStyleUrl, resolvedUrl)
+
   if (!existing) {
     link.rel = 'stylesheet'
     link.href = walineStyleUrl
-    link.setAttribute(WALINE_STYLE_ATTR, '')
-    // Insert before theme/site stylesheets so :root overrides keep precedence.
-    const firstStyle = document.head.querySelector('link[rel="stylesheet"], style')
-    document.head.insertBefore(link, firstStyle)
   }
+  else if (hrefChanged) {
+    link.href = walineStyleUrl
+    delete link.dataset.valaxySettled
+  }
+
+  link.setAttribute(WALINE_STYLE_ATTR, '')
+  // Insert or move before theme/site stylesheets so :root overrides keep precedence,
+  // including when SSG preload links already emitted this stylesheet after theme CSS.
+  positionBeforeSiteStyles(link)
+
+  if (!hrefChanged && (link.sheet || link.dataset.valaxySettled === 'true'))
+    return Promise.resolve()
 
   return new Promise<void>((resolve) => {
     const done = () => {
@@ -51,10 +74,6 @@ function ensureWalineStyle(): Promise<void> {
       link.removeEventListener('error', done)
       link.dataset.valaxySettled = 'true'
       resolve()
-    }
-    if (!hrefChanged && link.sheet) {
-      done()
-      return
     }
     link.addEventListener('load', done, { once: true })
     link.addEventListener('error', done, { once: true })

@@ -81,6 +81,30 @@ describe('waline on-demand stylesheet loading', () => {
     expect(walineSdk.init).toHaveBeenCalledTimes(2)
   })
 
+  it('reuses and repositions an SSG-emitted stylesheet appearing after theme styles', async () => {
+    const themeLink = document.createElement('link')
+    themeLink.rel = 'stylesheet'
+    themeLink.href = '/assets/style.css'
+    document.head.appendChild(themeLink)
+
+    const ssgWalineLink = document.createElement('link')
+    ssgWalineLink.rel = 'stylesheet'
+    ssgWalineLink.href = '/assets/waline.test.css'
+    document.head.appendChild(ssgWalineLink)
+
+    cleanup = mountWaline()
+
+    const links = document.head.querySelectorAll<HTMLLinkElement>('link[rel="stylesheet"][href="/assets/waline.test.css"]')
+    expect(links).toHaveLength(1)
+    expect(links[0]).toBe(ssgWalineLink)
+    expect(ssgWalineLink.hasAttribute('data-valaxy-waline-style')).toBe(true)
+    expect(ssgWalineLink.nextElementSibling).toBe(themeLink)
+
+    ssgWalineLink.dispatchEvent(new Event('load'))
+    await flushPromises()
+    expect(walineSdk.init).toHaveBeenCalledTimes(1)
+  })
+
   it('skips init if unmounted before the stylesheet finishes loading', async () => {
     const unmount = mountWaline()
     const link = document.head.querySelector<HTMLLinkElement>('link[data-valaxy-waline-style]')!
