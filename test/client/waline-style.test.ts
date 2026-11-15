@@ -146,4 +146,20 @@ describe('waline on-demand stylesheet loading', () => {
 
     expect(walineSdk.init).not.toHaveBeenCalled()
   })
+
+  it('propagates meta[property="csp-nonce"] to created and replaced stylesheet links', async () => {
+    const nonceMeta = document.createElement('meta')
+    nonceMeta.setAttribute('property', 'csp-nonce')
+    nonceMeta.setAttribute('nonce', 'test-csp-nonce')
+    document.head.appendChild(nonceMeta)
+
+    const unmount = mountWaline()
+    const link = document.head.querySelector<HTMLLinkElement>('link[data-valaxy-waline-style]')!
+    expect(link.getAttribute('nonce')).toBe('test-csp-nonce')
+    expect(link.nonce).toBe('test-csp-nonce')
+
+    link.dispatchEvent(new Event('load'))
+    await flushPromises()
+    unmount()
+  })
 })

@@ -24,6 +24,17 @@ function matchesStyleHref(link: HTMLLinkElement, url: string, resolvedUrl?: stri
   return resolvedUrl ? link.href === resolvedUrl : false
 }
 
+function applyCspNonce(link: HTMLLinkElement): void {
+  if (link.nonce || link.getAttribute('nonce'))
+    return
+  const cspNonceMeta = document.querySelector<HTMLMetaElement>('meta[property="csp-nonce"]')
+  const cspNonce = cspNonceMeta?.nonce || cspNonceMeta?.getAttribute('nonce')
+  if (cspNonce) {
+    link.setAttribute('nonce', cspNonce)
+    link.nonce = cspNonce
+  }
+}
+
 function positionBeforeSiteStyles(link: HTMLLinkElement): void {
   const firstStyle = document.head.querySelector('link[rel="stylesheet"], style')
   const isAfterFirstStyle = Boolean(
@@ -69,6 +80,7 @@ function ensureWalineStyle(): Promise<void> {
   }
 
   link.setAttribute(WALINE_STYLE_ATTR, '')
+  applyCspNonce(link)
 
   if (!hrefChanged && (link.sheet || link.dataset.valaxySettled === 'true')) {
     link.dataset.valaxySettled = 'true'
