@@ -81,6 +81,7 @@ export async function execBuild({ ssg, root, output, log, siteUrl }: { ssg: bool
     'build',
     rawViteConfig,
     output,
+    false,
   )
 
   // before build
@@ -92,12 +93,13 @@ export async function execBuild({ ssg, root, output, log, siteUrl }: { ssg: bool
     if (ssg) {
       consola.info('use valaxy SSG engine to build...')
       const userSsgOptions = (viteConfig as any).ssgOptions || {}
-      await ssgBuild(valaxyApp, rawViteConfig, userSsgOptions)
+      delete (viteConfig as any).ssgOptions
+      await ssgBuild(valaxyApp, viteConfig, userSsgOptions)
       await postProcessForSSG(options)
     }
     else {
       consola.info('use vite do spa build...')
-      await build(valaxyApp, rawViteConfig)
+      await build(valaxyApp, viteConfig)
     }
   }
   finally {

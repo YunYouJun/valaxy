@@ -397,6 +397,43 @@ describe('batch 2 effective config, root containment & module outputs', () => {
     expect(finalConfig.build?.outDir).toBe(resolve(userRoot, 'addon-out'))
   })
 
+  it('reuses the preflight client plugin closure for SSG callbacks during execBuild({ ssg: true })', async () => {
+    const userRoot = await createProject('valaxy-b2-ssg-closure-')
+    await fs.outputFile(resolve(userRoot, 'pages/index.md'), '---\ntitle: Home\n---\nHello')
+    await fs.outputFile(
+      resolve(userRoot, 'vite.config.mjs'),
+      `globalThis.__valaxyClosureTestCalls ??= 0
+export default ({ isSsrBuild }) => {
+  if (!isSsrBuild)
+    globalThis.__valaxyClosureTestCalls += 1
+  const shared = { id: globalThis.__valaxyClosureTestCalls }
+  return {
+    plugins: [{ name: 'closure-test-plugin', shared }],
+    ssgOptions: { includedRoutes: () => [String(shared.id)] },
+  }
+}
+`,
+    )
+    delete (globalThis as any).__valaxyClosureTestCalls
+
+    const options = makeBaseOptions(userRoot)
+    const { viteConfig } = await resolveEffectiveViteConfig(options, 'build', {}, undefined, false)
+    const ssgOptions = (viteConfig as any).ssgOptions
+    delete (viteConfig as any).ssgOptions
+
+    await expect(runSsgBuild({ options } as any, viteConfig, ssgOptions)).rejects.toThrow()
+    expect((globalThis as any).__valaxyClosureTestCalls).toBe(1)
+    expect(viteMock.buildCalls).toHaveLength(2)
+    const clientPlugins = (viteMock.buildCalls[0].plugins || []).flat(Infinity)
+    const plugin = clientPlugins.find((p: any) => p?.name === 'closure-test-plugin')
+    expect(plugin?.shared).toEqual({ id: 1 })
+    expect(ssgOptions.includedRoutes()).toEqual(['1'])
+
+    await expect(execBuild({ ssg: true, root: userRoot, log: 'silent' })).rejects.toThrow()
+    expect((globalThis as any).__valaxyClosureTestCalls).toBe(2)
+    delete (globalThis as any).__valaxyClosureTestCalls
+  })
+
   it('writes fuse index to nested outDir paths when publicDir is false and preserves URL/relative bases', async () => {
     const userRoot = await createProject()
     await fs.outputFile(resolve(userRoot, 'pages/index.md'), '---\ntitle: Root\n---\nRoot page')

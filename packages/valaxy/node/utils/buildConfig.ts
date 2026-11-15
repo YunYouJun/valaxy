@@ -15,6 +15,11 @@ export interface EffectiveViteConfigResult extends ResolvedBuildPaths {
   viteConfig: InlineConfig
 }
 
+const resolvedClientInputsWeakMap = new WeakMap<InlineConfig, {
+  callerViteConfig: InlineConfig
+  explicitOutDir?: string
+}>()
+
 /**
  * Resolve Vite's `publicDir` relative to `userRoot`, preserving `false` when disabled.
  */
@@ -64,6 +69,24 @@ export async function resolveEffectiveViteConfig(
   isSsrBuild?: boolean,
   persistPaths = isSsrBuild !== true,
 ): Promise<EffectiveViteConfigResult> {
+  const preloadedInput = resolvedClientInputsWeakMap.get(callerViteConfig)
+  if (preloadedInput) {
+    if (isSsrBuild !== true) {
+      const paths = resolveBuildPaths(options, callerViteConfig, explicitOutDir ?? preloadedInput.explicitOutDir)
+      if (persistPaths) {
+        options.outDir = paths.outDir
+        options.publicDir = paths.publicDir
+        options.base = paths.base
+      }
+      return {
+        viteConfig: callerViteConfig,
+        ...paths,
+      }
+    }
+    callerViteConfig = preloadedInput.callerViteConfig
+    explicitOutDir = explicitOutDir ?? preloadedInput.explicitOutDir
+  }
+
   const mode = callerViteConfig.mode
     ?? options.config.vite?.mode
     ?? (command === 'build' ? 'production' : 'development')
@@ -117,6 +140,13 @@ export async function resolveEffectiveViteConfig(
       outDir: paths.outDir,
     },
   } as InlineConfig)
+
+  if (isSsrBuild !== true) {
+    resolvedClientInputsWeakMap.set(viteConfig, {
+      callerViteConfig,
+      explicitOutDir,
+    })
+  }
 
   return {
     viteConfig,
