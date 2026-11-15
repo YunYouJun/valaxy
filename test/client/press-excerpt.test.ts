@@ -22,4 +22,13 @@ describe('formatFuseExcerpt', () => {
       'Heading Quoted text with HTML and link.',
     )
   })
+
+  it('decodes character references in prose while preserving literal entities in code spans', () => {
+    expect(formatFuseExcerpt('A &amp; B, 2 &lt; 3, The &copy; symbol, and &#x27;ok&#39;.')).toBe(
+      'A & B, 2 < 3, The © symbol, and \'ok\'.',
+    )
+    expect(formatFuseExcerpt('Use `&amp;` literally and &lt;tag&gt; in prose.')).toBe(
+      'Use &amp; literally and <tag> in prose.',
+    )
+  })
 })

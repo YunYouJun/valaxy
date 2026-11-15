@@ -1,3 +1,54 @@
+const NAMED_HTML_ENTITIES: Record<string, string> = {
+  amp: '&',
+  lt: '<',
+  gt: '>',
+  quot: '"',
+  apos: '\'',
+  nbsp: ' ',
+  copy: '©',
+  reg: '®',
+  trade: '™',
+  mdash: '—',
+  ndash: '–',
+  hellip: '…',
+  laquo: '«',
+  raquo: '»',
+  lsquo: '‘',
+  rsquo: '’',
+  ldquo: '“',
+  rdquo: '”',
+}
+
+let entityDecoderTextarea: HTMLTextAreaElement | undefined
+
+function decodeNumericCodePoint(raw: string, radix: number): string | undefined {
+  const code = Number.parseInt(raw, radix)
+  if (!Number.isFinite(code) || code <= 0 || code > 0x10FFFF || (code >= 0xD800 && code <= 0xDFFF))
+    return undefined
+  return String.fromCodePoint(code)
+}
+
+function decodeHtmlEntities(text: string): string {
+  if (!text.includes('&'))
+    return text
+
+  return text.replace(/&(#x[\da-f]+|#\d+|[a-z][\da-z]+);/gi, (match, body: string) => {
+    if (body[0] === '#') {
+      const isHex = body[1] === 'x' || body[1] === 'X'
+      return decodeNumericCodePoint(body.slice(isHex ? 2 : 1), isHex ? 16 : 10) ?? match
+    }
+    const known = NAMED_HTML_ENTITIES[body]
+    if (known)
+      return known
+    if (typeof document !== 'undefined') {
+      entityDecoderTextarea ??= document.createElement('textarea')
+      entityDecoderTextarea.innerHTML = match
+      return entityDecoderTextarea.value
+    }
+    return match
+  })
+}
+
 /**
  * Convert raw Markdown excerpt text to clean plain text for search results,
  * preserving inline code spans, escaped punctuation, autolinks, and math/comparison prose.
@@ -26,7 +77,7 @@ export function formatFuseExcerpt(text = ''): string {
       .replace(/~~(?=\S)(.+?\S|\S)~~/g, '$1')
   }
 
-  return cleaned
+  return decodeHtmlEntities(cleaned)
     .replace(/\0(\d+)\0/g, (_, index: string) => literals[Number(index)])
     .replace(/\s+/g, ' ')
     .trim()
