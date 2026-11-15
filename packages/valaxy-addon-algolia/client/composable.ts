@@ -1,5 +1,9 @@
+import { isClient } from '@vueuse/core'
 import { useSiteConfig } from 'valaxy'
-import { computed, ref } from 'vue'
+import { computed, getCurrentScope, onScopeDispose, ref } from 'vue'
+
+const MAX_POLL_ATTEMPTS = 25
+const POLL_INTERVAL_MS = 16
 
 /**
  * init algolia watch
@@ -14,13 +18,27 @@ export function useAddonAlgolia() {
   const loaded = ref(false)
 
   const docSearchModalRef = ref<HTMLDivElement>()
+  let pollTimer: ReturnType<typeof setTimeout> | undefined
+  let pollAttempts = 0
+
+  function clearPollTimer() {
+    if (pollTimer !== undefined) {
+      clearTimeout(pollTimer)
+      pollTimer = undefined
+    }
+  }
 
   function dispatchEvent() {
-    // programmatically open the search box after initialize
-    const e = new Event('keydown') as any
+    if (!isClient)
+      return
 
-    e.key = 'k'
-    e.metaKey = true
+    // programmatically open the search box after initialize
+    const e = new KeyboardEvent('keydown', {
+      key: 'k',
+      metaKey: true,
+      ctrlKey: true,
+      bubbles: true,
+    })
 
     window.dispatchEvent(e)
   }
@@ -29,24 +47,53 @@ export function useAddonAlgolia() {
    * poll until open
    */
   function poll() {
+    if (!isClient)
+      return
+
+    const existingModal = document.querySelector('.DocSearch-Modal')
+    if (existingModal) {
+      docSearchModalRef.value = existingModal as HTMLDivElement
+      clearPollTimer()
+      return
+    }
+
+    if (pollAttempts >= MAX_POLL_ATTEMPTS) {
+      clearPollTimer()
+      return
+    }
+
+    pollAttempts += 1
     // programmatically open the search box after initialize
     dispatchEvent()
 
-    setTimeout(() => {
+    clearPollTimer()
+    pollTimer = setTimeout(() => {
+      pollTimer = undefined
       const docSearchModal = document.querySelector('.DocSearch-Modal')
       if (!docSearchModal)
         poll()
       else
         docSearchModalRef.value = docSearchModal as HTMLDivElement
-    }, 16)
+    }, POLL_INTERVAL_MS)
   }
 
   function load() {
+    if (!isClient)
+      return
+
     if (!loaded.value) {
       loaded.value = true
-      setTimeout(poll, 16)
+      pollAttempts = 0
+      clearPollTimer()
+      pollTimer = setTimeout(() => {
+        pollTimer = undefined
+        poll()
+      }, POLL_INTERVAL_MS)
     }
   }
+
+  if (getCurrentScope())
+    onScopeDispose(clearPollTimer)
 
   return {
     isAlgolia,

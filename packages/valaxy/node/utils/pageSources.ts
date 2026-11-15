@@ -1,5 +1,5 @@
 import { existsSync } from 'node:fs'
-import { isAbsolute, relative, resolve } from 'pathe'
+import { isAbsolute, relative, resolve, sep } from 'pathe'
 import { glob } from 'tinyglobby'
 
 /** Physical content roots in the same precedence order used by page consumers. */
@@ -37,8 +37,12 @@ export async function discoverPageFiles(userRoot: string, include = ['**/*.md'])
   for (const root of getPageRoots(userRoot)) {
     const files = await glob(include, { cwd: root, ignore: ['**/node_modules/**'], onlyFiles: true })
     for (const page of files.sort()) {
+      const resolved = resolve(root, page)
+      const rel = relative(root, resolved)
+      if (!rel || rel === '..' || rel.startsWith(`..${sep}`) || !getPagePath(resolved, userRoot))
+        continue
       if (!pages.has(page))
-        pages.set(page, resolve(root, page))
+        pages.set(page, resolved)
     }
   }
   return pages

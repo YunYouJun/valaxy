@@ -4,7 +4,10 @@ import type { PressTheme } from '../types'
 import { isClient } from '@vueuse/core'
 import {
   computed,
+  getCurrentInstance,
+  getCurrentScope,
   onMounted,
+  onScopeDispose,
   onUnmounted,
   ref,
   watch,
@@ -24,6 +27,23 @@ export interface SidebarControl {
 
 export const HASH_RE = /#.*$/
 export const EXT_RE = /(index)?\.(md|html)$/
+const hashRef = ref('')
+let hashListenerCount = 0
+
+function onHashChange() {
+  hashRef.value = window.location.hash
+}
+
+/**
+ * Reset shared sidebar hash state cleanly between isolated unit tests.
+ */
+export function resetSidebarHashState() {
+  if (isClient && hashListenerCount > 0)
+    window.removeEventListener('hashchange', onHashChange)
+  hashListenerCount = 0
+  hashRef.value = ''
+}
+
 export function normalize(path: string): string {
   return decodeURI(path).replace(/[?#].*$/, '').replace(EXT_RE, '').replace(/\/$/, '') || '/'
 }
@@ -47,7 +67,7 @@ export function isActive(
   const hashMatch = matchPath.match(HASH_RE)
 
   if (hashMatch)
-    return (isClient ? location.hash : '') === hashMatch[0]
+    return hashRef.value === hashMatch[0]
 
   return true
 }
@@ -84,11 +104,45 @@ export function useCloseSidebarOnEscape(
   }
 }
 
-const hashRef = ref(isClient ? location.hash : '')
-if (isClient) {
-  window.addEventListener('hashchange', () => {
-    hashRef.value = location.hash
+function useClientHashTracker(route: ReturnType<typeof useRoute>, onSync: () => void) {
+  let registered = false
+
+  onMounted(() => {
+    if (!isClient)
+      return
+    if (!registered) {
+      if (hashListenerCount === 0)
+        window.addEventListener('hashchange', onHashChange)
+      hashListenerCount += 1
+      registered = true
+    }
+    hashRef.value = route.hash || window.location.hash
+    onSync()
   })
+
+  watch(
+    () => route.hash,
+    (newHash) => {
+      if (registered && newHash !== undefined)
+        hashRef.value = newHash
+    },
+  )
+
+  const cleanup = () => {
+    if (!registered)
+      return
+    registered = false
+    hashListenerCount = Math.max(0, hashListenerCount - 1)
+    if (isClient && hashListenerCount === 0) {
+      window.removeEventListener('hashchange', onHashChange)
+      hashRef.value = ''
+    }
+  }
+
+  if (getCurrentInstance())
+    onUnmounted(cleanup)
+  else if (getCurrentScope())
+    onScopeDispose(cleanup)
 }
 
 /**
@@ -128,7 +182,7 @@ export function useSidebarControl(
   }
 
   watch([() => route.path, item, hashRef], updateIsActiveLink, { immediate: true })
-  onMounted(updateIsActiveLink)
+  useClientHashTracker(route, updateIsActiveLink)
 
   const hasActiveLink = computed(() => {
     if (isActiveLink.value)

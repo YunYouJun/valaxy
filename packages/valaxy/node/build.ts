@@ -1,11 +1,12 @@
 import type { InlineConfig } from 'vite'
 import type { ResolvedValaxyOptions, ValaxyNode } from './types'
-import { join, resolve } from 'node:path'
+import { join } from 'node:path'
 import { consola } from 'consola'
 import fs from 'fs-extra'
 import { mergeConfig as mergeViteConfig, build as viteBuild } from 'vite'
 import { defaultViteConfig } from './constants'
 import { ViteValaxyPlugins } from './plugins/preset'
+import { resolveBuildPaths, resolveEffectiveViteConfig } from './utils/buildConfig'
 import { collectRedirects, writeRedirectFiles } from './utils/clientRedirects'
 
 // Re-export the built-in Valaxy SSG engine
@@ -15,9 +16,10 @@ export async function build(
   valaxyApp: ValaxyNode,
   viteConfig: InlineConfig = defaultViteConfig,
 ) {
-  const inlineConfig = mergeViteConfig(viteConfig, {
-    ...defaultViteConfig,
-    plugins: await ViteValaxyPlugins(valaxyApp, {}, viteConfig),
+  const { viteConfig: resolvedViteConfig } = await resolveEffectiveViteConfig(valaxyApp.options, 'build', viteConfig)
+  const inlineConfig = mergeViteConfig(defaultViteConfig, {
+    ...resolvedViteConfig,
+    plugins: await ViteValaxyPlugins(valaxyApp, {}, resolvedViteConfig),
   })
 
   await viteBuild(inlineConfig)
@@ -33,7 +35,7 @@ export async function postProcessForSSG(options: ResolvedValaxyOptions) {
 
 export async function generateClientRedirects(options: ResolvedValaxyOptions) {
   consola.info('generate client redirects...')
-  const outputPath = options.outDir || resolve(options.userRoot, 'dist')
+  const { outDir: outputPath } = resolveBuildPaths(options)
   const redirectRules = collectRedirects(options.redirects)
 
   const task = redirectRules.map(async (rule) => {

@@ -3,14 +3,23 @@ import type { MarkdownCompileResult, MarkdownTransformContext } from '../types'
 import { slash } from '@antfu/utils'
 import fs from 'fs-extra'
 import path from 'pathe'
-import { EXTERNAL_URL_RE } from '../../../../shared'
+import { EXTERNAL_URL_RE, safeDecodeURIComponent, safeParseUrl } from '../../../../shared'
+import { resolvePublicDir } from '../../../utils/buildConfig'
 import { getPagePath, pagePathToRoute, resolvePageFile } from '../../../utils/pageSources'
 import { treatAsHtml } from '../utils'
+
+function isInsideDir(baseDir: string, targetPath: string): boolean {
+  const rel = path.relative(baseDir, targetPath)
+  return rel !== '..' && !rel.startsWith('../') && !path.isAbsolute(rel)
+}
 
 export function createScanDeadLinks(options: ResolvedValaxyOptions) {
   const srcDir = path.resolve(options.userRoot, 'pages')
   const { ignoreDeadLinks } = options.config.build
-  const publicDir = options.config.vite?.publicDir || 'public'
+  const publicDir = resolvePublicDir(
+    options.userRoot,
+    options.publicDir !== undefined ? options.publicDir : options.config.vite?.publicDir,
+  )
 
   return (code: string, context: MarkdownTransformContext) => {
     const { id, fileInfo } = context
@@ -51,16 +60,15 @@ export function createScanDeadLinks(options: ResolvedValaxyOptions) {
     }
 
     if (links) {
-      const dir = path.dirname(file)
       for (let url of links) {
-        const { pathname } = new URL(url, 'http://a.com')
-        if (!treatAsHtml(pathname))
+        const parsed = safeParseUrl(url, 'http://a.com')
+        if (!parsed || !treatAsHtml(parsed.pathname))
           continue
 
         url = url.replace(/[?#].*$/, '').replace(/\.(html|md)$/, '')
         if (url.endsWith('/'))
           url += `index`
-        const resolved = decodeURIComponent(
+        const resolved = safeDecodeURIComponent(
           slash(
             url.startsWith('/')
               ? url.slice(1)
@@ -68,13 +76,14 @@ export function createScanDeadLinks(options: ResolvedValaxyOptions) {
           ),
         // /index => /
         ).replace(/(^|\/)index$/, '')
+        const publicCandidate = publicDir ? path.resolve(publicDir, `${resolved}.html`) : null
         if (
           !routes.has(resolved)
           // The content inventory contains Markdown only; Vue pages also
           // provide valid routes, including directory index pages.
           && !resolvePageFile(`${resolved}.vue`, options.userRoot)
           && !resolvePageFile(path.join(resolved, 'index.vue'), options.userRoot)
-          && !fs.existsSync(path.resolve(dir, publicDir, `${resolved}.html`))
+          && !(publicDir && publicCandidate && isInsideDir(publicDir, publicCandidate) && fs.existsSync(publicCandidate))
           && !shouldIgnoreDeadLink(url)
         ) {
           recordDeadLink(url)

@@ -7,6 +7,21 @@ import path from 'pathe'
 type RuleBlock = (state: StateBlock, startLine: number, endLine: number, silent: boolean) => boolean
 type SnippetToken = Token & { src?: [string, string] }
 
+function statSnippetFile(src: string): 'file' | 'invalid' | 'missing' {
+  try {
+    const stat = fs.statSync(src, { throwIfNoEntry: false })
+    if (!stat)
+      return 'missing'
+    return stat.isFile() ? 'file' : 'invalid'
+  }
+  catch (error) {
+    const code = (error as NodeJS.ErrnoException).code
+    if (code === 'ENOENT' || code === 'ENOTDIR')
+      return 'missing'
+    throw error
+  }
+}
+
 /**
  * raw path format: "/path/to/file.extension#region {meta} [title]"
  *    where #region, {meta} and [title] are optional
@@ -165,16 +180,28 @@ export function snippetPlugin(md: MarkdownRenderer, srcDir = '') {
     if (includes)
       includes.push(src)
 
-    const isAFile = fs.statSync(src).isFile()
-    if (!fs.existsSync(src) || !isAFile) {
-      token.content = isAFile
+    const snippetStatus = statSnippetFile(src)
+    if (snippetStatus !== 'file') {
+      token.content = snippetStatus === 'missing'
         ? `Code snippet path not found: ${src}`
         : `Invalid code snippet option`
       token.info = ''
       return fence(...args)
     }
 
-    let content = fs.readFileSync(src, 'utf8')
+    let content: string
+    try {
+      content = fs.readFileSync(src, 'utf8')
+    }
+    catch (error) {
+      const code = (error as NodeJS.ErrnoException).code
+      if (code === 'ENOENT' || code === 'ENOTDIR') {
+        token.content = `Code snippet path not found: ${src}`
+        token.info = ''
+        return fence(...args)
+      }
+      throw error
+    }
 
     if (regionName) {
       const lines = content.split(/\r?\n/)

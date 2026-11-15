@@ -42,6 +42,14 @@ export interface ResolvedValaxyOptions<ThemeConfig = DefaultTheme.Config> {
    */
   outDir?: string
   /**
+   * Public static asset directory (resolved during build/dev)
+   */
+  publicDir?: string | false
+  /**
+   * Resolved Vite base URL
+   */
+  base?: string
+  /**
    * Theme root path
    */
   themeRoot: string

@@ -3,6 +3,7 @@ import { access, constants, copyFile, mkdir, writeFile } from 'node:fs/promises'
 import { dirname, resolve } from 'node:path'
 import { renderSSRHead } from '@unhead/vue/server'
 import { Parser } from 'htmlparser2'
+import pMap from 'p-map'
 import { isNotFoundPagePath } from '../../shared/page-policy'
 
 export interface RenderResult {
@@ -260,7 +261,7 @@ async function fileExists(file: string) {
  */
 export async function writeTrailingSlashAliases(outDir: string, routes: string[]) {
   const outputs = new Set(routes.map(routeToFileName))
-  await Promise.all(routes.map(async (route) => {
+  await pMap(routes, async (route) => {
     const alias = trailingSlashAlias(route)
     if (!alias || outputs.has(alias))
       return
@@ -272,5 +273,5 @@ export async function writeTrailingSlashAliases(outDir: string, routes: string[]
 
     await mkdir(dirname(to), { recursive: true })
     await copyFile(from, to)
-  }))
+  }, { concurrency: 32 })
 }

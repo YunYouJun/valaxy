@@ -4,11 +4,9 @@ import type { ValaxyModule } from '../modules'
 import path from 'node:path'
 import { consola } from 'consola'
 
-import { mergeConfig } from 'vite'
 import { createValaxyNode } from '../app'
 import { build, postProcessForSSG, ssgBuild } from '../build'
 
-import { mergeViteConfigs } from '../common'
 import { callHookWithLog } from '../logger'
 import { setupModules } from '../modules'
 import { contentModule } from '../modules/content'
@@ -18,6 +16,7 @@ import { llmsModule } from '../modules/llms'
 import { rssModule } from '../modules/rss'
 import { validateTaxonomyI18n } from '../modules/taxonomy-i18n'
 import { resolveOptions } from '../options'
+import { resolveEffectiveViteConfig } from '../utils/buildConfig'
 import { profileBuildPhase } from '../utils/buildProfile'
 import { isPagesDirExist, setEnvProd, setTimezone } from '../utils/env'
 import { commonOptions } from './options'
@@ -26,7 +25,7 @@ import { printInfo } from './utils/cli'
 /**
  * valaxy build
  */
-export async function execBuild({ ssg, root, output, log, siteUrl }: { ssg: boolean, root: string, output: string, log: string, siteUrl?: string }) {
+export async function execBuild({ ssg, root, output, log, siteUrl }: { ssg: boolean, root: string, output?: string, log: string, siteUrl?: string }) {
   setEnvProd()
 
   if (!(await isPagesDirExist(root)))
@@ -34,11 +33,26 @@ export async function execBuild({ ssg, root, output, log, siteUrl }: { ssg: bool
 
   const userRoot = path.resolve(root)
   const options = await profileBuildPhase('resolve-options', () => resolveOptions({ userRoot }, 'build'))
-  options.outDir = path.resolve(options.userRoot, output)
   // Desktop publishing knows the assigned URL after the Pages project is created.
   if (siteUrl)
     options.config.siteConfig.url = siteUrl
   setTimezone(options.config.siteConfig.timezone)
+
+  const { viteConfig } = await resolveEffectiveViteConfig(
+    options,
+    'build',
+    {
+      // avoid load userRoot/vite.config.ts repeatedly
+      configFile: path.resolve(options.clientRoot, 'vite.config.ts'),
+      build: {
+        // make out dir empty, https://vitejs.dev/config/#build-emptyoutdir
+        emptyOutDir: true,
+      },
+      logLevel: log as LogLevel,
+    } as InlineConfig,
+    output,
+  )
+
   printInfo(options)
 
   const valaxyApp = createValaxyNode(options)
@@ -64,21 +78,6 @@ export async function execBuild({ ssg, root, output, log, siteUrl }: { ssg: bool
     modules,
   )
 
-  const valaxyViteConfig: InlineConfig = mergeConfig(await mergeViteConfigs(options, 'build'), options.config.vite || {})
-  const viteConfig: InlineConfig = mergeConfig(
-    valaxyViteConfig,
-    {
-      // avoid load userRoot/vite.config.ts repeatedly
-      configFile: path.resolve(options.clientRoot, 'vite.config.ts'),
-      build: {
-        // make out dir empty, https://vitejs.dev/config/#build-emptyoutdir
-        emptyOutDir: true,
-        outDir: path.resolve(options.userRoot, output),
-      },
-      logLevel: log as LogLevel,
-
-    } as InlineConfig,
-  )
   // init config
   await callHookWithLog('config:init', valaxyApp)
 
@@ -123,7 +122,6 @@ export function registerBuildCommand(cli: Argv) {
       .option('output', {
         alias: 'o',
         type: 'string',
-        default: 'dist',
         describe: 'output dir',
       })
       .option('log', {

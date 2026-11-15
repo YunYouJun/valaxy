@@ -1,5 +1,5 @@
 import type { MarkdownRenderer } from '../renderer'
-import { EXTERNAL_URL_RE } from '../../../../shared'
+import { EXTERNAL_URL_RE, safeDecodeURIComponent } from '../../../../shared'
 
 /**
  * Normalize Markdown image URLs so Vue/Vite can process them as static assets.
@@ -19,7 +19,7 @@ export function imagePlugin(md: MarkdownRenderer) {
     if (url && !EXTERNAL_URL_RE.test(url)) {
       if (!/^\.?\//.test(url))
         url = `./${url}`
-      token.attrSet('src', decodeURIComponent(url))
+      token.attrSet('src', safeDecodeURIComponent(url))
     }
 
     return imageRule(tokens, idx, options, env, self)

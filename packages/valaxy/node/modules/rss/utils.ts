@@ -21,6 +21,7 @@ import { plainSeoDescription, publicAuthor, stripEncryptedContent } from '../../
 import { EXCERPT_SEPARATOR } from '../../constants'
 import { matterOptions } from '../../plugins/markdown/transform/matter'
 import { isExternal } from '../../utils'
+import { resolveBuildPaths } from '../../utils/buildConfig'
 import { getCreatedTime, getUpdatedTime } from '../../utils/date'
 import { getGitTimestampCache } from '../../utils/getGitTimestamp'
 import { discoverPageFiles, getPagePath, pagePathToRoute } from '../../utils/pageSources'
@@ -230,7 +231,7 @@ export async function getPosts(params: {
     let imageMap = new Map<string, string>()
 
     if (extractImages) {
-      const outDir = options.outDir || resolve(options.userRoot, 'dist')
+      const { outDir } = resolveBuildPaths(options)
       // Try to load the built HTML file to get actual asset paths
       // Handle both /posts/xxx/index.md -> /posts/xxx.html and /posts/xxx.md -> /posts/xxx.html
       let htmlPath = resolve(outDir, `${urlPath}.html`)
@@ -321,11 +322,11 @@ export async function writeFeed(feedOptions: FeedOptions, posts: ExtendedItem[],
   // Feed.addItem accepts Item, ExtendedItem is compatible
   posts.forEach(item => feed.addItem(item))
 
-  const path = options.outDir || resolve(options.userRoot, 'dist')
-  await fs.ensureDir(path)
-  const publicFolder = resolve(options.userRoot, 'public')
-  await fs.ensureDir(publicFolder)
-  const outLabel = basename(path) || 'dist'
+  const { outDir: distDir, publicDir: publicFolder } = resolveBuildPaths(options)
+  await fs.ensureDir(distDir)
+  if (publicFolder !== false)
+    await fs.ensureDir(publicFolder)
+  const outLabel = basename(distDir) || 'dist'
 
   const { config } = options
   const siteConfig = config.siteConfig
@@ -339,7 +340,7 @@ export async function writeFeed(feedOptions: FeedOptions, posts: ExtendedItem[],
   const types = ['rss', 'atom', 'json']
   for (const type of types) {
     let data = ''
-    const distFeedPath = `${path}/${feedNameMap[type]}`
+    const distFeedPath = `${distDir}/${feedNameMap[type]}`
     if (type === 'rss')
       data = feed.rss2()
     else if (type === 'atom')
@@ -352,23 +353,26 @@ export async function writeFeed(feedOptions: FeedOptions, posts: ExtendedItem[],
     consola.debug(`[${colors.cyan(type)}] dist: ${colors.dim(distFeedPath)}`)
     tableData.push([colors.cyan(type), colors.yellow(outLabel), colors.dim(distFeedPath)])
 
-    const publicFeedPath = resolve(publicFolder, feedNameMap[type])
-    const publicRelativeFile = join('public', feedNameMap[type])
-    await fs.ensureDir(dirname(publicFeedPath))
-    await fs.writeFile(publicFeedPath, data, 'utf-8')
-    consola.debug(`[${colors.cyan(type)}] public: ${colors.dim(publicFeedPath)}`)
-    tableData.push(['', colors.green('public'), colors.dim(publicFeedPath)])
+    if (publicFolder !== false) {
+      const publicFeedPath = resolve(publicFolder, feedNameMap[type])
+      const publicRelativeFile = relative(options.userRoot, publicFeedPath).replace(/\\/g, '/')
+      await fs.ensureDir(dirname(publicFeedPath))
+      await fs.writeFile(publicFeedPath, data, 'utf-8')
+      consola.debug(`[${colors.cyan(type)}] public: ${colors.dim(publicFeedPath)}`)
+      tableData.push(['', colors.green('public'), colors.dim(publicFeedPath)])
 
-    try {
-      const gitignorePath = resolve(options.userRoot, '.gitignore')
-      const gitignore = await fs.readFile(gitignorePath, 'utf-8')
-      const ignorePath = publicRelativeFile.replace(/\\/g, '/')
-      if (!gitignore.includes(ignorePath)) {
-        await fs.appendFile(gitignorePath, `\n# valaxy rss\n${ignorePath}\n`)
-        consola.success(`Add ${colors.dim(ignorePath)} to ${colors.dim('.gitignore')}`)
+      if (publicRelativeFile && !publicRelativeFile.startsWith('..')) {
+        try {
+          const gitignorePath = resolve(options.userRoot, '.gitignore')
+          const gitignore = await fs.readFile(gitignorePath, 'utf-8')
+          if (!gitignore.includes(publicRelativeFile)) {
+            await fs.appendFile(gitignorePath, `\n# valaxy rss\n${publicRelativeFile}\n`)
+            consola.success(`Add ${colors.dim(publicRelativeFile)} to ${colors.dim('.gitignore')}`)
+          }
+        }
+        catch {}
       }
     }
-    catch {}
   }
   // eslint-disable-next-line no-console
   console.log(table(tableData, {

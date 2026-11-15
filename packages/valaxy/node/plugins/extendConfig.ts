@@ -7,6 +7,7 @@ import { escapeRegExp } from '../build/bundle'
 import { getIndexHtml } from '../common'
 import { isKatexPluginNeeded } from '../config/valaxy'
 import { isInstalledGlobally, resolveImportPath, toAtFS } from '../utils'
+import { resolvePublicDir } from '../utils/buildConfig'
 
 const DEVTOOLS_SEARCH_SHORTCUT_GUARD = `window.addEventListener('keydown', function (event) {
   if (event.key.toLowerCase() !== 'k' || (!event.ctrlKey && !event.metaKey)) return
@@ -136,13 +137,18 @@ export function createConfigPlugin(options: ResolvedValaxyOptions): Plugin {
       const userDefine = config.define || {}
       const mergedDefine = { ...valaxyDefine, ...userDefine }
 
+      const resolvedPublicDir = resolvePublicDir(
+        options.userRoot,
+        config.publicDir !== undefined ? config.publicDir : (options.publicDir !== undefined ? options.publicDir : options.config.vite?.publicDir),
+      )
+
       const injection: InlineConfig = {
         // root: options.userRoot,
         // can not transform valaxy/client/*.ts when use userRoot
         root: options.clientRoot,
         // cacheDir: join(options.userRoot, 'node_modules/.vite'),
         cacheDir: join(options.userRoot, 'node_modules/.valaxy/cache'),
-        publicDir: join(options.userRoot, 'public'),
+        publicDir: resolvedPublicDir,
 
         define: mergedDefine,
         resolve: {
