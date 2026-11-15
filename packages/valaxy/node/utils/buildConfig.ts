@@ -1,6 +1,7 @@
 import type { InlineConfig } from 'vite'
 import type { ResolvedValaxyOptions } from '../types'
 import { resolve } from 'node:path'
+import process from 'node:process'
 import { mergeConfig } from 'vite'
 import { mergeViteConfigs } from '../common'
 
@@ -67,6 +68,11 @@ export async function resolveEffectiveViteConfig(
     ?? options.config.vite?.mode
     ?? (command === 'build' ? 'production' : 'development')
 
+  // Mirror Vite's resolveConfig() initialization so configs branching on
+  // process.env.NODE_ENV observe the effective build/serve default before evaluation.
+  if (!process.env.NODE_ENV)
+    process.env.NODE_ENV = command === 'build' ? 'production' : 'development'
+
   const explicitConfigFile = callerViteConfig.configFile !== undefined
     ? callerViteConfig.configFile
     : (options.config.vite as InlineConfig | undefined)?.configFile
@@ -105,6 +111,7 @@ export async function resolveEffectiveViteConfig(
     // Config files were already evaluated for this pass, so disable Vite's own loading
     // to prevent duplicate plugin registration and precedence inversion.
     configFile: false,
+    base: paths.base,
     publicDir: paths.publicDir,
     build: {
       outDir: paths.outDir,

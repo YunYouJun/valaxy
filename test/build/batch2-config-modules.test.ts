@@ -241,6 +241,31 @@ describe('batch 2 effective config, root containment & module outputs', () => {
       configFile: false,
     })
     expect(resDisabled.viteConfig.configFile).toBe(false)
+
+    // 10. Initializes unset NODE_ENV before preloading build configs and aligns base across reused options
+    const envRoot = await createProject('valaxy-b2-env-')
+    await fs.outputFile(
+      resolve(envRoot, 'vite.config.mjs'),
+      'export default () => ({ define: { __NODE_ENV__: JSON.stringify(process.env.NODE_ENV) } })\n',
+    )
+    const prevNodeEnv = process.env.NODE_ENV
+    delete process.env.NODE_ENV
+    try {
+      const envOptions = makeBaseOptions(envRoot)
+      const resEnv = await resolveEffectiveViteConfig(envOptions, 'build', { base: '/blog/' })
+      expect(resEnv.viteConfig.define?.__NODE_ENV__).toBe('"production"')
+      expect(resEnv.viteConfig.base).toBe('/blog/')
+
+      const resReusedBase = await resolveEffectiveViteConfig(envOptions, 'build', {})
+      expect(envOptions.base).toBe('/blog/')
+      expect(resReusedBase.viteConfig.base).toBe('/blog/')
+    }
+    finally {
+      if (prevNodeEnv === undefined)
+        delete process.env.NODE_ENV
+      else
+        process.env.NODE_ENV = prevNodeEnv
+    }
   })
 
   it('preserves publicDir: false and resolves relative publicDir against userRoot in extendConfig', async () => {
