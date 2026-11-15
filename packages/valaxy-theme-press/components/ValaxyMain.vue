@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import type { PageData, Post } from 'valaxy'
-import { onClickHref, onContentUpdated, scrollTo, useFrontmatter, useLayout, useSidebar, useSiteConfig, useValaxyI18n } from 'valaxy'
-import { computed, nextTick } from 'vue'
+import { onClickHref, scrollTo, useFrontmatter, useLayout, useSidebar, useSiteConfig, useValaxyI18n } from 'valaxy'
+import { computed, nextTick, onMounted, onUnmounted } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { targetPadding } from '../client'
 
@@ -34,8 +34,15 @@ nextTick(() => {
   }
 })
 
-onContentUpdated(() => {
-  onClickHref(router)
+let cleanupClickHref: (() => void) | undefined
+
+onMounted(() => {
+  cleanupClickHref = onClickHref(router)
+})
+
+onUnmounted(() => {
+  cleanupClickHref?.()
+  cleanupClickHref = undefined
 })
 </script>
 

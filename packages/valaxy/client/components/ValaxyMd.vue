@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import type { Post } from 'valaxy'
-import { onContentUpdated, runContentUpdated, setIframeAspectRatios, useCodePen, useCollapseCode, useCopyCode, useMediumZoom, wrapTable } from 'valaxy'
+import { onContentUpdated, runContentUpdated, sanitizeUrl, setIframeAspectRatios, useCodePen, useCollapseCode, useCopyCode, useMediumZoom, wrapTable } from 'valaxy'
 import { onMounted, onUpdated, ref } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { useCodeGroups } from '../composables/codeGroups'
@@ -51,8 +51,7 @@ useVanillaLazyLoad()
 
     <div v-if="frontmatter.url" text="center">
       <a
-
-        :href="frontmatter.url"
+        :href="sanitizeUrl(frontmatter.url)"
         class="post-link-btn shadow hover:shadow-md"
         rounded
         target="_blank"

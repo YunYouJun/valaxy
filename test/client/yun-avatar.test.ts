@@ -8,7 +8,8 @@ const siteConfig = ref({ author: { avatar: '', status: {} } })
 
 vi.mock('valaxy', async () => {
   const { withBase } = await import('../../packages/valaxy/client/utils/path')
-  return { useSiteConfig: () => siteConfig, withBase }
+  const { sanitizeUrl } = await import('../../packages/valaxy/shared')
+  return { sanitizeUrl, useSiteConfig: () => siteConfig, withBase }
 })
 vi.mock('../../packages/valaxy-theme-yun/utils', () => ({ onImgError: vi.fn() }))
 

@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import type { GirlEntry, GirlReasonMode } from '../../types'
+import { sanitizeUrl } from 'valaxy'
 import { computed, shallowRef, watch } from 'vue'
 import { useI18n } from 'vue-i18n'
 
@@ -15,7 +16,9 @@ const props = withDefaults(defineProps<{
 const { t } = useI18n()
 const imageFailed = shallowRef(!props.girl.avatar)
 const characterUrl = computed(() => (
-  props.girl.url || `https://zh.moegirl.org.cn/${encodeURIComponent(props.girl.name)}`
+  props.girl.url
+    ? sanitizeUrl(props.girl.url)
+    : `https://zh.moegirl.org.cn/${encodeURIComponent(props.girl.name)}`
 ))
 const detailClasses = computed(() => ({
   'valaxy-girl-detail': true,

@@ -2,7 +2,7 @@
 // https://router.vuejs.org/guide/advanced/extending-router-link.html#extending-routerlink
 import { computed } from 'vue'
 import { RouterLink } from 'vue-router'
-import { EXTERNAL_URL_RE } from '../../shared'
+import { EXTERNAL_URL_RE, sanitizeUrl } from '../../shared'
 
 defineOptions({
   inheritAttrs: false,
@@ -15,7 +15,7 @@ const props = defineProps<{
   target?: string
 }>()
 
-const link = computed(() => props.href || props.to || '#')
+const link = computed(() => sanitizeUrl(props.href || props.to))
 
 const isExternalLink = computed(() => {
   return (link.value && EXTERNAL_URL_RE.test(link.value)) || props.target === '_blank'

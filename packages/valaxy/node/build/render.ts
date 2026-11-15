@@ -187,6 +187,7 @@ export function serializeState(state: Record<string, any>): string {
     return ''
 
   const serialised = JSON.stringify(state)
+    .replace(/\\/g, '\\\\')
     .replace(/</g, '\\u003c')
     .replace(/>/g, '\\u003e')
     .replace(/&/g, '\\u0026')

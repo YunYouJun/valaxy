@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import type { PageData, Post } from 'valaxy'
-import { onClickHref, onContentUpdated, scrollTo, usePostTitle, useSiteConfig } from 'valaxy'
-import { computed, onMounted } from 'vue'
+import { onClickHref, scrollTo, usePostTitle, useSiteConfig } from 'valaxy'
+import { computed, onMounted, onUnmounted } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { usePostProperty } from '../composables'
 
@@ -20,7 +20,10 @@ const aside = computed(() => props.frontmatter.aside !== false)
 const route = useRoute()
 const router = useRouter()
 
+let cleanupClickHref: (() => void) | undefined
+
 onMounted(() => {
+  cleanupClickHref = onClickHref(router)
   if (route.hash) {
     setTimeout(() => {
       scrollTo(document.body, route.hash, {
@@ -30,8 +33,9 @@ onMounted(() => {
   }
 })
 
-onContentUpdated(() => {
-  onClickHref(router)
+onUnmounted(() => {
+  cleanupClickHref?.()
+  cleanupClickHref = undefined
 })
 </script>
 

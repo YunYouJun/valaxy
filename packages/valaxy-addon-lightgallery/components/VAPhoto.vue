@@ -1,5 +1,6 @@
 <script lang="ts" setup>
 import type { Photo } from 'valaxy'
+import { escapeHtml } from 'valaxy'
 import { computed } from 'vue'
 
 const props = defineProps<{
@@ -7,7 +8,7 @@ const props = defineProps<{
 }>()
 
 const subHtml = computed(() => {
-  return `<h4>${props.photo.caption}</h4><p>${props.photo.desc}</p>`
+  return `<h4>${escapeHtml(props.photo.caption ?? '')}</h4><p>${escapeHtml(props.photo.desc ?? '')}</p>`
 })
 </script>
 
