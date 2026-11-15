@@ -158,11 +158,15 @@ describe('containerPlugin code-group tab titles', () => {
       '<div class="language-ts" data-title="A &amp; B &#x27;C&#39; &quot;D&quot;"><pre><code>const a = 1</code></pre></div>',
       '',
       '<div class="language-ts" data-title="&lt;img onerror=alert(1)&gt;"><pre><code>const b = 2</code></pre></div>',
+      '',
+      '<div class="language-ts" data-title="&constructor; &Amp;"><pre><code>const c = 3</code></pre></div>',
       ':::',
     ].join('\n'))
 
     expect(html).toContain('<label v-pre data-title="A &amp; B \'C\' &quot;D&quot;" for="tab-1">A &amp; B \'C\' &quot;D&quot;</label>')
     expect(html).toContain('<label v-pre data-title="&lt;img onerror=alert(1)&gt;" for="tab-2">&lt;img onerror=alert(1)&gt;</label>')
+    expect(html).toContain('<label v-pre data-title="&amp;constructor; &amp;Amp;" for="tab-3">&amp;constructor; &amp;Amp;</label>')
     expect(html).not.toContain('&amp;amp;')
+    expect(html).not.toContain('function Object()')
   })
 })

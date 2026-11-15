@@ -124,20 +124,26 @@ export function containerPlugin(md: MarkdownRenderer, containerOptions: Containe
   md.use(...createCodeGroup(md))
 }
 
-const NAMED_HTML_ENTITIES: Record<string, string> = {
-  amp: '&',
-  lt: '<',
-  gt: '>',
-  quot: '"',
-  apos: '\'',
-  nbsp: '\u00A0',
-  copy: '©',
-  reg: '®',
-  trade: '™',
-  mdash: '—',
-  ndash: '–',
-  hellip: '…',
-}
+const NAMED_HTML_ENTITIES = new Map<string, string>([
+  ['amp', '&'],
+  ['AMP', '&'],
+  ['lt', '<'],
+  ['LT', '<'],
+  ['gt', '>'],
+  ['GT', '>'],
+  ['quot', '"'],
+  ['QUOT', '"'],
+  ['apos', '\''],
+  ['nbsp', '\u00A0'],
+  ['copy', '©'],
+  ['COPY', '©'],
+  ['reg', '®'],
+  ['REG', '®'],
+  ['trade', '™'],
+  ['mdash', '—'],
+  ['ndash', '–'],
+  ['hellip', '…'],
+])
 
 function decodeHtmlEntities(input: string): string {
   return input.replace(/&(?:#(\d+)|#x([0-9a-f]+)|([a-z][a-z0-9]+));/gi, (match, dec?: string, hex?: string, named?: string) => {
@@ -148,7 +154,7 @@ function decodeHtmlEntities(input: string): string {
       return String.fromCodePoint(code)
     }
     if (named) {
-      const resolved = NAMED_HTML_ENTITIES[named.toLowerCase()]
+      const resolved = NAMED_HTML_ENTITIES.get(named)
       if (resolved !== undefined)
         return resolved
     }

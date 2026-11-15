@@ -80,7 +80,7 @@ export function createTransformEncrypt(options: ResolvedValaxyOptions) {
 
       // encrypt the entire article
       if (password) {
-        const { descriptor } = parseSfc(code, { filename: id })
+        const { descriptor } = parseSfc(code, { filename: id, sourceMap: false })
         const patches: { start: number, end: number, text: string }[] = []
 
         if (descriptor.template) {
