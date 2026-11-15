@@ -69,12 +69,23 @@ export function joinBaseUrl(base = '/', routePath = ''): string {
     : `${cleanBasePath}/${normalizedRoute}`
 }
 
+const INDEX_ONLY_SEGMENTS_RE = /^index(?:\/index)*$/
+
 /**
- * Map a route/URL path (e.g. `''`, `'/'`, `'/posts/hello/'`) to a canonical raw Markdown href and relative file path.
+ * Map a route/URL path (e.g. `''`, `'/'`, `'/index'`, `'/posts/hello/'`) to a collision-free
+ * raw Markdown href and relative file path.
+ * - `''` / `'/'` (`pages/index.md`) -> `/index.md` (`index.md`)
+ * - `'/index'` (`pages/index/index.md`) -> `/index/index.md` (`index/index.md`)
+ * - `'/index/index'` -> `/index/index/index.md` (`index/index/index.md`)
+ * - Other routes keep `${normalized}.md`.
  */
 export function urlPathToMarkdownPath(urlPath: string): { href: string, relativeFile: string } {
   const normalized = urlPath.replace(/\\/g, '/').replace(/^\/+|\/+$/g, '')
-  const relativeFile = normalized ? `${normalized}.md` : 'index.md'
+  const relativeFile = !normalized
+    ? 'index.md'
+    : INDEX_ONLY_SEGMENTS_RE.test(normalized)
+      ? `${normalized}/index.md`
+      : `${normalized}.md`
   return {
     href: `/${relativeFile}`,
     relativeFile,

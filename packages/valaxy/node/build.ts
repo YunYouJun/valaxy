@@ -17,10 +17,10 @@ export async function build(
   viteConfig: InlineConfig = defaultViteConfig,
 ) {
   const { viteConfig: resolvedViteConfig } = await resolveEffectiveViteConfig(valaxyApp.options, 'build', viteConfig)
-  const inlineConfig = mergeViteConfig(defaultViteConfig, {
-    ...resolvedViteConfig,
-    plugins: await ViteValaxyPlugins(valaxyApp, {}, resolvedViteConfig),
-  })
+  const inlineConfig = mergeViteConfig(
+    mergeViteConfig(defaultViteConfig, resolvedViteConfig),
+    { plugins: await ViteValaxyPlugins(valaxyApp, {}, resolvedViteConfig) },
+  )
 
   await viteBuild(inlineConfig)
 }

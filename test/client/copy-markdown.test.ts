@@ -199,4 +199,15 @@ describe('useCopyMarkdown copy', () => {
     expect(fetchMock).toHaveBeenCalledWith('/index.md')
     expect(copyToClipboard).toHaveBeenCalledWith('# Home')
   })
+
+  it('keeps /index distinct from root "/" by resolving to /index/index.md', async () => {
+    route.path = '/index'
+    setupCopyMarkdown()
+    await flushAvailabilityProbe()
+
+    expect(fetchMock).toHaveBeenCalledWith('/index/index.md', {
+      method: 'HEAD',
+      signal: expect.any(AbortSignal),
+    })
+  })
 })

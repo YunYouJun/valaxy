@@ -2,7 +2,7 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 import { computed, createApp, createSSRApp, defineComponent, effectScope, h, nextTick, ref } from 'vue'
 import { renderToString } from 'vue/server-renderer'
-import { useAddonAlgolia } from '../../packages/valaxy-addon-algolia/client/composable'
+import { beginDocSearchInit, finishDocSearchInit, resetDocSearchInitState, useAddonAlgolia } from '../../packages/valaxy-addon-algolia/client/composable'
 import { useTwikoo } from '../../packages/valaxy-addon-twikoo/client/twikoo'
 import PressSidebarItem from '../../packages/valaxy-theme-press/components/PressSidebarItem.vue'
 import { resetSidebarHashState } from '../../packages/valaxy-theme-press/composables/sidebar'
@@ -79,6 +79,7 @@ describe('batch 2 client runtime, hydration & cleanup', () => {
       }
     }
     resetSidebarHashState()
+    resetDocSearchInitState()
     document.head.innerHTML = ''
     document.body.innerHTML = ''
     window.history.replaceState({}, '', '/')
@@ -123,9 +124,36 @@ describe('batch 2 client runtime, hydration & cleanup', () => {
     vi.advanceTimersByTime(500)
     expect(dispatchSpy.mock.calls.length).toBe(callsWhenFound)
     expect(vi.getTimerCount()).toBe(0)
+    modal.remove()
     scope2.stop()
 
-    // 3. Disposing scope cancels pending timer cleanly
+    // 3. Waits for slow lazy DocSearch initialization (> 400ms) instead of dropping the open request
+    dispatchSpy.mockClear()
+    const scopeSlow = effectScope()
+    const algoliaSlow = scopeSlow.run(() => useAddonAlgolia())!
+    algoliaSlow.load()
+    beginDocSearchInit()
+    vi.advanceTimersByTime(600)
+    expect(dispatchSpy).not.toHaveBeenCalled()
+    expect(vi.getTimerCount()).toBe(0)
+
+    const slowModalListener = () => {
+      const m = document.createElement('div')
+      m.className = 'DocSearch-Modal'
+      document.body.append(m)
+      window.removeEventListener('keydown', slowModalListener)
+    }
+    window.addEventListener('keydown', slowModalListener)
+    finishDocSearchInit(true)
+    expect(dispatchSpy).toHaveBeenCalledTimes(1)
+    vi.advanceTimersByTime(16)
+    expect(algoliaSlow.docSearchModalRef.value).toBeInstanceOf(HTMLDivElement)
+    expect(vi.getTimerCount()).toBe(0)
+    scopeSlow.stop()
+    document.body.innerHTML = ''
+    resetDocSearchInitState()
+
+    // 4. Disposing scope cancels pending timer cleanly
     dispatchSpy.mockClear()
     const scope3 = effectScope()
     const algolia3 = scope3.run(() => useAddonAlgolia())!

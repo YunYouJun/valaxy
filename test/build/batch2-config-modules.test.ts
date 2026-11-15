@@ -3,7 +3,7 @@ import { mkdtemp, rm } from 'node:fs/promises'
 import { tmpdir } from 'node:os'
 import { resolve } from 'node:path'
 import fs from 'fs-extra'
-import { afterEach, describe, expect, it } from 'vitest'
+import { afterEach, describe, expect, it, vi } from 'vitest'
 import { defaultSiteConfig } from '../../packages/valaxy/node/config/site'
 import { execFuse } from '../../packages/valaxy/node/modules/fuse'
 import { build as buildLlms } from '../../packages/valaxy/node/modules/llms/utils'
@@ -11,6 +11,19 @@ import { createConfigPlugin } from '../../packages/valaxy/node/plugins/extendCon
 import { resolveEffectiveViteConfig } from '../../packages/valaxy/node/utils/buildConfig'
 import { discoverPageFiles } from '../../packages/valaxy/node/utils/pageSources'
 import { joinBaseUrl } from '../../packages/valaxy/shared/utils/uri'
+
+const viteMock = vi.hoisted(() => ({ buildCalls: [] as any[] }))
+vi.mock('vite', async () => {
+  const actual = await vi.importActual<typeof import('vite')>('vite')
+  return {
+    ...actual,
+    build: vi.fn(async (config: any) => {
+      viteMock.buildCalls.push(config)
+      return config
+    }),
+  }
+})
+const { build: runSpaBuild } = await import('../../packages/valaxy/node/build')
 
 const tempRoots: string[] = []
 
@@ -63,6 +76,7 @@ function makeBaseOptions(userRoot: string, overrides: Partial<ResolvedValaxyOpti
 }
 
 afterEach(async () => {
+  viteMock.buildCalls = []
   await Promise.all(tempRoots.splice(0).map(dir => rm(dir, { recursive: true, force: true })))
 })
 
@@ -130,10 +144,12 @@ describe('batch 2 effective config, root containment & module outputs', () => {
     const userRoot = resolve(outer, 'blog')
     await fs.outputFile(resolve(outer, 'README.md'), '---\ntitle: SECRET OUTSIDE\n---\nTop secret outside content')
     await fs.outputFile(resolve(userRoot, 'pages/index.md'), '---\ntitle: Home\n---\nWelcome home')
+    await fs.outputFile(resolve(userRoot, 'pages/index/index.md'), '---\ntitle: Index Subpage\n---\nSubpage body')
+    await fs.outputFile(resolve(userRoot, 'pages/index/index/index.md'), '---\ntitle: Nested Index Subpage\n---\nDeep index body')
     await fs.outputFile(resolve(userRoot, 'pages/posts/hello.md'), '---\ntitle: Hello\n---\nPost body')
 
     const discovered = await discoverPageFiles(userRoot, ['**/*.md', '../README.md', '../../README.md'])
-    expect([...discovered.keys()]).toEqual(['index.md', 'posts/hello.md'])
+    expect([...discovered.keys()]).toEqual(['index.md', 'index/index.md', 'index/index/index.md', 'posts/hello.md'])
 
     const options = makeBaseOptions(userRoot, {
       outDir: resolve(userRoot, 'custom-out'),
@@ -156,13 +172,39 @@ describe('batch 2 effective config, root containment & module outputs', () => {
     await buildLlms(options)
 
     expect(await fs.pathExists(resolve(userRoot, 'custom-out/index.md'))).toBe(true)
+    expect(await fs.pathExists(resolve(userRoot, 'custom-out/index/index.md'))).toBe(true)
+    expect(await fs.pathExists(resolve(userRoot, 'custom-out/index/index/index.md'))).toBe(true)
+    expect(await fs.readFile(resolve(userRoot, 'custom-out/index.md'), 'utf-8')).toContain('Welcome home')
+    expect(await fs.readFile(resolve(userRoot, 'custom-out/index/index.md'), 'utf-8')).toContain('Subpage body')
+    expect(await fs.readFile(resolve(userRoot, 'custom-out/index/index/index.md'), 'utf-8')).toContain('Deep index body')
     expect(await fs.pathExists(resolve(userRoot, 'custom-out/.md'))).toBe(false)
     const llmsTxt = await fs.readFile(resolve(userRoot, 'custom-out/llms.txt'), 'utf-8')
-    expect(llmsTxt).toContain('/index.md')
+    expect(llmsTxt).toContain('(https://example.com/index.md)')
+    expect(llmsTxt).toContain('(https://example.com/index/index.md)')
+    expect(llmsTxt).toContain('(https://example.com/index/index/index.md)')
     expect(llmsTxt).not.toContain('SECRET OUTSIDE')
     expect(llmsTxt).not.toContain('(/.md)')
     const llmsFull = await fs.readFile(resolve(userRoot, 'custom-out/llms-full.txt'), 'utf-8')
     expect(llmsFull).not.toContain('Top secret outside content')
+  })
+
+  it('preserves addon and user plugins in SPA build()', async () => {
+    const userRoot = await createProject('valaxy-b2-spa-')
+    const customPlugin = { name: 'test-addon-plugin' }
+    const options = makeBaseOptions(userRoot, {
+      config: {
+        siteConfig: { ...defaultSiteConfig },
+        vite: {
+          plugins: [customPlugin],
+        },
+        valaxy: {},
+      } as any,
+    })
+    options.addons = []
+    await runSpaBuild({ options } as any, { build: { outDir: 'spa-out' } })
+    expect(viteMock.buildCalls).toHaveLength(1)
+    const passedPlugins = (viteMock.buildCalls[0].plugins || []).flat(Infinity)
+    expect(passedPlugins).toContain(customPlugin)
   })
 
   it('writes fuse index to nested outDir paths when publicDir is false and preserves URL/relative bases', async () => {
