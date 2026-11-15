@@ -3,42 +3,13 @@ import { isClient, useScrollLock } from '@vueuse/core'
 import { useFuseSearch } from 'valaxy'
 import { nextTick, ref, watch } from 'vue'
 import { useI18n } from 'vue-i18n'
+import { formatFuseExcerpt } from '../utils/excerpt'
 
 const props = defineProps<{
   open: boolean
 }>()
 
 const emit = defineEmits(['close'])
-
-function formatExcerpt(text = ''): string {
-  const literals: string[] = []
-  const protect = (value: string) => `\u0000${literals.push(value) - 1}\u0000`
-  let cleaned = text
-    .replace(/^[ \t]*```[\s\S]+?^[ \t]*```/gm, ' ')
-    .replace(/^[ \t]*~~~[\s\S]+?^[ \t]*~~~/gm, ' ')
-    .replace(/(?<!`)(`+)(?!`)([^\n]+?)(?<!`)\1(?!`)/g, (_, _fence, code: string) => protect(code))
-    .replace(/\\([\\`*_~[\]{}()#+\-.!|>])/g, (_, char: string) => protect(char))
-    .replace(/<!--[\s\S]*?(?:-->|$)/g, ' ')
-    .replace(/!\[[^\]]*\]\([^)]*\)/g, ' ')
-    .replace(/\[([^\]]+)\]\([^)]*\)/g, '$1')
-    .replace(/<((?:https?:\/\/|mailto:)[^>\s]+)>/gi, '$1')
-    .replace(/<([^\s<>@]+@[^\s<>@.]+(?:\.[^\s<>@.]+)+)>/g, '$1')
-    .replace(/<[^>]*>/g, ' ')
-    .replace(/^[ \t]*#{1,6}[ \t]+/gm, '')
-    .replace(/^[ \t]*>[ \t]?/gm, '')
-
-  for (let depth = 0; depth < 3; depth++) {
-    cleaned = cleaned
-      .replace(/(?<![\p{L}\p{N}_])(_{1,3})(?=\S)(.+?\S|\S)\1(?![\p{L}\p{N}_])/gu, '$2')
-      .replace(/(?<!\*)(\*{1,3})(?=\S)(.+?\S|\S)\1(?!\*)/g, '$2')
-      .replace(/~~(?=\S)(.+?\S|\S)~~/g, '$1')
-  }
-
-  return cleaned
-    .replace(/\0(\d+)\0/g, (_, index: string) => literals[Number(index)])
-    .replace(/\s+/g, ' ')
-    .trim()
-}
 
 const input = ref('')
 const isLocked = useScrollLock(isClient ? document.documentElement : null)
@@ -138,7 +109,7 @@ function getResultKey(title: string | Record<string, string>): string {
                       {{ getResultTitle(result.item.title) }}
                     </h3>
                     <p class="press-result-excerpt">
-                      {{ formatExcerpt(result.item.excerpt) }}
+                      {{ formatFuseExcerpt(result.item.excerpt) }}
                     </p>
                     <div class="press-result-meta">
                       <span class="press-result-link">
