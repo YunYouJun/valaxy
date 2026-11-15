@@ -19,8 +19,25 @@ function normalizeConfigPath(file: string) {
   }
 }
 
+const VITE_DEFAULT_CONFIG_FILES = [
+  'vite.config.js',
+  'vite.config.mjs',
+  'vite.config.ts',
+  'vite.config.cjs',
+  'vite.config.mts',
+  'vite.config.cts',
+]
+
+async function findRootViteConfig(root: string): Promise<string | undefined> {
+  for (const filename of VITE_DEFAULT_CONFIG_FILES) {
+    const candidate = join(root, filename)
+    if (await fs.exists(candidate))
+      return candidate
+  }
+}
+
 /**
- * merge vite.config.ts (user & theme, plus any explicit config file)
+ * merge vite.config.* (theme & user, plus any required explicit config file)
  * @internal
  */
 export async function mergeViteConfigs(
@@ -37,11 +54,12 @@ export async function mergeViteConfigs(
   }
 
   let resolvedConfig: InlineConfig = {}
+  const discoveredFiles = (await Promise.all(
+    uniq([themeRoot, userRoot]).map(root => findRootViteConfig(root)),
+  )).filter((file): file is string => Boolean(file))
+
   const seen = new Set<string>()
-  const files = [
-    ...uniq([themeRoot, userRoot]).map(i => join(i, 'vite.config.ts')),
-    ...extraFiles,
-  ].filter((file) => {
+  const files = [...discoveredFiles, ...extraFiles].filter((file) => {
     const key = normalizeConfigPath(file)
     if (seen.has(key))
       return false
@@ -49,12 +67,10 @@ export async function mergeViteConfigs(
     return true
   })
 
-  const loadViteConfigPromiseArr = files.map(async (file) => {
-    if (!await fs.exists(file))
-      return
-    return loadConfigFromFile(configEnv, file)
-  })
-  const viteConfigs = await Promise.all(loadViteConfigPromiseArr)
+  // Explicit extraFiles must reject if missing rather than falling back silently.
+  const viteConfigs = await Promise.all(
+    files.map(file => loadConfigFromFile(configEnv, file)),
+  )
 
   for (const viteConfig of viteConfigs) {
     if (!viteConfig?.config)

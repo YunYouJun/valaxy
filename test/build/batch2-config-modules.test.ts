@@ -216,6 +216,21 @@ describe('batch 2 effective config, root containment & module outputs', () => {
     finally {
       process.chdir(prevCwd)
     }
+
+    // 8. Discovers non-TypeScript Vite configs (e.g. vite.config.mjs) and rejects missing explicit configFile
+    const mjsRoot = await createProject('valaxy-b2-mjs-')
+    await fs.outputFile(
+      resolve(mjsRoot, 'vite.config.mjs'),
+      'export default { define: { __FROM_MJS_CONFIG__: true } }\n',
+    )
+    const resMjs = await resolveEffectiveViteConfig(makeBaseOptions(mjsRoot), 'build')
+    expect(resMjs.viteConfig.define).toMatchObject({ __FROM_MJS_CONFIG__: true })
+
+    await expect(
+      resolveEffectiveViteConfig(makeBaseOptions(mjsRoot), 'build', {
+        configFile: resolve(mjsRoot, 'missing.vite.ts'),
+      }),
+    ).rejects.toThrow()
   })
 
   it('preserves publicDir: false and resolves relative publicDir against userRoot in extendConfig', async () => {
