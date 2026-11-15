@@ -23,6 +23,12 @@ describe('formatFuseExcerpt', () => {
     )
   })
 
+  it('preserves escaped backticks, escaped HTML brackets, and escaped backslashes before code spans', () => {
+    expect(formatFuseExcerpt('Use \\`literal\\` punctuation.')).toBe('Use `literal` punctuation.')
+    expect(formatFuseExcerpt('Use \\<span> for inline elements.')).toBe('Use <span> for inline elements.')
+    expect(formatFuseExcerpt('Use \\\\`code` and `raw\\` together.')).toBe('Use \\code and raw\\ together.')
+  })
+
   it('decodes character references in prose while preserving literal entities in code spans', () => {
     expect(formatFuseExcerpt('A &amp; B, 2 &lt; 3, The &copy; symbol, and &#x27;ok&#39;.')).toBe(
       'A & B, 2 < 3, The © symbol, and \'ok\'.',

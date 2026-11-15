@@ -49,6 +49,69 @@ function decodeHtmlEntities(text: string): string {
   })
 }
 
+const ESCAPABLE_PUNCTUATION_RE = /^[-!"#$%&'()*+,./:;<=>?@[\\\]^_`{|}~]$/
+
+function findClosingBackticks(text: string, from: number, ticks: number): number {
+  let i = from
+  while (i < text.length) {
+    if (text[i] === '`') {
+      let run = 0
+      while (i + run < text.length && text[i + run] === '`')
+        run++
+      if (run === ticks)
+        return i
+      i += run
+    }
+    else {
+      i++
+    }
+  }
+  return -1
+}
+
+function protectCodeAndEscapes(text: string, protect: (value: string) => string): string {
+  let result = ''
+  let i = 0
+
+  while (i < text.length) {
+    const ch = text[i]
+    if (ch === '\\' && i + 1 < text.length && ESCAPABLE_PUNCTUATION_RE.test(text[i + 1])) {
+      result += protect(text[i + 1])
+      i += 2
+      continue
+    }
+
+    if (ch === '`') {
+      let ticks = 0
+      while (i + ticks < text.length && text[i + ticks] === '`')
+        ticks++
+
+      const closeIdx = findClosingBackticks(text, i + ticks, ticks)
+      if (closeIdx !== -1) {
+        const rawCode = text.slice(i + ticks, closeIdx)
+        const trimmedCode = rawCode.length >= 2
+          && rawCode.startsWith(' ')
+          && rawCode.endsWith(' ')
+          && /[^ ]/.test(rawCode)
+          ? rawCode.slice(1, -1)
+          : rawCode
+        result += protect(trimmedCode)
+        i = closeIdx + ticks
+        continue
+      }
+
+      result += text.slice(i, i + ticks)
+      i += ticks
+      continue
+    }
+
+    result += ch
+    i++
+  }
+
+  return result
+}
+
 /**
  * Convert raw Markdown excerpt text to clean plain text for search results,
  * preserving inline code spans, escaped punctuation, autolinks, and math/comparison prose.
@@ -56,11 +119,13 @@ function decodeHtmlEntities(text: string): string {
 export function formatFuseExcerpt(text = ''): string {
   const literals: string[] = []
   const protect = (value: string) => `\u0000${literals.push(value) - 1}\u0000`
-  let cleaned = text
-    .replace(/^[ \t]*```[\s\S]+?^[ \t]*```/gm, ' ')
-    .replace(/^[ \t]*~~~[\s\S]+?^[ \t]*~~~/gm, ' ')
-    .replace(/(?<!`)(`+)(?!`)([^\n]+?)(?<!`)\1(?!`)/g, (_, _fence, code: string) => protect(code))
-    .replace(/\\([\\`*_~[\]{}()#+\-.!|>])/g, (_, char: string) => protect(char))
+  let cleaned = protectCodeAndEscapes(
+    text
+      .replace(/\0/g, '')
+      .replace(/^[ \t]*```[\s\S]+?^[ \t]*```/gm, ' ')
+      .replace(/^[ \t]*~~~[\s\S]+?^[ \t]*~~~/gm, ' '),
+    protect,
+  )
     .replace(/<!--[\s\S]*?(?:-->|$)/g, ' ')
     .replace(/!\[[^\]]*\]\([^)]*\)/g, ' ')
     .replace(/\[([^\]]+)\]\([^)]*\)/g, '$1')
