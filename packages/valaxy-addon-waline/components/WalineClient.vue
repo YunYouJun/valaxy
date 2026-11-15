@@ -16,6 +16,7 @@ const props = defineProps<{
 }>()
 
 const WALINE_STYLE_ATTR = 'data-valaxy-waline-style'
+const STYLE_LOAD_TIMEOUT_MS = 5000
 
 function matchesStyleHref(link: HTMLLinkElement, url: string, resolvedUrl?: string): boolean {
   if (link.getAttribute('href') === url)
@@ -44,9 +45,16 @@ function ensureWalineStyle(): Promise<void> {
   }
   catch {}
 
-  const existing = document.head.querySelector<HTMLLinkElement>(`link[${WALINE_STYLE_ATTR}]`)
+  const managed = document.head.querySelector<HTMLLinkElement>(`link[${WALINE_STYLE_ATTR}]`)
+  const discovered = managed
     ?? Array.from(document.head.querySelectorAll<HTMLLinkElement>('link[rel="stylesheet"]'))
       .find(candidate => matchesStyleHref(candidate, walineStyleUrl, resolvedUrl))
+
+  // An unmanaged link (e.g. from SSG preload) with null `.sheet` may have already
+  // failed before mount and missed its `error` event. Reuse it when loaded; otherwise
+  // replace it with a fresh managed link so load/error listeners settle reliably.
+  const canReuseUnmanaged = Boolean(discovered && !managed && discovered.sheet)
+  const existing = managed ?? (canReuseUnmanaged ? discovered : undefined)
 
   const link = existing ?? document.createElement('link')
   const hrefChanged = Boolean(existing) && !matchesStyleHref(link, walineStyleUrl, resolvedUrl)
@@ -61,22 +69,39 @@ function ensureWalineStyle(): Promise<void> {
   }
 
   link.setAttribute(WALINE_STYLE_ATTR, '')
-  // Insert or move before theme/site stylesheets so :root overrides keep precedence,
-  // including when SSG preload links already emitted this stylesheet after theme CSS.
-  positionBeforeSiteStyles(link)
 
-  if (!hrefChanged && (link.sheet || link.dataset.valaxySettled === 'true'))
+  if (!hrefChanged && (link.sheet || link.dataset.valaxySettled === 'true')) {
+    link.dataset.valaxySettled = 'true'
+    // Insert or move before theme/site stylesheets so :root overrides keep precedence,
+    // including when SSG preload links already emitted this stylesheet after theme CSS.
+    positionBeforeSiteStyles(link)
     return Promise.resolve()
+  }
 
   return new Promise<void>((resolve) => {
+    let settled = false
+    let fallbackTimer: ReturnType<typeof setTimeout> | undefined
+
     const done = () => {
+      if (settled)
+        return
+      settled = true
+      if (fallbackTimer !== undefined)
+        clearTimeout(fallbackTimer)
       link.removeEventListener('load', done)
       link.removeEventListener('error', done)
       link.dataset.valaxySettled = 'true'
       resolve()
     }
+
+    // Attach listeners before inserting into DOM so cached/immediate outcomes are never missed.
     link.addEventListener('load', done, { once: true })
     link.addEventListener('error', done, { once: true })
+    fallbackTimer = setTimeout(done, STYLE_LOAD_TIMEOUT_MS)
+
+    positionBeforeSiteStyles(link)
+    if (!managed && !canReuseUnmanaged && discovered && discovered !== link)
+      discovered.remove()
   })
 }
 

@@ -81,7 +81,7 @@ describe('waline on-demand stylesheet loading', () => {
     expect(walineSdk.init).toHaveBeenCalledTimes(2)
   })
 
-  it('reuses and repositions an SSG-emitted stylesheet appearing after theme styles', async () => {
+  it('reuses and repositions a loaded SSG-emitted stylesheet appearing after theme styles', async () => {
     const themeLink = document.createElement('link')
     themeLink.rel = 'stylesheet'
     themeLink.href = '/assets/style.css'
@@ -90,6 +90,7 @@ describe('waline on-demand stylesheet loading', () => {
     const ssgWalineLink = document.createElement('link')
     ssgWalineLink.rel = 'stylesheet'
     ssgWalineLink.href = '/assets/waline.test.css'
+    Object.defineProperty(ssgWalineLink, 'sheet', { value: {}, configurable: true })
     document.head.appendChild(ssgWalineLink)
 
     cleanup = mountWaline()
@@ -100,9 +101,39 @@ describe('waline on-demand stylesheet loading', () => {
     expect(ssgWalineLink.hasAttribute('data-valaxy-waline-style')).toBe(true)
     expect(ssgWalineLink.nextElementSibling).toBe(themeLink)
 
-    ssgWalineLink.dispatchEvent(new Event('load'))
     await flushPromises()
     expect(walineSdk.init).toHaveBeenCalledTimes(1)
+  })
+
+  it('recovers when a pre-existing stylesheet has no loaded sheet (e.g. failed before mount)', async () => {
+    const preFailedLink = document.createElement('link')
+    preFailedLink.rel = 'stylesheet'
+    preFailedLink.href = '/assets/waline.test.css'
+    document.head.appendChild(preFailedLink)
+    preFailedLink.dispatchEvent(new Event('error'))
+
+    const themeLink = document.createElement('link')
+    themeLink.rel = 'stylesheet'
+    themeLink.href = '/assets/style.css'
+    document.head.appendChild(themeLink)
+
+    const unmountFirst = mountWaline()
+    cleanup = unmountFirst
+
+    const retriedLinks = document.head.querySelectorAll<HTMLLinkElement>('link[rel="stylesheet"][href="/assets/waline.test.css"]')
+    expect(retriedLinks).toHaveLength(1)
+    expect(retriedLinks[0]).not.toBe(preFailedLink)
+    expect(retriedLinks[0].hasAttribute('data-valaxy-waline-style')).toBe(true)
+    expect(retriedLinks[0].nextElementSibling).toBe(themeLink)
+
+    retriedLinks[0].dispatchEvent(new Event('error'))
+    await flushPromises()
+    expect(walineSdk.init).toHaveBeenCalledTimes(1)
+
+    unmountFirst()
+    cleanup = mountWaline()
+    await flushPromises()
+    expect(walineSdk.init).toHaveBeenCalledTimes(2)
   })
 
   it('skips init if unmounted before the stylesheet finishes loading', async () => {
