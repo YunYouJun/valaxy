@@ -3,6 +3,7 @@ import type { ResolvedValaxyOptions } from '../types'
 import { readFile } from 'node:fs/promises'
 import path from 'node:path'
 import matter from '@11ty/gray-matter'
+import pMap from 'p-map'
 import { glob } from 'tinyglobby'
 import { isUnpublishedPage, relativePagePath } from '../../shared/page-policy'
 import { matterOptions } from '../plugins/markdown/transform/matter'
@@ -40,11 +41,11 @@ export async function scanPageFiles(userRoot: string, include: string[]): Promis
  * Read and parse frontmatter from markdown files.
  */
 export async function readPostFiles(files: string[], defaults: Record<string, any> = {}): Promise<RawPost[]> {
-  return Promise.all(files.map(async (filePath) => {
+  return pMap(files, async (filePath) => {
     const raw = await readFile(filePath, 'utf-8')
     const { data, content, excerpt } = matter(raw, matterOptions)
     return { data: { ...defaults, ...data }, content, excerpt, filePath }
-  }))
+  }, { concurrency: 32 })
 }
 
 /**

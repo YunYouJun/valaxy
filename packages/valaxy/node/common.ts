@@ -1,6 +1,7 @@
 import type { ConfigEnv, InlineConfig } from 'vite'
 import type { ResolvedValaxyOptions } from './types'
-import { join } from 'node:path'
+import { realpathSync } from 'node:fs'
+import { join, resolve } from 'node:path'
 import { uniq } from '@antfu/utils'
 import fs from 'fs-extra'
 import { loadConfigFromFile, mergeConfig } from 'vite'
@@ -8,26 +9,71 @@ import { escapeHtml, sanitizeUrl, serializeInlineJsString } from '../shared'
 import { foucGuardHtml } from './scripts/fouc-guard'
 import { toAtFS } from './utils'
 
+function normalizeConfigPath(file: string) {
+  const abs = resolve(file)
+  try {
+    return realpathSync(abs)
+  }
+  catch {
+    return abs
+  }
+}
+
+const VITE_DEFAULT_CONFIG_FILES = [
+  'vite.config.js',
+  'vite.config.mjs',
+  'vite.config.ts',
+  'vite.config.cjs',
+  'vite.config.mts',
+  'vite.config.cts',
+]
+
+async function findRootViteConfig(root: string): Promise<string | undefined> {
+  for (const filename of VITE_DEFAULT_CONFIG_FILES) {
+    const candidate = join(root, filename)
+    if (await fs.exists(candidate))
+      return candidate
+  }
+}
+
 /**
- * merge vite.config.ts (user & theme)
+ * merge vite.config.* (theme & user, plus any required explicit config file)
  * @internal
  */
-export async function mergeViteConfigs({ userRoot, themeRoot }: ResolvedValaxyOptions, command: 'serve' | 'build') {
+export async function mergeViteConfigs(
+  { userRoot, themeRoot }: ResolvedValaxyOptions,
+  command: 'serve' | 'build',
+  mode: string = command === 'build' ? 'production' : 'development',
+  extraFiles: string[] = [],
+  isSsrBuild?: boolean,
+  configLoader?: InlineConfig['configLoader'],
+  logLevel?: InlineConfig['logLevel'],
+  customLogger?: InlineConfig['customLogger'],
+) {
   const configEnv: ConfigEnv = {
-    mode: 'development',
+    mode,
     command,
+    ...(isSsrBuild !== undefined ? { isSsrBuild } : {}),
   }
 
   let resolvedConfig: InlineConfig = {}
-  // let vite default config file be clientRoot/vite.config.ts
-  const files = uniq([themeRoot, userRoot]).map(i => join(i, 'vite.config.ts'))
+  const discoveredFiles = (await Promise.all(
+    uniq([themeRoot, userRoot]).map(root => findRootViteConfig(root)),
+  )).filter((file): file is string => Boolean(file))
 
-  const loadViteConfigPromiseArr = files.map(async (file) => {
-    if (!await fs.exists(file))
-      return
-    return loadConfigFromFile(configEnv, file)
+  const seen = new Set<string>()
+  const files = [...discoveredFiles, ...extraFiles].filter((file) => {
+    const key = normalizeConfigPath(file)
+    if (seen.has(key))
+      return false
+    seen.add(key)
+    return true
   })
-  const viteConfigs = await Promise.all(loadViteConfigPromiseArr)
+
+  // Explicit extraFiles must reject if missing rather than falling back silently.
+  const viteConfigs = await Promise.all(
+    files.map(file => loadConfigFromFile(configEnv, file, undefined, logLevel, customLogger, configLoader)),
+  )
 
   for (const viteConfig of viteConfigs) {
     if (!viteConfig?.config)

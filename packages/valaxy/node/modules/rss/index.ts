@@ -1,6 +1,7 @@
 import { defineValaxyModule } from '..'
 import { commonOptions } from '../../cli/options'
 import { resolveOptions } from '../../options'
+import { resolveEffectiveViteConfig } from '../../utils/buildConfig'
 import { setEnvProd } from '../../utils/env'
 import { build } from './utils'
 
@@ -19,6 +20,7 @@ export const rssModule = defineValaxyModule({
       async ({ root }) => {
         setEnvProd()
         const options = await resolveOptions({ userRoot: root }, 'build')
+        await resolveEffectiveViteConfig(options, 'build')
         await build(options)
       },
     )

@@ -7,8 +7,7 @@
 import type { MarkdownBaseResolver } from '../base'
 import type { MarkdownEnv } from '../env'
 import type { MarkdownRenderer } from '../renderer'
-import { URL } from 'node:url'
-import { EXTERNAL_URL_RE } from '../../../../shared'
+import { EXTERNAL_URL_RE, safeDecodeURI, safeParseUrl } from '../../../../shared'
 import { PATHNAME_PROTOCOL_RE } from '../../../constants'
 
 const indexRE = /(^|.*\/)index.md(.*)$/i
@@ -87,8 +86,8 @@ export function linkPlugin(md: MarkdownRenderer, externalAttrs: Record<string, s
         cleanUrl += '.html'
       }
 
-      const parsed = new URL(url, 'http://a.com')
-      url = cleanUrl + parsed.search + parsed.hash
+      const parsed = safeParseUrl(url, 'http://a.com')
+      url = cleanUrl + (parsed ? parsed.search + parsed.hash : '')
     }
 
     // ensure leading . for relative paths
@@ -99,7 +98,7 @@ export function linkPlugin(md: MarkdownRenderer, externalAttrs: Record<string, s
     pushLink(url.replace(/\.html$/, ''), env)
 
     // markdown-it encodes the uri
-    return decodeURI(url)
+    return safeDecodeURI(url)
   }
 
   function pushLink(link: string, env: MarkdownEnv) {

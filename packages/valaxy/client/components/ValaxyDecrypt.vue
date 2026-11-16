@@ -1,7 +1,6 @@
 <script lang="ts" setup>
-import { isClient } from '@vueuse/core'
 import { runContentUpdated, useDecrypt, useFrontmatter } from 'valaxy'
-import { computed, ref } from 'vue'
+import { onMounted, ref } from 'vue'
 
 const props = withDefaults(defineProps<{
   encryptedContent: string
@@ -40,7 +39,10 @@ function encryptAgain() {
   }, 16)
 }
 
-const hasWarning = computed(() => isClient && location.protocol !== 'https:')
+const hasWarning = ref(false)
+onMounted(() => {
+  hasWarning.value = window.location.protocol !== 'https:'
+})
 </script>
 
 <template>

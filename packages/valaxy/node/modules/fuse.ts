@@ -14,10 +14,12 @@ import { SENSITIVE_FRONTMATTER_KEYS } from '../../shared/constants'
 import { loadLocalesYml, nodeT } from '../../shared/node/i18n'
 import { isUnpublishedPage, relativePagePath } from '../../shared/page-policy'
 import { stripEncryptedContent } from '../../shared/seo'
+import { joinBaseUrl } from '../../shared/utils'
 import { commonOptions } from '../cli/options'
 import { EXCERPT_SEPARATOR } from '../constants'
 import { resolveOptions } from '../options'
 import { matterOptions } from '../plugins/markdown/transform/matter'
+import { resolveBuildPaths, resolveEffectiveViteConfig } from '../utils/buildConfig'
 import { setEnvProd } from '../utils/env'
 import { discoverPageFiles, getPagePath } from '../utils/pageSources'
 
@@ -79,11 +81,14 @@ export async function generateFuseList(options: ResolvedValaxyOptions) {
 
     const extendKeys = options.config.fuse?.extendKeys || []
 
+    const { base } = resolveBuildPaths(options)
+
     // adapt for nested folders, like /posts/2021/01/01/index.md
-    const relativeLink = path.join(options.config.vite?.base || '/', getPagePath(i, options.userRoot) || path.relative(path.resolve(options.userRoot, 'pages'), i)).replace(/\\/g, '/')
-    const link = i.endsWith('index.md')
-      ? relativeLink.replace(/\/index\.md$/, '')
-      : relativeLink.replace(/\.md$/, '')
+    const pagePath = (getPagePath(i, options.userRoot) || path.relative(path.resolve(options.userRoot, 'pages'), i)).replace(/\\/g, '/')
+    const cleanRoute = pagePath
+      .replace(/(?:^|\/)index\.md$/, '')
+      .replace(/\.md$/, '')
+    const link = joinBaseUrl(base, cleanRoute)
 
     const fuseListItem: FuseListItem = {
       title: fmData.title || '',
@@ -118,36 +123,44 @@ export async function generateFuseList(options: ResolvedValaxyOptions) {
 /**
  * fuse main logic
  */
-export async function execFuse(options: ResolvedValaxyOptions) {
-  consola.info('Start generate fuse list...')
-  const fuseList = await generateFuseList(options)
+export async function execFuse(
+  options: ResolvedValaxyOptions,
+  target: 'both' | 'public' | 'dist' = 'both',
+  precomputedList?: FuseListItem[],
+) {
+  const fuseList = precomputedList ?? await (async () => {
+    consola.info('Start generate fuse list...')
+    return await generateFuseList(options)
+  })()
 
-  await fs.ensureDir('./dist')
-  const publicFolder = path.resolve(options.userRoot, 'public')
-  const publicFuseFile = path.resolve(publicFolder, options.config.siteConfig.fuse.dataPath)
-  const publicRelativeFile = path.join('public', options.config.siteConfig.fuse.dataPath)
+  const { outDir, publicDir } = resolveBuildPaths(options)
 
-  await fs.ensureFile(publicFuseFile)
-  fs.writeJSONSync(publicFuseFile, fuseList)
-  consola.success(`Generate fuse list in ${colors.dim(publicFolder)}`)
+  if ((target === 'both' || target === 'public') && publicDir !== false) {
+    const publicFuseFile = path.resolve(publicDir, options.config.siteConfig.fuse.dataPath)
+    await fs.ensureFile(publicFuseFile)
+    await fs.writeJson(publicFuseFile, fuseList)
+    consola.success(`Generate fuse list in ${colors.dim(publicDir)}`)
 
-  // copy to dist
-  const distFolder = path.resolve(options.userRoot, 'dist')
-  const distFuseFile = path.resolve(distFolder, options.config.siteConfig.fuse.dataPath)
-  await fs.ensureDir(distFolder)
-  fs.writeJSONSync(distFuseFile, fuseList)
-  consola.success(`Generate fuse list in ${colors.dim(distFolder)}`)
-
-  try {
-    const gitignorePath = path.resolve(options.userRoot, '.gitignore')
-    const gitignore = await fs.readFile(gitignorePath, 'utf-8')
-    const ignorePath = publicRelativeFile.replace(/\\/g, '/')
-    if (!gitignore.includes(ignorePath)) {
-      await fs.appendFile(gitignorePath, `\n# valaxy fuse\n${ignorePath}\n`)
-      consola.success(`Add ${colors.dim(ignorePath)} to ${colors.dim('.gitignore')}`)
+    try {
+      const gitignorePath = path.resolve(options.userRoot, '.gitignore')
+      const gitignore = await fs.readFile(gitignorePath, 'utf-8')
+      const ignorePath = path.relative(options.userRoot, publicFuseFile).replace(/\\/g, '/')
+      if (ignorePath && !ignorePath.startsWith('..') && !path.isAbsolute(ignorePath) && !gitignore.includes(ignorePath)) {
+        await fs.appendFile(gitignorePath, `\n# valaxy fuse\n${ignorePath}\n`)
+        consola.success(`Add ${colors.dim(ignorePath)} to ${colors.dim('.gitignore')}`)
+      }
     }
+    catch { }
   }
-  catch { }
+
+  if (target === 'both' || target === 'dist') {
+    const distFuseFile = path.resolve(outDir, options.config.siteConfig.fuse.dataPath)
+    await fs.ensureFile(distFuseFile)
+    await fs.writeJson(distFuseFile, fuseList)
+    consola.success(`Generate fuse list in ${colors.dim(outDir)}`)
+  }
+
+  return fuseList
 }
 
 /**
@@ -164,6 +177,7 @@ export function registerFuseCommand(cli: Argv<object>) {
     async ({ root }) => {
       setEnvProd()
       const options = await resolveOptions({ userRoot: root }, 'build')
+      await resolveEffectiveViteConfig(options, 'build')
       await execFuse(options)
     },
   )
@@ -175,8 +189,15 @@ export const fuseModule = defineValaxyModule({
   },
 
   setup(node) {
+    let cachedFuseList: FuseListItem[] | undefined
+
     node.hook('build:before', async () => {
-      await execFuse(node.options)
+      cachedFuseList = await execFuse(node.options, 'public')
+    })
+
+    node.hook('build:after', async () => {
+      await execFuse(node.options, 'dist', cachedFuseList)
+      cachedFuseList = undefined
     })
   },
 })

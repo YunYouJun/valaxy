@@ -181,4 +181,33 @@ describe('useCopyMarkdown copy', () => {
     expect(copyToClipboard).toHaveBeenCalledOnce()
     expect(loading.value).toBe(false)
   })
+
+  it('maps root route "/" to /index.md instead of /.md', async () => {
+    route.path = '/'
+    const { available, copy } = setupCopyMarkdown()
+    await flushAvailabilityProbe()
+
+    expect(fetchMock).toHaveBeenCalledWith('/index.md', {
+      method: 'HEAD',
+      signal: expect.any(AbortSignal),
+    })
+    expect(available.value).toBe(true)
+
+    fetchMock.mockClear()
+    fetchMock.mockResolvedValueOnce(new Response('# Home', { status: 200 }))
+    await copy()
+    expect(fetchMock).toHaveBeenCalledWith('/index.md')
+    expect(copyToClipboard).toHaveBeenCalledWith('# Home')
+  })
+
+  it('keeps /index distinct from root "/" by resolving to /index/index.md', async () => {
+    route.path = '/index'
+    setupCopyMarkdown()
+    await flushAvailabilityProbe()
+
+    expect(fetchMock).toHaveBeenCalledWith('/index/index.md', {
+      method: 'HEAD',
+      signal: expect.any(AbortSignal),
+    })
+  })
 })

@@ -6,12 +6,14 @@ import { consola } from 'consola'
 import { colors } from 'consola/utils'
 import fs from 'fs-extra'
 import * as yaml from 'js-yaml'
+import pMap from 'p-map'
 import picomatch from 'picomatch'
 import { tObject } from '../../../shared'
 import { SENSITIVE_FRONTMATTER_KEYS } from '../../../shared/constants'
 import { loadLocalesYml, nodeT } from '../../../shared/node/i18n'
 import { stripEncryptedContent } from '../../../shared/seo'
-import { isLocaleKey } from '../../../shared/utils'
+import { isLocaleKey, urlPathToMarkdownPath } from '../../../shared/utils'
+import { resolveBuildPaths } from '../../utils/buildConfig'
 import { getPagePath } from '../../utils/pageSources'
 import { filePathToUrlPath, filterPublicPosts, getSiteUrl, readPostFiles, scanPageFiles } from '../utils'
 
@@ -114,7 +116,7 @@ export async function build(options: ResolvedValaxyOptions) {
   const selection = llmsSelection(llmsConfig)
   warnUnmatchedCollapse(posts, selection)
 
-  const distPath = path.resolve(options.userRoot, 'dist')
+  const { outDir: distPath } = resolveBuildPaths(options)
   await fs.ensureDir(distPath)
 
   const title = resolveText(siteConfig.title, lang) || 'Valaxy Blog'
@@ -148,14 +150,18 @@ export async function build(options: ResolvedValaxyOptions) {
 
   // Copy raw .md files to dist with metadata header, including excluded and collapsed pages
   if (llmsConfig.files) {
-    await Promise.all(posts.map(async (post) => {
-      const mdPath = path.resolve(distPath, `${post.urlPath.slice(1)}.md`)
+    await pMap(posts, async (post) => {
+      const { relativeFile } = urlPathToMarkdownPath(post.urlPath)
+      const mdPath = path.resolve(distPath, relativeFile)
+      const relToDist = path.relative(distPath, mdPath)
+      if (relToDist === '..' || relToDist.startsWith(`..${path.sep}`) || path.isAbsolute(relToDist))
+        return
       await fs.ensureDir(path.dirname(mdPath))
       const header = formatMetadataHeader(post)
       const body = post.content.trim()
       const fileContent = body ? `${header}${body}\n` : `${header}`
       await fs.writeFile(mdPath, fileContent, 'utf-8')
-    }))
+    }, { concurrency: 32 })
     consola.debug(`[llms] Copied ${colors.dim(posts.length.toString())} raw .md files to dist/`)
   }
 
@@ -288,7 +294,7 @@ function hrefToUrl(siteUrl: string, href: string): string {
     return trimmed
   const directory = trimmed.endsWith('/')
   const urlPath = trimmed.startsWith('/') ? trimmed : `/${trimmed}`
-  const target = directory || urlPath.endsWith('.md') ? urlPath : `${normalizeLlmsPath(urlPath)}.md`
+  const target = directory || urlPath.endsWith('.md') ? urlPath : urlPathToMarkdownPath(urlPath).href
   return siteUrl ? `${siteUrl}${target}` : target
 }
 
@@ -380,7 +386,7 @@ function groupLlmsEntries(params: {
     sections.set(featuredTitle, featuredPosts.map(post => ({
       title: post.title,
       description: post.description,
-      href: `${post.urlPath}.md`,
+      href: urlPathToMarkdownPath(post.urlPath).href,
     })))
   }
 
@@ -390,7 +396,7 @@ function groupLlmsEntries(params: {
     const entry = {
       title: post.title,
       description: post.description,
-      href: `${post.urlPath}.md`,
+      href: urlPathToMarkdownPath(post.urlPath).href,
     }
     if (entries)
       entries.push(entry)

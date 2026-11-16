@@ -2,7 +2,7 @@ import type { InlineConfig } from 'vite'
 import type { ValaxyNode } from '../types'
 import type { RenderResult } from './render'
 import { readFile, rm } from 'node:fs/promises'
-import { isAbsolute, resolve } from 'node:path'
+import { resolve } from 'node:path'
 import { pathToFileURL } from 'node:url'
 import { consola } from 'consola'
 import { colors } from 'consola/utils'
@@ -10,6 +10,7 @@ import pMap from 'p-map'
 import { mergeConfig as mergeViteConfig, build as viteBuild } from 'vite'
 import { defaultViteConfig } from '../constants'
 import { ViteValaxyPlugins } from '../plugins/preset'
+import { resolveEffectiveViteConfig } from '../utils/buildConfig'
 import { profileBuildPhase } from '../utils/buildProfile'
 import { clearBundleCache } from './bundle'
 import { renderPage, writeTrailingSlashAliases } from './render'
@@ -96,15 +97,22 @@ export async function ssgBuild(
 
   // Keep Node's heap budget (including NODE_OPTIONS and container-aware
   // defaults). Raising it here can exceed the host's total memory limit.
-  const configOutDir = (viteConfig.build?.outDir as string) || 'dist'
-  const outDir = isAbsolute(configOutDir) ? configOutDir : resolve(options.userRoot, configOutDir)
+  const { viteConfig: effectiveClientViteConfig, outDir } = await resolveEffectiveViteConfig(
+    options,
+    'build',
+    viteConfig,
+    undefined,
+    false,
+  )
+  delete (effectiveClientViteConfig as any).ssgOptions
+
   const ssgTemp = resolve(outDir, '.vite-ssg-temp')
   let routePaths: string[] = []
   let renderedPages: Awaited<ReturnType<typeof renderPage>>[]
 
   const defaultConfig: InlineConfig = {
     ...defaultViteConfig,
-    plugins: await profileBuildPhase('plugins', () => ViteValaxyPlugins(valaxyApp, {}, viteConfig, 2)),
+    plugins: await profileBuildPhase('plugins', () => ViteValaxyPlugins(valaxyApp, {}, effectiveClientViteConfig, 2)),
     // `ssr.noExternal` only affects the server build (step 2) — the client build
     // ignores it. See `getSsgSsrConfig` for why everything is bundled.
     ssr: getSsgSsrConfig(),
@@ -116,21 +124,33 @@ export async function ssgBuild(
     },
   }
 
-  const inlineConfig: InlineConfig = mergeViteConfig(defaultConfig, viteConfig)
+  const clientInlineConfig: InlineConfig = mergeViteConfig(defaultConfig, effectiveClientViteConfig)
 
   try {
     // === Step 1: Client Build (with SSR manifest) ===
     consola.info('Building client bundle...')
-    await profileBuildPhase('client-bundle', () => viteBuild(mergeViteConfig(inlineConfig, {
+    await profileBuildPhase('client-bundle', () => viteBuild(mergeViteConfig(clientInlineConfig, {
       build: {
         ssrManifest: true,
         outDir,
       },
     })))
 
+    // Resolve server Vite config after client build completes so config files
+    // branching on `isSsrBuild` can read client-generated manifests.
+    const { viteConfig: effectiveServerViteConfig } = await resolveEffectiveViteConfig(
+      options,
+      'build',
+      viteConfig,
+      undefined,
+      true,
+    )
+    delete (effectiveServerViteConfig as any).ssgOptions
+    const serverInlineConfig: InlineConfig = mergeViteConfig(defaultConfig, effectiveServerViteConfig)
+
     // === Step 2: Server Build ===
     consola.info('Building server bundle...')
-    await profileBuildPhase('server-bundle', () => viteBuild(mergeViteConfig(inlineConfig, {
+    await profileBuildPhase('server-bundle', () => viteBuild(mergeViteConfig(serverInlineConfig, {
       build: {
         ssr: resolve(options.clientRoot, 'entry-ssr.ts'),
         outDir: ssgTemp,

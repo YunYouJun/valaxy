@@ -173,7 +173,7 @@ export async function highlight(
 
       const restoreMustache = (s: string) => {
         mustaches.forEach((marker, match) => {
-          s = s.replaceAll(marker, match)
+          s = s.replaceAll(marker, () => match)
         })
         return s
       }

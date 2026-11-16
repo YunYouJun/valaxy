@@ -1,6 +1,7 @@
 import { isClient, useClipboard } from '@vueuse/core'
 import { computed, ref, watchEffect } from 'vue'
 import { useRoute } from 'vue-router'
+import { urlPathToMarkdownPath } from '../../../shared/utils/uri'
 import { useSiteConfig } from '../../config'
 
 /**
@@ -34,12 +35,7 @@ export function useCopyMarkdown() {
   const error = ref<string | null>(null)
   const { copy: copyToClipboard } = useClipboard({ legacy: true })
 
-  const mdUrl = computed(() => {
-    const p = route.path !== '/' && route.path.endsWith('/')
-      ? route.path.slice(0, -1)
-      : route.path
-    return `${p}.md`
-  })
+  const mdUrl = computed(() => urlPathToMarkdownPath(route.path).href)
 
   // Only probe when raw Markdown output is enabled.
   if (isClient) {

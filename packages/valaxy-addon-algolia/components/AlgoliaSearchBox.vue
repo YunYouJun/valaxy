@@ -5,7 +5,7 @@ import type { AlgoliaSearchOptions } from '../types'
 import { nextTick, onMounted, onUnmounted, watch } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { useRouter } from 'vue-router'
-import { useAddonAlgoliaConfig } from '../client'
+import { beginDocSearchInit, finishDocSearchInit, useAddonAlgoliaConfig } from '../client'
 import '@docsearch/css'
 
 const router = useRouter()
@@ -23,18 +23,22 @@ onMounted(() => watch([locale, () => algolia.value?.options], update, { immediat
 onUnmounted(() => {
   ++initializeCount
   docsearchInstance?.destroy()
+  finishDocSearchInit(false)
 })
 
 async function update() {
   const currentInitialize = ++initializeCount
+  beginDocSearchInit()
   await nextTick()
   if (currentInitialize !== initializeCount)
     return
 
   docsearchInstance?.destroy()
   docsearchInstance = undefined
-  if (!algolia.value?.options)
+  if (!algolia.value?.options) {
+    finishDocSearchInit(false)
     return
+  }
 
   const options = {
     ...algolia.value!.options!,
@@ -51,13 +55,22 @@ async function update() {
   //   `lang:${lang.value}`,
   // ]
 
-  await initialize({
-    ...options,
-    searchParameters: {
-      ...options.searchParameters,
-      // facetFilters,
-    },
-  }, currentInitialize)
+  try {
+    await initialize({
+      ...options,
+      searchParameters: {
+        ...options.searchParameters,
+        // facetFilters,
+      },
+    }, currentInitialize)
+    if (currentInitialize === initializeCount)
+      finishDocSearchInit(true)
+  }
+  catch (err) {
+    if (currentInitialize === initializeCount)
+      finishDocSearchInit(false)
+    throw err
+  }
 }
 
 async function initialize(userOptions: AlgoliaSearchOptions, currentInitialize: number) {

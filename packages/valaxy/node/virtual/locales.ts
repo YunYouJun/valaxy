@@ -17,15 +17,16 @@ export const templateLocales: VirtualModuleTemplate = {
   })
   `,
     ]
-    const languages = config.siteConfig.languages || ['zh-CN', 'en']
+    const languages = [...new Set(config.siteConfig.languages || ['zh-CN', 'en'])]
     roots.forEach((root, i) => {
-      languages.forEach((lang) => {
+      languages.forEach((lang, langIndex) => {
         const langYml = `${root}/locales/${lang}.yml`
         if (fs.existsSync(langYml) && fs.readFileSync(langYml, 'utf-8')) {
-          const varName = lang.replace('-', '') + i
+          const varName = `locale_${i}_${langIndex}`
+          const langKey = JSON.stringify(lang)
           imports.unshift(`import ${varName} from "${toAtFS(langYml)}"`)
           // pre override next
-          imports.push(`messages['${lang}'] = replaceArrMerge(${varName}, messages['${lang}'])`)
+          imports.push(`messages[${langKey}] = replaceArrMerge(${varName}, messages[${langKey}])`)
         }
       })
     })
