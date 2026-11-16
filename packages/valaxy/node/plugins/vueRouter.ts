@@ -77,7 +77,7 @@ export async function createRouterPlugin(valaxyApp: ValaxyNode, base?: MarkdownB
     async beforeWriteFiles(root) {
       await options.beforeWriteFiles?.(root)
       await editorRoutes?.update(root)
-      excerptAssets?.prepareRoutes(root)
+      excerptAssets?.setRoutes(root)
     },
   })
 }
