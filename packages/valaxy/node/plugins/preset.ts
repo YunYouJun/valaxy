@@ -15,10 +15,12 @@ import { customElements } from '../constants'
 import { editorPlugin } from '../editor/plugin'
 import { EditorRoutes } from '../editor/routes'
 import { vLogger } from '../logger'
+import { createRssAssetsPlugin } from '../modules/rss/assets'
 import { scanCodeBlockTitles } from '../utils/groupIcons'
 import { countPerformanceTime } from '../utils/performance'
 import { createCdnPlugin } from './cdn'
 import { createCoverComponentsPlugin } from './coverComponents'
+import { createExcerptAssets } from './excerptAssets'
 import { createConfigPlugin } from './extendConfig'
 import VueI18n from './i18n'
 import { createLayoutsPlugin } from './layouts'
@@ -116,6 +118,7 @@ export async function ViteValaxyPlugins(
   // Plugin pipelines can be created concurrently from the same Valaxy app.
   // Keep transient Markdown state scoped to this pipeline, not the app.
   const state = new StateManager()
+  const excerptAssets = createExcerptAssets()
   const editorRoutes = options.mode === 'dev' ? new EditorRoutes() : undefined
   const { roots, config: valaxyConfig } = options
   const markdownBase = createMarkdownBaseContext(viteConfig.base || valaxyConfig.vite?.base || '/')
@@ -205,7 +208,7 @@ export async function ViteValaxyPlugins(
       vLogger.debug(`  ├─ plugin-vue: ${timers.vue()}`)
       return r
     }),
-    createRouterPlugin(valaxyApp, markdownBase, editorRoutes).then((r) => {
+    createRouterPlugin(valaxyApp, markdownBase, editorRoutes, excerptAssets).then((r) => {
       vLogger.debug(`  ├─ createRouterPlugin: ${timers.router()}`)
       return r
     }),
@@ -237,6 +240,7 @@ export async function ViteValaxyPlugins(
     ...(editorRoutes ? [editorPlugin(options, editorRoutes)] : []),
     createCdnPlugin(options),
     createLlmsPlugin(options),
+    valaxyConfig.modules?.rss?.extractImagePathsFromHTML && createRssAssetsPlugin(options),
 
     MarkdownPlugin,
     ValaxyPlugin,
@@ -249,6 +253,7 @@ export async function ViteValaxyPlugins(
 
     // https://router.vuejs.org/file-based-routing/
     RouterPlugin,
+    excerptAssets.plugin,
 
     createLayoutsPlugin(options),
 

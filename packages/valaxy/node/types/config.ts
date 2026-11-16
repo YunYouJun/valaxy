@@ -184,8 +184,8 @@ export interface ValaxyExtendConfig {
        */
       fullText: boolean
       /**
-       * @zh 从构建后的 HTML 中提取图片路径（用于解析 Vite 打包后的 hash 文件名）
-       * @en Extract image paths from built HTML files (to resolve Vite hashed filenames)
+       * @zh 使用构建产物中的图片 URL，兼容从旧版构建 HTML 中提取路径
+       * @en Use emitted image URLs, falling back to rendered HTML for older builds
        * @default true
        */
       extractImagePathsFromHTML: boolean

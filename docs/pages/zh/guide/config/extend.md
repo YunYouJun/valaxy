@@ -285,7 +285,7 @@ Valaxy 内置了 RSS 模块，你可以在 `valaxy.config.ts` 中通过 `modules
 
 - `enable`: 是否启用 RSS 模块。默认 `true`，启用。
 - `fullText`: 是否输出文章全文。默认 `false`，只输出摘要。
-- `extractImagePathsFromHTML`: 是否从构建后的 HTML 中提取图片路径（用于解析 Vite 打包后的 hash 文件名）。默认 `true`，启用。
+- `extractImagePathsFromHTML`: 是否在订阅源中使用构建产出的图片 URL。默认 `true`。
 
 ```ts [valaxy.config.ts]
 export default defineValaxyConfig({
@@ -293,8 +293,6 @@ export default defineValaxyConfig({
     rss: {
       enable: true,
       fullText: false,
-      // 当设置为 true 时，会从构建后的 HTML 中提取图片的实际路径（包含 hash）
-      // When set to true, it will extract actual image paths (with hash) from built HTML
       extractImagePathsFromHTML: true,
     },
   },
@@ -305,10 +303,10 @@ export default defineValaxyConfig({
 
 当你在 Markdown 中使用相对路径引用图片时（如 `![pic](test.webp)`），Vite 会将图片打包并生成带 hash 的文件名（如 `/assets/test.zBFFFKJX.webp`）。
 
-- 启用此选项（默认）：RSS feed 中的图片 URL 将使用构建后的实际路径，如 `https://example.com/assets/test.zBFFFKJX.webp`
+- 启用此选项（默认）：对构建产出的图片，按源码相对路径查找实际 URL。同一篇文章里不同目录的同名图片会分别指向各自的构建产物。
 - 禁用此选项：RSS feed 中的图片 URL 将基于文章目录构建，如 `https://example.com/posts/article-name/test.webp`
 
-大多数情况下，你应该保持此选项为 `true`，以确保 RSS 阅读器能正确加载图片。
+单独执行 `valaxy rss` 时会复用上次构建保存在 `.valaxy` 的映射。旧构建没有映射时，仍会从已构建的 HTML 查找没有歧义的图片名；重新构建可获得完整的源码路径匹配。
 
 #### LLMS {#llms}
 

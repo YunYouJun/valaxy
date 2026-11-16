@@ -500,7 +500,18 @@ date: 2024-01-01
       expect(post.content).toContain('src="https://example.com/posts/hello-valaxy/another.png"')
     })
 
-    it('should use built HTML asset paths when available', async () => {
+    it.each([
+      {
+        description: 'uses a unique image from legacy built HTML',
+        conflictingImage: '',
+        expected: 'https://example.com/assets/test.zBFFFKJX.webp',
+      },
+      {
+        description: 'does not pick an arbitrary image from ambiguous legacy built HTML',
+        conflictingImage: '<img src="/assets/test.different.webp" alt="other pic">',
+        expected: 'https://example.com/posts/hello-valaxy/test.webp',
+      },
+    ])('$description', async ({ conflictingImage, expected }) => {
       // Create the markdown file
       await fs.ensureDir(resolve(mockUserRoot, 'pages/posts/hello-valaxy'))
       await fs.writeFile(
@@ -521,6 +532,7 @@ date: 2024-01-01
 <html>
 <body>
   <img src="/assets/test.zBFFFKJX.webp" alt="pic">
+  ${conflictingImage}
 </body>
 </html>`,
         'utf-8',
@@ -560,8 +572,7 @@ date: 2024-01-01
       expect(posts).toHaveLength(1)
       const post = posts![0]
 
-      // With built HTML, should use the actual hashed asset path
-      expect(post.content).toContain('src="https://example.com/assets/test.zBFFFKJX.webp"')
+      expect(post.content).toContain(`src="${expected}"`)
     })
 
     it('should not extract image paths when extractImagePathsFromHTML is false', async () => {

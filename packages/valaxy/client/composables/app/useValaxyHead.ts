@@ -5,12 +5,14 @@ import pkg from '../../../package.json' with { type: 'json' }
 import { useFrontmatter, useValaxyI18n } from '../../composables'
 import { useSiteConfig } from '../../config'
 import { withBase } from '../../utils'
+import { useLayout } from '../../utils/layouts'
 import { usePageSeo } from './usePageSeo'
 
 export function useValaxyHead() {
   const { $t, $tO, locale } = useValaxyI18n()
 
   const fm = useFrontmatter()
+  const layout = useLayout()
   const siteConfig = useSiteConfig()
   const { description, pageUrl } = usePageSeo()
   const $title = computed(() => $tO(fm.value.title))
@@ -52,9 +54,15 @@ export function useValaxyHead() {
     },
   })
 
-  useHead(computed(() => canonicalUrl.value
-    ? { link: [{ rel: 'canonical', href: canonicalUrl.value }] }
-    : {}))
+  useHead(computed(() => {
+    // YAML frontmatter can supply the layout name as a number.
+    if (String(layout.value) === '404')
+      return { meta: [{ name: 'robots', content: 'noindex' }] }
+
+    return canonicalUrl.value
+      ? { link: [{ rel: 'canonical', href: canonicalUrl.value }] }
+      : {}
+  }))
 
   // Add mac detection class on client side only, after hydration
   // to avoid SSR/client mismatch on the <html> element

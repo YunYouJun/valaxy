@@ -25,6 +25,7 @@ import { resolveBuildPaths } from '../../utils/buildConfig'
 import { getCreatedTime, getUpdatedTime } from '../../utils/date'
 import { getGitTimestampCache } from '../../utils/getGitTimestamp'
 import { discoverPageFiles, getPagePath, pagePathToRoute } from '../../utils/pageSources'
+import { findBuiltAsset, readBuiltAssetUrls, readLegacyImageUrls, rewriteSourceAttributes } from './assets'
 
 // Extend Item type to include optional updated field for Atom feed
 type ExtendedItem = Item & { updated?: Date }
@@ -34,54 +35,6 @@ const markdown = createMarkdownExit({
   breaks: true,
   linkify: true,
 })
-
-/**
- * Extract image paths from built HTML file
- * Returns a map of original paths to built asset paths
- */
-async function extractImagePathsFromHTML(htmlPath: string, DOMAIN: string): Promise<Map<string, string>> {
-  const imageMap = new Map<string, string>()
-
-  try {
-    if (!await fs.exists(htmlPath))
-      return imageMap
-
-    const html = await fs.readFile(htmlPath, 'utf-8')
-
-    // Match all img tags with src containing assets/
-    // e.g., <img src="/assets/test.zBFFFKJX.webp" alt="pic">
-    const imgRegex = /<img[^>]+src="([^"]+)"[^>]*>/g
-    let match: RegExpExecArray | null
-
-    // eslint-disable-next-line no-cond-assign
-    while ((match = imgRegex.exec(html)) !== null) {
-      const src = match[1]
-      // Extract the filename from the asset path
-      // /assets/test.zBFFFKJX.webp -> test (without hash and extension)
-      // Support both single-part and multi-part filenames (e.g., bg-img)
-      const assetMatch = src.match(/\/assets\/(.+)\.([a-zA-Z0-9]+)\.([a-z0-9]+)$/)
-      if (assetMatch) {
-        const [, basename, , ext] = assetMatch
-        // Map original filename to full URL
-        // test.webp -> https://domain/assets/test.zBFFFKJX.webp
-        // bg-img.jpg -> https://domain/assets/bg-img.kXdNMxcF.jpg
-        const originalName = `${basename}.${ext}`
-        imageMap.set(originalName, `${DOMAIN}${src}`)
-        imageMap.set(`./${originalName}`, `${DOMAIN}${src}`)
-        consola.debug(`[RSS] Mapped image: ${originalName} -> ${DOMAIN}${src}`)
-      }
-    }
-    if (imageMap.size > 0) {
-      const uniqueImageCount = imageMap.size / 2
-      consola.info(`[RSS] Extracted ${uniqueImageCount} image(s) from ${htmlPath}`)
-    }
-  }
-  catch (error) {
-    consola.debug(`Failed to extract image paths from ${htmlPath}:`, error)
-  }
-
-  return imageMap
-}
 
 /**
  * generate rss
@@ -203,6 +156,10 @@ export async function getPosts(params: {
   // returned posts
   const gitTimestampCache = getGitTimestampCache(options)
   const posts: ExtendedItem[] = []
+  const siteUrl = `${DOMAIN}/`
+  const { outDir } = resolveBuildPaths(options)
+  const extractImages = options.config.modules.rss.extractImagePathsFromHTML
+  const builtAssets = extractImages ? await readBuiltAssetUrls(options, outDir, siteUrl) : undefined
   for (const rawPost of filteredPosts) {
     const { data, path } = rawPost
     const content = stripEncryptedContent(rawPost.content)
@@ -226,44 +183,33 @@ export async function getPosts(params: {
     const urlPath = pagePathToRoute(relativePath)
     const link = `${DOMAIN}/${urlPath}`
 
-    // Extract image paths from built HTML if enabled
-    const extractImages = options.config.modules.rss.extractImagePathsFromHTML
-    let imageMap = new Map<string, string>()
-
-    if (extractImages) {
-      const { outDir } = resolveBuildPaths(options)
-      // Try to load the built HTML file to get actual asset paths
-      // Handle both /posts/xxx/index.md -> /posts/xxx.html and /posts/xxx.md -> /posts/xxx.html
+    let legacyImages: Awaited<ReturnType<typeof readLegacyImageUrls>> | undefined
+    if (extractImages && !builtAssets) {
       let htmlPath = resolve(outDir, `${urlPath}.html`)
-      if (!await fs.exists(htmlPath) && relativePath.endsWith('/index.md')) {
-        const withIndexHtml = resolve(outDir, `${urlPath}/index.html`)
-        if (await fs.exists(withIndexHtml))
-          htmlPath = withIndexHtml
-      }
-      imageMap = await extractImagePathsFromHTML(htmlPath, DOMAIN)
+      if (!await fs.pathExists(htmlPath) && relativePath.endsWith('/index.md'))
+        htmlPath = resolve(outDir, urlPath, 'index.html')
+      legacyImages = await readLegacyImageUrls(htmlPath, siteUrl)
     }
 
-    let html = markdown.render(rssContent)
+    const html = rewriteSourceAttributes(markdown.render(rssContent), (src, isImage) => {
+      if (!src || /^(?:\/\/|#|[a-z][\w+.-]*:)/i.test(src))
+        return
+      if (src.startsWith('/'))
+        return `${DOMAIN}${src}`
 
-    // Replace image paths with actual built asset URLs
-    html = html.replace(/src="([^"]+)"/g, (_fullMatch, src) => {
-      // Check if we have a mapping for this image
-      if (imageMap.has(src)) {
-        return `src="${imageMap.get(src)}"`
+      if (isImage) {
+        const pathname = src.split(/[?#]/, 1)[0]
+        const mapped = builtAssets
+          ? findBuiltAsset(pathname, path, options.userRoot, builtAssets)
+          : legacyImages?.get(pathname.replace(/^\.\//, ''))
+        if (mapped)
+          return mapped + src.slice(pathname.length)
       }
-      // Handle absolute URLs (already complete)
-      if (src.startsWith('http://') || src.startsWith('https://')) {
-        return _fullMatch
-      }
-      // Handle absolute paths starting with /
-      if (src.startsWith('/')) {
-        return `src="${DOMAIN}${src}"`
-      }
-      // Handle relative paths (./ or direct filename)
-      const postDir = relativePath.replace(/\\/g, '/').split('/').slice(0, -1).join('/')
+
+      const postDir = relativePath.split('/').slice(0, -1).join('/')
       const postDirUrl = postDir ? `${DOMAIN}/${postDir}` : DOMAIN
       const cleanSrc = src.startsWith('./') ? src.slice(2) : src
-      return `src="${postDirUrl}/${cleanSrc}"`
+      return `${postDirUrl}/${cleanSrc}`
     })
 
     if (data.image?.startsWith('/'))
