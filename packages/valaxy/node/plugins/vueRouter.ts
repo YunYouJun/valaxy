@@ -2,6 +2,7 @@ import type { EditableTreeNode, Options } from 'vue-router/unplugin'
 import type { ExcerptType, Page, Post } from '../../types'
 import type { EditorRoutes } from '../editor/routes'
 import type { ValaxyNode } from '../types'
+import type { createExcerptAssets } from './excerptAssets'
 import type { MarkdownBase } from './markdown/base'
 import type { MarkdownRenderer } from './markdown/renderer'
 
@@ -60,7 +61,7 @@ export function generateAutoExcerptMd(content: string, length: number): string {
  * @see https://router.vuejs.org/file-based-routing/
  * @param valaxyApp
  */
-export async function createRouterPlugin(valaxyApp: ValaxyNode, base?: MarkdownBase, editorRoutes?: EditorRoutes) {
+export async function createRouterPlugin(valaxyApp: ValaxyNode, base?: MarkdownBase, editorRoutes?: EditorRoutes, excerptAssets?: ReturnType<typeof createExcerptAssets>) {
   const options = await createRouterOptions(valaxyApp, base)
   return VueRouter({
     ...options,
@@ -76,6 +77,7 @@ export async function createRouterPlugin(valaxyApp: ValaxyNode, base?: MarkdownB
     async beforeWriteFiles(root) {
       await options.beforeWriteFiles?.(root)
       await editorRoutes?.update(root)
+      excerptAssets?.prepareRoutes(root)
     },
   })
 }
