@@ -5,6 +5,20 @@ test.use({ baseURL: env['theme-yun-dev'] })
 
 const missingPath = '/missing/page?from=e2e'
 
+test('removes noindex and restores the canonical when leaving a missing page', async ({ page }) => {
+  await page.goto(missingPath)
+
+  const robots = page.locator('head meta[name="robots"]')
+  const canonical = page.locator('head link[rel="canonical"]')
+  await expect(robots).toHaveAttribute('content', 'noindex')
+  await expect(canonical).toHaveCount(0)
+
+  await page.getByRole('link', { name: '首页', exact: true }).click()
+  await expect(page).toHaveURL('/')
+  await expect(robots).toHaveCount(0)
+  await expect(canonical).toHaveAttribute('href', 'https://yun.valaxy.site/')
+})
+
 test('pre-fills the missing path in the 404 report link', async ({ page }) => {
   await page.goto(missingPath)
 
