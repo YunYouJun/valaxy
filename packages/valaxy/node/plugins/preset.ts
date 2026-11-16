@@ -15,6 +15,7 @@ import { customElements } from '../constants'
 import { editorPlugin } from '../editor/plugin'
 import { EditorRoutes } from '../editor/routes'
 import { vLogger } from '../logger'
+import { createRssAssetsPlugin } from '../modules/rss/assets'
 import { scanCodeBlockTitles } from '../utils/groupIcons'
 import { countPerformanceTime } from '../utils/performance'
 import { createCdnPlugin } from './cdn'
@@ -239,6 +240,7 @@ export async function ViteValaxyPlugins(
     ...(editorRoutes ? [editorPlugin(options, editorRoutes)] : []),
     createCdnPlugin(options),
     createLlmsPlugin(options),
+    valaxyConfig.modules?.rss?.extractImagePathsFromHTML && createRssAssetsPlugin(options),
 
     MarkdownPlugin,
     ValaxyPlugin,

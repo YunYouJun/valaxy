@@ -285,7 +285,7 @@ Valaxy has a built-in RSS module, which can be configured in `valaxy.config.ts` 
 
 - `enable`: Whether to enable the RSS module. Default is `true`, enabled.
 - `fullText`: Whether to output the full text of the article. Default is `false`, only the summary is output.
-- `extractImagePathsFromHTML`: Whether to extract image paths from built HTML files (to resolve Vite hashed filenames). Default is `true`, enabled.
+- `extractImagePathsFromHTML`: Whether to use the emitted image URLs in feeds. Default: `true`.
 
 ```ts [valaxy.config.ts]
 export default defineValaxyConfig({
@@ -293,8 +293,6 @@ export default defineValaxyConfig({
     rss: {
       enable: true,
       fullText: false,
-      // 当设置为 true 时，会从构建后的 HTML 中提取图片的实际路径（包含 hash）
-      // When set to true, it will extract actual image paths (with hash) from built HTML
       extractImagePathsFromHTML: true,
     },
   },
@@ -305,10 +303,10 @@ export default defineValaxyConfig({
 
 When you reference images with relative paths in Markdown (e.g., `![pic](test.webp)`), Vite will bundle the image and generate a hashed filename (e.g., `/assets/test.zBFFFKJX.webp`).
 
-- When enabled (default): Image URLs in RSS feed will use the actual built paths, like `https://example.com/assets/test.zBFFFKJX.webp`
+- When enabled (default): RSS looks up each emitted asset by its source path. Images with the same filename in different directories point to their respective build outputs.
 - When disabled: Image URLs in RSS feed will be constructed based on the post directory, like `https://example.com/posts/article-name/test.webp`
 
-In most cases, you should keep this option as `true` to ensure RSS readers can load images correctly.
+Running `valaxy rss` separately reuses the asset mapping from the last build in `.valaxy`. Older builds can still use unambiguous image names from rendered HTML. Rebuild to enable matching by source path.
 
 #### LLMS
 
