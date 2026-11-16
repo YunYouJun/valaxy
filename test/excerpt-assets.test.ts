@@ -192,12 +192,11 @@ it('serves the new excerpt image on route HMR while beforeWriteFiles is still pe
     expect(routesUrl).toBeDefined()
     expect(await get(routesUrl!)).toContain('/changed/a.svg?import')
 
-    // The file router starts its own watcher. Retry the edit if startup is still in progress.
-    await vi.waitFor(async () => {
-      if (!writingUpdate)
-        await writeFile(source, image('b'))
-      expect(writingUpdate).toBe(true)
-    }, { timeout: 6000, interval: 150 })
+    // Vue Router waits for the file to settle in CI. A retrying write would reset that timer.
+    await writeFile(source, image('b'))
+    await vi.waitFor(() => {
+      expect(writingUpdate, 'Vue Router observed the Markdown edit').toBe(true)
+    }, { timeout: 10_000 })
 
     const updated = await get(`${routesUrl}?t=${Date.now()}`)
     expect(updated).toContain('/changed/b.svg?import')
