@@ -261,8 +261,8 @@ export async function ViteValaxyPlugins(
     Components({
       extensions: ['vue', 'md'],
 
-      // allow auto import and register components used in markdown
-      include: [/\.vue$/, /\.vue\?vue/, /\.md$/],
+      // The production Vue compiler can inline a Markdown template into its TypeScript script module.
+      include: [/\.(?:vue|md)(?:$|\?vue)/],
       /**
        * 默认排除 components/.exclude
        * `/[\\/]node_modules[\\/]/, ` 不要排除 node_modules/valaxy/client/components 下的组件

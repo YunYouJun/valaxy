@@ -7,6 +7,12 @@ categories:
 top: 8
 ---
 
+## v2.0.0 {#v200}
+
+### CodePen embeds
+
+Remove `codepen: true` from frontmatter and replace any `useCodePen()` calls with the [Scripts example](/guide/post#scripts). Existing CodePen embed markup can stay in the article. The `<CodePen>` component from `valaxy-addon-components` loads its own script.
+
 ## v1.3.0 {#v130}
 
 ### Footnote previews and tooltips {#footnote-previews-and-tooltips}

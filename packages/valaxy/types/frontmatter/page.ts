@@ -185,11 +185,6 @@ export interface PageFrontMatter extends BaseFrontMatter {
    */
   katex: boolean
   /**
-   * use codepen
-   * @url https://codepen.io/
-   */
-  codepen: boolean
-  /**
    * use medium-zoom
    * @url https://github.com/francoischalifour/medium-zoom
    */

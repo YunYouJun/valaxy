@@ -5,6 +5,12 @@ categories:
 top: 8
 ---
 
+## v2.0.0 {#v200}
+
+### CodePen 嵌入
+
+从 frontmatter 中移除 `codepen: true`，并按[脚本示例](/zh/guide/post#scripts)替换 `useCodePen()` 调用。文章中已有的 CodePen 嵌入标记可以保留。`valaxy-addon-components` 提供的 `<CodePen>` 组件会自行加载脚本。
+
 ## v1.3.0 {#v130}
 
 ### 脚注预览与提示 {#footnote-previews-and-tooltips}

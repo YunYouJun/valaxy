@@ -117,7 +117,22 @@ const pages = usePageList()
 const posts = usePostList()
 </script>
 <template><div><p id="addon">{{ addon?.options.greeting }}</p><p id="pages">{{ pages.map(page => page.title).join('|') }}</p><p id="posts">{{ posts.map(post => post.title).join('|') }}</p></div></template>`)
-      await write('pages/posts/public.md', '---\ntitle: Public article\ndate: 2024-01-01\n---\nPUBLICARTIFACTVISIBLE876 and snake_case_name with 2 * 3 * 4.\n\n![first](./pic.svg?size=2&height=3#view)')
+      await write('pages/posts/public.md', `---
+title: Public article
+date: 2024-01-01
+codepen: true
+---
+PUBLICARTIFACTVISIBLE876 and snake_case_name with 2 * 3 * 4.
+
+![first](./pic.svg?size=2&height=3#view)
+
+<script lang="ts" setup>
+import { useFrontmatter } from 'valaxy'
+
+const title: string = String(useFrontmatter().value.title)
+</script>
+
+<span id="typed-title">{{ title }}</span>`)
       await write('pages/posts/pic.svg', '<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20"><path fill="red" d="M0 0h20v20H0z"/></svg>')
       await write('pages/posts/my pic.svg', '<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20"><circle fill="green" cx="10" cy="10" r="10"/></svg>')
       await write('pages/posts/spaced-image.md', '---\ntitle: Spaced image\ndate: 2024-01-01\n---\nPublic spaced image.\n\n![first](./my%20pic.svg)')
@@ -205,6 +220,8 @@ const posts = usePostList()
         expect(nestedPartial).toContain('public-descendant')
         expect(nestedPartial).toContain('public-sibling')
         const regular = await readFile(join(dist, 'posts/public.html'), 'utf8')
+        expect(regular).toContain('<span id="typed-title">Public article</span>')
+        expect(regular).not.toContain('static.codepen.io/assets/embed/ei.js')
         expect(metadata(regular, 'robots')).toBeUndefined()
         expect(metadata(regular, 'description')).toContain('snake_case_name with 2 * 3 * 4')
         const graph = schemaGraph(regular)
