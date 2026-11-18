@@ -1,5 +1,5 @@
+import type { PostFrontMatter } from 'valaxy/types/frontmatter'
 import type { LlmsCollapse, LlmsFeatured } from '../../../types/config'
-import type { PostFrontMatter } from '../../../types/frontmatter'
 import type { ResolvedValaxyOptions } from '../../types'
 import path from 'node:path'
 import { consola } from 'consola'

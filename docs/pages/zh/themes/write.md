@@ -527,6 +527,21 @@ const fm = useFrontmatter()
 </template>
 ```
 
+在主题公开类型入口加载的声明文件中定义主题的 frontmatter 字段。页面和文章共用的字段扩充 `PageFrontMatter`，文章专用字段扩充 `PostFrontMatter`。
+
+```ts [types/frontmatter.d.ts]
+import 'valaxy'
+
+declare module 'valaxy' {
+  interface PageFrontMatter {
+    titleStyle?: string
+  }
+}
+```
+
+项目加载主题类型后，`useFrontmatter()` 和 `defineSiteConfig()` 的 `frontmatter` 默认值都能获得该字段的类型提示。
+如需用 Vue 语言工具检查 Markdown 内的 Vue 脚本，请在项目 tsconfig 中将 `vueCompilerOptions.vitePressExtensions` 设为 `[".md"]`。
+
 #### 全局状态管理 {#global-state-management}
 
 你可以借助 [Pinia](https://pinia.vuejs.org/) （Valaxy 内置）建立自己的全局状态，并在随后使用它，

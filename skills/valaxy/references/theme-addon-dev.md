@@ -192,7 +192,8 @@ aside: false # hide TOC panel
 toc: false # hide table of contents
 codeHeightLimit: 300 # max code block height in px
 markdownClass: custom-class
-pageTitleClass: text-4xl
+pageTitleClass: text-4xl # Yun theme
+postTitleClass: text-lg # Yun post cards
 medium_zoom: true
 sponsor: false # override global sponsor
 from: /old-path # redirect old URLs

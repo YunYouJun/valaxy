@@ -11,6 +11,10 @@ top: 8
 
 从 frontmatter 中移除 `codepen: true`，并按[脚本示例](/zh/guide/post#scripts)替换 `useCodePen()` 调用。文章中已有的 CodePen 嵌入标记可以保留。`valaxy-addon-components` 提供的 `<CodePen>` 组件会自行加载脚本。
 
+### Yun 标题样式
+
+`pageTitleClass` 和 `postTitleClass` 的类型由 `valaxy-theme-yun` 提供。Markdown frontmatter 和 `site.config.ts` 的 `frontmatter` 中仍可使用这两个字段。脚手架中导入的 `UserThemeConfig` 已经加载 Yun 的声明。如果项目仅通过主题名称启用 Yun，请在 `env.d.ts` 等项目声明文件中添加 `import 'valaxy-theme-yun'`。
+
 ## v1.3.0 {#v130}
 
 ### 脚注预览与提示 {#footnote-previews-and-tooltips}

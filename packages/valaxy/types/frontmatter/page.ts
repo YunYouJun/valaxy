@@ -154,12 +154,6 @@ export interface PageFrontMatter extends BaseFrontMatter {
   markdownClass: string
 
   /**
-   * @description:en-US Post title class
-   * @description:zh-CN 文章标题样式
-   */
-  pageTitleClass: string
-
-  /**
    * icon before title
    * @description 标题前的图标
    */

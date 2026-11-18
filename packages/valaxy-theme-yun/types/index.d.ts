@@ -1,5 +1,23 @@
 import type { DefaultTheme } from 'valaxy/types'
 
+declare module 'valaxy' {
+  interface PageFrontMatter {
+    /**
+     * @description:en-US Custom classes for the page title in the Yun theme.
+     * @description:zh-CN Yun 主题页面标题的 CSS 类。
+     */
+    pageTitleClass?: string
+  }
+
+  interface PostFrontMatter {
+    /**
+     * @description:en-US Custom classes for the title on Yun post cards.
+     * @description:zh-CN Yun 主题文章卡片标题的 CSS 类。
+     */
+    postTitleClass?: string
+  }
+}
+
 export namespace YunTheme {
   export type Config = ThemeConfig
 

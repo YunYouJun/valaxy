@@ -37,6 +37,9 @@
       "types": "./dist/types/index.d.mts",
       "default": "./dist/types/index.mjs"
     },
+    "./types/frontmatter": {
+      "types": "./types/frontmatter/index.ts"
+    },
     "./package.json": "./package.json",
     "./*": "./*"
   },

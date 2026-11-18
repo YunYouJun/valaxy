@@ -12,6 +12,8 @@ export default defineBuildConfig({
   declaration: 'node16',
   externals: [
     'valaxy/types',
+    // Keep one frontmatter declaration for client source, compiled config types and module augmentation.
+    'valaxy/types/frontmatter',
 
     '/@valaxyjs/',
     '/@valaxyjs/config',

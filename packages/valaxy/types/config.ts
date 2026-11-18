@@ -1,11 +1,10 @@
 import type { FuseOptions } from '@vueuse/integrations/useFuse'
 import type { ZoomOptions } from 'medium-zoom'
+import type { ExcerptType, PostFrontMatter } from 'valaxy/types/frontmatter'
 import type { ILazyLoadOptions } from 'vanilla-lazyload'
 import type { RouteRecordRaw } from 'vue-router'
 import type { ValaxyAddon } from './addon'
 import type { DefaultTheme } from './default-theme'
-import type { PostFrontMatter } from './frontmatter'
-import type { ExcerptType } from './frontmatter/post'
 import type { FuseListItem } from './node'
 
 import './default-theme'

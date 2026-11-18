@@ -1,9 +1,11 @@
 {
   "extends": "../tsconfig.json",
   "include": [
+    "../packages/devtools/src/client/shims.d.ts",
     "../packages/valaxy/client/**/*.ts",
     "../packages/valaxy/node/**/*.ts",
     "../packages/valaxy/types/**/*.ts",
-    "../packages/**/*.d.ts"
+    "../packages/valaxy/**/*.d.ts",
+    "../packages/shims.d.ts"
   ]
 }

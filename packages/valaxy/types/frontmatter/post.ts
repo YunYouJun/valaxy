@@ -4,12 +4,6 @@ export type ExcerptType = 'md' | 'html' | 'text' | 'ai'
 
 export interface PostFrontMatter extends PageFrontMatter {
   /**
-   * @description:en-US Custom post title class in post list
-   * @description:zh-CN 文章列表中 自定义标题样式
-   */
-  postTitleClass: string
-
-  /**
    * @description:en-US Post Card Type, can be bilibili/yuque/... (need theme support)
    * @description:zh-CN 卡片类型，可以是 bilibili/yuque/... (需主题支持)
    */
