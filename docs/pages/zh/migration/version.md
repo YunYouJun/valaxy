@@ -9,7 +9,27 @@ top: 8
 
 ### CodePen 嵌入
 
-从 frontmatter 中移除 `codepen: true`，并按[脚本示例](/zh/guide/post#scripts)替换 `useCodePen()` 调用。文章中已有的 CodePen 嵌入标记可以保留。`valaxy-addon-components` 提供的 `<CodePen>` 组件会自行加载脚本。
+Valaxy 2.0 移除了 `codepen: true` 和 `useCodePen()`。为受影响的文章选择一种嵌入方式，然后删除旧的 frontmatter 开关和对该函数的调用。
+
+1. **使用 `<CodePen>` 组件。** 安装 `valaxy-addon-components`，将 `addonComponents()` 加入 `valaxy.config.ts` 的 `addons`，然后在 Markdown 中使用组件。组件会自行加载嵌入脚本。参见[组件文档](/zh/guide/built-ins)。
+
+   ```md
+   <CodePen user="YunYouJun" id="WqXGpo" name="Margin Collapse" class="h-300px" />
+   ```
+
+2. **粘贴 CodePen 的 iframe。** 从 Pen 的 Embed 对话框复制 iframe 版本到 Markdown。这种方式无需安装 Valaxy 插件，也无需在文章页面加载嵌入脚本。参见 [CodePen iframe 文档](https://blog.codepen.io/docs/embeds/#iframe)。
+
+   ```html
+   <iframe
+     src="https://codepen.io/YunYouJun/embed/WqXGpo"
+     title="Margin Collapse"
+     width="100%"
+     height="300"
+     loading="lazy"
+   ></iframe>
+   ```
+
+如果希望保留已有的 `<p class="codepen">` 标记，按[脚本示例](/zh/guide/post#scripts)用 `useScriptTag()` 加载脚本。
 
 ### Yun 标题样式
 
