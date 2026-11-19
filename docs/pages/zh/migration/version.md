@@ -5,11 +5,13 @@ categories:
 top: 8
 ---
 
-## v2.0.0 {#v200}
+## v1.4.0 {#v140}
+
+Valaxy 1.4.0 对以下两项变更作出兼容性例外。升级前请确认它们是否影响你的站点。
 
 ### CodePen 嵌入
 
-Valaxy 2.0 移除了 `codepen: true` 和 `useCodePen()`。为受影响的文章选择一种嵌入方式，然后删除旧的 frontmatter 开关和对该函数的调用。
+Valaxy 1.4.0 移除了 `codepen: true` 和 `useCodePen()`。依赖该 frontmatter 开关的文章在迁移前只会显示原有嵌入占位内容。从 `valaxy` 导入 `useCodePen()` 的代码会构建失败。为受影响的文章选择一种嵌入方式，然后删除旧的 frontmatter 开关，并替换对该函数的调用。
 
 1. **使用 `<CodePen>` 组件。** 安装 `valaxy-addon-components`，将 `addonComponents()` 加入 `valaxy.config.ts` 的 `addons`，然后在 Markdown 中使用组件。组件会自行加载嵌入脚本。参见[组件文档](/zh/guide/built-ins)。
 
@@ -33,7 +35,7 @@ Valaxy 2.0 移除了 `codepen: true` 和 `useCodePen()`。为受影响的文章�
 
 ### Yun 标题样式
 
-`pageTitleClass` 和 `postTitleClass` 的类型由 `valaxy-theme-yun` 提供。Markdown frontmatter 和 `site.config.ts` 的 `frontmatter` 中仍可使用这两个字段。脚手架中导入的 `UserThemeConfig` 已经加载 Yun 的声明。如果项目仅通过主题名称启用 Yun，请在 `env.d.ts` 等项目声明文件中添加 `import 'valaxy-theme-yun'`。
+`pageTitleClass` 和 `postTitleClass` 的类型由 `valaxy-theme-yun` 提供。仅加载 Valaxy 核心类型的项目会把它们当作通用自定义字段，失去这两个字段的专用补全和类型检查。Yun 接受 Markdown frontmatter 和 `site.config.ts` 的 `frontmatter` 中原有的字段名。脚手架中导入的 `UserThemeConfig` 已经加载 Yun 的声明。如果项目仅通过主题名称启用 Yun，请在 `env.d.ts` 等项目声明文件中添加 `import 'valaxy-theme-yun'`。
 
 ## v1.3.0 {#v130}
 
