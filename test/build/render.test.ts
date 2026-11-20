@@ -211,6 +211,22 @@ describe('renderPreloadLinks', () => {
     expect(result).toContain('<link rel="stylesheet" href="/assets/style.css">')
   })
 
+  it('reuses active stylesheet links from the HTML template', () => {
+    const template = `<html><head>
+      <link href="/assets/shared.css" rel="stylesheet" crossorigin>
+      <link href="/assets/print.css" rel="stylesheet" media="print">
+      <link href="/assets/disabled.css" rel="stylesheet" disabled>
+      <template><link href="/assets/inert.css" rel="stylesheet"></template>
+      <noscript><link href="/assets/fallback.css" rel="stylesheet"></noscript>
+    </head><body><link href="/assets/route.css" rel="stylesheet"></body></html>`
+    const routeStyles = ['print', 'disabled', 'inert', 'fallback', 'route']
+    const manifest = { route: ['shared', ...routeStyles].map(name => `/assets/${name}.css`) }
+    const result = renderPreloadLinks(new Set(['route']), manifest, template)
+    expect(result).not.toContain('/assets/shared.css')
+    for (const file of routeStyles)
+      expect(result).toContain(`<link rel="stylesheet" href="/assets/${file}.css">`)
+  })
+
   it('generates font preload for .woff2 files', () => {
     const manifest = { 'mod-a': ['/assets/font.woff2'] }
     const result = renderPreloadLinks(new Set(['mod-a']), manifest)

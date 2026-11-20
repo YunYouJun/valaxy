@@ -43,7 +43,7 @@ export async function renderPage(opts: RenderPageOptions) {
     : { headTags: '', bodyTags: '', bodyTagsOpen: '', htmlAttrs: '', bodyAttrs: '' }
 
   // 2. Preload links from SSR manifest — string concatenation
-  const preloadLinks = renderPreloadLinks(result.modules, opts.ssrManifest)
+  const preloadLinks = renderPreloadLinks(result.modules, opts.ssrManifest, template)
 
   // 3. Serialise initial state
   const stateScript = serializeState(result.initialState)
@@ -102,12 +102,9 @@ export async function renderPage(opts: RenderPageOptions) {
   return { route: opts.route, ...readCanonicalLink(html) }
 }
 
-/** Read the final head, including changes made by onPageRendered. */
-function readCanonicalLink(html: string) {
-  let canonical: string | undefined
-  let baseHref: string | undefined
+function visitHeadTags(html: string, visit: (tag: string, attrs: Record<string, string>) => void) {
   let inHead = false
-  let templateDepth = 0
+  let inertDepth = 0
   const parser = new Parser({
     onopentag(tag, attrs) {
       if (tag === 'body') {
@@ -118,35 +115,59 @@ function readCanonicalLink(html: string) {
         inHead = true
       if (!inHead)
         return
-      if (tag === 'template')
-        templateDepth++
-      if (templateDepth)
+      if (tag === 'template' || tag === 'noscript')
+        inertDepth++
+      if (inertDepth)
         return
-      if (tag === 'base')
-        baseHref ??= attrs.href
-      if (tag === 'link' && attrs.rel?.toLowerCase().split(/\s+/).includes('canonical'))
-        canonical ??= attrs.href
+      visit(tag, attrs)
     },
     onclosetag(tag) {
-      if (tag === 'template' && templateDepth)
-        templateDepth--
+      if ((tag === 'template' || tag === 'noscript') && inertDepth)
+        inertDepth--
       if (tag === 'head')
         parser.pause()
     },
   })
   parser.end(html)
+}
+
+/** Read the final head, including changes made by onPageRendered. */
+function readCanonicalLink(html: string) {
+  let canonical: string | undefined
+  let baseHref: string | undefined
+  visitHeadTags(html, (tag, attrs) => {
+    if (tag === 'base')
+      baseHref ??= attrs.href
+    if (tag === 'link' && attrs.rel?.toLowerCase().split(/\s+/).includes('canonical'))
+      canonical ??= attrs.href
+  })
   return { canonical, baseHref }
+}
+
+function readStylesheetHrefs(html: string) {
+  const stylesheets = new Set<string>()
+  visitHeadTags(html, (tag, attrs) => {
+    if (tag !== 'link' || attrs.rel?.trim().toLowerCase() !== 'stylesheet' || !attrs.href)
+      return
+    // A conditional stylesheet cannot replace the unconditional manifest link.
+    const media = attrs.media?.trim().toLowerCase()
+    const type = attrs.type?.trim().toLowerCase()
+    if (attrs.disabled === undefined && !attrs.title && (!media || media === 'all') && (!type || type === 'text/css'))
+      stylesheets.add(attrs.href)
+  })
+  return stylesheets
 }
 
 /**
  * Generate preload link tags from the SSR manifest.
  */
-export function renderPreloadLinks(modules: Set<string> | undefined, manifest: Record<string, string[]>): string {
+export function renderPreloadLinks(modules: Set<string> | undefined, manifest: Record<string, string[]>, template?: string): string {
   if (!modules || modules.size === 0)
     return ''
 
   const seen = new Set<string>()
   const links: string[] = []
+  let templateStylesheets: Set<string> | undefined
 
   for (const id of modules) {
     const files = manifest[id]
@@ -161,7 +182,9 @@ export function renderPreloadLinks(modules: Set<string> | undefined, manifest: R
         links.push(`<link rel="modulepreload" crossorigin href="${file}">`)
       }
       else if (file.endsWith('.css')) {
-        links.push(`<link rel="stylesheet" href="${file}">`)
+        templateStylesheets ??= readStylesheetHrefs(template ?? '')
+        if (!templateStylesheets.has(file))
+          links.push(`<link rel="stylesheet" href="${file}">`)
       }
       else if (file.endsWith('.woff') || file.endsWith('.woff2')) {
         // The shared KaTeX stylesheet lists every font family and format in
