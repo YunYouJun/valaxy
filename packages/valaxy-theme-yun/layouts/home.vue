@@ -11,9 +11,6 @@ const themeConfig = useThemeConfig()
 const prologueContent = useTemplateRef<HTMLElement>('prologueContent')
 
 function shouldPlayIntro() {
-  if (!window.matchMedia('(width > 768px)').matches)
-    return true
-
   // If the CSS fallback has already shown the content, keep it on screen.
   const content = prologueContent.value
   return content !== null && getComputedStyle(content).visibility === 'hidden'
@@ -75,7 +72,7 @@ const showNotice = computed(() => {
 </template>
 
 <style scoped>
-@media (width > 768px) and (prefers-reduced-motion: no-preference) and (scripting: enabled) {
+@media (prefers-reduced-motion: no-preference) and (scripting: enabled) {
   .yun-home-prologue-content {
     transition: opacity 300ms ease-out, transform 300ms ease-out;
   }
@@ -115,23 +112,6 @@ const showNotice = computed(() => {
 
   .yun-home-prologue :deep(#yun-banner .go-down) {
     pointer-events: auto;
-  }
-
-  /* Keep the original animation in the gutter outside the content padding. */
-  .yun-home-prologue :deep(#yun-banner .banner-line-container),
-  .yun-home-prologue :deep(#yun-banner .banner-char-container) {
-    align-self: flex-start;
-    width: 20px;
-    overflow: hidden;
-    opacity: 0.55;
-  }
-
-  .yun-home-prologue :deep(#yun-banner .banner-char-container) {
-    --banner-empty-border-size: 0px;
-  }
-
-  .yun-home-prologue :deep(#yun-banner .char) {
-    font-size: 0.75rem;
   }
 
   .yun-home-prologue-content {

@@ -1,7 +1,7 @@
 import { expect, test } from '@playwright/test'
 import { env } from '../env'
 
-test('shows the mobile home content before the banner animation can start', async ({ page }) => {
+test('keeps the mobile profile visible if the entry script arrives after the fallback', async ({ page }) => {
   const viewport = { width: 412, height: 823 }
   await page.setViewportSize(viewport)
   await page.route('https://v1.hitokoto.cn/**', route => route.abort())
@@ -11,12 +11,9 @@ test('shows the mobile home content before the banner animation can start', asyn
     if (/hydration/i.test(message.text()))
       errors.push(message.text())
   })
-  let releaseEntry!: () => void
-  const entryGate = new Promise<void>((resolve) => {
-    releaseEntry = resolve
-  })
+  const entry = Promise.withResolvers<void>()
   await page.route('**/assets/index.*.js', async (route) => {
-    await entryGate
+    await entry.promise
     await route.continue()
   })
   try {
@@ -39,25 +36,25 @@ test('shows the mobile home content before the banner animation can start', asyn
     const getPostTop = () => firstPost.evaluate(el => el.getBoundingClientRect().top)
     const initialPostTop = await getPostTop()
     const initialAvatar = await avatar.elementHandle()
-    releaseEntry()
+    entry.resolve()
 
-    const animation = prologue.locator('#yun-banner .banner-char-container')
-    await expect(animation).toBeVisible()
-    const artBox = await animation.boundingBox()
-    const linkBox = await postsLink.boundingBox()
-    expect(artBox!.x + artBox!.width).toBeLessThanOrEqual(linkBox!.x)
+    await expect(content).toHaveClass(/is-intro-complete/)
+    await expect(prologue.locator('#yun-banner .banner-char-container')).not.toBeAttached()
+    await expect(content).toHaveCSS('opacity', '1')
     expect(await initialAvatar!.evaluate(el => el === document.querySelector('.yun-home-prologue-content img[alt="avatar"]'))).toBe(true)
     expect(Math.abs(await getPostTop() - initialPostTop)).toBeLessThan(3)
     await postsLink.click()
     await expect(page).toHaveURL(/\/posts\/?$/)
     expect(errors).toEqual([])
   }
-  finally { releaseEntry() }
+  finally {
+    entry.resolve()
+  }
 })
 
-for (const width of [769, 1350]) {
-  test(`reveals the desktop profile at ${width}px only after the centered intro retracts`, async ({ page }) => {
-    await page.setViewportSize({ width, height: 940 })
+for (const width of [412, 769, 1350]) {
+  test(`reveals the profile at ${width}px only after the centered intro retracts`, async ({ page }) => {
+    await page.setViewportSize({ width, height: width === 412 ? 823 : 940 })
     await page.goto(env['theme-yun'], { waitUntil: 'commit' })
 
     const content = page.locator('.yun-home-prologue-content')
@@ -65,12 +62,16 @@ for (const width of [769, 1350]) {
     const title = banner.locator('.banner-char-container')
     await expect(title).toBeVisible()
     await expect(content).toHaveCSS('visibility', 'hidden')
-    const centerOffset = await banner.evaluate((el) => {
-      const bounds = el.getBoundingClientRect()
-      const line = el.querySelector('.vertical-line-top')!.getBoundingClientRect()
-      return Math.abs((bounds.left + bounds.right) / 2 - (line.left + line.right) / 2)
+    const centerOffsets = await banner.evaluate((el) => {
+      const centerX = (element: Element) => {
+        const { x, width } = element.getBoundingClientRect()
+        return x + width / 2
+      }
+      return Array.from(el.querySelectorAll('.banner-line, .banner-char-container'), part => Math.abs(centerX(el) - centerX(part)))
     })
-    expect(centerOffset).toBeLessThan(1)
+    expect(centerOffsets).toHaveLength(3)
+    for (const offset of centerOffsets)
+      expect(offset).toBeLessThan(1)
 
     // Let the title fade and lower line retract while the upper line is paused.
     await page.waitForFunction(() => {
