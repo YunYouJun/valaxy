@@ -2,9 +2,11 @@
 import vue from '@vitejs/plugin-vue'
 import { build } from 'vite'
 import { describe, expect, it } from 'vitest'
+import { parse } from 'vue/compiler-sfc'
 import { resolveOptions } from '../packages/valaxy/node'
 import { createMarkdownRenderer } from '../packages/valaxy/node/plugins/markdown'
 import { createMarkdownBaseContext } from '../packages/valaxy/node/plugins/markdown/base'
+import { createTransformMarkdown } from '../packages/valaxy/node/plugins/markdown/transform/markdown'
 import { fixtureFolder } from './shared'
 
 // const mdDir = resolve(__dirname, 'fixtures/markdown')
@@ -88,6 +90,30 @@ describe('standalone markdown renderer configuration', () => {
 
     await expect(md.renderAsync(`<<< ${snippet}`)).resolves.toContain('/head.js')
   })
+})
+
+it('injects page data into the existing TypeScript setup block', async () => {
+  const options = await resolveOptions({ userRoot: fixtureFolder.userRoot })
+  const relativePath = 'posts/typed.md'
+  const transform = createTransformMarkdown(options)
+  const code = transform([
+    '<template><p>{{ title }}</p></template>',
+    '<script setup lang="ts">',
+    'const title: string = "Hello"',
+    '</script>',
+  ].join('\n'), relativePath, {
+    relativePath,
+    title: 'Hello',
+    description: '',
+    headers: [],
+    frontmatter: { title: 'Hello' },
+  })
+
+  const { descriptor, errors } = parse(code, { filename: relativePath })
+  expect(errors).toEqual([])
+  expect(descriptor.scriptSetup?.lang).toBe('ts')
+  expect(descriptor.scriptSetup?.content).toContain('provide(\'valaxy:frontmatter\', $frontmatter)')
+  expect(descriptor.scriptSetup?.content).toContain('const title: string = "Hello"')
 })
 
 describe('markdown base paths', async () => {

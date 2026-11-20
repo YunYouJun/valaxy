@@ -7,6 +7,38 @@ categories:
 top: 8
 ---
 
+## v1.4.0 {#v140}
+
+Valaxy 1.4.0 makes a compatibility exception for two changes. Review the impact below before upgrading.
+
+### CodePen embeds
+
+Valaxy 1.4.0 removes `codepen: true` and `useCodePen()`. Articles that relied on the frontmatter flag will show only the original embed placeholder until migrated. Code that imports `useCodePen()` from `valaxy` will fail to build. Choose an embed format for each affected article, then remove the old frontmatter flag and replace any calls to the composable.
+
+1. **Use the `<CodePen>` component.** Install `valaxy-addon-components`, add `addonComponents()` to `addons` in `valaxy.config.ts`, then place the component in your Markdown. It loads the embed script automatically. See [Components](/guide/built-ins).
+
+   ```md
+   <CodePen user="YunYouJun" id="WqXGpo" name="Margin Collapse" class="h-300px" />
+   ```
+
+2. **Paste CodePen's iframe.** Copy the iframe version from the Pen's Embed dialog into your Markdown. This works without a Valaxy addon or a script in the host page. See [CodePen's iframe documentation](https://blog.codepen.io/docs/embeds/#iframe).
+
+   ```html
+   <iframe
+     src="https://codepen.io/YunYouJun/embed/WqXGpo"
+     title="Margin Collapse"
+     width="100%"
+     height="300"
+     loading="lazy"
+   ></iframe>
+   ```
+
+To keep your existing `<p class="codepen">` markup, load its script with `useScriptTag()` as shown in [Scripts](/guide/post#scripts).
+
+### Yun title classes
+
+`pageTitleClass` and `postTitleClass` are now typed by `valaxy-theme-yun`. Projects that load only Valaxy's core types see them as generic custom fields and lose field-specific completion and type checking. Yun accepts the same keys in Markdown frontmatter and in `site.config.ts` under `frontmatter`. The starter's `UserThemeConfig` import already loads the Yun declarations. If your project selects Yun by name alone, add `import 'valaxy-theme-yun'` to a project declaration file such as `env.d.ts`.
+
 ## v1.3.0 {#v130}
 
 ### Footnote previews and tooltips {#footnote-previews-and-tooltips}

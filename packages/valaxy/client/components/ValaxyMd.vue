@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import type { Post } from 'valaxy'
-import { onContentUpdated, runContentUpdated, sanitizeUrl, setIframeAspectRatios, useCodePen, useCollapseCode, useCopyCode, useMediumZoom, wrapTable } from 'valaxy'
+import { onContentUpdated, runContentUpdated, sanitizeUrl, setIframeAspectRatios, useCollapseCode, useCopyCode, useMediumZoom, wrapTable } from 'valaxy'
 import { onMounted, onUpdated, ref } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { useCodeGroups } from '../composables/codeGroups'
@@ -30,10 +30,6 @@ onMounted(() => {
 onUpdated(() => {
   runContentUpdated()
 })
-
-// widgets
-if (props.frontmatter.codepen)
-  useCodePen()
 
 useCopyCode()
 useCodeGroups()

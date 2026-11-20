@@ -1,5 +1,5 @@
+import type { PageFrontMatter, PostFrontMatter } from 'valaxy/types/frontmatter'
 import type { CollectionConfig } from '../client/types'
-import type { PageFrontMatter, PostFrontMatter } from './frontmatter'
 
 export type Page = Partial<PageFrontMatter>
 export type Post = Partial<PostFrontMatter> & {

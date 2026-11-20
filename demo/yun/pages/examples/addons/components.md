@@ -3,7 +3,6 @@ title: 常用公共组件 | Valaxy Addon Components
 categories:
   - Docs
   - Example
-codepen: false
 ---
 
 ## 安装

@@ -307,12 +307,14 @@ This is a custom excerpt.
 
 
 
-可直接通过 [`useScriptTag`](https://vueuse.org/core/useScriptTag/) 使用，封装为组件或直接添加在文章中。
+运行 `pnpm add @vueuse/core` 安装依赖，然后在组件或文章中使用 [`useScriptTag`](https://vueuse.org/core/useScriptTag/)。嵌入 CodePen 时，保留嵌入标记，并按以下方式加载脚本。
 
 
 
 ```vue
 <script lang="ts" setup>
+import { useScriptTag } from '@vueuse/core'
+
 useScriptTag('https://static.codepen.io/assets/embed/ei.js')
 </script>
 ```
