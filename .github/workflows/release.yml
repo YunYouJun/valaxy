@@ -79,6 +79,21 @@ jobs:
           GH_TOKEN: ${{secrets.GITHUB_TOKEN}}
           GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
 
+  deploy-mirrors:
+    needs: release
+    if: github.repository == 'YunYouJun/valaxy'
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          fetch-depth: 0
+
+      - name: Advance the EdgeOne production branch to the released tag
+        # A fast-forward push prevents an older release rerun from rolling back the mirrors.
+        run: git push origin HEAD:refs/heads/edgeone-release
+
   release-addon:
     if: >
       github.event_name == 'workflow_dispatch' ||
