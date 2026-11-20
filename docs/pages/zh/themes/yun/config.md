@@ -114,29 +114,29 @@ export default defineValaxyConfig<ThemeConfig>({
 | `name` | `string` | 页面名称 |
 | `url` | `string` | 页面链接 |
 | `icon` | `string` | 图标名称，参见 [Icônes](https://icones.js.org/) |
-| `color` | `string` | 原有链接颜色；移动端首页导航将此颜色用于图标 |
+| `color` | `string` | 原有链接颜色。移动端和玻璃导航在未设置 `iconColor` 时也会将此颜色用于图标 |
 | `iconColor` | `string` | 独立图标颜色（CSS 值），优先于 `color`，不改变文字颜色 |
 
-### 首页移动导航 {#home-navigation}
+### 首页导航 {#home-navigation}
 
-Nimbo 首页支持通过 `banner.navStyle` 选择移动端导航样式，桌面排布不受影响：
+Nimbo 首页可通过 `banner.navStyle` 选择导航样式。`glass` 会为桌面导航加上玻璃胶囊，沿用原有排布。其他选项的样式用于移动端。
 
 | 值 | 效果 |
 | --- | --- |
-| `plain`（默认） | 彩色图标与文字，保留更多留白 |
-| `glass` | 中性玻璃胶囊与边缘反光 |
+| `plain`（默认） | 透明链接搭配彩色图标 |
+| `glass` | 桌面和移动端均使用带边缘反光的玻璃胶囊 |
 | `panel` | 将入口收拢在一块磨砂面板中 |
 | `tiles` | 为每个图标添加同色的淡彩底座 |
 
 移动端导航采用两列对齐，每项触控区域至少 48px 高。默认的 `plain` 样式使用透明背景，悬停和按下时提供轻微反馈，键盘聚焦时显示清晰的轮廓。
 
-每个页面可以使用不同的 `iconColor`。移动端文字保持主题前景色，图标不需要共用主题色；内置「博客文章」入口跟随 `colors.primary`。
+使用 `iconColor` 可单独设置图标颜色。移动端文字使用主题前景色。内置「博客文章」图标在移动端和 `glass` 样式下跟随 `colors.primary`。
 
 ```ts [theme.config.ts]
 import { defineThemeConfig } from 'valaxy-theme-yun'
 
 export default defineThemeConfig({
-  banner: { navStyle: 'plain' },
+  banner: { navStyle: 'glass' },
   pages: [
     { name: '小随想', url: '/moments/', icon: 'i-ri-chat-1-line', iconColor: '#009B81' },
     { name: '项目列表', url: '/projects', icon: 'i-ri-gallery-view', iconColor: '#C47B16' },

@@ -1,5 +1,21 @@
 // Shared by nimbo and strato; keep the glass outside the search popup's ancestors.
 .yun-nav-menu {
+  padding-inline: 0.35rem;
+
+  .yun-icon-btn {
+    border-radius: 0.625rem;
+
+    @media (hover: hover) and (pointer: fine) {
+      &:hover {
+        background-color: color-mix(in srgb, var(--va-c-text) 7%, transparent);
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      transition: none;
+    }
+  }
+
   &::before {
     box-sizing: border-box;
     border-bottom: 1px solid transparent;

@@ -14,6 +14,21 @@
   --yun-nav-solid: #fff;
   --yun-surface-line: rgb(122 122 122 / 0.08);
   --yun-focus-color: var(--va-c-link);
+  --yun-glass-fill: rgb(255 255 255 / 0.34);
+  --yun-glass-sheen: rgb(255 255 255 / 0.42);
+  --yun-glass-border: rgb(20 40 70 / 0.085);
+  --yun-glass-edge: rgb(255 255 255 / 0.92);
+  --yun-glass-edge-soft: rgb(160 195 235 / 0.3);
+  --yun-glass-shadow:
+    inset 0 1px 1.5px rgb(255 255 255 / 0.88),
+    inset 0 -1px 1px rgb(120 155 200 / 0.12),
+    0 4px 14px -2px rgb(30 45 70 / 0.08);
+  --yun-glass-hover-fill: rgb(255 255 255 / 0.56);
+  --yun-glass-hover-shadow: inset 0 1px 2px rgb(255 255 255 / 0.95), 0 8px 22px -4px rgb(30 45 70 / 0.12);
+  --yun-glass-pressed-fill: rgb(255 255 255 / 0.52);
+  --yun-glass-pressed-shadow: inset 0 1px 4px rgb(30 45 70 / 0.12);
+  --yun-social-soft-base: #5b6270;
+  --yun-card-hover-shadow: 0 10px 28px -8px rgb(20 35 60 / 0.1);
   --yun-grid-size: 40px;
   --yun-grid-color: rgb(30 50 70 / 0.06);
   --yun-grid-highlight-color: rgb(var(--va-c-primary-rgb), 0.3);
@@ -51,6 +66,21 @@ html.dark {
   --yun-home-hero-name-background: linear-gradient(120deg, var(--va-c-primary) 30%, #41d1ff);
   --yun-nav-bg-color: rgb(26 26 29 / 0.8);
   --yun-nav-solid: #1a1a1d;
+  --yun-glass-fill: rgb(255 255 255 / 0.055);
+  --yun-glass-sheen: rgb(255 255 255 / 0.08);
+  --yun-glass-border: rgb(255 255 255 / 0.09);
+  --yun-glass-edge: rgb(255 255 255 / 0.34);
+  --yun-glass-edge-soft: rgb(140 190 255 / 0.22);
+  --yun-glass-shadow:
+    inset 0 1px 1px rgb(255 255 255 / 0.14),
+    inset 0 -1px 1px rgb(0 0 0 / 0.25),
+    0 6px 18px -4px rgb(0 0 0 / 0.38);
+  --yun-glass-hover-fill: rgb(255 255 255 / 0.1);
+  --yun-glass-hover-shadow: inset 0 1px 1.5px rgb(255 255 255 / 0.22), 0 10px 24px -6px rgb(0 0 0 / 0.52);
+  --yun-glass-pressed-fill: rgb(255 255 255 / 0.12);
+  --yun-glass-pressed-shadow: inset 0 1px 5px rgb(0 0 0 / 0.4);
+  --yun-social-soft-base: #b4bcc8;
+  --yun-card-hover-shadow: 0 12px 32px -8px rgb(0 0 0 / 0.45);
   --yun-grid-color: rgb(255 255 255 / 0.07);
   --yun-grid-highlight-color: color-mix(in srgb, var(--va-c-link) 45%, transparent);
 }

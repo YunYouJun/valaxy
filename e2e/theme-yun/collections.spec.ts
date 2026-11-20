@@ -1,5 +1,6 @@
 import { expect, test } from '@playwright/test'
 import { setup } from '../utils'
+import { waitForHydration } from '../utils/hydration'
 
 setup('theme-yun')
 
@@ -100,6 +101,7 @@ test.describe('Pagination Layout', () => {
 test.describe('Collection switching', () => {
   test('switching navigates to the collection home and updates the directory', async ({ page }) => {
     await page.goto('/collections/links-test/1', { waitUntil: 'domcontentloaded' })
+    await waitForHydration(page)
     const sidebar = page.locator('.yun-layout-left .yun-collection-sidebar')
     await sidebar.getByRole('combobox').click()
     await page.getByRole('option', { name: '仓鼠', exact: true }).click()
@@ -123,6 +125,7 @@ test.describe('Collection switching', () => {
   test('mobile readers can expand the directory and switch collections', async ({ page }) => {
     await page.setViewportSize({ width: 390, height: 844 })
     await page.goto('/collections/links-test/1', { waitUntil: 'domcontentloaded' })
+    await waitForHydration(page)
     const directory = page.locator('.yun-collection-mobile')
     const toggle = page.locator('button[aria-controls="yun-collection-menu"]:visible')
     await expect(toggle).toHaveAttribute('aria-expanded', 'false')

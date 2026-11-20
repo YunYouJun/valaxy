@@ -113,29 +113,29 @@ export default defineValaxyConfig<ThemeConfig>({
 | `name` | `string` | Page name |
 | `url` | `string` | Page URL |
 | `icon` | `string` | Icon name, see [Icônes](https://icones.js.org/) |
-| `color` | `string` | Legacy link color; used for the icon in mobile homepage navigation |
+| `color` | `string` | Legacy link color; also used as the icon color when `iconColor` is omitted in the mobile and glass navigation |
 | `iconColor` | `string` | Independent icon color (CSS value). Overrides `color` without changing the label |
 
-### Mobile homepage navigation {#home-navigation}
+### Homepage navigation {#home-navigation}
 
-Choose a Nimbo mobile navigation style with `banner.navStyle`. The desktop arrangement stays the same.
+Choose a Nimbo homepage navigation style with `banner.navStyle`. On desktop, `glass` adds capsules to the existing layout. The other options style the mobile layout.
 
 | Value | Appearance |
 | --- | --- |
-| `plain` (default) | Colored icons and text with more open space |
-| `glass` | Neutral glass capsules with subtle edge reflections |
+| `plain` (default) | Transparent links with colored icons |
+| `glass` | Glass capsules with subtle edge reflections on desktop and mobile |
 | `panel` | All links grouped inside one frosted panel |
 | `tiles` | A soft, matching color surface behind each icon |
 
 Mobile links use two aligned columns with touch targets at least 48px high. The default `plain` style has a transparent background, subtle hover and press feedback, and a visible keyboard focus outline.
 
-Set a different `iconColor` for each page while keeping mobile labels in the theme foreground color. The built-in Posts icon follows `colors.primary`.
+Set `iconColor` to color an icon independently of its label. Mobile labels use the theme foreground color. The built-in Posts icon follows `colors.primary` on mobile and in the `glass` style.
 
 ```ts [theme.config.ts]
 import { defineThemeConfig } from 'valaxy-theme-yun'
 
 export default defineThemeConfig({
-  banner: { navStyle: 'plain' },
+  banner: { navStyle: 'glass' },
   pages: [
     { name: 'Moments', url: '/moments/', icon: 'i-ri-chat-1-line', iconColor: '#009B81' },
     { name: 'Projects', url: '/projects', icon: 'i-ri-gallery-view', iconColor: '#C47B16' },

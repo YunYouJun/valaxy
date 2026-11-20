@@ -2,8 +2,9 @@
 import { useBackToTop } from 'valaxy'
 import { computed } from 'vue'
 import { useI18n } from 'vue-i18n'
+import { backToTop } from '../utils/animation'
 
-const { show, percentage, backToTop } = useBackToTop({ offset: 100 })
+const { show, percentage } = useBackToTop({ offset: 100 })
 
 const { t } = useI18n()
 
@@ -30,8 +31,9 @@ const progressAngle = computed(() => {
 </template>
 
 <style lang="scss">
+@use '../styles/mixins/glass';
+
 .back-to-top.yun-icon-btn {
-  --yun-back-top-bg: var(--va-c-bg-soft);
   --yun-back-top-progress-opacity: 0.06;
 
   position: fixed;
@@ -46,20 +48,19 @@ const progressAngle = computed(() => {
   overflow: visible;
   border: 0;
   border-radius: 50%;
-  color: var(--va-c-primary);
+  color: var(--va-c-link);
   background: transparent;
 
   // Keep the progress tint inside the face, underneath the arrow.
   &::before {
+    @include glass.surface;
+
     content: '';
     position: absolute;
     inset: 0;
     z-index: 0;
-    border: 1px solid rgb(var(--va-c-primary-rgb), 0.08);
     border-radius: inherit;
-    background: var(--yun-back-top-bg);
-    box-shadow: 0 2px 8px rgb(0 0 0 / 0.08);
-    transition: background-color 180ms ease;
+    transition: background-color 180ms ease, border-color 180ms ease, box-shadow 220ms ease;
     pointer-events: none;
   }
 
@@ -74,14 +75,24 @@ const progressAngle = computed(() => {
     pointer-events: auto;
   }
 
-  @media (hover: hover) {
-    &.show:hover {
-      --yun-back-top-bg: color-mix(in srgb, var(--va-c-bg-soft) 94%, var(--va-c-primary));
+  @media (hover: hover) and (pointer: fine) {
+    &.show:hover::before {
+      border-color: color-mix(in srgb, var(--va-c-link) 36%, var(--yun-glass-border));
+      background-color: var(--yun-glass-hover-fill);
+      box-shadow: var(--yun-glass-hover-shadow);
     }
   }
 
-  &.show:active {
-    --yun-back-top-bg: color-mix(in srgb, var(--va-c-bg-soft) 88%, var(--va-c-primary));
+  &.show:active::before {
+    background-color: var(--yun-glass-pressed-fill);
+    box-shadow: var(--yun-glass-pressed-shadow);
+  }
+
+  @media (prefers-reduced-transparency: reduce), (prefers-contrast: more) {
+    &::before,
+    &.show:is(:hover, :active)::before {
+      @include glass.solid;
+    }
   }
 
   .back-to-top-arrow {
