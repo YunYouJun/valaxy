@@ -7,6 +7,7 @@ export default defineBuildConfig({
     'node/cli/index',
     // 'client/index',
     'types/index',
+    'types/frontmatter/index',
   ],
   clean: true,
   declaration: 'node16',
