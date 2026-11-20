@@ -299,14 +299,16 @@ This is a custom excerpt.
 - To insert custom components in the article, please refer to [Custom Components](/guide/custom/components).
 
 
-### Scripts
+### Scripts {#scripts}
 
 
-You can use [`useScriptTag`](https://vueuse.org/core/useScriptTag/) directly, encapsulate it as a component, or add it directly to the article.
+Install `@vueuse/core` with `pnpm add @vueuse/core`. Use [`useScriptTag`](https://vueuse.org/core/useScriptTag/) in a component or directly in the article. For a CodePen embed, keep the embed markup and load the script like this:
 
 
 ```vue
 <script lang="ts" setup>
+import { useScriptTag } from '@vueuse/core'
+
 useScriptTag('https://static.codepen.io/assets/embed/ei.js')
 </script>
 ```

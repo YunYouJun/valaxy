@@ -154,12 +154,6 @@ export interface PageFrontMatter extends BaseFrontMatter {
   markdownClass: string
 
   /**
-   * @description:en-US Post title class
-   * @description:zh-CN 文章标题样式
-   */
-  pageTitleClass: string
-
-  /**
    * icon before title
    * @description 标题前的图标
    */
@@ -184,11 +178,6 @@ export interface PageFrontMatter extends BaseFrontMatter {
    * @url https://katex.org/
    */
   katex: boolean
-  /**
-   * use codepen
-   * @url https://codepen.io/
-   */
-  codepen: boolean
   /**
    * use medium-zoom
    * @url https://github.com/francoischalifour/medium-zoom

@@ -520,6 +520,21 @@ const fm = useFrontmatter()
 </template>
 ```
 
+Declare your theme's frontmatter fields in a declaration file loaded by the theme's public types. Augment `PageFrontMatter` for fields shared by pages and posts, and `PostFrontMatter` for post-only fields.
+
+```ts [types/frontmatter.d.ts]
+import 'valaxy'
+
+declare module 'valaxy' {
+  interface PageFrontMatter {
+    titleStyle?: string
+  }
+}
+```
+
+Projects that load the theme's types get the field in `useFrontmatter()` and in the `frontmatter` defaults accepted by `defineSiteConfig()`.
+To type-check Vue scripts in Markdown with Vue language tools, set `vueCompilerOptions.vitePressExtensions` to `[".md"]` in the project tsconfig.
+
 #### Global State Management
 
 You can use [Pinia](https://pinia.vuejs.org/) (built into Valaxy) to create your own global state and use it later.
