@@ -14,7 +14,7 @@ export default defineThemeConfig({
 
   banner: {
     enable: true,
-    navStyle: 'plain',
+    navStyle: 'glass',
     grid: { enable: true, fade: true, interactive: true },
     // title: '云游君的小站',
     title: {
@@ -55,14 +55,12 @@ export default defineThemeConfig({
       url: '/projects',
       icon: 'i-ri-gallery-view',
       iconColor: '#C47B16',
-      color: 'var(--va-c-text)',
     },
     {
       name: '相册',
       url: '/albums',
       icon: 'i-ri-image-line',
       iconColor: '#8863D7',
-      color: 'var(--va-c-text)',
     },
     {
       name: '友情链接',
@@ -83,7 +81,6 @@ export default defineThemeConfig({
       url: '/sponsors/',
       icon: 'i-ri-heart-line',
       iconColor: '#DC5765',
-      color: 'red',
     },
   ],
 

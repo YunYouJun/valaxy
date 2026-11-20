@@ -1,0 +1,39 @@
+@mixin surface {
+  border: 1px solid var(--yun-glass-border);
+  background-color: color-mix(in srgb, var(--va-c-bg) 88%, transparent);
+  background-image: linear-gradient(180deg, var(--yun-glass-sheen), transparent 56%);
+  box-shadow: var(--yun-glass-shadow);
+
+  @supports ((backdrop-filter: blur(14px)) or (-webkit-backdrop-filter: blur(14px))) {
+    background-color: var(--yun-glass-fill);
+    /* stylelint-disable-next-line property-no-vendor-prefix -- Legacy Safari */
+    -webkit-backdrop-filter: blur(14px) saturate(165%);
+    backdrop-filter: blur(14px) saturate(165%);
+  }
+}
+
+@mixin edge {
+  @supports (mask-composite: exclude) {
+    &::before {
+      content: '';
+      position: absolute;
+      inset: -1px;
+      padding: 1px;
+      border-radius: inherit;
+      background: linear-gradient(145deg, var(--yun-glass-edge), transparent 36% 64%, var(--yun-glass-edge-soft));
+      mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+      mask-composite: exclude;
+      pointer-events: none;
+    }
+  }
+}
+
+@mixin solid {
+  border-color: color-mix(in srgb, var(--va-c-text) 45%, transparent);
+  background-color: var(--va-c-bg);
+  background-image: none;
+  box-shadow: none;
+  /* stylelint-disable-next-line property-no-vendor-prefix -- Legacy Safari */
+  -webkit-backdrop-filter: none;
+  backdrop-filter: none;
+}

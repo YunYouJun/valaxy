@@ -1,6 +1,7 @@
 import { expect, test } from '@playwright/test'
 import { env } from '../env'
 import { setup } from '../utils'
+import { waitForHydration } from '../utils/hydration'
 
 setup('theme-yun')
 
@@ -27,19 +28,26 @@ test.describe('Theme Yun', () => {
   })
 
   test('post tag hover colors are stable in dev and build', async ({ page }) => {
+    await page.route('https://v1.hitokoto.cn/**', route => route.fulfill({
+      json: { hitokoto: 'A stable quote for the hover test.', from_who: 'Valaxy', from: 'E2E' },
+    }))
+
     for (const [mode, baseURL] of [
       ['dev', env['theme-yun-dev']],
       ['build', env['theme-yun']],
     ] as const) {
       await test.step(mode, async () => {
-        await page.goto(baseURL)
+        await page.goto(baseURL, { waitUntil: 'domcontentloaded' })
+        await waitForHydration(page)
+        await expect(page.locator('.say-content')).toHaveText('A stable quote for the hover test.')
 
         const tag = page.locator('.post-tags .post-tag').first()
+        const linkColor = await page.locator('.yun-nav-menu a[aria-current="page"]').evaluate(el => getComputedStyle(el).color)
         await tag.hover()
+        await expect(tag).toHaveCSS('color', linkColor)
 
-        await expect(tag).toHaveCSS('color', 'rgb(255, 255, 255)')
-
-        await page.goto(`${baseURL}/tags/`)
+        await page.goto(`${baseURL}/tags/`, { waitUntil: 'domcontentloaded' })
+        await waitForHydration(page)
 
         const layoutTag = page.locator('.post-tag').first()
         const primaryColor = await layoutTag.evaluate((el) => {

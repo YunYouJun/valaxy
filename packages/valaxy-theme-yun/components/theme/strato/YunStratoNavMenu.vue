@@ -60,9 +60,9 @@ const isHomePage = computed(() => route.meta.layout === 'home')
     <div class="inline-flex flex-1 justify-end items-center">
       <YunToggleLocale
         v-if="app.showToggleLocale"
-        class="rounded-none! hidden sm:inline-flex"
+        class="hidden sm:inline-flex"
       />
-      <YunToggleDark class="rounded-none!" transition />
+      <YunToggleDark transition />
       <YunSearchTrigger v-if="siteConfig.search.enable" />
     </div>
   </div>

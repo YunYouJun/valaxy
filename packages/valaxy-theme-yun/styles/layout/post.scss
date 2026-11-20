@@ -1,4 +1,32 @@
-@use "valaxy/client/styles/mixins/index.scss" as *;
+.yun-card:is(.post-card-wrapper, .collection-card) {
+  // Keep each card and its interactive children in the same stacking context.
+  position: relative;
+  isolation: isolate;
+  border: 1px solid var(--yun-surface-line);
+  border-inline-start-width: var(--yun-feed-card-leading-width, 1px);
+  border-inline-start-color: var(--yun-feed-card-leading-color, var(--yun-surface-line));
+  transition: transform 220ms var(--yun-ease-in-out, ease), border-color 220ms ease, box-shadow 220ms ease;
+
+  @media (hover: hover) and (pointer: fine) {
+    &:hover {
+      z-index: 1;
+
+      --yun-feed-card-hover-border: color-mix(in srgb, var(--va-c-link) 28%, var(--yun-surface-line));
+
+      border-color: var(--yun-feed-card-hover-border);
+      border-inline-start-color: var(--yun-feed-card-leading-hover-color, var(--yun-feed-card-hover-border));
+      box-shadow: var(--yun-card-hover-shadow);
+
+      @media (prefers-reduced-motion: no-preference) {
+        transform: translateY(-2px);
+      }
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    transition: none;
+  }
+}
 
 .post-card {
   position: relative;
@@ -108,22 +136,42 @@
   }
 }
 
-// category
-.post-category {
-  color: var(--va-c-text);
-}
-
-.post-tags {
-  --yun-tag-hover-color: white;
+.yun-card-actions {
+  border-top: 1px solid var(--yun-surface-line);
 }
 
 .post-tag {
   white-space: nowrap;
+}
+
+.post-tag:not(.yun-post-badge) {
   color: var(--yun-tag-color);
   transition: color var(--va-transition-duration-fast);
 
   &:hover {
     color: var(--yun-tag-hover-color, var(--va-c-primary));
+  }
+}
+
+.yun-post-badge {
+  color: var(--va-c-text-2);
+  border-color: var(--yun-surface-line);
+  background-color: color-mix(in srgb, var(--va-c-text) 2.5%, transparent);
+  transition: color 180ms ease, border-color 180ms ease, background-color 180ms ease;
+
+  &:is(:hover, :focus-visible) {
+    color: var(--va-c-link);
+    border-color: color-mix(in srgb, var(--va-c-link) 42%, transparent);
+    background-color: color-mix(in srgb, var(--va-c-link) 10%, transparent);
+  }
+
+  &:focus-visible {
+    outline: 2px solid var(--yun-focus-color);
+    outline-offset: 2px;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    transition: none;
   }
 }
 

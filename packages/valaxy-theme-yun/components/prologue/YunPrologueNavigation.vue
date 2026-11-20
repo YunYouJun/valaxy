@@ -32,11 +32,10 @@ const pages = computed(() => props.pages ?? themeConfig.value.pages)
 </template>
 
 <style lang="scss" scoped>
+@use '../../styles/mixins/glass';
+
 @mixin mobile-navigation {
-  --yun-nav-glass-fill: rgb(255 255 255 / 0.22);
-  --yun-nav-glass-pressed: rgb(255 255 255 / 0.5);
-  --yun-nav-glass-edge: rgb(255 255 255 / 0.85);
-  --yun-nav-glass-shadow: rgb(30 45 60 / 0.08);
+  --yun-nav-panel-shadow: rgb(30 45 60 / 0.08);
 
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -47,10 +46,7 @@ const pages = computed(() => props.pages ?? themeConfig.value.pages)
   max-width: 352px;
 
   html.dark & {
-    --yun-nav-glass-fill: rgb(255 255 255 / 0.06);
-    --yun-nav-glass-pressed: rgb(255 255 255 / 0.14);
-    --yun-nav-glass-edge: rgb(255 255 255 / 0.3);
-    --yun-nav-glass-shadow: rgb(0 0 0 / 0.2);
+    --yun-nav-panel-shadow: rgb(0 0 0 / 0.2);
   }
 
   :deep(.yun-site-link-item) {
@@ -108,49 +104,13 @@ const pages = computed(() => props.pages ?? themeConfig.value.pages)
     }
   }
 
-  &[data-style="glass"] {
-    :deep(.yun-site-link-item) {
-      padding-inline: 16px;
-      border-color: color-mix(in srgb, var(--va-c-text) 8%, transparent);
-      border-radius: 999px;
-      background: color-mix(in srgb, var(--va-c-bg) 88%, transparent);
-      box-shadow: inset 0 1px 1px rgb(255 255 255 / 0.12), 0 3px 12px var(--yun-nav-glass-shadow);
-
-      @supports ((backdrop-filter: blur(14px)) or (-webkit-backdrop-filter: blur(14px))) {
-        background-color: var(--yun-nav-glass-fill);
-        /* stylelint-disable-next-line property-no-vendor-prefix -- Legacy Safari */
-        -webkit-backdrop-filter: blur(14px) saturate(140%);
-        backdrop-filter: blur(14px) saturate(140%);
-      }
-    }
-
-    @supports (mask-composite: exclude) {
-      :deep(.yun-site-link-item::before) {
-        content: "";
-        position: absolute;
-        inset: -1px;
-        padding: 1px;
-        border-radius: inherit;
-        background: linear-gradient(150deg, var(--yun-nav-glass-edge), transparent 38%, transparent 62%, var(--yun-nav-glass-edge));
-        mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
-        mask-composite: exclude;
-        pointer-events: none;
-      }
-    }
-
-    :deep(.yun-site-link-item:active) {
-      background-color: var(--yun-nav-glass-pressed);
-      box-shadow: inset 0 1px 4px var(--yun-nav-glass-shadow);
-    }
-  }
-
   &[data-style="panel"] {
     gap: 0;
     padding: 8px;
     border: 1px solid color-mix(in srgb, var(--va-c-text) 9%, transparent);
     border-radius: 24px;
     background: color-mix(in srgb, var(--va-c-bg) 76%, transparent);
-    box-shadow: 0 4px 18px var(--yun-nav-glass-shadow);
+    box-shadow: 0 4px 18px var(--yun-nav-panel-shadow);
     /* stylelint-disable-next-line property-no-vendor-prefix -- Legacy Safari */
     -webkit-backdrop-filter: blur(18px);
     backdrop-filter: blur(18px);
@@ -186,8 +146,7 @@ const pages = computed(() => props.pages ?? themeConfig.value.pages)
   }
 
   @media (prefers-reduced-transparency: reduce), (prefers-contrast: more) {
-    &[data-style="panel"],
-    &[data-style="glass"] :deep(.yun-site-link-item) {
+    &[data-style="panel"] {
       border-color: color-mix(in srgb, var(--va-c-text) 50%, transparent);
       background: var(--va-c-bg);
       box-shadow: none;
@@ -196,9 +155,7 @@ const pages = computed(() => props.pages ?? themeConfig.value.pages)
       backdrop-filter: none;
     }
 
-    :deep(.yun-site-link-item::before) { display: none; }
-
-    &[data-style] :deep(.yun-site-link-item:active) {
+    &:not([data-style="glass"]) :deep(.yun-site-link-item:active) {
       background-color: color-mix(in srgb, var(--va-c-bg) 90%, var(--va-c-text));
     }
   }
@@ -216,6 +173,84 @@ const pages = computed(() => props.pages ?? themeConfig.value.pages)
 @media (width <= 639px) {
   .prologue-navigation {
     @include mobile-navigation;
+  }
+}
+
+.prologue-navigation[data-style="glass"] {
+  :deep(.yun-site-link-item) {
+    @include glass.surface;
+    @include glass.edge;
+
+    position: relative;
+    border-radius: 999px;
+    transition: background-color 180ms ease, border-color 180ms ease, box-shadow 220ms ease, transform 220ms ease;
+  }
+
+  :deep(.yun-site-link-item .icon) {
+    color: var(--yun-site-link-accent);
+  }
+
+  :deep(.yun-site-link-item:focus-visible) {
+    outline: 2px solid var(--yun-focus-color);
+    outline-offset: 2px;
+    z-index: 1;
+  }
+
+  @media (hover: hover) and (pointer: fine) {
+    :deep(.yun-site-link-item:hover:not(:active)) {
+      background-color: color-mix(in srgb, var(--yun-site-link-accent) 12%, var(--yun-glass-hover-fill));
+      border-color: color-mix(in srgb, var(--yun-site-link-accent) 36%, var(--yun-glass-border));
+      box-shadow: var(--yun-glass-hover-shadow);
+      transform: translateY(-1px);
+    }
+  }
+
+  :deep(.yun-site-link-item:active) {
+    background-color: var(--yun-glass-pressed-fill);
+    box-shadow: var(--yun-glass-pressed-shadow);
+    transform: scale(0.98);
+  }
+
+  @media (prefers-reduced-transparency: reduce), (prefers-contrast: more) {
+    :deep(.yun-site-link-item),
+    :deep(.yun-site-link-item:hover:not(:active)),
+    :deep(.yun-site-link-item:active) {
+      @include glass.solid;
+
+      &::before {
+        display: none;
+      }
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    :deep(.yun-site-link-item),
+    :deep(.yun-site-link-item:hover:not(:active)),
+    :deep(.yun-site-link-item:active) {
+      transform: none;
+      transition: none;
+    }
+  }
+}
+
+@media (width > 639px) {
+  .prologue-navigation[data-style="glass"]:not(.is-compact) {
+    width: min(100%, 37.5rem);
+    max-width: 37.5rem;
+    gap: 0.625rem;
+
+    :deep(.yun-site-link-item) {
+      gap: 0.45rem;
+      padding: 0.45rem 0.95rem;
+      font-size: 0.9375rem;
+      font-weight: 500;
+      line-height: 1.4;
+    }
+
+    :deep(.yun-site-link-item .icon) {
+      width: 1.125rem;
+      height: 1.125rem;
+    }
   }
 }
 </style>

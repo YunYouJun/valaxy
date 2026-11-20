@@ -33,6 +33,7 @@ defineExpose({
         <RouterLink
           v-if="showPage(i)" class="page-number"
           :class="curPage === i && 'active'"
+          :aria-current="curPage === i ? 'page' : undefined"
           :to="getTo(i)"
         >
           {{ i }}
@@ -52,66 +53,69 @@ defineExpose({
   </ClientOnly>
 </template>
 
-<style lang="scss">
-:root {
-  --page-btn-bg-color: rgb(255 255 255 / 0.5);
-  --page-btn-hover-bg-color: var(--va-c-primary-lighter);
-  --page-btn-active-bg-color: var(--va-c-primary-light);
-}
-
-.dark {
-  --page-btn-bg-color: var(--va-c-bg-light);
-}
+<style lang="scss" scoped>
+@use '../styles/mixins/glass';
 
 .pagination {
+  @include glass.surface;
+
   display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
   align-items: center;
+  gap: 0.25rem;
   width: fit-content;
+  max-width: calc(100% - 1rem);
   margin: 1.25rem auto 0;
-  border-radius: 1rem;
-  overflow: hidden;
+  padding: 0.25rem;
+  border-radius: 1.25rem;
 
-  .prev, .next, .page-number, .space {
+  .page-number,
+  .space {
     display: inline-flex;
-    justify-content: center;
     align-items: center;
-    width: 2rem;
-    height: 2rem;
-    margin: 0;
-
-    // disabled attr
-    &[disabled] {
-      color: var(--va-c-text-light);
-      background-color: var(--va-c-bg-mute);
-    }
+    justify-content: center;
+    min-width: 2.125rem;
+    min-height: 2.125rem;
+    padding-inline: 0.5rem;
+    border-radius: 999px;
+    font-size: 0.875rem;
+    font-weight: 500;
   }
 
-  .prev, .next, .page-number {
-    cursor: pointer;
+  .page-number {
     color: var(--va-c-text);
     text-decoration: none;
-    background-color: var(--page-btn-bg-color);
+    transition: background-color 180ms ease, color 180ms ease;
 
-    &:hover {
-      // color: var(--va-c-bg);
-      color: white;
-      background: var(--page-btn-hover-bg-color);
+    &:focus-visible {
+      outline: 2px solid var(--yun-focus-color);
+      outline-offset: 1px;
     }
 
-    &:active {
-      // color: var(--va-c-bg);
-      color: white;
-      background: var(--page-btn-active-bg-color);
+    &:is(:hover, :focus-visible) {
+      background-color: color-mix(in srgb, var(--va-c-link) 12%, transparent);
+      color: var(--va-c-link);
     }
 
     &.active {
-      // color: var(--va-c-bg);
-      color: white;
-      font-weight: normal;
-      background: var(--page-btn-active-bg-color);
-      cursor: default;
+      color: var(--va-c-bg);
+      background: var(--va-c-link);
     }
+  }
 
+  .space {
+    color: var(--va-c-text-2);
+  }
+
+  @media (prefers-reduced-transparency: reduce), (prefers-contrast: more) {
+    @include glass.solid;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .page-number {
+      transition: none;
+    }
   }
 }
 </style>

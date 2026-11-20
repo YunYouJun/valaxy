@@ -1,6 +1,7 @@
 import process from 'node:process'
 import { expect, test } from '@playwright/test'
 import { env } from '../env'
+import { waitForHydration } from '../utils/hydration'
 
 // The override also exercises the packaged theme in a consuming blog.
 test.use({ baseURL: process.env.YUN_APPEARANCE_URL || env['theme-yun'], viewport: { width: 1440, height: 1000 } })
@@ -15,6 +16,7 @@ for (const colorScheme of ['dark', 'light'] as const) {
     page.on('pageerror', error => errors.push(error.message))
     await page.emulateMedia({ colorScheme, reducedMotion: 'no-preference' })
     await page.goto('/', { waitUntil: 'domcontentloaded' })
+    await waitForHydration(page)
     const hero = page.locator('.yun-prologue')
     const grid = hero.locator('.yun-prologue-grid')
     await expect(grid).toBeVisible()
@@ -35,6 +37,7 @@ for (const colorScheme of ['dark', 'light'] as const) {
     await link.click()
     await expect(page).toHaveURL(/\/posts\/?$/)
     await expect(hero).toHaveCount(0)
+    await expect(page.locator('.yun-nav-menu a[href="/posts/"]')).toHaveAttribute('aria-current', 'page')
     await page.goBack()
     await expect(grid).toBeVisible()
     await expect(grid).not.toHaveClass(/is-active/)
@@ -45,6 +48,7 @@ for (const colorScheme of ['dark', 'light'] as const) {
 test('reduced motion disables pointer tracking and card scaling', async ({ page }) => {
   await page.emulateMedia({ reducedMotion: 'no-preference', colorScheme: 'dark' })
   await page.goto('/', { waitUntil: 'domcontentloaded' })
+  await waitForHydration(page)
   const hero = page.locator('.yun-prologue')
   const grid = hero.locator('.yun-prologue-grid')
   await hero.hover({ position: { x: 900, y: 300 } })
@@ -56,7 +60,7 @@ test('reduced motion disables pointer tracking and card scaling', async ({ page 
   await expect.poll(() => grid.evaluate(el => getComputedStyle(el, '::after').display)).toBe('none')
   const card = page.locator('.post-card-wrapper').first()
   await card.hover()
-  await expect(card).toHaveCSS('scale', '1')
+  await expect(card).toHaveCSS('transform', 'none')
   await expect(card).toHaveCSS('transition-duration', '0s')
 })
 
@@ -70,6 +74,7 @@ test('touch devices keep a static grid without horizontal overflow', async ({ br
   })
   const page = await context.newPage()
   await page.goto('/', { waitUntil: 'domcontentloaded' })
+  await waitForHydration(page)
   const grid = page.locator('.yun-prologue-grid')
   await expect(grid).toBeVisible()
   await page.touchscreen.tap(30, 150)
@@ -85,6 +90,7 @@ test('excerpt option, navigation glass and original post interactions work toget
     json: { hitokoto: 'A stable quote for the hover test.', from_who: 'Valaxy', from: 'E2E' },
   }))
   await page.goto('/', { waitUntil: 'domcontentloaded' })
+  await waitForHydration(page)
   await expect(page.locator('.say-content')).toHaveText('A stable quote for the hover test.')
   const card = page.locator('.post-card-wrapper').first()
   await expect(page.locator('.yun-excerpt-bottom-gradient')).toHaveCount(0)
@@ -93,7 +99,8 @@ test('excerpt option, navigation glass and original post interactions work toget
   await expect.poll(() => page.locator('.yun-nav-menu').evaluate(el => getComputedStyle(el, '::before').backdropFilter)).not.toBe('none')
   const title = card.locator('.post-title-link')
   await title.hover()
-  await expect(card).toHaveCSS('scale', '1.02')
+  await expect(card).toHaveCSS('scale', 'none')
+  await expect(card).toHaveCSS('transform', 'matrix(1, 0, 0, 1, 0, -2)')
   await expect.poll(() => title.evaluate(el => getComputedStyle(el, '::before').opacity)).toBe('1')
   const overlay = card.locator('.post-card-overlay')
   await overlay.focus()

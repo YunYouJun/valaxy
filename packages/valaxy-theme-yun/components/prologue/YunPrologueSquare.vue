@@ -90,6 +90,65 @@ const grouped = computed(() => themeConfig.value.banner?.prologue === 'grouped')
   }
 }
 
+.prologue-social {
+  max-width: 34rem;
+  margin-inline: auto;
+  gap: 0.125rem;
+
+  :deep(.links-of-author-item) {
+    width: 2.35rem;
+    height: 2.35rem;
+  }
+
+  :deep(.links-of-author-item .icon) {
+    width: 1.2rem;
+    height: 1.2rem;
+    color: color-mix(in srgb, currentcolor 48%, var(--yun-social-soft-base));
+    transition: color var(--va-transition-duration) ease, transform var(--va-transition-duration) ease;
+  }
+
+  @mixin highlight-social-link {
+    background-color: color-mix(in srgb, currentcolor 13%, transparent);
+    box-shadow: 0 0 12px color-mix(in srgb, currentcolor 22%, transparent);
+
+    .icon {
+      color: inherit;
+
+      @media (prefers-reduced-motion: no-preference) {
+        transform: translateY(-1px) scale(1.1);
+      }
+
+      html.dark & {
+        filter: brightness(1.22);
+      }
+    }
+  }
+
+  :deep(.links-of-author-item:focus-visible) {
+    @include highlight-social-link;
+  }
+
+  @media (hover: hover) and (pointer: fine) {
+    :deep(.links-of-author-item:hover) {
+      @include highlight-social-link;
+    }
+  }
+
+  @media (pointer: coarse) {
+    :deep(.links-of-author-item) {
+      width: 2.75rem;
+      height: 2.75rem;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    :deep(.links-of-author-item),
+    :deep(.links-of-author-item .icon) {
+      transition: none;
+    }
+  }
+}
+
 .yun-square-container.is-grouped {
   .prologue-divider {
     position: relative;

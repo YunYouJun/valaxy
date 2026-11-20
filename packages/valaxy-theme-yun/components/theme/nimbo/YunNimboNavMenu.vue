@@ -74,9 +74,9 @@ const app = useAppStore()
 
       <YunToggleLocale
         v-if="app.showToggleLocale"
-        class="rounded-none! hidden sm:inline-flex"
+        class="hidden sm:inline-flex"
       />
-      <YunToggleDark class="rounded-none!" transition />
+      <YunToggleDark transition />
       <YunSearchTrigger v-if="siteConfig.search.enable" />
     </div>
   </div>

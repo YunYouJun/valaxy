@@ -30,7 +30,7 @@ const postTitleClass = computed(() => {
 <template>
   <div class="post-card-link flex-center w-full">
     <YunCard
-      class="post-card-wrapper w-full hover:scale-102 hover:z-1"
+      class="post-card-wrapper w-full"
       mx="4"
       :class="hasCover ? 'post-card-image' : 'post-card'"
       overflow="hidden" v-bind="styles ? { style: styles } : {}"
@@ -99,16 +99,6 @@ const postTitleClass = computed(() => {
 </template>
 
 <style lang="scss">
-.post-card-wrapper {
-  // Stacking context for the overlay
-  position: relative;
-  transition: box-shadow var(--va-transition-duration), scale var(--va-transition-duration);
-
-  &:hover {
-    box-shadow: 0 4px 24px rgb(0 0 0 / 0.08);
-  }
-}
-
 .post-card-body {
   gap: 0.15rem;
 }
@@ -151,19 +141,5 @@ const postTitleClass = computed(() => {
   line-height: var(--yun-post-excerpt-line-height, 1.7);
   color: var(--yun-post-excerpt-color, inherit);
   opacity: var(--yun-post-excerpt-opacity, 0.9);
-}
-
-.yun-card-actions {
-  border-top: 1px solid var(--yun-surface-line);
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .yun-card.post-card-wrapper {
-    transition: none;
-
-    &:hover {
-      scale: 1;
-    }
-  }
 }
 </style>

@@ -75,7 +75,7 @@ export namespace YunTheme {
     /** Nimbo introduction layout. Grouped uses compact introduction dividers. @default 'classic' */
     prologue?: 'classic' | 'grouped'
 
-    /** Mobile homepage navigation appearance. @default 'plain' */
+    /** Nimbo homepage navigation appearance. Glass also styles desktop links. @default 'plain' */
     navStyle?: HomeNavStyle
 
     /**

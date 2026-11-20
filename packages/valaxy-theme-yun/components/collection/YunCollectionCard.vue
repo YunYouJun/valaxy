@@ -31,7 +31,7 @@ const hasMoreItems = computed(() => itemCount.value > 3)
 <template>
   <RouterLink class="post-card-link flex-center w-full" :to="post.path || ''">
     <YunCard
-      class="collection-card w-full hover:scale-102 hover:z-1"
+      class="collection-card w-full"
       mx="4"
       :class="cover ? 'post-card-image' : 'post-card'"
       overflow="hidden"
@@ -97,17 +97,10 @@ const hasMoreItems = computed(() => itemCount.value > 3)
 
 <style lang="scss">
 .collection-card {
-  --collection-accent: var(--va-c-primary);
-  --collection-accent-light: var(--va-c-primary-lighter, var(--va-c-primary));
-  --collection-accent-text: color-mix(in srgb, var(--va-c-text-1) 80%, var(--collection-accent));
-
-  border-left: 3px solid var(--collection-accent);
-  transition: border-color var(--va-transition-duration), box-shadow var(--va-transition-duration), scale var(--va-transition-duration);
-
-  &:hover {
-    border-left-color: var(--collection-accent-light);
-    box-shadow: 0 4px 24px rgb(0 0 0 / 0.08);
-  }
+  --yun-collection-accent: var(--va-c-link);
+  --yun-feed-card-leading-width: 3px;
+  --yun-feed-card-leading-color: color-mix(in srgb, var(--yun-collection-accent) 78%, transparent);
+  --yun-feed-card-leading-hover-color: var(--yun-collection-accent);
 }
 
 .collection-card-body {
@@ -125,7 +118,7 @@ const hasMoreItems = computed(() => itemCount.value > 3)
   font-weight: 600;
   text-transform: uppercase;
   letter-spacing: 0.05em;
-  color: var(--collection-accent-text);
+  color: var(--yun-collection-accent);
 }
 
 .collection-card-title {
@@ -136,21 +129,29 @@ const hasMoreItems = computed(() => itemCount.value > 3)
 
   .collection-card-title-text {
     font-size: 1.25rem;
-    font-weight: 800;
-    font-family: var(--va-font-serif);
-    color: var(--collection-accent-text);
+    font-weight: var(--yun-post-title-font-weight, 700);
+    font-family: var(--yun-post-title-font-family, var(--va-font-serif));
+    color: var(--yun-post-title-color, var(--va-c-text));
     line-height: 1.4;
+
+    @media (hover: hover) and (pointer: fine) {
+      .post-card-link:hover & {
+        color: var(--yun-post-title-hover-color, var(--va-c-link));
+      }
+    }
   }
 }
 
 .collection-card-count {
   font-size: 0.8rem;
   font-weight: 600;
+  color: var(--va-c-text-2);
 }
 
 .collection-card-desc {
   align-self: flex-start;
   font-size: 0.8rem;
+  color: var(--yun-post-excerpt-color, var(--va-c-text-1));
   line-height: 1.5;
   display: -webkit-box;
   -webkit-line-clamp: 2;
@@ -179,8 +180,8 @@ const hasMoreItems = computed(() => itemCount.value > 3)
   width: 4px;
   height: 4px;
   border-radius: 50%;
-  background: var(--collection-accent);
-  opacity: 0.6;
+  background: var(--yun-collection-accent);
+  opacity: 0.75;
   flex-shrink: 0;
 }
 
