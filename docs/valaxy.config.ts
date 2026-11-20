@@ -727,6 +727,10 @@ export default defineValaxyConfig<PressTheme.Config>({
 
   vite: {
     base: '/',
+    build: {
+      // Load page-specific styles and release fonts only on routes that use them.
+      cssCodeSplit: true,
+    },
   },
   unocss: {
     safelist,
