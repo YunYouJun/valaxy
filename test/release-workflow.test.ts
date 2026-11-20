@@ -9,9 +9,11 @@ const sources = Object.fromEntries(readdirSync(workflowsDir)
   .map(filename => [filename, readFileSync(new URL(filename, workflowsDir), 'utf8')]))
 
 interface Workflow {
-  on: Record<string, { inputs?: Record<string, { required: boolean, type: string }> }>
+  on: Record<string, { inputs?: Record<string, { required: boolean, type: string }>, tags?: string[] }>
   jobs: Record<string, {
     environment?: string
+    if?: string
+    needs?: string
     permissions: Record<string, string>
     steps: { 'id'?: string, 'run'?: string, 'env'?: Record<string, string>, 'working-directory'?: string }[]
   }>
@@ -29,7 +31,12 @@ describe('npm release workflows', () => {
     for (const filename of publishingWorkflows) {
       expect(sources[filename]).not.toMatch(/NPM_TOKEN|NODE_AUTH_TOKEN/)
       const workflow = load(sources[filename]) as Workflow
-      for (const job of Object.values(workflow.jobs)) {
+      const publishers = Object.entries(workflow.jobs)
+        .filter(([, job]) => job.steps.some(step => /^\s*pnpm [^\n]*\bpublish --access public\b/m.test(step.run ?? '')))
+      expect(publishers.map(([name]) => name).sort()).toEqual(
+        filename === 'release.yml' ? ['release', 'release-addon'] : ['release-addon'],
+      )
+      for (const [, job] of publishers) {
         expect(job.permissions['id-token']).toBe('write')
         expect(job.steps.some(step => step.run === 'pnpm install --frozen-lockfile')).toBe(true)
       }
@@ -37,12 +44,23 @@ describe('npm release workflows', () => {
   })
 
   it('retains separate coordinated and standalone publication jobs', () => {
-    expect(Object.keys(release.jobs).sort()).toEqual(['release', 'release-addon'])
     expect(release.on).toHaveProperty('push')
     expect(release.on.workflow_dispatch.inputs?.addon).toMatchObject({ required: true, type: 'string' })
     expect(release.jobs['release-addon'].steps).toContainEqual(expect.objectContaining({
       'working-directory': expect.stringMatching(addonDirectory),
       'run': 'pnpm publish --access public --no-git-checks',
+    }))
+  })
+
+  it('advances the EdgeOne branch after successful tagged publication', () => {
+    expect(release.on.push.tags).toEqual(['v*'])
+    expect(release.jobs.release.if).toBe('startsWith(github.ref, \'refs/tags/\')')
+    const job = release.jobs['deploy-mirrors']
+    expect(job.needs).toBe('release')
+    expect(job.if).toBe('github.repository == \'YunYouJun/valaxy\'')
+    expect(job.permissions).toEqual({ contents: 'write' })
+    expect(job.steps).toContainEqual(expect.objectContaining({
+      run: 'git push origin HEAD:refs/heads/edgeone-release',
     }))
   })
 
