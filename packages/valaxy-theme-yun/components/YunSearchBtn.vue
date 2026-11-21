@@ -21,8 +21,10 @@ function onClick() {
 
 <template>
   <button
-    class="yun-search-btn yun-icon-btn yun-search-action popup-trigger"
-    :title="t('menu.search')"
+    type="button"
+    class="yun-search-btn yun-action-btn popup-trigger"
+    :title="open ? t('theme.closeSearch') : t('menu.search')"
+    :aria-label="open ? t('theme.closeSearch') : t('menu.search')"
     @click="onClick"
   >
     <div v-if="!open" i-ri-search-line aria-hidden="true" />
@@ -33,6 +35,5 @@ function onClick() {
 <style lang="scss">
 .yun-search-btn {
   z-index: var(--yun-z-search-btn);
-  transition: background-color var(--va-transition-duration);
 }
 </style>

@@ -21,21 +21,17 @@ const isHomePage = computed(() => route.meta.layout === 'home')
 </script>
 
 <template>
-  <div class="fixed left-0 top-0 h-$yun-nav-height flex items-center" z="$yun-z-left-sidebar-menu">
+  <div class="yun-strato-nav-left fixed left-0 top-0 h-$yun-nav-height flex items-center gap-1" z="$yun-z-left-sidebar-menu">
     <ValaxyHamburger
       v-if="isHomePage"
       :active="yunApp.leftSidebar.isOpen"
-      class="menu-btn sidebar-toggle leading-4 size-12"
-      inline-flex cursor="pointer"
-      hover="bg-white/80 dark:bg-black/80"
+      class="menu-btn sidebar-toggle yun-action-btn leading-4"
       @click="yunApp.leftSidebar.toggle()"
     />
     <template v-else>
       <ValaxyHamburger
         :active="yunApp.leftSidebar.isOpen"
-        class="menu-btn sidebar-toggle leading-4 size-12 md:hidden!"
-        inline-flex cursor="pointer"
-        hover="bg-white/80 dark:bg-black/80"
+        class="menu-btn sidebar-toggle yun-action-btn leading-4 md:hidden!"
         @click="yunApp.leftSidebar.toggle()"
       />
       <YunNavMenuItem class="hidden md:inline-flex" icon="i-ri-home-4-line" to="/" :label="t('menu.home')" />
@@ -57,7 +53,7 @@ const isHomePage = computed(() => route.meta.layout === 'home')
       <YunNavMenuTitle />
     </div>
 
-    <div class="inline-flex flex-1 justify-end items-center">
+    <div class="inline-flex flex-1 justify-end items-center gap-1">
       <YunToggleLocale
         v-if="app.showToggleLocale"
         class="hidden sm:inline-flex"
@@ -70,6 +66,10 @@ const isHomePage = computed(() => route.meta.layout === 'home')
 
 <style lang="scss" scoped>
 // glass background and its transition live on ::before in styles/common/nav.scss
+.yun-strato-nav-left {
+  padding-inline-start: max(var(--yun-nav-padding-x), env(safe-area-inset-left));
+}
+
 .yun-nav-menu {
   height: var(--yun-nav-height, 50px);
 }

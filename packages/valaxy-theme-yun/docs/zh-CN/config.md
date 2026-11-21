@@ -176,7 +176,12 @@ export default defineThemeConfig({
 | `--yun-grid-highlight-radius` | `220px`，提亮半径 |
 | `--yun-nav-bg-color` / `--yun-nav-solid` | 磨砂底色 / 不支持模糊时的实色底 |
 | `--yun-nav-blur` | `12px`，模糊强度 |
+| `--yun-nav-padding-x` | `0.35rem`，顶栏左右内边距（搜索关闭按钮同步对齐） |
 | `--yun-nav-border-color` | `transparent`，导航底部分隔线 |
+| `--yun-action-btn-size` / `--yun-action-btn-radius` | `2.35rem`（触控设备 `2.75rem`）/ `0.625rem`，导航栏与浮层操作按钮尺寸及圆角 |
+| `--yun-action-btn-icon-size` | `1.25rem`，操作按钮内图标尺寸 |
+| `--yun-action-btn-hover-bg` / `--yun-action-btn-active-bg` | 操作按钮悬停 / 按下中性底色（按明暗自动适配） |
+| `--yun-drawer-header-height` / `--yun-drawer-radius` | `56px` / `1rem`，移动端抽屉顶栏高度与外侧圆角 |
 | `--va-card-border-radius` | `0.5rem`，文章卡片圆角 |
 | `--yun-post-title-font-family` / `--yun-post-title-font-weight` | 主题衬线字体 / `900` |
 | `--yun-post-title-color` / `--yun-post-title-hover-color` | 纯色标题 / hover 颜色；文章类型颜色优先作为默认色 |

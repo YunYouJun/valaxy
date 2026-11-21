@@ -1,14 +1,25 @@
 // Shared by nimbo and strato; keep the glass outside the search popup's ancestors.
 .yun-nav-menu {
-  padding-inline: 0.35rem;
+  padding-inline: max(var(--yun-nav-padding-x), env(safe-area-inset-left)) max(var(--yun-nav-padding-x), env(safe-area-inset-right));
 
+  // Keep legacy .yun-icon-btn overrides for user-customized navbar slot buttons.
   .yun-icon-btn {
-    border-radius: 0.625rem;
+    width: var(--yun-action-btn-size);
+    height: var(--yun-action-btn-size);
+    border-radius: var(--yun-action-btn-radius);
 
     @media (hover: hover) and (pointer: fine) {
       &:hover {
-        background-color: color-mix(in srgb, var(--va-c-text) 7%, transparent);
+        background-color: var(--yun-action-btn-hover-bg);
       }
+    }
+
+    &:active {
+      background-color: var(--yun-action-btn-active-bg);
+    }
+
+    &:focus-visible {
+      outline-offset: 1px;
     }
 
     @media (prefers-reduced-motion: reduce) {

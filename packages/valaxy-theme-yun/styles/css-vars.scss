@@ -9,6 +9,14 @@
   --yun-home-hero-name-background: linear-gradient(120deg, var(--va-c-text) 30%, black);
   --yun-home-hero-image-background-image: linear-gradient(-45deg, #bd34fe 50%, #47caff 50%);
   --yun-nav-height: 50px;
+  --yun-nav-padding-x: 0.35rem;
+  --yun-action-btn-size: 2.35rem;
+  --yun-action-btn-radius: 0.625rem;
+  --yun-action-btn-icon-size: 1.25rem;
+  --yun-action-btn-hover-bg: color-mix(in srgb, var(--va-c-text) 7%, transparent);
+  --yun-action-btn-active-bg: color-mix(in srgb, var(--va-c-text) 13%, transparent);
+  --yun-drawer-header-height: 56px;
+  --yun-drawer-radius: 1rem;
   --yun-nav-bg-color: rgb(255 255 255 / 0.8);
   --yun-nav-blur: 12px;
   --yun-nav-solid: #fff;
@@ -66,6 +74,8 @@ html.dark {
   --yun-home-hero-name-background: linear-gradient(120deg, var(--va-c-primary) 30%, #41d1ff);
   --yun-nav-bg-color: rgb(26 26 29 / 0.8);
   --yun-nav-solid: #1a1a1d;
+  --yun-action-btn-hover-bg: color-mix(in srgb, var(--va-c-text) 9%, transparent);
+  --yun-action-btn-active-bg: color-mix(in srgb, var(--va-c-text) 16%, transparent);
   --yun-glass-fill: rgb(255 255 255 / 0.055);
   --yun-glass-sheen: rgb(255 255 255 / 0.08);
   --yun-glass-border: rgb(255 255 255 / 0.09);
@@ -110,5 +120,11 @@ html.dark {
 @media screen and (width > 768px) {
   :root {
     --rect-margin: 48px;
+  }
+}
+
+@media (pointer: coarse) {
+  :root {
+    --yun-action-btn-size: 2.75rem;
   }
 }

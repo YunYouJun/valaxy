@@ -1,4 +1,5 @@
 <script lang="ts" setup>
+import type YunDrawerHeader from './ui/YunDrawerHeader.vue'
 import { useFrontmatter } from 'valaxy'
 import { computed, nextTick, useTemplateRef, watch } from 'vue'
 import { useI18n } from 'vue-i18n'
@@ -17,7 +18,7 @@ const showToc = computed(() => {
 })
 
 const asideEnabled = computed(() => fm.value.aside !== false)
-const closeButton = useTemplateRef<HTMLButtonElement>('closeButton')
+const drawerHeader = useTemplateRef<InstanceType<typeof YunDrawerHeader>>('drawerHeader')
 let keepHeadingFocus = false
 
 function closeAside(focusHeading = false) {
@@ -29,7 +30,7 @@ function closeAside(focusHeading = false) {
 
 watch(() => yun.rightSidebar.isOpen, (open) => {
   if (open) {
-    nextTick(() => closeButton.value?.focus({ preventScroll: true }))
+    nextTick(() => drawerHeader.value?.focusClose())
   }
   else if (keepHeadingFocus) {
     keepHeadingFocus = false
@@ -52,24 +53,20 @@ function onKeydown(event: KeyboardEvent) {
     v-if="asideEnabled"
     id="yun-page-outline"
     flex="~ col"
-    class="va-card yun-aside min-h-sm rounded-2"
+    class="va-card yun-aside min-h-sm"
     :class="{ open: yun.rightSidebar.isOpen }"
     text="center"
     overflow="auto"
     @keydown="onKeydown"
   >
-    <div class="yun-aside-mobile-header">
-      <span>{{ mobileTitle || t('sidebar.toc') }}</span>
-      <button
-        ref="closeButton"
-        type="button"
-        class="yun-aside-close yun-icon-btn"
-        :aria-label="t('theme.closeOutline')"
-        @click="closeAside()"
-      >
-        <span i-ri-close-line aria-hidden="true" />
-      </button>
-    </div>
+    <YunDrawerHeader
+      ref="drawerHeader"
+      class="yun-aside-mobile-header"
+      :title="mobileTitle || t('sidebar.toc')"
+      :close-label="t('theme.closeOutline')"
+      close-class="yun-aside-close"
+      @close="closeAside()"
+    />
     <div class="w-full" flex="~ col" pb-2>
       <template v-if="showToc">
         <h2
@@ -106,7 +103,7 @@ function onKeydown(event: KeyboardEvent) {
   visibility: hidden;
   transform: translateX(100%);
   transition: transform var(--va-transition-duration-fast) var(--yun-ease-in-out), visibility 0s linear var(--va-transition-duration-fast);
-  border-radius: 16px 0 0 16px;
+  border-radius: var(--yun-drawer-radius, 1rem) 0 0 var(--yun-drawer-radius, 1rem);
   box-shadow: -12px 0 40px rgb(0 0 0 / 0.12);
 
   // float panel
@@ -132,23 +129,6 @@ function onKeydown(event: KeyboardEvent) {
   }
 }
 
-.yun-aside-mobile-header {
-  display: flex;
-  flex: none;
-  align-items: center;
-  justify-content: space-between;
-  min-height: 56px;
-  padding: 0 12px 0 20px;
-  border-bottom: 1px solid var(--yun-surface-line);
-  font-size: 16px;
-  font-weight: 600;
-  text-align: left;
-}
-
-.yun-aside-close {
-  color: var(--va-c-text);
-}
-
 @media (width < 1280px) {
   .yun-aside > div > h2,
   .yun-aside .outline-title {
@@ -167,7 +147,7 @@ function onKeydown(event: KeyboardEvent) {
     max-height: calc(100vh - var(--yun-margin-top));
     visibility: visible;
     transform: translateX(0);
-    border-radius: 8px;
+    border-radius: var(--va-card-border-radius, 0.5rem);
     box-shadow: none;
 
     // On xl, sidebar toggle should not affect layout
@@ -176,7 +156,7 @@ function onKeydown(event: KeyboardEvent) {
     }
   }
 
-  .yun-aside-mobile-header {
+  .yun-aside .yun-aside-mobile-header {
     display: none;
   }
 }

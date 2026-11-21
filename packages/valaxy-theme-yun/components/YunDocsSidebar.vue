@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import type YunDrawerHeader from './ui/YunDrawerHeader.vue'
 import { useEventListener, useMediaQuery } from '@vueuse/core'
 import { computed, nextTick, useTemplateRef, watch } from 'vue'
 import { useI18n } from 'vue-i18n'
@@ -21,12 +22,12 @@ const { t } = useI18n()
 const sidebarItems = computed(() => resolveYunDocsSidebar(themeConfig.value.sidebar, route.path))
 const hasNavigation = computed(() => hasYunDocsSidebarNavigation(sidebarItems.value, route.path))
 const isDesktop = useMediaQuery('(min-width: 1024px)', { ssrWidth: 1280 })
-const closeButton = useTemplateRef<HTMLButtonElement>('closeButton')
+const drawerHeader = useTemplateRef<InstanceType<typeof YunDrawerHeader>>('drawerHeader')
 const triggerRef = useTemplateRef<HTMLButtonElement>('trigger')
 
 watch(isOpen, (open) => {
   if (open)
-    nextTick(() => closeButton.value?.focus({ preventScroll: true }))
+    nextTick(() => drawerHeader.value?.focusClose())
 })
 
 watch(
@@ -81,18 +82,13 @@ function close(restoreFocus = false) {
       id="yun-docs-sidebar"
       class="va-card yun-docs-sidebar yun-docs-sidebar-mobile"
     >
-      <div class="yun-docs-sidebar-mobile-header">
-        <span>{{ t('theme.docsSidebar') }}</span>
-        <button
-          ref="closeButton"
-          type="button"
-          class="yun-icon-btn"
-          :aria-label="t('theme.closeMenu')"
-          @click="close(true)"
-        >
-          <span i-ri-close-line aria-hidden="true" />
-        </button>
-      </div>
+      <YunDrawerHeader
+        ref="drawerHeader"
+        class="yun-docs-sidebar-mobile-header"
+        :title="t('theme.docsSidebar')"
+        :close-label="t('theme.closeMenu')"
+        @close="close(true)"
+      />
       <nav :aria-label="t('theme.docsSidebar')">
         <YunDocsSidebarNav :items="sidebarItems" @navigate="close()" />
       </nav>
@@ -117,19 +113,11 @@ function close(restoreFocus = false) {
   bottom: 0;
   left: 0;
   z-index: var(--yun-z-aside);
-  border-radius: 0 0.5rem 0.5rem 0;
+  border-radius: 0 var(--yun-drawer-radius, 1rem) var(--yun-drawer-radius, 1rem) 0;
 }
 
 .yun-docs-sidebar-mobile-header {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  min-height: 56px;
   margin: -1rem -1rem 1rem;
-  padding: 0 12px 0 20px;
-  border-bottom: 1px solid var(--yun-surface-line);
-  font-size: 16px;
-  font-weight: 600;
 }
 
 .yun-docs-sidebar-trigger {
