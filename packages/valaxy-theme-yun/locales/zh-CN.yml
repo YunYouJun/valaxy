@@ -13,6 +13,11 @@ theme:
   closeOutline: 关闭目录
   collapseAllOutline: 收起全部子目录
   expandAllOutline: 展开全部子目录
+  authorNotes: 作者旁注
+  authorNoteLabel: 作者旁注 {label}
+  showAuthorNotes: 显示作者旁注
+  hideAuthorNotes: 隐藏作者旁注
+  backToAuthorNote: 跳回正文旁注 {label}
   closeSearch: 关闭搜索
   toggleSection: 展开或收起{title}
   all: 全部

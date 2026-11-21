@@ -13,6 +13,11 @@ theme:
   closeOutline: Close contents
   collapseAllOutline: Collapse all sections
   expandAllOutline: Expand all sections
+  authorNotes: Author’s notes
+  authorNoteLabel: Author’s note {label}
+  showAuthorNotes: Show author’s notes
+  hideAuthorNotes: Hide author’s notes
+  backToAuthorNote: Jump back to reference {label}
   closeSearch: Close search
   toggleSection: Toggle {title}
   all: All

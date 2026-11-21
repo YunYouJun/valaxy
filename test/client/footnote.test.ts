@@ -8,18 +8,19 @@ import ValaxyFootnoteTooltip from '../../packages/valaxy/client/components/Valax
 it('hydrates multiple previews without replacing footnote anchors or duplicating IDs', async () => {
   function createApp() {
     return createSSRApp({
-      render: () => [1, 2].map(id => h(ValaxyFootnoteTooltip, {}, {
+      render: () => [1, 2].map(id => h(ValaxyFootnoteTooltip, id === 2 ? { kind: 'author' } : {}, {
         default: () => h('sup', h('a', { href: `#fn${id}`, id: `fnref${id}` }, `[${id}]`)),
         popper: () => h('p', ['Footnote ', h('a', { href: 'https://valaxy.site' }, 'link')]),
       })),
-    }).use(createI18n({ legacy: false, locale: 'en', messages: { en: { post: { footnote_preview: 'Preview footnote', footnote_close: 'Close preview' } } } }))
+    }).use(createI18n({ legacy: false, locale: 'en', messages: { en: { post: { footnote_preview: 'Preview footnote', footnote_close: 'Close preview', author_note: 'Author note', author_note_preview: 'Preview author note' } } } }))
   }
 
   const html = await renderToString(createApp())
   document.body.innerHTML = `<div id="app">${html}</div><div id="valaxy-teleports"></div>`
   const anchors = [...document.querySelectorAll('a')]
   expect(anchors.map(a => a.getAttribute('href'))).toEqual(['#fn1', '#fn2'])
-  expect(document.querySelectorAll('button[aria-label="Preview footnote"]')).toHaveLength(2)
+  expect(document.querySelectorAll('button[aria-label="Preview footnote"]')).toHaveLength(1)
+  expect(document.querySelector('[data-footnote-kind="author"] button')?.getAttribute('aria-label')).toBe('Preview author note')
 
   const error = vi.spyOn(console, 'error').mockImplementation(() => {})
   const warn = vi.spyOn(console, 'warn').mockImplementation(() => {})

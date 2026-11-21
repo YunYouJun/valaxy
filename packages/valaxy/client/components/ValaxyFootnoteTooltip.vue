@@ -3,6 +3,11 @@ import { PopoverArrow, PopoverClose, PopoverContent, PopoverPortal, PopoverRoot,
 import { onBeforeUnmount, shallowRef } from 'vue'
 import { useI18n } from 'vue-i18n'
 
+defineProps<{
+  /** Semantic kind supplied by the Markdown renderer for an author note. */
+  kind?: 'author'
+}>()
+
 const { t } = useI18n()
 const open = shallowRef(false)
 // Hover previews must neither steal focus nor return it when dismissed.
@@ -55,13 +60,13 @@ onBeforeUnmount(cancelClose)
 
 <template>
   <PopoverRoot :open="open" :modal="false" @update:open="updateOpen">
-    <span class="va-footnote">
+    <span class="va-footnote" :data-footnote-kind="kind">
       <span @pointerenter="preview" @pointerleave="scheduleClose" @click="followFootnote">
         <slot />
       </span>
       <PopoverTrigger
         class="va-footnote-preview"
-        :aria-label="t('post.footnote_preview')"
+        :aria-label="t(kind === 'author' ? 'post.author_note_preview' : 'post.footnote_preview')"
         @pointerenter="cancelClose"
         @pointerleave="scheduleClose"
       >
@@ -70,6 +75,8 @@ onBeforeUnmount(cancelClose)
       <PopoverPortal to="#valaxy-teleports">
         <PopoverContent
           class="va-footnote-popover markdown-body"
+          :data-footnote-kind="kind"
+          :aria-label="kind === 'author' ? t('post.author_note') : undefined"
           side="top"
           :side-offset="8"
           :collision-padding="12"
@@ -83,6 +90,7 @@ onBeforeUnmount(cancelClose)
           <PopoverClose class="va-footnote-close" :aria-label="t('post.footnote_close')">
             <span aria-hidden="true">×</span>
           </PopoverClose>
+          <span v-if="kind === 'author'" class="va-footnote-label">{{ t('post.author_note') }}</span>
           <slot name="popper" />
           <PopoverArrow class="va-footnote-arrow" />
         </PopoverContent>
@@ -125,6 +133,12 @@ onBeforeUnmount(cancelClose)
 
 .va-footnote-popover > p:last-of-type {
   margin-bottom: 0;
+}
+
+.va-footnote-label {
+  display: block;
+  margin-bottom: 0.5em;
+  font-weight: 600;
 }
 
 .va-footnote-close {

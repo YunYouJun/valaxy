@@ -3,7 +3,7 @@
 </script>
 
 <template>
-  <YunLayoutWrapper outline-nav>
+  <YunLayoutWrapper outline-nav author-notes>
     <YunLayoutLeft />
     <RouterView />
     <YunLayoutRight :floating-trigger="false" />

@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { useFrontmatter, useOutline } from 'valaxy'
-import { computed } from 'vue'
+import { computed, useTemplateRef } from 'vue'
 import { useYunAppStore } from '../../stores'
 
 // common layout
@@ -9,6 +9,7 @@ const props = withDefaults(defineProps<{
   footer?: boolean
   noMargin?: boolean
   outlineNav?: boolean
+  authorNotes?: boolean
   localMenu?: boolean
   localMenuOpen?: boolean
   localMenuControls?: string
@@ -30,6 +31,7 @@ const emit = defineEmits<{
 
 const yun = useYunAppStore()
 const frontmatter = useFrontmatter()
+const layout = useTemplateRef('layout')
 const { headers } = useOutline()
 const hasLocalOutline = computed(() => props.outlineNav
   && frontmatter.value.aside !== false
@@ -58,10 +60,12 @@ const classes = computed(() => {
       @toggle-menu="emit('toggleLocalMenu')"
     />
     <div
+      ref="layout"
       class="yun-layout-wrapper-content yun-layout-wrapper__content"
       :class="[noMargin ? '' : classes, { 'has-local-outline': hasLocalOutline, 'has-local-menu': localMenu }]"
     >
       <slot />
+      <YunAuthorNotes v-if="authorNotes && frontmatter.aside !== false" :layout="layout" />
     </div>
     <YunFooter v-if="footer" />
   </div>
@@ -84,6 +88,32 @@ const classes = computed(() => {
   .yun-layout-wrapper-content {
     flex-direction: row;
     align-items: start;
+  }
+}
+
+@media (width >= 1280px) {
+  .yun-layout-wrapper-content:has(> .yun-author-notes) {
+    width: min(86.25rem, calc(100% - 3rem));
+    gap: 1.5rem;
+  }
+
+  .yun-layout-wrapper-content:has(> .yun-author-notes) > .yun-layout-left {
+    flex: 0 0 clamp(12.5rem, 15vw, 16rem);
+    min-width: 0;
+  }
+
+  .yun-layout-wrapper-content:has(> .yun-author-notes) > .yun-main {
+    flex: 1;
+    min-width: 0;
+  }
+
+  .yun-layout-wrapper-content:has(> .yun-author-notes) > .yun-main > .content {
+    width: 100%;
+    min-width: 0;
+  }
+
+  .yun-layout-wrapper-content:has(> .yun-author-notes) > .yun-aside {
+    display: none;
   }
 }
 
