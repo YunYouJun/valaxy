@@ -13,6 +13,11 @@ theme:
   closeOutline: 关闭目录
   closeSearch: 关闭搜索
   toggleSection: 展开或收起{title}
+  all: 全部
+  projectWebsite: 访问站点
+  projectDocs: 查看文档
+  projectGithub: GitHub 仓库
+  projectNpm: npm 包
 
 not_found:
   title: 页面不存在

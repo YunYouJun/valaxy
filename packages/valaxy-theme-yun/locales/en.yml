@@ -13,6 +13,11 @@ theme:
   closeOutline: Close contents
   closeSearch: Close search
   toggleSection: Toggle {title}
+  all: All
+  projectWebsite: Website
+  projectDocs: Documentation
+  projectGithub: GitHub
+  projectNpm: npm
 
 not_found:
   title: Page not found

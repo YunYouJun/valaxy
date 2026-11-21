@@ -4,55 +4,47 @@ defineProps<{
     url: string
     icon: string
     color: string
+    label?: string
   }
 }>()
 </script>
 
 <template>
   <a
-    class="yun-project-link-item inline-flex items-center justify-center flex-1 p-2 h-full text-white"
-    :href="item.url" target="_blank"
+    class="yun-project-link-item yun-action-btn"
+    :href="item.url"
+    target="_blank"
+    rel="noopener noreferrer"
+    :title="item.label"
+    :aria-label="item.label"
     :style="{
-      '--c-brand': item.color,
+      '--yun-project-link-color': item.color,
     }"
   >
-    <div :class="item.icon" />
+    <span :class="item.icon" aria-hidden="true" />
   </a>
 </template>
 
-<style lang="scss">
-.yun-project-link-item {
-  position: relative;
-  background-color: rgb(0 0 0 / 0.05);
-  transition: background-color var(--va-transition-duration);
+<style lang="scss" scoped>
+.yun-project-link-item.yun-action-btn {
+  --yun-action-btn-size: 2rem;
+  --yun-action-btn-icon-size: 1.05rem;
+  --yun-action-btn-radius: 0.5rem;
 
-  &::before {
-    content: '';
-    position: absolute;
-    background-color: var(--c-brand);
-    transition: height var(--va-transition-duration) var(--yun-ease-in),
-      opacity var(--va-transition-duration) var(--yun-ease-in);
-    bottom: 0;
-    left: 0;
-    right: 0;
-    height: 0;
+  @media (pointer: coarse) {
+    --yun-action-btn-size: 2.5rem;
   }
 
-  &::after {
-    content: '';
-    position: absolute;
-    background-color: var(--c-brand);
-    transition: opacity var(--va-transition-duration) var(--yun-ease-in);
-    inset: 0;
-    opacity: 0.1;
-    z-index: -1;
-  }
-
-  &:hover {
-    &::before {
-      height: 40px;
-      opacity: 0.8;
+  @media (hover: hover) and (pointer: fine) {
+    &:hover {
+      color: var(--yun-project-link-color);
+      background-color: color-mix(in srgb, var(--yun-project-link-color) 11%, transparent);
     }
+  }
+
+  &:active {
+    color: var(--yun-project-link-color);
+    background-color: color-mix(in srgb, var(--yun-project-link-color) 17%, transparent);
   }
 }
 </style>
