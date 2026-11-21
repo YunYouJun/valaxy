@@ -65,7 +65,6 @@ jobs:
       - name: Build
         run: pnpm run build
       - name: Build:demo
-        if: matrix.node-version == 'lts/*'
         run: pnpm run build:demo
 
       - run: pnpm run test -- --run

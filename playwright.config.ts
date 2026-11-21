@@ -7,9 +7,9 @@ const suite = process.env.PLAYWRIGHT_SUITE || 'all'
 const includeDocs = suite === 'all' || suite === 'docs'
 const includeYun = suite === 'all' || suite === 'yun'
 const testMatch = suite === 'docs'
-  ? ['docs/**/*.spec.ts']
+  ? ['**/e2e/docs/**/*.spec.ts']
   : suite === 'yun'
-    ? ['theme-yun/**/*.spec.ts', 'valaxy/**/*.spec.ts', 'create-valaxy/**/*.spec.ts']
+    ? ['**/e2e/theme-yun/**/*.spec.ts', '**/e2e/valaxy/**/*.spec.ts', '**/e2e/create-valaxy/**/*.spec.ts']
     : undefined
 
 /**
@@ -29,7 +29,12 @@ export default defineConfig({
   testDir: './e2e',
   ...(testMatch ? { testMatch } : {}),
   // Static HTML, hydration, and footnote tooltips are covered by playwright.ssg.config.ts.
-  testIgnore: ['**/*.ssg.spec.ts', '**/footnote-tooltip.spec.ts'],
+  testIgnore: [
+    '**/*.ssg.spec.ts',
+    '**/footnote-tooltip.spec.ts',
+    ...includeDocs ? [] : ['**/e2e/docs/**'],
+    ...includeYun ? [] : ['**/e2e/theme-yun/**', '**/e2e/valaxy/**', '**/e2e/create-valaxy/**'],
+  ],
   /* Run tests in files in parallel */
   fullyParallel: true,
   /* Fail the build on CI if you accidentally left test.only in the source code. */

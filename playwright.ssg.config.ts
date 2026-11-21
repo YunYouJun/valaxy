@@ -32,8 +32,9 @@ export default defineConfig({
           { name: 'ssg-desktop', use: { ...devices['Desktop Chrome'] } },
           {
             name: 'ssg-mobile',
-            // release-motion overrides to a 1440px desktop viewport; sidebar already covers both viewports.
-            testIgnore: ['release-motion.spec.ts', 'sidebar.spec.ts'],
+            // release-motion overrides to a 1440px desktop viewport; sidebar group suites already cover 1440px & 390px.
+            testIgnore: ['release-motion.spec.ts'],
+            grepInvert: /sidebar groups at/,
             use: { ...devices['iPhone 13'], defaultBrowserType: 'chromium' as const },
           },
         ]

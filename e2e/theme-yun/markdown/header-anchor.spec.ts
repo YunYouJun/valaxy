@@ -58,7 +58,8 @@ test.describe('Markdown: Header Anchor', () => {
     const stage2Color = await anchor.evaluate(el => getComputedStyle(el).color)
 
     // Stage 3: clicking copies URL to clipboard and shows green ✓ feedback even after pointer leaves
-    await page.clock.pauseAt(Date.now())
+    const now = await page.evaluate(() => Date.now())
+    await page.clock.pauseAt(now + 5_000)
     await anchor.click()
     await expect(anchor).toHaveClass(/\bis-copied\b/)
     await page.mouse.move(0, 0)
