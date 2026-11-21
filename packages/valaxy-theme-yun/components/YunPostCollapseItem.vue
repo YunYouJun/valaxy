@@ -36,8 +36,10 @@ const { $tO } = useValaxyI18n()
     :class="{ show }"
   >
     <header
-      class="post-header cursor-pointer w-full" flex="~" items-center relative
-      hover="bg-black/1"
+      class="post-header cursor-pointer w-full"
+      flex="~"
+      items-center
+      relative
       :class="{ show }"
     >
       <div class="post-meta">
@@ -60,6 +62,9 @@ const { $tO } = useValaxyI18n()
 <style lang="scss">
 .post-collapse {
   .post-header {
+    border-radius: 0.375rem;
+    transition: background-color 180ms ease;
+
     &::before {
       content: '';
       position: absolute;
@@ -68,7 +73,7 @@ const { $tO } = useValaxyI18n()
       height: 10px;
       margin-left: -4px;
       border-radius: 50%;
-      border: 1px solid var(--va-c-primary);
+      border: 1px solid var(--va-c-link);
       background-color: var(--va-c-bg-light);
       z-index: 1;
       transition: background var(--va-transition-duration);
@@ -81,7 +86,7 @@ const { $tO } = useValaxyI18n()
       left: 0;
       width: 0;
       height: 1px;
-      background-color: rgb(var(--va-c-primary-rgb), 0.3);
+      background-color: color-mix(in srgb, var(--va-c-link) 28%, transparent);
       transition: width 800ms var(--yun-ease-in);
     }
 
@@ -92,8 +97,10 @@ const { $tO } = useValaxyI18n()
     }
 
     &:hover {
+      background-color: color-mix(in srgb, var(--va-c-text) 4%, transparent);
+
       &::before {
-        background: var(--va-c-primary);
+        background: var(--va-c-link);
       }
     }
 
@@ -116,6 +123,15 @@ const { $tO } = useValaxyI18n()
       margin: 1rem 0 1rem 1.2rem;
       white-space: nowrap;
     }
+
+    @media (prefers-reduced-motion: reduce) {
+      transition: none;
+
+      &::before,
+      &::after {
+        transition: none;
+      }
+    }
   }
 
   .post-item {
@@ -124,8 +140,12 @@ const { $tO } = useValaxyI18n()
       position: absolute;
       width: 2px;
       height: 0;
-      background: rgb(var(--va-c-primary-rgb), 0.3);
+      background: color-mix(in srgb, var(--va-c-link) 28%, transparent);
       transition: height 600ms var(--yun-ease-in);
+
+      @media (prefers-reduced-motion: reduce) {
+        transition: none;
+      }
     }
 
     &.show {

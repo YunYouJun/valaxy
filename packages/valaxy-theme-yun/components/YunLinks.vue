@@ -70,7 +70,7 @@ const isUrlSource = computed(() => typeof props.links === 'string')
   }
 
   .yun-link-url {
-    --yun-link-accent: var(--primary-color, var(--va-c-primary));
+    --yun-link-accent: var(--primary-color, var(--va-c-link));
 
     position: relative;
     display: flex;
@@ -86,7 +86,7 @@ const isUrlSource = computed(() => typeof props.links === 'string')
     text-align: left;
     line-height: 1.5;
     background-color: var(--va-c-bg-light);
-    border: 1px solid var(--va-c-border);
+    border: 1px solid var(--yun-surface-line);
     border-radius: 0.75rem;
     box-shadow: inset 3px 0 0 var(--yun-link-accent);
     isolation: isolate;
@@ -118,7 +118,7 @@ const isUrlSource = computed(() => typeof props.links === 'string')
       background-color: var(--va-c-bg-soft);
       box-shadow:
         inset 3px 0 0 var(--yun-link-accent),
-        0 10px 28px rgb(0 0 0 / 0.1);
+        var(--yun-card-hover-shadow);
       transform: translateY(-2px);
     }
 
@@ -133,8 +133,8 @@ const isUrlSource = computed(() => typeof props.links === 'string')
 
     &:focus-visible {
       color: var(--va-c-text);
-      border-color: var(--va-c-border);
-      outline: 2px solid var(--va-c-primary);
+      border-color: var(--yun-surface-line);
+      outline: 2px solid var(--yun-focus-color);
       outline-offset: 2px;
     }
 

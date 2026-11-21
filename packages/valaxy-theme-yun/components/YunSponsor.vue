@@ -14,90 +14,252 @@ const sponsorBtnTitle = computed(() => {
 </script>
 
 <template>
-  <div class="yun-sponsor-container flex-center flex-col">
+  <div class="yun-sponsor-container flex-center flex-col w-full">
     <button
-      class="sponsor-button yun-icon-btn shadow hover:shadow-md"
-      :title="sponsorBtnTitle" text="red-400" @click="showQr = !showQr"
+      type="button"
+      class="sponsor-button"
+      :class="{ 'is-open': showQr }"
+      :title="sponsorBtnTitle"
+      :aria-label="sponsorBtnTitle"
+      :aria-expanded="showQr"
+      @click="showQr = !showQr"
     >
-      <div class="mt-2px" i-ri-heart-fill />
+      <span class="sponsor-button-icon i-ri-heart-fill" aria-hidden="true" />
     </button>
 
     <div
-      class="qrcode-container qrcode flex-center flex-col" m="y-4"
-      :class="showQr && 'show'"
+      class="qrcode-container"
+      :class="{ show: showQr }"
     >
-      <div v-if="siteConfig.sponsor.description" class="sponsor-description" mb="4" text="sm">
-        {{ siteConfig.sponsor.description }}
-      </div>
-      <div class="flex justify-around">
-        <a
-          v-for="method, i in siteConfig.sponsor.methods" :key="i"
-          class="flex-center flex-col animate-iteration-1 animate-fade-in"
-          :href="method.url" target="_blank"
-          :style="`color:${method.color}`"
-        >
-          <img class="sponsor-method-img" border="~ rounded" p="1" loading="lazy" :src="method.url" :title="$t(method.name)">
-          <div text="xl" m="2" :class="method.icon" />
-        </a>
+      <div class="qrcode-inner flex flex-col items-center">
+        <div v-if="siteConfig.sponsor?.description" class="sponsor-description">
+          {{ siteConfig.sponsor.description }}
+        </div>
+        <div class="sponsor-methods">
+          <a
+            v-for="(method, i) in siteConfig.sponsor?.methods || []"
+            :key="i"
+            class="sponsor-method-card"
+            :href="method.url"
+            target="_blank"
+            rel="noopener noreferrer"
+            :title="$t(method.name)"
+            :style="method.color ? { '--yun-sponsor-color': method.color } : undefined"
+          >
+            <div class="sponsor-method-qr">
+              <img
+                class="sponsor-method-img"
+                loading="lazy"
+                decoding="async"
+                :src="method.url"
+                :alt="$t(method.name)"
+                :title="$t(method.name)"
+              >
+            </div>
+            <div class="sponsor-method-label">
+              <span v-if="method.icon" class="sponsor-method-icon" :class="method.icon" aria-hidden="true" />
+              <span class="sponsor-method-name">{{ $t(method.name) }}</span>
+            </div>
+          </a>
+        </div>
       </div>
     </div>
   </div>
 </template>
 
 <style lang="scss">
-@use "valaxy/client/styles/mixins/index.scss" as *;
+.yun-sponsor-container {
+  width: 100%;
+}
 
 .sponsor-button {
-  background-color: rgb(255 255 255 / 0.1);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.75rem;
+  height: 2.75rem;
+  padding: 0;
+  border: 1px solid var(--yun-surface-line);
+  border-radius: 9999px;
+  color: var(--yun-sponsor-btn-color, #e15a64);
+  background-color: var(--va-c-bg-light);
+  box-shadow: 0 2px 8px -2px rgb(20 35 60 / 0.08);
+  cursor: pointer;
+  transition:
+    background-color 200ms ease,
+    border-color 200ms ease,
+    box-shadow 200ms ease,
+    color 200ms ease;
 
-  div {
-    transform: scale(1.1);
-    transition: transform var(--va-transition-duration) ease-in-out;
+  .sponsor-button-icon {
+    font-size: 1.25rem;
+    transition: transform 200ms var(--yun-ease-in-out);
   }
 
-  &:hover {
-    background-color: rgb(255 255 255 / 0.9);
-
-    div {
-      transform: scale(1.2);
-    }
+  &.is-open {
+    border-color: color-mix(in srgb, var(--yun-sponsor-btn-color, #e15a64) 42%, var(--yun-surface-line));
+    background-color: color-mix(in srgb, var(--yun-sponsor-btn-color, #e15a64) 12%, var(--va-c-bg-light));
   }
 
-  a {
+  @media (hover: hover) and (pointer: fine) {
     &:hover {
-      border: none;
+      border-color: color-mix(in srgb, var(--yun-sponsor-btn-color, #e15a64) 38%, var(--yun-surface-line));
+      background-color: color-mix(in srgb, var(--yun-sponsor-btn-color, #e15a64) 8%, var(--va-c-bg-light));
+      box-shadow: var(--yun-card-hover-shadow);
+
+      @media (prefers-reduced-motion: no-preference) {
+        .sponsor-button-icon {
+          transform: scale(1.12);
+        }
+      }
     }
   }
+
+  &:focus-visible {
+    outline: 2px solid var(--yun-focus-color);
+    outline-offset: 2px;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    transition: none;
+
+    .sponsor-button-icon {
+      transition: none;
+    }
+  }
+}
+
+html.dark .sponsor-button {
+  box-shadow: 0 4px 12px -2px rgb(0 0 0 / 0.35);
 }
 
 .qrcode-container {
-  --height: 200px;
-
-  overflow: hidden;
-  height: 0;
+  display: grid;
+  grid-template-rows: 0fr;
+  width: 100%;
+  margin-top: 0;
   opacity: 0;
-  transition: height var(--va-transition-duration) var(--yun-ease-in-out),
-    opacity var(--va-transition-duration) var(--yun-ease-in-out);
+  visibility: hidden;
+  transition:
+    grid-template-rows 260ms var(--yun-ease-in-out),
+    opacity 220ms ease,
+    margin-top 260ms var(--yun-ease-in-out),
+    visibility 260ms;
 
   &.show {
-    height: var(--height);
+    grid-template-rows: 1fr;
+    margin-top: 1rem;
     opacity: 1;
+    visibility: visible;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    transition: none;
   }
 }
 
-@include screen('md') {
-  .qrcode-container {
-    --height: 260px;
-  }
+.qrcode-inner {
+  min-height: 0;
+  overflow: hidden;
 }
 
 .sponsor-description {
-  color: get-css-var('c-gray');
+  margin-bottom: 0.75rem;
+  padding-inline: 0.5rem;
+  color: var(--va-c-text-2);
+  font-size: 0.875rem;
+  line-height: 1.6;
+  text-align: center;
+}
+
+.sponsor-methods {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0.75rem;
+  width: 100%;
+  padding: 0.25rem 0.5rem 0.75rem;
+}
+
+.sponsor-method-card {
+  display: flex;
+  flex: 0 1 10.5rem;
+  flex-direction: column;
+  align-items: center;
+  min-width: 9rem;
+  max-width: 11rem;
+  padding: 0.625rem;
+  border: 1px solid var(--yun-surface-line);
+  border-radius: 0.75rem;
+  color: var(--va-c-text);
+  background-color: var(--va-c-bg-light);
+  text-decoration: none;
+  transition:
+    transform 220ms var(--yun-ease-in-out),
+    border-color 220ms ease,
+    box-shadow 220ms ease;
+
+  &:focus-visible {
+    outline: 2px solid var(--yun-focus-color);
+    outline-offset: 2px;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    transition: none;
+  }
+}
+
+.sponsor-method-qr {
+  width: 100%;
+  padding: 0.375rem;
+  border-radius: 0.5rem;
+  background-color: #fff;
+  box-shadow: inset 0 0 0 1px rgb(0 0 0 / 0.06);
 }
 
 .sponsor-method-img {
-  width: 12rem;
-  max-width: 90%;
+  display: block;
+  width: 100%;
   aspect-ratio: 1;
+  object-fit: contain;
+  border-radius: 0.25rem;
+}
+
+.sponsor-method-label {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.375rem;
+  margin-top: 0.5rem;
+  color: var(--va-c-text-2);
+  font-size: 0.875rem;
+  font-weight: 500;
+  line-height: 1.3;
+  transition: color 180ms ease;
+
+  @media (prefers-reduced-motion: reduce) {
+    transition: none;
+  }
+}
+
+.sponsor-method-icon {
+  flex-shrink: 0;
+  font-size: 1.125rem;
+  color: var(--yun-sponsor-color, var(--va-c-link));
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .sponsor-method-card:hover {
+    border-color: color-mix(in srgb, var(--yun-sponsor-color, var(--va-c-link)) 38%, var(--yun-surface-line));
+    box-shadow: var(--yun-card-hover-shadow);
+
+    @media (prefers-reduced-motion: no-preference) {
+      transform: translateY(-2px);
+    }
+
+    .sponsor-method-label {
+      color: var(--va-c-text);
+    }
+  }
 }
 </style>

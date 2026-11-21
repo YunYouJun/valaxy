@@ -94,7 +94,7 @@ const selectedLabel = computed(() => normalizedOptions.value.find(option => opti
 
 .yun-select-trigger:hover,
 .yun-select-trigger[data-state='open'] {
-  border-color: var(--va-c-primary);
+  border-color: var(--va-c-link);
 }
 
 .yun-select-trigger:focus-visible {
@@ -125,10 +125,10 @@ const selectedLabel = computed(() => normalizedOptions.value.find(option => opti
   max-width: calc(100vw - 2rem);
   max-height: min(18rem, var(--reka-select-content-available-height));
   overflow: hidden;
-  border: 1px solid var(--va-c-divider);
-  border-radius: 0.5rem;
-  background: var(--va-c-bg);
-  box-shadow: 0 4px 12px rgb(0 0 0 / 0.08);
+  border: 1px solid var(--yun-surface-line);
+  border-radius: 0.625rem;
+  background: var(--va-c-bg-light);
+  box-shadow: var(--yun-card-hover-shadow);
 }
 
 .yun-select-viewport {
@@ -142,7 +142,7 @@ const selectedLabel = computed(() => normalizedOptions.value.find(option => opti
   gap: 0.5rem;
   min-height: 44px;
   padding: 0.5rem 0.625rem;
-  border-radius: 0.25rem;
+  border-radius: 0.375rem;
   color: var(--va-c-text);
   cursor: pointer;
   font-size: 14px;
@@ -150,8 +150,8 @@ const selectedLabel = computed(() => normalizedOptions.value.find(option => opti
 }
 
 .yun-select-item[data-highlighted] {
-  color: var(--va-c-primary);
-  background: var(--va-c-bg-soft);
+  color: var(--va-c-link);
+  background: var(--yun-action-btn-hover-bg);
 }
 
 .yun-select-item[data-state='checked'] {
@@ -160,7 +160,7 @@ const selectedLabel = computed(() => normalizedOptions.value.find(option => opti
 
 .yun-select-indicator {
   display: inline-flex;
-  color: var(--va-c-primary);
+  color: var(--va-c-link);
 }
 
 @media (prefers-reduced-motion: reduce) {

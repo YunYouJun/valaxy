@@ -97,38 +97,42 @@ function onSelect(key: string) {
   <div v-if="available" class="yun-post-actions">
     <YunDropdownMenu :items="menuItems" @select="onSelect">
       <template #trigger>
-        <button class="yun-post-actions-btn" :aria-label="t('menu.title', 'Menu')">
-          <div i-ri-more-line />
+        <button
+          type="button"
+          class="yun-action-btn yun-post-actions-btn"
+          :aria-label="t('menu.title', 'Menu')"
+        >
+          <span i-ri-more-line aria-hidden="true" />
         </button>
       </template>
     </YunDropdownMenu>
   </div>
 </template>
 
-<style>
+<style lang="scss">
 .yun-post-actions {
   position: absolute;
-  top: 1rem;
-  right: 1rem;
+  top: 0.75rem;
+  right: 0.75rem;
   z-index: 1;
 }
 
-.yun-post-actions-btn {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
-  border: none;
-  background: var(--va-c-bg-opacity);
-  color: var(--va-c-text-3);
-  padding: 0.15rem;
-  border-radius: 0.25rem;
-  transition: color var(--va-transition-duration-fast), background var(--va-transition-duration-fast);
-  font-size: 1rem;
-}
+.yun-post-actions-btn.yun-action-btn {
+  --yun-action-btn-icon-size: 1.125rem;
 
-.yun-post-actions-btn:hover {
-  color: var(--va-c-primary);
-  background: var(--va-c-bg-soft);
+  width: 2rem;
+  height: 2rem;
+  color: var(--va-c-text-2);
+
+  @media (pointer: coarse) {
+    width: var(--yun-action-btn-size);
+    height: var(--yun-action-btn-size);
+  }
+
+  @media (hover: hover) and (pointer: fine) {
+    &:hover {
+      color: var(--va-c-link);
+    }
+  }
 }
 </style>

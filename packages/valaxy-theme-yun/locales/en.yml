@@ -18,6 +18,9 @@ theme:
   projectDocs: Documentation
   projectGithub: GitHub
   projectNpm: npm
+  postNav: Post navigation
+  sortDesc: Sorted newest first (switch to oldest)
+  sortAsc: Sorted oldest first (switch to newest)
 
 not_found:
   title: Page not found
