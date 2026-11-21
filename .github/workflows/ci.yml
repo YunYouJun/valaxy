@@ -9,6 +9,10 @@ on:
     branches:
       - main
 
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: ${{ github.ref != 'refs/heads/main' }}
+
 jobs:
   validate:
     runs-on: ubuntu-latest
@@ -33,42 +37,6 @@ jobs:
       - name: Typecheck
         # build to check dist types
         run: pnpm run build && pnpm run typecheck
-
-  # check windows build
-  build:
-    runs-on: ${{ matrix.os }}
-
-    strategy:
-      matrix:
-        node-version: [22.12.0, lts/*]
-        os: [ubuntu-latest, windows-latest]
-      fail-fast: false
-
-    steps:
-      - uses: actions/checkout@v7
-        with:
-          fetch-depth: 0
-
-      - name: Install pnpm
-        uses: pnpm/action-setup@v6
-
-      - name: Use Node.js ${{ matrix.node-version }}
-        uses: actions/setup-node@v7
-        with:
-          node-version: ${{ matrix.node-version }}
-          registry-url: https://registry.npmjs.org/
-          cache: pnpm
-
-      - name: Install
-        run: pnpm install --frozen-lockfile
-
-      - name: Build
-        run: pnpm run build
-
-      - name: Build:demo
-        run: pnpm run build:demo
-
-      # Unified API + docs SSG is built and checked in playwright.yml.
 
   test:
     runs-on: ${{ matrix.os }}
@@ -99,7 +67,7 @@ jobs:
       - name: Build:demo
         run: pnpm run build:demo
 
-      - run: pnpm run test
+      - run: pnpm run test -- --run
 
   # see playwright.yml
   # test-e2e

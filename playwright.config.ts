@@ -3,6 +3,15 @@ import process from 'node:process'
 import { defineConfig, devices } from '@playwright/test'
 import { env, ports } from './e2e/env'
 
+const suite = process.env.PLAYWRIGHT_SUITE || 'all'
+const includeDocs = suite === 'all' || suite === 'docs'
+const includeYun = suite === 'all' || suite === 'yun'
+const testMatch = suite === 'docs'
+  ? ['**/e2e/docs/**/*.spec.ts']
+  : suite === 'yun'
+    ? ['**/e2e/theme-yun/**/*.spec.ts', '**/e2e/valaxy/**/*.spec.ts', '**/e2e/create-valaxy/**/*.spec.ts']
+    : undefined
+
 /**
  * Read environment variables from file.
  * https://github.com/motdotla/dotenv
@@ -18,8 +27,14 @@ export default defineConfig({
   },
 
   testDir: './e2e',
-  // Static HTML and hydration are covered by the production SSG suite.
-  testIgnore: '**/*.ssg.spec.ts',
+  ...(testMatch ? { testMatch } : {}),
+  // Static HTML, hydration, and footnote tooltips are covered by playwright.ssg.config.ts.
+  testIgnore: [
+    '**/*.ssg.spec.ts',
+    '**/footnote-tooltip.spec.ts',
+    ...includeDocs ? [] : ['**/e2e/docs/**'],
+    ...includeYun ? [] : ['**/e2e/theme-yun/**', '**/e2e/valaxy/**', '**/e2e/create-valaxy/**'],
+  ],
   /* Run tests in files in parallel */
   fullyParallel: true,
   /* Fail the build on CI if you accidentally left test.only in the source code. */
@@ -29,7 +44,7 @@ export default defineConfig({
   /* Opt out of parallel tests on CI. */
   workers: process.env.CI ? 2 : undefined,
   /* Reporter to use. See https://playwright.dev/docs/test-reporters */
-  reporter: 'html',
+  reporter: [['list'], ['html', { open: 'never' }]],
   /* Shared settings for all the projects below. See https://playwright.dev/docs/api/class-testoptions. */
   use: {
     locale: 'zh-CN',
@@ -91,28 +106,34 @@ export default defineConfig({
 
   /* Run your local dev server before starting the tests */
   webServer: [
-    {
-      command: `pnpm -C docs exec valaxy --port ${ports.docs}`,
-      url: env.docs,
-      reuseExistingServer: false,
-    },
-    {
-      command: `pnpm -C demo/yun run serve --port ${ports['theme-yun']} --strictPort`,
-      url: env['theme-yun'],
-      reuseExistingServer: false,
-    },
-    {
-      command: `pnpm -C demo/yun exec valaxy --port ${ports['theme-yun-dev']}`,
-      url: env['theme-yun-dev'],
-      reuseExistingServer: false,
-    },
-    // valaxy-blog is an optional local checkout used by create-valaxy tests
-    ...fs.existsSync('valaxy-blog')
+    ...includeDocs
       ? [{
-          command: `pnpm -C valaxy-blog dev --port ${ports['create-valaxy']}`,
-          url: env['create-valaxy'],
+          command: `pnpm -C docs exec valaxy --port ${ports.docs}`,
+          url: env.docs,
           reuseExistingServer: false,
         }]
+      : [],
+    ...includeYun
+      ? [
+          {
+            command: `pnpm -C demo/yun run serve --port ${ports['theme-yun']} --strictPort`,
+            url: env['theme-yun'],
+            reuseExistingServer: false,
+          },
+          {
+            command: `pnpm -C demo/yun exec valaxy --port ${ports['theme-yun-dev']}`,
+            url: env['theme-yun-dev'],
+            reuseExistingServer: false,
+          },
+          // valaxy-blog is an optional local checkout used by create-valaxy tests
+          ...fs.existsSync('valaxy-blog')
+            ? [{
+                command: `pnpm -C valaxy-blog dev --port ${ports['create-valaxy']}`,
+                url: env['create-valaxy'],
+                reuseExistingServer: false,
+              }]
+            : [],
+        ]
       : [],
   ],
 })

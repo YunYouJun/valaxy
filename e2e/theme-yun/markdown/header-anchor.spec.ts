@@ -8,6 +8,7 @@ test.describe('Markdown: Header Anchor', () => {
 
   test('desktop keeps left-gutter alignment without clipping, supports two-stage highlight, and copies link with check feedback', async ({ page, context }) => {
     await context.grantPermissions(['clipboard-read', 'clipboard-write'])
+    await page.clock.install()
     await page.setViewportSize({ width: 1280, height: 800 })
     await page.goto('/posts/hello-valaxy', { waitUntil: 'domcontentloaded' })
     await waitForHydration(page)
@@ -57,6 +58,8 @@ test.describe('Markdown: Header Anchor', () => {
     const stage2Color = await anchor.evaluate(el => getComputedStyle(el).color)
 
     // Stage 3: clicking copies URL to clipboard and shows green ✓ feedback even after pointer leaves
+    const now = await page.evaluate(() => Date.now())
+    await page.clock.pauseAt(now + 5_000)
     await anchor.click()
     await expect(anchor).toHaveClass(/\bis-copied\b/)
     await page.mouse.move(0, 0)
@@ -68,7 +71,9 @@ test.describe('Markdown: Header Anchor', () => {
     await expect.poll(() => page.evaluate(() => navigator.clipboard.readText())).toContain('#a-vue-component-in-your-post')
 
     // Feedback clears after ~1.6s
-    await expect(anchor).not.toHaveClass(/\bis-copied\b/, { timeout: 5000 })
+    await page.clock.fastForward(1700)
+    await page.clock.resume()
+    await expect(anchor).not.toHaveClass(/\bis-copied\b/)
     await expect(anchor).toHaveCSS('opacity', '0')
 
     // Re-clicking the active anchor still copies and replays .is-copied

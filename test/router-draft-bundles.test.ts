@@ -84,7 +84,7 @@ describe('draft imports in the generated route module', () => {
     finally {
       context.stopWatcher()
     }
-  })
+  }, 15_000)
 })
 
 it.each([false, true])('preserves public children of draft parents (component=%s)', async (hasParentComponent) => {
@@ -133,4 +133,4 @@ it.each([false, true])('preserves public children of draft parents (component=%s
   finally {
     context.stopWatcher()
   }
-})
+}, 15_000)

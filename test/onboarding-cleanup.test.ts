@@ -4,7 +4,7 @@ import { tmpdir } from 'node:os'
 import { delimiter, join, resolve } from 'node:path'
 import process from 'node:process'
 import { pathToFileURL } from 'node:url'
-import { expect, it } from 'vitest'
+import { it } from 'vitest'
 
 function alive(pid: number) {
   try {
@@ -18,7 +18,7 @@ function alive(pid: number) {
 
 // Exercise the actual runner's signal handling without packing or installing.
 // The stand-in command owns a descendant that refuses graceful termination.
-it.for(['SIGINT', 'SIGTERM', 'timeout'] as const)('cleans up command trees after %s', { timeout: 25_000 }, async (signal, { skip }) => {
+it.concurrent.for(['SIGINT', 'SIGTERM', 'timeout'] as const)('cleans up command trees after %s', { timeout: 25_000 }, async (signal, { expect, skip }) => {
   // Windows has no POSIX signal delivery; its timeout still exercises the real
   // pnpm.cmd process tree through the same cleanup used after normal acceptance.
   if (process.platform === 'win32' && signal !== 'timeout')
