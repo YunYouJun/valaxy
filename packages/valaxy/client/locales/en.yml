@@ -38,6 +38,8 @@ sidebar:
 post:
   footnote_preview: Preview footnote
   footnote_close: Close footnote preview
+  author_note: Author’s note
+  author_note_preview: Preview author’s note
   decrypt: DECRYPT
   posted: 'Posted on '
   edited: 'Edited on '

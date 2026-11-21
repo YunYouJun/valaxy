@@ -942,6 +942,21 @@ export default defineAppSetup(({ app }) => {
 ```
 
 
+### 作者旁注
+
+在脚注标识前加 `author-`，就可以为旧文写补记、勘误或吐槽。Yun 主题会区分旁注的编号样式，弹层中显示「作者旁注」。正文仍用脚注引用，旁注内容支持粗体、行内代码、链接和多段 Markdown。
+
+```md
+2020 年写旧文时，我用的是 Hexo、GitHub Pages 和 Travis CI[^author-ci]。
+
+[^author-ci]: **多年后补记。** 当时我对 `Travis CI` 最大的期待，就是那颗绿灯早点亮。
+
+    后来换成 [Valaxy](/zh/guide/why)，这段也留着，算是给当年的建站方式存个档。
+```
+
+可以查看 [Yun 主题的作者旁注示例](https://yun.valaxy.site/test/author-notes)。Valaxy 会给这类引用和预览弹层添加 `data-footnote-kind="author"`，供主题自定义样式。在支持脚注的其他 Markdown 渲染器里，相同的写法可以按普通脚注阅读。
+
+
 ## 自定义
 
 

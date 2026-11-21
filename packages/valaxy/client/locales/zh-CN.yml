@@ -38,6 +38,8 @@ sidebar:
 post:
   footnote_preview: 预览脚注
   footnote_close: 关闭脚注预览
+  author_note: 作者旁注
+  author_note_preview: 预览作者旁注
   decrypt: 解密
   posted: 发表于
   edited: 更新于
