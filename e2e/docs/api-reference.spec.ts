@@ -62,6 +62,7 @@ test('preserves shared symbol, query and anchor when switching languages and rel
 
 test('keeps API declarations readable in dark mode and recovers from an empty filter', async ({ page }) => {
   await page.goto('/api/')
+  await expect.poll(() => page.locator('#app').evaluate(el => !!(el as HTMLElement & { __vue_app__?: unknown }).__vue_app__)).toBe(true)
   await page.locator('.api-filter-input').fill('no-such-api-symbol')
   await expect(page.locator('.api-empty')).toBeVisible()
   await page.locator('.api-clear').click()

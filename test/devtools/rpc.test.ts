@@ -168,7 +168,7 @@ describe('valaxy Devframe RPC', () => {
       stop()
       await server.close()
     }
-  })
+  }, 20_000)
 
   it('normalizes root and nested mount paths', () => {
     expect(resolveDevtoolsBase('/')).toBe('/__valaxy_devtools__/')

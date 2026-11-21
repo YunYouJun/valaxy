@@ -1,13 +1,14 @@
 import process from 'node:process'
 import { expect, test } from '@playwright/test'
 import { env } from '../env'
+import { waitForHydration } from '../utils/hydration'
 
 test.use({ baseURL: process.env.YUN_SEARCH_URL || env['theme-yun'] })
 
 for (const mode of ['light', 'dark', 'mobile'] as const) {
   test(`Fuse search keeps focus contained and fades only overflowing results (${mode})`, async ({ page }) => {
     await page.setViewportSize(mode === 'mobile' ? { width: 390, height: 844 } : { width: 1440, height: 900 })
-    await page.emulateMedia({ colorScheme: mode === 'light' ? 'light' : 'dark' })
+    await page.emulateMedia({ colorScheme: mode === 'light' ? 'light' : 'dark', reducedMotion: 'reduce' })
     await page.route(/fonts\.(googleapis|loli)\.com/, route => route.abort())
     await page.route('**/valaxy-fuse-list.json', route => route.fulfill({
       json: Array.from({ length: 24 }, (_, i) => ({
@@ -19,9 +20,10 @@ for (const mode of ['light', 'dark', 'mobile'] as const) {
     const errors: string[] = []
     page.on('pageerror', error => errors.push(error.message))
     await page.goto('/', { waitUntil: 'domcontentloaded' })
-    // Home navigation remounts after its entrance animation.
-    await page.waitForTimeout(2500)
+    await waitForHydration(page)
+    await expect(page.locator('.yun-home-prologue-content')).toHaveClass(/is-intro-complete/)
     const trigger = page.locator('.yun-search-btn')
+    await expect(trigger).toBeVisible()
     const triggerBox = await trigger.boundingBox()
     expect(triggerBox).not.toBeNull()
     await trigger.click()

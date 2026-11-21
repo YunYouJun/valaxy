@@ -6,9 +6,13 @@ on:
   pull_request:
     branches: [main, master]
 
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: ${{ github.ref != 'refs/heads/main' }}
+
 jobs:
-  test:
-    timeout-minutes: 60
+  e2e-theme-yun:
+    timeout-minutes: 30
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v7
@@ -58,34 +62,82 @@ jobs:
       - name: Build Demo Dist
         run: pnpm run build:demo
 
+      - name: Test Theme Yun production footnotes
+        run: PLAYWRIGHT_SSG_SUITE=yun pnpm run e2e:ssg
+
+      - name: Run Theme Yun & Valaxy Playwright tests
+        run: PLAYWRIGHT_SUITE=yun pnpm exec playwright test
+
+      - uses: actions/upload-artifact@v7
+        if: always()
+        with:
+          name: playwright-report-yun
+          path: |
+            playwright-report/
+            playwright-report-ssg/
+            test-results-ssg/
+            test-results/devtools-addons/
+            test-results/typedoc-package/
+          retention-days: 30
+
+  e2e-docs:
+    timeout-minutes: 30
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          fetch-depth: 0
+      - uses: pnpm/action-setup@v6
+      - uses: actions/setup-node@v7
+        with:
+          node-version: lts/*
+          cache: pnpm
+
+      - name: Install
+        run: pnpm install --frozen-lockfile
+        env:
+          PLAYWRIGHT_SKIP_BROWSER_DOWNLOAD: 1
+
+      - name: Get Playwright version
+        id: playwright-version
+        run: echo "PLAYWRIGHT_VERSION=$(pnpm exec playwright --version | awk '{print $2}')" >> "$GITHUB_OUTPUT"
+
+      - name: Cache Playwright Browsers
+        id: playwright-cache
+        uses: actions/cache@v6
+        with:
+          path: ~/.cache/ms-playwright
+          key: ${{ runner.os }}-playwright-${{ steps.playwright-version.outputs.PLAYWRIGHT_VERSION }}
+
+      - name: Install Playwright Chromium
+        if: steps.playwright-cache.outputs.cache-hit != 'true'
+        run: pnpm exec playwright install chromium --only-shell
+
+      - name: Install Playwright system dependencies
+        run: pnpm exec playwright install-deps chromium
+
+      - name: Build Core Packages
+        run: pnpm run build
+
       - name: Build Docs SSG
         run: node scripts/measure-docs-build.mjs test-results/docs-build docs:build
 
       - name: Verify unified API links
         run: pnpm run verify:api
 
-      - name: Test production navigation and portals
-        run: pnpm run e2e:ssg
+      - name: Test Docs production navigation and portals
+        run: PLAYWRIGHT_SSG_SUITE=docs pnpm run e2e:ssg
+
+      - name: Run Docs Playwright tests
+        run: PLAYWRIGHT_SUITE=docs pnpm exec playwright test
 
       - uses: actions/upload-artifact@v7
         if: always()
         with:
-          name: playwright-ssg-report
+          name: playwright-report-docs
           path: |
+            playwright-report/
             playwright-report-ssg/
             test-results-ssg/
             test-results/docs-build/
-            test-results/typedoc-package/
-          retention-days: 30
-
-      - name: Run Playwright tests
-        run: pnpm exec playwright test
-
-      - uses: actions/upload-artifact@v7
-        if: always()
-        with:
-          name: playwright-report
-          path: |
-            playwright-report/
-            test-results/devtools-addons/
           retention-days: 30
