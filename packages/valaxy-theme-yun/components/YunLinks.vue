@@ -85,7 +85,7 @@ const isUrlSource = computed(() => typeof props.links === 'string')
     color: var(--va-c-text);
     text-align: left;
     line-height: 1.5;
-    background-color: var(--va-c-bg-light);
+    background-color: var(--yun-bg-elevated, var(--va-c-bg-light));
     border: 1px solid var(--yun-surface-line);
     border-radius: 0.75rem;
     box-shadow: inset 3px 0 0 var(--yun-link-accent);
@@ -115,7 +115,7 @@ const isUrlSource = computed(() => typeof props.links === 'string')
 
     &:hover {
       color: var(--va-c-text);
-      background-color: var(--va-c-bg-soft);
+      background-color: color-mix(in srgb, var(--yun-link-accent) 6%, var(--yun-bg-elevated, var(--va-c-bg-light)));
       box-shadow:
         inset 3px 0 0 var(--yun-link-accent),
         var(--yun-card-hover-shadow);

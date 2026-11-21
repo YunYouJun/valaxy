@@ -20,6 +20,7 @@
   --yun-nav-bg-color: rgb(255 255 255 / 0.8);
   --yun-nav-blur: 12px;
   --yun-nav-solid: #fff;
+  --yun-bg-elevated: var(--va-c-bg-light);
   --yun-surface-line: rgb(122 122 122 / 0.08);
   --yun-focus-color: var(--va-c-link);
   --yun-glass-fill: rgb(255 255 255 / 0.34);
@@ -67,13 +68,36 @@
 html.dark {
   @include set-css-var-from-map($dark);
 
-  // bg
-  // gradient
-  --va-c-bg: #1a1a1d;
-  --va-c-bg-soft: #121215;
-  --yun-home-hero-name-background: linear-gradient(120deg, var(--va-c-primary) 30%, #41d1ff);
-  --yun-nav-bg-color: rgb(26 26 29 / 0.8);
-  --yun-nav-solid: #1a1a1d;
+  // surface elevation ladder (cool slate / indigo)
+  --va-c-bg: #14161c;
+  --va-c-bg-light: #1c1e26;
+  --va-c-bg-soft: #171921;
+  --va-c-bg-dark: #161820;
+  --va-c-bg-alt: #161820;
+  --va-c-bg-mute: #262a36;
+  --va-c-bg-elevated: #232631;
+  --yun-bg-elevated: #232631;
+
+  // dark borders & surface lines
+  --va-c-border: rgb(255 255 255 / 0.14);
+  --va-c-divider: rgb(255 255 255 / 0.1);
+  --yun-surface-line: rgb(255 255 255 / 0.09);
+
+  // dark text contrast
+  --va-c-text: #e6e8ef;
+  --va-c-text-1: rgb(230 232 239 / 0.92);
+  --va-c-text-2: rgb(214 220 232 / 0.72);
+  --va-c-text-3: rgb(214 220 232 / 0.48);
+  --va-c-text-light: #cfd5e3;
+  --va-c-text-lighter: #dce1ec;
+
+  // soft sky-blue accents derived from --va-c-primary
+  --va-c-link: color-mix(in srgb, var(--va-c-primary) 58%, white);
+  --va-c-primary-light: color-mix(in srgb, var(--va-c-primary) 72%, white);
+  --va-c-primary-lighter: color-mix(in srgb, var(--va-c-primary) 46%, white);
+  --yun-home-hero-name-background: linear-gradient(120deg, var(--va-c-link) 28%, #90d5ff);
+  --yun-nav-bg-color: rgb(20 22 28 / 0.82);
+  --yun-nav-solid: #14161c;
   --yun-action-btn-hover-bg: color-mix(in srgb, var(--va-c-text) 9%, transparent);
   --yun-action-btn-active-bg: color-mix(in srgb, var(--va-c-text) 16%, transparent);
   --yun-glass-fill: rgb(255 255 255 / 0.055);
@@ -90,7 +114,7 @@ html.dark {
   --yun-glass-pressed-fill: rgb(255 255 255 / 0.12);
   --yun-glass-pressed-shadow: inset 0 1px 5px rgb(0 0 0 / 0.4);
   --yun-social-soft-base: #b4bcc8;
-  --yun-card-hover-shadow: 0 12px 32px -8px rgb(0 0 0 / 0.45);
+  --yun-card-hover-shadow: 0 12px 32px -8px rgb(0 0 0 / 0.5);
   --yun-grid-color: rgb(255 255 255 / 0.07);
   --yun-grid-highlight-color: color-mix(in srgb, var(--va-c-link) 45%, transparent);
 }

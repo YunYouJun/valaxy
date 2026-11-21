@@ -129,6 +129,7 @@ onUnmounted(() => {
 
 @media (width < 768px) {
   .yun-main > .content > .yun-card:first-child {
+    border-inline: 0;
     border-radius: 0;
   }
 }

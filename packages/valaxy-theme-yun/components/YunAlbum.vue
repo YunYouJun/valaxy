@@ -48,7 +48,7 @@ defineProps<{
     border: 1px solid var(--yun-surface-line);
     border-bottom: 0;
     border-radius: 0.5rem 0.5rem 0 0;
-    background-color: color-mix(in srgb, var(--va-c-bg-light) 65%, var(--va-c-bg-soft));
+    background-color: color-mix(in srgb, var(--yun-bg-elevated, var(--va-c-bg-light)) 65%, var(--va-c-bg-soft));
     transition: border-color 220ms ease;
   }
 
@@ -77,7 +77,7 @@ defineProps<{
   overflow: hidden;
   border: 1px solid var(--yun-surface-line);
   border-radius: 0.75rem;
-  background-color: var(--va-c-bg-light);
+  background-color: var(--yun-bg-elevated, var(--va-c-bg-light));
   transition: border-color 220ms ease, box-shadow 220ms ease;
 
   @media (prefers-reduced-motion: reduce) {

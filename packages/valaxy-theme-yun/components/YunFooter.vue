@@ -125,6 +125,7 @@ const policeCode = computed(() => {
 .yun-footer-gradient {
   --gradient-from: 161 196 253;
   --gradient-to: 194 233 251;
+  --yun-footer-gradient-opacity: 0.2;
 
   position: absolute;
   bottom: 0;
@@ -134,13 +135,18 @@ const policeCode = computed(() => {
   height: 300px;
   z-index: 999;
   pointer-events: none;
-  background: linear-gradient(to right,rgb(var(--gradient-from) / 0.2) 0,rgb(var(--gradient-to) / .2) 100%);
+  background: linear-gradient(
+    to right,
+    rgb(var(--gradient-from) / var(--yun-footer-gradient-opacity)) 0,
+    rgb(var(--gradient-to) / var(--yun-footer-gradient-opacity)) 100%
+  );
   mask-image: linear-gradient(#fff0,#000 70%);
   animation: fade-in 2s;
 
   html.dark & {
-    --gradient-from: 0 0 0;
-    --gradient-to: 0 0 0;
+    --gradient-from: 96 156 245;
+    --gradient-to: 120 140 230;
+    --yun-footer-gradient-opacity: 0.07;
   }
 }
 </style>

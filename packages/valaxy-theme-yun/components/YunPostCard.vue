@@ -18,7 +18,7 @@ const { icon, styles, color } = usePostProperty(props.post.type)
 
 const postCollections = usePostCollections(computed(() => props.post.path || ''))
 
-const gradientClasses = ref('bg-gradient-to-r gradient-text from-$va-c-primary to-$va-c-primary-lighter')
+const gradientClasses = ref('bg-gradient-to-r gradient-text from-$va-c-primary to-$va-c-primary-lighter dark:from-$va-c-link dark:to-$va-c-primary-lighter')
 const postTitleClass = computed(() => {
   if (color.value) {
     return ''

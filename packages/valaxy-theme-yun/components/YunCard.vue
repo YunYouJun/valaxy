@@ -28,4 +28,8 @@ defineProps<{ cover?: string, coverComponent?: string, coverProps?: Record<strin
 .yun-card {
   border-radius: var(--va-card-border-radius, 0.5rem);
 }
+
+:global(html.dark) .yun-card {
+  border: 1px solid var(--yun-surface-line);
+}
 </style>

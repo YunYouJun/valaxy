@@ -34,11 +34,33 @@ const categoryList = computed(() => {
     <RouterLink
       v-if="categoryItem.title"
       :to="categoryItem.path || ''"
-      class="inline-flex items-center gap-2 px-3 py-2 w-full rounded"
-      hover="bg-black/5"
+      class="yun-category-child-link inline-flex items-center gap-2 px-3 py-2 w-full"
     >
-      <div i-ri-file-text-line />
+      <span i-ri-file-text-line aria-hidden="true" />
       <span class="st-text">{{ $tO(categoryItem.title) }}</span>
     </RouterLink>
   </template>
 </template>
+
+<style lang="scss">
+.yun-category-child-link {
+  border-radius: 0.5rem;
+  color: var(--va-c-text);
+  text-decoration: none;
+  transition: background-color 180ms ease, color 180ms ease;
+
+  &:hover {
+    background-color: var(--yun-action-btn-hover-bg);
+    color: var(--va-c-link);
+  }
+
+  &:focus-visible {
+    outline: 2px solid var(--yun-focus-color);
+    outline-offset: 2px;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    transition: none;
+  }
+}
+</style>

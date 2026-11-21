@@ -82,7 +82,7 @@ const sponsorBtnTitle = computed(() => {
   border: 1px solid var(--yun-surface-line);
   border-radius: 9999px;
   color: var(--yun-sponsor-btn-color, #e15a64);
-  background-color: var(--va-c-bg-light);
+  background-color: var(--yun-bg-elevated, var(--va-c-bg-light));
   box-shadow: 0 2px 8px -2px rgb(20 35 60 / 0.08);
   cursor: pointer;
   transition:
@@ -98,13 +98,13 @@ const sponsorBtnTitle = computed(() => {
 
   &.is-open {
     border-color: color-mix(in srgb, var(--yun-sponsor-btn-color, #e15a64) 42%, var(--yun-surface-line));
-    background-color: color-mix(in srgb, var(--yun-sponsor-btn-color, #e15a64) 12%, var(--va-c-bg-light));
+    background-color: color-mix(in srgb, var(--yun-sponsor-btn-color, #e15a64) 12%, var(--yun-bg-elevated, var(--va-c-bg-light)));
   }
 
   @media (hover: hover) and (pointer: fine) {
     &:hover {
       border-color: color-mix(in srgb, var(--yun-sponsor-btn-color, #e15a64) 38%, var(--yun-surface-line));
-      background-color: color-mix(in srgb, var(--yun-sponsor-btn-color, #e15a64) 8%, var(--va-c-bg-light));
+      background-color: color-mix(in srgb, var(--yun-sponsor-btn-color, #e15a64) 8%, var(--yun-bg-elevated, var(--va-c-bg-light)));
       box-shadow: var(--yun-card-hover-shadow);
 
       @media (prefers-reduced-motion: no-preference) {
@@ -192,7 +192,7 @@ html.dark .sponsor-button {
   border: 1px solid var(--yun-surface-line);
   border-radius: 0.75rem;
   color: var(--va-c-text);
-  background-color: var(--va-c-bg-light);
+  background-color: var(--yun-bg-elevated, var(--va-c-bg-light));
   text-decoration: none;
   transition:
     transform 220ms var(--yun-ease-in-out),

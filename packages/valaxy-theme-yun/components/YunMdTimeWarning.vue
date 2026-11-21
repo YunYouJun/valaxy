@@ -31,7 +31,31 @@ const time_warning = computed(() => {
 </script>
 
 <template>
-  <blockquote v-if="time_warning" class="yun-time-warning" op="80">
-    {{ t('post.time_warning', { ago }) }}
-  </blockquote>
+  <div v-if="time_warning" class="yun-time-warning" role="note">
+    <span class="yun-time-warning-icon i-ri-time-line" aria-hidden="true" />
+    <span>{{ t('post.time_warning', { ago }) }}</span>
+  </div>
 </template>
+
+<style lang="scss">
+.yun-time-warning {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.625rem;
+  margin: 1rem 0 1.25rem;
+  padding: 0.75rem 1rem;
+  border: 1px solid color-mix(in srgb, var(--va-c-yellow-1) 28%, var(--yun-surface-line));
+  border-radius: var(--va-card-border-radius, 0.5rem);
+  background-color: var(--va-c-yellow-soft);
+  color: var(--va-c-text-1);
+  font-size: 0.875rem;
+  line-height: 1.6;
+}
+
+.yun-time-warning-icon {
+  flex-shrink: 0;
+  margin-top: 0.15rem;
+  font-size: 1.1rem;
+  color: var(--va-c-yellow-1);
+}
+</style>
