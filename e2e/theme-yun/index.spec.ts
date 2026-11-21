@@ -27,7 +27,7 @@ test.describe('Theme Yun', () => {
     await expect(page.locator('.post-title-link').nth(0)).toHaveText('Hello, Valaxy!')
   })
 
-  test('post tag hover colors are stable in dev and build', async ({ page }) => {
+  test('post tag backgrounds and hover colors are stable in dev and build', async ({ page }) => {
     await page.route('https://v1.hitokoto.cn/**', route => route.fulfill({
       json: { hitokoto: 'A stable quote for the hover test.', from_who: 'Valaxy', from: 'E2E' },
     }))
@@ -41,10 +41,14 @@ test.describe('Theme Yun', () => {
         await waitForHydration(page)
         await expect(page.locator('.say-content')).toHaveText('A stable quote for the hover test.')
 
-        const tag = page.locator('.post-tags .post-tag').first()
+        const tags = page.locator('.yun-card-actions .post-tags').first()
+        const tag = tags.locator('.post-tag').first()
+        await expect(tags).toHaveCSS('background-color', 'rgba(0, 0, 0, 0)')
+        await expect(tag).not.toHaveCSS('background-color', 'rgba(0, 0, 0, 0)')
         const linkColor = await page.locator('.yun-nav-menu a[aria-current="page"]').evaluate(el => getComputedStyle(el).color)
         await tag.hover()
         await expect(tag).toHaveCSS('color', linkColor)
+        await expect(tags).toHaveCSS('background-color', 'rgba(0, 0, 0, 0)')
 
         await page.goto(`${baseURL}/tags/`, { waitUntil: 'domcontentloaded' })
         await waitForHydration(page)

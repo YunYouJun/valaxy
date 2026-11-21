@@ -11,7 +11,7 @@ const { $tTag } = useValaxyI18n()
 
 <template>
   <div
-    class="yun-post-badge post-tags inline-flex" items="center" gap="1"
+    class="post-tags inline-flex" items="center" gap="1"
     flex="wrap 1" justify="end"
   >
     <RouterLink
