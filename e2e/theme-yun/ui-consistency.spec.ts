@@ -111,7 +111,50 @@ test.describe('Theme Yun UI consistency', () => {
       await expect(navLinks.first()).toHaveCSS('border-radius', '8px')
       await expect(navLinks.first()).toHaveCSS('text-transform', 'none')
 
+      const desktopAdBoard = page.locator('.yun-layout-left .yun-ad-board-card')
+      await expect(desktopAdBoard).toBeVisible()
+      await expect(desktopAdBoard).toHaveCSS('border-radius', '8px')
+      await expect(desktopAdBoard).toHaveCSS('padding-left', '16px')
+      await expect(desktopAdBoard).toHaveCSS('padding-right', '16px')
+
+      const sidebarCard = page.locator('.yun-layout-left .yun-card').first()
+      const [adBoardBox, sidebarCardBox] = await Promise.all([
+        desktopAdBoard.boundingBox(),
+        sidebarCard.boundingBox(),
+      ])
+      expect(adBoardBox).not.toBeNull()
+      expect(sidebarCardBox).not.toBeNull()
+      expect(Math.abs(adBoardBox!.width - sidebarCardBox!.width)).toBeLessThanOrEqual(1)
+
+      const adTitleLink = desktopAdBoard.locator('.yun-ad-board-title-link')
+      await expect(adTitleLink).toBeVisible()
+      await expect(adTitleLink).toHaveAttribute('href', '/posts/how-to-use-adboard')
+
+      const adCode = desktopAdBoard.locator('.yun-ad-board-body code')
+      await expect(adCode).toBeVisible()
+      await expect(adCode).not.toHaveCSS('background-color', 'rgba(0, 0, 0, 0)')
+
+      const mobileAdBoard = page.locator('.yun-main > .content > .yun-main-ad-board')
+      await expect(mobileAdBoard).not.toBeVisible()
+
       await page.setViewportSize({ width: 390, height: 844 })
+      await expect(mobileAdBoard).toBeVisible()
+      await expect(mobileAdBoard).toHaveCSS('margin-left', '12px')
+      await expect(mobileAdBoard).toHaveCSS('margin-right', '12px')
+      const mobileComment = page.locator('.yun-main > .content > .yun-comment')
+      await expect(mobileComment).toBeVisible()
+      const [mobileAdBox, mobileCommentBox, mobilePostNavBox] = await Promise.all([
+        mobileAdBoard.boundingBox(),
+        mobileComment.boundingBox(),
+        navLinks.first().boundingBox(),
+      ])
+      expect(mobileAdBox).not.toBeNull()
+      expect(mobileCommentBox).not.toBeNull()
+      expect(mobilePostNavBox).not.toBeNull()
+      expect(Math.abs(mobileAdBox!.x - mobileCommentBox!.x)).toBeLessThanOrEqual(1)
+      expect(Math.abs(mobileAdBox!.width - mobileCommentBox!.width)).toBeLessThanOrEqual(1)
+      expect(Math.abs(mobileAdBox!.width - mobilePostNavBox!.width)).toBeLessThanOrEqual(1)
+      await expect(desktopAdBoard).not.toBeVisible()
       expect(await page.evaluate(() => document.documentElement.scrollWidth <= window.innerWidth)).toBe(true)
       await page.setViewportSize({ width: 1280, height: 800 })
 

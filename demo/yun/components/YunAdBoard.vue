@@ -3,12 +3,8 @@
 </script>
 
 <template>
-  <YunCard>
-    <RouterLink to="/posts/how-to-use-adboard">
-      如何使用广告板？
-    </RouterLink>
-    <div>
-      小云在线征婚 +QQ群 <code>1050458482</code>
-    </div>
-  </YunCard>
+  <YunAdBoardCard title="如何使用广告板？" to="/posts/how-to-use-adboard">
+    <p>欢迎加入 Valaxy 社区交流群</p>
+    <p>QQ 群 <code>1050458482</code></p>
+  </YunAdBoardCard>
 </template>

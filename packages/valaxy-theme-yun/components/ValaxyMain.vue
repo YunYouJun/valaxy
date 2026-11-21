@@ -105,7 +105,7 @@ onUnmounted(() => {
           <YunComment :class="frontmatter.nav === false ? 'mt-4' : 0" />
         </slot>
 
-        <YunAdBoard class="mt-4 lg:hidden" />
+        <YunAdBoard class="yun-main-ad-board mt-4 lg:hidden" />
 
         <slot name="main-footer-before" />
         <slot name="main-footer-after" />
@@ -136,6 +136,17 @@ onUnmounted(() => {
 
   .yun-layout-wrapper-content:is(.has-local-outline, .has-local-menu) .yun-main > .content > .yun-card:first-child {
     border-top: 0;
+  }
+
+  .yun-main > .content > :is(.yun-comment, .yun-main-ad-board) {
+    width: auto;
+    margin-inline: 0.75rem;
+  }
+}
+
+@media (width >= 1024px) {
+  .yun-main > .content > .yun-main-ad-board {
+    display: none;
   }
 }
 </style>
