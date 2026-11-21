@@ -55,10 +55,16 @@ const photosLength = computed(() => photos.value.length || galleryRef.value?.pho
         <div text="center" class="yun-text-light" p="2">
           {{ t('counter.photos', photosLength || 0) }}
         </div>
-        <div class="page-action" text="center">
-          <a class="yun-icon-btn" :title="t('accessibility.back')" @click="() => router.back()">
-            <div i-ri-arrow-go-back-line />
-          </a>
+        <div class="page-action mb-4 flex justify-center">
+          <button
+            type="button"
+            class="yun-action-btn yun-gallery-back-btn"
+            :title="t('accessibility.back')"
+            :aria-label="t('accessibility.back')"
+            @click="() => router.back()"
+          >
+            <span i-ri-arrow-go-back-line aria-hidden="true" />
+          </button>
         </div>
         <ValaxyGalleryDecrypt v-if="encryptedPhotos" ref="galleryRef" :encrypted-photos="encryptedPhotos">
           <template #default="{ photos: decryptedPhotos }">
@@ -70,3 +76,18 @@ const photosLength = computed(() => photos.value.length || galleryRef.value?.pho
     </RouterView>
   </YunLayoutWrapper>
 </template>
+
+<style lang="scss" scoped>
+.yun-gallery-back-btn.yun-action-btn {
+  border: 1px solid var(--yun-surface-line);
+  background-color: var(--va-c-bg-light);
+
+  @media (hover: hover) and (pointer: fine) {
+    &:hover {
+      border-color: color-mix(in srgb, var(--va-c-link) 32%, var(--yun-surface-line));
+      color: var(--va-c-link);
+      background-color: color-mix(in srgb, var(--va-c-link) 6%, var(--va-c-bg-light));
+    }
+  }
+}
+</style>

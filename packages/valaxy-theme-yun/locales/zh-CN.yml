@@ -18,6 +18,9 @@ theme:
   projectDocs: 查看文档
   projectGithub: GitHub 仓库
   projectNpm: npm 包
+  postNav: 文章导航
+  sortDesc: 按最新排序（点击切换为最早）
+  sortAsc: 按最早排序（点击切换为最新）
 
 not_found:
   title: 页面不存在

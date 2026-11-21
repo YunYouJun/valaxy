@@ -37,10 +37,9 @@ watch(() => props.posts, () => {
 }, { immediate: true })
 
 const isDesc = ref(true)
+const sortLabel = computed(() => isDesc.value ? t('theme.sortDesc') : t('theme.sortAsc'))
 const sortedYears = computed(() => {
-  const y = years.value
-  const arr = y.sort((a, b) => b - a)
-  // avoid mutating the original array
+  const arr = [...years.value].sort((a, b) => b - a)
   return isDesc.value ? arr : arr.toReversed()
 })
 </script>
@@ -53,10 +52,16 @@ const sortedYears = computed(() => {
       </div>
     </Transition>
 
-    <div class="post-collapse-action" text="center">
-      <button class="yun-icon-btn shadow hover:shadow-md" @click="isDesc = !isDesc">
-        <div v-if="isDesc" i-ri-sort-desc />
-        <div v-else i-ri-sort-asc />
+    <div class="post-collapse-action my-2 flex justify-center">
+      <button
+        type="button"
+        class="yun-action-btn yun-collapse-sort-btn"
+        :title="sortLabel"
+        :aria-label="sortLabel"
+        :aria-pressed="!isDesc"
+        @click="isDesc = !isDesc"
+      >
+        <span :class="isDesc ? 'i-ri-sort-desc' : 'i-ri-sort-asc'" aria-hidden="true" />
       </button>
     </div>
 
@@ -78,9 +83,22 @@ const sortedYears = computed(() => {
 </template>
 
 <style lang="scss">
+.yun-collapse-sort-btn.yun-action-btn {
+  border: 1px solid var(--yun-surface-line);
+  background-color: var(--va-c-bg-light);
+
+  @media (hover: hover) and (pointer: fine) {
+    &:hover {
+      border-color: color-mix(in srgb, var(--va-c-link) 32%, var(--yun-surface-line));
+      color: var(--va-c-link);
+      background-color: color-mix(in srgb, var(--va-c-link) 6%, var(--va-c-bg-light));
+    }
+  }
+}
+
 .post-collapse {
   .collection-title {
-    border-bottom: 2px solid rgb(var(--va-c-primary-rgb), 0.6);
+    border-bottom: 2px solid color-mix(in srgb, var(--va-c-link) 55%, transparent);
 
     &::before {
       content: '';
@@ -88,11 +106,11 @@ const sortedYears = computed(() => {
       top: 50%;
       width: 2px;
       height: 50%;
-      background: rgb(var(--va-c-primary-rgb), 0.3);
+      background: color-mix(in srgb, var(--va-c-link) 28%, transparent);
     }
 
     .archive-year {
-      color: var(--va-c-primary);
+      color: var(--va-c-link);
       margin: 0 1.5rem;
 
       &::before {
@@ -104,7 +122,7 @@ const sortedYears = computed(() => {
         margin-top: -4px;
         width: 1.5rem;
         height: 1.5rem;
-        background: var(--va-c-primary);
+        background: var(--va-c-link);
         border-radius: 50%;
       }
     }

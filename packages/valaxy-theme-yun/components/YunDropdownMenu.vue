@@ -63,11 +63,11 @@ defineSlots<{
 <style>
 .yun-dropdown-menu-content {
   min-width: 180px;
-  background: var(--va-c-bg);
-  border: 1px solid var(--va-c-divider);
-  border-radius: 0.5rem;
+  background: var(--va-c-bg-light);
+  border: 1px solid var(--yun-surface-line);
+  border-radius: 0.625rem;
   padding: 0.25rem;
-  box-shadow: 0 4px 12px rgb(0 0 0 / 0.08);
+  box-shadow: var(--yun-card-hover-shadow);
   z-index: 100;
   animation: yun-dropdown-menu-fade-in 0.15s ease;
 }
@@ -89,7 +89,7 @@ defineSlots<{
   align-items: center;
   gap: 0.5rem;
   padding: 0.4rem 0.6rem;
-  border-radius: 0.25rem;
+  border-radius: 0.375rem;
   cursor: pointer;
   font-size: 0.8rem;
   color: var(--va-c-text-2);
@@ -99,13 +99,23 @@ defineSlots<{
 
 .yun-dropdown-menu-item:hover,
 .yun-dropdown-menu-item[data-highlighted] {
-  background: var(--va-c-bg-soft);
+  background: var(--yun-action-btn-hover-bg);
   color: var(--va-c-text);
 }
 
 .yun-dropdown-menu-separator {
   height: 1px;
-  background: var(--va-c-divider);
+  background: var(--yun-surface-line);
   margin: 0.25rem 0.5rem;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .yun-dropdown-menu-content {
+    animation: none;
+  }
+
+  .yun-dropdown-menu-item {
+    transition: none;
+  }
 }
 </style>
