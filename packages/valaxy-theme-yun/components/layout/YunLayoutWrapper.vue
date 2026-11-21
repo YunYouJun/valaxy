@@ -87,16 +87,25 @@ const classes = computed(() => {
   }
 }
 
-@media (width < 1024px) {
+@media (width < 768px) {
   .yun-layout-wrapper-content.has-local-outline,
   .yun-layout-wrapper-content.has-local-menu {
     margin-top: 0;
   }
 }
 
+@media (width >= 768px) and (width < 1024px) {
+  .yun-layout-wrapper-content.has-local-outline,
+  .yun-layout-wrapper-content.has-local-menu {
+    margin-top: 1rem;
+  }
+}
+
 @media (width >= 1024px) and (width < 1280px) {
   .yun-layout-wrapper-content.has-local-outline {
-    margin-top: 0;
+    --yun-margin-top: calc(var(--yun-nav-height, 50px) + var(--yun-local-nav-height, 40px) + 1rem);
+
+    margin-top: 1rem;
   }
 }
 </style>

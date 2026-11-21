@@ -143,4 +143,14 @@ html.dark {
 
 :root {
   --va-header-anchor-symbol: '#';
+  --va-header-anchor-copied-symbol: '✓';
+  --va-header-anchor-font-family: var(--va-font-sans);
+  --va-header-anchor-font-size: clamp(0.875rem, 0.65em, 1.35rem);
+  --va-header-anchor-color: var(--va-c-text-3);
+  --va-header-anchor-hover-color: var(--va-c-link, var(--va-c-primary));
+  --va-header-anchor-copied-color: var(--va-c-green-1, #18794e);
+  --va-header-anchor-hover-opacity: 0.85;
+  --va-header-anchor-touch-opacity: 0.55;
+  --va-header-anchor-ease: cubic-bezier(0.22, 1, 0.36, 1);
+  --va-header-anchor-gutter-gap: 0.35rem;
 }

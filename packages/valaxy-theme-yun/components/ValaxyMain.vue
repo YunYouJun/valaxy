@@ -71,7 +71,7 @@ onUnmounted(() => {
 
           <slot name="main-header-after" />
 
-          <div p="x-4 b-8" class="sm:px-6 lg:px-12 xl:px-16" w="full">
+          <div p="x-4 b-8" class="sm:px-6 md:px-10 lg:px-12 xl:px-16" w="full">
             <slot name="main-content-before" />
 
             <slot name="main-content">
@@ -131,6 +131,10 @@ onUnmounted(() => {
   .yun-main > .content > .yun-card:first-child {
     border-inline: 0;
     border-radius: 0;
+  }
+
+  .yun-layout-wrapper-content:is(.has-local-outline, .has-local-menu) .yun-main > .content > .yun-card:first-child {
+    border-top: 0;
   }
 }
 </style>

@@ -1,4 +1,5 @@
 import type { Router } from 'vue-router'
+import { copyToClipboard } from './clipboard'
 
 /**
  * @en
@@ -36,7 +37,7 @@ export function scrollTo(el: HTMLElement, hash: string, options: Partial<ScrollT
   let target: Element | null = null
   try {
     target = el.classList.contains('header-anchor')
-      ? el
+      ? (el.closest('h1, h2, h3, h4, h5, h6') || el)
       : ((decodeURIComponent(hash) && document.querySelector(decodeURIComponent(hash))) || null)
   }
   catch (e) {
@@ -70,6 +71,33 @@ interface ClickHandlerEntry {
 }
 
 const activeClickHandlers = new WeakMap<Router, ClickHandlerEntry>()
+
+const HEADER_ANCHOR_COPIED_DURATION = 1600
+const copiedAnchorTimers = new WeakMap<HTMLElement, ReturnType<typeof setTimeout>>()
+
+function copyHeaderAnchorLink(link: HTMLAnchorElement) {
+  const url = link.href || window.location.href
+  void copyToClipboard(url).then((copied) => {
+    if (!copied)
+      return
+
+    const prevTimer = copiedAnchorTimers.get(link)
+    if (prevTimer)
+      clearTimeout(prevTimer)
+
+    if (link.classList.contains('is-copied')) {
+      link.classList.remove('is-copied')
+      void link.offsetWidth
+    }
+
+    link.classList.add('is-copied')
+    const timer = setTimeout(() => {
+      link.classList.remove('is-copied')
+      copiedAnchorTimers.delete(link)
+    }, HEADER_ANCHOR_COPIED_DURATION)
+    copiedAnchorTimers.set(link, timer)
+  }).catch(() => {})
+}
 
 function safeDecodeHash(hash: string): string {
   try {
@@ -115,14 +143,21 @@ export function onClickHref(router: Router): () => void {
       ) {
         if (pathname === currentUrl.pathname) {
           e.preventDefault()
+          const isHeaderAnchor = link.classList.contains('header-anchor')
+          if (hash && isHeaderAnchor)
+            copyHeaderAnchorLink(link)
+
           // scroll between hash anchors in the same page
           if (hash && hash !== currentUrl.hash) {
             await router.push({ hash: safeDecodeHash(hash) })
 
             // use smooth scroll when clicking on header anchor links
             scrollTo(link, hash, {
-              smooth: link.classList.contains('header-anchor'),
+              smooth: isHeaderAnchor,
             })
+          }
+          else if (hash && isHeaderAnchor) {
+            scrollTo(link, hash, { smooth: true })
           }
         }
       }
