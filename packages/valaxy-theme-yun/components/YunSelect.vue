@@ -127,7 +127,7 @@ const selectedLabel = computed(() => normalizedOptions.value.find(option => opti
   overflow: hidden;
   border: 1px solid var(--yun-surface-line);
   border-radius: 0.625rem;
-  background: var(--va-c-bg-light);
+  background: var(--yun-bg-elevated, var(--va-c-bg-light));
   box-shadow: var(--yun-card-hover-shadow);
 }
 

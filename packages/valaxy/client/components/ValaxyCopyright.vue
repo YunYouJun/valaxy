@@ -40,7 +40,7 @@ const licenseHtml = computed(() => {
       <strong>
         {{ t('post.copyright.link') + t('symbol.colon') }}
       </strong>
-      <a :href="url" target="_blank" :title="t('post.copyright.link')">
+      <a :href="url" target="_blank" rel="noopener noreferrer" :title="t('post.copyright.link')">
         {{ decodePath(url) }}
       </a>
     </li>
@@ -55,14 +55,27 @@ const licenseHtml = computed(() => {
 
 <style lang="scss">
 .post-copyright {
-  font-size: 0.9rem;
-  padding: 0.5rem 1rem;
-  border-left: 4px solid var(--va-c-primary);
-  background-color: var(--va-c-bg-dark);
-  list-style: none;
-  word-break: break-all;
   position: relative;
   overflow: hidden;
+  padding: 0.75rem 1.125rem;
+  border: 1px solid var(--yun-surface-line, var(--va-c-divider));
+  border-left: 3px solid var(--va-c-link);
+  border-radius: var(--va-card-border-radius, 0.5rem);
+  background-color: var(--va-c-bg-dark);
+  color: var(--va-c-text-2);
+  font-size: 0.9rem;
+  line-height: 1.7;
+  list-style: none;
+  word-break: break-all;
+
+  strong {
+    color: var(--va-c-text);
+    font-weight: 600;
+  }
+
+  a {
+    color: var(--va-c-link);
+  }
 
   &::after {
     pointer-events: none;
@@ -74,7 +87,7 @@ const licenseHtml = computed(() => {
     width: 10rem;
     right: -2rem;
     top: -2rem;
-    opacity: 0.1;
+    opacity: 0.06;
   }
 }
 </style>

@@ -14,7 +14,7 @@ $dark: () !default;
 $dark: map.merge(
   (
     "bg": red,
-    "bg-img": radial-gradient(circle, #171424, #000),
+    "bg-img": radial-gradient(circle at 50% 0%, #1b2131, #11131a 72%),
     "sidebar-bg-img": none,
   ),
   $dark

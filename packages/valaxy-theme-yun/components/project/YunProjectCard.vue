@@ -153,7 +153,7 @@ const links = computed(() => [
   overflow: hidden;
   border: 1px solid var(--yun-surface-line);
   border-radius: var(--yun-project-card-radius, 0.75rem);
-  background-color: var(--va-c-bg-light);
+  background-color: var(--yun-bg-elevated, var(--va-c-bg-light));
   color: var(--va-c-text);
   text-align: left;
   transition: transform 220ms var(--yun-ease-in-out, ease), border-color 220ms ease, box-shadow 220ms ease;

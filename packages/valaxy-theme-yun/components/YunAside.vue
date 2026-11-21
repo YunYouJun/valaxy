@@ -150,6 +150,10 @@ function onKeydown(event: KeyboardEvent) {
     border-radius: var(--va-card-border-radius, 0.5rem);
     box-shadow: none;
 
+    html.dark & {
+      border: 1px solid var(--yun-surface-line);
+    }
+
     // On xl, sidebar toggle should not affect layout
     &.open {
       width: 320px;

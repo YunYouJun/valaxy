@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import type { CategoryList, Post } from 'valaxy'
-import { useInvisibleElement, useValaxyI18n } from 'valaxy'
-import { onMounted, ref } from 'vue'
+import { isCategoryList, useInvisibleElement, useValaxyI18n } from 'valaxy'
+import { computed, onMounted, ref } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { useRouter } from 'vue-router'
 import { yunSpringVariants } from '../composables/animation'
@@ -26,6 +26,11 @@ const router = useRouter()
 const collapse = ref(props.collapsable)
 const { t } = useI18n()
 const { $tCategory } = useValaxyI18n()
+
+const categoryLabel = computed(() => {
+  const name = isCategoryList(props.category) ? props.category.name : ''
+  return name === 'Uncategorized' ? t('category.uncategorized') : $tCategory(name)
+})
 
 const postCollapseElRef = ref<HTMLElement>()
 const { show } = useInvisibleElement(postCollapseElRef)
@@ -59,25 +64,27 @@ const motionVariants = props.level === 1
 <template>
   <li
     v-motion="motionVariants"
-    class="category-list-item inline-flex items-center cursor-pointer w-full gap-2 px-3 py-2 rounded"
-    hover="bg-black/5"
+    class="category-list-item inline-flex items-center cursor-pointer w-full gap-2 px-3 py-2"
   >
-    <span
-      class="folder-action inline-flex"
-      hover="text-$va-c-primary-lighter"
+    <button
+      type="button"
+      class="folder-action"
+      :class="{ 'is-expanded': !collapse }"
+      :aria-expanded="!collapse"
+      :aria-label="t('theme.toggleSection', { title: categoryLabel })"
       @click="collapse = !collapse"
     >
-      <div v-if="collapse" i-ri-folder-add-line />
-      <div v-else class="text-$va-c-primary dark:text-$va-c-primary-lighter" i-ri-folder-reduce-line />
-    </span>
+      <span v-if="collapse" i-ri-folder-add-line aria-hidden="true" />
+      <span v-else i-ri-folder-reduce-line aria-hidden="true" />
+    </button>
     <span
       class="category-name inline-flex items-center gap-2 w-full"
       @click="jumpToDisplayCategory(parentKey)"
     >
       <span>
-        {{ category.name === 'Uncategorized' ? t('category.uncategorized') : $tCategory(category.name) }}
+        {{ categoryLabel }}
       </span>
-      <span class="rounded-full px-1.5 bg-black/5 shadow-sm op-60" text="xs">
+      <span class="category-count">
         {{ category.total }}
       </span>
     </span>
@@ -94,8 +101,8 @@ const motionVariants = props.level === 1
       <li
         v-for="categoryItem, cI in category.children.values()"
         :key="cI"
-        class="post-list-item text-$va-c-text" m="l-4"
-        hover="text-$va-c-primary-lighter"
+        class="post-list-item"
+        m="l-4"
       >
         <YunCategoryChildItem
           :i="cI"
@@ -106,3 +113,73 @@ const motionVariants = props.level === 1
     </ul>
   </Transition>
 </template>
+
+<style lang="scss">
+.category-list-item {
+  border-radius: 0.5rem;
+  color: var(--va-c-text);
+  transition: background-color 180ms ease;
+
+  &:hover {
+    background-color: var(--yun-action-btn-hover-bg);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    transition: none;
+  }
+}
+
+.folder-action {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.125rem;
+  border: 0;
+  border-radius: 0.25rem;
+  color: var(--va-c-text-2);
+  background: transparent;
+  cursor: pointer;
+  transition: color 180ms ease;
+
+  &:hover,
+  &.is-expanded {
+    color: var(--va-c-link);
+  }
+
+  &:focus-visible {
+    outline: 2px solid var(--yun-focus-color);
+    outline-offset: 2px;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    transition: none;
+  }
+}
+
+.category-name {
+  color: var(--va-c-text);
+  transition: color 180ms ease;
+
+  &:hover {
+    color: var(--va-c-link);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    transition: none;
+  }
+}
+
+.category-count {
+  padding: 0.0625rem 0.45rem;
+  border: 1px solid var(--yun-surface-line);
+  border-radius: 9999px;
+  background-color: var(--yun-action-btn-hover-bg);
+  color: var(--va-c-text-2);
+  font-size: 0.75rem;
+  line-height: 1.4;
+}
+
+.post-list-item {
+  color: var(--va-c-text);
+}
+</style>

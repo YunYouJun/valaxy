@@ -63,7 +63,7 @@ defineSlots<{
 <style>
 .yun-dropdown-menu-content {
   min-width: 180px;
-  background: var(--va-c-bg-light);
+  background: var(--yun-bg-elevated, var(--va-c-bg-light));
   border: 1px solid var(--yun-surface-line);
   border-radius: 0.625rem;
   padding: 0.25rem;

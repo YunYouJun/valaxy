@@ -5,13 +5,13 @@
 <style lang="scss">
 .yun-gradient-line {
   --c-end: rgb(0 0 0 / 0);
-  --c-mid: rgb(0 0 0 / 1);
+  --c-mid: rgb(0 0 0 / 0.65);
 }
 
 .dark {
   .yun-gradient-line {
     --c-end: rgb(255 255 255 / 0);
-    --c-mid: rgb(255 255 255 / 1);
+    --c-mid: rgb(255 255 255 / 0.65);
   }
 }
 

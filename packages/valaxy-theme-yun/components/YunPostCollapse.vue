@@ -85,13 +85,13 @@ const sortedYears = computed(() => {
 <style lang="scss">
 .yun-collapse-sort-btn.yun-action-btn {
   border: 1px solid var(--yun-surface-line);
-  background-color: var(--va-c-bg-light);
+  background-color: var(--yun-bg-elevated, var(--va-c-bg-light));
 
   @media (hover: hover) and (pointer: fine) {
     &:hover {
       border-color: color-mix(in srgb, var(--va-c-link) 32%, var(--yun-surface-line));
       color: var(--va-c-link);
-      background-color: color-mix(in srgb, var(--va-c-link) 6%, var(--va-c-bg-light));
+      background-color: color-mix(in srgb, var(--va-c-link) 6%, var(--yun-bg-elevated, var(--va-c-bg-light)));
     }
   }
 }

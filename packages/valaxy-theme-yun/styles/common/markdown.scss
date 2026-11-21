@@ -61,10 +61,10 @@
   }
 
   hr {
-    opacity: 0.6;
-    height: 2px;
-    border-top-width: 0;
-    background-color: var(--va-c-text);
+    height: 1px;
+    margin: 1.75rem 0;
+    border: 0;
+    background-color: var(--va-c-divider);
   }
 
   // lang
@@ -102,18 +102,20 @@
       thead {
         th {
           text-align: left;
-          border: 1px solid rgb(var(--va-c-primary-rgb), 0.3);
-          background-color: rgb(var(--va-c-primary-rgb), 0.1);
+          border: 1px solid var(--va-c-divider);
+          background-color: var(--va-c-bg-soft);
+          color: var(--va-c-text);
+          font-weight: 600;
         }
       }
 
       td {
-        border: 1px solid rgb(var(--va-c-primary-rgb), 0.3);
+        border: 1px solid var(--va-c-divider);
       }
 
-      tr {
+      tbody tr {
         &:hover {
-          background-color: rgb(var(--va-c-primary-rgb), 0.05);
+          background-color: var(--yun-action-btn-hover-bg);
         }
       }
     }
