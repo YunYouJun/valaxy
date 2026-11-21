@@ -21,6 +21,10 @@ theme:
   postNav: Post navigation
   sortDesc: Sorted newest first (switch to oldest)
   sortAsc: Sorted oldest first (switch to newest)
+  postStatusDraft: Draft (visible in dev only)
+  postStatusTop: Pinned
+  postStatusHide: Hidden post
+  postStatusHideIndex: Hidden from post list
 
 not_found:
   title: Page not found

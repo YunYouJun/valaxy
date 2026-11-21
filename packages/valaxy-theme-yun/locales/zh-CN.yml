@@ -21,6 +21,10 @@ theme:
   postNav: 文章导航
   sortDesc: 按最新排序（点击切换为最早）
   sortAsc: 按最早排序（点击切换为最新）
+  postStatusDraft: 草稿（仅开发环境可见）
+  postStatusTop: 置顶
+  postStatusHide: 隐藏文章
+  postStatusHideIndex: 首页隐藏
 
 not_found:
   title: 页面不存在

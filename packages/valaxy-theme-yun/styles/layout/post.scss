@@ -28,6 +28,55 @@
   }
 }
 
+.yun-card.is-draft {
+  --yun-draft-border-color: color-mix(in srgb, #b45309 36%, var(--yun-surface-line));
+  --yun-draft-border-hover-color: color-mix(in srgb, #b45309 54%, var(--yun-surface-line));
+  --yun-feed-card-leading-color: var(--yun-draft-border-color);
+  --yun-feed-card-leading-hover-color: var(--yun-draft-border-hover-color);
+
+  border-width: 1px;
+  border-style: dashed;
+  border-color: var(--yun-draft-border-color);
+}
+
+html.dark .yun-card.is-draft:is(.post-card-wrapper, .collection-card, .yun-main .yun-card) {
+  --yun-draft-border-color: color-mix(in srgb, #f5b971 34%, var(--yun-surface-line));
+  --yun-draft-border-hover-color: color-mix(in srgb, #f5b971 54%, var(--yun-surface-line));
+
+  border-style: dashed;
+  border-color: var(--yun-draft-border-color);
+}
+
+.yun-card:is(.post-card-wrapper, .collection-card).is-draft {
+  @media (hover: hover) and (pointer: fine) {
+    &:hover {
+      border-color: var(--yun-draft-border-hover-color);
+    }
+  }
+}
+
+.post-card-wrapper {
+  .post-status-icons {
+    left: auto;
+    right: 1rem;
+  }
+
+  &.has-post-status .post-title-link {
+    max-width: calc(100% - (1.15rem + var(--yun-post-status-count, 1) * 1.975rem) * 2);
+
+    @media screen and (width <= 640px) {
+      max-width: 100%;
+      margin-top: 2.25rem;
+    }
+  }
+}
+
+.yun-main > .content > .yun-card.has-post-status .post-header {
+  @media screen and (width <= 640px) {
+    padding-top: 0.5rem;
+  }
+}
+
 .post-card {
   position: relative;
   max-width: var(--yun-post-card-max-width);

@@ -1,15 +1,20 @@
 <script lang="ts" setup>
 import type { Post } from 'valaxy'
+import { computed } from 'vue'
+import { resolveCategoryPath } from '../utils'
 
-defineProps<{
+const props = defineProps<{
   frontmatter: Post
 }>()
+
+const hasCategories = computed(() => Boolean(resolveCategoryPath(props.frontmatter.categories)))
+const hasTags = computed(() => Boolean(props.frontmatter.tags?.length))
 </script>
 
 <template>
-  <div class="inline-flex" text="sm" py="1">
-    <YunPostCategories v-if="frontmatter.categories" :categories="frontmatter.categories" />
-    <span v-if="frontmatter.categories && frontmatter.tags" mx="2" />
-    <YunPostTags v-if="frontmatter.tags" :tags="frontmatter.tags" />
+  <div v-if="hasCategories || hasTags" class="inline-flex" text="sm" py="1">
+    <YunPostCategories v-if="hasCategories" :categories="frontmatter.categories" />
+    <span v-if="hasCategories && hasTags" mx="2" />
+    <YunPostTags v-if="hasTags" :tags="frontmatter.tags!" />
   </div>
 </template>

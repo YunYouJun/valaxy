@@ -153,7 +153,7 @@ export default defineThemeConfig({
     prologue: 'grouped', // 可选：收紧介绍分组，保留简介上下两条柔和短线
   },
   postCard: {
-    excerptGradient: false,
+    // excerptGradient: false, // 默认开启摘要底部渐隐，设为 false 可关闭
     titleClass: '', // 使用纯色标题；单篇文章的 postTitleClass 优先
   },
   navbar: { glass: 'always' },

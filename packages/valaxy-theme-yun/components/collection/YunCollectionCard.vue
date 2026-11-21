@@ -3,6 +3,7 @@ import type { CollectionConfig, Post } from 'valaxy'
 import { useValaxyI18n } from 'valaxy'
 import { computed } from 'vue'
 import { useI18n } from 'vue-i18n'
+import { resolveCategoryPath } from '../../utils'
 
 const props = defineProps<{
   post: Post
@@ -16,6 +17,10 @@ const cover = computed(() => props.post.cover || props.collection.cover)
 const title = computed(() => props.post.title || props.collection.title)
 const itemCount = computed(() => props.collection.items?.length ?? 0)
 const categories = computed(() => props.post.categories?.length ? props.post.categories : props.collection.categories)
+const tags = computed(() => props.post.tags?.length ? props.post.tags : props.collection.tags)
+const hasCategories = computed(() => Boolean(resolveCategoryPath(categories.value)))
+const hasTags = computed(() => Boolean(tags.value?.length))
+const hasActions = computed(() => hasCategories.value || hasTags.value)
 
 /**
  * Preview up to 3 items from the collection
@@ -85,11 +90,11 @@ const hasMoreItems = computed(() => itemCount.value > 3)
         </div>
       </div>
 
-      <div w="full" class="yun-card-actions flex justify-between p-4" min-h="10" text="sm">
+      <div v-if="hasActions" w="full" class="yun-card-actions flex justify-between p-4" min-h="10" text="sm">
         <div class="post-categories inline-flex" flex="wrap 1" items="center">
           <YunPostCategories m="l-1" :categories="categories" />
         </div>
-        <YunPostTags v-if="post.tags || collection.tags" m="1" :tags="(post.tags || collection.tags)!" />
+        <YunPostTags v-if="hasTags" m="1" :tags="tags!" />
       </div>
     </YunCard>
   </RouterLink>

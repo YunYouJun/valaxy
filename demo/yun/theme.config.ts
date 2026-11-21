@@ -9,7 +9,6 @@ export default defineThemeConfig({
   // },
   // bg_image: {},
 
-  postCard: { excerptGradient: false },
   navbar: { glass: 'always' },
 
   banner: {

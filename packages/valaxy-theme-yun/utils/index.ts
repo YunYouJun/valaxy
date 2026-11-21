@@ -23,3 +23,13 @@ export function formatTimestamp(date: string | number | Date): string {
     template: 'YYYY-MM-DD HH:mm:ss',
   })
 }
+
+/**
+ * Normalize post categories into a slash-delimited path when non-empty.
+ */
+export function resolveCategoryPath(categories?: string | string[]): string {
+  const path = Array.isArray(categories)
+    ? categories.filter(c => c?.trim()).join('/')
+    : categories
+  return path?.trim() ? path : ''
+}

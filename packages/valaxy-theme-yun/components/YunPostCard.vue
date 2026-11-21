@@ -4,6 +4,7 @@ import { usePostCollections, useValaxyI18n } from 'valaxy'
 import { computed, ref } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { usePostProperty, useThemeConfig } from '../composables'
+import { resolveCategoryPath } from '../utils'
 
 const props = defineProps<{
   post: Post
@@ -17,6 +18,22 @@ const hasCover = computed(() => Boolean(props.post.cover || props.post.coverComp
 const { icon, styles, color } = usePostProperty(props.post.type)
 
 const postCollections = usePostCollections(computed(() => props.post.path || ''))
+
+const statusCount = computed(() =>
+  Number(Boolean(props.post.draft)) + Number(Boolean(props.post.hide)) + Number(Boolean(props.post.top)),
+)
+const cardStyle = computed(() => {
+  const result: Record<string, string | number> = {}
+  if (styles.value && typeof styles.value === 'object' && !Array.isArray(styles.value))
+    Object.assign(result, styles.value)
+  if (statusCount.value > 0)
+    result['--yun-post-status-count'] = statusCount.value
+  return Object.keys(result).length ? result : undefined
+})
+
+const hasCategories = computed(() => Boolean(resolveCategoryPath(props.post.categories)))
+const hasTags = computed(() => Boolean(props.post.tags?.length))
+const hasActions = computed(() => hasCategories.value || postCollections.value.length > 0 || hasTags.value)
 
 const gradientClasses = ref('bg-gradient-to-r gradient-text from-$va-c-primary to-$va-c-primary-lighter dark:from-$va-c-link dark:to-$va-c-primary-lighter')
 const postTitleClass = computed(() => {
@@ -32,8 +49,8 @@ const postTitleClass = computed(() => {
     <YunCard
       class="post-card-wrapper w-full"
       mx="4"
-      :class="hasCover ? 'post-card-image' : 'post-card'"
-      overflow="hidden" v-bind="styles ? { style: styles } : {}"
+      :class="[hasCover ? 'post-card-image' : 'post-card', { 'is-draft': post.draft, 'has-post-status': statusCount > 0 }]"
+      overflow="hidden" v-bind="cardStyle ? { style: cardStyle } : {}"
     >
       <!-- Overlay link covers the entire card -->
       <AppLink class="post-card-overlay" :to="post.path || ''" :aria-label="$tO(post.title)" tabindex="0" />
@@ -85,14 +102,13 @@ const postTitleClass = computed(() => {
         </div>
       </div>
 
-      <!-- always show -->
-      <div w="full" class="yun-card-actions flex items-center justify-between" p="x-4 y-2" text="sm">
+      <div v-if="hasActions" w="full" class="yun-card-actions flex items-center justify-between" p="x-4 y-2" text="sm">
         <div class="post-categories inline-flex gap-2" flex="wrap 1" items="center">
           <YunPostCategories :categories="post.categories" />
           <YunPostCollectionBadge v-if="postCollections.length" :collections="postCollections" />
         </div>
 
-        <YunPostTags v-if="post.tags" m="l-2" :tags="post.tags" />
+        <YunPostTags v-if="hasTags" m="l-2" :tags="post.tags" />
       </div>
     </YunCard>
   </div>

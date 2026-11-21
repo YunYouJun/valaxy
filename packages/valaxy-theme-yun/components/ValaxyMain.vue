@@ -54,6 +54,7 @@ onUnmounted(() => {
       >
         <YunCard
           :cover="frontmatter.cover" :cover-component="frontmatter.coverComponent" :cover-props="frontmatter.coverProps"
+          :class="{ 'is-draft': frontmatter.draft, 'has-post-status': Boolean(frontmatter.draft || frontmatter.hide || frontmatter.top) }"
           m="0" v-bind="styles ? { style: styles } : {}"
         >
           <YunPostActions />

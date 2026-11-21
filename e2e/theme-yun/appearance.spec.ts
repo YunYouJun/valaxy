@@ -93,7 +93,9 @@ test('excerpt option, navigation glass and original post interactions work toget
   await waitForHydration(page)
   await expect(page.locator('.say-content')).toHaveText('A stable quote for the hover test.')
   const card = page.locator('.post-card-wrapper').first()
-  await expect(page.locator('.yun-excerpt-bottom-gradient')).toHaveCount(0)
+  const excerptGradient = card.locator('.yun-excerpt-bottom-gradient')
+  await expect(excerptGradient).toHaveCount(1)
+  await expect(excerptGradient).toHaveCSS('pointer-events', 'none')
   await expect(page.locator('.yun-nav-menu')).toHaveClass(/is-glass/)
   await expect(page.locator('.yun-nav-menu')).toHaveCSS('backdrop-filter', 'none')
   await expect.poll(() => page.locator('.yun-nav-menu').evaluate(el => getComputedStyle(el, '::before').backdropFilter)).not.toBe('none')
@@ -113,4 +115,69 @@ test('excerpt option, navigation glass and original post interactions work toget
   await page.keyboard.press('Enter')
   await expect.poll(() => new URL(page.url()).pathname).toBe(href)
   await expect(page.locator('.post-header')).toBeVisible()
+})
+
+test('post status bookmark flags, tooltips, draft border and empty actions work cleanly', async ({ page }) => {
+  await page.route('https://v1.hitokoto.cn/**', route => route.fulfill({
+    json: { hitokoto: 'A stable quote for the status test.', from_who: 'Valaxy', from: 'E2E' },
+  }))
+
+  await page.goto('/', { waitUntil: 'domcontentloaded' })
+  await waitForHydration(page)
+
+  const firstCard = page.locator('.post-card-wrapper').first()
+  const topBookmark = firstCard.locator('.post-status-bookmark.is-top')
+  await expect(topBookmark).toBeVisible()
+
+  const titleBox = await firstCard.locator('.post-title-link').boundingBox()
+  const topBookmarkBox = await topBookmark.boundingBox()
+  expect(titleBox).not.toBeNull()
+  expect(topBookmarkBox).not.toBeNull()
+  expect(topBookmarkBox!.x).toBeGreaterThanOrEqual(titleBox!.x + titleBox!.width)
+
+  await topBookmark.hover()
+  await expect(page.locator('.yun-tooltip')).toHaveText(/置顶|Pinned/)
+  await page.mouse.move(10, 10)
+
+  const emptyActionsCard = page.locator('.post-card-wrapper').filter({ hasText: '代码块图标测试' }).first()
+  await expect(emptyActionsCard).toBeVisible()
+  await expect(emptyActionsCard.locator('.yun-card-actions')).toHaveCount(0)
+
+  if (!process.env.YUN_APPEARANCE_URL) {
+    await page.goto(env['theme-yun-dev'], { waitUntil: 'domcontentloaded' })
+    await waitForHydration(page)
+
+    const draftCard = page.locator('.post-card-wrapper').filter({ hasText: '草稿测试' }).first()
+    await expect(draftCard).toHaveClass(/is-draft/)
+    await expect(draftCard).toHaveCSS('border-top-style', 'dashed')
+
+    const draftTopBookmark = draftCard.locator('.post-status-bookmark.is-top')
+    const draftBookmark = draftCard.locator('.post-status-bookmark.is-draft')
+    await expect(draftTopBookmark).toBeVisible()
+    await expect(draftBookmark).toBeVisible()
+
+    const draftTitleBox = await draftCard.locator('.post-title-link').boundingBox()
+    const draftTopBox = await draftTopBookmark.boundingBox()
+    expect(draftTitleBox).not.toBeNull()
+    expect(draftTopBox).not.toBeNull()
+    expect(draftTopBox!.x).toBeGreaterThanOrEqual(draftTitleBox!.x + draftTitleBox!.width)
+
+    await draftBookmark.hover()
+    await expect(page.locator('.yun-tooltip')).toHaveText(/草稿|Draft/)
+
+    await page.goto(`${env['theme-yun-dev']}/posts/draft`, { waitUntil: 'domcontentloaded' })
+    await waitForHydration(page)
+
+    const articleCard = page.locator('.yun-main .yun-card').first()
+    await expect(articleCard).toHaveClass(/is-draft/)
+    await expect(articleCard).toHaveCSS('border-top-style', 'dashed')
+
+    const articleDraftBookmark = articleCard.locator('.post-status-bookmark.is-draft')
+    await expect(articleDraftBookmark).toBeVisible()
+    const cardBox = await articleCard.boundingBox()
+    const articleBookmarkBox = await articleDraftBookmark.boundingBox()
+    expect(cardBox).not.toBeNull()
+    expect(articleBookmarkBox).not.toBeNull()
+    expect(articleBookmarkBox!.x + articleBookmarkBox!.width).toBeLessThan(cardBox!.x + cardBox!.width / 2)
+  }
 })
