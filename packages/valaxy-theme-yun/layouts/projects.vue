@@ -8,7 +8,7 @@ const fm = useFrontmatter()
 
 <template>
   <YunLayoutWrapper>
-    <div flex="~ col">
+    <div flex="~ col" class="w-full">
       <YunProjects />
       <!-- <YunLayoutLeft /> -->
       <!-- <RouterView /> -->

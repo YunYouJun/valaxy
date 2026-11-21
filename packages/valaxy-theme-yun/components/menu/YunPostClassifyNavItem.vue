@@ -14,22 +14,20 @@ defineProps<{
 <template>
   <RouterLink
     flex="~ col center"
-    class="post-classify-nav-item gap-1 w-20 p-2 rounded transition op-80"
+    class="post-classify-nav-item gap-1 w-20 p-2"
     :to="to"
     :title="title"
-    hover="bg-$va-c-bg-soft op-100"
+    :aria-label="title"
   >
-    <div flex="~ col" class="text-$va-c-text inline-flex-center gap-1">
+    <div flex="~ col" class="inline-flex-center gap-1">
       <!-- Use CSS to toggle icons based on router-link-active class to avoid SSR hydration mismatch -->
-      <div class="text-2xl icon-default" :class="icon" />
-      <div v-if="activeIcon" class="text-2xl icon-active" :class="activeIcon" />
+      <div class="text-2xl icon-default" :class="icon" aria-hidden="true" />
+      <div v-if="activeIcon" class="text-2xl icon-active" :class="activeIcon" aria-hidden="true" />
       <span class="text-xs">
         {{ title }}
       </span>
     </div>
-    <span
-      class="count text-base text-black/80 dark:text-white/80"
-    >
+    <span class="count text-base">
       {{ total }}
     </span>
   </RouterLink>
@@ -37,12 +35,42 @@ defineProps<{
 
 <style lang="scss">
 .post-classify-nav-item {
+  border-radius: var(--yun-action-btn-radius, 0.625rem);
+  color: var(--va-c-text-2);
+  transition: background-color var(--va-transition-duration-fast, 180ms) ease, color var(--va-transition-duration-fast, 180ms) ease;
+
+  .count {
+    color: var(--va-c-text);
+  }
+
   .icon-active {
     display: none;
   }
 
+  @media (hover: hover) and (pointer: fine) {
+    &:hover {
+      color: var(--va-c-text);
+      background-color: var(--yun-action-btn-hover-bg);
+    }
+  }
+
+  &:active {
+    color: var(--va-c-text);
+    background-color: var(--yun-action-btn-active-bg);
+  }
+
+  &:focus-visible {
+    outline: 2px solid var(--yun-focus-color);
+    outline-offset: 1px;
+  }
+
   &.router-link-active {
-    background-color: rgb(var(--va-c-primary-rgb), 0.08);
+    color: var(--va-c-link);
+    background-color: color-mix(in srgb, var(--va-c-link) 10%, transparent);
+
+    .count {
+      color: var(--va-c-link);
+    }
 
     .icon-default {
       display: none;
@@ -51,6 +79,10 @@ defineProps<{
     .icon-active {
       display: block;
     }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    transition: none;
   }
 }
 </style>

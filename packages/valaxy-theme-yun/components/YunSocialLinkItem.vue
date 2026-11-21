@@ -13,11 +13,14 @@ const { $t } = useValaxyI18n()
   <a
     class="links-of-author-item yun-icon-btn"
     :class="{ 'social-link-invert-in-dark': social.color === 'black' }"
-    rel="noopener" :href="social.link" :title="$t(social.name)"
+    rel="noopener"
+    :href="social.link"
+    :title="$t(social.name)"
+    :aria-label="$t(social.name)"
     target="_blank"
     :style="`color:${social.color}`"
   >
-    <div class="icon" :class="social.icon" />
+    <div class="icon" :class="social.icon" aria-hidden="true" />
   </a>
 </template>
 
