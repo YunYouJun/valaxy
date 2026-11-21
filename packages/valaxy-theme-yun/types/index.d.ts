@@ -7,6 +7,12 @@ declare module 'valaxy' {
      * @description:zh-CN Yun 主题页面标题的 CSS 类。
      */
     pageTitleClass?: string
+    /**
+     * @description:en-US Control collapsible right-aside outline sections (`'auto'` expands only the active branch while scrolling).
+     * @description:zh-CN 控制右侧文章目录折叠（`true` 默认展开且支持折叠，`auto` 跟随阅读仅展开当前章节，`false` 关闭折叠）。
+     * @default true
+     */
+    outlineCollapsible?: boolean | 'auto'
   }
 
   interface PostFrontMatter {
@@ -162,6 +168,12 @@ export interface ThemeConfig extends DefaultTheme.Config {
    * @default 'On this page'
    */
   outlineTitle: string
+
+  /**
+   * Enable collapsible sections in the page outline (`'auto'` keeps only the active branch expanded).
+   * @default true
+   */
+  outlineCollapsible?: boolean | 'auto'
 
   /**
    * @zh 配色

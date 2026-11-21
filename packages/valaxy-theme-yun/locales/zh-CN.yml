@@ -11,6 +11,8 @@ theme:
   closeMenu: 关闭菜单
   outlineTitle: 本页
   closeOutline: 关闭目录
+  collapseAllOutline: 收起全部子目录
+  expandAllOutline: 展开全部子目录
   closeSearch: 关闭搜索
   toggleSection: 展开或收起{title}
   all: 全部

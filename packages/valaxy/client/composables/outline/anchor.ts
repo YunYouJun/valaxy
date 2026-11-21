@@ -1,7 +1,7 @@
 import type { Ref } from 'vue'
 import { resolvedHeaders } from '@valaxyjs/utils'
-import { onMounted, onUnmounted, onUpdated } from 'vue'
-import { throttleAndDebounce } from '../../utils'
+import { nextTick, onMounted, onUnmounted, shallowRef } from 'vue'
+import { onContentUpdated, throttleAndDebounce } from '../../utils'
 import { useAside } from '../aside'
 
 // magic number to avoid repeated retrieval
@@ -43,27 +43,60 @@ function findLinkByHash(container: HTMLElement, hash: string): HTMLAnchorElement
     .find(link => safeDecode(link.hash) === target) ?? null
 }
 
+/**
+ * When the active outline link sits inside a collapsed branch, walk up to
+ * the nearest expanded ancestor item so the indicator tracks a visible row.
+ */
+function resolveVisibleLink(link: HTMLAnchorElement): HTMLAnchorElement {
+  let cur: HTMLAnchorElement = link
+  while (true) {
+    const collapsedBranch = cur.closest('[data-outline-collapsed="true"]')
+    if (!collapsedBranch)
+      return cur
+
+    const parentItem = collapsedBranch.closest('.va-toc-item')
+    const parentLink = parentItem?.querySelector<HTMLAnchorElement>(
+      ':scope > a[href*="#"]',
+    )
+    if (!parentLink || parentLink === cur)
+      return cur
+
+    cur = parentLink
+  }
+}
+
 export function useActiveAnchor(
   container: Ref<HTMLElement>,
   marker: Ref<HTMLElement>,
 ) {
   const { isAsideEnabled } = useAside()
   const onScroll = throttleAndDebounce(setActiveLink, 100)
+  const activeLink = shallowRef<string | null>(null)
 
   let prevActiveLink: HTMLAnchorElement | null = null
+
+  const onHashChange = () => {
+    activateLink(location.hash || null)
+  }
 
   onMounted(() => {
     requestAnimationFrame(setActiveLink)
     window.addEventListener('scroll', onScroll)
+    window.addEventListener('hashchange', onHashChange)
   })
 
-  onUpdated(() => {
-    // sidebar update means a route change
-    activateLink(location.hash)
+  onContentUpdated(() => {
+    void nextTick(() => {
+      if (location.hash)
+        activateLink(location.hash)
+      else
+        setActiveLink()
+    })
   })
 
   onUnmounted(() => {
     window.removeEventListener('scroll', onScroll)
+    window.removeEventListener('hashchange', onHashChange)
   })
 
   /**
@@ -71,16 +104,14 @@ export function useActiveAnchor(
    * @see e2e/theme-yun/outline.spec.ts
    */
   const checkActiveLinkInViewport = () => {
-    const activeLink = prevActiveLink
-    if (!activeLink) {
-      // container.value.scrollIntoView({ behavior: 'smooth', block: 'start' })
+    const visibleLink = prevActiveLink ? resolveVisibleLink(prevActiveLink) : null
+    if (!visibleLink)
       return
-    }
 
     const parentEl = document.querySelector('.yun-aside') as HTMLElement
     if (parentEl) {
       // 超出
-      const top = activeLink.offsetTop + topOffset + 60
+      const top = visibleLink.offsetTop + topOffset + 60
       if (top < parentEl.scrollTop || (top > parentEl.offsetHeight + parentEl.scrollTop))
         parentEl.scrollTo({ top, behavior: 'smooth' })
     }
@@ -123,35 +154,56 @@ export function useActiveAnchor(
     }
 
     // find the last header above the top of viewport
-    let activeLink: string | null = null
+    let currentHash: string | null = null
     for (const { link, top } of headers) {
       if (top > scrollY + 4 + PAGE_OFFSET)
         break
 
-      activeLink = link
+      currentHash = link
     }
-    activateLink(activeLink)
+    activateLink(currentHash)
   }
 
-  function activateLink(hash: string | null) {
-    if (prevActiveLink)
-      prevActiveLink.classList.remove('active')
+  function updateMarkerPosition(targetLink: HTMLAnchorElement | null) {
+    if (!marker.value)
+      return
 
-    prevActiveLink = hash ? findLinkByHash(container.value, hash) : null
-
-    const activeLink = prevActiveLink
-    checkActiveLinkInViewport()
-
-    if (activeLink) {
-      activeLink.classList.add('active')
-      marker.value.style.top = `${activeLink.offsetTop + topOffset}px`
+    const visibleLink = targetLink ? resolveVisibleLink(targetLink) : null
+    if (visibleLink) {
+      marker.value.style.top = `${visibleLink.offsetTop + topOffset}px`
       marker.value.style.opacity = '1'
     }
     else {
-      if (marker.value) {
-        marker.value.style.top = `${topOffset}px`
-        marker.value.style.opacity = '0'
-      }
+      marker.value.style.top = `${topOffset}px`
+      marker.value.style.opacity = '0'
     }
+  }
+
+  function refreshMarker() {
+    if (!container.value)
+      return
+    updateMarkerPosition(prevActiveLink)
+  }
+
+  function activateLink(hash: string | null) {
+    activeLink.value = hash || null
+
+    if (prevActiveLink)
+      prevActiveLink.classList.remove('active')
+
+    prevActiveLink = hash && container.value ? findLinkByHash(container.value, hash) : null
+
+    const currentLink = prevActiveLink
+    checkActiveLinkInViewport()
+
+    if (currentLink)
+      currentLink.classList.add('active')
+
+    updateMarkerPosition(currentLink)
+  }
+
+  return {
+    activeLink,
+    refreshMarker,
   }
 }

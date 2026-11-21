@@ -12,6 +12,7 @@ export const defaultThemeConfig: ThemeConfig = {
   },
 
   outlineTitle: 'On this page',
+  outlineCollapsible: true,
   colors: {
     primary: '#0078E7',
   },

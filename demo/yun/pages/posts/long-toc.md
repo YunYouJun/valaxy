@@ -1,6 +1,7 @@
 ---
 title: 长目录测试
 categories: Test
+outline: [2, 3]
 ---
 
 ::: zh-CN

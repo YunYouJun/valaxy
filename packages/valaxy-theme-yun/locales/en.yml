@@ -11,6 +11,8 @@ theme:
   closeMenu: Close menu
   outlineTitle: On this page
   closeOutline: Close contents
+  collapseAllOutline: Collapse all sections
+  expandAllOutline: Expand all sections
   closeSearch: Close search
   toggleSection: Toggle {title}
   all: All
