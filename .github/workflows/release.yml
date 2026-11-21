@@ -83,16 +83,80 @@ jobs:
     needs: release
     if: github.repository == 'YunYouJun/valaxy'
     runs-on: ubuntu-latest
+    environment: edgeone-production
+    concurrency:
+      group: edgeone-production
+      queue: max
     permissions:
-      contents: write
+      contents: read
     steps:
       - uses: actions/checkout@v7
         with:
+          ref: ${{ github.sha }}
           fetch-depth: 0
+          persist-credentials: false
 
-      - name: Advance the EdgeOne production branch to the released tag
-        # A fast-forward push prevents an older release rerun from rolling back the mirrors.
-        run: git push origin HEAD:refs/heads/edgeone-release
+      - name: Verify published release
+        id: verify
+        env:
+          GH_TOKEN: ${{ github.token }}
+          RELEASE_TAG: ${{ github.ref_name }}
+        run: |
+          published_tags="$(gh api --paginate "repos/$GITHUB_REPOSITORY/releases?per_page=100" \
+            --jq '.[] | select(.draft == false and .published_at != null) | .tag_name')"
+          if ! grep -Fxq -- "$RELEASE_TAG" <<< "$published_tags"; then
+            echo "::error::$RELEASE_TAG has no published GitHub release."
+            exit 1
+          fi
+
+          # The old release branch rejected rollbacks through a fast-forward-only push.
+          release_commit="$(git rev-parse HEAD)"
+          for tag in $(git tag --contains HEAD 'v*'); do
+            if [[ "$(git rev-parse "$tag^{commit}")" != "$release_commit" ]] &&
+              grep -Fxq -- "$tag" <<< "$published_tags"; then
+              echo "::notice::$RELEASE_TAG has been superseded by $tag."
+              echo 'deploy=false' >> "$GITHUB_OUTPUT"
+              exit 0
+            fi
+          done
+          echo 'deploy=true' >> "$GITHUB_OUTPUT"
+
+      - name: Install pnpm
+        if: steps.verify.outputs.deploy == 'true'
+        uses: pnpm/action-setup@v6
+
+      - name: Use Node.js LTS
+        if: steps.verify.outputs.deploy == 'true'
+        uses: actions/setup-node@v7
+        with:
+          node-version: 'lts/*'
+          package-manager-cache: false
+
+      - name: Build the sites from the release commit
+        if: steps.verify.outputs.deploy == 'true'
+        run: |
+          pnpm install --frozen-lockfile
+          pnpm run build:all
+          pnpm docs:build
+          pnpm demo:build
+          cp -R demo/yun/edge-functions demo/yun/dist/
+          printf '%s\n' '{"private":true,"type":"module"}' > demo/yun/dist/package.json
+
+      - name: Deploy production sites to EdgeOne
+        if: steps.verify.outputs.deploy == 'true'
+        shell: bash
+        env:
+          EDGEONE_PAGES_API_TOKEN: ${{ secrets.EDGEONE_PAGES_API_TOKEN }}
+          EDGEONE_PAGES_API_REGION: china
+        run: |
+          : "${EDGEONE_PAGES_API_TOKEN:?Configure EDGEONE_PAGES_API_TOKEN in the edgeone-production environment}"
+          deploy() (
+            cd "$1"
+            pnpm dlx edgeone@1.7.6 makers deploy . --name "$2" --env production --skip-ai-gateway-sync --json |
+              sed -E 's@\?[^"[:space:]]+@[query omitted]@g'
+          )
+          deploy docs/dist yunyoujun-valaxy-upload
+          deploy demo/yun/dist yunyoujun-valaxy-yun-upload
 
   release-addon:
     if: >
