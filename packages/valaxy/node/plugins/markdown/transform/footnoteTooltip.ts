@@ -13,9 +13,8 @@ export function transformFootnoteTooltip(code: string, _id: string) {
       .replace(/<ValaxyFootnoteAnchor.*?>(.*?)<\/ValaxyFootnoteAnchor>/gs, (_, anchor) => anchor)
     footnoteContentMap.set(id, tooltipContent)
     return itemContent
-  // eslint-disable-next-line regexp/no-super-linear-backtracking
-  }).replace(/<ValaxyFootnoteRef href="#(.*?)".*?>(.*?)<\/ValaxyFootnoteRef>/gs, (_, href: string, content: string) => {
+  }).replace(/<ValaxyFootnoteRef href="#([^"]+)" id="[^"]+"( kind="author")?>(.*?)<\/ValaxyFootnoteRef>/gs, (_, href: string, kind: string | undefined, content: string) => {
     // Keep the public component and slots independent of the preview implementation.
-    return `<ValaxyFootnoteTooltip>${content}<template #popper>${footnoteContentMap.get(href)}</template></ValaxyFootnoteTooltip>`
+    return `<ValaxyFootnoteTooltip${kind ?? ''}>${content}<template #popper>${footnoteContentMap.get(href)}</template></ValaxyFootnoteTooltip>`
   })
 }

@@ -818,6 +818,21 @@ export default defineAppSetup(({ app }) => {
 ```
 
 
+### Author’s Notes
+
+Start a footnote label with `author-` to add an aside, correction, or update. Yun styles the reference number distinctly, and the preview displays “Author’s note”. The note body supports Markdown, including emphasis, inline code, links, and multiple paragraphs.
+
+```md
+In 2020, I used Hexo, GitHub Pages, and Travis CI[^author-ci].
+
+[^author-ci]: **A note from years later.** My main hope for `Travis CI` was to see the green light a little sooner.
+
+    I switched to [Valaxy](/guide/why) later. I kept this paragraph as a record of how I built the site back then.
+```
+
+See the [Yun author’s note example](https://yun.valaxy.site/test/author-notes). Valaxy adds `data-footnote-kind="author"` to the reference and popover for themes. Other Markdown renderers with footnote support can display the same source as a regular footnote.
+
+
 ## Custom
 
 

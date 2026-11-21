@@ -12,7 +12,11 @@ export function footnoteTooltipPlugin(md: MarkdownRenderer) {
       // here use RegExp to find id="..." since relying on the pattern of id="fn..."/id="fnref..." is not reliable
       const href = originalCode.match(/href="(.*?)"/)![0] // Assume that only 1 href is present
       const id = originalCode.match(/id="(.*?)"/)![0] // Assume that only 1 id is present
-      return `<ValaxyFootnoteRef ${href} ${id}>${originalCode}</ValaxyFootnoteRef>`
+      const label = tokens[idx]?.meta?.label
+      const kind = typeof label === 'string' && label.startsWith('author-') && label.length > 'author-'.length
+        ? ' kind="author"'
+        : ''
+      return `<ValaxyFootnoteRef ${href} ${id}${kind}>${originalCode}</ValaxyFootnoteRef>`
     })
   }
 

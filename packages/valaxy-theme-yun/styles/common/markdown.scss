@@ -98,6 +98,17 @@
     }
   }
 
+  .va-footnote[data-footnote-kind="author"] .footnote-ref a {
+    border: 1px solid var(--va-c-divider);
+    border-radius: 0.35em;
+    padding-inline: 0.25em;
+    background-color: var(--va-c-bg-soft);
+  }
+
+  &.va-footnote-popover[data-footnote-kind="author"] .va-footnote-label {
+    color: var(--va-c-link);
+  }
+
   // lang
   div[class*='language-'].line-numbers-mode {
     /* rtl:ignore */
