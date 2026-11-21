@@ -68,6 +68,11 @@ test.describe('Theme Yun UI consistency', () => {
       await expect(actionsBtn).toHaveClass(/\byun-action-btn\b/)
       await expect(actionsBtn).toHaveAttribute('type', 'button')
 
+      const endLineHr = page.locator('.markdown-body .end hr.line').first()
+      await expect(endLineHr).toBeVisible()
+      await expect(endLineHr).toHaveCSS('height', '1px')
+      expect(await endLineHr.evaluate(el => getComputedStyle(el, '::before').content)).toBe('none')
+
       const sponsorBtn = page.locator('.sponsor-button')
       await expect(sponsorBtn).toBeVisible()
       await expect(sponsorBtn).toHaveAttribute('type', 'button')
@@ -128,6 +133,35 @@ test.describe('Theme Yun UI consistency', () => {
       await expect(sortBtn).toHaveAttribute('aria-pressed', 'true')
       const yearsAfter = await yearsLocator.allInnerTexts()
       expect(yearsAfter).toEqual([...yearsBefore].reverse())
+
+      // 6. Prose <hr> cloud divider vs structural footnotes-sep on /posts/hello-valaxy
+      await page.goto('/posts/hello-valaxy', { waitUntil: 'domcontentloaded' })
+      await waitForHydration(page)
+
+      const proseHr = page.locator('.markdown-body hr:not(.line, .footnotes-sep)').first()
+      await expect(proseHr).toBeVisible()
+      await expect(proseHr).toHaveCSS('background-color', 'rgba(0, 0, 0, 0)')
+      await expect(proseHr).toHaveCSS('height', '20px')
+      const proseHrBgImage = await proseHr.evaluate(el => getComputedStyle(el).backgroundImage)
+      expect(proseHrBgImage).toContain('linear-gradient')
+      const proseHrBefore = await proseHr.evaluate((el) => {
+        const style = getComputedStyle(el, '::before')
+        return {
+          content: style.content,
+          width: style.width,
+          height: style.height,
+          maskImage: style.maskImage || style.webkitMaskImage,
+        }
+      })
+      expect(proseHrBefore.content).not.toBe('none')
+      expect(proseHrBefore.width).toBe('24px')
+      expect(proseHrBefore.height).toBe('16px')
+      expect(proseHrBefore.maskImage).toContain('data:image/svg+xml')
+
+      const footnotesSep = page.locator('.markdown-body hr.footnotes-sep').first()
+      await expect(footnotesSep).toBeVisible()
+      await expect(footnotesSep).toHaveCSS('height', '1px')
+      expect(await footnotesSep.evaluate(el => getComputedStyle(el, '::before').content)).toBe('none')
     })
   }
 })

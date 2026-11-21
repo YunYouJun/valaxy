@@ -22,6 +22,9 @@
   --yun-nav-solid: #fff;
   --yun-bg-elevated: var(--va-c-bg-light);
   --yun-surface-line: rgb(122 122 122 / 0.08);
+  --yun-hr-color: color-mix(in srgb, var(--va-c-text) 14%, transparent);
+  --yun-hr-icon-color: color-mix(in srgb, var(--va-c-text) 34%, transparent);
+  --yun-hr-icon: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 16' fill='none' stroke='%23000' stroke-width='1.4' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M6.5 13.5a3.25 3.25 0 1 1 1-6.34A4.5 4.5 0 0 1 16.5 7.16a3.25 3.25 0 1 1 1 6.34Z'/%3E%3C/svg%3E");
   --yun-focus-color: var(--va-c-link);
   --yun-glass-fill: rgb(255 255 255 / 0.34);
   --yun-glass-sheen: rgb(255 255 255 / 0.42);
@@ -82,6 +85,8 @@ html.dark {
   --va-c-border: rgb(255 255 255 / 0.14);
   --va-c-divider: rgb(255 255 255 / 0.1);
   --yun-surface-line: rgb(255 255 255 / 0.09);
+  --yun-hr-color: rgb(255 255 255 / 0.14);
+  --yun-hr-icon-color: rgb(214 220 232 / 0.42);
 
   // dark text contrast
   --va-c-text: #e6e8ef;

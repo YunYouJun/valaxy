@@ -67,6 +67,37 @@
     background-color: var(--va-c-divider);
   }
 
+  hr:not(.line, .footnotes-sep) {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: var(--yun-hr-height, 1.25rem);
+    margin: 2rem auto;
+    border: 0;
+    background-color: transparent;
+    background-image:
+      linear-gradient(to right, transparent 8%, var(--yun-hr-color)),
+      linear-gradient(to left, transparent 8%, var(--yun-hr-color));
+    background-position: left center, right center;
+    background-size: max(0px, 50% - var(--yun-hr-gap, 1.25rem)) 1px;
+    background-repeat: no-repeat;
+    overflow: visible;
+
+    &::before {
+      content: '';
+      display: block;
+      flex-shrink: 0;
+      width: var(--yun-hr-icon-width, 1.5rem);
+      height: var(--yun-hr-icon-height, 1rem);
+      background-color: var(--yun-hr-icon-color);
+      mask-image: var(--yun-hr-icon);
+      mask-position: center;
+      mask-size: contain;
+      mask-repeat: no-repeat;
+    }
+  }
+
   // lang
   div[class*='language-'].line-numbers-mode {
     /* rtl:ignore */

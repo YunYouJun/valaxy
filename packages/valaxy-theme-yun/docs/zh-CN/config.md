@@ -190,6 +190,7 @@ export default defineThemeConfig({
 | `--yun-post-excerpt-color` / `--yun-post-excerpt-opacity` | 摘要颜色 / `0.9` |
 | `--yun-post-excerpt-line-height` / `--yun-prose-line-height` | 摘要 `1.7` / 正文 `1.8` |
 | `--yun-surface-line` | 卡片表面与内部分隔线；亮色默认 `rgb(122 122 122 / 0.08)`，暗色默认 `rgb(255 255 255 / 0.09)` |
+| `--yun-hr-color` / `--yun-hr-icon-color` / `--yun-hr-icon` | 正文分割线渐变颜色、云朵装饰颜色与 SVG 遮罩图形，亮暗自动适配 |
 | `--yun-bg-elevated` | 嵌套子卡片与浮层的抬升表面底色；亮色默认 `--va-c-bg-light`，暗色默认跟随 `--va-c-bg-elevated`（`#232631`） |
 | `--yun-focus-color` | 键盘焦点颜色，默认链接色 |
 | `--yun-say-color` / `--yun-say-font-weight` / `--yun-say-border-color` | 语录文字颜色、字重与分隔线颜色；分隔线暗色默认 `rgb(255 255 255 / 0.09)` |
