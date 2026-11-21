@@ -57,7 +57,10 @@ onUnmounted(() => {
           :class="{ 'is-draft': frontmatter.draft, 'has-post-status': Boolean(frontmatter.draft || frontmatter.hide || frontmatter.top) }"
           m="0" v-bind="styles ? { style: styles } : {}"
         >
-          <YunPostActions />
+          <div class="yun-reading-actions">
+            <div data-yun-author-note-actions />
+            <YunPostActions />
+          </div>
           <div class="mt-8 mb-4">
             <slot name="main-header">
               <YunPageHeader
@@ -116,6 +119,16 @@ onUnmounted(() => {
 
 <style lang="scss">
 @use 'valaxy/client/styles/mixins/index.scss' as *;
+
+.yun-reading-actions {
+  position: absolute;
+  inset-block-start: 0.75rem;
+  inset-inline-end: 0.75rem;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  gap: 0.125rem;
+}
 
 @include screen('xl') {
   .content{

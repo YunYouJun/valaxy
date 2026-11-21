@@ -11,6 +11,11 @@ theme:
   closeMenu: Close menu
   outlineTitle: On this page
   closeOutline: Close contents
+  authorNotes: Author’s notes
+  authorNoteLabel: Author’s note {label}
+  showAuthorNotes: Show author’s notes
+  hideAuthorNotes: Hide author’s notes
+  backToAuthorNote: Jump back to reference {label}
   closeSearch: Close search
   toggleSection: Toggle {title}
   all: All

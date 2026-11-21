@@ -822,6 +822,8 @@ export default defineAppSetup(({ app }) => {
 
 Start a footnote label with `author-` to add an aside, correction, or update. Yun styles the reference number distinctly, and the preview displays “Author’s note”. The note body supports Markdown, including emphasis, inline code, links, and multiple paragraphs.
 
+On wide screens, Yun displays all author’s notes in the right margin. Notes align with their references and stack downward when they would overlap. Select either number to jump between the note and the text. The article toolbar toggles the margin, and the original popover is available on narrow screens or when the margin is closed.
+
 ```md
 In 2020, I used Hexo, GitHub Pages, and Travis CI[^author-ci].
 

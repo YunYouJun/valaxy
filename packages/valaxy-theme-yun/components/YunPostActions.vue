@@ -110,13 +110,6 @@ function onSelect(key: string) {
 </template>
 
 <style lang="scss">
-.yun-post-actions {
-  position: absolute;
-  top: 0.75rem;
-  right: 0.75rem;
-  z-index: 1;
-}
-
 .yun-post-actions-btn.yun-action-btn {
   --yun-action-btn-icon-size: 1.125rem;
 

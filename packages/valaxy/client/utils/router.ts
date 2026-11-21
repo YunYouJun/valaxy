@@ -124,7 +124,8 @@ export function onClickHref(router: Router): () => void {
         ? e.target
         : (e.target as Node | null)?.parentElement
       const link = targetEl?.closest('a')
-      if (!link)
+      // Let controls that own their anchor navigation handle it themselves.
+      if (!link || link.hasAttribute('data-valaxy-native-link'))
         return
 
       const { protocol, hostname, pathname, hash, target } = link

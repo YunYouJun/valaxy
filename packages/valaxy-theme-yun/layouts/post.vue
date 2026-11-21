@@ -49,6 +49,7 @@ useSchemaOrg(
 <template>
   <YunLayoutWrapper
     outline-nav
+    author-notes
     :local-menu="!!collection"
     :local-menu-open="menuOpen"
     :local-menu-label="t('theme.collectionMenu')"
