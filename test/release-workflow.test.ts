@@ -14,8 +14,16 @@ interface Workflow {
     environment?: string
     if?: string
     needs?: string
+    concurrency?: { group: string, queue: string }
     permissions: Record<string, string>
-    steps: { 'id'?: string, 'run'?: string, 'env'?: Record<string, string>, 'working-directory'?: string }[]
+    steps: {
+      'id'?: string
+      'if'?: string
+      'run'?: string
+      'env'?: Record<string, string>
+      'with'?: Record<string, unknown>
+      'working-directory'?: string
+    }[]
   }>
 }
 
@@ -52,16 +60,23 @@ describe('npm release workflows', () => {
     }))
   })
 
-  it('advances the EdgeOne branch after successful tagged publication', () => {
+  it('uploads the exact published release to EdgeOne after successful publication', () => {
     expect(release.on.push.tags).toEqual(['v*'])
     expect(release.jobs.release.if).toBe('startsWith(github.ref, \'refs/tags/\')')
     const job = release.jobs['deploy-mirrors']
     expect(job.needs).toBe('release')
     expect(job.if).toBe('github.repository == \'YunYouJun/valaxy\'')
-    expect(job.permissions).toEqual({ contents: 'write' })
+    expect(job.permissions).toEqual({ contents: 'read' })
+    expect(job.environment).toBe('edgeone-production')
+    expect(job.concurrency).toEqual({ group: 'edgeone-production', queue: 'max' })
     expect(job.steps).toContainEqual(expect.objectContaining({
-      run: 'git push origin HEAD:refs/heads/edgeone-release',
+      with: { 'ref': expect.stringMatching(/^\$\{\{ github\.sha \}\}$/), 'fetch-depth': 0, 'persist-credentials': false },
     }))
+    const upload = job.steps.find(step => step.run?.includes('makers deploy'))!
+    expect(upload.if).toBe('steps.verify.outputs.deploy == \'true\'')
+    expect(upload.env?.EDGEONE_PAGES_API_TOKEN).toMatch(/^\$\{\{ secrets\.EDGEONE_PAGES_API_TOKEN \}\}$/)
+    expect(upload.run).toContain('deploy docs/dist yunyoujun-valaxy-upload')
+    expect(upload.run).toContain('deploy demo/yun/dist yunyoujun-valaxy-yun-upload')
   })
 
   it('preserves the legacy identity with a manual-only, validated addon input', () => {
