@@ -99,6 +99,16 @@ test('aligns wide author notes to their source, avoids collisions and remembers 
   await expect(rail.getByRole('region')).toHaveCount(2)
   await expect(first.locator('strong')).toHaveText('多年后补记。')
   await expect(first.getByRole('link', { name: 'Valaxy' })).toHaveAttribute('href', 'https://valaxy.site/zh/guide/why')
+  for (const note of [first, second]) {
+    const number = (await note.locator('.yun-author-note-index').boundingBox())!
+    const paragraphs = await note.locator('.yun-author-note-content > p').evaluateAll(elements => elements.map((element) => {
+      const { x, y } = element.getBoundingClientRect()
+      return { x, y }
+    }))
+    expect(paragraphs[0]!.x).toBeGreaterThan(number.x + number.width)
+    expect(Math.abs(paragraphs[0]!.y - number.y)).toBeLessThan(1)
+    expect(paragraphs.every(paragraph => paragraph.x === paragraphs[0]!.x)).toBe(true)
+  }
   await expect(hide).toHaveClass(/yun-action-btn/)
   const matchesToken = await hide.evaluate((button) => {
     const styles = getComputedStyle(button)
@@ -153,4 +163,33 @@ test('aligns wide author notes to their source, avoids collisions and remembers 
   await expect(hide).toHaveCount(0)
   await page.getByRole('button', { name: '预览作者旁注', exact: true }).first().click()
   await expect(page.getByRole('dialog', { name: '作者旁注' })).toContainText('那颗绿灯早点亮')
+})
+
+test('gives authors’ notes starting with a code block or table the full card width', async ({ page, isMobile }) => {
+  test.skip(isMobile, 'The reading rail requires a wide viewport')
+  await page.setViewportSize({ width: 1440, height: 900 })
+  await page.goto('/test/author-note-layout', { waitUntil: 'domcontentloaded' })
+  await waitForHydration(page)
+
+  const rail = page.getByRole('complementary', { name: '作者旁注', exact: true })
+  const code = rail.getByRole('region', { name: '作者旁注 [1]', exact: true })
+  const table = rail.getByRole('region', { name: '作者旁注 [2]', exact: true })
+  const prose = rail.getByRole('region', { name: '作者旁注 [3]', exact: true })
+  await expect(code.locator('pre')).toContainText('pnpm build')
+  await expect(table.locator('table')).toContainText('GitHub Pages')
+  await expect(prose.locator('pre')).toContainText('pnpm dev')
+
+  for (const note of [code, table]) {
+    const number = (await note.locator('.yun-author-note-index').boundingBox())!
+    const content = (await note.locator('.yun-author-note-content').boundingBox())!
+    const card = (await note.boundingBox())!
+    expect(content.y).toBeGreaterThan(number.y + number.height)
+    expect(content.x).toBe(number.x)
+    expect(Math.abs(content.width - (card.width - 2 * (content.x - card.x)))).toBeLessThan(1)
+  }
+
+  const number = (await prose.locator('.yun-author-note-index').boundingBox())!
+  const content = (await prose.locator('.yun-author-note-content').boundingBox())!
+  expect(content.x).toBeGreaterThan(number.x + number.width)
+  expect(Math.abs(content.y - number.y)).toBeLessThan(1)
 })

@@ -226,14 +226,24 @@ onUnmounted(() => cancelAnimationFrame(frame))
 .yun-author-note-card {
   position: absolute;
   inset-inline: 0;
+  display: grid;
+  grid-template-columns: max-content minmax(0, 1fr);
+  gap: 0.4rem 0.55rem;
+  align-items: start;
   padding: 0.8rem 0.9rem;
   border: 1px solid var(--yun-surface-line);
   border-radius: var(--yun-action-btn-radius);
   background: var(--yun-bg-elevated);
   color: var(--va-c-text-2);
   font-size: 0.875rem;
+  line-height: 1.65;
   scroll-margin-block-start: var(--yun-margin-top);
   overflow-wrap: anywhere;
+
+  // Valaxy wraps highlighted fences and hydrated tables.
+  &:has(> .yun-author-note-content > :first-child:is(pre, table, .table-container, .vp-code-group, div[class*='language-'])) {
+    grid-template-columns: minmax(0, 1fr);
+  }
 
   &:is(:hover, [data-current]) {
     border-color: color-mix(in srgb, var(--va-c-link) 38%, var(--yun-surface-line));
@@ -247,8 +257,8 @@ onUnmounted(() => cancelAnimationFrame(frame))
 
 .yun-author-note-index {
   display: inline-flex;
+  justify-self: start;
   padding: 0 0.25em;
-  margin-block-end: 0.4rem;
   border-radius: 0.25em;
   background: var(--yun-action-btn-hover-bg);
   color: var(--va-c-link);
@@ -256,8 +266,9 @@ onUnmounted(() => cancelAnimationFrame(frame))
 }
 
 .yun-author-note-content.markdown-body {
+  min-width: 0;
   font-size: inherit;
-  line-height: 1.65;
+  line-height: inherit;
 
   > :first-child {
     margin-block-start: 0;
