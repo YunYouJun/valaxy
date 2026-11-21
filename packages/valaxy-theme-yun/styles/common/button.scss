@@ -10,7 +10,7 @@
   border-radius: 50%;
   transition: background-color var(--va-transition-duration);
 
-  div {
+  > :is(div, span, svg) {
     font-size: 1.2rem;
   }
 
@@ -23,23 +23,54 @@
   }
 }
 
+:where(.yun-action-btn) {
+  display: inline-flex;
+}
+
+.yun-action-btn {
+  flex-shrink: 0;
+  align-items: center;
+  justify-content: center;
+  width: var(--yun-action-btn-size);
+  height: var(--yun-action-btn-size);
+  padding: 0;
+  border: 0;
+  border-radius: var(--yun-action-btn-radius);
+  color: var(--va-c-text-2);
+  background-color: transparent;
+  cursor: pointer;
+  transition: background-color var(--va-transition-duration-fast, 180ms) ease, color var(--va-transition-duration-fast, 180ms) ease;
+
+  > :is(div, span:not(.vt-hamburger-container), svg) {
+    width: var(--yun-action-btn-icon-size, 1.25rem);
+    height: var(--yun-action-btn-icon-size, 1.25rem);
+  }
+
+  @media (hover: hover) and (pointer: fine) {
+    &:hover {
+      color: var(--va-c-text);
+      background-color: var(--yun-action-btn-hover-bg);
+    }
+  }
+
+  &:active {
+    color: var(--va-c-text);
+    background-color: var(--yun-action-btn-active-bg);
+  }
+
+  &:focus-visible {
+    outline: 2px solid var(--yun-focus-color);
+    outline-offset: 1px;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    transition: none;
+  }
+}
+
 .yun-icon-btn:focus-visible,
-.yun-nav-menu a:focus-visible,
+.yun-nav-menu a:not(.yun-action-btn):focus-visible,
 .yun-main .markdown-body a:focus-visible {
   outline: 2px solid var(--yun-focus-color);
   outline-offset: 3px;
-}
-
-// Opening and closing search occupy the same navigation button slot.
-.yun-search-action {
-  border-radius: 0;
-  color: var(--va-c-text);
-
-  > div {
-    opacity: 0.8;
-  }
-
-  &:hover > div {
-    opacity: 1;
-  }
 }

@@ -11,6 +11,7 @@ theme:
   closeMenu: Close menu
   outlineTitle: On this page
   closeOutline: Close contents
+  closeSearch: Close search
   toggleSection: Toggle {title}
 
 not_found:

@@ -30,12 +30,10 @@ const app = useAppStore()
     }"
   >
     <!--  -->
-    <div class="inline-flex justify-start items-center flex-1">
+    <div class="inline-flex justify-start items-center flex-1 gap-1">
       <ValaxyHamburger
         :active="yunApp.fullscreenMenu.isOpen"
-        class="menu-btn sidebar-toggle leading-4 size-12 lg:hidden!"
-        inline-flex cursor="pointer"
-        hover="bg-white/80 dark:bg-black/80"
+        class="menu-btn sidebar-toggle yun-action-btn leading-4 lg:hidden!"
         z="$yun-z-menu-btn"
         @click="yunApp.fullscreenMenu.toggle()"
       />
@@ -55,7 +53,7 @@ const app = useAppStore()
       <YunNavMenuTitle />
     </div>
 
-    <div class="inline-flex-center justify-end items-center flex-1">
+    <div class="inline-flex-center justify-end items-center flex-1 gap-1">
       <!-- <template v-if="!app.isMobile && themeConfig.nav">
         <template v-for="item in themeConfig.nav" :key="item.text">
           <AppLink

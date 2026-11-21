@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import type YunDrawerHeader from '../ui/YunDrawerHeader.vue'
 import { useEventListener, useMediaQuery } from '@vueuse/core'
 import { nextTick, useTemplateRef, watch } from 'vue'
 import { useI18n } from 'vue-i18n'
@@ -11,11 +12,11 @@ const { collection } = useYunCollection()
 const { t } = useI18n()
 const route = useRoute()
 const isDesktop = useMediaQuery('(min-width: 1024px)', { ssrWidth: 1280 })
-const closeButton = useTemplateRef<HTMLButtonElement>('closeButton')
+const drawerHeader = useTemplateRef<InstanceType<typeof YunDrawerHeader>>('drawerHeader')
 
 watch(isOpen, (open) => {
   if (open)
-    nextTick(() => closeButton.value?.focus({ preventScroll: true }))
+    nextTick(() => drawerHeader.value?.focusClose())
 })
 
 watch(() => route.fullPath, () => isOpen.value = false)
@@ -51,18 +52,13 @@ function onNavClick(event: MouseEvent) {
       class="yun-collection-mobile"
       :aria-label="t('theme.collectionContents')"
     >
-      <div class="yun-collection-mobile-header">
-        <span>{{ t('theme.collectionContents') }}</span>
-        <button
-          ref="closeButton"
-          type="button"
-          class="yun-icon-btn"
-          :aria-label="t('theme.closeMenu')"
-          @click="close(true)"
-        >
-          <span i-ri-close-line aria-hidden="true" />
-        </button>
-      </div>
+      <YunDrawerHeader
+        ref="drawerHeader"
+        class="yun-collection-mobile-header"
+        :title="t('theme.collectionContents')"
+        :close-label="t('theme.closeMenu')"
+        @close="close(true)"
+      />
       <div class="yun-collection-mobile-content" @click="onNavClick">
         <YunCollectionSidebar />
       </div>
@@ -80,21 +76,9 @@ function onNavClick(event: MouseEvent) {
   display: flex;
   flex-direction: column;
   width: min(20rem, calc(100vw - 2.5rem));
-  border-radius: 0 0.5rem 0.5rem 0;
+  border-radius: 0 var(--yun-drawer-radius, 1rem) var(--yun-drawer-radius, 1rem) 0;
   background: var(--va-c-bg);
   box-shadow: 12px 0 40px rgb(0 0 0 / 0.12);
-}
-
-.yun-collection-mobile-header {
-  display: flex;
-  flex: none;
-  align-items: center;
-  justify-content: space-between;
-  min-height: 56px;
-  padding: 0 12px 0 20px;
-  border-bottom: 1px solid var(--yun-surface-line);
-  font-size: 16px;
-  font-weight: 600;
 }
 
 .yun-collection-mobile-content {

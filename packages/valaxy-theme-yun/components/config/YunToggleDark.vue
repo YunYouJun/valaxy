@@ -56,14 +56,26 @@ async function toggle(event: MouseEvent) {
 </script>
 
 <template>
-  <button type="button" class="yun-icon-btn yun-toggle-dark" :title="title" :aria-label="title" @mousedown.prevent @click="toggle">
-    <div i="ri-sun-line dark:ri-moon-line" />
+  <button type="button" class="yun-action-btn yun-toggle-dark" :title="title" :aria-label="title" @mousedown.prevent @click="toggle">
+    <div i="ri-sun-line dark:ri-moon-line" aria-hidden="true" />
   </button>
 </template>
 
 <style>
-.yun-toggle-dark { color: #f1cb64; }
-html.dark .yun-toggle-dark { color: inherit; }
+.yun-toggle-dark.yun-action-btn,
+.yun-toggle-dark.yun-action-btn:hover {
+  color: #f1cb64;
+}
+
+html.dark .yun-toggle-dark.yun-action-btn {
+  color: var(--va-c-text-2);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  html.dark .yun-toggle-dark.yun-action-btn:hover {
+    color: var(--va-c-text);
+  }
+}
 
 /* Override Valaxy's direction-dependent snapshot stacking in both themes. */
 html.theme-reveal::view-transition-old(root) {

@@ -1,5 +1,6 @@
 import { expect, test } from '@playwright/test'
 import { setup } from '../utils'
+import { waitForHydration } from '../utils/hydration'
 
 setup('theme-yun')
 
@@ -34,5 +35,42 @@ test.describe('TOC', () => {
     // so target a visible outline link rather than .first().
     const tocLink = page.locator('.yun-aside .va-toc-item .outline-link').locator('visible=true').first()
     await expect(tocLink).toBeVisible()
+  })
+
+  test('mobile outline drawer aligns close button and keeps focus ring inside header', async ({ page }) => {
+    await page.setViewportSize({ width: 390, height: 844 })
+    await page.goto('/posts/hello-valaxy', { waitUntil: 'domcontentloaded' })
+    await waitForHydration(page)
+
+    const trigger = page.locator('.yun-local-outline-trigger')
+    await expect(trigger).toBeVisible()
+    await trigger.focus()
+    await page.keyboard.press('Enter')
+
+    const aside = page.locator('#yun-page-outline')
+    const header = aside.locator('.yun-aside-mobile-header')
+    const closeBtn = aside.locator('.yun-aside-close')
+    await expect(aside).toHaveClass(/\bopen\b/)
+    await expect(aside).toBeVisible()
+    await expect(header).toBeVisible()
+    await expect(closeBtn).toBeFocused()
+    await expect(closeBtn).toHaveCSS('border-radius', '10px')
+    await expect(closeBtn).toHaveCSS('outline-style', 'solid')
+    await expect(closeBtn).toHaveCSS('outline-offset', '1px')
+
+    const icon = closeBtn.locator('span')
+    await expect(icon).toHaveCSS('width', '20px')
+    await expect(icon).toHaveCSS('height', '20px')
+
+    const headerBox = await header.boundingBox()
+    const closeBox = await closeBtn.boundingBox()
+    expect(headerBox).not.toBeNull()
+    expect(closeBox).not.toBeNull()
+    expect(closeBox!.y - 3).toBeGreaterThanOrEqual(headerBox!.y)
+    expect(closeBox!.y + closeBox!.height + 3).toBeLessThanOrEqual(headerBox!.y + headerBox!.height)
+
+    await closeBtn.click()
+    await expect(aside).not.toHaveClass(/open/)
+    await expect(trigger).toBeFocused()
   })
 })
