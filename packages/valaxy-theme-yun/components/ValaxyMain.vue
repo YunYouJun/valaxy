@@ -71,7 +71,7 @@ onUnmounted(() => {
 
           <slot name="main-header-after" />
 
-          <div p="x-4 b-8" class="sm:px-6 lg:px-12 xl:px-16" w="full">
+          <div p="x-4 b-8" class="sm:px-6 md:px-10 lg:px-12 xl:px-16" w="full">
             <slot name="main-content-before" />
 
             <slot name="main-content">

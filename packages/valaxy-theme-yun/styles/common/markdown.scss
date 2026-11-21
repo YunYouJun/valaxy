@@ -5,6 +5,10 @@
   --smc-font-serif: var(--va-font-serif);
   --smc-font-mono: var(--va-font-mono);
   --c-toc-link: var(--va-c-text-light);
+  --va-header-anchor-ease: var(--yun-ease-in);
+  --va-header-anchor-color: var(--va-c-text-3);
+  --va-header-anchor-hover-color: var(--va-c-link);
+  --va-header-anchor-copied-color: var(--va-c-green-1);
 }
 
 .dark {
@@ -193,5 +197,22 @@
     margin-right: -50vw !important;
     width: 100vw !important;
     height: auto;
+  }
+}
+
+.post-card-excerpt-content.markdown-body .header-anchor {
+  --va-header-anchor-shift: -4px;
+
+  position: relative;
+  top: auto;
+  inset-inline-end: auto;
+  height: auto;
+  margin-inline: 0.1em 0;
+  padding-inline: 0.2em;
+  line-height: 1;
+  vertical-align: middle;
+
+  &::after {
+    inset: -0.35rem -0.45rem -0.35rem -0.15rem;
   }
 }

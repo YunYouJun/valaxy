@@ -1,5 +1,6 @@
 export * from '../../shared'
 export * from './cdn'
+export * from './clipboard'
 export * from './code'
 export * from './content'
 export * from './helper'

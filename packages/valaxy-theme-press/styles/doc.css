@@ -53,6 +53,7 @@
 
   /* since it already has a top padding of 1.5rem, we don't need extra scroll margin */
   --press-extra-scroll-margin: 0px;
+  --va-header-anchor-top: 1.5rem;
 }
 
 .press-doc h3 {
@@ -69,37 +70,11 @@
   font-size: 1.125rem;
 }
 
-.press-doc .header-anchor {
-  position: absolute;
-  top: 0;
-  left: 0;
-  margin-left: -0.87em;
-  font-weight: 500;
-  user-select: none;
-  opacity: 0;
-  text-decoration: none;
-  transition:
-    color var(--va-transition-duration),
-    opacity var(--va-transition-duration);
-}
-
-.press-doc .header-anchor::before {
-  content: var(--press-header-anchor-symbol);
-}
-
-.press-doc h1:hover .header-anchor,
-.press-doc h1 .header-anchor:focus,
-.press-doc h2:hover .header-anchor,
-.press-doc h2 .header-anchor:focus,
-.press-doc h3:hover .header-anchor,
-.press-doc h3 .header-anchor:focus,
-.press-doc h4:hover .header-anchor,
-.press-doc h4 .header-anchor:focus,
-.press-doc h5:hover .header-anchor,
-.press-doc h5 .header-anchor:focus,
-.press-doc h6:hover .header-anchor,
-.press-doc h6 .header-anchor:focus {
-  opacity: 1;
+.press-doc {
+  --va-header-anchor-symbol: var(--press-header-anchor-symbol);
+  --va-header-anchor-color: var(--press-c-text-3);
+  --va-header-anchor-hover-color: var(--press-c-brand-1);
+  --va-header-anchor-copied-color: var(--press-c-success-1);
 }
 
 @media (width >= 48rem) {
@@ -108,10 +83,6 @@
     line-height: 1.25;
     font-size: 2rem;
   }
-}
-
-.press-doc h2 .header-anchor {
-  top: 1.5rem;
 }
 
 /**

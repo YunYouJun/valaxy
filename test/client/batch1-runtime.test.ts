@@ -31,6 +31,8 @@ describe('batch 1 client runtime safety & cleanup', () => {
   })
 
   afterEach(() => {
+    vi.useRealTimers()
+    window.history.replaceState(null, '', '/')
     for (const cleanup of activeCleanups)
       cleanup()
     activeCleanups = []
@@ -180,5 +182,130 @@ describe('batch 1 client runtime safety & cleanup', () => {
     )
 
     app.unmount()
+  })
+
+  it('copies header-anchor link synchronously, scrolls to its heading, and clears .is-copied after timeout', async () => {
+    vi.useFakeTimers()
+    const writeText = vi.fn().mockResolvedValue(undefined)
+    Object.defineProperty(navigator, 'clipboard', {
+      value: { writeText },
+      configurable: true,
+    })
+    const scrollToSpy = vi.spyOn(window, 'scrollTo').mockImplementation(() => {})
+
+    let resolvePush!: () => void
+    const push = vi.fn().mockImplementation(() => new Promise<void>((resolve) => {
+      resolvePush = resolve
+    }))
+    const router = { push } as unknown as Router
+    activeCleanups.push(onClickHref(router))
+
+    const heading = document.createElement('h2')
+    heading.id = 'section-one'
+    heading.getBoundingClientRect = () => ({ top: 320 } as DOMRect)
+    const anchor = document.createElement('a')
+    anchor.className = 'header-anchor'
+    anchor.href = '#section-one'
+    anchor.getBoundingClientRect = () => ({ top: 999 } as DOMRect)
+    heading.append('Section One ', anchor)
+    document.body.appendChild(heading)
+
+    anchor.dispatchEvent(new MouseEvent('click', { bubbles: true }))
+
+    // Clipboard write must start synchronously before router.push settles
+    expect(writeText).toHaveBeenCalledTimes(1)
+    expect(writeText).toHaveBeenCalledWith(anchor.href)
+    expect(push).toHaveBeenCalledWith({ hash: '#section-one' })
+
+    resolvePush()
+    await vi.advanceTimersByTimeAsync(0)
+
+    expect(anchor.classList.contains('is-copied')).toBe(true)
+    expect(scrollToSpy).toHaveBeenCalledWith({
+      top: 256,
+      behavior: 'smooth',
+    })
+
+    await vi.advanceTimersByTimeAsync(1600)
+    expect(anchor.classList.contains('is-copied')).toBe(false)
+  })
+
+  it('re-copies active header-anchor without pushing duplicate history and ignores regular hash links', async () => {
+    vi.useFakeTimers()
+    const writeText = vi.fn().mockResolvedValue(undefined)
+    Object.defineProperty(navigator, 'clipboard', {
+      value: { writeText },
+      configurable: true,
+    })
+    vi.spyOn(window, 'scrollTo').mockImplementation(() => {})
+
+    const push = vi.fn().mockResolvedValue(undefined)
+    const router = { push } as unknown as Router
+    activeCleanups.push(onClickHref(router))
+
+    window.history.replaceState(null, '', '#section-active')
+
+    const heading = document.createElement('h2')
+    heading.id = 'section-active'
+    const anchor = document.createElement('a')
+    anchor.className = 'header-anchor'
+    anchor.href = '#section-active'
+    heading.append('Active Section ', anchor)
+
+    const regularLink = document.createElement('a')
+    regularLink.href = '#other-section'
+    regularLink.textContent = 'Jump'
+    document.body.append(heading, regularLink)
+
+    anchor.dispatchEvent(new MouseEvent('click', { bubbles: true }))
+    await vi.advanceTimersByTimeAsync(0)
+
+    expect(writeText).toHaveBeenCalledTimes(1)
+    expect(writeText).toHaveBeenCalledWith(anchor.href)
+    expect(push).not.toHaveBeenCalled()
+    expect(anchor.classList.contains('is-copied')).toBe(true)
+
+    regularLink.dispatchEvent(new MouseEvent('click', { bubbles: true }))
+    await vi.advanceTimersByTimeAsync(0)
+
+    expect(writeText).toHaveBeenCalledTimes(1)
+    expect(regularLink.classList.contains('is-copied')).toBe(false)
+  })
+
+  it('falls back to execCommand when clipboard.writeText rejects for header-anchor clicks', async () => {
+    vi.useFakeTimers()
+    const writeText = vi.fn().mockRejectedValue(new Error('Permission denied'))
+    Object.defineProperty(navigator, 'clipboard', {
+      value: { writeText },
+      configurable: true,
+    })
+    const execCommand = vi.fn().mockReturnValue(true)
+    Object.defineProperty(document, 'execCommand', {
+      value: execCommand,
+      configurable: true,
+    })
+    vi.spyOn(window, 'scrollTo').mockImplementation(() => {})
+
+    const push = vi.fn().mockResolvedValue(undefined)
+    const router = { push } as unknown as Router
+    activeCleanups.push(onClickHref(router))
+
+    const heading = document.createElement('h2')
+    heading.id = 'fallback-section'
+    const anchor = document.createElement('a')
+    anchor.className = 'header-anchor'
+    anchor.href = '#fallback-section'
+    heading.append('Fallback ', anchor)
+    document.body.appendChild(heading)
+
+    anchor.dispatchEvent(new MouseEvent('click', { bubbles: true }))
+    await vi.advanceTimersByTimeAsync(0)
+
+    expect(writeText).toHaveBeenCalledTimes(1)
+    expect(execCommand).toHaveBeenCalledWith('copy')
+    expect(anchor.classList.contains('is-copied')).toBe(true)
+
+    await vi.advanceTimersByTimeAsync(1600)
+    expect(anchor.classList.contains('is-copied')).toBe(false)
   })
 })

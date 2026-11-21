@@ -1,5 +1,22 @@
 @use "sass:map";
 
+@mixin header-anchor-inline {
+  --va-header-anchor-shift: -4px;
+
+  position: relative;
+  top: auto;
+  inset-inline-end: auto;
+  height: auto;
+  margin-inline: 0.1em 0;
+  padding-inline: 0.2em;
+  line-height: 1;
+  vertical-align: middle;
+
+  &::after {
+    inset: -0.35rem -0.45rem -0.35rem -0.15rem;
+  }
+}
+
 .markdown-body {
   h1,
   h2,
@@ -60,39 +77,123 @@
   // header-anchor
   .header-anchor {
     position: absolute;
-    top: 0;
-    left: 0;
-    margin-left: -0.87em;
+    top: var(--va-header-anchor-top, 0);
+    inset-inline-end: 100%;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    height: 1.5em;
+    margin-inline-end: var(--va-header-anchor-gutter-gap, 0.35rem);
+    padding-inline: 0.15rem;
+    border-bottom: 0;
+    border-radius: 0.25rem;
+    color: var(--va-header-anchor-color, var(--va-c-text-3));
+    font-family: var(--va-header-anchor-font-family, var(--va-font-sans));
     font-weight: 500;
+    line-height: inherit;
+    text-decoration: none;
     user-select: none;
     opacity: 0;
-    text-decoration: none;
+    transform: translateX(var(--va-header-anchor-shift, 4px));
     transition:
-      color var(--va-transition-duration),
-      opacity var(--va-transition-duration);
+      color var(--va-transition-duration-fast, 0.15s) ease,
+      opacity 0.2s var(--va-header-anchor-ease, cubic-bezier(0.22, 1, 0.36, 1)),
+      transform 0.22s var(--va-header-anchor-ease, cubic-bezier(0.22, 1, 0.36, 1));
+
+    @supports (height: 1lh) {
+      height: 1lh;
+    }
   }
 
   .header-anchor::before {
     content: var(--va-header-anchor-symbol, '#');
-
-    &:hover {
-      text-decoration: none;
-    }
+    display: inline-block;
+    font-size: var(--va-header-anchor-font-size, clamp(0.875rem, 0.65em, 1.35rem));
+    line-height: 1;
   }
 
-  h1:hover .header-anchor,
-  h1 .header-anchor:focus,
-  h2:hover .header-anchor,
-  h2 .header-anchor:focus,
-  h3:hover .header-anchor,
-  h3 .header-anchor:focus,
-  h4:hover .header-anchor,
-  h4 .header-anchor:focus,
-  h5:hover .header-anchor,
-  h5 .header-anchor:focus,
-  h6:hover .header-anchor,
-  h6 .header-anchor:focus {
+  .header-anchor::after {
+    content: '';
+    position: absolute;
+    inset: -0.25rem -0.5rem -0.25rem -0.35rem;
+  }
+
+  :where(h1, h2, h3, h4, h5, h6):hover > .header-anchor {
+    opacity: var(--va-header-anchor-hover-opacity, 0.85);
+    transform: translateX(0);
+  }
+
+  .header-anchor:hover,
+  .header-anchor:focus-visible {
+    border-bottom: 0;
+    color: var(--va-header-anchor-hover-color, var(--va-c-link, var(--va-c-primary)));
+    text-decoration: none;
     opacity: 1;
+    transform: translateX(0);
+  }
+
+  .header-anchor.is-copied,
+  .header-anchor.is-copied:hover,
+  .header-anchor.is-copied:focus-visible {
+    border-bottom: 0;
+    color: var(--va-header-anchor-copied-color, var(--va-c-green-1, #18794e));
+    text-decoration: none;
+    opacity: 1;
+    transform: translateX(0);
+  }
+
+  .header-anchor.is-copied::before {
+    content: var(--va-header-anchor-copied-symbol, '✓');
+    animation: va-header-anchor-pop 0.32s var(--va-header-anchor-ease, cubic-bezier(0.22, 1, 0.36, 1));
+  }
+
+  :is(blockquote, .custom-block, details, li, td, th) :is(h1, h2, h3, h4, h5, h6) > .header-anchor {
+    @include header-anchor-inline;
+  }
+}
+
+@keyframes va-header-anchor-pop {
+  0% {
+    opacity: 0;
+    transform: scale(0.6);
+  }
+
+  60% {
+    opacity: 1;
+    transform: scale(1.16);
+  }
+
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@media (width < 1024px) {
+  .markdown-body .header-anchor {
+    @include header-anchor-inline;
+  }
+}
+
+@media (hover: none) {
+  .markdown-body .header-anchor {
+    @include header-anchor-inline;
+
+    opacity: var(--va-header-anchor-touch-opacity, 0.55);
+    transform: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .markdown-body .header-anchor {
+    transform: none;
+    transition:
+      color var(--va-transition-duration-fast, 0.15s) ease,
+      opacity var(--va-transition-duration-fast, 0.15s) ease;
+  }
+
+  .markdown-body .header-anchor.is-copied::before {
+    animation: none;
   }
 }
 
