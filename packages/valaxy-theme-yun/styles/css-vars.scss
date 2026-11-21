@@ -76,7 +76,7 @@ html.dark {
   --va-c-bg-alt: #161820;
   --va-c-bg-mute: #262a36;
   --va-c-bg-elevated: #232631;
-  --yun-bg-elevated: #232631;
+  --yun-bg-elevated: var(--va-c-bg-elevated);
 
   // dark borders & surface lines
   --va-c-border: rgb(255 255 255 / 0.14);
