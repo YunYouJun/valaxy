@@ -53,7 +53,7 @@ const app = useAppStore()
       <YunNavMenuTitle />
     </div>
 
-    <div class="inline-flex-center justify-end items-center flex-1 gap-1">
+    <div class="inline-flex justify-end items-center flex-1 gap-1">
       <!-- <template v-if="!app.isMobile && themeConfig.nav">
         <template v-for="item in themeConfig.nav" :key="item.text">
           <AppLink
@@ -102,9 +102,5 @@ const app = useAppStore()
   transition: background-color var(--va-transition-duration-moderate) var(--yun-ease-in),
     backdrop-filter var(--va-transition-duration-moderate) var(--yun-ease-in),
     box-shadow var(--va-transition-duration-moderate) var(--yun-ease-in);
-
-  .vt-hamburger-top, .vt-hamburger-middle, .vt-hamburger-bottom {
-    background-color: var(--va-c-text);
-  }
 }
 </style>

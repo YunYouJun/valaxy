@@ -79,3 +79,36 @@
     animation: none;
   }
 }
+
+.yun-action-btn.vt-hamburger {
+  .vt-hamburger-container {
+    transform: scale(0.82);
+  }
+
+  .vt-hamburger-top,
+  .vt-hamburger-middle,
+  .vt-hamburger-bottom {
+    border-radius: 1px;
+    background-color: currentcolor;
+    transition:
+      top var(--va-transition-duration),
+      background-color var(--va-transition-duration-fast, 180ms) ease,
+      transform var(--va-transition-duration);
+  }
+
+  &.is-active:hover {
+    .vt-hamburger-top,
+    .vt-hamburger-middle,
+    .vt-hamburger-bottom {
+      background-color: currentcolor;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .vt-hamburger-top,
+    .vt-hamburger-middle,
+    .vt-hamburger-bottom {
+      transition: none;
+    }
+  }
+}

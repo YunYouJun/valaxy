@@ -36,9 +36,44 @@ test('vertically aligns the Strato mobile menu with the top navigation', async (
   expect(alignment.navControlTops.length).toBeGreaterThan(0)
   expect(alignment.navControlTops.every(top => top === alignment.hamburgerTop)).toBe(true)
 
+  const stratoHamburgerStyle = await hamburger.evaluate((element) => {
+    const bar = element.querySelector('.vt-hamburger-top')!
+    const container = element.querySelector('.vt-hamburger-container')!
+    return {
+      buttonColor: getComputedStyle(element).color,
+      barBg: getComputedStyle(bar).backgroundColor,
+      containerTransform: getComputedStyle(container).transform,
+    }
+  })
+  expect(stratoHamburgerStyle.barBg).toBe(stratoHamburgerStyle.buttonColor)
+  expect(stratoHamburgerStyle.barBg).not.toBe('rgb(0, 120, 231)')
+  expect(stratoHamburgerStyle.containerTransform).toBe('matrix(0.82, 0, 0, 0.82, 0, 0)')
+
   await hamburger.click()
   await expect(hamburger).toHaveAttribute('aria-expanded', 'true')
   expect(await hamburger.evaluate(element => element.getBoundingClientRect().top)).toBe(alignment.hamburgerTop)
+})
+
+test('aligns Nimbo mobile hamburger color and scale with action buttons', async ({ page }) => {
+  await page.setViewportSize({ width: 768, height: 800 })
+  await page.goto('/', { waitUntil: 'domcontentloaded' })
+  await waitForHydration(page)
+
+  const hamburger = page.locator('.yun-nav-menu .vt-hamburger.yun-action-btn')
+  await expect(hamburger).toBeVisible()
+
+  const nimboHamburgerStyle = await hamburger.evaluate((element) => {
+    const bar = element.querySelector('.vt-hamburger-top')!
+    const container = element.querySelector('.vt-hamburger-container')!
+    return {
+      buttonColor: getComputedStyle(element).color,
+      barBg: getComputedStyle(bar).backgroundColor,
+      containerTransform: getComputedStyle(container).transform,
+    }
+  })
+  expect(nimboHamburgerStyle.barBg).toBe(nimboHamburgerStyle.buttonColor)
+  expect(nimboHamburgerStyle.barBg).not.toBe('rgb(0, 120, 231)')
+  expect(nimboHamburgerStyle.containerTransform).toBe('matrix(0.82, 0, 0, 0.82, 0, 0)')
 })
 
 test('hides responsive menu buttons at their desktop breakpoints', async ({ page }) => {

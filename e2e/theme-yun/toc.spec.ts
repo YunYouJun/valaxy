@@ -44,6 +44,9 @@ test.describe('TOC', () => {
 
     const trigger = page.locator('.yun-local-outline-trigger')
     await expect(trigger).toBeVisible()
+    await trigger.hover()
+    await expect(trigger).not.toHaveCSS('background-color', 'rgba(0, 120, 231, 0.06)')
+    await expect(trigger).not.toHaveCSS('background-color', 'rgba(0, 0, 0, 0)')
     await trigger.focus()
     await page.keyboard.press('Enter')
 

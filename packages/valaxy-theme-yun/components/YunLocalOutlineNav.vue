@@ -71,6 +71,7 @@ const { t } = useI18n()
   font-size: 14px;
   font-weight: 600;
   cursor: pointer;
+  transition: background-color var(--va-transition-duration-fast, 180ms) ease;
 }
 
 .yun-local-menu-trigger {
@@ -80,7 +81,7 @@ const { t } = useI18n()
 
 .yun-local-nav-icon {
   font-size: 18px;
-  color: var(--va-c-primary);
+  color: var(--va-c-link);
 }
 
 .yun-local-outline-trigger {
@@ -91,7 +92,7 @@ const { t } = useI18n()
 
 .yun-local-outline-chevron {
   font-size: 20px;
-  color: var(--va-c-text-light);
+  color: var(--va-c-text-2);
   transition: transform var(--va-transition-duration);
 }
 
@@ -99,9 +100,18 @@ const { t } = useI18n()
   transform: rotate(90deg);
 }
 
-.yun-local-nav-trigger:hover,
 .yun-local-nav-trigger[aria-expanded='true'] {
-  background: rgb(var(--va-c-primary-rgb), 0.06);
+  background-color: var(--yun-action-btn-hover-bg);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .yun-local-nav-trigger:hover {
+    background-color: var(--yun-action-btn-hover-bg);
+  }
+}
+
+.yun-local-nav-trigger:active {
+  background-color: var(--yun-action-btn-active-bg);
 }
 
 .yun-local-nav-trigger:focus-visible {
@@ -126,6 +136,7 @@ const { t } = useI18n()
 }
 
 @media (prefers-reduced-motion: reduce) {
+  .yun-local-nav-trigger,
   .yun-local-outline-chevron {
     transition: none;
   }
