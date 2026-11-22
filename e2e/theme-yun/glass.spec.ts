@@ -66,6 +66,35 @@ test('glass scroll controls and pagination retain their interactions', async ({ 
   await expect(pagination.locator('a[aria-current="page"]')).toHaveText('2')
 })
 
+test('back-to-top progress stays stable across adjacent scroll positions', async ({ page }) => {
+  await page.goto('/', { waitUntil: 'domcontentloaded' })
+  await waitForHydration(page)
+
+  const angles = await page.locator('.back-to-top').evaluate(async (button) => {
+    const scrollRange = document.documentElement.scrollHeight - window.innerHeight
+    const middle = Math.round(scrollRange / 2)
+
+    async function readProgressAt(top: number) {
+      window.scrollTo({ top, behavior: 'instant' })
+      // Let the scroll event and Vue's style update finish.
+      await new Promise(resolve => requestAnimationFrame(() => requestAnimationFrame(resolve)))
+      return Number.parseFloat(getComputedStyle(button).getPropertyValue('--yun-back-top-progress'))
+    }
+
+    return {
+      middle: await readProgressAt(middle),
+      adjacent: await readProgressAt(middle + 1),
+      later: await readProgressAt(Math.round(scrollRange * 0.75)),
+      end: await readProgressAt(scrollRange),
+    }
+  })
+
+  expect(angles.middle).toBeGreaterThan(0)
+  expect(angles.adjacent).toBe(angles.middle)
+  expect(angles.later).toBeGreaterThan(angles.adjacent)
+  expect(angles.end).toBe(360)
+})
+
 test.describe('touch navigation', () => {
   test.use({ viewport: { width: 390, height: 844 }, isMobile: true, hasTouch: true })
 
