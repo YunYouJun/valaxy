@@ -41,7 +41,88 @@ jobs:
       - name: ☁️ Build Yun Demo (SSG)
         run: pnpm run build:demo
 
-      - name: Deploy to Netlify
+      - name: Deploy production to Netlify
+        if: github.event_name == 'push'
+        id: netlify
+        shell: bash
+        env:
+          NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
+          NETLIFY_SITE_ID: ${{ secrets.NETLIFY_SITE_ID }}
+        timeout-minutes: 5
+        run: |
+          : "${NETLIFY_AUTH_TOKEN:?Missing NETLIFY_AUTH_TOKEN}"
+          : "${NETLIFY_SITE_ID:?Missing NETLIFY_SITE_ID}"
+
+          tmp_dir=$(mktemp -d)
+          trap 'rm -rf "$tmp_dir"' EXIT
+          archive="$tmp_dir/demo.zip"
+          (cd demo/yun/dist && zip -qr "$archive" .)
+
+          # The per-file uploader can return 422 after the deploy has gone live.
+          api=https://api.netlify.com/api/v1
+          curl_args=(--silent --show-error --fail-with-body --max-time 30
+            --header "Authorization: Bearer $NETLIFY_AUTH_TOKEN")
+          deploy=$(curl "${curl_args[@]}" --header 'Content-Type: application/zip' \
+            --url-query 'title=Deploy from GitHub Actions' --data-binary "@$archive" \
+            "$api/sites/$NETLIFY_SITE_ID/deploys") || {
+            printf 'Netlify ZIP upload failed\n%s\n' "$deploy" >&2
+            exit 1
+          }
+          deploy_id=$(jq -er '.id | strings | select(length > 0)' <<< "$deploy")
+          echo "Netlify deploy ID: $deploy_id"
+
+          while :; do
+            state=$(jq -er '.state | strings' <<< "$deploy")
+            case "$state" in
+              ready) break ;;
+              error|rejected)
+                jq -r '.error_message // "Netlify deploy failed"' <<< "$deploy" >&2
+                exit 1 ;;
+            esac
+            sleep 5
+            deploy=$(curl "${curl_args[@]}" --retry 2 --retry-max-time 30 "$api/deploys/$deploy_id")
+          done
+
+          production_url=$(jq -er '.ssl_url | strings | select(length > 0)' <<< "$deploy")
+          deploy_url=$(jq -er '.deploy_ssl_url | strings | select(length > 0)' <<< "$deploy")
+          printf 'production-url=%s\ndeploy-url=%s\n' "$production_url" "$deploy_url" >> "$GITHUB_OUTPUT"
+          printf 'Published to %s\nDeployment URL: %s\n' "$production_url" "$deploy_url"
+
+      - name: Report Netlify production deploy
+        if: steps.netlify.outputs.production-url != ''
+        uses: actions/github-script@v9
+        env:
+          PRODUCTION_URL: ${{ steps.netlify.outputs.production-url }}
+          DEPLOY_URL: ${{ steps.netlify.outputs.deploy-url }}
+        with:
+          script: |
+            const { PRODUCTION_URL, DEPLOY_URL } = process.env
+            const repo = context.repo
+            const recordDeployment = async () => {
+              const { data } = await github.rest.repos.createDeployment({
+                ...repo, ref: context.sha, environment: 'production', auto_merge: false, required_contexts: [],
+              })
+              await github.rest.repos.createDeploymentStatus({
+                ...repo, deployment_id: data.id, state: 'success', environment_url: PRODUCTION_URL,
+              })
+            }
+            const results = await Promise.allSettled([
+              recordDeployment(),
+              github.rest.repos.createCommitStatus({
+                ...repo, sha: context.sha, context: 'Netlify', state: 'success',
+                description: 'Netlify deployment', target_url: PRODUCTION_URL,
+              }),
+              github.rest.repos.createCommitComment({
+                ...repo, commit_sha: context.sha,
+                body: `🎉 Published on ${PRODUCTION_URL} as production\n🚀 Deployed on ${DEPLOY_URL}`,
+              }),
+            ])
+            for (const result of results) {
+              if (result.status === 'rejected') core.warning(result.reason.message)
+            }
+
+      - name: Deploy preview to Netlify
+        if: github.event_name == 'pull_request'
         uses: nwtgck/actions-netlify@v4
         with:
           publish-dir: ./demo/yun/dist
