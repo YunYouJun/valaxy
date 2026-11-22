@@ -10,7 +10,9 @@ const { t } = useI18n()
 
 const progressAngle = computed(() => {
   const progress = Number.isFinite(percentage.value) ? percentage.value : 0
-  return `${Math.min(1, Math.max(0, progress)) * 360}deg`
+  const angle = Math.min(1, Math.max(0, progress)) * 360
+  // Update the small progress fill only when it advances to a new step.
+  return `${Math.round(angle / 15) * 15}deg`
 })
 </script>
 
