@@ -65,6 +65,38 @@ function resolveVisibleLink(link: HTMLAnchorElement): HTMLAnchorElement {
   }
 }
 
+function getRelativeTop(element: HTMLElement, ancestor: HTMLElement): number | null {
+  let top = 0
+  let cur: HTMLElement | null = element
+  while (cur && cur !== ancestor) {
+    top += cur.offsetTop
+    cur = cur.offsetParent as HTMLElement | null
+  }
+  return cur === ancestor ? top : null
+}
+
+/**
+ * Compute the marker's `top` offset relative to its containing block so
+ * alignment stays accurate whether the outline header is visible, taller, or hidden.
+ */
+export function resolveOutlineMarkerTop(
+  visibleLink: HTMLElement,
+  markerEl: HTMLElement,
+  fallbackOffset = topOffset,
+): number {
+  const markerParent = markerEl.offsetParent as HTMLElement | null
+  if (markerParent) {
+    const relativeTop = getRelativeTop(visibleLink, markerParent)
+    if (relativeTop !== null) {
+      const centerOffset = visibleLink.offsetHeight && markerEl.offsetHeight
+        ? Math.round((visibleLink.offsetHeight - markerEl.offsetHeight) / 2)
+        : 5
+      return relativeTop + centerOffset
+    }
+  }
+  return visibleLink.offsetTop + fallbackOffset
+}
+
 export function useActiveAnchor(
   container: Ref<HTMLElement>,
   marker: Ref<HTMLElement>,
@@ -74,6 +106,7 @@ export function useActiveAnchor(
   const activeLink = shallowRef<string | null>(null)
 
   let prevActiveLink: HTMLAnchorElement | null = null
+  let resizeObserver: ResizeObserver | undefined
 
   const onHashChange = () => {
     activateLink(location.hash || null)
@@ -83,6 +116,10 @@ export function useActiveAnchor(
     requestAnimationFrame(setActiveLink)
     window.addEventListener('scroll', onScroll)
     window.addEventListener('hashchange', onHashChange)
+    if (typeof ResizeObserver !== 'undefined' && container.value) {
+      resizeObserver = new ResizeObserver(() => refreshMarker())
+      resizeObserver.observe(container.value)
+    }
   })
 
   onContentUpdated(() => {
@@ -97,6 +134,8 @@ export function useActiveAnchor(
   onUnmounted(() => {
     window.removeEventListener('scroll', onScroll)
     window.removeEventListener('hashchange', onHashChange)
+    resizeObserver?.disconnect()
+    resizeObserver = undefined
   })
 
   /**
@@ -111,7 +150,7 @@ export function useActiveAnchor(
     const parentEl = document.querySelector('.yun-aside') as HTMLElement
     if (parentEl) {
       // 超出
-      const top = visibleLink.offsetTop + topOffset + 60
+      const top = (marker.value ? resolveOutlineMarkerTop(visibleLink, marker.value) : visibleLink.offsetTop + topOffset) + 60
       if (top < parentEl.scrollTop || (top > parentEl.offsetHeight + parentEl.scrollTop))
         parentEl.scrollTo({ top, behavior: 'smooth' })
     }
@@ -170,7 +209,7 @@ export function useActiveAnchor(
 
     const visibleLink = targetLink ? resolveVisibleLink(targetLink) : null
     if (visibleLink) {
-      marker.value.style.top = `${visibleLink.offsetTop + topOffset}px`
+      marker.value.style.top = `${resolveOutlineMarkerTop(visibleLink, marker.value)}px`
       marker.value.style.opacity = '1'
     }
     else {

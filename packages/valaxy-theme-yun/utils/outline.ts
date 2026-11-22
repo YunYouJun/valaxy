@@ -9,6 +9,16 @@ export function normalizeOutlineHash(hash: string): string {
   }
 }
 
+export function buildOutlineBranchId(path: string, link: string): string {
+  const slug = normalizeOutlineHash(link)
+    .replace(/^#/, '')
+    .toLowerCase()
+    .replace(/[^a-z0-9_-]+/g, '-')
+    .replace(/^-+|-+$/g, '')
+    .slice(0, 40)
+  return slug ? `yun-outline-branch-${path}__${slug}` : `yun-outline-branch-${path}`
+}
+
 export function collectCollapsibleOutlineLinks(headers: MenuItem[]): string[] {
   const links: string[] = []
 

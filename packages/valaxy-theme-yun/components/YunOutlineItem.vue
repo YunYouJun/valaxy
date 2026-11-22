@@ -1,12 +1,13 @@
 <script setup lang="ts">
 import type { MenuItem } from 'valaxy'
 import { useI18n } from 'vue-i18n'
-import { normalizeOutlineHash } from '../utils'
+import { buildOutlineBranchId, normalizeOutlineHash } from '../utils'
 
 const props = defineProps<{
   headers: MenuItem[]
   onClick: (e: MouseEvent) => void
   root?: boolean
+  pathPrefix?: string
   collapsible?: boolean
   collapsedLinks?: Set<string>
   activeAncestors?: Set<string>
@@ -28,12 +29,12 @@ function isToggleVisible(children?: MenuItem[], lang?: string): boolean {
   return !!props.collapsible && !!children?.length && (!lang || lang === locale.value)
 }
 
+function getBranchPath(index: number): string {
+  return props.pathPrefix ? `${props.pathPrefix}-${index}` : `${index}`
+}
+
 function getBranchId(link: string, index: number): string {
-  const sanitized = normalizeOutlineHash(link)
-    .replace(/^#/, '')
-    .replace(/[^\w-]/g, '_')
-    .slice(0, 48)
-  return `yun-outline-branch-${index}-${sanitized || 'section'}`
+  return buildOutlineBranchId(getBranchPath(index), link)
 }
 </script>
 
@@ -77,6 +78,7 @@ function getBranchId(link: string, index: number): string {
           <YunOutlineItem
             :headers="children"
             :on-click="onClick"
+            :path-prefix="getBranchPath(idx)"
             :collapsible="collapsible"
             :collapsed-links="collapsedLinks"
             :active-ancestors="activeAncestors"
@@ -137,9 +139,16 @@ function getBranchId(link: string, index: number): string {
         color var(--va-transition-duration-fast, 160ms) ease,
         background-color var(--va-transition-duration-fast, 160ms) ease;
 
-      &:hover {
+      @media (hover: hover) and (pointer: fine) {
+        &:hover {
+          color: var(--va-c-primary);
+          background-color: var(--yun-action-btn-hover-bg, rgb(0 120 231 / 0.08));
+        }
+      }
+
+      &:active {
         color: var(--va-c-primary);
-        background-color: var(--yun-action-btn-hover-bg, rgb(0 120 231 / 0.08));
+        background-color: var(--yun-action-btn-active-bg, rgb(0 120 231 / 0.14));
       }
 
       &:focus-visible {

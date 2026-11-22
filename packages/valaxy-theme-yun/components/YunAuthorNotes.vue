@@ -29,6 +29,25 @@ const label = computed(() => t(expanded.value ? 'theme.hideAuthorNotes' : 'theme
 
 const renderedBodies = new WeakMap<HTMLElement, string>()
 let frame = 0
+let pulseTimer: ReturnType<typeof setTimeout> | undefined
+let pulsedAnchor: HTMLElement | undefined
+
+function clearPulse() {
+  clearTimeout(pulseTimer)
+  pulseTimer = undefined
+  pulsedAnchor?.removeAttribute('data-yun-author-note-pulse')
+  pulsedAnchor = undefined
+}
+
+function pulseReference(element: HTMLElement) {
+  clearPulse()
+  // Restart the pulse animation cleanly when targeting the same link twice.
+  element.removeAttribute('data-yun-author-note-pulse')
+  void element.offsetWidth
+  element.setAttribute('data-yun-author-note-pulse', '')
+  pulsedAnchor = element
+  pulseTimer = setTimeout(clearPulse, 900)
+}
 
 function readNotes() {
   const main = props.layout?.querySelector<HTMLElement>(':scope > .yun-main')
@@ -102,19 +121,22 @@ function place() {
   })
 }
 
-function focusNote(id: string, element?: HTMLElement) {
+function focusNote(id: string, element?: HTMLElement, pulse = false) {
   selected.value = id
   if (!element)
     return
   element.focus({ preventScroll: true })
-  element.scrollIntoView({ block: 'nearest' })
+  const reducedMotion = typeof window !== 'undefined' && window.matchMedia?.('(prefers-reduced-motion: reduce)').matches
+  element.scrollIntoView({ block: 'nearest', behavior: reducedMotion ? 'auto' : 'smooth' })
+  if (pulse)
+    pulseReference(element)
 }
 
-function navigate(event: MouseEvent, id: string, element?: HTMLElement) {
+function navigate(event: MouseEvent, id: string, element?: HTMLElement, pulse = false) {
   if (event.button !== 0 || event.metaKey || event.ctrlKey || event.shiftKey || event.altKey)
     return
   event.preventDefault()
-  focusNote(id, element)
+  focusNote(id, element, pulse)
 }
 
 watchEffect((onCleanup) => {
@@ -154,7 +176,10 @@ useResizeObserver(() => [article.value, ...(cards.value ?? [])], place)
 useEventListener('resize', place)
 useEventListener(article, 'load', place, { capture: true })
 useEventListener(article, 'toggle', place, { capture: true })
-onUnmounted(() => cancelAnimationFrame(frame))
+onUnmounted(() => {
+  cancelAnimationFrame(frame)
+  clearPulse()
+})
 </script>
 
 <template>
@@ -190,7 +215,7 @@ onUnmounted(() => cancelAnimationFrame(frame))
           :href="`#${note.links[0]!.id}`"
           :aria-label="t('theme.backToAuthorNote', { label: note.label })"
           data-valaxy-native-link
-          @click="navigate($event, note.id, note.links.find(link => link.getClientRects().length))"
+          @click="navigate($event, note.id, note.links.find(link => link.getClientRects().length), true)"
         >{{ note.label }}</a>
         <div :ref="element => renderBody(element, note.definition)" class="markdown-body yun-author-note-content" />
       </section>
@@ -203,6 +228,7 @@ onUnmounted(() => cancelAnimationFrame(frame))
   flex: 0 0 clamp(16.5rem, 19.5vw, 19rem);
   min-width: 0;
   text-align: start;
+  animation: yun-author-notes-enter var(--va-transition-duration-fast, 150ms) var(--yun-ease-in, ease-out);
 }
 
 .yun-author-notes-heading {
@@ -239,6 +265,10 @@ onUnmounted(() => cancelAnimationFrame(frame))
   line-height: 1.65;
   scroll-margin-block-start: var(--yun-margin-top);
   overflow-wrap: anywhere;
+  transition:
+    border-color var(--va-transition-duration-fast, 150ms) ease,
+    box-shadow var(--va-transition-duration-fast, 150ms) ease,
+    background-color var(--va-transition-duration-fast, 150ms) ease;
 
   // Valaxy wraps highlighted fences and hydrated tables.
   &:has(> .yun-author-note-content > :first-child:is(pre, table, .table-container, .vp-code-group, div[class*='language-'])) {
@@ -247,6 +277,10 @@ onUnmounted(() => cancelAnimationFrame(frame))
 
   &:is(:hover, [data-current]) {
     border-color: color-mix(in srgb, var(--va-c-link) 38%, var(--yun-surface-line));
+  }
+
+  &[data-current] {
+    box-shadow: 0 2px 10px -2px color-mix(in srgb, var(--va-c-link) 18%, transparent);
   }
 
   &:focus-visible {
@@ -263,6 +297,15 @@ onUnmounted(() => cancelAnimationFrame(frame))
   background: var(--yun-action-btn-hover-bg);
   color: var(--va-c-link);
   font-variant-numeric: tabular-nums;
+  transition:
+    background-color var(--va-transition-duration-fast, 150ms) ease,
+    color var(--va-transition-duration-fast, 150ms) ease;
+
+  @media (hover: hover) and (pointer: fine) {
+    &:hover {
+      background: color-mix(in srgb, var(--va-c-link) 16%, transparent);
+    }
+  }
 }
 
 .yun-author-note-content.markdown-body {
@@ -286,5 +329,52 @@ onUnmounted(() => cancelAnimationFrame(frame))
 
 .va-footnote[data-footnote-kind='author']:has(a[data-valaxy-native-link]) > .va-footnote-preview {
   display: none;
+}
+
+.va-footnote[data-footnote-kind='author'] .footnote-ref a {
+  scroll-margin-block-start: var(--yun-margin-top);
+}
+
+.va-footnote[data-footnote-kind='author'] .footnote-ref a[data-yun-author-note-pulse] {
+  animation: yun-author-note-ref-pulse 900ms var(--yun-ease-in, ease-out);
+}
+
+@keyframes yun-author-notes-enter {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes yun-author-note-ref-pulse {
+  0% {
+    box-shadow: 0 0 0 0 color-mix(in srgb, var(--va-c-link) 45%, transparent);
+    background-color: color-mix(in srgb, var(--va-c-link) 20%, var(--va-c-bg-soft));
+  }
+
+  40% {
+    box-shadow: 0 0 0 4px color-mix(in srgb, var(--va-c-link) 18%, transparent);
+    background-color: color-mix(in srgb, var(--va-c-link) 16%, var(--va-c-bg-soft));
+  }
+
+  100% {
+    box-shadow: 0 0 0 0 transparent;
+    background-color: var(--va-c-bg-soft);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .yun-author-notes,
+  .va-footnote[data-footnote-kind='author'] .footnote-ref a[data-yun-author-note-pulse] {
+    animation: none;
+  }
+
+  .yun-author-note-card,
+  .yun-author-note-index {
+    transition: none;
+  }
 }
 </style>

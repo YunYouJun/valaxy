@@ -129,6 +129,7 @@ onBeforeUnmount(cancelClose)
   font-size: 0.875rem;
   line-height: 1.6;
   overflow-wrap: anywhere;
+  animation: va-footnote-popover-in var(--va-transition-duration-fast, 150ms) ease-out;
 }
 
 .va-footnote-popover > p:last-of-type {
@@ -156,5 +157,23 @@ onBeforeUnmount(cancelClose)
 
 .va-footnote-arrow {
   fill: var(--va-c-bg);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .va-footnote-popover {
+    animation: none;
+  }
+}
+
+@keyframes va-footnote-popover-in {
+  from {
+    opacity: 0;
+    transform: translateY(4px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 </style>

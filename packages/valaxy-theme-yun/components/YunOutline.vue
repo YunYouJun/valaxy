@@ -115,7 +115,7 @@ function onItemClick(event: MouseEvent) {
 <template>
   <div v-show="headers.length" ref="containerRef">
     <div class="content">
-      <div class="outline-header">
+      <div class="outline-header" :class="{ 'has-toggle': collapsibleEnabled }">
         <div class="outline-title">
           {{ t('theme.outlineTitle') }}
         </div>
@@ -160,7 +160,7 @@ function onItemClick(event: MouseEvent) {
 
 .content {
   position: relative;
-  padding-left: 16px;
+  padding-inline: 16px 12px;
   font-size: 14px;
   text-align: left;
 }
@@ -213,9 +213,16 @@ function onItemClick(event: MouseEvent) {
     color var(--va-transition-duration-fast, 160ms) ease,
     background-color var(--va-transition-duration-fast, 160ms) ease;
 
-  &:hover {
+  @media (hover: hover) and (pointer: fine) {
+    &:hover {
+      color: var(--va-c-primary);
+      background-color: var(--yun-action-btn-hover-bg, rgb(0 120 231 / 0.08));
+    }
+  }
+
+  &:active {
     color: var(--va-c-primary);
-    background-color: var(--yun-action-btn-hover-bg, rgb(0 120 231 / 0.08));
+    background-color: var(--yun-action-btn-active-bg, rgb(0 120 231 / 0.14));
   }
 
   &:focus-visible {
@@ -224,20 +231,10 @@ function onItemClick(event: MouseEvent) {
   }
 }
 
-.outline-link {
-  display: block;
-  line-height: 28px;
-  color: var(--va-c-text-light);
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  transition: color var(--va-transition-duration-moderate);
-}
-
-.outline-link:hover,
-.outline-link.active {
-  color: var(--va-c-brand);
-  transition: color var(--va-transition-duration);
+@media (width < 1280px) {
+  .outline-header:not(.has-toggle) {
+    display: none;
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {
