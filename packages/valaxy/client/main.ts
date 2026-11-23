@@ -13,6 +13,7 @@ import { initData } from './app/data'
 import ClientOnly from './components/ClientOnly'
 
 import setupMain from './setup/main'
+import { setupRouteChunkRecovery } from './setup/route-chunk-recovery'
 import { useRouterStore } from './stores/router'
 import { setupValaxyDevTools } from './utils/dev'
 // uno.css 先于 #valaxy/styles 加载，使主题/用户样式可以覆盖 utility
@@ -118,6 +119,9 @@ export function createValaxyApp(options: CreateValaxyAppOptions = {}): ValaxySSG
         return { top: 0 }
     },
   })
+
+  if (import.meta.env.PROD && !isSSR)
+    app.onUnmount(setupRouteChunkRecovery(router))
 
   // Without a registered router, `vue-router/auto-routes` reloads the page on every page edit.
   if (import.meta.hot) {

@@ -9,6 +9,7 @@ export default defineConfig({
   testDir: './e2e/docs',
   testMatch: [
     'release-navigation.spec.ts',
+    'route-chunk-recovery.ssg.spec.ts',
     'release-motion.spec.ts',
     'release-styles.ssg.spec.ts',
     'api-reference.spec.ts',
