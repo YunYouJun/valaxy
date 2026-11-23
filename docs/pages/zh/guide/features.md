@@ -146,8 +146,20 @@ npm run build:spa
 
 ## SEO {#seo}
 
-Valaxy 已经默认集成了 Open Graph 的 SEO 优化，您无需为此操心。
-但需要注意的是，对于许多搜索引擎来说，他们可能只青睐 SSG 的构建模式。
+静态构建会写上搜索结果和回答引擎会读的标签。下面这些默认行为不需要逐篇文章再配一套 SEO 插件。
+
+- 文档标题是 `页面标题 - 站点标题`。没有页面标题的首页只用站点标题。单页可以用 `titleTemplate` 覆盖。
+- meta description 依次使用 frontmatter `description`、公开正文的纯文本摘要、`siteConfig.description`。
+- `link rel="canonical"` 跟随路由的结尾斜杠。`pages/posts/hello.md` 是 `/posts/hello`，`pages/about/index.md` 是 `/about/`。
+- 每个页面都有 Open Graph 和 Twitter 标签。分享图顺序是 `ogImage`、历史字段 `image`、`cover`、正文第一张图。这些都没有时，使用 `siteConfig.seo.ogImage`。不会用 favicon 代替。
+- JSON-LD 包含 `WebSite`、`Person`（`#identity`，`sameAs` 来自 `siteConfig.social`）和 `BreadcrumbList`。文章另有 `BlogPosting` 或 `Article`，带 `datePublished`、`dateModified`、同一个作者 id 和分享图。
+- `sitemap.xml` 每个规范地址只列一次，并在页面有 `updated` 或 `date` 时写入 `lastmod`。没有 `public/robots.txt` 时会生成 `robots.txt`。
+- `/404` 和生成的 `/page/2` 为 `noindex`。`/page/1` 的规范地址是首页。若希望分页继续被索引，设置 `siteConfig.seo.pagination: 'index'`。
+- RSS 开启时（默认开启），页面会用 `rel="alternate"` 链到 `feed.xml` 和 `atom.xml`。
+- 没有 alt 的 Markdown 图片会用可读文件名补上。哈希文件名保持为空。设置 `features.imageAltFallback: false` 可继续输出 `alt=""`。
+- 指向图片的社交链接（例如二维码）不会进入 `sameAs`。群聊、导航站这类不是作者本人的链接请设置 `sameAs: false`。
+
+`llms.txt` 在 `siteConfig.llms.enable` 为 true 之前不会生成。新项目的模板里已经打开。见[与 AI 协作](/zh/guide/work-with-ai)。
 
 
 ## RSS {#rss}

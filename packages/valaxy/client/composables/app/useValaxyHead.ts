@@ -3,8 +3,8 @@ import { computed, onMounted } from 'vue'
 import pkg from '../../../package.json' with { type: 'json' }
 
 import { useFrontmatter, useValaxyI18n } from '../../composables'
-import { useSiteConfig } from '../../config'
-import { withBase } from '../../utils'
+import { useRuntimeConfig, useSiteConfig } from '../../config'
+import { resolveSiteUrl, withBase } from '../../utils'
 import { useLayout } from '../../utils/layouts'
 import { usePageSeo } from './usePageSeo'
 
@@ -14,9 +14,22 @@ export function useValaxyHead() {
   const fm = useFrontmatter()
   const layout = useLayout()
   const siteConfig = useSiteConfig()
-  const { description, pageUrl } = usePageSeo()
+  const runtimeConfig = useRuntimeConfig()
+  const { description, pageUrl, noindex } = usePageSeo()
   const $title = computed(() => $tO(fm.value.title))
   const canonicalUrl = computed(() => /^https?:\/\//.test(siteConfig.value.url) ? pageUrl.value : '')
+  const feedLinks = computed(() => {
+    const feed = runtimeConfig.value.feed
+    if (!feed)
+      return []
+    const title = $t(siteConfig.value.title)
+    return (['rss', 'atom'] as const).map(kind => ({
+      rel: 'alternate' as const,
+      type: kind === 'rss' ? 'application/rss+xml' as const : 'application/atom+xml' as const,
+      title,
+      href: resolveSiteUrl(siteConfig.value.url, `/${feed[kind]}`),
+    }))
+  })
 
   useHead({
     htmlAttrs: {
@@ -55,13 +68,19 @@ export function useValaxyHead() {
   })
 
   useHead(computed(() => {
+    const link = [
+      ...feedLinks.value,
+      ...(canonicalUrl.value ? [{ rel: 'canonical' as const, href: canonicalUrl.value }] : []),
+    ]
     // YAML frontmatter can supply the layout name as a number.
+    // A 404 document stays out of the index and does not publish a canonical URL.
     if (String(layout.value) === '404')
-      return { meta: [{ name: 'robots', content: 'noindex' }] }
+      return { meta: [{ name: 'robots', content: 'noindex' }], link: feedLinks.value }
 
-    return canonicalUrl.value
-      ? { link: [{ rel: 'canonical', href: canonicalUrl.value }] }
-      : {}
+    if (noindex.value)
+      return { meta: [{ name: 'robots', content: 'noindex, follow' }], link }
+
+    return link.length ? { link } : {}
   }))
 
   // Add mac detection class on client side only, after hydration

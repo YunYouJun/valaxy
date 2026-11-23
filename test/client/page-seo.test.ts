@@ -13,7 +13,7 @@ const router = createRouter({
 })
 const route = reactive({ ...router.currentRoute.value })
 const frontmatter = ref<Record<string, unknown>>({})
-const siteConfig = ref({ url: 'https://example.com/blog/', description: 'Site description' })
+const siteConfig = ref<{ url: string, description: string, seo?: { ogImage?: string, pagination?: 'noindex' | 'index' } }>({ url: 'https://example.com/blog/', description: 'Site description' })
 
 vi.mock('vue-router', async importOriginal => ({
   ...await importOriginal<typeof import('vue-router')>(),
@@ -78,6 +78,28 @@ describe('page SEO route URLs', () => {
     Object.assign(route, router.resolve('/posts/hello/'))
     expect(pageUrl.value).toBe('https://example.com/blog/posts/hello')
     expect(image.value).toBe('https://example.com/blog/posts/cover.png')
+  })
+
+  it('falls back to the site share image and canonicalizes page 1 to the homepage', () => {
+    siteConfig.value = {
+      url: 'https://example.com/blog/',
+      description: 'Site description',
+      seo: { ogImage: '/images/site-og.png', pagination: 'noindex' },
+    }
+    Object.assign(route, router.resolve('/posts/hello'))
+    frontmatter.value = {}
+    const seo = usePageSeo()
+    expect(seo.image.value).toBe('https://example.com/blog/images/site-og.png')
+    expect(seo.noindex.value).toBe(false)
+
+    Object.assign(route, { path: '/page/1', matched: [] })
+    expect(seo.pageUrl.value).toBe('https://example.com/blog/')
+    expect(seo.noindex.value).toBe(true)
+
+    siteConfig.value.seo = { pagination: 'index' }
+    expect(seo.pageUrl.value).toBe('https://example.com/blog/page/1')
+    expect(seo.noindex.value).toBe(false)
+    siteConfig.value = { url: 'https://example.com/blog/', description: 'Site description' }
   })
 
   it('preserves explicit canonical URLs without changing the image directory', () => {

@@ -1,6 +1,7 @@
 import type { RouteLocationNormalizedLoaded } from 'vue-router'
 import type { SocialLink } from '../../types'
 import { EXTERNAL_URL_RE } from '../../shared'
+import { hasImageExtension } from '../../shared/seo'
 import { resolveSiteUrl } from './path'
 
 /** Keep URL parameters while using the matched route's trailing-slash convention. */
@@ -66,9 +67,11 @@ export function resolveSocialSameAs(siteUrl: string, social: Pick<SocialLink, 'l
 
       // Recognize feed filenames, not arbitrary account names, domains or icons.
       // Extensionless subscription/group links can opt out with sameAs: false.
+      // Image files (QR codes, icons) are not author profiles.
       const filename = decodeURIComponent(url.pathname).split('/').pop() || ''
       if (/^(?:atom|rss|rss2|feed)\.xml$|^feed\.json$|\.(?:atom|rss)$/i.test(filename)
-        || feeds.has(`${url.origin}${url.pathname}`)) {
+        || feeds.has(`${url.origin}${url.pathname}`)
+        || hasImageExtension(url.pathname)) {
         continue
       }
       urls.add(url.href)

@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-defineProps<{
+const props = withDefaults(defineProps<{
   pageTitleClass?: string
   /**
    * @deprecated Use `pageTitleClass` instead
@@ -8,12 +8,17 @@ defineProps<{
   icon?: string
   title?: string
   titleId?: string
-}>()
+  /** Filtered tag and category cards use 2 so the page keeps a single h1. */
+  level?: 1 | 2
+}>(), {
+  level: 1,
+})
 </script>
 
 <template>
   <header class="post-header">
-    <h1
+    <component
+      :is="props.level === 2 ? 'h2' : 'h1'"
       :id="titleId"
       class="post-title flex-center" p="2" text="2xl center"
       font="serif black"
@@ -22,6 +27,6 @@ defineProps<{
     >
       <div v-if="icon" class="icon" m="r-1 t-1px" inline-flex :class="icon" />
       <span inline-flex class="leading-none">{{ title }}</span>
-    </h1>
+    </component>
   </header>
 </template>

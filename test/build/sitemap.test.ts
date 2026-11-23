@@ -41,6 +41,26 @@ describe('sitemap generation', () => {
     }
   })
 
+  it('writes lastmod and skips noindex pages', async () => {
+    const outDir = await mkdtemp(join(tmpdir(), 'valaxy-sitemap-'))
+    try {
+      await writeSitemap(outDir, 'https://example.com/', [
+        { route: '/', lastmod: '2024-01-02T00:00:00.000Z' },
+        { route: '/posts/hello', lastmod: '2024-03-04T05:06:07.000Z' },
+        { route: '/page/2', lastmod: '2024-05-01T00:00:00.000Z', robots: 'noindex, follow' },
+        { route: '/secret', robots: 'NOINDEX' },
+      ])
+      const sitemap = await readFile(join(outDir, 'sitemap.xml'), 'utf8')
+      expect(sitemap).toContain('<loc>https://example.com/</loc><lastmod>2024-01-02T00:00:00.000Z</lastmod>')
+      expect(sitemap).toContain('<loc>https://example.com/posts/hello</loc><lastmod>2024-03-04T05:06:07.000Z</lastmod>')
+      expect(sitemap).not.toContain('/page/2')
+      expect(sitemap).not.toContain('/secret')
+    }
+    finally {
+      await rm(outDir, { recursive: true, force: true })
+    }
+  })
+
   it('writes the sitemap link to the default robots.txt', async () => {
     const outDir = await mkdtemp(join(tmpdir(), 'valaxy-sitemap-'))
     try {

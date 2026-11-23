@@ -70,6 +70,8 @@ describe('social identity URLs', () => {
       'https://social.example/feed',
       'https://rss.example/@author',
       'https://other.example/custom.json',
+      'https://cdn.example/images/wx-qr.webp',
+      '/images/avatar.png?size=64',
     ), 'custom')).toEqual([
       'https://github.com/rss',
       'https://social.example/feed',

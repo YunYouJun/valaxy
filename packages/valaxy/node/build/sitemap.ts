@@ -7,6 +7,10 @@ interface SitemapPage {
   route: string
   canonical?: string
   baseHref?: string
+  /** ISO timestamp from the rendered page. Omitted when the page has no date. */
+  lastmod?: string
+  /** When this contains `noindex`, the page stays out of the sitemap. */
+  robots?: string
 }
 
 export async function writeSitemap(outDir: string, siteUrl: string, pages: SitemapPage[]) {
@@ -19,9 +23,18 @@ export async function writeSitemap(outDir: string, siteUrl: string, pages: Sitem
   base.hash = ''
 
   const urls = new Set<string>()
+  const lastmods = new Map<string, string>()
   const routesWithCanonical = new Set<string>()
   const fallbacks = new Map<string, string>()
-  for (const { route, canonical, baseHref } of pages) {
+  const fallbackLastmods = new Map<string, string>()
+  const remember = (url: string, lastmod?: string) => {
+    if (lastmod && (!lastmods.has(url) || lastmod > lastmods.get(url)!))
+      lastmods.set(url, lastmod)
+  }
+  for (const { route, canonical, baseHref, lastmod, robots } of pages) {
+    if (robots && /noindex/i.test(robots))
+      continue
+
     const routeUrl = new URL(`.${route}`, base)
     if (isNotFoundPagePath(routeUrl.pathname))
       continue
@@ -32,24 +45,34 @@ export async function writeSitemap(outDir: string, siteUrl: string, pages: Sitem
       const documentBase = baseHref ? URL.parse(baseHref, routeUrl) ?? routeUrl : routeUrl
       const url = canonical.trim() ? URL.parse(canonical, documentBase) : null
       // Cross-site canonicals can remain in the HTML, but do not belong in this sitemap.
-      if (url?.origin === base.origin && url.pathname.startsWith(base.pathname) && !isNotFoundPagePath(url.pathname))
+      if (url?.origin === base.origin && url.pathname.startsWith(base.pathname) && !isNotFoundPagePath(url.pathname)) {
         urls.add(url.href)
+        remember(url.href, lastmod)
+      }
     }
     // Custom layouts without a canonical still get a route entry. Prefer the
     // directory URL if the router exposes both /about and /about/ for it.
     else if (!fallbacks.has(key) || routeUrl.pathname.endsWith('/')) {
       fallbacks.set(key, routeUrl.href)
+      if (lastmod)
+        fallbackLastmods.set(key, lastmod)
     }
   }
   for (const [key, url] of fallbacks) {
-    if (!routesWithCanonical.has(key))
+    if (!routesWithCanonical.has(key)) {
       urls.add(url)
+      remember(url, fallbackLastmods.get(key))
+    }
   }
 
   const sitemap = [
     '<?xml version="1.0" encoding="UTF-8"?>',
     '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">',
-    ...[...urls].sort().map(url => `  <url><loc>${escapeHtml(url)}</loc></url>`),
+    ...[...urls].sort().map((url) => {
+      const lastmod = lastmods.get(url)
+      const modified = lastmod ? `<lastmod>${escapeHtml(lastmod)}</lastmod>` : ''
+      return `  <url><loc>${escapeHtml(url)}</loc>${modified}</url>`
+    }),
     '</urlset>',
     '',
   ].join('\n')

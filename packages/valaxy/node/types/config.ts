@@ -213,6 +213,12 @@ export interface ValaxyExtendConfig {
      * @default true
      */
     extractFirstImage: boolean
+    /**
+     * @description:en-US Fill an empty Markdown image alt from a readable filename. Hashes stay empty. Set false to keep `alt=""`.
+     * @description:zh-CN 用可读的文件名为没有 alt 的 Markdown 图片补上说明。哈希文件名仍留空。设为 false 则保持 `alt=""`。
+     * @default true
+     */
+    imageAltFallback: boolean
   }
 
   /**

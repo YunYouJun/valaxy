@@ -3,17 +3,20 @@ import type { CSSProperties } from 'vue'
 
 withDefaults(
   defineProps<{
-    title: string
+    title: string | string[]
     chars?: number[]
+    /** Strato uses the banner title as the page h1. */
+    heading?: boolean
   }>(),
   {
     chars: () => [],
+    heading: false,
   },
 )
 </script>
 
 <template>
-  <div class="banner-char-container">
+  <component :is="heading ? 'h1' : 'div'" class="banner-char-container">
     <div v-for="c, i in title" :key="i" class="char-box">
       <span
         :class="[i % 2 !== 0 ? 'char-right' : 'char-left']" :style="{
@@ -25,5 +28,5 @@ withDefaults(
         </span>
       </span>
     </div>
-  </div>
+  </component>
 </template>

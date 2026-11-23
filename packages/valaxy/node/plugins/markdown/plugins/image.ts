@@ -1,5 +1,8 @@
 import type { MarkdownRenderer } from '../renderer'
+import escapeHtml from 'escape-html'
 import { EXTERNAL_URL_RE, safeDecodeURIComponent } from '../../../../shared'
+import { imageAltFromSrc } from '../../../../shared/seo'
+import { mapRenderResult } from './async-utils'
 
 /**
  * Normalize Markdown image URLs so Vue/Vite can process them as static assets.
@@ -8,8 +11,9 @@ import { EXTERNAL_URL_RE, safeDecodeURIComponent } from '../../../../shared'
  *
  * @see https://vitepress.dev/guide/asset-handling
  */
-export function imagePlugin(md: MarkdownRenderer) {
+export function imagePlugin(md: MarkdownRenderer, pluginOptions?: { altFallback?: boolean }) {
   const imageRule = md.renderer.rules.image!
+  const altFallback = pluginOptions?.altFallback !== false
 
   md.renderer.rules.image = (tokens, idx, options, env, self) => {
     const token = tokens[idx]
@@ -22,6 +26,21 @@ export function imagePlugin(md: MarkdownRenderer) {
       token.attrSet('src', safeDecodeURIComponent(url))
     }
 
-    return imageRule(tokens, idx, options, env, self)
+    const html = imageRule(tokens, idx, options, env, self)
+    if (!altFallback || !url)
+      return html
+    const alt = imageAltFromSrc(url)
+    return mapRenderResult(html, rendered => applyImageAlt(rendered, alt))
   }
+}
+
+/** Replace an empty alt. An author-written alt is left unchanged. */
+function applyImageAlt(html: string, alt: string | undefined): string {
+  if (!alt)
+    return html
+  const escaped = escapeHtml(alt)
+  if (/\balt="[^"]*"/.test(html)) {
+    return html.replace(/\balt="\s*"/, `alt="${escaped}"`)
+  }
+  return html.replace(/<img\b/i, `<img alt="${escaped}"`)
 }

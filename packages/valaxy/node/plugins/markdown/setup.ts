@@ -144,7 +144,7 @@ export async function setupMarkdownPlugins(
       },
       resolveBase,
     )
-    .use(imagePlugin)
+    .use(imagePlugin, { altFallback: options?.config.features?.imageAltFallback !== false })
 
   // ref vitepress
   md.use(lineNumberPlugin, mdOptions.lineNumbers)

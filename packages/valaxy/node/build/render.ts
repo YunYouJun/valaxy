@@ -5,6 +5,7 @@ import { renderSSRHead } from '@unhead/vue/server'
 import { Parser } from 'htmlparser2'
 import pMap from 'p-map'
 import { isNotFoundPagePath } from '../../shared/page-policy'
+import { schemaDate } from '../../shared/seo'
 
 export interface RenderResult {
   html: string
@@ -99,7 +100,14 @@ export async function renderPage(opts: RenderPageOptions) {
   await mkdir(dirname(filePath), { recursive: true })
   await writeFile(filePath, html, 'utf-8')
 
-  return { route: opts.route, ...readCanonicalLink(html) }
+  return { route: opts.route, ...readRenderedHead(html) }
+}
+
+export interface RenderedHead {
+  canonical?: string
+  baseHref?: string
+  robots?: string
+  lastmod?: string
 }
 
 function visitHeadTags(html: string, visit: (tag: string, attrs: Record<string, string>) => void) {
@@ -132,16 +140,87 @@ function visitHeadTags(html: string, visit: (tag: string, attrs: Record<string, 
 }
 
 /** Read the final head, including changes made by onPageRendered. */
-function readCanonicalLink(html: string) {
+export function readRenderedHead(html: string): RenderedHead {
   let canonical: string | undefined
   let baseHref: string | undefined
-  visitHeadTags(html, (tag, attrs) => {
-    if (tag === 'base')
-      baseHref ??= attrs.href
-    if (tag === 'link' && attrs.rel?.toLowerCase().split(/\s+/).includes('canonical'))
-      canonical ??= attrs.href
+  let robots: string | undefined
+  const schema: string[] = []
+  let captureSchema = false
+  let schemaText = ''
+  let inHead = false
+  let inertDepth = 0
+  const parser = new Parser({
+    onopentag(tag, attrs) {
+      if (tag === 'head')
+        inHead = true
+      if (tag === 'template' || tag === 'noscript')
+        inertDepth++
+      if (inertDepth)
+        return
+      // Canonical and robots live in head. Schema.org JSON-LD is emitted at the end of body.
+      if (inHead) {
+        if (tag === 'base')
+          baseHref ??= attrs.href
+        if (tag === 'link' && attrs.rel?.toLowerCase().split(/\s+/).includes('canonical'))
+          canonical ??= attrs.href
+        if (tag === 'meta' && attrs.name?.toLowerCase() === 'robots' && attrs.content)
+          robots = robots ? `${robots}, ${attrs.content}` : attrs.content
+      }
+      if (tag === 'script' && attrs.type?.toLowerCase().split(';')[0].trim() === 'application/ld+json') {
+        captureSchema = true
+        schemaText = ''
+      }
+    },
+    ontext(text) {
+      if (captureSchema)
+        schemaText += text
+    },
+    onclosetag(tag) {
+      if (captureSchema && tag === 'script') {
+        captureSchema = false
+        schema.push(schemaText)
+      }
+      if ((tag === 'template' || tag === 'noscript') && inertDepth)
+        inertDepth--
+      if (tag === 'head')
+        inHead = false
+    },
   })
-  return { canonical, baseHref }
+  parser.end(html)
+
+  let lastmod: string | undefined
+  for (const json of schema) {
+    const date = lastmodFromSchema(json)
+    if (date && (!lastmod || date > lastmod))
+      lastmod = date
+  }
+  return { canonical, baseHref, robots, lastmod }
+}
+
+function lastmodFromSchema(json: string): string | undefined {
+  let data: unknown
+  try {
+    data = JSON.parse(json)
+  }
+  catch {
+    return
+  }
+  const record = data && typeof data === 'object' ? data as { '@graph'?: unknown } : undefined
+  const nodes = Array.isArray(record?.['@graph']) ? record['@graph'] : [data]
+  let modified = ''
+  let published = ''
+  for (const node of nodes) {
+    if (!node || typeof node !== 'object')
+      continue
+    const entry = node as { dateModified?: unknown, datePublished?: unknown }
+    const nextModified = schemaDate(entry.dateModified)
+    const nextPublished = schemaDate(entry.datePublished)
+    if (nextModified && nextModified > modified)
+      modified = nextModified
+    if (nextPublished && nextPublished > published)
+      published = nextPublished
+  }
+  return modified || published || undefined
 }
 
 function readStylesheetHrefs(html: string) {

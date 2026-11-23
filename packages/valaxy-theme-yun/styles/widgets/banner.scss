@@ -18,6 +18,9 @@ $char-animation-duration: 0.4s;
   display: flex;
   flex-direction: column;
   align-items: center;
+  margin: 0;
+  font: inherit;
+  letter-spacing: inherit;
 }
 
 .banner-line-container {

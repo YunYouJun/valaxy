@@ -8,7 +8,6 @@ import { consola } from 'consola'
 import { colors } from 'consola/utils'
 import dayjs from 'dayjs'
 import { Feed } from 'feed'
-
 import fs from 'fs-extra'
 import { createMarkdownExit } from 'markdown-exit'
 import pMap from 'p-map'
@@ -17,7 +16,7 @@ import { glob } from 'tinyglobby'
 
 import { tObject } from '../../../shared'
 import { isUnpublishedPage, relativePagePath } from '../../../shared/page-policy'
-import { plainSeoDescription, publicAuthor, stripEncryptedContent } from '../../../shared/seo'
+import { feedFileNames, plainSeoDescription, publicAuthor, stripEncryptedContent } from '../../../shared/seo'
 import { EXCERPT_SEPARATOR } from '../../constants'
 import { matterOptions } from '../../plugins/markdown/transform/matter'
 import { isExternal } from '../../utils'
@@ -58,16 +57,11 @@ export async function build(options: ResolvedValaxyOptions) {
   const author: Author = publicAuthor(siteConfig.author)
 
   const ccVersion = (siteConfig.license?.type === 'zero') ? '1.0' : '4.0'
-  const feedNameMap: Record<string, string> = {
-    atom: siteConfig.feed?.name ? `${siteConfig.feed?.name}.atom` : 'atom.xml',
-    json: `${siteConfig.feed?.name || 'feed'}.json`,
-    rss: `${siteConfig.feed?.name || 'feed'}.xml`,
-  }
+  const feedNameMap = feedFileNames(siteConfig.feed?.name)
 
   const feedLinks: FeedOptions['feedLinks'] = {}
-  Object.keys(feedNameMap).forEach((key) => {
+  for (const key of ['rss', 'atom', 'json'] as const)
     feedLinks[key] = `${siteUrl}${feedNameMap[key]}`
-  })
   const title = tObject(siteConfig.title, lang)
   const description = tObject(siteConfig.description, lang)
   const feedOptions: FeedOptions = {
@@ -263,7 +257,7 @@ export async function getPosts(params: {
 /**
  * write feed to local
  */
-export async function writeFeed(feedOptions: FeedOptions, posts: ExtendedItem[], options: ResolvedValaxyOptions, feedNameMap: Record<string, string>) {
+export async function writeFeed(feedOptions: FeedOptions, posts: ExtendedItem[], options: ResolvedValaxyOptions, feedNameMap: ReturnType<typeof feedFileNames>) {
   const feed = new Feed(feedOptions)
   // Feed.addItem accepts Item, ExtendedItem is compatible
   posts.forEach(item => feed.addItem(item))
@@ -283,7 +277,7 @@ export async function writeFeed(feedOptions: FeedOptions, posts: ExtendedItem[],
     ['Type', 'Folder', 'Path'],
   ]
 
-  const types = ['rss', 'atom', 'json']
+  const types = ['rss', 'atom', 'json'] as const
   for (const type of types) {
     let data = ''
     const distFeedPath = `${distDir}/${feedNameMap[type]}`

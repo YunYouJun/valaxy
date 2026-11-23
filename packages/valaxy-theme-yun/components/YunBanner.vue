@@ -108,6 +108,7 @@ onBeforeUnmount(() => {
     </template>
     <template v-if="yun.isStrato">
       <YunBannerCharContainer
+        heading
         :title="bannerTitle"
         :chars="chars"
       />

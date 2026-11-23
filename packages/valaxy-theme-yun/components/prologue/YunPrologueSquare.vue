@@ -50,7 +50,7 @@ const grouped = computed(() => themeConfig.value.banner?.prologue === 'grouped')
           flex="~ col"
           class="prologue-introduction gap-2 items-center justify-center"
         >
-          <YunSiteTitle />
+          <YunSiteTitle heading />
           <YunSiteSubtitle />
           <YunSiteDescription />
         </div>
