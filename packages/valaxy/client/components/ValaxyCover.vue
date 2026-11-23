@@ -33,7 +33,7 @@ watch([() => props.component, () => props.componentProps], () => {
   failed.value = false
 })
 onErrorCaptured((error) => {
-  // Keep the static image visible if a custom component fails to load or render.
+  // Fall back to the static image if a custom component fails to load or render.
   failed.value = true
   if (import.meta.env.DEV)
     console.warn(`[valaxy:cover] Error in "${props.component}":`, error)
@@ -43,15 +43,15 @@ onErrorCaptured((error) => {
 
 <template>
   <div v-if="src || coverComponent || diagnostic" class="valaxy-cover">
-    <img
-      v-if="imageSrc" :src="imageSrc" :alt="alt" class="valaxy-cover-image"
-      width="640" height="360" loading="lazy"
-    >
     <div v-if="coverComponent && !failed" class="valaxy-cover-content">
       <component
         :is="coverComponent" v-bind="componentProps" :src="src" :context="context"
       />
     </div>
+    <img
+      v-else-if="imageSrc" :src="imageSrc" :alt="alt" class="valaxy-cover-image"
+      width="640" height="360" loading="lazy"
+    >
     <p v-if="diagnostic" class="valaxy-cover-diagnostic" role="status">
       {{ diagnostic }}
     </p>

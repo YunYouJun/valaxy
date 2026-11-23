@@ -71,6 +71,7 @@ it('server renders lazy components and hydrates their props and interaction', as
   expect(html).toContain('Light: 0')
   expect(html).toContain('data-context="card"')
   expect(html).toContain('data-src="/sky.png"')
+  expect(html).not.toContain('<img')
   // A fresh client registry starts with an unresolved async component.
   covers.set('Sky', defineAsyncComponent(async () => InteractiveCover))
   const container = document.createElement('div')
@@ -85,6 +86,7 @@ it('server renders lazy components and hydrates their props and interaction', as
       await nextTick()
       expect(container.querySelector('button')!.textContent).not.toBe('Light: 0')
     })
+    expect(container.querySelector('img')).toBeNull()
     expect(errors).not.toHaveBeenCalled()
     expect(warnings).not.toHaveBeenCalled()
   }
@@ -112,6 +114,32 @@ it('retains the image on import failure and recovers when navigating to another 
     await nextTick()
     expect(container.querySelector('button')!.textContent).toBe('Works: 0')
     expect(container.querySelector('[role="status"]')).toBeNull()
+    expect(container.querySelector('img')).toBeNull()
+  }
+  finally {
+    app.unmount()
+  }
+})
+
+it('falls back to the image when a component throws during render', async () => {
+  const warnings = vi.spyOn(console, 'warn').mockImplementation(() => {})
+  const CrashingCover = defineComponent({
+    setup() {
+      return () => {
+        throw new Error('render boom')
+      }
+    },
+  })
+  covers.set('Crashing', CrashingCover)
+  const container = document.createElement('div')
+  const app = createApp({ render: () => h(ValaxyCover, { src: '/sky.png', component: 'Crashing', alt: 'Sky' }) })
+  app.mount(container)
+  try {
+    await vi.waitFor(() => expect(container.querySelector('.valaxy-cover-content')).toBeNull())
+    expect(container.querySelector('img')?.getAttribute('src')).toBe('/blog/sky.png')
+    expect(container.querySelector('img')?.getAttribute('alt')).toBe('Sky')
+    expect(container.querySelector('[role="status"]')?.textContent).toContain('Crashing')
+    expect(warnings).toHaveBeenCalledWith(expect.stringContaining('Error in "Crashing"'), expect.objectContaining({ message: 'render boom' }))
   }
   finally {
     app.unmount()
