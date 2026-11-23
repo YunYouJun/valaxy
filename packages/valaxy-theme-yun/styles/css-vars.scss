@@ -26,6 +26,12 @@
   --yun-hr-color: color-mix(in srgb, var(--va-c-text) 14%, transparent);
   --yun-hr-icon-color: color-mix(in srgb, var(--va-c-text) 34%, transparent);
   --yun-hr-icon: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 16' fill='none' stroke='%23000' stroke-width='1.4' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M6.5 13.5a3.25 3.25 0 1 1 1-6.34A4.5 4.5 0 0 1 16.5 7.16a3.25 3.25 0 1 1 1 6.34Z'/%3E%3C/svg%3E");
+  --yun-details-bg: color-mix(in srgb, var(--va-c-text) 2.5%, transparent);
+  --yun-details-border-color: var(--va-c-divider);
+  --yun-details-hover-border-color: color-mix(in srgb, var(--va-c-link) 32%, var(--va-c-divider));
+  --yun-details-open-border-color: color-mix(in srgb, var(--va-c-text) 16%, var(--va-c-divider));
+  --yun-details-radius: var(--va-card-border-radius, 0.5rem);
+  --yun-details-chevron: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23000' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m9 6 6 6-6 6'/%3E%3C/svg%3E");
   --yun-focus-color: var(--va-c-link);
   --yun-glass-fill: rgb(255 255 255 / 0.34);
   --yun-glass-sheen: rgb(255 255 255 / 0.42);
@@ -88,6 +94,8 @@ html.dark {
   --yun-surface-line: rgb(255 255 255 / 0.09);
   --yun-hr-color: rgb(255 255 255 / 0.14);
   --yun-hr-icon-color: rgb(214 220 232 / 0.42);
+  --yun-details-bg: color-mix(in srgb, var(--va-c-text) 3.5%, transparent);
+  --yun-details-open-border-color: rgb(255 255 255 / 0.14);
 
   // dark text contrast
   --va-c-text: #e6e8ef;
