@@ -1,3 +1,5 @@
+import { toTimestamp } from './utils/date'
+
 export interface PublicAuthor {
   name?: string
   email?: string
@@ -64,14 +66,12 @@ export function schemaNodeId(siteUrl: string, fragment: string): string | undefi
 }
 
 /** ISO-8601 timestamp for JSON-LD and sitemap lastmod. Invalid values are omitted. */
-export function schemaDate(value: unknown): string | undefined {
+export function schemaDate(value: unknown, timezone?: string): string | undefined {
   if (value instanceof Date)
     return Number.isNaN(value.getTime()) ? undefined : value.toISOString()
   if (typeof value === 'string') {
-    if (!value.trim())
-      return
-    const date = new Date(value)
-    return Number.isNaN(date.getTime()) ? undefined : date.toISOString()
+    const ts = toTimestamp(value, timezone)
+    return Number.isNaN(ts) ? undefined : new Date(ts).toISOString()
   }
   if (typeof value === 'number') {
     if (!Number.isFinite(value))

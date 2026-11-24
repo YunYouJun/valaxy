@@ -138,14 +138,14 @@ export function useValaxyApp() {
       name: seoTitle,
       description,
       url: pageUrl,
-      datePublished: computed(() => schemaDate(fm.value.date)),
-      dateModified: computed(() => schemaDate(fm.value.updated) || schemaDate(fm.value.date)),
+      datePublished: computed(() => schemaDate(fm.value.date, siteConfig.value.timezone)),
+      dateModified: computed(() => schemaDate(fm.value.updated, siteConfig.value.timezone) || schemaDate(fm.value.date, siteConfig.value.timezone)),
     }),
     computed(() => {
       if (isNotFound.value || type.value !== 'article')
         return undefined
-      const published = schemaDate(fm.value.date)
-      const modified = schemaDate(fm.value.updated) || published
+      const published = schemaDate(fm.value.date, siteConfig.value.timezone)
+      const modified = schemaDate(fm.value.updated, siteConfig.value.timezone) || published
       const normalized = route.path.length > 1 ? route.path.replace(/\/+$/, '') : route.path
       return defineArticle({
         '@type': /^\/posts\/.+/.test(normalized) ? 'BlogPosting' : 'Article',
