@@ -33,10 +33,16 @@ export function openGraphType(path: string, layout?: string | false): 'article' 
 
 const SHARE_IMAGE = /\.(?:avif|bmp|gif|ico|jpe?g|png|svg|webp)$/i
 
-/** Generated index pages such as `/page/2`. These are slices of the post list. */
+/** Generated index pages such as `/page/1` and `/page/2`. These are slices of the post list. */
 export function isGeneratedPaginationPath(path: string): boolean {
   const normalized = path.length > 1 ? path.replace(/\/+$/, '') : path
-  return /^\/page\/\d+$/.test(normalized)
+  return /^\/page\/[1-9]\d*$/.test(normalized)
+}
+
+/** Generated pagination pages beyond page 1 (`/page/2`, `/page/3`, ...). */
+export function isNoindexPaginationPath(path: string): boolean {
+  const normalized = path.length > 1 ? path.replace(/\/+$/, '') : path
+  return /^\/page\/(?:[2-9]\d*|1\d+)$/.test(normalized)
 }
 
 /**
@@ -50,7 +56,7 @@ export function schemaNodeId(siteUrl: string, fragment: string): string | undefi
   if (!id)
     return
   try {
-    return new URL(`#${id}`, siteUrl).href
+    return new URL(`#${id}`, `${siteUrl.replace(/\/+$/, '')}/`).href
   }
   catch {
     return undefined
@@ -72,8 +78,13 @@ export interface BreadcrumbItem {
   item: string
 }
 
+export interface BreadcrumbAncestor {
+  path: string
+  name?: string
+}
+
 /**
- * Home, parent directories, then the current page.
+ * Home, existing parent routes, then the current page.
  * Pagination and the site root are omitted: they are not extra documents.
  */
 export function buildBreadcrumbItems(input: {
@@ -81,6 +92,7 @@ export function buildBreadcrumbItems(input: {
   siteTitle: string
   pageTitle: string
   path: string
+  resolveAncestor?: (path: string) => BreadcrumbAncestor | undefined
 }): BreadcrumbItem[] | undefined {
   if (!/^https?:\/\//i.test(input.siteUrl))
     return
@@ -98,9 +110,13 @@ export function buildBreadcrumbItems(input: {
   const pageTitle = input.pageTitle.trim() || humanizeSegment(segments.at(-1)!)
   const items: BreadcrumbItem[] = [{ name: siteTitle, item: absoluteSiteUrl(input.siteUrl, '/') }]
   for (let index = 0; index < segments.length - 1; index++) {
+    const ancestorPath = `/${segments.slice(0, index + 1).join('/')}`
+    const resolved = input.resolveAncestor?.(ancestorPath)
+    if (!resolved)
+      continue
     items.push({
-      name: humanizeSegment(segments[index]),
-      item: absoluteSiteUrl(input.siteUrl, `/${segments.slice(0, index + 1).join('/')}/`),
+      name: resolved.name?.trim() || humanizeSegment(segments[index]),
+      item: absoluteSiteUrl(input.siteUrl, resolved.path),
     })
   }
   const pagePath = path.endsWith('/') ? `${trimmed}/` : trimmed
@@ -140,8 +156,28 @@ export function feedFileNames(name?: string): { atom: string, json: string, rss:
  * assets do not become nonsense labels.
  */
 export function imageAltFromSrc(src: string): string | undefined {
-  const path = src.split(/[?#]/)[0]
-  let base = path.split('/').pop() || ''
+  const trimmed = src.trim()
+  if (!trimmed || /^(?:data|blob|javascript|vbscript):/i.test(trimmed))
+    return
+
+  let path = trimmed.split(/[?#]/)[0]
+  if (/^(?:https?:)?\/\//i.test(trimmed)) {
+    try {
+      const parsed = new URL(trimmed, 'https://valaxy.local')
+      if (!parsed.hostname)
+        return
+      path = parsed.pathname
+    }
+    catch {
+      return
+    }
+  }
+
+  const segment = path.split('/').pop() || ''
+  if (!segment)
+    return
+
+  let base = segment
   try {
     base = decodeURIComponent(base)
   }

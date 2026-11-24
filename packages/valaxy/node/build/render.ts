@@ -139,6 +139,8 @@ function visitHeadTags(html: string, visit: (tag: string, attrs: Record<string, 
   parser.end(html)
 }
 
+const FALLBACK_BASE = 'https://valaxy.local/'
+
 /** Read the final head, including changes made by onPageRendered. */
 export function readRenderedHead(html: string): RenderedHead {
   let canonical: string | undefined
@@ -188,39 +190,215 @@ export function readRenderedHead(html: string): RenderedHead {
   })
   parser.end(html)
 
-  let lastmod: string | undefined
-  for (const json of schema) {
-    const date = lastmodFromSchema(json)
-    if (date && (!lastmod || date > lastmod))
-      lastmod = date
-  }
+  const parsedDocBase = baseHref ? URL.parse(baseHref, FALLBACK_BASE) : null
+  const docBase = parsedDocBase && (parsedDocBase.protocol === 'http:' || parsedDocBase.protocol === 'https:')
+    ? parsedDocBase.href
+    : FALLBACK_BASE
+  const parsedCanonical = canonical?.trim() ? URL.parse(canonical.trim(), docBase) : null
+  const validCanonical = parsedCanonical && (parsedCanonical.protocol === 'http:' || parsedCanonical.protocol === 'https:')
+    ? parsedCanonical
+    : null
+  const canonicalUrl = validCanonical ? normalizeParsedUrl(validCanonical) : undefined
+  const parsedSchemaBase = validCanonical
+    ? (baseHref ? URL.parse(baseHref, validCanonical) : validCanonical)
+    : parsedDocBase
+  const schemaBase = parsedSchemaBase && (parsedSchemaBase.protocol === 'http:' || parsedSchemaBase.protocol === 'https:')
+    ? parsedSchemaBase.href
+    : (validCanonical?.href ?? docBase)
+  const lastmod = lastmodFromSchemas(schema, canonicalUrl, schemaBase)
   return { canonical, baseHref, robots, lastmod }
 }
 
-function lastmodFromSchema(json: string): string | undefined {
-  let data: unknown
-  try {
-    data = JSON.parse(json)
-  }
-  catch {
+const PAGE_SCHEMA_TYPES = new Set([
+  'WebPage',
+  'Article',
+  'BlogPosting',
+  'NewsArticle',
+  'TechArticle',
+  'ScholarlyArticle',
+  'Report',
+  'CollectionPage',
+  'ItemPage',
+  'AboutPage',
+  'ContactPage',
+  'FAQPage',
+  'ProfilePage',
+  'SearchResultsPage',
+])
+
+function normalizeParsedUrl(parsed: URL): string {
+  const pathname = parsed.pathname.length > 1 ? parsed.pathname.replace(/\/+$/, '') : parsed.pathname
+  return `${parsed.origin}${pathname}${parsed.search}`
+}
+
+function normalizeComparableUrl(raw: string, base = FALLBACK_BASE): string | undefined {
+  const trimmed = raw.trim()
+  if (!trimmed || trimmed.startsWith('_:'))
     return
+  const parsed = URL.parse(trimmed, base)
+  if (!parsed || (parsed.protocol !== 'http:' && parsed.protocol !== 'https:'))
+    return
+  return normalizeParsedUrl(parsed)
+}
+
+function normalizeSchemaId(raw: string, base = FALLBACK_BASE): string | undefined {
+  const trimmed = raw.trim()
+  if (!trimmed)
+    return
+  if (trimmed.startsWith('_:'))
+    return trimmed
+  const parsed = URL.parse(trimmed, base)
+  if (!parsed || (parsed.protocol !== 'http:' && parsed.protocol !== 'https:'))
+    return trimmed
+  const pathname = parsed.pathname.length > 1 ? parsed.pathname.replace(/\/+$/, '') : parsed.pathname
+  return `${parsed.origin}${pathname}${parsed.search}${parsed.hash}`
+}
+
+function collectSchemaNodes(value: unknown, out: Record<string, unknown>[] = []): Record<string, unknown>[] {
+  if (Array.isArray(value)) {
+    for (const item of value)
+      collectSchemaNodes(item, out)
   }
-  const record = data && typeof data === 'object' ? data as { '@graph'?: unknown } : undefined
-  const nodes = Array.isArray(record?.['@graph']) ? record['@graph'] : [data]
+  else if (value && typeof value === 'object') {
+    const record = value as Record<string, unknown>
+    if (Array.isArray(record['@graph']))
+      collectSchemaNodes(record['@graph'], out)
+    if ('@type' in record || !Array.isArray(record['@graph']))
+      out.push(record)
+  }
+  return out
+}
+
+function isPageSchemaNode(node: Record<string, unknown>): boolean {
+  const rawTypes = Array.isArray(node['@type']) ? node['@type'] : [node['@type']]
+  return rawTypes.some((type) => {
+    if (typeof type !== 'string')
+      return false
+    const normalized = type.trim().replace(/^https?:\/\/schema\.org\//i, '')
+    return PAGE_SCHEMA_TYPES.has(normalized)
+  })
+}
+
+function resolveSchemaIdRef(
+  ref: string,
+  nodesById: Map<string, Record<string, unknown>[]>,
+  base: string,
+  visited: Set<Record<string, unknown>>,
+): string | undefined {
+  const trimmed = ref.trim()
+  if (!trimmed)
+    return
+  const normalizedId = normalizeSchemaId(trimmed, base)
+  if (normalizedId) {
+    for (const target of nodesById.get(normalizedId) || []) {
+      if (!visited.has(target)) {
+        const resolved = getNodeDocumentUrl(target, nodesById, base, visited)
+        if (resolved)
+          return resolved
+      }
+    }
+  }
+  if (!trimmed.startsWith('#'))
+    return normalizeComparableUrl(trimmed, base)
+}
+
+function getNodeDocumentUrl(
+  node: Record<string, unknown>,
+  nodesById: Map<string, Record<string, unknown>[]>,
+  base = FALLBACK_BASE,
+  visited = new Set<Record<string, unknown>>(),
+): string | undefined {
+  if (visited.has(node))
+    return
+  visited.add(node)
+
+  if (typeof node.url === 'string' && node.url.trim()) {
+    const url = normalizeComparableUrl(node.url, base)
+    if (url)
+      return url
+  }
+
+  const mains = Array.isArray(node.mainEntityOfPage) ? node.mainEntityOfPage : [node.mainEntityOfPage]
+  for (const main of mains) {
+    if (typeof main === 'string') {
+      const url = resolveSchemaIdRef(main, nodesById, base, visited)
+      if (url)
+        return url
+    }
+    else if (main && typeof main === 'object') {
+      const mainRecord = main as { 'url'?: unknown, '@id'?: unknown }
+      if (typeof mainRecord.url === 'string' && mainRecord.url.trim()) {
+        const url = normalizeComparableUrl(mainRecord.url, base)
+        if (url)
+          return url
+      }
+      if (typeof mainRecord['@id'] === 'string') {
+        const url = resolveSchemaIdRef(mainRecord['@id'], nodesById, base, visited)
+        if (url)
+          return url
+      }
+    }
+  }
+
+  if (typeof node['@id'] === 'string' && node['@id'].trim() && !node['@id'].trim().startsWith('#'))
+    return normalizeComparableUrl(node['@id'], base)
+}
+
+function pickLatestDate(nodes: Record<string, unknown>[]): string | undefined {
   let modified = ''
   let published = ''
   for (const node of nodes) {
-    if (!node || typeof node !== 'object')
-      continue
-    const entry = node as { dateModified?: unknown, datePublished?: unknown }
-    const nextModified = schemaDate(entry.dateModified)
-    const nextPublished = schemaDate(entry.datePublished)
+    const nextModified = schemaDate(node.dateModified)
+    const nextPublished = schemaDate(node.datePublished)
     if (nextModified && nextModified > modified)
       modified = nextModified
     if (nextPublished && nextPublished > published)
       published = nextPublished
   }
   return modified || published || undefined
+}
+
+function lastmodFromSchemas(schemas: string[], canonicalUrl?: string, schemaBase = FALLBACK_BASE): string | undefined {
+  const nodes: Record<string, unknown>[] = []
+  for (const json of schemas) {
+    let data: unknown
+    try {
+      data = JSON.parse(json)
+    }
+    catch {
+      continue
+    }
+    collectSchemaNodes(data, nodes)
+  }
+
+  const nodesById = new Map<string, Record<string, unknown>[]>()
+  for (const node of nodes) {
+    if (typeof node['@id'] !== 'string')
+      continue
+    const id = normalizeSchemaId(node['@id'], schemaBase)
+    if (!id)
+      continue
+    const list = nodesById.get(id)
+    if (list)
+      list.push(node)
+    else
+      nodesById.set(id, [node])
+  }
+
+  const pageNodes = nodes.filter(isPageSchemaNode)
+  const matched: Record<string, unknown>[] = []
+  const unscoped: Record<string, unknown>[] = []
+  for (const node of pageNodes) {
+    const nodeUrl = getNodeDocumentUrl(node, nodesById, schemaBase)
+    if (canonicalUrl && nodeUrl) {
+      if (nodeUrl === canonicalUrl)
+        matched.push(node)
+    }
+    else {
+      unscoped.push(node)
+    }
+  }
+  return pickLatestDate(matched) || pickLatestDate(unscoped)
 }
 
 function readStylesheetHrefs(html: string) {

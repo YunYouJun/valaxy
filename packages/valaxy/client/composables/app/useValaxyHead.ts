@@ -23,11 +23,14 @@ export function useValaxyHead() {
     if (!feed)
       return []
     const title = $t(siteConfig.value.title)
+    const hasOrigin = /^https?:\/\//i.test(siteConfig.value.url)
     return (['rss', 'atom'] as const).map(kind => ({
       rel: 'alternate' as const,
       type: kind === 'rss' ? 'application/rss+xml' as const : 'application/atom+xml' as const,
       title,
-      href: resolveSiteUrl(siteConfig.value.url, `/${feed[kind]}`),
+      href: hasOrigin
+        ? resolveSiteUrl(siteConfig.value.url, `/${feed[kind]}`)
+        : withBase(`/${feed[kind]}`),
     }))
   })
 
@@ -62,7 +65,9 @@ export function useValaxyHead() {
 
     templateParams: {
       schemaOrg: {
-        host: siteConfig.value.url,
+        host: /^https?:\/\//i.test(siteConfig.value.url)
+          ? `${siteConfig.value.url.replace(/\/+$/, '')}/`
+          : siteConfig.value.url,
       },
     },
   })

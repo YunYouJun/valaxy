@@ -39,8 +39,15 @@ function applyImageAlt(html: string, alt: string | undefined): string {
   if (!alt)
     return html
   const escaped = escapeHtml(alt)
-  if (/\balt="[^"]*"/.test(html)) {
-    return html.replace(/\balt="\s*"/, `alt="${escaped}"`)
-  }
-  return html.replace(/<img\b/i, `<img alt="${escaped}"`)
+  return html.replace(/<img\b(?:"[^"]*"|'[^']*'|[^>])*>/i, (tag) => {
+    const altAttr = /(^|\s)alt=(?:"([^"]*)"|'([^']*)'|([^\s>]+))/i
+    const match = tag.match(altAttr)
+    if (match) {
+      const current = match[2] ?? match[3] ?? match[4] ?? ''
+      if (current.trim())
+        return tag
+      return tag.replace(altAttr, (_, prefix: string) => `${prefix}alt="${escaped}"`)
+    }
+    return tag.replace(/^<img\b/i, prefix => `${prefix} alt="${escaped}"`)
+  })
 }

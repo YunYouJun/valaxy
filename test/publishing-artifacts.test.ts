@@ -186,6 +186,9 @@ const titleClass: string | undefined = useFrontmatter().value.pageTitleClass
         expect(metadata(notFound, 'robots')).toBe('noindex')
         expect(notFound).not.toMatch(/<link[^>]+rel="canonical"/)
         expect(await fs.pathExists(join(dist, '404/index.html'))).toBe(false)
+        const notFoundGraph = schemaGraph(notFound)
+        expect(notFoundGraph.some(node => [node['@type']].flat().includes('BreadcrumbList'))).toBe(false)
+        expect(notFoundGraph.some(node => [node['@type']].flat().some(type => type === 'Article' || type === 'BlogPosting'))).toBe(false)
         const sitemap = await readFile(join(dist, 'sitemap.xml'), 'utf8')
         expect(sitemap.match(/<loc>[^<]*\/imgdir\/?<\/loc>/g)).toEqual(['<loc>https://example.com/blog/posts/imgdir/</loc>'])
         expect(sitemap).toMatch(/<loc>https:\/\/example\.com\/blog\/posts\/public<\/loc><lastmod>2024-01-01T00:00:00\.000Z<\/lastmod>/)
@@ -235,7 +238,27 @@ const titleClass: string | undefined = useFrontmatter().value.pageTitleClass
         const article = graph.find(node => [node['@type']].flat().includes('BlogPosting'))
         const author = graph.find(node => node['@id'] === article?.author?.['@id'])
         expect(author?.['@id']).toBe(identity?.['@id'])
-        expect(graph.some(node => [node['@type']].flat().includes('BreadcrumbList'))).toBe(true)
+        expect(await fs.pathExists(join(dist, 'posts/index.html'))).toBe(true)
+        const breadcrumb = graph.find(node => [node['@type']].flat().includes('BreadcrumbList'))
+        expect(breadcrumb?.itemListElement).toEqual([
+          { '@type': 'ListItem', 'position': 1, 'name': 'Publishing fixture', 'item': 'https://example.com/blog/' },
+          { '@type': 'ListItem', 'position': 2, 'name': 'Posts', 'item': 'https://example.com/blog/posts/' },
+          { '@type': 'ListItem', 'position': 3, 'name': 'Public article', 'item': 'https://example.com/blog/posts/public' },
+        ])
+        const childHtml = await readFile(join(dist, 'posts/draft-parent/child.html'), 'utf8')
+        const childBreadcrumb = schemaGraph(childHtml).find(node => [node['@type']].flat().includes('BreadcrumbList'))
+        expect(childBreadcrumb?.itemListElement).toEqual(publishDrafts
+          ? [
+              { '@type': 'ListItem', 'position': 1, 'name': 'Publishing fixture', 'item': 'https://example.com/blog/' },
+              { '@type': 'ListItem', 'position': 2, 'name': 'Posts', 'item': 'https://example.com/blog/posts/' },
+              { '@type': 'ListItem', 'position': 3, 'name': sentinels.parentDraft, 'item': 'https://example.com/blog/posts/draft-parent' },
+              { '@type': 'ListItem', 'position': 4, 'name': 'Public child', 'item': 'https://example.com/blog/posts/draft-parent/child' },
+            ]
+          : [
+              { '@type': 'ListItem', 'position': 1, 'name': 'Publishing fixture', 'item': 'https://example.com/blog/' },
+              { '@type': 'ListItem', 'position': 2, 'name': 'Posts', 'item': 'https://example.com/blog/posts/' },
+              { '@type': 'ListItem', 'position': 3, 'name': 'Public child', 'item': 'https://example.com/blog/posts/draft-parent/child' },
+            ])
         expect(regular).toContain('type="application/rss+xml"')
         expect(regular).toContain('href="https://example.com/blog/feed.xml"')
         expect(regular).toContain('type="application/atom+xml"')

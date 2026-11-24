@@ -41,20 +41,29 @@ describe('sitemap generation', () => {
     }
   })
 
-  it('writes lastmod and skips noindex pages', async () => {
+  it('writes lastmod and skips noindex/none pages and canonicals pointing to excluded targets', async () => {
     const outDir = await mkdtemp(join(tmpdir(), 'valaxy-sitemap-'))
     try {
       await writeSitemap(outDir, 'https://example.com/', [
         { route: '/', lastmod: '2024-01-02T00:00:00.000Z' },
+        { route: '/page/1', canonical: 'https://example.com/' },
         { route: '/posts/hello', lastmod: '2024-03-04T05:06:07.000Z' },
         { route: '/page/2', lastmod: '2024-05-01T00:00:00.000Z', robots: 'noindex, follow' },
         { route: '/secret', robots: 'NOINDEX' },
+        { route: '/none-page', robots: 'none' },
+        { route: '/copy-to-noindex', canonical: 'https://example.com/secret' },
+        { route: '/copy-to-none', canonical: 'https://example.com/none-page/' },
       ])
       const sitemap = await readFile(join(outDir, 'sitemap.xml'), 'utf8')
       expect(sitemap).toContain('<loc>https://example.com/</loc><lastmod>2024-01-02T00:00:00.000Z</lastmod>')
+      expect(sitemap.match(/<loc>https:\/\/example\.com\/<\/loc>/g)).toHaveLength(1)
       expect(sitemap).toContain('<loc>https://example.com/posts/hello</loc><lastmod>2024-03-04T05:06:07.000Z</lastmod>')
+      expect(sitemap).not.toContain('/page/1')
       expect(sitemap).not.toContain('/page/2')
       expect(sitemap).not.toContain('/secret')
+      expect(sitemap).not.toContain('/none-page')
+      expect(sitemap).not.toContain('/copy-to-noindex')
+      expect(sitemap).not.toContain('/copy-to-none')
     }
     finally {
       await rm(outDir, { recursive: true, force: true })

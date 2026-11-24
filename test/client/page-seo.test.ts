@@ -80,11 +80,11 @@ describe('page SEO route URLs', () => {
     expect(image.value).toBe('https://example.com/blog/posts/cover.png')
   })
 
-  it('falls back to the site share image and canonicalizes page 1 to the homepage', () => {
+  it('validates site share image fallback and separates page 1 canonical from page 2 noindex', () => {
     siteConfig.value = {
       url: 'https://example.com/blog/',
       description: 'Site description',
-      seo: { ogImage: '/images/site-og.png', pagination: 'noindex' },
+      seo: { ogImage: 'images/site-og.png', pagination: 'noindex' },
     }
     Object.assign(route, router.resolve('/posts/hello'))
     frontmatter.value = {}
@@ -92,12 +92,27 @@ describe('page SEO route URLs', () => {
     expect(seo.image.value).toBe('https://example.com/blog/images/site-og.png')
     expect(seo.noindex.value).toBe(false)
 
+    for (const invalid of ['javascript:alert(1)', 'data:image/png;base64,abc', './HelloCover.vue']) {
+      siteConfig.value.seo = { ogImage: invalid, pagination: 'noindex' }
+      expect(seo.image.value).toBeUndefined()
+    }
+
     Object.assign(route, { path: '/page/1', matched: [] })
     expect(seo.pageUrl.value).toBe('https://example.com/blog/')
+    expect(seo.noindex.value).toBe(false)
+
+    Object.assign(route, { path: '/page/2', matched: [] })
+    expect(seo.pageUrl.value).toBe('https://example.com/blog/page/2')
     expect(seo.noindex.value).toBe(true)
 
+    Object.assign(route, { path: '/page/0', matched: [] })
+    expect(seo.noindex.value).toBe(false)
+
     siteConfig.value.seo = { pagination: 'index' }
+    Object.assign(route, { path: '/page/1', matched: [] })
     expect(seo.pageUrl.value).toBe('https://example.com/blog/page/1')
+    expect(seo.noindex.value).toBe(false)
+    Object.assign(route, { path: '/page/2', matched: [] })
     expect(seo.noindex.value).toBe(false)
     siteConfig.value = { url: 'https://example.com/blog/', description: 'Site description' }
   })

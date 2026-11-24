@@ -71,7 +71,7 @@ export function resolveSocialSameAs(siteUrl: string, social: Pick<SocialLink, 'l
       const filename = decodeURIComponent(url.pathname).split('/').pop() || ''
       if (/^(?:atom|rss|rss2|feed)\.xml$|^feed\.json$|\.(?:atom|rss)$/i.test(filename)
         || feeds.has(`${url.origin}${url.pathname}`)
-        || hasImageExtension(url.pathname)) {
+        || hasImageExtension(filename)) {
         continue
       }
       urls.add(url.href)

@@ -21,6 +21,10 @@ $char-animation-duration: 0.4s;
   margin: 0;
   font: inherit;
   letter-spacing: inherit;
+
+  .char-box {
+    display: block;
+  }
 }
 
 .banner-line-container {

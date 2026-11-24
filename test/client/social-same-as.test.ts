@@ -71,6 +71,8 @@ describe('social identity URLs', () => {
       'https://rss.example/@author',
       'https://other.example/custom.json',
       'https://cdn.example/images/wx-qr.webp',
+      'https://cdn.example/image%2Ewebp',
+      'https://cdn.example/icon%2epng?v=1',
       '/images/avatar.png?size=64',
     ), 'custom')).toEqual([
       'https://github.com/rss',

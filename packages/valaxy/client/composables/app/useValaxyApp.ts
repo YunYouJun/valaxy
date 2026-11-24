@@ -1,12 +1,15 @@
+import type { RouteRecordNormalized } from 'vue-router'
 import { defineArticle, defineBreadcrumb, definePerson, defineWebPage, defineWebSite, useSchemaOrg } from '@unhead/schema-org/vue'
 import { useSeoMeta } from '@unhead/vue'
 import { computed } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { useRoute } from 'vue-router'
-import { buildBreadcrumbItems, publicAuthor, schemaDate, schemaNodeId } from '../../../shared/seo'
+import { buildBreadcrumbItems, isGeneratedPaginationPath, publicAuthor, schemaDate, schemaNodeId } from '../../../shared/seo'
 import { useFrontmatter, useLocale, useValaxyHead, useValaxyI18n } from '../../composables'
 import { useTimezone } from '../../composables/global'
 import { useSiteConfig } from '../../config'
+import { useRouterStore } from '../../stores/router'
+import { useLayout } from '../../utils/layouts'
 import { resolveSocialSameAs } from '../../utils/seo'
 import { usePageSeo } from './usePageSeo'
 
@@ -26,6 +29,8 @@ export function useValaxyApp() {
   const { $t, $tO } = useValaxyI18n()
 
   const route = useRoute()
+  const routerStore = useRouterStore()
+  const layout = useLayout()
   const { toggleLocale } = useLocale()
   // if lang exist, toggle the locale
   if (route.query.lang) {
@@ -33,8 +38,9 @@ export function useValaxyApp() {
   }
 
   // seo
-  const { description, pageUrl, image, type } = usePageSeo()
+  const { description, routePath, pagePath, pageUrl, image, type } = usePageSeo()
   const seoTitle = computed(() => $tO(fm.value.title) || $t(siteConfig.value.title))
+  const isNotFound = computed(() => String(layout.value) === '404')
   const author = publicAuthor(siteConfig.value.author)
   const personUrl = author.link && /^https?:\/\//.test(author.link)
     ? author.link
@@ -50,7 +56,7 @@ export function useValaxyApp() {
     ogSiteName: computed(() => $t(siteConfig.value.title)),
     ogTitle: seoTitle,
     ogImage: image,
-    ogImageAlt: image.value ? seoTitle : undefined,
+    ogImageAlt: computed(() => image.value ? seoTitle.value : undefined),
     ogType: type,
     ogUrl: pageUrl,
     twitterCard: computed(() => image.value ? 'summary_large_image' : 'summary'),
@@ -60,12 +66,47 @@ export function useValaxyApp() {
   })
 
   const articleDescription = computed(() => asText($tO(fm.value.description)) || asText(route.meta.seoDescription))
-  const breadcrumbs = computed(() => buildBreadcrumbItems({
-    siteUrl: siteConfig.value.url,
-    siteTitle: $t(siteConfig.value.title),
-    pageTitle: seoTitle.value,
-    path: route.path,
-  }))
+  const staticRouteMap = computed(() => {
+    const map = new Map<string, RouteRecordNormalized>()
+    for (const record of routerStore.routes) {
+      if (record.redirect || record.path.includes(':') || record.path.includes('*'))
+        continue
+      if (String(record.meta?.layout) === '404' || isGeneratedPaginationPath(record.path))
+        continue
+      const fmMeta = record.meta?.frontmatter as Record<string, unknown> | undefined
+      if (!fmMeta && !(record.components && Object.keys(record.components).length > 0))
+        continue
+      const key = record.path.length > 1 ? record.path.replace(/\/+$/, '') : record.path
+      if (!key || key === '/')
+        continue
+      const existing = map.get(key)
+      if (!existing || (Boolean(fmMeta) && !existing.meta?.frontmatter) || (!existing.path.endsWith('/') && record.path.endsWith('/')))
+        map.set(key, record)
+    }
+    return map
+  })
+  const breadcrumbs = computed(() => {
+    if (isNotFound.value)
+      return undefined
+    const routes = staticRouteMap.value
+    const path = pagePath.value.startsWith('/') ? pagePath.value : routePath.value
+    return buildBreadcrumbItems({
+      siteUrl: siteConfig.value.url,
+      siteTitle: $t(siteConfig.value.title),
+      pageTitle: seoTitle.value,
+      path,
+      resolveAncestor: (ancestorPath) => {
+        const record = routes.get(ancestorPath)
+        if (!record)
+          return undefined
+        const fmMeta = record.meta?.frontmatter as { title?: string | Record<string, unknown> } | undefined
+        return {
+          path: record.path,
+          name: asText($tO(fmMeta?.title)) || undefined,
+        }
+      },
+    })
+  })
 
   // for SEO
   useSchemaOrg([
@@ -92,7 +133,7 @@ export function useValaxyApp() {
       dateModified: computed(() => schemaDate(fm.value.updated) || schemaDate(fm.value.date)),
     }),
     computed(() => {
-      if (type.value !== 'article')
+      if (isNotFound.value || type.value !== 'article')
         return undefined
       const published = schemaDate(fm.value.date)
       const modified = schemaDate(fm.value.updated) || published
