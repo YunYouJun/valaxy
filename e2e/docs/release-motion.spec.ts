@@ -1,4 +1,5 @@
 import { expect, test } from '@playwright/test'
+import { waitForHydration } from '../utils/hydration'
 
 // No baseURL here: the dev and SSG Playwright configs each provide one.
 test.use({ viewport: { width: 1440, height: 900 } })
@@ -10,7 +11,8 @@ test('sends /release/ to the latest release page', async ({ page }) => {
 })
 
 test('opens on the plate with the nav laid over it, then a solid nav past it', async ({ page }) => {
-  await page.goto('/release/v1/')
+  await page.goto('/release/v1/', { waitUntil: 'domcontentloaded' })
+  await waitForHydration(page)
   await expect(page.locator('.galaxy-hero .hero-canvas')).toBeVisible()
   await expect(page.locator('.hero-plate')).toContainText('Valaxy 1.0')
   await expect(page.locator('.release-nav')).toHaveClass(/is-over-plate/)
@@ -29,7 +31,8 @@ test('shows the release film on its cover without loading a player', async ({ pa
 })
 
 test('sends a line into the galaxy and turns it into a postcard', async ({ page }) => {
-  await page.goto('/zh/release/v1/')
+  await page.goto('/zh/release/v1/', { waitUntil: 'domcontentloaded' })
+  await waitForHydration(page)
   await page.getByLabel('写一句话，放进星系').fill('今天也写了一篇博客')
   await page.getByRole('button', { name: '放进星系', exact: true }).click()
   await expect(page.locator('.wish-status [role="status"]')).toHaveText('9 个字已加入星系')
@@ -46,7 +49,8 @@ test('sends a line into the galaxy and turns it into a postcard', async ({ page 
 })
 
 test('sets a title in movable type and prints numbered impressions', async ({ page }) => {
-  await page.goto('/release/v1/')
+  await page.goto('/release/v1/', { waitUntil: 'domcontentloaded' })
+  await waitForHydration(page)
   const sheet = page.locator('.type-sheet')
   await page.getByLabel('Write a title').fill('Hello, world')
   await page.getByRole('button', { name: 'Set and print' }).click()
@@ -61,7 +65,8 @@ test('sets a title in movable type and prints numbered impressions', async ({ pa
 })
 
 test('switches the section to the theme of the chosen planet', async ({ page }) => {
-  await page.goto('/release/v1/')
+  await page.goto('/release/v1/', { waitUntil: 'domcontentloaded' })
+  await waitForHydration(page)
   const section = page.locator('.theme-section')
   const planets = section.locator('.planet')
   await expect(planets).toHaveCount(6)
@@ -77,7 +82,8 @@ test('switches the section to the theme of the chosen planet', async ({ page }) 
 
 test('keeps everything still and usable when reduced motion is preferred', async ({ page }) => {
   await page.emulateMedia({ reducedMotion: 'reduce' })
-  await page.goto('/zh/release/v1/')
+  await page.goto('/zh/release/v1/', { waitUntil: 'domcontentloaded' })
+  await waitForHydration(page)
   await expect(page.getByRole('button', { name: '重播开场动画' })).toBeHidden()
   // The galaxy is drawn in its finished state rather than left blank.
   await expect.poll(() => page.locator('.galaxy-hero .hero-canvas').evaluate((el) => {

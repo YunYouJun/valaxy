@@ -1,10 +1,11 @@
 import { expect, test } from '@playwright/test'
-import { env } from '../env'
+import { waitForHydration } from '../utils/hydration'
 
-test.use({ baseURL: env.docs, viewport: { width: 817, height: 649 } })
+test.use({ viewport: { width: 817, height: 649 } })
 
 test('uses a local outline below the desktop breakpoint', async ({ page }) => {
-  await page.goto('/zh/guide/getting-started')
+  await page.goto('/zh/guide/getting-started', { waitUntil: 'domcontentloaded' })
+  await waitForHydration(page)
   const trigger = page.getByRole('button', { name: '本页目录', exact: true })
   await expect(trigger).toBeVisible()
   await expect(page.locator('.toc-btn')).toHaveCount(0)
@@ -23,7 +24,8 @@ test('uses a local outline below the desktop breakpoint', async ({ page }) => {
 
 test('highlights the section being read in the desktop outline', async ({ page }) => {
   await page.setViewportSize({ width: 1440, height: 900 })
-  await page.goto('/guide/getting-started')
+  await page.goto('/guide/getting-started', { waitUntil: 'domcontentloaded' })
+  await waitForHydration(page)
   const outline = page.locator('#press-page-outline')
   const marker = outline.locator('.outline-marker')
   await expect(outline).toBeVisible()
@@ -45,7 +47,8 @@ test('highlights the section being read in the desktop outline', async ({ page }
 })
 
 test('keeps the document drawer above its backdrop and unlocks on resize', async ({ page }) => {
-  await page.goto('/zh/guide/getting-started')
+  await page.goto('/zh/guide/getting-started', { waitUntil: 'domcontentloaded' })
+  await waitForHydration(page)
   const trigger = page.locator('.press-local-nav .menu')
   await trigger.click()
   const sidebar = page.getByRole('dialog', { name: '文档导航' })
@@ -69,7 +72,8 @@ test('keeps the document drawer above its backdrop and unlocks on resize', async
 
 test('switches mobile panels without leaving a backdrop or scroll lock behind', async ({ page }) => {
   await page.setViewportSize({ width: 390, height: 844 })
-  await page.goto('/zh/guide/getting-started')
+  await page.goto('/zh/guide/getting-started', { waitUntil: 'domcontentloaded' })
+  await waitForHydration(page)
   await page.locator('.press-local-nav .menu').click()
   await page.getByRole('button', { name: '打开导航', exact: true }).click()
   await expect(page.locator('.press-sidebar')).not.toHaveClass(/open/)
@@ -89,7 +93,8 @@ test('switches mobile panels without leaving a backdrop or scroll lock behind', 
 
 test('closes the compact document drawer without a separate close button', async ({ page }) => {
   await page.setViewportSize({ width: 390, height: 844 })
-  await page.goto('/guide/commands')
+  await page.goto('/guide/commands', { waitUntil: 'domcontentloaded' })
+  await waitForHydration(page)
   const trigger = page.locator('.press-local-nav .menu')
   const sidebar = page.getByRole('dialog', { name: 'Documentation navigation' })
 
@@ -118,7 +123,8 @@ test('closes the compact document drawer without a separate close button', async
 
 test('keeps keyboard navigation within the complete mobile menu and closes on Escape', async ({ page }) => {
   await page.setViewportSize({ width: 390, height: 844 })
-  await page.goto('/zh/guide/getting-started')
+  await page.goto('/zh/guide/getting-started', { waitUntil: 'domcontentloaded' })
+  await waitForHydration(page)
   const trigger = page.getByRole('button', { name: '打开导航', exact: true })
   await trigger.click()
   const menu = page.getByRole('dialog', { name: '站点导航' })

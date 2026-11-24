@@ -1,7 +1,7 @@
 import { expect, test } from '@playwright/test'
-import { env } from '../env'
+import { waitForHydration } from '../utils/hydration'
 
-test.use({ baseURL: env.docs, viewport: { width: 1440, height: 900 } })
+test.use({ viewport: { width: 1440, height: 900 } })
 
 test('staggers the hero entrance and reveals sections on scroll', async ({ page }) => {
   await page.emulateMedia({ reducedMotion: 'no-preference' })
@@ -23,7 +23,8 @@ test('keeps the homepage still when reduced motion is preferred', async ({ page 
 })
 
 test('expands and collapses the sponsor list', async ({ page }) => {
-  await page.goto('/')
+  await page.goto('/', { waitUntil: 'domcontentloaded' })
+  await waitForHydration(page)
   const sponsors = page.locator('.home-sponsors')
   await expect(sponsors.getByRole('heading', { name: 'Made possible by our sponsors' })).toBeVisible()
   const toggle = sponsors.getByRole('button', { name: 'Show all sponsors' })

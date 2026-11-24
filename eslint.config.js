@@ -13,6 +13,9 @@ export default antfu(
       '**/.valaxy/**',
       // Local HyperFrames video projects (kept off git; checked with `hyperframes lint`).
       'promo',
+      // Interrupted integration test fixtures written under test/fixtures.
+      'test/fixtures/.publishing-build-*',
+      'test/fixtures/valaxy-*',
     ],
     rules: {
       'no-dupe-keys': 'off',

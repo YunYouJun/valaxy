@@ -1,4 +1,5 @@
 import { expect, test } from '@playwright/test'
+import { waitForHydration } from '../utils/hydration'
 
 // Both language cases use the system clipboard, shared across browser contexts.
 test.describe.configure({ mode: 'default' })
@@ -11,7 +12,8 @@ for (const language of [
     const errors: string[] = []
     page.on('pageerror', error => errors.push(error.message))
     await context.grantPermissions(['clipboard-read', 'clipboard-write'])
-    await page.goto(language.path)
+    await page.goto(language.path, { waitUntil: 'domcontentloaded' })
+    await waitForHydration(page)
     const builder = page.locator('.theme-prompt')
     const copy = builder.locator('.output-copy')
     await expect(copy).toHaveAccessibleName(language.brief)

@@ -1,9 +1,4 @@
 import { expect, test } from '@playwright/test'
-import { env } from '../env'
-
-test.use({
-  baseURL: env.docs,
-})
 
 test.describe('code blocks should not contain [object Promise]', () => {
   const pages = [

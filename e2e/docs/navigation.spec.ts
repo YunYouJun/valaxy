@@ -1,15 +1,15 @@
 import { expect, test } from '@playwright/test'
 import pkg from '../../packages/valaxy/package.json' with { type: 'json' }
-import { env } from '../env'
+import { waitForHydration } from '../utils/hydration'
 
 test.use({
-  baseURL: env.docs,
   colorScheme: 'dark',
 })
 
 test('uses the screen menu before tablet navigation can wrap', async ({ page }) => {
   await page.setViewportSize({ width: 817, height: 649 })
-  await page.goto('/zh/guide/why')
+  await page.goto('/zh/guide/why', { waitUntil: 'domcontentloaded' })
+  await waitForHydration(page)
   await page.waitForLoadState('networkidle')
 
   const navbar = page.locator('.pr-navbar')
@@ -30,7 +30,8 @@ test('uses the screen menu before tablet navigation can wrap', async ({ page }) 
 
 test('keeps the English desktop menu on one line at 1024px', async ({ page }) => {
   await page.setViewportSize({ width: 1024, height: 700 })
-  await page.goto('/guide/why')
+  await page.goto('/guide/why', { waitUntil: 'domcontentloaded' })
+  await waitForHydration(page)
   await page.waitForLoadState('networkidle')
 
   await expect(page.locator('.pr-nav-bar-menu')).toBeVisible()
@@ -58,7 +59,8 @@ test('keeps the English desktop menu on one line at 1024px', async ({ page }) =>
 
 test('expands the search control on wide screens', async ({ page }) => {
   await page.setViewportSize({ width: 1280, height: 700 })
-  await page.goto('/guide/why')
+  await page.goto('/guide/why', { waitUntil: 'domcontentloaded' })
+  await waitForHydration(page)
   await page.waitForLoadState('networkidle')
 
   await expect(page.locator('.pr-nav-bar-menu')).toBeVisible()
@@ -68,7 +70,8 @@ test('expands the search control on wide screens', async ({ page }) => {
 
 test('keeps only one dropdown open when moving quickly between navigation and languages', async ({ page }) => {
   await page.setViewportSize({ width: 1280, height: 700 })
-  await page.goto('/zh/guide/why')
+  await page.goto('/zh/guide/why', { waitUntil: 'domcontentloaded' })
+  await waitForHydration(page)
   await page.waitForLoadState('networkidle')
 
   const navbar = page.locator('.pr-navbar')
@@ -112,7 +115,8 @@ test('keeps only one dropdown open when moving quickly between navigation and la
 test('deep linking to a docs heading keeps clearance below the sticky navbar', async ({ page }) => {
   // 1200px (< 80rem) keeps the local doc nav visible (~111px scroll-margin-top), distinct from the legacy -64 fallback
   await page.setViewportSize({ width: 1200, height: 700 })
-  await page.goto('/guide/markdown#container')
+  await page.goto('/guide/markdown#container', { waitUntil: 'domcontentloaded' })
+  await waitForHydration(page)
   await page.waitForLoadState('networkidle')
 
   await expect.poll(async () => page.evaluate(() => {

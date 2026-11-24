@@ -1,8 +1,10 @@
 import { expect, test } from '@playwright/test'
+import { waitForHydration } from '../utils/hydration'
 
 test('desktop language menu opens on hover and stays open while selecting a language', async ({ page }) => {
   await page.setViewportSize({ width: 1440, height: 900 })
-  await page.goto('/guide/getting-started')
+  await page.goto('/guide/getting-started', { waitUntil: 'domcontentloaded' })
+  await waitForHydration(page)
   const translations = page.locator('.pr-nav-bar-translations')
   const trigger = translations.getByRole('button')
   const chinese = translations.getByRole('link', { name: '简体中文' })
@@ -32,7 +34,8 @@ test('desktop language menu opens on hover and stays open while selecting a lang
 
 test('mobile language menu still opens on tap', async ({ page }) => {
   await page.setViewportSize({ width: 390, height: 844 })
-  await page.goto('/guide/getting-started')
+  await page.goto('/guide/getting-started', { waitUntil: 'domcontentloaded' })
+  await waitForHydration(page)
   await page.getByRole('button', { name: /^(Open navigation|打开导航)$/ }).click()
   await page.locator('.press-locale-trigger:visible').click()
   await page.getByRole('menuitem', { name: '简体中文' }).click()

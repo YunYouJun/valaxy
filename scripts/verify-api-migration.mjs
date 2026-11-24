@@ -2,7 +2,7 @@ import assert from 'node:assert/strict'
 import { access, mkdir, readdir, readFile, writeFile } from 'node:fs/promises'
 import { resolve } from 'node:path'
 import process from 'node:process'
-import { JSDOM } from 'jsdom'
+import { parseFragment } from 'parse5'
 import { apiDestination, apiRedirects, formatApiRedirects } from './lib/api-redirects.mjs'
 
 const root = resolve('docs/dist')
@@ -11,6 +11,58 @@ const legacy = process.argv.includes('--legacy-redirects')
   : undefined
 const pages = new Map()
 const errors = []
+
+function getAttr(node, name) {
+  return node.attrs?.find(attr => attr.name === name && !attr.namespace)?.value
+}
+
+function parsePage(html) {
+  // Match JSDOM.fragment semantics (HTML5 tree, inert <template>, case-insensitive link[rel]).
+  const fragment = parseFragment(html)
+  const ids = new Set()
+  let firstMain = null
+  let seenCanonical = false
+  let canonical
+
+  function walk(node) {
+    if (node.attrs) {
+      const id = getAttr(node, 'id')
+      if (id !== undefined)
+        ids.add(id)
+      if (!seenCanonical && node.tagName === 'link') {
+        const rel = getAttr(node, 'rel')
+        if (rel?.toLowerCase() === 'canonical') {
+          seenCanonical = true
+          canonical = getAttr(node, 'href') ?? null
+        }
+      }
+      if (!firstMain && node.tagName === 'main')
+        firstMain = node
+    }
+    if (node.childNodes) {
+      for (const child of node.childNodes)
+        walk(child)
+    }
+  }
+  walk(fragment)
+
+  const links = []
+  function collectLinks(node) {
+    if (node.attrs && node.tagName === 'a' && node.attrs.some(attr => attr.name === 'href'))
+      links.push(getAttr(node, 'href') ?? null)
+    if (node.childNodes) {
+      for (const child of node.childNodes)
+        collectLinks(child)
+    }
+  }
+  collectLinks(firstMain || fragment)
+
+  return {
+    ids,
+    links,
+    canonical: canonical ?? undefined,
+  }
+}
 
 async function readPage(path) {
   path = decodeURIComponent(path)
@@ -21,13 +73,7 @@ async function readPage(path) {
   const candidates = key.endsWith('/') ? [`${stem}/index.html`, `${stem}.html`] : [`${stem}.html`, `${stem}/index.html`]
   for (const file of candidates) {
     try {
-      const dom = JSDOM.fragment(await readFile(file, 'utf8'))
-      const main = dom.querySelector('main') || dom
-      const page = {
-        ids: new Set([...dom.querySelectorAll('[id]')].map(element => element.id)),
-        links: [...main.querySelectorAll('a[href]')].map(element => element.getAttribute('href')),
-        canonical: dom.querySelector('link[rel="canonical"]')?.getAttribute('href'),
-      }
+      const page = parsePage(await readFile(file, 'utf8'))
       pages.set(key, page)
       return page
     }

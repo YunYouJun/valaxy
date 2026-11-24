@@ -1,9 +1,4 @@
 import { expect, test } from '@playwright/test'
-import { env } from '../env'
-
-test.use({
-  baseURL: env.docs,
-})
 
 test.describe('docs feature', () => {
   test('code height limit', async ({ page }) => {

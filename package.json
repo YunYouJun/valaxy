@@ -56,7 +56,7 @@
     "e2e:ui": "playwright test --ui",
     "e2e:report": "playwright show-report",
     "link:dev": "pnpm add --global ./packages/valaxy",
-    "lint": "eslint .",
+    "lint": "eslint . --cache --cache-strategy content --cache-location node_modules/.cache/eslint/.eslintcache",
     "stylelint": "stylelint --fix --ignore-path .gitignore \"**/*.{css,scss,vue}\"",
     "stylelint:check": "stylelint --ignore-path .gitignore \"**/*.{css,scss,vue}\"",
     "preinstall": "npx only-allow pnpm",
@@ -64,6 +64,7 @@
     "release": "tsx scripts/release.ts",
     "typecheck": "vue-tsc --noEmit --skipLibCheck",
     "test": "vitest",
+    "test:demo": "cross-env VALAXY_TEST_DEMO_DIST=1 vitest run",
     "test:devtools": "tsx scripts/check-devtools-addons.ts",
     "test:onboarding": "tsx scripts/check-onboarding.ts",
     "test:e2e": "pnpm run e2e",
@@ -71,7 +72,7 @@
     "test:space:docs": "cross-env NODE_OPTIONS=--max-old-space-size=1536 pnpm -C docs run build",
     "validate:addons": "tsx scripts/validate-addon-docs.ts",
     "prepare": "husky install",
-    "check:release": "tsx scripts/check-release.ts && pnpm lint && pnpm build:all && pnpm build:demo && pnpm typecheck && pnpm test --run && pnpm audit --prod --audit-level high"
+    "check:release": "tsx scripts/check-release.ts && pnpm lint && pnpm build:all && pnpm build:demo && pnpm typecheck && pnpm test --run && pnpm run test:demo && pnpm audit --prod --audit-level high"
   },
   "dependencies": {
     "@valaxyjs/devtools": "workspace:*",
