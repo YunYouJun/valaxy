@@ -32,7 +32,7 @@ useHead(() => ({
   link: showSerifFont.value
     ? [{
         rel: 'stylesheet',
-        href: 'https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@700&display=swap',
+        href: 'https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400..600;1,6..72,400..600&family=Noto+Serif+SC:wght@600&display=swap',
       }]
     : [],
 

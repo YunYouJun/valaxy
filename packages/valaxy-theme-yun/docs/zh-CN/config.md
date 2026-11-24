@@ -191,7 +191,7 @@ export default defineThemeConfig({
 | `--yun-post-excerpt-color` / `--yun-post-excerpt-opacity` | 摘要颜色 / `0.9` |
 | `--yun-post-excerpt-line-height` / `--yun-prose-line-height` | 摘要 `1.7` / 正文 `1.8` |
 | `--yun-prose-heading-font-family` / `--yun-prose-subheading-font-family` | 正文一级/二级标题字体（默认主题衬线）/ 三至六级标题字体（默认主题无衬线） |
-| `--yun-prose-heading-font-weight` / `--yun-prose-subheading-font-weight` | 正文一级/二级标题字重（`700`）/ 三至六级标题字重（`600`）；更多底层正文排版令牌见核心 `--va-md-*` 变量 |
+| `--yun-prose-heading-font-weight` / `--yun-prose-subheading-font-weight` | 正文一级/二级标题字重（`600`）/ 三至六级标题字重（`600`）；更多底层正文排版令牌见核心 `--va-md-*` 变量 |
 
 除直接微调上述 CSS 变量外，还可通过 `themeConfig.prose` 或单篇文章 Frontmatter 的 `prose` 切换整套排版预设：`yun`（默认衬线主标题 + 无衬线副标题）、`editorial`（全衬线书卷长文，行高 `1.92`）、`technical`（紧凑全无衬线技术文档，行高 `1.72`）。
 | `--yun-surface-line` | 卡片表面与内部分隔线；亮色默认 `rgb(122 122 122 / 0.08)`，暗色默认 `rgb(255 255 255 / 0.09)` |

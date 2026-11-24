@@ -71,28 +71,34 @@ test.describe('Markdown: Typography & Theme Yun Decoupling', () => {
         card.setAttribute('data-yun-prose', 'editorial')
         const editorialH3Font = getComputedStyle(h3).fontFamily
         card.setAttribute('data-yun-prose', 'technical')
-        const technicalFonts = {
+        const technicalHeading = {
           postTitle: getComputedStyle(postTitle).fontFamily,
+          postTitleWeight: getComputedStyle(postTitle).fontWeight,
           h2: getComputedStyle(h2).fontFamily,
+          h2Weight: getComputedStyle(h2).fontWeight,
         }
         card.removeAttribute('data-yun-prose')
 
-        return { ...base, editorialH3Font, technicalFonts }
+        return { ...base, editorialH3Font, technicalHeading }
       })
 
+      expect(typography.serif.indexOf('Newsreader')).toBeGreaterThanOrEqual(0)
+      expect(typography.serif.indexOf('Noto Serif SC')).toBeGreaterThan(typography.serif.indexOf('Newsreader'))
       expect(typography.postTitle.fontSize).toBeGreaterThan(typography.h2.fontSize)
       expect(typography.h2.fontSize).toBeGreaterThan(typography.h3.fontSize)
       expect(typography.h3.fontSize).toBeGreaterThan(typography.h4.fontSize)
 
       expect(typography.postTitle.fontFamily).toBe(typography.serif)
-      expect(typography.postTitle.fontWeight).toBe('700')
+      expect(typography.postTitle.fontWeight).toBe('600')
       expect(typography.h2.fontFamily).toBe(typography.serif)
-      expect(typography.h2.fontWeight).toBe('700')
+      expect(typography.h2.fontWeight).toBe('600')
       expect(typography.h3.fontFamily).toBe(typography.sans)
       expect(typography.h3.fontWeight).toBe('600')
       expect(typography.editorialH3Font).toBe(typography.serif)
-      expect(typography.technicalFonts.postTitle).toBe(typography.sans)
-      expect(typography.technicalFonts.h2).toBe(typography.sans)
+      expect(typography.technicalHeading.postTitle).toBe(typography.sans)
+      expect(typography.technicalHeading.postTitleWeight).toBe('700')
+      expect(typography.technicalHeading.h2).toBe(typography.sans)
+      expect(typography.technicalHeading.h2Weight).toBe('700')
 
       // 2. Strong, mono fonts, links, scoped --va-c-link override, kbd, del, blockquote, and summary focus-visible on /posts/markdown
       await page.goto('/posts/markdown', { waitUntil: 'domcontentloaded' })

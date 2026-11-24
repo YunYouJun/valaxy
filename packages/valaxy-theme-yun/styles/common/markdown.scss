@@ -19,7 +19,7 @@
   --va-md-line-height: var(--yun-prose-line-height, 1.8);
   --va-md-heading-font-family: var(--yun-prose-heading-font-family, var(--va-font-serif));
   --va-md-subheading-font-family: var(--yun-prose-subheading-font-family, var(--va-font-sans));
-  --va-md-heading-font-weight: var(--yun-prose-heading-font-weight, 700);
+  --va-md-heading-font-weight: var(--yun-prose-heading-font-weight, 600);
   --va-md-subheading-font-weight: var(--yun-prose-subheading-font-weight, 600);
   --va-md-heading-scroll-margin-top: calc(var(--yun-nav-height, 50px) + 1.5rem);
   --va-md-table-row-hover-bg: var(--yun-action-btn-hover-bg);
@@ -236,11 +236,13 @@
 [data-yun-prose='technical'] {
   .post-header .post-title {
     font-family: var(--va-font-sans);
+    font-weight: var(--yun-post-title-font-weight, 700);
   }
 
   .markdown-body {
     --va-md-line-height: var(--yun-prose-line-height, 1.72);
     --va-md-heading-font-family: var(--yun-prose-heading-font-family, var(--va-font-sans));
+    --va-md-heading-font-weight: var(--yun-prose-heading-font-weight, 700);
     --va-md-subheading-font-family: var(--yun-prose-subheading-font-family, var(--va-font-sans));
 
     h2 {

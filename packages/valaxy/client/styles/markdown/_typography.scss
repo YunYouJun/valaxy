@@ -5,6 +5,7 @@
   color: var(--va-md-text-color, var(--va-c-text));
   font-family: var(--va-md-font-family, var(--va-font-sans));
   font-size: var(--va-md-font-size, 1rem);
+  font-kerning: normal;
   line-height: var(--va-md-line-height, 1.8);
   overflow-wrap: break-word;
   text-autospace: normal;
@@ -22,6 +23,7 @@
   h6 {
     position: relative;
     color: var(--va-md-heading-color, var(--va-md-default-heading-color));
+    font-optical-sizing: auto;
     outline: none;
     scroll-margin-top: var(--va-md-heading-scroll-margin-top, 5rem);
     text-wrap: balance;

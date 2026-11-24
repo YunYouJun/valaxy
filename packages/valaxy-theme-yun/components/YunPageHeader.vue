@@ -21,7 +21,7 @@ const props = withDefaults(defineProps<{
       :is="props.level === 2 ? 'h2' : 'h1'"
       :id="titleId"
       class="post-title flex-center" p="2" text="center"
-      font="serif bold"
+      font="serif semibold"
       :style="`color:${color}`"
       :class="pageTitleClass"
     >

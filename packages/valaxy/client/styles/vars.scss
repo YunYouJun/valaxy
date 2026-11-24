@@ -18,7 +18,7 @@ $border: map.merge(
 $font: () !default;
 $font: map.merge(
   (
-    "serif": "'Noto Serif SC', 'Source Han Serif SC', 'Noto Serif CJK SC', 'Songti SC', 'STSong', 'SimSun', Georgia, serif",
+    "serif": "'Newsreader', 'Iowan Old Style', Georgia, 'Noto Serif SC', 'Source Han Serif SC', 'Noto Serif CJK SC', 'Songti SC', 'STSong', 'SimSun', serif",
     "sans":
       'DM Sans, Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", Roboto, "Helvetica Neue", sans-serif',
     "mono": 'DM Mono, ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace',

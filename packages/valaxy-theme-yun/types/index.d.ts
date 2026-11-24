@@ -205,7 +205,7 @@ export interface ThemeConfig extends DefaultTheme.Config {
    */
   banner: YunTheme.Banner
 
-  /** Where to load the optional Noto Serif SC web font. @default 'all' */
+  /** Where to load the optional serif web fonts (`Newsreader` + `Noto Serif SC`). @default 'all' */
   serifFont?: 'all' | 'except-home' | 'off'
 
   /** Default prose typography preset for Markdown articles and pages. @default 'yun' */
