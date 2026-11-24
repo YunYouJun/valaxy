@@ -7,9 +7,11 @@
   font-size: var(--va-md-font-size, 1rem);
   line-height: var(--va-md-line-height, 1.8);
   overflow-wrap: break-word;
+  text-autospace: normal;
 
   p {
     margin-block: 1rem;
+    text-wrap: pretty;
   }
 
   h1,

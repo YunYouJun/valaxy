@@ -13,6 +13,11 @@ declare module 'valaxy' {
      * @default true
      */
     outlineCollapsible?: boolean | 'auto'
+    /**
+     * @description:en-US Markdown prose typography preset (`'yun'` default mixed headings, `'editorial'` serif headings & relaxed spacing, `'technical'` compact sans docs).
+     * @description:zh-CN 正文排版预设（`'yun'` 默认衬线主标题混排，`'editorial'` 全衬线书卷长文风，`'technical'` 紧凑全无衬线技术文档风）。
+     */
+    prose?: YunTheme.ProsePreset
   }
 
   interface PostFrontMatter {
@@ -21,11 +26,18 @@ declare module 'valaxy' {
      * @description:zh-CN Yun 主题文章卡片标题的 CSS 类。
      */
     postTitleClass?: string
+    /**
+     * @description:en-US Markdown prose typography preset (`'yun'` | `'editorial'` | `'technical'`).
+     * @description:zh-CN 正文排版预设（`'yun'` | `'editorial'` | `'technical'`）。
+     */
+    prose?: YunTheme.ProsePreset
   }
 }
 
 export namespace YunTheme {
   export type Config = ThemeConfig
+
+  export type ProsePreset = 'yun' | 'editorial' | 'technical'
 
   export type Sidebar = SidebarItem[] | SidebarMulti
 
@@ -195,6 +207,9 @@ export interface ThemeConfig extends DefaultTheme.Config {
 
   /** Where to load the optional Noto Serif SC web font. @default 'all' */
   serifFont?: 'all' | 'except-home' | 'off'
+
+  /** Default prose typography preset for Markdown articles and pages. @default 'yun' */
+  prose?: YunTheme.ProsePreset
 
   /** Post list presentation; per-post title classes take precedence. */
   postCard?: {

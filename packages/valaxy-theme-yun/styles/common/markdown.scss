@@ -215,3 +215,40 @@
     inset: -0.35rem -0.45rem -0.35rem -0.15rem;
   }
 }
+
+[data-yun-prose='editorial'] {
+  .markdown-body {
+    --va-md-line-height: var(--yun-prose-line-height, 1.92);
+    --va-md-heading-font-family: var(--yun-prose-heading-font-family, var(--va-font-serif));
+    --va-md-subheading-font-family: var(--yun-prose-subheading-font-family, var(--va-font-serif));
+    --va-md-blockquote-color: var(--va-c-text-1);
+
+    p {
+      margin-block: 1.15rem;
+    }
+
+    blockquote {
+      font-family: var(--va-font-serif);
+    }
+  }
+}
+
+[data-yun-prose='technical'] {
+  .post-header .post-title {
+    font-family: var(--va-font-sans);
+  }
+
+  .markdown-body {
+    --va-md-line-height: var(--yun-prose-line-height, 1.72);
+    --va-md-heading-font-family: var(--yun-prose-heading-font-family, var(--va-font-sans));
+    --va-md-subheading-font-family: var(--yun-prose-subheading-font-family, var(--va-font-sans));
+
+    h2 {
+      margin: 1.85rem 0 0.75rem;
+    }
+
+    h3 {
+      margin: 1.45rem 0 0.6rem;
+    }
+  }
+}

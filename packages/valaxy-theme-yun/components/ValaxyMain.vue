@@ -3,7 +3,7 @@ import type { PageData, Post } from 'valaxy'
 import { onClickHref, scrollTo, usePostTitle, useSiteConfig } from 'valaxy'
 import { computed, onMounted, onUnmounted } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
-import { usePostProperty } from '../composables'
+import { usePostProperty, useThemeConfig } from '../composables'
 
 const props = defineProps<{
   frontmatter: Post
@@ -11,11 +11,13 @@ const props = defineProps<{
 }>()
 
 const siteConfig = useSiteConfig()
+const themeConfig = useThemeConfig()
 
 const { styles, icon, color } = usePostProperty(props.frontmatter.type)
 const title = usePostTitle(computed(() => props.frontmatter))
 
 const aside = computed(() => props.frontmatter.aside !== false)
+const prosePreset = computed(() => props.frontmatter.prose || themeConfig.value.prose)
 
 const route = useRoute()
 const router = useRouter()
@@ -55,6 +57,7 @@ onUnmounted(() => {
         <YunCard
           :cover="frontmatter.cover" :cover-component="frontmatter.coverComponent" :cover-props="frontmatter.coverProps"
           :class="{ 'is-draft': frontmatter.draft, 'has-post-status': Boolean(frontmatter.draft || frontmatter.hide || frontmatter.top) }"
+          :data-yun-prose="prosePreset && prosePreset !== 'yun' ? prosePreset : undefined"
           m="0" v-bind="styles ? { style: styles } : {}"
         >
           <div class="yun-reading-actions">

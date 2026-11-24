@@ -1,12 +1,62 @@
 @use './tokens';
 
+@property --va-md-table-fade-start {
+  syntax: '<number>';
+  inherits: false;
+  initial-value: 0;
+}
+
+@property --va-md-table-fade-end {
+  syntax: '<number>';
+  inherits: false;
+  initial-value: 0;
+}
+
+@keyframes va-md-table-fade {
+  0% {
+    --va-md-table-fade-start: 0;
+    --va-md-table-fade-end: 24;
+  }
+
+  8%,
+  92% {
+    --va-md-table-fade-start: 24;
+    --va-md-table-fade-end: 24;
+  }
+
+  100% {
+    --va-md-table-fade-start: 24;
+    --va-md-table-fade-end: 0;
+  }
+}
+
 :where(.markdown-body) {
   .table-container {
+    position: relative;
     margin: 1.25rem 0;
+    border: 1px solid var(--va-md-table-border-color, var(--va-c-divider));
+    border-radius: var(--va-md-table-radius, var(--va-card-border-radius, 0.5rem));
     overflow-x: auto;
 
     > table {
       margin: 0;
+      border-collapse: separate;
+      border-spacing: 0;
+
+      :is(th, td) {
+        border: 0;
+        border-bottom: 1px solid var(--va-md-table-border-color, var(--va-c-divider));
+        border-inline-end: 1px solid var(--va-md-table-border-color, var(--va-c-divider));
+
+        &:last-child {
+          border-inline-end: 0;
+        }
+      }
+
+      > :last-child > tr:last-child > :is(th, td),
+      > tr:last-child > :is(th, td) {
+        border-bottom: 0;
+      }
     }
   }
 
@@ -41,5 +91,29 @@
     @media (prefers-reduced-motion: reduce) {
       transition: none;
     }
+  }
+}
+
+@supports (animation-timeline: scroll()) {
+  :where(.markdown-body) .table-container {
+    animation: va-md-table-fade linear both;
+    animation-timeline: scroll(self inline);
+    mask-image: linear-gradient(
+      to right,
+      transparent,
+      #000 calc(var(--va-md-table-fade-start) * 1px),
+      #000 calc(100% - var(--va-md-table-fade-end) * 1px),
+      transparent
+    );
+  }
+
+  :where([dir='rtl'] .markdown-body, .markdown-body[dir='rtl'], .markdown-body [dir='rtl']) .table-container {
+    mask-image: linear-gradient(
+      to left,
+      transparent,
+      #000 calc(var(--va-md-table-fade-start) * 1px),
+      #000 calc(100% - var(--va-md-table-fade-end) * 1px),
+      transparent
+    );
   }
 }

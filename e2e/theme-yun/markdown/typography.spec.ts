@@ -43,8 +43,9 @@ test.describe('Markdown: Typography & Theme Yun Decoupling', () => {
         const h2 = pickVisible('.markdown-body h2')!
         const h3 = pickVisible('.markdown-body h3')!
         const h4 = pickVisible('.markdown-body h4')!
+        const card = document.querySelector<HTMLElement>('.yun-main .yun-card')!
 
-        return {
+        const base = {
           serif: resolveFont('var(--va-font-serif)'),
           sans: resolveFont('var(--va-font-sans)'),
           postTitle: {
@@ -66,6 +67,17 @@ test.describe('Markdown: Typography & Theme Yun Decoupling', () => {
             fontSize: Number.parseFloat(getComputedStyle(h4).fontSize),
           },
         }
+
+        card.setAttribute('data-yun-prose', 'editorial')
+        const editorialH3Font = getComputedStyle(h3).fontFamily
+        card.setAttribute('data-yun-prose', 'technical')
+        const technicalFonts = {
+          postTitle: getComputedStyle(postTitle).fontFamily,
+          h2: getComputedStyle(h2).fontFamily,
+        }
+        card.removeAttribute('data-yun-prose')
+
+        return { ...base, editorialH3Font, technicalFonts }
       })
 
       expect(typography.postTitle.fontSize).toBeGreaterThan(typography.h2.fontSize)
@@ -78,6 +90,9 @@ test.describe('Markdown: Typography & Theme Yun Decoupling', () => {
       expect(typography.h2.fontWeight).toBe('700')
       expect(typography.h3.fontFamily).toBe(typography.sans)
       expect(typography.h3.fontWeight).toBe('600')
+      expect(typography.editorialH3Font).toBe(typography.serif)
+      expect(typography.technicalFonts.postTitle).toBe(typography.sans)
+      expect(typography.technicalFonts.h2).toBe(typography.sans)
 
       // 2. Strong, mono fonts, links, scoped --va-c-link override, kbd, del, blockquote, and summary focus-visible on /posts/markdown
       await page.goto('/posts/markdown', { waitUntil: 'domcontentloaded' })
@@ -99,6 +114,7 @@ test.describe('Markdown: Typography & Theme Yun Decoupling', () => {
         const preCode = body.querySelector<HTMLElement>('pre > code')!
         const lineNumbers = body.querySelector<HTMLElement>('.line-numbers-wrapper')!
         const link = body.querySelector<HTMLAnchorElement>(':scope > p a[href]')!
+        const tableContainer = body.querySelector<HTMLElement>('.table-container')!
 
         const kbd = document.createElement('kbd')
         kbd.textContent = 'Ctrl'
@@ -112,6 +128,7 @@ test.describe('Markdown: Typography & Theme Yun Decoupling', () => {
 
         const baseResult = {
           sans: resolve('fontFamily', 'var(--va-font-sans)'),
+          serif: resolve('fontFamily', 'var(--va-font-serif)'),
           mono: resolve('fontFamily', 'var(--va-font-mono)'),
           expectedLinkColor: resolve('color', 'var(--va-c-link)'),
           expectedMutedColor: resolve('color', 'var(--va-c-text-2)'),
@@ -127,6 +144,10 @@ test.describe('Markdown: Typography & Theme Yun Decoupling', () => {
             color: getComputedStyle(link).color,
             textDecorationLine: getComputedStyle(link).textDecorationLine,
           },
+          tableFrame: {
+            borderTopWidth: getComputedStyle(tableContainer).borderTopWidth,
+            borderTopLeftRadius: getComputedStyle(tableContainer).borderTopLeftRadius,
+          },
           kbdBg: getComputedStyle(kbd).backgroundColor,
           delColor: getComputedStyle(del).color,
           quote: {
@@ -139,10 +160,15 @@ test.describe('Markdown: Typography & Theme Yun Decoupling', () => {
         const scopedLinkColor = getComputedStyle(link).color
         body.style.removeProperty('--va-c-link')
 
+        const card = document.querySelector<HTMLElement>('.yun-main .yun-card')!
+        card.setAttribute('data-yun-prose', 'editorial')
+        const editorialQuoteFont = getComputedStyle(quote).fontFamily
+        card.removeAttribute('data-yun-prose')
+
         kbd.remove()
         del.remove()
         quote.remove()
-        return { ...baseResult, scopedLinkColor }
+        return { ...baseResult, scopedLinkColor, editorialQuoteFont }
       })
 
       expect(proseCheck.strong.fontFamily).toBe(proseCheck.sans)
@@ -152,12 +178,17 @@ test.describe('Markdown: Typography & Theme Yun Decoupling', () => {
       expect(proseCheck.lineNumbersFamily).toBe(proseCheck.mono)
       expect(proseCheck.link.color).toBe(proseCheck.expectedLinkColor)
       expect(proseCheck.link.textDecorationLine).toContain('underline')
+      expect(proseCheck.tableFrame).toEqual({
+        borderTopWidth: '1px',
+        borderTopLeftRadius: '8px',
+      })
       expect(proseCheck.scopedLinkColor).toBe('rgb(220, 38, 38)')
       expect(proseCheck.kbdBg).toBe(proseCheck.expectedKbdBg)
       expect(proseCheck.kbdBg).not.toBe('rgb(250, 251, 252)')
       expect(proseCheck.delColor).toBe(proseCheck.expectedMutedColor)
       expect(proseCheck.quote.color).toBe(proseCheck.expectedMutedColor)
       expect(proseCheck.quote.bg).not.toBe('rgba(0, 0, 0, 0)')
+      expect(proseCheck.editorialQuoteFont).toBe(proseCheck.serif)
 
       // RTL blockquote mirrors inline-start accent border and outer logical radii
       const rtlQuoteRadii = await page.evaluate(() => {
