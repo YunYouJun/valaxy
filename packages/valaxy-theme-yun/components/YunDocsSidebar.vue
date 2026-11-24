@@ -57,7 +57,7 @@ function close(restoreFocus = false) {
       v-if="floatingTrigger"
       ref="trigger"
       type="button"
-      class="yun-docs-sidebar-trigger yun-icon-btn lg:hidden"
+      class="yun-docs-sidebar-trigger yun-action-btn lg:hidden"
       :aria-label="t('theme.docsSidebar')"
       :aria-expanded="isOpen"
       aria-controls="yun-docs-sidebar"
@@ -77,22 +77,24 @@ function close(restoreFocus = false) {
       </nav>
     </aside>
 
-    <aside
-      v-if="isOpen"
-      id="yun-docs-sidebar"
-      class="va-card yun-docs-sidebar yun-docs-sidebar-mobile"
-    >
-      <YunDrawerHeader
-        ref="drawerHeader"
-        class="yun-docs-sidebar-mobile-header"
-        :title="t('theme.docsSidebar')"
-        :close-label="t('theme.closeMenu')"
-        @close="close(true)"
-      />
-      <nav :aria-label="t('theme.docsSidebar')">
-        <YunDocsSidebarNav :items="sidebarItems" @navigate="close()" />
-      </nav>
-    </aside>
+    <Transition name="yun-docs-drawer">
+      <aside
+        v-if="isOpen"
+        id="yun-docs-sidebar"
+        class="va-card yun-docs-sidebar yun-docs-sidebar-mobile"
+      >
+        <YunDrawerHeader
+          ref="drawerHeader"
+          class="yun-docs-sidebar-mobile-header"
+          :title="t('theme.docsSidebar')"
+          :close-label="t('theme.closeMenu')"
+          @close="close(true)"
+        />
+        <nav :aria-label="t('theme.docsSidebar')">
+          <YunDocsSidebarNav :items="sidebarItems" @navigate="close()" />
+        </nav>
+      </aside>
+    </Transition>
   </template>
 </template>
 
@@ -125,12 +127,38 @@ function close(restoreFocus = false) {
   bottom: 4.75rem;
   left: 1rem;
   z-index: var(--yun-z-toc-btn);
-  width: 2.5rem;
-  height: 2.5rem;
   color: var(--va-c-primary);
   background: var(--va-c-bg-soft);
+  border: 1px solid var(--yun-surface-line);
   box-shadow: 0 4px 12px rgb(0 0 0 / 0.12);
-  opacity: 0.85;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .yun-docs-sidebar-trigger:hover {
+    color: var(--va-c-link);
+    background: var(--va-c-bg-soft);
+    border-color: color-mix(in srgb, var(--va-c-link) 28%, var(--yun-surface-line));
+  }
+}
+
+.yun-docs-drawer-enter-active {
+  transition: transform 260ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.yun-docs-drawer-leave-active {
+  transition: transform 180ms var(--yun-ease-in);
+}
+
+.yun-docs-drawer-enter-from,
+.yun-docs-drawer-leave-to {
+  transform: translateX(-100%);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .yun-docs-drawer-enter-active,
+  .yun-docs-drawer-leave-active {
+    transition: none;
+  }
 }
 
 @media (width >= 1024px) {

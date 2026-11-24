@@ -67,7 +67,7 @@ const hasFooter = computed(() => Boolean(slots.footer))
       </slot>
     </div>
 
-    <YunGradientDivider v-if="hasHeader && hasBody && !flush" class="yun-ad-board-divider op-20" />
+    <YunGradientDivider v-if="hasHeader && hasBody && !flush" class="yun-ad-board-divider" />
 
     <div v-if="hasBody" class="yun-ad-board-body">
       <slot />

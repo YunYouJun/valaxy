@@ -1,5 +1,6 @@
 <script lang="ts" setup>
 import type YunDrawerHeader from './ui/YunDrawerHeader.vue'
+import { useResizeObserver, useScroll } from '@vueuse/core'
 import { useFrontmatter } from 'valaxy'
 import { computed, nextTick, useTemplateRef, watch } from 'vue'
 import { useI18n } from 'vue-i18n'
@@ -18,7 +19,12 @@ const showToc = computed(() => {
 })
 
 const asideEnabled = computed(() => fm.value.aside !== false)
+const asideRef = useTemplateRef<HTMLElement>('asideRef')
+const contentRef = useTemplateRef<HTMLElement>('contentRef')
 const drawerHeader = useTemplateRef<InstanceType<typeof YunDrawerHeader>>('drawerHeader')
+const { arrivedState, measure } = useScroll(asideRef, { offset: { top: 2, bottom: 2 } })
+useResizeObserver(asideRef, measure)
+useResizeObserver(contentRef, measure)
 let keepHeadingFocus = false
 
 function closeAside(focusHeading = false) {
@@ -52,9 +58,14 @@ function onKeydown(event: KeyboardEvent) {
   <aside
     v-if="asideEnabled"
     id="yun-page-outline"
+    ref="asideRef"
     flex="~ col"
     class="va-card yun-aside min-h-sm"
     :class="{ open: yun.rightSidebar.isOpen }"
+    :style="{
+      '--yun-aside-fade-top': arrivedState.top ? '0px' : '24px',
+      '--yun-aside-fade-bottom': arrivedState.bottom ? '0px' : '24px',
+    }"
     text="center"
     overflow="auto"
     @keydown="onKeydown"
@@ -67,7 +78,10 @@ function onKeydown(event: KeyboardEvent) {
       close-class="yun-aside-close"
       @close="closeAside()"
     />
-    <div class="w-full" flex="~ col" pb-2>
+    <div class="yun-aside-progress" aria-hidden="true">
+      <span class="yun-aside-progress-bar" />
+    </div>
+    <div ref="contentRef" class="w-full" flex="~ col" pb-2>
       <template v-if="showToc">
         <h2
           m="t-6 b-2"
@@ -136,6 +150,50 @@ function onKeydown(event: KeyboardEvent) {
   }
 }
 
+.yun-aside-progress {
+  display: none;
+  position: sticky;
+  top: 0;
+  z-index: 3;
+  flex: none;
+  width: 100%;
+  height: 2px;
+  margin-bottom: -2px;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.yun-aside-progress-bar {
+  display: block;
+  width: 100%;
+  height: 100%;
+  border-radius: 0 1px 1px 0;
+  background: linear-gradient(
+    90deg,
+    color-mix(in srgb, var(--va-c-link) 62%, transparent),
+    color-mix(in srgb, var(--va-c-primary) 72%, transparent)
+  );
+  transform: scaleX(0);
+  transform-origin: left center;
+}
+
+@keyframes yun-aside-progress {
+  from {
+    transform: scaleX(0);
+  }
+
+  to {
+    transform: scaleX(1);
+  }
+}
+
+@supports (animation-timeline: scroll(root)) {
+  .yun-aside-progress-bar {
+    animation: yun-aside-progress linear both;
+    animation-timeline: scroll(root);
+  }
+}
+
 // Desktop (xl+): aside is in normal flow, always visible
 @include screen('xl') {
   .yun-aside {
@@ -149,6 +207,14 @@ function onKeydown(event: KeyboardEvent) {
     transform: translateX(0);
     border-radius: var(--va-card-border-radius, 0.5rem);
     box-shadow: none;
+    mask-image: linear-gradient(
+      to bottom,
+      #000 0 2px,
+      transparent 2px,
+      #000 calc(2px + var(--yun-aside-fade-top, 0px)),
+      #000 calc(100% - var(--yun-aside-fade-bottom, 0px)),
+      transparent 100%
+    );
 
     html.dark & {
       border: 1px solid var(--yun-surface-line);
@@ -158,6 +224,10 @@ function onKeydown(event: KeyboardEvent) {
     &.open {
       width: 320px;
     }
+  }
+
+  .yun-aside-progress {
+    display: block;
   }
 
   .yun-aside .yun-aside-mobile-header {

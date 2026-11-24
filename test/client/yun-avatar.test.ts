@@ -4,17 +4,31 @@ import { renderToString } from 'vue/server-renderer'
 import YunAuthorAvatar from '../../packages/valaxy-theme-yun/components/author/YunAuthorAvatar.vue'
 import YunLinkItem from '../../packages/valaxy-theme-yun/components/YunLinkItem.vue'
 
-const siteConfig = ref({ author: { avatar: '', status: {} } })
+const siteConfig = ref<{
+  author: {
+    avatar: string
+    status: {
+      emoji?: string
+      message?: string
+    }
+  }
+}>({ author: { avatar: '', status: {} } })
 
 vi.mock('valaxy', async () => {
   const { withBase } = await import('../../packages/valaxy/client/utils/path')
   const { sanitizeUrl } = await import('../../packages/valaxy/shared')
-  return { sanitizeUrl, useSiteConfig: () => siteConfig, withBase }
+  return {
+    sanitizeUrl,
+    useSiteConfig: () => siteConfig,
+    useValaxyI18n: () => ({ $t: (key: string) => key }),
+    withBase,
+  }
 })
 vi.mock('../../packages/valaxy-theme-yun/utils', () => ({ onImgError: vi.fn() }))
 
 afterEach(() => {
   vi.unstubAllEnvs()
+  siteConfig.value.author.status = {}
 })
 
 async function renderAuthor(avatar: string) {
@@ -42,5 +56,22 @@ describe.each([
     vi.stubEnv('BASE_URL', base)
     const html = await render(avatar)
     expect(html.match(/\bsrc="([^"]*)"/)?.[1]).toBe(expected)
+  })
+})
+
+describe('yun author status pill', () => {
+  it('renders status emoji and message without duplicate native title', async () => {
+    siteConfig.value.author.status = {
+      emoji: '🌌',
+      message: 'The moonlight is beautiful.',
+    }
+    const html = await renderAuthor('/favicon.svg')
+    expect(html).toContain('site-author-status')
+    expect(html).toContain('has-message')
+    expect(html).toContain('site-author-status-emoji')
+    expect(html).toContain('🌌')
+    expect(html).toContain('site-author-status-msg')
+    expect(html).toContain('The moonlight is beautiful.')
+    expect(html).not.toContain(' title=')
   })
 })
