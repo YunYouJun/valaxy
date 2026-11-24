@@ -60,6 +60,24 @@
   color: var(--va-c-text-2);
 }
 
+.custom-block.details {
+  border-color: var(--va-custom-block-details-border);
+  color: var(--va-custom-block-details-text);
+  background-color: var(--va-custom-block-details-bg);
+}
+
+.custom-block.details a:where(:not(.header-anchor)) {
+  color: var(--va-c-brand-1);
+}
+
+.custom-block.details a:where(:not(.header-anchor)):hover {
+  color: var(--va-c-brand-2);
+}
+
+.custom-block.details code {
+  background-color: var(--va-custom-block-details-code-bg);
+}
+
 .custom-block.info {
   border-color: var(--va-custom-block-info-border);
   color: var(--va-custom-block-info-text);
@@ -136,24 +154,6 @@
   background-color: var(--va-custom-block-danger-code-bg);
 }
 
-.custom-block.details {
-  border-color: var(--va-custom-block-details-border);
-  color: var(--va-custom-block-details-text);
-  background-color: var(--va-custom-block-details-bg);
-}
-
-.custom-block.details a {
-  color: var(--va-c-brand-1);
-}
-
-.custom-block.details a:hover {
-  color: var(--va-c-brand-2);
-}
-
-.custom-block.details code {
-  background-color: var(--va-custom-block-details-code-bg);
-}
-
 .custom-block p + p {
   margin: 8px 0;
 }
@@ -162,6 +162,12 @@
   margin: 0 0 8px;
   font-weight: 700;
   cursor: pointer;
+}
+
+.custom-block.details summary:focus-visible {
+  outline: 2px solid var(--va-c-link, var(--va-c-brand-1));
+  outline-offset: 2px;
+  border-radius: 4px;
 }
 
 .custom-block.details summary + p {

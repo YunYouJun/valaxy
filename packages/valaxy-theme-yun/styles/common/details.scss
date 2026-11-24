@@ -1,0 +1,261 @@
+// Disclosure containers inside Markdown prose (covers both `::: details` and raw `<details>`)
+:where(.markdown-body) details:is(:not([class]), .custom-block.details) {
+  --yun-details-px: 1rem;
+  --yun-details-py: 0.7rem;
+  --yun-details-body-py: 0.875rem;
+
+  margin: 1.25rem 0;
+  padding: 0 var(--yun-details-px);
+  border: 1px solid var(--yun-details-border-color, var(--va-c-divider));
+  border-radius: var(--yun-details-radius, var(--va-card-border-radius, 0.5rem));
+  background-color: var(--yun-details-bg);
+  color: var(--va-c-text);
+  font-size: var(--yun-details-font-size, 0.9375rem);
+  line-height: var(--yun-prose-line-height, 1.8);
+  overflow: clip;
+  transition: border-color var(--va-transition-duration-fast, 160ms) ease;
+
+  & + details:is(:not([class]), .custom-block.details) {
+    margin-top: 0.75rem;
+  }
+
+  @media (hover: hover) and (pointer: fine) {
+    &:has(> summary:hover) {
+      border-color: var(--yun-details-hover-border-color);
+    }
+  }
+
+  > summary {
+    position: relative;
+    display: block;
+    margin: 0 calc(var(--yun-details-px) * -1);
+    padding: var(--yun-details-py) var(--yun-details-px);
+    padding-inline-start: calc(var(--yun-details-px) + 1.45rem);
+    border-bottom: 1px solid transparent;
+    color: var(--va-c-text-dark, var(--va-c-text));
+    font-weight: 600;
+    line-height: 1.5;
+    list-style: none;
+    cursor: pointer;
+    user-select: none;
+    transition:
+      background-color var(--va-transition-duration-fast, 160ms) ease,
+      border-color var(--va-transition-duration-fast, 160ms) ease,
+      color var(--va-transition-duration-fast, 160ms) ease;
+
+    &::marker,
+    &::-webkit-details-marker {
+      display: none;
+      content: '';
+    }
+
+    &::before {
+      content: '';
+      position: absolute;
+      inset-inline-start: var(--yun-details-px);
+      top: calc(var(--yun-details-py) + 0.22em);
+      width: 1rem;
+      height: 1rem;
+      background-color: var(--va-c-text-3);
+      mask-image: var(--yun-details-chevron);
+      mask-position: center;
+      mask-size: contain;
+      mask-repeat: no-repeat;
+      transition:
+        transform 200ms var(--yun-ease-in, ease),
+        background-color var(--va-transition-duration-fast, 160ms) ease;
+    }
+
+    &:dir(rtl)::before {
+      transform: scaleX(-1);
+    }
+
+    @media (hover: hover) and (pointer: fine) {
+      &:hover {
+        background-color: var(--yun-action-btn-hover-bg);
+
+        &::before {
+          background-color: var(--va-c-link);
+        }
+      }
+    }
+
+    &:active {
+      background-color: var(--yun-action-btn-active-bg);
+    }
+
+    &:focus-visible {
+      outline: 2px solid var(--yun-focus-color, var(--va-c-link));
+      outline-offset: -2px;
+      border-radius: calc(var(--yun-details-radius, var(--va-card-border-radius, 0.5rem)) - 1px);
+    }
+  }
+
+  &[open] {
+    border-color: var(--yun-details-open-border-color, var(--yun-details-border-color));
+    padding-bottom: var(--yun-details-body-py);
+
+    > summary {
+      margin-bottom: var(--yun-details-body-py);
+      border-bottom-color: var(--yun-details-border-color, var(--va-c-divider));
+
+      &::before,
+      &:dir(rtl)::before {
+        transform: rotate(90deg);
+        background-color: var(--va-c-link);
+      }
+
+      &:focus-visible {
+        border-radius:
+          calc(var(--yun-details-radius, var(--va-card-border-radius, 0.5rem)) - 1px)
+          calc(var(--yun-details-radius, var(--va-card-border-radius, 0.5rem)) - 1px)
+          0
+          0;
+      }
+    }
+  }
+
+  > p {
+    margin-block: 0.75rem;
+    line-height: inherit;
+  }
+
+  // Only reset VitePress `.custom-block.details` link/code/line-height defaults without affecting nested blocks or lists
+  &.custom-block.details {
+    p:not(.custom-block:not(.details) p) {
+      line-height: inherit;
+    }
+
+    a:not(.header-anchor, .custom-block:not(.details) a, .not-prose a, .yun-link-plain, .yun-icon-btn, .yun-action-btn) {
+      color: var(--va-c-link);
+      font-weight: 500;
+
+      &:hover {
+        color: var(--va-c-link);
+        opacity: 1;
+      }
+    }
+
+    :not(pre) > code:not(.custom-block:not(.details) code) {
+      background-color: var(--smc-code-bg-color, var(--va-c-bg-mute));
+      font-size: 0.85em;
+    }
+  }
+
+  // Keep nested code fences and code groups framed inside the disclosure card on all viewports
+  div[class*='language-'] {
+    margin: 0.75rem 0;
+  }
+
+  > div[class*='language-'],
+  li > div[class*='language-'],
+  .custom-block div[class*='language-'] {
+    border: 1px solid var(--yun-surface-line);
+    border-radius: calc(var(--yun-details-radius, var(--va-card-border-radius, 0.5rem)) - 2px);
+  }
+
+  .vp-code-group {
+    margin: 0.75rem 0;
+    border: 1px solid var(--yun-surface-line);
+    border-radius: calc(var(--yun-details-radius, var(--va-card-border-radius, 0.5rem)) - 2px);
+    overflow: clip;
+
+    .tabs {
+      margin: 0;
+      border-radius: 0;
+    }
+
+    div[class*='language-'] {
+      margin: 0;
+      border: 0;
+      border-radius: 0;
+    }
+  }
+
+  > summary + *,
+  > summary + div[class*='language-'],
+  > summary + .vp-code-group {
+    margin-top: 0;
+  }
+
+  > :last-child:not(summary),
+  > div[class*='language-']:last-child,
+  > .vp-code-group:last-child {
+    margin-bottom: 0;
+  }
+
+  @media (width <= 639.9px) {
+    .vp-code-group .tabs,
+    .vp-code-group div[class*='language-'] {
+      position: static;
+      left: auto;
+      right: auto;
+      margin-left: 0 !important;
+      margin-right: 0 !important;
+      width: auto !important;
+    }
+  }
+}
+
+@media (forced-colors: active) {
+  :where(.markdown-body) details:is(:not([class]), .custom-block.details) {
+    > summary::before {
+      forced-color-adjust: none;
+      background-color: CanvasText;
+    }
+
+    &[open] > summary::before,
+    > summary:hover::before {
+      forced-color-adjust: none;
+      background-color: LinkText;
+    }
+  }
+}
+
+@media (pointer: coarse) {
+  :where(.markdown-body) details:is(:not([class]), .custom-block.details) {
+    --yun-details-py: 0.75rem;
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  @supports (interpolate-size: allow-keywords) and selector(::details-content) {
+    :where(.markdown-body) details:is(:not([class]), .custom-block.details) {
+      interpolate-size: allow-keywords;
+
+      &[open] {
+        padding-bottom: 0;
+
+        > summary {
+          margin-bottom: 0;
+        }
+      }
+
+      &::details-content {
+        block-size: 0;
+        opacity: 0;
+        padding-block: 0;
+        overflow-y: clip;
+        transition:
+          block-size 220ms var(--yun-ease-in, ease),
+          opacity 180ms ease,
+          padding-block 220ms var(--yun-ease-in, ease),
+          content-visibility 220ms allow-discrete;
+      }
+
+      &[open]::details-content {
+        block-size: auto;
+        opacity: 1;
+        padding-block: var(--yun-details-body-py);
+      }
+    }
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  :where(.markdown-body) details:is(:not([class]), .custom-block.details),
+  :where(.markdown-body) details:is(:not([class]), .custom-block.details) > summary,
+  :where(.markdown-body) details:is(:not([class]), .custom-block.details) > summary::before {
+    transition: none;
+  }
+}
