@@ -13,7 +13,7 @@ import { mapRenderResult } from './async-utils'
  */
 export function imagePlugin(md: MarkdownRenderer, pluginOptions?: { altFallback?: boolean }) {
   const imageRule = md.renderer.rules.image!
-  const altFallback = pluginOptions?.altFallback !== false
+  const altFallback = pluginOptions?.altFallback === true
 
   md.renderer.rules.image = (tokens, idx, options, env, self) => {
     const token = tokens[idx]

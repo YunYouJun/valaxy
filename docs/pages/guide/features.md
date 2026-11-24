@@ -161,8 +161,8 @@ Static builds include the tags answer engines and search results use. You do not
 - JSON-LD includes a `WebSite`, a `Person` (`#identity`, with `sameAs` from `siteConfig.social`), and a `BreadcrumbList`. Posts also get `BlogPosting` or `Article` with `datePublished`, `dateModified`, the same author id, and the share image.
 - `sitemap.xml` lists each canonical URL once and adds `lastmod` from the page's `updated` or `date`. `robots.txt` is generated when you do not provide `public/robots.txt`.
 - `/404` and generated `/page/2` routes are `noindex`. `/page/1` canonicalizes to the homepage. Set `siteConfig.seo.pagination: 'index'` to keep paginated indexes indexable.
-- When RSS is enabled (the default), pages link `feed.xml` and `atom.xml` with `rel="alternate"`.
-- A Markdown image with an empty alt uses a readable filename. Hashes stay empty. Set `features.imageAltFallback: false` to keep `alt=""`.
+- When RSS is enabled (the default) and `siteConfig.url` is configured, pages link `feed.xml` and `atom.xml` with `rel="alternate"`.
+- A Markdown image with an empty alt keeps `alt=""` by default so decorative images stay ignored by screen readers. Set `features.imageAltFallback: true` to fill empty alts from readable filenames (hashes and generic screenshot names stay empty).
 - Social links that point at an image, such as a QR code, are left out of `sameAs`. Use `sameAs: false` for groups and link directories that are not the author.
 
 `llms.txt` stays off until `siteConfig.llms.enable` is true. New projects turn it on in the scaffold. See [Work with AI](/guide/work-with-ai).

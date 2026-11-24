@@ -155,8 +155,8 @@ npm run build:spa
 - JSON-LD 包含 `WebSite`、`Person`（`#identity`，`sameAs` 来自 `siteConfig.social`）和 `BreadcrumbList`。文章另有 `BlogPosting` 或 `Article`，带 `datePublished`、`dateModified`、同一个作者 id 和分享图。
 - `sitemap.xml` 每个规范地址只列一次，并在页面有 `updated` 或 `date` 时写入 `lastmod`。没有 `public/robots.txt` 时会生成 `robots.txt`。
 - `/404` 和生成的 `/page/2` 为 `noindex`。`/page/1` 的规范地址是首页。若希望分页继续被索引，设置 `siteConfig.seo.pagination: 'index'`。
-- RSS 开启时（默认开启），页面会用 `rel="alternate"` 链到 `feed.xml` 和 `atom.xml`。
-- 没有 alt 的 Markdown 图片会用可读文件名补上。哈希文件名保持为空。设置 `features.imageAltFallback: false` 可继续输出 `alt=""`。
+- RSS 开启（默认开启）且配置了 `siteConfig.url` 时，页面会用 `rel="alternate"` 链到 `feed.xml` 和 `atom.xml`。
+- 没有 alt 的 Markdown 图片默认保持 `alt=""`，以保留装饰图片的辅助功能语义；设置 `features.imageAltFallback: true` 后会用可读文件名补上（哈希和通用截图文件名仍保持为空）。
 - 指向图片的社交链接（例如二维码）不会进入 `sameAs`。群聊、导航站这类不是作者本人的链接请设置 `sameAs: false`。
 
 `llms.txt` 在 `siteConfig.llms.enable` 为 true 之前不会生成。新项目的模板里已经打开。见[与 AI 协作](/zh/guide/work-with-ai)。

@@ -56,7 +56,7 @@ export const defaultValaxyConfig: ValaxyNodeConfig = {
   features: {
     katex: true,
     extractFirstImage: true,
-    imageAltFallback: true,
+    imageAltFallback: false,
   },
 
   math: false,

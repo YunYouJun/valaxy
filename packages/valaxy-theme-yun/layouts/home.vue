@@ -13,7 +13,10 @@ const themeConfig = useThemeConfig()
 const siteConfig = useSiteConfig()
 const { $t } = useValaxyI18n()
 const { bannerTitle } = useYunBanner(themeConfig.value.banner || { enable: true, title: '' })
-const bannerTitleText = computed(() => Array.isArray(bannerTitle.value) ? bannerTitle.value.join(' ') : bannerTitle.value)
+const bannerTitleText = computed(() => {
+  const raw = Array.isArray(bannerTitle.value) ? bannerTitle.value.join(' ') : bannerTitle.value
+  return raw?.trim() || $t(siteConfig.value.title)
+})
 const prologueContent = useTemplateRef<HTMLElement>('prologueContent')
 
 function shouldPlayIntro() {

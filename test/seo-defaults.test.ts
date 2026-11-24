@@ -18,6 +18,11 @@ describe('seo defaults', () => {
     expect(schemaNodeId('/', 'identity')).toBeUndefined()
     expect(schemaDate('2024-01-02')).toBe('2024-01-02T00:00:00.000Z')
     expect(schemaDate('not-a-date')).toBeUndefined()
+    expect(schemaDate('   ')).toBeUndefined()
+    expect(schemaDate(false)).toBeUndefined()
+    expect(schemaDate(true)).toBeUndefined()
+    expect(schemaDate(Number.NaN)).toBeUndefined()
+    expect(schemaDate(Number.POSITIVE_INFINITY)).toBeUndefined()
     expect(feedFileNames()).toEqual({ atom: 'atom.xml', json: 'feed.json', rss: 'feed.xml' })
     expect(feedFileNames('blog')).toEqual({ atom: 'blog.atom', json: 'blog.json', rss: 'blog.xml' })
 
@@ -183,18 +188,29 @@ describe('seo defaults', () => {
 
   it('fills empty markdown alts safely without breaking Vue templates or data-alt', () => {
     expect(imageAltFromSrc('./my%20photo.png?size=2#view')).toBe('my photo')
+    expect(imageAltFromSrc('./valaxy-logo.png')).toBe('valaxy logo')
     expect(imageAltFromSrc('./a1b2c3d4e5f6.png')).toBeUndefined()
     expect(imageAltFromSrc('./12.png')).toBeUndefined()
+    expect(imageAltFromSrc('./image.png')).toBeUndefined()
+    expect(imageAltFromSrc('./photo_1.jpg')).toBeUndefined()
+    expect(imageAltFromSrc('./Screenshot 2024-05-01 at 10.20.30.png')).toBeUndefined()
+    expect(imageAltFromSrc('./Pasted image 20240501123456.png')).toBeUndefined()
+    expect(imageAltFromSrc('./微信图片_20240501123456.jpg')).toBeUndefined()
     expect(imageAltFromSrc('https://example.com')).toBeUndefined()
     expect(imageAltFromSrc('https://example.com/')).toBeUndefined()
     expect(imageAltFromSrc('data:image/png;base64,iVBORw0KGgo=')).toBeUndefined()
     expect(imageAltFromSrc('data:image/svg+xml;utf8,<svg/>')).toBeUndefined()
 
+    const defaultMd = new MarkdownIt()
+    imagePlugin(defaultMd as never)
+    expect(defaultMd.render('![](./my-photo.png)')).toContain('alt=""')
+
     const md = new MarkdownIt()
-    imagePlugin(md as never)
+    imagePlugin(md as never, { altFallback: true })
     expect(md.render('![](./my-photo.png)')).toContain('alt="my photo"')
     expect(md.render('![Already described](./my-photo.png)')).toContain('alt="Already described"')
     expect(md.render('![](./a1b2c3d4e5f6.png)')).toContain('alt=""')
+    expect(md.render('![](./Screenshot%202024-05-01%20at%2010.20.30.png)')).toContain('alt=""')
     expect(md.render('![](data:image/png;base64,iVBORw0KGgo=)')).toContain('alt=""')
 
     const dollarAmpHtml = md.render('![](https://x.com/my%24%26.png)')
@@ -214,7 +230,7 @@ describe('seo defaults', () => {
         }
       }
     })
-    imagePlugin(attrMd as never)
+    imagePlugin(attrMd as never, { altFallback: true })
     const preserved = attrMd.render('![Author text](./test.jpg)')
     expect(preserved).toContain('alt="Author text"')
     expect(preserved).toContain('data-alt=""')
@@ -232,7 +248,7 @@ describe('seo defaults', () => {
     const host = 'https://example.com/'
     const identityId = schemaNodeId('https://example.com', 'identity')!
     const websiteId = schemaNodeId('https://example.com', 'website')!
-    head.push({ templateParams: { schemaOrg: { host } } })
+    head.push({ templateParams: { schemaOrg: { host, path: '/posts/hello', inLanguage: 'en' } } })
     useSchemaOrg([
       definePerson({ '@id': identityId, 'name': 'Author' }),
       defineWebSite({ '@id': websiteId, 'name': 'Site' }),
@@ -252,20 +268,70 @@ describe('seo defaults', () => {
     const person = graph.find(node => [node['@type']].flat().includes('Person'))
     const website = graph.find(node => [node['@type']].flat().includes('WebSite'))
     const article = graph.find(node => [node['@type']].flat().includes('BlogPosting'))
+    const webpage = graph.find(node => [node['@type']].flat().includes('WebPage'))
     expect(person?.['@id']).toBe('https://example.com/#identity')
     expect(website?.publisher?.['@id']).toBe(person?.['@id'])
     expect(article?.author?.['@id']).toBe(person?.['@id'])
+    expect(webpage?.['@id']).toBe('https://example.com/posts/hello#webpage')
+    expect(article?.['@id']).toBe('https://example.com/posts/hello#article')
     expect(graph.some(node => [node['@type']].flat().includes('BreadcrumbList'))).toBe(true)
   })
 
-  it('renders Strato banner heading with phrasing spans only', async () => {
+  it('keeps CollectionPage URL, language, and lastmod intact when schemaOrg path and inLanguage are provided', () => {
+    const head = createHead()
+    head.push({
+      link: [{ rel: 'canonical', href: 'https://example.com/blog/archives/' }],
+      templateParams: {
+        schemaOrg: {
+          host: 'https://example.com/blog/',
+          path: '/archives/',
+          inLanguage: 'zh-CN',
+        },
+      },
+    })
+    useSchemaOrg([
+      definePerson({ '@id': 'https://example.com/blog/#identity', 'name': 'Author' }),
+      defineWebSite({ '@id': 'https://example.com/blog/#website', 'name': 'Site' }),
+      defineWebPage({
+        name: 'Archives',
+        url: 'https://example.com/blog/archives/',
+        dateModified: '2024-02-01T00:00:00.000Z',
+      }),
+      defineWebPage({
+        '@type': 'CollectionPage',
+      }),
+    ], { head })
+
+    const { headTags, bodyTags } = head.render()
+    const json = bodyTags.match(/<script[^>]+type="application\/ld\+json"[^>]*>([\s\S]*?)<\/script>/)?.[1]
+    const graph = JSON.parse(json!)['@graph'] as Record<string, any>[]
+    const website = graph.find(node => [node['@type']].flat().includes('WebSite'))
+    const webpage = graph.find(node => [node['@type']].flat().includes('CollectionPage'))
+    expect(website?.inLanguage).toBe('zh-CN')
+    expect(webpage?.['@id']).toBe('https://example.com/blog/archives/#webpage')
+    expect(webpage?.url).toBe('https://example.com/blog/archives/')
+    expect(readRenderedHead(`<!DOCTYPE html><html><head>${headTags}</head><body>${bodyTags}</body></html>`).lastmod)
+      .toBe('2024-02-01T00:00:00.000Z')
+  })
+
+  it('renders Strato banner heading with phrasing spans, aria-label, and fallback title', async () => {
     const html = await renderToString(createSSRApp(YunBannerCharContainer, {
       title: '云游',
       chars: [2, 2],
       heading: true,
     }))
     expect(html).toContain('<h1')
-    expect(html).toContain('<span class="char-box">')
+    expect(html).toContain('aria-label="云游"')
+    expect(html).toContain('<span class="char-box" aria-hidden="true">')
     expect(html).not.toContain('<div')
+
+    const fallbackHtml = await renderToString(createSSRApp(YunBannerCharContainer, {
+      title: '',
+      chars: [],
+      heading: true,
+      fallbackTitle: 'Valaxy Site',
+    }))
+    expect(fallbackHtml).toContain('<h1')
+    expect(fallbackHtml).toContain('aria-label="Valaxy Site"')
   })
 })

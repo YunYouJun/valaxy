@@ -65,12 +65,21 @@ export function schemaNodeId(siteUrl: string, fragment: string): string | undefi
 
 /** ISO-8601 timestamp for JSON-LD and sitemap lastmod. Invalid values are omitted. */
 export function schemaDate(value: unknown): string | undefined {
-  if (value == null || value === '')
-    return
-  const date = value instanceof Date ? value : new Date(value as string | number)
-  if (Number.isNaN(date.getTime()))
-    return
-  return date.toISOString()
+  if (value instanceof Date)
+    return Number.isNaN(value.getTime()) ? undefined : value.toISOString()
+  if (typeof value === 'string') {
+    if (!value.trim())
+      return
+    const date = new Date(value)
+    return Number.isNaN(date.getTime()) ? undefined : date.toISOString()
+  }
+  if (typeof value === 'number') {
+    if (!Number.isFinite(value))
+      return
+    const date = new Date(value)
+    return Number.isNaN(date.getTime()) ? undefined : date.toISOString()
+  }
+  return undefined
 }
 
 export interface BreadcrumbItem {
@@ -150,10 +159,12 @@ export function feedFileNames(name?: string): { atom: string, json: string, rss:
   }
 }
 
+const GENERIC_IMAGE_STEM = /^(?:image|img|photo|pic|picture|screenshot|screen\s+shot|pasted\s+image|untitled|capture|clip|paste|banner|cover|icon|logo|avatar|thumb(?:nail)?|bg|background|divider|微信图片|qq图片)(?:\s*(?:at\s+)?[\d.:]+(?:\s+(?:at\s+)?[\d.:]+)*)?$/i
+
 /**
  * Readable alt text from an image filename, for Markdown images that have none.
- * Hashes, bare numbers, and very short names are left empty so decorative
- * assets do not become nonsense labels.
+ * Hashes, bare numbers, generic camera/screenshot names, and very short names are
+ * left empty so decorative assets do not become nonsense labels.
  */
 export function imageAltFromSrc(src: string): string | undefined {
   const trimmed = src.trim()
@@ -188,6 +199,8 @@ export function imageAltFromSrc(src: string): string | undefined {
     return
   // Vite content hashes and long hex ids are not descriptions.
   if (/^(?:[\da-f]{8,}|(?=[\da-z]*\d)(?=[\da-z]*[a-z])[\da-z]{12,})$/i.test(compact))
+    return
+  if (GENERIC_IMAGE_STEM.test(stem))
     return
   return stem
 }

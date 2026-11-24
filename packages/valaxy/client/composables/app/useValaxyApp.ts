@@ -69,7 +69,7 @@ export function useValaxyApp() {
   const staticRouteMap = computed(() => {
     const map = new Map<string, RouteRecordNormalized>()
     for (const record of routerStore.routes) {
-      if (record.redirect || record.path.includes(':') || record.path.includes('*'))
+      if (record.meta?.isLayout || record.redirect || record.path.includes(':') || record.path.includes('*'))
         continue
       if (String(record.meta?.layout) === '404' || isGeneratedPaginationPath(record.path))
         continue
@@ -80,8 +80,15 @@ export function useValaxyApp() {
       if (!key || key === '/')
         continue
       const existing = map.get(key)
-      if (!existing || (Boolean(fmMeta) && !existing.meta?.frontmatter) || (!existing.path.endsWith('/') && record.path.endsWith('/')))
+      const hasFm = Boolean(fmMeta)
+      const existingHasFm = Boolean(existing?.meta?.frontmatter)
+      if (
+        !existing
+        || (hasFm && !existingHasFm)
+        || (hasFm === existingHasFm && !existing.path.endsWith('/') && record.path.endsWith('/'))
+      ) {
         map.set(key, record)
+      }
     }
     return map
   })
@@ -89,7 +96,9 @@ export function useValaxyApp() {
     if (isNotFound.value)
       return undefined
     const routes = staticRouteMap.value
-    const path = pagePath.value.startsWith('/') ? pagePath.value : routePath.value
+    const path = pagePath.value.startsWith('/') && !pagePath.value.startsWith('//')
+      ? pagePath.value
+      : routePath.value
     return buildBreadcrumbItems({
       siteUrl: siteConfig.value.url,
       siteTitle: $t(siteConfig.value.title),

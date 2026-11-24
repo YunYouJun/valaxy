@@ -214,9 +214,9 @@ export interface ValaxyExtendConfig {
      */
     extractFirstImage: boolean
     /**
-     * @description:en-US Fill an empty Markdown image alt from a readable filename. Hashes stay empty. Set false to keep `alt=""`.
-     * @description:zh-CN 用可读的文件名为没有 alt 的 Markdown 图片补上说明。哈希文件名仍留空。设为 false 则保持 `alt=""`。
-     * @default true
+     * @description:en-US Fill an empty Markdown image alt from a readable filename. Opt-in so decorative `alt=""` images remain untouched by default; hashes and generic camera/screenshot names still stay empty.
+     * @description:zh-CN 用可读的文件名为没有 alt 的 Markdown 图片补上说明。默认关闭以保留装饰图 `alt=""` 的语义；开启后哈希和通用截图文件名仍会留空。
+     * @default false
      */
     imageAltFallback: boolean
   }

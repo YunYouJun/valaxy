@@ -152,4 +152,97 @@ describe('useValaxyApp breadcrumbs HMR reactivity', () => {
       routerStore.$dispose()
     }
   })
+
+  it('excludes layout wrapper routes, preserves frontmatter titles over empty trailing-slash routes, and ignores protocol-relative canonicals', async () => {
+    let routerStore!: ReturnType<typeof useRouterStore>
+    const App = defineComponent({
+      setup() {
+        routerStore = useRouterStore()
+        useValaxyApp()
+        return () => h('div')
+      },
+    })
+    const app = createSSRApp(App)
+    const head = createHead()
+    head.push({ templateParams: { schemaOrg: { host: 'https://example.com/' } } })
+    const router = createRouter({
+      history: createMemoryHistory(),
+      routes: [
+        pageRoute('/', 'Home'),
+        {
+          path: '/old',
+          component: {},
+          meta: { isLayout: true },
+          children: [{ path: '', redirect: '/new' }],
+        },
+        {
+          path: '/old/child',
+          component: {},
+          meta: { frontmatter: { title: 'Child' } },
+        },
+        {
+          path: '/404',
+          component: {},
+          meta: { isLayout: true },
+          children: [{ path: '', component: {}, meta: { layout: '404', frontmatter: { title: 'Not Found' } } }],
+        },
+        {
+          path: '/404/sub',
+          component: {},
+          meta: { frontmatter: { title: 'Sub' } },
+        },
+        {
+          path: '/guide',
+          component: {},
+          meta: { frontmatter: { title: 'Guide Title' } },
+        },
+        {
+          path: '/guide/',
+          component: {},
+        },
+        {
+          path: '/guide/page',
+          component: {},
+          meta: { frontmatter: { title: 'Guide Page', canonical: '//other.example/hijack' } },
+        },
+      ],
+    })
+    const i18n = createI18n({
+      legacy: false,
+      locale: 'en',
+      messages: { en: {} },
+    })
+
+    app.use(createPinia())
+    app.use(router)
+    app.use(head)
+    app.use(i18n)
+
+    await router.push('/old/child')
+    await router.isReady()
+    await renderToString(app)
+
+    try {
+      expect(readBreadcrumbs(head)).toEqual([
+        { name: 'Example Site', item: 'https://example.com/' },
+        { name: 'Child', item: 'https://example.com/old/child' },
+      ])
+
+      await router.push('/404/sub')
+      expect(readBreadcrumbs(head)).toEqual([
+        { name: 'Example Site', item: 'https://example.com/' },
+        { name: 'Sub', item: 'https://example.com/404/sub' },
+      ])
+
+      await router.push('/guide/page')
+      expect(readBreadcrumbs(head)).toEqual([
+        { name: 'Example Site', item: 'https://example.com/' },
+        { name: 'Guide Title', item: 'https://example.com/guide' },
+        { name: 'Guide Page', item: 'https://example.com/guide/page' },
+      ])
+    }
+    finally {
+      routerStore.$dispose()
+    }
+  })
 })

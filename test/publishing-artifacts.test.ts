@@ -157,6 +157,7 @@ const titleClass: string | undefined = useFrontmatter().value.pageTitleClass
       await write('pages/posts/encrypted.md', `---\ntitle: Environment protected\nencrypt: true\ndate: 2024-01-01\n---\n# ${sentinels.encrypted}\n\n${sentinels.encrypted}`)
       await write('pages/posts/partial.md', `---\ntitle: Partial public page\ndate: 2024-01-01\n---\n## Public heading\n\nPUBLICPARTIALVISIBLE876\n\n<!-- valaxy-encrypt-start:fixture -->\n## ${sentinels.partial}\n\n${sentinels.partial}\n![private](/${sentinels.partial}.png)\n<!-- more -->\n<!--valaxy-encrypt-end-->\n${sentinels.partialTail}\n<!-- valaxy-encrypt-end -->\n\nPublic ending.\n![public](./pic.svg#partial)`)
       await write('pages/posts/nested-partial.md', `---\ntitle: Nested partial page\ndate: 2024-01-01\n---\n## Public parent\n\n<!-- valaxy-encrypt-start:fixture -->\n### ${sentinels.nestedHeading}\n\n#### ${sentinels.nestedChild}\n\nPrivate nested body.\n<!-- valaxy-encrypt-end -->\n\n##### Public descendant\n\nPublic descendant body.\n\n### Public sibling`)
+      await write('pages/archives/index.md', '---\ntitle: Archives\nlayout: archives\ndate: 2024-02-01\n---\n')
 
       for (const publishDrafts of [false, true]) {
         await buildFixture(root, publishDrafts)
@@ -192,6 +193,7 @@ const titleClass: string | undefined = useFrontmatter().value.pageTitleClass
         const sitemap = await readFile(join(dist, 'sitemap.xml'), 'utf8')
         expect(sitemap.match(/<loc>[^<]*\/imgdir\/?<\/loc>/g)).toEqual(['<loc>https://example.com/blog/posts/imgdir/</loc>'])
         expect(sitemap).toMatch(/<loc>https:\/\/example\.com\/blog\/posts\/public<\/loc><lastmod>2024-01-01T00:00:00\.000Z<\/lastmod>/)
+        expect(sitemap).toMatch(/<loc>https:\/\/example\.com\/blog\/archives\/<\/loc><lastmod>2024-02-01T00:00:00\.000Z<\/lastmod>/)
         expect(sitemap).not.toMatch(/<loc>[^<]*\/404(?:\.html|\/)?<\/loc>/)
         expect(sitemap).not.toContain('/error-page')
         const urls = Array.from(sitemap.matchAll(/<loc>([^<]*)<\/loc>/g), match => match[1].replaceAll('&amp;', '&'))
@@ -235,16 +237,27 @@ const titleClass: string | undefined = useFrontmatter().value.pageTitleClass
         const graph = schemaGraph(regular)
         const identity = graph.find(node => node['@id'].endsWith('#identity'))
         expect(identity?.sameAs).toEqual(['https://social.example/@author', 'https://example.com/blog/about'])
+        const website = graph.find(node => [node['@type']].flat().includes('WebSite'))
+        const webpage = graph.find(node => [node['@type']].flat().includes('WebPage'))
+        expect(website?.inLanguage).toBe('en')
+        expect(webpage?.['@id']).toBe('https://example.com/blog/posts/public#webpage')
+        expect(webpage?.potentialAction?.[0]?.target).toContain('https://example.com/blog/posts/public')
         const article = graph.find(node => [node['@type']].flat().includes('BlogPosting'))
+        expect(article?.['@id']).toBe('https://example.com/blog/posts/public#article')
         const author = graph.find(node => node['@id'] === article?.author?.['@id'])
         expect(author?.['@id']).toBe(identity?.['@id'])
         expect(await fs.pathExists(join(dist, 'posts/index.html'))).toBe(true)
         const breadcrumb = graph.find(node => [node['@type']].flat().includes('BreadcrumbList'))
+        expect(breadcrumb?.['@id']).toBe('https://example.com/blog/posts/public#breadcrumb')
         expect(breadcrumb?.itemListElement).toEqual([
           { '@type': 'ListItem', 'position': 1, 'name': 'Publishing fixture', 'item': 'https://example.com/blog/' },
           { '@type': 'ListItem', 'position': 2, 'name': 'Posts', 'item': 'https://example.com/blog/posts/' },
           { '@type': 'ListItem', 'position': 3, 'name': 'Public article', 'item': 'https://example.com/blog/posts/public' },
         ])
+        const archivesHtml = await readFile(join(dist, 'archives/index.html'), 'utf8')
+        const archivesCollection = schemaGraph(archivesHtml).find(node => [node['@type']].flat().includes('CollectionPage'))
+        expect(archivesCollection?.['@id']).toBe('https://example.com/blog/archives/#webpage')
+        expect(archivesCollection?.url).toBe('https://example.com/blog/archives/')
         const childHtml = await readFile(join(dist, 'posts/draft-parent/child.html'), 'utf8')
         const childBreadcrumb = schemaGraph(childHtml).find(node => [node['@type']].flat().includes('BreadcrumbList'))
         expect(childBreadcrumb?.itemListElement).toEqual(publishDrafts
