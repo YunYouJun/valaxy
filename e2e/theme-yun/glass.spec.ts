@@ -66,33 +66,68 @@ test('glass scroll controls and pagination retain their interactions', async ({ 
   await expect(pagination.locator('a[aria-current="page"]')).toHaveText('2')
 })
 
-test('back-to-top progress stays stable across adjacent scroll positions', async ({ page }) => {
+test('back-to-top progress tracks scroll smoothly via scroll-driven animation', async ({ page }) => {
+  const hydrationErrors: string[] = []
+  page.on('console', (message) => {
+    if (['warning', 'error'].includes(message.type()) && /hydration|mismatch/i.test(message.text()))
+      hydrationErrors.push(message.text())
+  })
+
   await page.goto('/', { waitUntil: 'domcontentloaded' })
   await waitForHydration(page)
 
-  const angles = await page.locator('.back-to-top').evaluate(async (button) => {
+  const backToTop = page.locator('.back-to-top')
+  const metrics = await backToTop.evaluate(async (button) => {
     const scrollRange = document.documentElement.scrollHeight - window.innerHeight
-    const middle = Math.round(scrollRange / 2)
+    const timeline = getComputedStyle(button, '::after').animationTimeline
 
     async function readProgressAt(top: number) {
       window.scrollTo({ top, behavior: 'instant' })
-      // Let the scroll event and Vue's style update finish.
       await new Promise(resolve => requestAnimationFrame(() => requestAnimationFrame(resolve)))
-      return Number.parseFloat(getComputedStyle(button).getPropertyValue('--yun-back-top-progress'))
+      return {
+        angle: Number.parseFloat(getComputedStyle(button, '::after').getPropertyValue('--yun-back-top-scroll-progress')),
+        inlineProgress: (button as HTMLElement).style.getPropertyValue('--yun-back-top-progress'),
+      }
     }
 
+    const start = await readProgressAt(0)
+    const middle = await readProgressAt(Math.round(scrollRange * 0.5))
+    const slightAdvance = await readProgressAt(Math.round(scrollRange * 0.52))
+    const later = await readProgressAt(Math.round(scrollRange * 0.75))
+    const end = await readProgressAt(scrollRange)
+
     return {
-      middle: await readProgressAt(middle),
-      adjacent: await readProgressAt(middle + 1),
-      later: await readProgressAt(Math.round(scrollRange * 0.75)),
-      end: await readProgressAt(scrollRange),
+      timeline,
+      start: start.angle,
+      middle: middle.angle,
+      slightAdvance: slightAdvance.angle,
+      later: later.angle,
+      end: end.angle,
+      inlineStyleAtEnd: end.inlineProgress,
     }
   })
 
-  expect(angles.middle).toBeGreaterThan(0)
-  expect(angles.adjacent).toBe(angles.middle)
-  expect(angles.later).toBeGreaterThan(angles.adjacent)
-  expect(angles.end).toBe(360)
+  expect(metrics.timeline).toMatch(/^scroll\(root\b/)
+  expect(metrics.start).toBe(0)
+  expect(metrics.middle).toBeGreaterThan(170)
+  expect(metrics.middle).toBeLessThan(190)
+  expect(metrics.slightAdvance).toBeGreaterThan(metrics.middle)
+  expect(metrics.later).toBeGreaterThan(metrics.slightAdvance)
+  expect(metrics.end).toBe(360)
+  expect(metrics.inlineStyleAtEnd).toBe('')
+
+  await page.emulateMedia({ reducedMotion: 'reduce' })
+  const reducedMotionMetrics = await backToTop.evaluate(async (button) => {
+    await new Promise(resolve => requestAnimationFrame(() => requestAnimationFrame(resolve)))
+    return {
+      endAngle: Number.parseFloat(getComputedStyle(button, '::after').getPropertyValue('--yun-back-top-scroll-progress')),
+      transitionDuration: getComputedStyle(button).transitionDuration,
+    }
+  })
+
+  expect(reducedMotionMetrics.endAngle).toBe(360)
+  expect(reducedMotionMetrics.transitionDuration).toBe('0s')
+  expect(hydrationErrors).toEqual([])
 })
 
 test.describe('touch navigation', () => {
