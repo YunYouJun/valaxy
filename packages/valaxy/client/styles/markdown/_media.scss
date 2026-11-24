@@ -1,0 +1,49 @@
+@use './tokens';
+
+:where(.markdown-body) {
+  img {
+    display: block;
+    max-width: 100%;
+    height: auto;
+    margin: 1rem auto;
+    border-radius: var(--va-md-media-radius, var(--va-card-border-radius, 0.5rem));
+    box-shadow: var(--va-md-media-shadow, var(--va-md-default-media-shadow));
+
+    &[align='right'] {
+      margin-inline: 1rem 0.5rem;
+    }
+
+    &[align='left'] {
+      margin-inline: 0.5rem 1rem;
+    }
+  }
+
+  figure {
+    margin: 1.25rem 0;
+    text-align: center;
+
+    figcaption {
+      margin-top: 0.5rem;
+      color: var(--va-md-text-muted, var(--va-c-text-2));
+      font-size: 0.85rem;
+      line-height: 1.5;
+      text-align: center;
+    }
+  }
+
+  img + em {
+    display: block;
+    margin-top: 0.5rem;
+    color: var(--va-md-text-muted, var(--va-c-text-2));
+    font-size: 0.85rem;
+    font-style: normal;
+    text-align: center;
+  }
+
+  :is(iframe, video) {
+    display: block;
+    max-width: 100%;
+    margin: 1.25rem auto;
+    border-radius: var(--va-md-media-radius, var(--va-card-border-radius, 0.5rem));
+  }
+}

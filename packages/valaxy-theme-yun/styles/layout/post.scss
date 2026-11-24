@@ -119,7 +119,7 @@ html.dark .yun-card.is-draft:is(.post-card-wrapper, .collection-card, .yun-main 
   position: relative;
   padding: 0.7rem 1.2rem;
   color: var(--card-c-primary, var(--yun-post-title-color, var(--va-c-link)));
-  font-weight: var(--yun-post-title-font-weight, 900);
+  font-weight: var(--yun-post-title-font-weight, 700);
 
   .icon {
     width: 1.6rem;
@@ -173,6 +173,7 @@ html.dark .yun-card.is-draft:is(.post-card-wrapper, .collection-card, .yun-main 
   font-size: 0.85rem;
   font-weight: 500;
   letter-spacing: 0.02em;
+  text-decoration: none;
   margin-top: -0.2rem;
   transition: box-shadow var(--va-transition-duration), transform var(--va-transition-duration-fast);
 
@@ -227,9 +228,13 @@ html.dark .yun-card.is-draft:is(.post-card-wrapper, .collection-card, .yun-main 
 .post-card-title,
 .post-header .post-title {
   font-family: var(--yun-post-title-font-family, var(--va-font-serif));
-  font-weight: var(--yun-post-title-font-weight, 900);
+  font-weight: var(--yun-post-title-font-weight, 700);
   letter-spacing: var(--yun-post-title-letter-spacing, normal);
-  line-height: var(--yun-post-title-line-height, 1.5);
+  line-height: var(--yun-post-title-line-height, 1.35);
+}
+
+:is(h1, h2):where(.post-header .post-title) {
+  font-size: var(--yun-post-title-font-size, clamp(1.625rem, 1.35rem + 1.2vw, 2.125rem));
 }
 
 .post-header .post-title > span {

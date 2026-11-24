@@ -245,6 +245,8 @@ export async function getAlias(options: ResolvedValaxyOptions): Promise<AliasOpt
 
     { find: '~/', replacement: `${toAtFS(options.userRoot)}/` },
     { find: 'valaxy/client/', replacement: `${toAtFS(options.clientRoot)}/` },
+    { find: /^valaxy\/styles\/markdown(?:\.scss)?$/, replacement: toAtFS(resolve(options.clientRoot, 'styles/markdown/index.scss')) },
+    { find: 'valaxy/styles/markdown/', replacement: `${toAtFS(resolve(options.clientRoot, 'styles/markdown'))}/` },
     { find: 'valaxy/package.json', replacement: toAtFS(resolve(options.clientRoot, '../package.json')) },
     { find: /^valaxy$/, replacement: toAtFS(resolve(options.clientRoot, 'index.ts')) },
     { find: '@valaxyjs/client/', replacement: `${toAtFS(options.clientRoot)}/` },

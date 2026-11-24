@@ -23,6 +23,25 @@ export interface ScrollToOptions {
   targetPadding: number
 }
 
+function parseScrollMargin(value?: string): number | null {
+  if (!value)
+    return null
+  const parsed = Number.parseFloat(value)
+  return Number.isFinite(parsed) && parsed !== 0 ? parsed : null
+}
+
+function resolveTargetPadding(target: Element, targetPadding?: number): number {
+  // Preserve legacy falsy `0` behavior (e.g. theme-press exports targetPadding = 0)
+  // so `0` falls through to the element's CSS scroll-margin before defaulting to -64.
+  if (typeof targetPadding === 'number' && Number.isFinite(targetPadding) && targetPadding !== 0)
+    return targetPadding
+
+  const styles = window.getComputedStyle(target)
+  const margin = parseScrollMargin(styles.scrollMarginTop)
+    ?? parseScrollMargin(styles.scrollMarginBlockStart)
+  return margin !== null ? -margin : -64
+}
+
 /**
  * For theme developers, you can use this function to scroll to the target element.
  * For example, when you click the anchor link in the markdown file, it will scroll to the target element.
@@ -32,7 +51,6 @@ export interface ScrollToOptions {
  */
 export function scrollTo(el: HTMLElement, hash: string, options: Partial<ScrollToOptions> = {
   smooth: true,
-  targetPadding: -64,
 }) {
   let target: Element | null = null
   try {
@@ -45,7 +63,7 @@ export function scrollTo(el: HTMLElement, hash: string, options: Partial<ScrollT
   }
 
   if (target) {
-    const targetPadding = options?.targetPadding || -64
+    const targetPadding = resolveTargetPadding(target, options?.targetPadding)
     const targetTop
       = window.scrollY
         + (target as HTMLElement).getBoundingClientRect().top

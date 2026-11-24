@@ -1,0 +1,28 @@
+:where(.markdown-body) a:where(:not(.header-anchor)) {
+  color: var(--va-md-link-color, var(--va-c-link));
+  text-decoration: underline;
+  text-decoration-color: var(--va-md-link-underline-color, color-mix(in srgb, currentcolor 32%, transparent));
+  text-decoration-thickness: 1px;
+  text-underline-offset: 0.22em;
+  transition:
+    color var(--va-transition-duration-fast, 150ms) ease,
+    text-decoration-color var(--va-transition-duration-fast, 150ms) ease;
+
+  &:hover {
+    color: var(--va-md-link-hover-color, var(--va-md-link-color, var(--va-c-link)));
+    text-decoration-color: currentcolor;
+  }
+
+  &:not([href]) {
+    color: inherit;
+    text-decoration: none;
+  }
+
+  &:has(> img) {
+    text-decoration: none;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    transition: none;
+  }
+}

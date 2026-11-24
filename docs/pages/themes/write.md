@@ -380,8 +380,8 @@ Markdown styles are part of how a theme presents article content and need to be 
 
 You can refer to how [valaxy-theme-press](https://github.com/YunYouJun/valaxy/blob/main/packages/valaxy-theme-press/) customizes its Markdown theme. See [styles/markdown.scss](https://github.com/YunYouJun/valaxy/blob/main/packages/valaxy-theme-press/styles/markdown.scss).
 
-> If you want to use common default styles first (and customize them later), you can directly use [star-markdown-css](https://github.com/YunYouJun/star-markdown-css).
-> See [valaxy-theme-yun/styles](https://github.com/YunYouJun/valaxy/blob/main/packages/valaxy-theme-yun/styles/index.scss) for usage.
+> If you want to use common default styles first (and customize them later), you can import Valaxy's built-in Markdown stylesheet with `@use "valaxy/styles/markdown.scss" as *;` (all `--va-md-*` tokens and `:where(.markdown-body)` rules are easy to override), or use an external package like [star-markdown-css](https://github.com/YunYouJun/star-markdown-css).
+> See [valaxy-theme-yun/styles/main.scss](https://github.com/YunYouJun/valaxy/blob/main/packages/valaxy-theme-yun/styles/main.scss) for usage.
 
 ### NProgress Progress Bar
 

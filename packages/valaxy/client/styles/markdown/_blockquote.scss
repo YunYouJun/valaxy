@@ -1,0 +1,25 @@
+@use './tokens';
+
+:where(.markdown-body) blockquote {
+  margin: 1.25rem 0;
+  padding: 0.75rem 1.125rem;
+  border-inline-start: 3px solid var(--va-md-blockquote-border-color, var(--va-md-default-blockquote-border-color));
+  border-start-start-radius: 0;
+  border-end-start-radius: 0;
+  border-start-end-radius: var(--va-md-blockquote-radius, var(--va-card-border-radius, 0.5rem));
+  border-end-end-radius: var(--va-md-blockquote-radius, var(--va-card-border-radius, 0.5rem));
+  background-color: var(--va-md-blockquote-bg, var(--va-md-default-blockquote-bg));
+  color: var(--va-md-blockquote-color, var(--va-c-text-2));
+
+  > :first-child {
+    margin-top: 0;
+  }
+
+  > :last-child {
+    margin-bottom: 0;
+  }
+
+  blockquote {
+    margin-block: 0.75rem;
+  }
+}

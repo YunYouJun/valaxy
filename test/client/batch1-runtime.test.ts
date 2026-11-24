@@ -8,7 +8,7 @@ import VAPhoto from '../../packages/valaxy-addon-lightgallery/components/VAPhoto
 import YunLinkItem from '../../packages/valaxy-theme-yun/components/YunLinkItem.vue'
 import AppLink from '../../packages/valaxy/client/components/AppLink.vue'
 import { useCopyCode } from '../../packages/valaxy/client/composables/features/copy-code'
-import { onClickHref } from '../../packages/valaxy/client/utils/router'
+import { onClickHref, scrollTo } from '../../packages/valaxy/client/utils/router'
 
 vi.mock('vue-i18n', () => ({
   useI18n: () => ({ t: (_key: string, _params: unknown, fallback: string) => fallback }),
@@ -307,5 +307,67 @@ describe('batch 1 client runtime safety & cleanup', () => {
 
     await vi.advanceTimersByTimeAsync(1600)
     expect(anchor.classList.contains('is-copied')).toBe(false)
+  })
+
+  it('honors signed and logical scroll margins in scrollTo and falls back to -64 when unset or zero', async () => {
+    const scrollToSpy = vi.spyOn(window, 'scrollTo').mockImplementation(() => {})
+    const router = { push: vi.fn().mockResolvedValue(undefined) } as unknown as Router
+    activeCleanups.push(onClickHref(router))
+
+    const heading = document.createElement('h2')
+    heading.id = 'scrolled-section'
+    heading.style.scrollMarginTop = '106px'
+    heading.getBoundingClientRect = () => ({ top: 400 } as DOMRect)
+    const link = document.createElement('a')
+    link.href = '#scrolled-section'
+    document.body.append(heading, link)
+
+    link.dispatchEvent(new MouseEvent('click', { bubbles: true }))
+    await Promise.resolve()
+    await Promise.resolve()
+
+    expect(scrollToSpy).toHaveBeenLastCalledWith(0, 294)
+
+    heading.style.scrollMarginTop = '-24px'
+    scrollTo(document.body, '#scrolled-section', { smooth: false })
+    expect(scrollToSpy).toHaveBeenLastCalledWith(0, 424)
+
+    const getComputedStyleSpy = vi.spyOn(window, 'getComputedStyle')
+    getComputedStyleSpy.mockReturnValueOnce({
+      scrollMarginTop: '0px',
+      scrollMarginBlockStart: '88px',
+    } as CSSStyleDeclaration)
+    scrollTo(document.body, '#scrolled-section', { smooth: false })
+    expect(scrollToSpy).toHaveBeenLastCalledWith(0, 312)
+
+    getComputedStyleSpy.mockReturnValueOnce({
+      scrollMarginTop: '0px',
+      scrollMarginBlockStart: '-16px',
+    } as CSSStyleDeclaration)
+    scrollTo(document.body, '#scrolled-section', { smooth: false })
+    expect(scrollToSpy).toHaveBeenLastCalledWith(0, 416)
+    getComputedStyleSpy.mockRestore()
+
+    heading.style.scrollMarginTop = '0px'
+    scrollTo(document.body, '#scrolled-section', { smooth: false })
+    expect(scrollToSpy).toHaveBeenLastCalledWith(0, 336)
+
+    // Preserve legacy falsy `targetPadding: 0` fallthrough (e.g. theme-press deep-link calls)
+    heading.style.scrollMarginTop = '88px'
+    scrollTo(document.body, '#scrolled-section', { smooth: false, targetPadding: 0 })
+    expect(scrollToSpy).toHaveBeenLastCalledWith(0, 312)
+
+    scrollTo(document.body, '#scrolled-section', { smooth: false, targetPadding: -80 })
+    expect(scrollToSpy).toHaveBeenLastCalledWith(0, 320)
+
+    heading.style.scrollMarginTop = ''
+    scrollTo(document.body, '#scrolled-section', { smooth: false, targetPadding: 0 })
+    expect(scrollToSpy).toHaveBeenLastCalledWith(0, 336)
+
+    scrollTo(document.body, '#scrolled-section', { smooth: true })
+    expect(scrollToSpy).toHaveBeenLastCalledWith({
+      top: 336,
+      behavior: 'smooth',
+    })
   })
 })

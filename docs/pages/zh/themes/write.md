@@ -387,8 +387,8 @@ Markdown 样式是主题呈现文章样式的部分，需要由主题自定义�
 
 你可以参考 [valaxy-theme-press](https://github.com/YunYouJun/valaxy/blob/main/packages/valaxy-theme-press/) 自定义 Markdown 主题的方式，见 [styles/markdown.scss](https://github.com/YunYouJun/valaxy/blob/main/packages/valaxy-theme-press/styles/markdown.scss)。
 
-> 如果你想先使用常见的默认样式（后续再进行定制），你可以直接使用 [star-markdown-css](https://github.com/YunYouJun/star-markdown-css)。
-> 使用方式可参见 [valaxy-theme-yun/styles](https://github.com/YunYouJun/valaxy/blob/main/packages/valaxy-theme-yun/styles/index.scss)
+> 如果你想先使用常见的默认样式（后续再进行定制），可以直接引入 Valaxy 内置的 Markdown 样式 `@use "valaxy/styles/markdown.scss" as *;`（基于 `--va-md-*` 变量与 `:where(.markdown-body)` 低特异性规则，便于覆盖），也可以自行选用 [star-markdown-css](https://github.com/YunYouJun/star-markdown-css) 等外部样式包。
+> 使用方式可参见 [valaxy-theme-yun/styles/main.scss](https://github.com/YunYouJun/valaxy/blob/main/packages/valaxy-theme-yun/styles/main.scss)。
 
 ### NProgress 进度条 {#nprogress-progress-bar}
 

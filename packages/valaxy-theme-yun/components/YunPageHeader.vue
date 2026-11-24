@@ -20,8 +20,8 @@ const props = withDefaults(defineProps<{
     <component
       :is="props.level === 2 ? 'h2' : 'h1'"
       :id="titleId"
-      class="post-title flex-center" p="2" text="2xl center"
-      font="serif black"
+      class="post-title flex-center" p="2" text="center"
+      font="serif bold"
       :style="`color:${color}`"
       :class="pageTitleClass"
     >

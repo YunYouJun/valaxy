@@ -41,21 +41,26 @@ const time_warning = computed(() => {
 .yun-time-warning {
   display: flex;
   align-items: flex-start;
-  gap: 0.625rem;
-  margin: 1rem 0 1.25rem;
-  padding: 0.75rem 1rem;
-  border: 1px solid color-mix(in srgb, var(--va-c-yellow-1) 28%, var(--yun-surface-line));
+  gap: 0.5rem;
+  margin: 1.25rem 0 1.5rem;
+  padding: 0.625rem 0.9rem;
+  border: 1px solid color-mix(in srgb, var(--va-c-yellow-1) 18%, var(--yun-surface-line));
   border-radius: var(--va-card-border-radius, 0.5rem);
-  background-color: var(--va-c-yellow-soft);
-  color: var(--va-c-text-1);
+  background-color: color-mix(in srgb, var(--va-c-yellow-soft) 65%, transparent);
+  color: var(--va-c-text-2);
   font-size: 0.875rem;
   line-height: 1.6;
 }
 
 .yun-time-warning-icon {
   flex-shrink: 0;
-  margin-top: 0.15rem;
-  font-size: 1.1rem;
+  margin-top: 0.14rem;
+  font-size: 0.9375rem;
   color: var(--va-c-yellow-1);
+}
+
+html.dark .yun-time-warning {
+  border-color: color-mix(in srgb, var(--va-c-yellow-1) 20%, var(--yun-surface-line));
+  background-color: color-mix(in srgb, var(--va-c-yellow-1) 8%, var(--va-c-bg-soft));
 }
 </style>

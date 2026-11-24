@@ -108,3 +108,34 @@ test('keeps only one dropdown open when moving quickly between navigation and la
   expect(await observation.evaluate(stop => stop())).toBe(1)
   await observation.dispose()
 })
+
+test('deep linking to a docs heading keeps clearance below the sticky navbar', async ({ page }) => {
+  // 1200px (< 80rem) keeps the local doc nav visible (~111px scroll-margin-top), distinct from the legacy -64 fallback
+  await page.setViewportSize({ width: 1200, height: 700 })
+  await page.goto('/guide/markdown#container')
+  await page.waitForLoadState('networkidle')
+
+  await expect.poll(async () => page.evaluate(() => {
+    const heading = document.getElementById('container')
+    if (!heading)
+      return Number.POSITIVE_INFINITY
+    const scrollMarginTop = Number.parseFloat(getComputedStyle(heading).scrollMarginTop)
+    return Math.abs(heading.getBoundingClientRect().top - scrollMarginTop)
+  })).toBeLessThanOrEqual(12)
+
+  const metrics = await page.evaluate(() => {
+    const navbar = document.querySelector<HTMLElement>('.pr-navbar')!
+    const heading = document.getElementById('container')!
+    return {
+      navBottom: navbar.getBoundingClientRect().bottom,
+      headingTop: heading.getBoundingClientRect().top,
+      scrollMarginTop: Number.parseFloat(getComputedStyle(heading).scrollMarginTop),
+      notClamped: window.scrollY + window.innerHeight < document.documentElement.scrollHeight - 20,
+    }
+  })
+
+  expect(metrics.scrollMarginTop).toBeGreaterThan(90)
+  expect(metrics.scrollMarginTop).toBeGreaterThan(metrics.navBottom)
+  expect(metrics.headingTop).toBeGreaterThanOrEqual(metrics.navBottom)
+  expect(metrics.notClamped).toBe(true)
+})

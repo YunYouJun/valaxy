@@ -183,12 +183,15 @@ export default defineThemeConfig({
 | `--yun-action-btn-hover-bg` / `--yun-action-btn-active-bg` | 操作按钮悬停 / 按下中性底色（按明暗自动适配） |
 | `--yun-drawer-header-height` / `--yun-drawer-radius` | `56px` / `1rem`，移动端抽屉顶栏高度与外侧圆角 |
 | `--va-card-border-radius` | `0.5rem`，文章卡片圆角 |
-| `--yun-post-title-font-family` / `--yun-post-title-font-weight` | 主题衬线字体 / `900` |
+| `--yun-post-title-font-family` / `--yun-post-title-font-weight` | 主题衬线字体 / `700` |
+| `--yun-post-title-font-size` | 文章页主标题字号，默认 `clamp(1.625rem, 1.35rem + 1.2vw, 2.125rem)` |
 | `--yun-post-title-color` / `--yun-post-title-hover-color` | 纯色标题 / hover 颜色；文章类型颜色优先作为默认色 |
-| `--yun-post-title-letter-spacing` / `--yun-post-title-line-height` | `normal` / `1.5` |
+| `--yun-post-title-letter-spacing` / `--yun-post-title-line-height` | `normal` / `1.35` |
 | `--yun-post-meta-color` | 元信息颜色，默认继承 |
 | `--yun-post-excerpt-color` / `--yun-post-excerpt-opacity` | 摘要颜色 / `0.9` |
 | `--yun-post-excerpt-line-height` / `--yun-prose-line-height` | 摘要 `1.7` / 正文 `1.8` |
+| `--yun-prose-heading-font-family` / `--yun-prose-subheading-font-family` | 正文一级/二级标题字体（默认主题衬线）/ 三至六级标题字体（默认主题无衬线） |
+| `--yun-prose-heading-font-weight` / `--yun-prose-subheading-font-weight` | 正文一级/二级标题字重（`700`）/ 三至六级标题字重（`600`）；更多底层正文排版令牌见核心 `--va-md-*` 变量 |
 | `--yun-surface-line` | 卡片表面与内部分隔线；亮色默认 `rgb(122 122 122 / 0.08)`，暗色默认 `rgb(255 255 255 / 0.09)` |
 | `--yun-hr-color` / `--yun-hr-icon-color` / `--yun-hr-icon` | 正文分割线渐变颜色、云朵装饰颜色与 SVG 遮罩图形，亮暗自动适配 |
 | `--yun-bg-elevated` | 嵌套子卡片与浮层的抬升表面底色；亮色默认 `--va-c-bg-light`，暗色默认跟随 `--va-c-bg-elevated`（`#232631`） |

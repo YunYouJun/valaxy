@@ -40,6 +40,9 @@
     "./types/frontmatter": {
       "types": "./dist/types/frontmatter/index.d.mts"
     },
+    "./styles/markdown": "./client/styles/markdown/index.scss",
+    "./styles/markdown.scss": "./client/styles/markdown/index.scss",
+    "./styles/markdown/*": "./client/styles/markdown/*",
     "./package.json": "./package.json",
     "./*": "./*"
   },
@@ -143,7 +146,6 @@
     "resolve-global": "catalog:",
     "sass": "catalog:",
     "shiki": "catalog:",
-    "star-markdown-css": "catalog:",
     "table": "catalog:",
     "tinyglobby": "catalog:",
     "unhead": "catalog:build",

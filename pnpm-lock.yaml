@@ -618,9 +618,6 @@ catalogs:
     splitpanes:
       specifier: ^4.1.2
       version: 4.1.2
-    star-markdown-css:
-      specifier: ^0.6.1
-      version: 0.6.1
     stylelint:
       specifier: ^17.15.0
       version: 17.16.0
@@ -1349,9 +1346,6 @@ importers:
       shiki:
         specifier: 'catalog:'
         version: 4.5.0
-      star-markdown-css:
-        specifier: 'catalog:'
-        version: 0.6.1
       table:
         specifier: 'catalog:'
         version: 6.9.0
@@ -8200,9 +8194,6 @@ packages:
     resolution: {integrity: sha512-QeTKgAhk8OSsfeq60bl3wuVs9PmBftzmk7owBInA/F1YQne+TRw0UcPymNpURldAmx8hfmM2PNNGH/zgo3GpLA==}
     engines: {node: '>=20.16.0'}
     hasBin: true
-
-  star-markdown-css@0.6.1:
-    resolution: {integrity: sha512-x2BtWfYcDMq+DV7g+dHkfHqsPIwPo4FX/p9YMxg7CHcsGCdCeukQKFOxEKTkw4+z+kwzpDNxZ1ci/Xr2i0b7cQ==}
 
   statuses@2.0.2:
     resolution: {integrity: sha512-DvEy55V3DB7uknRo+4iOGT5fP1slR8wQohVdknigZPMpMstaKJQWhwiYBACJE3Ul2pTnATihhBYnRhZQHGBiRw==}
@@ -16606,8 +16597,6 @@ snapshots:
     optional: true
 
   srvx@1.0.6: {}
-
-  star-markdown-css@0.6.1: {}
 
   statuses@2.0.2: {}
 

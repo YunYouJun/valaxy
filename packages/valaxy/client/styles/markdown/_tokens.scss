@@ -1,0 +1,29 @@
+// Computed fallback defaults scoped to `.markdown-body` so post-level
+// `--va-c-*` overrides re-evaluate cleanly while keeping `--va-md-*` tokens overridable.
+:where(.markdown-body) {
+  --va-md-default-heading-color: var(--va-c-text-dark, var(--va-c-text));
+  --va-md-default-code-bg: color-mix(in srgb, var(--va-c-text) 6%, transparent);
+  --va-md-default-code-border-color: color-mix(in srgb, var(--va-c-text) 8%, transparent);
+  --va-md-default-blockquote-bg: color-mix(in srgb, var(--va-c-text) 2.5%, transparent);
+  --va-md-default-blockquote-border-color: color-mix(in srgb, var(--va-c-link) 45%, var(--va-c-divider));
+  --va-md-default-table-row-hover-bg: color-mix(in srgb, var(--va-c-text) 3.5%, transparent);
+  --va-md-default-kbd-bg: var(--va-c-bg-soft);
+  --va-md-default-kbd-border-color: var(--va-c-divider);
+  --va-md-default-kbd-shadow-color: color-mix(in srgb, var(--va-c-text) 16%, transparent);
+  --va-md-default-mark-bg: color-mix(in srgb, var(--va-c-warning-1, #f59e0b) 22%, transparent);
+  --va-md-default-media-shadow: 0 1px 3px 0 rgb(0 0 0 / 0.08), 0 1px 2px -1px rgb(0 0 0 / 0.06);
+}
+
+html.dark :where(.markdown-body) {
+  --va-md-default-heading-color: var(--va-c-text);
+  --va-md-default-code-bg: color-mix(in srgb, var(--va-c-text) 9%, transparent);
+  --va-md-default-code-border-color: rgb(255 255 255 / 0.09);
+  --va-md-default-blockquote-bg: color-mix(in srgb, var(--va-c-text) 3.5%, transparent);
+  --va-md-default-blockquote-border-color: color-mix(in srgb, var(--va-c-link) 42%, var(--va-c-divider));
+  --va-md-default-table-row-hover-bg: color-mix(in srgb, var(--va-c-text) 5%, transparent);
+  --va-md-default-kbd-bg: var(--va-c-bg-elevated, var(--va-c-bg-mute));
+  --va-md-default-kbd-border-color: rgb(255 255 255 / 0.14);
+  --va-md-default-kbd-shadow-color: rgb(0 0 0 / 0.45);
+  --va-md-default-mark-bg: color-mix(in srgb, var(--va-c-warning-1, #f9b44e) 24%, transparent);
+  --va-md-default-media-shadow: 0 2px 10px 0 rgb(0 0 0 / 0.35);
+}

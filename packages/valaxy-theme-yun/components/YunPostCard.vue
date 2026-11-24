@@ -64,7 +64,7 @@ const postTitleClass = computed(() => {
 
         <div class="post-card-body flex flex-col items-center relative" :class="hasCover && 'post-card-body-with-cover'" w="full">
           <AppLink class="post-title-link" :to="post.path || ''" m="t-3" :class="postTitleClass" tabindex="-1">
-            <div class="post-card-title flex-center title text-2xl" text="center" font="serif black">
+            <div class="post-card-title flex-center title text-2xl" text="center" font="serif bold">
               <div v-if="post.type" class="inline-flex" m="r-1" :class="icon" />
               <span>{{ $tO(post.title) }}</span>
             </div>

@@ -1,0 +1,45 @@
+@use './tokens';
+
+:where(.markdown-body) {
+  .table-container {
+    margin: 1.25rem 0;
+    overflow-x: auto;
+
+    > table {
+      margin: 0;
+    }
+  }
+
+  table {
+    width: 100%;
+    margin: 1.25rem 0;
+    border-collapse: collapse;
+    border-spacing: 0;
+    font-size: 0.925rem;
+    line-height: 1.6;
+  }
+
+  :is(th, td) {
+    padding: 0.5rem 0.85rem;
+    border: 1px solid var(--va-md-table-border-color, var(--va-c-divider));
+  }
+
+  thead th {
+    background-color: var(--va-md-table-header-bg, var(--va-c-bg-soft));
+    color: var(--va-md-heading-color, var(--va-md-default-heading-color));
+    font-weight: 600;
+    text-align: start;
+  }
+
+  tbody tr {
+    transition: background-color var(--va-transition-duration-fast, 150ms) ease;
+
+    &:hover {
+      background-color: var(--va-md-table-row-hover-bg, var(--va-md-default-table-row-hover-bg));
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      transition: none;
+    }
+  }
+}

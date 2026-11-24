@@ -1,75 +1,35 @@
-@use "valaxy/client/styles/mixins/index.scss" as *;
+@mixin yun-code-wrapper-reset($radius: var(--va-card-border-radius, 0.5rem)) {
+  border-radius: $radius;
+  overflow: clip;
+
+  .tabs,
+  .vp-code-block-title-bar {
+    margin: 0;
+    border-radius: 0;
+  }
+
+  div[class*='language-'] {
+    margin: 0;
+    border: 0;
+    border-radius: 0;
+  }
+}
 
 .markdown-body {
-  --smc-font-sans: var(--va-font-sans);
-  --smc-font-serif: var(--va-font-serif);
-  --smc-font-mono: var(--va-font-mono);
+  --va-md-line-height: var(--yun-prose-line-height, 1.8);
+  --va-md-heading-font-family: var(--yun-prose-heading-font-family, var(--va-font-serif));
+  --va-md-subheading-font-family: var(--yun-prose-subheading-font-family, var(--va-font-sans));
+  --va-md-heading-font-weight: var(--yun-prose-heading-font-weight, 700);
+  --va-md-subheading-font-weight: var(--yun-prose-subheading-font-weight, 600);
+  --va-md-heading-scroll-margin-top: calc(var(--yun-nav-height, 50px) + 1.5rem);
+  --va-md-table-row-hover-bg: var(--yun-action-btn-hover-bg);
   --c-toc-link: var(--va-c-text-light);
   --va-header-anchor-ease: var(--yun-ease-in);
   --va-header-anchor-color: var(--va-c-text-3);
   --va-header-anchor-hover-color: var(--va-c-link);
   --va-header-anchor-copied-color: var(--va-c-green-1);
-}
 
-.dark {
-  .markdown-body {
-    --c-toc-link: var(--va-c-text-dark);
-  }
-}
-
-/* stylelint-disable-next-line no-duplicate-selectors */
-.markdown-body {
   overflow-wrap: break-word;
-  line-height: var(--yun-prose-line-height, 1.8);
-
-  a {
-    color: var(--va-c-link);
-  }
-
-  h1,
-  h2,
-  h3,
-  h4,
-  h5,
-  h6 {
-    font-family: var(--va-font-serif);
-    font-weight: 900;
-  }
-
-  ul {
-    list-style: initial;
-
-    li>p {
-      margin-bottom: 0;
-    }
-  }
-
-  ol {
-    >li {
-      list-style: decimal;
-    }
-  }
-
-  p {
-    overflow: unset;
-  }
-
-  // alone image
-  figure {
-    figcaption {
-      text-align: center;
-      font-size: 0.8rem;
-      color: var(--va-c-text-2);
-      margin-bottom: 1rem;
-    }
-  }
-
-  hr {
-    height: 1px;
-    margin: 1.75rem 0;
-    border: 0;
-    background-color: var(--va-c-divider);
-  }
 
   hr:not(.line, .footnotes-sep) {
     display: flex;
@@ -107,6 +67,7 @@
     border-radius: 0.35em;
     padding-inline: 0.25em;
     background-color: var(--va-c-bg-soft);
+    text-decoration: none;
   }
 
   &.va-footnote-popover[data-footnote-kind="author"] .va-footnote-label {
@@ -133,7 +94,7 @@
     padding-top: 20px;
     width: 32px;
     text-align: center;
-    font-family: var(--va-font-family-mono);
+    font-family: var(--va-font-mono);
     line-height: var(--va-code-line-height);
     font-size: var(--va-code-font-size);
     color: var(--va-code-line-number-color);
@@ -141,73 +102,100 @@
       border-color var(--va-transition-duration-moderate),
       color var(--va-transition-duration-moderate);
   }
+}
 
-  // table
-  .table-container {
-    table {
-      thead {
-        th {
-          text-align: left;
-          border: 1px solid var(--va-c-divider);
-          background-color: var(--va-c-bg-soft);
-          color: var(--va-c-text);
-          font-weight: 600;
-        }
-      }
-
-      td {
-        border: 1px solid var(--va-c-divider);
-      }
-
-      tbody tr {
-        &:hover {
-          background-color: var(--yun-action-btn-hover-bg);
-        }
-      }
-    }
+.dark {
+  .markdown-body {
+    --c-toc-link: var(--va-c-text-dark);
   }
 }
 
-// 元素级特异性 (0,0,1)，让 markdown 中图片上的工具类（如 `m-0`、`rounded-full`）可以覆盖
-// uno.css 先于主题样式加载，同为 (0,0,1) 的 preflight `img {}` 仍会被这里覆盖
-:where(.markdown-body) img {
-  margin: 0.5rem auto;
-  height: auto;
-  max-width: min(92%, 800px);
+@media (hover: none) {
+  .markdown-body [class*='language-'] > button.copy {
+    opacity: 0.75;
+  }
+
+  .markdown-body [class*='language-'] > span.lang {
+    opacity: 0;
+  }
 }
 
-@media (width <=767.9px) {
+@media (width < 1280px) {
+  /* stylelint-disable-next-line no-duplicate-selectors */
+  .markdown-body {
+    --va-md-heading-scroll-margin-top: calc(var(--yun-nav-height, 50px) + var(--yun-local-nav-height, 40px) + 1rem);
+  }
+}
+
+@media (width <= 767.9px) {
+  /* stylelint-disable-next-line no-duplicate-selectors */
   .markdown-body {
     padding: 0.5rem;
   }
 }
 
-@include mobile {
-  .markdown-body {
-    div[class*="language-"] {
-      position: relative;
+@media (width >= 640px) {
+  .markdown-body div[class*='language-'] {
+    border: 1px solid var(--yun-surface-line);
+    border-radius: var(--va-card-border-radius, 0.5rem);
+  }
 
-      // left: 50%;
-      // right: 50%;
-      // margin-left: -50vw !important;
-      // margin-right: -50vw !important;
-      // width: 100vw !important;
-      margin: 16px -24px 0;
-      height: auto;
-    }
+  .markdown-body :is(.vp-code-group, .vp-code-block-title) {
+    @include yun-code-wrapper-reset;
+
+    margin: 1rem 0;
+    border: 1px solid var(--yun-surface-line);
   }
 }
 
-@media (width <=639.9px) {
-  .markdown-body .vp-code-group .tabs,
-  .markdown-body .vp-code-group div[class*="language-"] {
-    position: relative;
-    left: 50%;
-    right: 50%;
-    margin-left: -50vw !important;
-    margin-right: -50vw !important;
-    width: 100vw !important;
-    height: auto;
+@media (width <= 639.9px) {
+  .yun-main .markdown-body {
+    div[class*='language-'] {
+      margin: 1rem -1.5rem;
+      border-block: 1px solid var(--yun-surface-line);
+      border-inline: 0;
+      border-radius: 0;
+      height: auto;
+    }
+
+    :is(.vp-code-group, .vp-code-block-title) {
+      @include yun-code-wrapper-reset(0);
+
+      margin: 1rem -1.5rem;
+      border-block: 1px solid var(--yun-surface-line);
+      border-inline: 0;
+    }
+
+    // Lower wrapper specificity so disclosure styles (details.scss) override nested spacing/radii
+    :where(.custom-block, blockquote, details, li) {
+      div[class*='language-'] {
+        margin-inline: 0;
+        border: 1px solid var(--yun-surface-line);
+        border-radius: calc(var(--va-card-border-radius, 0.5rem) - 2px);
+      }
+
+      :is(.vp-code-group, .vp-code-block-title) {
+        @include yun-code-wrapper-reset(calc(var(--va-card-border-radius, 0.5rem) - 2px));
+
+        margin: 0.75rem 0;
+        border: 1px solid var(--yun-surface-line);
+      }
+    }
+  }
+
+  .post-card-excerpt-content.markdown-body {
+    div[class*='language-'] {
+      margin: 0.75rem 0;
+      border: 1px solid var(--yun-surface-line);
+      border-radius: var(--va-card-border-radius, 0.5rem);
+    }
+
+    :is(.vp-code-group, .vp-code-block-title) {
+      @include yun-code-wrapper-reset;
+
+      margin: 0.75rem 0;
+      border: 1px solid var(--yun-surface-line);
+    }
   }
 }
 

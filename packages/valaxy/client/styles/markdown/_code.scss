@@ -1,0 +1,45 @@
+@use './tokens';
+
+:where(.markdown-body) {
+  :is(code, pre) {
+    font-family: var(--va-md-code-font-family, var(--va-font-mono));
+  }
+
+  :where(:not(pre)) > code {
+    padding: 0.15em 0.4em;
+    border: 1px solid var(--va-md-code-border-color, var(--va-md-default-code-border-color));
+    border-radius: var(--va-md-code-radius, 0.35rem);
+    background-color: var(--va-md-code-bg, var(--va-md-default-code-bg));
+    color: var(--va-md-code-color, var(--va-c-text-1, var(--va-c-text)));
+    font-size: 0.85em;
+    font-weight: 400;
+    overflow-wrap: break-word;
+  }
+
+  :is(h1, h2, h3, h4, h5, h6) > code {
+    font-size: 0.875em;
+    font-weight: 500;
+  }
+
+  a > code {
+    color: inherit;
+  }
+
+  pre {
+    margin: 1rem 0;
+    padding: 1rem 1.25rem;
+    overflow-x: auto;
+    border-radius: var(--va-card-border-radius, 0.5rem);
+    background-color: var(--va-code-block-bg, var(--va-md-code-bg, var(--va-md-default-code-bg)));
+
+    > code {
+      display: block;
+      padding: 0;
+      border: 0;
+      background: transparent;
+      font-size: var(--va-code-font-size, 0.875em);
+      line-height: var(--va-code-line-height, 1.7);
+      white-space: pre;
+    }
+  }
+}

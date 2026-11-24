@@ -32,6 +32,9 @@
   "scripts": {
     "release": "bumpp && pnpm publish"
   },
+  "peerDependencies": {
+    "valaxy": ">=1.5.2 <2"
+  },
   "dependencies": {
     "@ctrl/tinycolor": "catalog:",
     "@explosions/fireworks": "catalog:",
