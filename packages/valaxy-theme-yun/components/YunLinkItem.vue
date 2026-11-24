@@ -20,9 +20,7 @@ function getLinkLabel(link: LinkType) {
 <template>
   <li
     class="yun-link-item"
-    :style="{
-      '--primary-color': link.color,
-    }"
+    :style="link.color ? { '--primary-color': link.color } : undefined"
   >
     <a
       class="yun-link-url"
@@ -43,7 +41,10 @@ function getLinkLabel(link: LinkType) {
         </div>
       </div>
       <div class="yun-link-info">
-        <div class="yun-link-blog">{{ link.blog }}</div>
+        <div class="yun-link-header">
+          <div class="yun-link-blog">{{ link.blog }}</div>
+          <span class="yun-link-arrow i-ri-arrow-right-up-line" aria-hidden="true" />
+        </div>
         <div class="yun-link-desc">{{ link.desc }}</div>
       </div>
     </a>

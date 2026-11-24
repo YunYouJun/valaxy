@@ -101,7 +101,7 @@ function handleImageError() {
   background: var(--valaxy-girls-paper);
   border: 1px solid var(--valaxy-girls-line);
   border-radius: inherit;
-  box-shadow: 0 0.35rem 1rem rgb(49 64 85 / 0.12);
+  box-shadow: var(--valaxy-girls-shadow);
   content: '';
   transition:
     border-color 220ms ease,
@@ -110,7 +110,7 @@ function handleImageError() {
 
 .valaxy-girl-orb-packed::before {
   inset: -1px;
-  box-shadow: 0 0.2rem 0.65rem rgb(49 64 85 / 0.14);
+  box-shadow: var(--valaxy-girls-shadow);
 }
 
 .valaxy-girl-orb:hover,
@@ -126,13 +126,13 @@ function handleImageError() {
 .valaxy-girl-orb-selected::before {
   border-color: var(--valaxy-girls-sky);
   box-shadow:
-    0 0.55rem 1.25rem rgb(63 153 190 / 0.18),
-    0 0 0 0.16rem color-mix(in srgb, var(--valaxy-girls-sky) 18%, transparent);
+    var(--valaxy-girls-hover-shadow),
+    0 0 0 2px color-mix(in srgb, var(--valaxy-girls-sky) 24%, transparent);
 }
 
 .valaxy-girl-orb:focus-visible {
-  outline: 3px solid color-mix(in srgb, var(--valaxy-girls-sky) 52%, transparent);
-  outline-offset: 0.35rem;
+  outline: 2px solid var(--valaxy-girls-focus);
+  outline-offset: 3px;
 }
 
 .valaxy-girl-orb-portrait,
@@ -185,8 +185,8 @@ function handleImageError() {
   color: var(--valaxy-girls-ink);
   background: color-mix(in srgb, var(--valaxy-girls-paper) 94%, transparent);
   border: 1px solid var(--valaxy-girls-line);
-  border-radius: 0.5rem;
-  box-shadow: 0 0.25rem 0.7rem rgb(31 46 64 / 0.12);
+  border-radius: 0.625rem;
+  box-shadow: var(--valaxy-girls-hover-shadow);
   font-size: 0.75rem;
   line-height: 1.2;
   opacity: 0;

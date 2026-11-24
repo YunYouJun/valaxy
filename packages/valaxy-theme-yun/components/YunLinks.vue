@@ -29,7 +29,7 @@ const isUrlSource = computed(() => typeof props.links === 'string')
 </script>
 
 <template>
-  <div class="yun-links">
+  <div class="yun-links not-prose">
     <!--
       Use ClientOnly when links are fetched from a URL to prevent
       hydration mismatch (SSG renders empty list, client fills it).
@@ -71,6 +71,7 @@ const isUrlSource = computed(() => typeof props.links === 'string')
 
   .yun-link-url {
     --yun-link-accent: var(--primary-color, var(--va-c-link));
+    --yun-link-accent-ink: var(--yun-link-accent);
 
     position: relative;
     display: flex;
@@ -84,68 +85,70 @@ const isUrlSource = computed(() => typeof props.links === 'string')
     overflow: hidden;
     color: var(--va-c-text);
     text-align: left;
+    text-decoration: none;
     line-height: 1.5;
     background-color: var(--yun-bg-elevated, var(--va-c-bg-light));
+    background-image: radial-gradient(
+      220px circle at 0% 0%,
+      color-mix(in srgb, var(--yun-link-accent) 9%, transparent),
+      transparent 72%
+    );
     border: 1px solid var(--yun-surface-line);
     border-radius: 0.75rem;
-    box-shadow: inset 3px 0 0 var(--yun-link-accent);
-    isolation: isolate;
+    box-shadow: var(--yun-card-shadow);
     transition:
-      transform var(--va-transition-duration-fast) ease,
-      border-color var(--va-transition-duration-fast) ease,
-      background-color var(--va-transition-duration-fast) ease,
-      box-shadow var(--va-transition-duration-fast) ease;
+      transform 220ms var(--yun-ease-in-out, ease),
+      border-color 220ms ease,
+      box-shadow 220ms ease;
 
-    &::before {
-      position: absolute;
-      z-index: 0;
-      inset: 0;
-      pointer-events: none;
-      background:
-        radial-gradient(
-          circle at 3.25rem 50%,
-          color-mix(in srgb, var(--yun-link-accent) 18%, transparent) 0,
-          color-mix(in srgb, var(--yun-link-accent) 7%, transparent) 42%,
-          transparent 74%
-        );
-      content: '';
-      opacity: 0;
-      transition: opacity var(--va-transition-duration-fast) ease;
-    }
+    @media (hover: hover) and (pointer: fine) {
+      &:hover {
+        color: var(--va-c-text);
+        text-decoration: none;
+        border-color: color-mix(in srgb, var(--yun-link-accent) 34%, var(--yun-surface-line));
+        box-shadow: var(--yun-card-hover-shadow);
 
-    &:hover {
-      color: var(--va-c-text);
-      background-color: color-mix(in srgb, var(--yun-link-accent) 6%, var(--yun-bg-elevated, var(--va-c-bg-light)));
-      box-shadow:
-        inset 3px 0 0 var(--yun-link-accent),
-        var(--yun-card-hover-shadow);
-      transform: translateY(-2px);
-    }
+        @media (prefers-reduced-motion: no-preference) {
+          transform: translateY(-2px);
 
-    &:hover::before,
-    &:focus-visible::before {
-      opacity: 1;
-    }
+          .yun-link-avatar {
+            transform: scale(1.04);
+          }
+        }
 
-    &:hover:not(:focus-visible) {
-      border-color: var(--yun-link-accent);
+        .yun-link-avatar {
+          border-color: color-mix(in srgb, var(--yun-link-accent) 48%, var(--yun-surface-line));
+        }
+
+        .yun-link-blog {
+          color: var(--yun-link-accent-ink);
+        }
+
+        .yun-link-arrow {
+          color: var(--yun-link-accent-ink);
+          opacity: 1;
+          transform: translate(1px, -1px);
+        }
+      }
     }
 
     &:focus-visible {
       color: var(--va-c-text);
+      text-decoration: none;
       border-color: var(--yun-surface-line);
       outline: 2px solid var(--yun-focus-color);
       outline-offset: 2px;
     }
 
     &:active {
-      transform: scale(0.985);
+      @media (prefers-reduced-motion: no-preference) {
+        transform: scale(0.985);
+      }
     }
 
     .yun-link {
       &-left {
         position: relative;
-        z-index: 1;
         flex: 0 0 auto;
         line-height: 0;
       }
@@ -158,9 +161,11 @@ const isUrlSource = computed(() => typeof props.links === 'string')
         height: 3.5rem;
         overflow: hidden;
         border-radius: 50%;
-        background-color: #fff;
-        border: 2px solid var(--yun-link-accent);
-        transition: transform var(--va-transition-duration-fast) ease;
+        background-color: color-mix(in srgb, var(--yun-link-accent) 8%, var(--va-c-bg-soft));
+        border: 1px solid color-mix(in srgb, var(--yun-link-accent) 28%, var(--yun-surface-line));
+        transition:
+          transform 220ms var(--yun-ease-in-out, ease),
+          border-color 220ms ease;
       }
 
       &-avatar-img {
@@ -171,56 +176,78 @@ const isUrlSource = computed(() => typeof props.links === 'string')
         object-position: center;
       }
 
+      &-header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 0.375rem;
+        min-width: 0;
+      }
+
       &-blog {
+        flex: 1;
+        min-width: 0;
         overflow: hidden;
         color: var(--va-c-text);
         font-family: var(--va-font-serif);
         font-size: 1rem;
         font-weight: 700;
+        line-height: 1.35;
         text-overflow: ellipsis;
         white-space: nowrap;
+        transition: color 180ms ease;
+      }
+
+      &-arrow {
+        flex-shrink: 0;
+        color: var(--va-c-text-2);
+        font-size: 0.9rem;
+        opacity: 0.45;
+        transition:
+          color 180ms ease,
+          opacity 180ms ease,
+          transform 180ms ease;
       }
 
       &-desc {
         display: -webkit-box;
         overflow: hidden;
-        color: var(--va-c-text-light);
-        font-size: 0.875rem;
-        line-height: 1.4;
+        color: var(--va-c-text-2);
+        font-size: 0.85rem;
+        line-height: 1.5;
         -webkit-box-orient: vertical;
         -webkit-line-clamp: 2;
       }
     }
-
-    &:hover .yun-link-avatar {
-      transform: scale(1.04);
-    }
   }
 
   .yun-link-info {
-    position: relative;
-    z-index: 1;
     display: flex;
     flex-direction: column;
     justify-content: center;
-    gap: 0.125rem;
+    gap: 0.2rem;
     min-width: 0;
     flex: 1;
   }
+}
+
+html.dark .yun-links .yun-link-url {
+  --yun-link-accent-ink: color-mix(in srgb, var(--yun-link-accent) 62%, white);
+
+  background-image: radial-gradient(
+    220px circle at 0% 0%,
+    color-mix(in srgb, var(--yun-link-accent) 14%, transparent),
+    transparent 72%
+  );
 }
 
 @media (prefers-reduced-motion: reduce) {
   .yun-links {
     .yun-link-url,
     .yun-link-avatar,
-    .yun-link-url::before {
-      transition-duration: 0.01ms;
-    }
-
-    .yun-link-url:hover,
-    .yun-link-url:active,
-    .yun-link-url:hover .yun-link-avatar {
-      transform: none;
+    .yun-link-blog,
+    .yun-link-arrow {
+      transition: none;
     }
   }
 }

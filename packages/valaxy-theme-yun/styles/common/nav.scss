@@ -57,9 +57,29 @@
   }
 }
 
-// Keep the homepage entrance soft and brief; no spring or overshoot.
-.yun-nav-menu.is-home-nav {
+// Keep the Strato homepage entrance soft and brief; no spring or overshoot.
+.yun-nav-menu.is-home-nav:not(.is-nimbo-nav) {
   animation: yun-nav-arrive 600ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+@media (prefers-reduced-motion: no-preference) and (scripting: enabled) {
+  // Hold the Nimbo navbar hidden during initial SSR paint until the banner intro
+  // takes over, matching the 1200ms fallback in layouts/home.vue.
+  .yun-nav-menu.is-home-intro-pending {
+    animation: yun-nav-intro-fallback 1200ms step-end;
+  }
+
+  .yun-nav-menu.is-home-intro-playing {
+    animation: none;
+    visibility: hidden;
+    opacity: 0;
+    transform: translateY(-16px);
+    pointer-events: none;
+  }
+
+  .yun-nav-menu.is-home-intro-arrive {
+    animation: yun-nav-drop-in 450ms cubic-bezier(0.22, 1, 0.36, 1) both;
+  }
 }
 
 @keyframes yun-nav-arrive {
@@ -74,8 +94,32 @@
   }
 }
 
+@keyframes yun-nav-intro-fallback {
+  from {
+    visibility: hidden;
+    opacity: 0;
+  }
+
+  to {
+    visibility: visible;
+    opacity: 1;
+  }
+}
+
+@keyframes yun-nav-drop-in {
+  from {
+    opacity: 0;
+    transform: translateY(-16px);
+  }
+
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
-  .yun-nav-menu.is-home-nav {
+  .yun-nav-menu.is-home-nav:not(.is-nimbo-nav) {
     animation: none;
   }
 }

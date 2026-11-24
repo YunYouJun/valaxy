@@ -58,12 +58,12 @@ aside: false
 
 <ValaxyGirls :girls="frontmatter.girls" :random="frontmatter.random" layout="bubbles" switchable>
   <template #header="{ count, isLoading }">
-    <div class="mb-3 flex items-center justify-between gap-3 border-b border-[var(--va-c-divider)] border-solid pb-2">
-      <div class="flex items-baseline gap-2">
-        <h2 class="m-0 text-xl">心动角色名册</h2>
-        <p class="m-0 hidden text-[0.6rem] tracking-widest uppercase op-45 sm:block">Lovely girls archive</p>
+    <div class="mb-3 flex items-center justify-between gap-3 border-b border-[var(--yun-surface-line,var(--va-c-divider))] border-solid pb-2.5">
+      <div class="flex items-baseline gap-2.5">
+        <h2 class="m-0 font-serif text-xl">心动角色名册</h2>
+        <p class="m-0 hidden text-[0.6875rem] tracking-widest uppercase op-55 sm:block">Lovely girls archive</p>
       </div>
-      <span v-if="!isLoading" class="whitespace-nowrap text-xs op-55">{{ count }} 位</span>
+      <span v-if="!isLoading" class="inline-flex h-5.5 min-w-6 items-center justify-center whitespace-nowrap rounded-full border border-[var(--yun-surface-line,var(--va-c-divider))] bg-[color-mix(in_srgb,var(--va-c-text)_3%,transparent)] px-2 text-xs font-semibold text-[var(--va-c-text-2)]">{{ count }} 位</span>
     </div>
   </template>
 </ValaxyGirls>

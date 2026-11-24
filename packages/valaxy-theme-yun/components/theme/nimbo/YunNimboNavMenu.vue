@@ -1,10 +1,12 @@
 <script setup lang="ts">
 import { useAppStore, useSiteConfig, useValaxyI18n } from 'valaxy'
-import { computed } from 'vue'
+import { computed, onMounted, shallowRef, useTemplateRef, watch } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { useRoute } from 'vue-router'
 import { useThemeConfig } from '../../../composables'
 import { useYunAppStore } from '../../../stores'
+
+type HomeNavIntroState = 'pending' | 'playing' | 'arriving' | 'settled'
 
 const { $t } = useValaxyI18n()
 const { t } = useI18n()
@@ -18,16 +20,95 @@ const route = useRoute()
 const playAnimation = computed(() => yunApp.scrollY > 10)
 
 const app = useAppStore()
+
+const navMenuRef = useTemplateRef<HTMLElement>('navMenuRef')
+const isHomeRoot = computed(() =>
+  route.meta.layout === 'home' && !route.path.startsWith('/page'),
+)
+const isHomeBannerPage = computed(() =>
+  isHomeRoot.value && Boolean(themeConfig.value.banner?.enable),
+)
+
+// Deterministic initial state identical across SSR and client hydration.
+const introState = shallowRef<HomeNavIntroState>(isHomeBannerPage.value ? 'pending' : 'settled')
+
+function syncIntroState() {
+  if (typeof window === 'undefined' || introState.value === 'settled')
+    return
+
+  if (!isHomeBannerPage.value) {
+    introState.value = 'settled'
+    return
+  }
+
+  // Keep the drop-in animation running until onNavAnimationEnd clears it,
+  // because YunBanner updates bannerAnimationDone and bannerIntroPlaying in the same tick.
+  if (introState.value === 'arriving')
+    return
+
+  const scrolled = playAnimation.value || window.scrollY > 10
+  if (scrolled) {
+    introState.value = introState.value === 'playing' ? 'arriving' : 'settled'
+    return
+  }
+
+  if (yunApp.bannerAnimationDone) {
+    introState.value = introState.value === 'playing' ? 'arriving' : 'settled'
+    return
+  }
+
+  if (yunApp.bannerIntroPlaying && introState.value === 'pending')
+    introState.value = 'playing'
+}
+
+function onNavAnimationEnd(event: AnimationEvent) {
+  if (event.target !== event.currentTarget)
+    return
+  if (
+    (introState.value === 'arriving' && event.animationName === 'yun-nav-drop-in')
+    || (introState.value === 'pending' && event.animationName === 'yun-nav-intro-fallback')
+  ) {
+    introState.value = 'settled'
+  }
+}
+
+onMounted(() => {
+  if (
+    window.matchMedia('(prefers-reduced-motion: reduce)').matches
+    || (introState.value === 'pending' && navMenuRef.value && getComputedStyle(navMenuRef.value).visibility !== 'hidden')
+  ) {
+    introState.value = 'settled'
+    return
+  }
+  syncIntroState()
+})
+
+// Sync flush keeps the navbar drop-in on the exact same DOM update frame as .is-intro-complete.
+watch(
+  () => [
+    isHomeBannerPage.value,
+    playAnimation.value,
+    yunApp.bannerIntroPlaying,
+    yunApp.bannerAnimationDone,
+  ],
+  syncIntroState,
+  { flush: 'sync' },
+)
 </script>
 
 <template>
   <div
-    class="yun-nav-menu z-$yun-z-nav-menu fixed bg-transparent"
+    ref="navMenuRef"
+    class="yun-nav-menu is-nimbo-nav z-$yun-z-nav-menu fixed bg-transparent"
     :class="{
       'is-home-nav': route.meta.layout === 'home',
+      'is-home-intro-pending': introState === 'pending',
+      'is-home-intro-playing': introState === 'playing',
+      'is-home-intro-arrive': introState === 'arriving',
       'shadow play': playAnimation,
       'is-glass': themeConfig.navbar?.glass === 'always',
     }"
+    @animationend="onNavAnimationEnd"
   >
     <!--  -->
     <div class="inline-flex justify-start items-center flex-1 gap-1">
@@ -37,7 +118,12 @@ const app = useAppStore()
         z="$yun-z-menu-btn"
         @click="yunApp.fullscreenMenu.toggle()"
       />
-      <YunNavMenuItem icon="i-ri-home-4-line" to="/" :label="t('menu.home')" />
+      <YunNavMenuItem
+        :class="{ 'hidden lg:inline-flex': isHomeRoot }"
+        icon="i-ri-home-4-line"
+        to="/"
+        :label="t('menu.home')"
+      />
       <div class="hidden lg:contents">
         <YunNavMenuItem
           v-for="item, i in themeConfig.nav"

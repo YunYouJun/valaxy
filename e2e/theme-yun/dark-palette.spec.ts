@@ -114,4 +114,69 @@ test.describe('Theme Yun dark palette and component surfaces', () => {
     await waitForHydration(page)
     expect(await page.evaluate(() => document.documentElement.scrollWidth <= window.innerWidth)).toBe(true)
   })
+
+  test('aligns /links/ and /girls/ dark surfaces, typography, and mobile layouts', async ({ page }) => {
+    await page.route(/fonts\.(googleapis|loli)\.com/, route => route.fulfill({ contentType: 'text/css', body: '' }))
+    await page.route('https://wives.yunyoujun.cn/girls.json', route => route.fulfill({
+      json: [
+        { name: 'Test Girl 1', from: 'Test Series', avatar: '' },
+        { name: 'Test Girl 2', from: 'Test Series', avatar: '' },
+      ],
+    }))
+
+    await page.setViewportSize({ width: 1280, height: 800 })
+    await page.emulateMedia({ colorScheme: 'dark', reducedMotion: 'reduce' })
+
+    // 1. /links/ card alignment in dark mode
+    await page.goto('/links/', { waitUntil: 'domcontentloaded' })
+    await waitForHydration(page)
+
+    const linkCard = page.locator('.yun-links .yun-link-url').first()
+    await expect(linkCard).toBeVisible()
+    await expect(linkCard).toHaveCSS('border-radius', '12px')
+    await expect(linkCard).toHaveCSS('text-decoration-line', 'none')
+    await expect(linkCard.locator('.yun-link-arrow')).toBeVisible()
+
+    const linkColors = await linkCard.evaluate((card) => {
+      const mainCard = document.querySelector('.yun-main .yun-card')!
+      const avatar = card.querySelector('.yun-link-avatar')!
+      return {
+        cardBg: getComputedStyle(card).backgroundColor,
+        mainCardBg: getComputedStyle(mainCard).backgroundColor,
+        avatarBg: getComputedStyle(avatar).backgroundColor,
+      }
+    })
+    expect(linkColors.cardBg).not.toBe(linkColors.mainCardBg)
+    expect(linkColors.avatarBg).not.toBe('rgb(255, 255, 255)')
+
+    await page.setViewportSize({ width: 390, height: 844 })
+    expect(await page.evaluate(() => document.documentElement.scrollWidth <= window.innerWidth)).toBe(true)
+
+    // 2. /girls/ elevated surface and grid alignment in dark mode
+    await page.setViewportSize({ width: 1280, height: 800 })
+    await page.goto('/girls/', { waitUntil: 'domcontentloaded' })
+    await waitForHydration(page)
+
+    const firstGirls = page.locator('.valaxy-girls').first()
+    const gridSwitch = firstGirls.getByRole('button', { name: /紧凑卡片|Compact grid/ })
+    await gridSwitch.click()
+    await expect(gridSwitch).toHaveAttribute('aria-pressed', 'true')
+
+    const girlCard = firstGirls.locator('.valaxy-girl-card').first()
+    await expect(girlCard).toBeVisible()
+    await expect(girlCard).toHaveCSS('border-radius', '12px')
+    await expect(girlCard.locator('.valaxy-girl-arrow')).toBeVisible()
+
+    const girlSurface = await girlCard.evaluate((card) => {
+      const mainCard = document.querySelector('.yun-main .yun-card')!
+      return {
+        girlCardBg: getComputedStyle(card).backgroundColor,
+        mainCardBg: getComputedStyle(mainCard).backgroundColor,
+      }
+    })
+    expect(girlSurface.girlCardBg).not.toBe(girlSurface.mainCardBg)
+
+    await page.setViewportSize({ width: 390, height: 844 })
+    expect(await page.evaluate(() => document.documentElement.scrollWidth <= window.innerWidth)).toBe(true)
+  })
 })

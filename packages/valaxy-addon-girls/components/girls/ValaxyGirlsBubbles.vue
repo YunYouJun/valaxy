@@ -95,11 +95,11 @@ const bubbleClasses = computed(() => ({
   z-index: -1;
   inset: 3%;
   background:
-    radial-gradient(circle at 48% 45%, color-mix(in srgb, var(--valaxy-girls-sky) 13%, transparent), transparent 48%),
-    color-mix(in srgb, var(--valaxy-girls-soft) 46%, transparent);
-  border: 1px solid color-mix(in srgb, var(--valaxy-girls-sky) 15%, transparent);
+    radial-gradient(circle at 48% 44%, color-mix(in srgb, var(--valaxy-girls-sky) 10%, transparent), transparent 52%),
+    var(--valaxy-girls-stage-bg);
+  border: 1px solid var(--valaxy-girls-line);
   border-radius: 50%;
-  box-shadow: inset 0 0 4rem color-mix(in srgb, var(--valaxy-girls-sky) 8%, transparent);
+  box-shadow: inset 0 0 3.5rem color-mix(in srgb, var(--valaxy-girls-sky) 6%, transparent);
   content: '';
 }
 

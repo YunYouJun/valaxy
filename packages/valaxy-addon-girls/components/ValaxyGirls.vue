@@ -154,14 +154,20 @@ function selectGirl(index: number) {
 
 <style scoped>
 .valaxy-girls {
-  --valaxy-girls-soft: color-mix(in srgb, var(--va-c-primary) 8%, var(--va-c-bg-soft));
-  --valaxy-girls-sky: var(--va-c-primary);
-  --valaxy-girls-sky-deep: color-mix(in srgb, var(--valaxy-girls-sky) 68%, var(--va-c-text-1));
+  --valaxy-girls-sky: var(--va-c-link, var(--va-c-primary));
+  --valaxy-girls-sky-deep: var(--valaxy-girls-sky);
   --valaxy-girls-blush: #ff8fba;
-  --valaxy-girls-ink: var(--va-c-text-1);
+  --valaxy-girls-ink: var(--va-c-text, var(--va-c-text-1));
   --valaxy-girls-muted: var(--va-c-text-2);
-  --valaxy-girls-paper: var(--va-c-bg-light);
-  --valaxy-girls-line: color-mix(in srgb, var(--va-c-primary) 14%, var(--va-c-divider));
+  --valaxy-girls-paper: var(--yun-bg-elevated, var(--va-c-bg-elevated, var(--va-c-bg-light)));
+  --valaxy-girls-soft: color-mix(in srgb, var(--valaxy-girls-sky) 10%, var(--valaxy-girls-paper));
+  --valaxy-girls-stage-bg: color-mix(in srgb, var(--valaxy-girls-sky) 5%, var(--va-c-bg-soft));
+  --valaxy-girls-line: var(--yun-surface-line, var(--va-c-divider));
+  --valaxy-girls-hover-line: color-mix(in srgb, var(--valaxy-girls-sky) 34%, var(--valaxy-girls-line));
+  --valaxy-girls-focus: var(--yun-focus-color, var(--valaxy-girls-sky));
+  --valaxy-girls-radius: 0.75rem;
+  --valaxy-girls-shadow: var(--yun-card-shadow, 0 1px 2px rgb(20 35 60 / 0.03), 0 6px 24px -12px rgb(20 35 60 / 0.05));
+  --valaxy-girls-hover-shadow: var(--yun-card-hover-shadow, 0 10px 28px -8px rgb(20 35 60 / 0.1));
 
   position: relative;
   margin: 0.9rem 0 1.75rem;
@@ -180,8 +186,8 @@ function selectGirl(index: number) {
 
 .valaxy-girls-skeleton-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(9.5rem, 1fr));
-  gap: clamp(0.6rem, 1.5vw, 0.75rem);
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, 13rem), 1fr));
+  gap: 0.75rem;
   justify-content: start;
   margin: 0;
   padding: 0;
@@ -191,13 +197,13 @@ function selectGirl(index: number) {
   display: grid;
   overflow: hidden;
   min-width: 0;
-  min-height: 4.75rem;
-  grid-template-columns: 3.75rem minmax(0, 1fr);
+  min-height: 5rem;
+  grid-template-columns: 4rem minmax(0, 1fr);
   grid-template-rows: repeat(2, 1fr);
   list-style: none;
   background: var(--valaxy-girls-paper);
   border: 1px solid var(--valaxy-girls-line);
-  border-radius: var(--va-card-border-radius, 0.5rem);
+  border-radius: var(--valaxy-girls-radius);
 }
 
 .valaxy-girls-skeleton-portrait,
@@ -215,7 +221,7 @@ function selectGirl(index: number) {
 }
 
 .valaxy-girls-skeleton-portrait {
-  min-height: 4.75rem;
+  min-height: 5rem;
   grid-row: 1 / 3;
 }
 
@@ -246,8 +252,8 @@ function selectGirl(index: number) {
   padding: 2rem;
   color: var(--valaxy-girls-muted);
   background: var(--valaxy-girls-soft);
-  border: 1px dashed var(--valaxy-girls-sky);
-  border-radius: 0.75rem;
+  border: 1px dashed var(--valaxy-girls-hover-line);
+  border-radius: var(--valaxy-girls-radius);
   font-size: 0.82rem;
   text-align: center;
 }
@@ -263,23 +269,23 @@ function selectGirl(index: number) {
 
 .valaxy-girls-retry {
   padding: 0.42rem 0.9rem;
-  color: var(--valaxy-girls-sky-deep);
+  color: var(--valaxy-girls-sky);
   background: var(--valaxy-girls-paper);
-  border: 1px solid var(--valaxy-girls-sky);
+  border: 1px solid var(--valaxy-girls-hover-line);
   border-radius: 999px;
   font: inherit;
-  font-size: 0.72rem;
+  font-size: 0.75rem;
   cursor: pointer;
 }
 
 .valaxy-girls-retry:hover {
   color: var(--valaxy-girls-paper);
-  background: var(--valaxy-girls-sky-deep);
+  background: var(--valaxy-girls-sky);
 }
 
 .valaxy-girls-retry:focus-visible {
-  outline: 3px solid color-mix(in srgb, var(--valaxy-girls-sky) 45%, transparent);
-  outline-offset: 3px;
+  outline: 2px solid var(--valaxy-girls-focus);
+  outline-offset: 2px;
 }
 
 @keyframes valaxy-girls-skeleton {

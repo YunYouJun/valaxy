@@ -90,7 +90,7 @@ const renderDescription = computed(() => {
   gap: 1rem;
   margin-bottom: 0.9rem;
   padding-bottom: 0.85rem;
-  border-bottom: 1px solid var(--va-c-divider);
+  border-bottom: 1px solid var(--yun-surface-line, var(--va-c-divider));
 }
 
 .girls-large-demo-copy {
@@ -99,11 +99,11 @@ const renderDescription = computed(() => {
 
 .girls-large-demo-kicker {
   display: block;
-  margin-bottom: 0.2rem;
-  color: var(--va-c-primary);
-  font-size: 0.58rem;
+  margin-bottom: 0.25rem;
+  color: var(--va-c-link);
+  font-size: 0.6875rem;
   font-weight: 700;
-  letter-spacing: 0.18em;
+  letter-spacing: 0.14em;
 }
 
 .girls-large-demo-title {
@@ -116,7 +116,7 @@ const renderDescription = computed(() => {
 .girls-large-demo-description {
   margin: 0.3rem 0 0;
   color: var(--va-c-text-2);
-  font-size: 0.72rem;
+  font-size: 0.8125rem;
   line-height: 1.6;
 }
 
@@ -124,31 +124,36 @@ const renderDescription = computed(() => {
   display: inline-flex;
   flex: none;
   padding: 0.2rem;
-  background: color-mix(in srgb, var(--va-c-bg-soft) 86%, transparent);
-  border: 1px solid var(--va-c-divider);
+  background: var(--va-c-bg-soft);
+  border: 1px solid var(--yun-surface-line, var(--va-c-divider));
   border-radius: 999px;
 }
 
 .girls-large-demo-button {
-  min-height: 2.35rem;
-  padding: 0.45rem 0.75rem;
+  min-height: 2.25rem;
+  padding: 0.4rem 0.8rem;
   color: var(--va-c-text-2);
   background: transparent;
   border: 0;
   border-radius: 999px;
   font: inherit;
-  font-size: 0.68rem;
+  font-size: 0.75rem;
+  font-weight: 500;
   cursor: pointer;
+  transition: color 160ms ease, background-color 160ms ease;
 }
 
 .girls-large-demo-button-active {
-  color: var(--va-c-primary);
-  background: var(--va-c-bg-light);
-  box-shadow: 0 0.2rem 0.65rem rgb(31 46 64 / 0.09);
+  color: var(--va-c-link);
+  background: var(--yun-bg-elevated, var(--va-c-bg-light));
+  box-shadow:
+    inset 0 0 0 1px color-mix(in srgb, var(--va-c-link) 36%, transparent),
+    var(--yun-card-shadow, 0 0.2rem 0.65rem rgb(31 46 64 / 0.09));
+  font-weight: 600;
 }
 
 .girls-large-demo-button:focus-visible {
-  outline: 2px solid var(--va-c-primary);
+  outline: 2px solid var(--yun-focus-color, var(--va-c-link));
   outline-offset: 2px;
 }
 
