@@ -51,6 +51,26 @@ test('vertically aligns the Strato mobile menu with the top navigation', async (
 
   await hamburger.click()
   await expect(hamburger).toHaveAttribute('aria-expanded', 'true')
+  await expect.poll(() =>
+    hamburger.evaluate(el => [...el.querySelectorAll('span')].every(s => s.getAnimations().every(a => a.playState === 'finished'))),
+  ).toBe(true)
+  const activeOffsets = await hamburger.evaluate((element) => {
+    const btnRect = element.getBoundingClientRect()
+    const btnCenterX = btnRect.left + btnRect.width / 2
+    const btnCenterY = btnRect.top + btnRect.height / 2
+    const topRect = element.querySelector('.vt-hamburger-top')!.getBoundingClientRect()
+    const bottomRect = element.querySelector('.vt-hamburger-bottom')!.getBoundingClientRect()
+    return {
+      topX: Math.abs((topRect.left + topRect.width / 2) - btnCenterX),
+      topY: Math.abs((topRect.top + topRect.height / 2) - btnCenterY),
+      bottomX: Math.abs((bottomRect.left + bottomRect.width / 2) - btnCenterX),
+      bottomY: Math.abs((bottomRect.top + bottomRect.height / 2) - btnCenterY),
+    }
+  })
+  expect(activeOffsets.topX).toBeLessThanOrEqual(0.5)
+  expect(activeOffsets.topY).toBeLessThanOrEqual(0.5)
+  expect(activeOffsets.bottomX).toBeLessThanOrEqual(0.5)
+  expect(activeOffsets.bottomY).toBeLessThanOrEqual(0.5)
   expect(await hamburger.evaluate(element => element.getBoundingClientRect().top)).toBe(alignment.hamburgerTop)
 })
 

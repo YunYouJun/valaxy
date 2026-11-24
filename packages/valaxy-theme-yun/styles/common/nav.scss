@@ -96,11 +96,19 @@
       transform var(--va-transition-duration);
   }
 
-  &.is-active:hover {
+  &.is-active {
     .vt-hamburger-top,
     .vt-hamburger-middle,
     .vt-hamburger-bottom {
-      background-color: currentcolor;
+      top: 9px;
+    }
+
+    &:hover {
+      .vt-hamburger-top,
+      .vt-hamburger-middle,
+      .vt-hamburger-bottom {
+        background-color: currentcolor;
+      }
     }
   }
 

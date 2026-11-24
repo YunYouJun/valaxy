@@ -2,12 +2,18 @@
 import { useResizeObserver, useScroll } from '@vueuse/core'
 import { DialogClose, DialogContent, DialogDescription, DialogOverlay, DialogPortal, DialogRoot, DialogTitle, VisuallyHidden } from 'reka-ui'
 import { useFuseSearch } from 'valaxy'
-import { computed, nextTick, shallowRef, watch } from 'vue'
+import { computed, nextTick, onUnmounted, shallowRef, watch } from 'vue'
 import { useI18n } from 'vue-i18n'
+import { useRoute } from 'vue-router'
+import YunSearchIcon from '../../components/ui/YunSearchIcon.vue'
 
-const props = defineProps<{ open: boolean }>()
+const props = defineProps<{
+  open: boolean
+  returnFocusTo?: HTMLElement | null
+}>()
 const emit = defineEmits<{ close: [] }>()
 const { t, locale } = useI18n()
+const route = useRoute()
 const zh = computed(() => locale.value.startsWith('zh'))
 const input = shallowRef('')
 const query = computed(() => input.value.trim())
@@ -21,7 +27,52 @@ watch(results, () => nextTick(measure), { flush: 'post' })
 const activeIndex = shallowRef(0)
 const loading = shallowRef(false)
 const failed = shallowRef(false)
+const appearIcon = shallowRef(true)
 let loaded = false
+let returnFocusEl: HTMLElement | null = null
+let pendingNavigationFrom: string | null = null
+let navigatedAway = false
+let restoreFocusTimer: ReturnType<typeof setTimeout> | undefined
+
+function shouldAnimateDismissIcon() {
+  if (typeof document === 'undefined')
+    return false
+  const triggerIcon = document.querySelector('.yun-search-btn .yun-search-icon.is-open')
+  if (!triggerIcon)
+    return true
+  const lens = triggerIcon.querySelector('.yun-search-icon-lens')
+  const handle = triggerIcon.querySelector('.yun-search-icon-handle')
+  const cross = triggerIcon.querySelector('.yun-search-icon-cross')
+  if (!lens || !cross)
+    return true
+  const parts = [lens, handle, cross].filter((el): el is Element => el !== null)
+  const anims = parts.flatMap(el => el.getAnimations())
+  const hasProgressed = anims.some(a => typeof a.currentTime === 'number' && a.currentTime >= 40)
+  const isSettled = anims.every(a => a.playState !== 'running')
+    && Number.parseFloat(getComputedStyle(lens).opacity) <= 0.05
+    && Number.parseFloat(getComputedStyle(cross).opacity) >= 0.95
+  return !hasProgressed && !isSettled
+}
+
+function captureReturnFocusTarget(): HTMLElement | null {
+  if (typeof document === 'undefined')
+    return null
+  const active = document.activeElement
+  return active instanceof HTMLElement
+    && active !== document.body
+    && active !== document.documentElement
+    ? active
+    : document.querySelector<HTMLElement>('.yun-search-btn')
+}
+
+function clearRestoreFocusTimer() {
+  if (restoreFocusTimer !== undefined) {
+    clearTimeout(restoreFocusTimer)
+    restoreFocusTimer = undefined
+  }
+}
+
+onUnmounted(clearRestoreFocusTimer)
 
 async function load() {
   if (loaded || loading.value)
@@ -41,9 +92,57 @@ async function load() {
 }
 
 watch(() => props.open, (open) => {
-  if (open)
+  if (open) {
+    clearRestoreFocusTimer()
+    pendingNavigationFrom = null
+    navigatedAway = false
+    appearIcon.value = shouldAnimateDismissIcon()
+    returnFocusEl = props.returnFocusTo ?? captureReturnFocusTarget()
     void load()
+  }
 }, { immediate: true })
+
+watch(() => route.fullPath, () => {
+  if (pendingNavigationFrom !== null)
+    navigatedAway = true
+})
+
+function onResultSelect(event: MouseEvent) {
+  if (event.button === 0 && !event.metaKey && !event.ctrlKey && !event.shiftKey && !event.altKey) {
+    pendingNavigationFrom = route.fullPath
+    navigatedAway = false
+  }
+  emit('close')
+}
+
+function resolveReturnFocusTarget(saved: HTMLElement | null) {
+  return saved?.isConnected
+    ? saved
+    : document.querySelector<HTMLElement>('.yun-search-btn')
+}
+
+function onCloseAutoFocus(event: Event) {
+  event.preventDefault()
+  const saved = returnFocusEl
+  returnFocusEl = null
+  const navFrom = pendingNavigationFrom
+  pendingNavigationFrom = null
+  if (navFrom !== null) {
+    clearRestoreFocusTimer()
+    restoreFocusTimer = setTimeout(() => {
+      restoreFocusTimer = undefined
+      const stayedOnSamePage = !navigatedAway && route.fullPath === navFrom
+      navigatedAway = false
+      if (stayedOnSamePage && !props.open) {
+        const active = document.activeElement
+        if (!active || active === document.body || active === document.documentElement)
+          resolveReturnFocusTarget(saved)?.focus()
+      }
+    }, 0)
+    return
+  }
+  resolveReturnFocusTarget(saved)?.focus()
+}
 watch(query, () => {
   activeIndex.value = 0
 })
@@ -76,7 +175,7 @@ function excerpt(text: string = '') {
   <DialogRoot :open="open" @update:open="value => !value && emit('close')">
     <DialogPortal to="#valaxy-teleports">
       <DialogOverlay class="yun-search-backdrop" />
-      <DialogContent as-child @open-auto-focus.prevent="searchInput?.focus()">
+      <DialogContent as-child @open-auto-focus.prevent="searchInput?.focus()" @close-auto-focus="onCloseAutoFocus">
         <div ref="dialog" class="yun-fuse-dialog" @click="onBackdrop" @keydown="onKeydown">
           <VisuallyHidden as-child>
             <DialogTitle>{{ zh ? '搜索文章' : 'Search articles' }}</DialogTitle>
@@ -90,8 +189,12 @@ function excerpt(text: string = '') {
               ref="searchInput" v-model="input" type="search" autocomplete="off"
               :placeholder="zh ? '搜索文章…' : 'Search articles…'" :aria-label="zh ? '搜索文章' : 'Search articles'"
             >
-            <DialogClose class="yun-search-dismiss yun-action-btn" :aria-label="zh ? '关闭搜索' : 'Close search'">
-              <div class="i-ri-close-line" aria-hidden="true" />
+            <DialogClose
+              class="yun-search-dismiss yun-action-btn"
+              :title="zh ? '关闭搜索' : 'Close search'"
+              :aria-label="zh ? '关闭搜索' : 'Close search'"
+            >
+              <YunSearchIcon open :appear="appearIcon" />
             </DialogClose>
           </div>
           <div class="yun-search-status" role="status" aria-live="polite">
@@ -118,7 +221,7 @@ function excerpt(text: string = '') {
             <AppLink
               v-for="(result, index) in results" :key="result.item.link" :to="result.item.link"
               class="yun-search-result" :class="{ 'is-selected': index === activeIndex }"
-              @focus="activeIndex = index" @click="emit('close')"
+              @focus="activeIndex = index" @click="onResultSelect($event)"
             >
               <span class="yun-search-result-title">{{ result.item.title }}</span>
               <span v-if="result.item.excerpt" class="yun-search-result-excerpt">{{ excerpt(result.item.excerpt) }}</span>
