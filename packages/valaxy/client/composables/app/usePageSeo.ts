@@ -1,6 +1,6 @@
 import { computed } from 'vue'
 import { useRoute } from 'vue-router'
-import { openGraphType, pickPageShareImage } from '../../../shared/seo'
+import { isNoindexPaginationPath, openGraphType, pickPageShareImage, pickShareImage } from '../../../shared/seo'
 import { useSiteConfig } from '../../config'
 import { resolveSiteUrl } from '../../utils/path'
 import { resolveCanonicalPath, resolveShareImage } from '../../utils/seo'
@@ -28,13 +28,30 @@ export function usePageSeo() {
   })
 
   const routePath = computed(() => resolveCanonicalPath(route))
-  const pagePath = computed(() => fm.value.canonical || routePath.value)
+  const pagePath = computed(() => {
+    const explicitCanonical = asText(fm.value.canonical)
+    if (explicitCanonical)
+      return explicitCanonical
+    // `/page/1` is the same document as the homepage.
+    const normalized = route.path.length > 1 ? route.path.replace(/\/+$/, '') : route.path
+    if (siteConfig.value.seo?.pagination !== 'index' && normalized === '/page/1')
+      return '/'
+    return routePath.value
+  })
   const pageUrl = computed(() => resolveSiteUrl(siteConfig.value.url, pagePath.value))
   const image = computed(() => {
-    const src = pickPageShareImage(fm.value)
-    return src ? resolveShareImage(siteConfig.value.url, routePath.value, src) : undefined
+    const pageImage = pickPageShareImage(fm.value)
+    if (pageImage)
+      return resolveShareImage(siteConfig.value.url, routePath.value, pageImage)
+    const siteImage = pickShareImage([siteConfig.value.seo?.ogImage])
+    return siteImage ? resolveShareImage(siteConfig.value.url, '/', siteImage) : undefined
+  })
+  const noindex = computed(() => {
+    if (siteConfig.value.seo?.pagination === 'index')
+      return false
+    return isNoindexPaginationPath(route.path)
   })
   const type = computed(() => openGraphType(route.path, route.meta.layout))
 
-  return { description, pageUrl, image, type }
+  return { description, routePath, pagePath, pageUrl, image, type, noindex }
 }

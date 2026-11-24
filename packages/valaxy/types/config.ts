@@ -171,6 +171,24 @@ export interface SiteConfig {
   }
 
   /**
+   * Defaults for titles, descriptions, and indexing.
+   * Page frontmatter still wins.
+   */
+  seo: {
+    /**
+     * @description:en-US Share image used when a page has no `ogImage`, `image`, `cover`, or content image.
+     * @description:zh-CN 页面没有 `ogImage`、`image`、`cover` 和正文图片时使用的分享图。
+     */
+    ogImage?: string
+    /**
+     * @description:en-US Generated `/page/2` routes. `noindex` marks them `noindex, follow` and omits them from the sitemap. `/page/1` uses the homepage canonical. `index` keeps each page indexable.
+     * @description:zh-CN 生成的 `/page/2` 分页。`noindex` 会加上 `noindex, follow` 并不写入 sitemap，`/page/1` 的规范地址改回首页。`index` 则保留这些分页可被索引。
+     * @default 'noindex'
+     */
+    pagination: 'noindex' | 'index'
+  }
+
+  /**
    * 社交链接
    */
   social: SocialLink[]
@@ -608,6 +626,14 @@ export interface RuntimeConfig {
   redirects: {
     useVueRouter: boolean
     redirectRoutes: RouteRecordRaw[]
+  }
+  /**
+   * Present when `modules.rss.enable` is true. Filenames match the generated feeds.
+   */
+  feed?: {
+    rss: string
+    atom: string
+    json: string
   }
 }
 

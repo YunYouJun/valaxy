@@ -13,7 +13,7 @@ const router = createRouter({
 })
 const route = reactive({ ...router.currentRoute.value })
 const frontmatter = ref<Record<string, unknown>>({})
-const siteConfig = ref({ url: 'https://example.com/blog/', description: 'Site description' })
+const siteConfig = ref<{ url: string, description: string, seo?: { ogImage?: string, pagination?: 'noindex' | 'index' } }>({ url: 'https://example.com/blog/', description: 'Site description' })
 
 vi.mock('vue-router', async importOriginal => ({
   ...await importOriginal<typeof import('vue-router')>(),
@@ -78,6 +78,43 @@ describe('page SEO route URLs', () => {
     Object.assign(route, router.resolve('/posts/hello/'))
     expect(pageUrl.value).toBe('https://example.com/blog/posts/hello')
     expect(image.value).toBe('https://example.com/blog/posts/cover.png')
+  })
+
+  it('validates site share image fallback and separates page 1 canonical from page 2 noindex', () => {
+    siteConfig.value = {
+      url: 'https://example.com/blog/',
+      description: 'Site description',
+      seo: { ogImage: 'images/site-og.png', pagination: 'noindex' },
+    }
+    Object.assign(route, router.resolve('/posts/hello'))
+    frontmatter.value = {}
+    const seo = usePageSeo()
+    expect(seo.image.value).toBe('https://example.com/blog/images/site-og.png')
+    expect(seo.noindex.value).toBe(false)
+
+    for (const invalid of ['javascript:alert(1)', 'data:image/png;base64,abc', './HelloCover.vue']) {
+      siteConfig.value.seo = { ogImage: invalid, pagination: 'noindex' }
+      expect(seo.image.value).toBeUndefined()
+    }
+
+    Object.assign(route, { path: '/page/1', matched: [] })
+    expect(seo.pageUrl.value).toBe('https://example.com/blog/')
+    expect(seo.noindex.value).toBe(false)
+
+    Object.assign(route, { path: '/page/2', matched: [] })
+    expect(seo.pageUrl.value).toBe('https://example.com/blog/page/2')
+    expect(seo.noindex.value).toBe(true)
+
+    Object.assign(route, { path: '/page/0', matched: [] })
+    expect(seo.noindex.value).toBe(false)
+
+    siteConfig.value.seo = { pagination: 'index' }
+    Object.assign(route, { path: '/page/1', matched: [] })
+    expect(seo.pageUrl.value).toBe('https://example.com/blog/page/1')
+    expect(seo.noindex.value).toBe(false)
+    Object.assign(route, { path: '/page/2', matched: [] })
+    expect(seo.noindex.value).toBe(false)
+    siteConfig.value = { url: 'https://example.com/blog/', description: 'Site description' }
   })
 
   it('preserves explicit canonical URLs without changing the image directory', () => {

@@ -30,6 +30,10 @@ export const defaultSiteConfig: SiteConfig = {
     name: '',
     favicon: '/favicon.svg',
   },
+
+  seo: {
+    pagination: 'noindex',
+  },
   social: [],
 
   orderBy: 'date',

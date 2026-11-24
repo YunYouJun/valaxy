@@ -33,6 +33,182 @@ export function openGraphType(path: string, layout?: string | false): 'article' 
 
 const SHARE_IMAGE = /\.(?:avif|bmp|gif|ico|jpe?g|png|svg|webp)$/i
 
+/** Generated index pages such as `/page/1` and `/page/2`. These are slices of the post list. */
+export function isGeneratedPaginationPath(path: string): boolean {
+  const normalized = path.length > 1 ? path.replace(/\/+$/, '') : path
+  return /^\/page\/[1-9]\d*$/.test(normalized)
+}
+
+/** Generated pagination pages beyond page 1 (`/page/2`, `/page/3`, ...). */
+export function isNoindexPaginationPath(path: string): boolean {
+  const normalized = path.length > 1 ? path.replace(/\/+$/, '') : path
+  return /^\/page\/(?:[2-9]\d*|1\d+)$/.test(normalized)
+}
+
+/**
+ * Absolute schema node id. `https://example.com/blog/` + `identity`
+ * becomes `https://example.com/blog/#identity`, matching Unhead's host ids.
+ */
+export function schemaNodeId(siteUrl: string, fragment: string): string | undefined {
+  if (!/^https?:\/\//i.test(siteUrl))
+    return
+  const id = fragment.replace(/^#/, '')
+  if (!id)
+    return
+  try {
+    return new URL(`#${id}`, `${siteUrl.replace(/\/+$/, '')}/`).href
+  }
+  catch {
+    return undefined
+  }
+}
+
+/** ISO-8601 timestamp for JSON-LD and sitemap lastmod. Invalid values are omitted. */
+export function schemaDate(value: unknown): string | undefined {
+  if (value instanceof Date)
+    return Number.isNaN(value.getTime()) ? undefined : value.toISOString()
+  if (typeof value === 'string') {
+    if (!value.trim())
+      return
+    const date = new Date(value)
+    return Number.isNaN(date.getTime()) ? undefined : date.toISOString()
+  }
+  if (typeof value === 'number') {
+    if (!Number.isFinite(value))
+      return
+    const date = new Date(value)
+    return Number.isNaN(date.getTime()) ? undefined : date.toISOString()
+  }
+  return undefined
+}
+
+export interface BreadcrumbItem {
+  name: string
+  item: string
+}
+
+export interface BreadcrumbAncestor {
+  path: string
+  name?: string
+}
+
+/**
+ * Home, existing parent routes, then the current page.
+ * Pagination and the site root are omitted: they are not extra documents.
+ */
+export function buildBreadcrumbItems(input: {
+  siteUrl: string
+  siteTitle: string
+  pageTitle: string
+  path: string
+  resolveAncestor?: (path: string) => BreadcrumbAncestor | undefined
+}): BreadcrumbItem[] | undefined {
+  if (!/^https?:\/\//i.test(input.siteUrl))
+    return
+
+  const path = input.path.startsWith('/') ? input.path : `/${input.path}`
+  const trimmed = path.length > 1 ? path.replace(/\/+$/, '') : path
+  if (trimmed === '/' || isGeneratedPaginationPath(trimmed))
+    return
+
+  const segments = trimmed.split('/').filter(Boolean)
+  if (!segments.length)
+    return
+
+  const siteTitle = input.siteTitle.trim() || 'Home'
+  const pageTitle = input.pageTitle.trim() || humanizeSegment(segments.at(-1)!)
+  const items: BreadcrumbItem[] = [{ name: siteTitle, item: absoluteSiteUrl(input.siteUrl, '/') }]
+  for (let index = 0; index < segments.length - 1; index++) {
+    const ancestorPath = `/${segments.slice(0, index + 1).join('/')}`
+    const resolved = input.resolveAncestor?.(ancestorPath)
+    if (!resolved)
+      continue
+    items.push({
+      name: resolved.name?.trim() || humanizeSegment(segments[index]),
+      item: absoluteSiteUrl(input.siteUrl, resolved.path),
+    })
+  }
+  const pagePath = path.endsWith('/') ? `${trimmed}/` : trimmed
+  items.push({ name: pageTitle, item: absoluteSiteUrl(input.siteUrl, pagePath) })
+  return items.length >= 2 ? items : undefined
+}
+
+function absoluteSiteUrl(siteUrl: string, path: string): string {
+  return new URL(path.replace(/^\/+/, ''), `${siteUrl.replace(/\/+$/, '')}/`).href
+}
+
+function humanizeSegment(segment: string): string {
+  let text = segment
+  try {
+    text = decodeURIComponent(segment)
+  }
+  catch {}
+  return text
+    .replace(/[-_]+/g, ' ')
+    .trim()
+    .replace(/\b[a-z]/g, char => char.toUpperCase())
+}
+
+/** RSS, Atom, and JSON Feed filenames. An empty `feed.name` keeps the historical defaults. */
+export function feedFileNames(name?: string): { atom: string, json: string, rss: string } {
+  const base = name?.trim()
+  return {
+    atom: base ? `${base}.atom` : 'atom.xml',
+    json: `${base || 'feed'}.json`,
+    rss: `${base || 'feed'}.xml`,
+  }
+}
+
+const GENERIC_IMAGE_STEM = /^(?:image|img|photo|pic|picture|screenshot|screen\s+shot|pasted\s+image|untitled|capture|clip|paste|banner|cover|icon|logo|avatar|thumb(?:nail)?|bg|background|divider|微信图片|qq图片)(?:\s*(?:at\s+)?[\d.:]+(?:\s+(?:at\s+)?[\d.:]+)*)?$/i
+
+/**
+ * Readable alt text from an image filename, for Markdown images that have none.
+ * Hashes, bare numbers, generic camera/screenshot names, and very short names are
+ * left empty so decorative assets do not become nonsense labels.
+ */
+export function imageAltFromSrc(src: string): string | undefined {
+  const trimmed = src.trim()
+  if (!trimmed || /^(?:data|blob|javascript|vbscript):/i.test(trimmed))
+    return
+
+  let path = trimmed.split(/[?#]/)[0]
+  if (/^(?:https?:)?\/\//i.test(trimmed)) {
+    try {
+      const parsed = new URL(trimmed, 'https://valaxy.local')
+      if (!parsed.hostname)
+        return
+      path = parsed.pathname
+    }
+    catch {
+      return
+    }
+  }
+
+  const segment = path.split('/').pop() || ''
+  if (!segment)
+    return
+
+  let base = segment
+  try {
+    base = decodeURIComponent(base)
+  }
+  catch {}
+  const stem = base.replace(/\.[a-z0-9]{1,8}$/i, '').replace(/[-_]+/g, ' ').replace(/\s+/g, ' ').trim()
+  const compact = stem.replace(/\s/g, '')
+  if (stem.length < 2 || !/\D/.test(compact))
+    return
+  // Vite content hashes and long hex ids are not descriptions.
+  if (/^(?:[\da-f]{8,}|(?=[\da-z]*\d)(?=[\da-z]*[a-z])[\da-z]{12,})$/i.test(compact))
+    return
+  if (GENERIC_IMAGE_STEM.test(stem))
+    return
+  return stem
+}
+
+export function hasImageExtension(pathname: string): boolean {
+  return SHARE_IMAGE.test(pathname.split('/').pop() || '')
+}
+
 /**
  * First usable share image. The site favicon is not a candidate: it is often an SVG
  * and is the same for every page.

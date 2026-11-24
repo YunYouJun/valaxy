@@ -14,13 +14,13 @@ const siteConfig = useSiteConfig()
     </RouterLink>
     <YunAuthorName />
     <YunSiteTitle />
-    <h4
+    <p
       v-if="$t(siteConfig.subtitle)"
       class="site-subtitle block op-70"
       text="xs"
     >
       {{ $t(siteConfig.subtitle) }}
-    </h4>
+    </p>
     <div v-if="siteConfig.description" class="site-description">
       {{ $t(siteConfig.description) }}
     </div>

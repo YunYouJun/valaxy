@@ -101,7 +101,7 @@ const tagArr = computed(() => [...tags.value].sort())
 
         <template #main-nav-before>
           <YunCard v-if="curTag" ref="collapse" m="t-4" w="full">
-            <YunPageHeader :title="$tTag(curTag)" icon="i-ri-hashtag" />
+            <YunPageHeader :title="$tTag(curTag)" icon="i-ri-hashtag" :level="2" />
             <YunPostCollapse w="full" m="b-4" p="x-20 lt-sm:x-5" :posts="posts" />
           </YunCard>
         </template>

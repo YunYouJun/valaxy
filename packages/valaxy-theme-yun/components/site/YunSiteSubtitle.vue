@@ -6,10 +6,10 @@ const siteConfig = useSiteConfig()
 </script>
 
 <template>
-  <h4
+  <p
     v-if="siteConfig.subtitle"
     class="site-subtitle block text-$va-c-text op-80 font-medium" text="sm"
   >
     {{ $t(siteConfig.subtitle) }}
-  </h4>
+  </p>
 </template>

@@ -3,6 +3,11 @@ import { useSiteConfig, useValaxyI18n } from 'valaxy'
 import { useRouter } from 'vue-router'
 import { useThemeConfig } from '../../composables'
 
+defineProps<{
+  /** Render the site name as the page h1. Sidebars leave this unset. */
+  heading?: boolean
+}>()
+
 const router = useRouter()
 const siteConfig = useSiteConfig()
 const themeConfig = useThemeConfig()
@@ -12,8 +17,24 @@ const { $t } = useValaxyI18n()
 </script>
 
 <template>
+  <h1 v-if="heading" class="site-name-heading">
+    <RouterLink
+      v-if="router.hasRoute('/about/site')" to="/about/site"
+      class="site-name text-lg leading-loose"
+      :class="themeConfig.banner?.siteNameClass"
+    >
+      {{ $t(siteConfig.title) }}
+    </RouterLink>
+    <span
+      v-else
+      class="site-name text-lg leading-loose"
+      :class="themeConfig.banner?.siteNameClass"
+    >
+      {{ $t(siteConfig.title) }}
+    </span>
+  </h1>
   <RouterLink
-    v-if="router.hasRoute('/about/site')" to="/about/site"
+    v-else-if="router.hasRoute('/about/site')" to="/about/site"
     class="site-name text-lg leading-loose"
     :class="themeConfig.banner?.siteNameClass"
   >
@@ -29,6 +50,13 @@ const { $t } = useValaxyI18n()
 </template>
 
 <style lang="scss">
+.site-name-heading {
+  margin: 0;
+  font-size: inherit;
+  font-weight: inherit;
+  line-height: inherit;
+}
+
 .site-name {
   --title-padding: -15px;
 

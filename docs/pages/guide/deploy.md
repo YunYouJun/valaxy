@@ -94,7 +94,7 @@ A page such as `pages/posts/hello.md` is written to `dist/posts/hello.html`. Its
 
 `pages/404.md` is built as `404.html` for hosts that serve it for unknown paths. Valaxy leaves it out of the sitemap and skips the `404/index.html` copy. If your host maps `/404` or `/404/` directly to `404.html`, configure the host to return status 404 for those requests.
 
-The sitemap uses the absolute `siteConfig.url`, including its deployment subpath. Add `public/robots.txt` to supply your own crawler rules and sitemap link.
+The sitemap uses the absolute `siteConfig.url`, including its deployment subpath. Each entry includes `lastmod` when the page has an `updated` or `date`. Pages marked `noindex` (the 404 page and generated `/page/2` indexes, unless `siteConfig.seo.pagination` is `'index'`) are left out. Add `public/robots.txt` to supply your own crawler rules and sitemap link.
 
 Valaxy generates the sitemap from its rendered routes. The previous generator, `vite-ssg-sitemap`, scanned the output directory and could turn both `about.html` and `about/index.html` into duplicate `/about` entries. Reading the canonical link from each rendered page lets Valaxy publish the same URL in the HTML and sitemap while keeping both files for static hosts.
 

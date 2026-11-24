@@ -1,13 +1,22 @@
 <script lang="ts" setup>
+import { useSiteConfig, useValaxyI18n } from 'valaxy'
 import { computed, useTemplateRef } from 'vue'
 import { useRoute } from 'vue-router'
 import { useThemeConfig } from '../composables'
+import { useYunBanner } from '../composables/useYunBanner'
 import { useYunAppStore } from '../stores'
 
 const yun = useYunAppStore()
 
 const route = useRoute()
 const themeConfig = useThemeConfig()
+const siteConfig = useSiteConfig()
+const { $t } = useValaxyI18n()
+const { bannerTitle } = useYunBanner(themeConfig.value.banner || { enable: true, title: '' })
+const bannerTitleText = computed(() => {
+  const raw = Array.isArray(bannerTitle.value) ? bannerTitle.value.join(' ') : bannerTitle.value
+  return raw?.trim() || $t(siteConfig.value.title)
+})
 const prologueContent = useTemplateRef<HTMLElement>('prologueContent')
 
 function shouldPlayIntro() {
@@ -34,7 +43,11 @@ const showNotice = computed(() => {
               <ClientOnly>
                 <YunBanner :should-play-intro="shouldPlayIntro" />
                 <template #fallback>
-                  <div id="yun-banner-placeholder" class="w-full h-[var(--banner-container-height,100vh)]" />
+                  <div id="yun-banner-placeholder" class="w-full h-[var(--banner-container-height,100vh)]">
+                    <h1 v-if="yun.isStrato" class="yun-sr-only">
+                      {{ bannerTitleText }}
+                    </h1>
+                  </div>
                 </template>
               </ClientOnly>
               <div
@@ -51,6 +64,10 @@ const showNotice = computed(() => {
         </template>
       </template>
       <div v-else class="h-$yun-nav-height" />
+
+      <h1 v-if="isPage || !themeConfig.banner?.enable" class="yun-sr-only">
+        {{ $t(siteConfig.title) }}
+      </h1>
 
       <YunNotice
         v-if="showNotice"
@@ -72,6 +89,18 @@ const showNotice = computed(() => {
 </template>
 
 <style scoped>
+.yun-sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+  border-width: 0;
+}
+
 @media (prefers-reduced-motion: no-preference) and (scripting: enabled) {
   .yun-home-prologue-content {
     transition: opacity 300ms ease-out, transform 300ms ease-out;

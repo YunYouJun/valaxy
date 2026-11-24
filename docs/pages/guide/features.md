@@ -152,9 +152,20 @@ npm run build:spa
 
 ## SEO
 
+Static builds include the tags answer engines and search results use. You do not need a per-post SEO plugin for the defaults below.
 
-Valaxy by default has integrated SEO optimization by Open Graph, and you don't need to worry about that.
-Note that for many search engines, they like SSG builds more.
+- The document title is `Page title - Site title`. The homepage, which has no page title, uses the site title alone. A page can set `titleTemplate`.
+- The meta description uses frontmatter `description`, then a plain-text excerpt of the public body, then `siteConfig.description`.
+- `link rel="canonical"` follows the route's trailing slash. `pages/posts/hello.md` is `/posts/hello`; `pages/about/index.md` is `/about/`.
+- Open Graph and Twitter tags are written for every page. The share image is `ogImage`, then legacy `image`, then `cover`, then the first content image. Set `siteConfig.seo.ogImage` for pages that have none of those. The favicon is not used.
+- JSON-LD includes a `WebSite`, a `Person` (`#identity`, with `sameAs` from `siteConfig.social`), and a `BreadcrumbList`. Posts also get `BlogPosting` or `Article` with `datePublished`, `dateModified`, the same author id, and the share image.
+- `sitemap.xml` lists each canonical URL once and adds `lastmod` from the page's `updated` or `date`. `robots.txt` is generated when you do not provide `public/robots.txt`.
+- `/404` and generated `/page/2` routes are `noindex`. `/page/1` canonicalizes to the homepage. Set `siteConfig.seo.pagination: 'index'` to keep paginated indexes indexable.
+- When RSS is enabled (the default) and `siteConfig.url` is configured, pages link `feed.xml` and `atom.xml` with `rel="alternate"`.
+- A Markdown image with an empty alt keeps `alt=""` by default so decorative images stay ignored by screen readers. Set `features.imageAltFallback: true` to fill empty alts from readable filenames (hashes and generic screenshot names stay empty).
+- Social links that point at an image, such as a QR code, are left out of `sameAs`. Use `sameAs: false` for groups and link directories that are not the author.
+
+`llms.txt` stays off until `siteConfig.llms.enable` is true. New projects turn it on in the scaffold. See [Work with AI](/guide/work-with-ai).
 
 ## RSS
 

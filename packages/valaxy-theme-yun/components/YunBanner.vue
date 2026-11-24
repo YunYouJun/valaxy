@@ -6,7 +6,7 @@
  */
 
 import type { CSSProperties } from 'vue'
-import { sleep } from 'valaxy'
+import { sleep, useSiteConfig, useValaxyI18n } from 'valaxy'
 import { computed, nextTick, onBeforeUnmount, onMounted, shallowRef, useTemplateRef } from 'vue'
 import { useThemeConfig } from '../composables'
 import { useYunBanner } from '../composables/useYunBanner'
@@ -17,6 +17,8 @@ const props = defineProps<{
 }>()
 
 const yun = useYunAppStore()
+const siteConfig = useSiteConfig()
+const { $t } = useValaxyI18n()
 const themeConfig = useThemeConfig()
 const banner = useTemplateRef<HTMLElement>('banner')
 
@@ -108,8 +110,10 @@ onBeforeUnmount(() => {
     </template>
     <template v-if="yun.isStrato">
       <YunBannerCharContainer
+        heading
         :title="bannerTitle"
         :chars="chars"
+        :fallback-title="$t(siteConfig.title)"
       />
     </template>
 

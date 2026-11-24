@@ -91,7 +91,7 @@ Markdown 页面与文件链接会直接补上 `base`；Markdown 图片则会进�
 
 `pages/404.md` 会构建为 `404.html`，供托管平台响应未知路径。Valaxy 不会把它列入 sitemap，也不会复制成 `404/index.html`。如果托管平台把 `/404` 或 `/404/` 直接映射到 `404.html`，请在托管层为这些请求配置 HTTP 404 状态码。
 
-sitemap 使用 `siteConfig.url` 指定的绝对地址，并保留部署子路径。可以添加 `public/robots.txt` 来自定义抓取规则和 sitemap 链接。
+sitemap 使用 `siteConfig.url` 指定的绝对地址，并保留部署子路径。页面有 `updated` 或 `date` 时，对应条目会带上 `lastmod`。标记为 `noindex` 的页面（404，以及生成的 `/page/2` 分页；把 `siteConfig.seo.pagination` 设为 `'index'` 时分页除外）不会列入。可以添加 `public/robots.txt` 来自定义抓取规则和 sitemap 链接。
 
 Valaxy 现在根据实际渲染的路由生成 sitemap。以前的 `vite-ssg-sitemap` 会扫描输出目录，可能把 `about.html` 和 `about/index.html` 都转换成 `/about`，于是同一个网址会被列两次。现在直接读取每个渲染页面的 canonical 标签，既能让 sitemap 与页面声明的网址一致，也能保留静态托管所需的两份 HTML。
 

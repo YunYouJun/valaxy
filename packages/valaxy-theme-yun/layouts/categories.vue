@@ -76,6 +76,7 @@ useSchemaOrg([
           <YunCard v-if="curCategory" class="post-collapse-container" m="t-4" w="full">
             <YunPageHeader
               m="t-10"
+              :level="2"
               :title="curCategory === 'Uncategorized' ? t('category.uncategorized') : curCategory.split('/').map($tCategory).join(' / ')"
               icon="i-ri-folder-open-line"
             />

@@ -84,7 +84,9 @@ RSS、Atom 和 JSON Feed 的摘要优先使用站点语言下非空的 `descript
 
 自动摘要会去掉围栏代码、图片、标题和容器标记，普通 `::: tip`、语言等容器里的公开正文仍会保留。摘要长度由 `excerpt.length` 控制（默认 200 个字符）。局部加密内容不会用于自动摘要或正文首图；整篇加密的文章不会从正文自动生成摘要或首图。搜索索引、RSS、`llms-full.txt` 和 Markdown 导出同样排除加密正文；构建 sourcemap 不嵌入受保护页面的原文。显式填写的 `description`、`ogImage`、`image` 和 `cover` 仍是公开的，请勿在这些字段中放入私密信息。
 
-文章的 `og:type` 是 `article`，其他页面是 `website`。分享图按 `ogImage`、历史字符串字段 `image`、`cover`、自动提取的正文首图顺序选取，跳过组件名和不安全的 URL 协议。正文首图支持 Markdown 图片及 HTML `<img>`，可通过 `features.extractFirstImage: false` 关闭自动提取。Yun 文章 JSON-LD 使用与 Open Graph、Twitter 相同的图片。不会自动使用站点 favicon。
+文章的 `og:type` 是 `article`，其他页面是 `website`。分享图按 `ogImage`、历史字符串字段 `image`、`cover`、自动提取的正文首图顺序选取，跳过组件名和不安全的 URL 协议。这些都没有时使用 `siteConfig.seo.ogImage`。正文首图支持 Markdown 图片及 HTML `<img>`，可通过 `features.extractFirstImage: false` 关闭自动提取。文章 JSON-LD 使用与 Open Graph、Twitter 相同的图片。不会自动使用站点 favicon。
+
+`![](./my-photo.png)` 会得到 `alt="my photo"`。`a1b2c3d4e5f6.png` 这类哈希文件名仍是 `alt=""`。设置 `features.imageAltFallback: false` 可让所有空 alt 保持为空。你自己写的 alt 不会被替换。
 
 `images/cover.png`、`cover.png` 和 `./cover.png` 等相对地址如果对应 Markdown 源文件旁的本地图片，会经 Vite 生成可抓取的构建资源，分享标签使用实际资源 URL；嵌套 `index.md` 也按源文件目录解析。没有对应本地文件的相对 URL 仍按页面所在目录解析。`/images/cover.png` 按站点部署根路径解析，保留部署子路径。查询参数和片段标识也会保留。`author.email` 或 `author.link` 留空时，RSS 和 JSON-LD 会省去该字段，而不会填入框架自己的地址。
 
