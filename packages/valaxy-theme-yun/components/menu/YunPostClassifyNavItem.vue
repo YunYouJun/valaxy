@@ -35,6 +35,8 @@ defineProps<{
 
 <style lang="scss">
 .post-classify-nav-item {
+  position: relative;
+  z-index: 1;
   border-radius: var(--yun-action-btn-radius, 0.625rem);
   color: var(--va-c-text-2);
   transition: background-color var(--va-transition-duration-fast, 180ms) ease, color var(--va-transition-duration-fast, 180ms) ease;
@@ -51,6 +53,14 @@ defineProps<{
     &:hover {
       color: var(--va-c-text);
       background-color: var(--yun-action-btn-hover-bg);
+    }
+
+    .site-nav.has-hover-pill &:hover {
+      background-color: transparent;
+    }
+
+    .site-nav.has-hover-pill &.router-link-active:hover {
+      background-color: transparent;
     }
   }
 

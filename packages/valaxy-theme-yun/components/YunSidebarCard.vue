@@ -1,15 +1,23 @@
 <script setup lang="ts">
-// new sidebar card
+import { useSiteConfig } from 'valaxy'
+import { useThemeConfig } from '../composables'
+
+const siteConfig = useSiteConfig()
+const themeConfig = useThemeConfig()
 </script>
 
 <template>
   <YunCard class="p-4 min-h-sm" flex="~ col gap-1">
     <YunSiteInfo class="text-center" />
-    <YunGradientDivider class="my-2 op-20" />
+    <YunGradientDivider class="my-3" />
     <YunPostsInfo />
-    <YunGradientDivider class="my-2 op-20" />
-    <YunSocialLinks />
-    <YunGradientDivider class="my-2 op-20" />
-    <YunSidebarLinks />
+    <template v-if="siteConfig.social?.length">
+      <YunGradientDivider class="my-3" />
+      <YunSocialLinks />
+    </template>
+    <template v-if="themeConfig.pages?.length">
+      <YunGradientDivider class="my-3" />
+      <YunSidebarLinks />
+    </template>
   </YunCard>
 </template>
