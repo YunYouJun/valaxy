@@ -6,11 +6,6 @@ import { env, ports } from './e2e/env'
 const suite = process.env.PLAYWRIGHT_SUITE || 'all'
 const includeDocs = suite === 'all' || suite === 'docs'
 const includeYun = suite === 'all' || suite === 'yun'
-const testMatch = suite === 'docs'
-  ? ['**/e2e/docs/**/*.spec.ts']
-  : suite === 'yun'
-    ? ['**/e2e/theme-yun/**/*.spec.ts', '**/e2e/valaxy/**/*.spec.ts', '**/e2e/create-valaxy/**/*.spec.ts']
-    : undefined
 
 /**
  * Read environment variables from file.
@@ -27,14 +22,6 @@ export default defineConfig({
   },
 
   testDir: './e2e',
-  ...(testMatch ? { testMatch } : {}),
-  // Static HTML, hydration, and footnote tooltips are covered by playwright.ssg.config.ts.
-  testIgnore: [
-    '**/*.ssg.spec.ts',
-    '**/footnote-tooltip.spec.ts',
-    ...includeDocs ? [] : ['**/e2e/docs/**'],
-    ...includeYun ? [] : ['**/e2e/theme-yun/**', '**/e2e/valaxy/**', '**/e2e/create-valaxy/**'],
-  ],
   /* Run tests in files in parallel */
   fullyParallel: true,
   /* Fail the build on CI if you accidentally left test.only in the source code. */
@@ -70,8 +57,33 @@ export default defineConfig({
   projects: [
     {
       name: 'chromium',
+      testMatch: [
+        ...includeDocs ? ['**/e2e/docs/search.spec.ts'] : [],
+        ...includeYun ? ['**/e2e/theme-yun/**/*.spec.ts', '**/e2e/valaxy/**/*.spec.ts', '**/e2e/create-valaxy/**/*.spec.ts'] : [],
+      ],
+      // Static HTML, hydration, and footnote tooltips run against production preview.
+      testIgnore: [
+        '**/*.ssg.spec.ts',
+        '**/footnote-tooltip.spec.ts',
+      ],
       use: { ...devices['Desktop Chrome'] },
     },
+    ...includeYun
+      ? [
+          {
+            name: 'yun-footnote-desktop',
+            testDir: './e2e/theme-yun',
+            testMatch: '**/footnote-tooltip.spec.ts',
+            use: { ...devices['Desktop Chrome'], baseURL: env['theme-yun'] },
+          },
+          {
+            name: 'yun-footnote-mobile',
+            testDir: './e2e/theme-yun',
+            testMatch: '**/footnote-tooltip.spec.ts',
+            use: { ...devices['iPhone 13'], defaultBrowserType: 'chromium' as const, baseURL: env['theme-yun'] },
+          },
+        ]
+      : [],
 
     // {
     //   name: 'firefox',

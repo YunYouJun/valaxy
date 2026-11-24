@@ -1,13 +1,10 @@
 // 标准的 Playwright 测试 - 网络拦截已全局启用
 import { expect, test } from '@playwright/test'
-import { env } from '../env'
-
-test.use({
-  baseURL: env.docs,
-})
+import { waitForHydration } from '../utils/hydration'
 
 test.beforeEach(async ({ page }) => {
-  await page.goto('/')
+  await page.goto('/', { waitUntil: 'domcontentloaded' })
+  await waitForHydration(page)
 })
 
 test.describe('enter docs', () => {
@@ -17,8 +14,8 @@ test.describe('enter docs', () => {
     await expect(page.locator('h1')).toHaveText('Getting Started')
   })
 
-  test('env url', async ({ page }) => {
-    expect(page.url()).toContain(env.docs)
+  test('env url', async ({ page, baseURL }) => {
+    expect(page.url()).toContain(baseURL!)
   })
 
   test('has title', async ({ page }) => {

@@ -3,6 +3,7 @@
   "devDependencies": {
     "@types/cross-spawn": "catalog:",
     "cross-spawn": "catalog:",
+    "parse5": "catalog:",
     "zx": "catalog:build"
   }
 }

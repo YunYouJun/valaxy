@@ -40,3 +40,6 @@ playwright-report-ssg/
 test-results-ssg/
 # written and removed by e2e/theme-yun/hmr.spec.ts
 demo/yun/pages/test/hmr-temp.md
+# interrupted integration test fixtures
+test/fixtures/.publishing-build-*
+test/fixtures/valaxy-*
