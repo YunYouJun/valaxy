@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import { useSiteConfig } from 'valaxy'
-import { computed, defineAsyncComponent, onMounted, ref, watch } from 'vue'
+import { computed, defineAsyncComponent, onMounted, ref, shallowRef, watch } from 'vue'
 import { useHotKey } from '../composables'
 
 const siteConfig = useSiteConfig()
@@ -12,12 +12,28 @@ const isLocal = computed(() => siteConfig.value.search.provider === 'local')
 const open = ref(false)
 // Keep the dialog mounted after its first use to preserve the query and index.
 const searchLoaded = ref(false)
+const returnFocusEl = shallowRef<HTMLElement | null>(null)
 watch(open, (value) => {
   if (value)
     searchLoaded.value = true
 })
 
+function captureReturnFocusEl() {
+  if (typeof document === 'undefined') {
+    returnFocusEl.value = null
+    return
+  }
+  const active = document.activeElement
+  returnFocusEl.value = active instanceof HTMLElement
+    && active !== document.body
+    && active !== document.documentElement
+    ? active
+    : document.querySelector<HTMLElement>('.yun-search-btn')
+}
+
 function togglePopup() {
+  if (!open.value)
+    captureReturnFocusEl()
   open.value = !open.value
 }
 
@@ -29,6 +45,7 @@ onMounted(() => {
 })
 
 function openSearch() {
+  captureReturnFocusEl()
   open.value = true
 
   if (isAlgolia.value) {
@@ -47,9 +64,9 @@ const YunAlgoliaSearch = isAlgolia.value
 </script>
 
 <template>
-  <YunSearchBtn :open="open && !isAlgolia" @open="openSearch" @close="closeSearch" />
+  <YunSearchBtn :open="open && !isAlgolia" :expandable="!isAlgolia" @open="openSearch" @close="closeSearch" />
 
   <YunAlgoliaSearch v-if="isAlgolia" ref="algoliaRef" :open="open" @close="closeSearch" />
-  <YunFuseSearch v-else-if="isFuse && searchLoaded" :open="open" @close="closeSearch" />
+  <YunFuseSearch v-else-if="isFuse && searchLoaded" :open="open" :return-focus-to="returnFocusEl" @close="closeSearch" />
   <YunLocalSearch v-else-if="isLocal" :open="open" @close="closeSearch" />
 </template>
