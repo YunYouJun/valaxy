@@ -57,16 +57,22 @@ const licenseHtml = computed(() => {
 .post-copyright {
   position: relative;
   overflow: hidden;
-  padding: 0.75rem 1.125rem;
+  padding: 0.875rem 1.125rem;
   border: 1px solid var(--yun-surface-line, var(--va-c-divider));
-  border-left: 3px solid var(--va-c-link);
   border-radius: var(--va-card-border-radius, 0.5rem);
   background-color: var(--va-c-bg-dark);
+  background-image: radial-gradient(
+    60% 80% at 18% 0%,
+    color-mix(in srgb, var(--va-c-link) 7%, transparent),
+    transparent 70%
+  );
+  box-shadow: inset 0 1px 0 color-mix(in srgb, var(--va-c-text) 4%, transparent);
   color: var(--va-c-text-2);
   font-size: 0.9rem;
   line-height: 1.7;
   list-style: none;
   word-break: break-all;
+  transition: border-color 220ms ease;
 
   strong {
     color: var(--va-c-text);
@@ -77,17 +83,56 @@ const licenseHtml = computed(() => {
     color: var(--va-c-link);
   }
 
-  &::after {
+  &::before {
+    content: '';
     pointer-events: none;
     position: absolute;
-    color: white;
-    background: url("data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 496 512'%3E%3Cpath fill='gray' d='M245.8 214.9l-33.2 17.3c-9.4-19.6-25.2-20-27.4-20-22.2 0-33.3 14.6-33.3 43.9 0 23.5 9.2 43.8 33.3 43.8 14.4 0 24.6-7 30.5-21.3l30.6 15.5a73.2 73.2 0 01-65.1 39c-22.6 0-74-10.3-74-77 0-58.7 43-77 72.6-77 30.8-.1 52.7 11.9 66 35.8zm143 0l-32.7 17.3c-9.5-19.8-25.7-20-27.9-20-22.1 0-33.2 14.6-33.2 43.9 0 23.5 9.2 43.8 33.2 43.8 14.5 0 24.7-7 30.5-21.3l31 15.5c-2 3.8-21.3 39-65 39-22.7 0-74-9.9-74-77 0-58.7 43-77 72.6-77C354 179 376 191 389 214.8zM247.7 8C104.7 8 0 123 0 256c0 138.4 113.6 248 247.6 248C377.5 504 496 403 496 256 496 118 389.4 8 247.6 8zm.8 450.8c-112.5 0-203.7-93-203.7-202.8 0-105.5 85.5-203.3 203.8-203.3A201.7 201.7 0 01451.3 256c0 121.7-99.7 202.9-202.9 202.9z'/%3E%3C/svg%3E");
-    content: ' ';
-    height: 10rem;
-    width: 10rem;
-    right: -2rem;
+    inset-block-start: 0;
+    inset-inline: 1.25rem;
+    height: 1px;
+    background: linear-gradient(
+      90deg,
+      transparent,
+      color-mix(in srgb, var(--va-c-link) 65%, transparent) 22%,
+      color-mix(in srgb, var(--va-c-link) 25%, transparent) 55%,
+      transparent
+    );
+    opacity: 0.75;
+    transition: opacity 220ms ease;
+  }
+
+  &::after {
+    content: '';
+    pointer-events: none;
+    position: absolute;
     top: -2rem;
-    opacity: 0.06;
+    right: -2rem;
+    width: 10rem;
+    height: 10rem;
+    background-color: var(--va-c-text);
+    mask-image: url("data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 496 512'%3E%3Cpath fill='%23000' d='M245.8 214.9l-33.2 17.3c-9.4-19.6-25.2-20-27.4-20-22.2 0-33.3 14.6-33.3 43.9 0 23.5 9.2 43.8 33.3 43.8 14.4 0 24.6-7 30.5-21.3l30.6 15.5a73.2 73.2 0 01-65.1 39c-22.6 0-74-10.3-74-77 0-58.7 43-77 72.6-77 30.8-.1 52.7 11.9 66 35.8zm143 0l-32.7 17.3c-9.5-19.8-25.7-20-27.9-20-22.1 0-33.2 14.6-33.2 43.9 0 23.5 9.2 43.8 33.2 43.8 14.5 0 24.7-7 30.5-21.3l31 15.5c-2 3.8-21.3 39-65 39-22.7 0-74-9.9-74-77 0-58.7 43-77 72.6-77C354 179 376 191 389 214.8zM247.7 8C104.7 8 0 123 0 256c0 138.4 113.6 248 247.6 248C377.5 504 496 403 496 256 496 118 389.4 8 247.6 8zm.8 450.8c-112.5 0-203.7-93-203.7-202.8 0-105.5 85.5-203.3 203.8-203.3A201.7 201.7 0 01451.3 256c0 121.7-99.7 202.9-202.9 202.9z'/%3E%3C/svg%3E");
+    mask-position: center;
+    mask-size: contain;
+    mask-repeat: no-repeat;
+    opacity: 0.05;
+  }
+
+  @media (hover: hover) and (pointer: fine) {
+    &:hover {
+      border-color: color-mix(in srgb, var(--va-c-link) 28%, var(--yun-surface-line, var(--va-c-divider)));
+
+      &::before {
+        opacity: 1;
+      }
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    transition: none;
+
+    &::before {
+      transition: none;
+    }
   }
 }
 </style>
