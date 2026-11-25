@@ -1,4 +1,7 @@
 <script lang="ts" setup>
+import { useRoute } from 'vue-router'
+import { normalizeTransitionPath } from '../utils/routeTransition'
+
 const props = withDefaults(defineProps<{
   pageTitleClass?: string
   /**
@@ -13,6 +16,8 @@ const props = withDefaults(defineProps<{
 }>(), {
   level: 1,
 })
+
+const route = useRoute()
 </script>
 
 <template>
@@ -26,7 +31,19 @@ const props = withDefaults(defineProps<{
       :class="pageTitleClass"
     >
       <div v-if="icon" class="icon" m="r-1 t-1px" inline-flex :class="icon" />
-      <span inline-flex class="leading-none">{{ title }}</span>
+      <span
+        inline-flex
+        class="leading-none"
+        :data-yun-vt-page-title="props.level !== 2 ? normalizeTransitionPath(route.path) : undefined"
+      >{{ title }}</span>
     </component>
   </header>
 </template>
+
+<style lang="scss" scoped>
+.post-header .post-title .icon {
+  font-size: 0.86em;
+  opacity: 0.78;
+  margin-inline-end: 0.32em;
+}
+</style>

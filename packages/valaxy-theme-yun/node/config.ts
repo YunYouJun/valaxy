@@ -34,6 +34,8 @@ export const defaultThemeConfig: ThemeConfig = {
     glass: 'scroll',
   },
 
+  viewTransition: true,
+
   bg_image: {
     enable: true,
     // url: bgImg,

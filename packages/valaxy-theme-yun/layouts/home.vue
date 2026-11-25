@@ -148,7 +148,7 @@ const showNotice = computed(() => {
     inset: auto;
     box-sizing: border-box;
     min-height: var(--banner-container-height, calc(100 * var(--vh, 1dvh)));
-    padding: calc(var(--yun-nav-height) + 20px) 20px 36px;
+    padding: calc(var(--yun-nav-height) + 12px) 16px 28px;
   }
 }
 </style>

@@ -224,6 +224,9 @@ export interface ThemeConfig extends DefaultTheme.Config {
     /** Apply glass after scrolling, or also at the top. @default 'scroll' */
     glass?: 'scroll' | 'always'
   }
+
+  /** Enable smooth SPA route transitions using the View Transitions API. @default true */
+  viewTransition?: boolean
   // /**
   //  * prologue
   //  * 开场白

@@ -40,7 +40,7 @@ const pages = computed(() => props.pages ?? themeConfig.value.pages)
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
   align-items: stretch;
-  gap: 8px;
+  gap: 6px;
   box-sizing: border-box;
   width: 100%;
   max-width: 352px;
@@ -55,12 +55,12 @@ const pages = computed(() => props.pages ?? themeConfig.value.pages)
     justify-content: flex-start;
     width: 100%;
     min-width: 0;
-    min-height: 48px;
-    padding: 10px 12px;
+    min-height: 44px;
+    padding: 8px 10px;
     border: 1px solid transparent;
     border-radius: 12px;
     background: transparent;
-    font-size: 16px;
+    font-size: 15px;
     font-weight: 500;
     transition: background-color 160ms ease, box-shadow 160ms ease, transform 240ms cubic-bezier(0.2, 0.8, 0.2, 1);
   }

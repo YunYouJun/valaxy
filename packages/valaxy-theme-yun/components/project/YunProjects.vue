@@ -18,6 +18,7 @@ const curCategory = ref('all')
     <YunPageHeader
       :title="pageTitle"
       :icon="fm.icon"
+      :color="fm.color"
       :page-title-class="fm.pageTitleClass"
     />
 

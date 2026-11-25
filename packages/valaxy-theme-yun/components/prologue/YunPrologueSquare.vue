@@ -108,4 +108,20 @@ const grouped = computed(() => themeConfig.value.banner?.prologue === 'grouped')
     margin-top: 32px;
   }
 }
+
+@media (width <= 639px) {
+  .yun-square-container {
+    --avatar-size: 84px;
+  }
+
+  .yun-square-container.is-grouped {
+    .prologue-divider {
+      margin: 12px auto;
+    }
+
+    .prologue-navigation {
+      margin-top: 16px;
+    }
+  }
+}
 </style>

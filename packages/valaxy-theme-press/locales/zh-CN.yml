@@ -26,3 +26,9 @@ nav:
   site: 站点导航
   open: 打开导航
   close: 关闭导航
+
+article:
+  next: 下一篇
+  prev: 上一篇
+  all_posts: 全部文章
+  back_to_posts: 返回文章列表

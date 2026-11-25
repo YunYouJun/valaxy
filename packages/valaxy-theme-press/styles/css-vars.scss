@@ -1,5 +1,6 @@
 :root {
   --pr-home-max-width: 1320px;
+  --pr-layout-max-width: 1440px;
   --pr-font-display: "Avenir Next", "Segoe UI", "PingFang SC", "Microsoft YaHei", sans-serif;
   --pr-font-body: var(--va-font-sans);
   --pr-font-mono: var(--va-font-mono);
@@ -58,6 +59,7 @@
 
   // z-index
   --va-z-overlay: var(--pr-z-backdrop);
+  --pr-z-footer: 1;
   --pr-z-local-nav: 8;
   --pr-z-backdrop: 10;
   --pr-z-aside: 11;

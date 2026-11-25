@@ -25,11 +25,12 @@ defineProps<{ cover?: string, coverComponent?: string, coverProps?: Record<strin
 </template>
 
 <style scoped>
-.yun-card {
-  border-radius: var(--va-card-border-radius, 0.5rem);
+:where(.yun-card) {
+  border: 1px solid var(--yun-surface-line);
+  box-shadow: var(--yun-card-shadow);
 }
 
-:global(html.dark) .yun-card {
-  border: 1px solid var(--yun-surface-line);
+.yun-card {
+  border-radius: var(--va-card-border-radius, 0.5rem);
 }
 </style>

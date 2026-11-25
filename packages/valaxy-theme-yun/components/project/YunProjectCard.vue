@@ -188,10 +188,6 @@ const links = computed(() => [
   }
 }
 
-:global(html.dark) .yun-project-card.has-wash {
-  background-image: radial-gradient(240px circle at 0% 0%, color-mix(in srgb, var(--yun-project-accent, var(--va-c-link)) 14%, transparent), transparent 72%);
-}
-
 .yun-project-card-body {
   display: flex;
   flex: 1;
@@ -294,5 +290,11 @@ const links = computed(() => [
   flex-shrink: 0;
   align-items: center;
   gap: 0.125rem;
+}
+</style>
+
+<style lang="scss">
+html.dark .yun-project-card.has-wash {
+  background-image: radial-gradient(240px circle at 0% 0%, color-mix(in srgb, var(--yun-project-accent, var(--va-c-link)) 14%, transparent), transparent 72%);
 }
 </style>

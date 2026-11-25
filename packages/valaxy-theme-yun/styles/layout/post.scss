@@ -40,8 +40,8 @@
 }
 
 html.dark .yun-card.is-draft:is(.post-card-wrapper, .collection-card, .yun-main .yun-card) {
-  --yun-draft-border-color: color-mix(in srgb, #f5b971 34%, var(--yun-surface-line));
-  --yun-draft-border-hover-color: color-mix(in srgb, #f5b971 54%, var(--yun-surface-line));
+  --yun-draft-border-color: color-mix(in srgb, #f5b971 48%, var(--yun-surface-line));
+  --yun-draft-border-hover-color: color-mix(in srgb, #f5b971 68%, var(--yun-surface-line));
 
   border-style: dashed;
   border-color: var(--yun-draft-border-color);
@@ -107,6 +107,10 @@ html.dark .yun-card.is-draft:is(.post-card-wrapper, .collection-card, .yun-main 
       width: 100%;
       height: auto;
       max-height: 12rem;
+
+      &:has(.valaxy-cover-content) {
+        max-height: none;
+      }
     }
 
     .post-card-body-with-cover {
@@ -135,7 +139,7 @@ html.dark .yun-card.is-draft:is(.post-card-wrapper, .collection-card, .yun-main 
     height: 10px;
     opacity: 0;
     border: 2px solid;
-    transition: var(--va-transition-duration);
+    transition: opacity var(--va-transition-duration), transform var(--va-transition-duration);
     transition-timing-function: cubic-bezier(0.17, 0.67, 0.05, 1.29);
   }
 

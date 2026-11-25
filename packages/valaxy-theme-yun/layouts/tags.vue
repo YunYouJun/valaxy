@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import { defineWebPage, useSchemaOrg } from '@unhead/schema-org/vue'
-import { useFrontmatter, useInvisibleElement, usePostTitle, useSiteStore, useValaxyI18n } from 'valaxy'
-import { computed, ref } from 'vue'
+import { useFrontmatter, usePostTitle, useSiteStore, useValaxyI18n } from 'valaxy'
+import { computed, nextTick } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { useRoute, useRouter } from 'vue-router'
 import { useThemeConfig, useYunTags } from '../composables'
@@ -40,17 +40,31 @@ const posts = computed(() => {
   return list
 })
 
-const collapse = ref()
-const { show } = useInvisibleElement(collapse)
-
-function displayTag(tag: string) {
-  router.push({
+async function displayTag(tag: string) {
+  await router.push({
     query: {
       tag,
     },
   })
+  await nextTick()
 
-  show()
+  let postCollapseEl = document.querySelector<HTMLElement>('.post-collapse-container')
+  if (!postCollapseEl) {
+    await nextTick()
+    postCollapseEl = document.querySelector<HTMLElement>('.post-collapse-container')
+  }
+  if (!postCollapseEl)
+    return
+
+  const rect = postCollapseEl.getBoundingClientRect()
+  const isVisible = rect.top >= 0 && rect.top < window.innerHeight && rect.bottom > 0
+  if (!isVisible) {
+    const reducedMotion = window.matchMedia?.('(prefers-reduced-motion: reduce)').matches
+    postCollapseEl.scrollIntoView({
+      behavior: reducedMotion ? 'auto' : 'smooth',
+      block: 'start',
+    })
+  }
 }
 
 const title = usePostTitle(frontmatter)
@@ -100,10 +114,12 @@ const tagArr = computed(() => [...tags.value].sort())
         </template>
 
         <template #main-nav-before>
-          <YunCard v-if="curTag" ref="collapse" m="t-4" w="full">
-            <YunPageHeader :title="$tTag(curTag)" icon="i-ri-hashtag" :level="2" />
-            <YunPostCollapse w="full" m="b-4" p="x-20 lt-sm:x-5" :posts="posts" />
-          </YunCard>
+          <ClientOnly>
+            <YunCard v-if="curTag" class="post-collapse-container" m="t-4" w="full">
+              <YunPageHeader :title="$tTag(curTag)" icon="i-ri-hashtag" :level="2" />
+              <YunPostCollapse w="full" m="b-4" p="x-20 lt-sm:x-5" :posts="posts" />
+            </YunCard>
+          </ClientOnly>
         </template>
       </component>
     </RouterView>
@@ -111,3 +127,9 @@ const tagArr = computed(() => [...tags.value].sort())
     <YunLayoutRight :floating-trigger="false" />
   </YunLayoutWrapper>
 </template>
+
+<style scoped>
+.post-collapse-container {
+  scroll-margin-top: calc(var(--yun-margin-top, 68px) + 1rem);
+}
+</style>

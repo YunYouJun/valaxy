@@ -47,6 +47,7 @@
   --yun-glass-pressed-fill: rgb(255 255 255 / 0.52);
   --yun-glass-pressed-shadow: inset 0 1px 4px rgb(30 45 70 / 0.12);
   --yun-social-soft-base: #5b6270;
+  --yun-card-shadow: 0 1px 2px rgb(20 35 60 / 0.03), 0 6px 24px -12px rgb(20 35 60 / 0.05);
   --yun-card-hover-shadow: 0 10px 28px -8px rgb(20 35 60 / 0.1);
   --yun-grid-size: 40px;
   --yun-grid-color: rgb(30 50 70 / 0.06);
@@ -101,7 +102,7 @@ html.dark {
   --va-c-text: #e6e8ef;
   --va-c-text-1: rgb(230 232 239 / 0.92);
   --va-c-text-2: rgb(214 220 232 / 0.72);
-  --va-c-text-3: rgb(214 220 232 / 0.48);
+  --va-c-text-3: rgb(214 220 232 / 0.6);
   --va-c-text-light: #cfd5e3;
   --va-c-text-lighter: #dce1ec;
 
@@ -128,6 +129,7 @@ html.dark {
   --yun-glass-pressed-fill: rgb(255 255 255 / 0.12);
   --yun-glass-pressed-shadow: inset 0 1px 5px rgb(0 0 0 / 0.4);
   --yun-social-soft-base: #b4bcc8;
+  --yun-card-shadow: 0 4px 20px -8px rgb(0 0 0 / 0.35);
   --yun-card-hover-shadow: 0 12px 32px -8px rgb(0 0 0 / 0.5);
   --yun-grid-color: rgb(255 255 255 / 0.07);
   --yun-grid-highlight-color: color-mix(in srgb, var(--va-c-link) 45%, transparent);

@@ -156,8 +156,6 @@ const playing = computed(() => props.animated && isVisible.value && documentVisi
   z-index: 1;
   width: 48%;
   max-width: 260px;
-  animation: press-orbit-float 7s ease-in-out infinite;
-  animation-play-state: paused;
 }
 
 .orbit-logo :deep(img) {
@@ -224,13 +222,18 @@ const playing = computed(() => props.animated && isVisible.value && documentVisi
   cursor: pointer;
 }
 
+.orbit-toggle::after {
+  content: '';
+  position: absolute;
+  inset: -4px;
+}
+
 .orbit-toggle:hover {
   color: var(--pr-c-brand);
   border-color: currentcolor;
 }
 
-.is-playing .orbit-ring,
-.is-playing .orbit-logo {
+.is-playing .orbit-ring {
   animation-play-state: running;
 }
 
@@ -238,14 +241,8 @@ const playing = computed(() => props.animated && isVisible.value && documentVisi
   to { transform: rotate(360deg); }
 }
 
-@keyframes press-orbit-float {
-  0%, 100% { transform: translateY(5px); }
-  50% { transform: translateY(-9px); }
-}
-
 @media (prefers-reduced-motion: reduce) {
-  .orbit-ring,
-  .orbit-logo {
+  .orbit-ring {
     animation: none;
   }
 

@@ -73,15 +73,17 @@ useSchemaOrg([
         </template>
 
         <template #main-nav-before>
-          <YunCard v-if="curCategory" class="post-collapse-container" m="t-4" w="full">
-            <YunPageHeader
-              m="t-10"
-              :level="2"
-              :title="curCategory === 'Uncategorized' ? t('category.uncategorized') : curCategory.split('/').map($tCategory).join(' / ')"
-              icon="i-ri-folder-open-line"
-            />
-            <YunPostCollapse w="full" m="b-4" p="x-20 lt-sm:x-5" :posts="posts" />
-          </YunCard>
+          <ClientOnly>
+            <YunCard v-if="curCategory" class="post-collapse-container" m="t-4" w="full">
+              <YunPageHeader
+                m="t-10"
+                :level="2"
+                :title="curCategory === 'Uncategorized' ? t('category.uncategorized') : curCategory.split('/').map($tCategory).join(' / ')"
+                icon="i-ri-folder-open-line"
+              />
+              <YunPostCollapse w="full" m="b-4" p="x-20 lt-sm:x-5" :posts="posts" />
+            </YunCard>
+          </ClientOnly>
         </template>
       </component>
     </RouterView>
@@ -89,3 +91,9 @@ useSchemaOrg([
     <YunLayoutRight :floating-trigger="false" />
   </YunLayoutWrapper>
 </template>
+
+<style scoped>
+.post-collapse-container {
+  scroll-margin-top: calc(var(--yun-margin-top, 68px) + 1rem);
+}
+</style>

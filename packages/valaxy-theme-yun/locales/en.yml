@@ -26,6 +26,9 @@ theme:
   projectGithub: GitHub
   projectNpm: npm
   postNav: Post navigation
+  archiveYears: Years
+  archiveCollections: '1 collection | {count} collections'
+  collectionBadge: Collection
   sortDesc: Sorted newest first (switch to oldest)
   sortAsc: Sorted oldest first (switch to newest)
   postStatusDraft: Draft (visible in dev only)

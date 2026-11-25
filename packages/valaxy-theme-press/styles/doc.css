@@ -99,6 +99,21 @@
   line-height: 1.75;
 }
 
+.press-doc .markdown-body :where(p, ul, ol, blockquote):not(.custom-block *, td *, th *) {
+  max-width: 72ch;
+}
+
+.press-doc .press-doc-header + div > h2:first-child,
+.press-doc .press-doc-header + h2 {
+  margin-top: 1.5rem;
+}
+
+@media (width <= 639px) {
+  .press-doc h2 {
+    margin-top: 2rem;
+  }
+}
+
 .press-doc blockquote {
   margin: 1rem 0;
   border-left: 2px solid var(--press-c-divider);

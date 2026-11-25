@@ -60,7 +60,7 @@ function onKeydown(event: KeyboardEvent) {
     id="yun-page-outline"
     ref="asideRef"
     flex="~ col"
-    class="va-card yun-aside min-h-sm"
+    class="yun-aside"
     :class="{ open: yun.rightSidebar.isOpen }"
     :style="{
       '--yun-aside-fade-top': arrivedState.top ? '0px' : '24px',
@@ -81,16 +81,8 @@ function onKeydown(event: KeyboardEvent) {
     <div class="yun-aside-progress" aria-hidden="true">
       <span class="yun-aside-progress-bar" />
     </div>
-    <div ref="contentRef" class="w-full" flex="~ col" pb-2>
-      <template v-if="showToc">
-        <h2
-          m="t-6 b-2"
-          font="serif black"
-        >
-          {{ t('sidebar.toc') }}
-        </h2>
-        <YunOutline @select="closeAside(true)" />
-      </template>
+    <div ref="contentRef" class="yun-aside-content w-full" flex="~ col" pb-2>
+      <YunOutline v-if="showToc" @select="closeAside(true)" />
 
       <div class="flex-grow" />
 
@@ -114,11 +106,16 @@ function onKeydown(event: KeyboardEvent) {
   width: min(360px, calc(100vw - 24px));
   height: 100dvh;
   max-height: 100dvh;
+  background-color: var(--va-c-bg-light);
   visibility: hidden;
   transform: translateX(100%);
   transition: transform var(--va-transition-duration-fast) var(--yun-ease-in-out), visibility 0s linear var(--va-transition-duration-fast);
   border-radius: var(--yun-drawer-radius, 1rem) 0 0 var(--yun-drawer-radius, 1rem);
   box-shadow: -12px 0 40px rgb(0 0 0 / 0.12);
+
+  html.dark & {
+    border-left: 1px solid var(--yun-surface-line);
+  }
 
   // float panel
   &.float {
@@ -143,8 +140,11 @@ function onKeydown(event: KeyboardEvent) {
   }
 }
 
+.yun-aside-content {
+  padding-top: 0.75rem;
+}
+
 @media (width < 1280px) {
-  .yun-aside > div > h2,
   .yun-aside .outline-title {
     display: none;
   }
@@ -160,6 +160,7 @@ function onKeydown(event: KeyboardEvent) {
   height: 2px;
   margin-bottom: -2px;
   overflow: hidden;
+  border-radius: 999px;
   pointer-events: none;
 }
 
@@ -167,7 +168,7 @@ function onKeydown(event: KeyboardEvent) {
   display: block;
   width: 100%;
   height: 100%;
-  border-radius: 0 1px 1px 0;
+  border-radius: 999px;
   background: linear-gradient(
     90deg,
     color-mix(in srgb, var(--va-c-link) 62%, transparent),
@@ -187,6 +188,16 @@ function onKeydown(event: KeyboardEvent) {
   }
 }
 
+@keyframes yun-aside-enter {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
+
 @supports (animation-timeline: scroll(root)) {
   .yun-aside-progress-bar {
     animation: yun-aside-progress linear both;
@@ -194,19 +205,24 @@ function onKeydown(event: KeyboardEvent) {
   }
 }
 
-// Desktop (xl+): aside is in normal flow, always visible
+// Desktop (xl+): borderless transparent rail in normal flow, always visible
 @include screen('xl') {
   .yun-aside {
     position: sticky;
     top: var(--yun-margin-top);
     z-index: auto;
-    width: 320px;
+    width: 100%;
     height: auto;
-    max-height: calc(100vh - var(--yun-margin-top));
+    min-height: 0;
+    max-height: calc(100vh - var(--yun-margin-top) - 1rem);
     visibility: visible;
-    transform: translateX(0);
-    border-radius: var(--va-card-border-radius, 0.5rem);
+    transform: none;
+    background-color: transparent;
+    border: 0;
+    border-radius: 0;
     box-shadow: none;
+    text-align: left;
+    animation: yun-aside-enter var(--va-transition-duration-fast, 160ms) var(--yun-ease-in, ease-out);
     mask-image: linear-gradient(
       to bottom,
       #000 0 2px,
@@ -217,13 +233,31 @@ function onKeydown(event: KeyboardEvent) {
     );
 
     html.dark & {
+      border: 0;
+    }
+
+    html[data-yun-custom-bg='true'] & {
+      padding: 0.75rem 0.25rem;
       border: 1px solid var(--yun-surface-line);
+      border-radius: var(--va-card-border-radius, 0.5rem);
+      background-color: color-mix(in srgb, var(--va-c-bg-light) 78%, transparent);
+      /* stylelint-disable-next-line property-no-vendor-prefix */
+      -webkit-backdrop-filter: blur(12px);
+      backdrop-filter: blur(12px);
+    }
+
+    html.yun-route-transition & {
+      animation: none;
     }
 
     // On xl, sidebar toggle should not affect layout
     &.open {
-      width: 320px;
+      width: 100%;
     }
+  }
+
+  .yun-aside-content {
+    padding-top: 0.5rem;
   }
 
   .yun-aside-progress {
@@ -242,7 +276,13 @@ function onKeydown(event: KeyboardEvent) {
 
 @media (prefers-reduced-motion: reduce) {
   .yun-aside {
+    animation: none;
     transition: none;
+  }
+
+  .yun-aside-progress-bar {
+    animation: none;
+    transform: scaleX(0);
   }
 }
 </style>
