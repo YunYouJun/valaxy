@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import type { CategoryList, Post } from 'valaxy'
-import { isCategoryList, useInvisibleElement, useValaxyI18n } from 'valaxy'
-import { computed, onMounted, ref } from 'vue'
+import { isCategoryList, useValaxyI18n } from 'valaxy'
+import { computed, nextTick, ref, watch } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { useRouter } from 'vue-router'
 import { yunSpringVariants } from '../composables/animation'
@@ -24,6 +24,9 @@ const props = withDefaults(defineProps<{
 const router = useRouter()
 
 const collapse = ref(props.collapsable)
+watch(() => props.collapsable, (val) => {
+  collapse.value = val
+})
 const { t } = useI18n()
 const { $tCategory } = useValaxyI18n()
 
@@ -32,29 +35,38 @@ const categoryLabel = computed(() => {
   return name === 'Uncategorized' ? t('category.uncategorized') : $tCategory(name)
 })
 
-const postCollapseElRef = ref<HTMLElement>()
-const { show } = useInvisibleElement(postCollapseElRef)
 /**
  * scroll to post collapse by category
  * @param category
  */
-function jumpToDisplayCategory(category: string) {
+async function jumpToDisplayCategory(category: string) {
   collapse.value = false
 
-  router.push({
+  await router.push({
     query: {
       category,
     },
   })
+  await nextTick()
 
-  show()
+  let postCollapseEl = document.querySelector<HTMLElement>('.post-collapse-container')
+  if (!postCollapseEl) {
+    await nextTick()
+    postCollapseEl = document.querySelector<HTMLElement>('.post-collapse-container')
+  }
+  if (!postCollapseEl)
+    return
+
+  const rect = postCollapseEl.getBoundingClientRect()
+  const isVisible = rect.top >= 0 && rect.top < window.innerHeight && rect.bottom > 0
+  if (!isVisible) {
+    const reducedMotion = window.matchMedia?.('(prefers-reduced-motion: reduce)').matches
+    postCollapseEl.scrollIntoView({
+      behavior: reducedMotion ? 'auto' : 'smooth',
+      block: 'start',
+    })
+  }
 }
-
-onMounted(() => {
-  const postCollapseEl = document.querySelector('.post-collapse-container') as HTMLElement
-  if (postCollapseEl)
-    postCollapseElRef.value = postCollapseEl
-})
 
 const motionVariants = props.level === 1
   ? yunSpringVariants({ i: props.i || 0, y: 20, duration: 200 })

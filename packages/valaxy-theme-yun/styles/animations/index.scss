@@ -1,6 +1,8 @@
 // easing tokens --yun-ease-in / --yun-ease-in-out are generated in styles/css-vars.scss
 // from the $cubic-bezier map in styles/vars.scss
 
+@use "./route-transition.scss" as *;
+
 .transition-cubic-bezier-ease-in {
   transition-timing-function: var(--yun-ease-in);
 }

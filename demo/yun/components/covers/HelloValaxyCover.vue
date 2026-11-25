@@ -98,8 +98,8 @@ onUnmounted(() => {
       </g>
       <path d="M0 0H960V540H0Z" :fill="`url(#${id}-caption)`" />
       <g fill="#f4fbff">
-        <text x="60" y="342" :style="{ fontFamily: 'Georgia, serif', fontSize: context === 'card' ? '74px' : '64px', fontWeight: 800 }">Hello, Valaxy!</text>
-        <text x="60" y="388" :style="{ fontFamily: 'sans-serif', fontSize: context === 'card' ? '28px' : '22px' }">{{ subtitle }}</text>
+        <text x="60" :y="context === 'card' ? 308 : 342" :style="{ fontFamily: 'Georgia, serif', fontSize: context === 'card' ? '74px' : '64px', fontWeight: 800 }">Hello, Valaxy!</text>
+        <text x="60" :y="context === 'card' ? 354 : 388" :style="{ fontFamily: 'sans-serif', fontSize: context === 'card' ? '28px' : '22px' }">{{ subtitle }}</text>
       </g>
     </svg>
     <div class="hello-valaxy-caption">

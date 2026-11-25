@@ -83,6 +83,7 @@ async function copyCommand() {
 }
 
 .command-copy {
+  position: relative;
   display: grid;
   place-items: center;
   flex-shrink: 0;
@@ -92,6 +93,12 @@ async function copyCommand() {
   border-radius: 4px;
   color: var(--pr-c-text-2);
   cursor: pointer;
+}
+
+.command-copy::after {
+  content: '';
+  position: absolute;
+  inset: -8px;
 }
 
 .command-copy:hover {

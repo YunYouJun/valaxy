@@ -62,9 +62,12 @@ async function toggle(event: MouseEvent) {
 </template>
 
 <style>
-.yun-toggle-dark.yun-action-btn,
+.yun-toggle-dark.yun-action-btn {
+  color: #b45309;
+}
+
 .yun-toggle-dark.yun-action-btn:is(:hover, :active) {
-  color: #f1cb64;
+  color: #92400e;
 }
 
 html.dark .yun-toggle-dark.yun-action-btn {

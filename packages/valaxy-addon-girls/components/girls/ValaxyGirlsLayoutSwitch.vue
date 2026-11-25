@@ -50,10 +50,10 @@ const layoutOptions = computed(() => GIRLS_LAYOUTS.map(layout => ({
 .valaxy-girls-layout-switch {
   display: inline-flex;
   padding: 0.2rem;
-  background: color-mix(in srgb, var(--valaxy-girls-paper) 92%, transparent);
+  background: var(--valaxy-girls-paper);
   border: 1px solid var(--valaxy-girls-line);
-  border-radius: 0.5rem;
-  box-shadow: 0 0.3rem 0.9rem rgb(31 46 64 / 0.04);
+  border-radius: 0.625rem;
+  box-shadow: var(--valaxy-girls-shadow);
   backdrop-filter: blur(0.7rem);
 }
 
@@ -75,18 +75,21 @@ const layoutOptions = computed(() => GIRLS_LAYOUTS.map(layout => ({
     box-shadow 160ms ease;
 }
 
-.valaxy-girls-layout-button:hover,
-.valaxy-girls-layout-button-active {
-  color: var(--valaxy-girls-sky-deep);
-  background: var(--valaxy-girls-soft);
+@media (hover: hover) and (pointer: fine) {
+  .valaxy-girls-layout-button:hover {
+    color: var(--valaxy-girls-ink);
+    background: var(--yun-action-btn-hover-bg, color-mix(in srgb, var(--valaxy-girls-ink) 7%, transparent));
+  }
 }
 
 .valaxy-girls-layout-button-active {
-  box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--valaxy-girls-sky) 35%, transparent);
+  color: var(--valaxy-girls-sky);
+  background: var(--valaxy-girls-soft);
+  box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--valaxy-girls-sky) 36%, transparent);
 }
 
 .valaxy-girls-layout-button:focus-visible {
-  outline: 2px solid var(--valaxy-girls-sky);
+  outline: 2px solid var(--valaxy-girls-focus);
   outline-offset: 2px;
 }
 

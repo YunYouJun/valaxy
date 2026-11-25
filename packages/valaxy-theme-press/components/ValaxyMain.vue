@@ -70,7 +70,7 @@ onUnmounted(() => {
               <slot name="main-content-before" />
 
               <ValaxyMd class="mx-auto w-full max-w-4xl" :frontmatter="frontmatter">
-                <div v-if="hasSidebar && !isHome && $title && frontmatter.pageTitle !== false" flex items-center justify-between gap-2>
+                <div v-if="hasSidebar && !isHome && $title && frontmatter.pageTitle !== false" class="press-doc-header flex items-center justify-between flex-wrap gap-3">
                   <h1 :id="$title" tabindex="-1" class="!mt-0">
                     {{ $title }}
                     <a class="header-anchor" :href="`#${$title}`" aria-hidden="true" />

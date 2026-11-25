@@ -2,7 +2,9 @@ import { formatDate } from 'valaxy'
 import noneImg from '../assets/images/none.jpg'
 
 export * from './animation'
+export * from './archives'
 export * from './outline'
+export * from './routeTransition'
 export * from './sidebar'
 
 /**

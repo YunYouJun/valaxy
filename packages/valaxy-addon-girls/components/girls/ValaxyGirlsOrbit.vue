@@ -155,11 +155,11 @@ const orbitClasses = computed(() => ({
 
 @media (width <= 40rem) {
   .valaxy-girls-orbit-stage {
-    min-height: 20rem;
+    min-height: 22rem;
   }
 
   .valaxy-girls-orbit-small .valaxy-girls-orbit-stage {
-    min-height: 14rem;
+    min-height: 15.5rem;
   }
 
   .valaxy-girls-orbit-detail {
@@ -169,11 +169,11 @@ const orbitClasses = computed(() => ({
   }
 
   .valaxy-girls-orbit-list {
-    bottom: 4.4rem;
+    bottom: 5.25rem;
   }
 
   .valaxy-girls-orbit-art {
-    inset: 0 -12% 4.4rem;
+    inset: 0 -12% 5.25rem;
     width: 124%;
     height: auto;
   }

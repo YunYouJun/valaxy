@@ -55,8 +55,8 @@ const visibleGirls = computed(() => props.renderMode === 'all'
 .valaxy-girls-grid {
   width: 100%;
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(9.5rem, 1fr));
-  gap: clamp(0.6rem, 1.5vw, 0.75rem);
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, 13rem), 1fr));
+  gap: 0.75rem;
   justify-content: start;
   margin: 0;
   padding: 0;
@@ -65,6 +65,7 @@ const visibleGirls = computed(() => props.renderMode === 'all'
 @media (width <= 40rem) {
   .valaxy-girls-grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 0.625rem;
   }
 }
 

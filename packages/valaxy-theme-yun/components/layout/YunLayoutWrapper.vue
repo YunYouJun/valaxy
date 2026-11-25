@@ -73,6 +73,7 @@ const classes = computed(() => {
 
 <style>
 .yun-layout-wrapper-content {
+  box-sizing: border-box;
   display: flex;
   flex-grow: 1;
   flex-direction: column;
@@ -92,6 +93,46 @@ const classes = computed(() => {
 }
 
 @media (width >= 1280px) {
+  .yun-layout-wrapper-content:has(> .yun-main):not(:has(> .yun-author-notes)) {
+    --yun-rail-width: clamp(15rem, 17vw, 18rem);
+    --yun-main-width: clamp(42rem, 48vw, 52rem);
+
+    display: grid;
+    grid-template-columns: minmax(0, var(--yun-rail-width)) minmax(0, var(--yun-main-width)) minmax(0, var(--yun-rail-width));
+    justify-content: center;
+    align-items: start;
+    gap: 0 1.5rem;
+    padding-inline: 1.5rem;
+  }
+
+  .yun-layout-wrapper-content:has(> .yun-main):not(:has(> .yun-author-notes)) > .yun-layout-left,
+  .yun-layout-wrapper-content:has(> .yun-main):not(:has(> .yun-author-notes)) > .yun-docs-sidebar-desktop {
+    grid-column: 1;
+    grid-row: 1;
+    width: 100%;
+    flex: none;
+  }
+
+  .yun-layout-wrapper-content:has(> .yun-main):not(:has(> .yun-author-notes)) > .yun-main {
+    grid-column: 2;
+    grid-row: 1;
+    width: 100%;
+    min-width: 0;
+  }
+
+  .yun-layout-wrapper-content:has(> .yun-main):not(:has(> .yun-author-notes)) > .yun-main > .content {
+    width: 100%;
+    max-width: 100%;
+    min-width: 0;
+  }
+
+  .yun-layout-wrapper-content:has(> .yun-main):not(:has(> .yun-author-notes)) > .yun-aside {
+    grid-column: 3;
+    grid-row: 1;
+    width: 100%;
+    min-width: 0;
+  }
+
   .yun-layout-wrapper-content:has(> .yun-author-notes) {
     width: min(86.25rem, calc(100% - 3rem));
     gap: 1.5rem;

@@ -50,10 +50,13 @@ onMounted(async () => {
 
   const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches
   if (yun.isNimbo && (reducedMotion || props.shouldPlayIntro?.() === false)) {
+    yun.bannerIntroPlaying = false
     yun.bannerAnimationDone = true
     return
   }
 
+  if (yun.isNimbo)
+    yun.bannerIntroPlaying = true
   lineStatus.value = reducedMotion ? 'active' : 'enter'
   showIntroTitle.value = yun.isNimbo
   if (!reducedMotion)
@@ -81,10 +84,12 @@ onMounted(async () => {
   showIntroTitle.value = false
   lineStatus.value = ''
   yun.bannerAnimationDone = true
+  yun.bannerIntroPlaying = false
 })
 
 onBeforeUnmount(() => {
   disposed = true
+  yun.bannerIntroPlaying = false
   yun.bannerAnimationDone = false
 })
 </script>

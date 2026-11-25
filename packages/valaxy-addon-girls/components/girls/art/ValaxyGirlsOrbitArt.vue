@@ -34,7 +34,7 @@
 
 .valaxy-girls-orbit-art-rings {
   fill: none;
-  stroke: color-mix(in srgb, currentcolor 36%, transparent);
+  stroke: color-mix(in srgb, currentcolor 42%, transparent);
   stroke-width: 1.5;
 }
 

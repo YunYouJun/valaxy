@@ -50,6 +50,7 @@ function handleImageError() {
       rel="noopener noreferrer"
     >
       <span class="valaxy-girl-number" aria-hidden="true">{{ characterNumber }}</span>
+      <span class="valaxy-girl-arrow i-ri-arrow-right-up-line" aria-hidden="true" />
 
       <figure class="valaxy-girl-figure">
         <div class="valaxy-girl-portrait">
@@ -94,57 +95,77 @@ function handleImageError() {
   height: 100%;
   overflow: hidden;
   color: var(--valaxy-girls-ink);
-  background: linear-gradient(
-    135deg,
-    color-mix(in srgb, var(--va-c-primary) 4%, var(--valaxy-girls-paper)),
-    var(--valaxy-girls-paper) 52%
+  background-color: var(--valaxy-girls-paper);
+  background-image: radial-gradient(
+    180px circle at 0% 0%,
+    color-mix(in srgb, var(--valaxy-girls-sky) 7%, transparent),
+    transparent 72%
   );
   border: 1px solid var(--valaxy-girls-line);
-  border-radius: var(--va-card-border-radius, 0.5rem);
-  box-shadow: 0 0.35rem 1rem rgb(49 64 85 / 0.06);
+  border-radius: var(--valaxy-girls-radius, 0.75rem);
+  box-shadow: var(--valaxy-girls-shadow);
   text-decoration: none;
-  transform: translateY(0);
   transition:
     border-color 220ms ease,
     box-shadow 220ms ease,
-    transform 220ms ease;
+    transform 220ms var(--yun-ease-in-out, ease);
 }
 
-.valaxy-girl-card::after {
+.valaxy-girl-arrow {
   position: absolute;
-  top: 0.62rem;
-  right: 0.65rem;
+  top: 0.52rem;
+  right: 0.52rem;
   color: var(--valaxy-girls-muted);
-  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
-  font-size: 0.72rem;
+  font-size: 0.85rem;
   line-height: 1;
   opacity: 0.45;
-  content: '↗';
-  transform: translate(-0.12rem, 0.12rem);
+  transform: translate(-1px, 1px);
   transition:
     color 180ms ease,
     opacity 180ms ease,
     transform 180ms ease;
 }
 
-.valaxy-girl-card:hover {
-  border-color: var(--valaxy-girls-sky);
-  box-shadow:
-    0 0.55rem 1.25rem rgb(63 153 190 / 0.14),
-    0 0 0 2px color-mix(in srgb, var(--valaxy-girls-sky) 12%, transparent);
-  transform: translateY(-0.14rem);
-}
+@media (hover: hover) and (pointer: fine) {
+  .valaxy-girl-card:hover {
+    border-color: var(--valaxy-girls-hover-line);
+    box-shadow: var(--valaxy-girls-hover-shadow);
 
-.valaxy-girl-card:hover::after,
-.valaxy-girl-card:focus-visible::after {
-  color: var(--valaxy-girls-sky-deep);
-  opacity: 0.9;
-  transform: translate(0, 0);
+    @media (prefers-reduced-motion: no-preference) {
+      transform: translateY(-2px);
+
+      .valaxy-girl-avatar {
+        filter: saturate(1.06);
+        transform: scale(1.045);
+      }
+    }
+
+    .valaxy-girl-arrow {
+      color: var(--valaxy-girls-sky);
+      opacity: 0.95;
+      transform: translate(1px, -1px);
+    }
+
+    .valaxy-girl-name {
+      color: var(--valaxy-girls-sky);
+    }
+  }
 }
 
 .valaxy-girl-card:focus-visible {
-  outline: 3px solid color-mix(in srgb, var(--valaxy-girls-sky) 48%, transparent);
-  outline-offset: 3px;
+  outline: 2px solid var(--valaxy-girls-focus);
+  outline-offset: 2px;
+}
+
+.valaxy-girl-card:focus-visible .valaxy-girl-arrow {
+  color: var(--valaxy-girls-sky);
+  opacity: 0.95;
+  transform: translate(1px, -1px);
+}
+
+.valaxy-girl-card:focus-visible .valaxy-girl-avatar {
+  filter: saturate(1.06);
+  transform: scale(1.045);
 }
 
 .valaxy-girl-number {
@@ -152,11 +173,11 @@ function handleImageError() {
   z-index: 2;
   top: 0.42rem;
   left: 0.42rem;
-  min-width: 1.6rem;
-  padding: 0.18rem 0.32rem;
+  min-width: 1.5rem;
+  padding: 0.16rem 0.3rem;
   color: #fff;
-  background: rgb(31 46 64 / 0.66);
-  border: 1px solid rgb(255 255 255 / 0.38);
+  background: rgb(20 22 28 / 0.62);
+  border: 1px solid rgb(255 255 255 / 0.22);
   border-radius: 999px;
   font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
   font-size: 0.55rem;
@@ -169,9 +190,9 @@ function handleImageError() {
 
 .valaxy-girl-figure {
   display: grid;
-  min-height: 4.75rem;
+  min-height: 5rem;
   height: 100%;
-  grid-template-columns: 3.75rem minmax(0, 1fr);
+  grid-template-columns: 4rem minmax(0, 1fr);
   margin: 0;
 }
 
@@ -179,6 +200,7 @@ function handleImageError() {
   position: relative;
   min-height: 100%;
   overflow: hidden;
+  border-right: 1px solid var(--valaxy-girls-line);
   background:
     radial-gradient(
       circle at 75% 18%,
@@ -205,12 +227,6 @@ function handleImageError() {
   transition:
     filter 300ms ease,
     transform 500ms cubic-bezier(0.2, 0.75, 0.25, 1);
-}
-
-.valaxy-girl-card:hover .valaxy-girl-avatar,
-.valaxy-girl-card:focus-visible .valaxy-girl-avatar {
-  filter: saturate(1.06);
-  transform: scale(1.045);
 }
 
 .valaxy-girl-avatar-fallback {
@@ -254,8 +270,8 @@ function handleImageError() {
   color: var(--valaxy-girls-ink);
   background: color-mix(in srgb, var(--valaxy-girls-paper) 92%, transparent);
   border: 1px solid var(--valaxy-girls-line);
-  border-radius: 0.45rem;
-  box-shadow: 0 0.35rem 1rem rgb(31 46 64 / 0.16);
+  border-radius: 0.5rem;
+  box-shadow: var(--valaxy-girls-hover-shadow);
   opacity: 0;
   pointer-events: none;
   transform: translateY(0.3rem);
@@ -282,7 +298,7 @@ function handleImageError() {
   min-width: 0;
   flex-direction: column;
   justify-content: center;
-  padding: 0.52rem 1.65rem 0.52rem 0.62rem;
+  padding: 0.6rem 1.55rem 0.6rem 0.72rem;
   text-align: left;
 }
 
@@ -297,17 +313,18 @@ function handleImageError() {
 .valaxy-girl-name {
   color: var(--valaxy-girls-ink);
   font-family: var(--va-font-serif);
-  font-size: 0.84rem;
-  font-weight: 800;
-  letter-spacing: 0.02em;
-  line-height: 1.3;
+  font-size: 0.9rem;
+  font-weight: 700;
+  letter-spacing: 0.01em;
+  line-height: 1.35;
+  transition: color 180ms ease;
 }
 
 .valaxy-girl-from {
   margin-top: 0.16rem;
   color: var(--valaxy-girls-muted);
-  font-size: 0.6875rem;
-  letter-spacing: 0.02em;
+  font-size: 0.75rem;
+  letter-spacing: 0.01em;
   line-height: 1.45;
 }
 
@@ -329,16 +346,30 @@ function handleImageError() {
   }
 
   .valaxy-girl-card,
+  .valaxy-girl-arrow,
   .valaxy-girl-avatar,
+  .valaxy-girl-name,
   .valaxy-girl-reason {
     transition: none;
   }
 }
 
-@media (hover: none) {
-  .valaxy-girl-card:hover {
-    box-shadow: 0 0.35rem 1rem rgb(49 64 85 / 0.06);
-    transform: none;
+@media (width <= 40rem) {
+  .valaxy-girl-figure {
+    min-height: 4.75rem;
+    grid-template-columns: 3.5rem minmax(0, 1fr);
+  }
+
+  .valaxy-girl-caption {
+    padding: 0.5rem 1.4rem 0.5rem 0.58rem;
+  }
+
+  .valaxy-girl-name {
+    font-size: 0.84rem;
+  }
+
+  .valaxy-girl-from {
+    font-size: 0.6875rem;
   }
 }
 

@@ -92,7 +92,7 @@ const actions = computed(() => {
   display: grid;
   grid-template-columns: minmax(0, 1.08fr) minmax(0, 1fr);
   border-bottom: 1px solid var(--pr-c-divider-light);
-  min-height: 620px;
+  min-height: clamp(540px, calc(100svh - var(--pr-nav-height) - 68px), 780px);
 }
 
 .hero-copy {
@@ -113,7 +113,7 @@ const actions = computed(() => {
 .hero-eyebrow {
   margin: 0 0 24px;
   color: var(--pr-c-text-2);
-  font-size: 12px;
+  font-size: 13px;
   letter-spacing: 0.08em;
 }
 
@@ -172,9 +172,8 @@ const actions = computed(() => {
   bottom: 28px;
   margin: 0;
   color: var(--pr-c-text-2);
-  font-size: 11px;
-  letter-spacing: 0.2em;
-  text-transform: uppercase;
+  font-size: 13px;
+  letter-spacing: 0.06em;
 }
 
 .press-hero-image {
@@ -247,6 +246,7 @@ const actions = computed(() => {
 @media (width <= 959px) {
   .press-home-hero {
     grid-template-columns: minmax(0, 1fr);
+    min-height: auto;
   }
 
   .hero-copy {

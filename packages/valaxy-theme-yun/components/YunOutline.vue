@@ -10,6 +10,7 @@ import { useThemeConfig } from '../composables'
 import {
   collectCollapsibleOutlineLinks,
   computeAutoCollapsedLinks,
+  filterOutlineHeadersByLocale,
   findOutlineAncestorLinks,
   normalizeOutlineHash,
 } from '../utils'
@@ -17,7 +18,7 @@ import {
 const emit = defineEmits<{
   select: []
 }>()
-const { t } = useI18n()
+const { locale, t } = useI18n()
 const frontmatter = useFrontmatter()
 const themeConfig = useThemeConfig()
 const containerRef = shallowRef()
@@ -26,8 +27,9 @@ const marker = shallowRef()
 const { headers, handleClick } = useOutline()
 const { activeLink, refreshMarker } = useActiveAnchor(containerRef, marker)
 
+const visibleHeaders = computed(() => filterOutlineHeadersByLocale(headers.value, locale.value))
 const collapseMode = computed(() => frontmatter.value.outlineCollapsible ?? themeConfig.value.outlineCollapsible ?? true)
-const collapsibleLinks = computed(() => collectCollapsibleOutlineLinks(headers.value))
+const collapsibleLinks = computed(() => collectCollapsibleOutlineLinks(visibleHeaders.value))
 const collapsibleEnabled = computed(() => collapseMode.value !== false && collapsibleLinks.value.length > 0)
 
 const collapsedLinks = shallowRef<Set<string>>(new Set())
@@ -42,7 +44,7 @@ const normalizedCollapsedLinks = computed(
 )
 
 const activeAncestorLinks = computed(() => {
-  const ancestors = findOutlineAncestorLinks(headers.value, activeLink.value)
+  const ancestors = findOutlineAncestorLinks(visibleHeaders.value, activeLink.value)
   return new Set([...ancestors].map(normalizeOutlineHash))
 })
 
@@ -62,7 +64,7 @@ function scheduleMarkerRefresh() {
 }
 
 watch(
-  [headers, collapseMode],
+  [visibleHeaders, collapseMode],
   ([nextHeaders, mode]) => {
     collapsedLinks.value = mode === 'auto'
       ? computeAutoCollapsedLinks(nextHeaders, activeLink.value)
@@ -76,7 +78,7 @@ watch(
   activeLink,
   (nextActive) => {
     if (collapseMode.value === 'auto') {
-      collapsedLinks.value = computeAutoCollapsedLinks(headers.value, nextActive)
+      collapsedLinks.value = computeAutoCollapsedLinks(visibleHeaders.value, nextActive)
       scheduleMarkerRefresh()
     }
   },
@@ -113,7 +115,7 @@ function onItemClick(event: MouseEvent) {
 </script>
 
 <template>
-  <div v-show="headers.length" ref="containerRef">
+  <div v-show="visibleHeaders.length" ref="containerRef">
     <div class="content">
       <div class="outline-header" :class="{ 'has-toggle': collapsibleEnabled }">
         <div class="outline-title">
@@ -139,7 +141,7 @@ function onItemClick(event: MouseEvent) {
       <nav :aria-label="t('sidebar.toc')">
         <YunOutlineItem
           class="va-toc relative z-1 css-i18n-toc"
-          :headers="headers"
+          :headers="visibleHeaders"
           :on-click="onItemClick"
           :collapsible="collapsibleEnabled"
           :collapsed-links="normalizedCollapsedLinks"
@@ -228,6 +230,26 @@ function onItemClick(event: MouseEvent) {
   &:focus-visible {
     outline: 2px solid var(--yun-focus-color, var(--va-c-primary));
     outline-offset: 1px;
+  }
+}
+
+@media (width >= 1280px) {
+  .content {
+    border-left: 1px solid var(--yun-surface-line);
+    padding-inline: 14px 8px;
+  }
+
+  .outline-marker {
+    left: -1.5px;
+    width: 2px;
+    border-radius: 999px;
+  }
+
+  .outline-title {
+    font-size: 0.8125rem;
+    font-weight: 600;
+    color: var(--va-c-text-2);
+    letter-spacing: 0.02em;
   }
 }
 

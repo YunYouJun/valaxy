@@ -1,0 +1,189 @@
+@keyframes yun-route-out {
+  from {
+    opacity: 1;
+  }
+
+  to {
+    opacity: 0;
+  }
+}
+
+@keyframes yun-route-in {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes yun-route-card-in {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
+
+html.yun-route-transition .yun-page-header-gradient {
+  view-transition-name: yun-header-gradient;
+}
+
+html.yun-route-transition .yun-strato-nav-left {
+  view-transition-name: yun-strato-nav-left;
+}
+
+html.yun-route-transition .yun-nav-menu {
+  view-transition-name: yun-nav;
+}
+
+html.yun-route-transition .yun-local-outline-nav {
+  view-transition-name: yun-local-nav;
+}
+
+html.yun-route-transition .yun-main-card {
+  view-transition-name: yun-main-card;
+}
+
+@media (width >= 1024px) {
+  html.yun-route-transition .yun-layout-left {
+    view-transition-name: yun-left;
+  }
+}
+
+@media (width >= 1280px) {
+  html.yun-route-transition .yun-aside {
+    view-transition-name: yun-right;
+  }
+}
+
+html.yun-route-transition::view-transition-group(yun-header-gradient) {
+  z-index: 25;
+  animation: none;
+}
+
+html.yun-route-transition::view-transition-group(yun-strato-nav-left) {
+  z-index: 21;
+  animation: none;
+}
+
+html.yun-route-transition::view-transition-group(yun-nav) {
+  z-index: 20;
+  animation: none;
+}
+
+html.yun-route-transition::view-transition-group(yun-local-nav) {
+  z-index: 19;
+  animation: none;
+}
+
+html.yun-route-transition:has(.yun-nav-menu:is(.play, .is-glass))::view-transition-group(yun-nav),
+html.yun-route-transition:has(.yun-local-outline-nav:is(.play, .is-glass))::view-transition-group(yun-local-nav) {
+  /* stylelint-disable-next-line property-no-vendor-prefix */
+  -webkit-backdrop-filter: blur(var(--yun-nav-blur));
+  backdrop-filter: blur(var(--yun-nav-blur));
+}
+
+html.yun-route-transition::view-transition-group(yun-post-title) {
+  z-index: 15;
+  animation-duration: 260ms;
+  animation-timing-function: cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+html.yun-route-transition::view-transition-group(yun-left),
+html.yun-route-transition::view-transition-group(yun-right) {
+  z-index: 10;
+  overflow: clip;
+}
+
+html.yun-route-transition::view-transition-group(yun-main-card) {
+  z-index: 5;
+  overflow: clip;
+  animation-duration: 220ms;
+  animation-timing-function: cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+html.yun-route-transition::view-transition-old(yun-left),
+html.yun-route-transition::view-transition-new(yun-left),
+html.yun-route-transition::view-transition-old(yun-right),
+html.yun-route-transition::view-transition-new(yun-right),
+html.yun-route-transition::view-transition-old(yun-main-card),
+html.yun-route-transition::view-transition-new(yun-main-card) {
+  height: auto;
+}
+
+html.yun-route-transition::view-transition-old(yun-header-gradient),
+html.yun-route-transition::view-transition-old(yun-strato-nav-left),
+html.yun-route-transition::view-transition-old(yun-nav),
+html.yun-route-transition::view-transition-old(yun-local-nav) {
+  display: none;
+}
+
+html.yun-route-transition::view-transition-old(yun-local-nav):only-child {
+  display: block;
+  mix-blend-mode: normal;
+  animation: yun-route-out 110ms ease-out both;
+}
+
+html.yun-route-transition::view-transition-new(yun-header-gradient),
+html.yun-route-transition::view-transition-new(yun-strato-nav-left),
+html.yun-route-transition::view-transition-new(yun-nav),
+html.yun-route-transition::view-transition-new(yun-local-nav) {
+  animation: none;
+  mix-blend-mode: normal;
+}
+
+html.yun-route-transition::view-transition-old(yun-main-card) {
+  mix-blend-mode: normal;
+  animation: yun-route-out 110ms ease-out both;
+}
+
+html.yun-route-transition::view-transition-new(yun-main-card) {
+  mix-blend-mode: normal;
+  animation: yun-route-card-in 200ms cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+html.yun-route-transition::view-transition-old(yun-post-title) {
+  mix-blend-mode: normal;
+  animation: yun-route-out 110ms ease-out both;
+}
+
+html.yun-route-transition::view-transition-new(yun-post-title) {
+  mix-blend-mode: normal;
+  animation: yun-route-card-in 220ms cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+html.yun-route-transition::view-transition-old(root) {
+  z-index: 1;
+  mix-blend-mode: normal;
+  animation: none;
+}
+
+html.yun-route-transition::view-transition-new(root) {
+  z-index: 2;
+  mix-blend-mode: normal;
+  animation: yun-route-in 220ms cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+html.yun-route-fallback .yun-main > .content {
+  animation: yun-route-in 220ms cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html.yun-route-transition::view-transition-group(yun-main-card),
+  html.yun-route-transition::view-transition-group(yun-post-title),
+  html.yun-route-transition::view-transition-old(yun-main-card),
+  html.yun-route-transition::view-transition-new(yun-main-card),
+  html.yun-route-transition::view-transition-old(yun-post-title),
+  html.yun-route-transition::view-transition-new(yun-post-title),
+  html.yun-route-transition::view-transition-new(root),
+  html.yun-route-transition::view-transition-old(yun-local-nav):only-child,
+  html.yun-route-fallback .yun-main > .content {
+    animation: none;
+  }
+}

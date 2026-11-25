@@ -111,3 +111,28 @@ test('hides responsive menu buttons at their desktop breakpoints', async ({ page
   await expect(fixture.getByRole('button', { name: 'mobile navigation' })).toBeHidden()
   await expect(fixture.locator('a[href="/"]')).toBeVisible()
 })
+
+test('hides Nimbo home icon on mobile homepage while keeping it on subpages and desktop', async ({ page }) => {
+  await page.emulateMedia({ reducedMotion: 'reduce' })
+  await page.setViewportSize({ width: 390, height: 844 })
+
+  await page.goto('/', { waitUntil: 'domcontentloaded' })
+  await waitForHydration(page)
+  const navMenu = page.locator('.yun-nav-menu')
+  const homeLink = navMenu.locator('a[href="/"]')
+  await expect(navMenu).toBeVisible()
+  await expect(homeLink).toBeHidden()
+
+  await page.goto('/page/2', { waitUntil: 'domcontentloaded' })
+  await waitForHydration(page)
+  await expect(homeLink).toBeVisible()
+
+  await page.goto('/posts/', { waitUntil: 'domcontentloaded' })
+  await waitForHydration(page)
+  await expect(homeLink).toBeVisible()
+
+  await page.setViewportSize({ width: 1024, height: 768 })
+  await page.goto('/', { waitUntil: 'domcontentloaded' })
+  await waitForHydration(page)
+  await expect(homeLink).toBeVisible()
+})

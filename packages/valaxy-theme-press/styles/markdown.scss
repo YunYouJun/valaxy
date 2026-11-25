@@ -113,6 +113,25 @@
     font-weight: 600;
   }
 
+  .press-doc-header + :is(div, section) > h2:first-child,
+  .press-doc-header + h2 {
+    margin-top: 20px;
+  }
+
+  @media (width <= 639px) {
+    h2 {
+      --va-header-anchor-top: 20px;
+
+      margin-top: 32px;
+      padding-top: 20px;
+    }
+
+    .press-doc-header + :is(div, section) > h2:first-child,
+    .press-doc-header + h2 {
+      margin-top: 16px;
+    }
+  }
+
   p, li {
     line-height: 1.85;
   }

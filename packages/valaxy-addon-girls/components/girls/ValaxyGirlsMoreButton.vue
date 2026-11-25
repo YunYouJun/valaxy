@@ -29,34 +29,42 @@ const label = computed(() => props.mode === 'expand'
 <style scoped>
 .valaxy-girls-more {
   display: inline-flex;
-  min-height: 2.75rem;
+  min-height: 2.5rem;
   align-items: center;
   justify-content: center;
   gap: 0.35rem;
-  padding: 0.55rem 0.95rem;
+  padding: 0.5rem 1rem;
   color: var(--valaxy-girls-muted);
-  background: color-mix(in srgb, var(--valaxy-girls-paper) 88%, transparent);
+  background: var(--valaxy-girls-paper);
   border: 1px solid var(--valaxy-girls-line);
   border-radius: 999px;
-  box-shadow: 0 0.25rem 0.75rem rgb(31 46 64 / 0.06);
+  box-shadow: var(--valaxy-girls-shadow);
   font: inherit;
-  font-size: 0.7rem;
+  font-size: 0.8125rem;
+  font-weight: 500;
   cursor: pointer;
   transition:
     border-color 180ms ease,
+    box-shadow 180ms ease,
     color 180ms ease,
     transform 180ms ease;
 }
 
-.valaxy-girls-more:hover {
-  color: var(--valaxy-girls-sky-deep);
-  border-color: var(--valaxy-girls-sky);
-  transform: translateY(-0.08rem);
+@media (hover: hover) and (pointer: fine) {
+  .valaxy-girls-more:hover {
+    color: var(--valaxy-girls-sky);
+    border-color: var(--valaxy-girls-hover-line);
+    box-shadow: var(--valaxy-girls-hover-shadow);
+
+    @media (prefers-reduced-motion: no-preference) {
+      transform: translateY(-1px);
+    }
+  }
 }
 
 .valaxy-girls-more:focus-visible {
-  outline: 3px solid color-mix(in srgb, var(--valaxy-girls-sky) 48%, transparent);
-  outline-offset: 3px;
+  outline: 2px solid var(--valaxy-girls-focus);
+  outline-offset: 2px;
 }
 
 @media (prefers-reduced-motion: reduce) {

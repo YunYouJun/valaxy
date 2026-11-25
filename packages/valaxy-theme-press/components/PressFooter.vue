@@ -18,7 +18,7 @@ const { hasSidebar } = useSidebar()
 <style lang="scss" scoped>
 .press-footer {
   position: relative;
-  z-index: var(--pr-z-index-footer);
+  z-index: var(--pr-z-footer);
   border-top: 1px solid var(--pr-c-divider-light);
   padding: 32px 24px;
   background-color: var(--va-c-bg);
@@ -29,14 +29,14 @@ const { hasSidebar } = useSidebar()
 }
 
 @media (width >= 768px) {
-  .pr-footer {
+  .press-footer {
     padding: 32px;
   }
 }
 
 .container {
   margin: 0 auto;
-  max-width: var(--pr-layout-max-width);
+  max-width: var(--pr-layout-max-width, var(--pr-home-max-width));
   text-align: center;
 }
 
@@ -45,7 +45,7 @@ const { hasSidebar } = useSidebar()
   line-height: 24px;
   font-size: 14px;
   font-weight: 500;
-  color: var(--va-c-text-lighter);
+  color: var(--pr-c-text-2);
 }
 
 .press-footer :deep(a) {

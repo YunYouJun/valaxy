@@ -26,3 +26,9 @@ nav:
   site: Site navigation
   open: Open navigation
   close: Close navigation
+
+article:
+  next: Next article
+  prev: Previous article
+  all_posts: All posts
+  back_to_posts: Back to posts

@@ -11,6 +11,8 @@ export const useYunAppStore = defineStore('yun-app', () => {
   // v2 Theme
   const isNimbo = computed(() => themeConfig.value.type === 'nimbo')
 
+  // Whether the Nimbo home banner vertical-line intro is currently playing
+  const bannerIntroPlaying = ref(false)
   // Banner animation completed, prologue can show
   const bannerAnimationDone = ref(false)
 
@@ -42,6 +44,7 @@ export const useYunAppStore = defineStore('yun-app', () => {
 
     isStrato,
     isNimbo,
+    bannerIntroPlaying,
     bannerAnimationDone,
   }
 })

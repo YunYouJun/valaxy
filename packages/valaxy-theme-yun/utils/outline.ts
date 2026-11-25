@@ -85,3 +85,31 @@ export function computeAutoCollapsedLinks(
 
   return collapsed
 }
+
+export function filterOutlineHeadersByLocale(
+  headers: MenuItem[],
+  locale?: string,
+): MenuItem[] {
+  const result: MenuItem[] = []
+  const normalizedLocale = locale?.toLowerCase()
+
+  for (const item of headers) {
+    // Only inherit `lang` from containers that css-i18n actually toggles (h1-h6, div, span),
+    // so visible foreign-language sections like `<section lang="fr">` keep their headings.
+    const localeContainer = item.element?.closest?.('.markdown-body :is(h1, h2, h3, h4, h5, h6, div, span)[lang]')
+    const itemLang = (item.lang || localeContainer?.getAttribute('lang') || '').toLowerCase()
+    const children = item.children?.length
+      ? filterOutlineHeadersByLocale(item.children, locale)
+      : item.children
+
+    if (normalizedLocale && itemLang && itemLang !== normalizedLocale) {
+      if (children?.length)
+        result.push(...children)
+      continue
+    }
+
+    result.push(children !== item.children ? { ...item, children } : item)
+  }
+
+  return result
+}

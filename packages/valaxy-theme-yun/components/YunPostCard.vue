@@ -4,7 +4,7 @@ import { usePostCollections, useValaxyI18n } from 'valaxy'
 import { computed, ref } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { usePostProperty, useThemeConfig } from '../composables'
-import { resolveCategoryPath } from '../utils'
+import { normalizeTransitionPath, resolveCategoryPath } from '../utils'
 
 const props = defineProps<{
   post: Post
@@ -66,7 +66,7 @@ const postTitleClass = computed(() => {
           <AppLink class="post-title-link" :to="post.path || ''" m="t-3" :class="postTitleClass" tabindex="-1">
             <div class="post-card-title flex-center title text-2xl" text="center" font="serif semibold">
               <div v-if="post.type" class="inline-flex" m="r-1" :class="icon" />
-              <span>{{ $tO(post.title) }}</span>
+              <span :data-yun-vt-post-path="normalizeTransitionPath(post.path)">{{ $tO(post.title) }}</span>
             </div>
           </AppLink>
 

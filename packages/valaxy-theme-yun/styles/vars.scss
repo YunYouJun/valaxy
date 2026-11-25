@@ -13,7 +13,6 @@ $light: map.merge(
 $dark: () !default;
 $dark: map.merge(
   (
-    "bg": red,
     "bg-img": radial-gradient(circle at 50% 0%, #1b2131, #11131a 72%),
     "sidebar-bg-img": none,
   ),
@@ -60,7 +59,7 @@ $z-index: map.merge(
 $cubic-bezier: () !default;
 $cubic-bezier: map.merge(
   (
-    // 慢速开始，然后加速
+    // 快速启动后缓出（为兼容历史变量名保留 ease-in）
     "ease-in": cubic-bezier(0.18, 0.66, 0.05, 0.96),
     // 慢速开始和结束
     "ease-in-out": cubic-bezier(0.77, 0, 0.17, 1.02),

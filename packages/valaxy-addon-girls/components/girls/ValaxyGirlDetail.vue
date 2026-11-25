@@ -82,10 +82,10 @@ function handleImageError() {
   gap: 0.65rem;
   padding: 0.7rem 2.15rem 0.7rem 0.8rem;
   color: var(--valaxy-girls-ink);
-  background: color-mix(in srgb, var(--valaxy-girls-paper) 94%, transparent);
+  background: color-mix(in srgb, var(--valaxy-girls-paper) 92%, transparent);
   border: 1px solid var(--valaxy-girls-line);
-  border-radius: var(--va-card-border-radius, 0.5rem);
-  box-shadow: 0 0.35rem 1rem rgb(31 46 64 / 0.08);
+  border-radius: var(--valaxy-girls-radius, 0.75rem);
+  box-shadow: var(--valaxy-girls-shadow);
   text-align: left;
   backdrop-filter: blur(0.8rem);
 }
@@ -141,7 +141,7 @@ function handleImageError() {
 .valaxy-girl-detail-name {
   font-family: var(--va-font-serif);
   font-size: 0.92rem;
-  font-weight: 800;
+  font-weight: 700;
   letter-spacing: 0.02em;
   line-height: 1.3;
 }
@@ -208,12 +208,12 @@ function handleImageError() {
 
 .valaxy-girl-detail-link:hover,
 .valaxy-girl-detail-link:focus-visible {
-  color: var(--valaxy-girls-sky-deep);
+  color: var(--valaxy-girls-sky);
   background: var(--valaxy-girls-soft);
 }
 
 .valaxy-girl-detail-link:focus-visible {
-  outline: 2px solid var(--valaxy-girls-sky);
+  outline: 2px solid var(--valaxy-girls-focus);
   outline-offset: 2px;
 }
 

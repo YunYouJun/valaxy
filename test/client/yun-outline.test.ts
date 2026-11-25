@@ -1,13 +1,19 @@
+// @vitest-environment jsdom
 import type { MenuItem } from 'valaxy'
-import { describe, expect, it } from 'vitest'
+import { describe, expect, it, vi } from 'vitest'
 import {
   buildOutlineBranchId,
   collectCollapsibleOutlineLinks,
   computeAutoCollapsedLinks,
+  filterOutlineHeadersByLocale,
   findOutlineAncestorLinks,
   normalizeOutlineHash,
 } from '../../packages/valaxy-theme-yun/utils/outline'
 import { resolveOutlineMarkerTop } from '../../packages/valaxy/client/composables/outline/anchor'
+
+vi.mock('valaxy', () => ({
+  useSidebar: () => ({ hasSidebar: { value: false } }),
+}))
 
 function makeHeader(link: string, children?: MenuItem[]): MenuItem {
   return {
@@ -112,5 +118,62 @@ describe('valaxy-theme-yun outline utils', () => {
     // 4. Fallback when marker is detached or unpositioned
     const detachedMarker = { offsetParent: null, offsetTop: 0, offsetHeight: 0 } as unknown as HTMLElement
     expect(resolveOutlineMarkerTop(linkUnderVisibleHeader, detachedMarker)).toBe(89)
+  })
+
+  it('filters mismatched locale headings while preserving shared and matching headings', () => {
+    const bilingualHeaders: MenuItem[] = [
+      { ...makeHeader('#what-is-valaxy'), lang: 'en' },
+      {
+        ...makeHeader('#什么是-valaxy', [
+          { ...makeHeader('#english-sub'), lang: 'en' },
+          { ...makeHeader('#中文子标题'), lang: 'zh-CN' },
+          makeHeader('#shared-sub'),
+        ]),
+        lang: 'zh-CN',
+      },
+      makeHeader('#vue-component'),
+    ]
+
+    const zhResult = filterOutlineHeadersByLocale(bilingualHeaders, 'zh-CN')
+    expect(zhResult.map(h => h.link)).toEqual(['#什么是-valaxy', '#vue-component'])
+    expect(zhResult[0].children?.map(h => h.link)).toEqual(['#中文子标题', '#shared-sub'])
+
+    const enResult = filterOutlineHeadersByLocale(bilingualHeaders, 'en')
+    expect(enResult.map(h => h.link)).toEqual(['#what-is-valaxy', '#english-sub', '#shared-sub', '#vue-component'])
+  })
+
+  it('keeps headings inside non-i18n-hidden foreign-language elements like <section lang="fr"> and matches lang case-insensitively', () => {
+    const mdBody = document.createElement('div')
+    mdBody.className = 'markdown-body'
+
+    const sectionFr = document.createElement('section')
+    sectionFr.setAttribute('lang', 'fr')
+    const hFrVisible = document.createElement('h2')
+    hFrVisible.id = 'bonjour'
+    sectionFr.appendChild(hFrVisible)
+
+    const hEnUpper = document.createElement('h2')
+    hEnUpper.id = 'english-upper'
+    hEnUpper.setAttribute('lang', 'EN')
+
+    const divZh = document.createElement('div')
+    divZh.setAttribute('lang', 'zh-CN')
+    const hZhHidden = document.createElement('h2')
+    hZhHidden.id = 'nihao'
+    divZh.appendChild(hZhHidden)
+
+    mdBody.append(sectionFr, hEnUpper, divZh)
+    document.body.appendChild(mdBody)
+
+    const headers: MenuItem[] = [
+      { title: 'Bonjour', link: '#bonjour', element: hFrVisible as HTMLHeadElement, level: 2 },
+      { title: 'English Upper', link: '#english-upper', element: hEnUpper as HTMLHeadElement, level: 2, lang: 'EN' },
+      { title: '你好', link: '#nihao', element: hZhHidden as HTMLHeadElement, level: 2 },
+    ]
+
+    const enResult = filterOutlineHeadersByLocale(headers, 'en')
+    expect(enResult.map(h => h.link)).toEqual(['#bonjour', '#english-upper'])
+
+    mdBody.remove()
   })
 })

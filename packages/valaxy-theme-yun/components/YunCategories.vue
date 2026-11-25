@@ -1,10 +1,10 @@
 <script lang="ts" setup>
 import type { Categories } from 'valaxy'
-import { computed } from 'vue'
+import { computed, onMounted, ref } from 'vue'
 
 import { useRoute } from 'vue-router'
 
-withDefaults(defineProps<{
+const props = withDefaults(defineProps<{
   categories: Categories
   /**
    * 当前层级
@@ -14,6 +14,11 @@ withDefaults(defineProps<{
 }>(), {
   level: 0,
   collapsable: true,
+})
+
+const hydrated = ref(false)
+onMounted(() => {
+  hydrated.value = true
 })
 
 const route = useRoute()
@@ -35,7 +40,7 @@ const categoryList = computed(() => {
         :parent-key="category.name"
         :category="category"
         :level="level + 1"
-        :collapsable="!categoryList.includes(category.name)"
+        :collapsable="hydrated ? !categoryList.includes(category.name) : props.collapsable"
       />
     </ul>
   </div>
