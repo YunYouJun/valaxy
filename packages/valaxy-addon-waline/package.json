@@ -1,7 +1,7 @@
 {
   "name": "valaxy-addon-waline",
   "type": "module",
-  "version": "1.0.0",
+  "version": "0.2.2",
   "description": "Waline Composition API for Valaxy",
   "license": "MIT",
   "homepage": "https://github.com/YunYouJun/valaxy/tree/main/packages/valaxy-addon-waline",
@@ -39,8 +39,7 @@
     "access": "public"
   },
   "peerDependencies": {
-    "valaxy": "^1.0.0",
-    "vue": "^3.5.0"
+    "valaxy": ">=0.22"
   },
   "dependencies": {
     "@waline/client": "catalog:"
