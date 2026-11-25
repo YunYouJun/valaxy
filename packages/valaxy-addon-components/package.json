@@ -1,17 +1,39 @@
 {
   "name": "valaxy-addon-components",
-  "version": "0.1.0",
+  "type": "module",
+  "version": "1.0.0",
   "description": "Common Components for Valaxy",
+  "license": "MIT",
   "homepage": "https://github.com/YunYouJun/valaxy/tree/main/packages/valaxy-addon-components",
   "repository": {
-    "url": "https://github.com/YunYouJun/valaxy/tree/main/packages/valaxy-addon-components"
+    "type": "git",
+    "url": "git+https://github.com/YunYouJun/valaxy.git",
+    "directory": "packages/valaxy-addon-components"
   },
   "keywords": [
     "valaxy",
     "addon",
     "components"
   ],
+  "exports": {
+    ".": "./index.ts",
+    "./*": "./*"
+  },
   "main": "index.ts",
+  "files": [
+    "README.md",
+    "README.zh-CN.md",
+    "components",
+    "core",
+    "index.ts",
+    "node"
+  ],
+  "publishConfig": {
+    "access": "public"
+  },
+  "peerDependencies": {
+    "valaxy": "^1.0.0"
+  },
   "dependencies": {
     "local-pkg": "catalog:"
   }

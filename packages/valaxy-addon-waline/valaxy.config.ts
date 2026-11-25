@@ -17,9 +17,6 @@ const walineClientDir = resolveWalineClientDir()
 
 export default defineValaxyConfig({
   vite: {
-    optimizeDeps: {
-      include: ['@waline/client/component'],
-    },
     ...(walineClientDir
       ? {
           server: {
