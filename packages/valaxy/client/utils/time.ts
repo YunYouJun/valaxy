@@ -5,11 +5,110 @@ import relativeTime from 'dayjs/plugin/relativeTime'
 import timezone from 'dayjs/plugin/timezone'
 import utc from 'dayjs/plugin/utc'
 import { ref } from 'vue'
-import { getTzOffsetMs, toTimestamp } from '../../shared/utils/date'
+import { getTzOffsetMs, resolveWallTimeMs, toTimestamp } from '../../shared/utils/date'
 
 dayjs.extend(relativeTime)
 dayjs.extend(timezone)
 dayjs.extend(utc)
+
+function createFixedOffsetDayjs(ms: number, offsetMinutes: number, targetTz?: string) {
+  return dayjs(new Date(ms + offsetMinutes * 60_000), {
+    $offset: offsetMinutes,
+    x: { $fixedOffset: true, ...(targetTz ? { $timezone: targetTz } : {}) },
+  } as any)
+}
+
+/**
+ * Keep `$d` equal to the shifted UTC wall clock (`ms + offsetMs`) so cloning,
+ * arithmetic, and formatting stay independent of host/visitor DST transitions.
+ */
+dayjs.extend((_opt, DayjsClass) => {
+  const proto = DayjsClass.prototype as any
+  const origParse = proto.parse
+  const origInit = proto.init
+  const origValueOf = proto.valueOf
+  const origAdd = proto.add
+  const origStartOf = proto.startOf
+  const origSet = proto.$set
+  const origUtcOffset = proto.utcOffset
+
+  proto.parse = function (cfg: any) {
+    const extra = cfg?.x
+    if (extra?.$fixedOffset) {
+      this.$x = { ...extra }
+      cfg = { ...cfg, utc: false }
+    }
+    return origParse.call(this, cfg)
+  }
+
+  proto.init = function () {
+    if (this.$x?.$fixedOffset) {
+      const dt: Date = this.$d
+      this.$y = dt.getUTCFullYear()
+      this.$M = dt.getUTCMonth()
+      this.$D = dt.getUTCDate()
+      this.$W = dt.getUTCDay()
+      this.$H = dt.getUTCHours()
+      this.$m = dt.getUTCMinutes()
+      this.$s = dt.getUTCSeconds()
+      this.$ms = dt.getUTCMilliseconds()
+      return
+    }
+    origInit.call(this)
+  }
+
+  proto.valueOf = function () {
+    if (this.$x?.$fixedOffset)
+      return this.$d.valueOf() - (this.$offset || 0) * 60_000
+    return origValueOf.call(this)
+  }
+
+  proto.$set = function (units: any, int: number) {
+    if (this.$x?.$fixedOffset) {
+      this.$u = true
+      try {
+        return origSet.call(this, units, int)
+      }
+      finally {
+        this.$u = false
+      }
+    }
+    return origSet.call(this, units, int)
+  }
+
+  proto.startOf = function (units: any, isStartOf: boolean) {
+    if (this.$x?.$fixedOffset) {
+      const wall = (dayjs.utc(this.$d) as any).startOf(units, isStartOf)
+      const targetTz: string | undefined = this.$x.$timezone
+      if (targetTz)
+        return createZonedDayjs(resolveWallTimeMs(wall.valueOf(), targetTz), targetTz)
+      const offsetMinutes: number = this.$offset || 0
+      return createFixedOffsetDayjs(wall.valueOf() - offsetMinutes * 60_000, offsetMinutes)
+    }
+    return origStartOf.call(this, units, isStartOf)
+  }
+
+  proto.add = function (num: number, units: any) {
+    if (this.$x?.$fixedOffset) {
+      this.$u = true
+      try {
+        return origAdd.call(this, num, units)
+      }
+      finally {
+        this.$u = false
+      }
+    }
+    return origAdd.call(this, num, units)
+  }
+
+  proto.utcOffset = function (input?: any, keepLocalTime?: boolean) {
+    if (input !== undefined && this.$x?.$fixedOffset) {
+      const base = dayjs.utc(this.valueOf())
+      return origUtcOffset.call(base, input, keepLocalTime)
+    }
+    return origUtcOffset.call(this, input, keepLocalTime)
+  }
+})
 
 const defaultTimezoneRef = ref<string | undefined>()
 const originalSetDefault = dayjs.tz.setDefault.bind(dayjs.tz)
@@ -40,14 +139,7 @@ function createZonedDayjs(ms: number, targetTz?: string) {
     return res
   }
 
-  const res = dayjs.utc(ms + offsetMs).utcOffset(offsetMinutes, true)
-  const resAny = res as any
-  const shifted = new Date(ms + offsetMs)
-  const localOffset = shifted.getTimezoneOffset()
-  resAny.$d = localOffset === 0 ? shifted : new Date(ms + (offsetMinutes + localOffset) * 60_000)
-  resAny.$x.$localOffset = localOffset
-  resAny.$x.$timezone = targetTz
-  return res
+  return createFixedOffsetDayjs(ms, offsetMinutes, targetTz)
 }
 
 /** Convert a date using the same timezone rules as formatDate. */

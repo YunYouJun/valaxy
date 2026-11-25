@@ -132,4 +132,40 @@ describe('naive date-time across browser host timezones', () => {
     expect(parseNaiveDateTimeMs('2024-03-10T24:01', 'Asia/Shanghai')).toBeNaN()
     expect(schemaDate('2024-02-30T24:00', 'Asia/Shanghai')).toBeUndefined()
   })
+
+  it('keeps zoned Day.js instances consistent across clone, add, and startOf across host DST', () => {
+    process.env.TZ = 'America/New_York'
+    dayjs.tz.setDefault('America/New_York')
+    const ny = toZonedDayjs('2024-03-10T07:30:00Z')
+    expect(ny.format()).toBe('2024-03-10T03:30:00-04:00')
+    expect(ny.clone().format()).toBe('2024-03-10T03:30:00-04:00')
+    expect(ny.add(1, 'hour').format()).toBe('2024-03-10T04:30:00-04:00')
+    expect(ny.startOf('day').format()).toBe('2024-03-10T00:00:00-05:00')
+
+    dayjs.tz.setDefault('Asia/Shanghai')
+    const sh = toZonedDayjs('2024-03-10T02:30:00')
+    expect(sh.clone().format()).toBe('2024-03-10T02:30:00+08:00')
+    expect(sh.add(1, 'hour').format()).toBe('2024-03-10T03:30:00+08:00')
+    expect(sh.startOf('day').format()).toBe('2024-03-10T00:00:00+08:00')
+  })
+
+  it('parses slash-separated naive dates in site timezone across hosts', () => {
+    process.env.TZ = 'America/Los_Angeles'
+    dayjs.tz.setDefault('Asia/Shanghai')
+
+    expect(formatDate('2024/2/9 23:35')).toBe('2024-02-09')
+    expect(formatDate('2021/3/1 12:00', { template: 'YYYY/MM/DD HH:mm' })).toBe('2021/03/01 12:00')
+
+    const posts: Post[] = [
+      { path: '/slash-earlier', date: '2024/2/9 23:35' },
+      { path: '/offset-later', date: '2024-02-10T01:00:00+08:00' },
+    ]
+    const sorted = orderByMeta([...posts], 'date', true)
+    expect(sorted.map(p => p.path)).toEqual(['/offset-later', '/slash-earlier'])
+  })
+
+  it('resolves long historical timezone overlaps and BCE era years deterministically', () => {
+    expect(parseNaiveDateTimeMs('1969-09-30T18:00:00', 'Pacific/Kwajalein')).toBe(Date.UTC(1969, 8, 30, 7, 0, 0))
+    expect(schemaDate('0000-03-02T12:00:00', 'UTC')).toBe('0000-03-02T12:00:00.000Z')
+  })
 })
