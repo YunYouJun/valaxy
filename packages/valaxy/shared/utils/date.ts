@@ -1,4 +1,4 @@
-export const NAIVE_DATE_TIME_RE = /^(\d{4})([-/])(\d{1,2})\2(\d{1,2})(?:[ T](\d{1,2}):(\d{2})(?::(\d{2})(?:\.(\d+))?)?)?$/i
+export const NAIVE_DATE_TIME_RE = /^(\d{4})([-/])(\d{1,2})\2(\d{1,2})(?:(?:[ \t]+|T)(\d{1,2}):(\d{2})(?::(\d{2})(?:\.(\d+))?)?)?$/i
 
 const MAX_TIMESTAMP_CACHE_SIZE = 4096
 const tzFormatterCache = new Map<string, Intl.DateTimeFormat>()
@@ -108,8 +108,9 @@ export function parseNaiveDateTimeMs(date: string, timezone?: string): number {
   const hour = Number(match[5] || 0)
   const minute = Number(match[6] || 0)
   const second = Number(match[7] || 0)
-  const ms = Number((match[8] || '').padEnd(3, '0').slice(0, 3))
-  const isEndOfDay = hour === 24 && minute === 0 && second === 0 && ms === 0
+  const frac = match[8] || ''
+  const ms = Number(frac.padEnd(3, '0').slice(0, 3))
+  const isEndOfDay = hour === 24 && minute === 0 && second === 0 && /^0*$/.test(frac)
 
   const utcGuess = new Date(0)
   utcGuess.setUTCFullYear(year, month - 1, day)

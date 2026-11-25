@@ -1,14 +1,16 @@
 <script lang="ts" setup>
-import { dayjs, toZonedDayjs, useFrontmatter } from 'valaxy'
+import { dayjs, toTimestamp, useFrontmatter, useSiteConfig } from 'valaxy'
 
 import { computed } from 'vue'
 import { useI18n } from 'vue-i18n'
 
 const fm = useFrontmatter()
+const siteConfig = useSiteConfig()
 const { t, locale } = useI18n()
 
 const updated = computed(() => {
-  return toZonedDayjs(fm.value.updated || fm.value.date).locale(locale.value)
+  const raw = fm.value.updated || fm.value.date
+  return dayjs(raw === undefined ? undefined : toTimestamp(raw, siteConfig.value.timezone)).locale(locale.value)
 })
 
 const ago = computed(() => updated.value.fromNow())

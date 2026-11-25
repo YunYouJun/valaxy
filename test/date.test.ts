@@ -186,4 +186,18 @@ describe('naive date-time across browser host timezones', () => {
     expect(deWeekStart.locale()).toBe('de')
     expect(deWeekStart.format('YYYY-MM-DD')).toBe('2024-02-05')
   })
+
+  it('handles repeated date-time spaces and rejects nonzero sub-ms at 24:00', () => {
+    process.env.TZ = 'UTC'
+    dayjs.tz.setDefault('Asia/Shanghai')
+
+    const ordered = orderByMeta([
+      { path: '/earlier', date: '2024-02-09  23:00' },
+      { path: '/later', date: '2024-02-10 01:00' },
+    ], 'date', true)
+    expect(ordered.map(p => p.path)).toEqual(['/later', '/earlier'])
+
+    expect(schemaDate('2024-02-09T24:00:00.0001', 'Asia/Shanghai')).toBeUndefined()
+    expect(schemaDate('2024-02-09T24:00:00.0000', 'Asia/Shanghai')).toBe('2024-02-09T16:00:00.000Z')
+  })
 })
