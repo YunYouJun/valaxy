@@ -73,7 +73,7 @@ const sortedYears = computed(() => {
       </div>
 
       <YunPostCollapseItem
-        v-for="post, j in orderByMeta(postListByYear[year], siteConfig.orderBy, isDesc)"
+        v-for="post, j in orderByMeta(postListByYear[year], siteConfig.orderBy, isDesc, siteConfig.timezone)"
         :key="j"
         :post="post"
         :i="j"

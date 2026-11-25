@@ -5,6 +5,7 @@ import { orderByMeta, useSiteConfig } from 'valaxy'
 import { computed } from 'vue'
 import { useI18n } from 'vue-i18n'
 import collections from '#valaxy/blog/collections'
+import { toTimestamp } from '../../../shared/utils/date'
 import { useRouterStore } from '../../stores'
 import { isLocaleKey, stripLocalePrefix, tObject } from '../../utils'
 import { filterAndSortPosts } from './filter'
@@ -98,11 +99,16 @@ export function mergeCollapsedCollections(
       continue
 
     // Find latest updated article for sort position
-    const latest = colPages.reduce((a, b) => {
-      const aTime = new Date(a.updated || a.date || '').getTime()
-      const bTime = new Date(b.updated || b.date || '').getTime()
-      return bTime > aTime ? b : a
-    })
+    let latest = colPages[0]
+    let latestTime = toTimestamp(latest.updated || latest.date, siteConfig.timezone)
+    for (let i = 1; i < colPages.length; i++) {
+      const candidate = colPages[i]
+      const candidateTime = toTimestamp(candidate.updated || candidate.date, siteConfig.timezone)
+      if (candidateTime > latestTime) {
+        latest = candidate
+        latestTime = candidateTime
+      }
+    }
 
     // Create synthetic post entry representing the collapsed collection
     collectionEntries.push({
@@ -121,7 +127,7 @@ export function mergeCollapsedCollections(
     return posts
 
   function sortBySiteConfigOrderBy(entries: Post[]) {
-    return orderByMeta(entries, siteConfig.orderBy)
+    return orderByMeta(entries, siteConfig.orderBy, true, siteConfig.timezone)
   }
 
   // Re-sort only when collection entries were actually added

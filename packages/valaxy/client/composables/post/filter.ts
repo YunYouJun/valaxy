@@ -25,7 +25,7 @@ export function filterAndSortPosts(
 
   function sortBySiteConfigOrderBy(posts: Post[]) {
     const orderBy = siteConfig.orderBy
-    return orderByMeta(posts, orderBy)
+    return orderByMeta(posts, orderBy, true, siteConfig.timezone)
   }
 
   /**
