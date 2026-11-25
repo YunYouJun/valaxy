@@ -1,4 +1,4 @@
-export const NAIVE_DATE_TIME_RE = /^(\d{4})([-/])(\d{1,2})\2(\d{1,2})(?:[ T](\d{1,2}):(\d{2})(?::(\d{2})(?:\.(\d+))?)?)?$/
+export const NAIVE_DATE_TIME_RE = /^(\d{4})([-/])(\d{1,2})\2(\d{1,2})(?:[ T](\d{1,2}):(\d{2})(?::(\d{2})(?:\.(\d+))?)?)?$/i
 
 const MAX_TIMESTAMP_CACHE_SIZE = 4096
 const tzFormatterCache = new Map<string, Intl.DateTimeFormat>()

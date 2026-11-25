@@ -11,8 +11,9 @@ dayjs.extend(relativeTime)
 dayjs.extend(timezone)
 dayjs.extend(utc)
 
-function createFixedOffsetDayjs(ms: number, offsetMinutes: number, targetTz?: string) {
+function createFixedOffsetDayjs(ms: number, offsetMinutes: number, targetTz?: string, locale?: string) {
   return dayjs(new Date(ms + offsetMinutes * 60_000), {
+    ...(locale ? { locale } : {}),
     $offset: offsetMinutes,
     x: { $fixedOffset: true, ...(targetTz ? { $timezone: targetTz } : {}) },
   } as any)
@@ -78,12 +79,13 @@ dayjs.extend((_opt, DayjsClass) => {
 
   proto.startOf = function (units: any, isStartOf: boolean) {
     if (this.$x?.$fixedOffset) {
-      const wall = (dayjs.utc(this.$d) as any).startOf(units, isStartOf)
+      const locale: string | undefined = this.$L
+      const wall = (dayjs.utc(this.$d).locale(locale || 'en') as any).startOf(units, isStartOf)
       const targetTz: string | undefined = this.$x.$timezone
       if (targetTz)
-        return createZonedDayjs(resolveWallTimeMs(wall.valueOf(), targetTz), targetTz)
+        return createZonedDayjs(resolveWallTimeMs(wall.valueOf(), targetTz), targetTz, locale)
       const offsetMinutes: number = this.$offset || 0
-      return createFixedOffsetDayjs(wall.valueOf() - offsetMinutes * 60_000, offsetMinutes)
+      return createFixedOffsetDayjs(wall.valueOf() - offsetMinutes * 60_000, offsetMinutes, undefined, locale)
     }
     return origStartOf.call(this, units, isStartOf)
   }
@@ -103,8 +105,18 @@ dayjs.extend((_opt, DayjsClass) => {
 
   proto.utcOffset = function (input?: any, keepLocalTime?: boolean) {
     if (input !== undefined && this.$x?.$fixedOffset) {
-      const base = dayjs.utc(this.valueOf())
-      return origUtcOffset.call(base, input, keepLocalTime)
+      if (typeof input === 'string' && !/[+-]\d\d(?::?\d\d)?/.test(input))
+        return this
+      const locale: string | undefined = this.$L
+      const nextOffset: number = origUtcOffset.call(dayjs.utc(0), input).utcOffset()
+      const nextInstantMs = keepLocalTime
+        ? this.$d.valueOf() - nextOffset * 60_000
+        : this.valueOf()
+      if (nextOffset === 0) {
+        const res = dayjs.utc(nextInstantMs)
+        return locale ? res.locale(locale) : res
+      }
+      return createFixedOffsetDayjs(nextInstantMs, nextOffset, undefined, locale)
     }
     return origUtcOffset.call(this, input, keepLocalTime)
   }
@@ -125,21 +137,21 @@ export { dayjs }
  * wall-clock fields through the visitor/host local timezone (which fails when
  * the host timezone has a DST gap/transition at that wall time).
  */
-function createZonedDayjs(ms: number, targetTz?: string) {
+function createZonedDayjs(ms: number, targetTz?: string, locale?: string) {
   if (Number.isNaN(ms))
     return dayjs(Number.NaN)
   if (!targetTz)
-    return dayjs(ms)
+    return locale ? dayjs(ms).locale(locale) : dayjs(ms)
 
   const offsetMs = getTzOffsetMs(ms, targetTz)
   const offsetMinutes = offsetMs / 60_000
   if (offsetMinutes === 0) {
-    const res = dayjs.utc(ms)
+    const res = locale ? dayjs.utc(ms).locale(locale) : dayjs.utc(ms)
     ;(res as any).$x.$timezone = targetTz
     return res
   }
 
-  return createFixedOffsetDayjs(ms, offsetMinutes, targetTz)
+  return createFixedOffsetDayjs(ms, offsetMinutes, targetTz, locale)
 }
 
 /** Convert a date using the same timezone rules as formatDate. */

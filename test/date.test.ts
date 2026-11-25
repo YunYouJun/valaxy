@@ -5,6 +5,7 @@ import { dateExamples } from '../e2e/utils/date-examples'
 import { dayjs, formatDate, orderByMeta, toZonedDayjs } from '../packages/valaxy/client/utils/time'
 import { schemaDate } from '../packages/valaxy/shared/seo'
 import { parseNaiveDateTimeMs } from '../packages/valaxy/shared/utils/date'
+import 'dayjs/locale/de'
 
 const originalTZ = process.env.TZ
 
@@ -167,5 +168,27 @@ describe('naive date-time across browser host timezones', () => {
   it('resolves long historical timezone overlaps and BCE era years deterministically', () => {
     expect(parseNaiveDateTimeMs('1969-09-30T18:00:00', 'Pacific/Kwajalein')).toBe(Date.UTC(1969, 8, 30, 7, 0, 0))
     expect(schemaDate('0000-03-02T12:00:00', 'UTC')).toBe('0000-03-02T12:00:00.000Z')
+  })
+
+  it('supports lowercase t timestamps, utcOffset keepLocalTime, and startOf locale', () => {
+    process.env.TZ = 'UTC'
+    dayjs.tz.setDefault('Asia/Shanghai')
+
+    expect(formatDate('2024-02-09t23:35:00')).toBe('2024-02-09')
+    const ordered = orderByMeta([
+      { path: '/lower-earlier', date: '2024-02-09t05:00:00' },
+      { path: '/upper-later', date: '2024-02-09T09:00:00' },
+    ], 'date', true)
+    expect(ordered.map(p => p.path)).toEqual(['/upper-later', '/lower-earlier'])
+
+    const sh = toZonedDayjs('2024-02-09 20:00:00')
+    expect(sh.utcOffset('+03:00', true).format()).toBe('2024-02-09T20:00:00+03:00')
+    expect(sh.utcOffset('+03:00', true).valueOf()).toBe(Date.UTC(2024, 1, 9, 17, 0, 0))
+    expect(sh.utcOffset('+03:00').format()).toBe('2024-02-09T15:00:00+03:00')
+    expect(sh.utcOffset('+03:00').valueOf()).toBe(Date.UTC(2024, 1, 9, 12, 0, 0))
+
+    const deWeekStart = sh.locale('de').startOf('week')
+    expect(deWeekStart.locale()).toBe('de')
+    expect(deWeekStart.format('YYYY-MM-DD')).toBe('2024-02-05')
   })
 })

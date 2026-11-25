@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { dayjs, useFrontmatter } from 'valaxy'
+import { dayjs, toZonedDayjs, useFrontmatter } from 'valaxy'
 
 import { computed } from 'vue'
 import { useI18n } from 'vue-i18n'
@@ -8,7 +8,7 @@ const fm = useFrontmatter()
 const { t, locale } = useI18n()
 
 const updated = computed(() => {
-  return dayjs(fm.value.updated || fm.value.date).locale(locale.value)
+  return toZonedDayjs(fm.value.updated || fm.value.date).locale(locale.value)
 })
 
 const ago = computed(() => updated.value.fromNow())
