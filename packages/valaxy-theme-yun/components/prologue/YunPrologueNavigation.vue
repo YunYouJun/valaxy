@@ -55,7 +55,7 @@ const pages = computed(() => props.pages ?? themeConfig.value.pages)
     justify-content: flex-start;
     width: 100%;
     min-width: 0;
-    min-height: 44px;
+    min-height: 48px;
     padding: 8px 10px;
     border: 1px solid transparent;
     border-radius: 12px;

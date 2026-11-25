@@ -10,14 +10,13 @@ test.describe('TOC', () => {
 
     await expect(page.locator('.yun-aside')).toHaveCount(1)
     await expect(page.locator('.yun-aside .va-toc-item')).toHaveText([
-      'What is Valaxy?',
       '什么是 Valaxy?',
       'A Vue component in your post',
     ])
 
     const vaTocItem = page.locator('.yun-aside .va-toc-item').nth(0)
-    await expect(vaTocItem).toHaveAttribute('lang', 'en')
-    await expect(vaTocItem).toHaveText('What is Valaxy?')
+    await expect(vaTocItem).toHaveAttribute('lang', 'zh-CN')
+    await expect(vaTocItem).toHaveText('什么是 Valaxy?')
   })
 
   test('toc is visible on desktop viewport', async ({ page }) => {
