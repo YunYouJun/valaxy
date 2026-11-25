@@ -30,7 +30,7 @@ function getTzFormatter(timezone: string) {
 }
 
 /** Return `localWallTimeAsUtcMs - utcMs` for `utcMs` in `timezone`. */
-export function getTzOffsetMs(utcMs: number, timezone: string): number {
+function getTzOffsetMs(utcMs: number, timezone: string): number {
   const secMs = Math.floor(utcMs / 1000) * 1000
   const parts = getTzFormatter(timezone).formatToParts(secMs)
   let era = 'AD'
@@ -68,7 +68,7 @@ export function getTzOffsetMs(utcMs: number, timezone: string): number {
  * Ambiguous fall-back times resolve to the earlier occurrence regardless of
  * host timezone or season, and spring-forward gaps shift forward cleanly.
  */
-export function resolveWallTimeMs(utcGuessMs: number, timezone: string): number {
+function resolveWallTimeMs(utcGuessMs: number, timezone: string): number {
   const baseOffset = getTzOffsetMs(utcGuessMs, timezone)
   const t0 = utcGuessMs - baseOffset
   const offBefore = getTzOffsetMs(t0 - 36 * 3600_000, timezone)

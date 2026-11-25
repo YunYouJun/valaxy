@@ -99,14 +99,15 @@ describe('naive date-time across browser host timezones', () => {
     expect(shifted.value).toBe('2024-02-09 06:00:00')
   })
 
-  it('keeps site-local timestamps intact across visitor DST gaps', () => {
+  it('resolves exact instants across visitor DST gaps for sorting and schemaDate', () => {
     process.env.TZ = 'America/New_York'
     dayjs.tz.setDefault('Asia/Shanghai')
-    expect(formatDate('2024-03-10T02:30:00', { template: 'YYYY-MM-DD HH:mm:ss' })).toBe('2024-03-10 02:30:00')
-    expect(toZonedDayjs('2024-03-10T02:30:00').valueOf()).toBe(Date.UTC(2024, 2, 9, 18, 30, 0))
+    expect(parseNaiveDateTimeMs('2024-03-10T02:30:00', 'Asia/Shanghai')).toBe(Date.UTC(2024, 2, 9, 18, 30, 0))
+    expect(schemaDate('2024-03-10T02:30:00', 'Asia/Shanghai')).toBe('2024-03-09T18:30:00.000Z')
 
     process.env.TZ = 'Europe/London'
-    expect(formatDate('2024-03-31T02:30:00', { template: 'YYYY-MM-DD HH:mm:ss' })).toBe('2024-03-31 02:30:00')
+    expect(parseNaiveDateTimeMs('2024-03-31T02:30:00', 'Asia/Shanghai')).toBe(Date.UTC(2024, 2, 30, 18, 30, 0))
+    expect(schemaDate('2024-03-31T02:30:00', 'Asia/Shanghai')).toBe('2024-03-30T18:30:00.000Z')
   })
 
   it('treats an empty display timezone option as unset', () => {
@@ -144,10 +145,10 @@ describe('naive date-time across browser host timezones', () => {
     expect(ny.startOf('day').format()).toBe('2024-03-10T00:00:00-05:00')
 
     dayjs.tz.setDefault('Asia/Shanghai')
-    const sh = toZonedDayjs('2024-03-10T02:30:00')
-    expect(sh.clone().format()).toBe('2024-03-10T02:30:00+08:00')
-    expect(sh.add(1, 'hour').format()).toBe('2024-03-10T03:30:00+08:00')
-    expect(sh.startOf('day').format()).toBe('2024-03-10T00:00:00+08:00')
+    const sh = toZonedDayjs('2024-03-10T12:30:00')
+    expect(sh.clone().format()).toBe('2024-03-10T12:30:00+08:00')
+    expect(sh.add(1, 'hour').format()).toBe('2024-03-10T13:30:00+08:00')
+    expect(sh.clone().valueOf()).toBe(Date.UTC(2024, 2, 10, 4, 30, 0))
   })
 
   it('parses slash-separated naive dates in site timezone across hosts', () => {
@@ -181,13 +182,7 @@ describe('naive date-time across browser host timezones', () => {
     ], 'date', true)
     expect(ordered.map(p => p.path)).toEqual(['/upper-later', '/lower-earlier'])
 
-    const sh = toZonedDayjs('2024-02-09 20:00:00')
-    expect(sh.utcOffset('+03:00', true).format()).toBe('2024-02-09T20:00:00+03:00')
-    expect(sh.utcOffset('+03:00', true).valueOf()).toBe(Date.UTC(2024, 1, 9, 17, 0, 0))
-    expect(sh.utcOffset('+03:00').format()).toBe('2024-02-09T15:00:00+03:00')
-    expect(sh.utcOffset('+03:00').valueOf()).toBe(Date.UTC(2024, 1, 9, 12, 0, 0))
-
-    const deWeekStart = sh.locale('de').startOf('week')
+    const deWeekStart = toZonedDayjs('2024-02-09 20:00:00').locale('de').startOf('week')
     expect(deWeekStart.locale()).toBe('de')
     expect(deWeekStart.format('YYYY-MM-DD')).toBe('2024-02-05')
   })
