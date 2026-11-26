@@ -254,4 +254,16 @@ export const addons = [
     },
     tags: ['comment', 'giscus'],
   },
+  {
+    name: 'valaxy-addon-simple-cloud-music',
+    author: 'timcoumu',
+    icon: 'i-ri-music-2-line',
+    repo: 'https://github.com/timcoumu/valaxy-addon-simple-cloud-music',
+    kind: 'community',
+    description: {
+      'en': 'A collapsible NetEase Cloud Music player pinned to the page corner, with no external server dependency.',
+      'zh-CN': '固定在页面角落、可收起且不依赖外部服务器的网易云音乐播放器。',
+    },
+    tags: ['music', 'player'],
+  },
 ] satisfies readonly AddonCatalogEntry[]
