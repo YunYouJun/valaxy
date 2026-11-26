@@ -51,9 +51,3 @@ const addon = useAddonWaline()
   <WalineClient w="full" :options="addon.options" />
 </template>
 ```
-
-## FAQ
-
-### `C()` is not defined
-
-`@waline/client@3.4.2` 存在已知问题，请锁定到 `3.4.1`。

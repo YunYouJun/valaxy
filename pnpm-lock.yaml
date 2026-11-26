@@ -382,8 +382,8 @@ catalogs:
       specifier: ^3.0.3
       version: 3.0.3
     '@waline/client':
-      specifier: 3.15.2
-      version: 3.15.2
+      specifier: ^3.16.2
+      version: 3.16.2
     animejs:
       specifier: ^4.5.0
       version: 4.5.0
@@ -1618,7 +1618,7 @@ importers:
     dependencies:
       '@waline/client':
         specifier: 'catalog:'
-        version: 3.15.2(typescript@5.9.3)
+        version: 3.16.2(typescript@5.9.3)
     devDependencies:
       valaxy:
         specifier: workspace:*
@@ -4539,9 +4539,12 @@ packages:
     resolution: {integrity: sha512-r1H+XL+/Ww4qXv8vjq09HJQtMvYqMofgfueuokgsDW1kJ9/6CYY7g6LkksYlDJmWm0aqkLR/9ZTI/bbozL4FBA==}
     engines: {node: '>=22'}
 
-  '@waline/client@3.15.2':
-    resolution: {integrity: sha512-QBAVbruefDR+IKyQdM/Ao9fd07Xxpx1WEJ7xI8lBVNDjMQBr1PpdwrTpLC8RrYbgUR9ymNBvtLDJi0xK3pbORQ==}
+  '@waline/client@3.16.2':
+    resolution: {integrity: sha512-KXv1rHtCiqRckib5UnSIdk3y5up8Ugw3/723BMUuMM4sH66WFUuTD6z1RoRHQ+BlGr/6YgQ45GIVQnNrUFyzlw==}
     engines: {node: '>=22'}
+
+  '@webc.site/math@0.1.41':
+    resolution: {integrity: sha512-Tev02lqJLaEO+MNMq74lWpzuNZT/8bp2rSSzyDJR/u2ovh1jI3bW5HVveGILVKK+7Owf48KaUG9pd35BNf9mrw==}
 
   accepts@1.3.8:
     resolution: {integrity: sha512-PYAthTa2m2VKxuvSD3DPC/Gy+U+sOA1LAuT8mkmRuvw+NACSaeXEQ+NHcVF7rONl6qcaxV3Uuemwawk+7+SJLw==}
@@ -6884,6 +6887,11 @@ packages:
 
   marked@18.0.14:
     resolution: {integrity: sha512-mBHK6FBHuBAlhgRe88w9F0O1AbwwXJUcQibUbC/QcdTbVGAD7aWza+xt3N6oT/jCZx3/OMeS+8rnuiHZcQ9s7A==}
+    engines: {node: '>= 20'}
+    hasBin: true
+
+  marked@18.3.0:
+    resolution: {integrity: sha512-ed8zmPXlBb3UfGXN5iHMQyMhFpdqLgoV5umUXx/Q1R+FW3q8VpqpyoKUwlENL9appo2UMvNLURDVaT3AMOryGA==}
     engines: {node: '>= 20'}
     hasBin: true
 
@@ -12154,17 +12162,20 @@ snapshots:
 
   '@waline/api@1.1.2': {}
 
-  '@waline/client@3.15.2(typescript@5.9.3)':
+  '@waline/client@3.16.2(typescript@5.9.3)':
     dependencies:
-      '@vueuse/core': 14.4.0(vue@3.5.43(typescript@5.9.3))
+      '@vueuse/core': 15.0.0(vue@3.5.43(typescript@5.9.3))
       '@waline/api': 1.1.2
+      '@webc.site/math': 0.1.41
       autosize: 6.0.1
-      marked: 18.0.14
-      marked-highlight: 2.2.4(marked@18.0.14)
+      marked: 18.3.0
+      marked-highlight: 2.2.4(marked@18.3.0)
       recaptcha-v3: 1.11.3
       vue: 3.5.43(typescript@5.9.3)
     transitivePeerDependencies:
       - typescript
+
+  '@webc.site/math@0.1.41': {}
 
   accepts@1.3.8:
     dependencies:
@@ -14892,13 +14903,15 @@ snapshots:
 
   markdown-table@3.0.4: {}
 
-  marked-highlight@2.2.4(marked@18.0.14):
+  marked-highlight@2.2.4(marked@18.3.0):
     dependencies:
-      marked: 18.0.14
+      marked: 18.3.0
 
   marked@16.4.2: {}
 
   marked@18.0.14: {}
+
+  marked@18.3.0: {}
 
   math-intrinsics@1.1.0: {}
 
